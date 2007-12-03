@@ -1,3 +1,11 @@
+Mon Dec  3 23:30:46 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/be/BE_Assembly_Generator_T.h:
+        * cuts/be/BE_Assembly_Generator_T.inl:
+        * cuts/be/BE_Assembly_Generator_T.cpp:
+
+          Missing files.
+
 Mon Dec  3 19:31:12 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/Node_Daemon/Process_Log.cpp:
