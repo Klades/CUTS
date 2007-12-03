@@ -1,0 +1,5 @@
+// $Id$
+
+project : cutslib {
+  requires += modeling
+}

@@ -1,0 +1,10 @@
+// $Id$
+
+project (CUTS_CPU_Worker_Test) : cuts_test {
+  exename = CUTS_CPU_Worker_Test
+  libs += CUTS_CPU_Worker
+
+  Source_Files {
+    CPU_Worker_Test.cpp
+  }
+}
