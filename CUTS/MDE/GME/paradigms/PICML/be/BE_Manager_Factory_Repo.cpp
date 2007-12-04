@@ -6,7 +6,7 @@
 #include "BE_Manager_Factory_Repo.inl"
 #endif
 
-#include "cuts/be/BE_Manager_Factory.h"
+#include "BE_Manager_Factory.h"
 #include "ace/DLL.h"
 #include "ace/DLL_Manager.h"
 #include <algorithm>

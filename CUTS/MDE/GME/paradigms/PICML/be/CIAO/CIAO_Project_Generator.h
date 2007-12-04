@@ -15,8 +15,8 @@
 
 #include "UDM_CIAO_Export.h"
 
-#include "cuts/be/BE_Project_Generator.h"
-#include "cuts/be/String_Set.h"
+#include "be/BE_Project_Generator.h"
+#include "be/String_Set.h"
 
 #include <iosfwd>
 #include <string>

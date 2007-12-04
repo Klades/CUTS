@@ -1,3 +1,29 @@
+Tue Dec  4 06:04:30 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE_Manager_Factory_Repo.h:
+        * MDE/GME/paradigms/PICML/be/BE_Manager_Factory_Repo.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Exec_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Exec_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_In_Type.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Inout_Type.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Manager.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Manager_Factory.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Out_Type.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Project_Generator.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Proxy_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Proxy_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Retn_Type.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Traits.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Traits_Base.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Traits_Base.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Var_Type.h:
+
+          Fixed build errors related to relocating the backend
+          directories.
+
 Tue Dec  4 03:12:44 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * CUTS_CoSMIC.mwc:

@@ -6,9 +6,9 @@
 #include "CIAO_Retn_Type.h"
 #include "CIAO_In_Type.h"
 
-#include "cuts/be/BE_Impl_Node.h"
-#include "cuts/be/BE_Options.h"
-#include "cuts/be/BE_Preprocessor.h"
+#include "be/BE_Impl_Node.h"
+#include "be/BE_Options.h"
+#include "be/BE_Preprocessor.h"
 
 // UDM headers
 #include "Uml.h"

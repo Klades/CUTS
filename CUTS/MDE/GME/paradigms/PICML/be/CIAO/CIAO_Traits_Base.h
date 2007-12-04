@@ -14,7 +14,7 @@
 #define _CUTS_CIAO_TRAITS_BASE_H_
 
 #include "UDM_CIAO_Export.h"
-#include "cuts/be/BE_File_Traits.h"
+#include "be/BE_File_Traits.h"
 
 #include <fstream>
 #include <memory>

@@ -15,8 +15,8 @@
 
 #include "CIAO_Project_Generator.h"
 #include "CIAO_Traits.h"
-#include "cuts/be/BE_Manager_T.h"
-#include "cuts/be/BE_MPC_Workspace.h"
+#include "be/BE_Manager_T.h"
+#include "be/BE_MPC_Workspace.h"
 
 /// Type definition for the CIAO backend manager.
 typedef CUTS_BE_Manager_T <CUTS_BE_MPC_Workspace,

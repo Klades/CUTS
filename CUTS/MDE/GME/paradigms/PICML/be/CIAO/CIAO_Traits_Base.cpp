@@ -7,8 +7,8 @@
 #include "CIAO_Inout_Type.h"
 
 // backend headers
-#include "cuts/be/UDM_Utility_T.h"
-#include "cuts/be/BE_Preprocessor.h"
+#include "be/UDM_Utility_T.h"
+#include "be/BE_Preprocessor.h"
 
 // code generation headers
 #include "CCF/CodeGenerationKit/IndentationCxx.hpp"

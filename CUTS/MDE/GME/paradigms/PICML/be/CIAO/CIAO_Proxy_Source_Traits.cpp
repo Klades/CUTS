@@ -7,8 +7,8 @@
 #include "CIAO_In_Type.h"
 #include "CIAO_Var_Type.h"
 
-#include "cuts/be/BE_Preprocessor.h"
-#include "cuts/be/BE_Options.h"
+#include "be/BE_Preprocessor.h"
+#include "be/BE_Options.h"
 
 // UDM headers
 #include "Uml.h"

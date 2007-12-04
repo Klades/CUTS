@@ -14,7 +14,7 @@
 #ifndef _CUTS_BE_CIAO_TRAITS_H_
 #define _CUTS_BE_CIAO_TRAITS_H_
 
-#include "cuts/be/BE_Generators_T.h"
+#include "be/BE_Generators_T.h"
 #include "CIAO_Exec_Header_Traits.h"
 #include "CIAO_Exec_Source_Traits.h"
 #include "CIAO_Proxy_Header_Traits.h"

@@ -13,7 +13,7 @@
 #ifndef _CUTS_CIAO_IN_TYPE_H_
 #define _CUTS_CIAO_IN_TYPE_H_
 
-#include "cuts/be/BE_Type_Map.h"
+#include "be/BE_Type_Map.h"
 
 //=============================================================================
 /**
