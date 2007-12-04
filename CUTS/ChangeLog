@@ -1,3 +1,10 @@
+Tue Dec  4 02:35:28 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * PROBLEM-REPORT-FORM:
+        * VERSION:
+
+          Updated the documentation.
+
 Mon Dec  3 23:30:46 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/be/BE_Assembly_Generator_T.h:
