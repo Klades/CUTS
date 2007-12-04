@@ -1051,4 +1051,59 @@ struct CUTS_BE_ComponentAssembly_Connections_End_T
     { return false; }
 };
 
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template <typename IMPL_STRATEGY>
+struct CUTS_BE_DeploymentPlan_Begin_T
+{
+  static bool generate (const PICML::DeploymentPlan &)
+    { return false; }
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template <typename IMPL_STRATEGY>
+struct CUTS_BE_DeploymentPlan_End_T
+{
+  static bool generate (const PICML::DeploymentPlan &)
+    { return false; }
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template <typename IMPL_STRATEGY>
+struct CUTS_BE_Deployment_Node_T
+{
+  static bool generate (const PICML::Node & node)
+    { return false; }
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template <typename IMPL_STRATEGY>
+struct CUTS_BE_Deployment_Location_T
+{
+  static bool generate (const PICML::Component & component,
+                        const PICML::Node & node)
+  {
+    return false;
+  }
+};
+
 #endif  // !defined _CUTS_BE_GENERATORS_T_H_

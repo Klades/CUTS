@@ -9,6 +9,7 @@
 #include "BE_Env_Visitor_T.h"
 #include "BE_Execution_Visitor_T.h"
 #include "BE_Assembly_Generator_T.h"
+#include "BE_Deployment_Generator_T.h"
 #include "UDM_Utility_T.h"
 
 #include "boost/bind.hpp"
@@ -26,6 +27,12 @@ Visit_RootFolder (const PICML::RootFolder & root)
 
   CUTS_BE::visit <IMPL_STRATEGY> (folders,
     boost::bind (&Folder_Set::value_type::Accept, _1, boost::ref (*this)));
+
+  typedef std::vector <PICML::DeploymentPlans> DeploymentPlans_Set;
+  DeploymentPlans_Set plans = root.DeploymentPlans_children ();
+
+  CUTS_BE::visit <IMPL_STRATEGY> (plans,
+    boost::bind (&DeploymentPlans_Set::value_type::Accept, _1, boost::ref (*this)));
 }
 
 //
@@ -596,4 +603,29 @@ write_variables_i (const PICML::Component & component)
 
   // End the generation of the variables.
   CUTS_BE_Variables_End_T <IMPL_STRATEGY>::generate (component);
+}
+
+//
+// Visit_DeploymentPlans
+//
+template <typename IMPL_STRATEGY>
+void CUTS_BE_Impl_Generator_T <IMPL_STRATEGY>::
+Visit_DeploymentPlans (const PICML::DeploymentPlans & plans)
+{
+  typedef std::vector <PICML::DeploymentPlan> DeploymentPlan_Set;
+  DeploymentPlan_Set dps = plans.DeploymentPlan_children ();
+
+  CUTS_BE::visit <IMPL_STRATEGY> (dps,
+    boost::bind (&DeploymentPlan_Set::value_type::Accept, _1, boost::ref (*this)));
+}
+
+//
+// Visit_DeploymentPlan
+//
+template <typename IMPL_STRATEGY>
+void CUTS_BE_Impl_Generator_T <IMPL_STRATEGY>::
+Visit_DeploymentPlan (const PICML::DeploymentPlan & plan)
+{
+  CUTS_BE_Deployment_Generator_T <IMPL_STRATEGY> generator;
+  PICML::DeploymentPlan (plan).Accept (generator);
 }

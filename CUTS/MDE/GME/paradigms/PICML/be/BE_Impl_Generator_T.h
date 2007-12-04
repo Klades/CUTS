@@ -48,6 +48,14 @@ protected:
   void Visit_ComponentImplementations (
     const PICML::ComponentImplementations & impls);
 
+  /// Visit a DeploymentPlans folder.
+  void Visit_DeploymentPlans (
+    const PICML::DeploymentPlans & plans);
+
+  /// Visit a DeploymentPlan element.
+  void Visit_DeploymentPlan (
+    const PICML::DeploymentPlan & plan);
+
   /// Visit a ComponentImplementationContainer element.
   void Visit_ComponentImplementationContainer (
     const PICML::ComponentImplementationContainer & container);

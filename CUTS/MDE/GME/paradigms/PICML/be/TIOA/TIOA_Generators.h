@@ -23,6 +23,18 @@
 
 //=============================================================================
 /**
+ * @struct Sorted_By_Name
+ */
+//=============================================================================
+
+template <typename T>
+struct Sorted_By_Name
+{
+  bool operator () (const T & lhs, const T & rhs);
+};
+
+//=============================================================================
+/**
  * @struct CUTS_BE_Tioa
  */
 //=============================================================================
@@ -49,6 +61,13 @@ public:
 
   /// Keeps track of how many states written.
   long state_count_;
+
+  typedef std::map <PICML::Component,
+                    PICML::Node,
+                    Sorted_By_Name <PICML::Component> > Deployment_Map;
+
+  /// Mapping of components to their appropriate host.
+  Deployment_Map deployment_map_;
 };
 
 //
@@ -425,6 +444,55 @@ template < >
 struct CUTS_BE_PublishConnector_T <CUTS_BE_Tioa>
 {
   static bool generate (const PICML::PublishConnector & connector);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_DeploymentPlan_Begin_T <CUTS_BE_Tioa>
+{
+  static bool generate (const PICML::DeploymentPlan & plan);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Deployment_Node_T <CUTS_BE_Tioa>
+{
+  static bool generate (const PICML::Node & node);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Deployment_Location_T <CUTS_BE_Tioa>
+{
+  static bool generate (const PICML::Component & component,
+                        const PICML::Node & node);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_DeploymentPlan_End_T <CUTS_BE_Tioa>
+{
+  static bool generate (const PICML::DeploymentPlan & plan);
 };
 
 #endif  // !defined _CUTS_BE_TIOA_GENERATORS_H_
