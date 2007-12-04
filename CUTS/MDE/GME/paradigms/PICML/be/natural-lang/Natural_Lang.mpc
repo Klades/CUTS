@@ -3,9 +3,11 @@
 project (CUTS_BE_Natural_Lang) : cosmic_lib, boost_base, picml_udm {
   sharedname = CUTS_BE_Natural_Lang
 
-  // declare the dependencies and libraries
   after += CUTS_BE
+
   libs  += CUTS_BE
+
+  includes += $(CUTS_ROOT)/MDE/GME/paradigms/PICML
 
   dynamicflags += CUTS_BE_NATURAL_LANG_BUILD_DLL
 

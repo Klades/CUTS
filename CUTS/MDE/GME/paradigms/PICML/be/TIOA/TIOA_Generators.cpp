@@ -1,9 +1,9 @@
 // $Id$
 
 #include "TIOA_Generators.h"
-#include "cuts/be/BE_Options.h"
-#include "cuts/be/BE_Scope_Manager.h"
-#include "cuts/be/BE_Preprocessor.h"
+#include "be/BE_Options.h"
+#include "be/BE_Scope_Manager.h"
+#include "be/BE_Preprocessor.h"
 #include "boost/bind.hpp"
 #include "Uml.h"
 #include <sstream>

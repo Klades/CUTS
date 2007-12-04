@@ -16,7 +16,7 @@
 #define _CUTS_BE_NATURAL_LANG_MANAGER_FACTORY_H_
 
 #include "Natural_Lang_export.h"
-#include "cuts/be/BE_Manager_Factory.h"
+#include "be/BE_Manager_Factory.h"
 
 //=============================================================================
 /**

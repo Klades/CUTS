@@ -11,16 +11,14 @@
 
 workspace (CUTS_CoSMIC) {
   cmdline += -include $CUTS_ROOT/etc/config \
-             -include $COSMIC_ROOT \
              -feature_file default.features
 
   // MDE projects
   MDE/GEMS
-  // MDE/utils
 
-  exclude (!vc71, !vc8, !nmake) {
-    // -- CUTS projects
-    cuts/be
+  exclude (!vc6, !vc71, !vc8, !nmake) {
+    cmdline += -include $COSMIC_ROOT
+
     MDE/GME
 
     cosmic {
