@@ -132,16 +132,6 @@ Visit_ComponentAssembly (const PICML::ComponentAssembly & assembly)
                                 _1,
                                 boost::ref (*this)));
 
-    // Visit all the PublishConnector elements.
-    typedef std::vector <PICML::PublishConnector> PublishConnector_Set;
-    PublishConnector_Set connectors = assembly.PublishConnector_kind_children ();
-
-    std::for_each (connectors.begin (),
-                   connectors.end (),
-                   boost::bind (&PublishConnector_Set::value_type::Accept,
-                                _1,
-                                boost::ref (*this)));
-
     // Visit all the emit connections in the assembly.
     typedef std::vector <PICML::emit> emit_Set;
     emit_Set emits = assembly.emit_children ();
@@ -159,16 +149,6 @@ Visit_ComponentAssembly (const PICML::ComponentAssembly & assembly)
     std::for_each (publishes.begin (),
                    publishes.end (),
                    boost::bind (&publish_Set::value_type::Accept,
-                                _1,
-                                boost::ref (*this)));
-
-    // Visit all the <deliverTo> connections in the <assembly>.
-    typedef std::vector <PICML::deliverTo> deliverTo_Set;
-    deliverTo_Set deliversTo = assembly.deliverTo_kind_children ();
-
-    std::for_each (deliversTo.begin (),
-                   deliversTo.end (),
-                   boost::bind (&deliverTo_Set::value_type::Accept,
                                 _1,
                                 boost::ref (*this)));
   }
@@ -208,11 +188,12 @@ Visit_Component (const PICML::Component & component)
       // are going to move the <proxy_component> down some to make space
       // for the <cuts_proxy_impl> property.
       proxy_component.name () = component.name ();
+      proxy_component.position () = component.position ();
 
-      CUTS_BE_Position pos;
-      pos << component;
-      pos.translate (0, 50);
-      pos >> proxy_component;
+      //CUTS_BE_Position pos;
+      //pos << component;
+      //pos.translate (0, 50);
+      //pos >> proxy_component;
     }
 
     // Locate the <cuts_proxy_impl> attribute. This is need to configure
@@ -325,28 +306,36 @@ Visit_publish (const PICML::publish & publish)
   PICML::OutEventPort outevent = publish.srcpublish_end ();
   outevent.Accept (*this);
 
-  // Get the connector in the target assembly.
-  PICML::PublishConnector connector = publish.dstpublish_end ();
-  PICML::PublishConnector target_connector = this->connector_map_[connector.name ()];
-
-  PICML::publish target_publish;
-
-  if (this->target_outevent_ != Udm::null && target_connector != Udm::null)
+  if (this->target_outevent_ != Udm::null)
   {
+    PICML::publish target_publish;
+
     // We only need to create a publish connection if one does not
-    // already exist.
+    // already exist. We are not concerned with shared components at
+    // this moment.
     if (Udm::create_if_not (this->target_assembly_, target_publish,
-        Udm::contains (boost::bind (std::logical_and <bool> (),
-          boost::bind (std::equal_to <PICML::OutEventPort> (),
+        Udm::contains (boost::bind (std::equal_to <PICML::OutEventPort> (),
                        this->target_outevent_,
-                       boost::bind (&PICML::publish::srcpublish_end, _1)),
-          boost::bind (std::equal_to <PICML::PublishConnector> (),
-                       target_connector,
-                       boost::bind (&PICML::publish::dstpublish_end, _1))))))
+                       boost::bind (&PICML::publish::srcpublish_end, _1)))))
     {
       target_publish.srcpublish_end () = this->target_outevent_;
-      target_publish.dstpublish_end () = target_connector;
+
+      // Create a new publish connector and attach it to the newly
+      // created connection object.
+      this->target_connector_ =
+        PICML::PublishConnector::Create (this->target_assembly_);
+
+      target_publish.dstpublish_end () = this->target_connector_;
     }
+    else
+    {
+      this->target_connector_ = target_publish.dstpublish_end ();
+    }
+
+    // Make sure the location of the connector in the CoWorkEr
+    // assembly is in the same location as its counterpart.
+    PICML::PublishConnector connector = publish.dstpublish_end ();
+    connector.Accept (*this);
   }
 }
 
@@ -364,7 +353,7 @@ Visit_emit (const PICML::emit & emit)
   PICML::OutEventPort outevent = emit.srcemit_end ();
   outevent.Accept (*this);
 
-  if (this->target_inevent_  != Udm::null &&
+  if (this->target_inevent_ != Udm::null &&
       this->target_outevent_ != Udm::null)
   {
     // We need to create a emits connection in the target assembly
@@ -373,13 +362,14 @@ Visit_emit (const PICML::emit & emit)
     PICML::emit target_emit;
 
     if (Udm::create_if_not (this->target_assembly_, target_emit,
-        Udm::contains (boost::bind (std::logical_and <bool> (),
-          boost::bind (std::equal_to <PICML::OutEventPort> (),
-            this->target_outevent_,
-            boost::bind (&PICML::emit::srcemit_end, _1)),
-          boost::bind (std::equal_to <PICML::InEventPort> (),
-            this->target_inevent_,
-            boost::bind (&PICML::emit::dstemit_end, _1))))))
+        Udm::contains (
+          boost::bind (std::logical_and <bool> (),
+            boost::bind (std::equal_to <PICML::OutEventPort> (),
+                         this->target_outevent_,
+                         boost::bind (&PICML::emit::srcemit_end, _1)),
+            boost::bind (std::equal_to <PICML::InEventPort> (),
+                         this->target_inevent_,
+                         boost::bind (&PICML::emit::dstemit_end, _1))))))
     {
       target_emit.srcemit_end () = this->target_outevent_;
       target_emit.dstemit_end () = this->target_inevent_;
@@ -393,22 +383,23 @@ Visit_emit (const PICML::emit & emit)
 void CUTS_BE_Assembly_Generator::
 Visit_PublishConnector (const PICML::PublishConnector & connector)
 {
-  // Create a <PublishConnector> to represent <connector>.
-  PICML::PublishConnector target_connector;
-  std::string name = connector.name ();
+  if (this->target_connector_ == Udm::null)
+    return;
 
-  if (Udm::create_if_not (this->target_assembly_, target_connector,
-      Udm::contains (boost::bind (std::equal_to <std::string> (),
-                     name,
-                     boost::bind (&PICML::PublishConnector::name, _1)))))
-  {
-    target_connector.name () = connector.name ();
-    target_connector.position () = connector.position ();
-  }
+  // Make sure the connector in the coworker assembly is in the
+  // correct location.
+  this->target_connector_.position () = connector.position ();
 
-  // Save the connector for later usage.
-  this->connector_map_.insert (
-    std::make_pair (target_connector.name (), target_connector));
+  // We need to make sure the connector in the regular assembly
+  // has all its outgoing connections in the coworker assembly.
+  typedef std::set <PICML::deliverTo> deliverTo_Set;
+  deliverTo_Set delivers = connector.dstdeliverTo ();
+
+  std::for_each (delivers.begin (),
+                 delivers.end (),
+                 boost::bind (&deliverTo_Set::value_type::Accept,
+                              _1,
+                              boost::ref (*this)));
 }
 
 //
@@ -421,24 +412,23 @@ Visit_deliverTo (const PICML::deliverTo & deliverTo)
   PICML::InEventPort inevent = deliverTo.dstdeliverTo_end ();
   inevent.Accept (*this);
 
-  PICML::PublishConnector connector = deliverTo.srcdeliverTo_end ();
-  PICML::PublishConnector target_connector =
-    this->connector_map_[connector.name ()];
-
-  if (this->target_inevent_ != Udm::null && target_connector != Udm::null)
+  if (this->target_inevent_ != Udm::null)
   {
     PICML::deliverTo target_deliverTo;
 
+    // We need to verify that we have a deliverTo connection in the
+    // proxy assembly, such that is source is the <target_connector_>
+    // and its destination is the <target_inevent_>.
     if (Udm::create_if_not (this->target_assembly_, target_deliverTo,
         Udm::contains (boost::bind (std::logical_and <bool> (),
           boost::bind (std::equal_to <PICML::PublishConnector> (),
-            target_connector,
-            boost::bind (&PICML::deliverTo::srcdeliverTo_end, _1)),
+                       this->target_connector_,
+                       boost::bind (&PICML::deliverTo::srcdeliverTo_end, _1)),
           boost::bind (std::equal_to <PICML::InEventPort> (),
-            this->target_inevent_,
-            boost::bind (&PICML::deliverTo::dstdeliverTo_end, _1))))))
+                       this->target_inevent_,
+                       boost::bind (&PICML::deliverTo::dstdeliverTo_end, _1))))))
     {
-      target_deliverTo.srcdeliverTo_end () = target_connector;
+      target_deliverTo.srcdeliverTo_end () = this->target_connector_;
       target_deliverTo.dstdeliverTo_end () = this->target_inevent_;
     }
   }

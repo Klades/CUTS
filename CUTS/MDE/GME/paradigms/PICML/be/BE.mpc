@@ -12,9 +12,10 @@ project (CUTS_BE) : picml_udm, boost_base, cosmic_lib {
   Source_Files {
     CUTS_Project.cpp
     CoWorkEr_Cache.cpp
-    CoWorkEr_Generator.cpp
 
     BE_Assembly_Generator.cpp
+    BE_CoWorkEr_Generator.cpp
+    BE_Deployment_Generator.cpp
     BE_File_Traits.cpp
     BE_IDL_Graph.cpp
     BE_IDL_Node.cpp

@@ -1,3 +1,37 @@
+Wed Dec  5 21:59:59 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/UdmApp.h:
+        * MDE/GME/paradigms/PICML/interpreter/UdmApp.cpp:
+        * MDE/GME/paradigms/PICML/be/BE_Deployment_Generator.h:
+        * MDE/GME/paradigms/PICML/be/BE_Deployment_Generator.inl:
+        * MDE/GME/paradigms/PICML/be/BE_Deployment_Generator.cpp:
+
+          Testing the deployment plan generator (duplicator).
+
+        * MDE/GME/paradigms/PICML/be/BE.mpc:
+        * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator.h:
+        * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator.cpp:
+
+          BUG: Running the assembly generator multiple times would
+          violate constraints related to publish and deliverTo connections.
+
+        * MDE/GME/paradigms/PICML/be/TIOA/TIOA_Generators.h:
+        * MDE/GME/paradigms/PICML/be/TIOA/TIOA_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/UDM_Utility_T.h:
+        * MDE/GME/paradigms/PICML/be/UDM_Utility_T.cpp:
+
+          Moved the Sort_By_Name functor to the UDM utility collection.
+
+        * MDE/GME/paradigms/PICML/be/BE_CoWorkEr_Generator.h:
+        * MDE/GME/paradigms/PICML/be/BE_CoWorkEr_Generator.cpp:
+
+          Renamed the files below.
+
+        * MDE/GME/paradigms/PICML/be/CoWorkEr_Generator.h:
+        * MDE/GME/paradigms/PICML/be/CoWorkEr_Generator.cpp:
+
+          Removed these files.
+
 Tue Dec  4 17:11:55 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE.mpc:

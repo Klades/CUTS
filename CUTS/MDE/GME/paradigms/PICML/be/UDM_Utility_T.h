@@ -18,6 +18,18 @@
 
 //=============================================================================
 /**
+ * @struct Sorted_By_Name
+ */
+//=============================================================================
+
+template <typename T>
+struct Sorted_By_Name
+{
+  bool operator () (const T & lhs, const T & rhs);
+};
+
+//=============================================================================
+/**
  * @struct Sort_By_Position
  *
  * @brief Help functor to sort objects by their position. The object

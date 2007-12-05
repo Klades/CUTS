@@ -5,14 +5,14 @@
 #include "Main_Dialog.h"
 #include "Utils/Utils.h"
 
-#include "cuts/be/CUTS_Project.h"
-#include "cuts/be/CoWorkEr_Cache.h"
-#include "cuts/be/CoWorkEr_Generator.h"
-#include "cuts/be/BE_Assembly_Generator.h"
-
-#include "cuts/be/BE_Manager.h"
-#include "cuts/be/BE_Manager_Factory.h"
-#include "cuts/be/BE_Options.h"
+#include "../be/CUTS_Project.h"
+#include "../be/CoWorkEr_Cache.h"
+#include "../be/BE_CoWorkEr_Generator.h"
+#include "../be/BE_Assembly_Generator.h"
+#include "../be/BE_Deployment_Generator.h"
+#include "../be/BE_Manager.h"
+#include "../be/BE_Manager_Factory.h"
+#include "../be/BE_Options.h"
 
 #include "cuts/Auto_Functor_T.h"
 
@@ -87,6 +87,9 @@ void CUdmApp::UdmMain (Udm::DataNetwork* p_backend,
 
       CUTS_BE_Assembly_Generator generator;
       root.Accept (generator);
+
+      CUTS_BE_Deployment_Generator deployment;
+      root.Accept (deployment);
 
       message = "Successfully generated CUTS proxy assemblies";
     }

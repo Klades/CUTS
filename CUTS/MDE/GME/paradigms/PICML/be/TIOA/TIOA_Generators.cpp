@@ -4,19 +4,10 @@
 #include "be/BE_Options.h"
 #include "be/BE_Scope_Manager.h"
 #include "be/BE_Preprocessor.h"
+#include "be/UDM_Utility_T.h"
 #include "boost/bind.hpp"
 #include "Uml.h"
 #include <sstream>
-
-//
-// Sorted_By_Name <T>::operator ()
-//
-template <typename T>
-bool Sorted_By_Name <T>::operator () (const T & lhs, const T & rhs)
-{
-  std::string name = lhs.name ();
-  return name.compare (rhs.name ()) < 0;
-}
 
 //
 // TIAO_State_ID

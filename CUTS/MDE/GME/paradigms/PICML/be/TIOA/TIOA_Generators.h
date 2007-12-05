@@ -17,21 +17,10 @@
 
 #include "be/BE_Generators_T.h"
 #include "be/String_Set.h"
+#include "be/UDM_Utility_T.h"
 #include "ace/Singleton.h"
 #include "ace/Null_Mutex.h"
 #include <fstream>
-
-//=============================================================================
-/**
- * @struct Sorted_By_Name
- */
-//=============================================================================
-
-template <typename T>
-struct Sorted_By_Name
-{
-  bool operator () (const T & lhs, const T & rhs);
-};
 
 //=============================================================================
 /**

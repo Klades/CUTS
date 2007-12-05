@@ -8,6 +8,16 @@
 #include "Uml.h"
 
 //
+// Sorted_By_Name <T>::operator ()
+//
+template <typename T>
+bool Sorted_By_Name <T>::operator () (const T & lhs, const T & rhs)
+{
+  std::string name = lhs.name ();
+  return name.compare (rhs.name ()) < 0;
+}
+
+//
 // create_element_if_not_exist
 //
 template <typename COLLECTION, typename COMPARE, typename PARENT>

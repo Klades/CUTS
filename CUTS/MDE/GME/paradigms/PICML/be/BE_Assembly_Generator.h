@@ -120,6 +120,8 @@ private:
 
   PICML::OutEventPort target_outevent_;
 
+  PICML::PublishConnector target_connector_;
+
   typedef std::map <PICML::Component, PICML::Component> Proxy_Type_Map;
 
   Proxy_Type_Map proxy_type_map_;
@@ -127,10 +129,6 @@ private:
   typedef std::map <std::string, PICML::Component> Proxy_Map;
 
   Proxy_Map proxy_map_;
-
-  typedef std::map <std::string, PICML::PublishConnector> PublishConnector_Map;
-
-  PublishConnector_Map connector_map_;
 
   std::string artifact_name_;
 
