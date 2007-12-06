@@ -1,6 +1,8 @@
 // $Id$
 
 workspace (BMW) {
+  cmdline += -include $CUTS_ROOT/etc/config
+
   // web application (i.e., webapp = 1)
   website/BMW.mpc
 

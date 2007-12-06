@@ -113,9 +113,6 @@
               <!-- http://localhost/CUTS/controls -->
               <Directory Id="controls" Name="controls">
                 <Component Id="BMWControlFiles" Guid="71EB1EC2-A33F-4895-AD09-4CFEE4904FB2">
-                  <File Id="ComponentPerformance.ascx" Name="ComponentPerformance.ascx"
-                        Source="$(var.BMW_ROOT)\controls\ComponentPerformance.ascx" DiskId="1" />
-
                   <File Id="ComponentPerformanceCategory.ascx" Name="ComponentPerformanceCategory.ascx"
                         Source="$(var.BMW_ROOT)\controls\ComponentPerformanceCategory.ascx" DiskId="1" />
 
@@ -124,6 +121,9 @@
 
                   <File Id="CumulativePortPerformance.ascx" Name="CumulativePortPerformance.ascx"
                         Source="$(var.BMW_ROOT)\controls\CumulativePortPerformance.ascx" DiskId="1" />
+
+                  <File Id="CumulativeSystemPerformance.ascx" Name="CumulativeSystemPerformance.ascx"
+                        Source="$(var.BMW_ROOT)\controls\CumulativeSystemPerformance.ascx" DiskId="1" />
 
                   <File Id="PortPerformance.ascx" Name="PortPerformance.ascx"
                         Source="$(var.BMW_ROOT)\controls\PortPerformance.ascx" DiskId="1" />
@@ -149,9 +149,6 @@
                   <File Id="App_Web_bmw.master.cdcab7d2.dll" Name="App_Web_bmw.master.cdcab7d2.dll"
                         Source="$(var.BMW_ROOT)\bin\App_Web_bmw.master.cdcab7d2.dll" DiskId="1" />
 
-                  <File Id="App_Web_componentperformance.ascx.cc671b29.dll" Name="App_Web_componentperformance.ascx.cc671b29.dll"
-                        Source="$(var.BMW_ROOT)\bin\App_Web_componentperformance.ascx.cc671b29.dll" DiskId="1" />
-
                   <File Id="App_Web_componentperformancegrid.ascx.cc671b29.dll" Name="App_Web_componentperformancegrid.ascx.cc671b29.dll"
                         Source="$(var.BMW_ROOT)\bin\App_Web_componentperformancegrid.ascx.cc671b29.dll" DiskId="1" />
 
@@ -169,6 +166,9 @@
 
                   <File Id="App_Web_cumulativeportperformance.ascx.cc671b29.dll" Name="App_Web_cumulativeportperformance.ascx.cc671b29.dll"
                         Source="$(var.BMW_ROOT)\bin\App_Web_cumulativeportperformance.ascx.cc671b29.dll" DiskId="1" />
+
+                  <File Id="App_Web_cumulativesystemperformance.ascx.cc671b29.dll" Name="App_Web_cumulativesystemperformance.ascx.cc671b29.dll"
+                        Source="$(var.BMW_ROOT)\bin\App_Web_cumulativesystemperformance.ascx.cc671b29.dll" DiskId="1" />
 
                   <File Id="App_Web_default.aspx.cdcab7d2.dll" Name="App_Web_default.aspx.cdcab7d2.dll"
                         Source="$(var.BMW_ROOT)\bin\App_Web_default.aspx.cdcab7d2.dll" DiskId="1" />
@@ -191,9 +191,9 @@
                   <File Id="App_Web_timeline.aspx.cdcab7d2.dll" Name="App_Web_timeline.aspx.cdcab7d2.dll"
                         Source="$(var.BMW_ROOT)\bin\App_Web_timeline.aspx.cdcab7d2.dll" DiskId="1" />
 
-                  <!-- 3rd-party libraries -->
-                  <File Id="CUTS_Database_Utility.dll" Name="CUTS_Database_Utility.dll"
-                        Source="$(var.BMW_ROOT)\bin\CUTS_Database_Utility.dll" DiskId="1" />
+                  <!-- 3rd-party assemblies -->
+                  <File Id="CUTS.Data.dll" Name="CUTS.Data.dll"
+                        Source="$(env.CUTS_ROOT)\bin\CUTS.Data.dll" DiskId="1" />
 
                   <File Id="IIOPChannel.dll" Name="IIOPChannel.dll"
                         Source="$(var.BMW_ROOT)\bin\IIOPChannel.dll" DiskId="1" />

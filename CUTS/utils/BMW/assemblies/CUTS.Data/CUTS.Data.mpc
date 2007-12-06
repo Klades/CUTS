@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS.Data) {
+project (CUTS.Data) : gacutil {
   sharedname = CUTS.Data
 
   dllout     = $(CUTS_ROOT)\bin
@@ -13,6 +13,7 @@ project (CUTS.Data) {
   requires  += mysql bmw
 
   specific {
+    keyfile = CUTS.Data.snk
     output_dir =
   }
 
@@ -20,5 +21,6 @@ project (CUTS.Data) {
     Database.cs
     ExecutionTime.cs
     PathElement.cs
+    Properties\AssemblyInfo.cs
   }
 }

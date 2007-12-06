@@ -1,3 +1,32 @@
+Thu Dec  6 22:53:21 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/config/gacutil.mpb:
+
+          Simple base project for using the GAC to install assemblies
+          after they have completed their build.
+
+        * install/BMW.wxs:
+        * install/BMW_installers.mpc:
+
+          Fixed build errors related to missing files. The installer
+          for the BMW is still not complete. We need to figure out how
+          to install the assembly into the GAC from a Wix file.
+
+        * utils/BMW/BMW.mwc:
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.snk:
+        * utils/BMW/assemblies/CUTS.Data/Properties:
+        * utils/BMW/assemblies/CUTS.Data/Properties/AssemblyInfo.cs:
+        * utils/BMW/website/Web.config:
+        * utils/BMW/website/controls/ComponentPerformanceCategory.ascx:
+
+          - Updated the BMW to use the CUTS.Data as a standalone assembly
+            referenced from the GAC. This required adding version info to
+            the CUTS.Data assembly and updating the Web.config file.
+
+          - Fixed build errors related to undefined references.
+
 Thu Dec  6 18:44:54 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/BMW.mwc:
