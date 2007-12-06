@@ -1,3 +1,19 @@
+Thu Dec  6 01:00:48 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE.mpc:
+        * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator.cpp:
+        * MDE/GME/paradigms/PICML/be/BE_CUTS_Project.h:
+        * MDE/GME/paradigms/PICML/be/BE_CUTS_Project.cpp:
+        * MDE/GME/paradigms/PICML/be/BE_CoWorkEr_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/UdmApp.cpp:
+
+          Changed the file location of CUTS_BE_Project.
+
+        * MDE/GME/paradigms/PICML/be/CUTS_Project.h:
+        * MDE/GME/paradigms/PICML/be/CUTS_Project.cpp:
+
+          Removed these files.
+
 Thu Dec  6 00:47:33 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator.cpp:

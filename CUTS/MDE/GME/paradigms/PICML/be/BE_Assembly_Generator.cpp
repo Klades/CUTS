@@ -9,7 +9,7 @@
 #include "BE_Position.h"
 #include "BE_Scope_Manager.h"
 #include "CoWorkEr_Cache.h"
-#include "CUTS_Project.h"
+#include "BE_CUTS_Project.h"
 #include "modelgen.h"
 
 // BOOST headers

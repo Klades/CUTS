@@ -5,9 +5,9 @@
 #include "Main_Dialog.h"
 #include "Utils/Utils.h"
 
-#include "../be/CUTS_Project.h"
 #include "../be/CoWorkEr_Cache.h"
 #include "../be/BE_CoWorkEr_Generator.h"
+#include "../be/BE_CUTS_Project.h"
 #include "../be/BE_Assembly_Generator.h"
 #include "../be/BE_Deployment_Generator.h"
 #include "../be/BE_Manager.h"

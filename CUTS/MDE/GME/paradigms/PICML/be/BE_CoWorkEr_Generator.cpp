@@ -1,7 +1,7 @@
 // $Id$
 
 #include "BE_CoWorkEr_Generator.h"
-#include "CUTS_Project.h"
+#include "BE_CUTS_Project.h"
 #include "modelgen.h"
 
 #include "Uml.h"

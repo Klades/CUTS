@@ -1,6 +1,6 @@
 // $Id$
 
-#include "CUTS_Project.h"
+#include "BE_CUTS_Project.h"
 #include "modelgen.h"
 #include "boost/bind.hpp"
 #include <functional>
@@ -21,9 +21,9 @@ static const char * CUTS_PACKAGE_NAME = "CUTS";
 static const char * CUTS_TESTING_SERVICE_OBJECT = "Testing_Service";
 
 //
-// CUTS_Project
+// CUTS_BE_CUTS_Project
 //
-CUTS_Project::CUTS_Project (void)
+CUTS_BE_CUTS_Project::CUTS_BE_CUTS_Project (void)
 : valid_ (false),
   message_ ("project has not been initialized")
 {
@@ -31,9 +31,9 @@ CUTS_Project::CUTS_Project (void)
 }
 
 //
-// ~CUTS_Project
+// ~CUTS_BE_CUTS_Project
 //
-CUTS_Project::~CUTS_Project (void)
+CUTS_BE_CUTS_Project::~CUTS_BE_CUTS_Project (void)
 {
 
 }
@@ -41,7 +41,7 @@ CUTS_Project::~CUTS_Project (void)
 //
 // message
 //
-const std::string & CUTS_Project::message (void) const
+const std::string & CUTS_BE_CUTS_Project::message (void) const
 {
   return this->message_;
 }
@@ -49,7 +49,7 @@ const std::string & CUTS_Project::message (void) const
 //
 // get_testing_service
 //
-const PICML::Object & CUTS_Project::get_testing_service (void) const
+const PICML::Object & CUTS_BE_CUTS_Project::get_testing_service (void) const
 {
   return this->testing_service_;
 }
@@ -57,7 +57,7 @@ const PICML::Object & CUTS_Project::get_testing_service (void) const
 //
 // get_testing_service
 //
-const PICML::String & CUTS_Project::get_string_type (void) const
+const PICML::String & CUTS_BE_CUTS_Project::get_string_type (void) const
 {
   return this->string_;
 }
@@ -65,7 +65,7 @@ const PICML::String & CUTS_Project::get_string_type (void) const
 //
 // is_valid
 //
-bool CUTS_Project::is_valid (void) const
+bool CUTS_BE_CUTS_Project::is_valid (void) const
 {
   return this->valid_;
 }
@@ -73,7 +73,7 @@ bool CUTS_Project::is_valid (void) const
 //
 // Visit_RootFolder
 //
-void CUTS_Project::
+void CUTS_BE_CUTS_Project::
 Visit_RootFolder (const PICML::RootFolder & root)
 {
   this->valid_ = true;
@@ -110,7 +110,7 @@ Visit_RootFolder (const PICML::RootFolder & root)
 //
 // Visit_InterfaceDefinitions
 //
-void CUTS_Project::
+void CUTS_BE_CUTS_Project::
 Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions & idefs)
 {
   // Locate the CUTS IDL file. If we are not able to find it then we
@@ -129,7 +129,7 @@ Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions & idefs)
 //
 // Visit_InterfaceDefinitions
 //
-void CUTS_Project::
+void CUTS_BE_CUTS_Project::
 Visit_PredefinedTypes (const PICML::PredefinedTypes & ptypes)
 {
   // Get a listing of all the strings in the predefined types.
@@ -157,7 +157,7 @@ Visit_PredefinedTypes (const PICML::PredefinedTypes & ptypes)
 //
 // Visit_File
 //
-void CUTS_Project::Visit_File (const PICML::File & file)
+void CUTS_BE_CUTS_Project::Visit_File (const PICML::File & file)
 {
   PICML::Package package;
 
@@ -175,7 +175,7 @@ void CUTS_Project::Visit_File (const PICML::File & file)
 //
 // Visit_Package
 //
-void CUTS_Project::Visit_Package (const PICML::Package & package)
+void CUTS_BE_CUTS_Project::Visit_Package (const PICML::Package & package)
 {
   if (Udm::create_if_not (package, this->testing_service_,
       Udm::contains (boost::bind (std::equal_to <std::string> (),
@@ -189,7 +189,7 @@ void CUTS_Project::Visit_Package (const PICML::Package & package)
 //
 // get_cuts_file
 //
-const PICML::File & CUTS_Project::get_cuts_file (void) const
+const PICML::File & CUTS_BE_CUTS_Project::get_cuts_file (void) const
 {
   return this->cuts_file_;
 }
