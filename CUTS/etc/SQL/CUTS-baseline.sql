@@ -193,7 +193,64 @@ BEGIN
 END; //
 
 -------------------------------------------------------------------------------
--- PROCEDURE: cuts.select_baseline_metrics_all
+-- PROCEDURE: cuts.select_baseline_metric_for_test
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.select_baseline_metric_for_test //
+
+CREATE PROCEDURE
+  cuts.select_baseline_metric_for_test (IN test INT)
+BEGIN
+  SELECT DISTINCT t10.component, t9.* FROM execution_time AS t10
+    LEFT JOIN (SELECT t7.*, t8.portname AS source FROM
+      (SELECT t5.*, t6.portname AS sink FROM
+        (SELECT t3.*, t4.hostname FROM
+          (SELECT t1.*, (t1.total_time / t1.event_count) AS avg_time, t2.component_name
+            FROM baseline AS t1
+            LEFT JOIN component_instances AS t2 ON t1.instance = t2.component_id) AS t3
+          LEFT JOIN ipaddr_host_map AS t4 ON t3.host = t4.hostid) AS t5
+        LEFT JOIN (SELECT pid, portname
+          FROM ports, portnames
+            WHERE ports.portid = portnames.portid) AS t6 ON t5.inport = t6.pid) AS t7
+      LEFT JOIN (SELECT pid, portname
+          FROM ports, portnames
+            WHERE ports.portid = portnames.portid) AS t8 ON t7.outport = t8.pid) AS t9
+      ON t9.instance = t10.component
+      WHERE t10.test_number = test
+      ORDER BY component_name;
+END; //
+
+-------------------------------------------------------------------------------
+-- PROCEDURE: cuts.select_baseline_metric_for_test_by_time
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.select_baseline_metric_for_test_by_time //
+
+CREATE PROCEDURE
+  cuts.select_baseline_metric_for_test_by_time (IN test INT,
+                                                IN coll DATETIME)
+BEGIN
+  SELECT DISTINCT t10.component, t9.* FROM execution_time AS t10
+    LEFT JOIN (SELECT t7.*, t8.portname AS source FROM
+      (SELECT t5.*, t6.portname AS sink FROM
+        (SELECT t3.*, t4.hostname FROM
+          (SELECT t1.*, (t1.total_time / t1.event_count) AS avg_time, t2.component_name
+            FROM baseline AS t1
+            LEFT JOIN component_instances AS t2 ON t1.instance = t2.component_id) AS t3
+          LEFT JOIN ipaddr_host_map AS t4 ON t3.host = t4.hostid) AS t5
+        LEFT JOIN (SELECT pid, portname
+          FROM ports, portnames
+            WHERE ports.portid = portnames.portid) AS t6 ON t5.inport = t6.pid) AS t7
+      LEFT JOIN (SELECT pid, portname
+          FROM ports, portnames
+            WHERE ports.portid = portnames.portid) AS t8 ON t7.outport = t8.pid) AS t9
+      ON t9.instance = t10.component
+      WHERE t10.test_number = test AND t10.collection_time = coll
+      ORDER BY component_name;
+END; //
+
+-------------------------------------------------------------------------------
+-- PROCEDURE: cuts.select_baseline_metric
 -------------------------------------------------------------------------------
 
 DROP PROCEDURE IF EXISTS cuts.select_baseline_metric //

@@ -57,10 +57,22 @@ namespace CUTS
       set { this.queuing_time_ = value; }
     }
 
+    public CUTS.PerformanceTimes QueuingTimeBaseline
+    {
+      get { return this.queuing_time_baseline_; }
+      set { this.queuing_time_baseline_ = value; }
+    }
+
     public CUTS.PerformanceTimes ServiceTime
     {
       get { return this.service_time_; }
       set { this.service_time_ = value; }
+    }
+
+    public CUTS.PerformanceTimes ServiceTimeBaseline
+    {
+      get { return this.service_time_baseline_; }
+      set { this.service_time_baseline_ = value; }
     }
 
     public void InsertExitPoint (CUTS.ExitPoint ep)
@@ -72,6 +84,8 @@ namespace CUTS
       this.exittimes_.Add(ep);
       TableRow row = new TableRow();
 
+      CUTS.PerformanceTimes percentage_error = ep.PercentageError();
+
       // Create the cell that contains the name.
       TableCell cell = new TableCell();
       cell.Text = ep.Name + ":";
@@ -81,22 +95,37 @@ namespace CUTS
       // Create cells for each of the performance metrics.
       cell = new TableCell();
       cell.Text = ep.Performance.Count.ToString();
-      cell.CssClass = "performance-data";
+      cell.CssClass = "performance-data-count";
       row.Cells.Add(cell);
 
+      // Create new cell to contain the min performance metric.
       cell = new TableCell();
+      cell.CssClass = "performance-data";
       cell.Text = ep.Performance.Minimum.ToString();
-      cell.CssClass = "performance-data";
+
+      if (percentage_error != null)
+        cell.Text += " [" + Math.Round(percentage_error.Minimum, 2) + "%]";
+
       row.Cells.Add(cell);
 
+      // Create new cell to contain the average performance metric.
       cell = new TableCell();
+      cell.CssClass = "performance-data";
       cell.Text = Math.Round(ep.Performance.Average, 2).ToString();
-      cell.CssClass = "performance-data";
+
+      if (percentage_error != null)
+        cell.Text += " [" + Math.Round(percentage_error.Average, 2) + "%]";
+
       row.Cells.Add(cell);
 
+      // Create new cell to contain the maximum performance metric.
       cell = new TableCell();
-      cell.Text = ep.Performance.Maximum.ToString();
       cell.CssClass = "performance-data";
+      cell.Text = ep.Performance.Maximum.ToString();
+
+      if (percentage_error != null)
+        cell.Text += " [" + Math.Round(percentage_error.Maximum, 2) + "%]";
+
       row.Cells.Add(cell);
 
       // Add the new row to the table.
@@ -112,8 +141,12 @@ namespace CUTS
     /// The queuing time for the port.
     protected CUTS.PerformanceTimes queuing_time_;
 
+    protected CUTS.PerformanceTimes queuing_time_baseline_;
+
     /// The process time for the port.
     protected CUTS.PerformanceTimes service_time_;
+
+    protected CUTS.PerformanceTimes service_time_baseline_;
 
     /// Unique id for the port.
     private long portid_;

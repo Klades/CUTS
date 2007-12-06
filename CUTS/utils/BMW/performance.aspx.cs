@@ -93,7 +93,7 @@ namespace CUTS
         }
         catch (Exception ex)
         {
-          this.show_error_message(ex.Message);
+          this.show_error_message(ex.StackTrace);
         }
       }
     }
@@ -121,14 +121,18 @@ namespace CUTS
       // Get all the execution times from the database.
       this.cutsdb_.get_execution_times(this.test_number_,
                                        this.collection_time_,
-                                       ref ds,
-                                       "execution_time");
+                                       ref ds, "execution_time");
+
+      // Get the baseline metrics from the database.
+      this.cutsdb_.get_baseline_data(this.test_number_,
+                                     this.collection_time_,
+                                     ref ds, "baseline");
 
       // Bind the metrics to the system performance control.
       this.sysperf_.DataSource = ds;
       this.sysperf_.DataMember = "execution_time";
+      this.sysperf_.DataMemberBaseline = "baseline";
       this.sysperf_.DataBind();
-
     }
 
     private void load_cumulative_times()

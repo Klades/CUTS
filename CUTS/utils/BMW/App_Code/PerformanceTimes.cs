@@ -24,12 +24,21 @@ using System.Web.UI.HtmlControls;
 
 namespace CUTS
 {
+  //===========================================================================
+  /**
+   * @class PerformanceTimes
+   *
+   * Data abstraction for storing performance metrucs.
+   */
+  //===========================================================================
+
   public class PerformanceTimes
   {
+    /// Default constructor.
     public PerformanceTimes()
     {
-      this.max_ = this.min_ = this.count_ = 0;
-      this.avg_ = 0.0;
+      this.count_ = 0;
+      this.avg_ = this.max_ = this.min_ = 0.0;
     }
 
     public PerformanceTimes(long min, double avg, long max)
@@ -39,7 +48,13 @@ namespace CUTS
       this.max_ = max;
     }
 
-    public long Minimum
+    public long Count
+    {
+      set { this.count_ = value; }
+      get { return this.count_; }
+    }
+
+    public double Minimum
     {
       set { this.min_ = value; }
       get { return this.min_; }
@@ -51,19 +66,13 @@ namespace CUTS
       get { return this.avg_; }
     }
 
-    public long Maximum
+    public double Maximum
     {
       set { this.max_ = value; }
       get { return this.max_; }
     }
 
-    public long Count
-    {
-      set { this.count_ = value; }
-      get { return this.count_; }
-    }
-
-    public void Set(long count, long min, double avg, long max)
+    public void Set(long count, double min, double avg, double max)
     {
       this.count_ = count;
 
@@ -72,11 +81,11 @@ namespace CUTS
       this.max_ = max;
     }
 
-    private long min_;
+    private double min_;
 
     private double avg_;
 
-    private long max_;
+    private double max_;
 
     private long count_;
   }

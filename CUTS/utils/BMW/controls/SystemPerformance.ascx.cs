@@ -65,10 +65,22 @@ namespace CUTS
       }
     }
 
+    public string DataMemberBaseline
+    {
+      get { return this.data_member_baseline_; }
+      set { this.data_member_baseline_ = value; }
+    }
+
     public string DataComponentName
     {
       get { return this.data_component_name_; }
       set { this.data_component_name_ = value; }
+    }
+
+    public string DataComponentNameBaseline
+    {
+      set { this.data_component_name_baseline_ = value; }
+      get { return this.data_component_name_baseline_; }
     }
 
     public string DataCategoryName
@@ -77,10 +89,28 @@ namespace CUTS
       set { this.data_category_name_ = value; }
     }
 
+    public string DataHostname
+    {
+      set { this.data_hostname_ = value; }
+      get { return this.data_hostname_; }
+    }
+
+    public string DataHostnameBaseline
+    {
+      get { return this.data_hostname_baseline_; }
+      set { this.data_hostname_baseline_ = value; }
+    }
+
     public string DataMetricType
     {
       get { return this.data_metric_type_; }
       set { this.data_metric_type_ = value; }
+    }
+
+    public string DataMetricTypeBaseline
+    {
+      set { this.data_metric_type_baseline_ = value; }
+      get { return this.data_metric_type_baseline_; }
     }
 
     public string DataSrcName
@@ -89,10 +119,22 @@ namespace CUTS
       set { this.data_src_name_ = value; }
     }
 
+    public string DataSrcNameBaseline
+    {
+      get { return this.data_src_name_baseline_; }
+      set { this.data_src_name_baseline_ = value; }
+    }
+
     public string DataDstName
     {
       get { return this.data_dst_name_; }
       set { this.data_dst_name_ = value; }
+    }
+
+    public string DataDstNameBaseline
+    {
+      get { return this.data_dst_name_baseline_; }
+      set { this.data_dst_name_baseline_ = value; }
     }
 
     public string DataEventCount
@@ -101,10 +143,22 @@ namespace CUTS
       set { this.data_event_count_ = value; }
     }
 
+    public string DataEventCountBaseline
+    {
+      get { return this.data_event_count_baseline_; }
+      set { this.data_event_count_baseline_ = value; }
+    }
+
     public string DataBestTime
     {
       get { return this.data_best_time_; }
       set { this.data_best_time_ = value; }
+    }
+
+    public string DataBestTimeBaseline
+    {
+      get { return this.data_best_time_baseline_; }
+      set { this.data_best_time_baseline_ = value; }
     }
 
     public string DataAvgTime
@@ -113,25 +167,44 @@ namespace CUTS
       set { this.data_avg_time_ = value; }
     }
 
+    public string DataAvgTimeBaseline
+    {
+      get { return this.data_avg_time_baseline_; }
+      set { this.data_avg_time_baseline_ = value; }
+    }
+
     public string DataWorstTime
     {
       get { return this.data_worst_time_; }
       set { this.data_worst_time_ = value; }
     }
+
+    public string DataWorstTimeBaseline
+    {
+      get { return this.data_worst_time_baseline_; }
+      set { this.data_worst_time_baseline_ = value; }
+    }
+
     #endregion
 
     #region Control Factories
     private void CreateControlHeirarchy(bool useviewstate)
     {
-      IEnumerable datasrc = this.GetDataSource();
+      // Get an interface pointer to the execution times and baseline
+      // tables provided via the datasource.
+      IEnumerable execution = this.GetDataSource(this.data_member_);
+      IEnumerable baseline = null;
 
-      if (datasrc != null)
+      if (this.data_member_baseline_ != null)
+        baseline = this.GetDataSource(this.data_member_baseline_);
+
+      if (execution != null)
       {
         CUTS.ComponentPerformanceGrid grid = null;
         CUTS.ComponentPerformanceCategory category = null;
         CUTS.PortPerformance inport = null;
 
-        foreach (object item in datasrc)
+        foreach (object item in execution)
         {
           PropertyDescriptorCollection props = TypeDescriptor.GetProperties(item);
 
@@ -160,6 +233,16 @@ namespace CUTS
           if (metric_type != "process" && metric_type != "queue")
             throw new Exception("DataMetricType must have value 'queue' or 'process'");
 
+          string hostname = string.Empty;
+
+          if (this.data_member_baseline_ != null)
+          {
+            if (this.data_hostname_ == null)
+              throw new Exception("DataHostname property not defined");
+
+            hostname = this.GetDataValue(ref props, item, this.data_hostname_);
+          }
+
           // We have now moved onto the inputs for the component. This
           // is determined by the source name.
           if (this.data_src_name_ == null)
@@ -183,27 +266,61 @@ namespace CUTS
 
             value = this.GetDataValue(ref props, item, this.data_dst_name_);
 
+            // Locate baseline metrics for the current performance metrics. This
+            // can be the overall queue/process time, or the exit point times.
+            CUTS.PerformanceTimes perf_baseline = null;
+
+            if (baseline != null)
+            {
+              this.GetBaselineMetrics(baseline,
+                                      hostname,
+                                      grid.Title,
+                                      metric_type,
+                                      inport.PortName,
+                                      value,
+                                      out perf_baseline);
+            }
+
             if (value != String.Empty)
             {
               CUTS.ExitPoint ep = new ExitPoint();
 
-              // Set the values of the exit point.
+              // Set the values of the exit point. This includes the
+              // current observed time and the baseline time.
               ep.Name = value;
               ep.Performance = perf;
+              ep.BaselinePerformance = perf_baseline;
 
               // Insert the exit point in the exit times.
               inport.InsertExitPoint(ep);
             }
             else
             {
-              // Save the pe  rformance metric in the service time.
+              // Save the performance metric in the service time.
               inport.ServiceTime = perf;
+              inport.ServiceTimeBaseline = perf_baseline;
             }
           }
           else
           {
+            // Check to see if there are baseline metrics for the
+            // queueing time for this port.
+            CUTS.PerformanceTimes perf_baseline = null;
+
+            if (baseline == null)
+            {
+              this.GetBaselineMetrics(baseline,
+                                      hostname,
+                                      grid.Title,
+                                      metric_type,
+                                      inport.PortName,
+                                      null,
+                                      out perf_baseline);
+            }
+
             // Save the performance metric in the queuing time.
             inport.QueuingTime = perf;
+            inport.QueuingTimeBaseline = perf_baseline;
           }
         }
       }
@@ -238,6 +355,63 @@ namespace CUTS
       this.Controls.Add(grid);
       return grid;
     }
+
+    /**
+     * Locates the baseline metrics for the component in the collection
+     * of provided items.
+     */
+    private void GetBaselineMetrics(IEnumerable baseline,
+                                    string hostname,
+                                    string instance,
+                                    string metric_type,
+                                    string srcname,
+                                    string dstname,
+                                    out CUTS.PerformanceTimes perf)
+    {
+      if (baseline != null)
+      {
+        foreach (object item in baseline)
+        {
+          // Get the properties for this item.
+          PropertyDescriptorCollection props = TypeDescriptor.GetProperties(item);
+
+          // Check the hostname of the item.
+          string value = this.GetDataValue(ref props, item, this.data_hostname_baseline_);
+          if (value != hostname)
+            continue;
+
+          // Check the instance name of the item.
+          value = this.GetDataValue(ref props, item, this.data_component_name_baseline_);
+          if (value != instance)
+            continue;
+
+          // Check the metric type of the item.
+          value = this.GetDataValue(ref props, item, this.data_metric_type_baseline_);
+          if (value != metric_type)
+            continue;
+
+          // Check the source name of the item.
+          value = this.GetDataValue(ref props, item, this.data_src_name_baseline_);
+          if (value != srcname)
+            continue;
+
+          // Check the destination name of the item.
+          value = this.GetDataValue(ref props, item, this.data_dst_name_baseline_);
+          if (value != dstname)
+            continue;
+
+          // Yes, we actually found the baseline metric for this instance.
+          // We can now get the baseline performance metrics.
+          perf = new CUTS.PerformanceTimes();
+          this.GetPerformanceMetricsBaseline(ref props, item, ref perf);
+          return;
+        }
+      }
+
+      // By default, if we reach this point then we didn't find
+      // baseline metrics for the specified component.
+      perf = null;
+    }
     #endregion
 
     #region Data Discovery Routines (DDR)
@@ -260,6 +434,27 @@ namespace CUTS
       if (this.data_worst_time_ == null)
         throw new Exception("DataWorstTime property not defined.");
       perf.Maximum = long.Parse(this.GetDataValue(ref props, item, this.data_worst_time_));
+    }
+
+    private void GetPerformanceMetricsBaseline(ref PropertyDescriptorCollection props,
+                                               object item,
+                                               ref CUTS.PerformanceTimes perf)
+    {
+      if (this.data_event_count_baseline_ == null)
+        throw new Exception("DataEventCountBaseline property not defined.");
+      perf.Count = long.Parse(this.GetDataValue(ref props, item, this.data_event_count_baseline_));
+
+      if (this.data_best_time_baseline_ == null)
+        throw new Exception("DataBestTimeBaseline property not defined.");
+      perf.Minimum = long.Parse(this.GetDataValue(ref props, item, this.data_best_time_baseline_));
+
+      if (this.data_avg_time_baseline_ == null)
+        throw new Exception("DataAvgTimeBaseline property not defined.");
+      perf.Average = double.Parse(this.GetDataValue(ref props, item, this.data_avg_time_baseline_));
+
+      if (this.data_worst_time_baseline_ == null)
+        throw new Exception("DataWorstTimeBaseline property not defined.");
+      perf.Maximum = long.Parse(this.GetDataValue(ref props, item, this.data_worst_time_baseline_));
     }
 
     private string GetDataValue(ref PropertyDescriptorCollection props,
@@ -300,7 +495,7 @@ namespace CUTS
       this.ChildControlsCreated = true;
     }
 
-    protected virtual IEnumerable GetDataSource()
+    protected IEnumerable GetDataSource(string member)
     {
       // We can just return if we are a NULL object.
       if (this.data_source_ == null)
@@ -344,10 +539,10 @@ namespace CUTS
             // in the collection.
             PropertyDescriptor desc;
 
-            if (this.data_member_ == null || this.data_member_ == String.Empty)
+            if (member == null || member == String.Empty)
               desc = props[0];
             else
-              desc = props.Find(this.data_member_, false);
+              desc = props.Find(member, false);
 
             if (desc != null)
             {
@@ -398,24 +593,37 @@ namespace CUTS
 
     /// The data member for the current snapshot.
     private string data_member_;
+    private string data_member_baseline_;
 
     private string data_component_name_;
+    private string data_component_name_baseline_;
 
     private string data_category_name_;
 
+    private string data_hostname_;
+    private string data_hostname_baseline_;
+
     private string data_metric_type_;
+    private string data_metric_type_baseline_;
 
     private string data_src_name_;
+    private string data_src_name_baseline_;
 
     private string data_dst_name_;
+    private string data_dst_name_baseline_;
 
     private string data_event_count_;
+    private string data_event_count_baseline_;
 
     private string data_best_time_;
+    private string data_best_time_baseline_;
 
     private string data_avg_time_;
+    private string data_avg_time_baseline_;
 
     private string data_worst_time_;
+    private string data_worst_time_baseline_;
+
     #endregion
   }
 }

@@ -1,3 +1,44 @@
+Thu Dec  6 16:23:35 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-baseline.sql:
+
+          New procedures for getting baseline metrics related to a
+          single test or a collection time during a single test. This
+          requires installation of the 'execution_time' database.
+
+        * etc/SQL/CUTS-execution.sql:
+
+          Updated 'select_execution_time' and 'select_execution_time_with_limit'
+          to return host information about the components.
+
+        * utils/BMW/App_Code/ExitPoint.cs:
+        * utils/BMW/App_Code/PerformanceTimes.cs:
+
+          The objects now store their baseline metrics. This is useful for
+          calculating the percentage error between baseline and current
+          measurements.
+
+        * utils/BMW/assemblies/CUTS.Data/Database.cs:
+
+          BUG: Getting the lastest collection time for a test when one did
+          not exist caused an exception. Now, if the lastest collection time
+          does not exist, we return the current time.
+
+        * utils/BMW/controls/PortPerformance.ascx:
+        * utils/BMW/controls/PortPerformance.ascx.cs:
+        * utils/BMW/controls/SystemPerformance.ascx.cs:
+        * utils/BMW/performance.aspx:
+        * utils/BMW/performance.aspx.cs:
+
+          The percentage error is now displayed for each performance metric, if
+          applicable. This is done by comparing the measured performance against
+          the baseline performance.
+
+        * utils/BMW/styles/default.css:
+
+          Increased the width of the performance data cells and decreased the
+          width of the event count cell.
+
 Thu Dec  6 04:22:07 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * install/CUTS_PICML.wxs:

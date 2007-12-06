@@ -92,8 +92,14 @@ td.performance-name
   width: 200px;
 }
 
+td.performance-data-count, th.performance-data-count
+{
+  text-align: center;
+  width: 50px;
+}
+
 td.performance-data, th.performance-data
 {
   text-align: center;
-  width: 100px;
+  width: 125px;
 }

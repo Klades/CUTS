@@ -153,22 +153,26 @@ DROP PROCEDURE IF EXISTS
 CREATE PROCEDURE
   cuts.select_execution_time (IN test INT, IN ctime DATETIME)
 BEGIN
-  SELECT t9.*, t10.portname AS dstname FROM
-    (SELECT t4.*, t8.portname AS srcname FROM
-      (SELECT t2.*, t3.component_name FROM
-        (SELECT results.*, t1.component_name AS sender_name FROM
-          (SELECT *, (total_time / metric_count) AS avg_time FROM execution_time AS e
-             WHERE collection_time = ctime AND test_number = test) AS results
-         LEFT JOIN component_instances AS t1
-             ON t1.component_id = results.sender) AS t2
-      LEFT JOIN component_instances AS t3 ON t2.component = t3.component_id) AS t4
+SELECT t13.*, t14.ipaddr, t14.hostname FROM
+  (SELECT t11.*, t12.hostid FROM
+    (SELECT t9.*, t10.portname AS dstname FROM
+      (SELECT t4.*, t8.portname AS srcname FROM
+        (SELECT t2.*, t3.component_name FROM
+          (SELECT results.*, t1.component_name AS sender_name FROM
+            (SELECT *, (total_time / metric_count) AS avg_time FROM execution_time AS e
+              WHERE collection_time = ctime AND test_number = test) AS results
+          LEFT JOIN component_instances AS t1
+              ON t1.component_id = results.sender) AS t2
+        LEFT JOIN component_instances AS t3 ON t2.component = t3.component_id) AS t4
+      LEFT JOIN
+        (SELECT pid, portname FROM ports AS t6, portnames AS t7
+          WHERE t6.portid = t7.portid) AS t8 ON t8.pid = t4.src) AS t9
     LEFT JOIN
-      (SELECT pid, portname FROM ports AS t6, portnames AS t7
-         WHERE t6.portid = t7.portid) AS t8 ON t8.pid = t4.src) AS t9
-  LEFT JOIN
-      (SELECT pid, portname FROM ports AS t11, portnames AS t12
-         WHERE t11.portid = t12.portid) AS t10 ON t10.pid = t9.dst
-  ORDER BY t9.component_name, srcname, dstname;
+        (SELECT pid, portname FROM ports AS t11, portnames AS t12
+          WHERE t11.portid = t12.portid) AS t10 ON t10.pid = t9.dst) AS t11
+    LEFT JOIN deployment AS t12 ON t12.instance = t11.component AND t12.test_number = test) AS t13
+  LEFT JOIN ipaddr_host_map AS t14 ON t13.hostid = t14.hostid
+  ORDER BY t13.component_name, srcname, dstname;
 END; //
 
 -------------------------------------------------------------------------------
@@ -205,25 +209,29 @@ BEGIN
 
   -- prepare the statement for usage.
   PREPARE STMT FROM
-    "SELECT t9.*, t10.portname AS dstname FROM
-      (SELECT t4.*, t8.portname AS srcname FROM
-        (SELECT t2.*, t3.component_name FROM
-          (SELECT results.*, t1.component_name AS sender_name FROM
-            (SELECT *, (total_time / metric_count) AS avg_time FROM execution_time AS e
-              WHERE collection_time = ? AND test_number = ?) AS results
-          LEFT JOIN component_instances AS t1
-              ON t1.component_id = results.sender) AS t2
-        LEFT JOIN component_instances AS t3 ON t2.component = t3.component_id) AS t4
-      LEFT JOIN
-        (SELECT pid, portname FROM ports AS t6, portnames AS t7
-          WHERE t6.portid = t7.portid) AS t8 ON t8.pid = t4.src) AS t9
-    LEFT JOIN
-        (SELECT pid, portname FROM ports AS t11, portnames AS t12
-          WHERE t11.portid = t12.portid) AS t10 ON t10.pid = t9.dst
-    ORDER BY t9.component_name LIMIT ?, ?";
+    "SELECT t13.*, t14.ipaddr, t14.hostname FROM
+      (SELECT t11.*, t12.hostid FROM
+        (SELECT t9.*, t10.portname AS dstname FROM
+          (SELECT t4.*, t8.portname AS srcname FROM
+            (SELECT t2.*, t3.component_name FROM
+              (SELECT results.*, t1.component_name AS sender_name FROM
+                (SELECT *, (total_time / metric_count) AS avg_time FROM execution_time AS e
+                  WHERE collection_time = ? AND test_number = ?) AS results
+              LEFT JOIN component_instances AS t1
+                  ON t1.component_id = results.sender) AS t2
+            LEFT JOIN component_instances AS t3 ON t2.component = t3.component_id) AS t4
+          LEFT JOIN
+            (SELECT pid, portname FROM ports AS t6, portnames AS t7
+              WHERE t6.portid = t7.portid) AS t8 ON t8.pid = t4.src) AS t9
+        LEFT JOIN
+            (SELECT pid, portname FROM ports AS t11, portnames AS t12
+              WHERE t11.portid = t12.portid) AS t10 ON t10.pid = t9.dst) AS t11
+        LEFT JOIN deployment AS t12 ON t12.instance = t11.component AND t12.test_number = ?) AS t13
+      LEFT JOIN ipaddr_host_map AS t14 ON t13.hostid = t14.hostid
+      ORDER BY t13.component_name, srcname, dstname LIMIT ?, ?";
 
   -- execute the statement using limits
-  EXECUTE STMT USING @collection_time, @test, @offset, @rows;
+  EXECUTE STMT USING @collection_time, @test, @test, @offset, @rows;
 END; //
 
 -------------------------------------------------------------------------------

@@ -10,13 +10,13 @@
       <asp:tableheadercell runat="server"
                            cssclass="performance-name"><%= this.portname_ %></asp:tableheadercell>
       <asp:tableheadercell runat="server"
-                           cssclass="performance-data">Count</asp:tableheadercell>
+                           cssclass="performance-data-count">Count</asp:tableheadercell>
       <asp:tableheadercell runat="server"
-                           cssclass="performance-data">Min. (msec)</asp:tableheadercell>
+                           cssclass="performance-data">Best (msec)</asp:tableheadercell>
       <asp:tableheadercell runat="server"
-                           cssclass="performance-data">Avg. (msec)</asp:tableheadercell>
+                           cssclass="performance-data">Average (msec)</asp:tableheadercell>
       <asp:tableheadercell runat="server"
-                           cssclass="performance-data">Max. (msec)</asp:tableheadercell>
+                           cssclass="performance-data">Worst (msec)</asp:tableheadercell>
     </asp:tablerow>
 
     <asp:tablerow runat="server" id="queueing_time_row_">
@@ -24,7 +24,7 @@
                      cssclass="performance-name"
                      id="queueing_time_name_">Queuing Time:</asp:tablecell>
       <asp:tablecell runat="server"
-                     cssclass="performance-data"
+                     cssclass="performance-data-count"
                      id="queueing_time_count_">
         <%= this.queuing_time_ != null ? this.queuing_time_.Count.ToString() : "--" %></asp:tablecell>
       <asp:tablecell runat="server"
@@ -46,7 +46,7 @@
                      cssclass="performance-name"
                      id="service_time_name_">Service Time:</asp:tablecell>
       <asp:tablecell runat="server"
-                     cssclass="performance-data"
+                     cssclass="performance-data-count"
                      id="service_time_count_">
         <%= this.service_time_ != null ? this.service_time_.Count.ToString() : "--" %></asp:tablecell>
       <asp:tablecell runat="server"

@@ -558,7 +558,8 @@ namespace CUTS.Data
       command.Parameters.AddWithValue("?t", test);
 
       // Execute the command.
-      return (System.DateTime)command.ExecuteScalar();
+      object value = command.ExecuteScalar();
+      return value != System.DBNull.Value ? (System.DateTime)value : System.DateTime.Now;
     }
 
     public void get_component_instances(System.Int32 test,
@@ -703,6 +704,42 @@ namespace CUTS.Data
 
       // Execute the parameters.
       return (System.Int32)command.ExecuteScalar();
+    }
+
+    public void get_baseline_data(Int32 test,
+                                  ref DataSet ds,
+                                  string table)
+    {
+      // Prepare the command for execution.
+      MySqlCommand command = this.conn_.CreateCommand();
+      command.CommandText =
+        "CALL cuts.select_baseline_metric_for_test(?t)";
+      command.Prepare();
+
+      // Insert the missing parameters.
+      command.Parameters.AddWithValue("?t", test);
+
+      MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+      adapter.Fill(ds, table);
+    }
+
+    public void get_baseline_data(Int32 test,
+                                  DateTime timestamp,
+                                  ref DataSet ds,
+                                  string table)
+    {
+      // Prepare the command for execution.
+      MySqlCommand command = this.conn_.CreateCommand();
+      command.CommandText =
+        "CALL cuts.select_baseline_metric_for_test_by_time(?t,?ct)";
+      command.Prepare();
+
+      // Insert the missing parameters.
+      command.Parameters.AddWithValue("?t", test);
+      command.Parameters.AddWithValue("?ct", timestamp);
+
+      MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+      adapter.Fill(ds, table);
     }
 
     /// Connection object.
