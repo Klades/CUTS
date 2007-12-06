@@ -3,7 +3,7 @@
 project (CUTS.Data) {
   sharedname = CUTS.Data
 
-  dllout     = ../../bin
+  dllout     = $(CUTS_ROOT)\bin
 
   lit_libs   = System \
                System.Data \

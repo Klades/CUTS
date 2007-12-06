@@ -2,7 +2,7 @@
 
 workspace (BMW) {
   // web application (i.e., webapp = 1)
-  BMW.mpc
+  website/BMW.mpc
 
   csharp {
     cmdline += -language csharp
