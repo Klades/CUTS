@@ -1,3 +1,9 @@
+Thu Dec  6 04:22:07 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * install/CUTS_PICML.wxs:
+
+          Enabled the TIOA backend generator.
+
 Thu Dec  6 01:00:48 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE.mpc:
