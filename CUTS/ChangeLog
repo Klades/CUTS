@@ -1,3 +1,11 @@
+Thu Dec  6 18:25:52 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website:
+
+          New location of the BMW website. We are trying to separate
+          the assemblies for the actual website. This way, we can
+          distribute the assemblies as standalone web controls and etc.
+
 Thu Dec  6 16:23:35 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-baseline.sql:
