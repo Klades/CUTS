@@ -362,8 +362,7 @@ Visit_emit (const PICML::emit & emit)
     PICML::emit target_emit;
 
     if (Udm::create_if_not (this->target_assembly_, target_emit,
-        Udm::contains (
-          boost::bind (std::logical_and <bool> (),
+        Udm::contains (boost::bind (std::logical_and <bool> (),
             boost::bind (std::equal_to <PICML::OutEventPort> (),
                          this->target_outevent_,
                          boost::bind (&PICML::emit::srcemit_end, _1)),

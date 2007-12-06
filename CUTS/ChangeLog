@@ -1,3 +1,20 @@
+Thu Dec  6 00:47:33 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator.cpp:
+        * MDE/GME/paradigms/PICML/be/BE_Deployment_Generator.h:
+        * MDE/GME/paradigms/PICML/be/BE_Deployment_Generator.cpp:
+
+          The deployment generator now generates a replica of non-proxy
+          based deployments. We still need to assign the BDC to both the
+          assemblies and the deployment.
+
+        * MDE/GME/paradigms/PICML/be/modelgen.h:
+        * MDE/GME/paradigms/PICML/be/modelgen.inl:
+
+          Implemented a 'find' function to that return a boolean
+          value instead of an iterator. If the object is found, then
+          it is returned in a output parameter.
+
 Wed Dec  5 21:59:59 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/UdmApp.h:

@@ -79,6 +79,9 @@ namespace Udm
   template <typename PRED>
   contains_t <PRED> contains (PRED predicate);
 
+  template <typename P, typename T, typename PRED>
+  bool find (P & parent, T & element, PRED predicate);
+
   /**
    * Create an element if a child that satifies the specified predicate can
    * not be found in the current child set. This version of the creation

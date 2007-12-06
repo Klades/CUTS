@@ -4,6 +4,17 @@
 namespace Udm
 {
   //
+  // find
+  //
+  template <typename P, typename T, typename PRED>
+  CUTS_INLINE
+  bool find (P & parent, T & element, PRED predicate)
+  {
+    contains_t <PRED> c (predicate);
+    return c (parent, element);
+  }
+
+  //
   // contains_t
   //
   template <typename PRED>
