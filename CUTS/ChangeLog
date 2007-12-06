@@ -1,3 +1,123 @@
+Thu Dec  6 18:44:54 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/BMW.mwc:
+
+          Updated the build directories.
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+
+          Changed to output location of the assembly to $(CUTS_ROOT)\bin
+
+        * utils/BMW/website/App_Code:
+        * utils/BMW/website/BMW.master:
+        * utils/BMW/website/BMW.master.cs:
+        * utils/BMW/website/BMW.mpc:
+        * utils/BMW/website/Critical_Path.aspx:
+        * utils/BMW/website/Critical_Path.aspx.cs:
+        * utils/BMW/website/Critical_Path.aspx.resx:
+        * utils/BMW/website/Critical_Path_Timeline.aspx:
+        * utils/BMW/website/Critical_Path_Timeline.aspx.cs:
+        * utils/BMW/website/Critical_Path_Timeline.aspx.resx:
+        * utils/BMW/website/Node_Details.ascx:
+        * utils/BMW/website/Node_Details.ascx.cs:
+        * utils/BMW/website/Service.asmx:
+        * utils/BMW/website/Timeline.aspx:
+        * utils/BMW/website/Timeline.aspx.cs:
+        * utils/BMW/website/Timeline.aspx.resx:
+        * utils/BMW/website/Web.config:
+        * utils/BMW/website/WebCharts:
+        * utils/BMW/website/baseline.aspx:
+        * utils/BMW/website/baseline.aspx.cs:
+        * utils/BMW/website/bin:
+        * utils/BMW/website/components.aspx:
+        * utils/BMW/website/components.aspx.cs:
+        * utils/BMW/website/components.aspx.resx:
+        * utils/BMW/website/controls:
+        * utils/BMW/website/default.aspx:
+        * utils/BMW/website/default.aspx.cs:
+        * utils/BMW/website/default.aspx.resx:
+        * utils/BMW/website/environment.aspx:
+        * utils/BMW/website/environment.aspx.cs:
+        * utils/BMW/website/images:
+        * utils/BMW/website/installer.pl:
+        * utils/BMW/website/performance.aspx:
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/styles:
+
+          New location of the BMW website.
+
+        * utils/BMW/App_Code:
+        * utils/BMW/App_Code/BMW_Service.cs:
+        * utils/BMW/App_Code/CumulativeExitPoint.cs:
+        * utils/BMW/App_Code/ExitPoint.cs:
+        * utils/BMW/App_Code/PerformanceTimes.cs:
+        * utils/BMW/bin:
+        * utils/BMW/bin/IIOPChannel.dll:
+        * utils/BMW/bin/Node_Daemon.NET.dll:
+        * utils/BMW/bin/WebChart.dll:
+        * utils/BMW/controls:
+        * utils/BMW/controls/ComponentPerformanceCategory.ascx:
+        * utils/BMW/controls/ComponentPerformanceCategory.ascx.cs:
+        * utils/BMW/controls/ComponentPerformanceGrid.ascx:
+        * utils/BMW/controls/ComponentPerformanceGrid.ascx.cs:
+        * utils/BMW/BMW.master:
+        * utils/BMW/BMW.master.cs:
+        * utils/BMW/BMW.mpc:
+        * utils/BMW/Critical_Path.aspx:
+        * utils/BMW/Critical_Path.aspx.cs:
+        * utils/BMW/Critical_Path.aspx.resx:
+        * utils/BMW/Critical_Path_Timeline.aspx:
+        * utils/BMW/Critical_Path_Timeline.aspx.cs:
+        * utils/BMW/Critical_Path_Timeline.aspx.resx:
+        * utils/BMW/Node_Details.ascx:
+        * utils/BMW/Node_Details.ascx.cs:
+        * utils/BMW/Service.asmx:
+        * utils/BMW/Timeline.aspx:
+        * utils/BMW/Timeline.aspx.cs:
+        * utils/BMW/Timeline.aspx.resx:
+        * utils/BMW/Web.config:
+        * utils/BMW/WebCharts:
+        * utils/BMW/baseline.aspx:
+        * utils/BMW/baseline.aspx.cs:
+        * utils/BMW/components.aspx:
+        * utils/BMW/components.aspx.cs:
+        * utils/BMW/components.aspx.resx:
+        * utils/BMW/controls/CumulativePortPerformance.ascx:
+        * utils/BMW/controls/CumulativePortPerformance.ascx.cs:
+        * utils/BMW/controls/CumulativeSystemPerformance.ascx:
+        * utils/BMW/controls/CumulativeSystemPerformance.ascx.cs:
+        * utils/BMW/controls/PortPerformance.ascx:
+        * utils/BMW/controls/PortPerformance.ascx.cs:
+        * utils/BMW/controls/SystemPerformance.ascx:
+        * utils/BMW/controls/SystemPerformance.ascx.cs:
+        * utils/BMW/default.aspx:
+        * utils/BMW/default.aspx.cs:
+        * utils/BMW/default.aspx.resx:
+        * utils/BMW/environment.aspx:
+        * utils/BMW/environment.aspx.cs:
+        * utils/BMW/images:
+        * utils/BMW/images/active.gif:
+        * utils/BMW/images/active.vsd:
+        * utils/BMW/images/cancel.gif:
+        * utils/BMW/images/delete.gif:
+        * utils/BMW/images/edit.gif:
+        * utils/BMW/images/graph.gif:
+        * utils/BMW/images/inactive.gif:
+        * utils/BMW/images/inactive.vsd:
+        * utils/BMW/images/logo.jpg:
+        * utils/BMW/images/menudot.gif:
+        * utils/BMW/images/minus.gif:
+        * utils/BMW/images/ok.gif:
+        * utils/BMW/images/plus.gif:
+        * utils/BMW/images/table.gif:
+        * utils/BMW/installer.pl:
+        * utils/BMW/performance.aspx:
+        * utils/BMW/performance.aspx.cs:
+        * utils/BMW/styles:
+        * utils/BMW/styles/default.css:
+
+          Removed these files.
+
 Thu Dec  6 18:25:52 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website:
