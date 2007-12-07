@@ -43,8 +43,7 @@ public:
   virtual size_t count (void) = 0;
 
   /// Fetch the next row in the records.
-  virtual void fetch (void)
-    throw (CUTS_DB_Exception) = 0;
+  virtual void fetch (void) = 0;
 
   /**
    * Get a string data value at the specified column.
