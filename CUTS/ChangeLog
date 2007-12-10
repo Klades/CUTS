@@ -1,3 +1,9 @@
+Mon Dec 10 23:33:45 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/MPI/MPI_Env.cpp:
+
+          Removed unnecessary debug messages.
+
 Mon Dec 10 23:14:00 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * CUTS.mwc:

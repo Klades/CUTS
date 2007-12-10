@@ -184,8 +184,6 @@ int CUTS_MPI_Env::init (int & argc, char * argv [])
 //
 int CUTS_MPI_Env::fini (void)
 {
-  ACE_DEBUG ((LM_TRACE,  "entering fini\n"));
-
   try
   {
     if (!CORBA::is_nil (this->orb_.in ()))
