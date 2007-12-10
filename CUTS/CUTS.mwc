@@ -13,17 +13,8 @@
 ///=============================================================================
 
 workspace (CUTS) : CUTS_CoSMIC {
-  // -- explicitly specify which project to build since
-  // -- we do not want to have any duplicates from the
-  // -- base workspace.
-
-  cuts/CUTS.mpc
-  cuts/CUTS_CIAO.mpc
-  cuts/CUTS_Worker.mpc
-  cuts/BDC
-  cuts/utils
-  cuts/svcs
-  cuts/workers
+  //-- build the entire CUTS runtime
+  cuts
 
   //-- utility applications
   utils/calibrate

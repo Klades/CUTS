@@ -42,6 +42,14 @@ bmw = 0
 
 noinline = 0
 
+/// @feature mpi
+/// This controls whether the CUTS wrappers for MPI are built. Only
+/// enable this features of you have MPI build on your system, and
+/// plan on using it with MPI. Otherwise, leave this feature disabled
+/// or your solution will not build completely.
+
+mpi = 0
+
 ///============================================================================
 // DO NOT CHANGE ANYTHING BELOW THIS LINE
 ///============================================================================

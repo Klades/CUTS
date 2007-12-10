@@ -56,6 +56,18 @@ register_component (CUTS_Component_Registry_Node * info)
     info->info_.state_ = CUTS_Component_Info::STATE_ACTIVATE;
     this->info_queue_.enqueue_tail (info);
   }
+  else if (retval == 1)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "*** error (component registry): %s already registered\n",
+                info->info_.inst_.c_str ()));
+  }
+  else if (retval == -1)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "*** error (component registry): internal error during "
+                "registration\n"));
+  }
 
   return retval;
 }

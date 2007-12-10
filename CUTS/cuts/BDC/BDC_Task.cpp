@@ -279,13 +279,14 @@ namespace CUTS
       catch (const CORBA::Exception & ex)
       {
         ACE_ERROR ((LM_ERROR,
-                    "[%M] -%T - %s\n",
+                    "*** error (BDC task): data collection failed [%s]\n",
                     ex._info ().c_str ()));
       }
       catch (...)
       {
         ACE_ERROR ((LM_ERROR,
-                    "[%M] -%T - unknown exception occured\n"));
+                    "*** error (BDC task): unknown exception occured during "
+                    "data collection\n"));
       }
     }
 

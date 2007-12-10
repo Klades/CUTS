@@ -1,7 +1,44 @@
+Mon Dec 10 23:14:00 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * CUTS.mwc:
+
+          We no longer need to explicitly specify individual workspaces
+          under the ./cuts subdirectory since all modeling projects have
+          been moved to ./MDE.
+
+        * cuts/BDC/BDC_Task.cpp:
+        * cuts/BDC/Testing_Service_exec_i.cpp:
+        * cuts/Component_Registry.cpp:
+
+          Added more useful debug/error messages.
+
+        * cuts/MPI:
+        * cuts/MPI/CUTS_MPI.mpc:
+        * cuts/MPI/MPI_Env.h:
+        * cuts/MPI/MPI_Env.inl:
+        * cuts/MPI/MPI_Env.cpp:
+        * cuts/MPI/mpi.h:
+        * cuts/MPI/mpi.cpp:
+        * cuts/MPI/mpi_export.h:
+
+          Implemented initial wrappers for MPI_Init and MPI_Finalize.
+
+        * default.features:
+
+          Add new feature name 'mpi' that enables/disables building
+          MPI wrappers.
+
+        * tests/cuts/MPI:
+        * tests/cuts/MPI/MPI_Test.cpp:
+        * tests/cuts/MPI/MPI_Test.mpc:
+
+          Simple unit test that validates if MPI_Init and MPI_Finalize
+          work properly.
+
 Fri Dec  7 00:30:34 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/DB_Record.h:
-        
+
           Fixed build errors related to Linux.
 
 Thu Dec  6 22:53:21 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>

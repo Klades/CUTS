@@ -1,0 +1,11 @@
+// $Id$
+
+project (CUTS_MPI_Test) : cuts_test {
+  exename = CUTS_MPI_Test
+
+  libs += CUTS_MPI
+
+  Source_Files {
+    MPI_Test.cpp
+  }
+}

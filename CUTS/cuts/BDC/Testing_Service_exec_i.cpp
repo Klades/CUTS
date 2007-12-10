@@ -34,18 +34,27 @@ namespace CUTS
   CORBA::Long Testing_Service_exec_i::
   register_component (const CUTS::Component_Registration & creg)
   {
+    ACE_DEBUG ((LM_INFO,
+                "*** info (testing service): received registration "
+                "information from %s\n",
+                creg.name.in ()));
+
     // Check for a NIL <agent> and print a warning message if there
     // is one. Usually this means there is something wrong w/ the
     // template code that activates the <agent>!!!
-    if (::CORBA::is_nil (creg.agent.in ()))
+    if (CORBA::is_nil (creg.agent.in ()))
     {
-      ACE_ERROR ((LM_WARNING,
-                  "[%M] -%T - component %s has <NIL> agent\n",
+      ACE_ERROR ((LM_ERROR,
+                  "*** info (testing service): benchmark agent is NIL\n",
                   creg.name.in ()));
+      throw CUTS::Registration_Failed ();
     }
 
     // Register the host information about the component. This will
     // return the host table entry for later usage.
+    ACE_DEBUG ((LM_DEBUG,
+                "*** debug (testing service): registering host info\n"));
+
     const CUTS_Host_Table_Entry * entry = 0;
     this->registry_.hosts ().bind (creg.host_info.ipaddr.in (),
                                    creg.host_info.hostname.in (),
@@ -53,6 +62,9 @@ namespace CUTS
 
     // Register the type information about the component. This will
     // return the type entry for later usage.
+    ACE_DEBUG ((LM_DEBUG,
+                "*** debug (testing service): registering type information\n"));
+
     CUTS_Component_Type * type_info = 0;
     this->register_component_type (creg.component_info, type_info);
 
@@ -63,6 +75,9 @@ namespace CUTS
                       CORBA::NO_MEMORY ());
 
     // Initialize the registration node.
+    ACE_DEBUG ((LM_DEBUG,
+                "*** debug (testing service): registering component\n"));
+
     component->info_.inst_ = creg.name.in ();
     component->info_.type_ = type_info;
     component->info_.host_info_ = entry;
@@ -74,6 +89,9 @@ namespace CUTS
       throw CUTS::Registration_Failed ();
     }
 
+    ACE_DEBUG ((LM_DEBUG,
+                "*** info (testing service): successfully registered component\n"));
+
     return component->info_.uid_;
   }
 
@@ -83,6 +101,11 @@ namespace CUTS
   void Testing_Service_exec_i::
   unregister_component (const CUTS::Component_Registration & reg)
   {
+    ACE_DEBUG ((LM_INFO,
+                "*** info (testing service): received unregistration "
+                "information from %s\n",
+                reg.name.in ()));
+
     this->registry_.unregister_component (reg.name.in ());
   }
 

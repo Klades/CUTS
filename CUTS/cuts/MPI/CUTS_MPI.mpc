@@ -1,0 +1,21 @@
+// $Id$
+
+project (CUTS_MPI) : ciao_servant_dnc, cutslib {
+  sharedname    = CUTS_MPI
+  dynamicflags += CUTS_MPI_BUILD_DLL
+
+  libs  += CUTS_stub Benchmark_Data_Collector_stub CUTS_BDC
+  after += CUTS_stub Benchmark_Data_Collector_stub CUTS_BDC
+
+  requires += mpi
+
+  Source_Files {
+    mpi.cpp
+
+    MPI_Env.cpp
+  }
+
+  Header_Files {
+    mpi_export.h
+  }
+}
