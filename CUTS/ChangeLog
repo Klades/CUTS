@@ -1,11 +1,18 @@
+Tue Dec 11 21:39:38 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/config/odbc.mpb:
+
+          Removed this file and added it to the standard MPC
+          distro.
+
 Tue Dec 11 19:47:22 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * default.features:
-        
+
           Disabled the iodbc feature by default.
-        
+
         * etc/config/odbc.mpb:
-         
+
           Added support for using iODBC as a port of ODBC instead of
           UnixODBC.
 
