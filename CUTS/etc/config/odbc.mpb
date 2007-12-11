@@ -33,5 +33,5 @@ feature(iodbc) {
   libpaths += $(IODBC_ROOT)/lib
   includes += $(IODBC_ROOT)/include
 
-  lit_libs += odbc iodbcinst
+  lit_libs += iodbc iodbcinst
 }

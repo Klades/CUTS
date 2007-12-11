@@ -22,6 +22,18 @@
 
 unixodbc = 0
 
+/// @feature iodbc
+/// Enable this feature if you are using iODBC and building the
+/// projects that require database features. This features is only
+/// required by Unix-based platforms because ODBC support is
+/// integrated into Windows-based platforms. If you set this feature
+/// you must also have an environment variable named $IODBC_ROOT,
+/// which points to the root directory of the iODBC build. The
+/// project generator will expect include files to be located in
+/// $IODBC_ROOT/include and library files in $IODBC_ROOT/lib.
+
+iodbc = 0
+
 /// @feature modeling
 /// Enable this feature if you are building any of the modeling
 /// projects in CUTS (i.e., GME interpreters)

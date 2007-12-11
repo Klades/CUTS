@@ -1,3 +1,14 @@
+Tue Dec 11 19:47:22 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * default.features:
+        
+          Disabled the iodbc feature by default.
+        
+        * etc/config/odbc.mpb:
+         
+          Added support for using iODBC as a port of ODBC instead of
+          UnixODBC.
+
 Tue Dec 11 18:33:36 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/config/odbc.mpb:
