@@ -1,0 +1,15 @@
+// $Id$
+
+project {
+  dynamicflags += BUILDER_OBJECT_NETWORK
+
+  Source_Files {
+    Component.cpp
+
+    $(GME_ROOT)\SDK\BON\Builder.cpp
+  }
+
+  Header_Files {
+    Component.h
+  }
+}

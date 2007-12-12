@@ -1,6 +1,6 @@
 // $Id$
 
-project : gme_component {
+project {
   Source_Files {
     RawComponent.cpp
   }

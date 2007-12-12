@@ -1,6 +1,6 @@
 // $Id$
 
-project : gme_component {
+project {
   dynamicflags += BUILDER_OBJECT_NETWORK_V2
 
   Source_Files {

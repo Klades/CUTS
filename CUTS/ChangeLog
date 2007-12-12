@@ -1,3 +1,31 @@
+Wed Dec 12 00:57:40 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE.mpc:
+        * MDE/GME/paradigms/PICML/be/CIAO/BE_CIAO.mpc:
+        * MDE/GME/paradigms/PICML/be/TIOA/TIOA.mpc:
+        * MDE/GME/paradigms/PICML/be/XML/XML.mpc:
+        * MDE/GME/paradigms/PICML/be/natural-lang/Natural_Lang.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/Main_Dialog.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/RawComponent.cpp:
+        * etc/config/cuts_cosmic.mpb:
+        * etc/config/gme_addon.mpb:
+        * etc/config/gme_base.mpb:
+        * etc/config/gme_bon.mpb:
+        * etc/config/gme_bon2.mpb:
+        * etc/config/gme_component.mpb:
+        * etc/config/gme_interpreter.mpb:
+        * etc/config/gme_rawcom.mpb:
+        * etc/config/udm_component.mpb:
+
+          Docoupled the GME base projects from CUTS. This will allow
+          use to add the GME projects to the MPC standard distro.
+
+        * etc/config/cosmic_lib.mpb:
+        * etc/config/gme_raw.mpb:
+
+          Removed these files.
+
 Tue Dec 11 21:39:38 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/config/odbc.mpb:

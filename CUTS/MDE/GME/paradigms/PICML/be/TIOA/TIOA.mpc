@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_BE_TIOA) : cosmic_lib, boost_base, picml_udm {
+project (CUTS_BE_TIOA) : boost_base, picml_udm, cuts_cosmic {
   sharedname = CUTS_BE_TIOA
 
   after += CUTS_BE

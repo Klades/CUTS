@@ -1,12 +1,14 @@
 // $Id$
 
 project : gme_component {
+  dynamicflags += GME_ADDON
+
   Source_Files {
 
   }
 
   Header_Files {
-
+    Resource.h
   }
 
   Resource_Files {

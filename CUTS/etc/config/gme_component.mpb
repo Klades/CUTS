@@ -1,10 +1,8 @@
 // $Id$
 
 project : regsvr32, mfc, gme_base {
-  pch_header = StdAfx.h
-  pch_source = StdAfx.cpp
-
-  includes += $(CUTS_ROOT)
+  pch_header = stdafx.h
+  pch_source = stdafx.cpp
 
   specific {
     link_options += /DEF:component.def
@@ -18,11 +16,15 @@ project : regsvr32, mfc, gme_base {
   }
 
   Header_Files {
+    ComponentConfig.h
     ComponentLib.h
+    Resource.h
+
     $(GME_ROOT)/SDK/BON/GMECOM.h
   }
 
   Resource_Files {
-
+    Component.rc
+    CompIcon.ico
   }
 }

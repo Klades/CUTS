@@ -5,9 +5,9 @@
 #include "Main_Dialog.h"
 #include "Utils/Utils.h"
 
-#include "cuts/be/BE_Options.h"
-#include "cuts/be/BE_Manager_Factory_Repo.h"
-#include "cuts/be/BE_Manager_Factory.h"
+#include "../be/BE_Options.h"
+#include "../be/BE_Manager_Factory_Repo.h"
+#include "../be/BE_Manager_Factory.h"
 
 BEGIN_MESSAGE_MAP (Main_Dialog, CDialog)
   ON_LBN_SELCHANGE (IDC_BE_LIST, On_BE_List_SelChange)

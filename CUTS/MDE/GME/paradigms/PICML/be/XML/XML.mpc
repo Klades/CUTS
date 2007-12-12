@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_BE_XML) : cosmic_lib, boost_base, picml_udm {
+project (CUTS_BE_XML) : boost_base, picml_udm, cuts_cosmic {
   sharedname    = CUTS_BE_XML
   dynamicflags += CUTS_BE_XML_BUILD_DLL
 
