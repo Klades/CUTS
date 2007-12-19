@@ -1,10 +1,16 @@
+Wed Dec 19 16:16:15 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/Activation_Record.inl (log_endpoint):
+        
+          The datasize is now saved w/ the endpoint.
+
 Wed Dec 19 15:30:44 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/performance_i.cpp:
         * cuts/Benchmark_Agent.h:
         * cuts/Port_Agent_Set.h:
         * cuts/CUTS.mpc:
-        
+
           Moved the CUTS_Port_Agent_Set type definition to its own
           header file and redefined its template parameters. Now,
           its not necessary to perform casting to get the actual
@@ -14,11 +20,11 @@ Wed Dec 19 15:30:44 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/MPI/Datatype_Port_Manager.h:
         * cuts/MPI/Datatype_Port_Manager.inl:
         * cuts/MPI/Datatype_Port_Manager.cpp:
-        
-          The MPI notion of port managers, which are down by 
+
+          The MPI notion of port managers, which are down by
           MPI_Datatypes. This will allow us to track different request
           for different datatypes.
-          
+
         * cuts/MPI/MPI_Env.h:
         * cuts/MPI/MPI_Env.inl:
         * cuts/MPI/MPI_Env.cpp:

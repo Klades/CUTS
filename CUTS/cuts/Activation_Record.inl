@@ -157,7 +157,7 @@ CUTS_INLINE
 void CUTS_Activation_Record::log_endpoint (size_t uid, size_t datasize)
 {
   this->endpoints_.
-    rebind (uid, CUTS_Activation_Record_Endpoint (ACE_OS::gettimeofday ()));
+    rebind (uid, CUTS_Activation_Record_Endpoint (ACE_OS::gettimeofday (), datasize));
 }
 
 //
