@@ -451,7 +451,7 @@ void operator <<= (CUTS::Endpoint_Times & ep_times,
     // Store the information in the buffer. This is the unique
     // id of the endpoint and the time it was encountered.
     buf->uid = iter->key ();
-    buf->exittime <<= iter->item ();
+    buf->exittime <<= iter->item ().time_of_completion ();
 
     // Move the next location in the map and the next slot
     // in the target buffer.

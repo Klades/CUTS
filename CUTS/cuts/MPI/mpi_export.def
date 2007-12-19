@@ -1,0 +1,18 @@
+; -*- DEF -*-
+
+;==============================================================================
+; @file     mpi_export.def
+;
+; Defines symbols exported from the CUTS_MPI module
+;
+; $Id$
+;
+; @author   James H. Hill
+;==============================================================================
+
+EXPORTS
+  MPI_Init
+  MPI_Finalize
+
+  MPI_Send
+  MPI_Recv

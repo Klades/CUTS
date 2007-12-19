@@ -16,6 +16,7 @@
 #define _CUTS_MPI_ENV_H_
 
 #include "cuts/CUTSS.h"
+#include "ace/SString.h"
 
 // Forward decl.
 class Benchmark_Agent_i;
@@ -71,9 +72,20 @@ public:
    */
   Benchmark_Agent_i * agent (void);
 
+  /**
+   * Get the instance name of the environment. The instance name is
+   * derived from the application's name and its rank in the world.
+   *
+   * @return      Instance name of the environment.
+   */
+  const ACE_CString & instance_name (void) const;
+
 private:
   /// Service thread for the environment.
   static ACE_THR_FUNC_RETURN svc_thr (void *);
+
+  /// Make the instance name from the first argument.
+  void make_instance_name (const ACE_CString & arg0);
 
   /// Singleton instance of the environment.
   static CUTS_MPI_Env * instance_;
@@ -106,6 +118,12 @@ private:
 
   /// Registration for the application.
   CUTS::Component_Registration reg_;
+
+  /// Instance name of this environment.
+  ACE_CString instance_name_;
+
+  /// The rank of the environment in the world.
+  int rank_;
 };
 
 #if defined (__CUTS_INLINE__)

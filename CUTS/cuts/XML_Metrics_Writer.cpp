@@ -214,8 +214,8 @@ visit_port_metric (const CUTS_Port_Metric & metrics)
       this->output_
         << "          <ExitTime name=\""
         << portname.c_str ()
-        << "\" sec=\"" << endpoint_iter->item ().sec ()
-        << "\" usec=\"" << endpoint_iter->item ().usec ()
+        << "\" sec=\"" << endpoint_iter->item ().time_of_completion ().sec ()
+        << "\" usec=\"" << endpoint_iter->item ().time_of_completion ().usec ()
         << "\" />" << std::endl;
 
       // Move to the next endpoint and clear the port name.

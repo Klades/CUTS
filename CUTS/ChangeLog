@@ -1,3 +1,39 @@
+Wed Dec 19 01:52:02 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/Activation_Record.h:
+        * cuts/Activation_Record.inl:
+        * cuts/Activation_Record_Endpoint.h:
+        * cuts/Activation_Record_Endpoint.inl:
+        * cuts/Activation_Record_Endpoint.cpp:
+
+          Endpoints now store the size of data sent in bytes.
+
+        * cuts/MPI/CUTS_MPI.mpc:
+        * cuts/MPI/MPI_Env.h:
+        * cuts/MPI/MPI_Env.inl:
+        * cuts/MPI/MPI_Env.cpp:
+
+          The instance name appends the rank of the application
+          in the MPI_COMM_WORLD onto the instance's name.
+
+        * cuts/MPI/mpi.cpp:
+        * cuts/MPI/mpi_export.def:
+
+          Added initial support MPI_Recv and MPI_Send.
+
+        * cuts/Port_Agent.cpp:
+        * cuts/XML_Metrics_Writer.cpp:
+        * cuts/performance_i.cpp:
+
+          The completion time of the endpoints is no longer store
+          as the value in the hash map. It must be extract from the
+          actual CUTS_Activation_Record_Endpoint class.
+
+        * cuts/MPI/mpi.h:
+        * cuts/MPI/mpi_export.h:
+
+          Removed these files.
+
 Wed Dec 12 00:57:40 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE.mpc:

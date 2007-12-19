@@ -28,3 +28,12 @@ Benchmark_Agent_i * CUTS_MPI_Env::agent (void)
 {
   return this->agent_;
 }
+
+//
+// instance_name
+//
+CUTS_INLINE
+const ACE_CString & CUTS_MPI_Env::instance_name (void) const
+{
+  return this->instance_name_;
+}

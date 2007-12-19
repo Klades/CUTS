@@ -38,7 +38,7 @@ update (const CUTS_Activation_Record * record)
 
     for (; !iter.done (); iter ++)
     {
-      duration = iter->item () - start_time;
+      duration = iter->item ().time_of_completion () - start_time;
       measurement->record_exitpoint (iter->key (), duration);
     }
   }

@@ -17,6 +17,7 @@
 #define _CUTS_ACTIVATION_RECORD_H_
 
 #include "cuts/Activation_Record_Entry.h"
+#include "cuts/Activation_Record_Endpoint.h"
 #include "cuts/Log_T.h"
 #include "cuts/Time_Measurement.h"
 #include "cuts/Time_Value_History.h"
@@ -27,7 +28,7 @@
 
 /// Type definition for a collection of endpoints
 typedef ACE_Hash_Map_Manager <size_t,
-                              ACE_Time_Value,
+                              CUTS_Activation_Record_Endpoint,
                               ACE_Null_Mutex>
                               CUTS_Activation_Record_Endpoints;
 
@@ -162,6 +163,22 @@ public:
    * @overload
    */
   const CUTS_Activation_Record_Entry_Log & entries (void) const;
+
+  /**
+   * Log an endpoint to the activation record. This will store the
+   * time of completion (TOC) for the endpoint.
+   *
+   * @param[in]         uid         Unique id for the endpoint.
+   */
+  void log_endpoint (size_t uid, size_t datasize = 0);
+
+  /**
+   * Get how long the record was open. This is a measure of the
+   * processing time for a the recorded workload.
+   *
+   * @param[out]      duration      How long the record was open.
+   */
+  void get_duration (ACE_Time_Value & duration) const;
 
   //===========================================================================
   // @@ templates
@@ -346,22 +363,6 @@ public:
                        size_t type, R (F::*method) (P1, P2, P3, P4, P5),
                        T & obj,
                        A1 arg1, A2 arg2, A3 arg3, A4 arg4, A5 arg5);
-
-  /**
-   * Log an endpoint to the activation record. This will store the
-   * time of completion (TOC) for the endpoint.
-   *
-   * @param[in]         uid         Unique id for the endpoint.
-   */
-  void log_endpoint (size_t uid);
-
-  /**
-   * Get how long the record was open. This is a measure of the
-   * processing time for a the recorded workload.
-   *
-   * @param[out]      duration      How long the record was open.
-   */
-  void get_duration (ACE_Time_Value & duration) const;
 
 private:
   /**

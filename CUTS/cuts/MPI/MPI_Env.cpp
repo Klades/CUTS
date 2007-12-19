@@ -1,5 +1,6 @@
 // $Id$
 
+#include "mpi.h"
 #include "MPI_Env.h"
 
 #if !defined (__CUTS_INLINE__)
@@ -12,6 +13,7 @@
 #include "ace/OS_NS_unistd.h"
 #include "ace/INET_Addr.h"
 #include "ace/Thread_Manager.h"
+#include <strstream>
 
 //
 // instance_
@@ -51,6 +53,11 @@ void CUTS_MPI_Env::close_singleton (void)
 //
 int CUTS_MPI_Env::init (int & argc, char * argv [])
 {
+  // Get the rank of this node. Afterwards, we can create the
+  // instance_name_ for this node.
+  PMPI_Comm_size (MPI_COMM_WORLD, &this->rank_);
+  this->make_instance_name (argv[0]);
+
   try
   {
     // Initialize the CORBA ORB for the environment.
@@ -136,7 +143,7 @@ int CUTS_MPI_Env::init (int & argc, char * argv [])
     // Register this parallel application with the testing service. The
     // name of the 'component' is the name of the application, plus its
     // rank in the MPI_COMM_WORLD, i.e., MyApp-1
-    this->reg_.name = CORBA::string_dup (argv[0]);
+    this->reg_.name = CORBA::string_dup (this->instance_name_.c_str ());
     this->reg_.agent = CUTS::Benchmark_Agent::_duplicate (this->agent_->_this ());
 
     // Get the hostname and ip-address for this 'component'.
@@ -334,4 +341,15 @@ CUTS::Benchmark_Data_Collector * CUTS_MPI_Env::get_BDC (void)
 
   // Extract the BDC from the object.
   return CUTS::Benchmark_Data_Collector::_narrow (obj.in ());
+}
+
+//
+// make_instance_name
+//
+void CUTS_MPI_Env::make_instance_name (const ACE_CString & arg0)
+{
+  std::ostrstream ostr;
+  ostr << arg0.c_str () << "-" << this->rank_ << std::ends;
+
+  this->instance_name_ = ostr.str ();
 }

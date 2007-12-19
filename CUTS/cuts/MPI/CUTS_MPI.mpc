@@ -1,13 +1,16 @@
 // $Id$
 
-project (CUTS_MPI) : ciao_servant_dnc, cutslib {
+project (CUTS_MPI) : mpich, ciao_servant_dnc, cutslib {
   sharedname    = CUTS_MPI
   dynamicflags += CUTS_MPI_BUILD_DLL
 
+  //== dependencies
   libs  += CUTS_stub Benchmark_Data_Collector_stub CUTS_BDC
   after += CUTS_stub Benchmark_Data_Collector_stub CUTS_BDC
 
-  requires += mpi
+  specific (nmake, vc6, vc7, vc71, vc8, vc9) {
+    link_options += /DEF:mpi_export.def
+  }
 
   Source_Files {
     mpi.cpp
@@ -16,6 +19,6 @@ project (CUTS_MPI) : ciao_servant_dnc, cutslib {
   }
 
   Header_Files {
-    mpi_export.h
+    mpi_export.def
   }
 }
