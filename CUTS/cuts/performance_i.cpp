@@ -268,8 +268,7 @@ static void operator <<= (CUTS::Port_Metrics & ports,
   // Copy all the elements from the set to the sequence.
   for (; !iter.done (); iter.advance ())
   {
-    CUTS_Port_Agent * agent =
-      reinterpret_cast <CUTS_Port_Agent *> (iter->key ());
+    CUTS_Port_Agent * agent = iter->key ();
 
     buf->uid = iter->item ();
     *buf ++ <<= *agent;

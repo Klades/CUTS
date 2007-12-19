@@ -14,23 +14,12 @@
 #define _CUTS_BENCHMARK_AGENT_H_
 
 #include "cuts/CUTS_export.h"
+#include "cuts/Port_Agent_Set.h"
 #include "ace/SString.h"
-#include "ace/Hash_Map_Manager_T.h"
-#include "ace/Null_Mutex.h"
-
-// Forward decl.
-class CUTS_Port_Agent;
-
-/// Type definition for a collection of CUTS_Port_Agent objects.
-typedef
-  ACE_Hash_Map_Manager <
-  void *, size_t, ACE_Null_Mutex>
-  CUTS_Port_Agent_Set;
 
 /// Type definition for a collection of endpoint names.
 typedef
-  ACE_Hash_Map_Manager <
-  ACE_CString, size_t, ACE_Null_Mutex>
+  ACE_Hash_Map_Manager <ACE_CString, size_t, ACE_Null_Mutex>
   CUTS_Endpoint_Map;
 
 //=============================================================================

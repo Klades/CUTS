@@ -7,7 +7,7 @@
 #include "MPI_Env.inl"
 #endif
 
-#include "cuts/Benchmark_Agent_i.h"
+#include "Datatype_Port_Manager.h"
 #include "cuts/BDC/Benchmark_Data_CollectorC.h"
 #include "orbsvcs/CosNamingC.h"
 #include "ace/OS_NS_unistd.h"
@@ -111,9 +111,22 @@ int CUTS_MPI_Env::init (int & argc, char * argv [])
     ACE_DEBUG ((LM_DEBUG,
                 "*** info (cutsmpi): activating the benchmark agent\n"));
 
-    ACE_NEW_RETURN (this->agent_, Benchmark_Agent_i (), -1);
+    Benchmark_Agent_i * temp_agent = 0;
+    ACE_NEW_RETURN (temp_agent, Benchmark_Agent_i (), -1);
+    this->agent_.reset (temp_agent);
+
+    // Activate the CORBA object and pass ownership to the servant.
     CUTS::Benchmark_Agent_var agent = this->agent_->_this ();
-    this->agent_servant_ = this->agent_;
+    this->agent_servant_ = this->agent_.get ();
+
+    // Let's go ahead an create the datatype manager and associate
+    // it with the newly created benchmark agent.
+    CUTS_MPI_Datatype_Port_Manager * datatype_mgr = 0;
+    ACE_NEW_RETURN (datatype_mgr,
+                    CUTS_MPI_Datatype_Port_Manager (this->agent_.get ()),
+                    -1);
+
+    this->datatype_mgr_.reset (datatype_mgr);
 
     // Get the BDC so we can register the application, which we treat
     // as a component. The return value for the component should be

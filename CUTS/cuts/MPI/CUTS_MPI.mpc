@@ -13,8 +13,8 @@ project (CUTS_MPI) : mpich, ciao_servant_dnc, cutslib {
   }
 
   Source_Files {
+    Datatype_Port_Manager.cpp
     mpi.cpp
-
     MPI_Env.cpp
   }
 

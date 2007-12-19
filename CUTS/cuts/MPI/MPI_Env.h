@@ -15,11 +15,11 @@
 #ifndef _CUTS_MPI_ENV_H_
 #define _CUTS_MPI_ENV_H_
 
-#include "cuts/CUTSS.h"
+#include "cuts/Benchmark_Agent_i.h"
 #include "ace/SString.h"
 
 // Forward decl.
-class Benchmark_Agent_i;
+class CUTS_MPI_Datatype_Port_Manager;
 
 namespace CUTS
 {
@@ -63,22 +63,16 @@ public:
   int fini (void);
 
   /**
-   * Get the benckmarking agent for the environment. This is
-   * used by MPI functions to log performance metrics. Periodically,
-   * performance metrics will be collected from the agent by the
-   * Benchmark_Data_Collector.
-   *
-   * @return      Pointer to the agent.
-   */
-  Benchmark_Agent_i * agent (void);
-
-  /**
    * Get the instance name of the environment. The instance name is
    * derived from the application's name and its rank in the world.
    *
    * @return      Instance name of the environment.
    */
   const ACE_CString & instance_name (void) const;
+
+  CUTS_MPI_Datatype_Port_Manager & datatype_mgr (void);
+
+  const CUTS_MPI_Datatype_Port_Manager & datatype_mgr (void) const;
 
 private:
   /// Service thread for the environment.
@@ -108,7 +102,7 @@ private:
   PortableServer::POA_var poa_;
 
   /// The collection agent for the MPI application.
-  Benchmark_Agent_i * agent_;
+  ACE_Auto_Ptr <Benchmark_Agent_i> agent_;
 
   /// The servant object for the \a agent_.
   PortableServer::ServantBase_var agent_servant_;
@@ -124,7 +118,13 @@ private:
 
   /// The rank of the environment in the world.
   int rank_;
+
+  ACE_Auto_Ptr <CUTS_MPI_Datatype_Port_Manager> datatype_mgr_;
 };
+
+/// Simple definition for accessing the singleton.
+#define CUTS_MPI_ENV() \
+  CUTS_MPI_Env::instance ()
 
 #if defined (__CUTS_INLINE__)
 #include "MPI_Env.inl"
