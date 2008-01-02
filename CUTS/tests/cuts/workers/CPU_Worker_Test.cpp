@@ -1,6 +1,7 @@
 // -*- C++ -*-
 // $Id$
 
+#include <math.h>
 #include "boost/test/unit_test.hpp"
 #include "cuts/workers/CPU/CPU_Worker.h"
 #include "ace/OS_NS_sys_time.h"
@@ -10,7 +11,8 @@
 #include "ace/Thread.h"
 #include "ace/Malloc_T.h"
 #include "ace/Null_Mutex.h"
-#include <math.h>
+#include "Boost_JUnit_Formatter.h"
+#include "Test_Log.h"
 
 void Unit_Test_CPU_run (void)
 {
@@ -46,6 +48,8 @@ init_unit_test_suite (int argc, char * argv [])
 
   // Add the unit test to the test suite.
   ts->add (BOOST_TEST_CASE (&Unit_Test_CPU_run));
+
+  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter, ts);
 
   return ts;
 }

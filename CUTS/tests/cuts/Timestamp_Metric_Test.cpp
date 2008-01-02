@@ -3,6 +3,8 @@
 #include "boost/test/unit_test.hpp"
 #include "cuts/Timestamp_Metric.h"
 #include "ace/OS_NS_sys_time.h"
+#include "Boost_JUnit_Formatter.h"
+#include "Test_Log.h"
 
 //=============================================================================
 /*
@@ -81,6 +83,8 @@ init_unit_test_suite (int argc, char * argv [])
   ts->add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_setter));
   ts->add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_reset));
   ts->add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_is_valid));
+
+  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter, ts);
 
   return ts;
 }

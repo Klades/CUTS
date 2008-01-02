@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_MPI_Test) : cuts_test {
+project (CUTS_MPI_Test) : mpich, cuts_test {
   exename = CUTS_MPI_Test
 
   libs += CUTS_MPI

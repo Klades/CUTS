@@ -1,13 +1,14 @@
 // $Id$
 
-#include "boost/test/unit_test.hpp"
-#include "cuts/Time_Measurement.h"
-#include "ace/OS_NS_unistd.h"
-#include "ace/OS_NS_stdlib.h"
-
 #include <algorithm>
 #include <vector>
 #include <numeric>
+#include "boost/test/unit_test.hpp"
+#include "ace/OS_NS_unistd.h"
+#include "ace/OS_NS_stdlib.h"
+#include "cuts/Time_Measurement.h"
+#include "Boost_JUnit_Formatter.h"
+#include "Test_Log.h"
 
 static CUTS_Time_Measurement tm_;
 
@@ -141,6 +142,8 @@ init_unit_test_suite (int argc, char * argv [])
   ts->add (BOOST_TEST_CASE (&Time_Measurement_Add_Time));
   ts->add (BOOST_TEST_CASE (&Time_Measurement_Reset));
   ts->add (BOOST_TEST_CASE (&Time_Measurement_Set));
+
+  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter, ts);
 
   return ts;
 }

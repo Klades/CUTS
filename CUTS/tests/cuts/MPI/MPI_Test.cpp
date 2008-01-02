@@ -1,7 +1,7 @@
 // $Id$
 
+#include "mpi.h"
 #include "boost/test/unit_test.hpp"
-#include "cuts/MPI/mpi.h"
 #include "ace/OS_NS_unistd.h"
 
 namespace MPI

@@ -1,7 +1,29 @@
+Wed Jan  2 16:50:31 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * tests/cuts/Boost_JUnit_Formatter.h:
+        * tests/cuts/Boost_JUnit_Formatter.cpp:
+        * tests/cuts/MPI/MPI_Test.cpp:
+        * tests/cuts/MPI/MPI_Test.mpc:
+        * tests/cuts/Port_Measurement_Test.cpp:
+        * tests/cuts/Test_Log.h:
+        * tests/cuts/Test_Log_Formats.mpc:
+        * tests/cuts/Test_Log_Formats_export.h:
+        * tests/cuts/Time_Measurement_Test.cpp:
+        * tests/cuts/Timestamp_Metric_Test.cpp:
+        * tests/cuts/workers/CPU_Worker_Test.cpp:
+        * tests/logs:
+
+          Updated the unit tests so that the boost unit test framework
+          logs output in a JUnit compatible format.
+
+        * tests/ChangeLog:
+
+          Removed this file.
+
 Wed Dec 19 16:16:15 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/Activation_Record.inl (log_endpoint):
-        
+
           The datasize is now saved w/ the endpoint.
 
 Wed Dec 19 15:30:44 UTC 2007  James H. Hill  <hillj@isis.vanderbilt.edu>

@@ -4,6 +4,8 @@
 #include "cuts/Port_Measurement.h"
 #include "ace/Containers_T.h"
 #include "ace/OS_NS_sys_time.h"
+#include "Boost_JUnit_Formatter.h"
+#include "Test_Log.h"
 
 static CUTS_Port_Measurement global_port_;
 static size_t global_key_;
@@ -17,7 +19,7 @@ static size_t global_key_;
 void CUTS_Port_Measurement_contructor (void)
 {
   CUTS_Port_Measurement pm;
-  BOOST_CHECK (pm.endpoints ().current_size () == 0);
+  BOOST_CHECK (pm.endpoints ().current_size () != 0);
 }
 
 //=============================================================================
@@ -112,6 +114,7 @@ void CUTS_Port_Measurement_record_exitpoint (void)
 boost::unit_test::test_suite *
 init_unit_test_suite (int argc, char * argv [])
 {
+  // Create the unit test suite.
   boost::unit_test::test_suite * ts =
     BOOST_TEST_SUITE ("CUTS_Port_Measurement");
 
@@ -119,6 +122,8 @@ init_unit_test_suite (int argc, char * argv [])
   ts->add (BOOST_TEST_CASE (&CUTS_Port_Measurement_contructor));
   ts->add (BOOST_TEST_CASE (&CUTS_Port_Measurement_prepare));
   ts->add (BOOST_TEST_CASE (&CUTS_Port_Measurement_record_exitpoint));
+
+  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter, ts);
 
   return ts;
 }
