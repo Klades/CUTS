@@ -1,10 +1,24 @@
 // $Id$
 
-project : cutslib, boost_unit_test_framework {
+project : cutsexe, boost_unit_test_framework {
   specific (vc71) {
     boost_static_lib_prefix = lib
     boost_cfg = -vc71-mt
   }
+
+  specific (vc8) {
+    boost_static_lib_prefix = lib
+    boost_cfg = -vc8-mt
+  }
+
+  specific (vc9) {
+    boost_static_lib_prefix = lib
+    boost_cfg = -vc9-mt
+  }
+
+  // -- required dependencies
+  after += CUTS_Test_Log_Formats
+  libs  += CUTS_Test_Log_Formats
 
   // -- change the output directory of the binaries
   libout  = $(CUTS_ROOT)/tests/lib
@@ -12,6 +26,10 @@ project : cutslib, boost_unit_test_framework {
   install = $(CUTS_ROOT)/tests/bin
 
   // -- specify the additional import and include locations
-  includes += $(CUTS_ROOT)/tests
+  includes += $(CUTS_ROOT)/tests/cuts
   libpaths += $(CUTS_ROOT)/tests/lib
+
+  Header_Files {
+    $(CUTS_ROOT)/tests/cuts/Test_Log.h
+  }
 }
