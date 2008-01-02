@@ -60,7 +60,7 @@
   <target name="svn.update">
     <exec executable="svn">
       <arg value="update" />
-      <arg path="${env.COSMIC_ROOT}" />
+      <arg path="${env.CUTS_ROOT}" />
     </exec>
   </target>
 

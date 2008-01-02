@@ -1,3 +1,9 @@
+Wed Jan  2 17:09:03 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/autobuild.build:
+        
+          Subversion was updating the wrong location.
+
 Wed Jan  2 16:58:19 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * tests/etc/config/cuts_test.mpb:
