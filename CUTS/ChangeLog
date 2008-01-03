@@ -1,8 +1,17 @@
+Thu Jan  3 15:50:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/formatlog.build:
+        * integration/xsl:
+        * integration/xsl/update-messages.xsl:
+
+          The publishers required by CUTS are now added to the integration
+          solution.
+          
 Thu Jan  3 08:13:02 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/autobuild.build:
         * integration/include/mpc.build:
-        
+
           Fixed errors that were preventing ANT from building CUTS.
 
 Thu Jan  3 08:03:54 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
