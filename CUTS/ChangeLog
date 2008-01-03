@@ -1,7 +1,17 @@
+Thu Jan  3 05:23:54 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/include/svn.build.old:
+        
+          Renamed the file below to force an update.
+
+        * integration/include/svn.build:
+
+          Removed this file.
+
 Thu Jan  3 03:35:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/include/devenv.build:
-        
+
           'failonerror' attribute was misspelled.
 
 Thu Jan  3 03:30:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
