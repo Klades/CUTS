@@ -1,3 +1,9 @@
+Thu Jan  3 17:51:07 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/formatlog.build:
+        
+          Removed serveral of the system declarataions.
+
 Thu Jan  3 15:50:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/formatlog.build:
@@ -6,7 +12,7 @@ Thu Jan  3 15:50:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
           The publishers required by CUTS are now added to the integration
           solution.
-          
+
 Thu Jan  3 08:13:02 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/autobuild.build:
