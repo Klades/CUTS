@@ -2,24 +2,21 @@
 <project name="Makefile Project/Workspace Creator" basedir="." default="build">
   <description>Project for integrating MPC into a ANT build</description>
 
-  <property name="mpc.path" value="" />
-  <property name="mpc.args" value="" />
-
+  <!--property name="mpc.args" value="" /-->
+  
   <target name="mpc.workspace.generate">
-    <!-- this uses the CUTS.mwc workspace -->
     <exec executable="perl" failonerror="true" resultproperty="mpc.workspace.result">
       <arg value="--" />
       <arg path="${mpc.path}mwc.pl" />
-      <arg value="-type ${mpc.type} ${mpc.args} ${mpc.workspace}" />
+      <arg line="-type ${mpc.type} ${mpc.args} ${mpc.workspace}" />
     </exec>
   </target>
 
   <target name="mpc.project.generate">
-    <!-- this uses the CUTS.mwc workspace -->
     <exec executable="perl" failonerror="true" resultproperty="mpc.project.result">
       <arg value="--" />
       <arg path="${mpc.path}mpc.pl" />
-      <arg value="-type ${mpc.type} ${mpc.args} ${mpc.project}" />
+      <arg line="-type ${mpc.type} ${mpc.args} ${mpc.project}" />
     </exec>
   </target>
 </project>

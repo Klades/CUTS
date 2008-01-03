@@ -1,7 +1,14 @@
+Thu Jan  3 08:13:02 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/autobuild.build:
+        * integration/include/mpc.build:
+        
+          Fixed errors that were preventing ANT from building CUTS.
+
 Thu Jan  3 08:03:54 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/include/svn.build:
-        
+
           Changed the 'value' property of the <arg> tag to a
           'line' property.
 
