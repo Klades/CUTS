@@ -1,7 +1,14 @@
+Thu Jan  3 05:33:07 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/include/svn.build:
+        * integration/include/svn.build.old:
+
+          Forcing another dummy revision by renaming a file.
+
 Thu Jan  3 05:23:54 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/include/svn.build.old:
-        
+
           Renamed the file below to force an update.
 
         * integration/include/svn.build:
