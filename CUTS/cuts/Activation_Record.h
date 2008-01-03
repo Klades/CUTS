@@ -108,6 +108,9 @@ public:
    */
   const ACE_Time_Value & start_time (void) const;
 
+  /**
+   * @overload
+   */
   ACE_Time_Value & start_time (void);
 
   /**
@@ -118,6 +121,9 @@ public:
    */
   const ACE_Time_Value & stop_time (void) const;
 
+  /**
+   * @overload
+   */
   ACE_Time_Value & stop_time (void);
 
   /**
@@ -127,6 +133,9 @@ public:
    */
   const CUTS_Activation_Record_Endpoints & endpoints (void) const;
 
+  /**
+   * @overload
+   */
   CUTS_Activation_Record_Endpoints & endpoints (void);
 
   /**
@@ -157,6 +166,11 @@ public:
    */
   const ACE_Time_Value & queue_time (void) const;
 
+  /**
+   * Get the entries in the activation log.
+   *
+   * @return        Entries in the activation log.
+   */
   CUTS_Activation_Record_Entry_Log & entries (void);
 
   /**
