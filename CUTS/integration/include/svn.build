@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
 <project name="Subversion" basedir="." default="svn">
   <description>Project for integrating Subversion into a ANT build</description>
+
+  <property name="svn.args" value="" />
+  <property name="svn.command.args" value="" />
   
   <target name="svn">
     <exec executable="svn">
-      <arg line="${svn.args}" />
-      <arg value="${svn.command}" />
-      <arg line="${svn.command.args}" />
+      <arg value="${svn.args} ${svn.command} ${svn.command.args}" />
     </exec>
   </target>
 
