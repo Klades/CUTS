@@ -3,7 +3,7 @@
   <description>Formats the output of a build log to an acceptable CruiseControl format.</description>
 
   <property name="tempfile" value="${logdir}/temp-log.xml" />
-
+  
   <target name="build">
     <xslt in="${logdir}/${logfile}" out="${tempfile}" extension=".xml" style="xsl/update-messages.xsl" />
     <move file="${tempfile}" tofile="${logdir}/${logfile}" />

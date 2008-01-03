@@ -37,7 +37,14 @@ iodbc = 0
 /// @feature modeling
 /// Enable this feature if you are building any of the modeling
 /// projects in CUTS (i.e., GME interpreters)
+
 modeling = 0
+
+/// @feature cosmic
+/// Enable this feature if you are building any of the modeling
+/// projects related to CoSMIC
+
+cosmic = 0
 
 /// @feature bmw
 /// Enable this feature if you are building the Benchmark Manager Web (BMW)
