@@ -1,11 +1,17 @@
+Thu Jan  3 03:35:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/include/devenv.build:
+        
+          'failonerror' attribute was misspelled.
+
 Thu Jan  3 03:30:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/include/devenv.build:
         * integration/include/mpc.build:
-        
-					- Removed duplicate project names.
-					- Replaced the 'value' attribute of the <arg> tag with the
-					  'line' attribute.
+
+          - Removed duplicate project names.
+          - Replaced the 'value' attribute of the <arg> tag with the
+            'line' attribute.
 
 Thu Jan  3 03:24:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

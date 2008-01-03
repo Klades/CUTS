@@ -3,7 +3,7 @@
   <description>Project for integrating Visual Studio into a ANT build</description>
 
   <target name="devenv.build">
-    <exec executable="devenv.com" failoferror="true" resultproperty="devenv.result">
+    <exec executable="devenv.com" failonerror="true" resultproperty="devenv.result">
       <arg path="${devenv.solution}" />
       <arg line="/useenv /build ${devenv.configuration}" />
     </exec>
