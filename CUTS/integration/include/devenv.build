@@ -7,6 +7,9 @@
       <arg path="${devenv.solution}" />
       <arg line="/useenv /build ${devenv.configuration}" />
     </exec>
+
+    <fail if="${devenv.result}"
+          message="Failed to build '${devenv.configuration}' version of ${devenv.solution}"/>
   </target>
 
   <target name="devenv.clean">
