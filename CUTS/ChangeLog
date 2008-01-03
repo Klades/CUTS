@@ -1,3 +1,9 @@
+Thu Jan  3 01:36:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/include/mwc.build:
+
+          Removed this file.
+
 Thu Jan  3 01:33:14 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/autobuild.build:
@@ -6,7 +12,7 @@ Thu Jan  3 01:33:14 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * integration/include/mpc.build:
         * integration/include/mwc.build:
         * integration/include/svn.build:
-        
+
           Extracted common build task into reusable scripts based
           on the target tool.
 
