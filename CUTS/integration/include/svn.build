@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<project name="Component Workload Emulator (CoWorkEr) Utilization Test Suite (CUTS)" basedir="." default="build">
+  <description>Project for integrating Subversion into a ANT build</description>
+  
+  <target name="svn">
+    <exec executable="svn">
+      <arg value="${svn.command}" />
+      <arg path="${svn.path}" />
+    </exec>
+  </target>
+
+  <target name="svn.update">
+    <property name="svn.command" value="update" />
+    <antcall target="svn" />
+  </target>
+</project>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<project name="Microsoft Visual Studio">
+  <description>Project for integrating Visual Studio into a ANT build</description>
+
+  <target name="devenv.build">
+    <exec executable="devenv.com" failoferror="true" resultproperty="devenv.result">
+      <arg path="${devenv.solution}" />
+      <arg value="/useenv /build ${devenv.configuration}" />
+    </exec>
+  </target>
+
+  <target name="devenv.clean">
+    <exec executable="devenv.com">
+      <arg path="${devenv.solution}" />
+      <arg value="/useenv /clean ${devenv.configuration}" />
+    </exec>
+  </target>
+</project>

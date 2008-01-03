@@ -1,7 +1,19 @@
+Thu Jan  3 01:33:14 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/autobuild.build:
+        * integration/include:
+        * integration/include/devenv.build:
+        * integration/include/mpc.build:
+        * integration/include/mwc.build:
+        * integration/include/svn.build:
+        
+          Extracted common build task into reusable scripts based
+          on the target tool.
+
 Wed Jan  2 17:09:03 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/autobuild.build:
-        
+
           Subversion was updating the wrong location.
 
 Wed Jan  2 16:58:19 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
