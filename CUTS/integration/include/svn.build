@@ -7,7 +7,7 @@
   
   <target name="svn">
     <exec executable="svn">
-      <arg value="${svn.args} ${svn.command} ${svn.command.args}" />
+      <arg line="${svn.args} ${svn.command} ${svn.command.args}" />
     </exec>
   </target>
 

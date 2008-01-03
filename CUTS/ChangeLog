@@ -1,10 +1,17 @@
+Thu Jan  3 08:03:54 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/include/svn.build:
+        
+          Changed the 'value' property of the <arg> tag to a
+          'line' property.
+
 Thu Jan  3 08:01:52 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/include/svn.build:
 
           ${svn.args} and ${svn.command.args} property now have default
           values.
-          
+
 Thu Jan  3 07:29:59 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/include/devenv.build:
