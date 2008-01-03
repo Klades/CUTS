@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Component Workload Emulator (CoWorkEr) Utilization Test Suite (CUTS)" basedir="." default="build">
+<project name="Makefile Project/Workspace Creator" basedir="." default="build">
   <description>Project for integrating MPC into a ANT build</description>
 
   <target name="mpc.workspace.generate">
@@ -7,7 +7,7 @@
     <exec executable="perl">
       <arg value="--" />
       <arg path="${mpc.path}mwc.pl" />
-      <arg value="-type ${mpc.type} ${mpc.args} ${mpc.workspace}" />
+      <arg line="-type ${mpc.type} ${mpc.args} ${mpc.workspace}" />
     </exec>
   </target>
 
@@ -16,7 +16,7 @@
     <exec executable="perl">
       <arg value="--" />
       <arg path="${mpc.path}mpc.pl" />
-      <arg value="-type ${mpc.type} ${mpc.args} ${mpc.project}" />
+      <arg line="-type ${mpc.type} ${mpc.args} ${mpc.project}" />
     </exec>
   </target>
 </project>

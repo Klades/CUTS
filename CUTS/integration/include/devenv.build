@@ -5,14 +5,14 @@
   <target name="devenv.build">
     <exec executable="devenv.com" failoferror="true" resultproperty="devenv.result">
       <arg path="${devenv.solution}" />
-      <arg value="/useenv /build ${devenv.configuration}" />
+      <arg line="/useenv /build ${devenv.configuration}" />
     </exec>
   </target>
 
   <target name="devenv.clean">
     <exec executable="devenv.com">
       <arg path="${devenv.solution}" />
-      <arg value="/useenv /clean ${devenv.configuration}" />
+      <arg line="/useenv /clean ${devenv.configuration}" />
     </exec>
   </target>
 </project>
