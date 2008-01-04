@@ -42,4 +42,10 @@
       <arg value="--report_level=no" />
     </exec>
   </target>
+
+  <target name="test.logs.clean">
+    <delete>
+      <fileset dir="${test.logdir}" includes="*.log" />
+    </delete>
+  </target>
 </project>
