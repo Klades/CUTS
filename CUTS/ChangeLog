@@ -1,7 +1,14 @@
+Fri Jan  4 05:42:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/autobuild.build:
+        * integration/test.build:
+        
+          Integrated the CUTS test build into the main build script.
+
 Fri Jan  4 03:48:12 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/formatlog.build:
-        
+
           Removed unnecessary debug messages.
 
 Fri Jan  4 01:48:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

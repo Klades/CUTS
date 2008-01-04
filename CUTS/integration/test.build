@@ -1,8 +1,9 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <project name="test.build" basedir="." default="test.run.all">
-  <description>Run unit test of CUTS</description>
+  <!-- import the environment -->
   <property environment="env" />
 
+  <!-- set the default properties -->
   <property name="test.basedir" value="${env.CUTS_ROOT}/tests" />
   <property name="test.logdir" value="${test.basedir}/logs" />
   <property name="test.bindir" value="${test.basedir}/bin" />
@@ -25,6 +26,10 @@
     <antcall target="test.run"><param name="test.executable" value="CUTS_Timestamp_Metric_Test" /></antcall>
   </target>
 
+  <!--
+      Helper target to execute the unit test.
+      -->
+  
   <target name="test.run">
     <exec executable="${test.bindir}/${test.executable}"
           dir="${test.bindir}"

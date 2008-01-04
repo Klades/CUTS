@@ -7,6 +7,7 @@
   <import file="include/devenv.build" />
   <import file="include/mpc.build" />
   <import file="include/svn.build" />
+  <import file="test.build" />
 
   <!-- store the target configuration -->
   <property name="devenv.configuration" value="debug" />
@@ -102,15 +103,8 @@
     will bring the workspace up-to-date.
     -->
   
-  <target name="build.tests" depends="build">
-    <antcall target="mpc.workspace.generate">
-      <param name="mpc.workspace" value="${env.CUTS_ROOT}/tests/tests.mwc" />
-      <param name="mpc.args" value="-features boost=1" />
-    </antcall>
-    
-    <property name="devenv.solution" value="${env.CUTS_ROOT}/tests/tests.sln" />
-    <antcall target="devenv.clean" />
-    <antcall target="devenv.build" />
+  <target name="build.tests" depends="workspace.update">
+    <antcall target="build.tests.noupdate" />
   </target>
 
   <!--
@@ -121,7 +115,7 @@
     will bring the workspace up-to-date.
     -->
 
-  <target name="build.tests.current">
+  <target name="build.tests.noupdate">
     <antcall target="mpc.workspace.generate">
       <param name="mpc.workspace" value="${env.CUTS_ROOT}/tests/tests.mwc" />
       <param name="mpc.args" value="-features boost=1" />
