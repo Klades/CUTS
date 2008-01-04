@@ -35,9 +35,9 @@
       <param name="mpc.args" value=" " />
     </antcall>
     
-    <property name="devenv.solution" value="${env.CIAO_ROOT}/CIAO_TAO_DAnCE.sln" />
-    <antcall target="devenv.clean" />
-    <antcall target="devenv.build" />
+    <antcall target="devenv.rebuild">
+      <param name="devenv.solution" value="${env.CIAO_ROOT}/CIAO_TAO_DAnCE.sln" />
+    </antcall>
   </target>
 
   <!--
@@ -53,9 +53,9 @@
       <param name="mpc.workspace" value="${cidlc.basedir}/CIDLC.mwc" />
       <param name="mpc.args" value="-features boost=1,exceptions=1,cidl=1" />
     </antcall>
-    
-    <property name="devenv.solution" value="${cidlc.basedir}/CIDLC.sln" />
-    <antcall target="devenv.clean" />
-    <antcall target="devenv.build" />
+
+    <antcall target="devenv.rebuild">
+      <param name="devenv.solution" value="${cidlc.basedir}/CIDLC.sln" />
+    </antcall>
   </target>
 </project>

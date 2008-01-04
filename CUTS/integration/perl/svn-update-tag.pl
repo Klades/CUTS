@@ -132,7 +132,7 @@ if ($verbose) {
 }
 
 if ($tags_rev != $curr_rev) {
-  print "*** warning: current directory [$curr_dir] is out-of-date; latest tag revision is $tags_rev\n";
+  print "*** info: current directory [$curr_dir] is out-of-date; latest tag revision is $tags_rev\n";
 
   if (open($fh, "svn ls --verbose $tags_dir 2> $info |")) {
     my ($svn_dir) = find_svn_directory ($fh, $tags_rev);

@@ -18,4 +18,9 @@
       <arg line="/useenv /clean ${devenv.configuration}" />
     </exec>
   </target>
+
+  <target name="devenv.rebuild">
+    <antcall target="devenv.clean" />
+    <antcall target="devenv.build" />
+  </target>
 </project>

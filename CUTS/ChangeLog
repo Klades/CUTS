@@ -1,7 +1,19 @@
+Fri Jan  4 22:01:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/_ACE_TAO_CIAO.build:
+        * integration/include/devenv.build:
+        
+          Added a new target named devenv.clean_build, which cleans the
+          solution before building it.
+
+        * integration/perl/svn-update-tag.pl:
+        
+          Changed an error message to an info message.
+
 Fri Jan  4 17:44:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/_ACE_TAO_CIAO.build:
-        
+
           - svn-update-tag.pl is now run in verbose mode.
           - set ${mpc.args} default value as empty.
 
