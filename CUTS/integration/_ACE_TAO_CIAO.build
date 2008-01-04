@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<project name="_ACE_TAO_CIAO.build" basedir="." default="build.ciao_tao_dance">
+  <property environment="env" />
+
+  <!-- import external project files -->
+  <import file="include/devenv.build" />
+  <import file="include/mpc.build" />
+
+  <!-- store the target configuration -->
+  <property name="devenv.configuration" value="debug" />
+  <property name="mpc.path" value="${env.ACE_ROOT}/bin/" />
+
+  <!--
+    @target update.tag
+    -->
+  
+  <target name="update.tag">
+    <exec executable="perl" failonerror="true" resultproperty="update.tag.result">
+      <arg value="--" />
+      <arg path="perl/svn-update-tag.pl" />
+      <arg line="--curr-directory=${currdir} --tags-directory=${tagsdir}" />
+    </exec>
+  </target>
+
+  <!--
+    @target build.ciao_tao_dance
+    
+    Build the current workspace without retrieving any updates from
+    the local repository.
+    -->
+
+  <target name="build.ciao_tao_dance" depends="build.cidlc">
+    <antcall target="mpc.workspace.generate">
+      <param name="mpc.workspace" value="${env.CIAO_ROOT}/CIAO_TAO_DAnCE.mwc" />
+    </antcall>
+    
+    <property name="devenv.solution" value="${env.CIAO_ROOT}/CIAO_TAO_DAnCE.sln" />
+    <antcall target="devenv.clean" />
+    <antcall target="devenv.build" />
+  </target>
+
+  <!--
+    @target build.cidlc
+    
+    Build the CIDL compiler for CIAO + DAnCE
+    -->
+
+  <target name="build.cidlc">
+    <property name="cidlc.basedir" value="${env.CIAO_ROOT}/CIDLC" />
+    
+    <antcall target="mpc.workspace.generate">
+      <param name="mpc.workspace" value="${cidlc.basedir}/CIDLC.mwc" />
+      <param name="mpc.args" value="-features boost=1,exceptions=1,cidl=1" />
+    </antcall>
+    
+    <property name="devenv.solution" value="${cidlc.basedir}/CIDLC.sln" />
+    <antcall target="devenv.clean" />
+    <antcall target="devenv.build" />
+  </target>
+</project>
