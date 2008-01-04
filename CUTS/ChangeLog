@@ -1,10 +1,16 @@
+Fri Jan  4 03:48:12 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/formatlog.build:
+        
+          Removed unnecessary debug messages.
+
 Fri Jan  4 01:48:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/autobuild.build:
-          
-          - Fixed bug that was preventing the integration server from 
+
+          - Fixed bug that was preventing the integration server from
             updating the local working copy.
-          
+
           - Converted the properties to parameters for the 'antcall'
             tag where appropriate.
 
