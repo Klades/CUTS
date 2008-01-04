@@ -19,7 +19,7 @@
     with the lastest source for the repository, then build it.
     -->
   
-  <target name="build" depends="svn.update">
+  <target name="build" depends="workspace.update">
     <antcall target="build.noupdate" />
   </target>
 
@@ -31,39 +31,61 @@
     -->
 
   <target name="build.noupdate">
-    <property name="mpc.workspace" value="${env.CUTS_ROOT}/CUTS.mwc" />
-    <property name="mpc.args" value="-features modeling=1,cosmic=1" />
-    <antcall target="mpc.workspace.generate" />
-
+    <antcall target="mpc.workspace.generate">
+      <param name="mpc.workspace" value="${env.CUTS_ROOT}/CUTS.mwc" />
+      <param name="mpc.args" value="-features modeling=1,cosmic=0" />
+    </antcall>
+    
     <property name="devenv.solution" value="${env.CUTS_ROOT}/CUTS.sln" />
     <antcall target="devenv.clean" />
     <antcall target="devenv.build" />
   </target>
 
-  <target name="build.modeling" depends="svn.update">
-    <property name="mpc.workspace" value="${env.CUTS_ROOT}/CUTS_CoSMIC.mwc" />
-    <property name="mpc.args" value="-features modeling=1,cosmic=1" />
-    <antcall target="mpc.workspace.generate" />
+  <!--
+    @target build.modeling
+    
+    Build the modeling portion of CUTS
+    -->
 
+  <target name="build.modeling" depends="workspace.update">
+    <antcall target="mpc.workspace.generate">
+      <param name="mpc.workspace" value="${env.CUTS_ROOT}/CUTS_CoSMIC.mwc" />
+      <param name="mpc.args" value="-features modeling=1,cosmic=0" />
+    </antcall>
+    
     <property name="devenv.solution" value="${env.CUTS_ROOT}/CUTS_CoSMIC.sln" />
     <antcall target="devenv.clean" />
     <antcall target="devenv.build" />
   </target>
 
-  <target name="build.runtime" depends="svn.update">
-    <property name="mpc.workspace" value="${env.CUTS_ROOT}/CUTS.mwc" />
-    <property name="mpc.args" value="-features modeling=0,cosmic=0" />
-    <antcall target="mpc.workspace.generate" />
+  <!--
+    @target build.runtime
+    
+    Build the only the runtime portion of CUTS
+    -->
 
+  <target name="build.runtime" depends="workspace.update">
+    <antcall target="mpc.workspace.generate">
+      <param name="mpc.workspace" value="${env.CUTS_ROOT}/CUTS.mwc" />
+      <param name="mpc.args" value="-features modeling=0,cosmic=0" />
+    </antcall>
+    
     <property name="devenv.solution" value="${env.CUTS_ROOT}/CUTS.sln" />
     <antcall target="devenv.clean" />
     <antcall target="devenv.build" />
   </target>
 
+  <!--
+    @target build.installers
+    
+    Build the installers for distributing CUTS in binary format
+    -->
+
   <target name="build.installers" depends="build">
-    <property name="mpc.workspace" value="${env.CUTS_ROOT}/install/CUTS_installers.mwc" />
-    <property name="mpc.args" value="-features modeling=1,cosmic=1" />
-    <antcall target="mpc.workspace.generate" />
+    <antcall target="mpc.workspace.generate">
+      <param name="mpc.workspace" value="${env.CUTS_ROOT}/install/CUTS_installers.mwc" />
+      <param name="mpc.args" value="-features modeling=1,cosmic=0" />
+    </antcall>
 
     <!-- we only distribute the release version -->
     <property name="devenv.solution" value="${env.CUTS_ROOT}/install/CUTS_installers.sln" />
@@ -81,16 +103,14 @@
     -->
   
   <target name="build.tests" depends="build">
-    <property name="mpc.workspace" value="${env.CUTS_ROOT}/tests/tests.mwc" />
-    <property name="mpc.args" value="-features boost=1" />
-    <antcall target="mpc.workspace.generate" />
-
+    <antcall target="mpc.workspace.generate">
+      <param name="mpc.workspace" value="${env.CUTS_ROOT}/tests/tests.mwc" />
+      <param name="mpc.args" value="-features boost=1" />
+    </antcall>
+    
     <property name="devenv.solution" value="${env.CUTS_ROOT}/tests/tests.sln" />
     <antcall target="devenv.clean" />
     <antcall target="devenv.build" />
-
-    <import file="unittest.build" />
-    <antcall target="unittest.run.all" />
   </target>
 
   <!--
@@ -102,12 +122,26 @@
     -->
 
   <target name="build.tests.current">
-    <property name="mpc.workspace" value="${env.CUTS_ROOT}/tests/tests.mwc" />
-    <property name="mpc.args" value="-features boost=1" />
-    <antcall target="mpc.workspace.generate" />
-
+    <antcall target="mpc.workspace.generate">
+      <param name="mpc.workspace" value="${env.CUTS_ROOT}/tests/tests.mwc" />
+      <param name="mpc.args" value="-features boost=1" />
+    </antcall>
+    
     <property name="devenv.solution" value="${env.CUTS_ROOT}/tests/tests.sln" />
     <antcall target="devenv.clean" />
     <antcall target="devenv.build" />
+  </target>
+
+  <!--
+    @target workspace.update
+    
+    This is the default target. It will update the current workspace
+    with the lastest source for the repository, then build it.
+    -->
+
+  <target name="workspace.update">
+    <antcall target="svn.update">
+      <param name="svn.command.args" value="${env.CUTS_ROOT}" />
+    </antcall>
   </target>
 </project>

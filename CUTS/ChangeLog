@@ -1,16 +1,26 @@
+Fri Jan  4 01:48:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/autobuild.build:
+          
+          - Fixed bug that was preventing the integration server from 
+            updating the local working copy.
+          
+          - Converted the properties to parameters for the 'antcall'
+            tag where appropriate.
+
 Fri Jan  4 01:22:54 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/config/cuts_base.mpb:
-        
+
           Disabled another annoying windows warning.
 
         * integration/test.build:
         * integration/autobuild.build:
-        
+
           Initial integration of unit test into the autobuild process.
-          
+
         * integration/formatlog.build:
-        
+
           Changed the 'name' attribute of the build project.
 
         * tests/etc/config/cuts_test.mpb:
@@ -23,7 +33,7 @@ Fri Jan  4 01:22:54 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * tests/cuts/Time_Measurement_Test.cpp:
         * tests/cuts/Timestamp_Metric_Test.cpp:
         * tests/cuts/workers/CPU_Worker_Test.cpp:
-        
+
           Updated the unit test to boost-1.34.1
 
 Fri Jan  4 01:22:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
