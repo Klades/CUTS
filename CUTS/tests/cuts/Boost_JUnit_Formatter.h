@@ -22,7 +22,8 @@
 /**
  * @class CUTS_Boost_JUnit_Formatter
  *
- * JUnit log formatter for the Boost unit test framework.
+ * JUnit log formatter for the Boost unit test framework. This is an
+ * custom implementation of the boost::unit_test::unit_test_log_formatter.
  */
 //=============================================================================
 
@@ -30,38 +31,51 @@ class TEST_LOG_FORMATS_Export CUTS_Boost_JUnit_Formatter :
   public boost::unit_test::unit_test_log_formatter
 {
 public:
-  /**
-   * Initializing constructor.
-   *
-   * @param[in]       log         Target unit test log.
-   */
-  explicit CUTS_Boost_JUnit_Formatter (const boost::unit_test::unit_test_log & log);
+  /// Default constructor.
+  CUTS_Boost_JUnit_Formatter (void);
 
   /// Destructor.
   virtual ~CUTS_Boost_JUnit_Formatter (void);
 
-  void start_log (std::ostream & output, bool log_build_info);
+  // Start the custom log.
+  void log_start (std::ostream & output,
+                  boost::unit_test::counter_t test_cases_amount);
 
-  void finish_log (std::ostream & output);
+  // Log the build info for the unit test.
+  void log_build_info (std::ostream & output);
 
-  void log_header (std::ostream & output,
-                   boost::unit_test::unit_test_counter counter);
+  // End the custom log.
+  void log_finish (std::ostream & output);
 
-  void track_test_case_scope (std::ostream & output,
-                              const boost::unit_test::test_case & tc,
-                              bool in_out);
+  // Log the start of a test unit.
+  void test_unit_start (std::ostream & output, 
+                        const boost::unit_test::test_unit & tu );
+  
+  // Log the skipping of a test unit.
+  void test_unit_skipped (std::ostream & output, 
+                          const::boost::unit_test::test_unit & tu);
 
-  void log_exception (std::ostream & output,
-                      boost::unit_test::const_string test_name,
+  // Log the completion of a test unit.
+  void test_unit_finish (std::ostream & output, 
+                         const boost::unit_test::test_unit & tu, 
+                         unsigned long elapsed);
+
+  // Log an exception from the unit test.
+  void log_exception (std::ostream & output, 
+                      const boost::unit_test::log_checkpoint_data & lcd, 
                       boost::unit_test::const_string explanation);
 
-  void begin_log_entry (std::ostream & output,
-                        log_entry_types let);
+  // Begin a log entry.
+  void log_entry_start (std::ostream & output, 
+                        const boost::unit_test::log_entry_data & led,
+                        boost::unit_test::unit_test_log_formatter::log_entry_types let);
 
+  // Log the entry's value.
   void log_entry_value (std::ostream & output,
                         boost::unit_test::const_string value);
 
-  void end_log_entry (std::ostream & output);
+  // End a log entry.
+  void log_entry_finish (std::ostream & output);
 
 private:
   /// Flag that determines of the log entry is a valid type.

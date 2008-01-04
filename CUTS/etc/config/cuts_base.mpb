@@ -2,7 +2,7 @@
 
 project {
   specific (vc6, vc7, vc71, vc8, nmake) {
-    compile_flags += /wd4290 /wd4251
+    compile_flags += /wd4290 /wd4251 /wd4275
   }
 
   includes += $(CUTS_ROOT) $(CUTS_ROOT)/MDE

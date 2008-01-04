@@ -19,7 +19,7 @@ static size_t global_key_;
 void CUTS_Port_Measurement_contructor (void)
 {
   CUTS_Port_Measurement pm;
-  BOOST_CHECK (pm.endpoints ().current_size () != 0);
+  BOOST_CHECK (pm.endpoints ().current_size () == 0);
 }
 
 //=============================================================================
@@ -111,19 +111,17 @@ void CUTS_Port_Measurement_record_exitpoint (void)
 //
 // init_unit_test_suite
 //
-boost::unit_test::test_suite *
-init_unit_test_suite (int argc, char * argv [])
+bool init_unit_test_suite (void)
 {
-  // Create the unit test suite.
-  boost::unit_test::test_suite * ts =
-    BOOST_TEST_SUITE ("CUTS_Port_Measurement");
+  using namespace ::boost::unit_test;
 
-  // Add the unit test to the test suite.
-  ts->add (BOOST_TEST_CASE (&CUTS_Port_Measurement_contructor));
-  ts->add (BOOST_TEST_CASE (&CUTS_Port_Measurement_prepare));
-  ts->add (BOOST_TEST_CASE (&CUTS_Port_Measurement_record_exitpoint));
+  // Add the unit test to the master suite.
+  framework::master_test_suite ().p_name.value = "CUTS_Port_Measurement";
+  framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Port_Measurement_contructor));
+  framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Port_Measurement_prepare));
+  framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Port_Measurement_record_exitpoint));
+  
+  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter, false);
 
-  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter, ts);
-
-  return ts;
+  return true;
 }

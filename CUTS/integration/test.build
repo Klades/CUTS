@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<project name="test.build" basedir="." default="test.run.all">
+  <description>Run unit test of CUTS</description>
+  <property environment="env" />
+
+  <property name="test.basedir" value="${env.CUTS_ROOT}/tests" />
+  <property name="test.logdir" value="${test.basedir}/logs" />
+  <property name="test.bindir" value="${test.basedir}/bin" />
+  
+  <!--
+      run all the unit test in CUTS
+      -->
+
+  <target name="test.run.all">
+    <antcall target="test.run.CUTS" />
+  </target>
+
+  <!--
+      run all the unit test for the CUTS library
+      -->
+
+  <target name="test.run.CUTS">
+    <antcall target="test.run"><param name="test.executable" value="CUTS_Port_Measurement_Test" /></antcall>
+    <antcall target="test.run"><param name="test.executable" value="CUTS_Time_Measurement_Test" /></antcall>
+    <antcall target="test.run"><param name="test.executable" value="CUTS_Timestamp_Metric_Test" /></antcall>
+  </target>
+
+  <target name="test.run">
+    <exec executable="${test.bindir}/${test.executable}"
+          dir="${test.bindir}"
+          output="${test.logdir}/${test.executable}.log"
+          append="false">
+      <arg value="--log_level=test_suite" />
+      <arg value="--detect_memory_leaks=0" />
+      <arg value="--result_code=no" />
+      <arg value="--build_info=yes" />
+      <arg value="--report_level=no" />
+    </exec>
+  </target>
+</project>
