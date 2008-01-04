@@ -17,6 +17,7 @@
 
 #include "Test_Log_Formats_export.h"
 #include "boost/test/unit_test_log_formatter.hpp"
+#include "boost/test/unit_test.hpp"
 
 //=============================================================================
 /**

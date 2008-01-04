@@ -16,11 +16,6 @@ project : cutsexe, boost_unit_test_framework {
 
   macros += BOOST_TEST_DYN_LINK
   
-  specific {
-    boost_cfg = 
-    boost_static_lib_prefix = 
-  }
-
   Source_Files {
     $(CUTS_ROOT)/tests/cuts/Test_Main.cpp
   }
