@@ -29,7 +29,7 @@
     the local repository.
     -->
 
-  <target name="build.ciao_tao_dance" depends="build.cidlc">
+  <target name="build.ciao_tao_dance">
     <antcall target="mpc.workspace.generate">
       <param name="mpc.workspace" value="${env.CIAO_ROOT}/CIAO_TAO_DAnCE.mwc" />
       <param name="mpc.args" value=" " />
