@@ -16,6 +16,7 @@
 #define _CUTS_BE_NATURAL_LANG_GENERATORS_H_
 
 #include "be/BE_Generators_T.h"
+#include "be/BE_algorithm.h"
 #include "ace/Singleton.h"
 #include "ace/Null_Mutex.h"
 #include <fstream>

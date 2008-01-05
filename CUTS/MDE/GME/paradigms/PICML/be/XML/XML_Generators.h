@@ -16,6 +16,7 @@
 #define _CUTS_BE_XML_GENERATORS_H_
 
 #include "be/BE_Generators_T.h"
+#include "be/BE_algorithm.h"
 #include "be/String_Set.h"
 #include <fstream>
 

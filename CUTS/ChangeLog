@@ -1,3 +1,12 @@
+Sat Jan  5 23:08:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/TIOA/TIOA_Generators.h:
+        * MDE/GME/paradigms/PICML/be/XML/XML_Generators.h:
+        * MDE/GME/paradigms/PICML/be/natural-lang/Natural_Lang_Generators.h:
+
+          Fixed build errors on vc8 related to missing include files that
+          define appropriate macros.
+
 Sat Jan  5 22:31:58 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE_Condition_Parser_T.h:
