@@ -43,7 +43,7 @@
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="message[@priority='warn']">
+  <!-- xsl:template match="message[@priority='warn']">
     <xsl:copy>
       <xsl:choose>
         <xsl:when test="contains(child::node()[1], 'MPC_ROOT was set to')">
@@ -58,7 +58,7 @@
 
       <xsl:value-of select="." />
     </xsl:copy>
-  </xsl:template>
+  </xsl:template-->
 
   <xsl:template match="message[@priority='error']">
     <xsl:copy>
