@@ -25,7 +25,7 @@ Visit_RootFolder (const PICML::RootFolder & root)
   if (Udm::find (root, this->implementations_,
       boost::bind (std::equal_to <std::string> (),
                    COWORKER_IMPLEMENTATIONS_NAME,
-                   boost::bind (PICML::ComponentImplementations::name, _1))))
+                   boost::bind (&PICML::ComponentImplementations::name, _1))))
   {
     typedef std::set <PICML::DeploymentPlans> DeploymentPlans_Set;
     DeploymentPlans_Set plans = root.DeploymentPlans_children ();
