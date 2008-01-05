@@ -1,0 +1,30 @@
+REGEDIT4
+
+[HKEY_CURRENT_USER\Software\Classes]
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID]
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{DD5752C3-12EF-43D0-978C-F5C395D5BF13}]
+@="CUTS.Interpreter.PICML"
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{DD5752C3-12EF-43D0-978C-F5C395D5BF13}\ProgID]
+@="CUTS.Interpreter.PICML"
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{DD5752C3-12EF-43D0-978C-F5C395D5BF13}\InProcServer32]
+@="CUTS_PICML.dll"
+
+[HKEY_CURRENT_USER\Software\Classes\CUTS.Interpreter.PICML]
+@="CUTS.Interpreter.PICML"
+
+[HKEY_CURRENT_USER\Software\Classes\CUTS.Interpreter.PICML\CLSID]
+@="{DD5752C3-12EF-43D0-978C-F5C395D5BF13}"
+
+[HKEY_CURRENT_USER\Software\GME\Components\CUTS.Interpreter.PICML]
+"Tooltip"="CUTS interpreter"
+"Icon"=",IDI_COMPICON"
+"Paradigm"="PICML"
+"Type"=dword:00000001
+"Description"="CUTS interpreter"
+
+[HKEY_CURRENT_USER\Software\GME\Components\CUTS.Interpreter.PICML\Associated]
+"PICML"=""
