@@ -30,7 +30,7 @@
 
 template <typename BE_STRATEGY>
 class CUTS_BE_Condition_Parser_T :
-  public boost::spirit::grammar <CUTS_BE_Condition_Parser_T>
+  public boost::spirit::grammar <CUTS_BE_Condition_Parser_T <BE_STRATEGY> >
 {
 public:
   template <typename ScannerT>
