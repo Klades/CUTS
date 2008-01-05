@@ -13,6 +13,12 @@
   <xsl:template match="message[@priority='info']">
     <xsl:copy>
       <xsl:choose>
+        <xsl:when test="contains(child::node()[1], ': warning C')" >
+          <xsl:attribute name="priority">warn</xsl:attribute>
+        </xsl:when>
+        <xsl:when test="contains(child::node()[1], ': warning PRJ')" >
+          <xsl:attribute name="priority">warn</xsl:attribute>
+        </xsl:when>
         <xsl:when test="contains(child::node()[1], ': error C')" >
           <xsl:attribute name="priority">error</xsl:attribute>
         </xsl:when>
