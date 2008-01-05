@@ -16,7 +16,16 @@
         <xsl:when test="contains(child::node()[1], ': error C')" >
           <xsl:attribute name="priority">error</xsl:attribute>
         </xsl:when>
-        <xsl:when test="contains(child::node()[1], 'LINK : fatal error LNK')">
+        <xsl:when test="contains(child::node()[1], ': error PRJ')">
+          <xsl:attribute name="priority">error</xsl:attribute>
+        </xsl:when>
+        <xsl:when test="contains(child::node()[1], ': fatal error C')" >
+          <xsl:attribute name="priority">error</xsl:attribute>
+        </xsl:when>
+        <xsl:when test="contains(child::node()[1], ': fatal error PRJ')">
+          <xsl:attribute name="priority">error</xsl:attribute>
+        </xsl:when>
+        <xsl:when test="contains(child::node()[1], ': fatal error LNK')">
           <xsl:attribute name="priority">error</xsl:attribute>
         </xsl:when>
         <xsl:otherwise>
