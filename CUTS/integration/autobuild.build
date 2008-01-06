@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <project name="autobuild.build" basedir="." default="build">
   <description>Build script for running integration test with CUTS using ANT.</description>
   <property environment="env" />
@@ -15,18 +15,18 @@
 
   <!--
     @target build
-    
+
     This is the default target. It will update the current workspace
     with the lastest source for the repository, then build it.
     -->
-  
+
   <target name="build" depends="workspace.update">
     <antcall target="build.noupdate" />
   </target>
 
   <!--
     @target build.noupdate
-    
+
     Build the current workspace without retrieving any updates from
     the local repository.
     -->
@@ -36,15 +36,15 @@
       <param name="mpc.workspace" value="${env.CUTS_ROOT}/CUTS.mwc" />
       <param name="mpc.args" value="-features modeling=1,cosmic=0" />
     </antcall>
-    
-    <property name="devenv.solution" value="${env.CUTS_ROOT}/CUTS.sln" />
-    <antcall target="devenv.clean" />
-    <antcall target="devenv.build" />
+
+    <antcall target="devenv.rebuild">
+      <param name="devenv.solution" value="${env.CUTS_ROOT}/CUTS.sln" />
+    </antcall>
   </target>
 
   <!--
     @target build.modeling
-    
+
     Build the modeling portion of CUTS
     -->
 
@@ -53,15 +53,15 @@
       <param name="mpc.workspace" value="${env.CUTS_ROOT}/CUTS_CoSMIC.mwc" />
       <param name="mpc.args" value="-features modeling=1,cosmic=0" />
     </antcall>
-    
-    <property name="devenv.solution" value="${env.CUTS_ROOT}/CUTS_CoSMIC.sln" />
-    <antcall target="devenv.clean" />
-    <antcall target="devenv.build" />
+
+    <antcall target="devenv.rebuild">
+      <param name="devenv.solution" value="${env.CUTS_ROOT}/CUTS_CoSMIC.sln" />
+    </antcall>
   </target>
 
   <!--
     @target build.runtime
-    
+
     Build the only the runtime portion of CUTS
     -->
 
@@ -70,15 +70,15 @@
       <param name="mpc.workspace" value="${env.CUTS_ROOT}/CUTS.mwc" />
       <param name="mpc.args" value="-features modeling=0,cosmic=0" />
     </antcall>
-    
-    <property name="devenv.solution" value="${env.CUTS_ROOT}/CUTS.sln" />
-    <antcall target="devenv.clean" />
-    <antcall target="devenv.build" />
+
+    <antcall target="devenv.rebuild">
+      <param name="devenv.solution" value="${env.CUTS_ROOT}/CUTS.sln" />
+    </antcall>
   </target>
 
   <!--
     @target build.installers
-    
+
     Build the installers for distributing CUTS in binary format
     -->
 
@@ -89,28 +89,28 @@
     </antcall>
 
     <!-- we only distribute the release version -->
-    <property name="devenv.solution" value="${env.CUTS_ROOT}/install/CUTS_installers.sln" />
-    <property name="devenv.configuration" value="release" />
-    <antcall target="devenv.clean" />
-    <antcall target="devenv.build" />
+    <antcall target="devenv.rebuild">
+      <param name="devenv.solution" value="${env.CUTS_ROOT}/install/CUTS_installers.sln" />
+      <param name="devenv.configuration" value="release" />
+    </antcall>
   </target>
 
   <!--
     @target build.tests
-    
-    Builds the unit tests for CUTS based on the current state of the 
+
+    Builds the unit tests for CUTS based on the current state of the
     workspace. If this workspace is out-of-date, then this target
     will bring the workspace up-to-date.
     -->
-  
+
   <target name="build.tests" depends="workspace.update">
     <antcall target="build.tests.noupdate" />
   </target>
 
   <!--
     @target build.tests.current
-    
-    Builds the unit tests for CUTS based on the current state of the 
+
+    Builds the unit tests for CUTS based on the current state of the
     workspace. If this workspace is out-of-date, then this target
     will bring the workspace up-to-date.
     -->
@@ -120,15 +120,15 @@
       <param name="mpc.workspace" value="${env.CUTS_ROOT}/tests/tests.mwc" />
       <param name="mpc.args" value="-features boost=1" />
     </antcall>
-    
-    <property name="devenv.solution" value="${env.CUTS_ROOT}/tests/tests.sln" />
-    <antcall target="devenv.clean" />
-    <antcall target="devenv.build" />
+
+    <antcall target="devenv.rebuild">
+      <param name="devenv.solution" value="${env.CUTS_ROOT}/tests/tests.sln" />
+    </antcall>
   </target>
 
   <!--
     @target workspace.update
-    
+
     This is the default target. It will update the current workspace
     with the lastest source for the repository, then build it.
     -->
