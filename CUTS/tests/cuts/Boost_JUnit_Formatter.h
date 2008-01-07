@@ -35,6 +35,13 @@ public:
   /// Default constructor.
   CUTS_Boost_JUnit_Formatter (void);
 
+  /**
+   * Initializing constructor.
+   *
+   * @param[in]       package       Package name of the test.
+   */
+  CUTS_Boost_JUnit_Formatter (const std::string & package);
+
   /// Destructor.
   virtual ~CUTS_Boost_JUnit_Formatter (void);
 
@@ -49,25 +56,25 @@ public:
   void log_finish (std::ostream & output);
 
   // Log the start of a test unit.
-  void test_unit_start (std::ostream & output, 
+  void test_unit_start (std::ostream & output,
                         const boost::unit_test::test_unit & tu );
-  
+
   // Log the skipping of a test unit.
-  void test_unit_skipped (std::ostream & output, 
+  void test_unit_skipped (std::ostream & output,
                           const::boost::unit_test::test_unit & tu);
 
   // Log the completion of a test unit.
-  void test_unit_finish (std::ostream & output, 
-                         const boost::unit_test::test_unit & tu, 
+  void test_unit_finish (std::ostream & output,
+                         const boost::unit_test::test_unit & tu,
                          unsigned long elapsed);
 
   // Log an exception from the unit test.
-  void log_exception (std::ostream & output, 
-                      const boost::unit_test::log_checkpoint_data & lcd, 
+  void log_exception (std::ostream & output,
+                      const boost::unit_test::log_checkpoint_data & lcd,
                       boost::unit_test::const_string explanation);
 
   // Begin a log entry.
-  void log_entry_start (std::ostream & output, 
+  void log_entry_start (std::ostream & output,
                         const boost::unit_test::log_entry_data & led,
                         boost::unit_test::unit_test_log_formatter::log_entry_types let);
 
@@ -79,6 +86,9 @@ public:
   void log_entry_finish (std::ostream & output);
 
 private:
+  /// The package of the test suite.
+  std::string package_;
+
   /// Flag that determines of the log entry is a valid type.
   std::string closing_tag_;
 };

@@ -7,7 +7,18 @@
 //
 // CUTS_Boost_JUnit_Formatter
 //
-CUTS_Boost_JUnit_Formatter::CUTS_Boost_JUnit_Formatter (void)
+CUTS_Boost_JUnit_Formatter::
+CUTS_Boost_JUnit_Formatter (void)
+{
+
+}
+
+//
+// CUTS_Boost_JUnit_Formatter
+//
+CUTS_Boost_JUnit_Formatter::
+CUTS_Boost_JUnit_Formatter (const std::string & package)
+: package_ (package)
 {
 
 }
@@ -52,19 +63,29 @@ void CUTS_Boost_JUnit_Formatter::log_finish (std::ostream & output)
 // test_unit_start
 //
 void CUTS_Boost_JUnit_Formatter::
-test_unit_start (std::ostream & output, 
+test_unit_start (std::ostream & output,
                  const boost::unit_test::test_unit & tu)
 {
-  output 
-    << "<test" << tu.p_type_name << " name=\"" << tu.p_name << "\">"
-    << std::endl;
+  switch (tu.p_type)
+  {
+  case boost::unit_test::tut_any:
+  case boost::unit_test::tut_case:
+    output << "<testcase";
+    break;
+
+  case boost::unit_test::tut_suite:
+    output << "<testsuite package=\"" << this->package_ << "\"";
+    break;
+  }
+
+  output << " name=\"" << tu.p_name << "\">" << std::endl;
 }
-  
+
 //
 // test_unit_finish
 //
 void CUTS_Boost_JUnit_Formatter::
-test_unit_finish (std::ostream & output, 
+test_unit_finish (std::ostream & output,
                   const boost::unit_test::test_unit & tu,
                   unsigned long elapsed)
 {
@@ -85,8 +106,8 @@ test_unit_skipped (std::ostream & output,
 // log_exception
 //
 void CUTS_Boost_JUnit_Formatter::
-log_exception (std::ostream & output, 
-               const boost::unit_test::log_checkpoint_data & lcd, 
+log_exception (std::ostream & output,
+               const boost::unit_test::log_checkpoint_data & lcd,
                boost::unit_test::const_string explanation)
 {
   output << "<error>" << explanation << "</error>" << std::endl;
@@ -96,7 +117,7 @@ log_exception (std::ostream & output,
 // log_entry_begin
 //
 void CUTS_Boost_JUnit_Formatter::
-log_entry_start (std::ostream & output, 
+log_entry_start (std::ostream & output,
                  const boost::unit_test::log_entry_data & led,
                  boost::unit_test::unit_test_log_formatter::log_entry_types let)
 {

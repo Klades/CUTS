@@ -48,6 +48,8 @@ bool init_unit_test_suite (void)
   framework::master_test_suite ().p_name.value = "CUTS_CPU_Worker";
   framework::master_test_suite ().add (BOOST_TEST_CASE (&Unit_Test_CPU_run));
 
-  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter, false);
+  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS_CPU_Worker"),
+                               false);
+
   return true;
 }

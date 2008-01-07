@@ -20,7 +20,7 @@
   do \
   { \
     boost::unit_test::unit_test_log_formatter * formatter = 0; \
-    ACE_NEW_RETURN (formatter, format_type (), retval); \
+    ACE_NEW_RETURN (formatter, format_type, retval); \
     boost::unit_test::unit_test_log.set_formatter (formatter); \
   } while (0);
 

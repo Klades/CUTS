@@ -120,8 +120,8 @@ bool init_unit_test_suite (void)
   framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Port_Measurement_contructor));
   framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Port_Measurement_prepare));
   framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Port_Measurement_record_exitpoint));
-  
-  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter, false);
+
+  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS"), false);
 
   return true;
 }

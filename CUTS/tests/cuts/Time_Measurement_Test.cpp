@@ -145,6 +145,6 @@ bool init_unit_test_suite (void)
   framework::master_test_suite ().add (BOOST_TEST_CASE (&Time_Measurement_Reset));
   framework::master_test_suite ().add (BOOST_TEST_CASE (&Time_Measurement_Set));
 
-  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter, false);
+  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS"), false);
   return true;
 }

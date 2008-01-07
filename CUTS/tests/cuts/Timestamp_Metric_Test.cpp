@@ -83,6 +83,6 @@ bool init_unit_test_suite (void)
   framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_reset));
   framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_is_valid));
 
-  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter, false);
+  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS"), false);
   return true;
 }
