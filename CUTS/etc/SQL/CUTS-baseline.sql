@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS baseline
 (
   bid             INT             NOT NULL auto_increment,
   instance        INT             NOT NULL,
-  host            INT             NOT NULL DEFAULT 0,
+  host            INT,
   inport          INT             NOT NULL,
   outport         INT,
   metric_type     ENUM ('transit',

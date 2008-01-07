@@ -1,3 +1,11 @@
+Mon Jan  7 23:25:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-baseline.sql:
+
+          The host column is allowed to contain a NULL value. This
+          signifies that the host is unknown, and the current baseline
+          is the default metric.
+
 Mon Jan  7 19:28:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * tests/cuts/Boost_JUnit_Formatter.h:
