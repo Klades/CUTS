@@ -1,3 +1,10 @@
+Tue Jan  8 03:39:46 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-baseline.sql:
+
+          Bug fix that was preventing baseline metrics from updating
+          if it already existed.
+
 Tue Jan  8 02:14:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-baseline.sql:

@@ -56,6 +56,25 @@ CREATE TABLE IF NOT EXISTS baseline
 DELIMITER //
 
 -------------------------------------------------------------------------------
+-- FUNCTION: cuts.get_component_baseline_id
+-------------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS cuts.get_component_baseline_id //
+
+CREATE FUNCTION cuts.get_component_baseline_id (
+  hid INT, inst INT, mtype VARCHAR (10), iid INT, oid INT)
+  RETURNS INT
+BEGIN
+  DECLARE baseline_id INT;
+
+  SELECT bid INTO baseline_id FROM cuts.baseline
+    WHERE (host = hid AND instance = inst AND metric_type = mtype AND
+           inport = iid AND outport = oid);
+
+  RETURN baseline_id;
+END; //
+
+-------------------------------------------------------------------------------
 -- PROCEDURE: cuts.insert_component_baseline
 -------------------------------------------------------------------------------
 
@@ -77,7 +96,7 @@ BEGIN
   DECLARE cid INT;
   DECLARE iid INT;
   DECLARE oid INT;
-  DECLARE baseline_count INT;
+  DECLARE baseline_id INT;
 
   -- get the type id of the component
   SELECT typeid INTO tid FROM component_instances
@@ -98,15 +117,14 @@ BEGIN
       AND port_type = 'source';
 
   -- determine if the baseline already exists
-  SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
-    WHERE (instance = cid AND host = hid AND inport = iid AND outport = oid)
-    LIMIT 1;
+  SET baseline_id =
+    cuts.get_component_baseline_id (hid, cid, mtype, iid, oid);
 
-  IF baseline_count = 1 THEN
+  IF NOT baseline_id IS NULL THEN
     -- update an existing baseline metric
     UPDATE cuts.baseline
       SET event_count = ec, best_time = bt, worst_time = wt, total_time = tt
-      WHERE (instance = cid AND host = hid AND inport = iid AND outport = oid AND metric_type = mtype);
+      WHERE bid = baseline_id;
   ELSE
     -- create a new baseline metric
     INSERT INTO cuts.baseline (instance, host, metric_type, inport, outport,
