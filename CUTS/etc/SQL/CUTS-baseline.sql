@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS baseline
 (
   bid             INT             NOT NULL auto_increment,
   instance        INT             NOT NULL,
-  host            INT             NOT NULL,
+  host            INT,
   inport          INT             NOT NULL,
   outport         INT,
   metric_type     ENUM ('transit',
@@ -116,7 +116,6 @@ BEGIN
   DECLARE iid INT;
   DECLARE oid INT;
   DECLARE baseline_count INT;
-  DECLARE baseline_id INT;
 
   -- get the type id of the component
   SELECT typeid INTO tid FROM component_instances
@@ -141,13 +140,10 @@ BEGIN
     cuts.get_component_baseline_count_i (hid, cid, mtype, iid, oid);
 
   IF baseline_count > 0 THEN
-    SET baseline_id =
-      cuts.get_component_baseline_id (hid, cid, mtype, iid, oid);
-
     -- update an existing baseline metric
     UPDATE cuts.baseline
       SET event_count = ec, best_time = bt, worst_time = wt, total_time = tt
-      WHERE bid = baseline_id;
+      WHERE bid = cuts.get_component_baseline_id (hid, cid, mtype, iid, oid);
   ELSE
     -- create a new baseline metric
     INSERT INTO cuts.baseline (instance, host, metric_type, inport, outport,
@@ -225,15 +221,7 @@ CREATE PROCEDURE
     IN wt INT,
     IN tt INT)
 BEGIN
-  CALL insert_component_baseline_using_hostname ('unknown',
-                                                 inst,
-                                                 mtype,
-                                                 inport,
-                                                 outport,
-                                                 ec,
-                                                 bt,
-                                                 wt,
-                                                 tt);
+  CALL cuts.insert_component_baseline (NULL, inst, mtype, inport, outport, ec, bt, wt, tt);
 END; //
 
 -------------------------------------------------------------------------------

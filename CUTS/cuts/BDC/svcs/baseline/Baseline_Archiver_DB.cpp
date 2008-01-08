@@ -4,6 +4,7 @@
 #include "cuts/Component_Registry.h"
 #include "cuts/Component_Info.h"
 #include "cuts/Component_Type.h"
+#include "cuts/Host_Table_Entry.h"
 #include "cuts/System_Metric.h"
 #include "cuts/Component_Metric.h"
 #include "cuts/Port_Metric.h"
@@ -63,7 +64,7 @@ bool CUTS_Baseline_Archiver_DB::init (void)
       if (this->query_ != 0)
         this->query_->prepare (stmt);
 
-      // Bind the parameters of the query the correct variables.
+      // Setup the parameters for the query.
       if (!this->is_default_)
         this->query_->parameter (0)->bind (this->hostname_, 0);
       else
@@ -129,10 +130,12 @@ visit_system_metric (const CUTS_System_Metric & sm)
                          this->info_->inst_.c_str (),
                          sizeof (this->instance_));
 
-        /// @todo Use the real hostname for baseline metrics
-        ACE_OS::strncpy (this->hostname_,
-                         "unknown",
-                         sizeof (this->hostname_));
+        if (!this->is_default_)
+        {
+          ACE_OS::strncpy (this->hostname_,
+                           this->info_->host_info_->hostname_.c_str (),
+                           sizeof (this->hostname_));
+        }
 
         if (iter->item ())
           iter->item ()->accept (*this);

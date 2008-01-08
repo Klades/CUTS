@@ -209,75 +209,67 @@ handle_component (const CUTS_Component_Info & info)
                           this->server_.c_str (),
                           CUTS_DEFAULT_PORT);
 
-    if (this->conn_->is_connected ())
+    VERBOSE_MESSAGE ((LM_INFO,
+                      "*** info [baseline]: successfully connected to "
+                      "database on %s\n",
+                      this->server_.c_str ()));
+
+    // Register the component information.
+    if (this->registry_.register_component (info))
     {
       VERBOSE_MESSAGE ((LM_INFO,
-                        "*** info [baseline]: successfully connected to "
-                        "database on %s\n",
-                        this->server_.c_str ()));
+                        "*** info [baseline]: successfully registered %s\n",
+                        info.inst_.c_str ()));
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "*** info [baseline]: failed to register %s\n",
+                  info.inst_.c_str ()));
+    }
 
-      // Register the component information.
-      if (this->registry_.register_component (info))
+    // Let's get the id of the component's host. If the host
+    // information is not available then we need to treat this
+    // as a default baseline test.
+    if (!this->default_ && info.host_info_ != 0)
+    {
+      // We are going to treat this as default baseline since either
+      // the user specified, or we don't know anything about the host.
+      if (this->registry_.register_host (info.host_info_->ipaddr_.c_str (),
+                                         info.host_info_->hostname_.c_str ()))
       {
         VERBOSE_MESSAGE ((LM_INFO,
-                          "*** info [baseline]: successfully registered %s\n",
-                          info.inst_.c_str ()));
+                          "*** info [baseline]: successfully registered "
+                          "%s [%s]\n",
+                          info.host_info_->hostname_.c_str (),
+                          info.host_info_->ipaddr_.c_str ()));
       }
       else
       {
         ACE_ERROR ((LM_ERROR,
-                    "*** info [baseline]: failed to register %s\n",
-                    info.inst_.c_str ()));
+                    "*** error [baseline]: failed to register %s [%s]\n",
+                    info.host_info_->hostname_.c_str (),
+                    info.host_info_->ipaddr_.c_str ()));
       }
-
-      // Let's get the id of the component's host. If the host
-      // information is not available then we need to treat this
-      // as a default baseline test.
-      if (!this->default_ && info.host_info_ != 0)
-      {
-        // We are going to treat this as default baseline since either
-        // the user specified, or we don't know anything about the host.
-        if (this->registry_.register_host (info.host_info_->ipaddr_.c_str (),
-                                           info.host_info_->hostname_.c_str ()))
-        {
-          VERBOSE_MESSAGE ((LM_INFO,
-                            "*** info [baseline]: successfully registered "
-                            "%s [%s]\n",
-                            info.host_info_->hostname_.c_str (),
-                            info.host_info_->ipaddr_.c_str ()));
-        }
-        else
-        {
-          ACE_ERROR ((LM_ERROR,
-                      "*** error [baseline]: failed to register %s [%s]\n",
-                      info.host_info_->hostname_.c_str (),
-                      info.host_info_->ipaddr_.c_str ()));
-        }
-      }
-      else
-      {
-        // We are going to treat this as default baseline since either
-        // the user specified, or we don't know anything about the host.
-        VERBOSE_MESSAGE ((LM_INFO,
-                          "*** info [baseline]: creating default baseline\n"));
-      }
-
-      // Disconnect from the database.
-      this->conn_->disconnect ();
-      return 0;
     }
     else
     {
-      // Notify the user that we were not able to connect to the
-      // specfied database.
-      ACE_ERROR ((LM_ERROR,
-                  "*** error [baseline]: failed to connect to database "
-                  "on %s\n",
-                  this->server_.c_str ()));
+      // We are going to treat this as default baseline since either
+      // the user specified, or we don't know anything about the host.
+      VERBOSE_MESSAGE ((LM_INFO,
+                        "*** info [baseline]: creating default baseline\n"));
     }
+
+    // Disconnect from the database.
+    this->conn_->disconnect ();
+    return 0;
   }
-  catch (CUTS_DB_Exception & )
+  catch (CUTS_DB_Exception & ex)
   {
+    ACE_DEBUG ((LM_ERROR,
+                "*** error (baseline): %s\n",
+                ex.message ().c_str ()));
+
     if (this->conn_->is_connected ())
       this->conn_->disconnect ();
   }

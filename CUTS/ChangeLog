@@ -1,3 +1,19 @@
+Tue Jan  8 21:16:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.cpp:
+        * cuts/BDC/svcs/baseline/Baseline_Service.cpp:
+        * etc/SQL/CUTS-baseline.sql:
+
+          The default baseline metric of a component is now determined
+          by a NULL value for the hostid.
+
+Tue Jan  8 15:44:15 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.cpp:
+        * cuts/BDC/svcs/baseline/Baseline_Service.cpp:
+
+        * etc/SQL/CUTS-baseline.sql:
+
 Tue Jan  8 06:08:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.h:
