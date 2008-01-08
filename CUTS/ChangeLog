@@ -1,9 +1,19 @@
+Tue Jan  8 06:08:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.h:
+        * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.cpp:
+        * cuts/BDC/svcs/baseline/Baseline_Service.cpp:
+        * cuts/BDC/svcs/baseline/baseline.mpc:
+
+          The baseline service now handles the --default parameter
+          as specified in the README.
+
 Tue Jan  8 05:47:14 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/CCM_CoWorkEr_Proxy_T.cpp:
         * cuts/Event_Handler_Manager_T.h:
         * cuts/Event_Handler_Manager_T.inl:
-        
+
           Fixed build errors on non-Windows systems related to improper
           use of the keyword 'typename' for variable declarations.
 

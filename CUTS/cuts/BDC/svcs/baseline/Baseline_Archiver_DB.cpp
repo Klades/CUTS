@@ -19,10 +19,12 @@
 //
 CUTS_Baseline_Archiver_DB::
 CUTS_Baseline_Archiver_DB (const CUTS_Component_Registry & registry,
-                           CUTS_DB_Connection & conn)
+                           CUTS_DB_Connection & conn,
+                           bool is_default)
 : registry_ (registry),
   info_ (0),
   conn_ (conn),
+  is_default_ (is_default),
   query_ (0)
 {
 
@@ -62,7 +64,11 @@ bool CUTS_Baseline_Archiver_DB::init (void)
         this->query_->prepare (stmt);
 
       // Bind the parameters of the query the correct variables.
-      this->query_->parameter (0)->bind (this->hostname_, 0);
+      if (!this->is_default_)
+        this->query_->parameter (0)->bind (this->hostname_, 0);
+      else
+        this->query_->parameter (0)->null ();
+
       this->query_->parameter (1)->bind (this->instance_, 0);
       this->query_->parameter (2)->bind (this->metric_type_, 0);
       this->query_->parameter (3)->bind (this->inport_, 0);

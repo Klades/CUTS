@@ -12,5 +12,6 @@ project (CUTS_BDC_Baseline) : cuts_bdcsvc, cuts_dbsvc {
 
   Documentation_Files {
     README
+    $(CUTS_ROOT)/etc/SQL/CUTS-baseline.sql
   }
 }

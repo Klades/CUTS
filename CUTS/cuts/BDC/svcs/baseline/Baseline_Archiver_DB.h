@@ -44,10 +44,13 @@ public:
    * must be open. If the connection is not open, then the baseline
    * metrics will not be logged to the database.
    *
-   * @param[in]     conn        The target connection.
+   * @param[in]     registry      Registry of known components.
+   * @param[in]     conn          The target connection.
+   * @param[in]     is_default    Metrics are the default baseline.
    */
   CUTS_Baseline_Archiver_DB (const CUTS_Component_Registry & registry,
-                             CUTS_DB_Connection & conn);
+                             CUTS_DB_Connection & conn,
+                             bool is_default = false);
 
   /// Destructor.
   virtual ~CUTS_Baseline_Archiver_DB (void);
@@ -72,11 +75,14 @@ private:
   /// Registration information for all the components.
   const CUTS_Component_Registry & registry_;
 
-  /// The information about the component.
-  const CUTS_Component_Info * info_;
-
   /// The target database connection.
   CUTS_DB_Connection & conn_;
+
+  /// The metrics are the default.
+  bool is_default_;
+
+  /// The information about the component.
+  const CUTS_Component_Info * info_;
 
   /// The query for inserting metrics.
   CUTS_DB_Query * query_;

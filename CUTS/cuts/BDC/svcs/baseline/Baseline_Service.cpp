@@ -133,38 +133,26 @@ int CUTS_Baseline_Service::handle_deactivate (void)
                             this->server_.c_str (),
                             CUTS_DEFAULT_PORT);
 
-      if (this->conn_->is_connected ())
-      {
-        VERBOSE_MESSAGE ((LM_INFO,
-                          "*** info [baseline]: saving metrics to "
-                          "datatbase\n"));
+      VERBOSE_MESSAGE ((LM_INFO,
+                        "*** info [baseline]: saving metrics to "
+                        "datatbase\n"));
 
+      CUTS_Baseline_Archiver_DB
+        archiver (this->svc_mgr ()->testing_service ()->registry (),
+                  *this->conn_,
+                  this->default_);
 
-        CUTS_Baseline_Archiver_DB
-          archiver (this->svc_mgr ()->testing_service ()->registry (),
-                    *this->conn_);
+      // Archive the baseline metrics.
+      this->svc_mgr ()->metrics ()->accept (archiver);
 
-        // Archive the baseline metrics.
-        this->svc_mgr ()->metrics ()->accept (archiver);
+      // Disconnect from the database.
+      this->conn_->disconnect ();
 
-        // Disconnect from the database.
-        this->conn_->disconnect ();
+      VERBOSE_MESSAGE ((LM_INFO,
+                        "*** info [baseline]: closed connection to %s\n",
+                        this->server_.c_str ()));
 
-        VERBOSE_MESSAGE ((LM_INFO,
-                          "*** info [baseline]: closed connection to %s\n",
-                          this->server_.c_str ()));
-
-        return 0;
-      }
-      else
-      {
-        // Notify the user that we failed to connect to the
-        // specified databsae.
-        ACE_ERROR ((LM_ERROR,
-                    "*** error [baseline]: failed to connect to database "
-                    "on %s\n",
-                    this->server_.c_str ()));
-      }
+      return 0;
     }
     catch (CUTS_DB_Exception & ex)
     {
