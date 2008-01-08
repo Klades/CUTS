@@ -37,7 +37,7 @@ public:
    *
    * @param[in]       c         The target component.
    */
-  virtual void bind (typename _type * c) = 0;
+  virtual void bind (_type * c) = 0;
 
 protected:
   /// Default constructor.
@@ -87,14 +87,14 @@ public:
   virtual ~CUTS_Event_Handler_Manager_T (void);
 
   // Bind the component to the manager.
-  virtual void bind (typename Component_Type * method);
+  virtual void bind (Component_Type * method);
 
   /**
    * @overload
    *
    * @param[in]         method            The target method.
    */
-  void bind (typename Event_Method method);
+  void bind (Event_Method method);
 
   /// Unbind the event handler from the agent and method.
   void unbind (void);

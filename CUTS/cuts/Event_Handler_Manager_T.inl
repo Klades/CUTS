@@ -1,3 +1,4 @@
+// -*- C++ -*-
 // $Id$
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -52,7 +53,7 @@ port_agent (void)
 template <typename COMPONENT, typename EVENTTYPE>
 CUTS_INLINE
 void CUTS_Event_Handler_Manager_T <COMPONENT, EVENTTYPE>::
-bind (typename Component_Type * component)
+bind (Component_Type * component)
 {
   this->config_.component_ = component;
 }

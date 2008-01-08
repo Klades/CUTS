@@ -1,3 +1,12 @@
+Tue Jan  8 05:47:14 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/CCM_CoWorkEr_Proxy_T.cpp:
+        * cuts/Event_Handler_Manager_T.h:
+        * cuts/Event_Handler_Manager_T.inl:
+        
+          Fixed build errors on non-Windows systems related to improper
+          use of the keyword 'typename' for variable declarations.
+
 Tue Jan  8 03:52:57 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-baseline.sql:

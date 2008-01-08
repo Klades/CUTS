@@ -66,7 +66,7 @@ cuts_proxy_impl (const char * impl)
       this->sc_->set_session_context (this->context_.get ());
 
     // We need to configure the component in all the event handlers.
-    Event_Handler_Set::ITERATOR iter (this->event_handlers_);
+    typename Event_Handler_Set::ITERATOR iter (this->event_handlers_);
 
     for ( ; !iter.done (); iter ++)
       (*iter)->bind (this->type_impl_.ptr ());
