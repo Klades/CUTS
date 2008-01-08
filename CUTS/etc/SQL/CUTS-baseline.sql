@@ -75,6 +75,25 @@ BEGIN
 END; //
 
 -------------------------------------------------------------------------------
+-- FUNCTION: cuts.get_component_baseline_count_i
+-------------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS cuts.get_component_baseline_count_i //
+
+CREATE FUNCTION cuts.get_component_baseline_count_i (
+  hid INT, inst INT, mtype VARCHAR (10), iid INT, oid INT)
+  RETURNS INT
+BEGIN
+  DECLARE baseline_count INT;
+
+  SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
+    WHERE (host = hid AND instance = inst AND metric_type = mtype AND
+           inport = iid AND outport = oid);
+
+  RETURN baseline_count;
+END; //
+
+-------------------------------------------------------------------------------
 -- PROCEDURE: cuts.insert_component_baseline
 -------------------------------------------------------------------------------
 
@@ -96,6 +115,7 @@ BEGIN
   DECLARE cid INT;
   DECLARE iid INT;
   DECLARE oid INT;
+  DECLARE baseline_count INT;
   DECLARE baseline_id INT;
 
   -- get the type id of the component
@@ -117,10 +137,13 @@ BEGIN
       AND port_type = 'source';
 
   -- determine if the baseline already exists
-  SET baseline_id =
-    cuts.get_component_baseline_id (hid, cid, mtype, iid, oid);
+  SET baseline_count =
+    cuts.get_component_baseline_count_i (hid, cid, mtype, iid, oid);
 
-  IF NOT baseline_id IS NULL THEN
+  IF baseline_count > 0 THEN
+    SET baseline_id =
+      cuts.get_component_baseline_id (hid, cid, mtype, iid, oid);
+
     -- update an existing baseline metric
     UPDATE cuts.baseline
       SET event_count = ec, best_time = bt, worst_time = wt, total_time = tt

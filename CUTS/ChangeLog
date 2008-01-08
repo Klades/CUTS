@@ -1,3 +1,12 @@
+Tue Jan  8 03:52:57 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-baseline.sql:
+
+          Bug fix that was causing an error to return when inserting
+          a baseline metric for the first time. It seems as if the
+          record was still be inserted, but an error was returning.
+          Now, no error is returned. :)
+
 Tue Jan  8 03:39:46 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-baseline.sql:
