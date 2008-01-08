@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS baseline
 (
   bid             INT             NOT NULL auto_increment,
   instance        INT             NOT NULL,
-  host            INT,
+  host            INT             NOT NULL,
   inport          INT             NOT NULL,
   outport         INT,
   metric_type     ENUM ('transit',
@@ -165,6 +165,34 @@ BEGIN
     WHERE hostname = host;
 
   CALL insert_component_baseline(hid, inst, mtype, inport, outport, ec, bt, wt, tt);
+END; //
+
+-------------------------------------------------------------------------------
+-- PROCEDURE: cuts.insert_component_baseline_default
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.insert_component_baseline_default //
+
+CREATE PROCEDURE
+  cuts.insert_component_baseline_default (
+    IN inst VARCHAR (255),
+    IN mtype VARCHAR (10),
+    IN inport VARCHAR (255),
+    IN outport VARCHAR (255),
+    IN ec INT,
+    IN bt INT,
+    IN wt INT,
+    IN tt INT)
+BEGIN
+  CALL insert_component_baseline_using_hostname ('unknown',
+                                                 inst,
+                                                 mtype,
+                                                 inport,
+                                                 outport,
+                                                 ec,
+                                                 bt,
+                                                 wt,
+                                                 tt);
 END; //
 
 -------------------------------------------------------------------------------
