@@ -1,3 +1,16 @@
+Wed Jan  9 02:12:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.cpp:
+        
+					Implement separate logic for inserting default baseline
+					metrics vs. host-specific baseline metrics.
+					
+        * etc/SQL/CUTS-baseline.sql:
+        
+					Bug fix where inserting a metrics that already appeared in
+					baseline table, i.e., an update, would not be recognized
+					for overall metrics.
+
 Tue Jan  8 21:16:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.cpp:

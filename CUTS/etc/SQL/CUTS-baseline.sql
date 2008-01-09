@@ -67,10 +67,28 @@ CREATE FUNCTION cuts.get_component_baseline_id (
 BEGIN
   DECLARE baseline_id INT;
 
-  SELECT bid INTO baseline_id FROM cuts.baseline
-    WHERE (host = hid AND instance = inst AND metric_type = mtype AND
-           inport = iid AND outport = oid);
-
+	IF (hid IS NULL) THEN
+		IF (oid IS NULL) THEN
+			SELECT bid INTO baseline_id FROM cuts.baseline
+				WHERE (host IS NULL AND instance = inst AND metric_type = mtype AND
+  						 inport = iid AND outport IS NULL);
+  	ELSE
+			SELECT bid INTO baseline_id FROM cuts.baseline
+				WHERE (host IS NULL AND instance = inst AND metric_type = mtype AND
+  						 inport = iid AND outport = oid);  	
+  	END IF;
+	ELSE
+		IF (oid IS NULL) THEN
+			SELECT bid INTO baseline_id FROM cuts.baseline
+				WHERE (host = hid AND instance = inst AND metric_type = mtype AND
+  				 		 inport = iid AND outport IS NULL);
+  	ELSE
+			SELECT bid INTO baseline_id FROM cuts.baseline
+				WHERE (host = hid AND instance = inst AND metric_type = mtype AND
+  						 inport = iid AND outport = oid);
+  	END IF;
+  END IF;
+  
   RETURN baseline_id;
 END; //
 
@@ -86,10 +104,28 @@ CREATE FUNCTION cuts.get_component_baseline_count_i (
 BEGIN
   DECLARE baseline_count INT;
 
-  SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
-    WHERE (host = hid AND instance = inst AND metric_type = mtype AND
-           inport = iid AND outport = oid);
-
+	IF (hid IS NULL) THEN
+		IF (oid IS NULL) THEN
+			SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
+				WHERE (host IS NULL AND instance = inst AND metric_type = mtype AND
+							inport = iid AND outport IS NULL);
+	  ELSE
+			SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
+				WHERE (host IS NULL AND instance = inst AND metric_type = mtype AND
+							inport = iid AND outport = oid);
+	  END IF;
+	ELSE
+		IF (oid IS NULL) THEN
+			SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
+				WHERE (host = hid AND instance = inst AND metric_type = mtype AND
+							inport = iid AND outport IS NULL);
+		ELSE
+			SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
+				WHERE (host = hid AND instance = inst AND metric_type = mtype AND
+							inport = iid AND outport = oid);
+		END IF;
+	END IF;
+	
   RETURN baseline_count;
 END; //
 
