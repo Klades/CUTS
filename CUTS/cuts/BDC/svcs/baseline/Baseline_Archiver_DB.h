@@ -48,13 +48,23 @@ public:
    * @param[in]     conn          The target connection.
    * @param[in]     is_default    Metrics are the default baseline.
    */
-  CUTS_Baseline_Archiver_DB (const CUTS_Component_Registry & registry,
-                             CUTS_DB_Connection & conn,
-                             bool is_default = false);
+  CUTS_Baseline_Archiver_DB (const CUTS_Component_Registry & registry);
 
   /// Destructor.
   virtual ~CUTS_Baseline_Archiver_DB (void);
 
+  /**
+   * Execute the database archiver.
+   *
+   * @param[in]     metrics       Target system metrics.
+   * @param[in]     conn          The target connection.
+   * @param[in]     is_default    Metrics are the default baseline.
+   */
+  bool execute (const CUTS_System_Metric & sm,
+                CUTS_DB_Connection & conn,
+                bool is_default = false);
+
+protected:
   void visit_system_metric (const CUTS_System_Metric & sm);
 
   void visit_component_metric (const CUTS_Component_Metric & cm);
@@ -66,17 +76,8 @@ public:
   void visit_time_measurement (const CUTS_Time_Measurement & tm);
 
 private:
-  /// Try to initialize the object.
-  bool init (void);
-
-  /// Finalize the object.
-  void fini (void);
-
   /// Registration information for all the components.
   const CUTS_Component_Registry & registry_;
-
-  /// The target database connection.
-  CUTS_DB_Connection & conn_;
 
   /// The metrics are the default.
   bool is_default_;
@@ -85,7 +86,7 @@ private:
   const CUTS_Component_Info * info_;
 
   /// The query for inserting metrics.
-  CUTS_DB_Query * query_;
+  CUTS_Auto_Functor_T <CUTS_DB_Query> query_;
 
   /// Name of the instance being archived.
   char instance_[256];

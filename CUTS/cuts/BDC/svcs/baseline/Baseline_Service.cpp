@@ -137,10 +137,14 @@ int CUTS_Baseline_Service::handle_deactivate (void)
                         "*** info [baseline]: saving metrics to "
                         "datatbase\n"));
 
-      CUTS_Baseline_Archiver_DB
-        archiver (this->svc_mgr ()->testing_service ()->registry (),
-                  *this->conn_,
-                  this->default_);
+      // Create a baseline database inputer and insert the
+      // baseline metrics into the database.
+      CUTS_Baseline_Archiver_DB archiver (this->svc_mgr ()->
+                                            testing_service ()->registry ());
+
+      archiver.execute (*this->svc_mgr ()->metrics (),
+                        *this->conn_,
+                        this->default_);
 
       // Archive the baseline metrics.
       this->svc_mgr ()->metrics ()->accept (archiver);

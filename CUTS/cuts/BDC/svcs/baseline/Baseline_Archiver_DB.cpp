@@ -19,14 +19,10 @@
 // CUTS_Baseline_Archiver_DB
 //
 CUTS_Baseline_Archiver_DB::
-CUTS_Baseline_Archiver_DB (const CUTS_Component_Registry & registry,
-                           CUTS_DB_Connection & conn,
-                           bool is_default)
+CUTS_Baseline_Archiver_DB (const CUTS_Component_Registry & registry)
 : registry_ (registry),
   info_ (0),
-  conn_ (conn),
-  is_default_ (is_default),
-  query_ (0)
+  query_ (0, &CUTS_DB_Query::destroy)
 {
 
 }
@@ -42,61 +38,67 @@ CUTS_Baseline_Archiver_DB::~CUTS_Baseline_Archiver_DB (void)
 //
 // init
 //
-bool CUTS_Baseline_Archiver_DB::init (void)
+bool CUTS_Baseline_Archiver_DB::
+execute (const CUTS_System_Metric & metrics,
+         CUTS_DB_Connection & conn,
+         bool is_default)
 {
   try
   {
-    if (this->conn_.is_connected ())
+    if (conn.is_connected ())
     {
-      // Verify the query does not exist. We need to destroy any
-      // existence of the previous query.
-      if (this->query_ != 0)
-        this->query_->destroy ();
+      this->is_default_ = is_default;
 
       // Create a query that will be used to insert the metrics
       // into the database.
-      this->query_ = this->conn_.create_query ();
+      this->query_.reset (conn.create_query ());
 
-			if (this->query_ == 0)
-				return false;
+      if (this->query_.get () == 0)
+        return false;
 
-			if (!this->is_default_)
-			{
-				// Prepare the insertion SQL statement.
-				const char * stmt =
-					"CALL cuts.insert_component_baseline_using_hostname (?,?,?,?,?,?,?,?,?)";
+      if (!this->is_default_)
+      {
+        // Prepare the insertion SQL statement.
+        const char * stmt =
+          "CALL cuts.insert_component_baseline_using_hostname (?,?,?,?,?,?,?,?,?)";
 
-				this->query_->prepare (stmt);
+        this->query_->prepare (stmt);
 
-				// Setup the parameters for the query.
-				this->query_->parameter (0)->bind (this->hostname_, 0);
-				this->query_->parameter (1)->bind (this->instance_, 0);
-				this->query_->parameter (2)->bind (this->metric_type_, 0);
-				this->query_->parameter (3)->bind (this->inport_, 0);
-				this->query_->parameter (4)->bind (this->outport_, 0);
-				this->query_->parameter (5)->bind (&this->event_count_);
-				this->query_->parameter (6)->bind (&this->best_time_);
-				this->query_->parameter (7)->bind (&this->worst_time_);
-				this->query_->parameter (8)->bind (&this->total_time_);
-			}
-			else
-			{
-				// Prepare the insertion SQL statement.
-				const char * stmt =
-					"CALL cuts.insert_component_baseline_default (?,?,?,?,?,?,?,?)";
+        // Setup the parameters for the query.
+        this->query_->parameter (0)->bind (this->hostname_, 0);
+        this->query_->parameter (1)->bind (this->instance_, 0);
+        this->query_->parameter (2)->bind (this->metric_type_, 0);
+        this->query_->parameter (3)->bind (this->inport_, 0);
+        this->query_->parameter (4)->bind (this->outport_, 0);
+        this->query_->parameter (5)->bind (&this->event_count_);
+        this->query_->parameter (6)->bind (&this->best_time_);
+        this->query_->parameter (7)->bind (&this->worst_time_);
+        this->query_->parameter (8)->bind (&this->total_time_);
+      }
+      else
+      {
+        // Prepare the insertion SQL statement.
+        const char * stmt =
+          "CALL cuts.insert_component_baseline_default (?,?,?,?,?,?,?,?)";
 
-				this->query_->prepare (stmt);
+        this->query_->prepare (stmt);
 
-				// Setup the parameters for the query.
-				this->query_->parameter (0)->bind (this->instance_, 0);
-				this->query_->parameter (1)->bind (this->metric_type_, 0);
-				this->query_->parameter (2)->bind (this->inport_, 0);
-				this->query_->parameter (3)->bind (this->outport_, 0);
-				this->query_->parameter (4)->bind (&this->event_count_);
-				this->query_->parameter (5)->bind (&this->best_time_);
-				this->query_->parameter (6)->bind (&this->worst_time_);
-				this->query_->parameter (7)->bind (&this->total_time_);
-			}
+        // Setup the parameters for the query.
+        this->query_->parameter (0)->bind (this->instance_, 0);
+        this->query_->parameter (1)->bind (this->metric_type_, 0);
+        this->query_->parameter (2)->bind (this->inport_, 0);
+        this->query_->parameter (3)->bind (this->outport_, 0);
+        this->query_->parameter (4)->bind (&this->event_count_);
+        this->query_->parameter (5)->bind (&this->best_time_);
+        this->query_->parameter (6)->bind (&this->worst_time_);
+        this->query_->parameter (7)->bind (&this->total_time_);
+      }
+
+      // Visit the system metrics.
+      metrics.accept (*this);
+
+      // Reset the query since it's not need anymore.
+      this->query_.reset ();
       return true;
     }
     else
@@ -111,20 +113,18 @@ bool CUTS_Baseline_Archiver_DB::init (void)
                 "*** error [baseline]: %s\n",
                 ex.message ().c_str ()));
   }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "*** error [baseline]: caught unknown exception\n"));
+  }
+
+  // Reset the query since we do not own the connection. We, therefore,
+  // do not know when the query will become invalid.
+  if (this->query_.get () != 0)
+    this->query_.reset ();
 
   return false;
-}
-
-//
-// fini
-//
-void CUTS_Baseline_Archiver_DB::fini (void)
-{
-  if (this->query_ != 0)
-  {
-    this->query_->destroy ();
-    this->query_ = 0;
-  }
 }
 
 //
@@ -133,49 +133,37 @@ void CUTS_Baseline_Archiver_DB::fini (void)
 void CUTS_Baseline_Archiver_DB::
 visit_system_metric (const CUTS_System_Metric & sm)
 {
-  if (this->init ())
-  {
-    CUTS_Component_Metric_Map::
-      CONST_ITERATOR iter (sm.component_metrics ());
+  CUTS_Component_Metric_Map::CONST_ITERATOR iter (sm.component_metrics ());
 
-    for (; !iter.done (); iter.advance ())
+  for (; !iter.done (); iter.advance ())
+  {
+    // Locate the component's registration info.
+    if (this->registry_.get_component_info (iter->key (),
+                                            &this->info_) == 0)
     {
-      // Locate the component's registration info.
-      if (this->registry_.get_component_info (iter->key (),
-                                              &this->info_) == 0)
+      // Copy name of component into query buffer.
+      ACE_OS::strncpy (this->instance_,
+                       this->info_->inst_.c_str (),
+                       sizeof (this->instance_));
+
+      // Set the hostname if not default baseline metric.
+      if (!this->is_default_)
       {
-        // Copy name of component into query buffer.
-        ACE_OS::strncpy (this->instance_,
-                         this->info_->inst_.c_str (),
-                         sizeof (this->instance_));
-
-				// Set the hostname if not default baseline metric.
-        if (!this->is_default_)
-        {
-          ACE_OS::strncpy (this->hostname_,
-                           this->info_->host_info_->hostname_.c_str (),
-                           sizeof (this->hostname_));
-        }
-
-        if (iter->item ())
-          iter->item ()->accept (*this);
+        ACE_OS::strncpy (this->hostname_,
+                         this->info_->host_info_->hostname_.c_str (),
+                         sizeof (this->hostname_));
       }
-			else
-			{
-				ACE_ERROR ((LM_ERROR,
-										"*** error (baseline): failed to locate component "
-										"registration for `%d'\n",
-										iter->key ()));
-			}
-    }
 
-    // Finalize the object.
-    this->fini ();
-  }
-  else
-  {
-    ACE_ERROR ((LM_ERROR,
-                "*** error [baseline]: object not initialized\n"));
+      if (iter->item ())
+        iter->item ()->accept (*this);
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "*** error (baseline): failed to locate component "
+                  "registration for `%d'\n",
+                  iter->key ()));
+    }
   }
 }
 
@@ -213,7 +201,7 @@ visit_component_metric (const CUTS_Component_Metric & cm)
 void CUTS_Baseline_Archiver_DB::
 visit_port_metric (const CUTS_Port_Metric & pm)
 {
-	CUTS_Port_Measurement * measure = 0;
+  CUTS_Port_Measurement * measure = 0;
 
   // We are only concerned w/ the port measurements for the
   // unknown sender. All other we just ignore.
@@ -237,35 +225,35 @@ visit_port_metric (const CUTS_Port_Metric & pm)
 void CUTS_Baseline_Archiver_DB::
 visit_port_measurement (const CUTS_Port_Measurement & pm)
 {
-	// We are going to NULL this parameter since we are inputing
+  // We are going to NULL this parameter since we are inputing
   // the overall performance metrics for the port.
-	if (this->is_default_)
-		this->query_->parameter (3)->null ();
-	else
-		this->query_->parameter (4)->null ();
+  if (this->is_default_)
+    this->query_->parameter (3)->null ();
+  else
+    this->query_->parameter (4)->null ();
 
   // Process the overall queueing time for the port.
-  ACE_OS::strncpy (this->metric_type_, 
-									 "queue",
-									 sizeof (this->metric_type_));
+  ACE_OS::strncpy (this->metric_type_,
+                   "queue",
+                   sizeof (this->metric_type_));
 
   pm.queuing_time ().accept (*this);
 
-	// Process the overall service time for the port.
-  ACE_OS::strncpy (this->metric_type_, 
-									 "process", 
-									 sizeof (this->metric_type_));
+  // Process the overall service time for the port.
+  ACE_OS::strncpy (this->metric_type_,
+                   "process",
+                   sizeof (this->metric_type_));
 
   pm.process_time ().accept (*this);
 
   // We are now visiting all the exit points. This means we are
   // working with 'process' metric types.
-	if (this->is_default_)
-		this->query_->parameter (3)->length (0);
-	else
-		this->query_->parameter (4)->length (0);
+  if (this->is_default_)
+    this->query_->parameter (3)->length (0);
+  else
+    this->query_->parameter (4)->length (0);
 
-	ACE_CString outport;
+  ACE_CString outport;
   CUTS_Port_Measurement_Endpoint_Map::CONST_ITERATOR iter (pm.endpoints ());
 
   for ( ; !iter.done (); iter.advance ())
@@ -310,9 +298,9 @@ visit_time_measurement (const CUTS_Time_Measurement & tm)
                 "*** error [baseline]: %s\n",
                 ex.message ().c_str ()));
   }
-	catch (...)
-	{
-		ACE_ERROR ((LM_ERROR,
-								"*** error [baseline]: caught unknown exception\n"));
-	}
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "*** error [baseline]: caught unknown exception\n"));
+  }
 }
