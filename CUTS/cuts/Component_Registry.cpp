@@ -95,7 +95,7 @@ unregister_component (const ACE_CString & instance)
 {
   // Locate the registration information for <instance>.
   CUTS_Component_Registry_Node * node = 0;
-  int retval = this->registry_.unbind (instance, node);
+  int retval = this->registry_.find (instance, node);
 
   if (retval == 0 && node != 0)
   {
