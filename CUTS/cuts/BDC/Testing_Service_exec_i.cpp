@@ -73,6 +73,7 @@ namespace CUTS
     ACE_NEW_THROW_EX (component,
                       CUTS::CCM_Component_Registry_Node (creg.agent.in ()),
                       CORBA::NO_MEMORY ());
+    ACE_Auto_Ptr <CCM_Component_Registry_Node> auto_clean (component);
 
     // Initialize the registration node.
     ACE_DEBUG ((LM_DEBUG,
@@ -83,11 +84,10 @@ namespace CUTS
     component->info_.host_info_ = entry;
 
     // Place the node inside the <registry_>.
-    if (this->registry_.register_component (component) != 0)
-    {
-      delete component;
+    if (this->registry_.register_component (component) == 0)
+      auto_clean.release ();
+    else
       throw CUTS::Registration_Failed ();
-    }
 
     ACE_DEBUG ((LM_DEBUG,
                 "*** info (testing service): successfully registered component\n"));
@@ -106,7 +106,7 @@ namespace CUTS
                 "information from %s\n",
                 reg.name.in ()));
 
-    //this->registry_.unregister_component (reg.name.in ());
+    this->registry_.unregister_component (reg.name.in ());
   }
 
   //

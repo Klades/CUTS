@@ -46,23 +46,38 @@ CUTS_Component_Registry::~CUTS_Component_Registry (void)
 int CUTS_Component_Registry::
 register_component (CUTS_Component_Registry_Node * info)
 {
-  // Insert the <info> into the component registry.
-  int retval = this->registry_.bind (info->info_.inst_, info);
+  // Re-insert the info into the component registry. Since we may get
+  // back an old pointer, we are going to store that result in an
+  // auto pointer. This way it will get deleted regardless of how we
+  // leave this function.
+  CUTS_Component_Registry_Node * old_info = 0;
+  int retval = this->registry_.rebind (info->info_.inst_, info, old_info);
+  ACE_Auto_Ptr <CUTS_Component_Registry_Node> auto_clean (old_info);
 
-  if (retval == 0)
+  if (retval == 0 || retval == 1)
   {
+    if (retval == 1 && old_info != 0)
+    {
+      // Make sure we are updating a component that was already
+      // passivated. Otherwise, we are changing the state of an active
+      // component, which may pose some problems to the end-user.
+      if (old_info->info_.state_ != CUTS_Component_Info::STATE_PASSIVATE)
+      {
+        ACE_ERROR ((LM_WARNING,
+                    "*** warning (registry): `%s' was still an active "
+                    "component\n",
+                    old_info->info_.inst_.c_str ()));
+      }
+    }
+
     // Set the state of the component to *active* and signal all
     // the <handlers_> that we have a new component registered.
     info->info_.state_ = CUTS_Component_Info::STATE_ACTIVATE;
+    info->delete_ = false;
+
     this->info_queue_.enqueue_tail (info);
   }
-  else if (retval == 1)
-  {
-    ACE_ERROR ((LM_ERROR,
-                "*** error (component registry): %s already registered\n",
-                info->info_.inst_.c_str ()));
-  }
-  else if (retval == -1)
+  else /* if (retval == -1) */
   {
     ACE_ERROR ((LM_ERROR,
                 "*** error (component registry): internal error during "
@@ -84,12 +99,11 @@ unregister_component (const ACE_CString & instance)
 
   if (retval == 0 && node != 0)
   {
-    // Toggle the deletion flag.
-    node->delete_ = true;
-
     // Change its state to passivate and notify all the handlers
     // that are registered w/ the service.
     node->info_.state_ = CUTS_Component_Info::STATE_PASSIVATE;
+    node->delete_ = false;
+
     this->info_queue_.enqueue_tail (node);
   }
 }
