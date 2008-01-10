@@ -142,12 +142,10 @@ int CUTS_Baseline_Service::handle_deactivate (void)
       CUTS_Baseline_Archiver_DB archiver (this->svc_mgr ()->
                                             testing_service ()->registry ());
 
+      // Archive the baseline metrics.
       archiver.execute (*this->svc_mgr ()->metrics (),
                         *this->conn_,
                         this->default_);
-
-      // Archive the baseline metrics.
-      this->svc_mgr ()->metrics ()->accept (archiver);
 
       // Disconnect from the database.
       this->conn_->disconnect ();

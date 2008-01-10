@@ -116,7 +116,7 @@ execute (const CUTS_System_Metric & metrics,
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "*** error [baseline]: caught unknown exception\n"));
+                "*** error [baseline]: caught unknown exception (%l)\n"));
   }
 
   // Reset the query since we do not own the connection. We, therefore,
@@ -141,21 +141,41 @@ visit_system_metric (const CUTS_System_Metric & sm)
     if (this->registry_.get_component_info (iter->key (),
                                             &this->info_) == 0)
     {
-      // Copy name of component into query buffer.
-      ACE_OS::strncpy (this->instance_,
-                       this->info_->inst_.c_str (),
-                       sizeof (this->instance_));
-
-      // Set the hostname if not default baseline metric.
-      if (!this->is_default_)
+      if (this->info_ != 0)
       {
-        ACE_OS::strncpy (this->hostname_,
-                         this->info_->host_info_->hostname_.c_str (),
-                         sizeof (this->hostname_));
-      }
+        // Copy name of component into query buffer.
+        ACE_OS::strncpy (this->instance_,
+                         this->info_->inst_.c_str (),
+                         sizeof (this->instance_));
 
-      if (iter->item ())
-        iter->item ()->accept (*this);
+        // Set the hostname if not default baseline metric.
+        if (!this->is_default_)
+        {
+          if (this->info_->host_info_ != 0)
+          {
+            ACE_OS::strncpy (this->hostname_,
+                             this->info_->host_info_->hostname_.c_str (),
+                             sizeof (this->hostname_));
+          }
+          else
+          {
+            ACE_ERROR ((LM_ERROR,
+                        "*** error (baseline): `%d' does not have host "
+                        "information in its registration\n",
+                        iter->key ()));
+          }
+        }
+
+        if (iter->item ())
+          iter->item ()->accept (*this);
+      }
+      else
+      {
+        ACE_ERROR ((LM_WARNING,
+                    "*** warning (baseline): key `%d' does not have "
+                    "registration information\n",
+                    iter->key ()));
+      }
     }
     else
     {
@@ -301,6 +321,6 @@ visit_time_measurement (const CUTS_Time_Measurement & tm)
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "*** error [baseline]: caught unknown exception\n"));
+                "*** error [baseline]: caught unknown exception (%l)\n"));
   }
 }

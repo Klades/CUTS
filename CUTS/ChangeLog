@@ -1,3 +1,16 @@
+Thu Jan 10 06:00:33 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/Testing_Service_exec_i.cpp:
+        
+					Temporarily disabled unregistering a component in the registry.
+
+        * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.h:
+        * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.cpp:
+        * cuts/BDC/svcs/baseline/Baseline_Service.cpp:
+        
+					- Added error checks for NULL pointers.
+					- Fixed bug where the system metrics were archived twice.
+
 Wed Jan  9 16:08:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.h:

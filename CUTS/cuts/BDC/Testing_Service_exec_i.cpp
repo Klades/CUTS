@@ -106,7 +106,7 @@ namespace CUTS
                 "information from %s\n",
                 reg.name.in ()));
 
-    this->registry_.unregister_component (reg.name.in ());
+    //this->registry_.unregister_component (reg.name.in ());
   }
 
   //

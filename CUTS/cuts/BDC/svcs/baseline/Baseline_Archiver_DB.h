@@ -64,7 +64,7 @@ public:
                 CUTS_DB_Connection & conn,
                 bool is_default = false);
 
-protected:
+private:
   void visit_system_metric (const CUTS_System_Metric & sm);
 
   void visit_component_metric (const CUTS_Component_Metric & cm);
@@ -75,7 +75,6 @@ protected:
 
   void visit_time_measurement (const CUTS_Time_Measurement & tm);
 
-private:
   /// Registration information for all the components.
   const CUTS_Component_Registry & registry_;
 
