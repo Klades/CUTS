@@ -1,7 +1,18 @@
+Fri Jan 11 19:13:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/baseline.aspx:
+        * utils/BMW/website/controls/ComponentPerformanceCategory.ascx:
+        * utils/BMW/website/controls/ComponentPerformanceCategory.ascx.cs:
+        * utils/BMW/website/controls/SystemPerformance.ascx.cs:
+        * utils/BMW/website/performance.aspx:
+
+          Updated system metrics display to show an appropriate category
+          header for the category title.
+
 Thu Jan 10 15:04:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/Component_Registry.cpp:
-        
+
           Bug fix where the component registration was being deleted
           during the unregistration process.
 

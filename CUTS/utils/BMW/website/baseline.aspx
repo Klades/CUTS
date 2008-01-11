@@ -13,6 +13,7 @@
 
   <cuts:systemperformance runat="server"
                           id="sysperf_"
+                          categoryheading="Host"
                           datacomponentname="component_name"
                           datacategoryname="hostname"
                           datametrictype="metric_type"

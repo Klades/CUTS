@@ -23,6 +23,12 @@ namespace CUTS
       get { return this.category_.Text; }
     }
 
+    public string CategoryName
+    {
+      set { this.category_name_.Text = value; }
+      get { return this.category_name_.Text; }
+    }
+
     public CUTS.PortPerformance FindPortPerformance (string name)
     {
       // Try to locate the port with the specified name.

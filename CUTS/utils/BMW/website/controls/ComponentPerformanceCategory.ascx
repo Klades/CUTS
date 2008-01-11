@@ -6,5 +6,6 @@
 <%@ reference control="~/controls/PortPerformance.ascx" %>
 <%@ reference control="~/controls/CumulativePortPerformance.ascx" %>
 
-<div>Category: <asp:label runat="server" id="category_"/></div>
+<div><asp:label runat="server" id="category_name_" text="Category" />:
+     <asp:label runat="server" id="category_"/></div>
 <asp:placeholder runat="server" id="ports_" />

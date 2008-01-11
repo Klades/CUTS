@@ -185,6 +185,11 @@ namespace CUTS
       set { this.data_worst_time_baseline_ = value; }
     }
 
+    public string CategoryHeading
+    {
+      get { return this.category_heading_; }
+      set { this.category_heading_ = value; }
+    }
     #endregion
 
     #region Control Factories
@@ -222,6 +227,9 @@ namespace CUTS
 
           value = this.GetDataValue(ref props, item, this.data_category_name_);
           category = grid.FindCategory(value);
+
+          if (this.category_heading_ != null)
+            category.CategoryName = this.category_heading_;
 
           // Before we can continue reading the metrics, we need to get
           // the metric's type. This is either 'queue' or 'process'.
@@ -588,6 +596,8 @@ namespace CUTS
     #endregion
 
     #region Member Variables
+    private string category_heading_;
+
     /// The data set for the system performance metrics.
     private object data_source_;
 

@@ -71,6 +71,7 @@
 
       <cuts:systemperformance runat="server"
                               id="sysperf_"
+                              categoryheading="Sender"
                               datacomponentname="component_name"
                               datacomponentnamebaseline="component_name"
                               datacategoryname="sender_name"
