@@ -8,6 +8,6 @@ workspace (installers) {
   }
 
   exclude (!vc8) {
-    BMW_installers.mpc
+    BMW_installers.mwc
   }
 }

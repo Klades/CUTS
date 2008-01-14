@@ -1,6 +1,8 @@
 // $Id$
 
 project (BMW) : wix {
+  after += CUTS.Data
+
   prebuild = \
     aspnet_compiler -v CUTS -p $(CUTS_ROOT)/utils/BMW/website -f \
       -u -fixednames $(CUTS_ROOT)/bin/BMW

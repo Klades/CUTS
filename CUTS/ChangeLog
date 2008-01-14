@@ -1,3 +1,13 @@
+Mon Jan 14 17:14:04 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * install/BMW_installers.mpc:
+        * install/BMW_installers.mwc:
+        * install/installers.mwc:
+
+          Updated the BMW installer so that it will build the
+          CUTS.Data assembly/project before building the BMW
+          website.
+
 Fri Jan 11 19:13:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/baseline.aspx:
