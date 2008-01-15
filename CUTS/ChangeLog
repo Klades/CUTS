@@ -1,3 +1,10 @@
+Tue Jan 15 16:30:08 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-baseline.sql:
+
+          Whenever a table is returned that has the hostname and the
+          host_id is NULL then its value is set the 'Unknown'.
+
 Mon Jan 14 17:14:04 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * install/BMW_installers.mpc:

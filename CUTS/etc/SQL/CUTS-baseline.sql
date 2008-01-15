@@ -67,28 +67,28 @@ CREATE FUNCTION cuts.get_component_baseline_id (
 BEGIN
   DECLARE baseline_id INT;
 
-	IF (hid IS NULL) THEN
-		IF (oid IS NULL) THEN
-			SELECT bid INTO baseline_id FROM cuts.baseline
-				WHERE (host IS NULL AND instance = inst AND metric_type = mtype AND
-  						 inport = iid AND outport IS NULL);
-  	ELSE
-			SELECT bid INTO baseline_id FROM cuts.baseline
-				WHERE (host IS NULL AND instance = inst AND metric_type = mtype AND
-  						 inport = iid AND outport = oid);  	
-  	END IF;
-	ELSE
-		IF (oid IS NULL) THEN
-			SELECT bid INTO baseline_id FROM cuts.baseline
-				WHERE (host = hid AND instance = inst AND metric_type = mtype AND
-  				 		 inport = iid AND outport IS NULL);
-  	ELSE
-			SELECT bid INTO baseline_id FROM cuts.baseline
-				WHERE (host = hid AND instance = inst AND metric_type = mtype AND
-  						 inport = iid AND outport = oid);
-  	END IF;
+  IF (hid IS NULL) THEN
+    IF (oid IS NULL) THEN
+      SELECT bid INTO baseline_id FROM cuts.baseline
+        WHERE (host IS NULL AND instance = inst AND metric_type = mtype AND
+               inport = iid AND outport IS NULL);
+    ELSE
+      SELECT bid INTO baseline_id FROM cuts.baseline
+        WHERE (host IS NULL AND instance = inst AND metric_type = mtype AND
+               inport = iid AND outport = oid);
+    END IF;
+  ELSE
+    IF (oid IS NULL) THEN
+      SELECT bid INTO baseline_id FROM cuts.baseline
+        WHERE (host = hid AND instance = inst AND metric_type = mtype AND
+                inport = iid AND outport IS NULL);
+    ELSE
+      SELECT bid INTO baseline_id FROM cuts.baseline
+        WHERE (host = hid AND instance = inst AND metric_type = mtype AND
+               inport = iid AND outport = oid);
+    END IF;
   END IF;
-  
+
   RETURN baseline_id;
 END; //
 
@@ -104,28 +104,28 @@ CREATE FUNCTION cuts.get_component_baseline_count_i (
 BEGIN
   DECLARE baseline_count INT;
 
-	IF (hid IS NULL) THEN
-		IF (oid IS NULL) THEN
-			SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
-				WHERE (host IS NULL AND instance = inst AND metric_type = mtype AND
-							inport = iid AND outport IS NULL);
-	  ELSE
-			SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
-				WHERE (host IS NULL AND instance = inst AND metric_type = mtype AND
-							inport = iid AND outport = oid);
-	  END IF;
-	ELSE
-		IF (oid IS NULL) THEN
-			SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
-				WHERE (host = hid AND instance = inst AND metric_type = mtype AND
-							inport = iid AND outport IS NULL);
-		ELSE
-			SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
-				WHERE (host = hid AND instance = inst AND metric_type = mtype AND
-							inport = iid AND outport = oid);
-		END IF;
-	END IF;
-	
+  IF (hid IS NULL) THEN
+    IF (oid IS NULL) THEN
+      SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
+        WHERE (host IS NULL AND instance = inst AND metric_type = mtype AND
+              inport = iid AND outport IS NULL);
+    ELSE
+      SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
+        WHERE (host IS NULL AND instance = inst AND metric_type = mtype AND
+              inport = iid AND outport = oid);
+    END IF;
+  ELSE
+    IF (oid IS NULL) THEN
+      SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
+        WHERE (host = hid AND instance = inst AND metric_type = mtype AND
+              inport = iid AND outport IS NULL);
+    ELSE
+      SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
+        WHERE (host = hid AND instance = inst AND metric_type = mtype AND
+              inport = iid AND outport = oid);
+    END IF;
+  END IF;
+
   RETURN baseline_count;
 END; //
 
@@ -271,7 +271,7 @@ CREATE PROCEDURE
 BEGIN
   SELECT t7.*, t8.portname AS source FROM
     (SELECT t5.*, t6.portname AS sink FROM
-      (SELECT t3.*, t4.hostname FROM
+      (SELECT t3.*, IFNULL(t4.hostname, 'Unknown') AS hostname FROM
         (SELECT t1.*, (t1.total_time / t1.event_count) AS avg_time, t2.component_name
           FROM baseline AS t1
           LEFT JOIN component_instances AS t2 ON t1.instance = t2.component_id) AS t3
@@ -297,7 +297,7 @@ BEGIN
   SELECT DISTINCT t10.component, t9.* FROM execution_time AS t10
     LEFT JOIN (SELECT t7.*, t8.portname AS source FROM
       (SELECT t5.*, t6.portname AS sink FROM
-        (SELECT t3.*, t4.hostname FROM
+        (SELECT t3.*, IFNULL(t4.hostname, 'Unknown') AS hostname FROM
           (SELECT t1.*, (t1.total_time / t1.event_count) AS avg_time, t2.component_name
             FROM baseline AS t1
             LEFT JOIN component_instances AS t2 ON t1.instance = t2.component_id) AS t3
@@ -326,7 +326,7 @@ BEGIN
   SELECT DISTINCT t10.component, t9.* FROM execution_time AS t10
     LEFT JOIN (SELECT t7.*, t8.portname AS source FROM
       (SELECT t5.*, t6.portname AS sink FROM
-        (SELECT t3.*, t4.hostname FROM
+        (SELECT t3.*, IFNULL(t4.hostname, 'Unknown') AS hostname FROM
           (SELECT t1.*, (t1.total_time / t1.event_count) AS avg_time, t2.component_name
             FROM baseline AS t1
             LEFT JOIN component_instances AS t2 ON t1.instance = t2.component_id) AS t3
@@ -353,7 +353,7 @@ CREATE PROCEDURE
 BEGIN
   SELECT t7.*, t8.portname AS source FROM
     (SELECT t5.*, t6.portname AS sink FROM
-      (SELECT t3.*, t4.hostname FROM
+      (SELECT t3.*, IFNULL(t4.hostname, 'Unknown') AS hostname FROM
         (SELECT t1.*, (t1.total_time / t1.event_count) AS avg_time, t2.component_name
           FROM baseline AS t1
           LEFT JOIN component_instances AS t2 ON t1.instance = t2.component_id
