@@ -271,7 +271,7 @@ CREATE PROCEDURE
 BEGIN
   SELECT t7.*, t8.portname AS source FROM
     (SELECT t5.*, t6.portname AS sink FROM
-      (SELECT t3.*, IFNULL(t4.hostname, 'Unknown') AS hostname FROM
+      (SELECT t3.*, IFNULL(t4.hostname, '') AS hostname FROM
         (SELECT t1.*, (t1.total_time / t1.event_count) AS avg_time, t2.component_name
           FROM baseline AS t1
           LEFT JOIN component_instances AS t2 ON t1.instance = t2.component_id) AS t3
@@ -297,7 +297,7 @@ BEGIN
   SELECT DISTINCT t10.component, t9.* FROM execution_time AS t10
     LEFT JOIN (SELECT t7.*, t8.portname AS source FROM
       (SELECT t5.*, t6.portname AS sink FROM
-        (SELECT t3.*, IFNULL(t4.hostname, 'Unknown') AS hostname FROM
+        (SELECT t3.*, IFNULL(t4.hostname, '') AS hostname FROM
           (SELECT t1.*, (t1.total_time / t1.event_count) AS avg_time, t2.component_name
             FROM baseline AS t1
             LEFT JOIN component_instances AS t2 ON t1.instance = t2.component_id) AS t3
@@ -326,7 +326,7 @@ BEGIN
   SELECT DISTINCT t10.component, t9.* FROM execution_time AS t10
     LEFT JOIN (SELECT t7.*, t8.portname AS source FROM
       (SELECT t5.*, t6.portname AS sink FROM
-        (SELECT t3.*, IFNULL(t4.hostname, 'Unknown') AS hostname FROM
+        (SELECT t3.*, IFNULL(t4.hostname, '') AS hostname FROM
           (SELECT t1.*, (t1.total_time / t1.event_count) AS avg_time, t2.component_name
             FROM baseline AS t1
             LEFT JOIN component_instances AS t2 ON t1.instance = t2.component_id) AS t3
@@ -353,7 +353,7 @@ CREATE PROCEDURE
 BEGIN
   SELECT t7.*, t8.portname AS source FROM
     (SELECT t5.*, t6.portname AS sink FROM
-      (SELECT t3.*, IFNULL(t4.hostname, 'Unknown') AS hostname FROM
+      (SELECT t3.*, IFNULL(t4.hostname, '') AS hostname FROM
         (SELECT t1.*, (t1.total_time / t1.event_count) AS avg_time, t2.component_name
           FROM baseline AS t1
           LEFT JOIN component_instances AS t2 ON t1.instance = t2.component_id
