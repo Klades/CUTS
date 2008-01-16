@@ -484,6 +484,18 @@ handle_metrics (const CUTS_System_Metric & metrics)
 int CUTS_Database_Service::
 handle_component (const CUTS_Component_Info & info)
 {
+  // Regardless of the state, we still need to make sure the
+  // host is registered with the database.
+  if (this->registry_.register_host (info.host_info_->ipaddr_.c_str (),
+                                     info.host_info_->hostname_.c_str ()))
+  {
+    VERBOSE_MESSAGE ((LM_INFO,
+                      "*** info [archive]: successfully registered "
+                      "%s [%s]\n",
+                      info.host_info_->hostname_.c_str (),
+                      info.host_info_->ipaddr_.c_str ()));
+  }
+
   if (info.state_ == CUTS_Component_Info::STATE_ACTIVATE)
   {
     if (this->registry_.register_component (info, 0))

@@ -1,3 +1,18 @@
+Wed Jan 16 02:27:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/svcs/dbase/DBase_Service.cpp (handle_component):
+        
+          The host information for a component is registered whenever
+          a component event occurs.
+
+        * etc/SQL/CUTS-deployment.sql:
+        
+          The 'hostid' column is allowed to be NULL.
+          
+        * etc/SQL/CUTS-execution.sql:
+        
+          The 'sender' column is allowed to be NULL.
+
 Tue Jan 15 19:00:05 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-baseline.sql:

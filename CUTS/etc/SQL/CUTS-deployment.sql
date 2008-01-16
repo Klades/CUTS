@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS deployment
   deploy_id         INT         NOT NULL auto_increment,
   test_number       INT         NOT NULL,
   instance          INT         NOT NULL,
-  hostid            INT         NOT NULL,
+  hostid            INT,
   uptime            DATETIME,
   downtime          DATETIME,
 

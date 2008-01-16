@@ -27,10 +27,10 @@ CREATE TABLE IF NOT EXISTS execution_time
                           'process')  NOT NULL,
   metric_count      int               NOT NULL,
 
-  component         int               NOT NULL default 1,
-  sender            int               NOT NULL default 1,
-  src               int               NOT NULL default 1,
-  dst               int                        default 1,
+  component         int               NOT NULL,
+  sender            int,
+  src               int NOT NULL,
+  dst               int,
 
   best_time         int NOT NULL default 0,
   worst_time        int NOT NULL default 0,
