@@ -13,9 +13,7 @@
 #ifndef _CUTS_ACTIVATION_RECORD_ENDPOINT_H_
 #define _CUTS_ACTIVATION_RECORD_ENDPOINT_H_
 
-#include "cuts/config.h"
-#include "cuts/CUTS_export.h"
-#include "ace/Time_Value.h"
+#include "cuts/Endpoint_Data.h"
 
 //=============================================================================
 /**
@@ -26,7 +24,8 @@
  */
 //=============================================================================
 
-class CUTS_Export CUTS_Activation_Record_Endpoint
+class CUTS_Export CUTS_Activation_Record_Endpoint :
+  public CUTS_Endpoint_Data
 {
 public:
   /// Default constructor.
@@ -35,34 +34,43 @@ public:
   /**
    * Initializing constructor.
    *
+   * @param[in]       id            Id of the endpoint.
    * @param[in]       toc           Time of completion.
    * @param[in]       datasize      Number of bytes sent.
    */
-  CUTS_Activation_Record_Endpoint (const ACE_Time_Value & toc,
-                                   size_t datasize = 0);
+  CUTS_Activation_Record_Endpoint (int id,
+                                   const ACE_Time_Value & toc,
+                                   size_t datasize);
 
-  /// Copy constructor.
-  CUTS_Activation_Record_Endpoint (const CUTS_Activation_Record_Endpoint &);
+  /**
+   * Copy constructor.
+   *
+   * @param[in]       are           Source object.
+   */
+  CUTS_Activation_Record_Endpoint (const CUTS_Activation_Record_Endpoint & are);
 
   /// Destructor.
   ~CUTS_Activation_Record_Endpoint (void);
-
-  /// Size of the data sent at this endpoint.
-  size_t datasize (void) const;
-
-  /// Unique id of the endpoint.
-  const ACE_Time_Value & time_of_completion (void) const;
 
   /// Assignment operator.
   const CUTS_Activation_Record_Endpoint &
     operator = (const CUTS_Activation_Record_Endpoint & rhs);
 
-private:
-  /// Size of the data send at this endpoint.
-  size_t datasize_;
+  /// Get the id of the record.
+  int id (void) const;
 
-  /// Time of completion for the endpoint.
-  ACE_Time_Value toc_;
+  /**
+   * Set the values of the endpoint entry.
+   *
+   * @param[in]       id              The id of the endpoint.
+   * @param[in]       toc             Time of completion.
+   * @param[in]       datasize        The datasize of the endpoint.
+   */
+  void set (int id, const ACE_Time_Value & toc, size_t data_size);
+
+private:
+  /// Id of the endpoint entry.
+  int id_;
 };
 
 #if defined (__CUTS_INLINE__)

@@ -45,7 +45,7 @@ visit_system_metric (const CUTS_System_Metric & metrics)
   {
     // Get the information about this component and print its
     // instance name.
-    std::cout << "Instance: ";
+    std::cout << "instance : ";
 
     if (this->tsvc_->registry ().
         get_component_info (iter->key (), &this->myinfo_) == 0)
@@ -75,7 +75,7 @@ visit_component_metric (const CUTS_Component_Metric & metrics)
   {
     // Print the name of the port.
     this->myinfo_->type_->sinks_.find (iter->key (), portname);
-    std::cout << "Port: " << portname.c_str () << std::endl;
+    std::cout << "  input port : " << portname.c_str () << std::endl;
 
     // Visit the CUTS_Port_Metric object.
     iter->item ()->accept (*this);
@@ -88,62 +88,59 @@ visit_component_metric (const CUTS_Component_Metric & metrics)
 void CUTS_IO_System_Metric_Visitor::
 visit_port_metric (const CUTS_Port_Metric & metrics)
 {
-  CUTS_Port_Measurement_Map::
-    CONST_ITERATOR sender (metrics.sender_map ().hash_map ());
-
-  const CUTS_Component_Info * sender_info = 0;
-
-  for (sender; !sender.done (); sender ++)
-  {
-    // Print the name of the sender.
-    std::cout << "  Sender: ";
-
-    if (this->tsvc_->registry ().get_component_info (sender->key (),
-                                                     &sender_info) == 0)
-    {
-      std::cout << sender_info->inst_.c_str () << std::endl;
-    }
-    else
-    {
-      std::cout << "<Unknown>" << std::endl;
-    }
-
-    // Visit the time metrics.
-    sender->item ()->accept (*this);
-    std::cout << std::endl;
-  }
+  metrics.summary ().accept (*this);
 }
 
 //
-// visit_port_measurement
+// visit_port_summary
 //
 void CUTS_IO_System_Metric_Visitor::
-visit_port_measurement (const CUTS_Port_Measurement & port)
+visit_port_summary (const CUTS_Port_Summary & summary)
 {
-  // Write the queue time metrics.
-  std::cout << "  Queuing Time ";
-  port.queuing_time ().accept (*this);
-  std::cout << "  Process Time ";
-  port.process_time  ().accept (*this);
+  // Write the queuing and service time metrics.
+  std::cout << "    queuing time ";
+  summary.queuing_time ().accept (*this);
 
-  ACE_CString portname;
-  CUTS_Port_Measurement_Endpoint_Map::CONST_ITERATOR iter (port.endpoints ());
+  std::cout << "    service time ";
+  summary.service_time ().accept (*this);
 
-  for ( ; !iter.done (); iter ++)
+  // Visit the endpoints for the summary.
+  summary.endpoints ().accept (*this);
+}
+
+//
+// visit_port_summary_base
+//
+void CUTS_IO_System_Metric_Visitor::
+visit_endpoint_log_summary (const CUTS_Endpoint_Log_Summary & summary)
+{
+  CUTS_Endpoint_Data_Logs::const_iterator log_iter (summary.logs ());
+
+  ACE_CString name;
+  CUTS_Endpoint_Data data_avg;
+
+  for (; !log_iter.done (); log_iter ++)
   {
-    // Write the information about the exitpoint.
-    int retval = this->myinfo_->type_->sources_.find (iter->key (), portname);
-    std::cout << "    to ";
+    // Get iterator to the endpoint log data.
+    CUTS_Endpoint_Data_Log::iterator
+      ep_iter = log_iter->item ()->begin (),
+      ep_iter_end = log_iter->item ()->used_end ();
 
-    if (retval == 0)
-      std::cout << portname.c_str ();
-    else
-      std::cout << "<unknown> (" << iter->key () << ")";
+    for ( ; ep_iter != ep_iter_end; ep_iter ++)
+    {
+      if (this->myinfo_->type_->sources_.find (log_iter->key (), name) == 0)
+        std::cout << "      " << name.c_str ();
+      else
+        std::cout << "      <unknown port>";
 
-    std::cout << " ";
+      ep_iter->avg_value (data_avg);
 
-    // Visit the time measurement.
-    iter->item ()->accept (*this);
+      std::cout
+        << " : "
+        << ep_iter->min_value ().time_of_completion ().msec () << "/"
+        << data_avg.time_of_completion ().msec () << "/"
+        << ep_iter->max_value ().time_of_completion ().msec () << std::endl;
+    }
   }
 }
 
@@ -153,11 +150,11 @@ visit_port_measurement (const CUTS_Port_Measurement & port)
 void CUTS_IO_System_Metric_Visitor::
 visit_time_measurement (const CUTS_Time_Measurement & tm)
 {
-  double avg_time =
-    tm.count () != 0 ? tm.total ().msec () / tm.count () : 0.0;
+  ACE_Time_Value avg_time;
+  tm.avg_value (avg_time);
 
   std::cout
-    << "(best/avg/worst) (msec): "
-    << tm.minimum ().msec () << "/"
-    << avg_time << "/" << tm.maximum ().msec () << std::endl;
+    << "(best/avg/worst msec) : "
+    << tm.min_value ().msec () << "/"
+    << avg_time.msec () << "/" << tm.max_value ().msec () << std::endl;
 }

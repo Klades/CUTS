@@ -17,7 +17,7 @@ CUTS_BDC_SERVICE_IMPL (CUTS_BDC_IO_Service);
 // state_str_
 //
 const char * CUTS_BDC_IO_Service::
-state_cstr_[2] = {"activated", "passivated"};
+state_cstr_[2] = {"activate", "passivate"};
 
 //
 // CUTS_BDC_IO_Service
@@ -59,24 +59,18 @@ handle_component (const CUTS_Component_Info & info)
     << "************************************************" << std::endl
     << "*** Component Registration" << std::endl
     << "************************************************" << std::endl
-    << std::endl
-    << "instance  : " << info.inst_.c_str () << std::endl
-    << "unique id : " << info.uid_ << std::endl
-    << std::endl
-    << "typeinfo  : " << info.type_->name_.c_str () << std::endl;
-
-  this->print_port_description ("-- sinks  ", info.type_->sinks_);
-  this->print_port_description ("-- sources", info.type_->sources_);
-
-  // Print the deployment information.
-  std::cout
-    << std::endl
-    << "state     : "
-    << CUTS_BDC_IO_Service::state_cstr_[info.state_] << std::endl
-    << "location  : " << info.host_info_->hostname_.c_str ()
+    << "instance : " << info.inst_.c_str () << std::endl
+    << "location : " << info.host_info_->hostname_.c_str ()
     << " (" << info.host_info_->ipaddr_.c_str () << ")" << std::endl
-    << std::endl;
+    << "state    : "
+    << CUTS_BDC_IO_Service::state_cstr_[info.state_] << std::endl
+    << std::endl
+    << "    type : " << info.type_->name_.c_str () << std::endl;
 
+  this->print_port_description ("   sinks", info.type_->sinks_);
+  this->print_port_description (" sources", info.type_->sources_);
+
+  std::cout << std::endl;
   return 0;
 }
 
@@ -88,18 +82,14 @@ print_port_description (const ACE_CString & title,
                         const CUTS_Port_Description_Map & desc)
 {
   // Print the header for the port descriptions.
-  std::cout << title.c_str () << ": ";
+  std::cout << title.c_str () << " : ";
 
   if (desc.current_size () != 0)
   {
     CUTS_Port_Description_Map::CONST_ITERATOR iter (desc);
 
     for (iter; !iter.done (); iter ++)
-    {
-      std::cout
-        << iter->item ().c_str ()
-        << " (" << iter->key () << "); ";
-    }
+      std::cout << iter->item ().c_str () << " ";
   }
   else
     std::cout << "<none>";

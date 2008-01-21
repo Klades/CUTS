@@ -14,7 +14,7 @@
 #define _CUTS_TIMESTAMP_METRIC_H_
 
 #include "cuts/CUTS_export.h"
-#include "ace/Time_Value.h"
+#include "ace/OS_NS_sys_time.h"
 
 //=============================================================================
 /**
@@ -54,20 +54,17 @@ public:
    *
    * @return      The timestamp value.
    */
-  ACE_Time_Value & timestamp (void);
-
-  /// @overload
   const ACE_Time_Value & timestamp (void) const;
 
   /**
    * Set the value of the timestamp.
    *
-   * @param[in]   timestamp       The timestamp's new value.
+   * @param[in]   tv        The new timestamp value.
    */
   void timestamp (const ACE_Time_Value & tv);
 
-  /// Reset the timestamp.
-  void reset (void);
+  /// Assignmment operator
+  const CUTS_Timestamp_Metric & operator = (const CUTS_Timestamp_Metric & rhs);
 
   /**
    * Determine if the time timestamp if valid. A valid timestamp

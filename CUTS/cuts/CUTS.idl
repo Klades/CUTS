@@ -60,7 +60,7 @@ module CUTS
 
   struct Port_Description
   {
-    unsigned long uid;
+    unsigned long unique_id;
 
     string name;
   };

@@ -39,23 +39,23 @@ void CUTS_Port_Agent::name (const ACE_CString & name)
   this->name_ = name;
 }
 
+////
+//// port_measurement_pool
+////
+//CUTS_INLINE
+//CUTS_Port_Measurement_Map & CUTS_Port_Agent::sender_map (void)
+//{
+//  return this->sender_map_;
+//}
 //
-// port_measurement_pool
-//
-CUTS_INLINE
-CUTS_Port_Measurement_Map & CUTS_Port_Agent::sender_map (void)
-{
-  return this->sender_map_;
-}
-
-//
-// port_measurement_pool
-//
-CUTS_INLINE
-const CUTS_Port_Measurement_Map & CUTS_Port_Agent::sender_map (void) const
-{
-  return this->sender_map_;
-}
+////
+//// port_measurement_pool
+////
+//CUTS_INLINE
+//const CUTS_Port_Measurement_Map & CUTS_Port_Agent::sender_map (void) const
+//{
+//  return this->sender_map_;
+//}
 
 //
 // activate
@@ -118,7 +118,7 @@ CUTS_Activation_Record * CUTS_Port_Agent::record_alloc (void)
 CUTS_INLINE
 void CUTS_Port_Agent::record_free (CUTS_Activation_Record * record)
 {
-  this->update (record);
+
 }
 
 //
@@ -127,7 +127,7 @@ void CUTS_Port_Agent::record_free (CUTS_Activation_Record * record)
 CUTS_INLINE
 void CUTS_Port_Agent::reset (void)
 {
-  this->sender_map_.reset ();
+  //this->sender_map_.reset ();
   this->log_.reset ();
 }
 

@@ -17,6 +17,8 @@
 
 #include "cuts/Benchmark_Agent_i.h"
 #include "ace/SString.h"
+#include "ace/TSS_T.h"
+#include "ace/High_Res_Timer.h"
 
 // Forward decl.
 class CUTS_MPI_Datatype_Port_Manager;
@@ -70,9 +72,26 @@ public:
    */
   const ACE_CString & instance_name (void) const;
 
+  /**
+   * Get the data type manager for the environment.
+   *
+   * @return      The data type manager.
+   */
   CUTS_MPI_Datatype_Port_Manager & datatype_mgr (void);
 
+  /**
+   * @overload
+   */
   const CUTS_MPI_Datatype_Port_Manager & datatype_mgr (void) const;
+
+  /**
+   * Get the high resolution timer for the environment. This method
+   * is thread-safe in that different multiple threads can access
+   * the timer without affecting other thread's timers.
+   *
+   * @return        High resolution timer for the current thread.
+   */
+  ACE_High_Res_Timer & timer (void);
 
 private:
   /// Service thread for the environment.
@@ -119,7 +138,11 @@ private:
   /// The rank of the environment in the world.
   int rank_;
 
+  /// Data type manager for the environment.
   ACE_Auto_Ptr <CUTS_MPI_Datatype_Port_Manager> datatype_mgr_;
+
+  /// The high resolution timer for the environment.
+  ACE_High_Res_Timer timer_;
 };
 
 /// Simple definition for accessing the singleton.

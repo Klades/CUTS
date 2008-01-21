@@ -32,11 +32,8 @@ template <typename T, typename LOCK>
 class CUTS_Log_T : public ACE_Array_Base <T>
 {
 public:
-  /// Type definition of the iterator.
-  typedef typename ACE_Array_Base <T>::iterator iterator;
-
-  /// Type definition of the const iterator.
-  typedef typename ACE_Array_Base <T>::const_iterator const_iterator;
+  /// Type definition of the lock type.
+  typedef LOCK lock_type;
 
   /**
    * Initializing constructor.
@@ -46,6 +43,11 @@ public:
    */
   CUTS_Log_T (size_t size = 0, bool auto_grow = false);
 
+  /**
+   * Copy constructor.
+   *
+   * @param[in]         log         The source log.
+   */
   CUTS_Log_T (const CUTS_Log_T & log);
 
   /// Destructor
@@ -70,16 +72,56 @@ public:
   /// Reset the log by converting all used records to free records.
   void reset (void);
 
+  /**
+   * Get the next free record in the log. This version of the
+   * method is thread-safe. It will also resize the underlying
+   * logging buffer if necessary.
+   *
+   * @return          Pointer to the next free record.
+   */
   T * next_free_record (void);
 
-  T * next_free_record_i (void);
+  /**
+   * Get the next free record in the list. This version of the
+   * method is not thread-safe, and will not resize the underlying
+   * logging buffer.
+   *
+   * @return            Pointer to the next free record.
+   */
+  T * next_free_record_no_lock (void);
 
+  /**
+   * Get the underlying mutual exclusion object.
+   *
+   * @return            The locking mechanism.
+   */
   LOCK & lock (void);
 
+  /**
+   * Assignment operator.
+   *
+   * @param[in]       log       Right-hand side of the operator.
+   * @return          Reference to self.
+   */
   const CUTS_Log_T & operator = (const CUTS_Log_T & log);
+
+  /**
+   * Get an iterator to the end of the used log entries. The state
+   * of this element may, or may not be valid. It is advised that
+   * you do not try to dereference this iterator.
+   *
+   * @return          Iterator object.
+   */
+  iterator used_end (void);
+
+  /**
+   * @overload
+   */
+  const_iterator used_end (void) const;
 
 private:
   void copy_log (const CUTS_Log_T & log);
+
   void copy_log_i (const CUTS_Log_T & log);
 
   /// Number of used records in the log.

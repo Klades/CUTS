@@ -7,7 +7,6 @@
 #include "cuts/Port_Agent.h"
 #include "cuts/Thread_Activation_Record.h"
 #include "ace/Log_Msg.h"
-#include "ace/OS_NS_sys_time.h"
 
 //
 // MPI_Init
@@ -63,32 +62,10 @@ int MPI_Recv (void * buf,
   CUTS_Port_Agent * agent = CUTS_MPI_ENV ()->datatype_mgr ().get (datatype);
   CUTS_Activation_Record * record = agent->record_alloc ();
 
-  // Install the record in TSS.
+  // Install the record in TSS. Make sure we close the previously
+  // installed record if it was open.
   CUTS_Activation_Record * old_record =
     CUTS_Thread_Activation_Record::set_record (record);
-
-  // Open the record for writing.
-  record->open (source);
-
-  // Record the start time of receiving. This will be used
-  // as the 'queue' time for the event.
-  ACE_Time_Value start_time = ACE_OS::gettimeofday ();
-
-  MPI_Status tmp_status;
-  int retval = PMPI_Recv (buf, count, datatype, source, tag, comm, &tmp_status);
-
-  // Record the stop time of receiving the data. Then calculate
-  // how long we waited to receive data.
-  ACE_Time_Value stop_time = ACE_OS::gettimeofday ();
-  record->queue_time (stop_time - start_time);
-
-  // Make sure we have the correct owner of the record.
-  if (source == MPI_ANY_SOURCE)
-    record->owner (tmp_status.MPI_SOURCE);
-
-  // Save the status for the caller, if necessary.
-  if (status != MPI_STATUS_IGNORE)
-    *status = tmp_status;
 
   if (old_record->is_open ())
   {
@@ -96,6 +73,30 @@ int MPI_Recv (void * buf,
     agent->record_free (old_record);
   }
 
+  // Record the start time of receiving. This will be used
+  // as the 'queue' time for the event.
+  CUTS_MPI_ENV ()->timer ().start ();
+
+  MPI_Status tmp_status;
+  int retval = PMPI_Recv (buf, count, datatype, source, tag, comm, &tmp_status);
+
+  // Record the stop time of receiving the data.
+  CUTS_MPI_ENV ()->timer ().stop ();
+
+  //  Calculate how long we waited to receive data.
+  ACE_Time_Value duration;
+  CUTS_MPI_ENV ()->timer ().elapsed_time (duration);
+
+  // Set the queuing time for the record, which is really how long
+  // we waited to receive the data.
+  record->queue_time (duration);
+
+  // Save the status for the caller, if necessary.
+  if (status != MPI_STATUS_IGNORE)
+    *status = tmp_status;
+
+  // Open record for writing and return control the client.
+  record->open (tmp_status.MPI_SOURCE);
   return retval;
 }
 

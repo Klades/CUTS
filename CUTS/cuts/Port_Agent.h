@@ -14,7 +14,6 @@
 #define _CUTS_PORT_AGENT_H_
 
 #include "cuts/Activation_Record_Log.h"
-#include "cuts/Port_Measurement_Map.h"
 #include "ace/SString.h"
 #include "ace/Containers_T.h"
 
@@ -47,16 +46,16 @@ public:
   /// Deactivate the port agent.
   virtual void deactivate (void);
 
-  /**
-   * Get the current port measurement map. This will cause the
-   * port agent to switch to a new map for metrics collection.
-   *
-   * @return      Reference to the lastest port measurement map.
-   */
-  CUTS_Port_Measurement_Map & sender_map (void);
+  ///**
+  // * Get the current port measurement map. This will cause the
+  // * port agent to switch to a new map for metrics collection.
+  // *
+  // * @return      Reference to the lastest port measurement map.
+  // */
+  //CUTS_Port_Measurement_Map & sender_map (void);
 
-  /// @overload
-  const CUTS_Port_Measurement_Map & sender_map (void) const;
+  ///// @overload
+  //const CUTS_Port_Measurement_Map & sender_map (void) const;
 
   /**
    * Determine the active state of the port agent.
@@ -90,11 +89,22 @@ public:
   /// port agent.
   void reset (void);
 
+  /**
+   * Get the collection of activation record logs contained in
+   * this port agent. This logs are on are saved on a per-input
+   * basis in a chronological order.
+   *
+   * @return        The activation record logs.
+   */
   CUTS_Activation_Record_Log & log (void);
+
+  /**
+   * @overload
+   */
   const CUTS_Activation_Record_Log & log (void) const;
 
 private:
-  void update (const CUTS_Activation_Record * record);
+  //void consolidate (const CUTS_Activation_Record * record);
 
   /// Name of the port.
   ACE_CString name_;
@@ -102,8 +112,8 @@ private:
   /// The active state of the port agent.
   bool active_;
 
-  /// Collection of port measurements used by the port agent.
-  CUTS_Port_Measurement_Map sender_map_;
+  ///// Collection of port measurements used by the port agent.
+  //CUTS_Port_Measurement_Map sender_map_;
 
   /// Default activation record.
   CUTS_Activation_Record fallback_record_;

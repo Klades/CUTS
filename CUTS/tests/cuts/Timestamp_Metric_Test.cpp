@@ -69,6 +69,20 @@ void CUTS_Timestamp_Metric_is_valid (void)
   BOOST_CHECK (metric.is_valid ());
 }
 
+//=============================================================================
+/*
+ * Unit_Test: CUTS_Timestamp_Metric_assignment
+ */
+//=============================================================================
+
+void CUTS_Timestamp_Metric_assignment (void)
+{
+  CUTS_Timestamp_Metric t1, t2 (ACE_OS::gettimeofday ());
+
+  t1 = t2;
+  BOOST_CHECK (t1.timestamp () == t2.timestamp ());
+}
+
 //
 // init_unit_test_suite
 //
@@ -82,6 +96,7 @@ bool init_unit_test_suite (void)
   framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_setter));
   framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_reset));
   framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_is_valid));
+  framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_assignment));
 
   INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS"), false);
   return true;

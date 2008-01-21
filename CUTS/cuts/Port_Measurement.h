@@ -23,7 +23,7 @@ class CUTS_Metrics_Visitor;
 
 /// Collection of endpoints stored by an unique integer id.
 typedef ACE_Hash_Map_Manager <
-  size_t, CUTS_Time_Measurement *, ACE_Null_Mutex>
+  int, CUTS_Time_Measurement *, ACE_Null_Mutex>
   CUTS_Port_Measurement_Endpoint_Map;
 
 //=============================================================================
@@ -44,13 +44,6 @@ public:
   ~CUTS_Port_Measurement (void);
 
   /**
-   * Update the processing time for the port.
-   *
-   * @param[in]     timing      The new processing time.
-   */
-  void process_time (const ACE_Time_Value & timing);
-
-  /**
    * Get the processing time for the port. The processing time is considered
    * the time from when the event reaches the application level to when the
    * calling thread returns to the middleware level. Use endpoints () if you
@@ -61,15 +54,10 @@ public:
    */
   const CUTS_Time_Measurement & process_time (void) const;
 
-  /// @overload
-  CUTS_Time_Measurement & process_time (void);
-
   /**
-   * Update the queuing time for the port.
-   *
-   * @param[in]     timing      The new queueing time.
+   * @overload
    */
-  void queuing_time (const ACE_Time_Value & timing);
+  CUTS_Time_Measurement & process_time (void);
 
   /**
    * Get the queuing time the events in at this port. The queuing time only

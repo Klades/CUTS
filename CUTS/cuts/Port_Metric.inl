@@ -19,16 +19,19 @@ CUTS_Activation_Record_Log & CUTS_Port_Metric::log (void)
 }
 
 //
-// sender_map
+// summary
 //
 CUTS_INLINE
-CUTS_Port_Measurement_Map & CUTS_Port_Metric::sender_map (void)
+CUTS_Port_Summary & CUTS_Port_Metric::summary (void)
 {
-  return this->sender_map_;
+  return this->summary_;
 }
 
+//
+// summary
+//
 CUTS_INLINE
-const CUTS_Port_Measurement_Map & CUTS_Port_Metric::sender_map (void) const
+const CUTS_Port_Summary & CUTS_Port_Metric::summary (void) const
 {
-  return this->sender_map_;
+  return this->summary_;
 }

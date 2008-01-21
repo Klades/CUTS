@@ -25,7 +25,13 @@ class CUTS_Component_Metric;
 class CUTS_Port_Metric;
 
 // Forward decl.
-class CUTS_Port_Measurement;
+class CUTS_Port_Summary;
+
+// Forward decl.
+class CUTS_Port_Summary_Base;
+
+// Forward decl.
+class CUTS_Endpoint_Log_Summary;
 
 // Forward decl.
 class CUTS_Time_Measurement;
@@ -70,11 +76,16 @@ public:
   virtual void visit_port_metric (const CUTS_Port_Metric & pm);
 
   /**
-   * Handle visiting a CUTS_Port_Measurement object.
-   *
-   * @param[in]     pm      Reference to a CUTS_Port_Measurement object.
+   * Handle visiting a CUTS_Port_Summary object.
    */
-  virtual void visit_port_measurement (const CUTS_Port_Measurement & pm);
+  virtual void visit_port_summary (const CUTS_Port_Summary &);
+
+  /**
+   * Handle visiting a CUTS_Port_Summary_Base object.
+   */
+  virtual void visit_port_summary_base (const CUTS_Port_Summary_Base &);
+
+  virtual void visit_endpoint_log_summary (const CUTS_Endpoint_Log_Summary &);
 
   /**
    * Handle visiting a CUTS_Time_Measurement object.

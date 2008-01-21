@@ -26,6 +26,12 @@ class CUTS_Component_Registry;
 // Forward decl.
 struct CUTS_Component_Info;
 
+// Forward decl.
+class CUTS_Activation_Record_Endpoint;
+
+// Forward decl.
+class CUTS_Activation_Record_Entry;
+
 //=============================================================================
 /**
  * @class CUTS_XML_Metrics_Writer
@@ -68,8 +74,8 @@ public:
   // Handle the port metric visit.
   virtual void visit_port_metric (const CUTS_Port_Metric & metrics);
 
-  // Handle the port metric visit.
-  virtual void visit_port_measurement (const CUTS_Port_Measurement & pm);
+  //// Handle the port metric visit.
+  //virtual void visit_port_measurement (const CUTS_Port_Measurement & pm);
 
   // Handle the time measurement visit.
   virtual void visit_time_measurement (const CUTS_Time_Measurement & tm);
@@ -77,6 +83,12 @@ public:
 private:
   void print_time_value (const ACE_CString & header,
                          const ACE_Time_Value & tv);
+
+  // Helper method to print an endpoints.
+  void print_endpoint (const CUTS_Activation_Record_Endpoint & endpoint);
+
+  // Helper method to print activation record entry.
+  void print_record_entry (const CUTS_Activation_Record_Entry & entry);
 
   /// Registry of the components.
   const CUTS_Component_Registry & registry_;

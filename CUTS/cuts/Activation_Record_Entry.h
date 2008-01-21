@@ -24,8 +24,9 @@
  */
 //=============================================================================
 
-struct CUTS_Export CUTS_Activation_Record_Entry
+class CUTS_Export CUTS_Activation_Record_Entry
 {
+public:
   /// Unique id for the entry.
   size_t uid_;
 

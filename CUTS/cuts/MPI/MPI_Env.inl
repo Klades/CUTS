@@ -48,3 +48,12 @@ CUTS_MPI_Env::datatype_mgr (void) const
 {
   return *this->datatype_mgr_;
 }
+
+//
+// timer
+//
+CUTS_INLINE
+ACE_High_Res_Timer & CUTS_MPI_Env::timer (void)
+{
+  return this->timer_;
+}

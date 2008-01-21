@@ -6,170 +6,33 @@
 #include "cuts/performance_i.inl"
 #endif
 
+#include "cuts/Port_Agent.h"
+#include "cuts/Port_Metric.h"
 #include "tao/corba.h"
 #include "ace/Guard_T.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // @@ extraction operators
 
-static ACE_Time_Value tv_collection_time_;
-
-//
-// operator >>=
-//
-void operator >>= (const CUTS::Component_Metric & src,
-                   CUTS_Component_Metric & dst)
+namespace CUTS
 {
-  // Save the collection time for this component.
-  tv_collection_time_ = dst.timestamp ();
-
-  // Get an pointer to the front and back of source buffer.
-  CORBA::ULong curr_size = src.metrics.length ();
-  CUTS::Port_Metrics::const_value_type * iter = src.metrics.get_buffer ();
-  CUTS::Port_Metrics::const_value_type * iter_stop = iter + curr_size;
-
-  // Get the collection time for the metric. This will be need to all
-  // the port agents.
-
-  CUTS_Port_Metric * port_metric = 0;
-
-  for (iter; iter != iter_stop; iter ++)
+  namespace global
   {
-    // Try to locate the port metrics for <uid>. If we can't find
-    // it then we need to create a new one.
-    if (dst.port_metrics ().find (iter->uid, port_metric) == -1)
-    {
-      ACE_NEW_THROW_EX (port_metric,
-                        CUTS_Port_Metric,
-                        ACE_bad_alloc ());
+    /// Temporary placeholder for the time value.
+    static ACE_Time_Value tv_placeholder_;
 
-      // Insert it into the mapping for next time.
-      dst.port_metrics ().bind (iter->uid, port_metric);
-    }
-
-    // Update the collection time for the component.
-    port_metric->timestamp (tv_collection_time_);
-
-    // Extract the metrics for the port.
-    *iter >>= *port_metric;
+    /// The current activation record under processing.
+    static CUTS_Activation_Record * curr_record_ = 0;
   }
 }
 
 //
 // operator >>=
 //
-void operator >>= (const CUTS::Port_Metric & pm,
-                   CUTS_Port_Metric & port)
+static inline
+void operator >>= (const CUTS::Time_Stamp & ts, ACE_Time_Value & tm)
 {
-  // Update the time for the port metric.
-  port.timestamp (tv_collection_time_);
-
-  pm.history >>= port.log ();
-  pm.sorted_metrics >>= port.sender_map ();
-}
-
-//
-// operator >>=
-//
-void operator >>= (const CUTS::Sorted_Port_Metrics & sps,
-                   CUTS_Port_Measurement_Map & pmp)
-{
-  CORBA::ULong curr_size = sps.length ();
-  CUTS::Sorted_Port_Metrics::const_value_type * iter = sps.get_buffer ();
-  CUTS::Sorted_Port_Metrics::const_value_type * iter_stop = iter + curr_size;
-
-  pmp.empty ();
-
-  // Empty the port measurement map.
-  CUTS_Port_Measurement * port_measurement = 0;
-
-  for (; iter != iter_stop; iter ++)
-  {
-    if (pmp.find (iter->uid, port_measurement) == 0)
-      iter->summary >>= *port_measurement;
-  }
-}
-
-//
-// operator >>=
-//
-void operator >>= (const CUTS::Port_Summary & ps, CUTS_Port_Measurement & pm)
-{
-  pm.timestamp (tv_collection_time_);
-
-  ps.process_time >>= pm.process_time ();
-  ps.queue_time >>= pm.queuing_time ();
-  ps.endpoint_times >>= pm.endpoints ();
-}
-
-//
-// operator >>=
-//
-void operator >>= (const CUTS::Endpoint_Time_Infos & eti,
-                   CUTS_Port_Measurement_Endpoint_Map & endpoints)
-{
-  // Get the current size of the buffer and a pointer to it.
-  CORBA::ULong curr_size = eti.length ();
-  const CUTS::Endpoint_Time_Infos::value_type * buf = eti.get_buffer ();
-  const CUTS::Endpoint_Time_Infos::value_type * buf_stop = buf + curr_size;
-
-  CUTS_Time_Measurement * measure = 0;
-
-  for (; buf != buf_stop; buf ++)
-  {
-    if (endpoints.find (buf->uid, measure) != 0)
-    {
-      ACE_NEW_THROW_EX (measure,
-                        CUTS_Time_Measurement,
-                        ::CORBA::NO_MEMORY ());
-
-      endpoints.bind (buf->uid, measure);
-    }
-
-    if (measure != 0)
-      buf->info >>= *measure;
-  }
-}
-
-//
-// operator >>=
-//
-void operator >>= (const CUTS::Metric_Log & mlog,
-                   CUTS_Activation_Record_Log & log)
-{
-  // Get the size of the log sequence then resize the activation
-  // record log accordingly.
-  CORBA::ULong curr_size = mlog.length ();
-  log.size (curr_size);
-
-  // Reset the record log.
-  log.reset ();
-
-  // Get a pointer to the buffer w/ the activation records.
-  const CUTS::Metric_Log::value_type * buf = mlog.get_buffer ();
-  const CUTS::Metric_Log::value_type * buf_stop = buf + curr_size;
-
-  // Update the size of the log. This will prevent us from having to
-  // rely on next_free_record () to increase the log size. In some
-  // cases that would be feasible, but it would cause to many
-  // lock/unlock request. This is more like a batch operation job.
-  ACE_WRITE_GUARD (ACE_RW_Thread_Mutex, guard, log.lock ());
-
-  while (buf < buf_stop)
-    *buf ++ >>= *log.next_free_record_i ();
-}
-
-//
-// operator >>=
-//
-void operator >>= (const CUTS::Time_Info & ti, CUTS_Time_Measurement & tm)
-{
-  tm.timestamp (tv_collection_time_);
-  tm.count (ti.count);
-
-  ti.total >>= tm.total ();
-  ti.min >>= tm.minimum ();
-  ti.max >>= tm.maximum ();
+  tm.set (ts.sec, ts.usec);
 }
 
 //
@@ -178,9 +41,49 @@ void operator >>= (const CUTS::Time_Info & ti, CUTS_Time_Measurement & tm)
 void operator >>= (const CUTS::Action_Time & time,
                    CUTS_Activation_Record_Entry & entry)
 {
-  entry.uid_ = time.uid;
+  entry.uid_ = time.unique_id;
   entry.type_ = time.type;
+
   time.duration >>= entry.duration_;
+}
+
+//
+// operator >>=
+//
+template <typename S, typename T, typename LOCK>
+static void operator >>= (const S & sequence, CUTS_Log_T <T, LOCK> & log)
+{
+  // Get the size of the sequence.
+  CORBA::ULong curr_size = sequence.length ();
+
+  // Get a pointer to the buffer w/ the activation records.
+  typename S::const_value_type * buf = sequence.get_buffer ();
+  typename S::const_value_type * buf_stop = buf + curr_size;
+
+  // Since we are having problems w/ using the lock_type directly in
+  // the macro, we are going to explicitly declare it. Then, we are
+  // going to get a write lock to the log for batch processing.
+  typedef typename CUTS_Log_T <T, LOCK>::lock_type lock_type;
+  ACE_WRITE_GUARD (typename lock_type, guard, log.lock ());
+
+  // Set the size of the log and reset its state.
+  log.reset ();
+  log.size (curr_size);
+
+  // Update the size of the log. This will prevent us from having to
+  // rely on next_free_record () to increase the log size. In some
+  // cases that would be feasible, but it would cause to many
+  // lock/unlock request. This is more like a batch operation job.
+
+  typename CUTS_Log_T <T, LOCK>::pointer ptr = 0;
+
+  for (; buf != buf_stop; buf ++)
+  {
+    ptr = log.next_free_record_no_lock ();
+
+    if (ptr != 0)
+      *buf >>= *ptr;
+  }
 }
 
 //
@@ -198,53 +101,115 @@ void operator >>= (const CUTS::Action_Times & times,
   CUTS::Action_Times::const_value_type * buf_stop = buf + curr_size;
 
   for (; buf != buf_stop; buf ++)
-    *buf >>= *entries.next_free_record_i ();
+    *buf >>= *entries.next_free_record ();
 }
 
 //
 // operator >>=
 //
-void operator >>= (const CUTS::Endpoint_Times & ep_times,
-                   CUTS_Activation_Record_Endpoints & endpoints)
+static
+void operator >>= (const CUTS::Endpoint_Time & ep_time,
+                   CUTS_Activation_Record_Endpoint & endpoint)
 {
-  // Get the pointer to the ep_times buffer and its size.
-  CORBA::ULong curr_size = ep_times.length ();
-  const CUTS::Endpoint_Times::value_type * buf = ep_times.get_buffer ();
-  const CUTS::Endpoint_Times::value_type * buf_stop = buf + curr_size;
+  // Get the time value for the endpoint.
+  ACE_Time_Value tv;
+  ep_time.exittime >>= tv;
 
-  // Temporary storage for the time values. First, we are going
-  // to remove all values currently in the hash map.
-  endpoints.unbind_all ();
-  ACE_Time_Value tv_temp;
+  // Calculate how long it took to reach this endpoint.
+  tv -= CUTS::global::curr_record_->start_time ();
 
-  for (; buf < buf_stop; buf ++)
-  {
-    // Extract the ACE_Time_Value then add mapping to <endpoints>.
-    buf->exittime >>= tv_temp;
-    endpoints.bind (buf->uid, tv_temp);
-  }
+  // Set the endpoints properties.
+  endpoint.set (ep_time.unique_id, tv, ep_time.datasize);
 }
 
 //
 // operator >>=
 //
-void operator >>= (const CUTS::Metric_Record & m_record,
-                   CUTS_Activation_Record & a_record)
+static void
+operator >>= (const CUTS::Metric_Record & mr, CUTS_Activation_Record & ar)
 {
-  // Extract the owner of the <m_record>.
-  a_record.owner (m_record.sender);
+  // Extract the owner of the <mr>.
+  ar.owner (mr.sender);
 
   // Extract the open/close time for the record.
-  m_record.open_time  >>= a_record.start_time ();
-  m_record.close_time >>= a_record.stop_time ();
+  mr.open_time  >>= ar.start_time ();
+  mr.close_time >>= ar.stop_time ();
 
   // Extract the queueing and endpoint times from the record.
   ACE_Time_Value tv_temp;
-  m_record.queue_time >>= tv_temp;
-  a_record.queue_time (tv_temp);
+  mr.queue_time >>= tv_temp;
+  ar.queue_time (tv_temp);
 
-  m_record.ep_times >>= a_record.endpoints ();
-  m_record.action_log >>= a_record.entries ();
+  // Save the current record for future usage.
+  CUTS::global::curr_record_ = &ar;
+
+  // Extract the endpoints and entries from the metrics.
+  mr.ep_times >>= ar.endpoints ();
+  mr.action_log >>= ar.entries ();
+}
+
+//
+// operator >>=
+//
+static
+void operator >>= (const CUTS::Port_Metric & pm, CUTS_Port_Metric & port)
+{
+  // Update the time for the port metric.
+  port.timestamp (CUTS::global::tv_placeholder_);
+
+  // Extract the activation record log.
+  CUTS_Activation_Record_Log & log = port.log ();
+  pm.record_log >>= log;
+
+  // Get a reference to the log and lock it for reading.
+  ACE_READ_GUARD (CUTS_Activation_Record_Log::lock_type,
+                  guard,
+                  log.lock ());
+
+  // Summarize the extracted activation record log.
+  port.summary ().reset ();
+  port.summary ().process (log);
+}
+
+//
+// operator >>=
+//
+void operator >>= (const CUTS::Component_Metric & src,
+                   CUTS_Component_Metric & dst)
+{
+  // Save the collection time for this component.
+  CUTS::global::tv_placeholder_ = dst.timestamp ();
+
+  // Get an pointer to the front and back of source buffer.
+  CORBA::ULong curr_size = src.ports.length ();
+  CUTS::Port_Metrics::const_value_type * iter = src.ports.get_buffer ();
+  CUTS::Port_Metrics::const_value_type * iter_stop = iter + curr_size;
+
+  // Get the collection time for the metric. This will be need to all
+  // the port agents.
+
+  CUTS_Port_Metric * port_metric = 0;
+
+  while (iter < iter_stop)
+  {
+    // Try to locate the port metrics for <unique_id>. If we can't find
+    // it then we need to create a new one.
+    if (dst.port_metrics ().find (iter->unique_id, port_metric) == -1)
+    {
+      ACE_NEW_THROW_EX (port_metric,
+                        CUTS_Port_Metric,
+                        ACE_bad_alloc ());
+
+      // Insert it into the mapping for next time.
+      dst.port_metrics ().bind (iter->unique_id, port_metric);
+    }
+
+    // Update the collection time for the component.
+    port_metric->timestamp (CUTS::global::tv_placeholder_);
+
+    // Extract the metrics for the port.
+    *iter ++ >>= *port_metric;
+  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -253,219 +218,21 @@ void operator >>= (const CUTS::Metric_Record & m_record,
 //
 // operator <<=
 //
-static void operator <<= (CUTS::Port_Metrics & ports,
-                          const CUTS_Port_Agent_Set & agents)
+inline
+void operator <<= (CUTS::Time_Stamp & ts, const ACE_Time_Value & tv)
 {
-  // Get the number of agents and update the size of the
-  // port metrics.
-  size_t size = agents.current_size ();
-  ports.length (size);
-
-  // Get a pointer to both the source and destination buffer.
-  CUTS::Port_Metrics::value_type * buf = ports.get_buffer ();
-  CUTS_Port_Agent_Set::CONST_ITERATOR iter (agents);
-
-  // Copy all the elements from the set to the sequence.
-  for (; !iter.done (); iter.advance ())
-  {
-    CUTS_Port_Agent * agent = iter->key ();
-
-    buf->uid = iter->item ();
-    *buf ++ <<= *agent;
-
-    // Reset the port agent for the next collection.
-    agent->reset ();
-  }
+  ts.sec = tv.sec ();
+  ts.usec = tv.usec ();
 }
 
 //
 // operator <<=
 //
-void operator <<= (CUTS::Component_Metric & cm,
-                   const CUTS_Benchmark_Agent & agent)
-{
-  // Set the parent id and the collection time.
-  cm.uid = agent.parent ();
-  cm.collection_time <<= ACE_OS::gettimeofday ();
-
-  // Insert all the port metrics.
-  cm.metrics <<= agent.port_agents ();
-}
-
-//
-// operator <<=
-//
-void operator <<= (CUTS::Port_Metric & pm, const CUTS_Port_Agent & agent)
-{
-  // Insert the sorted port measurements and move to a new pool.
-  pm.sorted_metrics <<= agent.sender_map ();
-
-  // Insert the history log.
-  pm.history <<= agent.log ();
-}
-
-//
-// operator <<=
-//
-static inline
-void operator <<= (CUTS::Sorted_Port_Metric & sps,
-                   CUTS_Port_Measurement_Map::hash_map_t::value_type & vt)
-{
-  sps.uid = vt.key ();
-  sps.summary <<= *vt.item ();
-
-  // Reset the port measurement for the next collection.
-  vt.item ()->reset ();
-}
-
-//
-// operator <<=
-//
-void operator <<= (CUTS::Sorted_Port_Metrics & sps,
-                   const CUTS_Port_Measurement_Map & pmp)
-{
-  CUTS_Port_Measurement_Map::CONST_ITERATOR iter (pmp.hash_map ());
-  sps.length (pmp.hash_map ().current_size ());
-
-  CUTS::Sorted_Port_Metrics::value_type * buf = sps.get_buffer ();
-
-  for (; !iter.done (); iter.advance ())
-    *buf ++ <<= *iter;
-}
-
-//
-// operator <<=
-//
-void operator <<= (CUTS::Port_Summary & ps, const CUTS_Port_Measurement & pm)
-{
-  ps.process_time <<= pm.process_time ();
-  ps.queue_time <<= pm.queuing_time ();
-  ps.endpoint_times <<= pm.endpoints ();
-}
-
-//
-// operator <<=
-//
-void operator <<= (CUTS::Endpoint_Time_Infos & eti,
-                   const CUTS_Port_Measurement_Endpoint_Map & endpoints)
-{
-  // Set the current size of the buffer.
-  CORBA::ULong curr_size = endpoints.current_size ();
-  eti.length (curr_size);
-
-  // Get a pointer to the buffer.
-  CUTS::Endpoint_Time_Infos::value_type * buf = eti.get_buffer ();
-
-  size_t count = 0;
-  CUTS_Port_Measurement_Endpoint_Map::CONST_ITERATOR iter (endpoints);
-
-  for (; !iter.done (); iter.advance ())
-  {
-    if (iter->item ()->count () > 0)
-    {
-      *buf ++ <<= *iter;
-      ++ count;
-    }
-  }
-
-  eti.length (buf - eti.get_buffer ());
-}
-
-//
-// operator <<=
-//
-void operator <<= (CUTS::Time_Info & ti, const CUTS_Time_Measurement & tm)
-{
-  ti.count = tm.count ();
-
-  ti.total <<= tm.total ();
-  ti.min <<= tm.minimum ();
-  ti.max <<= tm.maximum ();
-}
-
-//
-// operator <<=
-//
-void operator <<= (CUTS::Metric_Log & mlog,
-                   const CUTS_Activation_Record_Log & log)
-{
-  ::CORBA::ULong final_size = 0;
-
-  do
-  {
-    ACE_READ_GUARD (ACE_RW_Thread_Mutex,
-      guard,
-      const_cast <CUTS_Activation_Record_Log &> (log).lock ());
-
-    // Set the size of the <mlog> sequence.
-    ::CORBA::ULong curr_size = log.used_size ();
-    mlog.length (curr_size);
-
-    // Get a iterator to the logs and a pointer to the head
-    // of the target buffer.
-    CUTS_Activation_Record_Log::const_iterator iter = log.begin ();
-    CUTS::Metric_Log::value_type * buf = mlog.get_buffer ();
-
-    // Get a read lock to the log. This will allow use to do a batch
-    // processing operation and prevent other threads from trying to
-    // increase the size of the record log.
-    for (::CORBA::ULong i = 0; i < curr_size; i ++)
-    {
-      // Only copy records that are not open (i.e., have be used). Since we
-      // are only looking at used records, we do not have to worry about a
-      // record in the middle of the pack being unused.
-
-      if (!iter->is_open ())
-      {
-        *buf ++ <<= *iter ++;
-
-        // Keep track of the actual size.
-        ++ final_size;
-      }
-    }
-  } while (0);
-
-  // Make sure the size of the buffer reflects the number of
-  // used records that we copied.
-  mlog.length (final_size);
-}
-
-//
-// operator <<=
-//
-void operator <<= (CUTS::Endpoint_Times & ep_times,
-                   const CUTS_Activation_Record_Endpoints & endpoints)
-{
-  // Set the correct size of the target buffer.
-  ::CORBA::ULong curr_size = endpoints.current_size ();
-  ep_times.length (curr_size);
-
-  // Get an iterator to the endpoint times and a pointer to the
-  // buffer that will store the endpoint times.
-  CUTS_Activation_Record_Endpoints::CONST_ITERATOR iter (endpoints);
-  CUTS::Endpoint_Times::value_type * buf = ep_times.get_buffer ();
-
-  for (::CORBA::ULong index = 0; index < curr_size; index ++)
-  {
-    // Store the information in the buffer. This is the unique
-    // id of the endpoint and the time it was encountered.
-    buf->uid = iter->key ();
-    buf->exittime <<= iter->item ().time_of_completion ();
-
-    // Move the next location in the map and the next slot
-    // in the target buffer.
-    iter.advance ();
-    buf ++;
-  }
-}
-
-//
-// operator <<=
-//
+static
 void operator <<= (CUTS::Action_Time & act,
                    const CUTS_Activation_Record_Entry & entry)
 {
-  act.uid = entry.uid_;
+  act.unique_id = entry.uid_;
   act.type = entry.type_;
   act.duration <<= entry.duration_;
 }
@@ -473,6 +240,7 @@ void operator <<= (CUTS::Action_Time & act,
 //
 // operetor <<=
 //
+static
 void operator <<= (CUTS::Action_Times & times,
                    const CUTS_Activation_Record_Entry_Log & entries)
 {
@@ -492,6 +260,38 @@ void operator <<= (CUTS::Action_Times & times,
 //
 // operator <<=
 //
+static
+void operator <<= (CUTS::Endpoint_Times & ep_times,
+                   const CUTS_Activation_Record_Endpoints & endpoints)
+{
+  // Set the correct size of the target buffer.
+  CORBA::ULong curr_size = endpoints.used_size ();
+  ep_times.length (curr_size);
+
+  // Get an iterator to the endpoint times and a pointer to the
+  // buffer that will store the endpoint times.
+  CUTS_Activation_Record_Endpoints::const_iterator iter = endpoints.begin ();
+  CUTS::Endpoint_Times::value_type * buf = ep_times.get_buffer ();
+
+  for (CORBA::ULong i = 0; i < curr_size; i ++)
+  {
+    // Store the information in the buffer. This is the unique
+    // id of the endpoint and the time it was encountered.
+    buf->unique_id = iter->id ();
+    buf->datasize  = iter->data_size ();
+    buf->exittime <<= iter->time_of_completion ();
+
+    // Move the next location in the map and the next slot
+    // in the target buffer.
+    iter ++;
+    buf ++;
+  }
+}
+
+//
+// operator <<=
+//
+static
 void operator <<= (CUTS::Metric_Record & dest,
                    const CUTS_Activation_Record & src)
 {
@@ -507,4 +307,117 @@ void operator <<= (CUTS::Metric_Record & dest,
   dest.queue_time <<= src.queue_time ();
   dest.ep_times   <<= src.endpoints ();
   dest.action_log <<= src.entries ();
+}
+
+//
+// operator <<=
+//
+static
+void operator <<= (CUTS::Metric_Records & mlog,
+                   const CUTS_Activation_Record_Log & log)
+{
+  CORBA::ULong actual_size = 0;
+  CORBA::ULong curr_size;
+
+  do
+  {
+    ACE_READ_GUARD (CUTS_Activation_Record_Log::lock_type,
+                    guard,
+                    const_cast <CUTS_Activation_Record_Log &> (log).lock ());
+
+    // Set the size of the <mlog> sequence.
+    curr_size = log.used_size ();
+    mlog.length (curr_size);
+
+    // Get a iterator to the logs and a pointer to the head
+    // of the target buffer.
+    CUTS_Activation_Record_Log::const_iterator iter = log.begin ();
+    CUTS::Metric_Records::value_type * buf = mlog.get_buffer ();
+
+    // Get a read lock to the log. This will allow use to do a batch
+    // processing operation and prevent other threads from trying to
+    // increase the size of the record log.
+    for (CORBA::ULong i = 0; i < curr_size; i ++)
+    {
+      // Only copy records that are not open (i.e., have be used). Since we
+      // are only looking at used records, we do not have to worry about a
+      // record in the middle of the pack being unused.
+      if (!iter->is_open ())
+      {
+        // Store the record in the buffer.
+        *buf ++ <<= *iter ++;
+
+        // Keep track of the actual size.
+        ++ actual_size;
+      }
+    }
+  } while (0);
+
+  // Make sure the size of the buffer reflects the number of
+  // used records that we copied.
+  if (actual_size != curr_size)
+    mlog.length (actual_size);
+}
+
+//
+// operator <<=
+//
+inline
+void operator <<= (CUTS::Port_Metric & pm, const CUTS_Port_Agent & agent)
+{
+  pm.record_log <<= agent.log ();
+}
+
+//
+// operator <<=
+//
+static void
+operator <<= (CUTS::Port_Metrics & ports, const CUTS_Port_Agent_Set & agents)
+{
+  // Get the number of agents and update the size of the
+  // port metrics.
+  CORBA::ULong size = agents.current_size ();
+  ports.length (size);
+
+
+  // Get a pointer to both the source and destination buffer.
+  CUTS::Port_Metrics::value_type * buf = ports.get_buffer ();
+  CUTS_Port_Agent_Set::CONST_ITERATOR iter (agents);
+  CORBA::ULong actual_size = 0;
+
+  // Copy all the elements from the set to the sequence.
+  for (; !iter.done (); iter.advance ())
+  {
+    CUTS_Port_Agent * agent = iter->key ();
+
+    if (agent != 0)
+    {
+      buf->unique_id = iter->item ();
+
+      // Insert the port agent and reset it.
+      *buf ++ <<= *agent;
+      agent->reset ();
+
+      // Increment the actual size of the sequence.
+      ++ actual_size;
+    }
+  }
+
+  // Make sure the sequence is of the correct size.
+  if (size != actual_size)
+    ports.length (actual_size);
+}
+
+//
+// operator <<=
+//
+void operator <<= (CUTS::Component_Metric & cm,
+                   const CUTS_Benchmark_Agent & agent)
+{
+  // Set the parent id and the collection time.
+  cm.unique_id = agent.parent ();
+  cm.collection_time <<= ACE_OS::gettimeofday ();
+
+  // Insert all the port metrics.
+  cm.ports <<= agent.port_agents ();
 }

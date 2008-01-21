@@ -51,8 +51,11 @@ public:
   // Visit the CUTS_Port_Metric object.
   void visit_port_metric (const CUTS_Port_Metric & metrics);
 
-  // Visit the CUTS_Port_Measurement object.
-  void visit_port_measurement (const CUTS_Port_Measurement & pm);
+  // Visit the CUTS_Port_Summary object.
+  void visit_port_summary (const CUTS_Port_Summary & summary);
+
+  // Visit the CUTS_Port_Summary_Base object.
+  void visit_endpoint_log_summary (const CUTS_Endpoint_Log_Summary & summary);
 
   // Visit the CUTS_Time_Metric object.
   void visit_time_measurement (const CUTS_Time_Measurement & tm);

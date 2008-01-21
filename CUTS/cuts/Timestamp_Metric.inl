@@ -44,15 +44,6 @@ CUTS_Timestamp_Metric::~CUTS_Timestamp_Metric (void)
 // timestamp
 //
 CUTS_INLINE
-void CUTS_Timestamp_Metric::timestamp (const ACE_Time_Value & tv)
-{
-  this->timestamp_ = tv;
-}
-
-//
-// timestamp
-//
-CUTS_INLINE
 const ACE_Time_Value & CUTS_Timestamp_Metric::timestamp (void) const
 {
   return this->timestamp_;
@@ -62,18 +53,9 @@ const ACE_Time_Value & CUTS_Timestamp_Metric::timestamp (void) const
 // timestamp
 //
 CUTS_INLINE
-ACE_Time_Value & CUTS_Timestamp_Metric::timestamp (void)
+void CUTS_Timestamp_Metric::timestamp (const ACE_Time_Value & tv)
 {
-  return this->timestamp_;
-}
-
-//
-// reset
-//
-CUTS_INLINE
-void CUTS_Timestamp_Metric::reset (void)
-{
-  this->timestamp_ = ACE_Time_Value::zero;
+  this->timestamp_ = tv;
 }
 
 //
@@ -83,4 +65,15 @@ CUTS_INLINE
 bool CUTS_Timestamp_Metric::is_valid (void) const
 {
   return this->timestamp_ != ACE_Time_Value::zero;
+}
+
+//
+// operator =
+//
+CUTS_INLINE
+const CUTS_Timestamp_Metric & CUTS_Timestamp_Metric::
+operator = (const CUTS_Timestamp_Metric & rhs)
+{
+  this->timestamp_ = rhs.timestamp_;
+  return *this;
 }

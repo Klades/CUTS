@@ -373,87 +373,67 @@ handle_metrics (const CUTS_System_Metric & metrics)
 
       for (pm_iter; !pm_iter.done (); pm_iter ++)
       {
+        if (timestamp != pm_iter->item ()->timestamp ())
+          continue;
+
         // Copy the name of the source port, which is a event source,
         // into its corresponding buffer.
         myinfo->type_->sinks_.find (pm_iter->key (), portname);
         ACE_OS::strncpy (src, portname.c_str (), MAX_VARCHAR_LENGTH);
 
-        CUTS_Port_Measurement_Map::
-          CONST_ITERATOR sender_iter (pm_iter->item ()->sender_map ().hash_map ());
+        // For the next set of queries we are going to have a <nil>
+        // destination. This will mean we are archiving the overall
+        // results of the port.
+        query->parameter (7)->null ();
+        CUTS_Port_Summary & summary = pm_iter->item ()->summary ();
 
-        for (sender_iter; !sender_iter.done (); sender_iter ++)
+        // We are going to archive the overall queuing time for the
+        // current port.
+        ACE_OS::strcpy (metric_type, "queue");
+        best_time  = summary.queuing_time ().min_value ().msec ();
+        worse_time = summary.queuing_time ().max_value ().msec ();
+        total_time = summary.queuing_time ().summation ().msec ();
+        metric_count = summary.queuing_time ().count ();
+
+        query->execute_no_record ();
+
+        // We are going to archive the overall processing time for the
+        // current port.
+        ACE_OS::strcpy (metric_type, "process");
+        best_time = summary.service_time ().min_value ().msec ();
+        worse_time = summary.service_time ().max_value ().msec ();
+        total_time = summary.service_time ().summation ().msec ();
+        metric_count = summary.service_time ().count ();
+
+        query->execute_no_record ();
+
+        // Now, we can reset the <dst> parameter so we know we are
+        // logging metrics specific to a port.
+        query->parameter (7)->length (0);
+
+        CUTS_Endpoint_Data_Logs::
+          CONST_ITERATOR ep_iter (summary.endpoints ().logs ());
+
+        for (; !ep_iter.done (); ep_iter ++)
         {
-          // Determine if this port has any metrics that correspond
-          // with the lastest timestamp for the system metrics. If it does
-          // not then why bother going any further.
-          if (timestamp != sender_iter->item ()->timestamp ())
-            continue;
+          // Determine if this port has any metrics that corresponds
+          // with the lastest timestamp for the system metrics. If it
+          // does not then why bother going any further.
+          //if (timestamp != ep_iter->item ()->item ()->timestamp ())
+          //  continue;
 
-          // Get the sender's information and copy it into the buffer.
-          if (registry.get_component_info (sender_iter->key (),
-                                           &sender_info) == 0)
-          {
-            ACE_OS::strncpy (sender,
-                             sender_info->inst_.c_str (),
-                             MAX_VARCHAR_LENGTH);
-          }
-          else
-          {
-            ACE_OS::strcpy (sender, "Unknown");
-          }
+          // Copy the name of the destination port, which is a event
+          // source, into its corresponding buffer.
+          myinfo->type_->sources_.find (ep_iter->key (), portname);
+          ACE_OS::strcpy (dst, portname.c_str ());
 
-          // For the next set of queries we are going to have a <nil>
-          // destination. This will mean
-          query->parameter (7)->null ();
-
-          // We are going to archive the overall queuing time for the
-          // current port.
-          ACE_OS::strcpy (metric_type, "queue");
-          best_time = sender_iter->item ()->queuing_time ().minimum ().msec ();
-          worse_time = sender_iter->item ()->queuing_time ().maximum ().msec ();
-          total_time = sender_iter->item ()->queuing_time ().total ().msec ();
-          metric_count = sender_iter->item ()->queuing_time ().count ();
+          // Store the metrics in their parameters.
+          best_time = ep_iter->item ()->begin ()->min_value ().time_of_completion ().msec ();
+          worse_time = ep_iter->item ()->begin ()->max_value ().time_of_completion ().msec ();
+          total_time = ep_iter->item ()->begin ()->summation ().time_of_completion ().msec ();
+          metric_count = ep_iter->item ()->begin ()->count ();
 
           query->execute_no_record ();
-
-          // We are going to archive the overall processing time for the
-          // current port.
-          ACE_OS::strcpy (metric_type, "process");
-          best_time = sender_iter->item ()->process_time ().minimum ().msec ();
-          worse_time = sender_iter->item ()->process_time ().maximum ().msec ();
-          total_time = sender_iter->item ()->process_time ().total ().msec ();
-          metric_count = sender_iter->item ()->process_time ().count ();
-
-          query->execute_no_record ();
-
-          // Now, we can reset the <dst> parameter so we know we are
-          // logging metrics specific to a port.
-          query->parameter (7)->length (0);
-
-          CUTS_Port_Measurement_Endpoint_Map::
-            CONST_ITERATOR em_iter (sender_iter->item ()->endpoints ());
-
-          for (; !em_iter.done (); em_iter ++)
-          {
-            // Determine if this port has any metrics that corresponds
-            // with the lastest timestamp for the system metrics. If it
-            // does not then why bother going any further.
-            if (timestamp != em_iter->item ()->timestamp ())
-              continue;
-
-            // Copy the name of the destination port, which is a event
-            // source, into its corresponding buffer.
-            myinfo->type_->sources_.find (em_iter->key (), portname);
-            ACE_OS::strcpy (dst, portname.c_str ());
-
-            // Store the metrics in their parameters.
-            metric_count = em_iter->item ()->count ();
-            best_time  = em_iter->item ()->minimum ().msec ();
-            worse_time = em_iter->item ()->maximum ().msec ();
-            total_time = em_iter->item ()->total ().msec ();
-
-            query->execute_no_record ();
-          }
         }
       }
     }

@@ -53,17 +53,37 @@ visit_port_metric (const CUTS_Port_Metric &)
 //
 CUTS_INLINE
 void CUTS_Metrics_Visitor::
-visit_port_measurement (const CUTS_Port_Measurement &)
+visit_time_measurement (const CUTS_Time_Measurement &)
 {
 
 }
 
 //
-// visit_time_measurement
+// visit_port_summary
 //
 CUTS_INLINE
 void CUTS_Metrics_Visitor::
-visit_time_measurement (const CUTS_Time_Measurement &)
+visit_port_summary (const CUTS_Port_Summary & )
+{
+
+}
+
+//
+// visit_port_summary_base
+//
+CUTS_INLINE
+void CUTS_Metrics_Visitor::
+visit_port_summary_base (const CUTS_Port_Summary_Base & )
+{
+
+}
+
+//
+// visit_endpoint_log_summary
+//
+CUTS_INLINE
+void CUTS_Metrics_Visitor::
+visit_endpoint_log_summary (const CUTS_Endpoint_Log_Summary & )
 {
 
 }

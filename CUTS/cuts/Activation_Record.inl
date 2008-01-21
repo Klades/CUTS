@@ -6,7 +6,8 @@
 CUTS_INLINE
 CUTS_Activation_Record::CUTS_Activation_Record (void)
 : active_ (false),
-  owner_ (CUTS_UNKNOWN_IMPL)
+  owner_ (CUTS_UNKNOWN_IMPL),
+  endpoints_ (3, true)
 {
 
 }
@@ -148,16 +149,6 @@ void CUTS_Activation_Record::close (void)
 {
   this->stopwatch_.stop_ = ACE_OS::gettimeofday ();
   this->active_ = false;
-}
-
-//
-// log_endpoint
-//
-CUTS_INLINE
-void CUTS_Activation_Record::log_endpoint (size_t uid, size_t datasize)
-{
-  this->endpoints_.
-    rebind (uid, CUTS_Activation_Record_Endpoint (ACE_OS::gettimeofday (), datasize));
 }
 
 //

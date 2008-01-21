@@ -4,6 +4,7 @@
 #include "cuts/Activation_Record_Log.h"
 #include "cuts/Port_Measurement_Map.h"
 #include "cuts/Timestamp_Metric.h"
+#include "cuts/Port_Summary.h"
 
 class CUTS_Metrics_Visitor;
 
@@ -28,26 +29,28 @@ public:
   ~CUTS_Port_Metric (void);
 
   /**
-   * Get the metrics for all the senders. If the metrics are
-   * not stored by sender id, then all metrics will be located
-   * under the id of CUTS_UNKNOWN_IMPL.
-   *
-   * @return        Reference to the performance log.
-   */
-  CUTS_Port_Measurement_Map & sender_map (void);
-
-  /// @overload
-  const CUTS_Port_Measurement_Map & sender_map (void) const;
-
-  /**
    * Get the log of performance data for the component.
    *
    * @return        Reference to the performance log.
    */
   CUTS_Activation_Record_Log & log (void);
 
-  /// @overload
+  /**
+   * @overload
+   */
   const CUTS_Activation_Record_Log & log (void) const;
+
+  /**
+   * Get the summary of the port metrics.
+   *
+   * @return        Summary of the port metrics.
+   */
+  CUTS_Port_Summary & summary (void);
+
+  /**
+   * @overload
+   */
+  const CUTS_Port_Summary & summary (void) const;
 
   /**
    * Accept the system metric visitor.
@@ -63,8 +66,12 @@ private:
   /// Log of all the records collected on this port.
   CUTS_Activation_Record_Log log_;
 
-  /// Mapping of port measurements by sender.
-  CUTS_Port_Measurement_Map sender_map_;
+  /// Summary of the port metrics.
+  CUTS_Port_Summary summary_;
+
+  // prevent the following operations
+  CUTS_Port_Metric (const CUTS_Port_Metric &);
+  const CUTS_Port_Metric & operator = (const CUTS_Port_Metric &);
 };
 
 #if defined (__CUTS_INLINE__)

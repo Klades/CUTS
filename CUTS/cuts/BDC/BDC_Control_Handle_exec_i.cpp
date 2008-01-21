@@ -38,19 +38,19 @@ namespace CUTS
       // Notify the <task_> to begin collection.
       this->task_->collect_data ();
 
-      CUTS_DEBUG (LM_DEBUG,
-                  "waiting for data collection to complete\n");
+      ACE_DEBUG ((LM_DEBUG,
+                  "waiting for data collection to complete\n"));
 
       // Wait for signaling of the <collection_done_> event.
       this->task_->wait_for_collection_done ();
 
-      CUTS_DEBUG (LM_DEBUG,
-                  "collection of performance data is complete\n");
+      ACE_DEBUG ((LM_DEBUG,
+                  "collection of performance data is complete\n"));
     }
     else
     {
-      CUTS_ERROR (LM_ERROR,
-                  "control handle missing BDC task reference\n");
+      ACE_DEBUG ((LM_ERROR,
+                  "control handle missing BDC task reference\n"));
     }
   }
 

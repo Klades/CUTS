@@ -16,7 +16,7 @@ CUTS_Activation_Record (const CUTS_Activation_Record & rec)
   stopwatch_ (rec.stopwatch_),
   queue_time_ (rec.queue_time_)
 {
-  this->copy_endpoints (rec.endpoints_);
+  this->endpoints_ = rec.endpoints_;
 }
 
 //
@@ -32,7 +32,7 @@ CUTS_Activation_Record::operator = (const CUTS_Activation_Record & rec)
   this->queue_time_ = rec.queue_time_;
   this->entries_ = rec.entries_;
 
-  this->copy_endpoints (rec.endpoints_);
+  this->endpoints_ = rec.endpoints_;
   return *this;
 }
 
@@ -43,19 +43,6 @@ void CUTS_Activation_Record::reset (void)
 {
   this->owner_ = CUTS_UNKNOWN_IMPL;
   this->queue_time_ = ACE_Time_Value::zero;
-}
-
-//
-// copy_endpoints
-//
-void CUTS_Activation_Record::
-copy_endpoints (const CUTS_Activation_Record_Endpoints & endpoints)
-{
-  this->endpoints_.unbind_all ();
-  CUTS_Activation_Record_Endpoints::CONST_ITERATOR iter (endpoints);
-
-  for (; !iter.done (); iter ++)
-    this->endpoints_.bind (iter->key (), iter->item ());
 }
 
 //
@@ -70,4 +57,23 @@ void CUTS_Activation_Record::perform_action_i (size_t uid, size_t type)
   entry->uid_ = uid;
   entry->type_ = type;
   this->action_timer_.elapsed_time (entry->duration_);
+}
+
+//
+// log_endpoint
+//
+void CUTS_Activation_Record::log_endpoint (size_t uid, size_t datasize)
+{
+  CUTS_Activation_Record_Endpoint *
+    endpoint = this->endpoints_.next_free_record ();
+
+  if (endpoint != 0)
+  {
+    endpoint->set (uid, ACE_OS::gettimeofday (), datasize);
+  }
+  else
+  {
+    ACE_ERROR ((LM_ERROR,
+                "*** error (record): failed to create new endpoint\n"));
+  }
 }

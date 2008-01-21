@@ -20,6 +20,8 @@ project (CUTS) : cutslib {
     mem_action_t.h
     Port_Agent_Set.h
     Time_Value_History.h
+    Traits.h
+    type_t.h
   }
 
   Source_Files {
@@ -32,6 +34,8 @@ project (CUTS) : cutslib {
     Component_Registry_Node.cpp
     Component_Registry_Handler.cpp
     Counter.cpp
+    Endpoint_Data.cpp
+    Endpoint_Log_Summary.cpp
     Event_Guard.cpp
     Event_Handler.cpp
     Event_Handler_Message.cpp
@@ -42,6 +46,7 @@ project (CUTS) : cutslib {
     Port_Measurement.cpp
     Port_Measurement_Map.cpp
     Port_Metric.cpp
+    Port_Summary.cpp
     Component_Registry.cpp
     str.cpp
     Testing_Service.cpp
@@ -70,10 +75,13 @@ project (CUTS) : cutslib {
     Event_Handler_T.cpp
     Event_Handler_Manager_T.cpp
     Log_T.cpp
+    ref_t.cpp
     Pending_Op_T.cpp
     Pending_Op_List_T.cpp
     Trigger_T.cpp
     Sync_Event_Handler_T.cpp
+    Statistics_T.cpp
+    value_of_t.cpp
     Worker_T.cpp
   }
 }

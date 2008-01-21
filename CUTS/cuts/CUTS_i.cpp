@@ -17,7 +17,7 @@ void operator >>= (const CUTS::Port_Descriptions & desc,
   CUTS::Port_Descriptions::const_value_type * buf_stop = buf + curr_size;
 
   for (; buf != buf_stop; buf ++)
-    map.bind (buf->uid, buf->name.in ());
+    map.bind (buf->unique_id, buf->name.in ());
 }
 
 //=============================================================================
@@ -42,7 +42,7 @@ void operator <<= (CUTS::Port_Descriptions & desc,
 
     // Store the information about the port.
     buf->name = CORBA::string_dup (agent->name ().c_str ());
-    buf->uid = iter->item ();
+    buf->unique_id = iter->item ();
 
     // Move to the next slot in the buffer.
     buf ++;
@@ -65,7 +65,7 @@ void operator <<= (CUTS::Port_Descriptions & desc,
   for (; !iter.done (); iter ++)
   {
     buf->name = CORBA::string_dup (iter->key ().c_str ());
-    buf->uid = iter->item ();
+    buf->unique_id = iter->item ();
 
     // Goto the next slot in the buffer.
     buf ++;

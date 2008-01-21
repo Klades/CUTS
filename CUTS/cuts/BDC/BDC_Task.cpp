@@ -252,7 +252,7 @@ namespace CUTS
       return -1;
 
     // Get the next agent from the message queue.
-    ::CUTS::Benchmark_Agent * agent = 0;
+    CUTS::Benchmark_Agent * agent = 0;
     this->getq (agent);
 
     if (agent != 0)
@@ -265,7 +265,8 @@ namespace CUTS
 
         // Locate the metrics for this component in the system metrics.
         CUTS_Component_Metric * metric = 0;
-        int retval = this->metrics_->component_metric (data->uid, metric);
+        int retval =
+          this->metrics_->component_metric (data->unique_id, metric);
 
         if (retval == 0 && metric != 0)
         {

@@ -50,20 +50,10 @@ namespace CUTS
       throw CUTS::Registration_Failed ();
     }
 
-    // Register the host information about the component. This will
-    // return the host table entry for later usage.
-    ACE_DEBUG ((LM_DEBUG,
-                "*** debug (testing service): registering host info\n"));
-
     const CUTS_Host_Table_Entry * entry = 0;
     this->registry_.hosts ().bind (creg.host_info.ipaddr.in (),
                                    creg.host_info.hostname.in (),
                                    &entry);
-
-    // Register the type information about the component. This will
-    // return the type entry for later usage.
-    ACE_DEBUG ((LM_DEBUG,
-                "*** debug (testing service): registering type information\n"));
 
     CUTS_Component_Type * type_info = 0;
     this->register_component_type (creg.component_info, type_info);
@@ -74,10 +64,6 @@ namespace CUTS
                       CUTS::CCM_Component_Registry_Node (creg.agent.in ()),
                       CORBA::NO_MEMORY ());
     ACE_Auto_Ptr <CCM_Component_Registry_Node> auto_clean (component);
-
-    // Initialize the registration node.
-    ACE_DEBUG ((LM_DEBUG,
-                "*** debug (testing service): registering component\n"));
 
     component->info_.inst_ = creg.name.in ();
     component->info_.type_ = type_info;

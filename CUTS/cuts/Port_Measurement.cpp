@@ -35,14 +35,14 @@ void CUTS_Port_Measurement::reset (void)
     iter->item ()->reset ();
 }
 
-//
-// accept
-//
-void CUTS_Port_Measurement::
-accept (CUTS_Metrics_Visitor & visitor) const
-{
-  visitor.visit_port_measurement (*this);
-}
+////
+//// accept
+////
+//void CUTS_Port_Measurement::
+//accept (CUTS_Metrics_Visitor & visitor) const
+//{
+//  visitor.visit_port_measurement (*this);
+//}
 
 //
 // record_exitpoint

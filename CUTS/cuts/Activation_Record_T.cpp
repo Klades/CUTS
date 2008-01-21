@@ -9,7 +9,7 @@
 //
 template <typename R, typename F, typename T>
 void CUTS_Activation_Record::
-perform_action (size_t uid, size_t type,
+perform_action (size_t unique_id, size_t type,
                 R (F::*method) (void), T & obj)
 {
   // Get the start of the action, execute the action, then get
@@ -19,7 +19,7 @@ perform_action (size_t uid, size_t type,
   this->action_timer_.stop ();
 
   // Store the information about the action.
-  this->perform_action_i (uid, type);
+  this->perform_action_i (unique_id, type);
 }
 
 //
@@ -29,7 +29,7 @@ template <typename R, typename F, typename T,
           typename P1, typename A1>
 CUTS_INLINE
 void CUTS_Activation_Record::
-perform_action (size_t uid, size_t type,
+perform_action (size_t unique_id, size_t type,
                 R (F::*method) (P1), T & obj, A1 arg1)
 {
   // Get the start of the action, execute the action, then get
@@ -39,7 +39,7 @@ perform_action (size_t uid, size_t type,
   this->action_timer_.stop ();
 
   // Store the information about the action.
-  this->perform_action_i (uid, type);
+  this->perform_action_i (unique_id, type);
 }
 
 //
@@ -50,7 +50,7 @@ template <typename R, typename F, typename T,
           typename A1, typename A2>
 CUTS_INLINE
 void CUTS_Activation_Record::
-perform_action (size_t uid, size_t type,
+perform_action (size_t unique_id, size_t type,
                 R (F::*method) (P1, P2), T & obj,
                 A1 arg1, A2 arg2)
 {
@@ -61,7 +61,7 @@ perform_action (size_t uid, size_t type,
   this->action_timer_.stop ();
 
   // Store the information about the action.
-  this->perform_action_i (uid, type);
+  this->perform_action_i (unique_id, type);
 }
 
 //
@@ -72,7 +72,7 @@ template <typename R, typename F, typename T,
           typename A1, typename A2, typename A3>
 CUTS_INLINE
 void CUTS_Activation_Record::
-perform_action (size_t uid, size_t type,
+perform_action (size_t unique_id, size_t type,
                 R (F::*method) (P1, P2, P3), T & obj,
                 A1 arg1, A2 arg2, A3 arg3)
 {
@@ -83,7 +83,7 @@ perform_action (size_t uid, size_t type,
   this->action_timer_.stop ();
 
   // Store the information about the action.
-  this->perform_action_i (uid, type);
+  this->perform_action_i (unique_id, type);
 }
 
 //
@@ -94,7 +94,7 @@ template <typename R, typename F, typename T,
           typename A1, typename A2, typename A3, typename A4>
 CUTS_INLINE
 void CUTS_Activation_Record::
-perform_action (size_t uid, size_t type,
+perform_action (size_t unique_id, size_t type,
                 R (F::*method) (P1, P2, P3, P4), T & obj,
                 A1 arg1, A2 arg2, A3 arg3, A4 arg4)
 {
@@ -105,7 +105,7 @@ perform_action (size_t uid, size_t type,
   this->action_timer_.stop ();
 
   // Store the information about the action.
-  this->perform_action_i (uid, type);
+  this->perform_action_i (unique_id, type);
 }
 
 //
@@ -116,7 +116,7 @@ template <typename R, typename F, typename T,
           typename A1, typename A2, typename A3, typename A4, typename A5>
 CUTS_INLINE
 void CUTS_Activation_Record::
-perform_action (size_t uid, size_t type,
+perform_action (size_t unique_id, size_t type,
                 R (F::*method) (P1, P2, P3, P4, P5), T & obj,
                 A1 arg1, A2 arg2, A3 arg3, A4 arg4, A5 arg5)
 {
@@ -127,5 +127,5 @@ perform_action (size_t uid, size_t type,
   this->action_timer_.stop ();
 
   // Store the information about the action.
-  this->perform_action_i (uid, type);
+  this->perform_action_i (unique_id, type);
 }

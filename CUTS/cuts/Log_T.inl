@@ -69,7 +69,29 @@ LOCK & CUTS_Log_T <T, LOCK>::lock (void)
 //
 template <typename T, typename LOCK>
 CUTS_INLINE
-T * CUTS_Log_T <T, LOCK>::next_free_record_i (void)
+T * CUTS_Log_T <T, LOCK>::next_free_record_no_lock (void)
 {
   return &(this->array_[this->used_ ++]);
+}
+
+//
+// used_end
+//
+template <typename T, typename LOCK>
+CUTS_INLINE
+typename CUTS_Log_T <T, LOCK>::iterator
+CUTS_Log_T <T, LOCK>::used_end (void)
+{
+  return this->array_ + this->used_;
+}
+
+//
+// used_end
+//
+template <typename T, typename LOCK>
+CUTS_INLINE
+typename CUTS_Log_T <T, LOCK>::const_iterator
+CUTS_Log_T <T, LOCK>::used_end (void) const
+{
+  return this->array_ + this->used_;
 }

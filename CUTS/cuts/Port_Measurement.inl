@@ -29,16 +29,6 @@ CUTS_Time_Measurement & CUTS_Port_Measurement::queuing_time (void)
 }
 
 //
-// queuing_time
-//
-CUTS_INLINE
-void CUTS_Port_Measurement::
-queuing_time (const ACE_Time_Value & tv)
-{
-  this->queuing_time_ += tv;
-}
-
-//
 // process_time
 //
 CUTS_INLINE
@@ -55,16 +45,6 @@ CUTS_INLINE
 CUTS_Time_Measurement & CUTS_Port_Measurement::process_time (void)
 {
   return this->process_time_;
-}
-
-//
-// process_time
-//
-CUTS_INLINE
-void CUTS_Port_Measurement::
-process_time (const ACE_Time_Value & timing)
-{
-  this->process_time_ += timing;
 }
 
 //

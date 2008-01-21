@@ -27,11 +27,10 @@
 #include "ace/OS_NS_sys_time.h"
 
 /// Type definition for a collection of endpoints
-typedef ACE_Hash_Map_Manager <size_t,
-                              CUTS_Activation_Record_Endpoint,
-                              ACE_Null_Mutex>
-                              CUTS_Activation_Record_Endpoints;
+typedef CUTS_Log_T <CUTS_Activation_Record_Endpoint,
+                    ACE_Null_Mutex> CUTS_Activation_Record_Endpoints;
 
+/// Type definition for a collection of record entries.
 typedef CUTS_Log_T <CUTS_Activation_Record_Entry,
                     ACE_Null_Mutex> CUTS_Activation_Record_Entry_Log;
 
@@ -89,7 +88,7 @@ public:
   /// Close the activation record.
   void close (void);
 
-  /// Rest the activation record.
+  /// Reset the activation record.
   void reset (void);
 
   /**
@@ -379,13 +378,6 @@ public:
                        A1 arg1, A2 arg2, A3 arg3, A4 arg4, A5 arg5);
 
 private:
-  /**
-   * Helper method to copy the endpoints.
-   *
-   * @param[in]     endpoints       The source endpoints.
-   */
-  void copy_endpoints (const CUTS_Activation_Record_Endpoints & endpoints);
-
   void perform_action_i (size_t uid, size_t type);
 
   /// Active state of the record.
