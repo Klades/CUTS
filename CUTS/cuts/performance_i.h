@@ -22,7 +22,7 @@ void CUTS_STUB_Export
 operator >>= (const CUTS::Component_Metric & src, CUTS_Component_Metric & dst);
 
 void CUTS_STUB_Export
-operator <<= (CUTS::Component_Metric & cm, const CUTS_Benchmark_Agent & agent);
+operator <<= (CUTS::Component_Metric & cm, CUTS_Benchmark_Agent & agent);
 
 #if defined (__CUTS_INLINE__)
 #include "cuts/performance_i.inl"

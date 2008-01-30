@@ -4,7 +4,7 @@
 /**
  * @file          Endpoint_Log_Summary.h
  *
- * INSERT FILE DESCRIPTION HERE
+ * Summary classes for the endpoint data.
  *
  * $Id$
  *

@@ -15,11 +15,24 @@ void CUTS_Endpoint_Log_Summary::reset (void)
 {
   // Reset all the endpoint data logs.
   CUTS_Endpoint_Data_Logs::ITERATOR log_iter (this->logs_);
+  CUTS_Endpoint_Data_Logs::data_type log;
 
   for (; !log_iter.done (); log_iter ++)
   {
-    if (log_iter->item ())
-     log_iter->item ()->reset ();
+    log = log_iter->item ();
+
+    if (log != 0)
+    {
+      // Reset all the elements of the log.
+      CUTS_Endpoint_Data_Log::iterator
+        iter = log->begin (), iter_end = log->end ();
+
+      for ( ; iter != iter_end; iter ++)
+        iter->reset ();
+
+      // Reset the log's state.
+      log->reset ();
+    }
   }
 }
 
@@ -46,6 +59,7 @@ process (const CUTS_Activation_Record_Endpoints & endpoints)
 
   for ( ; iter != iter_end; iter ++)
   {
+    // Locate the endpoint log for this endpoint.
     if (this->logs_.find (iter->id (), endpoint_log) == 0)
     {
       if (endpoint_log != 0)
@@ -128,6 +142,9 @@ prepare (const CUTS_Activation_Record_Endpoints & endpoints)
 
     if (endpoint_log != 0)
     {
+      // Reset the log regardless.
+      endpoint_log->reset ();
+
       if (this->iters_.rebind (iter->id (), endpoint_log->begin ()) == -1)
         ACE_ERROR_RETURN ((LM_ERROR,
                            "*** error (CUTS_Endpoint_Log_Summary): failed "

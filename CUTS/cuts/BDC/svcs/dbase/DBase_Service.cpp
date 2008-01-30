@@ -259,11 +259,11 @@ bool CUTS_Database_Service::stop_current_test_i (void)
   if (this->test_number_ == 0)
     return true;
 
-  CUTS_Auto_Functor_T <CUTS_DB_Query>
-    query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
-
   try
   {
+    CUTS_Auto_Functor_T <CUTS_DB_Query>
+      query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
+
     const char * str_stmt =
       "UPDATE tests SET stop_time = NOW(), status = 'inactive' "
       "WHERE (test_number = ?)";
@@ -275,7 +275,6 @@ bool CUTS_Database_Service::stop_current_test_i (void)
     // Execute the statement and reset the test number.
     query->execute_no_record ();
     this->test_number_ = -1;
-
     return true;
   }
   catch (const CUTS_DB_Exception & ex)
@@ -303,22 +302,26 @@ handle_metrics (const CUTS_System_Metric & metrics)
 {
   ACE_READ_GUARD_RETURN (ACE_RW_Thread_Mutex, guard, this->lock_, 0);
 
-  CUTS_Auto_Functor_T <CUTS_DB_Query>
-    query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
-
   long best_time,
-       worse_time,
+       worst_time,
        total_time,
-       metric_count;
+       perf_count,
+       outport_index;
 
-  char src[MAX_VARCHAR_LENGTH],
-       dst[MAX_VARCHAR_LENGTH],
+  char inport[MAX_VARCHAR_LENGTH],
+       outport[MAX_VARCHAR_LENGTH],
        metric_type[MAX_VARCHAR_LENGTH],
        component[MAX_VARCHAR_LENGTH],
        sender[MAX_VARCHAR_LENGTH];
 
   try
   {
+    CUTS_Auto_Functor_T <CUTS_DB_Query>
+      perf_query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
+
+    CUTS_Auto_Functor_T <CUTS_DB_Query>
+      perf_endpoint_query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
+
     // Convert the <timestamp> to a known type.
     ACE_Time_Value timestamp = metrics.get_timestamp ();
     ACE_Date_Time ct (timestamp);
@@ -326,32 +329,46 @@ handle_metrics (const CUTS_System_Metric & metrics)
     ODBC_Date_Time datetime (ct);
 
     // Prepare the statement and bind all the parameters.
-    const char * str_stmt =
-      "CALL insert_execution_time (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    const char * perf_stmt =
+      "CALL cuts.insert_component_instance_performance (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    const char * perf_endpoint_stmt =
+      "CALL cuts.insert_component_instance_performance_endpoint (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // Get the component registry for this service.
     const CUTS_Component_Registry & registry =
       this->svc_mgr ()->testing_service ()->registry ();
 
-    query->prepare (str_stmt);
-    query->parameter (0)->bind (&this->test_number_);
-    query->parameter (1)->bind (&datetime);
-    query->parameter (2)->bind (metric_type, 0);
-    query->parameter (3)->bind (&metric_count);
-    query->parameter (4)->bind (component, 0);
-    query->parameter (5)->bind (sender, 0);
-    query->parameter (6)->bind (src, 0);
-    query->parameter (7)->bind (dst, 0);
-    query->parameter (8)->bind (&best_time);
-    query->parameter (9)->bind (&total_time);
-    query->parameter (10)->bind (&worse_time);
+    perf_query->prepare (perf_stmt);
+    perf_query->parameter (0)->bind (&this->test_number_);
+    perf_query->parameter (1)->bind (&datetime);
+    perf_query->parameter (2)->bind (component, 0);
+    perf_query->parameter (3)->bind (sender, 0);
+    perf_query->parameter (4)->bind (inport, 0);
+    perf_query->parameter (5)->bind (metric_type, 0);
+    perf_query->parameter (6)->bind (&perf_count);
+    perf_query->parameter (7)->bind (&best_time);
+    perf_query->parameter (8)->bind (&total_time);
+    perf_query->parameter (9)->bind (&worst_time);
+
+    perf_endpoint_query->prepare (perf_endpoint_stmt);
+    perf_endpoint_query->parameter (0)->bind (&this->test_number_);
+    perf_endpoint_query->parameter (1)->bind (&datetime);
+    perf_endpoint_query->parameter (2)->bind (component, 0);
+    perf_endpoint_query->parameter (3)->bind (sender, 0);
+    perf_endpoint_query->parameter (4)->bind (inport, 0);
+    perf_endpoint_query->parameter (5)->bind (&outport_index);
+    perf_endpoint_query->parameter (6)->bind (outport, 0);
+    perf_endpoint_query->parameter (7)->bind (&perf_count);
+    perf_endpoint_query->parameter (8)->bind (&best_time);
+    perf_endpoint_query->parameter (9)->bind (&total_time);
+    perf_endpoint_query->parameter (10)->bind (&worst_time);
 
     CUTS_Component_Metric_Map::
       CONST_ITERATOR cm_iter (metrics.component_metrics ());
 
     ACE_CString portname;
-    const CUTS_Component_Info * myinfo = 0,
-                              * sender_info = 0;
+    const CUTS_Component_Info * myinfo = 0, * sender_info = 0;
 
     for (cm_iter; !cm_iter.done (); cm_iter ++)
     {
@@ -376,40 +393,37 @@ handle_metrics (const CUTS_System_Metric & metrics)
         if (timestamp != pm_iter->item ()->timestamp ())
           continue;
 
-        // Copy the name of the source port, which is a event source,
+        // Since we aren't working with any sender's at this time,
+        // we can NULL this parameter.
+        perf_query->parameter (3)->null ();
+        perf_endpoint_query->parameter (3)->null ();
+
+        // Copy the name of the source port, which is a event sink,
         // into its corresponding buffer.
         myinfo->type_->sinks_.find (pm_iter->key (), portname);
-        ACE_OS::strncpy (src, portname.c_str (), MAX_VARCHAR_LENGTH);
+        ACE_OS::strncpy (inport, portname.c_str (), MAX_VARCHAR_LENGTH);
 
-        // For the next set of queries we are going to have a <nil>
-        // destination. This will mean we are archiving the overall
-        // results of the port.
-        query->parameter (7)->null ();
         CUTS_Port_Summary & summary = pm_iter->item ()->summary ();
 
         // We are going to archive the overall queuing time for the
         // current port.
         ACE_OS::strcpy (metric_type, "queue");
         best_time  = summary.queuing_time ().min_value ().msec ();
-        worse_time = summary.queuing_time ().max_value ().msec ();
+        worst_time = summary.queuing_time ().max_value ().msec ();
         total_time = summary.queuing_time ().summation ().msec ();
-        metric_count = summary.queuing_time ().count ();
+        perf_count = summary.queuing_time ().count ();
 
-        query->execute_no_record ();
+        perf_query->execute_no_record ();
 
         // We are going to archive the overall processing time for the
         // current port.
         ACE_OS::strcpy (metric_type, "process");
         best_time = summary.service_time ().min_value ().msec ();
-        worse_time = summary.service_time ().max_value ().msec ();
+        worst_time = summary.service_time ().max_value ().msec ();
         total_time = summary.service_time ().summation ().msec ();
-        metric_count = summary.service_time ().count ();
+        perf_count = summary.service_time ().count ();
 
-        query->execute_no_record ();
-
-        // Now, we can reset the <dst> parameter so we know we are
-        // logging metrics specific to a port.
-        query->parameter (7)->length (0);
+        perf_query->execute_no_record ();
 
         CUTS_Endpoint_Data_Logs::
           CONST_ITERATOR ep_iter (summary.endpoints ().logs ());
@@ -425,15 +439,29 @@ handle_metrics (const CUTS_System_Metric & metrics)
           // Copy the name of the destination port, which is a event
           // source, into its corresponding buffer.
           myinfo->type_->sources_.find (ep_iter->key (), portname);
-          ACE_OS::strcpy (dst, portname.c_str ());
+          ACE_OS::strcpy (outport, portname.c_str ());
 
           // Store the metrics in their parameters.
-          best_time = ep_iter->item ()->begin ()->min_value ().time_of_completion ().msec ();
-          worse_time = ep_iter->item ()->begin ()->max_value ().time_of_completion ().msec ();
-          total_time = ep_iter->item ()->begin ()->summation ().time_of_completion ().msec ();
-          metric_count = ep_iter->item ()->begin ()->count ();
+          CUTS_Endpoint_Data_Log::const_iterator
+            eplog_iter = ep_iter->item ()->begin (),
+            eplog_iter_end = ep_iter->item ()->used_end ();
 
-          query->execute_no_record ();
+          outport_index = 0;
+
+          for (eplog_iter; eplog_iter != eplog_iter_end; eplog_iter ++)
+          {
+            // Set the values of the parameter.
+            best_time = eplog_iter->min_value ().time_of_completion ().msec ();
+            worst_time = eplog_iter->max_value ().time_of_completion ().msec ();
+            total_time = eplog_iter->summation ().time_of_completion ().msec ();
+            perf_count = eplog_iter->count ();
+
+            // Execute the query for the endpoint.
+            perf_endpoint_query->execute_no_record ();
+
+            // Increment the output index.
+            ++ outport_index;
+          }
         }
       }
     }
@@ -464,47 +492,82 @@ handle_metrics (const CUTS_System_Metric & metrics)
 int CUTS_Database_Service::
 handle_component (const CUTS_Component_Info & info)
 {
-  // Regardless of the state, we still need to make sure the
-  // host is registered with the database.
-  if (this->registry_.register_host (info.host_info_->ipaddr_.c_str (),
-                                     info.host_info_->hostname_.c_str ()))
+  if (info.host_info_ != 0)
   {
-    VERBOSE_MESSAGE ((LM_INFO,
-                      "*** info [archive]: successfully registered "
-                      "%s [%s]\n",
-                      info.host_info_->hostname_.c_str (),
-                      info.host_info_->ipaddr_.c_str ()));
+    try
+    {
+      // Regardless of the state, we still need to make sure the
+      // host is registered with the database.
+      this->registry_.register_host (*info.host_info_);
+
+      VERBOSE_MESSAGE ((LM_INFO,
+                        "*** info [archive]: successfully registered "
+                        "%s [%s]\n",
+                        info.host_info_->hostname_.c_str (),
+                        info.host_info_->ipaddr_.c_str ()));
+    }
+    catch (const CUTS_DB_Exception & ex)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "*** error (archive): %s\n"
+                  "*** error (archive): failed to register host %s [%s]\n",
+                  ex.message ().c_str (),
+                  info.host_info_->hostname_.c_str (),
+                  info.host_info_->ipaddr_.c_str ()));
+    }
+    catch (...)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "*** error (archive): unknown exception occurred\n"
+                  "*** error (archive): failed to register host %s [%s]\n",
+                  info.host_info_->hostname_.c_str (),
+                  info.host_info_->ipaddr_.c_str ()));
+    }
   }
 
   if (info.state_ == CUTS_Component_Info::STATE_ACTIVATE)
   {
-    if (this->registry_.register_component (info, 0))
+    try
     {
+      this->registry_.register_component_instance (info);
+
       VERBOSE_MESSAGE ((LM_INFO,
                         "*** info [archive]: successfully registered "
                         "component %s\n",
                         info.inst_.c_str ()));
-    }
-    else
-    {
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         "*** error [archive]: failed to register component %s\n",
-                         info.inst_.c_str ()),
-                         -1);
-    }
 
-    // Set component's uptime in deployment table if allowed.
-    if (this->enable_deployment_)
-      this->set_component_uptime (info);
+      // Set component's uptime in deployment table if allowed.
+      if (this->enable_deployment_)
+        this->set_component_uptime (info);
+
+      return 0;
+    }
+    catch (const CUTS_DB_Exception & ex)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "*** error [archive]: %s\n"
+                  "*** error [archive]: failed to register component %s\n",
+                  ex.message ().c_str (),
+                  info.inst_.c_str ()));
+    }
+    catch (...)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "*** error [archive]: unknown exception occured\n"
+                  "*** error [archive]: failed to register component %s\n",
+                  info.inst_.c_str ()));
+    }
   }
   else if (info.state_ == CUTS_Component_Info::STATE_PASSIVATE)
   {
     // Set component's downtime in deployment table if allowed.
     if (this->enable_deployment_)
       this->set_component_downtime (info);
+
+    return 0;
   }
 
-  return 0;
+  return -1;
 }
 
 //

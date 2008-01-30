@@ -43,6 +43,9 @@ void CUTS_Activation_Record::reset (void)
 {
   this->owner_ = CUTS_UNKNOWN_IMPL;
   this->queue_time_ = ACE_Time_Value::zero;
+
+  this->endpoints_.reset ();
+  this->entries_.reset ();
 }
 
 //

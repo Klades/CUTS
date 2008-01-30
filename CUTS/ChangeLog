@@ -1,3 +1,32 @@
+Wed Jan 30 06:19:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/Activation_Record.h:
+        * cuts/Activation_Record.cpp:
+
+          - The reset () method resets the endpoints_ and the entries_
+            member variables.
+          - Removed the default value for the owner () setter function.
+
+        * cuts/BDC/svcs/dbase/DBase_Service.cpp:
+        * cuts/svcs/dbase/DB_Registry.h:
+        * cuts/svcs/dbase/DB_Registry.inl:
+        * cuts/svcs/dbase/DB_Registry.cpp:
+
+          Updated the database operations to be consistent with the
+          new database format.
+
+        * cuts/Endpoint_Log_Summary.cpp:
+        * cuts/Port_Summary.cpp:
+        * cuts/performance_i.h:
+        * cuts/performance_i.cpp:
+
+          - Templatized the insertion operations from CUTS_Log_T to
+            CORBA sequence.
+          - Bug fix where endpoints where not being processed
+            correctly. It resulted in the endpoint summary containing
+            more data than it should because items where not being
+            reset.
+
 Sun Jan 20 23:45:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/BDC_Control_Handle_exec_i.cpp

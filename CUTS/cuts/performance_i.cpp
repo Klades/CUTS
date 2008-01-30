@@ -216,154 +216,105 @@ void operator >>= (const CUTS::Component_Metric & src,
 // @@ insertion operators
 
 //
-// operator <<=
+// operator <<= (SEQUENCE, CUTS_Log_T <T, LOCK>)
 //
-inline
-void operator <<= (CUTS::Time_Stamp & ts, const ACE_Time_Value & tv)
+template <typename SEQUENCE, typename T, typename LOCK>
+static bool
+operator <<= (SEQUENCE & sequence, CUTS_Log_T <T, LOCK> & log)
 {
-  ts.sec = tv.sec ();
-  ts.usec = tv.usec ();
+  typedef typename CUTS_Log_T <T, LOCK>::lock_type lock_type;
+  ACE_READ_GUARD_RETURN (lock_type, guard, log.lock (), false);
+
+  // Set the size of the sequence to the size of the log.
+  size_t curr_size = log.used_size ();
+  sequence.length (curr_size);
+
+  // Get iterators to the source and destination buffer.
+  SEQUENCE::value_type * buf = sequence.get_buffer ();
+
+  typename CUTS_Log_T <T, LOCK>::iterator
+    iter = log.begin (), iter_end = log.used_end ();
+
+  CORBA::ULong count = 0;
+
+  for (; iter != iter_end; iter ++)
+  {
+    if ((*buf <<= *iter))
+    {
+      ++ buf;
+      ++ count;
+    }
+  }
+
+  // Reset the log.
+  log.reset ();
+
+  // Set the actual size of the sequence.
+  sequence.length (count);
+
+  return true;
 }
 
 //
 // operator <<=
 //
-static
-void operator <<= (CUTS::Action_Time & act,
-                   const CUTS_Activation_Record_Entry & entry)
+inline static bool
+operator <<= (CUTS::Time_Stamp & ts, const ACE_Time_Value & tv)
+{
+  ts.sec = tv.sec ();
+  ts.usec = tv.usec ();
+  return true;
+}
+
+//
+// operator <<=
+//
+static bool
+operator <<= (CUTS::Action_Time & act,
+              const CUTS_Activation_Record_Entry & entry)
 {
   act.unique_id = entry.uid_;
   act.type = entry.type_;
   act.duration <<= entry.duration_;
+  return true;
 }
 
-//
-// operetor <<=
-//
-static
-void operator <<= (CUTS::Action_Times & times,
-                   const CUTS_Activation_Record_Entry_Log & entries)
+static bool
+operator <<= (CUTS::Endpoint_Time & ept,
+              CUTS_Activation_Record_Endpoint & endpoint)
 {
-  // Get the current size of the log and resize the sequence.
-  size_t curr_size = entries.used_size ();
-  times.length (curr_size);
-
-  // Get iterators to the source and destination buffer.
-  CUTS::Action_Times::value_type * buf = times.get_buffer ();
-  CUTS_Activation_Record_Entry_Log::const_iterator iter = entries.begin ();
-  CUTS_Activation_Record_Entry_Log::const_iterator iter_stop = iter + curr_size;
-
-  for (; iter != iter_stop; iter ++)
-    *buf ++ <<= *iter;
+  ept.unique_id = endpoint.id ();
+  ept.datasize = endpoint.data_size ();
+  ept.exittime <<= endpoint.time_of_completion ();
+  return true;
 }
 
-//
-// operator <<=
-//
-static
-void operator <<= (CUTS::Endpoint_Times & ep_times,
-                   const CUTS_Activation_Record_Endpoints & endpoints)
+static bool
+operator <<= (CUTS::Metric_Record & dest, CUTS_Activation_Record & record)
 {
-  // Set the correct size of the target buffer.
-  CORBA::ULong curr_size = endpoints.used_size ();
-  ep_times.length (curr_size);
+  if (record.is_open ())
+    return false;
 
-  // Get an iterator to the endpoint times and a pointer to the
-  // buffer that will store the endpoint times.
-  CUTS_Activation_Record_Endpoints::const_iterator iter = endpoints.begin ();
-  CUTS::Endpoint_Times::value_type * buf = ep_times.get_buffer ();
-
-  for (CORBA::ULong i = 0; i < curr_size; i ++)
-  {
-    // Store the information in the buffer. This is the unique
-    // id of the endpoint and the time it was encountered.
-    buf->unique_id = iter->id ();
-    buf->datasize  = iter->data_size ();
-    buf->exittime <<= iter->time_of_completion ();
-
-    // Move the next location in the map and the next slot
-    // in the target buffer.
-    iter ++;
-    buf ++;
-  }
-}
-
-//
-// operator <<=
-//
-static
-void operator <<= (CUTS::Metric_Record & dest,
-                   const CUTS_Activation_Record & src)
-{
   // Insert the owner of the record (i.e., event that caused the
   // creation of this record).
-  dest.sender = src.owner ();
+  dest.sender = record.owner ();
 
   // Insert the open/close time for the record.
-  dest.open_time  <<= src.start_time ();
-  dest.close_time <<= src.stop_time ();
+  dest.open_time <<= record.start_time ();
+  dest.close_time <<= record.stop_time ();
 
   // Insert the queueing and endpoint times into the record.
-  dest.queue_time <<= src.queue_time ();
-  dest.ep_times   <<= src.endpoints ();
-  dest.action_log <<= src.entries ();
+  dest.queue_time <<= record.queue_time ();
+  dest.ep_times <<= record.endpoints ();
+  dest.action_log <<= record.entries ();
+
+  // Reset the record.
+  record.reset ();
+  return true;
 }
 
-//
-// operator <<=
-//
-static
-void operator <<= (CUTS::Metric_Records & mlog,
-                   const CUTS_Activation_Record_Log & log)
-{
-  CORBA::ULong actual_size = 0;
-  CORBA::ULong curr_size;
-
-  do
-  {
-    ACE_READ_GUARD (CUTS_Activation_Record_Log::lock_type,
-                    guard,
-                    const_cast <CUTS_Activation_Record_Log &> (log).lock ());
-
-    // Set the size of the <mlog> sequence.
-    curr_size = log.used_size ();
-    mlog.length (curr_size);
-
-    // Get a iterator to the logs and a pointer to the head
-    // of the target buffer.
-    CUTS_Activation_Record_Log::const_iterator iter = log.begin ();
-    CUTS::Metric_Records::value_type * buf = mlog.get_buffer ();
-
-    // Get a read lock to the log. This will allow use to do a batch
-    // processing operation and prevent other threads from trying to
-    // increase the size of the record log.
-    for (CORBA::ULong i = 0; i < curr_size; i ++)
-    {
-      // Only copy records that are not open (i.e., have be used). Since we
-      // are only looking at used records, we do not have to worry about a
-      // record in the middle of the pack being unused.
-      if (!iter->is_open ())
-      {
-        // Store the record in the buffer.
-        *buf ++ <<= *iter ++;
-
-        // Keep track of the actual size.
-        ++ actual_size;
-      }
-    }
-  } while (0);
-
-  // Make sure the size of the buffer reflects the number of
-  // used records that we copied.
-  if (actual_size != curr_size)
-    mlog.length (actual_size);
-}
-
-//
-// operator <<=
-//
 inline
-void operator <<= (CUTS::Port_Metric & pm, const CUTS_Port_Agent & agent)
+void operator <<= (CUTS::Port_Metric & pm, CUTS_Port_Agent & agent)
 {
   pm.record_log <<= agent.log ();
 }
@@ -372,13 +323,12 @@ void operator <<= (CUTS::Port_Metric & pm, const CUTS_Port_Agent & agent)
 // operator <<=
 //
 static void
-operator <<= (CUTS::Port_Metrics & ports, const CUTS_Port_Agent_Set & agents)
+operator <<= (CUTS::Port_Metrics & ports, CUTS_Port_Agent_Set & agents)
 {
   // Get the number of agents and update the size of the
   // port metrics.
   CORBA::ULong size = agents.current_size ();
   ports.length (size);
-
 
   // Get a pointer to both the source and destination buffer.
   CUTS::Port_Metrics::value_type * buf = ports.get_buffer ();
@@ -411,8 +361,8 @@ operator <<= (CUTS::Port_Metrics & ports, const CUTS_Port_Agent_Set & agents)
 //
 // operator <<=
 //
-void operator <<= (CUTS::Component_Metric & cm,
-                   const CUTS_Benchmark_Agent & agent)
+void
+operator <<= (CUTS::Component_Metric & cm, CUTS_Benchmark_Agent & agent)
 {
   // Set the parent id and the collection time.
   cm.unique_id = agent.parent ();

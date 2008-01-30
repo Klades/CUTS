@@ -16,9 +16,13 @@
 #include "DB_export.h"
 #include "cuts/Component_Info.h"
 #include "cuts/Component_Type.h"
+#include "cuts/Host_Table_Entry.h"
 
 // Forward decl.
 class CUTS_DB_Connection;
+
+// Forward decl.
+class CUTS_DB_Query;
 
 //=============================================================================
 /**
@@ -60,42 +64,12 @@ public:
   bool is_attached (void) const;
 
   /**
-   * Register a component.
-   *
-   * @param[in]       info        The component info to register.
-   * @retval          true        Successfully register info.
-   * @retval          false       Failed to register info.
-   */
-  bool register_component (const CUTS_Component_Info & info,
-                           long * inst_id = 0);
-
-  /**
-   * Register a new component. This will add the component information
-   * to the database. If the type information is not present, then it
-   * will be added as well. If any of the information is present in the
-   * database, nothing will happen. If the current information differs
-   * from \a inst and \a type, then it will be updated.
-   *
-   * @param[in]       inst        Unique instance id.
-   * @param[in]       type        The \a inst type.
-   * @param[out]      instid      Registration id for \a inst.
-   * @retval          true        Successfully registered component.
-   * @retval          false       Failed to register a component.
-   *
-   * @todo Add an overwrite flag to prevent existing data from being
-   *       replaced by \a inst and \a type.
-   */
-  bool register_instance (const char * inst,
-                          const char * type,
-                          long * instid = 0);
-
-  /**
    * Register a component type. This will add the component's type
    * information to the database, including its port ids.
    *
    * @param[in]       type        The component type.
    */
-  bool register_component_type (const CUTS_Component_Type & type);
+  void register_component_instance (const CUTS_Component_Info & info);
 
   /**
    * @overload
@@ -103,13 +77,20 @@ public:
    * @param[in]       type        The component type.
    * @param[out]      type_id     Registered type id.
    */
-  bool register_component_type (const CUTS_Component_Type & type,
-                                long & type_id);
+  void register_component_type (const CUTS_Component_Type & type);
 
-
-  bool register_component_port (long type_id,
-                                const CUTS_Port_Description_Map & port,
-                                const char * port_type = 0);
+  /**
+   * Register an IP-address and hostname w/ the database. If
+   * either the IP-address or hostname already exist, then
+   * nothing happens.
+   *
+   * @param[in]       ipaddr        IP-address
+   * @param[in]       hostname      Name of the host.
+   * @param[out]      hostid        Buffer to receive host id.
+   * @retval          true          Registration succeeded.
+   * @retval          false         Registration failed.
+   */
+  void register_host (const CUTS_Host_Table_Entry & host);
 
   /**
    * Get the instance id of a component instance. The client does
@@ -132,28 +113,22 @@ public:
    *
    * @param[in]       type        Component type.
    * @param[out]      type_id     Output buffer for typeid.
-   * @param[in]       auto_reg    Auto-register the type if not found.
    * @retval          true        Successfully retrieved type.
    * @retval          false       Failed to retrieve type.
    */
   bool get_component_typeid (const char * type,
-                             long * type_id = 0,
-                             bool auto_register = true);
+                             long & type_id);
 
   /**
-   * Register an IP-address and hostname w/ the database. If
-   * either the IP-address or hostname already exist, then
-   * nothing happens.
+   * Get the id of a port.
    *
-   * @param[in]       ipaddr        IP-address
-   * @param[in]       hostname      Name of the host.
-   * @param[out]      hostid        Buffer to receive host id.
-   * @retval          true          Registration succeeded.
-   * @retval          false         Registration failed.
+   * @param[in]     portname    The name of the port.
+   * @param[out]    portid      The id of the port.
+   * @param[in]     autoreg     Register port if it does not exist.
    */
-  bool register_host (const char * ipaddr,
-                      const char * hostname,
-                      long * hostid = 0);
+  bool get_port_id (const char * porttype,
+                    const char * portname,
+                    long & portid);
 
   /**
    * Get the unique id of a host given its IP-address.
@@ -176,22 +151,10 @@ public:
    */
   bool get_hostid_by_hostname (const char * hostname, long * hostid);
 
-  /**
-   * Get the id of a port.
-   *
-   * @param[in]     portname    The name of the port.
-   * @param[out]    portid      The id of the port.
-   * @param[in]     autoreg     Register port if it does not exist.
-   */
-  bool get_port_id (const char * portname, long * portid, bool autoreg = true);
-
-  bool set_component_type_details (long type_id,
-                                   const char * sinks,
-                                   const char * sources);
-
 protected:
-  bool ports_to_csv (const CUTS_Port_Description_Map & ports,
-                     ACE_CString & str);
+  void insert_component_ports (CUTS_DB_Query & query,
+                               const char * porttype,
+                               const CUTS_Port_Description_Map & ports);
 
   /// Pointer the connection for the registry.
   CUTS_DB_Connection * conn_;

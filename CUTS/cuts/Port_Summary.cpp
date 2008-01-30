@@ -75,7 +75,7 @@ int CUTS_Port_Summary::
 process (const CUTS_Activation_Record_Log & log)
 {
   CUTS_Activation_Record_Log::const_iterator p_record = log.begin ();
-  CUTS_Activation_Record_Log::const_iterator p_record_end = log.end ();
+  CUTS_Activation_Record_Log::const_iterator p_record_end = log.used_end ();
 
   for ( ; p_record != p_record_end; p_record ++)
   {
