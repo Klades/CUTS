@@ -1,4 +1,4 @@
---
+﻿--
 -- @file        CUTS-create.sql
 --
 -- $Id$
@@ -33,39 +33,17 @@ CREATE TABLE IF NOT EXISTS tests
 );
 
 --
--- Create the table that contains all the component types.
--- We also initialize the table after we have created it.
---
-
-CREATE TABLE IF NOT EXISTS component_types
-(
-  typeid          INT              NOT NULL auto_increment,
-  typename        VARCHAR (255)    NOT NULL,
-  sinks           VARCHAR (255),
-  sources         VARCHAR (255),
-
-  PRIMARY KEY (typeid),
-  UNIQUE (typename)
-);
-
---INSERT INTO component_types (typename)
---  VALUES ('Unknown');
-
---
 -- Create the table that contains the names of ports.
 --
 
 CREATE TABLE IF NOT EXISTS portnames
 (
-  portid          INT              NOT NULL auto_increment,
-  portname        VARCHAR (255)    default NULL,
+  pid          INT              NOT NULL auto_increment,
+  portname     VARCHAR (255)    default NULL,
 
-  PRIMARY KEY (portid),
+  PRIMARY KEY (pid),
   UNIQUE (portname)
 );
-
---INSERT INTO portnames (portid, portname)
---  VALUES (1, 'Unknown');
 
 --
 -- Create the ports table. This table contains which ports
@@ -73,21 +51,53 @@ CREATE TABLE IF NOT EXISTS portnames
 -- type (i.e., facet, receptacle, & etc.).
 --
 
-CREATE TABLE IF NOT EXISTS ports
+CREATE TABLE IF NOT EXISTS porttypes
 (
   pid              INT      NOT NULL auto_increment,
-  ctype            INT      NOT NULL,
-  portid           INT      NOT NULL,
-  port_type        ENUM ('sink', 'source', 'facet', 'receptacle') NOT NULL,
+  port_type        ENUM ('facet', 'receptacle', 'sink', 'source') NOT NULL,
+  port_name        INT      NOT NULL,
 
   -- set the constaints for the table
   PRIMARY KEY (pid),
-  UNIQUE (ctype, portid, port_type),
+  UNIQUE (port_type, port_name),
 
-  FOREIGN KEY (ctype) REFERENCES component_types (typeid)
+  FOREIGN KEY (port_name) REFERENCES portnames (pid)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
+);
+
+--
+-- Create the table that contains all the component types.
+-- We also initialize the table after we have created it.
+--
+
+CREATE TABLE IF NOT EXISTS component_typenames
+(
+  nameid     INT              NOT NULL auto_increment,
+  typename   VARCHAR (255)    NOT NULL,
+
+  PRIMARY KEY (nameid),
+  UNIQUE (typename)
+);
+
+--
+-- Create the table that contains all the component types.
+-- We also initialize the table after we have created it.
+--
+
+CREATE TABLE IF NOT EXISTS component_types
+(
+  typeid     INT    NOT NULL auto_increment,
+  typename   INT    NOT NULL,
+  port       INT    NOT NULL,
+
+  PRIMARY KEY (typeid),
+  UNIQUE (typename, port),
+
+  FOREIGN KEY (typename) REFERENCES component_typenames (nameid)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
-  FOREIGN KEY (portid) REFERENCES portnames (portid)
+  FOREIGN KEY (port) REFERENCES porttypes (pid)
     ON DELETE RESTRICT
     ON UPDATE CASCADE
 );
@@ -102,20 +112,17 @@ CREATE TABLE IF NOT EXISTS ports
 
 CREATE TABLE IF NOT EXISTS component_instances
 (
-  component_id    INT             NOT NULL auto_increment,
-  typeid          INT             NOT NULL DEFAULT 0,
-  component_name  VARCHAR (512)   default NULL,
+  instid          INT             NOT NULL auto_increment,
+  component_name  VARCHAR (512)   NOT NULL,
+  typeid          INT             NOT NULL,
 
-  PRIMARY KEY (component_id),
+  PRIMARY KEY (instid),
   UNIQUE      (component_name),
 
-  FOREIGN KEY (typeid) REFERENCES component_types (typeid)
+  FOREIGN KEY (typeid) REFERENCES component_typenames (nameid)
     ON DELETE RESTRICT
     ON UPDATE CASCADE
 );
-
---INSERT INTO component_instances (typeid, component_name)
--- VALUES (1, 'Unknown');
 
 --
 -- Table the contains the mapping of a IP-address to a
@@ -135,9 +142,6 @@ CREATE TABLE IF NOT EXISTS ipaddr_host_map
   UNIQUE (hostname)
 );
 
---INSERT INTO ipaddr_host_map (ipaddr, hostname)
---  VALUES ('0.0.0.0', 'unknown'), ('127.0.0.1', 'localhost');
-
 --
 -- Create the scratchpad table. This is the table the
 -- database worker uses to perform its database
@@ -146,9 +150,9 @@ CREATE TABLE IF NOT EXISTS ipaddr_host_map
 
 CREATE TABLE IF NOT EXISTS scratchpad
 (
-  component_id    int        NOT NULL,
-  worktag         int        NOT NULL,
-  dataset         varchar (255)
+  component_id    INT        NOT NULL,
+  worktag         INT        NOT NULL,
+  dataset         VARCHAR (255)
 );
 
 --
@@ -182,11 +186,214 @@ GRANT SELECT, UPDATE, DELETE, INSERT, EXECUTE
   TO cuts@'localhost'
   IDENTIFIED BY 'cuts';
 
--------------------------------------------------------------------------------
---
-
 DELIMITER //
 
+-- -----------------------------------------------------------------------------
+-- FUNCTION: cuts.get_portname_id
+-- -----------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS cuts.get_portname_id //
+
+CREATE FUNCTION
+  cuts.get_portname_id (pname VARCHAR (255))
+  RETURNS INT
+BEGIN
+  DECLARE retval INT;
+
+  DECLARE CONTINUE HANDLER FOR NOT FOUND
+  BEGIN
+    INSERT INTO portnames (portname) VALUES (pname);
+    SET retval = LAST_INSERT_ID();
+  END;
+
+  SELECT pid INTO retval FROM portnames
+    WHERE portname = pname LIMIT 1;
+
+  RETURN retval;
+END; //
+
+-- -----------------------------------------------------------------------------
+-- FUNCTION: cuts.get_port_id
+-- -----------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS cuts.get_port_id //
+
+CREATE FUNCTION
+  cuts.get_port_id (ptype VARCHAR (40),
+                    pname VARCHAR (255))
+  RETURNS INT
+BEGIN
+  DECLARE retval INT;
+  DECLARE nameid INT;
+
+  DECLARE CONTINUE HANDLER FOR NOT FOUND
+  BEGIN
+    INSERT INTO porttypes (port_type, port_name) VALUES (ptype, nameid);
+    SET retval = LAST_INSERT_ID();
+  END;
+
+  SET nameid = cuts.get_portname_id (pname);
+
+  SELECT pid INTO retval FROM porttypes
+    WHERE port_type = ptype AND port_name = nameid
+    LIMIT 1;
+
+  RETURN retval;
+END; //
+
+-- -----------------------------------------------------------------------------
+-- FUNCTION: cuts.get_component_typename_id
+-- -----------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS cuts.get_component_typename_id //
+
+CREATE FUNCTION
+  cuts.get_component_typename_id (name VARCHAR (255))
+  RETURNS INT
+BEGIN
+  DECLARE retval INT;
+
+  DECLARE CONTINUE HANDLER FOR NOT FOUND
+  BEGIN
+    INSERT INTO component_typenames (typename) VALUES (name);
+    SET retval = LAST_INSERT_ID();
+  END;
+
+  SELECT nameid INTO retval FROM component_typenames
+    WHERE typename = name LIMIT 1;
+
+  RETURN retval;
+END; //
+
+-- -----------------------------------------------------------------------------
+-- FUNCTION: cuts.get_component_instance_id
+-- -----------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS cuts.get_component_instance_id //
+
+CREATE FUNCTION
+  cuts.get_component_instance_id (name VARCHAR (255))
+  RETURNS INT
+BEGIN
+  DECLARE retval INT;
+
+  DECLARE CONTINUE HANDLER FOR NOT FOUND
+  BEGIN
+    RETURN NULL;
+  END;
+
+  SELECT instid INTO retval FROM component_instances
+    WHERE component_name = name LIMIT 1;
+
+  RETURN retval;
+END; //
+
+-- -----------------------------------------------------------------------------
+-- FUNCTION: cuts.get_hostname_id
+-- -----------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS cuts.get_hostname_id //
+
+CREATE FUNCTION
+  cuts.get_hostname_id (name VARCHAR (255))
+  RETURNS INT
+BEGIN
+  DECLARE retval INT;
+
+  DECLARE CONTINUE HANDLER FOR NOT FOUND
+  BEGIN
+    RETURN NULL;
+  END;
+
+  SELECT hostid INTO retval FROM cuts.ipaddr_host_map
+    WHERE hostname = name LIMIT 1;
+
+  RETURN retval;
+END; //
+
+-- -----------------------------------------------------------------------------
+-- FUNCTION: cuts.get_ipaddr_id
+-- -----------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS cuts.get_ipaddr_id //
+
+CREATE FUNCTION
+  cuts.get_ipaddr_id (ipaddr VARCHAR (255))
+  RETURNS INT
+BEGIN
+  DECLARE retval INT;
+
+  DECLARE CONTINUE HANDLER FOR NOT FOUND
+  BEGIN
+    RETURN NULL;
+  END;
+
+  SELECT hostid INTO retval FROM cuts.ipaddr_host_map
+    WHERE ipaddr = ipaddr LIMIT 1;
+
+  RETURN retval;
+END; //
+
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.insert_component_type_info
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.insert_component_typeinfo //
+
+CREATE PROCEDURE
+  cuts.insert_component_typeinfo (IN ctype VARCHAR (255),
+                                  IN ptype VARCHAR (40),
+                                  IN pname VARCHAR (255))
+BEGIN
+  DECLARE EXIT HANDLER FOR SQLSTATE '23000'
+  BEGIN
+
+  END;
+
+  INSERT INTO cuts.component_types (typename, port)
+    VALUES (cuts.get_component_typename_id (ctype),
+            cuts.get_port_id (ptype, pname));
+END; //
+
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.insert_component_instance
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.insert_component_instance //
+
+CREATE PROCEDURE
+  cuts.insert_component_instance (IN cinst VARCHAR (255),
+                                  IN ctype VARCHAR (255))
+BEGIN
+  DECLARE EXIT HANDLER FOR SQLSTATE '23000'
+  BEGIN
+
+  END;
+
+  INSERT INTO cuts.component_instances (component_name, typeid)
+    VALUES (cinst, cuts.get_component_typename_id (ctype));
+END; //
+
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.insert_component_instance
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.insert_ipaddr_hostname //
+
+CREATE PROCEDURE
+  cuts.insert_ipaddr_hostname (IN ipaddr VARCHAR (255),
+                               IN hostname VARCHAR (255))
+BEGIN
+  DECLARE EXIT HANDLER FOR SQLSTATE '23000'
+  BEGIN
+
+  END;
+
+  INSERT INTO cuts.ipaddr_host_map (ipaddr, hostname)
+    VALUES (ipaddr, hostname);
+END; //
+
+/*
 -------------------------------------------------------------------------------
 -- FUNCTION: cuts.component_portname
 -------------------------------------------------------------------------------
@@ -220,6 +427,42 @@ BEGIN
     FROM component_instances WHERE component_id = id;
 
   RETURN instance;
+END; //
+
+-------------------------------------------------------------------------------
+-- FUNCTION: cuts.get_component_instance_id
+-------------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS cuts.get_component_instance_id //
+
+CREATE FUNCTION
+  cuts.get_component_instance_id (_instance VARCHAR (255))
+  RETURNS INT
+BEGIN
+  DECLARE _id VARCHAR (255);
+
+  SELECT component_id INTO _id FROM component_instances
+    WHERE component_name = _instance;
+
+  RETURN id;
+END; //
+
+-------------------------------------------------------------------------------
+-- FUNCTION: cuts.get_portname_id
+-------------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS cuts.get_portname_id //
+
+CREATE FUNCTION
+  cuts.get_portname_id (_portname VARCHAR (255))
+  RETURNS INT
+BEGIN
+  DECLARE _id INT;
+
+  SELECT portid INTO _id FROM portnames
+    WHERE portname = _portname;
+
+  RETURN _id;
 END; //
 
 -------------------------------------------------------------------------------
@@ -281,7 +524,30 @@ BEGIN
   CALL cuts.select_component_portnames_i (inst_id, porttype);
 END; //
 
-DELIMITER ;
-
---
 -------------------------------------------------------------------------------
+-- FUNCTION: cuts.get_port_id
+-------------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS
+  cuts.get_port_id //
+
+CREATE FUNCTION cuts.get_port_id (_instance VARCHAR (255),
+                                  _portname VARCHAR (255),
+                                  _porttype VARCHAR (255))
+  RETURNS INT
+BEGIN
+  DECLARE _pid INT;
+  DECLARE _portid INT;
+
+  SELECT portid INTO _portid FROM portnames
+    WHERE portname = _port_name;
+
+  SELECT pid INTO _pid FROM ports
+    WHERE ctype = cuts.get_component_instance_id (_instance) AND
+      portid = cuts.get_portname_id (_portname) AND port_type = _porttype;
+
+  RETURN _pid;
+END; //
+*/
+
+DELIMITER ;

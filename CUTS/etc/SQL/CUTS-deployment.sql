@@ -155,4 +155,24 @@ BEGIN
   CALL set_component_downtime(test, instance_name, hid);
 END; //
 
+-------------------------------------------------------------------------------
+-- FUNCTION: cuts.get_component_instance_host_i
+-------------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS
+  cuts.get_component_instance_host_i //
+
+CREATE FUNCTION
+  cuts.get_component_instance_host_i (test INT, instance_id INT)
+  RETURNS INT
+BEGIN
+  DECLARE hid INT;
+
+  SELECT hostid INTO hid
+    FROM cuts.deployment
+    WHERE test_number = test AND instance_id = instance;
+
+  RETURN hid;
+END; //
+
 DELIMITER ;

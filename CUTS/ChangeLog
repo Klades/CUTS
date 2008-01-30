@@ -1,3 +1,23 @@
+Wed Jan 30 18:48:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-create.sql:
+
+          Re-designed the tables that are responsible for storing
+          component information. The implementation is now a LOT
+          cleaner and easier to use.
+
+        * etc/SQL/CUTS-execution.sql:
+        * etc/SQL/CUTS-baseline.sql:
+
+          Re-designed the performance related tables so that endpoint
+          performance metrics are not stored with the summary preformance
+          metrics, and take into account the new schema for components.
+
+        * etc/SQL/CUTS-deployment.sql:
+
+          Implemented function to get the host id of a instance based
+          on it's correct deployment.
+
 Wed Jan 30 06:19:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/Activation_Record.h:

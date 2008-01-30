@@ -1,4 +1,4 @@
---
+﻿--
 -- @file        CUTS-archive.sql
 --
 -- $Id: CUTS-create.sql 1127 2007-02-04 02:59:21Z hillj $
@@ -16,42 +16,80 @@ USE cuts;
 -- a system
 --
 
-CREATE TABLE IF NOT EXISTS execution_time
+CREATE TABLE IF NOT EXISTS performance_endpoint
 (
-  test_number       int         NOT NULL,
-  collection_time   datetime    NOT NULL,
+  test_number       INT         NOT NULL,
+  collection_time   DATETIME    NOT NULL,
 
-  -- either 'transit' or 'process' for the time being
-  metric_type       enum ('transit',
-                          'queue',
-                          'process')  NOT NULL,
-  metric_count      int               NOT NULL,
+  -- component information
+  instance          INT NOT NULL,
+  sender            INT,
+  inport            INT NOT NULL,
 
-  component         int               NOT NULL,
-  sender            int,
-  src               int NOT NULL,
-  dst               int,
+  -- in case we have multiple outport (or sends) on the same port
+  outport_index     INT NOT NULL,
+  outport           INT NOT NULL,
 
-  best_time         int NOT NULL default 0,
-  worst_time        int NOT NULL default 0,
-  total_time        int NOT NULL default 0,
+  perf_count        INT NOT NULL,
+  best_time         INT NOT NULL default 0,
+  worst_time        INT NOT NULL default 0,
+  total_time        INT NOT NULL default 0,
+
+  -- define the unique entries in the table to prevent duplicates
+  UNIQUE (test_number, collection_time, instance, sender, inport, outport_index, outport),
+
+  -- define all the foreign keys in the table
+  FOREIGN KEY (test_number) REFERENCES tests (test_number)
+    ON DELETE CASCADE,
+
+  FOREIGN KEY (instance) REFERENCES component_instances (instid)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  FOREIGN KEY (sender) REFERENCES component_instances (instid)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  FOREIGN KEY (inport) REFERENCES porttypes (pid)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  FOREIGN KEY (outport) REFERENCES porttypes (pid)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS performance
+(
+  test_number       INT         NOT NULL,
+  collection_time   DATETIME    NOT NULL,
+
+  -- component information
+  instance          INT NOT NULL,
+  sender            INT,
+  inport            INT NOT NULL,
+
+  -- performance information
+  perf_type       ENUM ('transit',
+                        'queue',
+                        'process')  NOT NULL,
+
+  perf_count        INT NOT NULL,
+  best_time         INT NOT NULL default 0,
+  worst_time        INT NOT NULL default 0,
+  total_time        INT NOT NULL default 0,
 
   INDEX (test_number),
   INDEX (collection_time),
   INDEX (test_number, collection_time),
 
+  -- define the unique entries in the table to prevent duplicates
+  UNIQUE (test_number, collection_time, instance, sender, inport, perf_type),
+
+  -- define the foreign keys for data integrity
   FOREIGN KEY (test_number) REFERENCES tests (test_number)
     ON DELETE CASCADE,
-  FOREIGN KEY (component) REFERENCES component_instances (component_id)
+  FOREIGN KEY (instance) REFERENCES component_instances (instid)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
-  FOREIGN KEY (sender) REFERENCES component_instances (component_id)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE,
-  FOREIGN KEY (src) REFERENCES ports (pid)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE,
-  FOREIGN KEY (dst) REFERENCES ports (pid)
+  FOREIGN KEY (instance) REFERENCES component_instances (instid)
     ON DELETE RESTRICT
     ON UPDATE CASCADE
 );
@@ -62,24 +100,29 @@ CREATE TABLE IF NOT EXISTS execution_time
 
 delimiter //
 
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 -- FUNCTION: cuts.get_insert_execution_time
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 
 DROP FUNCTION IF EXISTS cuts.get_max_collection_time //
 
 CREATE FUNCTION
   cuts.get_max_collection_time (test INT)
-RETURNS DATETIME
+  RETURNS DATETIME
 BEGIN
-  DECLARE max_datetime DATETIME;
+  DECLARE retval DATETIME;
 
-  SELECT MAX(collection_time) INTO max_datetime
-    FROM execution_time WHERE test_number = test;
+  SELECT MAX(collection_time) INTO retval
+    FROM cuts.performance WHERE test_number = test;
 
-  RETURN max_datetime;
+  IF retval IS NULL THEN
+    SET retval = NOW();
+  END IF;
+
+  RETURN retval;
 END; //
 
+/*
 -------------------------------------------------------------------------------
 -- FUNCTION: cuts.get_distinct_component_count
 -------------------------------------------------------------------------------
@@ -94,55 +137,80 @@ BEGIN
   DECLARE distinct_count INT;
 
   SELECT COUNT(DISTINCT component) INTO distinct_count
-    FROM execution_time
+    FROM cuts.performance
     WHERE test_number = test AND collection_time = coll_time;
 
   RETURN distinct_count;
 END; //
 
--------------------------------------------------------------------------------
--- PROCEDURE: cuts.insert_execution_time
--------------------------------------------------------------------------------
+*/
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.insert_component_instance_performance
+-- -----------------------------------------------------------------------------
 
-DROP PROCEDURE IF EXISTS cuts.insert_execution_time //
+DROP PROCEDURE IF EXISTS cuts.insert_component_instance_performance //
 
 CREATE PROCEDURE
-  cuts.insert_execution_time (IN test INT, IN ctime DATETIME,
-                              IN mtype VARCHAR (255), IN mcount INT,
-                              IN cname VARCHAR (255), IN sname VARCHAR (255),
-                              IN srcname VARCHAR (255), IN dstname VARCHAR (255),
-                              IN best INT, IN worst INT, IN total INT)
+  cuts.insert_component_instance_performance (IN test INT,
+                                              IN collection DATETIME,
+                                              IN inst VARCHAR (255),
+                                              IN send VARCHAR (255),
+                                              IN inport VARCHAR (255),
+                                              IN p_type VARCHAR (40),
+                                              IN p_count INT,
+                                              IN best_time INT,
+                                              IN worst_time INT,
+                                              IN total_time INT)
 BEGIN
-  DECLARE tid INT;
-  DECLARE cid INT;
-  DECLARE sid INT;
-  DECLARE src_portname_id INT;
-  DECLARE dst_portname_id INT;
-
-
-  -- get the type id of the component
-  SELECT typeid INTO tid FROM component_instances
-    WHERE component_name = cname LIMIT 1;
-
-  -- get the id of the sender and current component
-  SELECT component_id INTO cid FROM component_instances
-    WHERE component_name = cname;
-  SELECT component_id INTO sid FROM component_instances
-    WHERE component_name = sname;
-
-  INSERT INTO execution_time (test_number, collection_time, metric_type,
-   metric_count, component, sender, src, dst, best_time, total_time, worst_time)
-   VALUES (test, ctime, mtype, mcount, cid, sid,
-     (SELECT pid FROM ports WHERE ctype = tid AND
-          portid = (SELECT portid FROM portnames WHERE portname = srcname) AND
-          port_type = 'sink'),
-     (SELECT pid FROM ports WHERE ctype = tid AND
-          portid = (SELECT portid FROM portnames WHERE portname = dstname) AND
-          port_type = 'source'),
-   best, worst, total);
-
+  INSERT INTO cuts.performance (test_number,
+                                collection_time,
+                                instance,
+                                sender,
+                                inport,
+                                perf_type,
+                                perf_count,
+                                best_time,
+                                total_time,
+                                worst_time)
+   VALUES (test, collection,
+           cuts.get_component_instance_id (inst),
+           cuts.get_component_instance_id (send),
+           cuts.get_port_id ('sink', inport),
+           p_type, p_count, best_time, worst_time, total_time);
 END; //
 
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.insert_component_instance_performance_endpoint
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.insert_component_instance_performance_endpoint //
+
+CREATE PROCEDURE
+  cuts.insert_component_instance_performance_endpoint (IN test INT,
+                                                       IN collection DATETIME,
+                                                       IN inst VARCHAR (255),
+                                                       IN sender VARCHAR (255),
+                                                       IN inport VARCHAR (255),
+                                                       IN outport_index INT,
+                                                       IN outport VARCHAR (255),
+                                                       IN perf_count VARCHAR (40),
+                                                       IN best_time INT,
+                                                       IN worst_time INT,
+                                                       IN total_time INT)
+BEGIN
+  INSERT INTO cuts.performance_endpoint (
+    test_number, collection_time, instance, sender, inport,
+    outport_index, outport, perf_count, best_time, total_time, worst_time)
+    VALUES (test, collection,
+            cuts.get_component_instance_id (inst),
+            cuts.get_component_instance_id (sender),
+            cuts.get_port_id ('sink', inport),
+            outport_index,
+            cuts.get_port_id ('source', outport),
+            perf_count, best_time, worst_time, total_time);
+END; //
+
+/*
 -------------------------------------------------------------------------------
 -- PROCEDURE: cuts.select_execution_time
 -------------------------------------------------------------------------------
@@ -383,14 +451,16 @@ CREATE PROCEDURE
   cuts.select_execution_time_delta (IN test INT, IN coll_time DATETIME)
 BEGIN
   SELECT
-      t1.test_number, t1.collection_time, t1.component, t1.sender, t1.src, t1.dst,
+      t1.test_number, t1.collection_time, t1.component,
+      t1.metric_type, t1.sender, t1.src, t1.dst,
       t1.best_time - t2.best_time AS best_time,
       (t1.total_time / t1.metric_count) - (t2.total_time / t2.event_count) AS avg_time,
       t1.worst_time - t2.worst_time AS worst_time
-    FROM execution_time AS t1, baseline AS t2
-    WHERE t1.test_number = test AND t1.collection_time = coll_time
-      AND t1.component = t2.instance AND t1.src = t2.inport
-      AND t1.dst = t2.outport
+    FROM execution_time AS t1 LEFT JOIN baseline AS t2
+      ON t1.component = t2.instance AND t1.metric_type = t2.metric_type AND
+        t1.src = t2.inport AND t1.dst = t2.outport
+    WHERE t1.test_number = test AND t1.collection_time = coll_time AND
+      (t2.host = cuts.get_component_instance_host_i(test, t1.component) OR t2.host IS NULL)
     ORDER BY t1.component, t1.src, t1.dst, t1.sender;
 END ; //
 
@@ -405,17 +475,21 @@ CREATE PROCEDURE
   cuts.select_execution_time_cumulative_delta (IN test INT)
 BEGIN
   SELECT
-      t1.test_number, t1.component, t1.sender, t1.src, t1.dst,
+      t1.test_number, t2.host, t1.component, t1.sender,
+      t1.metric_type, t1.src, t1.dst,
       SUM(t1.metric_count) AS metric_count,
       MIN(t1.best_time) - t2.best_time AS best_time,
       (SUM(t1.total_time) / SUM(t1.metric_count)) - (t2.total_time / t2.event_count) AS avg_time,
       MAX(t1.worst_time) - t2.worst_time AS worst_time
-  FROM execution_time AS t1, baseline AS t2
-  WHERE t1.test_number = test
-        AND t1.component = t2.instance AND t1.src = t2.inport
-        AND t1.dst = t2.outport
+  FROM execution_time AS t1 LEFT JOIN baseline AS t2
+  ON t1.component = t2.instance AND t1.src = t2.inport
+    AND t1.dst = t2.outport AND t1.metric_type = t2.metric_type
+  WHERE t1.test_number = test AND
+    (t2.host = cuts.get_component_instance_host_i(test, t1.component) OR t2.host IS NULL)
   GROUP BY component, metric_type, src, dst
   ORDER BY collection_time;
 END ; //
+
+*/
 
 delimiter ;
