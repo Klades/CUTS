@@ -22,7 +22,8 @@ CUTS_Baseline_Archiver_DB::
 CUTS_Baseline_Archiver_DB (const CUTS_Component_Registry & registry)
 : registry_ (registry),
   info_ (0),
-  perf_query_ (0, &CUTS_DB_Query::destroy)
+  perf_query_ (0, &CUTS_DB_Query::destroy),
+  perf_endpoint_query_ (0, &CUTS_DB_Query::destroy)
 {
 
 }
@@ -56,6 +57,7 @@ execute (const CUTS_System_Metric & metrics,
     // Create a query that will be used to insert the metrics
     // into the database.
     this->perf_query_.reset (conn.create_query ());
+    this->perf_endpoint_query_.reset (conn.create_query ());
 
     if (this->perf_query_.get () == 0)
       return false;
@@ -68,8 +70,6 @@ execute (const CUTS_System_Metric & metrics,
 
       // Prepare the insertion SQL statement.
       this->perf_query_->prepare (perf_stmt);
-
-      // Setup the parameters for the query.
       this->perf_query_->parameter (0)->bind (this->hostname_, 0);
       this->perf_query_->parameter (1)->bind (this->instance_, 0);
       this->perf_query_->parameter (2)->bind (this->inport_, 0);
@@ -78,6 +78,22 @@ execute (const CUTS_System_Metric & metrics,
       this->perf_query_->parameter (5)->bind (&this->best_time_);
       this->perf_query_->parameter (6)->bind (&this->worst_time_);
       this->perf_query_->parameter (7)->bind (&this->total_time_);
+
+      const char * perf_endpoint_stmt =
+        "CALL cuts."
+        "insert_component_instance_endpoint_baseline_by_hostname (?,?,?,?,?,?,?,?,?)";
+
+      // Prepare the SQL statement.
+      this->perf_endpoint_query_->prepare (perf_endpoint_stmt);
+      this->perf_endpoint_query_->parameter (0)->bind (this->hostname_, 0);
+      this->perf_endpoint_query_->parameter (1)->bind (this->instance_, 0);
+      this->perf_endpoint_query_->parameter (2)->bind (this->inport_, 0);
+      this->perf_endpoint_query_->parameter (3)->bind (&this->outport_index_);
+      this->perf_endpoint_query_->parameter (4)->bind (this->outport_, 0);
+      this->perf_endpoint_query_->parameter (5)->bind (&this->perf_count_);
+      this->perf_endpoint_query_->parameter (6)->bind (&this->best_time_);
+      this->perf_endpoint_query_->parameter (7)->bind (&this->worst_time_);
+      this->perf_endpoint_query_->parameter (8)->bind (&this->total_time_);
     }
     else
     {
@@ -96,6 +112,19 @@ execute (const CUTS_System_Metric & metrics,
       this->perf_query_->parameter (4)->bind (&this->best_time_);
       this->perf_query_->parameter (5)->bind (&this->worst_time_);
       this->perf_query_->parameter (6)->bind (&this->total_time_);
+
+      const char * perf_endpoint_stmt =
+        "CALL cuts."
+        "insert_component_instance_endpoint_baseline_default (?,?,?,?,?,?,?,?)";
+      this->perf_endpoint_query_->prepare (perf_endpoint_stmt);
+      this->perf_endpoint_query_->parameter (0)->bind (this->instance_, 0);
+      this->perf_endpoint_query_->parameter (1)->bind (this->inport_, 0);
+      this->perf_endpoint_query_->parameter (2)->bind (&this->outport_index_);
+      this->perf_endpoint_query_->parameter (3)->bind (this->outport_, 0);
+      this->perf_endpoint_query_->parameter (4)->bind (&this->perf_count_);
+      this->perf_endpoint_query_->parameter (5)->bind (&this->best_time_);
+      this->perf_endpoint_query_->parameter (6)->bind (&this->worst_time_);
+      this->perf_endpoint_query_->parameter (7)->bind (&this->total_time_);
     }
 
     // Visit the system metrics.
@@ -290,7 +319,51 @@ visit_port_summary (const CUTS_Port_Summary & summary)
 void CUTS_Baseline_Archiver_DB::
 visit_endpoint_log_summary (const CUTS_Endpoint_Log_Summary & summary)
 {
+  ACE_CString outport;
 
+  for (CUTS_Endpoint_Data_Logs::CONST_ITERATOR logs_iter (summary.logs ());
+       !logs_iter.done ();
+       logs_iter ++)
+  {
+    // Locate the name of this input port.
+    if (this->info_->type_->sources_.find (logs_iter->key (), outport) == 0)
+    {
+      ACE_OS::strncpy (this->outport_,
+                       outport.c_str (),
+                       sizeof (this->outport_));
+
+      // Visit the port metric.
+      CUTS_Endpoint_Data_Log::const_iterator
+        endpoint_iter = logs_iter->item ()->begin (),
+        endpoint_iter_end = logs_iter->item ()->used_end ();
+
+      this->outport_index_ = 0;
+
+      for (; endpoint_iter != endpoint_iter_end; endpoint_iter ++)
+      {
+        this->perf_count_ = endpoint_iter->count ();
+
+        if (this->perf_count_ > 0)
+        {
+          // Set the values of the parameters.
+          this->best_time_  = endpoint_iter->min_value ().time_of_completion ().msec ();
+          this->worst_time_ = endpoint_iter->max_value ().time_of_completion ().msec ();
+          this->total_time_ = endpoint_iter->summation ().time_of_completion ().msec ();
+
+          // Execute the endpoint query.
+          this->perf_endpoint_query_->execute_no_record ();
+
+          // Move to the next index.
+          ++ this->outport_index_;
+        }
+      }
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "*** error (baseline): failed to locate input port name\n"));
+    }
+  }
 }
 
 //

@@ -90,6 +90,8 @@ private:
   /// The query for inserting metrics.
   CUTS_Auto_Functor_T <CUTS_DB_Query> perf_query_;
 
+  CUTS_Auto_Functor_T <CUTS_DB_Query> perf_endpoint_query_;
+
   /// Name of the instance being archived.
   char instance_[256];
 
@@ -107,6 +109,9 @@ private:
 
   /// The event count for the baseline metrics.
   long perf_count_;
+
+  /// The event count for the baseline metrics.
+  long outport_index_;
 
   /// The best execution time for the baseline.
   long best_time_;

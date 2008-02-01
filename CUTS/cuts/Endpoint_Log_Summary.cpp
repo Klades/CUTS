@@ -8,6 +8,7 @@
 
 #include "cuts/Metrics_Visitor.h"
 #include "ace/Auto_Ptr.h"
+#include "ace/Trace.h"
 
 //
 // CUTS_Endpoint_Log_Summary
@@ -229,46 +230,54 @@ const CUTS_Endpoint_Log_Summary &
 CUTS_Endpoint_Log_Summary::operator += (const CUTS_Endpoint_Log_Summary & rhs)
 {
   CUTS_Endpoint_Data_Logs::CONST_ITERATOR iter (rhs.logs_);
-  CUTS_Endpoint_Data_Logs::data_type log = 0;
+  CUTS_Endpoint_Data_Logs::data_type log = 0, srclog = 0;
+  CUTS_Endpoint_Data_Logs::key_type logid;
 
   for (; !iter.done (); iter ++)
   {
-    // Locate a matching log in myself.
-    if (this->logs_.find (iter->key (), log) == -1)
+    srclog = iter->item ();
+
+    if (srclog != 0)
     {
-      ACE_NEW_RETURN (log, CUTS_Endpoint_Data_Log (), *this);
-      ACE_Auto_Ptr <CUTS_Endpoint_Data_Log> auto_clean (log);
+      logid = iter->key ();
 
-      if (this->logs_.bind (iter->key (), log) == 0)
-        auto_clean.release ();
-    }
-
-    if (iter->item () != 0)
-    {
-      // Get iterators to the endpoints of the source log.
-      CUTS_Endpoint_Data_Log::const_iterator
-        log_iter = iter->item ()->begin (),
-        log_iter_end = iter->item ()->used_end ();
-
-      // Initialize the sequence iterator for the log.
-      CUTS_Endpoint_Data_Log::pointer data = 0;
-      CUTS_Endpoint_Data_Log::iterator index_iter = log->begin ();
-      this->iters_.rebind (iter->key (), index_iter);
-
-      for ( ; log_iter != log_iter_end; log_iter ++)
+      // Locate a matching log in myself.
+      if (this->logs_.find (logid, log) == -1)
       {
-        if (index_iter != log->used_end ())
-          data = index_iter;
-        else
-          data = log->next_free_record ();
+        ACE_NEW_RETURN (log, CUTS_Endpoint_Data_Log (*srclog), *this);
+        ACE_Auto_Ptr <CUTS_Endpoint_Data_Log> auto_clean (log);
 
-        // Sum the current value with the data.
-        if (data != 0)
-          *data += *log_iter;
+        if (this->logs_.bind (logid, log) == 0)
+          auto_clean.release ();
+      }
+      else
+      {
+        // Get iterators to the endpoints of the source log.
+        CUTS_Endpoint_Data_Log::const_iterator
+          srclog_iter = srclog->begin (),
+          srclog_iter_end = srclog->used_end ();
 
-        // Regardless, we still need to move the index iterator
-        // to the next position.
-        this->iters_.rebind (iter->key (), ++ index_iter);
+        // Initialize the sequence iterator for the log.
+        CUTS_Endpoint_Data_Log::pointer data = 0;
+        CUTS_Endpoint_Data_Log::iterator index_iter = log->begin ();
+
+        this->iters_.rebind (logid, index_iter);
+
+        for ( ; srclog_iter != srclog_iter_end; srclog_iter ++)
+        {
+          if (index_iter != log->used_end ())
+            data = index_iter;
+          else
+            data = log->next_free_record ();
+
+          // Sum the current value with the data.
+          if (data != 0)
+            *data += *srclog_iter;
+
+          // Regardless, we still need to move the index iterator
+          // to the next position.
+          this->iters_.rebind (logid, ++ index_iter);
+        }
       }
     }
   }

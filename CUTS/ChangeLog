@@ -1,3 +1,25 @@
+Fri Feb  1 18:32:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.h:
+        * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.cpp:
+
+          The baseline archiver now insert endpoints metrics into
+          the target database.
+
+        * cuts/Endpoint_Log_Summary.cpp (operator +=):
+
+          Bug fix where endpoint summary logs were not being summed
+          correctly due to auto growth being disabled.
+
+        * cuts/Log_T.h:
+
+          By default, the logs will auto grow.
+
+        * etc/SQL/CUTS-baseline.sql:
+
+          Bug fix for functions that used invalid columns or
+          variables.
+
 Fri Feb  1 01:21:17 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * CUTS_CoSMIC.mwc:

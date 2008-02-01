@@ -126,6 +126,41 @@ BEGIN
 END; //
 
 -- -----------------------------------------------------------------------------
+-- FUNCTION: cuts.get_component_instance_endpoint_baseline_id
+-- -----------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS cuts.get_component_instance_endpoint_baseline_id //
+
+CREATE FUNCTION
+  cuts.get_component_instance_endpoint_baseline_id (_hostid INT,
+                                                    _instid INT,
+                                                    _iid INT,
+                                                    _outport_index INT,
+                                                    _oid INT)
+  RETURNS INT
+BEGIN
+  DECLARE retval INT;
+
+  DECLARE CONTINUE HANDLER FOR NOT FOUND RETURN NULL;
+
+  IF (_hostid IS NULL) THEN
+    SELECT t1.bid INTO retval FROM cuts.performance_endpoint_baseline AS t1
+      WHERE t1.host IS NULL AND t1.instance = _instid AND
+            t1.inport = _iid AND t1.outport_index = _outport_index AND
+            t1.outport = _oid
+      LIMIT 1;
+  ELSE
+    SELECT t1.bid INTO retval FROM cuts.performance_endpoint_baseline AS t1
+      WHERE t1.host = _hostid AND t1.instance = _instid AND
+            t1.inport = _iid AND t1.outport_index = _outport_index AND
+            t1.outport = _oid
+      LIMIT 1;
+  END IF;
+
+  RETURN retval;
+END; //
+
+-- -----------------------------------------------------------------------------
 -- PROCEDURE: cuts.insert_component_instance_baseline
 -- -----------------------------------------------------------------------------
 
@@ -180,6 +215,64 @@ BEGIN
 END; //
 
 -- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.insert_component_instance_baseline
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.insert_component_instance_endpoint_baseline //
+
+CREATE PROCEDURE
+  cuts.insert_component_instance_endpoint_baseline (IN _hostid INT,
+                                                    IN _instance VARCHAR (255),
+                                                    IN _inport VARCHAR (255),
+                                                    IN _outport_index INT,
+                                                    IN _outport VARCHAR (40),
+                                                    IN _perf_count INT,
+                                                    IN _best_time INT,
+                                                    IN _worst_time INT,
+                                                    IN _total_time INT)
+BEGIN
+  DECLARE instid INT;
+  DECLARE iid INT;
+  DECLARE oid INT;
+  DECLARE mybid INT;
+
+  /*
+   * The following functions will not throw a NOT FOUND
+   * error.
+   */
+  SET instid = cuts.get_component_instance_id (_instance);
+  SET iid = cuts.get_port_id ('sink', _inport);
+  SET oid = cuts.get_port_id ('source', _outport);
+
+  /*
+   * Get the baseline id for the metrics. If there isn't a
+   * baseline id, then we are going to insert a new one.
+   */
+  SET mybid =
+    cuts.get_component_instance_endpoint_baseline_id (_hostid,
+                                                      instid,
+                                                      iid,
+                                                      _outport_index,
+                                                      oid);
+
+  IF mybid IS NULL THEN
+    INSERT INTO cuts.performance_endpoint_baseline (
+      host, instance, inport, outport_index, outport,
+      perf_count, best_time, worst_time, total_time)
+      VALUES (_hostid, instid, iid, _outport_index, oid,
+              _perf_count, _best_time, _worst_time, _total_time);
+  ELSE
+    /*
+     * Update an existing performance_baseline metric.
+     */
+    UPDATE cuts.performance_endpoint_baseline
+      SET perf_count = _perf_count, best_time = _best_time,
+          worst_time = _worst_time, total_time = _total_time
+      WHERE bid = mybid;
+  END IF;
+END; //
+
+-- -----------------------------------------------------------------------------
 -- PROCEDURE: cuts.insert_component_instance_baseline_by_ipaddr
 -- -----------------------------------------------------------------------------
 
@@ -203,6 +296,35 @@ BEGIN
                                            best_time,
                                            worst_time,
                                            total_time);
+END; //
+
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.insert_component_instance_endpoint_baseline_by_ipaddr
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.insert_component_instance_endpoint_baseline_by_ipaddr //
+
+CREATE PROCEDURE
+  cuts.
+  insert_component_instance_endpoint_baseline_by_ipaddr (IN _ipaddr VARCHAR (255),
+                                                         IN _instance VARCHAR (255),
+                                                         IN _inport VARCHAR (255),
+                                                         IN _outport_index INT,
+                                                         IN _outport VARCHAR (40),
+                                                         IN _perf_count INT,
+                                                         IN _best_time INT,
+                                                         IN _worst_time INT,
+                                                         IN _total_time INT)
+BEGIN
+  CALL insert_component_instance_endpoint_baseline (cuts.get_ipaddr_id (_ipaddr),
+                                                    _instance,
+                                                    _inport,
+                                                    _outport_index,
+                                                    _outport,
+                                                    _perf_count,
+                                                    _best_time,
+                                                    _worst_time,
+                                                    _total_time);
 END; //
 
 -- -----------------------------------------------------------------------------
@@ -232,6 +354,35 @@ BEGIN
 END; //
 
 -- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.insert_component_instance_endpoint_baseline_by_hostname
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.insert_component_instance_endpoint_baseline_by_hostname //
+
+CREATE PROCEDURE
+  cuts.
+  insert_component_instance_endpoint_baseline_by_hostname (IN _hostname VARCHAR (255),
+                                                           IN _instance VARCHAR (255),
+                                                           IN _inport VARCHAR (255),
+                                                           IN _outport_index INT,
+                                                           IN _outport VARCHAR (40),
+                                                           IN _perf_count INT,
+                                                           IN _best_time INT,
+                                                           IN _worst_time INT,
+                                                           IN _total_time INT)
+BEGIN
+  CALL insert_component_instance_endpoint_baseline (cuts.get_hostname_id (_hostname),
+                                                    _instance,
+                                                    _inport,
+                                                    _outport_index,
+                                                    _outport,
+                                                    _perf_count,
+                                                    _best_time,
+                                                    _worst_time,
+                                                    _total_time);
+END; //
+
+-- -----------------------------------------------------------------------------
 -- PROCEDURE: cuts.insert_component_instance_baseline_default
 -- -----------------------------------------------------------------------------
 
@@ -254,6 +405,34 @@ BEGIN
                                            best_time,
                                            worst_time,
                                            total_time);
+END; //
+
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.insert_component_instance_endpoint_baseline_default
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.insert_component_instance_endpoint_baseline_default //
+
+CREATE PROCEDURE
+  cuts.
+  insert_component_instance_endpoint_baseline_default (IN _instance VARCHAR (255),
+                                                       IN _inport VARCHAR (255),
+                                                       IN _outport_index INT,
+                                                       IN _outport VARCHAR (40),
+                                                       IN _perf_count INT,
+                                                       IN _best_time INT,
+                                                       IN _worst_time INT,
+                                                       IN _total_time INT)
+BEGIN
+  CALL cuts.insert_component_instance_endpoint_baseline (NULL,
+                                                         _instance,
+                                                         _inport,
+                                                         _outport_index,
+                                                         _outport,
+                                                         _perf_count,
+                                                         _best_time,
+                                                         _worst_time,
+                                                         _total_time);
 END; //
 /*
 -- -----------------------------------------------------------------------------
