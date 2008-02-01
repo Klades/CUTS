@@ -64,17 +64,20 @@ public:
                 CUTS_DB_Connection & conn,
                 bool is_default = false);
 
-private:
-  void visit_system_metric (const CUTS_System_Metric & sm);
+protected:
+  void visit_system_metric (const CUTS_System_Metric & system);
 
-  void visit_component_metric (const CUTS_Component_Metric & cm);
+  void visit_component_metric (const CUTS_Component_Metric & component);
 
-  void visit_port_metric (const CUTS_Port_Metric & pm);
+  void visit_port_metric (const CUTS_Port_Metric & port);
 
-  void visit_port_measurement (const CUTS_Port_Measurement & pm);
+  void visit_port_summary (const CUTS_Port_Summary & summary);
+
+  void visit_endpoint_log_summary (const CUTS_Endpoint_Log_Summary & summary);
 
   void visit_time_measurement (const CUTS_Time_Measurement & tm);
 
+private:
   /// Registration information for all the components.
   const CUTS_Component_Registry & registry_;
 
@@ -85,13 +88,10 @@ private:
   const CUTS_Component_Info * info_;
 
   /// The query for inserting metrics.
-  CUTS_Auto_Functor_T <CUTS_DB_Query> query_;
+  CUTS_Auto_Functor_T <CUTS_DB_Query> perf_query_;
 
   /// Name of the instance being archived.
   char instance_[256];
-
-  /// Name of the instance being archived.
-  char metric_type_[10];
 
   /// The input port for the baseline metric.
   char inport_[256];
@@ -99,11 +99,14 @@ private:
   /// The output port for the baseline metric.
   char outport_[256];
 
+  /// Name of the instance being archived.
+  char perf_type_[10];
+
   /// Hostname for the baseline metric.
   char hostname_[256];
 
   /// The event count for the baseline metrics.
-  long event_count_;
+  long perf_count_;
 
   /// The best execution time for the baseline.
   long best_time_;

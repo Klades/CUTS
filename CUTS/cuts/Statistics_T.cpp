@@ -24,9 +24,38 @@ CUTS_Statistics_T <T>::operator = (const CUTS_Statistics_T <T> & rhs)
 //
 template <typename T>
 const CUTS_Statistics_T <T> &
+CUTS_Statistics_T <T>::operator += (const CUTS_Statistics_T <T> & rhs)
+{
+  if (this->count_ != 0)
+  {
+    // Update the min and max values if necessary.
+    if (rhs.max_ > this->max_)
+      this->max_ = rhs.max_;
+    else if (rhs.min_ < this->min_)
+      this->min_ = rhs.min_;
+  }
+  else
+  {
+    // This is the first-time value.
+    this->max_ = rhs.max_;
+    this->min_ = rhs.min_;
+  }
+
+  // Update the summation value.
+  this->sum_ += rhs.sum_;
+  this->count_ += rhs.count_;
+
+  return *this;
+}
+
+//
+// operator +=
+//
+template <typename T>
+const CUTS_Statistics_T <T> &
 CUTS_Statistics_T <T>::operator += (const T & rhs)
 {
-  if (this->count_!= 0)
+  if (this->count_ != 0)
   {
     // Update the min and max values if necessary.
     if (rhs > this->max_)

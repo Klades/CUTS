@@ -147,6 +147,14 @@ public:
    * @param[in]       rhs       Right-hand side of the operator.
    * @return          Reference to self.
    */
+  const CUTS_Statistics_T & operator += (const CUTS_Statistics_T & rhs);
+
+  /**
+   * Addition assignment operator.
+   *
+   * @param[in]       rhs       Right-hand side of the operator.
+   * @return          Reference to self.
+   */
   const CUTS_Statistics_T & operator += (const T & rhs);
 
 private:

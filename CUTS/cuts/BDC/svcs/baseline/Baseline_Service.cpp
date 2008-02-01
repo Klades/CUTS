@@ -133,19 +133,31 @@ int CUTS_Baseline_Service::handle_deactivate (void)
                             this->server_.c_str (),
                             CUTS_DEFAULT_PORT);
 
-      VERBOSE_MESSAGE ((LM_INFO,
-                        "*** info [baseline]: saving metrics to "
-                        "datatbase\n"));
+      try
+      {
+        VERBOSE_MESSAGE ((LM_INFO,
+                          "*** info [baseline]: saving metrics to "
+                          "datatbase\n"));
 
-      // Create a baseline database inputer and insert the
-      // baseline metrics into the database.
-      CUTS_Baseline_Archiver_DB archiver (this->svc_mgr ()->
-                                            testing_service ()->registry ());
+        // Create a baseline database inputer and insert the
+        // baseline metrics into the database.
+        CUTS_Baseline_Archiver_DB
+          archiver (this->svc_mgr ()->testing_service ()->registry ());
 
-      // Archive the baseline metrics.
-      archiver.execute (*this->svc_mgr ()->metrics (),
-                        *this->conn_,
-                        this->default_);
+        // Archive the baseline metrics.
+        archiver.execute (this->baseline_, *this->conn_, this->default_);
+      }
+      catch (CUTS_DB_Exception & ex)
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "*** error [baseline]: %s\n",
+                    ex.message ().c_str ()));
+      }
+      catch (...)
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "*** error [baseline]: caught unknown exception\n"));
+      }
 
       // Disconnect from the database.
       this->conn_->disconnect ();
@@ -162,12 +174,17 @@ int CUTS_Baseline_Service::handle_deactivate (void)
                   "*** error [baseline]: %s\n",
                   ex.message ().c_str ()));
     }
+    catch (...)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "*** error [baseline]: caught unknown exception\n"));
+    }
   }
   else
   {
     ACE_DEBUG ((LM_WARNING,
-                "*** warning [baseline]: deactivating test before completing "
-                "warmup\n"));
+                "*** warning [baseline]: deactivating test before "
+                "completing warmup cycle\n"));
   }
 
   return 1;
@@ -217,18 +234,11 @@ handle_component (const CUTS_Component_Info & info)
                       this->server_.c_str ()));
 
     // Register the component information.
-    if (this->registry_.register_component (info))
-    {
-      VERBOSE_MESSAGE ((LM_INFO,
-                        "*** info [baseline]: successfully registered %s\n",
-                        info.inst_.c_str ()));
-    }
-    else
-    {
-      ACE_ERROR ((LM_ERROR,
-                  "*** info [baseline]: failed to register %s\n",
-                  info.inst_.c_str ()));
-    }
+    this->registry_.register_component_instance (info);
+
+    VERBOSE_MESSAGE ((LM_INFO,
+                      "*** info [baseline]: successfully registered %s\n",
+                      info.inst_.c_str ()));
 
     // Let's get the id of the component's host. If the host
     // information is not available then we need to treat this
@@ -237,22 +247,13 @@ handle_component (const CUTS_Component_Info & info)
     {
       // We are going to treat this as default baseline since either
       // the user specified, or we don't know anything about the host.
-      if (this->registry_.register_host (info.host_info_->ipaddr_.c_str (),
-                                         info.host_info_->hostname_.c_str ()))
-      {
-        VERBOSE_MESSAGE ((LM_INFO,
-                          "*** info [baseline]: successfully registered "
-                          "%s [%s]\n",
-                          info.host_info_->hostname_.c_str (),
-                          info.host_info_->ipaddr_.c_str ()));
-      }
-      else
-      {
-        ACE_ERROR ((LM_ERROR,
-                    "*** error [baseline]: failed to register %s [%s]\n",
-                    info.host_info_->hostname_.c_str (),
-                    info.host_info_->ipaddr_.c_str ()));
-      }
+      this->registry_.register_host (*info.host_info_);
+
+      VERBOSE_MESSAGE ((LM_INFO,
+                        "*** info [baseline]: successfully registered "
+                        "%s [%s]\n",
+                        info.host_info_->hostname_.c_str (),
+                        info.host_info_->ipaddr_.c_str ()));
     }
     else
     {

@@ -46,6 +46,32 @@ process (const CUTS_Activation_Record & record)
 }
 
 //
+// operator =
+//
+const CUTS_Port_Summary_Base &
+CUTS_Port_Summary_Base::operator = (const CUTS_Port_Summary_Base & rhs)
+{
+  this->queuing_time_ = rhs.queuing_time_;
+  this->service_time_ = rhs.service_time_;
+  this->endpoints_ = rhs.endpoints_;
+
+  return *this;
+}
+
+//
+// operator +=
+//
+const CUTS_Port_Summary_Base &
+CUTS_Port_Summary_Base::operator += (const CUTS_Port_Summary_Base & rhs)
+{
+  this->queuing_time_ += rhs.queuing_time_;
+  this->service_time_ += rhs.service_time_;
+  this->endpoints_  += rhs.endpoints_;
+
+  return *this;
+}
+
+//
 // accept
 //
 void CUTS_Port_Summary_Base::accept (CUTS_Metrics_Visitor & visitor) const

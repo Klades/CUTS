@@ -45,9 +45,7 @@ public:
 
   virtual void visit_port_metric (const CUTS_Port_Metric & metric);
 
-  virtual void visit_port_measurement (const CUTS_Port_Measurement & measure);
-
-  virtual void visit_time_measurement (const CUTS_Time_Measurement & tm);
+  virtual void visit_port_summary (const CUTS_Port_Summary & summary);
 
 private:
   /// The destination for the accumulated metrics.
@@ -60,10 +58,7 @@ private:
   CUTS_Port_Metric * port_metric_;
 
   /// The target port measurement.
-  CUTS_Port_Measurement * port_measure_;
-
-  /// The target time measurement.
-  CUTS_Time_Measurement * timing_;
+  CUTS_Port_Summary * port_summary_;
 };
 
 #endif  // !defined _CUTS_SYSTEM_METRIC_ACCUMULATOR_H_

@@ -1,3 +1,36 @@
+Fri Feb  1 01:11:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/svcs/IO/IO_System_Metric_Visitor.cpp:
+
+          Reformatted the I/O display.
+
+        * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.h:
+        * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.cpp:
+        * cuts/BDC/svcs/baseline/Baseline_Service.cpp:
+        * cuts/BDC/svcs/baseline/System_Metric_Accumulator.h:
+        * cuts/BDC/svcs/baseline/System_Metric_Accumulator.cpp:
+
+          Refactored the implementation to handle the new database
+          format below. I still need to update the implementation
+          to handle endpoints.
+
+        * cuts/Endpoint_Log_Summary.h:
+        * cuts/Endpoint_Log_Summary.cpp:
+        * cuts/Port_Summary.h:
+        * cuts/Port_Summary.inl:
+        * cuts/Port_Summary.cpp:
+        * cuts/Statistics_T.h:
+        * cuts/Statistics_T.cpp:
+
+          Implemented operator += (), operator =, and copy constructor
+          for each of the classes in these files. This makes it a lot
+          simpler to accumulate metrics.
+
+        * etc/SQL/CUTS-baseline.sql:
+
+          Update the baseline tables to separate the overall performance
+          metrics from the endpoint metrics.
+
 Wed Jan 30 18:48:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-create.sql:

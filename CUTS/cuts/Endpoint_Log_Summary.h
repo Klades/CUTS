@@ -43,6 +43,8 @@ public:
   /// Default constructor.
   CUTS_Endpoint_Log_Summary (void);
 
+  CUTS_Endpoint_Log_Summary (const CUTS_Endpoint_Log_Summary & copy);
+
   /// Destructor.
   ~CUTS_Endpoint_Log_Summary (void);
 
@@ -70,7 +72,19 @@ public:
   /// Accept the visitor object.
   void accept (CUTS_Metrics_Visitor & visitor) const;
 
+  const CUTS_Endpoint_Log_Summary &
+    operator = (const CUTS_Endpoint_Log_Summary & summary);
+
+  const CUTS_Endpoint_Log_Summary &
+    operator += (const CUTS_Endpoint_Log_Summary & summary);
+
 private:
+  /// Delete all the logs in the table.
+  void clean_reset (void);
+
+  /// Copy a set of logs.
+  void copy (const CUTS_Endpoint_Data_Logs & logs);
+
   /// Prepare the summary for the endpoints.
   int prepare (const CUTS_Activation_Record_Endpoints & endpoints);
 

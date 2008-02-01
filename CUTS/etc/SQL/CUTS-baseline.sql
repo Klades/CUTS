@@ -67,9 +67,9 @@ CREATE TABLE IF NOT EXISTS performance_baseline
   inport            INT NOT NULL,
 
   -- performance information
-  perf_type       ENUM ('transit',
-                        'queue',
-                        'process')  NOT NULL,
+  perf_type         ENUM ('transit',
+                          'queue',
+                          'process')  NOT NULL,
 
   perf_count        INT NOT NULL default 0,
   best_time         INT NOT NULL default 0,
@@ -94,81 +94,36 @@ CREATE TABLE IF NOT EXISTS performance_baseline
 
 DELIMITER //
 
-/*
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 -- FUNCTION: cuts.get_component_baseline_id
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 
-DROP FUNCTION IF EXISTS cuts.get_component_baseline_id //
+DROP FUNCTION IF EXISTS cuts.get_component_instance_baseline_id //
 
-CREATE FUNCTION cuts.get_component_baseline_id (
-  hid INT, inst INT, mtype VARCHAR (10), iid INT, oid INT)
+CREATE FUNCTION cuts.get_component_instance_baseline_id (hostid INT,
+                                                         instid INT,
+                                                         iid INT,
+                                                         ptype VARCHAR (40))
   RETURNS INT
 BEGIN
-  DECLARE baseline_id INT;
+  DECLARE retval INT;
 
-  IF (hid IS NULL) THEN
-    IF (oid IS NULL) THEN
-      SELECT bid INTO baseline_id FROM cuts.baseline
-        WHERE (host IS NULL AND instance = inst AND metric_type = mtype AND
-               inport = iid AND outport IS NULL);
-    ELSE
-      SELECT bid INTO baseline_id FROM cuts.baseline
-        WHERE (host IS NULL AND instance = inst AND metric_type = mtype AND
-               inport = iid AND outport = oid);
-    END IF;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND RETURN NULL;
+
+  IF (hostid IS NULL) THEN
+    SELECT t1.bid INTO retval FROM cuts.performance_baseline AS t1
+      WHERE t1.host IS NULL AND t1.instance = instid AND
+            t1.inport = iid AND t1.perf_type = ptype
+      LIMIT 1;
   ELSE
-    IF (oid IS NULL) THEN
-      SELECT bid INTO baseline_id FROM cuts.baseline
-        WHERE (host = hid AND instance = inst AND metric_type = mtype AND
-                inport = iid AND outport IS NULL);
-    ELSE
-      SELECT bid INTO baseline_id FROM cuts.baseline
-        WHERE (host = hid AND instance = inst AND metric_type = mtype AND
-               inport = iid AND outport = oid);
-    END IF;
+    SELECT t1.bid INTO retval FROM cuts.performance_baseline AS t1
+      WHERE t1.host = hostid AND t1.instance = instid AND
+            t1.inport = iid AND t1.perf_type = ptype
+      LIMIT 1;
   END IF;
 
-  RETURN baseline_id;
+  RETURN retval;
 END; //
-
--------------------------------------------------------------------------------
--- FUNCTION: cuts.get_component_baseline_count_i
--------------------------------------------------------------------------------
-
-DROP FUNCTION IF EXISTS cuts.get_component_baseline_count_i //
-
-CREATE FUNCTION cuts.get_component_baseline_count_i (
-  hid INT, inst INT, mtype VARCHAR (10), iid INT, oid INT)
-  RETURNS INT
-BEGIN
-  DECLARE baseline_count INT;
-
-  IF (hid IS NULL) THEN
-    IF (oid IS NULL) THEN
-      SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
-        WHERE (host IS NULL AND instance = inst AND metric_type = mtype AND
-              inport = iid AND outport IS NULL);
-    ELSE
-      SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
-        WHERE (host IS NULL AND instance = inst AND metric_type = mtype AND
-              inport = iid AND outport = oid);
-    END IF;
-  ELSE
-    IF (oid IS NULL) THEN
-      SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
-        WHERE (host = hid AND instance = inst AND metric_type = mtype AND
-              inport = iid AND outport IS NULL);
-    ELSE
-      SELECT COUNT(*) INTO baseline_count FROM cuts.baseline
-        WHERE (host = hid AND instance = inst AND metric_type = mtype AND
-              inport = iid AND outport = oid);
-    END IF;
-  END IF;
-
-  RETURN baseline_count;
-END; //
-*/
 
 -- -----------------------------------------------------------------------------
 -- PROCEDURE: cuts.insert_component_instance_baseline
@@ -177,39 +132,51 @@ END; //
 DROP PROCEDURE IF EXISTS cuts.insert_component_instance_baseline //
 
 CREATE PROCEDURE
-  cuts.insert_component_instance_baseline (IN hostid INT,
-                                           IN instance VARCHAR (255),
-                                           IN inport VARCHAR (255),
-                                           IN perf_type VARCHAR (40),
-                                           IN perf_count INT,
-                                           IN best_time INT,
-                                           IN worst_time INT,
-                                           IN total_time INT)
+  cuts.insert_component_instance_baseline (IN _hostid INT,
+                                           IN _instance VARCHAR (255),
+                                           IN _inport VARCHAR (255),
+                                           IN _perf_type VARCHAR (40),
+                                           IN _perf_count INT,
+                                           IN _best_time INT,
+                                           IN _worst_time INT,
+                                           IN _total_time INT)
 BEGIN
   DECLARE instid INT;
   DECLARE iid INT;
+  DECLARE mybid INT;
 
-  DECLARE CONTINUE HANDLER FOR SQLSTATE '23000'
-  BEGIN
-    -- update an existing performance_baseline metric
-    UPDATE cuts.baseline
-      SET perf_count = perf_count,
-          best_time  = best_time,
-          worst_time = worst_time,
-          total_time = total_time
-      WHERE (host = hid AND instance = instid AND
-             inport = iid AND perf_type = perf_type);
-  END;
+  /*
+   * The following functions will not throw a NOT FOUND
+   * error.
+   */
+  SET instid = cuts.get_component_instance_id (_instance);
+  SET iid = cuts.get_port_id ('sink', _inport);
 
-  SET instid = cuts.get_component_instance_id (instance);
-  SET iid = cuts.get_port_id ('sink', inport);
+  /*
+   * Get the baseline id for the metrics. If there isn't a
+   * baseline id, then we are going to insert a new one. This
+   * is handled by the continue handler!!
+   */
+  SET mybid = cuts.get_component_instance_baseline_id (_hostid,
+                                                       instid,
+                                                       iid,
+                                                       _perf_type);
 
-  -- create a new performance_baseline metric
-  INSERT INTO cuts.baseline (host, instance, inport, perf_type,
-                             perf_count, best_time, worst_time,
-                             total_time)
-    VALUES (hostid, instid, iid, perf_type, perf_count,
-            best_time, worst_time, total_time);
+  IF mybid IS NULL THEN
+    INSERT INTO cuts.performance_baseline (host, instance, inport, perf_type,
+                                           perf_count, best_time, worst_time,
+                                           total_time)
+      VALUES (_hostid, instid, iid, _perf_type, _perf_count,
+              _best_time, _worst_time, _total_time);
+  ELSE
+    /*
+     * Update an existing performance_baseline metric.
+     */
+    UPDATE cuts.performance_baseline
+      SET perf_count = _perf_count, best_time = _best_time,
+          worst_time = _worst_time, total_time = _total_time
+      WHERE bid = mybid;
+  END IF;
 END; //
 
 -- -----------------------------------------------------------------------------
@@ -264,7 +231,6 @@ BEGIN
                                            total_time);
 END; //
 
-
 -- -----------------------------------------------------------------------------
 -- PROCEDURE: cuts.insert_component_instance_baseline_default
 -- -----------------------------------------------------------------------------
@@ -289,16 +255,15 @@ BEGIN
                                            worst_time,
                                            total_time);
 END; //
-
 /*
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 -- PROCEDURE: cuts.select_baseline_metrics_all
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 
-DROP PROCEDURE IF EXISTS cuts.select_baseline_metric_all //
+DROP PROCEDURE IF EXISTS cuts.select_performance_baseline_all //
 
 CREATE PROCEDURE
-  cuts.select_baseline_metric_all ()
+  cuts.select_performance_baseline_all ()
 BEGIN
   SELECT t7.*, t8.portname AS source FROM
     (SELECT t5.*, t6.portname AS sink FROM
@@ -315,7 +280,7 @@ BEGIN
           WHERE ports.portid = portnames.portid) AS t8 ON t7.outport = t8.pid
     ORDER BY component_name;
 END; //
-
+/*
 -------------------------------------------------------------------------------
 -- PROCEDURE: cuts.select_baseline_metric_for_test
 -------------------------------------------------------------------------------

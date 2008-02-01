@@ -136,7 +136,7 @@ visit_endpoint_log_summary (const CUTS_Endpoint_Log_Summary & summary)
       ep_iter->avg_value (data_avg);
 
       std::cout
-        << " : "
+        << " : [" << ep_iter->count () << "] "
         << ep_iter->min_value ().time_of_completion ().msec () << "/"
         << data_avg.time_of_completion ().msec () << "/"
         << ep_iter->max_value ().time_of_completion ().msec () << std::endl;
@@ -154,7 +154,7 @@ visit_time_measurement (const CUTS_Time_Measurement & tm)
   tm.avg_value (avg_time);
 
   std::cout
-    << "(best/avg/worst msec) : "
+    << "(best/avg/worst msec) : [" << tm.count () << "] "
     << tm.min_value ().msec () << "/"
     << avg_time.msec () << "/" << tm.max_value ().msec () << std::endl;
 }

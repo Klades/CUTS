@@ -34,6 +34,13 @@ public:
   /// Default constructor.
   CUTS_Port_Summary_Base (void);
 
+  /**
+   * Copy constructor.
+   *
+   * @param[in]     copy        Source object.
+   */
+  CUTS_Port_Summary_Base (const CUTS_Port_Summary_Base & copy);
+
   /// Destructor.
   virtual ~CUTS_Port_Summary_Base (void);
 
@@ -72,6 +79,22 @@ public:
 
   /// Accept the visitor.
   void accept (CUTS_Metrics_Visitor & visitor) const;
+
+  /**
+   * Assignment operator.
+   *
+   * @param[in]     rhs     Right-hand side of operator.
+   * @return        Reference to self.
+   */
+  const CUTS_Port_Summary_Base & operator = (const CUTS_Port_Summary_Base & rhs);
+
+  /**
+   * Addition assignment operator.
+   *
+   * @param[in]     rhs     Right-hand side of operator.
+   * @return        Reference to self.
+   */
+  const CUTS_Port_Summary_Base & operator += (const CUTS_Port_Summary_Base & rhs);
 
 protected:
   /// The queuing time of the port.
