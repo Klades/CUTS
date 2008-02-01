@@ -1,3 +1,11 @@
+Fri Feb  1 01:21:17 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * CUTS_CoSMIC.mwc:
+
+          The CoSMIC project now inherits from the CUTS project. This
+          is in line w/ the notation of the CoSMIC portion of CUTS being
+          dependent on CUTS runtime.
+
 Fri Feb  1 01:11:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/svcs/IO/IO_System_Metric_Visitor.cpp:

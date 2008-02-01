@@ -9,10 +9,7 @@
 ///               of CUTS.
 ///=============================================================================
 
-workspace (CUTS_CoSMIC) {
-  cmdline += -include $CUTS_ROOT/etc/config \
-             -feature_file default.features
-
+workspace (CUTS_CoSMIC): CUTS {
   // MDE projects
   MDE/GEMS
 
