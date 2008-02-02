@@ -64,7 +64,7 @@ static void operator >>= (const S & sequence, CUTS_Log_T <T, LOCK> & log)
   // the macro, we are going to explicitly declare it. Then, we are
   // going to get a write lock to the log for batch processing.
   typedef typename CUTS_Log_T <T, LOCK>::lock_type lock_type;
-  ACE_WRITE_GUARD (typename lock_type, guard, log.lock ());
+  ACE_WRITE_GUARD (lock_type, guard, log.lock ());
 
   // Set the size of the log and reset its state.
   log.reset ();
@@ -230,7 +230,7 @@ operator <<= (SEQUENCE & sequence, CUTS_Log_T <T, LOCK> & log)
   sequence.length (curr_size);
 
   // Get iterators to the source and destination buffer.
-  SEQUENCE::value_type * buf = sequence.get_buffer ();
+  typename SEQUENCE::value_type * buf = sequence.get_buffer ();
 
   typename CUTS_Log_T <T, LOCK>::iterator
     iter = log.begin (), iter_end = log.used_end ();

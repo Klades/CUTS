@@ -35,6 +35,10 @@ public:
   /// Type definition of the lock type.
   typedef LOCK lock_type;
 
+  typedef typename ACE_Array_Base <T>::iterator iterator;
+
+  typedef typename ACE_Array_Base <T>::const_iterator const_iterator;
+
   /**
    * Initializing constructor.
    *

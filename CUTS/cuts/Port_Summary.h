@@ -54,7 +54,7 @@ public:
   virtual int process (const CUTS_Activation_Record & record);
 
   /// Reset the summary.
-  void reset (void);
+  virtual void reset (void);
 
   /**
    * Get the queuing time for the port.
@@ -78,7 +78,7 @@ public:
   const CUTS_Endpoint_Log_Summary & endpoints (void) const;
 
   /// Accept the visitor.
-  void accept (CUTS_Metrics_Visitor & visitor) const;
+  virtual void accept (CUTS_Metrics_Visitor & visitor) const;
 
   /**
    * Assignment operator.
@@ -148,10 +148,10 @@ public:
   virtual int process (const CUTS_Activation_Record & record);
 
   /// Reset the summary.
-  void reset (void);
+  virtual void reset (void);
 
   /// Accept the visitor.
-  void accept (CUTS_Metrics_Visitor & visitor) const;
+  virtual void accept (CUTS_Metrics_Visitor & visitor) const;
 
   /**
    * Get the port summary for each of the senders.

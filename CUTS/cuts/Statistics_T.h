@@ -18,6 +18,27 @@
 #include "ace/If_Then_Else.h"
 #include "cuts/Traits.h"
 
+template <typename T, bool is_builtin>
+struct zero_t;
+
+template <typename T>
+struct zero_t <T, true>
+{
+  static inline T value (void)
+  {
+    return static_cast <T> (0);
+  }
+};
+
+template <typename T>
+struct zero_t <T, false>
+{
+  static inline T value (void)
+  {
+    return T::zero;
+  }
+};
+
 //=============================================================================
 /**
  * @struct CUTS_zero
@@ -32,38 +53,8 @@ struct CUTS_zero
 public:
   static inline T value (void)
   {
-    return zero_t <CUTS::builtin_type <T>::result_type> ();
+    return zero_t <T, CUTS::builtin_type <T>::result_type>::value ();
   }
-
-private:
-  template <bool is_builtin>
-  static inline T zero_t (void);
-
-  template < >
-  static inline T zero_t <true> (void)
-  {
-    return static_cast <T> (0);
-  }
-
-  template < >
-  static inline T zero_t <false> (void)
-  {
-    return T::zero;
-  }
-};
-
-//=============================================================================
-/**
- * @struct CUTS_zero_t
- *
- * The zero value of the specified type.
- */
-//=============================================================================
-
-template <typename T>
-struct CUTS_zero_t
-{
-  static const T result_type = 0;
 };
 
 //=============================================================================

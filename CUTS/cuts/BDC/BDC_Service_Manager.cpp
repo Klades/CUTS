@@ -8,7 +8,6 @@
 
 #include "BDC_Service.h"
 #include "cuts/Component_Info.h"
-#include "cuts/Log_Msg.h"
 #include "ace/Dynamic_Service.h"
 #include "ace/Event.h"
 #include "ace/Service_Types.h"
