@@ -12,7 +12,10 @@
 ///               runtime and modeling, apply to this workspace.
 ///=============================================================================
 
-workspace (CUTS) : CUTS_CoSMIC {
+workspace (CUTS) {
+  cmdline += -include $CUTS_ROOT/etc/config \
+             -feature_file default.features
+
   //-- build the entire CUTS runtime
   cuts
 
