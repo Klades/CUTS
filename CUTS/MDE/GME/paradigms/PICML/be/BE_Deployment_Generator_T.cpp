@@ -87,7 +87,7 @@ void CUTS_BE_Deployment_Generator_T <T>::
 Visit_CollocationGroup (const PICML::CollocationGroup & group)
 {
   typedef std::set <
-    PICML::CollocationGroup_Members_Base>
+    PICML::CollocationGroupMember>
     CollocationGroup_Members_Base_Set;
 
   // Get all the instances that are in this collocation group.

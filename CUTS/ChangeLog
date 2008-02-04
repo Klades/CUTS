@@ -1,7 +1,41 @@
+Mon Feb  4 15:56:52 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * CUTS_CoSMIC.mwc:
+
+          Fixed the -include option for CoSMIC base projects.
+
+        * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator.h:
+        * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator.cpp:
+        * MDE/GME/paradigms/PICML/be/BE_Deployment_Generator.h:
+        * MDE/GME/paradigms/PICML/be/BE_Deployment_Generator.cpp:
+        * MDE/GME/paradigms/PICML/be/BE_Deployment_Generator_T.cpp:
+        * MDE/GME/paradigms/PICML/be/BE_Impl_Generator_T.h:
+        * MDE/GME/paradigms/PICML/be/BE_Impl_Generator_T.cpp:
+
+          Updated sources to be consistent with the latest enhancements
+          in PICML.
+
+        * MDE/GME/paradigms/PICML/be/TIOA/TIOA_Generators.h:
+        * MDE/GME/paradigms/PICML/be/TIOA/TIOA_Generators.cpp:
+        * MDE/TIOA/Host.tioa:
+        * MDE/TIOA/Unbounded_Event_Connection.tioa:
+
+          Temp update of the TIOA generator to fix specification
+          of component-based systems.
+
+        * etc/config/gme_component.mpb:
+
+          The class now inherits register.mpb located in
+          $(COSMIC_ROOT)/MPC/config
+
+        * etc/config/reg.mpb:
+
+          Removed this file.
+
 Sat Feb  2 19:19:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/BDC_Service_Manager.cpp:
-        
+
           Removed include to cuts/Log_Msg.h.
 
         * cuts/Log_T.h:
@@ -9,7 +43,7 @@ Sat Feb  2 19:19:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/Port_Summary.inl:
         * cuts/Statistics_T.h:
         * cuts/performance_i.cpp:
-        
+
           Fix build errors on Linx related to template usages that are
           invalid in C+, but valid in Visual C++. :/
 

@@ -191,22 +191,22 @@ Visit_CollocationGroup (const PICML::CollocationGroup & group)
     this->group_.position () = group.position ();
 
   // Make sure this group has all the correct instances.
-  typedef std::set <PICML::CollocationGroup_Members_Base> CollocationGroup_Members_Set;
+  typedef std::set <PICML::CollocationGroupMember> CollocationGroup_Members_Set;
   CollocationGroup_Members_Set members = group.members ();
 
   std::for_each (members.begin (),
                  members.end (),
                  boost::bind (&CUTS_BE_Deployment_Generator::
-                               Visit_CollocationGroup_Members_Base,
+                               Visit_CollocationGroupMember,
                                this, _1));
 }
 
 //
-// Visit_CollocationGroup_Members_Base
+// Visit_CollocationGroupMember
 //
 void CUTS_BE_Deployment_Generator::
-Visit_CollocationGroup_Members_Base (
-  const PICML::CollocationGroup_Members_Base & member)
+Visit_CollocationGroupMember (
+  const PICML::CollocationGroupMember & member)
 {
   if (member.type () == PICML::ComponentRef::meta)
   {
@@ -287,7 +287,7 @@ Visit_ComponentRef (const PICML::ComponentRef & ref)
     // Let's see if the target deployment plan has an reference
     // to the found component instance.
     typedef std::vector <PICML::ComponentRef> ComponentRef_Set;
-    ComponentRef_Set comrefs = this->deployment_plan_.ComponentRef_children ();
+    ComponentRef_Set comrefs = this->deployment_plan_.ComponentRef_kind_children ();
 
     PICML::ComponentRef target_ref;
 

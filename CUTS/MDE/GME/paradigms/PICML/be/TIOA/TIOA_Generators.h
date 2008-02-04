@@ -58,6 +58,9 @@ public:
 
   /// Mapping of components to their appropriate host.
   Deployment_Map deployment_map_;
+
+  /// The current input port
+  std::string curr_inport_;
 };
 
 //

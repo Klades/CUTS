@@ -87,6 +87,8 @@ protected:
     const PICML::Implements & implements);
 
 private:
+  void Visit_ComponentImplementation (const PICML::ComponentImplementation &);
+
   bool locate_proxy (const PICML::Component &, PICML::Component &);
 
   bool locate_proxy_type (const PICML::Component &, PICML::Component &);

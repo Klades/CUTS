@@ -60,33 +60,46 @@ const PICML::ComponentImplementationContainer & container)
 {
   // Get this component implementation. This can either be an
   // assembly, or a monolithic implementation.
-  PICML::ComponentImplementation impl = container.ComponentImplementation_child ();
+  typedef
+    std::vector <PICML::ComponentImplementation>
+    ComponentImplementation_Set;
 
-  if (impl != Udm::null)
+  ComponentImplementation_Set impls =
+    container.ComponentImplementation_children ();
+
+  std::for_each (impls.begin (),
+                 impls.end (),
+                 boost::bind (&CUTS_BE_Impl_Generator_T <IMPL_STRATEGY>::
+                              Visit_ComponentImplementation,
+                              this,
+                              _1));
+}
+
+//
+// Visit_MonolithicImplementation
+//
+template <typename IMPL_STRATEGY>
+void CUTS_BE_Impl_Generator_T <IMPL_STRATEGY>::
+Visit_ComponentImplementation (const PICML::ComponentImplementation & impl)
+{
+  if (impl.type () == PICML::MonolithicImplementation::meta)
   {
-    if (impl.type () == PICML::MonolithicImplementation::meta)
-    {
-      PICML::MonolithicImplementation monoimpl =
-        PICML::MonolithicImplementation::Cast (impl);
+    PICML::MonolithicImplementation monoimpl =
+      PICML::MonolithicImplementation::Cast (impl);
 
-      CUTS_BE::visit <IMPL_STRATEGY> (monoimpl,
-        boost::bind (&PICML::MonolithicImplementation::Accept, _1, boost::ref (*this)));
-    }
-    else if (impl.type () == PICML::ComponentAssembly::meta)
-    {
-      PICML::ComponentAssembly assembly = PICML::ComponentAssembly::Cast (impl);
+    CUTS_BE::visit <IMPL_STRATEGY> (monoimpl,
+      boost::bind (&PICML::MonolithicImplementation::Accept, _1, boost::ref (*this)));
+  }
+  else if (impl.type () == PICML::ComponentAssembly::meta)
+  {
+    PICML::ComponentAssembly assembly = PICML::ComponentAssembly::Cast (impl);
 
-      CUTS_BE::visit <IMPL_STRATEGY> (assembly,
-        boost::bind (&PICML::ComponentAssembly::Accept, _1, boost::ref (*this)));
-    }
-    else
-    {
-      // Um, why do we not know about this type!?!?
-    }
+    CUTS_BE::visit <IMPL_STRATEGY> (assembly,
+      boost::bind (&PICML::ComponentAssembly::Accept, _1, boost::ref (*this)));
   }
   else
   {
-    // Wow, this does not contain any children!!
+    // Um, why do we not know about this type!?!?
   }
 }
 

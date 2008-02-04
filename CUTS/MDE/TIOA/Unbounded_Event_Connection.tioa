@@ -25,8 +25,8 @@ automaton Unbounded_Event_Connection (ecid : Int)
 
   signature
     %% input/output connections between components
-    input  send_event (chid : Int)
-    output recv_event (chid : Int)
+    input  send_event (chid : Int, create_time : Real)
+    output recv_event (chid : Int, create_time : Real)
 
     %% internal actions that define the connection's behavior
     internal i_set_empty
@@ -39,6 +39,7 @@ automaton Unbounded_Event_Connection (ecid : Int)
 
     %% automaton specific states
     count : Int := 0;
+    event_time : Real;
 
   transitions
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -49,8 +50,9 @@ automaton Unbounded_Event_Connection (ecid : Int)
     %% connection and signal all components on the receiving side that
     %% a new event is coming.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    input send_event (chid)
-      eff if chid = ecid then count := succ (count); fi;
+    input send_event (chid, create_time)
+      eff if chid = ecid then
+          count := succ (count); event_time := create_time; fi;
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %% output: recv_event
@@ -58,8 +60,9 @@ automaton Unbounded_Event_Connection (ecid : Int)
     %% This action is called by connection to signal all receiving
     %% components that a new event is arriving.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    output recv_event (chid)
-      pre mode = not_empty /\ count > 0 /\ chid = ecid;
+    output recv_event (chid, create_time)
+      pre mode = not_empty /\ count > 0 /\
+          chid = ecid /\ create_time = event_time;
       eff count := pred (count);
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

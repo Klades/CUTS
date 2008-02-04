@@ -136,6 +136,9 @@ protected:
   void Visit_PeriodicEvent_Variable (
     const PICML::PeriodicEvent & periodic);
 
+  void Visit_ComponentImplementation (
+    const PICML::ComponentImplementation &);
+
 private:
   /// Helper method to write the variables for the component.
   void write_variables_i (const PICML::Component & component);

@@ -62,7 +62,8 @@ automaton Host (hid : Int, thr_count : Int)
     %% thr_assign
     %%
     output thr_assign (cid, chid)
-      pre cid = target_cid /\ chid = target_chid /\ mode = dispatching /\ thr_inuse < thr_count;
+      pre cid = target_cid /\ chid = target_chid /\
+          mode = dispatching /\ thr_inuse < thr_count;
       eff thr_inuse := succ(thr_inuse); mode := waiting;
 
     %%

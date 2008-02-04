@@ -81,12 +81,29 @@ void CUTS_BE_Assembly_Generator::
 Visit_ComponentImplementationContainer (
   const PICML::ComponentImplementationContainer & container)
 {
-  PICML::ComponentImplementation impl =
-    container.ComponentImplementation_child ();
+  typedef
+    std::vector <PICML::ComponentImplementation>
+    ComponentImplementation_Set;
 
+  ComponentImplementation_Set impl =
+    container.ComponentImplementation_children ();
+
+  std::for_each (impl.begin (), impl.end (),
+                 boost::bind (&CUTS_BE_Assembly_Generator::Visit_ComponentImplementation,
+                              this,
+                              _1));
+}
+
+//
+// Visit_ComponentImplementation
+//
+void CUTS_BE_Assembly_Generator::
+Visit_ComponentImplementation (const PICML::ComponentImplementation & impl)
+{
   if (impl.type () == PICML::ComponentAssembly::meta)
   {
-    std::string name = std::string (container.name ()) + "_CoWorkEr";
+    PICML::MgaObject parent = impl.parent ();
+    std::string name = std::string (parent.name ()) + "_CoWorkEr";
 
     // We need to find the "target" container for this container.
     if (Udm::create_if_not (this->target_folder_, this->target_container_,
@@ -663,7 +680,8 @@ create_attribute_property (const PICML::ReadonlyAttribute & attr,
     if (std::string (datatype.name ()) != std::string (target_type.name ()))
       datatype.name () = target_type.name ();
 
-    PICML::PredefinedType curr_type = datatype.ref ();
+    PICML::PredefinedType curr_type =
+      PICML::PredefinedType::Cast (datatype.ref ());
 
     if (curr_type != target_type)
       datatype.ref () = target_type;

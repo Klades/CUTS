@@ -58,8 +58,8 @@ public:
     const PICML::Component & component);
 
 private:
-  void Visit_CollocationGroup_Members_Base (
-    const PICML::CollocationGroup_Members_Base & member);
+  void Visit_CollocationGroupMember (
+    const PICML::CollocationGroupMember & member);
 
   PICML::ComponentImplementations implementations_;
 
@@ -71,7 +71,7 @@ private:
 
   PICML::CollocationGroup group_;
 
-  std::set <PICML::CollocationGroup_Members_Base> members_;
+  std::set <PICML::CollocationGroupMember> members_;
 
   std::stack <std::string> path_;
 };

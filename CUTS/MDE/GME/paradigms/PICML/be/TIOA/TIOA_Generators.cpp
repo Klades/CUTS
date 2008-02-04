@@ -203,8 +203,8 @@ generate (const PICML::MonolithicImplementation & mono,
     << std::endl
     << "  signature" << std::endl
     << "    %% input/output connections between components" << std::endl
-    << "    input  recv_event (chid : Int)" << std::endl
-    << "    output send_event (chid : Int)" << std::endl
+    << "    input  recv_event (chid : Int, create_time : Real)" << std::endl
+    << "    output send_event (chid : Int, create_time : Real)" << std::endl
     << std::endl
     << "    %% system calls for requesting threads to process events" << std::endl
     << "    input  thr_assign (cid : Int, chid : Int)" << std::endl
@@ -296,8 +296,10 @@ write_portid_InEventPort (const PICML::InEventPort & input)
 void CUTS_BE_Component_Impl_Begin_T <CUTS_BE_Tioa>::
 write_param_InEventPort (const PICML::InEventPort & input)
 {
+  std::string name = input.name ();
+
   CUTS_BE_TIOA ()->outfile_
-    << ", chid_" << input.name () << " : Int";
+    << ", chid_" << name << " : Int";
 }
 
 //
@@ -306,8 +308,10 @@ write_param_InEventPort (const PICML::InEventPort & input)
 void CUTS_BE_Component_Impl_Begin_T <CUTS_BE_Tioa>::
 write_param_OutEventPort (const PICML::OutEventPort & output)
 {
+  std::string name = output.name ();
+
   CUTS_BE_TIOA ()->outfile_
-    << ", chid_" << output.name () << " : Int";
+    << ", chid_" << name << " : Int";
 }
 
 //
@@ -388,10 +392,18 @@ generate (const PICML::Component & component)
   CUTS_BE_TIOA ()->outfile_
     << std::endl
     << "  states" << std::endl
+    << "    %% required states" << std::endl
     << "    mode : Location := nil;" << std::endl
     << "    time : Real;" << std::endl
+    << std::endl
+    << "    %% CUTS-specific states" << std::endl
+    << "    queue_size : Array[Port_ID, Int];" << std::endl
     << "    thr_state : Array[Port_ID, Thread_State];" << std::endl
-    << "    queue_size : Array[Port_ID, Int];" << std::endl;
+    << "    thr_clock : Array[Port_ID, Real];" << std::endl
+    << "    thr_id  : Array[Port_ID, Int];" << std::endl
+    << std::endl
+    << "    %% event timing" << std::endl
+    << "    evt_clock : Array[Port_ID, Real];" << std::endl;
 
   return true;
 }
@@ -470,8 +482,16 @@ generate (const PICML::Worker & worker, const PICML::Action & action)
     << "    internal " << TIOA_Signature (action) << std::endl
     << "      pre mode = "
     << TIOA_State_ID (CUTS_BE_TIOA ()->last_state_id_) << ";" << std::endl
-    << "      eff time := time + " << action.Duration () << ";" << std::endl
+    << "      eff thr_clock["
+    << CUTS_BE_TIOA ()->curr_inport_ << "] := thr_clock["
+    << CUTS_BE_TIOA ()->curr_inport_ << "] + "
+    << action.Duration () << ";" << std::endl
+    << "          evt_clock["
+    << CUTS_BE_TIOA ()->curr_inport_ << "] := evt_clock["
+    << CUTS_BE_TIOA ()->curr_inport_ << "] + "
+    << action.Duration () << ";" << std::endl
     << "          ";
+
   return true;
 }
 
@@ -490,24 +510,29 @@ bool CUTS_BE_InEventPort_Begin_T <CUTS_BE_Tioa>::
 generate (const PICML::InEventPort & sink)
 {
   std::string name = sink.name ();
+  CUTS_BE_TIOA ()->curr_inport_ = std::string ("port_") + name;
 
   CUTS_BE_TIOA ()->outfile_
     << std::endl
     << "    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl
     << "    % event input: " << name << std::endl
     << "    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl
-    << "    input recv_event (chid)" << std::endl
+    << "    input recv_event (chid, create_time)" << std::endl
     // 'where' clause goes here...
     << "      eff if chid = chid_" << name << std::endl
-    << "          then queue_size[port_" << name
-    << "] := succ (queue_size[port_" << name << "]); fi;" << std::endl
+    << "          then queue_size[" << CUTS_BE_TIOA ()->curr_inport_
+    << "] := succ (queue_size["
+    << CUTS_BE_TIOA ()->curr_inport_ << "]); " << std::endl
+    << "               evt_clock[" << CUTS_BE_TIOA ()->curr_inport_
+    << "] := create_time; fi;" << std::endl
     << std::endl
     << "    internal handle_" << name << std::endl
-    << "      pre thr_state[port_" << name
-    << "] = ready /\\ mode = nil /\\ queue_size[port_"
-    << name << "] > 0;" << std::endl
-    << "      eff queue_size[port_" << name
-    << "] := pred (queue_size[port_" << name << "]);" << std::endl
+    << "      pre thr_state[" << CUTS_BE_TIOA ()->curr_inport_
+    << "] = ready /\\ mode = nil /\\ queue_size["
+    << CUTS_BE_TIOA ()->curr_inport_ << "] > 0;" << std::endl
+    << "      eff queue_size[" << CUTS_BE_TIOA ()->curr_inport_
+    << "] := pred (queue_size[" << CUTS_BE_TIOA ()->curr_inport_
+    << "]);" << std::endl
     << "          ";
 
   return true;
@@ -531,13 +556,17 @@ bool CUTS_BE_OutputAction_Begin_T <CUTS_BE_Tioa>::
 generate (const PICML::OutputAction & action)
 {
   std::string last_state = TIOA_State_ID (CUTS_BE_TIOA ()->last_state_id_);
+  std::string name = action.name ();
 
   CUTS_BE_TIOA ()->outfile_
     << "mode := " << last_state << ";" << std::endl
     << std::endl
-    << "    output send_event (chid)" << std::endl
+    << "    %% non-critical output" << std::endl
+    << "    output send_event (chid, create_time)" << std::endl
     << "      pre mode = " << last_state << " /\\ chid = chid_"
-    << action.name () << ";" << std::endl
+    << action.name () << " /\\ " << std::endl
+    << "          create_time = evt_clock["
+    << CUTS_BE_TIOA ()->curr_inport_ << "];" << std::endl
     << "      eff ";
 
   return true;

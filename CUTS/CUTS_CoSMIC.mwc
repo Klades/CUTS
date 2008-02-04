@@ -14,7 +14,7 @@ workspace (CUTS_CoSMIC): CUTS {
   MDE/GEMS
 
   exclude (!vc6, !vc71, !vc8, !nmake) {
-    cmdline += -include $COSMIC_ROOT
+    cmdline += -include $COSMIC_ROOT/MPC/config
 
     MDE/GME
 

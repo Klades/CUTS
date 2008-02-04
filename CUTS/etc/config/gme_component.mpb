@@ -1,6 +1,6 @@
 // $Id$
 
-project : reg, mfc, gme_base {
+project : register, mfc, gme_base {
   pch_header = stdafx.h
   pch_source = stdafx.cpp
 
