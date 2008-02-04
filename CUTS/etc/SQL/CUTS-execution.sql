@@ -1,4 +1,4 @@
-﻿--
+--
 -- @file        CUTS-archive.sql
 --
 -- $Id: CUTS-create.sql 1127 2007-02-04 02:59:21Z hillj $

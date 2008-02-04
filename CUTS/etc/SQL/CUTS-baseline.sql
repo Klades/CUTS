@@ -1,4 +1,4 @@
-﻿--
+--
 -- @file        CUTS-baseline.sql
 --
 -- $Id$

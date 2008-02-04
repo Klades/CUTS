@@ -1,3 +1,11 @@
+Mon Feb  4 23:09:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-baseline.sql:
+        * etc/SQL/CUTS-create.sql:
+        * etc/SQL/CUTS-execution.sql:
+        
+          Converted the files to ANSI format.
+
 Mon Feb  4 15:56:52 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * CUTS_CoSMIC.mwc:
