@@ -208,7 +208,8 @@ void operator >>= (const CUTS::Component_Metric & src,
     port_metric->timestamp (CUTS::global::tv_placeholder_);
 
     // Extract the metrics for the port.
-    *iter ++ >>= *port_metric;
+    if (port_metric != 0)
+      *iter ++ >>= *port_metric;
   }
 }
 
@@ -233,7 +234,8 @@ operator <<= (SEQUENCE & sequence, CUTS_Log_T <T, LOCK> & log)
   typename SEQUENCE::value_type * buf = sequence.get_buffer ();
 
   typename CUTS_Log_T <T, LOCK>::iterator
-    iter = log.begin (), iter_end = log.used_end ();
+    iter = log.begin (),
+    iter_end = log.used_end ();
 
   CORBA::ULong count = 0;
 
