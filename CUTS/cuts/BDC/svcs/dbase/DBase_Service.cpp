@@ -630,7 +630,7 @@ set_component_uptime (const CUTS_Component_Info & info)
       query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
 
     const char * stmt =
-      "CALL cuts.set_component_uptime_using_hostname (?,?,?)";
+      "CALL cuts.insert_component_instance_uptime_by_hostname (?,?,?)";
 
     char hostname[256];
     char instance[256];
@@ -679,7 +679,7 @@ set_component_downtime (const CUTS_Component_Info & info)
       query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
 
     const char * stmt =
-      "CALL cuts.set_component_downtime_using_hostname (?,?,?)";
+      "CALL cuts.insert_component_instance_downtime_by_hostname (?,?,?)";
 
     char hostname[256];
     char instance[256];

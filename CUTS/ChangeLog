@@ -1,3 +1,10 @@
+Tue Feb  5 01:39:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/svcs/dbase/DBase_Service.cpp:
+
+          Update the SQL statements to call the correct stored
+          procedures for setting component uptime/downtime.
+
 Tue Feb  5 01:28:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-deployment.sql:
