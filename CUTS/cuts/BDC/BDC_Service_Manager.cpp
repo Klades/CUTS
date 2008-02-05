@@ -79,8 +79,7 @@ int CUTS_BDC_Service_Manager::close (ACE_Time_Value * timeout)
 // open
 //
 int CUTS_BDC_Service_Manager::
-open (CUTS_System_Metric * metrics,
-      CUTS_Testing_Service * tsvc)
+open (CUTS_System_Metric * metrics, CUTS_Testing_Service * tsvc)
 {
   if (this->is_opened ())
     return 1;

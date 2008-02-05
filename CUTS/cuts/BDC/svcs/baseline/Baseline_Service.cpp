@@ -276,6 +276,14 @@ handle_component (const CUTS_Component_Info & info)
     if (this->conn_->is_connected ())
       this->conn_->disconnect ();
   }
+  catch (...)
+  {
+    ACE_DEBUG ((LM_ERROR,
+                "*** error (baseline): caught unknown exception (line %l)\n"));
+
+    if (this->conn_->is_connected ())
+      this->conn_->disconnect ();
+  }
 
   return 1;
 }

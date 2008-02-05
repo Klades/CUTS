@@ -1,3 +1,25 @@
+Tue Feb  5 16:53:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/svcs/IO/BDC_IO.h:
+        * cuts/BDC/svcs/IO/BDC_IO.cpp:
+
+          The component's registration text is buffered before it is
+          printed to the screen. This makes it more efficient, and
+          reduces the chance of it being mixed with output generated
+          by other threads.
+
+        * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.cpp:
+        * cuts/BDC/svcs/baseline/Baseline_Service.cpp:
+        * cuts/Component_Registry.cpp:
+        * cuts/BDC/BDC_Service_Manager.cpp:
+        * cuts/BDC/Benchmark_Data_Collector_exec_i.cpp:
+
+          Initial fix for a bug that was causing the BDC to segfault
+          during shutdown time. I believe it was a synchronization
+          issue that should be fixed now. Since I couldn't find the
+          exact spot, I had to guess!! Man, I need to write some unit
+          test for this tool.
+
 Tue Feb  5 01:39:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/svcs/dbase/DBase_Service.cpp:

@@ -132,21 +132,36 @@ ACE_THR_FUNC_RETURN CUTS_Component_Registry::thr_svc (void * param)
   {
     // Get the next registry node from the <info_queue_>.
     CUTS_Component_Registry_Node * node = 0;
+
+    //ACE_DEBUG ((LM_DEBUG, "calling dequeue_head (...)\n"));
     int retval = reg->info_queue_.dequeue_head (node);
+    //ACE_DEBUG ((LM_DEBUG, "return value is %d\n", retval));
 
     if (retval != -1 && node != 0)
     {
       // Notify all loaded services to handle the component.
       CUTS_Handler_Set::ITERATOR iter (reg->handlers_);
 
+      //ACE_DEBUG ((LM_DEBUG, "passing the info to all services\n"));
+
       for ( ; !iter.done (); iter ++)
         (*iter)->handle_component (node->info_);
 
-      if (node->delete_)
-        delete node;
+      //ACE_DEBUG ((LM_DEBUG, "done passing the info to all services\n"));
+
+      //if (node->delete_)
+      //{
+      //  ACE_DEBUG ((LM_DEBUG, "deleting the node\n"));
+      //  delete node;
+      //}
+      //else
+      //  ACE_DEBUG ((LM_DEBUG, "not deleting the node\n"));
     }
+
+    //ACE_DEBUG ((LM_DEBUG, "service thread is exiting\n"));
   }
 
+  //ACE_DEBUG ((LM_DEBUG, "component registry service thread exiting\n"));
   return 0;
 }
 
@@ -181,14 +196,19 @@ int CUTS_Component_Registry::open (void)
 //
 int CUTS_Component_Registry::close (void)
 {
+  //ACE_DEBUG ((LM_DEBUG, "entered CUTS_Component_Registry::close\n"));
+
   if (!this->is_open ())
     return 0;
 
+  //ACE_DEBUG ((LM_DEBUG, "deactivating info queue\n"));
   this->open_ = 0;
   this->info_queue_.deactivate ();
+  //ACE_DEBUG ((LM_DEBUG, "info queue is deactivated\n"));
+
 
   ACE_Thread_Manager::instance ()->wait_grp (this->grp_id_);
-
+  //ACE_DEBUG ((LM_DEBUG, "exiting CUTS_Component_Registry::close\n"));
   return 0;
 }
 

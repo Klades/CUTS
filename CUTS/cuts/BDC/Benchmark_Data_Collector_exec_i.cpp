@@ -59,8 +59,17 @@ namespace CUTS
       if (::CORBA::is_nil (this->context_.in ()))
         throw ::CORBA::INTERNAL ();
 
-      CUTS_BDC_SVC_MANAGER ()->open (&this->metrics_,
-                                     this->tsvc_.get ());
+      // Open the service manager.
+      CUTS_BDC_SVC_MANAGER ()->open (&this->metrics_, this->tsvc_.get ());
+
+      // Register the service manager with the registry. We have to
+      // make sure the registry's service object is active before any
+      // components try to register themselves.
+      this->tsvc_->registry ().register_handler (CUTS_BDC_SVC_MANAGER ());
+      this->tsvc_->registry ().open ();
+
+      // Register the service manager with the task.
+      this->task_.register_handler (CUTS_BDC_SVC_MANAGER ());
     }
 
     //
@@ -68,12 +77,6 @@ namespace CUTS
     //
     void Benchmark_Data_Collector_exec_i::ciao_preactivate (void)
     {
-      // Register the service manager with the registry.
-      this->tsvc_->registry ().register_handler (CUTS_BDC_SVC_MANAGER ());
-      this->tsvc_->registry ().open ();
-
-      // Register the service manager with the task.
-      this->task_.register_handler (CUTS_BDC_SVC_MANAGER ());
     }
 
     //
@@ -114,13 +117,15 @@ namespace CUTS
     //
     void Benchmark_Data_Collector_exec_i::ccm_remove (void)
     {
-      // Unregister the service manager from the <registry_>. Then
-      // we can actually close the <CUTS_BDC_SVC_MANAGER>.
+      // Unregister the service manager and close the component
+      // registry. At this point, we don't care about component's
+      // activating/passivating since the manager is being removed.
       this->tsvc_->registry ().unregister_handler (CUTS_BDC_SVC_MANAGER ());
-      CUTS_BDC_SVC_MANAGER ()->close ();
-
-      // Now, lets close the <registry_>.
       this->tsvc_->registry ().close ();
+
+      // Close the service manager. This will cause it to deactivate
+      // all the loaded services.
+      CUTS_BDC_SVC_MANAGER ()->close ();
     }
 
     //

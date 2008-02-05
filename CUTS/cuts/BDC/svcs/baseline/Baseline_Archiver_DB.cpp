@@ -266,7 +266,6 @@ void CUTS_Baseline_Archiver_DB::
 visit_port_summary (const CUTS_Port_Summary & summary)
 {
   // Process the overall queueing time for the port.
-  ACE_DEBUG ((LM_DEBUG, "saving the queueing metrics\n"));
   ACE_OS::strncpy (this->perf_type_, "queue", sizeof (this->perf_type_));
   summary.queuing_time ().accept (*this);
 
@@ -288,7 +287,6 @@ visit_port_summary (const CUTS_Port_Summary & summary)
   }
 
   // Process the overall service time for the port.
-  ACE_DEBUG ((LM_DEBUG, "saving the process metrics\n"));
   ACE_OS::strncpy (this->perf_type_, "process", sizeof (this->perf_type_));
   summary.service_time ().accept (*this);
 

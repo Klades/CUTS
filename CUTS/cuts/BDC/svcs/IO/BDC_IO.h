@@ -16,10 +16,11 @@
 #include "BDC_IO_export.h"
 #include "cuts/BDC/BDC_Service.h"
 #include "cuts/Component_Type.h"
+#include <iosfwd>
 
 //=============================================================================
 /**
- * @class CUTS_BDC_IO_Servie
+ * @class CUTS_BDC_IO_Service
  *
  * I/O service for the BDC. The main purpose of this service is to
  * print to the console (or file) information about each collection
@@ -43,7 +44,8 @@ public:
   virtual int handle_component (const CUTS_Component_Info & info);
 
 private:
-  void print_port_description (const ACE_CString & title,
+  void print_port_description (std::ostringstream & str,
+                               const ACE_CString & title,
                                const CUTS_Port_Description_Map & desc);
 
   static const char * state_cstr_ [2];
