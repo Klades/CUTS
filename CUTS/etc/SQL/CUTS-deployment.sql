@@ -18,14 +18,17 @@ CREATE TABLE IF NOT EXISTS deployment
   deploy_id         INT         NOT NULL auto_increment,
   test_number       INT         NOT NULL,
   instance          INT         NOT NULL,
-  hostid            INT,
+  hostid            INT         NOT NULL,
   uptime            DATETIME,
   downtime          DATETIME,
 
   PRIMARY KEY (deploy_id),
+  UNIQUE (test_number, instance, hostid),
+
   FOREIGN KEY (test_number) REFERENCES tests (test_number)
-    ON DELETE CASCADE,
-  FOREIGN KEY (instance) REFERENCES component_instances (component_id)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  FOREIGN KEY (instance) REFERENCES component_instances (instid)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
   FOREIGN KEY (hostid) REFERENCES ipaddr_host_map (hostid)
@@ -35,6 +38,107 @@ CREATE TABLE IF NOT EXISTS deployment
 
 DELIMITER //
 
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.insert_component_instance_uptime
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.insert_component_instance_uptime //
+
+CREATE PROCEDURE
+  cuts.insert_component_instance_uptime (IN _test_number INT,
+                                         IN _instance VARCHAR(255),
+                                         IN _hostid INT)
+BEGIN
+  INSERT INTO cuts.deployment (test_number, instance, hostid, uptime)
+    VALUES (_test_number,
+            cuts.get_component_instance_id (_instance),
+            _hostid,
+            NOW());
+END; //
+
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.insert_component_instance_uptime_by_hostname
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.insert_component_instance_uptime_by_hostname //
+
+CREATE PROCEDURE
+  cuts.insert_component_instance_uptime_by_hostname (IN _test_number INT,
+                                                     IN _instance VARCHAR(255),
+                                                     IN _hostname VARCHAR(255))
+BEGIN
+  CALL cuts.insert_component_instance_uptime (_test_number,
+                                              _instance,
+                                              cuts.get_hostname_id (_hostname));
+END; //
+
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.insert_component_instance_uptime_by_ipaddr
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.insert_component_instance_uptime_by_ipaddr //
+
+CREATE PROCEDURE
+  cuts.insert_component_instance_uptime_by_ipaddr (IN _test_number INT,
+                                                   IN _instance VARCHAR(255),
+                                                   IN _ipaddr VARCHAR(255))
+BEGIN
+  CALL cuts.insert_component_instance_uptime (_test_number,
+                                              _instance,
+                                              cuts.get_ipddr_id (_ipaddr));
+END; //
+
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.insert_component_instance_downtime
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.insert_component_instance_downtime //
+
+CREATE PROCEDURE
+  cuts.insert_component_instance_downtime (IN _test_number INT,
+                                           IN _instance VARCHAR(255),
+                                           IN _hostid INT)
+BEGIN
+  UPDATE cuts.deployment
+    SET downtime = NOW ()
+    WHERE test_number = _test_number AND
+          instance = cuts.get_component_instance_id (_instance) AND
+          hostid = _hostid;
+END; //
+
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.insert_component_instance_downtime_by_hostname
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.insert_component_instance_downtime_by_hostname //
+
+CREATE PROCEDURE
+  cuts.insert_component_instance_downtime_by_hostname (IN _test_number INT,
+                                                       IN _instance VARCHAR(255),
+                                                       IN _hostname VARCHAR(255))
+BEGIN
+  CALL cuts.insert_component_instance_downtime (_test_number,
+                                                _instance,
+                                                cuts.get_hostname_id (_hostname));
+END; //
+
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.insert_component_instance_downtime_by_ipaddr
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.insert_component_instance_downtime_by_ipaddr //
+
+CREATE PROCEDURE
+  cuts.insert_component_instance_downtime_by_ipaddr (IN _test_number INT,
+                                                     IN _instance VARCHAR(255),
+                                                     IN _ipaddr VARCHAR(255))
+BEGIN
+  CALL cuts.insert_component_instance_downtime (_test_number,
+                                                _instance,
+                                                cuts.get_ipaddr_id (_ipaddr));
+END; //
+
+/*
 -------------------------------------------------------------------------------
 -- PROCEDURE: cuts.set_component_uptime
 -------------------------------------------------------------------------------
@@ -174,5 +278,7 @@ BEGIN
 
   RETURN hid;
 END; //
+
+*/
 
 DELIMITER ;
