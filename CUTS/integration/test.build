@@ -36,6 +36,10 @@
     <antcall target="test.run">
       <param name="test.executable" value="CUTS_Statistics_T_Test" />
     </antcall>
+
+    <antcall target="test.run">
+      <param name="test.executable" value="CUTS_str_Test" />
+    </antcall>
   </target>
 
   <!--

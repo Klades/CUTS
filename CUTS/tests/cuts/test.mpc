@@ -31,3 +31,11 @@ project (CUTS_Statistics_T_Test) : cuts_test {
     Statistics_T_Test.cpp
   }
 }
+
+project (CUTS_str_Test) : cuts_test {
+  exename = CUTS_str_Test
+
+  Source_Files {
+    str_Test.cpp
+  }
+}

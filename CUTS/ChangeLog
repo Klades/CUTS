@@ -1,3 +1,11 @@
+Wed Feb  6 16:16:53 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/test.build:
+        * tests/cuts/str_Test.cpp:
+        * tests/cuts/test.mpc:
+
+          Add a unit test for the CUTS_str class.
+
 Wed Feb  6 15:46:57 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/Statistics_T.inl:
