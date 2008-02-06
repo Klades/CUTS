@@ -1,0 +1,25 @@
+// $Id$
+
+project (CUTS_Time_Measurement_Test) : cuts_test {
+  exename = CUTS_Time_Measurement_Test
+
+  Source_Files {
+    Time_Measurement_Test.cpp
+  }
+}
+
+project (CUTS_Timestamp_Metric_Test) : cuts_test {
+  exename = CUTS_Timestamp_Metric_Test
+
+  Source_Files {
+    Timestamp_Metric_Test.cpp
+  }
+}
+
+project (CUTS_Port_Measurement_Test) : cuts_test {
+  exename = CUTS_Port_Measurement_Test
+
+  Source_Files {
+    Port_Measurement_Test.cpp
+  }
+}

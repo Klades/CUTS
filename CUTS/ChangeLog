@@ -1,3 +1,15 @@
+Wed Feb  6 02:25:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * tests/cuts/test.mpc:
+
+          Consolidated test projects into a single project file.
+
+        * tests/cuts/Port_Measurement_Test.mpc:
+        * tests/cuts/Time_Measurement_Test.mpc:
+        * tests/cuts/Timestamp_Metric_Test.mpc:
+
+          Removed these files.
+
 Wed Feb  6 01:26:57 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * tests/cuts/Port_Measurement_Test.cpp:
