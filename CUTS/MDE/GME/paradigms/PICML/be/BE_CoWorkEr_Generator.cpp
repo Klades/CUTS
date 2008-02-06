@@ -952,7 +952,7 @@ find_artifact_i (PICML::ComponentImplementationContainer & container,
 
   if (Udm::create_if_not (container, primaryArtifact,
       Udm::contains (boost::bind (std::logical_and <bool> (),
-                       boost::bind (std::equal_to <PICML::MonolithicImplementation> (),
+                       boost::bind (std::equal_to <PICML::MonolithicImplementationBase> (),
                          monolithic,
                          boost::bind (&PICML::MonolithprimaryArtifact::srcMonolithprimaryArtifact_end, _1)),
                        boost::bind (std::equal_to <PICML::ImplementationArtifactReference> (),

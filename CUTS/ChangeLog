@@ -1,3 +1,9 @@
+Wed Feb  6 00:53:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE_CoWorkEr_Generator.cpp:
+
+          Fixed build errors related to the refactoring of PICML.
+
 Tue Feb  5 19:31:42 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/performance_i.cpp:
