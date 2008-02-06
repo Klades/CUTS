@@ -6,7 +6,10 @@
 template <typename T>
 CUTS_INLINE
 CUTS_Statistics_T <T>::CUTS_Statistics_T (void)
-: count_ (0)
+: count_ (0),
+  sum_ (CUTS_zero <T>::value ()),
+  min_ (CUTS_zero <T>::value ()),
+  max_ (CUTS_zero <T>::value ())
 {
 
 }

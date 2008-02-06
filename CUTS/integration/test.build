@@ -7,7 +7,7 @@
   <property name="test.basedir" value="${env.CUTS_ROOT}/tests" />
   <property name="test.logdir" value="${test.basedir}/logs" />
   <property name="test.bindir" value="${test.basedir}/bin" />
-  
+
   <!--
       run all the unit test in CUTS
       -->
@@ -21,15 +21,27 @@
       -->
 
   <target name="test.run.CUTS">
-    <antcall target="test.run"><param name="test.executable" value="CUTS_Port_Measurement_Test" /></antcall>
-    <antcall target="test.run"><param name="test.executable" value="CUTS_Time_Measurement_Test" /></antcall>
-    <antcall target="test.run"><param name="test.executable" value="CUTS_Timestamp_Metric_Test" /></antcall>
+    <antcall target="test.run">
+      <param name="test.executable" value="CUTS_Port_Measurement_Test" />
+    </antcall>
+
+    <antcall target="test.run">
+      <param name="test.executable" value="CUTS_Time_Measurement_Test" />
+    </antcall>
+
+    <antcall target="test.run">
+      <param name="test.executable" value="CUTS_Timestamp_Metric_Test" />
+    </antcall>
+
+    <antcall target="test.run">
+      <param name="test.executable" value="CUTS_Statistics_T_Test" />
+    </antcall>
   </target>
 
   <!--
       Helper target to execute the unit test.
       -->
-  
+
   <target name="test.run">
     <exec executable="${test.bindir}/${test.executable}"
           dir="${test.bindir}"

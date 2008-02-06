@@ -1,3 +1,20 @@
+Wed Feb  6 15:46:57 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/Statistics_T.inl:
+
+          Explicitly set the data member values to zero in the
+          default constructor.
+
+        * cuts/Traits.h:
+
+          Added include preprocessor definition for "cuts/config.h".
+
+        * integration/test.build:
+        * tests/cuts/Statistics_T_Test.cpp:
+        * tests/cuts/test.mpc:
+
+          Added unit tests for CUTS_Statistics_T.
+
 Wed Feb  6 02:25:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * tests/cuts/test.mpc:

@@ -23,3 +23,11 @@ project (CUTS_Port_Measurement_Test) : cuts_test {
     Port_Measurement_Test.cpp
   }
 }
+
+project (CUTS_Statistics_T_Test) : cuts_test {
+  exename = CUTS_Statistics_T_Test
+
+  Source_Files {
+    Statistics_T_Test.cpp
+  }
+}

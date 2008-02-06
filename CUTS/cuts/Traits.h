@@ -16,6 +16,8 @@
 #ifndef _CUTS_TRAITS_H_
 #define _CUTS_TRAITS_H_
 
+#include "cuts/config.h"
+
 namespace CUTS
 {
   /////////////////////////////////////////////////////////////////////////////
