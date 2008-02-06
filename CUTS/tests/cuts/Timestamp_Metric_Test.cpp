@@ -42,20 +42,6 @@ void CUTS_Timestamp_Metric_setter (void)
 
 //=============================================================================
 /*
- * Unit_Test: CUTS_Timestamp_Metric_reset
- */
-//=============================================================================
-
-void CUTS_Timestamp_Metric_reset (void)
-{
-  CUTS_Timestamp_Metric metric (ACE_OS::gettimeofday ());
-  metric.reset ();
-
-  BOOST_CHECK (metric.timestamp () == ACE_Time_Value::zero);
-}
-
-//=============================================================================
-/*
  * Unit_Test: CUTS_Timestamp_Metric_is_valid
  */
 //=============================================================================
@@ -94,7 +80,6 @@ bool init_unit_test_suite (void)
   framework::master_test_suite ().p_name.value = "CUTS_Timestamp_Metric";
   framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_contructor));
   framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_setter));
-  framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_reset));
   framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_is_valid));
   framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_assignment));
 

@@ -105,7 +105,7 @@ void CUTS_Port_Measurement_record_exitpoint (void)
   // stored the time value in the global key.
   CUTS_Time_Measurement * tm;
   BOOST_CHECK (global_port_.endpoints ().find (global_key_, tm) == 0);
-  BOOST_CHECK (tm->total () == tv);
+  BOOST_CHECK (tm->summation () == tv);
 }
 
 //

@@ -20,10 +20,10 @@ static CUTS_Time_Measurement tm_;
 
 void Time_Measurement_Constructor (void)
 {
-  BOOST_CHECK (tm_.maximum () == ACE_Time_Value::zero &&
-               tm_.minimum () == ACE_Time_Value::zero &&
-               tm_.total () == ACE_Time_Value::zero &&
-               tm_.count () == 0);
+  BOOST_CHECK (tm_.max_value () == ACE_Time_Value::zero);
+  BOOST_CHECK (tm_.min_value () == ACE_Time_Value::zero);
+  BOOST_CHECK (tm_.summation () == ACE_Time_Value::zero);
+  BOOST_CHECK (tm_.count () == 0);
 }
 
 //=============================================================================
@@ -45,9 +45,9 @@ void Time_Measurement_Add_Time (void)
     tm += tv;
 
     BOOST_CHECK (tm.count () == 1);
-    BOOST_CHECK (tm.total () == tv);
-    BOOST_CHECK (tm.maximum () == tv);
-    BOOST_CHECK (tm.minimum () == tv);
+    BOOST_CHECK (tm.summation () == tv);
+    BOOST_CHECK (tm.max_value () == tv);
+    BOOST_CHECK (tm.min_value () == tv);
   } while (0);
 
   // randomly generate 50-100 numbers and verify the time measurement
@@ -75,9 +75,9 @@ void Time_Measurement_Add_Time (void)
   long sum = std::accumulate (values.begin (), values.end (), 0);
 
   BOOST_CHECK (tm_.count () == length);
-  BOOST_CHECK (tm_.minimum ().msec () == *min_iter);
-  BOOST_CHECK (tm_.maximum ().msec () == *max_iter);
-  BOOST_CHECK (tm_.total ().msec () == sum);
+  BOOST_CHECK (tm_.min_value ().msec () == *min_iter);
+  BOOST_CHECK (tm_.max_value ().msec () == *max_iter);
+  BOOST_CHECK (tm_.summation ().msec () == sum);
 }
 
 //=============================================================================
@@ -90,42 +90,10 @@ void Time_Measurement_Reset (void)
 {
   tm_.reset ();
 
-  BOOST_CHECK (tm_.maximum () == ACE_Time_Value::zero);
-  BOOST_CHECK (tm_.minimum () == ACE_Time_Value::zero);
-  BOOST_CHECK (tm_.total () == ACE_Time_Value::zero);
+  BOOST_CHECK (tm_.max_value () == ACE_Time_Value::zero);
+  BOOST_CHECK (tm_.min_value () == ACE_Time_Value::zero);
+  BOOST_CHECK (tm_.summation () == ACE_Time_Value::zero);
   BOOST_CHECK (tm_.count () == 0);
-}
-
-//=============================================================================
-/*
- * Time_Measurement_Set
- */
-//=============================================================================
-
-void Time_Measurement_Set (void)
-{
-  // Verify setting the maximum value.
-  ACE_Time_Value tv (ACE_OS::rand (), ACE_OS::rand ());
-  tm_.maximum () = tv;
-
-  BOOST_CHECK (tm_.maximum () == tv);
-
-  // Verify setting the minimum value.
-  tv.set (ACE_OS::rand (), ACE_OS::rand ());
-  tm_.minimum () = tv;
-  BOOST_CHECK (tm_.minimum () == tv);
-
-  // Verify setting the total value.
-  tv.set (ACE_OS::rand (), ACE_OS::rand ());
-  tm_.total () = tv;
-
-  BOOST_CHECK (tm_.total () == tv);
-
-  // Verify setting the count value.
-  size_t n = ACE_OS::rand ();
-  tm_.count (n);
-
-  BOOST_CHECK (tm_.count () == n);
 }
 
 //
@@ -143,7 +111,6 @@ bool init_unit_test_suite (void)
   framework::master_test_suite ().add (BOOST_TEST_CASE (&Time_Measurement_Constructor));
   framework::master_test_suite ().add (BOOST_TEST_CASE (&Time_Measurement_Add_Time));
   framework::master_test_suite ().add (BOOST_TEST_CASE (&Time_Measurement_Reset));
-  framework::master_test_suite ().add (BOOST_TEST_CASE (&Time_Measurement_Set));
 
   INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS"), false);
   return true;
