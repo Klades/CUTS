@@ -39,3 +39,11 @@ project (CUTS_str_Test) : cuts_test {
     str_Test.cpp
   }
 }
+
+project (CUTS_Host_Table_Test) : cuts_test {
+  exename = CUTS_Host_Table_Test
+
+  Source_Files {
+    Host_Table_Test.cpp
+  }
+}

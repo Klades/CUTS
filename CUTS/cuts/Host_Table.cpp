@@ -1,28 +1,20 @@
 // $Id$
 
 #include "cuts/Host_Table.h"
+
+#if !defined (__CUTS_INLINE__)
+#include "cuts/Host_Table.inl"
+#endif
+
 #include "cuts/Host_Table_Entry.h"
 #include "ace/String_Base.h"
-
-//
-// CUTS_Host_Table
-//
-CUTS_Host_Table::CUTS_Host_Table (void)
-{
-
-}
 
 //
 // ~CUTS_Host_Table
 //
 CUTS_Host_Table::~CUTS_Host_Table (void)
 {
-  Entry_Table::ITERATOR iter (this->entries_);
-
-  while (!iter.done ())
-  {
-    iter.advance ();
-  }
+  this->clear_i ();
 }
 
 //
@@ -74,13 +66,13 @@ int CUTS_Host_Table::bind (const ACE_CString & ipaddr,
 // find
 //
 int CUTS_Host_Table::find_by_name (const ACE_CString & hostname,
-                                   const CUTS_Host_Table_Entry * entry)
+                                   const CUTS_Host_Table_Entry ** entry)
 {
   CUTS_Host_Table_Entry * temp = 0;
   int retval = this->host_index_.find (hostname, temp);
 
-  if (retval == 0)
-    entry = temp;
+  if (retval == 0 && entry != 0)
+    *entry = temp;
 
   return retval;
 }
@@ -88,14 +80,14 @@ int CUTS_Host_Table::find_by_name (const ACE_CString & hostname,
 //
 // find
 //
-int CUTS_Host_Table::find_by_addr (const ACE_CString & ipaddr,
-                                   const CUTS_Host_Table_Entry * entry)
+int CUTS_Host_Table::find_by_ipaddr (const ACE_CString & ipaddr,
+                                     const CUTS_Host_Table_Entry ** entry)
 {
   CUTS_Host_Table_Entry * temp = 0;
   int retval = this->ipaddr_index_.find (ipaddr, temp);
 
-  if (retval == 0)
-    entry = temp;
+  if (retval == 0 && entry != 0)
+    *entry = temp;
 
   return retval;
 }
@@ -144,4 +136,30 @@ void CUTS_Host_Table::unbind_by_name (const ACE_CString & hostname)
     // Remove the entry from <ipaddr_index_>.
     this->host_index_.unbind (entry);
   }
+}
+
+//
+// clear_i
+//
+void CUTS_Host_Table::clear_i (void)
+{
+  // Delete all the items in the entry list.
+  Entry_Table::ITERATOR iter (this->entries_);
+
+  for (; !iter.done (); iter ++)
+    delete (*iter);
+}
+
+//
+// clear
+//
+void CUTS_Host_Table::clear (void)
+{
+  // Reset the entry list.
+  this->clear_i ();
+  this->entries_.reset ();
+
+  // Reset all the indices.
+  this->host_index_.unbind_all ();
+  this->ipaddr_index_.unbind_all ();
 }

@@ -157,7 +157,8 @@ bool init_unit_test_suite (void)
   using namespace ::boost::unit_test;
 
   // Add the unit test to the master suite.
-  framework::master_test_suite ().p_name.value = "CUTS_Statistics_T";
+  framework::master_test_suite ().p_name.value =
+    "CUTS_Statistics_T &lt;T&gt;";
 
   framework::master_test_suite ().add (
     make_test_case (&constructor,
@@ -165,19 +166,19 @@ bool init_unit_test_suite (void)
 
   framework::master_test_suite ().add (
     make_test_case (&copy_constructor,
-    "Statistics_T (const Statistics_T &)"));
+    "Statistics_T (const Statistics_T &amp;)"));
 
   framework::master_test_suite ().add (
     make_test_case (&operator_plus_equal_value,
-    "operator += (T &)"));
+    "operator += (T &amp;)"));
 
   framework::master_test_suite ().add (
     make_test_case (&operator_plus_equal_statistics,
-    "operator += (const CUTS_Statistic_T &)"));
+    "operator += (const CUTS_Statistic_T &amp;)"));
 
   framework::master_test_suite ().add (
     make_test_case (&operator_equal_statistics,
-    "operator = (const CUTS_Statistic_T &)"));
+    "operator = (const CUTS_Statistic_T &amp;)"));
 
   framework::master_test_suite ().add (
     make_test_case (&reset,
@@ -185,7 +186,7 @@ bool init_unit_test_suite (void)
 
   framework::master_test_suite ().add (
     make_test_case (&avg_value,
-    "avg_value (T &)"));
+    "avg_value (T &amp;)"));
 
   INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS"), false);
 

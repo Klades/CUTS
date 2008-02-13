@@ -1,3 +1,21 @@
+Wed Feb 13 15:01:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/Host_Table.h:
+        * cuts/Host_Table.inl:
+        * cuts/Host_Table.cpp:
+        * integration/test.build:
+
+          Implemented unit tests for CUTS_Host_Table_Test.
+
+        * tests/cuts/Host_Table_Test.cpp:
+        * tests/cuts/Statistics_T_Test.cpp:
+        * tests/cuts/str_Test.cpp:
+        * tests/cuts/test.mpc:
+
+          Bug fix where '&' were not specified as '&amp;' in the XML test
+          log and resulted in the containing test log not being included
+          in the final build log.
+
 Wed Feb  6 16:16:53 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/test.build:

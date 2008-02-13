@@ -40,6 +40,10 @@
     <antcall target="test.run">
       <param name="test.executable" value="CUTS_str_Test" />
     </antcall>
+
+    <antcall target="test.run">
+      <param name="test.executable" value="CUTS_Host_Table_Test" />
+    </antcall>
   </target>
 
   <!--

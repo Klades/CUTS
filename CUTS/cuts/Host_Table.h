@@ -47,7 +47,8 @@ public:
    * @param[in]     ipaddr            IP-address.
    * @param[in]     hostname          Name of the host.
    * @param[out]    entry             The table entry.
-   * @retval        >0                Succeeded
+   * @retval        0                 Succeeded
+   * @retval        1                 Duplicate entry.
    * @retval        -1                Failed
    */
   int bind (const ACE_CString & ipaddr,
@@ -73,8 +74,8 @@ public:
    *
    * @retval      -1      The hostname was not found.
    */
-  int find_by_addr (const ACE_CString & ipaddr,
-                    const CUTS_Host_Table_Entry * entry);
+  int find_by_ipaddr (const ACE_CString & ipaddr,
+                      const CUTS_Host_Table_Entry ** entry = 0);
 
   /**
    * Find the IP-address given a hostname.
@@ -82,9 +83,18 @@ public:
    * @retval      -1      The hostname was not found.
    */
   int find_by_name (const ACE_CString & hostname,
-                    const CUTS_Host_Table_Entry * entry);
+                    const CUTS_Host_Table_Entry ** entry = 0);
+
+  /// Get the size of the host table.
+  size_t size (void) const;
+
+  /// Clear all the entries in the host table.
+  void clear (void);
 
 private:
+  /// Helper function to clear the entries.
+  void clear_i (void);
+
   /// Type definition of an IP-address map.
   typedef ACE_Hash_Map_Manager <ACE_CString,
                                 CUTS_Host_Table_Entry *,
@@ -107,5 +117,9 @@ private:
   /// Mapping of hostname to IP-address.
   Hostname_Index host_index_;
 };
+
+#if defined (__CUTS_INLINE__)
+#include "cuts/Host_Table.inl"
+#endif
 
 #endif  // !defined _CUTS_HOST_TABLE_H_

@@ -96,13 +96,14 @@ bool init_unit_test_suite (void)
 
   framework::master_test_suite ().add (
     make_test_case (&copy_constructor,
-    "CUTS_str (const CUTS_str &)"));
+    "CUTS_str (const CUTS_str &amp;)"));
 
   framework::master_test_suite ().add (
     make_test_case (&operator_equal,
-    "operator = (const CUTS_str &)"));
+    "operator = (const CUTS_str &amp;)"));
 
-  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS"), false);
+  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS"),
+                               false);
 
   return true;
 }
