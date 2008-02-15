@@ -2,6 +2,8 @@
 <project name="Microsoft Visual Studio">
   <description>Project for integrating Visual Studio into a ANT build</description>
 
+  <property name="devenv.configuration" value="Debug" />
+
   <target name="devenv.build">
     <exec executable="devenv.com" failonerror="true" resultproperty="devenv.result">
       <arg path="${devenv.solution}" />

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<project name="_CoSMIC.build" basedir="." default="build">
+  <property environment="env" />
+
+  <!-- import external project files -->
+  <import file="include/devenv.build" />
+  <import file="include/mpc.build" />
+  <import file="include/svn.build" />
+
+  <!-- store the target configuration -->
+  <property name="devenv.configuration" value="debug" />
+  <property name="mpc.path" value="${env.ACE_ROOT}/bin/" />
+
+  <!--
+    @target build
+
+    Main entry point for the build script
+    -->
+
+  <target name="build">
+    <!-- update the workspace -->
+    <antcall target="cosmic.update" />
+    <antcall target="cosmic.workspace.generate" />
+
+    <!-- build the debug/release version of CoSMIC -->
+    <antcall target="cosmic.build.debug" />
+    <antcall target="cosmic.build.release" />
+  </target>
+
+  <!--
+    @target cosmic.build.debug
+
+    Build the debug version of CoSMIC
+    -->
+  <target name="cosmic.build.debug" if="modification.cosmic.pim">
+    <!-- rebuild the Debug solution -->
+    <antcall target="devenv.rebuild">
+      <param name="devenv.solution" value="${env.COSMIC_ROOT}/cosmic.sln" />
+      <param name="devenv.configuration" value="Debug" />
+    </antcall>
+  </target>
+
+  <!--
+    @target cosmic.build.debug
+
+    Build the release version of CoSMIC
+    -->
+
+  <target name="cosmic.build.release" if="modification.cosmic.pim">
+    <!-- rebuild the Release solution -->
+    <antcall target="devenv.rebuild">
+      <param name="devenv.solution" value="${env.COSMIC_ROOT}/cosmic.sln" />
+      <param name="devenv.configuration" value="Release" />
+    </antcall>
+  </target>
+
+  <target name="cosmic.workspace.generate" if="modification.cosmic.pim">
+    <!-- generate solution -->
+    <antcall target="mpc.workspace.generate">
+      <param name="mpc.workspace" value="${env.COSMIC_ROOT}/cosmic.mwc" />
+      <param name="mpc.args" value="-features register=0" />
+    </antcall>
+  </target>
+
+  <!--
+    @target cosmic.update
+
+    Update the CoSMIC workspace from the SVN repository
+    -->
+
+  <target name="cosmic.update" if="modification.svn">
+    <antcall target="svn.update">
+      <param name="svn.command.args" value="${env.COSMIC_ROOT}" />
+    </antcall>
+  </target>
+</project>
