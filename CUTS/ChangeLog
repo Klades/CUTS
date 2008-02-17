@@ -1,3 +1,37 @@
+Sun Feb 17 06:54:57 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * docs/manual:
+
+          Location of the upcoming user CUTS user manual.
+
+        * docs/web:
+        * docs/web/background.php:
+        * docs/web/cuts.master.php:
+        * docs/web/documentation.php:
+        * docs/web/downloads:
+        * docs/web/downloads/BMW.msi:
+        * docs/web/downloads/CUTS_CoSMIC.msi:
+        * docs/web/downloads/index.php:
+        * docs/web/index.php:
+        * docs/web/private:
+        * docs/web/private/images:
+        * docs/web/private/images/blue-pinstrip.bmp:
+        * docs/web/private/images/bluegrey-cross.bmp:
+        * docs/web/private/images/bluegrey-pinstrip.bmp:
+        * docs/web/private/images/logo.jpg:
+        * docs/web/private/images/menu_dot.jpg:
+        * docs/web/private/images/menu_dot.vsd:
+        * docs/web/private/images/workflow-medium.jpg:
+        * docs/web/private/images/workflow-small.jpg:
+        * docs/web/private/images/workflow.jpg:
+        * docs/web/private/styles:
+        * docs/web/private/styles/default.css:
+        * docs/web/publications.php:
+        * docs/web/quickstart.php:
+        * docs/web/research.php:
+
+          Moved the website from the CUTS repository to here.
+
 Fri Feb 15 20:11:59 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/_CoSMIC.build:
