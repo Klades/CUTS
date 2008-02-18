@@ -216,7 +216,7 @@ steps (shown in Figure 7):
 <ol>
   <li>Select <b>Generate component implementation</b></li>
   <li>Enter the target <b>output directory</b></li>
-  <li>Select <b>Component Integrated ACE ORB</b> in the listbox<li>
+  <li>Select <b>Component Integrated ACE ORB</b> in the listbox</li>
   <li>Click the <b>OK</b> button.</li>
 </ol>
 
