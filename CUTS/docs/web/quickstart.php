@@ -217,7 +217,7 @@ steps (shown in Figure 7):
   <li>Select <b>Generate component implementation</b></li>
   <li>Enter the target <b>output directory</b></li>
   <li>Select <b>Component Integrated ACE ORB</b> in the listbox</li>
-  <li>Click the <b>OK</b> button.</li>
+  <li>Click the <b>OK</b> button</li>
 </ol>
 
 <div style="text-align:center">
@@ -228,11 +228,19 @@ steps (shown in Figure 7):
   model.</div>
 </div>
 
-<p>Once the CUTS interpreter finishes generating the source code, you must
-compile it. There will be a <tt>MyQuoter_CUTS.mwc</tt> file (its name may be
-different) located in the output directory. This is a 
-<a href="http://www.ociweb.com/products/mpc">Makefile, Project and Workspace
-Creator (MPC)</a> workspace file that contains all the necessary information to 
+<p>Once the CUTS interpreter finishes generating the source code, the final
+step is to generate the IDL and CIDL files need to sucessufully compile the 
+source code. These files are created by the <b>IDL Generator</b> and 
+<b>CIDL Generator</b> interpreters provided with CoSMIC. Please make sure to 
+generate the IDL and CIDL files in the same directory as the stock quoter 
+source code previously generated from the model. After generating the
+IDL and CIDL files, you can compile the source code.</p>
+
+<p>There will be a <tt>MyQuoter_CUTS.mwc</tt> file (its name may be
+different) located in the output directory selected from generating the source 
+code. This is a <a href="http://www.ociweb.com/products/mpc">Makefile, Project 
+and Workspace Creator (MPC)</a> workspace file that contains all the necessary 
+information to 
 sucessfully compile the generated source code. Use MyQuoter_CUTS.mwc to generate 
 the appropriate workspace and then compile it.</p>
 
@@ -258,7 +266,8 @@ deploy the CUTS stock quoter example, do the following:
   <li>Use DAnCE to deploy the <tt>Plan_CoWorkEr.cdp</tt>. The original stock
       quoter tutorial has instructions on 
       <a href="http://www.dre.vanderbilt.edu/~schmidt/DOC_ROOT/CIAO/docs/tutorials/Quoter/Simple/04.html">
-      how to deploying the solution.</a></li>
+      how to deploying the solution.</a> Be sure, however, to update the <tt>NodeMap.dat</tt> file to 
+      contain the control node needed by the <tt>Benchmark_Data_Collector</tt>.</li>
 </ol>
 
 When the CUTS version of the stock quoter example is deployed, the Controller 

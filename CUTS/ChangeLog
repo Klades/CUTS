@@ -1,3 +1,10 @@
+Mon Feb 18 13:57:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * docs/web/quickstart.php:
+        
+          Updated the quick start to contain instructions on how to 
+          generate IDL and CIDL files.
+
 Mon Feb 18 13:44:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/BDC.xme:
