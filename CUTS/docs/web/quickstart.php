@@ -266,7 +266,7 @@ deploy the CUTS stock quoter example, do the following:
   <li>Use DAnCE to deploy the <tt>Plan_CoWorkEr.cdp</tt>. The original stock
       quoter tutorial has instructions on 
       <a href="http://www.dre.vanderbilt.edu/~schmidt/DOC_ROOT/CIAO/docs/tutorials/Quoter/Simple/04.html">
-      how to deploying the solution.</a> Be sure, however, to update the <tt>NodeMap.dat</tt> file to 
+      how to deploy the solution.</a> Be sure, however, to update the <tt>NodeMap.dat</tt> file to 
       contain the control node needed by the <tt>Benchmark_Data_Collector</tt>.</li>
 </ol>
 
