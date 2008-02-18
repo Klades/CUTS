@@ -12,10 +12,10 @@ ob_start (); ?>
 following technologies:</p>
 
 <ul>
-  <li><a href="http://www.dre.vanderbilt.edu/cosmic">Component Synthesis via 
-      Model Integrated Computing (CoSMIC)</a></li>
   <li><a href="http://www.dre.vanderbilt.edu/CIAO">Component Integrated ACE 
       ORB (CIAO)</a></li>
+  <li><a href="http://www.dre.vanderbilt.edu/cosmic">Component Synthesis with 
+      Model Integrated Computing (CoSMIC)</a></li>
   <li><a href="http://www.dre.vanderbilt.edu/CIAO">Deployment And Configuration 
       Engine (DAnCE)</a></li>
 </ul>

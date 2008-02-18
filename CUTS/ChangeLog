@@ -1,7 +1,14 @@
+Mon Feb 18 06:01:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * docs/web/quickstart.php:
+        
+          Fixed the ordering of prerequisite technologies and the 
+          name CoSMIC.
+
 Mon Feb 18 05:59:25 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * docs/web/cuts.master.php:
-        
+
           Bug fix where hyperlink to home page was invalid when visiting
           a child page of the website.
 
