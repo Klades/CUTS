@@ -45,3 +45,18 @@ td.menu a:hover
 	font-weight: bold;
 }
 
+.back-to-top
+{
+  text-align: right;
+}
+
+img.thumbnail
+{
+  border: 0px;
+  padding: 5px;
+}
+
+div.figure-title
+{
+  font-weight: bold;  
+}

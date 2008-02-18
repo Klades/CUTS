@@ -1,3 +1,24 @@
+Mon Feb 18 05:54:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * docs/web/private/images/behavior-aspect.jpg:
+        * docs/web/private/images/deploy-bdc.jpg:
+        * docs/web/private/images/generate-assemblies.jpg:
+        * docs/web/private/images/generate-proxies.jpg:
+        * docs/web/private/images/generate-source.jpg:
+        * docs/web/private/images/stockbroker-behavior.jpg:
+        * docs/web/private/images/stockbroker-workload.jpg:
+        * docs/web/private/images/stockdistributor-workload.jpg:
+        * docs/web/private/styles/default.css:
+        * docs/web/quickstart.php:
+        
+          First version of the quick start tutorial for CUTS.
+
+        * docs/web/private/images/blue-pinstrip.bmp:
+        * docs/web/private/images/bluegrey-cross.bmp:
+        * docs/web/private/images/bluegrey-pinstrip.bmp:
+
+          Removed these files.
+
 Sun Feb 17 06:54:57 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * docs/manual:
