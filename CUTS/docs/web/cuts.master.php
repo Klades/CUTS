@@ -23,7 +23,7 @@
       <div class="title"><u>Main Menu</u></div>
       <div>
         <img src="<?php echo $path_to_root; ?>private/images/menu_dot.jpg" />
-        <a href="<?php echo $path_to_root; ?>"index.php>Home</a></div>
+        <a href="<?php echo $path_to_root; ?>index.php">Home</a></div>
       <!--div>
         <img src="<?php echo $path_to_root; ?>private/images/menu_dot.jpg" />
         <a href="<?php echo $path_to_root; ?>background.php">Background</a></div-->
