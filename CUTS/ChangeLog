@@ -1,7 +1,21 @@
+Mon Feb 18 13:44:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/BDC.xme:
+
+          Updated the GME model to the latest version of PICML.
+
+        * cuts/workers/CPU/CUTS_CPU_Worker.xme:
+
+          - Updated the GME model to the latest version of PICML.
+          - Removed the slash from the worker file name and moved it
+            to the Location attribute.
+          - Bug fix where the CPU worker action's were missing their
+            data type.
+
 Mon Feb 18 13:10:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * docs/web/quickstart.php:
-        
+
           Bug fix where one of the list items was missing a closing
           tag.
 
