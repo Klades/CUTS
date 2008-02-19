@@ -1,8 +1,26 @@
+Tue Feb 19 16:39:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/modelin:
+        * MDE/GME/paradigms/PICML/modelin/Deployment_Map.h:
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_App.h:
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_App.cpp:
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_Options.h:
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_Options.cpp:
+        * MDE/GME/paradigms/PICML/modelin/Scatter_To_Picml.h:
+        * MDE/GME/paradigms/PICML/modelin/Scatter_To_Picml.cpp:
+        * MDE/GME/paradigms/PICML/modelin/picmlin.cpp:
+        * MDE/GME/paradigms/PICML/modelin/picmlin.mpc:
+        
+          Initial implementation for importing scatter models into 
+          a PICML project.
+
+        * docs/presentations/CBML-WML.ppt:
+
 Tue Feb 19 15:45:31 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * docs/presentations:
         * docs/presentations/CUTS-overview.ppt:
-        
+
           Added the overview of CUTS to the main repo.
 
 Mon Feb 18 13:59:18 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
