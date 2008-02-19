@@ -34,17 +34,14 @@ Picmlin_App::~Picmlin_App (void)
 //
 int Picmlin_App::parse_args (int argc, char * argv [])
 {
-  const char * opts = ACE_TEXT ("o:r:p:");
+  const char * opts = ACE_TEXT ("p:");
   ACE_Get_Opt get_opt (argc, argv, opts, 0);
 
   get_opt.long_option ("connstr", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("target-deployment", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("instance-name-separator", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("scatter-input", ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("output", 'o', ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("param", 'p', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("verbose", ACE_Get_Opt::NO_ARG);
-  get_opt.long_option ("run", 'r', ACE_Get_Opt::ARG_REQUIRED);
 
   int option;
 
@@ -53,11 +50,7 @@ int Picmlin_App::parse_args (int argc, char * argv [])
     switch (option)
     {
     case 0:
-      if (ACE_OS::strcmp (get_opt.long_option (), "output") == 0)
-      {
-        this->options_.gme_connstr_ = get_opt.opt_arg ();
-      }
-      else if (ACE_OS::strcmp (get_opt.long_option (), "connstr") == 0)
+      if (ACE_OS::strcmp (get_opt.long_option (), "connstr") == 0)
       {
         this->options_.gme_connstr_ = get_opt.opt_arg ();
       }
@@ -72,15 +65,6 @@ int Picmlin_App::parse_args (int argc, char * argv [])
       else if (ACE_OS::strcmp (get_opt.long_option (), "scatter-input") == 0)
       {
         this->options_.scatter_input_ = get_opt.opt_arg ();
-      }
-      else if (ACE_OS::strcmp (get_opt.long_option (), "param") == 0)
-      {
-        if (this->options_.insert_param (get_opt.opt_arg ()) == -1)
-          return -1;
-      }
-      else if (ACE_OS::strcmp (get_opt.long_option (), "run") == 0)
-      {
-        this->options_.run_component_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "verbose") == 0)
       {
