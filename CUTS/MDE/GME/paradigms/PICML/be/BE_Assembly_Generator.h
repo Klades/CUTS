@@ -56,6 +56,12 @@ protected:
   void Visit_Component (
     const PICML::Component & component);
 
+  void Visit_ProvidedRequestPort (
+    const PICML::ProvidedRequestPort & facet);
+
+  void Visit_RequiredRequestPort (
+    const PICML::RequiredRequestPort & receptacle);
+
   void Visit_OutEventPort (
     const PICML::OutEventPort & outevent);
 
@@ -67,6 +73,9 @@ protected:
 
   void Visit_publish (
     const PICML::publish & publish);
+
+  void Visit_invoke (
+    const PICML::invoke & invoke);
 
   void Visit_PublishConnector (
     const PICML::PublishConnector & connector);
@@ -123,6 +132,10 @@ private:
   PICML::OutEventPort target_outevent_;
 
   PICML::PublishConnector target_connector_;
+
+  PICML::RequiredRequestPort target_receptacle_;
+
+  PICML::ProvidedRequestPort target_facet_;
 
   typedef std::map <PICML::Component, PICML::Component> Proxy_Type_Map;
 

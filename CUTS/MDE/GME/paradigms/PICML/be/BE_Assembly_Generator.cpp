@@ -168,6 +168,16 @@ Visit_ComponentAssembly (const PICML::ComponentAssembly & assembly)
                    boost::bind (&publish_Set::value_type::Accept,
                                 _1,
                                 boost::ref (*this)));
+
+    // Visit all the <invokes> connections in the <assembly>.
+    typedef std::vector <PICML::invoke> invoke_Set;
+    invoke_Set invokes = assembly.invoke_kind_children ();
+
+    std::for_each (invokes.begin (),
+                   invokes.end (),
+                   boost::bind (&invoke_Set::value_type::Accept,
+                                _1,
+                                boost::ref (*this)));
   }
 }
 
@@ -314,6 +324,54 @@ Visit_InEventPort (const PICML::InEventPort & inevent)
 }
 
 //
+// Visit_ProvidedRequestPort
+//
+void CUTS_BE_Assembly_Generator::
+Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort & facet)
+{
+  // Get the parent of the <inevent>.
+  PICML::Component component =
+    PICML::Component::Cast (facet.parent ());
+
+  // Get the proxy that has the same name as <component>.
+  PICML::Component proxy_component = this->proxy_map_[component.name ()];
+
+  // Get all the input ports for the <proxy_component>.
+  if (!Udm::contains (boost::bind (std::equal_to <std::string> (),
+                      facet.name (),
+                      boost::bind (&PICML::ProvidedRequestPort::name,
+                                   _1))) (proxy_component,
+                                          this->target_facet_))
+  {
+    this->target_facet_ = PICML::ProvidedRequestPort::Cast (Udm::null);
+  }
+}
+
+//
+// Visit_RequiredRequestPort
+//
+void CUTS_BE_Assembly_Generator::
+Visit_RequiredRequestPort (const PICML::RequiredRequestPort & receptacle)
+{
+  // Get the parent of the <inevent>.
+  PICML::Component component =
+    PICML::Component::Cast (receptacle.parent ());
+
+  // Get the proxy that has the same name as <component>.
+  PICML::Component proxy_component = this->proxy_map_[component.name ()];
+
+  // Get all the input ports for the <proxy_component>.
+  if (!Udm::contains (boost::bind (std::equal_to <std::string> (),
+                      receptacle.name (),
+                      boost::bind (&PICML::ProvidedRequestPort::name,
+                                   _1))) (proxy_component,
+                                          this->target_receptacle_))
+  {
+    this->target_receptacle_ = PICML::RequiredRequestPort::Cast (Udm::null);
+  }
+}
+
+//
 // Visit_publish
 //
 void CUTS_BE_Assembly_Generator::
@@ -389,6 +447,43 @@ Visit_emit (const PICML::emit & emit)
     {
       target_emit.srcemit_end () = this->target_outevent_;
       target_emit.dstemit_end () = this->target_inevent_;
+    }
+  }
+}
+
+//
+// Visit_emit
+//
+void CUTS_BE_Assembly_Generator::
+Visit_invoke (const PICML::invoke & invoke)
+{
+  // Visit the <InEventPort> for this connection.
+  PICML::ProvidedRequestPort facet = invoke.dstinvoke_end ();
+  facet.Accept (*this);
+
+  // Visit the <OutEventPort> for this connection.
+  PICML::RequiredRequestPort receptacle = invoke.srcinvoke_end ();
+  receptacle.Accept (*this);
+
+  if (this->target_facet_ != Udm::null && 
+      this->target_receptacle_  != Udm::null)
+  {
+    // We need to create a emits connection in the target assembly
+    // if we are not able to find an existing one for the target
+    // in and out event ports.
+    PICML::invoke target_invoke;
+
+    if (Udm::create_if_not (this->target_assembly_, target_invoke,
+        Udm::contains (boost::bind (std::logical_and <bool> (),
+            boost::bind (std::equal_to <PICML::RequiredRequestPort> (),
+                         this->target_receptacle_,
+                         boost::bind (&PICML::invoke::srcinvoke_end, _1)),
+            boost::bind (std::equal_to <PICML::ProvidedRequestPort> (),
+                         this->target_facet_,
+                         boost::bind (&PICML::invoke::dstinvoke_end, _1))))))
+    {
+      target_invoke.srcinvoke_end () = this->target_receptacle_;
+      target_invoke.dstinvoke_end () = this->target_facet_;
     }
   }
 }
