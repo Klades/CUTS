@@ -1,7 +1,14 @@
+Tue Feb 19 15:45:31 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * docs/presentations:
+        * docs/presentations/CUTS-overview.ppt:
+        
+          Added the overview of CUTS to the main repo.
+
 Mon Feb 18 13:59:18 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * docs/web/quickstart.php:
-        
+
           Fixed several misspellings and grammatical errors.
 
 Mon Feb 18 13:57:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
