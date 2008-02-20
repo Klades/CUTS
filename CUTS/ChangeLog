@@ -1,9 +1,18 @@
+Wed Feb 20 03:43:36 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_App.h:
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_App.cpp:
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_Options.h:
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_Options.cpp:
+        
+          Implemented the --generate-deployment command-line option.
+
 Tue Feb 19 17:56:57 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator.h:
         * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator.cpp:
-        
-          Bug fix where invoke connections were not generated in the 
+
+          Bug fix where invoke connections were not generated in the
           proxy assembly.
 
 Tue Feb 19 17:16:07 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

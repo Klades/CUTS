@@ -53,7 +53,7 @@ private:
 
   void get_all_nodes (std::map <std::string, GME::Model> & targets);
 
-  int run_component (void);
+  void generate_deployment (const std::string & output);
 
   /// The command line options.
   Picmlin_Options options_;

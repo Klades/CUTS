@@ -34,14 +34,15 @@ Picmlin_App::~Picmlin_App (void)
 //
 int Picmlin_App::parse_args (int argc, char * argv [])
 {
-  const char * opts = ACE_TEXT ("p:");
+  const char * opts = ACE_TEXT ("vf:");
   ACE_Get_Opt get_opt (argc, argv, opts, 0);
 
-  get_opt.long_option ("connstr", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("connstr", 'f', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("target-deployment", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("instance-name-separator", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("generate-deployment", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("scatter-input", ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("verbose", ACE_Get_Opt::NO_ARG);
+  get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
 
   int option;
 
@@ -62,6 +63,10 @@ int Picmlin_App::parse_args (int argc, char * argv [])
       {
         this->options_.instance_name_separator_ = *get_opt.opt_arg ();
       }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "generate-deployment") == 0)
+      {
+        this->options_.deployment_output_ = get_opt.opt_arg ();
+      }
       else if (ACE_OS::strcmp (get_opt.long_option (), "scatter-input") == 0)
       {
         this->options_.scatter_input_ = get_opt.opt_arg ();
@@ -72,17 +77,12 @@ int Picmlin_App::parse_args (int argc, char * argv [])
       }
       break;
 
-    case 'o':
+    case 'f':
       this->options_.gme_connstr_ = get_opt.opt_arg ();
       break;
 
-    case 'r':
-      this->options_.run_component_ = get_opt.opt_arg ();
-      break;
-
-    case 'p':
-      if (this->options_.insert_param (get_opt.opt_arg ()) == -1)
-        return -1;
+    case 'v':
+      this->options_.verbose_ = true;
       break;
 
     case '?':
@@ -151,19 +151,16 @@ int Picmlin_App::run (int argc, char * argv [])
 
       GME::Model deployment_plan;
 
+      // Update the deployment plan.
       if (this->find_deployment_plan (deployment_plan) == 0)
-      {
-        // Update the deployment plan using the extracted
-        // deployment map.
         this->set_deployment (deployment_plan, deployment_map);
-
-        // Run the specified GME component, if it was specified.
-        if (!this->options_.run_component_.empty ())
-          this->run_component ();
-      }
 
       // Commit the modifications to the project.
       this->project_->commit_transaction ();
+
+      // Run the specified GME component, if it was specified.
+      if (!this->options_.deployment_output_.empty ())
+        this->generate_deployment (this->options_.deployment_output_);
     }
     return 0;
   }
@@ -263,35 +260,26 @@ int Picmlin_App::find_deployment_plan (GME::Model & plan)
 //
 // run_component
 //
-int Picmlin_App::run_component (void)
+void Picmlin_App::generate_deployment (const std::string & output)
 {
   // Load the GME component.
+  VERBOSE_MESSAGE ((LM_DEBUG,
+                    "*** info [picmlin]: loading deployment plan interpreter\n"));
+
   GME::ComponentEx gme_component;
-  gme_component.load (this->options_.run_component_);
+  gme_component.load ("MGA.Interpreter.DeploymentPlan");
 
   // TODO: verify component is an interpreter.
   // TODO: verify component is compatible with project.
 
-  // Initialize the the component.
   VERBOSE_MESSAGE ((LM_DEBUG,
-                    "*** info [gem2picml]: initializing %s\n",
-                    this->options_.run_component_.c_str ()));
+                    "*** info [picmlin]: initializing the project\n"));
 
+  // Initialize the interpreter and set the output directory 
+  // for the deployment plan.
   gme_component.initialize (*this->project_);
-
-  // Initialize all the parameters for the component.
-  VERBOSE_MESSAGE ((LM_DEBUG,
-                    "*** info [gem2picml]: setting %d parameter(s)\n",
-                    this->options_.params_.size ()));
-
-  Picmlin_Options::Parameter_List::iterator iter;
-
-  for (iter = this->options_.params_.begin ();
-       iter != this->options_.params_.end ();
-       iter ++)
-  {
-    gme_component.parameter (iter->first, iter->second);
-  }
+  gme_component.parameter ("output", this->options_.deployment_output_);
+  gme_component.parameter ("non-interactive", "");
 
   // We can now invoke the component/interpreter. We are need to
   // pass in dummy parameters for to make everyone happy.
@@ -300,11 +288,9 @@ int Picmlin_App::run_component (void)
   std::vector <GME::FCO> selected;
 
   VERBOSE_MESSAGE ((LM_DEBUG,
-                    "*** info [gem2picml]: invoking %s\n",
-                    this->options_.run_component_.c_str ()));
+                    "*** info [picmlin]: running deployment plan interpreter\n"));
 
   gme_component.invoke (*this->project_, current, selected, 0);
-  return 0;
 }
 
 //
