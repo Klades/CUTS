@@ -11,4 +11,7 @@ project : gme_base {
   libpaths += $(COSMIC_ROOT)/lib
 
   libs     += GME
+  
+  staticflags  += GME_AS_STATIC_LIB
+  dynamicflags += GME_HAS_DLL
 }
