@@ -1,0 +1,6 @@
+// $Id$
+
+workspace {
+  cmdline += -include $CUTS_ROOT/etc/config \
+             -feature_file default.features
+}

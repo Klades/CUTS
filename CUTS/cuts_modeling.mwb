@@ -1,0 +1,33 @@
+// $Id$
+
+///=============================================================================
+/// @file         CUTS_CoSMIC.mwc
+///
+/// @author       James H. Hill
+///
+/// @brief        This workspace builds only the modeling portion
+///               of CUTS.
+///=============================================================================
+
+workspace : cuts_common {
+  modeling {
+    cmdline += -base requires_modeling
+
+    MDE/GEMS
+    MDE/utils
+
+    exclude (!vc6, !vc71, !vc8, !nmake) {
+      //== CoSMIC projects
+      cmdline += -include $COSMIC_ROOT/MPC/config \
+                 -base requires_cosmic
+
+      MDE/GME
+
+      static {
+        cmdline += -static -base requires_cosmic
+
+        $(CIAO_ROOT)/CCF/CCF/CodeGenerationKit
+      }
+    }
+  }
+}
