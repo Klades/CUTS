@@ -1,8 +1,14 @@
+Thu Feb 21 07:13:08 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/install.dat:
+
+          Removed this file.
+
 Thu Feb 21 07:09:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/modelin/picmlin.mpc:
         * etc/config/cuts_gme.mpb:
-        
+
           Fixed the static build of the CUTS connector.
 
 Thu Feb 21 06:25:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
