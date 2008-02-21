@@ -1,9 +1,17 @@
+Thu Feb 21 06:25:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/modelin/picmlin.mwc:
+        
+          New workspace for building the CUTS connector for NAOMI. This
+          build uses static versions of its dependencies, i.e., ACE and 
+          GME.
+
 Thu Feb 21 06:03:15 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * CUTS.mwc:
         * cuts_common.mwb:
         * cuts_modeling.mwb:
-        
+
           Refactored the main workspace into reuseable base workspaces.
 
         * CUTS_CoSMIC.mwc:
