@@ -1,5 +1,5 @@
 --
--- @file        CUTS-archive.sql
+-- @file        CUTS-performance.sql
 --
 -- $Id: CUTS-create.sql 1127 2007-02-04 02:59:21Z hillj $
 --

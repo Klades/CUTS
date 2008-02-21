@@ -1,12 +1,27 @@
+Thu Feb 21 06:00:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-performance.sql:
+
+          Rename of the CUTS-execution.sql file.
+          
+        * etc/config/requires_modeling.mpb:
+        
+          New base project that adds 'requires += modeling' to a 
+          concrete project.
+
+        * etc/SQL/CUTS-execution.sql:
+
+          Removed this file.
+
 Thu Feb 21 02:03:05 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-execution.sql:
-        
+
           Updated the stored procedure to reflect the new database
           structure.
 
         * etc/schemas:
-        
+
           Location of CUTS-related XML schema definitions.
 
 Thu Feb 21 02:00:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
