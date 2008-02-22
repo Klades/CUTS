@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS deployment
   UNIQUE (test_number, instance, hostid),
 
   FOREIGN KEY (test_number) REFERENCES tests (test_number)
-    ON DELETE RESTRICT
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
   FOREIGN KEY (instance) REFERENCES component_instances (instid)
     ON DELETE RESTRICT

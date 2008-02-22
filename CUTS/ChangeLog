@@ -1,8 +1,16 @@
+Fri Feb 22 17:05:42 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-deployment.sql:
+        
+          Bug fix where the foreign key (test_number) prevented 
+          the deletion of a test because its ON DELETE was set to 
+          RESTRICT instead of CASCADE.
+
 Fri Feb 22 15:12:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-baseline.sql:
         * etc/SQL/CUTS-performance.sql:
-        
+
           Re-implemented the stored procedures that calculate a
           component instance's cumulative, delta, and percentage
           error.
