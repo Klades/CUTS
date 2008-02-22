@@ -1,7 +1,16 @@
+Fri Feb 22 15:12:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-baseline.sql:
+        * etc/SQL/CUTS-performance.sql:
+        
+          Re-implemented the stored procedures that calculate a
+          component instance's cumulative, delta, and percentage
+          error.
+
 Thu Feb 21 20:22:45 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/utils:
-        
+
           Location of MDE utilities for CUTS.
 
 Thu Feb 21 07:13:08 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

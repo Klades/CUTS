@@ -237,7 +237,44 @@ BEGIN
 END; //
 
 -------------------------------------------------------------------------------
--- PROCEDURE: cuts.select_performance_by_collection_time
+-- PROCEDURE: cuts.select_performance_endpoint_by_collection_time
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS
+  cuts.select_performance_endpoint_by_collection_time //
+
+CREATE PROCEDURE
+  cuts.select_performance_endpoint_by_collection_time (IN _test_number INT, 
+                                                       IN _collection_time DATETIME)
+BEGIN
+  SELECT t0.*, t7.outport_name
+  FROM (
+    SELECT t1.*,
+           t1.total_time / t1.perf_count AS average_time,
+           t2.component_name,
+           t4.portname AS inport_name
+    FROM cuts.performance_endpoint AS t1,
+         cuts.component_instances AS t2,
+         cuts.porttypes AS t3,
+         cuts.portnames AS t4
+    WHERE t1.instance = t2.instid AND
+          t1.inport = t3.pid AND
+          t3.port_name = t4.pid AND
+          t1.test_number = _test_number AND
+          t1.collection_time = _collection_time) AS t0
+  LEFT JOIN (
+    SELECT t5.pid, 
+           t6.portname AS outport_name
+    FROM cuts.porttypes AS t5,
+         cuts.portnames AS t6
+    WHERE t5.port_name = t6.pid) AS t7
+  ON t0.outport = t7.pid
+  ORDER BY t0.component_name, t0.inport_name, 
+           t0.outport_index, t7.outport_name;
+END; //
+
+-------------------------------------------------------------------------------
+-- PROCEDURE: cuts.select_performance_by_test
 -------------------------------------------------------------------------------
 
 DROP PROCEDURE IF EXISTS
@@ -258,6 +295,41 @@ BEGIN
         t3.port_name = t4.pid AND
         t1.test_number = _test_number
   ORDER BY t1.collection_time, t1.instance;
+END; //
+
+-------------------------------------------------------------------------------
+-- PROCEDURE: cuts.select_performance_endpoint_by_test
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS
+  cuts.select_performance_endpoint_by_test //
+
+CREATE PROCEDURE
+  cuts.select_performance_endpoint_by_test (IN _test_number INT)
+BEGIN
+  SELECT t0.*, t7.outport_name
+  FROM (
+    SELECT t1.*,
+           t1.total_time / t1.perf_count AS average_time,
+           t2.component_name,
+           t4.portname AS inport_name
+    FROM cuts.performance_endpoint AS t1,
+         cuts.component_instances AS t2,
+         cuts.porttypes AS t3,
+         cuts.portnames AS t4
+    WHERE t1.instance = t2.instid AND
+          t1.inport = t3.pid AND
+          t3.port_name = t4.pid AND
+          t1.test_number = _test_number) AS t0
+  LEFT JOIN (
+    SELECT t5.pid, 
+           t6.portname AS outport_name
+    FROM cuts.porttypes AS t5,
+         cuts.portnames AS t6
+    WHERE t5.port_name = t6.pid) AS t7
+  ON t0.outport = t7.pid
+  ORDER BY t0.collection_time, t0.component_name, t0.inport_name, 
+           t0.outport_index, t7.outport_name;
 END; //
 
 -------------------------------------------------------------------------------
@@ -323,16 +395,16 @@ END; //
 */
 
 -------------------------------------------------------------------------------
--- PROCEDURE: cuts.select_component_instance_performance
+-- PROCEDURE: cuts.select_component_instance_performance_i
 -------------------------------------------------------------------------------
 
 DROP PROCEDURE IF EXISTS
-  cuts.select_component_instance_performance //
+  cuts.select_component_instance_performance_i //
 
 CREATE PROCEDURE
-  cuts.select_component_instance_performance (IN _test_number INT, 
-                                              IN _collection_time DATETIME,
-                                              IN _instance INT)
+  cuts.select_component_instance_performance_i (IN _test_number INT, 
+                                                IN _collection_time DATETIME,
+                                                IN _instance INT)
 BEGIN
   SELECT t1.*, (t1.total_time / t1.perf_count) AS average_time,
        t2.component_name,
@@ -347,6 +419,81 @@ BEGIN
         t1.test_number = _test_number AND 
         t1.collection_time = _collection_time
   ORDER BY t1.instance;
+END; //
+
+-------------------------------------------------------------------------------
+-- PROCEDURE: cuts.select_component_instance_performance
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS
+  cuts.select_component_instance_performance //
+
+CREATE PROCEDURE
+  cuts.select_component_instance_performance (IN _test_number INT, 
+                                              IN _collection_time DATETIME,
+                                              IN _instance VARCHAR (255))
+BEGIN
+  CALL cuts.select_component_instance_performance_i (
+    _test_number,
+    _collection_time,
+    cuts.get_component_instance_id (_instance));
+END; //
+
+-------------------------------------------------------------------------------
+-- PROCEDURE: cuts.select_component_instance_performance_endpoint_i
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS
+  cuts.select_component_instance_performance_endpoint_i //
+
+CREATE PROCEDURE
+  cuts.select_component_instance_performance_endpoint_i (IN _test_number INT, 
+                                                         IN _collection_time DATETIME,
+                                                         IN _instance INT)
+BEGIN
+  SELECT t0.*, t7.outport_name
+  FROM (
+    SELECT t1.*,
+           t1.total_time / t1.perf_count AS average_time,
+           t2.component_name,
+           t4.portname AS inport_name
+    FROM cuts.performance_endpoint AS t1,
+         cuts.component_instances AS t2,
+         cuts.porttypes AS t3,
+         cuts.portnames AS t4
+    WHERE t1.instance = _instance AND
+          t1.instance = t2.instid AND
+          t1.inport = t3.pid AND
+          t3.port_name = t4.pid AND
+          t1.test_number = _test_number AND
+          t1.collection_time = _collection_time) AS t0
+  LEFT JOIN (
+    SELECT t5.pid, 
+           t6.portname AS outport_name
+    FROM cuts.porttypes AS t5,
+         cuts.portnames AS t6
+    WHERE t5.port_name = t6.pid) AS t7
+  ON t0.outport = t7.pid
+  ORDER BY t0.collection_time, t0.component_name, t0.inport_name, 
+           t0.outport_index, t7.outport_name;
+END; //
+
+-------------------------------------------------------------------------------
+-- PROCEDURE: cuts.select_component_instance_performance_endpoint
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS
+  cuts.select_component_instance_performance_endpoint //
+
+CREATE PROCEDURE
+  cuts.select_component_instance_performance_endpoint (IN _test_number INT, 
+                                                       IN _collection_time DATETIME,
+                                                       IN _instance VARCHAR (255))
+BEGIN
+  CALL cuts.select_component_instance_performance_endpoint_i (
+    _test_number,
+    _collection_time,
+    cuts.get_component_instance_id (_instance));
 END; //
 
 -------------------------------------------------------------------------------
@@ -448,7 +595,6 @@ BEGIN
          t1.perf_type, 
          SUM(t1.perf_count) AS perf_count,
          MIN(t1.best_time) AS best_time,
-         SUM(t1.total_time) AS total_time,
          SUM(total_time) / SUM(t1.perf_count) AS average_time,
          MAX(worst_time) AS worst_time,
          t2.component_name,
@@ -462,8 +608,51 @@ BEGIN
         t3.port_name = t4.pid AND
         t1.test_number = _test_number
   GROUP BY t1.instance, t1.perf_type, t1.inport
-  ORDER BY t2.component_name, t4.portname;
+  ORDER BY t2.component_name, t4.portname, t1.perf_type;
 END ; //
+
+-------------------------------------------------------------------------------
+-- PROCEDURE: cuts.select_performance_endpoint_cumulative
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS
+  cuts.select_performance_endpoint_cumulative //
+
+CREATE PROCEDURE
+  cuts.select_performance_endpoint_cumulative (IN _test_number INT)
+BEGIN
+  SELECT t0.*, t7.outport_name
+  FROM (
+    SELECT t1.test_number, 
+           t1.instance,
+           t1.sender,
+           t1.inport, 
+           t1.outport_index,
+           t1.outport,
+           SUM(t1.perf_count) AS perf_count,
+           MIN(t1.best_time) AS best_time,
+           SUM(t1.total_time) / SUM(t1.perf_count) AS average_time,
+           MAX(t1.worst_time) AS worst_time,
+           t2.component_name,
+           t4.portname AS inport_name
+    FROM cuts.performance_endpoint AS t1,
+         cuts.component_instances AS t2,
+         cuts.porttypes AS t3,
+         cuts.portnames AS t4
+    WHERE t1.instance = t2.instid AND
+          t1.inport = t3.pid AND
+          t3.port_name = t4.pid AND
+          t1.test_number = _test_number
+    GROUP BY t1.instance, t1.inport, t1.outport_index, t1.outport) AS t0
+  LEFT JOIN (
+    SELECT t5.pid, 
+           t6.portname AS outport_name
+    FROM cuts.porttypes AS t5,
+         cuts.portnames AS t6
+    WHERE t5.port_name = t6.pid) AS t7
+  ON t0.outport = t7.pid
+  ORDER BY t0.component_name, t0.inport_name, t0.outport_index, t7.outport_name;
+END; //
 
 -------------------------------------------------------------------------------
 -- PROCEDURE: cuts.select_performance_by_collection_time_delta
@@ -486,18 +675,17 @@ BEGIN
          t4.portname,
          t1.perf_type,
          t1.best_time - t5.best_time AS best_time,
-         t1.worst_time - t5.worst_time AS worst_time,
-         t1.total_time - t5.total_time AS total_time,
-         (t1.total_time / t1.perf_count) - (t5.total_time / t5.perf_count) AS average_time
+         (t1.total_time / t1.perf_count) - t5.best_time AS average_time,
+         t1.worst_time - t5.best_time AS worst_time
   FROM cuts.performance AS t1,
        cuts.component_instances AS t2,
        cuts.porttypes AS t3,
        cuts.portnames AS t4,
        cuts.performance_baseline AS t5,
        cuts.ipaddr_host_map AS t6
-  WHERE t1.inport = t5.inport AND
-        t1.instance = t5.instance AND
+  WHERE t1.instance = t5.instance AND
         t1.perf_type = t5.perf_type AND
+        t1.inport = t5.inport AND       
         t1.instance = t2.instid AND        
         t1.inport = t3.pid AND
         t3.port_name = t4.pid AND
@@ -506,6 +694,60 @@ BEGIN
         t5.host = t6.hostid
   ORDER BY t2.component_name, t6.hostname, t4.portname;
 END ; //
+
+-------------------------------------------------------------------------------
+-- PROCEDURE: cuts.select_performance_endpoint_by_collection_time_delta
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS
+  cuts.select_performance_endpoint_by_collection_time_delta //
+
+CREATE PROCEDURE
+  cuts.select_performance_endpoint_by_collection_time_delta (IN _test_number INT,
+                                                             IN _collection_time DATETIME)
+BEGIN
+  SELECT t0.*, t7.outport_name
+  FROM (
+    SELECT t1.test_number, 
+           t8.host,
+           t9.hostname,
+           t9.ipaddr,
+           t1.instance,
+           t1.sender,
+           t1.inport, 
+           t1.outport_index,
+           t1.outport,
+           t1.best_time - t8.best_time AS best_time,
+           (t1.total_time / t1.perf_count) - t8.best_time AS average_time,
+           t1.worst_time - t8.best_time AS worst_time,
+           t2.component_name,
+           t4.portname AS inport_name
+    FROM cuts.performance_endpoint AS t1,
+         cuts.component_instances AS t2,
+         cuts.porttypes AS t3,
+         cuts.portnames AS t4,
+         cuts.performance_endpoint_baseline AS t8,
+         cuts.ipaddr_host_map AS t9
+    WHERE t1.instance = t2.instid AND
+          t1.inport = t3.pid AND
+          t3.port_name = t4.pid AND
+          t1.instance = t8.instance AND
+          t1.inport = t8.inport AND
+          t1.outport_index = t8.outport_index AND
+          t1.outport = t8.outport AND
+          t8.host = t9.hostid AND
+          t1.test_number = _test_number AND
+          t1.collection_time = _collection_time) AS t0
+  LEFT JOIN (
+    SELECT t5.pid, 
+           t6.portname AS outport_name
+    FROM cuts.porttypes AS t5,
+         cuts.portnames AS t6
+    WHERE t5.port_name = t6.pid) AS t7
+  ON t0.outport = t7.pid
+  ORDER BY t0.component_name, t0.hostname, t0.inport_name,
+           t0.outport_index, t7.outport_name;
+END; //
 
 -------------------------------------------------------------------------------
 -- PROCEDURE: cuts.select_performance_by_collection_time_percent_error
@@ -528,8 +770,8 @@ BEGIN
          t4.portname,
          t1.perf_type,
          (t1.best_time - t5.best_time) / t5.best_time * 100.0 AS best_time,
-         (t1.worst_time - t5.worst_time) / t5.worst_time * 100.0 AS worst_time,
-         ((t1.total_time / t1.perf_count) - (t5.total_time / t5.perf_count)) / (t5.total_time / t5.perf_count) * 100.0 AS average_time
+         ((t1.total_time / t1.perf_count) - t5.best_time) / t5.best_time * 100.0 AS average_time,
+         (t1.worst_time - t5.best_time) / t5.best_time * 100.0 AS worst_time
   FROM cuts.performance AS t1,
        cuts.component_instances AS t2,
        cuts.porttypes AS t3,
@@ -547,6 +789,61 @@ BEGIN
         t5.host = t6.hostid
   ORDER BY t2.component_name, t6.hostname, t4.portname;
 END ; //
+
+-------------------------------------------------------------------------------
+-- PROCEDURE: cuts.select_performance_endpoint_by_collection_time_percent_error
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS
+  cuts.select_performance_endpoint_by_collection_time_percent_error //
+
+CREATE PROCEDURE
+  cuts.
+  select_performance_endpoint_by_collection_time_percent_error (IN _test_number INT,
+                                                                IN _collection_time DATETIME)
+BEGIN
+  SELECT t0.*, t7.outport_name
+  FROM (
+    SELECT t1.test_number, 
+           t8.host,
+           t9.hostname,
+           t9.ipaddr,
+           t1.instance,
+           t1.sender,
+           t1.inport, 
+           t1.outport_index,
+           t1.outport,
+           (t1.best_time - t8.best_time) / t8.best_time * 100.0 AS best_time,
+           ((t1.total_time / t1.perf_count) - t8.best_time) / t8.best_time * 100.0 AS average_time,
+           (t1.worst_time - t8.best_time) / t8.best_time * 100.0 AS worst_time,
+           t2.component_name,
+           t4.portname AS inport_name
+    FROM cuts.performance_endpoint AS t1,
+         cuts.component_instances AS t2,
+         cuts.porttypes AS t3,
+         cuts.portnames AS t4,
+         cuts.performance_endpoint_baseline AS t8,
+         cuts.ipaddr_host_map AS t9
+    WHERE t1.instance = t2.instid AND
+          t1.inport = t3.pid AND
+          t3.port_name = t4.pid AND
+          t1.instance = t8.instance AND
+          t1.inport = t8.inport AND
+          t1.outport_index = t8.outport_index AND
+          t1.outport = t8.outport AND
+          t8.host = t9.hostid AND
+          t1.test_number = _test_number AND
+          t1.collection_time = _collection_time) AS t0
+  LEFT JOIN (
+    SELECT t5.pid, 
+           t6.portname AS outport_name
+    FROM cuts.porttypes AS t5,
+         cuts.portnames AS t6
+    WHERE t5.port_name = t6.pid) AS t7
+  ON t0.outport = t7.pid
+  ORDER BY t0.component_name, t0.hostname, t0.inport_name,
+           t0.outport_index, t7.outport_name;
+END; //
 
 -------------------------------------------------------------------------------
 -- PROCEDURE: cuts.select_performance_cumulative_delta
@@ -568,9 +865,8 @@ BEGIN
          t4.portname,
          t1.perf_type, 
          MIN(t1.best_time) - t5.best_time AS best_time,
-         SUM(t1.total_time) - t5.total_time AS total_time,
-         (SUM(t1.total_time) / SUM(t1.perf_count)) - (SUM(t5.total_time) / SUM(t5.perf_count)) AS average_time,
-         MAX(t1.worst_time) - t5.worst_time AS worst_time
+         (SUM(t1.total_time) / SUM(t1.perf_count)) - t5.best_time AS average_time,
+         MAX(t1.worst_time) - t5.best_time AS worst_time
   FROM cuts.performance AS t1,
        cuts.component_instances AS t2,
        cuts.porttypes AS t3,
@@ -587,5 +883,52 @@ BEGIN
   GROUP BY t1.instance, t1.perf_type, t1.inport
   ORDER BY t2.component_name, t4.portname;
 END ; //
+
+-------------------------------------------------------------------------------
+-- PROCEDURE: cuts.select_performance_endpoint_cumulative_delta
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS
+  cuts.select_performance_endpoint_cumulative_delta //
+
+CREATE PROCEDURE
+  cuts.select_performance_endpoint_cumulative_delta (IN _test_number INT)
+BEGIN
+  SELECT t0.*, t7.outport_name
+  FROM (
+    SELECT t1.test_number, 
+           t1.instance,
+           t1.sender,
+           t1.inport, 
+           t1.outport_index,
+           t1.outport,
+           MIN(t1.best_time) - t8.best_time AS best_time,
+           (SUM(t1.total_time) / SUM(t1.perf_count)) - t8.best_time AS average_time,
+           MAX(t1.worst_time) - t8.best_time AS worst_time,
+           t2.component_name,
+           t4.portname AS inport_name
+    FROM cuts.performance_endpoint AS t1,
+         cuts.component_instances AS t2,
+         cuts.porttypes AS t3,
+         cuts.portnames AS t4,
+         cuts.performance_endpoint_baseline AS t8
+    WHERE t1.instance = t2.instid AND
+          t1.inport = t3.pid AND
+          t3.port_name = t4.pid AND
+          t1.instance = t8.instance AND
+          t1.inport = t8.inport AND
+          t1.outport_index = t8.outport_index AND
+          t1.outport = t8.outport AND
+          t1.test_number = _test_number
+    GROUP BY t1.instance, t1.inport, t1.outport_index, t1.outport) AS t0
+  LEFT JOIN (
+    SELECT t5.pid, 
+           t6.portname AS outport_name
+    FROM cuts.porttypes AS t5,
+         cuts.portnames AS t6
+    WHERE t5.port_name = t6.pid) AS t7
+  ON t0.outport = t7.pid
+  ORDER BY t0.component_name, t0.inport_name, t0.outport_index, t7.outport_name;
+END; //
 
 DELIMITER ;

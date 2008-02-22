@@ -434,9 +434,9 @@ BEGIN
                                                          _worst_time,
                                                          _total_time);
 END; //
-/*
+
 -- -----------------------------------------------------------------------------
--- PROCEDURE: cuts.select_baseline_metrics_all
+-- PROCEDURE: cuts.select_performance_baseline_all
 -- -----------------------------------------------------------------------------
 
 DROP PROCEDURE IF EXISTS cuts.select_performance_baseline_all //
@@ -444,21 +444,62 @@ DROP PROCEDURE IF EXISTS cuts.select_performance_baseline_all //
 CREATE PROCEDURE
   cuts.select_performance_baseline_all ()
 BEGIN
-  SELECT t7.*, t8.portname AS source FROM
-    (SELECT t5.*, t6.portname AS sink FROM
-      (SELECT t3.*, IFNULL(t4.hostname, '') AS hostname FROM
-        (SELECT t1.*, (t1.total_time / t1.event_count) AS avg_time, t2.component_name
-          FROM performance_baseline AS t1
-          LEFT JOIN component_instances AS t2 ON t1.instance = t2.component_id) AS t3
-        LEFT JOIN ipaddr_host_map AS t4 ON t3.host = t4.hostid) AS t5
-      LEFT JOIN (SELECT pid, portname
-        FROM ports, portnames
-          WHERE ports.portid = portnames.portid) AS t6 ON t5.inport = t6.pid) AS t7
-    LEFT JOIN (SELECT pid, portname
-        FROM ports, portnames
-          WHERE ports.portid = portnames.portid) AS t8 ON t7.outport = t8.pid
-    ORDER BY component_name;
+  SELECT t1.*, 
+         t1.total_time / t1.perf_count AS average_time,
+         t2.hostname, 
+         t2.ipaddr,
+         t3.component_name,
+         t4.port_name
+  FROM cuts.performance_baseline AS t1,
+       cuts.ipaddr_host_map AS t2,
+       cuts.component_instances AS t3,
+       cuts.porttypes AS t4,
+       cuts.portnames AS t5
+  WHERE t1.host = t2.hostid AND
+        t1.instance = t3.instid AND
+        t1.inport = t4.pid AND
+        t4.port_name = t5.pid
+  ORDER BY t3.component_name, t2.hostname, t5.portname, t1.perf_type;
 END; //
+
+-------------------------------------------------------------------------------
+-- PROCEDURE: cuts.select_performance_endpoint_baseline_all
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS
+  cuts.select_performance_endpoint_baseline_all //
+
+CREATE PROCEDURE
+  cuts.select_performance_endpoint_baseline_all ()
+BEGIN
+  SELECT t0.*, t7.outport_name
+  FROM (
+    SELECT t1.*,
+           t1.total_time / t1.perf_count AS average_time,
+           t2.component_name,
+           t4.portname AS inport_name,
+           t8.hostname,
+           t8.ipaddr
+    FROM cuts.performance_endpoint_baseline AS t1,
+         cuts.component_instances AS t2,
+         cuts.porttypes AS t3,
+         cuts.portnames AS t4,
+         cuts.ipaddr_host_map AS t8
+    WHERE t1.instance = t2.instid AND
+          t1.inport = t3.pid AND
+          t3.port_name = t4.pid AND
+          t1.host = t8.hostid) AS t0
+  LEFT JOIN (
+    SELECT t5.pid, 
+           t6.portname AS outport_name
+    FROM cuts.porttypes AS t5,
+         cuts.portnames AS t6
+    WHERE t5.port_name = t6.pid) AS t7
+  ON t0.outport = t7.pid
+  ORDER BY t0.component_name, t0.hostname, t0.inport_name, 
+           t0.outport_index, t7.outport_name;
+END; //
+
 /*
 -------------------------------------------------------------------------------
 -- PROCEDURE: cuts.select_baseline_metric_for_test
@@ -516,31 +557,45 @@ BEGIN
       WHERE t10.test_number = test AND t10.collection_time = coll
       ORDER BY component_name;
 END; //
-
+*/
 -------------------------------------------------------------------------------
--- PROCEDURE: cuts.select_baseline_metric
+-- PROCEDURE: cuts.select_performance_baseline_i
 -------------------------------------------------------------------------------
 
-DROP PROCEDURE IF EXISTS cuts.select_baseline_metric //
+DROP PROCEDURE IF EXISTS cuts.select_performance_baseline_i //
 
 CREATE PROCEDURE
-  cuts.select_baseline_metric (IN instance_name VARCHAR (255))
+  cuts.select_performance_baseline_i (IN _instance INT)
 BEGIN
-  SELECT t7.*, t8.portname AS source FROM
-    (SELECT t5.*, t6.portname AS sink FROM
-      (SELECT t3.*, IFNULL(t4.hostname, '') AS hostname FROM
-        (SELECT t1.*, (t1.total_time / t1.event_count) AS avg_time, t2.component_name
-          FROM performance_baseline AS t1
-          LEFT JOIN component_instances AS t2 ON t1.instance = t2.component_id
-          WHERE t2.component_name = instance_name) AS t3
-        LEFT JOIN ipaddr_host_map AS t4 ON t3.host = t4.hostid) AS t5
-      LEFT JOIN (SELECT pid, portname
-        FROM ports, portnames
-          WHERE ports.portid = portnames.portid) AS t6 ON t5.inport = t6.pid) AS t7
-    LEFT JOIN (SELECT pid, portname
-        FROM ports, portnames
-          WHERE ports.portid = portnames.portid) AS t8 ON t7.outport = t8.pid;
+  SELECT t1.*, 
+         t1.total_time / t1.perf_count AS average_time,
+         t2.hostname, 
+         t2.ipaddr,
+         t3.component_name,
+         t4.port_name
+  FROM cuts.performance_baseline AS t1,
+       cuts.ipaddr_host_map AS t2,
+       cuts.component_instances AS t3,
+       cuts.porttypes AS t4,
+       cuts.portnames AS t5
+  WHERE t1.instance = _instance AND
+        t1.host = t2.hostid AND
+        t1.inport = t4.pid AND
+        t4.port_name = t5.pid
+  ORDER BY t3.component_name, t2.hostname, t5.portname, t1.perf_type;
 END; //
-*/
+
+-------------------------------------------------------------------------------
+-- PROCEDURE: cuts.select_performance_baseline
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.select_performance_baseline //
+
+CREATE PROCEDURE
+  cuts.select_performance_baseline (IN _instance_name VARCHAR (255))
+BEGIN
+  CALL cuts.select_performance_baseline_i (
+    cuts.get_component_instance_id (_instance_name));
+END; //
 
 DELIMITER ;
