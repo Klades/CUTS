@@ -13,7 +13,7 @@ USE cuts;
 -- user. The elements in path apprear in cuts.critical_path_elements table.
 --
 
-CREATE TABLE IF NOT EXISTS critical_path
+CREATE TABLE IF NOT EXISTS execution_paths
 (
   path_id       INT             NOT NULL auto_increment,
   path_name     VARCHAR (32),
@@ -31,35 +31,227 @@ CREATE TABLE IF NOT EXISTS critical_path
 -- deleted if their id appears in this column.
 --
 
-CREATE TABLE IF NOT EXISTS critical_path_elements
+CREATE TABLE IF NOT EXISTS execution_path_elements
 (
+  epeid         INT  NOT NULL auto_increment,
   path_id       INT  NOT NULL,
   path_order    INT  NOT NULL,
   instance      INT  NOT NULL,
-  src           INT  NOT NULL,
-  dst           INT  NOT NULL,
+  inport        INT  NOT NULL,
+  outport       INT  NOT NULL,
 
-  PRIMARY KEY (path_id, path_order),
+  PRIMARY KEY (epeid),  
+  UNIQUE (path_id, path_order),
 
-  FOREIGN KEY (path_id) REFERENCES critical_path (path_id)
+  FOREIGN KEY (path_id) REFERENCES execution_paths (path_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
 
-  FOREIGN KEY (instance) REFERENCES component_instances (component_id)
+  FOREIGN KEY (instance) REFERENCES component_instances (instid)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
 
-  FOREIGN KEY (src) REFERENCES ports (pid)
+  FOREIGN KEY (inport) REFERENCES porttypes (pid)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
 
-  FOREIGN KEY (dst) REFERENCES ports (pid)
+  FOREIGN KEY (outport) REFERENCES porttypes (pid)
     ON DELETE RESTRICT
     ON UPDATE CASCADE
 );
 
 DELIMITER //
 
+-------------------------------------------------------------------------------
+-- cuts.get_execution_path_id
+-------------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS
+  cuts.get_execution_path_id; //
+
+CREATE FUNCTION
+  cuts.get_execution_path_id (_path_name VARCHAR (32))
+  RETURNS INT
+BEGIN
+  DECLARE retval INT;
+
+  DECLARE CONTINUE HANDLER FOR NOT FOUND
+  BEGIN
+    INSERT INTO cuts.execution_paths (path_name) 
+      VALUES (_path_name);
+      
+    SET retval = LAST_INSERT_ID();
+  END;
+
+  SELECT t0.path_id INTO retval 
+    FROM cuts.execution_paths AS t0
+    WHERE path_name = _path_name LIMIT 1;
+
+  RETURN retval;
+END; //
+
+-------------------------------------------------------------------------------
+-- cuts.get_execution_path_element_next
+-------------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS
+  cuts.get_execution_path_element_next; //
+
+CREATE FUNCTION
+  cuts.get_execution_path_element_next (_path_name VARCHAR (32))
+  RETURNS INT
+BEGIN
+  DECLARE retval INT;
+
+  SELECT MAX(path_order) INTO retval 
+    FROM cuts.execution_path_elements
+    WHERE path_id = cuts.get_execution_path_id (_path_name);
+  
+  IF ISNULL(retval) THEN
+    SET retval = 0;
+  ELSE
+    SET retval = retval + 1;
+  END IF;
+  
+  RETURN retval;
+END; //
+
+-------------------------------------------------------------------------------
+-- cuts.insert_execution_path_element
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS
+  cuts.insert_execution_path_element; //
+
+CREATE PROCEDURE
+  cuts.insert_execution_path_element (IN _path_name VARCHAR (32),
+                                      IN _instance_name VARCHAR (255),
+                                      IN _inport VARCHAR (255),
+                                      IN _outport VARCHAR (255))
+BEGIN
+  DECLARE pathid INT;
+  DECLARE ipid INT;
+  DECLARE opid INT;
+  DECLARE instid INT;
+  DECLARE nextid INT;
+  
+  SET pathid = cuts.get_execution_path_id (_path_name);
+  SET ipid = cuts.get_port_id ('sink', _inport);
+  SET opid = cuts.get_port_id ('source', _outport);
+  SET instid = cuts.get_component_instance_id (_instance_name);
+  SET nextid = cuts.get_execution_path_element_next (_path_name);
+  
+  INSERT INTO 
+    cuts.execution_path_elements (path_id, path_order, instance, inport, outport)
+    VALUES (pathid, nextid, instid, ipid, opid); 
+END; //
+
+-------------------------------------------------------------------------------
+-- cuts.select_execution_path_elements_performance
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS
+  cuts.select_execution_path_elements_performance; //
+
+CREATE PROCEDURE
+  cuts.select_execution_path_elements_performance (IN _path_name VARCHAR (32),
+                                                   IN _test_number INT)
+BEGIN
+  SELECT t8.* FROM 
+    cuts.execution_path_elements AS t9
+  LEFT JOIN (    
+    SELECT t0.*, t7.outport_name
+    FROM (
+      SELECT t1.test_number, 
+             t1.instance,
+             t1.sender,
+             t1.inport, 
+             t1.outport_index,
+             t1.outport,
+             SUM(t1.perf_count) AS perf_count,
+             MIN(t1.best_time) AS best_time,
+             SUM(t1.total_time) / SUM(t1.perf_count) AS average_time,
+             MAX(t1.worst_time) AS worst_time,
+             t2.component_name,
+             t4.portname AS inport_name
+      FROM cuts.performance_endpoint AS t1,
+           cuts.component_instances AS t2,
+           cuts.porttypes AS t3,
+           cuts.portnames AS t4
+      WHERE t1.instance = t2.instid AND
+            t1.inport = t3.pid AND
+            t3.port_name = t4.pid AND
+            t1.test_number = _test_number
+      GROUP BY t1.instance, t1.inport, t1.outport_index, t1.outport) AS t0
+    LEFT JOIN (
+      SELECT t5.pid, 
+            t6.portname AS outport_name
+      FROM cuts.porttypes AS t5,
+          cuts.portnames AS t6
+      WHERE t5.port_name = t6.pid) AS t7
+    ON t0.outport = t7.pid) AS t8
+  ON t9.instance = t8.instance AND 
+     t9.inport = t8.inport AND 
+     t9.outport = t8.outport
+  ORDER BY t9.path_order;
+END; //
+
+-------------------------------------------------------------------------------
+-- cuts.select_execution_path_performance_cumulative
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS
+  cuts.select_execution_path_performance_cumulative; //
+
+CREATE PROCEDURE
+  cuts.select_execution_path_performance_cumulative (IN _path_name VARCHAR (32),
+                                                     IN _test_number INT)
+BEGIN
+  SELECT 
+    _path_name AS pathname,
+    SUM(t8.best_time) AS best_time,
+    SUM(t8.average_time) AS average_time,
+    SUM(t8.worst_time) AS worst_time
+  FROM cuts.execution_path_elements AS t9
+  LEFT JOIN (    
+    SELECT t0.*, t7.outport_name
+    FROM (
+      SELECT t1.test_number, 
+             t1.instance,
+             t1.sender,
+             t1.inport, 
+             t1.outport_index,
+             t1.outport,
+             SUM(t1.perf_count) AS perf_count,
+             MIN(t1.best_time) AS best_time,
+             SUM(t1.total_time) / SUM(t1.perf_count) AS average_time,
+             MAX(t1.worst_time) AS worst_time,
+             t2.component_name,
+             t4.portname AS inport_name
+      FROM cuts.performance_endpoint AS t1,
+           cuts.component_instances AS t2,
+           cuts.porttypes AS t3,
+           cuts.portnames AS t4
+      WHERE t1.instance = t2.instid AND
+            t1.inport = t3.pid AND
+            t3.port_name = t4.pid AND
+            t1.test_number = _test_number
+      GROUP BY t1.instance, t1.inport, t1.outport_index, t1.outport) AS t0
+    LEFT JOIN (
+      SELECT t5.pid, 
+            t6.portname AS outport_name
+      FROM cuts.porttypes AS t5,
+          cuts.portnames AS t6
+      WHERE t5.port_name = t6.pid) AS t7
+    ON t0.outport = t7.pid) AS t8
+  ON t9.instance = t8.instance AND 
+     t9.inport = t8.inport AND 
+     t9.outport = t8.outport
+  WHERE t9.path_id = cuts.get_execution_path_id (_path_name) 
+  ORDER BY t9.path_order;
+END; //
+
+/*
 -------------------------------------------------------------------------------
 -- cuts.select_execution_path_elements_i
 -------------------------------------------------------------------------------
@@ -203,5 +395,6 @@ BEGIN
 
   RETURN ep_deadline;
 END; //
+*/
 
 DELIMITER ;

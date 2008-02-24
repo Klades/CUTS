@@ -931,4 +931,117 @@ BEGIN
   ORDER BY t0.component_name, t0.inport_name, t0.outport_index, t7.outport_name;
 END; //
 
+-------------------------------------------------------------------------------
+-- PROCEDURE: cuts.select_performance_endpoint_cumulative_percent_error
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS
+  cuts.select_performance_endpoint_cumulative_percent_error //
+
+CREATE PROCEDURE
+  cuts.select_performance_endpoint_cumulative_percent_error (IN _test_number INT)
+BEGIN
+  SELECT t0.*, t7.outport_name
+  FROM (
+    SELECT t1.test_number, 
+           t1.instance,
+           t1.sender,
+           t1.inport, 
+           t1.outport_index,
+           t1.outport,
+           (MIN(t1.best_time) - t8.best_time) / t8.best_time * 100.0 AS best_time,
+           ((SUM(t1.total_time) / SUM(t1.perf_count)) - t8.best_time) / t8.best_time * 100.0 AS average_time,
+           (MAX(t1.worst_time) - t8.best_time) / t8.best_time * 100.0 AS worst_time,
+           t2.component_name,
+           t4.portname AS inport_name
+    FROM cuts.performance_endpoint AS t1,
+         cuts.component_instances AS t2,
+         cuts.porttypes AS t3,
+         cuts.portnames AS t4,
+         cuts.performance_endpoint_baseline AS t8
+    WHERE t1.instance = t2.instid AND
+          t1.inport = t3.pid AND
+          t3.port_name = t4.pid AND
+          t1.instance = t8.instance AND
+          t1.inport = t8.inport AND
+          t1.outport_index = t8.outport_index AND
+          t1.outport = t8.outport AND
+          t1.test_number = _test_number
+    GROUP BY t1.instance, t1.inport, t1.outport_index, t1.outport) AS t0
+  LEFT JOIN (
+    SELECT t5.pid, 
+           t6.portname AS outport_name
+    FROM cuts.porttypes AS t5,
+         cuts.portnames AS t6
+    WHERE t5.port_name = t6.pid) AS t7
+  ON t0.outport = t7.pid
+  ORDER BY t0.average_time, t0.component_name, t0.inport_name, 
+           t0.outport_index, t7.outport_name;
+END; //
+
+-------------------------------------------------------------------------------
+-- PROCEDURE: cuts.select_performance_endpoint_avg_percent_error_host_all
+-------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS
+  cuts.select_performance_endpoint_avg_percent_error_host_all //
+
+CREATE PROCEDURE
+  cuts.select_performance_endpoint_avg_percent_error_host_all (IN _test_number INT)
+BEGIN
+  SELECT t9.hostid,
+         t9.hostname,
+         t9.ipaddr,
+         AVG(t8.best_time) AS best_time,
+         AVG(t8.average_time) AS average_time,
+         AVG(t8.worst_time) AS worst_time
+  FROM (
+    SELECT t0.*, t7.outport_name
+    FROM (
+      SELECT t1.test_number, 
+            t1.instance,
+            t1.sender,
+            t1.inport, 
+            t1.outport_index,
+            t1.outport,
+            (MIN(t1.best_time) - t8.best_time) / t8.best_time * 100.0 AS best_time,
+            ((SUM(t1.total_time) / SUM(t1.perf_count)) - t8.best_time) / t8.best_time * 100.0 AS average_time,
+            (MAX(t1.worst_time) - t8.best_time) / t8.best_time * 100.0 AS worst_time,
+            t2.component_name,
+            t4.portname AS inport_name
+      FROM cuts.performance_endpoint AS t1,
+          cuts.component_instances AS t2,
+          cuts.porttypes AS t3,
+          cuts.portnames AS t4,
+          cuts.performance_endpoint_baseline AS t8
+      WHERE t1.instance = t2.instid AND
+            t1.inport = t3.pid AND
+            t3.port_name = t4.pid AND
+            t1.instance = t8.instance AND
+            t1.inport = t8.inport AND
+            t1.outport_index = t8.outport_index AND
+            t1.outport = t8.outport AND
+            t1.test_number = _test_number
+      GROUP BY t1.instance, t1.inport, t1.outport_index, t1.outport) AS t0
+    LEFT JOIN (
+      SELECT t5.pid, 
+            t6.portname AS outport_name
+      FROM cuts.porttypes AS t5,
+          cuts.portnames AS t6
+      WHERE t5.port_name = t6.pid) AS t7
+    ON t0.outport = t7.pid) AS t8
+  LEFT JOIN (
+    SELECT t10.instance,
+           t10.hostid,
+           t11.hostname,
+           t11.ipaddr
+    FROM cuts.deployment AS t10,
+         cuts.ipaddr_host_map AS t11
+    WHERE t10.test_number = _test_number AND
+          t10.hostid = t11.hostid) AS t9
+  ON t8.instance = t9.instance
+  GROUP BY t9.hostid
+  ORDER BY t9.hostname;
+END; //
+
 DELIMITER ;

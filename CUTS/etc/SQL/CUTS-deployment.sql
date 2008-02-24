@@ -39,6 +39,31 @@ CREATE TABLE IF NOT EXISTS deployment
 DELIMITER //
 
 -- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.select_component_instance_deployment_by_test
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.select_component_instance_deployment_by_test //
+
+CREATE PROCEDURE
+  cuts.select_component_instance_deployment_by_test (IN _test_number INT)
+BEGIN
+  SELECT t1.instance,
+         t1.hostid,
+         t2.hostname,
+         t2.ipaddr,
+         t3.component_name,
+         t1.uptime,
+         t1.downtime
+  FROM cuts.deployment AS t1,
+       cuts.ipaddr_host_map AS t2,
+       cuts.component_instances AS t3
+  WHERE t1.test_number = _test_number AND
+        t1.hostid = t2.hostid AND
+        t1.instance = t3.instid
+  ORDER BY t2.hostname, t3.component_name, t1.uptime, t1.downtime;
+END; //
+
+-- -----------------------------------------------------------------------------
 -- PROCEDURE: cuts.insert_component_instance_uptime
 -- -----------------------------------------------------------------------------
 
@@ -100,7 +125,7 @@ CREATE PROCEDURE
                                            IN _hostid INT)
 BEGIN
   UPDATE cuts.deployment
-    SET downtime = NOW ()
+    SET downtime = NOW()
     WHERE test_number = _test_number AND
           instance = cuts.get_component_instance_id (_instance) AND
           hostid = _hostid;

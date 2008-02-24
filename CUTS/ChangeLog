@@ -1,9 +1,17 @@
+Sun Feb 24 00:58:56 UTC 2008  James H. Hill  <hillj@isis.vanderiblt.edu>
+
+        * etc/SQL/CUTS-deployment.sql:
+        * etc/SQL/CUTS-execution-paths.sql:
+        * etc/SQL/CUTS-performance.sql:
+        
+          Implemented new stored procedures to data minining process.
+
 Fri Feb 22 17:05:42 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-deployment.sql:
-        
-          Bug fix where the foreign key (test_number) prevented 
-          the deletion of a test because its ON DELETE was set to 
+
+          Bug fix where the foreign key (test_number) prevented
+          the deletion of a test because its ON DELETE was set to
           RESTRICT instead of CASCADE.
 
 Fri Feb 22 15:12:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
