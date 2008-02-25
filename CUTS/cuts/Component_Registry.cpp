@@ -93,8 +93,18 @@ register_component (CUTS_Component_Registry_Node * info)
 void CUTS_Component_Registry::
 unregister_component (const ACE_CString & instance)
 {
-  // Locate the registration information for <instance>.
   CUTS_Component_Registry_Node * node = 0;
+  this->unregister_component (instance, node);
+}
+
+//
+// unregister_component
+//
+void CUTS_Component_Registry::
+unregister_component (const ACE_CString & instance, 
+                      CUTS_Component_Registry_Node * & node)
+{
+  // Locate the registration information for <instance>.
   int retval = this->registry_.find (instance, node);
 
   if (retval == 0 && node != 0)

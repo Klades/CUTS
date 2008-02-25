@@ -1,7 +1,15 @@
+Mon Feb 25 05:01:27 UTC 2008  James H. Hill  <hillj@isis.vanderiblt.edu>
+
+        * cuts/Component_Registry.h:
+        * cuts/Component_Registry.cpp:
+        
+          Overloaded unregister_component () to return the registration
+          node for the component.
+
 Mon Feb 25 04:59:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-execution-paths.sql:
-        
+
           cuts.select_execution_path_cumulative () now returns the name
           of the path in the result set.
 

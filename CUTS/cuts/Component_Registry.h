@@ -134,6 +134,9 @@ public:
    */
   void unregister_component (const ACE_CString & inst);
 
+  void unregister_component (const ACE_CString & inst, 
+                             CUTS_Component_Registry_Node * & node);
+
   /**
    * Determine if a component instance is registered.
    *
