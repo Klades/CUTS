@@ -1,9 +1,16 @@
+Mon Feb 25 04:59:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-execution-paths.sql:
+        
+          cuts.select_execution_path_cumulative () now returns the name
+          of the path in the result set.
+
 Sun Feb 24 00:58:56 UTC 2008  James H. Hill  <hillj@isis.vanderiblt.edu>
 
         * etc/SQL/CUTS-deployment.sql:
         * etc/SQL/CUTS-execution-paths.sql:
         * etc/SQL/CUTS-performance.sql:
-        
+
           Implemented new stored procedures to data minining process.
 
 Fri Feb 22 17:05:42 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

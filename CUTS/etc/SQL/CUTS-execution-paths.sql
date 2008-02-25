@@ -208,6 +208,7 @@ CREATE PROCEDURE
                                                      IN _test_number INT)
 BEGIN
   SELECT 
+    _test_number AS test_number,
     _path_name AS pathname,
     SUM(t8.best_time) AS best_time,
     SUM(t8.average_time) AS average_time,
