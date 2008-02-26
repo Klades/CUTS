@@ -1,8 +1,14 @@
+Tue Feb 26 17:59:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/schemas/modelgen.xsd:
+        
+          Initial commit of the generator's XML schema definition.
+
 Mon Feb 25 05:01:27 UTC 2008  James H. Hill  <hillj@isis.vanderiblt.edu>
 
         * cuts/Component_Registry.h:
         * cuts/Component_Registry.cpp:
-        
+
           Overloaded unregister_component () to return the registration
           node for the component.
 
