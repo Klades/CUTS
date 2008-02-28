@@ -1,7 +1,18 @@
+Thu Feb 28 21:04:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/connector:
+        * integration/connector/picmlin.build:
+        
+          Moved the connector to its own folder.
+
+        * integration/include/picmlin.build:
+
+          Removed this file.
+
 Thu Feb 28 21:01:13 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/include/picmlin.build:
-        
+
           Initila commit of the CUTS connector integration script.
 
 Thu Feb 28 06:16:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
