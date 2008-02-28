@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<project name="CUTS connector">
+  <description>ANT script for invoking the CUTS connector</description>
+
+  <property name="picmlin.exec" value="picmlin" />
+
+  <target name="pimclin.scatter">
+    <exec executable="${picmlin.exec}"
+          failonerror="true"
+          resultproperty="picmlin.result">
+      <arg line="--connstr=${picmlin.connstr} --scatter-input=${picmlin.scatter.input} --target-deployment=${picmlin.scatter.target} --instance-name-separator=${picmlin.scatter.name.separator}" />
+    </exec>
+
+    <fail if="${picmlin.result}"
+          message="Failed to convert Scatter model to PICML model" />
+  </target>
+
+  <target name="picmlin.deployment">
+    <exec executable="${picmlin.exec}">
+      <arg line="--connstr=${picmlin.connstr} --generate-deployment=${picmlin.deployment.output}" />
+    </exec>
+  </target>
+</project>

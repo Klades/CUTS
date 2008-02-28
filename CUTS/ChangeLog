@@ -1,7 +1,13 @@
+Thu Feb 28 21:01:13 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/include/picmlin.build:
+        
+          Initila commit of the CUTS connector integration script.
+
 Thu Feb 28 06:16:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/schemas/modelgen.xsd:
-        
+
           Schema definition was missing the top element.
 
 Tue Feb 26 17:59:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
