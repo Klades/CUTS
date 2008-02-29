@@ -1,7 +1,14 @@
-Fri Feb 29 06:57:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+Fri Feb 29 16:06:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/modelin/Scatter_To_Picml.cpp:
         
+          Bug fix where having trailing spaces at the end of the file
+          caused the parser to succeed, but return a failed status.
+
+Fri Feb 29 06:57:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/modelin/Scatter_To_Picml.cpp:
+
           Relaxed condition that determines if a file was successfully
           parsed.
 
