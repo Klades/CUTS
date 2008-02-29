@@ -167,8 +167,8 @@ CUTS_Scatter_To_Picml::~CUTS_Scatter_To_Picml (void)
 //
 // run
 //
-bool CUTS_Scatter_To_Picml::run (const std::string & filename,
-                                 CUTS_Deployment_Map & deployment)
+bool CUTS_Scatter_To_Picml::
+run (const std::string & filename, CUTS_Deployment_Map & deployment)
 {
   // Get an iterator to the beginning of the file.
   boost::spirit::file_iterator < > first (filename);
@@ -184,7 +184,7 @@ bool CUTS_Scatter_To_Picml::run (const std::string & filename,
 
   boost::spirit::parse_info <
     boost::spirit::file_iterator < > > result =
-    boost::spirit::parse (first, last, parser, boost::spirit::space_p);
+    boost::spirit::parse (first, last, parser);
 
-  return result.full;
+  return result.hit;
 }

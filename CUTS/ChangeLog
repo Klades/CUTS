@@ -1,8 +1,15 @@
+Fri Feb 29 06:57:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/modelin/Scatter_To_Picml.cpp:
+        
+          Relaxed condition that determines if a file was successfully
+          parsed.
+
 Fri Feb 29 03:05:12 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/modelin/Picmlin_App.cpp:
-         
-          Added more debug messages that generated during verbose 
+
+          Added more debug messages that generated during verbose
           mode.
 
 Fri Feb 29 03:04:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
