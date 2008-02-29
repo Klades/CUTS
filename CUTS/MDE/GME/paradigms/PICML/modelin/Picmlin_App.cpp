@@ -112,6 +112,9 @@ int Picmlin_App::run (int argc, char * argv [])
   try
   {
     // Parse the command-line arguments.
+    VERBOSE_MESSAGE ((LM_DEBUG,
+                      "*** [picmlin]: parsing command-line options\n"));
+
     if (parse_args (argc, argv) != 0)
     {
       ACE_ERROR_RETURN ((LM_ERROR,
@@ -162,6 +165,14 @@ int Picmlin_App::run (int argc, char * argv [])
       if (!this->options_.deployment_output_.empty ())
         this->generate_deployment (this->options_.deployment_output_);
     }
+    else
+    {
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "*** error [picmlin]: failed to read Scatter input <%s>\n",
+                         this->options_.scatter_input_.c_str ()),
+                         1);
+    }
+
     return 0;
   }
   catch (const GME::Failed_Result & ex)
@@ -186,6 +197,10 @@ int Picmlin_App::run (int argc, char * argv [])
 //
 int Picmlin_App::gme_init_project (void)
 {
+  VERBOSE_MESSAGE ((LM_INFO,
+                    "*** info [picmlin]: initializing GME\n",
+                    this->options_.gme_connstr_.c_str ()));
+
   GME::init ();
   this->project_.reset (new GME::Project ());
 
@@ -209,6 +224,9 @@ int Picmlin_App::gme_fini_project (void)
     this->project_.reset ();
   }
 
+  VERBOSE_MESSAGE ((LM_INFO,
+                    "*** info [picmlin]: shutting down GME\n",
+                    this->options_.gme_connstr_.c_str ()));
   GME::fini ();
   return 0;
 }
@@ -399,9 +417,26 @@ int Picmlin_App::set_deployment (GME::Model & deployment,
           instref.refers_to (fco);
 
           // Add the reference to the deployment group.
+          VERBOSE_MESSAGE ((LM_INFO,
+                            "*** info [picmlin]: installing <%s> on <%s>\n",
+                            str_iter->c_str (),
+                            iter->first.c_str ()));
+
           group.insert (instref);
         }
+        else
+        {
+          ACE_ERROR ((LM_ERROR,
+                      "*** error [picmlin]: failed to locate instance <%s>\n",
+                      str_iter->c_str ()));
+        }
       }
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "*** error [picmlin]: failed to locate host <%s>\n",
+                  iter->first.c_str ()));
     }
   }
   return 0;
@@ -412,6 +447,28 @@ int Picmlin_App::set_deployment (GME::Model & deployment,
 //
 void Picmlin_App::clear_deployment (GME::Model & deployment)
 {
+  VERBOSE_MESSAGE ((LM_DEBUG,
+                    "*** [picmlin]: cleaning deployment plan <%s>\n",
+                    deployment.name ().c_str ()));
+
+  typedef GME::Collection_T <GME::Set> Set_set;
+  Set_set groups;
+
+  if (deployment.sets ("CollocationGroup", groups))
+  {
+    Set_set::iterator 
+      iter = groups.items ().begin (),
+      iter_end = groups.items ().end ();
+
+    for ( ; iter != iter_end; iter ++)
+    {
+      // Clear the set then the destroy it.
+      iter->clear ();
+      iter->destroy ();
+    }
+  }
+
+  // Delete the remaining children in the model.
   typedef GME::Collection_T <GME::Object> Object_Set;
   Object_Set objects;
 
@@ -431,6 +488,9 @@ void Picmlin_App::clear_deployment (GME::Model & deployment)
 void Picmlin_App::
 get_all_nodes (std::map <std::string, GME::Model> & targets)
 {
+  VERBOSE_MESSAGE ((LM_DEBUG,
+                    "*** debug [picmlin]: gathering all hosts\n"));
+
   // Get the root folder of the project.
   GME::Folder root = this->project_->root_folder ();
 
