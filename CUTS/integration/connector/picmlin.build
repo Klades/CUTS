@@ -2,8 +2,14 @@
 <project name="CUTS connector">
   <description>ANT script for invoking the CUTS connector</description>
 
+  <!-- default properties -->
   <property name="picmlin.exec" value="picmlin" />
 
+  <!--
+       Target: picmlin.scatter
+
+       Convert a Scatter deployment to a PICML deployment for CUTS.
+    -->
   <target name="pimclin.scatter">
     <exec executable="${picmlin.exec}"
           failonerror="true"
@@ -15,6 +21,11 @@
           message="Failed to convert Scatter model to PICML model" />
   </target>
 
+  <!--
+       Target: picmlin.deployment
+
+       Generate the PICML deployment from the model for CUTS.
+    -->
   <target name="picmlin.deployment">
     <exec executable="${picmlin.exec}">
       <arg line="--connstr=${picmlin.connstr} --generate-deployment=${picmlin.deployment.output}" />
