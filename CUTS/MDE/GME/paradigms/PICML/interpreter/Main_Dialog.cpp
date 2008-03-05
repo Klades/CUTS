@@ -64,44 +64,44 @@ BOOL Main_Dialog::OnInitDialog (void)
     {
       // Create the user and default configuration.
       std::ostringstream default_config, user_config;
-      default_config << CUTS_ROOT << "\\bin\\" << CUTS_BE_DEFAULT_CONFIG;
-      user_config << CUTS_ROOT << "\\bin\\" << CUTS_BE_USER_CONFIG;
-      
+      default_config << CUTS_ROOT << "/bin/" << CUTS_BE_DEFAULT_CONFIG;
+      user_config << CUTS_ROOT << "/bin/" << CUTS_BE_USER_CONFIG;
+
       // Create the file reader for the configuration file.
       XSCRT::utils::File_Reader_T <
         CUTS::Configuration> reader (&CUTS::modelgen);
 
-	    // Discard comment nodes in the document.
+      // Discard comment nodes in the document.
       if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMComments, false))
-		    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMComments, false);
+        reader.parser ()->setFeature (xercesc::XMLUni::fgDOMComments, false);
 
       // Disable datatype normalization. The XML 1.0 attribute value
       // normalization always occurs though.
       if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true))
-	      reader.parser ()->setFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true);
+        reader.parser ()->setFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true);
 
       // Do not create EntityReference nodes in the DOM tree. No
       // EntityReference nodes will be created, only the nodes
       // corresponding to their fully expanded substitution text will be
       // created.
       if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMEntities, false))
-	      reader.parser ()->setFeature (xercesc::XMLUni::fgDOMEntities, false);
+        reader.parser ()->setFeature (xercesc::XMLUni::fgDOMEntities, false);
 
       // Perform Namespace processing.
       if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMNamespaces, true))
-	      reader.parser ()->setFeature (xercesc::XMLUni::fgDOMNamespaces, true);
+        reader.parser ()->setFeature (xercesc::XMLUni::fgDOMNamespaces, true);
 
       // Perform Validation
       if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMValidation, true))
-	      reader.parser ()->setFeature (xercesc::XMLUni::fgDOMValidation, true);
+        reader.parser ()->setFeature (xercesc::XMLUni::fgDOMValidation, true);
 
       // Do not include ignorable whitespace in the DOM tree.
       if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMWhitespaceInElementContent, false))
-	      reader.parser ()->setFeature (xercesc::XMLUni::fgDOMWhitespaceInElementContent, false);
+        reader.parser ()->setFeature (xercesc::XMLUni::fgDOMWhitespaceInElementContent, false);
 
       // Enable the GetParser()'s schema support.
       if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesSchema, true))
-	      reader.parser ()->setFeature (xercesc::XMLUni::fgXercesSchema, true);	
+        reader.parser ()->setFeature (xercesc::XMLUni::fgXercesSchema, true);
 
       // Enable full schema constraint checking, including checking which
       // may be time-consuming or memory intensive. Currently, particle
@@ -112,7 +112,7 @@ BOOL Main_Dialog::OnInitDialog (void)
 
       // The GetParser() will treat validation error as fatal and will exit.
       if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, true))
-	      reader.parser ()->setFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, true);
+        reader.parser ()->setFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, true);
 
       CUTS::Configuration config;
 
@@ -128,7 +128,7 @@ BOOL Main_Dialog::OnInitDialog (void)
     }
     catch (const xercesc::DOMException & ex)
     {
-      ::AfxMessageBox (reinterpret_cast <LPCTSTR> (ex.getMessage ()), 
+      ::AfxMessageBox (reinterpret_cast <LPCTSTR> (ex.getMessage ()),
                       MB_OK | MB_ICONERROR);
     }
     catch (const xercesc::XMLException & )
@@ -344,11 +344,11 @@ load_backend_generator (const CUTS::Generator_Description & desc)
     {
       // Display an error message to the user.
       std::ostringstream ostr;
-      ostr 
+      ostr
         << "Failed to add <" << factory->name ()
         << "> to backend list";
 
-      ::AfxMessageBox (ostr.str ().c_str (), 
+      ::AfxMessageBox (ostr.str ().c_str (),
                         MB_ICONEXCLAMATION | MB_OK);
     }
   }
@@ -375,7 +375,7 @@ int Main_Dialog::resolve_CUTS_ROOT (std::string & root)
   if (ACE_OS::strlen (CUTS_ROOT) != 0)
   {
     root = CUTS_ROOT;
-    return 0; 
+    return 0;
   }
 
   // Get the install location of CUTS from the Windows registry.
@@ -393,3 +393,4 @@ int Main_Dialog::resolve_CUTS_ROOT (std::string & root)
 
   return -1;
 }
+
