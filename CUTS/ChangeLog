@@ -1,7 +1,19 @@
+Wed Mar  5 07:38:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/config/cuts_cosmic.mpb:
+        
+          Changed the output location of the binaries to subdirectories
+          under $(CUTS_ROOT).
+
+        * etc/schemas/modelgen.xsd:
+        
+          Fixed invalid schema specification for backend generator
+          listing.
+
 Mon Mar  3 16:08:52 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/connector/picmlin.build:
-        
+
           Added some comments to the build script.
 
 Fri Feb 29 16:06:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

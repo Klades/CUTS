@@ -1,12 +1,5 @@
 // $Id$
 
-project : cutslib {
-  requires += modeling
+project : requires_modeling, cutslib {
 
-  includes += $(CUTS_ROOT)
-
-  specific (vc6, vc7, vc71, vc8, nmake) {
-    dllout = $(COSMIC_ROOT)/bin
-    libout = $(COSMIC_ROOT)/lib
-  }
 }
