@@ -4,10 +4,23 @@
 #include "Resource.h"
 #include "Main_Dialog.h"
 #include "Utils/Utils.h"
+#include "modelgen.h"
 
 #include "../be/BE_Options.h"
-#include "../be/BE_Manager_Factory_Repo.h"
 #include "../be/BE_Manager_Factory.h"
+
+#include "XSCRT/utils/File_T.h"
+
+#include "boost/bind.hpp"
+
+#include "ace/Env_Value_T.h"
+#include "ace/OS_NS_string.h"
+
+#include <strstream>
+#include <algorithm>
+
+#define CUTS_BE_DEFAULT_CONFIG     "cuts.config"
+#define CUTS_BE_USER_CONFIG        "cuts.user.config"
 
 BEGIN_MESSAGE_MAP (Main_Dialog, CDialog)
   ON_LBN_SELCHANGE (IDC_BE_LIST, On_BE_List_SelChange)
@@ -17,12 +30,10 @@ END_MESSAGE_MAP ()
 // Main_Dialog
 //
 Main_Dialog::Main_Dialog (CUTS_BE_Options * options,
-                          const CUTS_BE_Manager_Factory_Repo & factory_repo,
                           CWnd * parent)
 : CDialog (IDD_MAINDIALOG, parent),
   options_ (options),
-  factory_repo_ (factory_repo),
-  manager_factory_ (0)
+  factory_ (0)
 {
 
 }
@@ -43,37 +54,94 @@ BOOL Main_Dialog::OnInitDialog (void)
   // Let the base class perform its initialization.
   CDialog::OnInitDialog ();
 
-  // Initialize the backend list box with the loaded factories.
-  int index = 0;
-  CUTS_BE_Manager_Factory * factory = 0;
+  // Get the CUTS_ROOT environment variable. We need this to locate
+  // the default/user configuration values.
+  std::string CUTS_ROOT;
 
-  for (CUTS_BE_Manager_Factory_Set::
-        const_iterator iter = this->factory_repo_.factories ().begin ();
-       iter != this->factory_repo_.factories ().end ();
-       iter ++)
+  if (this->resolve_CUTS_ROOT (CUTS_ROOT) == 0)
   {
-    factory = iter->second;
-
-    if (factory != 0)
+    try
     {
-      // Insert the name of the manager into the listbox.
-      index = this->be_list_.AddString (factory->name ());
+      // Create the user and default configuration.
+      std::ostringstream default_config, user_config;
+      default_config << CUTS_ROOT << "\\bin\\" << CUTS_BE_DEFAULT_CONFIG;
+      user_config << CUTS_ROOT << "\\bin\\" << CUTS_BE_USER_CONFIG;
+      
+      // Create the file reader for the configuration file.
+      XSCRT::utils::File_Reader_T <
+        CUTS::Configuration> reader (&CUTS::modelgen);
 
-      if (index != LB_ERR)
-      {
-        // Set the listbox's data equal to the factory's address.
-        this->be_list_.SetItemData (index, (DWORD_PTR) factory);
-      }
-      else
-      {
-        CString message ("Failed to load ");
-        message.Append (factory->name ());
+	    // Discard comment nodes in the document.
+      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMComments, false))
+		    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMComments, false);
 
-        ::AfxMessageBox (message, MB_OK);
+      // Disable datatype normalization. The XML 1.0 attribute value
+      // normalization always occurs though.
+      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true))
+	      reader.parser ()->setFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true);
+
+      // Do not create EntityReference nodes in the DOM tree. No
+      // EntityReference nodes will be created, only the nodes
+      // corresponding to their fully expanded substitution text will be
+      // created.
+      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMEntities, false))
+	      reader.parser ()->setFeature (xercesc::XMLUni::fgDOMEntities, false);
+
+      // Perform Namespace processing.
+      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMNamespaces, true))
+	      reader.parser ()->setFeature (xercesc::XMLUni::fgDOMNamespaces, true);
+
+      // Perform Validation
+      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMValidation, true))
+	      reader.parser ()->setFeature (xercesc::XMLUni::fgDOMValidation, true);
+
+      // Do not include ignorable whitespace in the DOM tree.
+      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMWhitespaceInElementContent, false))
+	      reader.parser ()->setFeature (xercesc::XMLUni::fgDOMWhitespaceInElementContent, false);
+
+      // Enable the GetParser()'s schema support.
+      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesSchema, true))
+	      reader.parser ()->setFeature (xercesc::XMLUni::fgXercesSchema, true);	
+
+      // Enable full schema constraint checking, including checking which
+      // may be time-consuming or memory intensive. Currently, particle
+      // unique attribution constraint checking and particle derivation
+      // restriction checking are controlled by this option.
+      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesSchemaFullChecking, true))
+        reader.parser ()->setFeature (xercesc::XMLUni::fgXercesSchemaFullChecking, true);
+
+      // The GetParser() will treat validation error as fatal and will exit.
+      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, true))
+	      reader.parser ()->setFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, true);
+
+      CUTS::Configuration config;
+
+      // Open the default configuration.
+      if (reader.open (default_config.str ()) != -1)
+      {
+        // Read the default configuration.
+        reader >> config;
+
+        // Load the generators from the configuration.
+        this->init_generators (config);
       }
+    }
+    catch (const xercesc::DOMException & ex)
+    {
+      ::AfxMessageBox (reinterpret_cast <LPCTSTR> (ex.getMessage ()), 
+                      MB_OK | MB_ICONERROR);
+    }
+    catch (const xercesc::XMLException & )
+    {
+      ::AfxMessageBox ("Caught XML exception", MB_OK | MB_ICONWARNING);
+    }
+    catch (...)
+    {
+      ::AfxMessageBox ("Caught known exception", MB_OK | MB_ICONWARNING);
     }
   }
 
+  // Load backend generators from parsed file.
   return TRUE;
 }
 
@@ -135,7 +203,7 @@ void Main_Dialog::DoDataExchange (CDataExchange * pDX)
 
     if (index != LB_ERR)
     {
-      this->manager_factory_ =
+      this->factory_ =
         (CUTS_BE_Manager_Factory *) this->be_list_.GetItemData (index);
     }
     else
@@ -203,9 +271,9 @@ BOOL Main_Dialog::OnCommand (WPARAM wParam, LPARAM lParam)
 //
 // manager_factory
 //
-CUTS_BE_Manager_Factory * Main_Dialog::manager_factory (void) const
+CUTS_BE_Manager_Factory * Main_Dialog::factory (void) const
 {
-  return this->manager_factory_;
+  return this->factory_;
 }
 
 //
@@ -235,4 +303,93 @@ void Main_Dialog::On_BE_List_SelChange (void)
                        MB_OK | MB_ICONERROR);
     }
   }
+}
+
+//
+// init_generators
+//
+void Main_Dialog::
+init_generators (const CUTS::Configuration & config)
+{
+  if (config.backend_p ())
+  {
+    std::for_each (config.backend ().begin_generator (),
+                   config.backend ().end_generator (),
+                   boost::bind (&Main_Dialog::load_backend_generator,
+                                this,
+                                _1));
+  }
+}
+
+//
+// load_backend_generator
+//
+void Main_Dialog::
+load_backend_generator (const CUTS::Generator_Description & desc)
+{
+  // Temporary variable for the generator's factory.
+  CUTS_BE_Manager_Factory * factory = 0;
+
+  // Load the backend manager factory.
+  if (this->factory_repo_.load (desc.id (), desc.location (), factory))
+  {
+    // Insert name of factory into listbox.
+    int index = this->be_list_.InsertString (-1, factory->name ());
+
+    if (index != LB_ERR)
+    {
+      this->be_list_.SetItemDataPtr (index, factory);
+    }
+    else
+    {
+      // Display an error message to the user.
+      std::ostringstream ostr;
+      ostr 
+        << "Failed to add <" << factory->name ()
+        << "> to backend list";
+
+      ::AfxMessageBox (ostr.str ().c_str (), 
+                        MB_ICONEXCLAMATION | MB_OK);
+    }
+  }
+  else
+  {
+    // Display an error message for the user.
+    std::ostringstream ostr;
+    ostr << "Failed to load backend <" << desc.id () << ">";
+
+    ::AfxMessageBox (ostr.str ().c_str (),
+                     MB_ICONEXCLAMATION | MB_OK);
+  }
+}
+
+//
+// resolve_CUTS_ROOT
+//
+int Main_Dialog::resolve_CUTS_ROOT (std::string & root)
+{
+  // $(CUTS_ROOT) takes precidence over the install location
+  // of CUTS
+  ACE_Env_Value <const char *> CUTS_ROOT ("CUTS_ROOT", "");
+
+  if (ACE_OS::strlen (CUTS_ROOT) != 0)
+  {
+    root = CUTS_ROOT;
+    return 0; 
+  }
+
+  // Get the install location of CUTS from the Windows registry.
+  char path [MAX_PATH];
+  long path_size = sizeof (char) * sizeof (path);
+
+  if (::RegQueryValue (HKEY_CURRENT_USER,
+                       "SOFTWARE\\CUTS",
+                       path,
+                       &path_size) == ERROR_SUCCESS)
+  {
+    root = path;
+    return 0;
+  }
+
+  return -1;
 }

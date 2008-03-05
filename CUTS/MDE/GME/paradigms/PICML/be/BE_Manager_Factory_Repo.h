@@ -46,11 +46,25 @@ public:
   /**
    * Load a module into the repo.
    *
+   * @param[in]     id              Id of the backend.
    * @param[in]     module          Pathname of the module.
    * @retval        true            Successfully loaded module.
    * @retval        false           Failed to load module.
    */
-  bool load (const char * module);
+  bool load (const std::string & id,
+             const std::string & module);
+
+  /**
+   * Load a module into the repo.
+   *
+   * @param[in]     id              Id of the backend.
+   * @param[in]     module          Pathname of the module.
+   * @retval        true            Successfully loaded module.
+   * @retval        false           Failed to load module.
+   */
+  bool load (const std::string & id,
+             const std::string & module,
+             CUTS_BE_Manager_Factory * & factory);
 
   /**
    * Unload a factory module by its name.
@@ -59,6 +73,7 @@ public:
    */
   void unload (const char * name);
 
+  /// Unload all the backend generators.
   void unload_all (void);
 
   /**
@@ -71,7 +86,10 @@ public:
   const CUTS_BE_Manager_Factory_Set & factories (void) const;
 
   /**
+   * Find a backend generator by its name.
    *
+   * @param[in]     name          Name of the backend generator.
+   * @param[in]     factory       The factory for the generator.
    */
   bool find (const char * name, CUTS_BE_Manager_Factory * &factory);
 

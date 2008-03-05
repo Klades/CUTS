@@ -16,11 +16,19 @@
 // Forward decl.
 struct CUTS_BE_Options;
 
-// Forward decl.
-class CUTS_BE_Manager_Factory_Repo;
+#include "../be/BE_Manager_Factory_Repo.h"
 
 // Forward decl.
 class CUTS_BE_Manager_Factory;
+
+namespace CUTS
+{
+  // Forward decl.
+  class Configuration;
+
+  // Forward decl.
+  class Generator_Description;
+}
 
 //=============================================================================
 /**
@@ -40,7 +48,6 @@ public:
    * @param[in]     parent        Parent of the dialog.
    */
   Main_Dialog (CUTS_BE_Options * options,
-               const CUTS_BE_Manager_Factory_Repo & factory_repo,
                CWnd * parent = 0);
 
   /// Destructor.
@@ -53,7 +60,7 @@ public:
    *
    * @return        Pointer to the manager factory.
    */
-  CUTS_BE_Manager_Factory * manager_factory (void) const;
+  CUTS_BE_Manager_Factory * factory (void) const;
 
 protected:
   /// Handle the initialize dialog method.
@@ -70,14 +77,20 @@ protected:
 private:
   DECLARE_MESSAGE_MAP ();
 
+  void load_backend_generator (const CUTS::Generator_Description & desc);
+
+  void init_generators (const CUTS::Configuration & config);
+
+  int resolve_CUTS_ROOT (std::string & root);
+
   /// Pointer to the backend options.
   CUTS_BE_Options * options_;
 
-  /// Collection of manager factories available for selection.
-  const CUTS_BE_Manager_Factory_Repo & factory_repo_;
+  /// The selected backend module.
+  CUTS_BE_Manager_Factory * factory_;
 
-  /// The selected manager factory.
-  CUTS_BE_Manager_Factory * manager_factory_;
+  /// Factory repository for the GUI.
+  CUTS_BE_Manager_Factory_Repo factory_repo_;
 
   /// The backend list box control.
   CListBox be_list_;

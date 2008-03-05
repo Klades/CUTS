@@ -1,12 +1,36 @@
+Wed Mar  5 21:29:08 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE_Manager_Factory.h:
+        * MDE/GME/paradigms/PICML/be/BE_Manager_Factory.cpp:
+        * MDE/GME/paradigms/PICML/be/BE_Manager_Factory_Repo.h:
+        * MDE/GME/paradigms/PICML/be/BE_Manager_Factory_Repo.inl:
+        * MDE/GME/paradigms/PICML/be/BE_Manager_Factory_Repo.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/Main_Dialog.h:
+        * MDE/GME/paradigms/PICML/interpreter/Main_Dialog.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/UdmApp.cpp:
+        
+          Re-designed the interpreter so that target backend generators
+          are specified via a XML configuration file.
+
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_App.cpp:
+        
+          Added more debug messages.
+
+        * bin/cuts.config:
+        * bin/cuts.user.config:
+        
+          Permanent configuration files for the CUTS interpreter.
+
 Wed Mar  5 07:38:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/config/cuts_cosmic.mpb:
-        
+
           Changed the output location of the binaries to subdirectories
           under $(CUTS_ROOT).
 
         * etc/schemas/modelgen.xsd:
-        
+
           Fixed invalid schema specification for backend generator
           listing.
 

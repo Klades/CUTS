@@ -14,11 +14,14 @@
 //
 // load
 //
-bool CUTS_BE_Manager_Factory_Repo::load (const char * module)
+bool CUTS_BE_Manager_Factory_Repo::
+load (const std::string & id, 
+      const std::string & module, 
+      CUTS_BE_Manager_Factory * & factory)
 {
   ACE_DLL be_dll;
 
-  if (be_dll.open (module, ACE_DEFAULT_SHLIB_MODE, 0) == 0)
+  if (be_dll.open (module.c_str (), ACE_DEFAULT_SHLIB_MODE, 0) == 0)
   {
     // Load the creation function symbol from the loaded module.
     typedef CUTS_BE_Manager_Factory * (* CREATION_FUNCTION) (void);
@@ -30,8 +33,8 @@ bool CUTS_BE_Manager_Factory_Repo::load (const char * module)
     {
       // Create the factory using the loaded symbol. We then are going
       // to store the factory for later usage.
-      CUTS_BE_Manager_Factory * factory = (*creation_function) ();
-      this->factories_.insert (std::make_pair (module, factory));
+      factory = (*creation_function) ();
+      this->factories_.insert (std::make_pair (id, factory));
 
       return true;
     }
@@ -52,7 +55,9 @@ void CUTS_BE_Manager_Factory_Repo::unload (const char * name)
   if (iter != this->factories_.end ())
   {
     // Close the factory thereby releasing its resources
-    iter->second->close ();
+    if (iter->second)
+      iter->second->close ();
+
     ACE_DLL_Manager::instance ()->close_dll (iter->first.c_str ());
 
     // Remove the factory from the listing.
@@ -63,8 +68,8 @@ void CUTS_BE_Manager_Factory_Repo::unload (const char * name)
 //
 // find
 //
-bool CUTS_BE_Manager_Factory_Repo::find (const char * name,
-                                         CUTS_BE_Manager_Factory * &factory)
+bool CUTS_BE_Manager_Factory_Repo::
+find (const char * name, CUTS_BE_Manager_Factory * &factory)
 {
   CUTS_BE_Manager_Factory_Set::
     iterator iter = this->factories_.find (name);
@@ -88,7 +93,8 @@ void CUTS_BE_Manager_Factory_Repo::unload_all (void)
        iter != this->factories_.end ();
        iter ++)
   {
-    iter->second->close ();
+    if (iter->second)
+      iter->second->close ();
 
     ACE_DLL_Manager::instance ()->close_dll (iter->first.c_str ());
   }

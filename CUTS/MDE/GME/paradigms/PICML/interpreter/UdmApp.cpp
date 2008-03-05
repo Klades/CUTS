@@ -31,12 +31,6 @@ CUTS_BE_Manager_Factory_Repo CUdmApp::repo_;
 //
 int CUdmApp::Initialize (void)
 {
-  // Load the static backends for PICML.
-  CUdmApp::repo_.load ("CUTS_BE_CIAO");
-  CUdmApp::repo_.load ("CUTS_BE_Natural_Lang");
-  CUdmApp::repo_.load ("CUTS_BE_TIOA");
-  CUdmApp::repo_.load ("CUTS_BE_XML");
-
   return 0;
 }
 
@@ -48,13 +42,11 @@ void CUdmApp::UdmMain (Udm::DataNetwork* p_backend,
                        set <Udm::Object> selectedObjects,
                        long param)
 {
-  // Displaay the main dialog and initialize it with the
-  // current backend options.
+  // Display main dialog and initialize it with current 
+  // backend options.
   CUTS_BE_Options * options = CUTS_BE_OPTIONS ();
 
-  Main_Dialog dialog (options,
-                      CUdmApp::repo_,
-                      ::AfxGetMainWnd ());
+  Main_Dialog dialog (options, ::AfxGetMainWnd ());
 
   if (dialog.DoModal () == IDCANCEL)
     return;
@@ -101,7 +93,7 @@ void CUdmApp::UdmMain (Udm::DataNetwork* p_backend,
       // be able to set these via a dialog.
       options->exec_suffix_  = "_exec";
 
-      CUTS_BE_Manager_Factory * factory = dialog.manager_factory ();
+      CUTS_BE_Manager_Factory * factory = dialog.factory ();
 
       if (factory)
       {

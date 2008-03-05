@@ -347,6 +347,11 @@ int Picmlin_App::set_deployment (GME::Model & deployment,
   for ( ; iter != iter_end; iter ++)
   {
     // Find the node with the current iterator's name.
+    VERBOSE_MESSAGE ((LM_DEBUG,
+                      "*** debug [picmlin]: setting components for "
+                      "host <%s>\n",
+                      iter->first.c_str ()));
+
     Node_Map::const_iterator node = nodes.find (iter->first);
 
     if (node != nodes.end ())
@@ -396,6 +401,12 @@ int Picmlin_App::set_deployment (GME::Model & deployment,
         for ( ; impl_folder != impl_folder_end; impl_folder ++)
         {
           // Query for the object by its path.
+          VERBOSE_MESSAGE ((LM_DEBUG, 
+                            "*** debug [picmlin]: looking for <%s> in "
+                            "folder <%s>\n",
+                            path.c_str (),
+                            impl_folder->name ().c_str ()));
+
           instance = impl_folder->find_object_by_path (path);
 
           // Exit the loop if we have found the object.

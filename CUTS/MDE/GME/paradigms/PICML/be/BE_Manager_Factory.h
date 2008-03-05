@@ -15,7 +15,6 @@
 #ifndef _CUTS_BE_FACTORY_H_
 #define _CUTS_BE_FACTORY_H_
 
-#include "BE_export.h"
 #include "BE.h"
 
 // Forward decl.
@@ -30,6 +29,15 @@ class CUTS_BE_Manager;
 class CUTS_BE_Export CUTS_BE_Manager_Factory
 {
 public:
+  /**
+   * Extract the factory manager from a shared library.
+   *
+   * @param[in]       filename        Path name of the module
+   * @return          Pointer to the factory manager.
+   */
+  static int open (const char * filename, 
+                   CUTS_BE_Manager_Factory * & factory);
+
   /**
    * Factory method that creates a backend manager.
    *
