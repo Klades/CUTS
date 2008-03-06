@@ -1,8 +1,14 @@
+Thu Mar  6 03:37:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/cuts.config:
+
+          Added more backend generators to the default configuration.
+          
 Thu Mar  6 01:29:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/_CoSMIC.build:
-        
-					Updated the build script for CoSMIC.
+
+          Updated the build script for CoSMIC.
 
 Thu Mar  6 00:57:52 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
