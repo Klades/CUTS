@@ -1,7 +1,13 @@
+Thu Mar  6 01:29:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/_CoSMIC.build:
+        
+					Updated the build script for CoSMIC.
+
 Thu Mar  6 00:57:52 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/_MPC.build:
-        
+
           Build file for integrating MPC.
 
 Thu Mar  6 00:25:46 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

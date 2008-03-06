@@ -19,7 +19,6 @@
 
   <target name="build">
     <!-- update the workspace -->
-    <antcall target="cosmic.update" />
     <antcall target="cosmic.workspace.generate" />
 
     <!-- build the debug/release version of CoSMIC -->
@@ -63,12 +62,22 @@
   </target>
 
   <!--
-    @target cosmic.update
-
-    Update the CoSMIC workspace from the SVN repository
+    @target update.tag
     -->
 
-  <target name="cosmic.update" if="modification.svn">
+  <target name="update.tag">
+    <exec executable="perl" failonerror="true" resultproperty="update.tag.result">
+      <arg value="--" />
+      <arg path="perl/svn-update-tag.pl" />
+      <arg line="--curr-directory=${currdir} --tags-directory=${tagsdir} --verbose" />
+    </exec>
+  </target>
+
+  <!--
+    @target update.localworkingcopy
+    -->
+
+  <target name="update.localworkingcopy">
     <antcall target="svn.update">
       <param name="svn.command.args" value="${env.COSMIC_ROOT}" />
     </antcall>
