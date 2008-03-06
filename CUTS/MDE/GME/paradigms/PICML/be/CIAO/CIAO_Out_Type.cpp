@@ -40,32 +40,32 @@ void CUTS_CIAO_Out_Type::close_singleton (void)
 CUTS_CIAO_Out_Type::CUTS_CIAO_Out_Type (void)
 {
   this->predefined_type_map_.insert (
-    PredefinedType_Map::value_type (PICML::String::meta, "::CORBA::String_out"));
+    Type_Map::value_type (PICML::String::meta, "::CORBA::String_out"));
 
   this->predefined_type_map_.insert (
-    PredefinedType_Map::value_type (PICML::Boolean::meta, "::CORBA::Boolean_out"));
+    Type_Map::value_type (PICML::Boolean::meta, "::CORBA::Boolean_out"));
 
   this->predefined_type_map_.insert (
-    PredefinedType_Map::value_type (PICML::LongInteger::meta, "::CORBA::Long_out"));
+    Type_Map::value_type (PICML::LongInteger::meta, "::CORBA::Long_out"));
 
   this->predefined_type_map_.insert (
-    PredefinedType_Map::value_type (PICML::ShortInteger::meta, "::CORBA::Short_out"));
+    Type_Map::value_type (PICML::ShortInteger::meta, "::CORBA::Short_out"));
 
   this->predefined_type_map_.insert (
-    PredefinedType_Map::value_type (PICML::Byte::meta, "::CORBA::Octet_out"));
+    Type_Map::value_type (PICML::Byte::meta, "::CORBA::Octet_out"));
 
   this->predefined_type_map_.insert (
-    PredefinedType_Map::value_type (PICML::RealNumber::meta, "::CORBA::Double_out"));
+    Type_Map::value_type (PICML::RealNumber::meta, "::CORBA::Double_out"));
 
   this->predefined_type_map_.insert (
-    PredefinedType_Map::value_type (PICML::GenericObject::meta, "::CORBA::Object_out"));
+    Type_Map::value_type (PICML::GenericObject::meta, "::CORBA::Object_out"));
 
   this->predefined_type_map_.insert (
-    PredefinedType_Map::value_type (PICML::GenericValue::meta, "const ::CORBA::Any_out"));
+    Type_Map::value_type (PICML::GenericValue::meta, "const ::CORBA::Any_out"));
 
   this->predefined_type_map_.insert (
-    PredefinedType_Map::value_type (PICML::TypeKind::meta, "::CORBA::TCKind_out"));
+    Type_Map::value_type (PICML::TypeKind::meta, "::CORBA::TCKind_out"));
 
   this->predefined_type_map_.insert (
-    PredefinedType_Map::value_type (PICML::TypeEncoding::meta, "::CORBA::TypeCode_out"));
+    Type_Map::value_type (PICML::TypeEncoding::meta, "::CORBA::TypeCode_out"));
 }

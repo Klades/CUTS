@@ -39,10 +39,10 @@ public:
 
 protected:
   /// Type definition for mapping predefined types.
-  typedef std::map <Uml::Class, std::string> PredefinedType_Map;
+  typedef std::map <Uml::Class, std::string> Type_Map;
 
   /// Mapping of predefined types to concrete syntax.
-  PredefinedType_Map predefined_type_map_;
+  Type_Map predefined_type_map_;
 
   /// Default constructor.
   CUTS_BE_Type_Map (void);

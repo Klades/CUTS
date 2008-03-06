@@ -34,6 +34,7 @@ load (const std::string & id,
       // Create the factory using the loaded symbol. We then are going
       // to store the factory for later usage.
       factory = (*creation_function) ();
+      this->path_map_.insert (std::make_pair (id, module));
       this->factories_.insert (std::make_pair (id, factory));
 
       return true;
@@ -58,9 +59,11 @@ void CUTS_BE_Manager_Factory_Repo::unload (const char * name)
     if (iter->second)
       iter->second->close ();
 
-    ACE_DLL_Manager::instance ()->close_dll (iter->first.c_str ());
+    ACE_DLL_Manager::instance ()->
+      close_dll (this->path_map_[iter->first].c_str ());
 
     // Remove the factory from the listing.
+    this->path_map_.erase (iter->first);
     this->factories_.erase (iter);
   }
 }
@@ -96,9 +99,11 @@ void CUTS_BE_Manager_Factory_Repo::unload_all (void)
     if (iter->second)
       iter->second->close ();
 
-    ACE_DLL_Manager::instance ()->close_dll (iter->first.c_str ());
+    ACE_DLL_Manager::instance ()->
+      close_dll (this->path_map_[iter->first].c_str ());
   }
 
   // Clear all the items in the listing.
+  this->path_map_.clear ();
   this->factories_.clear ();
 }

@@ -199,6 +199,9 @@ write_ReadonlyAttribute_begin (const PICML::ReadonlyAttribute & ro_attr)
     << function_header ((std::string)ro_attr.name () + " [getter]")
     << CIAO_RETURN_TYPE (mtype);
 
+  if (this->is_variable_type (mtype))
+    this->outfile () << " *";
+
   PICML::Component parent = ro_attr.Component_parent ();
 
   this->outfile ()
@@ -372,7 +375,12 @@ write_TwowayOperation_begin (const PICML::TwowayOperation & twoway)
     PICML::MemberType type = return_type.ref ();
 
     if (type != Udm::null)
+    {
       this->outfile () << CIAO_RETURN_TYPE (type);
+
+      if (this->is_variable_type (type))
+        this->outfile () << " *";
+    }
   }
   else
   {

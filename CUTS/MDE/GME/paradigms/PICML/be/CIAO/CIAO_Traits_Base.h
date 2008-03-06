@@ -165,6 +165,8 @@ protected:
   /// The current implementation node.
   const CUTS_BE_Impl_Node * node_;
 
+  bool is_variable_type (const PICML::MemberType & type);
+
 private:
   enum _env_bit
   {
