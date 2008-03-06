@@ -1,7 +1,13 @@
+Thu Mar  6 00:25:46 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/_ACE_TAO_CIAO.build:
+        
+					Added a new target for updating the local working copy.
+
 Wed Mar  5 21:54:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/Main_Dialog.cpp:
-        
+
           Fixed inconsistent newlines.
 
 Wed Mar  5 21:29:08 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

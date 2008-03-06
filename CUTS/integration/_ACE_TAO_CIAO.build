@@ -5,6 +5,7 @@
   <!-- import external project files -->
   <import file="include/devenv.build" />
   <import file="include/mpc.build" />
+  <import file="include/svn.build" />
 
   <!-- store the target configuration -->
   <property name="devenv.configuration" value="debug" />
@@ -20,6 +21,16 @@
       <arg path="perl/svn-update-tag.pl" />
       <arg line="--curr-directory=${currdir} --tags-directory=${tagsdir} --verbose" />
     </exec>
+  </target>
+
+  <!--
+    @target update.localworkingcopy
+    -->
+
+  <target name="update.localworkingcopy">
+    <antcall target="svn.update">
+      <param name="svn.command.args" value="${localworkingcopy}" />
+    </antcall>
   </target>
 
   <!--
