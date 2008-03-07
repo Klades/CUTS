@@ -1,23 +1,31 @@
+Fri Mar  7 05:13:03 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_App.cpp:
+        * MDE/GME/paradigms/PICML/modelin/Scatter_To_Picml.cpp:
+        
+          Bug fix where spaces at the end of the file was not handled
+          correctly. This was a result of an invalid BNF specification.
+
 Fri Mar  7 03:39:03 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/modelin/Picmlin_App.h:
         * MDE/GME/paradigms/PICML/modelin/Picmlin_App.cpp:
         * MDE/GME/paradigms/PICML/modelin/Picmlin_Options.h:
         * MDE/GME/paradigms/PICML/modelin/Scatter_To_Picml.cpp:
-        
+
           - Replaced the '--connstr' command-line option with
             '--gme-file', which is the location of the GME file. The
-            GME file can be either a .mga or .xme extension. The 
-            application will determine how to handle the file.            
-          - Bug fix where the parser was not handling newlines 
+            GME file can be either a .mga or .xme extension. The
+            application will determine how to handle the file.
+          - Bug fix where the parser was not handling newlines
             correctly.
 
         * install/CUTS_CoSMIC.wxs:
-        
+
           Removed the CoSMIC_common component reference.
-          
+
         * install/CUTS_PICML.wxs:
-        
+
           - Removed the CoSMIC_common component.
           - Added the configuration files to the installer.
 

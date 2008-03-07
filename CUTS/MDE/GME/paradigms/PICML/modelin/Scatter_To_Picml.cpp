@@ -173,7 +173,7 @@ bool CUTS_Scatter_To_Picml::
 run (const std::string & filename, CUTS_Deployment_Map & deployment)
 {
   typedef char char_t;
-  typedef boost::spirit::file_iterator <char_t>  iterator_t;
+  typedef boost::spirit::file_iterator <char_t> iterator_t;
     
   // Get an iterator to the beginning of the file.
   iterator_t first (filename);
@@ -188,36 +188,7 @@ run (const std::string & filename, CUTS_Deployment_Map & deployment)
   CUTS_Scatter_To_Picml_Parser parser (deployment);
 
   boost::spirit::parse_info <iterator_t> result =
-    boost::spirit::parse (first, last, parser, boost::spirit::space_p);
+    boost::spirit::parse (first, last, parser);
 
-  if (result.full)
-    return true;
-  
-  // We did not parse all of the file. So we need to make 
-  // sure there is no more input.
-  std::ifstream infile;
-  infile.open (filename.c_str (), std::ios_base::in);
-
-  if (!infile.is_open ())
-    return false;
-
-  // Move to the position where the parser stopped.
-  std::locale loc ("C");
-  infile.seekg (result.length);
-  
-  char ch;
-  
-  // Read each individual character until we get to the end of 
-  // the file. If we find a non-whitespace character, then the 
-  // parser failed.
-  do 
-  { 
-    for (; ;)
-      ch = infile.get ();
-   
-  } while (std::isspace (ch, loc));
-
-  // Close the input file.
-  infile.close ();
-  return ch == std::char_traits <char>::eof ();
+  return result.full;
 }

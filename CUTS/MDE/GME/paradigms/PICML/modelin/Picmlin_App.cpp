@@ -6,6 +6,7 @@
 #include "ace/Get_Opt.h"
 #include "ace/OS_NS_string.h"
 #include "ace/OS_NS_unistd.h"
+#include "ace/OS_NS_stdio.h"
 #include "ace/Lib_Find.h"
 #include <sstream>
 
@@ -231,15 +232,22 @@ int Picmlin_App::gme_init_project (void)
     {
       ACE_TCHAR pathname[MAX_PATH];
 
-      if (ACE::get_temp_dir (pathname, MAX_PATH) != -1)
+      if (ACE::get_temp_dir (pathname, MAX_PATH - 20) != -1)
       {
         // Create a temporary filename for the project.
-        ACE_TCHAR tempfile [] = "picmlin-XXXXXX";
-        ACE_OS::mkstemp (tempfile);
+        ACE_OS::strcat (pathname, "picmlin-XXXXXX.mga");
+        ACE_HANDLE fd = ACE_OS::mkstemp (pathname);
+
+        if (fd == 0)
+          return -1;
+
+        // Delete the temporary file, which we aren't using.
+        ACE_OS::close (fd);
+        ACE_OS::unlink (pathname);
 
         // Create the full pathname.
         std::ostringstream connstr;
-        connstr << "MGA=" << pathname << tempfile << ".mga";
+        connstr << "MGA=" << pathname;
 
         // Create a empty PICML project and import the XML file.
         this->project_->create (connstr.str (), "PICML");
@@ -277,30 +285,31 @@ int Picmlin_App::gme_fini_project (void)
   {
     std::string tempfile;
 
+    VERBOSE_MESSAGE ((LM_INFO,
+                      "*** info [picmlin]: saving project as %s\n",
+                      this->options_.gme_connstr_.c_str ()));
+
+    // Save the project file.
+    this->project_->save ();
+
     if (!this->is_mga_file_)
     {
       // Export the project to the source XML file.
       this->project_->xml_export (this->options_.gme_connstr_);
 
-      // Save the connection string for future usage.
+      // Delete the temporary file.
       tempfile = this->project_->connstr ().substr (4);
     }
 
-    // Save and close the GME project.
+    // Close the project file.
     VERBOSE_MESSAGE ((LM_INFO,
-                      "*** info [picmlin]: saving the project file\n"));
-    this->project_->save ();
-
-    VERBOSE_MESSAGE ((LM_INFO, 
                       "*** info [picmlin]: closing the PICML project\n"));
-    this->project_->close ();
 
-    // Delete the temporary file.
+    this->project_->close ();
+    this->project_.reset ();
+
     if (!tempfile.empty ())
       ACE_OS::unlink (tempfile.c_str ());
-
-    // Release the project's resources.
-    this->project_.reset ();
   }
 
   VERBOSE_MESSAGE ((LM_INFO,
