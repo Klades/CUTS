@@ -1,5 +1,6 @@
 // $Id$
 
+#include "stdafx.h"
 #include "Scatter_To_Picml.h"
 #include "boost/spirit/core.hpp"
 #include "boost/spirit/utility/confix.hpp"

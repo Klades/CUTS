@@ -1,5 +1,6 @@
 // $Id$
 
+#include "stdafx.h"
 #include "Picmlin_App.h"
 #include "Scatter_To_Picml.h"
 #include "gme/ComponentEx.h"
@@ -285,15 +286,15 @@ int Picmlin_App::gme_fini_project (void)
   {
     std::string tempfile;
 
-    VERBOSE_MESSAGE ((LM_INFO,
-                      "*** info [picmlin]: saving project as %s\n",
-                      this->options_.gme_connstr_.c_str ()));
-
     // Save the project file.
     this->project_->save ();
 
     if (!this->is_mga_file_)
     {
+      VERBOSE_MESSAGE ((LM_INFO,
+                        "*** info [picmlin]: exporting project as %s\n",
+                        this->options_.gme_connstr_.c_str ()));
+
       // Export the project to the source XML file.
       this->project_->xml_export (this->options_.gme_connstr_);
 

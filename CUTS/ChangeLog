@@ -1,8 +1,21 @@
+Fri Mar  7 06:56:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_App.cpp:
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_Options.cpp:
+        * MDE/GME/paradigms/PICML/modelin/Scatter_To_Picml.cpp:
+        * MDE/GME/paradigms/PICML/modelin/picmlin.cpp:
+        * MDE/GME/paradigms/PICML/modelin/picmlin.mpc:
+        * MDE/GME/paradigms/PICML/modelin/stdafx.cpp:
+        * MDE/GME/paradigms/PICML/modelin/stdafx.h:
+        
+          Fixed build errors in the release version of the connector by
+          using precompiled headers to define the Windows version.
+
 Fri Mar  7 05:13:03 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/modelin/Picmlin_App.cpp:
         * MDE/GME/paradigms/PICML/modelin/Scatter_To_Picml.cpp:
-        
+
           Bug fix where spaces at the end of the file was not handled
           correctly. This was a result of an invalid BNF specification.
 

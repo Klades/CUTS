@@ -1,5 +1,6 @@
 // $Id$
 
+#include "stdafx.h"
 #include "Picmlin_Options.h"
 #include "ace/SString.h"
 #include "ace/Log_Msg.h"
