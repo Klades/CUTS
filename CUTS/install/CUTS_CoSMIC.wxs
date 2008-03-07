@@ -55,9 +55,6 @@
       <!-- gather all the CUTS related components -->
       <ComponentRef Id="CUTS_PICML" />
 
-      <!-- components from CoSMIC_common -->
-      <ComponentRef Id="CoSMIC_common" />
-
       <!-- include the VC merge modules -->
       <FeatureRef Id="vc_merge_modules" />
     </Feature>

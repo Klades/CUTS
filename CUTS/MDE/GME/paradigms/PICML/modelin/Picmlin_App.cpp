@@ -1,10 +1,13 @@
 // $Id$
 
 #include "Picmlin_App.h"
+#include "Scatter_To_Picml.h"
 #include "gme/ComponentEx.h"
 #include "ace/Get_Opt.h"
 #include "ace/OS_NS_string.h"
-#include "Scatter_To_Picml.h"
+#include "ace/OS_NS_unistd.h"
+#include "ace/Lib_Find.h"
+#include <sstream>
 
 // Helper macro for generating verbose messages.
 #define VERBOSE_MESSAGE(msg) \
@@ -17,6 +20,7 @@
 // Picmlin_App
 //
 Picmlin_App::Picmlin_App (void)
+: is_mga_file_ (true)
 {
 
 }
@@ -37,7 +41,7 @@ int Picmlin_App::parse_args (int argc, char * argv [])
   const char * opts = ACE_TEXT ("vf:");
   ACE_Get_Opt get_opt (argc, argv, opts, 0);
 
-  get_opt.long_option ("connstr", 'f', ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("gme-file", 'f', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("target-deployment", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("instance-name-separator", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("generate-deployment", ACE_Get_Opt::ARG_REQUIRED);
@@ -51,7 +55,7 @@ int Picmlin_App::parse_args (int argc, char * argv [])
     switch (option)
     {
     case 0:
-      if (ACE_OS::strcmp (get_opt.long_option (), "connstr") == 0)
+      if (ACE_OS::strcmp (get_opt.long_option (), "gme-file") == 0)
       {
         this->options_.gme_connstr_ = get_opt.opt_arg ();
       }
@@ -128,8 +132,7 @@ int Picmlin_App::run (int argc, char * argv [])
     CUTS_Scatter_To_Picml scatter_to_picml;
     CUTS_Deployment_Map deployment_map;
 
-    if (scatter_to_picml.run (this->options_.scatter_input_,
-                              deployment_map))
+    if (scatter_to_picml.run (this->options_.scatter_input_, deployment_map))
     {
       // Verify the user specified a GME target project file.
       if (this->options_.gme_connstr_.empty ())
@@ -148,18 +151,22 @@ int Picmlin_App::run (int argc, char * argv [])
                           "GME\n"), 1);
       }
 
-      // Start a new transaction for the conversion. We then need to
-      // locate the correct deployment plan.
-      this->project_->begin_transaction ();
-
       GME::Model deployment_plan;
 
-      // Update the deployment plan.
-      if (this->find_deployment_plan (deployment_plan) == 0)
-        this->set_deployment (deployment_plan, deployment_map);
+      // Begin a new transaction.
+      this->project_->begin_transaction ();
 
-      // Commit the modifications to the project.
-      this->project_->commit_transaction ();
+      if (this->find_deployment_plan (deployment_plan) == 0)
+      {
+        // Update the deployment plan and commit the modifications.
+        this->set_deployment (deployment_plan, deployment_map);
+        this->project_->commit_transaction ();
+      }
+      else
+      {
+        // Abort the transaction since we didn't find anything.
+        this->project_->abort_transaction ();
+      }
 
       // Run the specified GME component, if it was specified.
       if (!this->options_.deployment_output_.empty ())
@@ -198,19 +205,67 @@ int Picmlin_App::run (int argc, char * argv [])
 int Picmlin_App::gme_init_project (void)
 {
   VERBOSE_MESSAGE ((LM_INFO,
-                    "*** info [picmlin]: initializing GME\n",
-                    this->options_.gme_connstr_.c_str ()));
+                    "*** info [picmlin]: initializing GME\n"));
 
-  GME::init ();
-  this->project_.reset (new GME::Project ());
+  try
+  {
+    GME::init ();
+    this->project_.reset (new GME::Project ());
 
-  VERBOSE_MESSAGE ((LM_INFO,
-                    "*** info [picmlin]: opening GME model %s\n",
-                    this->options_.gme_connstr_.c_str ()));
+    VERBOSE_MESSAGE ((LM_INFO,
+                      "*** info [picmlin]: opening GME model %s\n",
+                      this->options_.gme_connstr_.c_str ()));
 
-  // Open a new GME project.
-  this->project_->open (this->options_.gme_connstr_.c_str ());
-  return 0;
+    // Determine if this file is a MGA file.
+    this->is_mga_file_ = 
+      this->options_.gme_connstr_.rfind (".mga") != std::string::npos;
+
+    if (this->is_mga_file_)
+    {
+      std::ostringstream connstr;
+      connstr << "MGA=" << this->options_.gme_connstr_;
+
+      this->project_->open (connstr.str ());
+    }
+    else
+    {
+      ACE_TCHAR pathname[MAX_PATH];
+
+      if (ACE::get_temp_dir (pathname, MAX_PATH) != -1)
+      {
+        // Create a temporary filename for the project.
+        ACE_TCHAR tempfile [] = "picmlin-XXXXXX";
+        ACE_OS::mkstemp (tempfile);
+
+        // Create the full pathname.
+        std::ostringstream connstr;
+        connstr << "MGA=" << pathname << tempfile << ".mga";
+
+        // Create a empty PICML project and import the XML file.
+        this->project_->create (connstr.str (), "PICML");
+        this->project_->xml_import (this->options_.gme_connstr_);
+      }
+      else
+      {
+        return -1;
+      }
+    }
+
+    return 0;
+  }
+  catch (const GME::Failed_Result & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "*** error [picmlin]: GME operation failed [0x%X]\n",
+                ex.value ()));
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "*** error [picmlin]: caught unknown exception\n"));
+  }
+
+  return -1;
 }
 
 //
@@ -220,14 +275,41 @@ int Picmlin_App::gme_fini_project (void)
 {
   if (this->project_.get ())
   {
+    std::string tempfile;
+
+    if (!this->is_mga_file_)
+    {
+      // Export the project to the source XML file.
+      this->project_->xml_export (this->options_.gme_connstr_);
+
+      // Save the connection string for future usage.
+      tempfile = this->project_->connstr ().substr (4);
+    }
+
+    // Save and close the GME project.
+    VERBOSE_MESSAGE ((LM_INFO,
+                      "*** info [picmlin]: saving the project file\n"));
+    this->project_->save ();
+
+    VERBOSE_MESSAGE ((LM_INFO, 
+                      "*** info [picmlin]: closing the PICML project\n"));
     this->project_->close ();
+
+    // Delete the temporary file.
+    if (!tempfile.empty ())
+      ACE_OS::unlink (tempfile.c_str ());
+
+    // Release the project's resources.
     this->project_.reset ();
   }
 
   VERBOSE_MESSAGE ((LM_INFO,
                     "*** info [picmlin]: shutting down GME\n",
                     this->options_.gme_connstr_.c_str ()));
+
+  // Finalize GME backend.
   GME::fini ();
+
   return 0;
 }
 

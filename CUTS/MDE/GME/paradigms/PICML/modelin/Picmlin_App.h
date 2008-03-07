@@ -59,6 +59,8 @@ private:
   Picmlin_Options options_;
 
   std::auto_ptr <GME::Project> project_;
+
+  bool is_mga_file_;
 };
 
 #endif  // !defined _PICMLIN_APP_H_

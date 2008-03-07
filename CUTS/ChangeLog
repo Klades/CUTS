@@ -1,11 +1,34 @@
+Fri Mar  7 03:39:03 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_App.h:
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_App.cpp:
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_Options.h:
+        * MDE/GME/paradigms/PICML/modelin/Scatter_To_Picml.cpp:
+        
+          - Replaced the '--connstr' command-line option with
+            '--gme-file', which is the location of the GME file. The
+            GME file can be either a .mga or .xme extension. The 
+            application will determine how to handle the file.            
+          - Bug fix where the parser was not handling newlines 
+            correctly.
+
+        * install/CUTS_CoSMIC.wxs:
+        
+          Removed the CoSMIC_common component reference.
+          
+        * install/CUTS_PICML.wxs:
+        
+          - Removed the CoSMIC_common component.
+          - Added the configuration files to the installer.
+
 Thu Mar  6 07:02:19 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE_Manager_Factory_Repo.h:
         * MDE/GME/paradigms/PICML/be/BE_Manager_Factory_Repo.cpp:
-        
-          Bug fix where DLL's where not being unloaded when the 
+
+          Bug fix where DLL's where not being unloaded when the
           interpreter was destroyed.
-          
+
         * MDE/GME/paradigms/PICML/be/BE_Type_Map.h:
         * MDE/GME/paradigms/PICML/be/BE_Type_Map.inl:
         * MDE/GME/paradigms/PICML/be/BE_Type_Map.cpp:
@@ -18,12 +41,12 @@ Thu Mar  6 07:02:19 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Traits_Base.h:
         * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Traits_Base.cpp:
         * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Var_Type.cpp:
-        
+
           Added support for generating methods with named type return
           values that where either (non-)variable types.
 
         * MDE/GME/paradigms/PICML/interpreter/Component.rc:
-        
+
           Swapped the OK and Cancel button.
 
 Thu Mar  6 03:37:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

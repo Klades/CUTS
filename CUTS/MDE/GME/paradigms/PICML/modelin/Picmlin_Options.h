@@ -22,8 +22,9 @@
  */
 //=============================================================================
 
-struct Picmlin_Options
+class Picmlin_Options
 {
+public:
   /// Default constructor.
   Picmlin_Options (void);
 

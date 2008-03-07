@@ -78,27 +78,26 @@ struct CUTS_Scatter_To_Picml_Parser :
 
       this->identifier_ =
         boost::spirit::lexeme_d [
-          (boost::spirit::alpha_p | boost::spirit::ch_p ('_')) >>
-            *(boost::spirit::anychar_p - (boost::spirit::ch_p (':') | ';'))];
+          *(boost::spirit::graph_p - (boost::spirit::ch_p (':') | ';'))];
 
       this->component_ =
-        boost::spirit::lexeme_d [
-          *(boost::spirit::anychar_p - boost::spirit::ch_p (':'))];
+        boost::spirit::lexeme_d [*(boost::spirit::graph_p - ':')];
 
       this->host_ = 
-        boost::spirit::lexeme_d [
-          *(boost::spirit::anychar_p - boost::spirit::ch_p (';'))];
+        boost::spirit::lexeme_d [*(boost::spirit::graph_p - ';')];
 
       this->deployment_ =
         this->component_[boost::spirit::assign_a (this->component_id_)] >>
-        ':' >> this->host_[boost::spirit::assign_a (this->host_id_)] >>
+        ':' >> 
+        this->host_[boost::spirit::assign_a (this->host_id_)] >>
         boost::spirit::ch_p (';')[actions::deploy_instance (self.deployment_,
                                                             this->host_id_,
-                                                            this->component_id_)] ;
+                                                            this->component_id_)];
 
-      this->deployment_list_ = *(this->deployment_);
+      this->deployment_list_ = 
+        *(this->deployment_ >> *(boost::spirit::space_p));
 
-      this->start_ = this->deployment_list_ /*| this->comment_*/;
+      this->start_ = this->deployment_list_;
     }
 
     /**
@@ -189,7 +188,7 @@ run (const std::string & filename, CUTS_Deployment_Map & deployment)
   CUTS_Scatter_To_Picml_Parser parser (deployment);
 
   boost::spirit::parse_info <iterator_t> result =
-    boost::spirit::parse (first, last, parser);
+    boost::spirit::parse (first, last, parser, boost::spirit::space_p);
 
   if (result.full)
     return true;
@@ -213,7 +212,9 @@ run (const std::string & filename, CUTS_Deployment_Map & deployment)
   // parser failed.
   do 
   { 
-    ch = infile.get ();
+    for (; ;)
+      ch = infile.get ();
+   
   } while (std::isspace (ch, loc));
 
   // Close the input file.

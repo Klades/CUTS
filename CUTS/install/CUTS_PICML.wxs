@@ -3,26 +3,6 @@
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
   <Fragment Id='CUTS_CoSMIC'>
     <DirectoryRef Id='bin'>
-      <Component Id='CoSMIC_common'
-                 Guid='ED4CD639-753F-45e8-91D0-C5712D9C94DA'>
-        <File Id="PICML.dll" Name="PICML.DLL"
-              Source="$(env.COSMIC_ROOT)\bin\PICML.dll"
-              DiskId="1" />
-
-        <File Id="Utils.dll" Name="Utils.dll"
-              Source="$(env.COSMIC_ROOT)\bin\Utils.dll" DiskId="1" />
-
-        <File Id="GME.dll" Name="GME.dll"
-              Source="$(env.COSMIC_ROOT)\bin\GME.dll" DiskId="1" />
-
-        <File Id="ACE.dll" Name="ACE.dll"
-              Source="$(env.ACE_ROOT)\lib\ACE.dll" DiskId="1" />
-
-        <File Id='XERCESCDLL' Name='XERCES-C_2_6.dll'
-              DiskId='1'
-              Source='$(env.XERCESCROOT)\lib\XERCES-C_2_6.dll'  />
-      </Component>
-
       <Component Id='CUTS_PICML'
                  Guid='1B880B88-2944-419C-843F-433096213675'>
         <File Id="CUTS_BE.dll" Name="CUTS_BE.dll"
@@ -42,6 +22,12 @@
 
         <File Id="CUTS_PICML.dll" Name="CUTS_PICML.dll"
               Source="$(env.CUTS_ROOT)\bin\CUTS_PICML.dll" DiskId="1" />
+
+        <File Id="cuts.config" Name="cuts.config"
+              Source="$(env.CUTS_ROOT)\bin\cuts.config" DiskId="1" />
+
+        <File Id="cuts.user.config" Name="cuts.user.config"
+              Source="$(env.CUTS_ROOT)\bin\cuts.user.config" DiskId="1" />
 
         <!-- GME registry information -->
         <RegistryKey Root="HKLM" Key="SOFTWARE">
