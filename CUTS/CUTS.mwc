@@ -12,7 +12,7 @@
 ///               runtime and modeling, apply to this workspace.
 ///=============================================================================
 
-workspace (CUTS) : cuts_modeling {
+workspace (CUTS) : cuts_common {
   //-- build the entire CUTS runtime
   cuts
 

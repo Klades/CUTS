@@ -1,37 +1,67 @@
+Mon Mar 10 23:10:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * CUTS.mwc:
+        
+          Changed the base workspace to cuts_common.mwb.
+          
+        * CUTS_CoSMIC.mwc:
+        
+          Was the cuts_modeling.mwb file removed below.
+
+        * MDE/GME/paradigms/PICML/interpreter/Main_Dialog.cpp:
+        
+          All configuration information is stored in cuts.config.          
+
+        * bin/cuts.user.config:
+        
+          Default empty configuration populated during the install
+          process.
+
+        * install/CUTS_CoSMIC.wxs:
+        * install/CUTS_CoSMIC_installers.mpc:
+        * install/CUTS_PICML.wxs:
+        
+          Updated the installer to be consistent with the new 
+          configuration process.
+
+        * cuts_modeling.mwb:
+
+          Removed this file.
+
 Mon Mar 10 15:29:02 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/cuts.config:
         * bin/cuts.user.config:
-        
+
           Updated the configuration files.
 
         * etc/SQL/CUTS-msglog.sql:
-        
-          Initial implementation of the CiCUTS log message 
+
+          Initial implementation of the CiCUTS log message
           database table(s).
 
         * etc/config/msi.mpb:
-        
+
           Base project for using MSI.
 
         * etc/schemas/modelgen.xsd:
-        
-          Added the 'requires' quantifier to the 'id' attribute. 
+
+          Added the 'requires' quantifier to the 'id' attribute.
 
         * install/CUTS_CoSMIC_installers.mpc:
         * install/CUTS_PICML.wxs:
-        
+
           Initial update to the installer to write the cuts.config
           file at install-time.
-          
+
         * install/custom:
-        
+
           Directory for implementing custom actions.
-          
+
         * install/install.mwc:
-        
+
           Rename of the 'installers.mwc' file.
-          
+
         * install/installers.mwc:
 
           Removed this file.

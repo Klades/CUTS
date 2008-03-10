@@ -9,7 +9,9 @@
 ///               of CUTS.
 ///=============================================================================
 
-workspace : cuts_common {
+workspace (CUTS_CoSMIC) : cuts_common {
+  $(CUTS_ROOT)/cuts/CUTS.mpc
+  
   modeling {
     cmdline += -base requires_modeling
 

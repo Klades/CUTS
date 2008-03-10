@@ -19,13 +19,13 @@
     <WixVariable Id="WixUIDialogBmp"  Value="images\dlgbmp.bmp" />
 
 <!--
-    <Property Id="PICML_INSTALLED">
-      <RegistrySearch Id="PICML_version" Root="HKCU" Type="raw"
+    <Property Id="COSMIC_INSTALLED">
+      <RegistrySearch Id="PICML.version" Root="HKCU" Type="raw"
                       Key="SOFTWARE\GME\Paradigms\PICML" Name="CurrentVersion" />
     </Property>
 
     <Condition Message='CUTS modeling tools requires CoSMIC to be installed first'>
-      PICML_INSTALLED</Condition>
+      COSMIC_INSTALLED</Condition>
 -->
 
     <!-- installation media -->
@@ -38,7 +38,15 @@
         <Directory Id="ISIS" Name="ISIS">
           <Directory Id="CoSMIC" Name="CoSMIC">
             <Directory Id="INSTALLDIR" Name="CUTS">
-              <Directory Id="bin" Name="bin" />
+              <Component Id="CUTS" Guid="59C094F3-00A7-401d-864F-BB4F73448DAD">
+                <!-- registry information for the application -->              
+                <RegistryKey Root="HKLM" Key="SOFTWARE\CUTS"
+                             Action="createAndRemoveOnUninstall">
+                  <RegistryValue Type="string" Value="[INSTALLDIR]" Action="write" />
+                </RegistryKey>
+              </Component>
+              
+              <Directory Id="bin" Name="bin" /> 
             </Directory>
           </Directory>
         </Directory>
@@ -53,6 +61,7 @@
              AllowAdvertise="no">
 
       <!-- gather all the CUTS related components -->
+      <ComponentRef Id="CUTS" />
       <ComponentRef Id="CUTS_PICML" />
 
       <!-- include the VC merge modules -->

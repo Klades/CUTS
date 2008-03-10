@@ -19,8 +19,7 @@
 #include <strstream>
 #include <algorithm>
 
-#define CUTS_BE_DEFAULT_CONFIG     "cuts.config"
-#define CUTS_BE_USER_CONFIG        "cuts.user.config"
+#define CUTS_BE_CUTS_CONFIG     "cuts.config"
 
 BEGIN_MESSAGE_MAP (Main_Dialog, CDialog)
   ON_LBN_SELCHANGE (IDC_BE_LIST, On_BE_List_SelChange)
@@ -63,9 +62,8 @@ BOOL Main_Dialog::OnInitDialog (void)
     try
     {
       // Create the user and default configuration.
-      std::ostringstream default_config, user_config;
-      default_config << CUTS_ROOT << "/bin/" << CUTS_BE_DEFAULT_CONFIG;
-      user_config << CUTS_ROOT << "/bin/" << CUTS_BE_USER_CONFIG;
+      std::ostringstream cuts_config;
+      cuts_config << CUTS_ROOT << "/bin/" << CUTS_BE_CUTS_CONFIG;
 
       // Create the file reader for the configuration file.
       XSCRT::utils::File_Reader_T <
@@ -117,7 +115,7 @@ BOOL Main_Dialog::OnInitDialog (void)
       CUTS::Configuration config;
 
       // Open the default configuration.
-      if (reader.open (default_config.str ()) != -1)
+      if (reader.open (cuts_config.str ()) != -1)
       {
         // Read the default configuration.
         reader >> config;
@@ -383,7 +381,7 @@ int Main_Dialog::resolve_CUTS_ROOT (std::string & root)
   long path_size = sizeof (char) * sizeof (path);
 
   if (::RegQueryValue (HKEY_CURRENT_USER,
-                       "SOFTWARE\\CUTS",
+                       "Software\\CUTS",
                        path,
                        &path_size) == ERROR_SUCCESS)
   {

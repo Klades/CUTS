@@ -1,61 +1,181 @@
 <?xml version='1.0' encoding='utf-8' standalone='yes' ?>
 
-<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <Fragment Id='CUTS_CoSMIC'>
     <DirectoryRef Id='bin'>
       <Component Id='CUTS_PICML' Guid='1B880B88-2944-419C-843F-433096213675'>
-        <File Id="CUTS_BE.dll" Name="CUTS_BE.dll"
-              Source="$(env.CUTS_ROOT)\bin\CUTS_BE.dll" DiskId="1" />
-
         <!-- install the XML configuration -->
         <File Id="cuts.config" Name="cuts.config"
               Source="$(env.CUTS_ROOT)\bin\cuts.user.config" DiskId="1" />
 
-        <!-- install the CIAO generator -->
-        <File Id="CUTS_BE_CIAO.dll" Name="CUTS_BE_CIAO.dll"
-              Source="$(env.CUTS_ROOT)\bin\CUTS_BE_CIAO.dll" DiskId="1" />
-
-        <XmlFile Id="CUTS_BE_CIAO.generator"
-                 File="[INSTALLDIR]bin\cuts.config" 
-                 sequence="1"
-                 action="createElement"
-                 name="generator"
-                 elementPath="//cuts:modelgen/backend" />
-
-        <XmlFile Id="CUTS_BE_CIAO.generator.location" 
-                 File="[INSTALLDIR]bin\cuts.config" 
-                 sequence="2" 
-                 action="setValue"
-                 name="id"
-                 elementPath="//cuts:modelgen/backend"
-                 value="CIAO" />
-
-        <XmlFile Id="CUTS_BE_CIAO.generator.location" 
-                 File="[INSTALLDIR]bin\cuts.config" 
-                 sequence="3"
-                 action="createElement"
-                 name="location"
-                 elementPath="//cuts:modelgen/backend/generator"
-                 value="[INSTALLDIR]bin\CUTS_BE_CIAO" />
-
-        <!-- install the XML generator -->
-        <File Id="CUTS_BE_XML.dll" Name="CUTS_BE_XML.dll"
-              Source="$(env.CUTS_ROOT)\bin\CUTS_BE_XML.dll" DiskId="1" />
-
-        <File Id="CUTS_BE_Natural_Lang.dll" Name="CUTS_BE_Natural_Lang.dll"
-              Source="$(env.CUTS_ROOT)\bin\CUTS_BE_Natural_Lang.dll" DiskId="1" />
-
-        <File Id="CUTS_BE_TIOA.dll" Name="CUTS_BE_TIOA.dll"
-              Source="$(env.CUTS_ROOT)\bin\CUTS_BE_TIOA.dll" DiskId="1" />
+        <File Id="CUTS_BE.dll" Name="CUTS_BE.dll"
+              Source="$(env.CUTS_ROOT)\lib\CUTS_BE.dll" DiskId="1" />
 
         <File Id="CUTS_PICML.dll" Name="CUTS_PICML.dll"
-              Source="$(env.CUTS_ROOT)\bin\CUTS_PICML.dll" DiskId="1" />
+              Source="$(env.CUTS_ROOT)\lib\CUTS_PICML.dll" DiskId="1" />
 
-        <File Id="XERCES-C_2_6D.DLL" Name="XERCES-C_2_6D.DLL"
-              Source="$(env.XERCESROOT)\bin\XERCES-C_2_6D.DLL" DiskId="1" />
+        <File Id="XERCES_C_2_6.DLL" Name="XERCES-C_2_6.DLL"
+              Source="$(env.XERCESCROOT)\lib\xerces-c_2_6.dll" DiskId="1" />
 
         <File Id="XSCRT_Utils.dll" Name="XSCRT_Utils.dll"
               Source="$(env.XSC_ROOT)\lib\XSCRT_Utils.dll" DiskId="1" />
+
+        <!-- install the CIAO generator -->
+        <File Id="CUTS_BE_CIAO.dll" Name="CUTS_BE_CIAO.dll"
+              Source="$(env.CUTS_ROOT)\lib\CUTS_BE_CIAO.dll" DiskId="1" />
+
+        <util:XmlConfig Id="generator.CIAO"
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        Action="create"
+                        ElementPath="//cuts:modelgen/backend"
+                        VerifyPath="//cuts:modelgen/backend/generator[\[]@id='CIAO'[\]]"
+                        Name="generator" 
+                        Node="element"
+                        Sequence="1" 
+                        On="install" />
+
+        <util:XmlConfig Id="generator.CIAO.delete"
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        Action="delete"
+                        ElementPath="//cuts:modelgen/backend/generator[\[]@id='CIAO'[\]]"
+                        Node="element"
+                        Sequence="1" 
+                        On="uninstall" />
+
+        <util:XmlConfig Id="generator.CIAO.id" 
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        ElementPath="generator.CIAO"                       
+                        Name="id"
+                        Value="CIAO"
+                        Sequence="2" />
+
+        <util:XmlConfig Id="generator.CIAO.location" 
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        Action="create"
+                        ElementPath="//cuts:modelgen/backend/generator[\[]@id='CIAO'[\]]"
+                        Name="location" 
+                        Node="element"
+                        Sequence="3" 
+                        On="install"
+                        Value="[INSTALLDIR]bin\CUTS_BE_CIAO" />
+                        
+        <!-- install the XML generator -->
+        <File Id="CUTS_BE_XML.dll" Name="CUTS_BE_XML.dll"
+              Source="$(env.CUTS_ROOT)\lib\CUTS_BE_XML.dll" DiskId="1" />
+
+        <util:XmlConfig Id="generator.XML"
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        Action="create"
+                        ElementPath="//cuts:modelgen/backend"
+                        VerifyPath="//cuts:modelgen/backend/generator[\[]@id='XML'[\]]"
+                        Name="generator" 
+                        Node="element"
+                        Sequence="1" 
+                        On="install" />
+
+        <util:XmlConfig Id="generator.XML.delete"
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        Action="delete"
+                        ElementPath="//cuts:modelgen/backend/generator[\[]@id='XML'[\]]"
+                        Node="element"
+                        Sequence="1" 
+                        On="uninstall" />
+
+        <util:XmlConfig Id="generator.XML.id" 
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        ElementPath="generator.XML"                       
+                        Name="id"
+                        Value="XML"
+                        Sequence="2" />
+
+        <util:XmlConfig Id="generator.XML.location" 
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        Action="create"
+                        ElementPath="//cuts:modelgen/backend/generator[\[]@id='XML'[\]]"
+                        Name="location" 
+                        Node="element"
+                        Sequence="3" 
+                        On="install"
+                        Value="[INSTALLDIR]bin\CUTS_BE_XML" />
+                        
+        <!-- install the english generator -->
+        <File Id="CUTS_BE_Natural_Lang.dll" Name="CUTS_BE_Natural_Lang.dll"
+              Source="$(env.CUTS_ROOT)\lib\CUTS_BE_Natural_Lang.dll" DiskId="1" />
+
+        <util:XmlConfig Id="generator.language.english"
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        Action="create"
+                        ElementPath="//cuts:modelgen/backend"
+                        VerifyPath="//cuts:modelgen/backend/generator[\[]@id='language.english'[\]]"
+                        Name="generator" 
+                        Node="element"
+                        Sequence="1" 
+                        On="install" />
+
+        <util:XmlConfig Id="generator.language.english.delete"
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        ElementPath="//cuts:modelgen/backend/generator[\[]@id='language.english'[\]]"
+                        Node="element"
+                        Action="delete"
+                        Sequence="1" 
+                        On="uninstall" />
+
+        <util:XmlConfig Id="generator.language.english.id" 
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        ElementPath="generator.language.english"                       
+                        Name="id"
+                        Value="language.english"
+                        Sequence="2" />
+
+        <util:XmlConfig Id="generator.language.english.location" 
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        Action="create"
+                        ElementPath="//cuts:modelgen/backend/generator[\[]@id='language.english'[\]]"
+                        Name="location" 
+                        Node="element"
+                        Sequence="3" 
+                        On="install"
+                        Value="[INSTALLDIR]bin\CUTS_BE_Natural_Lang" />
+
+        <!-- install the TIOA generator -->
+        <File Id="CUTS_BE_TIOA.dll" Name="CUTS_BE_TIOA.dll"
+              Source="$(env.CUTS_ROOT)\lib\CUTS_BE_TIOA.dll" DiskId="1" />
+
+        <util:XmlConfig Id="generator.TIOA"
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        Action="create"
+                        ElementPath="//cuts:modelgen/backend"
+                        VerifyPath="//cuts:modelgen/backend/generator[\[]@id='TIOA'[\]]"
+                        Name="generator" 
+                        Node="element"
+                        Sequence="1" 
+                        On="install" />
+
+        <util:XmlConfig Id="generator.TIOA.delete"
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        ElementPath="//cuts:modelgen/backend/generator[\[]@id='TIOA'[\]]"
+                        Node="element"
+                        Action="delete"
+                        Sequence="1" 
+                        On="uninstall" />
+
+        <util:XmlConfig Id="generator.TIOA.id" 
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        ElementPath="generator.TIOA"                       
+                        Name="id"
+                        Value="TIOA"
+                        Sequence="2" />
+
+        <util:XmlConfig Id="generator.TIOA.location" 
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        Action="create"
+                        ElementPath="//cuts:modelgen/backend/generator[\[]@id='TIOA'[\]]"
+                        Name="location" 
+                        Node="element"
+                        Sequence="3" 
+                        On="install"
+                        Value="[INSTALLDIR]bin\CUTS_BE_TIOA" />
 
         <!-- GME registry information -->
         <RegistryKey Root="HKLM" Key="SOFTWARE">
@@ -63,18 +183,18 @@
             <RegistryKey Key="CUTS.Interpreter.PICML"
                          Action="createAndRemoveOnUninstall">
               <RegistryValue Name="Description" Type="string"
-                            Value="CUTS Interpreter" Action="write" />
+                             Value="CUTS Interpreter" Action="write" />
               <RegistryValue Name="Icon" Type="string"
-                            Value=",IDI_COMPICON" Action="write" />
+                             Value=",IDI_COMPICON" Action="write" />
               <RegistryValue Name="Paradigm" Type="string"
-                            Value="PICML" Action="write" />
+                             Value="PICML" Action="write" />
               <RegistryValue Name="Tooltip" Type="string"
-                            Value="CUTS interpreter" Action="write" />
+                             Value="CUTS interpreter" Action="write" />
               <RegistryValue Name="Type" Type="integer"
-                           Value="1" Action="write" />
+                            Value="1" Action="write" />
               <RegistryKey Key="Associated" Action="create">
                 <RegistryValue Name="PICML" Type="string"
-                              Action="write" Value="" />
+                               Action="write" Value="" />
               </RegistryKey>
             </RegistryKey>
           </RegistryKey>
@@ -88,17 +208,17 @@
                 <RegistryValue Type="string"
                                Value="{DD5752C3-12EF-43D0-978C-F5C395D5BF13}" />
               </RegistryKey>
-            </RegistryKey>
-
+            </RegistryKey>  
+            
             <!-- CLSID registry information -->
             <RegistryKey Key="CLSID">
               <RegistryKey Key="{DD5752C3-12EF-43D0-978C-F5C395D5BF13}"
-                           Action="createAndRemoveOnUninstall">
+                          Action="createAndRemoveOnUninstall">
                 <RegistryValue Type="string"
-                               Value="CUTS.Interpreter.PICML" />
+                              Value="CUTS.Interpreter.PICML" />
                 <RegistryKey Key="InProcServer32" Action="create">
                   <RegistryValue Type="string"
-                                 Value="[INSTALLDIR]bin\CUTS_PICML.dll" />
+                                Value="[INSTALLDIR]bin\CUTS_PICML.dll" />
                 </RegistryKey>
 
                 <RegistryKey Key="ProgID" Action="create">
@@ -108,10 +228,6 @@
             </RegistryKey>
           </RegistryKey>
         </RegistryKey>
-        
-        <RemoveFile Id='cutsmst' 
-                    On='intall' Name='[INSTALLDIR]bin\cutsmsi.dll' 
-                    LongName='Foobar10User.log' />
       </Component>
     </DirectoryRef>
 
