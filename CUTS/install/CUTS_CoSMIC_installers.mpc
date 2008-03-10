@@ -1,6 +1,8 @@
 // $Id$
 
 project (CUTS_CoSMIC) : wix {
+  after += Custom_Actions
+  
   specific {
     wix_flags   += -ext WixUIExtension
     light_flags += -ext WixUIExtension -cultures:en-us

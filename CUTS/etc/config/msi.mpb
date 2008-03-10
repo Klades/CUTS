@@ -1,0 +1,6 @@
+// $Id$
+
+project {
+  requires += msi
+  lit_libs += msi
+}

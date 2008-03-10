@@ -1,16 +1,44 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
 
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
   <Fragment Id='CUTS_CoSMIC'>
     <DirectoryRef Id='bin'>
-      <Component Id='CUTS_PICML'
-                 Guid='1B880B88-2944-419C-843F-433096213675'>
+      <Component Id='CUTS_PICML' Guid='1B880B88-2944-419C-843F-433096213675'>
         <File Id="CUTS_BE.dll" Name="CUTS_BE.dll"
               Source="$(env.CUTS_ROOT)\bin\CUTS_BE.dll" DiskId="1" />
 
+        <!-- install the XML configuration -->
+        <File Id="cuts.config" Name="cuts.config"
+              Source="$(env.CUTS_ROOT)\bin\cuts.user.config" DiskId="1" />
+
+        <!-- install the CIAO generator -->
         <File Id="CUTS_BE_CIAO.dll" Name="CUTS_BE_CIAO.dll"
               Source="$(env.CUTS_ROOT)\bin\CUTS_BE_CIAO.dll" DiskId="1" />
 
+        <XmlFile Id="CUTS_BE_CIAO.generator"
+                 File="[INSTALLDIR]bin\cuts.config" 
+                 sequence="1"
+                 action="createElement"
+                 name="generator"
+                 elementPath="//cuts:modelgen/backend" />
+
+        <XmlFile Id="CUTS_BE_CIAO.generator.location" 
+                 File="[INSTALLDIR]bin\cuts.config" 
+                 sequence="2" 
+                 action="setValue"
+                 name="id"
+                 elementPath="//cuts:modelgen/backend"
+                 value="CIAO" />
+
+        <XmlFile Id="CUTS_BE_CIAO.generator.location" 
+                 File="[INSTALLDIR]bin\cuts.config" 
+                 sequence="3"
+                 action="createElement"
+                 name="location"
+                 elementPath="//cuts:modelgen/backend/generator"
+                 value="[INSTALLDIR]bin\CUTS_BE_CIAO" />
+
+        <!-- install the XML generator -->
         <File Id="CUTS_BE_XML.dll" Name="CUTS_BE_XML.dll"
               Source="$(env.CUTS_ROOT)\bin\CUTS_BE_XML.dll" DiskId="1" />
 
@@ -23,11 +51,11 @@
         <File Id="CUTS_PICML.dll" Name="CUTS_PICML.dll"
               Source="$(env.CUTS_ROOT)\bin\CUTS_PICML.dll" DiskId="1" />
 
-        <File Id="cuts.config" Name="cuts.config"
-              Source="$(env.CUTS_ROOT)\bin\cuts.config" DiskId="1" />
+        <File Id="XERCES-C_2_6D.DLL" Name="XERCES-C_2_6D.DLL"
+              Source="$(env.XERCESROOT)\bin\XERCES-C_2_6D.DLL" DiskId="1" />
 
-        <File Id="cuts.user.config" Name="cuts.user.config"
-              Source="$(env.CUTS_ROOT)\bin\cuts.user.config" DiskId="1" />
+        <File Id="XSCRT_Utils.dll" Name="XSCRT_Utils.dll"
+              Source="$(env.XSC_ROOT)\lib\XSCRT_Utils.dll" DiskId="1" />
 
         <!-- GME registry information -->
         <RegistryKey Root="HKLM" Key="SOFTWARE">
@@ -80,7 +108,12 @@
             </RegistryKey>
           </RegistryKey>
         </RegistryKey>
+        
+        <RemoveFile Id='cutsmst' 
+                    On='intall' Name='[INSTALLDIR]bin\cutsmsi.dll' 
+                    LongName='Foobar10User.log' />
       </Component>
     </DirectoryRef>
+
   </Fragment>
 </Wix>
