@@ -12,13 +12,7 @@
 ///               runtime and modeling, apply to this workspace.
 ///=============================================================================
 
-workspace (CUTS) : cuts_common {
-  //-- build the entire CUTS runtime workspace
-  ./CUTS_Runtime_Arch.mwc
-  
-  //-- build the entire CUTS (CoSMIC) modeling workspace
-  ./CUTS_CoSMIC.mwc
-
+workspace (CUTS) : CUTS_Runtime_Arch, CUTS_CoSMIC {
   //-- utility applications
   utils/calibrate
   utils/Node_Daemon
