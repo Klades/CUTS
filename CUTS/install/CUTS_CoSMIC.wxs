@@ -10,7 +10,7 @@
     <Package Keywords='Installer'
              Description='CUTS Modeling Tools for CoSMIC'
              Manufacturer='DOC Group, ISIS, Vanderbilt University'
-             InstallerVersion='150' Languages='1033' Compressed='yes'
+             InstallerVersion='200' Languages='1033' Compressed='yes'
              SummaryCodepage='1252' />
 
     <!-- Wix variables -->
