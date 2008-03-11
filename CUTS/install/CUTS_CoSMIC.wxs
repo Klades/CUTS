@@ -36,18 +36,16 @@
 
       <Directory Id="ProgramFilesFolder" Name="PFiles">
         <Directory Id="ISIS" Name="ISIS">
-          <Directory Id="CoSMIC" Name="CoSMIC">
-            <Directory Id="INSTALLDIR" Name="CUTS">
-              <Component Id="CUTS" Guid="59C094F3-00A7-401d-864F-BB4F73448DAD">
-                <!-- registry information for the application -->              
-                <RegistryKey Root="HKLM" Key="SOFTWARE\CUTS"
-                             Action="createAndRemoveOnUninstall">
-                  <RegistryValue Type="string" Value="[INSTALLDIR]" Action="write" />
-                </RegistryKey>
-              </Component>
-              
-              <Directory Id="bin" Name="bin" /> 
-            </Directory>
+          <Directory Id="INSTALLDIR" Name="CUTS">
+            <Component Id="CUTS" Guid="59C094F3-00A7-401d-864F-BB4F73448DAD">
+              <!-- registry information for the application -->              
+              <RegistryKey Root="HKLM" Key="SOFTWARE\CUTS"
+                            Action="createAndRemoveOnUninstall">
+                <RegistryValue Type="string" Value="[INSTALLDIR]" Action="write" />
+              </RegistryKey>
+            </Component>
+            
+            <Directory Id="bin" Name="bin" /> 
           </Directory>
         </Directory>
       </Directory>

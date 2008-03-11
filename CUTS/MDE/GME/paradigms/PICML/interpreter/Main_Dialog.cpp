@@ -123,6 +123,11 @@ BOOL Main_Dialog::OnInitDialog (void)
         // Load the generators from the configuration.
         this->init_generators (config);
       }
+      else
+      {
+        ::AfxMessageBox ("Failed to open configuration file", 
+                         MB_OK | MB_ICONERROR);
+      }
     }
     catch (const xercesc::DOMException & ex)
     {
@@ -131,12 +136,17 @@ BOOL Main_Dialog::OnInitDialog (void)
     }
     catch (const xercesc::XMLException & )
     {
-      ::AfxMessageBox ("Caught XML exception", MB_OK | MB_ICONWARNING);
+      ::AfxMessageBox ("Caught XML exception", MB_OK | MB_ICONERROR);
     }
     catch (...)
     {
-      ::AfxMessageBox ("Caught known exception", MB_OK | MB_ICONWARNING);
+      ::AfxMessageBox ("Caught unknown exception", MB_OK | MB_ICONERROR);
     }
+  }
+  else
+  {
+    ::AfxMessageBox ("Failed to load configuration file",
+                     MB_OK | MB_ICONWARNING);
   }
 
   // Load backend generators from parsed file.
@@ -380,7 +390,7 @@ int Main_Dialog::resolve_CUTS_ROOT (std::string & root)
   char path [MAX_PATH];
   long path_size = sizeof (char) * sizeof (path);
 
-  if (::RegQueryValue (HKEY_CURRENT_USER,
+  if (::RegQueryValue (HKEY_LOCAL_MACHINE,
                        "Software\\CUTS",
                        path,
                        &path_size) == ERROR_SUCCESS)

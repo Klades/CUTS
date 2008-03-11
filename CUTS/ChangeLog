@@ -1,10 +1,26 @@
+Tue Mar 11 04:07:13 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/Main_Dialog.cpp:
+        
+          Added more error/warning messages.
+
+        * bin/cuts.user.config:
+        
+          Added missing namespace information.
+
+        * install/CUTS_CoSMIC.wxs:
+        * install/CUTS_PICML.wxs:
+        
+          Bug fix where the cuts.config file generated during the
+          install process was invalid.
+
 Tue Mar 11 00:00:05 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * CUTS.mwc:
         * CUTS_CoSMIC.mwc:
         * CUTS_Runtime_Arch.mwc:
         * etc/config/cuts_cosmic.mpb:
-        
+
           Decoupled the CUTS runtime architecture from the CUTS
           modeling tools so both can be built independently.
 
