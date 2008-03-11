@@ -1,0 +1,5 @@
+// $Id$
+
+workspace (CUTS_Runtime_Arch) : cuts_common {
+  cuts
+}

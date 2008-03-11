@@ -13,8 +13,11 @@
 ///=============================================================================
 
 workspace (CUTS) : cuts_common {
-  //-- build the entire CUTS runtime
-  cuts
+  //-- build the entire CUTS runtime workspace
+  ./CUTS_Runtime_Arch.mwc
+  
+  //-- build the entire CUTS (CoSMIC) modeling workspace
+  ./CUTS_CoSMIC.mwc
 
   //-- utility applications
   utils/calibrate

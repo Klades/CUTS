@@ -1,27 +1,37 @@
+Tue Mar 11 00:00:05 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * CUTS.mwc:
+        * CUTS_CoSMIC.mwc:
+        * CUTS_Runtime_Arch.mwc:
+        * etc/config/cuts_cosmic.mpb:
+        
+          Decoupled the CUTS runtime architecture from the CUTS
+          modeling tools so both can be built independently.
+
 Mon Mar 10 23:10:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * CUTS.mwc:
-        
+
           Changed the base workspace to cuts_common.mwb.
-          
+
         * CUTS_CoSMIC.mwc:
-        
+
           Was the cuts_modeling.mwb file removed below.
 
         * MDE/GME/paradigms/PICML/interpreter/Main_Dialog.cpp:
-        
-          All configuration information is stored in cuts.config.          
+
+          All configuration information is stored in cuts.config.
 
         * bin/cuts.user.config:
-        
+
           Default empty configuration populated during the install
           process.
 
         * install/CUTS_CoSMIC.wxs:
         * install/CUTS_CoSMIC_installers.mpc:
         * install/CUTS_PICML.wxs:
-        
-          Updated the installer to be consistent with the new 
+
+          Updated the installer to be consistent with the new
           configuration process.
 
         * cuts_modeling.mwb:
