@@ -1,7 +1,13 @@
+Tue Mar 11 15:19:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * docs/web/downloads/CUTS_CoSMIC.msi:
+        
+          Updated the installer.
+
 Tue Mar 11 15:17:04 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * install/CUTS_CoSMIC.wxs:
-        
+
           Updated the installer version to '200'.
 
 Tue Mar 11 04:07:13 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
