@@ -1,7 +1,13 @@
+Thu Mar 13 19:18:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/_CoSMIC.build:
+        
+          Disabled building all projects that required zlib.
+
 Tue Mar 11 17:21:26 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * CUTS.mwc:
-        
+
           Fixed MPC error related to aggregated workspaces.
 
 Tue Mar 11 15:19:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
