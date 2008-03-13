@@ -1,7 +1,14 @@
+Thu Mar 13 23:49:13 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/_ACE_TAO_CIAO.build:
+        
+          Now both the 'Debug' and 'Release' version of ACE+TAO+CIAO will 
+          build by defualt.
+
 Thu Mar 13 19:18:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/_CoSMIC.build:
-        
+
           Disabled building all projects that required zlib.
 
 Tue Mar 11 17:21:26 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

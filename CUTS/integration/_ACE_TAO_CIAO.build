@@ -48,6 +48,12 @@
     
     <antcall target="devenv.rebuild">
       <param name="devenv.solution" value="${env.CIAO_ROOT}/CIAO_TAO_DAnCE.sln" />
+      <param name="devenv.configuration" value="Debug" />
+    </antcall>
+
+    <antcall target="devenv.rebuild">
+      <param name="devenv.solution" value="${env.CIAO_ROOT}/CIAO_TAO_DAnCE.sln" />
+      <param name="devenv.configuration" value="Release" />
     </antcall>
   </target>
 
