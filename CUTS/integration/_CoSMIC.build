@@ -57,7 +57,7 @@
     <!-- generate solution -->
     <antcall target="mpc.workspace.generate">
       <param name="mpc.workspace" value="${env.COSMIC_ROOT}/cosmic.mwc" />
-      <param name="mpc.args" value="-features register=0,zlib=0" />
+      <param name="mpc.args" value="-features register=0" />
     </antcall>
   </target>
 
