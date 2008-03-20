@@ -9,14 +9,19 @@ project (picmlin) : boost_base, cuts_gme, cutsexe {
   pch_header = stdafx.h
   
   Source_Files {
+    Model_Cache.cpp
+    Model_Cache_Manager.cpp
     Picmlin_Options.cpp
     Picmlin_App.cpp
     picmlin.cpp
-    
     Scatter_To_Picml.cpp
   }
   
   Header_Files {
     Deployment_Map.h
+  }
+  
+  Template_Files {
+    Model_Cache_T.cpp
   }
 }

@@ -6,6 +6,7 @@
 #include "BE_Assembly_Generator.inl"
 #endif
 
+#include "BE_Assembly_Generator_Preprocessor.h"
 #include "BE_Position.h"
 #include "BE_Scope_Manager.h"
 #include "CoWorkEr_Cache.h"
@@ -19,7 +20,7 @@
 #include "Uml.h"
 
 static const char *
-CoWorkEr_ComponentImplementations = "CoWorkEr_ComponentImplementations";
+COWORKER_COMPONENTIMPLEMENTATIONS = "CoWorkEr_ComponentImplementations";
 
 //
 // Visit_RootFolder
@@ -27,27 +28,38 @@ CoWorkEr_ComponentImplementations = "CoWorkEr_ComponentImplementations";
 void CUTS_BE_Assembly_Generator::
 Visit_RootFolder (const PICML::RootFolder & folder)
 {
-  typedef std::vector <PICML::ComponentImplementations> Folder_Set;
-  Folder_Set folders = folder.ComponentImplementations_children ();
+  // Preprocess to project and determine if we need to generate 
+  // any CUTS assemblies.
+  CUTS_BE_Assembly_Generator_Preprocessor preprocessor (this->build_list_);
+  PICML::RootFolder (folder).Accept (preprocessor);
+
+  if (this->build_list_.empty ())
+    return;
 
   // We need to locate the <CoWorkEr_ComponentImplementations> folder
   // or create one since this is where all the <CoWorkErs> will be
   // placed.
+
+  typedef std::vector <PICML::ComponentImplementations> Folder_Set;
+  Folder_Set folders = folder.ComponentImplementations_children ();
+
   if (Udm::contains (
       boost::bind (std::equal_to <std::string> (),
-                   CoWorkEr_ComponentImplementations,
+                   COWORKER_COMPONENTIMPLEMENTATIONS,
                    boost::bind (&PICML::ComponentImplementations::name,
                                 _1))) (folder, this->target_folder_))
   {
-    std::for_each (folders.begin (),
-                   folders.end (),
-                   boost::bind (&Folder_Set::value_type::Accept,
+    // Now that we have found the target folder, we need to process
+    // the assemblies in the build order derived by the preprocessor.
+    std::for_each (this->build_list_.begin (),
+                   this->build_list_.end (),
+                   boost::bind (&build_list_type::value_type::Accept,
                                 _1,
                                 boost::ref (*this)));
   }
   else
   {
-    // The user need to run the CoWorkEr generator first.
+    // The user needs to run the CoWorkEr generator first.
   }
 }
 
@@ -57,7 +69,8 @@ Visit_RootFolder (const PICML::RootFolder & folder)
 void CUTS_BE_Assembly_Generator::
 Visit_ComponentImplementations (const PICML::ComponentImplementations & folder)
 {
-  // We need to ignore all folders that contain the following.
+  // We need to ignore all folders that contain the CUTS_ and 
+  // CoWorkEr_.
   std::string name = folder.name ();
 
   if (name.find ("CUTS_") == std::string::npos &&
@@ -81,17 +94,42 @@ void CUTS_BE_Assembly_Generator::
 Visit_ComponentImplementationContainer (
   const PICML::ComponentImplementationContainer & container)
 {
-  typedef
-    std::vector <PICML::ComponentImplementation>
-    ComponentImplementation_Set;
+  std::string path = container.getPath2 (".", false);
 
-  ComponentImplementation_Set impl =
-    container.ComponentImplementation_children ();
+  // Validate this parent folder is not a prexisting CUTS or CoWorker
+  // container. We ignore these since they are not user defined
+  PICML::ComponentImplementations folder = 
+    PICML::ComponentImplementations::Cast (container.parent ());
 
-  std::for_each (impl.begin (), impl.end (),
-                 boost::bind (&CUTS_BE_Assembly_Generator::Visit_ComponentImplementation,
-                              this,
-                              _1));
+  std::string name = folder.name ();
+
+  if (name.find ("CUTS_") == std::string::npos &&
+      name.find ("CoWorkEr_") == std::string::npos)
+  {
+    // Validate the contain exist in the target folder.
+    typedef std::vector <PICML::ComponentImplementationContainer> Container_Set;
+
+    Container_Set containers = 
+      this->target_folder_.ComponentImplementationContainer_children ();
+
+    name = std::string (container.name ()) + "_CoWorkEr";
+
+    // We need to find the "target" container for this container.
+    if (Udm::create_if_not (this->target_folder_, this->target_container_,
+        Udm::contains (boost::bind (std::equal_to <std::string> (),
+                       name,
+                       boost::bind (&PICML::ComponentImplementationContainer::name,
+                                    _1)))))
+    {
+      this->target_container_.SetStrValue ("name", name);
+    }
+  }
+  else
+  {
+    // Reset the container.
+    this->target_container_ = 
+      PICML::ComponentImplementationContainer::Cast (Udm::null);
+  }
 }
 
 //
@@ -129,6 +167,19 @@ Visit_ComponentAssembly (const PICML::ComponentAssembly & assembly)
 {
   if (!assembly.isInstance ())
   {
+    // We are generating a proxy assembly for an actual assembly.
+    PICML::ComponentImplementationContainer parent =
+      PICML::ComponentImplementationContainer::Cast (assembly.parent ());
+
+    // Visit the containers parent to validate it has been created
+    // in the target folder.
+    parent.Accept (*this);
+
+    if (this->target_container_ == Udm::null)
+      return;
+
+    // Validate that the container contains a CoWorkEr assembly for this
+    // assembly.
     std::string name = assembly.name ();
 
     if (Udm::create_if_not (this->target_container_, this->target_assembly_,
@@ -139,6 +190,25 @@ Visit_ComponentAssembly (const PICML::ComponentAssembly & assembly)
       this->target_assembly_.SetStrValue ("name", name);
     }
 
+    // Set the position of the assembly.
+    this->target_assembly_.position () = assembly.position ();
+
+    // Save the component assemblies to their respective maps 
+    // for later usage.
+    std::string path = assembly.getPath2 (".");
+    this->assembly_map_.insert (std::make_pair (path, this->target_assembly_));
+
+    // Visit all the component assemblies in this assembly. We need to 
+    // create instances of each component assembly.
+    typedef std::vector <PICML::ComponentAssembly> ComponentAssembly_Set;
+    ComponentAssembly_Set assemblies = assembly.ComponentAssembly_children ();
+
+    std::for_each (assemblies.begin (),
+                   assemblies.end (),
+                   boost::bind (&ComponentAssembly_Set::value_type::Accept,
+                                _1,
+                                boost::ref (*this)));
+
     // Visit all the components in the assembly.
     typedef std::vector <PICML::Component> Component_Set;
     Component_Set components = assembly.Component_children ();
@@ -146,6 +216,26 @@ Visit_ComponentAssembly (const PICML::ComponentAssembly & assembly)
     std::for_each (components.begin (),
                    components.end (),
                    boost::bind (&Component_Set::value_type::Accept,
+                                _1,
+                                boost::ref (*this)));
+
+    // Create all the port delegations of this component assembly.
+    typedef std::vector <PICML::EventSinkDelegate> EventSinkDelegate_set;
+    EventSinkDelegate_set sink_delegates = assembly.EventSinkDelegate_children ();
+
+    std::for_each (sink_delegates.begin (),
+                   sink_delegates.end (),
+                   boost::bind (&EventSinkDelegate_set::value_type::Accept,
+                                _1,
+                                boost::ref (*this)));
+
+    // Create all the port delegations of this component assembly.
+    typedef std::vector <PICML::EventSourceDelegate> EventSourceDelegate_set;
+    EventSourceDelegate_set src_delegates = assembly.EventSourceDelegate_children ();
+
+    std::for_each (src_delegates.begin (),
+                   src_delegates.end (),
+                   boost::bind (&EventSourceDelegate_set::value_type::Accept,
                                 _1,
                                 boost::ref (*this)));
 
@@ -178,6 +268,44 @@ Visit_ComponentAssembly (const PICML::ComponentAssembly & assembly)
                    boost::bind (&invoke_Set::value_type::Accept,
                                 _1,
                                 boost::ref (*this)));
+  }
+  else
+  {
+    // We are handling an instance in a component assembly, which
+    // is contained in another component assembly.
+    PICML::ComponentAssembly assembly_type = 
+      PICML::ComponentAssembly (assembly).Archetype ();
+
+    // Get the CoWorkEr assembly type for the assembly instance.
+    std::string path = assembly_type.getPath2 (".");
+    PICML::ComponentAssembly coworker_assembly_type = this->assembly_map_[path];
+
+    // Create an instance of the CoWorkEr assembly.
+    PICML::ComponentAssembly assembly_instance;
+    std::string name = assembly.name ();
+
+    if (Udm::create_instance_if_not (
+          this->target_assembly_,
+          coworker_assembly_type, 
+          assembly_instance,
+          Udm::contains (boost::bind (std::equal_to <std::string> (),
+                          name,
+                          boost::bind (&PICML::ComponentAssembly::name,
+                                      _1)))))
+    {
+      assembly_instance.SetStrValue ("name", name);
+    }
+
+    // Update the position of the assembly instance.
+    if (std::string (assembly_instance.position ()) !=
+        std::string (assembly.position ()))
+    {
+      assembly_instance.position () = assembly.position ();
+    }
+
+    // Save the corresponding coworker instance for this assembly.
+    path = assembly.getPath2 ("."); 
+    this->assembly_instance_map_.insert (std::make_pair (path, assembly_instance));
   }
 }
 
@@ -215,12 +343,18 @@ Visit_Component (const PICML::Component & component)
       // are going to move the <proxy_component> down some to make space
       // for the <cuts_proxy_impl> property.
       proxy_component.name () = component.name ();
-      proxy_component.position () = component.position ();
 
       //CUTS_BE_Position pos;
       //pos << component;
       //pos.translate (0, 50);
       //pos >> proxy_component;
+    }
+
+    // Update the position of the generated component.
+    if (std::string (proxy_component.position ()) != 
+        std::string (component.position ()))
+    {
+      proxy_component.position () = component.position ();
     }
 
     // Locate the <cuts_proxy_impl> attribute. This is need to configure
@@ -280,22 +414,56 @@ Visit_Component (const PICML::Component & component)
 void CUTS_BE_Assembly_Generator::
 Visit_OutEventPort (const PICML::OutEventPort & outevent)
 {
-  // Get the parent of the <outevent>.
-  PICML::Component component =
-    PICML::Component::Cast (outevent.parent ());
+  // Get the parent of the <inevent>. This could be a component
+  // or an component assembly. Ideally, we should be ask for the 
+  // ComponentImplementation, which could be an component or an 
+  // assembly.
+  Udm::Object parent = outevent.parent ();
+  Uml::Class type = parent.type ();
 
-  // Get the proxy that has the same name as <component>.
-  PICML::Component proxy_component = this->proxy_map_[component.name ()];
-
-  // Get all the output ports for the <proxy_component>.
-  // Get all the input ports for the <proxy_component>.
-  if (!Udm::contains (boost::bind (std::equal_to <std::string> (),
-                      outevent.name (),
-                      boost::bind (&PICML::OutEventPort::name,
-                                   _1))) (proxy_component,
-                                          this->target_outevent_))
+  if (type == PICML::Component::meta)
   {
-    this->target_outevent_ = PICML::OutEventPort::Cast (Udm::null);
+    // Get the parent of the <outevent>.
+    PICML::Component component =
+      PICML::Component::Cast (outevent.parent ());
+
+    // Get the proxy that has the same name as <component>.
+    PICML::Component proxy_component = this->proxy_map_[component.name ()];
+
+    // Get all the output ports for the <proxy_component>.
+    // Get all the input ports for the <proxy_component>.
+    if (!Udm::contains (boost::bind (std::equal_to <std::string> (),
+                        outevent.name (),
+                        boost::bind (&PICML::OutEventPort::name,
+                                    _1))) (proxy_component,
+                                           this->target_outevent_))
+    {
+      this->target_outevent_ = PICML::OutEventPort::Cast (Udm::null);
+    }
+  }
+  else if (type == PICML::ComponentAssembly::meta)
+  {
+    // Get the assembly parent of the InEventPort.
+    PICML::ComponentAssembly assembly =
+      PICML::ComponentAssembly::Cast (parent).Archetype ();
+
+    // Locate the coworker for this assembly.
+    std::string path = assembly.getPath2 (".");
+    PICML::ComponentAssembly coworker_assembly = this->assembly_map_[path];
+
+    // Get all the input ports for the <proxy_component>.
+    if (!Udm::contains (boost::bind (std::equal_to <std::string> (),
+                        outevent.name (),
+                        boost::bind (&PICML::OutEventPort::name,
+                                     _1))) (coworker_assembly,
+                                            this->target_outevent_))
+    {
+      this->target_outevent_ = PICML::OutEventPort::Cast (Udm::null);
+    }
+  }
+  else
+  {
+    // We have an unknown type.
   }
 }
 
@@ -305,21 +473,90 @@ Visit_OutEventPort (const PICML::OutEventPort & outevent)
 void CUTS_BE_Assembly_Generator::
 Visit_InEventPort (const PICML::InEventPort & inevent)
 {
-  // Get the parent of the <inevent>.
-  PICML::Component component =
-    PICML::Component::Cast (inevent.parent ());
+  // Get the parent of the <inevent>. This could be a component
+  // or an component assembly. Ideally, we should be ask for the 
+  // ComponentImplementation, which could be an component or an 
+  // assembly.
+  Udm::Object parent = inevent.parent ();
+  Uml::Class type = parent.type ();
 
-  // Get the proxy that has the same name as <component>.
-  PICML::Component proxy_component = this->proxy_map_[component.name ()];
-
-  // Get all the input ports for the <proxy_component>.
-  if (!Udm::contains (boost::bind (std::equal_to <std::string> (),
-                      inevent.name (),
-                      boost::bind (&PICML::InEventPort::name,
-                                   _1))) (proxy_component,
-                                          this->target_inevent_))
+  if (type == PICML::Component::meta)
   {
-    this->target_inevent_ = PICML::InEventPort::Cast (Udm::null);
+    // Get the proxy that has the same name as <component>.
+    PICML::Component component = PICML::Component::Cast (parent);
+    PICML::Component proxy_component = this->proxy_map_[component.name ()];
+
+    // Get all the input ports for the <proxy_component>.
+    if (!Udm::contains (boost::bind (std::equal_to <std::string> (),
+                        inevent.name (),
+                        boost::bind (&PICML::InEventPort::name,
+                                    _1))) (proxy_component,
+                                           this->target_inevent_))
+    {
+      this->target_inevent_ = PICML::InEventPort::Cast (Udm::null);
+    }
+  }
+  else if (type == PICML::ComponentAssembly::meta)
+  {
+    PICML::ComponentAssembly assembly = 
+      PICML::ComponentAssembly::Cast (parent);
+
+    // Get the name of the port of interest.
+    std::string name = inevent.name ();
+
+    // If the parent assembly is not an instance, then we are 
+    // creating a port on the assembly. Otherwise, we are connection
+    // to an exposed port of the assembly.
+    if (!parent.isInstance ())
+    {
+      // Get all the InEventPort elements of the assembly.
+      typedef std::vector <PICML::InEventPort> InEventPort_set;
+      InEventPort_set inevents = assembly.InEventPort_children ();
+
+      if (Udm::create_if_not (this->target_assembly_, this->target_inevent_,
+          Udm::contains (boost::bind (std::equal_to <std::string> (),
+                         name,
+                         boost::bind (&PICML::InEventPort::name, _1)))))
+      {
+        this->target_inevent_.SetStrValue ("name", name);
+      }
+
+      // Validate the event type if correct.
+      if (PICML::Event (this->target_inevent_.ref ()) != 
+          PICML::Event (inevent.ref ()))
+      {
+        this->target_inevent_.ref () = inevent.ref ();
+      }
+
+      // Update the position of the port.
+      if (std::string (this->target_inevent_.position ()) != 
+          std::string (inevent.position ()))
+      {
+        this->target_inevent_.position () = inevent.position ();
+      }
+
+      // Validate the attributes of the port.
+    }
+    else
+    {
+      // Locate the coworker assembly for this assembly instance.
+      std::string path = assembly.getPath2 (".");
+
+      PICML::ComponentAssembly coworker_assembly = 
+        this->assembly_instance_map_[path];
+
+      // Get all the input ports for the <proxy_component>.
+      if (!Udm::contains (boost::bind (std::equal_to <std::string> (),
+          name, boost::bind (&PICML::InEventPort::name, _1))) (
+            coworker_assembly, this->target_inevent_))
+      {
+        this->target_inevent_ = PICML::InEventPort::Cast (Udm::null);
+      }
+    }
+  }
+  else
+  {
+    // We have an unknown type.
   }
 }
 
@@ -329,21 +566,54 @@ Visit_InEventPort (const PICML::InEventPort & inevent)
 void CUTS_BE_Assembly_Generator::
 Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort & facet)
 {
-  // Get the parent of the <inevent>.
-  PICML::Component component =
-    PICML::Component::Cast (facet.parent ());
+  // Get the parent of the <inevent>. This could be a component
+  // or an component assembly. Ideally, we should be ask for the 
+  // ComponentImplementation, which could be an component or an 
+  // assembly.
+  Udm::Object parent = facet.parent ();
+  Uml::Class type = parent.type ();
 
-  // Get the proxy that has the same name as <component>.
-  PICML::Component proxy_component = this->proxy_map_[component.name ()];
-
-  // Get all the input ports for the <proxy_component>.
-  if (!Udm::contains (boost::bind (std::equal_to <std::string> (),
-                      facet.name (),
-                      boost::bind (&PICML::ProvidedRequestPort::name,
-                                   _1))) (proxy_component,
-                                          this->target_facet_))
+  if (type == PICML::Component::meta)
   {
-    this->target_facet_ = PICML::ProvidedRequestPort::Cast (Udm::null);
+    // Get the parent of the <inevent>.
+    PICML::Component component = PICML::Component::Cast (parent);
+
+    // Get the proxy that has the same name as <component>.
+    PICML::Component proxy_component = this->proxy_map_[component.name ()];
+
+    // Get all the input ports for the <proxy_component>.
+    if (!Udm::contains (boost::bind (std::equal_to <std::string> (),
+                        facet.name (),
+                        boost::bind (&PICML::ProvidedRequestPort::name,
+                                    _1))) (proxy_component,
+                                            this->target_facet_))
+    {
+      this->target_facet_ = PICML::ProvidedRequestPort::Cast (Udm::null);
+    }
+  }
+  else if (type == PICML::ComponentAssembly::meta)
+  {
+    // Get the assembly parent of the InEventPort.
+    PICML::ComponentAssembly assembly =
+      PICML::ComponentAssembly::Cast (parent).Archetype ();
+
+    // Locate the coworker for this assembly.
+    std::string path = assembly.getPath2 (".");
+    PICML::ComponentAssembly coworker_assembly = this->assembly_map_[path];
+
+    // Get all the input ports for the <proxy_component>.
+    if (!Udm::contains (boost::bind (std::equal_to <std::string> (),
+                        facet.name (),
+                        boost::bind (&PICML::ProvidedRequestPort::name,
+                                     _1))) (coworker_assembly,
+                                            this->target_receptacle_))
+    {
+      this->target_facet_ = PICML::ProvidedRequestPort::Cast (Udm::null);
+    }
+  }
+  else
+  {
+    // We have an unknown type.
   }
 }
 
@@ -353,21 +623,55 @@ Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort & facet)
 void CUTS_BE_Assembly_Generator::
 Visit_RequiredRequestPort (const PICML::RequiredRequestPort & receptacle)
 {
-  // Get the parent of the <inevent>.
-  PICML::Component component =
-    PICML::Component::Cast (receptacle.parent ());
+  // Get the parent of the <inevent>. This could be a component
+  // or an component assembly. Ideally, we should be ask for the 
+  // ComponentImplementation, which could be an component or an 
+  // assembly.
+  Udm::Object parent = receptacle.parent ();
+  Uml::Class type = parent.type ();
 
-  // Get the proxy that has the same name as <component>.
-  PICML::Component proxy_component = this->proxy_map_[component.name ()];
-
-  // Get all the input ports for the <proxy_component>.
-  if (!Udm::contains (boost::bind (std::equal_to <std::string> (),
-                      receptacle.name (),
-                      boost::bind (&PICML::ProvidedRequestPort::name,
-                                   _1))) (proxy_component,
-                                          this->target_receptacle_))
+  if (type == PICML::Component::meta)
   {
-    this->target_receptacle_ = PICML::RequiredRequestPort::Cast (Udm::null);
+    // Get the parent of the <inevent>.
+    PICML::Component component =
+      PICML::Component::Cast (receptacle.parent ());
+
+    // Get the proxy that has the same name as <component>.
+    PICML::Component proxy_component = this->proxy_map_[component.name ()];
+
+    // Get all the input ports for the <proxy_component>.
+    if (!Udm::contains (boost::bind (std::equal_to <std::string> (),
+                        receptacle.name (),
+                        boost::bind (&PICML::ProvidedRequestPort::name,
+                                    _1))) (proxy_component,
+                                           this->target_receptacle_))
+    {
+      this->target_receptacle_ = PICML::RequiredRequestPort::Cast (Udm::null);
+    }
+  }
+  else if (type == PICML::ComponentAssembly::meta)
+  {
+    // Get the assembly parent of the InEventPort.
+    PICML::ComponentAssembly assembly =
+      PICML::ComponentAssembly::Cast (parent).Archetype ();
+
+    // Locate the coworker for this assembly.
+    std::string path = assembly.getPath2 (".");
+    PICML::ComponentAssembly coworker_assembly = this->assembly_map_[path];
+
+    // Get all the input ports for the <proxy_component>.
+    if (!Udm::contains (boost::bind (std::equal_to <std::string> (),
+                        receptacle.name (),
+                        boost::bind (&PICML::RequiredRequestPort::name,
+                                     _1))) (coworker_assembly,
+                                            this->target_receptacle_))
+    {
+      this->target_receptacle_ = PICML::RequiredRequestPort::Cast (Udm::null);
+    }
+  }
+  else
+  {
+    // We have an unknown type.
   }
 }
 
@@ -393,13 +697,12 @@ Visit_publish (const PICML::publish & publish)
                        this->target_outevent_,
                        boost::bind (&PICML::publish::srcpublish_end, _1)))))
     {
-      target_publish.srcpublish_end () = this->target_outevent_;
-
       // Create a new publish connector and attach it to the newly
       // created connection object.
       this->target_connector_ =
         PICML::PublishConnector::Create (this->target_assembly_);
 
+      target_publish.srcpublish_end () = this->target_outevent_;
       target_publish.dstpublish_end () = this->target_connector_;
     }
     else
@@ -758,13 +1061,14 @@ create_attribute_property (const PICML::ReadonlyAttribute & attr,
     if (member_type == Udm::null)
       return false;
 
-    PICML::PredefinedType target_type = PICML::PredefinedType::Cast (member_type);
+    PICML::PredefinedType target_type = 
+      PICML::PredefinedType::Cast (member_type);
 
     if (target_type == Udm::null)
       return false;
 
     // Now that we have the predefined type of the attribute, we need
-    // to see if the property has a data type element.
+    // to validate the property containing a data type element.
     PICML::DataType datatype = property.DataType_child ();
 
     if (datatype == Udm::null)
@@ -807,4 +1111,126 @@ generate_scoped_instance_name (const PICML::Component & component,
     name.insert (0, ".").insert (0, parent.name ());
     parent = PICML::MgaObject::Cast (parent.parent ());
   } while (parent.type () != PICML::ComponentImplementationContainer::meta);
+}
+
+//
+// Visit_EventSourceDelegate
+//
+void CUTS_BE_Assembly_Generator::
+Visit_EventSourceDelegate (const PICML::EventSourceDelegate & delegate)
+{
+  
+}
+
+//
+// Visit_EventSinkDelegate
+//
+void CUTS_BE_Assembly_Generator::
+Visit_EventSinkDelegate (const PICML::EventSinkDelegate & delegate)
+{
+  // Get the endpoints of the connection.
+  PICML::InEventPort src = delegate.srcEventSinkDelegate_end ();
+  PICML::InEventPort dst = delegate.dstEventSinkDelegate_end ();
+
+  // Determine which of the ports is in this assembly. This is 
+  // a really horrible design decision!!! The <src> port is in this
+  // assembly. The <dst> port is the actual port on a component
+  // or assembly.
+
+  Udm::Object parent =
+    delegate.parent (), src_parent = src.parent ();
+  PICML::InEventPort tmp_port;
+
+  if (src_parent == parent)
+  {
+    // The delegate port is the source.
+    // 1. Create the delegation port in this assembly.
+    std::string name = src.name ();
+
+    // We only need to create a publish connection if one does not
+    // already exist. We are not concerned with shared components at
+    // this moment.
+    if (Udm::create_if_not (this->target_assembly_, tmp_port,
+        Udm::contains (boost::bind (std::equal_to <std::string> (),
+                       name,
+                       boost::bind (&PICML::InEventPort::name, _1)))))
+    {
+      tmp_port.SetStrValue ("name", name);
+    }
+
+    if (std::string (tmp_port.position ()) != 
+        std::string (src.position ()))
+    {
+      tmp_port.position () = src.position ();
+    }
+
+    // 2. Get the target delegation port. It can be either in a
+    // component or the assembly. Let the visitor function resolve
+    // that for us.
+    dst.Accept (*this);
+
+    if (tmp_port == Udm::null || this->target_inevent_ == Udm::null)
+      return;
+
+    PICML::EventSinkDelegate target_delegate;
+
+    if (Udm::create_if_not (this->target_assembly_, target_delegate,
+        Udm::contains (boost::bind (std::logical_and <bool> (),
+          boost::bind (std::equal_to <PICML::InEventPort> (),
+                       tmp_port,
+                       boost::bind (&PICML::EventSinkDelegate::srcEventSinkDelegate_end, _1)),
+          boost::bind (std::equal_to <PICML::InEventPort> (),
+                       this->target_inevent_,
+                       boost::bind (&PICML::EventSinkDelegate::dstEventSinkDelegate_end, _1))))))
+    {
+      target_delegate.srcEventSinkDelegate_end () = tmp_port;
+      target_delegate.dstEventSinkDelegate_end () = this->target_inevent_;
+    }
+  }
+  else
+  {
+    // The delegate port is the destination.
+    // 1. Create the delegation port in this assembly.
+    std::string name = dst.name ();
+
+    // We only need to create a publish connection if one does not
+    // already exist. We are not concerned with shared components at
+    // this moment.
+    if (Udm::create_if_not (this->target_assembly_, tmp_port,
+        Udm::contains (boost::bind (std::equal_to <std::string> (),
+                       name,
+                       boost::bind (&PICML::InEventPort::name, _1)))))
+    {
+      tmp_port.SetStrValue ("name", name);
+    }
+
+    if (std::string (tmp_port.position ()) != 
+        std::string (dst.position ()))
+    {
+      tmp_port.position () = dst.position ();
+    }
+
+    // 2. Get the target delegation port. It can be either in a
+    // component or the assembly. Let the visitor function resolve
+    // that for us.
+    src.Accept (*this);
+
+    if (tmp_port == Udm::null || this->target_inevent_ == Udm::null)
+      return;
+
+    PICML::EventSinkDelegate target_delegate;
+
+    if (Udm::create_if_not (this->target_assembly_, target_delegate,
+        Udm::contains (boost::bind (std::logical_and <bool> (),
+          boost::bind (std::equal_to <PICML::InEventPort> (),
+                       this->target_inevent_,
+                       boost::bind (&PICML::EventSinkDelegate::srcEventSinkDelegate_end, _1)),
+          boost::bind (std::equal_to <PICML::InEventPort> (),
+                       tmp_port,
+                       boost::bind (&PICML::EventSinkDelegate::dstEventSinkDelegate_end, _1))))))
+    {
+      target_delegate.srcEventSinkDelegate_end () = this->target_inevent_;
+      target_delegate.dstEventSinkDelegate_end () = tmp_port;
+    }
+  }
 }

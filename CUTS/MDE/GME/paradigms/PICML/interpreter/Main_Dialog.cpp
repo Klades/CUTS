@@ -109,8 +109,8 @@ BOOL Main_Dialog::OnInitDialog (void)
         reader.parser ()->setFeature (xercesc::XMLUni::fgXercesSchemaFullChecking, true);
 
       // The GetParser() will treat validation error as fatal and will exit.
-      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, true))
-        reader.parser ()->setFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, true);
+      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, false))
+        reader.parser ()->setFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, false);
 
       CUTS::Configuration config;
 

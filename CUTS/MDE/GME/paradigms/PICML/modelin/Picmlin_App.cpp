@@ -44,7 +44,8 @@ int Picmlin_App::parse_args (int argc, char * argv [])
   ACE_Get_Opt get_opt (argc, argv, opts, 0);
 
   get_opt.long_option ("gme-file", 'f', ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("target-deployment", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("deployment-target-folder", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("deployment-target-model", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("instance-name-separator", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("generate-deployment", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("scatter-input", ACE_Get_Opt::ARG_REQUIRED);
@@ -61,9 +62,13 @@ int Picmlin_App::parse_args (int argc, char * argv [])
       {
         this->options_.gme_connstr_ = get_opt.opt_arg ();
       }
-      else if (ACE_OS::strcmp (get_opt.long_option (), "target-deployment") == 0)
+      else if (ACE_OS::strcmp (get_opt.long_option (), "deployment-target-folder") == 0)
       {
-        this->options_.target_deployment_ = get_opt.opt_arg ();
+        this->options_.target_deployment_folder_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "deployment-target-model") == 0)
+      {
+        this->options_.target_deployment_model_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "instance-name-separator") == 0)
       {
@@ -115,74 +120,60 @@ int Picmlin_App::parse_args (int argc, char * argv [])
 //
 int Picmlin_App::run (int argc, char * argv [])
 {
+  int retval;
+
+  // Parse the command-line arguments.
+  VERBOSE_MESSAGE ((LM_DEBUG,
+                    "*** [picmlin]: parsing command-line options\n"));
+
+  if (parse_args (argc, argv) != 0)
+  {
+    ACE_ERROR_RETURN ((LM_ERROR,
+                        "*** error [picmlin]: failed to parse command "
+                        "line argument(s)\n"),
+                        1);
+  }
+
+  // Get the deployment map from the scatter input. Only then can
+  // we try to populate the GME model.
+  CUTS_Scatter_To_Picml scatter_to_picml;
+
   try
   {
-    // Parse the command-line arguments.
-    VERBOSE_MESSAGE ((LM_DEBUG,
-                      "*** [picmlin]: parsing command-line options\n"));
-
-    if (parse_args (argc, argv) != 0)
+    // Initialize the GME project.
+    if (this->gme_init_project () != 0)
     {
       ACE_ERROR_RETURN ((LM_ERROR,
-                         "*** error [picmlin]: failed to parse command "
-                         "line argument(s)\n"),
-                         1);
+                        "*** error [picmlin]: failed to initialize "
+                        "GME\n"), 
+                        1);
     }
 
-    // Get the deployment map from the scatter input. Only then can
-    // we try to populate the GME model.
-    CUTS_Scatter_To_Picml scatter_to_picml;
-    CUTS_Deployment_Map deployment_map;
+    // Begin a new transaction.
+    this->project_->begin_transaction ();
 
-    if (scatter_to_picml.run (this->options_.scatter_input_, deployment_map))
+    if (scatter_to_picml.run (this->options_.scatter_input_, 
+                              *this->project_,
+                              this->options_))
     {
-      // Verify the user specified a GME target project file.
-      if (this->options_.gme_connstr_.empty ())
-      {
-        ACE_ERROR_RETURN ((LM_ERROR,
-                          "*** error [picmlin]: failed to specify "
-                          "GME project file\n"),
-                          1);
-      }
-
-      // Initialize the GME project.
-      if (this->gme_init_project () != 0)
-      {
-        ACE_ERROR_RETURN ((LM_ERROR,
-                          "*** error [picmlin]: failed to initialize "
-                          "GME\n"), 1);
-      }
-
-      GME::Model deployment_plan;
-
-      // Begin a new transaction.
-      this->project_->begin_transaction ();
-
-      if (this->find_deployment_plan (deployment_plan) == 0)
-      {
-        // Update the deployment plan and commit the modifications.
-        this->set_deployment (deployment_plan, deployment_map);
-        this->project_->commit_transaction ();
-      }
-      else
-      {
-        // Abort the transaction since we didn't find anything.
-        this->project_->abort_transaction ();
-      }
+      this->project_->commit_transaction ();
 
       // Run the specified GME component, if it was specified.
       if (!this->options_.deployment_output_.empty ())
         this->generate_deployment (this->options_.deployment_output_);
+
+      retval = 0;
     }
     else
     {
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         "*** error [picmlin]: failed to read Scatter input <%s>\n",
-                         this->options_.scatter_input_.c_str ()),
-                         1);
-    }
+      ACE_ERROR ((LM_ERROR,
+                  "*** error [picmlin]: failed to read Scatter input <%s>\n",
+                  this->options_.scatter_input_.c_str ()));
 
-    return 0;
+      // Abort the transaction since we didn't find anything.
+      retval = 1;
+      this->project_->abort_transaction ();
+    }
   }
   catch (const GME::Failed_Result & ex)
   {
@@ -190,15 +181,23 @@ int Picmlin_App::run (int argc, char * argv [])
                 "*** error [picmlin]: GME operation failed [0x%X]\n",
                 ex.value ()));
 
+    // Save the return value and abort the transaction.
+    retval = ex.value ();
     this->project_->abort_transaction ();
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
                 "*** error [picmlin]: caught unknown exception\n"));
+
+    // Save the return value and abort the transaction.
+    retval = 1;
+    this->project_->abort_transaction ();
   }
 
-  return 1;
+  // Finalize GME, releaseing its resources.
+  this->gme_fini_project ();
+  return retval;
 }
 
 //
@@ -324,51 +323,7 @@ int Picmlin_App::gme_fini_project (void)
 }
 
 //
-// find_deployment_plan
-//
-int Picmlin_App::find_deployment_plan (GME::Model & plan)
-{
-  // Get the root folder.
-  GME::Folder root = this->project_->root_folder ();
-
-  // Get the specified deployment.
-  GME::Object object =
-    root.find_object_by_path (this->options_.target_deployment_);
-
-  if (object)
-  {
-    // Extract the plan from the GME object.
-    plan = GME::Model::_narrow (object);
-    return 0;
-  }
-
-  // We need to create the object. Find the location of the first
-  // slash in the name.
-  std::string::size_type separator =
-    this->options_.target_deployment_.find_first_of ("/\\");
-
-  if (separator != std::string::npos)
-  {
-    std::string folder_name =
-      this->options_.target_deployment_.substr (0, separator);
-    std::string deployment_name =
-      this->options_.target_deployment_.substr (separator + 1);
-
-    // Create the target folder for the deployment plan.
-    GME::Folder folder = GME::Folder::_create ("DeploymentPlans", root);
-    folder.name (folder_name);
-
-    // Create the target deployment model.
-    plan = GME::Model::_create ("DeploymentPlan", folder);
-    plan.name (deployment_name);
-    return 0;
-  }
-
-  return -1;
-}
-
-//
-// run_component
+// generate_deployment
 //
 void Picmlin_App::generate_deployment (const std::string & output)
 {
@@ -487,8 +442,8 @@ int Picmlin_App::set_deployment (GME::Model & deployment,
         GME::Object instance;
         
         Folder_Set::const_iterator 
-          impl_folder = impls_folders.items ().begin (),
-          impl_folder_end = impls_folders.items ().end ();
+          impl_folder = impls_folders.begin (),
+          impl_folder_end = impls_folders.end ();
 
         for ( ; impl_folder != impl_folder_end; impl_folder ++)
         {
@@ -560,8 +515,8 @@ void Picmlin_App::clear_deployment (GME::Model & deployment)
   if (deployment.sets ("CollocationGroup", groups))
   {
     Set_set::iterator 
-      iter = groups.items ().begin (),
-      iter_end = groups.items ().end ();
+      iter = groups.begin (),
+      iter_end = groups.end ();
 
     for ( ; iter != iter_end; iter ++)
     {
@@ -578,8 +533,8 @@ void Picmlin_App::clear_deployment (GME::Model & deployment)
   deployment.children (objects);
 
   Object_Set::iterator 
-    iter = objects.items ().begin (),
-    iter_end = objects.items ().end ();
+    iter = objects.begin (),
+    iter_end = objects.end ();
 
   for (; iter != iter_end; iter ++)
     iter->destroy ();
@@ -603,8 +558,8 @@ get_all_nodes (std::map <std::string, GME::Model> & targets)
   Folder_Set folders;
   root.folders ("Targets", folders);
 
-  for (Folder_Set::iterator folder = folders.items ().begin ();
-       folder != folders.items ().end ();
+  for (Folder_Set::iterator folder = folders.begin ();
+       folder != folders.end ();
        folder ++)
   {
     // Get all the Domain models in the Target.
@@ -613,16 +568,16 @@ get_all_nodes (std::map <std::string, GME::Model> & targets)
     Model_Set domains;
     folder->models ("Domain", domains);
 
-    for (Model_Set::iterator domain = domains.items ().begin ();
-         domain != domains.items ().end ();
+    for (Model_Set::iterator domain = domains.begin ();
+         domain != domains.end ();
          domain ++)
     {
       // Get all the nodes in this Domain.
       Model_Set nodes;
       domain->models ("Node", nodes);
 
-      for (Model_Set::iterator node = nodes.items ().begin ();
-           node != nodes.items ().end ();
+      for (Model_Set::iterator node = nodes.begin ();
+           node != nodes.end ();
            node ++)
       {
         // Save the node. Right now, we don't care about nodes 

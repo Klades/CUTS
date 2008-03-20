@@ -13,6 +13,7 @@ project (CUTS_BE) : picml_udm, boost_base, cuts_cosmic {
     CoWorkEr_Cache.cpp
 
     BE_Assembly_Generator.cpp
+    BE_Assembly_Generator_Preprocessor.cpp
     BE_CoWorkEr_Generator.cpp
     BE_CUTS_Project.cpp
     BE_Deployment_Generator.cpp

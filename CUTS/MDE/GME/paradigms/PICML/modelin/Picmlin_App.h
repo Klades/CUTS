@@ -44,7 +44,7 @@ private:
   /// Finalize the GME backend.
   int gme_fini_project (void);
 
-  int find_deployment_plan (GME::Model & plan);
+  int find_deployment_plan (GME::Model & plan, std::string & name);
 
   int set_deployment (GME::Model & deployment, 
                       const CUTS_Deployment_Map & map);

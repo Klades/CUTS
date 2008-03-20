@@ -35,7 +35,10 @@ public:
   std::string gme_connstr_;
 
   /// The target folder for the converted model.
-  std::string target_deployment_;
+  std::string target_deployment_folder_;
+
+  /// The target deployment model for the input.
+  std::string target_deployment_model_;
 
   /// The input file name of the Scatter model.
   std::string scatter_input_;

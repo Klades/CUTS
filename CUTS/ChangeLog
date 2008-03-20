@@ -1,7 +1,47 @@
+Thu Mar 20 16:14:52 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE.mpc:
+        * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator.h:
+        * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator.cpp:
+        * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator_Preprocessor.h:
+        * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator_Preprocessor.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/Main_Dialog.cpp:
+        
+          Bug fix where generating coworker assemblies for assemblies 
+          that contained instances of other assemblies failed. The assembly
+          generator now creates a build tree that dictates the order for
+          generating the assemblies. This will ensure that child assemblies
+          are generated before that parents.
+
+        * MDE/GME/paradigms/PICML/modelin/Model_Cache.h:
+        * MDE/GME/paradigms/PICML/modelin/Model_Cache.cpp:
+        * MDE/GME/paradigms/PICML/modelin/Model_Cache_Manager.h:
+        * MDE/GME/paradigms/PICML/modelin/Model_Cache_Manager.cpp:
+        * MDE/GME/paradigms/PICML/modelin/Model_Cache_T.h:
+        * MDE/GME/paradigms/PICML/modelin/Model_Cache_T.cpp:
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_App.h:
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_App.cpp:
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_Options.h:
+        * MDE/GME/paradigms/PICML/modelin/Scatter_To_Picml.h:
+        * MDE/GME/paradigms/PICML/modelin/Scatter_To_Picml.cpp:
+        * MDE/GME/paradigms/PICML/modelin/picmlin.mpc:
+        
+          - Updated the CUTS connector to handle scatter inputs where a target
+            deployment was specified. This is done by scoping the deployment
+            list in brackets, as follows:
+          
+            deployment-name {
+              instance-name:host-name;
+              ...
+              instance-name:host-name;
+            }
+            
+          - Improved model generator by caching resusable objects.
+
 Thu Mar 20 14:38:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/_CoSMIC.build:
-        
+
           Re-enabled building the package interpreter.
 
 Thu Mar 13 23:49:13 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

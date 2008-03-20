@@ -95,6 +95,12 @@ protected:
   void Visit_Implements (
     const PICML::Implements & implements);
 
+  void Visit_EventSinkDelegate (
+    const PICML::EventSinkDelegate & delegate);
+
+  void Visit_EventSourceDelegate (
+    const PICML::EventSourceDelegate & delegate);
+
 private:
   void Visit_ComponentImplementation (const PICML::ComponentImplementation &);
 
@@ -148,6 +154,18 @@ private:
   std::string artifact_name_;
 
   std::string entry_point_;
+
+  typedef std::vector <PICML::ComponentAssembly> build_list_type;
+
+  build_list_type build_list_;
+
+  typedef std::map <
+    std::string, PICML::ComponentAssembly> 
+    assembly_map_type;
+
+  assembly_map_type assembly_map_;
+
+  assembly_map_type assembly_instance_map_;
 };
 
 #if defined (__CUTS_INLINE__)
