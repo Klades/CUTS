@@ -37,7 +37,8 @@ namespace CUTS
      *
      * @param[in]       agent       The benchmark agent.
      */
-    CCM_Component_Registry_Node (::CUTS::Benchmark_Agent_ptr agent);
+    CCM_Component_Registry_Node (
+      CUTS::Benchmark_Agent_ptr agent = CUTS::Benchmark_Agent::_nil ());
 
     /// Destructor.
     virtual ~CCM_Component_Registry_Node (void);
@@ -49,6 +50,8 @@ namespace CUTS
      * @return          The registered benchmark agent.
      */
     ::CUTS::Benchmark_Agent_ptr benchmark_agent (void);
+
+    void reset (CUTS::Benchmark_Agent_ptr agent = CUTS::Benchmark_Agent::_nil ());
 
   private:
     /// The benchmark agent for the component.

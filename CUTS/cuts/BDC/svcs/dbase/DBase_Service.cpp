@@ -731,7 +731,7 @@ set_component_downtime (const CUTS_Component_Info & info)
     query->execute_no_record ();
 
     VERBOSE_MESSAGE ((LM_INFO,
-                      "*** info [archive]: successfully set downtime "
+                      "*** info (archive): successfully set downtime "
                       "for <%s> on <%s>\n",
                       instance,
                       hostname))
@@ -739,7 +739,13 @@ set_component_downtime (const CUTS_Component_Info & info)
   catch (CUTS_DB_Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "*** error [archive]: %s\n",
+                "*** error (archive): %s\n",
                 ex.message ().c_str ()));
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "*** error (archive): caught unknown exception in "
+                "set_component_downtime ()\n"));
   }
 }

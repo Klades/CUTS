@@ -370,6 +370,10 @@ handle_metrics (const CUTS_System_Metric & metrics)
 
     // Signal the service thread to exit and advance to the
     // next service in the repo.
+    ACE_DEBUG ((LM_DEBUG, 
+                "*** debug (service manager): handling service <%s>\n",
+                svc_type->name ()));
+
     if (svc != 0 &&
         svc->handle_metrics (metrics) != 0)
     {

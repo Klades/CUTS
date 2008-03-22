@@ -96,11 +96,12 @@ namespace CUTS
         this->timer_ = -1;
       }
 
-      this->msg_queue_->deactivate ();
+      ACE_DEBUG ((LM_DEBUG, "notifying handlers to exit\n"));
       this->reactor ()->notify (this);
 
       // Wait for all threads to exit.
       this->wait ();
+      ACE_DEBUG ((LM_DEBUG, "handlers are done!\n"));
     }
   }
 
@@ -148,14 +149,14 @@ namespace CUTS
           // We need to get the benchmark agent from the node.
           CUTS::CCM_Component_Registry_Node * node =
             dynamic_cast < ::CUTS::CCM_Component_Registry_Node * > (iter->int_id_);
-          CUTS::Benchmark_Agent_ptr agent = node->benchmark_agent ();
+          CUTS::Benchmark_Agent_var agent = node->benchmark_agent ();
 
           // Verify this is actual an agent connected to the testing
           // service. If the component was "preregistered" then the
           // agent reference will be NIL until it comes online.
-          if (!::CORBA::is_nil (agent))
+          if (!::CORBA::is_nil (agent.in ()))
           {
-            this->putq (agent);
+            this->putq (agent._retn ());
             this->reactor ()->notify (this, ACE_Event_Handler::READ_MASK);
           }
           else
@@ -252,10 +253,13 @@ namespace CUTS
       return -1;
 
     // Get the next agent from the message queue.
-    CUTS::Benchmark_Agent * agent = 0;
-    this->getq (agent);
+    CUTS::Benchmark_Agent * temp = 0;
+    this->getq (temp);
 
-    if (agent != 0)
+    // Take ownership of the benchmark agent.
+    CUTS::Benchmark_Agent_var agent = temp;
+
+    if (!CORBA::is_nil (agent.in ()))
     {
       try
       {

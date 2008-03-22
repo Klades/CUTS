@@ -60,8 +60,10 @@ namespace CUTS
 
     // Create a new registration node for the component.
     CCM_Component_Registry_Node * component = 0;
+
     ACE_NEW_THROW_EX (component,
-                      CUTS::CCM_Component_Registry_Node (creg.agent.in ()),
+                      CUTS::CCM_Component_Registry_Node (
+                        CUTS::Benchmark_Agent::_duplicate (creg.agent.in ())),
                       CORBA::NO_MEMORY ());
     ACE_Auto_Ptr <CCM_Component_Registry_Node> auto_clean (component);
 
@@ -92,7 +94,28 @@ namespace CUTS
                 "information from %s\n",
                 reg.name.in ()));
 
-    this->registry_.unregister_component (reg.name.in ());
+    CUTS_Component_Registry_Node * node = 0;
+    this->registry_.unregister_component (reg.name.in (), node);
+
+    if (node != 0)
+    {
+      // Extract the CCM version of the component node.
+      try
+      {
+        CUTS::CCM_Component_Registry_Node * ccm_node = 
+          dynamic_cast <CUTS::CCM_Component_Registry_Node *> (node);
+
+        // Reset the benchmark agent for this node.
+        ccm_node->reset ();
+      }
+      catch (...)
+      { 
+        ACE_ERROR ((LM_ERROR,
+                    "*** error (testing service): <%s> is registered " 
+                    "as a CCM component, but is not one\n",
+                    reg.name.in ()));
+      }
+    }
   }
 
   //

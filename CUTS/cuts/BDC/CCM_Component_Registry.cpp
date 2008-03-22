@@ -9,7 +9,7 @@ namespace CUTS
   //
   CCM_Component_Registry_Node::
   CCM_Component_Registry_Node (::CUTS::Benchmark_Agent_ptr agent)
-  : agent_ (::CUTS::Benchmark_Agent::_duplicate (agent))
+  : agent_ (agent)
   {
 
   }
@@ -29,5 +29,13 @@ namespace CUTS
     CCM_Component_Registry_Node::benchmark_agent (void)
   {
     return ::CUTS::Benchmark_Agent::_duplicate (this->agent_.in ());
+  }
+
+  //
+  // reset
+  //
+  void CCM_Component_Registry_Node::reset (CUTS::Benchmark_Agent_ptr agent)
+  {
+    this->agent_ = agent;
   }
 }

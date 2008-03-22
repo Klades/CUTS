@@ -128,18 +128,21 @@ visit_endpoint_log_summary (const CUTS_Endpoint_Log_Summary & summary)
 
     for ( ; ep_iter != ep_iter_end; ep_iter ++)
     {
-      if (this->myinfo_->type_->sources_.find (log_iter->key (), name) == 0)
-        std::cout << "      " << name.c_str ();
-      else
-        std::cout << "      <unknown port>";
+      if (ep_iter != 0)
+      {
+        if (this->myinfo_->type_->sources_.find (log_iter->key (), name) == 0)
+          std::cout << "      " << name.c_str ();
+        else
+          std::cout << "      <unknown port>";
 
-      ep_iter->avg_value (data_avg);
+        ep_iter->avg_value (data_avg);
 
-      std::cout
-        << " : [" << ep_iter->count () << "] "
-        << ep_iter->min_value ().time_of_completion ().msec () << "/"
-        << data_avg.time_of_completion ().msec () << "/"
-        << ep_iter->max_value ().time_of_completion ().msec () << std::endl;
+        std::cout
+          << " : [" << ep_iter->count () << "] "
+          << ep_iter->min_value ().time_of_completion ().msec () << "/"
+          << data_avg.time_of_completion ().msec () << "/"
+          << ep_iter->max_value ().time_of_completion ().msec () << std::endl;
+      }
     }
   }
 }
