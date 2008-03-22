@@ -27,14 +27,24 @@ while ($arg = shift)
 $planner = "$CIAO_ROOT/bin/plan_launcher";
 $planner_args = "-p $plan -k file://EM.ior -o DAM.ior -z CLIENT_PROPAGATED";
 $planner_start = new PerlACE::Process ($planner, $planner_args);
-$planner_start->SpawnWaitKill (5000);
+$result = $planner_start->SpawnWaitKill (5000);
+
+if ($result != 0) 
+{
+    die "*** error: failed to deploy $plan\n";
+}
 
 #time to run test
 sleep ($time);
 
 $planner_args = "-p $plan -k file://EM.ior -i file://DAM.ior";
 $planner_shutdown = new PerlACE::Process ($planner, $planner_args);
-$planner_shutdown->SpawnWaitKill (5000);
+$result = $planner_shutdown->SpawnWaitKill (5000);
+
+if ($result != 0)
+{
+    die "*** error: failed to teardown $plan\n";
+}
 
 #
 # print_help
@@ -42,7 +52,7 @@ $planner_shutdown->SpawnWaitKill (5000);
 sub print_help_2
 {
   print "  SYNTAX: run_test.pl -p <deployment.cdp> --time <seconds>";
-  return 1;
+  return 0;
 }
 
-1;
+0;

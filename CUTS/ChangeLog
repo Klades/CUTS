@@ -1,3 +1,15 @@
+Sat Mar 22 17:22:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/cuts_test.pl:
+        
+          The script will exit based on the return status of the 
+          plan launcher.
+
+        * cuts/BDC/svcs/dbase/DBase_Service.cpp:
+        
+          Added exception handling around the connect/disconnect
+          methods.
+
 Thu Mar 20 16:14:52 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE.mpc:
@@ -6,8 +18,8 @@ Thu Mar 20 16:14:52 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator_Preprocessor.h:
         * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator_Preprocessor.cpp:
         * MDE/GME/paradigms/PICML/interpreter/Main_Dialog.cpp:
-        
-          Bug fix where generating coworker assemblies for assemblies 
+
+          Bug fix where generating coworker assemblies for assemblies
           that contained instances of other assemblies failed. The assembly
           generator now creates a build tree that dictates the order for
           generating the assemblies. This will ensure that child assemblies
@@ -25,17 +37,17 @@ Thu Mar 20 16:14:52 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * MDE/GME/paradigms/PICML/modelin/Scatter_To_Picml.h:
         * MDE/GME/paradigms/PICML/modelin/Scatter_To_Picml.cpp:
         * MDE/GME/paradigms/PICML/modelin/picmlin.mpc:
-        
+
           - Updated the CUTS connector to handle scatter inputs where a target
             deployment was specified. This is done by scoping the deployment
             list in brackets, as follows:
-          
+
             deployment-name {
               instance-name:host-name;
               ...
               instance-name:host-name;
             }
-            
+
           - Improved model generator by caching resusable objects.
 
 Thu Mar 20 14:38:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

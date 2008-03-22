@@ -82,33 +82,47 @@ int CUTS_Database_Service::init (int argc, ACE_TCHAR * argv [])
   if (this->parse_args (argc, argv) != 0)
     return -1;
 
-  this->conn_->connect (this->username_.c_str (),
-                        this->password_.c_str (),
-                        this->server_.c_str (),
-                        this->port_);
-
-  if (this->conn_->is_connected ())
-  {
-    VERBOSE_MESSAGE ((LM_INFO,
+  try
+    {
+      this->conn_->connect (this->username_.c_str (),
+			    this->password_.c_str (),
+			    this->server_.c_str (),
+			    this->port_);
+      
+      if (this->conn_->is_connected ())
+	{
+	  VERBOSE_MESSAGE ((LM_INFO,
                       "*** info [archive]: successfully connected to "
-                      "database on %s\n",
-                      this->server_.c_str ()));
-
-    this->registry_.attach (this->conn_.get ());
-    return true;
-  }
-  else
-  {
-    ACE_ERROR ((LM_ERROR,
-                "*** error [archive]: failed to connect to database "
-                "[server=%s;username=%s;password=%s;port=%d]\n",
-                this->server_.c_str (),
-                this->username_.c_str (),
-                this->password_.c_str (),
-                this->port_));
-
-    return false;
-  }
+			    "database on %s\n",
+			    this->server_.c_str ()));
+	  
+	  this->registry_.attach (this->conn_.get ());
+	  return true;
+	}
+      else
+	{
+	  ACE_ERROR ((LM_ERROR,
+		      "*** error [archive]: failed to connect to database "
+		      "[server=%s;username=%s;password=%s;port=%d]\n",
+		      this->server_.c_str (),
+		      this->username_.c_str (),
+		      this->password_.c_str (),
+		      this->port_));
+	  
+	  return false;
+	}
+    }
+  catch (const CUTS_DB_Exception & ex)
+    {
+      ACE_ERROR ((LM_ERROR,
+		  "*** error [archive]: %s\n",
+		  ex.message ().c_str ()));
+    }
+  catch (...)
+    {
+      ACE_ERROR ((LM_ERROR,
+		  "*** error [archive]: caught unknown exception\n"));
+    }
 }
 
 //
@@ -116,11 +130,25 @@ int CUTS_Database_Service::init (int argc, ACE_TCHAR * argv [])
 //
 int CUTS_Database_Service::fini (void)
 {
-  // Remove the connection from the registry.
-  this->registry_.detach ();
-
-  // Disconnect from the database.
-  this->conn_->disconnect ();
+  try
+  {
+    // Remove the connection from the registry.
+    this->registry_.detach ();
+    
+    // Disconnect from the database.
+    this->conn_->disconnect ();
+  }
+  catch (const CUTS_DB_Exception & ex)
+    {
+      ACE_ERROR ((LM_ERROR,
+		  "*** error [achvive]: %s\n",
+		  ex.message ().c_str ()));
+    }
+  catch (...)
+    {
+      ACE_ERROR ((LM_ERROR,
+		  "*** error [archive]: caught unknown exception\n"));
+    }
 
   return 0;
 }
