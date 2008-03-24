@@ -761,7 +761,9 @@ void CUTS_BE_Assembly_Generator::
 Visit_invoke (const PICML::invoke & invoke)
 {
   // Visit the <InEventPort> for this connection.
-  PICML::ProvidedRequestPort facet = invoke.dstinvoke_end ();
+  PICML::ProvidedRequestPort facet =
+    PICML::ProvidedRequestPort::Cast (invoke.dstinvoke_end ());
+
   facet.Accept (*this);
 
   // Visit the <OutEventPort> for this connection.
@@ -783,7 +785,8 @@ Visit_invoke (const PICML::invoke & invoke)
                          boost::bind (&PICML::invoke::srcinvoke_end, _1)),
             boost::bind (std::equal_to <PICML::ProvidedRequestPort> (),
                          this->target_facet_,
-                         boost::bind (&PICML::invoke::dstinvoke_end, _1))))))
+                         boost::bind (&PICML::ProvidedRequestPort::Cast,
+                           boost::bind (&PICML::invoke::dstinvoke_end, _1)))))))
     {
       target_invoke.srcinvoke_end () = this->target_receptacle_;
       target_invoke.dstinvoke_end () = this->target_facet_;

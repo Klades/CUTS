@@ -1,3 +1,9 @@
+Sun Mar 23 13:55:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator.cpp:
+        
+          Fixed build errors related to the latest PICML updates.
+
 Sat Mar 22 17:42:18 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/BDC_Service_Manager.cpp:
