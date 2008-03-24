@@ -55,20 +55,21 @@ static void operator >>= (const S & sequence, CUTS_Log_T <T, LOCK> & log)
 {
   // Get the size of the sequence.
   CORBA::ULong curr_size = sequence.length ();
-
+  //curr_size =  curr_size > 2 ? curr_size - 2 : 0;
+  
   // Get a pointer to the buffer w/ the activation records.
-  typename S::const_value_type * buf = sequence.get_buffer ();
+  typename S::const_value_type * buf = sequence.get_buffer ()/* + 1*/;
   typename S::const_value_type * buf_stop = buf + curr_size;
+
+  // Set the size of the log and reset its state.
+  log.reset ();
+  log.size (curr_size);
 
   // Since we are having problems w/ using the lock_type directly in
   // the macro, we are going to explicitly declare it. Then, we are
   // going to get a write lock to the log for batch processing.
   typedef typename CUTS_Log_T <T, LOCK>::lock_type lock_type;
   ACE_WRITE_GUARD (lock_type, guard, log.lock ());
-
-  // Set the size of the log and reset its state.
-  log.reset ();
-  log.size (curr_size);
 
   // Update the size of the log. This will prevent us from having to
   // rely on next_free_record () to increase the log size. In some

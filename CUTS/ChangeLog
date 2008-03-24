@@ -1,24 +1,31 @@
+Mon Mar 24 21:57:56 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/performance_i.cpp:
+        
+          Bug fix where demarshalling the performance data resulted in
+          a deadlock because of multiple locks on the same resource.
+
 Mon Mar 24 16:30:25 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/Endpoint_Log_Summary.cpp:
-        
+
           Added more comments.
-          
+
         * cuts/Log_T.h:
         * cuts/Log_T.inl:
         * cuts/Log_T.cpp:
-  
+
           Derived the container base class in protected mode. This allows
-          all public methods that access the container class to be 
+          all public methods that access the container class to be
           sychronized as if they were private methods in the CUTS_Log_T
           class.
-                    
+
         * integration/test.build:
         * tests/cuts/Log_T_Test.cpp:
         * tests/cuts/test.mpc:
 
           Implemented several unit tests for the CUTS_Log_T class.
-          
+
 Mon Mar 24 05:26:25 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/Endpoint_Log_Summary.inl:
