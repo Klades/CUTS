@@ -95,3 +95,51 @@ CUTS_Log_T <T, LOCK>::used_end (void) const
 {
   return this->array_ + this->used_;
 }
+
+//
+// auto_grow
+//
+template <typename T, typename LOCK>
+CUTS_INLINE
+bool CUTS_Log_T <T, LOCK>::auto_grow (void) const
+{
+  return this->auto_grow_;
+}
+
+//
+// auto_grow
+//
+template <typename T, typename LOCK>
+CUTS_INLINE
+void CUTS_Log_T <T, LOCK>::auto_grow (bool flag) 
+{
+  this->auto_grow_ = flag;
+}
+
+//
+// size
+//
+template <typename T, typename LOCK>
+CUTS_INLINE
+typename CUTS_Log_T <T, LOCK>::size_type
+CUTS_Log_T <T, LOCK>::size (void) const
+{
+  ACE_READ_GUARD_RETURN (LOCK, 
+                         guard, 
+                         this->lock_, 
+                         this->ACE_Array_Base <T>::size ());
+
+  return this->ACE_Array_Base <T>::size ();
+}
+
+//
+// size
+//
+template <typename T, typename LOCK>
+CUTS_INLINE
+int CUTS_Log_T <T, LOCK>::
+size (typename CUTS_Log_T <T, LOCK>::size_type new_size)
+{
+  ACE_WRITE_GUARD_RETURN (LOCK, guard, this->lock_, -1);
+  return this->ACE_Array_Base <T>::size (new_size);
+}

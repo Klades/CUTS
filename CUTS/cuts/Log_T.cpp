@@ -37,7 +37,7 @@ T * CUTS_Log_T <T, LOCK>::next_free_record (void)
 
     // Double the size of the log and return the next record. We add
     // one to the size just in case the current size is 0.
-    this->size (this->cur_size_ * 2 + 1);
+    this->ACE_Array_Base <T>::size (this->cur_size_ * 2 + 1);
     return this->next_free_record_no_lock ();
   }
   else
@@ -53,15 +53,9 @@ template <typename T, typename LOCK>
 const CUTS_Log_T <T, LOCK> &
 CUTS_Log_T <T, LOCK>::operator = (const CUTS_Log_T <T, LOCK> & log)
 {
-  ACE_WRITE_GUARD_RETURN (LOCK, guard, this->lock_, *this);
-
   // Save the auto grow state.
   this->auto_grow_ = log.auto_grow_;
-
-  // Set the size of the log and copy it.
-  this->size (log.used_size ());
-  this->copy_log_i (log);
-
+  this->copy_log (log);
   return *this;
 }
 
@@ -74,7 +68,7 @@ void CUTS_Log_T <T, LOCK>::copy_log (const CUTS_Log_T & log)
   ACE_WRITE_GUARD (LOCK, guard, this->lock_);
 
   // Set the size of the log and copy it.
-  this->size (log.used_size ());
+  this->ACE_Array_Base <T>::size (log.used_size ());
   this->copy_log_i (log);
 }
 

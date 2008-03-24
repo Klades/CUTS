@@ -288,6 +288,7 @@ CUTS_Endpoint_Log_Summary::operator += (const CUTS_Endpoint_Log_Summary & rhs)
         CUTS_Endpoint_Data_Log::pointer data = 0;
         CUTS_Endpoint_Data_Log::iterator index_iter = log->begin ();
 
+        // Save the current indexer.
         this->iters_.rebind (logid, index_iter);
 
         for ( ; srclog_iter != srclog_iter_end; srclog_iter ++)
