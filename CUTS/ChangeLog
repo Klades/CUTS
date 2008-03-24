@@ -1,7 +1,15 @@
+Mon Mar 24 05:26:25 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/Endpoint_Log_Summary.inl:
+        * cuts/Endpoint_Log_Summary.cpp:
+        * cuts/Port_Summary.h:
+        
+          Fixed potential memory leaks.
+
 Mon Mar 24 04:02:32 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/svcs/dbase/DBase_Service.cpp:
-        
+
           Added more exception handling.
 
 Sun Mar 23 13:55:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

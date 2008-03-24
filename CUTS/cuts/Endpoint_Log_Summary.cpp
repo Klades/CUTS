@@ -20,6 +20,14 @@ CUTS_Endpoint_Log_Summary (const CUTS_Endpoint_Log_Summary & copy)
 }
 
 //
+// CUTS_Endpoint_Log_Summary
+//
+CUTS_Endpoint_Log_Summary::~CUTS_Endpoint_Log_Summary (void)
+{
+  this->clean_reset ();
+}
+
+//
 // copy
 //
 void CUTS_Endpoint_Log_Summary::copy (const CUTS_Endpoint_Data_Logs & logs)
@@ -38,12 +46,15 @@ void CUTS_Endpoint_Log_Summary::copy (const CUTS_Endpoint_Data_Logs & logs)
       ACE_NEW (data, CUTS_Endpoint_Data_Log ());
       ACE_Auto_Ptr <CUTS_Endpoint_Data_Log> auto_clean (data);
 
-      // Copy the item.
-      *data = *iter->item ();
-
       // Store the item in the table.
       if (this->logs_.bind (iter->key (), data) == 0)
+      {
+        // Copy the item.
+        *data = *iter->item ();
+
+        // Release the auto clean pointer.
         auto_clean.release ();
+      }
     }
   }
 }
@@ -96,10 +107,12 @@ int CUTS_Endpoint_Log_Summary::
 process (const CUTS_Activation_Record_Endpoints & endpoints)
 {
   if (this->prepare (endpoints) == -1)
+  {
     ACE_ERROR_RETURN ((LM_ERROR,
                        "*** error (CUTS_Endpoint_Log_Summary): failed to "
                        "prepare for processing endpoints\n"),
                        -1);
+  }
 
   // Initialize the iterators for the endpoints.
   CUTS_Activation_Record_Endpoints::const_iterator
@@ -189,8 +202,13 @@ prepare (const CUTS_Activation_Record_Endpoints & endpoints)
                       CUTS_Endpoint_Data_Log (1, true),
                       -1);
 
+      ACE_Auto_Ptr <CUTS_Endpoint_Data_Log> auto_clean (endpoint_log);
+
       // Save the endpoint log for future usage.
-      this->logs_.bind (iter->id (), endpoint_log);
+      if (this->logs_.bind (iter->id (), endpoint_log) == 0)
+        auto_clean.release ();
+      else
+        endpoint_log = 0;
     }
 
     if (endpoint_log != 0)
@@ -199,14 +217,23 @@ prepare (const CUTS_Activation_Record_Endpoints & endpoints)
       endpoint_log->reset ();
 
       if (this->iters_.rebind (iter->id (), endpoint_log->begin ()) == -1)
+      {
         ACE_ERROR_RETURN ((LM_ERROR,
                            "*** error (CUTS_Endpoint_Log_Summary): failed "
-                           "to initialize iterator for `%d'",
+                           "to initialize iterator for <%d>",
                            iter->id ()),
                            -1);
+      }
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "*** error (CUTS_Endpoint_Log_Summary): failed to get "
+                  "endpoint log for port <%d>\n",
+                  iter->id ()));
     }
 
-    // Reset the pointer(s) the next iteration.
+    // Reset the pointer(s) for the next iteration.
     endpoint_log = 0;
   }
 

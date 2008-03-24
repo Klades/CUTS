@@ -107,7 +107,8 @@ protected:
   CUTS_Endpoint_Log_Summary endpoints_;
 };
 
-/// Type definition of map that stores CUTS_Port_Summary_Base objects by sender.
+/// Type definition of map that stores CUTS_Port_Summary_Base 
+/// objects by sender.
 typedef ACE_Hash_Map_Manager <
   int, CUTS_Port_Summary_Base *, ACE_RW_Thread_Mutex>
   CUTS_Sender_Port_Summary;

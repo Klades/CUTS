@@ -10,15 +10,6 @@ CUTS_Endpoint_Log_Summary::CUTS_Endpoint_Log_Summary (void)
 }
 
 //
-// CUTS_Endpoint_Log_Summary
-//
-CUTS_INLINE
-CUTS_Endpoint_Log_Summary::~CUTS_Endpoint_Log_Summary (void)
-{
-
-}
-
-//
 // logs
 //
 CUTS_INLINE
