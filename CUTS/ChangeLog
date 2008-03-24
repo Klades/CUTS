@@ -1,37 +1,43 @@
+Mon Mar 24 04:02:32 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/svcs/dbase/DBase_Service.cpp:
+        
+          Added more exception handling.
+
 Sun Mar 23 13:55:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator.cpp:
-        
+
           Fixed build errors related to the latest PICML updates.
 
 Sat Mar 22 17:42:18 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/BDC_Service_Manager.cpp:
-        
+
           Added messages to display what service the manager is signaling.
-          
+
         * cuts/BDC/BDC_Task.cpp:
         * cuts/BDC/CCM_Component_Registry.h:
         * cuts/BDC/CCM_Component_Registry.cpp:
 
           Bug fixes related to memory leaks dues to bad reference counting.
-          
+
         * cuts/BDC/Testing_Service_exec_i.cpp (unregister_component):
 
           Bug fix related to memory leaks since agents for components where
           not properly unregistered.
-          
+
         * cuts/BDC/Benchmark_Data_Collector_exec_i.cpp:
-        
+
           Uncommented the implementation code for closing the service manager,
           deactivating the collection task, and closing the registry manager.
 
         * cuts/BDC/svcs/IO/IO_System_Metric_Visitor.cpp:
-        
+
           Added checks for NIL pointers.
 
         * cuts/BDC/svcs/dbase/DBase_Service.cpp (set_component_downtime):
-        
+
           Implemented more exception handling.
 
 Sat Mar 22 17:22:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

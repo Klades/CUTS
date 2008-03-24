@@ -83,46 +83,46 @@ int CUTS_Database_Service::init (int argc, ACE_TCHAR * argv [])
     return -1;
 
   try
+  {
+    // Create a connection
+    this->conn_->connect (this->username_.c_str (),
+                          this->password_.c_str (),
+                          this->server_.c_str (),
+                          this->port_);
+
+    if (this->conn_->is_connected ())
     {
-      this->conn_->connect (this->username_.c_str (),
-			    this->password_.c_str (),
-			    this->server_.c_str (),
-			    this->port_);
-      
-      if (this->conn_->is_connected ())
-	{
-	  VERBOSE_MESSAGE ((LM_INFO,
-                      "*** info [archive]: successfully connected to "
-			    "database on %s\n",
-			    this->server_.c_str ()));
-	  
-	  this->registry_.attach (this->conn_.get ());
-	  return true;
-	}
-      else
-	{
-	  ACE_ERROR ((LM_ERROR,
-		      "*** error [archive]: failed to connect to database "
-		      "[server=%s;username=%s;password=%s;port=%d]\n",
-		      this->server_.c_str (),
-		      this->username_.c_str (),
-		      this->password_.c_str (),
-		      this->port_));
-	  
-	  return false;
-	}
+      VERBOSE_MESSAGE ((LM_INFO,
+                        "*** info [archive]: successfully connected to "
+                        "database on %s\n",
+                        this->server_.c_str ()));
+
+      this->registry_.attach (this->conn_.get ());
+      return true;
     }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "*** error [archive]: failed to connect to database "
+                  "[server=%s;username=%s;password=%s;port=%d]\n",
+                  this->server_.c_str (),
+                  this->username_.c_str (),
+                  this->password_.c_str (),
+                  this->port_));
+      return false;
+    }
+  }
   catch (const CUTS_DB_Exception & ex)
-    {
-      ACE_ERROR ((LM_ERROR,
-		  "*** error [archive]: %s\n",
-		  ex.message ().c_str ()));
-    }
+  {
+    ACE_ERROR ((LM_ERROR,
+                "*** error [archive]: %s\n",
+                ex.message ().c_str ()));
+  }
   catch (...)
-    {
-      ACE_ERROR ((LM_ERROR,
-		  "*** error [archive]: caught unknown exception\n"));
-    }
+  {
+    ACE_ERROR ((LM_ERROR,
+                "*** error [archive]: caught unknown exception\n"));
+  }
 }
 
 //
@@ -132,6 +132,9 @@ int CUTS_Database_Service::fini (void)
 {
   try
   {
+    // Stop the current test.
+    this->stop_current_test ();
+
     // Remove the connection from the registry.
     this->registry_.detach ();
     
@@ -139,16 +142,16 @@ int CUTS_Database_Service::fini (void)
     this->conn_->disconnect ();
   }
   catch (const CUTS_DB_Exception & ex)
-    {
-      ACE_ERROR ((LM_ERROR,
-		  "*** error [achvive]: %s\n",
-		  ex.message ().c_str ()));
-    }
+  {
+    ACE_ERROR ((LM_ERROR,
+		            "*** error [achvive]: %s\n",
+		            ex.message ().c_str ()));
+  }
   catch (...)
-    {
-      ACE_ERROR ((LM_ERROR,
-		  "*** error [archive]: caught unknown exception\n"));
-    }
+  {
+    ACE_ERROR ((LM_ERROR,
+		            "*** error [archive]: caught unknown exception\n"));
+  }
 
   return 0;
 }
@@ -235,11 +238,11 @@ bool CUTS_Database_Service::create_new_test (void)
                        false);
   }
 
-  CUTS_Auto_Functor_T <CUTS_DB_Query>
-    query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
-
   try
   {
+    CUTS_Auto_Functor_T <CUTS_DB_Query>
+      query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
+
     // Prepare the statement for exection.
     const char * str_stmt =
       "INSERT INTO tests (start_time, status) VALUES (NOW(), 'active')";
@@ -642,6 +645,11 @@ bool CUTS_Database_Service::set_test_uuid (void)
                 "*** error [archive]: %s\n",
                 ex.message ().c_str ()));
   }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "*** error [achive]: caught unknown exception\n"));
+  }
 
   return false;
 }
@@ -692,6 +700,11 @@ set_component_uptime (const CUTS_Component_Info & info)
     ACE_ERROR ((LM_ERROR,
                 "*** error [archive]: %s\n",
                 ex.message ().c_str ()));
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "*** error [archive]: caught unknown exception\n"));
   }
 }
 
