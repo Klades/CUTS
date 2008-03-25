@@ -100,6 +100,7 @@ namespace CUTS
       this->reactor ()->notify (this);
 
       // Wait for all threads to exit.
+      ACE_DEBUG ((LM_DEBUG, "waiting for handlers to exit\n"));
       this->wait ();
       ACE_DEBUG ((LM_DEBUG, "handlers are done!\n"));
     }
@@ -214,14 +215,16 @@ namespace CUTS
 
     // Let's iterate over all the registered handlers and notify
     // them that the metrics have been updated.
-    CUTS_Handler_Set::ITERATOR iter (this->handles_);
+    ACE_READ_GUARD (ACE_RW_Thread_Mutex, guard, this->handles_lock_);
 
-    for ( ; !iter.done (); iter ++)
+    CUTS_Handler_Set::iterator 
+      iter = this->handles_.begin (), iter_end = this->handles_.end ();
+
+    for ( ; iter != iter_end; iter ++)
     {
-      CUTS_System_Metric_Handler ** handle = 0;
-
-      if (iter.next (handle) != 0 && handle != 0)
-        (*handle)->handle_metrics (*this->metrics_);
+      // Get the next handle value.
+      if ((*iter) != 0)
+        (*iter)->handle_metrics (*this->metrics_);
     }
 
     ACE_DEBUG ((LM_INFO,
@@ -322,5 +325,31 @@ namespace CUTS
   {
     if (this->active_)
       this->collect_done_.wait (abstime);
+  }
+
+  //
+  // register_handler
+  //
+  int BDC_Task::register_handler (CUTS_System_Metric_Handler * handler)
+  {
+    ACE_WRITE_GUARD_RETURN (ACE_RW_Thread_Mutex, 
+                            guard, 
+                            this->handles_lock_, 
+                            -1);
+
+    return this->handles_.insert (handler);
+  }
+
+  //
+  // unregister_handler
+  //
+  int BDC_Task::unregister_handler (CUTS_System_Metric_Handler * handler)
+  {
+    ACE_WRITE_GUARD_RETURN (ACE_RW_Thread_Mutex, 
+                            guard, 
+                            this->handles_lock_, 
+                            -1);
+
+    return this->handles_.remove (handler);
   }
 }

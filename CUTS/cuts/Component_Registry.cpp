@@ -124,10 +124,29 @@ unregister_component (const ACE_CString & instance,
 int CUTS_Component_Registry::
 register_handler (CUTS_Component_Registry_Handler * handler)
 {
+  ACE_WRITE_GUARD_RETURN (ACE_RW_Thread_Mutex, 
+                          guard, 
+                          this->handler_lock_, 
+                          -1);
+
   if (this->handlers_.find (handler) == 0)
     return 1;
 
   return this->handlers_.insert (handler);
+}
+
+//
+// unregister_handler
+//
+int CUTS_Component_Registry::
+unregister_handler (CUTS_Component_Registry_Handler * handler)
+{
+  ACE_WRITE_GUARD_RETURN (ACE_RW_Thread_Mutex, 
+                          guard, 
+                          this->handler_lock_, 
+                          -1);
+
+  return this->handlers_.remove (handler);
 }
 
 //
@@ -146,6 +165,11 @@ ACE_THR_FUNC_RETURN CUTS_Component_Registry::thr_svc (void * param)
 
     if (retval != -1 && node != 0)
     {
+      ACE_READ_GUARD_RETURN (ACE_RW_Thread_Mutex, 
+                             guard, 
+                             reg->handler_lock_, 
+                             -1);
+
       // Notify all loaded services to handle the component.
       CUTS_Handler_Set::ITERATOR iter (reg->handlers_);
 

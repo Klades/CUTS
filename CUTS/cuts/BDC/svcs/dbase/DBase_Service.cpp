@@ -137,7 +137,10 @@ int CUTS_Database_Service::fini (void)
 
     // Remove the connection from the registry.
     this->registry_.detach ();
-    
+
+    // Stop the current test.
+    this->stop_current_test ();
+
     // Disconnect from the database.
     this->conn_->disconnect ();
   }

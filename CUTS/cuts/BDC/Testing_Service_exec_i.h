@@ -89,8 +89,8 @@ namespace CUTS
       * @exception      CUTS::ID_Not_Found
       *    Specified registration ID was not found.
       */
-    virtual void
-      unregister_component (const ::CUTS::Component_Registration & creg);
+    virtual void unregister_component (
+      const CUTS::Component_Registration & creg);
 
   private:
     int register_component_type (const CUTS::Component_Description & desc,

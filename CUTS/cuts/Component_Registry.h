@@ -229,6 +229,9 @@ private:
 
   /// Mapping of typenames to type information.
   CUTS_Component_Type_Map component_types_;
+
+  /// Locking mechanism for the handler set.
+  ACE_RW_Thread_Mutex handler_lock_;
 };
 
 #if defined (__CUTS_INLINE__)

@@ -11,16 +11,6 @@ is_registered (const char * inst)
 }
 
 //
-// unregister_handler
-//
-CUTS_INLINE
-int CUTS_Component_Registry::
-unregister_handler (CUTS_Component_Registry_Handler * handler)
-{
-  return this->handlers_.remove (handler);
-}
-
-//
 // is_open
 //
 CUTS_INLINE

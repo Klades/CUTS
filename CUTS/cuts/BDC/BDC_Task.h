@@ -165,6 +165,8 @@ namespace CUTS
 
     /// Collection of registered handlers.
     CUTS_Handler_Set handles_;
+
+    ACE_RW_Thread_Mutex handles_lock_;
   };
 }
 

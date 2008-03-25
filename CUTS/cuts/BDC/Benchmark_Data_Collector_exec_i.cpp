@@ -67,9 +67,6 @@ namespace CUTS
       // components try to register themselves.
       this->tsvc_->registry ().register_handler (CUTS_BDC_SVC_MANAGER ());
       this->tsvc_->registry ().open ();
-
-      // Register the service manager with the task.
-      this->task_.register_handler (CUTS_BDC_SVC_MANAGER ());
     }
 
     //
@@ -94,10 +91,15 @@ namespace CUTS
     {
       ACE_Time_Value delay (this->timeout_, 0);
 
-      if (!this->task_.activate (delay,
-                                 delay,
-                                 this->tsvc_.get (),
-                                 &this->metrics_))
+      if (this->task_.activate (delay,
+                                delay,
+                                this->tsvc_.get (),
+                                &this->metrics_))
+      {
+        // Register the service manager with the task.
+        this->task_.register_handler (CUTS_BDC_SVC_MANAGER ());
+      }
+      else
       {
         ACE_ERROR ((LM_ERROR,
                     "*** error (BDC): failed to activate data collector\n"));
@@ -109,7 +111,10 @@ namespace CUTS
     //
     void Benchmark_Data_Collector_exec_i::ccm_passivate (void)
     {
+      ACE_DEBUG ((LM_DEBUG, "*** debug: entered ccm_passivate\n"));
+      this->task_.unregister_handler (CUTS_BDC_SVC_MANAGER ());
       this->task_.deactivate ();
+      ACE_DEBUG ((LM_DEBUG, "*** debug: exiting ccm_passivate\n"));
     }
 
     //
@@ -117,17 +122,17 @@ namespace CUTS
     //
     void Benchmark_Data_Collector_exec_i::ccm_remove (void)
     {
-      //// Unregister the service manager and close the component
-      //// registry. At this point, we don't care about component's
-      //// activating/passivating since the manager is being removed.
+      // Unregister service manager with component registry.
       this->tsvc_->registry ().unregister_handler (CUTS_BDC_SVC_MANAGER ());
-      this->tsvc_->registry ().close ();
-      ACE_DEBUG ((LM_DEBUG, "*** debug: successfully closed registry\n"));
 
-      //// Close the service manager. This will cause it to deactivate
-      //// all the loaded services.
+      // Close the service manager. This will cause it to deactivate
+      // all the loaded services.
       CUTS_BDC_SVC_MANAGER ()->close ();
       ACE_DEBUG ((LM_DEBUG, "*** debug: successfully closed service manager\n"));
+
+      // We can gracefully close the component registry.
+      this->tsvc_->registry ().close ();
+      ACE_DEBUG ((LM_DEBUG, "*** debug: successfully closed registry\n"));
     }
 
     //

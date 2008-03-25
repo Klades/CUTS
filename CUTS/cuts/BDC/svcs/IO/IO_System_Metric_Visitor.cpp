@@ -74,8 +74,16 @@ visit_component_metric (const CUTS_Component_Metric & metrics)
   for (iter; !iter.done (); iter ++)
   {
     // Print the name of the port.
-    this->myinfo_->type_->sinks_.find (iter->key (), portname);
-    std::cout << "  input port : " << portname.c_str () << std::endl;
+    std::cout << "  input port : ";
+    if (this->myinfo_->type_ != 0)
+    {
+      this->myinfo_->type_->sinks_.find (iter->key (), portname);
+      std::cout << portname.c_str () << std::endl;
+    }
+    else
+    {
+      std::cout << "<unknown>" << std::endl;
+    }
 
     // Visit the CUTS_Port_Metric object.
     iter->item ()->accept (*this);
@@ -119,31 +127,38 @@ visit_endpoint_log_summary (const CUTS_Endpoint_Log_Summary & summary)
   ACE_CString name;
   CUTS_Endpoint_Data data_avg;
 
-  for (; !log_iter.done (); log_iter ++)
+  try
   {
-    // Get iterator to the endpoint log data.
-    CUTS_Endpoint_Data_Log::iterator
-      ep_iter = log_iter->item ()->begin (),
-      ep_iter_end = log_iter->item ()->used_end ();
-
-    for ( ; ep_iter != ep_iter_end; ep_iter ++)
+    for (; !log_iter.done (); log_iter ++)
     {
-      if (ep_iter != 0)
+      // Get iterator to the endpoint log data.
+      CUTS_Endpoint_Data_Log::iterator
+        ep_iter = log_iter->item ()->begin (),
+        ep_iter_end = log_iter->item ()->used_end ();
+
+      for ( ; ep_iter != ep_iter_end; ep_iter ++)
       {
-        if (this->myinfo_->type_->sources_.find (log_iter->key (), name) == 0)
-          std::cout << "      " << name.c_str ();
-        else
-          std::cout << "      <unknown port>";
+        if (ep_iter != 0)
+        {
+          if (this->myinfo_->type_->sources_.find (log_iter->key (), name) == 0)
+            std::cout << "      " << name.c_str ();
+          else
+            std::cout << "      <unknown port>";
 
-        ep_iter->avg_value (data_avg);
+          ep_iter->avg_value (data_avg);
 
-        std::cout
-          << " : [" << ep_iter->count () << "] "
-          << ep_iter->min_value ().time_of_completion ().msec () << "/"
-          << data_avg.time_of_completion ().msec () << "/"
-          << ep_iter->max_value ().time_of_completion ().msec () << std::endl;
+          std::cout
+            << " : [" << ep_iter->count () << "] "
+            << ep_iter->min_value ().time_of_completion ().msec () << "/"
+            << data_avg.time_of_completion ().msec () << "/"
+            << ep_iter->max_value ().time_of_completion ().msec () << std::endl;
+        }
       }
     }
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR, "unknown exception caught\n"));
   }
 }
 
