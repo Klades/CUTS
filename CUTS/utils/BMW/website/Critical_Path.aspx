@@ -60,7 +60,7 @@
   <td>
     <asp:datagrid runat="server" id="critical_paths_"
                   borderstyle="solid" cellpadding="4" cellspacing="0"
-                  allowpaging="true" pagesize="10" width="100%"
+                  allowpaging="true" pagesize="5" width="100%"
                   autogeneratecolumns="false"
                   showheader="true" showfooter="false">
 
@@ -101,18 +101,20 @@
 <tr>
   <td class="title">Instance:</td>
   <td><asp:dropdownlist id="instance_" runat="server"
-                        datatextfield="component_name" datavaluefield="component_id"
+                        datatextfield="component_name" 
+                        datavaluefield="instid"
                         onselectedindexchanged="instance_OnSelectedIndexChanged"
-                        autopostback="true" /></td>
+                        autopostback="true"
+                        width="100%" /></td>
 </tr>
 
 <tr>
-  <td class="title">Source Port:</td>
+  <td class="title">Input Port:</td>
   <td>
-    <asp:dropdownlist  id="src_" runat="server"
+    <asp:dropdownlist id="src_" runat="server"
                       datavaluefield="pid" datatextfield="portname"
                       width="200" />
-    <span class="title">Destination Port: </span>
+    <span class="title">Output Port: </span>
     <asp:dropdownlist id="dst_" runat="server"
                       datavaluefield="pid" datatextfield="portname"
                       width="200" />
@@ -141,9 +143,9 @@
   <columns>
     <asp:boundcolumn datafield="path_order" headertext="Index"
                      itemstyle-horizontalalign="Center" />
-    <asp:boundcolumn datafield="instance_name" headertext="Instance Name" />
-    <asp:boundcolumn datafield="src_portname" headertext="Source Port" />
-    <asp:boundcolumn datafield="dst_portname" headertext="Destination Port" />
+    <asp:boundcolumn datafield="component_name" headertext="Instance Name" />
+    <asp:boundcolumn datafield="inport_name"    headertext="Source Port" />
+    <asp:boundcolumn datafield="outport_name"   headertext="Destination Port" />
 
     <asp:templatecolumn>
       <headertemplate>

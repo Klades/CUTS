@@ -439,7 +439,7 @@ namespace CUTS.Data
     {
       MySqlCommand command = this.conn_.CreateCommand();
       command.CommandText =
-        "SELECT * FROM component_instances ORDER BY component_name";
+        "CALL cuts.select_component_instances_all ()";
 
       MySqlDataAdapter adapter = new MySqlDataAdapter(command);
       adapter.Fill(ds, "component_instances");
@@ -473,14 +473,13 @@ namespace CUTS.Data
      *
      * @param[out]        ds        Target dataset for query.
      */
-    public void get_component_types(ref DataSet ds)
+    public void get_component_types(ref DataSet ds, string tablename)
     {
       MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText =
-        "SELECT * FROM component_types ORDER BY typename";
+      command.CommandText = "CALL cuts.select_component_types_all ()";
 
       MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-      adapter.Fill(ds, "component_types");
+      adapter.Fill(ds, tablename);
     }
 
     /**

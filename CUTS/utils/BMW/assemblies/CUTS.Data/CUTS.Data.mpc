@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS.Data) : gacutil {
+project (CUTS.Data) {
   sharedname = CUTS.Data
 
   dllout     = $(CUTS_ROOT)\bin

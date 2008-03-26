@@ -71,12 +71,12 @@ CREATE TABLE IF NOT EXISTS porttypes
 -- We also initialize the table after we have created it.
 --
 
-CREATE TABLE IF NOT EXISTS component_typenames
+CREATE TABLE IF NOT EXISTS component_types
 (
-  nameid     INT              NOT NULL auto_increment,
+  typeid     INT              NOT NULL auto_increment,
   typename   VARCHAR (255)    NOT NULL,
 
-  PRIMARY KEY (nameid),
+  PRIMARY KEY (typeid),
   UNIQUE (typename)
 );
 
@@ -85,18 +85,19 @@ CREATE TABLE IF NOT EXISTS component_typenames
 -- We also initialize the table after we have created it.
 --
 
-CREATE TABLE IF NOT EXISTS component_types
+CREATE TABLE IF NOT EXISTS component_types_porttypes
 (
-  typeid     INT    NOT NULL auto_increment,
-  typename   INT    NOT NULL,
+  ctpid      INT    NOT NULL auto_increment,
+  typeid     INT    NOT NULL,
   port       INT    NOT NULL,
 
-  PRIMARY KEY (typeid),
-  UNIQUE (typename, port),
+  PRIMARY KEY (ctpid),
+  UNIQUE (typeid, port),
 
-  FOREIGN KEY (typename) REFERENCES component_typenames (nameid)
+  FOREIGN KEY (typeid) REFERENCES component_types (typeid)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
+    
   FOREIGN KEY (port) REFERENCES porttypes (pid)
     ON DELETE RESTRICT
     ON UPDATE CASCADE
@@ -119,7 +120,7 @@ CREATE TABLE IF NOT EXISTS component_instances
   PRIMARY KEY (instid),
   UNIQUE      (component_name),
 
-  FOREIGN KEY (typeid) REFERENCES component_typenames (nameid)
+  FOREIGN KEY (typeid) REFERENCES component_types (typeid)
     ON DELETE RESTRICT
     ON UPDATE CASCADE
 );
@@ -248,19 +249,19 @@ END; //
 DROP FUNCTION IF EXISTS cuts.get_component_typename_id //
 
 CREATE FUNCTION
-  cuts.get_component_typename_id (name VARCHAR (255))
+  cuts.get_component_typename_id (_typename VARCHAR (255))
   RETURNS INT
 BEGIN
   DECLARE retval INT;
 
   DECLARE CONTINUE HANDLER FOR NOT FOUND
   BEGIN
-    INSERT INTO component_typenames (typename) VALUES (name);
+    INSERT INTO component_types (typename) VALUES (_typename);
     SET retval = LAST_INSERT_ID();
   END;
 
-  SELECT nameid INTO retval FROM component_typenames
-    WHERE typename = name LIMIT 1;
+  SELECT typeid INTO retval FROM component_types
+    WHERE typename = _typename;
 
   RETURN retval;
 END; //
@@ -335,6 +336,36 @@ BEGIN
 END; //
 
 -- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.select_component_instances_all
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.select_component_instances_all //
+
+CREATE PROCEDURE
+  cuts.select_component_instances_all ()
+BEGIN
+  SELECT t1.instid,
+         t1.component_name,
+         t2.typeid,
+         t2.typename 
+  FROM component_instances AS t1,
+       component_types AS t2
+  WHERE t1.typeid = t2.typeid;
+END; //
+
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.select_component_instances_all
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.select_component_types_all //
+
+CREATE PROCEDURE
+  cuts.select_component_types_all ()
+BEGIN
+  SELECT * FROM cuts.component_types ORDER BY typename;
+END; //
+
+-- -----------------------------------------------------------------------------
 -- PROCEDURE: cuts.insert_component_type_info
 -- -----------------------------------------------------------------------------
 
@@ -350,7 +381,7 @@ BEGIN
 
   END;
 
-  INSERT INTO cuts.component_types (typename, port)
+  INSERT INTO cuts.component_types_porttypes (typeid, port)
     VALUES (cuts.get_component_typename_id (ctype),
             cuts.get_port_id (ptype, pname));
 END; //
@@ -428,7 +459,7 @@ BEGIN
 
   RETURN instance;
 END; //
-
+*/
 -------------------------------------------------------------------------------
 -- FUNCTION: cuts.get_component_instance_id
 -------------------------------------------------------------------------------
@@ -439,14 +470,19 @@ CREATE FUNCTION
   cuts.get_component_instance_id (_instance VARCHAR (255))
   RETURNS INT
 BEGIN
-  DECLARE _id VARCHAR (255);
+  DECLARE retval INT;
 
-  SELECT component_id INTO _id FROM component_instances
+  DECLARE CONTINUE HANDLER FOR NOT FOUND
+  BEGIN
+    RETURN NULL;
+  END;
+
+  SELECT instid INTO retval FROM cuts.component_instances
     WHERE component_name = _instance;
 
-  RETURN id;
+  RETURN retval;
 END; //
-
+/*
 -------------------------------------------------------------------------------
 -- FUNCTION: cuts.get_portname_id
 -------------------------------------------------------------------------------
@@ -483,7 +519,7 @@ BEGIN
       LEFT JOIN ports AS t4 ON t3.typeid = t4.ctype) AS t5
     LEFT JOIN portnames AS t6 ON t5.portid = t6.portid;
 END; //
-
+*/
 -------------------------------------------------------------------------------
 -- PROCEDURE: cuts.select_component_portnames_i
 -------------------------------------------------------------------------------
@@ -492,21 +528,27 @@ DROP PROCEDURE IF EXISTS
   cuts.select_component_portnames_i //
 
 CREATE PROCEDURE
-  cuts.select_component_portnames_i (IN inst_id INT,
-                                     IN porttype VARCHAR(20))
+  cuts.select_component_portnames_i (IN _instid INT,
+                                     IN _porttype VARCHAR(20))
 BEGIN
-  SELECT t5.pid, t6.portname FROM
-    (SELECT t3.*, t4.pid, t4.portid, t4.port_type FROM
-      (SELECT t1.*, t2.typename FROM component_instances AS t1
-        LEFT JOIN component_types AS t2 ON t1.typeid = t2.typeid
-        WHERE t1.component_id = inst_id) AS t3
-      LEFT JOIN ports AS t4 ON t3.typeid = t4.ctype
-      WHERE t4.port_type = porttype) AS t5
-    LEFT JOIN portnames AS t6 ON t5.portid = t6.portid;
+  SELECT t3.pid,   
+         t4.portname
+  FROM cuts.component_instances AS t0,
+       cuts.component_types AS t1,
+       cuts.component_types_porttypes AS t2,
+       cuts.porttypes AS t3,
+       cuts.portnames AS t4
+  WHERE t0.instid = _instid AND
+        t1.typeid = t0.typeid AND
+        t2.typeid = t1.typeid AND
+        t3.pid = t2.port AND
+        t3.port_type = _porttype AND
+        t3.port_name = t4.pid
+  ORDER BY t3.port_name;         
 END; //
 
 -------------------------------------------------------------------------------
--- PROCEDURE: cuts.select_component_portnames_i
+-- PROCEDURE: cuts.select_component_portnames
 -------------------------------------------------------------------------------
 
 DROP PROCEDURE IF EXISTS
@@ -516,14 +558,10 @@ CREATE PROCEDURE
   cuts.select_component_portnames (IN instance VARCHAR(255),
                                    IN porttype VARCHAR(20))
 BEGIN
-  DECLARE inst_id INT;
-
-  SELECT component_id INTO inst_id FROM component_instances
-    WHERE component_name = instance;
-
-  CALL cuts.select_component_portnames_i (inst_id, porttype);
+  CALL cuts.select_component_portnames_i (cuts.get_component_instance_id (_instance), 
+                                          porttype);
 END; //
-
+/*
 -------------------------------------------------------------------------------
 -- FUNCTION: cuts.get_port_id
 -------------------------------------------------------------------------------

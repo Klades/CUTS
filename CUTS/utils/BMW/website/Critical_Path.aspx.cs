@@ -25,9 +25,9 @@ namespace CUTS
 {
   public partial class Critical_Path : System.Web.UI.Page
   {
-    static private string PATH_ELEMENTS_TABLE = "critical_path_elements";
+    static private string PATH_ELEMENTS_TABLE = "execution_path_elements";
 
-    static private string INSTANCE_TABLE = "component_instances";
+    static private string INSTANCE_TABLE = "execution_paths";
 
     private MySqlConnection conn =
       new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
@@ -117,7 +117,7 @@ namespace CUTS
       {
         // Create the SQL string for creating the critical path.
         System.Text.StringBuilder insert_sql = new System.Text.StringBuilder ();
-        insert_sql.Append ("INSERT INTO critical_path (path_name, deadline) ");
+        insert_sql.Append ("INSERT INTO execution_paths (path_name, deadline) ");
         insert_sql.Append ("VALUES (?path_name, ?deadline)");
 
         // Open the connection.
@@ -159,7 +159,7 @@ namespace CUTS
     private void InitializeCritialPaths()
     {
       MySqlCommand command = this.conn.CreateCommand();
-      command.CommandText = "SELECT * FROM critical_path ORDER BY path_name";
+      command.CommandText = "SELECT * FROM execution_paths ORDER BY path_name";
 
       DataSet ds = new DataSet();
       MySqlDataAdapter adapter = new MySqlDataAdapter(command);
@@ -207,13 +207,13 @@ namespace CUTS
       dr["path_order"] = Int32.Parse (this.order_.Text);
 
       dr["instance"] = Int32.Parse (this.instance_.SelectedValue);
-      dr["instance_name"] = this.instance_.SelectedItem.Text;
+      dr["component_name"] = this.instance_.SelectedItem.Text;
 
-      dr["src"] = this.src_.SelectedValue;
-      dr["src_portname"] = this.src_.SelectedItem.Text;
+      dr["inport"] = this.src_.SelectedValue;
+      dr["inport_name"] = this.src_.SelectedItem.Text;
 
-      dr["dst"] = this.dst_.SelectedValue;
-      dr["dst_portname"] = this.dst_.SelectedItem.Text;
+      dr["outport"] = this.dst_.SelectedValue;
+      dr["outport_name"] = this.dst_.SelectedItem.Text;
 
       // Insert the row at the end of6 the list.
       table.Rows.Add (dr);
@@ -295,21 +295,21 @@ namespace CUTS
 
       // Create the insert command for the table.
       System.Text.StringBuilder insert_sql = new System.Text.StringBuilder ();
-      insert_sql.Append ("INSERT INTO critical_path_elements (path_id, path_order, ");
-      insert_sql.Append ("instance, src, dst) VALUES (?path_id, ?path_order, ");
-      insert_sql.Append ("?instance, ?src, ?dst)");
+      insert_sql.Append ("INSERT INTO execution_path_elements (path_id, path_order, ");
+      insert_sql.Append ("instance, inport, outport) VALUES (?path_id, ?path_order, ");
+      insert_sql.Append ("?instance, ?inport, ?outport)");
 
       MySqlCommand insert_command = conn.CreateCommand ();
       insert_command.CommandText = insert_sql.ToString ();
       insert_command.Parameters.Add ("?path_id", MySqlDbType.Int32, 0, "path_id");
       insert_command.Parameters.Add ("?path_order", MySqlDbType.Int32, 0, "path_order");
       insert_command.Parameters.Add ("?instance", MySqlDbType.Int32, 0, "instance");
-      insert_command.Parameters.Add ("?src", MySqlDbType.Int32, 0, "src");
-      insert_command.Parameters.Add ("?dst", MySqlDbType.Int32, 0, "dst");
+      insert_command.Parameters.Add ("?inport", MySqlDbType.Int32, 0, "inport");
+      insert_command.Parameters.Add ("?outport", MySqlDbType.Int32, 0, "outport");
       adapter.InsertCommand = insert_command;
 
       System.Text.StringBuilder delete_sql = new System.Text.StringBuilder();
-      delete_sql.Append ("DELETE FROM critical_path_elements ");
+      delete_sql.Append ("DELETE FROM execution_path_elements ");
       delete_sql.Append ("WHERE path_id = ?path_id AND path_order = ?path_order");
 
       MySqlCommand delete_command = conn.CreateCommand();

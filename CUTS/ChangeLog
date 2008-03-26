@@ -1,27 +1,63 @@
+Wed Mar 26 05:34:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-create.sql:
+        * etc/SQL/CUTS-execution-paths.sql:
+        
+          Re-enabled existing stored procedures, and updated them to 
+          use the new database schema layout.
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+        
+          Removed the auto registration with the global assembly cache.
+
+        * utils/BMW/assemblies/CUTS.Data/Database.cs:
+
+          Updated neccessary methods to use the new database format.
+          
+        * utils/BMW/website/Critical_Path.aspx:
+        * utils/BMW/website/Critical_Path.aspx.cs:
+        * utils/BMW/website/components.aspx:
+        * utils/BMW/website/components.aspx.cs:
+        
+          Update the following webpages to use to new database 
+          layout.
+
+Wed Mar 26 05:33:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+
+
+        * utils/BMW/assemblies/CUTS.Data/Database.cs:
+
+        * utils/BMW/website/Critical_Path.aspx:
+        * utils/BMW/website/Critical_Path.aspx.cs:
+        * utils/BMW/website/components.aspx:
+        * utils/BMW/website/components.aspx.cs:
+
 Tue Mar 25 17:48:33 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/BDC_Task.h:
         * cuts/BDC/BDC_Task.inl:
         * cuts/BDC/BDC_Task.cpp:
-        
+
           Bug fix where access to the set of registered handlers was
           not synchronized.
-          
+
         * cuts/BDC/Benchmark_Data_Collector_exec_i.cpp:
         * cuts/BDC/Testing_Service_exec_i.h:
-        
+
           - Bug fix where the service manager was unregistered at the
             incorrect time. This resulted in the collection task calling
             the service manager to collect results when the BDC component
             is not active.
 
         * cuts/BDC/svcs/IO/IO_System_Metric_Visitor.cpp:
-        
+
           Bug fix where the registered component's type information was
           not checked for a NIL value. This resulted in a segfault.
 
         * cuts/BDC/svcs/dbase/DBase_Service.cpp:
-        
+
           During finalization time, the database service will stop the
           current test.
 

@@ -252,7 +252,6 @@ BEGIN
   ORDER BY t9.path_order;
 END; //
 
-/*
 -------------------------------------------------------------------------------
 -- cuts.select_execution_path_elements_i
 -------------------------------------------------------------------------------
@@ -261,20 +260,41 @@ DROP PROCEDURE IF EXISTS
   cuts.select_execution_path_elements_i; //
 
 CREATE PROCEDURE
-  cuts.select_execution_path_elements_i (IN path INT)
+  cuts.select_execution_path_elements_i (IN _pathid INT)
 BEGIN
-  SELECT t9.*, t10.component_name AS instance_name FROM
-    (SELECT t7.*, t8.portname AS dst_portname FROM
-      (SELECT t5.*, t6.portid AS dst_portid, t6.port_type AS dst_porttype
-        FROM (SELECT t3.*, t4.portname AS src_portname FROM
-          (SELECT t1.*, t2.portid AS src_portid, t2.port_type AS src_porttype
-            FROM critical_path_elements AS t1
-            LEFT JOIN ports AS t2 ON t1.src = t2.pid
-            WHERE t1.path_id = path ORDER BY t1.path_order) AS t3
-          LEFT JOIN portnames AS t4 ON t3.src_portid = t4.portid) AS t5
-        LEFT JOIN ports AS t6 ON t5.dst = t6.pid) AS t7
-      LEFT JOIN portnames AS t8 ON t7.dst_portid = t8.portid) AS t9
-    LEFT JOIN component_instances AS t10 ON t9.instance = t10.component_id;
+  SELECT t5.epeid,
+         t5.path_id,
+         t5.path_order,
+         t5.instance,
+         t5.component_name,
+         t5.inport,
+         t5.inport_name,
+         t5.outport,
+         t8.portname AS outport_name
+  FROM 
+    (SELECT t1.epeid,
+            t1.path_id,
+            t1.path_order,
+            t1.instance,
+            t2.component_name,
+            t1.inport,
+            t4.portname AS inport_name,
+            t1.outport
+    FROM cuts.execution_path_elements AS t1,
+         cuts.component_instances AS t2,
+         cuts.porttypes AS t3,
+         cuts.portnames AS t4
+    WHERE t1.path_id = _pathid AND
+          t1.instance = t2.instid AND 
+          t1.inport = t3.pid AND t3.port_name = t4.pid) AS t5
+  LEFT JOIN 
+    (SELECT t6.pid,
+            t7.portname
+     FROM cuts.porttypes AS t6,
+          cuts.portnames AS t7
+     WHERE t6.port_name = t7.pid) AS t8
+  ON t5.outport = t8.pid
+  ORDER BY t5.path_order;      
 END; //
 
 -------------------------------------------------------------------------------
@@ -285,16 +305,12 @@ DROP PROCEDURE IF EXISTS
   cuts.select_execution_path_elements; //
 
 CREATE PROCEDURE
-  cuts.select_execution_path_elements (IN pathname VARCHAR(255))
+  cuts.select_execution_path_elements (IN _pathname VARCHAR (255))
 BEGIN
-  DECLARE pid INT;
-
-  SELECT path_id INTO pid FROM critical_path
-    WHERE path_name = pathname;
-
-  CALL cuts.select_execution_path_elements_i (pid);
+  CALL cuts.select_execution_path_elements_i (cuts.get_execution_path_id (_pathname));
 END; //
 
+/*
 -------------------------------------------------------------------------------
 -- cuts.select_execution_path_times_i
 -------------------------------------------------------------------------------

@@ -6,10 +6,8 @@
              id="main_content" 
              contentplaceholderid="MainContent">
              
-<h2>Registered Component Types / Instances</h2>
-<asp:label id="message_" 
-           runat="server"
-           forecolor="red" />
+<h2>Registered Component Types &amp; Instances</h2>
+<asp:label id="message_" runat="server" forecolor="red" />
 
 <asp:datagrid runat="server" 
               id="components_" 

@@ -68,7 +68,7 @@ namespace CUTS
       try
       {
         DataSet ds = new DataSet();
-        this.cutsdb_.get_component_types (ref ds);
+        this.cutsdb_.get_component_types (ref ds, "component_types");
 
         // Expose the <DefaultView> of the result.
         this.components_.DataSource = ds.Tables["component_types"];
@@ -114,8 +114,8 @@ namespace CUTS
             System.Int32 typeid = 
               (System.Int32)this.components_.DataKeys[item.ItemIndex];
 
-            DataRow [] instances = dt.Select(String.Format("typeid = {0}", 
-                                                           typeid));
+            DataRow [] instances = 
+              dt.Select(String.Format("typeid = {0}", typeid));
 
             // Update the listing if necessary. We are assuming tha the 
             // listing can only be updated if the current number of displayed
@@ -134,7 +134,7 @@ namespace CUTS
               foreach (DataRow instance in instances)
               {
                 list.Items.Add(new ListItem(instance["component_name"].ToString(),
-                                            instance["component_id"].ToString()));
+                                            instance["instid"].ToString()));
               }
             }
           }
