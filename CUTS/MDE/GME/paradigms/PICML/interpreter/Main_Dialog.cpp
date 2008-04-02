@@ -10,6 +10,7 @@
 #include "../be/BE_Manager_Factory.h"
 
 #include "XSCRT/utils/File_T.h"
+#include "XSCRT/utils/XML_Schema_Resolver_T.h"
 
 #include "boost/bind.hpp"
 
@@ -62,12 +63,17 @@ BOOL Main_Dialog::OnInitDialog (void)
     try
     {
       // Create the user and default configuration.
-      std::ostringstream cuts_config;
+      std::ostringstream cuts_config, cuts_schema;
       cuts_config << CUTS_ROOT << "/bin/" << CUTS_BE_CUTS_CONFIG;
+      cuts_schema << CUTS_ROOT << "/etc/schemas/";
 
       // Create the file reader for the configuration file.
       XSCRT::utils::File_Reader_T <
         CUTS::Configuration> reader (&CUTS::modelgen);
+
+      reader.parser ()->setEntityResolver (
+        XSCRT::utils::xml_schema_resolver (
+          XSCRT::utils::Basic_Resolver_T <char> (cuts_schema.str ().c_str ())));
 
       // Discard comment nodes in the document.
       if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMComments, false))
@@ -89,13 +95,13 @@ BOOL Main_Dialog::OnInitDialog (void)
       if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMNamespaces, true))
         reader.parser ()->setFeature (xercesc::XMLUni::fgDOMNamespaces, true);
 
-      // Perform Validation
-      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMValidation, true))
-        reader.parser ()->setFeature (xercesc::XMLUni::fgDOMValidation, true);
-
       // Do not include ignorable whitespace in the DOM tree.
       if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMWhitespaceInElementContent, false))
         reader.parser ()->setFeature (xercesc::XMLUni::fgDOMWhitespaceInElementContent, false);
+
+      // Perform Validation
+      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMValidation, true))
+        reader.parser ()->setFeature (xercesc::XMLUni::fgDOMValidation, true);
 
       // Enable the GetParser()'s schema support.
       if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesSchema, true))
@@ -115,7 +121,7 @@ BOOL Main_Dialog::OnInitDialog (void)
       CUTS::Configuration config;
 
       // Open the default configuration.
-      if (reader.open (cuts_config.str ()) != -1)
+      if (reader.open (cuts_config.str ().c_str ()) != -1)
       {
         // Read the default configuration.
         reader >> config;

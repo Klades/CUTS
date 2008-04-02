@@ -1,7 +1,7 @@
 // $Id$
 
-project (CUTS_PICML) : xsc_cxx, xscrt_utils, picmllib, boost_base, \
-                       cuts_gme, udm_component, gme_interpreter, cuts_cosmic {
+project (CUTS_PICML) : xsc_cxx, xscrt, picmllib, boost_base, cuts_gme, \
+                       udm_component, gme_interpreter, cuts_cosmic {
 
   sharedname = CUTS_PICML
 
@@ -22,12 +22,11 @@ project (CUTS_PICML) : xsc_cxx, xscrt_utils, picmllib, boost_base, \
   }
 
   // -- dependencies
-  after +=  CUTS_BE
-  libs  +=  CUTS_BE
+  after += CUTS_BE
+  libs  += CUTS_BE
 
   Source_Files {
     Main_Dialog.cpp
-
   }
 
   Source_Files {

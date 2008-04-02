@@ -1,38 +1,54 @@
+Wed Apr  2 21:45:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/Main_Dialog.cpp:
+        
+          Bug fix where the backend generators failed to load if the
+          XML schema definition could not be found. This was fixed by
+          using the XML schema resolver object for the Xerces-C parser.
+
+Wed Mar 26 21:08:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * ChangeLog:
+
+        * MDE/GME/paradigms/PICML/interpreter/Main_Dialog.cpp:
+
+        * bin/cuts.config:
+
+        * cuts/BDC/BDC_Task.h:
+        * cuts/BDC/BDC_Task.cpp:
+        * cuts/BDC/Testing_Service_exec_i.cpp:
+
+        * cuts/CCM_CoWorkEr_Proxy.cpp:
+        * cuts/Component_Registry.h:
+        * cuts/Component_Registry.inl:
+        * cuts/Component_Registry.cpp:
+        * cuts/DatabaseWorker.cpp:
+        * cuts/MemoryWorker.cpp:
+
 Wed Mar 26 05:34:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-create.sql:
         * etc/SQL/CUTS-execution-paths.sql:
-        
-          Re-enabled existing stored procedures, and updated them to 
+
+          Re-enabled existing stored procedures, and updated them to
           use the new database schema layout.
 
         * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
-        
+
           Removed the auto registration with the global assembly cache.
 
         * utils/BMW/assemblies/CUTS.Data/Database.cs:
 
           Updated neccessary methods to use the new database format.
-          
+
         * utils/BMW/website/Critical_Path.aspx:
         * utils/BMW/website/Critical_Path.aspx.cs:
         * utils/BMW/website/components.aspx:
         * utils/BMW/website/components.aspx.cs:
-        
-          Update the following webpages to use to new database 
+
+          Update the following webpages to use to new database
           layout.
-
-Wed Mar 26 05:33:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
-
-        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
-
-
-        * utils/BMW/assemblies/CUTS.Data/Database.cs:
-
-        * utils/BMW/website/Critical_Path.aspx:
-        * utils/BMW/website/Critical_Path.aspx.cs:
-        * utils/BMW/website/components.aspx:
-        * utils/BMW/website/components.aspx.cs:
 
 Tue Mar 25 17:48:33 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
