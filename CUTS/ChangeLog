@@ -1,8 +1,17 @@
+Thu Apr  3 22:13:03 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/cuts.config:
+        * bin/cuts.user.config:
+        
+          The namespace schema is now specified as a relative location
+          and the tools that use the XML file is resposible for resolving
+          the schema's actual location.          
+
 Wed Apr  2 21:45:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML.mpc:
         * MDE/GME/paradigms/PICML/interpreter/Main_Dialog.cpp:
-        
+
           Bug fix where the backend generators failed to load if the
           XML schema definition could not be found. This was fixed by
           using the XML schema resolver object for the Xerces-C parser.
