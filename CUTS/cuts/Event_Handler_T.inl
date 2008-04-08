@@ -32,10 +32,17 @@ dispatch_event (EVENTTYPE * ev) const
 {
   /// @note Should this check even been here?? Maybe for debug
   /// mode, and not for release mode??
-  if (this->component_ == 0 || this->method_ == 0)
-    return false;
+  try		
+    {	
+      if (this->component_ == 0 || this->method_ == 0)
+        return false;
 
-  (this->component_->*this->method_) (ev);
+      (this->component_->*this->method_) (ev);
+    }
+  catch (...)
+    {
+       return false;
+    }
   return true;
 }
 

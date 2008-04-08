@@ -22,15 +22,22 @@ CUTS_Memory_Worker::CUTS_Memory_Worker (void)
 //
 CUTS_Memory_Worker::~CUTS_Memory_Worker (void)
 {
-  // delete all the remaining memory in the container
-  Memory_Allocations::iterator iter;
+  try
+    {
+      // delete all the remaining memory in the container
+      Memory_Allocations::iterator iter;
+      
+      for ( iter = this->memory_.begin ();
+	    iter != this->memory_.end ();
+	    iter ++)
+	{
+	  delete [] (*iter);
+	}
+    }
+  catch (...)
+    {
 
-  for ( iter = this->memory_.begin ();
-        iter != this->memory_.end ();
-        iter ++)
-  {
-    delete [] (*iter);
-  }
+    }
 }
 
 //
@@ -38,16 +45,23 @@ CUTS_Memory_Worker::~CUTS_Memory_Worker (void)
 //
 void CUTS_Memory_Worker::allocate (size_t kilobytes)
 {
-  while (kilobytes -- > 0)
-  {
-    char * allocation = new char [CUTS_MEMORY_ALLOC_SIZE];
-
-    do
+  try
     {
       ACE_GUARD (ACE_Thread_Mutex, guard, this->lock_);
-      this->memory_.push_back (allocation);
-    } while (0);
-  }
+      
+      while (kilobytes -- > 0)
+	{
+	  char * allocation = 0;
+	  ACE_NEW (allocation, char [CUTS_MEMORY_ALLOC_SIZE]);
+	  
+	  if (allocation != 0)
+	    this->memory_.push_back (allocation);
+	}
+    }
+  catch (...)
+    {
+
+    }
 }
 
 //
@@ -55,24 +69,29 @@ void CUTS_Memory_Worker::allocate (size_t kilobytes)
 //
 void CUTS_Memory_Worker::deallocate (size_t kilobytes)
 {
-  // Make sure we are not trying to deallocate more memory
-  // that what is currently allocated.
-  if (kilobytes > this->memory_.size ())
-    kilobytes = this->memory_.size ();
-
-  while (kilobytes -- > 0)
-  {
-    char * memory = 0;
-    do
+  try
     {
       ACE_GUARD (ACE_Thread_Mutex, guard, this->lock_);
+      
+      // Make sure we are not trying to deallocate more memory
+      // that what is currently allocated.
+      if (kilobytes > this->memory_.size ())
+	kilobytes = this->memory_.size ();
+      
+      char * memory = 0;
+      
+      while (kilobytes -- > 0)
+	{
+	  // get the next allocation on the <memory_> stack
+	  memory = this->memory_.front ();
+	  this->memory_.pop_front ();
+	  
+	  // delete the piece of
+	  delete [] memory;
+	}
+    }
+  catch (...)
+    {
 
-      // get the next allocation on the <memory_> stack
-      memory = this->memory_.front ();
-      this->memory_.pop_front ();
-    } while (0);
-
-    // delete the piece of
-    delete [] memory;
-  }
+    }
 }

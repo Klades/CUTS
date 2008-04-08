@@ -26,6 +26,9 @@ while ($arg = shift)
 # spawn the an instance of the executor
 $planner = "$CIAO_ROOT/bin/plan_launcher";
 $planner_args = "-p $plan -k file://EM.ior -o DAM.ior -z CLIENT_PROPAGATED";
+
+print "*** info: deploying $plan\n";
+
 $planner_start = new PerlACE::Process ($planner, $planner_args);
 $result = $planner_start->SpawnWaitKill (5000);
 

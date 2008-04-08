@@ -1,3 +1,30 @@
+Tue Apr  8 22:30:03 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/cuts_test.pl:
+        
+          The script does not wait for the time to expire if the test
+          fails to deploy.
+
+        * cuts/Component_Registry.cpp (thr_svc):
+        
+          Added locking mechanisms around the iteration of the 
+          registered event handler set to prevent the collection 
+          from being modified during usage.
+        
+        * cuts/Event_Handler_T.inl:
+        
+          Added exception handling around the dispatch method.
+        
+        * cuts/Log_T.h:
+        * cuts/Log_T.inl:
+        * cuts/Log_T.cpp:
+        
+          Removed the unncessary 'typename' qualifiers.
+        
+        * cuts/MemoryWorker.cpp:
+        
+          Re-implemented how the memory is deallocated.
+
 Thu Apr  3 22:13:03 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/cuts.config:
@@ -15,25 +42,6 @@ Wed Apr  2 21:45:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
           Bug fix where the backend generators failed to load if the
           XML schema definition could not be found. This was fixed by
           using the XML schema resolver object for the Xerces-C parser.
-
-Wed Mar 26 21:08:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
-
-        * ChangeLog:
-
-        * MDE/GME/paradigms/PICML/interpreter/Main_Dialog.cpp:
-
-        * bin/cuts.config:
-
-        * cuts/BDC/BDC_Task.h:
-        * cuts/BDC/BDC_Task.cpp:
-        * cuts/BDC/Testing_Service_exec_i.cpp:
-
-        * cuts/CCM_CoWorkEr_Proxy.cpp:
-        * cuts/Component_Registry.h:
-        * cuts/Component_Registry.inl:
-        * cuts/Component_Registry.cpp:
-        * cuts/DatabaseWorker.cpp:
-        * cuts/MemoryWorker.cpp:
 
 Wed Mar 26 05:34:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

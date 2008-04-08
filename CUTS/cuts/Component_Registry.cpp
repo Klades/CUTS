@@ -168,7 +168,7 @@ ACE_THR_FUNC_RETURN CUTS_Component_Registry::thr_svc (void * param)
       ACE_READ_GUARD_RETURN (ACE_RW_Thread_Mutex, 
                              guard, 
                              reg->handler_lock_, 
-                             -1);
+                             0);
 
       // Notify all loaded services to handle the component.
       CUTS_Handler_Set::ITERATOR iter (reg->handlers_);

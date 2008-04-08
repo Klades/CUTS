@@ -53,7 +53,7 @@ public:
    * @param[in]         size        Initial size of the log.
    * @param[in]         grow        Allow the log to grow as needed.
    */
-  CUTS_Log_T (typename size_type size = 0, 
+  CUTS_Log_T (size_type size = 0, 
               bool auto_grow = true);
 
   /**
@@ -72,7 +72,7 @@ public:
    *
    * @return        The number of free records.
    */
-  typename size_type free_size (void) const;
+  size_type free_size (void) const;
 
   /**
    * Get the number of used records in the log. Used records are
@@ -80,7 +80,7 @@ public:
    *
    * @return        The number of used records.
    */
-  typename size_type used_size (void) const;
+  size_type used_size (void) const;
 
   /// Reset the log by converting all used records to free records.
   void reset (void);
@@ -137,12 +137,12 @@ public:
    *
    * @return          Iterator object.
    */
-  typename iterator used_end (void);
+  iterator used_end (void);
 
   /**
    * @overload
    */
-  typename const_iterator used_end (void) const;
+  const_iterator used_end (void) const;
 
   // @}
 
@@ -167,7 +167,7 @@ public:
    *
    * @return        Size of the log.
    */
-  typename size_type size (void) const;
+  size_type size (void) const;
 
   /**
    * Set the new size of the log. This will perserve the existing 
@@ -176,7 +176,7 @@ public:
    * @retval        0       Successfully set the new size.
    * @retval        -1      Failed to set the new size.
    */
-  int size (typename size_type new_size);
+  int size (size_type new_size);
 
 private:
   /// Thread-safe helper method to copy a log.
@@ -186,7 +186,7 @@ private:
   void copy_log_i (const CUTS_Log_T & log);
 
   /// Number of used records in the log.
-  size_t used_;
+  size_type used_;
 
   /// Flag that determines if the log can grow when needed.
   bool auto_grow_;

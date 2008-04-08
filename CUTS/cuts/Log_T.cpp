@@ -81,3 +81,31 @@ void CUTS_Log_T <T, LOCK>::copy_log_i (const CUTS_Log_T & log)
   std::copy (log.begin (), log.used_end (), this->begin ());
   this->used_ = log.used_;
 }
+
+//
+// size
+//
+template <typename T, typename LOCK>
+CUTS_INLINE
+typename CUTS_Log_T <T, LOCK>::size_type
+CUTS_Log_T <T, LOCK>::size (void) const
+{
+  ACE_READ_GUARD_RETURN (LOCK,
+                         guard,
+                         this->lock_,
+                         this->ACE_Array_Base <T>::size ());
+
+  return this->ACE_Array_Base <T>::size ();
+}
+
+//
+// size
+//
+template <typename T, typename LOCK>
+CUTS_INLINE
+int CUTS_Log_T <T, LOCK>::
+size (typename CUTS_Log_T <T, LOCK>::size_type new_size)
+{
+  ACE_WRITE_GUARD_RETURN (LOCK, guard, this->lock_, -1);
+  return this->ACE_Array_Base <T>::size (new_size);
+}
