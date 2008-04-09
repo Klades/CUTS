@@ -1,13 +1,19 @@
+Wed Apr  9 23:12:28 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/ODBC/CUTS_ODBC.mpc:
+        
+          Derived the main project from cuts_odbc.mpb.
+
 Wed Apr  9 23:08:22 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/config/cuts_odbc.mpc:
-        
-          New base project that requires all non-Windows database 
+
+          New base project that requires all non-Windows database
           projects to use UnixODBC.
 
         * install/CUTS_CoSMIC.wxs:
         * install/CUTS_PICML.wxs:
-        
+
           The installer now installs the modelgen.xsd file as part
           of the installation procedure.
 
@@ -21,8 +27,8 @@ Wed Apr  9 23:08:22 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * utils/Node_Daemon/Process_Info.cpp:
         * utils/Node_Daemon/Process_Log.h:
         * utils/Node_Daemon/Process_Log.cpp:
-        
-          Initial re-implementation of the CUTS node daemon so that 
+
+          Initial re-implementation of the CUTS node daemon so that
           it contains a task manager. Client applications can contain
           the task manager and spawn/terminate executing application.
 
