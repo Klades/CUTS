@@ -15,12 +15,13 @@ project (CUTS_Node_Daemon) : taoserver, iortable, cutsexe {
     Node_Daemon_Event_Handler.cpp
     Node_Daemon_i.cpp
     Node_Daemon_Server.cpp
+    Process_Info.cpp
     Process_Log.cpp
     Server_Options.cpp
   }
 
   Header_Files {
-
+    Process_Info.h
   }
 }
 

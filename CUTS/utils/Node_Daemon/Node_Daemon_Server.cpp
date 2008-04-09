@@ -171,10 +171,13 @@ int main (int argc, char * argv [])
     // Create a <CUTS::Node_Daemon>
     VERBOSE_MESSAGE ((LM_DEBUG,
                       "creating the node daemon server\n"));
-    CUTS_Node_Daemon_i * daemon_i = 0;
-    ACE_NEW_RETURN (daemon_i, CUTS_Node_Daemon_i (orb.in ()), 1);
 
-    // Attempt the recover any lost nodes.
+    CUTS_Node_Daemon_i * daemon_i = 0;
+    ACE_NEW_RETURN (
+      daemon_i, 
+      CUTS_Node_Daemon_i (::CORBA::ORB::_duplicate (orb.in ())), 1);
+
+    // Attempt the recover any lost processes.
     size_t count = daemon_i->recover ();
 
     VERBOSE_MESSAGE ((LM_DEBUG,

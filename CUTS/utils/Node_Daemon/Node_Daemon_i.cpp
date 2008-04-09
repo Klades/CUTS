@@ -7,7 +7,8 @@
 #endif
 
 #include "Active_Process.h"
-#include "Process_Log.h"
+#include "Process_Info.h"
+//#include "Process_Log.h"
 #include "Server_Options.h"
 #include "ace/INET_Addr.h"
 #include "ace/Null_Mutex.h"
@@ -24,10 +25,10 @@
 //
 // CUTS_Node_Daemon_i
 //
-CUTS_Node_Daemon_i::CUTS_Node_Daemon_i (::CORBA::ORB_ptr orb)
+CUTS_Node_Daemon_i::CUTS_Node_Daemon_i (CORBA::ORB_ptr orb)
   : event_handler_ (*this),
     timer_ (-1),
-    orb_ (::CORBA::ORB::_duplicate (orb))
+    orb_ (orb)
 {
   this->init ();
   this->recover ();
@@ -38,9 +39,6 @@ CUTS_Node_Daemon_i::CUTS_Node_Daemon_i (::CORBA::ORB_ptr orb)
 //
 CUTS_Node_Daemon_i::~CUTS_Node_Daemon_i (void)
 {
-  // @@ We should have a flag specifying how to shutdown,
-  // e.g., force|nowait|wait
-
   // Wait for the process manager thread to return and it's
   // event handler. This means waiting for all processes
   // created by this process manager to exit.
@@ -62,7 +60,7 @@ CUTS_Node_Daemon_i::~CUTS_Node_Daemon_i (void)
 //
 // spawn_task
 //
-CORBA::ULong CUTS_Node_Daemon_i::spawn_task (const CUTS::Node_Task & task)
+CORBA::ULong CUTS_Node_Daemon_i::task_spawn (const CUTS::Node_Task & task)
 {
   if (this->process_map_.find (task.name.in ()) == 0)
   {
@@ -83,14 +81,31 @@ CORBA::ULong CUTS_Node_Daemon_i::spawn_task (const CUTS::Node_Task & task)
                     "*** info (node daemon): spawning new process ['%s']\n",
                     this->p_options_.command_line_buf ()));
 
-  pid_t pid = this->pm_.spawn (this->p_options_,
-                               &this->event_handler_);
+  // Spawn the new process.
+  pid_t pid = this->pm_.spawn (this->p_options_, &this->event_handler_);
 
   if (pid != ACE_INVALID_PID && pid != 0)
   {
-    int retval = this->process_map_.bind (task.name.in (), pid);
+    // All a new information block about the task.
+    CUTS_Process_Info * info = 0;
+    ACE_NEW_THROW_EX (info, CUTS_Process_Info (), CORBA::NO_MEMORY ());
+    ACE_Auto_Ptr <CUTS_Process_Info> auto_clean (info);
 
-    if (retval == -1)
+    // Initialize the task information block.
+    info->pid_ = pid;
+    info->state_ = 1;
+    info->name_ = task.name.in ();
+    info->exec_ = task.execname.in ();
+    info->args_ = task.arguments.in ();
+
+    // Save the information block to a mapping.
+    int retval = this->process_map_.bind (task.name.in (), info);
+
+    if (retval == 0)
+    {
+      auto_clean.release ();
+    }
+    else if (retval == -1)
     {
       ACE_ERROR ((LM_ERROR,
                   "*** error (node daemon): failed to save spawned task\n"));
@@ -106,29 +121,23 @@ CORBA::ULong CUTS_Node_Daemon_i::spawn_task (const CUTS::Node_Task & task)
 }
 
 //
-// kill
+// task_terminate
 //
-CORBA::ULong CUTS_Node_Daemon_i::kill_task (const char * name)
+CORBA::ULong CUTS_Node_Daemon_i::
+task_terminate (const char * name, CORBA::Boolean wait)
 {
   // Locate the pid for the task.
-  pid_t pid = 0;
-  int retval = this->process_map_.find (name, pid);
+  CUTS_Process_Info * info = 0;
+  int retval = this->process_map_.find (name, info);
 
   if (retval == 0)
   {
-    // Terminate the process.
-    retval = this->pm_.terminate (pid);
-
-    if (retval == -1)
+    // Terminate the located task.
+    if (this->task_terminate_i (*info, wait) == 0)
     {
-      ACE_ERROR ((LM_ERROR,
-                  "*** error (node daemon): failed to terminate %s\n",
-                  name));
-    }
-    else
-    {
-      // Remove the process from the proces_map_.
-      this->unmanage (pid);
+      // Remove the process from the mapping.
+      if (this->process_map_.unbind (name) == 0)
+        delete info;
     }
   }
   else
@@ -142,6 +151,59 @@ CORBA::ULong CUTS_Node_Daemon_i::kill_task (const char * name)
 }
 
 //
+// task_terminate_i
+//
+int CUTS_Node_Daemon_i::
+task_terminate_i (CUTS_Process_Info & info, bool wait)
+{
+  // Terminate the process and wait for it to d
+  int retval = this->pm_.terminate (info.pid_);
+
+  if (retval == 0)
+  {
+    // We may have to wait for the process to terminate.
+    if (wait)
+      this->pm_.wait (info.pid_);
+  }
+  else
+  {
+    ACE_ERROR ((LM_ERROR,
+                "*** error (node daemon): failed to terminate <%s>\n",
+                info.name_.c_str ()));
+  }
+
+  return retval;
+}
+
+//
+// task_restart
+//
+CORBA::ULong CUTS_Node_Daemon_i::task_restart (const char * name)
+{
+  CUTS::Node_Task_var task_info;
+
+  // Get information about the task.
+  if (this->task_info (name, task_info) != 0)
+    return -1;
+
+  // Terminate the task.
+  if (this->task_terminate (name, true) != 0)
+    return -1;
+
+  // Spawn the task again.
+  return this->task_spawn (task_info);
+}
+
+//
+// task_info
+//
+CORBA::ULong CUTS_Node_Daemon_i::
+task_info (const char * name, CUTS::Node_Task_out info)
+{
+  return 0;
+}
+
+//
 // unmanage
 //
 void CUTS_Node_Daemon_i::unmanage (pid_t pid)
@@ -151,18 +213,27 @@ void CUTS_Node_Daemon_i::unmanage (pid_t pid)
 
   do
   {
-    // Prevent the process_map_ from being modified.
-    ACE_WRITE_GUARD (ACE_RW_Thread_Mutex, guard, this->process_map_.mutex ());
+    // Prevent the process map from being modified.
+    ACE_READ_GUARD (ACE_RW_Thread_Mutex, 
+                    guard,
+                    this->process_map_.mutex ());
 
     for (; !iter.done (); iter ++)
     {
-      if (iter->item () == pid)
+      if (iter->item ()->pid_ == pid)
         break;
     }
   } while (0);
 
   if (!iter.done ())
-    this->process_map_.unbind (iter);
+  {
+    // Delete the allocated element.
+    CUTS_Process_Info * info = iter->item ();
+
+    // Remove the information from the listing.
+    if (this->process_map_.unbind (iter) == 0)
+      delete info;
+  }
 }
 
 //
@@ -175,7 +246,7 @@ void CUTS_Node_Daemon_i::init (void)
                   this->event_handler_.reactor ());
 
   // Set the process log for the node daemon.
-  PROCESS_LOG ()->log_file ("cutsnode_d.dat");
+  //PROCESS_LOG ()->log_file ("cutsnode_d.dat");
 
   // Initialize the default <p_options_>.
   this->p_options_.avoid_zombies (0);
@@ -237,76 +308,79 @@ void CUTS_Node_Daemon_i::init (void)
 //
 size_t CUTS_Node_Daemon_i::recover (void)
 {
-  size_t count = 0;
-  Process_List active_list;
+  //size_t count = 0;
+  //CUTS_Process_Info_Set active_list;
 
-  // Get all the active process in the process log.
-  PROCESS_LOG ()->get_active_processes (active_list);
-  Process_List::ITERATOR iter (active_list);
+  //// Get all the active process in the process log.
+  //PROCESS_LOG ()->get_active_processes (active_list);
+  //CUTS_Process_Info_Set::ITERATOR iter (active_list);
 
-  while (iter.done () == 0)
-  {
-    // Get the next process for the <active_list>. We only need
-    // to continue if we successfully have gotten an entry.
-    Process_Log_Entry * ple = 0;
-    iter.next (ple);
+  //while (iter.done () == 0)
+  //{
+  //  // Get the next process for the <active_list>. We only need
+  //  // to continue if we successfully have gotten an entry.
+  //  CUTS_Process_Info * info = 0;
+  //  iter.next (info);
 
-    if (ple == 0)
-      continue;
+  //  if (info == 0)
+  //    continue;
 
-    // Create an <Active_Process> entry so we can actually
-    // manage this process using our <Process_Manager>.
-    CUTS_Active_Process * a_process = 0;
-    ACE_NEW_THROW_EX (a_process,
-                      CUTS_Active_Process (ple->pid_),
-                      CORBA::NO_MEMORY ());
+  //  // Create an <Active_Process> entry so we can actually
+  //  // manage this process using our <Process_Manager>.
+  //  CUTS_Active_Process * a_process = 0;
+  //  ACE_NEW_THROW_EX (a_process,
+  //                    CUTS_Active_Process (info->pid_),
+  //                    CORBA::NO_MEMORY ());
 
-    if (a_process->running ())
-    {
-      pid_t pid = this->pm_.spawn (a_process,
-                                   this->p_options_,
-                                   &this->event_handler_);
+  //  ACE_Auto_Ptr <CUTS_Active_Process> auto_clean (a_process);
 
-      if (pid != ACE_INVALID_PID && pid != 0)
-      {
-        ++ count;
-      }
-      else
-      {
-        ACE_ERROR ((LM_ERROR,
-                    "*** error (node daemon): failed to recover pid %d\n",
-                    ple->pid_));
-      }
-    }
-    else
-    {
-      VERBOSE_MESSAGE ((LM_DEBUG,
-                        "*** info (node daemon): pid %u is not active\n",
-                        ple->pid_));
+  //  if (a_process->running ())
+  //  {
+  //    pid_t pid = this->pm_.spawn (a_process,
+  //                                 this->p_options_,
+  //                                 &this->event_handler_);
 
-      // Remove the entry from the log and eelete its resources.
-      if (PROCESS_LOG ()->process_exit (ple->pid_))
-      {
-        VERBOSE_MESSAGE ((LM_DEBUG,
-                          "*** info (node daemon):  removed pid %u "
-                          "from log\n",
-                          ple->pid_));
-      }
-      else
-      {
-        ACE_ERROR ((LM_ERROR,
-                    "*** error (node daemon): failed to remove pid %u "
-                    "from log\n",
-                    ple->pid_));
-      }
+  //    if (pid != ACE_INVALID_PID && pid != 0)
+  //    {
+  //      // Increment the recovery counter.
+  //      ++ count;
 
-      delete a_process;
-      a_process = 0;
-    }
+  //      // Release the object since the manager now owns it.
+  //      auto_clean.release ();
+  //    }
+  //    else
+  //    {
+  //      ACE_ERROR ((LM_ERROR,
+  //                  "*** error (node daemon): failed to recover pid %d\n",
+  //                  info->pid_));
+  //    }
+  //  }
+  //  else
+  //  {
+  //    VERBOSE_MESSAGE ((LM_DEBUG,
+  //                      "*** info (node daemon): pid %u is not active\n",
+  //                      info->pid_));
 
-    // Advance to the next element in the collection.
-    iter.advance ();
-  }
+  //    // Remove the entry from the log and delete its resources.
+  //    if (PROCESS_LOG ()->process_exit (info->pid_))
+  //    {
+  //      VERBOSE_MESSAGE ((LM_DEBUG,
+  //                        "*** info (node daemon): removed pid %u "
+  //                        "from log\n",
+  //                        info->pid_));
+  //    }
+  //    else
+  //    {
+  //      ACE_ERROR ((LM_ERROR,
+  //                  "*** error (node daemon): failed to remove pid %u "
+  //                  "from log\n",
+  //                  info->pid_));
+  //    }
+  //  }
+
+  //  // Advance to the next element in the collection.
+  //  iter.advance ();
+  //}
 
   return 0;
 }
@@ -316,22 +390,47 @@ size_t CUTS_Node_Daemon_i::recover (void)
 //
 void CUTS_Node_Daemon_i::clean (void)
 {
-  size_t active_count = 0;
-  bool retval = PROCESS_LOG ()->clean (&active_count);
+  //size_t active_count = 0;
+  //bool retval = PROCESS_LOG ()->clean (&active_count);
 
-  VERBOSE_MESSAGE ((LM_DEBUG,
-                    "*** info (node daemon): %s the log file [active=%u]\n",
-                    retval ? "successfully cleaned" : "failed to clean",
-                    active_count));
+  //VERBOSE_MESSAGE ((LM_DEBUG,
+  //                  "*** info (node daemon): %s the log file [active=%u]\n",
+  //                  retval ? "successfully cleaned" : "failed to clean",
+  //                  active_count));
 }
 
 //
 // shutdown
 //
-void CUTS_Node_Daemon_i::shutdown (void)
+void CUTS_Node_Daemon_i::shutdown (CORBA::Boolean kill_task)
 {
+  // @@ We should have a flag specifying how to shutdown,
+  // e.g., force|nowait|wait
+
   VERBOSE_MESSAGE ((LM_DEBUG,
                     "*** info: (node daemon): shutting down...\n"));
 
+  if (kill_task)
+  {
+    ACE_READ_GUARD (ACE_RW_Thread_Mutex, guard, this->process_map_.mutex ());
+
+    CUTS_Process_Info * info = 0;
+    Process_Map::ITERATOR iter (this->process_map_);
+
+    for ( ; !iter.done (); iter.advance ())
+    {
+      // Kill this task and wait for it to terminate.
+      info = iter->item ();      
+      this->task_terminate_i (*info, true);
+
+      // Delete the information about the process.
+      delete info;
+    }
+  }
+
+  // Remove all the task from the listing.
+  this->process_map_.unbind_all ();
+
+  // Shutdown the ORB.
   this->orb_->shutdown ();
 }

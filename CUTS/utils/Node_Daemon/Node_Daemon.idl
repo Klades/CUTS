@@ -51,10 +51,10 @@ module CUTS
      * immediately and runs infinitely or to completion.
      *
      * @param[in]       task      Target task to spawn.
-     * @retval          -1        The task failed to spawn.
-     * @retval          0         Failed to spawn the task.
+     * @retval          0         Successfully to spawned task.
+     * @retval          -1        Failed to spawn task.
      */
-    unsigned long spawn_task (in Node_Task task);
+    unsigned long task_spawn (in Node_Task task);
 
     /**
      * Kill an existing task. If the task exist in the task manager,
@@ -62,13 +62,39 @@ module CUTS
      * has no side effects.
      *
      * @param[in]     name        Name of the task.
-     * @retval        -1          The task failed to spawn.
-     * @retval        0           Failed to spawn the task.
+     * @retval        0           Succussfully terminated task.
+     * @retval        -1          Failed to terminate task.
      */
-    unsigned long kill_task (in string name);
+    unsigned long task_terminate (in string name, in boolean wait);
 
-    /// Shutdown the task manager.
-    oneway void shutdown ();
+    /**
+     * Restart an existing task. This is the equivalent of invoking
+     * task_terminate () and then task_spawn () in order. If the 
+     * specified task does not exist, nothing happens.
+     *
+     * @param[in]     name        Name of the task.
+     * @retval        0           Successfully restarted task.
+     * @retval        -1          Failed to restart task.
+     */
+    unsigned long task_restart (in string name);
+
+    /**
+     * Get information about a task.
+     *
+     * @info[out]     info        The task's information.
+     * @retval        0           Successfully retrieve info.
+     * @retval        -1          Failed to retrieve info.
+     */
+    unsigned long task_info (in string name,
+                             out Node_Task info);
+
+    /**
+     * Shutdown the task manager.
+     *
+     * @param[in]     kill_tasks  Kill the owned tasks/processes. This
+     *                            does not gracefully terminate the tasks.
+     */
+    void shutdown (in boolean kill_tasks);
   };
 };
 

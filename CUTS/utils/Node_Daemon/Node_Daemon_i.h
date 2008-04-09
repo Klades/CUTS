@@ -23,6 +23,8 @@
 #include "ace/Timer_Heap.h"
 #include "ace/Timer_Queue_Adapters.h"
 
+class CUTS_Process_Info;
+
 //===========================================================================
 /**
   * @class CUTS_Node_Daemon_i
@@ -39,7 +41,7 @@ public:
   friend class Node_Daemon_Event_Handler;
 
   /// Default contructor.
-  CUTS_Node_Daemon_i (::CORBA::ORB_ptr orb);
+  CUTS_Node_Daemon_i (CORBA::ORB_ptr orb);
 
   /// Destructor.
   virtual ~CUTS_Node_Daemon_i (void);
@@ -50,26 +52,44 @@ public:
    * @param[in]     task      Task to spawn
    * @return        Number of nodes successfully spawned.
    */
-  virtual CORBA::ULong spawn_task (const CUTS::Node_Task & task);
+  virtual CORBA::ULong task_spawn (const CUTS::Node_Task & task);
 
   /**
    * Kill a node in the task manager.
    *
    * @param[in]     name      Name of the task.
    */
-  virtual CORBA::ULong kill_task (const char * name);
+  virtual CORBA::ULong task_terminate (const char * name, 
+                                       CORBA::Boolean wait);
+
+  /**
+   * Kill a node in the task manager.
+   *
+   * @param[in]     name      Name of the task.
+   */
+  virtual CORBA::ULong task_info (const char * name, 
+                                  CUTS::Node_Task_out info);
+
+  /**
+   * Restart an existing task.
+   *
+   * @param[in]     name      Name of the task.
+   */
+  virtual CORBA::ULong task_restart (const char * name);
 
   /// Shutdown the node daemon server.
-  virtual void shutdown (void);
+  virtual void shutdown (CORBA::Boolean kill_tasks);
 
   /// Recover as many processes as possible.
   size_t recover (void);
 
 private:
+  int task_terminate_i (CUTS_Process_Info & info, bool wait);
+
   /// Initialize the class.
   void init (void);
 
-  /// Unmanage the specified process id.
+  /// Unmanage the specified process.
   void unmanage (pid_t pid);
 
   /// Cleanup the process log.
@@ -77,7 +97,7 @@ private:
 
   /// Type definition of mapping ports to processes.
   typedef ACE_Hash_Map_Manager <ACE_CString,
-                                pid_t,
+                                CUTS_Process_Info *,
                                 ACE_RW_Thread_Mutex> Process_Map;
 
   /// Mapping of task names to their process ids.

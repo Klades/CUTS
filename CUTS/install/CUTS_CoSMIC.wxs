@@ -46,6 +46,9 @@
             </Component>
             
             <Directory Id="bin" Name="bin" /> 
+            <Directory Id="etc" Name="etc">
+              <Directory Id="schemas" Name="schemas" />
+            </Directory>
           </Directory>
         </Directory>
       </Directory>
@@ -61,6 +64,7 @@
       <!-- gather all the CUTS related components -->
       <ComponentRef Id="CUTS" />
       <ComponentRef Id="CUTS_PICML" />
+      <ComponentRef Id="CUTS_PICML_schemas" />
 
       <!-- include the VC merge modules -->
       <FeatureRef Id="vc_merge_modules" />

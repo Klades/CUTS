@@ -3,6 +3,14 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <Fragment Id='CUTS_CoSMIC'>
+    <DirectoryRef Id='schemas'>
+      <Component Id='CUTS_PICML_schemas' Guid='F550B32C-9221-4d32-B328-ACB4182E17BA'>
+        <File Id='modelgen.xsd' Name='modelgen.xsd'
+              Source='$(env.CUTS_ROOT)\etc\schemas\modelgen.xsd' />
+      </Component>
+
+    </DirectoryRef>
+    
     <DirectoryRef Id='bin'>
       <Component Id='CUTS_PICML' Guid='1B880B88-2944-419C-843F-433096213675'>
         <!-- install the XML configuration -->
@@ -18,8 +26,20 @@
         <File Id="XERCES_C_2_6.DLL" Name="XERCES-C_2_6.DLL"
               Source="$(env.XERCESCROOT)\lib\xerces-c_2_6.dll" DiskId="1" />
 
-        <File Id="XSCRT_Utils.dll" Name="XSCRT_Utils.dll"
-              Source="$(env.XSC_ROOT)\lib\XSCRT_Utils.dll" DiskId="1" />
+        <File Id="XSCRT_Utils.dll" Name="XSCRT.dll"
+              Source="$(env.XSC_ROOT)\lib\XSCRT.dll" DiskId="1" />
+
+        <File Id="ACE.dll" Name="ACE.dll"
+              Source="$(env.ACE_ROOT)\lib\ACE.dll" DiskId="1" />
+
+        <File Id="GME.dll" Name="GME.dll"
+              Source="$(env.COSMIC_ROOT)\bin\GME.dll" DiskId="1" />
+
+        <File Id="PICML.dll" Name="PICML.dll"
+              Source="$(env.COSMIC_ROOT)\bin\PICML.dll" DiskId="1" />
+
+        <File Id="Utils.dll" Name="Utils.dll"
+              Source="$(env.COSMIC_ROOT)\bin\Utils.dll" DiskId="1" />
 
         <!-- install the CIAO generator -->
         <File Id="CUTS_BE_CIAO.dll" Name="CUTS_BE_CIAO.dll"

@@ -1,38 +1,66 @@
+Wed Apr  9 23:08:22 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/config/cuts_odbc.mpc:
+        
+          New base project that requires all non-Windows database 
+          projects to use UnixODBC.
+
+        * install/CUTS_CoSMIC.wxs:
+        * install/CUTS_PICML.wxs:
+        
+          The installer now installs the modelgen.xsd file as part
+          of the installation procedure.
+
+        * utils/Node_Daemon/Node_Daemon.idl:
+        * utils/Node_Daemon/Node_Daemon.mpc:
+        * utils/Node_Daemon/Node_Daemon_Server.cpp:
+        * utils/Node_Daemon/Node_Daemon_i.h:
+        * utils/Node_Daemon/Node_Daemon_i.cpp:
+        * utils/Node_Daemon/Process_Info.h:
+        * utils/Node_Daemon/Process_Info.inl:
+        * utils/Node_Daemon/Process_Info.cpp:
+        * utils/Node_Daemon/Process_Log.h:
+        * utils/Node_Daemon/Process_Log.cpp:
+        
+          Initial re-implementation of the CUTS node daemon so that 
+          it contains a task manager. Client applications can contain
+          the task manager and spawn/terminate executing application.
+
 Tue Apr  8 22:30:03 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/cuts_test.pl:
-        
+
           The script does not wait for the time to expire if the test
           fails to deploy.
 
         * cuts/Component_Registry.cpp (thr_svc):
-        
-          Added locking mechanisms around the iteration of the 
-          registered event handler set to prevent the collection 
+
+          Added locking mechanisms around the iteration of the
+          registered event handler set to prevent the collection
           from being modified during usage.
-        
+
         * cuts/Event_Handler_T.inl:
-        
+
           Added exception handling around the dispatch method.
-        
+
         * cuts/Log_T.h:
         * cuts/Log_T.inl:
         * cuts/Log_T.cpp:
-        
+
           Removed the unncessary 'typename' qualifiers.
-        
+
         * cuts/MemoryWorker.cpp:
-        
+
           Re-implemented how the memory is deallocated.
 
 Thu Apr  3 22:13:03 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/cuts.config:
         * bin/cuts.user.config:
-        
+
           The namespace schema is now specified as a relative location
           and the tools that use the XML file is resposible for resolving
-          the schema's actual location.          
+          the schema's actual location.
 
 Wed Apr  2 21:45:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

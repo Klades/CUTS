@@ -50,9 +50,9 @@ struct Find_By_PID
    * @retval        true      The pid of the \ple is a match.
    * @retval        false     The pid of the \ple is not a match.
    */
-  inline bool operator () (const Process_Log_Entry & ple)
+  inline bool operator () (const CUTS_Process_Info & info)
   {
-    return this->pid_ == ple.pid_;
+    return this->pid_ == info.pid_;
   }
 
 private:
@@ -94,7 +94,8 @@ Process_Log::~Process_Log (void)
 //
 // process_spawn
 //
-bool Process_Log::process_spawn (const ACE_CString & name, pid_t pid)
+bool Process_Log::
+process_spawn (const CUTS_Process_Info & info)
 {
   ACE_GUARD_RETURN (ACE_Thread_Mutex, guard, this->lock_, false);
 
@@ -116,17 +117,39 @@ bool Process_Log::process_spawn (const ACE_CString & name, pid_t pid)
                        false);
   }
 
-  // Create the entry for the process log.
-  Process_Log_Entry entry;
+  // Write the process id.
+  logfile.write (reinterpret_cast <const char *> (&info.pid_),
+                 sizeof (pid_t));
 
-  entry.active_ = true;
-  entry.pid_ = pid;
-  ACE_OS::strncpy (entry.name_, name.c_str (), PROCESS_LOG_NAME_MAX_LENGTH);
+  // Write the state of process log.
+  logfile.write (reinterpret_cast <const char *> (&info.state_), 
+                 sizeof (char));
 
-  // Write the entry to file and close it.
-  logfile.write (reinterpret_cast <const char *> (&entry),
-                 sizeof (Process_Log_Entry));
+  // Write the name to the log.
+  size_t length = info.name_.length ();
 
+  logfile.write (reinterpret_cast <const char *> (&length),
+                 sizeof (size_t));
+
+  logfile.write (info.name_.c_str (), length + 1);
+
+  // Write the executable name to the log.
+  length = info.exec_.length ();
+
+  logfile.write (reinterpret_cast <const char *> (&length),
+                 sizeof (size_t));
+
+  logfile.write (info.exec_.c_str (), length + 1);
+
+  // Write the arguments to the log.
+  length = info.args_.length ();
+
+  logfile.write (reinterpret_cast <const char *> (&length),
+                 sizeof (size_t));
+
+  logfile.write (info.args_.c_str (), length + 1);
+
+  // Close the log file.
   logfile.close ();
 
   return logfile.good ();
@@ -157,54 +180,48 @@ bool Process_Log::process_exit (pid_t pid)
                        false);
   }
 
-  Process_Log_Entry buffer [ENTRY_BUFFER_SIZE];
-  size_t entry_count;
-  int index = 0;
+  // Temporary variables for searching the log file.
+  pid_t tmppid;
+  char state;
+  size_t length;
 
-  do
+  while (!logfile.eof ())
   {
-    entry_count = this->batch_read (logfile, buffer,  ENTRY_BUFFER_SIZE);
+    // Read the process id.
+    logfile.read (reinterpret_cast <char *> (&tmppid), sizeof (pid_t));
 
-    // Try and find the entry inside the collection of
-    // records read in from the file.
-    Process_Log_Entry * last_entry =
-      buffer + std::min (entry_count, static_cast <size_t> (ENTRY_BUFFER_SIZE));
-
-    Process_Log_Entry * entry =
-      std::find_if (buffer, last_entry, Find_By_PID (pid));
-
-    if (entry != last_entry)
+    if (pid == tmppid)
     {
-      // Move the output pointer to the location of the entry. But
-      // first we have to clear any errors that may have occurred,
-      // e.g., failbit or eofbit
-      if (logfile.fail () || logfile.eof ())
-        logfile.clear ();
+      // Move the put pointer.
+      logfile.seekp (logfile.tellg (), std::ios_base::beg);
 
-      index += (entry - buffer);
-      int offset = index * sizeof (Process_Log_Entry);
-      logfile.seekp (offset, std::ios_base::beg);
+      // Write the new state of the process.
+      state = 0;
+      logfile.write (&state, sizeof (char));
 
-      // Clear active bit and write entry back to file.
-      entry->active_ = false;
-      logfile.write (reinterpret_cast <const char *> (entry),
-                     sizeof (Process_Log_Entry));
-
-      logfile.close ();
-      return logfile.good ();
+      // We can exit this control loop.
+      break;
     }
-    else
-    {
-      index += entry_count;
-    }
-  } while (entry_count != 0);
 
-  ACE_ERROR ((LM_ERROR,
-              "(%N:%l) failed to locate process with id %u\n",
-              pid));
+    // Read the state.
+    logfile.read (&state, sizeof (char));
 
+    // Bypass the name of the process.
+    logfile.read (reinterpret_cast <char *> (&length), sizeof (size_t)); 
+    logfile.seekg (length + 1, std::ios_base::cur);
+
+    // Bypass the executable name of the process.
+    logfile.read (reinterpret_cast <char *> (&length), sizeof (size_t)); 
+    logfile.seekg (length + 1, std::ios_base::cur);
+
+    // Bypass the arguments of the process.
+    logfile.read (reinterpret_cast <char *> (&length), sizeof (size_t)); 
+    logfile.seekg (length + 1, std::ios_base::cur);
+  }
+
+  // Close the log file.
   logfile.close ();
-  return false;
+  return logfile.good ();
 }
 
 //
@@ -241,58 +258,11 @@ void Process_Log::log_file (const char * log_file)
 // get_active_processes
 //
 bool Process_Log::
-get_active_processes (Process_List & list)
+get_active_processes (CUTS_Process_Info_Set & list)
 {
-  ACE_GUARD_RETURN (ACE_Thread_Mutex, guard, this->lock_, false);
-
-  std::ifstream logfile;
-  logfile.open (this->log_file_.c_str (),
-                std::ios_base::in | std::ios_base::binary);
-
-  if (logfile.is_open ())
-  {
-    size_t entry_count;
-    Process_Log_Entry buffer [ENTRY_BUFFER_SIZE];
-
-    do
-    {
-      // Read a batch of entry elements and then only save the
-      // active processes to the log.
-      entry_count = Process_Log::batch_read (logfile,
-                                             buffer,
-                                             ENTRY_BUFFER_SIZE);
-
-      for (size_t i = 0; i < entry_count; i ++)
-      {
-        if (buffer[i].active_)
-          list.insert (buffer[i]);
-      }
-    } while (entry_count != 0);
-
-    logfile.close ();
-    return true;
-  }
-  else
-  {
-    ACE_ERROR ((LM_ERROR,
-                "*** error (process log): failed to open file %s\n",
-                this->log_file_.c_str ()));
-  }
-
-  return false;
+  return true;
 }
 
-//
-// batch_read
-//
-size_t Process_Log::
-batch_read (std::istream & infile, Process_Log_Entry * buffer, size_t count)
-{
-  infile.read (reinterpret_cast <char *> (buffer),
-               count * sizeof (Process_Log_Entry));
-
-  return infile.gcount () / sizeof (Process_Log_Entry);
-}
 
 //
 // clean
@@ -330,36 +300,35 @@ bool Process_Log::clean (size_t * active_count)
   }
 
   size_t entry_count, count = 0;
-  Process_Log_Entry buffer [ENTRY_BUFFER_SIZE];
   bool error = false;
 
-  do
-  {
-    entry_count = this->batch_read (logfile, buffer, ENTRY_BUFFER_SIZE);
+  //do
+  //{
+  //  entry_count = this->batch_read (logfile, buffer, ENTRY_BUFFER_SIZE);
 
-    for (size_t i = 0; i < entry_count; i ++)
-    {
-      // We only care to copy over the active processes.
-      if (buffer[i].active_)
-      {
-        tmpfile.write (reinterpret_cast <char *> (&buffer[i]),
-                       sizeof (Process_Log_Entry));
+  //  for (size_t i = 0; i < entry_count; i ++)
+  //  {
+  //    // We only care to copy over the active processes.
+  //    if (buffer[i].active_)
+  //    {
+  //      tmpfile.write (reinterpret_cast <char *> (&buffer[i]),
+  //                     sizeof (Process_Log_Entry));
 
-        // Something bad has happened and we need to just stop
-        // and abort the cleaning operation.
-        if (tmpfile.bad ())
-        {
-          ACE_ERROR ((LM_ERROR,
-                      "*** error (process log): error occured while clean "
-                      "file; aborting...\n"));
-          error = true;
-          break;
-        }
+  //      // Something bad has happened and we need to just stop
+  //      // and abort the cleaning operation.
+  //      if (tmpfile.bad ())
+  //      {
+  //        ACE_ERROR ((LM_ERROR,
+  //                    "*** error (process log): error occured while clean "
+  //                    "file; aborting...\n"));
+  //        error = true;
+  //        break;
+  //      }
 
-        ++ count;
-      }
-    }
-  } while (entry_count != 0);
+  //      ++ count;
+  //    }
+  //  }
+  //} while (entry_count != 0);
 
   // Close both files then replace the old file w/ the new file
   // if we did not experience any errors.
