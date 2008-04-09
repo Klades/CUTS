@@ -1,7 +1,14 @@
+Wed Apr  9 23:13:49 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * docs/presentations/CiCUTS.ppt:
+        
+          Final version of the CiCUTS presentation given at ECBS 2008
+          conference in Belfast, Northern Ireland, UK.
+
 Wed Apr  9 23:12:28 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/ODBC/CUTS_ODBC.mpc:
-        
+
           Derived the main project from cuts_odbc.mpb.
 
 Wed Apr  9 23:08:22 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
