@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_Database_Worker) : cutslib, odbc {
+project (CUTS_Database_Worker) : cuts_odbc, cutslib {
   sharedname += CUTS_Database_Worker
 
   dynamicflags += CUTS_BUILD_DLL

@@ -165,9 +165,14 @@ public:
   const CUTS_Host_Table & hosts (void) const;
 
   /**
-   * Get a read-only reference to the entry table.
+   * Get a reference to the entry table.
    *
    * @return      Read-only reference to entries.
+   */
+  CUTS_Component_Registry_Map & entries (void);
+
+  /**
+   * @overload
    */
   const CUTS_Component_Registry_Map & entries (void) const;
 

@@ -44,28 +44,29 @@ void CUTS_Database_Worker::process (size_t count)
 {
   if (this->stmt_.get ())
   {
-    std::ostringstream sqlstr;
-    char dataset[MAX_DATA_SIZE];
-
-    long worktag = ACE_OS::rand () % ACE_INT32_MAX;
-
-    for (size_t i = 0; i < count; i ++)
-    {
-      int size = ACE_OS::rand () % MAX_DATA_SIZE;
-      fill_dataset (dataset, size);
-
-      // create a SQL statement for the testing record
-      sqlstr
-        << "insert into scratchpad (component_id, worktag, dataset) values ("
-        << this->parent_ << "," << worktag << ",'" << dataset << "');"
-        << std::ends;
-    }
-
     try
     {
+      std::ostringstream sqlstr;
+      char dataset[MAX_DATA_SIZE];
+
+      long worktag = ACE_OS::rand () % ACE_INT32_MAX;
+
+      for (size_t i = 0; i < count; i ++)
+      {
+        int size = ACE_OS::rand () % MAX_DATA_SIZE;
+        fill_dataset (dataset, size);
+
+        // create a SQL statement for the testing record
+        sqlstr
+          << "insert into scratchpad (component_id, worktag, dataset) values ("
+          << this->parent_ << "," << worktag << ",'" << dataset << "');"
+          << std::ends;
+      }
+
       this->stmt_->execute_no_record (sqlstr.str ().c_str ());
 
-      sqlstr.seekp(0);
+      sqlstr.str ("");
+      sqlstr.clear ();
 
       // Delete the insert SQL statement.
       sqlstr

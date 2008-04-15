@@ -99,9 +99,9 @@ namespace CUTS
 
     if (node != 0)
     {
-      // Extract the CCM version of the component node.
       try
       {
+        // Extract the CCM version of the component node.
         CUTS::CCM_Component_Registry_Node * ccm_node = 
           dynamic_cast <CUTS::CCM_Component_Registry_Node *> (node);
 
@@ -110,9 +110,9 @@ namespace CUTS
       }
       catch (...)
       { 
-        ACE_ERROR ((LM_ERROR,
-                    "*** error (testing service): <%s> is registered " 
-                    "as a CCM component, but is not one\n",
+        ACE_ERROR ((LM_WARNING,
+                    "*** warning (testing service): <%s> is unregistered, "
+                    "but not a CCM component\n",
                     reg.name.in ()));
       }
     }

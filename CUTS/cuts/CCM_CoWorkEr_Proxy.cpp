@@ -101,11 +101,11 @@ register_i (CUTS::Testing_Service_ptr ts, CUTS::Component_Registration & reg)
   ACE_OS::hostname (hostname, sizeof (hostname));
   ACE_INET_Addr inet ((u_short)0, hostname, AF_ANY);
 
-  reg.host_info.ipaddr   = ::CORBA::string_dup (inet.get_host_addr ());
-  reg.host_info.hostname = ::CORBA::string_dup (inet.get_host_name ());
-
   try
   {
+    reg.host_info.ipaddr   = ::CORBA::string_dup (inet.get_host_addr ());
+    reg.host_info.hostname = ::CORBA::string_dup (inet.get_host_name ());
+
     ACE_DEBUG ((LM_INFO,
                 "*** info (CoWorkEr): registering %s with the BDC\n",
                 reg.name.in ()));
@@ -115,15 +115,22 @@ register_i (CUTS::Testing_Service_ptr ts, CUTS::Component_Registration & reg)
   catch (const CUTS::Registration_Failed &)
   {
     ACE_ERROR ((LM_ERROR,
-                "[%M] -%T - component registration failed for %s\n",
+                "*** error (CoWorkEr): component registration failed for "
+                "<%s>\n",
                 reg.name.in ()));
   }
   catch (const CUTS::Registration_Limit &)
   {
     ACE_ERROR ((LM_ERROR,
-                "[%M] -%T - component registation limit reached; failed to "
-                "register %s\n",
+                "*** error (CoWorEr): component registation limit reached; "
+                "failed to register <%s>\n",
                 reg.name.in ()));
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "*** error (CoWorkEr): caught unknown exception; "
+                "registration failed\n"));
   }
 
   return regid;

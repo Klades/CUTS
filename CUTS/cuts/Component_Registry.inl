@@ -57,6 +57,15 @@ CUTS_Component_Registry::entries (void) const
 }
 
 //
+// entries
+//
+CUTS_INLINE
+CUTS_Component_Registry_Map & CUTS_Component_Registry::entries (void)
+{
+  return this->registry_;
+}
+
+//
 // component_types
 //
 CUTS_INLINE

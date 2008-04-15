@@ -85,25 +85,28 @@ namespace CUTS
   //
   void BDC_Task::deactivate (void)
   {
-    if (this->active_)
-    {
-      this->active_ = false;
+    if (!this->active_)
+      return;
 
-      // Cancel the current timer for the task.
-      if (this->timer_ != -1)
+    // Set the active state to 'inactive'.
+    this->active_ = false;
+
+    // Cancel the current timer for the task.
+    if (this->timer_ != -1)
+    {
+      if (this->reactor ()->cancel_timer (this->timer_) == 0)
       {
-        this->reactor ()->cancel_timer (this->timer_);
         this->timer_ = -1;
       }
-
-      ACE_DEBUG ((LM_DEBUG, "notifying handlers to exit\n"));
-      this->reactor ()->notify (this);
-
-      // Wait for all threads to exit.
-      ACE_DEBUG ((LM_DEBUG, "waiting for handlers to exit\n"));
-      this->wait ();
-      ACE_DEBUG ((LM_DEBUG, "handlers are done!\n"));
+      else
+      {
+        ACE_ERROR ((LM_ERROR, "*** error: failed to cancel timer\n"));
+      }
     }
+
+    // Notify the threads to exit and wait.
+    this->reactor ()->notify (this);
+    this->wait ();
   }
 
   //
@@ -134,22 +137,31 @@ namespace CUTS
       // Update the timestamp for the collected metrics.
       this->metrics_->set_timestamp ();
 
+      // Lock down the registry to prevent components from registering
+      // and unregistering while we iterate over them. There could be a
+      // chance where we iterate over all the entries, but we did not
+      // collect data from the target component.
+      CUTS_Component_Registry & registry = this->testing_service_->registry ();
+  
+      typedef CUTS_Component_Registry_Map::lock_type lock_type;
+      ACE_READ_GUARD (lock_type, guard, registry.entries ().mutex ())
+
       // Store the size of the registry and get an iterator to its
       // entries. We store the <count> in both the local variable and
       // the atomic one.
-      size_t count = this->testing_service_->registry ().registry_size ();
+      size_t count = registry.registry_size ();
       this->count_ = count;
 
-      CUTS_Component_Registry::CONST_ITERATOR iter =
-        this->testing_service_->registry ().entries ();
+      CUTS_Component_Registry::CONST_ITERATOR iter = registry.entries ();
 
-      while (!iter.done ())
+      for (; !iter.done (); iter ++)
       {
         try
         {
           // We need to get the benchmark agent from the node.
           CUTS::CCM_Component_Registry_Node * node =
             dynamic_cast < ::CUTS::CCM_Component_Registry_Node * > (iter->int_id_);
+
           CUTS::Benchmark_Agent_var agent = node->benchmark_agent ();
 
           // Verify this is actual an agent connected to the testing
@@ -157,26 +169,37 @@ namespace CUTS
           // agent reference will be NIL until it comes online.
           if (!::CORBA::is_nil (agent.in ()))
           {
-            this->putq (agent._retn ());
-            this->reactor ()->notify (this, ACE_Event_Handler::READ_MASK);
+            if (this->putq (agent.in ()) == 0)
+            {
+              // Release ownership of the object.
+              agent._retn ();
+
+              // Notify the thread of the new input.
+              this->reactor ()->notify (this, ACE_Event_Handler::READ_MASK);
+            }
           }
           else
+          {
+            ACE_ERROR ((LM_ERROR,
+                        "*** error: <%s> has invalid data collector\n",
+                        iter->ext_id_.c_str ()));
+
             this->decrement_count ();
+          }
         }
         catch (std::bad_cast ex)
         {
-
+          ACE_ERROR ((LM_ERROR,
+                      "*** error: <%s> has invalid CCM registration\n",
+                      iter->ext_id_.c_str ()));
         }
         catch (...)
         {
-          // @todo Implement catch block for std::bad_cast.
           ACE_ERROR ((LM_ERROR,
-                      "*** error: %s has an invalid registration\n",
+                      "*** error: caught unknown exception while "
+                      "processing <%s>\n",
                       iter->ext_id_.c_str ()));
         }
-
-        // Move to the next element.
-        iter.advance ();
       }
 
       // If we never had any components to begin with, then we have to
@@ -234,14 +257,11 @@ namespace CUTS
   //
   // handle_timeout
   //
-  int BDC_Task::handle_timeout (const ACE_Time_Value & curr_time,
-                                const void * act)
+  int BDC_Task::
+  handle_timeout (const ACE_Time_Value &, const void *)
   {
     this->collect_data ();
     return 0;
-
-    ACE_UNUSED_ARG (curr_time);
-    ACE_UNUSED_ARG (act);
   }
 
   //
@@ -284,16 +304,22 @@ namespace CUTS
           *data >>= *metric;
         }
       }
+      catch (const CORBA::TRANSIENT &)
+      {
+        ACE_DEBUG ((LM_NOTICE,
+                    "*** notice: data collector does not exist; ignoring "
+                    "data collection\n"));
+      }
       catch (const CORBA::Exception & ex)
       {
         ACE_ERROR ((LM_ERROR,
-                    "*** error (BDC task): data collection failed [%s]\n",
+                    "*** error: data collection failed [%s]\n",
                     ex._info ().c_str ()));
       }
       catch (...)
       {
         ACE_ERROR ((LM_ERROR,
-                    "*** error (BDC task): unknown exception occured during "
+                    "*** error: unknown exception occured during "
                     "data collection\n"));
       }
     }
