@@ -1,0 +1,29 @@
+// $Id$
+
+project (CUTS_BE_CAPI) : boost_base, picml_udm, cuts_cosmic {
+  sharedname    = CUTS_BE_CAPI
+  dynamicflags += CUTS_BE_CAPI_BUILD_DLL
+
+  // declare the dependencies and libraries
+  includes += $(CIAO_ROOT)/CCF $(ACE_ROOT)/contrib/utility \
+              $(CUTS_ROOT)/MDE/GME/paradigms/PICML
+
+  libpaths += $(CIAO_ROOT)/CCF/CCF
+
+  after += CodeGenerationKit CUTS_BE
+  libs  += CodeGenerationKits CUTS_BE
+
+  Source_Files {
+    CAPI_Generators.cpp
+    CAPI_Manager_Factory.cpp
+  }
+
+  Header_Files {
+    CAPI_export.h
+    CAPI_Manager.h
+  }
+
+  Inline_Files {
+
+  }
+}

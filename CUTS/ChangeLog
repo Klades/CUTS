@@ -1,38 +1,52 @@
+Thu Apr 17 17:06:07 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/CAPI:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI.mpc:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Manager.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Manager_Factory.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Manager_Factory.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_export.h:
+        
+          Partial implemenation of the CAPI backend generator for
+          CUTS.
+
 Tue Apr 15 21:47:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/BDC_Task.h:
         * cuts/BDC/BDC_Task.cpp:
-        
+
           Fixed sychronization issues for accessing the component
           registry.
-            
+
         * cuts/BDC/Testing_Service_exec_i.cpp:
-        
+
           Updated an error message so it is more informative.
 
         * cuts/CCM_CoWorkEr_Proxy.cpp:
-          
+
           . Update the debugging statements.
           . Moved CORBA specific operations into try...catch blocks.
-          
+
         * cuts/CUTS_Worker.mpc:
-        
+
           Derived the database project from the cuts_odbc.mpb base
           project.
-          
+
         * cuts/Component_Registry.h:
         * cuts/Component_Registry.inl:
-        
+
           Overloadded the metrics () method to provide a read/write
           version.
-          
+
         * cuts/DatabaseWorker.cpp:
-          
+
           Placed main implementation of the process () method into
           a try...catch block.
-          
+
         * cuts/MemoryWorker.cpp:
-        
+
           Fixed formatting of the document.
 
 Wed Apr  9 23:13:49 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
