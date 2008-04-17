@@ -1,9 +1,6 @@
 // $Id$
 
-project : odbc {
-  after += CUTS_DB \
-           CUTS_ODBC_DBase CUTS_Utils_DBase
-
-  libs  += CUTS_DB \
-           CUTS_ODBC_DBase CUTS_Utils_DBase
+project : cuts_odbclib {
+  after += CUTS_DB 
+  libs  += CUTS_DB 
 }

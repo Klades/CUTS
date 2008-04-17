@@ -1,5 +1,0 @@
-// $Id$
-
-project : odbc {
-  requires += unixodbc
-}

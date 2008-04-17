@@ -1,8 +1,11 @@
 <?xml version="1.0" ?>
-<xsd:schema targetNamespace="http://www.dre.vanderbilt.edu/CUTS" xmlns="http://www.dre.vanderbilt.edu/CUTS"
-  xmlns:cuts="http://www.dre.vanderbilt.edu/CUTS" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema XMLSchema.xsd"
-  elementFormDefault="qualified" version="1.0">
+<xsd:schema targetNamespace="http://www.dre.vanderbilt.edu/CUTS" 
+            xmlns="http://www.dre.vanderbilt.edu/CUTS"
+            xmlns:cuts="http://www.dre.vanderbilt.edu/CUTS"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+            xsi:schemaLocation="http://www.w3.org/2001/XMLSchema XMLSchema.xsd"
+            elementFormDefault="qualified" version="1.0">
   <xsd:complexType name="Generator_Description">
     <xsd:sequence>
       <xsd:element name="location" type="xsd:string" />

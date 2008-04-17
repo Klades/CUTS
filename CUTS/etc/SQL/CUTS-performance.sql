@@ -221,19 +221,28 @@ CREATE PROCEDURE
   cuts.select_performance_by_collection_time (IN _test_number INT, 
                                               IN _collection_time DATETIME)
 BEGIN
-  SELECT t1.*, (t1.total_time / t1.perf_count) AS average_time,
-       t2.component_name,
-       t4.portname
-  FROM cuts.performance AS t1,
-       cuts.component_instances AS t2,
-       cuts.porttypes AS t3,
-       cuts.portnames AS t4
-  WHERE t1.instance = t2.instid AND
-        t1.inport = t3.pid AND
-        t3.port_name = t4.pid AND
-        t1.test_number = _test_number AND 
-        t1.collection_time = _collection_time
-  ORDER BY t1.instance;
+  SELECT t5.*,
+         IFNULL(t7.component_name, '<unknown>') AS sender_name
+  FROM (
+    SELECT t1.*, 
+           IFNULL((t1.total_time / t1.perf_count), 0.0) AS average_time,
+           t2.component_name,
+           t4.portname
+    FROM cuts.performance AS t1,
+         cuts.component_instances AS t2,
+         cuts.porttypes AS t3,
+         cuts.portnames AS t4
+    WHERE t1.instance = t2.instid AND
+          t1.inport = t3.pid AND
+          t3.port_name = t4.pid AND
+          t1.test_number = _test_number AND 
+          t1.collection_time = _collection_time) AS t5
+  LEFT JOIN (
+    SELECT t6.instid, 
+           t6.component_name 
+    FROM cuts.component_instances AS t6) AS t7
+  ON t5.sender = t7.instid
+  ORDER BY t5.instance;
 END; //
 
 -------------------------------------------------------------------------------
