@@ -1,7 +1,14 @@
+Thu Apr 17 17:24:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/CUTS_Worker.mpc:
+        * cuts/utils/ODBC/CUTS_ODBC.mpc:
+        
+          Fixed workspace generation bugs.
+
 Thu Apr 17 17:17:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/cuts.config:
-        
+
           Added the CAPI backend generator to the configuration.
 
 Thu Apr 17 17:16:13 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
