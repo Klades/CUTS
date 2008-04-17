@@ -85,7 +85,7 @@ namespace CUTS
           DataSet ds = new DataSet();
           this.cutsdb_.get_critical_paths(ref ds);
           this.execution_path_.DataSource = ds;
-          this.execution_path_.DataMember = "critical_path";
+          this.execution_path_.DataMember = "execution_paths";
           this.execution_path_.DataBind();
 
           this.collection_times_.SelectedValue = this.collection_time_.ToString();
@@ -124,15 +124,16 @@ namespace CUTS
                                        ref ds, "execution_time");
 
       // Get the baseline metrics from the database.
-      this.cutsdb_.get_baseline_data(this.test_number_,
-                                     this.collection_time_,
-                                     ref ds, "baseline");
+      //this.cutsdb_.get_baseline_data(this.test_number_,
+      //                               this.collection_time_,
+      //                               ref ds, "baseline");
 
       // Bind the metrics to the system performance control.
       this.sysperf_.DataSource = ds;
       this.sysperf_.DataMember = "execution_time";
-      this.sysperf_.DataMemberBaseline = "baseline";
-      this.sysperf_.DataBind();
+
+      //this.sysperf_.DataMemberBaseline = "baseline";
+      //this.sysperf_.DataBind();
     }
 
     private void load_cumulative_times()

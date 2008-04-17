@@ -105,13 +105,13 @@ namespace CUTS.Data
     {
       MySqlCommand command = this.conn_.CreateCommand();
       command.CommandText =
-        "SELECT path_id, path_name FROM critical_path ORDER BY path_name";
+        "SELECT path_id, path_name FROM execution_paths ORDER BY path_name";
 
       // Create an adapter w/ the following select command.
       MySqlDataAdapter adapter = new MySqlDataAdapter(command);
 
       // Create a new dataset and fill it using the adapter.
-      adapter.Fill(dataset, "critical_path");
+      adapter.Fill(dataset, "execution_paths");
     }
 
     /**
@@ -124,11 +124,12 @@ namespace CUTS.Data
                                      ref DataSet dataset)
     {
       MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText = "CALL cuts.select_distinct_collection_times (?t)";
-      command.Prepare();
+      command.CommandText = 
+        "CALL cuts.select_distinct_performance_collection_times (?test)";
 
       // Add the parameter to the statement.
-      command.Parameters.AddWithValue("?t", test);
+      command.Prepare();
+      command.Parameters.AddWithValue("?test", test);
 
       MySqlDataAdapter adapter = new MySqlDataAdapter(command);
       adapter.Fill(dataset, "collection_time");
@@ -140,12 +141,14 @@ namespace CUTS.Data
                                     string tablename)
     {
       MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText = "CALL cuts.select_execution_time(?t, ?ct)";
+      command.CommandText = 
+        "CALL cuts.select_performance_by_collection_time(?test, ?time)";
+
       command.Prepare();
 
       // Add the parameters to the statement.
-      command.Parameters.AddWithValue("?t", test_number);
-      command.Parameters.AddWithValue("?ct", collection_time);
+      command.Parameters.AddWithValue("?test", test_number);
+      command.Parameters.AddWithValue("?time", collection_time);
 
       MySqlDataAdapter adapter = new MySqlDataAdapter(command);
       adapter.Fill(ds, tablename);

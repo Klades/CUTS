@@ -267,12 +267,12 @@ namespace CUTS
 
           if (metric_type == "process")
           {
-            // We have now moved onto the exit points for the input. This
-            // is determined by the destination name.
-            if (this.data_dst_name_ == null)
-              throw new Exception("DataDstName property not defined.");
+            //// We have now moved onto the exit points for the input. This
+            //// is determined by the destination name.
+            //if (this.data_dst_name_ == null)
+            //  throw new Exception("DataDstName property not defined.");
 
-            value = this.GetDataValue(ref props, item, this.data_dst_name_);
+            //value = this.GetDataValue(ref props, item, this.data_dst_name_);
 
             // Locate baseline metrics for the current performance metrics. This
             // can be the overall queue/process time, or the exit point times.
@@ -289,24 +289,28 @@ namespace CUTS
                                       out perf_baseline);
             }
 
-            if (value != String.Empty)
-            {
-              CUTS.ExitPoint ep = new ExitPoint();
+            //if (value != String.Empty)
+            //{
+            //  CUTS.ExitPoint ep = new ExitPoint();
 
-              // Set the values of the exit point. This includes the
-              // current observed time and the baseline time.
-              ep.Name = value;
-              ep.Performance = perf;
-              ep.BaselinePerformance = perf_baseline;
+            //  // Set the values of the exit point. This includes the
+            //  // current observed time and the baseline time.
+            //  ep.Name = value;
+            //  ep.Performance = perf;
 
-              // Insert the exit point in the exit times.
-              inport.InsertExitPoint(ep);
-            }
-            else
+            //  if (baseline != null)
+            //    ep.BaselinePerformance = perf_baseline;
+
+            //  // Insert the exit point in the exit times.
+            //  inport.InsertExitPoint(ep);
+            //}
+            //else
             {
               // Save the performance metric in the service time.
               inport.ServiceTime = perf;
-              inport.ServiceTimeBaseline = perf_baseline;
+
+              if (baseline != null)
+                inport.ServiceTimeBaseline = perf_baseline;
             }
           }
           else
@@ -328,7 +332,9 @@ namespace CUTS
 
             // Save the performance metric in the queuing time.
             inport.QueuingTime = perf;
-            inport.QueuingTimeBaseline = perf_baseline;
+
+            if (baseline != null)
+              inport.QueuingTimeBaseline = perf_baseline;
           }
         }
       }

@@ -1,9 +1,19 @@
+Thu Apr 17 17:16:13 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Data/Database.cs:
+        * utils/BMW/website/controls/SystemPerformance.ascx.cs:
+        * utils/BMW/website/performance.aspx:
+        * utils/BMW/website/performance.aspx.cs:
+        
+          Initial update of the BMW so that the performance page will show
+          snapshot metrics of a test.
+
 Thu Apr 17 17:14:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * install/BMW.wxs:
 
           Changed the install directory for the BMW.
-          
+
 Thu Apr 17 17:10:18 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-performance.sql:
