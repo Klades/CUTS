@@ -1,25 +1,31 @@
+Thu Apr 17 17:14:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * install/BMW.wxs:
+
+          Changed the install directory for the BMW.
+          
 Thu Apr 17 17:10:18 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-performance.sql:
-        
+
           Update cuts.select_performance_by_collection_time () stored
           procedure so it returns the sender information as well.
 
         * etc/config/cuts_dbsvc.mpb:
-          
+
           Derived this base class from cuts_odbclib.mpb
-          
+
         * etc/config/cuts_odbclib.mpc:
-        
+
           This was the old cuts_odbc.mpb file. It was renamed because
           it conflicted with a CUTS project.
 
         * etc/schemas/modelgen.xsd:
-        
+
           Placed all the <schema> tag's attributes on a separate line.
 
         * etc/config/cuts_odbc.mpc:
-        
+
           Removed this file.
 
 Thu Apr 17 17:08:17 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
