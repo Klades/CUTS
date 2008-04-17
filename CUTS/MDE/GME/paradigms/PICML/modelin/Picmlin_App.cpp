@@ -4,6 +4,7 @@
 #include "Picmlin_App.h"
 #include "Scatter_To_Picml.h"
 #include "gme/ComponentEx.h"
+#include "gme/XML.h"
 #include "ace/Get_Opt.h"
 #include "ace/OS_NS_string.h"
 #include "ace/OS_NS_unistd.h"
@@ -249,9 +250,12 @@ int Picmlin_App::gme_init_project (void)
         std::ostringstream connstr;
         connstr << "MGA=" << pathname;
 
-        // Create a empty PICML project and import the XML file.
+        // Create a empty PICML project.
         this->project_->create (connstr.str (), "PICML");
-        this->project_->xml_import (this->options_.gme_connstr_);
+
+        // Import the XML into the project.
+        GME::XML_Parser parser;
+        parser.parse (this->options_.gme_connstr_, *this->project_);
       }
       else
       {
@@ -295,7 +299,8 @@ int Picmlin_App::gme_fini_project (void)
                         this->options_.gme_connstr_.c_str ()));
 
       // Export the project to the source XML file.
-      this->project_->xml_export (this->options_.gme_connstr_);
+      GME::XML_Dumper dumper;
+      dumper.write (this->options_.gme_connstr_, *this->project_);
 
       // Delete the temporary file.
       tempfile = this->project_->connstr ().substr (4);
