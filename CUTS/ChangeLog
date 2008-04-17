@@ -1,10 +1,16 @@
+Thu Apr 17 17:17:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/cuts.config:
+        
+          Added the CAPI backend generator to the configuration.
+
 Thu Apr 17 17:16:13 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Data/Database.cs:
         * utils/BMW/website/controls/SystemPerformance.ascx.cs:
         * utils/BMW/website/performance.aspx:
         * utils/BMW/website/performance.aspx.cs:
-        
+
           Initial update of the BMW so that the performance page will show
           snapshot metrics of a test.
 
