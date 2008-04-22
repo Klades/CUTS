@@ -104,50 +104,50 @@ process_spawn (const CUTS_Process_Info & info)
   // a seperate thread that will "clean" the <logfile> periodically.
 
   std::ofstream logfile;
-  logfile.open (this->log_file_.c_str (),
-                std::ios_base::out |
-                std::ios_base::binary |
-                std::ios_base::app);
+  //logfile.open (this->log_file_.c_str (),
+  //              std::ios_base::out |
+  //              std::ios_base::binary |
+  //              std::ios_base::app);
 
-  if (!logfile.is_open ())
-  {
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       "*** error (process log): failed to open file %s\n",
-                       this->log_file_.c_str ()),
-                       false);
-  }
+  //if (!logfile.is_open ())
+  //{
+  //  ACE_ERROR_RETURN ((LM_ERROR,
+  //                     "*** error (process log): failed to open file %s\n",
+  //                     this->log_file_.c_str ()),
+  //                     false);
+  //}
 
-  // Write the process id.
-  logfile.write (reinterpret_cast <const char *> (&info.pid_),
-                 sizeof (pid_t));
+  //// Write the process id.
+  //logfile.write (reinterpret_cast <const char *> (&info.pid_),
+  //               sizeof (pid_t));
 
-  // Write the state of process log.
-  logfile.write (reinterpret_cast <const char *> (&info.state_), 
-                 sizeof (char));
+  //// Write the state of process log.
+  //logfile.write (reinterpret_cast <const char *> (&info.state_), 
+  //               sizeof (char));
 
-  // Write the name to the log.
-  size_t length = info.name_.length ();
+  //// Write the name to the log.
+  //size_t length = info.id_.length ();
 
-  logfile.write (reinterpret_cast <const char *> (&length),
-                 sizeof (size_t));
+  //logfile.write (reinterpret_cast <const char *> (&length),
+  //               sizeof (size_t));
 
-  logfile.write (info.name_.c_str (), length + 1);
+  //logfile.write (info.id_.c_str (), length + 1);
 
-  // Write the executable name to the log.
-  length = info.exec_.length ();
+  //// Write the executable name to the log.
+  //length = info.options_..length ();
 
-  logfile.write (reinterpret_cast <const char *> (&length),
-                 sizeof (size_t));
+  //logfile.write (reinterpret_cast <const char *> (&length),
+  //               sizeof (size_t));
 
-  logfile.write (info.exec_.c_str (), length + 1);
+  //logfile.write (info.exec_.c_str (), length + 1);
 
-  // Write the arguments to the log.
-  length = info.args_.length ();
+  //// Write the arguments to the log.
+  //length = info.args_.length ();
 
-  logfile.write (reinterpret_cast <const char *> (&length),
-                 sizeof (size_t));
+  //logfile.write (reinterpret_cast <const char *> (&length),
+  //               sizeof (size_t));
 
-  logfile.write (info.args_.c_str (), length + 1);
+  //logfile.write (info.args_.c_str (), length + 1);
 
   // Close the log file.
   logfile.close ();

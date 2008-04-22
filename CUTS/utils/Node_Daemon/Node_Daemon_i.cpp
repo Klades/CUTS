@@ -60,64 +60,56 @@ CUTS_Node_Daemon_i::~CUTS_Node_Daemon_i (void)
 //
 // spawn_task
 //
-CORBA::ULong CUTS_Node_Daemon_i::task_spawn (const CUTS::Node_Task & task)
+CORBA::ULong CUTS_Node_Daemon_i::
+task_spawn (const CUTS::taskDescriptor & task)
 {
-  if (this->process_map_.find (task.name.in ()) == 0)
+  if (this->process_map_.find (task.id.in ()) == 0)
   {
     ACE_ERROR_RETURN ((LM_ERROR,
                        "*** error (node daemon): '%s' task already exists\n",
-                       task.name.in ()),
+                       task.id.in ()),
                        1);
   }
 
+  CUTS_Process_Info * info = 0;
+  ACE_NEW_THROW_EX (info, CUTS_Process_Info (), CORBA::NO_MEMORY ());
+  ACE_Auto_Ptr <CUTS_Process_Info> auto_clean (info);
+
+  // Duplicate the default process options.
+  this->duplicate_defualt_process_options (info->options_);
+
   // Prepare the command line for the task.
-  this->p_options_.command_line ("%s %s",
-                                 task.execname.in (),
-                                 task.arguments.in ());
+  info->id_ = task.id.in ();
+  info->options_.command_line ("%s %s",
+                               task.executable.in (),
+                               task.arguments.in ());
 
-  // Spawn the new task and register the <event_handler_> as the
-  // notifier for process termination.
-  VERBOSE_MESSAGE ((LM_DEBUG,
-                    "*** info (node daemon): spawning new process ['%s']\n",
-                    this->p_options_.command_line_buf ()));
-
-  // Spawn the new process.
-  pid_t pid = this->pm_.spawn (this->p_options_, &this->event_handler_);
-
-  if (pid != ACE_INVALID_PID && pid != 0)
+  if (ACE_OS::strlen (task.workingdirectory.in ()) != 0)
   {
-    // All a new information block about the task.
-    CUTS_Process_Info * info = 0;
-    ACE_NEW_THROW_EX (info, CUTS_Process_Info (), CORBA::NO_MEMORY ());
-    ACE_Auto_Ptr <CUTS_Process_Info> auto_clean (info);
-
-    // Initialize the task information block.
-    info->pid_ = pid;
-    info->state_ = 1;
-    info->name_ = task.name.in ();
-    info->exec_ = task.execname.in ();
-    info->args_ = task.arguments.in ();
-
-    // Save the information block to a mapping.
-    int retval = this->process_map_.bind (task.name.in (), info);
-
-    if (retval == 0)
-    {
-      auto_clean.release ();
-    }
-    else if (retval == -1)
-    {
-      ACE_ERROR ((LM_ERROR,
-                  "*** error (node daemon): failed to save spawned task\n"));
-    }
+    info->options_.working_directory (task.workingdirectory.in ());
   }
   else
   {
-    ACE_ERROR ((LM_ERROR,
-                "*** error (node daemon): failed to spawn task [%m]\n"));
+    // We need to set the working directory for the process
+    // if it was specified as a command-line option.
+    if (!SERVER_OPTIONS ()->init_dir_.empty ())
+    {
+      VERBOSE_MESSAGE ((LM_DEBUG,
+                        "*** info: setting working directory to %s\n",
+                        SERVER_OPTIONS ()->init_dir_.c_str ()));
+
+      info->options_.working_directory (SERVER_OPTIONS ()->init_dir_.c_str ());
+    }
   }
 
-  return 0;
+  // Spawn the new task and register the <event_handler_> as the
+  // notifier for process termination.
+  int retval = this->task_spawn_i (*info);
+
+  if (retval == 0)
+    auto_clean.release ();
+
+  return retval;
 }
 
 //
@@ -169,7 +161,7 @@ task_terminate_i (CUTS_Process_Info & info, bool wait)
   {
     ACE_ERROR ((LM_ERROR,
                 "*** error (node daemon): failed to terminate <%s>\n",
-                info.name_.c_str ()));
+                info.id_.c_str ()));
   }
 
   return retval;
@@ -180,25 +172,36 @@ task_terminate_i (CUTS_Process_Info & info, bool wait)
 //
 CORBA::ULong CUTS_Node_Daemon_i::task_restart (const char * name)
 {
-  CUTS::Node_Task_var task_info;
+  // Locate the task. There is not need to restart the task
+  // if we can't find it.
+  CUTS_Process_Info * info = 0;
 
-  // Get information about the task.
-  if (this->task_info (name, task_info) != 0)
+  if (this->process_map_.find (name, info) != 0)
     return -1;
 
-  // Terminate the task.
-  if (this->task_terminate (name, true) != 0)
+  // Terminate the task. This also means removing the task from
+  // the process map.
+  if (this->task_terminate_i (*info, true) != 0)
     return -1;
+
+  this->process_map_.unbind (name);
 
   // Spawn the task again.
-  return this->task_spawn (task_info);
+  ACE_Auto_Ptr <CUTS_Process_Info> auto_clean (info);
+
+  int retval = this->task_spawn_i (*info);
+
+  if (retval == 0)
+    auto_clean.release ();
+
+  return retval;
 }
 
 //
 // task_info
 //
 CORBA::ULong CUTS_Node_Daemon_i::
-task_info (const char * name, CUTS::Node_Task_out info)
+task_info (const char * name, CUTS::taskDescriptor_out info)
 {
   return 0;
 }
@@ -256,18 +259,6 @@ void CUTS_Node_Daemon_i::init (void)
   this->p_options_.creation_flags (CREATE_NEW_PROCESS_GROUP |
                                    CREATE_DEFAULT_ERROR_MODE);
 #endif
-
-  // We need to set the working directory for the process
-  // if it was specified as a command-line option.
-  if (!SERVER_OPTIONS ()->init_dir_.empty ())
-  {
-    VERBOSE_MESSAGE ((LM_DEBUG,
-                      "*** info: setting working directory to %s\n",
-                      SERVER_OPTIONS ()->init_dir_.c_str ()));
-
-    this->p_options_.
-      working_directory (SERVER_OPTIONS ()->init_dir_.c_str ());
-  }
 
   // We need to activate the event handler. It is responsible for
   // receiving notifications about processes terminating.
@@ -433,4 +424,58 @@ void CUTS_Node_Daemon_i::shutdown (CORBA::Boolean kill_task)
 
   // Shutdown the ORB.
   this->orb_->shutdown ();
+}
+
+//
+// duplicate_defualt_process_options
+//
+void CUTS_Node_Daemon_i::
+duplicate_defualt_process_options (ACE_Process_Options & opts)
+{
+  opts.avoid_zombies (this->p_options_.avoid_zombies ());
+  opts.setgroup (this->p_options_.getgroup ());
+  opts.creation_flags (this->p_options_.creation_flags ());
+}
+
+//
+// task_spawn_i
+//
+int CUTS_Node_Daemon_i::
+task_spawn_i (CUTS_Process_Info & info)
+{
+  // Spawn the new task and register the <event_handler_> as the
+  // notifier for process termination.
+  VERBOSE_MESSAGE ((LM_DEBUG,
+                    "*** info (node daemon): spawning new process ['%s']\n",
+                    info.options_.command_line_buf ()));
+
+  // Spawn the new process.
+  pid_t pid = this->pm_.spawn (info.options_, &this->event_handler_);
+  
+  if (pid != ACE_INVALID_PID && pid != 0)
+  {
+    // Save the information about the process.
+    info.pid_ = pid;
+    info.state_ = 1;
+
+    // Save the information block to a mapping.
+    int retval = this->process_map_.bind (info.id_, &info);
+
+    if (retval == -1)
+    {
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "*** error (node daemon): failed to save "
+                         "spawned task\n"),
+                         -1);
+    }
+  }
+  else
+  {
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       "*** error (node daemon): failed to spawn "
+                       "task [%m]\n"),
+                       -1);
+  }
+
+  return 0;
 }

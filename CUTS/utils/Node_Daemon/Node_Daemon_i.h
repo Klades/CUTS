@@ -52,7 +52,7 @@ public:
    * @param[in]     task      Task to spawn
    * @return        Number of nodes successfully spawned.
    */
-  virtual CORBA::ULong task_spawn (const CUTS::Node_Task & task);
+  virtual CORBA::ULong task_spawn (const CUTS::taskDescriptor & task);
 
   /**
    * Kill a node in the task manager.
@@ -68,7 +68,7 @@ public:
    * @param[in]     name      Name of the task.
    */
   virtual CORBA::ULong task_info (const char * name, 
-                                  CUTS::Node_Task_out info);
+                                  CUTS::taskDescriptor_out info);
 
   /**
    * Restart an existing task.
@@ -84,7 +84,11 @@ public:
   size_t recover (void);
 
 private:
+  int task_spawn_i (CUTS_Process_Info & info);
+
   int task_terminate_i (CUTS_Process_Info & info, bool wait);
+
+  void duplicate_defualt_process_options (ACE_Process_Options & opts);
 
   /// Initialize the class.
   void init (void);

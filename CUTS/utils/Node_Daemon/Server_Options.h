@@ -43,6 +43,9 @@ public:
 
   /// The initial directory for starting the node daemon.
   ACE_CString init_dir_;
+
+  /// Initial configuration for the node daemon.
+  ACE_CString config_;
 };
 
 #define SERVER_OPTIONS() \

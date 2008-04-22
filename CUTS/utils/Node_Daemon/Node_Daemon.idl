@@ -13,6 +13,8 @@
 #ifndef _CUTS_NODE_DAEMON_IDL_
 #define _CUTS_NODE_DAEMON_IDL_
 
+//#include "cutsnode.idl"
+
 module CUTS
 {
   /// Type definition of the property string list.
@@ -25,16 +27,15 @@ module CUTS
     unsigned short port;
   };
 
-  struct Node_Task
+  struct taskDescriptor
   {
-    /// Human readable name of the task.
-    string name;
+    string id;
 
-    /// Executable name of the task.
-    string execname;
+    string executable;
 
-    /// The arguments for the task.
     string arguments;
+
+    string workingdirectory;
   };
 
   /**
@@ -54,7 +55,7 @@ module CUTS
      * @retval          0         Successfully to spawned task.
      * @retval          -1        Failed to spawn task.
      */
-    unsigned long task_spawn (in Node_Task task);
+    unsigned long task_spawn (in taskDescriptor task);
 
     /**
      * Kill an existing task. If the task exist in the task manager,
@@ -86,7 +87,7 @@ module CUTS
      * @retval        -1          Failed to retrieve info.
      */
     unsigned long task_info (in string name,
-                             out Node_Task info);
+                             out taskDescriptor info);
 
     /**
      * Shutdown the task manager.

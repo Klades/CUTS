@@ -14,8 +14,9 @@
 #define _CUTS_PROCESS_INFO_H_
 
 #include "cuts/config.h"
-#include "ace/SString.h"
+#include "ace/Process.h"
 #include "ace/OS.h"
+#include "ace/SString.h"
 
 //=============================================================================
 /**
@@ -28,20 +29,17 @@
 class CUTS_Process_Info
 {
 public:
+  /// The id associated with the info.
+  ACE_CString id_;
+
   /// Process id for the entry.
   pid_t pid_;
 
   /// The active state of the entry.
   char state_;
 
-  /// The name of the process.
-  ACE_CString name_;
-
-  /// The executable name of the process.
-  ACE_CString exec_;
-
-  /// The arguments of the process.
-  ACE_CString args_;
+  /// The options for the process.
+  ACE_Process_Options options_;
 
   /**
    * Test the log entry for equality. Two log entries are equal

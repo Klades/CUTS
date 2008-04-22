@@ -1,12 +1,26 @@
 // $Id$
 
-project (CUTS_Node_Daemon) : taoserver, iortable, cutsexe {
+project (CUTS_Node_Daemon_Xsc_IDL) : xsc_idl {
+  custom_only = 1
+  
+  specific {
+    xscflags += --idl-char-type char
+  }
+  
+  Xsc_Files {
+    $(CUTS_ROOT)/etc/schemas/cutsnode.xsd
+  }
+}
+
+project (CUTS_Node_Daemon) : taoserver, iortable, xsc_cxx, xscrt, cutsexe {
   exename = cutsnode_d
 
-  libs  -= CUTS
+  after += CUTS_Node_Daemon_Xsc_IDL
   after -= CUTS
+  libs  -= CUTS
 
   IDL_Files {
+    // cutsnode.idl    
     Node_Daemon.idl
   }
 
@@ -18,10 +32,32 @@ project (CUTS_Node_Daemon) : taoserver, iortable, cutsexe {
     Process_Info.cpp
     Process_Log.cpp
     Server_Options.cpp
+    
+    cutsnode.cpp
   }
 
   Header_Files {
     Process_Info.h
+  }
+
+  specific (vc7, vc71, vc8, vc9) {
+    compile_flags += /wd4355
+  }
+
+  Modify_Custom (XSC) {
+    header_outputext = .h
+    inline_outputext = .inl
+  }
+
+  specific {
+    xscflags += --cxx-header-suffix .h --cxx-source-suffix .cpp \
+                --cxx-inline-suffix .inl --cxx-generate-inline \
+                --cxx-char-type char
+  }
+
+  Xsc_Files {
+    gendir = .
+    $(CUTS_ROOT)/etc/schemas/cutsnode.xsd
   }
 }
 
