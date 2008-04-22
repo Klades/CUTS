@@ -1,20 +1,35 @@
+Tue Apr 22 04:53:56 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Client_Options.h:
+        * cuts/utils/Node_Daemon/Client_Options.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon.idl:
+        * cuts/utils/Node_Daemon/Node_Daemon_Client.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+        
+          . Bug fix where the shutdown operation would enter a deadlock.
+          
+          . Bug fix where terminating a task resulted in a segmentation
+            fault because the processed information was deleted by the
+            event handler.
+            
 Tue Apr 22 00:15:54 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * CUTS.mwc:
         * CUTS_Runtime_Arch.mwc:
-                
+
           . Moved the projects that were previously defined in ./utils
             and now defined in ./cuts/utils to the CUTS_Runtime_Arch.mwc
             workspace.
-          
+
           . Explicitly defined the directories and projects that are part
-            of the runtime architecture. Right now, we only include the 
-            C++ projects.          
-        
+            of the runtime architecture. Right now, we only include the
+            C++ projects.
+
         * CUTS_CoSMIC.mwc:
         * cuts_common.mwb:
-        
-          Pushed `-include $XSC_ROOT/MPC/config' to the default command 
+
+          Pushed `-include $XSC_ROOT/MPC/config' to the default command
           line parameters (i.e., defined in cuts_common.mpb).
 
 Tue Apr 22 00:12:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

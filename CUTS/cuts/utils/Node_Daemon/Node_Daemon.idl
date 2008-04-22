@@ -17,16 +17,6 @@
 
 module CUTS
 {
-  /// Type definition of the property string list.
-  typedef sequence <string> Properties;
-
-  struct Node_Binding
-  {
-    boolean localhost;
-
-    unsigned short port;
-  };
-
   struct taskDescriptor
   {
     string id;

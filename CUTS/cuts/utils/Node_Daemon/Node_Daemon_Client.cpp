@@ -22,20 +22,16 @@
 int parse_args (int argc, char * argv[])
 {
   // Setup the <ACE_Get_Opt> variable.
-  const char * opts = "a:f:hlp:v";
+  const char * opts = "hv";
   ACE_Get_Opt get_opt (argc, argv, opts);
 
   // Setup the long options for the command-line
-  get_opt.long_option ("args", 'a', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
-  get_opt.long_option ("localhost", 'l', ACE_Get_Opt::NO_ARG);
-  get_opt.long_option ("port", 'p', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
 
-  get_opt.long_option ("kill", ACE_Get_Opt::ARG_OPTIONAL);
-  get_opt.long_option ("spawn", ACE_Get_Opt::ARG_OPTIONAL);
+  get_opt.long_option ("task-terminate", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("task-restart", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("shutdown", ACE_Get_Opt::NO_ARG);
-  get_opt.long_option ("details", ACE_Get_Opt::NO_ARG);
 
   int option;
   while ((option = get_opt ()) != EOF)
@@ -44,76 +40,19 @@ int parse_args (int argc, char * argv[])
     {
     case 0:
       if (ACE_OS::strcmp (get_opt.long_option (), "shutdown") == 0)
-      {
         CLIENT_OPTIONS ()->shutdown_ = true;
-      }
-      else if (ACE_OS::strcmp (get_opt.long_option (), "kill") == 0)
-      {
-        CLIENT_OPTIONS ()->action_ = Client_Options::CA_KILL;
 
-        if (get_opt.opt_arg () != 0)
-        {
-          size_t n = ACE_OS::atoi (get_opt.opt_arg ());
+      else if (ACE_OS::strcmp (get_opt.long_option (), "task-terminate") == 0)
+        CLIENT_OPTIONS ()->terminate_list_.insert (get_opt.opt_arg ());
 
-          if (n != 0)
-          {
-            CLIENT_OPTIONS ()->count_ = n;
-          }
-          else
-          {
-            ACE_ERROR ((LM_ERROR,
-                        "invalid argument for option -%c\n",
-                        get_opt.opt_arg ()));
-          }
-        }
-      }
-      else if (ACE_OS::strcmp (get_opt.long_option (), "spawn") == 0)
-      {
-        CLIENT_OPTIONS ()->action_ = Client_Options::CA_SPAWN;
+      else if (ACE_OS::strcmp (get_opt.long_option (), "task-restart") == 0)
+        CLIENT_OPTIONS ()->restart_list_.insert (get_opt.opt_arg ());
 
-        do
-        {
-          size_t n = ACE_OS::atoi (get_opt.opt_arg ());
-
-          if (n != 0)
-          {
-            CLIENT_OPTIONS ()->count_ = n;
-          }
-          else
-          {
-            ACE_ERROR ((LM_ERROR,
-                        "invalid argument for option -%c\n",
-                        get_opt.opt_arg ()));
-          }
-        } while (0);
-      }
-      break;
-
-    case 'a':
-      // Get the arguments for the "spawn" operation.
-      CLIENT_OPTIONS ()->args_ = get_opt.opt_arg ();
       break;
 
     case 'h':
       // we need to display the help then exit
       ACE_OS::exit (0);
-      break;
-
-    case 'l':
-      CLIENT_OPTIONS ()->localhost_ = true;
-      break;
-
-    case 'p':
-      // The user has opted to use a different port number.
-      do
-      {
-        u_short port = ACE_OS::atoi (get_opt.opt_arg ());
-
-        if (port != 0)
-          CLIENT_OPTIONS ()->port_ = port;
-        else
-          ACE_ERROR ((LM_ERROR, "invalid port number\n"));
-      } while (0);
       break;
 
     case 'v':
@@ -140,6 +79,80 @@ int parse_args (int argc, char * argv[])
 }
 
 //
+// terminate_tasks
+//
+void terminate_tasks (CUTS::Task_Manager_ptr daemon)
+{
+  VERBOSE_MESSAGE ((LM_INFO,
+                    "terminating %d tasks\n",
+                    CLIENT_OPTIONS ()->terminate_list_.size ()));
+
+  ACE_Unbounded_Set <ACE_CString>::
+    const_iterator iter (CLIENT_OPTIONS ()->terminate_list_);
+
+  CORBA::String_var taskname;
+
+  for ( ; !iter.done (); iter ++)
+  {
+    VERBOSE_MESSAGE ((LM_INFO,
+                      "terminating task <%s>\n",
+                      (*iter).c_str ()));
+
+    taskname = CORBA::string_dup ((*iter).c_str ());
+
+    if (daemon->task_terminate (taskname.in (), true) == 0)
+    {
+      VERBOSE_MESSAGE ((LM_INFO,
+                        "successfully terminated task <%s>\n",
+                        (*iter).c_str ()));
+    }                  
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "failed to terminate task <%s>\n",
+                  (*iter).c_str ()));
+    }
+  }
+}
+
+//
+// restart_tasks
+//
+void restart_tasks (CUTS::Task_Manager_ptr daemon)
+{
+  VERBOSE_MESSAGE ((LM_INFO,
+                    "restarting %d tasks\n",
+                    CLIENT_OPTIONS ()->restart_list_.size ()));
+
+  ACE_Unbounded_Set <ACE_CString>::
+    const_iterator iter (CLIENT_OPTIONS ()->restart_list_);
+
+  CORBA::String_var taskname;
+
+  for ( ; !iter.done (); iter ++)
+  {
+    VERBOSE_MESSAGE ((LM_INFO,
+                      "terminating task <%s>\n",
+                      (*iter).c_str ()));
+
+    taskname = CORBA::string_dup ((*iter).c_str ());
+   
+    if (daemon->task_restart (taskname.in ()) == 0)
+    {
+      VERBOSE_MESSAGE ((LM_INFO,     
+                        "successfully restarted task <%s>\n",
+                        (*iter).c_str ()));
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "failed to restart task <%s>\n",
+                  (*iter).c_str ()));
+    }
+  }
+}
+
+//
 // main
 //
 int main (int argc, char * argv [])
@@ -157,10 +170,6 @@ int main (int argc, char * argv [])
                       "resolving initial reference to NodeDaemon\n"));
     ::CORBA::Object_var obj = orb->resolve_initial_references ("NodeDaemon");
     ::CORBA::String_var strobj = orb->object_to_string (obj.in ());
-
-    VERBOSE_MESSAGE ((LM_DEBUG,
-                      "NodeDaemon %s\n",
-                      strobj.in ()));
 
     if (::CORBA::is_nil (obj.in ()))
     {
@@ -190,7 +199,16 @@ int main (int argc, char * argv [])
     {
       VERBOSE_MESSAGE ((LM_DEBUG,
                         "shutting down target node daemon\n"));
-      daemon->shutdown ();
+
+      daemon->shutdown (true);
+    }
+    else
+    {
+      // Terminate all the specified tasks.
+      terminate_tasks (daemon.in ());
+
+      // Restart all the specified tasks.
+      restart_tasks (daemon.in ());
     }
 
     // Destroy the ORB.

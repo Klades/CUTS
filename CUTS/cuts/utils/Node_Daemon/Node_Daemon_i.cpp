@@ -28,7 +28,8 @@
 CUTS_Node_Daemon_i::CUTS_Node_Daemon_i (CORBA::ORB_ptr orb)
   : event_handler_ (*this),
     timer_ (-1),
-    orb_ (orb)
+    orb_ (orb),
+    active_ (true)
 {
   this->init ();
   this->recover ();
@@ -63,6 +64,9 @@ CUTS_Node_Daemon_i::~CUTS_Node_Daemon_i (void)
 CORBA::ULong CUTS_Node_Daemon_i::
 task_spawn (const CUTS::taskDescriptor & task)
 {
+  if (!this->active_)
+    return -1;
+
   if (this->process_map_.find (task.id.in ()) == 0)
   {
     ACE_ERROR_RETURN ((LM_ERROR,
@@ -118,8 +122,12 @@ task_spawn (const CUTS::taskDescriptor & task)
 CORBA::ULong CUTS_Node_Daemon_i::
 task_terminate (const char * name, CORBA::Boolean wait)
 {
+  if (!this->active_)
+    return -1;
+
   // Locate the pid for the task.
   CUTS_Process_Info * info = 0;
+
   int retval = this->process_map_.find (name, info);
 
   if (retval == 0)
@@ -127,9 +135,15 @@ task_terminate (const char * name, CORBA::Boolean wait)
     // Terminate the located task.
     if (this->task_terminate_i (*info, wait) == 0)
     {
-      // Remove the process from the mapping.
-      if (this->process_map_.unbind (name) == 0)
-        delete info;
+      VERBOSE_MESSAGE ((LM_ERROR,
+                        "successfully termintaed task <%s>\n",
+                        name));
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "failed to terminate task <%s>\n",
+                  name));
     }
   }
   else
@@ -149,6 +163,10 @@ int CUTS_Node_Daemon_i::
 task_terminate_i (CUTS_Process_Info & info, bool wait)
 {
   // Terminate the process and wait for it to d
+  VERBOSE_MESSAGE ((LM_DEBUG,
+                    "terminating task <%s>\n",
+                    info.id_.c_str ()));
+
   int retval = this->pm_.terminate (info.pid_);
 
   if (retval == 0)
@@ -172,6 +190,11 @@ task_terminate_i (CUTS_Process_Info & info, bool wait)
 //
 CORBA::ULong CUTS_Node_Daemon_i::task_restart (const char * name)
 {
+  if (!this->active_)
+    return -1;
+
+  VERBOSE_MESSAGE ((LM_INFO, "restarting task <%s>\n", name));
+
   // Locate the task. There is not need to restart the task
   // if we can't find it.
   CUTS_Process_Info * info = 0;
@@ -181,6 +204,8 @@ CORBA::ULong CUTS_Node_Daemon_i::task_restart (const char * name)
 
   // Terminate the task. This also means removing the task from
   // the process map.
+  this->pm_.register_handler (0, info->pid_);
+
   if (this->task_terminate_i (*info, true) != 0)
     return -1;
 
@@ -203,6 +228,9 @@ CORBA::ULong CUTS_Node_Daemon_i::task_restart (const char * name)
 CORBA::ULong CUTS_Node_Daemon_i::
 task_info (const char * name, CUTS::taskDescriptor_out info)
 {
+  if (!this->active_)
+    return -1;
+
   return 0;
 }
 
@@ -397,30 +425,32 @@ void CUTS_Node_Daemon_i::shutdown (CORBA::Boolean kill_task)
 {
   // @@ We should have a flag specifying how to shutdown,
   // e.g., force|nowait|wait
+  this->active_ = false;
 
   VERBOSE_MESSAGE ((LM_DEBUG,
                     "*** info: (node daemon): shutting down...\n"));
 
   if (kill_task)
   {
-    ACE_READ_GUARD (ACE_RW_Thread_Mutex, guard, this->process_map_.mutex ());
-
-    CUTS_Process_Info * info = 0;
-    Process_Map::ITERATOR iter (this->process_map_);
-
-    for ( ; !iter.done (); iter.advance ())
+    // Gather all the task. We can't remove task from the process
+    // manager and use an iterator. Otherwise, we may have a 
+    // collection with an unpreditable state.
+    ACE_Unbounded_Set <CUTS_Process_Info *> tasklist;
+    
+    do 
     {
-      // Kill this task and wait for it to terminate.
-      info = iter->item ();      
-      this->task_terminate_i (*info, true);
+      ACE_READ_GUARD (ACE_RW_Thread_Mutex, guard, this->process_map_.mutex ());
+      Process_Map::ITERATOR iter (this->process_map_);
 
-      // Delete the information about the process.
-      delete info;
-    }
+      for ( ; !iter.done (); iter.advance ())
+        tasklist.insert (iter->item ());
+    } while (0);
+
+    ACE_Unbounded_Set <CUTS_Process_Info *>::iterator iter (tasklist);
+
+    for ( ; !iter.done (); iter ++)
+      this->task_terminate_i (*(*iter), true);
   }
-
-  // Remove all the task from the listing.
-  this->process_map_.unbind_all ();
 
   // Shutdown the ORB.
   this->orb_->shutdown ();

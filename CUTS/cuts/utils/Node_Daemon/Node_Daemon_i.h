@@ -127,6 +127,9 @@ private:
 
   /// The ORB hosting the node daemon.
   ::CORBA::ORB_var orb_;
+
+  /// The active state of the daemon.
+  bool active_;
 };
 
 #if defined (__CUTS_INLINE__)
