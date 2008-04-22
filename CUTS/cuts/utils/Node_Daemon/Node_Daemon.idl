@@ -28,6 +28,24 @@ module CUTS
     string workingdirectory;
   };
 
+  enum Shutdown_Option
+  {
+    /// Invalid shutdown option.
+    SHUTDOWN_INVALID,
+
+    /// Shutdown the server without waiting on the 
+    /// process to terminate.
+    SHUTDOWN_NOWAIT,
+
+    /// Shutdown the server and force all of its tasks
+    /// to terminate.
+    SHUTDOWN_FORCE,
+
+    /// Shutdown the server and wait for all its tasks
+    /// to terminate.
+    SHUTDOWN_WAIT
+  };
+
   /**
    * @class Task_Manager
    *
@@ -85,7 +103,7 @@ module CUTS
      * @param[in]     kill_tasks  Kill the owned tasks/processes. This
      *                            does not gracefully terminate the tasks.
      */
-    void shutdown (in boolean kill_tasks);
+    void shutdown (in Shutdown_Option opt);
   };
 };
 

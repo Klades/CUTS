@@ -443,7 +443,7 @@ void CUTS_Node_Daemon_i::clean (void)
 //
 // shutdown
 //
-void CUTS_Node_Daemon_i::shutdown (CORBA::Boolean kill_task)
+void CUTS_Node_Daemon_i::shutdown (CUTS::Shutdown_Option opt)
 {
   // @@ We should have a flag specifying how to shutdown,
   // e.g., force|nowait|wait
@@ -452,26 +452,39 @@ void CUTS_Node_Daemon_i::shutdown (CORBA::Boolean kill_task)
   VERBOSE_MESSAGE ((LM_DEBUG,
                     "*** info: (node daemon): shutting down...\n"));
 
-  if (kill_task)
+  switch (opt)
   {
-    // Gather all the task. We can't remove task from the process
-    // manager and use an iterator. Otherwise, we may have a 
-    // collection with an unpreditable state.
-    ACE_Unbounded_Set <CUTS_Process_Info *> tasklist;
-    
-    do 
+  case CUTS::SHUTDOWN_NOWAIT:
+    // Do nothing.
+    break;
+
+  case CUTS::SHUTDOWN_WAIT:
+    // Wait for all the process to terminate.
+    this->pm_.wait ();
+    break;
+
+  case CUTS::SHUTDOWN_FORCE:
     {
-      ACE_READ_GUARD (ACE_RW_Thread_Mutex, guard, this->process_map_.mutex ());
-      Process_Map::ITERATOR iter (this->process_map_);
+      // Gather all the task. We can't remove task from the process
+      // manager and use an iterator. Otherwise, we may have a 
+      // collection with an unpreditable state.
+      ACE_Unbounded_Set <CUTS_Process_Info *> tasklist;
+      
+      do 
+      {
+        ACE_READ_GUARD (ACE_RW_Thread_Mutex, guard, this->process_map_.mutex ());
+        Process_Map::ITERATOR iter (this->process_map_);
 
-      for ( ; !iter.done (); iter.advance ())
-        tasklist.insert (iter->item ());
-    } while (0);
+        for ( ; !iter.done (); iter.advance ())
+          tasklist.insert (iter->item ());
+      } while (0);
 
-    ACE_Unbounded_Set <CUTS_Process_Info *>::iterator iter (tasklist);
+      ACE_Unbounded_Set <CUTS_Process_Info *>::iterator iter (tasklist);
 
-    for ( ; !iter.done (); iter ++)
-      this->task_terminate_i (*(*iter), true);
+      for ( ; !iter.done (); iter ++)
+        this->task_terminate_i (*(*iter), true);
+    }
+    break;
   }
 
   // Shutdown the ORB.

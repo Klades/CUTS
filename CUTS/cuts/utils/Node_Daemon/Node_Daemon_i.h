@@ -78,12 +78,12 @@ public:
   virtual CORBA::ULong task_restart (const char * name);
 
   /// Shutdown the node daemon server.
-  virtual void shutdown (CORBA::Boolean kill_tasks);
+  virtual void shutdown (CUTS::Shutdown_Option opt);
 
+private:
   /// Recover as many processes as possible.
   size_t recover (void);
 
-private:
   int task_spawn_i (CUTS_Process_Info & info);
 
   int task_terminate_i (CUTS_Process_Info & info, bool wait);

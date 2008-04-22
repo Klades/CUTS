@@ -7,7 +7,7 @@
 //
 Client_Options::Client_Options (void)
 : verbose_ (false),
-  shutdown_ (SHUTDOWN_NONE)
+  shutdown_ (CUTS::SHUTDOWN_INVALID)
 {
 
 }

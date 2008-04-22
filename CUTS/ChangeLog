@@ -1,3 +1,22 @@
+Tue Apr 22 23:28:21 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Client_Options.h:
+        * cuts/utils/Node_Daemon/Client_Options.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon.idl:
+        * cuts/utils/Node_Daemon/Node_Daemon_Client.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+        
+          There are now three waits to shutdown the server:
+          . WAIT   - wait for the owned tasks to terminate
+          . FORCE  - force termination of owned tasks
+          . NOWAIT - do not wait for task to terminate, just exit
+          
+          The method for shutting down the server is down by the
+          client application using the --shutdown=[wait|force|nowait] 
+          commandline parameter.
+
 Tue Apr 22 23:09:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Client_Options.h:
@@ -8,7 +27,7 @@ Tue Apr 22 23:09:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/utils/Node_Daemon/Process_Log.h:
         * cuts/utils/Node_Daemon/Process_Log.inl:
         * cuts/utils/Node_Daemon/Process_Log.cpp:
-        
+
           Re-enabled the process log for the node daemon. This allows
           the node daemon to recover any spawned tasks/processed if
           it dies unexpectedly before its child processes terminate.

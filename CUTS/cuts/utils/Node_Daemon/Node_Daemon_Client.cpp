@@ -42,9 +42,11 @@ int parse_args (int argc, char * argv[])
       if (ACE_OS::strcmp (get_opt.long_option (), "shutdown") == 0)
       {
         if (ACE_OS::strcmp (get_opt.opt_arg (), "wait") == 0)
-          CLIENT_OPTIONS ()->shutdown_ = Client_Options::SHUTDOWN_WAITALL;
+          CLIENT_OPTIONS ()->shutdown_ = CUTS::SHUTDOWN_WAIT;
         else if (ACE_OS::strcmp (get_opt.opt_arg (), "nowait") == 0)
-          CLIENT_OPTIONS ()->shutdown_ = Client_Options::SHUTDOWN_NOWAIT;
+          CLIENT_OPTIONS ()->shutdown_ = CUTS::SHUTDOWN_NOWAIT;
+        else if (ACE_OS::strcmp (get_opt.opt_arg (), "force") == 0)
+          CLIENT_OPTIONS ()->shutdown_ = CUTS::SHUTDOWN_FORCE;
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "task-terminate") == 0)
       {
@@ -201,7 +203,7 @@ int main (int argc, char * argv [])
     }
 
     // Shutdown the target node daemon, if necessary.
-    if (CLIENT_OPTIONS ()->shutdown_ != Client_Options::SHUTDOWN_NONE)
+    if (CLIENT_OPTIONS ()->shutdown_ != -1)
     {
       VERBOSE_MESSAGE ((LM_DEBUG,
                         "shutting down target node daemon\n"));

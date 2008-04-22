@@ -32,7 +32,7 @@ static CUTS_Node_Daemon_i * daemon_i = 0;
 //
 static void server_sighandler (int sig)
 {
-  daemon_i->shutdown (false);
+  daemon_i->shutdown (CUTS::SHUTDOWN_NOWAIT);
   ACE_UNUSED_ARG (sig);
 }
 

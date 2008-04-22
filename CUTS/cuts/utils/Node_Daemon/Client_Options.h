@@ -13,6 +13,7 @@
 #ifndef _CLIENT_OPTIONS_H_
 #define _CLIENT_OPTIONS_H_
 
+#include "Node_DaemonC.h"
 #include "ace/Singleton.h"
 #include "ace/Null_Mutex.h"
 #include "ace/SString.h"
@@ -29,13 +30,6 @@
 class Client_Options
 {
 public:
-  enum Shutdown_Command
-  {
-    SHUTDOWN_NOWAIT    = 0,
-    SHUTDOWN_WAITALL   = 1,
-    SHUTDOWN_NONE      = 0xFFFF
-  };
-
   /// Default constructor.
   Client_Options (void);
 
@@ -43,7 +37,7 @@ public:
   bool verbose_;
 
   /// Signal the node daemon to shutdown.
-  Shutdown_Command shutdown_;
+  CUTS::Shutdown_Option shutdown_;
 
   /// List of task to terminate.
   ACE_Unbounded_Set <ACE_CString> terminate_list_;
