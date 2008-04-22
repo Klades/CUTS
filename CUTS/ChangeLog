@@ -1,8 +1,33 @@
+Tue Apr 22 00:12:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/calibrate:
+  
+          Moved projects in utils/calibrate project to cuts/utils
+          directory.
+          
+        * utils/calibrate:
+        * utils/calibrate/Calibrate_Options.h:
+        * utils/calibrate/calibrate.cpp:
+        * utils/calibrate/calibrate.mpc:
+
+          Removed these files.
+
+Tue Apr 22 00:12:07 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+
+        * utils/calibrate:
+
+        * utils/calibrate/Calibrate_Options.h:
+        * utils/calibrate/calibrate.cpp:
+        * utils/calibrate/calibrate.mpc:
+
+          Removed these files.
+
 Tue Apr 22 00:06:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon:
-        
-          Move the utils/Node_Daemon project to the cuts/utils/Node_Daemon 
+
+          Move the utils/Node_Daemon project to the cuts/utils/Node_Daemon
           directory.
 
         * utils/Node_Daemon:
