@@ -1,7 +1,40 @@
+Tue Apr 22 00:06:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon:
+        
+          Move the utils/Node_Daemon project to the cuts/utils/Node_Daemon 
+          directory.
+
+        * utils/Node_Daemon:
+        * utils/Node_Daemon/Active_Process.h:
+        * utils/Node_Daemon/Active_Process.inl:
+        * utils/Node_Daemon/Active_Process.cpp:
+        * utils/Node_Daemon/Client_Options.h:
+        * utils/Node_Daemon/Client_Options.cpp:
+        * utils/Node_Daemon/Node_Daemon.idl:
+        * utils/Node_Daemon/Node_Daemon.mpc:
+        * utils/Node_Daemon/Node_Daemon_Client.cpp:
+        * utils/Node_Daemon/Node_Daemon_Event_Handler.h:
+        * utils/Node_Daemon/Node_Daemon_Event_Handler.cpp:
+        * utils/Node_Daemon/Node_Daemon_Server.cpp:
+        * utils/Node_Daemon/Node_Daemon_i.h:
+        * utils/Node_Daemon/Node_Daemon_i.inl:
+        * utils/Node_Daemon/Node_Daemon_i.cpp:
+        * utils/Node_Daemon/Process_Info.h:
+        * utils/Node_Daemon/Process_Info.inl:
+        * utils/Node_Daemon/Process_Info.cpp:
+        * utils/Node_Daemon/Process_Log.h:
+        * utils/Node_Daemon/Process_Log.inl:
+        * utils/Node_Daemon/Process_Log.cpp:
+        * utils/Node_Daemon/Server_Options.h:
+        * utils/Node_Daemon/Server_Options.cpp:
+
+          Removed these files.
+
 Mon Apr 21 23:57:25 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/schemas/cutsnode.xsd:
-        
+
           XML schema definition for the node configuration.
 
         * utils/Node_Daemon/Node_Daemon.idl:
