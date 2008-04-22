@@ -8,16 +8,19 @@
 
 #include "Active_Process.h"
 #include "Process_Info.h"
-//#include "Process_Log.h"
+#include "Process_Log.h"
 #include "Server_Options.h"
 #include "ace/INET_Addr.h"
 #include "ace/Null_Mutex.h"
 #include "ace/OS_NS_unistd.h"
 #include "ace/OS_NS_stdio.h"
 #include "ace/OS_NS_string.h"
+#include "ace/Env_Value_T.h"
 #include "ace/Process.h"
 #include "ace/Process_Manager.h"
 #include "ace/Singleton.h"
+
+#include <sstream>
 
 #define PROCESS_LOG() \
   ACE_Singleton <Process_Log, ACE_Null_Mutex>::instance ()
@@ -40,20 +43,10 @@ CUTS_Node_Daemon_i::CUTS_Node_Daemon_i (CORBA::ORB_ptr orb)
 //
 CUTS_Node_Daemon_i::~CUTS_Node_Daemon_i (void)
 {
-  // Wait for the process manager thread to return and it's
-  // event handler. This means waiting for all processes
-  // created by this process manager to exit.
-  VERBOSE_MESSAGE ((LM_DEBUG,
-                    "*** info (node daemon): waiting for %u tasks(s) to exit\n",
-                    this->pm_.managed ()));
-  this->pm_.wait ();
-
-  VERBOSE_MESSAGE ((LM_DEBUG,
-                    "*** info (node daemon): deactivating the process listener\n"));
+  // Deactivate the event handler.
   this->event_handler_.deactivate ();
 
-  VERBOSE_MESSAGE ((LM_DEBUG,
-                    "*** info (node daemon) : deactivating the timer queue\n"));
+  // Deactivate the timer queue for the daemon.
   this->timer_queue_.deactivate ();
   this->timer_queue_.cancel (this->timer_);
 }
@@ -209,7 +202,9 @@ CORBA::ULong CUTS_Node_Daemon_i::task_restart (const char * name)
   if (this->task_terminate_i (*info, true) != 0)
     return -1;
 
+  // Remove the process from the map and the log.
   this->process_map_.unbind (name);
+  PROCESS_LOG ()->process_remove (info->pid_);
 
   // Spawn the task again.
   ACE_Auto_Ptr <CUTS_Process_Info> auto_clean (info);
@@ -265,6 +260,9 @@ void CUTS_Node_Daemon_i::unmanage (pid_t pid)
     if (this->process_map_.unbind (iter) == 0)
       delete info;
   }
+
+  // Remove the process from the log.
+  PROCESS_LOG ()->process_remove (pid);
 }
 
 //
@@ -277,7 +275,12 @@ void CUTS_Node_Daemon_i::init (void)
                   this->event_handler_.reactor ());
 
   // Set the process log for the node daemon.
-  //PROCESS_LOG ()->log_file ("cutsnode_d.dat");
+  ACE_Env_Value <const char *> CUTS_ROOT ("CUTS_ROOT", "");
+
+  std::ostringstream ostr;
+  ostr << CUTS_ROOT << "/etc/cutsnode_d.dat";
+
+  PROCESS_LOG ()->log_file (ostr.str ().c_str ());
 
   // Initialize the default <p_options_>.
   this->p_options_.avoid_zombies (0);
@@ -327,79 +330,98 @@ void CUTS_Node_Daemon_i::init (void)
 //
 size_t CUTS_Node_Daemon_i::recover (void)
 {
-  //size_t count = 0;
-  //CUTS_Process_Info_Set active_list;
+  size_t count = 0;
+  CUTS_Process_Info_Set active_list;
 
-  //// Get all the active process in the process log.
-  //PROCESS_LOG ()->get_active_processes (active_list);
-  //CUTS_Process_Info_Set::ITERATOR iter (active_list);
+  // Get all the active process in the process log.
+  PROCESS_LOG ()->get_active_processes (active_list);
 
-  //while (iter.done () == 0)
-  //{
-  //  // Get the next process for the <active_list>. We only need
-  //  // to continue if we successfully have gotten an entry.
-  //  CUTS_Process_Info * info = 0;
-  //  iter.next (info);
+  CUTS_Process_Info_Set::iterator iter (active_list);
+  ACE_Auto_Ptr <CUTS_Process_Info> info;
 
-  //  if (info == 0)
-  //    continue;
+  for (; !iter.done (); ++ iter)
+  {
+    // Create an <Active_Process> entry so we can actually
+    // manage this process using our <Process_Manager>.
+    info.reset (*iter);
+    CUTS_Active_Process * a_process = 0;
 
-  //  // Create an <Active_Process> entry so we can actually
-  //  // manage this process using our <Process_Manager>.
-  //  CUTS_Active_Process * a_process = 0;
-  //  ACE_NEW_THROW_EX (a_process,
-  //                    CUTS_Active_Process (info->pid_),
-  //                    CORBA::NO_MEMORY ());
+    ACE_NEW_THROW_EX (a_process,
+                      CUTS_Active_Process (info->pid_),
+                      CORBA::NO_MEMORY ());
 
-  //  ACE_Auto_Ptr <CUTS_Active_Process> auto_clean (a_process);
+    ACE_Auto_Ptr <CUTS_Active_Process> auto_clean (a_process);
 
-  //  if (a_process->running ())
-  //  {
-  //    pid_t pid = this->pm_.spawn (a_process,
-  //                                 this->p_options_,
-  //                                 &this->event_handler_);
+    if (a_process->running ())
+    {
+      // Duplicate the default process options.
+      this->duplicate_defualt_process_options (info->options_);
+      
+      pid_t pid = this->pm_.spawn (a_process,
+                                   info->options_,
+                                   &this->event_handler_);
 
-  //    if (pid != ACE_INVALID_PID && pid != 0)
-  //    {
-  //      // Increment the recovery counter.
-  //      ++ count;
+      if (pid == info->pid_)
+      {
+        // Release the process since the manager owns it.
+        auto_clean.release ();
 
-  //      // Release the object since the manager now owns it.
-  //      auto_clean.release ();
-  //    }
-  //    else
-  //    {
-  //      ACE_ERROR ((LM_ERROR,
-  //                  "*** error (node daemon): failed to recover pid %d\n",
-  //                  info->pid_));
-  //    }
-  //  }
-  //  else
-  //  {
-  //    VERBOSE_MESSAGE ((LM_DEBUG,
-  //                      "*** info (node daemon): pid %u is not active\n",
-  //                      info->pid_));
+        // Save the information block to a mapping.
+        int retval = this->process_map_.bind (info->id_, info.get ());
 
-  //    // Remove the entry from the log and delete its resources.
-  //    if (PROCESS_LOG ()->process_exit (info->pid_))
-  //    {
-  //      VERBOSE_MESSAGE ((LM_DEBUG,
-  //                        "*** info (node daemon): removed pid %u "
-  //                        "from log\n",
-  //                        info->pid_));
-  //    }
-  //    else
-  //    {
-  //      ACE_ERROR ((LM_ERROR,
-  //                  "*** error (node daemon): failed to remove pid %u "
-  //                  "from log\n",
-  //                  info->pid_));
-  //    }
-  //  }
+        switch (retval)
+        {
+        case 0:
+          info.release ();
+          break;
 
-  //  // Advance to the next element in the collection.
-  //  iter.advance ();
-  //}
+        case 1:
+          ACE_ERROR ((LM_ERROR,
+                      "process with pid = %d already in map\n",
+                      info->pid_));
+          break;
+
+        case -1:
+          ACE_ERROR ((LM_ERROR,
+                      "failed to save process with pid = %d in map\n",
+                      info->pid_));
+          break;
+        }
+
+        // Increment the recovery counter.
+        ++ count;
+      }
+      else
+      {
+        ACE_ERROR ((LM_CRITICAL,
+                    "fatal error: recovered pid's do not match [%d != %d]",
+                    pid,
+                    info->pid_));
+      }
+    }
+    else
+    {
+      VERBOSE_MESSAGE ((LM_DEBUG,
+                        "*** info (node daemon): pid %u is not active\n",
+                        info->pid_));
+
+      // Remove the entry from the log and delete its resources.
+      if (PROCESS_LOG ()->process_remove (info->pid_))
+      {
+        VERBOSE_MESSAGE ((LM_DEBUG,
+                          "*** info (node daemon): removed pid %u "
+                          "from log\n",
+                          info->pid_));
+      }
+      else
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "*** error (node daemon): failed to remove pid %u "
+                    "from log\n",
+                    info->pid_));
+      }
+    }
+  }
 
   return 0;
 }
@@ -409,13 +431,13 @@ size_t CUTS_Node_Daemon_i::recover (void)
 //
 void CUTS_Node_Daemon_i::clean (void)
 {
-  //size_t active_count = 0;
-  //bool retval = PROCESS_LOG ()->clean (&active_count);
+  size_t active_count = 0;
+  bool retval = PROCESS_LOG ()->clean (&active_count);
 
-  //VERBOSE_MESSAGE ((LM_DEBUG,
-  //                  "*** info (node daemon): %s the log file [active=%u]\n",
-  //                  retval ? "successfully cleaned" : "failed to clean",
-  //                  active_count));
+  VERBOSE_MESSAGE ((LM_DEBUG,
+                    "*** info (node daemon): %s the log file [active=%u]\n",
+                    retval ? "successfully cleaned" : "failed to clean",
+                    active_count));
 }
 
 //
@@ -498,6 +520,9 @@ task_spawn_i (CUTS_Process_Info & info)
                          "spawned task\n"),
                          -1);
     }
+
+    // Write the process to the log.
+    PROCESS_LOG ()->process_insert (info);
   }
   else
   {

@@ -29,6 +29,13 @@
 class Client_Options
 {
 public:
+  enum Shutdown_Command
+  {
+    SHUTDOWN_NOWAIT    = 0,
+    SHUTDOWN_WAITALL   = 1,
+    SHUTDOWN_NONE      = 0xFFFF
+  };
+
   /// Default constructor.
   Client_Options (void);
 
@@ -36,7 +43,7 @@ public:
   bool verbose_;
 
   /// Signal the node daemon to shutdown.
-  bool shutdown_;
+  Shutdown_Command shutdown_;
 
   /// List of task to terminate.
   ACE_Unbounded_Set <ACE_CString> terminate_list_;

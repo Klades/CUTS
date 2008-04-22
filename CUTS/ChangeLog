@@ -1,3 +1,18 @@
+Tue Apr 22 23:09:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Client_Options.h:
+        * cuts/utils/Node_Daemon/Client_Options.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_Client.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+        * cuts/utils/Node_Daemon/Process_Log.h:
+        * cuts/utils/Node_Daemon/Process_Log.inl:
+        * cuts/utils/Node_Daemon/Process_Log.cpp:
+        
+          Re-enabled the process log for the node daemon. This allows
+          the node daemon to recover any spawned tasks/processed if
+          it dies unexpectedly before its child processes terminate.
+
 Tue Apr 22 04:53:56 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Client_Options.h:
@@ -6,13 +21,13 @@ Tue Apr 22 04:53:56 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/utils/Node_Daemon/Node_Daemon_Client.cpp:
         * cuts/utils/Node_Daemon/Node_Daemon_i.h:
         * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
-        
+
           . Bug fix where the shutdown operation would enter a deadlock.
-          
+
           . Bug fix where terminating a task resulted in a segmentation
             fault because the processed information was deleted by the
             event handler.
-            
+
 Tue Apr 22 00:15:54 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * CUTS.mwc:

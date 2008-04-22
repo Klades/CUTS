@@ -18,11 +18,11 @@
 #include "Process_Info.h"
 #include "ace/SString.h"
 #include "ace/Thread_Mutex.h"
-#include "ace/Containers_T.h"
+#include "ace/Unbounded_Set.h"
 #include "ace/iosfwd.h"
 
 /// Type definition for a listing of processes.
-typedef ACE_Array <CUTS_Process_Info> CUTS_Process_Info_Set;
+typedef ACE_Unbounded_Set <CUTS_Process_Info *> CUTS_Process_Info_Set;
 
 //=============================================================================
 /**
@@ -65,18 +65,48 @@ public:
    */
   const ACE_CString & log_file (void) const;
 
-  bool process_spawn (const CUTS_Process_Info & info);
+  /**
+   * Insert a new process into the log.
+   *
+   * @param[in]       info              The process's information.
+   */
+  bool process_insert (CUTS_Process_Info & info);
 
-  bool process_exit (pid_t id);
+  /**
+   * Set a processes entry to inactive. This does not remove the
+   * entry from the log file.
+   *
+   * @param[in]       id                Target process id.
+   */
+  bool process_remove (pid_t id);
 
+  /**
+   * Get a listing of all the active processes.
+   */
   bool get_active_processes (CUTS_Process_Info_Set & list);
 
+  /**
+   * Clean the log. This will remove all entries for processes
+   * that have terminated (i.e., have an inactive state).
+   *
+   * @param[in]       active_count      Number of active processes.
+   */
   bool clean (size_t * active_count = 0);
 
 private:
   static size_t batch_read (std::istream & in,
                             CUTS_Process_Info_Set & buffer,
                             size_t bufsize);
+
+  int read_string (std::ifstream & file,
+                   ACE_CString & str);
+
+  int write_string (std::ofstream & file,
+                    const ACE_CString & str);
+
+  int write_string (std::ofstream & file,
+                    const char * str,
+                    size_t length);
 
   /// Name of the log file.
   ACE_CString log_file_;

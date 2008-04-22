@@ -12,59 +12,7 @@
 #include "ace/OS_NS_unistd.h"
 #include "ace/streams.h"
 
-#ifdef min
-#undef min
-#endif
-
-#include <algorithm>
-
-#define ENTRY_BUFFER_SIZE  10
-
 static const char * TEMP_FILENAME = "cutsnode_d.tmp";
-
-//=============================================================================
-/**
- * @struct Find_By_PID
- *
- * Functor for locating a Process_Log_Entry by its pid_t.
- */
-//=============================================================================
-
-struct Find_By_PID
-{
-  /**
-   * Constructor
-   *
-   * @param[in]       pid           Id of the process
-   */
-  inline Find_By_PID (pid_t pid)
-    : pid_ (pid)
-  {
-
-  }
-
-  /**
-   * Functor operator.
-   *
-   * @param[in]     ple       Current element from a collection.
-   * @retval        true      The pid of the \ple is a match.
-   * @retval        false     The pid of the \ple is not a match.
-   */
-  inline bool operator () (const CUTS_Process_Info & info)
-  {
-    return this->pid_ == info.pid_;
-  }
-
-private:
-  /// Process id in question.
-  pid_t pid_;
-};
-
-//=============================================================================
-/*
- * Process_Log
- */
-//=============================================================================
 
 //
 // Process_Log
@@ -95,7 +43,7 @@ Process_Log::~Process_Log (void)
 // process_spawn
 //
 bool Process_Log::
-process_spawn (const CUTS_Process_Info & info)
+process_insert (CUTS_Process_Info & info)
 {
   ACE_GUARD_RETURN (ACE_Thread_Mutex, guard, this->lock_, false);
 
@@ -104,61 +52,43 @@ process_spawn (const CUTS_Process_Info & info)
   // a seperate thread that will "clean" the <logfile> periodically.
 
   std::ofstream logfile;
-  //logfile.open (this->log_file_.c_str (),
-  //              std::ios_base::out |
-  //              std::ios_base::binary |
-  //              std::ios_base::app);
 
-  //if (!logfile.is_open ())
-  //{
-  //  ACE_ERROR_RETURN ((LM_ERROR,
-  //                     "*** error (process log): failed to open file %s\n",
-  //                     this->log_file_.c_str ()),
-  //                     false);
-  //}
+  logfile.open (this->log_file_.c_str (),
+                std::ios_base::out |
+                std::ios_base::binary |
+                std::ios_base::app);
 
-  //// Write the process id.
-  //logfile.write (reinterpret_cast <const char *> (&info.pid_),
-  //               sizeof (pid_t));
+  if (!logfile.is_open ())
+  {
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       "*** error (process log): failed to open file %s\n",
+                       this->log_file_.c_str ()),
+                       false);
+  }
 
-  //// Write the state of process log.
-  //logfile.write (reinterpret_cast <const char *> (&info.state_), 
-  //               sizeof (char));
+  // Write the process id.
+  logfile.write (reinterpret_cast <const char *> (&info.pid_),
+                 sizeof (pid_t));
 
-  //// Write the name to the log.
-  //size_t length = info.id_.length ();
+  // Write the state of process log.
+  logfile.write (reinterpret_cast <const char *> (&info.state_), 
+                 sizeof (char));
 
-  //logfile.write (reinterpret_cast <const char *> (&length),
-  //               sizeof (size_t));
 
-  //logfile.write (info.id_.c_str (), length + 1);
-
-  //// Write the executable name to the log.
-  //length = info.options_..length ();
-
-  //logfile.write (reinterpret_cast <const char *> (&length),
-  //               sizeof (size_t));
-
-  //logfile.write (info.exec_.c_str (), length + 1);
-
-  //// Write the arguments to the log.
-  //length = info.args_.length ();
-
-  //logfile.write (reinterpret_cast <const char *> (&length),
-  //               sizeof (size_t));
-
-  //logfile.write (info.args_.c_str (), length + 1);
+  // Write the remaining information about the process to the log.
+  this->write_string (logfile, info.id_);
+  this->write_string (logfile, info.options_.command_line_buf ());
+  this->write_string (logfile, info.options_.working_directory ());
 
   // Close the log file.
   logfile.close ();
-
   return logfile.good ();
 }
 
 //
 // process_exit
 //
-bool Process_Log::process_exit (pid_t pid)
+bool Process_Log::process_remove (pid_t pid)
 {
   ACE_GUARD_RETURN (ACE_Thread_Mutex, guard, this->lock_, false);
 
@@ -181,8 +111,8 @@ bool Process_Log::process_exit (pid_t pid)
   }
 
   // Temporary variables for searching the log file.
-  pid_t tmppid;
   char state;
+  pid_t tmppid;
   size_t length;
 
   while (!logfile.eof ())
@@ -203,18 +133,18 @@ bool Process_Log::process_exit (pid_t pid)
       break;
     }
 
-    // Read the state.
-    logfile.read (&state, sizeof (char));
+    // Bypass the state of the process.
+    logfile.seekg (1, std::ios_base::cur);
 
     // Bypass the name of the process.
     logfile.read (reinterpret_cast <char *> (&length), sizeof (size_t)); 
     logfile.seekg (length + 1, std::ios_base::cur);
 
-    // Bypass the executable name of the process.
+    // Bypass the command-line of the process.
     logfile.read (reinterpret_cast <char *> (&length), sizeof (size_t)); 
     logfile.seekg (length + 1, std::ios_base::cur);
 
-    // Bypass the arguments of the process.
+    // Bypass the working directory of the process.
     logfile.read (reinterpret_cast <char *> (&length), sizeof (size_t)); 
     logfile.seekg (length + 1, std::ios_base::cur);
   }
@@ -260,6 +190,60 @@ void Process_Log::log_file (const char * log_file)
 bool Process_Log::
 get_active_processes (CUTS_Process_Info_Set & list)
 {
+  ACE_GUARD_RETURN (ACE_Thread_Mutex, guard, this->lock_, false);
+
+  // Open the log file for processing. We want to overwrite any
+  // inactive processes before appending to the file.
+  std::ifstream logfile;
+  logfile.open (this->log_file_.c_str (),
+                std::ios_base::in | std::ios_base::binary);
+
+  if (!logfile.is_open ())
+  {
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       "file %s does not exist\n",
+                       this->log_file_.c_str ()),
+                       false);
+  }
+
+
+  CUTS_Process_Info * info = 0;
+  ACE_Auto_Ptr <CUTS_Process_Info> auto_clean (info);
+
+  ACE_CString command_line;
+  ACE_CString working_directory;
+
+  while (!logfile.eof ())
+  {
+    if (info == 0)
+    {
+      ACE_NEW_NORETURN (info, CUTS_Process_Info ());
+      auto_clean.reset (info);
+    }
+
+    if (info != 0)
+    {
+      // Read the information about the current process.
+      logfile.read (reinterpret_cast <char *> (&info->pid_), sizeof (pid_t));
+      logfile.read (&info->state_, sizeof (char));
+
+      this->read_string (logfile, info->id_);
+      this->read_string (logfile, command_line);
+      this->read_string (logfile, working_directory);
+
+      if (info->state_ == 1)
+      {
+        // Save the remaining information about the process.
+        info->options_.command_line (command_line.c_str ());
+        info->options_.working_directory (working_directory.c_str ());
+
+        // Insert the process information into the listing.
+        if (list.insert (info) == 0)
+          auto_clean.release ();
+      }
+    }
+  }
+
   return true;
 }
 
@@ -280,7 +264,7 @@ bool Process_Log::clean (size_t * active_count)
   if (!logfile.is_open ())
   {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "(%N:%l) file %s does not exist\n",
+                       "file %s does not exist\n",
                        this->log_file_.c_str ()),
                        false);
   }
@@ -299,36 +283,40 @@ bool Process_Log::clean (size_t * active_count)
                        false);
   }
 
-  size_t entry_count, count = 0;
+  size_t count = 0;
   bool error = false;
 
-  //do
-  //{
-  //  entry_count = this->batch_read (logfile, buffer, ENTRY_BUFFER_SIZE);
+  // Temporary variables for searching the log file.
+  char state;
+  pid_t pid;
+  ACE_CString name, command_line, working_directory;
 
-  //  for (size_t i = 0; i < entry_count; i ++)
-  //  {
-  //    // We only care to copy over the active processes.
-  //    if (buffer[i].active_)
-  //    {
-  //      tmpfile.write (reinterpret_cast <char *> (&buffer[i]),
-  //                     sizeof (Process_Log_Entry));
+  while (!logfile.eof ())
+  {
+    // Read the information about the current process.
+    logfile.read (reinterpret_cast <char *> (&pid), sizeof (pid_t));
+    logfile.read (&state, sizeof (char));
 
-  //      // Something bad has happened and we need to just stop
-  //      // and abort the cleaning operation.
-  //      if (tmpfile.bad ())
-  //      {
-  //        ACE_ERROR ((LM_ERROR,
-  //                    "*** error (process log): error occured while clean "
-  //                    "file; aborting...\n"));
-  //        error = true;
-  //        break;
-  //      }
+    this->read_string (logfile, name);
+    this->read_string (logfile, command_line);
+    this->read_string (logfile, working_directory);
 
-  //      ++ count;
-  //    }
-  //  }
-  //} while (entry_count != 0);
+    // We need to write the process's information to the temp file
+    // if it's still in an active state.
+    if (state == 1)
+    {
+      tmpfile.write (reinterpret_cast <char *> (&pid), sizeof (pid_t));
+      tmpfile.write (&state, sizeof (char));
+
+      this->write_string (tmpfile, name);
+      this->write_string (tmpfile, command_line);
+      this->write_string (tmpfile, working_directory);
+
+      // Increment the active process counter.
+      if (tmpfile.good ())
+        ++ count;
+    }
+  }
 
   // Close both files then replace the old file w/ the new file
   // if we did not experience any errors.
@@ -345,4 +333,40 @@ bool Process_Log::clean (size_t * active_count)
     *active_count = count;
 
   return !error;
+}
+
+//
+// read_string
+//
+int Process_Log::
+read_string (std::ifstream & file, ACE_CString & str)
+{
+  // Read the length of the string.
+  size_t length;
+  file.read (reinterpret_cast <char *> (&length), sizeof (size_t)); 
+
+  // Read the contents of the string.
+  char * ptr = 0;
+  ACE_NEW_RETURN (ptr, char [length + 1], -1);
+
+  ACE_Auto_Array_Ptr <char> data (ptr);
+  file.read (ptr, length + 1);
+
+  // Save the data in the string.
+  str.set (data.release (), length, false);
+  return 0;
+}
+
+//
+// write_string
+//
+int Process_Log::
+write_string (std::ofstream & file, const char * str, size_t length)
+{
+  // Write the length of the string.
+  file.write (reinterpret_cast <char *> (&length), sizeof (size_t));
+
+  // Write the contents of the string, including it's NULL terminator.
+  file.write (str, length + 1);
+  return 0;
 }

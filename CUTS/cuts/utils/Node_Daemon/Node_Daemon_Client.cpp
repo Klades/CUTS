@@ -31,7 +31,7 @@ int parse_args (int argc, char * argv[])
 
   get_opt.long_option ("task-terminate", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("task-restart", ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("shutdown", ACE_Get_Opt::NO_ARG);
+  get_opt.long_option ("shutdown", ACE_Get_Opt::ARG_OPTIONAL);
 
   int option;
   while ((option = get_opt ()) != EOF)
@@ -40,14 +40,20 @@ int parse_args (int argc, char * argv[])
     {
     case 0:
       if (ACE_OS::strcmp (get_opt.long_option (), "shutdown") == 0)
-        CLIENT_OPTIONS ()->shutdown_ = true;
-
+      {
+        if (ACE_OS::strcmp (get_opt.opt_arg (), "wait") == 0)
+          CLIENT_OPTIONS ()->shutdown_ = Client_Options::SHUTDOWN_WAITALL;
+        else if (ACE_OS::strcmp (get_opt.opt_arg (), "nowait") == 0)
+          CLIENT_OPTIONS ()->shutdown_ = Client_Options::SHUTDOWN_NOWAIT;
+      }
       else if (ACE_OS::strcmp (get_opt.long_option (), "task-terminate") == 0)
+      {
         CLIENT_OPTIONS ()->terminate_list_.insert (get_opt.opt_arg ());
-
+      }
       else if (ACE_OS::strcmp (get_opt.long_option (), "task-restart") == 0)
+      {
         CLIENT_OPTIONS ()->restart_list_.insert (get_opt.opt_arg ());
-
+      }
       break;
 
     case 'h':
@@ -195,12 +201,12 @@ int main (int argc, char * argv [])
     }
 
     // Shutdown the target node daemon, if necessary.
-    if (CLIENT_OPTIONS ()->shutdown_)
+    if (CLIENT_OPTIONS ()->shutdown_ != Client_Options::SHUTDOWN_NONE)
     {
       VERBOSE_MESSAGE ((LM_DEBUG,
                         "shutting down target node daemon\n"));
 
-      daemon->shutdown (true);
+      daemon->shutdown (CLIENT_OPTIONS ()->shutdown_);
     }
     else
     {

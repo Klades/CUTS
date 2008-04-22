@@ -25,6 +25,28 @@
 #include "XSCRT/utils/File_T.h"
 #include "XSCRT/utils/XML_Schema_Resolver_T.h"
 
+static CUTS_Node_Daemon_i * daemon_i = 0;
+
+//
+// server_sighandler
+//
+static void server_sighandler (int sig)
+{
+  daemon_i->shutdown (false);
+  ACE_UNUSED_ARG (sig);
+}
+
+//
+// register_sighandler
+//
+static void register_sighandler (void)
+{
+  ACE_Sig_Action sa (&server_sighandler);
+
+  sa.register_action (SIGINT);
+  sa.register_action (SIGTERM);
+}
+
 //
 // parse_args
 //
@@ -326,18 +348,8 @@ int main (int argc, char * argv [])
     VERBOSE_MESSAGE ((LM_DEBUG,
                       "creating the node daemon server\n"));
 
-    CUTS_Node_Daemon_i * daemon_i = 0;
-
-    ACE_NEW_RETURN (
-      daemon_i, 
+    ACE_NEW_RETURN (daemon_i, 
       CUTS_Node_Daemon_i (::CORBA::ORB::_duplicate (orb.in ())), 1);
-
-    // Attempt the recover any lost processes.
-    size_t count = daemon_i->recover ();
-
-    VERBOSE_MESSAGE ((LM_DEBUG,
-                      "recovered %u processes\n",
-                      count));
 
     // Activate the <CUTS::Node_Daemon> and write it's IOR to file.
     CUTS::Task_Manager_var daemon = daemon_i->_this ();
