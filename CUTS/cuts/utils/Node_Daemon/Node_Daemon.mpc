@@ -1,16 +1,16 @@
 // $Id$
 
-project (CUTS_Node_Daemon_Xsc_IDL) : xsc_idl {
-  custom_only = 1
-  
-  specific {
-    xscflags += --idl-char-type char
-  }
-  
-  Xsc_Files {
-    $(CUTS_ROOT)/etc/schemas/cutsnode.xsd
-  }
-}
+//project (CUTS_Node_Daemon_Xsc_IDL) : xsc_idl {
+//  custom_only = 1
+//  
+//  specific {
+//    xscflags += --idl-char-type char
+//  }
+//  
+//  Xsc_Files {
+//    $(CUTS_ROOT)/etc/schemas/cutsnode.xsd
+//  }
+//}
 
 project (CUTS_Node_Daemon) : taoserver, iortable, xsc_cxx, xscrt, cutsexe {
   exename = cutsnode_d
