@@ -12,11 +12,7 @@
 ///               runtime and modeling, apply to this workspace.
 ///=============================================================================
 
-workspace (CUTS) : CUTS_Runtime_Arch, CUTS_CoSMIC {
-  //-- utility applications
-  utils/calibrate
-  utils/Node_Daemon
-
+workspace (CUTS) : CUTS_Runtime_Arch, CUTS_CoSMIC {    
   exclude (!vc8) {
     cmdline += -base requires_bmw
 

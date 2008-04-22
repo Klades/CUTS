@@ -2,5 +2,6 @@
 
 workspace {
   cmdline += -include $CUTS_ROOT/etc/config \
+             -include $XSC_ROOT/MPC/config \
              -feature_file default.features
 }
