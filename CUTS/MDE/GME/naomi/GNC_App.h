@@ -89,6 +89,8 @@ private:
 
   void input_all_attributes (void);
 
+  void output_all_attributes (void);
+
   /// List all the NAOMI attributes in the model.
   void list_all_attributes (void);
 

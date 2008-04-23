@@ -153,6 +153,10 @@ int CUTS_GNC_App::run_main (void)
       if (!this->opts_.input_attributes_.empty ())
         this->input_all_attributes ();
 
+      // Output all the attributes.
+      if (!this->opts_.output_attributes_.empty ())
+        this->output_all_attributes ();
+
       // Commit the current transaction.
       this->project_->commit_transaction ();
     }
@@ -509,7 +513,8 @@ void CUTS_GNC_App::input_all_attributes (void)
   naomi::attributes::attributeType attr_info ("", "");
 
   XSCRT::utils::File_Reader_T <
-    naomi::attributes::attributeType> reader (&naomi::attributes::attribute);
+    naomi::attributes::attributeType> 
+    reader (&naomi::attributes::reader::attribute);
 
   // Discard comment nodes in the document.
   if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMComments, false))
@@ -645,6 +650,191 @@ void CUTS_GNC_App::input_all_attributes (void)
 
       // Close the XML file.
       reader.close ();
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "*** error: failed to locate attribute <%s>\n",
+                  iter->c_str ()));
+    }
+  }
+}
+
+//
+// output_all_attributes
+// 
+void CUTS_GNC_App::output_all_attributes (void)
+{
+  // Create the file reader for the configuration file.
+  naomi::attributes::attributeType attr_info ("", "");
+
+  XSCRT::utils::File_Reader_T <
+    naomi::attributes::attributeType>
+    reader (&naomi::attributes::reader::attribute);
+
+  // Discard comment nodes in the document.
+  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMComments, false))
+    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMComments, false);
+
+  // Disable datatype normalization. The XML 1.0 attribute value
+  // normalization always occurs though.
+  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true))
+    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true);
+
+  // Do not create EntityReference nodes in the DOM tree. No
+  // EntityReference nodes will be created, only the nodes
+  // corresponding to their fully expanded substitution text will be
+  // created.
+  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMEntities, false))
+    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMEntities, false);
+
+  // Perform Namespace processing.
+  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMNamespaces, true))
+    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMNamespaces, true);
+
+  // Do not include ignorable whitespace in the DOM tree.
+  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMWhitespaceInElementContent, false))
+    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMWhitespaceInElementContent, false);
+
+  // Perform Validation
+  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMValidation, true))
+    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMValidation, true);
+
+  // Enable the GetParser()'s schema support.
+  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesSchema, true))
+    reader.parser ()->setFeature (xercesc::XMLUni::fgXercesSchema, true);
+
+  // Enable full schema constraint checking, including checking which
+  // may be time-consuming or memory intensive. Currently, particle
+  // unique attribution constraint checking and particle derivation
+  // restriction checking are controlled by this option.
+  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesSchemaFullChecking, true))
+    reader.parser ()->setFeature (xercesc::XMLUni::fgXercesSchemaFullChecking, true);
+
+  // The GetParser() will treat validation error as fatal and will exit.
+  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, false))
+    reader.parser ()->setFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, false);
+
+  XSCRT::utils::File_Writer_T <
+    naomi::attributes::attributeType> 
+    writer ("http://www.atl.lmco.com/naomi/attributes",
+            "attribute", 
+            &naomi::attributes::writer::attribute);
+
+  if (writer.writer ()->canSetFeature (xercesc::XMLUni::fgDOMWRTDiscardDefaultContent, true))
+    writer.writer ()->setFeature (xercesc::XMLUni::fgDOMWRTDiscardDefaultContent, true);
+  
+  if (writer.writer ()->canSetFeature (xercesc::XMLUni::fgDOMWRTFormatPrettyPrint, true))
+    writer.writer ()->setFeature (xercesc::XMLUni::fgDOMWRTFormatPrettyPrint, true);
+
+  // Locate each of the input attributes in the project.
+  std::set <std::string>::const_iterator 
+    iter = this->opts_.output_attributes_.begin (),
+    iter_end = this->opts_.output_attributes_.end ();
+
+  std::ostringstream pathname;
+  attribute_tag info;
+
+  for ( ; iter != iter_end; ++ iter)
+  {
+    VERBOSE_MESSAGE ((LM_INFO,
+                      "*** info: searching for naomi attribute <%s>\n",
+                      iter->c_str ()));
+
+    // Search the current child element for the attribute.
+    if (this->locate_object_attribute (*iter, info))
+    {
+      VERBOSE_MESSAGE ((LM_INFO,
+                        "*** info: found naomi attribute in element <%s>\n",
+                        info.object_.path (".", false).c_str ()));
+
+      // Verfiy the attribute is an input attribute.
+      if (info.direction_ != "output")
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "*** error: attribute <%s> is not an output attribute "
+                    "for this model\n",
+                    iter->c_str ()));
+
+        continue;
+      }
+
+      // Locate the attribute on disk.
+      std::set <std::string>::const_iterator
+        path_iter = this->opts_.attribute_path_.begin (),
+        path_iter_end = this->opts_.attribute_path_.end ();
+
+      for ( ; path_iter != path_iter_end; ++ path_iter)
+      {
+        // Reset the pathname.
+        pathname.clear ();
+        pathname.str ("");
+
+        // Construct the new pathname.
+        pathname << *path_iter << "/" << *iter;
+
+        // Attempt to open the attribute file.
+        if (reader.open (pathname.str ().c_str ()) == 0)
+          break;
+      }
+
+      if (reader.is_open ())
+      {
+        // Read the attribute information from the file. This is to make
+        // sure we preserve the current information.
+        reader >> attr_info;
+        reader.close ();
+      }
+
+      if (info.gme_attribute_.empty ())
+      {
+        // The value is the name of the object.
+        attr_info.value (info.object_.name ());
+      }
+      else
+      {
+        // The value is an attribute of the object.
+        GME::Attribute target_attr;
+
+        try
+        {
+          GME::FCO fco = GME::FCO::_narrow (info.object_);
+          target_attr = fco.attribute (info.gme_attribute_);
+        }
+        catch (...)
+        {
+          GME::Folder folder = GME::Folder::_narrow (info.object_);
+        }
+
+        // Set the attribute info using the GME attribute.
+        attr_info.value (target_attr.string_value ());;
+      }
+
+
+      // Open the writer for usage.
+      if (writer.open (pathname.str ().c_str ()) != 0)
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "*** error: failed to open %s for writing\n",
+                    pathname.str ().c_str ()));
+        continue;
+      }
+
+      // Set the attributes for the root element.
+      xercesc::DOMElement * root = writer.document ()->getDocumentElement ();
+
+      root->setAttribute (
+        XSC::XStr ("xmlns:xsi"),
+        XSC::XStr ("http://www.w3.org/2001/XMLSchema-instance"));
+
+      root->setAttribute (
+        XSC::XStr ("xsi:schemaLocation"),
+        XSC::XStr ("http://www.atl.lmco.com/naomi attribute_simple.xsd"));
+                          
+      
+      // Write the attribute to the file.
+      writer << attr_info;
+      writer.close ();
     }
     else
     {
