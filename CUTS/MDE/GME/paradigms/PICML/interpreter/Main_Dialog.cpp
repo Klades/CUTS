@@ -69,7 +69,7 @@ BOOL Main_Dialog::OnInitDialog (void)
 
       // Create the file reader for the configuration file.
       XSCRT::utils::File_Reader_T <
-        CUTS::Configuration> reader (&CUTS::modelgen);
+        CUTS::Configuration> reader (&CUTS::reader::modelgen);
 
       reader.parser ()->setEntityResolver (
         XSCRT::utils::xml_schema_resolver (

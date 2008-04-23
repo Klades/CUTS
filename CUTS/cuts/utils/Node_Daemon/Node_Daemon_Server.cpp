@@ -130,7 +130,7 @@ int load_initial_config (const char * config, CUTS_Node_Daemon_i * daemon)
 
   // Create the file reader for the configuration file.
   XSCRT::utils::File_Reader_T <
-    CUTS::nodeConfig> reader (&CUTS::node);
+    CUTS::nodeConfig> reader (&CUTS::reader::node);
 
   try
   {
