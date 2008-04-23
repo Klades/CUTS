@@ -778,12 +778,33 @@ void CUTS_GNC_App::output_all_attributes (void)
           break;
       }
 
+      // Get the paradigm for the project. This is the actual owner
+      // of the attribute.
+      GME::Project project = info.object_.project ();
+      std::string owner = project.paradigm_name ();
+
       if (reader.is_open ())
       {
         // Read the attribute information from the file. This is to make
         // sure we preserve the current information.
         reader >> attr_info;
         reader.close ();
+
+        // Validate the we actually own this attribute.
+        if (attr_info.owner () != owner)
+        {
+          ACE_ERROR ((LM_ERROR,
+                      "*** error: target model does not own attribute; "
+                      "skipping...\n"));
+
+          continue;
+        }
+      }
+      else
+      {
+        // We are creating the attribute for the first time. We, therefore,
+        // need to set the owner of the attribute.
+        attr_info.owner (owner);
       }
 
       if (info.gme_attribute_.empty ())
