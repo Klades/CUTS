@@ -1,7 +1,19 @@
-Thu Apr 24 16:08:32 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+Thu Apr 24 18:45:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/naomi/gnc.mwc:
         
+          The stand-alone workspace build the dynamic version by default
+          unless the -static flag is specified on the commandline.
+
+        * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator.cpp:
+        
+          Bug fix where the event type of a delegated event source was
+          not set in the proxy assembly.
+
+Thu Apr 24 16:08:32 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/gnc.mwc:
+
           Workspace for building the static version of the connector.
 
 Wed Apr 23 23:12:07 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

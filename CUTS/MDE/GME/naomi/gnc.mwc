@@ -5,19 +5,18 @@ workspace (GNC) {
   cmdline += -feature_file $CUTS_ROOT/default.features \
              -include $CUTS_ROOT/etc/config \
              -include $COSMIC_ROOT/MPC/config \
-             -include $XSC_ROOT/MPC/config \
-             -static -name_modifier *_Static
+             -include $XSC_ROOT/MPC/config
   
-  gnc_static {
-    cmdline += -value_project 'exename = gnc-static'
-
-    GNC.mpc
-  }
+  GNC.mpc
   
   //== dependencies
   $(ACE_ROOT)/ace/ace.mpc
   $(COSMIC_ROOT)/Utils/gme/GME.mpc
   
   $(XSC_ROOT)/XSCRT/XSCRT/XSCRT.mpc
-  $(XSC_ROOT)/XSC/libXSC.mpc
+  
+  static {
+    cmdline += -static
+    $(XSC_ROOT)/XSC/libXSC.mpc
+  }
 }

@@ -1161,6 +1161,13 @@ Visit_EventSinkDelegate (const PICML::EventSinkDelegate & delegate)
       tmp_port.SetStrValue ("name", name);
     }
 
+    // Make sure the delegation port references the correct event
+    // type. Otherwise, it will cause an exception.
+    if (PICML::Event (tmp_port.ref ()) != PICML::Event (src.ref ()))
+      tmp_port.ref () = src.ref ();
+
+    // Make sure the port in the proxy is in the same location as
+    // the port in the source assembly.
     if (std::string (tmp_port.position ()) != 
         std::string (src.position ()))
     {
@@ -1207,6 +1214,13 @@ Visit_EventSinkDelegate (const PICML::EventSinkDelegate & delegate)
       tmp_port.SetStrValue ("name", name);
     }
 
+    // Make sure the delegation port references the correct event
+    // type. Otherwise, it will cause an exception.
+    if (PICML::Event (tmp_port.ref ()) != PICML::Event (dst.ref ()))
+      tmp_port.ref () = dst.ref ();
+
+    // Make sure the port in the proxy is in the same location as
+    // the port in the source assembly.
     if (std::string (tmp_port.position ()) != 
         std::string (dst.position ()))
     {
