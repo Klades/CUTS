@@ -1,8 +1,14 @@
+Thu Apr 24 16:08:32 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/gnc.mwc:
+        
+          Workspace for building the static version of the connector.
+
 Wed Apr 23 23:12:07 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/Main_Dialog.cpp:
         * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
-        
+
           Added the missing 'reader' scope for the XSC top-level reader
           functions.
 
