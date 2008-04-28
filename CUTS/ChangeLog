@@ -1,9 +1,15 @@
+Mon Apr 28 22:14:43 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+        
+          . Forgot to register the signal handler for the server.
+
 Mon Apr 28 14:43:56 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/naomi/GNC.mpc:
         * MDE/GME/naomi/GNC_App.h:
         * MDE/GME/naomi/GNC_App.cpp:
-        
+
           . Implemented support for generating the interface file for a
             model using the GME's Naomi connector.
 

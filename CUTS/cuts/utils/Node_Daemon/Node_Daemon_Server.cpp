@@ -73,13 +73,13 @@ int parse_args (int argc, char * argv [])
 
       else if (ACE_OS::strcmp (get_opt.long_option (), "ior-file") == 0)
         SERVER_OPTIONS ()->ior_file_ = get_opt.opt_arg ();
-      
+
       else if (ACE_OS::strcmp (get_opt.long_option (), "verbose") == 0)
         SERVER_OPTIONS ()->verbose_ = true;
-      
+
       else if (ACE_OS::strcmp (get_opt.long_option (), "config") == 0)
         SERVER_OPTIONS ()->config_ = get_opt.opt_arg ();
-      
+
       break;
 
     case 'c':
@@ -201,7 +201,7 @@ int load_initial_config (const char * config, CUTS_Node_Daemon_i * daemon)
       // Get the task list for the node.
       CUTS::taskList const & tasks = node_config.tasklist ();
 
-      CUTS::taskList::task_const_iterator 
+      CUTS::taskList::task_const_iterator
         iter = tasks.begin_task (), iter_end = tasks.end_task ();
 
       // Begin each of the task on the node daemon.
@@ -212,13 +212,13 @@ int load_initial_config (const char * config, CUTS_Node_Daemon_i * daemon)
         // Initialize the task descriptor.
         task.id = ::CORBA::string_dup (iter->id ().c_str ());
         task.executable = ::CORBA::string_dup (iter->executable ().c_str ());
-       
-        task.arguments = 
-          ::CORBA::string_dup (iter->arguments_p () ? 
+
+        task.arguments =
+          ::CORBA::string_dup (iter->arguments_p () ?
                                iter->arguments ().c_str () : "");
 
         task.workingdirectory =
-          ::CORBA::string_dup (iter->workingdirectory_p () ? 
+          ::CORBA::string_dup (iter->workingdirectory_p () ?
                                iter->workingdirectory ().c_str () : "");
 
         // Spawn the new task.
@@ -230,7 +230,7 @@ int load_initial_config (const char * config, CUTS_Node_Daemon_i * daemon)
   }
   catch (const xercesc::DOMException & ex)
   {
-    ACE_ERROR ((LM_ERROR,  
+    ACE_ERROR ((LM_ERROR,
                 "%s\n",
                 ex.getMessage ()));
   }
@@ -310,6 +310,9 @@ int main (int argc, char * argv [])
                        1);
   }
 
+  // Register the signal handler.
+  register_sighandler ();
+
   try
   {
     // Initalize the ORB
@@ -348,7 +351,7 @@ int main (int argc, char * argv [])
     VERBOSE_MESSAGE ((LM_DEBUG,
                       "creating the node daemon server\n"));
 
-    ACE_NEW_RETURN (daemon_i, 
+    ACE_NEW_RETURN (daemon_i,
       CUTS_Node_Daemon_i (::CORBA::ORB::_duplicate (orb.in ())), 1);
 
     // Activate the <CUTS::Node_Daemon> and write it's IOR to file.
@@ -362,14 +365,14 @@ int main (int argc, char * argv [])
 
     if (!SERVER_OPTIONS ()->ior_file_.empty ())
     {
-      write_ior_to_file (objstr.in (), 
+      write_ior_to_file (objstr.in (),
                          SERVER_OPTIONS ()->ior_file_.c_str ());
     }
 
     // Load the initial configuration.
     if (!SERVER_OPTIONS ()->config_.empty ())
       load_initial_config (SERVER_OPTIONS ()->config_.c_str (), daemon_i);
-      
+
     // Run the ORB...
     VERBOSE_MESSAGE ((LM_DEBUG, "activating node daemon ORB\n"));
     orb->run ();
