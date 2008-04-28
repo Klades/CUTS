@@ -2,6 +2,7 @@
 
 #include "GNC_App.h"
 #include "attribute_simple.h"
+#include "interface.h"
 
 #include "gme/GME.h"
 #include "gme/XML.h"
@@ -9,11 +10,13 @@
 #include "ace/Get_Opt.h"
 #include "ace/OS_NS_unistd.h"
 #include "ace/OS_NS_string.h"
+#include "ace/streams.h"
+
+#include "boost/bind.hpp"
 
 #include "XSCRT/utils/File_T.h"
 #include "XSCRT/utils/XML_Schema_Resolver_T.h"
 
-#include <iostream>
 #include <sstream>
 #include <algorithm>
 
@@ -23,6 +26,49 @@
   { \
     ACE_DEBUG (msg); \
   }
+
+static const char * usage = 
+"USAGE: gnc [OPTIONS]\n\
+Input/output NAOMI attributes for a GME model\n\
+\n\
+General Options\n\
+  -p, --project=GMEFILE            absolute/relative path to GME project\n\
+  -v, --verbose                    display progress\n\
+  -h, --help                       display this help message\n\
+\n\
+Atttribute Options\n\
+  -i, --input-attribute=ATTR       input the specified attribute\n\
+  -o, --output-attribute=ATTR      output the specified attribute\n\
+\n\
+  -l, --list-attributes            list naomi attribute in project\n\
+\n\
+  -P, --attribute-path=PATH        path to naomi attributes on disk\n\
+\n\
+Interface Options\n\
+  --interface-file-create=PATH     create an interface file for the\n\
+                                   at the specified location\n\
+  --interface-file-name=NAME       name stored in the <name> tag of\n\
+                                   the interface file\n\
+\n\
+EXAMPLE:\n\
+%> gnc -p ./models/traffic.xme -i scatter.traffic.deployment\n\
+   -i rose.pedcontroller_period.msec -o picml.traffic.deployment\n\
+   -P ./attributes\n\
+\n\
+REMARKS:\n\
+The GME Connector for NAOMI is a generic connector that works with\n\
+any GME project. The name of the input/output attributes must be tagged\n\
+in the model for the connector to work properly. Also, the owner of\n\
+the attribute must match the paradigm name of the target GME project.\n\
+\n\
+The GMEFILE can be either a .mga file or a .xme file. You do not have to\n\
+provide a quantifier before the filename, such as \'MGA=', as required in\n\
+previous versions.\n\
+\n\
+LIMITATIONS:\n\
+The connector only supports simple types that can be expressed in\n\
+the <value></value> tag of the attribute. It assumes it is a string\n\
+and can be directly inputed into the model without any parsing.\n";
 
 //
 // CUTS_GNC_App
@@ -46,7 +92,7 @@ CUTS_GNC_App::~CUTS_GNC_App (void)
 //
 int CUTS_GNC_App::parse_args (int argc, char * argv [])
 {
-  const char * opts = ACE_TEXT ("p:P:i:o:lv");
+  const char * opts = ACE_TEXT ("p:P:i:o:lvh");
   ACE_Get_Opt get_opt (argc, argv, opts, 0);
 
   get_opt.long_option ("project", 'p', ACE_Get_Opt::ARG_REQUIRED);
@@ -54,7 +100,12 @@ int CUTS_GNC_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("input-attribute", 'i', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("output-attribute", 'o', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("list-attributes", 'l', ACE_Get_Opt::NO_ARG);
+
+  get_opt.long_option ("interface-file-create", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("interface-file-name", ACE_Get_Opt::ARG_REQUIRED);
+
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
+  get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
 
   int option;
 
@@ -87,6 +138,24 @@ int CUTS_GNC_App::parse_args (int argc, char * argv [])
       {
         this->opts_.verbose_ = true;
       }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "interface-file-create") == 0)
+      {
+        this->opts_.interface_file_pathname_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "interface-file-name") == 0)
+      {
+        this->opts_.interface_file_name_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
+      {
+        std::cerr << usage << std::endl;
+        ACE_OS::exit (0);
+      }
+      break;
+
+    case 'h':
+      std::cerr << usage << std::endl;
+      ACE_OS::exit (0);
       break;
 
     case 'p':
@@ -148,6 +217,10 @@ int CUTS_GNC_App::run_main (void)
       // List all the attributes, if necessary.
       if (this->opts_.list_attributes_)
         this->list_all_attributes ();
+
+      // Create the interface file for the project.
+      if (!this->opts_.interface_file_pathname_.empty ())
+        this->create_interface_file ();
 
       // Input all the attributes.
       if (!this->opts_.input_attributes_.empty ())
@@ -850,7 +923,7 @@ void CUTS_GNC_App::output_all_attributes (void)
 
       root->setAttribute (
         XSC::XStr ("xsi:schemaLocation"),
-        XSC::XStr ("http://www.atl.lmco.com/naomi attribute_simple.xsd"));
+        XSC::XStr ("http://www.atl.lmco.com/naomi/attributes attribute_simple.xsd"));
                           
       
       // Write the attribute to the file.
@@ -864,4 +937,178 @@ void CUTS_GNC_App::output_all_attributes (void)
                   iter->c_str ()));
     }
   }
+}
+
+//
+// create_interface_file
+//
+void CUTS_GNC_App::create_interface_file (void)
+{
+  std::list <std::string> input, output;
+
+  // Get the root folder for the project.
+  GME::Folder root = this->project_->root_folder ();
+
+  // Gather all the attributes in the model.
+  this->gather_all_attributes (root, input, output);
+
+  // Create the interface object.
+  std::string type = this->project_->paradigm_name ();
+  std::string name = this->opts_.interface_file_name_;
+
+  if (name.empty ())
+  {
+    std::string::size_type pos =
+      this->opts_.interface_file_pathname_.find_last_of ("\\/");
+
+    if (pos == std::string::npos)
+      name = this->opts_.interface_file_pathname_;
+    else
+      name = this->opts_.interface_file_pathname_.substr (pos + 1);
+  }
+
+  naomi::interfaces::interface_Type interface_type (name, type);
+
+  // Add all the input attributes to the XML document.
+  std::list <std::string>::const_iterator 
+    iter = input.begin (), iter_end = input.end ();
+
+  naomi::interfaces::interface_Type::inputType input_type;
+
+  for ( ; iter != iter_end; ++ iter)
+  {
+    input_type.assign (*iter);
+    interface_type.add_input (input_type);
+  }
+
+  // Add all the output attributes to the XML document.
+  iter = output.begin (), iter_end = output.end ();
+
+  naomi::interfaces::interface_Type::outputType output_type;
+
+  for ( ; iter != iter_end; ++ iter)
+  {
+    output_type.assign (*iter);
+    interface_type.add_output (output_type);
+  }
+
+  // Create the interface file for NAOMI.
+  XSCRT::utils::File_Writer_T <
+    naomi::interfaces::interface_Type> 
+    writer ("http://www.atl.lmco.com/naomi/interfaces",
+            "interface", 
+            &naomi::interfaces::writer::interface_);
+
+  if (writer.open (this->opts_.interface_file_pathname_.c_str ()) == 0)
+  {
+    if (writer.writer ()->canSetFeature (xercesc::XMLUni::fgDOMWRTDiscardDefaultContent, true))
+      writer.writer ()->setFeature (xercesc::XMLUni::fgDOMWRTDiscardDefaultContent, true);
+    
+    if (writer.writer ()->canSetFeature (xercesc::XMLUni::fgDOMWRTFormatPrettyPrint, true))
+      writer.writer ()->setFeature (xercesc::XMLUni::fgDOMWRTFormatPrettyPrint, true);
+
+    // Set the attributes for the root element.
+    xercesc::DOMElement * doc_root = writer.document ()->getDocumentElement ();
+
+    doc_root->setAttribute (
+      XSC::XStr ("xmlns:xsi"),
+      XSC::XStr ("http://www.w3.org/2001/XMLSchema-instance"));
+
+    doc_root->setAttribute (
+      XSC::XStr ("xsi:schemaLocation"),
+      XSC::XStr ("http://www.atl.lmco.com/naomi/interfaces interface.xsd"));
+
+    writer << interface_type;
+    writer.close ();
+
+    VERBOSE_MESSAGE ((LM_INFO,
+                      "*** info: successfully write interface file "
+                      " to %s\n",
+                      this->opts_.interface_file_pathname_.c_str ()));
+  }
+  else
+  {
+    ACE_ERROR ((LM_ERROR,
+                "*** error: failed to open %s for writing\n",
+                this->opts_.interface_file_pathname_.c_str ()));
+  }
+}
+
+//
+// gather_all_attributes
+//
+void CUTS_GNC_App::
+gather_all_attributes (const GME::Object & parent,
+                       std::list <std::string> & input,
+                       std::list <std::string> & output)
+{
+  // Get the registry nodes of this object.
+  GME::Collection_T <GME::RegistryNode> registry;
+  std::string path = parent.path (".", false).c_str ();
+
+  try
+  {
+    GME::FCO fco = GME::FCO::_narrow (parent);
+    fco.registry (registry);
+  }
+  catch (...)
+  {
+    GME::Folder folder = GME::Folder::_narrow (parent);
+    folder.registry (registry);
+  }
+
+  // Get all the top-level registry nodes for this object.
+  GME::Collection_T <GME::RegistryNode>::iterator 
+    reg_iter = registry.begin (), reg_iter_end = registry.end ();
+
+  std::string attr, gme_attr, value, direct;
+  std::ostringstream ostr;
+
+  for ( ; reg_iter != reg_iter_end; ++ reg_iter)
+  {
+    // Parse the name of this registry node. Since we are 
+    // passing in an empty NAOMI attribute, the parser will
+    // save the name of the attribute.
+    if (this->tag_parser_.parse (reg_iter->name (), attr, gme_attr))
+    {
+      value = reg_iter->value ();
+
+      GME::RegistryNode direction = reg_iter->child ("direction");
+      direct = direction.value ();
+
+      if (direct == "input")
+      {
+        input.push_back (attr);
+      }
+      else if (direct == "output")
+      {
+        output.push_back (attr);
+      }
+      else
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "*** warning: attribute <%s> tagged at <%s> has "
+                    "no direction; skipping...\n",
+                    attr.c_str (),
+                    path.c_str ()));
+      }
+
+      // Reset the attribute for the next iteration.
+      attr.clear ();
+    }  
+  }
+
+  // We were not able to locate the attribute in this element. Get 
+  // the child objects of this parent element.
+  GME::Collection_T <GME::Object> children;
+
+  if (parent.children (children) == 0)
+    return;
+
+  GME::Collection_T <GME::Object>::iterator 
+    iter = children.begin (), iter_end = children.end ();
+
+  // Search all the children for the specified attribute.
+  for ( ; iter != iter_end; ++ iter)
+    this->gather_all_attributes (*iter, input, output);
 }

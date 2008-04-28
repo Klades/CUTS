@@ -15,6 +15,7 @@
 
 #include <string>
 #include <set>
+#include <list>
 #include "gme/Project.h"
 #include "URI_Tag_Parser.h"
 
@@ -52,6 +53,12 @@ struct CUTS_GNC_App_Options
 
   /// The verbosity state of the application.
   bool verbose_;
+
+  /// Pathname of the interface file.
+  std::string interface_file_pathname_;
+
+  /// Name to store in the interface file.
+  std::string interface_file_name_;
 };
 
 //=============================================================================
@@ -90,6 +97,12 @@ private:
   void input_all_attributes (void);
 
   void output_all_attributes (void);
+
+  void create_interface_file (void);
+
+  void gather_all_attributes (const GME::Object & parent,
+                              std::list <std::string> & input,
+                              std::list <std::string> & output);
 
   /// List all the NAOMI attributes in the model.
   void list_all_attributes (void);

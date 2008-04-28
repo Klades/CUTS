@@ -1,12 +1,21 @@
+Mon Apr 28 14:43:56 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/GNC.mpc:
+        * MDE/GME/naomi/GNC_App.h:
+        * MDE/GME/naomi/GNC_App.cpp:
+        
+          . Implemented support for generating the interface file for a
+            model using the GME's Naomi connector.
+
 Thu Apr 24 18:45:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/naomi/gnc.mwc:
-        
+
           The stand-alone workspace build the dynamic version by default
           unless the -static flag is specified on the commandline.
 
         * MDE/GME/paradigms/PICML/be/BE_Assembly_Generator.cpp:
-        
+
           Bug fix where the event type of a delegated event source was
           not set in the proxy assembly.
 
