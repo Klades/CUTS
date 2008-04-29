@@ -1,7 +1,24 @@
+Tue Apr 29 04:42:06 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/CUTS.mpc:
+        * cuts/cuts.java.build:
+        * cuts/cuts_java_Logger.h:
+        * cuts/cuts_java_Logger.cpp:
+        * cuts/java:
+        * cuts/java/LogPriority.java:
+        * cuts/java/Logger.java:
+        
+          . Implemented a simple Logger class in Java that uses the
+            ACE logging framework via the Java Native Interface (JNI).
+
+        * cuts/java/PeriodicTask.java:
+        
+          . Initial implementation of a periodic task for Java clients.
+
 Mon Apr 28 22:14:43 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
-        
+
           . Forgot to register the signal handler for the server.
 
 Mon Apr 28 14:43:56 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

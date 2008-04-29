@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<project name="cuts.java" basedir="." default="cuts.java.jar.build">
+  <property environment="env" />
+  
+  <target name="cuts.java.build">
+    <javac srcdir="${env.CUTS_ROOT}/cuts"> 
+      <include name="java/LogPriority.java" />
+      <include name="java/Logger.java" />
+      <include name="java/PeriodicTask.java" />
+    </javac>
+  </target>
+  
+  <target name="cuts.java.jar.build" depends="cuts.java.build">
+    <jar destfile="${env.CUTS_ROOT}/lib/cuts.java.jar"
+         basedir="${env.CUTS_ROOT}">
+         
+      <include name="cuts/java/LogPriority.class" />
+      <include name="cuts/java/Logger.class" />
+      <include name="cuts/java/PeriodicTask.class" />
+    </jar>
+  </target>
+</project>

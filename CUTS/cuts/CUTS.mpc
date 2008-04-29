@@ -85,3 +85,29 @@ project (CUTS) : cutslib {
     Worker_T.cpp
   }
 }
+
+project (cuts.java) : jni, cutslib {
+  sharedname = cuts.java
+    
+  javah_flags += -classpath $(CUTS_ROOT)/lib/cuts.java.jar
+
+  Modify_Custom (JNI) {
+    header_pre_extension = cuts_java
+  }
+  
+  Jni_Files {
+    cuts.java.Logger
+  }
+
+  Source_Files {
+    cuts_java_Logger.cpp
+  }
+    
+  Header_Files {
+  
+  }
+  
+  Build_Files {
+  
+  }
+}
