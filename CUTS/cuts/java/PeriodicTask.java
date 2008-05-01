@@ -10,6 +10,8 @@ package cuts.java;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Random;
+import java.lang.Integer;
 
 /**
  * @class PeriodicTask
@@ -25,6 +27,8 @@ public abstract class PeriodicTask extends TimerTask
   /// The probability of the timer firing.
   private double probability_;
   
+  private Random random_ = new Random ();
+  
   public PeriodicTask (double probability)
   {
     this.probability_ = probability;
@@ -32,9 +36,14 @@ public abstract class PeriodicTask extends TimerTask
   
   public void run ()
   {
-    this.handleTimeout ();
+    // Calculate the score for this timeout event.
+    double score = (double)this.random_.nextInt () / (double)Integer.MAX_VALUE;
+    
+    // Execute the timeout handler, if applicable.
+    if (score <= this.probability_)
+      this.handleTimeout ();
   }
 
-  abstract void handleTimeout ();
+  public abstract void handleTimeout ();
 }
 

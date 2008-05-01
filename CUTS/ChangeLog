@@ -1,3 +1,17 @@
+Thu May  1 20:06:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/java/PeriodicTask.java:
+        * cuts/cuts.java.jbi.client.build:
+        * cuts/java/jbi:
+        * cuts/java/jbi/client:
+        * cuts/java/jbi/client/JbiClient.java:
+        * cuts/java/jbi/client/JbiEvent.java:
+        * cuts/java/jbi/client/JbiSink.java:
+        * cuts/java/jbi/client/JbiSource.java:
+        
+          Initial implementation for the Java-based JBI client 
+          testing infrastructure for CUTS.
+
 Tue Apr 29 04:42:06 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/CUTS.mpc:
@@ -7,12 +21,12 @@ Tue Apr 29 04:42:06 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/java:
         * cuts/java/LogPriority.java:
         * cuts/java/Logger.java:
-        
+
           . Implemented a simple Logger class in Java that uses the
             ACE logging framework via the Java Native Interface (JNI).
 
         * cuts/java/PeriodicTask.java:
-        
+
           . Initial implementation of a periodic task for Java clients.
 
 Mon Apr 28 22:14:43 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
