@@ -119,6 +119,45 @@
                         On="install"
                         Value="[INSTALLDIR]bin\CUTS_BE_XML" />
                         
+        <!-- install the CAPI generator -->
+        <File Id="CUTS_BE_CAPI.dll" Name="CUTS_BE_CAPI.dll"
+              Source="$(env.CUTS_ROOT)\lib\CUTS_BE_CAPI.dll" DiskId="1" />
+
+        <util:XmlConfig Id="generator.CAPI"
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        Action="create"
+                        ElementPath="//cuts:modelgen/backend"
+                        VerifyPath="//cuts:modelgen/backend/cuts:generator[\[]@id='CAPI'[\]]"
+                        Name="cuts:generator" 
+                        Node="element"
+                        Sequence="1" 
+                        On="install" />
+
+        <util:XmlConfig Id="generator.CAPI.delete"
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        Action="delete"
+                        ElementPath="//cuts:modelgen/backend/cuts:generator[\[]@id='CAPI'[\]]"
+                        Node="element"
+                        Sequence="1" 
+                        On="uninstall" />
+
+        <util:XmlConfig Id="generator.CAPI.id" 
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        ElementPath="generator.CAPI"                       
+                        Name="id"
+                        Value="CAPI"
+                        Sequence="2" />
+
+        <util:XmlConfig Id="generator.CAPI.location" 
+                        File="[INSTALLDIR]bin\cuts.config" 
+                        Action="create"
+                        ElementPath="//cuts:modelgen/backend/cuts:generator[\[]@id='CAPI'[\]]"
+                        Name="cuts:location" 
+                        Node="element"
+                        Sequence="3" 
+                        On="install"
+                        Value="[INSTALLDIR]bin\CUTS_BE_CAPI" />
+                        
         <!-- install the english generator -->
         <File Id="CUTS_BE_Natural_Lang.dll" Name="CUTS_BE_Natural_Lang.dll"
               Source="$(env.CUTS_ROOT)\lib\CUTS_BE_Natural_Lang.dll" DiskId="1" />

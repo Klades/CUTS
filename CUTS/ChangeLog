@@ -1,9 +1,15 @@
+Fri May  2 18:37:01 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * install/CUTS_PICML.wxs:
+        
+          Added the CAPI generator to the installer.
+
 Fri May  2 03:43:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/schemas/naomi:
         * etc/schemas/naomi/attribute_simple.xsd:
         * etc/schemas/naomi/interface.xsd:
-        
+
           XML schema definitions for the NAOMI project.
 
 Fri May  2 03:33:22 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
