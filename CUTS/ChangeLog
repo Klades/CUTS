@@ -1,14 +1,22 @@
+Fri May  2 03:43:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/schemas/naomi:
+        * etc/schemas/naomi/attribute_simple.xsd:
+        * etc/schemas/naomi/interface.xsd:
+        
+          XML schema definitions for the NAOMI project.
+
 Fri May  2 03:33:22 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/naomi/GNC_App.h:
         * MDE/GME/naomi/GNC_App.cpp:
-        
-          . Modified the connector so that it inputs/outputs all the 
+
+          . Modified the connector so that it inputs/outputs all the
             attributes using a single command-line option.
 
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
-        
+
           . Updated the CAPI generator to handle variables.
           . Bug fix where the implementation for print error messages
             was incorrect.
