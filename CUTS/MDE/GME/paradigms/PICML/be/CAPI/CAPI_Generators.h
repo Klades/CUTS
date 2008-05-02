@@ -33,12 +33,31 @@ namespace Indentation
 //=============================================================================
 /**
  * @struct CUTS_BE_Capi
+ *
+ * Context for the CAPI backend. This is used to store persistant data
+ * needed by the CAPI backend generator when writing the implemenation
+ * files.
  */
 //=============================================================================
 
 class CUTS_BE_Capi
 {
 public:
+  static std::string setter_method (const std::string & name);
+
+  static std::string getter_method (const std::string & name);
+
+  static std::string fq_name (const PICML::NamedType & type,
+                              char separator = '.');
+
+  static std::string scope (const PICML::NamedType & type, 
+                            char separator = '.');
+
+  typedef std::map <Uml::Class, std::string> PredefinedType_Map;
+
+  static PredefinedType_Map predefined_type_map_;
+
+  /// Default constructor.
   CUTS_BE_Capi (void);
 
   /// Target TIOA output file.
@@ -50,6 +69,32 @@ public:
 
   /// Pointer to the formatter.
   std::auto_ptr <_formatter_type> formatter_;
+
+  void reset (void);
+
+  void generate_accessor_methods (std::string type, string varname);
+
+  void generate_required_method_impl (const std::string & method);
+
+  void generate_throws_signature (const std::string & method);
+
+  typedef std::map <std::string, std::string> Periodic_Map;
+  
+  // <port name, <event type, event version> >
+  typedef std::map <
+    std::string, 
+    std::pair <std::string, std::string> >
+    Event_Port_Map;
+
+  Event_Port_Map sinks_;
+
+  Event_Port_Map sources_;
+
+  Periodic_Map periodics_;
+
+  typedef std::map <std::string, bool> Env_Seen_Map;
+
+  Env_Seen_Map env_seen_;
 };
 
 //
@@ -109,6 +154,18 @@ struct CUTS_BE_Prologue_T <CUTS_BE_Capi>
 {
   static bool generate (const PICML::ComponentImplementationContainer &,
                         const PICML::MonolithicImplementation & );
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Include_File_T <CUTS_BE_Capi>
+{
+  static bool generate (const std::string & include);
 };
 
 //=============================================================================

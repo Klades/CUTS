@@ -31,6 +31,7 @@ struct CUTS_GNC_App_Options
 {
   CUTS_GNC_App_Options (void)
     : list_attributes_ (false),
+      update_attributes_ (false),
       verbose_ (false)      
   {
 
@@ -39,17 +40,14 @@ struct CUTS_GNC_App_Options
   /// The target GME project.
   std::string project_;
 
-  /// List of input attributes to read from XML files.
-  std::set <std::string> input_attributes_;
-  
-  /// List of output attributes to write to XML files.
-  std::set <std::string> output_attributes_;
-
   /// The location of the attributes.
   std::set <std::string> attribute_path_;
 
   /// List the attributes in the model.
   bool list_attributes_;
+
+  /// Update all the attributes.
+  bool update_attributes_;
 
   /// The verbosity state of the application.
   bool verbose_;
@@ -92,11 +90,9 @@ private:
     std::string gme_attribute_;
 
     std::string direction_;
+
+    std::string complex_;
   };
-
-  void input_all_attributes (void);
-
-  void output_all_attributes (void);
 
   void create_interface_file (void);
 
@@ -104,10 +100,23 @@ private:
                               std::list <std::string> & input,
                               std::list <std::string> & output);
 
-  /// List all the NAOMI attributes in the model.
+  /// Type definition of the callback method for iteration.
+  typedef 
+    void (CUTS_GNC_App::*attribute_callback)(const std::string & attr,
+                                             attribute_tag & info);
+
+  /// Iterate over all the attributes in the model.
+  void iterate_all_attributes (attribute_callback callback);
+
+  void iterate_all_attributes_i (const GME::Object & parent,
+                                 attribute_callback callback);
+
+  /// List all attributes in the model.
   void list_all_attributes (void);
 
-  void list_all_attributes_i (const GME::Object & parent);
+  /// Callback method for listing the attribute.
+  void list_attribute_callback (const std::string & attr, 
+                                attribute_tag & info);
 
   bool locate_object_attribute (const std::string & attr, 
                                 attribute_tag & info);
@@ -115,6 +124,17 @@ private:
   bool locate_object_attribute_i (const std::string & attr,
                                   const GME::Object & parent,
                                   attribute_tag & info);
+
+  void update_attributes (void);
+
+  void update_attribute_callback (const std::string & attr,
+                                  attribute_tag & info);
+
+  void update_attribute_input (const std::string & attr,
+                              attribute_tag & info);
+
+  void update_attribute_output (const std::string & attr,
+                                attribute_tag & info);
 
   int gme_project_init (void);
 
@@ -131,6 +151,8 @@ private:
 
   /// The parser for the tagged attributes.
   CUTS_URI_Tag_Parser tag_parser_;
+
+  std::string update_phase_;
 };
 
 #endif  // !defined _CUTS_GNC_APP_H_

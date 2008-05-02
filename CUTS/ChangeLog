@@ -1,3 +1,18 @@
+Fri May  2 03:33:22 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/GNC_App.h:
+        * MDE/GME/naomi/GNC_App.cpp:
+        
+          . Modified the connector so that it inputs/outputs all the 
+            attributes using a single command-line option.
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        
+          . Updated the CAPI generator to handle variables.
+          . Bug fix where the implementation for print error messages
+            was incorrect.
+
 Thu May  1 20:06:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/PeriodicTask.java:
@@ -8,8 +23,8 @@ Thu May  1 20:06:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/java/jbi/client/JbiEvent.java:
         * cuts/java/jbi/client/JbiSink.java:
         * cuts/java/jbi/client/JbiSource.java:
-        
-          Initial implementation for the Java-based JBI client 
+
+          Initial implementation for the Java-based JBI client
           testing infrastructure for CUTS.
 
 Tue Apr 29 04:42:06 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
