@@ -1,7 +1,15 @@
+Sat May  3 18:01:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Client_Options.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_Client.cpp:
+        
+          . Implemented the ability to manually spawn a task on the node
+            daemon using the node daemon's client.
+
 Fri May  2 18:37:01 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * install/CUTS_PICML.wxs:
-        
+
           Added the CAPI generator to the installer.
 
 Fri May  2 03:43:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

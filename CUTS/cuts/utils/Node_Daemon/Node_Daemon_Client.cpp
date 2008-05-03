@@ -29,9 +29,14 @@ int parse_args (int argc, char * argv[])
   get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
 
+  get_opt.long_option ("shutdown", ACE_Get_Opt::ARG_OPTIONAL);
+
+  get_opt.long_option ("task-start-id", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("task-start-executable", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("task-start-arguments", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("task-start-workingdirectory", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("task-terminate", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("task-restart", ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("shutdown", ACE_Get_Opt::ARG_OPTIONAL);
 
   int option;
   while ((option = get_opt ()) != EOF)
@@ -55,6 +60,26 @@ int parse_args (int argc, char * argv[])
       else if (ACE_OS::strcmp (get_opt.long_option (), "task-restart") == 0)
       {
         CLIENT_OPTIONS ()->restart_list_.insert (get_opt.opt_arg ());
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "task-start-id") == 0)
+      {
+        CLIENT_OPTIONS ()->task_start_.id =
+          CORBA::string_dup (get_opt.opt_arg ());
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "task-start-executable") == 0)
+      {
+        CLIENT_OPTIONS ()->task_start_.executable =
+          CORBA::string_dup (get_opt.opt_arg ());
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "task-start-arguments") == 0)
+      {
+        CLIENT_OPTIONS ()->task_start_.arguments =
+          CORBA::string_dup (get_opt.opt_arg ());
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "task-start-workingdirectory") == 0)
+      {
+        CLIENT_OPTIONS ()->task_start_.workingdirectory =
+          CORBA::string_dup (get_opt.opt_arg ());
       }
       break;
 
@@ -203,7 +228,7 @@ int main (int argc, char * argv [])
     }
 
     // Shutdown the target node daemon, if necessary.
-    if (CLIENT_OPTIONS ()->shutdown_ != -1)
+    if (CLIENT_OPTIONS ()->shutdown_ != CUTS::SHUTDOWN_INVALID)
     {
       VERBOSE_MESSAGE ((LM_DEBUG,
                         "shutting down target node daemon\n"));
@@ -212,6 +237,13 @@ int main (int argc, char * argv [])
     }
     else
     {
+      // Spawn the specified task.
+      if (ACE_OS::strlen (CLIENT_OPTIONS ()->task_start_.id.in ()) != 0 &&
+          ACE_OS::strlen (CLIENT_OPTIONS ()->task_start_.executable.in ()) != 0)
+      {
+        daemon->task_spawn (CLIENT_OPTIONS ()->task_start_);
+      }
+
       // Terminate all the specified tasks.
       terminate_tasks (daemon.in ());
 

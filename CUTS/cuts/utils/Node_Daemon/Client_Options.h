@@ -44,6 +44,9 @@ public:
 
   /// List of task to restart.
   ACE_Unbounded_Set <ACE_CString> restart_list_;
+
+  /// The task descriptor for the manually started task.
+  ::CUTS::taskDescriptor task_start_;
 };
 
 /// Singleton for the client options.
