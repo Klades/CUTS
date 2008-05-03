@@ -169,7 +169,7 @@ namespace CUTS
           // agent reference will be NIL until it comes online.
           if (!::CORBA::is_nil (agent.in ()))
           {
-            if (this->putq (agent.in ()) == 0)
+            if (this->putq (agent.in ()) > 0)
             {
               // Release ownership of the object.
               agent._retn ();
