@@ -204,7 +204,7 @@ CORBA::ULong CUTS_Node_Daemon_i::task_restart (const char * name)
 
   // Remove the process from the map and the log.
   this->process_map_.unbind (name);
-  PROCESS_LOG ()->process_remove (info->pid_);
+  //PROCESS_LOG ()->process_remove (info->pid_);
 
   // Spawn the task again.
   ACE_Auto_Ptr <CUTS_Process_Info> auto_clean (info);
@@ -262,7 +262,7 @@ void CUTS_Node_Daemon_i::unmanage (pid_t pid)
   }
 
   // Remove the process from the log.
-  PROCESS_LOG ()->process_remove (pid);
+  //PROCESS_LOG ()->process_remove (pid);
 }
 
 //
@@ -280,7 +280,7 @@ void CUTS_Node_Daemon_i::init (void)
   std::ostringstream ostr;
   ostr << CUTS_ROOT << "/etc/cutsnode_d.dat";
 
-  PROCESS_LOG ()->log_file (ostr.str ().c_str ());
+  //PROCESS_LOG ()->log_file (ostr.str ().c_str ());
 
   // Initialize the default <p_options_>.
   this->p_options_.avoid_zombies (0);
@@ -303,26 +303,26 @@ void CUTS_Node_Daemon_i::init (void)
   // Activate the cleaning thread. It is responsible for scrubbing
   // the process log and removing all invalid entries. Right now,
   // it is set for 300 seconds (i.e., 5 minutes).
-  VERBOSE_MESSAGE ((LM_DEBUG,
-                    "*** info (node daemon): activating cleaning thread\n"));
+  //VERBOSE_MESSAGE ((LM_DEBUG,
+  //                  "*** info (node daemon): activating cleaning thread\n"));
 
-  ACE_Time_Value interval (300);
-  ACE_Time_Value abstime =
-    this->timer_queue_.timer_queue ()->gettimeofday () + interval;
+  //ACE_Time_Value interval (300);
+  //ACE_Time_Value abstime =
+  //  this->timer_queue_.timer_queue ()->gettimeofday () + interval;
 
-  this->timer_ =
-    this->timer_queue_.schedule (&this->event_handler_, 0, abstime, interval);
+  //this->timer_ =
+  //  this->timer_queue_.schedule (&this->event_handler_, 0, abstime, interval);
 
-  if (this->timer_ != -1)
-  {
-    this->timer_queue_.activate ();
-  }
-  else
-  {
-    ACE_ERROR ((LM_ERROR,
-                "*** error (node daemon): failed to activate "
-                "cleaning thread\n"));
-  }
+  //if (this->timer_ != -1)
+  //{
+  //  this->timer_queue_.activate ();
+  //}
+  //else
+  //{
+  //  ACE_ERROR ((LM_ERROR,
+  //              "*** error (node daemon): failed to activate "
+  //              "cleaning thread\n"));
+  //}
 }
 
 //
@@ -334,7 +334,7 @@ size_t CUTS_Node_Daemon_i::recover (void)
   CUTS_Process_Info_Set active_list;
 
   // Get all the active process in the process log.
-  PROCESS_LOG ()->get_active_processes (active_list);
+  //PROCESS_LOG ()->get_active_processes (active_list);
 
   CUTS_Process_Info_Set::iterator iter (active_list);
   ACE_Auto_Ptr <CUTS_Process_Info> info;
@@ -406,20 +406,20 @@ size_t CUTS_Node_Daemon_i::recover (void)
                         info->pid_));
 
       // Remove the entry from the log and delete its resources.
-      if (PROCESS_LOG ()->process_remove (info->pid_))
-      {
-        VERBOSE_MESSAGE ((LM_DEBUG,
-                          "*** info (node daemon): removed pid %u "
-                          "from log\n",
-                          info->pid_));
-      }
-      else
-      {
-        ACE_ERROR ((LM_ERROR,
-                    "*** error (node daemon): failed to remove pid %u "
-                    "from log\n",
-                    info->pid_));
-      }
+      //if (PROCESS_LOG ()->process_remove (info->pid_))
+      //{
+      //  VERBOSE_MESSAGE ((LM_DEBUG,
+      //                    "*** info (node daemon): removed pid %u "
+      //                    "from log\n",
+      //                    info->pid_));
+      //}
+      //else
+      //{
+      //  ACE_ERROR ((LM_ERROR,
+      //              "*** error (node daemon): failed to remove pid %u "
+      //              "from log\n",
+      //              info->pid_));
+      //}
     }
   }
 
@@ -432,12 +432,12 @@ size_t CUTS_Node_Daemon_i::recover (void)
 void CUTS_Node_Daemon_i::clean (void)
 {
   size_t active_count = 0;
-  bool retval = PROCESS_LOG ()->clean (&active_count);
+  //bool retval = PROCESS_LOG ()->clean (&active_count);
 
-  VERBOSE_MESSAGE ((LM_DEBUG,
-                    "*** info (node daemon): %s the log file [active=%u]\n",
-                    retval ? "successfully cleaned" : "failed to clean",
-                    active_count));
+  //VERBOSE_MESSAGE ((LM_DEBUG,
+  //                  "*** info (node daemon): %s the log file [active=%u]\n",
+  //                  retval ? "successfully cleaned" : "failed to clean",
+  //                  active_count));
 }
 
 //
@@ -535,7 +535,7 @@ task_spawn_i (CUTS_Process_Info & info)
     }
 
     // Write the process to the log.
-    PROCESS_LOG ()->process_insert (info);
+    //PROCESS_LOG ()->process_insert (info);
   }
   else
   {

@@ -1,7 +1,13 @@
+Sun May  4 07:13:31 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+        
+          Temporarily disabled management of the process log file.
+
 Sat May  3 22:20:02 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/BDC_Task.cpp (collect_data):
-        
+
           . Bug fix where the return value for putq () was incorrectly
             evaluated, which resulted in the BDC never collecting metrics
             from each component.
