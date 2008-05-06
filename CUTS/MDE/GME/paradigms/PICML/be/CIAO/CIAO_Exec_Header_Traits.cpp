@@ -195,8 +195,7 @@ write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
 
   this->outfile ()
     << "class " << name << " :" << std::endl
-    << "  public " << exec << "," << std::endl
-    << "  public TAO_Local_RefCounted_Object {"
+    << "  public " << exec << " {"
     << "public:" << std::endl
 
     // Write the default constructor.

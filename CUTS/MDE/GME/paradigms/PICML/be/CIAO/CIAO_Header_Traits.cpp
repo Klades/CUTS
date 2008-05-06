@@ -491,8 +491,7 @@ write_factory_impl_begin (const PICML::ComponentFactory & factory,
 
   this->outfile ()
     << "class " << factory_impl << " :" << std::endl
-    << "  public virtual " << factory.name () << "_Exec," << std::endl
-    << "  public virtual TAO_Local_RefCounted_Object {"
+    << "  public virtual " << factory.name () << "_Exec {" 
     << "public:" << std::endl
     << single_line_comment ("default constructor")
     << factory_impl << " (void);"
@@ -590,8 +589,7 @@ write_object_impl_begin (const PICML::Component & component,
     << single_line_comment ("Facet: " + (std::string) facet.name ())
     << "class " << facet_name << " :" << std::endl
     << "  public " << scope << "CCM_" << object_name
-    << "," << std::endl
-    << "  public TAO_Local_RefCounted_Object {"
+    << " {"
     << "public:" << std::endl
     << single_line_comment ("Default constructor")
     << facet_name << " (void);"
