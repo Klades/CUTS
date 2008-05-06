@@ -50,8 +50,7 @@ namespace CUTS
 
   class BENCHMARK_DATA_COLLECTOR_EXEC_Export Testing_Service_exec_i
     : public CUTS_Testing_Service,
-      public virtual CCM_Testing_Service,
-      public virtual TAO_Local_RefCounted_Object
+      public virtual CCM_Testing_Service
   {
   public:
     /// Constructor.

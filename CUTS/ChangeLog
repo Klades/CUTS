@@ -1,7 +1,18 @@
+Tue May  6 04:29:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/BDC_Control_Handle_exec_i.h:
+        * cuts/BDC/Benchmark_Data_Collector_exec_i.h:
+        * cuts/BDC/Testing_Service_exec_i.h:
+        * cuts/CCM_CoWorkEr_Proxy.h:
+        
+          Update the source code to be compliant with the lastest version
+          of TAO/CIAO. This meant removing all references to 
+          TAO_Local_RefCounted_Object.
+
 Sun May  4 07:13:31 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
-        
+
           Temporarily disabled management of the process log file.
 
 Sat May  3 22:20:02 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

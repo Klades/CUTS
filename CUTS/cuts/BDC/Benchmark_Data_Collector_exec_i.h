@@ -36,8 +36,7 @@ namespace CUTS
     //=========================================================================
 
     class BENCHMARK_DATA_COLLECTOR_EXEC_Export Benchmark_Data_Collector_exec_i :
-      public virtual Benchmark_Data_Collector_Exec,
-      public virtual TAO_Local_RefCounted_Object
+      public virtual Benchmark_Data_Collector_Exec
     {
     public:
       /// Constructor.
@@ -109,8 +108,7 @@ namespace CUTS
     //=========================================================================
 
     class BENCHMARK_DATA_COLLECTOR_EXEC_Export Benchmark_Data_Collector_Home_exec_i
-    : public virtual Benchmark_Data_Collector_Home_Exec,
-      public virtual TAO_Local_RefCounted_Object
+      : public virtual Benchmark_Data_Collector_Home_Exec
     {
     public:
       /// Constructor.

@@ -30,8 +30,7 @@ namespace CUTS
   //=========================================================================
 
   class BENCHMARK_DATA_COLLECTOR_EXEC_Export BDC_Control_Handle_exec_i :
-    public virtual CUTS::CCM_BDC_Control_Handle,
-    public virtual TAO_Local_RefCounted_Object
+    public virtual CUTS::CCM_BDC_Control_Handle
   {
   public:
     /// Constructor.

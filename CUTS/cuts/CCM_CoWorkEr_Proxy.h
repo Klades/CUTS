@@ -27,8 +27,7 @@
  */
 //=============================================================================
 
-class CUTS_EXEC_Export CUTS_CCM_CoWorkEr_Proxy :
-  public TAO_Local_RefCounted_Object
+class CUTS_EXEC_Export CUTS_CCM_CoWorkEr_Proxy 
 {
 protected:
   /// Default constructor.
