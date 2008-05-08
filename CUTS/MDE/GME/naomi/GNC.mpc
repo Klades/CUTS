@@ -1,21 +1,12 @@
 // $Id$
 
-project (GNC) : boost_base, cuts_gme, xsc_cxx, xscrt, cutsexe {
-  exename = gnc
+project (GNC_Base) : xsc_cxx {
+  custom_only = 1
   
-  libs  -= CUTS
-  after -= CUTS
-
   specific {
     xscflags += --cxx-header-suffix .h --cxx-source-suffix .cpp \
                 --cxx-inline-suffix .inl --cxx-generate-inline \
                 --cxx-char-type char --cxx-generate-writer-types
-  }
-  
-  Source_Files {
-    GNC.cpp
-    GNC_App.cpp
-    URI_Tag_Parser.cpp
   }
   
   Modify_Custom (XSC) {
@@ -24,9 +15,24 @@ project (GNC) : boost_base, cuts_gme, xsc_cxx, xscrt, cutsexe {
   }
 
   Xsc_Files {
-    gendir = .
-
     $(CUTS_ROOT)/etc/schemas/naomi/attribute_simple.xsd
     $(CUTS_ROOT)/etc/schemas/naomi/interface.xsd
+  }
+}
+
+project (GNC) : boost_base, cuts_gme, xscrt, cutsexe {
+  exename = gnc
+  
+  after += GNC_Base
+  after -= CUTS
+  libs  -= CUTS
+  
+  Source_Files {
+    GNC.cpp
+    GNC_App.cpp
+    URI_Tag_Parser.cpp
+    
+    attribute_simple.cpp
+    interface.cpp
   }
 }

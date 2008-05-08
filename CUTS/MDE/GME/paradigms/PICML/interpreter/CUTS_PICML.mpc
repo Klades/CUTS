@@ -1,20 +1,32 @@
 // $Id$
 
-project (CUTS_PICML) : xsc_cxx, xscrt, picmllib, boost_base, cuts_gme, \
-                       udm_component, gme_interpreter, cuts_cosmic {
-
-  sharedname = CUTS_PICML
+project (CUTS_PICML_Base) : xsc_cxx {
+  custom_only = 1
+  
+  specific {
+    xscflags += --cxx-header-suffix .h --cxx-source-suffix .cpp \
+                --cxx-inline-suffix .inl --cxx-generate-inline \
+                --cxx-char-type char --cxx-generate-extended-rtti
+  }
 
   Modify_Custom (XSC) {
     header_outputext = .h
     inline_outputext = .inl
   }
 
+  Xsc_Files {
+    gendir = .
+    $(CUTS_ROOT)/etc/schemas/modelgen.xsd
+  }
+}
+
+project (CUTS_PICML) : xscrt, picmllib, boost_base, cuts_gme, \
+                       udm_component, gme_interpreter, cuts_cosmic {
+
+  sharedname = CUTS_PICML
+
   specific {
     midl_notlb = 1
-    xscflags += --cxx-header-suffix .h --cxx-source-suffix .cpp \
-                --cxx-inline-suffix .inl --cxx-generate-inline \
-                --cxx-char-type char --cxx-generate-extended-rtti
   }
 
   specific (vc71, vc8, vc9) {
@@ -22,7 +34,7 @@ project (CUTS_PICML) : xsc_cxx, xscrt, picmllib, boost_base, cuts_gme, \
   }
 
   // -- dependencies
-  after += CUTS_BE
+  after += CUTS_BE CUTS_PICML_Base
   libs  += CUTS_BE
 
   Source_Files {
@@ -35,18 +47,10 @@ project (CUTS_PICML) : xsc_cxx, xscrt, picmllib, boost_base, cuts_gme, \
     modelgen.cpp
   }
 
-  Xsc_Files {
-    // output directory
-    gendir = .
-
-    // XML schema definition (XSD) files
-    $(CUTS_ROOT)/etc/schemas/modelgen.xsd
-  }
-
   //== configuration files for the interpreter
   Define_Custom (Config) {
-    automatic         = 0
-    inputext          = .config
+    automatic = 0
+    inputext  = .config
   }
 
   Config_Files {

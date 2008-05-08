@@ -1,3 +1,24 @@
+Thu May  8 06:33:06 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML.mpc:
+        * MDE/GME/naomi/GNC.mpc:
+        * cuts/utils/Node_Daemon/Node_Daemon.mpc:
+        
+          Moved the portion of the projects that generate C++ bindings
+          for XML using XSC to their own projects. This enables developers
+          to enable/disable auto-generation.
+          
+        * MDE/GME/paradigms/PICML/interpreter/modelgen.h:
+        * MDE/GME/paradigms/PICML/interpreter/modelgen.inl:
+        * MDE/GME/paradigms/PICML/interpreter/modelgen.cpp:
+        * cuts/utils/Node_Daemon/cutsnode.h:
+        * cuts/utils/Node_Daemon/cutsnode.inl:
+        * cuts/utils/Node_Daemon/cutsnode.cpp:
+        
+          Temporary checkin of auto-generated source code by XSC until
+          we figure out why XSC builds are not working on vc8 and 
+          Vista.
+
 Tue May  6 04:30:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Exec_Header_Traits.cpp:
