@@ -15,19 +15,60 @@
 #include <sstream>
 
 /**
- * Functor used for sorting the branch transition. The main purpose
- * of this sort function is to ensure the empty condition, i.e., the
- * 'else' condition falls last in the collection.
+ * Functor used for sorting the branch transition. The sorting of
+ * the branches is based on the position of its connecting action.
+ * The actions are sorted from top to bottom, which corresponds to
+ * the ordering of the statements. The bottom most action is the
+ * only one that can have a branch transition with an empty condition.
  */
 struct CUTS_BE_BranchTransition_Sort
 {
+  struct Position
+  {
+    /// X-value of the position.
+    long x;
+
+    /// Y-value of the position
+    long y;
+
+    /**
+     * Extraction operator. This method takes a string and extracts
+     * the coordinates from it. The format of the string should be
+     * (x, y). If the source string does not have coordinates stored
+     * in this format, it will cause unpredictable behavior.
+     *
+     * @param[in]     str     Source string with the x-,y-coordinates
+     */
+    void operator <<= (const std::string & str)
+    {
+      char tmp;
+
+      std::istringstream istr (str);
+
+      istr >> tmp;
+      istr >> this->x;
+      istr >> tmp;
+      istr >> this->y;
+    }
+  };
+
+  /**
+   * Functor operation. This method will determine which object
+   * is above the other object.
+   */
   bool operator () (const PICML::BranchTransition & lhs,
                     const PICML::BranchTransition & rhs)
   {
-    std::string lhs_condition (lhs.Condition ());
-    std::string rhs_condition (rhs.Condition ());
+    PICML::ActionBase lhs_action (lhs.dstBranchTransition_end ());
+    PICML::ActionBase rhs_action (rhs.dstBranchTransition_end ());
 
-    return lhs_condition > rhs_condition;
+    Position lhs_pos;
+    lhs_pos <<= lhs_action.position ();
+
+    Position rhs_pos;
+    rhs_pos <<= rhs_action.position ();
+
+    return lhs_pos.y < rhs_pos.y;
   }
 };
 

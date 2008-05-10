@@ -1,8 +1,22 @@
+Sat May 10 06:34:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE_Execution_Visitor_T.cpp:
+        
+          . The order of the branch statements is determined by the 
+            position in the model. They are sorted from top to bottom, 
+            similar to how control statements appear in a text-based
+            source file.            
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        
+          . Added a whitespace to either side of the generated 
+            equals to sign.
+
 Sat May 10 06:10:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE_Execution_Visitor_T.h:
         * MDE/GME/paradigms/PICML/be/BE_Execution_Visitor_T.cpp:
-        
+
           . Enhanced the parsing logic to locate 'else' conditions in
             the BranchTransition connections. An 'else' statement
             is determined by the BranchTransition that does not have
@@ -25,17 +39,17 @@ Sat May 10 06:10:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * MDE/GME/paradigms/PICML/be/XML/XML_Generators.cpp:
         * MDE/GME/paradigms/PICML/be/natural-lang/Natural_Lang_Generators.h:
         * MDE/GME/paradigms/PICML/be/natural-lang/Natural_Lang_Generators.cpp:
-        
-          . Update backend generators to be compliant with the new 
-            paradigm. This mainly involved converting the appropriate 
+
+          . Update backend generators to be compliant with the new
+            paradigm. This mainly involved converting the appropriate
             points-of-generation that had an InputAction to an
             MulitInputAction.
 
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
-        
+
           . Same update as other backend generators.
-          . Enable support for generating source code for branch 
+          . Enable support for generating source code for branch
             statements.
 
 Thu May  8 06:33:06 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

@@ -1054,7 +1054,7 @@ bool CUTS_BE_Equal_To_T <CUTS_BE_Capi>::
 generate (const char * first, const char * last)
 {
   CUTS_BE_CAPI ()->outfile_
-    << "==";
+    << " == ";
 
   return true;
 }
