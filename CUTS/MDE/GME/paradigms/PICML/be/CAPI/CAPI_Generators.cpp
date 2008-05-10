@@ -830,11 +830,18 @@ generate (const PICML::Component & component)
         << "public void " << iter->first << " ()";
       CUTS_BE_CAPI ()->generate_throws_signature (iter->first);
       CUTS_BE_CAPI ()->outfile_
-        << "{";
+        << "{"
+        << "try"
+        << "{"
 
       CUTS_BE_CAPI ()->generate_required_method_impl (iter->first);
 
       CUTS_BE_CAPI ()->outfile_
+        << "}"
+        << "catch (Exception e)"
+        << "{"
+        << "e.printStackTrace ();"
+        << "}"
         << "}";
     }
   }
