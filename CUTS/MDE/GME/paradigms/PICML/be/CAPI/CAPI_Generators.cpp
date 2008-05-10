@@ -832,7 +832,7 @@ generate (const PICML::Component & component)
       CUTS_BE_CAPI ()->outfile_
         << "{"
         << "try"
-        << "{"
+        << "{";
 
       CUTS_BE_CAPI ()->generate_required_method_impl (iter->first);
 

@@ -1,9 +1,15 @@
+Sat May 10 16:17:19 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+          
+          Fixed compiler error.
+
 Sat May 10 16:15:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
-        
+
           . The environment actions that did not appear in the model
-            did not have their implementation contained in a 
+            did not have their implementation contained in a
             try...catch block. Fixed this problem.
 
 Sat May 10 15:57:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
