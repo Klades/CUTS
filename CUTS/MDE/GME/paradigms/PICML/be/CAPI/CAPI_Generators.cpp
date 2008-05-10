@@ -65,8 +65,11 @@ CUTS_BE_Capi::CUTS_BE_Capi (void)
 std::string CUTS_BE_Capi::
 setter_method (const std::string & name)
 {
+  std::string temp (name);
+  temp[0] = ::toupper (temp[0]);
+
   std::string setter ("set");
-  setter.append (name);
+  setter.append (temp);
 
   return setter;
 }
@@ -77,8 +80,11 @@ setter_method (const std::string & name)
 std::string CUTS_BE_Capi::
 getter_method (const std::string & name)
 {
+  std::string temp (name);
+  temp[0] = ::toupper (temp[0]);
+
   std::string getter ("get");
-  getter.append (name);
+  getter.append (temp);
 
   return getter;
 }
@@ -129,7 +135,7 @@ generate_accessor_methods (std::string type, std::string varname)
     << "{"
     << "return this." << varname << "_;"
     << "}"
-    << "public void set" << tmp_varname 
+    << "public void set" << tmp_varname
     << " (" << type << " " << varname << ")"
     << "{"
     << "this." << varname << "_ = " << varname << ";"
@@ -201,14 +207,14 @@ generate_required_method_impl (const std::string & method)
 {
   if (method == "init")
   {
-    CUTS_BE_Capi::Event_Port_Map::const_iterator 
+    CUTS_BE_Capi::Event_Port_Map::const_iterator
       iter = this->sources_.begin (), iter_end = this->sources_.end ();
 
     for ( ; iter != iter_end; ++ iter)
     {
       this->outfile_
         << "// creation of source: " << iter->first << std::endl
-        << "this." << iter->first << "_ = new " 
+        << "this." << iter->first << "_ = new "
         << iter->first << "Source (this.getJbiConnection ());" << std::endl
         << "this.registerInfoSequence (this." << iter->first << "_);" << std::endl
         << std::endl;
@@ -221,7 +227,7 @@ generate_required_method_impl (const std::string & method)
     {
       this->outfile_
         << "// creation of sink: " << iter->first << std::endl
-        << "this." << iter->first << "_ = new " 
+        << "this." << iter->first << "_ = new "
         << iter->first << "Sink (this.getJbiConnection ());"<< std::endl
         << "this.registerInfoSequence (this." << iter->first << "_);" << std::endl
         << std::endl;
@@ -239,7 +245,7 @@ generate_required_method_impl (const std::string & method)
         << " *       it can manage them" << std::endl
         << " */" << std::endl;
 
-      CUTS_BE_Capi::Periodic_Map::const_iterator 
+      CUTS_BE_Capi::Periodic_Map::const_iterator
         iter = this->periodics_.begin (), iter_end = this->periodics_.end ();
 
       for ( ; iter != iter_end; ++ iter)
@@ -285,7 +291,7 @@ generate (const PICML::ComponentImplementationContainer & container,
 
   std::string filename =
     CUTS_BE_OPTIONS ()->output_directory_ + "/"
-    + (std::string) container.name () + ".java";
+    + std::string (impl.name ()) + ".java";
 
   if (!CUTS_BE_CAPI ()->outfile_.good ())
     CUTS_BE_CAPI ()->outfile_.clear ();
@@ -332,7 +338,7 @@ generate (const PICML::ComponentImplementationContainer & container,
 {
   CUTS_BE_CAPI ()->outfile_
     << "/**" << std::endl
-    << " * @file        " << container.name () << ".java" << std::endl
+    << " * @file        " << impl.name () << ".java" << std::endl
     << " *" << std::endl
     << " * $Id$" << std::endl
     << " *" << std::endl
@@ -384,11 +390,23 @@ generate (const PICML::MonolithicImplementation & mono,
       << std::endl;
   }
 
+  // The name of the class is the name of the monolithic implementation.
+  // This is also the name of the file, which is a requirement of Java!!
+  std::string class_name = mono.name ();
+  CUTS_BE_CAPI ()->impl_classname_ = class_name;
+
   CUTS_BE_CAPI ()->outfile_
     << "/**" << std::endl
-    << " * @class " << component.name () << std::endl
+    << " * @class " << class_name << std::endl
+    << " *" << std::endl
+    << " * Monolithic implementation of the <" << component.name ()
+    << "> component type." << std::endl
     << " */" << std::endl
-    << "public class " << component.name () << " extends JbiClient";
+    << "public class " << class_name << " extends JbiClient";
+
+  // Should we define an interface that this class implements, which
+  // would be based on the component type?? This seems like it would
+  // be an overkill.
 
   if (!inputs.empty ())
   {
@@ -402,7 +420,7 @@ generate (const PICML::MonolithicImplementation & mono,
     << "/**" << std::endl
     << " * Default constructor" << std::endl
     << " */" << std::endl
-    << "public " << component.name () << " ()"
+    << "public " << class_name << " ()"
     << "{"
     << "}";
 
@@ -423,7 +441,7 @@ generate (const PICML::MonolithicImplementation & mono,
 
     type_name = CUTS_BE_Capi::fq_name (event, '.');
     version = event.VersionTag ();
-  
+
     if (version.empty ())
       version = "1.0";
 
@@ -441,7 +459,7 @@ bool CUTS_BE_Component_Impl_End_T <CUTS_BE_Capi>::
 generate (const PICML::MonolithicImplementation & mono,
           const PICML::Component & component)
 {
-  CUTS_BE_Capi::Event_Port_Map::const_iterator 
+  CUTS_BE_Capi::Event_Port_Map::const_iterator
     iter = CUTS_BE_CAPI ()->sources_.begin (),
     iter_end = CUTS_BE_CAPI ()->sources_.end ();
 
@@ -463,14 +481,14 @@ generate (const PICML::MonolithicImplementation & mono,
       << "public " << source_classname << " (Connection jbiConn)" << std::endl
       << "  throws PermissionDeniedException, UnsupportedVersionException"
       << "{"
-      << "super (jbiConn, \"" << iter->second.first << "\", \"" 
+      << "super (jbiConn, \"" << iter->second.first << "\", \""
       << iter->second.second << "\");"
       << "}"
       << "}"
       << "/**" << std::endl
       << " * publisher : " << iter->first << std::endl
       << " */" << std::endl
-      << "private " << source_classname << " " 
+      << "private " << source_classname << " "
       << source_variable << " = null;"
       << std::endl;
   }
@@ -500,14 +518,14 @@ generate (const PICML::MonolithicImplementation & mono,
     << std::endl
     << "// Locate the correct dispatch method." << std::endl;
 
-  CUTS_BE_Capi::Event_Port_Map::const_iterator 
-    sink_iter = CUTS_BE_CAPI ()->sinks_.begin (), 
+  CUTS_BE_Capi::Event_Port_Map::const_iterator
+    sink_iter = CUTS_BE_CAPI ()->sinks_.begin (),
     sink_iter_end = CUTS_BE_CAPI ()->sinks_.end ();
 
   if (sink_iter != sink_iter_end)
   {
     CUTS_BE_CAPI ()->outfile_
-      << "if (metadata == \"" 
+      << "if (metadata == \""
       << sink_iter->second.first << "\" && version == \""
       << sink_iter->second.second << "\")" << std::endl
       << "  this." << sink_iter->first << " (ev);";
@@ -515,7 +533,7 @@ generate (const PICML::MonolithicImplementation & mono,
     for (++ sink_iter; sink_iter != sink_iter_end; ++ sink_iter)
     {
       CUTS_BE_CAPI ()->outfile_
-        << "else if (metadata == \"" 
+        << "else if (metadata == \""
         << sink_iter->second.first << "\" && version == \""
         << sink_iter->second.second << "\")" << std::endl
         << "  this." << sink_iter->first << " (ev);";
@@ -536,7 +554,7 @@ generate (const PICML::MonolithicImplementation & mono,
     << " */" << std::endl
     << "public static void main (String [] args) throws Exception {"
     << "// create the client object" << std::endl
-    << "JbiClient client = new " << component.name () << " ();"
+    << "JbiClient client = new " << mono.name () << " ();"
     << std::endl
     << "// set its environment information" << std::endl
     << "client.setServerAddress (\"localhost\");"
@@ -595,7 +613,7 @@ generate (const PICML::Variable & variable)
   else
   {
     CUTS_BE_CAPI ()->outfile_
-      << "// variable type (" << type_name << "not supported : " 
+      << "// variable type (" << type_name << "not supported : "
       << var_name << std::endl
       << std::endl;
   }
@@ -609,7 +627,7 @@ generate (const PICML::Variable & variable)
 bool CUTS_BE_Worker_Variable_T <CUTS_BE_Capi>::
 generate (const PICML::WorkerType & type, const PICML::Worker & worker)
 {
-  std::string name = worker.name ();  
+  std::string name = worker.name ();
   std::string var_name = type.name ();
 
   CUTS_BE_CAPI ()->outfile_
@@ -637,6 +655,9 @@ generate (const PICML::Component & component)
 bool CUTS_BE_WorkerAction_Begin_T <CUTS_BE_Capi>::
 generate (const PICML::Worker & worker, const PICML::Action & action)
 {
+  CUTS_BE_CAPI ()->outfile_
+    << "this." << action.name () << "_ (";
+
   return true;
 }
 
@@ -646,6 +667,7 @@ generate (const PICML::Worker & worker, const PICML::Action & action)
 bool CUTS_BE_Action_Property_T <CUTS_BE_Capi>::
 generate (const PICML::Property & property)
 {
+  CUTS_BE_CAPI ()->outfile_ << property.DataValue ();
   return true;
 }
 
@@ -654,6 +676,7 @@ generate (const PICML::Property & property)
 //
 bool CUTS_BE_Action_End_T <CUTS_BE_Capi>::generate (void)
 {
+  CUTS_BE_CAPI ()->outfile_ << ");";
   return true;
 }
 
@@ -669,7 +692,7 @@ generate (const PICML::InEventPort & sink)
 
   std::string type_name = CUTS_BE_Capi::fq_name (event, '.');
   std::string version = event.VersionTag ();
-  
+
   if (version.empty ())
     version = "1.0";
 
@@ -696,7 +719,7 @@ generate (const PICML::InEventPort & sink)
     << "/**" << std::endl
     << " * subscriber : " << name << std::endl
     << " */" << std::endl
-    << "private " << sink_classname << " " 
+    << "private " << sink_classname << " "
     << sink_variable << " = null;"
     << std::endl;
 
@@ -740,7 +763,7 @@ generate (const PICML::Component & component)
 // CUTS_BE_Environment_Method_Begin_T
 //
 bool CUTS_BE_Environment_Method_Begin_T <CUTS_BE_Capi>::
-generate (const PICML::InputAction & action)
+generate (const PICML::MultiInputAction & action)
 {
   std::string name = action.name ();
 
@@ -755,7 +778,7 @@ generate (const PICML::InputAction & action)
 
   iter->second = true;
 
-  CUTS_BE_CAPI ()->outfile_ 
+  CUTS_BE_CAPI ()->outfile_
     << "/**" << std::endl
     << " * environmentAction : " << name << std::endl
     << " */" << std::endl
@@ -771,9 +794,9 @@ generate (const PICML::InputAction & action)
 // CUTS_BE_Environment_Method_Begin_T
 //
 bool CUTS_BE_Environment_Method_End_T <CUTS_BE_Capi>::
-generate (const PICML::InputAction & action)
+generate (const PICML::MultiInputAction & action)
 {
-  CUTS_BE_CAPI ()->outfile_ 
+  CUTS_BE_CAPI ()->outfile_
     << "}";
 
   return true;
@@ -785,8 +808,8 @@ generate (const PICML::InputAction & action)
 bool CUTS_BE_Environment_End_T <CUTS_BE_Capi>::
 generate (const PICML::Component & component)
 {
-  CUTS_BE_Capi::Env_Seen_Map::const_iterator 
-    iter = CUTS_BE_CAPI ()->env_seen_.begin (), 
+  CUTS_BE_Capi::Env_Seen_Map::const_iterator
+    iter = CUTS_BE_CAPI ()->env_seen_.begin (),
     iter_end = CUTS_BE_CAPI ()->env_seen_.end ();
 
   for (; iter != iter_end; ++ iter)
@@ -804,7 +827,7 @@ generate (const PICML::Component & component)
 
       CUTS_BE_CAPI ()->generate_required_method_impl (iter->first);
 
-      CUTS_BE_CAPI ()->outfile_ 
+      CUTS_BE_CAPI ()->outfile_
         << "}";
     }
   }
@@ -848,11 +871,9 @@ bool CUTS_BE_PeriodicEvent_End_T <CUTS_BE_Capi>::
 generate (const PICML::PeriodicEvent & periodic)
 {
   // Get the parent of the periodic event.
-  PICML::Component parent = PICML::Component::Cast (periodic.parent ());
-  std::string parent_name = parent.name ();
-
+  std::string parent_name = CUTS_BE_CAPI ()->impl_classname_;
   PICML::Input input = periodic.dstInput ();
- 
+
   if (input != Udm::null)
   {
     PICML::InputAction input_action = input.dstInput_end ();
@@ -873,12 +894,12 @@ generate (const PICML::PeriodicEvent & periodic)
       << " * Defines the handler for the periodicSend PeriodicEvent element" << std::endl
       << " * specified in the component's behavior model." << std::endl
       << " */" << std::endl
-      << "private class " << periodic_task << " extends PeriodicTask" 
+      << "private class " << periodic_task << " extends PeriodicTask"
       << "{"
       << "/// The owner of the task" << std::endl
       << "private " << parent_name << " component_ = null;" << std::endl
       << std::endl
-      << "public " << periodic_task << " (" 
+      << "public " << periodic_task << " ("
       << parent_name << " component)"
       << "{"
       << "super (" << periodic.Probability () << ");" << std::endl
@@ -891,7 +912,7 @@ generate (const PICML::PeriodicEvent & periodic)
       << "/**" << std::endl
       << " * periodicTask : " << periodic_name << std::endl
       << " */" << std::endl
-      << "private " << periodic_task << " " 
+      << "private " << periodic_task << " "
       << periodic_task << "_ = " << std::endl
       << "  new " << periodic_task << " (this);"
       << std::endl
@@ -904,11 +925,11 @@ generate (const PICML::PeriodicEvent & periodic)
 // CUTS_BE_OutputAction_Begin_T
 //
 bool CUTS_BE_OutputAction_Begin_T <CUTS_BE_Capi>::
-generate (const PICML::OutputAction & action 
+generate (const PICML::OutputAction & action
           /*, const PICML::Event event_type */)
 {
   CUTS_BE_CAPI ()->outfile_
-    << "JbiEvent ev_" << action.uniqueId () 
+    << "JbiEvent ev_" << action.uniqueId ()
     << "_ = new JbiEvent ();";
 
   return true;
@@ -922,7 +943,7 @@ generate (const PICML::OutputAction & action,
           const PICML::Property & property)
 {
   CUTS_BE_CAPI ()->outfile_
-    << "ev_" << action.uniqueId () << "_." << 
+    << "ev_" << action.uniqueId () << "_." <<
     CUTS_BE_CAPI ()->setter_method (property.name ())
     << " (" << property.DataValue () << ");";
 
@@ -936,7 +957,7 @@ bool CUTS_BE_OutputAction_End_T <CUTS_BE_Capi>::
 generate (const PICML::OutputAction & action)
 {
   CUTS_BE_CAPI ()->outfile_
-    << "this." << action.name () << "_.publishData (ev_" 
+    << "this." << action.name () << "_.publishData (ev_"
     << action.uniqueId () << "_);";
 
   return true;
@@ -947,6 +968,7 @@ generate (const PICML::OutputAction & action)
 //
 bool CUTS_BE_Branches_Begin_T <CUTS_BE_Capi>::generate (size_t branches)
 {
+  CUTS_BE_CAPI ()->branches_.push (1);
   return true;
 }
 
@@ -955,6 +977,53 @@ bool CUTS_BE_Branches_Begin_T <CUTS_BE_Capi>::generate (size_t branches)
 //
 bool CUTS_BE_Branch_Condition_Begin_T <CUTS_BE_Capi>::generate (void)
 {
+  // We need to generate an "else if" statement if this is not
+  // the first transition.
+  if (!CUTS_BE_CAPI ()->branches_.empty () &&
+       CUTS_BE_CAPI ()->branches_.top () ++ > 1)
+  {
+    CUTS_BE_CAPI ()->outfile_
+      << "else ";
+  }
+
+  // Generate the if condition for the branch.
+  CUTS_BE_CAPI ()->outfile_
+    << "if (";
+
+  return true;
+}
+
+//
+// CUTS_BE_Branch_Condition_End_T
+//
+bool CUTS_BE_Branch_Condition_End_T <CUTS_BE_Capi>::generate (void)
+{
+  // Generate the end of the if condition for the branch.
+  CUTS_BE_CAPI ()->outfile_
+    << ")";
+
+  return true;
+}
+
+//
+// CUTS_BE_Branch_No_Condition_T
+//
+bool CUTS_BE_Branch_No_Condition_T <CUTS_BE_Capi>::generate (void)
+{
+  CUTS_BE_CAPI ()->outfile_
+    << "else";
+
+  return true;
+}
+
+//
+// CUTS_BE_Branch_End_T
+//
+bool CUTS_BE_Branch_Begin_T <CUTS_BE_Capi>::generate (void)
+{
+  CUTS_BE_CAPI ()->outfile_
+    << "{";
+
   return true;
 }
 
@@ -963,6 +1032,9 @@ bool CUTS_BE_Branch_Condition_Begin_T <CUTS_BE_Capi>::generate (void)
 //
 bool CUTS_BE_Branch_End_T <CUTS_BE_Capi>::generate (void)
 {
+  CUTS_BE_CAPI ()->outfile_
+    << "}";
+
   return true;
 }
 
@@ -971,14 +1043,117 @@ bool CUTS_BE_Branch_End_T <CUTS_BE_Capi>::generate (void)
 //
 bool CUTS_BE_Branches_End_T <CUTS_BE_Capi>::generate (void)
 {
+  CUTS_BE_CAPI ()->branches_.pop ();
   return true;
 };
 
 //
-// CUTS_BE_Precondition_T
+// CUTS_BE_Equal_To_T
 //
-bool CUTS_BE_Precondition_T <CUTS_BE_Capi>::
-generate (const std::string & precondition)
+bool CUTS_BE_Equal_To_T <CUTS_BE_Capi>::
+generate (const char * first, const char * last)
 {
+  CUTS_BE_CAPI ()->outfile_
+    << "==";
+
+  return true;
+}
+
+//
+// CUTS_BE_Not_Equal_To_T
+//
+bool CUTS_BE_Not_Equal_To_T <CUTS_BE_Capi>::
+generate (const char * first, const char * last)
+{
+  CUTS_BE_CAPI ()->outfile_
+    << " != ";
+
+  return true;
+}
+
+//
+// CUTS_BE_Greater_Than_T
+//
+bool CUTS_BE_Greater_Than_T <CUTS_BE_Capi>::
+generate (const char * first, const char * last)
+{
+  CUTS_BE_CAPI ()->outfile_
+    << " > ";
+
+  return true;
+}
+
+//
+// CUTS_BE_Greater_Than_Equal_To_T
+//
+bool CUTS_BE_Greater_Than_Equal_To_T <CUTS_BE_Capi>::
+generate (const char * first, const char * last)
+{
+  CUTS_BE_CAPI ()->outfile_
+    << " >= ";
+
+  return true;
+}
+
+//
+// CUTS_BE_Less_Than_T
+//
+bool CUTS_BE_Less_Than_T <CUTS_BE_Capi>::
+generate (const char * first, const char * last)
+{
+  CUTS_BE_CAPI ()->outfile_
+    << " < ";
+
+  return true;
+}
+
+//
+// CUTS_BE_Less_Than_Equal_To_T
+//
+bool CUTS_BE_Less_Than_Equal_To_T <CUTS_BE_Capi>::
+generate (const char * first, const char * last)
+{
+  CUTS_BE_CAPI ()->outfile_
+    << " <= ";
+
+  return true;
+}
+
+//
+// CUTS_BE_Identifier_T
+//
+bool CUTS_BE_Identifier_T <CUTS_BE_Capi>::
+generate (const char * begin, const char * end)
+{
+  std::string str (begin, end);
+
+  CUTS_BE_CAPI ()->outfile_
+    << str << "_";
+
+  return true;
+}
+
+//
+// CUTS_BE_Transcribe_Text_T
+//
+bool CUTS_BE_Transcribe_Text_T <CUTS_BE_Capi>::
+generate (const char * begin, const char * end)
+{
+  std::string str (begin, end);
+
+  CUTS_BE_CAPI ()->outfile_
+    << str;
+
+  return true;
+}
+
+//
+// CUTS_BE_Transcribe_Char_T
+//
+bool CUTS_BE_Transcribe_Char_T <CUTS_BE_Capi>::generate (char ch)
+{
+  CUTS_BE_CAPI ()->outfile_
+    << ch;
+
   return true;
 }

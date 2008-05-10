@@ -586,7 +586,7 @@ generate (const PICML::Component & component)
 // CUTS_BE_Environment_Method_Begin_T
 //
 bool CUTS_BE_Environment_Method_Begin_T <CUTS_BE_Tioa>::
-generate (const PICML::InputAction & action)
+generate (const PICML::MultiInputAction & action)
 {
   std::string name = action.name ();
 
@@ -607,7 +607,7 @@ generate (const PICML::InputAction & action)
 // CUTS_BE_Environment_Method_End_T
 //
 bool CUTS_BE_Environment_Method_End_T <CUTS_BE_Tioa>::
-generate (const PICML::InputAction & action)
+generate (const PICML::MultiInputAction & action)
 {
   CUTS_BE_TIOA ()->outfile_ << "mode := nil;" << std::endl;
   return true;

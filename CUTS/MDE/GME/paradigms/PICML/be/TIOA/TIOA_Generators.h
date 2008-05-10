@@ -332,7 +332,7 @@ struct CUTS_BE_Environment_End_T <CUTS_BE_Tioa>
 template < >
 struct CUTS_BE_Environment_Method_Begin_T <CUTS_BE_Tioa>
 {
-  static bool generate (const PICML::InputAction & action);
+  static bool generate (const PICML::MultiInputAction & action);
 };
 
 //=============================================================================
@@ -344,7 +344,7 @@ struct CUTS_BE_Environment_Method_Begin_T <CUTS_BE_Tioa>
 template < >
 struct CUTS_BE_Environment_Method_End_T <CUTS_BE_Tioa>
 {
-  static bool generate (const PICML::InputAction & action);
+  static bool generate (const PICML::MultiInputAction & action);
 };
 
 //=============================================================================

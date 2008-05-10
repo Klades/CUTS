@@ -485,7 +485,7 @@ write_environment_begin (const PICML::Component & component)
 // write_environment_method_begin
 //
 void CUTS_CIAO_Exec_Source_Traits::
-write_environment_method_begin (const PICML::InputAction & action)
+write_environment_method_begin (const PICML::MultiInputAction & action)
 {
   if (!this->outfile ().is_open ())
     return;
@@ -520,7 +520,7 @@ write_environment_method_begin (const PICML::InputAction & action)
 // write_environment_method_end
 //
 void CUTS_CIAO_Exec_Source_Traits::
-write_environment_method_end (const PICML::InputAction & action)
+write_environment_method_end (const PICML::MultiInputAction & action)
 {
   if (!this->outfile ().is_open ())
     return;

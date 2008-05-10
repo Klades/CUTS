@@ -54,7 +54,7 @@ public:
     const PICML::Component & type);
 
   virtual void write_environment_method_begin (
-    const PICML::InputAction & action);
+    const PICML::MultiInputAction & action);
 
   virtual void write_variables_begin (
     const PICML::Component & component);

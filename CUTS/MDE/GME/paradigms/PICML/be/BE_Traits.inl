@@ -218,14 +218,14 @@ write_environment_end (const PICML::Component & component)
 
 CUTS_INLINE
 void CUTS_BE_Traits::
-write_environment_method_begin (const PICML::InputAction & action)
+write_environment_method_begin (const PICML::MultiInputAction & action)
 {
 
 }
 
 CUTS_INLINE
 void CUTS_BE_Traits::
-write_environment_method_end (const PICML::InputAction &)
+write_environment_method_end (const PICML::MultiInputAction &)
 {
 
 }

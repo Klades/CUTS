@@ -263,7 +263,7 @@ generate (const PICML::Component & component)
 // CUTS_BE_Environment_Method_Begin_T
 //
 bool CUTS_BE_Environment_Method_Begin_T <CUTS_BE_Xml>::
-generate (const PICML::InputAction & action)
+generate (const PICML::MultiInputAction & action)
 {
   CUTS_BE_XML ()->outfile_
     << "<environment name=\"" << action.name () << "\">" << std::endl;
@@ -272,10 +272,10 @@ generate (const PICML::InputAction & action)
 }
 
 //
-// CUTS_BE_Environment_Method_Begin_T
+// CUTS_BE_Environment_Method_End_T
 //
 bool CUTS_BE_Environment_Method_End_T <CUTS_BE_Xml>::
-generate (const PICML::InputAction & action)
+generate (const PICML::MultiInputAction & action)
 {
   CUTS_BE_XML ()->outfile_ << "</environment>" << std::endl;
   return true;

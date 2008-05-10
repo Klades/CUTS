@@ -159,7 +159,7 @@ bool CUTS_BE_Action_Properties_End_T <CUTS_BE_Natural_Lang>::generate (void)
 // CUTS_BE_Environment_Method_Begin_T
 //
 bool CUTS_BE_Environment_Method_Begin_T <CUTS_BE_Natural_Lang>::
-generate (const PICML::InputAction & action)
+generate (const PICML::MultiInputAction & action)
 {
   CUTS_BE_NATURAL_LANG ()->outfile_
     << "* during '" << action.name () << "' environment event" << std::endl;

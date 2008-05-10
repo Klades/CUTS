@@ -52,6 +52,9 @@ protected:
   /// Visit an InputAction element.
   void Visit_Input (const PICML::Input & input);
 
+  /// Visit an MulitInputAction
+  void Visit_MultiInputAction (const PICML::MultiInputAction &);
+
   /// Visit an InputAction element.
   void Visit_InputAction (const PICML::InputAction &);
 
@@ -81,8 +84,8 @@ protected:
   /// Visit an OutputAction element.
   void Visit_OutputAction (const PICML::OutputAction &);
 
-  /// Visit a CompositeAction element.
-  void Visit_CompositeAction (const PICML::CompositeAction &);
+  ///// Visit a CompositeAction element.
+  //void Visit_CompositeAction (const PICML::CompositeAction &);
 
   void Visit_TerminalTransition (const PICML::TerminalTransition &);
 
@@ -110,7 +113,7 @@ private:
   /// Collection of ordered return states.
   Terminal_State terminal_state_;
 
-  typedef std::stack <PICML::InputAction> Action_Stack;
+  typedef std::stack <PICML::BehaviorInputAction> Action_Stack;
 
   Action_Stack action_stack_;
 

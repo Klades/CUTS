@@ -42,11 +42,10 @@ template <typename IMPL_STRATEGY>
 void CUTS_BE_Env_Visitor_T <IMPL_STRATEGY>::
 Visit_MultiInput (const PICML::MultiInput & input)
 {
-  PICML::InputAction action =
-    PICML::InputAction::Cast (input.dstMultiInput_end ());
+  PICML::MultiInputAction action = input.dstMultiInput_end ();
 
   CUTS_BE::visit <IMPL_STRATEGY> (action,
-    boost::bind (&PICML::InputAction::Accept, _1, boost::ref (*this)));
+    boost::bind (&PICML::MultiInputAction::Accept, _1, boost::ref (*this)));
 }
 
 //
@@ -54,15 +53,15 @@ Visit_MultiInput (const PICML::MultiInput & input)
 //
 template <typename IMPL_STRATEGY>
 void CUTS_BE_Env_Visitor_T <IMPL_STRATEGY>::
-Visit_InputAction (const PICML::InputAction & action)
+Visit_MultiInputAction (const PICML::MultiInputAction & action)
 {
   CUTS_BE_Environment_Method_Begin_T <IMPL_STRATEGY>::generate (action);
 
   CUTS_BE_Execution_Visitor_T <IMPL_STRATEGY> exec_visitor;
-  PICML::InputAction input_action (action);
+  PICML::MultiInputAction mia (action);
 
-  CUTS_BE::visit <IMPL_STRATEGY> (input_action,
-    boost::bind (&PICML::InputAction::Accept, _1, boost::ref (exec_visitor)));
+  CUTS_BE::visit <IMPL_STRATEGY> (mia,
+    boost::bind (&PICML::MultiInputAction::Accept, _1, boost::ref (exec_visitor)));
 
   CUTS_BE_Environment_Method_End_T <IMPL_STRATEGY>::generate (action);
 }

@@ -278,7 +278,7 @@ struct CUTS_BE_Environment_Begin_T
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_Environment_Method_Begin_T
 {
-  static bool generate (const PICML::InputAction & action)
+  static bool generate (const PICML::MultiInputAction & action)
     { return false; }
 };
 
@@ -291,7 +291,7 @@ struct CUTS_BE_Environment_Method_Begin_T
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_Environment_Method_End_T
 {
-  static bool generate (const PICML::InputAction & action)
+  static bool generate (const PICML::MultiInputAction & action)
     { return false; }
 };
 
@@ -667,6 +667,19 @@ struct CUTS_BE_Branch_Condition_Begin_T
 
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_Branch_Condition_End_T
+{
+  static bool generate (void)
+    { return false; }
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template <typename IMPL_STRATEGY>
+struct CUTS_BE_Branch_No_Condition_T
 {
   static bool generate (void)
     { return false; }

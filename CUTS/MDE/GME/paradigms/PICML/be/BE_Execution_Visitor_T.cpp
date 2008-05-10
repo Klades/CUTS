@@ -14,6 +14,23 @@
 #include <algorithm>
 #include <sstream>
 
+/**
+ * Functor used for sorting the branch transition. The main purpose
+ * of this sort function is to ensure the empty condition, i.e., the
+ * 'else' condition falls last in the collection.
+ */
+struct CUTS_BE_BranchTransition_Sort
+{
+  bool operator () (const PICML::BranchTransition & lhs,
+                    const PICML::BranchTransition & rhs)
+  {
+    std::string lhs_condition (lhs.Condition ());
+    std::string rhs_condition (rhs.Condition ());
+
+    return lhs_condition > rhs_condition;
+  }
+};
+
 //
 // CUTS_BE_Execution_Visitor_T
 //
@@ -93,11 +110,10 @@ template <typename BE_STRATEGY>
 void CUTS_BE_Execution_Visitor_T <BE_STRATEGY>::
 Visit_MultiInput (const PICML::MultiInput & input)
 {
-  PICML::InputAction action =
-    PICML::InputAction::Cast (input.dstMultiInput_end ());
+  PICML::MultiInputAction action = input.dstMultiInput_end ();
 
   CUTS_BE::visit <BE_STRATEGY> (action,
-    boost::bind (&PICML::InputAction::Accept, _1, boost::ref (*this)));
+    boost::bind (&PICML::MultiInputAction::Accept, _1, boost::ref (*this)));
 }
 
 //
@@ -106,6 +122,30 @@ Visit_MultiInput (const PICML::MultiInput & input)
 template <typename BE_STRATEGY>
 void CUTS_BE_Execution_Visitor_T <BE_STRATEGY>::
 Visit_InputAction (const PICML::InputAction & action)
+{
+  // Add the <action> to the top of the stack.
+  this->action_stack_.push (action);
+
+  // Visit the effect.
+  PICML::InputEffect input_effect = action.dstInputEffect ();
+
+  if (input_effect != Udm::null)
+  {
+    CUTS_BE::visit <BE_STRATEGY> (input_effect,
+      boost::bind (&PICML::InputEffect::Accept, _1, boost::ref (*this)));
+  }
+
+  // Remove the <action> from the stack since we have
+  // completed its behavior.
+  this->action_stack_.pop ();
+}
+
+//
+// Visit_MultiInputAction
+//
+template <typename BE_STRATEGY>
+void CUTS_BE_Execution_Visitor_T <BE_STRATEGY>::
+Visit_MultiInputAction (const PICML::MultiInputAction & action)
 {
   // Add the <action> to the top of the stack.
   this->action_stack_.push (action);
@@ -199,7 +239,7 @@ Visit_State (const PICML::State & state)
 
   PICML::Finish finish;
 
-  if (Udm::contains (boost::bind (std::equal_to <PICML::InputAction> (),
+  if (Udm::contains (boost::bind (std::equal_to <PICML::BehaviorInputAction> (),
       this->action_stack_.top (),
       boost::bind (&PICML::Finish::dstFinish_end,
                     _1))) (finish_set, finish))
@@ -232,8 +272,12 @@ template <typename BE_STRATEGY>
 void CUTS_BE_Execution_Visitor_T <BE_STRATEGY>::
 Visit_BranchState (const PICML::BranchState & state)
 {
-  typedef std::set <PICML::BranchTransition> Transition_Set;
-  Transition_Set transitions = state.dstBranchTransition ();
+  // We use the greater than comparison so that empty string,
+  typedef std::set <PICML::BranchTransition,
+                    CUTS_BE_BranchTransition_Sort> Transition_Set;
+
+  Transition_Set transitions =
+    state.dstBranchTransition_sorted (Transition_Set::key_compare ());
 
   // Signal the backend we are starting a branch state.
   CUTS_BE_Branches_Begin_T <BE_STRATEGY>::generate (transitions.size ());
@@ -332,6 +376,12 @@ Visit_BranchTransition (const PICML::BranchTransition & transition)
 
     CUTS_BE_Branch_Condition_End_T <BE_STRATEGY>::generate ();
   }
+  else
+  {
+    // This is an *else* branch. There should only be one of these
+    // and it should be the last one in the listing.
+    CUTS_BE_Branch_No_Condition_T <BE_STRATEGY>::generate ();
+  }
 
   // We are now ready to write the branch statements.
   CUTS_BE_Branch_Begin_T <BE_STRATEGY>::generate ();
@@ -362,10 +412,10 @@ Visit_ActionBase (const PICML::ActionBase & action_base)
   {
     PICML::OutputAction::Cast (action_base).Accept (*this);
   }
-  else if (type == PICML::CompositeAction::meta)
-  {
-    PICML::CompositeAction::Cast (action_base).Accept (*this);
-  }
+  //else if (type == PICML::CompositeAction::meta)
+  //{
+  //  PICML::CompositeAction::Cast (action_base).Accept (*this);
+  //}
 
   // Continue down the chain.
   PICML::Effect effect = action_base.dstEffect ();
@@ -442,24 +492,24 @@ Visit_OutputAction (const PICML::OutputAction & action)
   CUTS_BE_OutputAction_End_T <BE_STRATEGY>::generate (action);
 }
 
+////
+//// Visit_CompositeAction
+////
+//template <typename BE_STRATEGY>
+//void CUTS_BE_Execution_Visitor_T <BE_STRATEGY>::
+//Visit_CompositeAction (const PICML::CompositeAction & action)
+//{
+//  typedef std::vector <PICML::InputAction> InputAction_Set;
+//  InputAction_Set actions = action.InputAction_children ();
 //
-// Visit_CompositeAction
-//
-template <typename BE_STRATEGY>
-void CUTS_BE_Execution_Visitor_T <BE_STRATEGY>::
-Visit_CompositeAction (const PICML::CompositeAction & action)
-{
-  typedef std::vector <PICML::InputAction> InputAction_Set;
-  InputAction_Set actions = action.InputAction_children ();
-
-  if (!actions.empty ())
-  {
-    // Composite actions are only allowed to have a single input
-    // action. Therefore, we only visit the first action in the set.
-    CUTS_BE::visit <BE_STRATEGY> (PICML::InputAction::Cast (actions.front ()),
-      boost::bind (&PICML::InputAction::Accept, _1, boost::ref (*this)));
-  }
-}
+//  if (!actions.empty ())
+//  {
+//    // Composite actions are only allowed to have a single input
+//    // action. Therefore, we only visit the first action in the set.
+//    CUTS_BE::visit <BE_STRATEGY> (PICML::InputAction::Cast (actions.front ()),
+//      boost::bind (&PICML::InputAction::Accept, _1, boost::ref (*this)));
+//  }
+//}
 
 //
 // Visit_OutputAction_Property

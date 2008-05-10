@@ -19,6 +19,7 @@
 #include "be/BE_algorithm.h"
 #include "be/String_Set.h"
 #include <fstream>
+#include <stack>
 
 namespace Indentation
 {
@@ -50,7 +51,7 @@ public:
   static std::string fq_name (const PICML::NamedType & type,
                               char separator = '.');
 
-  static std::string scope (const PICML::NamedType & type, 
+  static std::string scope (const PICML::NamedType & type,
                             char separator = '.');
 
   typedef std::map <Uml::Class, std::string> PredefinedType_Map;
@@ -79,10 +80,10 @@ public:
   void generate_throws_signature (const std::string & method);
 
   typedef std::map <std::string, std::string> Periodic_Map;
-  
+
   // <port name, <event type, event version> >
   typedef std::map <
-    std::string, 
+    std::string,
     std::pair <std::string, std::string> >
     Event_Port_Map;
 
@@ -95,6 +96,11 @@ public:
   typedef std::map <std::string, bool> Env_Seen_Map;
 
   Env_Seen_Map env_seen_;
+
+  std::string impl_classname_;
+
+  /// Keeps track of the current branch depth.
+  std::stack <size_t> branches_;
 };
 
 //
@@ -110,12 +116,6 @@ namespace CUTS_BE
   CUTS_BE_NOT_VISIT (CUTS_BE_Capi, PICML::OnewayOperation);
   CUTS_BE_NOT_VISIT (CUTS_BE_Capi, PICML::TwowayOperation);
 }
-
-template < >
-struct CUTS_BE_Parse_Precondition_T <CUTS_BE_Capi>
-{
-  static const bool result_type = false;
-};
 
 //=============================================================================
 /**
@@ -263,18 +263,6 @@ struct CUTS_BE_WorkerAction_Begin_T <CUTS_BE_Capi>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Precondition_T <CUTS_BE_Capi>
-{
-  static bool generate (const std::string & precondition);
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template < >
 struct CUTS_BE_Action_Property_T <CUTS_BE_Capi>
 {
   static bool generate (const PICML::Property & property);
@@ -375,7 +363,7 @@ struct CUTS_BE_Environment_Begin_T <CUTS_BE_Capi>
 template < >
 struct CUTS_BE_Environment_Method_Begin_T <CUTS_BE_Capi>
 {
-  static bool generate (const PICML::InputAction & action);
+  static bool generate (const PICML::MultiInputAction & action);
 };
 
 //=============================================================================
@@ -387,7 +375,7 @@ struct CUTS_BE_Environment_Method_Begin_T <CUTS_BE_Capi>
 template < >
 struct CUTS_BE_Environment_Method_End_T <CUTS_BE_Capi>
 {
-  static bool generate (const PICML::InputAction & action);
+  static bool generate (const PICML::MultiInputAction & action);
 };
 
 //=============================================================================
@@ -457,6 +445,43 @@ struct CUTS_BE_Branch_Condition_Begin_T <CUTS_BE_Capi>
 //=============================================================================
 
 template < >
+struct CUTS_BE_Branch_Condition_End_T <CUTS_BE_Capi>
+{
+  static bool generate (void);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Branch_No_Condition_T <CUTS_BE_Capi>
+{
+  static bool generate (void);
+};
+
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Branch_Begin_T <CUTS_BE_Capi>
+{
+  static bool generate (void);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
 struct CUTS_BE_Branch_End_T <CUTS_BE_Capi>
 {
   static bool generate (void);
@@ -472,6 +497,114 @@ template < >
 struct CUTS_BE_Branches_End_T <CUTS_BE_Capi>
 {
   static bool generate (void);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Equal_To_T <CUTS_BE_Capi>
+{
+  static bool generate (const char * first, const char * last);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Not_Equal_To_T <CUTS_BE_Capi>
+{
+  static bool generate (const char * first, const char * last);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Greater_Than_T <CUTS_BE_Capi>
+{
+  static bool generate (const char * first, const char * last);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Greater_Than_Equal_To_T <CUTS_BE_Capi>
+{
+  static bool generate (const char * first, const char * last);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Less_Than_T <CUTS_BE_Capi>
+{
+  static bool generate (const char * first, const char * last);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Less_Than_Equal_To_T <CUTS_BE_Capi>
+{
+  static bool generate (const char * first, const char * last);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Identifier_T <CUTS_BE_Capi>
+{
+  static bool generate (const char * begin, const char * end);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Transcribe_Text_T <CUTS_BE_Capi>
+{
+  static bool generate (const char * begin, const char * end);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Transcribe_Char_T <CUTS_BE_Capi>
+{
+  static bool generate (char ch);
 };
 
 #endif  // !defined _CUTS_BE_XML_GENERATORS_H_

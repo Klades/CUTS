@@ -296,7 +296,7 @@ struct CUTS_BE_Environment_Begin_T <CUTS_BE_CIAO>
 template < >
 struct CUTS_BE_Environment_Method_Begin_T <CUTS_BE_CIAO>
 {
-  static bool generate (const PICML::InputAction & action)
+  static bool generate (const PICML::MultiInputAction & action)
   {
     CIAO_EXEC_HEADER_GENERATOR ()->write_environment_method_begin (action);
     CIAO_EXEC_SOURCE_GENERATOR ()->write_environment_method_begin (action);
@@ -313,7 +313,7 @@ struct CUTS_BE_Environment_Method_Begin_T <CUTS_BE_CIAO>
 template < >
 struct CUTS_BE_Environment_Method_End_T <CUTS_BE_CIAO>
 {
-  static bool generate (const PICML::InputAction & action)
+  static bool generate (const PICML::MultiInputAction & action)
   {
     CIAO_EXEC_HEADER_GENERATOR ()->write_environment_method_end (action);
     CIAO_EXEC_SOURCE_GENERATOR ()->write_environment_method_end (action);

@@ -41,8 +41,8 @@ protected:
   void Visit_MultiInput (
     const PICML::MultiInput & input);
 
-  void Visit_InputAction (
-    const PICML::InputAction & input);
+  void Visit_MultiInputAction (
+    const PICML::MultiInputAction & action);
 };
 
 #include "BE_Env_Visitor_T.cpp"

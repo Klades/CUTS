@@ -1,22 +1,62 @@
+Sat May 10 06:10:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE_Execution_Visitor_T.h:
+        * MDE/GME/paradigms/PICML/be/BE_Execution_Visitor_T.cpp:
+        
+          . Enhanced the parsing logic to locate 'else' conditions in
+            the BranchTransition connections. An 'else' statement
+            is determined by the BranchTransition that does not have
+            a value for its condition.
+
+        * MDE/GME/paradigms/PICML/be/BE_Generators_T.h:
+        * MDE/GME/paradigms/PICML/be/BE_Traits.h:
+        * MDE/GME/paradigms/PICML/be/BE_Traits.inl:
+        * MDE/GME/paradigms/PICML/be/BE_Env_Visitor_T.h:
+        * MDE/GME/paradigms/PICML/be/BE_Env_Visitor_T.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Exec_Header_Traits.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Exec_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Exec_Source_Traits.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Exec_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Proxy_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Traits.h:
+        * MDE/GME/paradigms/PICML/be/TIOA/TIOA_Generators.h:
+        * MDE/GME/paradigms/PICML/be/TIOA/TIOA_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/XML/XML_Generators.h:
+        * MDE/GME/paradigms/PICML/be/XML/XML_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/natural-lang/Natural_Lang_Generators.h:
+        * MDE/GME/paradigms/PICML/be/natural-lang/Natural_Lang_Generators.cpp:
+        
+          . Update backend generators to be compliant with the new 
+            paradigm. This mainly involved converting the appropriate 
+            points-of-generation that had an InputAction to an
+            MulitInputAction.
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        
+          . Same update as other backend generators.
+          . Enable support for generating source code for branch 
+            statements.
+
 Thu May  8 06:33:06 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML.mpc:
         * MDE/GME/naomi/GNC.mpc:
         * cuts/utils/Node_Daemon/Node_Daemon.mpc:
-        
+
           Moved the portion of the projects that generate C++ bindings
           for XML using XSC to their own projects. This enables developers
           to enable/disable auto-generation.
-          
+
         * MDE/GME/paradigms/PICML/interpreter/modelgen.h:
         * MDE/GME/paradigms/PICML/interpreter/modelgen.inl:
         * MDE/GME/paradigms/PICML/interpreter/modelgen.cpp:
         * cuts/utils/Node_Daemon/cutsnode.h:
         * cuts/utils/Node_Daemon/cutsnode.inl:
         * cuts/utils/Node_Daemon/cutsnode.cpp:
-        
+
           Temporary checkin of auto-generated source code by XSC until
-          we figure out why XSC builds are not working on vc8 and 
+          we figure out why XSC builds are not working on vc8 and
           Vista.
 
 Tue May  6 04:30:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

@@ -109,7 +109,6 @@ write_prologue (const PICML::ComponentImplementationContainer & container)
     << std::endl
     << single_line_comment ("executor client")
     << "#include \"" << container.name () << "EC.h\"" << std::endl
-    << "#include \"tao/LocalObject.h\"" << std::endl
     << std::endl
     << "#include \"cuts/config.h\"" << std::endl;
 }
@@ -331,7 +330,7 @@ write_worker_variable (const PICML::WorkerType & var,
 // write_environment_method_begin
 //
 void CUTS_CIAO_Exec_Header_Traits::
-write_environment_method_begin (const PICML::InputAction & action)
+write_environment_method_begin (const PICML::MultiInputAction & action)
 {
   if (!this->outfile ().is_open ())
     return;

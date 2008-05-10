@@ -84,7 +84,6 @@ write_prologue (const PICML::ComponentImplementationContainer & container)
     << std::endl
     << single_line_comment ("executor client")
     << "#include \"" << container.name () << "EC.h\"" << std::endl
-    << "#include \"tao/LocalObject.h\"" << std::endl
     << std::endl
     << single_line_comment ("proxy header file")
     << include ("cuts/CCM_CoWorkEr_Proxy_T")
