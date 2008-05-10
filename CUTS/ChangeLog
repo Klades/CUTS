@@ -1,9 +1,17 @@
-Sat May 10 16:23:58 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+Sat May 10 16:52:28 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/jbi/client/JbiClient.java:
         
+          Moved the parsing of the command-line options into the 
+          JBIClient class instead of having it in the main () function 
+          for the client's executable.
+
+Sat May 10 16:23:58 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/java/jbi/client/JbiClient.java:
+
           Removed the unnecessary XML preprocessing instructions from
-          createUserCredentials () and createConnectionDescriptor (). 
+          createUserCredentials () and createConnectionDescriptor ().
           Although this is valid in XML, Apollo doesn't like it. :-/
 
 Sat May 10 16:17:19 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

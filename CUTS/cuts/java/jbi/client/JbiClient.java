@@ -59,9 +59,46 @@ public abstract class JbiClient implements Runnable
 	
 	public abstract void fini ();
 	
-  public Connection getJbiConnection ()
+  /**
+   * Get the contained JBI connection. This is accessible only to 
+   * the subclasses of the client.
+   * 
+   * @return        The JBI connection for the client.
+   */
+  protected Connection getJbiConnection ()
   {
     return this.jbiConn;
+  }
+  
+  /**
+   * Parse the command-line arguments for the client.
+   * 
+   * @param         args            The command-line arguments.
+   * @retval        0               Successfully parsed arguments.
+   * @retval        -1              Failed to parse command-line arguments.
+   */
+  public int parseArgs (String [] args)
+  {
+    switch (args.length)
+    {
+    case 3:
+      // Set the user credentials.
+      this.setUserCredentials (args[1], args[2]);
+      
+    case 1:
+      // Set the server address.
+      this.setServerAddress (args[0]);
+      break;
+      
+    default:
+      // Print an error message, and the usage.
+      System.err.println ("*** error: expected 1 or 3 arguments; got " + 
+                          args.length + " arguments");
+      System.err.println ("USAGE: java [OPTIONS] <jbiclient> serveraddr [username password]");
+      break;
+    }
+    
+    return 0;
   }
   
 	/**
