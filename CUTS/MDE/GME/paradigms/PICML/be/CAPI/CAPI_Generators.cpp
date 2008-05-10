@@ -783,6 +783,8 @@ generate (const PICML::MultiInputAction & action)
     << " * environmentAction : " << name << std::endl
     << " */" << std::endl
     << "public void " << name << " ()"
+    << "{"
+    << "try"
     << "{";
 
   CUTS_BE_CAPI ()->generate_required_method_impl (name);
@@ -797,6 +799,11 @@ bool CUTS_BE_Environment_Method_End_T <CUTS_BE_Capi>::
 generate (const PICML::MultiInputAction & action)
 {
   CUTS_BE_CAPI ()->outfile_
+    << "}"
+    << "catch (Exception e)"
+    << "{"
+    << "e.printStackTrace ();"
+    << "}"
     << "}";
 
   return true;
@@ -1128,7 +1135,7 @@ generate (const char * begin, const char * end)
   std::string str (begin, end);
 
   CUTS_BE_CAPI ()->outfile_
-    << str << "_";
+    << "this." << str << "_";
 
   return true;
 }

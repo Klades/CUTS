@@ -1,15 +1,25 @@
-Sat May 10 06:34:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
-
-        * MDE/GME/paradigms/PICML/be/BE_Execution_Visitor_T.cpp:
-        
-          . The order of the branch statements is determined by the 
-            position in the model. They are sorted from top to bottom, 
-            similar to how control statements appear in a text-based
-            source file.            
+Sat May 10 15:57:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
         
-          . Added a whitespace to either side of the generated 
+          . Added the 'this.' qualifier in front of identifiers generated
+            in conditions.
+            
+          . Placed all environmental action implementation inside of an
+            try...catch block.
+
+Sat May 10 06:34:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE_Execution_Visitor_T.cpp:
+
+          . The order of the branch statements is determined by the
+            position in the model. They are sorted from top to bottom,
+            similar to how control statements appear in a text-based
+            source file.
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+
+          . Added a whitespace to either side of the generated
             equals to sign.
 
 Sat May 10 06:10:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
