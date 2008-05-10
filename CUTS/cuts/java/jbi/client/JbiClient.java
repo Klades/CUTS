@@ -181,19 +181,35 @@ public abstract class JbiClient implements Runnable
 		}
 	}
 	
-	private static String createUserCredentials(String username, String password) 
+  /**
+   * Helper method for generating the user credentials. Given the
+   * \a username and \a password, it will return a valid XML document,
+   * or string, that can be passed to the Apollo server for validation.
+   * 
+   * @param         username          Username to validate
+   * @param         password          Password associated with \a username
+   * @return        XML descriptor of the user credentials
+   */
+	private static String createUserCredentials (String username, String password) 
 	{
-		return new String("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-				  	          "<credentials>" + 
+		return new String("<credentials>" + 
 				                "<username>"+ username + "</username>" +
 				                "<password>"+ password +"</password>" +
 				              "</credentials>");
 	}
 	
+  /**
+   * Helper methods to create a connection deescriptor. Given the
+   * \a ipAddress of the server, this method will return a valid XML
+   * document, or string, that can be used to create an Apollo 
+   * connection.
+   * 
+   * @param         ipAddress         Ip address of the Apollo server.
+   * @return        XML descriptor of the connection.
+   */
 	private static String createConnectionDescriptor (String ipAddress)
 	{
-		return new String ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-						           "<ConnectionDescriptor>" + 
+		return new String ("<ConnectionDescriptor>" + 
 			                   "<PlatformDescriptor>" +
 			                     "<platformIP>" + ipAddress + "</platformIP>" +
 			                   "</PlatformDescriptor>" +
