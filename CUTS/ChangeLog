@@ -1,21 +1,28 @@
+Sun May 11 23:31:26 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        
+          Removed the apostrophe, which was casuing the Java code
+          generator to screw up the documents format.
+
 Sun May 11 14:54:12 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE_Execution_Visitor_T.h:
         * MDE/GME/paradigms/PICML/be/BE_Execution_Visitor_T.cpp:
         * MDE/GME/paradigms/PICML/be/BE_Generators_T.h:
-        
+
           Added support for generating while and do...while control
           loops in source code.
 
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
-        
+
           Implemented while and do...while control loop generators.
 
         * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Exec_Source_Traits.h:
         * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Exec_Source_Traits.cpp:
         * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Traits.h:
-        
+
           Implemented 'else' control block points-of-generation.
 
 Sat May 10 16:52:28 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

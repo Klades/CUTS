@@ -264,13 +264,7 @@ generate_required_method_impl (const std::string & method)
 //
 void CUTS_BE_Capi::generate_throws_signature (const std::string & method)
 {
-  if (method == "init")
-  {
-    this->outfile_
-      << std::endl
-      << "  throws PermissionDeniedException," << std::endl
-      << "         UnsupportedVersionException" << std::endl;
-  }
+
 }
 
 //
@@ -471,6 +465,7 @@ generate (const PICML::MonolithicImplementation & mono,
     source_variable = iter->first + "_";
 
     CUTS_BE_CAPI ()->outfile_
+      << std::endl
       << "/**" << std::endl
       << " * publisherName    : " << iter->first << std::endl
       << " * publisherType    : " << iter->second.first << std::endl
@@ -487,7 +482,7 @@ generate (const PICML::MonolithicImplementation & mono,
       << "}"
       << std::endl
       << "/**" << std::endl
-      << " * publisher : " << iter->first << std::endl
+      << " * publisherVariable : " << iter->first << std::endl
       << " */" << std::endl
       << "private " << source_classname << " "
       << source_variable << " = null;"
@@ -549,6 +544,7 @@ generate (const PICML::MonolithicImplementation & mono,
     << "e.printStackTrace ();"
     << "}"
     << "}"
+    << std::endl
     << "/**" << std::endl
     << " * Main entry point for the CAPI client" << std::endl
     << " */" << std::endl
@@ -557,10 +553,8 @@ generate (const PICML::MonolithicImplementation & mono,
     << "// create the client object" << std::endl
     << "JbiClient client = new " << mono.name () << " ();"
     << std::endl
-    << "// parse the command-line arguments" << std::endl
     << "if (client.parseArgs (args) == 0)"
     << "{"
-    << "// run the client (eventually may run in seperate thread)" << std::endl
     << "client.run ();"
     << "}"
     << "else"
@@ -569,6 +563,7 @@ generate (const PICML::MonolithicImplementation & mono,
     << "}"
     << "}"
     << "}"
+    << std::endl
     << "// end of auto generated file" << std::endl;
 
   CUTS_BE_CAPI ()->reset ();
@@ -708,6 +703,7 @@ generate (const PICML::InEventPort & sink)
   std::string sink_variable = name + "_";
 
   CUTS_BE_CAPI ()->outfile_
+    << std::endl
     << "/**" << std::endl
     << " * subscriberName    : " << name << std::endl
     << " * subscriberType    : " << type_name << std::endl
@@ -721,6 +717,7 @@ generate (const PICML::InEventPort & sink)
     << "super (jbiConn, \"" << type_name << "\", \""  << version << "\");"
     << "}"
     << "}"
+    << std::endl
     << "/**" << std::endl
     << " * subscriber : " << name << std::endl
     << " */" << std::endl
@@ -784,6 +781,7 @@ generate (const PICML::MultiInputAction & action)
   iter->second = true;
 
   CUTS_BE_CAPI ()->outfile_
+    << std::endl
     << "/**" << std::endl
     << " * environmentAction : " << name << std::endl
     << " */" << std::endl
@@ -829,6 +827,7 @@ generate (const PICML::Component & component)
     if (!iter->second)
     {
       CUTS_BE_CAPI ()->outfile_
+        << std::endl
         << "/**" << std::endl
         << " * environmentAction : " << iter->first << std::endl
         << " */" << std::endl
@@ -870,6 +869,12 @@ generate (const PICML::PeriodicEvent & periodic)
     std::string periodic_name = input_action.name ();
 
     CUTS_BE_CAPI ()->outfile_
+      << std::endl
+      << "/**" << std::endl
+      << " * periodicEventHandler : " << periodic_name << std::endl
+      << " *" << std::endl
+      << " * Implementation for the specified periodic event." << std::endl
+      << " */" << std::endl
       << "public void " << periodic_name << " ()"
       << "{"
       << "try"
@@ -907,35 +912,39 @@ generate (const PICML::PeriodicEvent & periodic)
       << "e.printStackTrace ();"
       << "}"
       << "}"
+      << std::endl
       << "/**" << std::endl
       << " * @class " << periodic_name << std::endl
       << " *" << std::endl
       << " * Defines the handler for the periodicSend PeriodicEvent element" << std::endl
-      << " * specified in the component's behavior model." << std::endl
+      << " * specified in the component behavior model." << std::endl
       << " */" << std::endl
       << "private class " << periodic_task << " extends PeriodicTask"
       << "{"
-      << "/// The owner of the task" << std::endl
-      << "private " << parent_name << " component_ = null;" << std::endl
+      << "/**" << std::endl
+      << " * The owner of the task" << std::endl
+      << " */" << std::endl
+      << "private " << parent_name << " component_ = null;"
       << std::endl
       << "public " << periodic_task << " ("
       << parent_name << " component)"
       << "{"
-      << "super (" << periodic.Probability () << ");" << std::endl
+      << "super (" << periodic.Probability () << ");"
       << "this.component_ = component;"
       << "}"
-      << "public void handleTimeout () {"
+      << std::endl
+      << "public void handleTimeout ()"
+      << "{"
       << "this.component_." << periodic_name << "();"
       << "}"
       << "}"
+      << std::endl
       << "/**" << std::endl
       << " * periodicTask : " << periodic_name << std::endl
       << " */" << std::endl
       << "private " << periodic_task << " "
       << periodic_task << "_ = " << std::endl
-      << "  new " << periodic_task << " (this);"
-      << std::endl
-      << std::endl;
+      << "  new " << periodic_task << " (this);";
   }
   return true;
 }
@@ -944,10 +953,10 @@ generate (const PICML::PeriodicEvent & periodic)
 // CUTS_BE_OutputAction_Begin_T
 //
 bool CUTS_BE_OutputAction_Begin_T <CUTS_BE_Capi>::
-generate (const PICML::OutputAction & action
-          /*, const PICML::Event event_type */)
+generate (const PICML::OutputAction & action)
 {
   CUTS_BE_CAPI ()->outfile_
+    << "// Create a new event for publishing" << std::endl
     << "JbiEvent ev_" << action.uniqueId ()
     << "_ = new JbiEvent ();";
 
@@ -976,6 +985,9 @@ bool CUTS_BE_OutputAction_End_T <CUTS_BE_Capi>::
 generate (const PICML::OutputAction & action)
 {
   CUTS_BE_CAPI ()->outfile_
+    << std::endl
+    << "// Publishing the event (ev_" 
+    << action.uniqueId () << ")." << std::endl
     << "this." << action.name () << "_.publishData (ev_"
     << action.uniqueId () << "_);";
 
