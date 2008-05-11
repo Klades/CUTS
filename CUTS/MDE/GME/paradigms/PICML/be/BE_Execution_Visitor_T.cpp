@@ -246,20 +246,147 @@ template <typename BE_STRATEGY>
 void CUTS_BE_Execution_Visitor_T <BE_STRATEGY>::
 Visit_StateBase (const PICML::StateBase & base)
 {
-  if (base.type () == PICML::State::meta)
+  // Get the typename of the state.
+  Uml::Class type_name = base.type ();
+
+  if (type_name == PICML::State::meta)
   {
     PICML::State state = PICML::State::Cast (base);
 
     CUTS_BE::visit <BE_STRATEGY> (state,
       boost::bind (&PICML::State::Accept, _1, boost::ref (*this)));
   }
-  else
+  else if (type_name == PICML::BranchState::meta)
   {
     PICML::BranchState branch = PICML::BranchState::Cast (base);
 
     CUTS_BE::visit <BE_STRATEGY> (branch,
       boost::bind (&PICML::BranchState::Accept, _1, boost::ref (*this)));
   }
+  else if (type_name == PICML::DoWhileState::meta)
+  {
+    PICML::DoWhileState do_while (PICML::DoWhileState::Cast (base));
+
+    CUTS_BE::visit <BE_STRATEGY> (do_while,
+      boost::bind (PICML::DoWhileState::Accept, _1, boost::ref (*this)));
+  }
+  else if (type_name == PICML::WhileState::meta)
+  {
+    PICML::WhileState while_state (PICML::WhileState::Cast (base));
+
+    CUTS_BE::visit <BE_STRATEGY> (while_state,
+      boost::bind (PICML::WhileState::Accept, _1, boost::ref (*this)));
+  }
+}
+
+//
+// Visit_DoWhileState
+//
+template <typename BE_STRATEGY>
+void CUTS_BE_Execution_Visitor_T <BE_STRATEGY>::
+Visit_DoWhileState (const PICML::DoWhileState & do_while)
+{
+  // Generate the implemenation for the do...while control
+  // block.
+  CUTS_BE_Do_While_Begin_T <BE_STRATEGY>::generate ();
+  this->Visit_LoopState (do_while);
+  CUTS_BE_Do_While_End_T <BE_STRATEGY>::generate ();
+
+  // We are starting to generate the do...while condition.
+  std::string condition = do_while.StopCondition ();
+  CUTS_BE_Do_While_Condition_Begin_T <BE_STRATEGY>::generate ();
+
+  if (CUTS_BE_Parse_Precondition_T <BE_STRATEGY>::result_type)
+  {
+    boost::spirit::parse (condition.c_str (),
+                          this->condition_parser_,
+                          boost::spirit::space_p);
+  }
+  else
+  {
+    CUTS_BE_Precondition_T <BE_STRATEGY>::generate (condition);
+  }
+
+  // We are done generating the do...while condition.
+  CUTS_BE_Do_While_Condition_End_T <BE_STRATEGY>::generate ();
+
+  // Goto the terminal for this control block.
+  this->goto_to_terminal ();
+}
+
+//
+// Visit_WhileState
+//
+template <typename BE_STRATEGY>
+void CUTS_BE_Execution_Visitor_T <BE_STRATEGY>::
+Visit_WhileState (const PICML::WhileState & while_state)
+{
+  // We are starting to generate the do...while condition.
+  std::string condition = while_state.StopCondition ();
+  CUTS_BE_While_Condition_Begin_T <BE_STRATEGY>::generate ();
+
+  if (CUTS_BE_Parse_Precondition_T <BE_STRATEGY>::result_type)
+  {
+    boost::spirit::parse (condition.c_str (),
+                          this->condition_parser_,
+                          boost::spirit::space_p);
+  }
+  else
+  {
+    CUTS_BE_Precondition_T <BE_STRATEGY>::generate (condition);
+  }
+
+  // We are done generating the do...while condition.
+  CUTS_BE_While_Condition_End_T <BE_STRATEGY>::generate ();
+
+  // Generate the implemenation for the do...while control
+  // block.
+  CUTS_BE_While_Begin_T <BE_STRATEGY>::generate ();
+  this->Visit_LoopState (while_state);
+  CUTS_BE_While_End_T <BE_STRATEGY>::generate ();
+
+  // Goto the terminal for this control block.
+  this->goto_to_terminal ();
+}
+
+//
+// goto_to_terminal
+//
+template <typename BE_STRATEGY>
+void CUTS_BE_Execution_Visitor_T <BE_STRATEGY>::
+goto_to_terminal (void)
+{
+  // Since we have finished the branching, we can continue generating
+  // the remainder of the behavior that occurs after the branching.
+  if (!this->terminal_state_.empty ())
+  {
+    PICML::Terminal terminal = this->terminal_state_.top ();
+    this->terminal_state_.pop ();
+
+    terminal.Accept (*this);
+  }
+}
+
+//
+// Visit_LoopTransition
+//
+template <typename BE_STRATEGY>
+void CUTS_BE_Execution_Visitor_T <BE_STRATEGY>::
+Visit_LoopTransition (const PICML::LoopTransition & transition)
+{
+  PICML::ActionBase action (transition.dstLoopTransition_end ());
+  this->Visit_ActionBase (action);
+}
+
+//
+// Visit_LoopState
+//
+template <typename BE_STRATEGY>
+void CUTS_BE_Execution_Visitor_T <BE_STRATEGY>::
+Visit_LoopState (const PICML::LoopState & loop_state)
+{
+  PICML::LoopTransition loop_transition (loop_state.dstLoopTransition ());
+  loop_transition.Accept (*this);
 }
 
 //
@@ -331,13 +458,7 @@ Visit_BranchState (const PICML::BranchState & state)
 
   // Since we have finished the branching, we can continue generating
   // the remainder of the behavior that occurs after the branching.
-  if (!this->terminal_state_.empty ())
-  {
-    PICML::Terminal terminal = this->terminal_state_.top ();
-    this->terminal_state_.pop ();
-
-    terminal.Accept (*this);
-  }
+  this->goto_to_terminal ();
 }
 
 //

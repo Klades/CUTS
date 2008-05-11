@@ -750,9 +750,19 @@ void CUTS_CIAO_Exec_Source_Traits::write_branch_condition_begin (void)
 //
 // write_branch_condition_end
 //
-void CUTS_CIAO_Exec_Source_Traits::write_branch_condition_end (void)
+void CUTS_CIAO_Exec_Source_Traits::
+write_branch_condition_end (void)
 {
   this->outfile () << ")" << std::endl;
+}
+
+//
+// write_branch_else_condition
+//
+void CUTS_CIAO_Exec_Source_Traits::
+write_branch_else_condition (void)
+{
+  this->outfile () << "else" << std::endl;
 }
 
 //

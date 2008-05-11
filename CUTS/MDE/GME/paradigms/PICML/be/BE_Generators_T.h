@@ -718,6 +718,110 @@ struct CUTS_BE_Branches_End_T
 //=============================================================================
 
 template <typename IMPL_STRATEGY>
+struct CUTS_BE_Do_While_Begin_T
+{
+  static bool generate (void)
+    { return false; }
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template <typename IMPL_STRATEGY>
+struct CUTS_BE_Do_While_End_T
+{
+  static bool generate (void)
+    { return false; }
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template <typename IMPL_STRATEGY>
+struct CUTS_BE_Do_While_Condition_Begin_T
+{
+  static bool generate (void)
+    { return false; }
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template <typename IMPL_STRATEGY>
+struct CUTS_BE_Do_While_Condition_End_T
+{
+  static bool generate (void)
+    { return false; }
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template <typename IMPL_STRATEGY>
+struct CUTS_BE_While_Condition_Begin_T
+{
+  static bool generate (void)
+    { return false; }
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template <typename IMPL_STRATEGY>
+struct CUTS_BE_While_Condition_End_T
+{
+  static bool generate (void)
+    { return false; }
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template <typename IMPL_STRATEGY>
+struct CUTS_BE_While_Begin_T
+{
+  static bool generate (void)
+    { return false; }
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template <typename IMPL_STRATEGY>
+struct CUTS_BE_While_End_T
+{
+  static bool generate (void)
+    { return false; }
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template <typename IMPL_STRATEGY>
 struct CUTS_BE_Action_Properties_Begin_T
 {
   static bool generate (size_t count)

@@ -67,6 +67,7 @@ protected:
   /// Visit a State element.
   void Visit_State (const PICML::State &);
 
+  /// Visit a BranchState connection.
   void Visit_BranchState (const PICML::BranchState &);
 
   /// Visit a Transition element.
@@ -74,6 +75,11 @@ protected:
 
   /// Visit a BranchTransition element.
   void Visit_BranchTransition (const PICML::BranchTransition &);
+
+  /// Visit a DoWhileState element.
+  void Visit_DoWhileState (const PICML::DoWhileState & );
+
+  void Visit_WhileState (const PICML::WhileState &);
 
   /// Visit a Property element.
   void Visit_Property (const PICML::Property &);
@@ -93,13 +99,19 @@ protected:
 
   void Visit_TerminalEffect (const PICML::TerminalEffect &);
 
+  void Visit_LoopTransition (const PICML::LoopTransition &);
+
 protected:
   void Visit_OutputAction_Property (const PICML::Property & property);
 
 private:
-  void Visit_StateBase (const PICML::StateBase & base);
+  void Visit_StateBase (const PICML::StateBase &);
 
-  void Visit_ActionBase (const PICML::ActionBase & base);
+  void Visit_ActionBase (const PICML::ActionBase &);
+
+  void Visit_LoopState (const PICML::LoopState &);
+
+  void goto_to_terminal (void);
 
   /// Flag that determines if effects should be ignored.
   bool ignore_effects_;
@@ -116,6 +128,10 @@ private:
   typedef std::stack <PICML::BehaviorInputAction> Action_Stack;
 
   Action_Stack action_stack_;
+
+  typedef std::stack <PICML::StateBase> StateBase_Stack;
+
+  StateBase_Stack statebase_stack_;
 
   std::stack <size_t> branches_;
 

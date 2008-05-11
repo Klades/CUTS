@@ -24,7 +24,7 @@
 namespace Indentation
 {
   // Forward decl.
-  template <typename T> class Cxx;
+  template <typename T> class Java;
 
   // Forward decl.
   template <template <typename> class BufferType,
@@ -66,7 +66,7 @@ public:
 
   /// Indentation implanter.
   typedef Indentation::Implanter <
-    Indentation::Cxx, char> _formatter_type;
+    Indentation::Java, char> _formatter_type;
 
   /// Pointer to the formatter.
   std::auto_ptr <_formatter_type> formatter_;
@@ -495,6 +495,102 @@ struct CUTS_BE_Branch_End_T <CUTS_BE_Capi>
 
 template < >
 struct CUTS_BE_Branches_End_T <CUTS_BE_Capi>
+{
+  static bool generate (void);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Do_While_Begin_T <CUTS_BE_Capi>
+{
+  static bool generate (void);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Do_While_End_T <CUTS_BE_Capi>
+{
+  static bool generate (void);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Do_While_Condition_Begin_T <CUTS_BE_Capi>
+{
+  static bool generate (void);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Do_While_Condition_End_T <CUTS_BE_Capi>
+{
+  static bool generate (void);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_While_Condition_Begin_T <CUTS_BE_Capi>
+{
+  static bool generate (void);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_While_Condition_End_T <CUTS_BE_Capi>
+{
+  static bool generate (void);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_While_Begin_T <CUTS_BE_Capi>
+{
+  static bool generate (void);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_While_End_T <CUTS_BE_Capi>
 {
   static bool generate (void);
 };

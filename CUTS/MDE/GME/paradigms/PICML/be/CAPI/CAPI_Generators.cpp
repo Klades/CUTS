@@ -12,7 +12,7 @@
 #include "ace/Null_Mutex.h"
 
 // code generation headers
-#include "CCF/CodeGenerationKit/IndentationCxx.hpp"
+#include "CCF/CodeGenerationKit/IndentationJava.hpp"
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
 
 #define CUTS_BE_CAPI() \
@@ -485,6 +485,7 @@ generate (const PICML::MonolithicImplementation & mono,
       << iter->second.second << "\");"
       << "}"
       << "}"
+      << std::endl
       << "/**" << std::endl
       << " * publisher : " << iter->first << std::endl
       << " */" << std::endl
@@ -548,20 +549,24 @@ generate (const PICML::MonolithicImplementation & mono,
     << "e.printStackTrace ();"
     << "}"
     << "}"
-    << std::endl
     << "/**" << std::endl
     << " * Main entry point for the CAPI client" << std::endl
     << " */" << std::endl
-    << "public static void main (String [] args) throws Exception {"
+    << "public static void main (String [] args) throws Exception"
+    << "{"
     << "// create the client object" << std::endl
     << "JbiClient client = new " << mono.name () << " ();"
     << std::endl
-    << "// set its environment information" << std::endl
-    << "client.setServerAddress (\"localhost\");"
-    << "client.setUserCredentials (\"testUser\", \"test\");"
-    << std::endl
+    << "// parse the command-line arguments" << std::endl
+    << "if (client.parseArgs (args) == 0)"
+    << "{"
     << "// run the client (eventually may run in seperate thread)" << std::endl
     << "client.run ();"
+    << "}"
+    << "else"
+    << "{"
+    << "System.err.println (\"*** error: failed to parse command-line arguments\");"
+    << "}"
     << "}"
     << "}"
     << "// end of auto generated file" << std::endl;
@@ -1062,6 +1067,53 @@ bool CUTS_BE_Branches_End_T <CUTS_BE_Capi>::generate (void)
 };
 
 //
+// CUTS_BE_Do_While_Begin_T
+//
+bool CUTS_BE_Do_While_Begin_T <CUTS_BE_Capi>::generate (void)
+{
+  CUTS_BE_CAPI ()->outfile_
+    << "do"
+    << "{";
+
+  return true;
+}
+
+//
+// CUTS_BE_Do_While_Begin_T
+//
+bool CUTS_BE_Do_While_End_T <CUTS_BE_Capi>::generate (void)
+{
+  CUTS_BE_CAPI ()->outfile_
+    << "}"
+    << "while ";
+
+  return true;
+}
+
+
+//
+// CUTS_BE_Do_While_Condition_Begin_T
+//
+bool CUTS_BE_Do_While_Condition_Begin_T <CUTS_BE_Capi>::generate (void)
+{
+  CUTS_BE_CAPI ()->outfile_
+    << "(";
+
+  return true;
+}
+
+//
+// CUTS_BE_Do_While_Condition_End_T
+//
+bool CUTS_BE_Do_While_Condition_End_T <CUTS_BE_Capi>::generate (void)
+{
+  CUTS_BE_CAPI ()->outfile_
+    << ");";
+
+  return true;
+}
+
+//
 // CUTS_BE_Equal_To_T
 //
 bool CUTS_BE_Equal_To_T <CUTS_BE_Capi>::
@@ -1168,6 +1220,50 @@ bool CUTS_BE_Transcribe_Char_T <CUTS_BE_Capi>::generate (char ch)
 {
   CUTS_BE_CAPI ()->outfile_
     << ch;
+
+  return true;
+}
+
+//
+// CUTS_BE_While_Condition_Begin_T
+//
+bool CUTS_BE_While_Condition_Begin_T <CUTS_BE_Capi>::generate (void)
+{
+  CUTS_BE_CAPI ()->outfile_
+    << "while (";
+
+  return true;
+}
+
+//
+// CUTS_BE_While_Condition_End_T
+//
+bool CUTS_BE_While_Condition_End_T <CUTS_BE_Capi>::generate (void)
+{
+  CUTS_BE_CAPI ()->outfile_
+    << ")";
+
+  return true;
+}
+
+//
+// CUTS_BE_While_Begin_T
+//
+bool CUTS_BE_While_Begin_T <CUTS_BE_Capi>::generate (void)
+{
+  CUTS_BE_CAPI ()->outfile_ 
+    << "{";
+
+  return true;
+}
+
+//
+// CUTS_BE_While_End_T
+//
+bool CUTS_BE_While_End_T <CUTS_BE_Capi>::generate (void)
+{
+  CUTS_BE_CAPI ()->outfile_ 
+    << "}";
 
   return true;
 }

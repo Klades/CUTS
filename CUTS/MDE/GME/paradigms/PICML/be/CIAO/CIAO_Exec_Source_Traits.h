@@ -116,6 +116,8 @@ public:
 
   void write_branch_condition_end (void);
 
+  void write_branch_else_condition (void);
+
   void write_branch_begin (void);
 
   void write_branch_end (void);

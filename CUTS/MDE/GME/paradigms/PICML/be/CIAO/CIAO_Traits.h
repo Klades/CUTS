@@ -825,6 +825,21 @@ struct CUTS_BE_Branch_Condition_End_T <CUTS_BE_CIAO>
   }
 };
 
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Branch_No_Condition_T <CUTS_BE_CIAO>
+{
+  static bool generate (void)
+  {
+    CIAO_EXEC_SOURCE_GENERATOR ()->write_branch_else_condition ();
+    return true;
+  }
+};
 
 //=============================================================================
 /**
