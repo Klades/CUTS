@@ -1,3 +1,10 @@
+Mon May 12 21:03:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        
+          Enabled generation of postconditions.
+
 Mon May 12 17:19:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE.mpc:
@@ -9,7 +16,7 @@ Mon May 12 17:19:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * MDE/GME/paradigms/PICML/be/BE_Workspace_Generator_T.h:
         * MDE/GME/paradigms/PICML/be/BE_Workspace_Generator_T.cpp:
         * MDE/GME/paradigms/PICML/be/BE_Workspace_Generators_T.h:
-        
+
           The workspace and project generetors are now parameterizable
           by the backend generator type.
 
@@ -29,9 +36,9 @@ Mon May 12 17:19:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * MDE/GME/paradigms/PICML/be/TIOA/TIOA_Manager.h:
         * MDE/GME/paradigms/PICML/be/XML/XML_Manager.h:
         * MDE/GME/paradigms/PICML/be/natural-lang/Natural_Lang_Manager.h:
-        
-          Re-implemented all the backend generators to use the 
-          parameterizable version of the workspace and project 
+
+          Re-implemented all the backend generators to use the
+          parameterizable version of the workspace and project
           generators.
 
 Mon May 12 17:18:36 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

@@ -416,301 +416,234 @@ struct CUTS_BE_PeriodicEvent_Begin_T <CUTS_BE_Capi>
   static bool generate (const PICML::PeriodicEvent & periodic);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
+template < >
+struct CUTS_BE_Postcondition_T <CUTS_BE_Capi>
+{
+  static bool generate (const std::string & postcondition);
+};
 
+/**
+ *
+ */
 template < >
 struct CUTS_BE_PeriodicEvent_End_T <CUTS_BE_Capi>
 {
   static bool generate (const PICML::PeriodicEvent & periodic);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Branches_Begin_T <CUTS_BE_Capi>
 {
   static bool generate (size_t branches);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Branch_Condition_Begin_T <CUTS_BE_Capi>
 {
   static bool generate (void);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Branch_Condition_End_T <CUTS_BE_Capi>
 {
   static bool generate (void);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Branch_No_Condition_T <CUTS_BE_Capi>
 {
   static bool generate (void);
 };
 
-
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Branch_Begin_T <CUTS_BE_Capi>
 {
   static bool generate (void);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Branch_End_T <CUTS_BE_Capi>
 {
   static bool generate (void);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Branches_End_T <CUTS_BE_Capi>
 {
   static bool generate (void);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Do_While_Begin_T <CUTS_BE_Capi>
 {
   static bool generate (void);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Do_While_End_T <CUTS_BE_Capi>
 {
   static bool generate (void);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Do_While_Condition_Begin_T <CUTS_BE_Capi>
 {
   static bool generate (void);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Do_While_Condition_End_T <CUTS_BE_Capi>
 {
   static bool generate (void);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_While_Condition_Begin_T <CUTS_BE_Capi>
 {
   static bool generate (void);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_While_Condition_End_T <CUTS_BE_Capi>
 {
   static bool generate (void);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_While_Begin_T <CUTS_BE_Capi>
 {
   static bool generate (void);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_While_End_T <CUTS_BE_Capi>
 {
   static bool generate (void);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Equal_To_T <CUTS_BE_Capi>
 {
   static bool generate (const char * first, const char * last);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Not_Equal_To_T <CUTS_BE_Capi>
 {
   static bool generate (const char * first, const char * last);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Greater_Than_T <CUTS_BE_Capi>
 {
   static bool generate (const char * first, const char * last);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Greater_Than_Equal_To_T <CUTS_BE_Capi>
 {
   static bool generate (const char * first, const char * last);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Less_Than_T <CUTS_BE_Capi>
 {
   static bool generate (const char * first, const char * last);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Less_Than_Equal_To_T <CUTS_BE_Capi>
 {
   static bool generate (const char * first, const char * last);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Identifier_T <CUTS_BE_Capi>
 {
   static bool generate (const char * begin, const char * end);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Transcribe_Text_T <CUTS_BE_Capi>
 {
   static bool generate (const char * begin, const char * end);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Transcribe_Char_T <CUTS_BE_Capi>
 {

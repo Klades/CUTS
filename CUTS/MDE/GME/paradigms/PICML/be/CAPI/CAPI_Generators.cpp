@@ -1268,3 +1268,16 @@ bool CUTS_BE_While_End_T <CUTS_BE_Capi>::generate (void)
 
   return true;
 }
+
+//
+// CUTS_BE_Postcondition_T
+//
+bool CUTS_BE_Postcondition_T <CUTS_BE_Capi>::
+generate (const std::string & postcondition)
+{
+  CUTS_BE_CAPI ()->outfile_
+    << postcondition
+    << std::endl;
+
+  return true;
+}
