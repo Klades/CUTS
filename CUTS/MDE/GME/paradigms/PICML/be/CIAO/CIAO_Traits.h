@@ -3,7 +3,7 @@
 
 //=============================================================================
 /**
- * @file      CUTS_BE_CIAO.h
+ * @file      CUTS_BE_Ciao.h
  *
  * $Id$
  *
@@ -15,13 +15,37 @@
 #define _CUTS_BE_CIAO_TRAITS_H_
 
 #include "be/BE_Generators_T.h"
+#include "be/BE_Workspace_Generators_T.h"
+#include "be/BE_Project_Generators_T.h"
+
 #include "CIAO_Exec_Header_Traits.h"
 #include "CIAO_Exec_Source_Traits.h"
 #include "CIAO_Proxy_Header_Traits.h"
 #include "CIAO_Proxy_Source_Traits.h"
 
-/// Specialization struct for the CUTS_BE_CIAO backend.
-struct CUTS_BE_CIAO;
+// Forward decl.
+struct CUTS_BE_Impl_Node;
+
+// Forward decl.
+struct CUTS_BE_IDL_Node;
+
+/**
+ * Context for the CIAO backend generator.
+ */
+struct CUTS_BE_Ciao
+{
+  /// The target workspace file.
+  std::ofstream workspace_file_;
+
+  /// The target project file.
+  std::ofstream project_file_;
+
+  /// Type definition for a collection of nodes.
+  typedef std::set <const CUTS_BE_IDL_Node *> IDL_Node_Set;
+
+  /// Collection of visited nodes.
+  IDL_Node_Set visited_nodes_;
+};
 
 //=============================================================================
 /**
@@ -30,7 +54,7 @@ struct CUTS_BE_CIAO;
 //=============================================================================
 
 template < >
-struct CUTS_BE_File_Open_T <CUTS_BE_CIAO>
+struct CUTS_BE_File_Open_T <CUTS_BE_Ciao>
 {
   static bool
   generate (const PICML::ComponentImplementationContainer & container,
@@ -50,7 +74,7 @@ struct CUTS_BE_File_Open_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_File_Close_T <CUTS_BE_CIAO>
+struct CUTS_BE_File_Close_T <CUTS_BE_Ciao>
 {
   static bool
   generate (const PICML::ComponentImplementationContainer & container,
@@ -72,7 +96,7 @@ struct CUTS_BE_File_Close_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Prologue_T <CUTS_BE_CIAO>
+struct CUTS_BE_Prologue_T <CUTS_BE_Ciao>
 {
   static bool
   generate (const PICML::ComponentImplementationContainer & container,
@@ -94,7 +118,7 @@ struct CUTS_BE_Prologue_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Epilogue_T <CUTS_BE_CIAO>
+struct CUTS_BE_Epilogue_T <CUTS_BE_Ciao>
 {
   static bool
   generate (const PICML::ComponentImplementationContainer & container,
@@ -116,7 +140,7 @@ struct CUTS_BE_Epilogue_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Component_Impl_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_Component_Impl_Begin_T <CUTS_BE_Ciao>
 {
   static bool
   generate (const PICML::MonolithicImplementation & monoimpl,
@@ -138,7 +162,7 @@ struct CUTS_BE_Component_Impl_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Component_Impl_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_Component_Impl_End_T <CUTS_BE_Ciao>
 {
   static bool
   generate (const PICML::MonolithicImplementation & monoimpl,
@@ -160,7 +184,7 @@ struct CUTS_BE_Component_Impl_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Factory_Impl_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_Factory_Impl_Begin_T <CUTS_BE_Ciao>
 {
   static bool
   generate (const PICML::ComponentFactory & factory,
@@ -188,7 +212,7 @@ struct CUTS_BE_Factory_Impl_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Factory_Impl_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_Factory_Impl_End_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::ComponentFactory & factory,
                         const PICML::MonolithicImplementation & monoimpl,
@@ -215,7 +239,7 @@ struct CUTS_BE_Factory_Impl_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Object_Impl_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_Object_Impl_Begin_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::Component & component,
                         const PICML::ProvidedRequestPort & facet)
@@ -236,7 +260,7 @@ struct CUTS_BE_Object_Impl_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Object_Impl_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_Object_Impl_End_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::Component & component,
                         const PICML::ProvidedRequestPort & facet)
@@ -257,7 +281,7 @@ struct CUTS_BE_Object_Impl_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Include_File_T <CUTS_BE_CIAO>
+struct CUTS_BE_Include_File_T <CUTS_BE_Ciao>
 {
   static bool generate (const std::string & include)
   {
@@ -273,7 +297,7 @@ struct CUTS_BE_Include_File_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Environment_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_Environment_Begin_T <CUTS_BE_Ciao>
 {
   static bool
   generate (const PICML::Component & component)
@@ -294,7 +318,7 @@ struct CUTS_BE_Environment_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Environment_Method_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_Environment_Method_Begin_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::MultiInputAction & action)
   {
@@ -311,7 +335,7 @@ struct CUTS_BE_Environment_Method_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Environment_Method_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_Environment_Method_End_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::MultiInputAction & action)
   {
@@ -328,7 +352,7 @@ struct CUTS_BE_Environment_Method_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Environment_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_Environment_End_T <CUTS_BE_Ciao>
 {
   static bool
   generate (const PICML::Component & component)
@@ -346,7 +370,7 @@ struct CUTS_BE_Environment_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Variables_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_Variables_Begin_T <CUTS_BE_Ciao>
 {
   static bool
   generate (const PICML::Component & component)
@@ -367,7 +391,7 @@ struct CUTS_BE_Variables_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Worker_Variable_T <CUTS_BE_CIAO>
+struct CUTS_BE_Worker_Variable_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::WorkerType & type,
                         const PICML::Worker & worker)
@@ -385,7 +409,7 @@ struct CUTS_BE_Worker_Variable_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Variables_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_Variables_End_T <CUTS_BE_Ciao>
 {
   static bool
   generate (const PICML::Component & component)
@@ -403,7 +427,7 @@ struct CUTS_BE_Variables_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_PeriodicEvent_Variable_T <CUTS_BE_CIAO>
+struct CUTS_BE_PeriodicEvent_Variable_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::PeriodicEvent & periodic)
   {
@@ -420,7 +444,7 @@ struct CUTS_BE_PeriodicEvent_Variable_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Attribute_Variable_T <CUTS_BE_CIAO>
+struct CUTS_BE_Attribute_Variable_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::ReadonlyAttribute & attr)
   {
@@ -437,7 +461,7 @@ struct CUTS_BE_Attribute_Variable_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Variable_T <CUTS_BE_CIAO>
+struct CUTS_BE_Variable_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::Variable & variable)
   {
@@ -454,7 +478,7 @@ struct CUTS_BE_Variable_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_InEventPort_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_InEventPort_Begin_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::InEventPort & sink)
   {
@@ -474,7 +498,7 @@ struct CUTS_BE_InEventPort_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_InEventPort_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_InEventPort_End_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::InEventPort & sink)
   {
@@ -494,7 +518,7 @@ struct CUTS_BE_InEventPort_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_ProvidedRequestPort_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_ProvidedRequestPort_Begin_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::ProvidedRequestPort & source)
   {
@@ -514,7 +538,7 @@ struct CUTS_BE_ProvidedRequestPort_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_ProvidedRequestPort_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_ProvidedRequestPort_End_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::ProvidedRequestPort & source)
   {
@@ -534,7 +558,7 @@ struct CUTS_BE_ProvidedRequestPort_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_PeriodicEvent_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_PeriodicEvent_Begin_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::PeriodicEvent & periodic)
   {
@@ -551,7 +575,7 @@ struct CUTS_BE_PeriodicEvent_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_PeriodicEvent_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_PeriodicEvent_End_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::PeriodicEvent & periodic)
   {
@@ -568,7 +592,7 @@ struct CUTS_BE_PeriodicEvent_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_ReadonlyAttribute_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_ReadonlyAttribute_Begin_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::ReadonlyAttribute & attr)
   {
@@ -588,7 +612,7 @@ struct CUTS_BE_ReadonlyAttribute_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_ReadonlyAttribute_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_ReadonlyAttribute_End_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::ReadonlyAttribute & attr)
   {
@@ -608,7 +632,7 @@ struct CUTS_BE_ReadonlyAttribute_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Attribute_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_Attribute_Begin_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::Attribute & attr)
   {
@@ -628,7 +652,7 @@ struct CUTS_BE_Attribute_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Attribute_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_Attribute_End_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::Attribute & attr)
   {
@@ -648,7 +672,7 @@ struct CUTS_BE_Attribute_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_OnewayOperation_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_OnewayOperation_Begin_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::OnewayOperation & oneway)
   {
@@ -668,7 +692,7 @@ struct CUTS_BE_OnewayOperation_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_OnewayOperation_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_OnewayOperation_End_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::OnewayOperation & oneway)
   {
@@ -688,7 +712,7 @@ struct CUTS_BE_OnewayOperation_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_TwowayOperation_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_TwowayOperation_Begin_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::TwowayOperation & twoway)
   {
@@ -708,7 +732,7 @@ struct CUTS_BE_TwowayOperation_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_TwowayOperation_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_TwowayOperation_End_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::TwowayOperation & twoway)
   {
@@ -728,7 +752,7 @@ struct CUTS_BE_TwowayOperation_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_FactoryOperation_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_FactoryOperation_Begin_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::FactoryOperation & fop)
   {
@@ -748,7 +772,7 @@ struct CUTS_BE_FactoryOperation_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_FactoryOperation_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_FactoryOperation_End_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::FactoryOperation & fop)
   {
@@ -768,7 +792,7 @@ struct CUTS_BE_FactoryOperation_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Postcondition_T <CUTS_BE_CIAO>
+struct CUTS_BE_Postcondition_T <CUTS_BE_Ciao>
 {
   static bool generate (const std::string & postcondition)
   {
@@ -784,7 +808,7 @@ struct CUTS_BE_Postcondition_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Branches_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_Branches_Begin_T <CUTS_BE_Ciao>
 {
   static bool generate (size_t branches)
   {
@@ -800,7 +824,7 @@ struct CUTS_BE_Branches_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Branch_Condition_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_Branch_Condition_Begin_T <CUTS_BE_Ciao>
 {
   static bool generate (void)
   {
@@ -816,7 +840,7 @@ struct CUTS_BE_Branch_Condition_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Branch_Condition_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_Branch_Condition_End_T <CUTS_BE_Ciao>
 {
   static bool generate (void)
   {
@@ -832,7 +856,7 @@ struct CUTS_BE_Branch_Condition_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Branch_No_Condition_T <CUTS_BE_CIAO>
+struct CUTS_BE_Branch_No_Condition_T <CUTS_BE_Ciao>
 {
   static bool generate (void)
   {
@@ -848,7 +872,7 @@ struct CUTS_BE_Branch_No_Condition_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Branch_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_Branch_Begin_T <CUTS_BE_Ciao>
 {
   static inline bool generate ()
   {
@@ -864,7 +888,7 @@ struct CUTS_BE_Branch_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Branch_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_Branch_End_T <CUTS_BE_Ciao>
 {
   static inline bool generate ()
   {
@@ -880,7 +904,7 @@ struct CUTS_BE_Branch_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Branches_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_Branches_End_T <CUTS_BE_Ciao>
 {
   static inline bool generate (void)
   {
@@ -896,7 +920,7 @@ struct CUTS_BE_Branches_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Action_Property_T <CUTS_BE_CIAO>
+struct CUTS_BE_Action_Property_T <CUTS_BE_Ciao>
 {
   static inline bool generate (const PICML::Property & property)
   {
@@ -912,7 +936,7 @@ struct CUTS_BE_Action_Property_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_WorkerAction_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_WorkerAction_Begin_T <CUTS_BE_Ciao>
 {
   static inline bool
     generate (const PICML::Worker & worker, const PICML::Action & action)
@@ -930,7 +954,7 @@ struct CUTS_BE_WorkerAction_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_OutputAction_Begin_T <CUTS_BE_CIAO>
+struct CUTS_BE_OutputAction_Begin_T <CUTS_BE_Ciao>
 {
   static inline bool generate (const PICML::OutputAction & action)
   {
@@ -946,7 +970,7 @@ struct CUTS_BE_OutputAction_Begin_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_OutputAction_Property_T <CUTS_BE_CIAO>
+struct CUTS_BE_OutputAction_Property_T <CUTS_BE_Ciao>
 {
   static inline bool generate (const PICML::OutputAction & action,
                                const PICML::Property & property)
@@ -964,7 +988,7 @@ struct CUTS_BE_OutputAction_Property_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_OutputAction_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_OutputAction_End_T <CUTS_BE_Ciao>
 {
   static inline bool generate (const PICML::OutputAction & action)
   {
@@ -980,7 +1004,7 @@ struct CUTS_BE_OutputAction_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Action_End_T <CUTS_BE_CIAO>
+struct CUTS_BE_Action_End_T <CUTS_BE_Ciao>
 {
   static inline bool generate (void)
   {
@@ -996,7 +1020,7 @@ struct CUTS_BE_Action_End_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Equal_To_T <CUTS_BE_CIAO>
+struct CUTS_BE_Equal_To_T <CUTS_BE_Ciao>
 {
   static bool generate (const char * first, const char * last)
   {
@@ -1012,7 +1036,7 @@ struct CUTS_BE_Equal_To_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Not_Equal_To_T <CUTS_BE_CIAO>
+struct CUTS_BE_Not_Equal_To_T <CUTS_BE_Ciao>
 {
   static bool generate (const char * first, const char * last)
   {
@@ -1028,7 +1052,7 @@ struct CUTS_BE_Not_Equal_To_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Greater_Than_T <CUTS_BE_CIAO>
+struct CUTS_BE_Greater_Than_T <CUTS_BE_Ciao>
 {
   static bool generate (const char * first, const char * last)
   {
@@ -1044,7 +1068,7 @@ struct CUTS_BE_Greater_Than_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Greater_Than_Equal_To_T <CUTS_BE_CIAO>
+struct CUTS_BE_Greater_Than_Equal_To_T <CUTS_BE_Ciao>
 {
   static bool generate (const char * first, const char * last)
   {
@@ -1060,7 +1084,7 @@ struct CUTS_BE_Greater_Than_Equal_To_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Less_Than_T <CUTS_BE_CIAO>
+struct CUTS_BE_Less_Than_T <CUTS_BE_Ciao>
 {
   static bool generate (const char * first, const char * last)
   {
@@ -1076,7 +1100,7 @@ struct CUTS_BE_Less_Than_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Less_Than_Equal_To_T <CUTS_BE_CIAO>
+struct CUTS_BE_Less_Than_Equal_To_T <CUTS_BE_Ciao>
 {
   static bool generate (const char * first, const char * last)
   {
@@ -1092,7 +1116,7 @@ struct CUTS_BE_Less_Than_Equal_To_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Identifier_T <CUTS_BE_CIAO>
+struct CUTS_BE_Identifier_T <CUTS_BE_Ciao>
 {
   static bool generate (const char * begin, const char * end)
   {
@@ -1108,7 +1132,7 @@ struct CUTS_BE_Identifier_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Transcribe_Text_T <CUTS_BE_CIAO>
+struct CUTS_BE_Transcribe_Text_T <CUTS_BE_Ciao>
 {
   static bool generate (const char * begin, const char * end)
   {
@@ -1124,7 +1148,7 @@ struct CUTS_BE_Transcribe_Text_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Transcribe_Char_T <CUTS_BE_CIAO>
+struct CUTS_BE_Transcribe_Char_T <CUTS_BE_Ciao>
 {
   static bool generate (char ch)
   {
@@ -1140,7 +1164,7 @@ struct CUTS_BE_Transcribe_Char_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_And_T <CUTS_BE_CIAO>
+struct CUTS_BE_And_T <CUTS_BE_Ciao>
 {
   static bool generate (const char * begin, const char * end)
   {
@@ -1156,13 +1180,206 @@ struct CUTS_BE_And_T <CUTS_BE_CIAO>
 //=============================================================================
 
 template < >
-struct CUTS_BE_Or_T <CUTS_BE_CIAO>
+struct CUTS_BE_Or_T <CUTS_BE_Ciao>
 {
   static bool generate (const char * begin, const char * end)
   {
     CIAO_EXEC_SOURCE_GENERATOR ()->write_or_symbol ();
     return true;
   }
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Workspace_File_Open_T <CUTS_BE_Ciao>
+{
+  static bool generate (const std::string & name);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Workspace_Begin_T <CUTS_BE_Ciao>
+{
+  static bool generate (const std::string & name);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Workspace_Project_Include_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>
+{
+  static bool generate (const CUTS_BE_Impl_Node & node);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Workspace_Project_Include_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>
+{
+  static bool generate (const CUTS_BE_IDL_Node & node);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Workspace_End_T <CUTS_BE_Ciao>
+{
+  static bool generate (const std::string & name);
+};
+
+//=============================================================================
+/**
+ *
+ */
+//=============================================================================
+
+template < >
+struct CUTS_BE_Workspace_File_Close_T <CUTS_BE_Ciao>
+{
+  static void generate (void);
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// project generators (CUTS_BE_Impl_Node)
+
+/**
+ *
+ */
+template < >
+struct CUTS_BE_Project_File_Open_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>
+{
+  static bool generate (const CUTS_BE_Impl_Node & node);
+};
+
+/**
+ *
+ */
+template < >
+struct CUTS_BE_Project_File_Begin_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>
+{
+  static bool generate (const CUTS_BE_Impl_Node & node);
+};
+
+/**
+ *
+ */
+template < >
+struct CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>
+{
+  typedef std::set <const CUTS_BE_IDL_Node *> IDL_Node_Set;
+
+  static bool generate (const CUTS_BE_Impl_Node & node);
+
+private:
+  static void generate_exec_project (const CUTS_BE_Impl_Node & node);
+
+  static void generate_svnt_project (const CUTS_BE_Impl_Node & node);
+
+  static void generate_skel_project (const CUTS_BE_Impl_Node & node);
+
+  static void generate_stub_listing (const CUTS_BE_IDL_Node * node);
+
+  static void generate_mpc_i (const CUTS_BE_Impl_Node & node);
+
+  static void generate_mpc_values (const std::string & heading,
+                                   const CUTS_String_Set & listing);
+
+  static IDL_Node_Set visited_nodes_;
+};
+
+/**
+ *
+ */
+template < >
+struct CUTS_BE_Project_File_End_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>
+{
+  static bool generate (const CUTS_BE_Impl_Node & node);
+};
+
+/**
+ *
+ */
+template <  >
+struct CUTS_BE_Project_File_Close_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>
+{
+  static void generate (void);
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// project generators (CUTS_BE_IDL_Node)
+
+/**
+ *
+ */
+template <  >
+struct CUTS_BE_Project_File_Open_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>
+{
+  static bool generate (const CUTS_BE_IDL_Node & node);
+};
+
+/**
+ *
+ */
+template <  >
+struct CUTS_BE_Project_File_Begin_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>
+{
+  static bool generate (const CUTS_BE_IDL_Node & node);
+};
+
+/**
+ *
+ */
+template < >
+struct CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>
+{
+  typedef std::set <const CUTS_BE_IDL_Node *> IDL_Node_Set;
+
+  static bool generate (const CUTS_BE_IDL_Node & node);
+
+private:
+  static void generate_stub_listing (const CUTS_BE_IDL_Node * node);
+
+  static IDL_Node_Set visited_nodes_;
+};
+
+/**
+ *
+ */
+template <  >
+struct CUTS_BE_Project_File_End_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>
+{
+  static bool generate (const CUTS_BE_IDL_Node & node);
+};
+
+/**
+ *
+ */
+template <  >
+struct CUTS_BE_Project_File_Close_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>
+{
+  static void generate (void);
 };
 
 #endif  // !defined _CUTS_BE_CIAO_TRAITS_H_

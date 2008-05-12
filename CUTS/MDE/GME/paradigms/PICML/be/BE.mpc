@@ -40,8 +40,11 @@ project (CUTS_BE) : picml_udm, boost_base, cuts_cosmic {
   Header_Files {
     BE.h
     BE_algorithm.h
-    BE_Generators_T.h
     BE_List_T.h
+
+    BE_Generators_T.h
+    BE_Project_Generators_T.h
+    BE_Workspace_Generators_T.h
   }
 
   Inline_Files {

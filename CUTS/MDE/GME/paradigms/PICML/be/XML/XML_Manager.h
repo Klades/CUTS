@@ -20,9 +20,7 @@
 #include "be/BE_Project_Generator.h"
 #include "XML_Generators.h"
 
-typedef CUTS_BE_Manager_T <CUTS_BE_Workspace_Strategy,
-                           CUTS_BE_Project_Generator,
-                           CUTS_BE_Xml>
+typedef CUTS_BE_Manager_T <CUTS_BE_Xml>
                            CUTS_BE_XML_Manager;
 
 #endif  // !defined _CUTS_BE_XML_MANAGER_H_

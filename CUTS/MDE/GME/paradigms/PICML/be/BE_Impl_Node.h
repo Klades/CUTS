@@ -52,6 +52,9 @@ struct CUTS_BE_Export CUTS_BE_Impl_Node :
   /// Type definition of a collection of artifacts for this.
   typedef std::set <PICML::ImplementationArtifact> Artifact_Set;
 
+  /// The component implementation's container.
+  PICML::ComponentImplementationContainer container_;
+
   /// Collection of artifacts for this implementation.
   Artifact_Set artifacts_;
 };

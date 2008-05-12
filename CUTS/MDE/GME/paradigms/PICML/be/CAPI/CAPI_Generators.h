@@ -18,18 +18,15 @@
 #include "be/BE_Generators_T.h"
 #include "be/BE_algorithm.h"
 #include "be/String_Set.h"
+#include "ace/Singleton.h"
+#include "ace/Null_Mutex.h"
 #include <fstream>
 #include <stack>
 
-namespace Indentation
-{
-  // Forward decl.
-  template <typename T> class Java;
-
-  // Forward decl.
-  template <template <typename> class BufferType,
-            typename C> class Implanter;
-}
+// code generation headers
+#include "CCF/CodeGenerationKit/IndentationJava.hpp"
+#include "CCF/CodeGenerationKit/IndentationXML.hpp"
+#include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
 
 //=============================================================================
 /**
@@ -61,7 +58,7 @@ public:
   /// Default constructor.
   CUTS_BE_Capi (void);
 
-  /// Target TIOA output file.
+  /// Target source file.
   std::ofstream outfile_;
 
   /// Indentation implanter.
@@ -70,6 +67,19 @@ public:
 
   /// Pointer to the formatter.
   std::auto_ptr <_formatter_type> formatter_;
+
+  /// Indentation implanter.
+  typedef Indentation::Implanter <
+    Indentation::XML, char> _project_formatter_type;
+
+  /// Target project file.
+  std::ofstream project_file_;
+
+  std::ofstream workspace_file_;
+
+  std::auto_ptr <_project_formatter_type> project_formatter_;
+
+  std::auto_ptr <_project_formatter_type> workspace_formatter_;
 
   void reset (void);
 
@@ -102,6 +112,10 @@ public:
   /// Keeps track of the current branch depth.
   std::stack <size_t> branches_;
 };
+
+// Singleton declaration for the backend generator.
+#define CUTS_BE_CAPI() \
+  ACE_Singleton <CUTS_BE_Capi, ACE_Null_Mutex>::instance ()
 
 //
 // disable the following points of generation

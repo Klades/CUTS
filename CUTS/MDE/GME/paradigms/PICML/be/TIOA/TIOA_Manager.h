@@ -20,9 +20,7 @@
 #include "be/BE_Project_Generator.h"
 #include "TIOA_Generators.h"
 
-typedef CUTS_BE_Manager_T <CUTS_BE_Workspace_Strategy,
-                           CUTS_BE_Project_Generator,
-                           CUTS_BE_Tioa>
+typedef CUTS_BE_Manager_T <CUTS_BE_Tioa>
                            CUTS_BE_TIOA_Manager;
 
 #endif  // !defined _CUTS_BE_TIOA_MANAGER_H_

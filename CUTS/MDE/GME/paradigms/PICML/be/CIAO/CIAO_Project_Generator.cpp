@@ -18,7 +18,7 @@
 #define CLIENT_SUFFIX     "C"
 #define SERVER_SUFFIX     "S"
 
-std::string basename (const std::string & filename)
+static std::string basename (const std::string & filename)
 {
   std::string::size_type npos = filename.find_last_of ("/\\");
   return filename.substr (npos + 1);

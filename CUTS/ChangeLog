@@ -1,7 +1,70 @@
+Mon May 12 17:19:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE.mpc:
+        * MDE/GME/paradigms/PICML/be/BE_Impl_Graph.cpp:
+        * MDE/GME/paradigms/PICML/be/BE_Impl_Node.h:
+        * MDE/GME/paradigms/PICML/be/BE_Manager_T.h:
+        * MDE/GME/paradigms/PICML/be/BE_Manager_T.cpp:
+        * MDE/GME/paradigms/PICML/be/BE_Project_Generators_T.h:
+        * MDE/GME/paradigms/PICML/be/BE_Workspace_Generator_T.h:
+        * MDE/GME/paradigms/PICML/be/BE_Workspace_Generator_T.cpp:
+        * MDE/GME/paradigms/PICML/be/BE_Workspace_Generators_T.h:
+        
+          The workspace and project generetors are now parameterizable
+          by the backend generator type.
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI.mpc:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Manager.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Project_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Project_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Workspace_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Workspace_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/BE_CIAO.mpc:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Manager.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Traits.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Traits.cpp:
+        * MDE/GME/paradigms/PICML/be/TIOA/TIOA_Manager.h:
+        * MDE/GME/paradigms/PICML/be/XML/XML_Manager.h:
+        * MDE/GME/paradigms/PICML/be/natural-lang/Natural_Lang_Manager.h:
+        
+          Re-implemented all the backend generators to use the 
+          parameterizable version of the workspace and project 
+          generators.
+
+Mon May 12 17:18:36 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE.mpc:
+        * MDE/GME/paradigms/PICML/be/BE_Impl_Graph.cpp:
+        * MDE/GME/paradigms/PICML/be/BE_Impl_Node.h:
+        * MDE/GME/paradigms/PICML/be/BE_Manager_T.h:
+        * MDE/GME/paradigms/PICML/be/BE_Manager_T.cpp:
+        * MDE/GME/paradigms/PICML/be/BE_Workspace_Generator_T.h:
+        * MDE/GME/paradigms/PICML/be/BE_Workspace_Generator_T.cpp:
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI.mpc:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Manager.h:
+
+        * MDE/GME/paradigms/PICML/be/CIAO/BE_CIAO.mpc:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Manager.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Traits.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Traits.cpp:
+
+        * MDE/GME/paradigms/PICML/be/TIOA/TIOA_Manager.h:
+
+        * MDE/GME/paradigms/PICML/be/XML/XML_Manager.h:
+
+        * MDE/GME/paradigms/PICML/be/natural-lang/Natural_Lang_Manager.h:
+
 Sun May 11 23:31:26 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
-        
+
           Removed the apostrophe, which was casuing the Java code
           generator to screw up the documents format.
 

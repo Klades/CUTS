@@ -36,6 +36,7 @@ const PICML::ComponentImplementationContainer & container)
 {
   // Get the <current_impl_> for this container.
   this->find (container.name (), this->current_impl_);
+  this->current_impl_->container_ = container;
 
   // Get all the monolithic implemenations in this <container>.
   typedef std::vector <PICML::MonolithicImplementation> MonoImpl_Set;

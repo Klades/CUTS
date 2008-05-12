@@ -2,9 +2,9 @@
 
 //=============================================================================
 /**
- * @file        XML_Manager.h
+ * @file        CAPI_Manager.h
  *
- * Defines the CUTS_BE_XML_Manager manager object
+ * Defines the CUTS_BE_CAPI_Manager manager object
  *
  * $Id$
  *
@@ -12,17 +12,15 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_BE_XML_MANAGER_H_
-#define _CUTS_BE_XML_MANAGER_H_
+#ifndef _CUTS_BE_CAPI_MANAGER_H_
+#define _CUTS_BE_CAPI_MANAGER_H_
 
-#include "be/BE_Manager_T.h"
-#include "be/BE_Workspace_Strategy.h"
-#include "be/BE_Project_Generator.h"
 #include "CAPI_Generators.h"
+#include "CAPI_Workspace_Generators.h"
+#include "CAPI_Project_Generators.h"
+#include "be/BE_Manager_T.h"
 
-typedef CUTS_BE_Manager_T <CUTS_BE_Workspace_Strategy,
-                           CUTS_BE_Project_Generator,
-                           CUTS_BE_Capi>
+typedef CUTS_BE_Manager_T <CUTS_BE_Capi>
                            CUTS_BE_CAPI_Manager;
 
-#endif  // !defined _CUTS_BE_XML_MANAGER_H_
+#endif  // !defined _CUTS_BE_CAPI_MANAGER_H_

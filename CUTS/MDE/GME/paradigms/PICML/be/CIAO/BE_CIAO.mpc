@@ -1,7 +1,7 @@
 // $Id$
 
-project (CUTS_BE_CIAO) : boost_base, picml_udm, cuts_cosmic {
-  sharedname    += CUTS_BE_CIAO
+project (CUTS_BE_Ciao) : boost_base, picml_udm, cuts_cosmic {
+  sharedname    += CUTS_BE_Ciao
   dynamicflags  += CUTS_UDM_CIAO_BUILD_DLL
 
   includes += $(CIAO_ROOT)/CCF \

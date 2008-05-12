@@ -37,7 +37,7 @@ struct CUTS_BE_IDL_Node;
  */
 //=============================================================================
 
-template <typename WORKSPACE_STRATEGY, typename PROJ_STRATEGY>
+template <typename BE_TYPE>
 class CUTS_BE_Workspace_Generator_T
 {
 public:
@@ -66,11 +66,11 @@ protected:
   void generate_stub_project (const CUTS_BE_IDL_Node * node);
 
 private:
-  /// The workspace generator strategy.
-  WORKSPACE_STRATEGY workspace_generator_;
+  ///// The workspace generator strategy.
+  //WORKSPACE_STRATEGY workspace_generator_;
 
-  /// Project generator for this workspace.
-  PROJ_STRATEGY proj_generator_;
+  ///// Project generator for this workspace.
+  //PROJ_STRATEGY proj_generator_;
 
   /// Type definition for visited nodes.
   typedef std::set <const CUTS_BE_IDL_Node *> IDL_Node_Set;
@@ -81,8 +81,8 @@ private:
   /// Collection of stubs that need to be generated.
   IDL_Node_Set required_stubs_;
 
-  /// Collection of project files.
-  CUTS_String_Set project_files_;
+  ///// Collection of project files.
+  //CUTS_String_Set project_files_;
 
   // prevent the following operations
   CUTS_BE_Workspace_Generator_T (

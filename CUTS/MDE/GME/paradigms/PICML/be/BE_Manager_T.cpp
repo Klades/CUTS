@@ -7,12 +7,8 @@
 //
 // CUTS_BE_Manager_T
 //
-template <typename WORKSPACE_STRATEGY,
-          typename PROJECT_STRATEGY,
-          typename EXECUTOR_STRATEGY>
-CUTS_BE_Manager_T <
-WORKSPACE_STRATEGY, PROJECT_STRATEGY, EXECUTOR_STRATEGY>::
-CUTS_BE_Manager_T (void)
+template <typename BE_TYPE>
+CUTS_BE_Manager_T <BE_TYPE>::CUTS_BE_Manager_T (void)
 {
 
 }
@@ -20,12 +16,8 @@ CUTS_BE_Manager_T (void)
 //
 // ~CUTS_BE_Manager_T
 //
-template <typename WORKSPACE_STRATEGY,
-          typename PROJECT_STRATEGY,
-          typename EXECUTOR_STRATEGY>
-CUTS_BE_Manager_T <
-WORKSPACE_STRATEGY, PROJECT_STRATEGY, EXECUTOR_STRATEGY>::
-~CUTS_BE_Manager_T (void)
+template <typename BE_TYPE>
+CUTS_BE_Manager_T <BE_TYPE>::~CUTS_BE_Manager_T (void)
 {
 
 }
@@ -33,22 +25,16 @@ WORKSPACE_STRATEGY, PROJECT_STRATEGY, EXECUTOR_STRATEGY>::
 //
 // handle
 //
-template <typename WORKSPACE_STRATEGY,
-          typename PROJECT_STRATEGY,
-          typename EXECUTOR_STRATEGY>
-bool CUTS_BE_Manager_T <
-WORKSPACE_STRATEGY, PROJECT_STRATEGY, EXECUTOR_STRATEGY>::
+template <typename BE_TYPE>
+bool CUTS_BE_Manager_T <BE_TYPE>::
 handle (const PICML::RootFolder & root)
 {
-  // Generate the executor implementations.
-  CUTS_BE_Impl_Generator_T <EXECUTOR_STRATEGY> exec_generator;
-  PICML::RootFolder tmp_root (root);
-  tmp_root.Accept (exec_generator);
+  // Generate the executor implementation.
+  CUTS_BE_Impl_Generator_T <BE_TYPE> exec_generator;
+  PICML::RootFolder (root).Accept (exec_generator);
 
-  // Workspace generator for the manager.
-  CUTS_BE_Workspace_Generator_T <
-    WORKSPACE_STRATEGY, PROJECT_STRATEGY> workspace_generator;
-
-  workspace_generator.generate ();
+  // Generate the workspace/project files.
+  CUTS_BE_Workspace_Generator_T <BE_TYPE> workspace;
+  workspace.generate ();
   return true;
 }

@@ -7,17 +7,6 @@
 #include "boost/bind.hpp"
 #include "Uml.h"
 
-// ACE headers
-#include "ace/Singleton.h"
-#include "ace/Null_Mutex.h"
-
-// code generation headers
-#include "CCF/CodeGenerationKit/IndentationJava.hpp"
-#include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
-
-#define CUTS_BE_CAPI() \
-  ACE_Singleton <CUTS_BE_Capi, ACE_Null_Mutex>::instance ()
-
 //
 // predefined_type_map_
 //

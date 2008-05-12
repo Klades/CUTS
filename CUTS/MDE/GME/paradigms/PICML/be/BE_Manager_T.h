@@ -18,10 +18,14 @@
 //=============================================================================
 /**
  * @class CUTS_BE_Manager_T
+ *
+ * Main entry point for the backend generator. Each backend generator 
+ * parameterizes this manager to customize how the points-of-visitation 
+ * and points-of-generation function.
  */
 //=============================================================================
 
-template <typename WORKSPACE, typename PROJECT,  typename EXECUTOR>
+template <typename BE_TYPE>
 class CUTS_BE_Manager_T : public CUTS_BE_Manager
 {
 public:
