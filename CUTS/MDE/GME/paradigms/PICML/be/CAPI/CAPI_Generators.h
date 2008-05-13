@@ -170,17 +170,17 @@ struct CUTS_BE_Prologue_T <CUTS_BE_Capi>
                         const PICML::MonolithicImplementation & );
 };
 
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template < >
-struct CUTS_BE_Include_File_T <CUTS_BE_Capi>
-{
-  static bool generate (const std::string & include);
-};
+////=============================================================================
+///**
+// *
+// */
+////=============================================================================
+//
+//template < >
+//struct CUTS_BE_Include_File_T <CUTS_BE_Capi>
+//{
+//  static bool generate (const std::string & include);
+//};
 
 //=============================================================================
 /**
@@ -193,6 +193,9 @@ struct CUTS_BE_Component_Impl_Begin_T <CUTS_BE_Capi>
 {
   static bool generate (const PICML::MonolithicImplementation & mono,
                         const PICML::Component & component);
+
+private:
+  static void generate_worker_import (const PICML::Worker & );
 };
 
 //=============================================================================

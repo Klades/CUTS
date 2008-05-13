@@ -120,10 +120,12 @@ generate_accessor_methods (std::string type, std::string varname)
   tmp_varname[0] = ::toupper (tmp_varname[0]);
 
   CUTS_BE_CAPI ()->outfile_
+    << std::endl
     << "public " << type << " get" << tmp_varname << " ()"
     << "{"
     << "return this." << varname << "_;"
     << "}"
+    << std::endl
     << "public void set" << tmp_varname
     << " (" << type << " " << varname << ")"
     << "{"
@@ -340,17 +342,17 @@ generate (const PICML::ComponentImplementationContainer & container,
   return true;
 }
 
+////
+//// CUTS_BE_Include_File_T
+////
+//bool CUTS_BE_Include_File_T <CUTS_BE_Capi>::
+//generate (const std::string & include)
+//{
+//  CUTS_BE_CAPI ()->outfile_
+//    << "import " << include << ";";
 //
-// CUTS_BE_Include_File_T
-//
-bool CUTS_BE_Include_File_T <CUTS_BE_Capi>::
-generate (const std::string & include)
-{
-  CUTS_BE_CAPI ()->outfile_
-    << "import " << include << ";";
-
-  return true;
-}
+//  return true;
+//}
 
 //
 // CUTS_BE_Component_Impl_Begin_T
@@ -366,11 +368,40 @@ generate (const PICML::MonolithicImplementation & mono,
   {
     CUTS_BE_CAPI ()->outfile_
       << std::endl
-      << "// Necessary for receiving MIOs" << std::endl
+      << "// imports for receiving MIOs" << std::endl
       << "import org.infospherics.jbi.client.ObjectAvailableCallback;"
       << "import org.infospherics.jbi.client.InfoObject;"
-      << "import cuts.java.jbi.client.JbiSink;"
-      << std::endl;
+      << "import cuts.java.jbi.client.JbiSink;";
+  }
+
+  // Get all the workers in this component. We need to 
+  // import them into the project.
+  std::vector <PICML::WorkerType> 
+    worker_vars = component.WorkerType_children ();
+
+  if (!worker_vars.empty ())
+  {
+    // Get a unique collection of workers. We don't need to import
+    // the worker more than once. :)
+    typedef std::set <PICML::Worker> Worker_Set;
+    Worker_Set workers;
+
+    std::for_each (worker_vars.begin (),
+                   worker_vars.end (),
+                   boost::bind (&Worker_Set::insert,
+                                boost::ref (workers),
+                                boost::bind (&PICML::WorkerType::ref,
+                                             _1)));
+
+    CUTS_BE_CAPI ()->outfile_
+      << std::endl
+      << "// workload generator import(s)" << std::endl;
+
+    // Generate the import statement for the worker.
+    std::for_each (workers.begin (),
+                   workers.end (),
+                   boost::bind (&CUTS_BE_Component_Impl_Begin_T <CUTS_BE_Capi>::
+                                  generate_worker_import, _1));
   }
 
   // The name of the class is the name of the monolithic implementation.
@@ -379,6 +410,7 @@ generate (const PICML::MonolithicImplementation & mono,
   CUTS_BE_CAPI ()->impl_classname_ = class_name;
 
   CUTS_BE_CAPI ()->outfile_
+    << std::endl
     << "/**" << std::endl
     << " * @class " << class_name << std::endl
     << " *" << std::endl
@@ -433,6 +465,40 @@ generate (const PICML::MonolithicImplementation & mono,
   }
 
   return true;
+}
+
+//
+// generate_worker_import
+//
+void CUTS_BE_Component_Impl_Begin_T <CUTS_BE_Capi>::
+generate_worker_import (const PICML::Worker & worker)
+{
+  // Get the parent of the worker.
+  std::stack <std::string> scope;
+  PICML::MgaObject parent (worker.parent ());
+
+  while (parent.type () == PICML::WorkerPackage::meta)
+  {
+    // Save the name of the package and its parent.
+    scope.push (parent.name ());
+    parent = PICML::MgaObject::Cast (parent.parent ());
+  }
+
+  // Generate the import path for the worker.
+  std::ostringstream import_path;
+  
+  while (!scope.empty ())
+  { 
+    import_path << scope.top () << ".";
+    scope.pop ();
+  }
+
+  // Append the worker's name to the import path.
+  import_path << worker.name ();
+
+  // Write the import statement to the file.
+  CUTS_BE_CAPI ()->outfile_
+    << "import " << import_path.str ().c_str () << ";";
 }
 
 //

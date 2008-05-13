@@ -1,7 +1,20 @@
+Tue May 13 15:33:25 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE_Workspace_Generators_T.h:
+        
+          The return type of CUTS_BE_Workspace_File_Close_T was 'void',
+          however, it had unncessary implementation.
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        
+          Bug fix where the import statements for workload generators
+          was not handled correctly.
+
 Mon May 12 21:35:57 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/cuts.java.jbi.client.build:
-        
+
           Changed JBICLIENT_ROOT to JBI_ROOT.
 
 Mon May 12 21:03:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

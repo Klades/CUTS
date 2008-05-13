@@ -64,7 +64,7 @@ template <typename BE_TYPE>
 struct CUTS_BE_Workspace_File_Close_T
 {
   static void generate (void)
-    { return false; }
+    { }
 };
 
 #endif  // !defined _CUTS_BE_WORKSPACE_GENERATORS_T_H_
