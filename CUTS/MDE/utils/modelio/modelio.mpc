@@ -1,0 +1,20 @@
+// $Id$
+
+project (modelio) : boost_base {
+  sharedname = modelio
+  
+  libout = $(CUTS_ROOT)/lib
+  dllout = $(CUTS_ROOT)/lib
+  
+  Source_Files {
+    modelio.cpp
+  }
+
+  Header_Files {
+    algorithm.h  
+  }
+  
+  Template_Files {
+    modelgen.cpp
+  }
+}
