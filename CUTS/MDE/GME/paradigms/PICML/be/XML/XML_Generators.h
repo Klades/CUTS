@@ -282,7 +282,8 @@ struct CUTS_BE_Action_End_T <CUTS_BE_Xml>
 template < >
 struct CUTS_BE_InEventPort_Begin_T <CUTS_BE_Xml>
 {
-  static bool generate (const PICML::InEventPort & sink);
+  static bool generate (const PICML::InEventPort & sink,
+                        const std::vector <PICML::Property> &);
 };
 
 //=============================================================================
@@ -294,7 +295,8 @@ struct CUTS_BE_InEventPort_Begin_T <CUTS_BE_Xml>
 template < >
 struct CUTS_BE_InEventPort_End_T <CUTS_BE_Xml>
 {
-  static bool generate (const PICML::InEventPort & sink);
+  static bool generate (const PICML::InEventPort & sink,
+                        const std::vector <PICML::Property> &);
 };
 
 //=============================================================================

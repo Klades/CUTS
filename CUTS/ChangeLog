@@ -1,3 +1,21 @@
+Sat May 17 09:41:53 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE_Generators_T.h:
+        * MDE/GME/paradigms/PICML/be/BE_Impl_Generator_T.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Traits.h:
+        * MDE/GME/paradigms/PICML/be/TIOA/TIOA_Generators.h:
+        * MDE/GME/paradigms/PICML/be/TIOA/TIOA_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/XML/XML_Generators.h:
+        * MDE/GME/paradigms/PICML/be/XML/XML_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/natural-lang/Natural_Lang_Generators.h:
+        * MDE/GME/paradigms/PICML/be/natural-lang/Natural_Lang_Generators.cpp:
+        
+          Added support to handle the properties of an input action 
+          when process the begin/end points-of-generation for a 
+          input event.
+
 Wed May 14 17:03:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/utils/modelio:
@@ -7,7 +25,7 @@ Wed May 14 17:03:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * MDE/utils/modelio/modelgen.cpp:
         * MDE/utils/modelio/modelio.cpp:
         * MDE/utils/modelio/modelio.mpc:
-        
+
           Initial commit of the model input/output mini-project.
 
 Tue May 13 15:33:25 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

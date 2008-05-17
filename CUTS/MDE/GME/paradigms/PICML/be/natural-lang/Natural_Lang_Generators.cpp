@@ -67,7 +67,8 @@ generate (const PICML::MonolithicImplementation & monoimpl,
 // CUTS_BE_InEventPort_Begin_T
 //
 bool CUTS_BE_InEventPort_Begin_T <CUTS_BE_Natural_Lang>::
-generate (const PICML::InEventPort & sink)
+generate (const PICML::InEventPort & sink,
+          const std::vector <PICML::Property> & properties)
 {
   PICML::Event event = sink.ref ();
 

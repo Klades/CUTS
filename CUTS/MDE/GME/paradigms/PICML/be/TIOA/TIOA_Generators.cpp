@@ -507,7 +507,8 @@ bool CUTS_BE_Action_End_T <CUTS_BE_Tioa>::generate (void)
 // CUTS_BE_InEventPort_Begin_T
 //
 bool CUTS_BE_InEventPort_Begin_T <CUTS_BE_Tioa>::
-generate (const PICML::InEventPort & sink)
+generate (const PICML::InEventPort & sink,
+          const std::vector <PICML::Property> & properties)
 {
   std::string name = sink.name ();
   CUTS_BE_TIOA ()->curr_inport_ = std::string ("port_") + name;
@@ -542,7 +543,8 @@ generate (const PICML::InEventPort & sink)
 // CUTS_BE_InEventPort_End_T
 //
 bool CUTS_BE_InEventPort_End_T <CUTS_BE_Tioa>::
-generate (const PICML::InEventPort & sink)
+generate (const PICML::InEventPort & sink,
+          const std::vector <PICML::Property> & properties)
 {
 
   CUTS_BE_TIOA ()->outfile_ << "mode := nil;" << std::endl;

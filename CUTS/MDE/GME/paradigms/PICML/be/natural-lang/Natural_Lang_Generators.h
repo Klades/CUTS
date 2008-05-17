@@ -107,7 +107,8 @@ struct CUTS_BE_Component_Impl_Begin_T <CUTS_BE_Natural_Lang>
 template < >
 struct CUTS_BE_InEventPort_Begin_T <CUTS_BE_Natural_Lang>
 {
-  static bool generate (const PICML::InEventPort & sink);
+  static bool generate (const PICML::InEventPort & sink,
+                        const std::vector <PICML::Property> &);
 };
 
 //=============================================================================

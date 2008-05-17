@@ -396,7 +396,8 @@ struct CUTS_BE_Variables_End_T
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_InEventPort_Begin_T
 {
-  static bool generate (const PICML::InEventPort & sink)
+  static bool generate (const PICML::InEventPort & sink,
+                        const std::vector <PICML::Property> & properties)
     { return false; }
 };
 
@@ -409,7 +410,8 @@ struct CUTS_BE_InEventPort_Begin_T
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_InEventPort_End_T
 {
-  static bool generate (const PICML::InEventPort & sink)
+  static bool generate (const PICML::InEventPort & sink,
+                        const std::vector <PICML::Property> & properties)
     { return false; }
 };
 

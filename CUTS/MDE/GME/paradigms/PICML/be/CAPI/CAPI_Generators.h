@@ -107,6 +107,7 @@ public:
 
   Env_Seen_Map env_seen_;
 
+  /// The classname of the current implementation.
   std::string impl_classname_;
 
   /// Keeps track of the current branch depth.
@@ -131,12 +132,9 @@ namespace CUTS_BE
   CUTS_BE_NOT_VISIT (CUTS_BE_Capi, PICML::TwowayOperation);
 }
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_File_Open_T <CUTS_BE_Capi>
 {
@@ -144,12 +142,9 @@ struct CUTS_BE_File_Open_T <CUTS_BE_Capi>
             const PICML::MonolithicImplementation &);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_File_Close_T <CUTS_BE_Capi>
 {
@@ -157,12 +152,9 @@ struct CUTS_BE_File_Close_T <CUTS_BE_Capi>
                         const PICML::MonolithicImplementation &);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Prologue_T <CUTS_BE_Capi>
 {
@@ -182,12 +174,9 @@ struct CUTS_BE_Prologue_T <CUTS_BE_Capi>
 //  static bool generate (const std::string & include);
 //};
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Component_Impl_Begin_T <CUTS_BE_Capi>
 {
@@ -198,12 +187,9 @@ private:
   static void generate_worker_import (const PICML::Worker & );
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Component_Impl_End_T <CUTS_BE_Capi>
 {
@@ -211,36 +197,27 @@ struct CUTS_BE_Component_Impl_End_T <CUTS_BE_Capi>
                         const PICML::Component & component);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Variables_Begin_T <CUTS_BE_Capi>
 {
   static bool generate (const PICML::Component & component);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Variable_T <CUTS_BE_Capi>
 {
   static bool generate (const PICML::Variable & variable);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Worker_Variable_T <CUTS_BE_Capi>
 {
@@ -248,24 +225,18 @@ struct CUTS_BE_Worker_Variable_T <CUTS_BE_Capi>
                         const PICML::Worker & worker);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Variables_End_T <CUTS_BE_Capi>
 {
   static bool generate (const PICML::Component & component);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_WorkerAction_Begin_T <CUTS_BE_Capi>
 {
@@ -273,36 +244,27 @@ struct CUTS_BE_WorkerAction_Begin_T <CUTS_BE_Capi>
                         const PICML::Action & action);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Action_Property_T <CUTS_BE_Capi>
 {
   static bool generate (const PICML::Property & property);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_OutputAction_Begin_T <CUTS_BE_Capi>
 {
   static bool generate (const PICML::OutputAction & action);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_OutputAction_Property_T <CUTS_BE_Capi>
 {
@@ -310,109 +272,87 @@ struct CUTS_BE_OutputAction_Property_T <CUTS_BE_Capi>
                         const PICML::Property & property);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_OutputAction_End_T <CUTS_BE_Capi>
 {
   static bool generate (const PICML::OutputAction & action);
 };
 
-
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Action_End_T <CUTS_BE_Capi>
 {
   static bool generate (void);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_InEventPort_Begin_T <CUTS_BE_Capi>
 {
-  static bool generate (const PICML::InEventPort & sink);
+  static bool generate (const PICML::InEventPort & sink,
+                        const std::vector <PICML::Property> &);
+
+private:
+  static void configure (const PICML::InEventPort & parent,
+                         const PICML::Property & property);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_InEventPort_End_T <CUTS_BE_Capi>
 {
-  static bool generate (const PICML::InEventPort & sink);
+  static bool generate (const PICML::InEventPort & sink,
+                        const std::vector <PICML::Property> &);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Environment_Begin_T <CUTS_BE_Capi>
 {
   static bool generate (const PICML::Component & component);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Environment_Method_Begin_T <CUTS_BE_Capi>
 {
   static bool generate (const PICML::MultiInputAction & action);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Environment_Method_End_T <CUTS_BE_Capi>
 {
   static bool generate (const PICML::MultiInputAction & action);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Environment_End_T <CUTS_BE_Capi>
 {
   static bool generate (const PICML::Component & component);
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_PeriodicEvent_Begin_T <CUTS_BE_Capi>
 {

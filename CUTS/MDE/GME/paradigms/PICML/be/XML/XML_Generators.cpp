@@ -231,7 +231,8 @@ bool CUTS_BE_Action_End_T <CUTS_BE_Xml>::generate (void)
 // CUTS_BE_InEventPort_Begin_T
 //
 bool CUTS_BE_InEventPort_Begin_T <CUTS_BE_Xml>::
-generate (const PICML::InEventPort & sink)
+generate (const PICML::InEventPort & sink,
+          const std::vector <PICML::Property> &)
 {
   CUTS_BE_XML ()->outfile_
     << "<inevent name=\"" << sink.name () << "\" >" << std::endl;
@@ -243,7 +244,8 @@ generate (const PICML::InEventPort & sink)
 // CUTS_BE_InEventPort_End_T
 //
 bool CUTS_BE_InEventPort_End_T <CUTS_BE_Xml>::
-generate (const PICML::InEventPort & sink)
+generate (const PICML::InEventPort & sink,
+          const std::vector <PICML::Property> &)
 {
   CUTS_BE_XML ()->outfile_ << "</inevent>" << std::endl;
   return true;

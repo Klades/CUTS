@@ -206,7 +206,7 @@ generate_required_method_impl (const std::string & method)
       this->outfile_
         << "// creation of source: " << iter->first << std::endl
         << "this." << iter->first << "_ = new "
-        << iter->first << "Source (this.getJbiConnection ());" << std::endl
+        << iter->first << "Source (this);" << std::endl
         << "this.registerInfoSequence (this." << iter->first << "_);" << std::endl
         << std::endl;
     }
@@ -219,7 +219,7 @@ generate_required_method_impl (const std::string & method)
       this->outfile_
         << "// creation of sink: " << iter->first << std::endl
         << "this." << iter->first << "_ = new "
-        << iter->first << "Sink (this.getJbiConnection ());"<< std::endl
+        << iter->first << "Sink (this);"<< std::endl
         << "this.registerInfoSequence (this." << iter->first << "_);" << std::endl
         << std::endl;
     }
@@ -528,10 +528,11 @@ generate (const PICML::MonolithicImplementation & mono,
       << " */" << std::endl
       << "private class " << source_classname << " extends JbiSource"
       << "{"
-      << "public " << source_classname << " (Connection jbiConn)" << std::endl
+      << "public " << source_classname << " (" 
+      << CUTS_BE_CAPI ()->impl_classname_ << " parent)" << std::endl
       << "  throws PermissionDeniedException, UnsupportedVersionException"
       << "{"
-      << "super (jbiConn, \"" << iter->second.first << "\", \""
+      << "super (parent.getJbiConnection (), \"" << iter->second.first << "\", \""
       << iter->second.second << "\");"
       << "}"
       << "}"
@@ -739,7 +740,8 @@ bool CUTS_BE_Action_End_T <CUTS_BE_Capi>::generate (void)
 // CUTS_BE_InEventPort_Begin_T
 //
 bool CUTS_BE_InEventPort_Begin_T <CUTS_BE_Capi>::
-generate (const PICML::InEventPort & sink)
+generate (const PICML::InEventPort & sink,
+          const std::vector <PICML::Property> & properties)
 {
   // Save the sink's information for later usage.
   std::string name = sink.name ();
@@ -766,10 +768,22 @@ generate (const PICML::InEventPort & sink)
     << " */" << std::endl
     << "private class " << sink_classname << " extends JbiSink"
     << "{"
-    << "public " << sink_classname << " (Connection jbiConn)" << std::endl
-    << "  throws PermissionDeniedException, UnsupportedVersionException"
+    << "public " << sink_classname << " (" 
+    << CUTS_BE_CAPI ()->impl_classname_ << " parent)" << std::endl
+    << "  throws PermissionDeniedException, UnsupportedVersionException," << std::endl
+    << "         InvalidPredicateException, PredicateLanguageException," << std::endl
+    << "         PermissionDeniedException, SequenceStateException" 
     << "{"
-    << "super (jbiConn, \"" << type_name << "\", \""  << version << "\");"
+    << "super (parent.getJbiConnection (), \"" 
+    << type_name << "\", \""  << version << "\");";
+
+  // Configure the port based on the provided properties.
+  std::for_each (properties.begin (),
+                 properties.end (),
+                 boost::bind  (&CUTS_BE_InEventPort_Begin_T <CUTS_BE_Capi>::configure,
+                               sink, _1));
+
+  CUTS_BE_CAPI ()->outfile_
     << "}"
     << "}"
     << std::endl
@@ -791,10 +805,34 @@ generate (const PICML::InEventPort & sink)
 };
 
 //
+// CUTS_BE_InEventPort_Begin_T::configure
+//
+void CUTS_BE_InEventPort_Begin_T <CUTS_BE_Capi>::
+configure (const PICML::InEventPort & sink, 
+           const PICML::Property & property)
+{
+  if (std::string (property.name ()) == "predicate")
+  {
+    PICML::Component parent = PICML::Component::Cast (sink.parent ());
+    
+    // Construct the name of the predicate.
+    std::ostringstream predicate_name;
+    predicate_name 
+      << parent.name () << "." << sink.name () << ".predicate";
+
+    // Write the code to set the predicate.
+    CUTS_BE_CAPI ()->outfile_
+      << "this.setPredicate (\"" << predicate_name.str () << "\", "
+      << property.DataValue () << ");";
+  }
+}
+
+//
 // CUTS_BE_InEventPort_End_T
 //
 bool CUTS_BE_InEventPort_End_T <CUTS_BE_Capi>::
-generate (const PICML::InEventPort & sink)
+generate (const PICML::InEventPort & sink,
+          const std::vector <PICML::Property> & properties)
 {
   CUTS_BE_CAPI ()->outfile_
     << "}"

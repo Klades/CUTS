@@ -480,7 +480,8 @@ struct CUTS_BE_Variable_T <CUTS_BE_Ciao>
 template < >
 struct CUTS_BE_InEventPort_Begin_T <CUTS_BE_Ciao>
 {
-  static bool generate (const PICML::InEventPort & sink)
+  static bool generate (const PICML::InEventPort & sink,
+                        const std::vector <PICML::Property> &)
   {
     CIAO_EXEC_HEADER_GENERATOR ()->write_InEventPort_begin (sink);
     CIAO_EXEC_SOURCE_GENERATOR ()->write_InEventPort_begin (sink);
@@ -500,7 +501,8 @@ struct CUTS_BE_InEventPort_Begin_T <CUTS_BE_Ciao>
 template < >
 struct CUTS_BE_InEventPort_End_T <CUTS_BE_Ciao>
 {
-  static bool generate (const PICML::InEventPort & sink)
+  static bool generate (const PICML::InEventPort & sink,
+                        const std::vector <PICML::Property> &)
   {
     CIAO_EXEC_HEADER_GENERATOR ()->write_InEventPort_end  (sink);
     CIAO_EXEC_SOURCE_GENERATOR ()->write_InEventPort_end  (sink);
