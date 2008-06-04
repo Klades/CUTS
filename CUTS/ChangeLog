@@ -1,14 +1,20 @@
+Wed Jun  4 18:01:32 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/cuts.java.jbi.client.build:
+        
+          . Added missing .class file to the .jar file.
+
 Wed Jun  4 17:49:02 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/cuts.java.build:
         * cuts/cuts.java.jbi.client.build:
-    
+
           . Enabled runtime debug information.
-          
+
         * cuts/java/jbi/client/JbiClient.java:
-        
+
           . Implemented a shutdown hook for the client. It is invoked
-            whenever the client application exits, if it runs in 
+            whenever the client application exits, if it runs in
             standalone mode.
 
 Wed Jun  4 15:13:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
