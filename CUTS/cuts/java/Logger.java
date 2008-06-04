@@ -8,7 +8,7 @@
 
 package cuts.java;
 
-import cuts.java.LogPriority;
+//import cuts.java.LogPriority;
 
 /**
  * Basic logger class for integrating with ACE logging framework. This
@@ -47,7 +47,7 @@ public class Logger
    * @param[in]         priority        Priority of the message.
    * @param[in]         message         The actual log message.
    */
-  public native void log (LogPriority priority, String message);
+  public native void log (int priority, String message);
   
   static {
     System.loadLibrary ("cuts.java");

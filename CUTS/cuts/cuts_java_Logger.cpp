@@ -27,13 +27,12 @@ static int get_LogPriority_value (JNIEnv * env, jobject priority)
 void JNICALL 
 Java_cuts_java_Logger_log (JNIEnv * env, 
                            jobject object, 
-                           jobject priority, 
+                           jint priority, 
                            jstring message)
 {
   // Extract the value of the priority. We need to convert
   // it into an ACE_Log_Priority value.
-  ACE_Log_Priority level = 
-    static_cast <ACE_Log_Priority> (get_LogPriority_value (env, priority));
+  ACE_Log_Priority level = static_cast <ACE_Log_Priority> (priority);
 
   if (level != -1)
   {

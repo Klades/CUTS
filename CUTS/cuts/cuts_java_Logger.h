@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     cuts_java_Logger
  * Method:    log
- * Signature: (Lcuts/java/Logger/LogPriority;Ljava/lang/String;)V
+ * Signature: (ILjava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_cuts_java_Logger_log
-  (JNIEnv *, jobject, jobject, jstring);
+  (JNIEnv *, jobject, jint, jstring);
 
 #ifdef __cplusplus
 }
