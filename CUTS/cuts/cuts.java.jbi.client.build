@@ -4,7 +4,9 @@
   
   <target name="cuts.java.jbi.client.build">
     <javac srcdir="."
-           classpath=".;${env.CUTS_ROOT};${env.JBI_ROOT}/lib/capi1.5.jar"> 
+           classpath=".;${env.CUTS_ROOT};${env.JBI_ROOT}/lib/capi1.5.jar"
+           debug="true"
+           debuglevel="source,lines"> 
            
       <include name="java/jbi/client/JbiEvent.java" />
       <include name="java/jbi/client/JbiClient.java" />

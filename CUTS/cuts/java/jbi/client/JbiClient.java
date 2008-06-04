@@ -40,6 +40,9 @@ public abstract class JbiClient implements Runnable
 	/// Password for the client.
 	private String password;
 	
+	/// The client has begun the shutdown process.
+	private boolean shutdown_ = false;
+	
   /**
    * Collection of sinks for the client.
    */
@@ -143,6 +146,10 @@ public abstract class JbiClient implements Runnable
 	 */
 	public void run ()
 	{
+	  // Register the shutdown hook for the client. This will 
+	  // ensure the client releases all it's resources.
+  	Runtime.getRuntime ().addShutdownHook (new ShutdownThread (this));
+  	
 		try
 		{
 			// Create the default connection for the client. Before we 
@@ -162,51 +169,66 @@ public abstract class JbiClient implements Runnable
 			// client will create all its publisher/subscriber sequences.
 			this.init ();
 
-      // Activate all the sources in this client.
-      for (JbiSource source : this.sources_)
-        source.open ();
-      
       // Activate all the sinks in this client.
       for (JbiSink sink : this.sinks_)
         sink.open ();
       
+      // Activate all the sources in this client.
+      for (JbiSource source : this.sources_)
+        source.open ();
+      
 			// Signal the client to activate itself.
 			this.activate ();
-				
-			// Wait for the client thread to be notified.
-			this.wait ();
-
-      // Signal the client to deactivate itself.
+		}
+    catch (Exception e)
+    {
+      e.printStackTrace ();
+    }
+	}
+	
+	/**
+	 * Shutdown the client. This will cause the client to go through
+	 * its deactivate
+	 */
+	public void shutdown ()
+	{
+	  // Make sure we are not already performing a shutdown.
+	  if (this.shutdown_)
+	    return;
+	  
+	  this.shutdown_ = true;
+	  
+	  try 
+	  {
+      // Cancel all the periodic tasks.
       this.timer_.cancel ();
+      
+      // Signal the client to deactivate itself.
 			this.deactivate ();		
 
-      // Activate all the sources in this client.
+      // Deactivate all the sources in this client.
       for (JbiSource source : this.sources_)
         source.close ();
       
-      // Activate all the sinks in this client.
+      // Deactivate all the sinks in this client.
       for (JbiSink sink : this.sinks_)
         sink.close ();
        
       // This is where the client will destroy all its publisher/
 			// subscriber sequences.
 			this.fini ();
-		}
-		catch (InterruptedException e)
-		{
-			e.printStackTrace ();
-		}
-    catch (Exception e)
-    {
-      e.printStackTrace ();
-    }
+	  }
+	  catch (Exception e)
+	  {
+	    e.printStackTrace ();
+	  }
 		finally
 		{
 			// Close the connection and destroy it.
       try
       {
   			this.jbiConn.disconnect();			
-  			this.jbiConnMgr.destroyConnection(this.jbiConn);
+  			this.jbiConnMgr.destroyConnection (this.jbiConn);
   
   			// Reset the connection just in case. :)
   			this.jbiConn = null;
@@ -251,6 +273,36 @@ public abstract class JbiClient implements Runnable
 			                     "<platformIP>" + ipAddress + "</platformIP>" +
 			                   "</PlatformDescriptor>" +
 				               "</ConnectionDescriptor>");
+	}
+	
+	/**
+	 * Thread that is responsible for handling the shutdown of the 
+	 * JbiClient. This class is registered as a shutdown hook for
+	 * with the virtual machine. Whenever the user presses Ctrl + C
+	 * the run () method is invoked.
+	 */
+	class ShutdownThread extends Thread
+	{
+	  /// Target JBI client.
+	  private JbiClient jbiClient_ = null;
+	  
+	  /**
+	   * Initializing constructor.
+	   *
+	   * @param[in]       client        The target client.
+	   */
+	  public ShutdownThread (JbiClient client)
+	  {
+	    this.jbiClient_ = client;
+	  }
+	  
+	  /**
+	   * Callback method for the thread routine.
+	   */
+	  public void run ()
+	  {
+	    this.jbiClient_.shutdown ();
+	  }
 	}
 }
 

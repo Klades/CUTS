@@ -3,7 +3,10 @@
   <property environment="env" />
   
   <target name="cuts.java.build">
-    <javac srcdir="${env.CUTS_ROOT}/cuts"> 
+    <javac srcdir="${env.CUTS_ROOT}/cuts"
+           debug="true"
+           debuglevel="source,lines">
+            
       <include name="java/LogPriority.java" />
       <include name="java/Logger.java" />
       <include name="java/PeriodicTask.java" />
