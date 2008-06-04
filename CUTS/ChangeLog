@@ -1,10 +1,17 @@
+Wed Jun  4 15:13:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/config/jni.mpb:
+        
+          . Removed the inputext keyword from the custom define 
+            specification.
+
 Wed Jun  4 15:10:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/CUTS.mpc:
         * cuts/cuts_java_Logger.h:
         * cuts/cuts_java_Logger.cpp:
         * cuts/java/Logger.java:
-        
+
           . Change the priority data type from an cuts.java.LogPriority
             to an integer since we do not have support for enumerated
             types in WML.

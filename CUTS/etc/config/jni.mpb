@@ -25,7 +25,7 @@ project {
     command           = $(JAVAH)
     dependent         = $(JAVAH_DEP)
     commandflags      = $(JAVAH_FLAGS)
-    inputext          = 
+    inputext          = .class
     header_outputext  = .h
 
     keyword javah_flags = commandflags
