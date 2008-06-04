@@ -1,3 +1,15 @@
+Wed Jun  4 04:00:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/java/jbi/client/JbiClient.java:
+          
+          . getConnection () is now a public method.
+          . getTimer () is now a protected method.
+          
+        * cuts/java/jbi/client/JbiSink.java:
+        
+          . Added support for setting the predicate on subscriber 
+            sequences.
+
 Sat May 17 09:41:53 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE_Generators_T.h:
@@ -11,9 +23,9 @@ Sat May 17 09:41:53 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * MDE/GME/paradigms/PICML/be/XML/XML_Generators.cpp:
         * MDE/GME/paradigms/PICML/be/natural-lang/Natural_Lang_Generators.h:
         * MDE/GME/paradigms/PICML/be/natural-lang/Natural_Lang_Generators.cpp:
-        
-          Added support to handle the properties of an input action 
-          when process the begin/end points-of-generation for a 
+
+          Added support to handle the properties of an input action
+          when process the begin/end points-of-generation for a
           input event.
 
 Wed May 14 17:03:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

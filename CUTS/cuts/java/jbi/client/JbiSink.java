@@ -29,6 +29,12 @@ public class JbiSink
   
   /// The information object's version.
   private String typeVersion_;
+
+  /// The name of the predicate.
+  private String predicateName_ = null;
+  
+  /// Predicate, if any, assocated with sink.
+  private String predicateValue_ = null;
   
   /**
    * Initializining constructor. In order to create a source object
@@ -68,6 +74,75 @@ public class JbiSink
   {
     this.jbiConn_.destroySequence (this.jbiSink_);
     this.jbiSink_ = null;
+  }
+  
+  /**
+   * Set the predicate for the sink. The predicate is a regular
+   * XPath expression. The sink will handle formatting it correctly
+   * before sending it to the server.
+   *
+   * @param           predicate       Predicate for the sink.
+   */
+  public void setPredicate (String predicateName, String predicateValue)
+    throws InvalidPredicateException, PredicateLanguageException,
+           PermissionDeniedException, SequenceStateException
+  {
+    // Save the name and value of the predicate.
+    this.predicateName_ = predicateName;
+    this.predicateValue_ = predicateValue;
+    
+    // Create the XML string for setting the predicate.
+    String xpathPredicate =
+      this.createXpathPredicate (this.predicateName_, this.predicateValue_);
+    
+    // Set the predicate on the sink.
+    this.jbiSink_.setSequencePredicate (xpathPredicate);
+  }
+  
+  /**
+   * Determine if the sequence has a predicate defined. 
+   * 
+   * @retval        true        Predicate is defined.
+   * @retval        false       Predicate is not defined.
+   */
+  public boolean hasPredicate ()
+  {
+    return this.predicateName_ != null;    
+  }
+  
+  /**
+   * Get the assigned predicate. If there is no predicate, then the
+   * return value will be null.
+   * 
+   * @return          The predicate for the sink.
+   */
+  public String getPredicateValue ()
+  {
+    return this.predicateValue_;
+  }
+  
+  /**
+   * Get the name of the predicate. If the predicate does not exist,
+   * then the name will be null.
+   */
+  public String getPredicateName ()
+  {
+    return this.predicateName_;
+  }
+  
+  /**
+   * Helper method for creating the XML document for setting the 
+   * the predicate on a sequence. 
+   * 
+   * @param           predicate
+   */
+  private static String createXpathPredicate (String name, String predicate)
+  {
+    return new String ("<predicate>" +
+                         "<predicateName>" + name + "</predicateName>" +
+                         "<predicateType>XPath</predicateType>" +
+                         "<predicateInstance>" + predicate + "</predicateInstance>" +
+                       "</predicate>");
   }
 }
 

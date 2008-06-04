@@ -65,7 +65,7 @@ public abstract class JbiClient implements Runnable
    * 
    * @return        The JBI connection for the client.
    */
-  protected Connection getJbiConnection ()
+  public Connection getJbiConnection ()
   {
     return this.jbiConn;
   }
@@ -122,7 +122,7 @@ public abstract class JbiClient implements Runnable
    * Get the timer for the client. This allows the subclass to 
    * add new periodic tasks to the timer. 
    */
-  public Timer getTimer ()
+  protected Timer getTimer ()
   {
     return this.timer_;
   }
