@@ -1,3 +1,9 @@
+Fri Jun  6 05:05:18 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        
+          Fixed formatting issues.
+
 Fri Jun  6 04:11:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/cuts.java.jbi.client.build:
@@ -5,13 +11,13 @@ Fri Jun  6 04:11:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/java/jbi/client/JbiClientApp.java:
         * cuts/java/jbi/client/JbiClientAppShutdownThread.java:
         * cuts/java/jbi/client/JbiSink.java:
-        
-          Re-designed the JbiClient architecture so that the deployment 
+
+          Re-designed the JbiClient architecture so that the deployment
           and configuration implementation is decoupled from the actual
           business-logic of the client. Now, a client application built
           on top of the spring framework is responsible for hosting
           and configuring the JBI client via XML documents.
-          
+
           Eventually, we will be implementing a DAnCE like framework for
           deploying many JBI clients. For now, the client application
           can be used for manaully deploying a component.

@@ -206,8 +206,8 @@ generate_required_method_impl (const std::string & method)
       this->outfile_
         << "// creation of source: " << iter->first << std::endl
         << "this." << iter->first << "_ = new "
-        << iter->first << "Source (this);" << std::endl
-        << "this.registerInfoSequence (this." << iter->first << "_);" << std::endl
+        << iter->first << "Source (this);"
+        << "this.registerInfoSequence (this." << iter->first << "_);"
         << std::endl;
     }
 
@@ -219,7 +219,7 @@ generate_required_method_impl (const std::string & method)
       this->outfile_
         << "// creation of sink: " << iter->first << std::endl
         << "this." << iter->first << "_ = new "
-        << iter->first << "Sink (this);"<< std::endl
+        << iter->first << "Sink (this);"
         << "this.registerInfoSequence (this." << iter->first << "_);" << std::endl
         << std::endl;
     }
@@ -600,24 +600,6 @@ generate (const PICML::MonolithicImplementation & mono,
     << "e.printStackTrace ();"
     << "}"
     << "}"
-    << std::endl
-    << "/**" << std::endl
-    << " * Main entry point for the CAPI client" << std::endl
-    << " */" << std::endl
-    << "public static void main (String [] args) throws Exception"
-    << "{"
-    << "// create the client object" << std::endl
-    << "JbiClient client = new " << mono.name () << " ();"
-    << std::endl
-    << "if (client.parseArgs (args) == 0)"
-    << "{"
-    << "client.run ();"
-    << "}"
-    << "else"
-    << "{"
-    << "System.err.println (\"*** error: failed to parse command-line arguments\");"
-    << "}"
-    << "}"
     << "}"
     << std::endl
     << "// end of auto generated file" << std::endl;
@@ -661,10 +643,10 @@ generate (const PICML::Variable & variable)
 
     // Generator the variable's definition.
     CUTS_BE_CAPI ()->outfile_
+      << std::endl
       << "// variable : " << var_name << std::endl
       << "private " << iter->second << " " << var_name
-      << "_;" << std::endl
-      << std::endl;
+      << "_;";
   }
   else
   {
@@ -687,11 +669,11 @@ generate (const PICML::WorkerType & type, const PICML::Worker & worker)
   std::string var_name = type.name ();
 
   CUTS_BE_CAPI ()->outfile_
+    << std::endl
     << "// workerVariable : " << var_name << std::endl
     << "private " << name
     << " " << var_name << "_ = new " << name
-    << " ();" << std::endl
-    << std::endl;
+    << " ();";
 
   return true;
 }
@@ -772,7 +754,8 @@ generate (const PICML::InEventPort & sink,
     << CUTS_BE_CAPI ()->impl_classname_ << " parent)" << std::endl
     << "  throws PermissionDeniedException, UnsupportedVersionException," << std::endl
     << "         InvalidPredicateException, PredicateLanguageException," << std::endl
-    << "         PermissionDeniedException, SequenceStateException" 
+    << "         PermissionDeniedException, SequenceStateException," << std::endl
+    << "         UnrecognizedObjectTypeException" << std::endl
     << "{"
     << "super (parent.getJbiConnection (), \"" 
     << type_name << "\", \""  << version << "\");";
@@ -783,7 +766,9 @@ generate (const PICML::InEventPort & sink,
                  boost::bind  (&CUTS_BE_InEventPort_Begin_T <CUTS_BE_Capi>::configure,
                                sink, _1));
 
+  // Register the callback with the sequence.
   CUTS_BE_CAPI ()->outfile_
+    << "this.setCallback (parent);"
     << "}"
     << "}"
     << std::endl
@@ -811,7 +796,9 @@ void CUTS_BE_InEventPort_Begin_T <CUTS_BE_Capi>::
 configure (const PICML::InEventPort & sink, 
            const PICML::Property & property)
 {
-  if (std::string (property.name ()) == "predicate")
+  std::string propname = property.name ();
+
+  if (propname == "predicate")
   {
     PICML::Component parent = PICML::Component::Cast (sink.parent ());
     
@@ -878,7 +865,7 @@ generate (const PICML::MultiInputAction & action)
     << "/**" << std::endl
     << " * environmentAction : " << name << std::endl
     << " */" << std::endl
-    << "public void " << name << " ()"
+    << "protected void " << name << " ()"
     << "{"
     << "try"
     << "{";
@@ -924,7 +911,7 @@ generate (const PICML::Component & component)
         << "/**" << std::endl
         << " * environmentAction : " << iter->first << std::endl
         << " */" << std::endl
-        << "public void " << iter->first << " ()";
+        << "protected void " << iter->first << " ()";
       CUTS_BE_CAPI ()->generate_throws_signature (iter->first);
       CUTS_BE_CAPI ()->outfile_
         << "{"
