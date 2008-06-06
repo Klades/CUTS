@@ -1,7 +1,25 @@
+Fri Jun  6 04:11:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/cuts.java.jbi.client.build:
+        * cuts/java/jbi/client/JbiClient.java:
+        * cuts/java/jbi/client/JbiClientApp.java:
+        * cuts/java/jbi/client/JbiClientAppShutdownThread.java:
+        * cuts/java/jbi/client/JbiSink.java:
+        
+          Re-designed the JbiClient architecture so that the deployment 
+          and configuration implementation is decoupled from the actual
+          business-logic of the client. Now, a client application built
+          on top of the spring framework is responsible for hosting
+          and configuring the JBI client via XML documents.
+          
+          Eventually, we will be implementing a DAnCE like framework for
+          deploying many JBI clients. For now, the client application
+          can be used for manaully deploying a component.
+
 Wed Jun  4 18:01:32 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/cuts.java.jbi.client.build:
-        
+
           . Added missing .class file to the .jar file.
 
 Wed Jun  4 17:49:02 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

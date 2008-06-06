@@ -7,6 +7,8 @@
  */
 
 package cuts.java.jbi.client;
+
+import org.infospherics.jbi.client.ObjectAvailableCallback;
 import org.infospherics.jbi.client.Connection;
 import org.infospherics.jbi.client.InfoObject;
 import org.infospherics.jbi.client.SubscriberSequence;
@@ -39,6 +41,10 @@ public class JbiSink
   /**
    * Initializining constructor. In order to create a source object
    * for a client, you have to provide it will a parent connection.
+   *
+   * @param[in]     connection          The parent connection.
+   * @param[in]     type                The type of event for the sink.
+   * @param[in]     version             The version of the event type.
    */
   public JbiSink (Connection connection, String type, String version)
     throws PermissionDeniedException, UnsupportedVersionException
@@ -52,6 +58,18 @@ public class JbiSink
     this.jbiSink_ = 
       this.jbiConn_.createSubscriberSequence (
           this.typeName_, this.typeVersion_);
+  }
+  
+  /**
+   * Set the callback handler for the sink. 
+   *
+   * @param[in]         callback          Callback handler
+   */
+  public void setCallback (ObjectAvailableCallback callback)
+    throws UnrecognizedObjectTypeException, PermissionDeniedException,
+           SequenceStateException
+  {
+    this.jbiSink_.setSequenceCallback (callback);
   }
   
   /**

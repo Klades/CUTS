@@ -53,14 +53,14 @@ public abstract class JbiClient implements Runnable
    */
   private ArrayList <JbiSource> sources_ = new ArrayList <JbiSource> ();
   
-	public abstract void init ()
+	protected abstract void init ()
     throws PermissionDeniedException, UnsupportedVersionException;
 	
-	public abstract void activate ();
+	protected abstract void activate ();
 	
-	public abstract void deactivate ();
+	protected abstract void deactivate ();
 	
-	public abstract void fini ();
+	protected abstract void fini ();
 	
   /**
    * Get the contained JBI connection. This is accessible only to 
@@ -72,40 +72,12 @@ public abstract class JbiClient implements Runnable
   {
     return this.jbiConn;
   }
-  
-  /**
-   * Parse the command-line arguments for the client.
-   * 
-   * @param         args            The command-line arguments.
-   * @retval        0               Successfully parsed arguments.
-   * @retval        -1              Failed to parse command-line arguments.
-   */
-  public int parseArgs (String [] args)
-  {
-    switch (args.length)
-    {
-    case 3:
-      // Set the user credentials.
-      this.setUserCredentials (args[1], args[2]);
-      
-    case 1:
-      // Set the server address.
-      this.setServerAddress (args[0]);
-      break;
-      
-    default:
-      // Print an error message, and the usage.
-      System.err.println ("*** error: expected 1 or 3 arguments; got " + 
-                          args.length + " arguments");
-      System.err.println ("USAGE: java [OPTIONS] <jbiclient> serveraddr [username password]");
-      break;
-    }
     
-    return 0;
-  }
-  
 	/**
-	 * 
+	 * Set the server address for the client. This is the IP address
+	 * or hostname where the client will establish is connection.
+	 *
+	 * @param[in]       addr      Server address
 	 */
 	public void setServerAddress (String addr)
 	{
@@ -113,14 +85,27 @@ public abstract class JbiClient implements Runnable
 	}
 	
 	/**
-	 * 
+	 * Set the username for the client. This will be used when the
+	 * client authenticates itself with the server.
+	 *
+	 * @param[in]       user      The new username.
 	 */
-	public void setUserCredentials (String user, String passwd)
+	public void setUsername (String user)
 	{
-		this.username = user;
-		this.password = passwd;
+	  this.username = user;
 	}
 	
+	/**
+	 * Set the password for the client. This will be used when the
+	 * client authenticates itself with the server.
+	 *
+	 * @param[in]       user      The new password.
+	 */
+	public void setPassword (String passwd)
+	{
+	  this.password = passwd;
+	}
+		
   /**
    * Get the timer for the client. This allows the subclass to 
    * add new periodic tasks to the timer. 
@@ -146,10 +131,6 @@ public abstract class JbiClient implements Runnable
 	 */
 	public void run ()
 	{
-	  // Register the shutdown hook for the client. This will 
-	  // ensure the client releases all it's resources.
-  	Runtime.getRuntime ().addShutdownHook (new ShutdownThread (this));
-  	
 		try
 		{
 			// Create the default connection for the client. Before we 
@@ -274,35 +255,4 @@ public abstract class JbiClient implements Runnable
 			                   "</PlatformDescriptor>" +
 				               "</ConnectionDescriptor>");
 	}
-	
-	/**
-	 * Thread that is responsible for handling the shutdown of the 
-	 * JbiClient. This class is registered as a shutdown hook for
-	 * with the virtual machine. Whenever the user presses Ctrl + C
-	 * the run () method is invoked.
-	 */
-	class ShutdownThread extends Thread
-	{
-	  /// Target JBI client.
-	  private JbiClient jbiClient_ = null;
-	  
-	  /**
-	   * Initializing constructor.
-	   *
-	   * @param[in]       client        The target client.
-	   */
-	  public ShutdownThread (JbiClient client)
-	  {
-	    this.jbiClient_ = client;
-	  }
-	  
-	  /**
-	   * Callback method for the thread routine.
-	   */
-	  public void run ()
-	  {
-	    this.jbiClient_.shutdown ();
-	  }
-	}
 }
-

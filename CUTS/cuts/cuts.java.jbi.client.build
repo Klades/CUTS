@@ -4,12 +4,14 @@
   
   <target name="cuts.java.jbi.client.build">
     <javac srcdir="."
-           classpath=".;${env.CUTS_ROOT};${env.JBI_ROOT}/lib/capi1.5.jar"
+           classpath=".;${env.CUTS_ROOT};${env.JBI_ROOT}/lib/capi1.5.jar;${spring.lib.dir}/spring.jar"
            debug="true"
            debuglevel="source,lines"> 
            
       <include name="java/jbi/client/JbiEvent.java" />
       <include name="java/jbi/client/JbiClient.java" />
+      <include name="java/jbi/client/JbiClientApp.java" />
+      <include name="java/jbi/client/JbiClientAppShutdownThread.java" />
       <include name="java/jbi/client/JbiSource.java" />
       <include name="java/jbi/client/JbiSink.java" />
     </javac>
