@@ -220,7 +220,7 @@ generate_required_method_impl (const std::string & method)
         << "// creation of sink: " << iter->first << std::endl
         << "this." << iter->first << "_ = new "
         << iter->first << "Sink (this);"
-        << "this.registerInfoSequence (this." << iter->first << "_);" << std::endl
+        << "this.registerInfoSequence (this." << iter->first << "_);"
         << std::endl;
     }
   }
@@ -1372,3 +1372,152 @@ generate (const std::string & postcondition)
 
   return true;
 }
+
+//
+// CUTS_BE_Attribute_Variable_T
+//
+bool CUTS_BE_Attribute_Variable_T <CUTS_BE_Capi>::
+generate (const PICML::ReadonlyAttribute & attr)
+{
+  std::string name = attr.name ();
+  PICML::AttributeMember member = attr.AttributeMember_child ();
+
+  try
+  {
+    PICML::PredefinedType type = PICML::PredefinedType::Cast (member.ref ());
+
+    CUTS_BE_CAPI ()->outfile_
+      << std::endl
+      << "/**" << std::endl
+      << " * attribute variable : " << name << std::endl
+      << " */" << std::endl
+      << "private "
+      << CUTS_BE_CAPI ()->predefined_type_map_[type.type ()]
+      << " " << name << "_;";
+  }
+  catch (...)
+  {
+
+  }
+
+  return true;
+}
+
+//
+// CUTS_BE_ReadonlyAttribute_Begin_T
+//
+bool CUTS_BE_ReadonlyAttribute_Begin_T <CUTS_BE_Capi>::
+generate (const PICML::ReadonlyAttribute & readonly)
+{
+  std::string return_type;
+  
+  try
+  {
+    PICML::AttributeMember member = readonly.AttributeMember_child ();
+    PICML::PredefinedType type = PICML::PredefinedType::Cast (member.ref ());
+
+    return_type = CUTS_BE_CAPI ()->predefined_type_map_[type.type ()];
+  }
+  catch (...)
+  {
+
+  }
+
+  std::string name = readonly.name ();
+
+  if (!return_type.empty ())
+  {
+    CUTS_BE_CAPI ()->outfile_
+      << std::endl
+      << "/**" << std::endl
+      << " * attribute getter : " << name << std::endl
+      << " */" << std::endl
+      << "public " << return_type << " " 
+      << CUTS_BE_CAPI ()->getter_method (name) << " ()"
+      << "{";
+  }
+  else
+  {
+    CUTS_BE_CAPI ()->outfile_
+      << "// unrecognized variable type for attribute [" << name
+      << "]; not generating getter method" << std::endl; 
+  }
+
+  return true;
+}
+
+//
+// CUTS_BE_ReadonlyAttribute_End_T
+//
+bool CUTS_BE_ReadonlyAttribute_End_T <CUTS_BE_Capi>::
+generate (const PICML::ReadonlyAttribute & readonly)
+{
+  CUTS_BE_CAPI ()->outfile_
+    << "return this." << readonly.name () << "_;"
+    << "}";
+
+  return true;
+}
+
+//
+// CUTS_BE_Attribute_Begin_T
+//
+bool CUTS_BE_Attribute_Begin_T <CUTS_BE_Capi>::
+generate (const PICML::Attribute & attr)
+{
+  std::string var_type;
+  
+  try
+  {
+    PICML::AttributeMember member = attr.AttributeMember_child ();
+    PICML::PredefinedType type = PICML::PredefinedType::Cast (member.ref ());
+
+    var_type = CUTS_BE_CAPI ()->predefined_type_map_[type.type ()];
+  }
+  catch (...)
+  {
+
+  }
+
+  std::string name = attr.name ();
+
+  if (!var_type.empty ())
+  {
+    CUTS_BE_CAPI ()->outfile_
+      << std::endl
+      << "/**" << std::endl
+      << " * attribute setter : " << name << std::endl
+      << " */" << std::endl
+      << "public void " 
+      << CUTS_BE_CAPI ()->setter_method (name) 
+      << " (" << var_type << " " << name << ")"
+      << "{";
+  }
+  else
+  {
+    CUTS_BE_CAPI ()->outfile_
+      << "// unrecognized variable type for attribute [" << name 
+      << "]; not generating setter method" << std::endl;
+  }
+
+  return true;;
+}
+
+//
+// CUTS_BE_Attribute_End_T
+//
+bool CUTS_BE_Attribute_End_T <CUTS_BE_Capi>::
+generate (const PICML::Attribute & attr)
+{
+  std::string name = attr.name ();
+
+  CUTS_BE_CAPI ()->outfile_
+    << "this." << name << "_ = " << name << ";"
+    << "}";
+
+  CUTS_BE_ReadonlyAttribute_Begin_T <CUTS_BE_Capi>::generate (attr);
+  CUTS_BE_ReadonlyAttribute_End_T <CUTS_BE_Capi>::generate (attr);
+
+  return true;
+}
+

@@ -124,8 +124,6 @@ public:
 namespace CUTS_BE
 {
   CUTS_BE_NOT_VISIT (CUTS_BE_Capi, PICML::ProvidedRequestPort);
-  CUTS_BE_NOT_VISIT (CUTS_BE_Capi, PICML::Attribute);
-  CUTS_BE_NOT_VISIT (CUTS_BE_Capi, PICML::ReadonlyAttribute);
   CUTS_BE_NOT_VISIT (CUTS_BE_Capi, PICML::ComponentFactory);
   CUTS_BE_NOT_VISIT (CUTS_BE_Capi, PICML::Object);
   CUTS_BE_NOT_VISIT (CUTS_BE_Capi, PICML::OnewayOperation);
@@ -591,6 +589,51 @@ template < >
 struct CUTS_BE_Transcribe_Char_T <CUTS_BE_Capi>
 {
   static bool generate (char ch);
+};
+
+/**
+ *
+ */
+template < >
+struct CUTS_BE_Attribute_Variable_T <CUTS_BE_Capi>
+{
+  static bool generate (const PICML::ReadonlyAttribute & attr);
+};
+
+/**
+ *
+ */
+template < >
+struct CUTS_BE_ReadonlyAttribute_Begin_T <CUTS_BE_Capi>
+{
+  static bool generate (const PICML::ReadonlyAttribute & readonly);
+};
+
+/**
+ *
+ */
+template < >
+struct CUTS_BE_ReadonlyAttribute_End_T <CUTS_BE_Capi>
+{
+  static bool generate (const PICML::ReadonlyAttribute & readonly);
+};
+
+/**
+ *
+ */
+template < >
+struct CUTS_BE_Attribute_Begin_T <CUTS_BE_Capi>
+{
+  static bool generate (const PICML::Attribute & attr);
+};
+
+/**
+ *
+ */
+template < >
+struct CUTS_BE_Attribute_End_T <CUTS_BE_Capi>
+{
+  static bool generate (const PICML::Attribute & attr);
 };
 
 #endif  // !defined _CUTS_BE_XML_GENERATORS_H_
