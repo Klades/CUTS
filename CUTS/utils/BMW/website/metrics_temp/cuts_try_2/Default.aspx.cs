@@ -25,7 +25,6 @@ public partial class _Default : System.Web.UI.Page
         CUTS_System cs = new CUTS_System();
         cs.parse(TextBox1.Text);
         LabelLog.Text += cs.log;
-        cs.
     }
 
 }
@@ -133,6 +132,7 @@ public class CUTS_System
 
         // Add a new DataColumn with the correct Type
         DataColumn dc = new DataColumn(var_name,System.Type.GetType(type));
+        logger_.log("added column " + var_name + " to main table");
         table_.Columns.Add(dc);
         
         // Iterate over the temp_ table rows to merge two 
@@ -166,6 +166,7 @@ public class CUTS_System
             // Store actual data in table_
             // Note: group data is universal across different types
             row[var_name] = match.Groups["data"].ToString();
+            logger_.log("added data " + match.Groups["data"].ToString() + " to column " + var_name);
         }
 
         // Help garbage collector

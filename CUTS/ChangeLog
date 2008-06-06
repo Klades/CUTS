@@ -1,11 +1,30 @@
+Fri Jun  6 21:00:33 UTC 2008  Hamilton_Turner  <hamilton.a.turner@vanderbilt.edu
+>
+
+        * utils/BMW/website/metrics_temp/cuts_try_2/Default.aspx.cs:
+          
+          Added default text parsing and data retrieval from DB          
+
+        * utils/BMW/website/metrics_temp/strategy_test:
+  
+          Added base Command to allow interaction with data via a ReceiverAPI
+          and perform operations using command classes   
+            
+        * utils/BMW/website/metrics_temp/strategy_test/App_Data:
+        * utils/BMW/website/metrics_temp/strategy_test/Default.aspx:
+        * utils/BMW/website/metrics_temp/strategy_test/Default.aspx.cs:
+        * utils/BMW/website/metrics_temp/strategy_test/Default2.aspx:
+        * utils/BMW/website/metrics_temp/strategy_test/Default2.aspx.cs:
+        * utils/BMW/website/metrics_temp/strategy_test/web.config:
+
 Fri Jun  6 19:44:05 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
 
-          Enabled the generation of setter/getter methods for 
+          Enabled the generation of setter/getter methods for
           attributes defined on a component.
-          
+
 Fri Jun  6 05:05:18 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
