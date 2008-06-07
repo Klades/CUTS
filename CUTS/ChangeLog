@@ -1,7 +1,13 @@
+Sat Jun  7 20:53:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/cuts.java.jbi.client.build:
+        
+          JAR file was missing sevaral Java classes.
+
 Sat Jun  7 20:13:56 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-msglog.sql:
-        
+
           Fixed the primary key definition for the message table.
 
 Fri Jun  6 21:00:33 UTC 2008  Hamilton_Turner  <hamilton.a.turner@vanderbilt.edu>

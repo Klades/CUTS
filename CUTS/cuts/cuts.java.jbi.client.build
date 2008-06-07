@@ -23,7 +23,8 @@
          
       <include name="cuts/java/jbi/client/JbiEvent.class" />
       <include name="cuts/java/jbi/client/JbiClient.class" />
-      <include name="cuts/java/jbi/client/JbiClient$ShutdownThread.class" />
+      <include name="cuts/java/jbi/client/JbiClientApp.class" />
+      <include name="cuts/java/jbi/client/JbiClientAppShutdownThread.class" />
       <include name="cuts/java/jbi/client/JbiSource.class" />
       <include name="cuts/java/jbi/client/JbiSink.class" />
     </jar>
