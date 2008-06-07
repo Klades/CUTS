@@ -14,6 +14,7 @@
 
 CREATE TABLE IF NOT EXISTS cuts.msglog
 (
+  msgid           INT             NOT NULL auto_increment,
   test_number     INT             NOT NULL,
   hostid          INT             NOT NULL,
   msgtime         TIMESTAMP       NOT NULL DEFAULT NOW(),
@@ -21,7 +22,7 @@ CREATE TABLE IF NOT EXISTS cuts.msglog
   message         VARCHAR (255)   NOT NULL,
 
   -- set the contraints for the table
-  PRIMARY KEY (test_number, msgtime),
+  PRIMARY KEY (msgid),
   
   FOREIGN KEY (test_number) REFERENCES cuts.tests (test_number)
     ON DELETE RESTRICT

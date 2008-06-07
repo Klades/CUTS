@@ -1,15 +1,20 @@
-Fri Jun  6 21:00:33 UTC 2008  Hamilton_Turner  <hamilton.a.turner@vanderbilt.edu
->
+Sat Jun  7 20:13:56 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-msglog.sql:
+        
+          Fixed the primary key definition for the message table.
+
+Fri Jun  6 21:00:33 UTC 2008  Hamilton_Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * utils/BMW/website/metrics_temp/cuts_try_2/Default.aspx.cs:
-          
-          Added default text parsing and data retrieval from DB          
+
+          Added default text parsing and data retrieval from DB
 
         * utils/BMW/website/metrics_temp/strategy_test:
-  
+
           Added base Command to allow interaction with data via a ReceiverAPI
-          and perform operations using command classes   
-            
+          and perform operations using command classes
+
         * utils/BMW/website/metrics_temp/strategy_test/App_Data:
         * utils/BMW/website/metrics_temp/strategy_test/Default.aspx:
         * utils/BMW/website/metrics_temp/strategy_test/Default.aspx.cs:
