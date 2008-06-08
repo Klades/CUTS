@@ -9,15 +9,13 @@
 //
 void JNICALL 
 Java_cuts_java_Logger_log (JNIEnv * env, 
-                           jobject object, 
-                           jint priority, 
+                           jobject object,
+                           jint priority,
                            jstring message)
 {
-  std::cerr << "Hello, World" << std::endl;
-
   // Extract the value of the priority. We need to convert
   // it into an ACE_Log_Priority value.
-  // ACE_Log_Priority level = static_cast <ACE_Log_Priority> (priority);
+  ACE_Log_Priority level = static_cast <ACE_Log_Priority> (priority);
 
   // Extract the string message from the Java environment. We
   // are not going to changes its formatting.
@@ -27,7 +25,7 @@ Java_cuts_java_Logger_log (JNIEnv * env,
     {
       // Generate the log message. Should we use the macro, i.e., 
       // ACE_DEBUG or ACE_ERROR, or directly use ACE_LOG_MSG??
-      ACE_LOG_MSG->log (LM_INFO, msg);
+      ACE_LOG_MSG->log (level, msg);
       
       // Release the extracted string.
       env->ReleaseStringUTFChars (message, msg);
