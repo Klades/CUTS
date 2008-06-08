@@ -334,10 +334,7 @@ generate (const PICML::ComponentImplementationContainer & container,
     << std::endl
     << "import org.infospherics.jbi.client.Connection;"
     << "import org.infospherics.jbi.client.exception.*;"
-    << "import cuts.java.jbi.client.JbiClient;"
-    << "import cuts.java.jbi.client.JbiEvent;"
-    << "import cuts.java.jbi.client.JbiSource;"
-    << "import cuts.java.PeriodicTask;";
+    << "import cuts.java.jbi.client.JbiClient;";
 
   return true;
 }
@@ -364,6 +361,17 @@ generate (const PICML::MonolithicImplementation & mono,
   typedef std::vector <PICML::InEventPort> InEventPort_Set;
   InEventPort_Set inputs = component.InEventPort_kind_children ();
 
+  typedef std::vector <PICML::OutEventPort> OutEventPort_Set;
+  OutEventPort_Set outputs = component.OutEventPort_kind_children ();
+
+  if (!inputs.empty () || !outputs.empty ())
+  {
+    CUTS_BE_CAPI ()->outfile_
+      << std::endl
+      << "// imports for sending events" << std::endl
+      << "import cuts.java.jbi.client.JbiEvent;";
+  }
+
   if (!inputs.empty ())
   {
     CUTS_BE_CAPI ()->outfile_
@@ -372,6 +380,25 @@ generate (const PICML::MonolithicImplementation & mono,
       << "import org.infospherics.jbi.client.ObjectAvailableCallback;"
       << "import org.infospherics.jbi.client.InfoObject;"
       << "import cuts.java.jbi.client.JbiSink;";
+  }
+
+  if (!outputs.empty ())
+  {
+    CUTS_BE_CAPI ()->outfile_
+      << std::endl
+      << "// imports for sending MIOs" << std::endl
+      << "import cuts.java.jbi.client.JbiSource;";
+  }
+
+  typedef std::vector <PICML::PeriodicEvent> PeriodicEvent_Set;
+  PeriodicEvent_Set periodics = component.PeriodicEvent_kind_children ();
+
+  if (!periodics.empty ())
+  {
+    CUTS_BE_CAPI ()->outfile_
+      << std::endl
+      << "// imports for periodic events" << std::endl
+      << "import cuts.java.PeriodicTask;";
   }
 
   // Get all the workers in this component. We need to 
@@ -559,12 +586,12 @@ generate (const PICML::MonolithicImplementation & mono,
     << "// binding for Java is supported, this will be replaced with" << std::endl
     << "// the Java-based object for the each MIO type." << std::endl
     << "JbiEvent ev = new JbiEvent ();"
-    << "String metadata, version;"
+    << "String type, version;"
     << std::endl
     << "for (InfoObject mio : result) "
     << "{"
     << "// Store the information object in the JbiEvent." << std::endl
-    << "metadata = mio.getMetadata ();"
+    << "type = mio.getTypeName ();"
     << "version = mio.getVersion ();"
     << "ev.setInfoObject (mio);"
     << std::endl
@@ -577,19 +604,26 @@ generate (const PICML::MonolithicImplementation & mono,
   if (sink_iter != sink_iter_end)
   {
     CUTS_BE_CAPI ()->outfile_
-      << "if (metadata == \""
-      << sink_iter->second.first << "\" && version == \""
-      << sink_iter->second.second << "\")" << std::endl
+      << "if (type.equals (\""
+      << sink_iter->second.first << "\") && version.equals(\""
+      << sink_iter->second.second << "\"))" << std::endl
       << "  this." << sink_iter->first << " (ev);";
 
     for (++ sink_iter; sink_iter != sink_iter_end; ++ sink_iter)
     {
       CUTS_BE_CAPI ()->outfile_
-        << "else if (metadata == \""
-        << sink_iter->second.first << "\" && version == \""
-        << sink_iter->second.second << "\")" << std::endl
+        << "else if (type.equals (\""
+        << sink_iter->second.first << "\" && version.equals (\""
+        << sink_iter->second.second << "\"))" << std::endl
         << "  this." << sink_iter->first << " (ev);";
     }
+
+    CUTS_BE_CAPI ()->outfile_
+      << "else"
+      << "{"
+      << "System.err.println (\"error: callback not found [\""
+      << "+ type + \" (\" + version + \")]\");"
+      << "}";
   }
 
   CUTS_BE_CAPI ()->outfile_
@@ -865,7 +899,7 @@ generate (const PICML::MultiInputAction & action)
     << "/**" << std::endl
     << " * environmentAction : " << name << std::endl
     << " */" << std::endl
-    << "protected void " << name << " ()"
+    << "protected void jbi_" << name << " ()"
     << "{"
     << "try"
     << "{";
@@ -911,7 +945,7 @@ generate (const PICML::Component & component)
         << "/**" << std::endl
         << " * environmentAction : " << iter->first << std::endl
         << " */" << std::endl
-        << "protected void " << iter->first << " ()";
+        << "protected void jbi_" << iter->first << " ()";
       CUTS_BE_CAPI ()->generate_throws_signature (iter->first);
       CUTS_BE_CAPI ()->outfile_
         << "{"
