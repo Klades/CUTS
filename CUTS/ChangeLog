@@ -1,11 +1,19 @@
+Sun Jun  8 03:44:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/java/Logger.java:
+        
+          Added the allow priorities as static finals. Until we add
+          support to WML for handling enums, we have to use this 
+          method.
+
 Sun Jun  8 01:42:08 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
-        
+
           . Apparently, == does not work for string comparisons. So, I
             had to update the dispatch method to use equals () instead.
-            
-          . Appended jbi_ to all the environment action methods to 
+
+          . Appended jbi_ to all the environment action methods to
             be consistent with the underlying framework.
 
 Sun Jun  8 08:40:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
