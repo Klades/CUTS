@@ -86,7 +86,7 @@ project (CUTS) : cutslib {
   }
 }
 
-project (cuts.java) : jni, cutslib {
+project (cuts.java) : jni, jnilib, cutslib {
   sharedname = cuts.java
     
   javah_flags += -classpath $(CUTS_ROOT)/lib/cuts.java.jar
@@ -105,5 +105,13 @@ project (cuts.java) : jni, cutslib {
   
   Build_Files {
   
+  }
+
+  verbatim (gnuace, bottom) {
+    .PHONY : cuts.java.Logger
+  }
+
+  verbatim (make, bottom) {
+    .PHONY : cuts.java.Logger
   }
 }

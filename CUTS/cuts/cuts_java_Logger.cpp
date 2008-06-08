@@ -4,24 +4,6 @@
 #include "ace/Log_Msg.h"
 
 //
-// get_LogPriority_value
-//
-static int get_LogPriority_value (JNIEnv * env, jobject priority)
-{
-  // Get the class for the object.
-  jclass cls = env->GetObjectClass (priority);
-
-  // Get the method for the object (i.e., value ()").
-  jmethodID mid = env->GetMethodID (cls, "value", "()I");
-  
-  // Invoke the method to retrieve the value.
-  if (mid != 0)
-    return env->CallIntMethod (priority, mid);
-
-  return -1;
-}
-
-//
 // Java_cuts_java_Logger_log
 //
 void JNICALL 

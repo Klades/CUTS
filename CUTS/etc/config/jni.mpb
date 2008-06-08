@@ -3,51 +3,19 @@
 project {
   requires += jni
   
-  includes += $(JAVA_HOME)/include  
-  
-  specific (vc6, vc7, vc71, vc8, vc9, nmake) {
-    includes += $(JAVA_HOME)/include/win32
-  }
-  
-  libpaths += $(JAVA_HOME)/lib
-  
-  lit_libs += jvm
-  
   specific {
-    javah        = <%quote%>$(JAVA_HOME)<%quote%>/bin/javah
-    javah_dep    = $(JAVA_HOME)/bin/javah
-    
-    javah_flags  = -jni
-  }
+    javah       = $(JAVA_HOME)/bin/javah
+    javah_dep   = $(JAVA_HOME)/bin/javah
+    javah_flags = -jni 
+  } 
   
   Define_Custom (JNI) {
     automatic         = 0
-    command           = $(JAVAH)
-    dependent         = $(JAVAH_DEP)
-    commandflags      = $(JAVAH_FLAGS)
-    inputext          = .class
+    command           = $(JAVA_HOME)/bin/javah
+    dependent         = $(JAVA_HOME)/bin/javah
+    commandflags      = -jni
     header_outputext  = .h
 
     keyword javah_flags = commandflags
-  }
-
-  Header_Files {
-  
-  }
-  
-  Source_Files {
-  
-  }
-  
-  Template_Files {
-  
-  }
-  
-  Inline_Files {
-  
-  }
-  
-  Documentation_Files {
-  
   }
 }
