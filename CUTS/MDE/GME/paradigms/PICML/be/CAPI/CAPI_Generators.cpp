@@ -727,8 +727,11 @@ generate (const PICML::Component & component)
 bool CUTS_BE_WorkerAction_Begin_T <CUTS_BE_Capi>::
 generate (const PICML::Worker & worker, const PICML::Action & action)
 {
+  PICML::Action action_type = PICML::Action (action).Archetype ();
+
   CUTS_BE_CAPI ()->outfile_
-    << "this." << action.name () << "_ (";
+    << "this." << action.name () << "_."
+    << action_type.name () << " (";
 
   return true;
 }
@@ -740,6 +743,10 @@ bool CUTS_BE_Action_Property_T <CUTS_BE_Capi>::
 generate (const PICML::Property & property)
 {
   CUTS_BE_CAPI ()->outfile_ << property.DataValue ();
+
+  if (-- CUTS_BE_CAPI ()->param_count_ > 0)
+    CUTS_BE_CAPI ()->outfile_ << ", ";
+
   return true;
 }
 
@@ -1555,3 +1562,12 @@ generate (const PICML::Attribute & attr)
   return true;
 }
 
+//
+// CUTS_BE_Action_Properties_Begin_T
+//
+bool CUTS_BE_Action_Properties_Begin_T <CUTS_BE_Capi>::
+generate (size_t count)
+{
+  CUTS_BE_CAPI ()->param_count_ = count;
+  return true;
+}

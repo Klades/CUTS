@@ -112,6 +112,9 @@ public:
 
   /// Keeps track of the current branch depth.
   std::stack <size_t> branches_;
+
+  /// Number of parameters.
+  size_t param_count_;
 };
 
 // Singleton declaration for the backend generator.
@@ -634,6 +637,15 @@ template < >
 struct CUTS_BE_Attribute_End_T <CUTS_BE_Capi>
 {
   static bool generate (const PICML::Attribute & attr);
+};
+
+/**
+ *
+ */
+template < >
+struct CUTS_BE_Action_Properties_Begin_T <CUTS_BE_Capi>
+{
+  static bool generate (size_t count);
 };
 
 #endif  // !defined _CUTS_BE_XML_GENERATORS_H_

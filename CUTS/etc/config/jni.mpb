@@ -11,8 +11,8 @@ project {
   
   Define_Custom (JNI) {
     automatic         = 0
-    command           = $(JAVA_HOME)/bin/javah
-    dependent         = $(JAVA_HOME)/bin/javah
+    command           = <%quote%>$(JAVA_HOME)<%quote%>/bin/javah
+    dependent         = <%quote%>$(JAVA_HOME)<%quote%>/bin/javah
     commandflags      = -jni
     header_outputext  = .h
 
