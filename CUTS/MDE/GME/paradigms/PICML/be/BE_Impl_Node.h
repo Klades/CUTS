@@ -15,6 +15,7 @@
 
 #include "PICML/PICML.h"
 #include "BE_IDL_Node.h"
+#include <map>
 
 //=============================================================================
 /**
@@ -57,6 +58,10 @@ struct CUTS_BE_Export CUTS_BE_Impl_Node :
 
   /// Collection of artifacts for this implementation.
   Artifact_Set artifacts_;
+
+  /// Listing of string (values) for a particular topic, such as
+  /// include paths, libraries, etc. 
+  std::map <std::string, CUTS_String_Set> maplist_;
 };
 
 #if defined (__CUTS_INLINE__)

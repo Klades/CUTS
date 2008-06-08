@@ -20,15 +20,19 @@
 #include "be/String_Set.h"
 #include "ace/Singleton.h"
 #include "ace/Null_Mutex.h"
-#include <fstream>
-#include <stack>
 
 // code generation headers
 #include "CCF/CodeGenerationKit/IndentationJava.hpp"
 #include "CCF/CodeGenerationKit/IndentationXML.hpp"
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
 
-//=============================================================================
+// STL includes
+#include <fstream>
+#include <stack>
+
+// Forward decl.
+struct CUTS_BE_Impl_Node;
+
 /**
  * @struct CUTS_BE_Capi
  *
@@ -36,8 +40,6 @@
  * needed by the CAPI backend generator when writing the implemenation
  * files.
  */
-//=============================================================================
-
 class CUTS_BE_Capi
 {
 public:
@@ -115,6 +117,12 @@ public:
 
   /// Number of parameters.
   size_t param_count_;
+
+  /**
+   * Current implementation's node. This can be used to store 
+   * information needed by the project/workspace generators.
+   */
+  CUTS_BE_Impl_Node * impl_node_;
 };
 
 // Singleton declaration for the backend generator.

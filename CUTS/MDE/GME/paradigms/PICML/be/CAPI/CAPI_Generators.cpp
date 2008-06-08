@@ -268,11 +268,14 @@ generate (const PICML::ComponentImplementationContainer & container,
   // Locate the preprocessing of the implementation. If this is a
   // proxy implementation, then we ignore it. It's going to cause
   // more problems than we would like.
-  const CUTS_BE_Impl_Node * node = 0;
-  CUTS_BE_PREPROCESSOR ()->impls ().find (container.name (), node);
+  CUTS_BE_PREPROCESSOR ()->impls ().find (container.name (), 
+                                          CUTS_BE_CAPI ()->impl_node_);
 
-  if (node != 0 && node->is_proxy_)
+  if (CUTS_BE_CAPI ()->impl_node_ == 0 || 
+      CUTS_BE_CAPI ()->impl_node_->is_proxy_)
+  {
     return false;
+  }
 
   std::string filename =
     CUTS_BE_OPTIONS ()->output_directory_ + "/"
@@ -489,6 +492,10 @@ generate (const PICML::MonolithicImplementation & mono,
 
     CUTS_BE_CAPI ()->sources_.insert (
       std::make_pair (name, std::make_pair (type_name, version)));
+
+    // Store the name of the event since we need to tell the ANT file to 
+    // generate the Java bindings for its schema definition.
+    CUTS_BE_CAPI ()->impl_node_->maplist_["events"].insert (type_name);
   }
 
   return true;
@@ -779,6 +786,11 @@ generate (const PICML::InEventPort & sink,
   CUTS_BE_CAPI ()->sinks_.insert (
     std::make_pair (name, std::make_pair (type_name, version)));
 
+  // Store the name of the event since we need to tell the ANT file to 
+  // generate the Java bindings for its schema definition.
+  CUTS_BE_CAPI ()->impl_node_->maplist_["events"].insert (type_name);
+
+  // Commonly used strings based on the event's name.
   std::string sink_classname = name + "Sink";
   std::string sink_variable = name + "_";
 

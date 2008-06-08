@@ -1,16 +1,41 @@
+Sun Jun  8 20:02:01 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE_Impl_Node.h:
+
+          It is now possible to store string sets in the implementation
+          node. This is useful when you need to store information about
+          the implementation that may be useful to the project and
+          workspace generators.
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Project_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Project_Generators.cpp:
+
+          Enabled support for generating Java object for the event
+          types based on their corresponding schemas.
+
+        * etc/ANT:
+        * etc/ANT/include:
+        * etc/ANT/include/castor.build:
+        * etc/ANT/include/cuts.build:
+
+          Import files for building CUTS auto-generated project
+          with ant.
+
 Sun Jun  8 05:06:19 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
-        
+
           Bug fix where worker actions were not generated correctly.
-        
+
         * etc/config/jni.mpb:
 
           Added quotes around the $(JAVA_HOME) environment variable
-          since Windows likes to store Java in the Program Files 
+          since Windows likes to store Java in the Program Files
           directory, which has a space!!
-          
+
 Sun Jun  8 11:15:01 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/CUTS.mpc:

@@ -47,6 +47,9 @@ struct CUTS_BE_Project_Write_T <CUTS_BE_Capi, CUTS_BE_Impl_Node>
 
 private:
   static void generate_i (const PICML::MonolithicImplementation & );
+  static void generate_event_include_jar (const std::string & string);
+  static void generate_target_events_build (void);
+  static void generate_target_events_srcgen (void);
 };
 
 /**

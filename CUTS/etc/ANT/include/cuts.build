@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="cuts.build">         
+  <property environment="env" />
+  <property name="cuts.dir" value="${env.CUTS_ROOT}" />
+  <property name="capi.dir" value="${env.JBI_ROOT}" />
+  
+  <path id="cuts.build.classpath">
+    <pathelement path="." />
+    <pathelement path="${cuts.dir}/lib/cuts.java.jar" />
+    <pathelement path="${cuts.dir}/lib/cuts.java.jbi.client.jar" />
+    <pathelement path="${capi.dir}/lib/capi1.5.jar" />
+  </path>
+</project>
