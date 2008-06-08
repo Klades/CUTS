@@ -20,10 +20,10 @@ import java.util.ArrayList;
  * required interface necessary for integrating with the CUTS testing
  * environment.
  */
-public abstract class JbiClient implements Runnable
+public abstract class JbiClient
 {
 	/// Single connection manager owned by the client.
-	private static ConnectionManager jbiConnMgr = new ConnectionManager();
+	private ConnectionManager jbiConnMgr;
 
 	/// The default connection for the client.
 	private Connection jbiConn = null;
@@ -53,14 +53,14 @@ public abstract class JbiClient implements Runnable
    */
   private ArrayList <JbiSource> sources_ = new ArrayList <JbiSource> ();
   
-	protected abstract void init ()
+	protected abstract void jbi_init ()
     throws PermissionDeniedException, UnsupportedVersionException;
 	
-	protected abstract void activate ();
+	protected abstract void jbi_activate ();
 	
-	protected abstract void deactivate ();
+	protected abstract void jbi_deactivate ();
 	
-	protected abstract void fini ();
+	protected abstract void jbi_fini ();
 	
   /**
    * Get the contained JBI connection. This is accessible only to 
@@ -73,6 +73,11 @@ public abstract class JbiClient implements Runnable
     return this.jbiConn;
   }
     
+    public void setJbiConnectionManager (ConnectionManager manager)
+    {
+	this.jbiConnMgr = manager;
+    }
+
 	/**
 	 * Set the server address for the client. This is the IP address
 	 * or hostname where the client will establish is connection.
@@ -129,27 +134,27 @@ public abstract class JbiClient implements Runnable
 	 * Main entry point for the JBI client. This will execute the 
 	 * test sequence for the client.
 	 */
-	public void run ()
-	{
-		try
-		{
-			// Create the default connection for the client. Before we 
-			// can connect, we have to authenticate the client with the
-			// server.
-			this.jbiConn = 
-				this.jbiConnMgr.createConnection (
-						"connection:" + this.serverAddress,
-						this.createConnectionDescriptor (this.serverAddress)); 
-
-			this.jbiConn.authenticate (
-					this.createUserCredentials(this.username, this.password));
-			
-			this.jbiConn.connect ();
-			
-			// Initialize the application. This is where the actual
-			// client will create all its publisher/subscriber sequences.
-			this.init ();
-
+    public void run ()
+    {
+	try
+	    {
+		// Create the default connection for the client. Before we 
+		// can connect, we have to authenticate the client with the
+		// server.
+		this.jbiConn = 
+		    this.jbiConnMgr.createConnection (
+						      "connection:" + this.serverAddress,
+						      this.createConnectionDescriptor (this.serverAddress)); 
+		
+		this.jbiConn.authenticate (
+					   this.createUserCredentials(this.username, this.password));
+		
+		this.jbiConn.connect ();
+		
+		// Initialize the application. This is where the actual
+		// client will create all its publisher/subscriber sequences.
+		this.jbi_init ();
+		
       // Activate all the sinks in this client.
       for (JbiSink sink : this.sinks_)
         sink.open ();
@@ -159,7 +164,7 @@ public abstract class JbiClient implements Runnable
         source.open ();
       
 			// Signal the client to activate itself.
-			this.activate ();
+			this.jbi_activate ();
 		}
     catch (Exception e)
     {
@@ -185,7 +190,7 @@ public abstract class JbiClient implements Runnable
       this.timer_.cancel ();
       
       // Signal the client to deactivate itself.
-			this.deactivate ();		
+      this.jbi_deactivate ();		
 
       // Deactivate all the sources in this client.
       for (JbiSource source : this.sources_)
@@ -196,8 +201,8 @@ public abstract class JbiClient implements Runnable
         sink.close ();
        
       // This is where the client will destroy all its publisher/
-			// subscriber sequences.
-			this.fini ();
+      // subscriber sequences.
+      this.jbi_fini ();
 	  }
 	  catch (Exception e)
 	  {
@@ -208,11 +213,14 @@ public abstract class JbiClient implements Runnable
 			// Close the connection and destroy it.
       try
       {
-  			this.jbiConn.disconnect();			
-  			this.jbiConnMgr.destroyConnection (this.jbiConn);
-  
-  			// Reset the connection just in case. :)
-  			this.jbiConn = null;
+	  if (this.jbiConn != null)
+	      {
+		  this.jbiConn.disconnect();			
+		  this.jbiConnMgr.destroyConnection (this.jbiConn);
+		  
+		  // Reset the connection just in case. :)
+		  this.jbiConn = null;
+	      }
       }
       catch (Exception e)
       {
@@ -232,10 +240,13 @@ public abstract class JbiClient implements Runnable
    */
 	private static String createUserCredentials (String username, String password) 
 	{
-		return new String("<credentials>" + 
-				                "<username>"+ username + "</username>" +
-				                "<password>"+ password +"</password>" +
-				              "</credentials>");
+	    String userCredentials =
+		new String ("<credentials>" + 
+			    "<username>"+ username + "</username>" +
+			    "<password>"+ password +"</password>" +
+			    "</credentials>");
+
+	    return userCredentials;
 	}
 	
   /**
@@ -249,10 +260,14 @@ public abstract class JbiClient implements Runnable
    */
 	private static String createConnectionDescriptor (String ipAddress)
 	{
-		return new String ("<ConnectionDescriptor>" + 
-			                   "<PlatformDescriptor>" +
-			                     "<platformIP>" + ipAddress + "</platformIP>" +
-			                   "</PlatformDescriptor>" +
-				               "</ConnectionDescriptor>");
+	    String connString = 
+		new String ("<ConnectionDescriptor>" + 
+			    "<PlatformDescriptor>" +
+			    "<platformIP>" + ipAddress + "</platformIP>" +
+			    "</PlatformDescriptor>" +
+			    "</ConnectionDescriptor>");
+
+
+	    return connString;
 	}
 }

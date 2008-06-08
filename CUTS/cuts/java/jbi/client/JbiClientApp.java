@@ -8,6 +8,7 @@
 
 package cuts.java.jbi.client;
 
+import mil.af.rl.im.capi.client.impl.ConnectionManager;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -16,6 +17,8 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
  */
 public class JbiClientApp
 {
+  private static ConnectionManager connManager_ = new ConnectionManager ();
+
   private BeanFactory beanFactory_;
   
   private String beanName_;
@@ -33,11 +36,16 @@ public class JbiClientApp
     // Load the JBI client using the factory.
     JbiClient client = 
       (JbiClient) this.beanFactory_.getBean (this.beanName_);
-    
-  	// Register the shutdown hook for the client. This will 
-	  // ensure the client releases all it's resources.
-  	Runtime.getRuntime ().
-  	  addShutdownHook (new JbiClientAppShutdownThread (client));  	
+
+    if (this.connManager_ == null)
+	System.err.println ("Wow, this is NULL");
+
+    client.setJbiConnectionManager (this.connManager_);
+
+    // Register the shutdown hook for the client. This will 
+    // ensure the client releases all it's resources.
+    Runtime.getRuntime ().
+      addShutdownHook (new JbiClientAppShutdownThread (client));  	
 
     // Run the client.
     client.run ();
@@ -55,8 +63,7 @@ public class JbiClientApp
     this.beanName_ = args[0];
     
     // Convert the name of the bean to its location on disk.
-    String beanFile = this.beanName_;
-    beanFile.replace ('.', '/');
+    String beanFile = this.beanName_.replace ('.', '/');
     beanFile += ".qic";
     
     // Load the factory for the specified bean.

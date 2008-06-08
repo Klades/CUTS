@@ -1,7 +1,20 @@
+Sun Jun  8 07:56:17 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/java/jbi/client/JbiClient.java:
+        
+          Prefixed jbi_ to the environment/lifecycle methods.
+        
+        * cuts/java/jbi/client/JbiClientApp.java:
+        
+          The creation of the JBI connection manager is handled by the
+          client application. The client object is passed a valid connection
+          manager by the hosting application/container (similar to a 
+          context).
+
 Sat Jun  7 20:53:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/cuts.java.jbi.client.build:
-        
+
           JAR file was missing sevaral Java classes.
 
 Sat Jun  7 20:13:56 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
