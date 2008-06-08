@@ -1,11 +1,17 @@
+Sun Jun  8 08:40:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/cuts_java_Logger.cpp:
+          
+          Removed unncessary code.
+
 Sun Jun  8 08:27:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/CUTS.mpc:
           etc/config/jni.mpb
           etc/config/jnilib.mpb
-        
+
           Fixed build errors on non-Windows systems.
-        
+
         * cuts/cuts_java_Logger.cpp:
 
           Removed unused code.
