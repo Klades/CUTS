@@ -1,7 +1,16 @@
+Sun Jun  8 11:15:01 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/CUTS.mpc:
+
+          Disable hidden visibility on gnuace project types since it is
+          broken on several versions of GCC. This fixed the problem with
+          the cuts.java.Logger's native methods failing (or not being
+          found).
+
 Sun Jun  8 03:58:38 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/cuts_java_Logger.cpp:
-        
+
           Removed debug code since the logger should work now!!
 
         * cuts/cuts_java_Logger.h:

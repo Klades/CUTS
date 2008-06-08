@@ -107,11 +107,11 @@ project (cuts.java) : jni, jnilib, cutslib {
   
   }
 
-  verbatim (gnuace, bottom) {
-    .PHONY : cuts.java.Logger
+  verbatim (gnuace, top) {
+    no_hidden_visibility = 1
   }
 
-  verbatim (make, bottom) {
+  verbatim (gnuace, bottom) {
     .PHONY : cuts.java.Logger
   }
 }
