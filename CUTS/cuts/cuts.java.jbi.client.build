@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <project name="cuts.java" basedir="." default="cuts.java.jbi.client.jar.build">
   <property environment="env" />
-  
+  <property name="spring.dir" value="${env.SPRING_ROOT}" />
+  <property name="spring.dist.dir" value="${spring.dir}/dist" />
+
+  <import file="${env.CUTS_ROOT}/etc/ANT/include/castor.build" />
+
   <target name="cuts.java.jbi.client.build">
+    <path id="cuts.build.classpath">
+      <pathelement path="." />
+      <pathelement path="${env.CUTS_ROOT}" />
+      <pathelement path="${env.JBI_ROOT}/lib/capi1.5.jar" />
+      <pathelement path="${spring.dist.dir}/spring.jar" />
+      <pathelement path="${castor.dir}/castor-1.2.jar" />
+    </path>
+
     <javac srcdir="."
-           classpath=".;${env.CUTS_ROOT};${env.JBI_ROOT}/lib/capi1.5.jar;${spring.lib.dir}/spring.jar"
+           classpathref="cuts.build.classpath"
            debug="true"
-           debuglevel="source,lines"> 
-           
+           debuglevel="source,lines">
+
       <include name="java/jbi/client/JbiEvent.java" />
       <include name="java/jbi/client/JbiClient.java" />
       <include name="java/jbi/client/JbiClientApp.java" />
@@ -16,11 +28,11 @@
       <include name="java/jbi/client/JbiSink.java" />
     </javac>
   </target>
-  
+
   <target name="cuts.java.jbi.client.jar.build" depends="cuts.java.jbi.client.build">
     <jar destfile="${env.CUTS_ROOT}/lib/cuts.java.jbi.client.jar"
          basedir="${env.CUTS_ROOT}">
-         
+
       <include name="cuts/java/jbi/client/JbiEvent.class" />
       <include name="cuts/java/jbi/client/JbiClient.class" />
       <include name="cuts/java/jbi/client/JbiClientApp.class" />

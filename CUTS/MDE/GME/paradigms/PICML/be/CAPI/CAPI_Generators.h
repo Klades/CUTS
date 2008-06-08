@@ -93,11 +93,8 @@ public:
 
   typedef std::map <std::string, std::string> Periodic_Map;
 
-  // <port name, <event type, event version> >
-  typedef std::map <
-    std::string,
-    std::pair <std::string, std::string> >
-    Event_Port_Map;
+  // <port name, event>
+  typedef std::map <std::string, PICML::Event> Event_Port_Map;
 
   Event_Port_Map sinks_;
 
@@ -119,7 +116,7 @@ public:
   size_t param_count_;
 
   /**
-   * Current implementation's node. This can be used to store 
+   * Current implementation's node. This can be used to store
    * information needed by the project/workspace generators.
    */
   CUTS_BE_Impl_Node * impl_node_;

@@ -268,10 +268,10 @@ generate (const PICML::ComponentImplementationContainer & container,
   // Locate the preprocessing of the implementation. If this is a
   // proxy implementation, then we ignore it. It's going to cause
   // more problems than we would like.
-  CUTS_BE_PREPROCESSOR ()->impls ().find (container.name (), 
+  CUTS_BE_PREPROCESSOR ()->impls ().find (container.name (),
                                           CUTS_BE_CAPI ()->impl_node_);
 
-  if (CUTS_BE_CAPI ()->impl_node_ == 0 || 
+  if (CUTS_BE_CAPI ()->impl_node_ == 0 ||
       CUTS_BE_CAPI ()->impl_node_->is_proxy_)
   {
     return false;
@@ -372,17 +372,46 @@ generate (const PICML::MonolithicImplementation & mono,
     CUTS_BE_CAPI ()->outfile_
       << std::endl
       << "// imports for sending events" << std::endl
-      << "import cuts.java.jbi.client.JbiEvent;";
+      << "import cuts.java.jbi.client.JbiEvent;"
+      << "import org.exolab.castor.xml.MarshalException;"
+      << "import org.exolab.castor.xml.ValidationException;";
   }
+
+  std::set <std::string> event_types;
 
   if (!inputs.empty ())
   {
+    // Generate the import files for receiving MIOs.
     CUTS_BE_CAPI ()->outfile_
       << std::endl
       << "// imports for receiving MIOs" << std::endl
       << "import org.infospherics.jbi.client.ObjectAvailableCallback;"
       << "import org.infospherics.jbi.client.InfoObject;"
       << "import cuts.java.jbi.client.JbiSink;";
+
+    // Store the event types for later usage. We also need to
+    // generate the import files for the event objects.
+    PICML::Event event;
+    std::string version, type_name;
+
+    InEventPort_Set::const_iterator
+      iter = inputs.begin (), iter_end = inputs.end ();
+
+    for ( ; iter != iter_end; ++ iter)
+    {
+      // Get the typename of the event.
+      event = iter->ref ();
+      version = event.VersionTag ();
+      type_name = CUTS_BE_Capi::fq_name (event, '.');
+
+      // Store it in the event types for later on.
+      event_types.insert (type_name);
+
+      // Store the name of the event since we need to tell the ANT file to
+      // generate the Java bindings for its schema definition.
+      CUTS_BE_CAPI ()->impl_node_->maplist_["events"].insert (type_name);
+      CUTS_BE_CAPI ()->sinks_.insert (std::make_pair (iter->name (), event));
+    }
   }
 
   if (!outputs.empty ())
@@ -391,6 +420,52 @@ generate (const PICML::MonolithicImplementation & mono,
       << std::endl
       << "// imports for sending MIOs" << std::endl
       << "import cuts.java.jbi.client.JbiSource;";
+
+    // Store the event types for later usage. We also need to
+    // generate the import files for the event objects.
+    PICML::Event event;
+    std::string type_name, version;
+
+    OutEventPort_Set::const_iterator
+      iter = outputs.begin (), iter_end = outputs.end ();
+
+    for ( ; iter != iter_end; ++ iter)
+    {
+      // Get the typename of the event.
+      event = iter->ref ();
+      version = event.VersionTag ();
+      type_name = CUTS_BE_Capi::fq_name (event, '.');
+
+      // Store it in the event types for later on.
+      event_types.insert (type_name);
+
+      // Store the name of the event since we need to tell the ANT file to
+      // generate the Java bindings for its schema definition.
+      CUTS_BE_CAPI ()->impl_node_->maplist_["events"].insert (type_name);
+
+      // Save the event's information in the sources collection.
+      if (version.empty ())
+        version = "1.0";
+
+      CUTS_BE_CAPI ()->sources_.insert (std::make_pair (iter->name (), event));
+    }
+  }
+
+  if (!event_types.empty ())
+  {
+    CUTS_BE_CAPI ()->outfile_
+      << std::endl
+      << "// imports for used event types" << std::endl;
+
+    // Generate the import files for the event types.
+    std::set <std::string>::const_iterator
+      iter = event_types.begin (), iter_end = event_types.end ();
+
+    for (; iter != iter_end; ++ iter)
+    {
+      CUTS_BE_CAPI ()->outfile_
+        << "import " << *iter << ".*;";
+    }
   }
 
   typedef std::vector <PICML::PeriodicEvent> PeriodicEvent_Set;
@@ -398,15 +473,16 @@ generate (const PICML::MonolithicImplementation & mono,
 
   if (!periodics.empty ())
   {
+    // Generate the import file for periodic events.
     CUTS_BE_CAPI ()->outfile_
       << std::endl
       << "// imports for periodic events" << std::endl
       << "import cuts.java.PeriodicTask;";
   }
 
-  // Get all the workers in this component. We need to 
+  // Get all the workers in this component. We need to
   // import them into the project.
-  std::vector <PICML::WorkerType> 
+  std::vector <PICML::WorkerType>
     worker_vars = component.WorkerType_children ();
 
   if (!worker_vars.empty ())
@@ -469,35 +545,6 @@ generate (const PICML::MonolithicImplementation & mono,
     << "{"
     << "}";
 
-  // Gather all the output event types.
-  typedef std::vector <PICML::OutEventPort> OutEventPort_Set;
-  OutEventPort_Set outs = component.OutEventPort_kind_children ();
-
-  OutEventPort_Set::const_iterator
-    iter = outs.begin (), iter_end = outs.end ();
-
-  string name, type_name, version;
-  PICML::Event event;
-
-  for (; iter != iter_end; ++ iter)
-  {
-    name = iter->name ();
-    event = PICML::Event::Cast (iter->ref ());
-
-    type_name = CUTS_BE_Capi::fq_name (event, '.');
-    version = event.VersionTag ();
-
-    if (version.empty ())
-      version = "1.0";
-
-    CUTS_BE_CAPI ()->sources_.insert (
-      std::make_pair (name, std::make_pair (type_name, version)));
-
-    // Store the name of the event since we need to tell the ANT file to 
-    // generate the Java bindings for its schema definition.
-    CUTS_BE_CAPI ()->impl_node_->maplist_["events"].insert (type_name);
-  }
-
   return true;
 }
 
@@ -520,9 +567,9 @@ generate_worker_import (const PICML::Worker & worker)
 
   // Generate the import path for the worker.
   std::ostringstream import_path;
-  
+
   while (!scope.empty ())
-  { 
+  {
     import_path << scope.top () << ".";
     scope.pop ();
   }
@@ -547,27 +594,31 @@ generate (const PICML::MonolithicImplementation & mono,
     iter_end = CUTS_BE_CAPI ()->sources_.end ();
 
   std::string source_classname, source_variable;
+  std::string type_name, version, fq_name;
 
   for ( ; iter != iter_end; iter ++)
   {
     source_classname = iter->first + "Source";
     source_variable = iter->first + "_";
 
+    type_name = CUTS_BE_CAPI ()->fq_name (iter->second, '.');
+    version = iter->second.VersionTag ();
+
     CUTS_BE_CAPI ()->outfile_
       << std::endl
       << "/**" << std::endl
       << " * publisherName    : " << iter->first << std::endl
-      << " * publisherType    : " << iter->second.first << std::endl
-      << " * publisherVersion : " << iter->second.second << std::endl
+      << " * publisherType    : " << type_name << std::endl
+      << " * publisherVersion : " << version << std::endl
       << " */" << std::endl
       << "private class " << source_classname << " extends JbiSource"
       << "{"
-      << "public " << source_classname << " (" 
+      << "public " << source_classname << " ("
       << CUTS_BE_CAPI ()->impl_classname_ << " parent)" << std::endl
       << "  throws PermissionDeniedException, UnsupportedVersionException"
       << "{"
-      << "super (parent.getJbiConnection (), \"" << iter->second.first << "\", \""
-      << iter->second.second << "\");"
+      << "super (parent.getJbiConnection (), \""
+      << fq_name << "\", \"" << version << "\");"
       << "}"
       << "}"
       << std::endl
@@ -578,7 +629,6 @@ generate (const PICML::MonolithicImplementation & mono,
       << source_variable << " = null;"
       << std::endl;
   }
-
 
   // Generate the entry point for the client application.
   CUTS_BE_CAPI ()->outfile_
@@ -592,7 +642,6 @@ generate (const PICML::MonolithicImplementation & mono,
     << "// Create a new JbiEvent object for the MIOs. Once the XML " << std::endl
     << "// binding for Java is supported, this will be replaced with" << std::endl
     << "// the Java-based object for the each MIO type." << std::endl
-    << "JbiEvent ev = new JbiEvent ();"
     << "String type, version;"
     << std::endl
     << "for (InfoObject mio : result) "
@@ -600,7 +649,6 @@ generate (const PICML::MonolithicImplementation & mono,
     << "// Store the information object in the JbiEvent." << std::endl
     << "type = mio.getTypeName ();"
     << "version = mio.getVersion ();"
-    << "ev.setInfoObject (mio);"
     << std::endl
     << "// Locate the correct dispatch method." << std::endl;
 
@@ -610,19 +658,35 @@ generate (const PICML::MonolithicImplementation & mono,
 
   if (sink_iter != sink_iter_end)
   {
+    type_name = CUTS_BE_CAPI ()->fq_name (sink_iter->second, '.');
+    version = sink_iter->second.VersionTag ();
+
+    fq_name = sink_iter->second.SpecifyIdTag ();
+    fq_name[0] = ::toupper (fq_name[0]);
+
     CUTS_BE_CAPI ()->outfile_
       << "if (type.equals (\""
-      << sink_iter->second.first << "\") && version.equals(\""
-      << sink_iter->second.second << "\"))" << std::endl
-      << "  this." << sink_iter->first << " (ev);";
+      << type_name << "\") && version.equals(\""
+      << version << "\"))" << std::endl
+      << "{"
+      << "JbiEvent <" << fq_name << "> event =" << std::endl
+      << "  new JbiEvent <" << fq_name << "> (" << fq_name << ".class);"
+      << "event.setInfoObject (mio);"
+      << "this." << sink_iter->first << " (event);"
+      << "}";
 
     for (++ sink_iter; sink_iter != sink_iter_end; ++ sink_iter)
     {
       CUTS_BE_CAPI ()->outfile_
         << "else if (type.equals (\""
-        << sink_iter->second.first << "\" && version.equals (\""
-        << sink_iter->second.second << "\"))" << std::endl
-        << "  this." << sink_iter->first << " (ev);";
+        << fq_name << "\" && version.equals (\""
+        << version << "\"))" << std::endl
+        << "{"
+        << "JbiEvent <" << fq_name
+        << "> event = new JbiEvent <" << fq_name << "> (" << fq_name << ".class);"
+        << "event.setInfoObject (mio);"
+        << "this." << sink_iter->first << " (event);"
+        << "}";
     }
 
     CUTS_BE_CAPI ()->outfile_
@@ -783,13 +847,6 @@ generate (const PICML::InEventPort & sink,
   if (version.empty ())
     version = "1.0";
 
-  CUTS_BE_CAPI ()->sinks_.insert (
-    std::make_pair (name, std::make_pair (type_name, version)));
-
-  // Store the name of the event since we need to tell the ANT file to 
-  // generate the Java bindings for its schema definition.
-  CUTS_BE_CAPI ()->impl_node_->maplist_["events"].insert (type_name);
-
   // Commonly used strings based on the event's name.
   std::string sink_classname = name + "Sink";
   std::string sink_variable = name + "_";
@@ -803,14 +860,14 @@ generate (const PICML::InEventPort & sink,
     << " */" << std::endl
     << "private class " << sink_classname << " extends JbiSink"
     << "{"
-    << "public " << sink_classname << " (" 
+    << "public " << sink_classname << " ("
     << CUTS_BE_CAPI ()->impl_classname_ << " parent)" << std::endl
     << "  throws PermissionDeniedException, UnsupportedVersionException," << std::endl
     << "         InvalidPredicateException, PredicateLanguageException," << std::endl
     << "         PermissionDeniedException, SequenceStateException," << std::endl
     << "         UnrecognizedObjectTypeException" << std::endl
     << "{"
-    << "super (parent.getJbiConnection (), \"" 
+    << "super (parent.getJbiConnection (), \""
     << type_name << "\", \""  << version << "\");";
 
   // Configure the port based on the provided properties.
@@ -846,7 +903,7 @@ generate (const PICML::InEventPort & sink,
 // CUTS_BE_InEventPort_Begin_T::configure
 //
 void CUTS_BE_InEventPort_Begin_T <CUTS_BE_Capi>::
-configure (const PICML::InEventPort & sink, 
+configure (const PICML::InEventPort & sink,
            const PICML::Property & property)
 {
   std::string propname = property.name ();
@@ -854,10 +911,10 @@ configure (const PICML::InEventPort & sink,
   if (propname == "predicate")
   {
     PICML::Component parent = PICML::Component::Cast (sink.parent ());
-    
+
     // Construct the name of the predicate.
     std::ostringstream predicate_name;
-    predicate_name 
+    predicate_name
       << parent.name () << "." << sink.name () << ".predicate";
 
     // Write the code to set the predicate.
@@ -1079,6 +1136,7 @@ generate (const PICML::PeriodicEvent & periodic)
       << periodic_task << "_ = " << std::endl
       << "  new " << periodic_task << " (this);";
   }
+
   return true;
 }
 
@@ -1088,10 +1146,21 @@ generate (const PICML::PeriodicEvent & periodic)
 bool CUTS_BE_OutputAction_Begin_T <CUTS_BE_Capi>::
 generate (const PICML::OutputAction & action)
 {
+  // Locate the event for the output action.
+  std::string name = action.name ();
+  PICML::Event event = CUTS_BE_CAPI ()->sources_[name];
+
+  // Construct the fully qualified name for the event.
+  std::string fq_name = CUTS_BE_CAPI ()->fq_name (event, '.');
+  std::string tagname = event.SpecifyIdTag ();
+
+  tagname[0] = ::toupper (tagname[0]);
+
   CUTS_BE_CAPI ()->outfile_
     << "// Create a new event for publishing" << std::endl
-    << "JbiEvent ev_" << action.uniqueId ()
-    << "_ = new JbiEvent ();";
+    << "JbiEvent <" << tagname << "> ev_" << action.uniqueId ()
+    << "_ = new JbiEvent <" << tagname << "> (" << tagname << ".class);"
+    << std::endl;
 
   return true;
 }
@@ -1119,7 +1188,7 @@ generate (const PICML::OutputAction & action)
 {
   CUTS_BE_CAPI ()->outfile_
     << std::endl
-    << "// Publishing the event (ev_" 
+    << "// Publishing the event (ev_"
     << action.uniqueId () << ")." << std::endl
     << "this." << action.name () << "_.publishData (ev_"
     << action.uniqueId () << "_);";
@@ -1396,7 +1465,7 @@ bool CUTS_BE_While_Condition_End_T <CUTS_BE_Capi>::generate (void)
 //
 bool CUTS_BE_While_Begin_T <CUTS_BE_Capi>::generate (void)
 {
-  CUTS_BE_CAPI ()->outfile_ 
+  CUTS_BE_CAPI ()->outfile_
     << "{";
 
   return true;
@@ -1407,7 +1476,7 @@ bool CUTS_BE_While_Begin_T <CUTS_BE_Capi>::generate (void)
 //
 bool CUTS_BE_While_End_T <CUTS_BE_Capi>::generate (void)
 {
-  CUTS_BE_CAPI ()->outfile_ 
+  CUTS_BE_CAPI ()->outfile_
     << "}";
 
   return true;
@@ -1463,7 +1532,7 @@ bool CUTS_BE_ReadonlyAttribute_Begin_T <CUTS_BE_Capi>::
 generate (const PICML::ReadonlyAttribute & readonly)
 {
   std::string return_type;
-  
+
   try
   {
     PICML::AttributeMember member = readonly.AttributeMember_child ();
@@ -1485,7 +1554,7 @@ generate (const PICML::ReadonlyAttribute & readonly)
       << "/**" << std::endl
       << " * attribute getter : " << name << std::endl
       << " */" << std::endl
-      << "public " << return_type << " " 
+      << "public " << return_type << " "
       << CUTS_BE_CAPI ()->getter_method (name) << " ()"
       << "{";
   }
@@ -1493,7 +1562,7 @@ generate (const PICML::ReadonlyAttribute & readonly)
   {
     CUTS_BE_CAPI ()->outfile_
       << "// unrecognized variable type for attribute [" << name
-      << "]; not generating getter method" << std::endl; 
+      << "]; not generating getter method" << std::endl;
   }
 
   return true;
@@ -1519,7 +1588,7 @@ bool CUTS_BE_Attribute_Begin_T <CUTS_BE_Capi>::
 generate (const PICML::Attribute & attr)
 {
   std::string var_type;
-  
+
   try
   {
     PICML::AttributeMember member = attr.AttributeMember_child ();
@@ -1541,15 +1610,15 @@ generate (const PICML::Attribute & attr)
       << "/**" << std::endl
       << " * attribute setter : " << name << std::endl
       << " */" << std::endl
-      << "public void " 
-      << CUTS_BE_CAPI ()->setter_method (name) 
+      << "public void "
+      << CUTS_BE_CAPI ()->setter_method (name)
       << " (" << var_type << " " << name << ")"
       << "{";
   }
   else
   {
     CUTS_BE_CAPI ()->outfile_
-      << "// unrecognized variable type for attribute [" << name 
+      << "// unrecognized variable type for attribute [" << name
       << "]; not generating setter method" << std::endl;
   }
 

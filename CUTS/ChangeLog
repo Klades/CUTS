@@ -1,3 +1,19 @@
+Sun Jun  8 23:55:18 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+
+          Updated the generator to use the new parameterized JbiEvent
+          class type.
+
+        * cuts/java/jbi/client/JbiEvent.java:
+        * cuts/java/jbi/client/JbiSource.java:
+        * cuts/cuts.java.jbi.client.build:
+        * etc/ANT/include/cuts.build:
+
+          The JbiEvent class is now a generic class that is parameterized
+          by the event type.
+
 Sun Jun  8 20:02:01 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE_Impl_Node.h:

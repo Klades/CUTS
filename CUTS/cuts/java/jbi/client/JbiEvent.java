@@ -1,87 +1,132 @@
 /**
  * @file      JbiSource.java
- * 
+ *
  * $Id$
- * 
+ *
  * @author      James H. Hill
  */
 
 package cuts.java.jbi.client;
+
 import org.infospherics.jbi.client.InfoObject;
 import org.infospherics.jbi.client.exception.*;
+import org.exolab.castor.xml.Marshaller;
+import org.exolab.castor.xml.Unmarshaller;
+import org.exolab.castor.xml.MarshalException;
+import org.exolab.castor.xml.ValidationException;
+import java.io.StringWriter;
+import java.io.StringReader;
 import java.util.Random;
 
 /**
  * Base class for all JBI events generated using CUTS. This object
  * of abstraction simplifies reading/writing MIOs.
  */
-public class JbiEvent
+public class JbiEvent <T>
 {
-  /// XML header associated with the event.
-  private String header_ = null;
-  
+  /// Metadata for the JBI event.
+  private T metadata_ = null;
+
   /// Payload associated with the event.
   private byte [] payload_ = null;
-  
+
   /// Information object for the event.
   private InfoObject infoObject_ = null;
-  
-  private Random random_ = new Random ();
-  
+
+  /// Random number generator that determines event payload size.
+  private static Random random_ = new Random ();
+
+  /// The class type for the event.
+  private Class <T> classType_;
+
   /**
-   * Default constructor.
+   * Initializing constructor.
+   *
+   * @param[in]       metadata        Source metadata.
    */
-  public JbiEvent ()
+  public JbiEvent (Class <T> classType)
+    throws InstantiationException, IllegalAccessException
   {
-   
+    this.classType_ = classType;
+    this.metadata_ = (T) this.classType_.newInstance ();
   }
-  
+
   /**
    * Initialize the event.
-   * 
-   * @param       header        XML header for the event.
+   *
+   * @param       metadata      XML header for the event.
    * @param       payload       Payload associated with event.
    */
-  public JbiEvent (String header, byte [] payload)
+  public JbiEvent (T metadata, byte [] payload)
   {
-    this.header_ = header;
+    this.metadata_ = metadata;
     this.payload_ = payload;
-    
-    if (this.infoObject_ != null)
-      this.infoObject_ = null;
   }
-  
+
   /**
-   * Get the XML header for the event.
-   * 
+   * Get the metadata for the payload in object format.
+   *
    * @return      XML header in string format.
    */
-  public String getHeader ()
+  public T getMetadata ()
     throws ObjectUnavailableException, TimeoutException
   {
-    if (this.infoObject_ != null)
-      return this.infoObject_.getMetadata ();
-    else
-      return this.header_;
+    return this.metadata_;
   }
-  
+
+  /**
+   * Get the metadata for the payload in string format. This
+   * will be an XML string.
+   */
+  public String getMetadataString ()
+    throws ObjectUnavailableException, TimeoutException,
+           MarshalException, ValidationException
+  {
+    if (this.infoObject_ == null)
+    {
+      StringWriter writer = new StringWriter ();
+      Marshaller.marshal (this.metadata_, writer);
+
+      return writer.toString ();
+    }
+    else
+    {
+      return this.infoObject_.getMetadata ();
+    }
+  }
+
   /**
    * Set the XML header for the event.
-   * 
+   *
    * @param       XML header in string format.
    */
-  public void setHeader (String header)
-    throws ObjectUnavailableException, TimeoutException
+  public void setMetadata (T metadata)
   {
-    this.header_ = header;
-    
+    this.metadata_ = metadata;
+
     if (this.infoObject_ != null)
       this.infoObject_ = null;
   }
-  
+
+  /**
+   * Set the XML header for the event.
+   *
+   * @param       XML header in string format.
+   */
+  public void setMetadata (String metadata)
+    throws ObjectUnavailableException, TimeoutException,
+           MarshalException, ValidationException
+  {
+    StringReader reader = new StringReader (metadata);
+    this.metadata_ = (T) Unmarshaller.unmarshal (this.classType_, reader);
+
+    if (this.infoObject_ != null)
+      this.infoObject_ = null;
+  }
+
   /**
    * Get the payload associated with the event.
-   * 
+   *
    * @return      The event's payload.
    */
   public byte [] getPayload ()
@@ -92,24 +137,24 @@ public class JbiEvent
     else
       return this.payload_;
   }
-  
+
   /**
    * Set the payload associated with the event.
-   * 
+   *
    * @return      The event's payload.
    */
   public void setPayload (byte [] payload)
   {
     this.payload_ = payload;
-    
+
     if (this.infoObject_ != null)
       this.infoObject_ = null;
   }
-  
+
   /**
    * Set the payload associated with the event. This will allocate
-   * a payload of the specified size. 
-   * 
+   * a payload of the specified size.
+   *
    * @param       payloadSize       Size of the payload.
    */
   public void setPayload (int payloadSize)
@@ -117,17 +162,17 @@ public class JbiEvent
     byte [] payload = new byte [payloadSize];
     this.setPayload (payload);
   }
-  
+
   /**
-   * 
+   *
    */
   public void setInfoObject (InfoObject io)
   {
     this.infoObject_ = io;
   }
-  
+
   /**
-   * 
+   *
    */
   public InfoObject getInfoObject ()
   {
