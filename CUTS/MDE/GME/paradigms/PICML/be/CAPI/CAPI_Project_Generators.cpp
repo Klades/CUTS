@@ -138,16 +138,7 @@ generate_i (const PICML::MonolithicImplementation & monoimpl)
 
   CUTS_BE_CAPI ()->project_file_
     << std::endl
-    << "<target name=\"" << name << ".build\"";
-
-  if (!eventset.empty ())
-  {
-    CUTS_BE_CAPI ()->project_file_
-      << " depends=\"events.build\"";
-  }
-
-  CUTS_BE_CAPI ()->project_file_
-    << ">" << std::endl
+    << "<target name=\"" << name << ".build\">" << std::endl
     << "<javac srcdir=\".\" classpathref=\"cuts.build.classpath\">" << std::endl
     << std::endl
     << "<!-- main class file (contains child classes) -->" << std::endl
@@ -167,86 +158,8 @@ generate_i (const PICML::MonolithicImplementation & monoimpl)
     << "<include name=\"" << name << ".class\" />" << std::endl
     << std::endl
     << "<!-- private child classes -->" << std::endl
-    << "<include name=\"" << name << "$*.class\" />" << std::endl;
-
-  // Include all of the events, if there are any for this implementation.
-  if (!eventset.empty ())
-  {
-    CUTS_BE_CAPI ()->project_file_
-      << std::endl
-      << "<!-- event classes -->" << std::endl;
-
-    std::for_each (
-      eventset.begin (),
-      eventset.end (),
-      boost::bind (&CUTS_BE_Project_Write_T <
-                      CUTS_BE_Capi, CUTS_BE_Impl_Node>::
-                      generate_event_include_jar, _1));
-
-  }
-
-  CUTS_BE_CAPI ()->project_file_
+    << "<include name=\"" << name << "$*.class\" />" << std::endl
     << "</jar>" << std::endl
-    << "</target>" << std::endl;
-
-  if (!eventset.empty ())
-  {
-    CUTS_BE_Project_Write_T <
-      CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate_target_events_build ();
-
-    CUTS_BE_Project_Write_T <
-      CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate_target_events_srcgen ();
-  }
-}
-
-//
-// CUTS_BE_Project_Write_T::generate_event_include_jar
-//
-void CUTS_BE_Project_Write_T <
-CUTS_BE_Capi, CUTS_BE_Impl_Node>::
-generate_event_include_jar (const std::string & eventtype)
-{
-  // Convert the event type to a path.
-  string path = eventtype;
-  std::replace (path.begin (), path.end (), '.', '/');
-
-  CUTS_BE_CAPI ()->project_file_
-    << "<include name=\"" << path << "/*.class\" />" << std::endl;
-}
-
-//
-// CUTS_BE_Project_Write_T::generate_target_events_build
-//
-void CUTS_BE_Project_Write_T <
-CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate_target_events_build (void)
-{
-  CUTS_BE_CAPI ()->project_file_
-    << std::endl
-    << "<target name=\"events.build\" depends=\"events.srcgen\">";
-
-  const CUTS_String_Set & eventset =
-    CUTS_BE_CAPI ()->impl_node_->maplist_["events"];
-
-  std::string path;
-
-  CUTS_String_Set::const_iterator
-    iter = eventset.begin (), iter_end = eventset.end ();
-
-  for ( ; iter != iter_end; ++ iter)
-  {
-    path = *iter;
-    std::replace (path.begin (), path.end (), '.', '/');
-
-    CUTS_BE_CAPI ()->project_file_
-      << std::endl
-      << "<!-- eventtype : " << *iter << ".xsd -->" << std::endl
-      << "<javac " << std::endl
-      << "srcdir=\"" << path << "\"" << std::endl
-      << "debug=\"true\"" << std::endl
-      << "  debuglevel=\"source, lines\" />" << std::endl;
-  }
-
-  CUTS_BE_CAPI ()->project_file_
     << "</target>" << std::endl;
 }
 
@@ -296,7 +209,6 @@ CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate_target_events_srcgen (void)
 
   CUTS_BE_CAPI ()->project_file_
     << "</target>" << std::endl;
-
 }
 
 //
@@ -308,7 +220,9 @@ CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate (const CUTS_BE_Impl_Node & node)
   std::string name = node.container_.name ();
 
   CUTS_BE_CAPI ()->project_file_
-    << "</project>";
+    << "</project>" << std::endl
+    << std::endl
+    << "<!-- end of auto-generated file -->" << std::endl;
 
   return true;
 }

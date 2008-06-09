@@ -53,6 +53,12 @@ template < >
 struct CUTS_BE_Workspace_End_T <CUTS_BE_Capi>
 {
   static bool generate (const std::string & name);
+
+private:
+  static void generate_eventtypes_project (void);
+  static void generate_target_eventtypes_srcgen (std::ofstream & outfile);
+  static void generate_target_eventtypes_jar_build (std::ofstream & outfile);
+  static void generate_target_eventtypes_build (std::ofstream & outfile);
 };
 
 /**

@@ -1,3 +1,21 @@
+Mon Jun  9 23:16:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE_Condition_Parser_T.h:
+        * MDE/GME/paradigms/PICML/be/BE_Condition_Parser_T.cpp:
+
+          Now the condition parser will correctly handle boolean values,
+          i.e., true and false.
+
+        * MDE/GME/paradigms/PICML/be/BE_Generators_T.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Project_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Workspace_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Workspace_Generators.cpp:
+
+          The event types used by the CAPI clients are in a seperate
+          JAR file.
+
 Mon Jun  9 21:42:22 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * utils/BMW/website/metrics_temp/cuts_try_2/Default.aspx:
@@ -61,23 +79,23 @@ Mon Jun  9 21:42:22 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
         * utils/BMW/website/metrics_temp/cuts_try_3/xml/DynamicXML.aspx:
         * utils/BMW/website/metrics_temp/cuts_try_3/xml/sample.aspx:
         * utils/BMW/website/metrics_temp/strategy_test/Default.aspx.cs:
-         
+
          . Some of this code may be present in the cuts_try_2/1 folders, but
            this is where a few parts of the code started merging together
-           
-         . This includes the manni.us chart library, a basic HTML page that 
+
+         . This includes the manni.us chart library, a basic HTML page that
            I made just to wrapper the code and make the intent more obvious,
            the code James Edmondson and Doug Schmidt wrote that is an
            expression tree, and the code that I wrote that does the folllowing
-           
+
          . Take in user High Level Regular expressions, grab the correct rows
-           from the database, grab the actual data from the messages, 
-           evaluate and expressions using the epression tree, and produce 
+           from the database, grab the actual data from the messages,
+           evaluate and expressions using the epression tree, and produce
            charts
-           
-         . The charts are not working fully yet, and this also includes 
+
+         . The charts are not working fully yet, and this also includes
            support for creating/storing Unit Tests and Charts
-                
+
 Mon Jun  9 15:46:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/jbi/client/JbiEvent.java:

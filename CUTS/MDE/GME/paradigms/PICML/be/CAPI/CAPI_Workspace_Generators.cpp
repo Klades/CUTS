@@ -12,8 +12,8 @@ bool CUTS_BE_Workspace_File_Open_T <CUTS_BE_Capi>::
 generate (const std::string & name)
 {
   std::ostringstream filename;
-  filename 
-    << CUTS_BE_OPTIONS ()->output_directory_ 
+  filename
+    << CUTS_BE_OPTIONS ()->output_directory_
     << "/" << name << ".build";
 
   CUTS_BE_CAPI ()->workspace_file_.open (filename.str ().c_str ());
@@ -57,6 +57,15 @@ CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate (const CUTS_BE_Impl_Node & node)
   CUTS_BE_CAPI ()->workspace_file_
     << "<ant antfile=\"" << name << ".build\" dir=\".\" />" << std::endl;
 
+  const CUTS_String_Set & events =
+    const_cast <CUTS_BE_Impl_Node &> (node).maplist_["events"];
+
+  CUTS_String_Set::const_iterator
+    iter = events.begin (), iter_end = events.end ();
+
+  for ( ; iter != iter_end; ++ iter)
+    CUTS_BE_CAPI ()->workspace_events_.insert (*iter);
+
   return true;
 }
 
@@ -66,6 +75,9 @@ CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate (const CUTS_BE_Impl_Node & node)
 bool CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::
 generate (const std::string & name)
 {
+  // Force the generation of the project that will
+  CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::generate_eventtypes_project ();
+
   CUTS_BE_CAPI ()->workspace_file_
     << "</target>" << std::endl
     << "</project>" << std::endl
@@ -73,6 +85,182 @@ generate (const std::string & name)
     << "<!-- end of auto-generated file -->" << std::endl;
 
   return true;
+}
+
+//
+// CUTS_BE_Workspace_End_T::generate_eventtypes_project
+//
+void CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::
+generate_eventtypes_project (void)
+{
+  if (CUTS_BE_CAPI ()->workspace_events_.empty ())
+    return;
+
+  // Construct the name of the build file for events.
+  std::ostringstream filename;
+  filename
+    << CUTS_BE_OPTIONS ()->output_directory_
+    << "/" << "jbi.eventtypes.build";
+
+  // Open the file for writing.
+  std::ofstream outfile;
+  outfile.open (filename.str ().c_str ());
+
+  if (!outfile.is_open ())
+    return;
+
+  /// Indentation implanter.
+  typedef Indentation::Implanter <
+    Indentation::XML, char> formatter_type;
+
+  /// Pointer to the formatter.
+  formatter_type formatter (outfile);
+
+  // Write the preamble to the log file.
+  outfile
+    << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" << std::endl
+    << "<project name=\"jbi.eventtypes.build\" basedir=\".\" default=\"build.all\">" << std::endl
+    << "<property environment=\"env\" />" << std::endl
+    << std::endl
+    << "<!-- import necessary external files -->" << std::endl
+    << "<import file=\"${env.CUTS_ROOT}/etc/ANT/include/castor.build\" />" << std::endl
+    << std::endl
+    << "<!-- build all the implementations -->" << std::endl
+    << "<target name=\"build.all\" depends=\"eventtypes.jar.build\" />" << std::endl;
+
+  // Generate the predetermined targets.
+  generate_target_eventtypes_srcgen (outfile);
+  generate_target_eventtypes_build (outfile);
+  generate_target_eventtypes_jar_build (outfile);
+
+  // Write the postamble for the project.
+  outfile
+    << "</project>" << std::endl
+    << std::endl
+    << "<!-- end of auto generated file -->" << std::endl
+    << std::endl;
+
+  // Close the opened file.
+  outfile.close ();
+
+  // Place the jbi.eventtype.build file in the top-level ANT script.
+  CUTS_BE_CAPI ()->workspace_file_
+    << "<ant antfile=\"jbi.eventtypes.build\" dir=\".\" />" << std::endl;
+}
+
+//
+// CUTS_BE_Workspace_End_T::generate_target_eventtypes_srcgen
+//
+void CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::
+generate_target_eventtypes_srcgen (std::ofstream & outfile)
+{
+  CUTS_String_Set::const_iterator
+    iter = CUTS_BE_CAPI ()->workspace_events_.begin (),
+    iter_end = CUTS_BE_CAPI ()->workspace_events_.end ();
+
+  std::string pathname;
+
+  outfile
+    << std::endl
+    << "<target name=\"eventtypes.srcgen\">";
+
+  for ( ; iter != iter_end; ++ iter)
+  {
+    pathname = *iter;
+    std::replace (pathname.begin (), pathname.end (), '.', '/');
+
+    outfile
+      << std::endl
+      << "<!-- eventtype : " << *iter << ".xsd -->" << std::endl
+      << "<delete includeemptydirs=\"true\" verbose=\"true\">" << std::endl
+      << "<fileset dir=\".\">" << std::endl
+      << "<include name=\"" << pathname << "/*.java\" />" << std::endl
+      << "<include name=\"" << pathname << "/*.class\" />" << std::endl
+      << "</fileset>" << std::endl
+      << "</delete>" << std::endl
+      << std::endl
+      << "<java" << std::endl
+      << "classname=\"org.exolab.castor.builder.SourceGeneratorMain\"" << std::endl
+      << "classpathref=\"castor.srcgen.classpath\"" << std::endl
+      << "failonerror=\"true\">" << std::endl
+      << "<arg line=\"-i ${jbi.schemas.dir}" << pathname
+      << "/" << *iter << ".xsd\" />" << std::endl
+      << "<arg line=\"-package " << *iter << "\" />" << std::endl
+      << "<arg line=\"-f -nodesc -nomarshall\" />" << std::endl
+      << "</java>" << std::endl;
+  }
+
+  outfile
+    << "</target>" << std::endl;
+
+}
+
+//
+// CUTS_BE_Workspace_End_T::generate_target_eventtypes_build
+//
+void CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::
+generate_target_eventtypes_build (std::ofstream & outfile)
+{
+  CUTS_String_Set::const_iterator
+    iter = CUTS_BE_CAPI ()->workspace_events_.begin (),
+    iter_end = CUTS_BE_CAPI ()->workspace_events_.end ();
+
+  std::string pathname;
+
+  outfile
+    << std::endl
+    << "<target name=\"eventtypes.build\">" << std::endl
+    << "<javac srcdir=\".\" classpath=\".\">" << std::endl;
+
+  for ( ; iter != iter_end; ++ iter)
+  {
+    pathname = *iter;
+    std::replace (pathname.begin (), pathname.end (), '.', '/');
+
+    outfile
+      << "<include name=\"" << pathname << "/*.java\" />";
+  }
+
+  outfile
+    << "</javac>" << std::endl
+    << "</target>" << std::endl;
+}
+
+//
+// CUTS_BE_Workspace_End_T::generate_target_eventtypes_jar_build
+//
+void CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::
+generate_target_eventtypes_jar_build (std::ofstream & outfile)
+{
+  CUTS_String_Set::const_iterator
+    iter = CUTS_BE_CAPI ()->workspace_events_.begin (),
+    iter_end = CUTS_BE_CAPI ()->workspace_events_.end ();
+
+  std::string pathname;
+
+  outfile
+    << std::endl
+    << "<target name=\"eventtypes.jar.build\" depends=\"eventtypes.build\">" << std::endl
+    << "<!-- create the library directory -->" << std::endl
+    << "<mkdir dir=\"./lib\" />" << std::endl
+    << std::endl
+    << "<!-- create the final jar file -->" << std::endl
+    << "<jar destfile=\"./lib/jbi.eventtypes.jar\" basedir=\".\">";
+
+  for ( ; iter != iter_end; ++ iter)
+  {
+    pathname = *iter;
+    std::replace (pathname.begin (), pathname.end (), '.', '/');
+
+    outfile
+      << std::endl
+      << "<include name=\"" << pathname << "/*.class\" />" << std::endl
+      << "<include name=\"" << pathname << "/mapping.xml\" />" << std::endl;
+  }
+
+  outfile
+    << "</jar>" << std::endl
+    << "</target>" << std::endl;
 }
 
 //

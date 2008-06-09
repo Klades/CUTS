@@ -1014,6 +1014,26 @@ struct CUTS_BE_Less_Than_Equal_To_T
     { return false; }
 };
 
+/**
+ *
+ */
+template <typename IMPL_STRATEGY>
+struct CUTS_BE_True_T
+{
+  static bool generate (const char * first, const char * last)
+    { return false; }
+};
+
+/**
+ *
+ */
+template <typename IMPL_STRATEGY>
+struct CUTS_BE_False_T
+{
+  static bool generate (const char * first, const char * last)
+    { return false; }
+};
+
 //=============================================================================
 /**
  *
@@ -1027,12 +1047,9 @@ struct CUTS_BE_Identifier_T
     { return false; }
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_Transcribe_Text_T
 {
@@ -1040,12 +1057,9 @@ struct CUTS_BE_Transcribe_Text_T
     { return false; }
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_Transcribe_Char_T
 {

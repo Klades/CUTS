@@ -120,6 +120,9 @@ public:
    * information needed by the project/workspace generators.
    */
   CUTS_BE_Impl_Node * impl_node_;
+
+  /// The event types used throughout all the projects.
+  CUTS_String_Set workspace_events_;
 };
 
 // Singleton declaration for the backend generator.
@@ -651,6 +654,24 @@ template < >
 struct CUTS_BE_Action_Properties_Begin_T <CUTS_BE_Capi>
 {
   static bool generate (size_t count);
+};
+
+/**
+ *
+ */
+template < >
+struct CUTS_BE_True_T <CUTS_BE_Capi>
+{
+  static bool generate (const char * first, const char * last);
+};
+
+/**
+ *
+ */
+template < >
+struct CUTS_BE_False_T <CUTS_BE_Capi>
+{
+  static bool generate (const char * first, const char * last);
 };
 
 #endif  // !defined _CUTS_BE_XML_GENERATORS_H_

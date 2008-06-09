@@ -55,6 +55,12 @@ public:
     /// rule: condition_
     boost::spirit::rule <ScannerT> condition_;
 
+    /// rule: boolean_
+    boost::spirit::rule <ScannerT> boolean_;
+
+    /// rule: keywords_
+    boost::spirit::rule <ScannerT> keywords_;
+
     /// rule: group_
     boost::spirit::rule <ScannerT> group_;
 

@@ -11,6 +11,9 @@ template <typename ScannerT>
 CUTS_BE_Condition_Parser_T <BE_STRATEGY>::
 definition <ScannerT>::definition (const CUTS_BE_Condition_Parser_T & self)
 {
+  this->keywords_ =
+    this->comp_op_ | this->boolean_;
+
   this->comp_op_ =
     boost::spirit::str_p ("==") [&CUTS_BE_Equal_To_T <BE_STRATEGY>::generate] |
     boost::spirit::str_p ("!=") [&CUTS_BE_Not_Equal_To_T <BE_STRATEGY>::generate] |
@@ -19,6 +22,10 @@ definition <ScannerT>::definition (const CUTS_BE_Condition_Parser_T & self)
     boost::spirit::str_p ("<") [&CUTS_BE_Less_Than_T <BE_STRATEGY>::generate] |
     boost::spirit::str_p ("<=") [&CUTS_BE_Less_Than_Equal_To_T <BE_STRATEGY>::generate];
 
+  this->boolean_ =
+    boost::spirit::str_p ("true") [&CUTS_BE_True_T <BE_STRATEGY>::generate] |
+    boost::spirit::str_p ("false") [&CUTS_BE_False_T <BE_STRATEGY>::generate];
+
   this->join_op_ =
     boost::spirit::as_lower_d["and"][&CUTS_BE_And_T <BE_STRATEGY>::generate] |
     boost::spirit::as_lower_d["or"][&CUTS_BE_Or_T <BE_STRATEGY>::generate];
@@ -26,7 +33,7 @@ definition <ScannerT>::definition (const CUTS_BE_Condition_Parser_T & self)
   this->variable_ =
     boost::spirit::lexeme_d [
       (boost::spirit::alpha_p | boost::spirit::ch_p ('_')) >>
-        *(boost::spirit::alnum_p | boost::spirit::ch_p ('_'))];
+        *(boost::spirit::alnum_p | boost::spirit::ch_p ('_'))] - (this->keywords_);
 
   this->number_ =
     boost::spirit::lexeme_d [*boost::spirit::digit_p];
@@ -43,7 +50,9 @@ definition <ScannerT>::definition (const CUTS_BE_Condition_Parser_T & self)
       this->variable_ [&CUTS_BE_Identifier_T <BE_STRATEGY>::generate] |
       this->string_ [&CUTS_BE_Transcribe_Text_T <BE_STRATEGY>::generate] |
       this->number_ [&CUTS_BE_Transcribe_Text_T <BE_STRATEGY>::generate] |
-      this->char_ [&CUTS_BE_Transcribe_Text_T <BE_STRATEGY>::generate];
+      this->char_ [&CUTS_BE_Transcribe_Text_T <BE_STRATEGY>::generate] |
+      this->boolean_ |
+      boost::spirit::alpha_p [&CUTS_BE_Transcribe_Char_T <BE_STRATEGY>::generate];
 
   this->expr_ =
     this->ident_ >> this->comp_op_ >> this->ident_;
