@@ -13,7 +13,7 @@
         <br />
         <br />
     <asp:TextBox ID="TextBox1" runat="server" Height="93px" 
-             Width="376px"></asp:TextBox>
+             Width="376px" TextMode="MultiLine"></asp:TextBox>
         <br />
         <br />
         <asp:Button ID="Button1" runat="server" Text="Submit" onclick="Button1_Click" />

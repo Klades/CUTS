@@ -30,6 +30,7 @@ public partial class _Default : System.Web.UI.Page
         dr["two"] = "1";
         dt.Rows.Add(dr);
         ReceiverAPI r = new ReceiverAPI(dt);
+        
 
         ScalarAddCommand sc = new ScalarAddCommand(ref r, 1, "one", "two", "result");
         sc.Execute();
@@ -81,6 +82,13 @@ class ReceiverAPI
         return false;
     }
 
+    public DataTable table_
+    {
+        get
+        {
+            return dt;
+        }
+    }
     
 
 }
@@ -114,4 +122,38 @@ class ScalarAddCommand : ICommand
         DataRow dr = r.GetRow(tid);
         dr.SetField(resultcol, int.Parse(dr[add_one].ToString()) + int.Parse(dr[add_two].ToString()));
     }
+}
+
+class WriteToXMLCommand : ICommand
+{
+    private ReceiverAPI r;
+    
+    public WriteToXMLCommand(ref ReceiverAPI rec)
+    {
+        this.r = rec;
+    }
+
+    public void Execute()
+    {
+        DataTable dt = r.table_;
+        int size = dt.Columns.Count;
+        if (size < 2)
+            return; // error
+        
+        // The first column is all the headers
+        foreach (DataRow row_ in dt.Rows)
+        {
+            row_[0];
+        }
+
+
+        for (int i = 1; i < size; i++)
+        {
+            foreach (DataRow row_ in dt.Rows)
+            {
+                row_[i];
+            }
+        }
+    }
+
 }

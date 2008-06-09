@@ -1,54 +1,39 @@
 ﻿using System;
-using System.Configuration;
 using System.Data;
+using System.Configuration;
 using System.Linq;
 using System.Web;
-using System.Text.RegularExpressions;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
+using System.Text.RegularExpressions;
 using MySql.Data.MySqlClient;
 
+/// <summary>
+/// High Level Parser
+/// created Jun 08
+///
+/// @brief To be able to generate one
+///          datatable, with a primary column of testID
+///          and other columns of varying name and types.
+///        
+/// </summary>
 
-public partial class _Default : System.Web.UI.Page 
-{
-
-    protected void Page_Load(object sender, EventArgs e)
-    {
-        
-    }
-    protected void Button1_Click(object sender, EventArgs e)
-    {
-        CUTS_System cs = new CUTS_System();
-        cs.parse(TextBox1.Text);
-        LabelLog.Text += cs.log;
-    }
-
-}
-
-namespace High_Level_Parser
+namespace Parser
 {
 
     public class High_Level_Parser
     {
-        // CUTS_System
-        // created Jun 08
-        //
-        // @brief To be able to generate one
-        //          datatable, with a primary column of testID
-        //          and other columns of varying name and types.
-        //        
-
         private string connString;
         private DataTable table_;
         private Logger logger_;
         private DataTable temp_;
 
 
-        public CUTS_System()
+        public High_Level_Parser()
         {
             // Sets up the one internal dataTable
             table_ = new DataTable();
@@ -67,11 +52,12 @@ namespace High_Level_Parser
 
         // To provide parsing of many statements
         // separated by semicolons
-        public void parse(string raw)
+        public DataTable parse(string raw)
         {
             string[] statements = Regex.Split(raw, ";");
             foreach (string expr in statements)
                 parse_single(expr);
+            return table_;
         }
 
         // parses a single statement
