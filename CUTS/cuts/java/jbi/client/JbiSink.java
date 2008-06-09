@@ -13,7 +13,14 @@ import org.infospherics.jbi.client.Connection;
 import org.infospherics.jbi.client.InfoObject;
 import org.infospherics.jbi.client.SubscriberSequence;
 import org.infospherics.jbi.client.exception.*;
+import org.exolab.castor.mapping.*;
+import org.exolab.castor.mapping.xml.*;
+import org.exolab.castor.xml.Unmarshaller;
+import org.exolab.castor.xml.MarshalException;
+import org.exolab.castor.xml.ValidationException;
 import cuts.java.jbi.client.JbiEvent;
+import java.io.StringReader;
+import java.io.IOException;
 
 /**
  * @class JbiSink
@@ -37,7 +44,11 @@ public class JbiSink
   
   /// Predicate, if any, assocated with sink.
   private String predicateValue_ = null;
-  
+
+    private Mapping mapping_ = new Mapping ();
+    
+    private Unmarshaller unmarshaller_ = new Unmarshaller ();
+ 
   /**
    * Initializining constructor. In order to create a source object
    * for a client, you have to provide it will a parent connection.
@@ -47,14 +58,27 @@ public class JbiSink
    * @param[in]     version             The version of the event type.
    */
   public JbiSink (Connection connection, String type, String version)
-    throws PermissionDeniedException, UnsupportedVersionException
+      throws PermissionDeniedException, UnsupportedVersionException,
+           MappingException, IOException
   {
     // Store the information about the publisher source.
     this.jbiConn_ = connection;
     this.typeName_ = type;
     this.typeVersion_ = version;
     
-    // Create the publisher sequence for the source.
+    // Construct the name of the mapping file. This is necessary
+    // since Castor likes to construct *bad* tags. ;-)
+    String mappingFile = type.replace ('.', '/');
+    mappingFile += "/mapping.xml";
+
+    // Load the mapping file for the type.
+    this.mapping_.loadMapping (getClass ().getClassLoader ().getResource (mappingFile));
+
+    // Initialize the mashaller.
+    this.unmarshaller_.setMapping (this.mapping_);
+    this.unmarshaller_.setValidation (false);
+
+   // Create the publisher sequence for the source.
     this.jbiSink_ = 
       this.jbiConn_.createSubscriberSequence (
           this.typeName_, this.typeVersion_);
@@ -94,6 +118,13 @@ public class JbiSink
     this.jbiSink_ = null;
   }
   
+  public Object metadataToObject (String metadata)
+      throws MarshalException, ValidationException
+    {
+        StringReader reader = new StringReader (metadata);
+        return this.unmarshaller_.unmarshal (reader);
+    }
+
   /**
    * Set the predicate for the sink. The predicate is a regular
    * XPath expression. The sink will handle formatting it correctly

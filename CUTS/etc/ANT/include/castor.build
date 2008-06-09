@@ -2,7 +2,7 @@
 <project name="castor.build">         
   <property environment="env" />
   <property name="castor.dir" value="${env.CASTOR_ROOT}" />
-  <property name="castor.lib.dir" value="${castor.dir}/libs" />
+  <property name="castor.lib.dir" value="${castor.dir}/lib" />
 
   <path id="castor.srcgen.classpath">
     <pathelement path="${castor.dir}/castor-1.2.jar" />

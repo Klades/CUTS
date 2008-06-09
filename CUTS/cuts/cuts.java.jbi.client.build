@@ -13,6 +13,7 @@
       <pathelement path="${env.JBI_ROOT}/lib/capi1.5.jar" />
       <pathelement path="${spring.dist.dir}/spring.jar" />
       <pathelement path="${castor.dir}/castor-1.2.jar" />
+      <pathelement path="${env.XSTREAM_ROOT}/lib/xstream-1.3.jar" />
     </path>
 
     <javac srcdir="."

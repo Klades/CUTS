@@ -10,7 +10,6 @@ package cuts.java.jbi.client;
 
 import org.infospherics.jbi.client.InfoObject;
 import org.infospherics.jbi.client.exception.*;
-import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.ValidationException;
@@ -51,14 +50,21 @@ public class JbiEvent <T>
     this.metadata_ = (T) this.classType_.newInstance ();
   }
 
+    public JbiEvent (Class <T> classType, T metadata)
+    {
+        this.classType_ = classType;
+        this.metadata_ = metadata;
+    }
+
   /**
    * Initialize the event.
    *
    * @param       metadata      XML header for the event.
    * @param       payload       Payload associated with event.
    */
-  public JbiEvent (T metadata, byte [] payload)
+    public JbiEvent (Class <T> classType, T metadata, byte [] payload)
   {
+      this.classType_ = classType;
     this.metadata_ = metadata;
     this.payload_ = payload;
   }
@@ -74,6 +80,21 @@ public class JbiEvent <T>
     return this.metadata_;
   }
 
+    /**
+     * Set the metadata for the object.
+     *
+     * @param[in]       metadata      The new metadata.
+     */
+    public void setMetadata (T metadata)
+        throws ObjectUnavailableException, TimeoutException,
+               MarshalException, ValidationException
+    {
+        this.metadata_ = metadata;
+
+        if (this.infoObject_ != null)
+            this.infoObject_ = null;
+    }
+
   /**
    * Get the metadata for the payload in string format. This
    * will be an XML string.
@@ -82,46 +103,14 @@ public class JbiEvent <T>
     throws ObjectUnavailableException, TimeoutException,
            MarshalException, ValidationException
   {
-    if (this.infoObject_ == null)
-    {
-      StringWriter writer = new StringWriter ();
-      Marshaller.marshal (this.metadata_, writer);
-
-      return writer.toString ();
-    }
-    else
+    if (this.infoObject_ != null)
     {
       return this.infoObject_.getMetadata ();
     }
-  }
-
-  /**
-   * Set the XML header for the event.
-   *
-   * @param       XML header in string format.
-   */
-  public void setMetadata (T metadata)
-  {
-    this.metadata_ = metadata;
-
-    if (this.infoObject_ != null)
-      this.infoObject_ = null;
-  }
-
-  /**
-   * Set the XML header for the event.
-   *
-   * @param       XML header in string format.
-   */
-  public void setMetadata (String metadata)
-    throws ObjectUnavailableException, TimeoutException,
-           MarshalException, ValidationException
-  {
-    StringReader reader = new StringReader (metadata);
-    this.metadata_ = (T) Unmarshaller.unmarshal (this.classType_, reader);
-
-    if (this.infoObject_ != null)
-      this.infoObject_ = null;
+    else
+	{
+	    return "";
+	}
   }
 
   /**

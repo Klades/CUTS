@@ -11,9 +11,14 @@ import org.infospherics.jbi.client.Connection;
 import org.infospherics.jbi.client.InfoObject;
 import org.infospherics.jbi.client.PublisherSequence;
 import org.infospherics.jbi.client.exception.*;
+import org.exolab.castor.mapping.*;
+import org.exolab.castor.mapping.xml.*;
+import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.ValidationException;
 import cuts.java.jbi.client.JbiEvent;
+import java.io.StringWriter;
+import java.io.IOException;
 
 /**
  * @class JbiSource
@@ -36,17 +41,34 @@ public class JbiSource
   /// The information object's version.
   private String typeVersion_;
 
+    private Mapping mapping_ = new Mapping ();
+
+    private Marshaller marshaller_ = new Marshaller ();
+
   /**
    * Initializining constructor. In order to create a source object
    * for a client, you have to provide it will a parent connection.
    */
   public JbiSource (Connection connection, String type, String version)
-    throws PermissionDeniedException, UnsupportedVersionException
+      throws PermissionDeniedException, UnsupportedVersionException,
+             MappingException, IOException
   {
     // Store the information about the publisher source.
     this.jbiConn_ = connection;
     this.typeName_ = type;
     this.typeVersion_ = version;
+
+    // Construct the name of the mapping file. This is necessary
+    // since Castor likes to construct *bad* tags. ;-)
+    String mappingFile = type.replace ('.', '/');
+    mappingFile += "/mapping.xml";
+
+    // Load the mapping file for the type.
+    this.mapping_.loadMapping (getClass ().getClassLoader ().getResource (mappingFile));
+
+    // Initialize the mashaller.
+    this.marshaller_.setMapping (this.mapping_);
+    this.marshaller_.setValidation (false);
 
     // Create the publisher sequence for the source.
     this.jbiSrc_ =
@@ -65,11 +87,16 @@ public class JbiSource
            ObjectSizeException, VersionNumberException,
            PausedSequenceException, SequenceStateException,
            ObjectUnavailableException, TimeoutException,
-           MarshalException, ValidationException
+           MarshalException, ValidationException, IOException
   {
-    // Publish the data, which creates the info object.
-    InfoObject io =
-      this.publishData (event.getMetadataString (), event.getPayload ());
+      // Marshall the object to a XML string.
+      StringWriter writer = new StringWriter ();
+      this.marshaller_.setWriter (writer);
+      this.marshaller_.marshal (event.getMetadata ());
+
+      // Publish the event, which creates an MIO.
+      InfoObject io = 
+	  this.publishData (writer.toString (), event.getPayload ());
 
     // Store the information object in the event.
     event.setInfoObject (io);
