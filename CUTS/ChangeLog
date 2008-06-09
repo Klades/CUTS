@@ -1,3 +1,11 @@
+Mon Jun  9 00:28:26 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+
+          Bug fix where the JbiEvents on the upcall methods for sinks
+          was missing the appropriate parameter type (i.e., the event
+          type).
+
 Sun Jun  8 23:55:18 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:

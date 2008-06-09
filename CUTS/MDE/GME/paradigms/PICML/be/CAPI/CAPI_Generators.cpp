@@ -889,9 +889,13 @@ generate (const PICML::InEventPort & sink,
     << sink_variable << " = null;"
     << std::endl;
 
+  std::string tag_name = event.SpecifyIdTag ();
+  tag_name[0] = ::toupper (tag_name[0]);
+
   // Generate the start of the method's implementation.
   CUTS_BE_CAPI ()->outfile_
-    << "void " << sink.name () << " (JbiEvent ev)"
+    << "void " << sink.name ()
+    << " (JbiEvent <" << tag_name << "> ev)"
     << "{"
     << "try"
     << "{";
