@@ -1,3 +1,18 @@
+Mon Jun  9 15:07:45 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/java/jbi/client/JbiEvent.java:
+        * cuts/java/jbi/client/JbiSink.java:
+        * cuts/java/jbi/client/JbiSource.java:
+
+          Removed all the (un)marshalling code to the sink and
+          source class.
+
+        * cuts/cuts.java.jbi.client.build:
+        * etc/ANT/include/castor.build:
+        
+          The location of the Castor libraries directory changed
+          from 'libs' to 'lib'.
+
 Mon Jun  9 00:28:26 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
