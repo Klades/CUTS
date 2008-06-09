@@ -1,3 +1,10 @@
+Mon Jun  9 15:46:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/java/jbi/client/JbiEvent.java:
+
+          The JbiEvent can now take a String metadata type, which is
+          used directly when creating the infomation object.
+
 Mon Jun  9 15:07:45 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/jbi/client/JbiEvent.java:
@@ -9,7 +16,7 @@ Mon Jun  9 15:07:45 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/cuts.java.jbi.client.build:
         * etc/ANT/include/castor.build:
-        
+
           The location of the Castor libraries directory changed
           from 'libs' to 'lib'.
 

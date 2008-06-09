@@ -38,23 +38,24 @@ public class JbiEvent <T>
   /// The class type for the event.
   private Class <T> classType_;
 
+  /// String version of the metadata.
+  private String metadataString_ = null;
+
   /**
    * Initializing constructor.
    *
    * @param[in]       metadata        Source metadata.
    */
   public JbiEvent (Class <T> classType)
-    throws InstantiationException, IllegalAccessException
   {
     this.classType_ = classType;
-    this.metadata_ = (T) this.classType_.newInstance ();
   }
 
-    public JbiEvent (Class <T> classType, T metadata)
-    {
-        this.classType_ = classType;
-        this.metadata_ = metadata;
-    }
+  public JbiEvent (Class <T> classType, T metadata)
+  {
+      this.classType_ = classType;
+      this.metadata_ = metadata;
+  }
 
   /**
    * Initialize the event.
@@ -62,9 +63,9 @@ public class JbiEvent <T>
    * @param       metadata      XML header for the event.
    * @param       payload       Payload associated with event.
    */
-    public JbiEvent (Class <T> classType, T metadata, byte [] payload)
+  public JbiEvent (Class <T> classType, T metadata, byte [] payload)
   {
-      this.classType_ = classType;
+    this.classType_ = classType;
     this.metadata_ = metadata;
     this.payload_ = payload;
   }
@@ -75,25 +76,38 @@ public class JbiEvent <T>
    * @return      XML header in string format.
    */
   public T getMetadata ()
-    throws ObjectUnavailableException, TimeoutException
+    throws ObjectUnavailableException, TimeoutException,
+           InstantiationException, IllegalAccessException
   {
+    if (this.metadata_ == null)
+      this.metadata_ = (T) this.classType_.newInstance ();
+
     return this.metadata_;
   }
 
-    /**
-     * Set the metadata for the object.
-     *
-     * @param[in]       metadata      The new metadata.
-     */
-    public void setMetadata (T metadata)
-        throws ObjectUnavailableException, TimeoutException,
-               MarshalException, ValidationException
-    {
-        this.metadata_ = metadata;
+  /**
+    * Set the metadata for the object.
+    *
+    * @param[in]       metadata      The new metadata.
+    */
+  public void setMetadata (T metadata)
+      throws ObjectUnavailableException, TimeoutException,
+              MarshalException, ValidationException
+  {
+    this.metadata_ = metadata;
+    this.metadataString_ = null;
 
-        if (this.infoObject_ != null)
-            this.infoObject_ = null;
-    }
+    if (this.infoObject_ != null)
+        this.infoObject_ = null;
+  }
+
+  public void setMetadata (String metadata)
+  {
+    this.metadataString_ = metadata;
+
+    if (this.metadata_ != null)
+      this.metadata_ = null;
+  }
 
   /**
    * Get the metadata for the payload in string format. This
@@ -108,9 +122,9 @@ public class JbiEvent <T>
       return this.infoObject_.getMetadata ();
     }
     else
-	{
-	    return "";
-	}
+  {
+      return "";
+  }
   }
 
   /**
