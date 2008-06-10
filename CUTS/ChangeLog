@@ -1,3 +1,11 @@
+Tue Jun 10 12:50:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+
+          Disabled the parsing of conditions since the condition parser
+          has a bug in it and it has not been resolved.
+
 Tue Jun 10 03:49:29 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * utils/BMW/website/metrics_temp/cuts_try_3/App_Code/CreateChart.cs:
@@ -11,11 +19,11 @@ Tue Jun 10 03:49:29 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
         * utils/BMW/website/metrics_temp/cuts_try_3/App_Code/ExpressionTree/Visitor.cs:
 
          . Imported new expression tree classes from James Edmondson
-         
+
         * utils/BMW/website/metrics_temp/cuts_try_3/App_Code/High_Level_Parser.cs:
-        
+
          . Renamed Namespace to High_Level_Parser and class to Parser to make it
-           look simpler to create an instance        
+           look simpler to create an instance
 
         * utils/BMW/website/metrics_temp/cuts_try_3/ChartDynamic.aspx:
         * utils/BMW/website/metrics_temp/cuts_try_3/ChartDynamic.aspx.cs:
@@ -23,13 +31,13 @@ Tue Jun 10 03:49:29 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
         * utils/BMW/website/metrics_temp/cuts_try_3/SavedChartsWrapper.aspx:
         * utils/BMW/website/metrics_temp/cuts_try_3/SavedChartsWrapper.aspx.cs:
         * utils/BMW/website/metrics_temp/cuts_try_3/web.config:
-        
+
          . Added some basic static content to the dynamic chart page to show my
            thoughts on that, created the charts table in the database and added
            a few charts then linked to them manually from SavedCharts
-         . Updated the charts wrapper to 1)grab UT's from chart table, then 
+         . Updated the charts wrapper to 1)grab UT's from chart table, then
            grab all HLRegexes/evals needed from unit_test table, simply concat
-           them for now and generate a single chart with both values          
+           them for now and generate a single chart with both values
 
 Mon Jun  9 23:16:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

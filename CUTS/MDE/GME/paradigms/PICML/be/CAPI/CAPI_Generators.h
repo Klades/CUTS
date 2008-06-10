@@ -141,6 +141,12 @@ namespace CUTS_BE
   CUTS_BE_NOT_VISIT (CUTS_BE_Capi, PICML::TwowayOperation);
 }
 
+template < >
+struct CUTS_BE_Parse_Precondition_T <CUTS_BE_Capi>
+{
+  static const bool result_type = false;
+};
+
 /**
  *
  */
@@ -672,6 +678,15 @@ template < >
 struct CUTS_BE_False_T <CUTS_BE_Capi>
 {
   static bool generate (const char * first, const char * last);
+};
+
+/**
+ *
+ */
+template < >
+struct CUTS_BE_Precondition_T <CUTS_BE_Capi>
+{
+  static bool generate (const std::string & precondition);
 };
 
 #endif  // !defined _CUTS_BE_XML_GENERATORS_H_

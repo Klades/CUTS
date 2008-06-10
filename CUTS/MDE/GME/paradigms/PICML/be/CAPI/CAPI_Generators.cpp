@@ -1723,3 +1723,13 @@ generate (const char * first, const char * last)
 
   return true;
 }
+
+//
+// CUTS_BE_Precondition_T
+//
+bool CUTS_BE_Precondition_T <CUTS_BE_Capi>::
+generate (const std::string & precondition)
+{
+  CUTS_BE_CAPI ()->outfile_ << precondition;
+  return true;
+}
