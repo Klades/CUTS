@@ -87,16 +87,27 @@ public class JbiSource
            ObjectSizeException, VersionNumberException,
            PausedSequenceException, SequenceStateException,
            ObjectUnavailableException, TimeoutException,
-           MarshalException, ValidationException, IOException
+           MarshalException, ValidationException, IOException,
+           InstantiationException, IllegalAccessException
   {
+      String metadata;
+
       // Marshall the object to a XML string.
-      StringWriter writer = new StringWriter ();
-      this.marshaller_.setWriter (writer);
-      this.marshaller_.marshal (event.getMetadata ());
+      if (event.getMetadataString () == null)
+          {
+              StringWriter writer = new StringWriter ();
+              this.marshaller_.setWriter (writer);
+              this.marshaller_.marshal (event.getMetadata ());
+              metadata = writer.toString ();
+          }
+      else
+          {
+              metadata = event.getMetadataString ();
+          }
 
       // Publish the event, which creates an MIO.
       InfoObject io = 
-	  this.publishData (writer.toString (), event.getPayload ());
+          this.publishData (metadata, event.getPayload ());
 
     // Store the information object in the event.
     event.setInfoObject (io);

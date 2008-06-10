@@ -117,14 +117,10 @@ public class JbiEvent <T>
     throws ObjectUnavailableException, TimeoutException,
            MarshalException, ValidationException
   {
-    if (this.infoObject_ != null)
-    {
-      return this.infoObject_.getMetadata ();
-    }
-    else
-  {
-      return "";
-  }
+      if (this.infoObject_ != null)
+          return this.infoObject_.getMetadata ();
+      else
+          return this.metadataString_;
   }
 
   /**
@@ -167,7 +163,9 @@ public class JbiEvent <T>
   }
 
   /**
-   *
+   * Set the info object for the event. This can either be assigned
+   * when the event is constructed by a sequence, or assigned by the
+   * the underlying framework when it receives a new event.
    */
   public void setInfoObject (InfoObject io)
   {
