@@ -37,10 +37,7 @@ public class JbiClientApp
     JbiClient client = 
       (JbiClient) this.beanFactory_.getBean (this.beanName_);
 
-    if (this.connManager_ == null)
-	System.err.println ("Wow, this is NULL");
-
-    client.setJbiConnectionManager (this.connManager_);
+    client.initializeClient (this.beanName_, this.connManager_);
 
     // Register the shutdown hook for the client. This will 
     // ensure the client releases all it's resources.

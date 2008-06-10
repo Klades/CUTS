@@ -42,6 +42,9 @@ public abstract class JbiClient
 	
 	/// The client has begun the shutdown process.
 	private boolean shutdown_ = false;
+
+    /// The instance name of the client.
+    private String instanceName_ = null;
 	
   /**
    * Collection of sinks for the client.
@@ -73,9 +76,25 @@ public abstract class JbiClient
     return this.jbiConn;
   }
     
-    public void setJbiConnectionManager (ConnectionManager manager)
+    /**
+     * Initialize the client. This is invoked by the underlying 
+     * framework to set the instance name of the client, and its
+     * connection manager. Both of this values are accessible to
+     * to subclass via the appropriate accessor methods.
+     *
+     * @param       instanceName       Instance name for the client.
+     * @param       manager            Target JBI connection manager.
+     */
+    public void initializeClient (String instanceName, 
+                                  ConnectionManager manager)
     {
-	this.jbiConnMgr = manager;
+        this.instanceName_ = instanceName;
+        this.jbiConnMgr = manager;
+    }
+
+    public String getInstanceName ()
+    {
+        return this.instanceName_;
     }
 
 	/**

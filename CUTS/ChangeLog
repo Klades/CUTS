@@ -1,18 +1,27 @@
+Tue Jun 10 23:40:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/java/jbi/client/JbiClient.java:
+        * cuts/java/jbi/client/JbiClientApp.java:
+
+          The bean name, or instance name, used to deploy the component  
+          is now stored in the client object, and available via accessor
+          methods to the subclass of the JbiClient.
+        
 Tue Jun 10 23:29:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/jbi/client/JbiEvent.java (getMetadataString):
-        
+
           Bug fix where accessing the metadata string for a event that
           contains a valid information object returned a null value, or
           the XML version of the metadata, instead of the metdata in the
           info object.
-        
+
         * cuts/java/jbi/client/JbiSource.java:
-        
+
           The source object is responsible for mashalling the Java object
-          of the event into a XML meta string, instead of making the 
+          of the event into a XML meta string, instead of making the
           event do this. This is necessary because the source contains
-          the mapping information for the XML -> Java, and not the 
+          the mapping information for the XML -> Java, and not the
           actual event.
 
 Tue Jun 10 12:50:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
