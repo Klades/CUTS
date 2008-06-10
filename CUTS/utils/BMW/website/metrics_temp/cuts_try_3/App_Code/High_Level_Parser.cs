@@ -22,10 +22,10 @@ using MySql.Data.MySqlClient;
 ///        
 /// </summary>
 
-namespace Parser
+namespace High_Level_Parser
 {
 
-    public class High_Level_Parser
+    public class Parser
     {
         private string connString;
         private DataTable table_;
@@ -33,7 +33,7 @@ namespace Parser
         private DataTable temp_;
 
 
-        public High_Level_Parser()
+        public Parser()
         {
             // Sets up the one internal dataTable
             table_ = new DataTable();
@@ -71,7 +71,7 @@ namespace Parser
                 return;
 
             // Create initial match and generate lead, middle, end groups
-            Regex reg = new Regex("(?<lead>[-0-9a-zA-Z :;']+)?(?<middle>{int (?<var_name>[0-9a-z ]+)})(?<end>[-0-9a-z :;']+)?", RegexOptions.IgnoreCase);
+            Regex reg = new Regex("(?<lead>[-0-9a-z :;']+)?(?<middle>{int (?<var_name>[0-9a-z' ]+)})(?<end>[-0-9a-z :;']+)?", RegexOptions.IgnoreCase);
             Match match = reg.Match(raw);
             logger_.log("matched string:" + raw);
             string lead = match.Groups["lead"].ToString(),

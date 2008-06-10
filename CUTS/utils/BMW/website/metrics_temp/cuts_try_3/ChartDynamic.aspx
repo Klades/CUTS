@@ -5,10 +5,10 @@ Dynamically Chart Content
 
 <p>What would you likt to chart?</p>
 <p>Grab These Variables </p>
-<asp:TextBox runat="server" ID="t1">Ex: Test Duration: {int}</asp:TextBox>
+<asp:TextBox runat="server" ID="CD_getvars">Ex: Test Duration: {int}</asp:TextBox>
 <p>Perform this eval (optional)</p>
-<asp:TextBox runat="server" ID="t2">Ex: x / y</asp:TextBox><br /><br />
-<asp:Button runat="server" Text="Create Chart" />
+<asp:TextBox runat="server" ID="CD_eval">Ex: x / y</asp:TextBox><br /><br />
+<asp:Button runat="server" Text="Create Chart" OnClick="CD_submit_onclick" />
 <p>Note: You will be given an option to save this chart on the next page</p>
 
 </asp:Content>
