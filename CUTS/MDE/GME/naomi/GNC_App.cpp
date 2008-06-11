@@ -27,7 +27,7 @@
     ACE_DEBUG (msg); \
   }
 
-static const char * usage = 
+static const char * usage =
 "USAGE: gnc [OPTIONS]\n\
 Input/output NAOMI attributes for a GME model\n\
 \n\
@@ -72,7 +72,8 @@ and can be directly inputed into the model without any parsing.\n";
 // CUTS_GNC_App
 //
 CUTS_GNC_App::CUTS_GNC_App (void)
-: is_mga_file_ (false)
+: is_mga_file_ (false),
+  save_model_ (false)
 {
 
 }
@@ -263,7 +264,7 @@ int CUTS_GNC_App::gme_project_init (void)
 
   try
   {
-    VERBOSE_MESSAGE ((LM_INFO, 
+    VERBOSE_MESSAGE ((LM_INFO,
                       "*** info: initializing GME\n"));
 
     GME::init ();
@@ -275,7 +276,7 @@ int CUTS_GNC_App::gme_project_init (void)
                       this->opts_.project_.c_str ()));
 
     // Determine if this file is a MGA file.
-    this->is_mga_file_ = 
+    this->is_mga_file_ =
       this->opts_.project_.rfind (".mga") != std::string::npos;
 
     if (this->is_mga_file_)
@@ -349,20 +350,23 @@ int CUTS_GNC_App::gme_project_fini (void)
     std::string tempfile;
 
     // Save the project file.
-    this->project_->save ();
-
-    if (!this->is_mga_file_)
+    if (this->save_model_)
     {
-      VERBOSE_MESSAGE ((LM_INFO,
-                        "*** info: exporting project as %s\n",
-                        this->opts_.project_.c_str ()));
+      this->project_->save ();
 
-      // Export the project to the source XML file.
-      GME::XML_Dumper dumper;
-      dumper.write (this->opts_.project_, *this->project_);
+      if (!this->is_mga_file_)
+      {
+        VERBOSE_MESSAGE ((LM_INFO,
+                          "*** info: exporting project as %s\n",
+                          this->opts_.project_.c_str ()));
 
-      // Delete the temporary file.
-      tempfile = this->project_->connstr ().substr (4);
+        // Export the project to the source XML file.
+        GME::XML_Dumper dumper;
+        dumper.write (this->opts_.project_, *this->project_);
+
+        // Delete the temporary file.
+        tempfile = this->project_->connstr ().substr (4);
+      }
     }
 
     // Close the project file.
@@ -381,7 +385,6 @@ int CUTS_GNC_App::gme_project_fini (void)
 
   // Finalize GME backend.
   GME::fini ();
-
   return 0;
 }
 
@@ -389,7 +392,7 @@ int CUTS_GNC_App::gme_project_fini (void)
 // locate_object_attribute
 //
 bool CUTS_GNC_App::
-locate_object_attribute (const std::string & attr, 
+locate_object_attribute (const std::string & attr,
                          attribute_tag & info)
 {
   GME::Folder root = this->project_->root_folder ();
@@ -425,7 +428,7 @@ locate_object_attribute_i (const std::string & attr,
   }
 
   // Get all the top-level registry nodes for this object.
-  GME::Collection_T <GME::RegistryNode>::iterator 
+  GME::Collection_T <GME::RegistryNode>::iterator
     reg_iter = registry.begin (), reg_iter_end = registry.end ();
 
   std::string temp = attr;
@@ -441,16 +444,16 @@ locate_object_attribute_i (const std::string & attr,
 
       return true;
     }
-  }  
+  }
 
-  // We were not able to locate the attribute in this element. Get 
+  // We were not able to locate the attribute in this element. Get
   // the child objects of this parent element.
   GME::Collection_T <GME::Object> children;
 
   if (parent.children (children) == 0)
     return false;
 
-  GME::Collection_T <GME::Object>::iterator 
+  GME::Collection_T <GME::Object>::iterator
     iter = children.begin (), iter_end = children.end ();
 
   // Search all the children for the specified attribute.
@@ -480,21 +483,21 @@ list_attribute_callback (const std::string & attr, attribute_tag & info)
   std::ostringstream ostr;
 
   // Print information about the NAOMI attribute tag.
-  ostr 
+  ostr
     << " . naomi attribute : " << attr << std::endl
     << "       gme element : " << info.object_.path (".", false) << std::endl;
 
   if (!info.gme_attribute_.empty ())
   {
-    ostr 
+    ostr
       << "     gme attribute : " << info.gme_attribute_ << std::endl;
   }
 
   ostr
-    << "      complex type : " << (info.complex_.empty () ? "no" : "yes") 
+    << "      complex type : " << (info.complex_.empty () ? "no" : "yes")
     << std::endl
-    << "         direction : " 
-    << (!info.direction_.empty () ? info.direction_ : "<undefined>") 
+    << "         direction : "
+    << (!info.direction_.empty () ? info.direction_ : "<undefined>")
     << std::endl;
 
   if (!info.complex_.empty () && !info.direction_.empty ())
@@ -506,7 +509,7 @@ list_attribute_callback (const std::string & attr, attribute_tag & info)
     else
       ostr << "*** error : invalid direction";
 
-    ostr << std::endl;        
+    ostr << std::endl;
   }
 
   std::cout << ostr.str () << std::endl;
@@ -543,7 +546,7 @@ void CUTS_GNC_App::create_interface_file (void)
   naomi::interfaces::interface_Type interface_type (name, type);
 
   // Add all the input attributes to the XML document.
-  std::list <std::string>::const_iterator 
+  std::list <std::string>::const_iterator
     iter = input.begin (), iter_end = input.end ();
 
   naomi::interfaces::interface_Type::inputType input_type;
@@ -567,16 +570,16 @@ void CUTS_GNC_App::create_interface_file (void)
 
   // Create the interface file for NAOMI.
   XSCRT::utils::File_Writer_T <
-    naomi::interfaces::interface_Type> 
+    naomi::interfaces::interface_Type>
     writer ("http://www.atl.lmco.com/naomi/interfaces",
-            "interface", 
+            "interface",
             &naomi::interfaces::writer::interface_);
 
   if (writer.open (this->opts_.interface_file_pathname_.c_str ()) == 0)
   {
     if (writer.writer ()->canSetFeature (xercesc::XMLUni::fgDOMWRTDiscardDefaultContent, true))
       writer.writer ()->setFeature (xercesc::XMLUni::fgDOMWRTDiscardDefaultContent, true);
-    
+
     if (writer.writer ()->canSetFeature (xercesc::XMLUni::fgDOMWRTFormatPrettyPrint, true))
       writer.writer ()->setFeature (xercesc::XMLUni::fgDOMWRTFormatPrettyPrint, true);
 
@@ -631,7 +634,7 @@ gather_all_attributes (const GME::Object & parent,
   }
 
   // Get all the top-level registry nodes for this object.
-  GME::Collection_T <GME::RegistryNode>::iterator 
+  GME::Collection_T <GME::RegistryNode>::iterator
     reg_iter = registry.begin (), reg_iter_end = registry.end ();
 
   std::string attr, gme_attr, value, direct;
@@ -639,7 +642,7 @@ gather_all_attributes (const GME::Object & parent,
 
   for ( ; reg_iter != reg_iter_end; ++ reg_iter)
   {
-    // Parse the name of this registry node. Since we are 
+    // Parse the name of this registry node. Since we are
     // passing in an empty NAOMI attribute, the parser will
     // save the name of the attribute.
     if (this->tag_parser_.parse (reg_iter->name (), attr, gme_attr))
@@ -668,17 +671,17 @@ gather_all_attributes (const GME::Object & parent,
 
       // Reset the attribute for the next iteration.
       attr.clear ();
-    }  
+    }
   }
 
-  // We were not able to locate the attribute in this element. Get 
+  // We were not able to locate the attribute in this element. Get
   // the child objects of this parent element.
   GME::Collection_T <GME::Object> children;
 
   if (parent.children (children) == 0)
     return;
 
-  GME::Collection_T <GME::Object>::iterator 
+  GME::Collection_T <GME::Object>::iterator
     iter = children.begin (), iter_end = children.end ();
 
   // Search all the children for the specified attribute.
@@ -719,7 +722,7 @@ iterate_all_attributes_i (const GME::Object & parent,
   }
 
   // Get all the top-level registry nodes for this object.
-  GME::Collection_T <GME::RegistryNode>::iterator 
+  GME::Collection_T <GME::RegistryNode>::iterator
     reg_iter = registry.begin (), reg_iter_end = registry.end ();
 
   std::string attr;
@@ -742,16 +745,16 @@ iterate_all_attributes_i (const GME::Object & parent,
 
     // Clear the temporary attribute.
     attr.clear ();
-  }  
+  }
 
-  // We were not able to locate the attribute in this element. Get 
+  // We were not able to locate the attribute in this element. Get
   // the child objects of this parent element.
   GME::Collection_T <GME::Object> children;
 
   if (parent.children (children) == 0)
     return;
 
-  GME::Collection_T <GME::Object>::iterator 
+  GME::Collection_T <GME::Object>::iterator
     iter = children.begin (), iter_end = children.end ();
 
   // Search all the children for the specified attribute.
@@ -760,7 +763,7 @@ iterate_all_attributes_i (const GME::Object & parent,
 }
 
 //
-// update_attribute 
+// update_attribute
 //
 void CUTS_GNC_App::update_attributes (void)
 {
@@ -775,7 +778,7 @@ void CUTS_GNC_App::update_attributes (void)
 
 //
 // update_attribute_callback
-// 
+//
 void CUTS_GNC_App::
 update_attribute_callback (const std::string & attr, attribute_tag & info)
 {
@@ -797,7 +800,7 @@ update_attribute_input (const std::string & attr, attribute_tag & info)
   naomi::attributes::attributeType attr_info ("", "");
 
   XSCRT::utils::File_Reader_T <
-    naomi::attributes::attributeType> 
+    naomi::attributes::attributeType>
     reader (&naomi::attributes::reader::attribute);
 
   // Discard comment nodes in the document.
@@ -897,7 +900,14 @@ update_attribute_input (const std::string & attr, attribute_tag & info)
     }
 
     // Set the value of the GME attribute.
-    target_attr.string_value (attr_info.value ().c_str ());
+    std::string curr_value = target_attr.string_value ();
+    std::string new_value = attr_info.value ().c_str ();
+
+    if (curr_value != new_value)
+    {
+      target_attr.string_value (new_value);
+      this->save_model_ = true;
+    }
   }
 
   // Close the XML file.
@@ -961,14 +971,14 @@ update_attribute_output (const std::string & attr, attribute_tag & info)
     reader.parser ()->setFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, false);
 
   XSCRT::utils::File_Writer_T <
-    naomi::attributes::attributeType> 
+    naomi::attributes::attributeType>
     writer ("http://www.atl.lmco.com/naomi/attributes",
-            "attribute", 
+            "attribute",
             &naomi::attributes::writer::attribute);
 
   if (writer.writer ()->canSetFeature (xercesc::XMLUni::fgDOMWRTDiscardDefaultContent, true))
     writer.writer ()->setFeature (xercesc::XMLUni::fgDOMWRTDiscardDefaultContent, true);
-  
+
   if (writer.writer ()->canSetFeature (xercesc::XMLUni::fgDOMWRTFormatPrettyPrint, true))
     writer.writer ()->setFeature (xercesc::XMLUni::fgDOMWRTFormatPrettyPrint, true);
 
@@ -1064,8 +1074,8 @@ update_attribute_output (const std::string & attr, attribute_tag & info)
 
   root->setAttribute (
     XSC::XStr ("xsi:schemaLocation"),
-    XSC::XStr ("http://www.atl.lmco.com/naomi/attributes attribute_simple.xsd"));                      
-      
+    XSC::XStr ("http://www.atl.lmco.com/naomi/attributes attribute_simple.xsd"));
+
   // Write the attribute to the file.
   writer << attr_info;
   writer.close ();

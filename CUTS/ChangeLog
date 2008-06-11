@@ -1,3 +1,11 @@
+Wed Jun 11 18:50:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/GNC_App.h:
+        * MDE/GME/naomi/GNC_App.cpp:
+
+          When updating the input attributes of a model, it will only save
+          the model iff the values of the input attributes change.
+
 Wed Jun 11 18:36:32 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Workspace_Generators.cpp:

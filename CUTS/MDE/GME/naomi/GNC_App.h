@@ -32,7 +32,7 @@ struct CUTS_GNC_App_Options
   CUTS_GNC_App_Options (void)
     : list_attributes_ (false),
       update_attributes_ (false),
-      verbose_ (false)      
+      verbose_ (false)
   {
 
   }
@@ -86,7 +86,7 @@ private:
   struct attribute_tag
   {
     GME::Object object_;
-    
+
     std::string gme_attribute_;
 
     std::string direction_;
@@ -101,7 +101,7 @@ private:
                               std::list <std::string> & output);
 
   /// Type definition of the callback method for iteration.
-  typedef 
+  typedef
     void (CUTS_GNC_App::*attribute_callback)(const std::string & attr,
                                              attribute_tag & info);
 
@@ -115,10 +115,10 @@ private:
   void list_all_attributes (void);
 
   /// Callback method for listing the attribute.
-  void list_attribute_callback (const std::string & attr, 
+  void list_attribute_callback (const std::string & attr,
                                 attribute_tag & info);
 
-  bool locate_object_attribute (const std::string & attr, 
+  bool locate_object_attribute (const std::string & attr,
                                 attribute_tag & info);
 
   bool locate_object_attribute_i (const std::string & attr,
@@ -131,7 +131,7 @@ private:
                                   attribute_tag & info);
 
   void update_attribute_input (const std::string & attr,
-                              attribute_tag & info);
+                               attribute_tag & info);
 
   void update_attribute_output (const std::string & attr,
                                 attribute_tag & info);
@@ -153,6 +153,9 @@ private:
   CUTS_URI_Tag_Parser tag_parser_;
 
   std::string update_phase_;
+
+  /// Flag that determines if the model needs to be saved.
+  bool save_model_;
 };
 
 #endif  // !defined _CUTS_GNC_APP_H_
