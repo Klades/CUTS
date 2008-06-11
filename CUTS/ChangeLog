@@ -1,12 +1,68 @@
+Wed Jun 11 14:22:36 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE_Condition_Parser_T.h:
+        * MDE/GME/paradigms/PICML/be/BE_Condition_Parser_T.cpp:
+
+        * MDE/GME/paradigms/PICML/be/BE.mpc:
+
+          Added new source/template files to the project.
+
+        * etc/config/picml_udm.mpb:
+
+          Derived this project from the cosmis_utils project, so many
+          helper methods in CoSMIC are now usable in CUTS backend
+          generators.
+
+        * MDE/GME/paradigms/PICML/be/BE_Manager_T.cpp:
+        * MDE/GME/paradigms/PICML/be/BE_Generators_T.h:
+
+          . Implemented the following points-of-generation:
+
+            . CUTS_BE_Initialize_T - signal the backend generator to
+              initialize itself, and that parsing is about to begin.
+
+            . CUTS_BE_Finalize_T - signal the backend generator to
+              finalize itself, and that parsing has ended.
+
+          . Started documenting the different points-of-configuration
+            and points-of-generation.
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI.mpc:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Ctx.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Ctx.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Workspace_Generators.cpp:
+
+          First complete version of the CAPI generator for CUTS.
+
+        * MDE/GME/paradigms/PICML/be/CAPI/XML_Mapping_File_Generator.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/XML_Mapping_File_Generator.cpp:
+
+          Mapping file generator for generating the XML mapping file
+          needed by Castor when mashalling/unmarshalling Java objects
+          to/from XML.
+
+        * MDE/GME/paradigms/PICML/be/UDM_Abstract_Type_Dispatcher_T.h:
+        * MDE/GME/paradigms/PICML/be/UDM_Abstract_Type_Dispatcher_T.cpp:
+
+          Helper class for visiting elements of a abstract type. You configure
+          the dispatcher by telling it what element types you need to have it
+          auto-dispatch. To perform the dispatch, you just pass to the dispatcher
+          an instance of the common base object between all registered types.
+
+        * MDE/GME/paradigms/PICML/be/UDM_Position_Sort_T.h:
+        * MDE/GME/paradigms/PICML/be/UDM_Position_Sort_T.cpp:
+
 Tue Jun 10 23:40:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/jbi/client/JbiClient.java:
         * cuts/java/jbi/client/JbiClientApp.java:
 
-          The bean name, or instance name, used to deploy the component  
+          The bean name, or instance name, used to deploy the component
           is now stored in the client object, and available via accessor
           methods to the subclass of the JbiClient.
-        
+
 Tue Jun 10 23:29:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/jbi/client/JbiEvent.java (getMetadataString):

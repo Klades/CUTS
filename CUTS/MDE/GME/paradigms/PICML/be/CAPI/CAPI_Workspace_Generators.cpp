@@ -57,14 +57,14 @@ CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate (const CUTS_BE_Impl_Node & node)
   CUTS_BE_CAPI ()->workspace_file_
     << "<ant antfile=\"" << name << ".build\" dir=\".\" />" << std::endl;
 
-  const CUTS_String_Set & events =
-    const_cast <CUTS_BE_Impl_Node &> (node).maplist_["events"];
+  //const CUTS_String_Set & events =
+  //  const_cast <CUTS_BE_Impl_Node &> (node).maplist_["events"];
 
-  CUTS_String_Set::const_iterator
-    iter = events.begin (), iter_end = events.end ();
+  //CUTS_String_Set::const_iterator
+  //  iter = events.begin (), iter_end = events.end ();
 
-  for ( ; iter != iter_end; ++ iter)
-    CUTS_BE_CAPI ()->workspace_events_.insert (*iter);
+  //for ( ; iter != iter_end; ++ iter)
+  //  CUTS_BE_CAPI ()->workspace_events_.insert (*iter);
 
   return true;
 }
@@ -154,11 +154,11 @@ generate_eventtypes_project (void)
 void CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::
 generate_target_eventtypes_srcgen (std::ofstream & outfile)
 {
-  CUTS_String_Set::const_iterator
+  std::set <PICML::Event>::const_iterator
     iter = CUTS_BE_CAPI ()->workspace_events_.begin (),
     iter_end = CUTS_BE_CAPI ()->workspace_events_.end ();
 
-  std::string pathname;
+  std::string pathname, scope_name;
 
   outfile
     << std::endl
@@ -166,12 +166,12 @@ generate_target_eventtypes_srcgen (std::ofstream & outfile)
 
   for ( ; iter != iter_end; ++ iter)
   {
-    pathname = *iter;
-    std::replace (pathname.begin (), pathname.end (), '.', '/');
+    pathname = CUTS_BE_CAPI ()->fq_name (*iter, '/');
+    scope_name = CUTS_BE_CAPI ()->fq_name (*iter, '.');
 
     outfile
       << std::endl
-      << "<!-- eventtype : " << *iter << ".xsd -->" << std::endl
+      << "<!-- eventtype : " << scope_name << ".xsd -->" << std::endl
       << "<delete includeemptydirs=\"true\" verbose=\"true\">" << std::endl
       << "<fileset dir=\".\">" << std::endl
       << "<include name=\"" << pathname << "/*.java\" />" << std::endl
@@ -184,8 +184,8 @@ generate_target_eventtypes_srcgen (std::ofstream & outfile)
       << "classpathref=\"castor.srcgen.classpath\"" << std::endl
       << "failonerror=\"true\">" << std::endl
       << "<arg line=\"-i ${jbi.schemas.dir}" << pathname
-      << "/" << *iter << ".xsd\" />" << std::endl
-      << "<arg line=\"-package " << *iter << "\" />" << std::endl
+      << "/" << scope_name << ".xsd\" />" << std::endl
+      << "<arg line=\"-package " << scope_name << "\" />" << std::endl
       << "<arg line=\"-f -nodesc -nomarshall\" />" << std::endl
       << "</java>" << std::endl;
   }
@@ -201,7 +201,7 @@ generate_target_eventtypes_srcgen (std::ofstream & outfile)
 void CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::
 generate_target_eventtypes_build (std::ofstream & outfile)
 {
-  CUTS_String_Set::const_iterator
+  std::set <PICML::Event>::const_iterator
     iter = CUTS_BE_CAPI ()->workspace_events_.begin (),
     iter_end = CUTS_BE_CAPI ()->workspace_events_.end ();
 
@@ -214,8 +214,7 @@ generate_target_eventtypes_build (std::ofstream & outfile)
 
   for ( ; iter != iter_end; ++ iter)
   {
-    pathname = *iter;
-    std::replace (pathname.begin (), pathname.end (), '.', '/');
+    pathname = CUTS_BE_CAPI ()->fq_name (*iter, '/');
 
     outfile
       << "<include name=\"" << pathname << "/*.java\" />";
@@ -232,11 +231,11 @@ generate_target_eventtypes_build (std::ofstream & outfile)
 void CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::
 generate_target_eventtypes_jar_build (std::ofstream & outfile)
 {
-  CUTS_String_Set::const_iterator
+  std::set <PICML::Event>::const_iterator
     iter = CUTS_BE_CAPI ()->workspace_events_.begin (),
     iter_end = CUTS_BE_CAPI ()->workspace_events_.end ();
 
-  std::string pathname;
+  std::string pathname, scope_name;
 
   outfile
     << std::endl
@@ -249,8 +248,8 @@ generate_target_eventtypes_jar_build (std::ofstream & outfile)
 
   for ( ; iter != iter_end; ++ iter)
   {
-    pathname = *iter;
-    std::replace (pathname.begin (), pathname.end (), '.', '/');
+    pathname = CUTS_BE_CAPI ()->fq_name (*iter, '/');
+    scope_name = CUTS_BE_CAPI ()->fq_name (*iter, '.');
 
     outfile
       << std::endl

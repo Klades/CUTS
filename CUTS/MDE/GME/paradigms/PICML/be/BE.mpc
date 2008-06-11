@@ -62,6 +62,8 @@ project (CUTS_BE) : picml_udm, boost_base, cuts_cosmic {
     BE_Manager_T.cpp
     BE_Workspace_Generator_T.cpp
 
+    UDM_Abstract_Type_Dispatcher_T.cpp
+    UDM_Position_Sort_T.cpp
     UDM_Utility_T.cpp
     modelgen.cpp
   }

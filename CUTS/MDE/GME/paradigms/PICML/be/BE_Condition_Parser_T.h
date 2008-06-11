@@ -85,8 +85,8 @@ public:
     /// rule: char_
     boost::spirit::rule <ScannerT> char_;
 
-    /// rule: variable_
-    boost::spirit::rule <ScannerT> variable_;
+    /// rule: text_
+    boost::spirit::rule <ScannerT> text_;
   };
 };
 

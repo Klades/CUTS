@@ -17,24 +17,73 @@
 
 #include "PICML/PICML.h"
 
+///////////////////////////////////////////////////////////////////////////////
+// configuration traits
+
+/**
+ * @struct CUTS_BE_Write_Variables_Last_T
+ *
+ * Determine when to generate the variables. By default variables are
+ * generated last in the backend. If you want to generate variables in
+ * the middle, then specialize the \a result_type to be true.
+ */
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_Write_Variables_Last_T
 {
   static const bool result_type = true;
 };
 
+/**
+ * @struct CUTS_BE_Parse_Precondition_T
+ *
+ * Determine if conditions should be parsed. The condition appears
+ * in the outgoing connection of a branch state element, or the looping
+ * attribute of a for , do while, or while loop in the behavior model.
+ * Parsing the condition will cause the backend generator to call the
+ * appropriate callbacks for converting text, such as comparison
+ * operators, to their appropriate representation in the target backend.
+ *
+ * @note The name of this trait does not match it's intention because
+ *       it remains around from a previous version of the backend
+ *       generator architecture. In the future, the name of this
+ *       method will change to something more meaningful.
+ */
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_Parse_Precondition_T
 {
   static const bool result_type = true;
 };
 
-//=============================================================================
+///////////////////////////////////////////////////////////////////////////////
+// callback traits
+
 /**
  *
  */
-//=============================================================================
+template <typename IMPL_STRATEGY>
+struct CUTS_BE_Initialize_T
+{
+  static void generate (const PICML::RootFolder &)
+  {
 
+  }
+};
+
+/**
+ *
+ */
+template <typename IMPL_STRATEGY>
+struct CUTS_BE_Finalize_T
+{
+  static void generate (const PICML::RootFolder &)
+  {
+
+  }
+};
+
+/**
+ *
+ */
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_File_Open_T
 {

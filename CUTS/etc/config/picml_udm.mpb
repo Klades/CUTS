@@ -1,6 +1,6 @@
 // $Id$
 
-project {
+project : cosmic_utils {
   includes  += $(COSMIC_ROOT)/PIM/PICML/interpreters \
                $(UDM_PATH)/include
 

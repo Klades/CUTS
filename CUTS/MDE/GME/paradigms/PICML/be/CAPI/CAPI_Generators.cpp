@@ -1,6 +1,7 @@
 // $Id$
 
 #include "CAPI_Generators.h"
+#include "XML_Mapping_File_Generator.h"
 #include "be/BE_Options.h"
 #include "be/BE_Scope_Manager.h"
 #include "be/BE_Preprocessor.h"
@@ -84,30 +85,21 @@ getter_method (const std::string & name)
 std::string CUTS_BE_Capi::
 fq_name (const PICML::NamedType & type, char separator)
 {
-  std::stack <std::string> scope;
-  scope.push (type.name ());
+  std::string scope = CUTS_BE_Capi::scope (type, separator);
+  scope += separator + std::string (type.name ());
 
-  ::PICML::MgaObject parent = type.parent ();
+  return scope;
+}
 
-  while (parent.type () == ::PICML::Package::meta)
-  {
-    scope.push (parent.name ());
-    parent = ::PICML::MgaObject::Cast (parent.parent ());
-  }
+//
+// classname
+//
+std::string CUTS_BE_Capi::classname (const std::string & str)
+{
+  std::string name = str;
+  name[0] = ::toupper (name[0]);
 
-  // Initialize the fully qualified name.
-  std::ostringstream ostr;
-  ostr << scope.top ();
-  scope.pop ();
-
-  // Construct the remainder of the name.
-  while (!scope.empty ())
-  {
-    ostr << separator << scope.top ();
-    scope.pop ();
-  }
-
-  return ostr.str ();
+  return name;
 }
 
 //
@@ -152,12 +144,15 @@ scope (const PICML::NamedType & type, char separator)
 
   std::ostringstream ostr;
 
-  // Convert the stack into a scope. This is done by popping
-  // the stack one element at a time and appending it and
-  // the separator to the stream.
+  // Convert the stack into a scope. This is done by popping the stack
+  // one element at a time and appending it and the separator to the
+  // stream.
   if (!scope.empty ())
   {
+    // Write the top value since the remaining items in the scope
+    // will have the separator prepended.
     ostr << scope.top ();
+    scope.pop ();
 
     // Construct the remainder of the name.
     while (!scope.empty ())
@@ -241,10 +236,11 @@ generate_required_method_impl (const std::string & method)
 
       for ( ; iter != iter_end; ++ iter)
       {
+        // Right now, the default delay time is 0. Eventually, we will
+        // all the developer to specify this in the model.
         this->outfile_
           << "this.getTimer ().scheduleAtFixedRate (this."
-          << iter->first << "PeriodicTask_, "
-          << iter->second << ", " << iter->second << ");";
+          << iter->first << "PeriodicTask_, 0, " << iter->second << ");";
       }
     }
   }
@@ -405,6 +401,9 @@ generate (const PICML::MonolithicImplementation & mono,
         version = event.VersionTag ();
         type_name = CUTS_BE_Capi::fq_name (event, '.');
 
+        // Save the event to the globally.
+        CUTS_BE_CAPI ()->workspace_events_.insert (event);
+
         // Store it in the event types for later on.
         event_types.insert (type_name);
 
@@ -436,6 +435,9 @@ generate (const PICML::MonolithicImplementation & mono,
         event = iter->ref ();
         version = event.VersionTag ();
         type_name = CUTS_BE_Capi::fq_name (event, '.');
+
+        // Save the event to the globally.
+        CUTS_BE_CAPI ()->workspace_events_.insert (event);
 
         // Store it in the event types for later on.
         event_types.insert (type_name);
@@ -859,6 +861,7 @@ generate (const PICML::InEventPort & sink,
   std::string name = sink.name ();
   PICML::Event event = PICML::Event::Cast (sink.ref ());
 
+  // Gather information about the event.
   std::string type_name = CUTS_BE_Capi::fq_name (event, '.');
   std::string version = event.VersionTag ();
 
@@ -938,11 +941,11 @@ configure (const PICML::InEventPort & sink,
     // Construct the name of the predicate.
     std::ostringstream predicate_name;
     predicate_name
-      << parent.name () << "." << sink.name () << ".predicate";
+      << "parent.getInstanceName () + \"." << sink.name () << ".predicate";
 
     // Write the code to set the predicate.
     CUTS_BE_CAPI ()->outfile_
-      << "this.setPredicate (\"" << predicate_name.str () << "\", "
+      << "this.setPredicate (" << predicate_name.str () << "\", "
       << property.DataValue () << ");";
   }
 }
@@ -1732,4 +1735,28 @@ generate (const std::string & precondition)
 {
   CUTS_BE_CAPI ()->outfile_ << precondition;
   return true;
+}
+
+//
+// CUTS_BE_Finalize_T
+//
+void CUTS_BE_Finalize_T <CUTS_BE_Capi>::
+generate (const PICML::RootFolder & root)
+{
+  // We need to generate the XML mappings for all the event types. This
+  // is necessary so Castor can map the Java -> XML correctly. ;-)
+  std::for_each (CUTS_BE_CAPI ()->workspace_events_.begin (),
+                 CUTS_BE_CAPI ()->workspace_events_.end (),
+                 boost::bind (&CUTS_BE_Finalize_T <CUTS_BE_Capi>::generate_mapping_file,
+                              _1));
+}
+
+//
+// generate_mapping_file
+//
+void CUTS_BE_Finalize_T <CUTS_BE_Capi>::
+generate_mapping_file (const PICML::Event & event)
+{
+  XML_Mapping_File_Generator mapping (CUTS_BE_OPTIONS ()->output_directory_);
+  PICML::Event (event).Accept (mapping);
 }

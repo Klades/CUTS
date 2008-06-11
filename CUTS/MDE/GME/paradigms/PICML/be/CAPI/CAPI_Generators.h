@@ -53,6 +53,8 @@ public:
   static std::string scope (const PICML::NamedType & type,
                             char separator = '.');
 
+  static std::string classname (const std::string & str);
+
   typedef std::map <Uml::Class, std::string> PredefinedType_Map;
 
   static PredefinedType_Map predefined_type_map_;
@@ -122,7 +124,7 @@ public:
   CUTS_BE_Impl_Node * impl_node_;
 
   /// The event types used throughout all the projects.
-  CUTS_String_Set workspace_events_;
+  std::set <PICML::Event> workspace_events_;
 };
 
 // Singleton declaration for the backend generator.
@@ -145,6 +147,18 @@ template < >
 struct CUTS_BE_Parse_Precondition_T <CUTS_BE_Capi>
 {
   static const bool result_type = false;
+};
+
+/**
+ *
+ */
+template < >
+struct CUTS_BE_Finalize_T <CUTS_BE_Capi>
+{
+  static void generate (const PICML::RootFolder &);
+
+private:
+  static void generate_mapping_file (const PICML::Event & );
 };
 
 /**
