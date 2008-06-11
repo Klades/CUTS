@@ -40,7 +40,9 @@ generate (const std::string & name)
     << "<project name=\"" << name << ".build\" basedir=\".\" "
     << "default=\"build.all\">" << std::endl
     << std::endl
-    << "<target name=\"build.all\">" << std::endl;
+    << "<target name=\"build.all\" depends=\"build.impl\" />" << std::endl
+    << std::endl
+    << "<target name=\"build.impl\" depends=\"build.events\">" << std::endl;
 
   return true;
 }
@@ -57,15 +59,6 @@ CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate (const CUTS_BE_Impl_Node & node)
   CUTS_BE_CAPI ()->workspace_file_
     << "<ant antfile=\"" << name << ".build\" dir=\".\" />" << std::endl;
 
-  //const CUTS_String_Set & events =
-  //  const_cast <CUTS_BE_Impl_Node &> (node).maplist_["events"];
-
-  //CUTS_String_Set::const_iterator
-  //  iter = events.begin (), iter_end = events.end ();
-
-  //for ( ; iter != iter_end; ++ iter)
-  //  CUTS_BE_CAPI ()->workspace_events_.insert (*iter);
-
   return true;
 }
 
@@ -76,6 +69,11 @@ bool CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::
 generate (const std::string & name)
 {
   // Force the generation of the project that will
+  CUTS_BE_CAPI ()->workspace_file_
+    << "</target>" << std::endl
+    << std::endl
+    << "<target name=\"build.events\">" << std::endl;
+
   CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::generate_eventtypes_project ();
 
   CUTS_BE_CAPI ()->workspace_file_
@@ -183,7 +181,7 @@ generate_target_eventtypes_srcgen (std::ofstream & outfile)
       << "classname=\"org.exolab.castor.builder.SourceGeneratorMain\"" << std::endl
       << "classpathref=\"castor.srcgen.classpath\"" << std::endl
       << "failonerror=\"true\">" << std::endl
-      << "<arg line=\"-i ${jbi.schemas.dir}" << pathname
+      << "<arg line=\"-i ${jbi.schemas.dir}/" << pathname
       << "/" << scope_name << ".xsd\" />" << std::endl
       << "<arg line=\"-package " << scope_name << "\" />" << std::endl
       << "<arg line=\"-f -nodesc -nomarshall\" />" << std::endl
@@ -209,7 +207,7 @@ generate_target_eventtypes_build (std::ofstream & outfile)
 
   outfile
     << std::endl
-    << "<target name=\"eventtypes.build\">" << std::endl
+    << "<target name=\"eventtypes.build\" depends=\"eventtypes.srcgen\">" << std::endl
     << "<javac srcdir=\".\" classpath=\".\">" << std::endl;
 
   for ( ; iter != iter_end; ++ iter)
