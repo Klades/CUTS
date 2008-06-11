@@ -6,7 +6,7 @@
 #include "CCF/CodeGenerationKit/IndentationXML.hpp"
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
 #include "boost/bind.hpp"
-#include "Utils/Utils.h"
+#include "Utils.h"
 #include <algorithm>
 
 //
