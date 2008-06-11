@@ -1,3 +1,17 @@
+Wed Jun 11 15:06:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Ctx.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Ctx.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/XML_Mapping_File_Generator.cpp:
+
+          . Fixed compilation errors. This will require you to update your
+            CoSMIC sandbox.
+
+          . Moved all the context-specific implementation from
+            CAPI_Generators.{h, cpp} to CAPI_Ctx.{h,cpp}.
+
 Wed Jun 11 14:22:36 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE_Condition_Parser_T.h:
