@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<project name="cuts.java" basedir="." default="build.all">
+  <property environment="env" />
+
+  <import file="${env.CUTS_ROOT}/etc/ANT/include/cuts.build" />
+  <import file="${env.CUTS_ROOT}/etc/ANT/include/castor.build" />
+
+  <property name="spring.dir" value="${env.SPRING_ROOT}" />
+  <property name="spring.dist.dir" value="${spring.dir}/dist" />
+
+  <property name="jacorb.dir" value="${env.JACORB_ROOT}" />
+  <property name="jacorb.lib.dir" value="${jacorb.dir}/lib" />
+
+  <!--
+    Target(s): top-level targets
+    -->
+
+  <target name="build.all"
+          depends="cuts.java.jbi.jar.build,
+                   cuts.java.jbi.deployment.jar.build" />
+
+  <target name="clean"
+          depends="cuts.java.jbi.clean,
+                   cuts.java.jbi.deployment.clean" />
+
+  <target name="realclean"
+          depends="cuts.java.jbi.realclean,
+                   cuts.java.jbi.deployment.realclean" />
+
+  <!--
+    Target(s): cuts.java.jbi.*
+    -->
+
+  <property name="cuts.java.jbi.jar"
+            value="cuts.java.jbi.jar" />
+
+  <target name="cuts.java.jbi.build">
+    <path id="cuts.build.classpath">
+      <pathelement path="." />
+      <pathelement path="${cuts.dir}" />
+      <pathelement path="${env.JBI_ROOT}/lib/capi1.5.jar" />
+      <pathelement path="${spring.dist.dir}/spring.jar" />
+      <pathelement path="${castor.dir}/castor-1.2.jar" />
+    </path>
+
+    <javac srcdir="java/jbi"
+           classpathref="cuts.build.classpath"
+           debug="true"
+           debuglevel="source,lines">
+
+      <include name="*.java" />
+      <include name="client/*.java" />
+    </javac>
+  </target>
+
+  <target name="cuts.java.jbi.jar.build" depends="cuts.java.jbi.build">
+    <jar destfile="${cuts.lib.dir}/${cuts.java.jbi.jar}"
+         basedir="${cuts.dir}">
+
+      <include name="cuts/java/jbi/*.class" />
+      <include name="cuts/java/jbi/client/*.class" />
+    </jar>
+  </target>
+
+  <target name="cuts.java.jbi.clean">
+    <delete>
+      <fileset dir="${cuts.src.dir}/java/jbi"
+               includes="*.class, client/*.class" />
+    </delete>
+  </target>
+
+  <target name="cuts.java.jbi.realclean"
+          depends="cuts.java.jbi.clean">
+    <delete>
+      <fileset dir="${cuts.lib.dir}"
+               includes="${cuts.java.jbi.jar}" />
+    </delete>
+  </target>
+
+  <!--
+    Target(s): cuts.java.jbi.deployment.*
+    -->
+
+  <property name="cuts.java.jbi.deployment.jar"
+            value="cuts.java.jbi.deployment.jar" />
+
+  <target name="cuts.java.jbi.deployment.idl">
+    <path id="jacorb.idl.classpath">
+      <pathelement path="${jacorb.lib.dir}/idl.jar" />
+      <pathelement path="${jacorb.lib.dir}/logkit-1.2.jar" />
+    </path>
+
+    <java classname="org.jacorb.idl.parser"
+          classpathref="jacorb.idl.classpath"
+          failonerror="true">
+
+      <arg line="-d ${cuts.dir}" />
+      <arg line="-I${cuts.src.dir}/java/jbi/idl" />
+      <arg line="java/jbi/idl/Deployment.idl" />
+    </java>
+
+    <java classname="org.jacorb.idl.parser"
+          classpathref="jacorb.idl.classpath"
+          failonerror="true">
+
+      <arg line="-d ${cuts.dir}" />
+      <arg line="-I${cuts.src.dir}/java/jbi/idl" />
+      <arg line="java/jbi/idl/ExecutionManager.idl" />
+    </java>
+
+    <java classname="org.jacorb.idl.parser"
+          classpathref="jacorb.idl.classpath"
+          failonerror="true">
+
+      <arg line="-d ${cuts.dir}" />
+      <arg line="-I${cuts.src.dir}/java/jbi/idl" />
+      <arg line="java/jbi/idl/NodeManager.idl" />
+    </java>
+
+    <java classname="org.jacorb.idl.parser"
+          classpathref="jacorb.idl.classpath"
+          failonerror="true">
+
+      <arg line="-d ${cuts.dir}" />
+      <arg line="-I${cuts.src.dir}/java/jbi/idl" />
+      <arg line="java/jbi/idl/NodeApplication.idl" />
+    </java>
+  </target>
+
+  <target name="cuts.java.jbi.deployment.build"
+          depends="cuts.java.jbi.deployment.idl">
+
+    <path id="cuts.deployment.build.classpath">
+      <pathelement path="." />
+      <pathelement path="${cuts.dir}" />
+      <pathelement path="${jacorb.lib.dir}/jacorb.jar" />
+      <pathelement path="${env.JBI_ROOT}/lib/capi1.5.jar" />
+      <pathelement path="${spring.dist.dir}/spring.jar" />
+      <pathelement path="${castor.dir}/castor-1.2.jar" />
+    </path>
+
+    <javac srcdir="java/jbi/deployment"
+           classpathref="cuts.deployment.build.classpath"
+           debug="true"
+           debuglevel="source, lines">
+
+      <include name="*.java" />
+    </javac>
+  </target>
+
+  <target name="cuts.java.jbi.deployment.jar.build"
+          depends="cuts.java.jbi.deployment.build">
+
+    <jar destfile="${cuts.lib.dir}/${cuts.java.jbi.deployment.jar}"
+         basedir="${cuts.dir}"
+         includes="cuts/java/jbi/deployment/*.class" />
+  </target>
+
+  <target name="cuts.java.jbi.deployment.clean">
+    <delete>
+      <fileset dir="${cuts.src.dir}/java/jbi/deployment"
+               includes="*.class, *.java"
+               excludes="Jbi*.java, *Impl.java" />
+    </delete>
+  </target>
+
+  <target name="cuts.java.jbi.deployment.realclean"
+          depends="cuts.java.jbi.deployment.clean">
+    <delete>
+      <fileset dir="${cuts.lib.dir}"
+               includes="${cuts.java.jbi.deployment.jar}" />
+    </delete>
+  </target>
+</project>

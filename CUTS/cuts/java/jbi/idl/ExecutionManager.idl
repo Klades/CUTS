@@ -1,0 +1,55 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ *  @file       ExecutionManager.idl
+ *
+ * $Id$
+ *
+ * @author      James H. Hill
+ */
+//=============================================================================
+
+#ifndef _EXECUTION_MANAGER_IDL_
+#define _EXECUTION_MANAGER_IDL_
+
+#include "Deployment.idl"
+
+module cuts
+{
+  module java
+  {
+    module jbi
+    {
+      module deployment
+      {
+        /**
+         * @interface ExecutionManager
+         *
+         * Interface for the execution manager of the deployment tool. The
+         * execution manager is responsible for receiving deployment plans
+         * in packaged format and contacting individual nodes for deploying
+         * each instance.
+         */
+        interface ExecutionManager
+        {
+          /**
+           * Deploy a plan into the execution environment.
+           *
+           * @param[in]       deploymentPlan      Deployment plan info.
+           */
+          void deployPlan (in DeploymentPlanDescriptor deploymentPlan);
+
+          /**
+           * Teardown an entire plan give its unique id.
+           *
+           * @param[in]       deploymentPlanID      Deployment plan id.
+           */
+          void teardownPlan (in string deploymentPlanID);
+        };
+      };
+    };
+  };
+};
+
+#endif  // !defined _EXECUTION_MANAGER_IDL_

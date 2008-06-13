@@ -1,0 +1,68 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ *  @file       Deployment.idl
+ *
+ * $Id$
+ *
+ * @author      James H. Hill
+ */
+//=============================================================================
+
+#ifndef _DEPLOYMENT_INFO_IDL_
+#define _DEPLOYMENT_INFO_IDL_
+
+module cuts
+{
+  module java
+  {
+    module jbi
+    {
+      module deployment
+      {
+        /**
+         * @struct ComponentInstanceDescriptor
+         *
+         * Deployment information for a single instance. This is used
+         * by the NodeManager to locate the instance's collocation group
+         * and pass along the instance information the corresponding
+         * NodeApplication.
+         */
+        struct ComponentInstanceDescriptor
+        {
+          /// Name of the instance to deploy.
+          string instanceName;
+
+          /// Target collocation group for the instance.
+          string collocationGroup;
+        };
+
+        /// Type definition for a collection of ComponentInstanceDescriptor
+        /// objects/elements.
+        typedef sequence <ComponentInstanceDescriptor>
+          ComponentInstanceDescriptors;
+
+        /**
+         * @struct DeploymentPlanDescriptor
+         *
+         * Data structure that describes a deployment plan.
+         */
+        struct DeploymentPlanDescriptor
+        {
+          /// Unique id for the deployment plan.
+          string deploymentPlanID;
+
+          /**
+           * Collection of component instance descriptors that describes
+           * the target deployment of interest. This information is passed
+           * to the ExecutionManager.
+           */
+          ComponentInstanceDescriptors componentInstances;
+        };
+      };
+    };
+  };
+};
+
+#endif  // !defined _JBI_DEPLOYMENT_IDL_

@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <project name="cuts.build">
   <property environment="env" />
+
   <property name="cuts.dir" value="${env.CUTS_ROOT}" />
+  <property name="cuts.lib.dir" value="${cuts.dir}/lib" />
+  <property name="cuts.bin.dir" value="${cuts.dir}/bin" />
+  <property name="cuts.src.dir" value="${cuts.dir}/cuts" />
+
   <property name="capi.dir" value="${env.JBI_ROOT}" />
   <property name="castor.dir" value="${env.CASTOR_ROOT}" />
 

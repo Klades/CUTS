@@ -1,3 +1,44 @@
+Fri Jun 13 01:49:57 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/cuts.java.jbi.build:
+
+          Updated the build script with the new files.
+
+        * cuts/java/jbi/client/JbiClient.java:
+        * cuts/java/jbi/client/JbiClientApp.java:
+        * cuts/java/jbi/JbiShutdownInterface.java:
+        * cuts/java/jbi/JbiShutdownThread.java:
+
+          Extracted the common implemenation for registering a
+          shutdown thread with the JVM. Now, it is a little bit
+          easier to create daemons in Java. :-)
+
+        * cuts/java/jbi/deployment:
+        * cuts/java/jbi/deployment/JbiExecutionManager.java:
+        * cuts/java/jbi/deployment/JbiNodeApplication.java:
+        * cuts/java/jbi/deployment/JbiNodeManager.java:
+        * cuts/java/jbi/deployment/JbiPlanLauncher.java:
+        * cuts/java/jbi/deployment/NodeManagerImpl.java:
+        * cuts/java/jbi/idl:
+        * cuts/java/jbi/idl/Deployment.idl:
+        * cuts/java/jbi/idl/ExecutionManager.idl:
+        * cuts/java/jbi/idl/NodeApplication.idl:
+        * cuts/java/jbi/idl/NodeManager.idl:
+
+          Initial definition (and implementation) of the interfaces
+          for the deployment framework that will be used to deploy
+          Java-based CAPI clients.
+
+        * etc/ANT/include/cuts.build:
+
+          Added more properties to this file that can be used in
+          other ANT projects.
+
+        * cuts/cuts.java.jbi.client.build:
+        * cuts/java/jbi/client/JbiClientAppShutdownThread.java:
+
+          Removed these files.
+
 Wed Jun 11 18:50:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/naomi/GNC_App.h:

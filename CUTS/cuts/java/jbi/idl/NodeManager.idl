@@ -1,0 +1,65 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ *  @file       NodeManager.idl
+ *
+ * $Id$
+ *
+ * @author      James H. Hill
+ */
+//=============================================================================
+
+#ifndef _NODE_MANAGER_IDL_
+#define _NODE_MANAGER_IDL_
+
+#include "Deployment.idl"
+
+module cuts
+{
+  module java
+  {
+    module jbi
+    {
+      module deployment
+      {
+        /**
+         * @interface NodeManager
+         *
+         * The NodeManager is a daemon that resides on each host and receives
+         * commands for the execution manager. The commands that it receives
+         * from the execution manager are related to deploying and tearing
+         * down the instances.
+         */
+        interface NodeManager
+        {
+          /**
+           * Deploy the specified component.
+           *
+           * @param[in]       info              The deployment information.
+           */
+          void installComponent (in ComponentInstanceDescriptor cid);
+
+          /**
+           * Activate all the components hosted by this node manager. This
+           * will in turn notify the node application to activate its
+           * components.
+           */
+          void activateComponents ( );
+
+          /**
+           * Passivate all the components in the node manager. This will
+           * contact all the hosted node applications and tell them to
+           * passivate their components.
+           */
+          void deactivateComponents ( );
+
+          /// Remove all the component from the node manager.
+          void removeComponents ( );
+        };
+      };
+    };
+  };
+};
+
+#endif  // !defined _JBI_DEPLOYMENT_IDL_
