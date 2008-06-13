@@ -18,8 +18,9 @@ import cuts.java.jbi.JbiShutdownThread;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.CosNaming.*;
-import java.net.InetAddress;
+import java.net.*;
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * @class JbiNodeManager
@@ -41,10 +42,12 @@ public class JbiNodeManager
   private boolean registerNameService_ = false;
 
   /// Reference to the naming service.
-  private NamingContextExt nameService_ = null;
+  private NamingContextExt rootContext_ = null;
 
   /// The target filename for storing the IOR.
   private String iorFilename_ = null;
+
+  private String bindingName_ = new String ();
 
   /**
    * Initializing constructor.
@@ -155,21 +158,85 @@ public class JbiNodeManager
    *
    * @param       obj           Target object to register.
    */
-  public void registerWithNameService (org.omg.CORBA.Object obj)
+  private void registerWithNameService (org.omg.CORBA.Object obj)
   {
     try
     {
       // Request a reference to the naming service.
-      this.nameService_ =
+      this.rootContext_ =
         NamingContextExtHelper.narrow (
         this.orb_.resolve_initial_references ("NameService"));
 
       // Get the hostname running this manager.
       InetAddress addr = InetAddress.getLocalHost ();
-      String hostname = addr.getHostName ();
+      String hostname = addr.getCanonicalHostName ();
 
-      this.nameService_.bind (
-        this.nameService_.to_name (hostname + ".NodeManager"), obj);
+      String [] nameParts = hostname.split ("\\.");
+
+      if (nameParts.length > 0)
+      {
+        // Reverse the contents of the array.
+        for (int left = 0, right = nameParts.length - 1;
+             left < right;
+             left ++, right --)
+        {
+          String temp = nameParts[left];
+
+          nameParts[left] = nameParts[right];
+          nameParts[right] = temp;
+        }
+
+        // Construct the final binding name, for later usage.
+        this.bindingName_ += nameParts[0];
+
+        for (int i = 1; i < nameParts.length; ++ i)
+          this.bindingName_ += "/" + nameParts[i];
+      }
+      else
+      {
+        nameParts = new String [1];
+        nameParts[0] = hostname;
+
+        // Save the binding name for later usage.
+        this.bindingName_ = hostname;
+      }
+
+      // There is a good chance the target context does not exist. So, we
+      // need to try and ensure it exists.
+      NamingContextExt currContext = this.rootContext_;
+      StringBuffer nameBuffer = new StringBuffer ();
+
+      for (String name : nameParts)
+      {
+        boolean duplicateName = false;
+        nameBuffer.append (name);
+
+        try
+        {
+          currContext =
+            NamingContextExtHelper.narrow (
+            currContext.bind_new_context (
+            currContext.to_name (nameBuffer.toString ())));
+        }
+        catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e)
+        {
+          duplicateName = true;
+        }
+
+        if (!duplicateName)
+          nameBuffer.setLength (0);
+        else
+          nameBuffer.append ("/");
+      }
+
+      // Bind the node manager under this context. We are going to use
+      // the rebind () method instead of bind () to ensure the object
+      // is registered with the name service.
+
+      this.bindingName_ += "/NodeManager.Default";
+
+      this.rootContext_.rebind (
+        this.rootContext_.to_name (this.bindingName_), obj);
     }
     catch (Exception e)
     {
@@ -177,22 +244,19 @@ public class JbiNodeManager
     }
   }
 
-  public void unregisterWithNameService ( )
+  /**
+   * Unregister the NodeManager with the naming service.
+   */
+  private void unregisterWithNameService ( )
   {
     try
     {
-      if (this.nameService_ != null)
+      if (this.rootContext_ != null)
       {
-        // Get the hostname running this manager.
-        InetAddress addr = InetAddress.getLocalHost ();
-        String hostname = addr.getHostName ();
+        this.rootContext_.unbind (
+          this.rootContext_.to_name (this.bindingName_));
 
-        // Unbind this node manager.
-        this.nameService_.unbind (
-          this.nameService_.to_name (hostname + ".NodeManager"));
-
-        System.out.
-          println ("successfully removed node manager from name service");
+        System.out.println ("unregistered node manager from name service");
       }
     }
     catch (Exception e)
