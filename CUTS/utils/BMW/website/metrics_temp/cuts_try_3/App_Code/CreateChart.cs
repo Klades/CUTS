@@ -21,6 +21,10 @@ using System.Text;
 
 namespace CreateCharts
 {
+    /// <summary>
+    /// takes in datatable, writes to 
+    /// XML file the values
+    /// </summary>
     public class Chart
     {
         private DataTable dt;

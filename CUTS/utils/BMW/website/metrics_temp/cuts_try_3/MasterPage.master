@@ -15,6 +15,7 @@
                 </td>
                 <td align="right" nowrap>
                     <a href="CreateNewUT.aspx" class="links">Create New UT</a> &nbsp; &nbsp;
+                    <a href="SavedUTs.aspx" class="links">Saved UTs</a> &nbsp; &nbsp;
                     <a href="ChartDynamic.aspx" class="links">Chart Dynamic</a>&nbsp; &nbsp;
                     <a href="CreateChart.aspx" class="links">Create Chart</a> &nbsp; &nbsp;
                     <a href="SavedCharts.aspx" class="links">Saved Charts</a>
@@ -36,9 +37,9 @@
                 </td>
                 <td width="99%" height="395" valign="top" class="text">
                     <br>
-                    <!-- #BeginEditable "content" -->
-                    <asp:ContentPlaceHolder runat="server" ID="main">
-                    </asp:ContentPlaceHolder>
+                    <!-- BeginEditable "content" -->
+                    <asp:ContentPlaceHolder runat="server" ID="main" />
+                    
                     <!-- #EndEditable -->
                 </td>
                 <td width="30">
@@ -48,13 +49,13 @@
                     <img src="images/spacer.gif" width="10" height="30">
                 </td>
                 <td width="150" valign="top" bgcolor="#999999" class="menutext">
-                    <img src="images/spacer.gif" width="150" height="16" /><br>
+                    <img src="images/spacer.gif" width="150" height="16" /><br />
                     &nbsp;
                    
-                    <!-- #BeginEditable "menu" -->
-                    <asp:ContentPlaceHolder runat="server" ID="side">
+                    <!-- BeginEditable "menu" -->
+                    <asp:ContentPlaceHolder runat="server" ID="side" />
                     
-                    </asp:ContentPlaceHolder>
+                    
                     <!-- #EndEditable -->
                     
                 </td>

@@ -25,6 +25,10 @@ using MySql.Data.MySqlClient;
 namespace High_Level_Parser
 {
 
+    /// <summary>
+    /// Takes in ; separated strings, 
+    /// returns DataTable with variables
+    /// </summary>
     public class Parser
     {
         private string connString;
