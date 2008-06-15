@@ -79,7 +79,7 @@ public class JbiNodeManager
 
     // Create a new JbiNodeManager, which is a server object.
     org.omg.CORBA.Object obj =
-      this.poa_.servant_to_reference (new NodeManagerImpl ());
+      this.poa_.servant_to_reference (new NodeManagerImpl (this.orb_));
 
     if (this.iorFilename_ != null)
       this.writeIORToFile (obj);

@@ -1,3 +1,24 @@
+Sun Jun 15 05:37:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/java/jbi/deployment/JbiNodeApplication.java:
+        * cuts/java/jbi/deployment/JbiNodeManager.java:
+        * cuts/java/jbi/deployment/NodeApplicationImpl.java:
+        * cuts/java/jbi/deployment/NodeManagerCallbackImpl.java:
+        * cuts/java/jbi/deployment/NodeManagerImpl.java:
+
+          . Initial implementation of the NodeApplication in the deployment
+            framework. Its functionality, however, has not been tested.
+
+        * cuts/java/jbi/idl/NodeApplication.idl:
+
+          . Defined a callback interface that the node manager provides
+            to the spawned NodeApplication. This allows the node application
+            to communicate with the node manager.
+
+          . Defined a new method on the NodeApplication interface that
+            allows the node manager to get the process group of the spawned
+            node application.
+
 Fri Jun 13 05:47:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/jbi/deployment/JbiNodeManager.java:

@@ -56,6 +56,34 @@ module cuts
 
           /// Remove all the component from the node manager.
           void removeComponents ( );
+
+          /// Get the process group for the node application.
+          string getProcessGroup ( );
+        };
+
+        /**
+         * @interface NodeManagerCallback
+         *
+         * The interface the NodeApplication object uses to perform
+         * callbacks to the NodeManager.
+         */
+        interface NodeManagerCallback
+        {
+          /**
+           * Register the NodeApplication with the NodeManager. This
+           * will allow the node manager to send signals (commands) to
+           * the NodeApplication.
+           *
+           * @param[in]       nodeApp         Target node application.
+           */
+          void registerNodeApplication (in NodeApplication nodeApp);
+
+          /**
+           * Unregister the node application with the node manager.
+           *
+           * @param[in]       nodeApp         Target node application.
+           */
+          void unregisterNodeApplication (in NodeApplication nodeApp);
         };
       };
     };
