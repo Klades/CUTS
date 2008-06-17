@@ -136,6 +136,12 @@ private:
   void update_attribute_output (const std::string & attr,
                                 attribute_tag & info);
 
+  void update_simple_attribute_output (const std::string & attr,
+                                       attribute_tag & info);
+
+  void update_complex_attribute_output (const std::string & attr,
+                                        attribute_tag & info);
+
   int gme_project_init (void);
 
   int gme_project_fini (void);

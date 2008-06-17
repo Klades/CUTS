@@ -6,6 +6,7 @@
 
 #include "gme/GME.h"
 #include "gme/XML.h"
+#include "gme/ComponentEx.h"
 #include "ace/ACE.h"
 #include "ace/Get_Opt.h"
 #include "ace/OS_NS_unistd.h"
@@ -920,6 +921,19 @@ update_attribute_input (const std::string & attr, attribute_tag & info)
 void CUTS_GNC_App::
 update_attribute_output (const std::string & attr, attribute_tag & info)
 {
+  if (info.complex_.empty ())
+    this->update_simple_attribute_output (attr, info);
+  else
+    this->update_complex_attribute_output (attr, info);
+}
+
+//
+// update_simple_attribute_output
+//
+void CUTS_GNC_App::
+update_simple_attribute_output (const std::string & attr,
+                                attribute_tag & info)
+{
   // Create the file reader for the configuration file.
   naomi::attributes::attributeType attr_info ("", "");
 
@@ -1079,4 +1093,83 @@ update_attribute_output (const std::string & attr, attribute_tag & info)
   // Write the attribute to the file.
   writer << attr_info;
   writer.close ();
+}
+
+//
+// update_complex_attribute_output
+//
+void CUTS_GNC_App::
+update_complex_attribute_output (const std::string & attr,
+                                 attribute_tag & info)
+{
+  GME::RegistryNode parameters;
+  std::ostringstream regpath;
+
+  // Actual location of the parameters in the registry.
+  regpath
+    << "naomi:\\\\" << attr << "/parameters";
+
+  try
+  {
+    GME::FCO fco = GME::FCO::_narrow (info.object_);
+    parameters = fco.registry_node (regpath.str ().c_str ());
+  }
+  catch (...)
+  {
+    GME::Folder folder = GME::Folder::_narrow (info.object_);
+    parameters = folder.registry_node (regpath.str ().c_str ());
+  }
+
+  try
+  {
+    // Load the specified interpreter.
+    GME::ComponentEx interpreter (info.complex_);
+
+    // Configure the interpreter using the parameters in
+    // the collection of registry nodes.
+    typedef GME::Collection_T <GME::RegistryNode> RegistryNodes;
+
+    RegistryNodes parameter_list;
+    size_t n = parameters.children (parameter_list);
+
+    RegistryNodes::iterator
+      iter = parameter_list.begin (),
+      iter_end = parameter_list.end ();
+
+    for ( ; iter != iter_end; ++ iter)
+      interpreter.parameter (iter->name (), iter->value ());
+
+    // Pass the standard configuration to the interpreter.
+    interpreter.parameter ("non-interactive", "");
+
+    // Execute the interpreter on the currently selected object. We
+    // also should make it the focus object.
+    GME::Project project = info.object_.project ();
+    GME::FCO focus = GME::FCO::_narrow (info.object_);
+
+    std::vector <GME::FCO> selected;
+    selected.push_back (focus);
+
+    // Before we invoke the interpreter, we must commit the current
+    // transaction, and begin a new transaction.
+    project.commit_transaction ();
+
+    try
+    {
+      // Invoke the target interpreter.
+      interpreter.invoke (project, focus, selected, 0);
+    }
+    catch (const GME::Exception & )
+    {
+
+    }
+
+    // Just in case something else happens after this point, we
+    // need to restart the default transaction.
+    project.begin_transaction ();
+  }
+  catch (...)
+  {
+
+  }
 }

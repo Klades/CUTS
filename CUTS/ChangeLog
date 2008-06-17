@@ -1,3 +1,12 @@
+Tue Jun 17 22:01:25 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/GNC.mpc:
+        * MDE/GME/naomi/GNC_App.h:
+        * MDE/GME/naomi/GNC_App.cpp:
+
+          First version of being able to generate complex types from
+          the model. This is accomplished using an interpreter.
+
 Sun Jun 15 05:37:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/jbi/deployment/JbiNodeApplication.java:

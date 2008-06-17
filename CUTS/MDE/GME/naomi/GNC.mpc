@@ -2,13 +2,13 @@
 
 project (GNC_Base) : xsc_cxx {
   custom_only = 1
-  
+
   specific {
     xscflags += --cxx-header-suffix .h --cxx-source-suffix .cpp \
                 --cxx-inline-suffix .inl --cxx-generate-inline \
                 --cxx-char-type char --cxx-generate-writer-types
   }
-  
+
   Modify_Custom (XSC) {
     header_outputext = .h
     inline_outputext = .inl
@@ -22,16 +22,16 @@ project (GNC_Base) : xsc_cxx {
 
 project (GNC) : boost_base, cuts_gme, xscrt, cutsexe {
   exename = gnc
-  
+
   after += GNC_Base
   after -= CUTS
   libs  -= CUTS
-  
+
   Source_Files {
     GNC.cpp
     GNC_App.cpp
     URI_Tag_Parser.cpp
-    
+
     attribute_simple.cpp
     interface.cpp
   }
