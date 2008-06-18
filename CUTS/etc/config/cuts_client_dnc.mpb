@@ -5,4 +5,5 @@ project : ciao_servant_dnc, cutslib {
 
   //-- project dependencies
   after += CUTS_stub
+  libs  += CUTS_stub
 }

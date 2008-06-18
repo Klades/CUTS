@@ -1,3 +1,10 @@
+Wed Jun 18 05:41:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/config/cuts_client_dnc.mpb:
+        
+          Fixed build errors on non-Windows systems, specificially Mac
+          OS X.
+
 Tue Jun 17 22:01:25 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/naomi/GNC.mpc:
