@@ -56,13 +56,14 @@ public class NodeApplicationManagerImpl
   private final Lock mapLock_ = new ReentrantLock ();
 
   private final 
-    HashMap <String, ArrayList <String> > 
-    instanceInstallMap_ = new HashMap <String, ArrayList <String> > ();
+    HashMap <String, ArrayList <String> > instanceInstallMap_ =
+    new HashMap <String, ArrayList <String> > ();
 
   /// The location of the instance configurations.
   private String configPath_ = ".";
 
-  private final Logger logger_ = Logger.getLogger ("NodeManager.NodeApplicationManager");
+  private final Logger logger_ = 
+    Logger.getLogger ("NodeManager.NodeApplicationManagerImpl");
 
   /**
    * Initailizing constructor.
@@ -92,6 +93,8 @@ public class NodeApplicationManagerImpl
       Item item = entry.getValue ();
       nodeApps.add (NodeApplicationHelper.narrow (item.nodeApp_));
     }
+
+    this.logger_.debug ("returning the node applications");
 
     return nodeApps.toArray (new NodeApplication [0]);
   }
@@ -211,13 +214,11 @@ public class NodeApplicationManagerImpl
 
     // 2. Construct the command line for the node application.
     String commandLine =
-      "java.exe -cp " + classPath +
+      "java -cp " + classPath +
       " cuts.java.jbi.deployment.JbiNodeApplication" +
       " -callback-ior " + this.callbackIOR_ +
       " -config-path " + this.configPath_ +
       " -process-group " + processGroup;
-
-    //this.logger_.debug ("command line : " + commandLine);
 
     // 3. Spawn a new Java process, which will start a new node 
     // application. We are going to wait here until the node 
@@ -228,49 +229,32 @@ public class NodeApplicationManagerImpl
 
     Process jbiNodeApp = Runtime.getRuntime ().exec (commandLine);
 
-    //BufferedReader errorReader =
-    //  new BufferedReader (
-    //  new InputStreamReader (jbiNodeApp.getErrorStream ()));
+    if (jbiNodeApp == null)
+      return;
 
-    //BufferedReader inputReader =
-    //  new BufferedReader (
-    //  new InputStreamReader (jbiNodeApp.getInputStream ()));
+    // Locate the item for the node application.
+    this.mapLock_.lock ();
 
-    //this.logger_.debug ("waiting for node application to register itself");
-    //registered = this.notReady_.await (10, TimeUnit.SECONDS);
-
-    //while (errorReader.ready ())
-    //  System.err.println (errorReader.readLine ());
-
-    //while (inputReader.ready ())
-    //  System.out.println (inputReader.readLine ());
-
-    if (jbiNodeApp != null)
+    try
     {
-      // Locate the item for the node application.
-      this.mapLock_.lock ();
+      // Get the existing item, or create a new one.
+      Item item = this.jbiNodeApps_.get (processGroup);
 
-      try
-      {
-        // Get the existing item, or create a new one.
-        Item item = this.jbiNodeApps_.get (processGroup);
+      if (item == null)
+        item = new Item ();
 
-        if (item == null)
-          item = new Item ();
-
-        // Save the item back to the hashmap.
-        this.logger_.debug ("updating the node application map with its process");
-        item.jbiNodeApp_ = jbiNodeApp;
-        this.jbiNodeApps_.put (processGroup, item);
-      }
-      catch (Exception ex)
-      {
-        this.logger_.error (ex.getMessage (), ex);
-      }
-      finally
-      {
-        this.mapLock_.unlock ();
-      }
+      // Save the item back to the hashmap.
+      this.logger_.debug ("updating the node application map with its process");
+      item.jbiNodeApp_ = jbiNodeApp;
+      this.jbiNodeApps_.put (processGroup, item);
+    }
+    catch (Exception ex)
+    {
+      this.logger_.error (ex.getMessage (), ex);
+    }
+    finally
+    {
+      this.mapLock_.unlock ();
     }
   }
 
@@ -337,33 +321,63 @@ public class NodeApplicationManagerImpl
   }
 
   /**
-   * Destroy the node application manager. This method releases all the
+   * Clear the node application manager. This method releases all the
    * resource (i.e., the node applications) owned by this manager.
    */
-  public void destroy ()
+  public void clear ()
   {
-    for (Map.Entry <String, Item> entry : 
-         this.jbiNodeApps_.entrySet ())
+    for (Map.Entry <String, Item> entry : this.jbiNodeApps_.entrySet ())
     {
-      // Shutdown the node application.
+      // Get the node application interface from the item.
       Item item = entry.getValue ();
-      item.nodeApp_.shutdown();
-      
-      try
-      {
-        // Wait for the node application process to exit.
-        this.logger_.debug ("waiting for the node application [" + 
-                            item.nodeApp_.groupName () + "] to exit");
 
-        item.jbiNodeApp_.waitFor();
-      }
-      catch (Exception ex)
+      if (item == null)
+        continue;
+      
+      NodeApplication nodeApp = item.nodeApp_;
+      Process jbiNodeApp = item.jbiNodeApp_;
+      String groupName = entry.getKey ();
+
+      if (nodeApp != null)
       {
-        this.logger_.error (ex.getMessage (), ex);
+        // Shutdown the node application.
+        this.logger_.debug ("shutting down node application <" + groupName + ">");
+        nodeApp.shutdown();
+        
+
+        try
+        {
+          // Wait for the node application process to exit.
+          this.logger_.debug ("waiting for the node application <" + 
+                              groupName + "> to exit");
+
+          jbiNodeApp.waitFor();
+        }
+        catch (Exception ex)
+        {
+          this.logger_.error (ex.getMessage (), ex);
+        }
+      }
+      else
+      {
+        // Forcefully, shutdown the process.
+        this.logger_.warn ("<" + groupName + "> does not have a node " +
+                           "application object associated with its process; " +
+                           "forcefully destroying its process");
+
+        try
+        {
+          jbiNodeApp.destroy ();
+        }
+        catch (Exception ex)
+        {
+          this.logger_.error (ex.getMessage (), ex);
+        }
       }
     }
 
     // Remove all the items from the collection.
+    this.logger_.debug ("removing all node application references");
     this.jbiNodeApps_.clear ();
   }
 }

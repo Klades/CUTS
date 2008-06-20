@@ -1,3 +1,18 @@
+Fri Jun 20 22:07:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/java/jbi/deployment/DomainApplicationManagerImpl.java:
+        * cuts/java/jbi/deployment/ExecutionManagerImpl.java:
+        * cuts/java/jbi/deployment/NodeApplicationManagerImpl.java:
+        * cuts/java/jbi/deployment/NodeManagerImpl.java:
+
+          Next iteration on the deployment plan framework. Fixed several
+          bugs related to teardown of a deployment. The framework still
+          isn't capable of performance a full deployment. It, however,
+          can create the appropriate process on the target nodes for
+          installing components. The current problem is the spawned node
+          application doesn't register itself with the parent node
+          applicaiton manager.
+
 Fri Jun 20 19:38:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/jbi:

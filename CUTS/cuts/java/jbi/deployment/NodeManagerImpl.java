@@ -29,8 +29,9 @@ public class NodeManagerImpl extends NodeManagerPOA
   private org.omg.CORBA.ORB orb_ = null;
 
   /// Collection of node application managers.
-  private HashMap <NodeApplicationManager,
-                   NodeApplicationManagerImpl> managers_;
+  private final HashMap<
+    NodeApplicationManager, NodeApplicationManagerImpl> managers_ =
+    new HashMap <NodeApplicationManager, NodeApplicationManagerImpl> ();
 
   private String hostName_ = null;
 
@@ -61,63 +62,40 @@ public class NodeManagerImpl extends NodeManagerPOA
     this.logger_.debug ("activating a new node application manager");
     NodeApplicationManager manager = namImpl._this (this.orb_);
 
-    // Iterate over the plan and instruct the application manager to 
-    // allocate space for the appropriate number of node application. 
-    // This will be based on the collocation group.
-
-    for (ComponentInstanceDescriptor cid : plan.componentInstances)
+    try
     {
-      try
+      // Iterate over the plan and instruct the application manager to 
+      // allocate space for the appropriate number of node application. 
+      // This will be based on the collocation group.
+
+      this.logger_.debug ("creating the node applications");
+
+      for (ComponentInstanceDescriptor cid : plan.componentInstances)
       {
         if (cid.targetHost.equals (this.hostName_))
           namImpl.createNodeApplication (cid.processGroup);
       }
-      catch (Exception ex)
-      {
-        // This exception handler shouldn't be here. We should be using
-        // CORBA exception that will stop the deployment. So, this is 
-        // just to keep Java from complaining so we can get the first
-        // version of this framework completed.
-        this.logger_.error (ex.getMessage (), ex);
-      }
-    }
 
-    // Iterate over the plan and instruct the application manager to 
-    // allocate space for the appropriate number of node application. 
-    // This will be based on the collocation group.
-    for (ComponentInstanceDescriptor cid : plan.componentInstances)
-    {
-      try
+      // Iterate over the plan and instruct the application manager to 
+      // allocate space for the appropriate number of node application. 
+      // This will be based on the collocation group.
+      this.logger_.debug ("preparing the instance(s) for their applications");
+
+      for (ComponentInstanceDescriptor cid : plan.componentInstances)
       {
         if (cid.targetHost.equals (this.hostName_))
           namImpl.installInstance (cid.processGroup, cid.instanceName);
       }
-      catch (Exception ex)
-      {
-        // This exception handler shouldn't be here. We should be using
-        // CORBA exception that will stop the deployment. So, this is 
-        // just to keep Java from complaining so we can get the first
-        // version of this framework completed.
-        this.logger_.error (ex.getMessage (), ex);
-      }
-    }
 
-    try
-    {
-
+      // Save the manager with it's implementation.
+      this.managers_.put (manager, namImpl);
     }
     catch (Exception ex)
     {
-      // Save the node application manager.
-      this.managers_.put (manager, namImpl);
-
-      if (manager == null)
-        this.logger_.error ("this should not happen!!");
-
+      this.logger_.debug (ex.getMessage (), ex);
     }
     finally
     {
-      this.logger_.debug ("returning node application manager to execution manager");
       return manager;
     }
   }
@@ -129,16 +107,19 @@ public class NodeManagerImpl extends NodeManagerPOA
    */
   public void destroyManager (NodeApplicationManager manager)
   {
-    if (this.managers_.containsKey (manager))
-    {
-      // Get the actual implementation of the CORBA object.
-      NodeApplicationManagerImpl namImpl = this.managers_.get (manager);
+    // Get the actual implementation of the CORBA object.
+    this.logger_.debug ("locating node application manager's implementation");
+    NodeApplicationManagerImpl namImpl = this.managers_.get (manager);
 
+    if (namImpl != null)
+    {
       // Explicitly destroy the node application manager. This
       // will force it to remove all its instances.
-      namImpl.destroy ();
+      this.logger_.debug ("clearing node application manager");
+      namImpl.clear ();
 
       // Remove the node application manager.
+      this.logger_.debug ("removing node application manager");
       this.managers_.remove (manager);
     }
   }

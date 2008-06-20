@@ -152,39 +152,57 @@ public class ExecutionManagerImpl extends ExecutionManagerPOA
   {
     DeploymentPlan plan = manager.getPlan ();
 
-    if (this.managers_.containsKey (plan.UUID))
+    this.logger_.debug (
+      "destroying domain application manager for plan <" +
+      plan.UUID + ">");
+
+    if (!this.managers_.containsKey (plan.UUID))
+      return;
+
+    // Clear the applications from the domain application manager.
+    Item item = this.managers_.get (plan.UUID);
+
+    // Clear the domain application manager.
+    this.logger_.debug ("getting the node application manager(s) from the " +
+                        "domain application manager");
+
+    DomainApplicationManagerImpl damImpl = item.getDAMImpl ();
+    NodeApplicationManager [] nodeAppMgrs = null;
+
+    if (damImpl != null)
+      nodeAppMgrs = damImpl.getManagers ();
+    else
+      this.logger_.error ("this should NEVER happen");
+
+    if (nodeAppMgrs != null)
     {
-      // Clear the applications from the domain application manager.
-      Item item = this.managers_.get (plan.UUID);
-
-      // Clear the domain application manager.
-      DomainApplicationManagerImpl damImpl = item.getDAMImpl ();
-      NodeApplicationManager [] nodeAppMgrs = damImpl.getManagers ();
-
       // We need to contact node manager and have it destroy
       // the node application manager.
+      this.logger_.debug ("destroying each of the application managers");
+
       for (NodeApplicationManager nam : nodeAppMgrs)
       {
-        if (this.namParentMap_.containsKey (nam))
-        {
-          // Locate the parent of this node application manager.
-          NodeManager nodeManager = this.namParentMap_.get (nam);
+        // Locate the parent of this node application manager.
+        this.logger_.debug ("locating node manager that owns node application manager");
+        NodeManager nodeManager = this.namParentMap_.get (nam);
 
+        if (nodeManager != null)
+        {
           // Destroy the node application manager.
+          this.logger_.debug ("destroying node application manager");
           nodeManager.destroyManager (nam);
 
           // Remove the node application manager from the mapping.
+          this.logger_.debug ("removing node appication manager object");        
           this.namParentMap_.remove (nam);
         }
       }
-
-      // We can clear the child managers of this domain application
-      // manager.
-      damImpl.clear ();
-
-      // Remove the manager for the collection.
-      this.managers_.remove (manager);
     }
+
+    // We can clear sub-managers of this domain application.
+    this.logger_.debug ("removing the submanager(s) and this manager");
+    damImpl.clear ();
+    this.managers_.remove (manager);
   }
 
   /**
@@ -207,7 +225,7 @@ public class ExecutionManagerImpl extends ExecutionManagerPOA
            org.omg.CosNaming.NamingContextPackage.InvalidName,
            org.omg.CosNaming.NamingContextPackage.CannotProceed
   {
-    String keyName = hostName + "@" + kindName;
+    String keyName = hostName + "/" + kindName;
     NodeManager nodeManager = null;
 
     if (this.nodeMgrs_.containsKey (keyName))

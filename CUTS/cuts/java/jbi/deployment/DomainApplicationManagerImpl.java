@@ -27,18 +27,20 @@ public class DomainApplicationManagerImpl
 
     public DomainApplicationImpl domainAppImpl_;
 
-    public Item (DomainApplication domainApp,
-                 DomainApplicationImpl domainAppImpl)
+    public Item (DomainApplication app, DomainApplicationImpl appImpl)
     {
-      this.domainApp_ = domainApp;
-      this.domainAppImpl_ = domainAppImpl;
+      this.domainApp_ = app;
+      this.domainAppImpl_ = appImpl;
     }
   }
 
+  /// The ORB associated with this object.
   private org.omg.CORBA.ORB orb_ = null;
 
+  /// The deployment plan associated with this manager.
   private DeploymentPlan deploymentPlan_ = null;
 
+  /// Collection of node application managers (i.e., sub-managers).
   private final ArrayList <NodeApplicationManager> subManagers_ =
     new ArrayList <NodeApplicationManager> ();
 
