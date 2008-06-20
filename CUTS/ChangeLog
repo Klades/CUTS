@@ -1,7 +1,45 @@
+Fri Jun 20 19:38:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/jbi:
+        * bin/jbi/ExecutionManager.bat:
+        * bin/jbi/NodeManager.bat:
+
+          Helper scripts to bootstrap the execution and node manager
+          for the JBI deployment framework.
+
+        * cuts/cuts.java.jbi.build:
+        * cuts/java/jbi/deployment/DomainApplicationImpl.java:
+        * cuts/java/jbi/deployment/DomainApplicationManagerImpl.java:
+        * cuts/java/jbi/deployment/ExecutionManagerImpl.java:
+        * cuts/java/jbi/deployment/JbiExecutionManager.java:
+        * cuts/java/jbi/deployment/JbiNodeApplication.java:
+        * cuts/java/jbi/deployment/JbiNodeManager.java:
+        * cuts/java/jbi/deployment/NodeApplicationImpl.java:
+        * cuts/java/jbi/deployment/NodeApplicationManagerCallbackImpl.java:
+        * cuts/java/jbi/deployment/NodeApplicationManagerImpl.java:
+        * cuts/java/jbi/deployment/NodeManagerImpl.java:
+        * cuts/java/jbi/idl/Application.idl:
+        * cuts/java/jbi/idl/ApplicationManager.idl:
+        * cuts/java/jbi/idl/Deployment.idl:
+        * cuts/java/jbi/idl/DomainApplication.idl:
+        * cuts/java/jbi/idl/DomainApplicationManager.idl:
+        * cuts/java/jbi/idl/ExecutionManager.idl:
+        * cuts/java/jbi/idl/NodeApplication.idl:
+        * cuts/java/jbi/idl/NodeApplicationManager.idl:
+        * cuts/java/jbi/idl/NodeManager.idl:
+
+          Initial implementation of the deployment framework minus the
+          plan launcher. We are still fixing minor bug in the deployment
+          framework, and is therefore not usable at the moment.
+
+        * cuts/java/jbi/deployment/NodeManagerCallbackImpl.java:
+
+          Removed this file.
+
 Wed Jun 18 05:41:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/config/cuts_client_dnc.mpb:
-        
+
           Fixed build errors on non-Windows systems, specificially Mac
           OS X.
 

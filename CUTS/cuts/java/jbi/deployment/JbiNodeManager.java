@@ -8,7 +8,7 @@
  *
  * @author        James H. Hill
  */
- //=============================================================================
+//=============================================================================
 
 package cuts.java.jbi.deployment;
 
@@ -18,9 +18,11 @@ import cuts.java.jbi.JbiShutdownThread;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.CosNaming.*;
+import org.apache.log4j.Logger;
+import org.apache.log4j.BasicConfigurator;
 import java.net.*;
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * @class JbiNodeManager
@@ -49,6 +51,8 @@ public class JbiNodeManager
 
   private String bindingName_ = new String ();
 
+  private final Logger logger_ = Logger.getLogger ("NodeManager");
+
   /**
    * Initializing constructor.
    *
@@ -67,28 +71,34 @@ public class JbiNodeManager
     throws org.omg.CORBA.ORBPackage.InvalidName,
            org.omg.PortableServer.POAManagerPackage.AdapterInactive,
            org.omg.PortableServer.POAPackage.ServantNotActive,
-           org.omg.PortableServer.POAPackage.WrongPolicy
+           org.omg.PortableServer.POAPackage.WrongPolicy,
+           UnknownHostException
   {
     // Get a reference to the RootPOA.
     this.poa_ =
       org.omg.PortableServer.POAHelper.narrow (
       this.orb_.resolve_initial_references ("RootPOA"));
 
+    // Get the hostname running this manager.
+    InetAddress addr = InetAddress.getLocalHost ();
+    String hostName = addr.getCanonicalHostName ();
+
     // Activate the RootPOA.
     this.poa_.the_POAManager ().activate ();
 
     // Create a new JbiNodeManager, which is a server object.
     org.omg.CORBA.Object obj =
-      this.poa_.servant_to_reference (new NodeManagerImpl (this.orb_));
+      this.poa_.servant_to_reference (
+      new NodeManagerImpl (this.orb_, hostName));
 
     if (this.iorFilename_ != null)
       this.writeIORToFile (obj);
 
     if (this.registerNameService_)
-      this.registerWithNameService (obj);
+      this.registerWithNameService (obj, hostName);
 
     // Run the ORB's event loop.
-    System.out.println ("node manager is active...");
+    this.logger_.debug ("running the node manager's event loop");
     this.orb_.run ();
   }
 
@@ -138,9 +148,9 @@ public class JbiNodeManager
    */
   public void parseArgs (String [] args)
   {
-    for (int i = 0; i < args.length; ++ i)
+    for (int i = 0; i < args.length; ++i)
     {
-      String arg = args[i];
+      String arg = args [i];
 
       if (arg.equals ("-register-with-ns"))
       {
@@ -148,7 +158,7 @@ public class JbiNodeManager
       }
       else if (arg.equals ("-o"))
       {
-        this.iorFilename_ = args[++ i];
+        this.iorFilename_ = args [++i];
       }
     }
   }
@@ -158,7 +168,8 @@ public class JbiNodeManager
    *
    * @param       obj           Target object to register.
    */
-  private void registerWithNameService (org.omg.CORBA.Object obj)
+  private void registerWithNameService (
+    org.omg.CORBA.Object obj, String hostName)
   {
     try
     {
@@ -167,11 +178,7 @@ public class JbiNodeManager
         NamingContextExtHelper.narrow (
         this.orb_.resolve_initial_references ("NameService"));
 
-      // Get the hostname running this manager.
-      InetAddress addr = InetAddress.getLocalHost ();
-      String hostname = addr.getCanonicalHostName ();
-
-      String [] nameParts = hostname.split ("\\.");
+      String [] nameParts = hostName.split ("\\.");
 
       if (nameParts.length > 0)
       {
@@ -195,10 +202,10 @@ public class JbiNodeManager
       else
       {
         nameParts = new String [1];
-        nameParts[0] = hostname;
+        nameParts[0] = hostName;
 
         // Save the binding name for later usage.
-        this.bindingName_ = hostname;
+        this.bindingName_ = hostName;
       }
 
       // There is a good chance the target context does not exist. So, we
@@ -235,33 +242,34 @@ public class JbiNodeManager
 
       this.bindingName_ += "/NodeManager.Default";
 
+      this.logger_.debug ("registering node manager with name service");
       this.rootContext_.rebind (
         this.rootContext_.to_name (this.bindingName_), obj);
     }
-    catch (Exception e)
+    catch (Exception ex)
     {
-      e.printStackTrace ();
+      this.logger_.error (ex.getMessage (), ex);
     }
   }
 
   /**
    * Unregister the NodeManager with the naming service.
    */
-  private void unregisterWithNameService ( )
+  private void unregisterWithNameService ()
   {
     try
     {
       if (this.rootContext_ != null)
       {
+        this.logger_.debug ("unregistering node manager from name service");
+
         this.rootContext_.unbind (
           this.rootContext_.to_name (this.bindingName_));
-
-        System.out.println ("unregistered node manager from name service");
       }
     }
-    catch (Exception e)
+    catch (Exception ex)
     {
-      e.printStackTrace ();
+      this.logger_.error (ex.getMessage (), ex);
     }
   }
 
@@ -277,26 +285,37 @@ public class JbiNodeManager
   {
     ORB orb = null;
 
+    // Set up a simple configuration that logs on the console.
+    BasicConfigurator.configure ();
+
+    // Get the ExecutionManager logger.
+    Logger logger = Logger.getLogger ("NodeManager");
+
     try
     {
       // Initialize the CORBA ORB.
+      logger.debug ("initializing the CORBA ORB");
       orb = ORB.init (args, null);
 
       // Create a new node manager.
+      logger.debug ("creating a new node manager object");
       JbiNodeManager manager = new JbiNodeManager (orb);
 
       // Register the shutdown hook for the manager. This will
       // ensure the manager releases all it's resources.
+      logger.debug ("registering application shutdown hook");
+
       Runtime.getRuntime ().
         addShutdownHook (new JbiShutdownThread (manager));
 
       // Parse the command line arguments then run the manager.
+      logger.debug ("parsing command-line arguments");
       manager.parseArgs (args);
       manager.run ();
     }
-    catch (Exception e)
+    catch (Exception ex)
     {
-      e.printStackTrace ();
+      logger.error (ex.getMessage (), ex);
     }
     finally
     {

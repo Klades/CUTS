@@ -1,0 +1,56 @@
+// -*- IDL -*-
+
+#ifndef _APPLICATION_MANAGER_IDL_
+#define _APPLICATION_MANAGER_IDL_
+
+#include "Deployment.idl"
+#include "Application.idl"
+
+module cuts
+{
+  module java
+  {
+    module jbi
+    {
+      module deployment
+      {
+        /// Type definition for a collection of applicatoins.
+        typedef sequence <Application> Applications;
+
+        /**
+         * @interface ApplicationManager
+         */
+        interface ApplicationManager
+        {
+          /// Get the applications from the manager.
+          Applications getApplications ();
+
+          /// Start the launch sequence for the application manager
+          Applications startLaunch ();
+
+          /**
+           * Destroy the specified application. 
+           *
+           * @param[in]     app         Target application to destroy.
+           */
+          void destroyApplication (in Application app);
+        };
+
+        /**
+         * @interface ApplicationManagerCallback
+         *
+         * Callback interface used by Application objects to communicate
+         * with their parent manager.
+         */
+        interface ApplicationManagerCallback
+        {
+          void registerApplication (in Application manager);
+
+          void unregisterApplication (in Application manager);
+        };
+      };
+    };
+  };
+};
+
+#endif  // !defined _APPLICATION_MANAGER_IDL_

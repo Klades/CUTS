@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- *  @file       NodeApplication.idl
+ *  @file       DomainApplication.idl
  *
  * $Id$
  *
@@ -10,8 +10,8 @@
  */
 //=============================================================================
 
-#ifndef _NODE_APPLICATION_IDL_
-#define _NODE_APPLICATION_IDL_
+#ifndef _JBI_DOMAIN_APPLICATION_IDL_
+#define _JBI_DOMAIN_APPLICATION_IDL_
 
 #include "Application.idl"
 
@@ -24,17 +24,16 @@ module cuts
       module deployment
       {
         /**
-         * @interface NodeApplication
+         * @interface DomainApplication
          */
-        interface NodeApplication : Application
+        interface DomainApplication : Application
         {
-          void installInstance (in string instanceName);
 
-          void uninstallInstance (in string instanceName);
         };
       };
     };
   };
 };
 
-#endif  // !defined _NODE_APPLICATION_IDL_
+#endif  // !defined _JBI_DOMAIN_APPLICATION_IDL_
+

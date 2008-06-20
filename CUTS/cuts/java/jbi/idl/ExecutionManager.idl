@@ -14,6 +14,7 @@
 #define _EXECUTION_MANAGER_IDL_
 
 #include "Deployment.idl"
+#include "DomainApplicationManager.idl"
 
 module cuts
 {
@@ -23,6 +24,8 @@ module cuts
     {
       module deployment
       {
+        typedef sequence <DomainApplicationManager> DomainApplicationManagers;
+
         /**
          * @interface ExecutionManager
          *
@@ -38,14 +41,17 @@ module cuts
            *
            * @param[in]       deploymentPlan      Deployment plan info.
            */
-          void deployPlan (in DeploymentPlanDescriptor deploymentPlan);
+          DomainApplicationManager preparePlan (in DeploymentPlan plan);
 
           /**
            * Teardown an entire plan give its unique id.
            *
            * @param[in]       deploymentPlanID      Deployment plan id.
            */
-          void teardownPlan (in string deploymentPlanID);
+          void destroyManager (in DomainApplicationManager manager);
+
+          /// Get the managed domain application managers.
+          DomainApplicationManagers getManagers ();
         };
       };
     };

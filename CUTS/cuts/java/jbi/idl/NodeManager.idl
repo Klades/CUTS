@@ -14,6 +14,7 @@
 #define _NODE_MANAGER_IDL_
 
 #include "Deployment.idl"
+#include "NodeApplicationManager.idl"
 
 module cuts
 {
@@ -23,6 +24,9 @@ module cuts
     {
       module deployment
       {
+        // Forward decl.
+        interface NodeApplicationManager;
+
         /**
          * @interface NodeManager
          *
@@ -34,28 +38,19 @@ module cuts
         interface NodeManager
         {
           /**
-           * Deploy the specified component.
+           * Instantiates a new node application manager for the provided
+           * deployment plan. The execution manager (or domain manager) is
+           * responsible for managing the returned node application manager.
            *
-           * @param[in]       info              The deployment information.
+           * @param[in]       plan          New deployment plan.
            */
-          void installComponent (in ComponentInstanceDescriptor cid);
+          NodeApplicationManager preparePlan (in DeploymentPlan plan);
 
           /**
-           * Activate all the components hosted by this node manager. This
-           * will in turn notify the node application to activate its
-           * components.
+           * Destroy an existing node application manager. This will remove
+           * all the components managed by the specified application manager.
            */
-          void activateComponents ( );
-
-          /**
-           * Passivate all the components in the node manager. This will
-           * contact all the hosted node applications and tell them to
-           * passivate their components.
-           */
-          void deactivateComponents ( );
-
-          /// Remove all the component from the node manager.
-          void removeComponents ( );
+          void destroyManager (in NodeApplicationManager manager);
         };
       };
     };

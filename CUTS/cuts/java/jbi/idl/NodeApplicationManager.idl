@@ -1,0 +1,52 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ * @file        NodeApplicationManager.idl
+ *
+ * $Id$
+ *
+ * @author      James H. Hill
+ */
+//=============================================================================
+
+#ifndef _NODE_APPLICATION_MANAGER_IDL_
+#define _NODE_APPLICATION_MANAGER_IDL_
+
+#include "ApplicationManager.idl"
+
+module cuts
+{
+  module java
+  {
+    module jbi
+    {
+      module deployment
+      {
+        /**
+         * @interface NodeApplicationManager
+         *
+         * Interface definition for the node application manager. The
+         * node application manager is responsible for managing the 
+         * lifetime of NodeApplication objects.
+         */
+        interface NodeApplicationManager : ApplicationManager
+        {
+          
+        };
+
+        /**
+         * @interface NodeApplicationManagerCallback
+         *
+         * Callback interface defintion for the NodeApplicationManager.
+         */
+        interface NodeApplicationManagerCallback : ApplicationManagerCallback
+        {
+
+        };
+      };
+    };
+  };
+};
+
+#endif  // !defined _NODE_APPLICATION_MANAGER_IDL_

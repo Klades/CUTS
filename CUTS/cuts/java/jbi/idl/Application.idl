@@ -1,0 +1,48 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ * @file          Application.idl
+ *
+ * $Id$
+ *
+ * @author        James H. Hill
+ */
+//=============================================================================
+
+#ifndef _APPLICATION_IDL_
+#define _APPLICATION_IDL_
+
+module cuts
+{
+  module java
+  {
+    module jbi
+    {
+      module deployment
+      {
+        /** 
+         * @interface Application
+         *
+         * Common interface exposed by all application objects.
+         */
+        interface Application
+        {
+          /// Unique name of the application.
+          readonly attribute string groupName;
+
+          /// Start the application (i.e., activate all the components
+          /// in the target application.
+          void start ();
+
+          /// Shutdown the application. This method is responsible
+          /// for releasing all the application's resources, and 
+          /// allowing its process to exit.
+          void shutdown ();
+        };
+      };
+    };
+  };
+};
+
+#endif  // !defined _APPLICATION_IDL_

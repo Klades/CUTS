@@ -8,11 +8,13 @@
  *
  * @author        James H. Hill
  */
- //=============================================================================
+//=============================================================================
 
 package cuts.java.jbi.deployment;
+
 import org.omg.PortableServer.*;
 import java.util.*;
+import org.apache.log4j.Logger;
 
 /**
  * @class JbiNodeManager
@@ -21,65 +23,123 @@ import java.util.*;
  * serves as the main entry point for the node manager in the JBI deployment
  * framework.
  */
-public class NodeManagerImpl
-  extends NodeManagerPOA
+public class NodeManagerImpl extends NodeManagerPOA
 {
+  /// The ORB assigned to the node manager.
   private org.omg.CORBA.ORB orb_ = null;
 
-  /// Callback handle for the node manager. This is passed to the
-  /// node application so it can keep the node manager up-to-date
-  /// with its status.
-  private NodeManagerCallbackImpl nmCallback_ = null;
+  /// Collection of node application managers.
+  private HashMap <NodeApplicationManager,
+                   NodeApplicationManagerImpl> managers_;
+
+  private String hostName_ = null;
+
+  private final Logger logger_ = Logger.getLogger ("NodeManager.NodeManagerImpl");
 
   /**
    * Default constructor.
    */
-  public NodeManagerImpl (org.omg.CORBA.ORB orb)
+  public NodeManagerImpl (org.omg.CORBA.ORB orb, String hostName)
   {
-    // Save the ORB.
     this.orb_ = orb;
-
-    // Create a callback, which will be passed to the node application.
-    NodeManagerCallbackImpl nmcImpl = new NodeManagerCallbackImpl (this.orb_);
+    this.hostName_ = hostName;
   }
 
   /**
-   * Install the specified component. This will take the use the
-   * provided information to instantiate the specified instance
-   * in the correct node application.
-   *
-   * @param         cid           Component instance description.
+   * Prepare the deployment plan for deployment (or realization). This will
+   * create a new node application manager for the plan, and return it
+   * to the execution manager.
    */
-  public void installComponent (ComponentInstanceDescriptor cid)
+  public NodeApplicationManager preparePlan (DeploymentPlan plan)
   {
-    this.nmCallback_.installComponent (cid.collocationGroup,
-                                       cid.instanceName);
+    this.logger_.debug ("preparing plan " + plan.UUID + " for deployment");
+
+    NodeApplicationManagerImpl namImpl =
+      new NodeApplicationManagerImpl (this.orb_);
+
+    // Activate the node application manager.
+    this.logger_.debug ("activating a new node application manager");
+    NodeApplicationManager manager = namImpl._this (this.orb_);
+
+    // Iterate over the plan and instruct the application manager to 
+    // allocate space for the appropriate number of node application. 
+    // This will be based on the collocation group.
+
+    for (ComponentInstanceDescriptor cid : plan.componentInstances)
+    {
+      try
+      {
+        if (cid.targetHost.equals (this.hostName_))
+          namImpl.createNodeApplication (cid.processGroup);
+      }
+      catch (Exception ex)
+      {
+        // This exception handler shouldn't be here. We should be using
+        // CORBA exception that will stop the deployment. So, this is 
+        // just to keep Java from complaining so we can get the first
+        // version of this framework completed.
+        this.logger_.error (ex.getMessage (), ex);
+      }
+    }
+
+    // Iterate over the plan and instruct the application manager to 
+    // allocate space for the appropriate number of node application. 
+    // This will be based on the collocation group.
+    for (ComponentInstanceDescriptor cid : plan.componentInstances)
+    {
+      try
+      {
+        if (cid.targetHost.equals (this.hostName_))
+          namImpl.installInstance (cid.processGroup, cid.instanceName);
+      }
+      catch (Exception ex)
+      {
+        // This exception handler shouldn't be here. We should be using
+        // CORBA exception that will stop the deployment. So, this is 
+        // just to keep Java from complaining so we can get the first
+        // version of this framework completed.
+        this.logger_.error (ex.getMessage (), ex);
+      }
+    }
+
+    try
+    {
+
+    }
+    catch (Exception ex)
+    {
+      // Save the node application manager.
+      this.managers_.put (manager, namImpl);
+
+      if (manager == null)
+        this.logger_.error ("this should not happen!!");
+
+    }
+    finally
+    {
+      this.logger_.debug ("returning node application manager to execution manager");
+      return manager;
+    }
   }
 
   /**
-   * Activate all the component. This will invoke the corresponding
-   * method in each node application.
+   * Destroy the specified manager. This will force the manager to
+   * release all its resources, which includes destoying all 
+   * application and their instances.
    */
-  public void activateComponents ( )
+  public void destroyManager (NodeApplicationManager manager)
   {
-    this.nmCallback_.activateComponents ();
-  }
+    if (this.managers_.containsKey (manager))
+    {
+      // Get the actual implementation of the CORBA object.
+      NodeApplicationManagerImpl namImpl = this.managers_.get (manager);
 
-  /**
-   * Deactivate all the components. This will invoke the corresponding
-   * method in each node application.
-   */
-  public void deactivateComponents ( )
-  {
-    this.nmCallback_.deactivateComponents ();
-  }
+      // Explicitly destroy the node application manager. This
+      // will force it to remove all its instances.
+      namImpl.destroy ();
 
-  /**
-   * Remove all the components from the node manager. This will
-   * invoke the corresponding method on each node application.
-   */
-  public void removeComponents ( )
-  {
-    this.nmCallback_.removeComponents ();
+      // Remove the node application manager.
+      this.managers_.remove (manager);
+    }
   }
 }

@@ -10,8 +10,8 @@
  */
 //=============================================================================
 
-#ifndef _DEPLOYMENT_INFO_IDL_
-#define _DEPLOYMENT_INFO_IDL_
+#ifndef _JBI_DEPLOYMENT_IDL_
+#define _JBI_DEPLOYMENT_IDL_
 
 module cuts
 {
@@ -34,8 +34,11 @@ module cuts
           /// Name of the instance to deploy.
           string instanceName;
 
+          /// The target host for the instance.
+          string targetHost;
+
           /// Target collocation group for the instance.
-          string collocationGroup;
+          string processGroup;
         };
 
         /// Type definition for a collection of ComponentInstanceDescriptor
@@ -48,10 +51,10 @@ module cuts
          *
          * Data structure that describes a deployment plan.
          */
-        struct DeploymentPlanDescriptor
+        struct DeploymentPlan
         {
           /// Unique id for the deployment plan.
-          string deploymentPlanID;
+          string UUID;
 
           /**
            * Collection of component instance descriptors that describes
