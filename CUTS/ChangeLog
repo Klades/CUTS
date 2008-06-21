@@ -1,3 +1,25 @@
+Sat Jun 21 03:04:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * contrib:
+        * contrib/java:
+        * contrib/java/castor-1.2-codegen.jar:
+        * contrib/java/castor-1.2.jar:
+        * contrib/java/commons-logging-1.1.1.jar:
+        * contrib/java/idl.jar:
+        * contrib/java/jacorb.jar:
+        * contrib/java/log4j-1.2.15.jar:
+        * contrib/java/logkit-1.2.jar:
+        * contrib/java/spring.jar:
+        * contrib/java/velocity-1.5.jar:
+        * contrib/java/xercesImpl.jar:
+        * cuts/cuts.java.jbi.build:
+        * etc/ANT/include/castor.build:
+        * etc/ANT/include/cuts.build:
+        
+          Update the build so that all dependencies are located in the 
+          ./contrib/java directory. This should ensure that we have consitent
+          builds regardless of platform.
+
 Fri Jun 20 22:07:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/jbi/deployment/DomainApplicationManagerImpl.java:

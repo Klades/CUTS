@@ -5,14 +5,7 @@
   <import file="${env.CUTS_ROOT}/etc/ANT/include/cuts.build" />
   <import file="${env.CUTS_ROOT}/etc/ANT/include/castor.build" />
 
-  <property name="spring.dir" value="${env.SPRING_ROOT}" />
-  <property name="spring.dist.dir" value="${spring.dir}/dist" />
-
-  <property name="jacorb.dir" value="${env.JACORB_ROOT}" />
-  <property name="jacorb.lib.dir" value="${jacorb.dir}/lib" />
-
-  <property name="log4j.dir" value="${env.LOG4J_ROOT}" />
-  <property name="log4j.lib.dir" value="${log4j.dir}" />
+  <property name="contrib.dir" value="${env.CUTS_ROOT}/contrib/java" />
 
   <!--
     Target(s): top-level targets
@@ -42,9 +35,9 @@
       <pathelement path="." />
       <pathelement path="${cuts.dir}" />
       <pathelement path="${env.JBI_ROOT}/lib/capi1.5.jar" />
-      <pathelement path="${spring.dist.dir}/spring.jar" />
-      <pathelement path="${castor.dir}/castor-1.2.jar" />
-      <pathelement path="${log4j.lib.dir}/log4j-1.2.15.jar" />
+      <pathelement path="${contrib.dir}/spring.jar" />
+      <pathelement path="${contrib.dir}/castor-1.2.jar" />
+      <pathelement path="${contrib.dir}/log4j-1.2.15.jar" />
     </path>
 
     <javac srcdir="java/jbi"
@@ -90,8 +83,8 @@
 
   <target name="cuts.java.jbi.deployment.idl">
     <path id="jacorb.idl.classpath">
-      <pathelement path="${jacorb.lib.dir}/idl.jar" />
-      <pathelement path="${jacorb.lib.dir}/logkit-1.2.jar" />
+      <pathelement path="${contrib.dir}/idl.jar" />
+      <pathelement path="${contrib.dir}/logkit-1.2.jar" />
     </path>
 
     <java classname="org.jacorb.idl.parser"
@@ -188,11 +181,11 @@
     <path id="cuts.deployment.build.classpath">
       <pathelement path="." />
       <pathelement path="${cuts.dir}" />
-      <pathelement path="${jacorb.lib.dir}/jacorb.jar" />
       <pathelement path="${env.JBI_ROOT}/lib/capi1.5.jar" />
-      <pathelement path="${spring.dist.dir}/spring.jar" />
-      <pathelement path="${castor.dir}/castor-1.2.jar" />
-      <pathelement path="${log4j.lib.dir}/log4j-1.2.15.jar" />
+      <pathelement path="${contrib.dir}/jacorb.jar" />
+      <pathelement path="${contrib.dir}/spring.jar" />
+      <pathelement path="${contrib.dir}/castor-1.2.jar" />
+      <pathelement path="${contrib.dir}/log4j-1.2.15.jar" />
     </path>
 
     <javac srcdir="java/jbi/deployment"
