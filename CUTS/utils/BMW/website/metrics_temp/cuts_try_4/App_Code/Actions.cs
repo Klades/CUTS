@@ -11,6 +11,8 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using MySql.Data.MySqlClient;
+using System.Text.RegularExpressions;
+using LogVariables;
 
 /// <summary>
 /// . Summary description for Actions
@@ -112,35 +114,43 @@ namespace Actions
             conn.Open();
             
             Array lfids = get_lfids(utid, conn);
-            foreach (string id in lfids)
+            
+            foreach (int current_lfid in lfids.Cast<int>())
             {
                 string cs_regex;
-                Array vars, extended_vars;
-                get_lfid_info(out cs_regex,out vars,out extended_vars, id, conn);
-                DataTableActions.Instance.Add_columns(extended_vars);
+                Array vars;
+                get_lfid_info(out cs_regex,out vars, current_lfid, conn);       
 
-                DataTable dt;
-                get_log_data(out dt, id, cs_regex, vars, conn);
+
+                
+                get_log_data(current_lfid, cs_regex, vars, conn,utid);
 
 
             }
         }
 
-        private void get_log_data(out DataTable dt, string lfid, string cs_regex, Array varnames, MySqlConnection conn)
-        {
-            
-            
+
+        // helper function to UT_eval that sends all of the data
+        // to DataTableActions after regexing it from the logs
+        private void get_log_data(int lfid, string cs_regex, Array varnames, MySqlConnection conn, int utid)
+        {      
             // Get the actual messages
-            string sql = @"CALL Get_log_data('" + lfid + "');";
+            string sql = @"CALL Get_log_data('" + lfid.ToString() + "');";
             MySqlDataAdapter da = new MySqlDataAdapter(sql, conn);
             DataSet ds = new DataSet();
             da.Fill(ds, "logs");
 
-            // Add a table definition to hold the data after regexing
-            ds.Tables.Add(new DataTable("log_data"));
-            foreach (string name in varnames)
+            // Regex the data out
+            foreach (DataRow row in ds.Tables["logs"].Rows)
             {
-                ds.Tables["log_data"].Columns.Add(new DataColumn(name));
+                Regex reg = new Regex(cs_regex, RegexOptions.IgnoreCase);
+                Match mat = reg.Match(row["message"].ToString());
+                foreach (string name in varnames)
+                {
+                    DataTableActions.getInstance(utid).insert(mat.Groups[name].ToString(), "LF"+lfid.ToString()+"."+name);
+                    // Need to also insert TestID - have to create this one manually in the LogVariables
+                }
+                
             }
 
 
@@ -158,6 +168,7 @@ namespace Actions
             {
                 al.Add(r[0]);
             }
+            r.Close();
 
             return al.ToArray();
         }
@@ -165,60 +176,60 @@ namespace Actions
         // helper function for eval_ut to get info needed to 
         //    1) extract the data from the log messages
         //    2) generate the internal datatable
-        private void get_lfid_info(out string cs_regex,out Array vars, out Array extended_vars, string lfid, MySqlConnection conn)
+        private void get_lfid_info(out string cs_regex,out Array vars, int lfid, MySqlConnection conn)
         {
-            string sql = @"CALL Get_LFID_info('" + lfid + "');";
+            string sql = @"CALL Get_LFID_info('" + lfid.ToString() + "');";
             MySqlDataAdapter da = new MySqlDataAdapter(sql, conn);
             DataSet ds = new DataSet();
             da.Fill(ds,"lfid_info");
 
             cs_regex = ds.Tables[0].Rows[0]["csharp_regex"].ToString();
 
-            ArrayList v = new ArrayList(), 
-                      extend_v = new ArrayList();
+            ArrayList v = new ArrayList();
             foreach (DataRow row in ds.Tables[0].Rows)
             {
                 v.Add(row["varname"]);
-                extend_v.Add(row["extended_varname"]);
+
+                //Remember to remove returning this from the procedure
+                //extend_v.Add(row["extended_varname"]);
             }
 
             vars = v.ToArray();
-            extended_vars = extend_v.ToArray();
         }
     }
 
     public sealed class DataTableActions
     {
-        private static readonly DataTableActions instance=new DataTableActions();
+        private static DataTableActions instance = null;
+        private static readonly object padlock = new object();
+        
         private DataTable dt;
-        // Explicit static constructor to tell C# compiler
-        // not to mark type as beforefieldinit
-        // Do not remove or will no longer be thread-safe
-        static DataTableActions()
-        {}
+        private static int utid_;
+ 
         private DataTableActions()
-        {}
-
-        public static DataTableActions Instance
         {
-            get
-            {
-                return instance;
-            }
+            dt = new DataTable();
+            Array x = LogVariables.LogVariables.getInstance(utid_).Grouped_On_X();
+            Array z = LogVariables.LogVariables.getInstance(utid_).Grouped_On_Z();
+ 
         }
 
-        // needs to have exceptions and column
-        // types added
-        public void Add_columns(Array colnames)
+        public static DataTableActions getInstance(int utid)
         {
-            foreach(string name in colnames)
+            lock (padlock)
             {
-                // Check for duplicate column/variable names
-                if (dt.Columns.IndexOf(name) != -1)
-                    // Need to throw exception here! Means there are two duplicate names
-                    return;
-                dt.Columns.Add(new DataColumn(name));
-            }
+                if (instance == null || utid_ != utid)
+                {
+                    utid_ = utid;
+                    instance = new DataTableActions();
+                }
+                return instance;
+            }   
+        }
+
+        public void insert(string data, string extended_varname)
+        {
+               // do something with some data here :)
         }
 
      }
