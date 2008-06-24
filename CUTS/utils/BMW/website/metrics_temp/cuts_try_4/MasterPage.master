@@ -1,0 +1,89 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>Untitled Page</title>
+    <meta http-equiv="Content-Type" content="text/html;" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="menu_style.css" />
+</head>
+<body bgcolor="#CCCCCC" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+    <form id="form1" runat="server">
+    <div>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#000000" height="29">
+            <tr>
+                <td align="left" width="408">
+                    <img src="images/links_lt.jpg" width="408" height="30">
+                </td>
+                <td align="left" nowrap="nowrap" width="375px">
+                
+                    <ul id="navigation-1">
+                        <li><a href="#" title="Home">Home</a></li>
+                        <li><a href="#" title="Products">Log Formats</a>
+                            <ul class="navigation-2">
+                                <li><a href="#" title="View Saved LFs">View Saved<span>&raquo;</span></a></li>
+                                <li><a href="LF_Create.aspx" title="Create New LF">Create New</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#" title="Your Account">Unit Tests</a>
+                            <ul class="navigation-2">
+                                <li><a href="#" title="View Saved UTs">View Saved</a></li>
+                                <li><a href="UT_Create.aspx" title="Create New UT">Create New</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#" title="Help">Charts</a>
+                            <ul class="navigation-2">
+                                <li><a href="#" title="View Saved Charts">View Saved</a></li>
+                                <li><a href="#" title="Create New Chart">Create New</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" height="86" bgcolor="#000000">
+            <tr>
+                <td valign="top">
+                    <img src="images/site_name.jpg" width="474" height="86">
+                </td>
+            </tr>
+        </table>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF">
+            <tr>
+                <td width="30">
+                    <img src="images/spacer.gif" width="30" height="30">
+                </td>
+                <td width="99%" height="395" valign="top" class="text">
+                    <br>
+                    
+                    <asp:ContentPlaceHolder runat="server" ID="main" />
+                    
+                </td>
+                <td width="30">
+                    <img src="images/spacer.gif" width="30" height="30">
+                </td>
+                <td width="10" bgcolor="#999999">
+                    <img src="images/spacer.gif" width="10" height="30">
+                </td>
+                <td width="150" valign="top" bgcolor="#999999" class="menutext">
+                    <img src="images/spacer.gif" width="150" height="16" /><br />
+                    &nbsp;
+                    
+                    <asp:ContentPlaceHolder runat="server" ID="side" />
+                    
+                </td>
+                <td width="10" bgcolor="#999999">
+                    <img src="images/spacer.gif" width="10" height="30">
+                </td>
+            </tr>
+        </table>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" height="30" bgcolor="#333333">
+            <tr>
+                <td align="center" class="footer">
+                    &copy; 2005 www.yoursitename.com - All Rights Reserved. Designed by <a href="http://www.smartwebby.com"
+                        target="_blank" class="footer">SmartWebby.com</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    </form>
+</body>
+</html>

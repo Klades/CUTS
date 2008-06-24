@@ -1,3 +1,54 @@
+Tue Jun 24 02:50:26 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * utils/BMW/website/metrics_temp/cuts_try_3/web.config:
+         
+          . Added the connString to appsettings so there is a common location                 
+
+        * utils/BMW/website/metrics_temp/cuts_try_4:
+        * utils/BMW/website/metrics_temp/cuts_try_4/App_Code:
+        * utils/BMW/website/metrics_temp/cuts_try_4/App_Code/Actions.cs:
+         
+          . Created an Actions namespace to hold basic Actions related to LF,UTs
+              and Charts. This has classes called LogFormatActions,
+              UnitTestActions, ect
+          . There is also a singleton for actions on the DataTable that 
+              is created during the evaluation of a unittest               
+
+        * utils/BMW/website/metrics_temp/cuts_try_4/App_Data:
+        * utils/BMW/website/metrics_temp/cuts_try_4/Bin:
+        * utils/BMW/website/metrics_temp/cuts_try_4/Bin/MySql.Data.dll:
+        * utils/BMW/website/metrics_temp/cuts_try_4/Bin/MySql.Data.dll.refresh:
+
+          . Added a reference to MySql.Data.MySqlClient
+          
+        * utils/BMW/website/metrics_temp/cuts_try_4/LF_Create.aspx:
+        * utils/BMW/website/metrics_temp/cuts_try_4/LF_Create.aspx.cs:
+        * utils/BMW/website/metrics_temp/cuts_try_4/MasterPage.master:
+        * utils/BMW/website/metrics_temp/cuts_try_4/MasterPage.master.cs:
+        * utils/BMW/website/metrics_temp/cuts_try_4/UT_Create.aspx:
+        * utils/BMW/website/metrics_temp/cuts_try_4/UT_Create.aspx.cs:
+        
+          . Non-important stuff where I set up a basic website wrapper so 
+              my code has a small user interface
+            
+        * utils/BMW/website/metrics_temp/cuts_try_4/database_6_23_08.sql:
+        
+          . Added all of the database structure I have created so far
+          
+        * utils/BMW/website/metrics_temp/cuts_try_4/images:
+        * utils/BMW/website/metrics_temp/cuts_try_4/images/Thumbs.db:
+        * utils/BMW/website/metrics_temp/cuts_try_4/images/bullet.gif:
+        * utils/BMW/website/metrics_temp/cuts_try_4/images/bullet_menu.gif:
+        * utils/BMW/website/metrics_temp/cuts_try_4/images/links_lt.jpg:
+        * utils/BMW/website/metrics_temp/cuts_try_4/images/site_name.jpg:
+        * utils/BMW/website/metrics_temp/cuts_try_4/images/spacer.gif:
+        * utils/BMW/website/metrics_temp/cuts_try_4/menu_style.css:
+        * utils/BMW/website/metrics_temp/cuts_try_4/styles.css:
+        * utils/BMW/website/metrics_temp/cuts_try_4/web.config:
+
+          . None of this is to important - Its just basic stuff to get a website
+            UI up and running
+
 Sat Jun 21 03:04:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * contrib:
@@ -15,8 +66,8 @@ Sat Jun 21 03:04:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/cuts.java.jbi.build:
         * etc/ANT/include/castor.build:
         * etc/ANT/include/cuts.build:
-        
-          Update the build so that all dependencies are located in the 
+
+          Update the build so that all dependencies are located in the
           ./contrib/java directory. This should ensure that we have consitent
           builds regardless of platform.
 
