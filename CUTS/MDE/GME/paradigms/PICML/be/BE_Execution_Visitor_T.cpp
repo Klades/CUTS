@@ -268,14 +268,14 @@ Visit_StateBase (const PICML::StateBase & base)
     PICML::DoWhileState do_while (PICML::DoWhileState::Cast (base));
 
     CUTS_BE::visit <BE_STRATEGY> (do_while,
-      boost::bind (PICML::DoWhileState::Accept, _1, boost::ref (*this)));
+      boost::bind (&PICML::DoWhileState::Accept, _1, boost::ref (*this)));
   }
   else if (type_name == PICML::WhileState::meta)
   {
     PICML::WhileState while_state (PICML::WhileState::Cast (base));
 
     CUTS_BE::visit <BE_STRATEGY> (while_state,
-      boost::bind (PICML::WhileState::Accept, _1, boost::ref (*this)));
+      boost::bind (&PICML::WhileState::Accept, _1, boost::ref (*this)));
   }
 }
 

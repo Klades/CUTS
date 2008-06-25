@@ -1,20 +1,30 @@
+Wed Jun 25 04:59:42 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/CUTS_CIAO.mpc:
+        
+          Removed unncessary dependencies.
+          
+        * MDE/GME/paradigms/PICML/be/BE_Execution_Visitor_T.cpp:
+          
+          Fixed build errors on vc8 or greater.
+
 Wed Jun 25 04:27:13 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * ChangeLog:
-                
+
           . A typo on my part resulted in Changelog being added to the repo
-             Note the different caps. This meant no one could commit while the 
-             from windows as they looked like the same file. 
-          . I removed the "bad" copy from the repo - saved it, and put my 
-             changes in at the top of this changelog. 
-             
+             Note the different caps. This meant no one could commit while the
+             from windows as they looked like the same file.
+          . I removed the "bad" copy from the repo - saved it, and put my
+             changes in at the top of this changelog.
+
         * utils/BMW/website/metrics_temp/cuts_try_4/App_Code/Actions.cs:
         * utils/BMW/website/metrics_temp/cuts_try_4/App_Code/LogVariables.cs:
 
           . Split namespaces into two files, ran through one test to ensure
-              that the system was working so far. 
-          . Updates the UnitTestActions - will break the acitons into 
-              separate files soon. 
+              that the system was working so far.
+          . Updates the UnitTestActions - will break the acitons into
+              separate files soon.
 
         * utils/BMW/website/metrics_temp/cuts_try_4/Default.aspx:
         * utils/BMW/website/metrics_temp/cuts_try_4/Default.aspx.cs:
