@@ -1,18 +1,41 @@
+Wed Jun 25 04:27:13 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * ChangeLog:
+                
+          . A typo on my part resulted in Changelog being added to the repo
+             Note the different caps. This meant no one could commit while the 
+             from windows as they looked like the same file. 
+          . I removed the "bad" copy from the repo - saved it, and put my 
+             changes in at the top of this changelog. 
+             
+        * utils/BMW/website/metrics_temp/cuts_try_4/App_Code/Actions.cs:
+        * utils/BMW/website/metrics_temp/cuts_try_4/App_Code/LogVariables.cs:
+
+          . Split namespaces into two files, ran through one test to ensure
+              that the system was working so far. 
+          . Updates the UnitTestActions - will break the acitons into 
+              separate files soon. 
+
+        * utils/BMW/website/metrics_temp/cuts_try_4/Default.aspx:
+        * utils/BMW/website/metrics_temp/cuts_try_4/Default.aspx.cs:
+
+          Removed these files.
+
 Tue Jun 24 02:50:26 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * utils/BMW/website/metrics_temp/cuts_try_3/web.config:
-         
-          . Added the connString to appsettings so there is a common location                 
+
+          . Added the connString to appsettings so there is a common location
 
         * utils/BMW/website/metrics_temp/cuts_try_4:
         * utils/BMW/website/metrics_temp/cuts_try_4/App_Code:
         * utils/BMW/website/metrics_temp/cuts_try_4/App_Code/Actions.cs:
-         
+
           . Created an Actions namespace to hold basic Actions related to LF,UTs
               and Charts. This has classes called LogFormatActions,
               UnitTestActions, ect
-          . There is also a singleton for actions on the DataTable that 
-              is created during the evaluation of a unittest               
+          . There is also a singleton for actions on the DataTable that
+              is created during the evaluation of a unittest
 
         * utils/BMW/website/metrics_temp/cuts_try_4/App_Data:
         * utils/BMW/website/metrics_temp/cuts_try_4/Bin:
@@ -20,21 +43,21 @@ Tue Jun 24 02:50:26 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
         * utils/BMW/website/metrics_temp/cuts_try_4/Bin/MySql.Data.dll.refresh:
 
           . Added a reference to MySql.Data.MySqlClient
-          
+
         * utils/BMW/website/metrics_temp/cuts_try_4/LF_Create.aspx:
         * utils/BMW/website/metrics_temp/cuts_try_4/LF_Create.aspx.cs:
         * utils/BMW/website/metrics_temp/cuts_try_4/MasterPage.master:
         * utils/BMW/website/metrics_temp/cuts_try_4/MasterPage.master.cs:
         * utils/BMW/website/metrics_temp/cuts_try_4/UT_Create.aspx:
         * utils/BMW/website/metrics_temp/cuts_try_4/UT_Create.aspx.cs:
-        
-          . Non-important stuff where I set up a basic website wrapper so 
+
+          . Non-important stuff where I set up a basic website wrapper so
               my code has a small user interface
-            
+
         * utils/BMW/website/metrics_temp/cuts_try_4/database_6_23_08.sql:
-        
+
           . Added all of the database structure I have created so far
-          
+
         * utils/BMW/website/metrics_temp/cuts_try_4/images:
         * utils/BMW/website/metrics_temp/cuts_try_4/images/Thumbs.db:
         * utils/BMW/website/metrics_temp/cuts_try_4/images/bullet.gif:
