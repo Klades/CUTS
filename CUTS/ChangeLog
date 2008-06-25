@@ -1,11 +1,33 @@
+Wed Jun 25 17:28:34 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * utils/BMW/website/metrics_temp/cuts_try_4/App_Code/DataTableActions.cs:
+        * utils/BMW/website/metrics_temp/cuts_try_4/App_Code/LogFormatActions.cs:
+        * utils/BMW/website/metrics_temp/cuts_try_4/App_Code/LogVariables.cs:
+        * utils/BMW/website/metrics_temp/cuts_try_4/App_Code/UnitTestActions.cs:
+
+          . Split actions file into many - they all still reside in the Actions
+              namespace. 
+          . Updating the Insert function in DataTable actions - need some way
+              to know what groups are associated with each insertion
+              
+        * utils/BMW/website/metrics_temp/cuts_try_4/Default.aspx:
+        * utils/BMW/website/metrics_temp/cuts_try_4/Default.aspx.cs:
+
+          . Added these back so there is a simple way to test the evaluation
+              of one UT
+              
+        * utils/BMW/website/metrics_temp/cuts_try_4/App_Code/Actions.cs:
+
+          Removed this file. 
+
 Wed Jun 25 04:59:42 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/CUTS_CIAO.mpc:
-        
+
           Removed unncessary dependencies.
-          
+
         * MDE/GME/paradigms/PICML/be/BE_Execution_Visitor_T.cpp:
-          
+
           Fixed build errors on vc8 or greater.
 
 Wed Jun 25 04:27:13 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
