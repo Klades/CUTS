@@ -1,3 +1,16 @@
+Thu Jun 26 14:08:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+        
+        * bin/jbi/SingleProcess.sh:
+        
+          Initial version of a helper script for manually deploying JBI
+          client objects into a single process.
+        
+        
+        * etc/ANT/include/cuts.build:
+        
+          Fixed configuration errors related to the new names of the
+          CUTS jar files.
+
 Thu Jun 26 04:30:33 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * contrib/java/castor-1.2-xml-schema.jar:
