@@ -4,11 +4,9 @@
   <property name="contrib.dir" value="${env.CUTS_ROOT}/contrib/java" />
 
   <path id="castor.srcgen.classpath">
-    <pathelement path="${contrib.dir}/castor.jar" />
-    <pathelement path="${contrib.dir}/castor-xml.jar" />
+    <pathelement path="${contrib.dir}/castor-1.2.jar" />
     <pathelement path="${contrib.dir}/castor-1.2-codegen.jar" />
     <pathelement path="${contrib.dir}/castor-1.2-xml-schema.jar" />
-    
     <pathelement path="${contrib.dir}/velocity-1.5.jar" />
     <pathelement path="${contrib.dir}/commons-logging-1.1.1.jar" />
     <pathelement path="${contrib.dir}/xercesImpl.jar" />
