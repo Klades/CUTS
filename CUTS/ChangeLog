@@ -1,25 +1,31 @@
-Thu Jun 26 14:08:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
-        
+Thu Jun 26 19:16:01 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
         * bin/jbi/SingleProcess.sh:
         
+          The $JAVA_OPTS environment variable can be used to pass command
+          parameters to the java virtual machine.
+
+Thu Jun 26 14:08:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/jbi/SingleProcess.sh:
+
           Initial version of a helper script for manually deploying JBI
           client objects into a single process.
-        
-        
+
         * etc/ANT/include/cuts.build:
-        
+
           Fixed configuration errors related to the new names of the
           CUTS jar files.
 
 Thu Jun 26 04:30:33 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * contrib/java/castor-1.2-xml-schema.jar:
-        
+
           Missing JAR file for building the CAPI clients.
 
         * etc/ANT/include/castor.build:
         * etc/ANT/include/cuts.build:
-        
+
           Fixed errors in the build script related to using the JAR files
           located in $(CUTS_ROOT)/contrib/java
 
