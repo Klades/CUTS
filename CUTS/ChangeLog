@@ -1,7 +1,18 @@
-Thu Jun 26 19:16:01 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+Fri Jun 27 07:20:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/jbi/SingleProcess.sh:
         
+          The classpath as missing the JAR files needed to instantiate the
+          objects from the Caster library.
+        
+        * etc/ANT/include/cuts.build:
+
+          The ${cuts.src.dir} was not defined in this file.
+        
+Thu Jun 26 19:16:01 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/jbi/SingleProcess.sh:
+
           The $JAVA_OPTS environment variable can be used to pass command
           parameters to the java virtual machine.
 
