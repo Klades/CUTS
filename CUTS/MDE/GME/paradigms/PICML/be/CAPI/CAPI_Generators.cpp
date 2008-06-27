@@ -362,6 +362,12 @@ generate (const PICML::MonolithicImplementation & mono,
     type_name = CUTS_BE_CAPI ()->fq_name (iter->second, '.');
     version = iter->second.VersionTag ();
 
+    if (version.empty ())
+    {
+      version = "1.0"; 
+      iter->second.VersionTag () = version;
+    }
+
     CUTS_BE_CAPI ()->outfile_
       << std::endl
       << "/**" << std::endl
@@ -424,7 +430,13 @@ generate (const PICML::MonolithicImplementation & mono,
       type_name = CUTS_BE_CAPI ()->fq_name (sink_iter->second, '.');
       version = sink_iter->second.VersionTag ();
 
-      fq_name = sink_iter->second.SpecifyIdTag ();
+      if (version.empty ())
+      {
+        version = "1.0";
+        sink_iter->second.VersionTag () = version;
+      }
+
+      fq_name = version;
       fq_name[0] = ::toupper (fq_name[0]);
 
       CUTS_BE_CAPI ()->outfile_

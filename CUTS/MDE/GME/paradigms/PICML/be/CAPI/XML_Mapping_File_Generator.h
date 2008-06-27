@@ -15,7 +15,9 @@
 
 #include "PICML/PICML.h"
 #include "../UDM_Abstract_Type_Dispatcher_T.h"
+
 #include <fstream>
+#include <stack>
 
 /**
  * @class XML_Mapping_File_Geneator
@@ -52,18 +54,31 @@ public:
 
   void Visit_ShortInteger (const PICML::ShortInteger &);
 
+  void Visit_Aggregate (const PICML::Aggregate & );
+
 private:
+  void write_extension_mapping (const std::pair <std::string, std::string> &);
+
   /// Output directory for the generated XML mapping.
   const std::string & outdir_;
 
   /// Output file for the XML mapping.
   std::ofstream outfile_;
 
+  /// Complex types that have been visited.
+  std::set <PICML::Aggregate> seen_complex_types_;
+
   /// Complex types that need a mapping.
-  std::set <PICML::Aggregate> complex_types_;
+  std::stack <PICML::Aggregate> complex_types_;
 
   /// Dispatcher for abstract element types.
   UDM_Abstract_Type_Dispatcher_T <XML_Mapping_File_Generator> dispatcher_;
+
+  /// The package name for the XML mapping.
+  std::string package_;
+
+  /// Collection of extension classes.
+  std::set <std::pair <std::string, std::string> > extensions_;
 };
 
 #endif  // !defined _CAPI_XML_MAPPING_FILE_GENERATOR_H_

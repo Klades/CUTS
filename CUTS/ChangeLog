@@ -1,7 +1,18 @@
+Fri Jun 27 07:00:25 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/XML_Mapping_File_Generator.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/XML_Mapping_File_Generator.cpp:
+        
+          Bug fix where if a version number was not specified for an
+          event type, then it would remain blank in the generated
+          source codee. Now, if a version is not specified, then it
+          will default to 1.0.
+
 Fri Jun 27 13:58:22 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/jbi/SingleProcess.sh:
-        
+
           The script was several JAR files that were only needed when
           sending/receiving events.
 
