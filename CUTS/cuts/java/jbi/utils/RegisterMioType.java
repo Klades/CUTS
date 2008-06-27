@@ -23,6 +23,9 @@ import org.infospherics.jbi.client.Connection;
 import org.infospherics.jbi.client.exception.*;
 import org.infospherics.jbi.client.typemgt.MetadataRepository;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.BasicConfigurator;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
@@ -47,6 +50,10 @@ public class RegisterMioType
 
     private String version_ = "1.0";
 
+    private final Logger logger_ = Logger.getLogger ("RegisterMioType");
+
+    private String schemasDir_ = ".";
+
     public RegisterMioType ()
     {
         
@@ -57,11 +64,14 @@ public class RegisterMioType
                PermissionDeniedException, ConnectionException
     {
         // Construct the name of the MIO type's schema file
-        String xmlSchemaFilename = 
+        String xmlSchemaFilename =
+            this.schemasDir_ + File.separatorChar + 
             this.mioType_.replace ('.', File.separatorChar) + 
+            File.separatorChar +
             this.mioType_ + ".xsd";
 
         // Type to open the file for reading.
+        this.logger_.debug ("loading XML schema from file [" + xmlSchemaFilename + "]");
         File schemaFile = new File (xmlSchemaFilename);
         FileReader fileReader = new FileReader (schemaFile);
         BufferedReader xmlSchemaReader = new BufferedReader (fileReader);
@@ -115,6 +125,7 @@ public class RegisterMioType
                 iod.setParentType (new TypeDescriptor ("baseObject", "1.5"));
                 
                 // Add the new type to the repo.
+                this.logger_.info (xmlSchema);
                 repo.addInfoObjectDescriptor (iod);
             }
         catch (Exception e)
@@ -148,6 +159,8 @@ public class RegisterMioType
                     this.serverAddress_ = args[++ i];
                 else if (arg.equals ("-version"))
                     this.version_ = args[++ i];
+                else if (arg.equals ("-schemas-dir"))
+                    this.schemasDir_ = args[++ i];
             }
 
         if (this.mioType_ == null)
@@ -162,6 +175,9 @@ public class RegisterMioType
 
     public static void main (String [] args)
     {
+        BasicConfigurator.configure ();
+        Logger logger = Logger.getLogger ("RegisterMioType");
+
         try
             {
                 // Create a new instance of the application.
@@ -171,11 +187,12 @@ public class RegisterMioType
                 app.parseArgs (args);
 
                 // Run the main part of the application.
+                logger.debug ("running the application");
                 app.run ();
             }
         catch (Exception e)
             {
-                e.printStackTrace ();
+                logger.error ("caught exception", e);
             }
     }
 }

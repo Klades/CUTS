@@ -1,11 +1,18 @@
+Fri Jun 27 09:12:13 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/java/jbi/utils/RegisterMioType.java:
+        
+          Converted the output of the target schema to register into a 
+          info log message.
+
 Fri Jun 27 00:25:45 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/jbi/RegisterMioType.sh:
         * cuts/java/jbi/utils/RegisterMioType.java:
-        
+
           Helper class/application for registering MIO types with the
           server.
-        
+
         * cuts/java/jbi/utils:
         * cuts/cuts.java.jbi.build:
         * cuts/java/jbi/utils/ConnectionString.java:
@@ -13,7 +20,7 @@ Fri Jun 27 00:25:45 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
           Implemented several utility classes to simplify interacting
           with the server.
-        
+
 Fri Jun 27 07:20:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/jbi/SingleProcess.sh:
