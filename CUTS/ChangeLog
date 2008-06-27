@@ -1,8 +1,15 @@
+Fri Jun 27 13:58:22 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/jbi/SingleProcess.sh:
+        
+          The script was several JAR files that were only needed when
+          sending/receiving events.
+
 Fri Jun 27 09:12:13 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/jbi/utils/RegisterMioType.java:
-        
-          Converted the output of the target schema to register into a 
+
+          Converted the output of the target schema to register into a
           info log message.
 
 Fri Jun 27 00:25:45 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

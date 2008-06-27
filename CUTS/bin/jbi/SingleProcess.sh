@@ -16,10 +16,11 @@
 # common variables
 JAVA_CMD=java
 
-JBI_CLASSPATH=${JBI_ROOT}/lib/capi1.5.jar:${JBI_ROOT}/lib/dom4j-1.6.1.jar:${JBI_ROOT}/lib/jaxen-1.1.1.jar:${JBI_ROOT}/lib/jbossall-client.jar
+JBI_CLASSPATH=${JBI_ROOT}/lib/capi1.5.jar:${JBI_ROOT}/lib/dom4j-1.6.1.jar:${JBI_ROOT}/lib/jaxen-1.1.1.jar:${JBI_ROOT}/lib/jbossall-client.jar:${JBI_ROOT}/lib/xpp3_xpath-1.1.4c.jar:${JBI_ROOT}/lib/xpp3-1.1.4c.jar
+
 CUTS_CLASSPATH=${CUTS_ROOT}/lib/cuts.java.jar:${CUTS_ROOT}/lib/cuts.java.jbi.jar:${CUTS_ROOT}/contrib/java/spring.jar:${CUTS_ROOT}/contrib/java/log4j-1.2.15.jar:${CUTS_ROOT}/contrib/java/commons-logging-1.1.1.jar:${CUTS_ROOT}/contrib/java/castor-1.2.jar
 
-# execute to CORBA application
+# execute the application
 exec ${JAVA_CMD} ${JAVA_OPTS}                                       \
     -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB                     \
     -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton   \
