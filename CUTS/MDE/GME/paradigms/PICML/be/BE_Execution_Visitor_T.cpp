@@ -293,7 +293,7 @@ Visit_DoWhileState (const PICML::DoWhileState & do_while)
   CUTS_BE_Do_While_End_T <BE_STRATEGY>::generate ();
 
   // We are starting to generate the do...while condition.
-  std::string condition = do_while.StopCondition ();
+  std::string condition = do_while.LoopingCondition ();
   CUTS_BE_Do_While_Condition_Begin_T <BE_STRATEGY>::generate ();
 
   if (CUTS_BE_Parse_Precondition_T <BE_STRATEGY>::result_type)
@@ -322,7 +322,7 @@ void CUTS_BE_Execution_Visitor_T <BE_STRATEGY>::
 Visit_WhileState (const PICML::WhileState & while_state)
 {
   // We are starting to generate the do...while condition.
-  std::string condition = while_state.StopCondition ();
+  std::string condition = while_state.LoopingCondition ();
   CUTS_BE_While_Condition_Begin_T <BE_STRATEGY>::generate ();
 
   if (CUTS_BE_Parse_Precondition_T <BE_STRATEGY>::result_type)

@@ -1,9 +1,24 @@
+Fri Jun 27 21:10:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE_Execution_Visitor_T.cpp:
+        
+          Updated the template to use LoopingCondition () instead of
+          StoppingCondition () for the appropriate elements.
+          
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        
+          . Bug fix where having a client with multiple InEventPort
+            elements generated the incorrect dispatch method.
+            
+          . Added support for handling the InitialValue attribute for
+            variables.
+
 Fri Jun 27 07:00:25 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
         * MDE/GME/paradigms/PICML/be/CAPI/XML_Mapping_File_Generator.h:
         * MDE/GME/paradigms/PICML/be/CAPI/XML_Mapping_File_Generator.cpp:
-        
+
           Bug fix where if a version number was not specified for an
           event type, then it would remain blank in the generated
           source codee. Now, if a version is not specified, then it

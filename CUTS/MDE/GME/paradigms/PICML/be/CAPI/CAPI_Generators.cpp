@@ -399,6 +399,7 @@ generate (const PICML::MonolithicImplementation & mono,
   {
     // Generate the entry point for the client application.
     CUTS_BE_CAPI ()->outfile_
+      << std::endl
       << "/**" << std::endl
       << " * Dispatcher for received MIOs" << std::endl
       << " *" << std::endl
@@ -436,8 +437,8 @@ generate (const PICML::MonolithicImplementation & mono,
         sink_iter->second.VersionTag () = version;
       }
 
-      fq_name = version;
-      fq_name[0] = ::toupper (fq_name[0]);
+      std::string class_name = sink_iter->second.SpecifyIdTag ();
+      class_name[0] = ::toupper (class_name[0]);
 
       CUTS_BE_CAPI ()->outfile_
         << "if (type.equals (\""
@@ -446,12 +447,12 @@ generate (const PICML::MonolithicImplementation & mono,
         << "{"
         << "// Convert the string metadata into an object" << std::endl
         << "metadata = mio.getMetadata ();"
-        << fq_name << " t = (" << fq_name << ") this."
+        << class_name << " t = (" << class_name << ") this."
         << sink_iter->first << "_.metadataToObject (metadata);"
         << std::endl
         << "// Create a new event" << std::endl
-        << "JbiEvent <" << fq_name << "> event =" << std::endl
-        << "  new JbiEvent <" << fq_name << "> (" << fq_name << ".class, t);"
+        << "JbiEvent <" << class_name << "> event =" << std::endl
+        << "  new JbiEvent <" << class_name << "> (" << class_name << ".class, t);"
         << std::endl
         << "// Save the information object and make the upcall" << std::endl
         << "event.setInfoObject (mio);"
@@ -460,13 +461,26 @@ generate (const PICML::MonolithicImplementation & mono,
 
       for (++ sink_iter; sink_iter != sink_iter_end; ++ sink_iter)
       {
+        type_name = CUTS_BE_CAPI ()->fq_name (sink_iter->second, '.');
+        version = sink_iter->second.VersionTag ();
+
+        if (version.empty ())
+        {
+          version = "1.0";
+          sink_iter->second.VersionTag () = version;
+        }
+
+        class_name = sink_iter->second.SpecifyIdTag ();
+        class_name[0] = ::toupper (class_name[0]);
+
         CUTS_BE_CAPI ()->outfile_
           << "else if (type.equals (\""
-          << fq_name << "\" && version.equals (\""
+          << type_name << "\" && version.equals (\""
           << version << "\"))" << std::endl
           << "{"
-          << "JbiEvent <" << fq_name
-          << "> event = new JbiEvent <" << fq_name << "> (" << fq_name << ".class);"
+          << "JbiEvent <" << class_name
+          << "> event = new JbiEvent <" << class_name 
+          << "> (" << class_name << ".class);"
           << "event.setInfoObject (mio);"
           << "this." << sink_iter->first << " (event);"
           << "}";
@@ -537,11 +551,24 @@ generate (const PICML::Variable & variable)
       << std::endl
       << "// variable : " << var_name << std::endl
       << "private " << iter->second << " " << var_name
-      << "_;";
+      << "_";
+
+    // Write the initial value for the variable.
+    std::string initial_value = variable.InitialValue ();
+
+    if (!initial_value.empty ())
+    {
+      CUTS_BE_CAPI ()->outfile_
+        << " = " << initial_value;
+    }
+
+    CUTS_BE_CAPI ()->outfile_
+      << ";";
   }
   else
   {
     CUTS_BE_CAPI ()->outfile_
+      << std::endl
       << "// variable type (" << type_name << "not supported : "
       << var_name << std::endl
       << std::endl;
