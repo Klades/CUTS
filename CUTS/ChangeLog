@@ -1,14 +1,30 @@
+Fri Jun 27 00:25:45 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/jbi/RegisterMioType.sh:
+        * cuts/java/jbi/utils/RegisterMioType.java:
+        
+          Helper class/application for registering MIO types with the
+          server.
+        
+        * cuts/java/jbi/utils:
+        * cuts/cuts.java.jbi.build:
+        * cuts/java/jbi/utils/ConnectionString.java:
+        * cuts/java/jbi/utils/UserCredentials.java:
+
+          Implemented several utility classes to simplify interacting
+          with the server.
+        
 Fri Jun 27 07:20:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/jbi/SingleProcess.sh:
-        
+
           The classpath as missing the JAR files needed to instantiate the
           objects from the Caster library.
-        
+
         * etc/ANT/include/cuts.build:
 
           The ${cuts.src.dir} was not defined in this file.
-        
+
 Thu Jun 26 19:16:01 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/jbi/SingleProcess.sh:

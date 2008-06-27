@@ -47,6 +47,7 @@
 
       <include name="*.java" />
       <include name="client/*.java" />
+      <include name="utils/*.java" />
     </javac>
   </target>
 
@@ -56,13 +57,14 @@
 
       <include name="cuts/java/jbi/*.class" />
       <include name="cuts/java/jbi/client/*.class" />
+      <include name="cuts/java/jbi/utils/*.class" />
     </jar>
   </target>
 
   <target name="cuts.java.jbi.clean">
     <delete>
       <fileset dir="${cuts.src.dir}/java/jbi"
-               includes="*.class, client/*.class" />
+               includes="*.class, client/*.class, utils/*.class" />
     </delete>
   </target>
 
