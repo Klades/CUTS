@@ -150,8 +150,11 @@ public class JbiSource
   public void close ()
     throws PermissionDeniedException
   {
-    this.jbiConn_.destroySequence (this.jbiSrc_);
-    this.jbiSrc_ = null;
+      if (this.jbiSrc_ != null)
+          {
+              this.jbiConn_.destroySequence (this.jbiSrc_);
+              this.jbiSrc_ = null;
+          }
   }
 }
 
