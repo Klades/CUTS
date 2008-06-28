@@ -162,7 +162,7 @@ public abstract class JbiClient
     // server.
     this.jbiConn =
         this.jbiConnMgr.createConnection (
-                  "connection:" + this.serverAddress,
+                  "connection:" + this.getInstanceName (),
                   this.createConnectionDescriptor (this.serverAddress));
 
     this.jbiConn.authenticate (

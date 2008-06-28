@@ -1,15 +1,31 @@
+Sat Jun 28 08:34:08 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/java/jbi/client/JbiClient.java:
+
+          Bug fix where the naming convention of the connection created 
+          duplicate names when connecting to the same server. This was
+          fixed by using the instance name in the naming convention, 
+          since the same instance should not be deployed more than once
+          during an experiment.
+        
+        * cuts/java/jbi/client/JbiClientApp.java:
+
+          The client applicaion is now able to host more than one client
+          object, which signifies deploying multiple client objects in
+          a single process.
+        
 Fri Jun 27 21:10:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE_Execution_Visitor_T.cpp:
-        
+
           Updated the template to use LoopingCondition () instead of
           StoppingCondition () for the appropriate elements.
-          
+
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
-        
+
           . Bug fix where having a client with multiple InEventPort
             elements generated the incorrect dispatch method.
-            
+
           . Added support for handling the InitialValue attribute for
             variables.
 
