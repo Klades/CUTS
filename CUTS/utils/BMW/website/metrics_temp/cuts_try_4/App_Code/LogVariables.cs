@@ -52,11 +52,10 @@ namespace LogVariables
                 ht_.Add(extended_name,t);
             }
 
-            // If there are no groups, create a groupd on TestID
-            if (Grouped_On_X.Length == 0 && Grouped_On_Z.Length == 0)
-                ht_.Add("TestID",new SingleVariable("TestID","TestID","int",true,false));
+            // There will always be a variable TestID and it will always be grouped on X
+            ht_.Add("TestID", new SingleVariable("TestID", "TestID", "int", true, false));
 
-            
+
             // setup grouped on x array
             ArrayList al = new ArrayList();
             foreach (DictionaryEntry entry in ht_)

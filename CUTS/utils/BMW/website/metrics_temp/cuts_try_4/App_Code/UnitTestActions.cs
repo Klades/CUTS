@@ -79,11 +79,13 @@ namespace Actions
                 string cs_regex;
                 Array vars;
                 get_lfid_info(out cs_regex, out vars, current_lfid, conn);
-
-
-
                 get_log_data(current_lfid, cs_regex, vars, conn, utid);
             }
+
+        }
+
+        public void UT_send_to_chart(int id)
+        {
 
         }
 
@@ -96,27 +98,21 @@ namespace Actions
             da.Fill(ds, "logs");
 
             // Regex the data out
+            Hashtable ht_ = new Hashtable();
             foreach (DataRow row in ds.Tables["logs"].Rows)
             {
                 Regex reg = new Regex(cs_regex, RegexOptions.IgnoreCase);
                 Match mat = reg.Match(row["message"].ToString());
 
-                foreach (string xname in LogVariables.LogVariables.getInstance(utid).Grouped_On_X)
+                ht_.Clear();
+                foreach (string name in varnames)
                 {
-                    foreach (string zname in LogVariables.LogVariables.getInstance(utid).Grouped_On_Z)
-                    {
-                        // This will not currently work
-
-                        foreach (string name in varnames)
-                        {
-                            DataTableActions.getInstance(utid).insert(mat.Groups[name].ToString(), "LF" + lfid.ToString() + "." + name);
-                        }
-                    }
+                    string value =  mat.Groups[name].ToString(); 
+                    ht_.Add("LF" + lfid.ToString() + "." + name,value);
                 }
-
-                                
-                
-
+                ht_.Add("TestID", row["TestID"].ToString());
+                DataTableActions.getInstance(utid).insert(ht_);
+                //DataTableActions.getInstance(utid).insert(mat.Groups[name].ToString(), "LF" + lfid.ToString() + "." + name);
             }
         }
 
@@ -146,7 +142,7 @@ namespace Actions
             DataSet ds = new DataSet();
             da.Fill(ds, "lfid_info");
 
-            cs_regex = ds.Tables[0].Rows[0]["csharp_regex"].ToString();
+            cs_regex = @ds.Tables[0].Rows[0]["csharp_regex"].ToString();
 
             ArrayList v = new ArrayList();
             foreach (DataRow row in ds.Tables[0].Rows)

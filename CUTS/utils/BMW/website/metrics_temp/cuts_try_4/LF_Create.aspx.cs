@@ -36,7 +36,7 @@ public partial class LF_Create : System.Web.UI.Page
             icase_regex += lead + Regex.Replace(mid, "{int.+?}", "[[:digit:]]+", RegexOptions.IgnoreCase);
             
             // the group automatically names the captured variables correctly
-            string group = "(?<" + varname + ">/d+)";
+            string group = "(?<" + varname + @">\d+)";
             cs_regex += lead + Regex.Replace(mid, "{int.+?}",group, RegexOptions.IgnoreCase);
             vars.Add(varname);
         }

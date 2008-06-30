@@ -18,5 +18,9 @@ public partial class _Default : System.Web.UI.Page
     {
         Actions.UnitTestActions ut = new UnitTestActions();
         ut.Eval_UT(1);
+
+        string path = Server.MapPath("~/xml/auto_generated.xml");
+        ChartActions ch = new ChartActions(1, "TestID", path);
+        ch.Chart();
     }
 }

@@ -1,7 +1,52 @@
+Mon Jun 30 17:51:36 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * utils/BMW/website/metrics_temp/cuts_try_4/App_Code/ChartActions.cs:
+        * utils/BMW/website/metrics_temp/cuts_try_4/App_Code/DataTableActions.cs:
+        * utils/BMW/website/metrics_temp/cuts_try_4/App_Code/LogVariables.cs:
+        * utils/BMW/website/metrics_temp/cuts_try_4/App_Code/UnitTestActions.cs:
+
+          . Added in basic charting support
+
+        * utils/BMW/website/metrics_temp/cuts_try_4/Default.aspx:
+        * utils/BMW/website/metrics_temp/cuts_try_4/Default.aspx.cs:
+        * utils/BMW/website/metrics_temp/cuts_try_4/LF_Create.aspx.cs:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts:
+
+          . made default page evaulate and chart a saved unit test
+
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts.php:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts.swf:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library/arno.swf:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library/arst.swf:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library/brfl.swf:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library/brno.swf:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library/brst.swf:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library/cl3d.swf:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library/clfl.swf:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library/clno.swf:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library/clp3.swf:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library/cls3.swf:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library/clst.swf:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library/cnno.swf:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library/lnno.swf:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library/mxno.swf:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library/pi3d.swf:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library/pino.swf:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library/pono.swf:
+        * utils/BMW/website/metrics_temp/cuts_try_4/charts/charts_library/scno.swf:
+
+          . basic Charting library
+        
+        * utils/BMW/website/metrics_temp/cuts_try_4/xml:
+        * utils/BMW/website/metrics_temp/cuts_try_4/xml/auto_generated.xml:
+
+          . location to generate XML for charts
+
 Sat Jun 28 08:56:21 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/jbi/client/JbiSource.java:
-        
+
           Bug (no-fix) where closing a sequence causes the server to
           throw a null pointer exception. I have no idea why this is the
           case...
