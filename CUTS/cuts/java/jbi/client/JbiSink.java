@@ -114,8 +114,11 @@ public class JbiSink
   public void close ()
     throws PermissionDeniedException
   {
-    this.jbiConn_.destroySequence (this.jbiSink_);
-    this.jbiSink_ = null;
+      if (this.jbiSink_ != null)
+          {
+              //this.jbiConn_.destroySequence (this.jbiSink_);
+              //this.jbiSink_ = null;
+          } 
   }
   
   public Object metadataToObject (String metadata)

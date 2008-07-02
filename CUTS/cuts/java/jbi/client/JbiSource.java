@@ -152,8 +152,8 @@ public class JbiSource
   {
       if (this.jbiSrc_ != null)
           {
-              this.jbiConn_.destroySequence (this.jbiSrc_);
-              this.jbiSrc_ = null;
+              //this.jbiConn_.destroySequence (this.jbiSrc_);
+              //this.jbiSrc_ = null;
           }
   }
 }
