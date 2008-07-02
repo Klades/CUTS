@@ -215,8 +215,10 @@ public class NodeApplicationManagerImpl
     // 2. Construct the command line for the node application.
     String commandLine =
       "java -cp " + classPath +
+      " -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB" +
+      " -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton" +
       " cuts.java.jbi.deployment.JbiNodeApplication" +
-      " -callback-ior " + this.callbackIOR_ +
+      " -ORBInitRef NodeApplicationManager=" + this.callbackIOR_ +
       " -config-path " + this.configPath_ +
       " -process-group " + processGroup;
 

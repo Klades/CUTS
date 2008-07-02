@@ -99,27 +99,24 @@ public class JbiNodeApplication
   private void registerWithCallback ()
     throws org.omg.CORBA.ORBPackage.InvalidName
   {
-    // Get a reference to the node managers callback.
-    this.logger_.debug (
-      "resolving reference to ManagerCallback (" +
-      this.managerCallbackIOR_ + ")");
-
     try
     {
+      org.omg.CORBA.Object obj =
+        this.orb_.resolve_initial_references("NodeApplicationManager");
+
       this.nmCallback_ =
-        NodeApplicationManagerCallbackHelper.narrow (
-        this.orb_.string_to_object (this.managerCallbackIOR_));
+        NodeApplicationManagerCallbackHelper.narrow (obj);
+
+      // Register the node application with the node manager.
+      this.logger_.debug("register the node application with its manager");
+
+      this.nmCallback_.registerApplication(
+        ApplicationHelper.narrow(this.naRef_));
     }
     catch (Exception ex)
     {
       this.logger_.error (ex.getMessage (), ex);
     }
-
-    // Register the node application with the node manager.
-    this.logger_.debug ("register the node application with its manager");
-
-    this.nmCallback_.registerApplication (
-      ApplicationHelper.narrow (this.naRef_));
   }
 
   /**

@@ -84,9 +84,8 @@ public class Logger
    * @param[in]         priority        Priority of the message.
    * @param[in]         message         The actual log message.
    */
-  public native void log (int priority, String message);
-
-  static {
-    System.loadLibrary ("cuts.java");
+  public void log (int priority, String message)
+  {
+  
   }
 }

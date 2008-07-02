@@ -1,0 +1,10 @@
+// $Id$
+
+project : portableserver, cuts_testing_stub {
+  after += CUTS_Testing_skel
+  libs  += CUTS_Testing_skel
+  
+  IDL_Files {
+  
+  }
+}
