@@ -84,11 +84,6 @@ namespace Actions
 
         }
 
-        public void UT_send_to_chart(int id)
-        {
-
-        }
-
         private void get_log_data(int lfid, string cs_regex, Array varnames, MySqlConnection conn, int utid)
         {
             // Get the actual messages

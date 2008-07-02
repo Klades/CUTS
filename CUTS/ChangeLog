@@ -1,3 +1,27 @@
+Wed Jul  2 20:59:14 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * utils/BMW/website/metrics_temp/cuts_try_5:
+        * utils/BMW/website/metrics_temp/cuts_try_5/App_Code:
+        * utils/BMW/website/metrics_temp/cuts_try_5/App_Code/DataSetActions.cs:
+        * utils/BMW/website/metrics_temp/cuts_try_5/App_Code/LogFormatActions.cs:
+        * utils/BMW/website/metrics_temp/cuts_try_5/App_Code/LogVariables.cs:
+        * utils/BMW/website/metrics_temp/cuts_try_5/App_Code/UnitTestActions.cs:
+
+          . Pushed all evaluation back to mySql. Added support for aggregration
+              For now, defaults to aggregration of sum - but easy to add more
+          . Currently defaults to grouping on TestID, need to allow others
+          . Currently only using one LF at a time is supported - need to allow 
+              relationships
+
+        * utils/BMW/website/metrics_temp/cuts_try_5/LF_Create.aspx:
+        * utils/BMW/website/metrics_temp/cuts_try_5/LF_Create.aspx.cs:
+        * utils/BMW/website/metrics_temp/cuts_try_5/MasterPage.master:
+        * utils/BMW/website/metrics_temp/cuts_try_5/MasterPage.master.cs:
+        * utils/BMW/website/metrics_temp/cuts_try_5/UT_Create.aspx:
+        * utils/BMW/website/metrics_temp/cuts_try_5/UT_Create.aspx.cs:
+         
+          . Updated UI minorly to represent code changes                
+
 Wed Jul  2 04:36:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/modelgen.h:
