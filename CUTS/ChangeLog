@@ -1,20 +1,30 @@
+Wed Jul  2 01:58:01 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/CUTS.mpc:
+        
+          Removed the JNI-based project from the file.
+          
+        * cuts/cuts_java_Logger.cpp:
+
+          Removed this file.
+
 Wed Jul  2 01:54:13 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/Logger.java:
-        
+
           Removed the native method calls since the Logger talks directly
           to a logging client, instead of using ACE.
 
         * cuts/java/jbi/deployment/JbiNodeApplication.java:
         * cuts/java/jbi/deployment/NodeApplicationManagerImpl.java:
-        
-          Initial attempt to fix the faultly spawning of the 
+
+          Initial attempt to fix the faultly spawning of the
           JbiNodeApplication.
 
         * etc/config/cuts_odbclib.mpb:
         * etc/config/cuts_testing_skel.mpb:
         * etc/config/cuts_testing_stub.mpb:
-        
+
           New base projects.
 
         * etc/config/cuts_odbclib.mpc:

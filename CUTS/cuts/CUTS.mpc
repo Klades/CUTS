@@ -85,33 +85,3 @@ project (CUTS) : cutslib {
     Worker_T.cpp
   }
 }
-
-project (cuts.java) : jni, jnilib, cutslib {
-  sharedname = cuts.java
-    
-  javah_flags += -classpath $(CUTS_ROOT)/lib/cuts.java.jar
-  
-  Jni_Files {
-    cuts.java.Logger >> cuts_java_Logger.h << $(CUTS_ROOT)/cuts/java/Logger.class
-  }
-
-  Source_Files {
-    cuts_java_Logger.cpp
-  }
-    
-  Header_Files {
-  
-  }
-  
-  Build_Files {
-  
-  }
-
-  verbatim (gnuace, top) {
-    no_hidden_visibility = 1
-  }
-
-  verbatim (gnuace, bottom) {
-    .PHONY : cuts.java.Logger
-  }
-}
