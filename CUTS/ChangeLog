@@ -1,9 +1,17 @@
+Wed Jul  2 04:36:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/modelgen.h:
+        * MDE/GME/paradigms/PICML/interpreter/modelgen.inl:
+        * MDE/GME/paradigms/PICML/interpreter/modelgen.cpp:
+
+          Removed these (auto-generated) files.
+
 Wed Jul  2 01:58:01 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/CUTS.mpc:
-        
+
           Removed the JNI-based project from the file.
-          
+
         * cuts/cuts_java_Logger.cpp:
 
           Removed this file.
