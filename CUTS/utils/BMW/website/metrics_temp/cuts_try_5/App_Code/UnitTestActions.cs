@@ -127,19 +127,41 @@ namespace Actions
             
             Array LFIDs = GetLFIDs(utid);
             foreach (string CurrentLFID in LFIDs.Cast<string>())
-            {
                 sql += "LF" + CurrentLFID + ",";
-            }
+            
             sql = sql.Remove(sql.LastIndexOf(","));
 
-            sql += " Group by TestID;";
+            sql += " Group by ";
 
+            sql += CreateGroups(utid);
+
+            sql += ";";
         }
 
         private void CreateSelectUT(int utid)
         {
         }
 
+        private string CreateGroups(int utid)
+        {
+            string sql = @"SELECT count(variable_id) FROM unittestgroups;";
+            object obj = ExecuteMySqlScalar(sql);
+
+            int amount = Int32.Parse(obj.ToString());
+ 
+            if (amount == 0)
+                return "TestID";
+
+            DataTable dt_ = ExecuteMySqlAdapter("SELECT variable_id FROM unittestgroups;");
+            string groups = "TestID,";
+            foreach (DataRow row in dt_.Rows)
+                groups += row["variable_id"].ToString() + ",";
+
+            groups = groups.Remove(groups.LastIndexOf(","));
+
+            groups += " ";
+            return groups;
+        }
         private string CreateFunctionAggregration(string Function, string ExtendedVarName)
         {
             if (Function == "SUM")

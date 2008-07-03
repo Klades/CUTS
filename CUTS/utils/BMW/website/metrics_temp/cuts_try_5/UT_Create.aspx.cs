@@ -25,7 +25,7 @@ public partial class UT_Create : System.Web.UI.Page
         string commString = "SELECT lfid,lfmt FROM logformatdesc";
         MySqlConnection conn = new MySqlConnection(connString);
         conn.Open();
-        
+
         MySqlCommand comm = new MySqlCommand(commString, conn);
         MySqlDataReader r = comm.ExecuteReader();
         DropDownList1.DataSource = r;
@@ -74,7 +74,7 @@ public partial class UT_Create : System.Web.UI.Page
         variables.Add("LFIDs", lfids.ToArray());
         
         string[] groups = new string[1];
-        groups[0] = "TestID";
+        //groups[0] = "TestID";
         variables.Add("Groups", groups);
 
         // Note that this only supports SUMs for now
@@ -86,5 +86,16 @@ public partial class UT_Create : System.Web.UI.Page
 
         UnitTestActions ut = new UnitTestActions();
         ut.Insert_UT(variables);
+    }
+}
+
+public class GetLogFormat
+{
+    public GetLogFormat() { }
+
+
+    public void CreateNew()
+    {
+        
     }
 }

@@ -1,3 +1,14 @@
+Thu Jul  3 17:27:20 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * utils/BMW/website/metrics_temp/cuts_try_5/App_Code/UnitTestActions.cs:
+
+          . Added in CreateSelectMetric to select the reults from the generated
+            databases
+
+        * utils/BMW/website/metrics_temp/cuts_try_5/UT_Create.aspx.cs:
+
+          . Changed UI to represent code more
+
 Wed Jul  2 20:59:14 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * utils/BMW/website/metrics_temp/cuts_try_5:
@@ -10,7 +21,7 @@ Wed Jul  2 20:59:14 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
           . Pushed all evaluation back to mySql. Added support for aggregration
               For now, defaults to aggregration of sum - but easy to add more
           . Currently defaults to grouping on TestID, need to allow others
-          . Currently only using one LF at a time is supported - need to allow 
+          . Currently only using one LF at a time is supported - need to allow
               relationships
 
         * utils/BMW/website/metrics_temp/cuts_try_5/LF_Create.aspx:
@@ -19,8 +30,8 @@ Wed Jul  2 20:59:14 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
         * utils/BMW/website/metrics_temp/cuts_try_5/MasterPage.master.cs:
         * utils/BMW/website/metrics_temp/cuts_try_5/UT_Create.aspx:
         * utils/BMW/website/metrics_temp/cuts_try_5/UT_Create.aspx.cs:
-         
-          . Updated UI minorly to represent code changes                
+
+          . Updated UI minorly to represent code changes
 
 Wed Jul  2 04:36:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
