@@ -35,6 +35,8 @@ public class JbiClientApp
 
   private NodeApplicationCallback callback_ = null;
 
+  private String name_ = null;
+
   /**
    * Default constructor.
    */
@@ -53,7 +55,7 @@ public class JbiClientApp
     Runtime.getRuntime ().addShutdownHook (new JbiShutdownThread (this));
 
     // Create a new application process.
-    this.processImpl_ = new ApplicationProcessImpl (this.orb_);
+    this.processImpl_ = new ApplicationProcessImpl (this.orb_, this.name_);
 
     // Load each of the clients (or beans).
     this.logger_.info ("loading " + this.beanNames_.size () + " client(s)");
@@ -112,8 +114,13 @@ public class JbiClientApp
     }
 
     // Get instances to be loaded from the via the command-line.
-    for (String beanName : args)
-        this.beanNames_.add (beanName);
+    for (String arg : args)
+    {
+      if (arg.equals ("-name"))
+        this.name_ = arg;
+      else
+        this.beanNames_.add (arg);
+    }
   }
 
   /**

@@ -28,9 +28,14 @@ public class ApplicationProcessImpl
 
   private org.omg.CORBA.ORB orb_ = null;
 
-  public ApplicationProcessImpl(org.omg.CORBA.ORB orb)
+  /// Name assigned to this application process.
+  private String name_;
+
+  public ApplicationProcessImpl(org.omg.CORBA.ORB orb,
+                                String name)
   {
     this.orb_ = orb;
+    this.name_ = name;
   }
 
   /**
@@ -61,6 +66,14 @@ public class ApplicationProcessImpl
     {
       this.logger_.error("exception", e);
     }
+  }
+
+  /**
+   * Get the name of this application process.
+   */
+  public String name()
+  {
+    return this.name_;
   }
 
   /**

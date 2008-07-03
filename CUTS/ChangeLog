@@ -1,8 +1,19 @@
+Thu Jul  3 23:06:20 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/java/jbi/deployment/ApplicationProcessImpl.java:
+
+          The ApplicationProcess implementation did not define the 
+          name () accessor method.
+
+        * cuts/java/jbi/deployment/JbiClientApp.java:
+
+          It is now possible to name the application process.
+                    
 Thu Jul  3 23:00:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * lib:
-        
-          Default location for all library files, which has the 
+
+          Default location for all library files, which has the
           svn:ignore property set.
 
 Thu Jul  3 22:53:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
