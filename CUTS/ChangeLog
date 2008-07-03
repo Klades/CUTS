@@ -1,9 +1,16 @@
+Thu Jul  3 23:00:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * lib:
+        
+          Default location for all library files, which has the 
+          svn:ignore property set.
+
 Thu Jul  3 22:53:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/jbi/ExecutionManager.bat:
         * bin/jbi/NodeManager.bat:
         * contrib/java/avalon-framework-4.1.5.jar:
-        
+
           Fixed bugs in running each scripts respective daemon.
 
         * cuts/cuts.java.jbi.build:
@@ -26,9 +33,9 @@ Thu Jul  3 22:53:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/java/jbi/idl/NodeApplicationCallback.idl:
         * cuts/java/jbi/idl/NodeApplicationManager.idl:
         * cuts/java/jbi/client/JbiClientApp.java:
-        
+
           First cut of the deployment framework for JBI. Right now, we are
-          able to emulate the deployment process without deploying any 
+          able to emulate the deployment process without deploying any
           instance. The next step is to install the components and complete
           the plan launcher.
 
