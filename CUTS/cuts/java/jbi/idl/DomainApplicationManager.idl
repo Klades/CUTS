@@ -27,6 +27,8 @@ module cuts
         {
           /// Get the deployment plan associated with this manager.
           DeploymentPlan getPlan ();
+
+          // sequence <Application> getApplications ();
         };
       };
     };

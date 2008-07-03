@@ -45,7 +45,7 @@ public class JbiExecutionManager
 
   private final String bindingName_ = "ExecutionManager.JBI";
 
-  private final Logger logger_ = Logger.getLogger ("ExecutionManager.main");
+  private final Logger logger_ = Logger.getLogger(JbiExecutionManager.class);
 
   /**
    * Initializing constructor.
@@ -167,7 +167,7 @@ public class JbiExecutionManager
     BasicConfigurator.configure ();
 
     // Get the ExecutionManager logger.
-    Logger logger = Logger.getLogger ("ExecutionManager");
+    Logger logger = Logger.getLogger(JbiExecutionManager.class);
 
     try
     {

@@ -175,6 +175,26 @@
       <arg line="-I${cuts.src.dir}/java/jbi/idl" />
       <arg line="java/jbi/idl/DomainApplicationManager.idl" />
     </java>
+    
+    <!-- Rumtime -->
+
+    <java classname="org.jacorb.idl.parser"
+      classpathref="jacorb.idl.classpath"
+      failonerror="true">
+
+      <arg line="-d ${cuts.dir}" />
+      <arg line="-I${cuts.src.dir}/java/jbi/idl" />
+      <arg line="java/jbi/idl/ApplicationProcess.idl" />
+    </java>
+
+    <java classname="org.jacorb.idl.parser"
+      classpathref="jacorb.idl.classpath"
+      failonerror="true">
+
+      <arg line="-d ${cuts.dir}" />
+      <arg line="-I${cuts.src.dir}/java/jbi/idl" />
+      <arg line="java/jbi/idl/NodeApplicationCallback.idl" />
+    </java>
   </target>
 
   <target name="cuts.java.jbi.deployment.build"

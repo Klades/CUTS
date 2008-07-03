@@ -51,7 +51,7 @@ public class JbiNodeManager
 
   private String bindingName_ = new String ();
 
-  private final Logger logger_ = Logger.getLogger ("NodeManager");
+  private final Logger logger_ = Logger.getLogger(JbiNodeManager.class);
 
   /**
    * Initializing constructor.
@@ -168,8 +168,8 @@ public class JbiNodeManager
    *
    * @param       obj           Target object to register.
    */
-  private void registerWithNameService (
-    org.omg.CORBA.Object obj, String hostName)
+  private void registerWithNameService (org.omg.CORBA.Object obj, 
+                                        String hostName)
   {
     try
     {
@@ -240,7 +240,7 @@ public class JbiNodeManager
       // the rebind () method instead of bind () to ensure the object
       // is registered with the name service.
 
-      this.bindingName_ += "/NodeManager.Default";
+      this.bindingName_ += "/NodeManager.(default)";
 
       this.logger_.debug ("registering node manager with name service");
       this.rootContext_.rebind (
@@ -289,7 +289,7 @@ public class JbiNodeManager
     BasicConfigurator.configure ();
 
     // Get the ExecutionManager logger.
-    Logger logger = Logger.getLogger ("NodeManager");
+    Logger logger = Logger.getLogger(JbiNodeManager.class);
 
     try
     {

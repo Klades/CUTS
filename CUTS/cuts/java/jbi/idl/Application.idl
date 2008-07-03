@@ -28,17 +28,9 @@ module cuts
          */
         interface Application
         {
-          /// Unique name of the application.
-          readonly attribute string groupName;
-
-          /// Start the application (i.e., activate all the components
-          /// in the target application.
           void start ();
 
-          /// Shutdown the application. This method is responsible
-          /// for releasing all the application's resources, and 
-          /// allowing its process to exit.
-          void shutdown ();
+          void finishLaunch ();
         };
       };
     };

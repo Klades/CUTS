@@ -21,16 +21,27 @@ import org.apache.log4j.Logger;
 public class DomainApplicationManagerImpl
   extends DomainApplicationManagerPOA
 {
-  class Item
+  private class Item
   {
-    public DomainApplication domainApp_;
+    private NodeApplicationManager nam_;
 
-    public DomainApplicationImpl domainAppImpl_;
+    private NodeManager nodeManager_;
 
-    public Item (DomainApplication app, DomainApplicationImpl appImpl)
+    public Item(NodeApplicationManager nam,
+                NodeManager nodeManager)
     {
-      this.domainApp_ = app;
-      this.domainAppImpl_ = appImpl;
+      this.nam_ = nam;
+      this.nodeManager_ = nodeManager;
+    }
+
+    public NodeApplicationManager getNodeApplicationManager()
+    {
+      return this.nam_;
+    }
+
+    public NodeManager getNodeManager()
+    {
+      return this.nodeManager_;
     }
   }
 
@@ -40,18 +51,13 @@ public class DomainApplicationManagerImpl
   /// The deployment plan associated with this manager.
   private DeploymentPlan deploymentPlan_ = null;
 
-  /// Collection of node application managers (i.e., sub-managers).
-  private final ArrayList <NodeApplicationManager> subManagers_ =
-    new ArrayList <NodeApplicationManager> ();
-
-  private final HashMap <String, Item> domainApps_ =
-    new HashMap <String, Item> ();
-
-  private final DomainApplicationImpl defaultDomainApp_ =
-    new DomainApplicationImpl ("domain.default");
+  private final HashMap <DomainApplication, DomainApplicationImpl> domainApps_ =
+    new HashMap <DomainApplication, DomainApplicationImpl> ();
 
   private final Logger logger_ =
-    Logger.getLogger ("ExecutionManager.DomainApplicationManagerImpl");
+    Logger.getLogger(DomainApplicationManagerImpl.class);
+
+  private final ArrayList <Item> subManagers_ = new ArrayList <Item> ();
 
   /**
    * Initializing constructor.
@@ -62,12 +68,6 @@ public class DomainApplicationManagerImpl
     // Save the deployment plan for this manager.
     this.deploymentPlan_ = plan;
     this.orb_ = orb;
-
-    // Store the default domain application in the manager.
-    Item item = new Item (this.defaultDomainApp_._this (this.orb_), 
-                          defaultDomainApp_);
-
-    this.domainApps_.put ("domain.default", item);
   }
 
   /**
@@ -79,15 +79,6 @@ public class DomainApplicationManagerImpl
   }
 
   /**
-   * Get the applications in this manager. This returns a listing
-   * of domain applications to the client.
-   */
-  public Application [] getApplications ()
-  {
-    return this.domainApps_.keySet().toArray (new DomainApplication[0]);
-  }
-
-  /**
    * Destroy an application. This method makes the assumption the 
    * application is already in a *shutdown* state. 
    */
@@ -95,20 +86,22 @@ public class DomainApplicationManagerImpl
   {
     try
     {
+      this.logger_.debug("destroying an application");
       DomainApplication domainApp = DomainApplicationHelper.narrow (app);
-      String appName = domainApp.groupName ();
+      DomainApplicationImpl daImpl = this.domainApps_.get(domainApp);
 
-      if (this.domainApps_.containsKey (appName))
+      if (daImpl != null)
       {
-        // Get the domain application and shut it down.
-        Item item = this.domainApps_.get (appName);
+        // Finish destroying the domain application.
+        daImpl.destroy();
 
-        // Remove all the sub-applications.
-        item.domainAppImpl_.clear ();
-        
-        // Remove the application from the manager.
-        this.domainApps_.remove (appName);
-      }        
+        // Remove the domain application from this manager.
+        this.domainApps_.remove(domainApp);
+      }
+      else
+      {
+        this.logger_.error("application not owned by domain application manager");
+      }
     }
     catch (Exception e)
     {
@@ -117,59 +110,62 @@ public class DomainApplicationManagerImpl
   }
 
   /**
-   * Remove all the node application managers.
-   */
-  public void clear ()
-  {
-    this.subManagers_.clear ();
-  }
-
-  /**
-   * Insert a node application manager into this domain application
-   * manager.
-   */
-  public void insertManager (NodeApplicationManager manager)
-  {
-    // Save the manager to the listing.
-    this.subManagers_.add (manager);
-
-    try
-    {
-      // Get all the managers applications.
-      this.logger_.debug ("getting applications form node application manager");
-      Application [] apps = manager.getApplications ();
-
-      // Insert applications into the default domain.
-      if (apps == null)
-      {
-        this.logger_.debug ("adding application(s) to default domain application manager");
-        this.defaultDomainApp_.joinDomain (apps);
-      }
-    }
-    catch (Exception ex)
-    {
-      this.logger_.error (ex.getMessage (), ex);
-    }
-  }
-
-  /**
-   * Get the node application managers in this domain application
-   * manager object.
-   */
-  public NodeApplicationManager [] getManagers()
-  {
-    return this.subManagers_.toArray (new NodeApplicationManager[0]);
-  }
-
-  /**
    * Start the launch sequence. This invokes the startLaunch () 
    * method on each of the sub-managers.
    */
-  public Application [] startLaunch ()
+  public Application startLaunch ()
   {
-    for (NodeApplicationManager nam : this.subManagers_)
-      nam.startLaunch ();
+    // Create an activate a new domain application.
+    DomainApplicationImpl domainAppImpl = new DomainApplicationImpl();
+    DomainApplication domainApp = domainAppImpl._this(this.orb_);
 
-    return this.getApplications ();
+    // Invoke the startLaunch () on each node application manager, and
+    // install the returned NodeApplication in the domain application.
+
+    for (Item item : this.subManagers_)
+    {
+      NodeApplicationManager nam = item.getNodeApplicationManager ();
+      NodeApplication nodeApp = NodeApplicationHelper.narrow (nam.startLaunch ());
+
+      // Register the application with the domain. We need to also
+      // pass along the factory that created the application. This will
+      // become useful when destroyApplication () is invoked.
+      domainAppImpl.registerApplication (nodeApp, nam); 
+    }
+
+    // Cache the domain application.
+    this.domainApps_.put (domainApp, domainAppImpl);
+
+    // Return its reference to the client.
+    return domainApp;
+  }
+
+  /**
+   * Insert a new node application manager into the domain application
+   * manager. The node application manager is a sub-manager of the domain
+   * application manager.
+   */
+  public void registerManager (NodeApplicationManager nam, 
+                               NodeManager nodeManager)
+  {
+    final Item item = new Item(nam, nodeManager);
+    this.subManagers_.add(item);
+  }
+
+  /**
+   * Destory the domain application manager. This will destroy all the
+   * registered node application managers.
+   */
+  public void destroy()
+  {
+    // Destroy each of the node application managers.
+    for (Item item : this.subManagers_)
+    {
+      NodeManager nodeManager = item.getNodeManager ();
+      nodeManager.destroyManager (item.getNodeApplicationManager ());
+    }
+
+    // Clear the collection of registered node application managers.
+    this.subManagers_.clear ();
   }
 }

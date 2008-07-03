@@ -21,43 +21,13 @@ import java.util.*;
  * 
  * Implementation of the ExecutionManager interface.
  */
-public class ExecutionManagerImpl extends ExecutionManagerPOA
+public class ExecutionManagerImpl
+  extends ExecutionManagerPOA
 {
-  /**
-   * @class Item
-   * 
-   * Information about a domain application manager.
-   */
-  private class Item
-  {
-    private DomainApplicationManager dam_;
-
-    private DomainApplicationManagerImpl damImpl_;
-
-    public Item (DomainApplicationManager dam,
-                 DomainApplicationManagerImpl damImpl)
-    {
-      this.dam_ = dam;
-      this.damImpl_ = damImpl;
-    }
-
-    public DomainApplicationManager getDAM ()
-    {
-      return this.dam_;
-    }
-
-    public DomainApplicationManagerImpl getDAMImpl ()
-    {
-      return this.damImpl_;
-    }
-  }
-
   /// Collection of domain application managers.
-  private final HashMap <String, Item>  managers_ = 
-    new HashMap <String, Item> ();
-
-  private final HashMap <NodeApplicationManager, NodeManager> namParentMap_ =
-    new HashMap <NodeApplicationManager, NodeManager> ();
+  private final HashMap <
+    DomainApplicationManager, DomainApplicationManagerImpl> domainAppMgrs_ =
+    new HashMap<DomainApplicationManager, DomainApplicationManagerImpl>();
 
   /// ORB associated with this object.
   private org.omg.CORBA.ORB orb_ = null;
@@ -68,8 +38,8 @@ public class ExecutionManagerImpl extends ExecutionManagerPOA
 
   private NamingContextExt ns_ = null;
 
-  private final Logger logger_ = 
-    Logger.getLogger ("ExecutionManager.ExecutionManagerImpl");
+  private final Logger logger_ =
+    Logger.getLogger(ExecutionManagerImpl.class);
 
   /**
    * Initializing constructor.
@@ -84,56 +54,47 @@ public class ExecutionManagerImpl extends ExecutionManagerPOA
    */
   public DomainApplicationManager preparePlan (DeploymentPlan plan)
   {
-    this.logger_.debug ("preparing the deploy " + plan.UUID);
-
+    this.logger_.debug ("preparing plan [" + plan.UUID + "] for deployment");
     DomainApplicationManager manager = null;
 
     try
     {
       // Create a new domain application manager for the plan.
-      this.logger_.debug ("creating a new domain application manager");
+      this.logger_.debug ("creating domain application manager for plan [" +
+                          plan.UUID + "]");
 
+      // Create a new domain application manager and activate it.
       DomainApplicationManagerImpl damImpl = 
         new DomainApplicationManagerImpl (this.orb_, plan);
+      manager = damImpl._this (this.orb_);
 
       // Contact each of the node managers in the deployment plan. Each
       // one is responsible for returns a NodeApplicationManager for this
       // deployment plan.
       
-      this.logger_.debug ("resolving node manager(s) for this plan");
+      this.logger_.debug ("resolving node manager(s) for plan [" +
+                          plan.UUID + "]");
 
       for (ComponentInstanceDescriptor cid : plan.componentInstances)
-        this.getNodeManager (cid.targetHost, "Default");
+        this.getNodeManager (cid.targetHost, "(default)");
       
+      this.logger_.debug ("sending local plan to node manager(s) for plan [" +
+                          plan.UUID + "]");
+
       for (Map.Entry <String, NodeManager> entry : this.nodeMgrs_.entrySet ())
       {
         // Invoke the preparePlan () method on each NodeManager.
         String hostName = entry.getKey ();
         NodeManager nodeManager = entry.getValue ();
 
-        this.logger_.debug ("sending plan to node manager on " + hostName);
         NodeApplicationManager nam = nodeManager.preparePlan (plan);
 
-        // Store the node application manager into the domain 
-        // application manager object.
         if (nam != null)
-        {
-          this.logger_.debug ("saving node application manager from <" + 
-                              hostName + ">");
-
-          damImpl.insertManager (nam);
-
-          // Store the child and parent in a mapping.
-          this.namParentMap_.put (nam, nodeManager);
-        }
+          damImpl.registerManager (nam, nodeManager);
       }
 
-      // Activate the domain application manager.
-      manager = damImpl._this (this.orb_);
-      Item item = new Item (manager, damImpl);
-
       // Store the domain application manager.
-      this.managers_.put (plan.UUID, item);
+      this.domainAppMgrs_.put(manager, damImpl);
     }
     catch (Exception ex)
     {
@@ -152,57 +113,22 @@ public class ExecutionManagerImpl extends ExecutionManagerPOA
   {
     DeploymentPlan plan = manager.getPlan ();
 
-    this.logger_.debug (
-      "destroying domain application manager for plan <" +
-      plan.UUID + ">");
+    this.logger_.debug ("destroying domain application manager for plan [" +
+                        plan.UUID + "]");
 
-    if (!this.managers_.containsKey (plan.UUID))
+    DomainApplicationManagerImpl damImpl = this.domainAppMgrs_.get(manager);
+
+    if (damImpl == null)
       return;
 
-    // Clear the applications from the domain application manager.
-    Item item = this.managers_.get (plan.UUID);
+    // Finish destroying the manager (and its resources).
+    damImpl.destroy();
 
-    // Clear the domain application manager.
-    this.logger_.debug ("getting the node application manager(s) from the " +
-                        "domain application manager");
+    // Remove the manager from the listing.
+    this.logger_.debug ("removing domain application manger for plan [" +
+                        plan.UUID + "]");
 
-    DomainApplicationManagerImpl damImpl = item.getDAMImpl ();
-    NodeApplicationManager [] nodeAppMgrs = null;
-
-    if (damImpl != null)
-      nodeAppMgrs = damImpl.getManagers ();
-    else
-      this.logger_.error ("this should NEVER happen");
-
-    if (nodeAppMgrs != null)
-    {
-      // We need to contact node manager and have it destroy
-      // the node application manager.
-      this.logger_.debug ("destroying each of the application managers");
-
-      for (NodeApplicationManager nam : nodeAppMgrs)
-      {
-        // Locate the parent of this node application manager.
-        this.logger_.debug ("locating node manager that owns node application manager");
-        NodeManager nodeManager = this.namParentMap_.get (nam);
-
-        if (nodeManager != null)
-        {
-          // Destroy the node application manager.
-          this.logger_.debug ("destroying node application manager");
-          nodeManager.destroyManager (nam);
-
-          // Remove the node application manager from the mapping.
-          this.logger_.debug ("removing node appication manager object");        
-          this.namParentMap_.remove (nam);
-        }
-      }
-    }
-
-    // We can clear sub-managers of this domain application.
-    this.logger_.debug ("removing the submanager(s) and this manager");
-    damImpl.clear ();
-    this.managers_.remove (manager);
+    this.domainAppMgrs_.remove(manager);
   }
 
   /**
@@ -211,7 +137,7 @@ public class ExecutionManagerImpl extends ExecutionManagerPOA
    */
   public DomainApplicationManager [] getManagers ()
   {
-    return this.managers_.keySet ().
+    return this.domainAppMgrs_.keySet().
       toArray (new DomainApplicationManager [0]);
   }
 

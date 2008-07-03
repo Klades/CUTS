@@ -23,7 +23,8 @@ import org.apache.log4j.Logger;
  * serves as the main entry point for the node manager in the JBI deployment
  * framework.
  */
-public class NodeManagerImpl extends NodeManagerPOA
+public class NodeManagerImpl 
+  extends NodeManagerPOA
 {
   /// The ORB assigned to the node manager.
   private org.omg.CORBA.ORB orb_ = null;
@@ -35,7 +36,8 @@ public class NodeManagerImpl extends NodeManagerPOA
 
   private String hostName_ = null;
 
-  private final Logger logger_ = Logger.getLogger ("NodeManager.NodeManagerImpl");
+  private final Logger logger_ = 
+    Logger.getLogger (NodeManagerImpl.class);
 
   /**
    * Default constructor.
@@ -53,38 +55,26 @@ public class NodeManagerImpl extends NodeManagerPOA
    */
   public NodeApplicationManager preparePlan (DeploymentPlan plan)
   {
+    NodeApplicationManager manager = null;
     this.logger_.debug ("preparing plan " + plan.UUID + " for deployment");
-
-    NodeApplicationManagerImpl namImpl =
-      new NodeApplicationManagerImpl (this.orb_);
-
-    // Activate the node application manager.
-    this.logger_.debug ("activating a new node application manager");
-    NodeApplicationManager manager = namImpl._this (this.orb_);
 
     try
     {
-      // Iterate over the plan and instruct the application manager to 
-      // allocate space for the appropriate number of node application. 
-      // This will be based on the collocation group.
+      // Create a new node application manager.
+      NodeApplicationManagerImpl namImpl =
+        new NodeApplicationManagerImpl (this.orb_);
 
-      this.logger_.debug ("creating the node applications");
+      // Activate the node application manager.
+      this.logger_.debug ("activating a new node application manager");
+      manager = namImpl._this (this.orb_);
 
+      // Let the node application manager know of the process groups
+      // that it will need spawn, and the instances it will need to 
+      // install in the spawned process.
       for (ComponentInstanceDescriptor cid : plan.componentInstances)
       {
-        if (cid.targetHost.equals (this.hostName_))
-          namImpl.createNodeApplication (cid.processGroup);
-      }
-
-      // Iterate over the plan and instruct the application manager to 
-      // allocate space for the appropriate number of node application. 
-      // This will be based on the collocation group.
-      this.logger_.debug ("preparing the instance(s) for their applications");
-
-      for (ComponentInstanceDescriptor cid : plan.componentInstances)
-      {
-        if (cid.targetHost.equals (this.hostName_))
-          namImpl.installInstance (cid.processGroup, cid.instanceName);
+        if (cid.targetHost == this.hostName_)
+          namImpl.prepareInstance (cid.processGroup, cid.instanceName);
       }
 
       // Save the manager with it's implementation.
@@ -96,6 +86,8 @@ public class NodeManagerImpl extends NodeManagerPOA
     }
     finally
     {
+      // Return the node application manager to the client, which is
+      // the execution manager in this case.
       return manager;
     }
   }
@@ -113,11 +105,6 @@ public class NodeManagerImpl extends NodeManagerPOA
 
     if (namImpl != null)
     {
-      // Explicitly destroy the node application manager. This
-      // will force it to remove all its instances.
-      this.logger_.debug ("clearing node application manager");
-      namImpl.clear ();
-
       // Remove the node application manager.
       this.logger_.debug ("removing node application manager");
       this.managers_.remove (manager);

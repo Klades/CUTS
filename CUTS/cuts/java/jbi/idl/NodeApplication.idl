@@ -28,9 +28,7 @@ module cuts
          */
         interface NodeApplication : Application
         {
-          void installInstance (in string instanceName);
 
-          void uninstallInstance (in string instanceName);
         };
       };
     };
