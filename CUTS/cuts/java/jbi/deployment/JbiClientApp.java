@@ -33,7 +33,10 @@ public class JbiClientApp
 
   private org.omg.CORBA.ORB orb_ = null;
 
-  private NodeApplicationCallback callback_ = null;
+  /// Reference to the RootPOA.
+  private org.omg.PortableServer.POA poa_ = null;
+
+  private ApplicationProcessManager processManager_ = null;
 
   private String name_ = null;
 
@@ -45,46 +48,75 @@ public class JbiClientApp
 
   }
 
+  /**
+   * Run the application.
+   */
   public void run (String[] args)
   {
-    // Parse the command-line arguments.
-    this.parseArgs (args);
-
-    // Register the shutdown hook for the client. This will
-    // ensure the client releases all it's resources.
-    Runtime.getRuntime ().addShutdownHook (new JbiShutdownThread (this));
-
-    // Create a new application process.
-    this.processImpl_ = new ApplicationProcessImpl (this.orb_, this.name_);
-
-    // Load each of the clients (or beans).
-    this.logger_.info ("loading " + this.beanNames_.size () + " client(s)");
-
-    for (String beanName : this.beanNames_)
-        this.processImpl_.installClient (beanName);
-
-    ApplicationProcess process = null;
-
-    if (this.callback_ != null)
+    try
     {
+      // Parse the command-line arguments.
+      this.parseArgs (args);
+
+      if (this.processManager_ != null)
+      {
+        // Get a reference to the RootPOA.
+        this.logger_.debug ("getting a reference to RootPOA");
+
+        this.poa_ =
+          org.omg.PortableServer.POAHelper.narrow (
+          this.orb_.resolve_initial_references ("RootPOA"));
+
+        // Activate the RootPOA's manager.
+        this.logger_.debug ("activating RootPOA's manager");
+        this.poa_.the_POAManager ().activate ();
+      }
+
+      // Create a new application process.
+      this.logger_.debug ("creating a new application process");
+      this.processImpl_ = new ApplicationProcessImpl (this.orb_, this.name_);
+
       // Activate the application process's servant.
-      process = this.processImpl_._this (this.orb_);
+      ApplicationProcess process = null;
+      
+      if (this.processManager_ != null)
+      {
+        this.logger_.debug ("activating application process's remoting object");
+        process = this.processImpl_._this (this.orb_);
+      }
 
-      // Register this application with it's parent.
-      this.callback_.registerProcess (process);
+      // Load each of the clients (or beans).
+      this.logger_.info ("loading " + this.beanNames_.size () + " client(s)");
+
+      for (String beanName : this.beanNames_)
+          this.processImpl_.installClient (beanName);
+
+      if (this.processManager_ != null && process != null)
+      {
+        // Register this application with it's parent.
+        this.logger_.debug ("registering application process with manager");
+        this.processManager_.registerProcess (process);
+      }
+
+      // Run all the default clients.
+      this.logger_.debug ("activating all the clients");
+      this.processImpl_.start ();
+
+      if (process != null)
+      {
+        // Run the ORB's main event loop since the client was started
+        // by a node application (i.e., the deployment framework);
+        this.logger_.debug ("running the ORB's main event loop");
+        this.orb_.run ();
+
+        // Unregister the application process with its parent.
+        if (this.processManager_ != null)
+          this.processManager_.unregisterProcess(process);
+      }
     }
-
-    // Run all the default clients.
-    this.processImpl_.start ();
-
-    if (this.callback_ != null)
+    catch (Exception e)
     {
-      // Run the ORB's main event loop since the client was started
-      // by a node application (i.e., the deployment framework);
-      this.orb_.run ();
-
-      // Unregister the application process with its parent.
-      this.callback_.unregisterProcess(process);
+      this.logger_.error ("exception", e);
     }
   }
 
@@ -96,30 +128,44 @@ public class JbiClientApp
    */
   private void parseArgs(String[] args)
   {
-    // Initialize the CORBA ORB.
-    this.orb_ = org.omg.CORBA.ORB.init (args, null);
-
     try
     {
+      // Initialize the CORBA ORB.
+      this.logger_.debug ("initializing CORBA ORB");
+      this.orb_ = org.omg.CORBA.ORB.init (args, null);
+
       // Resolve the node application's callback interface. This will
       // let us know how the client application was started.
       org.omg.CORBA.Object obj =
-        this.orb_.resolve_initial_references ("NodeApplication");
+        this.orb_.resolve_initial_references ("ProcessManager");
 
-      this.callback_ = NodeApplicationCallbackHelper.narrow (obj);
+      this.processManager_ = ApplicationProcessManagerHelper.narrow (obj);
+      this.logger_.debug ("client application spawned by deployment framework");
     } 
-    catch (org.omg.CORBA.ORBPackage.InvalidName ex)
+    catch (Exception ex)
     {
-
+      this.logger_.error ("client application spawned manually");
     }
 
-    // Get instances to be loaded from the via the command-line.
-    for (String arg : args)
+    // Parse the remaining arguments in the command-line. We are looking
+    // for the name of this process, and the pre-loaded instances.
+    for (int i = 0; i < args.length; ++ i)
     {
-      if (arg.equals ("-name"))
-        this.name_ = arg;
-      else
-        this.beanNames_.add (arg);
+      String arg = args[i];
+
+      if (arg.equals("-name"))
+      {
+        this.name_ = args[++i];
+      }
+      else if (arg.equals("-instances"))
+      { 
+        // Extract all the instances that are to be pre-loaded into 
+        // this application process.
+        String [] instances = args[++ i].split("\\p{Space}");
+
+        for (String instance : instances) 
+          this.beanNames_.add(instance);
+      }
     }
   }
 
@@ -132,7 +178,7 @@ public class JbiClientApp
     this.processImpl_.stop ();
     
     // Shutdown the ORB, if necessary.
-    if (this.callback_ != null)
+    if (this.processManager_ != null)
       this.orb_.shutdown (true);
   }
 
@@ -151,7 +197,16 @@ public class JbiClientApp
 
     try
     {
+      logger.debug("creating a new application");
       JbiClientApp jbiClientApp = new JbiClientApp();
+
+      // Register the shutdown hook for the client. This will
+      // ensure the client releases all it's resources.
+      logger.debug("registering shutdown hook for application");
+      Runtime.getRuntime().addShutdownHook(new JbiShutdownThread(jbiClientApp));
+      
+      // Run the application.
+      logger.debug("running the application");
       jbiClientApp.run(args);
     }
     catch (Exception e)

@@ -1,14 +1,51 @@
+Fri Jul  4 04:41:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/jbi/NodeManager.bat:
+        
+          Commented unncessary lines of code.
+
+        * cuts/cuts.java.jbi.build:
+        * cuts/java/jbi/deployment/ApplicationProcessImpl.java:
+        * cuts/java/jbi/deployment/ApplicationProcessManagerImpl.java:
+        * cuts/java/jbi/deployment/JbiClientApp.java:
+        * cuts/java/jbi/deployment/JbiNodeManager.java:
+        * cuts/java/jbi/deployment/NodeApplicationImpl.java:
+        * cuts/java/jbi/deployment/NodeApplicationManagerImpl.java:
+        * cuts/java/jbi/deployment/NodeManagerImpl.java:
+        * cuts/java/jbi/idl/ApplicationProcessManager.idl:
+        
+          Still working on solving blocking issues with the deployment 
+          framework. Right now, its will spawn the necessary application
+          processes, however, they are not registering themselves with the
+          node application.
+
+        * install/BMW.wxs:
+        * install/BMW_installers.mwc:
+        * install/CUTS_PICML.wxs:
+        
+          Fixed build issues with the installers.
+
+        * utils/BMW/website/Web.config:
+        
+          Updated the configuration to use MySQL ODBC .NET connector 
+          5.1.6
+
+        * cuts/java/jbi/deployment/NodeApplicationCallbackImpl.java:
+        * cuts/java/jbi/idl/NodeApplicationCallback.idl:
+
+          Removed these files.
+
 Thu Jul  3 23:06:20 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/jbi/deployment/ApplicationProcessImpl.java:
 
-          The ApplicationProcess implementation did not define the 
+          The ApplicationProcess implementation did not define the
           name () accessor method.
 
         * cuts/java/jbi/deployment/JbiClientApp.java:
 
           It is now possible to name the application process.
-                    
+
 Thu Jul  3 23:00:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * lib:

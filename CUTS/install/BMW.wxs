@@ -31,7 +31,7 @@
 
     <Property Id="MYSQL_CONNECTOR_INSTALLED">
       <RegistrySearch Id="MySQLConnectorVersion" Root="HKLM" Type="raw"
-                      Key="SOFTWARE\MySQL AB\MySQL Connector/Net 5.0.8.1"
+                      Key="SOFTWARE\MySQL AB\MySQL Connector/Net"
                       Name="Version" />
     </Property>
 
@@ -44,7 +44,7 @@
     <!-- install conditions -->
     <Condition Message='The Benchmark Manager Web Utility requires Microsoft.NET Framework 2.0'>DOTNET_2_0_INSTALLED</Condition>
     <Condition Message='The Benchmark Manager Web Utility requires Microsoft Internet Information Services (IIS)'>IIS_INSTALLED</Condition>
-    <Condition Message='The Benchmark Manager Web Utility requires MySQL.NET Connector 5.0.8.1'>MYSQL_CONNECTOR_INSTALLED</Condition>
+    <Condition Message='The Benchmark Manager Web Utility requires MySQL.NET Connector 5.1.6'>MYSQL_CONNECTOR_INSTALLED</Condition>
 
     <Media Id="1" Cabinet="BMW.cab" EmbedCab="yes" />
 

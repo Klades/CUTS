@@ -46,6 +46,8 @@ public class NodeManagerImpl
   {
     this.orb_ = orb;
     this.hostName_ = hostName;
+
+    this.logger_.debug ("my hostname is " + this.hostName_);
   }
 
   /**
@@ -73,7 +75,7 @@ public class NodeManagerImpl
       // install in the spawned process.
       for (ComponentInstanceDescriptor cid : plan.componentInstances)
       {
-        if (cid.targetHost == this.hostName_)
+        if (this.hostName_.equals (cid.targetHost))
           namImpl.prepareInstance (cid.processGroup, cid.instanceName);
       }
 

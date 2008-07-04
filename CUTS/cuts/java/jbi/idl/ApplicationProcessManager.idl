@@ -13,7 +13,7 @@ module cuts
     {
       module deployment
       {
-        interface NodeApplicationCallback
+        interface ApplicationProcessManager
         {
           void registerProcess (in ApplicationProcess process);
 

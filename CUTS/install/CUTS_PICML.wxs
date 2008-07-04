@@ -23,8 +23,8 @@
         <File Id="CUTS_PICML.dll" Name="CUTS_PICML.dll"
               Source="$(env.CUTS_ROOT)\lib\CUTS_PICML.dll" DiskId="1" />
 
-        <File Id="XERCES_C_2_6.DLL" Name="XERCES-C_2_6.DLL"
-              Source="$(env.XERCESCROOT)\lib\xerces-c_2_6.dll" DiskId="1" />
+        <File Id="XERCES_C_2_6.DLL" Name="XERCES-C_2_7.DLL"
+              Source="$(env.XERCESCROOT)\bin\xerces-c_2_7.dll" DiskId="1" />
 
         <File Id="XSCRT_Utils.dll" Name="XSCRT.dll"
               Source="$(env.XSC_ROOT)\lib\XSCRT.dll" DiskId="1" />
@@ -79,7 +79,7 @@
                         Sequence="3" 
                         On="install"
                         Value="[INSTALLDIR]bin\CUTS_BE_CIAO" />
-
+<?ifdef release ?>
         <!-- install the XML generator -->
         <File Id="CUTS_BE_XML.dll" Name="CUTS_BE_XML.dll"
               Source="$(env.CUTS_ROOT)\lib\CUTS_BE_XML.dll" DiskId="1" />
@@ -235,6 +235,7 @@
                         Sequence="3" 
                         On="install"
                         Value="[INSTALLDIR]bin\CUTS_BE_TIOA" />
+<?endif?>
 
         <!-- GME registry information -->
         <RegistryKey Root="HKLM" Key="SOFTWARE">

@@ -116,6 +116,10 @@ public class NodeApplicationManagerImpl
   //
   public void prepareInstance (String processGroup, String instanceName)
   {
+    this.logger_.debug("client [" + instanceName +
+                       "] to be installed in process [" +
+                       processGroup + "]");
+
     // Get the listing of instances for the process group.
     ArrayList<String> instances = this.processMap_.get(processGroup);
 

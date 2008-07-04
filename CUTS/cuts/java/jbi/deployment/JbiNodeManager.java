@@ -293,9 +293,13 @@ public class JbiNodeManager
 
     try
     {
+      java.util.Properties props = new java.util.Properties();
+      //props.setProperty("jacorb.poa.thread_pool_min", "3");
+      //props.setProperty("jacorb.poa.thread_pool_max", "5");
+      
       // Initialize the CORBA ORB.
       logger.debug ("initializing the CORBA ORB");
-      orb = ORB.init (args, null);
+      orb = ORB.init (args, props);
 
       // Create a new node manager.
       logger.debug ("creating a new node manager object");

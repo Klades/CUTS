@@ -193,7 +193,7 @@
 
       <arg line="-d ${cuts.dir}" />
       <arg line="-I${cuts.src.dir}/java/jbi/idl" />
-      <arg line="java/jbi/idl/NodeApplicationCallback.idl" />
+      <arg line="java/jbi/idl/ApplicationProcessManager.idl" />
     </java>
   </target>
 
