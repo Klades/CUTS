@@ -1,9 +1,38 @@
+Sat Jul  5 16:03:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/cuts.java.build:
+        * cuts/java/ProcessHandler.java:
+        * cuts/java/ProcessStreamReader.java:
+        
+          Apparently, if you spawn an application using Runtime.exec (),
+          you must get the input/error streams of the spawned process and
+          empty them occassionally. So, these are some helper classes that
+          given a process, it will empty their buffer so the spawned 
+          child application does not freeze.
+
+        * cuts/java/jbi/deployment/ApplicationProcessImpl.java:
+        * cuts/java/jbi/deployment/ApplicationProcessManagerImpl.java:
+        * cuts/java/jbi/deployment/DomainApplicationImpl.java:
+        * cuts/java/jbi/deployment/DomainApplicationManagerImpl.java:
+        * cuts/java/jbi/deployment/JbiClientApp.java:
+        * cuts/java/jbi/deployment/JbiNodeManager.java:
+        * cuts/java/jbi/deployment/NodeApplicationImpl.java:
+        * cuts/java/jbi/deployment/NodeApplicationManagerImpl.java:
+        * cuts/java/jbi/deployment/NodeManagerImpl.java:
+
+          Checkpoint the deployment framework. Right now, the spawned 
+          application process register themselves, however, I'm having 
+          trouble creating the ApplicationProcessImpl class. There is
+          something wrong with the CLASSPATH because it is not able
+          to create the ConnectionManager that is needed by the clients
+          to connect to the server.
+          
 Fri Jul  4 04:49:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * ChangeLog
         * ChangeLogs/ChangeLog-0_0_0_1:
 
-          This marks the first official beta release of the Component 
-          Workload Emulator (CoWorkEr) Utilization Test Suite (CUTS). This 
-          also marks the first birthday of CUTS. Happy 1st birthday CUTS, 
+          This marks the first official beta release of the Component
+          Workload Emulator (CoWorkEr) Utilization Test Suite (CUTS). This
+          also marks the first birthday of CUTS. Happy 1st birthday CUTS,
           and may you have many more!! :-)

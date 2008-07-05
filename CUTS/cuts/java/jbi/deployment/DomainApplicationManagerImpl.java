@@ -130,13 +130,12 @@ public class DomainApplicationManagerImpl
       // Register the application with the domain. We need to also
       // pass along the factory that created the application. This will
       // become useful when destroyApplication () is invoked.
+      this.logger_.debug ("adding new node application to domain application");
       domainAppImpl.registerApplication (nodeApp, nam); 
     }
 
     // Cache the domain application.
     this.domainApps_.put (domainApp, domainAppImpl);
-
-    // Return its reference to the client.
     return domainApp;
   }
 

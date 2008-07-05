@@ -87,9 +87,8 @@ public class JbiNodeManager
     this.poa_.the_POAManager ().activate ();
 
     // Create a new JbiNodeManager, which is a server object.
-    org.omg.CORBA.Object obj =
-      this.poa_.servant_to_reference (
-      new NodeManagerImpl (this.orb_, hostName));
+    NodeManagerImpl nodeManager = new NodeManagerImpl (this.orb_, hostName);
+    org.omg.CORBA.Object obj = this.poa_.servant_to_reference (nodeManager);
 
     if (this.iorFilename_ != null)
       this.writeIORToFile (obj);
@@ -294,8 +293,8 @@ public class JbiNodeManager
     try
     {
       java.util.Properties props = new java.util.Properties();
-      //props.setProperty("jacorb.poa.thread_pool_min", "3");
-      //props.setProperty("jacorb.poa.thread_pool_max", "5");
+      props.setProperty("jacorb.poa.thread_pool_min", "10");
+      props.setProperty("jacorb.poa.thread_pool_max", "20");
       
       // Initialize the CORBA ORB.
       logger.debug ("initializing the CORBA ORB");

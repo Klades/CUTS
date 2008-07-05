@@ -20,7 +20,7 @@ import java.util.*;
  * 
  * Implementation of the DomainApplication interface.
  */
-public class DomainApplicationImpl 
+public class DomainApplicationImpl
   extends DomainApplicationPOA
 {
   /**
@@ -33,29 +33,29 @@ public class DomainApplicationImpl
     private NodeApplication app_;
 
     private NodeApplicationManager manager_;
-    
-    public Item(NodeApplication app, NodeApplicationManager manager)
+
+    public Item (NodeApplication app, NodeApplicationManager manager)
     {
       this.app_ = app;
       this.manager_ = manager;
     }
 
-    public NodeApplication getApplication()
+    public NodeApplication getApplication ()
     {
       return this.app_;
     }
 
-    public NodeApplicationManager getManager()
+    public NodeApplicationManager getManager ()
     {
       return this.manager_;
     }
   }
 
   /// Collection of node applications in this domain.
-  private final ArrayList <Item> nodeApps_ = new ArrayList <Item> ();
+  private final ArrayList<Item> nodeApps_ = new ArrayList<Item> ();
 
   private final Logger logger_ =
-    Logger.getLogger(DomainApplicationImpl.class);
+    Logger.getLogger (DomainApplicationImpl.class);
 
   /**
    * Initializing constructor.
@@ -73,54 +73,67 @@ public class DomainApplicationImpl
    */
   public void start ()
   {
-    this.logger_.debug ("starting each of the node applications");
+    this.logger_.debug ("starting " + this.nodeApps_.size () + 
+                        " node application(s)");
 
     // Start all the node applications.
     for (Item item : this.nodeApps_)
       item.getApplication ().start ();
+
+    this.logger_.debug ("finished starting each node applications");
   }
 
   /**
    * Start the domain application. This will start all its sub-applications,
    * which are essentially NodeApplication objects.
    */
-  public void finishLaunch()
+  public void finishLaunch ()
   {
-    this.logger_.debug ("finish launching each of the node applications");
+    this.logger_.debug ("finish launching each application");
 
     // Start all the node applications.
     for (Item item : this.nodeApps_)
       item.getApplication ().finishLaunch ();
+
+    this.logger_.debug ("all node applications launched");
   }
 
   /**
    * Insert a node application into this domain application.
    */
-  public void registerApplication (NodeApplication nodeApp, 
+  public void registerApplication (NodeApplication nodeApp,
                                    NodeApplicationManager manager)
   {
-    final Item item = new Item(nodeApp, manager);
-    this.nodeApps_.add(item);
+    final Item item = new Item (nodeApp, manager);
+    this.nodeApps_.add (item);
   }
 
   /**
    * Destroy the application. This will in-turn destroy all the 
    * sub-applications contained in the domain application.
    */
-  public void destroy()
+  public void destroy ()
   {
     // Destroy all the sub-applications (i.e., each of the registered 
     // node applications) of this domain application.
-    this.logger_.debug ("destroying all node applications");
+    this.logger_.debug ("destroying " + this.nodeApps_.size () +
+                        " node application(s)");
 
     for (Item item : this.nodeApps_)
     {
-      NodeApplicationManager manager = item.getManager ();
-      manager.destroyApplication (item.getApplication ());
+      try
+      {
+        this.logger_.debug ("notifying manager to destroy application");
+        NodeApplicationManager manager = item.getManager ();
+        manager.destroyApplication (item.getApplication ());
+      }
+      catch (Exception e)
+      {
+        this.logger_.error (e.getMessage (), e);
+      }
     }
 
     // Clear the collection of node applications.
-
     this.logger_.debug ("releasing references to all node applications");
     this.nodeApps_.clear ();
   }

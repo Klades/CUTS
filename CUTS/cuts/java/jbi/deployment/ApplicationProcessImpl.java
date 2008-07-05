@@ -22,9 +22,11 @@ public class ApplicationProcessImpl
       new ArrayList <JbiClient>();
 
   /// The connection manager shared by all clients.
-  private static final ConnectionManager connManager_ = null /*new ConnectionManager()*/;
+  private static 
+    final ConnectionManager connManager_ = new ConnectionManager();
 
-  private final Logger logger_ = Logger.getLogger(ApplicationProcessImpl.class);
+  private final Logger logger_ = 
+    Logger.getLogger(ApplicationProcessImpl.class);
 
   private org.omg.CORBA.ORB orb_ = null;
 
@@ -44,8 +46,6 @@ public class ApplicationProcessImpl
    */
   public ApplicationProcessImpl(org.omg.CORBA.ORB orb, String name)
   {
-    this.logger_.debug("application name is " + name);
-
     this.orb_ = orb;
     this.name_ = name;
   }
@@ -57,7 +57,7 @@ public class ApplicationProcessImpl
   {
     try
     {
-      this.logger_.debug("installing client [" + instanceName + "]");
+      this.logger_.debug("installing " + instanceName);
 
       // Convert the name of the bean to its location on disk.
       String beanFile = instanceName.replace('.', '/');
@@ -71,7 +71,7 @@ public class ApplicationProcessImpl
           (JbiClient)beanFactory.getBean(instanceName);
 
       // Initialize the client.
-      this.logger_.debug("initializing client [" + instanceName + "]");
+      this.logger_.debug("initializing " + instanceName);
       jbiClient.initializeClient(instanceName, this.connManager_);
 
       // Save the client.
@@ -79,7 +79,7 @@ public class ApplicationProcessImpl
     }
     catch (Exception e)
     {
-      this.logger_.error("exception", e);
+      this.logger_.error(e.getMessage (), e);
     }
   }
 

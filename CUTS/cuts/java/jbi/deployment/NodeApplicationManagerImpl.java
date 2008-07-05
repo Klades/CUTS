@@ -42,7 +42,7 @@ public class NodeApplicationManagerImpl
     Logger.getLogger(NodeApplicationManagerImpl.class);
 
   /// Maps instances to be deployed to their process group.
-  private final HashMap<String, ArrayList<String>> processMap_ =
+  private final HashMap<String, ArrayList<String>> installMap_ =
     new HashMap<String, ArrayList<String>>();
 
   /**
@@ -62,23 +62,29 @@ public class NodeApplicationManagerImpl
   {
     try
     {
+      // Locate the node application in the mapping.
+      this.logger_.debug ("locating node application");
       NodeApplication nodeApp = NodeApplicationHelper.narrow (app);
-      NodeApplicationImpl nodeAppImpl = this.nodeApps_.get(nodeApp);
+      NodeApplicationImpl nodeAppImpl = this.nodeApps_.get (nodeApp);
 
       if (nodeAppImpl != null)
       {
         // Destroy the node application.
-        this.logger_.debug("destroying a existing node application");
-        nodeAppImpl.destroy();
+        this.logger_.debug ("destroying a node application");
+        nodeAppImpl.destroy ();
 
         // Remove the node application.
-        this.logger_.debug("removing reference to the node application");
-        this.nodeApps_.remove(nodeApp);
+        this.logger_.debug ("removing reference to the node application");
+        this.nodeApps_.remove (nodeApp);
+      }
+      else
+      {
+        this.logger_.error ("we do not own this node application");
       }
     }
     catch (Exception e)
     {
-      this.logger_.error ("exception", e);
+      this.logger_.error (e.getMessage (), e);
     }
   }
 
@@ -95,7 +101,7 @@ public class NodeApplicationManagerImpl
     // Install each of the instances into the node application. This will
     // in turn create process for the appropriate groups.
     for (Map.Entry <String, ArrayList <String>> entry :
-         this.processMap_.entrySet ())
+         this.installMap_.entrySet ())
     {
       // Create the process group.
       String processGroup = entry.getKey ();
@@ -106,8 +112,11 @@ public class NodeApplicationManagerImpl
     }
 
     // Clear the listing.
-    this.processMap_.clear ();
+    this.logger_.debug ("installed " + this.installMap_.size () + " client(s)");
+    this.installMap_.clear ();
 
+    // Save the node application to this map.
+    this.nodeApps_.put (nodeApp, nodeAppImpl);
     return nodeApp;
   }
 
@@ -121,13 +130,13 @@ public class NodeApplicationManagerImpl
                        processGroup + "]");
 
     // Get the listing of instances for the process group.
-    ArrayList<String> instances = this.processMap_.get(processGroup);
+    ArrayList<String> instances = this.installMap_.get(processGroup);
 
     if (instances == null)
       instances = new ArrayList<String>();
 
     // Insert the instance and save the list back to the map.
     instances.add(instanceName);
-    this.processMap_.put(processGroup, instances);
+    this.installMap_.put(processGroup, instances);
   }
 }

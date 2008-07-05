@@ -23,11 +23,11 @@ public class JbiClientApp
   implements JbiShutdownInterface
 {
   // Collection of bean names managed by this process.
-  private final ArrayList <String> beanNames_ =
-      new ArrayList <String>();
+  private final ArrayList<String> beanNames_ =
+      new ArrayList<String> ();
 
   private final Logger logger_ =
-    Logger.getLogger(JbiClientApp.class);
+    Logger.getLogger (JbiClientApp.class);
 
   private ApplicationProcessImpl processImpl_ = null;
 
@@ -43,7 +43,7 @@ public class JbiClientApp
   /**
    * Default constructor.
    */
-  public JbiClientApp()
+  public JbiClientApp ()
   {
 
   }
@@ -51,7 +51,7 @@ public class JbiClientApp
   /**
    * Run the application.
    */
-  public void run (String[] args)
+  public void run (String [] args)
   {
     try
     {
@@ -116,7 +116,7 @@ public class JbiClientApp
     }
     catch (Exception e)
     {
-      this.logger_.error ("exception", e);
+      this.logger_.error (e.getMessage (), e);
     }
   }
 
@@ -126,7 +126,7 @@ public class JbiClientApp
    *
    * @param[in]       args        The command-line arguments.
    */
-  private void parseArgs(String[] args)
+  private void parseArgs (String [] args)
   {
     try
     {
@@ -144,7 +144,7 @@ public class JbiClientApp
     } 
     catch (Exception ex)
     {
-      this.logger_.error ("client application spawned manually");
+      this.logger_.error ("client application spawned manually", null);
     }
 
     // Parse the remaining arguments in the command-line. We are looking
@@ -172,11 +172,11 @@ public class JbiClientApp
   /**
    * Shutdown the client application.
    */
-  public void shutdownApp()
+  public void shutdownApp ()
   {
     // Shutdown the application process (and its clients).
     this.processImpl_.stop ();
-    
+
     // Shutdown the ORB, if necessary.
     if (this.processManager_ != null)
       this.orb_.shutdown (true);
@@ -187,31 +187,31 @@ public class JbiClientApp
    *
    * @param[in]     args        Command-line arguments.
    */
-  public static void main(String[] args)
+  public static void main (String [] args)
   {
     // Set up a simple configuration that logs on the console.
-    BasicConfigurator.configure();
+    BasicConfigurator.configure ();
 
     // Get the ExecutionManager logger.
-    Logger logger = Logger.getLogger(JbiClientApp.class);
+    Logger logger = Logger.getLogger (JbiClientApp.class);
 
     try
     {
-      logger.debug("creating a new application");
-      JbiClientApp jbiClientApp = new JbiClientApp();
+      logger.debug ("creating a new application");
+      JbiClientApp jbiClientApp = new JbiClientApp ();
 
       // Register the shutdown hook for the client. This will
       // ensure the client releases all it's resources.
-      logger.debug("registering shutdown hook for application");
-      Runtime.getRuntime().addShutdownHook(new JbiShutdownThread(jbiClientApp));
-      
+      logger.debug ("registering shutdown hook for application");
+      Runtime.getRuntime ().addShutdownHook (new JbiShutdownThread (jbiClientApp));
+
       // Run the application.
-      logger.debug("running the application");
-      jbiClientApp.run(args);
+      logger.debug ("running the application");
+      jbiClientApp.run (args);
     }
     catch (Exception e)
     {
-      e.printStackTrace();
+      logger.error ("exception", e);
     }
   }
 }

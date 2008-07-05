@@ -68,7 +68,14 @@ public class NodeManagerImpl
 
       // Activate the node application manager.
       this.logger_.debug ("activating a new node application manager");
-      manager = namImpl._this (this.orb_);
+
+      org.omg.PortableServer.POA poa = 
+        org.omg.PortableServer.POAHelper.narrow (
+        this.orb_.resolve_initial_references ("RootPOA"));
+
+      manager =
+        NodeApplicationManagerHelper.narrow (
+        poa.servant_to_reference (namImpl));
 
       // Let the node application manager know of the process groups
       // that it will need spawn, and the instances it will need to 
