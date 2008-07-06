@@ -120,32 +120,45 @@ public class NodeApplicationImpl
     {
       try
       {
-        // Get the CLASSPATH. We need to pass this along to 
-        // the application process.
-        String classPath = System.getProperty ("java.class.path");
-        String javaOpts = System.getenv ("JAVA_OPTS");
-
         // Convert the ApplicationProcessManager to a string.
         String processManagerIOR =
           this.orb_.object_to_string (this.processManagerImpl_._this ());
 
-        // Construct the command for spawning a new application process.
-        String spawnCommand =
-          "java.exe -classpath " + classPath + pathSeparator +
-          this.jbiClassPath_ + pathSeparator + this.cutsClassPath_ +
-          " -Djava.endorsed.dirs=" +
-          this.cutsLibDir + this.pathSeparator + this.cutsContribDir +
-          " " + javaOpts +
-          " -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB" +
-          " -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton" +
-          " cuts.java.jbi.deployment.JbiClientApp -name " + groupName +
-          " -ORBInitRef ProcessManager=" + processManagerIOR;
+        String endorsedDirs =
+          this.cutsLibDir + this.pathSeparator + this.cutsContribDir;
+
+        // Create the spawn command for the new process.
+        ArrayList<String> spawnCmd = new ArrayList<String> ();
+        String osName = System.getProperty ("os.name");
+
+        String singleProcess =
+          System.getenv ("CUTS_ROOT") + this.fileSeparator +
+          "bin" + this.fileSeparator + "jbi" + fileSeparator;
+
+        if (osName.matches ("Windows \\p{Alnum}++"))
+          singleProcess += "SingleProcess.bat";
+        else
+          singleProcess += "SingleProcess.sh";
+
+        //spawnCmd.add (singleProcess);
+        spawnCmd.add ("java");
+        spawnCmd.add ("-cp");
+        spawnCmd.add (this.cutsClassPath_ + this.pathSeparator + this.jbiClassPath_);
+        spawnCmd.add ("cuts.java.jbi.deployment.JbiClientApp");
+        spawnCmd.add ("-name");
+        spawnCmd.add (groupName);
+        spawnCmd.add ("-ORBInitRef");
+        spawnCmd.add ("ProcessManager=" + processManagerIOR);
+
+        // Construct the process for the spawned application.
+        ProcessBuilder processBuilder = new ProcessBuilder (spawnCmd);
+
+        // Set the working directory for the spawned application.
+        processBuilder.directory (new File (System.getProperty ("user.dir")));
 
         // Spawn a new application process.
-        this.logger_.debug ("spawning a new application process [" +
-                           spawnCommand + "]");
-
-        Process process = Runtime.getRuntime ().exec (spawnCommand);
+        this.logger_.debug ("spawning a new application process");
+        Process process = processBuilder.start ();
 
         if (process != null)
         {
@@ -154,8 +167,7 @@ public class NodeApplicationImpl
             // First, check if the process has already exited.
             int exitValue = process.exitValue ();
 
-            this.logger_.error ("process already exited [" +
-                                exitValue + "]");
+            this.logger_.error ("process already exited [" + exitValue + "]");
           }
           catch (IllegalThreadStateException ex)
           {
@@ -197,9 +209,9 @@ public class NodeApplicationImpl
       }
     }
 
-    // Install the instance into the process group.
     if (appProcess != null)
     {
+      // Install the instance into the process group.
       appProcess.installClient (instanceName);
     }
     else

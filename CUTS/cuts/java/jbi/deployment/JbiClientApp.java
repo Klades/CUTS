@@ -43,9 +43,9 @@ public class JbiClientApp
   /**
    * Default constructor.
    */
-  public JbiClientApp ()
+  public JbiClientApp (org.omg.CORBA.ORB orb)
   {
-
+    this.orb_ = orb;
   }
 
   /**
@@ -130,10 +130,6 @@ public class JbiClientApp
   {
     try
     {
-      // Initialize the CORBA ORB.
-      this.logger_.debug ("initializing CORBA ORB");
-      this.orb_ = org.omg.CORBA.ORB.init (args, null);
-
       // Resolve the node application's callback interface. This will
       // let us know how the client application was started.
       org.omg.CORBA.Object obj =
@@ -142,9 +138,13 @@ public class JbiClientApp
       this.processManager_ = ApplicationProcessManagerHelper.narrow (obj);
       this.logger_.debug ("client application spawned by deployment framework");
     } 
+    catch (org.omg.CORBA.ORBPackage.InvalidName ex)
+    {
+      this.logger_.debug ("client application spawned manually");
+    }
     catch (Exception ex)
     {
-      this.logger_.error ("client application spawned manually", null);
+      this.logger_.error (ex.getMessage (), ex);
     }
 
     // Parse the remaining arguments in the command-line. We are looking
@@ -197,8 +197,12 @@ public class JbiClientApp
 
     try
     {
+      // Initialize the CORBA ORB.
+      logger.debug ("initializing CORBA ORB");
+      org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init (args, null);
+      
       logger.debug ("creating a new application");
-      JbiClientApp jbiClientApp = new JbiClientApp ();
+      JbiClientApp jbiClientApp = new JbiClientApp (orb);
 
       // Register the shutdown hook for the client. This will
       // ensure the client releases all it's resources.

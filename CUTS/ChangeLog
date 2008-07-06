@@ -1,13 +1,26 @@
+Sun Jul  6 22:36:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/jbi/NodeManager.bat:
+        * bin/jbi/SingleProcess.bat:
+        * cuts/java/jbi/deployment/ApplicationProcessImpl.java:
+        * cuts/java/jbi/deployment/JbiClientApp.java:
+        * cuts/java/jbi/deployment/NodeApplicationImpl.java:
+        
+          Another snapshot of the deployment framework. I have resolved
+          the problem below w.r.t. not being able to instantiate the 
+          ApplicationProcessImpl class. This had to do with specify
+          the command-line parameters incorrectly.
+
 Sat Jul  5 16:03:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/cuts.java.build:
         * cuts/java/ProcessHandler.java:
         * cuts/java/ProcessStreamReader.java:
-        
+
           Apparently, if you spawn an application using Runtime.exec (),
           you must get the input/error streams of the spawned process and
           empty them occassionally. So, these are some helper classes that
-          given a process, it will empty their buffer so the spawned 
+          given a process, it will empty their buffer so the spawned
           child application does not freeze.
 
         * cuts/java/jbi/deployment/ApplicationProcessImpl.java:
@@ -20,13 +33,13 @@ Sat Jul  5 16:03:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/java/jbi/deployment/NodeApplicationManagerImpl.java:
         * cuts/java/jbi/deployment/NodeManagerImpl.java:
 
-          Checkpoint the deployment framework. Right now, the spawned 
-          application process register themselves, however, I'm having 
+          Checkpoint the deployment framework. Right now, the spawned
+          application process register themselves, however, I'm having
           trouble creating the ApplicationProcessImpl class. There is
           something wrong with the CLASSPATH because it is not able
           to create the ConnectionManager that is needed by the clients
           to connect to the server.
-          
+
 Fri Jul  4 04:49:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * ChangeLog
