@@ -107,7 +107,7 @@ public class NodeApplicationImpl
   /**
    * Install a new instance into the specified process group.
    */
-  public void installInstance (String groupName, String instanceName)
+  public boolean installInstance (String groupName, String instanceName)
   {
     // Get the application process for the group.
     this.logger_.debug ("installing client [" + instanceName +
@@ -129,21 +129,25 @@ public class NodeApplicationImpl
 
         // Create the spawn command for the new process.
         ArrayList<String> spawnCmd = new ArrayList<String> ();
-        String osName = System.getProperty ("os.name");
 
-        String singleProcess =
-          System.getenv ("CUTS_ROOT") + this.fileSeparator +
-          "bin" + this.fileSeparator + "jbi" + fileSeparator;
-
-        if (osName.matches ("Windows \\p{Alnum}++"))
-          singleProcess += "SingleProcess.bat";
-        else
-          singleProcess += "SingleProcess.sh";
-
-        //spawnCmd.add (singleProcess);
         spawnCmd.add ("java");
+
+        // Pass over the JAVA_OPTS from the node manager. We need to
+        // make sure each of the spawned processes.
+        String javaOpts = System.getenv ("JAVA_OPTS");
+
+        if (javaOpts != null)
+        {
+          String [] optsList = javaOpts.split ("\\p{Space}"); 
+          for (String javaOpt : optsList)
+            spawnCmd.add (javaOpt);
+        }
+
+        // Set the classpath for the application process.
         spawnCmd.add ("-cp");
         spawnCmd.add (this.cutsClassPath_ + this.pathSeparator + this.jbiClassPath_);
+
+        // Setup the java app and its command-line parameters.
         spawnCmd.add ("cuts.java.jbi.deployment.JbiClientApp");
         spawnCmd.add ("-name");
         spawnCmd.add (groupName);
@@ -209,16 +213,12 @@ public class NodeApplicationImpl
       }
     }
 
+    // Install the client into its process.
     if (appProcess != null)
-    {
-      // Install the instance into the process group.
-      appProcess.installClient (instanceName);
-    }
-    else
-    {
-      this.logger_.error ("process " + groupName +
-                          " has not registered itself");
-    }
+      return appProcess.installClient (instanceName);
+
+    this.logger_.error ("process " + groupName + " not registered");
+    return false;
   }
 
   /**

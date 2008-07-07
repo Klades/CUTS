@@ -28,10 +28,7 @@ public class ApplicationProcessImpl
   private final Logger logger_ =
     Logger.getLogger (ApplicationProcessImpl.class);
 
-  private org.omg.CORBA.ORB orb_ = null;
-
-  /// Name assigned to this application process.
-  private String name_;
+  private JbiClientApp parent_ = null;
 
   /**
    * Default constructor.
@@ -44,16 +41,15 @@ public class ApplicationProcessImpl
   /**
    * Initializing constructor
    */
-  public ApplicationProcessImpl (org.omg.CORBA.ORB orb, String name)
+  public ApplicationProcessImpl (JbiClientApp parent)
   {
-    this.orb_ = orb;
-    this.name_ = name;
+    this.parent_ = parent;
   }
 
   /**
    * Install a new client into this application process.
    */
-  public void installClient (String instanceName)
+  public boolean installClient (String instanceName)
   {
     try
     {
@@ -76,11 +72,14 @@ public class ApplicationProcessImpl
 
       // Save the client.
       this.jbiClients_.add (jbiClient);
+      return true;
     }
     catch (Exception e)
     {
       this.logger_.error (e.getMessage (), e);
     }
+
+    return false;
   }
 
   /**
@@ -88,15 +87,15 @@ public class ApplicationProcessImpl
    */
   public String name ()
   {
-    return this.name_;
+    return this.parent_.getName ();
   }
 
   /**
    * Uninstall an existing client from the application process.
    */
-  public void uninstallClient (String instanceName)
+  public boolean uninstallClient (String instanceName)
   {
-
+    return true;
   }
 
   /**
@@ -107,15 +106,17 @@ public class ApplicationProcessImpl
     // Shutdown each of the clients (we should deactivate each client, then
     // call the fini () method).
     for (JbiClient jbiClient : this.jbiClients_)
-        jbiClient.run ();
+      jbiClient.run ();
   }
 
   public void stop ()
   {
     // Shutdown each of the clients (we should deactivate each client, then
     // call the fini () method).
+    this.logger_.debug ("shutting down " + this.jbiClients_.size () + " client(s)");
+
     for (JbiClient jbiClient : this.jbiClients_)
-        jbiClient.shutdown ();
+      jbiClient.shutdown ();
   }
 
   /**
@@ -124,8 +125,6 @@ public class ApplicationProcessImpl
    */
   public void shutdown ()
   {
-    // Shutdown the ORB.
-    this.stop ();
-    this.orb_.shutdown (true);
+    this.parent_.shutdownApp ();
   }
 }

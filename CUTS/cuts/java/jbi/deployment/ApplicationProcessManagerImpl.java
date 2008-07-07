@@ -20,7 +20,7 @@ public class ApplicationProcessManagerImpl
   {
     ProcessHandler processHandler_;
 
-    ApplicationProcess appProcessHandler_;
+    ApplicationProcess appProcess_;
   }
 
   private final HashMap<String, Item> processMap_ =
@@ -50,7 +50,7 @@ public class ApplicationProcessManagerImpl
 
     // Store the process in the process map.
     Item item = new Item ();
-    item.appProcessHandler_ = process;
+    item.appProcess_ = process;
 
     this.processMap_.put (process.name (), item);
 
@@ -92,7 +92,7 @@ public class ApplicationProcessManagerImpl
     Item item = this.processMap_.get (name);
 
     if (item != null)
-      process = item.appProcessHandler_;
+      process = item.appProcess_;
 
     return process;
   }
@@ -165,18 +165,14 @@ public class ApplicationProcessManagerImpl
       String processName = entry.getKey ();
       Item item = entry.getValue ();
 
-      // Shutdown the application process.
-      this.logger_.debug ("signaling process " + processName +
-                          " to shutdown");
-
       try
       {
-        item.appProcessHandler_.shutdown ();
+        // Shutdown the application process.
+        this.logger_.debug ("signaling process " + processName + " to shutdown");
+        item.appProcess_.shutdown ();
 
         // Wait for the process to exit.
-        this.logger_.debug ("waiting for process " +
-                            processName + " to exit");
-
+        this.logger_.debug ("waiting for process " + processName + " to exit");
         item.processHandler_.getProcess ().waitFor ();
       }
       catch (Exception e)

@@ -29,16 +29,21 @@ public class JbiClientApp
   private final Logger logger_ =
     Logger.getLogger (JbiClientApp.class);
 
-  private ApplicationProcessImpl processImpl_ = null;
-
   private org.omg.CORBA.ORB orb_ = null;
 
   /// Reference to the RootPOA.
   private org.omg.PortableServer.POA poa_ = null;
 
+  private final ApplicationProcessImpl processImpl_ = 
+    new ApplicationProcessImpl (this);
+
   private ApplicationProcessManager processManager_ = null;
 
+  private ApplicationProcess process_ = null;
+
   private String name_ = null;
+
+  private boolean isShutdown_ = false;
 
   /**
    * Default constructor.
@@ -70,19 +75,9 @@ public class JbiClientApp
         // Activate the RootPOA's manager.
         this.logger_.debug ("activating RootPOA's manager");
         this.poa_.the_POAManager ().activate ();
-      }
 
-      // Create a new application process.
-      this.logger_.debug ("creating a new application process");
-      this.processImpl_ = new ApplicationProcessImpl (this.orb_, this.name_);
-
-      // Activate the application process's servant.
-      ApplicationProcess process = null;
-      
-      if (this.processManager_ != null)
-      {
         this.logger_.debug ("activating application process's remoting object");
-        process = this.processImpl_._this (this.orb_);
+        this.process_ = this.processImpl_._this (this.orb_);
       }
 
       // Load each of the clients (or beans).
@@ -91,27 +86,23 @@ public class JbiClientApp
       for (String beanName : this.beanNames_)
           this.processImpl_.installClient (beanName);
 
-      if (this.processManager_ != null && process != null)
+      if (this.processManager_ != null)
       {
         // Register this application with it's parent.
         this.logger_.debug ("registering application process with manager");
-        this.processManager_.registerProcess (process);
+        this.processManager_.registerProcess (this.process_);
       }
 
       // Run all the default clients.
       this.logger_.debug ("activating all the clients");
       this.processImpl_.start ();
 
-      if (process != null)
+      if (this.process_ != null)
       {
         // Run the ORB's main event loop since the client was started
         // by a node application (i.e., the deployment framework);
         this.logger_.debug ("running the ORB's main event loop");
         this.orb_.run ();
-
-        // Unregister the application process with its parent.
-        if (this.processManager_ != null)
-          this.processManager_.unregisterProcess(process);
       }
     }
     catch (Exception e)
@@ -174,12 +165,26 @@ public class JbiClientApp
    */
   public void shutdownApp ()
   {
-    // Shutdown the application process (and its clients).
-    this.processImpl_.stop ();
+    if (!this.isShutdown_)
+    {
+      // Unregister the application process with its parent.
+      if (this.processManager_ != null)
+        this.processManager_.unregisterProcess (this.process_);
 
-    // Shutdown the ORB, if necessary.
-    if (this.processManager_ != null)
-      this.orb_.shutdown (true);
+      // Shutdown the application process (and its clients).
+      this.logger_.debug ("stopping the application process");
+      this.processImpl_.stop ();
+
+      // Shutdown the ORB, if necessary.
+      if (this.processManager_ != null)
+      {
+        this.logger_.debug ("shutting down the ORB");
+        this.orb_.shutdown (true);
+      }
+
+      // Toggle the shutdown flag.
+      this.isShutdown_ = true;
+    }
   }
 
   /**
@@ -194,13 +199,14 @@ public class JbiClientApp
 
     // Get the ExecutionManager logger.
     Logger logger = Logger.getLogger (JbiClientApp.class);
+    org.omg.CORBA.ORB orb = null;
 
     try
     {
       // Initialize the CORBA ORB.
       logger.debug ("initializing CORBA ORB");
-      org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init (args, null);
-      
+      orb = org.omg.CORBA.ORB.init (args, null);
+
       logger.debug ("creating a new application");
       JbiClientApp jbiClientApp = new JbiClientApp (orb);
 
@@ -217,5 +223,18 @@ public class JbiClientApp
     {
       logger.error ("exception", e);
     }
+    finally
+    {
+      if (orb != null)
+        orb.destroy ();
+    }
+  }
+
+  /**
+   * Get the name of the client application.
+   */
+  public String getName ()
+  {
+    return this.name_;
   }
 }

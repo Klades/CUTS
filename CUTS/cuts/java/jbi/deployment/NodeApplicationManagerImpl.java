@@ -100,6 +100,8 @@ public class NodeApplicationManagerImpl
     
     // Install each of the instances into the node application. This will
     // in turn create process for the appropriate groups.
+    long installCount = 0;
+
     for (Map.Entry <String, ArrayList <String>> entry :
          this.installMap_.entrySet ())
     {
@@ -108,11 +110,15 @@ public class NodeApplicationManagerImpl
  
       // Install the instance into the process group.
       for (String instanceName : entry.getValue ())
-        nodeAppImpl.installInstance (processGroup, instanceName);
+      {
+        if (nodeAppImpl.installInstance (processGroup, instanceName))
+          ++ installCount;
+      }
     }
 
     // Clear the listing.
-    this.logger_.debug ("installed " + this.installMap_.size () + " client(s)");
+    this.logger_.debug ("installed " + installCount + " of " + 
+                        this.installMap_.size () + " client(s)");
     this.installMap_.clear ();
 
     // Save the node application to this map.

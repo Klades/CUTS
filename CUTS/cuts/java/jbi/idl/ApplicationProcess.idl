@@ -15,9 +15,9 @@ module cuts
         {
           readonly attribute string name;
 
-          void installClient (in string instanceName);
+          boolean installClient (in string instanceName);
 
-          void uninstallClient (in string instanceName);
+          boolean uninstallClient (in string instanceName);
 
           void shutdown ();
         };

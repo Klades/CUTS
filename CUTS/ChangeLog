@@ -1,3 +1,16 @@
+Mon Jul  7 01:36:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/java/jbi/deployment/ApplicationProcessImpl.java:
+        * cuts/java/jbi/deployment/ApplicationProcessManagerImpl.java:
+        * cuts/java/jbi/deployment/JbiClientApp.java:
+        * cuts/java/jbi/deployment/NodeApplicationImpl.java:
+        * cuts/java/jbi/deployment/NodeApplicationManagerImpl.java:
+        * cuts/java/jbi/idl/ApplicationProcess.idl:
+        
+          The runtime portion of the deployment framework is complete. It
+          is now possible to programmatically deploy clients onto multiple
+          node and into multiple processes.
+
 Sun Jul  6 22:36:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/jbi/NodeManager.bat:
@@ -5,9 +18,9 @@ Sun Jul  6 22:36:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/java/jbi/deployment/ApplicationProcessImpl.java:
         * cuts/java/jbi/deployment/JbiClientApp.java:
         * cuts/java/jbi/deployment/NodeApplicationImpl.java:
-        
+
           Another snapshot of the deployment framework. I have resolved
-          the problem below w.r.t. not being able to instantiate the 
+          the problem below w.r.t. not being able to instantiate the
           ApplicationProcessImpl class. This had to do with specify
           the command-line parameters incorrectly.
 
