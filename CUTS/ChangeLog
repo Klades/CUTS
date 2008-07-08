@@ -1,13 +1,25 @@
+Tue Jul  8 18:02:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/jbi/NameService.bat:
+        * bin/jbi/NameService.sh:
+        
+          Helper scripts to start the naming service.
+          
+        * install/jbi.bundler.build:
+
+          Location of the script for creating the JBI tarball for 
+          binary distribution.
+          
 Wed Jul  9 00:22:17 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/jbi/deployment/ApplicationProcessManagerImpl.java:
         * cuts/java/jbi/deployment/NodeApplicationImpl.java:
         * cuts/java/jbi/idl/ApplicationProcess.idl:
 
-	  Bug fix where the node application did not implement the 
-	  start () method. Now, which start () is invoked, all the clients
+          Bug fix where the node application did not implement the
+          start () method. Now, which start () is invoked, all the clients
           are activated.
-	
+
 Tue Jul  8 15:59:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/jbi/ExecutionManager.sh:
