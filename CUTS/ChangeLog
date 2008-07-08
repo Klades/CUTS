@@ -1,9 +1,19 @@
+Wed Jul  9 00:22:17 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/java/jbi/deployment/ApplicationProcessManagerImpl.java:
+        * cuts/java/jbi/deployment/NodeApplicationImpl.java:
+        * cuts/java/jbi/idl/ApplicationProcess.idl:
+
+	  Bug fix where the node application did not implement the 
+	  start () method. Now, which start () is invoked, all the clients
+          are activated.
+	
 Tue Jul  8 15:59:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/jbi/ExecutionManager.sh:
         * bin/jbi/NodeManager.sh:
         * bin/jbi/PlanLauncher.sh:
-        
+
           Scripts for launching portions of the deployment framework
           on non-Windows systems.
 

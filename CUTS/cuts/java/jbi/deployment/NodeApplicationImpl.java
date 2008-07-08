@@ -101,7 +101,7 @@ public class NodeApplicationImpl
    */
   public void start ()
   {
-    // Start each of the application processes that we spawned.
+      this.processManagerImpl_.start ();
   }
 
   /**
@@ -144,8 +144,11 @@ public class NodeApplicationImpl
         }
 
         // Set the classpath for the application process.
-        spawnCmd.add ("-cp");
-        spawnCmd.add (this.cutsClassPath_ + this.pathSeparator + this.jbiClassPath_);
+        String classPath = System.getProperty ("java.class.path");
+        spawnCmd.add ("-classpath");
+        spawnCmd.add (this.cutsClassPath_ + this.pathSeparator + 
+                      this.jbiClassPath_ + this.pathSeparator +
+                      classPath);
 
         // Setup the java app and its command-line parameters.
         spawnCmd.add ("cuts.java.jbi.deployment.JbiClientApp");

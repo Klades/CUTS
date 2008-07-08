@@ -19,6 +19,8 @@ module cuts
 
           boolean uninstallClient (in string instanceName);
 
+          void start ();
+
           void shutdown ();
         };
       };

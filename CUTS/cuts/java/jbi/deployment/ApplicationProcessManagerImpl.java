@@ -90,6 +90,25 @@ public class ApplicationProcessManagerImpl
     }
   }
 
+    public void start ()
+    {
+        this.lock_.lock ();
+
+        try
+            {
+                this.logger_.debug ("starting each of the application processes");
+                for (Map.Entry <String, Item> entry : this.processMap_.entrySet ())
+                    {
+                        ApplicationProcess appProcess = entry.getValue ().appProcess_;
+                        appProcess.start ();
+                    }
+            }
+        finally
+            {
+                this.lock_.unlock ();
+            }
+    }
+
   /**
    * Get the process with the specified name.
    */
