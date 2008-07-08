@@ -6,6 +6,7 @@
   <property name="cuts.lib.dir" value="${cuts.dir}/lib" />
   <property name="cuts.bin.dir" value="${cuts.dir}/bin" />
   <property name="cuts.src.dir" value="${cuts.dir}/cuts" />
+  <property name="cuts.install.dir" value="${cuts.dir}/install" />
 
   <property name="capi.dir" value="${env.JBI_ROOT}" />
   <property name="contrib.dir" value="${cuts.dir}/contrib/java" />
