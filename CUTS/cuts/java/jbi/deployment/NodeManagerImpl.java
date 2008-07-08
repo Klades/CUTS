@@ -13,8 +13,8 @@
 package cuts.java.jbi.deployment;
 
 import org.omg.PortableServer.*;
-import java.util.*;
 import org.apache.log4j.Logger;
+import java.util.*;
 
 /**
  * @class JbiNodeManager
@@ -34,7 +34,7 @@ public class NodeManagerImpl
     NodeApplicationManager, NodeApplicationManagerImpl> managers_ =
     new HashMap <NodeApplicationManager, NodeApplicationManagerImpl> ();
 
-  private String hostName_ = null;
+  private String alias_ = null;
 
   private final Logger logger_ = 
     Logger.getLogger (NodeManagerImpl.class);
@@ -42,12 +42,15 @@ public class NodeManagerImpl
   /**
    * Default constructor.
    */
-  public NodeManagerImpl (org.omg.CORBA.ORB orb, String hostName)
+  public NodeManagerImpl (org.omg.CORBA.ORB orb, String name)
   {
     this.orb_ = orb;
-    this.hostName_ = hostName;
+    this.alias_ = name;
 
-    this.logger_.debug ("my hostname is " + this.hostName_);
+    if (this.alias_ != null)
+      this.logger_.debug ("alias name is " + this.alias_);
+    else
+      this.logger_.debug ("alias name is not defined");
   }
 
   /**
@@ -82,7 +85,7 @@ public class NodeManagerImpl
       // install in the spawned process.
       for (ComponentInstanceDescriptor cid : plan.componentInstances)
       {
-        if (this.hostName_.equals (cid.targetHost))
+        if (this.alias_.equals (cid.targetHost))
           namImpl.prepareInstance (cid.processGroup, cid.instanceName);
       }
 

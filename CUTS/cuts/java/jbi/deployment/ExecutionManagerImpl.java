@@ -54,14 +54,14 @@ public class ExecutionManagerImpl
    */
   public DomainApplicationManager preparePlan (DeploymentPlan plan)
   {
-    this.logger_.debug ("preparing plan [" + plan.UUID + "] for deployment");
+    this.logger_.debug ("preparing plan " + plan.UUID + " for deployment");
     DomainApplicationManager manager = null;
 
     try
     {
       // Create a new domain application manager for the plan.
-      this.logger_.debug ("creating domain application manager for plan [" +
-                          plan.UUID + "]");
+      this.logger_.debug ("creating domain application manager for plan " +
+                          plan.UUID);
 
       // Create a new domain application manager and activate it.
       DomainApplicationManagerImpl damImpl = 
@@ -72,19 +72,18 @@ public class ExecutionManagerImpl
       // one is responsible for returns a NodeApplicationManager for this
       // deployment plan.
       
-      this.logger_.debug ("resolving node manager(s) for plan [" +
-                          plan.UUID + "]");
+      this.logger_.debug ("resolving node manager(s) for plan " + plan.UUID);
 
       for (ComponentInstanceDescriptor cid : plan.componentInstances)
         this.getNodeManager (cid.targetHost, "(default)");
       
-      this.logger_.debug ("sending local plan to node manager(s) for plan [" +
-                          plan.UUID + "]");
+      this.logger_.debug ("sending local plan to node manager(s) for plan " +
+                          plan.UUID);
 
       for (Map.Entry <String, NodeManager> entry : this.nodeMgrs_.entrySet ())
       {
         // Invoke the preparePlan () method on each NodeManager.
-        String hostName = entry.getKey ();
+        String alias = entry.getKey ();
         NodeManager nodeManager = entry.getValue ();
 
         NodeApplicationManager nam = nodeManager.preparePlan (plan);
@@ -146,12 +145,12 @@ public class ExecutionManagerImpl
    * the node manager is not cached, then the execution manager 
    * will try to resolve its location using the name service.
    */
-  private NodeManager getNodeManager (String hostName, String kindName)
+  private NodeManager getNodeManager (String alias, String kindName)
     throws org.omg.CosNaming.NamingContextPackage.NotFound,
            org.omg.CosNaming.NamingContextPackage.InvalidName,
            org.omg.CosNaming.NamingContextPackage.CannotProceed
   {
-    String keyName = hostName + "/" + kindName;
+    String keyName = alias + "." + kindName;
     NodeManager nodeManager = null;
 
     if (this.nodeMgrs_.containsKey (keyName))
@@ -160,41 +159,9 @@ public class ExecutionManagerImpl
     }
     else
     {
-      // Break the hostname based on the '.' character.
-      String bindingName = new String ();
-      String [] nameParts = hostName.split ("\\.");
-
-      if (nameParts.length > 0)
-      {
-        // Reverse the contents of the array.
-        for (int left = 0, right = nameParts.length - 1;
-             left < right;
-             left++, right--)
-        {
-          String temp = nameParts [left];
-
-          nameParts [left] = nameParts [right];
-          nameParts [right] = temp;
-        }
-
-        // Construct the final binding name, for later usage.
-        bindingName += nameParts [0];
-
-        for (int i = 1; i < nameParts.length; ++i)
-          bindingName += "/" + nameParts [i];
-      }
-      else
-      {
-        nameParts = new String [1];
-        nameParts [0] = hostName;
-
-        // Save the binding name for later usage.
-        bindingName = hostName;
-      }
-
       // There is a good chance the target context does not exist. So, we
       // need to try and ensure it exists.
-      bindingName += "/NodeManager." + kindName;
+      String bindingName = "NodeManager/" + keyName;
 
       NameComponent [] name = this.ns_.to_name (bindingName);
       nodeManager = NodeManagerHelper.narrow (this.ns_.resolve (name));

@@ -20,7 +20,6 @@ import org.omg.PortableServer.*;
 import org.omg.CosNaming.*;
 import org.apache.log4j.Logger;
 import org.apache.log4j.BasicConfigurator;
-import java.net.*;
 import java.io.*;
 import java.util.*;
 
@@ -41,7 +40,7 @@ public class JbiNodeManager
   private POA poa_ = null;
 
   /// Determine if we need to register object with name service.
-  private boolean registerNameService_ = false;
+  private String nsName_ = null;
 
   /// Reference to the naming service.
   private NamingContextExt rootContext_ = null;
@@ -67,38 +66,38 @@ public class JbiNodeManager
    * Run the manager. This will instantiate a new NodeManagerImpl
    * object, which is a CORBA object, and activate it.
    */
-  public void run ()
-    throws org.omg.CORBA.ORBPackage.InvalidName,
-           org.omg.PortableServer.POAManagerPackage.AdapterInactive,
-           org.omg.PortableServer.POAPackage.ServantNotActive,
-           org.omg.PortableServer.POAPackage.WrongPolicy,
-           UnknownHostException
+  public void run (String [] args)
   {
     // Get a reference to the RootPOA.
-    this.poa_ =
-      org.omg.PortableServer.POAHelper.narrow (
-      this.orb_.resolve_initial_references ("RootPOA"));
+    try
+    {
+      this.parseArgs (args);
 
-    // Get the hostname running this manager.
-    InetAddress addr = InetAddress.getLocalHost ();
-    String hostName = addr.getCanonicalHostName ();
+      this.poa_ =
+        org.omg.PortableServer.POAHelper.narrow (
+        this.orb_.resolve_initial_references ("RootPOA"));
 
-    // Activate the RootPOA.
-    this.poa_.the_POAManager ().activate ();
+      // Activate the RootPOA.
+      this.poa_.the_POAManager ().activate ();
 
-    // Create a new JbiNodeManager, which is a server object.
-    NodeManagerImpl nodeManager = new NodeManagerImpl (this.orb_, hostName);
-    org.omg.CORBA.Object obj = this.poa_.servant_to_reference (nodeManager);
+      // Create a new JbiNodeManager, which is a server object.
+      NodeManagerImpl nodeManager = new NodeManagerImpl (this.orb_, this.nsName_);
+      org.omg.CORBA.Object obj = this.poa_.servant_to_reference (nodeManager);
 
-    if (this.iorFilename_ != null)
-      this.writeIORToFile (obj);
+      if (this.iorFilename_ != null)
+        this.writeIORToFile (obj);
 
-    if (this.registerNameService_)
-      this.registerWithNameService (obj, hostName);
+      if (this.nsName_ != null)
+        this.registerWithNameService (obj);
 
-    // Run the ORB's event loop.
-    this.logger_.debug ("running the node manager's event loop");
-    this.orb_.run ();
+      // Run the ORB's event loop.
+      this.logger_.debug ("running the node manager's event loop");
+      this.orb_.run ();
+    }
+    catch (Exception ex)
+    {
+      this.logger_.error (ex.getMessage (), ex);
+    }
   }
 
   /**
@@ -107,7 +106,7 @@ public class JbiNodeManager
   public void shutdownApp ()
   {
     // Unregister the object with the naming service.
-    if (this.registerNameService_)
+    if (this.nsName_ != null)
       this.unregisterWithNameService ();
 
     // Destroy the POA.
@@ -145,15 +144,15 @@ public class JbiNodeManager
    *
    * @param       args          The commandline options.
    */
-  public void parseArgs (String [] args)
+  private void parseArgs (String [] args)
   {
     for (int i = 0; i < args.length; ++i)
     {
       String arg = args [i];
 
-      if (arg.equals ("-register-with-ns"))
+      if (arg.equals ("-name"))
       {
-        this.registerNameService_ = true;
+        this.nsName_ = args [++i];
       }
       else if (arg.equals ("-o"))
       {
@@ -167,8 +166,7 @@ public class JbiNodeManager
    *
    * @param       obj           Target object to register.
    */
-  private void registerWithNameService (org.omg.CORBA.Object obj, 
-                                        String hostName)
+  private void registerWithNameService (org.omg.CORBA.Object obj)
   {
     try
     {
@@ -177,71 +175,25 @@ public class JbiNodeManager
         NamingContextExtHelper.narrow (
         this.orb_.resolve_initial_references ("NameService"));
 
-      String [] nameParts = hostName.split ("\\.");
-
-      if (nameParts.length > 0)
+      try
       {
-        // Reverse the contents of the array.
-        for (int left = 0, right = nameParts.length - 1;
-             left < right;
-             left ++, right --)
-        {
-          String temp = nameParts[left];
-
-          nameParts[left] = nameParts[right];
-          nameParts[right] = temp;
-        }
-
-        // Construct the final binding name, for later usage.
-        this.bindingName_ += nameParts[0];
-
-        for (int i = 1; i < nameParts.length; ++ i)
-          this.bindingName_ += "/" + nameParts[i];
+        // Create a new context for the node manager. This is reallyo
+        // a one time process, but we need to make sure one exist.
+        this.rootContext_.bind_new_context (
+          this.rootContext_.to_name ("NodeManager")); ;
       }
-      else
+      catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e)
       {
-        nameParts = new String [1];
-        nameParts[0] = hostName;
 
-        // Save the binding name for later usage.
-        this.bindingName_ = hostName;
-      }
-
-      // There is a good chance the target context does not exist. So, we
-      // need to try and ensure it exists.
-      NamingContextExt currContext = this.rootContext_;
-      StringBuffer nameBuffer = new StringBuffer ();
-
-      for (String name : nameParts)
-      {
-        boolean duplicateName = false;
-        nameBuffer.append (name);
-
-        try
-        {
-          currContext =
-            NamingContextExtHelper.narrow (
-            currContext.bind_new_context (
-            currContext.to_name (nameBuffer.toString ())));
-        }
-        catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e)
-        {
-          duplicateName = true;
-        }
-
-        if (!duplicateName)
-          nameBuffer.setLength (0);
-        else
-          nameBuffer.append ("/");
       }
 
       // Bind the node manager under this context. We are going to use
       // the rebind () method instead of bind () to ensure the object
       // is registered with the name service.
 
-      this.bindingName_ += "/NodeManager.(default)";
-
-      this.logger_.debug ("registering node manager with name service");
+      this.bindingName_ = "NodeManager/" + this.nsName_ + ".(default)";
+      this.logger_.debug ("registering node manager with name service [" +
+                          this.bindingName_ + "]");
       this.rootContext_.rebind (
         this.rootContext_.to_name (this.bindingName_), obj);
     }
@@ -292,13 +244,9 @@ public class JbiNodeManager
 
     try
     {
-      java.util.Properties props = new java.util.Properties();
-      props.setProperty("jacorb.poa.thread_pool_min", "10");
-      props.setProperty("jacorb.poa.thread_pool_max", "20");
-      
       // Initialize the CORBA ORB.
       logger.debug ("initializing the CORBA ORB");
-      orb = ORB.init (args, props);
+      orb = ORB.init (args, null);
 
       // Create a new node manager.
       logger.debug ("creating a new node manager object");
@@ -313,8 +261,7 @@ public class JbiNodeManager
 
       // Parse the command line arguments then run the manager.
       logger.debug ("parsing command-line arguments");
-      manager.parseArgs (args);
-      manager.run ();
+      manager.run (args);
     }
     catch (Exception ex)
     {
