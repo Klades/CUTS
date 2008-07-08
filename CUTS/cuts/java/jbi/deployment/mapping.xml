@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                         "http://castor.org/mapping.dtd">
+<mapping>
+  <class name="DeploymentPlan" auto-complete="true">
+    <map-to xml="deployment" />
+ 
+    <field name="UUID" type="java.lang.String" direct="true" has-method="false">
+      <bind-xml name="UUID" node="element" />
+    </field>
+
+    <!--field name="componentInstances" 
+           type="cuts.java.jbi.deployment.ComponentInstanceDescriptor"
+           collection="array"
+           direct="true">
+      <bind-xml name="instance" node="element"/>
+    </field-->
+  </class>
+</mapping>

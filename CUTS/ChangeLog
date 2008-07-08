@@ -1,3 +1,20 @@
+Tue Jul  8 15:38:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/jbi/ExecutionManager.bat:
+        * bin/jbi/PlanLauncher.bat:
+        * bin/jbi/SingleProcess.bat:
+        * bin/jbi/SingleProcess.sh:
+        * cuts/cuts.java.jbi.build:
+        * cuts/java/jbi/deployment/ApplicationProcessManagerImpl.java:
+        * cuts/java/jbi/deployment/JbiPlanLauncher.java:
+        * cuts/java/jbi/deployment/NodeApplicationManagerImpl.java:
+        * cuts/java/jbi/deployment/mapping.xml:
+        * etc/schemas/jbi:
+        * etc/schemas/jbi/deployment.xsd:
+
+          First version of the distributed deployment framework that is able
+          to both deploy and teardown JBI applications.
+
 Mon Jul  7 01:36:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/jbi/deployment/ApplicationProcessImpl.java:
@@ -6,7 +23,7 @@ Mon Jul  7 01:36:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/java/jbi/deployment/NodeApplicationImpl.java:
         * cuts/java/jbi/deployment/NodeApplicationManagerImpl.java:
         * cuts/java/jbi/idl/ApplicationProcess.idl:
-        
+
           The runtime portion of the deployment framework is complete. It
           is now possible to programmatically deploy clients onto multiple
           node and into multiple processes.

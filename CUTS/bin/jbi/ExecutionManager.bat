@@ -1,6 +1,19 @@
+@rem ##########################################################################
+@rem ##
+@rem ## @file            ExecutionManager.bat
+@rem ##
+@rem ## $Id$
+@rem ##
+@rem ## @author          James H. Hill
+@rem ##
+@rem ## Helper script for launching the execution manager for the deployment
+@rem ## framework.
+@rem ##
+@rem ##########################################################################
+
 @setlocal
 
-@rem set CLASSPATH=%CLASSPATH%;%CUTS_ROOT%\lib\cuts.java.jbi.deployment.jar
+@set CLASSPATH=%CLASSPATH%;%CUTS_ROOT%\lib\cuts.java.jbi.deployment.jar
 @rem set CLASSPATH=%CLASSPATH%;%CUTS_ROOT%\lib\cuts.java.jbi.jar
 @rem set CLASSPATH=%CLASSPATH%;%JACORB_ROOT%\lib\jacorb.jar
 @rem set CLASSPATH=%CLASSPATH%;%LOG4J_ROOT%\log4j-1.2.15.jar

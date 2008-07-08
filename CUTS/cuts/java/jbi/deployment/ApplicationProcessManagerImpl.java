@@ -73,13 +73,21 @@ public class ApplicationProcessManagerImpl
    */
   public void unregisterProcess (ApplicationProcess process)
   {
-    String name = process.name ();
-    this.logger_.debug ("unregistering process group [" + name + "]");
-
     // Remove the application process reference, but not the actual 
     // process. We need to eventually wait for the process to exit. Or,
     // we can assume the process exits.
-    this.processMap_.remove (name);
+    this.lock_.lock ();
+
+    try
+    {
+      String name = process.name ();
+      this.logger_.debug ("unregistering process " + name);
+      this.processMap_.remove (name);
+    }
+    finally
+    {
+      this.lock_.unlock ();
+    }
   }
 
   /**
@@ -160,29 +168,54 @@ public class ApplicationProcessManagerImpl
    */
   public void shutdown ()
   {
-    for (Map.Entry <String, Item> entry : this.processMap_.entrySet ())
+    // Get the names of the processes. We have to do it this way since the 
+    // unregisterProcess () will change the structure of the process map
+    // and will cause an exception to be thrown.
+    ArrayList <String> processNames = new ArrayList <String> ();
+
+    for (String processName : this.processMap_.keySet ())
+      processNames.add (processName);
+
+    // Signal each of the application process to shutdown their operations. 
+    // This will cause them to remove all the client instances.
+    for (String processName : processNames)
     {
-      String processName = entry.getKey ();
-      Item item = entry.getValue ();
+      this.lock_.lock ();
+      Item item = null;
 
       try
       {
-        // Shutdown the application process.
-        this.logger_.debug ("signaling process " + processName + " to shutdown");
-        item.appProcess_.shutdown ();
-
-        // Wait for the process to exit.
-        this.logger_.debug ("waiting for process " + processName + " to exit");
-        item.processHandler_.getProcess ().waitFor ();
+        // Get the next item in the process map.
+        this.logger_.debug ("getting process " + processName + 
+                            " from the process manager's listing");
+        item = this.processMap_.get (processName);
       }
-      catch (Exception e)
+      finally
       {
-        this.logger_.error (e.getMessage (), e);
+        this.lock_.unlock ();
+      }
+
+      if (item != null)
+      {
+        try
+        {
+          // Shutdown the application process.
+          this.logger_.debug ("signaling process " + processName + " to shutdown");
+          item.appProcess_.shutdown ();
+
+          // Wait for the process to exit. We don't have to remove it from the
+          // process map because unregisterProcess () does that for us.
+          this.logger_.debug ("waiting for process " + processName + " to exit");
+          item.processHandler_.getProcess ().waitFor ();
+          
+          if (this.processMap_.containsKey (processName))
+            this.logger_.error (processName + " failed to unregister itself");
+        }
+        catch (Exception ex)
+        {
+          this.logger_.error (ex.getMessage (), ex);
+        }
       }
     }
-
-    // Remove all the entry from the mapping.
-    this.logger_.debug ("clearing all entries from the process map");
-    this.processMap_.clear ();
   }
 }

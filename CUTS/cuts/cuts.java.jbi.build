@@ -223,8 +223,10 @@
           depends="cuts.java.jbi.deployment.build">
 
     <jar destfile="${cuts.lib.dir}/${cuts.java.jbi.deployment.jar}"
-         basedir="${cuts.dir}"
-         includes="cuts/java/jbi/deployment/*.class" />
+         basedir="${cuts.dir}">
+      <include name="cuts/java/jbi/deployment/*.class" />
+      <include name="cuts/java/jbi/deployment/mapping.xml" />
+    </jar>
   </target>
 
   <target name="cuts.java.jbi.deployment.clean">
