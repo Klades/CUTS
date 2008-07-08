@@ -1,3 +1,12 @@
+Tue Jul  8 15:59:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/jbi/ExecutionManager.sh:
+        * bin/jbi/NodeManager.sh:
+        * bin/jbi/PlanLauncher.sh:
+        
+          Scripts for launching portions of the deployment framework
+          on non-Windows systems.
+
 Tue Jul  8 15:38:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/jbi/ExecutionManager.bat:
