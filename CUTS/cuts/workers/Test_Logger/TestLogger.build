@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<project name="cuts.java" basedir="." default="build.all">
+  <property environment="env" />
+  <import file="${env.CUTS_ROOT}/etc/ANT/include/cuts.build" />
+
+  <property name="contrib.dir" value="${env.CUTS_ROOT}/contrib/java" />
+
+  <!--
+    Target(s): top-level targets
+    -->
+
+  <target name="build.all"
+          depends="TestLogger.jar.build" />
+
+  <target name="clean"
+          depends="TestLogger.clean" />
+
+  <target name="realclean"
+          depends="TestLogger.realclean" />
+
+  <property name="jarfile" value="CUTS.TestLogger.jar" />
+
+  <target name="TestLogger.idl">
+    <path id="jacorb.idl.classpath">
+      <pathelement path="${contrib.dir}/idl.jar" />
+      <pathelement path="${contrib.dir}/logkit-1.2.jar" />
+    </path>
+
+    <java classname="org.jacorb.idl.parser"
+          classpathref="jacorb.idl.classpath"
+          failonerror="true">
+
+      <arg line="-d ." />
+      <arg line="-noskel" />
+      <arg line="${cuts.src.dir}/utils/testing/testing.idl" />
+    </java>
+  </target>
+
+  <target name="TestLogger.build" depends="TestLogger.idl">
+    <path id="TestLogger.build.classpath">
+      <pathelement path="." />
+    </path>
+
+    <javac srcdir="."
+           classpathref="TestLogger.build.classpath"
+           debug="true"
+           debuglevel="source,lines">
+
+      <include name="CUTS/*.java" />
+    </javac>
+  </target>
+
+  <target name="TestLogger.jar.build" depends="TestLogger.build">
+    <jar destfile="${cuts.lib.dir}/${jarfile}" basedir=".">
+      <include name="CUTS/*.class" />
+    </jar>
+  </target>
+
+  <target name="TestLogger.clean">
+    <delete>
+      <fileset dir="CUTS" 
+               includes="*.class, *.java"
+               excludes="TestLogger.java" />
+    </delete>
+  </target>
+
+  <target name="TestLogger.realclean" depends="TestLogger.clean">
+    <delete>
+      <fileset dir="${cuts.lib.dir}" includes="${jarfile}" />
+    </delete>
+  </target>
+</project>

@@ -1,3 +1,43 @@
+Wed Jul  9 15:41:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/cuts.java.build:
+        
+          Moved the logger class to cuts/workers/Test_Logger directory.
+
+        * cuts/utils/testing:
+        * cuts/utils/testing/TestManager_i.h:
+        * cuts/utils/testing/TestManager_i.cpp:
+        * cuts/utils/testing/Testing_App.h:
+        * cuts/utils/testing/Testing_App.cpp:
+        * cuts/utils/testing/Testing_App_Server.h:
+        * cuts/utils/testing/Testing_App_Server.cpp:
+        * cuts/utils/testing/Testing_App_Task.h:
+        * cuts/utils/testing/Testing_App_Task.cpp:
+        * cuts/utils/testing/Testing_skel_export.h:
+        * cuts/utils/testing/Testing_stub_export.h:
+        * cuts/utils/testing/cuts_test.cpp:
+        * cuts/utils/testing/testing.idl:
+        * cuts/utils/testing/testing.mpc:
+        
+          First phase of developing a test management application. So far
+          it is able to start/stop test in a database. The next step is to
+          allow it to deploy/teardown distributed applications.
+
+        * cuts/workers/Test_Logger:
+        * cuts/workers/Test_Logger/CUTS:
+        * cuts/workers/Test_Logger/CUTS/TestLogger.java:
+        * cuts/workers/Test_Logger/TestLogger.build:
+        
+          The newest addition to the workload generator family. This is
+          a logger that associates log messages with a test number. It
+          works in conjunction with the TestManager and TestLoggerClient
+          interface.
+
+        * cuts/java/LogPriority.java:
+        * cuts/java/Logger.java:
+
+          Removed these files.
+
 Tue Jul  8 21:21:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/jbi/deployment/ExecutionManagerImpl.java:
@@ -7,7 +47,7 @@ Tue Jul  8 21:21:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
           The <location> tag in the deployment plan now refers to an
           alias. The alias maps to the name that a node manager is given
           when it is deployed.
-          
+
 Tue Jul  8 18:32:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/ANT/include/cuts.build:

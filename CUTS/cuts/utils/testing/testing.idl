@@ -1,0 +1,27 @@
+// -*- IDL -*-
+
+#ifndef _CUTS_TESTING_IDL_
+#define _CUTS_TESTING_IDL_
+
+module CUTS
+{
+  /**
+   * @interface TestManager
+   */
+  interface TestManager
+  {
+    readonly attribute long test_number;
+  };
+
+  /**
+   * @interface TestLogger
+   */
+  interface TestLoggerClient
+  {
+    void log_msg (in long test_id, 
+                  in long priority,
+                  in string message);
+  };
+};
+
+#endif  // !defined _CUTS_TESTING_IDL_

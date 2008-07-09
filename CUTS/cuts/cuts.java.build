@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <project name="cuts.java" basedir="." default="cuts.java.jar.build">
   <property environment="env" />
-  
+  <import file="${env.CUTS_ROOT}/etc/ANT/include/cuts.build" />
+
+  <property name="jarfile" value="cuts.java.jar" />
   
   <target name="cuts.java.build">
     <javac srcdir="${env.CUTS_ROOT}/cuts"
            debug="true"
            debuglevel="source,lines"
            classpath="${env.CUTS_ROOT}/contrib/java/log4j-1.2.15.jar">
-      <include name="java/LogPriority.java" />
-      <include name="java/Logger.java" />
-      <include name="java/PeriodicTask.java" />
-      <include name="java/ProcessHandler.java" />
-      <include name="java/ProcessStreamReader.java" />
+      <include name="java/*.java" />
     </javac>
   </target>
   
@@ -20,11 +18,20 @@
     <jar destfile="${env.CUTS_ROOT}/lib/cuts.java.jar"
          basedir="${env.CUTS_ROOT}">
 
-      <include name="cuts/java/LogPriority.class" />
-      <include name="cuts/java/Logger.class" />
-      <include name="cuts/java/PeriodicTask.class" />
-      <include name="cuts/java/ProcessHandler.class" />
-      <include name="cuts/java/ProcessStreamReader.class" />
+      <include name="cuts/java/*.class" />
     </jar>
+  </target>
+
+  <target name="cuts.java.jar.clean">
+    <delete>
+      <fileset dir="${cuts.src.dir}/java/jbi/deployment"
+               includes="*.class" />
+    </delete>
+  </target>
+
+  <target name="cuts.java.jar.realclean" depends="cuts.java.jar.clean">
+    <delete>
+      <fileset dir="${cuts.lib.dir}" includes="${jarfile}" />
+    </delete>
   </target>
 </project>
