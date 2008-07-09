@@ -10,8 +10,10 @@
  */
 //=============================================================================
 
+#ifndef _CUTS_TESTING_APP_H_
+#define _CUTS_TESTING_APP_H_
+
 #include "Testing_App_Task.h"
-#include "Testing_App_Server.h"
 #include "ace/SString.h"
 #include "ace/Thread_Mutex.h"
 #include "ace/Condition_T.h"
@@ -31,7 +33,7 @@ public:
   CUTS_Testing_App (void);
 
   /// Destructor.
-  ~CUTS_Testing_App (void);
+  virtual ~CUTS_Testing_App (void);
 
   /**
    * Run the main part of the application. This method does not return 
@@ -40,11 +42,11 @@ public:
    * @param[in]       argc        Number of command-line arguments
    * @param[in]       argv        The command-line arguments
    */
-  int run_main (int argc, char * argv []);
+  virtual int run_main (int argc, char * argv []);
 
   /// Shutdown the testing application. This will stop the ORBs main 
   /// event loop and allow the run_main () method to return.
-  void shutdown (void);
+  virtual int shutdown (void);
 
   /// Start a new test in the database (if applicable).
   int start_new_test (void);
@@ -62,7 +64,10 @@ public:
    */
   const ACE_CString & name (void) const;
 
-private:
+protected:
+  /// Implementation of the run_main () function.
+  int run_main_i (void);
+
   /**
    * Parse the command-line arguments.
    *
@@ -71,17 +76,13 @@ private:
    * @retval          0           Successfully parsed arguments
    * @retval          -1          Failed to parse arguments
    */
-  int parse_args (int argc, char * argv []);
+  virtual int parse_args (int argc, char * argv []);
 
   /// Print the help for this application.
   void print_help (void);
 
   /// Connect to the specified database.
   void connect_to_database (void);
-
-  /// Name of the testing application. The default name of the 
-  /// application is '(default)'.
-  ACE_CString name_;
 
   /// Verbosity of the application.
   bool verbose_;
@@ -91,6 +92,11 @@ private:
 
   /// The connection for the database service.
   ACE_Auto_Ptr <CUTS_DB_Connection> conn_;
+
+private:
+  /// Name of the testing application. The default name of the 
+  /// application is '(default)'.
+  ACE_CString name_;
 
   /// The test number associated with the experiment.
   long test_number_;
@@ -104,10 +110,9 @@ private:
   /// Task for the testing application.
   ACE_Auto_Ptr <CUTS_Testing_App_Task> task_;
 
-  /// The server for the testing application.
-  ACE_Auto_Ptr <CUTS_Testing_App_Server> server_;
-
   ACE_Thread_Mutex lock_;
 
   ACE_Condition <ACE_Thread_Mutex> shutdown_; 
 };
+
+#endif  // !defined _CUTS_TESTING_APP_H_

@@ -50,15 +50,33 @@ project (CUTS_Testing_skel) : portableserver, cuts_testing_stub, cutslib {
   }
 }
 
-project (cuts_test) : iortable, cuts_testing_skel, cuts_odbclib, cutsexe {
-  exename = cuts_test
+project (cutstest) : cuts_odbclib, cutsexe {
+  exename = cutstest
 
   Source_Files {
-    cuts_test.cpp
-    TestManager_i.cpp
+    cutstest.cpp
+    Testing_App.cpp
+    Testing_App_Task.cpp
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (cutstest_d) : iortable, cuts_testing_skel, cuts_odbclib, cutsexe {
+  exename = cutstest_d
+
+  Source_Files {
+    cutstest_d.cpp
     Testing_App.cpp
     Testing_App_Task.cpp
     Testing_App_Server.cpp
+    TestManager_i.cpp
   }
 
   Header_Files {

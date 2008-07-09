@@ -127,6 +127,18 @@ public class TestLogger
    * 
    * @param[in]         hostName          Location of the test manager.
    */
+  public void connect (String testManagerLocation)
+  {
+    this.connect (testManagerLocation, this.testManagerName_);
+  }
+
+  /**
+   * Connect the to the test manager at the specified location. The 
+   * test logger will cache the host name for later usage, such as
+   * reconnecting to the test manager to get the latest test id.
+   * 
+   * @param[in]         hostName          Location of the test manager.
+   */
   public void connect (String testManagerLocation, String testManagerName)
   {
     this.testManagerLocation_ = testManagerLocation;
@@ -153,7 +165,7 @@ public class TestLogger
 
     // Get the current id of the test. We need to use this to identify
     // the test which the log message belongs.
-    this.testNumber_ = tm.get_current_test_id ();
+    this.testNumber_ = tm.test_number ();
   }
 
   /**
@@ -165,5 +177,15 @@ public class TestLogger
   public void logMessage (int priority, String message)
   {
     this.loggerClient_.log_msg (this.testNumber_, priority, message);
+  }
+
+  /**
+   * Get the test number used by the logger.
+   * 
+   * @return      The test number for the logger.
+   */
+  public int getTestNumber ()
+  {
+    return this.testNumber_;
   }
 }

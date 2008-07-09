@@ -26,21 +26,21 @@ static const char * __help__ =
 "Test manager for CUTS-based experiments.\n"
 "\n"
 "OPTIONS:\n"
-"  -n=NAME               Name for test manager; '(default)' is default\n"
-"  --server=HOSTNAME     Location of CUTS test database\n"
-"  -t, --time            Test duration in seconds (default = 60)\n"
+"  -n, --name=NAME       name for test manager; default='(default)'\n"
+"  --database=HOSTNAME   location of CUTS test database; default='localhost'\n"
+"  -t, --time=TIME       test duration in seconds (default = 60)\n"
 "\n"
-"  -v, --verbose         Print verbose infomration\n" 
-"  -h, --help            Print this help message\n";
+"  -v, --verbose         print verbose infomration\n" 
+"  -h, --help            print this help message\n";
 
 //
 // CUTS_Testing_App
 // 
 CUTS_Testing_App::CUTS_Testing_App (void)
-: name_ ("(default)"),
-  verbose_ (false),
+: verbose_ (false),
+  name_ ("(default)"),
   test_number_ (-1),
-  test_duration_ (60),
+  test_duration_ (60),  
   test_timer_id_ (-1),
   shutdown_ (this->lock_)
 {
@@ -155,6 +155,14 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
   if (this->parse_args (argc, argv) == -1)
     return -1;
 
+  return this->run_main_i ();
+}
+
+//
+// run_main_i
+//
+int CUTS_Testing_App::run_main_i (void)
+{
   if (!this->server_addr_.empty ())
   {
     // Establish a connection with the database, and create a new
@@ -198,13 +206,6 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
                 "*** error: failed to start test\n"));
   }
 
-  if (this->test_timer_id_ != -1)
-  {
-    // Stop the currently executing test.
-    this->task_->stop_test (this->test_timer_id_);
-    this->test_timer_id_ = -1;
-  }
-
   VERBOSE_MSG ((LM_DEBUG, 
                 "*** info: stopping the current test\n"));
 
@@ -226,13 +227,14 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
 //
 // shutdown
 //
-void CUTS_Testing_App::shutdown (void)
+int CUTS_Testing_App::shutdown (void)
 {
   // Wake all threads waiting for shutdown event.
   VERBOSE_MSG ((LM_DEBUG,
                 "*** debug: notifying all threads of shutdown event\n"));
-  ACE_GUARD (ACE_Thread_Mutex, guard, this->lock_);
+  ACE_GUARD_RETURN (ACE_Thread_Mutex, guard, this->lock_, -1);
   this->shutdown_.broadcast ();
+  return 0;
 }
 
 //
@@ -305,9 +307,17 @@ int CUTS_Testing_App::start_new_test (void)
 //
 int CUTS_Testing_App::stop_current_test (void)
 {
-  if (this->test_number_ == -1)
-    return 1;
+  if (this->test_timer_id_ != -1)
+  {
+    // Stop the currently executing test.
+    this->task_->stop_test (this->test_timer_id_);
+    this->test_timer_id_ = -1;
+  }
 
+  if (this->test_number_ == -1)
+    return 0;
+
+  // Let the database know the current test has stopped.
   try
   {
     CUTS_Auto_Functor_T <CUTS_DB_Query>

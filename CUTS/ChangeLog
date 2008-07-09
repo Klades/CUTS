@@ -1,7 +1,33 @@
+Wed Jul  9 22:13:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/jbi/ExecutionManager.bat:
+        
+          Removed unncessary command-line options.
+
+        * cuts/utils/testing/Testing_App.h:
+        * cuts/utils/testing/Testing_App.cpp:
+        * cuts/utils/testing/Testing_App_Server.h:
+        * cuts/utils/testing/Testing_App_Server.cpp:
+        * cuts/utils/testing/cutstest.cpp:
+        * cuts/utils/testing/testing.mpc:
+        
+          Separated the CUTS testing application into a regular and 
+          deamon application. The daemon application allows clients to
+          remotely control the lifecycle of the test.
+
+        * cuts/workers/Test_Logger/CUTS/TestLogger.java:
+
+          Implemented a method named getTestNumber (), which is
+          responsible for getting the cached test number of the client.
+          
+        * cuts/utils/testing/cuts_test.cpp:
+
+          Removed this file.
+
 Wed Jul  9 15:41:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/cuts.java.build:
-        
+
           Moved the logger class to cuts/workers/Test_Logger directory.
 
         * cuts/utils/testing:
@@ -18,7 +44,7 @@ Wed Jul  9 15:41:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/utils/testing/cuts_test.cpp:
         * cuts/utils/testing/testing.idl:
         * cuts/utils/testing/testing.mpc:
-        
+
           First phase of developing a test management application. So far
           it is able to start/stop test in a database. The next step is to
           allow it to deploy/teardown distributed applications.
@@ -27,7 +53,7 @@ Wed Jul  9 15:41:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/workers/Test_Logger/CUTS:
         * cuts/workers/Test_Logger/CUTS/TestLogger.java:
         * cuts/workers/Test_Logger/TestLogger.build:
-        
+
           The newest addition to the workload generator family. This is
           a logger that associates log messages with a test number. It
           works in conjunction with the TestManager and TestLoggerClient

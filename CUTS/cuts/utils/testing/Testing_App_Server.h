@@ -13,11 +13,9 @@
 #ifndef _CUTS_TESTING_APP_SERVER_H_
 #define _CUTS_TESTING_APP_SERVER_H_
 
-#include "TestManager_i.h"
+#include "Testing_App.h"
+#include "tao/PortableServer/Servant_Base.h"
 #include "ace/Task.h"
-
-// Forward decl.
-class CUTS_Testing_App;
 
 // Forward decl.
 class CUTS_TestManager_i;
@@ -25,7 +23,7 @@ class CUTS_TestManager_i;
 /**
  * @class CUTS_Testing_App_Server
  */
-class CUTS_Testing_App_Server
+class CUTS_Testing_App_Server : public CUTS_Testing_App
 {
 public:
   /**
@@ -33,10 +31,10 @@ public:
    *
    * @param[in]         parent        Parent testing application.
    */
-  CUTS_Testing_App_Server (CUTS_Testing_App & parent);
+  CUTS_Testing_App_Server (void);
 
   /// Destructor.
-  ~CUTS_Testing_App_Server (void);
+  virtual ~CUTS_Testing_App_Server (void);
 
   /**
    * Run the testing application's server. This method will spawn
@@ -46,12 +44,17 @@ public:
    * @param[in]         argc          Number of command-line arguments.
    * @param[in]         argv          The command-line arguments.
    */
-  int run_main (int argc, char * argv []);
+  virtual int run_main (int argc, char * argv []);
 
   /// Shutdown the server.
-  int shutdown (void);
+  virtual int shutdown (void);
 
 private:
+  /**
+   * Parse the command-line arguments.
+   */
+  virtual int parse_args (int argc, char * argv []);
+
   /// Service thread for the server. This actually runs the ORB's
   /// main event loop so control can return to the main part of
   /// the application.
@@ -60,23 +63,14 @@ private:
   /// Helper method to register TestManager with IORTable.
   int register_with_iortable (void);
 
-  /// Parent testing app for the server.
-  CUTS_Testing_App & parent_;
-
   /// The ORB for the server.
   CORBA::ORB_var orb_;
 
-  /// The RootPOA for the server.
-  PortableServer::POA_var root_poa_;
-
   /// Test manager for the server.
-  ACE_Auto_Ptr <CUTS_TestManager_i> test_manager_;
+  CUTS_TestManager_i * test_manager_;
 
   /// POA servant.
   PortableServer::ServantBase_var servant_;
-
-  /// Group id of the service thread.
-  int thr_grp_id_;
 };
 
 #endif  // !defined _CUTS_TESTING_APP_SERVER_H_
