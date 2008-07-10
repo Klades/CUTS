@@ -64,7 +64,7 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
 {
   // Now, parse the remaining command-line options.
   const char * opts = ACE_TEXT ("n:vht:");
-  ACE_Get_Opt get_opt (argc, argv, opts, 0);
+  ACE_Get_Opt get_opt (argc, argv, opts);
 
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("name", 'n', ACE_Get_Opt::ARG_REQUIRED);
@@ -100,13 +100,6 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
         std::istringstream istr (get_opt.opt_arg ());
         istr >> this->test_duration_;
       }
-      else
-      {
-        ACE_ERROR ((LM_NOTICE,
-                    "ignoring --%s unknown argument\n",
-                    get_opt.long_option ()));
-      }
-
       break;
 
     case 'n':
@@ -130,17 +123,10 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
 
     case ':':
       ACE_ERROR_RETURN ((LM_ERROR, 
-                         "-%c is missing an argument\n",
+                         "%T - [%M] - -%c is missing an argument\n",
                          get_opt.opt_opt ()),
                          -1);
       break;
-
-    case '?':
-      ACE_ERROR ((LM_WARNING, 
-                  "-%c is an unknown argument\n",
-                  get_opt.opt_opt ()));
-      break;
-
     };
   }
 
@@ -172,14 +158,14 @@ int CUTS_Testing_App::run_main_i (void)
     if (this->start_new_test () != 0)
     {
       ACE_ERROR ((LM_ERROR,
-                   "*** error: failed to start a new test on %s",
+                   "%T - [%M] - failed to start a new test on %s",
                    this->server_addr_.c_str ()));
     }
   }
   else
   {
     VERBOSE_MSG ((LM_INFO,
-                  "*** info: not registering test run with database\n",
+                  "%T - [%M] - not registering test run with database\n",
                   this->server_addr_.c_str ()));
   }
 
@@ -188,7 +174,7 @@ int CUTS_Testing_App::run_main_i (void)
 
   // Start the actual test.
   ACE_DEBUG ((LM_INFO,
-              "*** info: running test for %d second(s)\n",
+              "%T - [%M] - running test for %d second(s)\n",
               this->test_duration_));
 
   ACE_Time_Value duration (this->test_duration_);
@@ -203,22 +189,22 @@ int CUTS_Testing_App::run_main_i (void)
   else
   {
     ACE_ERROR ((LM_ERROR,
-                "*** error: failed to start test\n"));
+                "%T - [%M] - failed to start test\n"));
   }
 
   VERBOSE_MSG ((LM_DEBUG, 
-                "*** info: stopping the current test\n"));
+                "%T - [%M] - stopping the current test\n"));
 
   if (this->stop_current_test () == -1)
   {
     ACE_ERROR ((LM_ERROR, 
-                "*** error: failed to stop current test (%d)\n",
+                "%T - [%M] - failed to stop current test (%d)\n",
                 this->test_number_));
   }
 
   // Shutdown the testing application task.
   VERBOSE_MSG ((LM_DEBUG,
-                "*** debug: waiting for application task to stop\n"));
+                "%T - [%M] - waiting for application task to stop\n"));
   this->task_->stop ();
 
   return 0;
@@ -231,7 +217,7 @@ int CUTS_Testing_App::shutdown (void)
 {
   // Wake all threads waiting for shutdown event.
   VERBOSE_MSG ((LM_DEBUG,
-                "*** debug: notifying all threads of shutdown event\n"));
+                "%T - [%M] - notifying all threads of shutdown event\n"));
   ACE_GUARD_RETURN (ACE_Thread_Mutex, guard, this->lock_, -1);
   this->shutdown_.broadcast ();
   return 0;
@@ -258,7 +244,7 @@ void CUTS_Testing_App::connect_to_database (void)
 
   // Connect to the specified server using the default port.
   VERBOSE_MSG ((LM_INFO,
-                "*** info: connecting to test database on %s\n",
+                "%T - [%M] - connecting to test database on %s\n",
                 this->server_addr_.c_str ()));
 
   this->conn_->connect (CUTS_USERNAME, 
@@ -282,7 +268,8 @@ int CUTS_Testing_App::start_new_test (void)
       "INSERT INTO tests (start_time, status) VALUES (NOW(), 'active')";
 
     // Execute the statement and get the last inserted id.
-    VERBOSE_MSG ((LM_DEBUG, "*** debug : creating a new test in database\n"));
+    VERBOSE_MSG ((LM_DEBUG, 
+                  "%T - [%M] - creating a new test in database\n"));
     query->execute_no_record (str_stmt);
     this->test_number_ = query->last_insert_id ();
     return 0;
@@ -290,13 +277,13 @@ int CUTS_Testing_App::start_new_test (void)
   catch (const CUTS_DB_Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "*** error : %s\n",
+                "%T - [%M] - %s\n",
                 ex.message ().c_str ()));
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "*** error : caught unknown exception\n"));
+                "%T - [%M] - caught unknown exception\n"));
   }
 
   return -1;
@@ -339,13 +326,13 @@ int CUTS_Testing_App::stop_current_test (void)
   catch (const CUTS_DB_Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "*** error : %s\n",
+                "%T - [%M] - %s\n",
                 ex.message ().c_str ()));
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "*** error : caught known exception\n"));
+                "%T - [%M] - caught known exception\n"));
   }
 
   return -1;

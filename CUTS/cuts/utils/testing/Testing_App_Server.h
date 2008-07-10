@@ -15,6 +15,7 @@
 
 #include "Testing_App.h"
 #include "tao/PortableServer/Servant_Base.h"
+#include "orbsvcs/CosNamingC.h"
 #include "ace/Task.h"
 
 // Forward decl.
@@ -60,8 +61,16 @@ private:
   /// the application.
   static ACE_THR_FUNC_RETURN svc_run (void * param);
 
+  int orb_svc (void);
+
   /// Helper method to register TestManager with IORTable.
   int register_with_iortable (void);
+
+  /// Helper method to register TestManager with naming service.
+  int register_with_name_service (void);
+
+  /// Helper method to unregister TestManger with the name service.
+  int unregister_with_name_service (void);
 
   /// The ORB for the server.
   CORBA::ORB_var orb_;
@@ -71,6 +80,12 @@ private:
 
   /// POA servant.
   PortableServer::ServantBase_var servant_;
+
+  /// Register the daemon with the naming service.
+  bool regiser_with_ns_;
+
+  /// The root context of the naming service.
+  CosNaming::NamingContextExt_var root_ctx_;
 };
 
 #endif  // !defined _CUTS_TESTING_APP_SERVER_H_

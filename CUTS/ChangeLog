@@ -1,7 +1,20 @@
+Thu Jul 10 02:18:26 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/Testing_App.cpp:
+        * cuts/utils/testing/Testing_App_Server.h:
+        * cuts/utils/testing/Testing_App_Server.cpp:
+        * cuts/utils/testing/testing.mpc:
+        
+          The CUTS_Testing_App_Server is now a subclass of the 
+          CUTS_Testing_App. This helps with reusing the basic testing
+          application within the server version. This also caused 
+          the basic testing application expose private variables via
+          accesor methods.
+
 Wed Jul  9 22:13:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/jbi/ExecutionManager.bat:
-        
+
           Removed unncessary command-line options.
 
         * cuts/utils/testing/Testing_App.h:
@@ -10,8 +23,8 @@ Wed Jul  9 22:13:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/utils/testing/Testing_App_Server.cpp:
         * cuts/utils/testing/cutstest.cpp:
         * cuts/utils/testing/testing.mpc:
-        
-          Separated the CUTS testing application into a regular and 
+
+          Separated the CUTS testing application into a regular and
           deamon application. The daemon application allows clients to
           remotely control the lifecycle of the test.
 
@@ -19,7 +32,7 @@ Wed Jul  9 22:13:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
           Implemented a method named getTestNumber (), which is
           responsible for getting the cached test number of the client.
-          
+
         * cuts/utils/testing/cuts_test.cpp:
 
           Removed this file.
