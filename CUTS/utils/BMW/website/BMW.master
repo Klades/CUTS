@@ -39,10 +39,24 @@
                        navigateurl="~/"
                        text="Test Runs" /></div>
       <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
-        <asp:image runat="server" id="menudot4" imageurl="~/images/menudot.gif" imagealign="absmiddle" />
+        <asp:image runat="server" id="menudot4" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
         <asp:hyperlink runat="server" id="Hyperlink1"
                        navigateurl="~/baseline.aspx"
                        text="Baseline Metrics" /></div>
+
+
+     <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
+        <asp:image runat="server" id="Image1" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
+        <asp:hyperlink runat="server" id="Test_Suites"
+                       navigateurl="~/unittesting.aspx"
+                       text="Unit Testing" /></div>
+
+<div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
+        <asp:image runat="server" id="Image4" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
+        <asp:hyperlink runat="server" id="Hyperlink2"
+                       navigateurl="~/Log_Formats.aspx"
+                       text="Log Formats" /></div>
+
 
       <div class="title" style="margin-top:10px">System Details</div>
       <div class="menu_item" onmouseover="hilite (this);" onmouseout="unhilite (this);">
