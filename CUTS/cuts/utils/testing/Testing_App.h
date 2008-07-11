@@ -13,6 +13,7 @@
 #ifndef _CUTS_TESTING_APP_H_
 #define _CUTS_TESTING_APP_H_
 
+#include "Testing_Base_export.h"
 #include "Testing_App_Task.h"
 #include "ace/SString.h"
 #include "ace/Thread_Mutex.h"
@@ -26,7 +27,7 @@ class CUTS_DB_Connection;
  *
  * The main entry point class for the application.
  */
-class CUTS_Testing_App
+class CUTS_TESTING_BASE_Export CUTS_Testing_App
 {
 public:
   /// Default constructor.
@@ -91,15 +92,8 @@ protected:
   ACE_Auto_Ptr <CUTS_DB_Connection> conn_;
 
 private:
-  /// Name of the testing application. The default name of the 
-  /// application is '(default)'.
-  ACE_CString name_;
-
   /// The test number associated with the experiment.
   long test_number_;
-
-  /// The desired test duration.
-  long test_duration_;
 
   /// Timer id for the test.
   long test_timer_id_;
@@ -107,8 +101,10 @@ private:
   /// Task for the testing application.
   ACE_Auto_Ptr <CUTS_Testing_App_Task> task_;
 
+  /// Lock for the condition variable.
   ACE_Thread_Mutex lock_;
 
+  /// Condition variable to wait for shutdown.
   ACE_Condition <ACE_Thread_Mutex> shutdown_; 
 };
 

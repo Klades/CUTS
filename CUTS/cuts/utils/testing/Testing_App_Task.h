@@ -13,6 +13,7 @@
 #ifndef _CUTS_TEST_EVENT_HANDLER_H_
 #define _CUTS_TEST_EVENT_HANDLER_H_
 
+#include "Testing_Base_export.h"
 #include "ace/Task.h"
 
 // Forward decl.
@@ -23,7 +24,7 @@ class CUTS_Testing_App;
  *
  * Event handler for the CUTS_Testing_App class.
  */
-class CUTS_Testing_App_Task : protected ACE_Task_Base
+class CUTS_TESTING_BASE_Export CUTS_Testing_App_Task : protected ACE_Task_Base
 {
 public:
   CUTS_Testing_App_Task (CUTS_Testing_App & parent);

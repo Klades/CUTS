@@ -1,7 +1,23 @@
+Fri Jul 11 21:01:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/Testing_App.h:
+        * cuts/utils/testing/Testing_App.cpp:
+        * cuts/utils/testing/Testing_App_Task.h:
+        * cuts/utils/testing/Testing_Base_export.h:
+        * cuts/utils/testing/Testing_Options.h:
+        * cuts/utils/testing/testing.mpc:
+        
+          Refactored the project so that the classes shared between the
+          cutstest and cutstest_d are in the CUTS_Test_Base project.
+
+        * cuts/utils/testing/cutstest_d.cpp:
+        
+          Missing source file.
+
 Fri Jul 11 14:33:12 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/workers/Test_Logger/CUTS/TestLogger.java:
-        
+
           Bug fix where the TestLogger would fail to unregister itself with the
           logging client if it was collected by the garbage collector.
 

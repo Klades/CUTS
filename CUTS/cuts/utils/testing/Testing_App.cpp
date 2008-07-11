@@ -2,6 +2,7 @@
 
 #include "Testing_App.h"
 #include "Testing_App_Task.h"
+#include "Testing_Options.h"
 
 #include "cuts/utils/ODBC/ODBC_Connection.h"
 #include "cuts/utils/DB_Query.h"
@@ -24,17 +25,23 @@ static const char * __help__ =
 "  --database=HOSTNAME   location of CUTS database; (default='localhost')\n"
 "  -t, --time=TIME       test duration in seconds (default=60)\n"
 "\n"
+"  --deploy=COMMAND      deployment command\n"
+"  --teardown=COMMAND    teardown command\n"
+"\n"
 "  -v, --verbose         print verbose infomration\n" 
 "  --debug               print debugging information\n"
-"  -h, --help            print this help message\n";
+"  -h, --help            print this help message\n"
+"\n"
+"Deploy\\Teardown\n"
+"If you specify the --deploy option, then you must specify the --teardown\n"
+"option. Also, the process spawned by the --deploy option must exit so the\n"
+"--teardown option can execute.\n";
 
 //
 // CUTS_Testing_App
 // 
 CUTS_Testing_App::CUTS_Testing_App (void)
-: name_ ("(default)"),
-  test_number_ (-1),
-  test_duration_ (60),  
+: test_number_ (-1),
   test_timer_id_ (-1),
   shutdown_ (this->lock_)
 {
@@ -60,12 +67,16 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
   const char * opts = ACE_TEXT ("n:vht:");
   ACE_Get_Opt get_opt (argc, argv, opts);
 
-  get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("name", 'n', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("database", ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
-  get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("time", 't', ACE_Get_Opt::ARG_REQUIRED);
+
+  get_opt.long_option ("deploy", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("teardown", ACE_Get_Opt::ARG_REQUIRED);
+  
+  get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
+  get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
+  get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
 
   char ch;
 
@@ -76,7 +87,7 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
     case 0:
       if (ACE_OS::strcmp (get_opt.long_option (), "name") == 0)
       {
-        this->name_ = get_opt.opt_arg ();
+        CUTS_TESTING_OPTIONS->name_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "debug") == 0)
       {
@@ -104,13 +115,24 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "time") == 0)
       {
+        time_t seconds;
         std::istringstream istr (get_opt.opt_arg ());
-        istr >> this->test_duration_;
+        istr >> seconds;
+          
+        CUTS_TESTING_OPTIONS->test_duration_.sec (seconds);
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "deploy") == 0)
+      {
+        CUTS_TESTING_OPTIONS->deploy_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "teardown") == 0)
+      {
+        CUTS_TESTING_OPTIONS->teardown_ = get_opt.opt_arg ();
       }
       break;
 
     case 'n':
-      this->name_ = get_opt.opt_arg ();
+        CUTS_TESTING_OPTIONS->name_ = get_opt.opt_arg ();
       break;
 
     case 'v':
@@ -129,8 +151,11 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
 
     case 't':
       {
+        time_t seconds;
         std::istringstream istr (get_opt.opt_arg ());
-        istr >> this->test_duration_;
+        istr >> seconds;
+          
+        CUTS_TESTING_OPTIONS->test_duration_.sec (seconds);
       }
       break;
 
@@ -188,10 +213,10 @@ int CUTS_Testing_App::run_main_i (void)
   // Start the actual test.
   ACE_DEBUG ((LM_INFO,
               "%T - [%M] - running test for %d second(s)\n",
-              this->test_duration_));
+              CUTS_TESTING_OPTIONS->test_duration_.sec ()));
 
-  ACE_Time_Value duration (this->test_duration_);
-  this->test_timer_id_ = this->task_->start_test (duration);
+  this->test_timer_id_ =
+    this->task_->start_test (CUTS_TESTING_OPTIONS->test_duration_);
   
   if (this->test_timer_id_ != -1)
   {
@@ -365,5 +390,5 @@ long CUTS_Testing_App::current_test_number (void) const
 //
 const ACE_CString & CUTS_Testing_App::name (void) const
 {
-  return this->name_;
+  return CUTS_TESTING_OPTIONS->name_;
 }
