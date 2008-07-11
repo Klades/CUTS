@@ -98,6 +98,23 @@ public class TestLogger extends Thread
     this.configure ();
   }
 
+  protected void finalize () throws Throwable
+  {
+    try
+    {
+      if (this.orb_ != null)
+        this.unconfigure ();
+    }
+    catch (Exception ex)
+    {
+      ex.printStackTrace ();
+    }
+    finally
+    {
+      super.finalize ();
+    }
+  }
+
   /**
    * Run method called by the virtual machine when the application
    * is ready to shutdown. This allows use to gracefully unregister
@@ -107,11 +124,8 @@ public class TestLogger extends Thread
   {
     try
     {
-      if (this.testNumber_ != -1)
-        this.loggerClient_.unregister_test (this.testNumber_);
-
-      // Destroy the ORB.
-      this.orb_.destroy ();
+      if (this.orb_ != null)
+        this.unconfigure ();
     }
     catch (Exception ex)
     {
@@ -181,6 +195,23 @@ public class TestLogger extends Thread
     this.loggerClient_ =
       CUTS.TestLoggerClientHelper.narrow (
       this.orb_.string_to_object (corbalocLC));
+  }
+
+  /**
+   * Unconfigure the test logger.
+   */
+  private void unconfigure ()
+  {
+    if (this.testNumber_ != -1)
+    {
+      // Unregister the test with the logging client.
+      this.loggerClient_.unregister_test (this.testNumber_);
+      this.testNumber_ = -1;
+    }
+
+    // Destroy the ORB.
+    this.orb_.destroy ();
+    this.orb_ = null;
   }
 
   /**
