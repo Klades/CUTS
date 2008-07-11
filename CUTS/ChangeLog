@@ -1,15 +1,81 @@
+Fri Jul 11 14:17:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/ODBC/ODBC_Types.h:
+        
+          The destructor was missing the 'virtual' keyword.
+
+        * cuts/utils/logging:
+        * cuts/utils/logging/Logging_Client_Server.h:
+        * cuts/utils/logging/Logging_Client_Server.cpp:
+        * cuts/utils/logging/Logging_skel_export.h:
+        * cuts/utils/logging/Logging_stub_export.h:
+        * cuts/utils/logging/TestLoggerClient_i.h:
+        * cuts/utils/logging/TestLoggerClient_i.cpp:
+        * cuts/utils/logging/Test_Log_Message_Handler.h:
+        * cuts/utils/logging/Test_Log_Message_Handler.inl:
+        * cuts/utils/logging/Test_Log_Message_Handler.cpp:
+        * cuts/utils/logging/cutslog_d.cpp:
+        * cuts/utils/logging/logging.idl:
+        * cuts/utils/logging/logging.mpc:
+        * etc/config/cuts_logging_skel.mpb:
+        * etc/config/cuts_logging_stub.mpb:
+        
+          Initialize version of the CUTS test logging client. The logging
+          client is similar to the ACE logging client, but it allows you to
+          associate log messages with a specific test. It also submits the
+          log messages into a test database, by default. Eventually, we would
+          like to strategize this client so we can submit the log messages
+          to arbitrary locations, such as a database or another logging
+          client. 
+
+        * cuts/utils/testing/Testing_App.h:
+        * cuts/utils/testing/Testing_App.cpp:
+        * cuts/utils/testing/Testing_App_Server.cpp:
+        * cuts/utils/testing/Testing_App_Task.cpp:
+        * cuts/utils/testing/cutstest.cpp:
+        * cuts/utils/testing/testing.idl:
+        * cuts/utils/testing/testing.mpc:
+          
+          Improved the log messaging so that you users can control how 
+          much information is printed to the screen using the --verbose (-v)
+          and --debug command-line options.
+
+        * cuts/workers/Test_Logger/CUTS/TestLogger.java:
+        * cuts/workers/Test_Logger/TestLogger.build:
+        
+          Bug fix where the logger would not unregister itself with the 
+          logging client server. This was fixed by making the subclassing
+          the TestLogger from the Thread class and registering it as a 
+          shutdown hook with the virtual machine. This will ensure the logger
+          is called when the VM is destroy. We still need to overload the
+          finalize () method so we can unregister the TestLogger is the 
+          garbage collector is run.
+
+        * etc/SQL/CUTS-create.sql:
+        * etc/SQL/CUTS-msglog.sql:
+        
+          Implemented stored procedures to simplify inserting log messages
+          into the database.
+
+
 Thu Jul 10 02:18:26 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/Testing_App.cpp:
         * cuts/utils/testing/Testing_App_Server.h:
         * cuts/utils/testing/Testing_App_Server.cpp:
         * cuts/utils/testing/testing.mpc:
-        
-          The CUTS_Testing_App_Server is now a subclass of the 
-          CUTS_Testing_App. This helps with reusing the basic testing
-          application within the server version. This also caused 
-          the basic testing application expose private variables via
-          accesor methods.
+
+          . The CUTS_Testing_App_Server is now a subclass of the
+            CUTS_Testing_App. This helps with reusing the basic testing
+            application within the server version. This also caused
+            the basic testing application expose private variables via
+            accesor methods.
+            
+          . The testing server application has the option of registering
+            itself with the naming service using the specified name. The
+            naming convention for the naming service is:
+            
+              CUTS/TestManager/<name>
 
 Wed Jul  9 22:13:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

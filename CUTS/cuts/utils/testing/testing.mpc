@@ -70,7 +70,9 @@ project (cutstest) : cuts_odbclib, cutsexe {
 
 project (cutstest_d) : naming, iortable, cuts_testing_skel, cuts_odbclib, cutsexe {
   exename = cutstest_d
-
+  
+  after += cutstest
+  
   Source_Files {
     cutstest_d.cpp
     Testing_App.cpp

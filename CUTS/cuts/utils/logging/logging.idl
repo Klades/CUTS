@@ -1,0 +1,84 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ * @file        logging.idl
+ *
+ * $Id$
+ *
+ * @author      James H. Hill
+ */
+//=============================================================================
+
+#ifndef _CUTS_LOGGING_IDL_
+#define _CUTS_LOGGING_IDL_
+
+module CUTS
+{
+  /**
+   * @struct LogMessage
+   *
+   * Log message send from an application to the logger client.
+   */
+  struct LogMessage
+  {
+    /// Timestamp of the log message.
+    long timestamp;
+
+    /// Test numer to associate message.
+    long test;
+
+    /// Priority of the log message.
+    long priority;
+
+    /// The actual content of the log message.
+    string message;
+  };
+
+  /**
+   * @interface TestLoggerClient
+   *
+   * Interface definition for sending messeages to the logging client
+   * on a specific host. The test logger client works in conjunction
+   * with the CUTS::TestManager.
+   */
+  interface TestLoggerClient
+  {
+    /**
+     * Register a logging object with the logging client. This is necessary
+     * so the client can keep track of a test's lifecycle. Also, it will
+     * help the logger manage its resources and ensure messages are dump
+     * to the database when a test is no longer active on the client.
+     *
+     * If any of the test ids is -1, then the logger client will ingore
+     * it and add the client object to the default resources.
+     *
+     * If there is not \a old_test, then it should have a value of -1.
+     *
+     * @param[in]         new_test          New test number
+     * @param[in]         old_tet           Old test number (if applicable)
+     */
+    void register_test (in long new_test, in long old_test);
+
+    /**
+     * Unregister a logging object with the logging client. This is necessary
+     * so the client can keep track of a test's lifecycle. Also, it will
+     * help the logger manage its resources and ensure messages are dump
+     * to the database when a test is no longer active on the client.
+     */
+    void unregister_test (in long test);
+
+    /**
+     * Send the specified log message to the client. The client will
+     * cache the message until the appropriate time to send it to the
+     * logging server. This means there could be a delay between when
+     * the message is received by the client, and when it is received
+     * by the server.
+     *
+     * @param[in]       message       Message to send to client.
+     */
+    void log (in LogMessage message);
+  };
+};
+
+#endif  // !defined _CUTS_LOGGING_IDL_

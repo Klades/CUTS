@@ -15,30 +15,24 @@
 
 #include <sstream>
 
-#define VERBOSE_MSG(params) \
-  if (this->verbose_) \
-  { \
-    ACE_DEBUG (params); \
-  }
-
 static const char * __help__ =
-"Usage: cuts_test [OPTIONS]\n"
-"Test manager for CUTS-based experiments.\n"
+"Usage: cutstest [OPTIONS]\n"
+"Test manager for CUTS-based experiments\n"
 "\n"
 "OPTIONS:\n"
 "  -n, --name=NAME       name for test manager; default='(default)'\n"
-"  --database=HOSTNAME   location of CUTS test database; default='localhost'\n"
-"  -t, --time=TIME       test duration in seconds (default = 60)\n"
+"  --database=HOSTNAME   location of CUTS database; (default='localhost')\n"
+"  -t, --time=TIME       test duration in seconds (default=60)\n"
 "\n"
 "  -v, --verbose         print verbose infomration\n" 
+"  --debug               print debugging information\n"
 "  -h, --help            print this help message\n";
 
 //
 // CUTS_Testing_App
 // 
 CUTS_Testing_App::CUTS_Testing_App (void)
-: verbose_ (false),
-  name_ ("(default)"),
+: name_ ("(default)"),
   test_number_ (-1),
   test_duration_ (60),  
   test_timer_id_ (-1),
@@ -69,6 +63,7 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("name", 'n', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("database", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("time", 't', ACE_Get_Opt::ARG_REQUIRED);
 
@@ -83,9 +78,21 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
       {
         this->name_ = get_opt.opt_arg ();
       }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "debug") == 0)
+      {
+        u_long mask = 
+          ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
+        mask |= LM_DEBUG;
+
+        ACE_Log_Msg::instance ()->priority_mask (mask);
+      }
       else if (ACE_OS::strcmp (get_opt.long_option (), "verbose") == 0)
       {
-        this->verbose_ = true;
+        u_long mask = 
+          ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
+        mask |= LM_INFO;
+
+        ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
       {
@@ -107,7 +114,13 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
       break;
 
     case 'v':
-      this->verbose_ = true;
+      {
+        u_long mask =
+          ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
+        mask |= LM_INFO;
+
+        ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);        
+      }
       break;
 
     case 'h':
@@ -164,9 +177,9 @@ int CUTS_Testing_App::run_main_i (void)
   }
   else
   {
-    VERBOSE_MSG ((LM_INFO,
-                  "%T - [%M] - not registering test run with database\n",
-                  this->server_addr_.c_str ()));
+    ACE_DEBUG ((LM_INFO,
+                "%T - [%M] - not registering test run with database\n",
+                this->server_addr_.c_str ()));
   }
 
   // Start the testing application's task.
@@ -192,8 +205,8 @@ int CUTS_Testing_App::run_main_i (void)
                 "%T - [%M] - failed to start test\n"));
   }
 
-  VERBOSE_MSG ((LM_DEBUG, 
-                "%T - [%M] - stopping the current test\n"));
+  ACE_DEBUG ((LM_DEBUG, 
+              "%T - [%M] - stopping the current test\n"));
 
   if (this->stop_current_test () == -1)
   {
@@ -203,8 +216,8 @@ int CUTS_Testing_App::run_main_i (void)
   }
 
   // Shutdown the testing application task.
-  VERBOSE_MSG ((LM_DEBUG,
-                "%T - [%M] - waiting for application task to stop\n"));
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - [%M] - waiting for application task to stop\n"));
   this->task_->stop ();
 
   return 0;
@@ -215,9 +228,10 @@ int CUTS_Testing_App::run_main_i (void)
 //
 int CUTS_Testing_App::shutdown (void)
 {
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - [%M] - notifying all threads of shutdown event\n"));
+
   // Wake all threads waiting for shutdown event.
-  VERBOSE_MSG ((LM_DEBUG,
-                "%T - [%M] - notifying all threads of shutdown event\n"));
   ACE_GUARD_RETURN (ACE_Thread_Mutex, guard, this->lock_, -1);
   this->shutdown_.broadcast ();
   return 0;
@@ -243,9 +257,9 @@ void CUTS_Testing_App::connect_to_database (void)
   this->conn_.reset (conn);
 
   // Connect to the specified server using the default port.
-  VERBOSE_MSG ((LM_INFO,
-                "%T - [%M] - connecting to test database on %s\n",
-                this->server_addr_.c_str ()));
+  ACE_DEBUG ((LM_INFO,
+              "%T - [%M] - connecting to test database on %s\n",
+              this->server_addr_.c_str ()));
 
   this->conn_->connect (CUTS_USERNAME, 
                         CUTS_PASSWORD, 
@@ -268,8 +282,8 @@ int CUTS_Testing_App::start_new_test (void)
       "INSERT INTO tests (start_time, status) VALUES (NOW(), 'active')";
 
     // Execute the statement and get the last inserted id.
-    VERBOSE_MSG ((LM_DEBUG, 
-                  "%T - [%M] - creating a new test in database\n"));
+    ACE_DEBUG ((LM_DEBUG, 
+                "%T - [%M] - creating a new test in database\n"));
     query->execute_no_record (str_stmt);
     this->test_number_ = query->last_insert_id ();
     return 0;

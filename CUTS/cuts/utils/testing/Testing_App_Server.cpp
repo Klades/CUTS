@@ -7,12 +7,6 @@
 #include "ace/Get_Opt.h"
 #include "ace/Guard_T.h"
 
-#define VERBOSE_MSG(msg) \
-  if (this->verbose_) \
-  { \
-    ACE_DEBUG (msg); \
-  }
-
 //
 // CUTS_Testing_App_Server
 //
@@ -52,8 +46,9 @@ int CUTS_Testing_App_Server::run_main (int argc, char * argv [])
   // Pass control to the base class. This method does not return until
   // the testing application is shutdown.
 
-  VERBOSE_MSG ((LM_DEBUG, 
-                "%T - [%M] - passing control to base class\n"));
+  ACE_DEBUG ((LM_DEBUG, 
+              "%T - [%M] - passing control to base class\n"));
+
   this->run_main_i ();
 
   // Wait for the server thread to exit.
@@ -69,6 +64,10 @@ int CUTS_Testing_App_Server::run_main (int argc, char * argv [])
 int CUTS_Testing_App_Server::parse_args (int argc, char * argv [])
 {
   this->orb_ = CORBA::ORB_init (argc, argv);
+
+  // Pass control to the base class.
+  if (CUTS_Testing_App::parse_args (argc, argv) == -1)
+    return -1;
 
   // Parse the remainder of the command-line options.
   const ACE_TCHAR * opts = ACE_TEXT ("");
@@ -90,7 +89,7 @@ int CUTS_Testing_App_Server::parse_args (int argc, char * argv [])
     };
   }
 
-  return CUTS_Testing_App::parse_args (argc, argv);
+  return 0;
 }
 
 //
@@ -118,7 +117,7 @@ int CUTS_Testing_App_Server::shutdown (void)
       this->unregister_with_name_service ();
 
     // Stop the main event loop for the ORB.
-    VERBOSE_MSG ((LM_DEBUG,
+    ACE_DEBUG ((LM_DEBUG,
                   "%T - [%M] - shutting down the ORB\n"));
 
     this->orb_->shutdown (true);
@@ -228,9 +227,9 @@ int CUTS_Testing_App_Server::register_with_name_service (void)
     ns_name[2].id = CORBA::string_dup (this->name ().c_str ());
 
     // Bind the actual test manger to the naming service.
-    VERBOSE_MSG ((LM_DEBUG, 
-                  "%T - [%M] - binding testing manager to naming service as %s\n",
-                  this->name ().c_str ()));
+    ACE_DEBUG ((LM_DEBUG, 
+                "%T - [%M] - binding testing manager to naming service as %s\n",
+                this->name ().c_str ()));
 
     CUTS::TestManager_var tm = this->test_manager_->_this ();
     this->root_ctx_->bind (ns_name, tm);
@@ -277,8 +276,8 @@ int CUTS_Testing_App_Server::unregister_with_name_service (void)
     ns_name[2].id = CORBA::string_dup (this->name ().c_str ());
 
     // Unregister the TestManger with the naming service.
-    VERBOSE_MSG ((LM_INFO, 
-                  "%T - [%M] - unregistering test manager with naming service\n"));
+    ACE_DEBUG ((LM_INFO, 
+                "%T - [%M] - unregistering test manager with naming service\n"));
 
     this->root_ctx_->unbind (ns_name);
   }
@@ -305,14 +304,14 @@ int CUTS_Testing_App_Server::orb_svc (void)
   try
   {
     // Get a reference to the <RootPOA>
-    VERBOSE_MSG ((LM_DEBUG, 
-                  "%T - [%M] - resolving initial reference to RootPOA\n"));
+    ACE_DEBUG ((LM_DEBUG, 
+                "%T - [%M] - resolving initial reference to RootPOA\n"));
     CORBA::Object_var obj = this->orb_->resolve_initial_references ("RootPOA");
     PortableServer::POA_var root_poa = PortableServer::POA::_narrow (obj.in ());
 
     // Activate the RootPOA's manager.
-    VERBOSE_MSG ((LM_DEBUG, 
-                  "%T - [%M] - getting reference to POAManager\n"));
+    ACE_DEBUG ((LM_DEBUG, 
+                "%T - [%M] - getting reference to POAManager\n"));
     PortableServer::POAManager_var mgr = root_poa->the_POAManager ();
     mgr->activate ();
 
@@ -344,16 +343,16 @@ int CUTS_Testing_App_Server::orb_svc (void)
     }
 
     // Run the ORB's main event loop.
-    VERBOSE_MSG ((LM_DEBUG,
-                  "%T - [%M] - running the server's main event loop\n"));
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - [%M] - running the server's main event loop\n"));
     this->orb_->run ();
 
     // Destroy the RootPOA.
-    VERBOSE_MSG ((LM_DEBUG, "%T - [%M] - destroying the RootPOA\n"));
+    ACE_DEBUG ((LM_DEBUG, "%T - [%M] - destroying the RootPOA\n"));
     root_poa->destroy (true, true);
 
     // Destroy the ORB.
-    VERBOSE_MSG ((LM_DEBUG, "%T - [%M] - destroying the ORB\n"));
+    ACE_DEBUG ((LM_DEBUG, "%T - [%M] - destroying the ORB\n"));
     this->orb_->destroy ();
     return 0;
   }

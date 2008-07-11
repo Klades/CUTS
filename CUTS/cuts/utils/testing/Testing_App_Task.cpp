@@ -36,7 +36,10 @@ CUTS_Testing_App_Task::CUTS_Testing_App_Task (CUTS_Testing_App & parent)
 //
 CUTS_Testing_App_Task::~CUTS_Testing_App_Task (void)
 {
+  ACE_Reactor * reactor = this->reactor ();
+  this->reactor (0);
 
+  delete reactor;
 }
 
 //
@@ -86,7 +89,7 @@ int CUTS_Testing_App_Task::stop (void)
     this->active_ = false;
 
     // Signal the thread to handle an event and wait for it to exit.
-    this->reactor ()->notify ();
+    this->reactor ()->notify (this);
     this->wait ();
   }
 

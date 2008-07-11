@@ -135,11 +135,11 @@ CREATE TABLE IF NOT EXISTS component_instances
 CREATE TABLE IF NOT EXISTS ipaddr_host_map
 (
   hostid      INT               NOT NULL auto_increment,
-  ipaddr      VARCHAR (40)      NOT NULL,
   hostname    VARCHAR (255),
   portnum     INT(5)            DEFAULT NULL,
 
   PRIMARY KEY (hostid),
+  
   UNIQUE (hostname)
 );
 
@@ -177,12 +177,12 @@ CREATE TABLE IF NOT EXISTS users
 -- create user 'cuts'
 --
 
-GRANT SELECT, UPDATE, DELETE, INSERT, EXECUTE
+GRANT SELECT, UPDATE, DELETE, INSERT, EXECUTE, CREATE
   ON cuts.*
   TO cuts@'%'
   IDENTIFIED BY 'cuts';
 
-GRANT SELECT, UPDATE, DELETE, INSERT, EXECUTE
+GRANT SELECT, UPDATE, DELETE, INSERT, EXECUTE, CREATE
   ON cuts.*
   TO cuts@'localhost'
   IDENTIFIED BY 'cuts';
@@ -296,41 +296,21 @@ END; //
 DROP FUNCTION IF EXISTS cuts.get_hostname_id //
 
 CREATE FUNCTION
-  cuts.get_hostname_id (name VARCHAR (255))
+  cuts.get_hostname_id (_name VARCHAR (255))
   RETURNS INT
 BEGIN
   DECLARE retval INT;
 
   DECLARE CONTINUE HANDLER FOR NOT FOUND
   BEGIN
-    RETURN NULL;
+    INSERT INTO cuts.ipaddr_host_map (hostname)
+      VALUES (_name);
+      
+    SET retval = LAST_INSERT_ID();    
   END;
 
   SELECT hostid INTO retval FROM cuts.ipaddr_host_map
-    WHERE hostname = name LIMIT 1;
-
-  RETURN retval;
-END; //
-
--- -----------------------------------------------------------------------------
--- FUNCTION: cuts.get_ipaddr_id
--- -----------------------------------------------------------------------------
-
-DROP FUNCTION IF EXISTS cuts.get_ipaddr_id //
-
-CREATE FUNCTION
-  cuts.get_ipaddr_id (ipaddr VARCHAR (255))
-  RETURNS INT
-BEGIN
-  DECLARE retval INT;
-
-  DECLARE CONTINUE HANDLER FOR NOT FOUND
-  BEGIN
-    RETURN NULL;
-  END;
-
-  SELECT hostid INTO retval FROM cuts.ipaddr_host_map
-    WHERE ipaddr = ipaddr LIMIT 1;
+    WHERE hostname = _name;
 
   RETURN retval;
 END; //
@@ -412,16 +392,15 @@ END; //
 DROP PROCEDURE IF EXISTS cuts.insert_ipaddr_hostname //
 
 CREATE PROCEDURE
-  cuts.insert_ipaddr_hostname (IN ipaddr VARCHAR (255),
-                               IN hostname VARCHAR (255))
+  cuts.insert_hostname (IN _hostname VARCHAR (255))
 BEGIN
   DECLARE EXIT HANDLER FOR SQLSTATE '23000'
   BEGIN
 
   END;
 
-  INSERT INTO cuts.ipaddr_host_map (ipaddr, hostname)
-    VALUES (ipaddr, hostname);
+  INSERT INTO cuts.ipaddr_host_map (hostname)
+    VALUES (_hostname);
 END; //
 
 /*

@@ -12,12 +12,15 @@
 
 package CUTS;
 
+import org.omg.CosNaming.*;
 import java.util.ArrayList;
+import java.util.Properties;
+import java.io.*;
 
 /**
  * @class TestLogger
  */
-public class TestLogger
+public class TestLogger extends Thread
 {
   /// Shutdown the logger (decimal 1).
   public static final int LM_SHUTDOWN  = 0x00000001;
@@ -69,6 +72,8 @@ public class TestLogger
 
   private CUTS.TestLoggerClient loggerClient_ = null;
 
+  private NamingContextExt naming_ = null;
+
   /**
    * Default constructor.
    */
@@ -84,18 +89,34 @@ public class TestLogger
     args.add ("-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton");
 
     this.orb_ = org.omg.CORBA.ORB.init (args.toArray (new String [0]), null);
+
+    // Register ourselves with the runtime framework to ensure we exit
+    // gracefully. :-)
+    Runtime.getRuntime ().addShutdownHook (this);
+
+    // Finish the configuration.
+    this.configure ();
   }
 
   /**
-   * Destructor
+   * Run method called by the virtual machine when the application
+   * is ready to shutdown. This allows use to gracefully unregister
+   * the logger with the client server.
    */
-  protected void finalize () throws Throwable
+  public void run ()
   {
-    // Destroy the ORB.
-    this.orb_.destroy ();
+    try
+    {
+      if (this.testNumber_ != -1)
+        this.loggerClient_.unregister_test (this.testNumber_);
 
-    // Pass control to the base class.
-    super.finalize (); 
+      // Destroy the ORB.
+      this.orb_.destroy ();
+    }
+    catch (Exception ex)
+    {
+      ex.printStackTrace ();
+    }
   }
 
   /**
@@ -103,13 +124,55 @@ public class TestLogger
    * test manager (ipaddress:port) and the port number of the logging
    * client on this local host.
    */
-  public void configure (short loggerClientPort)
+  private void configure ()
   {
-    // Construct the string location of the logging client.
-    String corbalocLC = 
-      "corbaloc:iiop:localhost";
+    String propertyFile = "CUTS.TestLogger.configuration";
 
-    if (loggerClientPort > -1)
+    propertyFile = 
+      System.getProperty ("CUTS.TestLogger.configuration", propertyFile);
+
+    int loggerClientPort = -1;
+
+    try
+    {
+      // Load the properties file that contains the configuration.
+      FileInputStream fileInput = new FileInputStream (propertyFile);
+      Properties loggerProperties = new Properties ();
+      loggerProperties.load (fileInput);
+
+      if (loggerProperties.containsKey ("cuts.testlogger.client.logger.port"))
+      {
+        try
+        {
+          loggerClientPort =
+            Integer.parseInt (
+            loggerProperties.getProperty ("cuts.testlogger.client.logger.port"));
+        }
+        catch (Exception ex)
+        {
+          ex.printStackTrace ();
+        }
+      }
+
+      if (loggerProperties.containsKey ("cuts.testlogger.testmanager.name"))
+      {
+        this.testManagerName_ =
+          loggerProperties.getProperty ("cuts.testlogger.testmanager.name");
+      }
+    }
+    catch (FileNotFoundException ex)
+    {
+      // ingore this exception; configuration is optional
+    }
+    catch (Exception ex)
+    {
+      ex.printStackTrace ();
+    }
+
+    // Construct the string location of the logging client.
+    String corbalocLC = "corbaloc:iiop:localhost";
+
+    if (loggerClientPort != -1)
       corbalocLC += ":" + loggerClientPort;
 
     corbalocLC += "/CUTS/TestLoggerClient";
@@ -153,19 +216,34 @@ public class TestLogger
    */
   public void connect ()
   {
-    // Construct the corbaloc of the test manager.
-    String corbalocTM =
-      "corbaloc:iiop:" + this.testManagerLocation_ +
-      "/CUTS/TestManager/" + this.testManagerName_;
+    // Get a reference to the naming service.
+    try
+    {
+      this.naming_ =
+        NamingContextExtHelper.narrow (
+        this.orb_.string_to_object (
+        System.getProperty ("ORBInitRef.NameService")));
 
-    // Convert the location into the actual test manager.
-    CUTS.TestManager tm =
-      CUTS.TestManagerHelper.narrow (
-      this.orb_.string_to_object (corbalocTM));
+      String strName =
+        "CUTS/TestManager/" + this.testManagerName_;
 
-    // Get the current id of the test. We need to use this to identify
-    // the test which the log message belongs.
-    this.testNumber_ = tm.test_number ();
+      // Resolve the location of the test manager using the naming service.
+      CUTS.TestManager tm =
+        CUTS.TestManagerHelper.narrow (
+        this.naming_.resolve (this.naming_.to_name (strName)));
+
+      // Get the current id of the test. We need to use this to identify
+      // the test which the log message belongs.
+      int oldTestNumber = this.testNumber_;
+      this.testNumber_ = tm.test_number ();
+
+      // Register the test with the client.
+      this.loggerClient_.register_test (this.testNumber_, oldTestNumber);
+    }
+    catch (Exception ex)
+    {
+      ex.printStackTrace ();
+    }
   }
 
   /**
@@ -176,7 +254,25 @@ public class TestLogger
    */
   public void logMessage (int priority, String message)
   {
-    this.loggerClient_.log_msg (this.testNumber_, priority, message);
+    try
+    {
+      // Create a new log message.
+      CUTS.LogMessage msg = new CUTS.LogMessage ();
+
+      // Initialize the contents of the log message.
+      msg.test = this.testNumber_;
+      msg.timestamp = (int) System.currentTimeMillis ();
+      msg.priority = priority;
+      msg.message = message;
+
+      // Send the message to the logger client.
+      System.out.println (message);
+      this.loggerClient_.log (msg);
+    }
+    catch (Exception ex)
+    {
+      ex.printStackTrace ();
+    }
   }
 
   /**

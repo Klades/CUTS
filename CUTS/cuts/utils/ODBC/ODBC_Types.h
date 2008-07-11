@@ -49,7 +49,7 @@ public:
   ODBC_Date_Time (const ACE_Date_Time & datetime);
 
   /// Destructor.
-  ~ODBC_Date_Time (void);
+  virtual ~ODBC_Date_Time (void);
 
   void operator = (const ODBC_Date_Time & datetime);
 

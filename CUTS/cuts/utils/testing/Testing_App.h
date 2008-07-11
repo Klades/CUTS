@@ -84,9 +84,6 @@ protected:
   /// Connect to the specified database.
   void connect_to_database (void);
 
-  /// Verbosity of the application.
-  bool verbose_;
-
   /// Server address of the test database.
   ACE_CString server_addr_;
 
