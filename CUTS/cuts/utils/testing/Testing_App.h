@@ -18,6 +18,7 @@
 #include "ace/SString.h"
 #include "ace/Thread_Mutex.h"
 #include "ace/Condition_T.h"
+#include "ace/UUID.h"
 
 // Forward decl.
 class CUTS_DB_Connection;
@@ -115,6 +116,9 @@ private:
 
   /// Condition variable to wait for shutdown.
   ACE_Condition <ACE_Thread_Mutex> shutdown_; 
+
+  /// UUID for the test.
+  ACE_Utils::UUID test_uuid_;
 };
 
 #endif  // !defined _CUTS_TESTING_APP_H_

@@ -1,24 +1,40 @@
+Sat Jul 12 06:59:32 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/BDC_Service_Manager.cpp:
+         
+          Bug fix where the UUID generated were the same due to not
+          initializing the UUID generator before it was used.
+          
+        * cuts/utils/testing/Testing_App.h:
+        * cuts/utils/testing/Testing_App.cpp:
+        
+          Added support for associating a UUID with a specific test. We
+          are slowly migrating to using auto-generated UUIDs for the 
+          test instead of integers because (1) the integer test id couples
+          the test manager to the database and (2) we have a larger range
+          of values to select from with UUIDs.
+
 Sat Jul 12 06:34:02 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/naomi/GNC.mpc:
         * cuts/BDC/Benchmark_Data_Collector.mpc:
-        
+
           Fixed compilation bugs where custom build would ALWAYS run
-          even if the generated files were up-to-date. 
+          even if the generated files were up-to-date.
 
         * cuts/utils/logging/Logging_Client_Server.cpp:
 
           Fixed the format of the ACE_DEBUG and ACE_ERROR log messages.
-          
+
         * cuts/utils/testing/Testing_App.h:
         * cuts/utils/testing/Testing_App.cpp:
         * cuts/utils/testing/Testing_App_Server.h:
         * cuts/utils/testing/Testing_App_Server.cpp:
         * cuts/utils/testing/Testing_Options.h:
         * cuts/utils/testing/cutstest_d.cpp:
-        
+
           Implemented the --deploy and --teardown options for the test
-          manager. 
+          manager.
 
 Fri Jul 11 21:01:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

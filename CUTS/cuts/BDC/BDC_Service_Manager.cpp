@@ -21,7 +21,7 @@ CUTS_BDC_Service_Manager::CUTS_BDC_Service_Manager (void)
 : ACE_Service_Gestalt (ACE_Service_Gestalt::MAX_SERVICES, true, true),
   metrics_ (0)
 {
-
+  ACE_Utils::UUID_GENERATOR::instance ()->init ();
 }
 
 //

@@ -50,9 +50,13 @@ CUTS_Testing_App::CUTS_Testing_App (void)
   test_timer_id_ (-1),
   shutdown_ (this->lock_)
 {
+  // Create the testing application task.
   CUTS_Testing_App_Task * task = 0;
   ACE_NEW (task, CUTS_Testing_App_Task (*this));
   this->task_.reset (task);
+
+  // Initialize the UUID generator.
+  ACE_Utils::UUID_GENERATOR::instance ()->init ();
 }
 
 //
@@ -210,23 +214,13 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
 int CUTS_Testing_App::run_main_i (void)
 {
   if (!this->server_addr_.empty ())
-  {
-    // Establish a connection with the database, and create a new
-    // test for this experiment.
     this->connect_to_database ();
 
-    if (this->start_new_test () != 0)
-    {
-      ACE_ERROR ((LM_ERROR,
-                   "%T - %M - failed to start a new test on %s",
-                   this->server_addr_.c_str ()));
-    }
-  }
-  else
+  if (this->start_new_test () != 0)
   {
-    ACE_DEBUG ((LM_INFO,
-                "%T - %M - not registering test run with database\n",
-                this->server_addr_.c_str ()));
+    ACE_ERROR ((LM_ERROR,
+                  "%T - %M - failed to start a new test on %s",
+                  this->server_addr_.c_str ()));
   }
 
   // Start the testing application's task.
@@ -346,6 +340,20 @@ void CUTS_Testing_App::connect_to_database (void)
 //
 int CUTS_Testing_App::start_new_test (void)
 {
+  // First, generate a new UUID for the test.
+  ACE_Utils::UUID_GENERATOR::instance ()->generate_UUID (this->test_uuid_);
+  ACE_DEBUG ((LM_INFO,
+              "%T - %M - test UUID is %s\n",
+              this->test_uuid_.to_string ()->c_str ()));
+
+  if (this->server_addr_.empty ())
+  {
+    ACE_DEBUG ((LM_INFO,
+                "%T - %M - not registering test run with database\n",
+                this->server_addr_.c_str ()));
+    return 0;
+  }
+
   try
   {
     CUTS_Auto_Functor_T <CUTS_DB_Query>
