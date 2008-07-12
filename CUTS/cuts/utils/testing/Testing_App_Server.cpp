@@ -128,7 +128,9 @@ ACE_THR_FUNC_RETURN CUTS_Testing_App_Server::svc_run (void * param)
   CUTS_Testing_App_Server * server = 
     reinterpret_cast <CUTS_Testing_App_Server *> (param);
 
-  return server->orb_svc ();
+  ACE_THR_FUNC_RETURN retval = 
+    reinterpret_cast <ACE_THR_FUNC_RETURN> (server->orb_svc ());
+  return retval;
 }
 
 //

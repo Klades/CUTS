@@ -1,7 +1,15 @@
+Sun Jul 13 03:47:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/Testing_App_Server.cpp:
+
+	  Bug fix where the return value from the spawned service thread was
+	  not corrct on non-Windows system. This was fixed by using the 
+	  ACE_THR_RETURN_FUNC type as the retval variable's type.
+
 Sat Jul 12 20:21:54 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/Logging_Client_Server.cpp:
-        
+
           Bug fix where the --database option was using the long_option ()
           instead of the opt_arg () to set the database value. This resulted
           in the database parameter being set to 'database'.
