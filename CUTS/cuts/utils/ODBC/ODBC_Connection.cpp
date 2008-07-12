@@ -64,7 +64,7 @@ void ODBC_Connection::connect (const char * username,
           << "Uid=" << username << ";"
           << "Pwd=" << password << ";"
 #else
-  connstr << "Dsn=myodbc3;"
+  connstr << "Dsn=CUTS;"
           << "User=" << username << ";"
           << "Password=" << password << ";"
 #endif  // defined _WIN32
