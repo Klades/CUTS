@@ -1,7 +1,13 @@
+Sat Jul 12 07:32:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * VERSION:
+        
+          Fixed the version number in this file as well.
+
 Sat Jul 12 07:31:19 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * PROBLEM-REPORT-FORM:
-        
+
           Updated the version number of the problem report form.
 
 Sat Jul 12 07:28:52 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
