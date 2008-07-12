@@ -1,0 +1,36 @@
+ACKNOWLEDGEMENTS
+
+CUTS has been deeply influenced and improved by the following colleagues in 
+my research group at Vanderbilt University in Nashville.
+
+. Krishnakumar Balasubramanian <kitty at dre dot vanderbilt dot edu>
+. James R. Edmondson <james dot r dot edmondson at vanderbilt dot edu>
+. Hamilton A. Turner <hamilton dot a dot turner at vanderbilt dot edu>
+. Will Otte <wotte at dre dot vanderbilt dot edu>
+. Jules White <jules at dre dot vanderbilt dot edu>
+
+I would also like to thank all the following people who have also
+contributed to CUTS over the years:
+
+. Steve Baker <Steven_D_Baker at raytheon dot com>
+
+I would particularly like to thank John M. Slaby, who was my supervisor
+at Raytheon in Portsmouth, RI during the summers of 2005 and 2006. John
+was the personal investigator (PI) of the project that gave birth to 
+CUTS and has been instrumental in advocating CUTS to many stakeholders
+to ensure our vision becomes reality!!
+
+In conclusion, our goal is to see CUTS continue to evolve and become a more 
+comprehensive, robust, and well-documented model-driven system execution 
+modeling and integration tool suite for distributed systems that is freely 
+available to researchers and developers.  If you have any improvements,
+suggestions, and or comments, we'd like to hear about it.  Please see 
+
+  $CUTS_ROOT/PROBLEM-REPORT-FORM
+
+for instructions on submitting suggestions or fixes.
+
+        Thanks,
+
+                James H. Hill
+                j.hill at vanderbilt.edu
