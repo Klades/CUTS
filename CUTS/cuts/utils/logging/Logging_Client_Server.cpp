@@ -174,7 +174,7 @@ int CUTS_Logging_Client_Server::parse_args (int argc, char * argv [])
       }
       else if (ACE_OS::strcmp ("database", get_opt.long_option ()) == 0)
       {
-        this->server_addr_ = get_opt.long_option ();
+        this->server_addr_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp ("timeout", get_opt.long_option ()) == 0)
       {

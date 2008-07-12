@@ -1,8 +1,16 @@
+Sat Jul 12 20:21:54 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/Logging_Client_Server.cpp:
+        
+          Bug fix where the --database option was using the long_option ()
+          instead of the opt_arg () to set the database value. This resulted
+          in the database parameter being set to 'database'.
+
 Sat Jul 12 21:43:35 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/ODBC/ODBC_Connection.cpp:
 
-	  Updated the data source name to be 'CUTS'.
+          Updated the data source name to be 'CUTS'.
 
 Sat Jul 12 07:32:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
