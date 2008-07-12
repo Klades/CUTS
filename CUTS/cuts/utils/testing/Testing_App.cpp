@@ -13,26 +13,31 @@
 #include "ace/streams.h"
 #include "ace/Reactor.h"
 #include "ace/Guard_T.h"
+#include "ace/Process_Manager.h"
+#include "ace/Process.h"
 
 #include <sstream>
 
-static const char * __help__ =
-"Usage: cutstest [OPTIONS]\n"
+static const char * __USAGE__ =
 "Test manager for CUTS-based experiments\n"
 "\n"
+"USAGE: cutstest [OPTIONS]\n";
+
+static const char * __HELP__ =
 "OPTIONS:\n"
-"  -n, --name=NAME       name for test manager; default='(default)'\n"
-"  --database=HOSTNAME   location of CUTS database; (default='localhost')\n"
-"  -t, --time=TIME       test duration in seconds (default=60)\n"
+"  -n, --name=NAME         name for test manager (default='(default)')\n"
+"  --database=HOSTNAME     location of CUTS database (default='localhost')\n"
+"  -t, --time=TIME         test duration in seconds (default=60)\n"
 "\n"
-"  --deploy=COMMAND      deployment command\n"
-"  --teardown=COMMAND    teardown command\n"
+"  -C, --directory=DIR     change to directory DIR\n"
+"  --deploy=CMD            use CMD to deploy test\n"
+"  --teardown=CMD          use CMD to teardown test\n"
 "\n"
-"  -v, --verbose         print verbose infomration\n" 
-"  --debug               print debugging information\n"
-"  -h, --help            print this help message\n"
+"  -v, --verbose           print verbose infomration\n" 
+"  --debug                 print debugging information\n"
+"  -h, --help              print this help message\n"
 "\n"
-"Deploy\\Teardown\n"
+"DEPLOY\\TEARDOWN:\n"
 "If you specify the --deploy option, then you must specify the --teardown\n"
 "option. Also, the process spawned by the --deploy option must exit so the\n"
 "--teardown option can execute.\n";
@@ -71,6 +76,7 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("database", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("time", 't', ACE_Get_Opt::ARG_REQUIRED);
 
+  get_opt.long_option ("directory", 'C', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("deploy", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("teardown", ACE_Get_Opt::ARG_REQUIRED);
   
@@ -129,6 +135,10 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
       {
         CUTS_TESTING_OPTIONS->teardown_ = get_opt.opt_arg ();
       }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "directory") == 0)
+      {
+        CUTS_TESTING_OPTIONS->working_directory_ = get_opt.opt_arg ();
+      }
       break;
 
     case 'n':
@@ -159,15 +169,27 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
       }
       break;
 
+    case 'C':
+      CUTS_TESTING_OPTIONS->working_directory_ = get_opt.opt_arg ();
+      break;
+
     case ':':
       ACE_ERROR_RETURN ((LM_ERROR, 
-                         "%T - [%M] - -%c is missing an argument\n",
+                         "%T - %M - -%c is missing an argument\n",
                          get_opt.opt_opt ()),
                          -1);
       break;
     };
   }
 
+  if (!CUTS_TESTING_OPTIONS->deploy_.empty () &&
+      CUTS_TESTING_OPTIONS->teardown_.empty ())
+  {
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       "%T - %M - deploy command MUST also have a teardown "
+                       "command; please add a --teardown option\n"),
+                       -1);
+  }
   return 0;
 }
 
@@ -196,23 +218,38 @@ int CUTS_Testing_App::run_main_i (void)
     if (this->start_new_test () != 0)
     {
       ACE_ERROR ((LM_ERROR,
-                   "%T - [%M] - failed to start a new test on %s",
+                   "%T - %M - failed to start a new test on %s",
                    this->server_addr_.c_str ()));
     }
   }
   else
   {
     ACE_DEBUG ((LM_INFO,
-                "%T - [%M] - not registering test run with database\n",
+                "%T - %M - not registering test run with database\n",
                 this->server_addr_.c_str ()));
   }
 
   // Start the testing application's task.
   this->task_->start ();
 
+  // Deploy the test into the environment.
+  int retval = this->deploy_test ();
+
+  if (retval == -1)
+  {
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       "%T - %M - aborting test since deployment failed\n"),
+                       -1);
+  }
+  else if (retval == 1)
+  {
+    ACE_ERROR ((LM_WARNING,
+                "%T - %M - state of deployment unknown; continuing...\n"));
+  }
+
   // Start the actual test.
   ACE_DEBUG ((LM_INFO,
-              "%T - [%M] - running test for %d second(s)\n",
+              "%T - %M - running test for %d second(s)\n",
               CUTS_TESTING_OPTIONS->test_duration_.sec ()));
 
   this->test_timer_id_ =
@@ -227,22 +264,22 @@ int CUTS_Testing_App::run_main_i (void)
   else
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - [%M] - failed to start test\n"));
+                "%T - %M - failed to start test\n"));
   }
 
   ACE_DEBUG ((LM_DEBUG, 
-              "%T - [%M] - stopping the current test\n"));
+              "%T - %M - stopping the current test\n"));
 
   if (this->stop_current_test () == -1)
   {
     ACE_ERROR ((LM_ERROR, 
-                "%T - [%M] - failed to stop current test (%d)\n",
+                "%T - %M - failed to stop current test (%d)\n",
                 this->test_number_));
   }
 
   // Shutdown the testing application task.
   ACE_DEBUG ((LM_DEBUG,
-              "%T - [%M] - waiting for application task to stop\n"));
+              "%T - %M - waiting for application task to stop\n"));
   this->task_->stop ();
 
   return 0;
@@ -253,9 +290,12 @@ int CUTS_Testing_App::run_main_i (void)
 //
 int CUTS_Testing_App::shutdown (void)
 {
-  ACE_DEBUG ((LM_DEBUG,
-              "%T - [%M] - notifying all threads of shutdown event\n"));
+  // Teardown the current test.
+  this->teardown_test ();
 
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - notifying all threads of shutdown event\n"));
+  
   // Wake all threads waiting for shutdown event.
   ACE_GUARD_RETURN (ACE_Thread_Mutex, guard, this->lock_, -1);
   this->shutdown_.broadcast ();
@@ -267,8 +307,17 @@ int CUTS_Testing_App::shutdown (void)
 //
 void CUTS_Testing_App::print_help (void)
 {
-  std::cerr << ::__help__ << std::endl;
+  std::cout << ::__USAGE__ << std::endl;
+  this->print_help_i ();
   ACE_OS::exit (0);
+}
+
+//
+// print_help_i
+//
+void CUTS_Testing_App::print_help_i (void)
+{
+  std::cout << ::__HELP__ << std::endl;
 }
 
 //
@@ -283,7 +332,7 @@ void CUTS_Testing_App::connect_to_database (void)
 
   // Connect to the specified server using the default port.
   ACE_DEBUG ((LM_INFO,
-              "%T - [%M] - connecting to test database on %s\n",
+              "%T - %M - connecting to test database on %s\n",
               this->server_addr_.c_str ()));
 
   this->conn_->connect (CUTS_USERNAME, 
@@ -308,7 +357,7 @@ int CUTS_Testing_App::start_new_test (void)
 
     // Execute the statement and get the last inserted id.
     ACE_DEBUG ((LM_DEBUG, 
-                "%T - [%M] - creating a new test in database\n"));
+                "%T - %M - creating a new test in database\n"));
     query->execute_no_record (str_stmt);
     this->test_number_ = query->last_insert_id ();
     return 0;
@@ -316,13 +365,13 @@ int CUTS_Testing_App::start_new_test (void)
   catch (const CUTS_DB_Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - [%M] - %s\n",
+                "%T - %M - %s\n",
                 ex.message ().c_str ()));
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - [%M] - caught unknown exception\n"));
+                "%T - %M - caught unknown exception\n"));
   }
 
   return -1;
@@ -365,13 +414,13 @@ int CUTS_Testing_App::stop_current_test (void)
   catch (const CUTS_DB_Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - [%M] - %s\n",
+                "%T - %M - %s\n",
                 ex.message ().c_str ()));
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - [%M] - caught known exception\n"));
+                "%T - %M - caught known exception\n"));
   }
 
   return -1;
@@ -391,4 +440,119 @@ long CUTS_Testing_App::current_test_number (void) const
 const ACE_CString & CUTS_Testing_App::name (void) const
 {
   return CUTS_TESTING_OPTIONS->name_;
+}
+
+//
+// deploy_test
+//
+int CUTS_Testing_App::deploy_test (void)
+{
+  if (CUTS_TESTING_OPTIONS->deploy_.empty ())
+    return 0;
+
+  // Initialize the process options.
+  ACE_Process_Options options;
+  options.command_line ("%s", CUTS_TESTING_OPTIONS->deploy_.c_str ());
+
+  if (CUTS_TESTING_OPTIONS->working_directory_.empty ())
+  {
+    options.working_directory (
+      CUTS_TESTING_OPTIONS->working_directory_.c_str ());
+  }
+
+  // Process id of the deployment application during its deploy stage
+  // of the test.
+  ACE_DEBUG ((LM_INFO,
+              "%T - %M - running deploy command for the test\n"));
+  ACE_Process_Manager * proc_man = ACE_Process_Manager::instance ();
+  pid_t pid = proc_man->spawn (options);
+
+  if (pid != ACE_INVALID_PID)
+  {
+    // The spawned application should return, so we can just wait on it.
+    ACE_exitcode status;
+    pid_t retval = proc_man->wait (pid, &status);
+
+    if (retval == ACE_INVALID_PID)
+    {
+      ACE_ERROR_RETURN ((LM_WARNING,
+                         "%T - %M - failed to wait for deploy process "
+                         "to exit [%m]\n"),
+                         1);
+    }
+    else if (status != 0)
+    {
+      ACE_ERROR ((LM_WARNING,
+                  "%T - %M - deploy proess exit status was %d\n",
+                  status));
+    }
+  }
+  else
+  {
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       "%T - %M - failed to run deploy process [cmd="
+                       "'%s'; cwd='%s']\n",
+                       CUTS_TESTING_OPTIONS->deploy_.c_str (),
+                       options.working_directory ()),
+                       -1);
+  }
+
+  return 0;
+}
+
+//
+// teardown_test
+//
+int CUTS_Testing_App::teardown_test (void)
+{
+  if (CUTS_TESTING_OPTIONS->teardown_.empty ())
+    return 0;
+
+  // Initialize the process options.
+  ACE_Process_Options options;
+  options.command_line ("%s", CUTS_TESTING_OPTIONS->teardown_.c_str ());
+
+  if (CUTS_TESTING_OPTIONS->working_directory_.empty ())
+  {
+    options.working_directory (
+      CUTS_TESTING_OPTIONS->working_directory_.c_str ());
+  }
+
+  // Run the teardown command for the test.
+  ACE_DEBUG ((LM_INFO,
+              "%T - %M - running teardown command for the test\n"));
+  ACE_Process_Manager * proc_man = ACE_Process_Manager::instance ();
+  pid_t pid = proc_man->spawn (options);
+
+  if (pid != ACE_INVALID_PID)
+  {
+    // The spawned application should return, so we can just wait on it.
+    ACE_exitcode status;
+    pid_t retval = proc_man->wait (pid, &status);
+
+    if (retval == ACE_INVALID_PID)
+    {
+      ACE_ERROR_RETURN ((LM_WARNING,
+                         "%T - %M - failed to wait for teardown process "
+                         "to exit [%m]\n"),
+                         1);
+    }
+    else if (status != 0)
+    {
+      ACE_ERROR ((LM_WARNING,
+                  "%T - %M - teardown proess exit status was %d\n",
+                  status));
+    }
+  }
+  else
+  {
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       "%T - %M - failed to run teardown process [cmd="
+                       "'%s'; cwd='%s']\n",
+                       CUTS_TESTING_OPTIONS->deploy_.c_str (),
+                       options.working_directory ()),
+                       -1);
+  }
+
+  return 0;
 }

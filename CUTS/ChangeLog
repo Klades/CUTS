@@ -1,3 +1,25 @@
+Sat Jul 12 06:34:02 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/GNC.mpc:
+        * cuts/BDC/Benchmark_Data_Collector.mpc:
+        
+          Fixed compilation bugs where custom build would ALWAYS run
+          even if the generated files were up-to-date. 
+
+        * cuts/utils/logging/Logging_Client_Server.cpp:
+
+          Fixed the format of the ACE_DEBUG and ACE_ERROR log messages.
+          
+        * cuts/utils/testing/Testing_App.h:
+        * cuts/utils/testing/Testing_App.cpp:
+        * cuts/utils/testing/Testing_App_Server.h:
+        * cuts/utils/testing/Testing_App_Server.cpp:
+        * cuts/utils/testing/Testing_Options.h:
+        * cuts/utils/testing/cutstest_d.cpp:
+        
+          Implemented the --deploy and --teardown options for the test
+          manager. 
+
 Fri Jul 11 21:01:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/Testing_App.h:
@@ -6,12 +28,12 @@ Fri Jul 11 21:01:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/utils/testing/Testing_Base_export.h:
         * cuts/utils/testing/Testing_Options.h:
         * cuts/utils/testing/testing.mpc:
-        
+
           Refactored the project so that the classes shared between the
           cutstest and cutstest_d are in the CUTS_Test_Base project.
 
         * cuts/utils/testing/cutstest_d.cpp:
-        
+
           Missing source file.
 
 Fri Jul 11 14:33:12 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

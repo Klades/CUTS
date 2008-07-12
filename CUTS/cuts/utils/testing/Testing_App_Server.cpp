@@ -6,6 +6,22 @@
 #include "ace/Thread_Manager.h"
 #include "ace/Get_Opt.h"
 #include "ace/Guard_T.h"
+#include "ace/streams.h"
+
+static const char * __USAGE__ =
+"Test manager daemon for CUTS-based experiments\n"
+"\n"
+"USAGE: cutstest_d [DAEMON OPTIONS] [OPTIONS]\n";
+
+static const char * __HELP__ =
+"DAEMON OPTIONS:\n"
+"  --register-with-ns      register daemon with CORBA naming service\n";
+
+static const char * __DETAILS__ =
+"DETAILS:\n"
+"By default, the test manager daemon registers itself with its ORB's IOR\n"
+"table as CUTS/TestManager/NAME where NAME is the value of the --name=NAME\n"
+"option\n";
 
 //
 // CUTS_Testing_App_Server
@@ -40,14 +56,14 @@ int CUTS_Testing_App_Server::run_main (int argc, char * argv [])
   if (grp_id == -1)
   {
     ACE_ERROR ((LM_ERROR, 
-                "%T - [%M] - failed to start test manger server\n"));
+                "%T - %M - failed to start test manger server\n"));
   }
   
   // Pass control to the base class. This method does not return until
   // the testing application is shutdown.
 
   ACE_DEBUG ((LM_DEBUG, 
-              "%T - [%M] - passing control to base class\n"));
+              "%T - %M - passing control to base class\n"));
 
   this->run_main_i ();
 
@@ -65,15 +81,12 @@ int CUTS_Testing_App_Server::parse_args (int argc, char * argv [])
 {
   this->orb_ = CORBA::ORB_init (argc, argv);
 
-  // Pass control to the base class.
-  if (CUTS_Testing_App::parse_args (argc, argv) == -1)
-    return -1;
-
   // Parse the remainder of the command-line options.
-  const ACE_TCHAR * opts = ACE_TEXT ("");
+  const ACE_TCHAR * opts = ACE_TEXT ("h");
   ACE_Get_Opt get_opt (argc, argv, opts);
 
   get_opt.long_option ("regiser-with-ns");
+  get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
 
   char ch;
 
@@ -84,12 +97,26 @@ int CUTS_Testing_App_Server::parse_args (int argc, char * argv [])
     case 0:
       if (ACE_OS::strcmp ("register-with-ns", get_opt.long_option ()) == 0)
         this->regiser_with_ns_ = true;
+      else if (ACE_OS::strcmp ("help", get_opt.long_option ()) == 0)
+        this->print_help ();
 
+      break;
+
+    case 'h':
+      this->print_help ();
+      break;
+
+    case ':':
+      ACE_ERROR_RETURN ((LM_ERROR, 
+                         "%T - [%M] - -%c is missing an argument\n",
+                         get_opt.opt_opt ()),
+                         -1);
       break;
     };
   }
 
-  return 0;
+  // Pass control to the base class.
+  return CUTS_Testing_App::parse_args (argc, argv);
 }
 
 //
@@ -118,7 +145,7 @@ int CUTS_Testing_App_Server::shutdown (void)
 
     // Stop the main event loop for the ORB.
     ACE_DEBUG ((LM_DEBUG,
-                  "%T - [%M] - shutting down the ORB\n"));
+                  "%T - %M - shutting down the ORB\n"));
 
     this->orb_->shutdown (true);
 
@@ -128,13 +155,13 @@ int CUTS_Testing_App_Server::shutdown (void)
   catch (const CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR, 
-                "%T - [%M] - %s\n", 
+                "%T - %M - %s\n", 
                 ex._info ().c_str ()));
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR, 
-                "%T - [%M] - caught unknown exception\n"));
+                "%T - %M - caught unknown exception\n"));
   }
 
   return -1;
@@ -154,7 +181,7 @@ int CUTS_Testing_App_Server::register_with_iortable (void)
     if (::CORBA::is_nil (ior_table.in ()))
     {
       ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T - [%M] - failed to resolve IOR table\n"),
+                         "%T - %M - failed to resolve IOR table\n"),
                          -1);
     }
 
@@ -169,7 +196,7 @@ int CUTS_Testing_App_Server::register_with_iortable (void)
 
     // Bind the object to the IOR table.
     ACE_DEBUG ((LM_DEBUG, 
-                "%T - [%M] - registering test manager with the IOR table [%s]\n",
+                "%T - %M - registering test manager with the IOR table [%s]\n",
                 manager_name.c_str ()));
 
     ior_table->bind (name_str.in (), obj_str.in ());
@@ -178,7 +205,7 @@ int CUTS_Testing_App_Server::register_with_iortable (void)
   catch (const CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - [%M] - %s\n",
+                "%T - %M - %s\n",
                 ex._info ().c_str ()));
   }
 
@@ -228,7 +255,7 @@ int CUTS_Testing_App_Server::register_with_name_service (void)
 
     // Bind the actual test manger to the naming service.
     ACE_DEBUG ((LM_DEBUG, 
-                "%T - [%M] - binding testing manager to naming service as %s\n",
+                "%T - %M - binding testing manager to naming service as %s\n",
                 this->name ().c_str ()));
 
     CUTS::TestManager_var tm = this->test_manager_->_this ();
@@ -238,14 +265,14 @@ int CUTS_Testing_App_Server::register_with_name_service (void)
   catch (const CosNaming::NamingContext::AlreadyBound & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - [%M] - %s already registered with naming service (%s)\n",
+                "%T - %M - %s already registered with naming service (%s)\n",
                 this->name ().c_str (),
                 ex._info ().c_str ()));
   }
   catch (const CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR, 
-                "%T - [%M] - %s\n", 
+                "%T - %M - %s\n", 
                 ex._info ().c_str ()));
   }
   catch (...)
@@ -277,20 +304,20 @@ int CUTS_Testing_App_Server::unregister_with_name_service (void)
 
     // Unregister the TestManger with the naming service.
     ACE_DEBUG ((LM_INFO, 
-                "%T - [%M] - unregistering test manager with naming service\n"));
+                "%T - %M - unregistering test manager with naming service\n"));
 
     this->root_ctx_->unbind (ns_name);
   }
   catch (const CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - [%M] - %s\n",
+                "%T - %M - %s\n",
                 ex._info ().c_str ()));
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - [%M] - caught unknown exception\n"));
+                "%T - %M - caught unknown exception\n"));
   }
 
   return -1;
@@ -305,13 +332,13 @@ int CUTS_Testing_App_Server::orb_svc (void)
   {
     // Get a reference to the <RootPOA>
     ACE_DEBUG ((LM_DEBUG, 
-                "%T - [%M] - resolving initial reference to RootPOA\n"));
+                "%T - %M - resolving initial reference to RootPOA\n"));
     CORBA::Object_var obj = this->orb_->resolve_initial_references ("RootPOA");
     PortableServer::POA_var root_poa = PortableServer::POA::_narrow (obj.in ());
 
     // Activate the RootPOA's manager.
     ACE_DEBUG ((LM_DEBUG, 
-                "%T - [%M] - getting reference to POAManager\n"));
+                "%T - %M - getting reference to POAManager\n"));
     PortableServer::POAManager_var mgr = root_poa->the_POAManager ();
     mgr->activate ();
 
@@ -328,7 +355,7 @@ int CUTS_Testing_App_Server::orb_svc (void)
     if (this->register_with_iortable () == -1)
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T - [%M] - failed to register with IOR table\n"));
+                  "%T - %M - failed to register with IOR table\n"));
     }
 
     // Register the test manager with the naming service, if applicable.
@@ -337,36 +364,53 @@ int CUTS_Testing_App_Server::orb_svc (void)
       if (this->register_with_name_service () == -1)
       {
         ACE_ERROR ((LM_ERROR, 
-                    "%T - [%M] - failed to register %s with naming service",
+                    "%T - %M - failed to register %s with naming service",
                     this->name ().c_str ()));
       }
     }
 
     // Run the ORB's main event loop.
     ACE_DEBUG ((LM_DEBUG,
-                "%T - [%M] - running the server's main event loop\n"));
+                "%T - %M - running the server's main event loop\n"));
     this->orb_->run ();
 
     // Destroy the RootPOA.
-    ACE_DEBUG ((LM_DEBUG, "%T - [%M] - destroying the RootPOA\n"));
+    ACE_DEBUG ((LM_DEBUG, "%T - %M - destroying the RootPOA\n"));
     root_poa->destroy (true, true);
 
     // Destroy the ORB.
-    ACE_DEBUG ((LM_DEBUG, "%T - [%M] - destroying the ORB\n"));
+    ACE_DEBUG ((LM_DEBUG, "%T - %M - destroying the ORB\n"));
     this->orb_->destroy ();
     return 0;
   }
   catch (const CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - [%M] - : %s\n",
+                "%T - %M - %s\n",
                 ex._info ().c_str ()));
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - [%M] - : caught unknown exception\n"));
+                "%T - %M - caught unknown exception\n"));
   }
 
   return -1;
+}
+
+//
+// print_help
+//
+void CUTS_Testing_App_Server::print_help (void)
+{
+  std::cout
+    << ::__USAGE__ << std::endl
+    << ::__HELP__ << std::endl;
+
+  this->print_help_i ();
+
+  std::cout
+    << ::__DETAILS__ << std::endl;
+
+  ACE_OS::exit (0);
 }

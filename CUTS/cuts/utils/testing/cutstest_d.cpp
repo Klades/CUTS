@@ -60,7 +60,7 @@ int main (int argc, char * argv [])
   }
   catch (...)
   {
-    ACE_ERROR ((LM_ERROR, "%T - [%M] - caught unknown exception\n"));
+    ACE_ERROR ((LM_ERROR, "%T - %M - caught unknown exception\n"));
     retval = 1;
   }
 

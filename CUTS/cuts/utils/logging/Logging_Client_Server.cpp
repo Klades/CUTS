@@ -8,8 +8,9 @@
 #include <sstream>
 
 static const char * __HELP__ =
-"Usage: cutslog_d [OPTIONS]\n"
 "Logging client daemon for submitting log messages to a CUTS database\n"
+"\n"
+"USAGE: cutslog_d [OPTIONS]\n"
 "\n"
 "OPTIONS:\n"
 "  --database=HOSTNAME   location of CUTS database (default='localhost')\n"
@@ -139,11 +140,12 @@ int CUTS_Logging_Client_Server::parse_args (int argc, char * argv [])
   const char * opts = ACE_TEXT ("vht:");
   ACE_Get_Opt get_opt (argc, argv, opts);
 
-  get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
-  get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
-  get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("database", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("timeout", 't', ACE_Get_Opt::ARG_REQUIRED);
+
+  get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
+  get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
+  get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
 
   char ch;
 
@@ -179,6 +181,10 @@ int CUTS_Logging_Client_Server::parse_args (int argc, char * argv [])
         std::istringstream istr (get_opt.opt_arg ());
         istr >> this->timeout_;
       }
+      else if (ACE_OS::strcmp ("help", get_opt.long_option ()) == 0)
+      {
+        this->print_help ();
+      }
 
       break;
 
@@ -198,6 +204,10 @@ int CUTS_Logging_Client_Server::parse_args (int argc, char * argv [])
 
         ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
       }
+      break;
+
+    case 'h':
+      this->print_help ();
       break;
     }
   }

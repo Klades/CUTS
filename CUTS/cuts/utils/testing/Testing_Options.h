@@ -44,6 +44,9 @@ public:
 
   /// The duration of the test.
   ACE_Time_Value test_duration_;
+
+  /// Current working directory for deploy/teardown commands
+  ACE_CString working_directory_;
 };
 
 CUTS_TESTING_BASE_SINGLETON_DECLARE(ACE_Singleton, 

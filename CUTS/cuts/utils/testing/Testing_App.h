@@ -79,9 +79,6 @@ protected:
    */
   virtual int parse_args (int argc, char * argv []);
 
-  /// Print the help for this application.
-  void print_help (void);
-
   /// Connect to the specified database.
   void connect_to_database (void);
 
@@ -91,7 +88,19 @@ protected:
   /// The connection for the database service.
   ACE_Auto_Ptr <CUTS_DB_Connection> conn_;
 
+  /// Implementation of the print help method.
+  void print_help_i (void);
+
 private:
+  /// Print the help for this application.
+  void print_help (void);
+
+  /// Deploy the current test.
+  int deploy_test (void);
+
+  /// Teardown the current test.
+  int teardown_test (void);
+
   /// The test number associated with the experiment.
   long test_number_;
 

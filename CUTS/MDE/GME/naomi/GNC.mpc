@@ -15,6 +15,8 @@ project (GNC_Base) : xsc_cxx {
   }
 
   Xsc_Files {
+    gendir = .
+    
     $(CUTS_ROOT)/etc/schemas/naomi/attribute_simple.xsd
     $(CUTS_ROOT)/etc/schemas/naomi/interface.xsd
   }

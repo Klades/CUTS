@@ -51,6 +51,9 @@ public:
   virtual int shutdown (void);
 
 private:
+  /// Print the help message to the screen.
+  void print_help (void);
+
   /**
    * Parse the command-line arguments.
    */

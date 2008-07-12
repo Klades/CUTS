@@ -64,6 +64,8 @@ project (Benchmark_Data_Collector_skel) : ciao_server_dnc, ciaocidldefaults, uti
     CUTS_BDC CUTS_stub
 
   CIDL_Files {
+    gendir = .
+    
     Benchmark_Data_Collector.cidl
   }
 
