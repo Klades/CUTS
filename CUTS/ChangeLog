@@ -1,3 +1,18 @@
+Mon Jul 14 21:08:04 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * integration/include/MPC:
+        * integration/include/MPC/devenv.build:
+        * integration/include/MPC/nmake.build:
+        * integration/include/MPC/vc8.build:
+        * integration/include/mpc.build:
+        
+          Slowly but surely trying to add support for different build
+          types to CruiseControl scripts.
+
+        * integration/include/devenv.build:
+
+          Removed this file.
+
 Mon Jul 14 19:52:23 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * etc/SQL/CUTS-unittest.sql:
@@ -13,27 +28,27 @@ Mon Jul 14 19:52:23 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
         * utils/BMW/website/UT_Chart.aspx.cs:
         * utils/BMW/website/UT_Create.aspx:
         * utils/BMW/website/UT_Create.aspx.cs:
- 
-          . Minor Updates 
- 
+
+          . Minor Updates
+
         * utils/BMW/website/charts:
-      
+
           . Added charting library to BMW in correct place
 
         * utils/BMW/website/unittesting.aspx:
         * utils/BMW/website/unittesting.aspx.cs:
 
-          . Overhauled the UI code to enforce data integrity. There should be 
+          . Overhauled the UI code to enforce data integrity. There should be
               almost no exceptions unhandled now
 
         * utils/BMW/website/xml/auto_generated.xml:
 
-          . This file is auto-modified every time something is charted        
+          . This file is auto-modified every time something is charted
 
 Mon Jul 14 18:58:12 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * NEWS:
-        
+
           Updated the NEW file.
 
 Mon Jul 14 18:50:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
