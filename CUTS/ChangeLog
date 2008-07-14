@@ -1,8 +1,14 @@
+Mon Jul 14 18:58:12 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * NEWS:
+        
+          Updated the NEW file.
+
 Mon Jul 14 18:50:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * tests/MBT:
         * tests/MBT/CAPI_Logging_Overhead.xme:
-        
+
           Test for benchmarking the logging overhead introduced in the
           CAPI client's runtime performance. This model contains a test
           that can be configured to log everything, or log nothing.
