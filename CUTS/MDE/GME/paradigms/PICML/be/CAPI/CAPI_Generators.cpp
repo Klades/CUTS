@@ -3,6 +3,7 @@
 #include "CAPI_Generators.h"
 #include "CAPI_Preprocessor.h"
 #include "XML_Mapping_File_Generator.h"
+#include "XSD_File_Generator.h"
 #include "be/BE_Options.h"
 #include "be/BE_Scope_Manager.h"
 #include "boost/bind.hpp"
@@ -1522,6 +1523,13 @@ generate (const PICML::RootFolder & root)
 void CUTS_BE_Finalize_T <CUTS_BE_Capi>::
 generate_mapping_file (const PICML::Event & event)
 {
+  PICML::Event e (event);
+
+  // Generate the XML mapping file.
   XML_Mapping_File_Generator mapping (CUTS_BE_OPTIONS ()->output_directory_);
-  PICML::Event (event).Accept (mapping);
+  e.Accept (mapping);
+
+  // Generate the XSD file.
+  XSD_File_Generator xsd (CUTS_BE_OPTIONS ()->output_directory_);
+  e.Accept (xsd);
 }

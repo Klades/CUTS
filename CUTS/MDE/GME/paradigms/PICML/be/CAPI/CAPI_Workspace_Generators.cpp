@@ -119,6 +119,7 @@ generate_eventtypes_project (void)
     << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" << std::endl
     << "<project name=\"jbi.eventtypes.build\" basedir=\".\" default=\"build.all\">" << std::endl
     << "<property environment=\"env\" />" << std::endl
+    << "<property name=\"jbi.schemas.dir\" value=\".\" />" << std::endl
     << std::endl
     << "<!-- import necessary external files -->" << std::endl
     << "<import file=\"${env.CUTS_ROOT}/etc/ANT/include/castor.build\" />" << std::endl

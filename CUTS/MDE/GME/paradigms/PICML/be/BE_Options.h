@@ -15,6 +15,8 @@
 
 #include <string>
 #include "BE_export.h"
+#include "ace/Singleton.h"
+#include "ace/Null_Mutex.h"
 
 //=============================================================================
 /**
@@ -28,12 +30,6 @@
 
 struct CUTS_BE_Export CUTS_BE_Options
 {
-  /// Get a pointer to the singleton instance.
-  static CUTS_BE_Options * instance (void);
-
-  /// Close the singleton instance and release its resources.
-  static void close_singleton (void);
-
   /// Name of the project.
   std::string project_name_;
 
@@ -57,14 +53,13 @@ struct CUTS_BE_Export CUTS_BE_Options
 
   /// Menu options for the backend.
   Menu_Option option_;
-
-private:
-  /// Instance of the singleton.
-  static CUTS_BE_Options * instance_;
 };
 
-/// Macro definition to simplify accessing backend options
+CUTS_BE_SINGLETON_DECLARE (ACE_Singleton, 
+                           CUTS_BE_Options, 
+                           ACE_Null_Mutex);
+
 #define CUTS_BE_OPTIONS() \
-  CUTS_BE_Options::instance ()
+  ACE_Singleton <CUTS_BE_Options, ACE_Null_Mutex>::instance ()
 
 #endif  // !defined _CUTS_BE_OPTIONS_H_

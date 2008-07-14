@@ -21,7 +21,7 @@ CUTS_BE_Capi::CUTS_BE_Capi (void)
   if (CUTS_BE_Capi::predefined_type_map_.empty ())
   {
     CUTS_BE_Capi::predefined_type_map_.insert (
-      std::make_pair (PICML::String::meta, "String"));
+      std::make_pair (PICML::String::meta, "java.lang.String"));
 
     CUTS_BE_Capi::predefined_type_map_.insert (
       std::make_pair (PICML::LongInteger::meta, "long"));
@@ -33,7 +33,7 @@ CUTS_BE_Capi::CUTS_BE_Capi (void)
       std::make_pair (PICML::Byte::meta, "byte"));
 
     CUTS_BE_Capi::predefined_type_map_.insert (
-      std::make_pair (PICML::Boolean::meta, "bool"));
+      std::make_pair (PICML::Boolean::meta, "boolean"));
 
     CUTS_BE_Capi::predefined_type_map_.insert (
       std::make_pair (PICML::RealNumber::meta, "double"));

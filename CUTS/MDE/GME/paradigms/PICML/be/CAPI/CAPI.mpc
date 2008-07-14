@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_BE_CAPI) : boost_base, picml_udm, cuts_cosmic {
+project (CUTS_BE_CAPI) : xerces, boost_base, picml_udm, cuts_cosmic {
   sharedname    = CUTS_BE_CAPI
   dynamicflags += CUTS_BE_CAPI_BUILD_DLL
 
@@ -21,6 +21,7 @@ project (CUTS_BE_CAPI) : boost_base, picml_udm, cuts_cosmic {
     CAPI_Project_Generators.cpp
     CAPI_Workspace_Generators.cpp
     XML_Mapping_File_Generator.cpp
+    XSD_File_Generator.cpp
   }
 
   Header_Files {

@@ -23,6 +23,7 @@ XML_Mapping_File_Generator (const std::string & outdir)
   this->dispatcher_.insert <PICML::Boolean> ();
   this->dispatcher_.insert <PICML::Byte> ();
   this->dispatcher_.insert <PICML::RealNumber> ();
+  this->dispatcher_.insert <PICML::Aggregate> ();
 }
 
 //

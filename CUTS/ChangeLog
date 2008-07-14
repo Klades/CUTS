@@ -1,3 +1,23 @@
+Mon Jul 14 18:41:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE_Options.h:
+        * MDE/GME/paradigms/PICML/be/BE_Options.cpp:
+
+          Switched over to using the ACE_Singleton class to implement
+          the singleton for the options.
+          
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI.mpc:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Ctx.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Workspace_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/XML_Mapping_File_Generator.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/XSD_File_Generator.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/XSD_File_Generator.cpp:
+        
+          Implemented support for generating the schema definition for 
+          basic event types that is composed of predefined types and 
+          aggregates.
+
 Mon Jul 14 06:40:21 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE.mpc:
@@ -32,33 +52,33 @@ Mon Jul 14 06:40:21 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * MDE/GME/paradigms/PICML/be/TIOA/TIOA_Generators.cpp:
         * MDE/GME/paradigms/PICML/be/XML/XML_Generators.cpp:
         * MDE/GME/paradigms/PICML/be/natural-lang/Natural_Lang_Generators.cpp:
-        
-          . Parameterized the preprocessor by the backend generators's 
+
+          . Parameterized the preprocessor by the backend generators's
             type. Right now, only the implementation dependency graph is
             parameterized. The IDL graph is not parameterized.
-            
-          . Updated all the backend generators to use the parameterized 
+
+          . Updated all the backend generators to use the parameterized
             version of the prepreocessor.
-            
-          . Update the CAPI generator so that it will include the 
-            appropriate worker libraries in the CLASSPATH during 
+
+          . Update the CAPI generator so that it will include the
+            appropriate worker libraries in the CLASSPATH during
             compilation.
-            
+
         * MDE/GME/paradigms/PICML/be/BE_Env_Variable_Parser_T.h:
         * MDE/GME/paradigms/PICML/be/BE_Env_Variable_Parser_T.cpp:
 
-          . Implemented a Boost Spirit grammar for allowing backend 
-            generators to convert an environment variable defined in the 
+          . Implemented a Boost Spirit grammar for allowing backend
+            generators to convert an environment variable defined in the
             model to an environment variable that is understood by their
             backend generator. Environment variables have the following
             syntax: $(VAR_NAME).
-            
-          . Incorporated the environment variable converter into the 
+
+          . Incorporated the environment variable converter into the
             CAPI backend generator.
 
         * cuts/utils/testing/Testing_App_Server.h:
         * cuts/utils/testing/Testing_App_Server.cpp:
-        
+
           Fixed compilation errors on Windows-based systems.
 
         * MDE/GME/paradigms/PICML/be/BE_Impl_Graph.h:
