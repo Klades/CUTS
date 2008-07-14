@@ -198,6 +198,12 @@ namespace CUTS
         case 1:
           this.load_cumulative_times();
           break;
+
+        case 2:
+          // INSERT CODE HERE TO UPDATE THE UNIT TEST VIEW. IT WOULD BE BEST TO
+          // CREATE A PRIVATE FUNCTION THAT IS INVOKED TO UPDATE YOUR VIEW
+          // ACCORDINGLY. DONT FOLLOW THE METHOD ABOVE SINCE ITS NOT THE BEST. ;-)
+          break;
       }
     }
     #endregion

@@ -48,6 +48,7 @@
     <items>
       <asp:menuitem text="Snapshot Performance" selected="true" value="0" />
       <asp:menuitem text="Cumulative Performance" value="1"  />
+      <asp:menuitem text="Unit Test" value="2"  />
     </items>
   </asp:menu>
 
@@ -112,6 +113,10 @@
           dataavgtime="avg_time"
           dataworsttime="worst_time"
           enableviewstate="false" />
+    </asp:view>
+
+    <asp:view runat="server" id="unittest_view_">
+      INSERT YOU CODE HERE
     </asp:view>
   </asp:multiview>
 </asp:content>
