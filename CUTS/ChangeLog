@@ -1,3 +1,12 @@
+Mon Jul 14 18:50:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * tests/MBT:
+        * tests/MBT/CAPI_Logging_Overhead.xme:
+        
+          Test for benchmarking the logging overhead introduced in the
+          CAPI client's runtime performance. This model contains a test
+          that can be configured to log everything, or log nothing.
+
 Mon Jul 14 18:41:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE_Options.h:
@@ -5,7 +14,7 @@ Mon Jul 14 18:41:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
           Switched over to using the ACE_Singleton class to implement
           the singleton for the options.
-          
+
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI.mpc:
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Ctx.cpp:
         * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
@@ -13,9 +22,9 @@ Mon Jul 14 18:41:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * MDE/GME/paradigms/PICML/be/CAPI/XML_Mapping_File_Generator.cpp:
         * MDE/GME/paradigms/PICML/be/CAPI/XSD_File_Generator.h:
         * MDE/GME/paradigms/PICML/be/CAPI/XSD_File_Generator.cpp:
-        
-          Implemented support for generating the schema definition for 
-          basic event types that is composed of predefined types and 
+
+          Implemented support for generating the schema definition for
+          basic event types that is composed of predefined types and
           aggregates.
 
 Mon Jul 14 06:40:21 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
