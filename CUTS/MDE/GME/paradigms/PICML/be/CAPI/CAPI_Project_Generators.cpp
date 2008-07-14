@@ -136,10 +136,33 @@ generate_i (const PICML::MonolithicImplementation & monoimpl)
   const CUTS_String_Set & eventset =
     CUTS_BE_CAPI ()->impl_node_->maplist_["events"];
 
+  const CUTS_String_Set & classpath =
+    CUTS_BE_CAPI ()->impl_node_->maplist_["classpath"];
+
   CUTS_BE_CAPI ()->project_file_
     << std::endl
     << "<target name=\"" << name << ".build\">" << std::endl
-    << "<javac srcdir=\".\" classpathref=\"cuts.build.classpath\">" << std::endl
+    << "<javac srcdir=\".\" classpathref=\"cuts.build.classpath\">" << std::endl;
+
+  if (!classpath.empty ())
+  {
+    CUTS_BE_CAPI ()->project_file_
+      << "<classpath>" << std::endl;
+
+    CUTS_String_Set::const_iterator 
+      iter = classpath.begin (), iter_end = classpath.end ();
+
+    for (; iter != iter_end; ++ iter)
+    {
+      CUTS_BE_CAPI ()->project_file_
+        << "<pathelement location=\"" << *iter << "\" />" << std::endl;
+    }
+
+    CUTS_BE_CAPI ()->project_file_
+      << "</classpath>" << std::endl;
+  }
+  
+  CUTS_BE_CAPI ()->project_file_
     << std::endl
     << "<!-- main class file (contains child classes) -->" << std::endl
     << "<include name=\"" << name << ".java\" />" << std::endl

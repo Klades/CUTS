@@ -17,7 +17,6 @@
 
 #include "boost/spirit/core.hpp"
 
-//=============================================================================
 /**
  * @class CUTS_BE_Condition_Parser_T
  *
@@ -26,8 +25,6 @@
  * Eventually, this parser will be able to handle more complex
  * expressions.
  */
-//=============================================================================
-
 template <typename BE_STRATEGY>
 class CUTS_BE_Condition_Parser_T :
   public boost::spirit::grammar <CUTS_BE_Condition_Parser_T <BE_STRATEGY> >

@@ -31,6 +31,11 @@ namespace CUTS_BE
   CUTS_BE_NOT_VISIT (CUTS_BE_Capi, PICML::TwowayOperation);
 }
 
+/**
+ * @struct CUTS_BE_Parse_Precondition_T
+ *
+ * Parse the conditional expressions.
+ */
 template < >
 struct CUTS_BE_Parse_Precondition_T <CUTS_BE_Capi>
 {
@@ -78,18 +83,6 @@ struct CUTS_BE_Prologue_T <CUTS_BE_Capi>
   static bool generate (const PICML::ComponentImplementationContainer &,
                         const PICML::MonolithicImplementation & );
 };
-
-////=============================================================================
-///**
-// *
-// */
-////=============================================================================
-//
-//template < >
-//struct CUTS_BE_Include_File_T <CUTS_BE_Capi>
-//{
-//  static bool generate (const std::string & include);
-//};
 
 /**
  *

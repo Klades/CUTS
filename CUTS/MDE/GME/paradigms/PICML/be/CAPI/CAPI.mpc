@@ -17,6 +17,7 @@ project (CUTS_BE_CAPI) : boost_base, picml_udm, cuts_cosmic {
     CAPI_Ctx.cpp
     CAPI_Generators.cpp
     CAPI_Manager_Factory.cpp
+    CAPI_Preprocessor_Handlers.cpp
     CAPI_Project_Generators.cpp
     CAPI_Workspace_Generators.cpp
     XML_Mapping_File_Generator.cpp
@@ -25,6 +26,7 @@ project (CUTS_BE_CAPI) : boost_base, picml_udm, cuts_cosmic {
   Header_Files {
     CAPI_export.h
     CAPI_Manager.h
+    CAPI_Preprocessor.h
   }
 
   Inline_Files {

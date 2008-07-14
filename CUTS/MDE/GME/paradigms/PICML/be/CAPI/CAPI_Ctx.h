@@ -53,6 +53,8 @@ public:
   static std::string scope (const PICML::NamedType & type,
                             char separator = '.');
 
+  static std::string import (const PICML::Worker & worker);
+
   static std::string classname (const std::string & str);
 
   typedef std::map <Uml::Class, std::string> PredefinedType_Map;

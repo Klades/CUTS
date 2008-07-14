@@ -1,16 +1,13 @@
 // $Id$
 
 #include "BE_Options.h"
-#include "BE_Preprocessor.h"
-
+#include "BE_Preprocessor_T.h"
+#include "BE_Workspace_Generators_T.h"
+#include "BE_Project_Generators_T.h"
 #include "boost/bind.hpp"
-
 #include <algorithm>
 #include <sstream>
 #include <fstream>
-
-#include "BE_Workspace_Generators_T.h"
-#include "BE_Project_Generators_T.h"
 
 //
 // CUTS_BE_Workspace_Generator_T
@@ -50,11 +47,11 @@ bool CUTS_BE_Workspace_Generator_T <BE_TYPE>::generate (void)
 
     // We are writing all the implementation projects.
     std::for_each (
-      CUTS_BE_PREPROCESSOR ()->impls ().graph ().begin (),
-      CUTS_BE_PREPROCESSOR ()->impls ().graph ().end (),
+      CUTS_BE_PREPROCESSOR (BE_TYPE)->impls ().graph ().begin (),
+      CUTS_BE_PREPROCESSOR (BE_TYPE)->impls ().graph ().end (),
       boost::bind (&CUTS_BE_Workspace_Generator_T::generate_impl_project,
                    this,
-                   boost::bind (&CUTS_BE_Impl_Graph::Node_Map::value_type::second,
+                   boost::bind (&CUTS_BE_Impl_Graph_T <BE_TYPE>::Node_Map::value_type::second,
                                 _1)));
 
     // We are writing all the stub projects.

@@ -14,8 +14,7 @@
 #define _XML_MAPPING_FILE_GENERATOR_H_
 
 #include "PICML/PICML.h"
-#include "../UDM_Abstract_Type_Dispatcher_T.h"
-
+#include "be/UDM_Abstract_Type_Dispatcher_T.h"
 #include <fstream>
 #include <stack>
 

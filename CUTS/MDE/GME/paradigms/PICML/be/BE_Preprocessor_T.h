@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- * @file      BE_Preprocessor.h
+ * @file      BE_Preprocessor_T.h
  *
  * $Id$
  *
@@ -10,35 +10,32 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_BE_PREPROCESSOR_H_
-#define _CUTS_BE_PREPROCESSOR_H_
+#ifndef _CUTS_BE_PREPROCESSOR_T_H_
+#define _CUTS_BE_PREPROCESSOR_T_H_
 
-#include "BE_export.h"
 #include "BE_IDL_Graph.h"
-#include "BE_Impl_Graph.h"
+#include "BE_Impl_Graph_T.h"
 #include "ace/Singleton.h"
 #include "ace/Null_Mutex.h"
 
-//=============================================================================
 /**
- * @class CUTS_BE_Preprocessor
+ * @class CUTS_BE_Preprocessor_T
  *
  * Preprocessor object for PICML models. This object provides
  * methods for preprocessing stub and implemenation models. The
  * preprocessed data is stored in the respective singleton
  * objects, i.e., CUTS_BE_IDL_Graph
  */
-//=============================================================================
-
-class CUTS_BE_Export CUTS_BE_Preprocessor :
+template <typename T>
+class CUTS_BE_Preprocessor_T :
   public PICML::Visitor
 {
 public:
   /// Default constructor.
-  CUTS_BE_Preprocessor (void);
+  CUTS_BE_Preprocessor_T (void);
 
   /// Destructor.
-  ~CUTS_BE_Preprocessor (void);
+  ~CUTS_BE_Preprocessor_T (void);
 
   /**
    * Preprocess a file.
@@ -48,6 +45,15 @@ public:
    * @retval        false           Failure
    */
   bool preprocess (const PICML::File & file);
+
+  /**
+   * Preprocess a file.
+   *
+   * @param[in]     file            Source file.
+   * @retval        true            Success
+   * @retval        false           Failure
+   */
+  bool preprocess (const PICML::File & file, const CUTS_BE_IDL_Node * & node);
 
   /**
    * Preprocess an implementation.
@@ -73,7 +79,15 @@ public:
    *
    * @return  Reference to a implementation graph.
    */
-  const CUTS_BE_Impl_Graph & impls (void) const;
+  const CUTS_BE_Impl_Graph_T <T> & impls (void) const;
+
+  /**
+   * Get a reference to the preprocessed implementations. Clients
+   * are not able to modify the implementation graph.
+   *
+   * @return  Reference to a implementation graph.
+   */
+  CUTS_BE_Impl_Graph_T <T> & impls (void);
 
   /**
    * Get a reference to the preprocessed stub (i.e., interface
@@ -84,31 +98,36 @@ public:
    */
   const CUTS_BE_IDL_Graph & stubs (void) const;
 
+  /**
+   * Get a reference to the preprocessed stub (i.e., interface
+   * definition files). Clients are not able to modify the
+   * implementation graph.
+   *
+   * @return  Reference to a stub graph.
+   */
+  CUTS_BE_IDL_Graph & stubs (void);
+
 private:
   /// The IDL graph.
   CUTS_BE_IDL_Graph idl_graph_;
 
   /// The implementation graph.
-  CUTS_BE_Impl_Graph impl_graph_;
-
-  /// The current implementation being preprocessed.
-  CUTS_BE_Impl_Node * current_impl_;
+  CUTS_BE_Impl_Graph_T <T> impl_graph_;
 
   // prevent the following operations
-  CUTS_BE_Preprocessor (const CUTS_BE_Preprocessor &);
-  const CUTS_BE_Preprocessor & operator = (const CUTS_BE_Preprocessor &);
+  CUTS_BE_Preprocessor_T (const CUTS_BE_Preprocessor_T &);
+  const CUTS_BE_Preprocessor_T & operator = (const CUTS_BE_Preprocessor_T &);
 };
 
-CUTS_BE_SINGLETON_DECLARE(ACE_Singleton,
-                          CUTS_BE_Preprocessor,
-                          ACE_Null_Mutex);
-
-#define CUTS_BE_PREPROCESSOR() \
-  ACE_Singleton <CUTS_BE_Preprocessor, \
+/// Definition for the preprocessor singleton.
+#define CUTS_BE_PREPROCESSOR(TYPE) \
+  ACE_Singleton <CUTS_BE_Preprocessor_T <TYPE>, \
                  ACE_Null_Mutex>::instance ()
 
 #if defined (__CUTS_INLINE__)
-#include "BE_Preprocessor.inl"
+#include "BE_Preprocessor_T.inl"
 #endif
 
-#endif  // !defined _CUTS_BE_PREPROCESSOR_H_
+#include "BE_Preprocessor_T.cpp"
+
+#endif  // !defined _CUTS_BE_PREPROCESSOR_T_H_

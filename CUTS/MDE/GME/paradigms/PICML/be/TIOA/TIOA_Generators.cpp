@@ -3,7 +3,7 @@
 #include "TIOA_Generators.h"
 #include "be/BE_Options.h"
 #include "be/BE_Scope_Manager.h"
-#include "be/BE_Preprocessor.h"
+#include "be/BE_Preprocessor_T.h"
 #include "be/UDM_Utility_T.h"
 #include "boost/bind.hpp"
 #include "Uml.h"
@@ -70,7 +70,7 @@ generate (const PICML::ComponentImplementationContainer & container,
   // proxy implementation, then we ignore it. It's going to cause
   // more problems than we would like.
   const CUTS_BE_Impl_Node * node = 0;
-  CUTS_BE_PREPROCESSOR ()->impls ().find (container.name (), node);
+  CUTS_BE_PREPROCESSOR (CUTS_BE_Tioa)->impls ().find (container.name (), node);
 
   if (node != 0 && node->is_proxy_)
     return false;

@@ -1,25 +1,19 @@
 // $Id$
 
 #include "CIAO_Proxy_Source_Traits.h"
-
-// CUTS headers
+#include "CIAO_Traits.h"
 #include "CIAO_Retn_Type.h"
 #include "CIAO_In_Type.h"
 #include "CIAO_Var_Type.h"
-
-#include "be/BE_Preprocessor.h"
+#include "be/BE_Preprocessor_T.h"
 #include "be/BE_Options.h"
-
-// UDM headers
+#include "boost/bind.hpp"
 #include "Uml.h"
 
-// STL headers
 #include <sstream>
 #include <fstream>
 #include <algorithm>
 
-// BOOST headers
-#include "boost/bind.hpp"
 
 //
 // CUTS_CIAO_Proxy_Source_Traits
@@ -45,7 +39,7 @@ CUTS_CIAO_Proxy_Source_Traits::
 bool CUTS_CIAO_Proxy_Source_Traits::
 open_file (const PICML::ComponentImplementationContainer & container)
 {
-  if (!CUTS_BE_PREPROCESSOR ()->impls ().find (container.name (), this->node_))
+  if (!CUTS_BE_PREPROCESSOR (CUTS_BE_Ciao)->impls ().find (container.name (), this->node_))
     return false;
 
   if (!this->node_->is_proxy_)

@@ -1,10 +1,10 @@
 // $Id$
 
 #include "CAPI_Generators.h"
+#include "CAPI_Preprocessor.h"
 #include "XML_Mapping_File_Generator.h"
 #include "be/BE_Options.h"
 #include "be/BE_Scope_Manager.h"
-#include "be/BE_Preprocessor.h"
 #include "boost/bind.hpp"
 #include "Uml.h"
 
@@ -18,8 +18,8 @@ generate (const PICML::ComponentImplementationContainer & container,
   // Locate the preprocessing of the implementation. If this is a
   // proxy implementation, then we ignore it. It's going to cause
   // more problems than we would like.
-  CUTS_BE_PREPROCESSOR ()->impls ().find (container.name (),
-                                          CUTS_BE_CAPI ()->impl_node_);
+  CUTS_BE_PREPROCESSOR (CUTS_BE_Capi)->impls ().
+    find (container.name (), CUTS_BE_CAPI ()->impl_node_);
 
   if (CUTS_BE_CAPI ()->impl_node_ == 0 ||
       CUTS_BE_CAPI ()->impl_node_->is_proxy_)
@@ -91,18 +91,6 @@ generate (const PICML::ComponentImplementationContainer & container,
 
   return true;
 }
-
-////
-//// CUTS_BE_Include_File_T
-////
-//bool CUTS_BE_Include_File_T <CUTS_BE_Capi>::
-//generate (const std::string & include)
-//{
-//  CUTS_BE_CAPI ()->outfile_
-//    << "import " << include << ";";
-//
-//  return true;
-//}
 
 //
 // CUTS_BE_Component_Impl_Begin_T
@@ -238,34 +226,18 @@ generate (const PICML::MonolithicImplementation & mono,
       << "import cuts.java.PeriodicTask;";
   }
 
-  // Get all the workers in this component. We need to
-  // import them into the project.
-  std::vector <PICML::WorkerType>
-    worker_vars = component.WorkerType_children ();
 
-  if (!worker_vars.empty ())
+  // Generate the remaining imports for this implementation.
+  const CUTS_String_Set & imports = 
+    CUTS_BE_CAPI ()->impl_node_->maplist_["imports"];
+
+  CUTS_String_Set::const_iterator 
+    imports_iter = imports.begin (), imports_iter_end = imports.end ();
+
+  for (; imports_iter != imports_iter_end; ++ imports_iter)
   {
-    // Get a unique collection of workers. We don't need to import
-    // the worker more than once. :)
-    typedef std::set <PICML::Worker> Worker_Set;
-    Worker_Set workers;
-
-    std::for_each (worker_vars.begin (),
-                   worker_vars.end (),
-                   boost::bind (&Worker_Set::insert,
-                                boost::ref (workers),
-                                boost::bind (&PICML::WorkerType::ref,
-                                             _1)));
-
-    CUTS_BE_CAPI ()->outfile_
-      << std::endl
-      << "// workload generator import(s)" << std::endl;
-
-    // Generate the import statement for the worker.
-    std::for_each (workers.begin (),
-                   workers.end (),
-                   boost::bind (&CUTS_BE_Component_Impl_Begin_T <CUTS_BE_Capi>::
-                                  generate_worker_import, _1));
+    CUTS_BE_CAPI ()->outfile_ 
+      << "import " << *imports_iter << ";";
   }
 
   // The name of the class is the name of the monolithic implementation.

@@ -1,18 +1,14 @@
 // $Id$
 
 #include "CIAO_Exec_Header_Traits.h"
-
+#include "CIAO_Traits.h"
 #include "CIAO_Var_Type.h"
 #include "CIAO_Retn_Type.h"
 #include "CIAO_In_Type.h"
-
-#include "be/BE_Preprocessor.h"
+#include "be/BE_Preprocessor_T.h"
 #include "be/BE_Options.h"
-
-// UDM headers
 #include "Uml.h"
 
-// STL headers
 #include <algorithm>
 #include <sstream>
 
@@ -65,7 +61,7 @@ CUTS_CIAO_Exec_Header_Traits::~CUTS_CIAO_Exec_Header_Traits (void)
 bool CUTS_CIAO_Exec_Header_Traits::
 open_file (const PICML::ComponentImplementationContainer & container)
 {
-  if (!CUTS_BE_PREPROCESSOR ()->impls ().find (container.name (), this->node_))
+  if (!CUTS_BE_PREPROCESSOR (CUTS_BE_Ciao)->impls ().find (container.name (), this->node_))
     return false;
 
   if (this->node_->is_proxy_)

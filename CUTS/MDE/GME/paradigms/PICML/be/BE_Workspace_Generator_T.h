@@ -18,7 +18,8 @@
 #include "String_Set.h"
 
 // Forward decl.
-class CUTS_BE_Preprocessor;
+template <typename T>
+class CUTS_BE_Preprocessor_T;
 
 // Forward decl.
 struct CUTS_BE_Impl_Node;

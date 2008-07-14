@@ -1,6 +1,7 @@
 // $Id$
 
 #include "CIAO_Traits_Base.h"
+#include "CIAO_Traits.h"
 #include "CIAO_In_Type.h"
 #include "CIAO_Retn_Type.h"
 #include "CIAO_Out_Type.h"
@@ -8,7 +9,7 @@
 
 // backend headers
 #include "be/UDM_Utility_T.h"
-#include "be/BE_Preprocessor.h"
+#include "be/BE_Preprocessor_T.h"
 
 // code generation headers
 #include "CCF/CodeGenerationKit/IndentationCxx.hpp"
@@ -570,7 +571,7 @@ get_impl_entry_point (const PICML::
                       ComponentImplementationContainer & container)
 {
   const CUTS_BE_Impl_Node * node = 0;
-  if (!CUTS_BE_PREPROCESSOR ()->impls ().find (container.name (), node))
+  if (!CUTS_BE_PREPROCESSOR (CUTS_BE_Ciao)->impls ().find (container.name (), node))
     return;
 
   CUTS_BE_Impl_Node::Artifact_Set::const_iterator iter;

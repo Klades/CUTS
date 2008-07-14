@@ -248,3 +248,38 @@ void CUTS_BE_Capi::generate_throws_signature (const std::string & method)
 
 }
 
+//
+// import
+//
+std::string CUTS_BE_Capi::import (const PICML::Worker & worker)
+{
+  // Initialize the import scope.
+  std::stack <std::string> scope;
+  scope.push (worker.name ());
+
+  // Move up the tree until we reach a File (i.e., while we
+  // are still working with Package elements).
+  PICML::MgaObject parent = worker.parent ();
+
+  while (parent.type () != PICML::WorkerFile::meta)
+  {
+    scope.push (parent.name ());
+    parent = ::PICML::MgaObject::Cast (parent.parent ());
+  }
+
+  std::ostringstream ostr;
+
+  // Write the top value since the remaining items in the scope
+  // will have the '.' prepended.
+  ostr << scope.top ();
+  scope.pop ();
+
+  // Construct the remainder of the name.
+  while (!scope.empty ())
+  {
+    ostr << '.' << scope.top ();
+    scope.pop ();
+  }
+
+  return ostr.str ();
+}

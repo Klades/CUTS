@@ -64,7 +64,7 @@ private:
   /// the application.
   static ACE_THR_FUNC_RETURN svc_run (void * param);
 
-  int orb_svc (void);
+  ACE_THR_FUNC_RETURN orb_svc (void);
 
   /// Helper method to register TestManager with IORTable.
   int register_with_iortable (void);

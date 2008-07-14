@@ -1,25 +1,18 @@
 // $Id$
 
 #include "CIAO_Exec_Source_Traits.h"
-
-// CUTS headers
+#include "CIAO_Traits.h"
 #include "CIAO_Retn_Type.h"
 #include "CIAO_In_Type.h"
 #include "CIAO_Var_Type.h"
-
 #include "be/BE_Options.h"
-#include "be/BE_Preprocessor.h"
-
-// UDM headers
+#include "be/BE_Preprocessor_T.h"
+#include "boost/bind.hpp"
 #include "Uml.h"
 
-// STL headers
 #include <sstream>
 #include <fstream>
 #include <algorithm>
-
-// BOOST headers
-#include "boost/bind.hpp"
 
 //
 // env_table_
@@ -74,7 +67,7 @@ CUTS_CIAO_Exec_Source_Traits::~CUTS_CIAO_Exec_Source_Traits (void)
 bool CUTS_CIAO_Exec_Source_Traits::
 open_file (const PICML::ComponentImplementationContainer & container)
 {
-  if (!CUTS_BE_PREPROCESSOR ()->impls ().find (container.name (), this->node_))
+  if (!CUTS_BE_PREPROCESSOR (CUTS_BE_Ciao)->impls ().find (container.name (), this->node_))
     return false;
 
   if (this->node_->is_proxy_)

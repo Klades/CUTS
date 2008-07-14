@@ -1,7 +1,7 @@
 // $Id$
 
-#include "BE_Impl_Graph.h"
-#include "BE_Preprocessor.h"
+#include "BE_Preprocessor_T.h"
+#include "BE_Preprocessor_Handlers_T.h"
 #include "CoWorkEr_Cache.h"
 
 // UDM headers
@@ -13,7 +13,8 @@
 //
 // CUTS_BE_Impl_Graph
 //
-CUTS_BE_Impl_Graph::CUTS_BE_Impl_Graph (void)
+template <typename T>
+CUTS_BE_Impl_Graph_T <T>::CUTS_BE_Impl_Graph_T (void)
 : current_impl_ (0)
 {
 
@@ -22,7 +23,8 @@ CUTS_BE_Impl_Graph::CUTS_BE_Impl_Graph (void)
 //
 // ~CUTS_BE_Impl_Graph
 //
-CUTS_BE_Impl_Graph::~CUTS_BE_Impl_Graph (void)
+template <typename T>
+CUTS_BE_Impl_Graph_T <T>::~CUTS_BE_Impl_Graph_T (void)
 {
 
 }
@@ -30,7 +32,8 @@ CUTS_BE_Impl_Graph::~CUTS_BE_Impl_Graph (void)
 //
 // Visit_ComponentImplementationContainer
 //
-void CUTS_BE_Impl_Graph::
+template <typename T>
+void CUTS_BE_Impl_Graph_T <T>::
 Visit_ComponentImplementationContainer (
 const PICML::ComponentImplementationContainer & container)
 {
@@ -53,7 +56,8 @@ const PICML::ComponentImplementationContainer & container)
 //
 // Visit_MonolithicImplementation
 //
-void CUTS_BE_Impl_Graph::
+template <typename T>
+void CUTS_BE_Impl_Graph_T <T>::
 Visit_MonolithicImplementation (
 const PICML::MonolithicImplementation & monoimpl)
 {
@@ -81,7 +85,8 @@ const PICML::MonolithicImplementation & monoimpl)
 //
 // Visit_Component
 //
-void CUTS_BE_Impl_Graph::
+template <typename T>
+void CUTS_BE_Impl_Graph_T <T>::
 Visit_Component (const PICML::Component & component)
 {
   // Maybe this component we are generating is a proxy-enabled
@@ -97,15 +102,15 @@ Visit_Component (const PICML::Component & component)
     parent = PICML::MgaObject::Cast (parent.parent ());
 
   // We are going to preprocess this file as well.
-  CUTS_BE_PREPROCESSOR ()->preprocess (PICML::File::Cast (parent));
-
-  // Ok, let's locate the previous preprocess node so that we can
-  // add it to the reference set for the current implementation node.
+  CUTS_BE_Preprocessor_T <T> * preprocessor =
+    ACE_Singleton <CUTS_BE_Preprocessor_T <T>, ACE_Null_Mutex>::instance ();
 
   const CUTS_BE_IDL_Node * idl_node = 0;
+  PICML::File file = PICML::File::Cast (parent);
+  preprocessor->preprocess (file, idl_node);
 
-  if (CUTS_BE_PREPROCESSOR ()->stubs ().find (parent.name (), idl_node))
-    this->current_impl_->references_.insert (idl_node);
+  // Add the preprocessed file to the reference set.
+  this->current_impl_->references_.insert (idl_node);
 
   // Now, let's continue with the preprocessing by visiting all
   // the workers that are defined in this component. This is
@@ -124,7 +129,8 @@ Visit_Component (const PICML::Component & component)
 //
 // Visit_WorkerType
 //
-void CUTS_BE_Impl_Graph::
+template <typename T>
+void CUTS_BE_Impl_Graph_T <T>::
 Visit_WorkerType (const PICML::WorkerType & worker_type)
 {
   PICML::Worker worker = worker_type.ref ();
@@ -136,11 +142,13 @@ Visit_WorkerType (const PICML::WorkerType & worker_type)
 //
 // Visit_Worker
 //
-void CUTS_BE_Impl_Graph::
+template <typename T>
+void CUTS_BE_Impl_Graph_T <T>::
 Visit_Worker (const PICML::Worker & worker)
 {
   // We need to locate the parent file for this worker. This may
   // mean iterating over muliple packages before finding the file.
+  CUTS_BE_Preprocessor_Worker_T <T>::handle (this->current_impl_, worker);
   PICML::MgaObject parent = worker.parent ();
 
   while (parent.type () != PICML::WorkerFile::meta)
@@ -152,11 +160,14 @@ Visit_Worker (const PICML::Worker & worker)
 //
 // Visit_WorkerFile
 //
-void CUTS_BE_Impl_Graph::
+template <typename T>
+void CUTS_BE_Impl_Graph_T <T>::
 Visit_WorkerFile (const PICML::WorkerFile & file)
 {
   // Add the name of the worker to the collection of
   // include files for this node.
+  CUTS_BE_Preprocessor_WorkerFile_T <
+    T>::handle (this->current_impl_, file);
   this->current_impl_->include_.insert (file.name ());
 
   // Add the location of this worker, if the string is not
@@ -174,11 +185,15 @@ Visit_WorkerFile (const PICML::WorkerFile & file)
 //
 // Visit_WorkerFile
 //
-void CUTS_BE_Impl_Graph::
+template <typename T>
+void CUTS_BE_Impl_Graph_T <T>::
 Visit_WorkerLibrary (const PICML::WorkerLibrary & library)
 {
   // Add the name of the library to the collection of
   // import libraries for this node.
+  CUTS_BE_Preprocessor_WorkerLibrary_T <T>::
+    handle (this->current_impl_, library);
+
   this->current_impl_->lib_.insert (library.name ());
 
   // Add the location of this library, if the string is not
@@ -192,7 +207,8 @@ Visit_WorkerLibrary (const PICML::WorkerLibrary & library)
 //
 // Visit_MonolithprimaryArtifact
 //
-void CUTS_BE_Impl_Graph::
+template <typename T>
+void CUTS_BE_Impl_Graph_T <T>::
 Visit_MonolithprimaryArtifact (const PICML::MonolithprimaryArtifact & primary)
 {
   PICML::ImplementationArtifactReference ref =
@@ -203,4 +219,3 @@ Visit_MonolithprimaryArtifact (const PICML::MonolithprimaryArtifact & primary)
   if (artifact != Udm::null)
     this->current_impl_->artifacts_.insert (artifact);
 }
-

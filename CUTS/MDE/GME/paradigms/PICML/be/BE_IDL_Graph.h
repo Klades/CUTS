@@ -23,7 +23,7 @@
  */
 //=============================================================================
 
-class CUTS_BE_IDL_Graph :
+class CUTS_BE_Export CUTS_BE_IDL_Graph :
   public CUTS_BE_Depend_Graph_T <CUTS_BE_IDL_Node>,
   public PICML::Visitor
 {
@@ -97,9 +97,6 @@ private:
    */
   void visit_file_and_package_contents (const Udm::Object & object);
 
-  /// Singleton instance of the graph.
-  static CUTS_BE_IDL_Graph * instance_;
-
   /// The current node in the graph.
   CUTS_BE_IDL_Node * current_node_;
 
@@ -112,8 +109,5 @@ private:
   /// The file that's currently being preprocessed.
   PICML::File active_file_;
 };
-
-#define CUTS_BE_IDL_GRAPH() \
-  CUTS_BE_IDL_Graph::instance ()
 
 #endif  // !defined _CUTS_BE_IDL_GRAPH_H_

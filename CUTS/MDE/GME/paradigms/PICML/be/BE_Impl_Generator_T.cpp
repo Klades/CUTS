@@ -5,7 +5,7 @@
 #endif
 
 #include "BE_algorithm.h"
-#include "BE_Preprocessor.h"
+#include "BE_Preprocessor_T.h"
 #include "BE_Env_Visitor_T.h"
 #include "BE_Execution_Visitor_T.h"
 #include "BE_Assembly_Generator_T.h"
@@ -117,7 +117,7 @@ const PICML::MonolithicImplementation & monoimpl)
 
   // Preprocess the container and extract as much information
   // as we can about the current component's implementation.
-  CUTS_BE_PREPROCESSOR ()->preprocess (container);
+  CUTS_BE_PREPROCESSOR (BE_TYPE)->preprocess (container);
 
   if (CUTS_BE_File_Open_T <BE_TYPE>::generate (container, monoimpl))
   {
@@ -126,7 +126,7 @@ const PICML::MonolithicImplementation & monoimpl)
 
     // Get the implementation node and write all the includes.
     const CUTS_BE_Impl_Node * impl = 0;
-    CUTS_BE_PREPROCESSOR ()->impls ().find (container.name (), impl);
+    CUTS_BE_PREPROCESSOR (BE_TYPE)->impls ().find (container.name (), impl);
 
     // Write the include files for this implementation.
     CUTS_BE::visit <BE_TYPE> (impl->include_,
@@ -190,7 +190,7 @@ const PICML::MonolithicImplementation & monoimpl)
   }
   else
   {
-    CUTS_BE_PREPROCESSOR ()->remove (container);
+    CUTS_BE_PREPROCESSOR (BE_TYPE)->remove (container);
   }
 }
 
