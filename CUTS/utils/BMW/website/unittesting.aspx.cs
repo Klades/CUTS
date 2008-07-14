@@ -12,6 +12,8 @@ using MySql.Data.MySqlClient;
 
 public partial class Unit_Testing : System.Web.UI.Page
 {
+    private double DEFAULT_LB_WIDTH = 250;
+
     protected void Page_Load(object sender, EventArgs e)
     {
         
@@ -43,10 +45,7 @@ public partial class Unit_Testing : System.Web.UI.Page
         }
         catch
         {
-            this.txt_Create_Test_Suite_Error.Style.Add("color", "red");
             this.txt_Create_Test_Suite_Error.Text = "Please Create at least one test suite to get started.";
-
-            this.txt_Create_Test_Suite_Package_Error.Style.Add("color", "red");
             this.txt_Create_Test_Suite_Package_Error.Text = "Please add at least one package to the unit test to get started.";
         }
 
@@ -58,64 +57,109 @@ public partial class Unit_Testing : System.Web.UI.Page
         string sql = "SELECT * FROM test_suites;";
         DataTable dt = ExecuteMySqlAdapter(sql);
 
-        // Expose the <DefaultView> of the result.
+        // Bind Data
         this.lb_Test_Suites.DataSource = dt;
         this.lb_Test_Suites.DataBind();
+
+        // Ensure width is at least min
+        if (txt_Create_Test_Suite.Width.Value < DEFAULT_LB_WIDTH)
+            txt_Create_Test_Suite.Width = new Unit(DEFAULT_LB_WIDTH);
+    }
+
+    private void load_test_suite_data(string test_suite_to_select)
+    {
+        load_test_suite_data();
+
+        // Find Item we would like selected
+        ListItem desired = lb_Test_Suites.Items.FindByText(test_suite_to_select);
+        int index_desired = lb_Test_Suites.Items.IndexOf(desired);
+
+        // Select it
+        lb_Test_Suites.SelectedIndex = index_desired;
     }
 
     private void load_test_suite_package_data()
     {
-        // Update the lb_Test_Suite_Packages
+        // Check integrity of lb_Test_Suites.Selected Index
+        if (lb_Test_Suites.SelectedIndex < 0)
+        {
+            this.txt_Create_Test_Suite_Package_Error.Text = "You do not appear to have a Test Suite Selected. <br />" +
+                "Please select one and try again.";
+            return;
+        }
 
-        // Get all the test from the database.
-        string sql = "SELECT packages.id,name " +
+        // Get the package info for this test
+        string sql = "SELECT packages.id as id,name " +
             "FROM packages,test_suite_packages as tsa " +
             "where tsa.id =" + lb_Test_Suites.SelectedValue + " AND tsa.p_id = packages.id;";
-        
         DataTable dt = ExecuteMySqlAdapter(sql);
 
-        // Expose the <DefaultView> of the result.
+
+        // Bind the data
         this.lb_Test_Suite_Packages.DataSource = dt;
         this.lb_Test_Suite_Packages.DataBind();
 
-        if (lb_Test_Suite_Packages.Width.Value < Unit.Pixel(180).Value)
-            lb_Test_Suite_Packages.Width = Unit.Pixel(180);
+        // Ensure the width
+        if (lb_Test_Suite_Packages.Width.Value < DEFAULT_LB_WIDTH)
+            lb_Test_Suite_Packages.Width = new Unit(DEFAULT_LB_WIDTH);
 
-        // Update the ddl_Add_Existing_Test_Suite_Package
-
+        
+        // Update the DropDownList to show all packages
         sql = "SELECT * FROM packages";
         dt = ExecuteMySqlAdapter(sql);
-
         this.ddl_Add_Existing_Test_Suite_Package.DataSource = dt;
         this.ddl_Add_Existing_Test_Suite_Package.DataBind();
 
+        // Insert the Select Statement
         this.ddl_Add_Existing_Test_Suite_Package.Items.Insert(0, "Choose an Existing Package to Add it . . . ");
+    }
+
+    private void load_test_suite_package_data(string test_suite_package_to_select)
+    {
+        load_test_suite_package_data();
+
+        // Find Item we would like selected
+        ListItem desired = lb_Test_Suite_Packages.Items.FindByText(test_suite_package_to_select);
+        int index_desired = lb_Test_Suite_Packages.Items.IndexOf(desired);
+
+        // Select it
+        lb_Test_Suite_Packages.SelectedIndex = index_desired;
     }
 
     private void load_unit_test_data()
     {
         // Load the ddl_Add_Package_Unit_Test
-
         string sql = "SELECT * FROM unittestdesc;";
         DataTable dt = ExecuteMySqlAdapter(sql);
+        ddl_Add_Package_Unit_Test.DataSource = dt;
+        ddl_Add_Package_Unit_Test.DataBind();
 
-        this.ddl_Add_Package_Unit_Test.DataSource = dt;
-        this.ddl_Add_Package_Unit_Test.DataBind();
+        // Check that there is at least one UT
+        if (ddl_Add_Package_Unit_Test.Items.Count > 0)
+            this.ddl_Add_Package_Unit_Test.Items.Insert(0, "Please select an existing Unit Test to Add it . . . ");
+        else
+            txt_Add_Package_Unit_Test_Error.Text = "You do not appear to have created any Unit Tests. <br />" +
+                "Please create at least one Unit Test to begin.";
 
-        this.ddl_Add_Package_Unit_Test.Items.Insert(0, "Please select an existing Unit Test to Add it . . . ");
-
-        // Load the lb_Unit_Test
+        // Check the integrity of the selected package
+        if (lb_Test_Suite_Packages.SelectedIndex < 0)
+        {
+            txt_Add_Package_Unit_Test_Error.Text = "You do not appear to have a Package Selected. <br />" +
+                "Please select a package and try again. <br />";
+            return;
+        }
+        
+        // Load the Unit Test ListBox
         sql = "SELECT utid,name " +
             "FROM unittestdesc as utd,packages_unit_tests as put " + 
             "WHERE put.id = " + this.lb_Test_Suite_Packages.SelectedValue + " and put.ut_id = utd.utid;";
         dt = ExecuteMySqlAdapter(sql);
+        lb_Unit_Tests.DataSource = dt;
+        lb_Unit_Tests.DataBind();
 
-        // Expose the <DefaultView> of the result.
-        this.lb_Unit_Tests.DataSource = dt;
-        this.lb_Unit_Tests.DataBind();
-
-        if (lb_Unit_Tests.Width.Value < Unit.Pixel(180).Value)
-            lb_Unit_Tests.Width = Unit.Pixel(180);
+        // Ensure the minimum width
+        if (lb_Unit_Tests.Width.Value < DEFAULT_LB_WIDTH)
+            lb_Unit_Tests.Width = new Unit(DEFAULT_LB_WIDTH);
     }
 
     private void load_log_format_data()
@@ -136,67 +180,73 @@ public partial class Unit_Testing : System.Web.UI.Page
     {
         try
         {
+            // Ensure the length of the name 
+            //   (This also eliminates blank names or one space names - like ' ')
             if (this.txt_Create_Test_Suite.Text.Length < 3)
-                throw new FormatException("Please be sure the name is more than three characters.");
+            {
+                txt_Create_Test_Suite_Error.Text = "Please be sure the name is more than three characters.";
+                return;
+            }
+
             string sql = @"CALL insert_test_suite('" + txt_Create_Test_Suite.Text + "');";
             ExecuteMySql(sql);
             txt_Create_Test_Suite_Error.Text = "";
-        }
-        catch (FormatException ex)
-        {
-            txt_Create_Test_Suite_Error.Style.Add("color", "red");
-            txt_Create_Test_Suite_Error.Text = ex.Message;
+
+
+            // Reload the data, and select the package just created
+            //   ---Could turn this into out parameters and append to the 
+            //   ---end of lb_Test_Suites - rather than rehitting the database
+            load_test_suite_data(txt_Create_Test_Suite.Text);
+        
         }
         catch
         {
-            txt_Create_Test_Suite_Error.Style.Add("color", "red");
-            txt_Create_Test_Suite_Error.Text = "There was a problem adding the Test Suite. <br /> This probably means there was already a Test Suite with that name. ";
-        }
-
-        // Could turn this into out parameters and append to the 
-        // end of lb_Test_Suites - rather than rehitting the database
-        load_test_suite_data();
-
-        
+            txt_Create_Test_Suite_Error.Text = "There was a problem adding the Test Suite. <br />" +
+                "This probably means there was already a Test Suite with that name. ";
+        }       
     }
 
     protected void OnClick_btn_Create_Test_Suite_Package(object sender, EventArgs e)
     {
         try
         {
+            // Ensure the length of the name
+            //   (This also eliminates blank names or one space names - like ' ')
             if (this.txt_Create_Test_Suite_Package.Text.Length < 3)
-                throw new ArgumentException("Please be sure the package name is more than three characters.");
-            
+            {
+                txt_Create_Test_Suite_Package_Error.Text = "Please be sure the package name is more than three characters.";
+                return;
+            }
+
+            // Ensure we know which Test Suite they would like to add the package to
             if (this.lb_Test_Suites.SelectedIndex < 0)
             {
                 // If there is only one, we know which one they want
                 if (this.lb_Test_Suites.Items.Count == 1)
                     this.lb_Test_Suites.SelectedIndex = 0;
                 else
-                    throw new ArgumentException("I am not sure which Test Suite you " + 
-                        "would like to add this package to. <br />" + 
-                        "Please click on a test suite name.");
+                {
+                    txt_Create_Test_Suite_Package_Error.Text = "I am not sure which Test Suite you " +
+                            "would like to add this package to. <br />" +
+                            "Please click on a test suite name and try again.";
+                    return;
+                }
             }
 
-
-            string sql = @"CALL insert_test_suite_package('" + lb_Test_Suites.SelectedValue + "','" + 
+            // Insert the package
+            string sql = @"CALL insert_test_suite_package('" + lb_Test_Suites.SelectedValue + "','" +
                 txt_Create_Test_Suite_Package.Text + "');";
             ExecuteMySql(sql);
             txt_Create_Test_Suite_Package_Error.Text = "";
-        }
-        catch (ArgumentException ae)
-        {
-            txt_Create_Test_Suite_Package_Error.Style.Add("color", "red");
-            txt_Create_Test_Suite_Package_Error.Text = ae.Message;
+
+            // Reload the data, and select the package just created
+            load_test_suite_package_data(txt_Create_Test_Suite_Package.Text);
         }
         catch
         {
-            txt_Create_Test_Suite_Package_Error.Style.Add("color", "red");
-            txt_Create_Test_Suite_Package_Error.Text = "There was a problem adding the Test Suite Package. <br />" + 
+            txt_Create_Test_Suite_Package_Error.Text = "There was a problem adding the Test Suite Package. <br />" +
                 "This probably means there was already a package with that name. <br />";
         }
-
-        load_test_suite_package_data();
     }
 
     protected void OnChange_lb_Test_Suite_Packages(object sender, EventArgs e)
@@ -208,48 +258,75 @@ public partial class Unit_Testing : System.Web.UI.Page
     {
         try
         {
+            // Ensure the integrity of the Selected Test Suite
+            if (lb_Test_Suites.SelectedIndex < 0)
+            {
+                // If there is only one, we know which one they want
+                if (lb_Test_Suites.Items.Count == 1)
+                    lb_Test_Suites.SelectedIndex = 0;
+                else
+                {
+                    txt_Create_Test_Suite_Package_Error.Text = "I am not sure which Test Suite you would like to add this pacakge to. <br />" +
+                        "Please select a Test Suite and Try again";
+                    return;
+                }
+            }
+
+            // Insert the package
             string sql = @"CALL insert_test_suite_package_existing('" +
                 this.lb_Test_Suites.SelectedValue + "','" +
                 this.ddl_Add_Existing_Test_Suite_Package.SelectedValue + "');";
             ExecuteMySql(sql);
             this.txt_Create_Test_Suite_Package_Error.Text = "";
+
+            // Reload the Package data, and select the package just added
+            load_test_suite_package_data(ddl_Add_Existing_Test_Suite_Package.SelectedValue);
         }
         catch
         {
-            this.txt_Create_Test_Suite_Package_Error.Style.Add("color", "red");
             this.txt_Create_Test_Suite_Package_Error.Text = "There was a problem adding the Package. <br />" +
-                "Please check to ensure the Test Suite does not " + 
+                "Please check to ensure the Test Suite does not <br />" +
                 "already contain a Package named " +
                 this.ddl_Add_Existing_Test_Suite_Package.SelectedItem.Text + "<br />";
         }
-
-        load_test_suite_package_data();
     }
 
     protected void OnChange_ddl_Add_Package_Unit_Test(object sender, EventArgs e)
     {
         try
         {
+            // Ensure the integrity of the Selected Package
+            if (lb_Test_Suite_Packages.SelectedIndex < 0)
+            {
+                // If there is only one, we know which one they want
+                if (lb_Test_Suite_Packages.Items.Count == 1)
+                    lb_Test_Suite_Packages.SelectedIndex = 0;
+                else
+                {
+                    txt_Add_Package_Unit_Test_Error.Text = "I am not sure which Package you would like to add this unit test to. <br />" +
+                        "Please select a Package and Try again";
+                    return;
+                }
+            }
+
             string sql = @"CALL insert_package_unit_test('" +
                 this.lb_Test_Suite_Packages.SelectedValue + "','" +
                 this.ddl_Add_Package_Unit_Test.SelectedValue + "');";
             ExecuteMySql(sql);
             this.txt_Add_Package_Unit_Test_Error.Text = "";
+
+            // Reload the Unit test Drop Down List
+            load_unit_test_data();
         }
         catch
         {
-            this.txt_Add_Package_Unit_Test_Error.Style.Add("color", "red");
             this.txt_Add_Package_Unit_Test_Error.Text = "There was a problem adding the Unit Test. <br />" +
                 "Please check to ensure the Package does not " +
-                "already contain a Unit Test named " +
+                "already contain a Unit Test named <br />" +
                 this.ddl_Add_Package_Unit_Test.SelectedItem.Text + "<br />";
         }
-
-        load_unit_test_data();
     }
 
-
-    
     protected void OnChange_lb_Test_Suites(object sender, EventArgs e)
     {
         this.txt_Create_Test_Suite_Error.Text = "";
@@ -259,7 +336,6 @@ public partial class Unit_Testing : System.Web.UI.Page
     protected void OnChange_lb_Unit_Tests(object sender, EventArgs e)
     {
         td_Unit_Test_Details_Is_Visible = true;
-
 
         string sql = @"SELECT * FROM unittestdesc WHERE utid = " + lb_Unit_Tests.SelectedValue + " LIMIT 1;";
         DataRow row = ExecuteMySqlRow(sql);
@@ -293,7 +369,15 @@ public partial class Unit_Testing : System.Web.UI.Page
 
         MySqlDataAdapter da = new MySqlDataAdapter(sql, conn);
         DataSet ds = new DataSet();
-        da.Fill(ds);
+        try
+        {
+
+            da.Fill(ds);
+        }
+        catch
+        {
+            throw new ArgumentException("The sql executed was : " + sql);
+        }
 
         conn.Close();
         return ds.Tables[0];
@@ -304,7 +388,15 @@ public partial class Unit_Testing : System.Web.UI.Page
         MySqlConnection conn = new MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
         MySqlCommand comm = new MySqlCommand(sql, conn);
         conn.Open();
-        comm.ExecuteNonQuery();
+        try
+        {
+
+            comm.ExecuteNonQuery();
+        }
+        catch
+        {
+            throw new ArgumentException("The sql executed was : " + sql);
+        }
         conn.Close();
 
     }
@@ -316,8 +408,14 @@ public partial class Unit_Testing : System.Web.UI.Page
 
         MySqlDataAdapter da = new MySqlDataAdapter(sql, conn);
         DataSet ds = new DataSet();
-        da.Fill(ds);
-
+        try
+        {
+            da.Fill(ds);
+        }
+        catch
+        {
+            throw new ArgumentException("The sql executed was: " + sql);
+        }
         conn.Close();
 
         return ds.Tables[0].Rows[0];

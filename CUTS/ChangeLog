@@ -1,3 +1,35 @@
+Mon Jul 14 19:52:23 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * etc/SQL/CUTS-unittest.sql:
+
+          . Added SQL needed for unit tests
+
+        * utils/BMW/website/App_Code/DataSetActions.cs:
+        * utils/BMW/website/App_Code/LogVariables.cs:
+        * utils/BMW/website/App_Code/UnitTestActions.cs:
+
+          . Updates to go from log to msg_log and TestID to test_number
+
+        * utils/BMW/website/UT_Chart.aspx.cs:
+        * utils/BMW/website/UT_Create.aspx:
+        * utils/BMW/website/UT_Create.aspx.cs:
+ 
+          . Minor Updates 
+ 
+        * utils/BMW/website/charts:
+      
+          . Added charting library to BMW in correct place
+
+        * utils/BMW/website/unittesting.aspx:
+        * utils/BMW/website/unittesting.aspx.cs:
+
+          . Overhauled the UI code to enforce data integrity. There should be 
+              almost no exceptions unhandled now
+
+        * utils/BMW/website/xml/auto_generated.xml:
+
+          . This file is auto-modified every time something is charted        
+
 Mon Jul 14 18:58:12 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * NEWS:

@@ -64,7 +64,7 @@
     <p>
         Group By :
         <asp:DropDownList ID="DropDownList2" runat="server">
-            <asp:ListItem>TestID</asp:ListItem>
+            <asp:ListItem>test_number</asp:ListItem>
         </asp:DropDownList>
     </p>
     <p>

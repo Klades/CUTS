@@ -66,7 +66,7 @@ public partial class UT_Create : System.Web.UI.Page
         variables.Add("LFIDs", lfids.ToArray());
 
         string[] groups = new string[1];
-        //groups[0] = "TestID";
+        //groups[0] = "test_number";
         variables.Add("Groups", groups);
 
         // Note that this only supports SUMs for now

@@ -74,8 +74,8 @@ namespace Actions
                 dt_.Columns.Add(new DataColumn(columnName, System.Type.GetType("System.Int32")));
             }
 
-            // TestID should always be a column
-            dt_.Columns.Add(new DataColumn("TestID", System.Type.GetType("System.Int32")));
+            // test_number should always be a column
+            dt_.Columns.Add(new DataColumn("test_number", System.Type.GetType("System.Int32")));
 
             // This is to fix a bug in visual studio where the ds_ tables are
             // maintained inside the temp directory and so the add
@@ -88,7 +88,7 @@ namespace Actions
 
         public void FillTable(int lfid, string cs_regex, Array varnames)
         {            
-            // Get the actual log messages and TestIDs
+            // Get the actual log messages and test_numbers
             string sql = @"CALL Get_log_data('" + 
                 lfid.ToString() + "');";
             DataTable dt_ = ExecuteMySqlAdapter(sql);
@@ -118,8 +118,8 @@ namespace Actions
                     NewRow[name] = Value;
                 }
 
-                // There should always be a TestID
-                NewRow["TestID"] = row["TestID"];
+                // There should always be a test_number
+                NewRow["test_number"] = row["test_number"];
                 
                 InsertRow(TableName, NewRow);
             }

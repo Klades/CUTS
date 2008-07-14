@@ -51,7 +51,7 @@ public partial class UT_Chart : System.Web.UI.Page
         writer.WriteRaw("<null/>");        // <null/>
         foreach (DataRow row in dt.Rows)
         {
-            writer.WriteElementString("string", row["TestID"].ToString());
+            writer.WriteElementString("string", row["test_number"].ToString());
         }
         writer.WriteEndElement();           // </row>
 

@@ -126,7 +126,7 @@ namespace Actions
             }
 
 
-            sql = @"SELECT `TestID`,(" + evaluation + ") as result FROM ";
+            sql = @"SELECT `test_number`,(" + evaluation + ") as result FROM ";
             
             Array LFIDs = GetLFIDs(utid);
 
@@ -138,7 +138,7 @@ namespace Actions
             sql += " Group by ";
 
             //sql += CreateGroups(utid);
-            sql += "TestID";
+            sql += "test_number";
 
             sql += ";";
 
@@ -158,10 +158,10 @@ namespace Actions
             int amount = Int32.Parse(obj.ToString());
  
             if (amount == 0)
-                return "TestID";
+                return "test_number";
 
             DataTable dt_ = ExecuteMySqlAdapter("SELECT variable_id FROM unittestgroups;");
-            string groups = "TestID,";
+            string groups = "test_number,";
             foreach (DataRow row in dt_.Rows)
                 groups += row["variable_id"].ToString() + ",";
 

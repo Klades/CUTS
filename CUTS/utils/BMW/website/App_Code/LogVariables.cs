@@ -50,8 +50,8 @@ namespace LogVariables
                 ht_.Add(extended_name,t);
             }
 
-            // There will always be a variable TestID and it will always be grouped on X
-            ht_.Add("TestID", new SingleVariable("TestID", "TestID", "int", true, false));
+            // There will always be a variable test_number and it will always be grouped on X
+            ht_.Add("test_number", new SingleVariable("test_number", "test_number", "int", true, false));
 
 
             // setup grouped on x array

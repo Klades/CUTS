@@ -15,7 +15,7 @@
       OnClick="OnClick_btn_Create_Test_Suite"
       TabIndex="2" />
     <br />
-    <asp:Label ID="txt_Create_Test_Suite_Error" runat="server" Text=""></asp:Label>
+    <asp:Label ID="txt_Create_Test_Suite_Error" runat="server" Text="" ForeColor="red"></asp:Label>
     
     <br />
     <br />
@@ -44,7 +44,7 @@
       OnClick="OnClick_btn_Create_Test_Suite_Package"
       TabIndex="4" />
     <br />
-    <asp:Label ID="txt_Create_Test_Suite_Package_Error" runat="server" Text="">
+    <asp:Label ID="txt_Create_Test_Suite_Package_Error" runat="server" Text="" ForeColor="red">
     </asp:Label><br />
     <asp:DropDownList 
         ID="ddl_Add_Existing_Test_Suite_Package"
@@ -76,6 +76,7 @@
         ID="txt_Add_Package_Unit_Test_Error"
         Text = ""
         runat="server"
+        ForeColor="red"
         ></asp:Label>
     <asp:DropDownList 
         ID="ddl_Add_Package_Unit_Test"
@@ -99,7 +100,7 @@
 <tr>
 <td colspan="2" visible="false" id="td_Unit_Test_Details" runat="server">
 <h3>Unit Test Details</h3>
-<strike>Click here to edit</strike>
+<strike>Click here to edit</strike> (not enabled yet)
     <br />
 <table border="0" width="100%">
 <tr>
