@@ -64,7 +64,8 @@ private:
   /// the application.
   static ACE_THR_FUNC_RETURN svc_run (void * param);
 
-  ACE_THR_FUNC_RETURN orb_svc (void);
+  /// The service thread for the CORBA aspect.
+  int orb_svc (void);
 
   /// Helper method to register TestManager with IORTable.
   int register_with_iortable (void);

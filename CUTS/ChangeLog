@@ -1,10 +1,19 @@
+Tue Jul 15 17:57:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/Testing_App_Server.h:
+        * cuts/utils/testing/Testing_App_Server.cpp:
+        
+          . Compilation fix where the return value on (non-)Windows
+            for a thread is different and the code for handling that
+            difference was wrong.
+
 Tue Jul 15 05:10:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * tests/MBT/CAPI_Logging_Overhead.xme:
-        
-          . Updated the model to use the disconnect () method of the 
+
+          . Updated the model to use the disconnect () method of the
             CUTS.TestLogger during the fini () environment action.
-            
+
           . Bug fix where the eventCount in the SurveillanceClient was
             not being incremented.
 

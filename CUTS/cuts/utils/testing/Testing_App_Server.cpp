@@ -129,7 +129,16 @@ ACE_THR_FUNC_RETURN CUTS_Testing_App_Server::svc_run (void * param)
   CUTS_Testing_App_Server * server = 
     reinterpret_cast <CUTS_Testing_App_Server *> (param);
 
-  return server->orb_svc ();
+  int const svc_status = server->orb_svc ();
+
+  ACE_THR_FUNC_RETURN status;
+#if defined (ACE_HAS_INTEGRAL_TYPE_THR_FUNC_RETURN)
+  status = static_cast <ACE_THR_FUNC_RETURN> (svc_status);
+#else
+  status = reinterpret_cast <ACE_THR_FUNC_RETURN> (svc_status);
+#endif /* ACE_HAS_INTEGRAL_TYPE_THR_FUNC_RETURN */
+
+  return status;
 }
 
 //
@@ -327,7 +336,7 @@ int CUTS_Testing_App_Server::unregister_with_name_service (void)
 //
 // svc
 //
-ACE_THR_FUNC_RETURN CUTS_Testing_App_Server::orb_svc (void)
+int CUTS_Testing_App_Server::orb_svc (void)
 {
   try
   {
