@@ -182,7 +182,7 @@ namespace CUTS
 
     protected void OnChange_ddl_Test_Suites(object sender, EventArgs e)
     {
-        if (ddl_Test_Suites.SelectedIndex < 0)
+        if (ddl_Test_Suites.SelectedIndex < 1)
         {
             show_error_message("Please choose another Test Suite. That one is not valid. ");
         }

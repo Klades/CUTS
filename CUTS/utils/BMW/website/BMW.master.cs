@@ -19,7 +19,7 @@ namespace CUTS
   {
     private void Page_Load(object sender, System.EventArgs e)
     {
-
+        this.message_.Text = "";
     }
   }
 }

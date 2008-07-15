@@ -1,15 +1,29 @@
+Tue Jul 15 23:36:46 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * utils/BMW/website/BMW.master.cs:
+
+          . Cleared any previous error text on master page load. Fixes bug where
+              error text just stays around
+  
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . Ensured default minimum width on all controls - even if there is no
+              data
+
+
 Tue Jul 15 23:17:48 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * utils/BMW/website/xml:
         * utils/BMW/website/xml/README.txt:
 
-         . auto_generated.xml file was causing problems with SVN because of 
-             conflicts always arising in the working copy. I added it to my 
-             ignore list and have uploaded a readme that explains what goes in 
+         . auto_generated.xml file was causing problems with SVN because of
+             conflicts always arising in the working copy. I added it to my
+             ignore list and have uploaded a readme that explains what goes in
              that directory. I will change the code soon to just automatically
              delete the auto_generated file. For now, it is useful for debug
              purposes
-          
+
 
 Tue Jul 15 23:06:26 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
