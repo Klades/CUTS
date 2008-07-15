@@ -116,7 +116,20 @@
     </asp:view>
 
     <asp:view runat="server" id="unittest_view_">
-      INSERT YOU CODE HERE
+      
+      <asp:DropDownList
+          id="ddl_Test_Suites"
+          DataTextField="name"
+          DataValueField="id"
+          AutoPostBack="true"
+          OnSelectedIndexChanged="OnChange_ddl_Test_Suites"
+          runat="server"></asp:DropDownList>
+      <br /><br />
+      
+      <asp:Panel
+          ID="panel_Packages_Unit_Tests"
+          runat="server"></asp:Panel>
+      
     </asp:view>
   </asp:multiview>
 </asp:content>

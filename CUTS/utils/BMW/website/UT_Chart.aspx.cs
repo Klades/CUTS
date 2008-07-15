@@ -26,10 +26,8 @@ public partial class UT_Chart : System.Web.UI.Page
         int id = Int32.Parse(id_string);
 
         UnitTestActions ut = new UnitTestActions();
-        string sql = ut.Eval_UT(id, "metric");
-
-        DataTable dt_ = ExecuteMySqlAdapter(sql);
-
+        DataTable dt_ = ut.Eval_UT(id,"metric");
+        
         Chart(dt_);
     }
 

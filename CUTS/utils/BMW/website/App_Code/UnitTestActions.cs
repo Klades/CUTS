@@ -46,12 +46,12 @@ namespace Actions
                 Insert_UT_Aggregration(utid, entry.Key.ToString(), entry.Value.ToString());
         }
 
-        public string Eval_UT(int utid)
+        public DataTable Eval_UT(int utid)
         {
             return Eval_UT(utid, "UT");
         }
 
-        public string Eval_UT(int utid, string mode)
+        public DataTable Eval_UT(int utid, string mode)
         {
             /*
              * 
@@ -91,10 +91,51 @@ namespace Actions
             else
                 sql = CreateSelectUT(utid);
 
-            return sql;
+            DataTable dt = ExecuteMySqlAdapter(sql);
+
+            // Removing the tables from the DB
+            foreach (UInt32 CurrentLFID in LFIDs)
+                dsa.RemoveTable("LF"+CurrentLFID.ToString());
+          
+            return dt;
         }
 
         private string CreateSelectMetric(int utid)
+        {
+            string evaluation = GetFullEvaluation(utid);
+
+            string sql = @"SELECT `test_number`,(" + evaluation + ") as result FROM ";
+            
+            Array LFIDs = GetLFIDs(utid);
+
+            foreach (UInt32 CurrentLFID_u in LFIDs)
+                sql += "LF" + Int32.Parse(CurrentLFID_u.ToString()) + ",";
+            
+            sql = sql.Remove(sql.LastIndexOf(","));
+
+            sql += " Group by ";
+
+            //sql += CreateGroups(utid);
+            sql += "test_number";
+
+            sql += ";";
+
+            return sql;
+        }
+
+        private string CreateSelectUT(int utid)
+        {
+            string evaluation = GetFullEvaluation(utid);
+
+            // Build the call
+            string sql = @"CALL get_pass_warn_fail_with_utid('" +
+                utid.ToString() + "','" +
+                evaluation + "');";
+
+            return sql;
+        }
+
+        private string GetFullEvaluation(int utid)
         {
             string sql = @"SELECT evaluation FROM unittestdesc WHERE utid='" + utid.ToString() + "';";
             object obj = ExecuteMySqlScalar(sql);
@@ -120,34 +161,11 @@ namespace Actions
                 string ExtendedVarName = extendedVarName.GetValue(0).ToString();
 
                 string NewVariable = CreateFunctionAggregration(Function, ExtendedVarName);
-                evaluation = Regex.Replace(evaluation, OldVariable, NewVariable);                
+                evaluation = Regex.Replace(evaluation, OldVariable, NewVariable);
 
                 mat = mat.NextMatch();
             }
-
-
-            sql = @"SELECT `test_number`,(" + evaluation + ") as result FROM ";
-            
-            Array LFIDs = GetLFIDs(utid);
-
-            foreach (UInt32 CurrentLFID_u in LFIDs)
-                sql += "LF" + Int32.Parse(CurrentLFID_u.ToString()) + ",";
-            
-            sql = sql.Remove(sql.LastIndexOf(","));
-
-            sql += " Group by ";
-
-            //sql += CreateGroups(utid);
-            sql += "test_number";
-
-            sql += ";";
-
-            return sql;
-        }
-
-        private string CreateSelectUT(int utid)
-        {
-            return string.Empty;
+            return evaluation;
         }
 
         private string CreateGroups(int utid)

@@ -86,6 +86,12 @@ namespace Actions
             ds_.Tables.Add(dt_);
         }
 
+        public void RemoveTable(string tableName)
+        {
+            string sql = "DROP TABLE " + tableName + ";";
+            ExecuteMySql(sql);
+        }
+
         public void FillTable(int lfid, string cs_regex, Array varnames)
         {            
             // Get the actual log messages and test_numbers

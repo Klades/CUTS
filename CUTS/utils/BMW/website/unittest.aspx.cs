@@ -12,7 +12,7 @@ using MySql.Data.MySqlClient;
 
 public partial class Unit_Testing : System.Web.UI.Page
 {
-    private double DEFAULT_LB_WIDTH = 250;
+    private double DEFAULT_WIDTH = 300;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -62,8 +62,11 @@ public partial class Unit_Testing : System.Web.UI.Page
         this.lb_Test_Suites.DataBind();
 
         // Ensure width is at least min
-        if (txt_Create_Test_Suite.Width.Value < DEFAULT_LB_WIDTH)
-            txt_Create_Test_Suite.Width = new Unit(DEFAULT_LB_WIDTH);
+        if (txt_Create_Test_Suite.Width.Value < DEFAULT_WIDTH)
+            txt_Create_Test_Suite.Width = new Unit(DEFAULT_WIDTH);
+
+        if (lb_Test_Suites.Width.Value < DEFAULT_WIDTH)
+            lb_Test_Suites.Width = new Unit(DEFAULT_WIDTH);
     }
 
     private void load_test_suite_data(string test_suite_to_select)
@@ -100,10 +103,16 @@ public partial class Unit_Testing : System.Web.UI.Page
         this.lb_Test_Suite_Packages.DataBind();
 
         // Ensure the width
-        if (lb_Test_Suite_Packages.Width.Value < DEFAULT_LB_WIDTH)
-            lb_Test_Suite_Packages.Width = new Unit(DEFAULT_LB_WIDTH);
+        if (lb_Test_Suite_Packages.Width.Value < DEFAULT_WIDTH)
+            lb_Test_Suite_Packages.Width = new Unit(DEFAULT_WIDTH);
 
+        if (txt_Create_Test_Suite_Package.Width.Value < DEFAULT_WIDTH)
+            txt_Create_Test_Suite_Package.Width = new Unit(DEFAULT_WIDTH);
+
+        if (ddl_Add_Existing_Test_Suite_Package.Width.Value < DEFAULT_WIDTH)
+            ddl_Add_Existing_Test_Suite_Package.Width = new Unit(DEFAULT_WIDTH);
         
+
         // Update the DropDownList to show all packages
         sql = "SELECT * FROM packages";
         dt = ExecuteMySqlAdapter(sql);
@@ -158,8 +167,11 @@ public partial class Unit_Testing : System.Web.UI.Page
         lb_Unit_Tests.DataBind();
 
         // Ensure the minimum width
-        if (lb_Unit_Tests.Width.Value < DEFAULT_LB_WIDTH)
-            lb_Unit_Tests.Width = new Unit(DEFAULT_LB_WIDTH);
+        if (lb_Unit_Tests.Width.Value < DEFAULT_WIDTH)
+            lb_Unit_Tests.Width = new Unit(DEFAULT_WIDTH);
+
+        if (ddl_Add_Package_Unit_Test.Width.Value < DEFAULT_WIDTH)
+            ddl_Add_Package_Unit_Test.Width = new Unit(DEFAULT_WIDTH);
     }
 
     private void load_log_format_data()
@@ -398,7 +410,6 @@ public partial class Unit_Testing : System.Web.UI.Page
             throw new ArgumentException("The sql executed was : " + sql);
         }
         conn.Close();
-
     }
 
     private DataRow ExecuteMySqlRow(string sql)

@@ -22,6 +22,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Text;
+using Actions;
 
 namespace CUTS
 {
@@ -74,6 +75,9 @@ namespace CUTS
       {
         // Load the collection times into the control
         this.load_collection_times();
+
+        // Load Unit Test View
+        load_unit_test_view();
 
         try
         {
@@ -150,6 +154,16 @@ namespace CUTS
       this.cumulative_sysperf_.DataMember = "cumulative";
       this.cumulative_sysperf_.DataBind();
     }
+    private void load_unit_test_view()
+    {
+        string sql = "SELECT * FROM test_suites";
+        DataTable dt_ = ExecuteMySqlAdapter(sql);
+
+        ddl_Test_Suites.DataSource = dt_;
+        ddl_Test_Suites.DataBind();
+
+        ddl_Test_Suites.Items.Insert(0, new ListItem("Choose a Test Suite to see results . . .    ", "-1"));
+    }
 
     protected void on_collection_time_changed(Object sender, EventArgs e)
     {
@@ -165,6 +179,73 @@ namespace CUTS
         this.show_error_message(ex.Message);
       }
     }
+
+    protected void OnChange_ddl_Test_Suites(object sender, EventArgs e)
+    {
+        if (ddl_Test_Suites.SelectedIndex < 0)
+        {
+            show_error_message("Please choose another Test Suite. That one is not valid. ");
+        }
+        
+        // Clear out Panel
+        panel_Packages_Unit_Tests.Controls.Clear();
+
+        
+        // Load new Panel Data
+        load_panel_Packages_Unit_Tests();
+    }
+      private void load_panel_Packages_Unit_Tests()
+      {
+          string sql = "SELECT p_id FROM test_suite_packages WHERE id=" + ddl_Test_Suites.SelectedValue + ";";
+          Array p_ids = ExecuteMySqlReader(sql, "p_id");
+          foreach (object CurrentPID in p_ids)
+              Add_Package(CurrentPID.ToString());
+                }
+      private void Add_Package(string p_id)
+      {
+          string sql = "SELECT name FROM packages WHERE id=" + p_id;
+          string Package_Name = ExecuteMySqlScalar(sql).ToString();
+
+          // Add Package Title
+          Label Title = new Label();
+          panel_Packages_Unit_Tests.Controls.Add(Title);
+          Title.Text = Package_Name;
+
+          // Add hr
+          panel_Packages_Unit_Tests.Controls.Add(new LiteralControl("<hr />"));
+
+          // Fill the DataTable with Name and id
+          sql = "SELECT utid AS id,name AS Name FROM unittestdesc " +
+              "WHERE utid IN (SELECT ut_id FROM packages_unit_tests WHERE id=" + p_id + ");";
+          DataTable dt = ExecuteMySqlAdapter(sql);
+          
+          // Add Evaluation, Result
+          dt.Columns.Add("Evaluation");
+          dt.Columns.Add("Result");
+          UnitTestActions uta = new UnitTestActions();
+          
+          // For each Unit Test
+          foreach (DataRow row in dt.Rows)
+          {
+              // Evaluate
+              DataTable temp = uta.Eval_UT(Int32.Parse(row["id"].ToString()));
+              DataRow temp_Row = temp.Rows[0];
+              
+              // Add Results of Evaluation to Main Table
+              row["Evaluation"] = temp_Row["evaluation"];
+              row["Result"] = temp_Row["result"];
+          }
+          
+
+          // Add the DataGrid
+          DataGrid dg = new DataGrid();
+          panel_Packages_Unit_Tests.Controls.Add(dg);
+
+
+          // Bind the DataGrid
+          dg.DataSource = dt;
+          dg.DataBind();
+      }
 
     #region Event Handlers
     protected void handle_on_command(Object sender, CommandEventArgs e)
@@ -220,6 +301,43 @@ namespace CUTS
       label.Text = message;
       label.ForeColor = Color.Red;
     }
+      private DataTable ExecuteMySqlAdapter(string sql)
+      {
+          MySql.Data.MySqlClient.MySqlConnection conn = new MySql.Data.MySqlClient.MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
+          conn.Open();
+
+          MySql.Data.MySqlClient.MySqlDataAdapter da = new MySql.Data.MySqlClient.MySqlDataAdapter(sql, conn);
+          DataSet ds = new DataSet();
+          da.Fill(ds);
+
+          conn.Close();
+          return ds.Tables[0];
+      }
+      private Array ExecuteMySqlReader(string sql, string ColumnName)
+      {
+          MySql.Data.MySqlClient.MySqlConnection conn = new MySql.Data.MySqlClient.MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
+          MySql.Data.MySqlClient.MySqlCommand comm = new MySql.Data.MySqlClient.MySqlCommand(sql, conn);
+          conn.Open();
+          MySql.Data.MySqlClient.MySqlDataReader r = comm.ExecuteReader();
+
+          ArrayList al = new ArrayList();
+          while (r.Read())
+              al.Add(r.GetString(ColumnName).ToString());
+
+          conn.Close();
+          return al.ToArray();
+      }
+
+      private object ExecuteMySqlScalar(string sql)
+      {
+          MySql.Data.MySqlClient.MySqlConnection conn = new MySql.Data.MySqlClient.MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
+          MySql.Data.MySqlClient.MySqlCommand comm = new MySql.Data.MySqlClient.MySqlCommand(sql, conn);
+          conn.Open();
+          object obj = comm.ExecuteScalar();
+          conn.Close();
+          return obj;
+      }
+        
 
 #region Web Form Designer generated code
     override protected void OnInit(EventArgs e)
