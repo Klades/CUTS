@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{6B62208A-C230-4FE8-B99A-224A9FE471B3}" cdate="Mon Jul 14 07:40:04 2008" mdate="Mon Jul 14 07:40:04 2008" version="" metaguid="{6131D657-5E06-4D59-B9A5-39B0F7A830D4}" metaversion="" metaname="PICML">
+<project guid="{3550AAB7-1E22-407A-AFD0-18C48DBA2C2D}" cdate="Mon Jul 14 07:40:04 2008" mdate="Mon Jul 14 07:40:04 2008" version="" metaguid="{6131D657-5E06-4D59-B9A5-39B0F7A830D4}" metaversion="" metaname="PICML">
 	<name>LoggingOverhead</name>
 	<comment></comment>
 	<author>Vanderbilt University</author>
@@ -304,7 +304,7 @@
 								<attribute kind="VersionTag" status="meta">
 									<value></value>
 								</attribute>
-								<model id="id-0065-0000000d" kind="Component" role="Component" guid="{F4F7F697-5776-4c5e-B460-6E27470EC496}" relid="0xa" childrelidcntr="0x13">
+								<model id="id-0065-0000000d" kind="Component" role="Component" guid="{F4F7F697-5776-4c5e-B460-6E27470EC496}" relid="0xa" childrelidcntr="0x35">
 									<name>SurveillanceClient</name>
 									<regnode name="PartRegs" status="undefined">
 										<value></value>
@@ -382,7 +382,7 @@
 											<regnode name="Behavior" status="undefined">
 												<value></value>
 												<regnode name="Position" isopaque="yes">
-													<value>370,209</value>
+													<value>349,209</value>
 												</regnode>
 											</regnode>
 										</regnode>
@@ -398,7 +398,7 @@
 												</regnode>
 											</regnode>
 											<attribute kind="DataValue">
-												<value>&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;UTF-8\&quot; ?&gt;&lt;surveillanceType&gt;&lt;producer&gt;&lt;name&gt;&quot; + getInstanceName () + &quot;&lt;/name&gt;&lt;eventId&gt;&quot; + getEventCount () + &quot;&lt;/eventId&gt;&lt;timestamp&gt;&quot; + getWorkflowStartTime () + &quot;&lt;/timestamp&gt;&lt;/producer&gt;&lt;predecessor&gt;&lt;name&gt;&lt;/name&gt;&lt;eventId&gt;&lt;/eventId&gt;&lt;timestamp&gt;&lt;/timestamp&gt;&lt;/predecessor&gt;&lt;workflow&gt;&lt;name&gt;&quot; + getInstanceName () + &quot;&lt;/name&gt;&lt;eventId&gt;&quot; + getEventCount () + &quot;&lt;/eventId&gt;&lt;timestamp&gt;&quot; + getWorkflowStartTime () + &quot;&lt;/timestamp&gt;&lt;/workflow&gt;&lt;/surveillanceType&gt;&quot;</value>
+												<value>&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;UTF-8\&quot; ?&gt;&lt;surveillanceType&gt;&lt;producer&gt;&lt;name&gt;&quot; + getInstanceName () + &quot;&lt;/name&gt;&lt;eventId&gt;&quot; + getEventCount () + &quot;&lt;/eventId&gt;&lt;timestamp&gt;&quot; + getWorkflowStartTime () + &quot;&lt;/timestamp&gt;&lt;/producer&gt;&lt;predecessor&gt;&lt;name&gt;&lt;/name&gt;&lt;eventId&gt;0&lt;/eventId&gt;&lt;timestamp&gt;0&lt;/timestamp&gt;&lt;/predecessor&gt;&lt;workflow&gt;&lt;name&gt;&quot; + getInstanceName () + &quot;&lt;/name&gt;&lt;eventId&gt;&quot; + getEventCount () + &quot;&lt;/eventId&gt;&lt;timestamp&gt;&quot; + getWorkflowStartTime () + &quot;&lt;/timestamp&gt;&lt;/workflow&gt;&lt;/surveillanceType&gt;&quot;</value>
 											</attribute>
 											<reference id="id-0067-0000001a" kind="DataType" role="DataType" guid="{7EF3BC79-93E7-4d22-8116-EA33CFA72DC8}" relid="0x1" referred="id-0066-00000005">
 												<name>AuthorizationMio</name>
@@ -501,6 +501,147 @@
 											</regnode>
 										</reference>
 									</model>
+									<model id="id-0065-0000005b" kind="Action" role="Action" guid="{9D1C418E-45C5-4add-9FD2-F1A924ACD67F}" derivedfrom="id-0065-00000035" isinstance="yes" isprimary="yes" relid="0x15" childrelidcntr="0x0">
+										<name>logger</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="Behavior" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>444,206</value>
+												</regnode>
+											</regnode>
+										</regnode>
+										<attribute kind="Duration" status="meta">
+											<value>0</value>
+										</attribute>
+										<attribute kind="LogAction" status="meta">
+											<value>false</value>
+										</attribute>
+										<model id="id-0065-0000005c" kind="Property" role="Property" guid="{74A3F9DD-318D-401d-86F0-FE335185727A}" derivedfrom="id-0065-00000038" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+											<name>message</name>
+											<attribute kind="DataValue">
+												<value>getInstanceName () + &quot; sent a new message&quot;</value>
+											</attribute>
+											<reference id="id-0067-00000049" kind="DataType" role="DataType" guid="{5177E487-4714-4dea-AF29-EEF465D8E0E1}" derivedfrom="id-0067-00000028" isinstance="yes" isprimary="no" referred="id-0066-00000010" isbound="yes">
+												<name>String</name>
+											</reference>
+										</model>
+										<model id="id-0065-0000005d" kind="Property" role="Property" guid="{EDC0E62F-2331-463c-9AB3-A9179E2341C4}" derivedfrom="id-0065-00000037" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+											<name>severity</name>
+											<attribute kind="DataValue">
+												<value>TestLogger.LM_INFO</value>
+											</attribute>
+											<reference id="id-0067-0000004a" kind="DataType" role="DataType" guid="{70E24FE0-9829-4d0b-B244-C0351F79E518}" derivedfrom="id-0067-00000027" isinstance="yes" isprimary="no" referred="id-0066-00000011" isbound="yes">
+												<name>LongInteger</name>
+											</reference>
+										</model>
+									</model>
+									<model id="id-0065-00000061" kind="Action" role="Action" guid="{DCB4525A-99E0-4adf-A84A-8BC4A692E790}" derivedfrom="id-0065-00000035" isinstance="yes" isprimary="yes" relid="0x23" childrelidcntr="0x0">
+										<name>logger</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="Behavior" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>325,416</value>
+												</regnode>
+											</regnode>
+										</regnode>
+										<attribute kind="Duration" status="meta">
+											<value>0</value>
+										</attribute>
+										<attribute kind="LogAction" status="meta">
+											<value>false</value>
+										</attribute>
+										<model id="id-0065-00000062" kind="Property" role="Property" guid="{A021C9F1-3317-43c1-A90A-D4601AA6EED6}" derivedfrom="id-0065-00000038" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+											<name>message</name>
+											<attribute kind="DataValue">
+												<value>getInstanceName () + &quot; received &quot; + getEventCount () + &quot; event(s)&quot;</value>
+											</attribute>
+											<reference id="id-0067-0000004d" kind="DataType" role="DataType" guid="{604AF744-7436-4084-B750-A9E620C971C0}" derivedfrom="id-0067-00000028" isinstance="yes" isprimary="no" referred="id-0066-00000010" isbound="yes">
+												<name>String</name>
+											</reference>
+										</model>
+										<model id="id-0065-00000063" kind="Property" role="Property" guid="{9885012B-47D6-4e05-A0FA-5A21E247B046}" derivedfrom="id-0065-00000037" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+											<name>severity</name>
+											<attribute kind="DataValue">
+												<value>TestLogger.LM_INFO</value>
+											</attribute>
+											<reference id="id-0067-0000004e" kind="DataType" role="DataType" guid="{D923DAE1-4E51-4f9b-AF9C-6BD705B2C0C7}" derivedfrom="id-0067-00000027" isinstance="yes" isprimary="no" referred="id-0066-00000011" isbound="yes">
+												<name>LongInteger</name>
+											</reference>
+										</model>
+									</model>
+									<model id="id-0065-00000064" kind="Action" role="Action" guid="{1A698EC3-469C-4e1f-A08F-F6795685EF1C}" derivedfrom="id-0065-00000034" isinstance="yes" isprimary="yes" relid="0x24" childrelidcntr="0x0">
+										<name>logger</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="Behavior" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>325,318</value>
+												</regnode>
+											</regnode>
+										</regnode>
+										<attribute kind="Duration" status="meta">
+											<value>0</value>
+										</attribute>
+										<attribute kind="LogAction" status="meta">
+											<value>false</value>
+										</attribute>
+										<model id="id-0065-00000065" kind="Property" role="Property" guid="{D3425DD4-88B6-416e-A501-9C184802E217}" derivedfrom="id-0065-00000036" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+											<name>testManagerName</name>
+											<attribute kind="DataValue">
+												<value>getTestManagerName ()</value>
+											</attribute>
+											<reference id="id-0067-0000004f" kind="DataType" role="DataType" guid="{39C46F3F-A15D-4517-9416-22712C18A91D}" derivedfrom="id-0067-00000026" isinstance="yes" isprimary="no" referred="id-0066-00000010" isbound="yes">
+												<name>String</name>
+											</reference>
+										</model>
+									</model>
+									<model id="id-0065-00000066" kind="MultiInputAction" role="MultiInputAction" guid="{20AC581B-1FB7-4b1b-86C9-3A726FF82FCA}" relid="0x25" childrelidcntr="0x0">
+										<name>fini</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="Behavior" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>223,419</value>
+												</regnode>
+											</regnode>
+										</regnode>
+									</model>
+									<model id="id-0065-00000067" kind="MultiInputAction" role="MultiInputAction" guid="{CC8D0CE5-61D6-4971-8B34-B7CB0F7B3D86}" relid="0x26" childrelidcntr="0x0">
+										<name>init</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="Behavior" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>226,324</value>
+												</regnode>
+											</regnode>
+										</regnode>
+									</model>
+									<model id="id-0065-00000070" kind="Action" role="Action" guid="{D046AB64-4DCC-4b55-9F25-463DDD87F34B}" derivedfrom="id-0065-0000006f" isinstance="yes" isprimary="yes" relid="0x31" childrelidcntr="0x0">
+										<name>logger</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="Behavior" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>430,416</value>
+												</regnode>
+											</regnode>
+										</regnode>
+										<attribute kind="Duration" status="meta">
+											<value>0</value>
+										</attribute>
+										<attribute kind="LogAction" status="meta">
+											<value>false</value>
+										</attribute>
+									</model>
 									<atom id="id-0066-00000001" kind="PeriodicEvent" role="PeriodicEvent" guid="{EEB95674-7EBC-4822-A856-E7169C822FB8}" relid="0x3">
 										<name>publishSurveillance</name>
 										<regnode name="PartRegs" status="undefined">
@@ -538,7 +679,115 @@
 											<regnode name="Behavior" status="undefined">
 												<value></value>
 												<regnode name="Position" isopaque="yes">
-													<value>450,205</value>
+													<value>590,205</value>
+												</regnode>
+											</regnode>
+										</regnode>
+									</atom>
+									<atom id="id-0066-00000026" kind="BranchState" role="BranchState" guid="{7EFA365E-9494-424a-AF87-59BC3074AB91}" relid="0x16">
+										<name>BranchState</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="Behavior" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>394,205</value>
+												</regnode>
+											</regnode>
+										</regnode>
+									</atom>
+									<atom id="id-0066-00000028" kind="Terminal" role="Terminal" guid="{6D78981F-BA1D-4992-87A3-6025290F8E0C}" relid="0x18">
+										<name>Terminal</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="Behavior" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>553,210</value>
+												</regnode>
+											</regnode>
+										</regnode>
+									</atom>
+									<atom id="id-0066-0000002a" kind="State" role="State" guid="{CA22B455-9270-45bc-A934-A5992951CB8F}" relid="0x1a">
+										<name>State</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="Behavior" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>492,205</value>
+												</regnode>
+											</regnode>
+										</regnode>
+									</atom>
+									<atom id="id-0066-0000002c" kind="State" role="State" guid="{CC43078D-515D-444c-9319-040CF02C9627}" relid="0x1e">
+										<name>State</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="Behavior" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>373,317</value>
+												</regnode>
+											</regnode>
+										</regnode>
+									</atom>
+									<atom id="id-0066-0000002d" kind="State" role="State" guid="{E044AC08-B75A-4ab9-B1FC-AC138CE36818}" relid="0x1f">
+										<name>State</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="Behavior" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>485,415</value>
+												</regnode>
+											</regnode>
+										</regnode>
+									</atom>
+									<atom id="id-0066-0000002e" kind="State" role="State" guid="{D267A1FB-47B4-4e1d-BAD6-29FF24B89E81}" relid="0x20">
+										<name>State</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="Behavior" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>275,415</value>
+												</regnode>
+											</regnode>
+										</regnode>
+									</atom>
+									<atom id="id-0066-0000002f" kind="State" role="State" guid="{D110BCF3-0EF8-499e-83D2-3ED299E16E05}" relid="0x21">
+										<name>State</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="Behavior" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>275,317</value>
+												</regnode>
+											</regnode>
+										</regnode>
+									</atom>
+									<atom id="id-0066-00000030" kind="Environment" role="Environment" guid="{BF719E21-7D04-46cd-848F-95D316BF9ACE}" relid="0x22">
+										<name>Environment</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="Behavior" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>108,354</value>
+												</regnode>
+											</regnode>
+										</regnode>
+									</atom>
+									<atom id="id-0066-00000036" kind="State" role="State" guid="{A9788DD1-32D1-46f0-B554-C96EDAADDFFC}" relid="0x32">
+										<name>State</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="Behavior" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>373,415</value>
 												</regnode>
 											</regnode>
 										</regnode>
@@ -550,7 +799,7 @@
 											<regnode name="Behavior" status="undefined">
 												<value></value>
 												<regnode name="Position" isopaque="yes">
-													<value>573,209</value>
+													<value>643,202</value>
 												</regnode>
 											</regnode>
 											<regnode name="InterfaceDefinition" status="undefined">
@@ -612,6 +861,18 @@
 											<value></value>
 										</attribute>
 									</reference>
+									<reference id="id-0067-00000047" kind="WorkerType" role="WorkerType" guid="{094FDCD7-ADE2-42fa-876D-61E2EBA45C98}" relid="0x14" referred="id-0065-00000033">
+										<name>logger</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="Behavior" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>392,44</value>
+												</regnode>
+											</regnode>
+										</regnode>
+									</reference>
 									<connection id="id-0068-00000001" kind="Input" role="Input" guid="{9D17358B-F367-40cc-BCEA-1178F7E11D13}" relid="0x5">
 										<name>Input</name>
 										<regnode name="autorouterPref" isopaque="yes">
@@ -640,17 +901,6 @@
 										<connpoint role="dst" target="id-0065-00000010"/>
 										<connpoint role="src" target="id-0066-00000002"/>
 									</connection>
-									<connection id="id-0068-00000004" kind="Effect" role="Effect" guid="{2BC835D0-D8F9-466b-9F38-6F66C2F6074C}" relid="0xb">
-										<name>Effect</name>
-										<regnode name="autorouterPref" isopaque="yes">
-											<value>Ew</value>
-										</regnode>
-										<attribute kind="Postcondition">
-											<value>setEventCount (getEventCount () + 1);</value>
-										</attribute>
-										<connpoint role="src" target="id-0065-00000010"/>
-										<connpoint role="dst" target="id-0066-00000003"/>
-									</connection>
 									<connection id="id-0068-00000005" kind="Finish" role="Finish" guid="{5F49FC04-536B-48a6-B245-257F64BB6AED}" relid="0xc">
 										<name>Finish</name>
 										<regnode name="autorouterPref" isopaque="yes">
@@ -659,8 +909,171 @@
 										<connpoint role="dst" target="id-0065-0000000f"/>
 										<connpoint role="src" target="id-0066-00000003"/>
 									</connection>
+									<connection id="id-0068-0000004e" kind="Effect" role="Effect" guid="{55AB0211-9D01-4e89-8CD9-F3005430DA85}" relid="0x17">
+										<name>Effect</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Ew</value>
+										</regnode>
+										<attribute kind="Postcondition">
+											<value>setEventCount (getEventCount () + 1);</value>
+										</attribute>
+										<connpoint role="src" target="id-0065-00000010"/>
+										<connpoint role="dst" target="id-0066-00000026"/>
+									</connection>
+									<connection id="id-0068-00000050" kind="BranchTransition" role="BranchTransition" guid="{05672557-2B75-4297-8F8F-77495057CBD2}" relid="0x19">
+										<name>BranchTransition</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Ew</value>
+										</regnode>
+										<attribute kind="Condition">
+											<value>getLogAll ()</value>
+										</attribute>
+										<connpoint role="dst" target="id-0065-0000005b"/>
+										<connpoint role="src" target="id-0066-00000026"/>
+									</connection>
+									<connection id="id-0068-00000052" kind="Effect" role="Effect" guid="{9818BD96-A551-4663-83D3-72E3C32793E0}" relid="0x1b">
+										<name>Effect</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Ew</value>
+										</regnode>
+										<attribute kind="Postcondition" status="meta">
+											<value></value>
+										</attribute>
+										<connpoint role="src" target="id-0065-0000005b"/>
+										<connpoint role="dst" target="id-0066-0000002a"/>
+									</connection>
+									<connection id="id-0068-00000054" kind="TerminalTransition" role="TerminalTransition" guid="{07447058-BE41-4fea-904D-E0EF3A851A1C}" relid="0x1c">
+										<name>TerminalTransition</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Ew</value>
+										</regnode>
+										<connpoint role="dst" target="id-0066-00000028"/>
+										<connpoint role="src" target="id-0066-0000002a"/>
+									</connection>
+									<connection id="id-0068-00000056" kind="TerminalEffect" role="TerminalEffect" guid="{71A4DFFD-99BF-45c3-9B72-45420FD15DE3}" relid="0x1d">
+										<name>TerminalEffect</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>w</value>
+										</regnode>
+										<attribute kind="Postcondition" status="meta">
+											<value></value>
+										</attribute>
+										<connpoint role="dst" target="id-0066-00000003"/>
+										<connpoint role="src" target="id-0066-00000028"/>
+									</connection>
+									<connection id="id-0068-00000058" kind="Finish" role="Finish" guid="{22288D7E-67B2-44d8-9400-7D272B75AC85}" relid="0x27">
+										<name>Finish</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Nn</value>
+										</regnode>
+										<connpoint role="dst" target="id-0065-00000067"/>
+										<connpoint role="src" target="id-0066-0000002c"/>
+									</connection>
+									<connection id="id-0068-00000059" kind="InputEffect" role="InputEffect" guid="{F2EC6FB2-5AB8-4ac9-B078-17294E7AACAC}" relid="0x28">
+										<name>InputEffect</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Ew</value>
+										</regnode>
+										<attribute kind="Postcondition" status="meta">
+											<value></value>
+										</attribute>
+										<connpoint role="src" target="id-0065-00000066"/>
+										<connpoint role="dst" target="id-0066-0000002e"/>
+									</connection>
+									<connection id="id-0068-0000005a" kind="Effect" role="Effect" guid="{4103A80A-1411-445d-8C5E-726E3F3A1105}" relid="0x29">
+										<name>Effect</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Ew</value>
+										</regnode>
+										<attribute kind="Postcondition" status="meta">
+											<value></value>
+										</attribute>
+										<connpoint role="src" target="id-0065-00000064"/>
+										<connpoint role="dst" target="id-0066-0000002c"/>
+									</connection>
+									<connection id="id-0068-0000005b" kind="Transition" role="Transition" guid="{2EAAB760-D368-441d-83A2-81F6731B60DF}" relid="0x2a">
+										<name>Transition</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Ew</value>
+										</regnode>
+										<connpoint role="dst" target="id-0065-00000064"/>
+										<connpoint role="src" target="id-0066-0000002f"/>
+									</connection>
+									<connection id="id-0068-0000005d" kind="MultiInput" role="MultiInput" guid="{CECBE93D-6685-44fe-89BD-108ACE348B6D}" relid="0x2c">
+										<name>MultiInput</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Ew</value>
+										</regnode>
+										<connpoint role="dst" target="id-0065-00000067"/>
+										<connpoint role="src" target="id-0066-00000030"/>
+									</connection>
+									<connection id="id-0068-0000005e" kind="MultiInput" role="MultiInput" guid="{BC89CA89-89F4-407f-B997-E390E3D18F19}" relid="0x2d">
+										<name>MultiInput</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Ew</value>
+										</regnode>
+										<connpoint role="dst" target="id-0065-00000066"/>
+										<connpoint role="src" target="id-0066-00000030"/>
+									</connection>
+									<connection id="id-0068-0000005f" kind="Transition" role="Transition" guid="{979B653A-85A2-4ef5-8889-495BB9B5DB86}" relid="0x2e">
+										<name>Transition</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Ew</value>
+										</regnode>
+										<connpoint role="dst" target="id-0065-00000061"/>
+										<connpoint role="src" target="id-0066-0000002e"/>
+									</connection>
+									<connection id="id-0068-00000060" kind="Finish" role="Finish" guid="{1C9863DD-46A1-43b4-AF85-A6A540AE1DA9}" relid="0x2f">
+										<name>Finish</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Nn</value>
+										</regnode>
+										<connpoint role="dst" target="id-0065-00000066"/>
+										<connpoint role="src" target="id-0066-0000002d"/>
+									</connection>
+									<connection id="id-0068-00000061" kind="InputEffect" role="InputEffect" guid="{E22D4426-5901-4914-8D34-EB88AAEC6899}" relid="0x30">
+										<name>InputEffect</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Ew</value>
+										</regnode>
+										<attribute kind="Postcondition" status="meta">
+											<value></value>
+										</attribute>
+										<connpoint role="src" target="id-0065-00000067"/>
+										<connpoint role="dst" target="id-0066-0000002f"/>
+									</connection>
+									<connection id="id-0068-0000006c" kind="Effect" role="Effect" guid="{62C11594-CD01-4463-A8E8-2797A92AEA55}" relid="0x33">
+										<name>Effect</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Ew</value>
+										</regnode>
+										<attribute kind="Postcondition" status="meta">
+											<value></value>
+										</attribute>
+										<connpoint role="src" target="id-0065-00000061"/>
+										<connpoint role="dst" target="id-0066-00000036"/>
+									</connection>
+									<connection id="id-0068-0000006e" kind="Transition" role="Transition" guid="{56BBD8A6-1FB4-46e1-8CF6-FC6B8AB063E6}" relid="0x34">
+										<name>Transition</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Ew</value>
+										</regnode>
+										<connpoint role="dst" target="id-0065-00000070"/>
+										<connpoint role="src" target="id-0066-00000036"/>
+									</connection>
+									<connection id="id-0068-00000070" kind="Effect" role="Effect" guid="{3C2B427B-073C-48df-9A4B-7E238F0E2254}" relid="0x35">
+										<name>Effect</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Ew</value>
+										</regnode>
+										<attribute kind="Postcondition" status="meta">
+											<value></value>
+										</attribute>
+										<connpoint role="src" target="id-0065-00000070"/>
+										<connpoint role="dst" target="id-0066-0000002d"/>
+									</connection>
 								</model>
-								<model id="id-0065-00000039" kind="Component" role="Component" guid="{37415A66-2C58-4ad5-8373-15789C52FB41}" relid="0xd" childrelidcntr="0x2b">
+								<model id="id-0065-00000039" kind="Component" role="Component" guid="{37415A66-2C58-4ad5-8373-15789C52FB41}" relid="0xd" childrelidcntr="0x30">
 									<name>UtilityClient</name>
 									<regnode name="PartRegs" status="undefined">
 										<value></value>
@@ -884,6 +1297,24 @@
 											</reference>
 										</model>
 									</model>
+									<model id="id-0065-00000072" kind="Action" role="Action" guid="{AD5FE9D3-8CA2-475b-B584-8222DF7A413A}" derivedfrom="id-0065-0000006f" isinstance="yes" isprimary="yes" relid="0x2c" childrelidcntr="0x0">
+										<name>logger</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="Behavior" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>423,416</value>
+												</regnode>
+											</regnode>
+										</regnode>
+										<attribute kind="Duration" status="meta">
+											<value>0</value>
+										</attribute>
+										<attribute kind="LogAction" status="meta">
+											<value>false</value>
+										</attribute>
+									</model>
 									<atom id="id-0066-00000014" kind="BranchState" role="BranchState" guid="{2AF9ADAB-F20E-4e3b-8DB5-A272555E31D0}" relid="0xb">
 										<name>BranchState</name>
 										<regnode name="PartRegs" status="undefined">
@@ -988,6 +1419,18 @@
 												<value></value>
 												<regnode name="Position" isopaque="yes">
 													<value>373,317</value>
+												</regnode>
+											</regnode>
+										</regnode>
+									</atom>
+									<atom id="id-0066-00000038" kind="State" role="State" guid="{22405011-CC29-494e-B55D-11B9B53BDE19}" relid="0x2e">
+										<name>State</name>
+										<regnode name="PartRegs" status="undefined">
+											<value></value>
+											<regnode name="Behavior" status="undefined">
+												<value></value>
+												<regnode name="Position" isopaque="yes">
+													<value>471,415</value>
 												</regnode>
 											</regnode>
 										</regnode>
@@ -1178,14 +1621,6 @@
 										<connpoint role="src" target="id-0065-00000055"/>
 										<connpoint role="dst" target="id-0066-00000022"/>
 									</connection>
-									<connection id="id-0068-00000046" kind="Finish" role="Finish" guid="{94206E5D-C211-49b1-93CF-7308B79F4E14}" relid="0x27">
-										<name>Finish</name>
-										<regnode name="autorouterPref" isopaque="yes">
-											<value>Nn</value>
-										</regnode>
-										<connpoint role="dst" target="id-0065-0000004f"/>
-										<connpoint role="src" target="id-0066-00000022"/>
-									</connection>
 									<connection id="id-0068-00000048" kind="Transition" role="Transition" guid="{73140F61-7EFC-409a-867E-C9B40CD76DE0}" relid="0x28">
 										<name>Transition</name>
 										<regnode name="autorouterPref" isopaque="yes">
@@ -1212,6 +1647,33 @@
 										</regnode>
 										<connpoint role="dst" target="id-0065-0000004d"/>
 										<connpoint role="src" target="id-0066-00000024"/>
+									</connection>
+									<connection id="id-0068-00000072" kind="Transition" role="Transition" guid="{E8E84294-8E16-401a-A51F-1E6D1DB1B5E3}" relid="0x2d">
+										<name>Transition</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Ew</value>
+										</regnode>
+										<connpoint role="dst" target="id-0065-00000072"/>
+										<connpoint role="src" target="id-0066-00000022"/>
+									</connection>
+									<connection id="id-0068-00000074" kind="Effect" role="Effect" guid="{112914C0-867E-407d-A333-4B47E24C3CDD}" relid="0x2f">
+										<name>Effect</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Ew</value>
+										</regnode>
+										<attribute kind="Postcondition" status="meta">
+											<value></value>
+										</attribute>
+										<connpoint role="src" target="id-0065-00000072"/>
+										<connpoint role="dst" target="id-0066-00000038"/>
+									</connection>
+									<connection id="id-0068-00000076" kind="Finish" role="Finish" guid="{7B4F6421-0BA7-4330-BBF9-75620C38648A}" relid="0x30">
+										<name>Finish</name>
+										<regnode name="autorouterPref" isopaque="yes">
+											<value>Nn</value>
+										</regnode>
+										<connpoint role="dst" target="id-0065-0000004f"/>
+										<connpoint role="src" target="id-0066-00000038"/>
 									</connection>
 								</model>
 							</model>
@@ -1634,7 +2096,7 @@
 							<model id="id-0065-00000023" kind="Property" role="Property" guid="{2F4561AA-9BEF-47a5-9FB5-46D070FC4BA6}" derivedfrom="id-0065-00000011" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>metadata</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;UTF-8\&quot; ?&gt;&lt;surveillanceType&gt;&lt;producer&gt;&lt;name&gt;&quot; + getInstanceName () + &quot;&lt;/name&gt;&lt;eventId&gt;&quot; + getEventCount () + &quot;&lt;/eventId&gt;&lt;timestamp&gt;&quot; + getWorkflowStartTime () + &quot;&lt;/timestamp&gt;&lt;/producer&gt;&lt;predecessor&gt;&lt;name&gt;&lt;/name&gt;&lt;eventId&gt;&lt;/eventId&gt;&lt;timestamp&gt;&lt;/timestamp&gt;&lt;/predecessor&gt;&lt;workflow&gt;&lt;name&gt;&quot; + getInstanceName () + &quot;&lt;/name&gt;&lt;eventId&gt;&quot; + getEventCount () + &quot;&lt;/eventId&gt;&lt;timestamp&gt;&quot; + getWorkflowStartTime () + &quot;&lt;/timestamp&gt;&lt;/workflow&gt;&lt;/surveillanceType&gt;&quot;</value>
+									<value>&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;UTF-8\&quot; ?&gt;&lt;surveillanceType&gt;&lt;producer&gt;&lt;name&gt;&quot; + getInstanceName () + &quot;&lt;/name&gt;&lt;eventId&gt;&quot; + getEventCount () + &quot;&lt;/eventId&gt;&lt;timestamp&gt;&quot; + getWorkflowStartTime () + &quot;&lt;/timestamp&gt;&lt;/producer&gt;&lt;predecessor&gt;&lt;name&gt;&lt;/name&gt;&lt;eventId&gt;0&lt;/eventId&gt;&lt;timestamp&gt;0&lt;/timestamp&gt;&lt;/predecessor&gt;&lt;workflow&gt;&lt;name&gt;&quot; + getInstanceName () + &quot;&lt;/name&gt;&lt;eventId&gt;&quot; + getEventCount () + &quot;&lt;/eventId&gt;&lt;timestamp&gt;&quot; + getWorkflowStartTime () + &quot;&lt;/timestamp&gt;&lt;/workflow&gt;&lt;/surveillanceType&gt;&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000001b" kind="DataType" role="DataType" guid="{D5A06487-14F7-45c2-92E5-5C77F2C9EACE}" derivedfrom="id-0067-0000001a" isinstance="yes" isprimary="no" referred="id-0066-00000005" isbound="yes">
 									<name>AuthorizationMio</name>
@@ -1674,6 +2136,93 @@
 								<name>Boolean</name>
 							</reference>
 						</model>
+						<model id="id-0065-0000005e" kind="Action" role="Action" guid="{46D34191-0051-45d0-A383-2BEB13352628}" derivedfrom="id-0065-0000005b" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-0000005f" kind="Property" role="Property" guid="{62B26B14-B5F2-4b36-83CC-67277344F503}" derivedfrom="id-0065-0000005d" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>severity</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>TestLogger.LM_INFO</value>
+								</attribute>
+								<reference id="id-0067-0000004b" kind="DataType" role="DataType" guid="{C2B1B7B6-7471-4730-8C3E-8543AB756BF0}" derivedfrom="id-0067-0000004a" isinstance="yes" isprimary="no" referred="id-0066-00000011" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+							<model id="id-0065-00000060" kind="Property" role="Property" guid="{E8E0F481-BB09-42a5-8E8C-0E0A27D3154F}" derivedfrom="id-0065-0000005c" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>message</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>getInstanceName () + &quot; sent a new message&quot;</value>
+								</attribute>
+								<reference id="id-0067-0000004c" kind="DataType" role="DataType" guid="{EE378B7B-B119-468e-A7F3-F3F6C8D7E3C8}" derivedfrom="id-0067-00000049" isinstance="yes" isprimary="no" referred="id-0066-00000010" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-00000068" kind="Action" role="Action" guid="{DC178866-E67B-419a-940B-27B0BD10D10B}" derivedfrom="id-0065-00000061" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-00000069" kind="Property" role="Property" guid="{06723112-2591-4f4e-AE8E-949ABF9772E6}" derivedfrom="id-0065-00000063" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>severity</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>TestLogger.LM_INFO</value>
+								</attribute>
+								<reference id="id-0067-00000050" kind="DataType" role="DataType" guid="{6853AB12-51D7-4d0c-AAE1-B74DED57299C}" derivedfrom="id-0067-0000004e" isinstance="yes" isprimary="no" referred="id-0066-00000011" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+							<model id="id-0065-0000006a" kind="Property" role="Property" guid="{05C611CE-C1C9-4818-94B1-68265200967E}" derivedfrom="id-0065-00000062" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>message</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>getInstanceName () + &quot; received &quot; + getEventCount () + &quot; event(s)&quot;</value>
+								</attribute>
+								<reference id="id-0067-00000051" kind="DataType" role="DataType" guid="{1869D927-20B4-4d21-804B-0CA0713832F3}" derivedfrom="id-0067-0000004d" isinstance="yes" isprimary="no" referred="id-0066-00000010" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-0000006b" kind="Action" role="Action" guid="{16EFDB5C-8A32-47ec-A793-4CEF53054991}" derivedfrom="id-0065-00000064" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-0000006c" kind="Property" role="Property" guid="{E1D9C8E2-F81B-4466-AA37-809F5B3F449A}" derivedfrom="id-0065-00000065" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>testManagerName</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>getTestManagerName ()</value>
+								</attribute>
+								<reference id="id-0067-00000052" kind="DataType" role="DataType" guid="{A6F4BF21-2739-424d-AD99-99F104FBA6D1}" derivedfrom="id-0067-0000004f" isinstance="yes" isprimary="no" referred="id-0066-00000010" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-0000006d" kind="MultiInputAction" role="MultiInputAction" guid="{C512EAF7-4D8B-47bc-ABF1-C0273D9380D9}" derivedfrom="id-0065-00000066" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>fini</name>
+						</model>
+						<model id="id-0065-0000006e" kind="MultiInputAction" role="MultiInputAction" guid="{9876091C-8DDE-4517-A872-C3D2286D0F25}" derivedfrom="id-0065-00000067" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>init</name>
+						</model>
+						<model id="id-0065-00000071" kind="Action" role="Action" guid="{2324F527-ED6D-45d9-B608-385CFF2B35D1}" derivedfrom="id-0065-00000070" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+						</model>
 						<atom id="id-0066-0000000a" kind="PeriodicEvent" role="PeriodicEvent" guid="{4B712127-A752-4ae9-8BFE-D731F50CED06}" derivedfrom="id-0066-00000001" isinstance="yes" isprimary="no">
 							<name>publishSurveillance</name>
 							<attribute kind="Period" status="inherited">
@@ -1687,6 +2236,33 @@
 							<name>State</name>
 						</atom>
 						<atom id="id-0066-0000000c" kind="State" role="State" guid="{EC2E3530-2357-4036-B791-6C03FFECF58E}" derivedfrom="id-0066-00000002" isinstance="yes" isprimary="no">
+							<name>State</name>
+						</atom>
+						<atom id="id-0066-00000027" kind="BranchState" role="BranchState" guid="{5349E27E-048C-4683-B747-5BAB9047FA55}" derivedfrom="id-0066-00000026" isinstance="yes" isprimary="no">
+							<name>BranchState</name>
+						</atom>
+						<atom id="id-0066-00000029" kind="Terminal" role="Terminal" guid="{FF4CF9C3-AB88-4fa7-ABC7-FD57301C7B99}" derivedfrom="id-0066-00000028" isinstance="yes" isprimary="no">
+							<name>Terminal</name>
+						</atom>
+						<atom id="id-0066-0000002b" kind="State" role="State" guid="{A52B8B77-189C-45a2-AA7B-53354CEC37A4}" derivedfrom="id-0066-0000002a" isinstance="yes" isprimary="no">
+							<name>State</name>
+						</atom>
+						<atom id="id-0066-00000031" kind="State" role="State" guid="{85DA075F-74C9-4f60-B5C0-584AC24F85B2}" derivedfrom="id-0066-0000002c" isinstance="yes" isprimary="no">
+							<name>State</name>
+						</atom>
+						<atom id="id-0066-00000032" kind="State" role="State" guid="{801D30DA-FCAA-4a05-B21C-8BD610765F45}" derivedfrom="id-0066-0000002d" isinstance="yes" isprimary="no">
+							<name>State</name>
+						</atom>
+						<atom id="id-0066-00000033" kind="State" role="State" guid="{42505423-8E13-4429-86B2-88B0B8B61705}" derivedfrom="id-0066-0000002e" isinstance="yes" isprimary="no">
+							<name>State</name>
+						</atom>
+						<atom id="id-0066-00000034" kind="State" role="State" guid="{B5DAAFDF-5868-4caf-87A3-693E1D4035D5}" derivedfrom="id-0066-0000002f" isinstance="yes" isprimary="no">
+							<name>State</name>
+						</atom>
+						<atom id="id-0066-00000035" kind="Environment" role="Environment" guid="{0C092691-FB0D-4fcc-8B81-0530A3A47E0F}" derivedfrom="id-0066-00000030" isinstance="yes" isprimary="no">
+							<name>Environment</name>
+						</atom>
+						<atom id="id-0066-00000037" kind="State" role="State" guid="{80B38994-C5AA-4fbc-966A-6A5D0465311C}" derivedfrom="id-0066-00000036" isinstance="yes" isprimary="no">
 							<name>State</name>
 						</atom>
 						<reference id="id-0067-0000000b" kind="OutEventPort" role="OutEventPort" guid="{D7F4A845-7F67-454a-86BD-F465AED7C9F5}" derivedfrom="id-0067-00000001" isinstance="yes" isprimary="no" referred="id-0065-00000006" isbound="yes">
@@ -1725,6 +2301,9 @@
 								<value></value>
 							</attribute>
 						</reference>
+						<reference id="id-0067-00000048" kind="WorkerType" role="WorkerType" guid="{1284196C-67D8-4ef0-A340-3E9ABE449C4F}" derivedfrom="id-0067-00000047" isinstance="yes" isprimary="no" referred="id-0065-00000033" isbound="yes">
+							<name>logger</name>
+						</reference>
 						<connection isbound="yes" id="id-0068-00000013" kind="Finish" role="Finish" guid="{D223F63A-6D94-4579-BFF3-6AD39BA95099}" derivedfrom="id-0068-00000005" isinstance="yes" isprimary="no">
 							<name>Finish</name>
 						</connection>
@@ -1741,10 +2320,82 @@
 						<connection isbound="yes" id="id-0068-00000016" kind="Transition" role="Transition" guid="{E7A6C9F0-7F74-4381-A2D8-F733107C24EF}" derivedfrom="id-0068-00000003" isinstance="yes" isprimary="no">
 							<name>Transition</name>
 						</connection>
-						<connection isbound="yes" id="id-0068-00000017" kind="Effect" role="Effect" guid="{A4BCA29F-E222-42b9-80C3-39A02E78ED41}" derivedfrom="id-0068-00000004" isinstance="yes" isprimary="no">
+						<connection isbound="yes" id="id-0068-0000004f" kind="Effect" role="Effect" guid="{0D718EBB-DA73-4a7d-8E03-764F9F1FFFA7}" derivedfrom="id-0068-0000004e" isinstance="yes" isprimary="no">
 							<name>Effect</name>
 							<attribute kind="Postcondition" status="inherited">
 								<value>setEventCount (getEventCount () + 1);</value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000051" kind="BranchTransition" role="BranchTransition" guid="{4240265F-2EAA-471d-A2B8-0F397121918B}" derivedfrom="id-0068-00000050" isinstance="yes" isprimary="no">
+							<name>BranchTransition</name>
+							<attribute kind="Condition" status="inherited">
+								<value>getLogAll ()</value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000053" kind="Effect" role="Effect" guid="{6D75C900-8785-46ca-96B6-2823ECD91B37}" derivedfrom="id-0068-00000052" isinstance="yes" isprimary="no">
+							<name>Effect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000055" kind="TerminalTransition" role="TerminalTransition" guid="{EE65E9D0-A711-4d5f-84FE-C4992A82BD9E}" derivedfrom="id-0068-00000054" isinstance="yes" isprimary="no">
+							<name>TerminalTransition</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000057" kind="TerminalEffect" role="TerminalEffect" guid="{C6D4E9A9-3087-45c7-8BC3-2243AB16F7D9}" derivedfrom="id-0068-00000056" isinstance="yes" isprimary="no">
+							<name>TerminalEffect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000062" kind="Finish" role="Finish" guid="{A219252C-AA4E-4f2c-B7D1-D6386024CC81}" derivedfrom="id-0068-00000058" isinstance="yes" isprimary="no">
+							<name>Finish</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000063" kind="InputEffect" role="InputEffect" guid="{AC6F2FFB-6119-46ea-81D7-F2E9C511D606}" derivedfrom="id-0068-00000059" isinstance="yes" isprimary="no">
+							<name>InputEffect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000064" kind="Effect" role="Effect" guid="{13CF26E7-210A-4e34-AF20-C8AF377AA307}" derivedfrom="id-0068-0000005a" isinstance="yes" isprimary="no">
+							<name>Effect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000065" kind="Transition" role="Transition" guid="{48B64D5D-5A82-4998-B51E-A4C181C4C1D5}" derivedfrom="id-0068-0000005b" isinstance="yes" isprimary="no">
+							<name>Transition</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000067" kind="MultiInput" role="MultiInput" guid="{00182268-8769-4d35-9FB7-C20EB4D766EF}" derivedfrom="id-0068-0000005d" isinstance="yes" isprimary="no">
+							<name>MultiInput</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000068" kind="MultiInput" role="MultiInput" guid="{31D77F3D-2338-421b-A685-F4946A04A63E}" derivedfrom="id-0068-0000005e" isinstance="yes" isprimary="no">
+							<name>MultiInput</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000069" kind="Transition" role="Transition" guid="{99DB58A3-17B8-4420-BC13-87D68295C45A}" derivedfrom="id-0068-0000005f" isinstance="yes" isprimary="no">
+							<name>Transition</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000006a" kind="Finish" role="Finish" guid="{538CFAFA-09DE-4c7b-94FB-D1F624043592}" derivedfrom="id-0068-00000060" isinstance="yes" isprimary="no">
+							<name>Finish</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000006b" kind="InputEffect" role="InputEffect" guid="{2BDA9A3D-AC5B-41fb-9E48-756D0F216564}" derivedfrom="id-0068-00000061" isinstance="yes" isprimary="no">
+							<name>InputEffect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000006d" kind="Effect" role="Effect" guid="{EEF44199-F18B-4e10-9995-640C936C9868}" derivedfrom="id-0068-0000006c" isinstance="yes" isprimary="no">
+							<name>Effect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000006f" kind="Transition" role="Transition" guid="{1319348D-8B08-403e-9247-B52054F598CE}" derivedfrom="id-0068-0000006e" isinstance="yes" isprimary="no">
+							<name>Transition</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000071" kind="Effect" role="Effect" guid="{139FB94D-1DE6-44bc-8CE2-12A283FAE3A2}" derivedfrom="id-0068-00000070" isinstance="yes" isprimary="no">
+							<name>Effect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
 							</attribute>
 						</connection>
 					</model>
@@ -1930,6 +2581,15 @@
 								</reference>
 							</model>
 						</model>
+						<model id="id-0065-00000073" kind="Action" role="Action" guid="{006BAA27-2219-46e1-ADD7-56AE3895BC8C}" derivedfrom="id-0065-00000072" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+						</model>
 						<atom id="id-0066-00000015" kind="BranchState" role="BranchState" guid="{EBBC6095-6F46-40c0-BDD9-C4E218654945}" derivedfrom="id-0066-00000014" isinstance="yes" isprimary="no">
 							<name>BranchState</name>
 						</atom>
@@ -1955,6 +2615,9 @@
 							<name>State</name>
 						</atom>
 						<atom id="id-0066-00000025" kind="State" role="State" guid="{B04D04FA-A465-4c7b-816F-7296B1D8EB40}" derivedfrom="id-0066-00000024" isinstance="yes" isprimary="no">
+							<name>State</name>
+						</atom>
+						<atom id="id-0066-00000039" kind="State" role="State" guid="{0E84D327-902E-4962-8B1A-343BAFD34179}" derivedfrom="id-0066-00000038" isinstance="yes" isprimary="no">
 							<name>State</name>
 						</atom>
 						<reference id="id-0067-00000035" kind="InEventPort" role="InEventPort" guid="{4125F5E7-9438-40c7-AEF8-BD9DF6688363}" derivedfrom="id-0067-0000002a" isinstance="yes" isprimary="no" referred="id-0065-00000006" isbound="yes">
@@ -2045,9 +2708,6 @@
 								<value></value>
 							</attribute>
 						</connection>
-						<connection isbound="yes" id="id-0068-00000047" kind="Finish" role="Finish" guid="{26C41315-AB5D-439a-B1CC-530FD44904F4}" derivedfrom="id-0068-00000046" isinstance="yes" isprimary="no">
-							<name>Finish</name>
-						</connection>
 						<connection isbound="yes" id="id-0068-00000049" kind="Transition" role="Transition" guid="{749671DA-84C7-42df-9BF7-1A204E6F6920}" derivedfrom="id-0068-00000048" isinstance="yes" isprimary="no">
 							<name>Transition</name>
 						</connection>
@@ -2058,6 +2718,18 @@
 							</attribute>
 						</connection>
 						<connection isbound="yes" id="id-0068-0000004d" kind="Finish" role="Finish" guid="{7C5E03BB-9D3D-4104-95DC-8B8C03A6BE38}" derivedfrom="id-0068-0000004c" isinstance="yes" isprimary="no">
+							<name>Finish</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000073" kind="Transition" role="Transition" guid="{AEDBBC74-87F6-4eaf-AAC5-F2CD15671ACA}" derivedfrom="id-0068-00000072" isinstance="yes" isprimary="no">
+							<name>Transition</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000075" kind="Effect" role="Effect" guid="{90D91876-4462-415e-8207-BF94C867F3D0}" derivedfrom="id-0068-00000074" isinstance="yes" isprimary="no">
+							<name>Effect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000077" kind="Finish" role="Finish" guid="{635B84A9-A18B-466a-BA1B-969D919FB66F}" derivedfrom="id-0068-00000076" isinstance="yes" isprimary="no">
 							<name>Finish</name>
 						</connection>
 					</model>
@@ -2416,7 +3088,7 @@
 								</regnode>
 							</regnode>
 						</regnode>
-						<model id="id-0065-00000033" kind="Worker" role="Worker" guid="{DF090075-06F9-464f-8DF5-DCB40F09D1C7}" relid="0x1" childrelidcntr="0x2">
+						<model id="id-0065-00000033" kind="Worker" role="Worker" guid="{DF090075-06F9-464f-8DF5-DCB40F09D1C7}" relid="0x1" childrelidcntr="0x3">
 							<name>TestLogger</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2546,6 +3218,15 @@
 										</regnode>
 									</reference>
 								</model>
+							</model>
+							<model id="id-0065-0000006f" kind="Action" role="Action" guid="{E2734FA5-6F7A-44d2-85F5-F5A06A263AEA}" relid="0x3" childrelidcntr="0x0">
+								<name>disconnect</name>
+								<attribute kind="Duration" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="LogAction" status="meta">
+									<value>false</value>
+								</attribute>
 							</model>
 						</model>
 					</model>

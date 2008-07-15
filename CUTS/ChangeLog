@@ -1,10 +1,20 @@
+Tue Jul 15 05:10:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * tests/MBT/CAPI_Logging_Overhead.xme:
+        
+          . Updated the model to use the disconnect () method of the 
+            CUTS.TestLogger during the fini () environment action.
+            
+          . Bug fix where the eventCount in the SurveillanceClient was
+            not being incremented.
+
 Tue Jul 15 05:06:21 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/Testing_App_Server.h:
         * cuts/utils/testing/Testing_App_Server.cpp:
-        
-          . Bug fix where the register-with-ns command-line option was 
-            misspelled and resulted in the test manager daemon not 
+
+          . Bug fix where the register-with-ns command-line option was
+            misspelled and resulted in the test manager daemon not
             registering itself with the naming service.
 
 Tue Jul 15 04:55:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
