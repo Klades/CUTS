@@ -1,10 +1,17 @@
+Tue Jul 15 04:55:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/jbi/SingleProcess.sh:
+        
+          . Bug fix where the script was missing the deployment jar file
+            and the main class was invalid.
+
 Tue Jul 15 04:28:22 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/workers/Test_Logger/CUTS/TestLogger.java:
-        
+
           . Bug fix where the connect (String) method failed to connect to
             the TestManager in the naming service with the specified name.
-            
+
           . Added a new method named disconnect () for disconnecting from
             the test manager.
 
