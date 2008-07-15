@@ -85,7 +85,7 @@ private:
   PortableServer::ServantBase_var servant_;
 
   /// Register the daemon with the naming service.
-  bool regiser_with_ns_;
+  bool register_with_ns_;
 
   /// The root context of the naming service.
   CosNaming::NamingContextExt_var root_ctx_;

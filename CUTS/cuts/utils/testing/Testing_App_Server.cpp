@@ -27,6 +27,7 @@ static const char * __DETAILS__ =
 // CUTS_Testing_App_Server
 //
 CUTS_Testing_App_Server::CUTS_Testing_App_Server (void)
+: register_with_ns_ (false)
 {
 
 }
@@ -85,7 +86,7 @@ int CUTS_Testing_App_Server::parse_args (int argc, char * argv [])
   const ACE_TCHAR * opts = ACE_TEXT ("h");
   ACE_Get_Opt get_opt (argc, argv, opts);
 
-  get_opt.long_option ("regiser-with-ns");
+  get_opt.long_option ("register-with-ns");
   get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
 
   char ch;
@@ -96,7 +97,7 @@ int CUTS_Testing_App_Server::parse_args (int argc, char * argv [])
     {
     case 0:
       if (ACE_OS::strcmp ("register-with-ns", get_opt.long_option ()) == 0)
-        this->regiser_with_ns_ = true;
+        this->register_with_ns_ = true;
       else if (ACE_OS::strcmp ("help", get_opt.long_option ()) == 0)
         this->print_help ();
 
@@ -140,7 +141,7 @@ int CUTS_Testing_App_Server::shutdown (void)
   {
     // We need to unregister the object with the naming service before we 
     // shutdown the ORB.
-    if (this->regiser_with_ns_)
+    if (this->register_with_ns_)
       this->unregister_with_name_service ();
 
     // Stop the main event loop for the ORB.
@@ -359,7 +360,7 @@ ACE_THR_FUNC_RETURN CUTS_Testing_App_Server::orb_svc (void)
     }
 
     // Register the test manager with the naming service, if applicable.
-    if (this->regiser_with_ns_)
+    if (this->register_with_ns_)
     {
       if (this->register_with_name_service () == -1)
       {
