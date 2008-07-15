@@ -169,7 +169,7 @@ int CUTS_Test_Log_Message_Handler::handle_exception (ACE_HANDLE fd)
 
         // Bind the remaining parameters.
         query->parameter (3)->bind (&msg->severity_);
-        query->parameter (4)->bind (msg->message_.get (), 0);
+        query->parameter (4)->bind (msg->message_.begin (), 0);
 
         // Execute the query.
         query->execute_no_record ();
@@ -340,7 +340,7 @@ int CUTS_Test_Log_Message_Handler::insert_messages_into_database (void)
 
         // Bind the remaining parameters.
         query->parameter (3)->bind (&msg->severity_);
-        query->parameter (4)->bind (msg->message_.get (), 0);
+        query->parameter (4)->bind (msg->message_.begin (), 0);
 
         // Execute the query.
         query->execute_no_record ();

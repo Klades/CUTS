@@ -74,6 +74,9 @@ public class TestLogger
 
   private NamingContextExt naming_ = null;
 
+  /// The default logging client port number.
+  private int loggingClientPort_ = -1;
+
   /**
    * Default constructor.
    */
@@ -88,7 +91,9 @@ public class TestLogger
     args.add ("-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB");
     args.add ("-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton");
 
+    // Initalize the CORBA ORB.
     this.orb_ = org.omg.CORBA.ORB.init (args.toArray (new String [0]), null);
+    this.configure ();
   }
 
   /**
@@ -125,12 +130,10 @@ public class TestLogger
    */
   private void configure ()
   {
-    String propertyFile = "CUTS.TestLogger.configuration";
+    String propertyFile = "CUTS.TestLogger.config";
 
     propertyFile = 
-      System.getProperty ("CUTS.TestLogger.configuration", propertyFile);
-
-    int loggerClientPort = -1;
+      System.getProperty ("CUTS.TestLogger.config", propertyFile);
 
     try
     {
@@ -143,7 +146,7 @@ public class TestLogger
       {
         try
         {
-          loggerClientPort =
+          this.loggingClientPort_ =
             Integer.parseInt (
             loggerProperties.getProperty ("cuts.testlogger.client.logger.port"));
         }
@@ -171,8 +174,8 @@ public class TestLogger
     // Construct the string location of the logging client.
     String corbalocLC = "corbaloc:iiop:localhost";
 
-    if (loggerClientPort != -1)
-      corbalocLC += ":" + loggerClientPort;
+    if (this.loggingClientPort_ != -1)
+      corbalocLC += ":" + this.loggingClientPort_;
 
     corbalocLC += "/CUTS/TestLoggerClient";
 

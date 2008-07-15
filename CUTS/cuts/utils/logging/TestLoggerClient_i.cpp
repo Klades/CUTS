@@ -39,19 +39,23 @@ void CUTS_TestLoggerClient_i::log (const CUTS::LogMessage & msg)
   {
     try
     {
-      // First, dupliate the string. We store it in an auto pointer for
-      // now just in case the new_message () method below fails. This
-      // will ensure that the string's resources are released.
-      ACE_Auto_String_Free msg_str (ACE_OS::strdup (msg.message.in ()));
-
       // Create a new log message for the message.
       CUTS_Log_Message * message = handler->new_message ();
 
-      // Initialize the contents of the messages making sure to release
-      // the auto string pointer.
       if (message != 0)
       {
-        message->message_.reset (msg_str.release ());
+        // First, get the length of the string. This is necessary so we can
+        // set the message's buffer size accordingly. This allocates more 
+        // memory for the text if it is needed.
+        size_t length = ACE_OS::strlen (msg.message.in ()) + 1;
+        message->message_.size (length);
+
+        // Copy the source text into the message's buffer. 
+        ACE_OS::memcpy (message->message_.begin (),
+                        msg.message.in (),
+                        length);
+
+        // Initialize the remainder of the message.
         message->severity_ = msg.priority;
         message->timestamp_ = msg.timestamp;
 

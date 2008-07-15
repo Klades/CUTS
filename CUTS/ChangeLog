@@ -1,8 +1,33 @@
+Tue Jul 15 18:39:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/TestLoggerClient_i.cpp:
+        * cuts/utils/logging/Test_Log_Message_Handler.h:
+        * cuts/utils/logging/Test_Log_Message_Handler.cpp:
+        
+          . Re-implemented the storage object for the actual text of a 
+            log message. Instead of using a ACE_Auto_String_Free object, 
+            we switched to using an ACE_Array. This will help reduce the 
+            number of buffer allocation as long as the actual size of the 
+            array is big enough to hold the text of the message.
+          
+            We are not using an ACE_CString because we only need a buffer
+            and not all the functionality of a ACE_CString. Also, the 
+            ACE_CString does not work with SQL prepared statements.
+
+        * cuts/workers/Test_Logger/CUTS/TestLogger.java:
+        
+          . Bug fix where the previous comment remove the method call to 
+            configure (), which allowed the client to connect to the local
+            logging client.
+            
+          . Changed the name of the system property to access the configuration
+            for the CUTS.TestLogger to 'CUTS.TestLogger.config'.
+
 Tue Jul 15 17:57:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/Testing_App_Server.h:
         * cuts/utils/testing/Testing_App_Server.cpp:
-        
+
           . Compilation fix where the return value on (non-)Windows
             for a thread is different and the code for handling that
             difference was wrong.
