@@ -1,26 +1,39 @@
+Tue Jul 15 23:17:48 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * utils/BMW/website/xml:
+        * utils/BMW/website/xml/README.txt:
+
+         . auto_generated.xml file was causing problems with SVN because of 
+             conflicts always arising in the working copy. I added it to my 
+             ignore list and have uploaded a readme that explains what goes in 
+             that directory. I will change the code soon to just automatically
+             delete the auto_generated file. For now, it is useful for debug
+             purposes
+          
+
 Tue Jul 15 23:06:26 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
-  
+
         * utils/BMW/website/App_Code/DataSetActions.cs:
         * utils/BMW/website/App_Code/UnitTestActions.cs:
 
-          . Minor Changes    
+          . Minor Changes
 
         * utils/BMW/website/BMW.master:
-         
+
           Updated link to Unit Test
-                        
+
         * utils/BMW/website/UT_Chart.aspx.cs:
         * utils/BMW/website/performance.aspx:
         * utils/BMW/website/performance.aspx.cs:
-        
+
           . Added initial view for Unit Tests. Ability to choose a Test Suite
-              and see Packages and Unit Tests - evaluates unit tests and lists 
+              and see Packages and Unit Tests - evaluates unit tests and lists
               results and evaluation scalar
-        
+
         * utils/BMW/website/unittest.aspx:
         * utils/BMW/website/unittest.aspx.cs:
 
-          . Small UI updates, added in a Default Minimum Width on controls 
+          . Small UI updates, added in a Default Minimum Width on controls
 
         * utils/BMW/website/xml/auto_generated.xml:
 
