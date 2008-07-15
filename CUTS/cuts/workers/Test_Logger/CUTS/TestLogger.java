@@ -20,7 +20,7 @@ import java.io.*;
 /**
  * @class TestLogger
  */
-public class TestLogger extends Thread
+public class TestLogger 
 {
   /// Shutdown the logger (decimal 1).
   public static final int LM_SHUTDOWN  = 0x00000001;
@@ -89,21 +89,24 @@ public class TestLogger extends Thread
     args.add ("-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton");
 
     this.orb_ = org.omg.CORBA.ORB.init (args.toArray (new String [0]), null);
-
-    // Register ourselves with the runtime framework to ensure we exit
-    // gracefully. :-)
-    Runtime.getRuntime ().addShutdownHook (this);
-
-    // Finish the configuration.
-    this.configure ();
   }
 
+  /**
+   * Destructor.
+   */
   protected void finalize () throws Throwable
   {
     try
     {
       if (this.orb_ != null)
-        this.unconfigure ();
+      {
+        // First, disconnect from the test manager.
+        this.disconnect ();
+
+        // Destroy the ORB.
+        this.orb_.destroy ();
+        this.orb_ = null;
+      }
     }
     catch (Exception ex)
     {
@@ -112,24 +115,6 @@ public class TestLogger extends Thread
     finally
     {
       super.finalize ();
-    }
-  }
-
-  /**
-   * Run method called by the virtual machine when the application
-   * is ready to shutdown. This allows use to gracefully unregister
-   * the logger with the client server.
-   */
-  public void run ()
-  {
-    try
-    {
-      if (this.orb_ != null)
-        this.unconfigure ();
-    }
-    catch (Exception ex)
-    {
-      ex.printStackTrace ();
     }
   }
 
@@ -191,27 +176,17 @@ public class TestLogger extends Thread
 
     corbalocLC += "/CUTS/TestLoggerClient";
 
-    // Convert the string into an actual object.
-    this.loggerClient_ =
-      CUTS.TestLoggerClientHelper.narrow (
-      this.orb_.string_to_object (corbalocLC));
-  }
-
-  /**
-   * Unconfigure the test logger.
-   */
-  private void unconfigure ()
-  {
-    if (this.testNumber_ != -1)
+    try
     {
-      // Unregister the test with the logging client.
-      this.loggerClient_.unregister_test (this.testNumber_);
-      this.testNumber_ = -1;
+      // Convert the string into an actual object.
+      this.loggerClient_ =
+        CUTS.TestLoggerClientHelper.narrow (
+        this.orb_.string_to_object (corbalocLC));
     }
-
-    // Destroy the ORB.
-    this.orb_.destroy ();
-    this.orb_ = null;
+    catch (Exception ex)
+    {
+      ex.printStackTrace ();
+    }
   }
 
   /**
@@ -219,23 +194,10 @@ public class TestLogger extends Thread
    * test logger will cache the host name for later usage, such as
    * reconnecting to the test manager to get the latest test id.
    * 
-   * @param[in]         hostName          Location of the test manager.
+   * @param[in]         testManagerName     Location of the test manager.
    */
-  public void connect (String testManagerLocation)
+  public void connect (String testManagerName)
   {
-    this.connect (testManagerLocation, this.testManagerName_);
-  }
-
-  /**
-   * Connect the to the test manager at the specified location. The 
-   * test logger will cache the host name for later usage, such as
-   * reconnecting to the test manager to get the latest test id.
-   * 
-   * @param[in]         hostName          Location of the test manager.
-   */
-  public void connect (String testManagerLocation, String testManagerName)
-  {
-    this.testManagerLocation_ = testManagerLocation;
     this.testManagerName_ = testManagerName;
     this.connect ();
   }
@@ -278,6 +240,26 @@ public class TestLogger extends Thread
   }
 
   /**
+   * Disconnect from the test manager.
+   */
+  public void disconnect ()
+  {
+    if (this.testNumber_ == -1)
+      return;
+
+    try
+    {
+      // Unregister the test with the logging client.
+      this.loggerClient_.unregister_test (this.testNumber_);
+      this.testNumber_ = -1;
+    }
+    catch (Exception ex)
+    {
+      ex.printStackTrace ();
+    }
+  }
+
+  /**
    * Log a message to the database.
    * 
    * @param[in]           priority          Level of the message
@@ -297,7 +279,6 @@ public class TestLogger extends Thread
       msg.message = message;
 
       // Send the message to the logger client.
-      System.out.println (message);
       this.loggerClient_.log (msg);
     }
     catch (Exception ex)

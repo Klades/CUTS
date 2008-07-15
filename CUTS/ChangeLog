@@ -1,3 +1,13 @@
+Tue Jul 15 04:28:22 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/workers/Test_Logger/CUTS/TestLogger.java:
+        
+          . Bug fix where the connect (String) method failed to connect to
+            the TestManager in the naming service with the specified name.
+            
+          . Added a new method named disconnect () for disconnecting from
+            the test manager.
+
 Mon Jul 14 21:08:04 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * integration/include/MPC:
@@ -5,7 +15,7 @@ Mon Jul 14 21:08:04 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * integration/include/MPC/nmake.build:
         * integration/include/MPC/vc8.build:
         * integration/include/mpc.build:
-        
+
           Slowly but surely trying to add support for different build
           types to CruiseControl scripts.
 
