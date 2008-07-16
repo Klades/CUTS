@@ -471,7 +471,9 @@ int CUTS_Testing_App::deploy_test (void)
   // Process id of the deployment application during its deploy stage
   // of the test.
   ACE_DEBUG ((LM_INFO,
-              "%T - %M - running deploy command for the test\n"));
+              "%T - %M - running deploy command for the test [%s]\n",
+              CUTS_TESTING_OPTIONS->deploy_.c_str ()));
+
   ACE_Process_Manager * proc_man = ACE_Process_Manager::instance ();
   pid_t pid = proc_man->spawn (options);
 
@@ -528,7 +530,8 @@ int CUTS_Testing_App::teardown_test (void)
 
   // Run the teardown command for the test.
   ACE_DEBUG ((LM_INFO,
-              "%T - %M - running teardown command for the test\n"));
+              "%T - %M - running teardown command for the test [%s]\n",
+              CUTS_TESTING_OPTIONS->teardown_.c_str ()));
   ACE_Process_Manager * proc_man = ACE_Process_Manager::instance ();
   pid_t pid = proc_man->spawn (options);
 

@@ -1,3 +1,10 @@
+Wed Jul 16 12:09:41 UTC 2008  James H. Hill  <j.hill@vanderbilt.edu>
+
+        * cuts/utils/testing/Testing_App.cpp:
+
+	  . Updated the log messages for deploy/teardown to include the 
+	    command for deploy/teardown.
+
 Wed Jul 16 07:50:12 UTC 2008  James H. Hill  <j.hill@vanderbilt.edu>
 
         * bin/jbi/ExecutionManager.sh:
@@ -6,18 +13,18 @@ Wed Jul 16 07:50:12 UTC 2008  James H. Hill  <j.hill@vanderbilt.edu>
         * bin/jbi/PlanLauncher.sh:
         * bin/jbi/SingleProcess.sh:
 
-	  . Bug fix where the CUTS_CLASSPATH was missing the JacORB JAR
-	    files that are needed by the deployment framework.
+          . Bug fix where the CUTS_CLASSPATH was missing the JacORB JAR
+            files that are needed by the deployment framework.
 
         * cuts/workers/Test_Logger/CUTS/TestLogger.java:
 
-	  . Added a simple printout that tells the location of the 
-	    CUTS.TestLogger.config used by the CUTS.TestLogger.
+          . Added a simple printout that tells the location of the
+            CUTS.TestLogger.config used by the CUTS.TestLogger.
 
         * etc/SQL/CUTS-msglog.sql:
 
-	  . Bug fix where the foreign key specification for the test_number
-	    was using ON DELETE RESTRICT instead of ON DELETE CASCADE.
+          . Bug fix where the foreign key specification for the test_number
+            was using ON DELETE RESTRICT instead of ON DELETE CASCADE.
 
 Tue Jul 15 23:36:46 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
