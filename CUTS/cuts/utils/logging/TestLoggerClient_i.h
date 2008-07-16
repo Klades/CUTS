@@ -59,7 +59,7 @@ public:
   /**
    * Set the address of the database server.
    */
-  void database_server_address (const ACE_CString & addr);
+  void database (const ACE_CString & addr);
 
   /**
    * Set the timeout interval for flushing the message queue.
@@ -85,7 +85,7 @@ private:
   ACE_Auto_String_Free hostname_;
 
   /// Server address of the database.
-  ACE_CString server_addr_;
+  ACE_CString database_;
 
   /// Timeout interval for flushing the message queue.
   ACE_Time_Value timeout_;

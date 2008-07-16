@@ -207,19 +207,19 @@ void CUTS_TestLoggerClient_i::unregister_test_i (long test)
 }
 
 //
-// database_server_address
+// database
 //
 void CUTS_TestLoggerClient_i::
-database_server_address (const ACE_CString & addr)
+database (const ACE_CString & addr)
 {
-  this->server_addr_ = addr;
+  this->database_ = addr;
 
   try
   {
     // Establish a connection with the database.
     this->conn_.connect (CUTS_USERNAME, 
                          CUTS_PASSWORD,
-                         this->server_addr_.c_str ());
+                         this->database_.c_str ());
   }
   catch (const CUTS_DB_Exception & ex)
   { 
@@ -232,7 +232,7 @@ database_server_address (const ACE_CString & addr)
     ACE_ERROR ((LM_ERROR,
                 "%T - %M - caught unknown exception; failed to connect to "
                 "database on %s\n",
-                this->server_addr_.c_str ()));
+                this->database_.c_str ()));
   }
 }
 

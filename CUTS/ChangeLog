@@ -1,9 +1,32 @@
+Wed Jul 16 23:36:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/Logging_Client_Options.h:
+        * cuts/utils/logging/Logging_Client_Server.h:
+        * cuts/utils/logging/Logging_Client_Server.cpp:
+        * cuts/utils/logging/Server_Thread_Strategy.h:
+        * cuts/utils/logging/Server_Thread_Strategy.inl:
+        * cuts/utils/logging/Server_Thread_Strategy.cpp:
+        * cuts/utils/logging/Single_Thread_Server_Strategy.h:
+        * cuts/utils/logging/Single_Thread_Server_Strategy.cpp:
+        * cuts/utils/logging/TestLoggerClient_i.h:
+        * cuts/utils/logging/TestLoggerClient_i.cpp:
+        * cuts/utils/logging/Threadpool_Server_Strategy.h:
+        * cuts/utils/logging/Threadpool_Server_Strategy.inl:
+        * cuts/utils/logging/Threadpool_Server_Strategy.cpp:
+        * cuts/utils/logging/logging.mpc:
+
+          . Strategized the server so that it can be either single-threaded
+            or multi-threaded via a threadpool for handling CORBA requests.
+
+          . Moved the logging client options into their own class that is
+            accessible via the ACE_Singleton.
+
 Wed Jul 16 13:50:22 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/jbi/deployment/JbiExecutionManager.java:
         * cuts/java/jbi/deployment/JbiNodeManager.java:
         * cuts/java/jbi/deployment/JbiPlanLauncher.java:
-        
+
           . The naming service is now resolved based on the system property
             named ORBInitRef.NameService.
 

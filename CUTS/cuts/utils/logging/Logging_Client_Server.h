@@ -15,6 +15,7 @@
 
 #include "tao/PortableServer/Servant_Base.h"
 #include "ace/SString.h"
+#include "Server_Thread_Strategy.h"
 
 // Forward decl.
 class CUTS_TestLoggerClient_i;
@@ -63,10 +64,8 @@ private:
   /// Implemenation of the CUTS::TestLoggerClient.
   CUTS_TestLoggerClient_i * client_;
 
-  /// Server address of the database.
-  ACE_CString server_addr_;
-
-  time_t timeout_;
+  /// Thread strategy for the server.
+  ACE_Auto_Ptr <CUTS_Logging_Server_Thread_Strategy> thread_strategy_;
 };
 
 #endif  // !defined _CUTS_LOGGING_CLIENT_SERVER_H_

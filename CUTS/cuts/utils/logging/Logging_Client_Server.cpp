@@ -1,6 +1,9 @@
 // $Id$
 
 #include "Logging_Client_Server.h"
+#include "Logging_Client_Options.h"
+#include "Single_Thread_Server_Strategy.h"
+#include "Threadpool_Server_Strategy.h"
 #include "TestLoggerClient_i.h"
 #include "tao/IORTable/IORTable.h"
 #include "ace/Get_Opt.h"
@@ -12,21 +15,28 @@ static const char * __HELP__ =
 "\n"
 "USAGE: cutslog_d [OPTIONS]\n"
 "\n"
-"OPTIONS:\n"
+"Options:\n"
 "  --database=HOSTNAME   location of CUTS database (default='localhost')\n"
 "  -t, --timeout=TIME    timeout interval to flush message queue\n"
 "                        in seconds (default=30)\n"
 "\n"
+"Server Options:\n"
+"  --server-threadpool-size=N\n"  
+"                        size of the server's thread pool for receiving\n"
+"                        log messages from client applications (default N=1)\n"
+"\n"
 "  -v, --verbose         print verbose infomration\n" 
 "  --debug               print debugging information\n"
-"  -h, --help            print this help message\n";
+"  -h, --help            print this help message\n"
+"\n"
+"Remarks:\n"
+"If the server's threadpool size is set to one, then server will act like a\n"
+"single-threaded server application\n";
 
 //
 // CUTS_Logging_Client_Server
 //
 CUTS_Logging_Client_Server::CUTS_Logging_Client_Server (void)
-: server_addr_ ("localhost"),
-  timeout_ (30)
 {
 
 }
@@ -76,9 +86,9 @@ int CUTS_Logging_Client_Server::run_main (int argc, char * argv [])
     this->servant_ = this->client_;
 
     // Configure the test logger client.
-    this->client_->database_server_address (this->server_addr_);
+    this->client_->database (CUTS_LOGGING_OPTIONS->database_);
 
-    ACE_Time_Value interval (this->timeout_);
+    ACE_Time_Value interval (CUTS_LOGGING_OPTIONS->timeout_);
     this->client_->timeout_interval (interval);
 
     // Register the test manager with the IORTable for the ORB.
@@ -88,12 +98,57 @@ int CUTS_Logging_Client_Server::run_main (int argc, char * argv [])
                   "%T - %M - failed to register with IOR table\n"));
     }
 
+    // Configure the server's threading strategy. We need to duplicate
+    // the ORB so the strategy can have a reference as well.
+    CORBA::ORB_var orb = CORBA::ORB::_duplicate (this->orb_.in ());
+
+    if (CUTS_LOGGING_OPTIONS->thr_count_ == 1)
+    {
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T - %M - setting server's threading strategy to single-"
+                  "threaded\n"));
+
+      CUTS_Single_Thread_Server_Strategy * single_thread = 0;
+
+      ACE_NEW_THROW_EX (single_thread,
+                        CUTS_Single_Thread_Server_Strategy (orb.in ()),
+                        CORBA::NO_MEMORY ());
+
+      this->thread_strategy_.reset (single_thread);
+    }
+    else
+    {
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T - %M - setting server's threading strategy to theadpool "
+                  "of size %d\n",
+                  CUTS_LOGGING_OPTIONS->thr_count_));
+
+      CUTS_Threadpool_Server_Strategy * threadpool = 0;
+
+      ACE_NEW_THROW_EX (threadpool, 
+                        CUTS_Threadpool_Server_Strategy (orb.in ()),
+                        CORBA::NO_MEMORY ());
+
+      threadpool->thr_count (CUTS_LOGGING_OPTIONS->thr_count_ - 1);
+      this->thread_strategy_.reset (threadpool);
+    }
+
+    // We can release the orb variable since the strategy now owns the
+    // ORB's duplicated reference.
+    orb._retn ();
+    
     // Run the ORB's main event loop.
     ACE_DEBUG ((LM_DEBUG, 
                 "%T - %M - running the server's main event loop\n"));
 
-    this->orb_->run ();
+    int retval = this->thread_strategy_->run ();
 
+    if (retval != 0)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - error running server's thread strategy\n"));
+    }
+    
     // Destroy the RootPOA.
     ACE_DEBUG ((LM_DEBUG, "%T - %M - destroying the RootPOA\n"));
     root_poa->destroy (true, true);
@@ -146,6 +201,7 @@ int CUTS_Logging_Client_Server::parse_args (int argc, char * argv [])
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
+  get_opt.long_option ("server-threadpool-size", ACE_Get_Opt::ARG_REQUIRED);
 
   char ch;
 
@@ -174,16 +230,21 @@ int CUTS_Logging_Client_Server::parse_args (int argc, char * argv [])
       }
       else if (ACE_OS::strcmp ("database", get_opt.long_option ()) == 0)
       {
-        this->server_addr_ = get_opt.opt_arg ();
+        CUTS_LOGGING_OPTIONS->database_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp ("timeout", get_opt.long_option ()) == 0)
       {
         std::istringstream istr (get_opt.opt_arg ());
-        istr >> this->timeout_;
+        istr >> CUTS_LOGGING_OPTIONS->timeout_;
       }
       else if (ACE_OS::strcmp ("help", get_opt.long_option ()) == 0)
       {
         this->print_help ();
+      }
+      else if (ACE_OS::strcmp ("server-threadpool-size", get_opt.long_option ()) == 0)
+      {
+        std::istringstream istr (get_opt.opt_arg ());
+        istr >> CUTS_LOGGING_OPTIONS->thr_count_;
       }
 
       break;
@@ -191,7 +252,7 @@ int CUTS_Logging_Client_Server::parse_args (int argc, char * argv [])
     case 't':
       {
         std::istringstream istr (get_opt.opt_arg ());
-        istr >> this->timeout_;
+        istr >> CUTS_LOGGING_OPTIONS->timeout_;
       }
       break;
 
@@ -211,6 +272,12 @@ int CUTS_Logging_Client_Server::parse_args (int argc, char * argv [])
       break;
     }
   }
+
+  // Validate all the command-line options.
+  if (CUTS_LOGGING_OPTIONS->thr_count_ == 0)
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       "%T - %M - threadpool size must be greater than 0\n"),
+                       -1);
 
   return 0;
 }
