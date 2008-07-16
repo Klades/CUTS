@@ -134,7 +134,8 @@ public class JbiExecutionManager
     // Request a reference to the naming service.
     this.rootContext_ =
       NamingContextExtHelper.narrow (
-      this.orb_.resolve_initial_references ("NameService"));
+      this.orb_.resolve_initial_references (
+      System.getProperty ("ORBInitRef.NameService")));
 
     this.logger_.debug ("registering execution manager with name service");
     this.rootContext_.rebind (

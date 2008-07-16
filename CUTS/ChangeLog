@@ -1,9 +1,18 @@
+Wed Jul 16 13:50:22 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/java/jbi/deployment/JbiExecutionManager.java:
+        * cuts/java/jbi/deployment/JbiNodeManager.java:
+        * cuts/java/jbi/deployment/JbiPlanLauncher.java:
+        
+          . The naming service is now resolved based on the system property
+            named ORBInitRef.NameService.
+
 Wed Jul 16 12:09:41 UTC 2008  James H. Hill  <j.hill@vanderbilt.edu>
 
         * cuts/utils/testing/Testing_App.cpp:
 
-	  . Updated the log messages for deploy/teardown to include the 
-	    command for deploy/teardown.
+          . Updated the log messages for deploy/teardown to include the
+            command for deploy/teardown.
 
 Wed Jul 16 07:50:12 UTC 2008  James H. Hill  <j.hill@vanderbilt.edu>
 

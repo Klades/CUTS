@@ -203,7 +203,8 @@ public class JbiPlanLauncher
       this.logger_.debug ("locating naming service");
       NamingContextExt rootContext =
         NamingContextExtHelper.narrow (
-        this.orb_.resolve_initial_references ("NameService"));
+        this.orb_.string_to_object (
+        System.getProperty ("ORBInitRef.NameService")));
 
       this.logger_.debug ("resolving location of execution manager");
       ExecutionManager em =

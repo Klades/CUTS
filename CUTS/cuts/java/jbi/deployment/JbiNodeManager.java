@@ -173,7 +173,8 @@ public class JbiNodeManager
       // Request a reference to the naming service.
       this.rootContext_ =
         NamingContextExtHelper.narrow (
-        this.orb_.resolve_initial_references ("NameService"));
+        this.orb_.string_to_object (
+        System.getProperty ("ORBInitRef.NameService")));
 
       try
       {
