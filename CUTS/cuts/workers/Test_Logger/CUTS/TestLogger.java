@@ -137,6 +137,9 @@ public class TestLogger
 
     try
     {
+      System.out.println ("loading CUTS.TestLogger configuration from " +
+                          propertyFile);
+
       // Load the properties file that contains the configuration.
       FileInputStream fileInput = new FileInputStream (propertyFile);
       Properties loggerProperties = new Properties ();

@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS cuts.msglog
   PRIMARY KEY (msgid),
   
   FOREIGN KEY (test_number) REFERENCES cuts.tests (test_number)
-    ON DELETE RESTRICT
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
   FOREIGN KEY (hostid) REFERENCES cuts.ipaddr_host_map (hostid)
     ON DELETE RESTRICT
