@@ -380,7 +380,7 @@ int CUTS_Test_Log_Message_Handler::handle_message (CUTS_Log_Message * msg)
 {
   // Place the message on the queue.
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - received a new log message for test %d\n",
+              "%T (%t) - %M - placing new message on queue for test %d\n",
               this->test_number_));
 
   int retval = this->msg_queue ()->enqueue_tail (msg);
@@ -391,7 +391,7 @@ int CUTS_Test_Log_Message_Handler::handle_message (CUTS_Log_Message * msg)
     // database entry thread to clear the queue. Hopefully, this will
     // prevent us from allocating any more memory.
     ACE_DEBUG ((LM_DEBUG,
-                "%M - %T - message queue for test %d reached its limit\n",
+                "%T (%t) - %M - message queue for test %d reached its limit\n",
                 this->test_number_));
 
     this->reactor ()->notify (this, ACE_Event_Handler::READ_MASK);
@@ -399,7 +399,7 @@ int CUTS_Test_Log_Message_Handler::handle_message (CUTS_Log_Message * msg)
   else if (retval == -1)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - failed to place message on the queue; dropping "
+                "%T (%t) - %M - failed to place message on the queue; dropping "
                 "log message for test %d\n",
                 this->test_number_));
 
@@ -408,7 +408,7 @@ int CUTS_Test_Log_Message_Handler::handle_message (CUTS_Log_Message * msg)
   }
 
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - test %d has %d log message(s) on its queue\n",
+              "%T (%t) - %M - test %d has %d log message(s) on its queue\n",
               this->test_number_,
               retval));
   return retval;

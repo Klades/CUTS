@@ -1,3 +1,10 @@
+Fri Jul 18 05:22:57 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/TestLoggerClient_i.cpp:
+        * cuts/utils/logging/Test_Log_Message_Handler.cpp:
+
+	  . Updated the debug statements to print the thread id.
+
 Thu Jul 17 17:16:20 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * utils/BMW/website/App_Code/UnitTestActions.cs:
@@ -5,10 +12,10 @@ Thu Jul 17 17:16:20 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
           . Created the select for evaluating a UT as pass or fail
 
         * utils/BMW/website/BMW.master:
-        
+
           . Added in a panel for generating help panes, and updated page load
               to clear the left over log messages
-        
+
         * utils/BMW/website/Log_Formats.aspx.cs:
 
           . Fixed bug where log format was being added even if an error was
@@ -17,7 +24,7 @@ Thu Jul 17 17:16:20 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
         * utils/BMW/website/UT_Chart.aspx:
         * utils/BMW/website/UT_Chart.aspx.cs:
 
-          . Fixed minor bug. Need to ask james H how to tell a clients 
+          . Fixed minor bug. Need to ask james H how to tell a clients
               browser NOT to cache the auto_generated.xml
 
         * utils/BMW/website/UT_Create.aspx:
@@ -26,7 +33,7 @@ Thu Jul 17 17:16:20 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
           . Updated the warn/fail comparison stuff so we end up with mySQL
               comparison operators the ones being stored in the DB. This means
               there can be dynamic sql in our procedures to get unit test
-              results 
+              results
 
         * utils/BMW/website/controls/AddLogFormat.ascx.cs:
 
@@ -35,23 +42,23 @@ Thu Jul 17 17:16:20 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
         * utils/BMW/website/images/Unit_Testing_Concept.png:
 
           . Added this in so that it can be displayed on the unittest help
-              panel 
+              panel
 
         * utils/BMW/website/performance.aspx:
         * utils/BMW/website/performance.aspx.cs:
 
-          . Majorly updated unit test view, so that a lot more info is now 
-              displayed 
+          . Majorly updated unit test view, so that a lot more info is now
+              displayed
 
         * utils/BMW/website/styles/default.css:
 
-          . Added in some classes at the bottom that are specific to the 
+          . Added in some classes at the bottom that are specific to the
               performance unit test view
 
         * utils/BMW/website/unittest.aspx:
         * utils/BMW/website/unittest.aspx.cs:
 
-          . Added in the help panel, fixed a number of bugs related to faulty 
+          . Added in the help panel, fixed a number of bugs related to faulty
               user entry
 
 Thu Jul 17 23:38:42 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

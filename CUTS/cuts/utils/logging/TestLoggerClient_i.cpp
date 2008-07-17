@@ -34,6 +34,10 @@ void CUTS_TestLoggerClient_i::log (CORBA::Long test,
                                    CORBA::Long severity,
                                    const CUTS::MessageText & msg)
 {
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - received new log message for test %d\n",
+              test));
+
   // Locate the handler for the test.
   CUTS_Test_Log_Message_Handler * handler = 0;
   int retval = this->handler_map_.find (test, handler);
@@ -59,11 +63,6 @@ void CUTS_TestLoggerClient_i::log (CORBA::Long test,
         // Initialize the remainder of the message.
         message->severity_ = severity;
         message->timestamp_ = static_cast <long> (timestamp);
-
-        ACE_DEBUG ((LM_DEBUG,
-                    "%T - %M - inserting new message into queue for test "
-                    "%d (thr_id: %t)\n",
-                    test));
 
         // Pass the message to the handler.
         handler->handle_message (message);
