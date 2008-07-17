@@ -30,15 +30,18 @@ public partial class UT_Create : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
     }
 
     protected void Button1_Click(object sender, EventArgs e)
     {
         ArrayList lfids = new ArrayList();
-        //lfids.Add(DropDownList1.SelectedValue);
-        //string sql= "lfid = " + DropDownList1.SelectedValue.ToString();
-        string sql = "";
+
+        // horrible hack - works for now. Need to update this control
+        DropDownList dl = (DropDownList)PlaceHolder1.Controls[0].Controls[0].Controls[1];
+
+        // Note - this only works as long as we only have one LFID per UT
+        lfids.Add(dl.SelectedValue);
+        string sql = "lfid = " + dl.SelectedValue.ToString();
 
         MySqlConnection conn = new MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
         MySqlCommand comm = new MySqlCommand("Select variable_id FROM logformatvariabletable WHERE " + sql, conn);
@@ -58,8 +61,8 @@ public partial class UT_Create : System.Web.UI.Page
         Hashtable variables = new Hashtable();
         variables.Add("Name", UT_name.Text);
         variables.Add("Description", UT_desc.Text);
-        variables.Add("FailComparison", UT_fail_comp.Text);
-        variables.Add("WarnComparison", UT_warn_comp.Text);
+        variables.Add("FailComparison", get_comparison(UT_fail_comp.Text));
+        variables.Add("WarnComparison", get_comparison(UT_warn_comp.Text));
         variables.Add("FailValue", UT_fail.Text);
         variables.Add("WarnValue", UT_warn.Text);
         variables.Add("Evaluation", UT_eval.Text);
@@ -78,6 +81,36 @@ public partial class UT_Create : System.Web.UI.Page
 
         UnitTestActions ut = new UnitTestActions();
         ut.Insert_UT(variables);
+    }
+    private string get_comparison(string comparison)
+    {
+        // Note these are their MySQL counterparts. 
+        // They are used directly in the query
+
+        switch (comparison)
+        {
+            case "less":
+                return @"<";
+                break;
+            case "greater":
+                return @">";
+                break;
+            case "less_equal":
+                return @"<=";
+                break;
+            case "greater_equal":
+                return @">=";
+                break;
+            case "equal":
+                return @"=";
+                break;
+            case "not_equal":
+                return @"<>";
+                break;
+            default:
+                throw new SystemException("The comparison did not match - This possible hack attempt has been recorded.");
+                break;
+        }
     }
 
 }

@@ -35,9 +35,16 @@ public partial class Unit_Testing : System.Web.UI.Page
 
         try
         {
+            // load up the help
+            show_help.Style.Add("left", "-95px");
+            show_help.Style.Add("top", "-10px");
+            show_help.Style.Add("float", "right");
+            show_help.Style.Add("position", "relative");
+
             load_test_suite_data();
             this.lb_Test_Suites.SelectedIndex = 0;
 
+            // Guess load of data
             load_test_suite_package_data();
             this.lb_Test_Suite_Packages.SelectedIndex = 0;
 
@@ -277,6 +284,26 @@ public partial class Unit_Testing : System.Web.UI.Page
             txt_Create_Test_Suite_Package_Error.Text = "There was a problem adding the Test Suite Package. <br />" +
                 "This probably means there was already a package with that name. <br />";
         }
+    }
+
+    protected void OnClick_show_help(object sender, EventArgs e)
+    {
+        Panel p = (Panel)this.Master.FindControl("help_");
+        if (show_help.Text == "Show Help")
+        {
+            p.Controls.Add(my_help_);
+            p.Visible = true;
+            my_help_.Visible = true;
+            show_help.Text = "Hide Help";
+        }
+        else
+        {
+            p.Controls.Remove(my_help_);
+            p.Visible = false;
+            my_help_.Visible = false;
+            show_help.Text = "Show Help";
+        }
+        
     }
 
     protected void OnChange_lb_Test_Suite_Packages(object sender, EventArgs e)

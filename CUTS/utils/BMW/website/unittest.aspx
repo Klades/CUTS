@@ -1,6 +1,7 @@
 <%@ Page Language="C#" MasterPageFile="~/BMW.master" AutoEventWireup="true" CodeFile="unittest.aspx.cs" Inherits="Unit_Testing" Title="Untitled Page" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
-<table cellpadding="15" cellspacing="20" border="1">
+<asp:Button runat="server" ID="show_help" BackColor="white" OnClick="OnClick_show_help" Text="Show Help" />
+<table cellpadding="15" style="clear:right;" cellspacing="20" border="1">
     <tr>
     <td width="50%">
     <h3>Test Suites</h3>
@@ -205,5 +206,24 @@ Warns when result is
 
 
 </table>
+
+
+<asp:Panel 
+Width="1000px" 
+BorderStyle="Solid" 
+ID="my_help_" 
+Visible="false" 
+runat="server"
+BorderColor="black"
+BorderWidth="2px"
+BackColor="wheat"
+style="padding:40px; text-align:center" >
+<p>Before reading this, you should understand the terminology we are using here and in the BMW. Test Suites and Test Suite Packages are levels of abstraction, one Test Suite can have infinite Packages, and one Package can have infinite unit tests. The last of the terminology that we have been using would be 'Unit Tests' versus 'Metrics'. The difference is that Unit Tests are Pass/Warn/Fail, based on the evaluation given. Metrics use the same evaluation, but rather than give you a pass/warn/fail, they are simply give you the result of the evaluation (the number that resulted, aka the 'metric').</p>
+
+<p>A quick example would be a test suite for networking which contains packages for testing incoming connections, outgoing connections, and QOS of connections. Each package could contain multiple unit tests that related specifically to their area - the point being that a user could simply run the test suite for networking (from the BMW interface) and every single unit test would be correctly run and the results readied.</p>
+
+<p>Here is a quick picture to help you see visually the idea and understand the Unit Testing abstraction layers: </p>
+<img src="images/Unit_Testing_Concept.png" alt="Unit Testing Concept Diagram" />
+</asp:Panel>
 </asp:Content>
 

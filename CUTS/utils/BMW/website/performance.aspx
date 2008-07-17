@@ -9,6 +9,7 @@
 
 <asp:content runat="server" id="main_content"
              contentplaceholderid="MainContent">
+               
   <h2>System-wide Performance Metrics</h2>
 
   <table style="margin-bottom:10px">

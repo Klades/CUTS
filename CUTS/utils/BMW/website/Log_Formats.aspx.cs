@@ -54,7 +54,10 @@ public partial class Log_Formats : System.Web.UI.Page
                 icase_regex += lead + Regex.Replace(mid, "{int.+?}", "[[:digit:]]+", RegexOptions.IgnoreCase);
 
                 // the group automatically names the captured variables correctly
-                string group = "(?<" + varname + @">\d+)";
+                // You must use @ to escape the slashes in C#
+                // You have to use two \\ to escape the \ in mySql
+                // End result is stored and retrieved (as desired) as (?<varname>\d+)
+                string group = "(?<" + varname + @">\\d+)";
                 cs_regex += lead + Regex.Replace(mid, "{int.+?}", group, RegexOptions.IgnoreCase);
                 vars.Add(varname);
             }

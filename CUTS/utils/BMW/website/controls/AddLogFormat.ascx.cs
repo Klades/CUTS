@@ -50,7 +50,6 @@ public partial class AddLogFormat : System.Web.UI.UserControl
         d.Height = Unit.Pixel(24);
         d.Width = Unit.Pixel(431);
         d.AutoPostBack = true;
-        //d.EnableViewState = true;
         FillDropDownList(d);
     }
 
@@ -89,7 +88,7 @@ public partial class AddLogFormat : System.Web.UI.UserControl
                 ddl.AutoPostBack = false;
                 ddl.EnableViewState = true;
                 ddl.Items.Add(new ListItem("SUM", "SUM"));
-                ddl.Items.Add(new ListItem("AVG", "AVG"));
+                //ddl.Items.Add(new ListItem("AVG", "AVG"));
                 Panel1.Controls.Add(new LiteralControl("<br>"));
             }
         }

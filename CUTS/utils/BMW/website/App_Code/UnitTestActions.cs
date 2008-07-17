@@ -158,6 +158,10 @@ namespace Actions
                 string Function = function.GetValue(0).ToString();
 
                 Array extendedVarName = ExecuteMySqlReader(sql, "ExtendedName");
+                
+                // A failure here indicates that the user's entered
+                // eval was probably wrong for one variable
+                //  AKA LF7.sent / LF8.received when only LF7 is referenced
                 string ExtendedVarName = extendedVarName.GetValue(0).ToString();
 
                 string NewVariable = CreateFunctionAggregration(Function, ExtendedVarName);

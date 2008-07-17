@@ -210,6 +210,7 @@ namespace CUTS
           Label Title = new Label();
           panel_Packages_Unit_Tests.Controls.Add(Title);
           Title.Text = Package_Name;
+          Title.CssClass = "performance-ut_view-package_name";
 
           // Add hr
           panel_Packages_Unit_Tests.Controls.Add(new LiteralControl("<hr />"));
@@ -222,29 +223,57 @@ namespace CUTS
           // Add Evaluation, Result
           dt.Columns.Add("Evaluation");
           dt.Columns.Add("Result");
+          dt.Columns.Add("Chart");
           UnitTestActions uta = new UnitTestActions();
           
+          // Ensure package has at least one Unit Test
+          if (dt.Rows.Count < 1)
+              return;
+
           // For each Unit Test
           foreach (DataRow row in dt.Rows)
           {
               // Evaluate
               DataTable temp = uta.Eval_UT(Int32.Parse(row["id"].ToString()));
-              DataRow temp_Row = temp.Rows[0];
               
-              // Add Results of Evaluation to Main Table
-              row["Evaluation"] = temp_Row["evaluation"];
-              row["Result"] = temp_Row["result"];
+              // Filter by Test Number
+              DataRow[] temp_Rows = temp.Select("test_number = " + TestNumber.ToString());
+
+              if (temp_Rows.Length == 0)
+              {
+                  show_error_message("Oops - Looks like there is no data for '" + row["Name"].ToString() +
+                      "' in '" + Package_Name + "'");
+                  row["Evaluation"] = "No Data";
+                  row["Result"] = "No Data";
+                  row["Chart"] = @"<a href='UT_Chart.aspx?utid=" + row["id"].ToString() +
+                      "'>Chart</a>";
+              }
+              else
+              {
+                  DataRow temp_Row = (DataRow)temp_Rows.GetValue(0);
+
+                  // Add Results of Evaluation to Main Table
+                  row["Evaluation"] = temp_Row["evaluation"];
+                  row["Result"] = temp_Row["result"];
+                  row["Chart"] = @"<a href='UT_Chart.aspx?utid=" + row["id"].ToString() +
+                      "'>Chart</a>";
+              }
           }
           
 
           // Add the DataGrid
           DataGrid dg = new DataGrid();
           panel_Packages_Unit_Tests.Controls.Add(dg);
-
+          dg.AlternatingItemStyle.CssClass = "alternate-row";
+          dg.Width = new Unit(100, UnitType.Percentage);
+          dg.CssClass = "performance-ut-grid";
 
           // Bind the DataGrid
           dg.DataSource = dt;
           dg.DataBind();
+
+          // Add  few spaces
+          panel_Packages_Unit_Tests.Controls.Add(new LiteralControl("<br /><br />"));
       }
 
     #region Event Handlers

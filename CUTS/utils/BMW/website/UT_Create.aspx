@@ -17,9 +17,9 @@
         Create New Unit Test</p>
     <p>
         Name
-        <asp:TextBox ID="UT_name" runat="server" Width="154px"></asp:TextBox>
+        <asp:TextBox ID="UT_name" runat="server" Width="284px"></asp:TextBox>
 &nbsp;&nbsp; Desc
-        <asp:TextBox ID="UT_desc" runat="server" Height="44px" Width="202px"></asp:TextBox>
+        <asp:TextBox ID="UT_desc" runat="server" Height="44px" Width="261px" TextMode="MultiLine" Wrap="true"></asp:TextBox>
     </p>
     <p>
         Use these Log Formats</p>
@@ -31,18 +31,18 @@
     <p>
         Perform this Evaluation</p>
     <p>
-        <asp:TextBox ID="UT_eval" runat="server" Width="241px" Height="24px"></asp:TextBox>
+        <asp:TextBox ID="UT_eval" runat="server" Width="381px" Height="24px"></asp:TextBox>
     </p>
     <p>
         Warn when&nbsp;&nbsp;&nbsp;
         &nbsp;Result&nbsp;&nbsp;&nbsp;
         <asp:DropDownList ID="UT_warn_comp" runat="server">
-            <asp:ListItem Value="less than">&lt;</asp:ListItem>
-            <asp:ListItem Value="greater than">&gt;</asp:ListItem>
-            <asp:ListItem Value="less than equal">&lt;=</asp:ListItem>
-            <asp:ListItem Value="greater than equal">&gt;=</asp:ListItem>
+            <asp:ListItem Value="less">&lt;</asp:ListItem>
+            <asp:ListItem Value="greater">&gt;</asp:ListItem>
+            <asp:ListItem Value="less_equal">&lt;=</asp:ListItem>
+            <asp:ListItem Value="greater_equal">&gt;=</asp:ListItem>
             <asp:ListItem Value="equal">==</asp:ListItem>
-            <asp:ListItem Value="not equal">!=</asp:ListItem>
+            <asp:ListItem Value="not_equal">!=</asp:ListItem>
         </asp:DropDownList>
 &nbsp;
         <asp:TextBox ID="UT_warn" runat="server"></asp:TextBox>
@@ -51,12 +51,12 @@
         Fail when&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;Result&nbsp;&nbsp;&nbsp;
         <asp:DropDownList ID="UT_fail_comp" runat="server">
-            <asp:ListItem Value="less than">&lt;</asp:ListItem>
-            <asp:ListItem Value="greater than">&gt;</asp:ListItem>
-            <asp:ListItem Value="less than equal">&lt;=</asp:ListItem>
-            <asp:ListItem Value="greater than equal">&gt;=</asp:ListItem>
+            <asp:ListItem Value="less">&lt;</asp:ListItem>
+            <asp:ListItem Value="greater">&gt;</asp:ListItem>
+            <asp:ListItem Value="less_equal">&lt;=</asp:ListItem>
+            <asp:ListItem Value="greater_equal">&gt;=</asp:ListItem>
             <asp:ListItem Value="equal">==</asp:ListItem>
-            <asp:ListItem Value="not equal">!=</asp:ListItem>
+            <asp:ListItem Value="not_equal">!=</asp:ListItem>
         </asp:DropDownList>
 &nbsp;
         <asp:TextBox ID="UT_fail" runat="server"></asp:TextBox>

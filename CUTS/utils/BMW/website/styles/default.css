@@ -103,3 +103,15 @@ td.performance-data, th.performance-data
   text-align: center;
   width: 125px;
 }
+
+.performance-ut_view-package_name
+{
+	font-size:1.1em;
+	font-weight:bold;
+	margin-bottom:10px;
+}
+
+.performance-ut-grid
+{
+	margin-left:60px;	
+}
