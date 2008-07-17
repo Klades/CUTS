@@ -398,7 +398,7 @@ public partial class Unit_Testing : System.Web.UI.Page
         DataRow row = ExecuteMySqlRow(sql);
 
         txt_Unit_Test_Details_Name.Text = row["name"].ToString();
-        txt_Unit_Test_Details_Description.Text = row["desc"].ToString();
+        txt_Unit_Test_Details_Description.Text = row["description"].ToString();
         txt_Unit_Test_Details_Evaluation.Text = row["evaluation"].ToString();
         txt_Unit_Test_Details_Warn_Comparison.Text = row["warn_comparison"].ToString() + " " + row["warn"].ToString();
         txt_Unit_Test_Details_Fail_Comparison.Text = row["fail_comparison"].ToString() + " " + row["fail"].ToString();
