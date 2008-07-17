@@ -45,15 +45,14 @@ void CUTS_TestLoggerClient_i::log (const CUTS::LogMessage & msg)
       if (message != 0)
       {
         // First, get the length of the string. This is necessary so we can
-        // set the message's buffer size accordingly. This allocates more 
+        // set the message's buffer size accordingly. This allocates more
         // memory for the text if it is needed.
-        size_t length = ACE_OS::strlen (msg.message.in ()) + 1;
-        message->message_.size (length);
+        message->message_.size (msg.message.length ());
 
-        // Copy the source text into the message's buffer. 
+        // Copy the source text into the message's buffer.
         ACE_OS::memcpy (message->message_.begin (),
-                        msg.message.in (),
-                        length);
+                        msg.message.get_buffer (),
+                        msg.message.length ());
 
         // Initialize the remainder of the message.
         message->severity_ = msg.priority;
@@ -94,7 +93,7 @@ register_test (CORBA::Long new_test, CORBA::Long old_test)
 
   if (new_test != -1)
   {
-    ACE_DEBUG ((LM_INFO, 
+    ACE_DEBUG ((LM_INFO,
                 "%T - %M - registering an application for test %d\n",
                 new_test));
 
@@ -105,8 +104,8 @@ register_test (CORBA::Long new_test, CORBA::Long old_test)
     // We need to create a new handler for the test.
     CUTS_Test_Log_Message_Handler * handler = 0;
 
-    ACE_NEW_THROW_EX (handler, 
-                      CUTS_Test_Log_Message_Handler (this->conn_, 
+    ACE_NEW_THROW_EX (handler,
+                      CUTS_Test_Log_Message_Handler (this->conn_,
                                                      new_test,
                                                      this->hostname_.get ()),
                       CORBA::NO_MEMORY ());
@@ -138,7 +137,7 @@ register_test (CORBA::Long new_test, CORBA::Long old_test)
         // Be sure to release the handler that actually registered itself
         // with the mapping. Otherwise, we will delete it and have a dangling
         // pointer in the mapping.
-        auto_clean.release ();  
+        auto_clean.release ();
 
         // Start the handler.
         ACE_DEBUG ((LM_INFO,
@@ -217,12 +216,12 @@ database (const ACE_CString & addr)
   try
   {
     // Establish a connection with the database.
-    this->conn_.connect (CUTS_USERNAME, 
+    this->conn_.connect (CUTS_USERNAME,
                          CUTS_PASSWORD,
                          this->database_.c_str ());
   }
   catch (const CUTS_DB_Exception & ex)
-  { 
+  {
     ACE_ERROR ((LM_ERROR,
                 "%T - %M - %s\n",
                 ex.message ().c_str ()));

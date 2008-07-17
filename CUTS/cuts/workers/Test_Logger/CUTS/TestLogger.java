@@ -20,7 +20,7 @@ import java.io.*;
 /**
  * @class TestLogger
  */
-public class TestLogger 
+public class TestLogger
 {
   /// Shutdown the logger (decimal 1).
   public static final int LM_SHUTDOWN  = 0x00000001;
@@ -62,7 +62,7 @@ public class TestLogger
   /// The test number for the logger.
   private int testNumber_ = -1;
 
-  /// The location of the test manager. 
+  /// The location of the test manager.
   private String testManagerLocation_ = "localhost";
 
   private String testManagerName_ = "(default)";
@@ -86,7 +86,7 @@ public class TestLogger
     final String pathSeparator = System.getProperty ("file.seperator");
 
     ArrayList<String> args = new ArrayList ();
-    args.add ("-Djava.endorsed.dirs=" + CUTS_ROOT + pathSeparator + 
+    args.add ("-Djava.endorsed.dirs=" + CUTS_ROOT + pathSeparator +
               "contrib" + pathSeparator + "java");
     args.add ("-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB");
     args.add ("-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton");
@@ -124,7 +124,7 @@ public class TestLogger
   }
 
   /**
-   * Configure the test logger. This will setup the location of the 
+   * Configure the test logger. This will setup the location of the
    * test manager (ipaddress:port) and the port number of the logging
    * client on this local host.
    */
@@ -132,7 +132,7 @@ public class TestLogger
   {
     String propertyFile = "CUTS.TestLogger.config";
 
-    propertyFile = 
+    propertyFile =
       System.getProperty ("CUTS.TestLogger.config", propertyFile);
 
     try
@@ -196,10 +196,10 @@ public class TestLogger
   }
 
   /**
-   * Connect the to the test manager at the specified location. The 
+   * Connect the to the test manager at the specified location. The
    * test logger will cache the host name for later usage, such as
    * reconnecting to the test manager to get the latest test id.
-   * 
+   *
    * @param[in]         testManagerName     Location of the test manager.
    */
   public void connect (String testManagerName)
@@ -267,7 +267,7 @@ public class TestLogger
 
   /**
    * Log a message to the database.
-   * 
+   *
    * @param[in]           priority          Level of the message
    * @param[in]           message           Message to log
    */
@@ -282,7 +282,7 @@ public class TestLogger
       msg.test = this.testNumber_;
       msg.timestamp = (int) System.currentTimeMillis ();
       msg.priority = priority;
-      msg.message = message;
+      msg.message = message.toCharArray ();
 
       // Send the message to the logger client.
       this.loggerClient_.log (msg);
@@ -295,7 +295,7 @@ public class TestLogger
 
   /**
    * Get the test number used by the logger.
-   * 
+   *
    * @return      The test number for the logger.
    */
   public int getTestNumber ()

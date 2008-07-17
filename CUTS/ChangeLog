@@ -1,3 +1,14 @@
+Thu Jul 17 02:26:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/TestLoggerClient_i.cpp:
+        * cuts/utils/logging/logging.idl:
+        * cuts/workers/Test_Logger/CUTS/TestLogger.java:
+
+          . Switched from using a 'string' type for the message to a
+            'sequence <char>' type. This will remove the needed of
+            calculating the length of the string on the server side
+            since it's provided by the sequence.
+
 Wed Jul 16 23:36:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/Logging_Client_Options.h:

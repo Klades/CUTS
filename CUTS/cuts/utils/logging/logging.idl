@@ -32,7 +32,7 @@ module CUTS
     long priority;
 
     /// The actual content of the log message.
-    string message;
+    sequence <char> message;
   };
 
   /**
