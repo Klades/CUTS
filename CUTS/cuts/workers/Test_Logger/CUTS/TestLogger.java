@@ -275,17 +275,11 @@ public class TestLogger
   {
     try
     {
-      // Create a new log message.
-      CUTS.LogMessage msg = new CUTS.LogMessage ();
-
-      // Initialize the contents of the log message.
-      msg.test = this.testNumber_;
-      msg.timestamp = (int) System.currentTimeMillis ();
-      msg.priority = priority;
-      msg.message = message.toCharArray ();
-
       // Send the message to the logger client.
-      this.loggerClient_.log (msg);
+      this.loggerClient_.log (this.testNumber_,
+                              System.currentTimeMillis (),
+                              priority,
+                              message.toCharArray ());
     }
     catch (Exception ex)
     {

@@ -1,3 +1,38 @@
+Thu Jul 17 16:01:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/logging.mpc:
+        * cuts/utils/logging/Logging_Client_Server.cpp:
+        * cuts/utils/logging/Logging_Client_Task.cpp:
+        * cuts/utils/logging/Logging_Client_Task.h:
+        * cuts/utils/logging/Logging_Client_Task.inl:
+
+          . Simplified the threadpool implemenation for the server by using
+            subclassing ACE_Task_Base. This way, we can all the activate ()
+            method with the correct number of threads we want to instantiatate
+            in the ORB's threadpool. ;-)
+
+        * cuts/utils/logging/TestLoggerClient_i.h:
+        * cuts/utils/logging/TestLoggerClient_i.cpp:
+        * cuts/utils/logging/Test_Log_Message_Handler.h:
+        * cuts/utils/logging/Test_Log_Message_Handler.cpp:
+        * cuts/utils/logging/logging.idl:
+        * cuts/workers/Test_Logger/CUTS/TestLogger.java:
+
+          . Updated the IDL specification so that the log () method doesn't
+            take a structure containing the message's information, but passes
+            each piece of information as a parameter.
+
+        * cuts/utils/logging/Server_Thread_Strategy.h:
+        * cuts/utils/logging/Server_Thread_Strategy.inl:
+        * cuts/utils/logging/Server_Thread_Strategy.cpp:
+        * cuts/utils/logging/Single_Thread_Server_Strategy.h:
+        * cuts/utils/logging/Single_Thread_Server_Strategy.cpp:
+        * cuts/utils/logging/Threadpool_Server_Strategy.h:
+        * cuts/utils/logging/Threadpool_Server_Strategy.inl:
+        * cuts/utils/logging/Threadpool_Server_Strategy.cpp:
+
+          . Removed these files.
+
 Thu Jul 17 02:26:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/TestLoggerClient_i.cpp:

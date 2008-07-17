@@ -40,7 +40,10 @@ public:
    * Log the specified message. The client will cache the message until
    * it is ready to send it to the logger server.
    */
-  virtual void log (const CUTS::LogMessage & message);
+  virtual void log (CORBA::Long test,
+                    CORBA::LongLong timestamp,
+                    CORBA::Long severity,
+                    const CUTS::MessageText & msg);
 
   /**
    * Register the test with the logger.
@@ -70,7 +73,7 @@ private:
   void unregister_test_i (long test);
 
   /// Type definition of the handler map for the tests.
-  typedef 
+  typedef
     ACE_Hash_Map_Manager <long,
                           CUTS_Test_Log_Message_Handler *,
                           ACE_RW_Thread_Mutex> map_type;

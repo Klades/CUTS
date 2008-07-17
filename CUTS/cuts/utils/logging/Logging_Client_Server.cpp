@@ -2,6 +2,7 @@
 
 #include "Logging_Client_Server.h"
 #include "Logging_Client_Options.h"
+#include "Logging_Client_Task.h"
 #include "Single_Thread_Server_Strategy.h"
 #include "Threadpool_Server_Strategy.h"
 #include "TestLoggerClient_i.h"
@@ -21,11 +22,11 @@ static const char * __HELP__ =
 "                        in seconds (default=30)\n"
 "\n"
 "Server Options:\n"
-"  --server-threadpool-size=N\n"  
+"  --server-threadpool-size=N\n"
 "                        size of the server's thread pool for receiving\n"
 "                        log messages from client applications (default N=1)\n"
 "\n"
-"  -v, --verbose         print verbose infomration\n" 
+"  -v, --verbose         print verbose infomration\n"
 "  --debug               print debugging information\n"
 "  -h, --help            print this help message\n"
 "\n"
@@ -64,21 +65,21 @@ int CUTS_Logging_Client_Server::run_main (int argc, char * argv [])
   try
   {
     // Get a reference to the <RootPOA>
-    ACE_DEBUG ((LM_DEBUG, 
+    ACE_DEBUG ((LM_DEBUG,
                 "%T - %M - resolving initial reference to RootPOA\n"));
 
     CORBA::Object_var obj = this->orb_->resolve_initial_references ("RootPOA");
     PortableServer::POA_var root_poa = PortableServer::POA::_narrow (obj.in ());
 
     // Activate the RootPOA's manager.
-    ACE_DEBUG ((LM_DEBUG, 
+    ACE_DEBUG ((LM_DEBUG,
                 "%T - %M - getting reference to POAManager\n"));
     PortableServer::POAManager_var mgr = root_poa->the_POAManager ();
     mgr->activate ();
 
     // Create a new test logger client.
-    ACE_NEW_THROW_EX (this->client_, 
-                      CUTS_TestLoggerClient_i (), 
+    ACE_NEW_THROW_EX (this->client_,
+                      CUTS_TestLoggerClient_i (),
                       CORBA::NO_MEMORY ());
 
     // Activate the manager and transfer ownership.
@@ -98,57 +99,24 @@ int CUTS_Logging_Client_Server::run_main (int argc, char * argv [])
                   "%T - %M - failed to register with IOR table\n"));
     }
 
-    // Configure the server's threading strategy. We need to duplicate
-    // the ORB so the strategy can have a reference as well.
-    CORBA::ORB_var orb = CORBA::ORB::_duplicate (this->orb_.in ());
+    CUTS_Logging_Client_Task task (this->orb_.in ());
 
-    if (CUTS_LOGGING_OPTIONS->thr_count_ == 1)
+    // Activate the server task with N number of threads. We then wait for
+    // all the threads to return. This happens when the ORB is shutdown.
+    int retval =
+      task.activate (THR_NEW_LWP | THR_JOINABLE | THR_INHERIT_SCHED,
+                     CUTS_LOGGING_OPTIONS->thr_count_);
+
+    if (retval == 0)
     {
-      ACE_DEBUG ((LM_DEBUG,
-                  "%T - %M - setting server's threading strategy to single-"
-                  "threaded\n"));
-
-      CUTS_Single_Thread_Server_Strategy * single_thread = 0;
-
-      ACE_NEW_THROW_EX (single_thread,
-                        CUTS_Single_Thread_Server_Strategy (orb.in ()),
-                        CORBA::NO_MEMORY ());
-
-      this->thread_strategy_.reset (single_thread);
+      task.wait ();
     }
     else
     {
-      ACE_DEBUG ((LM_DEBUG,
-                  "%T - %M - setting server's threading strategy to theadpool "
-                  "of size %d\n",
-                  CUTS_LOGGING_OPTIONS->thr_count_));
-
-      CUTS_Threadpool_Server_Strategy * threadpool = 0;
-
-      ACE_NEW_THROW_EX (threadpool, 
-                        CUTS_Threadpool_Server_Strategy (orb.in ()),
-                        CORBA::NO_MEMORY ());
-
-      threadpool->thr_count (CUTS_LOGGING_OPTIONS->thr_count_ - 1);
-      this->thread_strategy_.reset (threadpool);
-    }
-
-    // We can release the orb variable since the strategy now owns the
-    // ORB's duplicated reference.
-    orb._retn ();
-    
-    // Run the ORB's main event loop.
-    ACE_DEBUG ((LM_DEBUG, 
-                "%T - %M - running the server's main event loop\n"));
-
-    int retval = this->thread_strategy_->run ();
-
-    if (retval != 0)
-    {
       ACE_ERROR ((LM_ERROR,
-                  "%T - %M - error running server's thread strategy\n"));
+                  "%T - %M - failed to activate server task\n"));
     }
-    
+
     // Destroy the RootPOA.
     ACE_DEBUG ((LM_DEBUG, "%T - %M - destroying the RootPOA\n"));
     root_poa->destroy (true, true);
@@ -212,7 +180,7 @@ int CUTS_Logging_Client_Server::parse_args (int argc, char * argv [])
     case 0:
       if (ACE_OS::strcmp ("verbose", get_opt.long_option ()) == 0)
       {
-        u_long mask = 
+        u_long mask =
           ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
 
         mask |= LM_INFO;
@@ -306,7 +274,7 @@ int CUTS_Logging_Client_Server::register_with_iortable (void)
     CORBA::String_var ior_name = CORBA::string_dup ("CUTS/TestLoggerClient");
 
     // Bind the object to the IOR table.
-    ACE_DEBUG ((LM_DEBUG, 
+    ACE_DEBUG ((LM_DEBUG,
                 "%T - %M - registering test logger client with localhost\n"));
 
     ior_table->bind (ior_name.in (), obj_str.in ());

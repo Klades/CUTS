@@ -29,11 +29,14 @@ CUTS_TestLoggerClient_i::~CUTS_TestLoggerClient_i (void)
 //
 // log
 //
-void CUTS_TestLoggerClient_i::log (const CUTS::LogMessage & msg)
+void CUTS_TestLoggerClient_i::log (CORBA::Long test,
+                                   CORBA::LongLong timestamp,
+                                   CORBA::Long severity,
+                                   const CUTS::MessageText & msg)
 {
   // Locate the handler for the test.
   CUTS_Test_Log_Message_Handler * handler = 0;
-  int retval = this->handler_map_.find (msg.test, handler);
+  int retval = this->handler_map_.find (test, handler);
 
   if (retval == 0)
   {
@@ -47,16 +50,20 @@ void CUTS_TestLoggerClient_i::log (const CUTS::LogMessage & msg)
         // First, get the length of the string. This is necessary so we can
         // set the message's buffer size accordingly. This allocates more
         // memory for the text if it is needed.
-        message->message_.size (msg.message.length ());
+        size_t length = msg.length ();
+        message->text_.size (length + 1);
 
         // Copy the source text into the message's buffer.
-        ACE_OS::memcpy (message->message_.begin (),
-                        msg.message.get_buffer (),
-                        msg.message.length ());
+        ACE_OS::memcpy (message->text_.begin (), msg.get_buffer (), length);
 
         // Initialize the remainder of the message.
-        message->severity_ = msg.priority;
-        message->timestamp_ = msg.timestamp;
+        message->severity_ = severity;
+        message->timestamp_ = static_cast <long> (timestamp);
+
+        ACE_DEBUG ((LM_DEBUG,
+                    "%T - %M - inserting new message into queue for test "
+                    "%d (thr_id: %t)\n",
+                    test));
 
         // Pass the message to the handler.
         handler->handle_message (message);
@@ -66,7 +73,7 @@ void CUTS_TestLoggerClient_i::log (const CUTS::LogMessage & msg)
         ACE_ERROR ((LM_ERROR,
                     "%T - %M - message creation failed; dropping a message "
                     "for test %d\n",
-                    msg.test));
+                    test));
       }
     }
     catch (const ACE_bad_alloc & ex)
@@ -74,7 +81,7 @@ void CUTS_TestLoggerClient_i::log (const CUTS::LogMessage & msg)
       ACE_ERROR ((LM_ERROR,
                   "%T - %M - %s; dropping a message for test %d\n",
                   ex.what (),
-                  msg.test));
+                  test));
 
       throw CORBA::NO_MEMORY ();
     }

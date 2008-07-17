@@ -15,6 +15,12 @@
 
 module CUTS
 {
+  /// Type definition of the message's text. We use a sequence of char's
+  /// instead of a string so we can amortize calculating the length of
+  /// the data. Also, we want the data store to act like a buffer, as opposed
+  /// to a string object.
+  typedef sequence <char> MessageText;
+
   /**
    * @struct LogMessage
    *
@@ -23,17 +29,16 @@ module CUTS
   struct LogMessage
   {
     /// Timestamp of the log message.
-    long timestamp;
-
-    /// Test numer to associate message.
-    long test;
+    long long timestamp;
 
     /// Priority of the log message.
-    long priority;
+    long severity;
 
     /// The actual content of the log message.
-    sequence <char> message;
+    MessageText message;
   };
+
+  typedef sequence <LogMessage> LogMessages;
 
   /**
    * @interface TestLoggerClient
@@ -77,7 +82,10 @@ module CUTS
      *
      * @param[in]       message       Message to send to client.
      */
-    void log (in LogMessage message);
+    void log (in long test,
+              in long long timestamp,
+              in long severity,
+              in MessageText message);
   };
 };
 

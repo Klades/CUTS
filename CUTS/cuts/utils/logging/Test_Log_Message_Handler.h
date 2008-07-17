@@ -39,7 +39,7 @@ public:
   long severity_;
 
   /// The textual content of the log message.
-  ACE_Array <char> message_;
+  ACE_Array <char> text_;
 
   // @{ @name ACE_Free_List methods
 
