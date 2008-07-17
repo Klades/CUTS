@@ -1,3 +1,12 @@
+Thu Jul 17 23:38:42 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/Logging_Client_Options.h:
+        * cuts/utils/logging/Logging_Client_Server.h:
+        * cuts/utils/logging/Logging_Client_Server.cpp:
+
+	  . Fixed compilation errors related to deleting the files in
+	    the previous comment.
+
 Thu Jul 17 16:01:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/logging.mpc:

@@ -46,4 +46,4 @@ public:
 #define CUTS_LOGGING_OPTIONS \
   ACE_Singleton <CUTS_Logging_Client_Options, ACE_Null_Mutex>::instance ()
 
-#endif _CUTS_LOGGING_CLIENT_OPTIONS_H_
+#endif // !defined _CUTS_LOGGING_CLIENT_OPTIONS_H_
