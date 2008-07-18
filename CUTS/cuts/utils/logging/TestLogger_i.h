@@ -1,5 +1,15 @@
 // -*- C++ -*-
 
+//=============================================================================
+/**
+ * @file        TestLogger_i.h
+ *
+ * $Id$
+ *
+ * @author      James H. Hill
+ */
+//=============================================================================
+
 #ifndef _CUTS_TEST_LOGGER_I_H_
 #define _CUTS_TEST_LOGGER_I_H_
 
@@ -8,6 +18,7 @@
 #include "ace/Task_Ex_T.h"
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/Refcountable_T.h"
+#include "ace/OS_NS_netdb.h"
 
 // Forward decl.
 class CUTS_TestLoggerFactory_i;
@@ -76,8 +87,15 @@ public:
   /// Destroy the logger.
   virtual void destroy (void);
 
+  /**
+   * Start the logger. It will flush the message queue at the defined
+   * interval.
+   *
+   * @param[in]       timeout       Timeout value.
+   */
   int start (const ACE_Time_Value & timeout);
 
+  /// Stop the logger.
   int stop (void);
 
 protected:

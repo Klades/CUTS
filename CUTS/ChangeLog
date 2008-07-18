@@ -1,3 +1,15 @@
+Fri Jul 18 21:25:21 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/TestLoggerClient_i.h:
+        * cuts/utils/logging/TestLoggerClient_i.cpp:
+        * cuts/utils/logging/TestLoggerFactory_i.h:
+        * cuts/utils/logging/TestLoggerFactory_i.cpp:
+        * cuts/utils/logging/TestLogger_i.h:
+        * cuts/utils/logging/TestLogger_i.cpp:
+
+          . Implemented destroy () methods on the logger and logger factory
+            so objects can release their resources.
+
 Sat Jul 19 02:58:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/TestLoggerClient_i.cpp:
@@ -7,14 +19,14 @@ Sat Jul 19 02:58:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/utils/logging/TestLogger_i.cpp:
         * cuts/utils/logging/logging.idl:
 
-	  . Bug fix that was causing the loggers to segfault when it was
-	    logging messages to the database.
-	 
-	  . Bug fix where stopping a logger failed to flush its message
-	    queue to the database.
+          . Bug fix that was causing the loggers to segfault when it was
+            logging messages to the database.
 
-	  . First complete version of the re-design and optimization
-	    of the test logger.
+          . Bug fix where stopping a logger failed to flush its message
+            queue to the database.
+
+          . First complete version of the re-design and optimization
+            of the test logger.
 
 Fri Jul 18 13:40:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

@@ -25,7 +25,7 @@ CUTS_TestLogger_i::CUTS_TestLogger_i (CUTS_TestLoggerFactory_i & parent)
   : parent_ (parent),
     lwm_msg_queue_ (25),
     hwm_msg_queue_ (50),
-    msg_free_list_ (ACE_FREE_LIST_WITH_POOL, 
+    msg_free_list_ (ACE_FREE_LIST_WITH_POOL,
                     ACE_DEFAULT_FREE_LIST_PREALLOC,
                     hwm_msg_queue_)
 {
@@ -511,7 +511,7 @@ int CUTS_TestLogger_i::handle_message (CUTS_Log_Message * msg)
 }
 
 //
-// destory
+// destroy
 //
 void CUTS_TestLogger_i::destroy (void)
 {

@@ -39,7 +39,7 @@ public:
    * @param[in]       test_number     Test number for the factory.
    */
   CUTS_TestLoggerFactory_i (CUTS_TestLoggerClient_i & parent,
-                            long test_number, 
+                            long test_number,
                             PortableServer::POA_ptr poa);
 
   /// Destructor.
@@ -52,6 +52,9 @@ public:
    * @return        The
    */
   virtual CUTS::TestLogger_ptr create (void);
+
+  /// Destroy the logger.
+  virtual void destroy (void);
 
   /**
    * Destory the specified logger. This will decrement is reference
@@ -88,7 +91,7 @@ public:
 
   /**
    * Get the test number assigned to the factory. All loggers that
-   * were created by this factory are logging messages for the 
+   * were created by this factory are logging messages for the
    * test number returned by this test.
    *
    * @return      The test number for the factory.
@@ -96,6 +99,8 @@ public:
   long test_number (void) const;
 
 private:
+  void destroy_i (CUTS_TestLogger_i * logger);
+
   void unregister_test_i (long test);
 
   /// Parent of the factory.
@@ -108,11 +113,15 @@ private:
   PortableServer::POA_var test_poa_;
 
   /// The servant for the logger.
-  ACE_Unbounded_Set <CUTS_TestLogger_i *> servants_;
+  typedef ACE_Unbounded_Set <CUTS_TestLogger_i *> set_type;
+
+  /// Collection of the servants.
+  set_type servants_;
 
   /// The database connection for the client.
   ODBC_Connection conn_;
 
+  /// Lock for synchronizing assessing the servant collection.
   ACE_Thread_Mutex lock_;
 };
 

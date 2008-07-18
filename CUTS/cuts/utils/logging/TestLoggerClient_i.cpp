@@ -21,7 +21,10 @@ CUTS_TestLoggerClient_i (PortableServer::POA_ptr root_poa)
 //
 CUTS_TestLoggerClient_i::~CUTS_TestLoggerClient_i (void)
 {
+  map_type::ITERATOR iter (this->factory_map_);
 
+  for ( ; !iter.done (); iter.advance ())
+    this->destroy_i (iter->item ());
 }
 
 //
@@ -71,14 +74,14 @@ CUTS_TestLoggerClient_i::create (CORBA::Long test_number)
     // Construct the policy list for the child POA.
     CORBA::PolicyList policies (3);
     policies.length (3);
- 
-    policies[0] = 
+
+    policies[0] =
       this->root_poa_->create_thread_policy (PortableServer::ORB_CTRL_MODEL);
-    
-    policies[1] = 
+
+    policies[1] =
       this->root_poa_->create_id_assignment_policy (PortableServer::SYSTEM_ID);
- 
-    policies[2] = 
+
+    policies[2] =
       this->root_poa_->create_servant_retention_policy (PortableServer::RETAIN);
 
     // Create the child POA for the test.
@@ -106,7 +109,9 @@ CUTS_TestLoggerClient_i::create (CORBA::Long test_number)
                 test_number));
 
     ACE_NEW_THROW_EX (servant,
-                      CUTS_TestLoggerFactory_i (test_number, test_poa.in ()),
+                      CUTS_TestLoggerFactory_i (*this,
+                                                test_number,
+                                                test_poa.in ()),
                       CORBA::NO_MEMORY ());
 
     ACE_Auto_Ptr <CUTS_TestLoggerFactory_i> auto_clean (servant);
@@ -137,11 +142,56 @@ CUTS_TestLoggerClient_i::create (CORBA::Long test_number)
   // Convert the object id to a reference.
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - converting object id to factory reference\n"));
-  
+
   CORBA::Object_var obj = test_poa->id_to_reference (oid.in ());
 
-  CUTS::TestLoggerFactory_var factory = 
+  CUTS::TestLoggerFactory_var factory =
     CUTS::TestLoggerFactory::_narrow (obj.in ());
 
   return factory._retn ();
+}
+
+//
+// destroy
+//
+void CUTS_TestLoggerClient_i::destroy (CUTS_TestLoggerFactory_i * factory)
+{
+  map_type::ENTRY * entry;
+  long test_number = factory->test_number ();
+
+  if (this->factory_map_.find (test_number, entry) == 0)
+  {
+    this->destroy_i (factory);
+    this->factory_map_.unbind (entry);
+  }
+  else
+  {
+    ACE_ERROR ((LM_WARNING,
+                "%T (%t) - %M - logger factory for %d was not destroyed\n",
+                test_number));
+  }
+}
+
+//
+// destroy_i
+//
+void CUTS_TestLoggerClient_i::destroy_i (CUTS_TestLoggerFactory_i * factory)
+{
+  // Get the object id for the servant.
+  PortableServer::POA_var poa = factory->_default_POA ();
+  PortableServer::ObjectId_var oid = poa->servant_to_id (factory);
+
+  // Deactivate the object.
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - deactivating logger factory for test %d\n",
+              factory->test_number ()));
+
+  poa->deactivate_object (oid);
+
+  // Delete the object.
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - removing logger factory for test %d from memory\n",
+              factory->test_number ()));
+
+  delete factory;
 }

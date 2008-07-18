@@ -45,7 +45,17 @@ public:
    */
   virtual CUTS::TestLoggerFactory_ptr create (CORBA::Long test_number);
 
+  /**
+   * Destroy the logger factory for a test. At this stage, we can assume
+   * the logger factory as cleaned all its resources and is ready to
+   * be removed from memory.
+   */
+  virtual void destroy (CUTS_TestLoggerFactory_i * factory);
+
 private:
+  /// Implementation of the destroy () method.
+  void destroy_i (CUTS_TestLoggerFactory_i * factory);
+
   /// Reference to the RootPOA.
   PortableServer::POA_var root_poa_;
 

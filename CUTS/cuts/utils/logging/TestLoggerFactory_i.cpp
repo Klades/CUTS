@@ -13,7 +13,7 @@
 //
 CUTS_TestLoggerFactory_i::
 CUTS_TestLoggerFactory_i (CUTS_TestLoggerClient_i & parent,
-                          long test_number, 
+                          long test_number,
                           PortableServer::POA_ptr test_poa)
 : parent_ (parent),
   test_number_ (test_number),
@@ -27,7 +27,10 @@ CUTS_TestLoggerFactory_i (CUTS_TestLoggerClient_i & parent,
 //
 CUTS_TestLoggerFactory_i::~CUTS_TestLoggerFactory_i (void)
 {
+  ACE_Unbounded_Set_Iterator <CUTS_TestLogger_i *> iter (this->servants_);
 
+  for (; !iter.done (); iter.advance ())
+    this->destroy_i (*iter);
 }
 
 //
@@ -89,6 +92,12 @@ CUTS::TestLogger_ptr CUTS_TestLoggerFactory_i::create (void)
 void CUTS_TestLoggerFactory_i::destroy (void)
 {
   // First, we need to remove all the logger objects.
+  ACE_Unbounded_Set_Iterator <CUTS_TestLogger_i *> iter (this->servants_);
+
+  for (; !iter.done (); iter.advance ())
+    this->destroy_i (*iter);
+
+  this->servants_.reset ();
 
   // Tell the parent to remove this factory.
   this->parent_.destroy (this);
@@ -138,7 +147,16 @@ void CUTS_TestLoggerFactory_i::database (const ACE_CString & server)
 //
 void CUTS_TestLoggerFactory_i::destroy (CUTS_TestLogger_i * logger)
 {
-  // First, deactivate the object
+  this->destroy_i (logger);
+  this->servants_.remove (logger);
+}
+
+//
+// destroy_i
+//
+void CUTS_TestLoggerFactory_i::destroy_i (CUTS_TestLogger_i * logger)
+{
+  // First, deactivate the object.
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - deactivating logger servant for test %d\n",
               this->test_number_));
@@ -159,7 +177,8 @@ void CUTS_TestLoggerFactory_i::destroy (CUTS_TestLogger_i * logger)
               "%T (%t) - %M - removing logger for test %d from memory\n",
               this->test_number_));
 
-  this->servants_.remove (logger);
+  // Delete the logger.
+  delete logger;
 }
 
 //
