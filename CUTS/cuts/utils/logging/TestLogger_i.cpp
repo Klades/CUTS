@@ -1,11 +1,12 @@
 // $Id$
 
-#include "Test_Log_Message_Handler.h"
+#include "TestLogger_i.h"
 
 #if !defined (__CUTS_INLINE__)
-#include "Test_Log_Message_Handler.inl"
+#include "TestLogger_i.inl"
 #endif
 
+#include "TestLoggerFactory_i.h"
 #include "cuts/utils/DB_Connection.h"
 #include "cuts/utils/DB_Query.h"
 #include "cuts/utils/DB_Parameter.h"
@@ -16,35 +17,22 @@
 #include "ace/Reactor.h"
 
 //
-// CUTS_Test_Log_Message_Handler
+// CUTS_TestLogger_i
 //
-CUTS_Test_Log_Message_Handler::
-CUTS_Test_Log_Message_Handler (CUTS_DB_Connection & conn,
-                               long test_number,
-                               const char * hostname,
-                               size_t lwm_msg_queue,
-                               size_t hwm_msg_queue)
-: ACE_Refcountable_T <ACE_RW_Thread_Mutex> (1),
-  conn_ (conn),
-  test_number_ (test_number),
-  hostname_ (hostname),
-  timer_id_ (-1),
-  lwm_msg_queue_ (lwm_msg_queue),
-  hwm_msg_queue_ (hwm_msg_queue),
-  msg_free_list_ (ACE_FREE_LIST_WITH_POOL,
-                  lwm_msg_queue,
-                  lwm_msg_queue,
-                  hwm_msg_queue)
+CUTS_TestLogger_i::CUTS_TestLogger_i (CUTS_TestLoggerFactory_i & parent)
+: ACE_Refcountable_T <ACE_Null_Mutex> (0),
+  parent_ (parent)
 {
   ACE_Reactor * reactor = 0;
   ACE_NEW_THROW_EX (reactor, ACE_Reactor (), ACE_bad_alloc ());
+
   this->reactor (reactor);
 }
 
 //
-// ~CUTS_Test_Log_Message_Handler
+// CUTS_TestLogger_i
 //
-CUTS_Test_Log_Message_Handler::~CUTS_Test_Log_Message_Handler (void)
+CUTS_TestLogger_i::~CUTS_TestLogger_i (void)
 {
   ACE_Reactor * reactor = this->reactor ();
   this->reactor (0);
@@ -54,9 +42,73 @@ CUTS_Test_Log_Message_Handler::~CUTS_Test_Log_Message_Handler (void)
 }
 
 //
+// log
+//
+void CUTS_TestLogger_i::log (CORBA::LongLong timestamp,
+                             CORBA::Long severity,
+                             const CUTS::MessageText & msg)
+{
+  try
+  {
+    // Create a new log message for the message.
+    CUTS_Log_Message * message = this->msg_free_list_.remove ();
+
+    if (message != 0)
+    {
+      // First, get the length of the string. This is necessary so we can
+      // set the message's buffer size accordingly. This allocates more
+      // memory for the text if it is needed.
+      size_t length = msg.length ();
+      message->text_.size (length + 1);
+
+      // Copy the source text into the message's buffer.
+      ACE_OS::memcpy (message->text_.begin (), msg.get_buffer (), length);
+      message->text_[length] = '\0';
+
+      // Initialize the remainder of the message.
+      message->severity_ = severity;
+      message->timestamp_ = static_cast <long> (timestamp);
+
+      // Pass the message to the handler.
+      this->handle_message (message);
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - message creation failed; dropping a message "
+                  "for test %d\n",
+                  this->test_number_));
+    }
+  }
+  catch (const ACE_bad_alloc & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - %s; dropping a message for test %d\n",
+                ex.what (),
+                this->test_number_));
+
+    throw CORBA::NO_MEMORY ();
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - %s; unknown exception occurred for test %d\n",
+                this->test_number_));
+  }
+}
+
+//
+// batch_log
+//
+void CUTS_TestLogger_i::batch_log (const CUTS::LogMessages & msgs)
+{
+  throw CORBA::NO_IMPLEMENT ();
+}
+
+//
 // svc
 //
-int CUTS_Test_Log_Message_Handler::svc (void)
+int CUTS_TestLogger_i::svc (void)
 {
   // Since this is a single threaded task, we have to let the reactor
   // know we are the owner. Otherwise, we will not be able to handle
@@ -72,7 +124,7 @@ int CUTS_Test_Log_Message_Handler::svc (void)
 //
 // handle_timeout
 //
-int CUTS_Test_Log_Message_Handler::
+int CUTS_TestLogger_i::
 handle_timeout (const ACE_Time_Value & current_time, const void * act)
 {
   ACE_DEBUG ((LM_DEBUG,
@@ -91,7 +143,7 @@ handle_timeout (const ACE_Time_Value & current_time, const void * act)
 //
 // handle_input
 //
-int CUTS_Test_Log_Message_Handler::handle_input (ACE_HANDLE fd)
+int CUTS_TestLogger_i::handle_input (ACE_HANDLE fd)
 {
   // The READ_MASK event notification was sent. This means the log message
   // queue has surpassed its lower water mark. It is time to insert the
@@ -105,7 +157,7 @@ int CUTS_Test_Log_Message_Handler::handle_input (ACE_HANDLE fd)
 //
 // handle_exception
 //
-int CUTS_Test_Log_Message_Handler::handle_exception (ACE_HANDLE fd)
+int CUTS_TestLogger_i::handle_exception (ACE_HANDLE fd)
 {
   // At this point, we are actually stoping the task. So, we need to
   // empty the contents of the message queue. We can make the assumption
@@ -122,7 +174,7 @@ int CUTS_Test_Log_Message_Handler::handle_exception (ACE_HANDLE fd)
   try
   {
     // Create a new database query.
-    CUTS_DB_Query * query = this->conn_.create_query ();
+    CUTS_DB_Query * query = this->parent_.connection ().create_query ();
     CUTS_Auto_Functor_T <CUTS_DB_Query> auto_clean (query, &CUTS_DB_Query::destroy);
 
     ACE_DEBUG ((LM_DEBUG,
@@ -208,7 +260,7 @@ int CUTS_Test_Log_Message_Handler::handle_exception (ACE_HANDLE fd)
 //
 // start
 //
-int CUTS_Test_Log_Message_Handler::start (const ACE_Time_Value & timeout)
+int CUTS_TestLogger_i::start (const ACE_Time_Value & timeout)
 {
   // Activate the message queue. This will ensure that we are receiving
   // messages from the driver thread.
@@ -254,7 +306,7 @@ int CUTS_Test_Log_Message_Handler::start (const ACE_Time_Value & timeout)
 //
 // stop
 //
-int CUTS_Test_Log_Message_Handler::stop (void)
+int CUTS_TestLogger_i::stop (void)
 {
   if (this->is_active_)
   {
@@ -288,12 +340,12 @@ int CUTS_Test_Log_Message_Handler::stop (void)
 //
 // insert_messages_into_database
 //
-int CUTS_Test_Log_Message_Handler::insert_messages_into_database (void)
+int CUTS_TestLogger_i::insert_messages_into_database (void)
 {
   try
   {
     // Create a new database query.
-    CUTS_DB_Query * query = this->conn_.create_query ();
+    CUTS_DB_Query * query = this->parent_.connection ().create_query ();
     CUTS_Auto_Functor_T <CUTS_DB_Query> auto_clean (query, &CUTS_DB_Query::destroy);
 
     ACE_DEBUG ((LM_DEBUG,
@@ -376,7 +428,7 @@ int CUTS_Test_Log_Message_Handler::insert_messages_into_database (void)
 //
 // handle_message
 //
-int CUTS_Test_Log_Message_Handler::handle_message (CUTS_Log_Message * msg)
+int CUTS_TestLogger_i::handle_message (CUTS_Log_Message * msg)
 {
   // Place the message on the queue.
   ACE_DEBUG ((LM_DEBUG,
@@ -411,6 +463,14 @@ int CUTS_Test_Log_Message_Handler::handle_message (CUTS_Log_Message * msg)
               "%T (%t) - %M - test %d has %d log message(s) on its queue\n",
               this->test_number_,
               retval));
+
   return retval;
 }
 
+//
+// destory
+//
+void CUTS_TestLogger_i::destroy (void)
+{
+  this->parent_.destroy (this);
+}

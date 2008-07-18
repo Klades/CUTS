@@ -57,8 +57,9 @@ project (cutslog_d) : iortable, cuts_logging_skel, cuts_odbclib, cutsexe {
     Logging_Client_Server.cpp
     Logging_Client_Task.cpp
     cutslog_d.cpp
+    TestLogger_i.cpp
+    TestLoggerFactory_i.cpp
     TestLoggerClient_i.cpp
-    Test_Log_Message_Handler.cpp
   }
 
   Header_Files {

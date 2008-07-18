@@ -16,82 +16,47 @@
 #include "loggingS.h"
 #include "cuts/utils/ODBC/ODBC_Connection.h"
 #include "ace/Hash_Map_Manager_T.h"
-#include "ace/RW_Thread_Mutex.h"
+#include "ace/Null_Mutex.h"
 
 // Forward decl.
-class CUTS_Test_Log_Message_Handler;
+class CUTS_TestLoggerFactory_i;
 
 /**
  * @class CUTS_TestLoggerClient_i
  *
- * Implementation of the CUTS::TestLoggerClient interface.
+ * Implementation of the CUTS::TestLoggerClient interface. This object
+ * is not thread-safe and must be activated under the RootPOA, or a
+ * single-threaded POA. Otherwise, unknown behavior many occur.
  */
 class CUTS_TestLoggerClient_i :
   public POA_CUTS::TestLoggerClient
 {
 public:
   /// Default constructor.
-  CUTS_TestLoggerClient_i (void);
+  CUTS_TestLoggerClient_i (PortableServer::POA_ptr root_poa);
 
   /// Destructor.
   virtual ~CUTS_TestLoggerClient_i (void);
 
   /**
-   * Log the specified message. The client will cache the message until
-   * it is ready to send it to the logger server.
-   */
-  virtual void log (CORBA::Long test,
-                    CORBA::LongLong timestamp,
-                    CORBA::Long severity,
-                    const CUTS::MessageText & msg);
-
-  /**
-   * Register the test with the logger.
+   * Create a new factory object for the test.
    *
-   * @param[in]       test          The test number
+   * @param[in]       test_number       The new test.
    */
-  virtual void register_test (CORBA::Long new_test, CORBA::Long old_test);
-
-  /**
-   * Unregister the test with the logger.
-   *
-   * @param[in]       test          The test number
-   */
-  virtual void unregister_test (CORBA::Long test);
-
-  /**
-   * Set the address of the database server.
-   */
-  void database (const ACE_CString & addr);
-
-  /**
-   * Set the timeout interval for flushing the message queue.
-   */
-  void timeout_interval (const ACE_Time_Value & tv);
+  virtual CUTS::TestLoggerFactory_ptr create (CORBA::Long test_number);
 
 private:
-  void unregister_test_i (long test);
+  /// Reference to the RootPOA.
+  PortableServer::POA_var root_poa_;
 
-  /// Type definition of the handler map for the tests.
+  /// Type definition of the factory mapping for tests.
   typedef
     ACE_Hash_Map_Manager <long,
-                          CUTS_Test_Log_Message_Handler *,
-                          ACE_RW_Thread_Mutex> map_type;
+                          CUTS_TestLoggerFactory_i *,
+                          ACE_Null_Mutex> map_type;
 
-  /// Mapping the handler by the test number.
-  map_type handler_map_;
-
-  /// The database connection for the client.
-  ODBC_Connection conn_;
-
-  /// The hostname of the logging client.
-  ACE_Auto_String_Free hostname_;
-
-  /// Server address of the database.
-  ACE_CString database_;
-
-  /// Timeout interval for flushing the message queue.
-  ACE_Time_Value timeout_;
+  /// Factory map for each test.
+  map_type factory_map_;
 };
 
 #endif  // !defined _CUTS_TEST_LOGGER_CLIENT_I_H_

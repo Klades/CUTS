@@ -34,13 +34,13 @@ public:
   }
 
   /// Address of the logging database.
-  ACE_CString database_;  
+  ACE_CString database_;
 
   /// The size of the threadpool.
   size_t thr_count_;
-  
+
   /// Timeout to flush the server in seconds.
-  size_t timeout_;
+  time_t timeout_;
 };
 
 #define CUTS_LOGGING_OPTIONS \

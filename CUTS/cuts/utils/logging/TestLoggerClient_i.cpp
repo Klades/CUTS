@@ -1,21 +1,18 @@
 // $Id$
 
 #include "TestLoggerClient_i.h"
-#include "Test_Log_Message_Handler.h"
-#include "ace/INET_Addr.h"
-#include "ace/OS_NS_unistd.h"
+#include "TestLoggerFactory_i.h"
+#include "Logging_Client_Options.h"
+#include <sstream>
 
 //
 // CUTS_TestLoggerClient_i
 //
-CUTS_TestLoggerClient_i::CUTS_TestLoggerClient_i (void)
+CUTS_TestLoggerClient_i::
+CUTS_TestLoggerClient_i (PortableServer::POA_ptr root_poa)
+: root_poa_ (PortableServer::POA::_duplicate (root_poa))
 {
-  // Get the hostname of the logging client.
-  char hostname[1024];
-  ACE_OS::hostname (hostname, sizeof (hostname));
-  ACE_INET_Addr inet ((u_short)0, hostname, AF_ANY);
 
-  this->hostname_.reset (ACE_OS::strdup (inet.get_host_name ()));
 }
 
 //
@@ -27,225 +24,95 @@ CUTS_TestLoggerClient_i::~CUTS_TestLoggerClient_i (void)
 }
 
 //
-// log
+// create
 //
-void CUTS_TestLoggerClient_i::log (CORBA::Long test,
-                                   CORBA::LongLong timestamp,
-                                   CORBA::Long severity,
-                                   const CUTS::MessageText & msg)
+CUTS::TestLoggerFactory_ptr
+CUTS_TestLoggerClient_i::create (CORBA::Long test_number)
 {
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - received new log message for test %d\n",
-              test));
+  CUTS_TestLoggerFactory_i * servant = 0;
+  PortableServer::POA_var test_poa;
+  PortableServer::ObjectId_var oid;
 
-  // Locate the handler for the test.
-  CUTS_Test_Log_Message_Handler * handler = 0;
-  int retval = this->handler_map_.find (test, handler);
-
-  if (retval == 0)
+  if (this->factory_map_.find (test_number, servant) == 0)
   {
-    try
-    {
-      // Create a new log message for the message.
-      CUTS_Log_Message * message = handler->new_message ();
+    // Convert the servant into an object id. This is so we can get a reference
+    // to the object later.
+    ACE_DEBUG ((LM_DEBUG,
+                "%M (%t) - %T - getting the object id to factory for test %d\n",
+                test_number));
 
-      if (message != 0)
-      {
-        // First, get the length of the string. This is necessary so we can
-        // set the message's buffer size accordingly. This allocates more
-        // memory for the text if it is needed.
-        size_t length = msg.length ();
-        message->text_.size (length + 1);
-
-        // Copy the source text into the message's buffer.
-        ACE_OS::memcpy (message->text_.begin (), msg.get_buffer (), length);
-
-        // Initialize the remainder of the message.
-        message->severity_ = severity;
-        message->timestamp_ = static_cast <long> (timestamp);
-
-        // Pass the message to the handler.
-        handler->handle_message (message);
-      }
-      else
-      {
-        ACE_ERROR ((LM_ERROR,
-                    "%T - %M - message creation failed; dropping a message "
-                    "for test %d\n",
-                    test));
-      }
-    }
-    catch (const ACE_bad_alloc & ex)
-    {
-      ACE_ERROR ((LM_ERROR,
-                  "%T - %M - %s; dropping a message for test %d\n",
-                  ex.what (),
-                  test));
-
-      throw CORBA::NO_MEMORY ();
-    }
+    test_poa = servant->poa ();
+    oid = test_poa->servant_to_id (servant);
   }
-}
-
-//
-// register_test
-//
-void CUTS_TestLoggerClient_i::
-register_test (CORBA::Long new_test, CORBA::Long old_test)
-{
-  // First, unregister
-  if (old_test != -1)
-    this->unregister_test_i (old_test);
-
-  if (new_test != -1)
+  else
   {
-    ACE_DEBUG ((LM_INFO,
-                "%T - %M - registering an application for test %d\n",
-                new_test));
+    // Since we did not find the factory for the test, we need to create
+    // a new one. We do not have to worry about race conditions since this
+    // object can only be activated under a single-threaded POA. Therefore,
+    // all client request are serialized.
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - create a POA for test %d\n",
+                test_number));
 
-    // Check if the test is already in the mapping.
-    if (this->handler_map_.find (new_test) == 0)
-      return;
+    std::ostringstream ostr;
+    ostr << "Test-" << test_number;
 
-    // We need to create a new handler for the test.
-    CUTS_Test_Log_Message_Handler * handler = 0;
+    // Create the thread policy for the child POA.
+    PortableServer::ThreadPolicy_var thread_policy =
+      this->root_poa_->create_thread_policy (PortableServer::ORB_CTRL_MODEL);
 
-    ACE_NEW_THROW_EX (handler,
-                      CUTS_Test_Log_Message_Handler (this->conn_,
-                                                     new_test,
-                                                     this->hostname_.get ()),
+    // Construct the policy list for the child POA.
+    CORBA::PolicyList policies (1);
+    policies.length (1);
+    policies[0] = thread_policy.in ();
+
+    // Create the child POA for the test.
+    test_poa =
+      this->root_poa_->create_POA (ostr.str ().c_str (),
+                                   PortableServer::POAManager::_nil (),
+                                   policies);
+
+    // Destroy the thread policy.
+    thread_policy->destroy ();
+
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - create a test logger factory for test %d\n",
+                test_number));
+
+    ACE_NEW_THROW_EX (servant,
+                      CUTS_TestLoggerFactory_i (test_number, test_poa),
                       CORBA::NO_MEMORY ());
-    ACE_Auto_Ptr <CUTS_Test_Log_Message_Handler> auto_clean (handler);
 
-    // Try to insert the handler into the mapping. There is a chance
-    // that another process beat us to this process.
-    int retval = this->handler_map_.bind (new_test, handler);
+    ACE_Auto_Ptr <CUTS_TestLoggerFactory_i> auto_clean (servant);
 
-    if (retval != -1)
+    if (this->factory_map_.bind (test_number, servant) == 0)
     {
-      if (retval == 1)
-      {
-        // Since another thread beat us to the registration, we need to
-        // get the existing handler and increment the reference count.
-        if (this->handler_map_.find (new_test, handler) == 0)
-        {
-          handler->increment ();
-        }
-        else
-        {
-          ACE_ERROR ((LM_ERROR,
-                      "%T - %M - failed to locate handler for test %d; %m\n",
-                      new_test));
-        }
-      }
-      else
-      {
-        // Be sure to release the handler that actually registered itself
-        // with the mapping. Otherwise, we will delete it and have a dangling
-        // pointer in the mapping.
-        auto_clean.release ();
+      // Release the auto pointer since we stored the object.
+      auto_clean.release ();
 
-        // Start the handler.
-        ACE_DEBUG ((LM_INFO,
-                    "%T - %M - starting a new handler for test %d\n",
-                    new_test));
+      // Connect the factory to the database.
+      servant->database (CUTS_LOGGING_OPTIONS->database_);
 
-        handler->start (this->timeout_);
-      }
+      // Activate the object under it's test-specific POA.
+      oid = test_poa->activate_object (servant);
     }
     else
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T - %M - failed to create handler for test %d; %m\n",
-                  new_test));
+                  "%T (%t) - %M - failed to store test logger factory for "
+                  "test %d\n",
+                  test_number));
     }
   }
-}
 
-//
-// unregister_test
-//
-void CUTS_TestLoggerClient_i::unregister_test (CORBA::Long test)
-{
-  if (test != -1)
-    this->unregister_test_i (test);
-}
+  // Convert the object id to a reference.
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - converting object id to factory reference\n"));
+  CORBA::Object_var obj = test_poa->id_to_reference (oid.in ());
 
-//
-// unregister_test_i
-//
-void CUTS_TestLoggerClient_i::unregister_test_i (long test)
-{
-  map_type::ENTRY * entry = 0;
-  int retval = this->handler_map_.find (test, entry);
+  // Extract the test logger factory object from the reference.
+  CUTS::TestLoggerFactory_var factory =
+    CUTS::TestLoggerFactory::_narrow (obj.in ());
 
-  if (retval == 0)
-  {
-    ACE_DEBUG ((LM_INFO,
-                "%T - %M - unregistering an application for test %d\n",
-                test));
-
-    // Decrement the reference count.
-    CUTS_Test_Log_Message_Handler * handler = entry->item ();
-
-    if (handler != 0)
-    {
-      long refcount = handler->decrement ();
-
-      // Only when the reference count reaches 0 can we remove the handler
-      // from the mapping. This means there are no more known loggers for
-      // this test.
-      if (refcount == 0)
-      {
-        this->handler_map_.unbind (entry);
-
-        // Finally, we need to delete the handler's resources.
-        ACE_DEBUG ((LM_INFO,
-                    "%T - %M - no more applications registered for test %d\n",
-                    test));
-
-        handler->stop ();
-        delete handler;
-      }
-    }
-  }
-}
-
-//
-// database
-//
-void CUTS_TestLoggerClient_i::
-database (const ACE_CString & addr)
-{
-  this->database_ = addr;
-
-  try
-  {
-    // Establish a connection with the database.
-    this->conn_.connect (CUTS_USERNAME,
-                         CUTS_PASSWORD,
-                         this->database_.c_str ());
-  }
-  catch (const CUTS_DB_Exception & ex)
-  {
-    ACE_ERROR ((LM_ERROR,
-                "%T - %M - %s\n",
-                ex.message ().c_str ()));
-  }
-  catch (...)
-  {
-    ACE_ERROR ((LM_ERROR,
-                "%T - %M - caught unknown exception; failed to connect to "
-                "database on %s\n",
-                this->database_.c_str ()));
-  }
-}
-
-//
-// timeout_interval
-//
-void CUTS_TestLoggerClient_i::
-timeout_interval (const ACE_Time_Value & timeout)
-{
-  this->timeout_ = timeout;
+  return factory._retn ();
 }

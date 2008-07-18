@@ -77,18 +77,12 @@ int CUTS_Logging_Client_Server::run_main (int argc, char * argv [])
 
     // Create a new test logger client.
     ACE_NEW_THROW_EX (this->client_,
-                      CUTS_TestLoggerClient_i (),
+                      CUTS_TestLoggerClient_i (root_poa.in ()),
                       CORBA::NO_MEMORY ());
 
     // Activate the manager and transfer ownership.
     CUTS::TestLoggerClient_var client = this->client_->_this ();
     this->servant_ = this->client_;
-
-    // Configure the test logger client.
-    this->client_->database (CUTS_LOGGING_OPTIONS->database_);
-
-    ACE_Time_Value interval (CUTS_LOGGING_OPTIONS->timeout_);
-    this->client_->timeout_interval (interval);
 
     // Register the test manager with the IORTable for the ORB.
     if (this->register_with_iortable () == -1)

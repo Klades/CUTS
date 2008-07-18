@@ -22,9 +22,9 @@ class CUTS_TestLoggerClient_i;
 /**
  * @class CUTS_Logging_Client_Server
  *
- * The server class that will daemonize the client application. 
+ * The server class that will daemonize the client application.
  */
-class CUTS_Logging_Client_Server 
+class CUTS_Logging_Client_Server
 {
 public:
   /// Constructor.
