@@ -1,3 +1,9 @@
+Fri Jul 18 13:40:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/TestLogger_i.inl:
+
+          . File that was not added to the repo.
+
 Fri Jul 18 12:38:03 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/TestLoggerFactory_i.h:
