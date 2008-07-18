@@ -389,7 +389,7 @@ END; //
 -- PROCEDURE: cuts.insert_component_instance
 -- -----------------------------------------------------------------------------
 
-DROP PROCEDURE IF EXISTS cuts.insert_ipaddr_hostname //
+DROP PROCEDURE IF EXISTS cuts.insert_hostname //
 
 CREATE PROCEDURE
   cuts.insert_hostname (IN _hostname VARCHAR (255))

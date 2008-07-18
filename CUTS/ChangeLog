@@ -1,3 +1,23 @@
+Fri Jul 18 23:28:52 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * etc/SQL/CUTS-create.sql:
+
+          . Fixed small bug where procedure name was stored incorrectly in a 
+              drop
+
+        * etc/SQL/CUTS-unittest.sql:
+
+          . Minor update to a stored proc
+
+        * etc/SQL/install-mysql.bat:
+
+          . Replaced the harder to use install-mysql.sql with this bat file, 
+              which is complete with feedback
+
+        * etc/SQL/CUTS-install-mysql.sql:
+
+          Removed this file.
+
 Fri Jul 18 21:33:58 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/workers/Test_Logger/CUTS/Logger.java:

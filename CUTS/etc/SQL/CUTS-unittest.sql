@@ -213,7 +213,7 @@ DROP PROCEDURE IF EXISTS cuts.Get_LFID_info//
 CREATE PROCEDURE  
   cuts.Get_LFID_info (IN lfid_in INT)
 BEGIN
-      select csharp_regex,varname,vartype, concat("LF",logformatdesc.lfid,".",varname) as extended_varname
+      select csharp_regex,variable_id,varname,vartype, concat("LF",logformatdesc.lfid,".",varname) as extended_varname
       FROM logformatdesc join logformatvariabletable on logformatdesc.lfid = logformatvariabletable.lfid
       where logformatdesc.lfid = lfid_in;
 END //
