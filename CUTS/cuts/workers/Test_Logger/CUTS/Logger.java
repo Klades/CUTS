@@ -265,9 +265,8 @@ public class Logger
       if (this.testLogger_ != null)
         this.testLogger_.destroy ();
 
-      //if (this.loggerFactory_ != null)
-      //  this.loggerFactory_.destroy ();
-      //  this.loggerClient_.destory (this.loggerFactory_);
+      if (this.loggerFactory_ != null)
+        this.loggerFactory_.destroy ();
     }
     catch (Exception ex)
     {

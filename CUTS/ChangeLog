@@ -1,3 +1,10 @@
+Fri Jul 18 21:33:58 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/workers/Test_Logger/CUTS/Logger.java:
+
+          Updated the worker to destroy the factory when the
+          disconnect () method is invoked.
+
 Fri Jul 18 21:25:21 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/TestLoggerClient_i.h:
