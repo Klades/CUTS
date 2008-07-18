@@ -89,6 +89,9 @@ module CUTS
      * @param[in]     test_number       Test number associated with logger.
      */
     TestLogger create ();
+
+    /// Destroy the logging factory.
+    void destroy ();
   };
 
   /**

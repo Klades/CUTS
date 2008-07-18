@@ -15,17 +15,30 @@
 #include "ace/CORBA_macros.h"
 #include "ace/Date_Time.h"
 #include "ace/Reactor.h"
+#include "ace/INET_Addr.h"
+#include "ace/OS_NS_unistd.h"
 
 //
 // CUTS_TestLogger_i
 //
 CUTS_TestLogger_i::CUTS_TestLogger_i (CUTS_TestLoggerFactory_i & parent)
-: parent_ (parent)
+  : parent_ (parent),
+    lwm_msg_queue_ (25),
+    hwm_msg_queue_ (50),
+    msg_free_list_ (ACE_FREE_LIST_WITH_POOL, 
+                    ACE_DEFAULT_FREE_LIST_PREALLOC,
+                    hwm_msg_queue_)
 {
   ACE_Reactor * reactor = 0;
   ACE_NEW_THROW_EX (reactor, ACE_Reactor (), ACE_bad_alloc ());
 
   this->reactor (reactor);
+
+  // Get the hostname of the logging client.
+  char hostname[1024];
+  ACE_OS::hostname (hostname, sizeof (hostname));
+  ACE_INET_Addr inet ((u_short)0, hostname, AF_ANY);
+
 }
 
 //
@@ -76,7 +89,7 @@ void CUTS_TestLogger_i::log (CORBA::LongLong timestamp,
       ACE_ERROR ((LM_ERROR,
                   "%T - %M - message creation failed; dropping a message "
                   "for test %d\n",
-                  this->test_number_));
+                  this->parent_.test_number ()));
     }
   }
   catch (const ACE_bad_alloc & ex)
@@ -84,7 +97,7 @@ void CUTS_TestLogger_i::log (CORBA::LongLong timestamp,
     ACE_ERROR ((LM_ERROR,
                 "%T - %M - %s; dropping a message for test %d\n",
                 ex.what (),
-                this->test_number_));
+                this->parent_.test_number ()));
 
     throw CORBA::NO_MEMORY ();
   }
@@ -92,7 +105,7 @@ void CUTS_TestLogger_i::log (CORBA::LongLong timestamp,
   {
     ACE_ERROR ((LM_ERROR,
                 "%T - %M - %s; unknown exception occurred for test %d\n",
-                this->test_number_));
+                this->parent_.test_number ()));
   }
 }
 
@@ -129,7 +142,7 @@ handle_timeout (const ACE_Time_Value & current_time, const void * act)
   ACE_DEBUG ((LM_DEBUG,
               "%T - %M - received timeout event to flush message queue for "
               "test %d\n",
-              this->test_number_));
+              this->parent_.test_number ()));
 
   // Insert the messages into the database
   this->insert_messages_into_database ();
@@ -147,7 +160,12 @@ int CUTS_TestLogger_i::handle_input (ACE_HANDLE fd)
   // The READ_MASK event notification was sent. This means the log message
   // queue has surpassed its lower water mark. It is time to insert the
   // messages into the database.
-  this->insert_messages_into_database ();
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - new message placed on test %d message queue\n",
+              this->parent_.test_number ()));
+
+  if (this->msg_queue ()->message_count () >= this->lwm_msg_queue_)
+    this->insert_messages_into_database ();
 
   return 0;
   ACE_UNUSED_ARG (fd);
@@ -165,7 +183,7 @@ int CUTS_TestLogger_i::handle_exception (ACE_HANDLE fd)
   // deleting the actual message objects.
   ACE_ERROR ((LM_ERROR,
               "%T - %M - closing test %d; flushing message queue\n",
-              this->test_number_));
+              this->parent_.test_number ()));
 
   MESSAGE_QUEUE_EX * msg_queue = this->msg_queue ();
   MESSAGE_QUEUE_EX::ITERATOR iter (*msg_queue);
@@ -178,7 +196,7 @@ int CUTS_TestLogger_i::handle_exception (ACE_HANDLE fd)
 
     ACE_DEBUG ((LM_DEBUG,
                 "%T - %M - preparing insert statement for test %d\n",
-                this->test_number_));
+                this->parent_.test_number ()));
 
     // Prepare the query for execution.
     const char * stmt = "CALL cuts.insert_log_message (?,?,?,?,?)";
@@ -188,9 +206,12 @@ int CUTS_TestLogger_i::handle_exception (ACE_HANDLE fd)
     ACE_Date_Time date_time;
     ODBC_Date_Time timestamp;
 
+    // Get the global/persitent information from the parent.
+    long test_number = this->parent_.test_number ();
+
     // Initialize the persistant parameters of the statement.
-    query->parameter (0)->bind (&this->test_number_);
-    query->parameter (1)->bind (const_cast <char *> (this->hostname_), 0);
+    query->parameter (0)->bind (&test_number);
+    query->parameter (1)->bind (this->hostname_, 0);
     query->parameter (2)->bind (&timestamp);
 
     // Determine how many messages we are going to dump into the database. If
@@ -202,7 +223,7 @@ int CUTS_TestLogger_i::handle_exception (ACE_HANDLE fd)
     ACE_DEBUG ((LM_INFO,
                 "%T - %M - inserting %d message(s) into database for test %d\n",
                 msg_count,
-                this->test_number_));
+                this->parent_.test_number ()));
 
     int retval;
 
@@ -211,7 +232,12 @@ int CUTS_TestLogger_i::handle_exception (ACE_HANDLE fd)
       // Get the next message in the queue.
       retval = iter.next (msg);
 
-      if (retval == 1)
+      if (msg == 0)
+        {
+          ACE_ERROR ((LM_ERROR,
+                      "%T (%t) - %M - invalid message pointer\n"));
+        }
+      else if (retval == 1)
       {
         // Initialize the timestamp parameter.
         tv.msec (msg->timestamp_);
@@ -232,7 +258,7 @@ int CUTS_TestLogger_i::handle_exception (ACE_HANDLE fd)
       {
         ACE_ERROR ((LM_ERROR,
                     "%T - %M - already seen message for test %d; ignoring...\n",
-                    this->test_number_));
+                    this->parent_.test_number ()));
       }
     }
 
@@ -291,7 +317,7 @@ int CUTS_TestLogger_i::start (const ACE_Time_Value & timeout)
       ACE_ERROR ((LM_ERROR,
                   "%T - %M - failed to start timer; test %d will not "
                   "periodically insert messages into the database\n",
-                  this->test_number_));
+                  this->parent_.test_number ()));
     }
   }
   else if (retval == -1)
@@ -309,28 +335,36 @@ int CUTS_TestLogger_i::stop (void)
 {
   if (this->is_active_)
   {
-    // Toggle the active state of the object.
-    this->is_active_ = false;
-
     // Deactivate the message queue. This will ensure that no more message
     // are placed on the queue.
     MESSAGE_QUEUE_EX * msg_queue = this->msg_queue ();
+
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - deactivating the message queue\n"));
 
     if (msg_queue->state () != ACE_Message_Queue_Base::DEACTIVATED)
       msg_queue->deactivate ();
 
     // Stop the timer for the reactor.
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - canceling the timer for the logger\n"));
+
     this->reactor ()->cancel_timer (this->timer_id_);
     this->timer_id_ = -1;
 
     // Signal the processing thread to stop and wait for the thread
     // to exit.
+
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - notifying the logger the shutdown\n"));
+
+    this->is_active_ = false;
     this->reactor ()->notify (this);
     this->wait ();
 
     ACE_DEBUG ((LM_DEBUG,
                 "%T - %M - test %d successfully released its resources\n",
-                this->test_number_));
+                this->parent_.test_number ()));
   }
 
   return 0;
@@ -347,10 +381,6 @@ int CUTS_TestLogger_i::insert_messages_into_database (void)
     CUTS_DB_Query * query = this->parent_.connection ().create_query ();
     CUTS_Auto_Functor_T <CUTS_DB_Query> auto_clean (query, &CUTS_DB_Query::destroy);
 
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - preparing insert statement for test %d\n",
-                this->test_number_));
-
     // Prepare the query for execution.
     const char * stmt = "CALL cuts.insert_log_message (?,?,?,?,?)";
     query->prepare (stmt);
@@ -359,9 +389,12 @@ int CUTS_TestLogger_i::insert_messages_into_database (void)
     ACE_Date_Time date_time;
     ODBC_Date_Time timestamp;
 
+    // Get global information from the parent.
+    long test_number = this->parent_.test_number ();
+
     // Initialize the persistant parameters of the statement.
-    query->parameter (0)->bind (&this->test_number_);
-    query->parameter (1)->bind (const_cast <char *> (this->hostname_), 0);
+    query->parameter (0)->bind (&test_number);
+    query->parameter (1)->bind (this->hostname_, 0);
     query->parameter (2)->bind (&timestamp);
 
     // Determine how many messages we are going to dump into the database. If
@@ -371,9 +404,9 @@ int CUTS_TestLogger_i::insert_messages_into_database (void)
     CUTS_Log_Message * msg = 0;
 
     ACE_DEBUG ((LM_INFO,
-                "%T - %M - inserting %d message(s) into database for test %d\n",
+                "%T (%t) - %M - inserting %d message(s) into database for test %d\n",
                 msg_count,
-                this->test_number_));
+                test_number));
 
     int retval;
 
@@ -382,7 +415,12 @@ int CUTS_TestLogger_i::insert_messages_into_database (void)
       // Get the next message at the head of the queue.
       retval = this->msg_queue ()->dequeue_head (msg);
 
-      if (retval != -1)
+      if (msg == 0)
+        {
+          ACE_ERROR ((LM_ERROR,
+                      "%T - %M - invalid message pointer\n"));
+        }
+      else if (retval != -1)
       {
         // Initialize the timestamp parameter.
         tv.msec (msg->timestamp_);
@@ -403,8 +441,14 @@ int CUTS_TestLogger_i::insert_messages_into_database (void)
       {
         ACE_ERROR ((LM_ERROR,
                     "%T - %M - failed to dequeue message for test %d\n",
-                    this->test_number_));
+                    test_number));
       }
+
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T (%t) - %M - successfully inserted %d message(s) for"
+                  "test %d\n",
+                  msg_count,
+                  test_number));
     }
 
     return 0;
@@ -432,7 +476,7 @@ int CUTS_TestLogger_i::handle_message (CUTS_Log_Message * msg)
   // Place the message on the queue.
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - placing new message on queue for test %d\n",
-              this->test_number_));
+              this->parent_.test_number ()));
 
   int retval = this->msg_queue ()->enqueue_tail (msg);
 
@@ -443,7 +487,7 @@ int CUTS_TestLogger_i::handle_message (CUTS_Log_Message * msg)
     // prevent us from allocating any more memory.
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - message queue for test %d reached its limit\n",
-                this->test_number_));
+                this->parent_.test_number ()));
 
     this->reactor ()->notify (this, ACE_Event_Handler::READ_MASK);
   }
@@ -452,7 +496,7 @@ int CUTS_TestLogger_i::handle_message (CUTS_Log_Message * msg)
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - failed to place message on the queue; dropping "
                 "log message for test %d\n",
-                this->test_number_));
+                this->parent_.test_number ()));
 
     // Place the message back on the free list.
     this->msg_free_list_.add (msg);
@@ -460,7 +504,7 @@ int CUTS_TestLogger_i::handle_message (CUTS_Log_Message * msg)
 
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - test %d has %d log message(s) on its queue\n",
-              this->test_number_,
+              this->parent_.test_number (),
               retval));
 
   return retval;

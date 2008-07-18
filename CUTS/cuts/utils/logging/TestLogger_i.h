@@ -113,12 +113,6 @@ private:
    */
   int insert_messages_into_database (void);
 
-  /// Test number assigned to the message handler.
-  long test_number_;
-
-  /// The name of the host running this handler.
-  const char * hostname_;
-
   /// Active state of the task.
   bool is_active_;
 
@@ -130,6 +124,9 @@ private:
 
   /// High water mark for the message queue.
   size_t hwm_msg_queue_;
+
+  /// Hostname associated with the logger.
+  char hostname_[MAXHOSTNAMELEN + 1];
 
   /// Free list of log messages owned by handler.
   ACE_Locked_Free_List <CUTS_Log_Message, ACE_RW_Thread_Mutex> msg_free_list_;

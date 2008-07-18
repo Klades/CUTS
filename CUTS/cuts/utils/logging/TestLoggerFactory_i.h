@@ -20,6 +20,9 @@
 // Forward decl.
 class CUTS_TestLogger_i;
 
+// Forward decl.
+class CUTS_TestLoggerClient_i;
+
 /**
  * @class CUTS_TestLoggerFactory_i
  *
@@ -35,7 +38,9 @@ public:
    * @param[in]       root            Child POA for the test.
    * @param[in]       test_number     Test number for the factory.
    */
-  CUTS_TestLoggerFactory_i (long test_number, PortableServer::POA_ptr poa);
+  CUTS_TestLoggerFactory_i (CUTS_TestLoggerClient_i & parent,
+                            long test_number, 
+                            PortableServer::POA_ptr poa);
 
   /// Destructor.
   virtual ~CUTS_TestLoggerFactory_i (void);
@@ -79,10 +84,22 @@ public:
    *
    * @return          The assigned POA.
    */
-  PortableServer::POA_ptr poa (void);
+  virtual PortableServer::POA_ptr _default_POA (void);
+
+  /**
+   * Get the test number assigned to the factory. All loggers that
+   * were created by this factory are logging messages for the 
+   * test number returned by this test.
+   *
+   * @return      The test number for the factory.
+   */
+  long test_number (void) const;
 
 private:
   void unregister_test_i (long test);
+
+  /// Parent of the factory.
+  CUTS_TestLoggerClient_i & parent_;
 
   /// Test number for the factory.
   long test_number_;
@@ -95,9 +112,6 @@ private:
 
   /// The database connection for the client.
   ODBC_Connection conn_;
-
-  /// The hostname of the logging client.
-  ACE_Auto_String_Free hostname_;
 
   ACE_Thread_Mutex lock_;
 };
