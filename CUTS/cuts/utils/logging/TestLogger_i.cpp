@@ -20,8 +20,7 @@
 // CUTS_TestLogger_i
 //
 CUTS_TestLogger_i::CUTS_TestLogger_i (CUTS_TestLoggerFactory_i & parent)
-: ACE_Refcountable_T <ACE_Null_Mutex> (0),
-  parent_ (parent)
+: parent_ (parent)
 {
   ACE_Reactor * reactor = 0;
   ACE_NEW_THROW_EX (reactor, ACE_Reactor (), ACE_bad_alloc ());

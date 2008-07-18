@@ -15,6 +15,7 @@
 
 #include "loggingS.h"
 #include "cuts/utils/ODBC/ODBC_Connection.h"
+#include "ace/Unbounded_Set.h"
 
 // Forward decl.
 class CUTS_TestLogger_i;
@@ -73,6 +74,11 @@ public:
    */
   CUTS_DB_Connection & connection (void);
 
+  /**
+   * Get the POA assigned to the test logger factory.
+   *
+   * @return          The assigned POA.
+   */
   PortableServer::POA_ptr poa (void);
 
 private:
@@ -84,11 +90,8 @@ private:
   /// POA assigned to this test.
   PortableServer::POA_var test_poa_;
 
-  /// The logger created by this factory.
-  CUTS_TestLogger_i * logger_;
-
   /// The servant for the logger.
-  PortableServer::ServantBase_var servant_;
+  ACE_Unbounded_Set <CUTS_TestLogger_i *> servants_;
 
   /// The database connection for the client.
   ODBC_Connection conn_;

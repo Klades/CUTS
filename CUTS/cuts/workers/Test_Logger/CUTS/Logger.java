@@ -18,9 +18,9 @@ import java.util.Properties;
 import java.io.*;
 
 /**
- * @class TestLogger
+ * @class Logger
  */
-public class TestLogger
+public class Logger
 {
   /// Shutdown the logger (decimal 1).
   public static final int LM_SHUTDOWN  = 0x00000001;
@@ -72,6 +72,10 @@ public class TestLogger
 
   private CUTS.TestLoggerClient loggerClient_ = null;
 
+  private CUTS.TestLoggerFactory loggerFactory_ = null;
+
+  private CUTS.TestLogger testLogger_ = null;
+
   private NamingContextExt naming_ = null;
 
   /// The default logging client port number.
@@ -80,7 +84,7 @@ public class TestLogger
   /**
    * Default constructor.
    */
-  public TestLogger ()
+  public Logger ()
   {
     final String CUTS_ROOT = System.getenv ("CUTS_ROOT");
     final String pathSeparator = System.getProperty ("file.seperator");
@@ -236,8 +240,14 @@ public class TestLogger
       int oldTestNumber = this.testNumber_;
       this.testNumber_ = tm.test_number ();
 
-      // Register the test with the client.
-      this.loggerClient_.register_test (this.testNumber_, oldTestNumber);
+      if (oldTestNumber != this.testNumber_)
+      {
+        // Instruct the logger client to create a new factory.
+        this.loggerFactory_ = this.loggerClient_.create (this.testNumber_);
+
+        // Create a new thread local test logger.
+        this.testLogger_ = this.loggerFactory_.create ();
+      }
     }
     catch (Exception ex)
     {
@@ -250,14 +260,14 @@ public class TestLogger
    */
   public void disconnect ()
   {
-    if (this.testNumber_ == -1)
-      return;
-
     try
     {
-      // Unregister the test with the logging client.
-      this.loggerClient_.unregister_test (this.testNumber_);
-      this.testNumber_ = -1;
+      if (this.testLogger_ != null)
+        this.testLogger_.destroy ();
+
+      //if (this.loggerFactory_ != null)
+      //  this.loggerFactory_.destroy ();
+      //  this.loggerClient_.destory (this.loggerFactory_);
     }
     catch (Exception ex)
     {
@@ -275,11 +285,10 @@ public class TestLogger
   {
     try
     {
-      // Send the message to the logger client.
-      this.loggerClient_.log (this.testNumber_,
-                              System.currentTimeMillis (),
-                              priority,
-                              message.toCharArray ());
+      // Send the log message to the logger.
+      this.testLogger_.log (System.currentTimeMillis (),
+                            priority,
+                            message.toCharArray ());
     }
     catch (Exception ex)
     {

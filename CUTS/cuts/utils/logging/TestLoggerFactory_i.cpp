@@ -21,17 +21,6 @@ CUTS_TestLoggerFactory_i (long test_number, PortableServer::POA_ptr test_poa)
   ACE_INET_Addr inet ((u_short)0, hostname, AF_ANY);
 
   this->hostname_.reset (ACE_OS::strdup (inet.get_host_name ()));
-
-  // Create a new TestLogger object and instantiate it under the
-  // child POA provided in the constructor.
-  ACE_NEW_THROW_EX (this->logger_,
-                    CUTS_TestLogger_i (*this),
-                    CORBA::NO_MEMORY ());
-
-  PortableServer::ObjectId_var oid =
-    this->test_poa_->activate_object (this->logger_);
-
-  this->servant_ = this->logger_;
 }
 
 //
@@ -47,30 +36,45 @@ CUTS_TestLoggerFactory_i::~CUTS_TestLoggerFactory_i (void)
 //
 CUTS::TestLogger_ptr CUTS_TestLoggerFactory_i::create (void)
 {
+  CUTS_TestLogger_i * servant = 0;
+
+  // Create a new TestLogger object and instantiate it under the
+  // child POA provided in the constructor.
   ACE_DEBUG ((LM_DEBUG,
-              "%M (%t) - %T - create a new test logger for test %d\n",
+              "%M (%t) - %T - create new logger for test %d\n",
               this->test_number_));
 
-  CORBA::Object_var obj =
-    this->test_poa_->servant_to_reference (this->logger_);
+  ACE_NEW_THROW_EX (servant,
+                    CUTS_TestLogger_i (*this),
+                    CORBA::NO_MEMORY ());
 
-  {
-    ACE_GUARD_RETURN (ACE_Thread_Mutex,
-                      guard,
-                      this->lock_,
-                      CUTS::TestLogger::_nil ());
+  ACE_Auto_Ptr <CUTS_TestLogger_i> auto_clean (servant);
 
-    if (this->logger_->increment () == 1)
-    {
-      ACE_DEBUG ((LM_DEBUG,
-                  "%M (%t) - %T - starting the logger for test %d\n",
-                  this->test_number_));
+  ACE_DEBUG ((LM_DEBUG,
+              "%M (%t) - %T - activating newly created logger for test %d\n",
+              this->test_number_));
 
-      // Start the logger.
-      ACE_Time_Value timeout (CUTS_LOGGING_OPTIONS->timeout_);
-      this->logger_->start (timeout);
-    }
-  }
+  PortableServer::ObjectId_var oid =
+    this->test_poa_->activate_object (servant);
+
+  CORBA::Object_var obj = this->test_poa_->servant_to_reference (servant);
+
+  ACE_DEBUG ((LM_DEBUG,
+              "%M (%t) - %T - starting the logger for test %d\n",
+              this->test_number_));
+
+  // Start the logger.
+  ACE_Time_Value timeout (CUTS_LOGGING_OPTIONS->timeout_);
+  servant->start (timeout);
+
+  ACE_GUARD_RETURN (ACE_Thread_Mutex,
+                    guard,
+                    this->lock_,
+                    CUTS::TestLogger::_nil ());
+
+  // Save the logger to the list of servants.
+  if (this->servants_.insert (servant) == 0)
+    auto_clean.release ();
 
   ACE_DEBUG ((LM_DEBUG,
               "%M (%t) - %T - returning logger for test %d to client\n",
@@ -112,22 +116,28 @@ void CUTS_TestLoggerFactory_i::database (const ACE_CString & server)
 //
 void CUTS_TestLoggerFactory_i::destroy (CUTS_TestLogger_i * logger)
 {
-  ACE_GUARD (ACE_Thread_Mutex,
-             guard,
-             this->lock_);
-
+  // First, deactivate the object
   ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) -  %M - decrementing logger for test %d reference count\n",
+              "%T (%t) - %M - deactivating logger servant for test %d\n",
               this->test_number_));
 
-  if (this->logger_->decrement () == 0)
-  {
-    ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - stopping test %d logger event loop\n",
-                this->test_number_));
+  PortableServer::ObjectId_var oid = this->test_poa_->servant_to_id (logger);
+  this->test_poa_->deactivate_object (oid);
 
-    this->logger_->stop ();
-  }
+  // Then, stop the object from handling events. This will cause the
+  // logger to dump its queue to the database.
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - stopping logger for test %d\n",
+              this->test_number_));
+
+  logger->stop ();
+
+  // Remove the logger from our servant listing.
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - removing logger for test %d from memory\n",
+              this->test_number_));
+
+  this->servants_.remove (logger);
 }
 
 //

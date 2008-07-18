@@ -60,8 +60,7 @@ private:
  */
 class CUTS_TestLogger_i :
   public POA_CUTS::TestLogger,
-  public ACE_Task_Ex <ACE_MT_SYNCH, CUTS_Log_Message>,
-  public ACE_Refcountable_T <ACE_Null_Mutex>
+  public ACE_Task_Ex <ACE_MT_SYNCH, CUTS_Log_Message>
 {
 public:
   CUTS_TestLogger_i (CUTS_TestLoggerFactory_i & parent);
