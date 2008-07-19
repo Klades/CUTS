@@ -1,9 +1,15 @@
+Sun Jul 20 01:50:19 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/TestLogger_i.cpp:
+
+	  . Updated debug messages for the logger.
+
 Sat Jul 19 08:53:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/TestLoggerClient_i.cpp:
 
-	  . Bug fix where the TestLoggerFactory objects were not being 
-	    activated in the correct POA.
+          . Bug fix where the TestLoggerFactory objects were not being
+            activated in the correct POA.
 
 Sat Jul 19 01:24:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

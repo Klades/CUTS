@@ -181,22 +181,15 @@ int CUTS_TestLogger_i::handle_exception (ACE_HANDLE fd)
   // the message queue has already been deactivated. Therefore, we just
   // need to iterate over the message queue and let the free list handle
   // deleting the actual message objects.
-  ACE_ERROR ((LM_ERROR,
-              "%T - %M - closing test %d; flushing message queue\n",
+  ACE_DEBUG ((LM_INFO,
+              "%T (%t) - %M - closing test %d; flushing message queue\n",
               this->parent_.test_number ()));
-
-  MESSAGE_QUEUE_EX * msg_queue = this->msg_queue ();
-  MESSAGE_QUEUE_EX::ITERATOR iter (*msg_queue);
 
   try
   {
     // Create a new database query.
     CUTS_DB_Query * query = this->parent_.connection ().create_query ();
     CUTS_Auto_Functor_T <CUTS_DB_Query> auto_clean (query, &CUTS_DB_Query::destroy);
-
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - preparing insert statement for test %d\n",
-                this->parent_.test_number ()));
 
     // Prepare the query for execution.
     const char * stmt = "CALL cuts.insert_log_message (?,?,?,?,?)";
@@ -216,16 +209,19 @@ int CUTS_TestLogger_i::handle_exception (ACE_HANDLE fd)
 
     // Determine how many messages we are going to dump into the database. If
     // the max_count == 0, then we are going to dump all that we have
-    size_t msg_count = this->msg_queue ()->message_count ();
+    MESSAGE_QUEUE_EX * msg_queue = this->msg_queue ();
+    size_t msg_count = msg_queue->message_count ();
 
     CUTS_Log_Message * msg = 0;
 
     ACE_DEBUG ((LM_INFO,
-                "%T - %M - inserting %d message(s) into database for test %d\n",
+                "%T (%t) - %M - inserting %d message(s) into database for test %d\n",
                 msg_count,
-                this->parent_.test_number ()));
+                test_number));
 
     int retval;
+
+    MESSAGE_QUEUE_EX::ITERATOR iter (*msg_queue);
 
     for ( ; !iter.done (); iter.advance ())
     {
@@ -363,7 +359,7 @@ int CUTS_TestLogger_i::stop (void)
     this->wait ();
 
     ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - test %d successfully released its resources\n",
+                "%T (%t) - %M - test %d successfully released its resources\n",
                 this->parent_.test_number ()));
   }
 
@@ -495,17 +491,21 @@ int CUTS_TestLogger_i::handle_message (CUTS_Log_Message * msg)
   {
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - failed to place message on the queue; dropping "
-                "log message for test %d\n",
-                this->parent_.test_number ()));
+                "log message for test %d [%s]\n",
+                this->parent_.test_number (),
+                msg->text_.begin ()));
 
     // Place the message back on the free list.
     this->msg_free_list_.add (msg);
   }
 
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - test %d has %d log message(s) on its queue\n",
-              this->parent_.test_number (),
-              retval));
+  if (retval != -1)
+    {
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T (%t) - %M - test %d has %d log message(s) on its queue\n",
+                  this->parent_.test_number (),
+                  retval));
+    }
 
   return retval;
 }
