@@ -15,6 +15,8 @@
 
 module CUTS
 {
+  exception FactoryOperationFailed {};
+
   /// Type definition of the message's text. We use a sequence of char's
   /// instead of a string so we can amortize calculating the length of
   /// the data. Also, we want the data store to act like a buffer, as opposed
@@ -60,10 +62,6 @@ module CUTS
               in MessageText message);
 
     void batch_log (in LogMessages msgs);
-
-    /// Destroy the test logger. This must be called by the client
-    /// application so the factory can manage its reference count.
-    void destroy ();
   };
 
   /**
@@ -88,10 +86,11 @@ module CUTS
      *
      * @param[in]     test_number       Test number associated with logger.
      */
-    TestLogger create ();
+    TestLogger create ()
+      raises (FactoryOperationFailed);
 
     /// Destroy the logging factory.
-    void destroy ();
+    void destroy (in TestLogger logger);
   };
 
   /**
@@ -108,7 +107,10 @@ module CUTS
      *
      * @param[in]       test_number     The number for the factory.
      */
-    TestLoggerFactory create (in long test_number);
+    TestLoggerFactory create (in long test_number)
+      raises (FactoryOperationFailed);
+
+    void destroy (in TestLoggerFactory log_factory);
   };
 };
 

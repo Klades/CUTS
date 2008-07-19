@@ -50,14 +50,11 @@ public:
    * the logger factory as cleaned all its resources and is ready to
    * be removed from memory.
    */
-  virtual void destroy (CUTS_TestLoggerFactory_i * factory);
+  virtual void destroy (CUTS::TestLoggerFactory_ptr factory);
 
 private:
-  /// Implementation of the destroy () method.
-  void destroy_i (CUTS_TestLoggerFactory_i * factory);
-
-  /// Reference to the RootPOA.
-  PortableServer::POA_var root_poa_;
+  /// POA for activating test logger factories.
+  PortableServer::POA_var factory_poa_;
 
   /// Type definition of the factory mapping for tests.
   typedef

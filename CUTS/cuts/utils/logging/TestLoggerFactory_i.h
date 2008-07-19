@@ -15,13 +15,6 @@
 
 #include "loggingS.h"
 #include "cuts/utils/ODBC/ODBC_Connection.h"
-#include "ace/Unbounded_Set.h"
-
-// Forward decl.
-class CUTS_TestLogger_i;
-
-// Forward decl.
-class CUTS_TestLoggerClient_i;
 
 /**
  * @class CUTS_TestLoggerFactory_i
@@ -35,11 +28,10 @@ public:
   /**
    * Initializing constructor.
    *
-   * @param[in]       root            Child POA for the test.
-   * @param[in]       test_number     Test number for the factory.
+   * @param[in]       test_number     Test number for the factory
+   * @param[in]       poa             POA this object is activated in
    */
-  CUTS_TestLoggerFactory_i (CUTS_TestLoggerClient_i & parent,
-                            long test_number,
+  CUTS_TestLoggerFactory_i (long test_number,
                             PortableServer::POA_ptr poa);
 
   /// Destructor.
@@ -53,26 +45,18 @@ public:
    */
   virtual CUTS::TestLogger_ptr create (void);
 
-  /// Destroy the logger.
-  virtual void destroy (void);
-
   /**
    * Destory the specified logger. This will decrement is reference
    * count and remove it from the listing, if necessary.
    *
    * @param[in]       logger        Target logger to destroy.
    */
-  void destroy (CUTS_TestLogger_i * logger);
+  void destroy (CUTS::TestLogger_ptr logger);
 
   /**
    * Set the address of the database server.
    */
-  void database (const ACE_CString & addr);
-
-  /**
-   * Set the timeout interval for flushing the message queue.
-   */
-  void timeout_interval (const ACE_Time_Value & tv);
+  void connect (const ACE_CString & server_addr);
 
   /**
    * Get the database connection for the logger factory. This connection
@@ -83,13 +67,6 @@ public:
   CUTS_DB_Connection & connection (void);
 
   /**
-   * Get the POA assigned to the test logger factory.
-   *
-   * @return          The assigned POA.
-   */
-  virtual PortableServer::POA_ptr _default_POA (void);
-
-  /**
    * Get the test number assigned to the factory. All loggers that
    * were created by this factory are logging messages for the
    * test number returned by this test.
@@ -98,25 +75,22 @@ public:
    */
   long test_number (void) const;
 
+  /**
+   * Get the POA assigned to the test logger factory.
+   *
+   * @return          The assigned POA.
+   */
+  virtual PortableServer::POA_ptr _default_POA (void);
+
 private:
-  void destroy_i (CUTS_TestLogger_i * logger);
-
-  void unregister_test_i (long test);
-
-  /// Parent of the factory.
-  CUTS_TestLoggerClient_i & parent_;
-
   /// Test number for the factory.
   long test_number_;
 
-  /// POA assigned to this test.
-  PortableServer::POA_var test_poa_;
+  /// POA that the test logger factory activated in.
+  PortableServer::POA_var default_POA_;
 
-  /// The servant for the logger.
-  typedef ACE_Unbounded_Set <CUTS_TestLogger_i *> set_type;
-
-  /// Collection of the servants.
-  set_type servants_;
+  /// POA that the test logger factory activated in.
+  PortableServer::POA_var logger_POA_;
 
   /// The database connection for the client.
   ODBC_Connection conn_;
@@ -124,5 +98,9 @@ private:
   /// Lock for synchronizing assessing the servant collection.
   ACE_Thread_Mutex lock_;
 };
+
+#if defined (__CUTS_INLINE__)
+#include "TestLoggerFactory_i.inl"
+#endif
 
 #endif  // !defined _CUTS_TEST_LOGGER_FACTORY_I_H_

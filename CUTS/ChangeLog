@@ -1,8 +1,30 @@
+Sat Jul 19 01:24:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/TestLoggerClient_i.h:
+        * cuts/utils/logging/TestLoggerClient_i.cpp:
+        * cuts/utils/logging/TestLoggerFactory_i.h:
+        * cuts/utils/logging/TestLoggerFactory_i.inl:
+        * cuts/utils/logging/TestLoggerFactory_i.cpp:
+        * cuts/utils/logging/TestLogger_i.h:
+        * cuts/utils/logging/TestLogger_i.cpp:
+        * cuts/utils/logging/logging.idl:
+        * cuts/workers/Test_Logger/CUTS/Logger.java:
+
+          . Re-designed the logger client such (1) the TestLoggerClient is
+            activated under the RootPOA, (2) all TestLoggerFactory servants
+            are activated under the same POA and only one TestLoggerFactory
+            exist per test, and (3) each TestLoggerFactory servant has its
+            own POA for activating/managing TestLogger objects.
+
+          . Now, the factory objects are responsible for destorying the
+            objects they created since letting the objects destroy
+            themselves causes a OBJ_NOT_EXIST exception to occur.
+
 Fri Jul 18 23:28:52 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * etc/SQL/CUTS-create.sql:
 
-          . Fixed small bug where procedure name was stored incorrectly in a 
+          . Fixed small bug where procedure name was stored incorrectly in a
               drop
 
         * etc/SQL/CUTS-unittest.sql:
@@ -11,7 +33,7 @@ Fri Jul 18 23:28:52 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
 
         * etc/SQL/install-mysql.bat:
 
-          . Replaced the harder to use install-mysql.sql with this bat file, 
+          . Replaced the harder to use install-mysql.sql with this bat file,
               which is complete with feedback
 
         * etc/SQL/CUTS-install-mysql.sql:
@@ -22,8 +44,8 @@ Fri Jul 18 21:33:58 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/workers/Test_Logger/CUTS/Logger.java:
 
-          Updated the worker to destroy the factory when the
-          disconnect () method is invoked.
+          . Updated the worker to destroy the factory when the
+            disconnect () method is invoked.
 
 Fri Jul 18 21:25:21 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

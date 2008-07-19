@@ -509,11 +509,3 @@ int CUTS_TestLogger_i::handle_message (CUTS_Log_Message * msg)
 
   return retval;
 }
-
-//
-// destroy
-//
-void CUTS_TestLogger_i::destroy (void)
-{
-  this->parent_.destroy (this);
-}

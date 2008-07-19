@@ -262,11 +262,11 @@ public class Logger
   {
     try
     {
-      if (this.testLogger_ != null)
-        this.testLogger_.destroy ();
-
       if (this.loggerFactory_ != null)
-        this.loggerFactory_.destroy ();
+        this.loggerFactory_.destroy (this.testLogger_);
+
+      if (this.loggerClient_ != null)
+        this.loggerClient_.destroy (this.loggerFactory_);
     }
     catch (Exception ex)
     {

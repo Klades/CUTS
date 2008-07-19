@@ -1,36 +1,61 @@
 // $Id$
 
 #include "TestLoggerFactory_i.h"
-#include "TestLoggerClient_i.h"
 #include "TestLogger_i.h"
 #include "Logging_Client_Options.h"
 #include "ace/INET_Addr.h"
 #include "ace/OS_NS_unistd.h"
 #include "ace/Guard_T.h"
+#include <sstream>
+
+#if !defined (__CUTS_INLINE__)
+#include "TestLoggerFactory_i.inl"
+#endif
 
 //
 // CUTS_TestLoggerFactory_i
 //
 CUTS_TestLoggerFactory_i::
-CUTS_TestLoggerFactory_i (CUTS_TestLoggerClient_i & parent,
-                          long test_number,
-                          PortableServer::POA_ptr test_poa)
-: parent_ (parent),
-  test_number_ (test_number),
-  test_poa_ (PortableServer::POA::_duplicate (test_poa))
+CUTS_TestLoggerFactory_i (long test_number, PortableServer::POA_ptr poa)
+: test_number_ (test_number),
+  default_POA_ (PortableServer::POA::_duplicate (poa))
 {
+  // Construct the policy list for the TestLoggerFactory POA.
+  CORBA::PolicyList policies (3);
+  policies.length (3);
 
-}
+  policies[0] =
+    poa->create_thread_policy (PortableServer::ORB_CTRL_MODEL);
 
-//
-// ~CUTS_TestLoggerFactory_i
-//
-CUTS_TestLoggerFactory_i::~CUTS_TestLoggerFactory_i (void)
-{
-  ACE_Unbounded_Set_Iterator <CUTS_TestLogger_i *> iter (this->servants_);
+  policies[1] =
+    poa->create_id_assignment_policy (PortableServer::SYSTEM_ID);
 
-  for (; !iter.done (); iter.advance ())
-    this->destroy_i (*iter);
+  policies[2] =
+    poa->create_servant_retention_policy (PortableServer::RETAIN);
+
+  // Create the child POA for the test.
+  std::ostringstream ostr;
+  ostr << "TestLogger-" << this->test_number_;
+
+  this->logger_POA_ =
+    poa->create_POA (ostr.str ().c_str (),
+                     PortableServer::POAManager::_nil (),
+                     policies);
+
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - destroying POA policies\n"));
+
+  for (CORBA::ULong i = 0; i < policies.length (); ++ i)
+    policies[i]->destroy ();
+
+  // Get the POAManager for the newly created POA and activate it. Otherwise,
+  // the factory will not be able to receive any calls.
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - activating POAManager for %s\n",
+              ostr.str ().c_str ()));
+
+  PortableServer::POAManager_var mgr = this->logger_POA_->the_POAManager ();
+  mgr->activate ();
 }
 
 //
@@ -38,164 +63,102 @@ CUTS_TestLoggerFactory_i::~CUTS_TestLoggerFactory_i (void)
 //
 CUTS::TestLogger_ptr CUTS_TestLoggerFactory_i::create (void)
 {
-  CUTS_TestLogger_i * servant = 0;
-
   // Create a new TestLogger object and instantiate it under the
   // child POA provided in the constructor.
   ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - create new logger for test %d\n",
+              "%T (%t) - %M - creating a new logger for test %d\n",
               this->test_number_));
+
+  CUTS_TestLogger_i * servant = 0;
 
   ACE_NEW_THROW_EX (servant,
                     CUTS_TestLogger_i (*this),
                     CORBA::NO_MEMORY ());
 
-  ACE_Auto_Ptr <CUTS_TestLogger_i> auto_clean (servant);
+  PortableServer::ServantBase_var servant_base = servant;
 
+  // Initialize the logger. This means, start its event loop so that
+  // it can flush log messages.
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - initializing new logger for test %d\n",
+              this->test_number_));
+
+  ACE_Time_Value timeout (CUTS_LOGGING_OPTIONS->timeout_);
+  servant->start (timeout);
+
+  // Activate the newly created logger servant.
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - activating newly created logger for test %d\n",
               this->test_number_));
 
   PortableServer::ObjectId_var oid =
-    this->test_poa_->activate_object (servant);
+    this->logger_POA_->activate_object (servant);
 
-  CORBA::Object_var obj = this->test_poa_->servant_to_reference (servant);
-
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - starting the logger for test %d\n",
-              this->test_number_));
-
-  // Start the logger.
-  ACE_Time_Value timeout (CUTS_LOGGING_OPTIONS->timeout_);
-  servant->start (timeout);
-
-  ACE_GUARD_RETURN (ACE_Thread_Mutex,
-                    guard,
-                    this->lock_,
-                    CUTS::TestLogger::_nil ());
-
-  // Save the logger to the list of servants.
-  if (this->servants_.insert (servant) == 0)
-    auto_clean.release ();
-
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - returning logger for test %d to client\n",
-              this->test_number_));
-
+  // Return ownership of the object to the client.
+  CORBA::Object_var obj = this->logger_POA_->id_to_reference (oid);
   CUTS::TestLogger_var logger = CUTS::TestLogger::_narrow (obj.in ());
   return logger._retn ();
 }
 
 //
-// destroy
-//
-void CUTS_TestLoggerFactory_i::destroy (void)
-{
-  // First, we need to remove all the logger objects.
-  ACE_Unbounded_Set_Iterator <CUTS_TestLogger_i *> iter (this->servants_);
-
-  for (; !iter.done (); iter.advance ())
-    this->destroy_i (*iter);
-
-  this->servants_.reset ();
-
-  // Tell the parent to remove this factory.
-  this->parent_.destroy (this);
-}
-
-//
-// test_number
-//
-long CUTS_TestLoggerFactory_i::test_number (void) const
-{
-  return this->test_number_;
-}
-
-//
 // database
 //
-void CUTS_TestLoggerFactory_i::database (const ACE_CString & server)
+void CUTS_TestLoggerFactory_i::connect (const ACE_CString & server_addr)
 {
   try
   {
     // Establish a connection with the database.
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - connecting to database on '%s'\n",
-                server.c_str ()));
+                server_addr.c_str ()));
 
     this->conn_.connect (CUTS_USERNAME,
                          CUTS_PASSWORD,
-                         server.c_str ());
+                         server_addr.c_str ());
   }
   catch (const CUTS_DB_Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - %s\n",
-                ex.message ().c_str ()));
+                "%T (%t) - %M - %s; failed to connect to '%s'\n",
+                ex.message ().c_str (),
+                server_addr.c_str ()));
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - caught unknown exception; failed to connect to "
                 "database on %s\n",
-                server.c_str ()));
+                server_addr.c_str ()));
   }
 }
 
 //
 // destroy
 //
-void CUTS_TestLoggerFactory_i::destroy (CUTS_TestLogger_i * logger)
+void CUTS_TestLoggerFactory_i::destroy (CUTS::TestLogger_ptr ref)
 {
-  this->destroy_i (logger);
-  this->servants_.remove (logger);
-}
+  PortableServer::ServantBase_var servant =
+    this->logger_POA_->reference_to_servant (ref);
 
-//
-// destroy_i
-//
-void CUTS_TestLoggerFactory_i::destroy_i (CUTS_TestLogger_i * logger)
-{
-  // First, deactivate the object.
+  CUTS_TestLogger_i * logger =
+    dynamic_cast <CUTS_TestLogger_i *> (servant.in ());
+
+  // Stop the logger. This will force it to release its resource and
+  // flush its message queue.
   ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - deactivating logger servant for test %d\n",
-              this->test_number_));
-
-  PortableServer::ObjectId_var oid = this->test_poa_->servant_to_id (logger);
-  this->test_poa_->deactivate_object (oid);
-
-  // Then, stop the object from handling events. This will cause the
-  // logger to dump its queue to the database.
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - stopping logger for test %d\n",
+              "%T (%t) - %M - stopping a logger for test %d\n",
               this->test_number_));
 
   logger->stop ();
-
-  // Remove the logger from our servant listing.
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - removing logger for test %d from memory\n",
-              this->test_number_));
-
-  // Delete the logger.
-  delete logger;
 }
 
 //
-// poa
+// _default_POA
 //
 PortableServer::POA_ptr CUTS_TestLoggerFactory_i::_default_POA (void)
 {
   PortableServer::POA_var poa =
-    PortableServer::POA::_duplicate (this->test_poa_.in ());
+    PortableServer::POA::_duplicate (this->default_POA_.in ());
 
   return poa._retn ();
-}
-
-//
-// connection
-//
-CUTS_DB_Connection & CUTS_TestLoggerFactory_i::connection (void)
-{
-  return this->conn_;
 }

@@ -67,7 +67,7 @@ private:
 /**
  * @class CUTS_TestLogger_i
  *
- * Default implemenation of the CUTS::TestLogger interace.
+ * Default implemenation of the CUTS::TestLogger interface.
  */
 class CUTS_TestLogger_i :
   public POA_CUTS::TestLogger,
@@ -76,6 +76,7 @@ class CUTS_TestLogger_i :
 public:
   CUTS_TestLogger_i (CUTS_TestLoggerFactory_i & parent);
 
+  /// Destructor.
   virtual ~CUTS_TestLogger_i (void);
 
   virtual void log (CORBA::LongLong timestamp,
@@ -84,8 +85,6 @@ public:
 
   virtual void batch_log (const CUTS::LogMessages & msgs);
 
-  /// Destroy the logger.
-  virtual void destroy (void);
 
   /**
    * Start the logger. It will flush the message queue at the defined
