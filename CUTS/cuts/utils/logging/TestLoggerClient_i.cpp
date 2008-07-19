@@ -93,7 +93,13 @@ CUTS_TestLoggerClient_i::create (CORBA::Long test_number)
               test_number));
 
   // Activate the newly created object and return it to the caller.
-  CUTS::TestLoggerFactory_var factory = servant->_this ();
+  PortableServer::ObjectId_var oid = 
+    this->factory_poa_->activate_object (servant);
+
+  CORBA::Object_var obj = this->factory_poa_->id_to_reference (oid);
+  CUTS::TestLoggerFactory_var factory = 
+    CUTS::TestLoggerFactory::_narrow (obj.in ());
+
   return factory._retn ();
 }
 
