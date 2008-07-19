@@ -70,7 +70,7 @@ private:
  * Default implemenation of the CUTS::TestLogger interface.
  */
 class CUTS_TestLogger_i :
-  public POA_CUTS::TestLogger,
+  public virtual POA_CUTS::TestLogger,
   public ACE_Task_Ex <ACE_MT_SYNCH, CUTS_Log_Message>
 {
 public:
@@ -108,13 +108,7 @@ protected:
   /// Handle the input event.
   virtual int handle_input (ACE_HANDLE fd);
 
-  /// Handle the exception event.
-  virtual int handle_exception (ACE_HANDLE fd);
-
 private:
-  /// Parent of the test logger.
-  CUTS_TestLoggerFactory_i & parent_;
-
   /**
    * Helper method to handle a new log message.
    *
@@ -129,6 +123,11 @@ private:
    * into the database will be processed next time.
    */
   int insert_messages_into_database (void);
+
+  void flush_messages_into_database (void);
+
+  /// Parent of the test logger.
+  CUTS_TestLoggerFactory_i & parent_;
 
   /// Active state of the task.
   bool is_active_;

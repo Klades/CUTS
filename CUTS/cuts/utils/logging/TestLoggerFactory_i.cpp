@@ -59,6 +59,18 @@ CUTS_TestLoggerFactory_i (long test_number, PortableServer::POA_ptr poa)
 }
 
 //
+// ~CUTS_TestLoggerFactory_i
+//
+CUTS_TestLoggerFactory_i::~CUTS_TestLoggerFactory_i (void)
+{
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - destroying logger POA for test %d\n",
+              this->test_number_));
+
+  this->logger_POA_->destroy (true, true);
+}
+
+//
 // create
 //
 CUTS::TestLogger_ptr CUTS_TestLoggerFactory_i::create (void)

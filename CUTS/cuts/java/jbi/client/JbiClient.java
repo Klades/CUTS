@@ -205,9 +205,6 @@ public abstract class JbiClient
 
     try
     {
-      // Cancel all the periodic tasks.
-      this.timer_.cancel ();
-
       // Signal the client to deactivate itself.
       this.jbi_deactivate ();
 

@@ -1,15 +1,6 @@
 // $Id$
 
 //
-// ~CUTS_TestLoggerFactory_i
-//
-CUTS_INLINE
-CUTS_TestLoggerFactory_i::~CUTS_TestLoggerFactory_i (void)
-{
-
-}
-
-//
 // test_number
 //
 CUTS_INLINE

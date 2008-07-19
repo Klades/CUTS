@@ -46,6 +46,11 @@ CUTS_TestLogger_i::CUTS_TestLogger_i (CUTS_TestLoggerFactory_i & parent)
 //
 CUTS_TestLogger_i::~CUTS_TestLogger_i (void)
 {
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - deallocating a logger for test %d (refcount: %d)\n",
+              this->parent_.test_number (),
+              this->_refcount_value ()));
+
   ACE_Reactor * reactor = this->reactor ();
   this->reactor (0);
 
@@ -64,7 +69,7 @@ void CUTS_TestLogger_i::log (CORBA::LongLong timestamp,
   {
     // Create a new log message for the message.
     CUTS_Log_Message * message = this->msg_free_list_.remove ();
-
+                
     if (message != 0)
     {
       // First, get the length of the string. This is necessary so we can
@@ -76,6 +81,10 @@ void CUTS_TestLogger_i::log (CORBA::LongLong timestamp,
       // Copy the source text into the message's buffer.
       ACE_OS::memcpy (message->text_.begin (), msg.get_buffer (), length);
       message->text_[length] = '\0';
+
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T (%t) - %M - message : %s\n",
+                  message->text_.begin ()));
 
       // Initialize the remainder of the message.
       message->severity_ = severity;
@@ -172,9 +181,9 @@ int CUTS_TestLogger_i::handle_input (ACE_HANDLE fd)
 }
 
 //
-// handle_exception
+// flush_messages_into_database
 //
-int CUTS_TestLogger_i::handle_exception (ACE_HANDLE fd)
+void CUTS_TestLogger_i::flush_messages_into_database (void)
 {
   // At this point, we are actually stoping the task. So, we need to
   // empty the contents of the message queue. We can make the assumption
@@ -260,7 +269,6 @@ int CUTS_TestLogger_i::handle_exception (ACE_HANDLE fd)
 
     // Flush the contents of the message queue.
     msg_queue->flush ();
-    return 0;
   }
   catch (const CUTS_DB_Exception & ex)
   {
@@ -273,9 +281,6 @@ int CUTS_TestLogger_i::handle_exception (ACE_HANDLE fd)
     ACE_ERROR ((LM_ERROR,
                 "%T - %M - caught unknown exception\n"));
   }
-
-  return 0;
-  ACE_UNUSED_ARG (fd);
 }
 
 //
@@ -318,6 +323,8 @@ int CUTS_TestLogger_i::start (const ACE_Time_Value & timeout)
   }
   else if (retval == -1)
   {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - failed to activate test logger\n"));
     this->is_active_ = false;
   }
 
@@ -355,8 +362,11 @@ int CUTS_TestLogger_i::stop (void)
                 "%T (%t) - %M - notifying the logger the shutdown\n"));
 
     this->is_active_ = false;
-    this->reactor ()->notify (this);
+    this->reactor ()->notify (this, ACE_Event_Handler::EXCEPT_MASK);
     this->wait ();
+
+    // Finally, flush the message queues to the database.
+    this->flush_messages_into_database ();
 
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - test %d successfully released its resources\n",
@@ -436,16 +446,19 @@ int CUTS_TestLogger_i::insert_messages_into_database (void)
       else
       {
         ACE_ERROR ((LM_ERROR,
-                    "%T - %M - failed to dequeue message for test %d\n",
-                    test_number));
+                    "%T (%t) - %M - failed to dequeue message for test %d "
+                    "[state: %d]\n",
+                    test_number,
+                    this->msg_queue ()->state ()));
       }
-
-      ACE_DEBUG ((LM_DEBUG,
-                  "%T (%t) - %M - successfully inserted %d message(s) for"
-                  "test %d\n",
-                  msg_count,
-                  test_number));
     }
+
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - successfully inserted %d message(s) for "
+                "test %d\n",
+                msg_count,
+                test_number));
+
 
     return 0;
   }
