@@ -24,10 +24,10 @@ CUTS_TestLoggerClient_i (PortableServer::POA_ptr poa)
     poa->create_servant_retention_policy (PortableServer::RETAIN);
 
   // Create the child POA for the test.
+  PortableServer::POAManager_var mgr = poa->the_POAManager ();
+
   this->factory_poa_ =
-    poa->create_POA ("TestLoggerFactory",
-                     PortableServer::POAManager::_nil (),
-                     policies);
+    poa->create_POA ("TestLoggerFactory", mgr.in (), policies);
 
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - destroying POA policies\n"));
@@ -39,9 +39,6 @@ CUTS_TestLoggerClient_i (PortableServer::POA_ptr poa)
   // the factory will not be able to receive any calls.
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - activating TestLoggerFactory POA\n"));
-
-  PortableServer::POAManager_var mgr = this->factory_poa_->the_POAManager ();
-  mgr->activate ();
 }
 
 //

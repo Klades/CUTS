@@ -86,6 +86,8 @@ private:
   /// Test number for the factory.
   long test_number_;
 
+  long log_count_;
+
   /// POA that the test logger factory activated in.
   PortableServer::POA_var default_POA_;
 

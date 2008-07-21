@@ -74,7 +74,7 @@ class CUTS_TestLogger_i :
   public ACE_Task_Ex <ACE_MT_SYNCH, CUTS_Log_Message>
 {
 public:
-  CUTS_TestLogger_i (CUTS_TestLoggerFactory_i & parent);
+  CUTS_TestLogger_i (long logid, CUTS_TestLoggerFactory_i & parent);
 
   /// Destructor.
   virtual ~CUTS_TestLogger_i (void);
@@ -125,6 +125,9 @@ private:
   int insert_messages_into_database (void);
 
   void flush_messages_into_database (void);
+
+  /// Id of the logger assigned by the parent.
+  long logid_;
 
   /// Parent of the test logger.
   CUTS_TestLoggerFactory_i & parent_;

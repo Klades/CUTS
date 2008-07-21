@@ -1,3 +1,14 @@
+Tue Jul 22 02:27:53 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/TestLoggerClient_i.cpp:
+        * cuts/utils/logging/TestLoggerFactory_i.h:
+        * cuts/utils/logging/TestLoggerFactory_i.cpp:
+        * cuts/utils/logging/TestLogger_i.h:
+        * cuts/utils/logging/TestLogger_i.cpp:
+
+	  . Each logger is now given a unique integer for identification
+	    purposes.
+
 Sun Jul 20 05:50:52 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/TestLoggerFactory_i.inl:
@@ -5,9 +16,9 @@ Sun Jul 20 05:50:52 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/utils/logging/TestLogger_i.h:
         * cuts/utils/logging/TestLogger_i.cpp:
 
-	  . Bug fix where the message queue was not being flushed when
-	    the logger was stopped. This resulted in final messages not 
-	    being placed in the database.
+          . Bug fix where the message queue was not being flushed when
+            the logger was stopped. This resulted in final messages not
+            being placed in the database.
 
 Sun Jul 20 01:50:19 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

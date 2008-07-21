@@ -18,6 +18,7 @@
 CUTS_TestLoggerFactory_i::
 CUTS_TestLoggerFactory_i (long test_number, PortableServer::POA_ptr poa)
 : test_number_ (test_number),
+  log_count_ (0),
   default_POA_ (PortableServer::POA::_duplicate (poa))
 {
   // Construct the policy list for the TestLoggerFactory POA.
@@ -37,10 +38,10 @@ CUTS_TestLoggerFactory_i (long test_number, PortableServer::POA_ptr poa)
   std::ostringstream ostr;
   ostr << "TestLogger-" << this->test_number_;
 
+  PortableServer::POAManager_var mgr = poa->the_POAManager ();
+
   this->logger_POA_ =
-    poa->create_POA (ostr.str ().c_str (),
-                     PortableServer::POAManager::_nil (),
-                     policies);
+    poa->create_POA (ostr.str ().c_str (), mgr.in (), policies);
 
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - destroying POA policies\n"));
@@ -53,9 +54,6 @@ CUTS_TestLoggerFactory_i (long test_number, PortableServer::POA_ptr poa)
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - activating POAManager for %s\n",
               ostr.str ().c_str ()));
-
-  PortableServer::POAManager_var mgr = this->logger_POA_->the_POAManager ();
-  mgr->activate ();
 }
 
 //
@@ -82,9 +80,10 @@ CUTS::TestLogger_ptr CUTS_TestLoggerFactory_i::create (void)
               this->test_number_));
 
   CUTS_TestLogger_i * servant = 0;
+  long logid = ++ this->log_count_;
 
   ACE_NEW_THROW_EX (servant,
-                    CUTS_TestLogger_i (*this),
+                    CUTS_TestLogger_i (logid, *this),
                     CORBA::NO_MEMORY ());
 
   PortableServer::ServantBase_var servant_base = servant;
