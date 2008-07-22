@@ -34,7 +34,8 @@ namespace Actions
             object obj = ExecuteMySqlScalar(sql);
             int utid = Int32.Parse(obj.ToString());
 
-            
+            if (Variables["relation1"].ToString() != "" && Variables["relation2"].ToString() != "")
+                Insert_UT_Relation(utid, Variables["relation1"].ToString(), Variables["relation2"].ToString());
             
             foreach (string lfid in (Array)Variables["LFIDs"])
                 Insert_UT_LogFormat(utid, lfid);
@@ -194,11 +195,25 @@ namespace Actions
         }
         private string CreateFunctionAggregration(string Function, string ExtendedVarName)
         {
-            if (Function == "SUM")
-                return "SUM(" + ExtendedVarName + ")";
-
-            // default to sum
-            return "SUM(" + ExtendedVarName + ")";
+            // These are mySQL Aggregrate Functions
+            // see http://dev.mysql.com/doc/refman/5.0/en/group-by-functions.html
+            switch (Function)
+            {
+                case "SUM":
+                    return "SUM(" + ExtendedVarName + ")";
+                case "AVG":
+                    return "AVG(" + ExtendedVarName + ")";
+                case "COUNT":
+                    return "COUNT(" + ExtendedVarName + ")";
+                case "COUNT DISTINCT":
+                    return "COUNT(DISTINCT " + ExtendedVarName + ")";
+                case "MAX":
+                    return "MAX(" + ExtendedVarName + ")";
+                case "MIN":
+                    return "MIN(" + ExtendedVarName + ")";
+                default:
+                    return "AVG(" + ExtendedVarName + ")";
+            }
         }
 
         private void Insert_UT_Aggregration(int utid, string VariableID, string AggregrationFunction)
@@ -221,6 +236,15 @@ namespace Actions
             string sql = @"CALL Insert_UT_LogFormat('" +
                     utid.ToString() + "','" +
                     lfid + "');";
+            ExecuteMySql(sql);
+        }
+
+        private void Insert_UT_Relation(int utid, string rel1, string rel2)
+        {
+            string sql = "CALL Insert_UT_Relation('" +
+                utid.ToString() + "','" +
+                rel1 + "','" +
+                rel2 + "');";
             ExecuteMySql(sql);
         }
 

@@ -67,7 +67,6 @@ public partial class AddLogFormat : System.Web.UI.UserControl
 
             Panel1.Controls.Add(new LiteralControl("<br>"));
         }
-
     }
     
     private void CreateAggregrations()
@@ -87,8 +86,13 @@ public partial class AddLogFormat : System.Web.UI.UserControl
                 ddl.ID = var_id;
                 ddl.AutoPostBack = false;
                 ddl.EnableViewState = true;
-                ddl.Items.Add(new ListItem("SUM", "SUM"));
-                //ddl.Items.Add(new ListItem("AVG", "AVG"));
+                ddl.Items.Add(new ListItem("Sum", "SUM"));
+                ddl.Items.Add(new ListItem("Average", "AVG"));
+                ddl.Items.Add(new ListItem("Max", "MAX"));
+                ddl.Items.Add(new ListItem("Min", "MIN"));
+                ddl.Items.Add(new ListItem("Count", "COUNT"));
+                ddl.Items.Add(new ListItem("Count Distinct", "COUNT DISTINCT"));
+                                
                 Panel1.Controls.Add(new LiteralControl("<br>"));
             }
         }

@@ -149,14 +149,13 @@ CREATE TABLE IF NOT EXISTS cuts.unittestgroups (
 -- sub table for unit tests
 -- will contain relation info
 
-CREATE TABLE IF NOT EXISTS cuts.unittestrelations (
-  utid         INT                NOT NULL,
-  variable_id  INT                NOT NULL,
-  function     VARCHAR(45)        NOT NULL,
-  variable2_id INT                NOT NULL,
+CREATE TABLE IF NOT EXISTS cuts.unit_test_relations (
+  utid          INT                NOT NULL,
+  variable_id   INT                NOT NULL,
+  variable_id_2 INT                NOT NULL,
   
   -- set the constraints for the table
-  UNIQUE (utid,variable_id,variable2_id),
+  PRIMARY KEY (utid),
   FOREIGN KEY (utid) REFERENCES cuts.unittestdesc (utid) 
     ON DELETE CASCADE 
     ON UPDATE CASCADE
@@ -258,6 +257,17 @@ BEGIN
     -- AS result FROM lf7
 END //
 
+
+-- Simply inserts a relation into a unit test
+
+DROP PROCEDURE IF EXISTS cuts.Insert_UT_Relation//
+CREATE PROCEDURE 
+  cuts.Insert_UT_Relation(IN utid_in  INT,
+                          IN vid_1_in INT,
+                          IN vid_2_in INT)
+BEGIN
+      INSERT INTO unit_test_relations (utid,variable_id,variable_id_2) VALUES (utid_in, vid_1_in, vid_2_in);
+END //
 
 
 DROP PROCEDURE IF EXISTS cuts.get_pass_warn_fail_with_utid//

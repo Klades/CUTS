@@ -1,3 +1,31 @@
+Tue Jul 22 21:22:45 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * etc/SQL/CUTS-unittest.sql:
+
+          . Added a procedure and updated a table to conform with the current
+               BMW conventions. Database structure will need to be re-imported 
+               if you would like to create Unit Tests
+
+        * utils/BMW/website/App_Code/UnitTestActions.cs:
+
+          . Minor changes
+
+        * utils/BMW/website/BMW.master:
+        * utils/BMW/website/BMW.master.cs:
+
+           . Working on updating the messaging system
+
+        * utils/BMW/website/UT_Create.aspx:
+        * utils/BMW/website/UT_Create.aspx.cs:
+
+        * utils/BMW/website/controls/AddLogFormat.ascx.cs:
+
+          . Should now have most of the capability needed to do relationships
+
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . Relationship basics added
+
 Tue Jul 22 02:27:53 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/TestLoggerClient_i.cpp:
@@ -6,8 +34,8 @@ Tue Jul 22 02:27:53 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/utils/logging/TestLogger_i.h:
         * cuts/utils/logging/TestLogger_i.cpp:
 
-	  . Each logger is now given a unique integer for identification
-	    purposes.
+          . Each logger is now given a unique integer for identification
+            purposes.
 
 Sun Jul 20 05:50:52 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

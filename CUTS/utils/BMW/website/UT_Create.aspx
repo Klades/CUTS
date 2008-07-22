@@ -11,25 +11,82 @@
     Control="~/controls/AddLogFormat.ascx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
-
-
-    <p>
-        Create New Unit Test</p>
+    <h2>
+        Create New Unit Test</h2>
     <p>
         Name
         <asp:TextBox ID="UT_name" runat="server" Width="284px"></asp:TextBox>
 &nbsp;&nbsp; Desc
         <asp:TextBox ID="UT_desc" runat="server" Height="44px" Width="261px" TextMode="MultiLine" Wrap="true"></asp:TextBox>
     </p>
-    <p>
-        Use these Log Formats</p>
-                            <p>
-                                <asp:PlaceHolder ID="PlaceHolder1" runat="server"></asp:PlaceHolder>
-                            </p>
-    <p style="color:Red; text-decoration:line-through">
-        [+] I need more Log Formats</p>
-    <p>
-        Perform this Evaluation</p>
+    <h3>
+        Use these Log Formats</h3>
+<p>        
+    <asp:DropDownList 
+        ID="ddl_Log_Formats_1"
+        DataTextField="lfmt"
+        DataValueField="lfid"
+        runat="server"
+        AutoPostBack="true"
+        OnSelectedIndexChanged="OnChange_ddl_Log_Formats_1"></asp:DropDownList>
+        
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <asp:Label 
+        ID="lbl_Log_Formats_1"
+        Text=""
+        runat="server"></asp:Label>
+    
+    
+    <asp:panel 
+        ID="panel_Log_Format_variables_1"
+        EnableViewState="true"
+        runat="server"></asp:panel>
+</p>
+    <asp:DropDownList 
+        ID="ddl_Log_Formats_2"
+        DataTextField="lfmt"
+        DataValueField="lfid"
+        OnSelectedIndexChanged="OnChange_ddl_Log_Formats_2"
+        AutoPostBack="true"
+        runat="server"></asp:DropDownList>
+        
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <asp:Label 
+        ID="lbl_Log_Formats_2"
+        Text=""
+        runat="server"></asp:Label>
+    <asp:Panel
+        ID="panel_Log_Format_variables_2"
+        runat="server"></asp:Panel>
+  
+    
+        <asp:Button ID="btn_more_lfs" BackColor="white" runat="server" OnClick="OnClick_more_log_formats" />
+    <br />
+    <asp:Literal
+        Text="<h3>Specify the relation</h3>"
+        runat="server"
+        id="relation_head"
+        ></asp:Literal>
+    <asp:DropDownList
+        ID="relation1"
+        DataTextField="extended_varname"
+        DataValueField="variable_id"
+        runat="server"
+        ></asp:DropDownList>
+    <asp:Literal
+        Text="&nbsp;&nbsp;==&nbsp;&nbsp;"
+        runat="server"
+        ID="relation_text"
+        ></asp:Literal>
+    <asp:DropDownList
+        ID="relation2"
+        DataTextField="extended_varname"
+        DataValueField="variable_id"
+        runat="server"
+        ></asp:DropDownList>
+   
+    <h3>
+        Perform this Evaluation</h3>
     <p>
         <asp:TextBox ID="UT_eval" runat="server" Width="381px" Height="24px"></asp:TextBox>
     </p>
@@ -68,7 +125,7 @@
         </asp:DropDownList>
     </p>
     <p>
-        <asp:Button ID="Button1" runat="server" Text="Submit" onclick="Button1_Click" />
+        <asp:Button ID="btn_Submit" runat="server" Text="Submit" onclick="OnClick_btn_Submit" />
     </p>
     <p>
         &nbsp;</p>

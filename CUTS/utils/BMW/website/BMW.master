@@ -79,6 +79,10 @@
     <td>
       <!-- status/error message label for the page. -->
       <asp:label id="message_" runat="server" />
+      
+      <asp:panel ID="new_message_" runat="server" >
+      </asp:panel>
+      
       <br />
       <asp:Panel ID="help_" runat="server" Visible="false"></asp:Panel>
       <asp:contentplaceholder runat="server" id="MainContent" />
