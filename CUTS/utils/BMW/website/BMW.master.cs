@@ -16,53 +16,31 @@ using System.Text.RegularExpressions;
 
 namespace CUTS
 {
+    public enum MessageSeverity
+    {
+        Error, Information, Success
+    }
+
     public partial class BMW_Master : System.Web.UI.MasterPage
     {
         private void Page_Load(object sender, System.EventArgs e)
         {
-            if (IsPostBack)
-            {
-                reCreateMessages();
-                return;
-            }
-
-            // If we are on a new page, clear any old
-            // messages
-            ClearAllMessages();
-        }
-        private void reCreateMessages()
-        {
-            if (ViewState["messages"] == null)
-                return;
-
-            // Create the regex
-            string messages = (string)ViewState["messages"];
-            Regex reg = new Regex(@"~(?<message>.+?)\*(?<severity>.+?);");
-            Match m = reg.Match(messages);
-
-            // extract the variables
-            while (m.Success)
-            {
-                string message = m.Groups["message"].ToString(),
-                      severity = m.Groups["severity"].ToString();
-
-
-                new_message_.Controls.Add(new BMW_Message(message, MessageSeverity.Information));
-
-                m = m.NextMatch();
-            }
- 
         }
 
-        public int Temp
+        protected override void OnPreRender(EventArgs e)
         {
-            get
-            { return 1; }
-        }
+            ClearBlankMessages();
+            base.OnPreRender(e);
+        }     
 
-        public void ClearAllMessages()
+        private void ClearBlankMessages()
         {
-            new_message_.Controls.Clear();
+            if (message_text_error.Text == String.Empty)
+                message_error.Visible = false;
+            if (message_text_info.Text == String.Empty)
+                message_info.Visible = false;
+            if (message_text_success.Text == String.Empty)
+                message_success.Visible = false;
         }
 
         public void AddNewMessage(string _message)
@@ -72,69 +50,52 @@ namespace CUTS
 
         public void AddNewMessage(string _message, MessageSeverity _severity)
         {
-            new_message_.Controls.Add(new BMW_Message(_message,_severity));
-            ViewState["messages"] += "~" + _message + "*" + _severity.ToString() + ";";
+            if (_severity == MessageSeverity.Information)
+            {
+                if (message_text_info.Text != String.Empty)
+                    message_text_info.Text += "<br />";
+                message_text_info.Text += _message;
+                message_info.Visible = true;
+            }
+            else if (_severity == MessageSeverity.Success)
+            {
+                if (message_text_success.Text != String.Empty)
+                    message_text_success.Text += "<br />";
+                message_text_success.Text += _message;
+                message_success.Visible = true;
+            }
+            else
+            {
+                if (message_text_error.Text != String.Empty)
+                    message_text_error.Text += "<br />";
+                message_text_error.Text += _message;
+                message_error.Visible = true;
+            }
         }
-    }
-}
-public enum MessageSeverity
-{
-    Error, Information, Success
-}
 
-public class BMW_Message : CompositeControl
-{
-    private string _message;
-    private MessageSeverity _severity;
-
-    public BMW_Message(string message, MessageSeverity severity)
-    {
-        this._message = message;
-        this._severity = severity;
-    }
-    
-    protected override void CreateChildControls()
-    {
-        Controls.Clear();
-        CreateControlHierarchy();
-        ClearChildViewState();
-    }
-    protected virtual void CreateControlHierarchy()
-    {
-        string div_style = String.Empty;
-        Color button_BackColors = Color.Transparent;
-        if (_severity == MessageSeverity.Information)
+        public void OnClick_Clear_Me(object sender, EventArgs e)
         {
-            div_style = "border: solid 3px gold; background-color: yellow; padding-left: 10px;";
-            button_BackColors = Color.Yellow;
+            Button btn = (Button)sender;
+            Panel p = (Panel)btn.Parent;
+
+            if (p == message_error)
+            {
+                message_error.Visible = false;
+                message_text_error.Text = String.Empty;
+            }
+            else if (p == message_info)
+            {
+                message_info.Visible = false;
+                message_text_info.Text = String.Empty;
+            }
+            else if (p == message_success)
+            {
+                message_success.Visible = false;
+                message_text_success.Text = String.Empty;
+            }
+            else
+                AddNewMessage("I could not figure out which messages you wanted to clear!" +
+                    "(Hint: Just switch pages to clear them all!)", MessageSeverity.Error);
         }
-
-        LiteralControl div_start = new LiteralControl("<div style='" + div_style + "'>");
-        
-        Button Clear_Me = new Button();
-        Clear_Me.Text = " X ";
-        Clear_Me.BackColor = button_BackColors;        
-        Clear_Me.Style.Add("float", "left");
-        Clear_Me.Style.Add("position", "relative");
-        Clear_Me.Style.Add("left", "-19px");
-        Clear_Me.Style.Add("top", "-10px");
-
-        Button Clear_All = new Button();
-        Clear_All.Text = "Clear All";
-        Clear_All.BackColor = button_BackColors;
-        Clear_All.Style.Add("position", "relative");
-        Clear_All.Style.Add("left", "-19px");
-        Clear_All.Style.Add("top", "-10px");
-
-        Label Message = new Label();
-        Message.Text = _message;
-
-        LiteralControl div_end = new LiteralControl("</div>");
-
-        this.Controls.Add(div_start);
-        this.Controls.Add(Clear_Me);
-        this.Controls.Add(Clear_All);
-        this.Controls.Add(Message);
-        this.Controls.Add(div_end);
     }
 }

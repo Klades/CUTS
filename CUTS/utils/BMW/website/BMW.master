@@ -80,8 +80,19 @@
       <!-- status/error message label for the page. -->
       <asp:label id="message_" runat="server" />
       
-      <asp:panel ID="new_message_" runat="server" >
-      </asp:panel>
+      <!-- Three different divs, just in case we would like to show more than one at once -->
+      <asp:Panel runat="server" id="message_info" CssClass="message-Info message">
+            <asp:Button ID="btn1" runat="server" CssClass="message-btn-ClearMe" Text=" X " OnClick="OnClick_Clear_Me" />
+            <asp:Label ID="message_text_info" runat="server"></asp:Label>
+      </asp:Panel>
+      <asp:Panel runat="server" id="message_error" CssClass="message-Error message">
+            <asp:Button ID="Button1" runat="server" CssClass="message-btn-ClearMe" Text=" X " OnClick="OnClick_Clear_Me" />
+            <asp:Label ID="message_text_error" runat="server"></asp:Label>
+      </asp:Panel>
+      <asp:Panel runat="server" id="message_success" CssClass="message-Success message">
+            <asp:Button ID="Button3" runat="server" CssClass="message-btn-ClearMe" Text=" X " OnClick="OnClick_Clear_Me" />
+            <asp:Label ID="message_text_success" runat="server"></asp:Label>
+      </asp:Panel>
       
       <br />
       <asp:Panel ID="help_" runat="server" Visible="false"></asp:Panel>

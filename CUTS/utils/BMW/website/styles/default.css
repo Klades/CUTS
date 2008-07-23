@@ -115,3 +115,33 @@ td.performance-data, th.performance-data
 {
 	margin-left:60px;	
 }
+
+.message-btn-ClearMe
+{
+	float: left;
+	position: relative;
+	left: -13px;
+	top: -13px;        	
+}
+
+.message
+{
+	padding: 10px;
+}
+.message-Error
+{
+	border: solid 3px black; 
+	background-color: red;
+}
+
+.message-Info
+{
+	border: solid 3px gold;
+	background-color: yellow;
+}
+
+.message-Success
+{
+	border: solid 3px black; 
+	background-color: green; 
+}

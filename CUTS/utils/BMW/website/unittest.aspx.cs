@@ -13,10 +13,13 @@ using MySql.Data.MySqlClient;
 public partial class Unit_Testing : System.Web.UI.Page
 {
     private double DEFAULT_WIDTH = 300;
+    private CUTS.BMW_Master m;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        
+        // used to ease creating messages
+        m = (CUTS.BMW_Master)Master;
+
         if (IsPostBack)
             return;
         
@@ -53,10 +56,15 @@ public partial class Unit_Testing : System.Web.UI.Page
             ensure_Test_Suite_Package_Width();
             ensure_Unit_Test_Width();
         }
+        catch (LoadTestSuiteException ex)
+        {
+            //m.AddNewMessage(ex.Message, MessageSeverity.Error);
+            return;
+        }
         catch
         {
-            this.txt_Create_Test_Suite_Error.Text = "Please Create at least one test suite to get started.";
-            this.txt_Create_Test_Suite_Package_Error.Text = "Please add at least one package to the unit test to get started.";
+            //this.txt_Create_Test_Suite_Error.Text = "Please Create at least one test suite to get started.";
+            //this.txt_Create_Test_Suite_Package_Error.Text = "Please add at least one package to the unit test to get started.";
         }
 
     }
@@ -65,7 +73,10 @@ public partial class Unit_Testing : System.Web.UI.Page
     {
         // Get all the test from the database.
         string sql = "SELECT * FROM test_suites;";
+        
         DataTable dt = ExecuteMySqlAdapter(sql);
+        if (dt.Rows.Count == 0)
+            throw new LoadTestSuiteException("You do not have a Test Suite Created! Please create one.");
 
         // Bind Data
         this.lb_Test_Suites.DataSource = dt;
@@ -427,7 +438,6 @@ public partial class Unit_Testing : System.Web.UI.Page
         DataSet ds = new DataSet();
         try
         {
-
             da.Fill(ds);
         }
         catch
@@ -476,4 +486,11 @@ public partial class Unit_Testing : System.Web.UI.Page
         return ds.Tables[0].Rows[0];
     }
 
+}
+
+public class LoadTestSuiteException : Exception
+{ // All we need is a default Exception constructor
+
+    public LoadTestSuiteException(string message)
+        :base(message) {}
 }
