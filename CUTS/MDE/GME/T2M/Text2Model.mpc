@@ -1,0 +1,20 @@
+// $Id$
+
+project (cutst2m) : cutsexe, boost_base {
+  exename = cutst2m
+
+  includes += $(CIAO_ROOT)/CCF \
+              $(ACE_ROOT)/contrib/utility
+
+  Header_Files {
+
+  }
+
+  Source_Files {
+    T2M.cpp
+    T2M_Parser_Generator.cpp
+  }
+
+  Inline_Files {
+  }
+}

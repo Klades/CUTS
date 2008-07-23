@@ -1,9 +1,22 @@
+Wed Jul 23 02:06:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/T2M:
+        * MDE/GME/T2M/T2M.cpp:
+        * MDE/GME/T2M/T2M_Actors_T.h:
+        * MDE/GME/T2M/T2M_Parser_Generator.h:
+        * MDE/GME/T2M/T2M_Parser_Generator.cpp:
+        * MDE/GME/T2M/Text2Model.mpc:
+
+          . Initial commit of the text-2-model transformation engine that
+            was initially started by Matt DeVries as a independent study
+            project.
+
 Tue Jul 22 21:22:45 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * etc/SQL/CUTS-unittest.sql:
 
           . Added a procedure and updated a table to conform with the current
-               BMW conventions. Database structure will need to be re-imported 
+               BMW conventions. Database structure will need to be re-imported
                if you would like to create Unit Tests
 
         * utils/BMW/website/App_Code/UnitTestActions.cs:
