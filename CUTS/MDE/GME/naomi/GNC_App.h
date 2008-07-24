@@ -40,8 +40,7 @@ struct CUTS_GNC_App_Options
 {
   CUTS_GNC_App_Options (void)
     : list_attributes_ (false),
-      update_attributes_ (false),
-      verbose_ (false)
+      update_attributes_ (false)
   {
 
   }
@@ -57,9 +56,6 @@ struct CUTS_GNC_App_Options
 
   /// Update all the attributes.
   bool update_attributes_;
-
-  /// The verbosity state of the application.
-  bool verbose_;
 
   /// Pathname of the interface file.
   std::string interface_file_pathname_;

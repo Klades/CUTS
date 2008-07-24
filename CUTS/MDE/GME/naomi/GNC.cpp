@@ -10,6 +10,11 @@ int main (int argc, char * argv [])
 {
   CUTS_GNC_App app;
 
+  u_long default_mask =
+    LM_EMERGENCY | LM_ALERT | LM_CRITICAL | LM_ERROR | LM_WARNING | LM_NOTICE;
+
+  ACE_Log_Msg::instance ()->priority_mask (default_mask, ACE_Log_Msg::PROCESS);
+
   if (app.parse_args (argc, argv) == -1)
   {
     ACE_ERROR_RETURN ((LM_ERROR,

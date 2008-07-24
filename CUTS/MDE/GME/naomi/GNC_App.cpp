@@ -26,20 +26,15 @@
 #include <sstream>
 #include <algorithm>
 
-// Helper macro for generating verbose messages.
-#define VERBOSE_MESSAGE(msg) \
-  if (this->opts_.verbose_) \
-  { \
-    ACE_DEBUG (msg); \
-  }
-
 static const char * usage =
 "USAGE: gnc [OPTIONS]\n\
 Input/output NAOMI attributes for a GME model\n\
 \n\
 General Options\n\
   -p, --project=GMEFILE            absolute/relative path to GME project\n\
+\n\
   -v, --verbose                    display progress\n\
+  --debug                          display debugging information\n\
   -h, --help                       display this help message\n\
 \n\
 Atttribute Options\n\
@@ -108,6 +103,7 @@ int CUTS_GNC_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("interface-file-create", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("interface-file-name", ACE_Get_Opt::ARG_REQUIRED);
 
+  get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
 
@@ -136,7 +132,21 @@ int CUTS_GNC_App::parse_args (int argc, char * argv [])
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "verbose") == 0)
       {
-        this->opts_.verbose_ = true;
+        u_long mask =
+          ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
+
+        mask |= LM_INFO;
+
+        ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
+      }
+      else if (ACE_OS::strcmp ("debug", get_opt.long_option ()) == 0)
+      {
+        u_long mask =
+          ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
+
+        mask |= LM_DEBUG;
+
+        ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "interface-file-create") == 0)
       {
@@ -179,7 +189,14 @@ int CUTS_GNC_App::parse_args (int argc, char * argv [])
       break;
 
     case 'v':
-      this->opts_.verbose_ = true;
+      {
+        u_long mask =
+          ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
+
+        mask |= LM_INFO;
+
+        ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
+      }
       break;
 
     case 'P':
@@ -192,7 +209,7 @@ int CUTS_GNC_App::parse_args (int argc, char * argv [])
 
     case ':':
       ACE_ERROR_RETURN ((LM_ERROR,
-                         "*** error: %c is missing an argument\n",
+                         "%T - %M - -%c is missing an argument\n",
                          get_opt.opt_opt ()),
                          -1);
       break;
@@ -200,6 +217,14 @@ int CUTS_GNC_App::parse_args (int argc, char * argv [])
     default:
       /* do nothing */;
     }
+  }
+
+  // Validate the command-line options
+  if (this->opts_.project_.empty ())
+  {
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       "%T - %M - please specify a GME project; either a .mga or .xme file\n"),
+                        -1);
   }
 
   return 0;
@@ -239,7 +264,7 @@ int CUTS_GNC_App::run_main (void)
     this->project_->abort_transaction ();
 
     ACE_ERROR ((LM_ERROR,
-                "*** error: GME operation failed [0x%X]\n",
+                "%T - %M - GME operation failed [0x%X]\n",
                 ex.value ()));
   }
   catch (...)
@@ -248,7 +273,7 @@ int CUTS_GNC_App::run_main (void)
     this->project_->abort_transaction ();
 
     ACE_ERROR ((LM_ERROR,
-                "*** error: caught unknown exception\n"));
+                "%T - %M - caught unknown exception\n"));
   }
 
   // Finalize the GME project.
@@ -261,25 +286,14 @@ int CUTS_GNC_App::run_main (void)
 //
 int CUTS_GNC_App::gme_project_init (void)
 {
-  if (this->opts_.project_.empty ())
-  {
-    ACE_ERROR_RETURN ((LM_ERROR,
-                        "*** error: please specify a GME project\n"),
-                        -1);
-  }
-
   try
   {
-    VERBOSE_MESSAGE ((LM_INFO,
-                      "*** info: initializing GME\n"));
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - initializing GME automation engine\n"));
 
     GME::init ();
 
     this->project_.reset (new GME::Project ());
-
-    VERBOSE_MESSAGE ((LM_INFO,
-                      "*** info: opening GME model %s\n",
-                      this->opts_.project_.c_str ()));
 
     // Determine if this file is a MGA file.
     this->is_mga_file_ =
@@ -289,6 +303,10 @@ int CUTS_GNC_App::gme_project_init (void)
     {
       std::ostringstream connstr;
       connstr << "MGA=" << this->opts_.project_;
+
+      ACE_DEBUG ((LM_INFO,
+                  "%T - %M - opening '%s' for processing\n",
+                  this->opts_.project_.c_str ()));
 
       this->project_->open (connstr.str ());
     }
@@ -308,6 +326,10 @@ int CUTS_GNC_App::gme_project_init (void)
         ACE_OS::strcat (pathname, "picmlin-XXXXXX.mga");
         ACE_HANDLE fd = ACE_OS::mkstemp (pathname);
 
+        ACE_DEBUG ((LM_DEBUG,
+                    "%T - %M - creating temporary file '%s'\n",
+                    pathname));
+
         if (fd == 0)
           return -1;
 
@@ -320,6 +342,10 @@ int CUTS_GNC_App::gme_project_init (void)
         connstr << "MGA=" << pathname;
 
         // Create a empty PICML project and import the XML file.
+        ACE_DEBUG ((LM_INFO,
+                    "%T - %M - importing '%s' for processing\n",
+                    this->opts_.project_.c_str ()));
+
         this->project_->create (connstr.str (), info.paradigm_);
         parser.parse (this->opts_.project_, *this->project_);
       }
@@ -334,13 +360,13 @@ int CUTS_GNC_App::gme_project_init (void)
   catch (const GME::Failed_Result & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "*** error: GME operation failed [0x%X]\n",
+                "%T - %M - GME operation failed [0x%X]\n",
                 ex.value ()));
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "*** error: caught unknown exception\n"));
+                "%T - %M - caught unknown exception\n"));
   }
 
   return -1;
@@ -355,39 +381,49 @@ int CUTS_GNC_App::gme_project_fini (void)
   {
     std::string tempfile;
 
+    if (!this->is_mga_file_)
+    {
+      // Save the temporary filename for the .mga file.
+      tempfile = this->project_->connstr ().substr (4);
+
+      ACE_DEBUG ((LM_INFO,
+                  "%T - %M - exporting project as %s\n",
+                  this->opts_.project_.c_str (),
+                  tempfile.c_str ()));
+
+      // Export the project to the source XML file.
+      GME::XML_Dumper dumper;
+      dumper.write (this->opts_.project_, *this->project_);
+    }
+
     // Save the project file.
     if (this->save_model_)
     {
+      ACE_DEBUG ((LM_INFO,
+                  "%T - %M - saving updates to model\n"));
+
       this->project_->save ();
-
-      if (!this->is_mga_file_)
-      {
-        VERBOSE_MESSAGE ((LM_INFO,
-                          "*** info: exporting project as %s\n",
-                          this->opts_.project_.c_str ()));
-
-        // Export the project to the source XML file.
-        GME::XML_Dumper dumper;
-        dumper.write (this->opts_.project_, *this->project_);
-
-        // Delete the temporary file.
-        tempfile = this->project_->connstr ().substr (4);
-      }
     }
 
     // Close the project file.
-    VERBOSE_MESSAGE ((LM_INFO,
-                      "*** info: closing the PICML project\n"));
+    ACE_DEBUG ((LM_INFO,
+                "%T - %M - closing the project\n"));
 
     this->project_->close ();
     this->project_.reset ();
 
     if (!tempfile.empty ())
+    {
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T - %M - deleting temporary file %s\n",
+                  tempfile.c_str ()));
+
       ACE_OS::unlink (tempfile.c_str ());
+    }
   }
 
-  VERBOSE_MESSAGE ((LM_INFO,
-                    "*** info: shutting down GME\n"));
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - finalizing GME automation engine\n"));
 
   // Finalize GME backend.
   GME::fini ();
@@ -416,9 +452,9 @@ locate_object_attribute_i (const std::string & attr,
   // Get the registry nodes of this object.
   std::string path = parent.path (".", false).c_str ();
 
-  VERBOSE_MESSAGE ((LM_DEBUG,
-                    "*** debug: looking in <%s>...\n",
-                    path.c_str ()));
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - searning '%s'...\n",
+              path.c_str ()));
 
   GME::Collection_T <GME::RegistryNode> registry;
 
@@ -603,15 +639,14 @@ void CUTS_GNC_App::create_interface_file (void)
     writer << interface_type;
     writer.close ();
 
-    VERBOSE_MESSAGE ((LM_INFO,
-                      "*** info: successfully write interface file "
-                      " to %s\n",
-                      this->opts_.interface_file_pathname_.c_str ()));
+    ACE_DEBUG ((LM_INFO,
+                 "%T - %M - successfully wrote interface file to '%s'\n",
+                 this->opts_.interface_file_pathname_.c_str ()));
   }
   else
   {
     ACE_ERROR ((LM_ERROR,
-                "*** error: failed to open %s for writing\n",
+                "%T - %M - failed to open '%s' for writing\n",
                 this->opts_.interface_file_pathname_.c_str ()));
   }
 }
@@ -660,16 +695,23 @@ gather_all_attributes (const GME::Object & parent,
 
       if (direct == "input")
       {
+        ACE_DEBUG ((LM_DEBUG,
+                    "%T - %M - remembering <%s> as an input attribute\n",
+                    reg_iter->name ().c_str ()));
         input.push_back (attr);
       }
       else if (direct == "output")
       {
+        ACE_DEBUG ((LM_DEBUG,
+                    "%T - %M - remembering <%s> as an output attribute\n",
+                    reg_iter->name ().c_str ()));
+
         output.push_back (attr);
       }
       else
       {
         ACE_ERROR ((LM_ERROR,
-                    "*** warning: attribute <%s> tagged at <%s> has "
+                    "%T - %M - attribute <%s> tagged at <%s> has "
                     "no direction; skipping...\n",
                     attr.c_str (),
                     path.c_str ()));
@@ -774,10 +816,14 @@ iterate_all_attributes_i (const GME::Object & parent,
 void CUTS_GNC_App::update_attributes (void)
 {
   // Update all the input attributes.
+  ACE_DEBUG ((LM_INFO,
+              "%T - %M - updating input attributes\n"));
   this->update_phase_ = "input";
   this->iterate_all_attributes (&CUTS_GNC_App::update_attribute_callback);
 
   // Update all the output attributes.
+  ACE_DEBUG ((LM_INFO,
+              "%T - %M - updating output attributes\n"));
   this->update_phase_ = "output";
   this->iterate_all_attributes (&CUTS_GNC_App::update_attribute_callback);
 }
@@ -788,6 +834,10 @@ void CUTS_GNC_App::update_attributes (void)
 void CUTS_GNC_App::
 update_attribute_callback (const std::string & attr, attribute_tag & info)
 {
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - handling attribute <%s>\n",
+              attr.c_str ()));
+
   if (this->update_phase_ == "input" && info.direction_ == "input")
   {
     this->update_input_attribute (attr, info);
@@ -806,6 +856,10 @@ update_attribute_callback (const std::string & attr, attribute_tag & info)
 void CUTS_GNC_App::
 update_input_attribute (const std::string & attr, attribute_tag & info)
 {
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - updating input attribute: %s\n",
+              attr.c_str ()));
+
   // Create the file reader for the configuration file.
   naomi::attributes::attributeType attr_info ("", "");
 
@@ -880,7 +934,7 @@ update_input_attribute (const std::string & attr, attribute_tag & info)
   if (!reader.is_open ())
   {
     ACE_ERROR ((LM_ERROR,
-                "*** error: could not locate attribute <%s> on disk; "
+                "%T - %M - could not locate attribute <%s> on disk; "
                 "please make sure path is correct\n",
                 attr.c_str ()));
     return;
@@ -999,6 +1053,10 @@ update_input_attribute_complex (const naomi::attributes::attributeType & attr,
 void CUTS_GNC_App::
 update_attribute_output (const std::string & attr, attribute_tag & info)
 {
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - updating output attribute: %s\n",
+              attr.c_str ()));
+
   if (info.complex_.empty ())
     this->update_simple_attribute_output (attr, info);
   else
@@ -1111,7 +1169,7 @@ update_simple_attribute_output (const std::string & attr,
     if (attr_info.owner () != owner)
     {
       ACE_ERROR ((LM_ERROR,
-                  "*** error: target model does not own attribute; "
+                  "%T - %M - target model does not own attribute; "
                   "skipping...\n"));
 
       return;
@@ -1152,7 +1210,7 @@ update_simple_attribute_output (const std::string & attr,
   if (writer.open (pathname.str ().c_str ()) != 0)
   {
     ACE_ERROR ((LM_ERROR,
-                "*** error: failed to open %s for writing\n",
+                "%T - %M - failed to open '%s' for writing\n",
                 pathname.str ().c_str ()));
     return;
   }
