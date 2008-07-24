@@ -1,3 +1,14 @@
+Thu Jul 24 18:30:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/schemas/naomi:
+        * etc/schemas/naomi/attribute.xsd:
+        * etc/schemas/naomi/constraint_depends.xsd:
+        * etc/schemas/naomi/interface.xsd:
+        * etc/schemas/naomi/naomi_models.xsd:
+        * etc/schemas/naomi/notification.xsd:
+
+          Removed these files.
+
 Thu Jul 24 18:28:45 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/schemas:
