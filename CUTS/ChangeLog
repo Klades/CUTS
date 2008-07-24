@@ -1,27 +1,34 @@
+Thu Jul 24 02:07:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/temp.aspx:
+        * utils/BMW/website/temp.aspx.cs:
+
+          Removed these files.
+
 Wed Jul 23 21:34:41 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * utils/BMW/website/BMW.master:
         * utils/BMW/website/BMW.master.cs:
 
-          . Added in standard messaging capability. Using three Panels it is 
-              possible to add messages at any time. Note that the setup is 
+          . Added in standard messaging capability. Using three Panels it is
+              possible to add messages at any time. Note that the setup is
               very specific, and converting the panels into custom user controls
-              or any other dynamically added control will result in a very 
+              or any other dynamically added control will result in a very
               complex situation where the controls will work, EXCEPT when
               a sub-ASPX page reports a message inside its Page_Load function
 
         * utils/BMW/website/styles/default.css:
 
-          . Added a standard class to control the feel of the message panels, 
-             one class each for the specific look of each of the types, and a 
+          . Added a standard class to control the feel of the message panels,
+             one class each for the specific look of each of the types, and a
              class to deal with the button appearances and locations
 
         * utils/BMW/website/temp.aspx:
         * utils/BMW/website/temp.aspx.cs:
- 
+
           . Temporary file so that JH can see how to easily use the messaging
               feature. James, please delete this once you have seen it
- 
+
         * utils/BMW/website/unittest.aspx.cs:
 
           . Starting to use the new messaging system
