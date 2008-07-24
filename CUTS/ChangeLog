@@ -1,3 +1,31 @@
+Thu Jul 24 19:37:40 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * etc/SQL/CUTS-unittest.sql:
+
+          . Added some missing foreign keys, and reordered table creations so 
+              that all main tables are created before any sub tables
+
+        * utils/BMW/website/BMW.master.cs:
+
+          . Updated API for messaging system to ease creating of specific
+              types of messages, and also added a "Quiet_Mode" of operation, 
+              which causes the errors to neither be printed out or saved
+              (Similar to saying disable all errors until I turn off Quiet Mode)
+          . Quiet Load is useful if one type of error also indicates there will
+              be others (such as having no test suites indicates that there
+              will obviously be no selected test suite). This way, you can 
+              print out the main error and ignore the obvious repercussions 
+
+        * utils/BMW/website/styles/default.css:
+
+          . Small updates to styles
+
+        * utils/BMW/website/unittest.aspx:
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . Should now have all errors fixed - except one minor error that is
+              currently listed on Bugzilla
+
 Thu Jul 24 18:40:46 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/schemas:

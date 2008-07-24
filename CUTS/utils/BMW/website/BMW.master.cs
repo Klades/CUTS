@@ -67,6 +67,14 @@ namespace CUTS
        * Please make this one of the highest priority updates before you continue
        * adding any more functionality!!
        */
+        private bool InQuietMode_;
+
+        private void Page_Load(object sender, System.EventArgs e)
+        {
+            if (IsPostBack)
+                return;
+            InQuietMode = false;
+        }
 
       /**
        * Initial event/fucntion called with the page is loaded.
@@ -82,6 +90,12 @@ namespace CUTS
         {
             ClearBlankMessages();
             base.OnPreRender(e);
+        }
+
+        public bool InQuietMode
+        {
+            get { return InQuietMode_; }
+            set { InQuietMode_ = value; }
         }
 
         private void ClearBlankMessages()
@@ -109,8 +123,9 @@ namespace CUTS
          * Please do not place leading '_' on a variable.
          */
         public void AddNewMessage(string _message)
+        public void AddNewMessage_Info(string _message)
         {
-            AddNewMessage (_message,MessageSeverity.Error);
+            AddNewMessage (_message,MessageSeverity.Information);
         }
 
         /**
@@ -118,10 +133,25 @@ namespace CUTS
          *
          * Please do not place leading '_' on a variable.
          */
+        public void AddNewMessage_Error(string _message)
+        {
+            AddNewMessage(_message, MessageSeverity.Error);
+        }
+        
+        public void AddNewMessage_Success(string _message)
+        {
+            AddNewMessage(_message, MessageSeverity.Success);
+        }        
+
         public void AddNewMessage(string _message, MessageSeverity _severity)
         {
+            if (InQuietMode_)
+                return;
+
             if (_severity == MessageSeverity.Information)
             {
+                if (message_text_info.Text.Contains(_message))
+                    return;
                 if (message_text_info.Text != String.Empty)
                     message_text_info.Text += "<br />";
                 message_text_info.Text += _message;
@@ -129,6 +159,8 @@ namespace CUTS
             }
             else if (_severity == MessageSeverity.Success)
             {
+                if (message_text_success.Text.Contains(_message))
+                    return;
                 if (message_text_success.Text != String.Empty)
                     message_text_success.Text += "<br />";
                 message_text_success.Text += _message;
@@ -136,6 +168,8 @@ namespace CUTS
             }
             else
             {
+                if (message_text_error.Text.Contains(_message))
+                    return;
                 if (message_text_error.Text != String.Empty)
                     message_text_error.Text += "<br />";
                 message_text_error.Text += _message;

@@ -1,11 +1,11 @@
 <%@ Page Language="C#" MasterPageFile="~/BMW.master" AutoEventWireup="true" CodeFile="unittest.aspx.cs" Inherits="Unit_Testing" Title="Untitled Page" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
-<asp:Button runat="server" ID="show_help" BackColor="white" OnClick="OnClick_show_help" Text="Show Help" />
+<asp:Button runat="server" CssClass="help-btn" ID="show_help" BackColor="white" OnClick="OnClick_show_help" Text="Show Help" />
 <table cellpadding="15" style="clear:right;" cellspacing="20" border="1">
     <tr>
     <td width="50%">
     <h3>Test Suites</h3>
-    <asp:TextBox ID="txt_Create_Test_Suite"
+    <asp:TextBox ID="Create_Test_Suite_Name"
       runat="server"
       TabIndex="1">
     </asp:TextBox>
@@ -13,20 +13,18 @@
     <asp:Button ID="btn_Create_Test_Suite"
       runat="server"
       Text="Create New"
-      OnClick="OnClick_btn_Create_Test_Suite"
-      TabIndex="2" />
-    <br />
-    <asp:Label ID="txt_Create_Test_Suite_Error" runat="server" Text="" ForeColor="red"></asp:Label>
+      OnClick="OnClick_Create_Test_Suite"
+      TabIndex="2" />&nbsp;<br />
     
     <br />
     <br />
-    <asp:ListBox ID="lb_Test_Suites"
+    <asp:ListBox ID="Existing_Test_Suites"
       runat="server"
       AutoPostBack="True"
       SelectionMode="Single"
       DataTextField="name"
       DataValueField="id"
-      OnSelectedIndexChanged = "OnChange_lb_Test_Suites"
+      OnSelectedIndexChanged = "OnChange_Test_Suites_List"
       ></asp:ListBox><br />
     <br />
     <br />
@@ -34,7 +32,7 @@
     <td width="50%">
     
     <h3>Test Suite Packages</h3>
-    <asp:TextBox ID="txt_Create_Test_Suite_Package"
+    <asp:TextBox ID="Create_Package_Name"
       runat="server"
       TabIndex="3">
     </asp:TextBox>
@@ -42,26 +40,25 @@
     <asp:Button ID="btn_Create_Test_Suite_Package"
       runat="server"
       Text="Create New"
-      OnClick="OnClick_btn_Create_Test_Suite_Package"
+      OnClick="OnClick_Create_Package"
       TabIndex="4" />
     <br />
-    <asp:Label ID="txt_Create_Test_Suite_Package_Error" runat="server" Text="" ForeColor="red">
-    </asp:Label><br />
+    <br />
     <asp:DropDownList 
-        ID="ddl_Add_Existing_Test_Suite_Package"
+        ID="Add_Existing_Package"
         AutoPostBack="true"
         runat="server"
         DataTextField="name"
         DataValueField="id"
-        OnSelectedIndexChanged="OnChange_ddl_Add_Existing_Test_Suite_Package"
+        OnSelectedIndexChanged="OnChange_Add_Existing_Package"
         ></asp:DropDownList><br /><br />
-    <asp:ListBox ID="lb_Test_Suite_Packages"
+    <asp:ListBox ID="Test_Suite_Packages_List"
       runat="server"
       AutoPostBack="True"
       SelectionMode="Single"
       DataTextField="name"
       DataValueField="id"
-      OnSelectedIndexChanged="OnChange_lb_Test_Suite_Packages"
+      OnSelectedIndexChanged="OnChange_Packages_List"
       ></asp:ListBox><br />
     <br />
     <br />
@@ -73,28 +70,22 @@
 <td colspan="2">
     <h3>Unit Tests</h3>
     <a href="UT_Create.aspx" title="New Unit Test">Create New Unit Test</a><br />
-    <asp:Label
-        ID="txt_Add_Package_Unit_Test_Error"
-        Text = ""
-        runat="server"
-        ForeColor="red"
-        ></asp:Label>
-    <asp:DropDownList 
-        ID="ddl_Add_Package_Unit_Test"
+    &nbsp;<asp:DropDownList 
+        ID="Add_Existing_Unit_Test"
         AutoPostBack="true"
         runat="server"
         DataTextField="name"
         DataValueField="utid"
-        OnSelectedIndexChanged="OnChange_ddl_Add_Package_Unit_Test"
+        OnSelectedIndexChanged="OnChange_Add_Existing_Unit_Test"
         ></asp:DropDownList><br /><br />
 
-    <asp:ListBox ID="lb_Unit_Tests"
+    <asp:ListBox ID="Package_Unit_Tests_List"
       runat="server"
       SelectionMode="Multiple"
       DataTextField="name" 
       DataValueField="utid"
       AutoPostBack="true"
-      OnSelectedIndexChanged="OnChange_lb_Unit_Tests">
+      OnSelectedIndexChanged="OnChange_Unit_Tests_List">
     </asp:ListBox>
 </td>
 </tr>

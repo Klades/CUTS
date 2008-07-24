@@ -38,79 +38,6 @@ CREATE TABLE IF NOT EXISTS  cuts.logformatdesc (
 );
 
 
--- sub table for log formats
--- contains variable info - name, type, id
-
-CREATE TABLE IF NOT EXISTS cuts.logformatvariabletable (
-  variable_id       INT            NOT NULL auto_increment,
-  lfid              INT            NOT NULL,
-  varname           VARCHAR(45)    NOT NULL,
-  vartype           VARCHAR(45)    NOT NULL,
-  
-  -- set the constraints for the table
-  PRIMARY KEY (variable_id),
-  UNIQUE (lfid,varname),
-  
-  
-  FOREIGN KEY (lfid) REFERENCES cuts.logformatdesc (lfid) 
-    ON DELETE CASCADE 
-    ON UPDATE CASCADE
-);
-
-
-
--- main table for packages
-
-
-CREATE TABLE IF NOT EXISTS cuts.packages (
-  id            INT               NOT NULL auto_increment,
-  name          VARCHAR(95)       NOT NULL,
-  
-  -- set the constraints for the table
-  PRIMARY KEY  (id),
-  UNIQUE (name)
-);
-
-
-
-
--- sub table for packages
--- contains unit test ids
-
-CREATE TABLE IF NOT EXISTS cuts.packages_unit_tests (
-  id            INT              NOT NULL auto_increment,
-  ut_id         INT              NOT NULL,
-  
-  -- set the constraints for the table
-  UNIQUE (id,ut_id)
-);
-
-
--- main table for test suites
-
-CREATE TABLE IF NOT EXISTS cuts.test_suites (
-  id            INT             NOT NULL auto_increment,
-  name          VARCHAR(95)     NOT NULL,
-  
-  -- set the constraints for the table
-  PRIMARY KEY  (id),
-  UNIQUE (name)
-);
-
-
-
--- sub table for test_suites
--- contains package ids
-
-CREATE TABLE IF NOT EXISTS cuts.test_suite_packages (
-  id              INT             NOT NULL,
-  p_id            INT             NOT NULL,
-  
-  -- set the constraints for the table
-  UNIQUE (id,p_id)
-);
-
-
 -- main table for unit tests
 -- contains all one-one UT info
 -- Need to update fail/warn comparison so they are ENUM
@@ -129,6 +56,83 @@ CREATE TABLE IF NOT EXISTS cuts.unittestdesc (
   PRIMARY KEY  (utid)
 );
 
+-- main table for packages
+
+
+CREATE TABLE IF NOT EXISTS cuts.packages (
+  id            INT               NOT NULL auto_increment,
+  name          VARCHAR(95)       NOT NULL,
+  
+  -- set the constraints for the table
+  PRIMARY KEY  (id),
+  UNIQUE (name)
+);
+
+-- main table for test suites
+
+CREATE TABLE IF NOT EXISTS cuts.test_suites (
+  id            INT             NOT NULL auto_increment,
+  name          VARCHAR(95)     NOT NULL,
+  
+  -- set the constraints for the table
+  PRIMARY KEY  (id),
+  UNIQUE (name)
+);
+
+
+-- sub table for log formats
+-- contains variable info - name, type, id
+
+CREATE TABLE IF NOT EXISTS cuts.logformatvariabletable (
+  variable_id       INT            NOT NULL auto_increment,
+  lfid              INT            NOT NULL,
+  varname           VARCHAR(45)    NOT NULL,
+  vartype           VARCHAR(45)    NOT NULL,
+  
+  -- set the constraints for the table
+  PRIMARY KEY (variable_id),
+  UNIQUE (lfid,varname),
+  
+  FOREIGN KEY (lfid) REFERENCES cuts.logformatdesc (lfid) 
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE
+);
+
+
+-- sub table for packages
+-- contains unit test ids
+
+CREATE TABLE IF NOT EXISTS cuts.packages_unit_tests (
+  id            INT              NOT NULL auto_increment,
+  ut_id         INT              NOT NULL,
+  
+  -- set the constraints for the table
+  FOREIGN KEY (id) REFERENCES cuts.packages (id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY (ut_id) REFERENCES cuts.unittestdesc (utid)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  UNIQUE (id,ut_id)
+);
+
+
+-- sub table for test_suites
+-- contains package ids
+
+CREATE TABLE IF NOT EXISTS cuts.test_suite_packages (
+  id              INT             NOT NULL,
+  p_id            INT             NOT NULL,
+  
+  -- set the constraints for the table
+  FOREIGN KEY (id) REFERENCES cuts.test_suites (id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY (p_id) REFERENCES cuts.packages (id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  UNIQUE (id,p_id)
+);
 
 
 -- sub table for unit tests

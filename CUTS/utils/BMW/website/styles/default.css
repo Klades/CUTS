@@ -145,3 +145,11 @@ td.performance-data, th.performance-data
 	border: solid 3px black; 
 	background-color: green; 
 }
+
+.help-btn
+{
+	left: -95px;
+	top: -10px;
+	float: right;
+	position: relative;
+}
