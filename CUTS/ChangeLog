@@ -1,3 +1,10 @@
+Thu Jul 24 17:32:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/GNC_App.cpp:
+
+          . Bug fix where the interface file is now determined by a
+            single path.
+
 Thu Jul 24 16:53:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/T2M/parsers/Scatter_Deployment/Scatter_Deployment_Parser.cpp:

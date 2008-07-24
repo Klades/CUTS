@@ -44,10 +44,8 @@ Atttribute Options\n\
   -P, --attribute-path=PATH        path to naomi attributes on disk\n\
 \n\
 Interface Options\n\
-  --interface-file-create=PATH     create an interface file for the\n\
+  --create-interface-file=PATH     create an interface file for the\n\
                                    at the specified location\n\
-  --interface-file-name=NAME       name stored in the <name> tag of\n\
-                                   the interface file\n\
 \n\
 EXAMPLE:\n\
 %> gnc -p ./models/traffic.xme -i scatter.traffic.deployment\n\
@@ -100,8 +98,7 @@ int CUTS_GNC_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("update-attributes", 'u', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("list-attributes", 'l', ACE_Get_Opt::NO_ARG);
 
-  get_opt.long_option ("interface-file-create", ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("interface-file-name", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("create-interface-file", ACE_Get_Opt::ARG_REQUIRED);
 
   get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
@@ -148,13 +145,9 @@ int CUTS_GNC_App::parse_args (int argc, char * argv [])
 
         ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
       }
-      else if (ACE_OS::strcmp (get_opt.long_option (), "interface-file-create") == 0)
+      else if (ACE_OS::strcmp (get_opt.long_option (), "create-interface-file") == 0)
       {
         this->opts_.interface_file_pathname_ = get_opt.opt_arg ();
-      }
-      else if (ACE_OS::strcmp (get_opt.long_option (), "interface-file-name") == 0)
-      {
-        this->opts_.interface_file_name_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
       {
@@ -453,7 +446,7 @@ locate_object_attribute_i (const std::string & attr,
   std::string path = parent.path (".", false).c_str ();
 
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - searning '%s'...\n",
+              "%T - %M - searching %s ...\n",
               path.c_str ()));
 
   GME::Collection_T <GME::RegistryNode> registry;
@@ -562,28 +555,32 @@ list_attribute_callback (const std::string & attr, attribute_tag & info)
 //
 void CUTS_GNC_App::create_interface_file (void)
 {
-  std::list <std::string> input, output;
-
   // Get the root folder for the project.
+  std::list <std::string> input, output;
   GME::Folder root = this->project_->root_folder ();
 
   // Gather all the attributes in the model.
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - gathering all attributes in the model for "
+              "interface file\n"));
+
   this->gather_all_attributes (root, input, output);
 
   // Create the interface object.
   std::string type = this->project_->paradigm_name ();
-  std::string name = this->opts_.interface_file_name_;
 
-  if (name.empty ())
-  {
-    std::string::size_type pos =
-      this->opts_.interface_file_pathname_.find_last_of ("\\/");
+  std::string name = this->opts_.interface_file_pathname_;
 
-    if (pos == std::string::npos)
-      name = this->opts_.interface_file_pathname_;
-    else
-      name = this->opts_.interface_file_pathname_.substr (pos + 1);
-  }
+  std::string::size_type pos =
+    this->opts_.interface_file_pathname_.find_last_of ("\\/");
+
+  name = this->opts_.interface_file_pathname_.substr (pos + 1);
+  name.substr (0, name.length () - 1);
+
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - creating interface file named %s for type %s\n",
+              name.c_str (),
+              type.c_str ()));
 
   naomi::interfaces::interface_Type interface_type (name, type);
 
