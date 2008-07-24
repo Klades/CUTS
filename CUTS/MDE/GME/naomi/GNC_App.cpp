@@ -4,14 +4,19 @@
 #include "attribute_simple.h"
 #include "interface.h"
 
+#include "GME/T2M/parsers/T2M_Parser.h"
+
 #include "gme/GME.h"
 #include "gme/XML.h"
 #include "gme/ComponentEx.h"
+
 #include "ace/ACE.h"
 #include "ace/Get_Opt.h"
 #include "ace/OS_NS_unistd.h"
 #include "ace/OS_NS_string.h"
 #include "ace/streams.h"
+#include "ace/DLL.h"
+#include "ace/DLL_Manager.h"
 
 #include "boost/bind.hpp"
 
@@ -784,18 +789,22 @@ void CUTS_GNC_App::
 update_attribute_callback (const std::string & attr, attribute_tag & info)
 {
   if (this->update_phase_ == "input" && info.direction_ == "input")
-    this->update_attribute_input (attr, info);
+  {
+    this->update_input_attribute (attr, info);
+  }
   else if (this->update_phase_ == "output" && info.direction_ == "output")
+  {
     this->update_attribute_output (attr, info);
+  }
   else
     ;
 }
 
 //
-// update_attribute_input
+// update_input_attribute
 //
 void CUTS_GNC_App::
-update_attribute_input (const std::string & attr, attribute_tag & info)
+update_input_attribute (const std::string & attr, attribute_tag & info)
 {
   // Create the file reader for the configuration file.
   naomi::attributes::attributeType attr_info ("", "");
@@ -880,10 +889,27 @@ update_attribute_input (const std::string & attr, attribute_tag & info)
   // Read the attribute information from the file.
   reader >> attr_info;
 
+  if (info.complex_.empty ())
+    this->update_input_attribute_simple (attr_info, info);
+  else
+    this->update_input_attribute_complex (attr_info, info);
+
+  // Close the XML file.
+  reader.close ();
+}
+
+//
+// update_input_attribute_simple
+//
+void CUTS_GNC_App::
+update_input_attribute_simple (const naomi::attributes::attributeType & attr,
+                               attribute_tag & info)
+{
   if (info.gme_attribute_.empty ())
   {
-    // The value is the name of the object.
-    info.object_.name (attr_info.value ().c_str ());
+    // Since there is no GME attribute defined, then we assume the 'name'
+    // attribute is the target.
+    info.object_.name (attr.value ().c_str ());
   }
   else
   {
@@ -902,17 +928,69 @@ update_attribute_input (const std::string & attr, attribute_tag & info)
 
     // Set the value of the GME attribute.
     std::string curr_value = target_attr.string_value ();
-    std::string new_value = attr_info.value ().c_str ();
+    std::string new_value  = attr.value ().c_str ();
 
     if (curr_value != new_value)
     {
+      // Only update the attribute if the value has changed.
       target_attr.string_value (new_value);
       this->save_model_ = true;
     }
   }
+}
 
-  // Close the XML file.
-  reader.close ();
+//
+// update_complex_attribute_input
+//
+void CUTS_GNC_App::
+update_input_attribute_complex (const naomi::attributes::attributeType & attr,
+                                attribute_tag & info)
+{
+  GME_T2M_Parser * parser = 0;
+
+  ACE_DLL parser_dll;
+
+  // Open the DLL that contains the parser. This will be specified in the
+  // 'complex_' property of the \a info parameter.
+  if (parser_dll.open (info.complex_.c_str (), ACE_DEFAULT_SHLIB_MODE, 0) == 0)
+  {
+    // Load the creation function symbol from the loaded module.
+    typedef GME_T2M_Parser * (* CREATION_FUNCTION) (void);
+
+    CREATION_FUNCTION creation_function =
+      (CREATION_FUNCTION) parser_dll.symbol (GME_T2M_CREATE_PARSER_FUNC_STR);
+
+    if (creation_function != 0)
+    {
+      // Create a new parser using the creation function.
+      parser = (*creation_function) ();
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - module '%s' does not define parser creation function\n",
+                  info.complex_.c_str ()));
+    }
+  }
+
+  if (parser != 0)
+  {
+    if (parser->parse (attr.value (), info.object_))
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - failed to parse input file '%s'\n",
+                  attr.value ().c_str ()));
+    }
+  }
+  else
+  {
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - failed to load parser from module '%s'\n",
+                  attr.value ().c_str ()));
+  }
+
+  // Destroy the parser since we no longer need it. ;-)
+  parser->destroy ();
 }
 
 //

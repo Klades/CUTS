@@ -1,0 +1,6 @@
+// $Id$
+
+project : cuts_gme {
+  libs  += GME_T2M_Parser
+  after += GME_T2M_Parser
+}

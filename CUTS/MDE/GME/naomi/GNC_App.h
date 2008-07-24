@@ -19,6 +19,15 @@
 #include "gme/Project.h"
 #include "URI_Tag_Parser.h"
 
+namespace naomi
+{
+  namespace attributes
+  {
+    // Forward decl.
+    class attributeType;
+  }
+}
+
 //=============================================================================
 /**
  * @struct CUTS_GNC_App_Options
@@ -130,8 +139,16 @@ private:
   void update_attribute_callback (const std::string & attr,
                                   attribute_tag & info);
 
-  void update_attribute_input (const std::string & attr,
+  void update_input_attribute (const std::string & attr,
                                attribute_tag & info);
+
+  void update_input_attribute_simple (
+    const naomi::attributes::attributeType & attr,
+    attribute_tag & info);
+
+  void update_input_attribute_complex (
+    const naomi::attributes::attributeType & attr,
+    attribute_tag & info);
 
   void update_attribute_output (const std::string & attr,
                                 attribute_tag & info);

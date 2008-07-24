@@ -6,15 +6,15 @@ workspace (GNC) {
              -include $CUTS_ROOT/etc/config \
              -include $COSMIC_ROOT/MPC/config \
              -include $XSC_ROOT/MPC/config
-  
+
   GNC.mpc
-  
+
   //== dependencies
   $(ACE_ROOT)/ace/ace.mpc
   $(COSMIC_ROOT)/Utils/gme/GME.mpc
-  
+
   $(XSC_ROOT)/XSCRT/XSCRT/XSCRT.mpc
-  
+
   static {
     cmdline += -static
     $(XSC_ROOT)/XSC/libXSC.mpc

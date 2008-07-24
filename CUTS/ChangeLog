@@ -1,3 +1,52 @@
+Thu Jul 24 04:42:28 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/T2M/parsers:
+        * etc/config/gme_t2m.mpb:
+        * MDE/GME/T2M/parsers/T2M_Parser.h:
+        * MDE/GME/T2M/parsers/T2M_Parser.inl:
+        * MDE/GME/T2M/parsers/T2M_Parser.cpp:
+        * MDE/GME/T2M/parsers/T2M_Parser.mpc:
+        * MDE/GME/T2M/parsers/T2M_Parser_export.h:
+
+          . Initial architecture for creating text-2-model parsers for
+            GME.
+
+        * MDE/GME/naomi/GNC.mpc:
+        * MDE/GME/naomi/GNC_App.h:
+        * MDE/GME/naomi/GNC_App.cpp:
+        * MDE/GME/naomi/gnc.mwc:
+
+          . Updated the naomi connector to use GME's parser architecture
+            for reading complex attributes (or resources).
+
+        * cuts/BDC/Benchmark_Data_Collector.mpc:
+
+          . Updated the CIDL custom definition to remove the .ccd
+            documentation extension since it's not being generated and
+            force the skeleton project to always build itself.
+
+        * MDE/GME/paradigms/PICML/modelin:
+        * MDE/GME/paradigms/PICML/modelin/Deployment_Map.h:
+        * MDE/GME/paradigms/PICML/modelin/Model_Cache.h:
+        * MDE/GME/paradigms/PICML/modelin/Model_Cache.cpp:
+        * MDE/GME/paradigms/PICML/modelin/Model_Cache_Manager.h:
+        * MDE/GME/paradigms/PICML/modelin/Model_Cache_Manager.cpp:
+        * MDE/GME/paradigms/PICML/modelin/Model_Cache_T.h:
+        * MDE/GME/paradigms/PICML/modelin/Model_Cache_T.cpp:
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_App.h:
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_App.cpp:
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_Options.h:
+        * MDE/GME/paradigms/PICML/modelin/Picmlin_Options.cpp:
+        * MDE/GME/paradigms/PICML/modelin/Scatter_To_Picml.h:
+        * MDE/GME/paradigms/PICML/modelin/Scatter_To_Picml.cpp:
+        * MDE/GME/paradigms/PICML/modelin/picmlin.cpp:
+        * MDE/GME/paradigms/PICML/modelin/picmlin.mpc:
+        * MDE/GME/paradigms/PICML/modelin/picmlin.mwc:
+        * MDE/GME/paradigms/PICML/modelin/stdafx.h:
+        * MDE/GME/paradigms/PICML/modelin/stdafx.cpp:
+
+          Removed these files.
+
 Thu Jul 24 03:14:36 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/App_Code/DataSetActions.cs:

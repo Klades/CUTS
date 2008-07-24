@@ -1,0 +1,15 @@
+// $Id$
+
+project (GME_T2M_Parser) : cuts_gme, cutslib {
+  sharedname = GME_T2M_Parser
+
+  dynamicflags += GME_T2M_PARSER_BUILD_DLL
+
+  Source_Files {
+    T2M_Parser.cpp
+  }
+
+  Header_Files {
+    T2M_Parser.h
+  }
+}
