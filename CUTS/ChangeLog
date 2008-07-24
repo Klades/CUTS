@@ -1,3 +1,10 @@
+Thu Jul 24 18:40:46 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/schemas:
+
+          Removed the external reference since we do not want to have
+          this in our project.
+
 Thu Jul 24 18:30:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/schemas/naomi:
