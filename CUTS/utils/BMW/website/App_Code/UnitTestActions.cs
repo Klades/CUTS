@@ -14,16 +14,12 @@ using LogVariables;
 
 namespace Actions
 {
-    /**
-     * Hamilton:
-     *
-     * Please use the Doxygen comment style when documenting class!!
-     */
-    /// <summary>
-    /// Perform insertion and evaluation of
-    /// UnitTests
-    /// </summary>
-    public class UnitTestActions
+  /**
+   * @class UnitTestActions
+   *
+   * Perform insertion and evaluation of Unit Tests
+   */
+  public class UnitTestActions
     {
         public void Insert_UT(Hashtable Variables)
         {
@@ -39,17 +35,18 @@ namespace Actions
             object obj = ExecuteMySqlScalar(sql);
             int utid = Int32.Parse(obj.ToString());
 
-            if (Variables["relation1"].ToString() != "" && Variables["relation2"].ToString() != "")
-                Insert_UT_Relation(utid, Variables["relation1"].ToString(), Variables["relation2"].ToString());
+            if (Variables["relation1"].ToString() != "" &&
+                  Variables["relation2"].ToString() != "")
+              Insert_UT_Relation(utid, Variables["relation1"].ToString(), Variables["relation2"].ToString());
 
             foreach (string lfid in (Array)Variables["LFIDs"])
-                Insert_UT_LogFormat(utid, lfid);
+              Insert_UT_LogFormat(utid, lfid);
 
             foreach (string VariableID in (Array)Variables["Groups"])
-                Insert_UT_Group(utid, VariableID);
+              Insert_UT_Group(utid, VariableID);
 
             foreach (DictionaryEntry entry in (Hashtable)Variables["Aggregrations"])
-                Insert_UT_Aggregration(utid, entry.Key.ToString(), entry.Value.ToString());
+              Insert_UT_Aggregration(utid, entry.Key.ToString(), entry.Value.ToString());
         }
 
         public DataTable Eval_UT(int utid)
@@ -66,7 +63,7 @@ namespace Actions
              * 3) push temp back to real DB
              * 4) create select statement
              *
-             * */
+             */
 
             DataSetActions dsa = DataSetActions.getInstance(utid);
 

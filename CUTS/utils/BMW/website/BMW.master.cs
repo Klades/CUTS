@@ -45,36 +45,7 @@ namespace CUTS
      */
     public partial class BMW_Master : System.Web.UI.MasterPage
     {
-      /**
-       * Hamilton:
-       *
-       * Please make sure all your methods have a Doxygen comment describing
-       * its purpose and parameters. Please see the following for help on
-       * Doxygen:
-       *
-       *   http://www.doxygen.org
-       *
-       * Also, please make sure you follow the ACE coding guidelines:
-       *
-       *   http://www.dre.vanderbilt.edu/~schmidt/DOC_ROOT/ACE/docs/ACE-guidelines.html
-       *
-       * More specifically, please set your *tab width* to 2 *spaces*, convert
-       * spaces to tabs, and place a *space* after a open parenthesis '('. You can
-       * set this in Visual Studio 2005 at the following location:
-       *
-       *   Tools | Options | Text Editor | C# | Formatting
-       *
-       * Please make this one of the highest priority updates before you continue
-       * adding any more functionality!!
-       */
         private bool InQuietMode_;
-
-        private void Page_Load(object sender, System.EventArgs e)
-        {
-            if (IsPostBack)
-                return;
-            InQuietMode = false;
-        }
 
       /**
        * Initial event/fucntion called with the page is loaded.
@@ -82,9 +53,12 @@ namespace CUTS
        * @param[in]           sender        Sender of the event
        * @param[in]           e             Arguments for the event.
        */
-      private void Page_Load (object sender, System.EventArgs e)
-      {
-      }
+        private void Page_Load ( object sender, System.EventArgs e )
+        {
+            if (IsPostBack)
+                return;
+            InQuietMode = false;
+        }
 
         protected override void OnPreRender(EventArgs e)
         {
@@ -100,15 +74,6 @@ namespace CUTS
 
         private void ClearBlankMessages()
         {
-          /**
-           * Hamilton:
-           *
-           * Please use the 'this.' qualifier when accessing any member of
-           * the class.
-           *
-           * Also, place a '_' after any private variable, event if its the
-           * id of a control defined in the .aspx page.
-           */
             if (message_text_error.Text == String.Empty)
                 message_error.Visible = false;
             if (message_text_info.Text == String.Empty)
@@ -117,62 +82,51 @@ namespace CUTS
                 message_success.Visible = false;
         }
 
-        /**
-         * Hamilton:
-         *
-         * Please do not place leading '_' on a variable.
-         */
-        public void AddNewMessage(string _message)
-        public void AddNewMessage_Info(string _message)
+        public void AddNewMessage_Info(string message)
         {
-            AddNewMessage (_message,MessageSeverity.Information);
+            AddNewMessage (message,MessageSeverity.Information);
         }
 
-        /**
-         * Hamilton:
-         *
-         * Please do not place leading '_' on a variable.
-         */
-        public void AddNewMessage_Error(string _message)
+        public void AddNewMessage_Error(string message)
         {
-            AddNewMessage(_message, MessageSeverity.Error);
+            AddNewMessage(message, MessageSeverity.Error);
         }
         
-        public void AddNewMessage_Success(string _message)
+        public void AddNewMessage_Success(string message)
         {
-            AddNewMessage(_message, MessageSeverity.Success);
+            AddNewMessage(message, MessageSeverity.Success);
         }        
 
-        public void AddNewMessage(string _message, MessageSeverity _severity)
+        public void AddNewMessage(string message, MessageSeverity severity)
         {
             if (InQuietMode_)
                 return;
 
-            if (_severity == MessageSeverity.Information)
+            if (severity == MessageSeverity.Information)
             {
-                if (message_text_info.Text.Contains(_message))
+                if (message_text_info.Text.Contains(message))
                     return;
                 if (message_text_info.Text != String.Empty)
                     message_text_info.Text += "<br />";
-                message_text_info.Text += _message;
+                message_text_info.Text += message;
                 message_info.Visible = true;
             }
-            else if (_severity == MessageSeverity.Success)
+            else if (severity == MessageSeverity.Success)
             {
-                if (message_text_success.Text.Contains(_message))
+                if (message_text_success.Text.Contains(message))
                     return;
                 if (message_text_success.Text != String.Empty)
                     message_text_success.Text += "<br />";
-                message_text_success.Text += _message;
+                message_text_success.Text += message;
                 message_success.Visible = true;
             }
             else
             {
-                if (message_text_error.Text.Contains(_message))
+                if (message_text_error.Text.Contains(message))
                     return;
                 if (message_text_error.Text != String.Empty)
                     message_text_error.Text += "<br />";
-                message_text_error.Text += _message;
+                message_text_error.Text += message;
                 message_error.Visible = true;
             }
         }

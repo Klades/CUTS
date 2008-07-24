@@ -119,11 +119,21 @@
         <asp:TextBox ID="UT_fail" runat="server"></asp:TextBox>
         &nbsp;</p>
     <p>
-        Group By :
-        <asp:DropDownList ID="DropDownList2" runat="server">
+    
+    <!-- Note that the grouping information is hidden for now -->
+        <asp:Label ID="temp_label" runat="server" Text="Group By" Visible="false"></asp:Label>
+        <asp:DropDownList ID="DropDownList2" runat="server" Visible="false">
             <asp:ListItem>test_number</asp:ListItem>
         </asp:DropDownList>
     </p>
+    <p>
+    <h3>Aggregration</h3>
+    If there is more that one result of your evaluation, how would you like to aggregrate these results?
+    </p>
+    <asp:DropDownList ID="Aggregrate_Funtion" runat=server>
+        <asp:ListItem Text="Please select one . . ." Value="-1" />
+        <asp:ListItem Text="Sum" Value="SUM" />
+    </asp:DropDownList>
     <p>
         <asp:Button ID="btn_Submit" runat="server" Text="Submit" onclick="OnClick_btn_Submit" />
     </p>

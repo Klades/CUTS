@@ -106,6 +106,7 @@
         a LOT of if...else statements to locate the correct handler for the
         type.
         -->
+
       <asp:Panel runat="server" id="message_info" CssClass="message-Info message">
             <asp:Button ID="btn1" runat="server" CssClass="message-btn-ClearMe" Text=" X " OnClick="OnClick_Clear_Me" />
             <asp:Label ID="message_text_info" runat="server"></asp:Label>
