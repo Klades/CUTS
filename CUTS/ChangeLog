@@ -1,3 +1,16 @@
+Thu Jul 24 18:19:14 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/schemas/naomi.old:
+
+          . Moved the old NAOMI schemas to a temporary directory until
+            we successfully update to the new schemas.
+
+        * etc/schemas/naomi:
+        * etc/schemas/naomi/attribute_simple.xsd:
+        * etc/schemas/naomi/interface.xsd:
+
+          Removed these files.
+
 Thu Jul 24 17:32:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/naomi/GNC_App.cpp:
