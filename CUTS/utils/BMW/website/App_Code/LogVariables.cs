@@ -15,6 +15,14 @@ using MySql.Data.MySqlClient;
 /// </summary>
 namespace LogVariables
 {
+  /**
+   * Hamilton:
+   *
+   * Same comment as in UnitTestActions.aspx.cs WRT to the singleton.
+   * Right now there is a STRONG coupling bewteen the database and the
+   * processing. Instead, you should let the page calling these methods
+   * be the Bridge between this database and this code.
+   */
     public sealed class LogVariables
     {
         private static LogVariables instance = null;
@@ -45,7 +53,7 @@ namespace LogVariables
                     extended_name = row["extended_varname"].ToString();
                 bool grouped_on_x = Boolean.Parse(row["grouped_on_x"].ToString()),
                     grouped_on_z = Boolean.Parse(row["grouped_on_z"].ToString());
-                
+
                 SingleVariable t = new SingleVariable(name, extended_name, "int", grouped_on_x, grouped_on_z);
                 ht_.Add(extended_name,t);
             }

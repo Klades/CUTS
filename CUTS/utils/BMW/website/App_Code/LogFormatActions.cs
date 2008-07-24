@@ -17,15 +17,19 @@ using MySql.Data.MySqlClient;
 ///     and charts
 /// . This mostly handles DB actions
 /// </summary>
-/// 
+///
 
 namespace Actions
 {
-    /// <summary>
-    /// Perform insertion and deletion
-    /// of LogFormats
-    /// </summary>
-    public class LogFormatActions
+  /**
+   * Hamilton:
+   *
+   * Same comment as in UnitTestActions.aspx.cs WRT to the singleton.
+   * Right now there is a STRONG coupling bewteen the database and the
+   * processing. Instead, you should let the page calling these methods
+   * be the Bridge between this database and this code.
+   */
+  public class LogFormatActions
     {
         private string connString;
 
@@ -49,9 +53,9 @@ namespace Actions
         private void Insert_LF_variable(int lfid,string varname)
         {
             // Need to add support for more than INT
-            
-            string sql = @"CALL Insert_LF_variable('"+ 
-                lfid.ToString() + "','" + 
+
+            string sql = @"CALL Insert_LF_variable('"+
+                lfid.ToString() + "','" +
                 varname + "','int');";
 
             ExecuteMySql(sql);
@@ -76,5 +80,5 @@ namespace Actions
             return obj;
         }
 
-    }   
+    }
 }

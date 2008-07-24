@@ -14,7 +14,16 @@ using System.Text.RegularExpressions;
 
 namespace Actions
 {
-    /// <summary>
+  /**
+   * Hamilton:
+   *
+   * Please store the Dataset in the Session object for the page. This
+   * class can then operate on a dataset that is provided by the page,
+   * which will remove the need for the singleton behavior since each
+   * page/session will instantiate a new DataSetActions object, which
+   * in turn will be provided with a dataset to operate on.
+   */
+  /// <summary>
     /// Perform actions on the main DataSet
     /// that is used for evaluation, aggregrations,
     /// ect
@@ -57,13 +66,13 @@ namespace Actions
         }
 
         /// <summary>
-        /// Adds a table that represents one 
+        /// Adds a table that represents one
         /// LogFormat to the DataSet
-        /// 
+        ///
         /// General use is AddTable, FillTables, Send_To_DB()
-        /// 
-        /// Note: this needs to take in a Hash for 
-        /// columnInfo, so that we can have types 
+        ///
+        /// Note: this needs to take in a Hash for
+        /// columnInfo, so that we can have types
         /// other than int32
         /// </summary>
         public void AddTable(string tableName, Array columnInfo)
@@ -82,7 +91,7 @@ namespace Actions
             // will throw an exception (across two different builds)
             if (ds_.Tables.Contains(tableName))
                 ds_.Tables.Remove(tableName);
-            
+
             ds_.Tables.Add(dt_);
         }
 
@@ -93,21 +102,21 @@ namespace Actions
         }
 
         public void FillTable(int lfid, string cs_regex, Array varnames)
-        {            
+        {
             // Get the actual log messages and test_numbers
-            string sql = @"CALL Get_log_data('" + 
+            string sql = @"CALL Get_log_data('" +
                 lfid.ToString() + "');";
             DataTable dt_ = ExecuteMySqlAdapter(sql);
 
             /*   Iterate over each Row
              *   Regex the data out
-             *   Put the Data into the DataSet 
+             *   Put the Data into the DataSet
              */
-            
+
             // Note: need to add in support for different types
 
             string TableName = "LF" + lfid.ToString();
-            
+
 
             foreach (DataRow row in dt_.Rows)
             {
@@ -126,7 +135,7 @@ namespace Actions
 
                 // There should always be a test_number
                 NewRow["test_number"] = row["test_number"];
-                
+
                 InsertRow(TableName, NewRow);
             }
         }
@@ -156,8 +165,8 @@ namespace Actions
                 string sql = "CREATE TABLE `" + table.TableName + "` (";
                 foreach (DataColumn column in table.Columns)
                     sql += column.ColumnName + " INT,";
-                
-                
+
+
                 sql = sql.Remove(sql.LastIndexOf(","));
                 sql += ");";
 
@@ -189,6 +198,22 @@ namespace Actions
             }
         }
 
+        /**
+         * Hamilton:
+         *
+         * Please do not open a new connection for each query. Instead, open
+         * a connection when you load the page since this is ineffecient and
+         * a heavy process. To make this work, this class should have a constructor
+         * that requires a Connection interface. When the page creates a
+         * UnitTestAction object, if will pass in an existing connection,
+         * which should be open. This object will use that connection for
+         * all transactions, such as querying or updating a dataset and
+         * returning it to the calling page.
+         *
+         * If you want to reduce transactions to/from the database, please
+         * store the Dataset in the Session for that page. Please see the
+         * Critical_Path.aspx.cs page.
+         */
         private void ExecuteMySql(string sql)
         {
             MySqlConnection conn = new MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
@@ -196,9 +221,9 @@ namespace Actions
             conn.Open();
             comm.ExecuteNonQuery();
             conn.Close();
-        
+
         }
-        
+
         private DataTable ExecuteMySqlAdapter(string sql)
         {
             MySqlConnection conn = new MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
@@ -210,6 +235,6 @@ namespace Actions
 
             conn.Close();
             return ds.Tables[0];
-        } 
+        }
     }
 }

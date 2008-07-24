@@ -1,3 +1,18 @@
+Thu Jul 24 03:14:36 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/App_Code/DataSetActions.cs:
+        * utils/BMW/website/App_Code/LogFormatActions.cs:
+        * utils/BMW/website/App_Code/LogVariables.cs:
+        * utils/BMW/website/App_Code/UnitTestActions.cs:
+        * utils/BMW/website/BMW.master:
+        * utils/BMW/website/BMW.master.cs:
+        * utils/BMW/website/Log_Formats.aspx:
+        * utils/BMW/website/Log_Formats.aspx.cs:
+        * utils/BMW/website/unittest.aspx.cs:
+
+          Updated code with comments that need to be addressed by
+          Hamilton Turner.
+
 Thu Jul 24 02:07:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/temp.aspx:

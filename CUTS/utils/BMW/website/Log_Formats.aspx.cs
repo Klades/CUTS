@@ -25,6 +25,11 @@ public partial class Log_Formats : System.Web.UI.Page
 
     private void load_data()
     {
+      /**
+       * Hamilton:
+       *
+       * Please update this so that it uses a SQL stored procedure.
+       */
         // Get all the test from the database.
         string sql = "SELECT * FROM logformatdesc;";
         DataTable dt = ExecuteMySqlAdapter(sql);
@@ -65,6 +70,16 @@ public partial class Log_Formats : System.Web.UI.Page
             LogFormatActions lf = new LogFormatActions();
             lf.Insert_LF(lfmt, icase_regex, cs_regex, vars.ToArray());
 
+            /**
+             * Hamilton:
+             *
+             * Please update this so that it only prints a success message
+             * without the actual log format that was entered. If the log format
+             * is TOO long, then this will not display properly!!
+             *
+             * Moreove, you are only entering on message, so the user will no
+             * what the message format is. ;-)
+             */
             lbl_New_LF_Success.Style.Add("color", "green");
             lbl_New_LF_Success.Text = txt_New_LF.Text + " added Successfully!";
 
@@ -72,7 +87,18 @@ public partial class Log_Formats : System.Web.UI.Page
         }
         catch
         {
-            lbl_New_LF_Success.Style.Add("color", "red");
+          /**
+           * Hamilton:
+           *
+           * Please update this so that it only prints an error message
+           * without the actual log format that was entered. If the log format
+           * is TOO long, then this will not display properly!!
+           *
+           * Moreove, you are only entering on message, so the user will no
+           * what the message format is. ;-) What you should really do in this
+           * case is update the input control with the original message!!
+           */
+          lbl_New_LF_Success.Style.Add("color", "red");
             lbl_New_LF_Success.Text = "There was a problem adding " + txt_New_LF.Text;
         }
     }

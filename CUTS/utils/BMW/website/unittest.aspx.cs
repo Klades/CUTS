@@ -22,13 +22,13 @@ public partial class Unit_Testing : System.Web.UI.Page
 
         if (IsPostBack)
             return;
-        
+
         /*
         // Fix the focus so the correct button is always in focus
-        
-         * Update: this does not work as hoped - when you click in the 
+
+         * Update: this does not work as hoped - when you click in the
          * text box you cannot type as the focus has gone to the button :(
-         
+
         string ID = this.btn_Create_Test_Suite_Package.UniqueID;
         this.txt_Create_Test_Suite_Package.Attributes.Add("onclick","document.getElementById('" + ID + "').focus()");
 
@@ -73,7 +73,7 @@ public partial class Unit_Testing : System.Web.UI.Page
     {
         // Get all the test from the database.
         string sql = "SELECT * FROM test_suites;";
-        
+
         DataTable dt = ExecuteMySqlAdapter(sql);
         if (dt.Rows.Count == 0)
             throw new LoadTestSuiteException("You do not have a Test Suite Created! Please create one.");
@@ -130,7 +130,7 @@ public partial class Unit_Testing : System.Web.UI.Page
 
         // Ensure the width
         ensure_Test_Suite_Package_Width();
-        
+
 
         // Update the DropDownList to show all packages
         sql = "SELECT * FROM packages";
@@ -188,10 +188,10 @@ public partial class Unit_Testing : System.Web.UI.Page
                 "Please select a package and try again. <br />";
             return;
         }
-        
+
         // Load the Unit Test ListBox
         sql = "SELECT utid,name " +
-            "FROM unittestdesc as utd,packages_unit_tests as put " + 
+            "FROM unittestdesc as utd,packages_unit_tests as put " +
             "WHERE put.id = " + this.lb_Test_Suite_Packages.SelectedValue + " and put.ut_id = utd.utid;";
         dt = ExecuteMySqlAdapter(sql);
         lb_Unit_Tests.DataSource = dt;
@@ -214,8 +214,8 @@ public partial class Unit_Testing : System.Web.UI.Page
     {
         // Load the ddl_Add_Package_Unit_Test
 
-        string sql = "SELECT lfd.lfid,lfmt " + 
-            "FROM logformatdesc as lfd,unittesttable as utt " + 
+        string sql = "SELECT lfd.lfid,lfmt " +
+            "FROM logformatdesc as lfd,unittesttable as utt " +
             "where utt.lfid = lfd.lfid and utt.utid = " + lb_Unit_Tests.SelectedValue + ";";
         DataTable dt = ExecuteMySqlAdapter(sql);
 
@@ -228,7 +228,7 @@ public partial class Unit_Testing : System.Web.UI.Page
     {
         try
         {
-            // Ensure the length of the name 
+            // Ensure the length of the name
             //   (This also eliminates blank names or one space names - like ' ')
             if (this.txt_Create_Test_Suite.Text.Length < 3)
             {
@@ -242,16 +242,16 @@ public partial class Unit_Testing : System.Web.UI.Page
 
 
             // Reload the data, and select the package just created
-            //   ---Could turn this into out parameters and append to the 
+            //   ---Could turn this into out parameters and append to the
             //   ---end of lb_Test_Suites - rather than rehitting the database
             load_test_suite_data(txt_Create_Test_Suite.Text);
-        
+
         }
         catch
         {
             txt_Create_Test_Suite_Error.Text = "There was a problem adding the Test Suite. <br />" +
                 "This probably means there was already a Test Suite with that name. ";
-        }       
+        }
     }
 
     protected void OnClick_btn_Create_Test_Suite_Package(object sender, EventArgs e)
@@ -428,7 +428,7 @@ public partial class Unit_Testing : System.Web.UI.Page
             this.td_Unit_Test_Details.Visible = value;
         }
     }
-    
+
     private DataTable ExecuteMySqlAdapter(string sql)
     {
         MySqlConnection conn = new MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
@@ -488,6 +488,13 @@ public partial class Unit_Testing : System.Web.UI.Page
 
 }
 
+/**
+ * Hamilton:
+ *
+ * Please make the following a private class of this pages class
+ * unless it is used in other pages. If it is, then please move this
+ * class to its own file in App_Code.
+ */
 public class LoadTestSuiteException : Exception
 { // All we need is a default Exception constructor
 

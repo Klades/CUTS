@@ -79,8 +79,33 @@
     <td>
       <!-- status/error message label for the page. -->
       <asp:label id="message_" runat="server" />
-      
+
       <!-- Three different divs, just in case we would like to show more than one at once -->
+
+      <!--
+        Hamilton:
+
+        Please convert this into a item and just append *messages* to the end
+        of the 'Text' property. For example:
+
+        show_message_error (message) {
+          message.Text += "<div class='error'>" + message + </div>";
+        }
+
+        show_message_info (message) {
+          message.Text += "<div class='info'>" + message + </div>";
+        }
+
+        show_message_warning (message) {
+          message.Text += "<div class='warning'>" + message + </div>";
+        }
+
+        This will simply the code a LOT. It will making clearing the message
+        a LOT easier and will also remove the the need for having an
+        enumeration value to define the severity level then having to have
+        a LOT of if...else statements to locate the correct handler for the
+        type.
+        -->
       <asp:Panel runat="server" id="message_info" CssClass="message-Info message">
             <asp:Button ID="btn1" runat="server" CssClass="message-btn-ClearMe" Text=" X " OnClick="OnClick_Clear_Me" />
             <asp:Label ID="message_text_info" runat="server"></asp:Label>
@@ -93,7 +118,7 @@
             <asp:Button ID="Button3" runat="server" CssClass="message-btn-ClearMe" Text=" X " OnClick="OnClick_Clear_Me" />
             <asp:Label ID="message_text_success" runat="server"></asp:Label>
       </asp:Panel>
-      
+
       <br />
       <asp:Panel ID="help_" runat="server" Visible="false"></asp:Panel>
       <asp:contentplaceholder runat="server" id="MainContent" />

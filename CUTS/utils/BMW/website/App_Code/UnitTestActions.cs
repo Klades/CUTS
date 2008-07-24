@@ -14,8 +14,13 @@ using LogVariables;
 
 namespace Actions
 {
+    /**
+     * Hamilton:
+     *
+     * Please use the Doxygen comment style when documenting class!!
+     */
     /// <summary>
-    /// Perform insertion and evaluation of 
+    /// Perform insertion and evaluation of
     /// UnitTests
     /// </summary>
     public class UnitTestActions
@@ -23,12 +28,12 @@ namespace Actions
         public void Insert_UT(Hashtable Variables)
         {
             string sql = @"CALL Insert_UT('" +
-                Variables["Name"] + "','" + 
-                Variables["Description"] + "','" + 
-                Variables["FailComparison"] + "','" + 
-                Variables["WarnComparison"] + "','" + 
-                Variables["Evaluation"] + "','" + 
-                Variables["FailValue"] + "','" + 
+                Variables["Name"] + "','" +
+                Variables["Description"] + "','" +
+                Variables["FailComparison"] + "','" +
+                Variables["WarnComparison"] + "','" +
+                Variables["Evaluation"] + "','" +
+                Variables["FailValue"] + "','" +
                 Variables["WarnValue"] + "');";
 
             object obj = ExecuteMySqlScalar(sql);
@@ -36,7 +41,7 @@ namespace Actions
 
             if (Variables["relation1"].ToString() != "" && Variables["relation2"].ToString() != "")
                 Insert_UT_Relation(utid, Variables["relation1"].ToString(), Variables["relation2"].ToString());
-            
+
             foreach (string lfid in (Array)Variables["LFIDs"])
                 Insert_UT_LogFormat(utid, lfid);
 
@@ -55,12 +60,12 @@ namespace Actions
         public DataTable Eval_UT(int utid, string mode)
         {
             /*
-             * 
+             *
              * 1) create temp dataset
              * 2) put all messages in temp dataset
-             * 3) push temp back to real DB 
+             * 3) push temp back to real DB
              * 4) create select statement
-             * 
+             *
              * */
 
             DataSetActions dsa = DataSetActions.getInstance(utid);
@@ -75,11 +80,11 @@ namespace Actions
                 Array VariableNames;
                 GetLFIDInfo(out cs_regex, out VariableNames, CurrentLFID);
 
-                /* create a table for this log format 
+                /* create a table for this log format
                  *   Note this needs to take a hash for variables */
-                string TableName = "LF" + CurrentLFID.ToString(); 
+                string TableName = "LF" + CurrentLFID.ToString();
                 dsa.AddTable(TableName, VariableNames);
-                
+
                 dsa.FillTable(CurrentLFID, cs_regex, VariableNames);
 
             }
@@ -97,7 +102,7 @@ namespace Actions
             // Removing the tables from the DB
             foreach (UInt32 CurrentLFID in LFIDs)
                 dsa.RemoveTable("LF"+CurrentLFID.ToString());
-          
+
             return dt;
         }
 
@@ -106,12 +111,12 @@ namespace Actions
             string evaluation = GetFullEvaluation(utid);
 
             string sql = @"SELECT `test_number`,(" + evaluation + ") as result FROM ";
-            
+
             Array LFIDs = GetLFIDs(utid);
 
             foreach (UInt32 CurrentLFID_u in LFIDs)
                 sql += "LF" + Int32.Parse(CurrentLFID_u.ToString()) + ",";
-            
+
             sql = sql.Remove(sql.LastIndexOf(","));
 
             sql += " Group by ";
@@ -159,7 +164,7 @@ namespace Actions
                 string Function = function.GetValue(0).ToString();
 
                 Array extendedVarName = ExecuteMySqlReader(sql, "ExtendedName");
-                
+
                 // A failure here indicates that the user's entered
                 // eval was probably wrong for one variable
                 //  AKA LF7.sent / LF8.received when only LF7 is referenced
@@ -179,7 +184,7 @@ namespace Actions
             object obj = ExecuteMySqlScalar(sql);
 
             int amount = Int32.Parse(obj.ToString());
- 
+
             if (amount == 0)
                 return "test_number";
 
@@ -197,6 +202,15 @@ namespace Actions
         {
             // These are mySQL Aggregrate Functions
             // see http://dev.mysql.com/doc/refman/5.0/en/group-by-functions.html
+
+            /**
+             * Hamilton:
+             *
+             * You are missing a LOT of the functions defined a the following
+             * location:
+             *
+             *   http://dev.mysql.com/doc/refman/5.0/en/group-by-functions.html
+             */
             switch (Function)
             {
                 case "SUM":
@@ -218,6 +232,15 @@ namespace Actions
 
         private void Insert_UT_Aggregration(int utid, string VariableID, string AggregrationFunction)
         {
+          /**
+           * Hamilton:
+           *
+           * Please convert the following SQL statement to a stored precedure and
+           * use it instead of a raw SQL statement.
+           *
+           * Also, please use parameters instead of converting all variables
+           * to a string. This is actaully a security problem.
+           */
             string sql = @"CALL Insert_UT_Aggregration('" +
                 utid.ToString() + "','" +
                 VariableID + "','" +
@@ -226,14 +249,32 @@ namespace Actions
         }
         private void Insert_UT_Group(int UTID, string VariableID)
         {
-            string sql = @"CALL Insert_UT_Group('" +
+          /**
+           * Hamilton:
+           *
+           * Please convert the following SQL statement to a stored precedure and
+           * use it instead of a raw SQL statement.
+           *
+           * Also, please use parameters instead of converting all variables
+           * to a string. This is actaully a security problem.
+           */
+          string sql = @"CALL Insert_UT_Group('" +
                 UTID.ToString() + "','" +
                 VariableID + "');";
             ExecuteMySql(sql);
         }
         private void Insert_UT_LogFormat(int utid, string lfid)
         {
-            string sql = @"CALL Insert_UT_LogFormat('" +
+          /**
+           * Hamilton:
+           *
+           * Please convert the following SQL statement to a stored precedure and
+           * use it instead of a raw SQL statement.
+           *
+           * Also, please use parameters instead of converting all variables
+           * to a string. This is actaully a security problem.
+           */
+          string sql = @"CALL Insert_UT_LogFormat('" +
                     utid.ToString() + "','" +
                     lfid + "');";
             ExecuteMySql(sql);
@@ -241,7 +282,16 @@ namespace Actions
 
         private void Insert_UT_Relation(int utid, string rel1, string rel2)
         {
-            string sql = "CALL Insert_UT_Relation('" +
+          /**
+           * Hamilton:
+           *
+           * Please convert the following SQL statement to a stored precedure and
+           * use it instead of a raw SQL statement.
+           *
+           * Also, please use parameters instead of converting all variables
+           * to a string. This is actaully a security problem.
+           */
+          string sql = "CALL Insert_UT_Relation('" +
                 utid.ToString() + "','" +
                 rel1 + "','" +
                 rel2 + "');";
@@ -251,7 +301,16 @@ namespace Actions
         // helper function for eval_ut to simplify getting lfids given utid
         private Array GetLFIDs(int utid)
         {
-            MySqlConnection conn = new MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
+          /**
+           * Hamilton:
+           *
+           * Please convert the following SQL statement to a stored precedure and
+           * use it instead of a raw SQL statement.
+           *
+           * Also, please use parameters instead of converting all variables
+           * to a string. This is actaully a security problem.
+           */
+          MySqlConnection conn = new MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
             conn.Open();
             MySqlCommand comm = new MySqlCommand("SELECT lfid FROM unittesttable WHERE utid=" + utid.ToString(), conn);
             MySqlDataReader r = comm.ExecuteReader();
@@ -263,16 +322,25 @@ namespace Actions
             }
             r.Close();
             conn.Close();
-            
+
             return al.ToArray();
         }
 
-        // helper function for eval_ut to get info needed to 
+        // helper function for eval_ut to get info needed to
         //    1) extract the data from the log messages
         //    2) generate the internal datatable
         private void GetLFIDInfo(out string cs_regex, out Array vars, int lfid)
         {
-            MySqlConnection conn = new MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
+          /**
+           * Hamilton:
+           *
+           * Please convert the following SQL statement to a stored precedure and
+           * use it instead of a raw SQL statement.
+           *
+           * Also, please use parameters instead of converting all variables
+           * to a string. This is actaully a security problem.
+           */
+          MySqlConnection conn = new MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
             conn.Open();
 
             string sql = @"CALL Get_LFID_info('" + lfid.ToString() + "');";
@@ -305,6 +373,22 @@ namespace Actions
 
         }
 
+        /**
+         * Hamilton:
+         *
+         * Please do not open a new connection for each query. Instead, open
+         * a connection when you load the page since this is ineffecient and
+         * a heavy process. To make this work, this class should have a constructor
+         * that requires a Connection interface. When the page creates a
+         * UnitTestAction object, if will pass in an existing connection,
+         * which should be open. This object will use that connection for
+         * all transactions, such as querying or updating a dataset and
+         * returning it to the calling page.
+         *
+         * If you want to reduce transactions to/from the database, please
+         * store the Dataset in the Session for that page. Please see the
+         * Critical_Path.aspx.cs page.
+         */
         private object ExecuteMySqlScalar(string sql)
         {
             MySqlConnection conn = new MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
@@ -321,26 +405,26 @@ namespace Actions
             MySqlCommand comm = new MySqlCommand(sql, conn);
             conn.Open();
             MySqlDataReader r = comm.ExecuteReader();
-            
+
             ArrayList al = new ArrayList();
             while (r.Read())
                 al.Add(r.GetString(ColumnName));
-            
+
             conn.Close();
             return al.ToArray();
         }
-        
+
         private DataTable ExecuteMySqlAdapter(string sql)
         {
             MySqlConnection conn = new MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
             conn.Open();
-            
+
             MySqlDataAdapter da = new MySqlDataAdapter(sql, conn);
             DataSet ds = new DataSet();
             da.Fill(ds);
-            
+
             conn.Close();
             return ds.Tables[0];
-        } 
+        }
     }
 }

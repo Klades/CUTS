@@ -12,6 +12,16 @@ Create New Log Format
     <asp:Label ID="lbl_New_LF_Success" runat="server" Text="" />
 </p>
 
+<!--
+  Hamilton:
+
+  Please update the format of this control so that (1) its width is the entire,
+  (2) the id column is hidden, and (3) the user can actually delete a log format
+  if they like!!
+
+  Something similar to the grid displayed on default.aspx is what this page should
+  look like.
+  -->
 <asp:DataGrid runat="server"
      ID="_table"
       AllowSorting="True"
