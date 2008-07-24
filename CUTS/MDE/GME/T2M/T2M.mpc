@@ -1,7 +1,7 @@
 // $Id$
 
-project (cutst2m) : cutsexe, boost_base {
-  exename = cutst2m
+project (gmet2m) : cutsexe, boost_base {
+  exename = gmet2m
 
   includes += $(CIAO_ROOT)/CCF \
               $(ACE_ROOT)/contrib/utility

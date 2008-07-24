@@ -1,3 +1,14 @@
+Thu Jul 24 04:56:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/T2M/T2M.mpc:
+
+          . Change the name of the project file, and the name of the
+            target executable.
+
+        * MDE/GME/T2M/Text2Model.mpc:
+
+          Removed this file.
+
 Thu Jul 24 04:50:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/T2M/parsers/Scatter_Deployment:
