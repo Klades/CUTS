@@ -1063,7 +1063,7 @@ update_input_attribute_complex (const std::string & path,
     fullpath << path << "/" << attr.value ();
 
     ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - parsing input file at location\n",
+                "%T - %M - parsing input file at location %s\n",
                 fullpath.str ().c_str ()));
 
     if (parser->parse (fullpath.str (), info.object_))

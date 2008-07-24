@@ -16,6 +16,8 @@
 #include "boost/spirit/error_handling/exceptions.hpp"
 #include "boost/spirit/actor.hpp"
 
+#include "ace/Log_Msg.h"
+
 #include <iostream>
 
 namespace actor
@@ -41,10 +43,17 @@ struct find_instance
     // Get the name of the instance.
     std::string name (first, last);
 
+    ACE_DEBUG ((LM_DEBUG,
+                "%M - %T - searching for component instance named %s\n",
+                name.c_str ()));
+
     if (!this->instance_.is_nil ())
       this->instance_.release ();
 
     // Get the cache of the component instance elements.
+    ACE_DEBUG ((LM_DEBUG,
+                "%M - %T - looking in model cache\n"));
+
     typedef std::map <std::string, GME::Model> Model_Cache;
     Model_Cache & inst_cache = MODEL_CACHE (GME::Model, "Component");
 
@@ -53,10 +62,17 @@ struct find_instance
     if (inst_iter != inst_cache.end ())
     {
       // Save the located component instance.
+      ACE_DEBUG ((LM_DEBUG,
+                  "%M - %T - found component instance in model cache\n"));
       this->instance_ = inst_iter->second;
     }
     else
     {
+      ACE_DEBUG ((LM_DEBUG,
+                  "%M - %T - component instance not found in model cache; "
+                  "searching entire model for %s\n",
+                  name.c_str ()));
+
       // We need to search the model for the the component instance.
       // First, convert the string name to a path, if applicable.
       std::string path = name;
@@ -79,6 +95,11 @@ struct find_instance
 
       for ( ; impl_folder != impl_folder_end; impl_folder ++)
       {
+        ACE_DEBUG ((LM_DEBUG,
+                    "%T - %M - looking for component instance [%s] in %s\n",
+                    path.c_str (),
+                    impl_folder->path ("/").c_str ()));
+
         // Look for the instance in this folder.
         object = impl_folder->find_object_by_path (path);
 
@@ -135,6 +156,11 @@ struct find_deployment
         iter = deployments.begin (), iter_end = deployments.end ();
 
       // Insert the deployment plans into the cache.
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T - %M - saving %d deployment plan(s) in %s to cache\n",
+                  deployments.size (),
+                  this->folder_.path ("/", true).c_str ()));
+
       for ( ; iter != iter_end; iter ++)
         dp_cache.insert (std::make_pair (iter->name (), *iter));
     }
@@ -145,9 +171,9 @@ struct find_deployment
     // Save the name of the deployment of interest.
     std::string name (start, end);
 
-    std::cout
-      << "*** info [picmlin]: processing " << name
-      << "..." << std::endl;
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - looking for deployment plan named %s\n",
+                name.c_str ()));
 
     // Reset the deployment plan.
     if (!this->deployment_.is_nil ())
@@ -158,9 +184,11 @@ struct find_deployment
     MODEL_CACHE (GME::Set, "CollocationGroup").clear ();
 
     // Search for the deployment plan in the cache.
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - searching the deployment plan model cache\n"));
+
     typedef std::map <std::string, GME::Model> Model_Cache;
     Model_Cache & dp_cache = MODEL_CACHE (GME::Model, "DeploymentPlan");
-
     Model_Cache::iterator result = dp_cache.find (name);
 
     if (result != dp_cache.end ())
@@ -168,6 +196,10 @@ struct find_deployment
 
     if (this->deployment_.is_nil ())
     {
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T - %M - %s deployment plan not found; create a new one\n",
+                  name.c_str ()));
+
       // We need to create a new deployment since the one of
       // interest does not exist.
       this->deployment_ = GME::Model::_create ("DeploymentPlan", this->folder_);
@@ -175,6 +207,13 @@ struct find_deployment
 
       // Save the plan into the cache.
       dp_cache.insert (std::make_pair (name, this->deployment_));
+    }
+    else
+    {
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T - %M - found deployment plan in model cache\n",
+                  name.c_str ()));
+
     }
   }
 
