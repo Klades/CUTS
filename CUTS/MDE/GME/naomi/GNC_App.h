@@ -143,6 +143,7 @@ private:
     attribute_tag & info);
 
   void update_input_attribute_complex (
+    const std::string & path,
     const naomi::attributes::attributeType & attr,
     attribute_tag & info);
 

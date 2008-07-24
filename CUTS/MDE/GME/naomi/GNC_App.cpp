@@ -838,6 +838,8 @@ update_attribute_callback (const std::string & attr, attribute_tag & info)
               "%T - %M - handling attribute <%s>\n",
               attr.c_str ()));
 
+  this->list_attribute_callback (attr, info);
+
   if (this->update_phase_ == "input" && info.direction_ == "input")
   {
     this->update_input_attribute (attr, info);
@@ -919,6 +921,10 @@ update_input_attribute (const std::string & attr, attribute_tag & info)
 
   for ( ; path_iter != path_iter_end; ++ path_iter)
   {
+    ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - searching for attribute in %s\n",
+              path_iter->c_str ()));
+
     // Reset the pathname.
     pathname.clear ();
     pathname.str ("");
@@ -931,25 +937,29 @@ update_input_attribute (const std::string & attr, attribute_tag & info)
       break;
   }
 
-  if (!reader.is_open ())
+  if (reader.is_open ())
+  {
+    // Read the attribute information from the file.
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - loading input attribute's information\n"));
+
+    reader >> attr_info;
+
+    if (info.complex_.empty ())
+      this->update_input_attribute_simple (attr_info, info);
+    else
+      this->update_input_attribute_complex (*path_iter, attr_info, info);
+
+    // Close the XML file.
+    reader.close ();
+  }
+  else
   {
     ACE_ERROR ((LM_ERROR,
                 "%T - %M - could not locate attribute <%s> on disk; "
                 "please make sure path is correct\n",
                 attr.c_str ()));
-    return;
   }
-
-  // Read the attribute information from the file.
-  reader >> attr_info;
-
-  if (info.complex_.empty ())
-    this->update_input_attribute_simple (attr_info, info);
-  else
-    this->update_input_attribute_complex (attr_info, info);
-
-  // Close the XML file.
-  reader.close ();
 }
 
 //
@@ -959,6 +969,10 @@ void CUTS_GNC_App::
 update_input_attribute_simple (const naomi::attributes::attributeType & attr,
                                attribute_tag & info)
 {
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - updating simple attribute at location %s\n",
+              info.object_.path ("/").c_str ()));
+
   if (info.gme_attribute_.empty ())
   {
     // Since there is no GME attribute defined, then we assume the 'name'
@@ -997,25 +1011,41 @@ update_input_attribute_simple (const naomi::attributes::attributeType & attr,
 // update_complex_attribute_input
 //
 void CUTS_GNC_App::
-update_input_attribute_complex (const naomi::attributes::attributeType & attr,
+update_input_attribute_complex (const std::string & path,
+                                const naomi::attributes::attributeType & attr,
                                 attribute_tag & info)
 {
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - updating complex attribute at location %s\n",
+              info.object_.path ("/").c_str ()));
+
   GME_T2M_Parser * parser = 0;
 
   ACE_DLL parser_dll;
 
   // Open the DLL that contains the parser. This will be specified in the
   // 'complex_' property of the \a info parameter.
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - opening complex attribute parser in module %s\n",
+              info.complex_.c_str ()));
+
   if (parser_dll.open (info.complex_.c_str (), ACE_DEFAULT_SHLIB_MODE, 0) == 0)
   {
     // Load the creation function symbol from the loaded module.
     typedef GME_T2M_Parser * (* CREATION_FUNCTION) (void);
+
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - loading parser creation function symbol [%s]\n",
+                GME_T2M_CREATE_PARSER_FUNC_STR));
 
     CREATION_FUNCTION creation_function =
       (CREATION_FUNCTION) parser_dll.symbol (GME_T2M_CREATE_PARSER_FUNC_STR);
 
     if (creation_function != 0)
     {
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T - %M - creating new parser object\n"));
+
       // Create a new parser using the creation function.
       parser = (*creation_function) ();
     }
@@ -1029,18 +1059,30 @@ update_input_attribute_complex (const naomi::attributes::attributeType & attr,
 
   if (parser != 0)
   {
-    if (parser->parse (attr.value (), info.object_))
+    std::ostringstream fullpath;
+    fullpath << path << "/" << attr.value ();
+
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - parsing input file at location\n",
+                fullpath.str ().c_str ()));
+
+    if (parser->parse (fullpath.str (), info.object_))
+    {
+      ACE_DEBUG ((LM_INFO,
+                  "%T - %M - successfully parse input file\n"));
+    }
+    else
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T - %M - failed to parse input file '%s'\n",
-                  attr.value ().c_str ()));
+                  "%T - %M - failed to parse input file %s\n",
+                  fullpath.str ().c_str ()));
     }
   }
   else
   {
-      ACE_ERROR ((LM_ERROR,
-                  "%T - %M - failed to load parser from module '%s'\n",
-                  attr.value ().c_str ()));
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - failed to load parser from module %s\n",
+                info.complex_.c_str ()));
   }
 
   // Destroy the parser since we no longer need it. ;-)
@@ -1141,6 +1183,10 @@ update_simple_attribute_output (const std::string & attr,
 
   for ( ; path_iter != path_iter_end; ++ path_iter)
   {
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - searching for attribute in %s...\n",
+                path_iter->c_str ()));
+
     // Reset the pathname.
     pathname.clear ();
     pathname.str ("");
