@@ -57,17 +57,23 @@ bmw = 0
 
 /// @feature noinline
 /// This will disable all inlining for all projects in CUTS. By default
-/// inlining is turned on.
+/// inlining is turned on when applicable.
 
 noinline = 0
 
-/// @feature mpi
+/// @feature mpi (alpha)
 /// This controls whether the CUTS wrappers for MPI are built. Only
 /// enable this features of you have MPI build on your system, and
 /// plan on using it with MPI. Otherwise, leave this feature disabled
 /// or your solution will not build completely.
 
 mpi = 0
+
+/// @feature naomi
+/// This controls whether the NAOMI specific proejcts for CUTS are
+/// built. By default, NAOMI projects are not built.
+
+naomi = 0
 
 ///============================================================================
 // DO NOT CHANGE ANYTHING BELOW THIS LINE

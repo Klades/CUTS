@@ -1,3 +1,18 @@
+Fri Jul 25 13:44:22 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/GNC_App.h:
+        * MDE/GME/naomi/GNC_App.cpp:
+
+          . The connector now sets the 'output' parameter of a interpreter
+            to the --attribute-path option.
+
+        * MDE/GME/naomi/GNC.mpc:
+        * default.features:
+        * etc/config/requires_naomi.mpb:
+
+          . Defined a feature named 'naomi', which controls whethere or not
+            the NAOMI-specific projects for CUTS are built.
+
 Fri Jul 25 01:54:04 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * utils/BMW/website/Log_Formats.aspx:
@@ -6,7 +21,7 @@ Fri Jul 25 01:54:04 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
         * utils/BMW/website/UT_Create.aspx.cs:
 
           . Overhauled the pages to conform better to ace and doxygen standards
-              and to handle errors and validation better. Still working on 
+              and to handle errors and validation better. Still working on
               new Aggregration
 
 Thu Jul 24 22:06:31 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>

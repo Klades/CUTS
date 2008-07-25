@@ -49,7 +49,7 @@ struct CUTS_GNC_App_Options
   std::string project_;
 
   /// The location of the attributes.
-  std::set <std::string> attribute_path_;
+  std::string attribute_path_;
 
   /// List the attributes in the model.
   bool list_attributes_;
@@ -143,17 +143,16 @@ private:
     attribute_tag & info);
 
   void update_input_attribute_complex (
-    const std::string & path,
     const naomi::attributes::attributeType & attr,
     attribute_tag & info);
 
-  void update_attribute_output (const std::string & attr,
+  void update_output_attribute (const std::string & attr,
                                 attribute_tag & info);
 
-  void update_simple_attribute_output (const std::string & attr,
+  void update_output_attribute_simple (const std::string & attr,
                                        attribute_tag & info);
 
-  void update_complex_attribute_output (const std::string & attr,
+  void update_output_attribute_complex (const std::string & attr,
                                         attribute_tag & info);
 
   int gme_project_init (void);

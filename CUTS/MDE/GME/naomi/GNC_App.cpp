@@ -843,7 +843,7 @@ update_attribute_callback (const std::string & attr, attribute_tag & info)
   }
   else if (this->update_phase_ == "output" && info.direction_ == "output")
   {
-    this->update_attribute_output (attr, info);
+    this->update_output_attribute (attr, info);
   }
   else
     ;
@@ -910,29 +910,7 @@ update_input_attribute (const std::string & attr, attribute_tag & info)
     reader.parser ()->setFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, false);
 
   std::ostringstream pathname;
-
-  // Locate the attribute on disk.
-  std::set <std::string>::const_iterator
-    path_iter = this->opts_.attribute_path_.begin (),
-    path_iter_end = this->opts_.attribute_path_.end ();
-
-  for ( ; path_iter != path_iter_end; ++ path_iter)
-  {
-    ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - searching for attribute in %s\n",
-              path_iter->c_str ()));
-
-    // Reset the pathname.
-    pathname.clear ();
-    pathname.str ("");
-
-    // Construct the new pathname.
-    pathname << *path_iter << "/" << attr;
-
-    // Attempt to open the attribute file.
-    if (reader.open (pathname.str ().c_str ()) == 0)
-      break;
-  }
+  pathname << this->opts_.attribute_path_ << "/" << attr;
 
   if (reader.is_open ())
   {
@@ -945,7 +923,7 @@ update_input_attribute (const std::string & attr, attribute_tag & info)
     if (info.complex_.empty ())
       this->update_input_attribute_simple (attr_info, info);
     else
-      this->update_input_attribute_complex (*path_iter, attr_info, info);
+      this->update_input_attribute_complex (attr_info, info);
 
     // Close the XML file.
     reader.close ();
@@ -1008,8 +986,7 @@ update_input_attribute_simple (const naomi::attributes::attributeType & attr,
 // update_complex_attribute_input
 //
 void CUTS_GNC_App::
-update_input_attribute_complex (const std::string & path,
-                                const naomi::attributes::attributeType & attr,
+update_input_attribute_complex (const naomi::attributes::attributeType & attr,
                                 attribute_tag & info)
 {
   ACE_DEBUG ((LM_DEBUG,
@@ -1057,7 +1034,7 @@ update_input_attribute_complex (const std::string & path,
   if (parser != 0)
   {
     std::ostringstream fullpath;
-    fullpath << path << "/" << attr.value ();
+    fullpath << this->opts_.attribute_path_ << "/" << attr.value ();
 
     ACE_DEBUG ((LM_DEBUG,
                 "%T - %M - parsing input file at location %s\n",
@@ -1087,27 +1064,26 @@ update_input_attribute_complex (const std::string & path,
 }
 
 //
-// update_attribute_output
+// update_output_attribute
 //
 void CUTS_GNC_App::
-update_attribute_output (const std::string & attr, attribute_tag & info)
+update_output_attribute (const std::string & attr, attribute_tag & info)
 {
   ACE_DEBUG ((LM_DEBUG,
               "%T - %M - updating output attribute: %s\n",
               attr.c_str ()));
 
   if (info.complex_.empty ())
-    this->update_simple_attribute_output (attr, info);
+    this->update_output_attribute_simple (attr, info);
   else
-    this->update_complex_attribute_output (attr, info);
+    this->update_output_attribute_complex (attr, info);
 }
 
 //
-// update_simple_attribute_output
+// update_output_attribute_simple
 //
 void CUTS_GNC_App::
-update_simple_attribute_output (const std::string & attr,
-                                attribute_tag & info)
+update_output_attribute_simple (const std::string & attr, attribute_tag & info)
 {
   // Create the file reader for the configuration file.
   naomi::attributes::attributeType attr_info ("", "");
@@ -1172,29 +1148,10 @@ update_simple_attribute_output (const std::string & attr,
     writer.writer ()->setFeature (xercesc::XMLUni::fgDOMWRTFormatPrettyPrint, true);
 
   std::ostringstream pathname;
+  pathname << this->opts_.attribute_path_ << "/" << attr;
 
-  // Locate the attribute on disk.
-  std::set <std::string>::const_iterator
-    path_iter = this->opts_.attribute_path_.begin (),
-    path_iter_end = this->opts_.attribute_path_.end ();
-
-  for ( ; path_iter != path_iter_end; ++ path_iter)
-  {
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - searching for attribute in %s...\n",
-                path_iter->c_str ()));
-
-    // Reset the pathname.
-    pathname.clear ();
-    pathname.str ("");
-
-    // Construct the new pathname.
-    pathname << *path_iter << "/" << attr;
-
-    // Attempt to open the attribute file.
-    if (reader.open (pathname.str ().c_str ()) == 0)
-      break;
-  }
+  // Open the attribute for reading.
+  reader.open (pathname.str ().c_str ());
 
   // Get the paradigm for the project. This is the actual owner
   // of the attribute.
@@ -1275,10 +1232,10 @@ update_simple_attribute_output (const std::string & attr,
 }
 
 //
-// update_complex_attribute_output
+// update_output_attribute_complex
 //
 void CUTS_GNC_App::
-update_complex_attribute_output (const std::string & attr,
+update_output_attribute_complex (const std::string & attr,
                                  attribute_tag & info)
 {
   GME::RegistryNode parameters;
@@ -1320,6 +1277,7 @@ update_complex_attribute_output (const std::string & attr,
 
     // Pass the standard configuration to the interpreter.
     interpreter.parameter ("non-interactive", "");
+    interpreter.parameter ("output", this->opts_.attribute_path_);
 
     // Execute the interpreter on the currently selected object. We
     // also should make it the focus object.

@@ -1,6 +1,6 @@
 // $Id$
 
-project (GNC_Base) : xsc_cxx {
+project (GNC_Base) : requires_naomi, xsc_cxx {
   custom_only = 1
 
   specific {
@@ -17,12 +17,12 @@ project (GNC_Base) : xsc_cxx {
   Xsc_Files {
     gendir = .
 
-    $(CUTS_ROOT)/etc/schemas/naomi/attribute_simple.xsd
-    $(CUTS_ROOT)/etc/schemas/naomi/interface.xsd
+    $(NAOMI_ROOT)/schemas/attribute.xsd
+    $(NAOMI_ROOT)/schemas/interface.xsd
   }
 }
 
-project (GNC) : boost_base, cuts_gme, xscrt, cutsexe {
+project (GNC) : requires_naomi, boost_base, cuts_gme, xscrt, cutsexe {
   exename = gnc
 
   after += GNC_Base
