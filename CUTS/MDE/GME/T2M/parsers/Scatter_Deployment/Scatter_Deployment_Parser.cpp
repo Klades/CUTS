@@ -590,7 +590,7 @@ struct CUTS_Scatter_To_Picml_Parser :
                                                this->picml_deployment_)] >>
         boost::spirit::confix_p ('{', this->deployment_list_, '}');
 
-      this->start_ = *this->deployment_;
+      this->start_ = this->deployment_list_;
     }
 
     /**

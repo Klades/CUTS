@@ -1,3 +1,14 @@
+Fri Jul 25 18:32:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Scatter_Deployment_Parser.cpp:
+        * MDE/GME/naomi/parsers/Scatter_Deployment/Scatter_Deployment_Parser.cpp:
+
+          . Updated the parser so that is only takes a single deployment
+            plan as its input.
+
+          . Update the parser so that is expects the filename of the deployment
+            plan to parse to be defined by a resource name 'plan'.
+
 Fri Jul 25 15:53:20 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/naomi/GNC.mpc:
