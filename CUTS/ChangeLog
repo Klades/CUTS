@@ -1,3 +1,26 @@
+Fri Jul 25 15:53:20 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/GNC.mpc:
+        * MDE/GME/naomi/GNC_App.cpp:
+        * MDE/GME/naomi/GNC_Base_export.h:
+        * MDE/GME/naomi/Naomi_Parser.h:
+        * MDE/GME/naomi/Naomi_Parser.cpp:
+
+          . Updated the connector to use the new attribute schema, where
+            complex attributes are specified using a 'resource' tag.
+
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Scatter_Deployment_Parser.h:
+        * MDE/GME/naomi/parsers:
+        * MDE/GME/naomi/parsers/Scatter_Deployment:
+        * MDE/GME/naomi/parsers/Scatter_Deployment/Scatter_Deployment_Parser.h:
+        * MDE/GME/naomi/parsers/Scatter_Deployment/Scatter_Deployment_Parser.cpp:
+        * MDE/GME/naomi/parsers/Scatter_Deployment/Scatter_Deployment_Parser.mpc:
+        * MDE/GME/naomi/parsers/Scatter_Deployment/Scatter_Deployment_Parser_export.h:
+
+          . Implemented an adapter for the standard Scatter_Deployment_Parser
+            text-2-model parser that allows it to work with GME's connector for
+            NAOMI.
+
 Fri Jul 25 13:44:22 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/naomi/GNC_App.h:

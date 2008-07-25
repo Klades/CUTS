@@ -1,0 +1,14 @@
+// $Id$
+
+project (NAOMI_Scatter_Deployment_Parser) : gnc_base, cutslib {
+  sharedname = NAOMI_Scatter_Deployment_Parser
+
+  dynamicflags += NAOMI_SCATTER_DEPLOYMENT_PARSER_BUILD_DLL
+
+  libs  += Scatter_Deployment_Parser
+  after += Scatter_Deployment_Parser
+
+  Source_Files {
+    Scatter_Deployment_Parser.cpp
+  }
+}

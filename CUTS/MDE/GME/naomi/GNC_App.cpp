@@ -1,10 +1,9 @@
 // $Id$
 
 #include "GNC_App.h"
-#include "attribute_simple.h"
+#include "Naomi_Parser.h"
+#include "attribute.h"
 #include "interface.h"
-
-#include "GME/T2M/parsers/T2M_Parser.h"
 
 #include "gme/GME.h"
 #include "gme/XML.h"
@@ -993,7 +992,7 @@ update_input_attribute_complex (const naomi::attributes::attributeType & attr,
               "%T - %M - updating complex attribute at location %s\n",
               info.object_.path ("/").c_str ()));
 
-  GME_T2M_Parser * parser = 0;
+  GME_Naomi_Parser * parser = 0;
 
   ACE_DLL parser_dll;
 
@@ -1006,14 +1005,14 @@ update_input_attribute_complex (const naomi::attributes::attributeType & attr,
   if (parser_dll.open (info.complex_.c_str (), ACE_DEFAULT_SHLIB_MODE, 0) == 0)
   {
     // Load the creation function symbol from the loaded module.
-    typedef GME_T2M_Parser * (* CREATION_FUNCTION) (void);
+    typedef GME_Naomi_Parser * (* CREATION_FUNCTION) (void);
 
     ACE_DEBUG ((LM_DEBUG,
                 "%T - %M - loading parser creation function symbol [%s]\n",
-                GME_T2M_CREATE_PARSER_FUNC_STR));
+                GME_NAOMI_CREATE_PARSER_FUNC_STR));
 
     CREATION_FUNCTION creation_function =
-      (CREATION_FUNCTION) parser_dll.symbol (GME_T2M_CREATE_PARSER_FUNC_STR);
+      (CREATION_FUNCTION) parser_dll.symbol (GME_NAOMI_CREATE_PARSER_FUNC_STR);
 
     if (creation_function != 0)
     {
@@ -1033,23 +1032,26 @@ update_input_attribute_complex (const naomi::attributes::attributeType & attr,
 
   if (parser != 0)
   {
-    std::ostringstream fullpath;
-    fullpath << this->opts_.attribute_path_ << "/" << attr.value ();
+    // Pass each of the resources to the parser.
+    naomi::attributes::attributeType::resource_const_iterator
+      iter = attr.begin_resource (), iter_end = attr.end_resource ();
 
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - parsing input file at location %s\n",
-                fullpath.str ().c_str ()));
+    for ( ; iter != iter_end; ++ iter)
+      parser->handle_resource (iter->name (), iter->uri ());
 
-    if (parser->parse (fullpath.str (), info.object_))
+    // Now, run the parser. We need to pass it the target object and the path to
+    // attriburtes. This will be used to resolve any relative paths that are
+    // specified in the resources.
+    if (parser->run (info.object_, this->opts_.attribute_path_))
     {
       ACE_DEBUG ((LM_INFO,
-                  "%T - %M - successfully parse input file\n"));
+                  "%T - %M - successfully run parser\n"));
     }
     else
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T - %M - failed to parse input file %s\n",
-                  fullpath.str ().c_str ()));
+                  "%T - %M - failed to run parser in module %s\n",
+                  info.complex_.c_str ()));
     }
   }
   else

@@ -19,7 +19,8 @@
  * Text-2-Model parser for import Scatter input into a PICML deployment
  * model.
  */
-class Scatter_Deployment_Parser : public GME_T2M_Parser
+class SCATTER_DEPLOYMENT_PARSER_Export Scatter_Deployment_Parser :
+  public GME_T2M_Parser
 {
 public:
   /// Default constructor.
