@@ -7,7 +7,7 @@ Create New Log Format
 <p>
 <asp:TextBox ID="txt_New_LF" runat="server" Height="27px" Width="323px"></asp:TextBox>
     &nbsp;
-<asp:Button ID="btn_New_LF" runat="server" Text="Add" OnClick="OnClick_btn_New_LF" />
+<asp:Button ID="btn_New_LF" runat="server" Text="Enter" OnClick="OnClick_btn_New_LF" />
     &nbsp;
     <asp:Label ID="lbl_New_LF_Success" runat="server" Text="" />
 </p>
