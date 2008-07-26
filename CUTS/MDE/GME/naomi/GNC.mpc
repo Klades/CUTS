@@ -1,8 +1,7 @@
 // $Id$
 
-project (GNC_Base) : requires_naomi, xsc_cxx, xscrt, cutslib {
-  sharedname   =  GNC_Base
-  dynamicflags += GNC_BASE_BUILD_DLL
+project (GNC_Xsc_Gen) : requires_naomi, xsc_cxx {
+  custom_only = 1
 
   specific {
     xscflags += --cxx-header-suffix .h --cxx-source-suffix .cpp \
@@ -15,22 +14,30 @@ project (GNC_Base) : requires_naomi, xsc_cxx, xscrt, cutslib {
     inline_outputext = .inl
   }
 
+  Xsc_Files {
+    gendir = .
+
+    $(NAOMI_ROOT)/schemas/attribute.xsd
+    $(NAOMI_ROOT)/schemas/interface.xsd
+  }
+}
+
+project (GNC_Base) : requires_naomi, xscrt, cuts_gme, cutslib {
+  sharedname   =  GNC_Base
+  dynamicflags += GNC_BASE_BUILD_DLL
+
   Header_Files {
     GNC_Base_export.h
+    Resource_List.h
   }
 
   Source_Files {
     attribute.cpp
     interface.cpp
 
+    Attribute_Tag.cpp
     Naomi_Parser.cpp
-  }
-
-  Xsc_Files {
-    gendir = .
-
-    $(NAOMI_ROOT)/schemas/attribute.xsd
-    $(NAOMI_ROOT)/schemas/interface.xsd
+    Naomi_Generator.cpp
   }
 }
 

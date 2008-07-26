@@ -2,12 +2,14 @@
 
 #include "GNC_App.h"
 #include "Naomi_Parser.h"
+#include "Naomi_Generator.h"
+#include "Attribute_Tag.h"
+#include "Resource_List.h"
 #include "attribute.h"
 #include "interface.h"
 
 #include "gme/GME.h"
 #include "gme/XML.h"
-#include "gme/ComponentEx.h"
 
 #include "ace/ACE.h"
 #include "ace/Get_Opt.h"
@@ -26,32 +28,34 @@
 #include <algorithm>
 
 static const char * usage =
-"USAGE: gnc [OPTIONS]\n\
-Input/output NAOMI attributes for a GME model\n\
+"Input/output NAOMI attributes for a GME model\n\
 \n\
-General Options\n\
+USAGE: gnc [OPTIONS]\n\
+\n\
+General Options:\n\
   -p, --project=GMEFILE            absolute/relative path to GME project\n\
 \n\
   -v, --verbose                    display progress\n\
   --debug                          display debugging information\n\
   -h, --help                       display this help message\n\
 \n\
-Atttribute Options\n\
-  --update-attributes              update all input/output attributes\n\
+Atttribute Options:\n\
+  -u, --update-attributes          update all input/output attributes\n\
   -l, --list-attributes            list naomi attribute in project\n\
 \n\
   -P, --attribute-path=PATH        path to naomi attributes on disk\n\
 \n\
-Interface Options\n\
+Interface Options:\n\
   --create-interface-file=PATH     create an interface file for the\n\
                                    at the specified location\n\
 \n\
-EXAMPLE:\n\
+\n\
+Example:\n\
 %> gnc -p ./models/traffic.xme -i scatter.traffic.deployment\n\
    -i rose.pedcontroller_period.msec -o picml.traffic.deployment\n\
    -P ./attributes\n\
 \n\
-REMARKS:\n\
+Remarks:\n\
 The GME Connector for NAOMI is a generic connector that works with\n\
 any GME project. The name of the input/output attributes must be tagged\n\
 in the model for the connector to work properly. Also, the owner of\n\
@@ -59,12 +63,7 @@ the attribute must match the paradigm name of the target GME project.\n\
 \n\
 The GMEFILE can be either a .mga file or a .xme file. You do not have to\n\
 provide a quantifier before the filename, such as \'MGA=', as required in\n\
-previous versions.\n\
-\n\
-LIMITATIONS:\n\
-The connector only supports simple types that can be expressed in\n\
-the <value></value> tag of the attribute. It assumes it is a string\n\
-and can be directly inputed into the model without any parsing.\n";
+previous versions.\n";
 
 //
 // CUTS_GNC_App
@@ -124,7 +123,7 @@ int CUTS_GNC_App::parse_args (int argc, char * argv [])
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "attribute-path") == 0)
       {
-        this->opts_.attribute_path_.insert (get_opt.opt_arg ());
+        this->opts_.attribute_path_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "verbose") == 0)
       {
@@ -168,14 +167,6 @@ int CUTS_GNC_App::parse_args (int argc, char * argv [])
       this->opts_.update_attributes_ = true;
       break;
 
-    //case 'i':
-    //  this->opts_.input_attributes_.insert (get_opt.opt_arg ());
-    //  break;
-
-    //case 'o':
-    //  this->opts_.output_attributes_.insert (get_opt.opt_arg ());
-    //  break;
-
     case 'l':
       this->opts_.list_attributes_ = true;
       break;
@@ -192,7 +183,7 @@ int CUTS_GNC_App::parse_args (int argc, char * argv [])
       break;
 
     case 'P':
-      this->opts_.attribute_path_.insert (get_opt.opt_arg ());
+      this->opts_.attribute_path_ = get_opt.opt_arg ();
       break;
 
     case '?':
@@ -297,7 +288,7 @@ int CUTS_GNC_App::gme_project_init (void)
       connstr << "MGA=" << this->opts_.project_;
 
       ACE_DEBUG ((LM_INFO,
-                  "%T - %M - opening '%s' for processing\n",
+                  "%T - %M - opening %s for processing\n",
                   this->opts_.project_.c_str ()));
 
       this->project_->open (connstr.str ());
@@ -427,7 +418,7 @@ int CUTS_GNC_App::gme_project_fini (void)
 //
 bool CUTS_GNC_App::
 locate_object_attribute (const std::string & attr,
-                         attribute_tag & info)
+                         GME_Attribute_Tag & info)
 {
   GME::Folder root = this->project_->root_folder ();
   return this->locate_object_attribute_i (attr, root, info);
@@ -439,7 +430,7 @@ locate_object_attribute (const std::string & attr,
 bool CUTS_GNC_App::
 locate_object_attribute_i (const std::string & attr,
                            const GME::Object & parent,
-                           attribute_tag & info)
+                           GME_Attribute_Tag & info)
 {
   // Get the registry nodes of this object.
   std::string path = parent.path (".", false).c_str ();
@@ -512,7 +503,7 @@ void CUTS_GNC_App::list_all_attributes (void)
 // list_attribute_callback
 //
 void CUTS_GNC_App::
-list_attribute_callback (const std::string & attr, attribute_tag & info)
+list_attribute_callback (const std::string & attr, GME_Attribute_Tag & info)
 {
   std::ostringstream ostr;
 
@@ -770,7 +761,7 @@ iterate_all_attributes_i (const GME::Object & parent,
     reg_iter = registry.begin (), reg_iter_end = registry.end ();
 
   std::string attr;
-  attribute_tag info;
+  GME_Attribute_Tag info;
 
   for ( ; reg_iter != reg_iter_end; ++ reg_iter)
   {
@@ -828,15 +819,19 @@ void CUTS_GNC_App::update_attributes (void)
 // update_attribute_callback
 //
 void CUTS_GNC_App::
-update_attribute_callback (const std::string & attr, attribute_tag & info)
+update_attribute_callback (const std::string & attr, GME_Attribute_Tag & info)
 {
   ACE_DEBUG ((LM_DEBUG,
               "%T - %M - handling attribute <%s>\n",
               attr.c_str ()));
 
-  this->list_attribute_callback (attr, info);
-
-  if (this->update_phase_ == "input" && info.direction_ == "input")
+  if (info.direction_ != "input" && info.direction_ != "output")
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - unknown direction [%s]\n",
+                info.direction_.c_str ()));
+  }
+  else if (this->update_phase_ == "input" && info.direction_ == "input")
   {
     this->update_input_attribute (attr, info);
   }
@@ -844,15 +839,13 @@ update_attribute_callback (const std::string & attr, attribute_tag & info)
   {
     this->update_output_attribute (attr, info);
   }
-  else
-    ;
 }
 
 //
 // update_input_attribute
 //
 void CUTS_GNC_App::
-update_input_attribute (const std::string & attr, attribute_tag & info)
+update_input_attribute (const std::string & attr, GME_Attribute_Tag & info)
 {
   ACE_DEBUG ((LM_DEBUG,
               "%T - %M - updating input attribute: %s\n",
@@ -941,7 +934,7 @@ update_input_attribute (const std::string & attr, attribute_tag & info)
 //
 void CUTS_GNC_App::
 update_input_attribute_simple (const naomi::attributes::attributeType & attr,
-                               attribute_tag & info)
+                               GME_Attribute_Tag & info)
 {
   ACE_DEBUG ((LM_DEBUG,
               "%T - %M - updating simple attribute at location %s\n",
@@ -986,7 +979,7 @@ update_input_attribute_simple (const naomi::attributes::attributeType & attr,
 //
 void CUTS_GNC_App::
 update_input_attribute_complex (const naomi::attributes::attributeType & attr,
-                                attribute_tag & info)
+                                GME_Attribute_Tag & info)
 {
   ACE_DEBUG ((LM_DEBUG,
               "%T - %M - updating complex attribute at location %s\n",
@@ -1069,74 +1062,29 @@ update_input_attribute_complex (const naomi::attributes::attributeType & attr,
 // update_output_attribute
 //
 void CUTS_GNC_App::
-update_output_attribute (const std::string & attr, attribute_tag & info)
+update_output_attribute (const std::string & attr, GME_Attribute_Tag & info)
 {
   ACE_DEBUG ((LM_DEBUG,
               "%T - %M - updating output attribute: %s\n",
               attr.c_str ()));
 
+  // Get the paradigm for the project. This is the actual owner
+  // of the attribute.
+  GME::Project project = info.object_.project ();
+  std::string owner = project.paradigm_name ();
+
+  // Create the file reader for the configuration file. Right now, we can
+  // only set the owner of the attribute.
+  naomi::attributes::attributeType attr_info (owner);
+
+  // Pass control to either the simple/complex attribute finish initializing
+  // the reset of the attribute's information
   if (info.complex_.empty ())
-    this->update_output_attribute_simple (attr, info);
+    this->update_output_attribute_simple (attr_info, info);
   else
-    this->update_output_attribute_complex (attr, info);
-}
+    this->update_output_attribute_complex (attr, attr_info, info);
 
-//
-// update_output_attribute_simple
-//
-void CUTS_GNC_App::
-update_output_attribute_simple (const std::string & attr, attribute_tag & info)
-{
-  // Create the file reader for the configuration file.
-  naomi::attributes::attributeType attr_info ("", "");
-
-  XSCRT::utils::File_Reader_T <
-    naomi::attributes::attributeType>
-    reader (&naomi::attributes::reader::attribute);
-
-  // Discard comment nodes in the document.
-  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMComments, false))
-    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMComments, false);
-
-  // Disable datatype normalization. The XML 1.0 attribute value
-  // normalization always occurs though.
-  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true))
-    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true);
-
-  // Do not create EntityReference nodes in the DOM tree. No
-  // EntityReference nodes will be created, only the nodes
-  // corresponding to their fully expanded substitution text will be
-  // created.
-  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMEntities, false))
-    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMEntities, false);
-
-  // Perform Namespace processing.
-  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMNamespaces, true))
-    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMNamespaces, true);
-
-  // Do not include ignorable whitespace in the DOM tree.
-  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMWhitespaceInElementContent, false))
-    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMWhitespaceInElementContent, false);
-
-  // Perform Validation
-  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMValidation, true))
-    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMValidation, true);
-
-  // Enable the GetParser()'s schema support.
-  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesSchema, true))
-    reader.parser ()->setFeature (xercesc::XMLUni::fgXercesSchema, true);
-
-  // Enable full schema constraint checking, including checking which
-  // may be time-consuming or memory intensive. Currently, particle
-  // unique attribution constraint checking and particle derivation
-  // restriction checking are controlled by this option.
-  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesSchemaFullChecking, true))
-    reader.parser ()->setFeature (xercesc::XMLUni::fgXercesSchemaFullChecking, true);
-
-  // The GetParser() will treat validation error as fatal and will exit.
-  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, false))
-    reader.parser ()->setFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, false);
-
+  // Create a writer for the attribute.
   XSCRT::utils::File_Writer_T <
     naomi::attributes::attributeType>
     writer ("http://www.atl.lmco.com/naomi/attributes",
@@ -1151,62 +1099,6 @@ update_output_attribute_simple (const std::string & attr, attribute_tag & info)
 
   std::ostringstream pathname;
   pathname << this->opts_.attribute_path_ << "/" << attr;
-
-  // Open the attribute for reading.
-  reader.open (pathname.str ().c_str ());
-
-  // Get the paradigm for the project. This is the actual owner
-  // of the attribute.
-  GME::Project project = info.object_.project ();
-  std::string owner = project.paradigm_name ();
-
-  if (reader.is_open ())
-  {
-    // Read the attribute information from the file. This is to make
-    // sure we preserve the current information.
-    reader >> attr_info;
-    reader.close ();
-
-    // Validate the we actually own this attribute.
-    if (attr_info.owner () != owner)
-    {
-      ACE_ERROR ((LM_ERROR,
-                  "%T - %M - target model does not own attribute; "
-                  "skipping...\n"));
-
-      return;
-    }
-  }
-  else
-  {
-    // We are creating the attribute for the first time. We, therefore,
-    // need to set the owner of the attribute.
-    attr_info.owner (owner);
-  }
-
-  if (info.gme_attribute_.empty ())
-  {
-    // The value is the name of the object.
-    attr_info.value (info.object_.name ());
-  }
-  else
-  {
-    // The value is an attribute of the object.
-    GME::Attribute target_attr;
-
-    try
-    {
-      GME::FCO fco = GME::FCO::_narrow (info.object_);
-      target_attr = fco.attribute (info.gme_attribute_);
-    }
-    catch (...)
-    {
-      GME::Folder folder = GME::Folder::_narrow (info.object_);
-    }
-
-    // Set the attribute info using the GME attribute.
-    attr_info.value (target_attr.string_value ());;
-  }
 
   // Open the writer for usage.
   if (writer.open (pathname.str ().c_str ()) != 0)
@@ -1226,7 +1118,7 @@ update_output_attribute_simple (const std::string & attr, attribute_tag & info)
 
   root->setAttribute (
     XSC::XStr ("xsi:schemaLocation"),
-    XSC::XStr ("http://www.atl.lmco.com/naomi/attributes attribute_simple.xsd"));
+    XSC::XStr ("http://www.atl.lmco.com/naomi/attributes attribute.xsd"));
 
   // Write the attribute to the file.
   writer << attr_info;
@@ -1234,81 +1126,129 @@ update_output_attribute_simple (const std::string & attr, attribute_tag & info)
 }
 
 //
+// update_output_attribute_simple
+//
+void CUTS_GNC_App::
+update_output_attribute_simple (naomi::attributes::attributeType & attr,
+                                GME_Attribute_Tag & info)
+{
+  if (info.gme_attribute_.empty ())
+  {
+    // The value is the name of the object.
+    attr.value (info.object_.name ());
+  }
+  else
+  {
+    // The value is an attribute of the object.
+    GME::Attribute target_attr;
+
+    try
+    {
+      GME::FCO fco = GME::FCO::_narrow (info.object_);
+      target_attr = fco.attribute (info.gme_attribute_);
+    }
+    catch (...)
+    {
+      GME::Folder folder = GME::Folder::_narrow (info.object_);
+    }
+
+    // Set the attribute info using the GME attribute.
+    attr.value (target_attr.string_value ());;
+  }
+}
+
+//
 // update_output_attribute_complex
 //
 void CUTS_GNC_App::
 update_output_attribute_complex (const std::string & attr,
-                                 attribute_tag & info)
+                                 naomi::attributes::attributeType & attr_type,
+                                 GME_Attribute_Tag & info)
 {
-  GME::RegistryNode parameters;
-  std::ostringstream regpath;
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - updating complex attribute at location %s\n",
+              info.object_.path ("/").c_str ()));
 
-  // Actual location of the parameters in the registry.
-  regpath
-    << "naomi:\\\\" << attr << "/parameters";
+  GME_Naomi_Generator * generator = 0;
 
-  try
+  ACE_DLL generator_dll;
+
+  // Open the DLL that contains the parser. This will be specified in the
+  // 'complex_' property of the \a info parameter.
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - opening complex attribute generator in module %s\n",
+              info.complex_.c_str ()));
+
+  if (generator_dll.open (info.complex_.c_str (), ACE_DEFAULT_SHLIB_MODE, 0) == 0)
   {
-    GME::FCO fco = GME::FCO::_narrow (info.object_);
-    parameters = fco.registry_node (regpath.str ().c_str ());
-  }
-  catch (...)
-  {
-    GME::Folder folder = GME::Folder::_narrow (info.object_);
-    parameters = folder.registry_node (regpath.str ().c_str ());
-  }
+    // Load the creation function symbol from the loaded module.
+    typedef GME_Naomi_Generator * (* CREATION_FUNCTION) (void);
 
-  try
-  {
-    // Load the specified interpreter.
-    GME::ComponentEx interpreter (info.complex_);
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - loading generator creation function symbol [%s]\n",
+                GME_NAOMI_CREATE_GENERATOR_FUNC_STR));
 
-    // Configure the interpreter using the parameters in
-    // the collection of registry nodes.
-    typedef GME::Collection_T <GME::RegistryNode> RegistryNodes;
+    CREATION_FUNCTION creation_function =
+      (CREATION_FUNCTION) generator_dll.symbol (GME_NAOMI_CREATE_GENERATOR_FUNC_STR);
 
-    RegistryNodes parameter_list;
-    size_t n = parameters.children (parameter_list);
-
-    RegistryNodes::iterator
-      iter = parameter_list.begin (),
-      iter_end = parameter_list.end ();
-
-    for ( ; iter != iter_end; ++ iter)
-      interpreter.parameter (iter->name (), iter->value ());
-
-    // Pass the standard configuration to the interpreter.
-    interpreter.parameter ("non-interactive", "");
-    interpreter.parameter ("output", this->opts_.attribute_path_);
-
-    // Execute the interpreter on the currently selected object. We
-    // also should make it the focus object.
-    GME::Project project = info.object_.project ();
-    GME::FCO focus = GME::FCO::_narrow (info.object_);
-
-    std::vector <GME::FCO> selected;
-    selected.push_back (focus);
-
-    // Before we invoke the interpreter, we must commit the current
-    // transaction, and begin a new transaction.
-    project.commit_transaction ();
-
-    try
+    if (creation_function != 0)
     {
-      // Invoke the target interpreter.
-      interpreter.invoke (project, focus, selected, 0);
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T - %M - creating new generator object\n"));
+
+      // Create a new parser using the creation function.
+      generator = (*creation_function) ();
     }
-    catch (const GME::Exception & )
+    else
     {
-
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - module [%s] does not define generator creation function\n",
+                  info.complex_.c_str ()));
     }
-
-    // Just in case something else happens after this point, we
-    // need to restart the default transaction.
-    project.begin_transaction ();
   }
-  catch (...)
+
+  if (generator != 0)
   {
 
+    // Now, run the generator. We need to pass it the target object and the path to
+    // attriburtes. This will be used to resolve any relative paths that are
+    // specified in the resources.
+    if (generator->run (attr, this->opts_.attribute_path_, info.object_) == 0)
+    {
+      ACE_DEBUG ((LM_INFO,
+                  "%T - %M - successfully run generator\n"));
+
+      // We need to update the resources list for this attribute.
+      const GME_Naomi_Resource_List & resources = generator->resources ();
+
+      GME_Naomi_Resource_List::const_iterator
+        iter = resources.begin (), iter_end = resources.end ();
+
+      for ( ; iter != iter_end; ++ iter)
+      {
+        naomi::attributes::attributeType::resourceType
+          resource (iter->name_, iter->uri_);
+
+        attr_type.add_resource (resource);
+      }
+
+      // Get the description of the attribute.
+      attr_type.documentation (generator->documentation ());
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - failed to run generator in module %s\n",
+                  info.complex_.c_str ()));
+    }
   }
+  else
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - failed to load parser from module %s\n",
+                info.complex_.c_str ()));
+  }
+
+  // Destroy the parser since we no longer need it. ;-)
+  generator->destroy ();
 }

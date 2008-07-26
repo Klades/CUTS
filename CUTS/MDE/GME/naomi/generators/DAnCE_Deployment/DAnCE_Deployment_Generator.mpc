@@ -1,0 +1,15 @@
+// $Id$
+
+project (NAOMI_DAnCE_Deployment_Generator) : gnc_generator {
+  sharedname = NAOMI_DAnCE_Deployment_Generator
+
+  dynamicflags += DANCE_DEPLOYMENT_GENERATOR_BUILD_DLL
+
+  Source_Files {
+    DAnCE_Deployment_Generator.cpp
+  }
+
+  Header_Files {
+    DAnCE_Deployment_Generator_export.h
+  }
+}

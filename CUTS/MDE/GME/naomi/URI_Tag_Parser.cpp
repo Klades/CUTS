@@ -19,9 +19,9 @@ struct CUTS_URI_Tag_Grammar :
    * @param[in]       deployment_folder     Target deployment folder.
    * @param[in]       options               Application options.
    */
-  CUTS_URI_Tag_Grammar (std::string & attribute_tag,
+  CUTS_URI_Tag_Grammar (std::string & GME_Attribute_Tag,
                         std::string & gme_attr)
-    : naomi_attribute_ (attribute_tag),
+    : naomi_attribute_ (GME_Attribute_Tag),
       gme_attribute_ (gme_attr)
   {
 

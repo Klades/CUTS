@@ -1,0 +1,5 @@
+// $Id$
+
+project : gnc_base, cuts_gme, cutslib {
+
+}

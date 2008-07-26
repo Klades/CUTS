@@ -1,0 +1,6 @@
+// $Id$
+
+project : requires_naomi {
+  after += GNC_Base
+  libs  += GNC_Base
+}

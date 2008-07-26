@@ -28,16 +28,17 @@ namespace naomi
   }
 }
 
-//=============================================================================
+// Forward decl.
+class GME_Attribute_Tag;
+
 /**
  * @struct CUTS_GNC_App_Options
  *
  * Configuration options for the application.
  */
-//=============================================================================
-
 struct CUTS_GNC_App_Options
 {
+  /// Default constructor. Sets the default values for the options.
   CUTS_GNC_App_Options (void)
     : list_attributes_ (false),
       update_attributes_ (false)
@@ -64,14 +65,11 @@ struct CUTS_GNC_App_Options
   std::string interface_file_name_;
 };
 
-//=============================================================================
 /**
  * @class CUTS_GNC_App
  *
  * Application object for the GME NAOMI connector.
  */
-//=============================================================================
-
 class CUTS_GNC_App
 {
 public:
@@ -88,17 +86,7 @@ public:
   int run_main (void);
 
 private:
-  struct attribute_tag
-  {
-    GME::Object object_;
-
-    std::string gme_attribute_;
-
-    std::string direction_;
-
-    std::string complex_;
-  };
-
+  /// Helper method to write the interface file for the model.
   void create_interface_file (void);
 
   void gather_all_attributes (const GME::Object & parent,
@@ -108,7 +96,7 @@ private:
   /// Type definition of the callback method for iteration.
   typedef
     void (CUTS_GNC_App::*attribute_callback)(const std::string & attr,
-                                             attribute_tag & info);
+                                             GME_Attribute_Tag & info);
 
   /// Iterate over all the attributes in the model.
   void iterate_all_attributes (attribute_callback callback);
@@ -121,39 +109,42 @@ private:
 
   /// Callback method for listing the attribute.
   void list_attribute_callback (const std::string & attr,
-                                attribute_tag & info);
+                                GME_Attribute_Tag & info);
 
   bool locate_object_attribute (const std::string & attr,
-                                attribute_tag & info);
+                                GME_Attribute_Tag & info);
 
   bool locate_object_attribute_i (const std::string & attr,
                                   const GME::Object & parent,
-                                  attribute_tag & info);
+                                  GME_Attribute_Tag & info);
 
   void update_attributes (void);
 
   void update_attribute_callback (const std::string & attr,
-                                  attribute_tag & info);
+                                  GME_Attribute_Tag & info);
 
   void update_input_attribute (const std::string & attr,
-                               attribute_tag & info);
+                               GME_Attribute_Tag & info);
 
   void update_input_attribute_simple (
     const naomi::attributes::attributeType & attr,
-    attribute_tag & info);
+    GME_Attribute_Tag & info);
 
   void update_input_attribute_complex (
     const naomi::attributes::attributeType & attr,
-    attribute_tag & info);
+    GME_Attribute_Tag & info);
 
   void update_output_attribute (const std::string & attr,
-                                attribute_tag & info);
+                                GME_Attribute_Tag & info);
 
-  void update_output_attribute_simple (const std::string & attr,
-                                       attribute_tag & info);
+  void update_output_attribute_simple (
+    naomi::attributes::attributeType & attr,
+    GME_Attribute_Tag & info);
 
-  void update_output_attribute_complex (const std::string & attr,
-                                        attribute_tag & info);
+  void update_output_attribute_complex (
+    const std::string & attr,
+    naomi::attributes::attributeType & attr_type,
+    GME_Attribute_Tag & info);
 
   int gme_project_init (void);
 

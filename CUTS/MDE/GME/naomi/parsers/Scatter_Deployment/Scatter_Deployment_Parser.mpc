@@ -1,6 +1,6 @@
 // $Id$
 
-project (NAOMI_Scatter_Deployment_Parser) : gnc_base, cutslib {
+project (NAOMI_Scatter_Deployment_Parser) : gnc_parser {
   sharedname = NAOMI_Scatter_Deployment_Parser
 
   dynamicflags += NAOMI_SCATTER_DEPLOYMENT_PARSER_BUILD_DLL

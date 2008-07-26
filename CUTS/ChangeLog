@@ -1,3 +1,46 @@
+Sat Jul 26 18:44:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/Attribute_Tag.h:
+        * MDE/GME/naomi/Attribute_Tag.inl:
+        * MDE/GME/naomi/Attribute_Tag.cpp:
+        * MDE/GME/naomi/GNC.mpc:
+        * MDE/GME/naomi/GNC_App.h:
+        * MDE/GME/naomi/GNC_App.cpp:
+        * MDE/GME/naomi/Naomi_Generator.h:
+        * MDE/GME/naomi/Naomi_Generator.cpp:
+        * MDE/GME/naomi/Resource_List.h:
+        * MDE/GME/naomi/URI_Tag_Parser.cpp:
+        * MDE/GME/naomi/attribute.h:
+        * MDE/GME/naomi/attribute.inl:
+        * MDE/GME/naomi/attribute.cpp:
+        * MDE/GME/naomi/generators:
+
+          . Moved the attribute tag structure into its own fileset.
+
+          . Implemented a framework for using generators of complex attribute
+            types withing GME's NAOMI connector.
+
+          . Hand-crafted the XML binding classes for attribute XML files since
+            XSC is not able to correctly handle XML documents with <choice>
+            elements.
+
+        * MDE/GME/naomi/generators/DAnCE_Deployment:
+        * MDE/GME/naomi/generators/DAnCE_Deployment/DAnCE_Deployment_Generator.h:
+        * MDE/GME/naomi/generators/DAnCE_Deployment/DAnCE_Deployment_Generator.mpc:
+        * MDE/GME/naomi/generators/DAnCE_Deployment/DAnCE_Deployment_Generator.cpp:
+        * MDE/GME/naomi/generators/DAnCE_Deployment/DAnCE_Deployment_Generator_export.h:
+
+          . Implemented an adapter project for generating DAnCE deployments
+            from a PICML model within NAOMI.
+
+        * MDE/GME/naomi/parsers/Scatter_Deployment/Scatter_Deployment_Parser.mpc:
+        * etc/config/gnc_base.mpb:
+        * etc/config/gnc_generator.mpb:
+        * etc/config/gnc_parser.mpb:
+
+          . Create base projects to make it easier to define generator/parser
+            projects for GME's NAOMI connector.
+
 Fri Jul 25 18:32:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/T2M/parsers/Scatter_Deployment/Scatter_Deployment_Parser.cpp:
