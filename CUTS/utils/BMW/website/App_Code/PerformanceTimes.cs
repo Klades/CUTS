@@ -28,7 +28,7 @@ namespace CUTS
   /**
    * @class PerformanceTimes
    *
-   * Data abstraction for storing performance metrucs.
+   * Data abstraction for storing performance metrics.
    */
   //===========================================================================
 

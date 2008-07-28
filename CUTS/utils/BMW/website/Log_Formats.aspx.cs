@@ -8,39 +8,51 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
-using MySql.Data.MySqlClient;
-using Actions;
 using System.Text.RegularExpressions;
+using MySql.Data.MySqlClient;
+using Actions.LogFormatActions;
 
 
 public partial class Log_Formats : System.Web.UI.Page
 {
+  /**
+   * @var BMW_Master m_  A reference to the Master page that easily
+   *                      allows access to the messagins system. 
+   */
   private CUTS.BMW_Master m_;
+  
+  /**
+   * @var double Default_Width_  The default width(in px) for the page's Log
+   *                               Log Format Table.
+   */
   private static double Default_Width_ = 800.0;
 
+  /**
+   * Callback method for when the page is loading.
+   * 
+   * @param[in]       sender        Sender of the event.
+   * @param[in]       e             Event arguments.
+   */
   protected void Page_Load ( object sender, EventArgs e )
   {
     m_ = (CUTS.BMW_Master)Master;
     if (IsPostBack)
       return;
 
-    load_data();
+    this.load_data();
   }
 
+  /**
+   * Method that loads(or re-loads) the Log Format Table with the current
+   * contents of the database. 
+   */
   private void load_data ()
   {
-    /**
-     * Hamilton:
-     *
-     * Please update this so that it uses a SQL stored procedure.
-     */
-    // Get all the test from the database.
-    string sql = "SELECT * FROM logformatdesc;";
-    DataTable dt = ExecuteMySqlAdapter( sql );
-
+    DataTable dt = LogFormatActions.Get_All_Log_Formats();
+   
     // Data Bind
-    this._table.DataSource = dt;
-    this._table.DataBind();
+    this.Log_Format_Table_.DataSource = dt;
+    this.Log_Format_Table_.DataBind();
 
     // Check for info
     if (dt.Rows.Count == 0)
@@ -48,22 +60,29 @@ public partial class Log_Formats : System.Web.UI.Page
         "add one.");
 
     // Ensure Widths
-    if (this._table.Width.Value < Default_Width_)
-      this._table.Width = new Unit( Default_Width_ );
+    if (this.Log_Format_Table_.Width.Value < Default_Width_)
+      this.Log_Format_Table_.Width = new Unit( Default_Width_ );
     if (this.txt_New_LF.Width.Value < Default_Width_)
       this.txt_New_LF.Width = new Unit( Default_Width_ );
 
     // Make the ID column small
-    this._table.Columns[0].ItemStyle.Width = new Unit( 10 );
-    this._table.Columns[0].HeaderStyle.Width = new Unit( 10 );
-    this._table.Columns[0].FooterStyle.Width = new Unit( 10 );
+    this.Log_Format_Table_.Columns[0].ItemStyle.Width = new Unit( 10 );
+    this.Log_Format_Table_.Columns[0].HeaderStyle.Width = new Unit( 10 );
+    this.Log_Format_Table_.Columns[0].FooterStyle.Width = new Unit( 10 );
 
     // Setup the button better
     this.btn_New_LF.Height = this.txt_New_LF.Height;
-
   }
 
-
+  /**
+   * Callback method for when someone clicks to enter in a new 
+   * Log Format. This validates the input and attempts to insert a new
+   * LF into the database, correctly reporting on errors or success, 
+   * and reloading the LF Table in the event of success. 
+   * 
+   * @param[in]       sender        Sender of the event.
+   * @param[in]       e             Event arguments.
+   */
   protected void OnClick_btn_New_LF ( object sender, EventArgs e )
   {
     if (this.txt_New_LF.Text.Length < 3)
@@ -96,19 +115,8 @@ public partial class Log_Formats : System.Web.UI.Page
         vars.Add( varname );
       }
 
-      LogFormatActions lf = new LogFormatActions();
-      lf.Insert_LF( lfmt, icase_regex, cs_regex, vars.ToArray() );
+       LogFormatActions.Insert_LF( lfmt, icase_regex, cs_regex, vars.ToArray() );
 
-      /**
-       * Hamilton:
-       *
-       * Please update this so that it only prints a success message
-       * without the actual log format that was entered. If the log format
-       * is TOO long, then this will not display properly!!
-       *
-       * Moreove, you are only entering on message, so the user will no
-       * what the message format is. ;-)
-       */
       m_.AddNewMessage_Success( "'" + txt_New_LF.Text + "' added Successfully!" );
 
       this.load_data();
@@ -120,16 +128,5 @@ public partial class Log_Formats : System.Web.UI.Page
     }
   }
 
-    private DataTable ExecuteMySqlAdapter(string sql)
-    {
-        MySqlConnection conn = new MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
-        conn.Open();
-
-        MySqlDataAdapter da = new MySqlDataAdapter(sql, conn);
-        DataSet ds = new DataSet();
-        da.Fill(ds);
-
-        conn.Close();
-        return ds.Tables[0];
-    }
+    
 }

@@ -18,7 +18,7 @@
         <asp:TextBox ID="UT_name" runat="server" Width="284px"></asp:TextBox>
         
         &nbsp;&nbsp; Desc
-        <asp:TextBox ID="UT_desc" runat="server" Height="44px" Width="261px" TextMode="MultiLine" Wrap="true"></asp:TextBox>
+        <span style="position:relative; top:45px;"><asp:TextBox ID="UT_desc" runat="server" Height="65px" Width="288px" TextMode="MultiLine" Wrap="true"></asp:TextBox></span>
     </p>
     <h3>
         Use these Log Formats</h3>
@@ -29,7 +29,7 @@
         DataValueField="lfid"
         runat="server"
         AutoPostBack="true"
-        OnSelectedIndexChanged="OnChange_Log_Format_List_1"></asp:DropDownList>
+        OnSelectedIndexChanged="OnChange_Log_Format_List_1" Width="800px"></asp:DropDownList>
         
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <asp:Label 
@@ -43,7 +43,7 @@
         DataValueField="lfid"
         OnSelectedIndexChanged="OnChange_Log_Format_List_2"
         AutoPostBack="true"
-        runat="server"></asp:DropDownList>
+        runat="server" Width="800px"></asp:DropDownList>
         
     <asp:Literal ID="Spacer1" runat="server">&nbsp;&nbsp;&nbsp;&nbsp;</asp:Literal>
     <asp:Label 
@@ -125,7 +125,8 @@
     <p>
     </p>
     <h3>Aggregration</h3>
-    If there is more that one result of your evaluation, how would you like to aggregrate these results?
+    <div style="top:-8px;">If there is more that one result of your evaluation, how would you like to aggregrate these results?</div>
+    <br />
     <!-- Note that there is some server-side processing of these values
           to ensure that no one can pass commands into mySQL -->
     <asp:DropDownList ID="Aggregrate_Funtion" runat="server">

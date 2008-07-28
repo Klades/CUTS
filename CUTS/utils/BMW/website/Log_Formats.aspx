@@ -23,7 +23,7 @@ Create New Log Format
   look like.
   -->
 <asp:DataGrid runat="server"
-     ID="_table"
+     ID="Log_Format_Table_"
       AllowSorting="True"
        AutoGenerateColumns="false"
        CellPadding="2">

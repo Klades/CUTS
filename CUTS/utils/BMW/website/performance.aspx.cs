@@ -22,7 +22,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Text;
-using Actions;
+using Actions.UnitTestActions;
 
 namespace CUTS
 {
@@ -43,6 +43,8 @@ namespace CUTS
      *
      * @return      Current test number.
      */
+    private CUTS.BMW_Master m_;
+
     public int TestNumber
     {
       get { return this.test_number_; }
@@ -70,6 +72,8 @@ namespace CUTS
 
       if (value != null)
         this.test_number_ = System.Int32.Parse(value);
+
+      m_ = (CUTS.BMW_Master)Master;
 
       if (!this.Page.IsPostBack)
       {
@@ -184,7 +188,7 @@ namespace CUTS
     {
         if (ddl_Test_Suites.SelectedIndex < 1)
         {
-            show_error_message("Please choose another Test Suite. That one is not valid. ");
+            m_.AddNewMessage_Error("Please choose another Test Suite. That one is not valid. ");
         }
         
         // Clear out Panel
@@ -224,7 +228,7 @@ namespace CUTS
           dt.Columns.Add("Evaluation");
           dt.Columns.Add("Result");
           dt.Columns.Add("Chart");
-          UnitTestActions uta = new UnitTestActions();
+          
           
           // Ensure package has at least one Unit Test
           if (dt.Rows.Count < 1)
@@ -234,14 +238,12 @@ namespace CUTS
           foreach (DataRow row in dt.Rows)
           {
               // Evaluate
-              DataTable temp = uta.Eval_UT(Int32.Parse(row["id"].ToString()));
-              
-              // Filter by Test Number
-              DataRow[] temp_Rows = temp.Select("test_number = " + TestNumber.ToString());
+              DataTable temp = UnitTestActions.Evalate_UT_for_single_test(Int32.Parse(row["id"].ToString()),
+                TestNumber);
 
-              if (temp_Rows.Length == 0)
+              if (temp.Rows.Count == 0)
               {
-                  show_error_message("Oops - Looks like there is no data for '" + row["Name"].ToString() +
+                  m_.AddNewMessage_Info("Oops - Looks like there is no data for '" + row["Name"].ToString() +
                       "' in '" + Package_Name + "'");
                   row["Evaluation"] = "No Data";
                   row["Result"] = "No Data";
@@ -250,12 +252,13 @@ namespace CUTS
               }
               else
               {
-                  DataRow temp_Row = (DataRow)temp_Rows.GetValue(0);
+                  DataRow temp_Row = temp.Rows[0];
 
                   // Add Results of Evaluation to Main Table
                   row["Evaluation"] = temp_Row["evaluation"];
                   row["Result"] = temp_Row["result"];
                   row["Chart"] = @"<a href='UT_Chart.aspx?utid=" + row["id"].ToString() +
+                    "&t=" + TestNumber.ToString() +
                       "'>Chart</a>";
               }
           }

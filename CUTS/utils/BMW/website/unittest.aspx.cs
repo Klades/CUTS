@@ -9,6 +9,8 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using MySql.Data.MySqlClient;
+using Actions.UnitTestActions;
+using Actions.LogFormatActions;
 
 public partial class Unit_Testing : System.Web.UI.Page
 {
@@ -23,16 +25,8 @@ public partial class Unit_Testing : System.Web.UI.Page
         if (IsPostBack)
             return;
 
-
-
-
-
-
-
-
-
-
-        Add_Existing_Package.SelectedIndex = 0;
+      
+      Add_Existing_Package.SelectedIndex = 0;
         Add_Existing_Unit_Test.SelectedIndex = 0;
 
         // If any of the steps fail, 
@@ -51,26 +45,25 @@ public partial class Unit_Testing : System.Web.UI.Page
         m.InQuietMode = false;
     }
 
-    private bool load_Test_Suites()
+  private bool load_Test_Suites ()
+  {
+    // Load Existing Test Suites
+    DataTable dt = UnitTestActions.Get_All_Test_Suites();
+
+    if (dt.Rows.Count == 0)
     {
-        // Load Existing Test Suites
-        string sql = "SELECT * FROM test_suites;";
-        
-        DataTable dt = ExecuteMySqlAdapter(sql);
-        if (dt.Rows.Count == 0)
-        {
-            m.AddNewMessage_Info("You do not have a Test Suite Created! Please create one.");
-            ensure_Test_Suite_Width();
-            return false;
-        }
-
-        // Bind Data
-        this.Existing_Test_Suites.DataSource = dt;
-        this.Existing_Test_Suites.DataBind();
-
-        ensure_Test_Suite_Width();
-        return true;
+      m.AddNewMessage_Info( "You do not have a Test Suite Created! Please create one." );
+      ensure_Test_Suite_Width();
+      return false;
     }
+
+    // Bind Data
+    this.Existing_Test_Suites.DataSource = dt;
+    this.Existing_Test_Suites.DataBind();
+
+    ensure_Test_Suite_Width();
+    return true;
+  }
 
     private void ensure_Test_Suite_Width()
     {
@@ -82,89 +75,77 @@ public partial class Unit_Testing : System.Web.UI.Page
             Existing_Test_Suites.Width = new Unit(DEFAULT_WIDTH);
     }
 
-    private bool load_Packages()
+  private bool load_Packages ()
+  {
+    // Update the DropDownList to show all packages
+    DataTable dt = UnitTestActions.Get_All_Packages();
+
+    if (dt.Rows.Count == 0)
     {
-        // Update the DropDownList to show all packages
-        string sql = "SELECT * FROM packages";
-        DataTable dt = ExecuteMySqlAdapter(sql);
-        if (dt.Rows.Count == 0)
-        {
-            // Really no reason to continue, 
-            // there will obviously be no packages for the
-            // selected test suite
-            m.AddNewMessage_Info("There are no packages created in the system.");
+      // Really no reason to continue, 
+      // there will obviously be no packages for the
+      // selected test suite
+      m.AddNewMessage_Info( "There are no packages created in the system." );
 
-            // Insert the Conveinance Statement
-            if (Add_Existing_Package.Items.Count == 0)
-                Add_Existing_Package.Items.Insert(0, "Please Create a Package First");
+      // Insert the Conveinance Statement
+      if (Add_Existing_Package.Items.Count == 0)
+        Add_Existing_Package.Items.Insert( 0, "Please Create a Package First" );
 
-            Add_Existing_Package.SelectedIndex = -1;
+      Add_Existing_Package.SelectedIndex = -1;
 
-            ensure_Test_Suite_Package_Width();
-            return false;
-        }
-
-        
-        // Bind Data
-        this.Add_Existing_Package.DataSource = dt;
-        this.Add_Existing_Package.DataBind();
-
-        // Insert the Conveinance Statement
-        if (Add_Existing_Package.Items[0].Value != "-1")
-        {
-            this.Add_Existing_Package.Items.Insert(0, new ListItem("Choose an Existing Package to Add it . . . ", "-1"));
-            this.Add_Existing_Package.SelectedIndex = 0;
-        }
-
-
-        // Update the Test_Suite_Packages list
-
-        // First check integrity the selected test suite
-        if (false == IsValidSelection(Existing_Test_Suites))
-        {
-            string err_msg = "There is no Test Suite Selected. " +
-                            "One must be selected before a package list can be loaded";
-            m.AddNewMessage_Info(err_msg);
-            ensure_Test_Suite_Package_Width();
-            return false;
-        }
-        
-        // Get Package info for Test Suite
-        sql = "SELECT packages.id as id,name " +
-            "FROM packages,test_suite_packages as tsa " +
-            "where tsa.id =" + Existing_Test_Suites.SelectedValue + " AND tsa.p_id = packages.id;";
-        dt = ExecuteMySqlAdapter(sql);
-        if (dt.Rows.Count == 0)
-        {
-            m.AddNewMessage_Info("There are no packages defined for Test Suite '" +
-                                    Existing_Test_Suites.SelectedItem.Text + "'");
-            
-            // Clear Any old Items
-            Test_Suite_Packages_List.Items.Clear();
-            Test_Suite_Packages_List.SelectedIndex = -1;
-
-            ensure_Test_Suite_Package_Width();
-            return false;
-        }
-
-        // Bind the data
-        this.Test_Suite_Packages_List.DataSource = dt;
-        this.Test_Suite_Packages_List.DataBind();
-
-        // Ensure the width
-        ensure_Test_Suite_Package_Width();
-        
-        return true;
-
-
-
-
-
-
-
-
-
+      ensure_Test_Suite_Package_Width();
+      return false;
     }
+
+
+    // Bind Data
+    this.Add_Existing_Package.DataSource = dt;
+    this.Add_Existing_Package.DataBind();
+
+    // Insert the Conveinance Statement
+    if (Add_Existing_Package.Items[0].Value != "-1")
+    {
+      this.Add_Existing_Package.Items.Insert( 0, new ListItem( "Choose an Existing Package to Add it . . . ", "-1" ) );
+      this.Add_Existing_Package.SelectedIndex = 0;
+    }
+
+
+    // Update the Test_Suite_Packages list
+
+    // First check integrity the selected test suite
+    if (false == IsValidSelection( Existing_Test_Suites ))
+    {
+      string err_msg = "There is no Test Suite Selected. " +
+                      "One must be selected before a package list can be loaded";
+      m.AddNewMessage_Info( err_msg );
+      ensure_Test_Suite_Package_Width();
+      return false;
+    }
+
+    // Get Package info for Test Suite
+    dt = UnitTestActions.Get_Packages( Existing_Test_Suites.SelectedValue );
+    if (dt.Rows.Count == 0)
+    {
+      m.AddNewMessage_Info( "There are no packages defined for Test Suite '" +
+                              Existing_Test_Suites.SelectedItem.Text + "'" );
+
+      // Clear Any old Items
+      Test_Suite_Packages_List.Items.Clear();
+      Test_Suite_Packages_List.SelectedIndex = -1;
+
+      ensure_Test_Suite_Package_Width();
+      return false;
+    }
+
+    // Bind the data
+    this.Test_Suite_Packages_List.DataSource = dt;
+    this.Test_Suite_Packages_List.DataBind();
+
+    // Ensure the width
+    ensure_Test_Suite_Package_Width();
+
+    return true;
+  }
 
     private void ensure_Test_Suite_Package_Width()
     {
@@ -232,8 +213,7 @@ public partial class Unit_Testing : System.Web.UI.Page
     private bool load_unit_tests()
     {
         // Load the Existing Unit Tests List
-        string sql = "SELECT * FROM unittestdesc;";
-        DataTable dt = ExecuteMySqlAdapter(sql);
+        DataTable dt = UnitTestActions.Get_All_Unit_Tests();
         if (dt.Rows.Count == 0)
         {
             // Really no reason to continue, 
@@ -270,10 +250,7 @@ public partial class Unit_Testing : System.Web.UI.Page
         }
 
         // Load the Package Unit Tests List
-        sql = "SELECT utid,name " +
-            "FROM unittestdesc as utd,packages_unit_tests as put " + 
-            "WHERE put.id = " + Test_Suite_Packages_List.SelectedValue + " and put.ut_id = utd.utid;";
-        dt = ExecuteMySqlAdapter(sql);
+        dt = UnitTestActions.Get_Unit_Tests(Test_Suite_Packages_List.SelectedValue);
         if (dt.Rows.Count == 0)
         {
             m.AddNewMessage_Info("Package '" +
@@ -298,335 +275,265 @@ public partial class Unit_Testing : System.Web.UI.Page
         return true;
     }
 
-    private void Ensure_Unit_Test_Width()
-    {
-        if (Package_Unit_Tests_List.Width.Value < DEFAULT_WIDTH)
-            Package_Unit_Tests_List.Width = new Unit(DEFAULT_WIDTH);
+  private void Ensure_Unit_Test_Width ()
+  {
+    if (Package_Unit_Tests_List.Width.Value < DEFAULT_WIDTH)
+      Package_Unit_Tests_List.Width = new Unit( DEFAULT_WIDTH );
 
-        if (Add_Existing_Unit_Test.Width.Value < DEFAULT_WIDTH)
-            Add_Existing_Unit_Test.Width = new Unit(DEFAULT_WIDTH);
+    if (Add_Existing_Unit_Test.Width.Value < DEFAULT_WIDTH)
+      Add_Existing_Unit_Test.Width = new Unit( DEFAULT_WIDTH );
+  }
+
+  private void load_log_format_data ()
+  {
+    // Load the ddl_Add_Package_Unit_Test
+    DataTable dt = LogFormatActions.Get_Log_Formats( Package_Unit_Tests_List.SelectedValue );
+
+    this.dg_Unit_Test_Detail_Log_Formats.DataSource = dt;
+    this.dg_Unit_Test_Detail_Log_Formats.DataBind();
+  }
+
+
+  protected void OnClick_Create_Test_Suite ( object sender, EventArgs e )
+  {
+    // Ensure the length of the name 
+    //   (This also eliminates blank names or one space names - like ' ')
+    if (this.Create_Test_Suite_Name.Text.Length < 3)
+    {
+      m.AddNewMessage_Error( "Please be sure the test suite name is more than three characters." );
+      return;
     }
 
-    private void load_log_format_data()
+    try { UnitTestActions.Insert_Test_Suite( Create_Test_Suite_Name.Text ); }
+    catch
     {
-        // Load the ddl_Add_Package_Unit_Test
-
-        string sql = "SELECT lfd.lfid,lfmt " + 
-            "FROM logformatdesc as lfd,unittesttable as utt " + 
-            "where utt.lfid = lfd.lfid and utt.utid = " + Package_Unit_Tests_List.SelectedValue + ";";
-        DataTable dt = ExecuteMySqlAdapter(sql);
-
-        this.dg_Unit_Test_Detail_Log_Formats.DataSource = dt;
-        this.dg_Unit_Test_Detail_Log_Formats.DataBind();
+      m.AddNewMessage_Error( "There was a problem adding the Test Suite." +
+          "This probably means there was already a Test Suite with that name." );
+      return;
     }
 
+    // Reload the data, and select the package just created
+    reload_Test_Suites( Create_Test_Suite_Name.Text );
+  }
 
-    protected void OnClick_Create_Test_Suite(object sender, EventArgs e)
+  protected void OnClick_Create_Package ( object sender, EventArgs e )
+  {
+    // Ensure the length of the name
+    //   (This also eliminates blank names or one space names - like ' ')
+    if (this.Create_Package_Name.Text.Length < 3)
     {
-        // Ensure the length of the name 
-        //   (This also eliminates blank names or one space names - like ' ')
-        if (this.Create_Test_Suite_Name.Text.Length < 3)
-        {
-            m.AddNewMessage_Error("Please be sure the test suite name is more than three characters.");
-            return;
-        }
-
-
-
-
-
-        
-        string sql = @"CALL insert_test_suite('" + Create_Test_Suite_Name.Text + "');";
-        
-        try {ExecuteMySql(sql);}
-        catch 
-        { 
-            m.AddNewMessage_Error("There was a problem adding the Test Suite." +
-                "This probably means there was already a Test Suite with that name.");
-            return;
-        }
-
-        // Reload the data, and select the package just created
-        reload_Test_Suites(Create_Test_Suite_Name.Text);
-
-
-
-
-
-
-
-
-
-
-
-
+      m.AddNewMessage_Error( "Please be sure the package name is more than three characters." );
+      return;
     }
 
-    protected void OnClick_Create_Package(object sender, EventArgs e)
+    // Ensure we know which Test Suite to 
+    //   add the Package to 
+    string err_message = "You do not have a Test Suite selected that " +
+                    "it is possible to add Package '" +
+                    Create_Package_Name.Text + "' to.";
+    if (false == IsValidSelection( Existing_Test_Suites, err_message ))
+      return;
+
+
+    // Add the package
+    try { UnitTestActions.Insert_New_Package( Existing_Test_Suites.SelectedValue, Create_Package_Name.Text ); }
+    catch
     {
-        // Ensure the length of the name
-        //   (This also eliminates blank names or one space names - like ' ')
-        if (this.Create_Package_Name.Text.Length < 3)
-        {
-            m.AddNewMessage_Error("Please be sure the package name is more than three characters.");
-            return;
-        }
-
-        // Ensure we know which Test Suite to 
-        //   add the Package to 
-        string err_message = "You do not have a Test Suite selected that " +
-                        "it is possible to add Package '" +
-                        Create_Package_Name.Text + "' to.";
-        if (false == IsValidSelection(Existing_Test_Suites,err_message))
-            return;
-
-        
-        // Add the package
-        string sql = @"CALL insert_test_suite_package('" + 
-                       Existing_Test_Suites.SelectedValue + "','" +
-                       Create_Package_Name.Text + "');";
-
-        try { ExecuteMySql(sql); }
-        catch
-        {
-            m.AddNewMessage_Error("There was a problem adding Package '" +
-                                  Create_Package_Name.Text + "' to Test Suite '" +
-                                  Existing_Test_Suites.SelectedItem.Text + ".' Their is probably already " +
-                                  "a package with that name.");
-            return;
-        }
-        
-        // Reload the data, and select the package just created
-        reload_Packages(Create_Package_Name.Text);
+      m.AddNewMessage_Error( "There was a problem adding Package '" +
+                            Create_Package_Name.Text + "' to Test Suite '" +
+                            Existing_Test_Suites.SelectedItem.Text + ".' Their is probably already " +
+                            "a package with that name." );
+      return;
     }
 
-    protected void OnClick_show_help(object sender, EventArgs e)
+    // Reload the data, and select the package just created
+    reload_Packages( Create_Package_Name.Text );
+  }
+
+  protected void OnClick_show_help ( object sender, EventArgs e )
+  {
+    Panel p = (Panel)this.Master.FindControl( "help_" );
+    if (show_help.Text == "Show Help")
     {
-        Panel p = (Panel)this.Master.FindControl("help_");
-        if (show_help.Text == "Show Help")
-        {
-            p.Controls.Add(my_help_);
-            p.Visible = true;
-            my_help_.Visible = true;
-            show_help.Text = "Hide Help";
-        }
-        else
-        {
-            p.Controls.Remove(my_help_);
-            p.Visible = false;
-            my_help_.Visible = false;
-            show_help.Text = "Show Help";
-        }
+      p.Controls.Add( my_help_ );
+      p.Visible = true;
+      my_help_.Visible = true;
+      show_help.Text = "Hide Help";
     }
-
-    protected void OnChange_Packages_List(object sender, EventArgs e)
+    else
     {
-        load_unit_tests();
+      p.Controls.Remove( my_help_ );
+      p.Visible = false;
+      my_help_.Visible = false;
+      show_help.Text = "Show Help";
     }
+  }
 
-    protected void OnChange_Add_Existing_Package(object sender, EventArgs e)
+  protected void OnChange_Packages_List ( object sender, EventArgs e )
+  {
+    load_unit_tests();
+  }
+
+  protected void OnChange_Add_Existing_Package ( object sender, EventArgs e )
+  {
+    // Ensure there is a Test Suite Selected
+    string err_msg = "I am not sure which Test Suite you would like to add this pacakge to." +
+                "Please select a Test Suite and Try again";
+    if (false == IsValidSelection( Existing_Test_Suites, err_msg ))
+      return;
+
+    // Ensure there is a Valid Package
+    err_msg = "That is not a valid Package";
+    if (false == IsValidSelection( Add_Existing_Package, err_msg ))
+      return;
+
+    // Insert the package
+    try
     {
-        // Ensure there is a Test Suite Selected
-        string err_msg = "I am not sure which Test Suite you would like to add this pacakge to." +
-                    "Please select a Test Suite and Try again";
-        if (false == IsValidSelection(Existing_Test_Suites, err_msg))
-            return;
-
-        // Ensure there is a Valid Package
-        err_msg = "That is not a valid Package";
-        if (false == IsValidSelection(Add_Existing_Package, err_msg))
-            return;
-
-        // Insert the package
-        string sql = @"CALL insert_test_suite_package_existing('" +
-            this.Existing_Test_Suites.SelectedValue + "','" +
-            this.Add_Existing_Package.SelectedValue + "');";
-
-        try { ExecuteMySql(sql); }
-        catch
-        {
-            m.AddNewMessage_Error("There was a problem adding Package '" +
-                Add_Existing_Package.SelectedItem.Text + "' to Test Suite '" +
-                Existing_Test_Suites.SelectedItem.Text + ".' This probably means it is already added. ");
-            return;
-        }
-        
-
-        // Reload the Package data, and select the package just added
-        reload_Packages(Add_Existing_Package.SelectedItem.Text);
+      UnitTestActions.Insert_Existing_Package( 
+                                          Existing_Test_Suites.SelectedValue,
+                                          Add_Existing_Package.SelectedValue );
     }
-
-    protected void OnChange_Add_Existing_Unit_Test(object sender, EventArgs e)
+    catch
     {
-        string err_message = "That is not a valid Unit Test to add.";
-        if (IsValidSelection(Add_Existing_Unit_Test, err_message) == false)
-            return;
-        
-        // Ensure the integrity of the Selected Package
-        err_message = "You do not have a Package selected to add '" +
-                        Add_Existing_Unit_Test.SelectedItem.Text + "' to. ";
-        if (false == IsValidSelection(Test_Suite_Packages_List, err_message))
-            return;
-        
-        
-        string sql = @"CALL insert_package_unit_test('" +
-            this.Test_Suite_Packages_List.SelectedValue + "','" +
-            this.Add_Existing_Unit_Test.SelectedValue + "');";
-
-        try { ExecuteMySql(sql); }
-        catch
-        {
-            m.AddNewMessage_Error("There was a problem adding Unit Test '" +
-                Add_Existing_Unit_Test.SelectedItem.Text + "' to Package '" +
-                Test_Suite_Packages_List.SelectedItem.Text + ".' This probably means it is already added");
-            return;
-        }
-        
-        // Reload the Unit test Drop Down List
-        load_unit_tests();
-    
-    }
-
-    protected void OnChange_Test_Suites_List(object sender, EventArgs e)
-    {
-        // Pass in the new selection so we can try to load it
-        reload_Test_Suites(Existing_Test_Suites.SelectedItem.Text);
-    }
-
-    protected void OnChange_Unit_Tests_List(object sender, EventArgs e)
-    {
-        Unit_Test_Details_Visible = true;
-
-        // Ensure selection before sending sql
-        string err_msg = "'" + Package_Unit_Tests_List.SelectedItem.Text + "' is not a valid Unit Test";
-        if (false == IsValidSelection(Package_Unit_Tests_List, err_msg))
-            return;
-        
-
-        string sql = @"SELECT * FROM unittestdesc WHERE utid = " + Package_Unit_Tests_List.SelectedValue + " LIMIT 1;";
-        DataRow row = ExecuteMySqlRow(sql);
-
-        txt_Unit_Test_Details_Name.Text = row["name"].ToString();
-        txt_Unit_Test_Details_Description.Text = row["description"].ToString();
-        txt_Unit_Test_Details_Evaluation.Text = row["evaluation"].ToString();
-        txt_Unit_Test_Details_Warn_Comparison.Text = row["warn_comparison"].ToString() + " " + row["warn"].ToString();
-        txt_Unit_Test_Details_Fail_Comparison.Text = row["fail_comparison"].ToString() + " " + row["fail"].ToString();
-        lbl_Unit_Test_Details_ID.Text = row["utid"].ToString();
-
-        load_log_format_data();
-    }
-
-    private bool Unit_Test_Details_Visible
-    {
-        get { return this.td_Unit_Test_Details.Visible; }
-        set { this.td_Unit_Test_Details.Visible = value; }
+      m.AddNewMessage_Error( "There was a problem adding Package '" +
+          Add_Existing_Package.SelectedItem.Text + "' to Test Suite '" +
+          Existing_Test_Suites.SelectedItem.Text + ".' This probably means it is already added. " );
+      return;
     }
 
 
-    /// <summary>
-    /// Returns a DataTable and properly manages the connection
-    /// </summary>
-    /// <param name="sql"></param>
-    /// <returns></returns>
-    private DataTable ExecuteMySqlAdapter(string sql)
-    {
-        MySqlConnection conn = new MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
-        conn.Open();
-        MySqlDataAdapter da = new MySqlDataAdapter(sql, conn);
-        DataSet ds = new DataSet();
-        try { da.Fill(ds); }
-        catch { throw new ArgumentException("The sql executed was : " + sql); }
-        finally { conn.Close(); }
+    // Reload the Package data, and select the package just added
+    reload_Packages( Add_Existing_Package.SelectedItem.Text );
+  }
 
-        return ds.Tables[0];
+  protected void OnChange_Add_Existing_Unit_Test ( object sender, EventArgs e )
+  {
+    string err_message = "That is not a valid Unit Test to add.";
+    if (IsValidSelection( Add_Existing_Unit_Test, err_message ) == false)
+      return;
+
+    // Ensure the integrity of the Selected Package
+    err_message = "You do not have a Package selected to add '" +
+                    Add_Existing_Unit_Test.SelectedItem.Text + "' to. ";
+    if (false == IsValidSelection( Test_Suite_Packages_List, err_message ))
+      return;
+
+    // Add the Unit Test    
+    try
+    {
+      UnitTestActions.Insert_Existing_Unit_Test(
+                            this.Test_Suite_Packages_List.SelectedValue,
+                            this.Add_Existing_Unit_Test.SelectedValue );
+    }
+    catch
+    {
+      m.AddNewMessage_Error( "There was a problem adding Unit Test '" +
+          Add_Existing_Unit_Test.SelectedItem.Text + "' to Package '" +
+          Test_Suite_Packages_List.SelectedItem.Text + ".' This probably means it is already added" );
+      return;
     }
 
-    /// <summary>
-    /// Simplifies Executing a Non Query
-    /// </summary>
-    /// <param name="sql"></param>
-    private void ExecuteMySql(string sql)
-    {
-        MySqlConnection conn = new MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
-        MySqlCommand comm = new MySqlCommand(sql, conn);
-        conn.Open();
-        try { comm.ExecuteNonQuery(); }
-        catch { throw new ArgumentException("The sql executed was : " + sql); }
-        finally { conn.Close(); }
-    }
+    // Reload the Unit test Drop Down List
+    load_unit_tests();
 
-    /// <summary>
-    /// Returns the top row from a SQL Query.
-    /// </summary>
-    /// <param name="sql"></param>
-    /// <returns></returns>
-    private DataRow ExecuteMySqlRow(string sql)
-    {
-        DataTable dt = ExecuteMySqlAdapter(sql);
-        return dt.Rows[0];
-    }
+  }
+
+  protected void OnChange_Test_Suites_List ( object sender, EventArgs e )
+  {
+    // Pass in the new selection so we can try to load it
+    reload_Test_Suites( Existing_Test_Suites.SelectedItem.Text );
+  }
+
+  protected void OnChange_Unit_Tests_List ( object sender, EventArgs e )
+  {
+    Unit_Test_Details_Visible = true;
+
+    // Ensure selection before sending sql
+    string err_msg = "'" + Package_Unit_Tests_List.SelectedItem.Text + "' is not a valid Unit Test";
+    if (false == IsValidSelection( Package_Unit_Tests_List, err_msg ))
+      return;
+
+    DataRow row = UnitTestActions.Get_Unit_Test_Info( Package_Unit_Tests_List.SelectedValue );
+
+    txt_Unit_Test_Details_Name.Text = row["name"].ToString();
+    txt_Unit_Test_Details_Description.Text = row["description"].ToString();
+    txt_Unit_Test_Details_Evaluation.Text = row["evaluation"].ToString();
+    txt_Unit_Test_Details_Warn_Comparison.Text = row["warn_comparison"].ToString() + " " + row["warn"].ToString();
+    txt_Unit_Test_Details_Fail_Comparison.Text = row["fail_comparison"].ToString() + " " + row["fail"].ToString();
+    lbl_Unit_Test_Details_ID.Text = row["utid"].ToString();
+
+    load_log_format_data();
+  }
+
+  private bool Unit_Test_Details_Visible
+  {
+    get { return this.td_Unit_Test_Details.Visible; }
+    set { this.td_Unit_Test_Details.Visible = value; }
+  }
+
 
     /// <summary>
     /// Ensures that there is a SQL-safe valid selection
     /// </summary>
     /// <param name="lb"></param>
     /// <returns></returns>
-    private bool IsValidSelection(ListBox lb)
-    {
-        // If there is only one, we can assume they wanted that one
-        if (lb.SelectedIndex < 0)
-            if (lb.Items.Count == 1)
-                lb.SelectedIndex = 0;
-            else
-                return false;
-        return true;
-    }
-    /// <summary>
+  private bool IsValidSelection ( ListBox lb )
+  {
+    // If there is only one, we can assume they wanted that one
+    if (lb.SelectedIndex < 0)
+      if (lb.Items.Count == 1)
+        lb.SelectedIndex = 0;
+      else
+        return false;
+    return true;
+  }
+
+  /// <summary>
     /// Ensures that there is a SQL-safe valid selection
     /// </summary>
     /// <param name="lb"></param>
     /// <param name="error_message"></param>
     /// <returns></returns>
-    private bool IsValidSelection(ListBox lb, string error_message)
+  private bool IsValidSelection ( ListBox lb, string error_message )
+  {
+    if (IsValidSelection( lb ) == false)
     {
-        if (IsValidSelection(lb) == false)
-        {
-            m.AddNewMessage_Error(error_message);
-            return false;
-        }
-        else
-            return true;
+      m.AddNewMessage_Error( error_message );
+      return false;
     }
+    else
+      return true;
+  }
     /// <summary>
     /// Ensures that there is a SQL-safe valid selection
     /// </summary>
     /// <param name="d"></param>
     /// <returns></returns>
-    private bool IsValidSelection(DropDownList d)
-    {
-        // Assuming we have a first item similar to 
-        // "Please Select One . . ."
-        if (d.SelectedIndex < 1)
-            return false;
-        return true;
-    }
+  private bool IsValidSelection ( DropDownList d )
+  {
+    // Assuming we have a first item similar to 
+    // "Please Select One . . ."
+    if (d.SelectedIndex < 1)
+      return false;
+    return true;
+  }
     /// <summary>
     /// Ensures that there is a SQL-safe valid selection
     /// </summary>
     /// <param name="d"></param>
     /// <param name="error_message"></param>
     /// <returns></returns>
-    private bool IsValidSelection(DropDownList d, string error_message)
+  private bool IsValidSelection ( DropDownList d, string error_message )
+  {
+    if (IsValidSelection( d ) == false)
     {
-        if (IsValidSelection(d) == false)
-        {
-            m.AddNewMessage_Error(error_message);
-            return false;
-        }
-        else
-            return true;
+      m.AddNewMessage_Error( error_message );
+      return false;
     }
-
+    else
+      return true;
+  }
 }
 
 /* Exceptions

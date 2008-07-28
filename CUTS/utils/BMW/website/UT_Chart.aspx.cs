@@ -13,6 +13,7 @@ using System.IO;
 using System.Xml;
 using System.Text;
 using MySql.Data.MySqlClient;
+using Actions.UnitTestActions;
 
 public partial class UT_Chart : System.Web.UI.Page
 {
@@ -24,9 +25,10 @@ public partial class UT_Chart : System.Web.UI.Page
 
         string id_string = Request.QueryString.Get("utid");
         int id = Int32.Parse(id_string);
-
-        UnitTestActions ut = new UnitTestActions();
-        DataTable dt_ = ut.Eval_UT(id,"metric");
+        string test_num_str = Request.QueryString.Get( "t" );
+        int test_num = Int32.Parse( test_num_str );
+        
+        DataTable dt_ = UnitTestActions.Evalate_UT_as_metric(id,test_num);
         
         Chart(dt_);
 
@@ -47,57 +49,47 @@ public partial class UT_Chart : System.Web.UI.Page
         
     }
 
-    private void Chart(DataTable dt)
+  private void Chart ( DataTable dt )
+  {
+    string xmlPath = Server.MapPath( "~/xml/auto_generated.xml" );
+    FileInfo XMLExists = new FileInfo( xmlPath );
+    if (XMLExists.Exists)
     {
-        string xmlPath = Server.MapPath("~/xml/auto_generated.xml");
-        FileInfo XMLExists = new FileInfo(xmlPath);
-        if (XMLExists.Exists)
-        {
-            File.Delete(xmlPath);
-        }
-
-        XmlTextWriter writer = new XmlTextWriter(xmlPath, Encoding.UTF8);
-
-        writer.WriteStartDocument();
-        writer.WriteStartElement("chart"); // <chart>
-        writer.WriteStartElement("chart_data"); // <chart_data>
-        writer.WriteStartElement("row");   // <row>
-        writer.WriteRaw("<null/>");        // <null/>
-        foreach (DataRow row in dt.Rows)
-        {
-            writer.WriteElementString("string", row["test_number"].ToString());
-        }
-        writer.WriteEndElement();           // </row>
-
-        writer.WriteStartElement("row");   // <row>
-
-        writer.WriteElementString("string", "result");
-
-        foreach (DataRow row in dt.Rows)
-        {
-            writer.WriteElementString("number", row["result"].ToString());
-        }
-        writer.WriteEndElement();
-
-
-        writer.WriteEndElement();  // </chart_data>
-        writer.WriteEndElement();  // </chart>
-        writer.WriteEndDocument();
-        writer.Flush();
-        writer.Close();
+      File.Delete( xmlPath );
     }
 
-    private DataTable ExecuteMySqlAdapter(string sql)
-    {
-        MySqlConnection conn = new MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
-        conn.Open();
+    XmlTextWriter writer = new XmlTextWriter( xmlPath, Encoding.UTF8 );
 
-        MySqlDataAdapter da = new MySqlDataAdapter(sql, conn);
-        DataSet ds = new DataSet();
-        da.Fill(ds);
+    writer.WriteStartDocument();
+    writer.WriteStartElement( "chart" ); // <chart>
+    writer.WriteStartElement( "chart_data" ); // <chart_data>
 
-        conn.Close();
-        return ds.Tables[0];
-    }
+    writer.WriteStartElement( "row" );   // <row>
+    writer.WriteRaw( "<null/>" );        // <null/>
+    for (int i = 0; i < dt.Rows.Count; i++)
+      writer.WriteElementString( "string", i.ToString() );
+    writer.WriteEndElement();           // </row>
 
+    writer.WriteStartElement( "row" );   // <row>
+    writer.WriteElementString( "string", "result" );
+
+    foreach (DataRow row in dt.Rows)
+      writer.WriteElementString( "number", row["evaluation"].ToString() );
+    
+    writer.WriteEndElement();
+
+
+    writer.WriteEndElement();  // </chart_data>
+    writer.WriteEndElement();  // </chart>
+    writer.WriteEndDocument();
+    writer.Flush();
+    writer.Close();
+  }
+
+  private void SetChartOptions ( string option, XmlTextWriter writer )
+  {
+    // need to add options like no_show_legend and such in here
+
+
+  }
 }

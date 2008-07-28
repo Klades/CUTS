@@ -8,10 +8,10 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
-using Actions;
 using MySql.Data.MySqlClient;
 using System.Text.RegularExpressions;
 using System.Drawing;
+using Actions.UnitTestActions;
 
 public partial class UT_Create : System.Web.UI.Page
 {
@@ -92,7 +92,8 @@ public partial class UT_Create : System.Web.UI.Page
         UT_warn.Text.Length < 1 ||
         UT_eval.Text.Length < 5 ||
         Get_MySQL_Comparison( UT_fail_comp.Text ) == String.Empty ||
-        Get_MySQL_Comparison( UT_warn_comp.Text ) == String.Empty)
+        Get_MySQL_Comparison( UT_warn_comp.Text ) == String.Empty ||
+        IsValidSelection(this.Aggregrate_Funtion) == false)
     {
       m_.AddNewMessage_Error( "All fields are required, minimum length for " +
         "a name or description is three characters." );
@@ -111,12 +112,13 @@ public partial class UT_Create : System.Web.UI.Page
     variables.Add( "WarnValue", UT_warn.Text );
     variables.Add( "Evaluation", UT_eval.Text );
     variables.Add( "LFIDs", lfids.ToArray() );
+    variables.Add( "Aggregration_Func", this.Aggregrate_Funtion.SelectedValue );
 
-
-    // This is unused for now
+    // Note Groups are disabled for now
+    /*
     string[] groups = new string[1];
-    //groups[0] = "test_number";
-    variables.Add( "Groups", groups );
+    groups[0] = "test_number";
+    variables.Add( "Groups", groups ); */
 
 
     // Add the relationship Information 
@@ -134,8 +136,7 @@ public partial class UT_Create : System.Web.UI.Page
 
     try
     {
-      UnitTestActions ut = new UnitTestActions();
-      ut.Insert_UT( variables );
+      //UnitTestActions.Insert_UT( variables );
     }
     catch
     {
