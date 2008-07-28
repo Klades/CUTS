@@ -27,7 +27,11 @@
       OnSelectedIndexChanged = "OnChange_Test_Suites_List"
       ></asp:ListBox><br />
     <br />
-    <br />
+    <asp:Button ID="Button1" 
+      runat="server"
+      Text="Delete"
+      OnClick="OnClick_Delete_Test_Suite"
+      /><br />
     </td>
     <td width="50%">
     
@@ -61,7 +65,17 @@
       OnSelectedIndexChanged="OnChange_Packages_List"
       ></asp:ListBox><br />
     <br />
-    <br />
+    
+    <asp:Button 
+      ID="Button2" 
+      runat="server" 
+      Text="Remove"
+      OnClick="OnClick_Remove_Package" />
+    <asp:Button 
+      ID="Button3" 
+      runat="server" 
+      Text="Delete"
+      OnClick="OnClick_Delete_Package" /><br />
     
     </td>
     
@@ -87,7 +101,18 @@
       AutoPostBack="true"
       OnSelectedIndexChanged="OnChange_Unit_Tests_List">
     </asp:ListBox>
-</td>
+    <br />
+    <br />
+    <asp:Button 
+      ID="Button4"
+      runat="server"
+      Text="Remove"
+      OnClick="OnClick_Remove_Unit_Test" />
+    <asp:Button 
+      ID="Button5" 
+      runat="server" 
+      Text="Delete"
+      OnClick="OnClick_Delete_Unit_Test" /></td>
 </tr>
 <tr>
 <td colspan="2" visible="false" id="td_Unit_Test_Details" runat="server">

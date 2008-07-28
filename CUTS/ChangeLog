@@ -1,18 +1,28 @@
+Mon Jul 28 21:50:28 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * utils/BMW/website/App_Code/UnitTestActions.cs:
+        * utils/BMW/website/UT_Create.aspx.cs:
+        * utils/BMW/website/unittest.aspx:
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . Added in Remove and Delete functionality for Test Suites, 
+              Packages, and Unit Tests 
+
 Mon Jul 28 18:45:15 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * etc/SQL/CUTS-unittest.sql:
 
-          . Updated some procedures to explicetely cast their results. 
-          . Fixed some foreign key issues. 
+          . Updated some procedures to explicetely cast their results.
+          . Fixed some foreign key issues.
           . Added aggregration_function field to the unittestdesc table
 
         * utils/BMW/website/App_Code/DataBaseActions.cs:
 
-          . Added base class for DB actions. Has functions like 
+          . Added base class for DB actions. Has functions like
               ExecuteMySqlAdapter, ExecuteMySqlNonQuery, GetCommand.
-          . This greatly reduces overhead, as the connection is created and 
+          . This greatly reduces overhead, as the connection is created and
               opened once this class is accessed, and stays alive till class
-              is destructed. 
+              is destructed.
 
         * utils/BMW/website/App_Code/LogFormatActions.cs:
 
@@ -23,16 +33,16 @@ Mon Jul 28 18:45:15 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
 
           . Added quite a few 'intermediate' functions that stand between any
               page needing access to UT related information from the database
-              and the base level functions in DataBase Actions. 
-          . Added DataSetActions as a private subclass and implemented. 
+              and the base level functions in DataBase Actions.
+          . Added DataSetActions as a private subclass and implemented.
 
         * utils/BMW/website/Log_Formats.aspx:
- 
+
           . Improved the UI with default width and standard messaging system
- 
+
         * utils/BMW/website/Log_Formats.aspx.cs:
 
-          . Updated this so no sql is generated in this file. All Actions that 
+          . Updated this so no sql is generated in this file. All Actions that
               need data are made by calling functions in LogFormatActions class
 
         * utils/BMW/website/UT_Chart.aspx.cs:
@@ -43,10 +53,10 @@ Mon Jul 28 18:45:15 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
         * utils/BMW/website/UT_Create.aspx.cs:
 
           . Fixed a lot of small UI problems.
-          . Removed individual variable aggregration and replaced it 
-              with overall Evaluation Aggregration. 
-          . Made the relational Form render correctly. 
- 
+          . Removed individual variable aggregration and replaced it
+              with overall Evaluation Aggregration.
+          . Made the relational Form render correctly.
+
         * utils/BMW/website/performance.aspx.cs:
 
           . Fixed small typo in comments

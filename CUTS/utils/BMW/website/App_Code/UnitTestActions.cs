@@ -152,6 +152,47 @@ namespace Actions.UnitTestActions
       DataTable dt = dba.ExecuteMySqlAdapter( sql );
       return dt;
     }
+    public static void Delete_Test_Suite (string Test_Suite_ID_)
+    {
+      string sql = "DELETE FROM cuts.test_suites WHERE id=?t_id;";
+      MySqlCommand comm = dba.GetCommand( sql );
+      comm.Parameters.AddWithValue( "?t_id", Test_Suite_ID_ );
+      dba.ExecuteMySql( comm );
+    }
+    public static void Delete_Package ( string Package_ID_ )
+    {
+      string sql = "DELETE FROM cuts.packages WHERE id=?p_id;";
+      MySqlCommand comm = dba.GetCommand( sql );
+      comm.Parameters.AddWithValue( "?p_id", Package_ID_ );
+      dba.ExecuteMySql( comm );
+    }
+    public static void Remove_Package ( string Test_Suite_ID, string Package_ID_ )
+    {
+      string sql = "DELETE FROM cuts.test_suite_packages WHERE " + 
+                    "id=?ts_id AND p_id=?p_id_in;";
+      MySqlCommand comm = dba.GetCommand( sql );
+      comm.Parameters.AddWithValue( "?ts_id", Test_Suite_ID );
+      comm.Parameters.AddWithValue( "?p_id_in", Package_ID_ );
+      dba.ExecuteMySql( comm );
+    }
+   
+    public static void Delete_Unit_Test ( string Unit_Test_ID_ )
+    {
+      string sql = "DELETE FROM cuts.unittestdesc WHERE utid=?ut_id;";
+      MySqlCommand comm = dba.GetCommand( sql );
+      comm.Parameters.AddWithValue( "?ut_id", Unit_Test_ID_ );
+      dba.ExecuteMySql( comm );
+    }
+
+    public static void Remove_Unit_Test ( string Package_ID_, string Unit_Test_ID_ )
+    {
+      string sql = "DELETE FROM cuts.packages_unit_tests WHERE " +
+                    "id=?p_id AND ut_id=?ut_id_in;";
+      MySqlCommand comm = dba.GetCommand( sql );
+      comm.Parameters.AddWithValue( "?p_id", Package_ID_ );
+      comm.Parameters.AddWithValue( "?ut_id_in", Unit_Test_ID_);
+      dba.ExecuteMySql( comm );
+    }
     
     public static DataTable Get_All_Packages ()
     {

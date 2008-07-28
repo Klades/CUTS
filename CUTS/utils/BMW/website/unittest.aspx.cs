@@ -16,35 +16,42 @@ public partial class Unit_Testing : System.Web.UI.Page
 {
     private double DEFAULT_WIDTH = 300;
     private CUTS.BMW_Master m;
-     
-    protected void Page_Load(object sender, EventArgs e)
-    {
-        // used to ease creating messages
-        m = (CUTS.BMW_Master)Master;
 
-        if (IsPostBack)
-            return;
+  protected void Page_Load ( object sender, EventArgs e )
+  {
+    // used to ease creating messages
+    m = (CUTS.BMW_Master)Master;
 
-      
-      Add_Existing_Package.SelectedIndex = 0;
-        Add_Existing_Unit_Test.SelectedIndex = 0;
+    if (IsPostBack)
+      return;
 
-        // If any of the steps fail, 
-        // enter quiet mode to stop reporting the 
-        // entire cascade of errors that result
-        if (false == load_Test_Suites())
-            m.InQuietMode = true;
-        this.Existing_Test_Suites.SelectedIndex = 0;
+    // Initially set the indices to 0. The norm for DataBound controls
+    // is -1, but once they are bound you cannot manually set them to -1,
+    // because it is out of range. This prevents unwanted firings of the 
+    // Selected Index Changed event
+    Add_Existing_Package.SelectedIndex = 0;
+    Add_Existing_Unit_Test.SelectedIndex = 0;
 
-        if (false == load_Packages())
-            m.InQuietMode = true;
-        this.Test_Suite_Packages_List.SelectedIndex = 0;
+    this.reload_all_data();
+  }
 
-        load_unit_tests();
+  private void reload_all_data ()
+  {
+    // If any of the steps fail, 
+    // enter quiet mode to stop reporting the 
+    // entire cascade of errors that result
+    if (false == load_Test_Suites())
+      m.InQuietMode = true;
+    this.Existing_Test_Suites.SelectedIndex = 0;
 
-        m.InQuietMode = false;
-    }
+    if (false == load_Packages())
+      m.InQuietMode = true;
+    this.Test_Suite_Packages_List.SelectedIndex = 0;
 
+    load_unit_tests();
+
+    m.InQuietMode = false;
+  }
   private bool load_Test_Suites ()
   {
     // Load Existing Test Suites
@@ -369,6 +376,138 @@ public partial class Unit_Testing : System.Web.UI.Page
     }
   }
 
+  protected void OnClick_Delete_Test_Suite ( object sender, EventArgs e )
+  {
+    if (false == IsValidSelection( this.Existing_Test_Suites ))
+    {
+      m.AddNewMessage_Error( "That is not a valid Test Suite to delete" );
+      return;
+    }
+
+    try
+    {
+      UnitTestActions.Delete_Test_Suite( Existing_Test_Suites.SelectedValue );
+      m.AddNewMessage_Success( "Test Suite '" +
+        Existing_Test_Suites.SelectedItem.Text + "' deleted successfully!" );
+      reload_all_data();
+    }
+    catch
+    {
+      m.AddNewMessage_Error( "There was a problem deleting the Test Suite" );
+    }
+  }
+
+  protected void OnClick_Delete_Package ( object sender, EventArgs e )
+  {
+    if (false == IsValidSelection( this.Test_Suite_Packages_List ))
+    {
+      m.AddNewMessage_Error( "That is not a valid Package to delete" );
+      return;
+    }
+
+    try
+    {
+      UnitTestActions.Delete_Package( this.Test_Suite_Packages_List.SelectedValue );
+      m.AddNewMessage_Success( "Package '" +
+        this.Test_Suite_Packages_List.SelectedItem.Text + 
+        "' deleted successfully!" );
+      m.InQuietMode = true;
+      reload_all_data();
+      m.InQuietMode = false;
+    }
+    catch
+    {
+      m.AddNewMessage_Error( "There was a problem deleting the Package" );
+    }
+
+  }
+
+  protected void OnClick_Remove_Package ( object sender, EventArgs e )
+  {
+    if (false == IsValidSelection( this.Test_Suite_Packages_List ))
+    {
+      m.AddNewMessage_Error( "That is not a valid Package to remove." );
+      return;
+    }
+    if (false == IsValidSelection(this.Existing_Test_Suites))
+    {
+      m.AddNewMessage_Error("You do not have a Test Suite Selected to remove " +
+        "this Package from.");
+      return;
+    }
+
+    try
+    {
+      UnitTestActions.Remove_Package(Existing_Test_Suites.SelectedValue,
+                                     Test_Suite_Packages_List.SelectedValue);
+      m.AddNewMessage_Success( "Package '" +
+        this.Test_Suite_Packages_List.SelectedItem.Text +
+        "' removed successfully!" );
+      m.InQuietMode = true;
+      reload_all_data();
+      m.InQuietMode = false;
+    }
+    catch
+    {
+      m.AddNewMessage_Error( "There was a problem removing the Package" );
+    }
+  }
+
+  protected void OnClick_Delete_Unit_Test ( object sender, EventArgs e )
+  {
+    if (false == IsValidSelection( this.Package_Unit_Tests_List))
+    {
+      m.AddNewMessage_Error( "That is not a valid Unit Test to delete." );
+      return;
+    }
+
+    try
+    {
+      UnitTestActions.Delete_Unit_Test( this.Package_Unit_Tests_List.SelectedValue );
+      m.AddNewMessage_Success( "Unit Test '" +
+        this.Package_Unit_Tests_List.SelectedItem.Text +
+        "' removed successfully!" );
+      m.InQuietMode = true;
+      reload_all_data();
+      m.InQuietMode = false;
+    }
+    catch
+    {
+      m.AddNewMessage_Error( "There was a problem deleting the Unit Test" );
+    }
+  }
+
+  protected void OnClick_Remove_Unit_Test ( object sender, EventArgs e )
+  {
+    if (false == IsValidSelection( this.Package_Unit_Tests_List))
+    {
+      m.AddNewMessage_Error( "That is not a valid Unit Test to remove." );
+      return;
+    }
+    if (false == IsValidSelection( this.Test_Suite_Packages_List ))
+    {
+      m.AddNewMessage_Error( "You do not have a Package Selected to remove " +
+        "this Unit Test from." );
+      return;
+    }
+
+    try
+    {
+      UnitTestActions.Remove_Unit_Test( this.Test_Suite_Packages_List.SelectedValue,
+                                       this.Package_Unit_Tests_List.SelectedValue );
+      m.AddNewMessage_Success( "Unit Test '" +
+        this.Package_Unit_Tests_List.SelectedItem.Text +
+        "' removed successfully!" );
+      m.InQuietMode = true;
+      reload_all_data();
+      m.InQuietMode = false;
+    }
+    catch
+    {
+      m.AddNewMessage_Error( "There was a problem removing the Unit Test" );
+    }
+  }
+  
   protected void OnChange_Packages_List ( object sender, EventArgs e )
   {
     load_unit_tests();
