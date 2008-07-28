@@ -60,8 +60,10 @@ struct CUTS_BE_Export CUTS_BE_Impl_Node :
   Artifact_Set artifacts_;
 
   /// Listing of string (values) for a particular topic, such as
-  /// include paths, libraries, etc. 
-  std::map <std::string, CUTS_String_Set> maplist_;
+  /// include paths, libraries, etc.
+  typedef std::map <std::string, CUTS_String_Set> Map_List;
+
+  Map_List maplist_;
 };
 
 #if defined (__CUTS_INLINE__)

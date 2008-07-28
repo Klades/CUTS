@@ -2,6 +2,8 @@
 
 #include "CAPI_Generators.h"
 #include "CAPI_Preprocessor.h"
+#include "Set_Classpath_Script_Generator.h"
+#include "Register_Type_Script_Generator.h"
 #include "XML_Mapping_File_Generator.h"
 #include "XSD_File_Generator.h"
 #include "be/BE_Options.h"
@@ -229,15 +231,15 @@ generate (const PICML::MonolithicImplementation & mono,
 
 
   // Generate the remaining imports for this implementation.
-  const CUTS_String_Set & imports = 
+  const CUTS_String_Set & imports =
     CUTS_BE_CAPI ()->impl_node_->maplist_["imports"];
 
-  CUTS_String_Set::const_iterator 
+  CUTS_String_Set::const_iterator
     imports_iter = imports.begin (), imports_iter_end = imports.end ();
 
   for (; imports_iter != imports_iter_end; ++ imports_iter)
   {
-    CUTS_BE_CAPI ()->outfile_ 
+    CUTS_BE_CAPI ()->outfile_
       << "import " << *imports_iter << ";";
   }
 
@@ -337,7 +339,7 @@ generate (const PICML::MonolithicImplementation & mono,
 
     if (version.empty ())
     {
-      version = "1.0"; 
+      version = "1.0";
       iter->second.VersionTag () = version;
     }
 
@@ -452,7 +454,7 @@ generate (const PICML::MonolithicImplementation & mono,
           << version << "\"))" << std::endl
           << "{"
           << "JbiEvent <" << class_name
-          << "> event = new JbiEvent <" << class_name 
+          << "> event = new JbiEvent <" << class_name
           << "> (" << class_name << ".class);"
           << "event.setInfoObject (mio);"
           << "this." << sink_iter->first << " (event);"
@@ -1509,27 +1511,40 @@ generate (const std::string & precondition)
 void CUTS_BE_Finalize_T <CUTS_BE_Capi>::
 generate (const PICML::RootFolder & root)
 {
+  std::string outdir = CUTS_BE_OPTIONS ()->output_directory_;
+
   // We need to generate the XML mappings for all the event types. This
   // is necessary so Castor can map the Java -> XML correctly. ;-)
   std::for_each (CUTS_BE_CAPI ()->workspace_events_.begin (),
                  CUTS_BE_CAPI ()->workspace_events_.end (),
                  boost::bind (&CUTS_BE_Finalize_T <CUTS_BE_Capi>::generate_mapping_file,
-                              _1));
+                              _1,
+                              outdir));
+
+  PICML::RootFolder rf (root);
+
+  // Generate the script that sets the classpath.
+  Set_Classpath_Script_Generator classpath (outdir);
+  rf.Accept (classpath);
+
+  // Generate the script that registers the MIO types.
+  Register_Type_Script_Generator register_types (outdir);
+  register_types.generate (CUTS_BE_CAPI ()->workspace_events_);
 }
 
 //
 // generate_mapping_file
 //
 void CUTS_BE_Finalize_T <CUTS_BE_Capi>::
-generate_mapping_file (const PICML::Event & event)
+generate_mapping_file (const PICML::Event & event, const std::string & outdir)
 {
   PICML::Event e (event);
 
   // Generate the XML mapping file.
-  XML_Mapping_File_Generator mapping (CUTS_BE_OPTIONS ()->output_directory_);
+  XML_Mapping_File_Generator mapping (outdir);
   e.Accept (mapping);
 
   // Generate the XSD file.
-  XSD_File_Generator xsd (CUTS_BE_OPTIONS ()->output_directory_);
+  XSD_File_Generator xsd (outdir);
   e.Accept (xsd);
 }

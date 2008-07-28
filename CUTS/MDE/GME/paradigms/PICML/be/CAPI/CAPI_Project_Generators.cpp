@@ -3,9 +3,32 @@
 #include "CAPI_Project_Generators.h"
 #include "be/BE_Impl_Node.h"
 #include "be/BE_Options.h"
+#include "be/BE_Env_Variable_Parser_T.h"
 #include "boost/bind.hpp"
 #include <algorithm>
 #include <sstream>
+
+/**
+ * @struct ANT_Env_Variable
+ */
+struct ANT_Env_Variable
+{
+public:
+  ANT_Env_Variable (std::string & out)
+    : out_ (out)
+  {
+  }
+
+  template <typename IteratorT>
+  void operator () (IteratorT begin, IteratorT end) const
+  {
+    std::string var (begin, end);
+    this->out_ += "${env." + var + "}";
+  }
+
+private:
+  std::string & out_;
+};
 
 //
 // CUTS_BE_Project_File_Open_T
@@ -146,22 +169,28 @@ generate_i (const PICML::MonolithicImplementation & monoimpl)
 
   if (!classpath.empty ())
   {
+    std::string output;
+    CUTS_BE_Env_Variable_Parser_T <ANT_Env_Variable> env_parser (output);
+
     CUTS_BE_CAPI ()->project_file_
       << "<classpath>" << std::endl;
 
-    CUTS_String_Set::const_iterator 
+    CUTS_String_Set::const_iterator
       iter = classpath.begin (), iter_end = classpath.end ();
 
     for (; iter != iter_end; ++ iter)
     {
+      // Convert any environment variables defined in the JAR file.
+      boost::spirit::parse (iter->c_str (), env_parser);
+
       CUTS_BE_CAPI ()->project_file_
-        << "<pathelement location=\"" << *iter << "\" />" << std::endl;
+        << "<pathelement location=\"" << output << "\" />" << std::endl;
     }
 
     CUTS_BE_CAPI ()->project_file_
       << "</classpath>" << std::endl;
   }
-  
+
   CUTS_BE_CAPI ()->project_file_
     << std::endl
     << "<!-- main class file (contains child classes) -->" << std::endl

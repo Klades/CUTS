@@ -51,7 +51,8 @@ struct CUTS_BE_Finalize_T <CUTS_BE_Capi>
   static void generate (const PICML::RootFolder &);
 
 private:
-  static void generate_mapping_file (const PICML::Event & );
+  static void generate_mapping_file (const PICML::Event & ,
+                                     const std::string & outdir);
 };
 
 /**

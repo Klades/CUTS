@@ -20,6 +20,9 @@ project (CUTS_BE_CAPI) : xerces, boost_base, picml_udm, cuts_cosmic {
     CAPI_Preprocessor_Handlers.cpp
     CAPI_Project_Generators.cpp
     CAPI_Workspace_Generators.cpp
+
+    Register_Type_Script_Generator.cpp
+    Set_Classpath_Script_Generator.cpp
     XML_Mapping_File_Generator.cpp
     XSD_File_Generator.cpp
   }

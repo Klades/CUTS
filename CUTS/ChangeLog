@@ -1,3 +1,26 @@
+Mon Jul 28 16:39:12 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE_Impl_Node.h:
+
+          . Added a type definition for the maplist_ variable.
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI.mpc:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Preprocessor.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Preprocessor_Handlers.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Project_Generators.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/Register_Type_Script_Generator.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/Register_Type_Script_Generator.cpp:
+        * MDE/GME/paradigms/PICML/be/CAPI/Set_Classpath_Script_Generator.h:
+        * MDE/GME/paradigms/PICML/be/CAPI/Set_Classpath_Script_Generator.cpp:
+
+          . The CAPI generator now generates scripts for registering MIO
+            types under a single user account.
+
+          . The CAPI generator now generates scritps for setting the classpath
+            for the application-level components.
+
 Sat Jul 26 18:44:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/naomi/Attribute_Tag.h:
