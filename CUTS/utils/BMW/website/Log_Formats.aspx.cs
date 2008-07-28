@@ -16,10 +16,10 @@ using Actions.LogFormatActions;
 public partial class Log_Formats : System.Web.UI.Page
 {
   /**
-   * @var BMW_Master m_  A reference to the Master page that easily
+   * @var BMW_Master master_  A reference to the Master page that easily
    *                      allows access to the messagins system. 
    */
-  private CUTS.BMW_Master m_;
+  private CUTS.BMW_Master master_;
   
   /**
    * @var double Default_Width_  The default width(in px) for the page's Log
@@ -35,7 +35,7 @@ public partial class Log_Formats : System.Web.UI.Page
    */
   protected void Page_Load ( object sender, EventArgs e )
   {
-    m_ = (CUTS.BMW_Master)Master;
+    master_ = (CUTS.BMW_Master)Master;
     if (IsPostBack)
       return;
 
@@ -56,7 +56,7 @@ public partial class Log_Formats : System.Web.UI.Page
 
     // Check for info
     if (dt.Rows.Count == 0)
-      m_.AddNewMessage_Info("There are no log messages created yet. Please " +
+      this.master_.show_info_message("There are no log messages created yet. Please " +
         "add one.");
 
     // Ensure Widths
@@ -87,7 +87,7 @@ public partial class Log_Formats : System.Web.UI.Page
   {
     if (this.txt_New_LF.Text.Length < 3)
     {
-      m_.AddNewMessage_Error( "The Log Format must be at least 3 characters!" );
+      master_.show_error_message( "The Log Format must be at least 3 characters!" );
       return;
     }
     try
@@ -117,13 +117,13 @@ public partial class Log_Formats : System.Web.UI.Page
 
        LogFormatActions.Insert_LF( lfmt, icase_regex, cs_regex, vars.ToArray() );
 
-      m_.AddNewMessage_Success( "'" + txt_New_LF.Text + "' added Successfully!" );
+      master_.show_info_message( "'" + txt_New_LF.Text + "' added Successfully!" );
 
       this.load_data();
     }
     catch
     {
-      m_.AddNewMessage_Error( "There was a problem adding '" +
+      master_.show_error_message( "There was a problem adding '" +
         txt_New_LF.Text + "'. This probably means it is already created." );
     }
   }

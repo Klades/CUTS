@@ -38,12 +38,9 @@ namespace CUTS
   public partial class Performance : System.Web.UI.Page
   {
     /**
-     * Get the current test number for the page. This is the same
-     * test number submitted in the query string.
-     *
-     * @return      Current test number.
+     * Concrete master page for this page.
      */
-    private CUTS.BMW_Master m_;
+    private CUTS.BMW_Master master_;
 
     public int TestNumber
     {
@@ -73,7 +70,7 @@ namespace CUTS
       if (value != null)
         this.test_number_ = System.Int32.Parse(value);
 
-      m_ = (CUTS.BMW_Master)Master;
+      master_ = (CUTS.BMW_Master)Master;
 
       if (!this.Page.IsPostBack)
       {
@@ -188,13 +185,13 @@ namespace CUTS
     {
         if (ddl_Test_Suites.SelectedIndex < 1)
         {
-            m_.AddNewMessage_Error("Please choose another Test Suite. That one is not valid. ");
+            master_.show_error_message("Please choose another Test Suite. That one is not valid. ");
         }
-        
+
         // Clear out Panel
         panel_Packages_Unit_Tests.Controls.Clear();
 
-        
+
         // Load new Panel Data
         load_panel_Packages_Unit_Tests();
     }
@@ -223,13 +220,13 @@ namespace CUTS
           sql = "SELECT utid AS id,name AS Name FROM unittestdesc " +
               "WHERE utid IN (SELECT ut_id FROM packages_unit_tests WHERE id=" + p_id + ");";
           DataTable dt = ExecuteMySqlAdapter(sql);
-          
+
           // Add Evaluation, Result
           dt.Columns.Add("Evaluation");
           dt.Columns.Add("Result");
           dt.Columns.Add("Chart");
-          
-          
+
+
           // Ensure package has at least one Unit Test
           if (dt.Rows.Count < 1)
               return;
@@ -243,7 +240,7 @@ namespace CUTS
 
               if (temp.Rows.Count == 0)
               {
-                  m_.AddNewMessage_Info("Oops - Looks like there is no data for '" + row["Name"].ToString() +
+                  master_.show_info_message("Oops - Looks like there is no data for '" + row["Name"].ToString() +
                       "' in '" + Package_Name + "'");
                   row["Evaluation"] = "No Data";
                   row["Result"] = "No Data";
@@ -262,7 +259,7 @@ namespace CUTS
                       "'>Chart</a>";
               }
           }
-          
+
 
           // Add the DataGrid
           DataGrid dg = new DataGrid();
@@ -369,7 +366,7 @@ namespace CUTS
           conn.Close();
           return obj;
       }
-        
+
 
 #region Web Form Designer generated code
     override protected void OnInit(EventArgs e)

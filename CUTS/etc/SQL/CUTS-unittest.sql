@@ -6,21 +6,9 @@
 -- @author      Hamilton Turner
 --
 
---
--- Create the tables and procedures for unittesting. 
--- This will all be updated soon - the comments are very sparse
--- 
-
-
-/*=====================================================
--- 
--- 
--- 
---                   Tables
--- 
--- 
-====================================================*/
-
+-- ============================================================================
+-- BEGIN TABLES
+-- ============================================================================
 
 -- main table for log formats
 -- contains all one-one info
@@ -31,7 +19,7 @@ CREATE TABLE IF NOT EXISTS  cuts.logformatdesc (
   lfmt            VARCHAR(150)    NOT NULL,
   icase_regex     VARCHAR(180)    NOT NULL,
   csharp_regex    VARCHAR(200)    DEFAULT NULL,
-  
+
   -- set the constraints for the table
   PRIMARY KEY  (lfid),
   UNIQUE (lfmt)
@@ -52,7 +40,7 @@ CREATE TABLE IF NOT EXISTS cuts.unittestdesc (
   evaluation                VARCHAR(45)       NOT NULL,
   warn_comparison           VARCHAR(20)       NOT NULL,
   aggregration_function     VARCHAR(25)       NOT NULL,
-  
+
   -- set the constraints for the table
   PRIMARY KEY  (utid)
 );
@@ -63,7 +51,7 @@ CREATE TABLE IF NOT EXISTS cuts.unittestdesc (
 CREATE TABLE IF NOT EXISTS cuts.packages (
   id            INT               NOT NULL auto_increment,
   name          VARCHAR(95)       NOT NULL,
-  
+
   -- set the constraints for the table
   PRIMARY KEY  (id),
   UNIQUE (name)
@@ -74,7 +62,7 @@ CREATE TABLE IF NOT EXISTS cuts.packages (
 CREATE TABLE IF NOT EXISTS cuts.test_suites (
   id            INT             NOT NULL auto_increment,
   name          VARCHAR(95)     NOT NULL,
-  
+
   -- set the constraints for the table
   PRIMARY KEY  (id),
   UNIQUE (name)
@@ -89,13 +77,13 @@ CREATE TABLE IF NOT EXISTS cuts.logformatvariabletable (
   lfid              INT            NOT NULL,
   varname           VARCHAR(45)    NOT NULL,
   vartype           VARCHAR(45)    NOT NULL,
-  
+
   -- set the constraints for the table
   PRIMARY KEY (variable_id),
   UNIQUE (lfid,varname),
-  
-  FOREIGN KEY (lfid) REFERENCES cuts.logformatdesc (lfid) 
-    ON DELETE CASCADE 
+
+  FOREIGN KEY (lfid) REFERENCES cuts.logformatdesc (lfid)
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 
@@ -106,7 +94,7 @@ CREATE TABLE IF NOT EXISTS cuts.logformatvariabletable (
 CREATE TABLE IF NOT EXISTS cuts.packages_unit_tests (
   id            INT              NOT NULL auto_increment,
   ut_id         INT              NOT NULL,
-  
+
   -- set the constraints for the table
   FOREIGN KEY (id) REFERENCES cuts.packages (id)
     ON DELETE CASCADE
@@ -124,7 +112,7 @@ CREATE TABLE IF NOT EXISTS cuts.packages_unit_tests (
 CREATE TABLE IF NOT EXISTS cuts.test_suite_packages (
   id              INT             NOT NULL,
   p_id            INT             NOT NULL,
-  
+
   -- set the constraints for the table
   FOREIGN KEY (id) REFERENCES cuts.test_suites (id)
     ON DELETE CASCADE
@@ -142,11 +130,11 @@ CREATE TABLE IF NOT EXISTS cuts.test_suite_packages (
 CREATE TABLE IF NOT EXISTS cuts.unittestgroups (
   utid          INT                 NOT NULL,
   variable_id   INT                 NOT NULL,
-  
+
   -- set the constraints for the table
   UNIQUE (utid,variable_id),
-  FOREIGN KEY (utid) REFERENCES cuts.unittestdesc (utid) 
-    ON DELETE CASCADE 
+  FOREIGN KEY (utid) REFERENCES cuts.unittestdesc (utid)
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 
@@ -158,11 +146,11 @@ CREATE TABLE IF NOT EXISTS cuts.unit_test_relations (
   utid          INT                NOT NULL,
   variable_id   INT                NOT NULL,
   variable_id_2 INT                NOT NULL,
-  
+
   -- set the constraints for the table
   PRIMARY KEY (utid),
-  FOREIGN KEY (utid) REFERENCES cuts.unittestdesc (utid) 
-    ON DELETE CASCADE 
+  FOREIGN KEY (utid) REFERENCES cuts.unittestdesc (utid)
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 
@@ -174,11 +162,11 @@ CREATE TABLE IF NOT EXISTS cuts.unittestaggregration (
   utid         INT             NOT NULL,
   variable_id  INT             NOT NULL,
   function     VARCHAR(45)     NOT NULL,
-  
+
   -- set the constraints for the table
   UNIQUE (utid,variable_id),
-  FOREIGN KEY (utid) REFERENCES cuts.unittestdesc (utid) 
-    ON DELETE CASCADE 
+  FOREIGN KEY (utid) REFERENCES cuts.unittestdesc (utid)
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 
@@ -190,23 +178,17 @@ CREATE TABLE IF NOT EXISTS cuts.unittesttable (
   utid          INT           NOT NULL,
   lfid          INT           NOT NULL,
   UNIQUE (utid,lfid),
-  FOREIGN KEY (lfid) REFERENCES cuts.logformatdesc (lfid) 
-    ON DELETE CASCADE 
+  FOREIGN KEY (lfid) REFERENCES cuts.logformatdesc (lfid)
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
-  FOREIGN KEY (utid) REFERENCES cuts.unittestdesc (utid) 
-    ON DELETE CASCADE 
+  FOREIGN KEY (utid) REFERENCES cuts.unittestdesc (utid)
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 
-/*=====================================================
--- 
--- 
--- 
---                   Procedures
--- 
--- 
-====================================================*/
-
+-- ============================================================================
+-- BEGIN STORED PROCEDURES
+-- ============================================================================
 
 DELIMITER //
 
@@ -214,7 +196,7 @@ DELIMITER //
 
 DROP PROCEDURE IF EXISTS cuts.Get_LFID_info//
 
-CREATE PROCEDURE  
+CREATE PROCEDURE
   cuts.Get_LFID_info (IN lfid_in INT)
 BEGIN
       -- When Databinding, the created column needs to have a type
@@ -229,7 +211,7 @@ END //
 
 DROP PROCEDURE IF EXISTS cuts.Get_log_data//
 
-CREATE PROCEDURE  
+CREATE PROCEDURE
   cuts.Get_log_data(IN lfid_in INT)
 
 BEGIN
@@ -241,7 +223,7 @@ END //
 -- Simply inserts a relation into a unit test
 
 DROP PROCEDURE IF EXISTS cuts.Insert_UT_Relation//
-CREATE PROCEDURE 
+CREATE PROCEDURE
   cuts.Insert_UT_Relation(IN utid_in  INT,
                           IN vid_1_in INT,
                           IN vid_2_in INT)
@@ -251,7 +233,7 @@ END //
 
 
 DROP PROCEDURE IF EXISTS cuts.evaluate_unit_test//
-CREATE PROCEDURE 
+CREATE PROCEDURE
   cuts.evaluate_unit_test(IN utid_in INT)
 BEGIN
 
@@ -340,7 +322,7 @@ END
 -- Allows you to grab all the results of a unit test, filtered by a test
 --   number
 DROP PROCEDURE IF EXISTS cuts.evaluate_unit_test_as_metric//
-CREATE PROCEDURE 
+CREATE PROCEDURE
   cuts.evaluate_unit_test_as_metric(IN utid_in INT,
                                     IN test_num INT )
 BEGIN
@@ -403,7 +385,7 @@ BEGIN
 
 END//
 
-   
+
 
 
 -- given UTID gets variables used in that UT
@@ -447,7 +429,7 @@ END //
 
 DROP PROCEDURE IF EXISTS cuts.Insert_LF_variable//
 CREATE PROCEDURE
-  cuts.Insert_LF_variable(IN id INT, 
+  cuts.Insert_LF_variable(IN id INT,
                           IN name VARCHAR(45),
                           IN vtype VARCHAR(45))
 BEGIN
@@ -457,7 +439,7 @@ END //
 
 -- given package id and utid - inserts unit test in package
 DROP PROCEDURE IF EXISTS cuts.insert_package_unit_test//
-CREATE PROCEDURE 
+CREATE PROCEDURE
   cuts.insert_package_unit_test(IN id_in integer,
                                 IN utid_in integer)
 BEGIN

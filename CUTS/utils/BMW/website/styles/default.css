@@ -24,6 +24,11 @@ h2
   font-size: small;
 }
 
+.underline
+{
+  text-decoration: underline;
+}
+
 a
 {
   color:blue;
@@ -106,50 +111,68 @@ td.performance-data, th.performance-data
 
 .performance-ut_view-package_name
 {
-	font-size:1.1em;
-	font-weight:bold;
-	margin-bottom:10px;
+  font-size:1.1em;
+  font-weight:bold;
+  margin-bottom:10px;
 }
 
 .performance-ut-grid
 {
-	margin-left:60px;	
+  margin-left:60px;
 }
 
 .message-btn-ClearMe
 {
-	float: left;
-	position: relative;
-	left: -13px;
-	top: -13px;        	
+  float: left;
+  position: relative;
+  left: -13px;
+  top: -13px;
 }
 
 .message
 {
-	padding: 10px;
+  padding: 10px;
 }
+
+.msg_error
+{
+  color: red;
+}
+
+.msg_warning
+{
+  color: yellow;
+}
+
+.message_info
+{
+  color: black;
+}
+
+/*
 .message-Error
 {
-	border: solid 3px black; 
-	background-color: red;
+  border: solid 3px black;
+  background-color: red;
 }
 
 .message-Info
 {
-	border: solid 3px gold;
-	background-color: yellow;
+  border: solid 3px gold;
+  background-color: yellow;
 }
 
 .message-Success
 {
-	border: solid 3px black; 
-	background-color: green; 
+  border: solid 3px black;
+  background-color: green;
 }
+*/
 
 .help-btn
 {
-	left: -95px;
-	top: -10px;
-	float: right;
-	position: relative;
+  left: -95px;
+  top: -10px;
+  float: right;
+  position: relative;
 }

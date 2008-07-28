@@ -17,6 +17,13 @@
   {
     obj.style.fontWeight = "normal";
   }
+
+  function console_clear (console_id)
+  {
+    console = document.getElementById (console_id);
+    console.style.display = "none";
+  }
+
   </script>
 </head>
 <body style="border:0px;margin:0px">
@@ -107,6 +114,16 @@
         type.
         -->
 
+      <asp:panel runat="server" id="console_" visible="false" scrollbars="none" width="750px">
+        <asp:panel runat="server" id="console_text_" height="50px" scrollbars="auto" wrap="true" visible="true" />
+        <br />
+        <div>
+          <!-- controls for the console -->
+          <a href="javascript:console_clear ('<%= this.console_.ClientID %>');">Clear Messages</a>
+        </div>
+      </asp:panel>
+
+<%--
       <asp:Panel runat="server" id="message_info" CssClass="message-Info message">
             <asp:Button ID="btn1" runat="server" CssClass="message-btn-ClearMe" Text=" X " OnClick="OnClick_Clear_Me" />
             <asp:Label ID="message_text_info" runat="server"></asp:Label>
@@ -119,9 +136,10 @@
             <asp:Button ID="Button3" runat="server" CssClass="message-btn-ClearMe" Text=" X " OnClick="OnClick_Clear_Me" />
             <asp:Label ID="message_text_success" runat="server"></asp:Label>
       </asp:Panel>
+--%>
 
-      <br />
-      <asp:Panel ID="help_" runat="server" Visible="false"></asp:Panel>
+      <asp:panel ID="help_" runat="server" visible="false"></asp:panel>
+
       <asp:contentplaceholder runat="server" id="MainContent" />
     </td>
   </tr>

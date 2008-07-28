@@ -1,3 +1,27 @@
+Mon Jul 28 21:51:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-unittest.sql:
+
+          . Fixed some formatting issues, i.e., removed some of the C++
+            style comments.
+
+        * utils/BMW/website/BMW.master:
+        * utils/BMW/website/BMW.master.cs:
+        * utils/BMW/website/Log_Formats.aspx.cs:
+        * utils/BMW/website/UT_Create.aspx.cs:
+        * utils/BMW/website/styles/default.css:
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . Fixed the console message architecture. Now, it's possible for
+            content pages to display message on the master page in a consitent
+            format.
+
+        * etc/schemas/naomi.old:
+        * etc/schemas/naomi.old/attribute_simple.xsd:
+        * etc/schemas/naomi.old/interface.xsd:
+
+          Removed these files.
+
 Mon Jul 28 21:50:28 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * utils/BMW/website/App_Code/UnitTestActions.cs:
@@ -5,8 +29,8 @@ Mon Jul 28 21:50:28 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
         * utils/BMW/website/unittest.aspx:
         * utils/BMW/website/unittest.aspx.cs:
 
-          . Added in Remove and Delete functionality for Test Suites, 
-              Packages, and Unit Tests 
+          . Added in Remove and Delete functionality for Test Suites,
+              Packages, and Unit Tests
 
 Mon Jul 28 18:45:15 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 

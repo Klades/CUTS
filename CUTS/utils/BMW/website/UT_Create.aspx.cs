@@ -59,7 +59,7 @@ public partial class UT_Create : System.Web.UI.Page
       this.IsValidSelection( Log_Format_List_1 ) == false)
     {
       // We are only using one LF, and it is invalid
-      m_.AddNewMessage_Error( "The Log Format is not valid" );
+      m_.show_error_message( "The Log Format is not valid" );
       return;
     }
     else if (this.UsingBothLogFormats == true &&
@@ -67,7 +67,7 @@ public partial class UT_Create : System.Web.UI.Page
        this.IsValidSelection( Log_Format_List_2 ) == false))
     {
       // We are using both log formats, but one is invalid
-      m_.AddNewMessage_Error( "One of the Log Formats you have selected is " +
+      m_.show_error_message( "One of the Log Formats you have selected is " +
         "invalid." );
       return;
     }
@@ -95,9 +95,9 @@ public partial class UT_Create : System.Web.UI.Page
         Get_MySQL_Comparison( UT_warn_comp.Text ) == String.Empty ||
         IsValidSelection(this.Aggregrate_Funtion) == false)
     {
-      m_.AddNewMessage_Error( "All fields are required, minimum length for " +
+      m_.show_error_message( "All fields are required, minimum length for " +
         "a name or description is three characters." );
-      m_.AddNewMessage_Error( "Minimum length for evaluation field is " +
+      m_.show_error_message( "Minimum length for evaluation field is " +
         "five characters" );
       return;
     }
@@ -127,7 +127,7 @@ public partial class UT_Create : System.Web.UI.Page
     {
       if (Relation_Variable_1.SelectedValue == Relation_Variable_2.SelectedValue)
       {
-        m_.AddNewMessage_Error( "A variable cannot be compared against itself!" );
+        m_.show_error_message( "A variable cannot be compared against itself!" );
         return;
       }
       variables.Add( "Relation_Variable_1", Relation_Variable_1.SelectedValue );
@@ -140,10 +140,10 @@ public partial class UT_Create : System.Web.UI.Page
     }
     catch
     {
-      m_.AddNewMessage_Error( "There was a problem adding the UT" );
+      m_.show_error_message( "There was a problem adding the UT" );
       return;
     }
-    m_.AddNewMessage_Success( "UT added successfully!" );
+    m_.show_info_message( "UT added successfully!" );
   }
 
   private string Get_MySQL_Comparison ( string comparison )
@@ -164,7 +164,7 @@ public partial class UT_Create : System.Web.UI.Page
       case "not_equal":
         return @"<>";
       default:
-        m_.AddNewMessage_Error( "The warn or fail comparison had a problem." +
+        m_.show_error_message( "The warn or fail comparison had a problem." +
           "Please refresh the page and try again." );
         return String.Empty;
     }
@@ -203,7 +203,7 @@ public partial class UT_Create : System.Web.UI.Page
     if (IsValidSelection( this.Log_Format_List_1 ) == false ||
               IsValidSelection( this.Log_Format_List_2 ) == false)
     {
-      m_.AddNewMessage_Error( "Before the relationship lists can be populated,"+
+      m_.show_error_message( "Before the relationship lists can be populated,"+
         "you must select two valid logformats." );
       
       // Ensure the width of both DropDownLists
