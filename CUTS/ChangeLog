@@ -1,3 +1,9 @@
+Mon Jul 28 16:57:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * docs/cuts.doxygen:
+
+          . Updated the documentation generator to include C# files.
+
 Mon Jul 28 16:39:12 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE_Impl_Node.h:
