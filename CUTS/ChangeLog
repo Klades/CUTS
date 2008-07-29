@@ -1,3 +1,10 @@
+Tue Jul 29 16:44:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/BMW.master:
+
+          . Bug fix where the <head> tag needs to have the runat="server"
+            attribute or the pages will not be displayed.
+
 Tue Jul 29 16:39:54 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/BMW.master:

@@ -3,7 +3,7 @@
            inherits="CUTS.Master"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head runat="server">
   <title>CUTS Benchmark Manager Web Utility</title>
   <link rel="stylesheet" href="styles/default.css" type="text/css" />
 
