@@ -16,10 +16,10 @@ using Actions.LogFormatActions;
 public partial class Log_Formats : System.Web.UI.Page
 {
   /**
-   * @var BMW_Master master_  A reference to the Master page that easily
+   * @var Master master_  A reference to the Master page that easily
    *                      allows access to the messagins system. 
    */
-  private CUTS.BMW_Master master_;
+  private CUTS.Master master_;
   
   /**
    * @var double Default_Width_  The default width(in px) for the page's Log
@@ -35,7 +35,7 @@ public partial class Log_Formats : System.Web.UI.Page
    */
   protected void Page_Load ( object sender, EventArgs e )
   {
-    master_ = (CUTS.BMW_Master)Master;
+    master_ = (CUTS.Master)Master;
     if (IsPostBack)
       return;
 

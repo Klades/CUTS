@@ -17,12 +17,12 @@ public partial class Unit_Testing : System.Web.UI.Page
 {
   private double DEFAULT_WIDTH = 300;
 
-  private CUTS.BMW_Master master_;
+  private CUTS.Master master_;
 
   protected void Page_Load (object sender, EventArgs e)
   {
     // used to ease creating messages
-    this.master_ = (CUTS.BMW_Master)Master;
+    this.master_ = (CUTS.Master)Master;
 
     if (IsPostBack)
       return;

@@ -1,6 +1,6 @@
 <!-- $Id$ -->
 <%@ master language="C#" codefile="BMW.master.cs" autoeventwireup="true"
-           inherits="CUTS.BMW_Master"%>
+           inherits="CUTS.Master"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

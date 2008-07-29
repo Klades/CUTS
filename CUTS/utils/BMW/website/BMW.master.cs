@@ -29,13 +29,13 @@ using System.Web.UI.HtmlControls;
 namespace CUTS
 {
   /**
-   * @class BMW_Master
+   * @class Master
    *
    * Master page for the Benchmark Manager Web (BMW) Utility application.
    * This class defines the common structure of the website, and variables
    * and methods that are accesible to other member pages.
    */
-  public partial class BMW_Master : System.Web.UI.MasterPage
+  public partial class Master : System.Web.UI.MasterPage
   {
     private bool InQuietMode_;
 

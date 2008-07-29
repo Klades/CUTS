@@ -16,19 +16,19 @@ using Actions.UnitTestActions;
 public partial class UT_Create : System.Web.UI.Page
 {
   /**
-   * Reference to master page used to ease sending messages to the user. 
+   * Reference to master page used to ease sending messages to the user.
    */
-  private CUTS.BMW_Master m_;
+  private CUTS.Master m_;
 
   /**
-   * The minimum width for all of the dynamically bound controls on 
-   * this page. 
+   * The minimum width for all of the dynamically bound controls on
+   * this page.
    */
   private static double Default_Width_ = 300.0;
 
   protected void Page_Load ( object sender, EventArgs e )
   {
-    m_ = (CUTS.BMW_Master)Master;
+    m_ = (CUTS.Master)Master;
 
     if (IsPostBack)
       return;
@@ -45,7 +45,7 @@ public partial class UT_Create : System.Web.UI.Page
     // If visible, hide.
     // If invisible, show
     if (this.UsingBothLogFormats)
-      this.UsingBothLogFormats = false;    
+      this.UsingBothLogFormats = false;
     else
       this.UsingBothLogFormats = true;
   }
@@ -72,7 +72,7 @@ public partial class UT_Create : System.Web.UI.Page
       return;
     }
 
-    // We passed all tests that could involve the first log format, 
+    // We passed all tests that could involve the first log format,
     // so we will now add it
     lfids.Add( Log_Format_List_1.SelectedValue );
 
@@ -84,7 +84,7 @@ public partial class UT_Create : System.Web.UI.Page
 
     // Validate all inputs.
     // This should eventually use CustomValidators, but in interest of time
-    //    it is manual for now. There is no speed loss by doing it 
+    //    it is manual for now. There is no speed loss by doing it
     //    this way.
     if (UT_name.Text.Length < 3 ||
         UT_desc.Text.Length < 3 ||
@@ -121,7 +121,7 @@ public partial class UT_Create : System.Web.UI.Page
     variables.Add( "Groups", groups ); */
 
 
-    // Add the relationship Information 
+    // Add the relationship Information
     variables.Add( "UsingBothLogFormats", this.UsingBothLogFormats );
     if (this.UsingBothLogFormats)
     {
@@ -205,7 +205,7 @@ public partial class UT_Create : System.Web.UI.Page
     {
       m_.show_error_message( "Before the relationship lists can be populated,"+
         "you must select two valid logformats." );
-      
+
       // Ensure the width of both DropDownLists
       Ensure_Width( Relation_Variable_1 );
       Ensure_Width( Relation_Variable_2 );
@@ -217,7 +217,7 @@ public partial class UT_Create : System.Web.UI.Page
 
     // Grab the extended variable names and the variable id's for the first
     // Log Format
-    string sql = "CALL Get_LFID_info('" + 
+    string sql = "CALL Get_LFID_info('" +
       this.Log_Format_List_1.SelectedValue + "');";
     DataTable dt = ExecuteMySqlAdapter( sql );
 
@@ -248,7 +248,7 @@ public partial class UT_Create : System.Web.UI.Page
     if (this.IsValidSelection(this.Log_Format_List_1) == false)
       return;
 
-    this.Log_Format_1_Prefix.Text = "Prefix Variables with LF" + 
+    this.Log_Format_1_Prefix.Text = "Prefix Variables with LF" +
      this.Log_Format_List_1.SelectedValue;
 
     load_Relation_Form();
@@ -259,7 +259,7 @@ public partial class UT_Create : System.Web.UI.Page
     if (this.IsValidSelection(this.Log_Format_List_2) == false)
       return;
 
-    Log_Format_2_Prefix.Text = "Prefix Variables with LF" + 
+    Log_Format_2_Prefix.Text = "Prefix Variables with LF" +
       Log_Format_List_2.SelectedValue;
 
     load_Relation_Form();
@@ -267,9 +267,9 @@ public partial class UT_Create : System.Web.UI.Page
 
   /**
    * Ensures the width for any dynamically loaded control on the page.
-   * 
+   *
    * @param d     The Dropdownlist to ensure the width of. If another type
-   *              of dynamic databound control is added, then an 
+   *              of dynamic databound control is added, then an
    *              override will need to be created.
    */
   private void Ensure_Width (DropDownList d)
@@ -281,9 +281,9 @@ public partial class UT_Create : System.Web.UI.Page
   /**
    * This is a decoupled way to get or set the relation between two log
    * formats to being visible or not being visible. This should be true
-   * when trying to use two Log Formats, and false when only trying to 
-   * use one. 
-   * 
+   * when trying to use two Log Formats, and false when only trying to
+   * use one.
+   *
    * @retval true   Indicates the relationship form is visible.
    * @retval false  Indicates the relationship form is not visible.
    */
@@ -306,18 +306,18 @@ public partial class UT_Create : System.Web.UI.Page
       }
     }
   }
-      
+
 
   /**
    * Provides a quick check that a DropDownList has a selection which
-   * is valid. Note that this assumes the DDL has a first item similar to 
+   * is valid. Note that this assumes the DDL has a first item similar to
    * 'Please Select One'.
-   * 
+   *
    * @param d       The DropDownList to check.
-   * 
-   * @retval true   The selection is valid and can be safely used elsewhere. 
-   * @retval false  The selection is invalid and cannot be safey 
-   *                used elsewhere. 
+   *
+   * @retval true   The selection is valid and can be safely used elsewhere.
+   * @retval false  The selection is invalid and cannot be safey
+   *                used elsewhere.
    */
   private bool IsValidSelection ( DropDownList d )
   {
@@ -328,8 +328,8 @@ public partial class UT_Create : System.Web.UI.Page
 
   /**
    * Provides a decoupled way to see if both Log Formats are being used, or
-   * if just one is being used. 
-   * 
+   * if just one is being used.
+   *
    * @retval true     Both Log Formats are being used.
    * @retval false    Only the first Log Format is being used.
    */
@@ -348,12 +348,12 @@ public partial class UT_Create : System.Web.UI.Page
         btn_more_lfs.Text = "[+] I need more Log Formats";
     }
   }
-  
+
   /**
    * Safely execute a MySQL statement. This manages the connection
-   * and can throw an Argument Exception indicating what the 
-   * sql attempted to execute was. 
-   * 
+   * and can throw an Argument Exception indicating what the
+   * sql attempted to execute was.
+   *
    * @param sql    The statement to be executed.
    */
   private DataTable ExecuteMySqlAdapter ( string sql )

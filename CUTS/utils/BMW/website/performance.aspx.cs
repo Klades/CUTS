@@ -40,7 +40,7 @@ namespace CUTS
     /**
      * Concrete master page for this page.
      */
-    private CUTS.BMW_Master master_;
+    private CUTS.Master master_;
 
     public int TestNumber
     {
@@ -70,7 +70,7 @@ namespace CUTS
       if (value != null)
         this.test_number_ = System.Int32.Parse(value);
 
-      master_ = (CUTS.BMW_Master)Master;
+      master_ = (CUTS.Master)Master;
 
       if (!this.Page.IsPostBack)
       {
