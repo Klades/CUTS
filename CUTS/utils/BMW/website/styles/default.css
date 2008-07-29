@@ -19,6 +19,16 @@ h2
   font-weight:bold;
 }
 
+.console
+{
+  border: 3px solid black;
+}
+
+.console_text
+{
+  padding: 5px;
+}
+
 .menu_item
 {
   font-size: small;
@@ -148,26 +158,6 @@ td.performance-data, th.performance-data
 {
   color: black;
 }
-
-/*
-.message-Error
-{
-  border: solid 3px black;
-  background-color: red;
-}
-
-.message-Info
-{
-  border: solid 3px gold;
-  background-color: yellow;
-}
-
-.message-Success
-{
-  border: solid 3px black;
-  background-color: green;
-}
-*/
 
 .help-btn
 {

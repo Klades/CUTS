@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Data;
 using System.Configuration;
 using System.Collections;
@@ -358,25 +359,6 @@ public partial class Unit_Testing : System.Web.UI.Page
     reload_Packages (Create_Package_Name.Text);
   }
 
-  protected void OnClick_show_help (object sender, EventArgs e)
-  {
-    Panel p = (Panel)this.Master.FindControl ("help_");
-    if (show_help.Text == "Show Help")
-    {
-      p.Controls.Add (my_help_);
-      p.Visible = true;
-      my_help_.Visible = true;
-      show_help.Text = "Hide Help";
-    }
-    else
-    {
-      p.Controls.Remove (my_help_);
-      p.Visible = false;
-      my_help_.Visible = false;
-      show_help.Text = "Show Help";
-    }
-  }
-
   protected void OnClick_Delete_Test_Suite (object sender, EventArgs e)
   {
     if (false == IsValidSelection (this.Existing_Test_Suites))
@@ -604,6 +586,12 @@ public partial class Unit_Testing : System.Web.UI.Page
     lbl_Unit_Test_Details_ID.Text = row ["utid"].ToString ();
 
     load_log_format_data ();
+  }
+
+  private void initialize_help ()
+  {
+    StringBuilder builder = new StringBuilder ();
+
   }
 
   private bool Unit_Test_Details_Visible

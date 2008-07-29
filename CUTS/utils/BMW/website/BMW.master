@@ -3,7 +3,7 @@
            inherits="CUTS.BMW_Master"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+<head>
   <title>CUTS Benchmark Manager Web Utility</title>
   <link rel="stylesheet" href="styles/default.css" type="text/css" />
 
@@ -24,6 +24,13 @@
     console.style.display = "none";
   }
 
+  function show_help (url)
+  {
+    features = "scrollbars=yes, location=no, menubar=no";
+
+    window.open (url, "_blank", features);
+  }
+
   </script>
 </head>
 <body style="border:0px;margin:0px">
@@ -38,7 +45,7 @@
   <tr valign="top" style="padding-bottom:10px">
     <td class="menu" style="width:150px;padding-left:5px">
       <!-- begin main menu -->
-      <div class="title">Main Menu</div>
+      <div class="title">Test Metrics</div>
 
       <div class="menu_item" onmouseover="hilite (this);" onmouseout="unhilite (this);">
         <asp:image runat="server" id="menudot0" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
@@ -51,19 +58,22 @@
                        navigateurl="~/baseline.aspx"
                        text="Baseline Metrics" /></div>
 
+      <br />
 
-     <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
+      <div class="title">Configuration</div>
+      <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
         <asp:image runat="server" id="Image1" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
         <asp:hyperlink runat="server" id="Test_Suites"
                        navigateurl="~/unittest.aspx"
                        text="Unit Testing" /></div>
 
-<div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
+      <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
         <asp:image runat="server" id="Image4" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
         <asp:hyperlink runat="server" id="Hyperlink2"
                        navigateurl="~/Log_Formats.aspx"
                        text="Log Formats" /></div>
 
+      <br />
 
       <div class="title" style="margin-top:10px">System Details</div>
       <div class="menu_item" onmouseover="hilite (this);" onmouseout="unhilite (this);">
@@ -82,65 +92,33 @@
         <asp:hyperlink runat="server" id="cp_menu_item_"
                        navigateurl="~/Critical_Path.aspx"
                        text="Execution Paths" /></div>
+
+      <br />
+
+      <asp:placeholder runat="server" id="help_item_" />
     </td>
     <td>
       <!-- status/error message label for the page. -->
       <asp:label id="message_" runat="server" />
 
-      <!-- Three different divs, just in case we would like to show more than one at once -->
+      <asp:panel runat="server" id="console_" visible="true" scrollbars="none"
+                 style="display:none" width="750px" backcolor="lavender"
+                 cssclass="console console_text">
+        <asp:panel runat="server" id="console_text_" height="50px" scrollbars="auto"
+                   wrap="true" visible="true" cssclass="console_text" />
 
-      <!--
-        Hamilton:
+        <hr />
 
-        Please convert this into a item and just append *messages* to the end
-        of the 'Text' property. For example:
-
-        show_message_error (message) {
-          message.Text += "<div class='error'>" + message + </div>";
-        }
-
-        show_message_info (message) {
-          message.Text += "<div class='info'>" + message + </div>";
-        }
-
-        show_message_warning (message) {
-          message.Text += "<div class='warning'>" + message + </div>";
-        }
-
-        This will simply the code a LOT. It will making clearing the message
-        a LOT easier and will also remove the the need for having an
-        enumeration value to define the severity level then having to have
-        a LOT of if...else statements to locate the correct handler for the
-        type.
-        -->
-
-      <asp:panel runat="server" id="console_" visible="false" scrollbars="none" width="750px">
-        <asp:panel runat="server" id="console_text_" height="50px" scrollbars="auto" wrap="true" visible="true" />
-        <br />
-        <div>
-          <!-- controls for the console -->
-          <a href="javascript:console_clear ('<%= this.console_.ClientID %>');">Clear Messages</a>
-        </div>
+        <!-- controls for the console -->
+        <a href="javascript:console_clear ('<%= this.console_.ClientID %>');">Clear Messages</a>
       </asp:panel>
 
-<%--
-      <asp:Panel runat="server" id="message_info" CssClass="message-Info message">
-            <asp:Button ID="btn1" runat="server" CssClass="message-btn-ClearMe" Text=" X " OnClick="OnClick_Clear_Me" />
-            <asp:Label ID="message_text_info" runat="server"></asp:Label>
-      </asp:Panel>
-      <asp:Panel runat="server" id="message_error" CssClass="message-Error message">
-            <asp:Button ID="Button1" runat="server" CssClass="message-btn-ClearMe" Text=" X " OnClick="OnClick_Clear_Me" />
-            <asp:Label ID="message_text_error" runat="server"></asp:Label>
-      </asp:Panel>
-      <asp:Panel runat="server" id="message_success" CssClass="message-Success message">
-            <asp:Button ID="Button3" runat="server" CssClass="message-btn-ClearMe" Text=" X " OnClick="OnClick_Clear_Me" />
-            <asp:Label ID="message_text_success" runat="server"></asp:Label>
-      </asp:Panel>
---%>
-
-      <asp:panel ID="help_" runat="server" visible="false"></asp:panel>
+      <br />
 
       <asp:contentplaceholder runat="server" id="MainContent" />
+
+      <hr />
+      <p>Copyright &copy; 2004 - <%= DateTime.Today.Year %>; All rights reserved.</p>
     </td>
   </tr>
   </table>

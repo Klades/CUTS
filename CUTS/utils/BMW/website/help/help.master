@@ -1,0 +1,15 @@
+<%@ master language="C#" codefile="help.master.cs" autoeventwireup="true"
+           inherits="CUTS.Help.Master"%>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>CUTS Benchmark Manager Web Utility - Help</title>
+</head>
+<body style="background-color: #EEDDBB">
+  <h2><asp:contentplaceholder id="HelpTitle" runat="server" /></h2>
+
+  <asp:contentplaceholder id="HelpContent" runat="server" />
+  <hr />
+  <p>Copyright &copy; 2004 - <%= DateTime.Today.Year %>; All rights reserved.</p>
+</body>
+</html>

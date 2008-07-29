@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections;
 using System.Configuration;
 using System.ComponentModel;
@@ -12,30 +13,9 @@ using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
-using System.Text.RegularExpressions;
 
 namespace CUTS
 {
-  /// <summary>
-  /// Hamilton:
-  ///
-  /// Pleaes move the MessageSeverity enumeration its own file preferably
-  /// in the App_Code folder.
-  /// </summary>
-  public enum MessageSeverity
-  {
-    /// <summary>
-    /// Hamilton:
-    ///
-    /// Please place each item in the enumeration on its own line and add
-    /// a comment above each one. Also, please manaully assign each one a
-    /// value.
-    ///
-    /// Lastly, please make the enumerations all capital letters!!
-    /// </summary>
-    Error, Information, Success
-  }
-
   /**
    * @class BMW_Master
    *
@@ -55,14 +35,23 @@ namespace CUTS
      */
     private void Page_Load (object sender, System.EventArgs e)
     {
+      int index =
+        this.Request.FilePath.IndexOf ('/', 1);
 
+      string help_url =
+        this.Request.FilePath.Insert (index, "/help");
+
+      string filepath = this.Server.MapPath (help_url);
+
+      if (File.Exists (filepath))
+      {
+        Label show_help = new Label ();
+        show_help.Text =
+          "<input type=\"button\" value=\"Show Help\" onclick=\"show_help ('" + help_url + "');\" />";
+
+        this.help_item_.Controls.Add (show_help);
+      }
     }
-
-    //protected override void OnPreRender (EventArgs e)
-    //{
-    //  ClearBlankMessages ();
-    //  base.OnPreRender (e);
-    //}
 
     public bool InQuietMode
     {
@@ -70,63 +59,20 @@ namespace CUTS
       set { InQuietMode_ = value; }
     }
 
-    //private void ClearBlankMessages ()
+    ///**
+    // * Update the help with a new control. This will append the control to
+    // * the end of the help.
+    // *
+    // * @param[in]         control           Control to add to help
+    // */
+    //public void update_help (Control control)
     //{
-    //  if (message_text_error.Text == String.Empty)
-    //    message_error.Visible = false;
-    //  if (message_text_info.Text == String.Empty)
-    //    message_info.Visible = false;
-    //  if (message_text_success.Text == String.Empty)
-    //    message_success.Visible = false;
-    //}
+    //  this.help_content_.Controls.Add (control);
 
-    //public void show_error_message (string message)
-    //{
-    //  AddNewMessage (message, MessageSeverity.Information);
-    //}
-
-    //public void show_error_message (string message)
-    //{
-    //  AddNewMessage (message, MessageSeverity.Error);
-    //}
-
-    //public void show_info_message (string message)
-    //{
-    //  AddNewMessage (message, MessageSeverity.Success);
-    //}
-
-    //public void AddNewMessage (string message, MessageSeverity severity)
-    //{
-    //  if (InQuietMode_)
-    //    return;
-
-    //  if (severity == MessageSeverity.Information)
-    //  {
-    //    if (message_text_info.Text.Contains (message))
-    //      return;
-    //    if (message_text_info.Text != String.Empty)
-    //      message_text_info.Text += "<br />";
-    //    message_text_info.Text += message;
-    //    message_info.Visible = true;
-    //  }
-    //  else if (severity == MessageSeverity.Success)
-    //  {
-    //    if (message_text_success.Text.Contains (message))
-    //      return;
-    //    if (message_text_success.Text != String.Empty)
-    //      message_text_success.Text += "<br />";
-    //    message_text_success.Text += message;
-    //    message_success.Visible = true;
-    //  }
-    //  else
-    //  {
-    //    if (message_text_error.Text.Contains (message))
-    //      return;
-    //    if (message_text_error.Text != String.Empty)
-    //      message_text_error.Text += "<br />";
-    //    message_text_error.Text += message;
-    //    message_error.Visible = true;
-    //  }
+    //  // Make sure the help panel is visible. Right now, this will only
+    //  // show the 'Show Help' button until the user click it for more detals.
+    //  if (!this.help_.Visible)
+    //    this.help_.Visible = true;
     //}
 
     /**
@@ -136,11 +82,7 @@ namespace CUTS
      */
     public void show_error_message (String msg)
     {
-      Label label = new Label ();
-      label.CssClass = "msg_error";
-      label.Text = "<div>" + msg + "</div>";
-
-      this.insert_console_message (label);
+      this.show_message (msg, "msg_error");
     }
 
     /**
@@ -150,11 +92,7 @@ namespace CUTS
      */
     public void show_info_message (String msg)
     {
-      Label label = new Label ();
-      label.CssClass = "msg_info";
-      label.Text = "<div>" + msg + "</div>";
-
-      this.insert_console_message (label);
+      this.show_message (msg, "msg_info");
     }
 
     /**
@@ -164,11 +102,7 @@ namespace CUTS
      */
     public void show_warning_message (String msg)
     {
-      Label label = new Label ();
-      label.CssClass = "msg_warning";
-      label.Text = "<div>" + msg + "</div>";
-
-      this.insert_console_message (label);
+      this.show_message (msg, "msg_warning");
     }
 
     /**
@@ -177,51 +111,17 @@ namespace CUTS
      *
      * @param[in]         msg_control     Control containing the message
      */
-    private void insert_console_message (Control msg_control)
+    private void show_message (String msg, String cssclass)
     {
-      this.console_text_.Controls.Add (msg_control);
+      Label label = new Label ();
+      label.CssClass = cssclass;
+      label.Text = "<div>&middot; " + msg + "</div>";
+
+      this.console_text_.Controls.Add (label);
 
       // Make sure we can actually see the console.
-      if (!this.console_.Visible)
-        this.console_.Visible = true;
+      if (this.console_.Style["display"] == "none")
+        this.console_.Style["display"] = "block";
     }
-
-    /**
-     * Hamilton:
-     *
-     * Please update this function so that it works with a single panel
-     * based on the comment in BMW_Master.aspx
-     */
-    //public void OnClick_Clear_Me (object sender, EventArgs e)
-    //{
-    //  Button btn = (Button)sender;
-    //  Panel p = (Panel)btn.Parent;
-
-    //  if (p == message_error)
-    //  {
-    //    message_error.Visible = false;
-    //    message_text_error.Text = String.Empty;
-    //  }
-    //  else if (p == message_info)
-    //  {
-    //    message_info.Visible = false;
-    //    message_text_info.Text = String.Empty;
-    //  }
-    //  else if (p == message_success)
-    //  {
-    //    message_success.Visible = false;
-    //    message_text_success.Text = String.Empty;
-    //  }
-    //  else
-    //  {
-    //    /**
-    //     * Hamilton:
-    //     *
-    //     * Please remove this error message an
-    //     */
-    //    AddNewMessage ("I could not figure out which messages you wanted to clear!" +
-    //        "(Hint: Just switch pages to clear them all!)", MessageSeverity.Error);
-    //  }
-    //}
   }
 }

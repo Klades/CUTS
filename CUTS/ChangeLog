@@ -1,3 +1,23 @@
+Tue Jul 29 15:14:36 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/BMW.master:
+        * utils/BMW/website/BMW.master.cs:
+        * utils/BMW/website/help:
+        * utils/BMW/website/help/help.master:
+        * utils/BMW/website/help/help.master.cs:
+        * utils/BMW/website/help/unittest.aspx:
+        * utils/BMW/website/help/unittest.aspx.cs:
+        * utils/BMW/website/styles/default.css:
+        * utils/BMW/website/unittest.aspx:
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . Integrated help capabilities into the Master page for the entire
+            website. To use the help system, you have to create a page in the
+            ./help directory with same name as the source page. If the master
+            page find a page with the same name, it will show a button in the
+            bottom of the left-hand column to display help. Otherwise, the
+            button is not displayed.
+
 Mon Jul 28 21:51:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-unittest.sql:
