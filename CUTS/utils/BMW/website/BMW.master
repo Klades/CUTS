@@ -45,7 +45,7 @@
   <tr valign="top" style="padding-bottom:10px">
     <td class="menu" style="width:150px;padding-left:5px">
       <!-- begin main menu -->
-      <div class="title">Test Metrics</div>
+      <div class="title">Testing</div>
 
       <div class="menu_item" onmouseover="hilite (this);" onmouseout="unhilite (this);">
         <asp:image runat="server" id="menudot0" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
@@ -65,7 +65,7 @@
         <asp:image runat="server" id="Image1" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
         <asp:hyperlink runat="server" id="Test_Suites"
                        navigateurl="~/unittest.aspx"
-                       text="Unit Testing" /></div>
+                       text="Unit Tests" /></div>
 
       <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
         <asp:image runat="server" id="Image4" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
