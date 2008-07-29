@@ -1,3 +1,11 @@
+Tue Jul 29 16:51:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Data/Database.cs:
+
+          . Bug fix where the specified stored procedure for selecting the
+            cumulative performance. Now, the tab that show the cumulative
+            performance should display correctly.
+
 Tue Jul 29 16:44:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/BMW.master:

@@ -612,7 +612,7 @@ namespace CUTS.Data
                                                  string tablename)
     {
       MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText = "CALL cuts.select_execution_time_cumulative(?t)";
+      command.CommandText = "CALL cuts.select_performance_cumulative(?t)";
       command.Prepare();
 
       command.Parameters.AddWithValue("?t", test);
