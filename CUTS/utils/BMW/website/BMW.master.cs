@@ -59,22 +59,6 @@ namespace CUTS
       set { InQuietMode_ = value; }
     }
 
-    ///**
-    // * Update the help with a new control. This will append the control to
-    // * the end of the help.
-    // *
-    // * @param[in]         control           Control to add to help
-    // */
-    //public void update_help (Control control)
-    //{
-    //  this.help_content_.Controls.Add (control);
-
-    //  // Make sure the help panel is visible. Right now, this will only
-    //  // show the 'Show Help' button until the user click it for more detals.
-    //  if (!this.help_.Visible)
-    //    this.help_.Visible = true;
-    //}
-
     /**
      * Show an error message to the user.
      *
