@@ -124,7 +124,7 @@ namespace CUTS.Data
                                      ref DataSet dataset)
     {
       MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText = 
+      command.CommandText =
         "CALL cuts.select_distinct_performance_collection_times (?test)";
 
       // Add the parameter to the statement.
@@ -141,7 +141,7 @@ namespace CUTS.Data
                                     string tablename)
     {
       MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText = 
+      command.CommandText =
         "CALL cuts.select_performance_by_collection_time(?test, ?time)";
 
       command.Prepare();
@@ -586,7 +586,7 @@ namespace CUTS.Data
     public void get_baseline_data(ref DataSet ds, string table)
     {
       MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText = "CALL cuts.select_baseline_metric_all()";
+      command.CommandText = "CALL cuts.select_performance_baseline_all()";
 
       MySqlDataAdapter adapter = new MySqlDataAdapter(command);
       adapter.Fill(ds, table);

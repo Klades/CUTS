@@ -444,10 +444,9 @@ DROP PROCEDURE IF EXISTS cuts.select_performance_baseline_all //
 CREATE PROCEDURE
   cuts.select_performance_baseline_all ()
 BEGIN
-  SELECT t1.*, 
+  SELECT t1.*,
          t1.total_time / t1.perf_count AS average_time,
-         t2.hostname, 
-         t2.ipaddr,
+         t2.hostname,
          t3.component_name,
          t4.port_name
   FROM cuts.performance_baseline AS t1,
@@ -490,13 +489,13 @@ BEGIN
           t3.port_name = t4.pid AND
           t1.host = t8.hostid) AS t0
   LEFT JOIN (
-    SELECT t5.pid, 
+    SELECT t5.pid,
            t6.portname AS outport_name
     FROM cuts.porttypes AS t5,
          cuts.portnames AS t6
     WHERE t5.port_name = t6.pid) AS t7
   ON t0.outport = t7.pid
-  ORDER BY t0.component_name, t0.hostname, t0.inport_name, 
+  ORDER BY t0.component_name, t0.hostname, t0.inport_name,
            t0.outport_index, t7.outport_name;
 END; //
 
@@ -567,9 +566,9 @@ DROP PROCEDURE IF EXISTS cuts.select_performance_baseline_i //
 CREATE PROCEDURE
   cuts.select_performance_baseline_i (IN _instance INT)
 BEGIN
-  SELECT t1.*, 
+  SELECT t1.*,
          t1.total_time / t1.perf_count AS average_time,
-         t2.hostname, 
+         t2.hostname,
          t2.ipaddr,
          t3.component_name,
          t4.port_name

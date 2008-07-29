@@ -1,3 +1,11 @@
+Tue Jul 29 16:32:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-baseline.sql:
+        * utils/BMW/assemblies/CUTS.Data/Database.cs:
+
+          . Fixed the page for displaying the baseline metrics of a
+            component.
+
 Tue Jul 29 15:54:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/styles/default.css:
