@@ -1,3 +1,19 @@
+Wed Jul 30 22:46:06 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/BMW.master:
+        * utils/BMW/website/paths.aspx:
+        * utils/BMW/website/paths.aspx.cs:
+        * utils/BMW/website/paths.aspx.resx:
+
+          . Changed the name of the path for configuring execution paths
+            monitored in the system.
+
+        * utils/BMW/website/Critical_Path.aspx:
+        * utils/BMW/website/Critical_Path.aspx.cs:
+        * utils/BMW/website/Critical_Path.aspx.resx:
+
+          Removed these files.
+
 Wed Jul 30 22:41:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Data/Database.cs:

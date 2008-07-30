@@ -1,4 +1,4 @@
-<%@ page language="c#" codefile="Critical_Path.aspx.cs" autoeventwireup="true" inherits="CUTS.Critical_Path"
+<%@ page language="c#" codefile="paths.aspx.cs" autoeventwireup="true" inherits="CUTS.Execution_Paths"
   masterpagefile="~/BMW.master" %>
 
 <asp:content runat="server" id="main_content_" contentplaceholderid="MainContent">

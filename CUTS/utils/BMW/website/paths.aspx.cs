@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- * @file    Critical_Path.aspx.cs
+ * @file    Execution_Paths.aspx.cs
  */
 //=============================================================================
 
@@ -22,11 +22,11 @@ using MySql.Data.MySqlClient;
 namespace CUTS
 {
   /**
-   * @class Critical_Path
+   * @class Execution_Paths
    *
-   * Code-behind for the Critical_Path.aspx webpage.
+   * Code-behind for the Execution_Paths.aspx webpage.
    */
-  public partial class Critical_Path : System.Web.UI.Page
+  public partial class Execution_Paths : System.Web.UI.Page
   {
     static private string PATH_ELEMENTS_TABLE = "execution_path_elements";
 
@@ -91,8 +91,8 @@ namespace CUTS
             table.PrimaryKey = primary_key;
 
             // Fill the dataset with the instance data.
-            MySqlDataAdapter inst_adapter = Critical_Path.create_instance_adapter (conn);
-            inst_adapter.Fill (ds, Critical_Path.INSTANCE_TABLE);
+            MySqlDataAdapter inst_adapter = Execution_Paths.create_instance_adapter (conn);
+            inst_adapter.Fill (ds, Execution_Paths.INSTANCE_TABLE);
 
             // Update the view.
             UpdateView (ds);
@@ -176,7 +176,7 @@ namespace CUTS
       DataSet ds = (DataSet)Session ["dataset"];
 
       // Get the path table from the dataset and create a new row.
-      DataTable table = ds.Tables [Critical_Path.PATH_ELEMENTS_TABLE];
+      DataTable table = ds.Tables [Execution_Paths.PATH_ELEMENTS_TABLE];
       DataRow dr = table.NewRow ();
 
       // Initialize all the elements in the row. This will mean setting
@@ -213,7 +213,7 @@ namespace CUTS
         MySqlDataAdapter adapter =
           this.CreatePathElementAdapter ((MySqlConnection) this.database_.Connection, path_id);
 
-        adapter.Update (ds, Critical_Path.PATH_ELEMENTS_TABLE);
+        adapter.Update (ds, Execution_Paths.PATH_ELEMENTS_TABLE);
 
         // Refresh the view.
         UpdateView (ds);

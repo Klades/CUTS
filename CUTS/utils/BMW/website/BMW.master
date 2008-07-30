@@ -89,7 +89,7 @@
       <div class="menu_item" onmouseover="hilite(this);" onmouseout="unhilite(this);">
         <asp:image runat="server" id="menudot3" imageurl="~/images/menudot.gif" imagealign="absmiddle" />
         <asp:hyperlink runat="server" id="cp_menu_item_"
-                       navigateurl="~/Critical_Path.aspx"
+                       navigateurl="~/paths.aspx"
                        text="Execution Paths" /></div>
 
       <br />
