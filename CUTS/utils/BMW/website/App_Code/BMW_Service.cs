@@ -17,6 +17,7 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml;
+
 using MySql.Data.MySqlClient;
 
 //=============================================================================
@@ -35,8 +36,7 @@ public class BMW_Web_Service : System.Web.Services.WebService
 {
   public BMW_Web_Service()
   {
-    this.util_ =
-      new CUTS.Data.Database (ConfigurationManager.AppSettings["MySQL"]);
+
   }
 
   /**
@@ -46,5 +46,8 @@ public class BMW_Web_Service : System.Web.Services.WebService
    * closing the connection because it is handled when the
    * object is destroyed.
    */
-  private CUTS.Data.Database util_;
+  private CUTS.Data.Database database_ =
+    new CUTS.Data.Database (
+    new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]),
+    new CUTS.Data.MySqlDataAdapterFactory ());
 }

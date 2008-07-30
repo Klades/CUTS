@@ -131,14 +131,6 @@ td.performance-data, th.performance-data
   margin-left:60px;
 }
 
-.message-btn-ClearMe
-{
-  float: left;
-  position: relative;
-  left: -13px;
-  top: -13px;
-}
-
 .message
 {
   padding: 10px;
@@ -157,12 +149,4 @@ td.performance-data, th.performance-data
 .message_info
 {
   color: black;
-}
-
-.help-btn
-{
-  left: -95px;
-  top: -10px;
-  float: right;
-  position: relative;
 }

@@ -23,22 +23,21 @@ using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+using MySql.Data.MySqlClient;
 
 namespace CUTS
 {
-  //===========================================================================
   /**
-   * @class Components
+   * @class Baseline_Metrics
    *
-   * Code-behind implemetation for the Component_Instances.aspx
-   * page.
+   * Code-behind implemetation for the baseline.aspx page.
    */
-  //===========================================================================
-
   public partial class Baseline_Metrics : System.Web.UI.Page
   {
-    private CUTS.Data.Database cuts_ =
-      new CUTS.Data.Database(ConfigurationManager.AppSettings["MySQL"]);
+    private CUTS.Data.Database database_ =
+      new CUTS.Data.Database (
+      new MySqlConnection (ConfigurationManager.AppSettings ["MySQL"]),
+      new CUTS.Data.MySqlDataAdapterFactory ());
 
     /**
      * Callback method for when the page is loading.
@@ -56,10 +55,10 @@ namespace CUTS
     private void load_baseline()
     {
       DataSet ds = new DataSet();
-      this.cuts_.get_baseline_data(ref ds, "baseline");
+      this.database_.get_baseline_data(ref ds);
 
       this.sysperf_.DataSource = ds;
-      this.sysperf_.DataMember = "baseline";
+      this.sysperf_.DataMember = "Table";
       this.sysperf_.DataBind();
     }
 

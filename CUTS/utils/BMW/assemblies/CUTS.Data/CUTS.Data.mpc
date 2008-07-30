@@ -18,6 +18,12 @@ project (CUTS.Data) {
   }
 
   Source_Files {
+    // interfaces
+    DbDataAdapterFactory.cs
+    MySqlDataAdapterFactory.cs
+    OdbcDataAdapterFactory.cs
+
+    // classes
     Database.cs
     ExecutionTime.cs
     PathElement.cs

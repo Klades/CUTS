@@ -21,6 +21,7 @@ using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+using MySql.Data.MySqlClient;
 
 namespace CUTS
 {
@@ -34,8 +35,10 @@ namespace CUTS
 
   public partial class Test : System.Web.UI.Page
   {
-    private CUTS.Data.Database cuts_database_ =
-      new CUTS.Data.Database(ConfigurationManager.AppSettings["MySQL"]);
+    private CUTS.Data.Database database_ =
+      new CUTS.Data.Database (
+      new MySqlConnection (ConfigurationManager.AppSettings ["MySQL"]),
+      new CUTS.Data.MySqlDataAdapterFactory ());
 
     /**
      * Callback method for loading a page.
@@ -46,7 +49,7 @@ namespace CUTS
     private void Page_Load (object sender, System.EventArgs e)
     {
       if (!this.IsPostBack)
-        this.load_test_data();
+        this.load_test_data ();
     }
 
     /**
@@ -55,7 +58,7 @@ namespace CUTS
      * @param[in]       sender        Sender of the event.
      * @param[in]       e             Arguments for the event.
      */
-    protected void handle_onpageindexchanged(object sender,
+    protected void handle_onpageindexchanged (object sender,
                                              DataGridPageChangedEventArgs e)
     {
       this.tests_.CurrentPageIndex = e.NewPageIndex;
@@ -69,14 +72,14 @@ namespace CUTS
     {
       switch (status)
       {
-      case "active":
-        return "stoplight-green.gif";
+        case "active":
+          return "stoplight-green.gif";
 
-      case "inactive":
-        return "stoplight-green.gif";
+        case "inactive":
+          return "stoplight-green.gif";
 
-      default:
-        return "stoplight-blank.gif";
+        default:
+          return "stoplight-blank.gif";
       }
     }
 
@@ -86,7 +89,7 @@ namespace CUTS
      * @param[in]     sender        Sender of the event.
      * @param[in]     e             Arguments for the event.
      */
-    protected void handle_onitemcreated(object sender,
+    protected void handle_onitemcreated (object sender,
                                         DataGridItemEventArgs e)
     {
       ListItemType item_type = e.Item.ItemType;
@@ -94,12 +97,12 @@ namespace CUTS
       switch (item_type)
       {
         case ListItemType.Pager:
-          TableCell pager = (TableCell)e.Item.Controls[0];
+          TableCell pager = (TableCell)e.Item.Controls [0];
           int count = pager.Controls.Count;
 
           for (int i = 0; i < count; i += 2)
           {
-            Object obj = pager.Controls[i];
+            Object obj = pager.Controls [i];
 
             if (obj is LinkButton)
             {
@@ -109,12 +112,12 @@ namespace CUTS
             }
             else
             {
-              Label label = (Label) obj;
+              Label label = (Label)obj;
               label.Text = "[ " + label.Text + " ]";
             }
           }
 
-          pager.Controls.AddAt(0, new LiteralControl("Page(s): "));
+          pager.Controls.AddAt (0, new LiteralControl ("Page(s): "));
 
           break;
 
@@ -135,11 +138,11 @@ namespace CUTS
       try
       {
         // Get all the test from the database.
-        DataSet ds = new DataSet();
-        this.cuts_database_.get_all_test(ref ds);
+        DataSet ds = new DataSet ();
+        this.database_.get_all_test (ref ds);
 
         // Expose the <DefaultView> of the result.
-        this.tests_.DataSource = ds.Tables["tests"];
+        this.tests_.DataSource = ds.Tables ["Table"];
         this.tests_.DataBind ();
       }
       catch (Exception ex)
@@ -161,7 +164,7 @@ namespace CUTS
       CheckBox check = (CheckBox)sender;
 
       if (check != null)
-        this.toggle_action_i(check.Checked);
+        this.toggle_action_i (check.Checked);
     }
 
     /**
@@ -170,9 +173,9 @@ namespace CUTS
      * @param[in]       sender          Sender of the event.
      * @param[in]       e               Arguments for the event.
      */
-    protected void handle_select_all(object sender, EventArgs e)
+    protected void handle_select_all (object sender, EventArgs e)
     {
-      this.toggle_action_i(true);
+      this.toggle_action_i (true);
     }
 
     /**
@@ -181,10 +184,10 @@ namespace CUTS
      * @param[in]       sender        Sender of the event.
      * @param[in]       e             Arguments for the event.
      */
-    protected void handle_unselect_all(object sender,
+    protected void handle_unselect_all (object sender,
                                        System.EventArgs e)
     {
-      this.toggle_action_i(false);
+      this.toggle_action_i (false);
     }
 
     /**
@@ -197,7 +200,7 @@ namespace CUTS
     {
       foreach (DataGridItem item in this.tests_.Items)
       {
-        CheckBox action = (CheckBox)item.FindControl("action_");
+        CheckBox action = (CheckBox)item.FindControl ("action_");
 
         if (action != null)
           action.Checked = state;
@@ -209,25 +212,25 @@ namespace CUTS
      *
      * @param[in]       sender        Sender of the event.
      */
-    protected void handle_delete_all(object sender,
+    protected void handle_delete_all (object sender,
                                      System.EventArgs e)
     {
       // Create a list for holding the selected numbers.
-      ArrayList list = new ArrayList();
+      ArrayList list = new ArrayList ();
 
       foreach (DataGridItem item in this.tests_.Items)
       {
         // Locate the <action_> control since it's the checkbox
         // that determines the action of the current test.
-        CheckBox action = (CheckBox) item.FindControl("action_");
+        CheckBox action = (CheckBox)item.FindControl ("action_");
 
         if (action != null && action.Checked)
         {
           // Add the test number to the list if we are checked.
           System.Int32 testnum =
-            (System.Int32)this.tests_.DataKeys[item.ItemIndex];
+            (System.Int32)this.tests_.DataKeys [item.ItemIndex];
 
-          list.Add(testnum);
+          list.Add (testnum);
         }
       }
 
@@ -236,30 +239,30 @@ namespace CUTS
         // Let's convert the array to an <System.Int32> array
         // and pass control to the database utility.
         System.Int32 [] testlist =
-          (System.Int32 [])list.ToArray(typeof(System.Int32));
+          (System.Int32 [])list.ToArray (typeof (System.Int32));
 
-        this.cuts_database_.delete_tests(testlist);
-        this.load_test_data();
+        this.database_.delete_tests (testlist);
+        this.load_test_data ();
       }
     }
     ///
     #region Web Form Designer generated code
-    override protected void OnInit(EventArgs e)
+    override protected void OnInit (EventArgs e)
     {
       //
       // CODEGEN: This call is required by the ASP.NET Web Form Designer.
       //
-      InitializeComponent();
-      base.OnInit(e);
+      InitializeComponent ();
+      base.OnInit (e);
     }
 
     /// <summary>
     /// Required method for Designer support - do not modify
     /// the contents of this method with the code editor.
     /// </summary>
-    private void InitializeComponent()
+    private void InitializeComponent ()
     {
-      this.Load += new System.EventHandler(this.Page_Load);
+      this.Load += new System.EventHandler (this.Page_Load);
 
     }
     #endregion

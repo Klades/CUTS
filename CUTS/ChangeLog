@@ -1,3 +1,39 @@
+Wed Jul 30 05:54:35 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+        * utils/BMW/assemblies/CUTS.Data/Database.cs:
+        * utils/BMW/assemblies/CUTS.Data/DbDataAdapterFactory.cs:
+        * utils/BMW/assemblies/CUTS.Data/MySqlDataAdapterFactory.cs:
+        * utils/BMW/assemblies/CUTS.Data/OdbcDataAdapterFactory.cs:
+
+          . Redesigned the database tier so that it is implemented independent
+            of the actual database connection type. This means the database
+            tier of the application uses interfaces instead of concrete
+            objects.
+
+        * utils/BMW/website/Critical_Path.aspx:
+        * utils/BMW/website/Critical_Path.aspx.cs:
+
+          . Update all the pages to use the new database abstraction.
+
+          . Change the layout of the page.
+
+        * utils/BMW/website/App_Code/BMW_Service.cs:
+        * utils/BMW/website/Timeline.aspx.cs:
+        * utils/BMW/website/baseline.aspx.cs:
+        * utils/BMW/website/components.aspx:
+        * utils/BMW/website/components.aspx.cs:
+        * utils/BMW/website/default.aspx.cs:
+        * utils/BMW/website/environment.aspx:
+        * utils/BMW/website/environment.aspx.cs:
+        * utils/BMW/website/performance.aspx.cs:
+
+          . Update all the pages to use the new database abstraction.
+
+        * utils/BMW/website/styles/default.css:
+
+          . Removed unused classes from the stylesheet.
+
 Tue Jul 29 16:51:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Data/Database.cs:

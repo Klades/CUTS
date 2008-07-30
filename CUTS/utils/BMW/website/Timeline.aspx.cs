@@ -1,5 +1,15 @@
 // $Id$
 
+//=============================================================================
+/**
+ *  @file         Timeline.aspx.cs
+ *
+ * $Id$
+ *
+ * @author        James H. Hill
+ */
+//=============================================================================
+
 using System;
 using System.Collections;
 using System.ComponentModel;
@@ -12,19 +22,23 @@ using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
-
+using MySql.Data.MySqlClient;
 using WebChart;
 
 namespace CUTS
 {
-  /// <summary>
-  /// Summary description for Timeline.
-  /// </summary>
+  /**
+   * @class Timeline
+   *
+   * Code-behind for the timeline.aspx webpage.
+   */
   public partial class Timeline : System.Web.UI.Page
   {
     /// Utility class for interacting with the CUTS database.
-    private CUTS.Data.Database cutsdb_ =
-      new CUTS.Data.Database(ConfigurationManager.AppSettings["MySQL"]);
+    private CUTS.Data.Database database_ =
+      new CUTS.Data.Database (
+      new MySqlConnection (ConfigurationManager.AppSettings ["MySQL"]),
+      new CUTS.Data.MySqlDataAdapterFactory ());
 
     protected string component_name_;
 
@@ -48,8 +62,8 @@ namespace CUTS
         this.return_link_.NavigateUrl = "~/performance.aspx?t=" + test_number;
 
         // Construct the title of the chart.
-        this.component_name_ = this.cutsdb_.get_component_name(component);
-        string src_name = this.cutsdb_.get_component_portname(src);
+        this.component_name_ = this.database_.get_component_name(component);
+        string src_name = this.database_.get_component_portname(src);
 
         this.timeline_.ChartTitle.Text =
           this.component_name_ +
@@ -58,14 +72,14 @@ namespace CUTS
         if (dst != -1)
         {
           this.timeline_.ChartTitle.Text +=
-            " AND output = '" + this.cutsdb_.get_component_portname(dst) + "'";
+            " AND output = '" + this.database_.get_component_portname(dst) + "'";
         }
 
         this.timeline_.ChartTitle.Text += "]";
 
         // Get the execution times for the timeline.
         DataSet ds = new DataSet ();
-        this.cutsdb_.get_component_execution_times(test_number,
+        this.database_.get_component_execution_times(test_number,
                                                    component,
                                                    1,
                                                    metric,
@@ -77,7 +91,7 @@ namespace CUTS
         // the chart so that the Y-axis is 10 msec more that the
         // max value.
         this.timeline_.YCustomEnd =
-          this.cutsdb_.get_worst_execution_time(test_number, component) + 10;
+          this.database_.get_worst_execution_time(test_number, component) + 10;
 
         // Create the execution time charts.
         DataTable execution_time = ds.Tables["execution_time"];

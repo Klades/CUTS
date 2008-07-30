@@ -13,84 +13,76 @@
 using System;
 using System.Collections;
 using System.Data;
-using System.Data.Odbc;
-using System.Net;
-using System.Net.Sockets;
 using System.Text;
-
-using MySql.Data.MySqlClient;
-using MySql.Data.Types;
 
 namespace CUTS.Data
 {
+  /**
+   * @class Database
+   *
+   * Implementation of common procedures for interacting with the CUTS
+   * database.
+   */
   public class Database
   {
-    /// Default contructor.
-    public Database()
-    {
-      this.conn_ = new MySqlConnection();
-    }
+    /**
+     * Connection used by this database object.
+     */
+    private IDbConnection conn_;
 
     /**
-     * Initializing constructor. This constructor will open a
-     * database connection using the specified connection string.
+     * Factory for creating data adapter objects.
+     */
+    private IDbDataAdapterFactory adapter_factory_;
+
+    /**
+     * Initializing constructor.
      *
-     * @param[in]     connstr       Connection string.
+     * @param[in]       conn        Open connection to a database
+     * @param[in]       adapter     Factory for creating data adapters
      */
-    public Database(string connstr)
+    public Database (IDbConnection conn,
+                     IDbDataAdapterFactory adapter_factory)
     {
-      this.conn_ = new MySqlConnection(connstr);
-      this.conn_.Open();
-    }
-
-    /// Destructor.
-    ~Database()
-    {
-      if (this.conn_.State == ConnectionState.Open)
-        this.conn_.Close();
+      this.conn_ = conn;
+      this.adapter_factory_ = adapter_factory;
     }
 
     /**
-     * Connect using the specified connection string.
-     *
-     * @param[in]     connstr     Connection string.
+     * Get the connection associated with this database object.
      */
-    public void connect(string connstr)
+    public IDbConnection Connection
     {
-      // If a connection already exist, close it.
-      if (this.conn_.State == ConnectionState.Open)
-        this.conn_.Close();
-
-      // Save the connection string and open the connection.
-      this.conn_.ConnectionString = connstr;
-      this.conn_.Open();
-    }
-
-    /**
-     * Disconnect from the database.
-     */
-    public void disconnect()
-    {
-      if (this.conn_.State == ConnectionState.Open)
-        this.conn_.Close();
+      get { return this.conn_; }
     }
 
     /**
      * Get the id of a path by name.
      *
      * @param[in]     pathname      Name of the path.
+     * @return        The id of the path.
      */
-    public System.Int32 path_id_by_name(string pathname)
+    public System.Int32 path_id_by_name (string name)
     {
-      MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText =
-        "SELECT path_id FROM critical_path WHERE path_name = ?path_name";
-      command.Parameters.AddWithValue("?path_name", pathname);
+      // Create a new command object.
+      IDbCommand command = this.conn_.CreateCommand ();
 
-      object result = command.ExecuteScalar();
+      // Initialize the command object.
+      command.CommandText = "SELECT path_id FROM critical_path WHERE path_name = ?p";
+
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?p";
+      p1.DbType = DbType.String;
+      p1.Value = name;
+
+      command.Parameters.Add (p1);
+
+      // Execute the command.
+      command.Prepare ();
+      object result = command.ExecuteScalar ();
 
       if (result == null)
-        throw new ApplicationException(pathname + " path does not exist");
+        throw new ApplicationException ("The specified path [" + name + "] does not exist");
 
       return (System.Int32)result;
     }
@@ -101,17 +93,15 @@ namespace CUTS.Data
      *
      * @param[in]     dataset     Reference to target dataset.
      */
-    public void get_critical_paths(ref DataSet dataset)
+    public void get_critical_paths (ref DataSet dataset)
     {
-      MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText =
-        "SELECT path_id, path_name FROM execution_paths ORDER BY path_name";
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "SELECT path_id, path_name FROM execution_paths ORDER BY path_name";
 
-      // Create an adapter w/ the following select command.
-      MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-
-      // Create a new dataset and fill it using the adapter.
-      adapter.Fill(dataset, "execution_paths");
+      // Create an adapter w/ the following select command. Then, fill the
+      // dataset using the new adapter.
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (dataset);
     }
 
     /**
@@ -120,38 +110,60 @@ namespace CUTS.Data
      * @param[in]       test        The id of the test.
      * @param[out]      dataset     Reference to target dataset.
      */
-    public void get_collection_times(Int32 test,
-                                     ref DataSet dataset)
+    public void get_collection_times (Int32 test,
+                                      ref DataSet dataset)
     {
-      MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText =
-        "CALL cuts.select_distinct_performance_collection_times (?test)";
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "CALL cuts.select_distinct_performance_collection_times (?t)";
 
-      // Add the parameter to the statement.
-      command.Prepare();
-      command.Parameters.AddWithValue("?test", test);
+      // Create the parameters for the statement..
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?t";
+      p1.DbType = DbType.Int32;
+      p1.Value = test;
 
-      MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-      adapter.Fill(dataset, "collection_time");
+      // Insert the parameters into the statement.
+      command.Parameters.Add (p1);
+
+      // Create an adapter w/ the following select command. Then, fill the
+      // dataset using the new adapter.
+      command.Prepare ();
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (dataset);
     }
 
-    public void get_execution_times(Int32 test_number,
-                                    DateTime collection_time,
-                                    ref DataSet ds,
-                                    string tablename)
+    /**
+     * Get the execution times for a particular collection time of a test.
+     *
+     * @param[in]         test_number         Test number of interet
+     * @param[in]         collection_time     Collection time of interest
+     * @param[in]         ds                  Target dataset.
+     */
+    public void get_execution_times (Int32 test_number,
+                                     DateTime collection_time,
+                                     ref DataSet ds)
     {
-      MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText =
-        "CALL cuts.select_performance_by_collection_time(?test, ?time)";
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "CALL cuts.select_performance_by_collection_time(?test, ?time)";
 
-      command.Prepare();
+      // Create the parameters for the statement.
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?test";
+      p1.DbType = DbType.Int32;
+      p1.Value = test_number;
+
+      IDbDataParameter p2 = command.CreateParameter ();
+      p2.ParameterName = "?time";
+      p2.DbType = DbType.DateTime;
+      p2.Value = collection_time;
 
       // Add the parameters to the statement.
-      command.Parameters.AddWithValue("?test", test_number);
-      command.Parameters.AddWithValue("?time", collection_time);
+      command.Parameters.Add (p1);
+      command.Parameters.Add (p2);
 
-      MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-      adapter.Fill(ds, tablename);
+      command.Prepare ();
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (ds);
     }
 
     /**
@@ -160,54 +172,61 @@ namespace CUTS.Data
      * @param[in]     test          Test number with data.
      * @param[in]     pathname      Name of the path.
      */
-    public ExecutionTime path_execution_time(int test,
-                                             string pathname)
+    public ExecutionTime path_execution_time (int test, string pathname)
     {
-      ExecutionTime et = new ExecutionTime();
+      // Get the id of the path. We really need to make this a STORED
+      // PROCEDURE in the database to reduce communication.
 
-      // Create the command and get the id of the path.
-      MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText = "SELECT path_id FROM critical_path WHERE " +
-                            "path_name = ?pathname";
-      command.Parameters.AddWithValue("?pathname", pathname);
-
-      object result = command.ExecuteScalar();
-
-      if (result == null)
-      {
-        throw new ApplicationException(pathname + " path does not exist");
-      }
-
-      System.Int32 path_id = (System.Int32)result;
-      ArrayList critical_path = new ArrayList();
+      System.Int32 path_id = this.path_id_by_name (pathname);
+      ExecutionTime et = new ExecutionTime ();
+      ArrayList critical_path = new ArrayList ();
 
       // Get all the elements in the critical path.
-      command.CommandText = "CALL select_path (?pathid)";
-      command.Parameters.AddWithValue("?pathid", path_id);
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "CALL select_path (?p)";
 
-      MySqlDataReader reader = command.ExecuteReader();
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?p";
+      p1.DbType = DbType.Int32;
+      p1.Value = path_id;
+
+      command.Parameters.Add (path_id);
+
+      // Execute the command.
+      command.Prepare ();
+      IDataReader reader = command.ExecuteReader ();
 
       // Extract all the elements in the collection then close
       // the reader.
-      while (reader.Read())
+      while (reader.Read ())
       {
         CUTS.Data.PathElement element =
-          new CUTS.Data.PathElement(reader.GetInt32(1), reader.GetString(2), reader.GetString(3));
+          new CUTS.Data.PathElement (reader.GetInt32 (1), reader.GetString (2), reader.GetString (3));
 
         critical_path.Add (element);
       }
 
-      reader.Close();
+      reader.Close ();
 
       // Get the path information from the database.
-      command.CommandText = "CALL select_path_execution_times (?test, ?pathid)";
-      command.Parameters.AddWithValue("?test", test);
+      command.CommandText = "CALL select_path_execution_times (?t, ?p)";
 
-      reader = command.ExecuteReader();
+      // Create the parameters for the statement.
+      IDbDataParameter p = command.CreateParameter ();
+      p.ParameterName = "?t";
+      p.DbType = DbType.Int32;
+      p.Value = test;
+
+      // Insert the parameters into the statement.
+      command.Parameters.Add (p);
+      command.Parameters.Add (p1);
+
+      command.Prepare ();
+      reader = command.ExecuteReader ();
 
       // Bypass all the empty metrics in the collection and store
       // the first DateTime value as the <collection_time>.
-      while (reader.Read() && reader.GetValue(0) == DBNull.Value) ;
+      while (reader.Read () && reader.GetValue (0) == DBNull.Value) ;
       long best_time = 0, average_time = 0, worst_time = 0;
       bool done = false;
       DateTime collection_time;
@@ -218,25 +237,25 @@ namespace CUTS.Data
 
         // Get the collection_date, component, src and dst port and create
         // a path element out of it.
-        collection_time = reader.GetDateTime(0);
+        collection_time = reader.GetDateTime (0);
 
         CUTS.Data.PathElement element =
-          new CUTS.Data.PathElement(reader.GetUInt32(1), reader.GetString(3), reader.GetString(4));
+          new CUTS.Data.PathElement (reader.GetInt32 (1), reader.GetString (3), reader.GetString (4));
 
         // Locate the following metrics in the collection.
         try
         {
           bool valid = true;
-          int index = critical_path.IndexOf(element);
+          int index = critical_path.IndexOf (element);
 
           if (index != 0)
           {
             // Check if the sender of this metric is indeed the previous
             // instance in the critical path for this element.
             CUTS.Data.PathElement prev_element =
-              (CUTS.Data.PathElement)critical_path[index - 1];
+              (CUTS.Data.PathElement)critical_path [index - 1];
 
-            if (prev_element.component_ != reader.GetInt32(2))
+            if (prev_element.component_ != reader.GetInt32 (2))
             {
               valid = false;
             }
@@ -246,9 +265,9 @@ namespace CUTS.Data
           // to the current execution times for this collection time.
           if (valid)
           {
-            best_time += reader.GetInt32(7);
-            average_time += reader.GetInt32(8);
-            worst_time += reader.GetInt32(9);
+            best_time += reader.GetInt32 (7);
+            average_time += reader.GetInt32 (8);
+            worst_time += reader.GetInt32 (9);
           }
         }
         catch (Exception)
@@ -260,9 +279,9 @@ namespace CUTS.Data
         // is not then we need to see if the next record is part of this
         // collection period. If this is the last record then we have
         // to create a new point regardless.
-        if (reader.Read())
+        if (reader.Read ())
         {
-          if (collection_time != reader.GetDateTime(0))
+          if (collection_time != reader.GetDateTime (0))
           {
             create_point = true;
           }
@@ -307,7 +326,7 @@ namespace CUTS.Data
       } while (!done);
 
       // Close the reader.
-      reader.Close();
+      reader.Close ();
 
       // Populate the <et> data structure with the appropriate
       // information for the client based on the parsed results.
@@ -333,15 +352,15 @@ namespace CUTS.Data
      *
      * @param[out]        ds      The target database.
      */
-    public void get_all_test(ref DataSet ds)
+    public void get_all_test (ref DataSet ds)
     {
       // Create the command for the query.
-      MySqlCommand command = this.conn_.CreateCommand();
+      IDbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "SELECT * FROM tests ORDER BY test_number";
 
       // Create a new adapter to ease the creation of the dataset.
-      MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-      adapter.Fill(ds, "tests");
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (ds);
     }
 
     /**
@@ -350,13 +369,13 @@ namespace CUTS.Data
      *
      * @param[out]    ds        The target dataset.
      */
-    public void get_all_hosts(ref DataSet ds)
+    public void get_all_hosts (ref DataSet ds)
     {
-      MySqlCommand command = this.conn_.CreateCommand();
+      IDbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "SELECT * FROM ipaddr_host_map ORDER BY hostname";
 
-      MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-      adapter.Fill(ds, "hosts");
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (ds);
     }
 
     /**
@@ -364,33 +383,47 @@ namespace CUTS.Data
      * database. This returns the information in the table
      * \a testenv.
      */
-    public void get_testenv(ref DataSet ds)
+    public void get_testenv (ref DataSet ds)
     {
-      StringBuilder builder = new StringBuilder();
-      builder.Append("SELECT * FROM ipaddr_host_map ORDER BY hostname");
+      StringBuilder builder = new StringBuilder ();
+      builder.Append ("SELECT * FROM ipaddr_host_map ORDER BY hostname");
 
-      MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText = builder.ToString();
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = builder.ToString ();
 
-      MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-      adapter.Fill(ds, "testenv");
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (ds);
     }
 
     /**
      *
      */
-    public void update_testenv(System.Int32 hostid, System.Int32 portnum)
+    public void update_testenv (System.Int32 hostid, System.Int32 portnum)
     {
-      StringBuilder builder = new StringBuilder();
-      builder.Append("UPDATE ipaddr_host_map SET portnum = ?portnum ");
-      builder.Append("WHERE hostid = ?hostid");
+      StringBuilder builder = new StringBuilder ();
+      builder.Append ("UPDATE ipaddr_host_map SET portnum = ?portnum ");
+      builder.Append ("WHERE hostid = ?hostid");
 
-      MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText = builder.ToString();
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = builder.ToString ();
 
-      command.Parameters.AddWithValue("?portnum", portnum);
-      command.Parameters.AddWithValue("?hostid", hostid);
-      command.ExecuteNonQuery();
+      // Create the parameters for the statement.
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?portnum";
+      p1.DbType = DbType.Int32;
+      p1.Value = portnum;
+
+      IDbDataParameter p2 = command.CreateParameter ();
+      p2.ParameterName = "?hostid";
+      p2.DbType = DbType.Int32;
+      p2.Value = hostid;
+
+      // Insert the parameters into the command.
+      command.Parameters.Add (p1);
+      command.Parameters.Add (p2);
+
+      command.Prepare ();
+      command.ExecuteNonQuery ();
     }
 
     /**
@@ -399,37 +432,29 @@ namespace CUTS.Data
      *
      * @param[in]       host        Target host to register.
      */
-    public void register_host(String hostname)
+    public void register_host (String hostname)
     {
-      IPAddress[] addrs = Dns.GetHostAddresses(hostname);
+      // Build the command.
+      StringBuilder builder = new StringBuilder ();
+      builder.Append ("INSERT INTO ipaddr_host_map (hostname) ");
+      builder.Append ("VALUES (?hostname)");
 
-      if (addrs.Length > 0)
-      {
-        // Build the command.
-        StringBuilder builder = new StringBuilder();
-        builder.Append("INSERT INTO ipaddr_host_map (ipaddr, hostname) ");
-        builder.Append("VALUES (?ipaddr, ?hostname)");
+      // Create the command object.
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = builder.ToString ();
 
-        // Create the command object.
-        MySqlCommand command = this.conn_.CreateCommand();
-        command.CommandText = builder.ToString();
+      // Create the parameters for the query.
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?hostname";
+      p1.DbType = DbType.String;
+      p1.Value = hostname;
 
-        MySqlParameter ipaddr_param =
-          new MySqlParameter("?ipaddr", MySqlDbType.VarChar, 40);
-        command.Parameters.Add(ipaddr_param);
+      // Insert the parameters into the database.
+      command.Parameters.Add (p1);
 
-        MySqlParameter hostname_param
-          = new MySqlParameter("?hostname", hostname);
-        command.Parameters.Add(hostname_param);
-
-        // Iterate over all the addresses in <addrs> and insert
-        // them into the database.
-        foreach (IPAddress addr in addrs)
-        {
-          ipaddr_param.Value = addr.ToString();
-          command.ExecuteNonQuery();
-        }
-      }
+      // Excute the command.
+      command.Prepare ();
+      command.ExecuteNonQuery ();
     }
 
     /**
@@ -438,14 +463,13 @@ namespace CUTS.Data
      *
      * @param[out]        ds        Target dataset for query.
      */
-    public void get_component_instances(ref DataSet ds)
+    public void get_component_instances (ref DataSet ds)
     {
-      MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText =
-        "CALL cuts.select_component_instances_all ()";
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "CALL cuts.select_component_instances_all ()";
 
-      MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-      adapter.Fill(ds, "component_instances");
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (ds);
     }
 
     /**
@@ -455,19 +479,30 @@ namespace CUTS.Data
      * @param[out]        ds        Target dataset for query.
      * @param[in]         typeid    Typeid of the instances.
      */
-    public void get_component_instances(System.Int32 typeid,
-                                        ref DataSet ds)
+    public void get_component_instances (System.Int32 typeid,
+                                         ref DataSet ds)
     {
-      StringBuilder builder = new StringBuilder();
-      builder.Append("SELECT * FROM component_instances WHERE typeid = ?typeid ");
-      builder.Append("ORDER BY component_name");
+      StringBuilder builder = new StringBuilder ();
+      builder.Append ("SELECT * FROM component_instances WHERE typeid = ?t ");
+      builder.Append ("ORDER BY component_name");
 
-      MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText = builder.ToString();
-      command.Parameters.AddWithValue("?typeid", typeid);
+      // Create the SQL statement, or command.
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = builder.ToString ();
 
-      MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-      adapter.Fill(ds, "component_instances");
+      // Create the parameters for the statement.
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?t";
+      p1.DbType = DbType.Int32;
+      p1.Value = typeid;
+
+      // Insert the parameter into the statement.
+      command.Parameters.Add (p1);
+
+      // Prepare and execute the statement.
+      command.Prepare ();
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (ds);
     }
 
     /**
@@ -476,13 +511,13 @@ namespace CUTS.Data
      *
      * @param[out]        ds        Target dataset for query.
      */
-    public void get_component_types(ref DataSet ds, string tablename)
+    public void get_component_types (ref DataSet ds)
     {
-      MySqlCommand command = this.conn_.CreateCommand();
+      IDbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "CALL cuts.select_component_types_all ()";
 
-      MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-      adapter.Fill(ds, tablename);
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (ds);
     }
 
     /**
@@ -490,31 +525,31 @@ namespace CUTS.Data
      *
      * @param[in]     tests      Collection of test numbers.
      */
-    public void delete_tests(System.Int32[] tests)
+    public void delete_tests (System.Int32 [] tests)
     {
       // Verify that we have at least one test.
       if (tests.Length == 0)
         return;
 
       // Build the comma seperated list of test.
-      StringBuilder builder = new StringBuilder(tests[0].ToString());
+      StringBuilder builder = new StringBuilder (tests [0].ToString ());
 
       for (int i = 1; i < tests.Length; i++)
       {
-        builder.Append(", ");
-        builder.Append(tests[i].ToString());
+        builder.Append (", ");
+        builder.Append (tests [i].ToString ());
       }
 
       // Create the command that will delete all the tests.
       String cmdstr =
-        String.Format("DELETE FROM tests WHERE test_number IN ({0})",
-                       builder.ToString());
+        String.Format ("DELETE FROM tests WHERE test_number IN ({0})",
+                       builder.ToString ());
 
-      MySqlCommand command = this.conn_.CreateCommand();
+      IDbCommand command = this.conn_.CreateCommand ();
       command.CommandText = cmdstr;
 
       // Execute the command.
-      command.ExecuteNonQuery();
+      command.ExecuteNonQuery ();
     }
 
     /**
@@ -524,130 +559,223 @@ namespace CUTS.Data
      * @param[in]       test            Test id for the component
      * @param[in]       time            Timestamp of interest
      */
-    public IDataReader get_senders(System.Int32 component,
-                                   System.Int32 test,
-                                   DateTime time)
+    public IDataReader get_senders (System.Int32 component,
+                                    System.Int32 test,
+                                    DateTime time)
     {
       // Create the query to select the senders.
-      System.Text.StringBuilder builder = new System.Text.StringBuilder();
-      builder.Append("SELECT DISTINCT sender, component_name FROM execution_time ");
-      builder.Append("LEFT JOIN component_instances ON (sender = component_id) ");
-      builder.Append("WHERE (test_number = ?test_number AND component = ?component ");
-      builder.Append("AND collection_time = ?collection_time)");
+      System.Text.StringBuilder builder = new System.Text.StringBuilder ();
+      builder.Append ("SELECT DISTINCT sender, component_name FROM execution_time ");
+      builder.Append ("LEFT JOIN component_instances ON (sender = component_id) ");
+      builder.Append ("WHERE (test_number = ?test_number AND component = ?component ");
+      builder.Append ("AND collection_time = ?collection_time)");
 
       // Create and initialize the parameters.
-      MySqlParameter p1 = new MySqlParameter("?test_number", test);
-      MySqlParameter p2 = new MySqlParameter("?component", component);
-      MySqlParameter p3 = new MySqlParameter("?collection_time", time);
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = builder.ToString ();
 
-      // Insert the parameters into the command.
-      MySqlCommand command = new MySqlCommand(builder.ToString(), this.conn_);
-      command.Parameters.Add(p1);
-      command.Parameters.Add(p2);
-      command.Parameters.Add(p3);
+      // Create the parameters for the statement.
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?test_number";
+      p1.DbType = DbType.Int32;
+      p1.Value = test;
+
+      IDbDataParameter p2 = command.CreateParameter ();
+      p2.ParameterName = "?component";
+      p2.DbType = DbType.Int32;
+      p2.Value = component;
+
+      IDbDataParameter p3 = command.CreateParameter ();
+      p3.ParameterName = "?collection_time";
+      p3.DbType = DbType.DateTime;
+      p3.Value = time;
+
+      // Set the parameters for the SQL statement.
+      command.Parameters.Add (p1);
+      command.Parameters.Add (p2);
+      command.Parameters.Add (p3);
 
       // Execute the command and return the reader.
-      return command.ExecuteReader();
+      command.Prepare ();
+      return command.ExecuteReader ();
     }
 
-    public System.DateTime get_latest_collection_time(System.Int32 test)
+    public System.DateTime get_latest_collection_time (System.Int32 test)
     {
       // Create a new command.
-      MySqlCommand command = this.conn_.CreateCommand();
+      IDbCommand command = this.conn_.CreateCommand ();
 
       // Initalize the command.
       command.CommandText = "SELECT cuts.get_max_collection_time(?t)";
-      command.Parameters.AddWithValue("?t", test);
+
+      // Create the parameters.
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?t";
+      p1.DbType = DbType.Int32;
+      p1.Value = test;
+
+      // Insert the parameters.
+      command.Parameters.Add (p1);
 
       // Execute the command.
-      object value = command.ExecuteScalar();
+      command.Prepare ();
+      object value = command.ExecuteScalar ();
       return value != System.DBNull.Value ? (System.DateTime)value : System.DateTime.Now;
     }
 
-    public void get_component_instances(System.Int32 test,
-                                        System.DateTime timestamp,
-                                        ref DataSet ds)
+    public void get_component_instances (System.Int32 test,
+                                         System.DateTime timestamp,
+                                         ref DataSet ds)
     {
-      StringBuilder builder = new StringBuilder();
-      builder.Append("SELECT UNIQUE component, component_name FROM execution_time AS et ");
-      builder.Append("LEFT JOIN component_instances AS ci ");
-      builder.Append("ON (ci.component_id = et.component) ");
-      builder.Append("WHERE test_number = ?t AND collection_time = ?ct ORDER BY component_name");
+      StringBuilder builder = new StringBuilder ();
+      builder.Append ("SELECT UNIQUE component, component_name FROM execution_time AS et ");
+      builder.Append ("LEFT JOIN component_instances AS ci ");
+      builder.Append ("ON (ci.component_id = et.component) ");
+      builder.Append ("WHERE test_number = ?t AND collection_time = ?ct ORDER BY component_name");
 
-      MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText = builder.ToString();
-      command.Parameters.AddWithValue("?t", test);
-      command.Parameters.AddWithValue("?ct", timestamp);
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = builder.ToString ();
 
-      MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-      adapter.Fill(ds, "component_instances");
+      // Create the parameters for the statement.
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?t";
+      p1.DbType = DbType.Int32;
+      p1.Value = test;
+
+      // Create the parameters for the statement.
+      IDbDataParameter p2 = command.CreateParameter ();
+      p2.ParameterName = "?ct";
+      p2.DbType = DbType.DateTime;
+      p2.Value = timestamp;
+
+      // Insert the parameters into the statement.
+      command.Parameters.Add (p1);
+      command.Parameters.Add (p2);
+
+      // Prepare and execute the statement.
+      command.Prepare ();
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (ds);
     }
 
-    public void get_baseline_data(ref DataSet ds, string table)
+    public void get_baseline_data (ref DataSet ds)
     {
-      MySqlCommand command = this.conn_.CreateCommand();
+      IDbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "CALL cuts.select_performance_baseline_all()";
 
-      MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-      adapter.Fill(ds, table);
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (ds);
     }
 
-    public void select_distinct_components_in_execution_time(Int32 test,
+    public void select_distinct_components_in_execution_time (Int32 test,
                                                              DateTime colltime,
                                                              ref DataSet ds)
     {
-      MySqlCommand command = this.conn_.CreateCommand();
+      IDbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "CALL cuts.select_distinct_components_in_execution_time(?t, ?ct)";
-      command.Prepare();
 
-      command.Parameters.AddWithValue("?t", test);
-      command.Parameters.AddWithValue("?ct", colltime);
+      // Create the parameters for the statement.
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?t";
+      p1.DbType = DbType.Int32;
+      p1.Value = test;
 
-      MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-      adapter.Fill(ds, "distinct_components");
+      // Create the parameters for the statement.
+      IDbDataParameter p2 = command.CreateParameter ();
+      p2.ParameterName = "?ct";
+      p2.DbType = DbType.DateTime;
+      p2.Value = colltime;
+
+      // Insert the parameters into the statement.
+      command.Parameters.Add (p1);
+      command.Parameters.Add (p2);
+
+      // Prepare and execute the command.
+      command.Prepare ();
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (ds);
     }
 
-    public void select_execution_time_cumulative(Int32 test,
-                                                 ref DataSet ds,
-                                                 string tablename)
+    /**
+     * Select the cumulative execution time for the specified test.
+     *
+     * @param[in]         test          Test of interest.
+     * @param[in]         ds            Target storage datast.
+     */
+    public void select_execution_time_cumulative (Int32 test, ref DataSet ds)
     {
-      MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText = "CALL cuts.select_performance_cumulative(?t)";
-      command.Prepare();
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "CALL cuts.select_performance_cumulative(?test)";
 
-      command.Parameters.AddWithValue("?t", test);
+      // Create the parameters for the statement.
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?test";
+      p1.DbType = DbType.Int32;
+      p1.Value = test;
 
-      MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-      adapter.Fill(ds, tablename);
+      // Insert the parameters into the statement.
+      command.Parameters.Add (p1); ;
+
+      // Prepare and execute the statement.
+      command.Prepare ();
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (ds);
     }
 
-    public string get_component_name(Int32 id)
+    /**
+     * Get the name of a component given its id.
+     *
+     * @param[in]         id            Id of the component
+     * @return            Name of the component
+     */
+    public string get_component_name (Int32 id)
     {
       // Prepare the command.
-      MySqlCommand command = this.conn_.CreateCommand();
+      IDbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "SELECT cuts.get_component_name(?id)";
-      command.Prepare();
+
+      // Create the parameters for the statement.
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?id";
+      p1.DbType = DbType.Int32;
+      p1.Value = id;
 
       // Insert the missing parameters.
-      command.Parameters.AddWithValue("?id", id);
+      command.Parameters.Add (p1);
 
-      return (string)command.ExecuteScalar();
+      command.Prepare ();
+      return (string)command.ExecuteScalar ();
     }
 
-    public string get_component_portname(Int32 id)
+    /**
+     * Get the name of a port given its id.
+     *
+     * @param[in]         id            Id of the port
+     * @return            Name of the port.
+     */
+    public string get_component_portname (Int32 id)
     {
       // Prepare the command.
-      MySqlCommand command = this.conn_.CreateCommand();
+      IDbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "SELECT cuts.component_portname(?id)";
-      command.Prepare();
+
+      // Create the parameters for the statement.
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?id";
+      p1.DbType = DbType.Int32;
+      p1.Value = id;
 
       // Insert the missing parameters.
-      command.Parameters.AddWithValue("?id", id);
+      command.Parameters.Add (p1); ;
 
-      return (string)command.ExecuteScalar();
+      command.Prepare ();
+      return (string)command.ExecuteScalar ();
     }
 
-    public void get_component_execution_times(Int32 test,
+    /**
+     *
+     **/
+    public void get_component_execution_times (Int32 test,
                                               Int32 component,
                                               Int32 sender,
                                               string metric_type,
@@ -656,95 +784,213 @@ namespace CUTS.Data
                                               ref DataSet ds)
     {
       // Create the command to get the desired execution times
-      StringBuilder builder = new StringBuilder();
-      builder.Append("SELECT collection_time, best_time, (total_time / metric_count) AS average_time, worst_time ");
-      builder.Append("FROM execution_time WHERE (test_number = ?t AND component = ?c ");
-      builder.Append("AND sender =?s AND metric_type = ?m AND src = ?src");
+      StringBuilder builder = new StringBuilder ();
+      builder.Append ("SELECT collection_time, best_time, (total_time / metric_count) AS average_time, worst_time ");
+      builder.Append ("FROM execution_time WHERE (test_number = ?t AND component = ?c ");
+      builder.Append ("AND sender =?s AND metric_type = ?m AND src = ?src");
 
       if (dst != -1)
-        builder.Append(" AND dst=?dst");
+        builder.Append (" AND dst=?dst");
       else
-        builder.Append(" AND dst IS NULL");
+        builder.Append (" AND dst IS NULL");
 
-      builder.Append(") ORDER BY collection_time");
+      builder.Append (") ORDER BY collection_time");
 
       // Create the SQL command.
-      MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText = builder.ToString();
-      command.Prepare();
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = builder.ToString ();
+
+      // Create the parameters for the statement.
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?t";
+      p1.DbType = DbType.Int32;
+      p1.Value = test;
+
+      IDbDataParameter p2 = command.CreateParameter ();
+      p2.ParameterName = "?c";
+      p2.DbType = DbType.Int32;
+      p2.Value = component;
+
+      IDbDataParameter p3 = command.CreateParameter ();
+      p3.ParameterName = "?s";
+      p3.DbType = DbType.Int32;
+      p3.Value = sender;
+
+      IDbDataParameter p4 = command.CreateParameter ();
+      p4.ParameterName = "?m";
+      p4.DbType = DbType.String;
+      p4.Value = metric_type;
+
+      IDbDataParameter p5 = command.CreateParameter ();
+      p5.ParameterName = "?src";
+      p5.DbType = DbType.Int32;
+      p5.Value = src;
 
       // Insert the missing parameters.
-      command.Parameters.AddWithValue("?t", test);
-      command.Parameters.AddWithValue("?c", component);
-      command.Parameters.AddWithValue("?s", sender);
-      command.Parameters.AddWithValue("?m", metric_type);
-      command.Parameters.AddWithValue("?src", src);
+      command.Parameters.Add (p1);
+      command.Parameters.Add (p2);
+      command.Parameters.Add (p3);
+      command.Parameters.Add (p4);
+      command.Parameters.Add (p5);
 
       if (dst != -1)
-        command.Parameters.AddWithValue("?dst", dst);
+      {
+        IDataParameter p6 = command.CreateParameter ();
+        p6.ParameterName = "?dst";
+        p6.DbType = DbType.Int32;
+        p6.Value = dst;
 
-      // Execute the SQL command.
-      MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-      adapter.Fill(ds, "execution_time");
+        command.Parameters.Add (p6);
+      }
+
+      // Prepare and execute the SQL command.
+      command.Prepare ();
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (ds);
     }
 
-    public long get_worst_execution_time(Int32 test, Int32 component)
+    public long get_worst_execution_time (Int32 test, Int32 component)
     {
       // Create the command and initialize the parameters.
-      StringBuilder builder = new System.Text.StringBuilder();
-      builder.Append("SELECT MAX(worst_time) FROM execution_time ");
-      builder.Append("WHERE (test_number = ?t AND component = ?c)");
+      StringBuilder builder = new System.Text.StringBuilder ();
+      builder.Append ("SELECT MAX(worst_time) FROM execution_time ");
+      builder.Append ("WHERE (test_number = ?t AND component = ?c)");
 
       // Prepare the command for execution.
-      MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText = builder.ToString();
-      command.Prepare();
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = builder.ToString ();
+
+      // Create the parameters for the statement.
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?t";
+      p1.DbType = DbType.Int32;
+      p1.Value = test;
+
+      IDbDataParameter p2 = command.CreateParameter ();
+      p2.ParameterName = "?c";
+      p2.DbType = DbType.Int32;
+      p2.Value = component;
 
       // Insert the missing parameters.
-      command.Parameters.AddWithValue("?t", test);
-      command.Parameters.AddWithValue("?c", component);
+      command.Parameters.Add (p1);
+      command.Parameters.Add (p2);
 
       // Execute the parameters.
-      return (System.Int32)command.ExecuteScalar();
+      command.Prepare ();
+      return (System.Int32)command.ExecuteScalar ();
     }
 
-    public void get_baseline_data(Int32 test,
-                                  ref DataSet ds,
-                                  string table)
+    public void get_baseline_data (Int32 test, ref DataSet ds)
     {
       // Prepare the command for execution.
-      MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText =
-        "CALL cuts.select_baseline_metric_for_test(?t)";
-      command.Prepare();
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "CALL cuts.select_baseline_metric_for_test(?t)";
+
+      // Create the parameters for the statement.
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?t";
+      p1.DbType = DbType.Int32;
+      p1.Value = test;
 
       // Insert the missing parameters.
-      command.Parameters.AddWithValue("?t", test);
+      command.Parameters.Add (p1);
 
-      MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-      adapter.Fill(ds, table);
+      // Prepare the execute the command.
+      command.Prepare ();
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (ds);
     }
 
-    public void get_baseline_data(Int32 test,
-                                  DateTime timestamp,
-                                  ref DataSet ds,
-                                  string table)
+    public void get_baseline_data (Int32 test,
+                                   DateTime timestamp,
+                                   ref DataSet ds)
     {
       // Prepare the command for execution.
-      MySqlCommand command = this.conn_.CreateCommand();
-      command.CommandText =
-        "CALL cuts.select_baseline_metric_for_test_by_time(?t,?ct)";
-      command.Prepare();
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "CALL cuts.select_baseline_metric_for_test_by_time(?t,?ct)";
+
+      // Create the parameters for the statement.
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?t";
+      p1.DbType = DbType.Int32;
+      p1.Value = test;
+
+      IDbDataParameter p2 = command.CreateParameter ();
+      p2.ParameterName = "?ct";
+      p2.DbType = DbType.DateTime;
+      p2.Value = timestamp;
 
       // Insert the missing parameters.
-      command.Parameters.AddWithValue("?t", test);
-      command.Parameters.AddWithValue("?ct", timestamp);
+      command.Parameters.Add (p1);
+      command.Parameters.Add (p2);
 
-      MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-      adapter.Fill(ds, table);
+      command.Prepare ();
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (ds);
     }
 
-    /// Connection object.
-    private MySqlConnection conn_;
+    public void insert_execution_path (string name, int deadline)
+    {
+      // Create the SQL string for creating the critical path.
+      System.Text.StringBuilder insert_sql = new System.Text.StringBuilder ();
+      insert_sql.Append ("INSERT INTO execution_paths (path_name, deadline) ");
+      insert_sql.Append ("VALUES (?path, ?deadline)");
+
+      // Create the SQL command.
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = insert_sql.ToString ();
+
+      // Create the parameters from the statement.
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?path";
+      p1.DbType = DbType.String;
+      p1.Value = name;
+
+      IDbDataParameter p2 = command.CreateParameter ();
+      p2.ParameterName = "?deadline";
+      p2.DbType = DbType.Int32;
+      p2.Value = deadline;
+
+      // Insert the parameters into the statement.
+      command.Parameters.Add (p1);
+      command.Parameters.Add (p2);
+
+      // Execute the command to create the critical path.
+      command.Prepare ();
+      command.ExecuteNonQuery ();
+    }
+
+    public void select_execution_paths (ref DataSet ds)
+    {
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "SELECT * FROM execution_paths ORDER BY path_name";
+
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (ds);
+    }
+
+    public void select_component_portnames_i (int inst, string porttype, ref DataSet ds)
+    {
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "CALL cuts.select_component_portnames_i (?inst, ?type)";
+
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?inst";
+      p1.DbType = DbType.Int32;
+      p1.Value = inst;
+
+      IDbDataParameter p2 = command.CreateParameter ();
+      p2.ParameterName = "?type";
+      p2.DbType = DbType.String;
+      p2.Value = porttype;
+
+      command.Parameters.Add (p1);
+      command.Parameters.Add (p2);
+
+      // Create an adapter and fill the dataset.
+      command.Prepare ();
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (ds);
+    }
   }
 }
