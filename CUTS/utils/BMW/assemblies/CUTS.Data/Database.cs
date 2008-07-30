@@ -992,5 +992,51 @@ namespace CUTS.Data
       IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
       adapter.Fill (ds);
     }
-  }
+
+    public void delete_execution_paths (int [] paths)
+    {
+      // Create a new SQL statement/command.
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "DELETE FROM execution_paths WHERE path_id = ?path";
+
+      // Create the parameter for the statment.
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?path";
+      p1.DbType = DbType.Int32;
+
+      command.Parameters.Add (p1);
+
+      foreach (int id in paths)
+      {
+        p1.Value = id;
+
+        // Prepare and execute the statement.
+        command.Prepare ();
+        command.ExecuteNonQuery ();
+      }
+    }
+
+    public void delete_execution_paths (string [] names)
+    {
+      // Create a new SQL statement/command.
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "DELETE FROM execution_paths WHERE path_name = ?name";
+
+      // Create the parameter for the statment.
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?name";
+      p1.DbType = DbType.String;
+
+      command.Parameters.Add (p1);
+
+      foreach (string name in names)
+      {
+        p1.Value = name;
+
+        // Prepare and execute the statement.
+        command.Prepare ();
+        command.ExecuteNonQuery ();
+      }
+    }
+}
 }

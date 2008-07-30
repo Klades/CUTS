@@ -1,3 +1,13 @@
+Wed Jul 30 22:41:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Data/Database.cs:
+        * utils/BMW/website/Critical_Path.aspx:
+        * utils/BMW/website/Critical_Path.aspx.cs:
+
+          . Now it is possible to delete a execution path from the
+            database. There are still a few bugs on the page that need
+            to be fixed.
+
 Wed Jul 30 05:54:35 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:

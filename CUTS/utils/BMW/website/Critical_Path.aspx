@@ -8,13 +8,22 @@
     <tr valign="top">
       <!-- portion of page for displaying current paths -->
       <td>
-        <asp:datagrid runat="server" id="paths_" cellpadding="4" cellspacing="0"
-          allowpaging="true" pagesize="5" width="100%" autogeneratecolumns="false" showheader="true"
-          showfooter="false">
+        <!-- data grid that displays the paths in the database -->
+        <asp:datagrid runat="server" id="paths_"
+                      cellpadding="4" cellspacing="0"
+                      allowpaging="true" pagesize="5"
+                      width="100%" autogeneratecolumns="false"
+                      showheader="true" showfooter="false"
+                      datakeyfield="path_id">
+
           <headerstyle cssclass="header" />
+
           <footerstyle cssclass="footer" />
+
           <alternatingitemstyle cssclass="alternate-row" />
+
           <pagerstyle mode="NumericPages" />
+
           <columns>
             <asp:boundcolumn datafield="path_name" headertext="Name of Execution Path" itemstyle-horizontalalign="Left" />
 
@@ -26,8 +35,8 @@
 
             <asp:templatecolumn itemstyle-horizontalalign="center">
               <headertemplate>
-                <asp:checkbox runat="server" id="delete_" oncheckedchanged="toggle_delete_paths" causesvalidation="false"
-                  autopostback="true" />
+                <asp:checkbox runat="server" id="delete_" oncheckedchanged="toggle_delete_paths"
+                              causesvalidation="false" autopostback="true" />
               </headertemplate>
               <itemtemplate>
                 <asp:checkbox runat="server" id="delete_" />
@@ -35,6 +44,7 @@
             </asp:templatecolumn>
           </columns>
         </asp:datagrid>
+
       </td>
       <!-- table form for creating critical paths -->
       <td style="width: 45%">
@@ -44,7 +54,7 @@
             <td><asp:textbox runat="server" id="path_name_" /></td>
             <td>
               <asp:requiredfieldvalidator id="path_name_validator_" runat="server" controltovalidate="path_name_"
-                errormessage="path name is required" forecolor="red" validationgroup="createpath" />
+                errormessage="Name is required" forecolor="red" validationgroup="createpath" />
             </td>
           </tr>
           <tr>
@@ -52,11 +62,11 @@
             <td><asp:textbox runat="server" id="deadline_" /></td>
             <td>
               <asp:requiredfieldvalidator id="deadline_validator_" runat="server" controltovalidate="deadline_"
-                errormessage="deadline is required" forecolor="red" validationgroup="createpath"
+                errormessage="Deadline is required" forecolor="red" validationgroup="createpath"
                 display="dynamic" />
               <asp:rangevalidator id="deadline_value_validator_" runat="server" minimumvalue="1"
                 maximumvalue="4294967296" controltovalidate="deadline_" validationgroup="createpath"
-                errormessage="invalid deadline" display="dynamic" />
+                errormessage="Invalid deadline" display="dynamic" />
             </td>
           </tr>
           <tr>
@@ -70,7 +80,8 @@
     </tr>
   </table>
 
-  <asp:linkbutton runat="server" text="Delete Selected" />
+  <asp:linkbutton runat="server" text="Delete Selected"
+                  onclick="delete_selected_execution_paths" />
 
   <h2>Execution Path Members</h2>
   <asp:label runat="server" id="notice_" />

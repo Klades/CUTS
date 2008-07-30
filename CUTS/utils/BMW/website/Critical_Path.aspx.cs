@@ -104,11 +104,6 @@ namespace CUTS
       {
         this.master_.show_error_message (ex.Message);
       }
-      finally
-      {
-        if (conn.State == ConnectionState.Open)
-          conn.Close ();
-      }
     }
 
     /**
@@ -398,6 +393,53 @@ namespace CUTS
      *
      * @param[in]       sender        Sender of the event.
      */
+    protected void delete_selected_execution_paths (object sender, System.EventArgs e)
+    {
+      // Create a list for holding the selected numbers.
+      ArrayList list = new ArrayList ();
+
+      try
+      {
+        foreach (DataGridItem item in this.paths_.Items)
+        {
+          // Locate the <action_> control since it's the checkbox
+          // that determines the action of the current test.
+          CheckBox action = (CheckBox)item.FindControl ("delete_");
+
+          if (action != null && action.Checked)
+          {
+            // Add the test number to the list if we are checked.
+            System.Int32 path_id =
+              (System.Int32)this.paths_.DataKeys [item.ItemIndex];
+
+            list.Add (path_id);
+          }
+        }
+
+        if (list.Count > 0)
+        {
+          // Let's convert the array to an <System.Int32> array
+          // and pass control to the database utility.
+          System.Int32 [] path_id_list =
+            (System.Int32 [])list.ToArray (typeof (System.Int32));
+
+          this.database_.delete_execution_paths (path_id_list);
+        }
+
+        // Update the view.
+        this.InitializeCritialPaths ();
+      }
+      catch (Exception ex)
+      {
+        this.master_.show_error_message (ex.Message);
+      }
+    }
+
+    /**
+     * Callback method for clicking the "Delete All" link.
+     *
+     * @param[in]       sender        Sender of the event.
+     */
     protected void PathElement_Delete (object sender, System.EventArgs e)
     {
       // Get the dataset for the path elements.
@@ -405,7 +447,6 @@ namespace CUTS
 
       if (ds == null)
         return;
-
 
       foreach (DataGridItem item in this.path_elements_.Items)
       {
