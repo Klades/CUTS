@@ -20,7 +20,7 @@ public partial class Log_Formats : System.Web.UI.Page
    *                      allows access to the messagins system. 
    */
   private CUTS.Master master_;
-  
+
   /**
    * @var double Default_Width_  The default width(in px) for the page's Log
    *                               Log Format Table.
@@ -49,15 +49,15 @@ public partial class Log_Formats : System.Web.UI.Page
   private void load_data ()
   {
     DataTable dt = LogFormatActions.Get_All_Log_Formats();
-   
+
     // Data Bind
     this.Log_Format_Table_.DataSource = dt;
     this.Log_Format_Table_.DataBind();
 
     // Check for info
     if (dt.Rows.Count == 0)
-      this.master_.show_info_message("There are no log messages created yet. Please " +
-        "add one.");
+      this.master_.show_info_message( "There are no log messages created yet. Please " +
+        "add one." );
 
     // Ensure Widths
     if (this.Log_Format_Table_.Width.Value < Default_Width_)
@@ -80,6 +80,10 @@ public partial class Log_Formats : System.Web.UI.Page
    * LF into the database, correctly reporting on errors or success, 
    * and reloading the LF Table in the event of success. 
    * 
+   * Types of variables currently supported include:
+   * INT
+   * STRING  -  allowed characters include -a-zA-Z.0-9 :,;+=_
+   * 
    * @param[in]       sender        Sender of the event.
    * @param[in]       e             Event arguments.
    */
@@ -92,30 +96,60 @@ public partial class Log_Formats : System.Web.UI.Page
     }
     try
     {
-      string text = txt_New_LF.Text;
-      string pattern = @"((?<lead>[-0-9a-z :;']+)(?<middle>{int (?<varname>[0-9a-z' ]+)}))";
-      MatchCollection matches = Regex.Matches( text, pattern, RegexOptions.IgnoreCase );
-
-      string lfmt = "", icase_regex = "", cs_regex = "";
+      string pattern = @"((?<lead>[-0-9a-z :.;']+)(?<middle>{(?<type>int|string) (?<varname>[0-9a-z' ]+)}))";
+      Regex reg = new Regex(pattern ,RegexOptions.IgnoreCase);
+      Match m = reg.Match(txt_New_LF.Text);
+      
+      string lfmt = "",
+        icase_regex = "",
+        cs_regex = "";
       lfmt += txt_New_LF.Text;
-      ArrayList vars = new ArrayList();
-      foreach (Match NextMatch in matches)
+      Hashtable variables = new Hashtable();
+      
+      
+      while (m.Success)
       {
-        string lead = NextMatch.Groups["lead"].ToString();
-        string mid = NextMatch.Groups["middle"].ToString();
-        string varname = NextMatch.Groups["varname"].ToString();
-        icase_regex += lead + Regex.Replace( mid, "{int.+?}", "[[:digit:]]+", RegexOptions.IgnoreCase );
+        string lead = m.Groups["lead"].ToString();
+        string mid = m.Groups["middle"].ToString();
+        string varname = m.Groups["varname"].ToString();
+        string vartype = m.Groups["type"].ToString();
+        
+        // Generate Regular Expressions to extract data
+        icase_regex += lead;
+        cs_regex += lead;
 
-        // the group automatically names the captured variables correctly
-        // You must use @ to escape the slashes in C#
-        // You have to use two \\ to escape the \ in mySql
-        // End result is stored and retrieved (as desired) as (?<varname>\d+)
-        string group = "(?<" + varname + @">\\d+)";
-        cs_regex += lead + Regex.Replace( mid, "{int.+?}", group, RegexOptions.IgnoreCase );
-        vars.Add( varname );
+        /* The cs_var_capture automatically names the captured variables
+         *   correctly, so when they are retrieved they have the correct
+         *   names. 
+         * 
+         * You must use @ to escape the slashes in C#, and the two \\
+         *   to escape the slashes in MySql.
+         * End result is stored and retrieved as (?<varname>\d+) in C#.
+         */
+        string cs_var_capture = String.Empty,
+          mysql_type_replace = String.Empty;
+        switch (vartype)
+        {
+          case "int":
+            mysql_type_replace = "[[:digit:]]+";
+            cs_var_capture = "(?<" + varname + @">\d+)";
+            variables.Add( varname, "INT" );
+            break;
+          case "string":
+            mysql_type_replace = "[-a-zA-Z.0-9 :,;+=_]+";
+            cs_var_capture = @"(?<" + varname + @">[-a-zA-Z.0-9 :,;+=]+)";
+            variables.Add( varname, "STRING" );
+            break;
+        }
+        // Replace the entire current variable (aka {vartype varname}) with its
+        //   matching counterpart in MySql and C Sharp
+        icase_regex += Regex.Replace( mid, ".+", mysql_type_replace );
+        cs_regex += Regex.Replace( mid, ".+", cs_var_capture );
+
+        m = m.NextMatch();
       }
 
-       LogFormatActions.Insert_LF( lfmt, icase_regex, cs_regex, vars.ToArray() );
+      LogFormatActions.Insert_LF( lfmt, icase_regex, cs_regex, variables);
 
       master_.show_info_message( "'" + txt_New_LF.Text + "' added Successfully!" );
 
@@ -127,6 +161,4 @@ public partial class Log_Formats : System.Web.UI.Page
         txt_New_LF.Text + "'. This probably means it is already created." );
     }
   }
-
-    
 }

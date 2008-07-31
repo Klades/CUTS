@@ -46,7 +46,7 @@ namespace Actions.UnitTestActions
 
       if ((bool)Variables["UsingBothLogFormats"] == true)
         Insert_UT_Relation( utid, (string)Variables["Relation_Variable_1"],
-          (string)Variables["Relation_Variable_1"] );
+          (string)Variables["Relation_Variable_2"] );
 
       foreach (string lfid in (Array)Variables["LFIDs"])
         Insert_UT_LogFormat( utid, lfid );
@@ -273,7 +273,7 @@ namespace Actions.UnitTestActions
         
         // get the regex and the variable info
         string cs_regex;
-        Array VariableNames;
+        Hashtable VariableNames;
         LogFormatActions.LogFormatActions.GetLFIDInfo( out cs_regex, out VariableNames, CurrentLFID );
 
         /* create a table for this log format
@@ -331,22 +331,41 @@ namespace Actions.UnitTestActions
         this.utid_ = Unit_Test_ID_;
       }
 
-      /// <summary>
-      /// Adds a table that represents one
-      /// LogFormat to the DataSet
-      ///
-      /// General use is AddTable, FillTables, Send_To_DB()
-      ///
-      /// Note: this needs to take in a Hash for
-      /// columnInfo, so that we can have types
-      /// other than int32
-      /// </summary>
-      public void AddTable ( string tableName, Array columnInfo )
+      /**
+       * Adds a table that represents one LogFormat to the DataSet. 
+       *   General use of the dataset is AddTable, FillTables, Send_To_DB.
+       * 
+       * @param[in]  tableName   The name of the table to be created. This 
+       *                           should be similar to 'LF5', following the  
+       *                           format of concat(LF,lfid).
+       * @param[in]  columnInfo  This should be the information needed to 
+       *                           build the columns, aka a hastable with
+       *                           keys that are the column/variable names, 
+       *                           and objects that are the column/variable
+       *                           types. 
+       */
+      public void AddTable ( string tableName, Hashtable columnInfo )
       {
         DataTable dt_ = new DataTable( tableName );
-        foreach (string columnName in columnInfo)
+
+        string[] keys = new string[columnInfo.Count];
+        columnInfo.Keys.CopyTo( keys, 0 );
+        foreach (string column_name in keys)
         {
-          dt_.Columns.Add( new DataColumn( columnName, System.Type.GetType( "System.Int32" ) ) );
+          DataColumn dc = new DataColumn(column_name);
+
+          // Find the appropriate type
+          switch (columnInfo[column_name].ToString())
+          {
+            case "INT":
+              dc.DataType = Type.GetType( "System.Int32" );
+              break;
+            case "STRING":
+              dc.DataType = Type.GetType( "System.String" );
+              break;
+          }
+
+          dt_.Columns.Add(dc);
         }
 
         // test_number should always be a column
@@ -367,7 +386,20 @@ namespace Actions.UnitTestActions
         dba.ExecuteMySql( sql );
       }
 
-      public void FillTable ( int lfid, string cs_regex, Array varnames )
+      /**
+       * Fills one table in the DataSet by grabbing all of the matching 
+       * rows from the real DataBase, extracting the data, and storing 
+       * it in the DataSet. 
+       * 
+       * @param[in]   lfid      The Log Format ID. This is used to create 
+       *                          the table name of concat(LF,lfid).
+       * @param[in]   cs_regex  The C Sharp regular expression used to 
+       *                          extract the variables from the messages
+       *                          found that match the Log Format. 
+       * @param[in]   variables A hashtable that contains the variable 
+       *                          names as keys, and types as values. 
+       */
+      public void FillTable ( int lfid, string cs_regex, Hashtable variables )
       {
         // Get the actual log messages and test_numbers
         string sql = "CALL Get_log_data(?lfid);";
@@ -380,8 +412,6 @@ namespace Actions.UnitTestActions
          *   Put the Data into the DataSet
          */
 
-        // Note: need to add in support for different types
-
         string TableName = "LF" + lfid.ToString();
 
 
@@ -393,12 +423,28 @@ namespace Actions.UnitTestActions
           Regex reg = new Regex( cs_regex, RegexOptions.IgnoreCase );
           Match mat = reg.Match( row["message"].ToString() );
 
-          foreach (string name in varnames)
+          string[] variable_names = new string[variables.Count];
+          variables.Keys.CopyTo( variable_names, 0 );
+
+          if (mat.Success == false)
+            throw new Exception( "The log message '" + row["message"].ToString() +
+              "' was matched by the DataBase engine, but was not matched by " +
+              " the C# Regular Expression of '" + cs_regex + "'. " );
+          foreach (string varname in variable_names)
           {
-            string value = mat.Groups[name].ToString();
-            int Value = Int32.Parse( value );
-            NewRow[name] = Value;
+            // Get the type associated with the current column
+            Type type = this.ds_.Tables[TableName].Columns[varname].DataType;
+            switch (type.ToString())
+            {
+              case "System.Int32":
+                NewRow[varname] = Int32.Parse( mat.Groups[varname].ToString() );
+                break;
+              case "System.String":
+                NewRow[varname] = mat.Groups[varname].ToString();
+                break;
+            }
           }
+          
 
           // There should always be a test_number
           NewRow["test_number"] = row["test_number"];

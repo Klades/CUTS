@@ -39,15 +39,10 @@ namespace Actions.LogFormatActions
      *                                     LF's in the msglog table.
      * @param[in]       cs_regex         The C Sharp regular expression used
      *                                     to extract the variable in C#.
-     * @param[in]       vars             An array containing the names of 
-     *                                     the variables that were found in 
-     *                                     the LF. Note: This needs to be 
-     *                                     updated so that you can pass in 
-     *                                     name/type pairs, which will 
-     *                                     be integral for types other than
-     *                                     integer. 
+     * @param[in]       vars             An hashtable containing the variable
+     *                                     names as keys, and types as values.
      */
-    public static void Insert_LF ( string log_format, string icase_regex, string cs_regex, Array vars )
+    public static void Insert_LF ( string log_format, string icase_regex, string cs_regex, Hashtable vars )
     {
 
       string sql = "CALL Insert_LF(?lf, ?icase_regex, ?cs_regex);";
@@ -56,31 +51,30 @@ namespace Actions.LogFormatActions
       comm.Parameters.AddWithValue( "?icase_regex", icase_regex );
       comm.Parameters.AddWithValue( "?cs_regex", cs_regex );
 
-      int lfid = dba.ExecuteMySqlScalar( sql );
+      int lfid = dba.ExecuteMySqlScalar( comm );
 
-      foreach (string var in vars)
-        Insert_LF_variable( lfid, var );
+      // Itera
+      string[] keys = new string[vars.Count];
+      vars.Keys.CopyTo( keys, 0 );
+      foreach (string key in keys)
+        Insert_LF_variable( lfid, key, vars[key].ToString() );
     }
 
     /**
      * Adds a single variable for a Log Format. SubFunction of Insert_LF.
-     * Note that this uses MySql procedure Inser_LF_Variable. NOTE - THIS
-     * NEEDS TO BE UPDATED TO ADD IN VARIABLE TYPE FOR TYPES OTHER THAN 
-     * INTEGER.
+     * Note that this uses MySql procedure Insert_LF_Variable.
      * 
      * @param[in]  lfid       The ID of the Log Format the variable belongs to.
      * @param[in]  varname    The name of the variable.
      */
-    private static void Insert_LF_variable ( int lfid, string varname )
+    private static void Insert_LF_variable ( int lfid, string varname, string vartype )
     {
-      // Need to add support for more than INT
-
       string sql = "CALL Insert_LF_variable(?lfid,?varname,?vartype);";
       MySqlCommand comm = dba.GetCommand( sql );
       comm.Parameters.AddWithValue( "?lfid", lfid );
       comm.Parameters.AddWithValue( "?varname", varname );
-      comm.Parameters.AddWithValue( "?vartype", "int" );
-      dba.ExecuteMySql( sql );
+      comm.Parameters.AddWithValue( "?vartype", vartype );
+      dba.ExecuteMySql( comm );
     }
 
     /**
@@ -141,17 +135,15 @@ namespace Actions.LogFormatActions
      * Given a Log Format ID, this returns info about that 
      * Log Format, including the cs_regex and a list of variable names.
      * Note that this needs to be updated to return variable types and names.
-     * Note that this uses MySql Stored Procedure Get_LFID_Info, and the 
-     * procedure needs to be updated not to return extended_varname and to 
-     * return vartype.
+     * Note that this uses MySql Stored Procedure Get_LFID_Info.
      *
      * @param[out] cs_regex     The string you would like the C Sharp regular
      *                            expression to be stored into. 
-     * @param[out] vars         The array you would like the variable names to 
-     *                            be stored into. 
+     * @param[out] vars         A hashtable that will contain the variable 
+     *                            names as keys, and types as values.
      * @param[in]  lfid         The ID of the Log Format referenced.
      */
-    public static void GetLFIDInfo ( out string cs_regex, out Array vars, int lfid )
+    public static void GetLFIDInfo ( out string cs_regex, out Hashtable vars, int lfid )
     {
       string sql = @"CALL Get_LFID_info( ?lfid );";
       MySqlCommand comm = dba.GetCommand( sql );
@@ -161,16 +153,10 @@ namespace Actions.LogFormatActions
 
       cs_regex = dt.Rows[0]["csharp_regex"].ToString();
 
-      ArrayList v = new ArrayList();
+      // Fills in the variables
+      vars = new Hashtable();
       foreach (DataRow row in dt.Rows)
-      {
-        v.Add( row["varname"] );
-
-        //Remember to remove returning this from the procedure
-        //extend_v.Add(row["extended_varname"]);
-      }
-      vars = v.ToArray();
+        vars.Add( row["varname"], row["vartype"] );
     }
-
   }
 }

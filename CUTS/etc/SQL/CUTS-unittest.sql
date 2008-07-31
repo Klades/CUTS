@@ -316,7 +316,7 @@ BEGIN
     --   IF ((result) < 3,'warn','pass'))
     -- AS result FROM lf7
 
-END
+END//
 
 
 -- Allows you to grab all the results of a unit test, filtered by a test
@@ -334,8 +334,10 @@ BEGIN
     DECLARE tablename VARCHAR(20);
     DECLARE eval      VARCHAR(150);
 
-    -- Temporary variable to simplify the case where there are two LF's needed
+    -- Temporary variables to simplify the case where there are two LF's needed
     DECLARE temp      VARCHAR(10);
+    DECLARE t_var1    VARCHAR(45);
+    DECLARE t_var2    VARCHAR(45);
 
     -- Get everything
     -- NOTE: we are evaling as metric, so we ignore the aggreg. func
@@ -352,24 +354,40 @@ BEGIN
                 FROM cuts.unittesttable
                 WHERE utid = utid_in;
     ELSEIF lfid_count = 2 THEN
-            -- Store the first value
+            -- Store the first lfid
             SELECT lfid
               INTO temp
               FROM cuts.unittesttable
               WHERE utid = utid_in
               LIMIT 1;
-            -- Store the second value
+            -- Store the second lfid
             SELECT lfid
               INTO tablename
               FROM cuts.unittesttable
               WHERE utid = utid_in
               LIMIT 1,1;
-            -- Combine them
-            SELECT CONCAT("LF",temp,",LF",tablename)
-              INTO tablename;
-        -- ]
-    END IF;
+            -- Store the first variable, fully qualified
+            SELECT CONCAT("LF",lfid,".",varname)
+              INTO t_var1
+              FROM logformatvariabletable
+              WHERE variable_id=( SELECT variable_id
+                                    FROM unit_test_relations
+                                    WHERE utid=utid_in );
+            -- Store the second fully qualified variable
+            SELECT CONCAT("LF",lfid,".",varname)
+              INTO t_var2
+              FROM logformatvariabletable
+              WHERE variable_id=( SELECT variable_id_2
+                                    FROM unit_test_relations
+                                    WHERE utid=utid_in );
 
+            -- Create the join in the tablename variable on the correct
+            --   columns
+            SELECT CONCAT("LF",temp," JOIN LF",tablename," ON ",
+              t_var1,"=",t_var2)
+              INTO tablename;
+
+    END IF;
 
     -- Returns evaluation
     SET @sql = CONCAT("
