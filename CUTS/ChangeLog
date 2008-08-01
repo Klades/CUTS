@@ -1,8 +1,69 @@
+Fri Aug  1 22:39:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-unittest.sql:
+
+          . Bug fix where the foreign keys on some of the look up tables
+            did not prevent the parent table from deleting the referenced
+            columns.
+
+          . Added missing stored procedures/functions.
+
+          . Bug fix where inserting an package into a test suite caused
+            an exception if the package already existed in the database.
+
+        * etc/SQL/install-mysql.bat:
+
+          . Removed unnccessary screen output from the script.
+
+        * utils/BMW/assemblies/CUTS.Data/Properties/AssemblyInfo.cs:
+
+          . Updated the copyright information.
+
+        * utils/BMW/website/App_Code/DataBaseActions.cs:
+        * utils/BMW/website/App_Code/LogFormatActions.cs:
+        * utils/BMW/website/App_Code/UnitTestActions.cs:
+        * utils/BMW/website/BMW.master.cs:
+        * utils/BMW/website/Log_Formats.aspx:
+        * utils/BMW/website/Log_Formats.aspx.cs:
+        * utils/BMW/website/UT_Create.aspx:
+        * utils/BMW/website/UT_Create.aspx.cs:
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/styles/default.css:
+        * utils/BMW/website/unittest.aspx:
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . Bug fix where inserting a new unit test caused a database
+            exception.
+
+          . It is now possible to delete a unit test from a test package.
+
+          . It is now possible to delete a test package from a test suite.
+
+          . Bug fix where deleting a test suite from the database did not
+            update the webpage correctly.
+
+          . Bug fix where deleting a test package from the database did not
+            update the webpage correctly.
+
+          . Bug fix where deleting a test package from the database was not
+            handled correctly.
+
+          . It is now possible to add/remove a unit test from a test package.
+
+          . It is now possible to add/remove a test package from a test
+            suite.
+
+          . Fixed the code style in many places, however, there is still ALOT
+            of code that's formatted incorrectly.
+
+          . Fixed the layout on the Unit Testing Configuration and Unit Test
+            Configuration pages.
+
 Thu Jul 31 05:54:32 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * etc/SQL/CUTS-unittest.sql:
 
-          . Changed stored procedures to evaluate unit tests (specifically 
+          . Changed stored procedures to evaluate unit tests (specifically
               relational UT's correctly)
 
         * utils/BMW/website/App_Code/LogFormatActions.cs:

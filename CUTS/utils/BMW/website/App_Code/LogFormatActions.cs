@@ -85,7 +85,7 @@ namespace Actions.LogFormatActions
     public static DataTable Get_All_Log_Formats ()
     {
       string sql = "SELECT * FROM logformatdesc";
-      return dba.ExecuteMySqlAdapter( sql );
+      return dba.execute_mysql_adapter( sql );
     }
 
     /**
@@ -126,7 +126,7 @@ namespace Actions.LogFormatActions
                    "WHERE utt.lfid=lfd.lfid and utt.utid=?utid_in;"; 
       MySqlCommand comm = dba.GetCommand( sql );
       comm.Parameters.AddWithValue( "?utid_in", Unit_Test_ID_);
-      DataTable dt = dba.ExecuteMySqlAdapter( comm );
+      DataTable dt = dba.execute_mysql_adapter( comm );
       return dt;
     }
 
@@ -149,7 +149,7 @@ namespace Actions.LogFormatActions
       MySqlCommand comm = dba.GetCommand( sql );
       comm.Parameters.AddWithValue( "?lfid", lfid );
 
-      DataTable dt = dba.ExecuteMySqlAdapter( comm );
+      DataTable dt = dba.execute_mysql_adapter( comm );
 
       cs_regex = dt.Rows[0]["csharp_regex"].ToString();
 

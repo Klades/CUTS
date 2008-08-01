@@ -1,150 +1,121 @@
-<%@ Page 
-    Language="C#" 
-    MasterPageFile="~/BMW.master" 
-    EnableViewState="true" 
-    AutoEventWireup="true" 
-    CodeFile="UT_Create.aspx.cs" 
-    Inherits="UT_Create" 
-    Title="Unit Test Create" %>
+<%@ page language="C#" masterpagefile="~/BMW.master" enableviewstate="true" autoeventwireup="true"
+  codefile="UT_Create.aspx.cs" inherits="UT_Create" title="Unit Test Create" %>
 
-<%@ Reference 
-    Control="~/controls/AddLogFormat.ascx" %>
+<%@ reference control="~/controls/AddLogFormat.ascx" %>
+<asp:content id="Content1" contentplaceholderid="MainContent" runat="Server">
+  <h2>Unit Test Configuration</h2>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
-    <h2>
-        Create New Unit Test</h2>
-    <p>
-        Name
-        <asp:TextBox ID="UT_name" runat="server" Width="284px"></asp:TextBox>
-        
-        &nbsp;&nbsp; Desc
-        <span style="position:relative; top:45px;"><asp:TextBox ID="UT_desc" runat="server" Height="65px" Width="288px" TextMode="MultiLine" Wrap="true"></asp:TextBox></span>
-    </p>
-    <h3>
-        Use these Log Formats</h3>
-<p>        
-    <asp:DropDownList 
-        ID="Log_Format_List_1"
-        DataTextField="lfmt"
-        DataValueField="lfid"
-        runat="server"
-        AutoPostBack="true"
-        OnSelectedIndexChanged="OnChange_Log_Format_List_1" Width="800px"></asp:DropDownList>
-        
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <asp:Label 
-        ID="Log_Format_1_Prefix"
-        Text=""
-        runat="server"></asp:Label>&nbsp;
-</p>
-    <asp:DropDownList 
-        ID="Log_Format_List_2"
-        DataTextField="lfmt"
-        DataValueField="lfid"
-        OnSelectedIndexChanged="OnChange_Log_Format_List_2"
-        AutoPostBack="true"
-        runat="server" Width="800px"></asp:DropDownList>
-        
-    <asp:Literal ID="Spacer1" runat="server">&nbsp;&nbsp;&nbsp;&nbsp;</asp:Literal>
-    <asp:Label 
-        ID="Log_Format_2_Prefix"
-        Text=""
-        runat="server"></asp:Label>
-    <asp:Literal ID="Spacer2" runat="server"><br /><br /></asp:Literal>
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <asp:Button 
-        ID="btn_more_lfs"
-        BackColor="white" 
-        runat="server" 
-        OnClick="OnClick_Toggle_Second_Log_Format_Visibility" />
-    <br />
-    <asp:Literal
-        Text="<h3>Specify the relation</h3>"
-        runat="server"
-        id="relation_head"
-        ></asp:Literal>
-    <asp:DropDownList
-        ID="Relation_Variable_1"
-        DataTextField="extended_varname"
-        DataValueField="variable_id"
-        runat="server"
-        ></asp:DropDownList>
-    <asp:Literal
-        Text="&nbsp;&nbsp;==&nbsp;&nbsp;"
-        runat="server"
-        ID="relation_text"
-        ></asp:Literal>
-    <asp:DropDownList
-        ID="Relation_Variable_2"
-        DataTextField="extended_varname"
-        DataValueField="variable_id"
-        runat="server"
-        ></asp:DropDownList>
-   
-    <h3>
-        Perform this Evaluation</h3>
-    <p>
-        <asp:TextBox ID="UT_eval" runat="server" Width="381px" Height="24px"></asp:TextBox>
-    </p>
-    <p>
-        Warn when&nbsp;&nbsp;&nbsp;
-        &nbsp;Result&nbsp;&nbsp;&nbsp;
-        <asp:DropDownList ID="UT_warn_comp" runat="server">
-            <asp:ListItem Value="less">&lt;</asp:ListItem>
-            <asp:ListItem Value="greater">&gt;</asp:ListItem>
-            <asp:ListItem Value="less_equal">&lt;=</asp:ListItem>
-            <asp:ListItem Value="greater_equal">&gt;=</asp:ListItem>
-            <asp:ListItem Value="equal">==</asp:ListItem>
-            <asp:ListItem Value="not_equal">!=</asp:ListItem>
-        </asp:DropDownList>
-&nbsp;
-        <asp:TextBox ID="UT_warn" runat="server"></asp:TextBox>
-        &nbsp;</p>
-    <p>
-        Fail when&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;Result&nbsp;&nbsp;&nbsp;
-        <asp:DropDownList ID="UT_fail_comp" runat="server">
-            <asp:ListItem Value="less">&lt;</asp:ListItem>
-            <asp:ListItem Value="greater">&gt;</asp:ListItem>
-            <asp:ListItem Value="less_equal">&lt;=</asp:ListItem>
-            <asp:ListItem Value="greater_equal">&gt;=</asp:ListItem>
-            <asp:ListItem Value="equal">==</asp:ListItem>
-            <asp:ListItem Value="not_equal">!=</asp:ListItem>
-        </asp:DropDownList>
-&nbsp;
-        <asp:TextBox ID="UT_fail" runat="server"></asp:TextBox>
-        &nbsp;</p>
-    <p>
-    
+  <table>
+  <tr>
+    <td class="title">Name: </td>
+    <td><asp:textbox id="UT_name" runat="server" width="300px" /></td>
+  </tr>
+  <tr>
+    <td class="title">Description: </td>
+    <td><asp:textbox id="UT_desc" runat="server" width="300px" textmode="singleline" /></td>
+  </tr>
+  </table>
+
+
+  <h3>Log Formats</h3>
+  <p>Using the dropdown control below, please select the <a href="Log_Formats.aspx">log formats</a>
+  to use when evaluating this unit test. If you need more than one more
+  <a href="Log_Formats.aspx">log format</a>, then click the <b>I need more log formats</b> link below.</p>
+
+  <!-- Table for selecting log format. A better solution would be to use a placeholder control
+       and make each of its children a user-defined log format control. This way, the number
+       of child control in the placeholder will represent the number of log messages. It
+       will make this webpage a LOT easier to develop and maintain. -->
+  <table>
+  <tr>
+    <td><asp:dropdownlist id="Log_Format_List_1" datatextfield="lfmt" datavaluefield="lfid"
+                          runat="server" autopostback="true" onselectedindexchanged="onchange_log_format_list_1"
+                          width="800px" /></td>
+    <td><asp:label id="Log_Format_1_Prefix" text="" runat="server" /></td>
+  </tr>
+
+  <tr>
+    <td><asp:dropdownlist id="Log_Format_List_2" datatextfield="lfmt" datavaluefield="lfid"
+            onselectedindexchanged="onchange_log_format_list_2" autopostback="true" runat="server"
+            width="800px" /></td>
+    <td><asp:label id="Log_Format_2_Prefix" text="" runat="server" /></td>
+  </tr>
+  </table>
+
+  <!-- link for selecting more log formats -->
+  <p><asp:linkbutton id="more_log_formats_" runat="server"
+                     onclick="onclick_toggle_second_log_format_visibility" /></p>
+
+  <asp:literal text="<h3>Specify the relation</h3>" runat="server" id="relation_head"></asp:literal>
+  <asp:dropdownlist id="Relation_Variable_1" datatextfield="extended_varname" datavaluefield="variable_id"
+    runat="server">
+  </asp:dropdownlist>
+  <asp:literal text="&nbsp;&nbsp;==&nbsp;&nbsp;" runat="server" id="relation_text"></asp:literal>
+  <asp:dropdownlist id="Relation_Variable_2" datatextfield="extended_varname" datavaluefield="variable_id"
+    runat="server">
+  </asp:dropdownlist>
+
+  <h3>Evaluation</h3>
+  <p>Use metrics, <i>i.e.</i>, the variables enclosed in brackets { }, identifed in the
+  <a href="Log_Formats.aspx">log formats</a> above to create an evaluation function for the unit
+  test in the text box below. If you have multiple <a href="Log_Formats.aspx">log formats</a>,
+  please use the appropriate <a href="Log_Formats.aspx">log format</a> prefix when creating the
+  evaluation function.</p>
+
+  <p><tt>result = </tt><asp:textbox id="UT_eval" runat="server" width="380px" /></p>
+
+  <p>
+    Warn when&nbsp;&nbsp;&nbsp; &nbsp;result&nbsp;&nbsp;&nbsp;
+    <asp:dropdownlist id="UT_warn_comp" runat="server">
+      <asp:listitem value="less">&lt;</asp:listitem>
+      <asp:listitem value="greater">&gt;</asp:listitem>
+      <asp:listitem value="less_equal">&lt;=</asp:listitem>
+      <asp:listitem value="greater_equal">&gt;=</asp:listitem>
+      <asp:listitem value="equal">==</asp:listitem>
+      <asp:listitem value="not_equal">!=</asp:listitem>
+    </asp:dropdownlist>
+    &nbsp;
+    <asp:textbox id="UT_warn" runat="server"></asp:textbox>
+    &nbsp;</p>
+  <p>
+    Fail when&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;result&nbsp;&nbsp;&nbsp;
+    <asp:dropdownlist id="UT_fail_comp" runat="server">
+      <asp:listitem value="less">&lt;</asp:listitem>
+      <asp:listitem value="greater">&gt;</asp:listitem>
+      <asp:listitem value="less_equal">&lt;=</asp:listitem>
+      <asp:listitem value="greater_equal">&gt;=</asp:listitem>
+      <asp:listitem value="equal">==</asp:listitem>
+      <asp:listitem value="not_equal">!=</asp:listitem>
+    </asp:dropdownlist>
+    &nbsp;
+    <asp:textbox id="UT_fail" runat="server"></asp:textbox>
+    &nbsp;</p>
+  <p>
     <!-- Note that the grouping information is hidden for now -->
-        <asp:Label ID="temp_label" runat="server" Text="Group By" Visible="false"></asp:Label>
-        <asp:DropDownList ID="DropDownList2" runat="server" Visible="false">
-            <asp:ListItem>test_number</asp:ListItem>
-        </asp:DropDownList>
-    </p>
-    <p>
-    </p>
-    <h3>Aggregration</h3>
-    <div style="top:-8px;">If there is more that one result of your evaluation, how would you like to aggregrate these results?</div>
-    <br />
-    <!-- Note that there is some server-side processing of these values
+    <asp:label id="temp_label" runat="server" text="Group By" visible="false"></asp:label>
+    <asp:dropdownlist id="DropDownList2" runat="server" visible="false">
+      <asp:listitem>test_number</asp:listitem>
+    </asp:dropdownlist>
+  </p>
+  <p>
+  </p>
+  <h3>Aggregration</h3>
+
+  <p>If there are multiple log messages that match your format, this will create multiple
+  results. If this situation occurs, how should we aggregrate the multiple results?</p>
+
+  <!-- Note that there is some server-side processing of these values
           to ensure that no one can pass commands into mySQL -->
-    <asp:DropDownList ID="Aggregrate_Funtion" runat="server">
-        <asp:ListItem Text="Please select one . . ." Value="-1" />
-        <asp:ListItem Text="Sum" Value="SUM" />
-        <asp:ListItem Text="Average" Value="AVG" />
-        <asp:ListItem Text="Max" Value="MAX" />
-        <asp:ListItem Text="Min" Value="MIN" />
-        <asp:ListItem Text="Count" Value="COUNT" />
-        <asp:ListItem Text="Count Distinct" Value="COUNT DISTINCT" />    
-    </asp:DropDownList>
-    <p>
-        <asp:Button ID="btn_Submit" runat="server" Text="Submit" onclick="OnClick_btn_Submit" />
-    </p>
-    <p>
-        &nbsp;</p>
+  <asp:dropdownlist id="aggr_function_" runat="server">
+    <asp:listitem text="Sum" value="SUM" />
+    <asp:listitem text="Average" value="AVG" />
+    <asp:listitem text="Max" value="MAX" />
+    <asp:listitem text="Min" value="MIN" />
+    <asp:listitem text="Count" value="COUNT" />
+    <asp:listitem text="Count Distinct" value="COUNT DISTINCT" />
+  </asp:dropdownlist>
 
-
-
-</asp:Content>
-
+  <!-- button for submitting the new unit test -->
+  <p><asp:button id="btn_Submit" runat="server" text="Create"
+                 onclick="onclick_submit" cssclass="button" /></p>
+</asp:content>

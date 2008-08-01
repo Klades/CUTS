@@ -1,7 +1,7 @@
 --
 -- @file        CUTS-unittest.sql
 --
--- $Id: CUTS-unittest.sql 2044 2008-07-14 14:44:28Z turnerha $
+-- $Id$
 --
 -- @author      Hamilton Turner
 --
@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS  cuts.logformatdesc (
 
   -- set the constraints for the table
   PRIMARY KEY  (lfid),
+
   UNIQUE (lfmt)
 );
 
@@ -34,15 +35,18 @@ CREATE TABLE IF NOT EXISTS cuts.unittestdesc (
   utid                      INT               NOT NULL auto_increment,
   name                      VARCHAR(45)       NOT NULL,
   description               VARCHAR(95)       NOT NULL,
-  fail_comparison           VARCHAR(20)       NOT NULL,
-  warn                      VARCHAR(25)       NOT NULL,
-  fail                      VARCHAR(25)       NOT NULL,
   evaluation                VARCHAR(45)       NOT NULL,
-  warn_comparison           VARCHAR(20)       NOT NULL,
-  aggregration_function     VARCHAR(25)       NOT NULL,
+  fail_comparison           VARCHAR(20),
+  fail                      VARCHAR(25),
+  warn_comparison           VARCHAR(20),
+  warn                      VARCHAR(25),
+  aggregration_function     VARCHAR(25),
 
-  -- set the constraints for the table
-  PRIMARY KEY  (utid)
+  -- set the primary key for the table
+  PRIMARY KEY  (utid),
+
+  -- set the unique values for the table
+  UNIQUE (name)
 );
 
 -- main table for packages
@@ -54,6 +58,8 @@ CREATE TABLE IF NOT EXISTS cuts.packages (
 
   -- set the constraints for the table
   PRIMARY KEY  (id),
+
+  -- set the unique values for the table
   UNIQUE (name)
 );
 
@@ -65,6 +71,8 @@ CREATE TABLE IF NOT EXISTS cuts.test_suites (
 
   -- set the constraints for the table
   PRIMARY KEY  (id),
+
+  -- set the unique values for the table
   UNIQUE (name)
 );
 
@@ -80,7 +88,9 @@ CREATE TABLE IF NOT EXISTS cuts.logformatvariabletable (
 
   -- set the constraints for the table
   PRIMARY KEY (variable_id),
-  UNIQUE (lfid,varname),
+
+  -- set the unique values for the table
+  UNIQUE (lfid, varname),
 
   FOREIGN KEY (lfid) REFERENCES cuts.logformatdesc (lfid)
     ON DELETE CASCADE
@@ -99,8 +109,9 @@ CREATE TABLE IF NOT EXISTS cuts.packages_unit_tests (
   FOREIGN KEY (id) REFERENCES cuts.packages (id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
+
   FOREIGN KEY (ut_id) REFERENCES cuts.unittestdesc (utid)
-    ON DELETE CASCADE
+    ON DELETE RESTRICT
     ON UPDATE CASCADE,
   UNIQUE (id,ut_id)
 );
@@ -113,14 +124,17 @@ CREATE TABLE IF NOT EXISTS cuts.test_suite_packages (
   id              INT             NOT NULL,
   p_id            INT             NOT NULL,
 
-  -- set the constraints for the table
+  -- set the unique values for the constraint
+  UNIQUE (id, p_id),
+
+  -- set the foreign keys for the table
   FOREIGN KEY (id) REFERENCES cuts.test_suites (id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
+
   FOREIGN KEY (p_id) REFERENCES cuts.packages (id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  UNIQUE (id,p_id)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
 );
 
 
@@ -132,7 +146,8 @@ CREATE TABLE IF NOT EXISTS cuts.unittestgroups (
   variable_id   INT                 NOT NULL,
 
   -- set the constraints for the table
-  UNIQUE (utid,variable_id),
+  UNIQUE (utid, variable_id),
+
   FOREIGN KEY (utid) REFERENCES cuts.unittestdesc (utid)
     ON DELETE CASCADE
     ON UPDATE CASCADE
@@ -149,6 +164,7 @@ CREATE TABLE IF NOT EXISTS cuts.unit_test_relations (
 
   -- set the constraints for the table
   PRIMARY KEY (utid),
+
   FOREIGN KEY (utid) REFERENCES cuts.unittestdesc (utid)
     ON DELETE CASCADE
     ON UPDATE CASCADE
@@ -165,6 +181,7 @@ CREATE TABLE IF NOT EXISTS cuts.unittestaggregration (
 
   -- set the constraints for the table
   UNIQUE (utid,variable_id),
+
   FOREIGN KEY (utid) REFERENCES cuts.unittestdesc (utid)
     ON DELETE CASCADE
     ON UPDATE CASCADE
@@ -177,12 +194,15 @@ CREATE TABLE IF NOT EXISTS cuts.unittestaggregration (
 CREATE TABLE IF NOT EXISTS cuts.unittesttable (
   utid          INT           NOT NULL,
   lfid          INT           NOT NULL,
-  UNIQUE (utid,lfid),
-  FOREIGN KEY (lfid) REFERENCES cuts.logformatdesc (lfid)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
+
+  UNIQUE (utid, lfid),
+
   FOREIGN KEY (utid) REFERENCES cuts.unittestdesc (utid)
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+
+  FOREIGN KEY (lfid) REFERENCES cuts.logformatdesc (lfid)
+    ON DELETE RESTRICT
     ON UPDATE CASCADE
 );
 
@@ -318,62 +338,74 @@ BEGIN
 
 END//
 
-
--- Allows you to grab all the results of a unit test, filtered by a test
---   number
-DROP PROCEDURE IF EXISTS cuts.evaluate_unit_test_as_metric//
-CREATE PROCEDURE
-  cuts.evaluate_unit_test_as_metric(IN utid_in INT,
-                                    IN test_num INT )
+DROP PROCEDURE IF EXISTS cuts.evaluate_unit_test_single//
+CREATE PROCEDURE cuts.evaluate_unit_test_single(
+                                                IN utid_in INT,
+                                                IN test_number INT)
 BEGIN
+    DECLARE fail_op             VARCHAR(2);
+    DECLARE fail_val            VARCHAR(10);
+    DECLARE warn_op             VARCHAR(2);
+    DECLARE warn_val            VARCHAR(10);
+    DECLARE tablename           VARCHAR(90);
+    DECLARE single_tablename    VARCHAR(90);
+    DECLARE eval                VARCHAR(150);
+    DECLARE eval_no_aggr        VARCHAR(150);
+    DECLARE lfid_count          INT;
 
-    DECLARE fail_op   VARCHAR(2);
-    DECLARE fail_val  VARCHAR(10);
-    DECLARE warn_op   VARCHAR(2);
-    DECLARE warn_val  VARCHAR(10);
-    DECLARE tablename VARCHAR(20);
-    DECLARE eval      VARCHAR(150);
-
-    -- Temporary variables to simplify the case where there are two LF's needed
+    -- Temporary variable to simplify the case where there are two LF's needed
     DECLARE temp      VARCHAR(10);
     DECLARE t_var1    VARCHAR(45);
     DECLARE t_var2    VARCHAR(45);
 
-    -- Get everything
-    -- NOTE: we are evaling as metric, so we ignore the aggreg. func
-    SELECT   fail_comparison, fail,     warn_comparison, warn,     evaluation
-      INTO   fail_op,         fail_val, warn_op,         warn_val, eval
+    -- Grab all one to one variables
+    SELECT   fail_comparison, fail,     warn_comparison, warn
+      INTO   fail_op,         fail_val, warn_op,         warn_val
+      FROM cuts.unittestdesc
+      WHERE utid = utid_in;
+
+    -- Grab the desired aggregration and the evaluation
+    SELECT   CONCAT(aggregration_function,"(",evaluation,")"), evaluation
+      INTO   eval,                                             eval_no_aggr
       FROM unittestdesc
       WHERE utid = utid_in;
 
-    -- Check if we are using one LF or two
+    -- See if we are working on a two LF unit test, or a normal one
+    SELECT COUNT(*)
+      INTO lfid_count
+      FROM cuts.unittesttable
+      WHERE utid = utid_in;
+
+
     IF lfid_count = 1 THEN
          -- If only one, store it
-             SELECT CONCAT("LF",lfid)
-                INTO tablename
+         -- The single tablename allows us to remove ambiguity from
+         --   WHERE test_number =
+             SELECT CONCAT("LF",lfid), CONCAT("LF",lfid)
+                INTO tablename,        single_tablename
                 FROM cuts.unittesttable
                 WHERE utid = utid_in;
     ELSEIF lfid_count = 2 THEN
-            -- Store the first lfid
-            SELECT lfid
-              INTO temp
+
+            SELECT lfid, CONCAT("LF",lfid)
+              INTO temp, single_tablename
               FROM cuts.unittesttable
               WHERE utid = utid_in
               LIMIT 1;
-            -- Store the second lfid
+
             SELECT lfid
               INTO tablename
               FROM cuts.unittesttable
               WHERE utid = utid_in
               LIMIT 1,1;
-            -- Store the first variable, fully qualified
+
             SELECT CONCAT("LF",lfid,".",varname)
               INTO t_var1
               FROM logformatvariabletable
               WHERE variable_id=( SELECT variable_id
                                     FROM unit_test_relations
                                     WHERE utid=utid_in );
-            -- Store the second fully qualified variable
+
             SELECT CONCAT("LF",lfid,".",varname)
               INTO t_var2
               FROM logformatvariabletable
@@ -381,30 +413,121 @@ BEGIN
                                     FROM unit_test_relations
                                     WHERE utid=utid_in );
 
-            -- Create the join in the tablename variable on the correct
-            --   columns
+            -- You need at least one table names t0
             SELECT CONCAT("LF",temp," JOIN LF",tablename," ON ",
               t_var1,"=",t_var2)
               INTO tablename;
-
     END IF;
 
-    -- Returns evaluation
+
+    -- Returns evaluation, result
+    -- Also returns result_count, which is useful for charting
+    -- There is always a table called t0 to make the test_number
+    -- un-ambiguous
+    SET @sql = CONCAT("
+        SELECT (",eval,") AS evaluation,
+          IF ((",eval,") ",fail_op," ",fail_val,",'fail',",
+          "IF ((",eval,") ",warn_op," ",warn_val,",'warn','pass')) AS result, ",
+          "COUNT(",eval_no_aggr,") AS result_count ",
+          "FROM ", tablename,
+          " WHERE ",single_tablename,".test_number=",test_number,";"
+        );
+
+    PREPARE s1 FROM @sql;
+    EXECUTE s1;
+    DEALLOCATE PREPARE s1;
+END//
+
+-- Allows you to grab all the results of a unit test, filtered by a test
+--   number
+
+DROP PROCEDURE IF EXISTS cuts.evaluate_unit_test_as_metric//
+CREATE PROCEDURE
+  cuts.evaluate_unit_test_as_metric(IN utid_in INT,
+                                    IN test_num INT )
+BEGIN
+    DECLARE fail_op             VARCHAR(2);
+    DECLARE fail_val            VARCHAR(10);
+    DECLARE warn_op             VARCHAR(2);
+    DECLARE warn_val            VARCHAR(10);
+    DECLARE tablename           VARCHAR(90);
+    DECLARE single_tablename    VARCHAR(90);
+    DECLARE eval                VARCHAR(150);
+    DECLARE lfid_count          INT;
+
+    DECLARE temp                VARCHAR(10);
+    DECLARE t_var1              VARCHAR(45);
+    DECLARE t_var2              VARCHAR(45);
+
+    DECLARE debugger            VARCHAR(1024);
+
+    -- See if we are working on a two LF unit test, or a normal one
+    SELECT COUNT(*)
+      INTO lfid_count
+      FROM cuts.unittesttable
+      WHERE utid = utid_in;
+
+    SELECT   fail_comparison, fail,     warn_comparison, warn,     evaluation
+      INTO   fail_op,         fail_val, warn_op,         warn_val, eval
+      FROM unittestdesc
+      WHERE utid = utid_in;
+
+    IF lfid_count = 1 THEN
+            SELECT CONCAT("LF",lfid), CONCAT("LF",lfid)
+                INTO tablename,        single_tablename
+                FROM cuts.unittesttable
+                WHERE utid = utid_in;
+    ELSEIF lfid_count = 2 THEN
+
+            SELECT lfid, CONCAT("LF",lfid)
+              INTO temp, single_tablename
+              FROM cuts.unittesttable
+              WHERE utid = utid_in
+              LIMIT 1;
+
+            SELECT lfid
+              INTO tablename
+              FROM cuts.unittesttable
+              WHERE utid = utid_in
+              LIMIT 1,1;
+
+            SELECT CONCAT("LF",lfid,".",varname)
+              INTO t_var1
+              FROM logformatvariabletable
+              WHERE variable_id=( SELECT variable_id
+                                    FROM unit_test_relations
+                                    WHERE utid=utid_in );
+
+            SELECT CONCAT("LF",lfid,".",varname)
+              INTO t_var2
+              FROM logformatvariabletable
+              WHERE variable_id=( SELECT variable_id_2
+                                    FROM unit_test_relations
+                                    WHERE utid=utid_in );
+
+
+            SELECT CONCAT("LF",temp," JOIN LF",tablename," ON ",
+              t_var1,"=",t_var2)
+              INTO tablename;
+    END IF;
+
+    SELECT CONCAT("
+        SELECT (",eval,") AS evaluation ",
+          "FROM ", tablename," ",
+          "WHERE ", single_tablename,".test_number=",test_num,";"
+        ) INTO debugger;
+
     SET @sql = CONCAT("
         SELECT (",eval,") AS evaluation ",
           "FROM ", tablename," ",
-          "WHERE test_number=",test_num,";"
+          "WHERE ", single_tablename,".test_number=",test_num,";"
         );
 
 
     PREPARE s1 FROM @sql;
     EXECUTE s1;
     DEALLOCATE PREPARE s1;
-
 END//
-
-
-
 
 -- given UTID gets variables used in that UT
 -- varname/type/extended name
@@ -478,19 +601,40 @@ END //
 
 DROP PROCEDURE IF EXISTS cuts.insert_test_suite_package//
 CREATE PROCEDURE
-  cuts.insert_test_suite_package(IN test_suite_id_in integer,
-                                 IN name_in VARCHAR(65))
+  cuts.insert_test_suite_package(IN tsid INT,
+                                 IN pkg_name VARCHAR(65))
 BEGIN
-      Declare new_p_id integer;
-
-      -- Insert into packages table
-      INSERT into packages (name) values (name_in);
-
-      -- Add to test suite
-      SELECT id into new_p_id FROM packages where name = name_in limit 1;
-      INSERT into test_suite_packages (id,p_id) values (test_suite_id_in, new_p_id);
+  INSERT INTO test_suite_packages (id, p_id)
+    VALUES (tsid,
+            cuts.get_test_package_id (pkg_name));
 END //
 
+
+DROP PROCEDURE IF EXISTS cuts.create_test_package //
+
+CREATE PROCEDURE
+  cuts.create_test_package (IN pkg_name VARCHAR (65))
+BEGIN
+  INSERT INTO cuts.packages (name) VALUES (pkg_name);
+END //
+
+DROP FUNCTION IF EXISTS cuts.get_test_package_id //
+
+CREATE FUNCTION
+  cuts.get_test_package_id (pkg_name VARCHAR (65))
+  RETURNS INT
+BEGIN
+  DECLARE retval INT;
+
+  DECLARE CONTINUE HANDLER FOR NOT FOUND
+  BEGIN
+    INSERT INTO cuts.packages (name) VALUES (pkg_name);
+    SET retval = LAST_INSERT_ID();
+  END;
+
+  SELECT id INTO retval FROM cuts.packages WHERE name = pkg_name;
+  RETURN retval;
+END //
 
 -- given test suite id and package id, inserts package into test suite
 

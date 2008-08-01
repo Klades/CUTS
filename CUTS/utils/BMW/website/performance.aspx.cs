@@ -170,7 +170,7 @@ namespace CUTS
     private void load_unit_test_view ()
     {
       string sql = "SELECT * FROM test_suites";
-      DataTable dt_ = ExecuteMySqlAdapter (sql);
+      DataTable dt_ = execute_mysql_adapter (sql);
 
       ddl_Test_Suites.DataSource = dt_;
       ddl_Test_Suites.DataBind ();
@@ -195,25 +195,29 @@ namespace CUTS
 
     protected void OnChange_ddl_Test_Suites (object sender, EventArgs e)
     {
-      if (ddl_Test_Suites.SelectedIndex < 1)
+      if (ddl_Test_Suites.SelectedIndex != 0)
       {
-        master_.show_error_message ("Please choose another Test Suite. That one is not valid. ");
+        // Clear out Panel
+        this.panel_Packages_Unit_Tests.Controls.Clear ();
+
+        // Load new Panel Data
+        this.load_panel_Packages_Unit_Tests ();
       }
-
-      // Clear out Panel
-      panel_Packages_Unit_Tests.Controls.Clear ();
-
-
-      // Load new Panel Data
-      load_panel_Packages_Unit_Tests ();
+      else
+      {
+        this.master_.show_error_message ("Please select a valid test suite");
+      }
     }
+
     private void load_panel_Packages_Unit_Tests ()
     {
       string sql = "SELECT p_id FROM test_suite_packages WHERE id=" + ddl_Test_Suites.SelectedValue + ";";
       Array p_ids = ExecuteMySqlReader (sql, "p_id");
+
       foreach (object CurrentPID in p_ids)
         Add_Package (CurrentPID.ToString ());
     }
+
     private void Add_Package (string p_id)
     {
       string sql = "SELECT name FROM packages WHERE id=" + p_id;
@@ -231,13 +235,12 @@ namespace CUTS
       // Fill the DataTable with Name and id
       sql = "SELECT utid AS id,name AS Name FROM unittestdesc " +
           "WHERE utid IN (SELECT ut_id FROM packages_unit_tests WHERE id=" + p_id + ");";
-      DataTable dt = ExecuteMySqlAdapter (sql);
+      DataTable dt = execute_mysql_adapter (sql);
 
       // Add Evaluation, Result
       dt.Columns.Add ("Evaluation");
       dt.Columns.Add ("Result");
       dt.Columns.Add ("Chart");
-
 
       // Ensure package has at least one Unit Test
       if (dt.Rows.Count < 1)
@@ -247,7 +250,7 @@ namespace CUTS
       foreach (DataRow row in dt.Rows)
       {
         // Evaluate
-        DataTable temp = UnitTestActions.Evalate_UT_for_single_test (Int32.Parse (row ["id"].ToString ()),
+        DataTable temp = UnitTestActions.Evalate_UT_for_single_test  (Int32.Parse (row ["id"].ToString ()),
           TestNumber);
 
         if (temp.Rows.Count == 0)
@@ -333,7 +336,7 @@ namespace CUTS
     }
     #endregion
 
-    private DataTable ExecuteMySqlAdapter (string sql)
+    private DataTable execute_mysql_adapter (string sql)
     {
       MySql.Data.MySqlClient.MySqlConnection conn = new MySql.Data.MySqlClient.MySqlConnection (ConfigurationManager.AppSettings ["MySQL"]);
       conn.Open ();

@@ -14,6 +14,11 @@ h2
   font-size:14pt;
 }
 
+h3
+{
+  font-size:12pt;
+}
+
 .title
 {
   font-weight:bold;
@@ -149,4 +154,14 @@ td.performance-data, th.performance-data
 .message_info
 {
   color: black;
+}
+
+.default_width
+{
+  min-width: 300px;
+}
+
+.button
+{
+  width: 90px;
 }

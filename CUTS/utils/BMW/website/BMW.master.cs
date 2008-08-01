@@ -37,8 +37,6 @@ namespace CUTS
    */
   public partial class Master : System.Web.UI.MasterPage
   {
-    private bool InQuietMode_;
-
     /**
      * Initial event/fucntion called with the page is loaded.
      *
@@ -63,12 +61,6 @@ namespace CUTS
 
         this.help_item_.Controls.Add (show_help);
       }
-    }
-
-    public bool InQuietMode
-    {
-      get { return InQuietMode_; }
-      set { InQuietMode_ = value; }
     }
 
     /**

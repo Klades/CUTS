@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using System.Text;
 using System.Text.RegularExpressions;
 using MySql.Data.MySqlClient;
 using Actions.LogFormatActions;
@@ -17,7 +18,7 @@ public partial class Log_Formats : System.Web.UI.Page
 {
   /**
    * @var Master master_  A reference to the Master page that easily
-   *                      allows access to the messagins system. 
+   *                      allows access to the messagins system.
    */
   private CUTS.Master master_;
 
@@ -29,136 +30,146 @@ public partial class Log_Formats : System.Web.UI.Page
 
   /**
    * Callback method for when the page is loading.
-   * 
+   *
    * @param[in]       sender        Sender of the event.
    * @param[in]       e             Event arguments.
    */
-  protected void Page_Load ( object sender, EventArgs e )
+  protected void Page_Load (object sender, EventArgs e)
   {
-    master_ = (CUTS.Master)Master;
+    this.master_ = (CUTS.Master)Master;
+
     if (IsPostBack)
       return;
 
-    this.load_data();
+    this.load_data ();
   }
 
   /**
    * Method that loads(or re-loads) the Log Format Table with the current
-   * contents of the database. 
+   * contents of the database.
    */
   private void load_data ()
   {
-    DataTable dt = LogFormatActions.Get_All_Log_Formats();
+    DataTable dt = LogFormatActions.Get_All_Log_Formats ();
 
     // Data Bind
-    this.Log_Format_Table_.DataSource = dt;
-    this.Log_Format_Table_.DataBind();
-
-    // Check for info
-    if (dt.Rows.Count == 0)
-      this.master_.show_info_message( "There are no log messages created yet. Please " +
-        "add one." );
+    this.log_formats_.DataSource = dt;
+    this.log_formats_.DataBind ();
 
     // Ensure Widths
-    if (this.Log_Format_Table_.Width.Value < Default_Width_)
-      this.Log_Format_Table_.Width = new Unit( Default_Width_ );
+    if (this.log_formats_.Width.Value < Default_Width_)
+      this.log_formats_.Width = new Unit (Default_Width_);
     if (this.txt_New_LF.Width.Value < Default_Width_)
-      this.txt_New_LF.Width = new Unit( Default_Width_ );
+      this.txt_New_LF.Width = new Unit (Default_Width_);
 
     // Make the ID column small
-    this.Log_Format_Table_.Columns[0].ItemStyle.Width = new Unit( 10 );
-    this.Log_Format_Table_.Columns[0].HeaderStyle.Width = new Unit( 10 );
-    this.Log_Format_Table_.Columns[0].FooterStyle.Width = new Unit( 10 );
+    this.log_formats_.Columns[0].ItemStyle.Width = new Unit (10);
+    this.log_formats_.Columns[0].HeaderStyle.Width = new Unit (10);
+    this.log_formats_.Columns[0].FooterStyle.Width = new Unit (10);
 
     // Setup the button better
     this.btn_New_LF.Height = this.txt_New_LF.Height;
   }
 
   /**
-   * Callback method for when someone clicks to enter in a new 
+   * Callback method for when someone clicks to enter in a new
    * Log Format. This validates the input and attempts to insert a new
-   * LF into the database, correctly reporting on errors or success, 
-   * and reloading the LF Table in the event of success. 
-   * 
+   * LF into the database, correctly reporting on errors or success,
+   * and reloading the LF Table in the event of success.
+   *
    * Types of variables currently supported include:
    * INT
    * STRING  -  allowed characters include -a-zA-Z.0-9 :,;+=_
-   * 
+   *
    * @param[in]       sender        Sender of the event.
    * @param[in]       e             Event arguments.
    */
-  protected void OnClick_btn_New_LF ( object sender, EventArgs e )
+  protected void OnClick_btn_New_LF (object sender, EventArgs e)
   {
-    if (this.txt_New_LF.Text.Length < 3)
-    {
-      master_.show_error_message( "The Log Format must be at least 3 characters!" );
-      return;
-    }
     try
     {
-      string pattern = @"((?<lead>[-0-9a-z :.;']+)(?<middle>{(?<type>int|string) (?<varname>[0-9a-z' ]+)}))";
-      Regex reg = new Regex(pattern ,RegexOptions.IgnoreCase);
-      Match m = reg.Match(txt_New_LF.Text);
-      
-      string lfmt = "",
-        icase_regex = "",
-        cs_regex = "";
-      lfmt += txt_New_LF.Text;
-      Hashtable variables = new Hashtable();
-      
-      
-      while (m.Success)
+      string pattern = @"(?<text>[^{}]*)(?<vardecl>\{(?<vartype>[a-zA-Z]+) (?<varname>[a-zA-Z_]+)\})?";
+      Regex reg = new Regex (pattern, RegexOptions.IgnoreCase);
+      Match match = reg.Match (this.txt_New_LF.Text);
+
+      StringBuilder mysql_regex = new StringBuilder ();
+      StringBuilder csharp_regex = new StringBuilder ();
+
+      Hashtable variables = new Hashtable ();
+
+      while (match.Success)
       {
-        string lead = m.Groups["lead"].ToString();
-        string mid = m.Groups["middle"].ToString();
-        string varname = m.Groups["varname"].ToString();
-        string vartype = m.Groups["type"].ToString();
-        
-        // Generate Regular Expressions to extract data
-        icase_regex += lead;
-        cs_regex += lead;
+        // Get the groups from the current capture set.
+        string text =
+          match.Groups["text"].Captures.Count == 1 ?
+          match.Groups["text"].Captures[0].Value : null;
 
-        /* The cs_var_capture automatically names the captured variables
-         *   correctly, so when they are retrieved they have the correct
-         *   names. 
-         * 
-         * You must use @ to escape the slashes in C#, and the two \\
-         *   to escape the slashes in MySql.
-         * End result is stored and retrieved as (?<varname>\d+) in C#.
-         */
-        string cs_var_capture = String.Empty,
-          mysql_type_replace = String.Empty;
-        switch (vartype)
+        string vartype =
+          match.Groups["vartype"].Captures.Count == 1 ?
+          match.Groups["vartype"].Captures[0].Value : null;
+
+        string varname =
+          match.Groups["varname"].Captures.Count == 1 ?
+          match.Groups["varname"].Captures[0].Value : null;
+
+        // First, let's see if there any text that we need to add to the
+        // regular expressions. This will be string literal text.
+        if (text != null)
         {
-          case "int":
-            mysql_type_replace = "[[:digit:]]+";
-            cs_var_capture = "(?<" + varname + @">\d+)";
-            variables.Add( varname, "INT" );
-            break;
-          case "string":
-            mysql_type_replace = "[-a-zA-Z.0-9 :,;+=_]+";
-            cs_var_capture = @"(?<" + varname + @">[-a-zA-Z.0-9 :,;+=]+)";
-            variables.Add( varname, "STRING" );
-            break;
+          mysql_regex.Append (text);
+          csharp_regex.Append (text);
         }
-        // Replace the entire current variable (aka {vartype varname}) with its
-        //   matching counterpart in MySql and C Sharp
-        icase_regex += Regex.Replace( mid, ".+", mysql_type_replace );
-        cs_regex += Regex.Replace( mid, ".+", cs_var_capture );
 
-        m = m.NextMatch();
+        // Next, we need to append the variable to the regular expression
+        if (vartype != null && varname != null)
+        {
+          string vardecl = match.Groups["vardecl"].Captures[0].Value;
+
+          switch (vartype)
+          {
+            case "int":
+            case "INT":
+              // Update the regular expressions.
+              mysql_regex.Append ("[[:digit:]]+");
+              csharp_regex.Append ("(?<" + varname + @">\d+)");
+
+              variables.Add (varname, "INT");
+              break;
+
+            case "string":
+            case "STRING":
+              // Update the regular expressions.
+              mysql_regex.Append ("[-a-zA-Z.0-9 :,;+=_]+");
+              csharp_regex.Append (@"(?<" + varname + @">[-a-zA-Z.0-9 :,;+=]+)");
+
+              variables.Add (varname, "STRING");
+              break;
+
+            default:
+              throw new Exception (vartype + " is not a valid variable type (declartion: " + vardecl + ")");
+          }
+        }
+
+        // Get the next match.
+        match = match.NextMatch ();
       }
 
-      LogFormatActions.Insert_LF( lfmt, icase_regex, cs_regex, variables);
+      // Insert log format into the database.
+      LogFormatActions.Insert_LF (this.txt_New_LF.Text,
+                                  mysql_regex.ToString (),
+                                  csharp_regex.ToString (),
+                                  variables);
 
-      master_.show_info_message( "'" + txt_New_LF.Text + "' added Successfully!" );
+      this.master_.show_info_message ("Successfully created log format: " + this.txt_New_LF.Text);
+      this.txt_New_LF.Text = "";
 
-      this.load_data();
+      // Load the data for the control.
+      this.load_data ();
     }
-    catch
+    catch (Exception ex)
     {
-      master_.show_error_message( "There was a problem adding '" +
-        txt_New_LF.Text + "'. This probably means it is already created." );
+      this.master_.show_error_message (ex.Message);
+      this.master_.show_error_message ("Failed to create log format: " + this.txt_New_LF.Text);
     }
   }
 }

@@ -13,12 +13,17 @@ using System.Text.RegularExpressions;
 using System.Drawing;
 using Actions.UnitTestActions;
 
+/**
+ * @class UT_Create
+ *
+ * Code-behind class for the UT_Create.aspx webpage.
+ */
 public partial class UT_Create : System.Web.UI.Page
 {
   /**
    * Reference to master page used to ease sending messages to the user.
    */
-  private CUTS.Master m_;
+  private CUTS.Master master_;
 
   /**
    * The minimum width for all of the dynamically bound controls on
@@ -26,127 +31,122 @@ public partial class UT_Create : System.Web.UI.Page
    */
   private static double Default_Width_ = 300.0;
 
-  protected void Page_Load ( object sender, EventArgs e )
+  protected void Page_Load (object sender, EventArgs e)
   {
-    m_ = (CUTS.Master)Master;
+    master_ = (CUTS.Master)Master;
 
     if (IsPostBack)
       return;
 
     // Do initial Load of Log Formats
-    this.load_Log_Formats();
+    this.load_log_formats ();
 
     // Hide the info for the second Log Format
-    this.UsingBothLogFormats = false;
+    this.is_using_both_log_formats = false;
   }
 
-  protected void OnClick_Toggle_Second_Log_Format_Visibility ( object sender, EventArgs e )
+  protected void onclick_toggle_second_log_format_visibility (object sender, EventArgs e)
   {
     // If visible, hide.
     // If invisible, show
-    if (this.UsingBothLogFormats)
-      this.UsingBothLogFormats = false;
+    if (this.is_using_both_log_formats)
+      this.is_using_both_log_formats = false;
     else
-      this.UsingBothLogFormats = true;
+      this.is_using_both_log_formats = true;
   }
 
-  protected void OnClick_btn_Submit ( object sender, EventArgs e )
+  protected void onclick_submit (object sender, EventArgs e)
   {
-    ArrayList lfids = new ArrayList();
+    ArrayList lfids = new ArrayList ();
 
     // Check the first log format
-    if (this.UsingBothLogFormats == false &&
-      this.IsValidSelection( Log_Format_List_1 ) == false)
+    if (this.Log_Format_List_1.SelectedIndex == -1)
     {
       // We are only using one LF, and it is invalid
-      m_.show_error_message( "The Log Format is not valid" );
-      return;
+      this.master_.show_error_message ("The first log format is invalid");
     }
-    else if (this.UsingBothLogFormats == true &&
-      (this.IsValidSelection( Log_Format_List_1 ) == false ||
-       this.IsValidSelection( Log_Format_List_2 ) == false))
+    else if (this.is_using_both_log_formats == true &&
+             this.Log_Format_List_2.SelectedIndex == -1)
     {
-      // We are using both log formats, but one is invalid
-      m_.show_error_message( "One of the Log Formats you have selected is " +
-        "invalid." );
-      return;
+      this.master_.show_error_message ("The second log format is invalid");
     }
-
-    // We passed all tests that could involve the first log format,
-    // so we will now add it
-    lfids.Add( Log_Format_List_1.SelectedValue );
-
-
-    // Check if second LF is used
-    // We have already checked that it is valid
-    if (this.UsingBothLogFormats)
-      lfids.Add( Log_Format_List_2.SelectedValue );
-
-    // Validate all inputs.
-    // This should eventually use CustomValidators, but in interest of time
-    //    it is manual for now. There is no speed loss by doing it
-    //    this way.
-    if (UT_name.Text.Length < 3 ||
-        UT_desc.Text.Length < 3 ||
-        UT_fail.Text.Length < 1 ||
-        UT_warn.Text.Length < 1 ||
-        UT_eval.Text.Length < 5 ||
-        Get_MySQL_Comparison( UT_fail_comp.Text ) == String.Empty ||
-        Get_MySQL_Comparison( UT_warn_comp.Text ) == String.Empty ||
-        IsValidSelection(this.Aggregrate_Funtion) == false)
+    else
     {
-      m_.show_error_message( "All fields are required, minimum length for " +
-        "a name or description is three characters." );
-      m_.show_error_message( "Minimum length for evaluation field is " +
-        "five characters" );
-      return;
-    }
+      // We passed all tests that could involve the first log format,
+      // so we will now add it
+      lfids.Add (Log_Format_List_1.SelectedValue);
 
 
-    Hashtable variables = new Hashtable();
-    variables.Add( "Name", UT_name.Text );
-    variables.Add( "Description", UT_desc.Text );
-    variables.Add( "FailComparison", Get_MySQL_Comparison( UT_fail_comp.Text ) );
-    variables.Add( "WarnComparison", Get_MySQL_Comparison( UT_warn_comp.Text ) );
-    variables.Add( "FailValue", UT_fail.Text );
-    variables.Add( "WarnValue", UT_warn.Text );
-    variables.Add( "Evaluation", UT_eval.Text );
-    variables.Add( "LFIDs", lfids.ToArray() );
-    variables.Add( "Aggregration_Func", this.Aggregrate_Funtion.SelectedValue );
+      // Check if second LF is used
+      // We have already checked that it is valid
+      if (this.is_using_both_log_formats)
+        lfids.Add (Log_Format_List_2.SelectedValue);
 
-    // Note Groups are disabled for now
-    /*
-    string[] groups = new string[1];
-    groups[0] = "test_number";
-    variables.Add( "Groups", groups ); */
-
-
-    // Add the relationship Information
-    variables.Add( "UsingBothLogFormats", this.UsingBothLogFormats );
-    if (this.UsingBothLogFormats)
-    {
-      if (Relation_Variable_1.SelectedValue == Relation_Variable_2.SelectedValue)
+      // Validate all inputs.
+      // This should eventually use CustomValidators, but in interest of time
+      //    it is manual for now. There is no speed loss by doing it
+      //    this way.
+      if (UT_name.Text.Length < 3 ||
+          UT_desc.Text.Length < 3 ||
+          UT_fail.Text.Length < 1 ||
+          UT_warn.Text.Length < 1 ||
+          UT_eval.Text.Length < 5 ||
+          get_mysql_comparison (UT_fail_comp.Text) == String.Empty ||
+          get_mysql_comparison (UT_warn_comp.Text) == String.Empty ||
+          this.aggr_function_.SelectedIndex == -1)
       {
-        m_.show_error_message( "A variable cannot be compared against itself!" );
+        this.master_.show_error_message ("All fields are required, minimum length for " +
+          "a name or description is three characters.");
         return;
       }
-      variables.Add( "Relation_Variable_1", Relation_Variable_1.SelectedValue );
-      variables.Add( "Relation_Variable_2", Relation_Variable_2.SelectedValue );
-    }
 
-    try
-    {
-      UnitTestActions.Insert_New_Unit_Test( variables );
+
+      Hashtable variables = new Hashtable ();
+      variables.Add ("Name", UT_name.Text);
+      variables.Add ("Description", UT_desc.Text);
+      variables.Add ("FailComparison", get_mysql_comparison (UT_fail_comp.Text));
+      variables.Add ("WarnComparison", get_mysql_comparison (UT_warn_comp.Text));
+      variables.Add ("FailValue", UT_fail.Text);
+      variables.Add ("WarnValue", UT_warn.Text);
+      variables.Add ("Evaluation", UT_eval.Text);
+      variables.Add ("LFIDs", lfids.ToArray ());
+      variables.Add ("Aggregration_Func", this.aggr_function_.SelectedValue);
+
+      // Note Groups are disabled for now
+      /*
+      string[] groups = new string[1];
+      groups[0] = "test_number";
+      variables.Add( "Groups", groups ); */
+
+
+      // Add the relationship Information
+      variables.Add ("is_using_both_log_formats", this.is_using_both_log_formats);
+      if (this.is_using_both_log_formats)
+      {
+        if (Relation_Variable_1.SelectedValue == Relation_Variable_2.SelectedValue)
+        {
+          this.master_.show_error_message ("A variable cannot be compared against itself!");
+          return;
+        }
+
+        variables.Add ("Relation_Variable_1", Relation_Variable_1.SelectedValue);
+        variables.Add ("Relation_Variable_2", Relation_Variable_2.SelectedValue);
+      }
+
+      try
+      {
+        UnitTestActions.Insert_New_Unit_Test (variables);
+        this.master_.show_info_message ("Successfully created new unit test");
+      }
+      catch (Exception ex)
+      {
+        this.master_.show_error_message (ex.Message);
+        this.master_.show_error_message ("Failed to create new unit test");
+      }
     }
-    catch
-    {
-      m_.show_error_message( "There was a problem adding the UT" );
-      return;
-    }
-    m_.show_info_message( "UT added successfully!" );
   }
 
-  private string Get_MySQL_Comparison ( string comparison )
+  private string get_mysql_comparison (string comparison)
   {
     // They are used directly in the query
     switch (comparison)
@@ -164,105 +164,103 @@ public partial class UT_Create : System.Web.UI.Page
       case "not_equal":
         return @"<>";
       default:
-        m_.show_error_message( "The warn or fail comparison had a problem." +
-          "Please refresh the page and try again." );
+        master_.show_error_message ("The warn or fail comparison had a problem." +
+          "Please refresh the page and try again.");
         return String.Empty;
     }
   }
 
-  private void load_Log_Formats ()
+  private void load_log_formats ()
   {
     string sql = "SELECT lfid,lfmt FROM logformatdesc";
-    DataTable data = ExecuteMySqlAdapter( sql );
+    DataTable data = execute_mysql_adapter (sql);
 
     // Load first DDL of LogFormats
     Log_Format_List_1.DataSource = data;
     Log_Format_List_1.DataTextField = "lfmt";
     Log_Format_List_1.DataValueField = "lfid";
-    Log_Format_List_1.DataBind();
-    Log_Format_List_1.Items.Insert( 0, "Please choose a Log Format . . ." );
+    Log_Format_List_1.DataBind ();
 
     // Load second
     Log_Format_List_2.DataSource = data;
     Log_Format_List_2.DataTextField = "lfmt";
     Log_Format_List_2.DataValueField = "lfid";
-    Log_Format_List_2.DataBind();
-    Log_Format_List_2.Items.Insert( 0, "Please choose a Log Format . . ." );
+    Log_Format_List_2.DataBind ();
 
     // Ensure the width
-    Ensure_Width( Log_Format_List_1 );
-    Ensure_Width( Log_Format_List_2 );
+    ensure_width (Log_Format_List_1);
+    ensure_width (Log_Format_List_2);
   }
 
-  private void load_Relation_Form ()
+  private void load_relation_form ()
   {
-    if (UsingBothLogFormats == false)
+    if (is_using_both_log_formats == false)
       return;
 
     // Ensure the validity of both LF's selected
-    if (IsValidSelection( this.Log_Format_List_1 ) == false ||
-              IsValidSelection( this.Log_Format_List_2 ) == false)
+    if (is_valid_selection (this.Log_Format_List_1) == false ||
+              is_valid_selection (this.Log_Format_List_2) == false)
     {
-      m_.show_error_message( "Before the relationship lists can be populated,"+
-        "you must select two valid logformats." );
+      master_.show_error_message ("Before the relationship lists can be populated," +
+        "you must select two valid logformats.");
 
       // Ensure the width of both DropDownLists
-      Ensure_Width( Relation_Variable_1 );
-      Ensure_Width( Relation_Variable_2 );
+      ensure_width (Relation_Variable_1);
+      ensure_width (Relation_Variable_2);
       return;
     }
 
     // show the relation form
-    this.RelationsVisible = true;
+    this.is_relation_visible = true;
 
     // Grab the extended variable names and the variable id's for the first
     // Log Format
     string sql = "CALL Get_LFID_info('" +
       this.Log_Format_List_1.SelectedValue + "');";
-    DataTable dt = ExecuteMySqlAdapter( sql );
+    DataTable dt = execute_mysql_adapter (sql);
 
     // Bind the data
     Relation_Variable_1.DataSource = dt;
     Relation_Variable_1.DataTextField = "extended_varname";
     Relation_Variable_1.DataValueField = "variable_id";
-    Relation_Variable_1.DataBind();
+    Relation_Variable_1.DataBind ();
 
     // Grab the extended variable names and the variable id's for the second
     // Log Format
     sql = "CALL Get_LFID_info('" + Log_Format_List_2.SelectedValue + "');";
-    dt = ExecuteMySqlAdapter( sql );
+    dt = execute_mysql_adapter (sql);
 
     // Bind the data
     Relation_Variable_2.DataSource = dt;
     Relation_Variable_1.DataTextField = "extended_varname";
     Relation_Variable_1.DataValueField = "variable_id";
-    Relation_Variable_2.DataBind();
+    Relation_Variable_2.DataBind ();
 
     // Ensure the widths of the DropDownLists
-    Ensure_Width( Relation_Variable_1 );
-    Ensure_Width( Relation_Variable_2 );
+    ensure_width (Relation_Variable_1);
+    ensure_width (Relation_Variable_2);
   }
 
-  protected void OnChange_Log_Format_List_1 ( object sender, EventArgs e )
+  protected void onchange_log_format_list_1 (object sender, EventArgs e)
   {
-    if (this.IsValidSelection(this.Log_Format_List_1) == false)
+    if (!this.is_valid_selection (this.Log_Format_List_1))
       return;
 
-    this.Log_Format_1_Prefix.Text = "Prefix Variables with LF" +
-     this.Log_Format_List_1.SelectedValue;
+    this.Log_Format_1_Prefix.Text =
+      "variable prefix: LF" + this.Log_Format_List_1.SelectedValue;
 
-    load_Relation_Form();
+    load_relation_form ();
   }
 
-  protected void OnChange_Log_Format_List_2 ( object sender, EventArgs e )
+  protected void onchange_log_format_list_2 (object sender, EventArgs e)
   {
-    if (this.IsValidSelection(this.Log_Format_List_2) == false)
+    if (this.is_valid_selection (this.Log_Format_List_2) == false)
       return;
 
     Log_Format_2_Prefix.Text = "Prefix Variables with LF" +
       Log_Format_List_2.SelectedValue;
 
-    load_Relation_Form();
+    load_relation_form ();
   }
 
   /**
@@ -272,10 +270,10 @@ public partial class UT_Create : System.Web.UI.Page
    *              of dynamic databound control is added, then an
    *              override will need to be created.
    */
-  private void Ensure_Width (DropDownList d)
+  private void ensure_width (DropDownList d)
   {
     if (d.Width.Value < Default_Width_)
-      d.Width = new Unit( Default_Width_ );
+      d.Width = new Unit (Default_Width_);
   }
 
   /**
@@ -287,22 +285,24 @@ public partial class UT_Create : System.Web.UI.Page
    * @retval true   Indicates the relationship form is visible.
    * @retval false  Indicates the relationship form is not visible.
    */
-  private bool RelationsVisible
+  private bool is_relation_visible
   {
-    get { return this.relation_head.Visible; }
+    get
+    {
+      return this.relation_head.Visible;
+    }
+
     set
     {
       relation_head.Visible = value;
       Relation_Variable_1.Visible = value;
       Relation_Variable_2.Visible = value;
       relation_text.Visible = value;
-      Spacer1.Visible = value;
-      Spacer2.Visible = value;
 
       if (value == true)
       {
-        Ensure_Width( Relation_Variable_1 );
-        Ensure_Width( Relation_Variable_2 );
+        this.ensure_width (Relation_Variable_1);
+        this.ensure_width (Relation_Variable_2);
       }
     }
   }
@@ -319,7 +319,7 @@ public partial class UT_Create : System.Web.UI.Page
    * @retval false  The selection is invalid and cannot be safey
    *                used elsewhere.
    */
-  private bool IsValidSelection ( DropDownList d )
+  private bool is_valid_selection (DropDownList d)
   {
     if (d.SelectedIndex < 1)
       return false;
@@ -333,19 +333,19 @@ public partial class UT_Create : System.Web.UI.Page
    * @retval true     Both Log Formats are being used.
    * @retval false    Only the first Log Format is being used.
    */
-  private bool UsingBothLogFormats
+  private bool is_using_both_log_formats
   {
     get { return Log_Format_List_2.Visible; }
     set
     {
       Log_Format_2_Prefix.Visible = value;
       Log_Format_List_2.Visible = value;
-      RelationsVisible = value;
+      is_relation_visible = value;
 
       if (value == true)
-        btn_more_lfs.Text = "[-] I only need one Log Format";
+        more_log_formats_.Text = "I only need one log format";
       else
-        btn_more_lfs.Text = "[+] I need more Log Formats";
+        more_log_formats_.Text = "I need more log formats";
     }
   }
 
@@ -356,16 +356,16 @@ public partial class UT_Create : System.Web.UI.Page
    *
    * @param sql    The statement to be executed.
    */
-  private DataTable ExecuteMySqlAdapter ( string sql )
+  private DataTable execute_mysql_adapter (string sql)
   {
-    MySqlConnection conn = new MySqlConnection( ConfigurationManager.AppSettings["MySQL"] );
-    conn.Open();
-    MySqlDataAdapter da = new MySqlDataAdapter( sql, conn );
-    DataSet ds = new DataSet();
-    try { da.Fill( ds ); }
-    catch { throw new ArgumentException( "The sql executed was : " + sql ); }
-    finally { conn.Close(); }
+    MySqlConnection conn = new MySqlConnection (ConfigurationManager.AppSettings ["MySQL"]);
+    conn.Open ();
+    MySqlDataAdapter da = new MySqlDataAdapter (sql, conn);
+    DataSet ds = new DataSet ();
+    try { da.Fill (ds); }
+    catch { throw new ArgumentException ("The sql executed was : " + sql); }
+    finally { conn.Close (); }
 
-    return ds.Tables[0];
+    return ds.Tables [0];
   }
 }

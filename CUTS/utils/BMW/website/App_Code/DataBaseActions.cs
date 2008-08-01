@@ -59,14 +59,14 @@ namespace Actions.DataBaseActions
       return comm;
     }
 
-    public DataTable ExecuteMySqlAdapter ( string sql )
+    public DataTable execute_mysql_adapter ( string sql )
     {
       MySqlDataAdapter da = new MySqlDataAdapter( sql, conn_);
       DataSet ds = new DataSet();
       da.Fill( ds );
       return ds.Tables[0];
     }
-    public DataTable ExecuteMySqlAdapter ( MySqlCommand command )
+    public DataTable execute_mysql_adapter ( MySqlCommand command )
     {
       MySqlDataAdapter da = new MySqlDataAdapter( command );
       DataSet ds = new DataSet();
@@ -87,7 +87,7 @@ namespace Actions.DataBaseActions
 
     public DataRow ExecuteMySqlRow ( MySqlCommand comm )
     {
-      DataTable dt = this.ExecuteMySqlAdapter( comm );
+      DataTable dt = this.execute_mysql_adapter( comm );
       return dt.Rows[0];
     }
 
