@@ -1,3 +1,11 @@
+Thu Aug  7 18:26:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . Bug fix where the clicking the 'I need more log formats' link
+            created a new dropdown list, however, it was not initialized
+            with the valid log formats.
+
 Thu Aug  7 14:22:42 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/App_Code/UnitTestActions.cs:

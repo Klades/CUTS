@@ -47,11 +47,11 @@ public partial class Unit_Testing : System.Web.UI.Page
 
       // Insert all the rows. The first row does not get a relation control.
       for (; rows < formats; ++ rows)
-        this.insert_new_log_format ();
+        this.insert_new_log_format (true);
     }
     else
     {
-      this.insert_new_log_format ();
+      this.insert_new_log_format (false);
       this.ViewState["formats"] = 1;
     }
 
@@ -772,7 +772,7 @@ public partial class Unit_Testing : System.Web.UI.Page
   protected void onclick_more_log_formats (object sender, EventArgs e)
   {
     // Insert a new log message format into the table.
-    this.insert_new_log_format ();
+    this.insert_new_log_format (false);
 
     // Get and update the number of log formats that were created dynamically.
     int formats =
@@ -785,7 +785,7 @@ public partial class Unit_Testing : System.Web.UI.Page
   /**
    * Helper method for inserting a new log format into the table
    */
-  private void insert_new_log_format ()
+  private void insert_new_log_format (bool use_viewstate)
   {
     // Create the prefix label for the log format.
     Literal prefix = new Literal ();
@@ -843,7 +843,7 @@ public partial class Unit_Testing : System.Web.UI.Page
     // Insert the new row into the table.
     this.log_formats_.Rows.Add (new_row);
 
-    if (!this.IsPostBack)
+    if (!use_viewstate)
     {
       // Bind the data to the dropdown list control. This will trigger the
       // ondatabound event, which will initialize the prefix label.
