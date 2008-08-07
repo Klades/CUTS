@@ -102,7 +102,10 @@ namespace Actions.UnitTestActions
       dba.ExecuteMySql (comm);
     }
 
-    public static DataTable evaluate_unit_test (int test_number, int utid)
+    public static DataTable evaluate_unit_test (int test_number,
+                                                int utid,
+                                                bool aggregrate,
+                                                ref string evaluation)
     {
       CUTS.Variable_Table vtable = new CUTS.Variable_Table ("vtable");
 
@@ -155,9 +158,25 @@ namespace Actions.UnitTestActions
         string aggr_stmt = (string)ds.Tables["evaluation"].Rows[0]["aggr"];
 
         // Finally, construct the entire SQL statement for the evaluation.
-        string sql_result =
-          "SELECT " + aggr_stmt + "(" + eval_escaped_stmt + ") AS result FROM " +
-          vtable.data.TableName;
+
+        string sql_result;
+
+        if (aggregrate)
+        {
+          sql_result =
+            "SELECT " + aggr_stmt + "(" + eval_escaped_stmt + ") AS result FROM " +
+            vtable.data.TableName;
+
+          evaluation = aggr_stmt + "(" + eval_stmt + ")";
+        }
+        else
+        {
+          sql_result =
+            "SELECT " + eval_escaped_stmt + " AS result FROM " +
+            vtable.data.TableName;
+
+          evaluation = eval_stmt;
+        }
 
         // Execute the statement, which will calculate the result.
         command = dba.GetCommand (sql_result);

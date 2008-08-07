@@ -1,3 +1,24 @@
+Thu Aug  7 14:22:42 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/App_Code/UnitTestActions.cs:
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/unittestchart.aspx:
+        * utils/BMW/website/unittestchart.aspx.cs:
+
+          . Bug fix where the dataset charted for the unit test was not
+            correct. This was fixed by extending the new methods used to
+            evaluate a single unit test below to return the entire dataset
+            if needed.
+
+          . The title for the chart now shows the evaluation function. We
+            should also show the log messages that are used in the evaluation
+            on this page.
+
+        * utils/BMW/website/UT_Chart.aspx:
+        * utils/BMW/website/UT_Chart.aspx.cs:
+
+          . Removed these files.
+
 Thu Aug  7 05:26:33 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-unittest.sql:

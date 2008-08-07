@@ -246,10 +246,16 @@ namespace CUTS
       if (dt.Rows.Count < 1)
         return;
 
-      // For each Unit Test
+      string evaluation = String.Empty;
+
       foreach (DataRow row in dt.Rows)
       {
-        DataTable temp = UnitTestActions.evaluate_unit_test (this.test_number_, (int)row["id"]);
+
+        DataTable temp =
+          UnitTestActions.evaluate_unit_test (this.test_number_,
+                                              (int)row["id"],
+                                              true,
+                                              ref evaluation);
 
         // Evaluate
         //DataTable temp =
@@ -261,7 +267,7 @@ namespace CUTS
               "' in '" + Package_Name + "'");
           //row ["Evaluation"] = "No Data";
           row ["Result"] = "No Data";
-          row ["Chart"] = @"<a href='UT_Chart.aspx?utid=" + row ["id"].ToString () +
+          row ["Chart"] = @"<a href='unittestchart.aspx?utid=" + row ["id"].ToString () +
               "'>Chart</a>";
         }
         else
@@ -271,8 +277,10 @@ namespace CUTS
           // Add Results of Evaluation to Main Table
           //row ["Evaluation"] = temp_Row ["evaluation"];
           row ["Result"] = temp_Row ["result"];
-          row ["Chart"] = @"<a href='UT_Chart.aspx?utid=" + row ["id"].ToString () +
-            "&t=" + this.test_number_ + "'>Chart</a>";
+
+          row["Chart"] =
+            "<a href='unittestchart.aspx?utid=" + row["id"].ToString () +
+            "&t=" + this.test_number_ + "'>view dataset</a>";
         }
       }
 
