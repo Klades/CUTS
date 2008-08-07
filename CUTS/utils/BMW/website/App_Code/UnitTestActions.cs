@@ -33,6 +33,7 @@ namespace Actions.UnitTestActions
     {
       string sql = "CALL Insert_UT(?name,?desc,?fail_comp,?warn_comp,?eval,?fail,?warn,?aggreg_func);";
       MySqlCommand comm = dba.GetCommand (sql);
+
       comm.Parameters.AddWithValue ("?name", Variables["Name"]);
       comm.Parameters.AddWithValue ("?desc", Variables["Description"]);
       comm.Parameters.AddWithValue ("?fail_comp", Variables["FailComparison"]);
@@ -44,16 +45,18 @@ namespace Actions.UnitTestActions
 
       int utid = dba.ExecuteMySqlScalar (comm);
 
-      if ((bool)Variables["is_using_both_log_formats"] == true)
-        Insert_UT_Relation (utid, (string)Variables["Relation_Variable_1"],
-          (string)Variables["Relation_Variable_2"]);
+      string[] formats = (string [])Variables["Formats"];
 
-      foreach (string lfid in (Array)Variables["LFIDs"])
+      foreach (string lfid in formats)
         Insert_UT_LogFormat (utid, lfid);
 
-      // Note Groups are disabled for now
-      /* foreach (string VariableID in (Array)Variables["Groups"])
-           Insert_UT_Group( utid, VariableID ); */
+      if (formats.Length > 1)
+      {
+        Pair[] relations = (Pair [])Variables["Relations"];
+
+        foreach (Pair relation in relations)
+          Insert_UT_Relation (utid, relation.First.ToString (), relation.Second.ToString ());
+      }
     }
 
     public static void Insert_Existing_Unit_Test (string Package_ID_, string Unit_Test_ID_)
@@ -99,19 +102,66 @@ namespace Actions.UnitTestActions
       dba.ExecuteMySql (comm);
     }
 
-    public static DataTable Evalate_UT_for_single_test (int utid, int test_number)
+    public static DataTable evaluate_unit_test (int test_number, int utid)
     {
+      CUTS.Variable_Table vtable = new CUTS.Variable_Table ("vtable");
+
+      // Yeah, this REALLY needs to go. It is clearly an incorrect use of the
+      // singleton software design pattern!!
+      if (dsa == null)
+        dsa = new DataSetActions (dba, utid);
+
       try
       {
-        PreLoad_UT (utid);
-        string sql = "CALL evaluate_unit_test_single(?utid, ?tnum);";
+        // Get the variable table for this unit test. This table is then sent
+        // back to the database for processing, i.e., to execute the user-defined
+        // expression to evaluate the unit test.
 
-        MySqlCommand command = dba.GetCommand (sql);
+        create_variable_table (test_number, utid, ref vtable);
+
+        dsa.create_table_in_database (vtable.data);
+        dsa.populate_table_in_database (vtable.data);
+
+        //  // Preload the database with the valid table. Each log format for the given
+        //  // test will have its own table.
+        //  PreLoad_UT (test_number, utid);
+
+        MySqlCommand command = dba.GetCommand ("");
         command.Parameters.AddWithValue ("?utid", utid);
-        command.Parameters.AddWithValue ("?tnum", test_number);
 
-        DataTable dt = dba.execute_mysql_adapter (command);
-        return dt;
+        DataSet ds = new DataSet ();
+        MySqlDataAdapter adapter = new MySqlDataAdapter (command);
+
+        // SQL statements for extracting data to construct the final SQL
+        // that calculates the result for the unit test.
+        string sql_eval =
+          "SELECT evaluation AS eval, REPLACE(evaluation, '.', '_') AS eval_escaped, aggregration_function AS aggr " +
+          "FROM cuts.unittestdesc WHERE utid = ?utid";
+
+        // Run each of the SQL statements, and store the results in
+        // a seperate table for later.
+        command.CommandText = sql_eval;
+        adapter.Fill (ds, "evaluation");
+
+        //  command.CommandText = sql_formats;
+        //  adapter.Fill (ds, "tables");
+
+        //  command.CommandText = sql_relations;
+        //  adapter.Fill (ds, "relations");
+
+        // Get the evaluation and aggregation functions.
+        string eval_stmt = (string)ds.Tables["evaluation"].Rows[0]["eval"];
+        string eval_escaped_stmt = (string)ds.Tables["evaluation"].Rows[0]["eval_escaped"];
+        string aggr_stmt = (string)ds.Tables["evaluation"].Rows[0]["aggr"];
+
+        // Finally, construct the entire SQL statement for the evaluation.
+        string sql_result =
+          "SELECT " + aggr_stmt + "(" + eval_escaped_stmt + ") AS result FROM " +
+          vtable.data.TableName;
+
+        // Execute the statement, which will calculate the result.
+        command = dba.GetCommand (sql_result);
+        return dba.execute_mysql_adapter (command);
       }
       catch (Exception ex)
       {
@@ -119,34 +169,114 @@ namespace Actions.UnitTestActions
       }
       finally
       {
-        UnLoad_UT (utid);
+        // Make sure we remove the data from the database.
+        dsa.RemoveTable (vtable.data.TableName);
       }
     }
 
-    public static DataTable Evaluate_UT_for_all_tests (int utid)
+    public static DataTable Evalate_UT_for_single_test (int utid, int test_number)
     {
       try
       {
-        PreLoad_UT (utid);
-        string sql = "CALL evaluate_unit_test_full(?utid);";
+      //  // Preload the database with the valid table. Each log format for the given
+      //  // test will have its own table.
+      //  PreLoad_UT (test_number, utid);
 
-        MySqlCommand command = dba.GetCommand (sql);
+        MySqlCommand command = dba.GetCommand ("");
         command.Parameters.AddWithValue ("?utid", utid);
 
-        DataTable dt = dba.execute_mysql_adapter (command);
-        return dt;
+        DataSet ds = new DataSet ();
+        MySqlDataAdapter adapter = new MySqlDataAdapter (command);
+
+        // SQL statements for extracting data to construct the final SQL
+        // that calculates the result for the unit test.
+        string sql_eval =
+          "SELECT evaluation AS eval, aggregration_function AS aggr " +
+          "FROM cuts.unittestdesc WHERE utid = ?utid";
+
+        // Run each of the SQL statements, and store the results in
+        // a seperate table for later.
+        command.CommandText = sql_eval;
+        adapter.Fill (ds, "evaluation");
+
+      //  command.CommandText = sql_formats;
+      //  adapter.Fill (ds, "tables");
+
+      //  command.CommandText = sql_relations;
+      //  adapter.Fill (ds, "relations");
+
+        // Get the evaluation and aggregation functions.
+        string eval_stmt = (string)ds.Tables["evaluation"].Rows[0]["eval"];
+        string aggr_stmt = (string)ds.Tables["evaluation"].Rows[0]["aggr"];
+
+      //  // Construct the FROM clause using the table names for storing the
+      //  // data for each log message.
+      //  ArrayList table_names = new ArrayList ();
+
+      //  foreach (DataRow row in ds.Tables["tables"].Rows)
+      //    table_names.Add (row["lftable"]);
+
+      //  string from_clause =
+      //    "FROM " + String.Join (", ", (string [])table_names.ToArray (typeof (string)));
+
+      //  // Construct the WHERE clause, which is based on the relations between
+      //  // each of the log formats.
+      //  string where_clause = "";
+
+      //  if (table_names.Count > 1)
+      //  {
+      //    ArrayList relations = new ArrayList ();
+
+      //    foreach (DataRow row in ds.Tables["relations"].Rows)
+      //      relations.Add (row["relation"]);
+
+      //    where_clause =
+      //      "WHERE " + String.Join (" AND ", (string [])relations.ToArray (typeof (string)));
+      //  }
+
+      //  // Finally, construct the entire SQL statement for the evaluation.
+      //  string sql_result =
+      //    "SELECT " + utid + ", " + aggr_stmt + "(" + eval_stmt + ") AS result " +
+      //    from_clause + " " + where_clause;
+
+      //  command = dba.GetCommand (sql_result);
+      //  return dba.execute_mysql_adapter (command);
       }
-      catch (Exception ex) { throw ex; }
-      finally { UnLoad_UT (utid); }
+      catch (Exception ex)
+      {
+        throw ex;
+      }
+      finally
+      {
+        // Make sure we remove the data from the database.
+      }
+
+      return null;
     }
 
+    //public static DataTable Evaluate_UT_for_all_tests (int utid)
+    //{
+    //  try
+    //  {
+    //    PreLoad_UT (utid);
+    //    string sql = "CALL evaluate_unit_test_full(?utid);";
+
+    //    MySqlCommand command = dba.GetCommand (sql);
+    //    command.Parameters.AddWithValue ("?utid", utid);
+
+    //    DataTable dt = dba.execute_mysql_adapter (command);
+    //    return dt;
+    //  }
+    //  catch (Exception ex) { throw ex; }
+    //  finally { UnLoad_UT (utid); }
+    //}
 
     public static DataTable Evalate_UT_as_metric (int utid, int test_number)
     {
       try
       {
 
-        PreLoad_UT (utid);
+        PreLoad_UT (test_number, utid);
         string sql = "CALL evaluate_unit_test_as_metric(?utid,?test_number);";
 
         MySqlCommand command = dba.GetCommand (sql);
@@ -235,7 +365,7 @@ namespace Actions.UnitTestActions
 
     public static DataTable Get_Unit_Tests (string Package_ID_)
     {
-      string sql = "SELECT utid,name " +
+      string sql = "SELECT utid, name " +
                    "FROM unittestdesc AS utd,packages_unit_tests AS put " +
                    "WHERE put.id=?p_id AND put.ut_id=utd.utid;";
       MySqlCommand comm = dba.GetCommand (sql);
@@ -265,7 +395,155 @@ namespace Actions.UnitTestActions
         dsa.RemoveTable ("LF" + CurrentLFID.ToString ());
     }
 
-    private static void PreLoad_UT (int utid)
+    private static void create_variable_table (int test, int utid, ref CUTS.Variable_Table vtable)
+    {
+      DataSet ds = new DataSet ();
+
+      MySqlCommand command = dba.GetCommand ("");
+      MySqlDataAdapter adapter = new MySqlDataAdapter (command);
+      command.Parameters.AddWithValue ("?utid", utid);
+
+      // Get the variabes for this unit test.
+      command.CommandText = "CALL cuts.select_unit_test_variables (?utid)";
+      command.Prepare ();
+
+      adapter.Fill (ds, "variables");
+
+      // Get the relations for this unit test.
+      command.CommandText = "CALL cuts.select_unit_test_relations_as_set (?utid)";
+      command.Prepare ();
+
+      adapter.Fill (ds, "relations");
+
+      // Get all the log formats for this unit test.
+      command.CommandText = "CALL cuts.select_unit_test_log_formats (?utid)";
+      command.Prepare ();
+
+      adapter.Fill (ds, "logformats");
+
+      // Create the relations for this unit test
+      CUTS.Relations relations = new CUTS.Relations ();
+
+      foreach (DataRow row in ds.Tables["relations"].Rows)
+        relations.insert ((string)row["lhs"], (string)row["rhs"]);
+
+      // Create the variables for this unit test. This involves getting
+      // the variables from the database, and creating data table based
+      // on the variable types and their names.
+      Hashtable vars = new Hashtable ();
+
+      foreach (DataRow row in ds.Tables["variables"].Rows)
+        vars.Add (row["fq_name"], row["vartype"]);
+
+      vtable.reset (vars);
+
+      // Prepare the command that will be used to select the log messages
+      // based on the log formats of the current unit test.
+      MySqlCommand logdata_command =
+        dba.GetCommand ("CALL cuts.select_log_data_by_test (?test, ?lfid)");
+
+      // Initialize the parameters for the statement.
+      logdata_command.Parameters.AddWithValue ("?test", test);
+
+      MySqlParameter lfid_parameter = logdata_command.CreateParameter ();
+      lfid_parameter.ParameterName = "?lfid";
+      lfid_parameter.DbType = DbType.Int32;
+
+      // Insert the parameter into the command.
+      logdata_command.Parameters.Add (lfid_parameter);
+
+      // Update the select command for the adapter.
+      adapter.SelectCommand = logdata_command;
+
+      // Iterate over each of the log formats and select the log messages
+      // for the current test that match the format. The log message are
+      // returned in order of [hostname, msgtime].
+
+      foreach (DataRow logformat in ds.Tables["logformats"].Rows)
+      {
+        // Set the parameter value.
+        int lfid = (int)logformat["lfid"];
+        lfid_parameter.Value = lfid;
+
+        // Clear the 'logdata' table.
+        if (ds.Tables.Contains ("logdata"))
+          ds.Tables["logdata"].Clear ();
+
+        // Prepare the command then fill a data table. This will select
+        // all the log data for the current log format.
+        logdata_command.Prepare ();
+        adapter.Fill (ds, "logdata");
+
+        // Set the log format id filter for later.
+        string lfid_filter = "lfid = " + lfid;
+
+        // Get the variables for this log format.
+        DataRow [] log_variables = ds.Tables["variables"].Select (lfid_filter);
+
+        // Locate the variable that is the relation variable for this log
+        // message. There may be more than one, but we only need to locate
+        // one. It will be used for indexing into the data table.
+        string relation_varname = String.Empty;
+        string relation_fq_name = String.Empty;
+
+        foreach (DataRow variable in log_variables)
+        {
+          string fq_name = (string)variable["fq_name"];
+
+          if (relations.is_relation_variable (fq_name))
+          {
+            relation_varname = (string)variable["varname"];
+            relation_fq_name = fq_name;
+            break;
+          }
+        }
+
+        // Create a regular expression to locate the variables in the
+        // each of the log messages.
+        string regex = (string)logformat["csharp_regex"];
+        Regex variable_regex = new Regex (regex);
+
+        foreach (DataRow logdata in ds.Tables["logdata"].Rows)
+        {
+          // Apply the C# regular expression to the log message.
+          string message = (string)logdata["message"];
+          Match variable_match = variable_regex.Match (message);
+
+          object value;
+          int index = -1;
+
+          // First, get the index of the relation variable. This will be used to
+          // index into the variable table for this log message.
+          if (relation_varname != String.Empty &&
+              relation_fq_name != String.Empty)
+          {
+            value = variable_match.Groups[relation_varname].Captures[0].Value;
+            index = relations.update (relation_fq_name, value);
+          }
+
+          foreach (DataRow variable in log_variables)
+          {
+            // Get the name of the variable.
+            string varname = (string)variable["varname"];
+            string fq_name = (string)variable["fq_name"];
+
+            // Get the value of the variable from the match.
+            value = variable_match.Groups[varname].Captures[0].Value;
+
+            // Either we update an existing location in the variable table,
+            // or we just append the data if there are no relations.
+            if (index != -1)
+              vtable.update_value (index, fq_name, value);
+            else
+              vtable.add_value (fq_name, value);
+          }
+        }
+      }
+
+      // Now that
+    }
+
+    private static void PreLoad_UT (int test, int utid)
     {
       /*
        *
@@ -277,7 +555,6 @@ namespace Actions.UnitTestActions
        */
       if (dsa == null)
         dsa = new DataSetActions (dba, utid);
-
 
       Array LFIDs = LogFormatActions.LogFormatActions.GetLFIDs (utid);
 
@@ -295,7 +572,7 @@ namespace Actions.UnitTestActions
         string TableName = "LF" + CurrentLFID.ToString ();
         dsa.AddTable (TableName, VariableNames);
 
-        dsa.FillTable (CurrentLFID, cs_regex, VariableNames);
+        dsa.FillTable (test, CurrentLFID, cs_regex, VariableNames);
       }
 
       dsa.SendToDB ();
@@ -315,7 +592,7 @@ namespace Actions.UnitTestActions
 
     private static void Insert_UT_LogFormat (int utid, string lfid)
     {
-      string sql = "CALL Insert_UT_LogFormat(?utid,?lfid);";
+      string sql = "CALL Insert_UT_LogFormat (?utid, ?lfid);";
       MySqlCommand comm = dba.GetCommand (sql);
       comm.Parameters.AddWithValue ("?utid", utid);
       comm.Parameters.AddWithValue ("?lfid", lfid);
@@ -360,10 +637,19 @@ namespace Actions.UnitTestActions
        */
       public void AddTable (string tableName, Hashtable columnInfo)
       {
-        DataTable dt_ = new DataTable (tableName);
+        DataTable table = new DataTable (tableName);
+
+        // Create an indexer for the data value. This will be used to uniquely
+        // identify all the variables in a single evaluation across many log
+        // messages.
+        table.Columns.Add (new DataColumn ("rowid", typeof (System.Int32)));
+
+        // The test number should always be a column.
+        table.Columns.Add (new DataColumn ("test_number", typeof (System.Int32)));
 
         string[] keys = new string[columnInfo.Count];
         columnInfo.Keys.CopyTo (keys, 0);
+
         foreach (string column_name in keys)
         {
           DataColumn dc = new DataColumn (column_name);
@@ -372,18 +658,16 @@ namespace Actions.UnitTestActions
           switch (columnInfo[column_name].ToString ())
           {
             case "INT":
-              dc.DataType = Type.GetType ("System.Int32");
+              dc.DataType = typeof (System.Int32);
               break;
+
             case "STRING":
-              dc.DataType = Type.GetType ("System.String");
+              dc.DataType = typeof (System.String);
               break;
           }
 
-          dt_.Columns.Add (dc);
+          table.Columns.Add (dc);
         }
-
-        // test_number should always be a column
-        dt_.Columns.Add (new DataColumn ("test_number", System.Type.GetType ("System.Int32")));
 
         // This is to fix a bug in visual studio where the ds_ tables are
         // maintained inside the temp directory and so the add
@@ -391,7 +675,7 @@ namespace Actions.UnitTestActions
         if (ds_.Tables.Contains (tableName))
           ds_.Tables.Remove (tableName);
 
-        ds_.Tables.Add (dt_);
+        ds_.Tables.Add (table);
       }
 
       public void RemoveTable (string tableName)
@@ -413,13 +697,15 @@ namespace Actions.UnitTestActions
        * @param[in]   variables A hashtable that contains the variable
        *                          names as keys, and types as values.
        */
-      public void FillTable (int lfid, string cs_regex, Hashtable variables)
+      public void FillTable (int test, int lfid, string cs_regex, Hashtable variables)
       {
         // Get the actual log messages and test_numbers
-        string sql = "CALL Get_log_data(?lfid);";
+        string sql = "CALL get_log_data_by_test (?test, ?lfid);";
         MySqlCommand comm = dba.GetCommand (sql);
+        comm.Parameters.AddWithValue ("?test", test);
         comm.Parameters.AddWithValue ("?lfid", lfid);
-        DataTable dt_ = dba.execute_mysql_adapter (comm);
+
+        DataTable table = dba.execute_mysql_adapter (comm);
 
         /*   Iterate over each Row
          *   Regex the data out
@@ -428,11 +714,10 @@ namespace Actions.UnitTestActions
 
         string TableName = "LF" + lfid.ToString ();
 
-
-        foreach (DataRow row in dt_.Rows)
+        foreach (DataRow row in table.Rows)
         {
           // Get the row to put data into
-          DataRow NewRow = GetRow (TableName);
+          DataRow new_row = GetRow (TableName);
 
           Regex reg = new Regex (cs_regex, RegexOptions.IgnoreCase);
           Match mat = reg.Match (row["message"].ToString ());
@@ -441,29 +726,35 @@ namespace Actions.UnitTestActions
           variables.Keys.CopyTo (variable_names, 0);
 
           if (mat.Success == false)
+          {
             throw new Exception ("The log message '" + row["message"].ToString () +
               "' was matched by the DataBase engine, but was not matched by " +
               " the C# Regular Expression of '" + cs_regex + "'. ");
+          }
+
+          // Set the test number and the rowid for the new row.
+          new_row["rowid"] = ds_.Tables[TableName].Rows.Count;
+          new_row["test_number"] = row["test_number"];
+
           foreach (string varname in variable_names)
           {
             // Get the type associated with the current column
             Type type = this.ds_.Tables[TableName].Columns[varname].DataType;
+
             switch (type.ToString ())
             {
               case "System.Int32":
-                NewRow[varname] = Int32.Parse (mat.Groups[varname].ToString ());
+                new_row[varname] = Int32.Parse (mat.Groups[varname].ToString ());
                 break;
+
               case "System.String":
-                NewRow[varname] = mat.Groups[varname].ToString ();
+                new_row[varname] = mat.Groups[varname].ToString ();
                 break;
             }
           }
 
-
-          // There should always be a test_number
-          NewRow["test_number"] = row["test_number"];
-
-          InsertRow (TableName, NewRow);
+          // Insert the row into the database.
+          InsertRow (TableName, new_row);
         }
       }
 
@@ -472,7 +763,7 @@ namespace Actions.UnitTestActions
         CreateTablesInDB ();
 
         foreach (DataTable table in ds_.Tables)
-          SendTableToDB (table.TableName);
+          this.populate_table_in_database (table);
       }
 
       private DataRow GetRow (string TableName)
@@ -480,49 +771,119 @@ namespace Actions.UnitTestActions
         return ds_.Tables[TableName].NewRow ();
       }
 
-      private void InsertRow (string TableName, DataRow NewRow)
+      private void InsertRow (string TableName, DataRow new_row)
       {
-        ds_.Tables[TableName].Rows.Add (NewRow);
+        ds_.Tables[TableName].Rows.Add (new_row);
+      }
+
+      public void create_table_in_database (DataTable table)
+      {
+        ArrayList column_list = new ArrayList ();
+        string column_decl;
+
+        foreach (DataColumn column in table.Columns)
+        {
+          column_decl = column.ColumnName.Replace ('.', '_') + " ";
+
+          switch (column.DataType.ToString ())
+          {
+            case "System.String":
+              column_decl += "VARCHAR (256)";
+              break;
+
+            case "System.Int32":
+              column_decl += "INT";
+              break;
+
+            default:
+              throw new Exception ("Unknown column type: " + column.DataType.ToString ());
+          }
+
+          // Insert the column declaration into the database.
+          column_list.Add (column_decl);
+        }
+
+        string table_columns =
+          String.Join (", ", (string[])column_list.ToArray (typeof (string)));
+
+        string sql =
+          "CREATE TABLE " + table.TableName + " (" + table_columns + ");";
+
+        dba.ExecuteMySql (sql);
       }
 
       private void CreateTablesInDB ()
       {
         foreach (DataTable table in ds_.Tables)
-        {
-          string sql = "CREATE TABLE `" + table.TableName + "` (";
-          foreach (DataColumn column in table.Columns)
-            sql += column.ColumnName + " INT,";
-
-
-          sql = sql.Remove (sql.LastIndexOf (","));
-          sql += ");";
-
-          dba.ExecuteMySql (sql);
-        }
+          this.create_table_in_database (table);
       }
 
-      private void SendTableToDB (string TableName)
+      /**
+       *
+       */
+      public void populate_table_in_database (DataTable table)
       {
-        DataTable table = ds_.Tables[TableName];
+        ArrayList list = new ArrayList ();
 
+        // First, construct the columns for the insert statement.
+        foreach (DataColumn column in table.Columns)
+          list.Add (column.ColumnName.Replace ('.', '_'));
+
+        string sql_columns =
+          String.Join (", ", (string [])list.ToArray (typeof (string)));
+
+        // Listing for storing the values.
+        ArrayList values = new ArrayList ();
+
+        // Next, construct the values to insert into the table.
         foreach (DataRow row in table.Rows)
         {
-          string sql = "INSERT INTO `" + TableName + "` (";
+          // Clear the listing for this iteration.
+          if (list.Count > 0)
+            list.Clear ();
 
-          foreach (DataColumn column in table.Columns)
-            sql += column.ColumnName + ",";
+          // Gather all the values for this row. They will be used to
+          // construct the VALUES portion of the INSERT INTO SQL statement.
+          foreach (object obj in row.ItemArray)
+          {
+            string encoding;
 
-          sql = sql.Remove (sql.LastIndexOf (","));
-          sql += ") VALUES (";
+            switch (obj.GetType ().ToString ())
+            {
+              case "System.Int32":
+                encoding = obj.ToString ();
+                break;
 
-          foreach (DataColumn column in table.Columns)
-            sql += "'" + row[column] + "',";
+              case "System.String":
+                encoding = "'" + obj.ToString () + "'";
+                break;
 
-          sql = sql.Remove (sql.LastIndexOf (","));
-          sql += ");";
+              default:
+                throw new Exception ("data type is not supported : " + obj.GetType ().ToString ());
+            }
 
-          dba.ExecuteMySql (sql);
+            // Insert the value into the listing.
+            list.Add (encoding);
+          }
+
+          // Create the SQL statement for setting the values.
+          string sql_values =
+            "(" + String.Join (", ", (string [])list.ToArray (typeof (string))) + ")";
+
+          // Insert the statement into the value list.
+          values.Add (sql_values);
         }
+
+        // Convert the values into their SQL portion of the statement.
+        string sql_values_stmt =
+          String.Join (", ", (string [])values.ToArray (typeof (string)));
+
+        // Finally, create the insert statement for the data.
+        string sql_insert =
+          "INSERT INTO " + table.TableName + " (" + sql_columns + ") " +
+          "VALUES " + sql_values_stmt;
+
+        dba.ExecuteMySql (sql_insert);
       }
 
 

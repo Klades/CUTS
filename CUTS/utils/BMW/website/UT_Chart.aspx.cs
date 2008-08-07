@@ -27,10 +27,10 @@ public partial class UT_Chart : System.Web.UI.Page
         int id = Int32.Parse(id_string);
         string test_num_str = Request.QueryString.Get( "t" );
         int test_num = Int32.Parse( test_num_str );
-        
-        DataTable dt_ = UnitTestActions.Evalate_UT_as_metric(id,test_num);
-        
-        Chart(dt_);
+
+        DataTable table = UnitTestActions.Evalate_UT_as_metric(id,test_num);
+
+        Chart(table);
 
 
         string ChartObject = @"<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0'" +
@@ -46,7 +46,7 @@ public partial class UT_Chart : System.Web.UI.Page
 
         LiteralControl chart = new LiteralControl(ChartObject);
         placeholder.Controls.Add(chart);
-        
+
     }
 
   private void Chart ( DataTable dt )
@@ -75,7 +75,7 @@ public partial class UT_Chart : System.Web.UI.Page
 
     foreach (DataRow row in dt.Rows)
       writer.WriteElementString( "number", row["evaluation"].ToString() );
-    
+
     writer.WriteEndElement();
 
 

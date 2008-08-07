@@ -29,22 +29,48 @@ public partial class Unit_Testing : System.Web.UI.Page
 {
   private CUTS.Master master_;
 
+  private MySqlConnection conn_ =
+    new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
+
   protected void Page_Load (object sender, EventArgs e)
   {
     // used to ease creating messages
     this.master_ = (CUTS.Master)Master;
 
+    if (this.ViewState["formats"] != null)
+    {
+      // Get the number of log formats to show.
+      int formats = (int)this.ViewState["formats"];
+
+      // Determine how many rows we need to insert into the table.
+      int rows = this.log_formats_.Rows.Count - 1;
+
+      // Insert all the rows. The first row does not get a relation control.
+      for (; rows < formats; ++ rows)
+        this.insert_new_log_format ();
+    }
+    else
+    {
+      this.insert_new_log_format ();
+      this.ViewState["formats"] = 1;
+    }
+
     if (this.IsPostBack)
       return;
 
     // Load all the test suites into the web controls.
-    this.reload_all_data  ();
+    this.reload_all_data ();
   }
 
   private void reload_all_data ()
   {
+    // Load the test suite from the database.
     this.load_test_suites ();
+
+    // Load the test packages from the database.
     this.load_test_packages ();
+
+    // Load the unit tests from the database.
     this.load_unit_tests ();
   }
 
@@ -135,7 +161,6 @@ public partial class Unit_Testing : System.Web.UI.Page
     existing_test_suites_.SelectedIndex = index_desired;
 
     this.load_test_packages ();
-
   }
 
   private void load_unit_tests ()
@@ -159,25 +184,25 @@ public partial class Unit_Testing : System.Web.UI.Page
     this.package_unit_tests_list_.DataBind ();
   }
 
-  private void load_log_format_data ()
-  {
-    // Load the ddl_Add_Package_Unit_Test
-    DataTable dt = LogFormatActions.Get_Log_Formats (package_unit_tests_list_.SelectedValue);
+  //private void load_log_format_data ()
+  //{
+  //  // Load the ddl_Add_Package_Unit_Test
+  //  DataTable dt = LogFormatActions.Get_Log_Formats (package_unit_tests_list_.SelectedValue);
 
-    this.dg_Unit_Test_Detail_Log_Formats.DataSource = dt;
-    this.dg_Unit_Test_Detail_Log_Formats.DataBind ();
-  }
+  //  this.dg_Unit_Test_Detail_Log_Formats.DataSource = dt;
+  //  this.dg_Unit_Test_Detail_Log_Formats.DataBind ();
+  //}
 
   protected void onclick_create_test_suite (object sender, EventArgs e)
   {
-    string name = this.Create_Test_Suite_Name.Text;
+    string name = this.test_suite_name_.Text;
 
     try
     {
       // Create the new test suite.
       UnitTestActions.Insert_Test_Suite (name);
       this.master_.show_info_message ("Succesfully created " + name + " test suite");
-      this.Create_Test_Suite_Name.Text = "";
+      this.test_suite_name_.Text = "";
 
       // Reload the data, and select the package just created
       this.load_test_suites ();
@@ -191,14 +216,14 @@ public partial class Unit_Testing : System.Web.UI.Page
 
   protected void onclick_create_test_package (object sender, EventArgs e)
   {
-    string name = this.create_package_name_.Text;
+    string name = this.test_package_name_.Text;
 
     try
     {
       // Create the new test suite.
       UnitTestActions.create_test_package (name);
       this.master_.show_info_message ("Succesfully created " + name + " test package");
-      this.create_package_name_.Text = "";
+      this.test_package_name_.Text = "";
 
       // Reload the data, and select the package just created
       this.load_test_packages ();
@@ -232,7 +257,7 @@ public partial class Unit_Testing : System.Web.UI.Page
       catch (Exception ex)
       {
         this.master_.show_error_message (ex.Message);
-        this.master_.show_error_message ("Failed to create " + this.create_package_name_.Text + " test package");
+        this.master_.show_error_message ("Failed to create " + this.test_package_name_.Text + " test package");
       }
     }
     else
@@ -478,35 +503,6 @@ public partial class Unit_Testing : System.Web.UI.Page
     }
   }
 
-  protected void OnChange_Add_Existing_Package (object sender, EventArgs e)
-  {
-    // Ensure there is a Test Suite Selected
-    string err_msg = "I am not sure which Test Suite you would like to add this pacakge to." +
-                "Please select a Test Suite and Try again";
-    if (false == is_valid_selection (existing_test_suites_, err_msg))
-      return;
-
-    // Ensure there is a Valid Package
-    err_msg = "That is not a valid Package";
-    if (false == is_valid_selection (existing_test_packages_, err_msg))
-      return;
-
-    // Insert the package
-    try
-    {
-      UnitTestActions.Insert_Existing_Package (this.existing_test_suites_.SelectedValue,
-                                               this.existing_test_packages_.SelectedValue);
-    }
-    catch (Exception ex)
-    {
-      this.master_.show_error_message (ex.Message);
-      this.master_.show_error_message ("There was a problem adding package '" +
-          existing_test_packages_.SelectedItem.Text + "' to test suite '" +
-          existing_test_suites_.SelectedItem.Text + ".' This probably means it is already added. ");
-      return;
-    }
-  }
-
   protected void onchange_existing_test_packages (object sender, EventArgs e)
   {
     string name = this.existing_test_packages_.SelectedItem.Text;
@@ -520,36 +516,36 @@ public partial class Unit_Testing : System.Web.UI.Page
     this.load_test_package_unit_tests ();
   }
 
-  protected void onchange_existing_unit_test (object sender, EventArgs e)
-  {
-    string err_message = "That is not a valid Unit Test to add.";
-    if (is_valid_selection (existing_unit_tests_, err_message) == false)
-      return;
+  //protected void onchange_existing_unit_test (object sender, EventArgs e)
+  //{
+  //  string err_message = "That is not a valid Unit Test to add.";
+  //  if (is_valid_selection (existing_unit_tests_, err_message) == false)
+  //    return;
 
-    // Ensure the integrity of the Selected Package
-    err_message = "You do not have a Package selected to add '" +
-                    existing_unit_tests_.SelectedItem.Text + "' to. ";
-    if (false == is_valid_selection (existing_test_packages_, err_message))
-      return;
+  //  // Ensure the integrity of the Selected Package
+  //  err_message = "You do not have a Package selected to add '" +
+  //                  existing_unit_tests_.SelectedItem.Text + "' to. ";
+  //  if (false == is_valid_selection (existing_test_packages_, err_message))
+  //    return;
 
-    // Add the Unit Test
-    try
-    {
-      UnitTestActions.Insert_Existing_Unit_Test (this.existing_test_packages_.SelectedValue,
-                                                 this.existing_unit_tests_.SelectedValue);
-    }
-    catch (Exception ex)
-    {
-      this.master_.show_error_message (ex.Message);
-      this.master_.show_error_message ("There was a problem adding Unit Test '" +
-          existing_unit_tests_.SelectedItem.Text + "' to Package '" +
-          existing_test_packages_.SelectedItem.Text + ".' This probably means it is already added");
-      return;
-    }
+  //  // Add the Unit Test
+  //  try
+  //  {
+  //    UnitTestActions.Insert_Existing_Unit_Test (this.existing_test_packages_.SelectedValue,
+  //                                               this.existing_unit_tests_.SelectedValue);
+  //  }
+  //  catch (Exception ex)
+  //  {
+  //    this.master_.show_error_message (ex.Message);
+  //    this.master_.show_error_message ("There was a problem adding Unit Test '" +
+  //        existing_unit_tests_.SelectedItem.Text + "' to Package '" +
+  //        existing_test_packages_.SelectedItem.Text + ".' This probably means it is already added");
+  //    return;
+  //  }
 
-    // Reload the Unit test Drop Down List
-    this.load_unit_tests ();
-  }
+  //  // Reload the Unit test Drop Down List
+  //  this.load_unit_tests ();
+  //}
 
   protected void onchange_existing_test_suites (object sender, EventArgs e)
   {
@@ -572,138 +568,390 @@ public partial class Unit_Testing : System.Web.UI.Page
 
   protected void onchange_unit_tests_list (object sender, EventArgs e)
   {
-    unit_test_details_visible = true;
 
-    // Ensure selection before sending sql
-    string err_msg = "'" + package_unit_tests_list_.SelectedItem.Text + "' is not a valid Unit Test";
-    if (false == is_valid_selection (package_unit_tests_list_, err_msg))
-      return;
-
-    DataRow row = UnitTestActions.Get_Unit_Test_Info (package_unit_tests_list_.SelectedValue);
-
-    txt_Unit_Test_Details_Name.Text = row ["name"].ToString ();
-    txt_Unit_Test_Details_Description.Text = row ["description"].ToString ();
-    txt_Unit_Test_Details_Evaluation.Text = row ["evaluation"].ToString ();
-    txt_Unit_Test_Details_Warn_Comparison.Text = row ["warn_comparison"].ToString () + " " + row ["warn"].ToString ();
-    txt_Unit_Test_Details_Fail_Comparison.Text = row ["fail_comparison"].ToString () + " " + row ["fail"].ToString ();
-    lbl_Unit_Test_Details_ID.Text = row ["utid"].ToString ();
-
-    load_log_format_data ();
   }
 
-  private bool unit_test_details_visible
+  protected void onchange_log_format (object sender, EventArgs e)
   {
-    get { return this.td_Unit_Test_Details.Visible; }
-    set { this.td_Unit_Test_Details.Visible = value; }
+    // Extract the control that sent this event. It should be a dropdown control.
+    // Otherwise, another control is trying to use this callback.
+    DropDownList list = (DropDownList)sender;
+
+    // Update the prefix label for this listing.
+    this.update_log_format_prefix_label (list);
+
+    // Update the relations for this listing.
+    this.update_log_format_relations (list);
   }
 
-
-  /// <summary>
-  /// Ensures that there is a SQL-safe valid selection
-  /// </summary>
-  /// <param name="lb"></param>
-  /// <returns></returns>
-  private bool is_valid_selection (ListBox lb)
+  protected void ondatabound_log_formats (object sender, EventArgs e)
   {
-    // If there is only one, we can assume they wanted that one
-    if (lb.SelectedIndex < 0)
-      if (lb.Items.Count == 1)
-        lb.SelectedIndex = 0;
-      else
-        return false;
-    return true;
+    DropDownList list = (DropDownList)sender;
+
+    // Update the prefix label for this listing.
+    this.update_log_format_prefix_label (list);
+
+    // Update the relations for this listing.
+    this.update_log_format_relations (list);
   }
 
-  /// <summary>
-  /// Ensures that there is a SQL-safe valid selection
-  /// </summary>
-  /// <param name="lb"></param>
-  /// <param name="error_message"></param>
-  /// <returns></returns>
-  private bool is_valid_selection (ListBox lb, string error_message)
+  /**
+   * Helper method that updates the prefix label for the log formats. This
+   * will use the current selection to generate the prefix string. If there
+   * is no selection, then the prefix string will be set to an empty string.
+   *
+   * @param[in]         formats         Drop-down list of the log formats.
+   */
+  private void update_log_format_prefix_label (DropDownList formats)
   {
-    if (is_valid_selection (lb) == false)
-    {
-      this.master_.show_error_message (error_message);
-      return false;
-    }
+    // Get the parent cell of this control.
+    TableCell cell = (TableCell)formats.Parent;
+
+    // The prefix label is the the one and only control in the first cell
+    // of the current row. :-)
+    TableRow row = (TableRow)cell.Parent;
+    Literal prefix = (Literal)row.Cells[0].Controls[0];
+
+    if (formats.SelectedIndex != -1)
+      prefix.Text = "LF" + formats.SelectedValue + ".";
     else
-      return true;
+      prefix.Text = "";
   }
-  /// <summary>
-  /// Ensures that there is a SQL-safe valid selection
-  /// </summary>
-  /// <param name="d"></param>
-  /// <returns></returns>
-  private bool is_valid_selection (DropDownList d)
+
+  /**
+   * Helper method for updating the relationship controls for the log
+   * message. The left-hand dropdown will show the variables for this log
+   * format. The right-hand side will show the variables for the log
+   * formats in the previous rows
+   */
+  protected void update_log_format_relations (DropDownList formats)
   {
-    // Assuming we have a first item similar to
-    // "Please Select One . . ."
-    if (d.SelectedIndex < 1)
-      return false;
-    return true;
+    // Locate the relation cell, and their controls.
+    TableCell formats_cell = (TableCell)formats.Parent;
+    TableRow current_row = (TableRow)formats_cell.Parent;
+
+    // Get the index of the current row.
+    int row_index = this.log_formats_.Rows.GetRowIndex (current_row);
+
+    TableCell relation_cell;
+    MySqlCommand command = this.conn_.CreateCommand ();
+    MySqlDataAdapter adapter = new MySqlDataAdapter (command);
+    DataSet ds = new DataSet ();
+
+    if (row_index > 1)
+    {
+      // Get the variables for the left-hand side relation. This variables
+      // are the ones from the selected log format.
+      string lhs_sql =
+        "SELECT variable_id, varname FROM cuts.logformatvariabletable " +
+        "WHERE lfid = ?lfid ORDER BY varname";
+
+      command.CommandText = lhs_sql;
+      command.Parameters.AddWithValue ("?lfid", formats.SelectedValue);
+
+      adapter.Fill (ds, "lhs_relation");
+
+      // Bind the data tables to the appropriate cells.
+      relation_cell = current_row.Cells[2];
+      DropDownList lhs_relation = this.get_lhs_relation (relation_cell);
+
+      lhs_relation.DataSource = ds;
+      lhs_relation.DataMember = "lhs_relation";
+      lhs_relation.DataValueField = "variable_id";
+      lhs_relation.DataTextField = "varname";
+      lhs_relation.DataBind ();
+
+      // Now, we need to update the right-hand side of the equal sign for
+      // this log message, and all the log messages after this one.
+      ArrayList lfids_list = new ArrayList ();
+
+      for (; row_index < this.log_formats_.Rows.Count; ++row_index)
+      {
+        // Get the next items for the next iteration.
+        current_row = this.log_formats_.Rows[row_index];
+        relation_cell = current_row.Cells[2];
+
+        for (int i = 1; i < row_index; ++i)
+        {
+          // Get the dropdown list for this row.
+          DropDownList log_format =
+            (DropDownList)this.log_formats_.Rows[i].Cells[1].Controls[0];
+
+          // Insert the selected value from the list.
+          lfids_list.Add (log_format.SelectedValue);
+        }
+
+        string prev_lfids =
+          String.Join (",", (string[])lfids_list.ToArray (typeof (string)));
+
+        string rhs_sql =
+          "SELECT variable_id, lfid, varname, CONCAT('LF', CAST(lfid AS CHAR), '.', varname) AS fq_name " +
+          "FROM cuts.logformatvariabletable " +
+          "WHERE lfid IN (" + prev_lfids + ") ORDER BY fq_name";
+
+        adapter.SelectCommand.CommandText = rhs_sql;
+        adapter.Fill (ds, "rhs_relation");
+
+        // Now, let's locate either relation's dropdown list.
+        DropDownList rhs_relation = this.get_rhs_relation (relation_cell);
+
+        rhs_relation.DataSource = ds;
+        rhs_relation.DataMember = "rhs_relation";
+        rhs_relation.DataValueField = "variable_id";
+        rhs_relation.DataTextField = "fq_name";
+        rhs_relation.DataBind ();
+      }
+    }
   }
-  /// <summary>
-  /// Ensures that there is a SQL-safe valid selection
-  /// </summary>
-  /// <param name="d"></param>
-  /// <param name="error_message"></param>
-  /// <returns></returns>
-  private bool is_valid_selection (DropDownList d, string error_message)
+
+  /**
+   * Event handler for clicking the Create button for a unit test. This will
+   * create an entry in the database for the specified information.
+   */
+  protected void onclick_create_unit_test (object sender, EventArgs e)
   {
-    if (is_valid_selection (d))
-      return true;
+    // Get all the log format ids that are used in this unit test. This
+    // is as simple as iterating over all the rows in the table and locating
+    // the 'log_format_' control in that row. ;-)
 
+    ArrayList lfids = new ArrayList ();
+    ArrayList relations = new ArrayList ();
 
-    this.master_.show_error_message (error_message);
-    return false;
+    for (int i = 1; i < this.log_formats_.Rows.Count; ++i)
+    {
+      // Find the "log_format_" control in this row.
+      DropDownList formats = this.get_log_format_control (this.log_formats_.Rows[i]);
+
+      // Insert its value into the listing of log format ids.
+      lfids.Add (formats.SelectedValue);
+    }
+
+    // Get the relations for the unit test.
+    for (int i = 2; i < this.log_formats_.Rows.Count; ++ i)
+    {
+      DropDownList lhs_relation, rhs_relation;
+      this.get_relations (this.log_formats_.Rows[i], out lhs_relation, out rhs_relation);
+
+      relations.Add (new Pair (lhs_relation.SelectedValue, rhs_relation.SelectedValue));
+    }
+
+    // Prepare the variables for inserting the new unit test.
+    Hashtable variables = new Hashtable ();
+    variables.Add ("Name", this.unit_test_name_.Text);
+    variables.Add ("Description", this.unit_test_description_.Text);
+    variables.Add ("FailComparison", this.get_mysql_comparison (UT_fail_comp.Text));
+    variables.Add ("WarnComparison", this.get_mysql_comparison (UT_warn_comp.Text));
+    variables.Add ("FailValue", this.unit_test_fail_.Text);
+    variables.Add ("WarnValue", this.unit_test_warn_.Text);
+    variables.Add ("Evaluation", this.unit_test_eval_.Text);
+    variables.Add ("Aggregration_Func", this.aggr_function_.SelectedValue);
+    variables.Add ("Formats", (string[])lfids.ToArray (typeof (string)));
+    variables.Add ("Relations", (Pair[])relations.ToArray (typeof (Pair)));
+
+    try
+    {
+      // Insert the neq unit test into the database.
+      UnitTestActions.Insert_New_Unit_Test (variables);
+      this.master_.show_info_message ("Successfully created new unit test");
+
+      // Reload the existing test suite control.
+      this.load_unit_tests ();
+    }
+    catch (Exception ex)
+    {
+      this.master_.show_error_message (ex.Message);
+      this.master_.show_error_message ("Failed to create new unit test");
+    }
   }
-}
 
-/* Exceptions
+  /**
+   * Event handler for click the 'I need more log formats' link. This will
+   * insert a new row into the table for selecting log formats when
+   * evaluating the unit test
+   */
+  protected void onclick_more_log_formats (object sender, EventArgs e)
+  {
+    // Insert a new log message format into the table.
+    this.insert_new_log_format ();
 
- *  These should only be used when there is something that
- *  would cause an error. The main use will be when some
- *  value that is to be passed to MySql is not valid,
- *  such as a DropDownList not having a selected value
+    // Get and update the number of log formats that were created dynamically.
+    int formats =
+      this.ViewState["formats"] != null ? (int)this.ViewState["formats"] + 1 : 1;
 
-*/
+    // Store the count back into the view state.
+    this.ViewState["formats"] = formats;
+  }
 
-/// <summary>
-/// These should only be used when there is something that
-/// would cause an error. The main use will be when some
-/// value that is to be passed to MySql is not valid,
-/// such as a DropDownList not having a selected value.
-/// </summary>
-public class LoadTestSuiteException : Exception
-{ // All we need is a default Exception constructor
+  /**
+   * Helper method for inserting a new log format into the table
+   */
+  private void insert_new_log_format ()
+  {
+    // Create the prefix label for the log format.
+    Literal prefix = new Literal ();
+    prefix.EnableViewState = true;
 
-  public LoadTestSuiteException (string message)
-    : base (message) { }
-}
+    // Create a new table cell for the control.
+    TableCell prefix_cell = new TableCell ();
+    prefix_cell.Controls.Add (prefix);
 
-/// <summary>
-/// These should only be used when there is something that
-/// would cause an error. The main use will be when some
-/// value that is to be passed to MySql is not valid,
-/// such as a DropDownList not having a selected value.
-/// </summary>
-public class LoadTestSuitePackageException : Exception
-{ // All we need is a default Exception constructor
+    // Create the new dropdown control for the log formats.
+    DropDownList formats = new DropDownList ();
+    formats.DataTextField = "lfmt";
+    formats.DataValueField = "lfid";
+    formats.Width = new Unit (400.0, UnitType.Pixel);
+    formats.EnableViewState = true;
+    formats.AutoPostBack = true;
+    formats.DataBound += new System.EventHandler (this.ondatabound_log_formats);
+    formats.SelectedIndexChanged += new System.EventHandler (this.onchange_log_format);
 
-  public LoadTestSuitePackageException (string message)
-    : base (message) { }
-}
+    // Create a new cell for the format's control.
+    TableCell format_cell = new TableCell ();
+    format_cell.Controls.Add (formats);
 
-/// <summary>
-/// These should only be used when there is something that
-/// would cause an error. The main use will be when some
-/// value that is to be passed to MySql is not valid,
-/// such as a DropDownList not having a selected value.
-/// </summary>
-public class LoadPackageUnitTestsException : Exception
-{ // All we need is a default Exception constructor
+    // Create a new table row for the new log format.
+    TableRow new_row = new TableRow ();
+    new_row.Cells.Add (prefix_cell);
+    new_row.Cells.Add (format_cell);
 
-  public LoadPackageUnitTestsException (string message)
-    : base (message) { }
+    if (this.log_formats_.Rows.Count >= 2)
+    {
+      Literal where_stmt = new Literal ();
+      where_stmt.Text = " where ";
+
+      // Create the relation dropdown controls.
+      DropDownList lhs_relation = new DropDownList ();
+      lhs_relation.EnableViewState = true;
+
+      Literal equal_sign = new Literal ();
+      equal_sign.Text = " = ";
+
+      DropDownList rhs_relation = new DropDownList ();
+      rhs_relation.EnableViewState = true;
+
+      // Create the relation cell for the table.
+      TableCell relation_cell = new TableCell ();
+      relation_cell.Controls.Add (where_stmt);
+      relation_cell.Controls.Add (lhs_relation);
+      relation_cell.Controls.Add (equal_sign);
+      relation_cell.Controls.Add (rhs_relation);
+
+      // Insert the relation cell into the row.
+      new_row.Cells.Add (relation_cell);
+    }
+
+    // Insert the new row into the table.
+    this.log_formats_.Rows.Add (new_row);
+
+    if (!this.IsPostBack)
+    {
+      // Bind the data to the dropdown list control. This will trigger the
+      // ondatabound event, which will initialize the prefix label.
+      string sql = "SELECT lfid, lfmt FROM logformatdesc";
+      DataTable data = execute_mysql_adapter (sql);
+
+      formats.DataSource = data;
+      formats.DataBind ();
+    }
+  }
+
+  private string get_mysql_comparison (string comparison)
+  {
+    // They are used directly in the query
+    switch (comparison)
+    {
+      case "less":
+        return @"<";
+      case "greater":
+        return @">";
+      case "less_equal":
+        return @"<=";
+      case "greater_equal":
+        return @">=";
+      case "equal":
+        return @"=";
+      case "not_equal":
+        return @"<>";
+      default:
+        master_.show_error_message ("The warn or fail comparison had a problem." +
+          "Please refresh the page and try again.");
+        return String.Empty;
+    }
+  }
+
+  private DropDownList get_lhs_relation (TableCell relation_cell)
+  {
+    return (DropDownList)relation_cell.Controls[1];
+  }
+
+  private DropDownList get_rhs_relation (TableCell relation_cell)
+  {
+    return (DropDownList)relation_cell.Controls[3];
+  }
+
+  private void get_relations (TableRow row, out DropDownList lhs, out DropDownList rhs)
+  {
+    this.get_relations (row.Cells[2], out lhs, out rhs);
+  }
+
+  private void get_relations (TableCell row, out DropDownList lhs, out DropDownList rhs)
+  {
+    lhs = this.get_lhs_relation (row);
+    rhs = this.get_rhs_relation (row);
+  }
+
+  private DropDownList get_log_format_control (TableRow row)
+  {
+    return this.get_log_format_control (row.Cells[1]);
+  }
+
+  private DropDownList get_log_format_control (TableCell cell)
+  {
+    return (DropDownList)cell.Controls[0];
+  }
+
+  /**
+   * Safely execute a MySQL statement. This manages the connection
+   * and can throw an Argument Exception indicating what the
+   * sql attempted to execute was.
+   *
+   * @param sql    The statement to be executed.
+   */
+  private DataTable execute_mysql_adapter (string sql)
+  {
+    MySqlConnection conn = new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
+    conn.Open ();
+    MySqlDataAdapter da = new MySqlDataAdapter (sql, conn);
+    DataSet ds = new DataSet ();
+
+    try
+    {
+       da.Fill (ds);
+    }
+    catch
+    {
+      throw new ArgumentException ("The sql executed was : " + sql);
+    }
+    finally
+    {
+      conn.Close ();
+    }
+
+    return ds.Tables[0];
+  }
+
+  override protected void OnInit (EventArgs e)
+  {
+    // Initialize the component.
+    InitializeComponent ();
+
+    // Pass control to the base class.
+    base.OnInit (e);
+  }
+
+  private void InitializeComponent ()
+  {
+    // Set the page load callback.
+    this.Load += new System.EventHandler (this.Page_Load);
+  }
 }

@@ -170,9 +170,9 @@ namespace CUTS
     private void load_unit_test_view ()
     {
       string sql = "SELECT * FROM test_suites";
-      DataTable dt_ = execute_mysql_adapter (sql);
+      DataTable table = execute_mysql_adapter (sql);
 
-      ddl_Test_Suites.DataSource = dt_;
+      ddl_Test_Suites.DataSource = table;
       ddl_Test_Suites.DataBind ();
 
       ddl_Test_Suites.Items.Insert (0, new ListItem ("Choose a Test Suite to see results . . .    ", "-1"));
@@ -238,7 +238,7 @@ namespace CUTS
       DataTable dt = execute_mysql_adapter (sql);
 
       // Add Evaluation, Result
-      dt.Columns.Add ("Evaluation");
+      //dt.Columns.Add ("Evaluation");
       dt.Columns.Add ("Result");
       dt.Columns.Add ("Chart");
 
@@ -249,15 +249,17 @@ namespace CUTS
       // For each Unit Test
       foreach (DataRow row in dt.Rows)
       {
+        DataTable temp = UnitTestActions.evaluate_unit_test (this.test_number_, (int)row["id"]);
+
         // Evaluate
-        DataTable temp = UnitTestActions.Evalate_UT_for_single_test  (Int32.Parse (row ["id"].ToString ()),
-          TestNumber);
+        //DataTable temp =
+        //  UnitTestActions.Evalate_UT_for_single_test  (Int32.Parse (row ["id"].ToString ()), this.test_number_);
 
         if (temp.Rows.Count == 0)
         {
           master_.show_info_message ("Oops - Looks like there is no data for '" + row ["Name"].ToString () +
               "' in '" + Package_Name + "'");
-          row ["Evaluation"] = "No Data";
+          //row ["Evaluation"] = "No Data";
           row ["Result"] = "No Data";
           row ["Chart"] = @"<a href='UT_Chart.aspx?utid=" + row ["id"].ToString () +
               "'>Chart</a>";
@@ -267,11 +269,10 @@ namespace CUTS
           DataRow temp_Row = temp.Rows [0];
 
           // Add Results of Evaluation to Main Table
-          row ["Evaluation"] = temp_Row ["evaluation"];
+          //row ["Evaluation"] = temp_Row ["evaluation"];
           row ["Result"] = temp_Row ["result"];
           row ["Chart"] = @"<a href='UT_Chart.aspx?utid=" + row ["id"].ToString () +
-            "&t=" + TestNumber.ToString () +
-              "'>Chart</a>";
+            "&t=" + this.test_number_ + "'>Chart</a>";
         }
       }
 

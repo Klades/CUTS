@@ -69,7 +69,7 @@
       <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
         <asp:image runat="server" id="Image4" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
         <asp:hyperlink runat="server" id="Hyperlink2"
-                       navigateurl="~/Log_Formats.aspx"
+                       navigateurl="~/logformats.aspx"
                        text="Log Formats" /></div>
 
       <br />

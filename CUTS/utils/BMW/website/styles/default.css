@@ -158,7 +158,7 @@ td.performance-data, th.performance-data
 
 .default_width
 {
-  min-width: 300px;
+  width: 300px;
 }
 
 .button

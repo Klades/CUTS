@@ -1,3 +1,58 @@
+Thu Aug  7 05:26:33 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-unittest.sql:
+
+          . Implemented several stored procedures to that make it easier
+            to evaluate a unit test.
+
+        * utils/BMW/website/App_Code/LogFormatActions.cs:
+        * utils/BMW/website/App_Code/Relation.cs:
+        * utils/BMW/website/App_Code/Relations.cs:
+        * utils/BMW/website/App_Code/UnitTestActions.cs:
+        * utils/BMW/website/App_Code/VariableTable.cs:
+        * utils/BMW/website/BMW.master:
+        * utils/BMW/website/UT_Chart.aspx.cs:
+        * utils/BMW/website/logformats.aspx:
+        * utils/BMW/website/logformats.aspx.cs:
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/unittest.aspx:
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . Fixed several obvious formatting issues to make it easier for
+            me to debug all the errors. Hamilton will be responsible for
+            fixing the remaining code formatting issues.
+
+          . Bug fix where performing aggregation using the database
+            calculated an incorrect result. This is because the database
+            performs relation joins, and not row-wise joins. Therefore, if
+            an relations were joined multiple times.
+
+            Now, aggregation is performed in memory to create a variable
+            table. This variable is then pushed back to a the database
+            and a resulted is extracted from the table based on the
+            user-defined evaluation function.
+
+          . Consolidated the unit test creation to a single page instead
+            of having to go to a seperate page to create a unit test.
+
+          . It is now possible to aggregate across infinite number of
+            log formats for an evaluation.
+
+          . It is now possible to delete a log format from the database.
+
+        * utils/BMW/website/styles/default.css:
+
+          . Defined a class that sets the default width of certain
+            control types.
+
+
+        * utils/BMW/website/Log_Formats.aspx:
+        * utils/BMW/website/Log_Formats.aspx.cs:
+        * utils/BMW/website/UT_Create.aspx:
+        * utils/BMW/website/UT_Create.aspx.cs:
+
+          Removed these files.
+
 Fri Aug  1 22:39:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-unittest.sql:
