@@ -37,10 +37,10 @@ public partial class Unit_Testing : System.Web.UI.Page
     // used to ease creating messages
     this.master_ = (CUTS.Master)Master;
 
-    if (this.ViewState["formats"] != null)
+    if (this.ViewState["logformats"] != null)
     {
       // Get the number of log formats to show.
-      int formats = (int)this.ViewState["formats"];
+      int formats = (int)this.ViewState["logformats"];
 
       // Determine how many rows we need to insert into the table.
       int rows = this.log_formats_.Rows.Count - 1;
@@ -52,7 +52,7 @@ public partial class Unit_Testing : System.Web.UI.Page
     else
     {
       this.insert_new_log_format (false);
-      this.ViewState["formats"] = 1;
+      this.ViewState["logformats"] = 1;
     }
 
     if (this.IsPostBack)
@@ -754,6 +754,9 @@ public partial class Unit_Testing : System.Web.UI.Page
       UnitTestActions.Insert_New_Unit_Test (variables);
       this.master_.show_info_message ("Successfully created new unit test");
 
+      // Reset the unit test form.
+      this.reset_unit_test_form ();
+
       // Reload the existing test suite control.
       this.load_unit_tests ();
     }
@@ -776,10 +779,31 @@ public partial class Unit_Testing : System.Web.UI.Page
 
     // Get and update the number of log formats that were created dynamically.
     int formats =
-      this.ViewState["formats"] != null ? (int)this.ViewState["formats"] + 1 : 1;
+      this.ViewState["logformats"] != null ? (int)this.ViewState["logformats"] + 1 : 1;
 
     // Store the count back into the view state.
-    this.ViewState["formats"] = formats;
+    this.ViewState["logformats"] = formats;
+  }
+
+  /**
+   * Reset the unit test creation form.
+   */
+  private void reset_unit_test_form ()
+  {
+    // Reset all of the textboxes
+    this.unit_test_name_.Text = String.Empty;
+    this.unit_test_description_.Text = String.Empty;
+    this.unit_test_eval_.Text = String.Empty;
+    this.unit_test_fail_.Text = String.Empty;
+    this.unit_test_warn_.Text = String.Empty;
+
+    // Clear all the rows from the log formats. This means removing its
+    // viewstate items as well.
+    this.log_formats_.Rows.Clear ();
+    this.ViewState.Remove ("logformats");
+
+    // Insert a fresh new row into the table.
+    this.insert_new_log_format (false);
   }
 
   /**

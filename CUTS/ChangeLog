@@ -1,3 +1,10 @@
+Thu Aug  7 18:42:49 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . The form is now reset whenever a user creates a new unit
+            test.
+
 Thu Aug  7 18:26:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/unittest.aspx.cs:
