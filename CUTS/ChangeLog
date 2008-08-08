@@ -1,3 +1,22 @@
+Fri Aug  8 07:14:54 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Env_Variable_Decoder.h:
+        * cuts/utils/Node_Daemon/Env_Variable_Decoder.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon.mpc:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+
+          . Enabled support for using environment variables in the XML
+            configuration file of a cutsnode_d. Environment variables are
+            defined using $().
+
+            The following XML elements support environment variables
+            definitions:
+
+              . <executable>
+              . <arguments>
+              . <workingdirectory>
+
 Fri Aug  8 04:42:07 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Node_Daemon_Event_Handler.cpp:

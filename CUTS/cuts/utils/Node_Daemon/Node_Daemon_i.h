@@ -59,7 +59,7 @@ public:
    *
    * @param[in]     name      Name of the task.
    */
-  virtual CORBA::ULong task_terminate (const char * name, 
+  virtual CORBA::ULong task_terminate (const char * name,
                                        CORBA::Boolean wait);
 
   /**
@@ -67,7 +67,7 @@ public:
    *
    * @param[in]     name      Name of the task.
    */
-  virtual CORBA::ULong task_info (const char * name, 
+  virtual CORBA::ULong task_info (const char * name,
                                   CUTS::taskDescriptor_out info);
 
   /**

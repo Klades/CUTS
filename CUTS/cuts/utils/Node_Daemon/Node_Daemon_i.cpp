@@ -10,6 +10,8 @@
 #include "Process_Info.h"
 #include "Process_Log.h"
 #include "Server_Options.h"
+#include "Env_Variable_Decoder.h"
+
 #include "ace/INET_Addr.h"
 #include "ace/Null_Mutex.h"
 #include "ace/OS_NS_unistd.h"
@@ -75,15 +77,57 @@ task_spawn (const CUTS::taskDescriptor & task)
   // Duplicate the default process options.
   this->duplicate_defualt_process_options (info->options_);
 
+  // Decode the environment variable in the executable and arguments
+  // member of the task descriptor.
+  CUTS_Env_Variable_Decorder decoder;
+  ACE_CString exec_value, args_value;
+
+  if (!decoder.expand (task.executable.in (), exec_value))
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%M - %T - failed to expand environment variables "
+                "in executable\n",
+                task.executable.in ()));
+  }
+
+  if (!decoder.expand (task.arguments.in (), args_value))
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%M - %T - failed to expand environment variables in "
+                "argument(s)\n",
+                task.executable.in ()));
+  }
+
   // Prepare the command line for the task.
   info->id_ = task.id.in ();
   info->options_.command_line ("%s %s",
-                               task.executable.in (),
-                               task.arguments.in ());
+                               exec_value.c_str (),
+                               args_value.c_str ());
 
   if (ACE_OS::strlen (task.workingdirectory.in ()) != 0)
   {
-    info->options_.working_directory (task.workingdirectory.in ());
+    ACE_CString cwd;
+
+    if (decoder.expand (task.workingdirectory.in (), cwd))
+    {
+      ACE_DEBUG ((LM_INFO,
+                  "%T - %M - setting working directory to %s\n",
+                  cwd.c_str ()));
+
+      info->options_.working_directory (cwd.c_str ());
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - failed to expand environment variables in "
+                  "working directory"));
+
+      ACE_DEBUG ((LM_INFO,
+                  "%T - %M - setting working directory to %s\n",
+                  task.workingdirectory.in ()));
+
+      info->options_.working_directory (task.workingdirectory.in ());
+    }
   }
   else
   {
@@ -91,7 +135,7 @@ task_spawn (const CUTS::taskDescriptor & task)
     // if it was specified as a command-line option.
     if (!SERVER_OPTIONS ()->init_dir_.empty ())
     {
-      ACE_DEBUG ((LM_DEBUG,
+      ACE_DEBUG ((LM_INFO,
                   "%T - %M - setting working directory to %s\n",
                   SERVER_OPTIONS ()->init_dir_.c_str ()));
 
