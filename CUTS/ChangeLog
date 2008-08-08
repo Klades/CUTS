@@ -1,3 +1,15 @@
+Fri Aug  8 04:42:07 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Node_Daemon_Event_Handler.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+        * cuts/utils/Node_Daemon/Process_Log.cpp:
+        * cuts/utils/Node_Daemon/Server_Options.h:
+        * cuts/utils/Node_Daemon/Server_Options.cpp:
+
+          . Fixed the application to use the ACE_Log_Msg correctly. The log
+            message level is determined by the --debug and --verbose flags.
+
 Thu Aug  7 18:42:49 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/unittest.aspx.cs:

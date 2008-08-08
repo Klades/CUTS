@@ -33,7 +33,8 @@ int Node_Daemon_Event_Handler::handle_exit (ACE_Process * process)
   }
   else
   {
-    ACE_ERROR ((LM_WARNING, "*** warning: unknown process has exited\n"));
+    ACE_ERROR ((LM_WARNING,
+                "*%T - %M - unknown process has exited\n"));
   }
 
   return 0;

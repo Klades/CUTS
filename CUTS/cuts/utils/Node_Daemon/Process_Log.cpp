@@ -61,7 +61,7 @@ process_insert (CUTS_Process_Info & info)
   if (!logfile.is_open ())
   {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "*** error (process log): failed to open file %s\n",
+                       "%T - %M - failed to open file %s\n",
                        this->log_file_.c_str ()),
                        false);
   }
@@ -71,7 +71,7 @@ process_insert (CUTS_Process_Info & info)
                  sizeof (pid_t));
 
   // Write the state of process log.
-  logfile.write (reinterpret_cast <const char *> (&info.state_), 
+  logfile.write (reinterpret_cast <const char *> (&info.state_),
                  sizeof (char));
 
 
@@ -105,7 +105,7 @@ bool Process_Log::process_remove (pid_t pid)
   if (!logfile.is_open ())
   {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "*** error (process log): failed to open file %s\n",
+                       "%T - %M - failed to open file %s\n",
                        this->log_file_.c_str ()),
                        false);
   }
@@ -137,15 +137,15 @@ bool Process_Log::process_remove (pid_t pid)
     logfile.seekg (1, std::ios_base::cur);
 
     // Bypass the name of the process.
-    logfile.read (reinterpret_cast <char *> (&length), sizeof (size_t)); 
+    logfile.read (reinterpret_cast <char *> (&length), sizeof (size_t));
     logfile.seekg (length + 1, std::ios_base::cur);
 
     // Bypass the command-line of the process.
-    logfile.read (reinterpret_cast <char *> (&length), sizeof (size_t)); 
+    logfile.read (reinterpret_cast <char *> (&length), sizeof (size_t));
     logfile.seekg (length + 1, std::ios_base::cur);
 
     // Bypass the working directory of the process.
-    logfile.read (reinterpret_cast <char *> (&length), sizeof (size_t)); 
+    logfile.read (reinterpret_cast <char *> (&length), sizeof (size_t));
     logfile.seekg (length + 1, std::ios_base::cur);
   }
 
@@ -179,7 +179,7 @@ void Process_Log::log_file (const char * log_file)
   else
   {
     ACE_ERROR ((LM_ERROR,
-                "*** error (process log): failed to create file %s\n",
+                "%T - %M - failed to create file %s\n",
                 log_file));
   }
 }
@@ -201,7 +201,7 @@ get_active_processes (CUTS_Process_Info_Set & list)
   if (!logfile.is_open ())
   {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "file %s does not exist\n",
+                       "%T - %M - file %s does not exist\n",
                        this->log_file_.c_str ()),
                        false);
   }
@@ -264,7 +264,7 @@ bool Process_Log::clean (size_t * active_count)
   if (!logfile.is_open ())
   {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "file %s does not exist\n",
+                       "%T - %M - file %s does not exist\n",
                        this->log_file_.c_str ()),
                        false);
   }
@@ -279,7 +279,7 @@ bool Process_Log::clean (size_t * active_count)
   {
     logfile.close ();
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "(%N:%l) failed to open temporary file for copying\n"),
+                       "%T - %M - failed to open temporary file for copying\n"),
                        false);
   }
 
@@ -343,7 +343,7 @@ read_string (std::ifstream & file, ACE_CString & str)
 {
   // Read the length of the string.
   size_t length;
-  file.read (reinterpret_cast <char *> (&length), sizeof (size_t)); 
+  file.read (reinterpret_cast <char *> (&length), sizeof (size_t));
 
   // Read the contents of the string.
   char * ptr = 0;

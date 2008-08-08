@@ -35,9 +35,6 @@ public:
   /// Destructor.
   ~Server_Options (void);
 
-  /// Flag specifying the verbosity of the server
-  bool verbose_;
-
   /// The IOR file name for the daemon.
   ACE_CString ior_file_;
 
@@ -50,17 +47,5 @@ public:
 
 #define SERVER_OPTIONS() \
   ACE_Singleton <Server_Options, ACE_Null_Mutex>::instance ()
-
-#define VERBOSE_MESSAGE(msg) \
-  if (SERVER_OPTIONS()->verbose_) \
-  { \
-    ACE_ERROR (msg); \
-  }
-
-#define VERBOSE_MESSAGE_RETURN(msg, retval) \
-  if (SERVER_OPTIONS()->verbose_) \
-  { \
-    ACE_ERROR_RETURN (msg, retval); \
-  }
 
 #endif  /* !defined _SERVER_OPTIONS_H_ */

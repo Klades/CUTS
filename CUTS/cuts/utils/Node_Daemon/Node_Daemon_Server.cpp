@@ -27,6 +27,20 @@
 
 static CUTS_Node_Daemon_i * daemon_i = 0;
 
+const char * help =
+"CUTS node manager for remotely invoking task on target \n"
+"\n"
+"USAGE: cutsnode_d [OPTIONS]\n"
+"\n"
+"Options:\n"
+"  -d, --working-directory=DIR   working directory for the daemon\n"
+"  -c, --config=FILE             initial configuration file\n"
+"  -o, --ior-file=NAME           output file for IOR\n"
+"\n"
+"  -v, --verbose                 print verbose infomration\n"
+"  --debug                       print debugging information\n"
+"  -h, --help                    print this help message\n";
+
 //
 // server_sighandler
 //
@@ -47,6 +61,12 @@ static void register_sighandler (void)
   sa.register_action (SIGTERM);
 }
 
+static void print_help (void)
+{
+  std::cerr << help << std::endl;
+  ACE_OS::exit (EXIT_SUCCESS);
+}
+
 //
 // parse_args
 //
@@ -58,9 +78,12 @@ int parse_args (int argc, char * argv [])
 
   // Setup the long options for the command-line
   get_opt.long_option ("working-directory", 'd', ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("ior-file", 'o', ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("config", 'c', ACE_Get_Opt::NO_ARG);
+  get_opt.long_option ("ior-file", 'o', ACE_Get_Opt::ARG_REQUIRED);
+
+  get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
+  get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
+  get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
 
   int option;
   while ((option = get_opt ()) != EOF)
@@ -69,17 +92,39 @@ int parse_args (int argc, char * argv [])
     {
     case 0:
       if (ACE_OS::strcmp (get_opt.long_option (), "working-directory") == 0)
+      {
         SERVER_OPTIONS ()->init_dir_ = get_opt.opt_arg ();
-
+      }
       else if (ACE_OS::strcmp (get_opt.long_option (), "ior-file") == 0)
+      {
         SERVER_OPTIONS ()->ior_file_ = get_opt.opt_arg ();
-
+      }
       else if (ACE_OS::strcmp (get_opt.long_option (), "verbose") == 0)
-        SERVER_OPTIONS ()->verbose_ = true;
+      {
+        u_long mask =
+          ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
 
+        mask |= LM_INFO;
+
+        ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "debug") == 0)
+      {
+        u_long mask =
+          ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
+
+        mask |= LM_DEBUG;
+
+        ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
+      }
       else if (ACE_OS::strcmp (get_opt.long_option (), "config") == 0)
+      {
         SERVER_OPTIONS ()->config_ = get_opt.opt_arg ();
-
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
+      {
+        print_help ();
+      }
       break;
 
     case 'c':
@@ -94,8 +139,19 @@ int parse_args (int argc, char * argv [])
       SERVER_OPTIONS ()->ior_file_ = get_opt.opt_arg ();
       break;
 
+    case 'h':
+      print_help ();
+      break;
+
     case 'v':
-      SERVER_OPTIONS ()->verbose_ = true ;
+      {
+        u_long mask =
+          ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
+
+        mask |= LM_INFO;
+
+        ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
+      }
       break;
 
     case '?':
@@ -104,7 +160,7 @@ int parse_args (int argc, char * argv [])
 
     case ':':
       ACE_ERROR ((LM_ERROR,
-                  "%c is missing an argument\n",
+                  "%T - %M - %c is missing an argument\n",
                   get_opt.opt_opt ()));
       return -1;
       break;
@@ -188,7 +244,7 @@ int load_initial_config (const char * config, CUTS_Node_Daemon_i * daemon)
     if (reader.open (config) == -1)
     {
       ACE_ERROR_RETURN ((LM_ERROR,
-                         "failed to open configuration file [%s]\n",
+                         "%T - %M - failed to open configuration file [%s]\n",
                          config),
                          -1);
     }
@@ -231,18 +287,18 @@ int load_initial_config (const char * config, CUTS_Node_Daemon_i * daemon)
   catch (const xercesc::DOMException & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%s\n",
+                "%T - %M - %s\n",
                 ex.getMessage ()));
   }
   catch (const xercesc::XMLException & )
   {
     ACE_ERROR ((LM_ERROR,
-                "caught XML exception\n"));
+                "%T - %M - caught XML exception\n"));
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "caught unknown exception\n"));
+                "%T - %M - caught unknown exception\n"));
   }
 
   return -1;
@@ -261,12 +317,9 @@ void write_ior_to_file (const char * ior, const char * filename)
 
     if (iorfile.is_open ())
     {
-      if (SERVER_OPTIONS ()->verbose_)
-      {
-        ACE_DEBUG ((LM_DEBUG,
-                    "writing node daemon IOR to file %s\n",
-                    SERVER_OPTIONS ()->ior_file_.c_str ()));
-      }
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T - %M - writing node daemon IOR to file %s\n",
+                  SERVER_OPTIONS ()->ior_file_.c_str ()));
 
       // Write the IOR to the file.
       iorfile << ior << std::endl;
@@ -275,20 +328,20 @@ void write_ior_to_file (const char * ior, const char * filename)
     else
     {
       ACE_DEBUG ((LM_ERROR,
-                  "*** error: failed to open %s for writing\n",
+                  "%T - %M - failed to open %s for writing\n",
                   SERVER_OPTIONS ()->ior_file_.c_str ()));
     }
   }
   catch (CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "*** %s\n",
+                "%T - %M - %s\n",
                 ex._info ().c_str ()));
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "*** error: caught unknown exception\n"));
+                "%T - %M - caught unknown exception\n"));
   }
 }
 
@@ -297,6 +350,12 @@ void write_ior_to_file (const char * ior, const char * filename)
 //
 int main (int argc, char * argv [])
 {
+  // Initialize the logging priorities.
+  u_long default_mask =
+    LM_EMERGENCY | LM_ALERT | LM_CRITICAL | LM_ERROR | LM_WARNING | LM_NOTICE;
+
+  ACE_Log_Msg::instance ()->priority_mask (default_mask, ACE_Log_Msg::PROCESS);
+
   // We only allow one instance of the daemon to run at a
   // time. This way we don't have any confusion as to which
   // one we are talking to.
@@ -306,7 +365,7 @@ int main (int argc, char * argv [])
   if (guard.locked () == 0)
   {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "*** error: cutsnode_d is already active\n"),
+                       "%T - %M - cutsnode_d is already active\n"),
                        1);
   }
 
@@ -322,8 +381,8 @@ int main (int argc, char * argv [])
       return 1;
 
     // Get a reference to the <IORTable>.
-    VERBOSE_MESSAGE ((LM_DEBUG,
-                      "resolving initial reference to IOR table\n"));
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - resolving initial reference to IOR table\n"));
 
     ::CORBA::Object_var obj = orb->resolve_initial_references ("IORTable");
     ::IORTable::Table_var ior_table = ::IORTable::Table::_narrow (obj.in ());
@@ -331,25 +390,27 @@ int main (int argc, char * argv [])
     if (::CORBA::is_nil (ior_table.in ()))
     {
       ACE_ERROR_RETURN ((LM_ERROR,
-                         "(%N:%l) failed to resolve IOR table\n"),
+                         "%T - %M - failed to resolve IOR table\n"),
                          1);
     }
 
     // Get a reference to the <RootPOA>
-    VERBOSE_MESSAGE ((LM_DEBUG,
-                      "resolving initial reference to RootPOA\n"));
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - resolving initial reference to RootPOA\n"));
+
     obj = orb->resolve_initial_references ("RootPOA");
     PortableServer::POA_var poa = PortableServer::POA::_narrow (obj.in ());
 
     // Activate the POAManager
-    VERBOSE_MESSAGE ((LM_DEBUG,
-                      "getting reference to POAManager\n"));
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - getting reference to POAManager\n"));
+
     PortableServer::POAManager_var mgr = poa->the_POAManager ();
     mgr->activate ();
 
     // Create a <CUTS::Node_Daemon>
-    VERBOSE_MESSAGE ((LM_DEBUG,
-                      "creating the node daemon server\n"));
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - creating the node daemon server\n"));
 
     ACE_NEW_RETURN (daemon_i,
       CUTS_Node_Daemon_i (::CORBA::ORB::_duplicate (orb.in ())), 1);
@@ -374,15 +435,19 @@ int main (int argc, char * argv [])
       load_initial_config (SERVER_OPTIONS ()->config_.c_str (), daemon_i);
 
     // Run the ORB...
-    VERBOSE_MESSAGE ((LM_DEBUG, "activating node daemon ORB\n"));
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - activating node daemon ORB\n"));
     orb->run ();
 
     // Destroy the RootPOA.
-    VERBOSE_MESSAGE ((LM_DEBUG, "destroying the RootPOA\n"));
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - destroying the RootPOA\n"));
+
     poa->destroy (1, 1);
 
     // Destroy the ORB.
-    VERBOSE_MESSAGE ((LM_DEBUG, "destroying the ORB\n"))
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - destroying the ORB\n"));
     orb->destroy ();
 
     return 0;
@@ -390,13 +455,13 @@ int main (int argc, char * argv [])
   catch (::CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%s\n",
+                "%T - %M - %s\n",
                 ex._info ().c_str ()));
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "*** error: caught unknown exception\n"));
+                "%T - %M - caught unknown exception\n"));
   }
 
   return 1;

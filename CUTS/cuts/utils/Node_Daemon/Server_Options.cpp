@@ -6,7 +6,6 @@
 // Server_Options
 //
 Server_Options::Server_Options (void)
-: verbose_ (false)
 {
 
 }

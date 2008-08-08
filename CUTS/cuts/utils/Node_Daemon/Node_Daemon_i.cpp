@@ -63,7 +63,7 @@ task_spawn (const CUTS::taskDescriptor & task)
   if (this->process_map_.find (task.id.in ()) == 0)
   {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "*** error (node daemon): '%s' task already exists\n",
+                       "%T - %M - '%s' task already exists\n",
                        task.id.in ()),
                        1);
   }
@@ -91,9 +91,9 @@ task_spawn (const CUTS::taskDescriptor & task)
     // if it was specified as a command-line option.
     if (!SERVER_OPTIONS ()->init_dir_.empty ())
     {
-      VERBOSE_MESSAGE ((LM_DEBUG,
-                        "*** info: setting working directory to %s\n",
-                        SERVER_OPTIONS ()->init_dir_.c_str ()));
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T - %M - setting working directory to %s\n",
+                  SERVER_OPTIONS ()->init_dir_.c_str ()));
 
       info->options_.working_directory (SERVER_OPTIONS ()->init_dir_.c_str ());
     }
@@ -128,21 +128,21 @@ task_terminate (const char * name, CORBA::Boolean wait)
     // Terminate the located task.
     if (this->task_terminate_i (*info, wait) == 0)
     {
-      VERBOSE_MESSAGE ((LM_ERROR,
-                        "successfully termintaed task <%s>\n",
-                        name));
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - successfully termintaed task <%s>\n",
+                  name));
     }
     else
     {
       ACE_ERROR ((LM_ERROR,
-                  "failed to terminate task <%s>\n",
+                  "%T - %M - failed to terminate task <%s>\n",
                   name));
     }
   }
   else
   {
     ACE_ERROR ((LM_WARNING,
-                "*** warning (node daemon): %s was not found\n",
+                "%T - %M - %s was not found\n",
                 name));
   }
 
@@ -156,9 +156,9 @@ int CUTS_Node_Daemon_i::
 task_terminate_i (CUTS_Process_Info & info, bool wait)
 {
   // Terminate the process and wait for it to d
-  VERBOSE_MESSAGE ((LM_DEBUG,
-                    "terminating task <%s>\n",
-                    info.id_.c_str ()));
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - terminating task <%s>\n",
+              info.id_.c_str ()));
 
   int retval = this->pm_.terminate (info.pid_);
 
@@ -171,7 +171,7 @@ task_terminate_i (CUTS_Process_Info & info, bool wait)
   else
   {
     ACE_ERROR ((LM_ERROR,
-                "*** error (node daemon): failed to terminate <%s>\n",
+                "%T - %M - failed to terminate <%s>\n",
                 info.id_.c_str ()));
   }
 
@@ -186,7 +186,8 @@ CORBA::ULong CUTS_Node_Daemon_i::task_restart (const char * name)
   if (!this->active_)
     return -1;
 
-  VERBOSE_MESSAGE ((LM_INFO, "restarting task <%s>\n", name));
+  ACE_DEBUG ((LM_INFO,
+              "%T - %M - restarting task <%s>\n", name));
 
   // Locate the task. There is not need to restart the task
   // if we can't find it.
@@ -240,7 +241,7 @@ void CUTS_Node_Daemon_i::unmanage (pid_t pid)
   do
   {
     // Prevent the process map from being modified.
-    ACE_READ_GUARD (ACE_RW_Thread_Mutex, 
+    ACE_READ_GUARD (ACE_RW_Thread_Mutex,
                     guard,
                     this->process_map_.mutex ());
 
@@ -296,7 +297,7 @@ void CUTS_Node_Daemon_i::init (void)
   if (!this->event_handler_.activate ())
   {
     ACE_ERROR ((LM_WARNING,
-                "*** warning (node daemon): failed to active event "
+                "%T - %M - failed to active event "
                 "handler; cannot manager spawned processes\n"));
   }
 
@@ -356,7 +357,7 @@ size_t CUTS_Node_Daemon_i::recover (void)
     {
       // Duplicate the default process options.
       this->duplicate_defualt_process_options (info->options_);
-      
+
       pid_t pid = this->pm_.spawn (a_process,
                                    info->options_,
                                    &this->event_handler_);
@@ -377,13 +378,13 @@ size_t CUTS_Node_Daemon_i::recover (void)
 
         case 1:
           ACE_ERROR ((LM_ERROR,
-                      "process with pid = %d already in map\n",
+                      "%T - %M - process with pid = %d already in map\n",
                       info->pid_));
           break;
 
         case -1:
           ACE_ERROR ((LM_ERROR,
-                      "failed to save process with pid = %d in map\n",
+                      "%T - %M - failed to save process with pid = %d in map\n",
                       info->pid_));
           break;
         }
@@ -394,16 +395,16 @@ size_t CUTS_Node_Daemon_i::recover (void)
       else
       {
         ACE_ERROR ((LM_CRITICAL,
-                    "fatal error: recovered pid's do not match [%d != %d]",
+                    "%T - %M - fatal error: recovered pid's do not match [%d != %d]",
                     pid,
                     info->pid_));
       }
     }
     else
     {
-      VERBOSE_MESSAGE ((LM_DEBUG,
-                        "*** info (node daemon): pid %u is not active\n",
-                        info->pid_));
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T - %M - info (node daemon): pid %u is not active\n",
+                  info->pid_));
 
       // Remove the entry from the log and delete its resources.
       //if (PROCESS_LOG ()->process_remove (info->pid_))
@@ -449,8 +450,8 @@ void CUTS_Node_Daemon_i::shutdown (CUTS::Shutdown_Option opt)
   // e.g., force|nowait|wait
   this->active_ = false;
 
-  VERBOSE_MESSAGE ((LM_DEBUG,
-                    "*** info: (node daemon): shutting down...\n"));
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - shutting down the daemon\n"));
 
   switch (opt)
   {
@@ -466,11 +467,11 @@ void CUTS_Node_Daemon_i::shutdown (CUTS::Shutdown_Option opt)
   case CUTS::SHUTDOWN_FORCE:
     {
       // Gather all the task. We can't remove task from the process
-      // manager and use an iterator. Otherwise, we may have a 
+      // manager and use an iterator. Otherwise, we may have a
       // collection with an unpreditable state.
       ACE_Unbounded_Set <CUTS_Process_Info *> tasklist;
-      
-      do 
+
+      do
       {
         ACE_READ_GUARD (ACE_RW_Thread_Mutex, guard, this->process_map_.mutex ());
         Process_Map::ITERATOR iter (this->process_map_);
@@ -510,13 +511,13 @@ task_spawn_i (CUTS_Process_Info & info)
 {
   // Spawn the new task and register the <event_handler_> as the
   // notifier for process termination.
-  VERBOSE_MESSAGE ((LM_DEBUG,
-                    "*** info (node daemon): spawning new process ['%s']\n",
-                    info.options_.command_line_buf ()));
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - spawning new process ['%s']\n",
+              info.options_.command_line_buf ()));
 
   // Spawn the new process.
   pid_t pid = this->pm_.spawn (info.options_, &this->event_handler_);
-  
+
   if (pid != ACE_INVALID_PID && pid != 0)
   {
     // Save the information about the process.
@@ -529,8 +530,7 @@ task_spawn_i (CUTS_Process_Info & info)
     if (retval == -1)
     {
       ACE_ERROR_RETURN ((LM_ERROR,
-                         "*** error (node daemon): failed to save "
-                         "spawned task\n"),
+                         "%T - %M - failed to save spawned task\n"),
                          -1);
     }
 
@@ -540,8 +540,7 @@ task_spawn_i (CUTS_Process_Info & info)
   else
   {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "*** error (node daemon): failed to spawn "
-                       "task [%m]\n"),
+                       "%T - %M - failed to spawn task [%m]\n"),
                        -1);
   }
 
