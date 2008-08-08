@@ -10,7 +10,7 @@
 #include "Process_Info.h"
 #include "Process_Log.h"
 #include "Server_Options.h"
-#include "Env_Variable_Decoder.h"
+#include "Preprocessor.h"
 
 #include "ace/INET_Addr.h"
 #include "ace/Null_Mutex.h"
@@ -79,23 +79,21 @@ task_spawn (const CUTS::taskDescriptor & task)
 
   // Decode the environment variable in the executable and arguments
   // member of the task descriptor.
-  CUTS_Env_Variable_Decorder decoder;
+  CUTS_Text_Preprocessor preprocessor;
   ACE_CString exec_value, args_value;
 
-  if (!decoder.expand (task.executable.in (), exec_value))
+  if (preprocessor.evaluate (task.executable.in (), exec_value) != 0)
   {
-    ACE_ERROR ((LM_ERROR,
-                "%M - %T - failed to expand environment variables "
-                "in executable\n",
+    ACE_ERROR ((LM_WARNING,
+                "%T - %M - failed to preproess <executable> value\n",
                 task.executable.in ()));
   }
 
-  if (!decoder.expand (task.arguments.in (), args_value))
+  if (preprocessor.evaluate (task.arguments.in (), args_value) != 0)
   {
-    ACE_ERROR ((LM_ERROR,
-                "%M - %T - failed to expand environment variables in "
-                "argument(s)\n",
-                task.executable.in ()));
+    ACE_ERROR ((LM_WARNING,
+                "%T - %M - failed to preproess <arguments> value\n",
+                task.arguments.in ()));
   }
 
   // Prepare the command line for the task.
@@ -104,30 +102,21 @@ task_spawn (const CUTS::taskDescriptor & task)
                                exec_value.c_str (),
                                args_value.c_str ());
 
+  // Set the working directory for the process if there is one
+  // specified in the data structure.
   if (ACE_OS::strlen (task.workingdirectory.in ()) != 0)
   {
     ACE_CString cwd;
 
-    if (decoder.expand (task.workingdirectory.in (), cwd))
+    if (preprocessor.evaluate (task.workingdirectory.in (), cwd) != 0)
     {
-      ACE_DEBUG ((LM_INFO,
-                  "%T - %M - setting working directory to %s\n",
-                  cwd.c_str ()));
-
-      info->options_.working_directory (cwd.c_str ());
-    }
-    else
-    {
-      ACE_ERROR ((LM_ERROR,
-                  "%T - %M - failed to expand environment variables in "
-                  "working directory"));
-
-      ACE_DEBUG ((LM_INFO,
-                  "%T - %M - setting working directory to %s\n",
+      ACE_DEBUG ((LM_WARNING,
+                  "%T - %M - failed to preprocess <workingdirectory> "
+                  "value [%s]\n",
                   task.workingdirectory.in ()));
-
-      info->options_.working_directory (task.workingdirectory.in ());
     }
+
+    info->options_.working_directory (cwd.c_str ());
   }
   else
   {

@@ -13,12 +13,15 @@
 #ifndef _CUTS_ENV_VARIABLE_DECODER_H_
 #define _CUTS_ENV_VARIABLE_DECODER_H_
 
-#include "ace/SString.h"
+#include "ace/SStringfwd.h"
 
 /**
  * @class CUTS_Env_Variable_Decorder
  *
- * Decodes strings with environment variables by expanding them.
+ * Substitutes variables defined in a string with their expanded value.
+ * Variables are defined by enclosing a set of non-whitespace characters
+ * with the following: ${ }. Right now, the value of a variable is located
+ * in the system's environment variables.
  */
 class CUTS_Env_Variable_Decorder
 {

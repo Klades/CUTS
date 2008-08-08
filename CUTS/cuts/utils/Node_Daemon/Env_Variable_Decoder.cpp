@@ -3,6 +3,7 @@
 #include "Env_Variable_Decoder.h"
 #include "ace/Log_Msg.h"
 #include "ace/OS_NS_stdlib.h"
+#include "ace/SString.h"
 #include "boost/spirit/core.hpp"
 #include <sstream>
 
@@ -54,7 +55,7 @@ namespace actors
                     "%T - %M - environment variable %s is not defined\n",
                     str.c_str ()));
 
-        this->ostr_ << "$(" << str << ")";
+        this->ostr_ << "${" << str << "}";
       }
     }
 
@@ -124,14 +125,14 @@ public:
     definition (Env_Variable_Decoder const & self)
     {
       this->var_name_ =
-        *(boost::spirit::print_p - ')');
+        *(boost::spirit::print_p - '}');
 
       this->text_ =
         *(boost::spirit::print_p - '$');
 
       this->env_var_ =
         boost::spirit::lexeme_d [
-          boost::spirit::str_p ("$(") >> this->var_name_[actors::append_env (self.ostr_)] >> ')'];
+          boost::spirit::str_p ("${") >> this->var_name_[actors::append_env (self.ostr_)] >> '}'];
 
       this->content_ =
         this->text_ [actors::append_str (self.ostr_)] >>
@@ -166,6 +167,9 @@ private:
   /// Location to store the converted string.
   std::ostringstream & ostr_;
 };
+
+///////////////////////////////////////////////////////////////////////////////
+// class CUTS_Env_Variable_Decoder
 
 //
 // CUTS_Env_Variable_Decorder
