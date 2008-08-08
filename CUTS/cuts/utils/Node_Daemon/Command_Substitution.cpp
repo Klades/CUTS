@@ -70,9 +70,9 @@ namespace actors
       : ostr_ (ostr)
     {
       // Get the CUTS_ROOT environment variable.
-      ACE_TCHAR pathname[MAX_PATH];
+      ACE_TCHAR pathname[1024];
 
-      if (ACE::get_temp_dir (pathname, MAX_PATH - 21) == -1)
+      if (ACE::get_temp_dir (pathname, 1024 - 21) == -1)
       {
         ACE_ERROR ((LM_WARNING,
                     "%T - %M - failed to resolve temporary directory\n"));
@@ -130,7 +130,7 @@ namespace actors
                   str.c_str ()));
 
       // Open the temporary file, and map it into memory.
-      int flags = O_WRONLY | O_CREAT | O_SEQUENTIAL;
+      int flags = O_WRONLY | O_CREAT;
       ACE_HANDLE pipe = ACE_OS::open (this->tempfile_.c_str (), flags);
 
       if (pipe != ACE_INVALID_HANDLE)

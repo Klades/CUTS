@@ -7,6 +7,10 @@ project {
 
   includes += $(CUTS_ROOT) $(CUTS_ROOT)/MDE
   libpaths += $(CUTS_ROOT)/lib
+
+  verbatim (gnuace, top) {
+    no_hidden_visibility = 1
+  }
 }
 
 //=============================================================================

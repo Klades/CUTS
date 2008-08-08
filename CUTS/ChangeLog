@@ -1,3 +1,15 @@
+Fri Aug  8 22:11:52 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Command_Substitution.cpp:
+
+	  . Fixed build errors on non-Windows system related to undefined
+	    macros.
+	
+        * etc/config/cuts_base.mpb:
+
+	  . Fixed build errors on non-Windows systems related to visibility
+	    problems from GCC.
+
 Fri Aug  8 19:32:45 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Command_Substitution.h:
