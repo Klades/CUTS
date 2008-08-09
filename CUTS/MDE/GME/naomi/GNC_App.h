@@ -63,6 +63,9 @@ struct CUTS_GNC_App_Options
 
   /// Name to store in the interface file.
   std::string interface_file_name_;
+
+  /// Owner of the attributes.
+  std::string owner_;
 };
 
 /**

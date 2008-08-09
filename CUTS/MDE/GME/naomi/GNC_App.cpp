@@ -40,8 +40,9 @@ General Options:\n\
   -h, --help                       display this help message\n\
 \n\
 Atttribute Options:\n\
-  -u, --update-attributes          update all input/output attributes\n\
+  --owner=OWNER                    owner of the output attribute\n\
   -l, --list-attributes            list naomi attribute in project\n\
+  -u, --update-attributes          update all input/output attributes\n\
 \n\
   -P, --attribute-path=PATH        path to naomi attributes on disk\n\
 \n\
@@ -95,6 +96,7 @@ int CUTS_GNC_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("attribute-path", 'P', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("update-attributes", 'u', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("list-attributes", 'l', ACE_Get_Opt::NO_ARG);
+  get_opt.long_option ("owner", ACE_Get_Opt::ARG_REQUIRED);
 
   get_opt.long_option ("create-interface-file", ACE_Get_Opt::ARG_REQUIRED);
 
@@ -146,6 +148,10 @@ int CUTS_GNC_App::parse_args (int argc, char * argv [])
       else if (ACE_OS::strcmp (get_opt.long_option (), "create-interface-file") == 0)
       {
         this->opts_.interface_file_pathname_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "owner") == 0)
+      {
+        this->opts_.owner_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
       {
@@ -556,9 +562,10 @@ void CUTS_GNC_App::create_interface_file (void)
 
   this->gather_all_attributes (root, input, output);
 
-  // Create the interface object.
+  // Get the value for the <type> field.
   std::string type = this->project_->paradigm_name ();
 
+  // Get the value for the <name> field.
   std::string name = this->opts_.interface_file_pathname_;
 
   std::string::size_type pos =
@@ -567,6 +574,12 @@ void CUTS_GNC_App::create_interface_file (void)
   name = this->opts_.interface_file_pathname_.substr (pos + 1);
   name.substr (0, name.length () - 1);
 
+  // Set the full pathname of the interface file.
+  std::string pathname =
+    this->opts_.interface_file_pathname_ + std::string ("_interface.xml");
+
+  // Create a new interface object, which will be translated
+  // into XML.
   ACE_DEBUG ((LM_DEBUG,
               "%T - %M - creating interface file named %s for type %s\n",
               name.c_str (),
@@ -604,7 +617,7 @@ void CUTS_GNC_App::create_interface_file (void)
             "interface",
             &naomi::interfaces::writer::interface_);
 
-  if (writer.open (this->opts_.interface_file_pathname_.c_str ()) == 0)
+  if (writer.open (pathname.c_str ()) == 0)
   {
     if (writer.writer ()->canSetFeature (xercesc::XMLUni::fgDOMWRTDiscardDefaultContent, true))
       writer.writer ()->setFeature (xercesc::XMLUni::fgDOMWRTDiscardDefaultContent, true);
@@ -1071,11 +1084,10 @@ update_output_attribute (const std::string & attr, GME_Attribute_Tag & info)
   // Get the paradigm for the project. This is the actual owner
   // of the attribute.
   GME::Project project = info.object_.project ();
-  std::string owner = project.paradigm_name ();
 
   // Create the file reader for the configuration file. Right now, we can
   // only set the owner of the attribute.
-  naomi::attributes::attributeType attr_info (owner);
+  naomi::attributes::attributeType attr_info (this->opts_.owner_);
 
   // Pass control to either the simple/complex attribute finish initializing
   // the reset of the attribute's information

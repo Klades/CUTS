@@ -1,14 +1,22 @@
+Sat Aug  9 02:12:31 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/GNC_App.h:
+        * MDE/GME/naomi/GNC_App.cpp:
+
+          . Added the --owner option for setting the owner of output
+            attributes.
+
 Fri Aug  8 22:11:52 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Command_Substitution.cpp:
 
-	  . Fixed build errors on non-Windows system related to undefined
-	    macros.
-	
+          . Fixed build errors on non-Windows system related to undefined
+            macros.
+
         * etc/config/cuts_base.mpb:
 
-	  . Fixed build errors on non-Windows systems related to visibility
-	    problems from GCC.
+          . Fixed build errors on non-Windows systems related to visibility
+            problems from GCC.
 
 Fri Aug  8 19:32:45 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
