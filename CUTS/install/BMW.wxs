@@ -76,8 +76,8 @@
                   <File Id="components.aspx" Name="components.aspx"
                         Source="$(var.BMW_ROOT)\components.aspx" DiskId="1" />
 
-                  <File Id="Critical_Path.aspx" Name="Critical_Path.aspx"
-                        Source="$(var.BMW_ROOT)\Critical_Path.aspx" DiskId="1" />
+                  <File Id="paths.aspx" Name="paths.aspx"
+                        Source="$(var.BMW_ROOT)\paths.aspx" DiskId="1" />
 
                   <File Id="Critical_Path_Timeline.aspx" Name="Critical_Path_Timeline.aspx"
                         Source="$(var.BMW_ROOT)\Critical_Path_Timeline.aspx" DiskId="1" />
@@ -88,11 +88,20 @@
                   <File Id="environment.aspx" Name="environment.aspx"
                         Source="$(var.BMW_ROOT)\environment.aspx" DiskId="1" />
 
+                  <File Id="logformats.aspx" Name="logformats.aspx"
+                        Source="$(var.BMW_ROOT)\logformats.aspx" DiskId="1" />
+
                   <File Id="performance.aspx" Name="performance.aspx"
                         Source="$(var.BMW_ROOT)\performance.aspx" DiskId="1" />
 
                   <File Id="timeline.aspx" Name="timeline.aspx"
                         Source="$(var.BMW_ROOT)\timeline.aspx" DiskId="1" />
+
+                  <File Id="unittest.aspx" Name="unittest.aspx"
+                        Source="$(var.BMW_ROOT)\unittest.aspx" DiskId="1" />
+
+                  <File Id="unittestchart.aspx" Name="unittestchart.aspx"
+                        Source="$(var.BMW_ROOT)\unittestchart.aspx" DiskId="1" />
 
                   <!-- user-defined controls -->
                   <File Id="Node_Details.ascx" Name="Node_Details.ascx"
@@ -159,8 +168,8 @@
                     <File Id="App_Web_components.aspx.cdcab7d2.dll" Name="App_Web_components.aspx.cdcab7d2.dll"
                           Source="$(var.BMW_ROOT)\bin\App_Web_components.aspx.cdcab7d2.dll" DiskId="1" />
 
-                    <File Id="App_Web_critical_path.aspx.cdcab7d2.dll" Name="App_Web_critical_path.aspx.cdcab7d2.dll"
-                          Source="$(var.BMW_ROOT)\bin\App_Web_critical_path.aspx.cdcab7d2.dll" DiskId="1" />
+                    <File Id="App_Web_paths.aspx.cdcab7d2.dll" Name="App_Web_paths.aspx.cdcab7d2.dll"
+                          Source="$(var.BMW_ROOT)\bin\App_Web_paths.aspx.cdcab7d2.dll" DiskId="1" />
 
                     <File Id="App_Web_critical_path_timeline.aspx.cdcab7d2.dll" Name="App_Web_critical_path_timeline.aspx.cdcab7d2.dll"
                           Source="$(var.BMW_ROOT)\bin\App_Web_critical_path_timeline.aspx.cdcab7d2.dll" DiskId="1" />
@@ -177,6 +186,9 @@
                     <File Id="App_Web_environment.aspx.cdcab7d2.dll" Name="App_Web_environment.aspx.cdcab7d2.dll"
                           Source="$(var.BMW_ROOT)\bin\App_Web_environment.aspx.cdcab7d2.dll" DiskId="1" />
 
+                    <File Id="App_Web_logformats.aspx.cdcab7d2.dll" Name="App_Web_logformats.aspx.cdcab7d2.dll"
+                          Source="$(var.BMW_ROOT)\bin\App_Web_logformats.aspx.cdcab7d2.dll" DiskId="1" />
+
                     <File Id="App_Web_node_details.ascx.cdcab7d2.dll" Name="App_Web_node_details.ascx.cdcab7d2.dll"
                           Source="$(var.BMW_ROOT)\bin\App_Web_node_details.ascx.cdcab7d2.dll" DiskId="1" />
 
@@ -191,6 +203,12 @@
 
                     <File Id="App_Web_timeline.aspx.cdcab7d2.dll" Name="App_Web_timeline.aspx.cdcab7d2.dll"
                           Source="$(var.BMW_ROOT)\bin\App_Web_timeline.aspx.cdcab7d2.dll" DiskId="1" />
+
+                    <File Id="App_Web_unittest.aspx.cdcab7d2.dll" Name="App_Web_unittest.aspx.cdcab7d2.dll"
+                          Source="$(var.BMW_ROOT)\bin\App_Web_unittest.aspx.cdcab7d2.dll" DiskId="1" />
+
+                    <File Id="App_Web_unittestchart.aspx.cdcab7d2.dll" Name="App_Web_unittestchart.aspx.cdcab7d2.dll"
+                          Source="$(var.BMW_ROOT)\bin\App_Web_unittestchart.aspx.cdcab7d2.dll" DiskId="1" />
 
                     <!-- 3rd-party assemblies -->
                     <File Id="CUTS.Data.dll" Name="CUTS.Data.dll"
