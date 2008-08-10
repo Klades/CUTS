@@ -321,7 +321,7 @@ Visit_InEventPort (const PICML::InEventPort & sink)
   // Get the connections from the port.
   PICML::Input input = sink.dstInput ();
   PICML::QueryInput query_input = sink.dstQueryInput ();
-  
+
   std::vector <PICML::Property> properties;
 
   if (input != Udm::null)
@@ -329,16 +329,16 @@ Visit_InEventPort (const PICML::InEventPort & sink)
     // Get the properties associate with the input port.
     PICML::InputAction action = input.dstInput_end ();
     properties = action.Property_children ();
-
-    // We are generating a regular event port.
-    CUTS_BE_InEventPort_Begin_T <BE_TYPE>::generate (sink, properties);
-
-    CUTS_BE_Execution_Visitor_T <BE_TYPE> exec_visitor;
-    exec_visitor.generate (sink);
-
-    CUTS_BE_InEventPort_End_T <BE_TYPE>::generate (sink, properties);
   }
-  
+
+  // We are generating a regular event port.
+  CUTS_BE_InEventPort_Begin_T <BE_TYPE>::generate (sink, properties);
+
+  CUTS_BE_Execution_Visitor_T <BE_TYPE> exec_visitor;
+  exec_visitor.generate (sink);
+
+  CUTS_BE_InEventPort_End_T <BE_TYPE>::generate (sink, properties);
+
   //if (query_input != Udm::null)
   //{
   //  // Get the properties associated with the input port.

@@ -120,6 +120,57 @@
                         Source="$(var.BMW_ROOT)\Web.config" DiskId="1" />
                 </Component>
 
+                <!-- http://localhost/CUTS/charts -->
+                <Directory Id="charts" Name="charts">
+                  <Component Id="BMWUnitTestCharts" Guid="36986C4F-6940-46CF-940C-A79B07FEE55D">
+                    <File Id="charts.swf" Name="charts.swf"
+                          Source="$(var.BMW_ROOT)\charts\charts.swf" DiskId="1" />
+                  </Component>
+
+                  <!-- http://localhost/CUTS/charts/charts_library -->
+                  <Directory Id="charts_library" Name="charts_library">
+                    <Component Id="BMWUnitTestChartsLibrary" Guid="B3E33593-FE59-4249-8258-A01164F518A3">
+                      <File Id="arno.swf" Name="arno.swf"
+                            Source="$(var.BMW_ROOT)\charts\charts_library\arno.swf" />
+                      <File Id="arst.swf" Name="arst.swf"
+                            Source="$(var.BMW_ROOT)\charts\charts_library\arst.swf" />
+                      <File Id="brfl.swf" Name="brfl.swf"
+                            Source="$(var.BMW_ROOT)\charts\charts_library\brfl.swf" />
+                      <File Id="brno.swf" Name="brno.swf"
+                            Source="$(var.BMW_ROOT)\charts\charts_library\brno.swf" />
+                      <File Id="brst.swf" Name="brst.swf"
+                            Source="$(var.BMW_ROOT)\charts\charts_library\brst.swf" />
+                      <File Id="cl3d.swf" Name="cl3d.swf"
+                            Source="$(var.BMW_ROOT)\charts\charts_library\cl3d.swf" />
+                      <File Id="clfl.swf" Name="clfl.swf"
+                            Source="$(var.BMW_ROOT)\charts\charts_library\clfl.swf" />
+                      <File Id="clno.swf" Name="clno.swf"
+                            Source="$(var.BMW_ROOT)\charts\charts_library\clno.swf" />
+                      <File Id="clp3.swf" Name="clp3.swf"
+                            Source="$(var.BMW_ROOT)\charts\charts_library\clp3.swf" />
+                      <File Id="cls3.swf" Name="cls3.swf"
+                            Source="$(var.BMW_ROOT)\charts\charts_library\cls3.swf" />
+                      <File Id="clst.swf" Name="clst.swf"
+                            Source="$(var.BMW_ROOT)\charts\charts_library\clst.swf" />
+                      <File Id="cnno.swf" Name="cnno.swf"
+                            Source="$(var.BMW_ROOT)\charts\charts_library\cnno.swf" />
+                      <File Id="lnno.swf" Name="lnno.swf"
+                            Source="$(var.BMW_ROOT)\charts\charts_library\lnno.swf" />
+                      <File Id="mxno.swf" Name="mxno.swf"
+                            Source="$(var.BMW_ROOT)\charts\charts_library\mxno.swf" />
+                      <File Id="pi3d.swf" Name="pi3d.swf"
+                            Source="$(var.BMW_ROOT)\charts\charts_library\pi3d.swf" />
+                      <File Id="pino.swf" Name="pino.swf"
+                            Source="$(var.BMW_ROOT)\charts\charts_library\pino.swf" />
+                      <File Id="pono.swf" Name="pono.swf"
+                            Source="$(var.BMW_ROOT)\charts\charts_library\pono.swf" />
+                      <File Id="scno.swf" Name="scno.swf"
+                            Source="$(var.BMW_ROOT)\charts\charts_library\scno.swf" />
+                    </Component>
+                  </Directory>
+                </Directory>
+
+
                 <!-- http://localhost/CUTS/controls -->
                 <Directory Id="controls" Name="controls">
                   <Component Id="BMWControlFiles" Guid="71EB1EC2-A33F-4895-AD09-4CFEE4904FB2">
@@ -168,6 +219,9 @@
                     <File Id="App_Web_components.aspx.cdcab7d2.dll" Name="App_Web_components.aspx.cdcab7d2.dll"
                           Source="$(var.BMW_ROOT)\bin\App_Web_components.aspx.cdcab7d2.dll" DiskId="1" />
 
+                    <File Id="App_Web_help.master.87a0902e.dll" Name="App_Web_help.master.87a0902e.dll"
+                          Source="$(var.BMW_ROOT)\bin\App_Web_help.master.87a0902e.dll" DiskId="1" />
+
                     <File Id="App_Web_paths.aspx.cdcab7d2.dll" Name="App_Web_paths.aspx.cdcab7d2.dll"
                           Source="$(var.BMW_ROOT)\bin\App_Web_paths.aspx.cdcab7d2.dll" DiskId="1" />
 
@@ -207,6 +261,9 @@
                     <File Id="App_Web_unittest.aspx.cdcab7d2.dll" Name="App_Web_unittest.aspx.cdcab7d2.dll"
                           Source="$(var.BMW_ROOT)\bin\App_Web_unittest.aspx.cdcab7d2.dll" DiskId="1" />
 
+                    <File Id="App_Web_unittest.aspx.87a0902e.dll" Name="App_Web_unittest.aspx.87a0902e.dll"
+                          Source="$(var.BMW_ROOT)\bin\App_Web_unittest.aspx.87a0902e.dll" DiskId="1" />
+
                     <File Id="App_Web_unittestchart.aspx.cdcab7d2.dll" Name="App_Web_unittestchart.aspx.cdcab7d2.dll"
                           Source="$(var.BMW_ROOT)\bin\App_Web_unittestchart.aspx.cdcab7d2.dll" DiskId="1" />
 
@@ -222,6 +279,17 @@
 
                     <File Id="WebChart.dll" Name="WebChart.dll"
                           Source="$(var.BMW_ROOT)\bin\WebChart.dll" DiskId="1" />
+                  </Component>
+                </Directory>
+
+                <!-- http://localhost/CUTS/help -->
+                <Directory Id="help" Name="help">
+                  <Component Id="BMWHelpFiles" Guid="F63DA955-E359-484A-8258-2174CD61B5BC">
+                    <File Id="help.help.master" Name="help.master"
+                          Source="$(var.BMW_ROOT)\help\help.master" DiskId="1" />
+
+                    <File Id="help.unittest.aspx" Name="unittest.aspx"
+                          Source="$(var.BMW_ROOT)\help\unittest.aspx" DiskId="1" />
                   </Component>
                 </Directory>
 
@@ -271,6 +339,9 @@
 
                     <File Id="menudot.gif" Name="menudot.gif"
                           Source="$(var.BMW_ROOT)\images\menudot.gif" DiskId="1" />
+
+                    <File Id="Unit_Testing_Concept.png" Name="Unit_Testing_Concept.png"
+                          Source="$(var.BMW_ROOT)\images\Unit_Testing_Concept.png" DiskId="1" />
                   </Component>
                 </Directory>
               </Directory>
@@ -291,8 +362,11 @@
       <ComponentRef Id="BMWServerFiles" />
       <ComponentRef Id="BMWBinFiles" />
       <ComponentRef Id="BMWControlFiles" />
+      <ComponentRef Id="BMWHelpFiles" />
       <ComponentRef Id="BMWImageFiles" />
       <ComponentRef Id="BMWStyleFiles" />
+      <ComponentRef Id="BMWUnitTestCharts" />
+      <ComponentRef Id="BMWUnitTestChartsLibrary" />
     </Feature>
 
     <!-- user interface -->
