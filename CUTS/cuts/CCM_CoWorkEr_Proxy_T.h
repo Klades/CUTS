@@ -123,13 +123,13 @@ protected:
   /// Collection of event handlers in this component.
   Event_Handler_Set event_handlers_;
 
-private:
   /// Type definition for a list of pending operations.
   typedef CUTS_Pending_Op_List_T <CCM_TYPE> Pending_Op_List;
 
   /// Collection of pending operations.
   Pending_Op_List pending_ops_;
 
+private:
   /**
    * Helper method for loading the proxy with an implemenation.
    *

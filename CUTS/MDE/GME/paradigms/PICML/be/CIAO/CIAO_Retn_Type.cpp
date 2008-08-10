@@ -40,7 +40,7 @@ void CUTS_CIAO_Retn_Type::close_singleton (void)
 CUTS_CIAO_Retn_Type::CUTS_CIAO_Retn_Type (void)
 {
   this->predefined_type_map_.insert (
-    Type_Map::value_type (PICML::String::meta, "char *"));
+    Type_Map::value_type (PICML::String::meta, "char"));
 
   this->predefined_type_map_.insert (
     Type_Map::value_type (PICML::LongInteger::meta, "::CORBA::Long"));
