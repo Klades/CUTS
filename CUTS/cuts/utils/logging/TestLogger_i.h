@@ -38,7 +38,7 @@ public:
   CUTS_Log_Message (void);
 
   /// Timestamp of the log message.
-  long timestamp_;
+  ACE_Time_Value timestamp_;
 
   /// Severity of the log message.
   long severity_;
@@ -79,7 +79,7 @@ public:
   /// Destructor.
   virtual ~CUTS_TestLogger_i (void);
 
-  virtual void log (CORBA::LongLong timestamp,
+  virtual void log (const CUTS::Time_Stamp & tv,
                     CORBA::Long severity,
                     const CUTS::MessageText & message);
 

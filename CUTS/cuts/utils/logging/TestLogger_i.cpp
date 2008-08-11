@@ -40,6 +40,11 @@ CUTS_TestLogger_i::CUTS_TestLogger_i (long logid, CUTS_TestLoggerFactory_i & par
   ACE_OS::hostname (hostname, sizeof (hostname));
   ACE_INET_Addr inet ((u_short)0, hostname, AF_ANY);
 
+  inet.get_host_name (this->hostname_, MAXHOSTNAMELEN);
+
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - logger client's hostname : %s\n",
+              this->hostname_));
 }
 
 //
@@ -63,7 +68,7 @@ CUTS_TestLogger_i::~CUTS_TestLogger_i (void)
 //
 // log
 //
-void CUTS_TestLogger_i::log (CORBA::LongLong timestamp,
+void CUTS_TestLogger_i::log (const CUTS::Time_Stamp & tv,
                              CORBA::Long severity,
                              const CUTS::MessageText & msg)
 {
@@ -71,7 +76,7 @@ void CUTS_TestLogger_i::log (CORBA::LongLong timestamp,
   {
     // Create a new log message for the message.
     CUTS_Log_Message * message = this->msg_free_list_.remove ();
-                
+
     if (message != 0)
     {
       // First, get the length of the string. This is necessary so we can
@@ -91,7 +96,7 @@ void CUTS_TestLogger_i::log (CORBA::LongLong timestamp,
 
       // Initialize the remainder of the message.
       message->severity_ = severity;
-      message->timestamp_ = static_cast <long> (timestamp);
+      message->timestamp_.set (tv.sec, tv.usec);
 
       // Pass the message to the handler.
       this->handle_message (message);
@@ -213,7 +218,6 @@ void CUTS_TestLogger_i::flush_messages_into_database (void)
     const char * stmt = "CALL cuts.insert_log_message (?,?,?,?,?)";
     query->prepare (stmt);
 
-    ACE_Time_Value tv;
     ACE_Date_Time date_time;
     ODBC_Date_Time timestamp;
 
@@ -248,16 +252,15 @@ void CUTS_TestLogger_i::flush_messages_into_database (void)
       retval = iter.next (msg);
 
       if (msg == 0)
-        {
-          ACE_ERROR ((LM_ERROR,
-                      "%T (%t) - %M - logger %d: invalid message pointer\n",
-                      this->logid_));
-        }
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "%T (%t) - %M - logger %d: invalid message pointer\n",
+                    this->logid_));
+      }
       else if (retval == 1)
       {
         // Initialize the timestamp parameter.
-        tv.msec (msg->timestamp_);
-        date_time.update (tv);
+        date_time.update (msg->timestamp_);
         timestamp <<= date_time;
 
         // Bind the remaining parameters.
@@ -412,9 +415,8 @@ int CUTS_TestLogger_i::insert_messages_into_database (void)
     const char * stmt = "CALL cuts.insert_log_message (?,?,?,?,?)";
     query->prepare (stmt);
 
-    ACE_Time_Value tv;
-    ACE_Date_Time date_time;
-    ODBC_Date_Time timestamp;
+    ACE_Date_Time dt_temp;
+    ODBC_Date_Time date_time;
 
     // Get global information from the parent.
     long test_number = this->parent_.test_number ();
@@ -422,7 +424,7 @@ int CUTS_TestLogger_i::insert_messages_into_database (void)
     // Initialize the persistant parameters of the statement.
     query->parameter (0)->bind (&test_number);
     query->parameter (1)->bind (this->hostname_, 0);
-    query->parameter (2)->bind (&timestamp);
+    query->parameter (2)->bind (&date_time);
 
     // Determine how many messages we are going to dump into the database. If
     // the max_count == 0, then we are going to dump all that we have
@@ -452,9 +454,8 @@ int CUTS_TestLogger_i::insert_messages_into_database (void)
       else if (retval != -1)
       {
         // Initialize the timestamp parameter.
-        tv.msec (msg->timestamp_);
-        date_time.update (tv);
-        timestamp <<= date_time;
+        dt_temp.update (msg->timestamp_);
+        date_time <<= dt_temp;
 
         // Bind the remaining parameters.
         query->parameter (3)->bind (&msg->severity_);

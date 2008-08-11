@@ -166,16 +166,16 @@ Visit_WorkerFile (const PICML::WorkerFile & file)
 {
   // Add the name of the worker to the collection of
   // include files for this node.
-  CUTS_BE_Preprocessor_WorkerFile_T <
-    T>::handle (this->current_impl_, file);
-  this->current_impl_->include_.insert (file.name ());
+  CUTS_BE_Preprocessor_WorkerFile_T <T>::handle (this->current_impl_, file);
+
+  // this->current_impl_->include_.insert (file.name ());
 
   // Add the location of this worker, if the string is not
   // empty, to the collection of include directories.
   std::string location = file.Location ();
 
-  if (!location.empty ())
-    this->current_impl_->include_paths_.insert (location);
+  //if (!location.empty ())
+  //  this->current_impl_->include_paths_.insert (location);
 
   // Visit the library hosting the file.
   PICML::WorkerLibrary library = file.WorkerLibrary_parent ();
@@ -194,14 +194,14 @@ Visit_WorkerLibrary (const PICML::WorkerLibrary & library)
   CUTS_BE_Preprocessor_WorkerLibrary_T <T>::
     handle (this->current_impl_, library);
 
-  this->current_impl_->lib_.insert (library.name ());
+  //this->current_impl_->lib_.insert (library.name ());
 
   // Add the location of this library, if the string is not
   // empty, to the collection of import library directories.
-  std::string location = library.Location ();
+  //std::string location = library.Location ();
 
-  if (!location.empty ())
-    this->current_impl_->lib_paths_.insert (location);
+  //if (!location.empty ())
+  //  this->current_impl_->lib_paths_.insert (location);
 }
 
 //

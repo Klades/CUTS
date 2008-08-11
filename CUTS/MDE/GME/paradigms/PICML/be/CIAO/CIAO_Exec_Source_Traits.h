@@ -183,6 +183,9 @@ private:
   /// Flag that determines calling method for environment.
   bool auto_env_;
 
+  /// Number of arguments in action.
+  size_t arg_count_;
+
   /// Manager for mapping port types to their scoped name.
   CUTS_UDM_Port_Manager_T <const PICML::OutEventPort> outevent_mgr_;
 

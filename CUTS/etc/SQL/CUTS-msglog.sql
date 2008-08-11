@@ -1,7 +1,7 @@
 --
 -- @file        CUTS-msglog.sql
 --
--- $Id: CUTS-msglog.sql 1785 2008-02-04 23:12:28Z hillj $
+-- $Id$
 --
 -- @author      James H. Hill
 --
@@ -17,13 +17,13 @@ CREATE TABLE IF NOT EXISTS cuts.msglog
   msgid           INT             NOT NULL auto_increment,
   test_number     INT             NOT NULL,
   hostid          INT             NOT NULL,
-  msgtime         TIMESTAMP       NOT NULL DEFAULT NOW(),
+  msgtime         DATETIME        NOT NULL,
   severity        INT             NOT NULL,
   message         VARCHAR (255)   NOT NULL,
 
   -- set the contraints for the table
   PRIMARY KEY (msgid),
-  
+
   FOREIGN KEY (test_number) REFERENCES cuts.tests (test_number)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
@@ -43,14 +43,14 @@ DROP PROCEDURE IF EXISTS cuts.insert_log_message //
 CREATE PROCEDURE
   cuts.insert_log_message (IN _test_number INT,
                            IN _hostname VARCHAR (255),
-                           IN _msgtime TIMESTAMP,
+                           IN _msgtime DATETIME,
                            IN _severity INT,
                            IN _message VARCHAR (255))
 BEGIN
-  CALL cuts.insert_log_message_i (_test_number, 
-                                  cuts.get_hostname_id (_hostname), 
-                                  _msgtime, 
-                                  _severity, 
+  CALL cuts.insert_log_message_i (_test_number,
+                                  cuts.get_hostname_id (_hostname),
+                                  _msgtime,
+                                  _severity,
                                   _message);
 END; //
 
@@ -63,14 +63,14 @@ DROP PROCEDURE IF EXISTS cuts.insert_log_message_i //
 CREATE PROCEDURE
   cuts.insert_log_message_i (IN _test_number INT,
                              IN _hostid INT,
-                             IN _msgtime TIMESTAMP,
+                             IN _msgtime DATETIME,
                              IN _severity INT,
                              IN _message VARCHAR (255))
 BEGIN
-  INSERT INTO cuts.msglog (test_number, 
-                           hostid, 
-                           msgtime, 
-                           severity, 
+  INSERT INTO cuts.msglog (test_number,
+                           hostid,
+                           msgtime,
+                           severity,
                            message)
     VALUES (_test_number, _hostid, _msgtime, _severity, _message);
 END; //

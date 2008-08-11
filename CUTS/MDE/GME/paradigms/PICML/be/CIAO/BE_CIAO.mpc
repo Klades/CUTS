@@ -27,6 +27,7 @@ project (CUTS_BE_Ciao) : boost_base, picml_udm, cuts_cosmic {
     CIAO_Source_Traits.cpp
     CIAO_Exec_Header_Traits.cpp
     CIAO_Exec_Source_Traits.cpp
+    CIAO_Preprocessor_Handlers.cpp
     CIAO_Proxy_Header_Traits.cpp
     CIAO_Proxy_Source_Traits.cpp
     CIAO_Project_Generator.cpp
@@ -39,7 +40,9 @@ project (CUTS_BE_Ciao) : boost_base, picml_udm, cuts_cosmic {
   }
 
   Header_Files {
+    CIAO_Ctx.h
     CIAO_Manager.h
+    CIAO_Preprocessor.h
   }
 
   Inline_Files {

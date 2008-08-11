@@ -1,0 +1,17 @@
+// $Id$
+
+project (CUTS_Test_Logger) : taolib, boost_base, cuts_logging_stub, cuts_testing_stub, cutslib {
+  sharedname    = CUTS_Test_Logger
+
+  dynamicflags += CUTS_TEST_LOGGER_BUILD_DLL
+
+  Source_Files {
+    Format_Parser.cpp
+    Test_Logger.cpp
+    Test_Logger_i.cpp
+  }
+
+  Header_Files {
+    Test_Logger_export.h
+  }
+}

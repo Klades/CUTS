@@ -1,3 +1,58 @@
+Mon Aug 11 02:11:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/BE_Impl_Graph_T.cpp:
+
+          . Removed the implementation that writes properties directly to
+            the graphs nodes, since this is handled by the backend
+            generators preprocessor.
+
+        * MDE/GME/paradigms/PICML/be/CAPI/CAPI_Preprocessor.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/BE_CIAO.mpc:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Exec_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Exec_Source_Traits.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Exec_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Manager.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Proxy_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Proxy_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Traits.h:
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Traits_Base.cpp:
+
+          . Implemented the CIAO specific preprocessor.
+
+          . The generated code no longer not uses the activation record's
+            logging methods.
+
+        * cuts/CUTS_CIAO.mpc:
+        * cuts/TimeValue.idl:
+        * cuts/performance.idl:
+
+          . Moved the Time_Stamp structure into its own IDL file so that
+            it can be used in other IDL files.
+
+        * cuts/utils/logging/TestLogger_i.h:
+        * cuts/utils/logging/TestLogger_i.cpp:
+        * cuts/utils/logging/logging.idl:
+        * cuts/utils/logging/logging.mpc:
+
+          . Converted the timestamp from a long to a Time_Stamp.
+
+        * cuts/workers/Test_Logger/Format_Parser.h:
+        * cuts/workers/Test_Logger/Format_Parser.cpp:
+        * cuts/workers/Test_Logger/Test_Logger.h:
+        * cuts/workers/Test_Logger/Test_Logger.mpc:
+        * cuts/workers/Test_Logger/Test_Logger.cpp:
+        * cuts/workers/Test_Logger/Test_Logger_export.h:
+        * cuts/workers/Test_Logger/Test_Logger_i.h:
+        * cuts/workers/Test_Logger/Test_Logger_i.cpp:
+
+          . First implementation of a C++ version of the test logger
+            workload generator.
+
+        * etc/SQL/CUTS-msglog.sql:
+
+          . Bug fix where the msgtime column was a TIMESTAMP instead of
+            a DATETIME value.
+
 Sun Aug 10 02:16:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Retn_Type.cpp:

@@ -5,8 +5,8 @@
 #include "CIAO_Retn_Type.h"
 #include "CIAO_In_Type.h"
 #include "CIAO_Var_Type.h"
+#include "CIAO_Preprocessor.h"
 #include "be/BE_Options.h"
-#include "be/BE_Preprocessor_T.h"
 #include "boost/bind.hpp"
 #include "Uml.h"
 
@@ -67,7 +67,7 @@ CUTS_CIAO_Exec_Source_Traits::~CUTS_CIAO_Exec_Source_Traits (void)
 bool CUTS_CIAO_Exec_Source_Traits::
 open_file (const PICML::ComponentImplementationContainer & container)
 {
-  if (!CUTS_BE_PREPROCESSOR (CUTS_BE_Ciao)->impls ().find (container.name (), this->node_))
+  if (!CUTS_BE_CIAO_PREPROCESSOR->impls ().find (container.name (), this->node_))
     return false;
 
   if (this->node_->is_proxy_)
@@ -555,24 +555,33 @@ write_WorkerAction_begin (const PICML::Worker & parent,
   // then we need to invoke the logging method. If not, then we
   // need to invoke the non-logging method.
 
-  if (action.LogAction ())
-  {
-    this->outfile ()
-      << "record->perform_action (" << std::endl
-      << action.uniqueId () << ", -1, ";
-  }
-  else
-  {
-    this->outfile ()
-      << "record->perform_action_no_logging (" << std::endl;
-  }
-
   PICML::Action action_type =
     const_cast <PICML::Action &> (action).Archetype ();
 
   this->outfile ()
-    << "&" << parent.name () << "::" << action_type.name ()
-    << ", this->" << action.name () << "_";
+    << "this->" << action.name () << "_."
+    << action_type.name () << " (";
+
+  typedef std::vector <PICML::Property> Property_Set;
+  Property_Set args = action_type.Property_kind_children ();
+
+  this->arg_count_ = args.size ();
+
+  //if (action.LogAction ())
+  //{
+  //  this->outfile ()
+  //    << "record->perform_action (" << std::endl
+  //    << action.uniqueId () << ", -1, ";
+  //}
+  //else
+  //{
+  //  this->outfile ()
+  //    << "record->perform_action_no_logging (" << std::endl;
+  //}
+
+  //this->outfile ()
+  //  << "&" << parent.name () << "::" << action_type.name ()
+  //  << ", this->" << action.name () << "_";
 }
 
 //
@@ -597,11 +606,16 @@ write_action_property (const PICML::Property & property)
   if (!this->outfile ().is_open ())
     return;
 
-  // Extract the type information from the <property>.
+  // Write the value of the property.
   PICML::DataType datatype = property.DataType_child ();
+  this->outfile () << property.DataValue ();
 
-  this->outfile ()
-    << ", " << property.DataValue ();
+  // If there are anymore argurments remaining, we need to place a
+  // comma separator for the next argument.
+  if (-- this->arg_count_ > 0)
+  {
+    this->outfile () << ", ";
+  }
 }
 
 //
@@ -685,7 +699,7 @@ write_postcondition (const std::string & postcondition)
   if (!this->outfile ().is_open ())
     return;
 
-  this->outfile () << postcondition << ";";
+  this->outfile () << postcondition;
 }
 
 

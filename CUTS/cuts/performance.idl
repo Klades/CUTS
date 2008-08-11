@@ -13,25 +13,10 @@
 #ifndef _CUTS_PERFORMANCE_IDL_
 #define _CUTS_PERFORMANCE_IDL_
 
+#include "TimeValue.idl"
+
 module CUTS
 {
-  //===========================================================================
-  /**
-   * @struct Time_Stamp
-   *
-   * Time value specified in seconds and microseconds.
-   */
-  //===========================================================================
-
-  struct Time_Stamp
-  {
-    /// The second time value.
-    unsigned long sec;
-
-    /// The microsecond time value.
-    unsigned long usec;
-  };
-
   //===========================================================================
   /**
    * @struct Endpoint_Time

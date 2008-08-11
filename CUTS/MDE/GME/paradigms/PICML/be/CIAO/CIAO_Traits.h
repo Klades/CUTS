@@ -18,6 +18,7 @@
 #include "be/BE_Workspace_Generators_T.h"
 #include "be/BE_Project_Generators_T.h"
 
+#include "CIAO_Ctx.h"
 #include "CIAO_Exec_Header_Traits.h"
 #include "CIAO_Exec_Source_Traits.h"
 #include "CIAO_Proxy_Header_Traits.h"
@@ -28,24 +29,6 @@ struct CUTS_BE_Impl_Node;
 
 // Forward decl.
 struct CUTS_BE_IDL_Node;
-
-/**
- * Context for the CIAO backend generator.
- */
-struct CUTS_BE_Ciao
-{
-  /// The target workspace file.
-  std::ofstream workspace_file_;
-
-  /// The target project file.
-  std::ofstream project_file_;
-
-  /// Type definition for a collection of nodes.
-  typedef std::set <const CUTS_BE_IDL_Node *> IDL_Node_Set;
-
-  /// Collection of visited nodes.
-  IDL_Node_Set visited_nodes_;
-};
 
 //=============================================================================
 /**
