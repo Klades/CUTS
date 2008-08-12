@@ -1,3 +1,12 @@
+Tue Aug 12 18:43:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Command_Substitution.cpp:
+
+          . Bug fix where the command substitution did not used ticks
+            on either side of the command for identification. Now
+            command substritution is identified by text enclosed by
+            ` `.
+
 Mon Aug 11 02:11:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/BE_Impl_Graph_T.cpp:
