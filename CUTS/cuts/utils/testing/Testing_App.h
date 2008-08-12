@@ -18,7 +18,11 @@
 #include "ace/SString.h"
 #include "ace/Thread_Mutex.h"
 #include "ace/Condition_T.h"
-#include "ace/UUID.h"
+
+namespace ACE_Utils
+{
+  class UUID;
+}
 
 // Forward decl.
 class CUTS_DB_Connection;
@@ -38,7 +42,7 @@ public:
   virtual ~CUTS_Testing_App (void);
 
   /**
-   * Run the main part of the application. This method does not return 
+   * Run the main part of the application. This method does not return
    * until the shutdown () method is invoked.
    *
    * @param[in]       argc        Number of command-line arguments
@@ -46,7 +50,7 @@ public:
    */
   virtual int run_main (int argc, char * argv []);
 
-  /// Shutdown the testing application. This will stop the ORBs main 
+  /// Shutdown the testing application. This will stop the ORBs main
   /// event loop and allow the run_main () method to return.
   virtual int shutdown (void);
 
@@ -115,10 +119,10 @@ private:
   ACE_Thread_Mutex lock_;
 
   /// Condition variable to wait for shutdown.
-  ACE_Condition <ACE_Thread_Mutex> shutdown_; 
+  ACE_Condition <ACE_Thread_Mutex> shutdown_;
 
   /// UUID for the test.
-  ACE_Utils::UUID test_uuid_;
+  ACE_Auto_Ptr <ACE_Utils::UUID> test_uuid_;
 };
 
 #endif  // !defined _CUTS_TESTING_APP_H_

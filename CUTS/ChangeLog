@@ -1,3 +1,15 @@
+Tue Aug 12 21:03:17 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/Testing_App.h:
+        * cuts/utils/testing/Testing_App.cpp:
+        * cuts/utils/testing/Testing_Options.h:
+        * etc/SQL/CUTS-create.sql:
+
+          . Updated the test manager to allow a user their own UUID
+            instead of auto-generating one. If the test manager starts
+            a new test during its lifetime, it will auto-generate a new
+            UUID.
+
 Tue Aug 12 18:43:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Command_Substitution.cpp:

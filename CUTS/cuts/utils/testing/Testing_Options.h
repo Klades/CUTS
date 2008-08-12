@@ -5,7 +5,7 @@
  * @file        Testing_Options.h
  *
  * $Id$
- * 
+ *
  * @author      James H. Hill
  */
 //=============================================================================
@@ -38,7 +38,7 @@ public:
   /// Teardown command for the test.
   ACE_CString teardown_;
 
-  /// Name of the testing application. The default name of the 
+  /// Name of the testing application. The default name of the
   /// application is '(default)'.
   ACE_CString name_;
 
@@ -49,7 +49,7 @@ public:
   ACE_CString working_directory_;
 };
 
-CUTS_TESTING_BASE_SINGLETON_DECLARE(ACE_Singleton, 
+CUTS_TESTING_BASE_SINGLETON_DECLARE(ACE_Singleton,
                                     CUTS_Testing_Options,
                                     ACE_Null_Mutex);
 

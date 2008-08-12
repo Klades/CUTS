@@ -15,6 +15,7 @@
 #include "ace/Guard_T.h"
 #include "ace/Process_Manager.h"
 #include "ace/Process.h"
+#include "ace/UUID.h"
 
 #include <sstream>
 
@@ -27,13 +28,14 @@ static const char * __HELP__ =
 "OPTIONS:\n"
 "  -n, --name=NAME         name for test manager (default='(default)')\n"
 "  --database=HOSTNAME     location of CUTS database (default='localhost')\n"
-"  -t, --time=TIME         test duration in seconds (default=60)\n"
+"  --time=TIME             test duration in seconds (default=60)\n"
+"  --uuid=UUID             user-defined UUID for the test\n"
 "\n"
 "  -C, --directory=DIR     change to directory DIR\n"
 "  --deploy=CMD            use CMD to deploy test\n"
 "  --teardown=CMD          use CMD to teardown test\n"
 "\n"
-"  -v, --verbose           print verbose infomration\n" 
+"  -v, --verbose           print verbose infomration\n"
 "  --debug                 print debugging information\n"
 "  -h, --help              print this help message\n"
 "\n"
@@ -44,7 +46,7 @@ static const char * __HELP__ =
 
 //
 // CUTS_Testing_App
-// 
+//
 CUTS_Testing_App::CUTS_Testing_App (void)
 : test_number_ (-1),
   test_timer_id_ (-1),
@@ -61,7 +63,7 @@ CUTS_Testing_App::CUTS_Testing_App (void)
 
 //
 // CUTS_Testing_App
-// 
+//
 CUTS_Testing_App::~CUTS_Testing_App (void)
 {
 
@@ -78,12 +80,13 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
 
   get_opt.long_option ("name", 'n', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("database", ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("time", 't', ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("time", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("uuid", ACE_Get_Opt::ARG_REQUIRED);
 
   get_opt.long_option ("directory", 'C', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("deploy", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("teardown", ACE_Get_Opt::ARG_REQUIRED);
-  
+
   get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
@@ -101,7 +104,7 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "debug") == 0)
       {
-        u_long mask = 
+        u_long mask =
           ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
         mask |= LM_DEBUG;
 
@@ -109,7 +112,7 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "verbose") == 0)
       {
-        u_long mask = 
+        u_long mask =
           ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
         mask |= LM_INFO;
 
@@ -128,7 +131,7 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
         time_t seconds;
         std::istringstream istr (get_opt.opt_arg ());
         istr >> seconds;
-          
+
         CUTS_TESTING_OPTIONS->test_duration_.sec (seconds);
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "deploy") == 0)
@@ -143,6 +146,13 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
       {
         CUTS_TESTING_OPTIONS->working_directory_ = get_opt.opt_arg ();
       }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "uuid") == 0)
+      {
+        ACE_Utils::UUID * uuid = 0;
+        ACE_NEW_NORETURN (uuid, ACE_Utils::UUID (get_opt.opt_arg ()));
+
+        this->test_uuid_.reset (uuid);
+      }
       break;
 
     case 'n':
@@ -155,7 +165,7 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
           ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
         mask |= LM_INFO;
 
-        ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);        
+        ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
       }
       break;
 
@@ -163,22 +173,12 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
       this->print_help ();
       break;
 
-    case 't':
-      {
-        time_t seconds;
-        std::istringstream istr (get_opt.opt_arg ());
-        istr >> seconds;
-          
-        CUTS_TESTING_OPTIONS->test_duration_.sec (seconds);
-      }
-      break;
-
     case 'C':
       CUTS_TESTING_OPTIONS->working_directory_ = get_opt.opt_arg ();
       break;
 
     case ':':
-      ACE_ERROR_RETURN ((LM_ERROR, 
+      ACE_ERROR_RETURN ((LM_ERROR,
                          "%T - %M - -%c is missing an argument\n",
                          get_opt.opt_opt ()),
                          -1);
@@ -219,7 +219,7 @@ int CUTS_Testing_App::run_main_i (void)
   if (this->start_new_test () != 0)
   {
     ACE_ERROR ((LM_ERROR,
-                  "%T - %M - failed to start a new test on %s",
+                  "%T - %M - failed to start a new test on %s\n",
                   this->server_addr_.c_str ()));
   }
 
@@ -248,7 +248,7 @@ int CUTS_Testing_App::run_main_i (void)
 
   this->test_timer_id_ =
     this->task_->start_test (CUTS_TESTING_OPTIONS->test_duration_);
-  
+
   if (this->test_timer_id_ != -1)
   {
     // Wait for testing application to receive shutdown event.
@@ -261,12 +261,12 @@ int CUTS_Testing_App::run_main_i (void)
                 "%T - %M - failed to start test\n"));
   }
 
-  ACE_DEBUG ((LM_DEBUG, 
+  ACE_DEBUG ((LM_DEBUG,
               "%T - %M - stopping the current test\n"));
 
   if (this->stop_current_test () == -1)
   {
-    ACE_ERROR ((LM_ERROR, 
+    ACE_ERROR ((LM_ERROR,
                 "%T - %M - failed to stop current test (%d)\n",
                 this->test_number_));
   }
@@ -289,7 +289,7 @@ int CUTS_Testing_App::shutdown (void)
 
   ACE_DEBUG ((LM_DEBUG,
               "%T - %M - notifying all threads of shutdown event\n"));
-  
+
   // Wake all threads waiting for shutdown event.
   ACE_GUARD_RETURN (ACE_Thread_Mutex, guard, this->lock_, -1);
   this->shutdown_.broadcast ();
@@ -329,8 +329,8 @@ void CUTS_Testing_App::connect_to_database (void)
               "%T - %M - connecting to test database on %s\n",
               this->server_addr_.c_str ()));
 
-  this->conn_->connect (CUTS_USERNAME, 
-                        CUTS_PASSWORD, 
+  this->conn_->connect (CUTS_USERNAME,
+                        CUTS_PASSWORD,
                         this->server_addr_.c_str (),
                         CUTS_DEFAULT_PORT);
 }
@@ -340,11 +340,18 @@ void CUTS_Testing_App::connect_to_database (void)
 //
 int CUTS_Testing_App::start_new_test (void)
 {
-  // First, generate a new UUID for the test.
-  ACE_Utils::UUID_GENERATOR::instance ()->generate_UUID (this->test_uuid_);
+  if (this->test_uuid_.get () == 0)
+  {
+    // First, generate a new UUID for the test.
+    ACE_Utils::UUID * uuid =
+      ACE_Utils::UUID_GENERATOR::instance ()->generate_UUID ();
+
+    this->test_uuid_.reset (uuid);
+  }
+
   ACE_DEBUG ((LM_INFO,
               "%T - %M - test UUID is %s\n",
-              this->test_uuid_.to_string ()->c_str ()));
+              this->test_uuid_->to_string ()->c_str ()));
 
   if (this->server_addr_.empty ())
   {
@@ -360,11 +367,16 @@ int CUTS_Testing_App::start_new_test (void)
       query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
 
     // Prepare the statement for exection.
-    const char * str_stmt =
-      "INSERT INTO tests (start_time, status) VALUES (NOW(), 'active')";
+    const char * str_stmt = "CALL cuts.start_new_test (?, NOW())";
+    query->prepare (str_stmt);
+
+    char uuid[64];
+    ACE_OS::strcpy (uuid, this->test_uuid_->to_string ()->c_str ());
+
+    query->parameter(0)->bind (uuid, 0);
 
     // Execute the statement and get the last inserted id.
-    ACE_DEBUG ((LM_DEBUG, 
+    ACE_DEBUG ((LM_DEBUG,
                 "%T - %M - creating a new test in database\n"));
     query->execute_no_record (str_stmt);
     this->test_number_ = query->last_insert_id ();
@@ -406,17 +418,21 @@ int CUTS_Testing_App::stop_current_test (void)
     CUTS_Auto_Functor_T <CUTS_DB_Query>
       query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
 
-    const char * str_stmt =
-      "UPDATE tests SET stop_time = NOW(), status = 'inactive' "
-      "WHERE (test_number = ?)";
-
-    // Create the binding for initializing a test.
+    // Prepare the statement for execution.
+    const char * str_stmt = "CALL cuts.stop_existing_test (?, NOW())";
     query->prepare (str_stmt);
-    query->parameter (0)->bind (&this->test_number_);
+
+    char uuid[64];
+    ACE_OS::strcpy (uuid, this->test_uuid_->to_string ()->c_str ());
+
+    query->parameter(0)->bind (uuid, 0);
 
     // Execute the statement and reset the test number.
     query->execute_no_record ();
     this->test_number_ = -1;
+
+    // Reset the test uuid.
+    this->test_uuid_.reset ();
     return 0;
   }
   catch (const CUTS_DB_Exception & ex)

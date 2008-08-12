@@ -29,7 +29,9 @@ CREATE TABLE IF NOT EXISTS tests
                       'complete'),
 
   -- set the contraints for the table
-  PRIMARY KEY (test_number)
+  PRIMARY KEY (test_number),
+
+  UNIQUE (test_uuid)
 );
 
 --
@@ -97,7 +99,7 @@ CREATE TABLE IF NOT EXISTS component_types_porttypes
   FOREIGN KEY (typeid) REFERENCES component_types (typeid)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
-    
+
   FOREIGN KEY (port) REFERENCES porttypes (pid)
     ON DELETE RESTRICT
     ON UPDATE CASCADE
@@ -139,7 +141,7 @@ CREATE TABLE IF NOT EXISTS ipaddr_host_map
   portnum     INT(5)            DEFAULT NULL,
 
   PRIMARY KEY (hostid),
-  
+
   UNIQUE (hostname)
 );
 
@@ -188,6 +190,65 @@ GRANT SELECT, UPDATE, DELETE, INSERT, EXECUTE, CREATE, DROP
   IDENTIFIED BY 'cuts';
 
 DELIMITER //
+
+-- -----------------------------------------------------------------------------
+-- FUNCTION: cuts.get_test_number_using_uuid
+-- -----------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS cuts.get_test_number_using_uuid //
+
+CREATE FUNCTION cuts.get_test_number_using_uuid (_uuid VARCHAR (255))
+  RETURNS INT
+BEGIN
+  DECLARE retval INT;
+
+  SELECT test_number INTO retval
+    FROM cuts.tests WHERE test_uuid = _uuid
+    LIMIT 1;
+
+  RETURN retval;
+END; //
+
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.start_new_test
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.start_new_test //
+
+CREATE PROCEDURE cuts.start_new_test (IN _uuid VARCHAR (255),
+                                      IN _time DATETIME)
+BEGIN
+  INSERT INTO cuts.tests (start_time, test_uuid, status)
+   VALUES (_time, _uuid, 'active');
+END; //
+
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.stop_existing_test
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.stop_existing_test //
+
+CREATE PROCEDURE cuts.stop_existing_test (IN _uuid VARCHAR (255),
+                                          IN _time DATETIME)
+BEGIN
+  CALL cuts.stop_existing_test_i (cuts.get_test_number_using_uuid (_uuid),
+                                  _time);
+END; //
+
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.stop_existing_test
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.stop_existing_test_i //
+
+CREATE PROCEDURE cuts.stop_existing_test_i (IN _test_number INT,
+                                            IN _time DATETIME)
+BEGIN
+  UPDATE cuts.tests
+    SET stop_time = _time, status = 'complete'
+    WHERE test_number = _test_number;
+END; //
+
 
 -- -----------------------------------------------------------------------------
 -- FUNCTION: cuts.get_portname_id
@@ -305,8 +366,8 @@ BEGIN
   BEGIN
     INSERT INTO cuts.ipaddr_host_map (hostname)
       VALUES (_name);
-      
-    SET retval = LAST_INSERT_ID();    
+
+    SET retval = LAST_INSERT_ID();
   END;
 
   SELECT hostid INTO retval FROM cuts.ipaddr_host_map
@@ -327,7 +388,7 @@ BEGIN
   SELECT t1.instid,
          t1.component_name,
          t2.typeid,
-         t2.typename 
+         t2.typename
   FROM component_instances AS t1,
        component_types AS t2
   WHERE t1.typeid = t2.typeid;
@@ -510,7 +571,7 @@ CREATE PROCEDURE
   cuts.select_component_portnames_i (IN _instid INT,
                                      IN _porttype VARCHAR(20))
 BEGIN
-  SELECT t3.pid,   
+  SELECT t3.pid,
          t4.portname
   FROM cuts.component_instances AS t0,
        cuts.component_types AS t1,
@@ -523,7 +584,7 @@ BEGIN
         t3.pid = t2.port AND
         t3.port_type = _porttype AND
         t3.port_name = t4.pid
-  ORDER BY t3.port_name;         
+  ORDER BY t3.port_name;
 END; //
 
 -------------------------------------------------------------------------------
@@ -537,7 +598,7 @@ CREATE PROCEDURE
   cuts.select_component_portnames (IN instance VARCHAR(255),
                                    IN porttype VARCHAR(20))
 BEGIN
-  CALL cuts.select_component_portnames_i (cuts.get_component_instance_id (_instance), 
+  CALL cuts.select_component_portnames_i (cuts.get_component_instance_id (_instance),
                                           porttype);
 END; //
 /*
