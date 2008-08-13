@@ -1,3 +1,10 @@
+Wed Aug 13 17:46:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/config/cuts_be.mpb:
+        * etc/config/cuts_stub.mpb:
+
+          . Added new base projects.
+
 Wed Aug 13 17:19:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.h:

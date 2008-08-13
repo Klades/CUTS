@@ -1,0 +1,9 @@
+// $Id$
+
+project {
+  includes += $(CUTS_ROOT)
+  idlflags += -I$(CUTS_ROOT)
+
+  after += CUTS_stub
+  libs  += CUTS_stub
+}
