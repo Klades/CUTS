@@ -1,3 +1,62 @@
+Wed Aug 13 14:29:25 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Ctx.h:
+
+          . Missing header file.
+
+        * MDE/GME/paradigms/PICML/interpreter/ComponentConfig.h:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/CUTS_Isislab_Emulation.reg:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/CUTS_Isislab_Emulationd.reg:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Component.rc:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/ComponentConfig.h:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.h:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/RawComponent.h:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/RawComponent.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/StdAfx.h:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/StdAfx.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/UdmApp.h:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/UdmApp.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/UdmConfig.h:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/component.def:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/resource.h:
+
+          . First version of the CUTS-based interpreter that generates NS
+            scripts for Emulab/ISISLab. Right now, it's hard coded to generate
+            a auto-run for NAOMI.
+
+        * MDE/GME/paradigms/PICML/interpreter/ComponentLib.idl:
+
+          . Removed this file.
+
+Wed Aug 13 13:52:04 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/ComponentConfig.h:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation:
+
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/CUTS_Isislab_Emulation.reg:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/CUTS_Isislab_Emulationd.reg:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Component.rc:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/ComponentConfig.h:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.h:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/RawComponent.h:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/RawComponent.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/StdAfx.h:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/StdAfx.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/UdmApp.h:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/UdmApp.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/UdmConfig.h:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/component.def:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/resource.h:
+
+        * MDE/GME/paradigms/PICML/interpreter/ComponentLib.idl:
+
+          Removed this file.
+
 Tue Aug 12 21:03:17 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/Testing_App.h:

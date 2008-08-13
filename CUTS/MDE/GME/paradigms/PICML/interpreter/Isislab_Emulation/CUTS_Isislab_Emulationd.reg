@@ -1,0 +1,29 @@
+REGEDIT4
+
+[HKEY_CURRENT_USER\Software\Classes]
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID]
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{CB4182B9-86E9-4580-96DA-2CA0234795BC}]
+@="CUTS.Interpreter.Isislab.Emulation"
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{CB4182B9-86E9-4580-96DA-2CA0234795BC}\ProgID]
+@="CUTS.Interpreter.Isislab.Emulation"
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{CB4182B9-86E9-4580-96DA-2CA0234795BC}\InProcServer32]
+@="CUTS_Isislab_Emulationd.dll"
+
+[HKEY_CURRENT_USER\Software\Classes\CUTS.Interpreter.Isislab.Emulation]
+@="CUTS.Interpreter.Isislab.Emulation"
+
+[HKEY_CURRENT_USER\Software\Classes\CUTS.Interpreter.Isislab.Emulation\CLSID]
+@="{CB4182B9-86E9-4580-96DA-2CA0234795BC}"
+
+[HKEY_CURRENT_USER\Software\GME\Components\CUTS.Interpreter.Isislab.Emulation]
+"Tooltip"="CUTS ISISLab emulation interepter"
+"Paradigm"="PICML"
+"Type"=dword:00000001
+"Description"="CUTS ISISLab emulation interepter"
+
+[HKEY_CURRENT_USER\Software\GME\Components\CUTS.Interpreter.Isislab.Emulation\Associated]
+"PICML"=""
