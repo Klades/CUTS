@@ -5,14 +5,14 @@
 #include "Main_Dialog.h"
 #include "Utils/Utils.h"
 
-#include "../be/CoWorkEr_Cache.h"
-#include "../be/BE_CoWorkEr_Generator.h"
-#include "../be/BE_CUTS_Project.h"
-#include "../be/BE_Assembly_Generator.h"
-#include "../be/BE_Deployment_Generator.h"
-#include "../be/BE_Manager.h"
-#include "../be/BE_Manager_Factory.h"
-#include "../be/BE_Options.h"
+#include "../../be/CoWorkEr_Cache.h"
+#include "../../be/BE_CoWorkEr_Generator.h"
+#include "../../be/BE_CUTS_Project.h"
+#include "../../be/BE_Assembly_Generator.h"
+#include "../../be/BE_Deployment_Generator.h"
+#include "../../be/BE_Manager.h"
+#include "../../be/BE_Manager_Factory.h"
+#include "../../be/BE_Options.h"
 
 #include "cuts/Auto_Functor_T.h"
 
@@ -42,7 +42,7 @@ void CUdmApp::UdmMain (Udm::DataNetwork* p_backend,
                        set <Udm::Object> selectedObjects,
                        long param)
 {
-  // Display main dialog and initialize it with current 
+  // Display main dialog and initialize it with current
   // backend options.
   CUTS_BE_Options * options = CUTS_BE_OPTIONS ();
 

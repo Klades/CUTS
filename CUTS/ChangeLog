@@ -1,3 +1,47 @@
+Wed Aug 13 14:46:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.reg:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICMLd.reg:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CompIcon.ico:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Component.rc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/ComponentConfig.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/RawComponent.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/RawComponent.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/StdAfx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/StdAfx.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/UdmApp.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/UdmApp.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/UdmConfig.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/component.def:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/resource.h:
+
+          . CUTS_PICML interpreter that was originally located in the files
+            specified below that were removed.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML.reg:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICMLd.reg:
+        * MDE/GME/paradigms/PICML/interpreter/CompIcon.ico:
+        * MDE/GME/paradigms/PICML/interpreter/Component.rc:
+        * MDE/GME/paradigms/PICML/interpreter/ComponentConfig.h:
+        * MDE/GME/paradigms/PICML/interpreter/Main_Dialog.h:
+        * MDE/GME/paradigms/PICML/interpreter/Main_Dialog.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/RawComponent.h:
+        * MDE/GME/paradigms/PICML/interpreter/RawComponent.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/StdAfx.h:
+        * MDE/GME/paradigms/PICML/interpreter/StdAfx.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/UdmApp.h:
+        * MDE/GME/paradigms/PICML/interpreter/UdmApp.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/UdmConfig.h:
+        * MDE/GME/paradigms/PICML/interpreter/component.def:
+        * MDE/GME/paradigms/PICML/interpreter/resource.h:
+
+          . Removed these files.
+
 Wed Aug 13 14:29:25 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/be/CIAO/CIAO_Ctx.h:

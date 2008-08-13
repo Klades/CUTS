@@ -6,8 +6,8 @@
 #include "Utils/Utils.h"
 #include "modelgen.h"
 
-#include "../be/BE_Options.h"
-#include "../be/BE_Manager_Factory.h"
+#include "../../be/BE_Options.h"
+#include "../../be/BE_Manager_Factory.h"
 
 #include "XSCRT/utils/File_T.h"
 #include "XSCRT/utils/XML_Schema_Resolver_T.h"
@@ -131,7 +131,7 @@ BOOL Main_Dialog::OnInitDialog (void)
       }
       else
       {
-        ::AfxMessageBox ("Failed to open configuration file", 
+        ::AfxMessageBox ("Failed to open configuration file",
                          MB_OK | MB_ICONERROR);
       }
     }
