@@ -78,13 +78,13 @@ namespace Actions.LogFormatActions
     }
 
     /**
-     * Returns all data from logformatdesc table. For now, this does not
+     * Returns all data from log_formats table. For now, this does not
      * use a stored procedure in MySql. This should be changed to a
      * stored proc sometime soon.
      */
     public static DataTable Get_All_Log_Formats ()
     {
-      string sql = "SELECT * FROM logformatdesc";
+      string sql = "SELECT * FROM log_formats";
       return dba.execute_mysql_adapter (sql);
     }
 
@@ -97,7 +97,7 @@ namespace Actions.LogFormatActions
      */
     public static Array GetLFIDs (int utid)
     {
-      string sql = "SELECT lfid FROM unittesttable WHERE utid=?utid_in;";
+      string sql = "SELECT lfid FROM unit_test_log_formats WHERE utid=?utid_in;";
       MySqlCommand comm = dba.GetCommand (sql);
       comm.Parameters.AddWithValue ("?utid_in", utid);
 
@@ -122,7 +122,7 @@ namespace Actions.LogFormatActions
     public static DataTable Get_Log_Formats (string Unit_Test_ID_)
     {
       string sql = "SELECT lfd.lfid,lfmt " +
-                   "FROM logformatdesc AS lfd,unittesttable AS utt " +
+                   "FROM log_formats AS lfd,unit_test_log_formats AS utt " +
                    "WHERE utt.lfid=lfd.lfid and utt.utid=?utid_in;";
       MySqlCommand comm = dba.GetCommand (sql);
       comm.Parameters.AddWithValue ("?utid_in", Unit_Test_ID_);
@@ -162,7 +162,7 @@ namespace Actions.LogFormatActions
 
     public static void delete_log_formats (int[] format_ids)
     {
-      string sql = "DELETE FROM cuts.logformatdesc WHERE lfid = ?id";
+      string sql = "DELETE FROM cuts.log_formats WHERE lfid = ?id";
       MySqlCommand command = dba.GetCommand (sql);
 
       // Create the parameter for the command.

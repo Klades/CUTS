@@ -34,7 +34,7 @@ namespace CUTS
         CUTS.Relation relation = (Relation)this.relations_[i];
 
         // Determine if this variable is a member of this relation. If it
-        // is, then we should inset the value. This will, in turn, give us
+        // is, then we should insert the value. This will, in turn, give us
         // the row that will need to update in the variable table.
         if (relation.is_member (variable))
         {
@@ -44,7 +44,7 @@ namespace CUTS
       }
 
       // Second, set the value of the remaining relations. We should also
-      // validate the the row index for the remaining relations is equal
+      // validate that the row index for the remaining relations is equal
       // to the index of the previously found relation. Otherwise, we have
       // some inconsistency in the data.
       for (++i; i < this.relations_.Count; ++i)

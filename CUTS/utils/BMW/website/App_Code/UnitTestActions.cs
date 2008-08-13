@@ -139,7 +139,7 @@ namespace Actions.UnitTestActions
         // that calculates the result for the unit test.
         string sql_eval =
           "SELECT evaluation AS eval, REPLACE(evaluation, '.', '_') AS eval_escaped, aggregration_function AS aggr " +
-          "FROM cuts.unittestdesc WHERE utid = ?utid";
+          "FROM cuts.unit_tests WHERE utid = ?utid";
 
         // Run each of the SQL statements, and store the results in
         // a seperate table for later.
@@ -211,7 +211,7 @@ namespace Actions.UnitTestActions
         // that calculates the result for the unit test.
         string sql_eval =
           "SELECT evaluation AS eval, aggregration_function AS aggr " +
-          "FROM cuts.unittestdesc WHERE utid = ?utid";
+          "FROM cuts.unit_tests WHERE utid = ?utid";
 
         // Run each of the SQL statements, and store the results in
         // a seperate table for later.
@@ -341,7 +341,7 @@ namespace Actions.UnitTestActions
 
     public static void Delete_Unit_Test (string Unit_Test_ID_)
     {
-      string sql = "DELETE FROM cuts.unittestdesc WHERE utid=?ut_id;";
+      string sql = "DELETE FROM cuts.unit_tests WHERE utid=?ut_id;";
       MySqlCommand comm = dba.GetCommand (sql);
       comm.Parameters.AddWithValue ("?ut_id", Unit_Test_ID_);
       dba.ExecuteMySql (comm);
@@ -349,7 +349,7 @@ namespace Actions.UnitTestActions
 
     public static void Remove_Unit_Test (string Package_ID_, string Unit_Test_ID_)
     {
-      string sql = "DELETE FROM cuts.packages_unit_tests WHERE " +
+      string sql = "DELETE FROM cuts.package_unit_tests WHERE " +
                     "id=?p_id AND ut_id=?ut_id_in;";
       MySqlCommand comm = dba.GetCommand (sql);
       comm.Parameters.AddWithValue ("?p_id", Package_ID_);
@@ -366,7 +366,7 @@ namespace Actions.UnitTestActions
 
     public static DataTable Get_All_Unit_Tests ()
     {
-      string sql = "SELECT * FROM unittestdesc;";
+      string sql = "SELECT * FROM unit_tests;";
       DataTable dt = dba.execute_mysql_adapter (sql);
       return dt;
     }
@@ -385,7 +385,7 @@ namespace Actions.UnitTestActions
     public static DataTable Get_Unit_Tests (string Package_ID_)
     {
       string sql = "SELECT utid, name " +
-                   "FROM unittestdesc AS utd,packages_unit_tests AS put " +
+                   "FROM unit_tests AS utd,package_unit_tests AS put " +
                    "WHERE put.id=?p_id AND put.ut_id=utd.utid;";
       MySqlCommand comm = dba.GetCommand (sql);
       comm.Parameters.AddWithValue ("?p_id", Package_ID_);
@@ -396,7 +396,7 @@ namespace Actions.UnitTestActions
     public static DataRow Get_Unit_Test_Info (string Unit_Test_ID_)
     {
       string sql = "SELECT * " +
-                   "FROM unittestdesc " +
+                   "FROM unit_tests " +
                    "WHERE utid=?utid_in LIMIT 1;";
       MySqlCommand comm = dba.GetCommand (sql);
       comm.Parameters.AddWithValue ("?utid_in", Unit_Test_ID_);

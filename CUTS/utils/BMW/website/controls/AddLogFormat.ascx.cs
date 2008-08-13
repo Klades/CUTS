@@ -100,7 +100,7 @@ public partial class AddLogFormat : System.Web.UI.UserControl
     
     private void FillDropDownList(DropDownList d)
     {
-        string commString = "SELECT lfid,lfmt FROM logformatdesc";
+        string commString = "SELECT lfid,lfmt FROM log_formats";
         MySqlConnection conn = new MySqlConnection(ConfigurationManager.AppSettings["MySQL"]);
         conn.Open();
 

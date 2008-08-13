@@ -14,7 +14,7 @@
 -- contains all one-one info
 -- eventually this should be a PCRE regex so its universal
 -- Also, we should eventually make the regex case sensitive
-CREATE TABLE IF NOT EXISTS  cuts.logformatdesc (
+CREATE TABLE IF NOT EXISTS  cuts.log_formats (
   lfid            INT             NOT NULL auto_increment,
   lfmt            VARCHAR(150)    NOT NULL,
   icase_regex     VARCHAR(180)    NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS  cuts.logformatdesc (
 -- contains all one-one UT info
 -- Need to update fail/warn comparison so they are ENUM
 -- Need to extend so there are n-levels of warning
-CREATE TABLE IF NOT EXISTS cuts.unittestdesc (
+CREATE TABLE IF NOT EXISTS cuts.unit_tests (
   utid                      INT               NOT NULL auto_increment,
   name                      VARCHAR(45)       NOT NULL,
   description               VARCHAR(256),
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS cuts.test_suites (
 -- sub table for log formats
 -- contains variable info - name, type, id
 
-CREATE TABLE IF NOT EXISTS cuts.logformatvariabletable (
+CREATE TABLE IF NOT EXISTS cuts.log_format_variables (
   variable_id       INT            NOT NULL auto_increment,
   lfid              INT            NOT NULL,
   varname           VARCHAR(45)    NOT NULL,
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS cuts.logformatvariabletable (
   -- set the unique values for the table
   UNIQUE (lfid, varname),
 
-  FOREIGN KEY (lfid) REFERENCES cuts.logformatdesc (lfid)
+  FOREIGN KEY (lfid) REFERENCES cuts.log_formats (lfid)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS cuts.logformatvariabletable (
 -- sub table for packages
 -- contains unit test ids
 
-CREATE TABLE IF NOT EXISTS cuts.packages_unit_tests (
+CREATE TABLE IF NOT EXISTS cuts.package_unit_tests (
   id            INT              NOT NULL auto_increment,
   ut_id         INT              NOT NULL,
 
@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS cuts.packages_unit_tests (
     ON DELETE CASCADE
     ON UPDATE CASCADE,
 
-  FOREIGN KEY (ut_id) REFERENCES cuts.unittestdesc (utid)
+  FOREIGN KEY (ut_id) REFERENCES cuts.unit_tests (utid)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
   UNIQUE (id,ut_id)
@@ -139,22 +139,6 @@ CREATE TABLE IF NOT EXISTS cuts.test_suite_packages (
 
 
 -- sub table for unit tests
--- contains grouping info - variableid
-
-CREATE TABLE IF NOT EXISTS cuts.unittestgroups (
-  utid          INT                 NOT NULL,
-  variable_id   INT                 NOT NULL,
-
-  -- set the constraints for the table
-  UNIQUE (utid, variable_id),
-
-  FOREIGN KEY (utid) REFERENCES cuts.unittestdesc (utid)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
-
--- sub table for unit tests
 -- will contain relation info
 
 CREATE TABLE IF NOT EXISTS cuts.unit_test_relations (
@@ -165,53 +149,35 @@ CREATE TABLE IF NOT EXISTS cuts.unit_test_relations (
   -- set the constraints for the table
   PRIMARY KEY (utid),
 
-  FOREIGN KEY (utid) REFERENCES cuts.unittestdesc (utid)
+  FOREIGN KEY (utid) REFERENCES cuts.unit_tests (utid)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
 
   FOREIGN KEY (variable_id)
-    REFERENCES cuts.logformatvariabletable (variable_id)
+    REFERENCES cuts.log_format_variables (variable_id)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
 
   FOREIGN KEY (variable_id_2)
-    REFERENCES cuts.logformatvariabletable (variable_id)
+    REFERENCES cuts.log_format_variables (variable_id)
     ON DELETE RESTRICT
     ON UPDATE CASCADE
 );
 
-
--- sub table for unit tests
--- contains aggregration info - variable id and aggregration funciton
-
-CREATE TABLE IF NOT EXISTS cuts.unittestaggregration (
-  utid         INT             NOT NULL,
-  variable_id  INT             NOT NULL,
-  function     VARCHAR(45)     NOT NULL,
-
-  -- set the constraints for the table
-  UNIQUE (utid,variable_id),
-
-  FOREIGN KEY (utid) REFERENCES cuts.unittestdesc (utid)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
-
 -- sub table for unit tests
 -- contains log format ids
 
-CREATE TABLE IF NOT EXISTS cuts.unittesttable (
+CREATE TABLE IF NOT EXISTS cuts.unit_test_log_formats (
   utid          INT           NOT NULL,
   lfid          INT           NOT NULL,
 
   UNIQUE (utid, lfid),
 
-  FOREIGN KEY (utid) REFERENCES cuts.unittestdesc (utid)
+  FOREIGN KEY (utid) REFERENCES cuts.unit_tests (utid)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
 
-  FOREIGN KEY (lfid) REFERENCES cuts.logformatdesc (lfid)
+  FOREIGN KEY (lfid) REFERENCES cuts.log_formats (lfid)
     ON DELETE RESTRICT
     ON UPDATE CASCADE
 );
@@ -231,9 +197,9 @@ CREATE PROCEDURE
 BEGIN
       -- When Databinding, the created column needs to have a type
       -- given to it, or it will not be able to bind correctly
-      select csharp_regex,variable_id,varname,vartype, CAST(concat("LF",logformatdesc.lfid,".",varname) AS CHAR) as extended_varname
-      FROM logformatdesc join logformatvariabletable on logformatdesc.lfid = logformatvariabletable.lfid
-      where logformatdesc.lfid = lfid_in;
+      select csharp_regex,variable_id,varname,vartype, CAST(concat("LF",log_formats.lfid,".",varname) AS CHAR) as extended_varname
+      FROM log_formats join log_format_variables on log_formats.lfid = log_format_variables.lfid
+      where log_formats.lfid = lfid_in;
 END //
 
 
@@ -245,7 +211,7 @@ CREATE PROCEDURE
   cuts.Get_log_data(IN lfid_in INT)
 
 BEGIN
-    select test_number,message from msglog where message regexp (SELECT icase_regex from logformatdesc WHERE lfid = lfid_in);
+    select test_number,message from msglog where message regexp (SELECT icase_regex from log_formats WHERE lfid = lfid_in);
 END //
 
 DROP PROCEDURE IF EXISTS cuts.select_unit_test_log_formats //
@@ -253,7 +219,7 @@ DROP PROCEDURE IF EXISTS cuts.select_unit_test_log_formats //
 CREATE PROCEDURE cuts.select_unit_test_log_formats (IN utid_ INT)
 BEGIN
   SELECT t1.lfid, csharp_regex
-    FROM cuts.unittesttable AS t1, cuts.logformatdesc AS t2
+    FROM cuts.unit_test_log_formats AS t1, cuts.log_formats AS t2
     WHERE utid = utid_ AND
           t1.lfid = t2.lfid;
 END //
@@ -269,7 +235,7 @@ BEGIN
     FROM cuts.msglog AS t1, cuts.ipaddr_host_map AS t2
     WHERE test_number = test_number_ AND
           t1.hostid = t2.hostid AND
-          message REGEXP (SELECT icase_regex FROM cuts.logformatdesc WHERE lfid = format_)
+          message REGEXP (SELECT icase_regex FROM cuts.log_formats WHERE lfid = format_)
     ORDER BY hostname, t1.msgtime;
 END //
 
@@ -282,7 +248,7 @@ BEGIN
 
   SELECT CONCAT('LF', CAST(lfid AS CHAR), '.', varname) AS fq_name
     INTO retval
-    FROM cuts.logformatvariabletable
+    FROM cuts.log_format_variables
     WHERE variable_id = var_;
 
   RETURN retval;
@@ -297,7 +263,7 @@ BEGIN
 
   SELECT CONCAT('LF', CAST(lfid AS CHAR))
     INTO retval
-    FROM cuts.logformatvariabletable
+    FROM cuts.log_format_variables
     WHERE variable_id = varid_;
 
   return retval;
@@ -309,8 +275,8 @@ CREATE PROCEDURE cuts.select_unit_test_variables (IN utid_ INT)
 BEGIN
   SELECT
     lfid, vartype, varname, CONCAT('LF', CAST(lfid AS CHAR), '.', varname) AS fq_name
-    FROM cuts.logformatvariabletable
-    WHERE lfid IN (SELECT lfid FROM cuts.unittesttable WHERE utid = utid_);
+    FROM cuts.log_format_variables
+    WHERE lfid IN (SELECT lfid FROM cuts.unit_test_log_formats WHERE utid = utid_);
 END //
 
 DROP PROCEDURE IF EXISTS cuts.select_unit_test_relations_as_set //
@@ -366,19 +332,19 @@ BEGIN
     -- Grab all one to one variables
     SELECT   fail_comparison, fail,     warn_comparison, warn
       INTO   fail_op,         fail_val, warn_op,         warn_val
-      FROM cuts.unittestdesc
+      FROM cuts.unit_tests
       WHERE utid = utid_in;
 
     -- Grab the desired aggregration and the evaluation
     SELECT   CONCAT(aggregration_function,"(",evaluation,")"), evaluation
       INTO   eval,                                             eval_no_aggr
-      FROM unittestdesc
+      FROM unit_tests
       WHERE utid = utid_in;
 
     -- See if we are working on a two LF unit test, or a normal one
     SELECT COUNT(*)
       INTO lfid_count
-      FROM cuts.unittesttable
+      FROM cuts.unit_test_log_formats
       WHERE utid = utid_in;
 
 
@@ -386,19 +352,19 @@ BEGIN
          -- If only one, store it
              SELECT CONCAT("LF",lfid)
                 INTO tablename
-                FROM cuts.unittesttable
+                FROM cuts.unit_test_log_formats
                 WHERE utid = utid_in;
     ELSEIF lfid_count = 2 THEN
             -- Store the first value
             SELECT lfid
               INTO temp
-              FROM cuts.unittesttable
+              FROM cuts.unit_test_log_formats
               WHERE utid = utid_in
               LIMIT 1;
             -- Store the second value
             SELECT lfid
               INTO tablename
-              FROM cuts.unittesttable
+              FROM cuts.unit_test_log_formats
               WHERE utid = utid_in
               LIMIT 1,1;
             -- Combine them
@@ -455,19 +421,19 @@ BEGIN
     -- Grab all one to one variables
     SELECT   fail_comparison, fail,     warn_comparison, warn
       INTO   fail_op,         fail_val, warn_op,         warn_val
-      FROM cuts.unittestdesc
+      FROM cuts.unit_tests
       WHERE utid = utid_in;
 
     -- Grab the desired aggregration and the evaluation
     SELECT   CONCAT(aggregration_function,"(",evaluation,")"), evaluation
       INTO   eval,                                             eval_no_aggr
-      FROM unittestdesc
+      FROM unit_tests
       WHERE utid = utid_in;
 
     -- See if we are working on a two LF unit test, or a normal one
     SELECT COUNT(*)
       INTO lfid_count
-      FROM cuts.unittesttable
+      FROM cuts.unit_test_log_formats
       WHERE utid = utid_in;
 
 
@@ -477,32 +443,32 @@ BEGIN
          --   WHERE test_number =
              SELECT CONCAT("LF",lfid), CONCAT("LF",lfid)
                 INTO tablename,        single_tablename
-                FROM cuts.unittesttable
+                FROM cuts.unit_test_log_formats
                 WHERE utid = utid_in;
     ELSEIF lfid_count = 2 THEN
 
             SELECT lfid, CONCAT("LF",lfid)
               INTO temp, single_tablename
-              FROM cuts.unittesttable
+              FROM cuts.unit_test_log_formats
               WHERE utid = utid_in
               LIMIT 1;
 
             SELECT lfid
               INTO tablename
-              FROM cuts.unittesttable
+              FROM cuts.unit_test_log_formats
               WHERE utid = utid_in
               LIMIT 1,1;
 
             SELECT CONCAT("LF",lfid,".",varname)
               INTO t_var1
-              FROM logformatvariabletable
+              FROM log_format_variables
               WHERE variable_id=( SELECT variable_id
                                     FROM unit_test_relations
                                     WHERE utid=utid_in );
 
             SELECT CONCAT("LF",lfid,".",varname)
               INTO t_var2
-              FROM logformatvariabletable
+              FROM log_format_variables
               WHERE variable_id=( SELECT variable_id_2
                                     FROM unit_test_relations
                                     WHERE utid=utid_in );
@@ -558,43 +524,43 @@ BEGIN
     -- See if we are working on a two LF unit test, or a normal one
     SELECT COUNT(*)
       INTO lfid_count
-      FROM cuts.unittesttable
+      FROM cuts.unit_test_log_formats
       WHERE utid = utid_in;
 
     SELECT   fail_comparison, fail,     warn_comparison, warn,     evaluation
       INTO   fail_op,         fail_val, warn_op,         warn_val, eval
-      FROM unittestdesc
+      FROM unit_tests
       WHERE utid = utid_in;
 
     IF lfid_count = 1 THEN
             SELECT CONCAT("LF",lfid), CONCAT("LF",lfid)
                 INTO tablename,        single_tablename
-                FROM cuts.unittesttable
+                FROM cuts.unit_test_log_formats
                 WHERE utid = utid_in;
     ELSEIF lfid_count = 2 THEN
 
             SELECT lfid, CONCAT("LF",lfid)
               INTO temp, single_tablename
-              FROM cuts.unittesttable
+              FROM cuts.unit_test_log_formats
               WHERE utid = utid_in
               LIMIT 1;
 
             SELECT lfid
               INTO tablename
-              FROM cuts.unittesttable
+              FROM cuts.unit_test_log_formats
               WHERE utid = utid_in
               LIMIT 1,1;
 
             SELECT CONCAT("LF",lfid,".",varname)
               INTO t_var1
-              FROM logformatvariabletable
+              FROM log_format_variables
               WHERE variable_id=( SELECT variable_id
                                     FROM unit_test_relations
                                     WHERE utid=utid_in );
 
             SELECT CONCAT("LF",lfid,".",varname)
               INTO t_var2
-              FROM logformatvariabletable
+              FROM log_format_variables
               WHERE variable_id=( SELECT variable_id_2
                                     FROM unit_test_relations
                                     WHERE utid=utid_in );
@@ -631,23 +597,9 @@ CREATE PROCEDURE
   cuts.Get_UTID_vars(IN utid_in INT)
 BEGIN
       SELECT varname, concat("LF",lfid,".",varname) as extended_varname, 'false' as grouped_on_x, 'false' as grouped_on_z, vartype
-      FROM logformatvariabletable where lfid in
-                                                (SELECT lfid FROM unittesttable WHERE utid = utid_in);
+      FROM log_format_variables where lfid in
+                                                (SELECT lfid FROM unit_test_log_formats WHERE utid = utid_in);
 END //
-
-
-
-DROP PROCEDURE IF EXISTS cuts.GetVariableAggregration//
-CREATE PROCEDURE
-  cuts.GetVariableAggregration(IN LFID_in integer,
-                               IN VarName_in VARCHAR(45))
-BEGIN
-    SELECT Function,concat("LF",lfid,".",varname,"") as ExtendedName
-    FROM unittestaggregration as uta join logformatvariabletable as lfv
-    where uta.variable_id = lfv.variable_id
-    and lfv.lfid = LFID_in and lfv.varname = VarName_in;
-END //
-
 
 
 DROP PROCEDURE IF EXISTS cuts.Insert_LF//
@@ -656,8 +608,8 @@ CREATE PROCEDURE
                  IN iregex VARCHAR(180),
                  IN csregex VARCHAR(180))
 BEGIN
-    INSERT INTO logformatdesc (lfmt,icase_regex,csharp_regex) VALUES (log_form, iregex, csregex);
-    SELECT lfid FROM  logformatdesc WHERE lfmt = log_form;
+    INSERT INTO log_formats (lfmt,icase_regex,csharp_regex) VALUES (log_form, iregex, csregex);
+    SELECT lfid FROM  log_formats WHERE lfmt = log_form;
 END //
 
 
@@ -668,7 +620,7 @@ CREATE PROCEDURE
                           IN name VARCHAR(45),
                           IN vtype VARCHAR(45))
 BEGIN
-    INSERT INTO logformatvariabletable (lfid, varname, vartype) VALUES (id,name,vtype);
+    INSERT INTO log_format_variables (lfid, varname, vartype) VALUES (id,name,vtype);
 END //
 
 
@@ -678,7 +630,7 @@ CREATE PROCEDURE
   cuts.insert_package_unit_test(IN id_in integer,
                                 IN utid_in integer)
 BEGIN
-      insert into packages_unit_tests (id, ut_id) values (id_in, utid_in);
+      insert into package_unit_tests (id, ut_id) values (id_in, utid_in);
 END //
 
 -- given a name, it inserts that as a test suite
@@ -753,7 +705,7 @@ CREATE PROCEDURE cuts.Insert_UT(IN name_in VARCHAR(45),
                                 IN warn VARCHAR(25),
                                 IN aggr VARCHAR(25))
 BEGIN
-    INSERT INTO cuts.unittestdesc (name,
+    INSERT INTO cuts.unit_tests (name,
                                    description,
                                    fail_comparison,
                                    warn,fail,
@@ -769,29 +721,7 @@ BEGIN
                                    warn_comp,
                                    aggr);
 
-    SELECT utid FROM  unittestdesc WHERE name = name_in;
-END //
-
-
--- THIS PROC IS DEPRECATED AND SHOULD NOT BE USED
--- given utid, variable id, and function, inserts new UT aggregration
-DROP PROCEDURE IF EXISTS cuts.Insert_UT_Aggregration//
-CREATE PROCEDURE
-  cuts.Insert_UT_Aggregration(IN utid_in INT,
-                              IN VariableID_in INT,
-                              IN function_in VARCHAR(45))
-BEGIN
-      Insert into unittestaggregration (utid, variable_id, function) values (utid_in, VariableID_in, function_in);
-END //
-
--- given utid and variable id, inserts variable group
-
-DROP PROCEDURE IF EXISTS cuts.Insert_UT_Group//
-CREATE PROCEDURE
-  cuts.Insert_UT_Group(IN utid_in INT,
-                       IN variableID_in INT)
-BEGIN
-      Insert into unittestgroups (utid,variable_id) values (utid_in, variableID_in);
+    SELECT utid FROM unit_tests WHERE name = name_in;
 END //
 
 
@@ -802,7 +732,7 @@ CREATE PROCEDURE
   cuts.Insert_UT_LogFormat(IN utid_in INT,
                            IN lfid_in INT)
 BEGIN
-    INSERT INTO unittesttable (utid, lfid)
+    INSERT INTO unit_test_log_formats (utid, lfid)
       VALUES (utid_in, lfid_in);
 END //
 

@@ -233,8 +233,8 @@ namespace CUTS
       panel_Packages_Unit_Tests.Controls.Add (new LiteralControl ("<hr />"));
 
       // Fill the DataTable with Name and id
-      sql = "SELECT utid AS id,name AS Name FROM unittestdesc " +
-          "WHERE utid IN (SELECT ut_id FROM packages_unit_tests WHERE id=" + p_id + ");";
+      sql = "SELECT utid AS id,name AS Name FROM unit_tests " +
+          "WHERE utid IN (SELECT ut_id FROM package_unit_tests WHERE id=" + p_id + ");";
       DataTable dt = execute_mysql_adapter (sql);
 
       // Add Evaluation, Result

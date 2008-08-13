@@ -8,6 +8,7 @@ Wed Aug 13 14:46:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Component.rc:
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/ComponentConfig.h:
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.h:
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/RawComponent.h:
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/RawComponent.cpp:
@@ -41,6 +42,18 @@ Wed Aug 13 14:46:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * MDE/GME/paradigms/PICML/interpreter/resource.h:
 
           . Removed these files.
+
+Wed Aug 13 14:44:25 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * etc/SQL/CUTS-unittest.sql:
+        * utils/BMW/website/App_Code/LogFormatActions.cs:
+        * utils/BMW/website/App_Code/Relations.cs:
+        * utils/BMW/website/App_Code/UnitTestActions.cs:
+        * utils/BMW/website/controls/AddLogFormat.ascx.cs:
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . Updated a large portion of the SQL to fit conventions. 
 
 Wed Aug 13 14:29:25 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

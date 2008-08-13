@@ -6,7 +6,7 @@
  *
  * $Id$
  *
- * @author          Hamilton J. Turner
+ * @author          Hamilton Turner
  */
 //=============================================================================
 
@@ -643,7 +643,7 @@ public partial class Unit_Testing : System.Web.UI.Page
       // Get the variables for the left-hand side relation. This variables
       // are the ones from the selected log format.
       string lhs_sql =
-        "SELECT variable_id, varname FROM cuts.logformatvariabletable " +
+        "SELECT variable_id, varname FROM cuts.log_format_variables " +
         "WHERE lfid = ?lfid ORDER BY varname";
 
       command.CommandText = lhs_sql;
@@ -686,7 +686,7 @@ public partial class Unit_Testing : System.Web.UI.Page
 
         string rhs_sql =
           "SELECT variable_id, lfid, varname, CONCAT('LF', CAST(lfid AS CHAR), '.', varname) AS fq_name " +
-          "FROM cuts.logformatvariabletable " +
+          "FROM cuts.log_format_variables " +
           "WHERE lfid IN (" + prev_lfids + ") ORDER BY fq_name";
 
         adapter.SelectCommand.CommandText = rhs_sql;
@@ -871,7 +871,7 @@ public partial class Unit_Testing : System.Web.UI.Page
     {
       // Bind the data to the dropdown list control. This will trigger the
       // ondatabound event, which will initialize the prefix label.
-      string sql = "SELECT lfid, lfmt FROM logformatdesc";
+      string sql = "SELECT lfid, lfmt FROM log_formats";
       DataTable data = execute_mysql_adapter (sql);
 
       formats.DataSource = data;
