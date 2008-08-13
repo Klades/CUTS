@@ -6,8 +6,8 @@
 #include "Utils/Utils.h"
 #include "modelgen.h"
 
-#include "../../be/BE_Options.h"
-#include "../../be/BE_Manager_Factory.h"
+#include "be/BE_Options.h"
+#include "be/BE_Manager_Factory.h"
 
 #include "XSCRT/utils/File_T.h"
 #include "XSCRT/utils/XML_Schema_Resolver_T.h"

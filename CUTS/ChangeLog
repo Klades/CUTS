@@ -1,3 +1,70 @@
+Wed Aug 13 17:19:44 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/RawComponent.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/UdmApp.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/UdmApp.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Ctx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Manager_Factory.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Preprocessor.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Preprocessor_Handlers.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Preprocessor_Handlers.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Project_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Project_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Workspace_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Workspace_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/Set_Classpath_Script_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/XML_Mapping_File_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/XML_Mapping_File_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/XSD_File_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/XSD_File_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_In_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Inout_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Manager_Factory.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Out_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Preprocessor.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Preprocessor_Handlers.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Preprocessor_Handlers.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Proxy_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Proxy_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Retn_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Traits_Base.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Traits_Base.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Var_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/TIOA/TIOA_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/TIOA/TIOA_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/TIOA/TIOA_Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/TIOA/TIOA_Manager_Factory.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/XML/XML_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/XML/XML_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/XML/XML_Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/XML/XML_Manager_Factory.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/natural-lang/Natural_Lang_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/natural-lang/Natural_Lang_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/natural-lang/Natural_Lang_Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/natural-lang/Natural_Lang_Manager_Factory.h:
+
+          . Moved all the backend generator logic for CUTS_PICML to the
+            CUTS_PICML directory.
+
+        * MDE/GME/paradigms/PICML/be:
+
+          . Removed this file.
+
 Wed Aug 13 14:46:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML:
@@ -53,7 +120,7 @@ Wed Aug 13 14:44:25 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
         * utils/BMW/website/performance.aspx.cs:
         * utils/BMW/website/unittest.aspx.cs:
 
-          . Updated a large portion of the SQL to fit conventions. 
+          . Updated a large portion of the SQL to fit conventions.
 
 Wed Aug 13 14:29:25 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

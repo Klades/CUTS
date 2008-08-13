@@ -31,7 +31,7 @@
 _config config;
 
 #include "gme/Project.h"
-#include "../../be/BE_Options.h"
+#include "be/BE_Options.h"
 
 //
 // Initialize
