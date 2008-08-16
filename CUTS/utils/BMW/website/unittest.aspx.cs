@@ -58,141 +58,284 @@ public partial class Unit_Testing : System.Web.UI.Page
     if (this.IsPostBack)
       return;
 
-    // Load all the test suites into the web controls.
-    this.reload_all_data ();
+    // Load initial existing data
+    this.load_existing_test_suites();
+    this.load_existing_packages();
+    this.load_existing_unit_tests();
+
+    // Disable appropriate buttons
+    this.insert_test_package_.Enabled = false;
+    this.insert_unit_test_.Enabled = false;
+    this.remove_test_package_.Enabled = false;
+    this.remove_unit_test_.Enabled = false;
   }
-
-  private void reload_all_data ()
-  {
-    // Load the test suite from the database.
-    this.load_test_suites ();
-
-    // Load the test packages from the database.
-    this.load_test_packages ();
-
-    // Load the unit tests from the database.
-    this.load_unit_tests ();
-  }
-
+ 
   /**
-   * Helper method to load all the test suites from the database.
+   * Intelligent validation method for listboxes. This is smarter than
+   *   .NET's validation, so please do not delete it
+   *   thinking it is unneeded. 
    */
-  private void load_test_suites ()
+  private bool is_valid_selection ( ListBox lb )
   {
-    // Load Existing Test Suites
-    DataTable dt = UnitTestActions.Get_All_Test_Suites ();
+    if (lb.SelectionMode == ListSelectionMode.Single)
+    {
+      if (lb.SelectedIndex < 0)
+      {
+        // If there is only one, we can assume they wanted that one
+        if (lb.Items.Count == 1)
+        {
+          lb.SelectedIndex = 0;
 
-    // Bind the data to the control.
-    this.existing_test_suites_.DataSource = dt;
-    this.existing_test_suites_.DataBind ();
+          // The appropriate selected index changed event
+          //   needs to be fired here, and this is the best I could find          
+          if (lb.ID == this.existing_test_suites_.ID)
+            this.onchange_existing_test_suites( null, null );
+          else if (lb.ID == this.current_test_packages_.ID)
+            this.onchange_current_test_packages( null, null );
+          else if (lb.ID == this.current_unit_tests_.ID)
+            this.onchange_current_unit_tests( null, null );
 
-    // Update the link for deleting a test suite.
-    int count = dt.Rows.Count;
-    this.insert_test_package_.Enabled = (count > 0);
-    this.delete_test_suite_.Visible = (count > 0);
-
-    // Load all the test packages.
-    if (this.existing_test_suites_.SelectedIndex != -1)
-      this.load_test_suite_packages ();
+          return true;
+        }
+        else
+          return false;
+      }
+      else
+        return true;
+    }
+    else
+    {
+      // This is a multiple selection box
+      bool anything_selected = false;
+      foreach (ListItem item in lb.Items)
+        if (item.Selected == true)
+        {
+          anything_selected = true;
+          break;
+        }
+      return anything_selected;
+    }
   }
 
+//=======================================================================
+  // Load Current section 
+//=======================================================================
   /**
-   * Helper method to load all the packages from the database. It will
-   * also load the packages for the currently selected test suite.
+   * Helper method to load packages that are included inside the
+   *   currently selected test suite. If no test suite is selected, 
+   *   the method will clear the current package list, and
+   *   show an info message in the listbox. 
    */
-  private void load_test_suite_packages ()
+  private void load_current_packages ()
   {
+    // Check that there is a test suite selected. 
+    if (this.is_valid_selection( this.existing_test_suites_ ) == false)
+    {
+      // Clear out packages
+      this.current_test_packages_.Items.Clear();
+
+      // Disable appropriate package buttons
+      this.insert_test_package_.Enabled = false;
+      this.remove_test_package_.Enabled = false;
+      this.create_then_insert_test_package.Checked = false;
+      this.create_then_insert_test_package.Enabled = false;
+      
+      // Disable appropriate unit test buttons
+      this.insert_unit_test_.Enabled = false;
+      this.remove_unit_test_.Enabled = false;
+
+      // Clear out unit tests
+      this.current_unit_tests_.Items.Clear();
+
+      return;
+    }
+
     // Get the test packages for the selected item.
-    DataTable dt = UnitTestActions.Get_Packages (this.existing_test_suites_.SelectedValue);
+    DataTable dt = UnitTestActions.Get_Packages( this.existing_test_suites_.SelectedValue );
 
     // Bind the data to the control.
     this.current_test_packages_.DataSource = dt;
-    this.current_test_packages_.DataBind ();
+    this.current_test_packages_.DataBind();
+
+    // Create variables used to ensure selection
+    //   validity, reload the UI as needed, and
+    //   enable/disable buttons as needed
+    int current_package_count_ = dt.Rows.Count;
+    bool is_valid_selection = this.is_valid_selection( this.current_test_packages_ );
+    
+    // What to do if there are many test packages 
+    //   available, but there is not one selected
+    if (is_valid_selection == false && (current_package_count_ > 0))
+    {
+      // Force the selection to be valid
+      this.current_test_packages_.SelectedIndex = 0;
+
+      // Ensure the selected index change was noticed. 
+      //   This should also force a reset of the unit test view
+      this.onchange_current_test_packages( new object(), new EventArgs() );
+    }
+    else if (current_package_count_ == 0)
+    {
+      // Update UI to represent no current packages
+      this.current_test_packages_.Items.Clear();
+      this.current_unit_tests_.Items.Clear();
+    }
+
+    // Enable/Disable the insert_test_package button
+    ListItem item;
+    item = this.current_test_packages_.Items.FindByValue( this.existing_test_packages_.SelectedValue );
+    if (item == null)
+      this.insert_test_package_.Enabled = this.is_valid_selection(this.existing_test_suites_);
+    else
+      this.insert_test_package_.Enabled = false;
+    
+    this.remove_test_package_.Enabled = (current_package_count_ > 0);
+    this.insert_unit_test_.Enabled = (current_package_count_ > 0);
+    this.remove_unit_test_.Enabled = (current_package_count_ > 0);
   }
 
-  private void load_test_packages ()
+  /**
+   * Helper method to load unit tests that are included inside the
+   *   currently selected package. If there is not a valid 
+   *   package selected, the method will clear the current
+   *   unit test list and show an info message in the 
+   *   listbox. 
+   */
+  private void load_current_unit_tests ()
+  {
+    // Check that there is a package selected. 
+    if (this.is_valid_selection( this.current_test_packages_ ) == false)
+    {
+      // If not, update UI
+      this.current_unit_tests_.Items.Clear();
+      return;
+    }
+
+    // Get the unit tests for the selected package.
+    DataTable dt = UnitTestActions.Get_Unit_Tests( this.current_test_packages_.SelectedValue );
+    
+    // Bind the data to the control.
+    this.current_unit_tests_.DataSource = dt;
+    this.current_unit_tests_.DataBind();
+
+    // Create variables used to ensure selection
+    //   validity, reload the UI as needed, and
+    //   enable/disable buttons as needed
+    int current_unit_test_count_ = dt.Rows.Count;
+    bool is_valid_selection = this.is_valid_selection( this.current_unit_tests_ );
+
+    // What to do if there are many unit tests 
+    //   available, but there is not one selected (indicitive of the selected one
+    //   being removed)
+    if (is_valid_selection == false && (current_unit_test_count_ > 0))
+    {
+      // Force the selection to be valid
+      this.current_unit_tests_.SelectedIndex = 0;
+
+      // Ensure the selected index change was noticed. 
+      //   This should also force a reset of the unit test view
+      this.onchange_current_unit_tests( new object(), new EventArgs() );
+    }
+    else if (current_unit_test_count_ == 0)
+    {
+      // Update UI to represent no current packages
+      this.current_unit_tests_.Items.Clear();
+    }
+
+    // Enable/Disable the insert_unit_test_ button
+    ListItem item;
+    item = this.current_unit_tests_.Items.FindByValue( this.existing_unit_tests_.SelectedValue );
+    if (item == null)
+      this.insert_unit_test_.Enabled = true;
+    else
+      this.insert_unit_test_.Enabled = false;
+    
+
+    this.remove_unit_test_.Enabled = (current_unit_test_count_ > 0);
+  }
+//======================================================================= 
+//=======================================================================
+  // Load existing section
+//=======================================================================
+  /**
+   * Helper method to load all the test suites from the database
+   *   into the existing test suites listbox. 
+   */
+  private void load_existing_test_suites ()
+  {
+    // Load Existing Test Suites
+    DataTable dt = UnitTestActions.Get_All_Test_Suites();
+
+    // Bind the data to the control. If you do not
+    //   clear the current items, it will append
+    this.existing_test_suites_.Items.Clear();
+    this.existing_test_suites_.DataSource = dt;
+    this.existing_test_suites_.DataBind();
+    
+    // Update the enabled options
+    int count = dt.Rows.Count;
+    this.remove_test_package_.Enabled = (count > 0);
+    this.insert_test_package_.Enabled = (count > 0);
+    this.insert_unit_test_.Enabled = (count > 0);
+    this.remove_unit_test_.Enabled = (count > 0);
+    this.create_then_insert_test_package.Checked = (count > 0);
+    this.create_then_insert_test_package.Enabled = (count > 0);
+  }
+
+  /**
+   * Loads all of the packages currently in the 
+   *   database into the existing packages dropdownlist. 
+   */
+  private void load_existing_packages ()
   {
     // Get all the packages from the database.
-    DataTable dt = UnitTestActions.Get_All_Packages ();
+    DataTable dt = UnitTestActions.Get_All_Packages();
 
-    // Bind the data table to the control.
+    // Bind the data to the control. If you do not
+    //   clear the current items, it will append
+    this.existing_test_packages_.Items.Clear();
     this.existing_test_packages_.DataSource = dt;
-    this.existing_test_packages_.DataBind ();
+    this.existing_test_packages_.DataBind();
 
-    // Load the unit test.
-    if (this.existing_test_packages_.SelectedIndex != -1)
-      this.load_test_package_unit_tests ();
+    // Update the enabled options
+    int count = dt.Rows.Count;
+    this.insert_test_package_.Enabled = (count > 0);
+    this.delete_test_package_.Enabled = (count > 0);
+    this.remove_test_package_.Enabled = (count > 0);
+    this.insert_unit_test_.Enabled = (count > 0);
+    this.remove_unit_test_.Enabled = (count > 0);
   }
-
-  private void reload_packages (string target_package)
+  
+  /**
+   * Loads all of the unit tests currently in
+   *   the database into the existing unit tests dropdownlist. 
+   */
+  private void load_existing_unit_tests ()
   {
-    load_test_packages ();
-
-    // Find Item we would like selected
-    ListItemCollection items = existing_test_packages_.Items;
-    int index_desired = items.IndexOf (items.FindByText (target_package));
-
-    // Select it
-    existing_test_packages_.SelectedIndex = index_desired;
-
-    /*
-     - Because you can add existing Packages,
-         clearing the package_unit_tests_list_
-         is not enough. You need to reload it
-     - However, we do not need any errors
-         reporting there are no Unit Tests
-         for this brand New Package. Once
-         messaging system is 'smart', we
-         should proably add a notice about
-         adding a Unit Test to this package
-     */
-    this.load_unit_tests ();
-  }
-
-  private void reload_test_suites (string target_ts)
-  {
-    this.load_test_suites ();
-
-    // Find Item we would like selected
-    ListItemCollection items = existing_test_suites_.Items;
-    int index_desired = items.IndexOf (items.FindByText (target_ts));
-
-    // Select it, and attempt to load all
-    existing_test_suites_.SelectedIndex = index_desired;
-
-    this.load_test_packages ();
-  }
-
-  private void load_unit_tests ()
-  {
-    // Load the existing unit tests and bind them to the control.
+    // Get the data
     DataTable dt = UnitTestActions.Get_All_Unit_Tests ();
-
+    
+    // Bind the data to the control. If you do not
+    //   clear the current items, it will append
+    this.existing_unit_tests_.Items.Clear();
     this.existing_unit_tests_.DataSource = dt;
     this.existing_unit_tests_.DataBind ();
+
+     // Update the enabled options
+    int count = dt.Rows.Count;
+    this.insert_unit_test_.Enabled = (count > 0);
+    this.remove_unit_test_.Enabled = (count > 0);
+    this.delete_unit_test_.Enabled = (count > 0);
   }
-
-  private void load_test_package_unit_tests ()
-  {
-    // Load the unit test for the selected package. This is for the general
-    // package, and not the package within a test suite since it references
-    // an existing test package.
-    DataTable dt = UnitTestActions.Get_Unit_Tests (this.existing_test_packages_.SelectedValue);
-
-    // DataBind
-    this.package_unit_tests_list_.DataSource = dt;
-    this.package_unit_tests_list_.DataBind ();
-  }
-
-  //private void load_log_format_data ()
-  //{
-  //  // Load the ddl_Add_Package_Unit_Test
-  //  DataTable dt = LogFormatActions.Get_Log_Formats (package_unit_tests_list_.SelectedValue);
-
-  //  this.dg_Unit_Test_Detail_Log_Formats.DataSource = dt;
-  //  this.dg_Unit_Test_Detail_Log_Formats.DataBind ();
-  //}
-
+//=======================================================================
+//=======================================================================
+  // Button handlers
+//=======================================================================
+  /**
+   * Button handler function that attempts to create a new test suite, 
+   *   reload the listbox containing the suites if it
+   *   is created, and select the TS just created.  
+   */
   protected void onclick_create_test_suite (object sender, EventArgs e)
   {
     string name = this.test_suite_name_.Text;
@@ -203,231 +346,201 @@ public partial class Unit_Testing : System.Web.UI.Page
       UnitTestActions.Insert_Test_Suite (name);
       this.master_.show_info_message ("Succesfully created " + name + " test suite");
       this.test_suite_name_.Text = "";
-
-      // Reload the data, and select the package just created
-      this.load_test_suites ();
+      
+      // Reload the data
+      this.load_existing_test_suites();
     }
     catch (Exception ex)
     {
+      // Show error message
       this.master_.show_error_message (ex.Message);
       this.master_.show_error_message ("Failed to create test suite " + name);
     }
+    finally
+    {
+      // Attempt to select the test suite
+      ListItem item = this.existing_test_suites_.Items.FindByText( name );
+      if (item != null)
+      {
+        // Select the item
+        this.existing_test_suites_.SelectedIndex = existing_test_suites_.Items.IndexOf( item );
+        
+        // Ensure the onchange event is fired no matter where in the page
+        //   lifecycle we are
+        this.onchange_existing_test_suites( new object(), new EventArgs() );
+      }
+    }
   }
 
-  protected void onclick_create_test_package (object sender, EventArgs e)
+  /**
+   * Button handler function that attempts to create a new test
+   *   package, reload the existing package list, and select the
+   *   package just created. An error is shown if the creation 
+   *   fails. There are minor bugs in this function that could 
+   *   occur if a test package is created, but fails to insert. 
+   *   The user interface might not be fully updated. The fix
+   *   is to revamp this function. 
+   */
+  protected void onclick_create_test_package ( object sender, EventArgs e )
   {
     string name = this.test_package_name_.Text;
 
+    // Check if we should create, then insert
+    //   test package - or just create test package
+    if (this.create_then_insert_test_package.Checked == true)
+    {
+      // Check test suite validity
+      if (this.is_valid_selection( this.existing_test_suites_ ) == false)
+      {
+        this.master_.show_error_message( "Please select a valid test suite to " +
+          "add test package " + name + " to." );
+        return;
+      }
+
+      try
+      {
+        // Insert test package
+        UnitTestActions.Insert_New_Package( this.existing_test_suites_.SelectedValue, name );
+
+        // Show info messages
+        this.master_.show_info_message( "test package " + name + " created successfully" );
+        this.master_.show_info_message( "test package " + name + " inserted into test " +
+          "suite " + this.existing_test_suites_.SelectedItem.Text + " successfully" );
+
+        // Update the UI
+        this.load_current_packages();
+        this.load_existing_packages();
+        this.test_package_name_.Text = "";
+      }
+      catch (Exception ex1)
+      {
+        // Show current message
+        this.master_.show_error_message( ex1.Message );
+
+        // Show more meaningful message
+        this.master_.show_error_message( "Failed to create, then insert, test package " + name );
+
+        return;
+      }
+
+    }
+    else
+    {
+      // We just want to create the test package, not insert it
+      try
+      {
+        // Create the test package
+        UnitTestActions.create_test_package( name );
+
+        // Show info message
+        this.master_.show_info_message( "Succesfully created " + name + " test package" );
+
+        // Update the UI
+        this.load_existing_packages();
+        this.test_package_name_.Text = "";
+      }
+      catch (Exception ex2)
+      {
+        // Show current message
+        this.master_.show_error_message( ex2.Message );
+
+        // Show more meaningful message
+        this.master_.show_error_message( "Failed to create test package " + name );
+
+        return;
+      }
+    }
+
+    // If we are here, no errors have been thrown
+    // Attempt to select the test package
+    ListItem item = this.existing_test_packages_.Items.FindByText( name );
+    if (item != null)
+    {
+      // Select the item
+      this.existing_test_packages_.SelectedIndex = this.existing_test_packages_.Items.IndexOf( item );
+
+      // Ensure the onchange event is fired no matter where in the page
+      //   lifecycle we are
+      this.onchange_existing_test_packages( new object(), new EventArgs() );
+    }
+  }
+  
+/**
+ * Button Handler function that is used to delete a test 
+ *   package, print a message out for success or failure, 
+ *   and reload the packages lists so they are updated.
+ *   If the test package cannot be deleted, then the 
+ *   function will attempt to print a list of test suites
+ *   it must be removed from before it can be safely 
+ *   deleted. 
+ */
+  protected void onclick_delete_test_package ( object sender, EventArgs e )
+  {
+    // Check that the selected one is valid
+    if (this.existing_test_packages_.SelectedIndex == -1)
+    {
+      this.master_.show_error_message( "Please select a valid test package to " +
+        "delete. " );
+      return;
+    }
+
+    string name = this.existing_test_packages_.SelectedItem.Text;
+
     try
     {
-      // Create the new test suite.
-      UnitTestActions.create_test_package (name);
-      this.master_.show_info_message ("Succesfully created " + name + " test package");
-      this.test_package_name_.Text = "";
+      // Delete the package from the database.
+      UnitTestActions.Delete_Package( this.existing_test_packages_.SelectedValue );
 
-      // Reload the data, and select the package just created
-      this.load_test_packages ();
+      // Show success message
+      string msg = "Successfully deleted " + name + " test package from database";
+      this.master_.show_info_message( msg );
+
+      // Reload all the existing and current lists
+      this.load_existing_packages();
+      this.load_current_packages();
     }
     catch (Exception ex)
     {
-      this.master_.show_error_message (ex.Message);
-      this.master_.show_error_message ("Failed to create test package " + name);
+      DataTable dt;
+      dt = UnitTestActions.Containing_Test_Suites( this.existing_test_packages_.SelectedValue );
+      
+      // Show current message
+      this.master_.show_error_message( ex.Message );
+      
+      // Show more meaningful message
+      string message = "Failed to delete " + name + " test package";
+      
+      // Attempting to add a list of the test suites that 
+      //   the package is currently added to 
+      if (dt.Rows.Count != 0)
+      {
+        message += ", because it is contained in the following test suites " +
+          "and must be 'Removed' from them before it can be safely deleted. " +
+          " Contained in ";
+        foreach (DataRow row in dt.Rows)
+          message += (string)row[0] + ",";
+        
+        message = message.Remove( message.LastIndexOf( ',' ) );
+      }
+      this.master_.show_error_message(message);
     }
   }
 
-  protected void onclick_insert_test_package (object sender, EventArgs e)
+  /** 
+   * Button handler that is used to delete a unit test, 
+   *   print a success or fail message, and reload the 
+   *   user interface. 
+   */
+  protected void onclick_delete_unit_test ( object sender, EventArgs e )
   {
-    if (this.existing_test_suites_.SelectedIndex != -1)
+    // Check that the selected unit test is valid
+    if (this.current_unit_tests_.SelectedIndex == -1)
     {
-      try
-      {
-        // Add the package to the test suite.
-        string pkg_name = this.existing_test_packages_.SelectedItem.Text;
-        UnitTestActions.Insert_New_Package (this.existing_test_suites_.SelectedValue, pkg_name);
-
-        string message =
-          "Successfully added " + pkg_name + " test package to " +
-          this.existing_test_packages_.SelectedItem.Text + " test suite";
-
-        this.master_.show_info_message (message);
-
-        // Reload the packages for the test suite.
-        this.load_test_suite_packages ();
-      }
-      catch (Exception ex)
-      {
-        this.master_.show_error_message (ex.Message);
-        this.master_.show_error_message ("Failed to create " + this.test_package_name_.Text + " test package");
-      }
+      this.master_.show_error_message( "Please select a valid unit test to " +
+        "delete. " );
+      return;
     }
-    else
-    {
-      this.master_.show_error_message ("Please select a test suite to add test package");
-    }
-  }
 
-  protected void onclick_delete_test_suite (object sender, EventArgs e)
-  {
-    if (this.existing_test_suites_.SelectedIndex != -1)
-    {
-      try
-      {
-        // Delete the test suite from the database.
-        UnitTestActions.Delete_Test_Suite (this.existing_test_suites_.SelectedValue);
-
-        // Show a message to the user.
-        string msg = "Successfully deleted test suite " + existing_test_suites_.SelectedItem.Text;
-        this.master_.show_info_message (msg);
-      }
-      catch (Exception ex)
-      {
-        this.master_.show_error_message (ex.Message);
-        this.master_.show_error_message ("Failed to delete selected test suite");
-      }
-      finally
-      {
-        try
-        {
-          //this.existing_test_suites_.SelectedIndex = -1;
-          this.reload_all_data ();
-        }
-        catch (Exception ex)
-        {
-          this.master_.show_error_message (ex.Message);
-          this.master_.show_error_message ("Failed to reload data");
-        }
-      }
-    }
-    else
-    {
-      this.master_.show_error_message ("Please select a valid test suite to delete");
-    }
-  }
-
-  protected void onclick_delete_test_package (object sender, EventArgs e)
-  {
-    if (this.existing_test_packages_.SelectedIndex != -1)
-    {
-      string name = this.existing_test_packages_.SelectedItem.Text;
-
-      try
-      {
-        // Delete the package from the database.
-        UnitTestActions.Delete_Package (this.existing_test_packages_.SelectedValue);
-
-        string msg = "Successfully deleted " + name + " test package from database";
-        this.master_.show_info_message (msg);
-
-        // Reload all the test packages from the database.
-        this.load_test_packages ();
-      }
-      catch (Exception ex)
-      {
-        this.master_.show_error_message (ex.Message);
-        this.master_.show_error_message ("Failed to delete " + name + " test package");
-      }
-    }
-    else
-    {
-      this.master_.show_error_message ("Please select an existing test package to delete");
-    }
-  }
-
-  protected void onclick_remove_test_package (object sender, EventArgs e)
-  {
-    if (this.existing_test_suites_.SelectedIndex != -1)
-    {
-      // Get the name of the test suite are deleting. This will be used in
-      // the generated messages.
-      string suite_name = this.existing_test_suites_.SelectedItem.Text;
-
-      if (this.existing_test_packages_.SelectedIndex != -1)
-      {
-        try
-        {
-          // Remove the package from the test suite.
-          UnitTestActions.Remove_Package (this.existing_test_suites_.SelectedValue,
-                                          this.existing_test_packages_.SelectedValue);
-
-          string msg =
-            "Successfully removed " + this.existing_test_packages_.SelectedItem.Text +
-            " test package from " + suite_name + " test suite";
-
-          // Show the message to the user.
-          this.master_.show_info_message (msg);
-
-          // Load the test packages.
-          this.load_test_packages ();
-        }
-        catch (Exception ex)
-        {
-          // Show the current exception.
-          this.master_.show_error_message (ex.Message);
-
-          // Show a more meaningful message.
-          string msg = "Failed to remove selected package from " + suite_name + " test suite";
-          this.master_.show_error_message (msg);
-        }
-      }
-      else
-      {
-        string name = this.existing_test_suites_.SelectedItem.Text;
-        string msg = "Please select a valid test package to remove from " + name + " test suite";
-
-        this.master_.show_error_message (msg);
-      }
-    }
-    else
-    {
-      this.master_.show_error_message ("No test suite is selected");
-    }
-  }
-
-  protected void onclick_insert_unit_test (object sender, EventArgs e)
-  {
-    if (this.existing_test_packages_.SelectedIndex != -1)
-    {
-      // Save the name of the package that we are adding a unit test.
-      string pkg_name = this.existing_test_packages_.SelectedItem.Text;
-
-      if (this.existing_unit_tests_.SelectedIndex != -1)
-      {
-        string name = this.existing_unit_tests_.SelectedItem.Text;
-
-        try
-        {
-          // Remove the unit test from the database, if possible.
-          UnitTestActions.Insert_Existing_Unit_Test (this.existing_test_packages_.SelectedValue,
-                                                     this.existing_unit_tests_.SelectedValue);
-
-          // Display useful message to the user.
-          string message =
-            "Successfully added " + name + " unit test to " + pkg_name + " test package";
-
-          this.master_.show_info_message (message);
-
-          // Force reloading of the unit tests.
-          this.load_test_package_unit_tests ();
-        }
-        catch (Exception ex)
-        {
-          this.master_.show_error_message (ex.Message);
-          this.master_.show_error_message ("Failed to add " + name + " unit test to " + pkg_name + " test package");
-        }
-      }
-      else
-      {
-        this.master_.show_error_message ("Please select a valid unit test to add");
-      }
-    }
-    else
-    {
-      this.master_.show_error_message ("Please select an existing test package to add unit test");
-    }
-  }
-
-  protected void onclick_delete_unit_test (object sender, EventArgs e)
-  {
     if (this.existing_unit_tests_.SelectedIndex != -1)
     {
       string name = this.existing_unit_tests_.SelectedItem.Text;
@@ -435,142 +548,447 @@ public partial class Unit_Testing : System.Web.UI.Page
       try
       {
         // Remove the unit test from the database, if possible.
-        UnitTestActions.Delete_Unit_Test (this.existing_unit_tests_.SelectedValue);
-        this.master_.show_info_message ("Successfully deleted " + name + " unit test from database");
+        UnitTestActions.Delete_Unit_Test( this.existing_unit_tests_.SelectedValue );
+        this.master_.show_info_message( "Successfully deleted " + name + " unit test from database" );
 
         // Force reloading of the unit tests.
-        this.load_unit_tests ();
+        //this.load_unit_tests ();
       }
       catch (Exception ex)
       {
-        this.master_.show_error_message (ex.Message);
-        this.master_.show_error_message ("Failed to delete " + name + " unit test from database");
+        this.master_.show_error_message( ex.Message );
+        this.master_.show_error_message( "Failed to delete " + name + " unit test from database" );
       }
     }
     else
     {
-      this.master_.show_error_message ("Please select a valid unit test to delete");
+      this.master_.show_error_message( "Please select a valid unit test to delete" );
     }
   }
 
-  protected void onclick_remove_unit_test (object sender, EventArgs e)
+  /**
+   * Button handler function that deletes the selected test suites, 
+   *   printing out error or success messages as it goes, and reloading
+   *   the interface correctly at the end.
+   */
+  protected void onclick_delete_test_suite ( object sender, EventArgs e )
   {
-    if (this.existing_test_packages_.SelectedIndex != -1)
+    // Check if any of the test suites are selected
+    if (this.is_valid_selection( this.existing_test_suites_ ) == false)
     {
-      // Save the name of the currently select test package.
-      string pkg_name = this.existing_test_packages_.SelectedItem.Text;
+      this.master_.show_error_message( "Please select a valid test suite to delete" );
+      return;
+    }
 
-      if (this.package_unit_tests_list_.SelectedIndex != -1)
+    // Iterate through the items, deleting them as we go
+    foreach (ListItem item in this.existing_test_suites_.Items)
+      if (item.Selected)
       {
-        string ut_name =
-          this.package_unit_tests_list_.SelectedItem.Text;
-
         try
         {
-          // Remove the selected unit test from the existing package.
-          UnitTestActions.Remove_Unit_Test (this.existing_test_packages_.SelectedValue,
-                                            this.package_unit_tests_list_.SelectedValue);
+          // Delete the test suite from the database.
+          UnitTestActions.Delete_Test_Suite( item.Value );
 
-          // Show an informative message to the user.
-          string msg =
-            "Successfully removed " + ut_name + " unit test from " +
-            pkg_name + " test package";
-
-          this.master_.show_info_message (msg);
-
-          // Update the test package's unit test control.
-          this.load_test_package_unit_tests ();
+          // Show a message to the user.
+          string msg = "Successfully deleted test suite " + item.Text;
+          this.master_.show_info_message( msg );
         }
         catch (Exception ex)
         {
-          this.master_.show_error_message (ex.Message);
-
-          string msg =
-            "Failed to remove " + ut_name + " unit test from " + pkg_name +
-            " test package";
-
-          this.master_.show_error_message (msg);
+          this.master_.show_error_message( ex.Message );
+          this.master_.show_error_message( "Failed to delete test suite " + item.Text );
         }
       }
-      else
+
+    // Reload existing test suites
+    this.load_existing_test_suites();
+    this.load_current_packages();
+  }
+
+  /**
+ * Button handler function that removes a test package from
+ *   a test suite, reloads the current package list, and 
+ *   prints an info message.
+ */
+  protected void onclick_remove_test_package ( object sender, EventArgs e )
+  {
+    // Check that the test package selection is valid
+    if (this.is_valid_selection( this.current_test_packages_ ) == false)
+    {
+      string message = "Please select a valid test package to remove.";
+      this.master_.show_error_message( message );
+      return;
+    }
+
+    // Check that the test suite selection is valid
+    if (this.is_valid_selection( this.existing_test_suites_ ) == false)
+    {
+      string message = "Please select a valid test suite to remove the test package from.";
+      this.master_.show_error_message( message );
+      return;
+    }
+
+    // Iterate through the items, deleting them as we go
+    foreach (ListItem item in this.current_test_packages_.Items)
+      if (item.Selected)
       {
-        this.master_.show_error_message ("Please select an existing unit test");
+
+        // Get the name of the test suite
+        string suite_name_ = this.existing_test_suites_.SelectedItem.Text;
+        string package_name_ = item.Text;
+
+        try
+        {
+          // Remove the package from the test suite.
+          UnitTestActions.Remove_Package( this.existing_test_suites_.SelectedValue,
+                                          item.Value );
+
+          string msg =
+            "Successfully removed " + package_name_ +
+            " test package from " + suite_name_ + " test suite";
+
+          // Show the message to the user.
+          this.master_.show_info_message( msg );
+        }
+        catch (Exception ex)
+        {
+          // Show the current exception.
+          this.master_.show_error_message( ex.Message );
+
+          // Show a more meaningful message.
+          string msg = "Failed to remove selected package from " + suite_name_ + " test suite";
+          this.master_.show_error_message( msg );
+        }
       }
+
+    // Update the current packages.
+    this.load_current_packages();
+  }
+
+  /**
+   * Button handler function that removes a unit test from
+   *   a test package, reloads the current unit test list, and 
+   *   prints an info message.
+   */
+  protected void onclick_remove_unit_test ( object sender, EventArgs e )
+  {
+    // Check that the unit test selection is valid
+    if (this.is_valid_selection( this.current_unit_tests_ ) == false)
+    {
+      string message = "Please select a valid unit test to remove.";
+      this.master_.show_error_message( message );
+      return;
+    }
+
+    // Check that the test package selection is valid
+    if (this.is_valid_selection( this.current_test_packages_ ) == false)
+    {
+      string message = "Please select a valid test package to remove the unit test from.";
+      this.master_.show_error_message( message );
+      return;
+    }
+
+    // Iterate through the items, deleting them as we go
+    foreach (ListItem item in this.current_unit_tests_.Items)
+      if (item.Selected)
+      {
+        // Get the name of the test package and unit test
+        string unit_test_name_ = item.Text;
+        string package_name_ = this.current_test_packages_.SelectedItem.Text;
+
+        try
+        {
+          // Remove the unit test from the package.
+          UnitTestActions.Remove_Unit_Test( this.current_test_packages_.SelectedValue,
+                                          item.Value );
+
+          string msg =
+            "Successfully removed " + unit_test_name_ +
+            " unit test from " + package_name_ + " test package";
+
+          // Show the message to the user.
+          this.master_.show_info_message( msg );
+        }
+        catch (Exception ex)
+        {
+          // Show the current exception.
+          this.master_.show_error_message( ex.Message );
+
+          // Show a more meaningful message.
+          string msg = "Failed to remove selected unit tests from " + package_name_ + " test package";
+          this.master_.show_error_message( msg );
+        }
+      }
+   
+    // Update current unit tests list.
+    this.load_current_unit_tests();
+  }
+
+  /** 
+   * Button handler function that inserts a test package into the selected
+   *   test suite, giving confirmation or error messages.
+   */
+  protected void onclick_insert_test_package ( object sender, EventArgs e )
+  {
+    // Check if any of the test suites are selected
+    if (this.is_valid_selection( this.existing_test_suites_ ) == false)
+    {
+      this.master_.show_error_message( "Please select a test suite to add test package" );
+      return;
+    }
+
+    string package_name = this.existing_test_packages_.SelectedItem.Text;
+    string test_suite_name = this.existing_test_suites_.SelectedItem.Text;
+
+    try
+    {
+      // Add the package to the test suite.
+      UnitTestActions.Insert_New_Package( this.existing_test_suites_.SelectedValue, package_name );
+
+      // Show a message to the user
+      string message =
+        "Successfully added " + package_name + " test package to " +
+        test_suite_name + " test suite";
+      this.master_.show_info_message( message );
+
+      // Reload the packages for the selected test suite.
+      this.load_current_packages();
+    }
+    catch (Exception ex)
+    {
+      // Show current message
+      this.master_.show_error_message( ex.Message );
+
+      DataTable dt;
+      dt = UnitTestActions.Get_Packages( this.existing_test_suites_.SelectedValue );
+      DataColumn[] keys = new DataColumn[1];
+      keys[0] = dt.Columns["name"];
+      dt.PrimaryKey = keys;
+
+      // Show a more meaningful message
+      if (dt.Rows.Contains( package_name ))
+        this.master_.show_error_message( "Test suite " + test_suite_name +
+          " already contains test package " + package_name );
+      else
+        this.master_.show_error_message( "Failed to create " + package_name + " test package" );
+    }
+  }
+
+  /** 
+  * Button handler function that inserts a unit test into the selected 
+  *   test package, giving confirmation or error messages. 
+  */
+  protected void onclick_insert_unit_test ( object sender, EventArgs e )
+  {
+    // Validate selected test package
+    if (this.is_valid_selection( this.current_test_packages_ ) == false)
+    {
+      this.master_.show_error_message( "Please select a valid test package to add the unit test to. " );
+      return;
+    }
+
+    string package_name = this.current_test_packages_.SelectedItem.Text;
+    string unit_test_name = this.existing_unit_tests_.SelectedItem.Text;
+
+    try
+    {
+      // Add the unit test
+      UnitTestActions.Insert_Existing_Unit_Test( this.current_test_packages_.SelectedValue,
+                                                 this.existing_unit_tests_.SelectedValue );
+
+      // Display useful message to the user.
+      string message =
+        "Successfully added " + unit_test_name + " unit test to " + package_name + " test package";
+      this.master_.show_info_message( message );
+
+      // Reload the unit tests.
+      this.load_current_unit_tests();
+    }
+    catch (Exception ex)
+    {
+      // Show current message
+      this.master_.show_error_message( ex.Message );
+
+      DataTable dt;
+      dt = UnitTestActions.Get_Unit_Tests( this.current_test_packages_.SelectedValue );
+      DataColumn[] keys = new DataColumn[1];
+      keys[0] = dt.Columns["name"];
+      dt.PrimaryKey = keys;
+
+      // Show a more meaningful message
+      if (dt.Rows.Contains( unit_test_name ))
+        this.master_.show_error_message( "Test package " + package_name +
+          " already contains unit test " + unit_test_name );
+      else
+        this.master_.show_error_message( "Failed to create " + unit_test_name + " unit test" );
+    }
+  }
+
+//=======================================================================
+//=======================================================================
+  // On Change Handlers section, for any lists. 
+//=======================================================================
+/**
+   * OnChange handler for the existing test suites list. Checks the 
+   *   selection validity, enables/disables buttons as needed, and
+   *   then loads the current package list if the test suite selection
+   *   is valid. 
+   */
+  protected void onchange_existing_test_suites (object sender, EventArgs e)
+  {
+    // Check that there is a valid selection
+    if (this.is_valid_selection( this.existing_test_suites_ ) == false)
+    {
+      // Disable appropriate buttons
+      this.insert_test_package_.Enabled = false;
+      this.remove_test_package_.Enabled = false;
+      this.insert_unit_test_.Enabled = false;
+      this.remove_unit_test_.Enabled = false;
+      
+      return;
+    }
+    
+    // Ensure valid buttons are enabled
+    this.insert_test_package_.Enabled = true;
+    this.remove_test_package_.Enabled = true;
+    this.insert_unit_test_.Enabled = true;
+    this.remove_unit_test_.Enabled = true;
+  
+    // Load the packages for the selected test suite.
+    this.load_current_packages ();
+  }
+
+/**
+ * On Change Handler for the existing test packages. Function 
+ *   checks to see if the selected test package exists in the current
+ *   test packages list, disables/enables appropriate buttons, 
+ *   and possibly selects the test package in the current test packages
+ *   list. 
+ */
+  protected void onchange_existing_test_packages ( object sender, EventArgs e )
+  {
+    // Save the package id
+    string selected_package_id = this.existing_test_packages_.SelectedValue;
+
+    // See if that package exists in the current test packages list
+    ListItem item = this.current_test_packages_.Items.FindByValue( selected_package_id );
+
+    // If item exists
+    if (item != null)
+    {
+      // Select it in the current test package list
+      this.current_test_packages_.SelectedIndex = this.current_test_packages_.Items.IndexOf( item );
+
+      // Make sure the change in the selected index is noticed
+      this.onchange_current_test_packages( new object(), new EventArgs() );
+
+      // Enable/Disable the correct buttons
+      this.insert_test_package_.Enabled = false;
+      this.remove_test_package_.Enabled = true;
     }
     else
     {
-      this.master_.show_error_message ("Please select an existing test package");
+      // Enable/Disable the correct buttons
+      this.insert_test_package_.Enabled = true;
+      this.remove_test_package_.Enabled = false;
     }
   }
 
-  protected void onchange_existing_test_packages (object sender, EventArgs e)
+/**
+ * On Change Handler for the existing unit tests. Function 
+ *   checks to see if the selected unit test exists in the current
+ *   unit tests list, disables/enables appropriate buttons, 
+ *   and possibly selects the unit test in the current unit tests
+ *   list. 
+ */
+  protected void onchange_existing_unit_tests ( object sender, EventArgs e )
   {
-    string name = this.existing_test_packages_.SelectedItem.Text;
+    // Save the unit test
+    string selected_unit_test_id = this.existing_unit_tests_.SelectedValue;
 
-    StringBuilder message = new StringBuilder ();
-    message.Append ("The following unit tests are included in the <b>" + name + "</b> test package. ");
-    message.Append ("To add more unit tests, either create a new unit test, or ");
-    message.Append ("select an existing unit tests using the listbox above.");
+    // See if that unit test exists in the current unit tests list
+    ListItem item = this.current_unit_tests_.Items.FindByValue( selected_unit_test_id );
 
-    this.unit_test_details_.Text = message.ToString ();
-    this.load_test_package_unit_tests ();
+    // If item exists
+    if (item != null)
+    {
+      // Select it in the current unit test list
+      this.current_unit_tests_.SelectedIndex = this.current_unit_tests_.Items.IndexOf( item );
+
+      // Make sure the change in the selected index is noticed
+      this.onchange_current_unit_tests( new object(), new EventArgs() );
+
+      // Enable/Disable the correct buttons
+      this.insert_unit_test_.Enabled = false;
+      this.remove_unit_test_.Enabled = true;
+    }
+    else
+    {
+      // Enable/Disable the correct buttons
+      this.insert_unit_test_.Enabled = true;
+      this.remove_unit_test_.Enabled = false;
+    } 
   }
 
-  //protected void onchange_existing_unit_test (object sender, EventArgs e)
-  //{
-  //  string err_message = "That is not a valid Unit Test to add.";
-  //  if (is_valid_selection (existing_unit_tests_, err_message) == false)
-  //    return;
-
-  //  // Ensure the integrity of the Selected Package
-  //  err_message = "You do not have a Package selected to add '" +
-  //                  existing_unit_tests_.SelectedItem.Text + "' to. ";
-  //  if (false == is_valid_selection (existing_test_packages_, err_message))
-  //    return;
-
-  //  // Add the Unit Test
-  //  try
-  //  {
-  //    UnitTestActions.Insert_Existing_Unit_Test (this.existing_test_packages_.SelectedValue,
-  //                                               this.existing_unit_tests_.SelectedValue);
-  //  }
-  //  catch (Exception ex)
-  //  {
-  //    this.master_.show_error_message (ex.Message);
-  //    this.master_.show_error_message ("There was a problem adding Unit Test '" +
-  //        existing_unit_tests_.SelectedItem.Text + "' to Package '" +
-  //        existing_test_packages_.SelectedItem.Text + ".' This probably means it is already added");
-  //    return;
-  //  }
-
-  //  // Reload the Unit test Drop Down List
-  //  this.load_unit_tests ();
-  //}
-
-  protected void onchange_existing_test_suites (object sender, EventArgs e)
+  /**
+   * On Change handler for current test packages. Reloads 
+   *   the current unit tests list as needed, and updates
+   *   the existing test packages list to have the same 
+   *   selection. 
+   */
+  protected void onchange_current_test_packages ( object sender, EventArgs e )
   {
-    string name = this.existing_test_suites_.SelectedItem.Text;
+    // Load the new current unit tests list
+    this.load_current_unit_tests();
 
-    // Update the package details.
-    StringBuilder message = new StringBuilder ();
-    message.Append ("The following packages are included in the <b>" + name + "</b> test suite. ");
-    message.Append ("To add more test packages, either create a new test package, or ");
-    message.Append ("select an existing test package using the control above.");
+    // Save the unit test id
+    string package_id_ = this.current_test_packages_.SelectedValue;
 
-    this.package_details_.Text = message.ToString ();
-
-    // Load the packages for the selected test suite.
-    this.load_test_suite_packages ();
-
-    if (!this.insert_test_package_.Enabled)
-      this.insert_test_package_.Enabled = true;
+    // Update the existing unit tests list
+    ListItem item = this.existing_test_packages_.Items.FindByValue( package_id_ );
+    this.existing_test_packages_.SelectedIndex = this.existing_test_packages_.Items.IndexOf( item );
   }
 
-  protected void onchange_unit_tests_list (object sender, EventArgs e)
+  /**
+   * On Change handler for current unit tests. Updates the existing unit tests
+   *   list to have the same selection, and reloads the UI as needed. 
+   *   Easily extendable to add in showing unit test details.
+   */
+  protected void onchange_current_unit_tests ( object sender, EventArgs e )
   {
+    // Because the load_current_unit_tests rebinds the data
+    // you loose the selected index. So, it is saved and 
+    // restored here, rather than creating a "reload_current_unit_tests"
+    bool[] selected = new bool[this.current_unit_tests_.Items.Count];
+    for (int i = 0; i < this.current_unit_tests_.Items.Count; ++i)
+      selected[i] = this.current_unit_tests_.Items[i].Selected;
 
+    // Reload the UI as needed
+    load_current_unit_tests();
+
+    // Restore previous selection
+    for (int i = 0; i < this.current_unit_tests_.Items.Count; ++i)
+      this.current_unit_tests_.Items[i].Selected = selected[i];
+
+    // Save the unit test id
+    string unit_test_id_ = this.current_unit_tests_.SelectedValue;
+
+    // Update the existing unit tests list
+    ListItem item = this.existing_unit_tests_.Items.FindByValue( unit_test_id_ );
+    this.existing_unit_tests_.SelectedIndex = this.existing_unit_tests_.Items.IndexOf( item );
   }
 
+//=======================================================================
+
+
+
+//=======================================================================
+//                                                                     //  
+//               Everything below here is for Creation View            //
+//                                                                     //
+//=======================================================================
+
+  
   protected void onchange_log_format (object sender, EventArgs e)
   {
     // Extract the control that sent this event. It should be a dropdown control.
@@ -758,7 +1176,7 @@ public partial class Unit_Testing : System.Web.UI.Page
       this.reset_unit_test_form ();
 
       // Reload the existing test suite control.
-      this.load_unit_tests ();
+      //this.load_unit_tests ();
     }
     catch (Exception ex)
     {
@@ -872,11 +1290,42 @@ public partial class Unit_Testing : System.Web.UI.Page
       // Bind the data to the dropdown list control. This will trigger the
       // ondatabound event, which will initialize the prefix label.
       string sql = "SELECT lfid, lfmt FROM log_formats";
+      
       DataTable data = execute_mysql_adapter (sql);
 
       formats.DataSource = data;
       formats.DataBind ();
     }
+  }
+
+  /**
+ * Safely execute a MySQL statement. This manages the connection
+ * and can throw an Argument Exception indicating what the
+ * sql attempted to execute was.
+ *
+ * @param sql    The statement to be executed.
+ */
+  private DataTable execute_mysql_adapter ( string sql )
+  {
+    MySqlConnection conn = new MySqlConnection( ConfigurationManager.AppSettings["MySQL"] );
+    conn.Open();
+    MySqlDataAdapter da = new MySqlDataAdapter( sql, conn );
+    DataSet ds = new DataSet();
+
+    try
+    {
+      da.Fill( ds );
+    }
+    catch
+    {
+      throw new ArgumentException( "The sql executed was : " + sql );
+    }
+    finally
+    {
+      conn.Close();
+    }
+
+    return ds.Tables[0];
   }
 
   private string get_mysql_comparison (string comparison)
@@ -934,34 +1383,23 @@ public partial class Unit_Testing : System.Web.UI.Page
     return (DropDownList)cell.Controls[0];
   }
 
-  /**
-   * Safely execute a MySQL statement. This manages the connection
-   * and can throw an Argument Exception indicating what the
-   * sql attempted to execute was.
-   *
-   * @param sql    The statement to be executed.
-   */
-  private DataTable execute_mysql_adapter (string sql)
+  protected void handle_onmenuitemclick ( Object sender, MenuEventArgs e )
   {
-    MySqlConnection conn = new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
-    conn.Open ();
-    MySqlDataAdapter da = new MySqlDataAdapter (sql, conn);
-    DataSet ds = new DataSet ();
+    this.multiview_.ActiveViewIndex = int.Parse( e.Item.Value );
+  }
 
-    try
+  protected void handle_onactiveviewchanged ( Object sender, EventArgs e )
+  {
+    switch (this.multiview_.ActiveViewIndex)
     {
-       da.Fill (ds);
-    }
-    catch
-    {
-      throw new ArgumentException ("The sql executed was : " + sql);
-    }
-    finally
-    {
-      conn.Close ();
-    }
+      case 0:
+        //this.load_configuration_view();
+        break;
 
-    return ds.Tables[0];
+      case 1:
+        //this.load_creation_view();
+        break;
+    }
   }
 
   override protected void OnInit (EventArgs e)

@@ -31,7 +31,7 @@ namespace Actions.UnitTestActions
 
     public static void Insert_New_Unit_Test (Hashtable Variables)
     {
-      string sql = "CALL Insert_UT(?name,?desc,?fail_comp,?warn_comp,?eval,?fail,?warn,?aggreg_func);";
+      string sql = "CALL insert_unit_test(?name,?desc,?fail_comp,?warn_comp,?eval,?fail,?warn,?aggreg_func);";
       MySqlCommand comm = dba.GetCommand (sql);
 
       comm.Parameters.AddWithValue ("?name", Variables["Name"]);
@@ -329,6 +329,17 @@ namespace Actions.UnitTestActions
       comm.Parameters.AddWithValue ("?p_id", Package_ID_);
       dba.ExecuteMySql (comm);
     }
+
+    public static DataTable Containing_Test_Suites ( string Package_ID_ )
+    {
+      string sql = "SELECT name FROM test_suites WHERE id IN " + 
+        "(SELECT DISTINCT id FROM test_suite_packages WHERE p_id=?p_id);";
+      MySqlCommand comm = dba.GetCommand( sql );
+      comm.Parameters.AddWithValue( "?p_id", Package_ID_ );
+      DataTable dt = dba.execute_mysql_adapter( comm );
+      return dt;
+    }
+
     public static void Remove_Package (string Test_Suite_ID, string Package_ID_)
     {
       string sql = "DELETE FROM cuts.test_suite_packages WHERE " +
@@ -611,7 +622,7 @@ namespace Actions.UnitTestActions
 
     private static void Insert_UT_LogFormat (int utid, string lfid)
     {
-      string sql = "CALL Insert_UT_LogFormat (?utid, ?lfid);";
+      string sql = "CALL insert_unit_test_log_format (?utid, ?lfid);";
       MySqlCommand comm = dba.GetCommand (sql);
       comm.Parameters.AddWithValue ("?utid", utid);
       comm.Parameters.AddWithValue ("?lfid", lfid);
@@ -620,7 +631,7 @@ namespace Actions.UnitTestActions
 
     private static void Insert_UT_Relation (int utid, string rel1, string rel2)
     {
-      string sql = "CALL Insert_UT_Relation(?utid, ?var1,?var2)";
+      string sql = "CALL insert_unit_test_relation(?utid, ?var1,?var2)";
       MySqlCommand comm = dba.GetCommand (sql);
       comm.Parameters.AddWithValue ("?utid", utid);
       comm.Parameters.AddWithValue ("?var1", rel1);

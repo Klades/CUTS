@@ -190,10 +190,10 @@ DELIMITER //
 
 -- given lfid gets all info about that LF - regex, varname/type/extended name
 
-DROP PROCEDURE IF EXISTS cuts.Get_LFID_info//
+DROP PROCEDURE IF EXISTS cuts.select_log_format_information//
 
 CREATE PROCEDURE
-  cuts.Get_LFID_info (IN lfid_in INT)
+  cuts.select_log_format_information (IN lfid_in INT)
 BEGIN
       -- When Databinding, the created column needs to have a type
       -- given to it, or it will not be able to bind correctly
@@ -205,10 +205,10 @@ END //
 
 -- given lfid returns messages from log that match that lfid
 
-DROP PROCEDURE IF EXISTS cuts.Get_log_data//
+DROP PROCEDURE IF EXISTS cuts.select_log_data//
 
 CREATE PROCEDURE
-  cuts.Get_log_data(IN lfid_in INT)
+  cuts.select_log_data(IN lfid_in INT)
 
 BEGIN
     select test_number,message from msglog where message regexp (SELECT icase_regex from log_formats WHERE lfid = lfid_in);
@@ -302,201 +302,14 @@ END //
 
 -- Simply inserts a relation into a unit test
 
-DROP PROCEDURE IF EXISTS cuts.Insert_UT_Relation//
+DROP PROCEDURE IF EXISTS cuts.insert_unit_test_relation//
 CREATE PROCEDURE
-  cuts.Insert_UT_Relation (IN utid_in  INT,
+  cuts.insert_unit_test_relation (IN utid_in  INT,
                            IN vid_1_in INT,
                            IN vid_2_in INT)
 BEGIN
       INSERT INTO unit_test_relations (utid,variable_id,variable_id_2) VALUES (utid_in, vid_1_in, vid_2_in);
 END //
-
-
-DROP PROCEDURE IF EXISTS cuts.evaluate_unit_test//
-CREATE PROCEDURE
-  cuts.evaluate_unit_test(IN utid_in INT)
-BEGIN
-
-    DECLARE fail_op      VARCHAR(2);
-    DECLARE fail_val     VARCHAR(10);
-    DECLARE warn_op      VARCHAR(2);
-    DECLARE warn_val     VARCHAR(10);
-    DECLARE tablename    VARCHAR(20);
-    DECLARE eval         VARCHAR(150);
-    DECLARE eval_no_aggr VARCHAR(150);
-    DECLARE lfid_count   INT;
-
-    -- Temporary variable to simplify the case where there are two LF's needed
-    DECLARE temp         VARCHAR(10);
-
-    -- Grab all one to one variables
-    SELECT   fail_comparison, fail,     warn_comparison, warn
-      INTO   fail_op,         fail_val, warn_op,         warn_val
-      FROM cuts.unit_tests
-      WHERE utid = utid_in;
-
-    -- Grab the desired aggregration and the evaluation
-    SELECT   CONCAT(aggregration_function,"(",evaluation,")"), evaluation
-      INTO   eval,                                             eval_no_aggr
-      FROM unit_tests
-      WHERE utid = utid_in;
-
-    -- See if we are working on a two LF unit test, or a normal one
-    SELECT COUNT(*)
-      INTO lfid_count
-      FROM cuts.unit_test_log_formats
-      WHERE utid = utid_in;
-
-
-    IF lfid_count = 1 THEN
-         -- If only one, store it
-             SELECT CONCAT("LF",lfid)
-                INTO tablename
-                FROM cuts.unit_test_log_formats
-                WHERE utid = utid_in;
-    ELSEIF lfid_count = 2 THEN
-            -- Store the first value
-            SELECT lfid
-              INTO temp
-              FROM cuts.unit_test_log_formats
-              WHERE utid = utid_in
-              LIMIT 1;
-            -- Store the second value
-            SELECT lfid
-              INTO tablename
-              FROM cuts.unit_test_log_formats
-              WHERE utid = utid_in
-              LIMIT 1,1;
-            -- Combine them
-            SELECT CONCAT("LF",temp,",LF",tablename)
-              INTO tablename;
-        -- ]
-    END IF;
-
-
-    -- Returns test_number, evaluation, result
-    -- Also returns result_count, which is useful for charting
-    SET @sql = CONCAT("
-        SELECT test_number,(",eval,") AS evaluation,
-          IF ((",eval,") ",fail_op," ",fail_val,",'fail',",
-          "IF ((",eval,") ",warn_op," ",warn_val,",'warn','pass')) AS result, ",
-          "COUNT(",eval_no_aggr,") AS result_count ",
-          "FROM ", tablename, " GROUP BY test_number;
-        ");
-
-    PREPARE s1 FROM @sql;
-    EXECUTE s1;
-    DEALLOCATE PREPARE s1;
-
-    -- Here is a simple example
-    -- The result should be between 3 and 5
-    -- Over 5, fail. Under 3, warn
-    --
-    -- SELECT IF ((result) > 5,'fail',
-    --   IF ((result) < 3,'warn','pass'))
-    -- AS result FROM lf7
-
-END//
-
-DROP PROCEDURE IF EXISTS cuts.evaluate_unit_test_single//
-CREATE PROCEDURE cuts.evaluate_unit_test_single(
-                                                IN utid_in INT,
-                                                IN test_number INT)
-BEGIN
-    DECLARE fail_op             VARCHAR(2);
-    DECLARE fail_val            VARCHAR(10);
-    DECLARE warn_op             VARCHAR(2);
-    DECLARE warn_val            VARCHAR(10);
-    DECLARE tablename           VARCHAR(90);
-    DECLARE single_tablename    VARCHAR(90);
-    DECLARE eval                VARCHAR(150);
-    DECLARE eval_no_aggr        VARCHAR(150);
-    DECLARE lfid_count          INT;
-
-    -- Temporary variable to simplify the case where there are two LF's needed
-    DECLARE temp      VARCHAR(10);
-    DECLARE t_var1    VARCHAR(45);
-    DECLARE t_var2    VARCHAR(45);
-
-    -- Grab all one to one variables
-    SELECT   fail_comparison, fail,     warn_comparison, warn
-      INTO   fail_op,         fail_val, warn_op,         warn_val
-      FROM cuts.unit_tests
-      WHERE utid = utid_in;
-
-    -- Grab the desired aggregration and the evaluation
-    SELECT   CONCAT(aggregration_function,"(",evaluation,")"), evaluation
-      INTO   eval,                                             eval_no_aggr
-      FROM unit_tests
-      WHERE utid = utid_in;
-
-    -- See if we are working on a two LF unit test, or a normal one
-    SELECT COUNT(*)
-      INTO lfid_count
-      FROM cuts.unit_test_log_formats
-      WHERE utid = utid_in;
-
-
-    IF lfid_count = 1 THEN
-         -- If only one, store it
-         -- The single tablename allows us to remove ambiguity from
-         --   WHERE test_number =
-             SELECT CONCAT("LF",lfid), CONCAT("LF",lfid)
-                INTO tablename,        single_tablename
-                FROM cuts.unit_test_log_formats
-                WHERE utid = utid_in;
-    ELSEIF lfid_count = 2 THEN
-
-            SELECT lfid, CONCAT("LF",lfid)
-              INTO temp, single_tablename
-              FROM cuts.unit_test_log_formats
-              WHERE utid = utid_in
-              LIMIT 1;
-
-            SELECT lfid
-              INTO tablename
-              FROM cuts.unit_test_log_formats
-              WHERE utid = utid_in
-              LIMIT 1,1;
-
-            SELECT CONCAT("LF",lfid,".",varname)
-              INTO t_var1
-              FROM log_format_variables
-              WHERE variable_id=( SELECT variable_id
-                                    FROM unit_test_relations
-                                    WHERE utid=utid_in );
-
-            SELECT CONCAT("LF",lfid,".",varname)
-              INTO t_var2
-              FROM log_format_variables
-              WHERE variable_id=( SELECT variable_id_2
-                                    FROM unit_test_relations
-                                    WHERE utid=utid_in );
-
-            -- You need at least one table names t0
-            SELECT CONCAT("LF",temp," JOIN LF",tablename," ON ",
-              t_var1,"=",t_var2)
-              INTO tablename;
-    END IF;
-
-
-    -- Returns evaluation, result
-    -- Also returns result_count, which is useful for charting
-    -- There is always a table called t0 to make the test_number
-    -- un-ambiguous
-    SET @sql = CONCAT("
-        SELECT (",eval,") AS evaluation,
-          IF ((",eval,") ",fail_op," ",fail_val,",'fail',",
-          "IF ((",eval,") ",warn_op," ",warn_val,",'warn','pass')) AS result, ",
-          "COUNT(",eval_no_aggr,") AS result_count ",
-          "FROM ", tablename,
-          " WHERE ",single_tablename,".test_number=",test_number,";"
-        );
-
-    PREPARE s1 FROM @sql;
-    EXECUTE s1;
-    DEALLOCATE PREPARE s1;
-END//
 
 -- Allows you to grab all the results of a unit test, filtered by a test
 --   number
@@ -589,22 +402,9 @@ BEGIN
     DEALLOCATE PREPARE s1;
 END//
 
--- given UTID gets variables used in that UT
--- varname/type/extended name
-
-DROP PROCEDURE IF EXISTS cuts.Get_UTID_vars//
+DROP PROCEDURE IF EXISTS cuts.insert_log_format//
 CREATE PROCEDURE
-  cuts.Get_UTID_vars(IN utid_in INT)
-BEGIN
-      SELECT varname, concat("LF",lfid,".",varname) as extended_varname, 'false' as grouped_on_x, 'false' as grouped_on_z, vartype
-      FROM log_format_variables where lfid in
-                                                (SELECT lfid FROM unit_test_log_formats WHERE utid = utid_in);
-END //
-
-
-DROP PROCEDURE IF EXISTS cuts.Insert_LF//
-CREATE PROCEDURE
-  cuts.Insert_LF(IN log_form VARCHAR(150),
+  cuts.insert_log_format(IN log_form VARCHAR(150),
                  IN iregex VARCHAR(180),
                  IN csregex VARCHAR(180))
 BEGIN
@@ -614,9 +414,9 @@ END //
 
 
 
-DROP PROCEDURE IF EXISTS cuts.Insert_LF_variable//
+DROP PROCEDURE IF EXISTS cuts.insert_log_format_variable//
 CREATE PROCEDURE
-  cuts.Insert_LF_variable(IN id INT,
+  cuts.insert_log_format_variable(IN id INT,
                           IN name VARCHAR(45),
                           IN vtype VARCHAR(45))
 BEGIN
@@ -695,8 +495,8 @@ END //
 
 -- given 1-1 data for unit test, inserts new UT and returns id
 
-DROP PROCEDURE IF EXISTS cuts.Insert_UT//
-CREATE PROCEDURE cuts.Insert_UT(IN name_in VARCHAR(45),
+DROP PROCEDURE IF EXISTS cuts.insert_unit_test//
+CREATE PROCEDURE cuts.insert_unit_test(IN name_in VARCHAR(45),
                                 IN descr VARCHAR(95),
                                 IN fail_comp VARCHAR(20),
                                 IN warn_comp VARCHAR(20),
@@ -727,9 +527,9 @@ END //
 
 -- given utid and lfid, add log format to ut
 
-DROP PROCEDURE IF EXISTS cuts.Insert_UT_LogFormat//
+DROP PROCEDURE IF EXISTS cuts.insert_unit_test_log_format//
 CREATE PROCEDURE
-  cuts.Insert_UT_LogFormat(IN utid_in INT,
+  cuts.insert_unit_test_log_format(IN utid_in INT,
                            IN lfid_in INT)
 BEGIN
     INSERT INTO unit_test_log_formats (utid, lfid)

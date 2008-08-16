@@ -53,7 +53,7 @@
     </items>
   </asp:menu>
 
-  <div style="background-color:#9999FF; height:3px; margin-bottom:5px"></div>
+  <div style="background-color:#9999FF; height:3px; margin-bottom:5px"><!-- --></div>
 
   <asp:multiview runat="server" id="multiview_" activeviewindex="0"
                  onactiveviewchanged="handle_onactiveviewchanged">

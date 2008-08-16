@@ -101,7 +101,7 @@ namespace CUTS
      */
     private void show_message (String msg, String cssclass)
     {
-      Label label = new Label ();
+/*      Label label = new Label ();
       label.CssClass = cssclass;
       label.Text = "<div>&middot; " + msg + "</div>";
 
@@ -109,7 +109,7 @@ namespace CUTS
 
       // Make sure we can actually see the console.
       if (this.console_.Style["display"] == "none")
-        this.console_.Style["display"] = "block";
+        this.console_.Style["display"] = "block";*/
     }
   }
 }

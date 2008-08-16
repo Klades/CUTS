@@ -31,7 +31,7 @@ namespace Actions.LogFormatActions
       new DataBaseActions.DataBaseActions (ConfigurationManager.AppSettings["MySQL"]);
 
     /**
-     * Method to insert a Log Format. Uses sql procedure Insert_LF
+     * Method to insert a Log Format. Uses sql procedure insert_log_format
      *
      * @param[in]       log_format       The LF to be inserted.
      * @param[in]       icase_regex      The MySql case-insensitive regular
@@ -45,7 +45,7 @@ namespace Actions.LogFormatActions
     public static void Insert_LF (string log_format, string icase_regex, string cs_regex, Hashtable vars)
     {
 
-      string sql = "CALL Insert_LF(?lf, ?icase_regex, ?cs_regex);";
+      string sql = "CALL insert_log_format(?lf, ?icase_regex, ?cs_regex);";
       MySqlCommand comm = dba.GetCommand (sql);
       comm.Parameters.AddWithValue ("?lf", log_format);
       comm.Parameters.AddWithValue ("?icase_regex", icase_regex);
@@ -62,14 +62,14 @@ namespace Actions.LogFormatActions
 
     /**
      * Adds a single variable for a Log Format. SubFunction of Insert_LF.
-     * Note that this uses MySql procedure Insert_LF_Variable.
+     * Note that this uses MySql procedure insert_log_format_variable.
      *
      * @param[in]  lfid       The ID of the Log Format the variable belongs to.
      * @param[in]  varname    The name of the variable.
      */
     private static void Insert_LF_variable (int lfid, string varname, string vartype)
     {
-      string sql = "CALL Insert_LF_variable(?lfid,?varname,?vartype);";
+      string sql = "CALL insert_log_format_variable(?lfid,?varname,?vartype);";
       MySqlCommand comm = dba.GetCommand (sql);
       comm.Parameters.AddWithValue ("?lfid", lfid);
       comm.Parameters.AddWithValue ("?varname", varname);
@@ -135,7 +135,7 @@ namespace Actions.LogFormatActions
      * Given a Log Format ID, this returns info about that
      * Log Format, including the cs_regex and a list of variable names.
      * Note that this needs to be updated to return variable types and names.
-     * Note that this uses MySql Stored Procedure Get_LFID_Info.
+     * Note that this uses MySql Stored Procedure select_log_format_information.
      *
      * @param[out] cs_regex     The string you would like the C Sharp regular
      *                            expression to be stored into.
@@ -145,7 +145,7 @@ namespace Actions.LogFormatActions
      */
     public static void GetLFIDInfo (out string cs_regex, out Hashtable vars, int lfid)
     {
-      string sql = @"CALL Get_LFID_info( ?lfid );";
+      string sql = @"CALL select_log_format_information( ?lfid );";
       MySqlCommand comm = dba.GetCommand (sql);
       comm.Parameters.AddWithValue ("?lfid", lfid);
 

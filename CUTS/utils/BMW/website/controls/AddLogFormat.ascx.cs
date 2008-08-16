@@ -73,7 +73,7 @@ public partial class AddLogFormat : System.Web.UI.UserControl
     {
         DropDownList d = (DropDownList)Panel1.FindControl("D_list");
         int id = Int32.Parse(d.SelectedValue);
-        string sql = @"CALL Get_LFID_info('" + d.SelectedValue + "');";
+        string sql = @"CALL select_log_format_information('" + d.SelectedValue + "');";
         foreach (string var_id in ExecuteMySqlReader(sql, "extended_varname"))
         {
             DropDownList ddl = new DropDownList();
