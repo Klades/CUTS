@@ -393,6 +393,16 @@ namespace Actions.UnitTestActions
       return dt;
     }
 
+    public static DataTable Get_Test_Messages ( string Test_ID_ )
+    {
+      string sql = "SELECT hostid, msgtime AS message_time,severity," +
+        "message FROM msglog WHERE test_number=?tid;";
+      MySqlCommand comm = dba.GetCommand( sql );
+      comm.Parameters.AddWithValue( "?tid", Test_ID_ );
+      DataTable dt = dba.execute_mysql_adapter( comm );
+      return dt;
+    }
+
     public static DataTable Get_Unit_Tests (string Package_ID_)
     {
       string sql = "SELECT id, name " +

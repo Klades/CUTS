@@ -90,9 +90,6 @@ namespace CUTS
           // Load the collection times into the control
           this.load_collection_times ();
 
-          // Load Unit Test View
-          load_unit_test_view ();
-
           // Since this isn't a postback, we are going to show the
           // latest collection time for this test.
           this.collection_time_ =
@@ -176,6 +173,17 @@ namespace CUTS
       ddl_Test_Suites.DataBind ();
 
       ddl_Test_Suites.Items.Insert (0, new ListItem ("Choose a Test Suite to see results . . .    ", "-1"));
+    }
+    
+    private void load_log_messages_view ()
+    {
+      string test_number = Request.QueryString["t"];
+      if (test_number == null)
+        return;
+
+      DataTable dt = UnitTestActions.Get_Test_Messages( test_number );
+      this.current_test_messages_.DataSource = dt;
+      this.current_test_messages_.DataBind();
     }
 
     protected void on_collection_time_changed (Object sender, EventArgs e)
@@ -337,13 +345,79 @@ namespace CUTS
           break;
 
         case 2:
-          // INSERT CODE HERE TO UPDATE THE UNIT TEST VIEW. IT WOULD BE BEST TO
-          // CREATE A PRIVATE FUNCTION THAT IS INVOKED TO UPDATE YOUR VIEW
-          // ACCORDINGLY. DONT FOLLOW THE METHOD ABOVE SINCE ITS NOT THE BEST. ;-)
+          this.load_unit_test_view();  
+          break;
+
+        case 3:
+          this.load_log_messages_view();
           break;
       }
     }
     #endregion
+
+    /**
+     * Button handler for the current log formats view that 
+     *   will export the datagrid on that view in the chosen format. 
+     */
+    protected void onclick_export ( object sender, EventArgs e )
+    {
+      string export_type = this.export_type_.SelectedValue;
+
+      switch (export_type)
+      {
+        case "excel":
+          this.export_current_test_messages( "excel" );
+          break;
+        case "word":
+          this.export_current_test_messages( "word" );
+          break;
+      }
+    }
+    /**
+     * Helper function to export the current test's
+     *   log messages into excel format.
+     */
+    private void export_current_test_messages ( string type)
+    {
+      // Empty the buffer
+      Response.ClearContent();
+
+      // Generate filename
+      string filename = "Test_";
+      string test_number = Request.QueryString["t"];
+      if (test_number != null)
+        filename += test_number;
+      filename += "_Log_Messages";
+
+      // Set filetype
+      if (type == "excel")
+        filename += ".xls";
+      else if (type == "word")
+        filename += ".doc";
+
+      // Set the content header
+      Response.AddHeader( "content-disposition", "attachment; filename=" + filename );
+
+      // Set the content type
+      if (type == "excel")
+        Response.ContentType = "application/ms-excel";
+      else if (type == "word")
+        Response.ContentType = "application/msword";
+
+      // Ensure this is never cached
+      Response.Cache.SetCacheability( HttpCacheability.NoCache );
+
+      // Build appropriate writers
+      System.IO.StringWriter stringWrite = new System.IO.StringWriter();
+      HtmlTextWriter htmlWrite = new HtmlTextWriter( stringWrite );
+
+      // Render DataGrid
+      this.current_test_messages_.RenderControl( htmlWrite );
+
+      // Send to user
+      Response.Write( stringWrite.ToString() );
+      Response.End();
+    }
 
     #region Web Form Designer generated code
     override protected void OnInit (EventArgs e)

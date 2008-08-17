@@ -19,7 +19,7 @@
     
     <asp:MultiView runat="server" ID="multiview_" ActiveViewIndex="0" OnActiveViewChanged="handle_onactiveviewchanged">
         <asp:View runat="server" ID="configuration_view_">
-            <table cellpadding="15" cellspacing="20" border="1" style="border-color: #9999FF; border-top-width: 0px;">
+            <table cellpadding="15" cellspacing="20" border="1" class="view_wrapper">
                 <tr>
                 
                     <!-- section of the table for creating/removing test suites. -->
@@ -171,7 +171,7 @@
         <asp:View runat="server" ID="create_unit_test_view_">
             
             <!-- wrapper div to make things look nice -->
-            <table cellpadding="15" cellspacing="20" border="1" style="border-color: #9999FF; border-top-width: 0px;">
+            <table cellpadding="15" cellspacing="20" border="1" class="view_wrapper">
             <tr>
             <td>
                 <!-- input the name and description of the unit test -->

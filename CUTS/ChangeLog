@@ -1,9 +1,31 @@
+Sun Aug 17 05:50:19 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * utils/BMW/website/App_Code/UnitTestActions.cs:
+
+          . Added a function to get all the msglog data pertaining to one
+              test number
+
+        * utils/BMW/website/performance.aspx:
+        * utils/BMW/website/performance.aspx.cs:
+
+          . Added Log Messages View
+          . Created / Added Export ability in Excel/Word
+          . Added table wrapper to all views to make the look of the site more 
+              consistent
+
+        * utils/BMW/website/styles/default.css:
+
+          . Added table.view_wrapper class to apply to all tables that are just
+              for wrappering a view and making the look consistent
+
+        * utils/BMW/website/unittest.aspx:
+
 Sun Aug 17 03:29:12 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * utils/BMW/website/App_Code/UnitTestActions.cs:
 
-          . Added a function to get the one to one test package information. 
-          . Removed two bugs I saw. 
+          . Added a function to get the one to one test package information.
+          . Removed two bugs I saw.
 
         * utils/BMW/website/performance.aspx:
         * utils/BMW/website/performance.aspx.cs:
@@ -11,7 +33,7 @@ Sun Aug 17 03:29:12 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
           . Removed all SQL from the code-behind, so that the page now entirely
               uses UnitTestActions to interact with the database. This is not
               our end goal( UnitTestActions still needs a lot of work), but it
-              does bring us a good deal closer. 
+              does bring us a good deal closer.
 
 Sat Aug 16 05:23:56 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 

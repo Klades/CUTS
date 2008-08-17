@@ -82,7 +82,12 @@ td.menu a:hover
 {
   font-weight:bold;
 }
-
+table.view_wrapper
+{
+    border: solid 1px #9999FF;
+    border-top-width: 0px;
+    width: 100%;
+}
 /**
  * Default datagrid styles
  */
