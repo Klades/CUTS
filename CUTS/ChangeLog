@@ -1,3 +1,9 @@
+Sun Aug 17 06:00:48 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . Added regions        
+
 Sun Aug 17 05:50:19 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * utils/BMW/website/App_Code/UnitTestActions.cs:
@@ -10,7 +16,7 @@ Sun Aug 17 05:50:19 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
 
           . Added Log Messages View
           . Created / Added Export ability in Excel/Word
-          . Added table wrapper to all views to make the look of the site more 
+          . Added table wrapper to all views to make the look of the site more
               consistent
 
         * utils/BMW/website/styles/default.css:

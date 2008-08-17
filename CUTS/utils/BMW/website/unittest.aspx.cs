@@ -117,9 +117,7 @@ public partial class Unit_Testing : System.Web.UI.Page
     }
   }
 
-//=======================================================================
-  // Load Current section 
-//=======================================================================
+  #region Load Current
   /**
    * Helper method to load packages that are included inside the
    *   currently selected test suite. If no test suite is selected, 
@@ -253,10 +251,9 @@ public partial class Unit_Testing : System.Web.UI.Page
 
     this.remove_unit_test_.Enabled = (current_unit_test_count_ > 0);
   }
-//======================================================================= 
-//=======================================================================
-  // Load existing section
-//=======================================================================
+  #endregion
+
+  #region Load Existing
   /**
    * Helper method to load all the test suites from the database
    *   into the existing test suites listbox. 
@@ -327,11 +324,10 @@ public partial class Unit_Testing : System.Web.UI.Page
     this.remove_unit_test_.Enabled = (count > 0);
     this.delete_unit_test_.Enabled = (count > 0);
   }
-//=======================================================================
-//=======================================================================
-  // Button handlers
-//=======================================================================
-  /**
+  #endregion
+
+  #region Button Handlers
+/**
    * Button handler function that attempts to create a new test suite, 
    *   reload the listbox containing the suites if it
    *   is created, and select the TS just created.  
@@ -824,10 +820,9 @@ public partial class Unit_Testing : System.Web.UI.Page
     }
   }
 
-//=======================================================================
-//=======================================================================
-  // On Change Handlers section, for any lists. 
-//=======================================================================
+  #endregion
+
+  #region On Change Handlers
 /**
    * OnChange handler for the existing test suites list. Checks the 
    *   selection validity, enables/disables buttons as needed, and
@@ -978,8 +973,7 @@ public partial class Unit_Testing : System.Web.UI.Page
     this.existing_unit_tests_.SelectedIndex = this.existing_unit_tests_.Items.IndexOf( item );
   }
 
-//=======================================================================
-
+  #endregion
 
 
 //=======================================================================
