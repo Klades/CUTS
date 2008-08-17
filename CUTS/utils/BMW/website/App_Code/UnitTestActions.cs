@@ -395,7 +395,7 @@ namespace Actions.UnitTestActions
 
     public static DataTable Get_Unit_Tests (string Package_ID_)
     {
-      string sql = "SELECT utid, name " +
+      string sql = "SELECT id, name " +
                    "FROM unit_tests AS utd,package_unit_tests AS put " +
                    "WHERE put.id=?p_id AND put.ut_id=utd.utid;";
       MySqlCommand comm = dba.GetCommand (sql);
@@ -412,6 +412,15 @@ namespace Actions.UnitTestActions
       MySqlCommand comm = dba.GetCommand (sql);
       comm.Parameters.AddWithValue ("?utid_in", Unit_Test_ID_);
       DataRow dr = dba.ExecuteMySqlRow (comm);
+      return dr;
+    }
+
+    public static DataRow Get_Package_Info ( string Package_ID_ )
+    {
+      string sql = "SELECT id,name FROM packages WHERE id=?pid LIMIT 1;";
+      MySqlCommand comm = dba.GetCommand( sql );
+      comm.Parameters.AddWithValue( "?pid", Package_ID_ );
+      DataRow dr = dba.ExecuteMySqlRow( comm );
       return dr;
     }
 

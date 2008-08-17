@@ -22,6 +22,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Text;
+
 using Actions.UnitTestActions;
 using MySql.Data.MySqlClient;
 
@@ -169,8 +170,7 @@ namespace CUTS
     }
     private void load_unit_test_view ()
     {
-      string sql = "SELECT * FROM test_suites";
-      DataTable table = execute_mysql_adapter (sql);
+      DataTable table = UnitTestActions.Get_All_Test_Suites();
 
       ddl_Test_Suites.DataSource = table;
       ddl_Test_Suites.DataBind ();
@@ -211,17 +211,18 @@ namespace CUTS
 
     private void load_panel_Packages_Unit_Tests ()
     {
-      string sql = "SELECT p_id FROM test_suite_packages WHERE id=" + ddl_Test_Suites.SelectedValue + ";";
-      Array p_ids = ExecuteMySqlReader (sql, "p_id");
-
-      foreach (object CurrentPID in p_ids)
-        Add_Package (CurrentPID.ToString ());
+      DataTable dt = UnitTestActions.Get_Packages( ddl_Test_Suites.SelectedValue );
+ 
+      // An explicit cast to string will not work here
+      //   because the adapter types the column to int
+      foreach (DataRow row in dt.Rows)
+        Add_Package( row["id"].ToString() );
     }
 
     private void Add_Package (string p_id)
     {
-      string sql = "SELECT name FROM packages WHERE id=" + p_id;
-      string Package_Name = ExecuteMySqlScalar (sql).ToString ();
+      DataRow package_info = UnitTestActions.Get_Package_Info( p_id );
+      string Package_Name = (string)package_info["name"];
 
       // Add Package Title
       Label Title = new Label ();
@@ -232,10 +233,9 @@ namespace CUTS
       // Add hr
       panel_Packages_Unit_Tests.Controls.Add (new LiteralControl ("<hr />"));
 
+
       // Fill the DataTable with Name and id
-      sql = "SELECT utid AS id,name AS Name FROM unit_tests " +
-          "WHERE utid IN (SELECT ut_id FROM package_unit_tests WHERE id=" + p_id + ");";
-      DataTable dt = execute_mysql_adapter (sql);
+      DataTable dt = UnitTestActions.Get_Unit_Tests( p_id );
 
       // Add Evaluation, Result
       //dt.Columns.Add ("Evaluation");
@@ -344,45 +344,6 @@ namespace CUTS
       }
     }
     #endregion
-
-    private DataTable execute_mysql_adapter (string sql)
-    {
-      MySql.Data.MySqlClient.MySqlConnection conn = new MySql.Data.MySqlClient.MySqlConnection (ConfigurationManager.AppSettings ["MySQL"]);
-      conn.Open ();
-
-      MySql.Data.MySqlClient.MySqlDataAdapter da = new MySql.Data.MySqlClient.MySqlDataAdapter (sql, conn);
-      DataSet ds = new DataSet ();
-      da.Fill (ds);
-
-      conn.Close ();
-      return ds.Tables [0];
-    }
-
-    private Array ExecuteMySqlReader (string sql, string ColumnName)
-    {
-      MySql.Data.MySqlClient.MySqlConnection conn = new MySql.Data.MySqlClient.MySqlConnection (ConfigurationManager.AppSettings ["MySQL"]);
-      MySql.Data.MySqlClient.MySqlCommand comm = new MySql.Data.MySqlClient.MySqlCommand (sql, conn);
-      conn.Open ();
-      MySql.Data.MySqlClient.MySqlDataReader r = comm.ExecuteReader ();
-
-      ArrayList al = new ArrayList ();
-      while (r.Read ())
-        al.Add (r.GetString (ColumnName).ToString ());
-
-      conn.Close ();
-      return al.ToArray ();
-    }
-
-    private object ExecuteMySqlScalar (string sql)
-    {
-      MySql.Data.MySqlClient.MySqlConnection conn = new MySql.Data.MySqlClient.MySqlConnection (ConfigurationManager.AppSettings ["MySQL"]);
-      MySql.Data.MySqlClient.MySqlCommand comm = new MySql.Data.MySqlClient.MySqlCommand (sql, conn);
-      conn.Open ();
-      object obj = comm.ExecuteScalar ();
-      conn.Close ();
-      return obj;
-    }
-
 
     #region Web Form Designer generated code
     override protected void OnInit (EventArgs e)

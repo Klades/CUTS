@@ -132,5 +132,16 @@
           runat="server"></asp:Panel>
       
     </asp:view>
+    
+    <asp:view runat="server" id="log_formats_view_">
+
+      <asp:Button runat="server" ID="export_to_excel_" 
+         
+        Text="Excel" />
+
+      <asp:DataGrid runat="server" ID="current_log_formats_">
+        </asp:DataGrid>
+      
+    </asp:view>
   </asp:multiview>
 </asp:content>
