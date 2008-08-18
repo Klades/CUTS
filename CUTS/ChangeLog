@@ -1,8 +1,18 @@
+Mon Aug 18 02:17:44 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * utils/BMW/website/BMW.master.cs:
+
+          . Fixed messaging system - seems to be working correctly now. 
+
+        * utils/BMW/website/unittest.aspx:
+
+          . Minor change
+
 Sun Aug 17 06:00:48 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * utils/BMW/website/unittest.aspx.cs:
 
-          . Added regions        
+          . Added regions
 
 Sun Aug 17 05:50:19 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 

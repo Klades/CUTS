@@ -150,7 +150,7 @@
                         
                         <span style="position:relative; left: 55px; top:13px;">
                             <asp:ListBox ID="current_unit_tests_" runat="server" SelectionMode="Multiple"
-                                DataTextField="name" DataValueField="utid" AutoPostBack="true" 
+                                DataTextField="name" DataValueField="id" AutoPostBack="true" 
                                 OnSelectedIndexChanged="onchange_current_unit_tests"
                                 Rows="15" CssClass="larger_width" />
                         </span>
