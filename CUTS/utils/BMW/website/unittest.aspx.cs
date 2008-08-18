@@ -117,6 +117,26 @@ public partial class Unit_Testing : System.Web.UI.Page
     }
   }
 
+  protected void handle_onmenuitemclick ( Object sender, MenuEventArgs e )
+  {
+    this.multiview_.ActiveViewIndex = int.Parse( e.Item.Value );
+  }
+
+  protected void handle_onactiveviewchanged ( Object sender, EventArgs e )
+  {
+    switch (this.multiview_.ActiveViewIndex)
+    {
+      case 0:
+        this.load_existing_test_suites();
+        this.load_existing_packages();
+        this.load_existing_unit_tests();
+        break;
+
+      case 1:
+        break;
+    }
+  }
+
   #region Load Current
   /**
    * Helper method to load packages that are included inside the
@@ -964,7 +984,7 @@ public partial class Unit_Testing : System.Web.UI.Page
     // Restore previous selection
     for (int i = 0; i < this.current_unit_tests_.Items.Count; ++i)
       this.current_unit_tests_.Items[i].Selected = selected[i];
-
+    
     // Save the unit test id
     string unit_test_id_ = this.current_unit_tests_.SelectedValue;
 
@@ -1375,25 +1395,6 @@ public partial class Unit_Testing : System.Web.UI.Page
   private DropDownList get_log_format_control (TableCell cell)
   {
     return (DropDownList)cell.Controls[0];
-  }
-
-  protected void handle_onmenuitemclick ( Object sender, MenuEventArgs e )
-  {
-    this.multiview_.ActiveViewIndex = int.Parse( e.Item.Value );
-  }
-
-  protected void handle_onactiveviewchanged ( Object sender, EventArgs e )
-  {
-    switch (this.multiview_.ActiveViewIndex)
-    {
-      case 0:
-        //this.load_configuration_view();
-        break;
-
-      case 1:
-        //this.load_creation_view();
-        break;
-    }
   }
 
   override protected void OnInit (EventArgs e)

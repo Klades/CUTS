@@ -1,8 +1,22 @@
+Mon Aug 18 03:06:53 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * utils/BMW/website/App_Code/UnitTestActions.cs:
+
+          . Fixed error in recently added funciton (Get_Unit_Tests) that caused
+              the package id to be returned, instead of the unit test id. This
+              was causing all sorts of mysterious user interface problems on 
+              the unit test page.
+
+        * utils/BMW/website/unittest.aspx:
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . Minor changes while searching for true problem of errors
+
 Mon Aug 18 02:17:44 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * utils/BMW/website/BMW.master.cs:
 
-          . Fixed messaging system - seems to be working correctly now. 
+          . Fixed messaging system - seems to be working correctly now.
 
         * utils/BMW/website/unittest.aspx:
 

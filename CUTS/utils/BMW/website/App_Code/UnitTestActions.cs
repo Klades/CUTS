@@ -405,7 +405,7 @@ namespace Actions.UnitTestActions
 
     public static DataTable Get_Unit_Tests (string Package_ID_)
     {
-      string sql = "SELECT id, name " +
+      string sql = "SELECT utid AS id, name " +
                    "FROM unit_tests AS utd,package_unit_tests AS put " +
                    "WHERE put.id=?p_id AND put.ut_id=utd.utid;";
       MySqlCommand comm = dba.GetCommand (sql);
