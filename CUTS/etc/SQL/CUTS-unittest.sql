@@ -143,11 +143,16 @@ CREATE TABLE IF NOT EXISTS cuts.test_suite_packages (
 
 CREATE TABLE IF NOT EXISTS cuts.unit_test_relations (
   utid          INT                NOT NULL,
+  rel_index     INT                NOT NULL,
   variable_id   INT                NOT NULL,
   variable_id_2 INT                NOT NULL,
 
   -- set the constraints for the table
-  PRIMARY KEY (utid),
+  PRIMARY KEY (utid, rel_index),
+
+  UNIQUE (utid, variable_id, variable_id_2),
+  UNIQUE (utid, variable_id),
+  UNIQUE (utid, variable_id_2),
 
   FOREIGN KEY (utid) REFERENCES cuts.unit_tests (utid)
     ON DELETE CASCADE
@@ -190,7 +195,7 @@ DELIMITER //
 
 -- given lfid gets all info about that LF - regex, varname/type/extended name
 
-DROP PROCEDURE IF EXISTS cuts.select_log_format_information//
+DROP PROCEDURE IF EXISTS cuts.select_log_format_information //
 
 CREATE PROCEDURE
   cuts.select_log_format_information (IN lfid_in INT)
@@ -202,17 +207,56 @@ BEGIN
       where log_formats.lfid = lfid_in;
 END //
 
+--
+-- FUNCTION: cuts.get_variable_log_format_id
+--
 
--- given lfid returns messages from log that match that lfid
+DROP FUNCTION IF EXISTS cuts.get_variable_log_format_id //
 
-DROP PROCEDURE IF EXISTS cuts.select_log_data//
+CREATE FUNCTION cuts.get_variable_log_format_id (_varid INT)
+  RETURNS INT
+BEGIN
+  DECLARE retval INT;
+
+  SELECT lfid INTO retval
+    FROM cuts.log_format_variables WHERE variable_id = _varid;
+
+  RETURN retval;
+END //
+
+--
+-- PROCEDURE: cuts.select_log_data
+--
+
+DROP PROCEDURE IF EXISTS cuts.select_log_data //
 
 CREATE PROCEDURE
   cuts.select_log_data(IN lfid_in INT)
-
 BEGIN
-    select test_number,message from msglog where message regexp (SELECT icase_regex from log_formats WHERE lfid = lfid_in);
+    SELECT test_number, message
+      FROM cuts.msglog
+      WHERE message REGEXP (
+        SELECT icase_regex FROM log_formats WHERE lfid = lfid_in);
 END //
+
+--
+-- PROCEDURE: cuts.select_unit_test_causal_relations
+--
+
+DROP PROCEDURE IF EXISTS cuts.select_unit_test_causal_relations //
+
+CREATE PROCEDURE cuts.select_unit_test_causal_relations (IN _utid INT)
+BEGIN
+  SELECT DISTINCT
+        cuts.get_variable_log_format_id (variable_id) AS cause,
+        cuts.get_variable_log_format_id (variable_id_2) AS effect
+    FROM cuts.unit_test_relations
+    WHERE utid = _utid;
+END //
+
+--
+-- PROCEDURE: cuts.select_unit_test_log_formats
+--
 
 DROP PROCEDURE IF EXISTS cuts.select_unit_test_log_formats //
 

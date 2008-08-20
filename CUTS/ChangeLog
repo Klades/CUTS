@@ -1,3 +1,23 @@
+Wed Aug 20 13:54:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-unittest.sql:
+
+          . Implemented the following stored procedures/functions:
+
+            . cuts.get_variable_log_format_id: returns the id of the
+              log format that owns the specified variable.
+
+            . cuts.select_unit_test_causal_relations: selects the
+              causal relation between log formats based on the relation
+              variables between two log formats.
+
+          . Added a new column named 'rel_index' to the
+            cuts.unit_test_relations table so a relation can be composed
+            from more than one log format variable.
+
+          . Added UNIQUE constaints to ensure that a variable is not
+            use more than once is a relation.
+
 Wed Aug 20 11:25:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/Benchmark_Data_Collector.mpc:
