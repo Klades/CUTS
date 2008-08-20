@@ -18,8 +18,14 @@ namespace Actions.LogFormatActions
    * @class LogformatActions
    *
    * Handles typical DataBase actions related to log formats, which
-   * are mainly insertion and selection.
-   *
+   *   are mainly insertion and selection. This class needs updates!!!
+   * 
+   * Updates needed: The private static dba variable should be updated/
+   *   changed. The database connection should not be a static variable!
+   *   See the CUTS.Data code to see how to change this so it uses an
+   *   interface. The class needs to be moved out from Actions namespace
+   *   and somewhere into the appropriate CUTS namespace. THe class needs
+   *   to have the static quantifier removed. 
    */
   public static class LogFormatActions
   {
@@ -42,47 +48,47 @@ namespace Actions.LogFormatActions
      * @param[in]       vars             An hashtable containing the variable
      *                                     names as keys, and types as values.
      */
-    public static void Insert_LF (string log_format, string icase_regex, string cs_regex, Hashtable vars)
+    public static void insert_log_format (string log_format, string icase_regex, string cs_regex, Hashtable vars)
     {
 
       string sql = "CALL insert_log_format(?lf, ?icase_regex, ?cs_regex);";
-      MySqlCommand comm = dba.GetCommand (sql);
+      MySqlCommand comm = dba.get_command (sql);
       comm.Parameters.AddWithValue ("?lf", log_format);
       comm.Parameters.AddWithValue ("?icase_regex", icase_regex);
       comm.Parameters.AddWithValue ("?cs_regex", cs_regex);
 
-      int lfid = dba.ExecuteMySqlScalar (comm);
+      int lfid = dba.execute_mysql_scalar (comm);
 
       // Itera
       string[] keys = new string[vars.Count];
       vars.Keys.CopyTo (keys, 0);
       foreach (string key in keys)
-        Insert_LF_variable (lfid, key, vars[key].ToString ());
+        insert_log_format_variable (lfid, key, vars[key].ToString ());
     }
 
     /**
      * Adds a single variable for a Log Format. SubFunction of Insert_LF.
-     * Note that this uses MySql procedure insert_log_format_variable.
+     *   Note that this uses MySql procedure insert_log_format_variable.
      *
      * @param[in]  lfid       The ID of the Log Format the variable belongs to.
      * @param[in]  varname    The name of the variable.
      */
-    private static void Insert_LF_variable (int lfid, string varname, string vartype)
+    private static void insert_log_format_variable (int lfid, string varname, string vartype)
     {
       string sql = "CALL insert_log_format_variable(?lfid,?varname,?vartype);";
-      MySqlCommand comm = dba.GetCommand (sql);
+      MySqlCommand comm = dba.get_command (sql);
       comm.Parameters.AddWithValue ("?lfid", lfid);
       comm.Parameters.AddWithValue ("?varname", varname);
       comm.Parameters.AddWithValue ("?vartype", vartype);
-      dba.ExecuteMySql (comm);
+      dba.execute_mysql (comm);
     }
 
     /**
      * Returns all data from log_formats table. For now, this does not
-     * use a stored procedure in MySql. This should be changed to a
-     * stored proc sometime soon.
+     *   use a stored procedure in MySql. This should be changed to a
+     *   stored proc sometime soon.
      */
-    public static DataTable Get_All_Log_Formats ()
+    public static DataTable get_all_log_formats ()
     {
       string sql = "SELECT * FROM log_formats";
       return dba.execute_mysql_adapter (sql);
@@ -90,15 +96,15 @@ namespace Actions.LogFormatActions
 
     /**
      * Returns all the Log Format Ids that are used in any given Unit Test.
-     * For now, this is not using a MySql stored procedure. This should be
-     * changed soon.
+     *   For now, this is not using a MySql stored procedure. This should be
+     *   changed soon.
      *
      * @param[in]  utid    The ID of the Unit Test referenced.
      */
-    public static Array GetLFIDs (int utid)
+    public static Array get_log_format_ids (int utid)
     {
       string sql = "SELECT lfid FROM unit_test_log_formats WHERE utid=?utid_in;";
-      MySqlCommand comm = dba.GetCommand (sql);
+      MySqlCommand comm = dba.get_command (sql);
       comm.Parameters.AddWithValue ("?utid_in", utid);
 
       MySqlDataReader r = comm.ExecuteReader ();
@@ -115,17 +121,17 @@ namespace Actions.LogFormatActions
 
     /**
      * Given a Unit Test ID, return all the Log Format info (IDs and
-     * the Log Formats) for that Unit Test.
+     *   the Log Formats) for that Unit Test.
      *
-     * @param[in] Unit_Test_ID_   The ID of the referenced Unit Test
+     * @param[in] unit_test_id   The ID of the referenced Unit Test
      */
-    public static DataTable Get_Log_Formats (string Unit_Test_ID_)
+    public static DataTable get_log_formats (string unit_test_id)
     {
       string sql = "SELECT lfd.lfid,lfmt " +
                    "FROM log_formats AS lfd,unit_test_log_formats AS utt " +
                    "WHERE utt.lfid=lfd.lfid and utt.utid=?utid_in;";
-      MySqlCommand comm = dba.GetCommand (sql);
-      comm.Parameters.AddWithValue ("?utid_in", Unit_Test_ID_);
+      MySqlCommand comm = dba.get_command (sql);
+      comm.Parameters.AddWithValue ("?utid_in", unit_test_id);
       DataTable dt = dba.execute_mysql_adapter (comm);
       return dt;
     }
@@ -133,9 +139,9 @@ namespace Actions.LogFormatActions
 
     /**
      * Given a Log Format ID, this returns info about that
-     * Log Format, including the cs_regex and a list of variable names.
-     * Note that this needs to be updated to return variable types and names.
-     * Note that this uses MySql Stored Procedure select_log_format_information.
+     *   Log Format, including the cs_regex and a list of variable names.
+     *   Note that this needs to be updated to return variable types and names.
+     *   Note that this uses MySql Stored Procedure select_log_format_information.
      *
      * @param[out] cs_regex     The string you would like the C Sharp regular
      *                            expression to be stored into.
@@ -143,10 +149,10 @@ namespace Actions.LogFormatActions
      *                            names as keys, and types as values.
      * @param[in]  lfid         The ID of the Log Format referenced.
      */
-    public static void GetLFIDInfo (out string cs_regex, out Hashtable vars, int lfid)
+    public static void get_log_format_info (out string cs_regex, out Hashtable vars, int lfid)
     {
       string sql = @"CALL select_log_format_information( ?lfid );";
-      MySqlCommand comm = dba.GetCommand (sql);
+      MySqlCommand comm = dba.get_command (sql);
       comm.Parameters.AddWithValue ("?lfid", lfid);
 
       DataTable dt = dba.execute_mysql_adapter (comm);
@@ -160,10 +166,17 @@ namespace Actions.LogFormatActions
         vars.Add (row["varname"], row["vartype"]);
     }
 
+    /**
+     * Given an array of log format ids, this function
+     *   will iterate through those and delete the log 
+     *   formats identified. 
+     * 
+     * @param[in]  format_ids  The int[] of log format ids.
+     */
     public static void delete_log_formats (int[] format_ids)
     {
       string sql = "DELETE FROM cuts.log_formats WHERE lfid = ?id";
-      MySqlCommand command = dba.GetCommand (sql);
+      MySqlCommand command = dba.get_command (sql);
 
       // Create the parameter for the command.
       MySqlParameter p1 = command.CreateParameter ();

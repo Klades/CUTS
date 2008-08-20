@@ -1,3 +1,27 @@
+Wed Aug 20 23:46:31 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
+
+        * docs/bmw.doxygen:
+
+          . Can now easily generate doxygen specifically for the BMW and nothing
+              else. 
+
+        * utils/BMW/website/App_Code/DataBaseActions.cs:
+        * utils/BMW/website/App_Code/LogFormatActions.cs:
+        * utils/BMW/website/App_Code/UnitTestActions.cs:
+
+          . Now meet DOC/doxygen conventions
+
+        * utils/BMW/website/logformats.aspx.cs:
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/unittest.aspx:
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . Minor
+
+        * utils/BMW/website/unittestchart.aspx.cs:
+
+          . Added class ChartingAPI to ease charting with the current system. 
+
 Wed Aug 20 13:54:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-unittest.sql:

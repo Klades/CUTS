@@ -45,7 +45,7 @@ namespace CUTS
      */
     private void load_data ()
     {
-      DataTable dt = LogFormatActions.Get_All_Log_Formats ();
+      DataTable dt = LogFormatActions.get_all_log_formats ();
 
       // Data Bind
       this.log_formats_.DataSource = dt;
@@ -139,7 +139,7 @@ namespace CUTS
         }
 
         // Insert log format into the database.
-        LogFormatActions.Insert_LF (this.log_format_.Text,
+        LogFormatActions.insert_log_format (this.log_format_.Text,
                                     mysql_regex.ToString (),
                                     csharp_regex.ToString (),
                                     variables);

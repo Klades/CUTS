@@ -1,4 +1,12 @@
-﻿using System;
+﻿/**
+ * @file        UnitTestActions.cs
+ *
+ * Defines the Actions.UnitTestActions code.
+ *
+ * @author      Hamilton Turner
+ */
+
+using System;
 using System.Data;
 using System.Configuration;
 using System.Collections;
@@ -17,7 +25,15 @@ namespace Actions.UnitTestActions
   /**
    * @class UnitTestActions
    *
-   * Perform insertion and evaluation of Unit Tests
+   * Perform insertion and evaluation of Unit Tests. This class needs some
+   *   updates!!! It uses a faulty singleton in a few places, needs to be 
+   *   refactored so that it is not a static class, and needs to be 
+   *   removed into the CUTS namespace at some appropriate level. 
+   * 
+   * Also, this class should not throw errors on functions of type 
+   *   remove this, delete this, remove this from that if 'this'
+   *   does not exist, or does not exist in 'that'. This might not happen,
+   *   but it needs to be checked to make sure. 
    */
   public static class UnitTestActions
   {
@@ -29,79 +45,141 @@ namespace Actions.UnitTestActions
       new DataBaseActions.DataBaseActions (ConfigurationManager.AppSettings["MySQL"]);
     private static DataSetActions dsa;
 
-    public static void Insert_New_Unit_Test (Hashtable Variables)
+    /**
+     * Used to insert a brand new unit test. Uses SQL procedure
+     *   insert_unit_test.
+     * 
+     * @param[in]   variables   A Hashtable of all of the variables
+     *                            needed to create a unit test.
+     */
+    public static void insert_new_unit_test (Hashtable variables)
     {
-      string sql = "CALL insert_unit_test(?name,?desc,?fail_comp,?warn_comp,?eval,?fail,?warn,?aggreg_func);";
-      MySqlCommand comm = dba.GetCommand (sql);
+      // Prepare SQL
+      string sql = "CALL insert_unit_test(?name,?desc,?fail_comp,?warn_comp," + 
+        "?eval,?fail,?warn,?aggreg_func);";
+      MySqlCommand comm = dba.get_command (sql);
 
-      comm.Parameters.AddWithValue ("?name", Variables["Name"]);
-      comm.Parameters.AddWithValue ("?desc", Variables["Description"]);
-      comm.Parameters.AddWithValue ("?fail_comp", Variables["FailComparison"]);
-      comm.Parameters.AddWithValue ("?warn_comp", Variables["WarnComparison"]);
-      comm.Parameters.AddWithValue ("?eval", Variables["Evaluation"]);
-      comm.Parameters.AddWithValue ("?fail", Variables["FailValue"]);
-      comm.Parameters.AddWithValue ("?warn", Variables["WarnValue"]);
-      comm.Parameters.AddWithValue ("?aggreg_func", Variables["Aggregration_Func"]);
+      // Add parameters
+      comm.Parameters.AddWithValue ("?name", variables["Name"]);
+      comm.Parameters.AddWithValue ("?desc", variables["Description"]);
+      comm.Parameters.AddWithValue ("?fail_comp", variables["FailComparison"]);
+      comm.Parameters.AddWithValue ("?warn_comp", variables["WarnComparison"]);
+      comm.Parameters.AddWithValue ("?eval", variables["Evaluation"]);
+      comm.Parameters.AddWithValue ("?fail", variables["FailValue"]);
+      comm.Parameters.AddWithValue ("?warn", variables["WarnValue"]);
+      comm.Parameters.AddWithValue ("?aggreg_func", variables["Aggregration_Func"]);
 
-      int utid = dba.ExecuteMySqlScalar (comm);
-
-      string[] formats = (string [])Variables["Formats"];
-
+      int utid = dba.execute_mysql_scalar (comm);
+      
+      // Insert all log formats
+      string[] formats = (string [])variables["Formats"];
       foreach (string lfid in formats)
-        Insert_UT_LogFormat (utid, lfid);
+        insert_unit_test_log_format (utid, Int32.Parse(lfid));
 
+      // Insert all relations
       if (formats.Length > 1)
       {
-        Pair[] relations = (Pair [])Variables["Relations"];
-
+        Pair[] relations = (Pair [])variables["Relations"];
         foreach (Pair relation in relations)
-          Insert_UT_Relation (utid, relation.First.ToString (), relation.Second.ToString ());
+          insert_unit_test_relation (utid, relation.First.ToString (), relation.Second.ToString ());
       }
     }
 
-    public static void Insert_Existing_Unit_Test (string Package_ID_, string Unit_Test_ID_)
+    /**
+     * Used to insert an existing unit test into an existing test
+     *   package. 
+     * 
+     * @param[in]     package_id    The id of the existing test package.
+     * @param[in]     unit_test_id  The id of the existing unit test. 
+     */
+    public static void insert_existing_unit_test (string package_id, string unit_test_id)
     {
       string sql = "CALL insert_package_unit_test(?p_id,?ut_id);";
-      MySqlCommand comm = dba.GetCommand (sql);
-      comm.Parameters.AddWithValue ("?p_id", Package_ID_);
-      comm.Parameters.AddWithValue ("?ut_id", Unit_Test_ID_);
-      dba.ExecuteMySql (comm);
+      MySqlCommand comm = dba.get_command (sql);
+      comm.Parameters.AddWithValue ("?p_id", package_id);
+      comm.Parameters.AddWithValue ("?ut_id", unit_test_id);
+      dba.execute_mysql (comm);
     }
 
-    public static void Insert_Test_Suite (string Test_Suite_Name_)
+    /**
+     * Used to create a new test suite (which naturally inserts 
+     *   it into the database).
+     * 
+     * @param[in] test_suite_name   The name of the test suite to
+     *                                be created.
+     */
+    public static void insert_test_suite (string test_suite_name)
     {
       string sql = "CALL insert_test_suite(?name);";
-      MySqlCommand comm = dba.GetCommand (sql);
-      comm.Parameters.AddWithValue ("?name", Test_Suite_Name_);
-      dba.ExecuteMySql (comm);
+      MySqlCommand comm = dba.get_command (sql);
+      comm.Parameters.AddWithValue ("?name", test_suite_name);
+      dba.execute_mysql (comm);
     }
 
-    public static void create_test_package (string name)
+    /**
+     * Used to create a new test package (which naturally inserts
+     *   it into the database).
+     * 
+     * @param[in]   test_package_name    The name of the test package to be created.
+     */
+    public static void create_test_package (string test_package_name)
     {
       string sql = "CALL create_test_package (?name);";
-      MySqlCommand comm = dba.GetCommand (sql);
-      comm.Parameters.AddWithValue ("?name", name);
-      dba.ExecuteMySql (comm);
+      MySqlCommand comm = dba.get_command (sql);
+      comm.Parameters.AddWithValue ("?name", test_package_name);
+      dba.execute_mysql (comm);
     }
 
-    public static void Insert_New_Package (string Test_Suite_ID_, string Package_Name_)
+    /** 
+     * Used to create a new test pacakge, and then insert it into 
+     *   the given test suite. 
+     * 
+     * @param[in]  test_suite_id    The id of the test suite that the 
+     *                                new test pacakge should be inserted
+     *                                into. 
+     * @param[in]  pacakge_name     The name to give the new test package. 
+     */
+    public static void insert_new_package (string test_suite_id, string package_name)
     {
       string sql = "CALL insert_test_suite_package(?tsid,?p_name);";
-      MySqlCommand comm = dba.GetCommand (sql);
-      comm.Parameters.AddWithValue ("?tsid", Test_Suite_ID_);
-      comm.Parameters.AddWithValue ("?p_name", Package_Name_);
-      dba.ExecuteMySql (comm);
+      MySqlCommand comm = dba.get_command (sql);
+      comm.Parameters.AddWithValue ("?tsid", test_suite_id);
+      comm.Parameters.AddWithValue ("?p_name", package_name);
+      dba.execute_mysql (comm);
     }
 
-    public static void Insert_Existing_Package (string Test_Suite_ID_, string Package_ID_)
+    /** 
+     * Used to insert an existing test package into an existing
+     *   test suite.
+     * 
+     * @param[in]  test_suite_id    The id of the existing test suite. 
+     * @param[in]  package_id       The id of the existing test package.
+     */
+    public static void insert_existing_package (string test_suite_id, string package_id)
     {
       string sql = "CALL insert_test_suite_package_existing(?tsid,?p_id);";
-      MySqlCommand comm = dba.GetCommand (sql);
-      comm.Parameters.AddWithValue ("?tsid", Test_Suite_ID_);
-      comm.Parameters.AddWithValue ("?p_id", Package_ID_);
-      dba.ExecuteMySql (comm);
+      MySqlCommand comm = dba.get_command (sql);
+      comm.Parameters.AddWithValue ("?tsid", test_suite_id);
+      comm.Parameters.AddWithValue ("?p_id", package_id);
+      dba.execute_mysql (comm);
     }
 
+
+    /**
+     * Used to evaluate a unit test. This function is now a 'back-end'
+     *   function, and probably needs to be updated and cleaned up some!
+     * 
+     * @param[in]  test_number    The test number that we would like to 
+     *                              evaluate the unit test on - this is 
+     *                              basically a filter to remove the 
+     *                              unit test results that apply to an
+     *                              unwanted unit test. 
+     * @param[in]  utid           The id of the existing unit test. 
+     * @param[in]  aggregrate     A bool that determines whether
+     *                              the full results are returned, 
+     *                              or if the results are aggregrated 
+     *                              down to one number. 
+     */
     public static DataTable evaluate_unit_test (int test_number,
                                                 int utid,
                                                 bool aggregrate,
@@ -129,7 +207,7 @@ namespace Actions.UnitTestActions
         //  // test will have its own table.
         //  PreLoad_UT (test_number, utid);
 
-        MySqlCommand command = dba.GetCommand ("");
+        MySqlCommand command = dba.get_command ("");
         command.Parameters.AddWithValue ("?utid", utid);
 
         DataSet ds = new DataSet ();
@@ -179,7 +257,7 @@ namespace Actions.UnitTestActions
         }
 
         // Execute the statement, which will calculate the result.
-        command = dba.GetCommand (sql_result);
+        command = dba.get_command (sql_result);
         return dba.execute_mysql_adapter (command);
       }
       catch (Exception ex)
@@ -189,11 +267,21 @@ namespace Actions.UnitTestActions
       finally
       {
         // Make sure we remove the data from the database.
-        dsa.RemoveTable (vtable.data.TableName);
+        dsa.remove_table (vtable.data.TableName);
       }
     }
 
-    public static DataTable Evalate_UT_for_single_test (int utid, int test_number)
+    /**
+     * Used to evaluate a unit test for one test. Note that this
+     *   can already be accomplished with the evaluate_unit_test
+     *   function, so ideally this should be refactored to just
+     *   call that function, or this funciton should be removed. 
+     * 
+     * @param[in]  utid         The id fo the unit test to evaluate. 
+     * @param[in]  test_number  The number of the test to evaluate the 
+     *                            unit test against. 
+     */
+    public static DataTable evalate_unit_test_for_single_test (int utid, int test_number)
     {
       try
       {
@@ -201,7 +289,7 @@ namespace Actions.UnitTestActions
       //  // test will have its own table.
       //  PreLoad_UT (test_number, utid);
 
-        MySqlCommand command = dba.GetCommand ("");
+        MySqlCommand command = dba.get_command ("");
         command.Parameters.AddWithValue ("?utid", utid);
 
         DataSet ds = new DataSet ();
@@ -273,6 +361,12 @@ namespace Actions.UnitTestActions
       return null;
     }
 
+    
+    /**
+     * James H. commented this out - I am assuming it was either 
+     *   buggy or unused but still has some valuable information. 
+     * I would speak with him as to what should be done with it. 
+     */
     //public static DataTable Evaluate_UT_for_all_tests (int utid)
     //{
     //  try
@@ -290,15 +384,26 @@ namespace Actions.UnitTestActions
     //  finally { UnLoad_UT (utid); }
     //}
 
-    public static DataTable Evalate_UT_as_metric (int utid, int test_number)
+    /**
+     * Used to evaluate a unit test, filter it down to one test number,
+     *   and then return the unaggregrated results so they can be charted. 
+     *   Note that this can all be done with the evaluate_unit_test funtion, 
+     *   so this should either be refactored to use that one, or should be
+     *   deleted entirely. 
+     * 
+     * @param[in]   utid          The id of the unit test to evaluate. 
+     * @param[in]   test_number   The number of the test to evaluate the 
+     *                              unit test against. 
+     */
+    public static DataTable evalate_unit_test_as_metric (int utid, int test_number)
     {
       try
       {
 
-        PreLoad_UT (test_number, utid);
+        preload_unit_test (test_number, utid);
         string sql = "CALL evaluate_unit_test_as_metric(?utid,?test_number);";
 
-        MySqlCommand command = dba.GetCommand (sql);
+        MySqlCommand command = dba.get_command (sql);
         command.Parameters.AddWithValue ("?utid", utid);
         command.Parameters.AddWithValue ("?test_number", test_number);
 
@@ -306,149 +411,264 @@ namespace Actions.UnitTestActions
         return dt;
       }
       catch (Exception ex) { throw ex; }
-      finally { UnLoad_UT (utid); }
+      finally { unload_unit_test (utid); }
     }
 
-    public static DataTable Get_All_Test_Suites ()
+    /**
+     * Return all of the test suites currently in the 
+     *   database. Uses no stored procedure. 
+     */
+    public static DataTable get_all_test_suites ()
     {
       string sql = "SELECT * FROM test_suites;";
       DataTable dt = dba.execute_mysql_adapter (sql);
       return dt;
     }
-    public static void Delete_Test_Suite (string Test_Suite_ID_)
+
+
+    /** 
+     * Used to delete a test suite from the database, which will 
+     *   also remove any information about packages that were in 
+     *   the test suite (but will not delete those packages!).
+     * 
+     * @param[in]  test_suite_id    The id of the test suite to delete. 
+     */
+    public static void delete_test_suite (string test_suite_id)
     {
       string sql = "DELETE FROM cuts.test_suites WHERE id=?t_id;";
-      MySqlCommand comm = dba.GetCommand (sql);
-      comm.Parameters.AddWithValue ("?t_id", Test_Suite_ID_);
-      dba.ExecuteMySql (comm);
-    }
-    public static void Delete_Package (string Package_ID_)
-    {
-      string sql = "DELETE FROM cuts.packages WHERE id=?p_id;";
-      MySqlCommand comm = dba.GetCommand (sql);
-      comm.Parameters.AddWithValue ("?p_id", Package_ID_);
-      dba.ExecuteMySql (comm);
+      MySqlCommand comm = dba.get_command (sql);
+      comm.Parameters.AddWithValue ("?t_id", test_suite_id);
+      dba.execute_mysql (comm);
     }
 
-    public static DataTable Containing_Test_Suites ( string Package_ID_ )
+    /** 
+     * Used to delete a test package from the database, which will 
+     *   also remove and information about unit tests that were 
+     *   contained in the test pacakge (but will not remove those
+     *   unit tests!). 
+     * 
+     * @param[in]  package_id     The id of the test pacakge to remove.
+     */
+    public static void delete_test_package (string package_id)
+    {
+      string sql = "DELETE FROM cuts.packages WHERE id=?p_id;";
+      MySqlCommand comm = dba.get_command (sql);
+      comm.Parameters.AddWithValue ("?p_id", package_id);
+      dba.execute_mysql (comm);
+    }
+
+    /**
+     * Used to get the name of all the test suites that contain 
+     *   the provided package. This is useful for error reporting,
+     *   aka when someone tries to remove a test pacakge that is still
+     *   contained in test suites this can be used to print a list of 
+     *   the affected test suites. 
+     * 
+     * @param[in]  package_id  The id of the package that is still 
+     *                           contained in some test suites. 
+     */
+    public static DataTable containing_test_suites ( string package_id )
     {
       string sql = "SELECT name FROM test_suites WHERE id IN " + 
         "(SELECT DISTINCT id FROM test_suite_packages WHERE p_id=?p_id);";
-      MySqlCommand comm = dba.GetCommand( sql );
-      comm.Parameters.AddWithValue( "?p_id", Package_ID_ );
+      MySqlCommand comm = dba.get_command( sql );
+      comm.Parameters.AddWithValue( "?p_id", package_id );
       DataTable dt = dba.execute_mysql_adapter( comm );
       return dt;
     }
 
-    public static void Remove_Package (string Test_Suite_ID, string Package_ID_)
+    /**
+     * Used to remove an already inserted test pacakge from a test
+     *   suite that it is inserted into. This may throw an error if the 
+     *   package is not actually inserted into the test suite (this behavior
+     *   should be checked for, and corrected if found. This should NOT
+     *   throw an error in that case, it should just quietly return.
+     * 
+     * @param[in] test_suite_id     The id of the test suite to remove the 
+     *                                test package from. 
+     * @param[in] package_id        The id of the test package to be removed. 
+     */
+    public static void remove_package (string test_suite_id, string package_id)
     {
       string sql = "DELETE FROM cuts.test_suite_packages WHERE " +
                     "id=?ts_id AND p_id=?p_id_in;";
-      MySqlCommand comm = dba.GetCommand (sql);
-      comm.Parameters.AddWithValue ("?ts_id", Test_Suite_ID);
-      comm.Parameters.AddWithValue ("?p_id_in", Package_ID_);
-      dba.ExecuteMySql (comm);
+      MySqlCommand comm = dba.get_command (sql);
+      comm.Parameters.AddWithValue ("?ts_id", test_suite_id);
+      comm.Parameters.AddWithValue ("?p_id_in", package_id);
+      dba.execute_mysql (comm);
     }
 
-    public static void Delete_Unit_Test (string Unit_Test_ID_)
+    /**
+     * Used to delete a unit test from the database.
+     * 
+     * @param[in]  unit_test_id   The id of the unit test to 
+     *                              be removed. 
+     */
+    public static void delete_unit_test (string unit_test_id)
     {
       string sql = "DELETE FROM cuts.unit_tests WHERE utid=?ut_id;";
-      MySqlCommand comm = dba.GetCommand (sql);
-      comm.Parameters.AddWithValue ("?ut_id", Unit_Test_ID_);
-      dba.ExecuteMySql (comm);
+      MySqlCommand comm = dba.get_command (sql);
+      comm.Parameters.AddWithValue ("?ut_id", unit_test_id);
+      dba.execute_mysql (comm);
     }
 
-    public static void Remove_Unit_Test (string Package_ID_, string Unit_Test_ID_)
+    /**
+     * Used to remove a unit test from a test package that it 
+     *   is inserted into. 
+     * 
+     * @param[in]  package_id     The id of the test package that 
+     *                              contains the unit test. 
+     * @param[in]  unit_test_id   The id of the unit test to be removed.
+     */
+    public static void remove_unit_test (string package_id, string unit_test_id)
     {
       string sql = "DELETE FROM cuts.package_unit_tests WHERE " +
                     "id=?p_id AND ut_id=?ut_id_in;";
-      MySqlCommand comm = dba.GetCommand (sql);
-      comm.Parameters.AddWithValue ("?p_id", Package_ID_);
-      comm.Parameters.AddWithValue ("?ut_id_in", Unit_Test_ID_);
-      dba.ExecuteMySql (comm);
+      MySqlCommand comm = dba.get_command (sql);
+      comm.Parameters.AddWithValue ("?p_id", package_id);
+      comm.Parameters.AddWithValue ("?ut_id_in", unit_test_id);
+      dba.execute_mysql (comm);
     }
 
-    public static DataTable Get_All_Packages ()
+    /**
+     * Used to get a list of the names and ids of all the 
+     *   test packages currently in the database. 
+     */
+    public static DataTable get_all_packages ()
     {
       string sql = "SELECT * FROM packages";
       DataTable dt = dba.execute_mysql_adapter (sql);
       return dt;
     }
 
-    public static DataTable Get_All_Unit_Tests ()
+    /**
+     * Used to get a list of the names and ids
+     *   of all unit tests currently in the system. 
+     */
+    public static DataTable get_all_unit_tests ()
     {
       string sql = "SELECT * FROM unit_tests;";
       DataTable dt = dba.execute_mysql_adapter (sql);
       return dt;
     }
 
-    public static DataTable Get_Packages (string Test_Suite_ID_)
+    /**
+     * Used to get a list of the names and ids of 
+     *   all the test packages contained in the 
+     *   given test suite. 
+     * 
+     * @param[in] test_suite_id   The id of the test suite. 
+     */
+    public static DataTable get_packages (string test_suite_id)
     {
       string sql = "SELECT packages.id as id,name " +
                    "FROM packages,test_suite_packages AS tsp " +
                    "WHERE tsp.id =?ts_id AND tsp.p_id = packages.id;";
-      MySqlCommand comm = dba.GetCommand (sql);
-      comm.Parameters.AddWithValue ("?ts_id", Test_Suite_ID_);
+      MySqlCommand comm = dba.get_command (sql);
+      comm.Parameters.AddWithValue ("?ts_id", test_suite_id);
       DataTable dt = dba.execute_mysql_adapter (comm);
       return dt;
     }
 
-    public static DataTable Get_Test_Messages ( string Test_ID_ )
+    /**
+     * Used to get all messages generated by a test. Returns
+     *   the host IDs, message times, message severities, and 
+     *   actual messages. 
+     * 
+     * @param[in] test_number   The number of the test you would like 
+     *                            to retrieve the log messages for. 
+     */
+    public static DataTable get_test_messages ( string test_number )
     {
       string sql = "SELECT hostid, msgtime AS message_time,severity," +
         "message FROM msglog WHERE test_number=?tid;";
-      MySqlCommand comm = dba.GetCommand( sql );
-      comm.Parameters.AddWithValue( "?tid", Test_ID_ );
+      MySqlCommand comm = dba.get_command( sql );
+      comm.Parameters.AddWithValue( "?tid", test_number );
       DataTable dt = dba.execute_mysql_adapter( comm );
       return dt;
     }
 
-    public static DataTable Get_Unit_Tests (string Package_ID_)
+
+    /**
+     * Used to get the names and ids of all the unit 
+     *   tests contained in a test package. 
+     * 
+     * @param[in]  package_id   The id of the containing test package. 
+     */
+    public static DataTable get_unit_tests (string package_id)
     {
       string sql = "SELECT utid AS id, name " +
                    "FROM unit_tests AS utd,package_unit_tests AS put " +
                    "WHERE put.id=?p_id AND put.ut_id=utd.utid;";
-      MySqlCommand comm = dba.GetCommand (sql);
-      comm.Parameters.AddWithValue ("?p_id", Package_ID_);
+      MySqlCommand comm = dba.get_command (sql);
+      comm.Parameters.AddWithValue ("?p_id", package_id);
       DataTable dt = dba.execute_mysql_adapter (comm);
       return dt;
     }
 
-    public static DataRow Get_Unit_Test_Info (string Unit_Test_ID_)
+    /**
+     * Used to get all one to one info for a unit test (Ex: name, desc, etc).  
+     * 
+     * @param[in]  unit_test_id   The id of the unit test. 
+     */
+    public static DataRow get_unit_test_info (string unit_test_id)
     {
       string sql = "SELECT * " +
                    "FROM unit_tests " +
                    "WHERE utid=?utid_in LIMIT 1;";
-      MySqlCommand comm = dba.GetCommand (sql);
-      comm.Parameters.AddWithValue ("?utid_in", Unit_Test_ID_);
-      DataRow dr = dba.ExecuteMySqlRow (comm);
+      MySqlCommand comm = dba.get_command (sql);
+      comm.Parameters.AddWithValue ("?utid_in", unit_test_id);
+      DataRow dr = dba.execute_mysql_row (comm);
       return dr;
     }
 
-    public static DataRow Get_Package_Info ( string Package_ID_ )
+    /**
+     * Used to get all one to one info for a test package (Ex: name, desc, etc.).
+     * 
+     * @param[in]   package_id    The id of the test pacakge. 
+     */
+    public static DataRow get_package_info ( string package_id )
     {
       string sql = "SELECT id,name FROM packages WHERE id=?pid LIMIT 1;";
-      MySqlCommand comm = dba.GetCommand( sql );
-      comm.Parameters.AddWithValue( "?pid", Package_ID_ );
-      DataRow dr = dba.ExecuteMySqlRow( comm );
+      MySqlCommand comm = dba.get_command( sql );
+      comm.Parameters.AddWithValue( "?pid", package_id );
+      DataRow dr = dba.execute_mysql_row( comm );
       return dr;
     }
 
-    private static void UnLoad_UT (int utid)
+    /**
+     * This was used in conjunction with preload_unit_test
+     *   to remove all of the tables that would have been 
+     *   created with the evaluation of a unit test. This function
+     *   is probably outdated with the new back-end, and needs to 
+     *   be safely removed. 
+     * 
+     * @param[in]  utid  The id of the unit test that was evaluated. 
+     */
+    private static void unload_unit_test (int utid)
     {
       if (dsa == null)
         dsa = new DataSetActions (dba, utid);
 
-      Array LFIDs = LogFormatActions.LogFormatActions.GetLFIDs (utid);
+      Array LFIDs = LogFormatActions.LogFormatActions.get_log_format_ids (utid);
       foreach (int CurrentLFID in LFIDs)
-        dsa.RemoveTable ("LF" + CurrentLFID.ToString ());
+        dsa.remove_table ("LF" + CurrentLFID.ToString ());
     }
 
+    /**
+     * Used to create the variable table to evaluate a unit test with. 
+     *   Created by James H, so he might have a better description. 
+     * 
+     * @param[in]  test    The number of the test to be evaluated against.
+     * @param[in]  utid    The id of the unit test to be evaluated. 
+     * @param[ref] vtable  The CUTS.Variable_Table to be filled with the 
+     *                       variables. 
+     */
     private static void create_variable_table (int test, int utid, ref CUTS.Variable_Table vtable)
     {
       DataSet ds = new DataSet ();
 
-      MySqlCommand command = dba.GetCommand ("");
+      MySqlCommand command = dba.get_command ("");
       MySqlDataAdapter adapter = new MySqlDataAdapter (command);
       command.Parameters.AddWithValue ("?utid", utid);
 
@@ -489,7 +709,7 @@ namespace Actions.UnitTestActions
       // Prepare the command that will be used to select the log messages
       // based on the log formats of the current unit test.
       MySqlCommand logdata_command =
-        dba.GetCommand ("CALL cuts.select_log_data_by_test (?test, ?lfid)");
+        dba.get_command ("CALL cuts.select_log_data_by_test (?test, ?lfid)");
 
       // Initialize the parameters for the statement.
       logdata_command.Parameters.AddWithValue ("?test", test);
@@ -592,7 +812,16 @@ namespace Actions.UnitTestActions
       // Now that
     }
 
-    private static void PreLoad_UT (int test, int utid)
+    /**
+     * Used to prepare the database for evaluation of a unit test. 
+     *   This is a legacy function with the new back-end, and should be 
+     *   safely removed. 
+     * 
+     * @param[in]  test   The test number the unit test will be evaluated 
+     *                      against.
+     * @param[in]  utid   The id of the unit test to be evaulated. 
+     */
+    private static void preload_unit_test (int test, int utid)
     {
       /*
        *
@@ -605,7 +834,7 @@ namespace Actions.UnitTestActions
       if (dsa == null)
         dsa = new DataSetActions (dba, utid);
 
-      Array LFIDs = LogFormatActions.LogFormatActions.GetLFIDs (utid);
+      Array LFIDs = LogFormatActions.LogFormatActions.get_log_format_ids (utid);
 
       foreach (int CurrentLFID_u in LFIDs)
       {
@@ -614,17 +843,17 @@ namespace Actions.UnitTestActions
         // get the regex and the variable info
         string cs_regex;
         Hashtable VariableNames;
-        LogFormatActions.LogFormatActions.GetLFIDInfo (out cs_regex, out VariableNames, CurrentLFID);
+        LogFormatActions.LogFormatActions.get_log_format_info (out cs_regex, out VariableNames, CurrentLFID);
 
         /* create a table for this log format
          *   Note this needs to take a hash for variables */
         string TableName = "LF" + CurrentLFID.ToString ();
-        dsa.AddTable (TableName, VariableNames);
+        dsa.add_table (TableName, VariableNames);
 
-        dsa.FillTable (test, CurrentLFID, cs_regex, VariableNames);
+        dsa.fill_table (test, CurrentLFID, cs_regex, VariableNames);
       }
 
-      dsa.SendToDB ();
+      dsa.send_to_database ();
     }
 
     // Note - Grouping is disabled for now
@@ -639,25 +868,51 @@ namespace Actions.UnitTestActions
     }
     */
 
-    private static void Insert_UT_LogFormat (int utid, string lfid)
+    /**
+     * Used to insert an existing log format into an existing unit test. 
+     * 
+     * @param[in]   utid    The id of the unit test. 
+     * @param[in]   lfid    The id of the log format. 
+     */
+    private static void insert_unit_test_log_format (int utid, int lfid)
     {
       string sql = "CALL insert_unit_test_log_format (?utid, ?lfid);";
-      MySqlCommand comm = dba.GetCommand (sql);
+      MySqlCommand comm = dba.get_command (sql);
       comm.Parameters.AddWithValue ("?utid", utid);
       comm.Parameters.AddWithValue ("?lfid", lfid);
-      dba.ExecuteMySql (comm);
+      dba.execute_mysql (comm);
     }
 
-    private static void Insert_UT_Relation (int utid, string rel1, string rel2)
+    /** 
+     * Used to insert a relationship into a unit test. This is always 
+     *   an equality relation, aka var1 == var2. For each log format
+     *   n > 1, there must be a relation equating any prior n to the 
+     *   current n (normally, n-1 and n are related, so format 2 would
+     *   reference format 1, 3 would ref. 2, etc. ).
+     * 
+     * @param[in]  utid     The id of the unit test the relation will be in. 
+     * @param[in]  rel1     The id of the first variable. 
+     * @param[in]  rel2     The id of the second variable. 
+     */
+    private static void insert_unit_test_relation (int utid, string rel1, string rel2)
     {
       string sql = "CALL insert_unit_test_relation(?utid, ?var1,?var2)";
-      MySqlCommand comm = dba.GetCommand (sql);
+      MySqlCommand comm = dba.get_command (sql);
       comm.Parameters.AddWithValue ("?utid", utid);
       comm.Parameters.AddWithValue ("?var1", rel1);
       comm.Parameters.AddWithValue ("?var2", rel2);
-      dba.ExecuteMySql (comm);
+      dba.execute_mysql (comm);
     }
 
+
+    /**
+     * Class that is used in the evaluation of a unit test. This is now a 
+     *   'back-end' item, so James will know if this class is still being 
+     *   being used, or if it should be safely removed. 
+     * 
+     * The class has methods for easily manipulating a dataset to work with 
+     *   evaluating unit tests. 
+     */
     private class DataSetActions
     {
       private DataSet ds_;
@@ -675,18 +930,18 @@ namespace Actions.UnitTestActions
        * Adds a table that represents one LogFormat to the DataSet.
        *   General use of the dataset is AddTable, FillTables, Send_To_DB.
        *
-       * @param[in]  tableName   The name of the table to be created. This
-       *                           should be similar to 'LF5', following the
-       *                           format of concat(LF,lfid).
-       * @param[in]  columnInfo  This should be the information needed to
-       *                           build the columns, aka a hastable with
-       *                           keys that are the column/variable names,
-       *                           and objects that are the column/variable
-       *                           types.
+       * @param[in]  table_name   The name of the table to be created. This
+       *                            should be similar to 'LF5', following the
+       *                            format of concat(LF,lfid).
+       * @param[in]  column_info  This should be the information needed to
+       *                            build the columns, aka a hastable with
+       *                            keys that are the column/variable names,
+       *                            and objects that are the column/variable
+       *                            types.
        */
-      public void AddTable (string tableName, Hashtable columnInfo)
+      public void add_table (string table_name, Hashtable column_info)
       {
-        DataTable table = new DataTable (tableName);
+        DataTable table = new DataTable (table_name);
 
         // Create an indexer for the data value. This will be used to uniquely
         // identify all the variables in a single evaluation across many log
@@ -696,15 +951,15 @@ namespace Actions.UnitTestActions
         // The test number should always be a column.
         table.Columns.Add (new DataColumn ("test_number", typeof (System.Int32)));
 
-        string[] keys = new string[columnInfo.Count];
-        columnInfo.Keys.CopyTo (keys, 0);
+        string[] keys = new string[column_info.Count];
+        column_info.Keys.CopyTo (keys, 0);
 
         foreach (string column_name in keys)
         {
           DataColumn dc = new DataColumn (column_name);
 
           // Find the appropriate type
-          switch (columnInfo[column_name].ToString ())
+          switch (column_info[column_name].ToString ())
           {
             case "INT":
               dc.DataType = typeof (System.Int32);
@@ -721,16 +976,21 @@ namespace Actions.UnitTestActions
         // This is to fix a bug in visual studio where the ds_ tables are
         // maintained inside the temp directory and so the add
         // will throw an exception (across two different builds)
-        if (ds_.Tables.Contains (tableName))
-          ds_.Tables.Remove (tableName);
+        if (ds_.Tables.Contains (table_name))
+          ds_.Tables.Remove (table_name);
 
         ds_.Tables.Add (table);
       }
 
-      public void RemoveTable (string tableName)
+      /**
+       * Used to safely remove a table from the database.
+       * 
+       * @param[in] table_name   The name of the table to be removed. 
+       */
+      public void remove_table (string table_name)
       {
-        string sql = "DROP TABLE IF EXISTS " + tableName + ";";
-        dba.ExecuteMySql (sql);
+        string sql = "DROP TABLE IF EXISTS " + table_name + ";";
+        dba.execute_mysql (sql);
       }
 
       /**
@@ -746,11 +1006,11 @@ namespace Actions.UnitTestActions
        * @param[in]   variables A hashtable that contains the variable
        *                          names as keys, and types as values.
        */
-      public void FillTable (int test, int lfid, string cs_regex, Hashtable variables)
+      public void fill_table (int test, int lfid, string cs_regex, Hashtable variables)
       {
         // Get the actual log messages and test_numbers
         string sql = "CALL get_log_data_by_test (?test, ?lfid);";
-        MySqlCommand comm = dba.GetCommand (sql);
+        MySqlCommand comm = dba.get_command (sql);
         comm.Parameters.AddWithValue ("?test", test);
         comm.Parameters.AddWithValue ("?lfid", lfid);
 
@@ -766,7 +1026,7 @@ namespace Actions.UnitTestActions
         foreach (DataRow row in table.Rows)
         {
           // Get the row to put data into
-          DataRow new_row = GetRow (TableName);
+          DataRow new_row = get_row (TableName);
 
           Regex reg = new Regex (cs_regex, RegexOptions.IgnoreCase);
           Match mat = reg.Match (row["message"].ToString ());
@@ -803,28 +1063,54 @@ namespace Actions.UnitTestActions
           }
 
           // Insert the row into the database.
-          InsertRow (TableName, new_row);
+          insert_row (TableName, new_row);
         }
       }
 
-      public void SendToDB ()
+      /** 
+       * Used to send the created dataset back to the main database for
+       *   faster evaluation. Probably a legacy function that can be 
+       *   safely removed. 
+       */
+      public void send_to_database ()
       {
-        CreateTablesInDB ();
+        create_tables_in_database ();
 
         foreach (DataTable table in ds_.Tables)
           this.populate_table_in_database (table);
       }
 
-      private DataRow GetRow (string TableName)
+      /**
+       * Used to easily call the asp NewRow() function on a table in the 
+       *   dataset. 
+       * 
+       * @param[in]  table_name  The name of the table in the dataset
+       *                           to get a new row for. 
+       */
+      private DataRow get_row (string table_name)
       {
-        return ds_.Tables[TableName].NewRow ();
+        return ds_.Tables[table_name].NewRow ();
       }
 
-      private void InsertRow (string TableName, DataRow new_row)
+      /** 
+       * Used to easily add a row to the specified table in the
+       *   dataset. 
+       * 
+       * @param[in]  table_name   The name of the table in the 
+       *                            dataset to insert the row into. 
+       * @param[in]  new_row      The DataRow to insert.
+       */
+      private void insert_row (string table_name, DataRow new_row)
       {
-        ds_.Tables[TableName].Rows.Add (new_row);
+        ds_.Tables[table_name].Rows.Add (new_row);
       }
 
+      /**
+       * Used to create a single table in the database. THis is
+       *   probably a legacy function that can be safely removed. 
+       * 
+       * @param[in]  table   The table to be created in the database. 
+       */
       public void create_table_in_database (DataTable table)
       {
         ArrayList column_list = new ArrayList ();
@@ -858,17 +1144,27 @@ namespace Actions.UnitTestActions
         string sql =
           "CREATE TABLE " + table.TableName + " (" + table_columns + ");";
 
-        dba.ExecuteMySql (sql);
+        dba.execute_mysql (sql);
       }
 
-      private void CreateTablesInDB ()
+      /**
+       * Used to automatically send the entire dataset to the 
+       *   database. This function calls create_table_in_database,
+       *   so is probably also a removeable legacy func. 
+       */
+      private void create_tables_in_database ()
       {
         foreach (DataTable table in ds_.Tables)
           this.create_table_in_database (table);
       }
 
       /**
-       *
+       * Used to send all of the data in a particular DataTable
+       *   in the dataset into its corresponding table in the 
+       *   main database. This is probably legacy code and should
+       *   be removed. 
+       * 
+       * @param[in]  table  The DataTable to send to the database. 
        */
       public void populate_table_in_database (DataTable table)
       {
@@ -932,12 +1228,9 @@ namespace Actions.UnitTestActions
           "INSERT INTO " + table.TableName + " (" + sql_columns + ") " +
           "VALUES " + sql_values_stmt;
 
-        dba.ExecuteMySql (sql_insert);
+        dba.execute_mysql (sql_insert);
       }
 
-
     } // End private class DataSetActions
-
   } // End Class UnitTestActions
-
 } // End Actions.UnitTestActions

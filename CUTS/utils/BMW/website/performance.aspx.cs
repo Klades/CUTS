@@ -167,7 +167,7 @@ namespace CUTS
     }
     private void load_unit_test_view ()
     {
-      DataTable table = UnitTestActions.Get_All_Test_Suites();
+      DataTable table = UnitTestActions.get_all_test_suites();
 
       ddl_Test_Suites.DataSource = table;
       ddl_Test_Suites.DataBind ();
@@ -181,7 +181,7 @@ namespace CUTS
       if (test_number == null)
         return;
 
-      DataTable dt = UnitTestActions.Get_Test_Messages( test_number );
+      DataTable dt = UnitTestActions.get_test_messages( test_number );
       this.current_test_messages_.DataSource = dt;
       this.current_test_messages_.DataBind();
     }
@@ -219,7 +219,7 @@ namespace CUTS
 
     private void load_panel_Packages_Unit_Tests ()
     {
-      DataTable dt = UnitTestActions.Get_Packages( ddl_Test_Suites.SelectedValue );
+      DataTable dt = UnitTestActions.get_packages( ddl_Test_Suites.SelectedValue );
  
       // An explicit cast to string will not work here
       //   because the adapter types the column to int
@@ -229,7 +229,7 @@ namespace CUTS
 
     private void Add_Package (string p_id)
     {
-      DataRow package_info = UnitTestActions.Get_Package_Info( p_id );
+      DataRow package_info = UnitTestActions.get_package_info( p_id );
       string Package_Name = (string)package_info["name"];
 
       // Add Package Title
@@ -243,7 +243,7 @@ namespace CUTS
 
 
       // Fill the DataTable with Name and id
-      DataTable dt = UnitTestActions.Get_Unit_Tests( p_id );
+      DataTable dt = UnitTestActions.get_unit_tests( p_id );
 
       // Add Evaluation, Result
       //dt.Columns.Add ("Evaluation");

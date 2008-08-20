@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/BMW.master" AutoEventWireup="false" CodeFile="unittest.aspx.cs"
-    Inherits="Unit_Testing" %>
+    Inherits="CUTS.Unit_Testing" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="Server">
     <h2>
