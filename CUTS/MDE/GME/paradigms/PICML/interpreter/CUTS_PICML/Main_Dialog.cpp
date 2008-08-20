@@ -9,7 +9,7 @@
 #include "be/BE_Options.h"
 #include "be/BE_Manager_Factory.h"
 
-#include "XSCRT/utils/File_T.h"
+#include "XSCRT/utils/File_Reader_T.h"
 #include "XSCRT/utils/XML_Schema_Resolver_T.h"
 
 #include "boost/bind.hpp"
@@ -121,10 +121,10 @@ BOOL Main_Dialog::OnInitDialog (void)
       CUTS::Configuration config;
 
       // Open the default configuration.
-      if (reader.open (cuts_config.str ().c_str ()) != -1)
+      if (reader.read (cuts_config.str ().c_str ()))
       {
         // Read the default configuration.
-        reader >> config;
+        reader >>= config;
 
         // Load the generators from the configuration.
         this->init_generators (config);

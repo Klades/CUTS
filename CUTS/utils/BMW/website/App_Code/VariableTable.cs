@@ -92,7 +92,7 @@ namespace CUTS
         // Update an existing row in the table.
         this.variables_.Rows[row][column] = value;
       }
-      else
+      else if (row == this.variables_.Rows.Count)
       {
         // Create a new data row for the table.
         DataRow new_row = this.variables_.NewRow ();
@@ -100,6 +100,10 @@ namespace CUTS
 
         // Insert the data row into the table.
         this.variables_.Rows.Add (new_row);
+      }
+      else
+      {
+        throw new Exception ("row is greater than row count");
       }
     }
 

@@ -120,7 +120,7 @@ namespace Actions.UnitTestActions
         // back to the database for processing, i.e., to execute the user-defined
         // expression to evaluate the unit test.
 
-        create_variable_table (test_number, utid, ref vtable);
+        UnitTestActions.create_variable_table (test_number, utid, ref vtable);
 
         dsa.create_table_in_database (vtable.data);
         dsa.populate_table_in_database (vtable.data);

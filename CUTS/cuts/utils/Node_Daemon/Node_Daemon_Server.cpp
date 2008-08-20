@@ -22,7 +22,7 @@
 #include "ace/streams.h"
 #include "ace/Env_Value_T.h"
 
-#include "XSCRT/utils/File_T.h"
+#include "XSCRT/utils/File_Reader_T.h"
 #include "XSCRT/utils/XML_Schema_Resolver_T.h"
 
 static CUTS_Node_Daemon_i * daemon_i = 0;
@@ -185,8 +185,7 @@ int load_initial_config (const char * config, CUTS_Node_Daemon_i * daemon)
   cuts_schema << CUTS_ROOT << "/etc/schemas/";
 
   // Create the file reader for the configuration file.
-  XSCRT::utils::File_Reader_T <
-    CUTS::nodeConfig> reader (&CUTS::reader::node);
+  XSCRT::utils::File_Reader_T <CUTS::nodeConfig> reader (&CUTS::reader::node);
 
   try
   {
@@ -241,7 +240,7 @@ int load_initial_config (const char * config, CUTS_Node_Daemon_i * daemon)
     CUTS::nodeConfig node_config;
 
     // Open the default configuration.
-    if (reader.open (config) == -1)
+    if (!reader.read (config))
     {
       ACE_ERROR_RETURN ((LM_ERROR,
                          "%T - %M - failed to open configuration file [%s]\n",
@@ -250,7 +249,7 @@ int load_initial_config (const char * config, CUTS_Node_Daemon_i * daemon)
     }
 
     // Read the default node configuration.
-    reader >> node_config;
+    reader >>= node_config;
 
     if (node_config.tasklist_p ())
     {
