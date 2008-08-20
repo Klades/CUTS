@@ -1,3 +1,12 @@
+Wed Aug 20 11:25:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/Benchmark_Data_Collector.mpc:
+        * cuts/CUTS_CIAO.mpc:
+        * etc/config/requires_ciao.mpb:
+
+          . Updated build files to exclude CIAO-specific project from
+            the build process, if wanted.
+
 Wed Aug 20 08:21:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
