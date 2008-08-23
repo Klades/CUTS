@@ -1,9 +1,20 @@
+Fri Aug 22 20:57:57 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * install/CUTS_CoSMIC.wxs:
+        * install/CUTS_PICML.wxs:
+
+          . Bug fix where the installer was not initializing cuts.config
+            porperly based on the installed backend generators.
+
+          . Updated the installer so that the end-user can select which
+            backend generators they want to install.
+
 Wed Aug 20 23:46:31 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu>
 
         * docs/bmw.doxygen:
 
           . Can now easily generate doxygen specifically for the BMW and nothing
-              else. 
+            else.
 
         * utils/BMW/website/App_Code/DataBaseActions.cs:
         * utils/BMW/website/App_Code/LogFormatActions.cs:
@@ -20,7 +31,7 @@ Wed Aug 20 23:46:31 UTC 2008  Hamilton Turner  <hamilton.a.turner@vanderbilt.edu
 
         * utils/BMW/website/unittestchart.aspx.cs:
 
-          . Added class ChartingAPI to ease charting with the current system. 
+          . Added class ChartingAPI to ease charting with the current system.
 
 Wed Aug 20 13:54:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

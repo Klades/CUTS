@@ -3,17 +3,78 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <Fragment Id='CUTS_CoSMIC'>
+    <!--
+      definition of features
+      -->
+    <FeatureGroup Id="CUTS_CoSMIC.features.all">
+      <ComponentRef Id="CUTS_CoSMIC.component.schemas" />
+      <ComponentRef Id="CUTS_PICML.component.bin" />
+
+      <FeatureRef Id="CUTS_CoSMIC.features.generators" />
+    </FeatureGroup>
+
+    <Feature Id="CUTS_CoSMIC.features.generators"
+             Title="Backend Generators"
+             Level="1">
+      <FeatureRef Id="CUTS_BE_CIAO.feature" />
+      <FeatureRef Id="CUTS_BE_TIOA.feature" />
+      <FeatureRef Id="CUTS_BE_CAPI.feature" />
+      <FeatureRef Id="CUTS_BE_XML.feature" />
+      <FeatureRef Id="CUTS_BE_Natural_Lang.feature" />
+    </Feature>
+
+    <Feature Id="CUTS_CoSMIC.feature"
+             Level="0">
+    </Feature>
+
+    <Feature Id="CUTS_BE_CIAO.feature"
+             Title="Component Integrated ACE ORB (CIAO)"
+             Level="1">
+      <ComponentRef Id="CUTS_BE_CIAO.component" />
+    </Feature>
+
+    <Feature Id="CUTS_BE_TIOA.feature"
+             Title="Timed I/O Automata (TIAO) [experimental]"
+             Level="1">
+      <ComponentRef Id="CUTS_BE_TIOA.component" />
+    </Feature>
+
+    <Feature Id="CUTS_BE_CAPI.feature"
+             Title="CAPI [experimental]"
+             Level="1">
+      <ComponentRef Id="CUTS_BE_CAPI.component" />
+    </Feature>
+
+    <Feature Id="CUTS_BE_XML.feature"
+             Title="eXtensible Markup Language (XML) [experimental]"
+             Level="1">
+      <ComponentRef Id="CUTS_BE_XML.component" />
+    </Feature>
+
+    <Feature Id="CUTS_BE_Natural_Lang.feature"
+             Title="Natural language (English) [experimental]"
+             Level="1">
+      <ComponentRef Id="CUTS_BE_Natural_Lang.component" />
+    </Feature>
+
+    <!--
+      install the 'schemas' for the backend
+      -->
     <DirectoryRef Id='schemas'>
-      <Component Id='CUTS_PICML_schemas' Guid='F550B32C-9221-4d32-B328-ACB4182E17BA'>
+      <Component Id="CUTS_CoSMIC.component.schemas"
+                 Guid='F550B32C-9221-4d32-B328-ACB4182E17BA'>
+
         <File Id='modelgen.xsd' Name='modelgen.xsd'
               Source='$(env.CUTS_ROOT)\etc\schemas\modelgen.xsd' />
       </Component>
 
     </DirectoryRef>
-    
+
     <DirectoryRef Id='bin'>
-      <Component Id='CUTS_PICML' Guid='1B880B88-2944-419C-843F-433096213675'>
-        <!-- install the XML configuration -->
+      <Component Id='CUTS_PICML.component.bin' Guid='1B880B88-2944-419C-843F-433096213675'>
+        <!--
+          install the XML configuration
+          -->
         <File Id="cuts.config" Name="cuts.config"
               Source="$(env.CUTS_ROOT)\bin\cuts.user.config" DiskId="1" />
 
@@ -40,202 +101,6 @@
 
         <File Id="Utils.dll" Name="Utils.dll"
               Source="$(env.COSMIC_ROOT)\bin\Utils.dll" DiskId="1" />
-
-        <!-- install the CIAO generator -->
-        <File Id="CUTS_BE_CIAO.dll" Name="CUTS_BE_CIAO.dll"
-              Source="$(env.CUTS_ROOT)\lib\CUTS_BE_CIAO.dll" DiskId="1" />
-
-        <util:XmlConfig Id="generator.CIAO"
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        Action="create"
-                        ElementPath="//cuts:modelgen/backend"
-                        VerifyPath="//cuts:modelgen/backend/cuts:generator[\[]@id='CIAO'[\]]"
-                        Name="cuts:generator" 
-                        Node="element"
-                        Sequence="1" 
-                        On="install" />
-
-        <util:XmlConfig Id="generator.CIAO.delete"
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        Action="delete"
-                        ElementPath="//cuts:modelgen/backend/cuts:generator[\[]@id='CIAO'[\]]"
-                        Node="element"
-                        Sequence="1" 
-                        On="uninstall" />
-
-        <util:XmlConfig Id="generator.CIAO.id" 
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        ElementPath="generator.CIAO"                       
-                        Name="id"
-                        Value="CIAO"
-                        Sequence="2" />
-
-        <util:XmlConfig Id="generator.CIAO.location" 
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        Action="create"
-                        ElementPath="//cuts:modelgen/backend/cuts:generator[\[]@id='CIAO'[\]]"
-                        Name="cuts:location" 
-                        Node="element"
-                        Sequence="3" 
-                        On="install"
-                        Value="[INSTALLDIR]bin\CUTS_BE_CIAO" />
-<?ifdef release ?>
-        <!-- install the XML generator -->
-        <File Id="CUTS_BE_XML.dll" Name="CUTS_BE_XML.dll"
-              Source="$(env.CUTS_ROOT)\lib\CUTS_BE_XML.dll" DiskId="1" />
-
-        <util:XmlConfig Id="generator.XML"
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        Action="create"
-                        ElementPath="//cuts:modelgen/backend"
-                        VerifyPath="//cuts:modelgen/backend/cuts:generator[\[]@id='XML'[\]]"
-                        Name="cuts:generator" 
-                        Node="element"
-                        Sequence="1" 
-                        On="install" />
-
-        <util:XmlConfig Id="generator.XML.delete"
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        Action="delete"
-                        ElementPath="//cuts:modelgen/backend/cuts:generator[\[]@id='XML'[\]]"
-                        Node="element"
-                        Sequence="1" 
-                        On="uninstall" />
-
-        <util:XmlConfig Id="generator.XML.id" 
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        ElementPath="generator.XML"                       
-                        Name="id"
-                        Value="XML"
-                        Sequence="2" />
-
-        <util:XmlConfig Id="generator.XML.location" 
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        Action="create"
-                        ElementPath="//cuts:modelgen/backend/cuts:generator[\[]@id='XML'[\]]"
-                        Name="cuts:location" 
-                        Node="element"
-                        Sequence="3" 
-                        On="install"
-                        Value="[INSTALLDIR]bin\CUTS_BE_XML" />
-                        
-        <!-- install the CAPI generator -->
-        <File Id="CUTS_BE_CAPI.dll" Name="CUTS_BE_CAPI.dll"
-              Source="$(env.CUTS_ROOT)\lib\CUTS_BE_CAPI.dll" DiskId="1" />
-
-        <util:XmlConfig Id="generator.CAPI"
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        Action="create"
-                        ElementPath="//cuts:modelgen/backend"
-                        VerifyPath="//cuts:modelgen/backend/cuts:generator[\[]@id='CAPI'[\]]"
-                        Name="cuts:generator" 
-                        Node="element"
-                        Sequence="1" 
-                        On="install" />
-
-        <util:XmlConfig Id="generator.CAPI.delete"
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        Action="delete"
-                        ElementPath="//cuts:modelgen/backend/cuts:generator[\[]@id='CAPI'[\]]"
-                        Node="element"
-                        Sequence="1" 
-                        On="uninstall" />
-
-        <util:XmlConfig Id="generator.CAPI.id" 
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        ElementPath="generator.CAPI"                       
-                        Name="id"
-                        Value="CAPI"
-                        Sequence="2" />
-
-        <util:XmlConfig Id="generator.CAPI.location" 
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        Action="create"
-                        ElementPath="//cuts:modelgen/backend/cuts:generator[\[]@id='CAPI'[\]]"
-                        Name="cuts:location" 
-                        Node="element"
-                        Sequence="3" 
-                        On="install"
-                        Value="[INSTALLDIR]bin\CUTS_BE_CAPI" />
-                        
-        <!-- install the english generator -->
-        <File Id="CUTS_BE_Natural_Lang.dll" Name="CUTS_BE_Natural_Lang.dll"
-              Source="$(env.CUTS_ROOT)\lib\CUTS_BE_Natural_Lang.dll" DiskId="1" />
-
-        <util:XmlConfig Id="generator.language.english"
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        Action="create"
-                        ElementPath="//cuts:modelgen/backend"
-                        VerifyPath="//cuts:modelgen/backend/cuts:generator[\[]@id='language.english'[\]]"
-                        Name="cuts:generator" 
-                        Node="element"
-                        Sequence="1" 
-                        On="install" />
-
-        <util:XmlConfig Id="generator.language.english.delete"
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        ElementPath="//cuts:modelgen/backend/cuts:generator[\[]@id='language.english'[\]]"
-                        Node="element"
-                        Action="delete"
-                        Sequence="1" 
-                        On="uninstall" />
-
-        <util:XmlConfig Id="generator.language.english.id" 
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        ElementPath="generator.language.english"                       
-                        Name="id"
-                        Value="language.english"
-                        Sequence="2" />
-
-        <util:XmlConfig Id="generator.language.english.location" 
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        Action="create"
-                        ElementPath="//cuts:modelgen/backend/cuts:generator[\[]@id='language.english'[\]]"
-                        Name="cuts:location" 
-                        Node="element"
-                        Sequence="3" 
-                        On="install"
-                        Value="[INSTALLDIR]bin\CUTS_BE_Natural_Lang" />
-
-        <!-- install the TIOA generator -->
-        <File Id="CUTS_BE_TIOA.dll" Name="CUTS_BE_TIOA.dll"
-              Source="$(env.CUTS_ROOT)\lib\CUTS_BE_TIOA.dll" DiskId="1" />
-
-        <util:XmlConfig Id="generator.TIOA"
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        Action="create"
-                        ElementPath="//cuts:modelgen/backend"
-                        VerifyPath="//cuts:modelgen/backend/cuts:generator[\[]@id='TIOA'[\]]"
-                        Name="cuts:generator" 
-                        Node="element"
-                        Sequence="1" 
-                        On="install" />
-
-        <util:XmlConfig Id="generator.TIOA.delete"
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        ElementPath="//cuts:modelgen/backend/cuts:generator[\[]@id='TIOA'[\]]"
-                        Node="element"
-                        Action="delete"
-                        Sequence="1" 
-                        On="uninstall" />
-
-        <util:XmlConfig Id="generator.TIOA.id" 
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        ElementPath="generator.TIOA"                       
-                        Name="id"
-                        Value="TIOA"
-                        Sequence="2" />
-
-        <util:XmlConfig Id="generator.TIOA.location" 
-                        File="[INSTALLDIR]bin\cuts.config" 
-                        Action="create"
-                        ElementPath="//cuts:modelgen/backend/cuts:generator[\[]@id='TIOA'[\]]"
-                        Name="cuts:location" 
-                        Node="element"
-                        Sequence="3" 
-                        On="install"
-                        Value="[INSTALLDIR]bin\CUTS_BE_TIOA" />
-<?endif?>
 
         <!-- GME registry information -->
         <RegistryKey Root="HKLM" Key="SOFTWARE">
@@ -268,8 +133,8 @@
                 <RegistryValue Type="string"
                                Value="{DD5752C3-12EF-43D0-978C-F5C395D5BF13}" />
               </RegistryKey>
-            </RegistryKey>  
-            
+            </RegistryKey>
+
             <!-- CLSID registry information -->
             <RegistryKey Key="CLSID">
               <RegistryKey Key="{DD5752C3-12EF-43D0-978C-F5C395D5BF13}"
@@ -289,7 +154,176 @@
           </RegistryKey>
         </RegistryKey>
       </Component>
-    </DirectoryRef>
 
+      <!--
+        install the CIAO generator
+        -->
+      <Component Id="CUTS_BE_CIAO.component" Guid="135C28B5-87CF-4B7E-AA17-E8636488CF33">
+        <File Id="CUTS_BE_CIAO.dll" Name="CUTS_BE_CIAO.dll"
+              Source="$(env.CUTS_ROOT)\lib\CUTS_BE_CIAO.dll" DiskId="1" />
+
+        <util:XmlFile Id="generator.CIAO"
+                      File="[INSTALLDIR]bin\cuts.config"
+                      ElementPath="//cuts:modelgen/backend"
+                      Action="createElement"
+                      Name="cuts:generator"
+                      Sequence="1"
+                      Permanent="no" />
+
+        <util:XmlFile Id="generator.CIAO.id"
+                      File="[INSTALLDIR]bin\cuts.config"
+                      ElementPath="//cuts:modelgen/backend/cuts:generator[\[]not(@id)[\]]"
+                      Action="setValue"
+                      Name="id"
+                      Value="CIAO"
+                      Permanent="no"
+                      Sequence="2" />
+
+        <util:XmlFile Id="generator.CIAO.location"
+                      File="[INSTALLDIR]bin\cuts.config"
+                      Action="createElement"
+                      ElementPath="//cuts:modelgen/backend/cuts:generator[\[]@id='CIAO'[\]]"
+                      Name="cuts:location"
+                      Sequence="3"
+                      Permanent="no"
+                      Value="[INSTALLDIR]bin\CUTS_BE_CIAO" />
+      </Component>
+
+      <!--
+        install the XML generator
+        -->
+      <Component Id="CUTS_BE_XML.component" Guid="4C54AF56-C4DF-41DC-83D0-276FA2E47EC1">
+        <File Id="CUTS_BE_XML.dll" Name="CUTS_BE_XML.dll"
+              Source="$(env.CUTS_ROOT)\lib\CUTS_BE_XML.dll" DiskId="1" />
+
+        <util:XmlFile Id="generator.XML"
+                      File="[INSTALLDIR]bin\cuts.config"
+                      ElementPath="//cuts:modelgen/backend"
+                      Action="createElement"
+                      Name="cuts:generator"
+                      Sequence="1"
+                      Permanent="no" />
+
+        <util:XmlFile Id="generator.XML.id"
+                      File="[INSTALLDIR]bin\cuts.config"
+                      ElementPath="//cuts:modelgen/backend/cuts:generator[\[]not(@id)[\]]"
+                      Action="setValue"
+                      Name="id"
+                      Value="XML"
+                      Permanent="no"
+                      Sequence="2" />
+
+        <util:XmlFile Id="generator.XML.location"
+                      File="[INSTALLDIR]bin\cuts.config"
+                      Action="createElement"
+                      ElementPath="//cuts:modelgen/backend/cuts:generator[\[]@id='XML'[\]]"
+                      Name="cuts:location"
+                      Sequence="3"
+                      Permanent="no"
+                      Value="[INSTALLDIR]bin\CUTS_BE_XML" />
+      </Component>
+
+      <!--
+        install the CAPI generator
+        -->
+      <Component Id="CUTS_BE_CAPI.component" Guid="C1F5F0D6-C1EF-42F3-B2FF-F5911BC6F778">
+        <File Id="CUTS_BE_CAPI.dll" Name="CUTS_BE_CAPI.dll"
+              Source="$(env.CUTS_ROOT)\lib\CUTS_BE_CAPI.dll" DiskId="1" />
+
+        <util:XmlFile Id="generator.CAPI"
+                      File="[INSTALLDIR]bin\cuts.config"
+                      ElementPath="//cuts:modelgen/backend"
+                      Action="createElement"
+                      Name="cuts:generator"
+                      Sequence="1"
+                      Permanent="no" />
+
+        <util:XmlFile Id="generator.CAPI.id"
+                      File="[INSTALLDIR]bin\cuts.config"
+                      ElementPath="//cuts:modelgen/backend/cuts:generator[\[]not(@id)[\]]"
+                      Action="setValue"
+                      Name="id"
+                      Value="CAPI"
+                      Permanent="no"
+                      Sequence="2" />
+
+        <util:XmlFile Id="generator.CAPI.location"
+                      File="[INSTALLDIR]bin\cuts.config"
+                      Action="createElement"
+                      ElementPath="//cuts:modelgen/backend/cuts:generator[\[]@id='CAPI'[\]]"
+                      Name="cuts:location"
+                      Sequence="3"
+                      Permanent="no"
+                      Value="[INSTALLDIR]bin\CUTS_BE_CAPI" />
+      </Component>
+
+      <!--
+        install the english generator
+        -->
+      <Component Id="CUTS_BE_Natural_Lang.component" Guid="0333F893-1036-433A-80A8-90F04133DA3A">
+        <File Id="CUTS_BE_Natural_Lang.dll" Name="CUTS_BE_Natural_Lang.dll"
+              Source="$(env.CUTS_ROOT)\lib\CUTS_BE_Natural_Lang.dll" DiskId="1" />
+
+        <util:XmlFile Id="generator.language.english"
+                      File="[INSTALLDIR]bin\cuts.config"
+                      ElementPath="//cuts:modelgen/backend"
+                      Action="createElement"
+                      Name="cuts:generator"
+                      Sequence="1"
+                      Permanent="no" />
+
+        <util:XmlFile Id="generator.language.english.id"
+                      File="[INSTALLDIR]bin\cuts.config"
+                      ElementPath="//cuts:modelgen/backend/cuts:generator[\[]not(@id)[\]]"
+                      Action="setValue"
+                      Name="id"
+                      Value="language.english"
+                      Permanent="no"
+                      Sequence="2" />
+
+        <util:XmlFile Id="generator.language.english.location"
+                      File="[INSTALLDIR]bin\cuts.config"
+                      Action="createElement"
+                      ElementPath="//cuts:modelgen/backend/cuts:generator[\[]@id='language.english'[\]]"
+                      Name="cuts:location"
+                      Sequence="3"
+                      Permanent="no"
+                      Value="[INSTALLDIR]bin\CUTS_BE_Natural_Lang" />
+      </Component>
+
+      <Component Id="CUTS_BE_TIOA.component" Guid="C32F3C07-BBBA-43A8-B5C3-252C0B5C103D">
+        <!--
+          install the TIOA generator
+          -->
+        <File Id="CUTS_BE_TIOA.dll" Name="CUTS_BE_TIOA.dll"
+              Source="$(env.CUTS_ROOT)\lib\CUTS_BE_TIOA.dll" DiskId="1" />
+
+        <util:XmlFile Id="generator.TIOA"
+                      File="[INSTALLDIR]bin\cuts.config"
+                      ElementPath="//cuts:modelgen/backend"
+                      Action="createElement"
+                      Name="cuts:generator"
+                      Sequence="1"
+                      Permanent="no" />
+
+        <util:XmlFile Id="generator.TIOA.id"
+                      File="[INSTALLDIR]bin\cuts.config"
+                      ElementPath="//cuts:modelgen/backend/cuts:generator[\[]not(@id)[\]]"
+                      Action="setValue"
+                      Name="id"
+                      Value="TIOA"
+                      Permanent="no"
+                      Sequence="2" />
+
+        <util:XmlFile Id="generator.TIOA.location"
+                      File="[INSTALLDIR]bin\cuts.config"
+                      Action="createElement"
+                      ElementPath="//cuts:modelgen/backend/cuts:generator[\[]@id='TIOA'[\]]"
+                      Name="cuts:location"
+                      Sequence="3"
+                      Permanent="no"
+                      Value="[INSTALLDIR]bin\CUTS_BE_TIAO" />
+      </Component>
+    </DirectoryRef>
   </Fragment>
 </Wix>
