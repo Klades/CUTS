@@ -59,6 +59,13 @@ namespace CUTS
     }
 
     /**
+     * Unit test actions.
+     *
+     * @todo Move a lot of this code into the CUTS.Data assembly.
+     */
+    private UnitTestActions uta_ = new UnitTestActions ();
+
+    /**
      * Callback method for when the page is loading.
      *
      * @param[in]       sender        Sender of the event.
@@ -66,7 +73,7 @@ namespace CUTS
      */
     private void Page_Load (object sender, System.EventArgs e)
     {
-      MySqlConnection conn = new MySqlConnection (ConfigurationManager.AppSettings ["MySQL"]);
+      MySqlConnection conn = new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
 
       try
       {
@@ -78,7 +85,7 @@ namespace CUTS
           new CUTS.Data.Database (conn, new CUTS.Data.MySqlDataAdapterFactory ());
 
         // Get the test number from the query string.
-        String value = Request.QueryString ["t"];
+        String value = Request.QueryString["t"];
 
         if (value != null)
           this.test_number_ = System.Int32.Parse (value);
@@ -167,23 +174,23 @@ namespace CUTS
     }
     private void load_unit_test_view ()
     {
-      DataTable table = UnitTestActions.get_all_test_suites();
+      DataTable table = this.uta_.get_all_test_suites ();
 
       ddl_Test_Suites.DataSource = table;
       ddl_Test_Suites.DataBind ();
 
       ddl_Test_Suites.Items.Insert (0, new ListItem ("Choose a Test Suite to see results . . .    ", "-1"));
     }
-    
+
     private void load_log_messages_view ()
     {
       string test_number = Request.QueryString["t"];
       if (test_number == null)
         return;
 
-      DataTable dt = UnitTestActions.get_test_messages( test_number );
+      DataTable dt = this.uta_.get_test_messages (test_number);
       this.current_test_messages_.DataSource = dt;
-      this.current_test_messages_.DataBind();
+      this.current_test_messages_.DataBind ();
     }
 
     protected void on_collection_time_changed (Object sender, EventArgs e)
@@ -219,17 +226,17 @@ namespace CUTS
 
     private void load_panel_Packages_Unit_Tests ()
     {
-      DataTable dt = UnitTestActions.get_packages( ddl_Test_Suites.SelectedValue );
- 
+      DataTable dt = this.uta_.get_packages (ddl_Test_Suites.SelectedValue);
+
       // An explicit cast to string will not work here
       //   because the adapter types the column to int
       foreach (DataRow row in dt.Rows)
-        Add_Package( row["id"].ToString() );
+        Add_Package (row["id"].ToString ());
     }
 
     private void Add_Package (string p_id)
     {
-      DataRow package_info = UnitTestActions.get_package_info( p_id );
+      DataRow package_info = this.uta_.get_package_info (p_id);
       string Package_Name = (string)package_info["name"];
 
       // Add Package Title
@@ -238,12 +245,11 @@ namespace CUTS
       Title.Text = Package_Name;
       Title.CssClass = "performance-ut_view-package_name";
 
-      // Add hr
+      // Add <hr />
       panel_Packages_Unit_Tests.Controls.Add (new LiteralControl ("<hr />"));
 
-
       // Fill the DataTable with Name and id
-      DataTable dt = UnitTestActions.get_unit_tests( p_id );
+      DataTable dt = this.uta_.get_unit_tests (p_id);
 
       // Add Evaluation, Result
       //dt.Columns.Add ("Evaluation");
@@ -258,12 +264,11 @@ namespace CUTS
 
       foreach (DataRow row in dt.Rows)
       {
-
         DataTable temp =
-          UnitTestActions.evaluate_unit_test (this.test_number_,
-                                              (int)row["id"],
-                                              true,
-                                              ref evaluation);
+          this.uta_.evaluate_unit_test (this.test_number_,
+                                        (int)row["id"],
+                                        true,
+                                        out evaluation);
 
         // Evaluate
         //DataTable temp =
@@ -271,20 +276,20 @@ namespace CUTS
 
         if (temp.Rows.Count == 0)
         {
-          master_.show_info_message ("Oops - Looks like there is no data for '" + row ["Name"].ToString () +
+          master_.show_info_message ("Oops - Looks like there is no data for '" + row["Name"].ToString () +
               "' in '" + Package_Name + "'");
           //row ["Evaluation"] = "No Data";
-          row ["Result"] = "No Data";
-          row ["Chart"] = @"<a href='unittestchart.aspx?utid=" + row ["id"].ToString () +
+          row["Result"] = "No Data";
+          row["Chart"] = @"<a href='unittestchart.aspx?utid=" + row["id"].ToString () +
               "'>Chart</a>";
         }
         else
         {
-          DataRow temp_Row = temp.Rows [0];
+          DataRow temp_Row = temp.Rows[0];
 
           // Add Results of Evaluation to Main Table
           //row ["Evaluation"] = temp_Row ["evaluation"];
-          row ["Result"] = temp_Row ["result"];
+          row["Result"] = temp_Row["result"];
 
           row["Chart"] =
             "<a href='unittestchart.aspx?utid=" + row["id"].ToString () +
@@ -345,31 +350,31 @@ namespace CUTS
           break;
 
         case 2:
-          this.load_unit_test_view();  
+          this.load_unit_test_view ();
           break;
 
         case 3:
-          this.load_log_messages_view();
+          this.load_log_messages_view ();
           break;
       }
     }
     #endregion
 
     /**
-     * Button handler for the current log formats view that 
-     *   will export the datagrid on that view in the chosen format. 
+     * Button handler for the current log formats view that
+     *   will export the datagrid on that view in the chosen format.
      */
-    protected void onclick_export ( object sender, EventArgs e )
+    protected void onclick_export (object sender, EventArgs e)
     {
       string export_type = this.export_type_.SelectedValue;
 
       switch (export_type)
       {
         case "excel":
-          this.export_current_test_messages( "excel" );
+          this.export_current_test_messages ("excel");
           break;
         case "word":
-          this.export_current_test_messages( "word" );
+          this.export_current_test_messages ("word");
           break;
       }
     }
@@ -377,10 +382,10 @@ namespace CUTS
      * Helper function to export the current test's
      *   log messages into excel format.
      */
-    private void export_current_test_messages ( string type)
+    private void export_current_test_messages (string type)
     {
       // Empty the buffer
-      Response.ClearContent();
+      Response.ClearContent ();
 
       // Generate filename
       string filename = "Test_";
@@ -396,7 +401,7 @@ namespace CUTS
         filename += ".doc";
 
       // Set the content header
-      Response.AddHeader( "content-disposition", "attachment; filename=" + filename );
+      Response.AddHeader ("content-disposition", "attachment; filename=" + filename);
 
       // Set the content type
       if (type == "excel")
@@ -405,18 +410,18 @@ namespace CUTS
         Response.ContentType = "application/msword";
 
       // Ensure this is never cached
-      Response.Cache.SetCacheability( HttpCacheability.NoCache );
+      Response.Cache.SetCacheability (HttpCacheability.NoCache);
 
       // Build appropriate writers
-      System.IO.StringWriter stringWrite = new System.IO.StringWriter();
-      HtmlTextWriter htmlWrite = new HtmlTextWriter( stringWrite );
+      System.IO.StringWriter stringWrite = new System.IO.StringWriter ();
+      HtmlTextWriter htmlWrite = new HtmlTextWriter (stringWrite);
 
       // Render DataGrid
-      this.current_test_messages_.RenderControl( htmlWrite );
+      this.current_test_messages_.RenderControl (htmlWrite);
 
       // Send to user
-      Response.Write( stringWrite.ToString() );
-      Response.End();
+      Response.Write (stringWrite.ToString ());
+      Response.End ();
     }
 
     #region Web Form Designer generated code

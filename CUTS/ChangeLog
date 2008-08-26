@@ -1,3 +1,42 @@
+Tue Aug 26 23:34:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS:
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Graph:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Graph/Algorithm.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Graph/DirectedEdge.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Graph/DirectedGraph.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Graph/Node.cs:
+
+          . First implementation of a basic graph library. Right now, it can
+            create a directed graph, and perform topological sort on a directed
+            graph.
+
+        * utils/BMW/website/App_Code/Relation.cs:
+        * utils/BMW/website/App_Code/VariableTable.cs:
+
+          . First re-implementation of the unit test evaluation library. It
+            is now possible to evaluate a unit test and preserve causality
+            between the log formats. Grouping still needs to be implemented.
+
+        * utils/BMW/website/App_Code/UnitTestActions.cs:
+
+          . Removed all the 'static' modifiers from the class and method
+            declarations.
+
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/unittest.aspx:
+        * utils/BMW/website/unittest.aspx.cs:
+        * utils/BMW/website/unittestchart.aspx.cs:
+
+          . Updated the code to use the non-static version of the UnitTestActions
+            class. Now a variable of type UnitTestActions is declared in the partial
+            class for the corresponding page.
+
+        * utils/BMW/website/App_Code/Relations.cs:
+
+          . Removed this file.
+
 Tue Aug 26 21:11:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * install/CUTS_CoSMIC.wxs:

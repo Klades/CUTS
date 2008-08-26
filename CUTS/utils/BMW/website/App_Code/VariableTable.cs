@@ -142,5 +142,85 @@ namespace CUTS
         return this.variables_;
       }
     }
+
+    /**
+     * Add the values of the variables to the row. This will append the
+     * values to the current variable table.
+     */
+    public void add_values (Hashtable variables)
+    {
+      // Create a new row in the data table.
+      DataRow row = this.variables_.NewRow ();
+
+      // Set the values of the new row.
+      foreach (DictionaryEntry variable in variables)
+      {
+        string var_name = (string)variable.Key;
+        row[var_name] = variable.Value;
+      }
+
+      // Add the new row into the table.
+      this.variables_.Rows.Add (row);
+    }
+
+    public void add_values (Hashtable variables,
+                            CUTS.Relation filter_relation,
+                            bool rhs_filter)
+    {
+      // Determine what side of the relation is the filter, and what
+      // side is the target values for the filter.
+      string[] filter_column_names =
+        rhs_filter ? filter_relation.rhs : filter_relation.lhs;
+
+      string[] target_column_names =
+        rhs_filter ? filter_relation.lhs : filter_relation.rhs;
+
+      // Create a filter for each of the columns, making sure to insert
+      // them into a listing for joining.
+      ArrayList filter_list = new ArrayList ();
+
+      for (int i = 0; i < filter_column_names.Length; ++i)
+      {
+        string filter_column_name = filter_column_names[i];
+        string column_filter = String.Format ("({0} = ", filter_column_name);
+
+        string target_column_name = target_column_names[i];
+        object target_value = variables[target_column_name];
+
+        switch (target_value.GetType ().ToString ())
+        {
+          case "System.String":
+            column_filter += "'" + (string)target_value + "'";
+            break;
+
+          default:
+            column_filter += target_value;
+            break;
+        }
+
+        // Close the equality.
+        column_filter += ")";
+
+        // Insert the equality into the filter list.
+        filter_list.Add (column_filter);
+      }
+
+      // Finally, create the complete filter for the relation.
+      string filter =
+        String.Join (" AND ", (string[])filter_list.ToArray (typeof (string)));
+
+      // Select the rows in the data table that match this filter.
+      DataRow[] candidate_rows = this.variables_.Select (filter);
+
+      // Update the values in the row.
+      foreach (DataRow row in candidate_rows)
+      {
+        foreach (DictionaryEntry entry in variables)
+        {
+          string var_name = (string)entry.Key;
+          row[var_name] = entry.Value;
+        }
+      }
+    }
   }
 }

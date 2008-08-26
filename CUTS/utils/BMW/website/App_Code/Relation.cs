@@ -2,131 +2,119 @@
 
 using System;
 using System.Collections;
+using System.Data;
 using System.Web.UI;
 
 namespace CUTS
 {
   public class Relation
   {
-    private string lhs_;
+    private ArrayList lhs_;
 
-    private string rhs_;
+    private ArrayList rhs_;
 
-    private ArrayList values_ = new ArrayList ();
-
-    private class Relation_Value
+    /**
+     * Default constructor.
+     */
+    public Relation ()
     {
-      private object value_;
+      this.lhs_ = new ArrayList ();
+      this.rhs_ = new ArrayList ();
+    }
 
-      public bool lhs_set_;
+    /**
+     * Initailizing constructor. Initalizes the size of the relation.
+     *
+     * @param[in]       count         Number of elements in relation.
+     */
+    public Relation (int count)
+    {
+      this.lhs_ = new ArrayList (count);
+      this.rhs_ = new ArrayList (count);
+    }
 
-      public bool rhs_set_;
+    public void insert_equality (int index, string lhs, string rhs)
+    {
+      this.lhs_.Insert (index, lhs);
+      this.rhs_.Insert (index, rhs);
+    }
 
-      public Relation_Value (object value, bool lhs_set, bool rhs_set)
+    /**
+     * Locate the next row in the table where the right-hand side of the
+     * relation is equal to the left hand side of the relation.
+     */
+    public void update_variables (ref CUTS.Variable_Table variables,
+                                  Hashtable lhs_vars)
+    {
+      // Create a filter for each of the columns, making sure to insert
+      // them into a listing for joining.
+      ArrayList filter_list = new ArrayList ();
+
+      for (int i = 0; i < this.rhs_.Count; ++i)
       {
-        this.value_ = value;
+        string rhs_name = (string)this.rhs_[i];
+        string column_filter = String.Format ("({0} = ", rhs_name);
 
-        this.lhs_set_ = lhs_set;
-        this.rhs_set_ = rhs_set;
+        object lhs_value = lhs_vars[this.lhs_[i]];
+
+        switch (lhs_value.GetType ().ToString ())
+        {
+          case "System.String":
+            column_filter += "'" + (string)lhs_value + "'";
+            break;
+
+          default:
+            column_filter += lhs_value;
+            break;
+        }
+
+        // Close the equality.
+        column_filter += ")";
+
+        // Insert the equality into the filter list.
+        filter_list.Add (column_filter);
       }
 
-      public bool equals (object value)
+      // Finally, create the complete filter for the relation.
+      string filter =
+        String.Join (" AND ", (string[])filter_list.ToArray (typeof (string)));
+
+      // Select the rows in the data table that match this filter.
+      DataRow[] candidate_rows = variables.data.Select (filter);
+
+      // Update the values in the row.
+      foreach (DataRow row in candidate_rows)
       {
-        return this.value_.Equals (value);
+        foreach (DictionaryEntry entry in lhs_vars)
+        {
+          string var_name = (string)entry.Key;
+          row[var_name] = entry.Value;
+        }
       }
     }
 
-    public Relation (string lhs, string rhs)
-    {
-      this.lhs_ = lhs;
-      this.rhs_ = rhs;
-    }
-
-    public override string ToString ()
-    {
-      return this.lhs_ + " = " + this.rhs_;
-    }
-
-    public void clear ()
-    {
-      this.values_ = new ArrayList ();
-    }
-
-    public string left_side
+    /**
+     * Property associated with the values of the left-hand side of
+     * the relation.
+     */
+    public string[] lhs
     {
       get
       {
-        return this.lhs_;
+        return (string[])this.lhs_.ToArray (typeof (string));
       }
     }
 
-    public string right_side
+    /**
+     * Property associated with the values of the right-hand side of
+     * the relation.
+     */
+    public string[] rhs
     {
       get
       {
-        return this.rhs_;
+        return (string[])this.rhs_.ToArray (typeof (string));
       }
-    }
-
-    public bool is_member (string name)
-    {
-      return this.lhs_ == name || this.rhs_ == name;
-    }
-
-    public int insert_value (string name, object value)
-    {
-      if (this.rhs_.Equals (name))
-      {
-        return this.insert_value_rhs (value);
-      }
-      else if (this.lhs_.Equals (name))
-      {
-        return this.insert_value_lhs (value);
-      }
-      else
-      {
-        throw new Exception (name + " is not a member of relation [" + this.ToString () + "]");
-      }
-    }
-
-    private int insert_value_lhs (object value)
-    {
-      Relation_Value relation_value;
-
-      for (int i = 0; i < this.values_.Count; ++ i)
-      {
-        relation_value = (Relation_Value) this.values_[i];
-
-        if (relation_value.equals (value) && !relation_value.lhs_set_)
-        {
-          relation_value.lhs_set_ = true;
-          return i;
-        }
-      }
-
-      // We need to create a new relation and returns its index
-      relation_value = new Relation_Value (value, true, false);
-      return this.values_.Add (relation_value);
-    }
-
-    private int insert_value_rhs (object value)
-    {
-      Relation_Value relation_value;
-
-      for (int i = 0; i < this.values_.Count; ++i)
-      {
-        relation_value = (Relation_Value)this.values_[i];
-
-        if (relation_value.equals (value) && !relation_value.rhs_set_ )
-        {
-          relation_value.rhs_set_ = true;
-          return i;
-        }
-      }
-
-      // We need to create a new relation and return its index.
-      relation_value = new Relation_Value (value, false, true);
-      return this.values_.Add (relation_value);
     }
   }
 }

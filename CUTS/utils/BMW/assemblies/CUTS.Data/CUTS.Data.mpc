@@ -28,5 +28,11 @@ project (CUTS.Data) {
     ExecutionTime.cs
     PathElement.cs
     Properties\AssemblyInfo.cs
+
+    // graphing package
+    CUTS/Graph/Algorithm.cs
+    CUTS/Graph/DirectedEdge.cs
+    CUTS/Graph/DirectedGraph.cs
+    CUTS/Graph/Node.cs
   }
 }
