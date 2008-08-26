@@ -1,3 +1,12 @@
+Tue Aug 26 21:11:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * install/CUTS_CoSMIC.wxs:
+
+          . Updated the version number to include a build number.
+
+          . Updated the <package> tag to contain an auto-generated
+            GUID.
+
 Tue Aug 26 20:40:13 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:

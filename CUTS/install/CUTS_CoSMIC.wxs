@@ -4,10 +4,11 @@
   <Product Name="CUTS Modeling Tools for CoSMIC"
            Id="9A601859-E2D1-4C1F-B897-B13fEA0261B0"
            UpgradeCode="1CEF4517-4472-4A6F-8D4E-4D5B5F3B240A"
-           Language="1033" Codepage="1252" Version="0.2"
+           Language="1033" Codepage="1252" Version="0.2.1"
            Manufacturer="DOC Group, ISIS, Vanderbilt University">
 
-    <Package Keywords='Installer'
+    <Package Id="????????-????-????-????-????????????"
+             Keywords='Installer'
              Description='CUTS Modeling Tools for CoSMIC'
              Manufacturer='DOC Group, ISIS, Vanderbilt University'
              InstallerVersion='200' Languages='1033' Compressed='yes'
