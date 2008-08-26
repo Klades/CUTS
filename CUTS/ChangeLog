@@ -1,3 +1,13 @@
+Tue Aug 26 20:40:13 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
+
+          . The interpreter now resolves CUTS_ROOT in the following
+            order:
+
+            . Locates CUTS_ROOT in the Windows registry.
+            . Locates CUTS_ROOT as an environment variable.
+
 Fri Aug 22 20:57:57 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * install/CUTS_CoSMIC.wxs:

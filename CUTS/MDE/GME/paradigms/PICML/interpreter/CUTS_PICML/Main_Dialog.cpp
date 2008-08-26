@@ -382,16 +382,6 @@ load_backend_generator (const CUTS::Generator_Description & desc)
 //
 int Main_Dialog::resolve_CUTS_ROOT (std::string & root)
 {
-  // $(CUTS_ROOT) takes precidence over the install location
-  // of CUTS
-  ACE_Env_Value <const char *> CUTS_ROOT ("CUTS_ROOT", "");
-
-  if (ACE_OS::strlen (CUTS_ROOT) != 0)
-  {
-    root = CUTS_ROOT;
-    return 0;
-  }
-
   // Get the install location of CUTS from the Windows registry.
   char path [MAX_PATH];
   long path_size = sizeof (char) * sizeof (path);
@@ -402,7 +392,11 @@ int Main_Dialog::resolve_CUTS_ROOT (std::string & root)
                        &path_size) == ERROR_SUCCESS)
   {
     root = path;
-    return 0;
+  }
+  else
+  {
+    ACE_Env_Value <const char *> CUTS_ROOT ("CUTS_ROOT", "");
+    root = CUTS_ROOT;
   }
 
   return -1;
