@@ -726,11 +726,12 @@ namespace CUTS
 
       // Iterate through the items, deleting them as we go
       foreach (ListItem item in this.current_unit_tests_.Items)
+      {
         if (item.Selected)
         {
           // Get the name of the test package and unit test
-          string unit_test_name_ = item.Text;
-          string package_name_ = this.current_test_packages_.SelectedItem.Text;
+          string unit_test_name = item.Text;
+          string package_name = this.current_test_packages_.SelectedItem.Text;
 
           try
           {
@@ -739,8 +740,8 @@ namespace CUTS
                                         item.Value);
 
             string msg =
-              "Successfully removed " + unit_test_name_ +
-              " unit test from " + package_name_ + " test package";
+              "Successfully removed " + unit_test_name +
+              " unit test from " + package_name + " test package";
 
             // Show the message to the user.
             this.master_.show_info_message (msg);
@@ -751,10 +752,14 @@ namespace CUTS
             this.master_.show_error_message (ex.Message);
 
             // Show a more meaningful message.
-            string msg = "Failed to remove selected unit tests from " + package_name_ + " test package";
-            this.master_.show_error_message (msg);
+            string message =
+              "Failed to remove " + unit_test_name +
+              " unit test from " + package_name + " test package";
+
+            this.master_.show_error_message (message);
           }
         }
+      }
 
       // Update current unit tests list.
       this.load_current_unit_tests ();
@@ -882,13 +887,13 @@ namespace CUTS
 
     #region On Change Handlers
     /**
-   * OnChange handler for the existing test suites list. Checks the 
+   * OnChange handler for the existing test suites list. Checks the
    *   selection validity, enables/disables buttons as needed, and
    *   then loads the current package list if the test suite selection
-   *   is valid. 
-   * 
-   * @param[in]     sender    The onject that sent the onchange event. 
-   * @param[in]     e         The EventArgs that were sent with the event. 
+   *   is valid.
+   *
+   * @param[in]     sender    The onject that sent the onchange event.
+   * @param[in]     e         The EventArgs that were sent with the event.
    */
     protected void onchange_existing_test_suites (object sender, EventArgs e)
     {
@@ -915,14 +920,14 @@ namespace CUTS
     }
 
     /**
-     * On Change Handler for the existing test packages. Function 
+     * On Change Handler for the existing test packages. Function
      *   checks to see if the selected test package exists in the current
-     *   test packages list, disables/enables appropriate buttons, 
+     *   test packages list, disables/enables appropriate buttons,
      *   and possibly selects the test package in the current test packages
-     *   list. 
-     * 
-     * @param[in]     sender    The onject that sent the onchange event. 
-     * @param[in]     e         The EventArgs that were sent with the event. 
+     *   list.
+     *
+     * @param[in]     sender    The onject that sent the onchange event.
+     * @param[in]     e         The EventArgs that were sent with the event.
      */
     protected void onchange_existing_test_packages (object sender, EventArgs e)
     {
@@ -954,14 +959,14 @@ namespace CUTS
     }
 
     /**
-     * On Change Handler for the existing unit tests. Function 
+     * On Change Handler for the existing unit tests. Function
      *   checks to see if the selected unit test exists in the current
-     *   unit tests list, disables/enables appropriate buttons, 
+     *   unit tests list, disables/enables appropriate buttons,
      *   and possibly selects the unit test in the current unit tests
-     *   list. 
-     * 
-     * @param[in]     sender    The onject that sent the onchange event. 
-     * @param[in]     e         The EventArgs that were sent with the event. 
+     *   list.
+     *
+     * @param[in]     sender    The onject that sent the onchange event.
+     * @param[in]     e         The EventArgs that were sent with the event.
      */
     protected void onchange_existing_unit_tests (object sender, EventArgs e)
     {
@@ -993,13 +998,13 @@ namespace CUTS
     }
 
     /**
-     * On Change handler for current test packages. Reloads 
+     * On Change handler for current test packages. Reloads
      *   the current unit tests list as needed, and updates
-     *   the existing test packages list to have the same 
-     *   selection. 
-     * 
-     * @param[in]     sender    The onject that sent the onchange event. 
-     * @param[in]     e         The EventArgs that were sent with the event. 
+     *   the existing test packages list to have the same
+     *   selection.
+     *
+     * @param[in]     sender    The onject that sent the onchange event.
+     * @param[in]     e         The EventArgs that were sent with the event.
      */
     protected void onchange_current_test_packages (object sender, EventArgs e)
     {
@@ -1016,16 +1021,16 @@ namespace CUTS
 
     /**
      * On Change handler for current unit tests. Updates the existing unit tests
-     *   list to have the same selection, and reloads the UI as needed. 
+     *   list to have the same selection, and reloads the UI as needed.
      *   Easily extendable to add in showing unit test details.
-     * 
-     * @param[in]     sender    The onject that sent the onchange event. 
-     * @param[in]     e         The EventArgs that were sent with the event. 
+     *
+     * @param[in]     sender    The onject that sent the onchange event.
+     * @param[in]     e         The EventArgs that were sent with the event.
      */
     protected void onchange_current_unit_tests (object sender, EventArgs e)
     {
       // Because the load_current_unit_tests rebinds the data
-      // you loose the selected index. So, it is saved and 
+      // you loose the selected index. So, it is saved and
       // restored here, rather than creating a "reload_current_unit_tests"
       bool[] selected = new bool[this.current_unit_tests_.Items.Count];
       for (int i = 0; i < this.current_unit_tests_.Items.Count; ++i)

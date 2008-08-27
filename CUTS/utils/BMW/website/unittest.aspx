@@ -40,9 +40,7 @@
               -->
             <h3>I. Test Suites</h3>
 
-            <p>Use the controls below to either create a new test suite, or select an existing
-              test suite to update. To delete an existing test suite, select it from the listbox
-              and click the link that appears below the box.</p>
+            <p>Use the controls below to create a new test suite.</p>
 
             <asp:requiredfieldvalidator id="test_suite_name_required_" runat="server" controltovalidate="test_suite_name_"
               errormessage="test suite name is required. <br />" forecolor="red" validationgroup="testsuite_create"
@@ -58,7 +56,9 @@
 
             <hr style="color: white; border-top: dashed 1px blue; margin-top: 16px;" />
 
-            <div style="margin-top: 13px;">
+            <p>Use the controls below to manage existing test suites.</p>
+
+            <div>
               <span style="vertical-align: top;"><b>Existing:</b></span>
 
               <asp:listbox id="existing_test_suites_" runat="server" autopostback="True" selectionmode="Multiple"
@@ -82,9 +82,7 @@
               -->
             <h3>II. Test Packages</h3>
 
-            <p>Use the controls below to create a new test package. By default it will be inserted
-              to the currently selected test suite(if there is one), but you can uncheck the box
-              if you would not like this to happen.</p>
+            <p>Use the controls below to create a new test package.</p>
 
             <asp:requiredfieldvalidator id="test_package_name_required_" runat="server" controltovalidate="test_package_name_"
               errormessage="test package name is required.<br />" forecolor="red" validationgroup="test_package_create"
@@ -106,11 +104,8 @@
 
             <hr style="color: White; border-top: dashed 1px blue;" />
 
-            <p style="margin-top: 0px; padding-top: 0px;">Use the controls below to insert an existing
-              test package into the selected test
-              suite, remove test packages from the selected test suite, or entirely delete a test
-              package from the system. Note that a test package must be removed from all test
-              suites before the system will allow it to be deleted.</p>
+            <p>Use the controls below to manage existing test packages. Note that a test package must be removed
+              from all test suites before it can be deleted.</p>
 
             <b>Existing:</b>
             <asp:dropdownlist id="existing_test_packages_" autopostback="true" runat="server"
@@ -137,20 +132,23 @@
         </tr>
         <tr>
           <td colspan="2">
-            <h3>
-              III. Unit Tests</h3>
-            <p>
-              Use the controls to: add an existing unit test to the currently selected package,
-              remove a unit test from a the currently selected package, or entirely delete a unit
-              test (which will also remove it from any other packages in which it might appear).
-            </p>
-            <!-- section of the page for selecting an existing unit test -->
-            Existing:
-            <asp:dropdownlist id="existing_unit_tests_" autopostback="true" runat="server" datatextfield="name"
-              datavaluefield="utid" cssclass="larger_width" onselectedindexchanged="onchange_existing_unit_tests" />
-            <asp:button id="insert_unit_test_" runat="server" onclick="onclick_insert_unit_test"
-              text="Insert" cssclass="button" />
+            <!--
+              section of the page for managing unit tests
+              -->
+            <h3>III. Unit Tests</h3>
+
+            <p>Use the controls below to manage unit test.</p>
+
+            <b>Existing: </b>
+            <asp:dropdownlist id="existing_unit_tests_" autopostback="true" runat="server"
+              datatextfield="name" datavaluefield="utid" cssclass="larger_width"
+              onselectedindexchanged="onchange_existing_unit_tests" />
+
+            <asp:button id="insert_unit_test_" runat="server"
+              onclick="onclick_insert_unit_test" text="Insert" cssclass="button" />
+
             <br />
+
             <span style="position: relative; left: 55px; top: 6px;">
               <asp:linkbutton id="delete_unit_test_" runat="server" text="Delete existing unit test"
                 onclick="onclick_delete_unit_test" />
