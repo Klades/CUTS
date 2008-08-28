@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<project name="cuts.emulation" basedir="." default="cuts.emulation.jar.build">
+  <property environment="env" />
+  <import file="${env.CUTS_ROOT}/etc/ANT/include/cuts.build" />
+
+  <property name="jarfile" value="cuts.emulation.jar" />
+
+  <target name="cuts.emulation.build">
+    <path id="emulation.classpath">
+      <pathelement path="." />
+      <pathelement path="${contrib.dir}/fireantisis.jar" />
+    </path>
+
+    <javac srcdir="."
+           debug="true"
+           debuglevel="source,lines"
+           classpathref="emulation.classpath">
+      <include name="CUTS/Emulation.java" />
+    </javac>
+  </target>
+
+  <target name="cuts.emulation.jar.build" depends="cuts.emulation.build">
+    <jar destfile="${cuts.lib.dir}/${jarfile}"
+         basedir=".">
+
+      <include name="CUTS/Emulation.class" />
+    </jar>
+  </target>
+
+  <target name="cuts.emulation.clean">
+    <delete>
+      <fileset dir="${cuts.lib.dir}" includes="${jarfile}" />
+    </delete>
+  </target>
+
+  <target name="cuts.emulation.realclean" depends="cuts.emulation.clean">
+    <delete>
+      <fileset dir="." includes="CUTS/*.class" />
+    </delete>
+  </target>
+</project>

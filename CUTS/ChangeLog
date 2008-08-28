@@ -1,3 +1,18 @@
+Thu Aug 28 15:40:12 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/CUTS:
+        * MDE/GME/naomi/CUTS/emulation:
+        * MDE/GME/naomi/CUTS/emulation/CUTS:
+        * MDE/GME/naomi/CUTS/emulation/CUTS/Emulation.java:
+        * MDE/GME/naomi/CUTS/emulation/emulation.build:
+        * contrib/java/fireantisis.jar:
+
+          . First version of the CUTS emulation connector for NAOMI. Right now,
+            it will swapin an exeriment, however, the test UUID still need to
+            be coordinated between NAOMI and emulab.
+
+          . Added FireAnt for ISISLab to the contributions.
+
 Thu Aug 28 07:02:14 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/naomi/generators/CUTS_Isislab_Emulation/Isislab_Emulation_Generator.cpp:
