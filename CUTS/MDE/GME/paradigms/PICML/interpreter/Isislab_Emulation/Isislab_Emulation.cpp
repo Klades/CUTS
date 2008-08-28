@@ -5,6 +5,7 @@
 #include "boost/bind.hpp"
 #include <algorithm>
 #include <sstream>
+#include <iostream>
 
 //
 // CUTS_Isislab_Emulation
@@ -100,7 +101,8 @@ Visit_Domain (const PICML::Domain & domain)
       << "set control [$ns node]" << std::endl
       << "tb-set-node-os $control FC6-STD" << std::endl
       << "tb-set-hardware $control pc8832" << std::endl
-      << "#tb-set-node-startcmd $control /proj/GUTS/scripts/naomi-startup.sh" << std::endl
+      << std::endl
+      << "tb-set-node-startcmd $control /proj/GUTS/scripts/naomi-startup.sh" << std::endl
       << std::endl
       << "# set the sync server for the system" << std::endl
       << "tb-set-sync-server $control" << std::endl

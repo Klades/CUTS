@@ -1,3 +1,38 @@
+Thu Aug 28 06:39:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/GNC_App.h:
+        * MDE/GME/naomi/GNC_App.cpp:
+
+          . Started implementing support for specifying dependencies between
+            attributes in the GME model. This will determine the order in
+            which input attributes are updated.
+
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/RawComponent.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/UdmApp.h:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/UdmApp.cpp:
+
+          . First implementation of a interpreter for generating NS scripts
+            for ISISLab.
+
+        * MDE/GME/naomi/generators/CUTS_Isislab_Emulation:
+        * MDE/GME/naomi/generators/CUTS_Isislab_Emulation/Isislab_Emulation_Generator.h:
+        * MDE/GME/naomi/generators/CUTS_Isislab_Emulation/Isislab_Emulation_Generator.cpp:
+        * MDE/GME/naomi/generators/CUTS_Isislab_Emulation/Isislab_Emulation_Generator.mpc:
+        * MDE/GME/naomi/generators/CUTS_Isislab_Emulation/Isislab_Emulation_Generator_export.h:
+
+          . Wrapper for integrating the CUTS ISISLab interpreter into the
+            NAOMI for usage by the GME NAOMI connector.
+
+        * MDE/GME/naomi/parsers/Scatter_Deployment/Scatter_Deployment_Parser.cpp:
+
+          . Bug fix where the name of the target resource that contained the
+            deployment plan to parse was incorrect.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
+
+          . Updated the interpreter to use the latest version of XSC.
+
 Wed Aug 27 00:03:43 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/unittest.aspx:

@@ -44,7 +44,13 @@ public:
                        set <Udm::Object> selectedObjects,
                        long param);
 
-  static std::string outdir_;
+  static void SetParameter (const std::string & name,
+                            const std::string & value);
+
+  /// Output path for the deployment plan files.
+  static std::string output_path_;
+
+  static bool interactive_;
 };
 
 #endif // !defined(AFX_UDMAPP_H__296A93EB_6DB6_4179_AA0B_A3D799FB3A1C__INCLUDED_)

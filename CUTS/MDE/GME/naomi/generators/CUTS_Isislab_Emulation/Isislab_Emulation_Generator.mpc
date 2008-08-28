@@ -1,0 +1,15 @@
+// $Id$
+
+project (NAOMI_Isislab_Emulation_Generator) : gnc_generator {
+  sharedname = NAOMI_Isislab_Emulation_Generator
+
+  dynamicflags += ISISLAB_EMULATION_GENERATOR_BUILD_DLL
+
+  Source_Files {
+    Isislab_Emulation_Generator.cpp
+  }
+
+  Header_Files {
+    Isislab_Emulation_Generator_export.h
+  }
+}

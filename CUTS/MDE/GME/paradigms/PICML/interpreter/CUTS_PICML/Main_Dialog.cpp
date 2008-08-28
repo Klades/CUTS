@@ -399,6 +399,6 @@ int Main_Dialog::resolve_CUTS_ROOT (std::string & root)
     root = CUTS_ROOT;
   }
 
-  return -1;
+  return 0;
 }
 

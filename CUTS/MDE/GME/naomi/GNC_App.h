@@ -16,7 +16,12 @@
 #include <string>
 #include <set>
 #include <list>
+
 #include "gme/Project.h"
+
+#include "boost/graph/adjacency_list.hpp"
+#include "boost/graph/graph_traits.hpp"
+
 #include "URI_Tag_Parser.h"
 
 namespace naomi
@@ -123,20 +128,77 @@ private:
 
   void update_attributes (void);
 
-  void update_attribute_callback (const std::string & attr,
-                                  GME_Attribute_Tag & info);
+  void gather_input_attributes_callback (const std::string & attr,
+                                         GME_Attribute_Tag & info);
 
+  void gather_output_attributes_callback (const std::string & attr,
+                                          GME_Attribute_Tag & info);
+
+  /**
+   * Insert the following attribute in the graph. This will create a
+   * new vertex for this attribute, and create the necessay dependency
+   * edges between this attribute and other.
+   */
+  void insert_into_attr_graph (const std::string & attr,
+                               GME_Attribute_Tag & info);
+
+  /**
+   * Helper method to update the gathered input attributes. This will
+   * first do a topological sort of the attribute graph, then update
+   * each attribute in the model.
+   *
+   * @param[in]         attr          Name of the attribute
+   * @param[in]         info          Information about the attribute
+   */
+  void update_input_attributes (void);
+
+  /**
+   * Helper method to update an input attribute.
+   *
+   * @param[in]         attr          Name of the attribute
+   * @param[in]         info          Information about the attribute
+   */
   void update_input_attribute (const std::string & attr,
                                GME_Attribute_Tag & info);
 
+  /**
+   * Implemenation of the update method for simple attributes. Simple
+   * attributes are basic scalar values.
+   *
+   * @param[in]         attr          Actually NAOMI attribute
+   * @param[in]         info          Information about the attribute
+   */
   void update_input_attribute_simple (
     const naomi::attributes::attributeType & attr,
     GME_Attribute_Tag & info);
 
+  /**
+   * Implemenation of the update method for complex attributes. Complex
+   * attributes are metadata that generates child models.
+   *
+   * @param[in]         attr          Actually NAOMI attribute
+   * @param[in]         info          Information about the attribute
+   */
   void update_input_attribute_complex (
     const naomi::attributes::attributeType & attr,
     GME_Attribute_Tag & info);
 
+  /**
+   * Helper method to update the gathered output attributes. This will
+   * first do a topological sort of the attribute graph, then update
+   * each attribute in the model.
+   *
+   * @param[in]         attr          Name of the attribute
+   * @param[in]         info          Information about the attribute
+   */
+  void update_output_attributes (void);
+
+  /**
+   * Helper method to update an output attribute.
+   *
+   * @param[in]         attr          Name of the attribute
+   * @param[in]         info          Information about the attribute
+   */
   void update_output_attribute (const std::string & attr,
                                 GME_Attribute_Tag & info);
 
@@ -149,8 +211,20 @@ private:
     naomi::attributes::attributeType & attr_type,
     GME_Attribute_Tag & info);
 
+  /**
+   * Initailize the GME project.
+   *
+   * @todo Implement a new class for managing the GME project's
+   *       lifecycle, and move this method to that class.
+   */
   int gme_project_init (void);
 
+  /**
+   * Finalize the GME project.
+   *
+   * @todo Implement a new class for managing the GME project's
+   *       lifecycle, and move this method to that class.
+   */
   int gme_project_fini (void);
 
   /// Configuration options for the application.
@@ -165,10 +239,34 @@ private:
   /// The parser for the tagged attributes.
   CUTS_URI_Tag_Parser tag_parser_;
 
-  std::string update_phase_;
-
   /// Flag that determines if the model needs to be saved.
   bool save_model_;
+
+  /// The boost adjacency list for the dependency graph.
+  typedef
+    boost::property <boost::vertex_name_t, std::string,
+    boost::property <boost::vertex_color_t, GME_Attribute_Tag> >
+    vertex_property_type;
+
+  typedef
+    boost::adjacency_list <boost::setS,
+                           boost::vecS,
+                           boost::directedS,
+                           vertex_property_type> graph_type;
+
+  /// Type definition of the vertex type.
+  typedef
+    boost::graph_traits <graph_type>::vertex_descriptor vertex_type;
+
+  /// Type definition of the edge type.
+  typedef
+    std::pair <vertex_type, vertex_type> edge_type;
+
+  typedef
+    std::map <std::string, vertex_type> vertex_map_type;
+
+  /// The dependency graph for the assemblies.
+  graph_type attr_graph_;
 };
 
 #endif  // !defined _CUTS_GNC_APP_H_

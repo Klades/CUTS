@@ -20,8 +20,11 @@
 #include "ace/DLL_Manager.h"
 
 #include "boost/bind.hpp"
+#include "boost/utility.hpp"
+#include "boost/graph/topological_sort.hpp"
 
-#include "XSCRT/utils/File_T.h"
+#include "XSCRT/utils/File_Reader_T.h"
+#include "XSCRT/utils/File_Writer_T.h"
 #include "XSCRT/utils/XML_Schema_Resolver_T.h"
 
 #include <sstream>
@@ -617,28 +620,27 @@ void CUTS_GNC_App::create_interface_file (void)
             "interface",
             &naomi::interfaces::writer::interface_);
 
-  if (writer.open (pathname.c_str ()) == 0)
+  if (writer.writer ()->canSetFeature (xercesc::XMLUni::fgDOMWRTDiscardDefaultContent, true))
+    writer.writer ()->setFeature (xercesc::XMLUni::fgDOMWRTDiscardDefaultContent, true);
+
+  if (writer.writer ()->canSetFeature (xercesc::XMLUni::fgDOMWRTFormatPrettyPrint, true))
+    writer.writer ()->setFeature (xercesc::XMLUni::fgDOMWRTFormatPrettyPrint, true);
+
+  // Set the attributes for the root element.
+  xercesc::DOMElement * doc_root = writer.document ()->getDocumentElement ();
+
+  doc_root->setAttribute (
+    XSC::XStr ("xmlns:xsi"),
+    XSC::XStr ("http://www.w3.org/2001/XMLSchema-instance"));
+
+  doc_root->setAttribute (
+    XSC::XStr ("xsi:schemaLocation"),
+    XSC::XStr ("http://www.atl.lmco.com/naomi/interfaces interface.xsd"));
+
+  writer <<= interface_type;
+
+  if (writer.write (pathname.c_str ()))
   {
-    if (writer.writer ()->canSetFeature (xercesc::XMLUni::fgDOMWRTDiscardDefaultContent, true))
-      writer.writer ()->setFeature (xercesc::XMLUni::fgDOMWRTDiscardDefaultContent, true);
-
-    if (writer.writer ()->canSetFeature (xercesc::XMLUni::fgDOMWRTFormatPrettyPrint, true))
-      writer.writer ()->setFeature (xercesc::XMLUni::fgDOMWRTFormatPrettyPrint, true);
-
-    // Set the attributes for the root element.
-    xercesc::DOMElement * doc_root = writer.document ()->getDocumentElement ();
-
-    doc_root->setAttribute (
-      XSC::XStr ("xmlns:xsi"),
-      XSC::XStr ("http://www.w3.org/2001/XMLSchema-instance"));
-
-    doc_root->setAttribute (
-      XSC::XStr ("xsi:schemaLocation"),
-      XSC::XStr ("http://www.atl.lmco.com/naomi/interfaces interface.xsd"));
-
-    writer << interface_type;
-    writer.close ();
-
     ACE_DEBUG ((LM_INFO,
                  "%T - %M - successfully wrote interface file to '%s'\n",
                  this->opts_.interface_file_pathname_.c_str ()));
@@ -818,39 +820,128 @@ void CUTS_GNC_App::update_attributes (void)
   // Update all the input attributes.
   ACE_DEBUG ((LM_INFO,
               "%T - %M - updating input attributes\n"));
-  this->update_phase_ = "input";
-  this->iterate_all_attributes (&CUTS_GNC_App::update_attribute_callback);
+
+  this->attr_graph_.clear ();
+  this->iterate_all_attributes (&CUTS_GNC_App::gather_input_attributes_callback);
+  this->update_input_attributes ();
 
   // Update all the output attributes.
   ACE_DEBUG ((LM_INFO,
               "%T - %M - updating output attributes\n"));
-  this->update_phase_ = "output";
-  this->iterate_all_attributes (&CUTS_GNC_App::update_attribute_callback);
+
+  this->attr_graph_.clear ();
+  this->iterate_all_attributes (&CUTS_GNC_App::gather_output_attributes_callback);
+  this->update_output_attributes ();
 }
 
 //
-// update_attribute_callback
+// gather_input_attributes_callback
 //
 void CUTS_GNC_App::
-update_attribute_callback (const std::string & attr, GME_Attribute_Tag & info)
+gather_input_attributes_callback (const std::string & attr, GME_Attribute_Tag & info)
+{
+  if (info.direction_ == "input")
+    this->insert_into_attr_graph (attr, info);
+}
+
+//
+// gather_output_attributes_callback
+//
+void CUTS_GNC_App::
+gather_output_attributes_callback (const std::string & attr, GME_Attribute_Tag & info)
+{
+  if (info.direction_ == "output")
+    this->insert_into_attr_graph (attr, info);
+}
+
+//
+// insert_into_attr_graph
+//
+void CUTS_GNC_App::
+insert_into_attr_graph (const std::string & attr, GME_Attribute_Tag & info)
 {
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - handling attribute <%s>\n",
+              "%T - %M - inserting %s into attribute graph\n",
               attr.c_str ()));
 
-  if (info.direction_ != "input" && info.direction_ != "output")
+  // First, try to locate the vertex that has the given attribute's
+  // name.
+  graph_type::vertex_iterator iter, iter_end;
+
+  for (boost::tie (iter, iter_end) = boost::vertices (this->attr_graph_);
+       iter != iter_end;
+       ++ iter)
   {
-    ACE_ERROR ((LM_ERROR,
-                "%T - %M - unknown direction [%s]\n",
-                info.direction_.c_str ()));
+    if (boost::get (boost::vertex_name, this->attr_graph_, *iter) == attr)
+      break;
   }
-  else if (this->update_phase_ == "input" && info.direction_ == "input")
+
+  // Determine how we extract the vertex. Either, we create a new one, or
+  // we use the one that was located in the graph.
+  vertex_type attr_vertex;
+
+  if (iter == iter_end)
   {
-    this->update_input_attribute (attr, info);
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - creating new vertex in graph for "
+                "attribute %s\n",
+                attr.c_str ()));
+
+    attr_vertex = boost::add_vertex (attr, this->attr_graph_);
   }
-  else if (this->update_phase_ == "output" && info.direction_ == "output")
+  else
   {
-    this->update_output_attribute (attr, info);
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - using an existing vertex in graph "
+                "for attribute %s\n",
+                attr.c_str ()));
+
+    attr_vertex = *iter;
+  }
+
+  // Update its color, just in case.
+
+  ACE_DEBUG ((LM_DEBUG,
+            "%T - %M - saving tag information for %s\n",
+            attr.c_str ()));
+
+  boost::put (boost::vertex_color, this->attr_graph_, attr_vertex, info);
+
+  //// Now, let's update all the dependencies for this vertex.
+  //std::ostringstream regpath;
+  //regpath << "naomi:\\" << attr;
+
+  //if (!info.gme_attribute_.empty ())
+  //  regpath << "@" << info.gme_attribute_;
+
+  //regpath << "/depends";
+
+  //// Get the dependencies for this element.
+  //GME::FCO fco = GME::FCO::_narrow (info.object_);
+  //std::string depends = fco.registry_value (regpath.str ());
+}
+
+//
+// update_input_attributes
+//
+void CUTS_GNC_App::update_input_attributes (void)
+{
+  // Run topological sort on the dependency graph, which is just
+  // a specialized case of depth-first search.
+  typedef std::vector <vertex_type> result_set;
+  result_set results;
+
+  boost::topological_sort (this->attr_graph_,
+                           std::back_inserter (results));
+
+  result_set::iterator
+    iter = results.begin (), iter_end = results.end ();
+
+  for ( ; iter != iter_end; ++ iter)
+  {
+    this->update_input_attribute (
+      boost::get (boost::vertex_name, this->attr_graph_, *iter),
+      boost::get (boost::vertex_color, this->attr_graph_, *iter));
   }
 }
 
@@ -861,7 +952,7 @@ void CUTS_GNC_App::
 update_input_attribute (const std::string & attr, GME_Attribute_Tag & info)
 {
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - updating input attribute: %s\n",
+              "%T - %M - updating <%s> input attribute\n",
               attr.c_str ()));
 
   // Create the file reader for the configuration file.
@@ -917,21 +1008,27 @@ update_input_attribute (const std::string & attr, GME_Attribute_Tag & info)
   std::ostringstream pathname;
   pathname << this->opts_.attribute_path_ << "/" << attr;
 
-  if (reader.is_open ())
+  if (reader.read (pathname.str ().c_str ()))
   {
-    // Read the attribute information from the file.
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - loading input attribute's information\n"));
+    try
+    {
+      // Read the attribute information from the file.
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T - %M - loading input attribute's information\n"));
 
-    reader >> attr_info;
+      reader >>= attr_info;
+    }
+    catch (...)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - failed to load %s input attribute's information",
+                  attr.c_str ()));
+    }
 
     if (info.complex_.empty ())
       this->update_input_attribute_simple (attr_info, info);
     else
       this->update_input_attribute_complex (attr_info, info);
-
-    // Close the XML file.
-    reader.close ();
   }
   else
   {
@@ -1072,6 +1169,30 @@ update_input_attribute_complex (const naomi::attributes::attributeType & attr,
 }
 
 //
+// update_output_attributes
+//
+void CUTS_GNC_App::update_output_attributes (void)
+{
+  // Run topological sort on the dependency graph, which is just
+  // a specialized case of depth-first search.
+  typedef std::vector <vertex_type> result_set;
+  result_set results;
+
+  boost::topological_sort (this->attr_graph_,
+                           std::back_inserter (results));
+
+  result_set::iterator
+    iter = results.begin (), iter_end = results.end ();
+
+  for ( ; iter != iter_end; ++ iter)
+  {
+    this->update_output_attribute (
+      boost::get (boost::vertex_name, this->attr_graph_, *iter),
+      boost::get (boost::vertex_color, this->attr_graph_, *iter));
+  }
+}
+
+//
 // update_output_attribute
 //
 void CUTS_GNC_App::
@@ -1109,18 +1230,6 @@ update_output_attribute (const std::string & attr, GME_Attribute_Tag & info)
   if (writer.writer ()->canSetFeature (xercesc::XMLUni::fgDOMWRTFormatPrettyPrint, true))
     writer.writer ()->setFeature (xercesc::XMLUni::fgDOMWRTFormatPrettyPrint, true);
 
-  std::ostringstream pathname;
-  pathname << this->opts_.attribute_path_ << "/" << attr;
-
-  // Open the writer for usage.
-  if (writer.open (pathname.str ().c_str ()) != 0)
-  {
-    ACE_ERROR ((LM_ERROR,
-                "%T - %M - failed to open '%s' for writing\n",
-                pathname.str ().c_str ()));
-    return;
-  }
-
   // Set the attributes for the root element.
   xercesc::DOMElement * root = writer.document ()->getDocumentElement ();
 
@@ -1132,9 +1241,19 @@ update_output_attribute (const std::string & attr, GME_Attribute_Tag & info)
     XSC::XStr ("xsi:schemaLocation"),
     XSC::XStr ("http://www.atl.lmco.com/naomi/attributes attribute.xsd"));
 
+  // Stream the data into the writer.
+  writer <<= attr_info;
+
   // Write the attribute to the file.
-  writer << attr_info;
-  writer.close ();
+  std::ostringstream pathname;
+  pathname << this->opts_.attribute_path_ << "/" << attr;
+
+  if (!writer.write (pathname.str ().c_str ()))
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - failed to open '%s' for writing\n",
+                pathname.str ().c_str ()));
+  }
 }
 
 //

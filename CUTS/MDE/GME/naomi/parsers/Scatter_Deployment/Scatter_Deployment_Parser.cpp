@@ -26,7 +26,7 @@ NAOMI_Scatter_Deployment_Parser::~NAOMI_Scatter_Deployment_Parser (void)
 int NAOMI_Scatter_Deployment_Parser::
 handle_resource (const std::string & name, const std::string & uri)
 {
-  if (name == "plan")
+  if (name == "software.components")
   {
     size_t pos = uri.find_first_of (":\\\\");
 

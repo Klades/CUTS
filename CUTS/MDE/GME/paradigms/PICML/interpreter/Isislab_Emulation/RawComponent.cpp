@@ -38,6 +38,7 @@ _config config;
 //
 STDMETHODIMP RawComponent::Initialize (struct IMgaProject * proj)
 {
+  this->preprocess (proj);
   return S_OK;
 }
 
@@ -173,14 +174,6 @@ STDMETHODIMP RawComponent::InvokeEx (IMgaProject *project,
           selectedObjects.insert(currObj);
         }
         MGACOLL_ITERATE_END;
-
-        //=====================================================================
-        // @@ BEGIN PREPROCESSING METHODS
-
-        this->preprocess (project);
-
-        // @@ END PREPROCESSING METHODS
-        //=====================================================================
 
 #ifdef _ACCESS_MEMORY
         // Creating Cache
@@ -352,6 +345,19 @@ STDMETHODIMP RawComponent::get_ComponentParameter (BSTR name,
 STDMETHODIMP RawComponent::put_ComponentParameter (BSTR name,
                                                    VARIANT newVal)
 {
+  CComVariant value (newVal);
+
+  // Right now, we only care about string types, but I really nasty do
+  // not like this. Until I come up with a better way, this will have
+  // to suffice.
+  if (value.vt == VT_BSTR)
+  {
+    CW2A name_str (name);
+    CW2A value_str (value.bstrVal);
+
+    CUdmApp::SetParameter (name_str.m_psz, value_str.m_psz);
+  }
+
   return S_OK;
 }
 
@@ -360,7 +366,7 @@ STDMETHODIMP RawComponent::put_ComponentParameter (BSTR name,
 //
 int RawComponent::preprocess (IMgaProject * project)
 {
-  CUdmApp::outdir_ =
+  CUdmApp::output_path_ =
     Utils::Project::get_default_output_dir (project,
                                             "__OutputDir__/CUTS_ISISLab");
 
@@ -374,7 +380,7 @@ int RawComponent::postprocess (IMgaProject * project)
 {
   Utils::Project::set_default_output_dir (project,
                                           "__OutputDir__/CUTS_ISISLab",
-                                          CUdmApp::outdir_);
+                                          CUdmApp::output_path_);
 
   return 0;
 }
