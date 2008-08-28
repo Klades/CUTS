@@ -3,6 +3,7 @@
 #include "Isislab_Emulation_Generator.h"
 #include "gme/Object.h"
 #include <sstream>
+#include <iostream>
 
 GME_NAOMI_CREATE_GENERATOR_IMPLEMENT (Isislab_Emulation_Generator);
 
@@ -32,8 +33,12 @@ int Isislab_Emulation_Generator::run (const std::string & attr,
 {
   // First, pass control to the run_i () method. This will invoke the
   // interpreter and generate the deployment plan.
+  size_t index = attr_path.find_last_of ("/\\");
+  std::string path = attr_path.substr (0, index);
+  path += "/models/CUTS";
+
   int retval = this->run_i (attr,
-                            attr_path,
+                            path,
                             target,
                             "CUTS.Interpreter.Isislab.Emulation");
 
@@ -41,7 +46,7 @@ int Isislab_Emulation_Generator::run (const std::string & attr,
   {
     // Construct the name of the generated deployment plan.
     std::ostringstream uri;
-    uri << "naomi://" << target.name () << ".ns";
+    uri << "naomi://../models/CUTS/" << target.name () << ".ns";
 
     // Insert it as a resource.
     GME_Naomi_Resource rc;

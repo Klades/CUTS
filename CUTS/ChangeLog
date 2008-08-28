@@ -1,3 +1,11 @@
+Thu Aug 28 07:02:14 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/generators/CUTS_Isislab_Emulation/Isislab_Emulation_Generator.cpp:
+
+          . Hard-coded the location of the generated NS script to the
+            models/CUTS. This should be changed in the near future to
+            use the mapping: models/<model name>.
+
 Thu Aug 28 06:39:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/naomi/GNC_App.h:
