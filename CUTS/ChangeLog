@@ -1,3 +1,70 @@
+Thu Aug 28 15:47:56 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/GME:
+        * MDE/GME/naomi/GME/Attribute_Tag.h:
+        * MDE/GME/naomi/GME/Attribute_Tag.inl:
+        * MDE/GME/naomi/GME/Attribute_Tag.cpp:
+        * MDE/GME/naomi/GME/GNC.mpc:
+        * MDE/GME/naomi/GME/GNC.cpp:
+        * MDE/GME/naomi/GME/GNC_App.h:
+        * MDE/GME/naomi/GME/GNC_App.cpp:
+        * MDE/GME/naomi/GME/GNC_Base_export.h:
+        * MDE/GME/naomi/GME/Naomi_Generator.h:
+        * MDE/GME/naomi/GME/Naomi_Generator.cpp:
+        * MDE/GME/naomi/GME/Naomi_Parser.h:
+        * MDE/GME/naomi/GME/Naomi_Parser.cpp:
+        * MDE/GME/naomi/GME/Resource_List.h:
+        * MDE/GME/naomi/GME/URI_Tag_Parser.h:
+        * MDE/GME/naomi/GME/URI_Tag_Parser.cpp:
+        * MDE/GME/naomi/GME/attribute.h:
+        * MDE/GME/naomi/GME/attribute.inl:
+        * MDE/GME/naomi/GME/attribute.cpp:
+        * MDE/GME/naomi/GME/generators:
+        * MDE/GME/naomi/GME/gnc.mwc:
+        * MDE/GME/naomi/GME/parsers:
+
+          . Move the GME connector for NAOMI into its own directory so
+            multiple connectors can coexist in NAOMI directory.
+
+        * MDE/GME/naomi/Attribute_Tag.h:
+        * MDE/GME/naomi/Attribute_Tag.inl:
+        * MDE/GME/naomi/Attribute_Tag.cpp:
+        * MDE/GME/naomi/GNC.mpc:
+        * MDE/GME/naomi/GNC.cpp:
+        * MDE/GME/naomi/GNC_App.h:
+        * MDE/GME/naomi/GNC_App.cpp:
+        * MDE/GME/naomi/GNC_Base_export.h:
+        * MDE/GME/naomi/Naomi_Generator.h:
+        * MDE/GME/naomi/Naomi_Generator.cpp:
+        * MDE/GME/naomi/Naomi_Parser.h:
+        * MDE/GME/naomi/Naomi_Parser.cpp:
+        * MDE/GME/naomi/Resource_List.h:
+        * MDE/GME/naomi/URI_Tag_Parser.h:
+        * MDE/GME/naomi/URI_Tag_Parser.cpp:
+        * MDE/GME/naomi/attribute.h:
+        * MDE/GME/naomi/attribute.inl:
+        * MDE/GME/naomi/attribute.cpp:
+        * MDE/GME/naomi/generators:
+        * MDE/GME/naomi/generators/CUTS_Isislab_Emulation:
+        * MDE/GME/naomi/generators/CUTS_Isislab_Emulation/Isislab_Emulation_Generator.h:
+        * MDE/GME/naomi/generators/CUTS_Isislab_Emulation/Isislab_Emulation_Generator.cpp:
+        * MDE/GME/naomi/generators/CUTS_Isislab_Emulation/Isislab_Emulation_Generator.mpc:
+        * MDE/GME/naomi/generators/CUTS_Isislab_Emulation/Isislab_Emulation_Generator_export.h:
+        * MDE/GME/naomi/generators/DAnCE_Deployment:
+        * MDE/GME/naomi/generators/DAnCE_Deployment/DAnCE_Deployment_Generator.h:
+        * MDE/GME/naomi/generators/DAnCE_Deployment/DAnCE_Deployment_Generator.cpp:
+        * MDE/GME/naomi/generators/DAnCE_Deployment/DAnCE_Deployment_Generator.mpc:
+        * MDE/GME/naomi/generators/DAnCE_Deployment/DAnCE_Deployment_Generator_export.h:
+        * MDE/GME/naomi/gnc.mwc:
+        * MDE/GME/naomi/parsers:
+        * MDE/GME/naomi/parsers/Scatter_Deployment:
+        * MDE/GME/naomi/parsers/Scatter_Deployment/Scatter_Deployment_Parser.h:
+        * MDE/GME/naomi/parsers/Scatter_Deployment/Scatter_Deployment_Parser.cpp:
+        * MDE/GME/naomi/parsers/Scatter_Deployment/Scatter_Deployment_Parser.mpc:
+        * MDE/GME/naomi/parsers/Scatter_Deployment/Scatter_Deployment_Parser_export.h:
+
+          . Removed these files.
+
 Thu Aug 28 15:40:12 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/naomi/CUTS:
