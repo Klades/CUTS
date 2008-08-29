@@ -1,3 +1,9 @@
+Thu Aug 28 20:03:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/CUTS/emulation/CUTS/Emulation.java:
+
+          . Updated the connector to write the CUTS.test.uuid attribute.
+
 Thu Aug 28 15:47:56 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/naomi/GME:

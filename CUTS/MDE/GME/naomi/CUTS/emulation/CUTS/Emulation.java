@@ -13,6 +13,7 @@
 package CUTS;
 
 import java.util.*;
+import java.io.*;
 import org.fireant.isislab.*;
 
 /**
@@ -40,18 +41,116 @@ public class Emulation
     // Parse the command-line arguments.
     this.parseArgs (args);
 
-    // Generate a UUID for the experiment.
+    // First, - the attributes in the model.
+    if (this.listAttributes_)
+      this.listAttributes ();
 
-    // Update the UUID in the experiment file.
+    if (this.updateAttributes_)
+    {
+      // Generate a UUID for the experiment.
+      if (this.testUUID_ == null)
+        this.testUUID_ = UUID.randomUUID ();
 
-    // Create the experiment.
-    ISISLabUtil.createExperiment (this.isislab_, this.exp_);
+      // Update the UUID in the experiment file.
 
-    // Swapin the experiment.
-    if (this.swapin_)
-      ISISLabUtil.swapinExperiment (this.isislab_, this.exp_);
+      // Create the experiment.
+      //ISISLabUtil.createExperiment (this.isislab_, this.exp_);
 
-    // Write the UUID to the CUTS.test.uuid attribute file.
+      // Swapin the experiment.
+      //if (this.swapin_)
+      //  ISISLabUtil.swapinExperiment (this.isislab_, this.exp_);
+
+      // Write the UUID to the CUTS.test.uuid attribute file.
+      this.writeTestUUID ();
+    }
+
+    // Lastly, generate the interface file for the model.
+    this.writeIntefaceFile ();
+  }
+
+  /**
+   * Generate the interface file for the model.
+   */
+  private void writeIntefaceFile ()
+  {
+    try
+    {
+      // Open the interface file for writing.
+      String interfaceFileName = this.interfaceBaseName_ + "_interface.xml";
+      System.out.println ("Generating interface file: " + interfaceFileName);
+
+      PrintWriter out = new PrintWriter (new FileWriter (interfaceFileName));
+
+      out.println ("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+      out.println ("<interface xmlns=\"http://www.atl.lmco.com/naomi/interfaces\"");
+      out.println ("           xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
+      out.println ("           xsi:schemaLocation=\"http://www.atl.lmco.com/naomi/interfaces interface.xsd\">");
+      out.println ("  <name>" + this.owner_ + "</name>");
+      out.println ("  <type>CUTS.emulation</type>");
+      out.println ();
+      out.println ("  <!-- input attributes -->");
+      out.println ("  <input>CUTS.deployment</input>");
+      out.println ("  <input>CUTS.emulation</input>");
+      out.println ();
+      out.println ("  <!-- output attributes -->");
+      out.println ("  <output>CUTS.test.uuid</output>");
+      out.println ("</interface>");
+
+      out.close ();
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace ();
+    }
+  }
+
+  private void writeTestUUID ()
+  {
+    try
+    {
+      String attributeFileName = this.attributePath_ + "/CUTS.test.uuid";
+      System.out.println ("Writing attribute: " + attributeFileName);
+
+      // Open the attribute file for writing.
+      PrintWriter out = new PrintWriter (new FileWriter (attributeFileName));
+
+      out.println ("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+      out.println ("<attribute xmlns=\"http://www.atl.lmco.com/naomi/attributes\"");
+      out.println ("           xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
+      out.println ("           xsi:schemaLocation=\"http://www.atl.lmco.com/naomi/attributes attribute.xsd\">");
+      out.println ("  <owner>" + this.owner_ + "</owner>");
+      out.println ("  <value>" + this.testUUID_.toString ().toUpperCase () + "</value>");
+      out.println ("  <description>Test UUID for the latest CUTS emulation</description>");
+      out.println ("</attribute>");
+
+      // Close the attribute file.
+      out.close ();
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace ();
+    }
+  }
+
+  /**
+   * List the attributes managed by this connector. This is an 'internal'
+   * connector for CUTS, and therefore, it has a predefined set of attributes
+   * that it manages.
+   */
+  private void listAttributes ()
+  {
+    StringBuffer buffer = new StringBuffer ();
+
+    buffer.append ("Input Attributes:\n");
+    buffer.append ("----------------------------------\n");
+    buffer.append ("  * CUTS.deployment\n");
+    buffer.append ("  * CUTS.emulation\n");
+    buffer.append ("\n");
+    buffer.append ("Output Attributes:\n");
+    buffer.append ("----------------------------------\n");
+    buffer.append ("  * CUTS.test.uuid\n");
+
+    System.out.println (buffer.toString ());
   }
 
   /**
@@ -65,37 +164,57 @@ public class Emulation
     {
       String arg = args[i];
 
-      if (arg.equals ("--username"))
+      if (arg.equals ("-username"))
       {
         this.isislab_.put ("user", args[++ i]);
       }
-      else if (arg.equals ("--password"))
+      else if (arg.equals ("-password"))
       {
         this.isislab_.put ("pass", args[++ i]);
       }
-      else if (arg.equals ("--url"))
+      else if (arg.equals ("-url"))
       {
         this.isislab_.put ("url", args[++ i]);
       }
-      else if (arg.equals ("--project"))
+      else if (arg.equals ("-project"))
       {
         this.exp_.put ("project", args[++ i]);
       }
-      else if (arg.equals ("--experiment"))
+      else if (arg.equals ("-experiment"))
       {
         this.exp_.put ("name", args[++ i]);
       }
-      else if (arg.equals ("--description"))
+      else if (arg.equals ("-description"))
       {
         this.exp_.put ("description", args[++ i]);
       }
-      else if (arg.equals ("--nsfile"))
+      else if (arg.equals ("-nsfile"))
       {
         this.exp_.put ("nsfile", args[++ i]);
       }
-      else if (arg.equals ("--swapin"))
+      else if (arg.equals ("-swapin"))
       {
         this.exp_.put ("swapin", true);
+      }
+      else if (arg.equals ("-update-attributes"))
+      {
+        this.updateAttributes_ = true;
+      }
+      else if (arg.equals ("-list-attributes"))
+      {
+        this.listAttributes_ = true;
+      }
+      else if (arg.equals ("-attribute-path"))
+      {
+        this.attributePath_ = args [++i];
+      }
+      else if (arg.equals ("-interface-basename"))
+      {
+        this.interfaceBaseName_ = args [++i];
+      }
+      else if (arg.equals ("-owner"))
+      {
+        this.owner_ = args [++i];
       }
     }
   }
@@ -108,6 +227,19 @@ public class Emulation
 
   /// Swapin the experiment.
   private boolean swapin_ = false;
+
+  /// List the attributes managed by this connector.
+  private boolean listAttributes_ = false;
+
+  private boolean updateAttributes_ = false;
+
+  private String attributePath_;
+
+  private String interfaceBaseName_;
+
+  private String owner_;
+
+  private UUID testUUID_ = null;
 
   /////////////////////////////////////////////////////////////////////////////
   // entry point
