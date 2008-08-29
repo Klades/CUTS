@@ -1,3 +1,10 @@
+Fri Aug 29 06:21:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-unittest.sql:
+
+          . Implemented more stored procedures and functions to make it
+            easier to query data related to unit tests.
+
 Fri Aug 29 06:20:17 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/naomi/CUTS/analysis:

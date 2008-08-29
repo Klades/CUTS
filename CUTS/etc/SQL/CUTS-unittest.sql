@@ -14,7 +14,9 @@
 -- contains all one-one info
 -- eventually this should be a PCRE regex so its universal
 -- Also, we should eventually make the regex case sensitive
-CREATE TABLE IF NOT EXISTS  cuts.log_formats (
+
+CREATE TABLE IF NOT EXISTS  cuts.log_formats
+(
   lfid            INT             NOT NULL auto_increment,
   lfmt            VARCHAR(150)    NOT NULL,
   icase_regex     VARCHAR(180)    NOT NULL,
@@ -31,7 +33,8 @@ CREATE TABLE IF NOT EXISTS  cuts.log_formats (
 -- contains all one-one UT info
 -- Need to update fail/warn comparison so they are ENUM
 -- Need to extend so there are n-levels of warning
-CREATE TABLE IF NOT EXISTS cuts.unit_tests (
+CREATE TABLE IF NOT EXISTS cuts.unit_tests
+(
   utid                      INT               NOT NULL auto_increment,
   name                      VARCHAR(45)       NOT NULL,
   description               VARCHAR(256),
@@ -52,7 +55,8 @@ CREATE TABLE IF NOT EXISTS cuts.unit_tests (
 -- main table for packages
 
 
-CREATE TABLE IF NOT EXISTS cuts.packages (
+CREATE TABLE IF NOT EXISTS cuts.packages
+(
   id            INT               NOT NULL auto_increment,
   name          VARCHAR(95)       NOT NULL,
 
@@ -65,7 +69,8 @@ CREATE TABLE IF NOT EXISTS cuts.packages (
 
 -- main table for test suites
 
-CREATE TABLE IF NOT EXISTS cuts.test_suites (
+CREATE TABLE IF NOT EXISTS cuts.test_suites
+(
   id            INT             NOT NULL auto_increment,
   name          VARCHAR(95)     NOT NULL,
 
@@ -80,7 +85,8 @@ CREATE TABLE IF NOT EXISTS cuts.test_suites (
 -- sub table for log formats
 -- contains variable info - name, type, id
 
-CREATE TABLE IF NOT EXISTS cuts.log_format_variables (
+CREATE TABLE IF NOT EXISTS cuts.log_format_variables
+(
   variable_id       INT            NOT NULL auto_increment,
   lfid              INT            NOT NULL,
   varname           VARCHAR(45)    NOT NULL,
@@ -101,7 +107,8 @@ CREATE TABLE IF NOT EXISTS cuts.log_format_variables (
 -- sub table for packages
 -- contains unit test ids
 
-CREATE TABLE IF NOT EXISTS cuts.package_unit_tests (
+CREATE TABLE IF NOT EXISTS cuts.package_unit_tests
+(
   id            INT              NOT NULL auto_increment,
   ut_id         INT              NOT NULL,
 
@@ -120,7 +127,8 @@ CREATE TABLE IF NOT EXISTS cuts.package_unit_tests (
 -- sub table for test_suites
 -- contains package ids
 
-CREATE TABLE IF NOT EXISTS cuts.test_suite_packages (
+CREATE TABLE IF NOT EXISTS cuts.test_suite_packages
+(
   id              INT             NOT NULL,
   p_id            INT             NOT NULL,
 
@@ -141,18 +149,20 @@ CREATE TABLE IF NOT EXISTS cuts.test_suite_packages (
 -- sub table for unit tests
 -- will contain relation info
 
-CREATE TABLE IF NOT EXISTS cuts.unit_test_relations (
+CREATE TABLE IF NOT EXISTS cuts.unit_test_relations
+(
   utid          INT                NOT NULL,
+  relid         INT                NOT NULL,
   rel_index     INT                NOT NULL,
   variable_id   INT                NOT NULL,
   variable_id_2 INT                NOT NULL,
 
   -- set the constraints for the table
-  PRIMARY KEY (utid, rel_index),
+  PRIMARY KEY (utid, relid, rel_index),
 
-  UNIQUE (utid, variable_id, variable_id_2),
-  UNIQUE (utid, variable_id),
-  UNIQUE (utid, variable_id_2),
+  UNIQUE (utid, relid, variable_id, variable_id_2),
+  UNIQUE (utid, relid, variable_id),
+  UNIQUE (utid, relid, variable_id_2),
 
   FOREIGN KEY (utid) REFERENCES cuts.unit_tests (utid)
     ON DELETE CASCADE
@@ -172,7 +182,8 @@ CREATE TABLE IF NOT EXISTS cuts.unit_test_relations (
 -- sub table for unit tests
 -- contains log format ids
 
-CREATE TABLE IF NOT EXISTS cuts.unit_test_log_formats (
+CREATE TABLE IF NOT EXISTS cuts.unit_test_log_formats
+(
   utid          INT           NOT NULL,
   lfid          INT           NOT NULL,
 
@@ -248,6 +259,7 @@ DROP PROCEDURE IF EXISTS cuts.select_unit_test_causal_relations //
 CREATE PROCEDURE cuts.select_unit_test_causal_relations (IN _utid INT)
 BEGIN
   SELECT DISTINCT
+        relid,
         cuts.get_variable_log_format_id (variable_id) AS cause,
         cuts.get_variable_log_format_id (variable_id_2) AS effect
     FROM cuts.unit_test_relations
@@ -262,8 +274,9 @@ DROP PROCEDURE IF EXISTS cuts.select_unit_test_log_formats //
 
 CREATE PROCEDURE cuts.select_unit_test_log_formats (IN utid_ INT)
 BEGIN
-  SELECT t1.lfid, csharp_regex
-    FROM cuts.unit_test_log_formats AS t1, cuts.log_formats AS t2
+  SELECT t2.*
+    FROM cuts.unit_test_log_formats AS t1,
+         cuts.log_formats AS t2
     WHERE utid = utid_ AND
           t1.lfid = t2.lfid;
 END //
@@ -280,7 +293,26 @@ BEGIN
     WHERE test_number = test_number_ AND
           t1.hostid = t2.hostid AND
           message REGEXP (SELECT icase_regex FROM cuts.log_formats WHERE lfid = format_)
-    ORDER BY hostname, t1.msgtime;
+    ORDER BY hostname, t1.msgtime ASC, t1.msgid ASC;
+END //
+
+--
+-- PROCEDURE: cuts.select_log_data_desc_by_test_number
+--
+
+DROP PROCEDURE IF EXISTS cuts.select_log_data_desc_by_test_number //
+
+CREATE PROCEDURE
+  cuts.select_log_data_desc_by_test_number (IN test_number_ INT,
+                                            IN format_ INT)
+BEGIN
+  SELECT hostname, msgtime, severity, message
+    FROM cuts.msglog AS t1, cuts.ipaddr_host_map AS t2
+    WHERE test_number = test_number_ AND
+          t1.hostid = t2.hostid AND
+          message REGEXP (
+            SELECT icase_regex FROM cuts.log_formats WHERE lfid = format_)
+    ORDER BY hostname, t1.msgtime DESC, t1.msgid DESC;
 END //
 
 DROP FUNCTION IF EXISTS cuts.get_qualified_variable_name //
@@ -327,10 +359,13 @@ DROP PROCEDURE IF EXISTS cuts.select_unit_test_relations_as_set //
 
 CREATE PROCEDURE cuts.select_unit_test_relations_as_set (IN utid_ INT)
 BEGIN
-  SELECT cuts.get_qualified_variable_name (variable_id) AS lhs,
+  SELECT relid,
+         rel_index,
+         cuts.get_qualified_variable_name (variable_id) AS lhs,
          cuts.get_qualified_variable_name (variable_id_2) AS rhs
     FROM cuts.unit_test_relations
-    WHERE utid = utid_;
+    WHERE utid = utid_
+    ORDER BY relid, rel_index;
 END //
 
 DROP PROCEDURE IF EXISTS cuts.select_unit_test_relations_as_sql //
@@ -355,97 +390,6 @@ BEGIN
       INSERT INTO unit_test_relations (utid,variable_id,variable_id_2) VALUES (utid_in, vid_1_in, vid_2_in);
 END //
 
--- Allows you to grab all the results of a unit test, filtered by a test
---   number
-
-DROP PROCEDURE IF EXISTS cuts.evaluate_unit_test_as_metric//
-CREATE PROCEDURE
-  cuts.evaluate_unit_test_as_metric(IN utid_in INT,
-                                    IN test_num INT )
-BEGIN
-    DECLARE fail_op             VARCHAR(2);
-    DECLARE fail_val            VARCHAR(10);
-    DECLARE warn_op             VARCHAR(2);
-    DECLARE warn_val            VARCHAR(10);
-    DECLARE tablename           VARCHAR(90);
-    DECLARE single_tablename    VARCHAR(90);
-    DECLARE eval                VARCHAR(150);
-    DECLARE lfid_count          INT;
-
-    DECLARE temp                VARCHAR(10);
-    DECLARE t_var1              VARCHAR(45);
-    DECLARE t_var2              VARCHAR(45);
-
-    DECLARE debugger            VARCHAR(1024);
-
-    -- See if we are working on a two LF unit test, or a normal one
-    SELECT COUNT(*)
-      INTO lfid_count
-      FROM cuts.unit_test_log_formats
-      WHERE utid = utid_in;
-
-    SELECT   fail_comparison, fail,     warn_comparison, warn,     evaluation
-      INTO   fail_op,         fail_val, warn_op,         warn_val, eval
-      FROM unit_tests
-      WHERE utid = utid_in;
-
-    IF lfid_count = 1 THEN
-            SELECT CONCAT("LF",lfid), CONCAT("LF",lfid)
-                INTO tablename,        single_tablename
-                FROM cuts.unit_test_log_formats
-                WHERE utid = utid_in;
-    ELSEIF lfid_count = 2 THEN
-
-            SELECT lfid, CONCAT("LF",lfid)
-              INTO temp, single_tablename
-              FROM cuts.unit_test_log_formats
-              WHERE utid = utid_in
-              LIMIT 1;
-
-            SELECT lfid
-              INTO tablename
-              FROM cuts.unit_test_log_formats
-              WHERE utid = utid_in
-              LIMIT 1,1;
-
-            SELECT CONCAT("LF",lfid,".",varname)
-              INTO t_var1
-              FROM log_format_variables
-              WHERE variable_id=( SELECT variable_id
-                                    FROM unit_test_relations
-                                    WHERE utid=utid_in );
-
-            SELECT CONCAT("LF",lfid,".",varname)
-              INTO t_var2
-              FROM log_format_variables
-              WHERE variable_id=( SELECT variable_id_2
-                                    FROM unit_test_relations
-                                    WHERE utid=utid_in );
-
-
-            SELECT CONCAT("LF",temp," JOIN LF",tablename," ON ",
-              t_var1,"=",t_var2)
-              INTO tablename;
-    END IF;
-
-    SELECT CONCAT("
-        SELECT (",eval,") AS evaluation ",
-          "FROM ", tablename," ",
-          "WHERE ", single_tablename,".test_number=",test_num,";"
-        ) INTO debugger;
-
-    SET @sql = CONCAT("
-        SELECT (",eval,") AS evaluation ",
-          "FROM ", tablename," ",
-          "WHERE ", single_tablename,".test_number=",test_num,";"
-        );
-
-
-    PREPARE s1 FROM @sql;
-    EXECUTE s1;
-    DEALLOCATE PREPARE s1;
-END//
-
 DROP PROCEDURE IF EXISTS cuts.insert_log_format//
 CREATE PROCEDURE
   cuts.insert_log_format(IN log_form VARCHAR(150),
@@ -455,7 +399,6 @@ BEGIN
     INSERT INTO log_formats (lfmt,icase_regex,csharp_regex) VALUES (log_form, iregex, csregex);
     SELECT lfid FROM  log_formats WHERE lfmt = log_form;
 END //
-
 
 
 DROP PROCEDURE IF EXISTS cuts.insert_log_format_variable//
@@ -568,15 +511,54 @@ BEGIN
     SELECT utid FROM unit_tests WHERE name = name_in;
 END //
 
+--
+-- cuts.get_test_suite_id
+--
+
+DROP FUNCTION IF EXISTS cuts.get_test_suite_id //
+
+CREATE FUNCTION cuts.get_test_suite_id (_name VARCHAR (256))
+  RETURNS INT
+BEGIN
+  DECLARE retval INT;
+
+  SELECT id INTO retval FROM cuts.test_suites WHERE name = _name;
+
+  RETURN retval;
+END //
+
+--
+-- cuts.select_unit_tests_in_test_suite
+--
+
+DROP PROCEDURE IF EXISTS cuts.select_unit_tests_in_test_suite //
+
+CREATE PROCEDURE cuts.select_unit_tests_in_test_suite (IN _name VARCHAR (256))
+BEGIN
+  CALL cuts.select_unit_tests_in_test_suite_i (cuts.get_test_suite_id (_name));
+END //
+
+--
+-- cuts.select_unit_tests_in_test_suite_i
+--
+
+DROP PROCEDURE IF EXISTS cuts.select_unit_tests_in_test_suite_i //
+
+CREATE PROCEDURE cuts.select_unit_tests_in_test_suite_i (IN _tsid INT)
+BEGIN
+  SELECT * FROM cuts.unit_tests WHERE utid IN (
+    SELECT ut_id FROM cuts.package_unit_tests WHERE id IN (
+      SELECT p_id FROM cuts.test_suite_packages WHERE id = _tsid));
+END //
 
 -- given utid and lfid, add log format to ut
 
 DROP PROCEDURE IF EXISTS cuts.insert_unit_test_log_format//
 CREATE PROCEDURE
   cuts.insert_unit_test_log_format(IN utid_in INT,
-                           IN lfid_in INT)
+                                   IN lfid_in INT)
 BEGIN
-    INSERT INTO unit_test_log_formats (utid, lfid)
+    INSERT INTO cuts.unit_test_log_formats (utid, lfid)
       VALUES (utid_in, lfid_in);
 END //
 
