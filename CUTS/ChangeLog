@@ -1,3 +1,11 @@
+Fri Aug 29 06:20:17 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/CUTS/analysis:
+        * MDE/GME/naomi/CUTS/analysis/cuts.analysis.py:
+
+          . First implementation of the CUTS analysis connector for
+            NAOMI.
+
 Thu Aug 28 20:03:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/naomi/CUTS/emulation/CUTS/Emulation.java:
