@@ -1,0 +1,25 @@
+// $Id$
+
+project (CUTS.Web) {
+  sharedname = CUTS.Web
+
+  dllout     = $(CUTS_ROOT)\bin
+
+  lit_libs   = System \
+               System.Data \
+               System.Web \
+               System.Xml
+
+  requires  += bmw
+
+  specific {
+    keyfile = CUTS.Web.snk
+    output_dir =
+  }
+
+  Source_Files {
+    Properties/AssemblyInfo.cs
+
+    CUTS/Web/UI/UnitTesting/LogFormatTable.cs
+  }
+}

@@ -1,3 +1,69 @@
+Sun Aug 31 15:09:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Data/Properties/AssemblyInfo.cs:
+
+          . Converted all the characters in the GUID to upper case.
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/Relation.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTestEvaluator.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/VariableTable.cs:
+        * utils/BMW/assemblies/CUTS.Data/Database.cs:
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/unittestchart.aspx.cs:
+
+         . Moved the code that evaluates a unit test from the App_Code
+           in the website, to the CUTS.Data assembly. This makes it a LOT
+           easier to reuse the unit test evaluation engine in other parts
+           of the website, such as web service, and outside of the BMW.
+
+        * utils/BMW/website/unittest.aspx:
+        * utils/BMW/website/unittest.aspx.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS:
+        * utils/BMW/assemblies/CUTS.Web/CUTS.Web.mpc:
+        * utils/BMW/assemblies/CUTS.Web/CUTS.Web.snk:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/LogFormatTable.cs:
+        * utils/BMW/assemblies/CUTS.Web/Properties:
+        * utils/BMW/assemblies/CUTS.Web/Properties/AssemblyInfo.cs:
+
+          . First version of the CUTS.Web assembly, which is have common
+            controls used throughout the BMW.
+
+          . Checkpointing the implementation of the control that allows
+            users to select the log formats for their unit test. The next
+            phase of implementation will be adding controls for selecting
+            relations.
+
+        * utils/BMW/website/Service.asmx:
+        * utils/BMW/website/App_Code/Service.asmx.cs:
+
+          . Revitalized the BMW web service. It is now possible to query
+            for a list of test suites in the BMW.
+
+          . Implemented a web service method for evaluating a unit test
+            given the test UUID and the unit test name. This is primarily
+            being used by NAOMI.
+
+        * utils/BMW/website/App_Code/DataBaseActions.cs:
+        * utils/BMW/website/App_Code/UnitTestActions.cs:
+
+          . Removed the 'static' modifiers from ALL locations where it was
+            necessary, such as the class definition and its methods. Now,
+            the runtime errors related to the objects in the file no longer
+            exist.
+
+        * utils/BMW/website/App_Code/BMW_Service.cs:
+        * utils/BMW/website/App_Code/Relation.cs:
+        * utils/BMW/website/App_Code/VariableTable.cs:
+        * utils/BMW/website/controls/AddLogFormat.ascx:
+        * utils/BMW/website/controls/AddLogFormat.ascx.cs:
+
+          Removed these files.
+
 Fri Aug 29 06:21:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-unittest.sql:

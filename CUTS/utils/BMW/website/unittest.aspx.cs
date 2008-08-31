@@ -38,26 +38,8 @@ namespace CUTS
 
     protected void Page_Load (object sender, EventArgs e)
     {
-      // used to ease creating messages
+      // Get the concrete master page.
       this.master_ = (CUTS.Master)Master;
-
-      if (this.ViewState["logformats"] != null)
-      {
-        // Get the number of log formats to show.
-        int formats = (int)this.ViewState["logformats"];
-
-        // Determine how many rows we need to insert into the table.
-        int rows = this.log_formats_.Rows.Count - 1;
-
-        // Insert all the rows. The first row does not get a relation control.
-        for (; rows < formats; ++rows)
-          this.insert_new_log_format (true);
-      }
-      else
-      {
-        this.insert_new_log_format (false);
-        this.ViewState["logformats"] = 1;
-      }
 
       if (this.IsPostBack)
         return;
@@ -67,11 +49,17 @@ namespace CUTS
       this.load_existing_packages ();
       this.load_existing_unit_tests ();
 
-      // Disable appropriate buttons
-      this.insert_test_package_.Enabled = false;
-      this.insert_unit_test_.Enabled = false;
-      this.remove_test_package_.Enabled = false;
-      this.remove_unit_test_.Enabled = false;
+      //// Disable appropriate buttons
+      //this.insert_test_package_.Enabled = false;
+      //this.insert_unit_test_.Enabled = false;
+      //this.remove_test_package_.Enabled = false;
+      //this.remove_unit_test_.Enabled = false;
+
+      // Load the log formats for the specification page.
+      string sql = "SELECT lfid, lfmt FROM log_formats";
+      DataTable data = this.execute_mysql_adapter (sql);
+      this.log_format_table_.DataSource = data;
+      this.log_format_table_.DataBind ();
     }
 
     /**
@@ -1082,139 +1070,6 @@ namespace CUTS
       }
     }
 
-    protected void onchange_log_format (object sender, EventArgs e)
-    {
-      // Extract the control that sent this event. It should be a dropdown control.
-      // Otherwise, another control is trying to use this callback.
-      DropDownList list = (DropDownList)sender;
-
-      // Update the prefix label for this listing.
-      this.update_log_format_prefix_label (list);
-
-      // Update the relations for this listing.
-      this.update_log_format_relations (list);
-    }
-
-    protected void ondatabound_log_formats (object sender, EventArgs e)
-    {
-      DropDownList list = (DropDownList)sender;
-
-      // Update the prefix label for this listing.
-      this.update_log_format_prefix_label (list);
-
-      // Update the relations for this listing.
-      this.update_log_format_relations (list);
-    }
-
-    /**
-     * Helper method that updates the prefix label for the log formats. This
-     * will use the current selection to generate the prefix string. If there
-     * is no selection, then the prefix string will be set to an empty string.
-     *
-     * @param[in]         formats         Drop-down list of the log formats.
-     */
-    private void update_log_format_prefix_label (DropDownList formats)
-    {
-      // Get the parent cell of this control.
-      TableCell cell = (TableCell)formats.Parent;
-
-      // The prefix label is the the one and only control in the first cell
-      // of the current row. :-)
-      TableRow row = (TableRow)cell.Parent;
-      Literal prefix = (Literal)row.Cells[0].Controls[0];
-
-      if (formats.SelectedIndex != -1)
-        prefix.Text = "LF" + formats.SelectedValue + ".";
-      else
-        prefix.Text = "";
-    }
-
-    /**
-     * Helper method for updating the relationship controls for the log
-     * message. The left-hand dropdown will show the variables for this log
-     * format. The right-hand side will show the variables for the log
-     * formats in the previous rows
-     */
-    protected void update_log_format_relations (DropDownList formats)
-    {
-      // Locate the relation cell, and their controls.
-      TableCell formats_cell = (TableCell)formats.Parent;
-      TableRow current_row = (TableRow)formats_cell.Parent;
-
-      // Get the index of the current row.
-      int row_index = this.log_formats_.Rows.GetRowIndex (current_row);
-
-      TableCell relation_cell;
-      MySqlCommand command = this.conn_.CreateCommand ();
-      MySqlDataAdapter adapter = new MySqlDataAdapter (command);
-      DataSet ds = new DataSet ();
-
-      if (row_index > 1)
-      {
-        // Get the variables for the left-hand side relation. This variables
-        // are the ones from the selected log format.
-        string lhs_sql =
-          "SELECT variable_id, varname FROM cuts.log_format_variables " +
-          "WHERE lfid = ?lfid ORDER BY varname";
-
-        command.CommandText = lhs_sql;
-        command.Parameters.AddWithValue ("?lfid", formats.SelectedValue);
-
-        adapter.Fill (ds, "lhs_relation");
-
-        // Bind the data tables to the appropriate cells.
-        relation_cell = current_row.Cells[2];
-        DropDownList lhs_relation = this.get_lhs_relation (relation_cell);
-
-        lhs_relation.DataSource = ds;
-        lhs_relation.DataMember = "lhs_relation";
-        lhs_relation.DataValueField = "variable_id";
-        lhs_relation.DataTextField = "varname";
-        lhs_relation.DataBind ();
-
-        // Now, we need to update the right-hand side of the equal sign for
-        // this log message, and all the log messages after this one.
-        ArrayList lfids_list = new ArrayList ();
-
-        for (; row_index < this.log_formats_.Rows.Count; ++row_index)
-        {
-          // Get the next items for the next iteration.
-          current_row = this.log_formats_.Rows[row_index];
-          relation_cell = current_row.Cells[2];
-
-          for (int i = 1; i < row_index; ++i)
-          {
-            // Get the dropdown list for this row.
-            DropDownList log_format =
-              (DropDownList)this.log_formats_.Rows[i].Cells[1].Controls[0];
-
-            // Insert the selected value from the list.
-            lfids_list.Add (log_format.SelectedValue);
-          }
-
-          string prev_lfids =
-            String.Join (",", (string[])lfids_list.ToArray (typeof (string)));
-
-          string rhs_sql =
-            "SELECT variable_id, lfid, varname, CONCAT('LF', CAST(lfid AS CHAR), '.', varname) AS fq_name " +
-            "FROM cuts.log_format_variables " +
-            "WHERE lfid IN (" + prev_lfids + ") ORDER BY fq_name";
-
-          adapter.SelectCommand.CommandText = rhs_sql;
-          adapter.Fill (ds, "rhs_relation");
-
-          // Now, let's locate either relation's dropdown list.
-          DropDownList rhs_relation = this.get_rhs_relation (relation_cell);
-
-          rhs_relation.DataSource = ds;
-          rhs_relation.DataMember = "rhs_relation";
-          rhs_relation.DataValueField = "variable_id";
-          rhs_relation.DataTextField = "fq_name";
-          rhs_relation.DataBind ();
-        }
-      }
-    }
-
     /**
      * Event handler for clicking the Create button for a unit test. This will
      * create an entry in the database for the specified information.
@@ -1228,23 +1083,23 @@ namespace CUTS
       ArrayList lfids = new ArrayList ();
       ArrayList relations = new ArrayList ();
 
-      for (int i = 1; i < this.log_formats_.Rows.Count; ++i)
-      {
-        // Find the "log_format_" control in this row.
-        DropDownList formats = this.get_log_format_control (this.log_formats_.Rows[i]);
+      //for (int i = 1; i < this.log_formats_.Rows.Count; ++i)
+      //{
+      //  // Find the "log_format_" control in this row.
+      //  DropDownList formats = this.get_log_format_control (this.log_formats_.Rows[i]);
 
-        // Insert its value into the listing of log format ids.
-        lfids.Add (formats.SelectedValue);
-      }
+      //  // Insert its value into the listing of log format ids.
+      //  lfids.Add (formats.SelectedValue);
+      //}
 
-      // Get the relations for the unit test.
-      for (int i = 2; i < this.log_formats_.Rows.Count; ++i)
-      {
-        DropDownList lhs_relation, rhs_relation;
-        this.get_relations (this.log_formats_.Rows[i], out lhs_relation, out rhs_relation);
+      //// Get the relations for the unit test.
+      //for (int i = 2; i < this.log_formats_.Rows.Count; ++i)
+      //{
+      //  DropDownList lhs_relation, rhs_relation;
+      //  this.get_relations (this.log_formats_.Rows[i], out lhs_relation, out rhs_relation);
 
-        relations.Add (new Pair (lhs_relation.SelectedValue, rhs_relation.SelectedValue));
-      }
+      //  relations.Add (new Pair (lhs_relation.SelectedValue, rhs_relation.SelectedValue));
+      //}
 
       // Prepare the variables for inserting the new unit test.
       Hashtable variables = new Hashtable ();
@@ -1279,24 +1134,6 @@ namespace CUTS
     }
 
     /**
-     * Event handler for click the 'I need more log formats' link. This will
-     * insert a new row into the table for selecting log formats when
-     * evaluating the unit test
-     */
-    protected void onclick_more_log_formats (object sender, EventArgs e)
-    {
-      // Insert a new log message format into the table.
-      this.insert_new_log_format (false);
-
-      // Get and update the number of log formats that were created dynamically.
-      int formats =
-        this.ViewState["logformats"] != null ? (int)this.ViewState["logformats"] + 1 : 1;
-
-      // Store the count back into the view state.
-      this.ViewState["logformats"] = formats;
-    }
-
-    /**
      * Reset the unit test creation form.
      */
     private void reset_unit_test_form ()
@@ -1307,97 +1144,15 @@ namespace CUTS
       this.unit_test_eval_.Text = String.Empty;
       this.unit_test_fail_.Text = String.Empty;
       this.unit_test_warn_.Text = String.Empty;
-
-      // Clear all the rows from the log formats. This means removing its
-      // viewstate items as well.
-      this.log_formats_.Rows.Clear ();
-      this.ViewState.Remove ("logformats");
-
-      // Insert a fresh new row into the table.
-      this.insert_new_log_format (false);
     }
 
     /**
-     * Helper method for inserting a new log format into the table
+     * Safely execute a MySQL statement. This manages the connection
+     * and can throw an Argument Exception indicating what the
+     * sql attempted to execute was.
+     *
+     * @param sql    The statement to be executed.
      */
-    private void insert_new_log_format (bool use_viewstate)
-    {
-      // Create the prefix label for the log format.
-      Literal prefix = new Literal ();
-      prefix.EnableViewState = true;
-
-      // Create a new table cell for the control.
-      TableCell prefix_cell = new TableCell ();
-      prefix_cell.Controls.Add (prefix);
-
-      // Create the new dropdown control for the log formats.
-      DropDownList formats = new DropDownList ();
-      formats.DataTextField = "lfmt";
-      formats.DataValueField = "lfid";
-      formats.Width = new Unit (400.0, UnitType.Pixel);
-      formats.EnableViewState = true;
-      formats.AutoPostBack = true;
-      formats.DataBound += new System.EventHandler (this.ondatabound_log_formats);
-      formats.SelectedIndexChanged += new System.EventHandler (this.onchange_log_format);
-
-      // Create a new cell for the format's control.
-      TableCell format_cell = new TableCell ();
-      format_cell.Controls.Add (formats);
-
-      // Create a new table row for the new log format.
-      TableRow new_row = new TableRow ();
-      new_row.Cells.Add (prefix_cell);
-      new_row.Cells.Add (format_cell);
-
-      if (this.log_formats_.Rows.Count >= 2)
-      {
-        Literal where_stmt = new Literal ();
-        where_stmt.Text = " where ";
-
-        // Create the relation dropdown controls.
-        DropDownList lhs_relation = new DropDownList ();
-        lhs_relation.EnableViewState = true;
-
-        Literal equal_sign = new Literal ();
-        equal_sign.Text = " = ";
-
-        DropDownList rhs_relation = new DropDownList ();
-        rhs_relation.EnableViewState = true;
-
-        // Create the relation cell for the table.
-        TableCell relation_cell = new TableCell ();
-        relation_cell.Controls.Add (where_stmt);
-        relation_cell.Controls.Add (lhs_relation);
-        relation_cell.Controls.Add (equal_sign);
-        relation_cell.Controls.Add (rhs_relation);
-
-        // Insert the relation cell into the row.
-        new_row.Cells.Add (relation_cell);
-      }
-
-      // Insert the new row into the table.
-      this.log_formats_.Rows.Add (new_row);
-
-      if (!use_viewstate)
-      {
-        // Bind the data to the dropdown list control. This will trigger the
-        // ondatabound event, which will initialize the prefix label.
-        string sql = "SELECT lfid, lfmt FROM log_formats";
-
-        DataTable data = execute_mysql_adapter (sql);
-
-        formats.DataSource = data;
-        formats.DataBind ();
-      }
-    }
-
-    /**
-   * Safely execute a MySQL statement. This manages the connection
-   * and can throw an Argument Exception indicating what the
-   * sql attempted to execute was.
-   *
-   * @param sql    The statement to be executed.
-   */
     private DataTable execute_mysql_adapter (string sql)
     {
       MySqlConnection conn = new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);

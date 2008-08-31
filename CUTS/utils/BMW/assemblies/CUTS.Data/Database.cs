@@ -969,6 +969,25 @@ namespace CUTS.Data
       adapter.Fill (ds);
     }
 
+    public DataTable select_unit_tests_in_test_suite (string suite)
+    {
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "CALL cuts.select_unit_tests_in_test_suite (?name)";
+
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?name";
+      p1.DbType = DbType.String;
+      p1.Value = suite;
+
+      command.Parameters.Add (p1);
+
+      DataSet ds = new DataSet ();
+      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      adapter.Fill (ds);
+
+      return ds.Tables["Table"];
+    }
+
     public void select_component_portnames_i (int inst, string porttype, ref DataSet ds)
     {
       IDbCommand command = this.conn_.CreateCommand ();
@@ -1016,7 +1035,41 @@ namespace CUTS.Data
       }
     }
 
-    public void delete_execution_paths (string [] names)
+    public int get_test_number (string uuid)
+    {
+      // Create a new SQL statement/command.
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "SELECT test_number FROM tests WHERE test_uuid = ?uuid";
+
+      IDbDataParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?uuid";
+      p1.DbType = DbType.String;
+      p1.Value = uuid;
+
+      command.Parameters.Add (p1);
+
+      object retval = command.ExecuteScalar ();
+      return retval != null ? (int)retval : -1;
+    }
+
+    public int get_unit_test_id (string name)
+    {
+      // Create a new SQL statement/command.
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "SELECT utid FROM unit_tests WHERE name = ?name";
+
+      IDbDataParameter p1 = command.CreateParameter ();
+
+      p1.ParameterName = "?name";
+      p1.DbType = DbType.String;
+      p1.Value = name;
+      command.Parameters.Add (p1);
+
+      object retval = command.ExecuteScalar ();
+      return retval != null ? (int)retval : -1;
+    }
+
+    public void delete_execution_paths (string[] names)
     {
       // Create a new SQL statement/command.
       IDbCommand command = this.conn_.CreateCommand ();
@@ -1038,5 +1091,5 @@ namespace CUTS.Data
         command.ExecuteNonQuery ();
       }
     }
-}
+  }
 }

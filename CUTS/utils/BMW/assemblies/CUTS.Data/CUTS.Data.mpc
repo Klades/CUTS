@@ -29,6 +29,11 @@ project (CUTS.Data) {
     PathElement.cs
     Properties\AssemblyInfo.cs
 
+    // data package
+    CUTS/Data/Relation.cs
+    CUTS/Data/UnitTestEvaluator.cs
+    CUTS/Data/VariableTable.cs
+
     // graphing package
     CUTS/Graph/Algorithm.cs
     CUTS/Graph/DirectedEdge.cs

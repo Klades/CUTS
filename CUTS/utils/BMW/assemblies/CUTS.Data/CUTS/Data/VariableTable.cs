@@ -1,27 +1,50 @@
-using System;
-using System.Data;
-using System.Collections;
+// -*- C# -*-
 
-namespace CUTS
+using System;
+using System.Collections;
+using System.Data;
+
+namespace CUTS.Data
 {
-  public class Variable_Table
+  /**
+   * @class VariableTable
+   *
+   * Collection of variables in a table format. Each row in the variable
+   * table represents a data set that can be used for evaluation.
+   */
+  public class VariableTable
   {
     private DataTable variables_;
 
     private string name_;
 
-    public Variable_Table (string name)
+    /**
+     * Initializing constructor.
+     *
+     * @param[in]     name          Name of the variable table
+     */
+    public VariableTable (string name)
     {
       this.name_ = name;
       this.variables_ = new DataTable (this.name_);
     }
 
-    public Variable_Table (string name, Hashtable vars)
+    /**
+     * Initializing constructor.
+     *
+     * @param[in]     name          Name of the table
+     * @param[in]     vars          Names of the variables
+     */
+    public VariableTable (string name, Hashtable vars)
     {
       this.name_ = name;
       this.reset_i (vars);
     }
 
+    /**
+     * Clear the contents of the variable table. This does not delete
+     * the columns in the table. It only deletes the rows.
+     */
     public void clear ()
     {
       this.variables_.Clear ();
@@ -164,16 +187,16 @@ namespace CUTS
     }
 
     public void add_values (Hashtable variables,
-                            CUTS.Relation filter_relation,
+                            CUTS.Data.Relation relation,
                             bool rhs_filter)
     {
       // Determine what side of the relation is the filter, and what
       // side is the target values for the filter.
       string[] filter_column_names =
-        rhs_filter ? filter_relation.rhs : filter_relation.lhs;
+        rhs_filter ? relation.rhs : relation.lhs;
 
       string[] target_column_names =
-        rhs_filter ? filter_relation.lhs : filter_relation.rhs;
+        rhs_filter ? relation.lhs : relation.rhs;
 
       // Create a filter for each of the columns, making sure to insert
       // them into a listing for joining.

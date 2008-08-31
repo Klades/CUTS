@@ -13,16 +13,21 @@ using System.IO;
 using System.Xml;
 using System.Text;
 using MySql.Data.MySqlClient;
-using Actions.UnitTestActions;
 
 namespace CUTS
 {
   public partial class Unit_Test_Chart : System.Web.UI.Page
   {
-    private UnitTestActions uta_ = new UnitTestActions ();
+    private MySqlConnection conn_ =
+      new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
+
+    private CUTS.Data.UnitTestEvaluator evaluator_;
 
     protected void Page_Load (object sender, EventArgs e)
     {
+      this.evaluator_ =
+        new CUTS.Data.UnitTestEvaluator (this.conn_, new CUTS.Data.MySqlDataAdapterFactory ());
+
       if (this.IsPostBack)
         return;
 
@@ -31,10 +36,12 @@ namespace CUTS
       string test_num_str = Request.QueryString.Get ("t");
       int test_num = Int32.Parse (test_num_str);
 
-      string evaluation = String.Empty;
-      DataTable table = this.uta_.evaluate_unit_test (test_num, id, false, out evaluation);
+      string eval;
 
-      this.Chart (evaluation, table);
+      DataTable table =
+        this.evaluator_.evaluate (test_num, id, false, out eval);
+
+      this.Chart (eval, table);
 
       string ChartObject = @"<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0'" +
           @" width='900' height='500' id='charts'>" +

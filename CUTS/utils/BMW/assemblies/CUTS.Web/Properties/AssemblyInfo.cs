@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CUTS.Data")]
-[assembly: AssemblyDescription("Common data abstractions used by the BMW")]
+[assembly: AssemblyTitle("CUTS.Web")]
+[assembly: AssemblyDescription("Common controls used by the BMW")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("DOC Group at ISIS, Vanderbilt University")]
 [assembly: AssemblyProduct(".Properties")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("EA0A33AA-A8F3-4784-9660-37EDBBD8BFC8")]
+[assembly: Guid ("448FE7C5-3430-4EB4-9F12-F1F002FA5265")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -1,5 +1,5 @@
-<%@ page language="C#" masterpagefile="~/BMW.master" autoeventwireup="false" codefile="unittest.aspx.cs"
-  inherits="CUTS.Unit_Testing" %>
+<%@ page language="C#" masterpagefile="~/BMW.master" autoeventwireup="false" codefile="unittest.aspx.cs" inherits="CUTS.Unit_Testing" %>
+<%@ register tagprefix="cuts" namespace="CUTS.Web.UI.UnitTesting" assembly="CUTS.Web" %>
 
 <asp:content id="Content1" contentplaceholderid="MainContent" runat="server">
   <h2>Functional/Non-functional Unit Testing</h2>
@@ -84,7 +84,8 @@
 
             <p>Use the controls below to create a new test package.</p>
 
-            <asp:requiredfieldvalidator id="test_package_name_required_" runat="server" controltovalidate="test_package_name_"
+            <asp:requiredfieldvalidator id="test_package_name_required_" runat="server"
+              controltovalidate="test_package_name_"
               errormessage="test package name is required.<br />" forecolor="red" validationgroup="test_package_create"
               display="dynamic" />
 
@@ -211,17 +212,8 @@
                and make each of its children a user-defined log format control. This way, the number
                of child control in the placeholder will represent the number of log messages. It
                will make this webpage a LOT easier to develop and maintain. -->
-
-            <asp:table runat="server" id="log_formats_">
-              <asp:tableheaderrow>
-                <asp:tableheadercell>Prefix</asp:tableheadercell>
-                <asp:tableheadercell>Log Format</asp:tableheadercell>
-                <asp:tableheadercell>Relation</asp:tableheadercell>
-              </asp:tableheaderrow>
-            </asp:table>
-
-            <p><asp:linkbutton runat="server" id="more_log_formats_" text="I need more log formats"
-                               onclick="onclick_more_log_formats" /></p>
+            <cuts:logformattable runat="server" id="log_format_table_"
+                                 enableviewstate="true" />
 
             <!--
               required evaluation for the unit test

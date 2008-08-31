@@ -44,6 +44,11 @@ namespace CUTS
      */
     private CUTS.Master master_;
 
+    private MySqlConnection conn_ =
+      new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
+
+    private CUTS.Data.UnitTestEvaluator evaluator_;
+
     public int TestNumber
     {
       get { return this.test_number_; }
@@ -73,16 +78,14 @@ namespace CUTS
      */
     private void Page_Load (object sender, System.EventArgs e)
     {
-      MySqlConnection conn = new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
+      this.evaluator_ =
+        new CUTS.Data.UnitTestEvaluator (conn_, new CUTS.Data.MySqlDataAdapterFactory ());
 
       try
       {
-        // Open the connection to the database.
-        conn.Open ();
-
         // Create a new database object for this page.
         this.database_ =
-          new CUTS.Data.Database (conn, new CUTS.Data.MySqlDataAdapterFactory ());
+          new CUTS.Data.Database (this.conn_, new CUTS.Data.MySqlDataAdapterFactory ());
 
         // Get the test number from the query string.
         String value = Request.QueryString["t"];
@@ -260,15 +263,13 @@ namespace CUTS
       if (dt.Rows.Count < 1)
         return;
 
-      string evaluation = String.Empty;
+      string eval;
 
       foreach (DataRow row in dt.Rows)
       {
+        // Evaluate the unit test.
         DataTable temp =
-          this.uta_.evaluate_unit_test (this.test_number_,
-                                        (int)row["id"],
-                                        true,
-                                        out evaluation);
+          this.evaluator_.evaluate (this.test_number_, (int)row["id"], true, out eval);
 
         // Evaluate
         //DataTable temp =
