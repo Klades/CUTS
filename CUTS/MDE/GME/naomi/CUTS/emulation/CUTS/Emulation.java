@@ -13,6 +13,7 @@
 package CUTS;
 
 import java.util.*;
+import java.util.regex.*;
 import java.io.*;
 import org.fireant.isislab.*;
 
@@ -48,20 +49,20 @@ public class Emulation
     if (this.updateAttributes_)
     {
       // Generate a UUID for the experiment.
-      if (this.testUUID_ == null)
-        this.testUUID_ = UUID.randomUUID ();
+      this.readTestUUID ();
 
-      // Update the UUID in the experiment file.
+      if (this.testUUID_ != null)
+      {
+        // Create the experiment.
+        //ISISLabUtil.createExperiment (this.isislab_, this.exp_);
 
-      // Create the experiment.
-      //ISISLabUtil.createExperiment (this.isislab_, this.exp_);
+        // Swapin the experiment.
+        //if (this.swapin_)
+        //  ISISLabUtil.swapinExperiment (this.isislab_, this.exp_);
 
-      // Swapin the experiment.
-      //if (this.swapin_)
-      //  ISISLabUtil.swapinExperiment (this.isislab_, this.exp_);
-
-      // Write the UUID to the CUTS.test.uuid attribute file.
-      this.writeTestUUID ();
+        // Write the UUID to the CUTS.test.uuid attribute file.
+        this.writeTestUUID ();
+      }
     }
 
     // Lastly, generate the interface file for the model.
@@ -97,6 +98,46 @@ public class Emulation
       out.println ("</interface>");
 
       out.close ();
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace ();
+    }
+  }
+
+  /**
+   *
+   */
+  private void readTestUUID ()
+  {
+    try
+    {
+      String nsfile = (String) this.exp_.get ("nsfile");
+      System.out.println ("Searching for test UUID in " + nsfile);
+
+      FileReader reader = new FileReader (nsfile);
+      BufferedReader buffer = new BufferedReader (reader);
+
+      String regex = new String ("([\\p{Alnum}]{8}-[\\p{Alnum}]{4}-[\\p{Alnum}]{4}-[\\p{Alnum}]{4}-[\\p{Alnum}]{12})");
+      Pattern pattern = Pattern.compile (regex);
+
+      String line;
+
+      while ((line = buffer.readLine ()) != null)
+      {
+        // Run the patter against the current line.
+        Matcher matcher = pattern.matcher (line);
+
+        if (matcher.find ())
+        {
+          // We found the UUID for the test.
+          this.testUUID_ = UUID.fromString (matcher.group (0));
+          break;
+        }
+      }
+
+      // Close the reader.
+      buffer.close ();
     }
     catch (Exception e)
     {

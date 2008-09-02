@@ -3,6 +3,7 @@
 #include "StdAfx.h"
 #include "Isislab_Emulation.h"
 #include "boost/bind.hpp"
+#include "Utils/Utils.h"
 #include <algorithm>
 #include <sstream>
 #include <iostream>
@@ -83,6 +84,13 @@ Visit_Domain (const PICML::Domain & domain)
       << "# Auto-generate NS script" << std::endl
       << "set ns [new Simulator]" << std::endl
       << "source tb_compat.tcl" << std::endl
+      << std::endl;
+
+    // Create the UUID for the emulation.
+    std::string uuid = Utils::CreateUuid ();
+
+    this->outfile_
+      << "set opt(TEST_UUID) \"" << uuid << "\"" << std::endl
       << std::endl;
 
     // Visit all the node in this domain.

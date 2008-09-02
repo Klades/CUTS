@@ -1,3 +1,17 @@
+Tue Sep  2 13:16:32 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/naomi/CUTS/emulation/CUTS/Emulation.java:
+
+          . Updated the emulator connector to search the NS script for the
+            test UUID, and use it to update the CUTS.test.uuid attribute.
+
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.cpp:
+
+          . Updated the CUTS ISISLab interpreter to generate the test UUID
+            as part opt (TEST_UUID) variable. This means the experiment can
+            access it via the environment variables, or thru the options
+            file for the experiment.
+
 Sun Aug 31 15:09:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Data/Properties/AssemblyInfo.cs:
