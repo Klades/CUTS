@@ -1,3 +1,24 @@
+Thu Sep  4 18:52:35 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/UUID.idl
+
+          . Implementation of the UUID in CORBA, which will be used
+            heavily by the CUTS runtime architecture.
+
+        * cuts/Benchmark_Agent_i.h:
+        * cuts/CUTS.idl:
+        * cuts/CUTS.mpc:
+        * cuts/CUTS_CIAO.idl:
+        * cuts/CUTS_CIAO.mpc:
+        * cuts/CUTS_i.h:
+        * cuts/events_i.h:
+        * cuts/performance_i.h:
+
+          . Further seperated the CIAO-specific code from the CUTS
+            CUTS-specific code so developers do not need CIAO to
+            build CUTS. Moreover, this helps increase CIAO portability
+            across multiple technologies.
+
 Thu Sep  4 05:22:43 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/performance.aspx.cs:

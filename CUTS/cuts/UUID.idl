@@ -1,0 +1,44 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ * @file        UUID.idl
+ *
+ * $Id$
+ *
+ * @author      James H. Hill
+ */
+//=============================================================================
+
+#ifndef _CUTS_UUID_IDL_
+#define _CUTS_UUID_IDL_
+
+module CUTS
+{
+  /// Type definition for the last 8-bytes of a UUID.
+  typedef sequence <octet, 8> chunk;
+
+  /**
+   * @struct UUID
+   *
+   * UUID used for identifing a registered EINode. The UUID is
+   * assigned by the DAC and used, instead of a variable string,
+   * to identify the EINode at runtime.
+   */
+  struct UUID
+  {
+    /// 32-bits of data.
+    unsigned long data1;
+
+    /// 16-bits of data.
+    unsigned short data2;
+
+    /// 16-bits of data.
+    unsigned short data3;
+
+    /// 64-bits of data.
+    chunk data4;
+  };
+};
+
+#endif  // !defined _CUTS_UUID_IDL_

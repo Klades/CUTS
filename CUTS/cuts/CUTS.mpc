@@ -1,12 +1,23 @@
 // $Id$
 
-project (CUTS) : cutslib {
+project (CUTS) : portableserver, anytypecode, cutslib {
   sharedname = CUTS
+
+  idlflags += -Wb,export_macro=CUTS_Export \
+              -Wb,export_include=CUTS_export.h \
+              -I $(CUTS_ROOT)
 
   dynamicflags += CUTS_BUILD_DLL
 
   after -= CUTS
   libs  -= CUTS
+
+  IDL_Files {
+    CUTS.idl
+    performance.idl
+    TimeValue.idl
+    UUID.idl
+  }
 
   Header_Files {
     Activation_Record_Log.h
@@ -60,6 +71,11 @@ project (CUTS) : cutslib {
     Worker_Library.cpp
     Worker_Measurement.cpp
     XML_Metrics_Writer.cpp
+
+    // implementation source files
+    Benchmark_Agent_i.cpp
+    CUTS_i.cpp
+    performance_i.cpp
   }
 
   Template_Files {
