@@ -44,8 +44,7 @@ namespace CUTS
      */
     private CUTS.Master master_;
 
-    private MySqlConnection conn_ =
-      new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
+    private MySqlConnection conn_;
 
     private CUTS.Data.UnitTestEvaluator evaluator_;
 
@@ -78,8 +77,11 @@ namespace CUTS
      */
     private void Page_Load (object sender, System.EventArgs e)
     {
+      this.conn_ = new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
+      this.conn_.Open ();
+
       this.evaluator_ =
-        new CUTS.Data.UnitTestEvaluator (conn_, new CUTS.Data.MySqlDataAdapterFactory ());
+        new CUTS.Data.UnitTestEvaluator (this.conn_, new CUTS.Data.MySqlDataAdapterFactory ());
 
       try
       {
@@ -118,6 +120,11 @@ namespace CUTS
       catch (Exception ex)
       {
         this.master_.show_error_message (ex.Message);
+      }
+      finally
+      {
+        if (this.conn_.State == ConnectionState.Open)
+          this.conn_.Close ();
       }
     }
 

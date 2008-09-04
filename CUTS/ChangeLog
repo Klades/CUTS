@@ -1,3 +1,9 @@
+Thu Sep  4 05:22:43 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/performance.aspx.cs:
+
+          . Bug fix where the connection was not open.
+
 Thu Sep  4 04:58:28 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/Web.config:
