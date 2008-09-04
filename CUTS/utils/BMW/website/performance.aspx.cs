@@ -77,14 +77,14 @@ namespace CUTS
      */
     private void Page_Load (object sender, System.EventArgs e)
     {
-      this.conn_ = new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
-      this.conn_.Open ();
-
-      this.evaluator_ =
-        new CUTS.Data.UnitTestEvaluator (this.conn_, new CUTS.Data.MySqlDataAdapterFactory ());
-
       try
       {
+        this.conn_ = new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
+        this.conn_.Open ();
+
+        this.evaluator_ =
+          new CUTS.Data.UnitTestEvaluator (this.conn_, new CUTS.Data.MySqlDataAdapterFactory ());
+
         // Create a new database object for this page.
         this.database_ =
           new CUTS.Data.Database (this.conn_, new CUTS.Data.MySqlDataAdapterFactory ());

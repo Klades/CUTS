@@ -1,3 +1,12 @@
+Thu Sep  4 23:02:14 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/CUTS.mpc:
+        * cuts/UUID.h:
+        * cuts/UUID.cpp:
+
+          . Implemented insertion/extraction operators for
+            serializing/deserializing an ACE_UUID to/from a CUTS::UUID.
+
 Thu Sep  4 19:36:20 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/Benchmark_Data_Collector.idl:

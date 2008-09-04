@@ -562,4 +562,16 @@ BEGIN
       VALUES (utid_in, lfid_in);
 END //
 
+--
+-- PROCEDURE: cuts.select_log_format_variable_details_all
+--
+DROP PROCEDURE IF EXISTS cuts.select_log_format_variable_details_all //
+
+CREATE PROCEDURE cuts.select_log_format_variable_details_all ()
+BEGIN
+  SELECT *, CONCAT('LF', CAST(lfid AS CHAR), '.', varname) AS fq_name
+    FROM cuts.log_format_variables
+    ORDER BY fq_name;
+END //
+
 DELIMITER ;

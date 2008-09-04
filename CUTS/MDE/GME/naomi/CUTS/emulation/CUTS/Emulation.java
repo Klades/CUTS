@@ -145,6 +145,9 @@ public class Emulation
     }
   }
 
+  /**
+   * Writes the test UUID to CUTS.test.uuid NAOMI attribute file.
+   */
   private void writeTestUUID ()
   {
     try
@@ -161,7 +164,7 @@ public class Emulation
       out.println ("           xsi:schemaLocation=\"http://www.atl.lmco.com/naomi/attributes attribute.xsd\">");
       out.println ("  <owner>" + this.owner_ + "</owner>");
       out.println ("  <value>" + this.testUUID_.toString ().toUpperCase () + "</value>");
-      out.println ("  <description>Test UUID for the latest CUTS emulation</description>");
+      out.println ("  <documentation>Test UUID for the latest CUTS emulation</documentation>");
       out.println ("</attribute>");
 
       // Close the attribute file.

@@ -76,6 +76,7 @@ project (CUTS) : portableserver, anytypecode, cutslib {
     Benchmark_Agent_i.cpp
     CUTS_i.cpp
     performance_i.cpp
+    UUID.cpp
   }
 
   Template_Files {
