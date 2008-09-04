@@ -3,8 +3,8 @@
   font-family: Verdana, Helvetica, sans-serif;
   font-size: 11px;
 }
-/* Used mainly on the unittest page, 
-    where there are a lot of buttons 
+/* Used mainly on the unittest page,
+    where there are a lot of buttons
     to manage.  */
 div.button_array, span.button_array
 {
@@ -175,20 +175,12 @@ td.performance-data, th.performance-data
 
 .default_width
 {
-  /* width is just because
-       IE doesnt support min-
-       width yet */
   width: 300px;
-  min-width:300px;
 }
 
 .larger_width
 {
-  /* width is just because
-       IE doesnt support min-
-       width yet */
-    width: 500px;
-    min-width: 500px;
+  width: 500px;
 }
 
 .button

@@ -1,3 +1,35 @@
+Thu Sep  4 04:58:28 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/Web.config:
+        * utils/BMW/website/logformats.aspx.cs:
+        * utils/BMW/website/styles/default.css:
+        * utils/BMW/website/unittest.aspx.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/Relation.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTestEvaluator.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/VariableTable.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/LogFormatTable.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/RelationTable.cs:
+
+          . Next checkpoint of the unit testing page. We are still fixing
+            the control for managing a unit test. Mainly the relation section
+            of the page.
+
+          . Moved the relation table into its own composite control.
+
+        * utils/BMW/assemblies/CUTS.Web/CUTS.Web.mpc:
+
+          . Fixed dependencies with CUTS.Data.
+
+
+        * utils/BMW/website/App_Code/DataBaseActions.cs:
+        * utils/BMW/website/App_Code/LogFormatActions.cs:
+        * utils/BMW/website/App_Code/UnitTestActions.cs:
+
+          . Removed more unnecessary methods
+
+          . Removed all occurrences of the 'static' quanifier.
+
+
 Tue Sep  2 13:16:32 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/naomi/CUTS/emulation/CUTS/Emulation.java:

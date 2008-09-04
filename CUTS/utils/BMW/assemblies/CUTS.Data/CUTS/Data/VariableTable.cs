@@ -192,11 +192,11 @@ namespace CUTS.Data
     {
       // Determine what side of the relation is the filter, and what
       // side is the target values for the filter.
-      string[] filter_column_names =
-        rhs_filter ? relation.rhs : relation.lhs;
+      object[] filter_column_names =
+        rhs_filter ? relation.RightValues : relation.LeftValues;
 
-      string[] target_column_names =
-        rhs_filter ? relation.lhs : relation.rhs;
+      object[] target_column_names =
+        rhs_filter ? relation.LeftValues : relation.RightValues;
 
       // Create a filter for each of the columns, making sure to insert
       // them into a listing for joining.
@@ -204,10 +204,10 @@ namespace CUTS.Data
 
       for (int i = 0; i < filter_column_names.Length; ++i)
       {
-        string filter_column_name = filter_column_names[i];
+        string filter_column_name = (string)filter_column_names[i];
         string column_filter = String.Format ("({0} = ", filter_column_name);
 
-        string target_column_name = target_column_names[i];
+        string target_column_name = (string)target_column_names[i];
         object target_value = variables[target_column_name];
 
         switch (target_value.GetType ().ToString ())

@@ -44,8 +44,6 @@ namespace Actions.UnitTestActions
     private DataBaseActions.DataBaseActions dba_ =
       new DataBaseActions.DataBaseActions (ConfigurationManager.AppSettings["MySQL"]);
 
-    private DataSetActions dsa = null;
-
     /**
      * Used to insert a brand new unit test. Uses SQL procedure
      *   insert_unit_test.
@@ -401,25 +399,6 @@ namespace Actions.UnitTestActions
       comm.Parameters.AddWithValue ("?pid", package_id);
       DataRow dr = this.dba_.execute_mysql_row (comm);
       return dr;
-    }
-
-    /**
-     * This was used in conjunction with preload_unit_test
-     *   to remove all of the tables that would have been
-     *   created with the evaluation of a unit test. This function
-     *   is probably outdated with the new back-end, and needs to
-     *   be safely removed.
-     *
-     * @param[in]  utid  The id of the unit test that was evaluated.
-     */
-    private void unload_unit_test (int utid)
-    {
-      if (dsa == null)
-        dsa = new DataSetActions (this.dba_, utid);
-
-      Array LFIDs = LogFormatActions.LogFormatActions.get_log_format_ids (utid);
-      foreach (int CurrentLFID in LFIDs)
-        dsa.remove_table ("LF" + CurrentLFID.ToString ());
     }
 
     /**

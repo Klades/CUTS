@@ -23,6 +23,9 @@ namespace CUTS
      */
     private CUTS.Master master_;
 
+    private Actions.LogFormatActions.LogFormatActions actions_ =
+      new Actions.LogFormatActions.LogFormatActions ();
+
     /**
      * Callback method for when the page is loading.
      *
@@ -45,7 +48,7 @@ namespace CUTS
      */
     private void load_data ()
     {
-      DataTable dt = LogFormatActions.get_all_log_formats ();
+      DataTable dt = this.actions_.get_all_log_formats ();
 
       // Data Bind
       this.log_formats_.DataSource = dt;
@@ -139,10 +142,10 @@ namespace CUTS
         }
 
         // Insert log format into the database.
-        LogFormatActions.insert_log_format (this.log_format_.Text,
-                                    mysql_regex.ToString (),
-                                    csharp_regex.ToString (),
-                                    variables);
+        this.actions_.insert_log_format (this.log_format_.Text,
+                                         mysql_regex.ToString (),
+                                         csharp_regex.ToString (),
+                                         variables);
 
         this.master_.show_info_message ("Successfully created log format: " + this.log_format_.Text);
         this.log_format_.Text = "";
@@ -204,7 +207,7 @@ namespace CUTS
         {
           // Delete the selected log formats from the database.
           int[] ids = (int[])selected.ToArray (typeof (int));
-          LogFormatActions.delete_log_formats (ids);
+          this.actions_.delete_log_formats (ids);
         }
 
         // Show a message to the user.

@@ -49,16 +49,19 @@ namespace CUTS
       this.load_existing_packages ();
       this.load_existing_unit_tests ();
 
-      //// Disable appropriate buttons
-      //this.insert_test_package_.Enabled = false;
-      //this.insert_unit_test_.Enabled = false;
-      //this.remove_test_package_.Enabled = false;
-      //this.remove_unit_test_.Enabled = false;
+      // Select the log formats from the database.
+      DataSet ds = new DataSet ();
 
-      // Load the log formats for the specification page.
-      string sql = "SELECT lfid, lfmt FROM log_formats";
-      DataTable data = this.execute_mysql_adapter (sql);
-      this.log_format_table_.DataSource = data;
+      MySqlDataAdapter adapter = new MySqlDataAdapter ("SELECT lfid, lfmt FROM log_formats", this.conn_);
+      adapter.Fill (ds, "logformats");
+
+      // Select the relations from the database.
+      adapter.SelectCommand.CommandText = "CALL cuts.select_log_format_variable_details_all ()";
+      adapter.Fill (ds, "relations");
+
+      this.log_format_table_.DataSource = ds;
+      this.log_format_table_.DataMemberLogFormats = "logformats";
+      this.log_format_table_.DataMemberRelations = "relations";
       this.log_format_table_.DataBind ();
     }
 
@@ -1146,36 +1149,6 @@ namespace CUTS
       this.unit_test_warn_.Text = String.Empty;
     }
 
-    /**
-     * Safely execute a MySQL statement. This manages the connection
-     * and can throw an Argument Exception indicating what the
-     * sql attempted to execute was.
-     *
-     * @param sql    The statement to be executed.
-     */
-    private DataTable execute_mysql_adapter (string sql)
-    {
-      MySqlConnection conn = new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
-      conn.Open ();
-      MySqlDataAdapter da = new MySqlDataAdapter (sql, conn);
-      DataSet ds = new DataSet ();
-
-      try
-      {
-        da.Fill (ds);
-      }
-      catch
-      {
-        throw new ArgumentException ("The sql executed was : " + sql);
-      }
-      finally
-      {
-        conn.Close ();
-      }
-
-      return ds.Tables[0];
-    }
-
     private string get_mysql_comparison (string comparison)
     {
       // They are used directly in the query
@@ -1200,27 +1173,6 @@ namespace CUTS
       }
     }
 
-    private DropDownList get_lhs_relation (TableCell relation_cell)
-    {
-      return (DropDownList)relation_cell.Controls[1];
-    }
-
-    private DropDownList get_rhs_relation (TableCell relation_cell)
-    {
-      return (DropDownList)relation_cell.Controls[3];
-    }
-
-    private void get_relations (TableRow row, out DropDownList lhs, out DropDownList rhs)
-    {
-      this.get_relations (row.Cells[2], out lhs, out rhs);
-    }
-
-    private void get_relations (TableCell row, out DropDownList lhs, out DropDownList rhs)
-    {
-      lhs = this.get_lhs_relation (row);
-      rhs = this.get_rhs_relation (row);
-    }
-
     private DropDownList get_log_format_control (TableRow row)
     {
       return this.get_log_format_control (row.Cells[1]);
@@ -1234,7 +1186,7 @@ namespace CUTS
     override protected void OnInit (EventArgs e)
     {
       // Initialize the component.
-      InitializeComponent ();
+      this.InitializeComponent ();
 
       // Pass control to the base class.
       base.OnInit (e);

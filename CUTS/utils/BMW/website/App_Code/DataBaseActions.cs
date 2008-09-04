@@ -36,6 +36,13 @@ namespace Actions.DataBaseActions
     public DataBaseActions (string connection_string)
     {
       this.conn_ = new MySqlConnection (connection_string);
+      this.conn_.Open ();
+    }
+
+    ~DataBaseActions ()
+    {
+      if (this.conn_.State == ConnectionState.Open)
+        this.conn_.Close ();
     }
 
     /**

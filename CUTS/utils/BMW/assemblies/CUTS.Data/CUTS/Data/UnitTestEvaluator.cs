@@ -216,7 +216,7 @@ namespace CUTS.Data
             string rhs_eq = (string)equality["rhs"];
 
             // Insert the next equality into the relation.
-            relation.insert_equality (index, lhs_eq, rhs_eq);
+            relation.insert (index, lhs_eq, rhs_eq);
           }
 
           // Store the relation with the source node.

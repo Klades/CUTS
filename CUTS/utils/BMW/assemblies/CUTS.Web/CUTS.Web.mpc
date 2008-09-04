@@ -8,9 +8,12 @@ project (CUTS.Web) {
   lit_libs   = System \
                System.Data \
                System.Web \
-               System.Xml
+               System.Xml \
+               CUTS.Data
 
   requires  += bmw
+
+  after += CUTS.Data
 
   specific {
     keyfile = CUTS.Web.snk
@@ -21,5 +24,6 @@ project (CUTS.Web) {
     Properties/AssemblyInfo.cs
 
     CUTS/Web/UI/UnitTesting/LogFormatTable.cs
+    CUTS/Web/UI/UnitTesting/RelationTable.cs
   }
 }

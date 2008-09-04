@@ -9,12 +9,9 @@ namespace CUTS.Data
   /**
    * @class Relation
    */
+  [Serializable]
   public class Relation
   {
-    private ArrayList lhs_;
-
-    private ArrayList rhs_;
-
     /**
      * Default constructor.
      */
@@ -24,32 +21,72 @@ namespace CUTS.Data
       this.rhs_ = new ArrayList ();
     }
 
-    /**
-     * Initailizing constructor. Initalizes the size of the relation.
-     *
-     * @param[in]       count         Number of elements in relation.
-     */
-    public Relation (int count)
+    public Relation (object lhs, object rhs)
     {
-      this.lhs_ = new ArrayList (count);
-      this.rhs_ = new ArrayList (count);
+      this.lhs_ = new ArrayList ();
+      this.lhs_.Add (lhs);
+
+      this.rhs_ = new ArrayList ();
+      this.rhs_.Add (rhs);
     }
 
-    public void insert_equality (int index, string lhs, string rhs)
+    public void add (object lhs, object rhs)
+    {
+      this.lhs_.Add (lhs);
+      this.rhs_.Add (rhs);
+    }
+
+    public void update (int index, object lhs, object rhs)
+    {
+      this.lhs_[index] = lhs;
+      this.rhs_[index] = rhs;
+    }
+
+    public void insert (int index, object lhs, object rhs)
     {
       this.lhs_.Insert (index, lhs);
       this.rhs_.Insert (index, rhs);
+    }
+
+    public void update_left_value (int index, object value)
+    {
+      this.lhs_[index] = value;
+    }
+
+    public void update_right_value (int index, object value)
+    {
+      this.rhs_[index] = value;
+    }
+
+    /**
+     * Clear the relations object.
+     */
+    public void clear ()
+    {
+      this.lhs_.Clear ();
+      this.rhs_.Clear ();
+    }
+
+    /**
+     * Read-only property for getting the size of the relation.
+     */
+    public int Count
+    {
+      get
+      {
+        return this.lhs_.Count;
+      }
     }
 
     /**
      * Property associated with the values of the left-hand side of
      * the relation.
      */
-    public string[] lhs
+    public object[] LeftValues
     {
       get
       {
-        return (string[])this.lhs_.ToArray (typeof (string));
+        return this.lhs_.ToArray ();
       }
     }
 
@@ -57,12 +94,16 @@ namespace CUTS.Data
      * Property associated with the values of the right-hand side of
      * the relation.
      */
-    public string[] rhs
+    public object[] RightValues
     {
       get
       {
-        return (string[])this.rhs_.ToArray (typeof (string));
+        return this.rhs_.ToArray ();
       }
     }
+
+    private ArrayList lhs_;
+
+    private ArrayList rhs_;
   }
 }
