@@ -1,3 +1,10 @@
+Thu Sep  4 19:36:20 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/Benchmark_Data_Collector.idl:
+
+          . Fixed compilation errors related to seperating CUTS-specific
+            implementation from CIAO-related implementation.
+
 Thu Sep  4 18:52:35 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/UUID.idl

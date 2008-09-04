@@ -13,8 +13,10 @@
 #ifndef _BENCHMARK_DATA_COLLECTOR_IDL_
 #define _BENCHMARK_DATA_COLLECTOR_IDL_
 
+#include "cuts/CUTS_CIAO.idl"
 #include "cuts/CUTS.idl"
 #include "service.idl"
+#include <Components.idl>
 
 module CUTS
 {
