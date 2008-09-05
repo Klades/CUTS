@@ -5,7 +5,7 @@
 //
 // Server_Options
 //
-Server_Options::Server_Options (void)
+CUTS_Node_Daemon_Server_Options::CUTS_Node_Daemon_Server_Options (void)
 {
 
 }
@@ -13,7 +13,7 @@ Server_Options::Server_Options (void)
 //
 // ~Server_Options
 //
-Server_Options::~Server_Options (void)
+CUTS_Node_Daemon_Server_Options::~CUTS_Node_Daemon_Server_Options (void)
 {
 
 }

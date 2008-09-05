@@ -29,8 +29,6 @@ int parse_args (int argc, char * argv[])
   get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
 
-  get_opt.long_option ("shutdown", ACE_Get_Opt::ARG_OPTIONAL);
-
   get_opt.long_option ("task-start-id", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("task-start-executable", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("task-start-arguments", ACE_Get_Opt::ARG_REQUIRED);
@@ -44,16 +42,7 @@ int parse_args (int argc, char * argv[])
     switch (option)
     {
     case 0:
-      if (ACE_OS::strcmp (get_opt.long_option (), "shutdown") == 0)
-      {
-        if (ACE_OS::strcmp (get_opt.opt_arg (), "wait") == 0)
-          CLIENT_OPTIONS ()->shutdown_ = CUTS::SHUTDOWN_WAIT;
-        else if (ACE_OS::strcmp (get_opt.opt_arg (), "nowait") == 0)
-          CLIENT_OPTIONS ()->shutdown_ = CUTS::SHUTDOWN_NOWAIT;
-        else if (ACE_OS::strcmp (get_opt.opt_arg (), "force") == 0)
-          CLIENT_OPTIONS ()->shutdown_ = CUTS::SHUTDOWN_FORCE;
-      }
-      else if (ACE_OS::strcmp (get_opt.long_option (), "task-terminate") == 0)
+      if (ACE_OS::strcmp (get_opt.long_option (), "task-terminate") == 0)
       {
         CLIENT_OPTIONS ()->terminate_list_.insert (get_opt.opt_arg ());
       }
@@ -138,7 +127,7 @@ void terminate_tasks (CUTS::Task_Manager_ptr daemon)
       VERBOSE_MESSAGE ((LM_INFO,
                         "successfully terminated task <%s>\n",
                         (*iter).c_str ()));
-    }                  
+    }
     else
     {
       ACE_ERROR ((LM_ERROR,
@@ -169,10 +158,10 @@ void restart_tasks (CUTS::Task_Manager_ptr daemon)
                       (*iter).c_str ()));
 
     taskname = CORBA::string_dup ((*iter).c_str ());
-   
+
     if (daemon->task_restart (taskname.in ()) == 0)
     {
-      VERBOSE_MESSAGE ((LM_INFO,     
+      VERBOSE_MESSAGE ((LM_INFO,
                         "successfully restarted task <%s>\n",
                         (*iter).c_str ()));
     }
@@ -227,29 +216,18 @@ int main (int argc, char * argv [])
                          1);
     }
 
-    // Shutdown the target node daemon, if necessary.
-    if (CLIENT_OPTIONS ()->shutdown_ != CUTS::SHUTDOWN_INVALID)
+    // Spawn the specified task.
+    if (ACE_OS::strlen (CLIENT_OPTIONS ()->task_start_.id.in ()) != 0 &&
+        ACE_OS::strlen (CLIENT_OPTIONS ()->task_start_.executable.in ()) != 0)
     {
-      VERBOSE_MESSAGE ((LM_DEBUG,
-                        "shutting down target node daemon\n"));
-
-      daemon->shutdown (CLIENT_OPTIONS ()->shutdown_);
+      daemon->task_spawn (CLIENT_OPTIONS ()->task_start_);
     }
-    else
-    {
-      // Spawn the specified task.
-      if (ACE_OS::strlen (CLIENT_OPTIONS ()->task_start_.id.in ()) != 0 &&
-          ACE_OS::strlen (CLIENT_OPTIONS ()->task_start_.executable.in ()) != 0)
-      {
-        daemon->task_spawn (CLIENT_OPTIONS ()->task_start_);
-      }
 
-      // Terminate all the specified tasks.
-      terminate_tasks (daemon.in ());
+    // Terminate all the specified tasks.
+    terminate_tasks (daemon.in ());
 
-      // Restart all the specified tasks.
-      restart_tasks (daemon.in ());
-    }
+    // Restart all the specified tasks.
+    restart_tasks (daemon.in ());
 
     // Destroy the ORB.
     VERBOSE_MESSAGE ((LM_DEBUG, "destroying the ORB\n"));

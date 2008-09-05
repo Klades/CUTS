@@ -28,24 +28,6 @@ module CUTS
     string workingdirectory;
   };
 
-  enum Shutdown_Option
-  {
-    /// Invalid shutdown option.
-    SHUTDOWN_INVALID,
-
-    /// Shutdown the server without waiting on the 
-    /// process to terminate.
-    SHUTDOWN_NOWAIT,
-
-    /// Shutdown the server and force all of its tasks
-    /// to terminate.
-    SHUTDOWN_FORCE,
-
-    /// Shutdown the server and wait for all its tasks
-    /// to terminate.
-    SHUTDOWN_WAIT
-  };
-
   /**
    * @class Task_Manager
    *
@@ -78,7 +60,7 @@ module CUTS
 
     /**
      * Restart an existing task. This is the equivalent of invoking
-     * task_terminate () and then task_spawn () in order. If the 
+     * task_terminate () and then task_spawn () in order. If the
      * specified task does not exist, nothing happens.
      *
      * @param[in]     name        Name of the task.
@@ -94,16 +76,7 @@ module CUTS
      * @retval        0           Successfully retrieve info.
      * @retval        -1          Failed to retrieve info.
      */
-    unsigned long task_info (in string name,
-                             out taskDescriptor info);
-
-    /**
-     * Shutdown the task manager.
-     *
-     * @param[in]     kill_tasks  Kill the owned tasks/processes. This
-     *                            does not gracefully terminate the tasks.
-     */
-    void shutdown (in Shutdown_Option opt);
+    unsigned long task_info (in string name, out taskDescriptor info);
   };
 };
 

@@ -33,7 +33,7 @@
 CUTS_Node_Daemon_i::CUTS_Node_Daemon_i (CORBA::ORB_ptr orb)
   : event_handler_ (*this),
     timer_ (-1),
-    orb_ (orb),
+    orb_ (CORBA::ORB::_duplicate (orb)),
     active_ (true)
 {
   this->init ();
@@ -122,13 +122,13 @@ task_spawn (const CUTS::taskDescriptor & task)
   {
     // We need to set the working directory for the process
     // if it was specified as a command-line option.
-    if (!SERVER_OPTIONS ()->init_dir_.empty ())
+    if (!this->init_dir_.empty ())
     {
       ACE_DEBUG ((LM_INFO,
                   "%T - %M - setting working directory to %s\n",
-                  SERVER_OPTIONS ()->init_dir_.c_str ()));
+                  this->init_dir_.c_str ()));
 
-      info->options_.working_directory (SERVER_OPTIONS ()->init_dir_.c_str ());
+      info->options_.working_directory (this->init_dir_.c_str ());
     }
   }
 
@@ -472,57 +472,6 @@ void CUTS_Node_Daemon_i::clean (void)
   //                  "*** info (node daemon): %s the log file [active=%u]\n",
   //                  retval ? "successfully cleaned" : "failed to clean",
   //                  active_count));
-}
-
-//
-// shutdown
-//
-void CUTS_Node_Daemon_i::shutdown (CUTS::Shutdown_Option opt)
-{
-  // @@ We should have a flag specifying how to shutdown,
-  // e.g., force|nowait|wait
-  this->active_ = false;
-
-  ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - shutting down the daemon\n"));
-
-  switch (opt)
-  {
-  case CUTS::SHUTDOWN_NOWAIT:
-    // Do nothing.
-    break;
-
-  case CUTS::SHUTDOWN_WAIT:
-    // Wait for all the process to terminate.
-    this->pm_.wait ();
-    break;
-
-  case CUTS::SHUTDOWN_FORCE:
-    {
-      // Gather all the task. We can't remove task from the process
-      // manager and use an iterator. Otherwise, we may have a
-      // collection with an unpreditable state.
-      ACE_Unbounded_Set <CUTS_Process_Info *> tasklist;
-
-      do
-      {
-        ACE_READ_GUARD (ACE_RW_Thread_Mutex, guard, this->process_map_.mutex ());
-        Process_Map::ITERATOR iter (this->process_map_);
-
-        for ( ; !iter.done (); iter.advance ())
-          tasklist.insert (iter->item ());
-      } while (0);
-
-      ACE_Unbounded_Set <CUTS_Process_Info *>::iterator iter (tasklist);
-
-      for ( ; !iter.done (); iter ++)
-        this->task_terminate_i (*(*iter), true);
-    }
-    break;
-  }
-
-  // Shutdown the ORB.
-  this->orb_->shutdown ();
 }
 
 //

@@ -77,8 +77,7 @@ public:
    */
   virtual CORBA::ULong task_restart (const char * name);
 
-  /// Shutdown the node daemon server.
-  virtual void shutdown (CUTS::Shutdown_Option opt);
+  void initial_directory (const ACE_CString & dir);
 
 private:
   /// Recover as many processes as possible.
@@ -130,6 +129,9 @@ private:
 
   /// The active state of the daemon.
   bool active_;
+
+  /// Initial directory for spawned processes.
+  ACE_CString init_dir_;
 };
 
 #if defined (__CUTS_INLINE__)

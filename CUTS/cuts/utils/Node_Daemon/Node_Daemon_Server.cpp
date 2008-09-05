@@ -1,33 +1,19 @@
-// -*- C++ -*-
+// $Id$
 
-//=============================================================================
-/**
- * @file        Node_Daemon_Server.cpp
- *
- * $Id$
- *
- * @author      James H. Hill
- */
-//=============================================================================
-
-#include "Node_Daemon_i.h"
-#include "Server_Options.h"
+#include "Node_Daemon_Server.h"
 #include "cutsnode.h"
 
 #include "tao/IORTable/IORTable.h"
 
 #include "ace/Get_Opt.h"
 #include "ace/OS_NS_unistd.h"
-#include "ace/Process_Mutex.h"
 #include "ace/streams.h"
 #include "ace/Env_Value_T.h"
 
 #include "XSCRT/utils/File_Reader_T.h"
 #include "XSCRT/utils/XML_Schema_Resolver_T.h"
 
-static CUTS_Node_Daemon_i * daemon_i = 0;
-
-const char * help =
+static const char * __HELP__ =
 "CUTS node manager for remotely invoking task on target \n"
 "\n"
 "USAGE: cutsnode_d [OPTIONS]\n"
@@ -42,35 +28,96 @@ const char * help =
 "  -h, --help                    print this help message\n";
 
 //
-// server_sighandler
+// CUTS_Node_Daemon_Server
 //
-static void server_sighandler (int sig)
+CUTS_Node_Daemon_Server::CUTS_Node_Daemon_Server (void)
+: daemon_ (0)
 {
-  daemon_i->shutdown (CUTS::SHUTDOWN_NOWAIT);
-  ACE_UNUSED_ARG (sig);
+
 }
 
 //
-// register_sighandler
+// ~CUTS_Node_Daemon_Server
 //
-static void register_sighandler (void)
+CUTS_Node_Daemon_Server::~CUTS_Node_Daemon_Server (void)
 {
-  ACE_Sig_Action sa (&server_sighandler);
 
-  sa.register_action (SIGINT);
-  sa.register_action (SIGTERM);
 }
 
-static void print_help (void)
+//
+// run
+//
+int CUTS_Node_Daemon_Server::run_main (int argc, char * argv [])
 {
-  std::cerr << help << std::endl;
-  ACE_OS::exit (EXIT_SUCCESS);
+  try
+  {
+    // Initialize the ORB
+    this->orb_ = ::CORBA::ORB_init (argc, argv);
+
+    // Parse the remaining arguments.
+    if (this->parse_args (argc, argv) == -1)
+      return 1;
+
+    // Get a reference to the RootPOA.
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - resolving initial reference to RootPOA\n"));
+
+    CORBA::Object_var obj = this->orb_->resolve_initial_references ("RootPOA");
+    PortableServer::POA_var poa = PortableServer::POA::_narrow (obj.in ());
+
+    // Activate the POAManager
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - getting reference to POAManager\n"));
+
+    PortableServer::POAManager_var mgr = poa->the_POAManager ();
+    mgr->activate ();
+
+    // Create the servant for the node daemon.
+    ACE_DEBUG ((LM_DEBUG, "%T - %M - creating the node daemon server\n"));
+    ACE_NEW_RETURN (this->daemon_, CUTS_Node_Daemon_i (this->orb_), 1);
+
+    // Setup the servant before activate it.
+    this->daemon_->initial_directory (this->opts_.init_dir_);
+    this->load_initial_config ();
+
+    // Activate the <CUTS::Node_Daemon> and write it's IOR to file.
+    CUTS::Task_Manager_var daemon = this->daemon_->_this ();
+    this->servant_ = this->daemon_;
+
+    // Export the reference to the servant's IOR
+    this->write_ior_to_file ();
+    this->write_ior_to_table ();
+
+    // Run the ORB's main event loop.
+    ACE_DEBUG ((LM_DEBUG, "%T - %M - running ORB's main event loop\n"));
+    this->orb_->run ();
+
+    // Destroy the RootPOA.
+    ACE_DEBUG ((LM_DEBUG, "%T - %M - destroying the RootPOA\n"));
+    poa->destroy (1, 1);
+
+    // Destroy the ORB.
+    ACE_DEBUG ((LM_DEBUG, "%T - %M - destroying the ORB\n"));
+    this->orb_->destroy ();
+    return 0;
+  }
+  catch (const ::CORBA::Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - %s\n",
+                ex._info ().c_str ()));
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - caught unknown exception\n"));
+  }
 }
 
 //
 // parse_args
 //
-int parse_args (int argc, char * argv [])
+int CUTS_Node_Daemon_Server::parse_args (int argc, char * argv [])
 {
   // Setup the <ACE_Get_Opt> variable.
   const char * opts = "c:vo:d:";
@@ -93,11 +140,11 @@ int parse_args (int argc, char * argv [])
     case 0:
       if (ACE_OS::strcmp (get_opt.long_option (), "working-directory") == 0)
       {
-        SERVER_OPTIONS ()->init_dir_ = get_opt.opt_arg ();
+        this->opts_.init_dir_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "ior-file") == 0)
       {
-        SERVER_OPTIONS ()->ior_file_ = get_opt.opt_arg ();
+        this->opts_.ior_file_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "verbose") == 0)
       {
@@ -119,28 +166,30 @@ int parse_args (int argc, char * argv [])
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "config") == 0)
       {
-        SERVER_OPTIONS ()->config_ = get_opt.opt_arg ();
+        this->opts_.config_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
       {
-        print_help ();
+        std::cout << __HELP__ << std::endl;
+        ACE_OS::exit (0);
       }
       break;
 
     case 'c':
-      SERVER_OPTIONS ()->config_ = get_opt.opt_arg ();
+      this->opts_.config_ = get_opt.opt_arg ();
       break;
 
     case 'd':
-      SERVER_OPTIONS ()->init_dir_ = get_opt.opt_arg ();
+      this->opts_.init_dir_ = get_opt.opt_arg ();
       break;
 
     case 'o':
-      SERVER_OPTIONS ()->ior_file_ = get_opt.opt_arg ();
+      this->opts_.ior_file_ = get_opt.opt_arg ();
       break;
 
     case 'h':
-      print_help ();
+      std::cout << __HELP__ << std::endl;
+      ACE_OS::exit (0);
       break;
 
     case 'v':
@@ -174,10 +223,21 @@ int parse_args (int argc, char * argv [])
 }
 
 //
+// shutdown
+//
+void CUTS_Node_Daemon_Server::shutdown (void)
+{
+  this->orb_->shutdown (true);
+}
+
+//
 // load_initial_config
 //
-int load_initial_config (const char * config, CUTS_Node_Daemon_i * daemon)
+int CUTS_Node_Daemon_Server::load_initial_config (void)
 {
+  if (this->opts_.config_.empty ())
+    return 0;
+
   // Get the CUTS_ROOT environment variable value.
   ACE_Env_Value <const char *> CUTS_ROOT ("CUTS_ROOT", "");
 
@@ -240,11 +300,11 @@ int load_initial_config (const char * config, CUTS_Node_Daemon_i * daemon)
     CUTS::nodeConfig node_config;
 
     // Open the default configuration.
-    if (!reader.read (config))
+    if (!reader.read (this->opts_.config_.c_str ()))
     {
       ACE_ERROR_RETURN ((LM_ERROR,
                          "%T - %M - failed to open configuration file [%s]\n",
-                         config),
+                         this->opts_.config_.c_str ()),
                          -1);
     }
 
@@ -277,7 +337,7 @@ int load_initial_config (const char * config, CUTS_Node_Daemon_i * daemon)
                                iter->workingdirectory ().c_str () : "");
 
         // Spawn the new task.
-        daemon->task_spawn (task);
+        this->daemon_->task_spawn (task);
       }
     }
 
@@ -306,32 +366,40 @@ int load_initial_config (const char * config, CUTS_Node_Daemon_i * daemon)
 //
 // write_ior_to_file
 //
-void write_ior_to_file (const char * ior, const char * filename)
+int CUTS_Node_Daemon_Server::write_ior_to_file (void)
 {
+  if (this->opts_.ior_file_.empty ())
+    return 0;
+
   try
   {
     // Open the IOR file for writing.
     std::ofstream iorfile;
-    iorfile.open (filename);
+    iorfile.open (this->opts_.ior_file_.c_str ());
 
     if (iorfile.is_open ())
     {
+      // Convert the servant to a string, or IOR.
+      CORBA::String_var ior = this->orb_->object_to_string (this->daemon_->_this ());
+
       ACE_DEBUG ((LM_DEBUG,
                   "%T - %M - writing node daemon IOR to file %s\n",
-                  SERVER_OPTIONS ()->ior_file_.c_str ()));
+                  this->opts_.ior_file_.c_str ()));
 
       // Write the IOR to the file.
-      iorfile << ior << std::endl;
+      iorfile << ior.in () << std::endl;
       iorfile.close ();
+
+      return 0;
     }
     else
     {
       ACE_DEBUG ((LM_ERROR,
                   "%T - %M - failed to open %s for writing\n",
-                  SERVER_OPTIONS ()->ior_file_.c_str ()));
+                  this->opts_.ior_file_.c_str ()));
     }
   }
-  catch (CORBA::Exception & ex)
+  catch (const CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 "%T - %M - %s\n",
@@ -342,116 +410,31 @@ void write_ior_to_file (const char * ior, const char * filename)
     ACE_ERROR ((LM_ERROR,
                 "%T - %M - caught unknown exception\n"));
   }
+
+  return -1;
 }
 
 //
-// main
+// write_ior_to_file
 //
-int main (int argc, char * argv [])
+int CUTS_Node_Daemon_Server::write_ior_to_table (void)
 {
-  // Initialize the logging priorities.
-  u_long default_mask =
-    LM_EMERGENCY | LM_ALERT | LM_CRITICAL | LM_ERROR | LM_WARNING | LM_NOTICE;
-
-  ACE_Log_Msg::instance ()->priority_mask (default_mask, ACE_Log_Msg::PROCESS);
-
-  // We only allow one instance of the daemon to run at a
-  // time. This way we don't have any confusion as to which
-  // one we are talking to.
-  ACE_Process_Mutex process_lock ("cutsnode_d");
-  ACE_Guard <ACE_Process_Mutex> guard (process_lock, 0);
-
-  if (guard.locked () == 0)
-  {
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T - %M - cutsnode_d is already active\n"),
-                       1);
-  }
-
-  // Register the signal handler.
-  register_sighandler ();
-
   try
   {
-    // Initalize the ORB
-    ::CORBA::ORB_var orb = ::CORBA::ORB_init (argc, argv);
+    // Locate the IORTable for the ORB.
+    CORBA::Object_var obj = this->orb_->resolve_initial_references ("IORTable");
+    IORTable::Table_var ior_table = IORTable::Table::_narrow (obj.in ());
 
-    if (parse_args (argc, argv) == -1)
-      return 1;
+    // Convert the servant to a string, or IOR.
+    CORBA::String_var ior = this->orb_->object_to_string (this->daemon_->_this ());
 
-    // Get a reference to the <IORTable>.
     ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - resolving initial reference to IOR table\n"));
+                "%T - %M - writing node daemon IOR to IORTable\n"));
 
-    ::CORBA::Object_var obj = orb->resolve_initial_references ("IORTable");
-    ::IORTable::Table_var ior_table = ::IORTable::Table::_narrow (obj.in ());
-
-    if (::CORBA::is_nil (ior_table.in ()))
-    {
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T - %M - failed to resolve IOR table\n"),
-                         1);
-    }
-
-    // Get a reference to the <RootPOA>
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - resolving initial reference to RootPOA\n"));
-
-    obj = orb->resolve_initial_references ("RootPOA");
-    PortableServer::POA_var poa = PortableServer::POA::_narrow (obj.in ());
-
-    // Activate the POAManager
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - getting reference to POAManager\n"));
-
-    PortableServer::POAManager_var mgr = poa->the_POAManager ();
-    mgr->activate ();
-
-    // Create a <CUTS::Node_Daemon>
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - creating the node daemon server\n"));
-
-    ACE_NEW_RETURN (daemon_i,
-      CUTS_Node_Daemon_i (::CORBA::ORB::_duplicate (orb.in ())), 1);
-
-    // Activate the <CUTS::Node_Daemon> and write it's IOR to file.
-    CUTS::Task_Manager_var daemon = daemon_i->_this ();
-    ::PortableServer::ServantBase_var servant = daemon_i;
-
-      // Convert the object to its string format and write the
-      // IOR to file and to the IOR table.
-    ::CORBA::String_var objstr = orb->object_to_string (daemon);
-    ior_table->bind ("CUTS/NodeDaemon", objstr.in ());
-
-    if (!SERVER_OPTIONS ()->ior_file_.empty ())
-    {
-      write_ior_to_file (objstr.in (),
-                         SERVER_OPTIONS ()->ior_file_.c_str ());
-    }
-
-    // Load the initial configuration.
-    if (!SERVER_OPTIONS ()->config_.empty ())
-      load_initial_config (SERVER_OPTIONS ()->config_.c_str (), daemon_i);
-
-    // Run the ORB...
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - activating node daemon ORB\n"));
-    orb->run ();
-
-    // Destroy the RootPOA.
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - destroying the RootPOA\n"));
-
-    poa->destroy (1, 1);
-
-    // Destroy the ORB.
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - destroying the ORB\n"));
-    orb->destroy ();
-
+    ior_table->bind ("CUTS/NodeDaemon", ior.in ());
     return 0;
   }
-  catch (::CORBA::Exception & ex)
+  catch (const CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 "%T - %M - %s\n",
@@ -463,5 +446,6 @@ int main (int argc, char * argv [])
                 "%T - %M - caught unknown exception\n"));
   }
 
-  return 1;
+  return -1;
 }
+

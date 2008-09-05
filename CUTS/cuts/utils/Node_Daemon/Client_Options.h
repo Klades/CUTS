@@ -14,8 +14,6 @@
 #define _CLIENT_OPTIONS_H_
 
 #include "Node_DaemonC.h"
-#include "ace/Singleton.h"
-#include "ace/Null_Mutex.h"
 #include "ace/SString.h"
 #include "ace/Unbounded_Set.h"
 
@@ -35,9 +33,6 @@ public:
 
   /// Verbose setting for the client.
   bool verbose_;
-
-  /// Signal the node daemon to shutdown.
-  CUTS::Shutdown_Option shutdown_;
 
   /// List of task to terminate.
   ACE_Unbounded_Set <ACE_CString> terminate_list_;

@@ -1,3 +1,31 @@
+Fri Sep  5 05:31:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/CUTS.mpc:
+        * cuts/Property_Map_T.cpp
+        * cuts/Property_Map_T.inl
+        * cuts/Property_Map_T.h
+
+          . Simple wrapper class for the ACE_Hash_Map_Manager for creating
+            a property list, similar to Java. The property list is a basic
+            key -> value pair of strings.
+
+        * cuts/utils/Node_Daemon/Client_Options.h:
+        * cuts/utils/Node_Daemon/Client_Options.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon.idl:
+        * cuts/utils/Node_Daemon/Node_Daemon.mpc:
+        * cuts/utils/Node_Daemon/Node_Daemon_Client.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.inl:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+        * cuts/utils/Node_Daemon/Server_Options.h:
+        * cuts/utils/Node_Daemon/Server_Options.cpp:
+        * cuts/utils/Node_Daemon/cutsnode_d.cpp:
+
+          . Refactored the implementation of the node daemon server so
+            that the code is more flexible and extensible.
+
 Thu Sep  4 23:02:14 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/CUTS.mpc:
