@@ -1,3 +1,11 @@
+Fri Sep  5 17:00:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+
+          . Bug fix where not defining any properties on the command-line
+            resulted in processing entry strings from the properties buffer.
+
 Fri Sep  5 16:17:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/Property_Map_T.h:

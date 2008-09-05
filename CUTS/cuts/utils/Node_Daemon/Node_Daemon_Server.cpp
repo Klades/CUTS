@@ -80,7 +80,9 @@ int CUTS_Node_Daemon_Server::run_main (int argc, char * argv [])
 
     // Setup the servant before activate it.
     this->daemon_->initial_directory (this->opts_.init_dir_);
-    this->daemon_->insert_properties (this->opts_.defines_);
+
+    if (this->opts_.defines_.size () > 0)
+      this->daemon_->insert_properties (this->opts_.defines_);
 
     this->load_initial_config ();
 
@@ -129,7 +131,7 @@ int CUTS_Node_Daemon_Server::parse_args (int argc, char * argv [])
 
   // Setup the long options for the command-line
   get_opt.long_option ("working-directory", 'd', ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("config", 'c', ACE_Get_Opt::NO_ARG);
+  get_opt.long_option ("config", 'c', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("ior-file", 'o', ACE_Get_Opt::ARG_REQUIRED);
 
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
@@ -245,6 +247,10 @@ int CUTS_Node_Daemon_Server::load_initial_config (void)
 {
   if (this->opts_.config_.empty ())
     return 0;
+
+  ACE_DEBUG ((LM_INFO,
+              "%T - %M - loading initial configuration [file=%s]\n",
+              this->opts_.config_.c_str ()));
 
   // Get the CUTS_ROOT environment variable value.
   ACE_Env_Value <const char *> CUTS_ROOT ("CUTS_ROOT", "");

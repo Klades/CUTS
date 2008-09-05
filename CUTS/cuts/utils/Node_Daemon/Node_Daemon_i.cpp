@@ -116,6 +116,10 @@ task_spawn (const CUTS::taskDescriptor & task)
                   task.workingdirectory.in ()));
     }
 
+    ACE_DEBUG ((LM_INFO,
+                "%T - %M - setting working directory to %s\n",
+                cwd.c_str ()));
+
     info->options_.working_directory (cwd.c_str ());
   }
   else
