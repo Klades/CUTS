@@ -1,3 +1,10 @@
+Fri Sep  5 22:11:02 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/emulab/generate-dance-nodemap.sh:
+
+	  . Updated the script so that the first argument in the script
+	    is the port number used for all DAnCE NodeManager bindings.
+
 Fri Sep  5 21:40:33 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/emulab:
