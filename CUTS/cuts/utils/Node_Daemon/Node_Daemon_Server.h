@@ -13,7 +13,7 @@
 #ifndef _CUTS_NODE_DAEMON_SERVER_H_
 #define _CUTS_NODE_DAEMON_SERVER_H_
 
-#include "Server_Options.h"
+#include "Node_Daemon_Server_Options.h"
 #include "Node_Daemon_i.h"
 
 /**

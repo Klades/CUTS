@@ -16,6 +16,9 @@
 #include "Env_Variable_Decoder.h"
 #include "Command_Substitution.h"
 
+// Forward decl.
+template <typename MUTEX> class CUTS_Property_Map_T;
+
 /**
  * @class CUTS_Text_Preprocessor
  *
@@ -26,7 +29,7 @@ class CUTS_Text_Preprocessor
 {
 public:
   /// Default constructor.
-  CUTS_Text_Preprocessor (void);
+  CUTS_Text_Preprocessor (const CUTS_Property_Map_T <ACE_RW_Thread_Mutex> & map);
 
   /// Destructor.
   ~CUTS_Text_Preprocessor (void);

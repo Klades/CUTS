@@ -39,10 +39,11 @@ project (CUTS_Node_Daemon) : boost_base, taoserver, iortable, xscrt, cutsexe {
     Node_Daemon_Event_Handler.cpp
     Node_Daemon_i.cpp
     Node_Daemon_Server.cpp
+    Node_Daemon_Server_Options.cpp
     Process_Info.cpp
     Process_Log.cpp
     Preprocessor.cpp
-    Server_Options.cpp
+    Property_Parser.cpp
 
     cutsnode.cpp
   }

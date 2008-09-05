@@ -1,3 +1,40 @@
+Fri Sep  5 16:17:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/Property_Map_T.h:
+        * cuts/Property_Map_T.inl:
+
+          . Fixed compilation errors.
+
+          . Implemented begin () and end () iterator, size (), and
+            contains () method for accessing atributes about the map.
+
+        * cuts/utils/Node_Daemon/Env_Variable_Decoder.h:
+        * cuts/utils/Node_Daemon/Env_Variable_Decoder.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon.mpc:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server_Options.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server_Options.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+        * cuts/utils/Node_Daemon/Preprocessor.h:
+        * cuts/utils/Node_Daemon/Preprocessor.cpp:
+        * cuts/utils/Node_Daemon/Property_Parser.h:
+        * cuts/utils/Node_Daemon/Property_Parser.cpp:
+
+          . It is now possible to define 'properties' via the command line
+            using the command-line argument -D. These properties will be used
+            during variable substition.
+
+            Moreover, the order for resolving variable substitution is to first
+            check the user-defined properties, then fallback to environment
+            variables.
+
+        * cuts/utils/Node_Daemon/Server_Options.h:
+        * cuts/utils/Node_Daemon/Server_Options.cpp:
+
+          Removed these files.
+
 Fri Sep  5 05:31:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/CUTS.mpc:

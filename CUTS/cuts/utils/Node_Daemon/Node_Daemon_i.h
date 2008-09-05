@@ -13,9 +13,11 @@
 #ifndef _CUTS_NODE_DAEMON_I_H_
 #define _CUTS_NODE_DAEMON_I_H_
 
-#include "cuts/config.h"
 #include "Node_DaemonS.h"
 #include "Node_Daemon_Event_Handler.h"
+
+#include "cuts/Property_Map_T.h"
+
 #include "ace/Hash_Map_Manager_T.h"
 #include "ace/Process_Manager.h"
 #include "ace/RW_Thread_Mutex.h"
@@ -23,16 +25,14 @@
 #include "ace/Timer_Heap.h"
 #include "ace/Timer_Queue_Adapters.h"
 
+// Forward decl.
 class CUTS_Process_Info;
 
-//===========================================================================
 /**
   * @class CUTS_Node_Daemon_i
   *
   * Main implementation of the Task_Manager interface.
   */
-//===========================================================================
-
 class CUTS_Node_Daemon_i :
   public virtual POA_CUTS::Task_Manager
 {
@@ -59,8 +59,8 @@ public:
    *
    * @param[in]     name      Name of the task.
    */
-  virtual CORBA::ULong task_terminate (const char * name,
-                                       CORBA::Boolean wait);
+  virtual CORBA::ULong
+    task_terminate (const char * name, CORBA::Boolean wait);
 
   /**
    * Kill a node in the task manager.
@@ -78,6 +78,8 @@ public:
   virtual CORBA::ULong task_restart (const char * name);
 
   void initial_directory (const ACE_CString & dir);
+
+  void insert_properties (const ACE_Array <ACE_CString> & props);
 
 private:
   /// Recover as many processes as possible.
@@ -132,6 +134,9 @@ private:
 
   /// Initial directory for spawned processes.
   ACE_CString init_dir_;
+
+  /// Property map for the node daemon.
+  CUTS_Property_Map_T <ACE_RW_Thread_Mutex> prop_map_;
 };
 
 #if defined (__CUTS_INLINE__)

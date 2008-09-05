@@ -9,8 +9,8 @@
 #include "Active_Process.h"
 #include "Process_Info.h"
 #include "Process_Log.h"
-#include "Server_Options.h"
 #include "Preprocessor.h"
+#include "Property_Parser.h"
 
 #include "ace/INET_Addr.h"
 #include "ace/Null_Mutex.h"
@@ -79,7 +79,7 @@ task_spawn (const CUTS::taskDescriptor & task)
 
   // Decode the environment variable in the executable and arguments
   // member of the task descriptor.
-  CUTS_Text_Preprocessor preprocessor;
+  CUTS_Text_Preprocessor preprocessor (this->prop_map_);
   ACE_CString exec_value, args_value;
 
   if (preprocessor.evaluate (task.executable.in (), exec_value) != 0)
@@ -527,4 +527,26 @@ task_spawn_i (CUTS_Process_Info & info)
   }
 
   return 0;
+}
+
+//
+// insert_properties
+//
+void CUTS_Node_Daemon_i::
+insert_properties (const ACE_Array <ACE_CString> & props)
+{
+  ACE_Array <ACE_CString>::
+    const_iterator iter = props.begin (), iter_end = props.end ();
+
+  CUTS_Property_Parser parser (this->prop_map_);
+
+  for (; iter != iter_end; ++ iter)
+  {
+    if (!parser.parse (iter->c_str ()))
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - failed to parse property '%s'\n",
+                  iter->c_str ()));
+    }
+  }
 }

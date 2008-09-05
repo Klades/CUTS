@@ -23,8 +23,10 @@ namespace actors
      *
      * @param[out]         str         Target string
      */
-    append_env (std::ostringstream & ostr)
-      : ostr_ (ostr)
+    append_env (std::ostringstream & ostr,
+                const CUTS_Property_Map_T <ACE_RW_Thread_Mutex> & prop_map)
+      : ostr_ (ostr),
+        prop_map_ (prop_map)
     {
 
     }
@@ -38,30 +40,42 @@ namespace actors
     template <typename IteratorT>
     void operator () (IteratorT begin, IteratorT end) const
     {
-      // Get the value of the environment variable.
       std::string str (begin, end);
-      char * value = ACE_OS::getenv (str.c_str ());
+      ACE_CString value;
 
-      // If the environment variable was found, then we should append
-      // that value. Otherwise, we need to append the original environment
-      // variable.
-      if (value != 0)
+      // First, search the property map for the variable.
+      if (this->prop_map_.get (str.c_str (), value) == 0)
       {
         this->ostr_ << value;
       }
       else
       {
-        ACE_ERROR ((LM_WARNING,
-                    "%T - %M - environment variable %s is not defined\n",
-                    str.c_str ()));
+        // Search for the value in the environment variables.
+        char * val = ACE_OS::getenv (str.c_str ());
 
-        this->ostr_ << "${" << str << "}";
+        // If the environment variable was found, then we should append
+        // that value. Otherwise, we need to append the original environment
+        // variable.
+        if (val != 0)
+        {
+          this->ostr_ << val;
+        }
+        else
+        {
+          ACE_ERROR ((LM_WARNING,
+                      "%T - %M - environment variable %s is not defined\n",
+                      str.c_str ()));
+
+          this->ostr_ << "${" << str << "}";
+        }
       }
     }
-
   private:
     // Target stream for appending.
     std::ostringstream & ostr_;
+
+    /// Property map for the appender.
+    const CUTS_Property_Map_T <ACE_RW_Thread_Mutex> & prop_map_;
   };
 
   /**
@@ -102,8 +116,10 @@ class Env_Variable_Decoder :
 {
 public:
   /// Default constructor.
-  Env_Variable_Decoder (std::ostringstream & ostr)
-    : ostr_ (ostr)
+  Env_Variable_Decoder (std::ostringstream & ostr,
+                        const CUTS_Property_Map_T <ACE_RW_Thread_Mutex> & map)
+    : ostr_ (ostr),
+      prop_map_ (map)
   {
 
   }
@@ -132,7 +148,8 @@ public:
 
       this->env_var_ =
         boost::spirit::lexeme_d [
-          boost::spirit::str_p ("${") >> this->var_name_[actors::append_env (self.ostr_)] >> '}'];
+          boost::spirit::str_p ("${") >>
+            this->var_name_[actors::append_env (self.ostr_, self.prop_map_)] >> '}'];
 
       this->content_ =
         this->text_ [actors::append_str (self.ostr_)] >>
@@ -166,6 +183,9 @@ public:
 private:
   /// Location to store the converted string.
   std::ostringstream & ostr_;
+
+  /// Property map used by the decoder.
+  const CUTS_Property_Map_T <ACE_RW_Thread_Mutex> & prop_map_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -174,7 +194,9 @@ private:
 //
 // CUTS_Env_Variable_Decorder
 //
-CUTS_Env_Variable_Decorder::CUTS_Env_Variable_Decorder (void)
+CUTS_Env_Variable_Decorder::
+CUTS_Env_Variable_Decorder (const CUTS_Property_Map_T <ACE_RW_Thread_Mutex> & map)
+: prop_map_ (map)
 {
 
 }
@@ -195,7 +217,7 @@ expand (const char * str, ACE_CString & value)
 {
   // Create a new decoder for the string.
   std::ostringstream ostr;
-  Env_Variable_Decoder decoder (ostr);
+  Env_Variable_Decoder decoder (ostr, this->prop_map_);
 
   // Parse the string using the decoder grammar.
   boost::spirit::parse_info < > info = boost::spirit::parse (str, decoder);

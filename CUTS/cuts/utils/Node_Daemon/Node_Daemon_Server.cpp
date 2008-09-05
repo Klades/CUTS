@@ -19,13 +19,15 @@ static const char * __HELP__ =
 "USAGE: cutsnode_d [OPTIONS]\n"
 "\n"
 "Options:\n"
-"  -d, --working-directory=DIR   working directory for the daemon\n"
-"  -c, --config=FILE             initial configuration file\n"
-"  -o, --ior-file=NAME           output file for IOR\n"
+"  -d, --working-directory=DIR        working directory for the daemon\n"
+"  -c, --config=FILE                  initial configuration file\n"
+"  -o, --ior-file=NAME                output file for IOR\n"
 "\n"
-"  -v, --verbose                 print verbose infomration\n"
-"  --debug                       print debugging information\n"
-"  -h, --help                    print this help message\n";
+"  -D NAME=VALUE                      define property NAME=VALUE\n"
+"\n"
+"  -v, --verbose                      print verbose infomration\n"
+"  --debug                            print debugging information\n"
+"  -h, --help                         print this help message\n";
 
 //
 // CUTS_Node_Daemon_Server
@@ -78,6 +80,8 @@ int CUTS_Node_Daemon_Server::run_main (int argc, char * argv [])
 
     // Setup the servant before activate it.
     this->daemon_->initial_directory (this->opts_.init_dir_);
+    this->daemon_->insert_properties (this->opts_.defines_);
+
     this->load_initial_config ();
 
     // Activate the <CUTS::Node_Daemon> and write it's IOR to file.
@@ -120,7 +124,7 @@ int CUTS_Node_Daemon_Server::run_main (int argc, char * argv [])
 int CUTS_Node_Daemon_Server::parse_args (int argc, char * argv [])
 {
   // Setup the <ACE_Get_Opt> variable.
-  const char * opts = "c:vo:d:";
+  const char * opts = "c:vo:d:D:";
   ACE_Get_Opt get_opt (argc, argv, opts);
 
   // Setup the long options for the command-line
@@ -190,6 +194,10 @@ int CUTS_Node_Daemon_Server::parse_args (int argc, char * argv [])
     case 'h':
       std::cout << __HELP__ << std::endl;
       ACE_OS::exit (0);
+      break;
+
+    case 'D':
+      this->opts_.defines_.push_back (get_opt.opt_arg ());
       break;
 
     case 'v':
