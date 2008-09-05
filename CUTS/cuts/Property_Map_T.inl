@@ -39,7 +39,7 @@ CUTS_INLINE
 int CUTS_Property_Map_T <MUTEX>::
 set (const ACE_CString & key, const ACE_CString & value)
 {
-  this->map_.rebind (key, value);
+  return this->map_.rebind (key, value);
 }
 
 //

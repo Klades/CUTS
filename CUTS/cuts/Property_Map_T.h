@@ -94,10 +94,6 @@ public:
   const_iterator end (void) const;
 
 private:
-  /// Type definition of the internal hash map.
-  typedef
-    ACE_Hash_Map_Manager <ACE_CString, ACE_CString, MUTEX> map_type;
-
   /// Internal hash map of the property list.
   map_type map_;
 };

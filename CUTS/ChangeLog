@@ -1,3 +1,10 @@
+Fri Sep  5 17:27:56 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/Property_Map_T.h:
+        * cuts/Property_Map_T.inl:
+
+	  . Bug fixes related to compilation errors on non-Windows systems.
+
 Fri Sep  5 17:00:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
