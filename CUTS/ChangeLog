@@ -1,9 +1,26 @@
+Fri Sep  5 21:40:33 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/emulab:
+        * etc/emulab/generate-dance-nodemap.sh:
+        * etc/emulab/getenv.sh:
+
+          . Simple script to get environment variables set in Emulab if
+            they are not set during the experiment's swaping. FYI, environment
+            variables for an experiment are defined via the opt () variable
+            in the NS script. For example,
+
+              set opt(TEST_NAME) "Example Test"
+              set opt(NODE_COUNT) 5
+
+            will set the TEST_NAME and NODE_COUNT experiment environment
+            variables, which are defined in /var/emulab/boot/progagents.
+
 Fri Sep  5 17:27:56 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/Property_Map_T.h:
         * cuts/Property_Map_T.inl:
 
-	  . Bug fixes related to compilation errors on non-Windows systems.
+    . Bug fixes related to compilation errors on non-Windows systems.
 
 Fri Sep  5 17:00:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
