@@ -84,6 +84,9 @@
         <File Id="CUTS_PICML.dll" Name="CUTS_PICML.dll"
               Source="$(env.CUTS_ROOT)\lib\CUTS_PICML.dll" DiskId="1" />
 
+        <File Id="CUTS_Isislab_Emulation.dll" Name="CUTS_Isislab_Emulation.dll"
+              Source="$(env.CUTS_ROOT)\lib\CUTS_Isislab_Emulation.dll" DiskId="1" />
+
         <File Id="XERCES_C_2_6.DLL" Name="XERCES-C_2_7.DLL"
               Source="$(env.XERCESCROOT)\bin\xerces-c_2_7.dll" DiskId="1" />
 
@@ -105,6 +108,9 @@
         <!-- GME registry information -->
         <RegistryKey Root="HKLM" Key="SOFTWARE">
           <RegistryKey Key="GME\Components">
+            <!--
+              CUTS code generator interpreter
+              -->
             <RegistryKey Key="CUTS.Interpreter.PICML"
                          Action="createAndRemoveOnUninstall">
               <RegistryValue Name="Description" Type="string"
@@ -115,6 +121,25 @@
                              Value="PICML" Action="write" />
               <RegistryValue Name="Tooltip" Type="string"
                              Value="CUTS interpreter" Action="write" />
+              <RegistryValue Name="Type" Type="integer"
+                            Value="1" Action="write" />
+              <RegistryKey Key="Associated" Action="create">
+                <RegistryValue Name="PICML" Type="string"
+                               Action="write" Value="" />
+              </RegistryKey>
+            </RegistryKey>
+
+            <!--
+              CUTS ISISlab interpreter
+              -->
+            <RegistryKey Key="CUTS.Interpreter.Isislab.Emulation"
+                         Action="createAndRemoveOnUninstall">
+              <RegistryValue Name="Description" Type="string"
+                             Value="CUTS ISISLab emulation interepter" Action="write" />
+              <RegistryValue Name="Paradigm" Type="string"
+                             Value="PICML" Action="write" />
+              <RegistryValue Name="Tooltip" Type="string"
+                             Value="CUTS ISISLab emulation interepter" Action="write" />
               <RegistryValue Name="Type" Type="integer"
                             Value="1" Action="write" />
               <RegistryKey Key="Associated" Action="create">
@@ -135,6 +160,15 @@
               </RegistryKey>
             </RegistryKey>
 
+            <RegistryKey Key="CUTS.Interpreter.Isislab.Emulation"
+                         Action="createAndRemoveOnUninstall">
+              <RegistryValue Type="string" Value="CUTS.Interpreter.Isislab.Emulation" />
+              <RegistryKey Key="CLSID" Action="create">
+                <RegistryValue Type="string"
+                               Value="{CB4182B9-86E9-4580-96DA-2CA0234795BC}" />
+              </RegistryKey>
+            </RegistryKey>
+
             <!-- CLSID registry information -->
             <RegistryKey Key="CLSID">
               <RegistryKey Key="{DD5752C3-12EF-43D0-978C-F5C395D5BF13}"
@@ -148,6 +182,20 @@
 
                 <RegistryKey Key="ProgID" Action="create">
                   <RegistryValue Type="string" Value="CUTS.Interpreter.PICML" />
+                </RegistryKey>
+              </RegistryKey>
+
+              <RegistryKey Key="{CB4182B9-86E9-4580-96DA-2CA0234795BC}"
+                           Action="createAndRemoveOnUninstall">
+                <RegistryValue Type="string"
+                               Value="CUTS.Interpreter.Isislab.Emulation" />
+                <RegistryKey Key="InProcServer32" Action="create">
+                  <RegistryValue Type="string"
+                                Value="[INSTALLDIR]bin\CUTS_Isislab_Emulation.dll.dll" />
+                </RegistryKey>
+
+                <RegistryKey Key="ProgID" Action="create">
+                  <RegistryValue Type="string" Value="CUTS.Interpreter.Isislab.Emulation" />
                 </RegistryKey>
               </RegistryKey>
             </RegistryKey>
