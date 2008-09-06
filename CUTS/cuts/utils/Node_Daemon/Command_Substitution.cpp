@@ -247,10 +247,10 @@ public:
         *(boost::spirit::print_p - '`');
 
       this->command_value_ =
-        (*(boost::spirit::anychar_p - '\`'))[actors::substitute (self.ostr_)];
+        (*(boost::spirit::anychar_p - '`'))[actors::substitute (self.ostr_)];
 
       this->command_ =
-        boost::spirit::confix_p ('`', this->command_value_, '\`');
+        boost::spirit::confix_p ('`', this->command_value_, '`');
 
       this->content_ =
         this->text_ [actors::append (self.ostr_)] >>

@@ -95,7 +95,6 @@ project (CUTS) : portableserver, anytypecode, cutslib {
     ref_t.cpp
     Pending_Op_T.cpp
     Pending_Op_List_T.cpp
-    Property_Map_T.cpp
     Trigger_T.cpp
     Sync_Event_Handler_T.cpp
     Statistics_T.cpp

@@ -1,9 +1,50 @@
+Sat Sep  6 05:38:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Command_Substitution.cpp:
+        * cuts/utils/Node_Daemon/Env_Variable_Decoder.h:
+        * cuts/utils/Node_Daemon/Env_Variable_Decoder.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon.mpc:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+        * cuts/utils/Node_Daemon/Preprocessor.h:
+        * cuts/utils/Node_Daemon/Preprocessor.cpp:
+
+          . Updated the implementaton(s) to use the new CUTS_Common_Utils
+            library for the CUTS_Property_Map class.
+
+        * cuts/CUTS.mpc:
+        * cuts/utils/common:
+        * cuts/utils/common/Common_Utils_export.h:
+        * cuts/utils/common/Property_Map.h:
+        * cuts/utils/common/Property_Map.inl:
+        * cuts/utils/common/Property_Map.cpp:
+        * cuts/utils/common/Property_Map_File.h:
+        * cuts/utils/common/Property_Map_File.inl:
+        * cuts/utils/common/Property_Map_File.cpp:
+        * cuts/utils/common/Property_Parser.h:
+        * cuts/utils/common/Property_Parser.cpp:
+        * cuts/utils/common/Property_Parser_T.cpp:
+        * cuts/utils/common/common.mpc:
+
+          . New project for storing common utility classes. The first
+            class(es) implemented in this project are the
+            CUTS_Property_Map* that were originally dispersed across
+            many different projects.
+
+        * cuts/Property_Map_T.h:
+        * cuts/Property_Map_T.inl:
+        * cuts/Property_Map_T.cpp:
+        * cuts/utils/Node_Daemon/Property_Parser.h:
+        * cuts/utils/Node_Daemon/Property_Parser.cpp:
+
+          . Removed these files.
+
 Fri Sep  5 22:11:02 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/emulab/generate-dance-nodemap.sh:
 
-	  . Updated the script so that the first argument in the script
-	    is the port number used for all DAnCE NodeManager bindings.
+    . Updated the script so that the first argument in the script
+      is the port number used for all DAnCE NodeManager bindings.
 
 Fri Sep  5 21:40:33 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

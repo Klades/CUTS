@@ -3,7 +3,6 @@
 #include "Env_Variable_Decoder.h"
 #include "ace/Log_Msg.h"
 #include "ace/OS_NS_stdlib.h"
-#include "ace/SString.h"
 #include "boost/spirit/core.hpp"
 #include <sstream>
 
@@ -24,7 +23,7 @@ namespace actors
      * @param[out]         str         Target string
      */
     append_env (std::ostringstream & ostr,
-                const CUTS_Property_Map_T <ACE_RW_Thread_Mutex> & prop_map)
+                const CUTS_Property_Map & prop_map)
       : ostr_ (ostr),
         prop_map_ (prop_map)
     {
@@ -75,7 +74,7 @@ namespace actors
     std::ostringstream & ostr_;
 
     /// Property map for the appender.
-    const CUTS_Property_Map_T <ACE_RW_Thread_Mutex> & prop_map_;
+    const CUTS_Property_Map & prop_map_;
   };
 
   /**
@@ -117,7 +116,7 @@ class Env_Variable_Decoder :
 public:
   /// Default constructor.
   Env_Variable_Decoder (std::ostringstream & ostr,
-                        const CUTS_Property_Map_T <ACE_RW_Thread_Mutex> & map)
+                        const CUTS_Property_Map & map)
     : ostr_ (ostr),
       prop_map_ (map)
   {
@@ -185,7 +184,7 @@ private:
   std::ostringstream & ostr_;
 
   /// Property map used by the decoder.
-  const CUTS_Property_Map_T <ACE_RW_Thread_Mutex> & prop_map_;
+  const CUTS_Property_Map & prop_map_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -195,7 +194,7 @@ private:
 // CUTS_Env_Variable_Decorder
 //
 CUTS_Env_Variable_Decorder::
-CUTS_Env_Variable_Decorder (const CUTS_Property_Map_T <ACE_RW_Thread_Mutex> & map)
+CUTS_Env_Variable_Decorder (const CUTS_Property_Map & map)
 : prop_map_ (map)
 {
 

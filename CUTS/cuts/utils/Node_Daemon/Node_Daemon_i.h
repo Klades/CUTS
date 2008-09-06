@@ -15,13 +15,8 @@
 
 #include "Node_DaemonS.h"
 #include "Node_Daemon_Event_Handler.h"
-
-#include "cuts/Property_Map_T.h"
-
-#include "ace/Hash_Map_Manager_T.h"
+#include "cuts/utils/common/Property_Map.h"
 #include "ace/Process_Manager.h"
-#include "ace/RW_Thread_Mutex.h"
-#include "ace/SString.h"
 #include "ace/Timer_Heap.h"
 #include "ace/Timer_Queue_Adapters.h"
 
@@ -136,7 +131,7 @@ private:
   ACE_CString init_dir_;
 
   /// Property map for the node daemon.
-  CUTS_Property_Map_T <ACE_RW_Thread_Mutex> prop_map_;
+  CUTS_Property_Map prop_map_;
 };
 
 #if defined (__CUTS_INLINE__)

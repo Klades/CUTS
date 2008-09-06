@@ -8,7 +8,7 @@
 // CUTS_Text_Preprocessor
 //
 CUTS_Text_Preprocessor::
-CUTS_Text_Preprocessor (const CUTS_Property_Map_T <ACE_RW_Thread_Mutex> & map)
+CUTS_Text_Preprocessor (const CUTS_Property_Map & map)
 : variable_sub_ (map)
 {
 

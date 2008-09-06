@@ -20,7 +20,7 @@ project (CUTS_Node_Daemon_Base) : xsc_cxx {
   }
 }
 
-project (CUTS_Node_Daemon) : boost_base, taoserver, iortable, xscrt, cutsexe {
+project (CUTS_Node_Daemon) : boost_base, taoserver, iortable, xscrt, cuts_common_utils, cutsexe {
   exename = cutsnode_d
 
   after += CUTS_Node_Daemon_Base
@@ -43,8 +43,6 @@ project (CUTS_Node_Daemon) : boost_base, taoserver, iortable, xscrt, cutsexe {
     Process_Info.cpp
     Process_Log.cpp
     Preprocessor.cpp
-    Property_Parser.cpp
-
     cutsnode.cpp
   }
 

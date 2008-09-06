@@ -17,7 +17,7 @@
 #include "Command_Substitution.h"
 
 // Forward decl.
-template <typename MUTEX> class CUTS_Property_Map_T;
+class CUTS_Property_Map;
 
 /**
  * @class CUTS_Text_Preprocessor
@@ -29,7 +29,7 @@ class CUTS_Text_Preprocessor
 {
 public:
   /// Default constructor.
-  CUTS_Text_Preprocessor (const CUTS_Property_Map_T <ACE_RW_Thread_Mutex> & map);
+  CUTS_Text_Preprocessor (const CUTS_Property_Map & map);
 
   /// Destructor.
   ~CUTS_Text_Preprocessor (void);

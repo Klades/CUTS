@@ -13,8 +13,7 @@
 #ifndef _CUTS_ENV_VARIABLE_DECODER_H_
 #define _CUTS_ENV_VARIABLE_DECODER_H_
 
-#include "cuts/Property_Map_T.h"
-#include "ace/RW_Thread_Mutex.h"
+#include "cuts/utils/common/Property_Map.h"
 
 /**
  * @class CUTS_Env_Variable_Decorder
@@ -28,7 +27,7 @@ class CUTS_Env_Variable_Decorder
 {
 public:
   /// Defualt constructor.
-  CUTS_Env_Variable_Decorder (const CUTS_Property_Map_T <ACE_RW_Thread_Mutex> & map);
+  CUTS_Env_Variable_Decorder (const CUTS_Property_Map & map);
 
   /// Destructor
   ~CUTS_Env_Variable_Decorder (void);
@@ -45,7 +44,7 @@ public:
 
 private:
   /// Reference to property map used during substitution
-  const CUTS_Property_Map_T <ACE_RW_Thread_Mutex> & prop_map_;
+  const CUTS_Property_Map & prop_map_;
 };
 
 #endif  // !defined _CUTS_ENV_VARIABLE_DECODER_H_

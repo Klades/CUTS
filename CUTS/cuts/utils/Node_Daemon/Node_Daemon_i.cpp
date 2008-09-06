@@ -10,7 +10,7 @@
 #include "Process_Info.h"
 #include "Process_Log.h"
 #include "Preprocessor.h"
-#include "Property_Parser.h"
+#include "cuts/utils/common/Property_Parser.h"
 
 #include "ace/INET_Addr.h"
 #include "ace/Null_Mutex.h"
