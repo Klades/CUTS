@@ -1,0 +1,17 @@
+// $Id$
+
+project (CUTS_Common_Utils) : boost_base, cutslib {
+  sharedname = CUTS_Common_Utils
+
+  dynamicflags += CUTS_COMMON_UTILS_BUILD_DLL
+
+  Source_Files {
+    Property_Map.cpp
+    Property_Map_File.cpp
+    Property_Parser.cpp
+  }
+
+  Template_Files {
+    Property_Parser_T.cpp
+  }
+}
