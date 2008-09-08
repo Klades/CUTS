@@ -54,7 +54,7 @@ private:
    *
    * Implementation
    */
-  class CUTS_Property_Expander_i :
+  class CUTS_COMMON_UTILS_Export CUTS_Property_Expander_i :
     public boost::spirit::grammar <CUTS_Property_Expander_i>
   {
   public:

@@ -1,0 +1,14 @@
+// $Id$
+
+project (cutstmpl) : boost_base, cuts_common_utils, cutsexe {
+  exename = cutstmpl
+
+  Source_Files {
+    cutstmpl.cpp
+    Template_App.cpp
+  }
+
+  Header_Files {
+    Template_App_Options.h
+  }
+}

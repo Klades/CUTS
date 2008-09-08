@@ -1,3 +1,23 @@
+Mon Sep  8 14:00:15 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/common/Property_Expander.h:
+
+          . Bug fix where the template version of expand () could not access the
+            private implementation. This was resolved by exporting the private
+            class as well.
+
+        * cuts/utils/template:
+        * cuts/utils/template/Template_App.h:
+        * cuts/utils/template/Template_App.cpp:
+        * cuts/utils/template/Template_App_Options.h:
+        * cuts/utils/template/cutstmpl.cpp:
+        * cuts/utils/template/cutstmpl.mpc:
+
+          . First implementation of the template expansion engine for
+            property-based files. The program takes an input file that contains
+            properties, i.e., strings within ${} markers, and expands them to
+            create a useable file.
+
 Mon Sep  8 00:33:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Node_Daemon.mpc:
