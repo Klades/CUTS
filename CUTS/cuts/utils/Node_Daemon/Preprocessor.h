@@ -13,7 +13,7 @@
 #ifndef _CUTS_TEXT_PREPROCESSOR_H_
 #define _CUTS_TEXT_PREPROCESSOR_H_
 
-#include "Env_Variable_Decoder.h"
+#include "cuts/utils/common/Property_Expander.h"
 #include "Command_Substitution.h"
 
 // Forward decl.
@@ -45,7 +45,7 @@ public:
 
 private:
   /// Environment variable substitution engine.
-  CUTS_Env_Variable_Decorder variable_sub_;
+  CUTS_Property_Expander prop_expander_;
 
   /// Command substitution engine.
   CUTS_Command_Substitution command_sub_;

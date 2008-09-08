@@ -35,7 +35,6 @@ project (CUTS_Node_Daemon) : boost_base, taoserver, iortable, xscrt, cuts_common
     Active_Process.cpp
     Command_Substitution.cpp
     cutsnode_d.cpp
-    Env_Variable_Decoder.cpp
     Node_Daemon_Event_Handler.cpp
     Node_Daemon_i.cpp
     Node_Daemon_Server.cpp

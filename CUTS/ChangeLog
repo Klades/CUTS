@@ -1,3 +1,29 @@
+Mon Sep  8 00:33:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Node_Daemon.mpc:
+        * cuts/utils/Node_Daemon/Preprocessor.h:
+        * cuts/utils/Node_Daemon/Preprocessor.cpp:
+        * cuts/utils/common/Property_Expander.h:
+        * cuts/utils/common/Property_Expander.cpp:
+        * cuts/utils/common/Property_Expander_T.cpp:
+        * cuts/utils/common/common.mpc:
+
+          . Moved the property expander from the Node_Daemon project to
+            the common utilities project. This allows the property
+            expander to be reused in other projects.
+
+          . Refactored the expander to accept iterators that point
+            to the buffer to parse.
+
+          . Refactored the expander to accept an ostream as the target
+            output, which means the expander can write to a file (ofsteam),
+            console (iostream), or string buffer (ostringstream).
+
+        * cuts/utils/Node_Daemon/Env_Variable_Decoder.h:
+        * cuts/utils/Node_Daemon/Env_Variable_Decoder.cpp:
+
+          . Removed these files.
+
 Sat Sep  6 23:30:33 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * install/CUTS_PICML.wxs:
