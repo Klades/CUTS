@@ -22,4 +22,4 @@ CUTS_CLASSPATH=${CUTS_ROOT}/lib/cuts.java.jbi.jar:${CUTS_ROOT}/contrib/java/log4
 # execute to CORBA application
 exec ${JAVA_CMD} ${JAVA_OPTS}                                       \
     -classpath ${CUTS_CLASSPATH}:${JBI_CLASSPATH}:${CLASSPATH}      \
-    cuts.java.jbi.utils.RegisterMioType "$@"
+    CUTS.jbi.utils.RegisterMioType "$@"

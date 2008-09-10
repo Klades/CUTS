@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<project name="cuts.java" basedir="." default="cuts.java.jar.build">
+  <property environment="env" />
+
+  <import file="${env.CUTS_ROOT}/etc/ANT/include/cuts.build" />
+  <import file="${env.CUTS_ROOT}/etc/ANT/include/castor.build" />
+
+  <target name="clean"
+          depends="cuts.java.clean" />
+
+  <target name="realclean"
+          depends="cuts.java.realclean" />
+
+  <property name="jarfile" value="cuts.java.jar" />
+
+  <target name="cuts.java.build">
+    <javac srcdir="${cuts.src.dir}/java"
+           debug="true"
+           debuglevel="source,lines"
+           classpath="${contrib.dir}/log4j-1.2.15.jar">
+      <include name="CUTS/*.java" />
+    </javac>
+  </target>
+
+  <target name="cuts.java.jar.build" depends="cuts.java.build">
+    <jar destfile="${cuts.lib.dir}/cuts.java.jar"
+         basedir="${cuts.src.dir}/java">
+
+      <include name="CUTS/*.class" />
+    </jar>
+  </target>
+
+  <target name="cuts.java.clean">
+    <delete>
+      <fileset dir="${cuts.src.dir}/java/"
+               includes="CUTS/*.class" />
+    </delete>
+  </target>
+
+  <target name="cuts.java.realclean" depends="cuts.java.clean">
+    <delete>
+      <fileset dir="${cuts.lib.dir}" includes="${jarfile}" />
+    </delete>
+  </target>
+</project>

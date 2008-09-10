@@ -1,3 +1,104 @@
+Wed Sep 10 03:14:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/jbi/ExecutionManager.bat:
+        * bin/jbi/ExecutionManager.sh:
+        * bin/jbi/NameService.sh:
+        * bin/jbi/NodeManager.bat:
+        * bin/jbi/NodeManager.sh:
+        * bin/jbi/PlanLauncher.bat:
+        * bin/jbi/PlanLauncher.sh:
+        * bin/jbi/RegisterMioType.sh:
+        * bin/jbi/SingleProcess.bat:
+        * bin/jbi/SingleProcess.sh:
+        * cuts/java/CUTS:
+        * cuts/java/CUTS/PeriodicTask.java:
+        * cuts/java/CUTS/ProcessHandler.java:
+        * cuts/java/CUTS/ProcessStreamReader.java:
+        * cuts/java/CUTS/jbi:
+        * cuts/java/CUTS/jbi/JbiShutdownInterface.java:
+        * cuts/java/CUTS/jbi/JbiShutdownThread.java:
+        * cuts/java/CUTS/jbi/client/JbiClient.java:
+        * cuts/java/CUTS/jbi/client/JbiEvent.java:
+        * cuts/java/CUTS/jbi/client/JbiSink.java:
+        * cuts/java/CUTS/jbi/client/JbiSource.java:
+        * cuts/java/CUTS/jbi/deployment/ApplicationProcessImpl.java:
+        * cuts/java/CUTS/jbi/deployment/ApplicationProcessManagerImpl.java:
+        * cuts/java/CUTS/jbi/deployment/DomainApplicationImpl.java:
+        * cuts/java/CUTS/jbi/deployment/DomainApplicationManagerImpl.java:
+        * cuts/java/CUTS/jbi/deployment/ExecutionManagerImpl.java:
+        * cuts/java/CUTS/jbi/deployment/JbiClientApp.java:
+        * cuts/java/CUTS/jbi/deployment/JbiExecutionManager.java:
+        * cuts/java/CUTS/jbi/deployment/JbiNodeManager.java:
+        * cuts/java/CUTS/jbi/deployment/JbiPlanLauncher.java:
+        * cuts/java/CUTS/jbi/deployment/NodeApplicationImpl.java:
+        * cuts/java/CUTS/jbi/deployment/NodeApplicationManagerImpl.java:
+        * cuts/java/CUTS/jbi/deployment/NodeManagerImpl.java:
+        * cuts/java/CUTS/jbi/idl/Application.idl:
+        * cuts/java/CUTS/jbi/idl/ApplicationManager.idl:
+        * cuts/java/CUTS/jbi/idl/ApplicationProcess.idl:
+        * cuts/java/CUTS/jbi/idl/ApplicationProcessManager.idl:
+        * cuts/java/CUTS/jbi/idl/Deployment.idl:
+        * cuts/java/CUTS/jbi/idl/DomainApplication.idl:
+        * cuts/java/CUTS/jbi/idl/DomainApplicationManager.idl:
+        * cuts/java/CUTS/jbi/idl/ExecutionManager.idl:
+        * cuts/java/CUTS/jbi/idl/NodeApplication.idl:
+        * cuts/java/CUTS/jbi/idl/NodeApplicationManager.idl:
+        * cuts/java/CUTS/jbi/idl/NodeManager.idl:
+        * cuts/java/CUTS/jbi/utils/ConnectionString.java:
+        * cuts/java/CUTS/jbi/utils/RegisterMioType.java:
+        * cuts/java/CUTS/jbi/utils/UserCredentials.java:
+        * cuts/java/cuts.java.build:
+        * cuts/java/cuts.java.jbi.build:
+
+          . Refactored the directory manifest for the java portion
+            of CUTS so that's is consistent with the package structure.
+
+        * cuts/cuts.java.build:
+        * cuts/cuts.java.jbi.build:
+        * cuts/java/PeriodicTask.java:
+        * cuts/java/ProcessHandler.java:
+        * cuts/java/ProcessStreamReader.java:
+        * cuts/java/jbi:
+        * cuts/java/jbi/JbiShutdownInterface.java:
+        * cuts/java/jbi/JbiShutdownThread.java:
+        * cuts/java/jbi/client:
+        * cuts/java/jbi/client/JbiClient.java:
+        * cuts/java/jbi/client/JbiEvent.java:
+        * cuts/java/jbi/client/JbiSink.java:
+        * cuts/java/jbi/client/JbiSource.java:
+        * cuts/java/jbi/deployment:
+        * cuts/java/jbi/deployment/ApplicationProcessImpl.java:
+        * cuts/java/jbi/deployment/ApplicationProcessManagerImpl.java:
+        * cuts/java/jbi/deployment/DomainApplicationImpl.java:
+        * cuts/java/jbi/deployment/DomainApplicationManagerImpl.java:
+        * cuts/java/jbi/deployment/ExecutionManagerImpl.java:
+        * cuts/java/jbi/deployment/JbiClientApp.java:
+        * cuts/java/jbi/deployment/JbiExecutionManager.java:
+        * cuts/java/jbi/deployment/JbiNodeManager.java:
+        * cuts/java/jbi/deployment/JbiPlanLauncher.java:
+        * cuts/java/jbi/deployment/NodeApplicationImpl.java:
+        * cuts/java/jbi/deployment/NodeApplicationManagerImpl.java:
+        * cuts/java/jbi/deployment/NodeManagerImpl.java:
+        * cuts/java/jbi/deployment/mapping.xml:
+        * cuts/java/jbi/idl:
+        * cuts/java/jbi/idl/Application.idl:
+        * cuts/java/jbi/idl/ApplicationManager.idl:
+        * cuts/java/jbi/idl/ApplicationProcess.idl:
+        * cuts/java/jbi/idl/ApplicationProcessManager.idl:
+        * cuts/java/jbi/idl/Deployment.idl:
+        * cuts/java/jbi/idl/DomainApplication.idl:
+        * cuts/java/jbi/idl/DomainApplicationManager.idl:
+        * cuts/java/jbi/idl/ExecutionManager.idl:
+        * cuts/java/jbi/idl/NodeApplication.idl:
+        * cuts/java/jbi/idl/NodeApplicationManager.idl:
+        * cuts/java/jbi/idl/NodeManager.idl:
+        * cuts/java/jbi/utils:
+        * cuts/java/jbi/utils/ConnectionString.java:
+        * cuts/java/jbi/utils/RegisterMioType.java:
+        * cuts/java/jbi/utils/UserCredentials.java:
+
+          Removed these files.
+
 Mon Sep  8 14:00:15 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/common/Property_Expander.h:

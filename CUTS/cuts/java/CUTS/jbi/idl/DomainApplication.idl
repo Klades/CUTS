@@ -1,0 +1,36 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ *  @file       DomainApplication.idl
+ *
+ * $Id$
+ *
+ * @author      James H. Hill
+ */
+//=============================================================================
+
+#ifndef _JBI_DOMAIN_APPLICATION_IDL_
+#define _JBI_DOMAIN_APPLICATION_IDL_
+
+#include "Application.idl"
+
+module CUTS
+{
+  module jbi
+  {
+    module deployment
+    {
+      /**
+       * @interface DomainApplication
+       */
+      interface DomainApplication : Application
+      {
+
+      };
+    };
+  };
+};
+
+#endif  // !defined _JBI_DOMAIN_APPLICATION_IDL_
+

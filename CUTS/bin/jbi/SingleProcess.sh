@@ -8,7 +8,7 @@
 ##
 ## @author          James H. Hill
 ##
-## Helper script for manually deploying multiple JBI client objects into 
+## Helper script for manually deploying multiple JBI client objects into
 ## a single application process.
 ##
 ################################################################################
@@ -25,4 +25,4 @@ exec ${JAVA_CMD} ${JAVA_OPTS}                                       \
     -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB                     \
     -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton   \
     -classpath ${CUTS_CLASSPATH}:${JBI_CLASSPATH}:${CLASSPATH}      \
-    cuts.java.jbi.deployment.JbiClientApp "$@"
+    CUTS.jbi.deployment.JbiClientApp "$@"

@@ -1,0 +1,57 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ *  @file       NodeManager.idl
+ *
+ * $Id$
+ *
+ * @author      James H. Hill
+ */
+//=============================================================================
+
+#ifndef _NODE_MANAGER_IDL_
+#define _NODE_MANAGER_IDL_
+
+#include "Deployment.idl"
+#include "NodeApplicationManager.idl"
+
+module CUTS
+{
+  module jbi
+  {
+    module deployment
+    {
+      // Forward decl.
+      interface NodeApplicationManager;
+
+      /**
+       * @interface NodeManager
+       *
+       * The NodeManager is a daemon that resides on each host and receives
+       * commands for the execution manager. The commands that it receives
+       * from the execution manager are related to deploying and tearing
+       * down the instances.
+       */
+      interface NodeManager
+      {
+        /**
+         * Instantiates a new node application manager for the provided
+         * deployment plan. The execution manager (or domain manager) is
+         * responsible for managing the returned node application manager.
+         *
+         * @param[in]       plan          New deployment plan.
+         */
+        NodeApplicationManager preparePlan (in DeploymentPlan plan);
+
+        /**
+         * Destroy an existing node application manager. This will remove
+         * all the components managed by the specified application manager.
+         */
+        void destroyManager (in NodeApplicationManager manager);
+      };
+    };
+  };
+};
+
+#endif  // !defined _JBI_DEPLOYMENT_IDL_

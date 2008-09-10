@@ -25,4 +25,4 @@ exec ${JAVA_CMD} ${JAVA_OPTS}                                       \
   -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB                       \
   -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton     \
   -classpath ${JACORB_CLASSPATH}:${CUTS_CLASSPATH}:${CLASSPATH}     \
-  cuts.java.jbi.deployment.JbiPlanLauncher "$@"
+  CUTS.jbi.deployment.JbiPlanLauncher "$@"

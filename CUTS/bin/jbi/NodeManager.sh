@@ -24,5 +24,5 @@ exec ${JAVA_CMD} ${JAVA_OPTS}                                       \
   -Djava.endorsed.dirs=${CUTS_ROOT}/contrib/java                    \
   -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB                       \
   -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton     \
-  -classpath ${JACORB_CLASSPATH}:${CUTS_CLASSPATH}:${CLASSPATH}     \ 
-  cuts.java.jbi.deployment.JbiNodeManager "$@"
+  -classpath ${JACORB_CLASSPATH}:${CUTS_CLASSPATH}:${CLASSPATH}     \
+  CUTS.jbi.deployment.JbiNodeManager "$@"

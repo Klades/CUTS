@@ -16,6 +16,6 @@
 @set CUTS_CLASSPATH=%CUTS_ROOT%\lib\cuts.java.jbi.deployment.jar;%CUTS_ROOT%\contrib\java\log4j-1.2.15.jar;%CUTS_ROOT%\contrib\java\castor-1.2.jar;%CUTS_ROOT%\contrib\java\commons-logging-1.1.1.jar
 @set CUTS_OPTS=-Djava.endorsed.dirs=%CUTS_ROOT%\contrib\java -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton
 
-java %JAVA_OPTS% %CUTS_OPTS% -classpath %CUTS_CLASSPATH%;%CLASSPATH%;. cuts.java.jbi.deployment.JbiPlanLauncher %*
+java %JAVA_OPTS% %CUTS_OPTS% -classpath %CUTS_CLASSPATH%;%CLASSPATH%;. CUTS.jbi.deployment.JbiPlanLauncher %*
 
 @endlocal

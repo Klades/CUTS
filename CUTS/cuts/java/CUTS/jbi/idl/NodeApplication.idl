@@ -1,0 +1,35 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ *  @file       NodeApplication.idl
+ *
+ * $Id$
+ *
+ * @author      James H. Hill
+ */
+//=============================================================================
+
+#ifndef _NODE_APPLICATION_IDL_
+#define _NODE_APPLICATION_IDL_
+
+#include "Application.idl"
+
+module CUTS
+{
+  module jbi
+  {
+    module deployment
+    {
+      /**
+       * @interface NodeApplication
+       */
+      interface NodeApplication : Application
+      {
+
+      };
+    };
+  };
+};
+
+#endif  // !defined _NODE_APPLICATION_IDL_
