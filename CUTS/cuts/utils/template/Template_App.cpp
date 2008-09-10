@@ -3,6 +3,7 @@
 #include "Template_App.h"
 #include "boost/spirit/iterator/file_iterator.hpp"
 #include "cuts/utils/common/Property_Map_File.h"
+#include "cuts/utils/common/Property_Parser.h"
 #include "ace/Get_Opt.h"
 #include "ace/streams.h"
 
@@ -13,7 +14,9 @@ static const char * __HELP__ =
 "\n"
 "OPTIONS:\n"
 "  -c, --config=FILE          property configuration file\n"
+"  -Dname=VALUE               define property name with VALUE\n"
 "  --use-env                  use environment variables\n"
+"\n"
 "  -o OUTFILE                 output expansion to OUTFILE\n"
 "\n"
 "  -v, --verbose              print verbose infomration\n"
@@ -45,6 +48,8 @@ int CUTS_Template_App::run_main (int argc, char * argv [])
   if (this->parse_args (argc, argv) == -1)
     return 1;
 
+  // First, load the configuration file if the user specified one
+  // on the command-line.
   if (!this->opts_.config_.empty ())
   {
     if (this->load_property_file (this->opts_.config_))
@@ -61,6 +66,25 @@ int CUTS_Template_App::run_main (int argc, char * argv [])
     }
   }
 
+  // Next, parse the properties explicitly defined on the command-line.
+  // These take precedence over the properties defined in the configuration
+  // file.
+  if (this->opts_.defines_.size () > 0)
+  {
+    CUTS_Property_Parser parser (this->prop_map_);
+    ACE_Vector <ACE_CString>::ITERATOR iter (this->opts_.defines_);
+
+    for ( ; !iter.done (); iter.advance ())
+    {
+      ACE_CString * item = 0;
+      iter.next (item);
+
+      parser.parse (item->c_str ());
+    }
+  }
+
+  // Now, we are ready to parse the template file. We are either going to
+  // output the concrete file to standard output, or a file.
   if (!this->opts_.output_.empty ())
   {
     std::ofstream outfile;
@@ -95,7 +119,7 @@ int CUTS_Template_App::run_main (int argc, char * argv [])
 //
 int CUTS_Template_App::parse_args (int argc, char * argv [])
 {
-  const char * optargs = "ho:vc:";
+  const char * optargs = "ho:vc:D:";
   ACE_Get_Opt get_opt (argc, argv, optargs);
 
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
@@ -141,6 +165,10 @@ int CUTS_Template_App::parse_args (int argc, char * argv [])
       this->print_help ();
       break;
 
+    case 'D':
+      this->opts_.defines_.push_back (get_opt.opt_arg ());
+      break;
+
     case 'c':
       this->opts_.config_ = get_opt.opt_arg ();
       break;
@@ -150,7 +178,7 @@ int CUTS_Template_App::parse_args (int argc, char * argv [])
       break;
 
     case '?':
-      ACE_ERROR ((LM_ERROR,
+      ACE_ERROR ((LM_WARNING,
                   "%T - %M - -%c is an unknown option; ignoring\n",
                   get_opt.opt_opt ()));
       break;

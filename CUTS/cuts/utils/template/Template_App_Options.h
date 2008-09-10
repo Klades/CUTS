@@ -14,6 +14,7 @@
 #define _CUTS_TEMPLATE_APP_OPTIONS_H_
 
 #include "ace/SString.h"
+#include "ace/Vector_T.h"
 
 /**
  * @class CUTS_Template_App_Options
@@ -37,6 +38,9 @@ public:
 
   /// Property configuration file.
   ACE_CString config_;
+
+  /// List of properties defined on the command-line.
+  ACE_Vector <ACE_CString> defines_;
 
   /// Use environment variables in the conversion.
   bool use_env_;

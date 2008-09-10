@@ -1,3 +1,16 @@
+Wed Sep 10 03:26:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/common/Property_Parser.h:
+
+          . Bug fix where the internal class was not exported from the
+            library.
+
+        * cuts/utils/template/Template_App.cpp:
+        * cuts/utils/template/Template_App_Options.h:
+
+          . Enabled support for defining properties at the command-line
+            using the -D option.
+
 Wed Sep 10 03:14:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/jbi/ExecutionManager.bat:

@@ -93,7 +93,7 @@ private:
   /**
    * @class CUTS_Property_Parser_i
    */
-  class CUTS_Property_Parser_i :
+  class CUTS_COMMON_UTILS_Export CUTS_Property_Parser_i :
     public boost::spirit::grammar <CUTS_Property_Parser_i>
   {
   public:
