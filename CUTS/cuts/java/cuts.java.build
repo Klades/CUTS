@@ -5,6 +5,8 @@
   <import file="${env.CUTS_ROOT}/etc/ANT/include/cuts.build" />
   <import file="${env.CUTS_ROOT}/etc/ANT/include/castor.build" />
 
+  <property name="cuts.java.dir" value="${cuts.src.dir}/java" />
+
   <target name="clean"
           depends="cuts.java.clean" />
 
@@ -14,6 +16,29 @@
   <property name="jarfile" value="cuts.java.jar" />
 
   <target name="cuts.java.build">
+    <path id="jacorb.idl.classpath">
+      <pathelement path="${contrib.dir}/idl.jar" />
+      <pathelement path="${contrib.dir}/logkit-1.2.jar" />
+    </path>
+
+    <java classname="org.jacorb.idl.parser"
+          classpathref="jacorb.idl.classpath"
+          failonerror="true">
+
+      <arg line="-I${cuts.src.dir}" />
+      <arg line="-d ${cuts.java.dir}" />
+      <arg line="${cuts.src.dir}/TimeValue.idl" />
+    </java>
+
+    <java classname="org.jacorb.idl.parser"
+          classpathref="jacorb.idl.classpath"
+          failonerror="true">
+
+      <arg line="-I${cuts.src.dir}" />
+      <arg line="-d ${cuts.java.dir}" />
+      <arg line="${cuts.src.dir}/UUID.idl" />
+    </java>
+
     <javac srcdir="${cuts.src.dir}/java"
            debug="true"
            debuglevel="source,lines"
@@ -33,7 +58,7 @@
   <target name="cuts.java.clean">
     <delete>
       <fileset dir="${cuts.src.dir}/java/"
-               includes="CUTS/*.class" />
+               includes="CUTS/*.class, CUTS/Time_Stamp*" />
     </delete>
   </target>
 

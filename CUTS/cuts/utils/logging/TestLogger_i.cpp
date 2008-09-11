@@ -12,6 +12,7 @@
 #include "cuts/utils/DB_Parameter.h"
 #include "cuts/utils/ODBC/ODBC_Types.h"
 #include "cuts/Auto_Functor_T.h"
+#include "cuts/Time.h"
 #include "ace/CORBA_macros.h"
 #include "ace/Date_Time.h"
 #include "ace/Reactor.h"
@@ -85,18 +86,15 @@ void CUTS_TestLogger_i::log (const CUTS::Time_Stamp & tv,
       size_t length = msg.length ();
       message->text_.size (length + 1);
 
-      // Copy the source text into the message's buffer.
+      // Initialize the message structure.
       ACE_OS::memcpy (message->text_.begin (), msg.get_buffer (), length);
       message->text_[length] = '\0';
-
-      ACE_DEBUG ((LM_DEBUG,
-                  "%T (%t) - %M - logger %d: message = %s\n",
-                  this->logid_,
-                  message->text_.begin ()));
-
-      // Initialize the remainder of the message.
       message->severity_ = severity;
       message->timestamp_.set (tv.sec, tv.usec);
+
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T (%t) - %M - logger %d received a message\n",
+                  this->logid_));
 
       // Pass the message to the handler.
       this->handle_message (message);

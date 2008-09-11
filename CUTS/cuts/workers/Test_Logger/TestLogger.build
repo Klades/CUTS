@@ -36,11 +36,12 @@
     </java>
 
     <java classname="org.jacorb.idl.parser"
-        classpathref="jacorb.idl.classpath"
-        failonerror="true">
+          classpathref="jacorb.idl.classpath"
+          failonerror="true">
 
       <arg line="-d ." />
       <arg line="-noskel" />
+      <arg line="-I${cuts.dir}" />
       <arg line="${cuts.src.dir}/utils/logging/logging.idl" />
     </java>
   </target>
@@ -48,6 +49,7 @@
   <target name="TestLogger.build" depends="TestLogger.idl">
     <path id="TestLogger.build.classpath">
       <pathelement path="." />
+      <pathelement path="${cuts.lib.dir}/cuts.java.jar" />
     </path>
 
     <javac srcdir="."
@@ -67,7 +69,7 @@
 
   <target name="TestLogger.clean">
     <delete>
-      <fileset dir="CUTS" 
+      <fileset dir="CUTS"
                includes="*.class, *.java"
                excludes="TestLogger.java" />
     </delete>

@@ -79,7 +79,7 @@ public class Logger
   private NamingContextExt naming_ = null;
 
   /// The default logging client port number.
-  private int loggingClientPort_ = -1;
+  private int loggingClientPort_ = 10000;
 
   /**
    * Default constructor.
@@ -101,97 +101,33 @@ public class Logger
   }
 
   /**
-   * Destructor.
-   */
-  protected void finalize () throws Throwable
-  {
-    try
-    {
-      if (this.orb_ != null)
-      {
-        // First, disconnect from the test manager.
-        this.disconnect ();
-
-        // Destroy the ORB.
-        this.orb_.destroy ();
-        this.orb_ = null;
-      }
-    }
-    catch (Exception ex)
-    {
-      ex.printStackTrace ();
-    }
-    finally
-    {
-      super.finalize ();
-    }
-  }
-
-  /**
    * Configure the test logger. This will setup the location of the
    * test manager (ipaddress:port) and the port number of the logging
    * client on this local host.
    */
   private void configure ()
   {
-    String propertyFile = "CUTS.TestLogger.config";
+    this.configure (this.loggingClientPort_);
+  }
 
-    propertyFile =
-      System.getProperty ("CUTS.TestLogger.config", propertyFile);
-
-    try
-    {
-      System.out.println ("loading CUTS.TestLogger configuration from " +
-                          propertyFile);
-
-      // Load the properties file that contains the configuration.
-      FileInputStream fileInput = new FileInputStream (propertyFile);
-      Properties loggerProperties = new Properties ();
-      loggerProperties.load (fileInput);
-
-      if (loggerProperties.containsKey ("cuts.testlogger.client.logger.port"))
-      {
-        try
-        {
-          this.loggingClientPort_ =
-            Integer.parseInt (
-            loggerProperties.getProperty ("cuts.testlogger.client.logger.port"));
-        }
-        catch (Exception ex)
-        {
-          ex.printStackTrace ();
-        }
-      }
-
-      if (loggerProperties.containsKey ("cuts.testlogger.testmanager.name"))
-      {
-        this.testManagerName_ =
-          loggerProperties.getProperty ("cuts.testlogger.testmanager.name");
-      }
-    }
-    catch (FileNotFoundException ex)
-    {
-      // ingore this exception; configuration is optional
-    }
-    catch (Exception ex)
-    {
-      ex.printStackTrace ();
-    }
-
+  /**
+   * Configure the logger with the logger client. This primarily sets
+   * the port number to connect to the logger client.
+   */
+  public void configure (int port)
+  {
     // Construct the string location of the logging client.
-    String corbalocLC = "corbaloc:iiop:localhost";
-
-    if (this.loggingClientPort_ != -1)
-      corbalocLC += ":" + this.loggingClientPort_;
-
-    corbalocLC += "/CUTS/TestLoggerClient";
+    String location =
+      "corbaloc:iiop:localhost:" + port + "/CUTS/TestLoggerClient";
 
     try
     {
       // Convert the string into an actual object.
       this.loggerClient_ =
         CUTS.TestLoggerClientHelper.narrow (
-        this.orb_.string_to_object (corbalocLC));
+        this.orb_.string_to_object (location));
+
+      this.loggingClientPort_ = port;
     }
     catch (Exception ex)
     {
@@ -219,7 +155,9 @@ public class Logger
    */
   public void connect ()
   {
-    // Get a reference to the naming service.
+    // Save the old test number.
+    int oldTestNumber = this.testNumber_;
+
     try
     {
       this.naming_ =
@@ -237,10 +175,17 @@ public class Logger
 
       // Get the current id of the test. We need to use this to identify
       // the test which the log message belongs.
-      int oldTestNumber = this.testNumber_;
       this.testNumber_ = tm.test_number ();
+    }
+    catch (Exception ex)
+    {
+      ex.printStackTrace ();
+    }
 
-      if (oldTestNumber != this.testNumber_)
+    try
+    {
+      if (this.testLogger_ == null ||
+          oldTestNumber != this.testNumber_)
       {
         // Instruct the logger client to create a new factory.
         this.loggerFactory_ = this.loggerClient_.create (this.testNumber_);
@@ -284,10 +229,11 @@ public class Logger
   {
     try
     {
+      // Get the current time value for the message.
+      CUTS.Time_Stamp tv = this.getTimeOfDay ();
+
       // Send the log message to the logger.
-      this.testLogger_.log (System.currentTimeMillis (),
-                            priority,
-                            message.toCharArray ());
+      this.testLogger_.log (tv, priority, message.toCharArray ());
     }
     catch (Exception ex)
     {
@@ -303,5 +249,23 @@ public class Logger
   public int getTestNumber ()
   {
     return this.testNumber_;
+  }
+
+  /**
+   * Get the current time of day.
+   *
+   * @return      Current time as a time value
+   */
+  private CUTS.Time_Stamp getTimeOfDay ()
+  {
+    long msec = System.currentTimeMillis ();
+
+    // Convert millisecond units to seconds;
+    long secs = msec / 1000;
+
+    // Convert remainder to microseconds;
+    long usec = (msec - (secs * 1000)) * 1000;
+
+    return new CUTS.Time_Stamp ((int)secs, (int)usec);
   }
 }
