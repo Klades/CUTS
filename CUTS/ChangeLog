@@ -1,3 +1,14 @@
+Thu Sep 11 05:05:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * tests/cuts/workers/Test_Logger:
+        * tests/cuts/workers/Test_Logger/TestLoggerTest.bat:
+        * tests/cuts/workers/Test_Logger/TestLoggerTest.build:
+        * tests/cuts/workers/Test_Logger/TestLoggerTest.java:
+        * tests/cuts/workers/Test_Logger/TestLoggerTest.sh:
+
+          . Implemented a simple test to verify the logger works correctly
+            in the Java world.
+
 Thu Sep 11 05:00:04 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/cuts.java.build:
