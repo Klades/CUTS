@@ -1,3 +1,10 @@
+Thu Sep 11 05:09:53 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.cpp:
+
+          . Separated the code that decrements the argument count from the
+            code that checks its value for debugging reasons.
+
 Thu Sep 11 05:05:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * tests/cuts/workers/Test_Logger:

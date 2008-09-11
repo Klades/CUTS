@@ -607,14 +607,16 @@ write_action_property (const PICML::Property & property)
     return;
 
   // Write the value of the property.
-  PICML::DataType datatype = property.DataType_child ();
-  this->outfile () << property.DataValue ();
+  std::string value = property.DataValue ();
+  this->outfile () << value;
 
   // If there are anymore argurments remaining, we need to place a
   // comma separator for the next argument.
-  if (-- this->arg_count_ > 0)
+
+  if (this->arg_count_ > 1)
   {
     this->outfile () << ", ";
+    -- this->arg_count_;
   }
 }
 
