@@ -36,8 +36,7 @@ template <typename BE_TYPE>
 bool CUTS_BE_Workspace_Generator_T <BE_TYPE>::generate (void)
 {
   // Construct the name of the workspace.
-  std::string workspace (CUTS_BE_OPTIONS ()->project_name_);
-  workspace.append ("_CUTS");
+  std::string workspace = CUTS_BE_OPTIONS ()->project_name_;
 
   // Open the workspace file for writing.
   if (CUTS_BE_Workspace_File_Open_T <BE_TYPE>::generate (workspace))

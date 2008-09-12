@@ -1,9 +1,22 @@
+Fri Sep 12 22:42:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Workspace_Generator_T.cpp:
+
+          . Removed the _CUTS suffix from the name of the workspace.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Traits.cpp:
+
+          . Bug fix where if a stub project fail during generation, all
+            the generation of subsequent stub projects failed. This was fixed
+            by clearing the state of the file generator before opening a
+            file, if neccessary.
+
 Thu Sep 11 19:03:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/logging.mpc:
 
-	  . Fixed build errors related to seperating CIAO from CUTS
-	    standard distro on non-Windows systems.
+    . Fixed build errors related to seperating CIAO from CUTS
+      standard distro on non-Windows systems.
 
 Thu Sep 11 05:09:53 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

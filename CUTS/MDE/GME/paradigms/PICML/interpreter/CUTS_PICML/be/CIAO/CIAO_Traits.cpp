@@ -655,11 +655,17 @@ CUTS_BE_Ciao, CUTS_BE_Impl_Node>::generate (void)
 bool CUTS_BE_Project_File_Open_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>::
 generate (const CUTS_BE_IDL_Node & node)
 {
+  // Clear the state of the output file.
+  if (!CUTS_BE_CIAO->project_file_.good ())
+    CUTS_BE_CIAO->project_file_.clear ();
+
+  // Construct the name of the project file.
   std::ostringstream pathname;
   pathname
     << CUTS_BE_OPTIONS ()->output_directory_
     << "/" << node.name_ << "_stub.mpc";
 
+  // Open the project for writing.
   CUTS_BE_CIAO->project_file_.open (pathname.str ().c_str ());
   return CUTS_BE_CIAO->project_file_.is_open ();
 }
