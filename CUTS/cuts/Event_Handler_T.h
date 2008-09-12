@@ -13,8 +13,9 @@
 #ifndef _CUTS_EVENT_HANDLER_T_H_
 #define _CUTS_EVENT_HANDLER_T_H_
 
-#include "cuts/Event_Handler.h"
-#include "cuts/Port_Agent.h"
+#include "CUTS_CIAOC.h"
+#include "Event_Handler.h"
+#include "Port_Agent.h"
 #include "ace/Auto_Ptr.h"
 #include "ace/SString.h"
 
