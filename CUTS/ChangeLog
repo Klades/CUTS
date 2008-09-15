@@ -1,10 +1,17 @@
+Mon Sep 15 18:56:01 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/svcs/dbase/DB_Registry.cpp:
+
+	  . Bug fix where the stored procedure for inserting the hostname
+	    was invalid.
+	
 Mon Sep 15 18:17:26 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
-	* cuts/Pending_Op_List_T.cpp:
+        * cuts/Pending_Op_List_T.cpp:
 
-	  . Bug fix where the underlying queue was not emptied, or
-	    reset, after all the pending operations were processed.
-	
+          . Bug fix where the underlying queue was not emptied, or
+            reset, after all the pending operations were processed.
+
 Mon Sep 15 11:55:58 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Proxy_Source_Traits.cpp:

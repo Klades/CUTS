@@ -42,7 +42,7 @@ register_host (const CUTS_Host_Table_Entry & host)
   CUTS_Auto_Functor_T <CUTS_DB_Query>
     query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
 
-  const char * str_stmt = "CALL cuts.insert_ipaddr_hostname (?,?)";
+  const char * str_stmt = "CALL cuts.insert_hostname (?,?)";
 
   // Prepare the statement for execution.
   query->prepare (str_stmt);
