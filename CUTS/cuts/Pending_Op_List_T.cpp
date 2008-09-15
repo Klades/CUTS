@@ -19,10 +19,14 @@ void CUTS_Pending_Op_List_T <T>::reset (void)
   {
     // Release the memory for this operation then advance
     // to the next operation.
-    delete *op;
+    if (op != 0)
+      delete *op;
 
     iter.advance ();
   }
+
+  // Now, reset the queue.
+  this->queue_.reset ();
 }
 
 //
@@ -37,7 +41,13 @@ int CUTS_Pending_Op_List_T <T>::process (T * object)
   while (iter.next (op) != 0)
   {
     // Execute the operation, then advance to the next one.
-    (*op)->execute (object);
+    if (op != 0)
+      (*op)->execute (object);
+    else
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "%T - %M - NIL pending operation object\n"));
+      }
 
     iter.advance ();
   }
