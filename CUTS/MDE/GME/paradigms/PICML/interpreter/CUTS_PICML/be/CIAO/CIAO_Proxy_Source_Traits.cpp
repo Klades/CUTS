@@ -365,7 +365,18 @@ write_Attribute_begin (const PICML::Attribute & attr)
     << "if (!::CORBA::is_nil (this->type_impl_.in ()))"
     << "{"
     << "this->type_impl_->"
-    << attr.name () << " (" << attr.name () << ");"
+    << attr.name () << " (" << attr.name () << ");";
+
+    if (name.find ("cuts_") != 0)
+    {
+      this->outfile ()
+        << std::endl
+        << single_line_comment ("process any pending operations")
+        << "if (this->pending_ops_.size () > 0)" << std::endl
+        << "  this->pending_ops_.process (this->type_impl_.ptr ());";
+    }
+
+    this->outfile ()
     << "}"
     << "else {"
     << single_line_comment ("wait until the real component is loaded")
@@ -485,16 +496,6 @@ write_ProvidedRequestPort_begin (const PICML::ProvidedRequestPort & facet)
 void CUTS_CIAO_Proxy_Source_Traits::
 write_Attribute_end (const PICML::Attribute & attr)
 {
-  std::string name = attr.name ();
-
-  if (name.find ("cuts_") == 0)
-    return;
-
-  this->outfile ()
-    << single_line_comment ("process any pending operations")
-    << "if (this->pending_ops_.size () > 0)" << std::endl
-    << "  this->pending_ops_.process (this->type_impl_.ptr ());";
-
   this->_super::write_Attribute_end (attr);
 }
 
