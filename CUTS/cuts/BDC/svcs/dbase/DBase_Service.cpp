@@ -475,6 +475,10 @@ handle_metrics (const CUTS_System_Metric & metrics)
           myinfo->type_->sources_.find (ep_iter->key (), portname);
           ACE_OS::strcpy (outport, portname.c_str ());
 
+          ACE_DEBUG ((LM_DEBUG,
+                      "%T - %M - inserting metrics for output port '%s'\n",
+                      outport));
+
           // Store the metrics in their parameters.
           CUTS_Endpoint_Data_Log::const_iterator
             eplog_iter = ep_iter->item ()->begin (),

@@ -18,7 +18,8 @@ template <typename COMPONENT, typename EVENTTYPE>
 CUTS_Async_Event_Handler_T <COMPONENT, EVENTTYPE>::
 CUTS_Async_Event_Handler_T (Config_Type & config)
 : Event_Handler_Base (config),
-  priority_ (ACE_DEFAULT_THREAD_PRIORITY)
+  priority_ (ACE_DEFAULT_THREAD_PRIORITY),
+  spawn_condition_ (spawn_lock_)
 {
   this->activate ();
 }
@@ -40,6 +41,9 @@ template <typename COMPONENT, typename EVENTTYPE>
 ACE_THR_FUNC_RETURN
 CUTS_Async_Event_Handler_T <COMPONENT, EVENTTYPE>::event_loop (void * param)
 {
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - starting event loop\n"));
+
   bool active = true;
   THIS * _this = reinterpret_cast <THIS *> (param);
 
@@ -208,6 +212,11 @@ template <typename COMPONENT, typename EVENTTYPE>
 int CUTS_Async_Event_Handler_T <COMPONENT, EVENTTYPE>::
 register_thread (bool * active)
 {
+  ACE_GUARD_RETURN (ACE_Thread_Mutex, 
+                    guard, 
+                    this->spawn_lock_, 
+                    -1);
+
   // Get the id and handle to the calling thread.
   ACE_thread_t thr_id = this->thr_manager_.thr_self ();
 
@@ -219,7 +228,18 @@ register_thread (bool * active)
   if (retval == -1)
     return -1;
 
-  return this->thread_map_.bind (thr_id, cuts_thr);
+  retval = this->thread_map_.bind (thr_id, cuts_thr);
+
+  if (retval != -1)
+    {
+      // Decrement the spawn count.
+      -- this->spawn_count_;
+
+      // Signal the thread that we have activate all the 
+      // threads in the event handler.
+      if (this->spawn_count_ == 0)
+        this->spawn_condition_.signal ();
+    }
 }
 
 //

@@ -24,6 +24,9 @@
 #include "ace/Map_Manager.h"
 #include "ace/Thread_Manager.h"
 #include "ace/Unbounded_Set.h"
+#include "ace/Thread_Mutex.h"
+#include "ace/Guard_T.h"
+#include "ace/Condition_T.h"
 
 //=============================================================================
 /**
@@ -167,6 +170,12 @@ private:
 
   /// The event queue for the event handler.
   CUTS_Async_Event_Handler_Queue_T <EVENTTYPE> event_queue_;
+
+  ACE_Thread_Mutex spawn_lock_;
+
+  ACE_Condition <ACE_Thread_Mutex> spawn_condition_;
+
+  size_t spawn_count_;
 };
 
 #if defined (__CUTS_INLINE__)

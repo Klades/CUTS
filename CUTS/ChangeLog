@@ -1,3 +1,16 @@
+Tue Sep 16 22:16:31 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+	* cuts/Async_Event_Handler_T.h:
+	* cuts/Async_Event_Handler_T.inl:
+	* cuts/Async_Event_Handler_T.cpp:
+
+	  . Bug fix where spawning multiple threads could result
+	    in more threads actually spawning than expected.
+
+	* cuts/BDC/svcs/dbase/DBase_Service.cpp:
+
+	  . Inserted debugging messages.
+
 Tue Sep 16 14:40:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Proxy_Source_Traits.cpp:
