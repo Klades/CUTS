@@ -128,7 +128,6 @@ write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
     << "~" << ctx_proxy << " (void) {"
     << "}";
 
-
   typedef
     void (CUTS_CIAO_Proxy_Source_Traits::*OutEventPort_method) (
     const PICML::OutEventPort &);
@@ -334,57 +333,31 @@ write_Attribute_begin (const PICML::Attribute & attr)
 
   this->_super::write_Attribute_begin (attr);
 
-  //if ((std::string)attr.name () == "cuts_proxy_impl")
-  //{
-  //  this->outfile ()
-  //    << single_line_comment ("load the implementation")
-  //    << "this->_proxy_type::cuts_proxy_impl (cuts_proxy_impl);"
-  //    << std::endl
-  //    << single_line_comment ("set context of hosted component")
-  //    << "if (!::CORBA::is_nil (this->sc_.in ()))" << std::endl
-  //    << "  this->sc_->set_session_context (this->context_.get ());"
-  //    << std::endl
-  //    << single_line_comment ("bind event handlers to new component");
-
-  //  // We need to boost::bind the newly loaded component to the event
-  //  // handlers. We can only do it now since this is when we know
-  //  // for sure the component is loaded into the proxy.
-  //  PICML::Component component = PICML::Component::Cast (attr.parent ());
-
-  //  typedef std::vector <PICML::InEventPort> InEventPort_Set;
-  //  InEventPort_Set sinks = component.InEventPort_kind_children ();
-
-  //  std::for_each (sinks.begin (),
-  //                 sinks.end (),
-  //                 boost::bind (&CUTS_CIAO_Proxy_Source_Traits::
-  //                              write_event_handler_bind,
-  //                              this,
-  //                              _1));
-  //}
   this->outfile ()
     << "if (!::CORBA::is_nil (this->type_impl_.in ()))"
     << "{"
     << "this->type_impl_->"
     << attr.name () << " (" << attr.name () << ");";
 
-    if (name.find ("cuts_") != 0)
-    {
-      this->outfile ()
-        << std::endl
-        << single_line_comment ("process any pending operations")
-        << "if (this->pending_ops_.size () > 0)" << std::endl
-        << "  this->pending_ops_.process (this->type_impl_.ptr ());";
-    }
-
+  if (name.find ("cuts_") != 0)
+  {
     this->outfile ()
+      << std::endl
+      << single_line_comment ("process any pending operations")
+      << "if (this->pending_ops_.size () > 0)" << std::endl
+      << "  this->pending_ops_.process (this->type_impl_.ptr ());";
+  }
+
+  this->outfile ()
     << "}"
     << "else {"
     << single_line_comment ("wait until the real component is loaded")
     << "this->pending_ops_.insert (" << std::endl
     << "CUTS_Pending_Op (&_proxy_type::_impl_type::"
-    << attr.name () << "," << std::endl;
+    << name << "," << std::endl;
 
   PICML::AttributeMember member = attr.AttributeMember_child ();
+
   if (member != Udm::null)
   {
     PICML::MemberType mtype = member.ref ();
@@ -394,23 +367,25 @@ write_Attribute_begin (const PICML::Attribute & attr)
       if (mtype.type () == PICML::String::meta)
       {
         // Treat strings differently.
-        this->outfile () << "CUTS_str (" << attr.name () << ")";
+        this->outfile () << "CUTS_str (" << name << ")";
       }
       else
       {
-        this->outfile () << attr.name ();
+        this->outfile () << name;
       }
     }
     else
     {
-      this->outfile () << attr.name ();
+      this->outfile () << name;
     }
 
-    this->outfile () << "));";
+    this->outfile ()
+      << "));";
   }
 
-  // Close off the function definition.
-  this->outfile () << "}";
+  // Close the 'else' condition
+  this->outfile ()
+    << "}";
 }
 
 //
@@ -496,6 +471,11 @@ write_ProvidedRequestPort_begin (const PICML::ProvidedRequestPort & facet)
 void CUTS_CIAO_Proxy_Source_Traits::
 write_Attribute_end (const PICML::Attribute & attr)
 {
+  std::string name = attr.name ();
+
+  if (name.find ("cuts_") == 0)
+    return;
+
   this->_super::write_Attribute_end (attr);
 }
 
