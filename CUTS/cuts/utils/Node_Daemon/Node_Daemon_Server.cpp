@@ -99,7 +99,7 @@ int CUTS_Node_Daemon_Server::run_main (int argc, char * argv [])
     this->orb_->run ();
 
     // Terminate all the task in the task manager.
-    //this->daemon_->terminate_tasks ();
+    this->daemon_->terminate_tasks ();
 
     // Destroy the RootPOA.
     ACE_DEBUG ((LM_DEBUG, "%T - %M - destroying the RootPOA\n"));

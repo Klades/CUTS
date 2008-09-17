@@ -554,3 +554,63 @@ insert_properties (const ACE_Array <ACE_CString> & props)
     }
   }
 }
+
+//
+// terminate_tasks
+//
+void CUTS_Node_Daemon_i::terminate_tasks (void)
+{
+  // First, gather the process ids of all the active processes.
+  ACE_Unbounded_Set <pid_t> pids;
+  Process_Map::ITERATOR iter (this->process_map_);
+
+  for ( ; !iter.done (); ++ iter)
+    pids.insert (iter->item ()->pid_);
+
+  ACE_DEBUG ((LM_INFO,
+              "%T - %M - terminating %d process(es)\n",
+              pids.size ()));
+
+  // Now, iterate over all the gathered pid's, whilet terminating
+  // each process. The default implemenation will handle the
+  // unregistration of the process with the daemon.
+
+  ACE_Unbounded_Set <pid_t>::ITERATOR pid_iter (pids);
+
+  for ( ; !pid_iter.done (); ++ pid_iter)
+  {
+    pid_t pid = *pid_iter;
+
+    // Terminate the process. First, we try to terminate the process
+    // using a singal. This will give the process a chance to do any
+    // cleanup operations.
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - signalling process %d to terminate\n",
+                pid));
+
+    int retval = this->pm_.terminate (pid, SIGTERM);
+
+    if (retval == -1)
+    {
+      // Force termination of the process. This is used as a last
+      // resort just in case we are not able to gracefully terminate
+      // the process via a signal.
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T - %M - forcing process %d to terminate\n",
+                  pid));
+
+      retval = this->pm_.terminate (pid);
+
+      if (retval == -1)
+      {
+        ACE_ERROR ((LM_WARNING,
+                    "%T - %M - failed to terminate process %d\n",
+                    pid));
+      }
+    }
+
+    // Release the resources of this process.
+    if (retval == 0)
+      this->unmanage (pid);
+  }
+}

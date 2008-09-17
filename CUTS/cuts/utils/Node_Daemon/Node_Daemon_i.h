@@ -54,8 +54,8 @@ public:
    *
    * @param[in]     name      Name of the task.
    */
-  virtual CORBA::ULong
-    task_terminate (const char * name, CORBA::Boolean wait);
+  virtual CORBA::ULong task_terminate (const char * name,
+                                       CORBA::Boolean wait);
 
   /**
    * Kill a node in the task manager.
@@ -75,6 +75,8 @@ public:
   void initial_directory (const ACE_CString & dir);
 
   void insert_properties (const ACE_Array <ACE_CString> & props);
+
+  void terminate_tasks (void);
 
 private:
   /// Recover as many processes as possible.

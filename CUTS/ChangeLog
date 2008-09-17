@@ -1,3 +1,16 @@
+Wed Sep 17 05:11:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+
+          . Whenever the node daemon received the SIGINT or SIGTERM
+            interrupt signal, it will terminate all managed tasks before
+            it exits. This is to put the testing environment back into
+            its orginal state before the daemon was launched. If the
+            daemon receives any other signals, it will not terminated its
+            managed processes.
+
 Wed Sep 17 00:02:03 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/UUID.h:
