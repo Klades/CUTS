@@ -34,11 +34,11 @@ public:
   virtual ~CUTS_TestManager_i (void);
 
   /**
-   * Get the current test id from this manager.
+   * Get the details of the currently executing test.
    *
-   * @return        The current test id.
+   * @return        Current test details.
    */
-  CORBA::Long test_number (void);
+  CUTS::TestDetails * details (void);
 
 private:
   /// Parent testing application for the manager.

@@ -3,14 +3,28 @@
 #ifndef _CUTS_TESTING_IDL_
 #define _CUTS_TESTING_IDL_
 
+#include "cuts/UUID.idl"
+
 module CUTS
 {
+  /**
+   * @struct TestDetails
+   */
+  struct TestDetails
+  {
+    /// The UUID assigned to the test.
+    UUID uid;
+
+    /// The name of the test.
+    string name;
+  };
+
   /**
    * @interface TestManager
    */
   interface TestManager
   {
-    readonly attribute long test_number;
+    readonly attribute TestDetails details;
   };
 };
 

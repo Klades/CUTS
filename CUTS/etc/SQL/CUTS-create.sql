@@ -210,6 +210,17 @@ BEGIN
 END; //
 
 -- -----------------------------------------------------------------------------
+-- FUNCTION: cuts.select_test_number_using_uuid
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.select_test_number_using_uuid //
+
+CREATE PROCEDURE cuts.select_test_number_using_uuid (_uuid VARCHAR (255))
+BEGIN
+  SELECT cuts.get_test_number_using_uuid (_uuid);
+END; //
+
+-- -----------------------------------------------------------------------------
 -- PROCEDURE: cuts.start_new_test
 -- -----------------------------------------------------------------------------
 

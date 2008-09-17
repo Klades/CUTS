@@ -3,6 +3,7 @@
 #include "TestLoggerClient_i.h"
 #include "TestLoggerFactory_i.h"
 #include "Logging_Client_Options.h"
+#include "cuts/UUID.h"
 
 //
 // CUTS_TestLoggerClient_i
@@ -53,48 +54,49 @@ CUTS_TestLoggerClient_i::~CUTS_TestLoggerClient_i (void)
 // create
 //
 CUTS::TestLoggerFactory_ptr
-CUTS_TestLoggerClient_i::create (CORBA::Long test_number)
+CUTS_TestLoggerClient_i::create (const CUTS::UUID & uuid)
 {
-  CUTS_TestLoggerFactory_i * servant = 0;
+  // Extract the UUID from the object.
+  ACE_Utils::UUID test_uuid;
+  uuid >>= test_uuid;
 
   // First, let's try to located the object in the factory map. If we
   // find it for the specified test, then we can just return. Since this
   // is object is activated under the RootPOA, we know that it is
   // not multi-threaded and is void of race conditions.
-  if (this->factory_map_.find (test_number, servant) == 0)
+
+  ACE_CString uuid_str = *test_uuid.to_string ();
+  CUTS_TestLoggerFactory_i * servant = 0;
+
+  if (this->factory_map_.find (uuid_str, servant) == 0)
     return servant->_this ();
 
   ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - creating logger factory for test %d\n",
-              test_number));
+              "%T (%t) - %M - creating logger factory for test %s\n",
+              uuid_str.c_str ()));
 
   ACE_NEW_THROW_EX (servant,
-                    CUTS_TestLoggerFactory_i (test_number,
+                    CUTS_TestLoggerFactory_i (test_uuid,
                                               this->factory_poa_.in ()),
                     CORBA::NO_MEMORY ());
 
   PortableServer::ServantBase_var safety = servant;
 
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - initializing factory object for test %d\n",
-              test_number));
-
   // Connect the factory to the datbase.
   servant->connect (CUTS_LOGGING_OPTIONS->database_);
 
-  if (this->factory_map_.bind (test_number, servant) != 0)
+  if (this->factory_map_.bind (*test_uuid.to_string (), servant) != 0)
     throw CUTS::FactoryOperationFailed ();
 
   ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - activating factory object for test %d\n",
-              test_number));
+              "%T (%t) - %M - activating logger factory\n"));
 
   // Activate the newly created object and return it to the caller.
-  PortableServer::ObjectId_var oid = 
+  PortableServer::ObjectId_var oid =
     this->factory_poa_->activate_object (servant);
 
   CORBA::Object_var obj = this->factory_poa_->id_to_reference (oid);
-  CUTS::TestLoggerFactory_var factory = 
+  CUTS::TestLoggerFactory_var factory =
     CUTS::TestLoggerFactory::_narrow (obj.in ());
 
   return factory._retn ();
@@ -117,16 +119,26 @@ destroy (CUTS::TestLoggerFactory_ptr factory)
   CUTS_TestLoggerFactory_i * servant =
     dynamic_cast <CUTS_TestLoggerFactory_i *> (servant_base.in ());
 
-  // Get the test number for the factory and located it.
-  long test_number = servant->test_number ();
-
-  if (servant->_refcount_value () == 1)
+  if (servant != 0)
   {
-    ACE_DEBUG ((LM_INFO,
-                "%T (%t) - %M - all references to test logger factory for "
-                "test %d released; removing the test logger factory\n",
-                test_number));
+    // Get the test number for the factory and located it.
+    ACE_Utils::UUID uuid = servant->test_uuid ();
+    ACE_CString uuid_str = *uuid.to_string ();
 
-    this->factory_map_.unbind (test_number);
+    if (servant->_refcount_value () == 1)
+    {
+      ACE_DEBUG ((LM_INFO,
+                  "%T (%t) - %M - all references to test logger factory for "
+                  "test %s released; removing the test logger factory\n",
+                  uuid_str.c_str ()));
+
+      this->factory_map_.unbind (uuid_str);
+    }
+  }
+  else
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - servant is not a CUTS_TestLoggerFactory_i"
+                " object\n"));
   }
 }

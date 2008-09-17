@@ -25,7 +25,7 @@
  * @retval            true          Successfully extracted data
  * @retval            false         Failed to extract data
  */
-bool operator >>= (const CUTS::UUID & src, ACE_Utils::UUID & dst);
+bool CUTS_Export operator >>= (const CUTS::UUID & src, ACE_Utils::UUID & dst);
 
 /**
  * Insert an ACE_Utils::UUID object into an EISA::UUID CORBA
@@ -36,6 +36,6 @@ bool operator >>= (const CUTS::UUID & src, ACE_Utils::UUID & dst);
  * @retval            true          Successfully inserted data
  * @retval            false         Failed to insert data
  */
-bool operator <<= (CUTS::UUID & dst, const ACE_Utils::UUID & src);
+bool CUTS_Export operator <<= (CUTS::UUID & dst, const ACE_Utils::UUID & src);
 
 #endif  // !defined _EISA_UUID_H_

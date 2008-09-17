@@ -62,6 +62,10 @@ public:
 
   long current_test_number (void) const;
 
+  const ACE_Utils::UUID & test_uuid (void) const;
+
+  const ACE_CString & test_name (void) const;
+
   /**
    * Get the name of the testing application. This is determined by the
    * --name=NAME command-line option.

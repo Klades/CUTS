@@ -70,9 +70,6 @@ private:
   /// Name of the test manager.
   ACE_CString test_name_;
 
-  /// The test number for the logger.
-  long test_number_;
-
   /// ORB for the logging client.
   CORBA::ORB_var orb_;
 

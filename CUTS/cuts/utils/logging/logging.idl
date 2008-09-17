@@ -14,6 +14,7 @@
 #define _CUTS_LOGGING_IDL_
 
 #include "cuts/TimeValue.idl"
+#include "cuts/UUID.idl"
 
 module CUTS
 {
@@ -107,12 +108,17 @@ module CUTS
      * Create a factory object for the test. All loggers created by the
      * returned factory will be assigned to the test number.
      *
-     * @param[in]       test_number     The number for the factory.
+     * @param[in]       uid           Unique id for the factory.
      */
-    TestLoggerFactory create (in long test_number)
+    TestLoggerFactory create (in UUID uid)
       raises (FactoryOperationFailed);
 
-    void destroy (in TestLoggerFactory log_factory);
+    /**
+     * Destroy the test logger factory.
+     *
+     * @param[in]       factory       Target factory to destroy.
+     */
+    void destroy (in TestLoggerFactory tlf);
   };
 };
 

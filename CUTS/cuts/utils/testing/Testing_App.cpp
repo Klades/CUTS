@@ -583,3 +583,19 @@ int CUTS_Testing_App::teardown_test (void)
 
   return 0;
 }
+
+//
+// test_uuid
+//
+const ACE_Utils::UUID & CUTS_Testing_App::test_uuid (void) const
+{
+  return *this->test_uuid_.get ();
+}
+
+//
+// test_name
+//
+const ACE_CString & CUTS_Testing_App::test_name (void) const
+{
+  return CUTS_TESTING_OPTIONS->name_;
+}

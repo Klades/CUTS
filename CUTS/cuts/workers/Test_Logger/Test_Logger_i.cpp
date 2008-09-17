@@ -10,8 +10,7 @@
 // CUTS_Test_Logger_i
 //
 CUTS_Test_Logger_i::CUTS_Test_Logger_i (void)
-: test_name_ ("(default)"),
-  test_number_ (-1)
+: test_name_ ("(default)")
 {
   char * args_str = "";
   int argc = 0;
@@ -99,10 +98,10 @@ bool CUTS_Test_Logger_i::connect_i (const ACE_CString & name)
     this->test_manager_ = CUTS::TestManager::_narrow (obj.in ());
 
     // Get the test number from the test manager.
-    this->test_number_ = this->test_manager_->test_number ();
+    CUTS::TestDetails_var details = this->test_manager_->details ();
 
     // Create the logger.
-    this->log_factory_ = this->log_client_->create (this->test_number_);
+    this->log_factory_ = this->log_client_->create (details->uid);
     this->logger_ = this->log_factory_->create ();
 
     return true;

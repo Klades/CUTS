@@ -41,9 +41,9 @@ public:
   /**
    * Create a new factory object for the test.
    *
-   * @param[in]       test_number       The new test.
+   * @param[in]       uuid              UUID for the test logger.
    */
-  virtual CUTS::TestLoggerFactory_ptr create (CORBA::Long test_number);
+  virtual CUTS::TestLoggerFactory_ptr create (const CUTS::UUID & uuid);
 
   /**
    * Destroy the logger factory for a test. At this stage, we can assume
@@ -58,7 +58,7 @@ private:
 
   /// Type definition of the factory mapping for tests.
   typedef
-    ACE_Hash_Map_Manager <long,
+    ACE_Hash_Map_Manager <ACE_CString,
                           CUTS_TestLoggerFactory_i *,
                           ACE_Null_Mutex> map_type;
 

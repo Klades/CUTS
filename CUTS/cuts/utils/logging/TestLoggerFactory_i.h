@@ -15,6 +15,7 @@
 
 #include "loggingS.h"
 #include "cuts/utils/ODBC/ODBC_Connection.h"
+#include "ace/UUID.h"
 
 /**
  * @class CUTS_TestLoggerFactory_i
@@ -31,7 +32,7 @@ public:
    * @param[in]       test_number     Test number for the factory
    * @param[in]       poa             POA this object is activated in
    */
-  CUTS_TestLoggerFactory_i (long test_number,
+  CUTS_TestLoggerFactory_i (const ACE_Utils::UUID & test_uuid,
                             PortableServer::POA_ptr poa);
 
   /// Destructor.
@@ -66,6 +67,8 @@ public:
    */
   CUTS_DB_Connection & connection (void);
 
+  const ACE_Utils::UUID & test_uuid (void) const;
+
   /**
    * Get the test number assigned to the factory. All loggers that
    * were created by this factory are logging messages for the
@@ -84,9 +87,13 @@ public:
 
 private:
   /// Test number for the factory.
+  ACE_Utils::UUID test_uuid_;
+
+  /// Database test number for the logger's.
   long test_number_;
 
-  long log_count_;
+  /// Number of loggers.
+  size_t log_count_;
 
   /// POA that the test logger factory activated in.
   PortableServer::POA_var default_POA_;
