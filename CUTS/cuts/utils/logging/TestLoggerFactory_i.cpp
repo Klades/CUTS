@@ -147,7 +147,7 @@ void CUTS_TestLoggerFactory_i::connect (const ACE_CString & server_addr)
     {
       // Store the located test number.
       record->fetch ();
-      record->get_data (0, this->test_number_);
+      record->get_data (1, this->test_number_);
     }
     else
     {

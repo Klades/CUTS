@@ -1,3 +1,16 @@
+Wed Sep 17 05:21:58 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/svcs/dbase/DB_Registry.cpp:
+	  
+	  . Bug fix where the number of parameters specified for the 
+	    stored procedure to insert the hostname into the database
+	    was too many.
+
+        * cuts/utils/logging/TestLoggerFactory_i.cpp:
+
+	  . Bug fix where the descriptor index used to access the test
+	    uuid from the returned SQL query was invalid.
+
 Wed Sep 17 05:11:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
