@@ -46,13 +46,24 @@ namespace CUTS.Web.UI.UnitTesting
     /**
      * Readonly property for the relations between two log formats.
      */
-    //public CUTS.Data.Relation[] SelectedRelations
-    //{
-    //  get
-    //  {
-    //    return (CUTS.Data.Relation[])this.relations_.ToArray (typeof (CUTS.Data.Relation));
-    //  }
-    //}
+    public CUTS.Data.Relation[] SelectedRelations
+    {
+      get
+      {
+        ArrayList relations = new ArrayList ();
+
+        Table table = (Table)this.Controls[0];
+
+        for (int i = 2; i < table.Rows.Count; ++ i)
+        {
+          TableRow row = table.Rows[i];
+          RelationTable relation = (RelationTable)row.Cells[2].Controls[0];
+          relations.Add (relation.Relation);
+        }
+
+        return (CUTS.Data.Relation[])relations.ToArray (typeof (CUTS.Data.Relation));
+      }
+    }
 
     /**
      * Readonly property for getting the number of selected log
@@ -137,7 +148,7 @@ namespace CUTS.Web.UI.UnitTesting
       TableHeaderCell relation = new TableHeaderCell ();
       header.Cells.Add (relation);
 
-      relation.Controls.Add (new LiteralControl ("Relation"));
+      relation.Controls.Add (new LiteralControl ("Causality"));
 
       // Now, insert the rows into the table.
       foreach (int lfid in this.selected_log_formats_)
@@ -158,8 +169,8 @@ namespace CUTS.Web.UI.UnitTesting
       footer_cell.Controls.Add (link);
 
       link.EnableViewState = true;
-      link.CausesValidation = false;
       link.Text = "I need more log formats";
+      link.ID = "link_more_formats_";
       link.Click += new System.EventHandler (this.onclick_handler);
     }
 
@@ -217,9 +228,9 @@ namespace CUTS.Web.UI.UnitTesting
         this.Page.ClientScript.RegisterForEventValidation (row.Cells[1].Controls[0].UniqueID);
       }
 
-      //// Register the link for adding more log formats.
-      //TableRow footer = table.Rows[table.Rows.Count - 1];
-      //this.Page.ClientScript.RegisterForEventValidation (footer.Cells[0].Controls[0].UniqueID);
+      // Register the link for adding more log formats.
+      TableRow footer = table.Rows[table.Rows.Count - 1];
+      this.Page.ClientScript.RegisterForEventValidation (footer.Cells[0].Controls[0].UniqueID);
 
       // Pass control to the base class.
       base.Render (writer);
@@ -268,6 +279,25 @@ namespace CUTS.Web.UI.UnitTesting
       // Get the prefix control for this row.
       LiteralControl prefix = this.get_prefix_control (row);
       this.set_prefix_text (prefix, lfid);
+
+      RelationTable relation = null;
+
+      if (index > 0)
+      {
+        // Update the relation.
+        relation = (RelationTable)row.Cells[2].Controls[0];
+        relation.LeftID = lfid;
+      }
+
+      if (++index < this.selected_log_formats_.Count)
+      {
+        row = table.Rows[index + 1];
+        relation = (RelationTable)row.Cells[2].Controls[0];
+
+        // Update the right id and the selected log formats.
+        relation.RightID = lfid;
+        relation.LogIDList = (int [])this.selected_log_formats_.ToArray (typeof (int));
+      }
     }
 
     /**
@@ -288,6 +318,7 @@ namespace CUTS.Web.UI.UnitTesting
       int index = table.Rows.GetRowIndex (row) - 1;
 
       // Save the selected log format.
+      int[] curr_id_list = (int []) this.selected_log_formats_.ToArray (typeof (int));
       int lfid = int.Parse (format_list.SelectedValue);
       this.selected_log_formats_.Add (lfid);
 
@@ -306,7 +337,7 @@ namespace CUTS.Web.UI.UnitTesting
         int right = (int)this.selected_log_formats_[index - 1];
 
         relation_table.LeftID = left;
-        relation_table.RightID = right;
+        relation_table.LogIDList = curr_id_list;
 
         // Bind the data to the control.
         relation_table.DataSource = this.get_relations (left, right);
@@ -351,6 +382,13 @@ namespace CUTS.Web.UI.UnitTesting
       DropDownList format_list = new DropDownList ();
       format_cell.Controls.Add (format_list);
 
+      // Configure the dropdown list for the log formats.
+      format_list.EnableViewState = true;
+      format_list.AutoPostBack = true;
+      format_list.DataBound += new EventHandler (this.ondatabound_log_format);
+      format_list.SelectedIndexChanged += new EventHandler (this.onchange_log_format_selection);
+      format_list.Width = new Unit (500, UnitType.Pixel);
+
       // Create the relation cell for the table.
       TableCell relation_cell = new TableCell ();
       row.Cells.Add (relation_cell);
@@ -363,7 +401,6 @@ namespace CUTS.Web.UI.UnitTesting
         // Insert the default relation table.
         RelationTable relation_table = new RelationTable ();
         relation_cell.Controls.Add (relation_table);
-
         relation_table.EnableViewState = true;
 
         //if (lfid != -1)
@@ -399,13 +436,6 @@ namespace CUTS.Web.UI.UnitTesting
         format_list.DataSource = complete;
       }
 
-      // Configure the dropdown list for the log formats.
-      format_list.CausesValidation = false;
-      format_list.EnableViewState = true;
-      format_list.AutoPostBack = true;
-      format_list.DataBound += new EventHandler (this.ondatabound_log_format);
-      format_list.SelectedIndexChanged += new EventHandler (this.onchange_log_format_selection);
-      format_list.Width = new Unit (500, UnitType.Pixel);
       format_list.DataTextField = "lfmt";
       format_list.DataValueField = "lfid";
       format_list.DataBind ();
@@ -526,5 +556,7 @@ namespace CUTS.Web.UI.UnitTesting
      * List of selected log formats.
      */
     private ArrayList selected_log_formats_ = new ArrayList ();
+
+    private ArrayList selected_relations_ = new ArrayList ();
   }
 }

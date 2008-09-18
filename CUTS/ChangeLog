@@ -1,3 +1,13 @@
+Thu Sep 18 07:11:13 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/Relation.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/LogFormatTable.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/RelationTable.cs:
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . Checkpoint the current state of the BMW, mainly the controls
+            and page for unit testing.
+
 Thu Sep 18 06:38:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/Benchmark_Agent_i.cpp:
@@ -11,15 +21,15 @@ Thu Sep 18 06:38:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/Thread_Activation_Record.inl:
         * cuts/performance_i.cpp:
 
-	  . Starting the add tracing logging to all the classes to help with
-	    debugging efforts, when necessary.
-	
+          . Starting the add tracing logging to all the classes to help with
+            debugging efforts, when necessary.
+
         * cuts/workers/Test_Logger/Format_Parser.cpp:
 
-	  . Fixed compilation warning related to using 'char' types within
-	    variable arguments. This was resolved by specializing the 
-	    problematic functor to treat 'char' types as 'integers'.
-	
+          . Fixed compilation warning related to using 'char' types within
+            variable arguments. This was resolved by specializing the
+            problematic functor to treat 'char' types as 'integers'.
+
 Wed Sep 17 05:21:58 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/svcs/dbase/DB_Registry.cpp:

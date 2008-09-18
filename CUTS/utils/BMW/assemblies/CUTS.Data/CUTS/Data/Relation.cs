@@ -21,6 +21,12 @@ namespace CUTS.Data
       this.rhs_ = new ArrayList ();
     }
 
+    public Relation (int capacity)
+    {
+      this.lhs_ = new ArrayList (capacity);
+      this.rhs_ = new ArrayList (capacity);
+    }
+
     public Relation (object lhs, object rhs)
     {
       this.lhs_ = new ArrayList ();

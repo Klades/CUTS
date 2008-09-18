@@ -35,10 +35,9 @@ namespace CUTS.Web.UI.UnitTesting
     /**
      * Initializing constructor.
      */
-    public RelationTable (int left, int right)
+    public RelationTable (int left)
     {
       this.left_ = left;
-      this.right_ = right;
     }
 
     /**
@@ -48,12 +47,62 @@ namespace CUTS.Web.UI.UnitTesting
     {
       get
       {
-        return this.relation_;
+        // First, we need to build the relation from the text boxes.
+        TextBox text_lhs = (TextBox)this.Controls[2];
+        TextBox text_rhs = (TextBox)this.Controls[5];
+
+        string lhs_value = text_lhs.Text.Replace (" ", "");
+        string rhs_value = text_rhs.Text.Replace (" ", "");
+
+        string[] lhs_items = lhs_value.Split (";".ToCharArray (), StringSplitOptions.RemoveEmptyEntries);
+        string[] rhs_items = rhs_value.Split (";".ToCharArray (), StringSplitOptions.RemoveEmptyEntries);
+
+        if (lhs_items.Length != rhs_items.Length)
+          throw new Exception ("relations are not the same size");
+
+        CUTS.Data.Relation relation = new CUTS.Data.Relation (lhs_items.Length);
+
+        this.update_relations_left (ref relation, lhs_items);
+        this.update_relations_right (ref relation, rhs_items);
+        return relation;
+      }
+    }
+
+    private void update_relations_left (ref CUTS.Data.Relation relation, string[] names)
+    {
+      foreach (string name in names)
+      {
+        string filter = String.Format ("lfid={0} AND varname='{1}'", this.left_, name);
+        DataRow[] rows = this.data_table_.Select (filter);
+
+        relation.add (rows[0]["variable_id"], null);
+      }
+    }
+
+    private void update_relations_right (ref CUTS.Data.Relation relation, string[] names)
+    {
+      DropDownList list = (DropDownList)this.Controls[4];
+      int right = int.Parse (list.SelectedValue);
+
+      for (int i = 0; i < names.Length; ++i)
+      {
+        string filter = String.Format ("lfid={0} AND varname='{0}'", right, names[i]);
+        DataRow[] rows = this.data_table_.Select (filter);
+
+        relation.update_right_value (i, rows[0]["variable_id"]);
+      }
+    }
+
+    public int [] LogIDList
+    {
+      get
+      {
+        return (int [])this.log_ids_.ToArray (typeof (int));
       }
 
       set
       {
-        this.relation_ = value;
+        this.log_ids_ = new ArrayList (value);
       }
     }
 
@@ -69,6 +118,18 @@ namespace CUTS.Web.UI.UnitTesting
 
       set
       {
+        // Make sure the control exists.
+        this.EnsureChildControls ();
+
+        // Update the text of the literal control.
+        LiteralControl lit = (LiteralControl)this.Controls[1];
+        lit.Text = String.Format ("LF{0}. ", value);
+
+        // Empty the contents of the textbox.
+        TextBox textbox = (TextBox)this.Controls[2];
+        textbox.Text = String.Empty;
+
+        // Save the value.
         this.left_ = value;
       }
     }
@@ -80,12 +141,20 @@ namespace CUTS.Web.UI.UnitTesting
     {
       get
       {
-        return this.right_;
+        this.EnsureChildControls ();
+        DropDownList id_list = (DropDownList)this.Controls[4];
+
+        return int.Parse (id_list.SelectedValue);
       }
 
       set
       {
-        this.right_ = value;
+        // Make sure the control exists.
+        this.EnsureChildControls ();
+
+        // Update the text of the literal control.
+        DropDownList list = (DropDownList)this.Controls[4];
+        list.SelectedValue = value.ToString ();
       }
     }
 
@@ -110,18 +179,35 @@ namespace CUTS.Web.UI.UnitTesting
      */
     protected override void CreateChildControls ()
     {
-      Table table = new Table ();
-      this.Controls.Add (table);
+      // Insert the where statement.
+      LiteralControl lit_where = new LiteralControl (" where ");
+      this.Controls.Add (lit_where);
 
-      for (int i = 0; i < this.relation_.Count; ++ i)
-        this.add_new_relation (table, null, null);
+      // Insert the log format prefix for the left side.
+      LiteralControl lit_lhs = new LiteralControl (String.Format ("LF{0}. ", this.left_));
+      this.Controls.Add (lit_lhs);
 
-      LinkButton link = new LinkButton ();
-      this.Controls.Add (link);
+      // Insert the textbox control for the left side.
+      TextBox text_lhs = new TextBox ();
+      this.Controls.Add (text_lhs);
+      text_lhs.EnableViewState = true;
+      text_lhs.CausesValidation = false;
 
-      link.Text = "more relations";
-      link.CausesValidation = false;
-      link.Click += new EventHandler(this.onclick_more_relations);
+      LiteralControl lit_equal = new LiteralControl (" => ");
+      this.Controls.Add (lit_equal);
+
+      // Insert the log format prefix for the right side.
+      DropDownList id_list = new DropDownList ();
+      this.Controls.Add (id_list);
+
+      id_list.ID = String.Format ("idlist{0}_", this.left_);
+      id_list.EnableViewState = true;
+
+      // Insert the textbox control for the right side.
+      TextBox text_rhs = new TextBox ();
+      this.Controls.Add (text_rhs);
+      text_rhs.EnableViewState = true;
+      text_rhs.CausesValidation = false;
     }
 
     /**
@@ -137,16 +223,10 @@ namespace CUTS.Web.UI.UnitTesting
         base.LoadViewState (state[0]);
 
       if (state[1] != null)
-        this.relation_ = (CUTS.Data.Relation)state[1];
-
-      if (state[2] != null)
-        this.left_ = (int)state[2];
+        this.left_ = (int)state[1];
 
       if (state[3] != null)
-        this.right_ = (int)state[3];
-
-      if (state[4] != null)
-        this.data_table_ = (DataTable)state[4];
+        this.data_table_ = (DataTable)state[3];
     }
 
     /**
@@ -159,10 +239,8 @@ namespace CUTS.Web.UI.UnitTesting
       object[] state = new object[5];
 
       state[0] = base.SaveViewState ();
-      state[1] = this.relation_;
-      state[2] = this.left_;
-      state[3] = this.right_;
-      state[4] = this.data_table_;
+      state[1] = this.left_;
+      state[3] = this.data_table_;
 
       return state;
     }
@@ -172,19 +250,10 @@ namespace CUTS.Web.UI.UnitTesting
      */
     protected override void Render (HtmlTextWriter writer)
     {
+      this.Page.ClientScript.RegisterForEventValidation (this.Controls[2].UniqueID);
+      this.Page.ClientScript.RegisterForEventValidation (this.Controls[5].UniqueID);
+
       base.Render (writer);
-
-      Table table = (Table)this.Controls[0];
-
-      foreach (TableRow row in table.Rows)
-      {
-        // Register the dropdown list.
-        this.Page.ClientScript.RegisterForEventValidation (row.Cells[0].Controls[0].UniqueID);
-        this.Page.ClientScript.RegisterForEventValidation (row.Cells[2].Controls[0].UniqueID);
-      }
-
-      // Register the link.
-      this.Page.ClientScript.RegisterForEventValidation (this.Controls[1].UniqueID);
     }
 
     /**
@@ -192,220 +261,28 @@ namespace CUTS.Web.UI.UnitTesting
      */
     public override void DataBind ()
     {
-      // Get the table for showing the relations.
-      Table table = (Table)this.Controls[0];
+      this.EnsureChildControls ();
 
-      // Partition the relations into their respective sides.
-      DataTable lhs, rhs;
-      this.get_relations (out lhs, out rhs);
+      DropDownList id_list = (DropDownList)this.Controls[4];
 
-      // Clear the data structure and control.
-      this.relation_.clear ();
-      table.Rows.Clear ();
-
-      // Insert a dummy value.
-      this.relation_.add (null, null);
-
-      // Now, insert the real relation.
-      this.add_new_relation (table, lhs, rhs);
-    }
-
-    /**
-     *
-     */
-    private void onclick_more_relations (object sender, EventArgs e)
-    {
-      // Insert a dummy relation in the data set.
-      this.relation_.add (null, null);
-
-      // Get the data for this relation.
-      DataTable lhs, rhs;
-      this.get_relations (out lhs, out rhs);
-
-      // Insert a new relation into the cell.
-      Table table = (Table)this.Controls[0];
-      this.add_new_relation (table, lhs, rhs);
-    }
-
-    /**
-     *
-     */
-    private void get_relations (out DataTable lhs, out DataTable rhs)
-    {
-      // Define the filters for either side of the relation.
-      string lhs_filter = String.Format ("lfid = {0}", this.left_);
-      string rhs_filter = String.Format ("lfid = {0}", this.right_);
-
-      // Select the variable for either side of the relation.
-      DataRow[] lhs_rows = this.data_table_.Select (lhs_filter);
-      DataRow[] rhs_rows = this.data_table_.Select (rhs_filter);
-
-      // Build the data table for the lhs relation.
-      lhs = this.data_table_.Clone ();
-
-      foreach (DataRow lhs_row in lhs_rows)
+      foreach (int id in this.log_ids_)
       {
-        // Create a new for the data table.
-        DataRow lhs_new = lhs.NewRow ();
-        lhs_new.ItemArray = lhs_row.ItemArray;
+        String text = String.Format ("LF{0}.", id);
+        String value = id.ToString ();
 
-        // Insert the new row into the data table.
-        lhs.Rows.Add (lhs_new);
+        id_list.Items.Add (new ListItem (text, value));
       }
-
-      // Build the data table for the lhs relation.
-      rhs = this.data_table_.Clone ();
-
-      foreach (DataRow rhs_row in rhs_rows)
-      {
-        // Create a new for the data table.
-        DataRow rhs_new = rhs.NewRow ();
-        rhs_new.ItemArray = rhs_row.ItemArray;
-
-        // Insert the new row into the data table.
-        rhs.Rows.Add (rhs_new);
-      }
-    }
-
-    /**
-     *
-     */
-    private void ondatabound_relation_lhs (object sender, EventArgs e)
-    {
-      // Get the selected value.
-      DropDownList list = (DropDownList)sender;
-      int value = int.Parse (list.SelectedValue);
-
-      // Update the value in the relation.
-      int index = this.get_index (list);
-      this.relation_.update_left_value (index, value);
-    }
-
-    /**
-     *
-     */
-    private void ondatabound_relation_rhs (object sender, EventArgs e)
-    {
-      // Get the selected value.
-      DropDownList list = (DropDownList)sender;
-      int value = int.Parse (list.SelectedValue);
-
-      // Update the value in the relation.
-      int index = this.get_index (list);
-      this.relation_.update_right_value (index, value);
-    }
-
-    /**
-     *
-     */
-    private void onchange_relation_lhs (object sender, EventArgs e)
-    {
-      DropDownList list = (DropDownList)sender;
-      int value = int.Parse (list.SelectedValue);
-
-      int index = this.get_index (list);
-      this.relation_.update_left_value (index, value);
-    }
-
-    /**
-     *
-     */
-    private void onchange_relation_rhs (object sender, EventArgs e)
-    {
-      DropDownList list = (DropDownList)sender;
-      int value = int.Parse (list.SelectedValue);
-
-      int index = this.get_index (list);
-      this.relation_.update_right_value (index, value);
-    }
-
-    /**
-     *
-     */
-    private int get_index (DropDownList list)
-    {
-      // Get the placeholder for this relation.
-      TableCell cell = (TableCell)list.Parent;
-      TableRow row = (TableRow)cell.Parent;
-      Table table = (Table)row.Parent;
-
-      return table.Rows.GetRowIndex (row);
-    }
-
-    /**
-     *
-     */
-    private void add_new_relation (Table table, DataTable lhs, DataTable rhs)
-    {
-      TableRow relation_row = new TableRow ();
-      table.Rows.Add (relation_row);
-
-      // Prepare the left side of the relation.
-      TableCell lhs_cell = new TableCell ();
-      relation_row.Cells.Add (lhs_cell);
-
-      DropDownList lhs_list = new DropDownList ();
-      lhs_cell.Controls.Add (lhs_list);
-
-      // Insert the equal sign for the relation.
-      TableCell eq_cell = new TableCell ();
-      relation_row.Cells.Add (eq_cell);
-
-      eq_cell.Controls.Add (new LiteralControl (" = "));
-
-      // Prepare the right side of the relation.
-      TableCell rhs_cell = new TableCell ();
-      relation_row.Cells.Add (rhs_cell);
-
-      DropDownList rhs_list = new DropDownList ();
-      rhs_cell.Controls.Add (rhs_list);
-
-      // Set the data source for the control.
-      lhs_list.AutoPostBack = true;
-      lhs_list.CausesValidation = false;
-      lhs_list.EnableViewState = true;
-      lhs_list.SelectedIndexChanged += new EventHandler (this.onchange_relation_lhs);
-      lhs_list.DataBound += new EventHandler (this.ondatabound_relation_lhs);
-
-      if (lhs != null)
-      {
-        lhs_list.DataSource = lhs;
-        lhs_list.DataValueField = "variable_id";
-        lhs_list.DataTextField = "varname";
-        lhs_list.DataBind ();
-      }
-
-      rhs_list.AutoPostBack = true;
-      rhs_list.CausesValidation = false;
-      rhs_list.EnableViewState = true;
-      rhs_list.SelectedIndexChanged += new EventHandler (this.onchange_relation_rhs);
-      rhs_list.DataBound += new EventHandler (this.ondatabound_relation_rhs);
-
-      if (rhs != null)
-      {
-        // Set the data source for the control.
-        rhs_list.DataSource = rhs;
-        rhs_list.DataValueField = "variable_id";
-        rhs_list.DataTextField = "fq_name";
-        rhs_list.DataBind ();
-      }
-    }
+   }
 
     /**
      * Log format id for the left side of the relation.
      */
     private int left_;
 
-    /**
-     * Log format id for the right side of the relation.
-     */
-    private int right_;
-
-    /**
-     * The value of the relation.
-     */
-    private CUTS.Data.Relation relation_ = new CUTS.Data.Relation ();
-
     private DataTable data_table_;
+
+    private ArrayList log_ids_;
+
+    private CUTS.Data.Relation relation_ = new CUTS.Data.Relation ();
   }
 }

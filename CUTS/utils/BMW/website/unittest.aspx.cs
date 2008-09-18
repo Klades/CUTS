@@ -1045,14 +1045,6 @@ namespace CUTS
     #endregion
 
 
-    //=======================================================================
-    //                                                                     //
-    //               Everything below here is for Creation View            //
-    //                                                                     //
-    //=======================================================================
-
-
-
     protected void handle_onmenuitemclick (Object sender, MenuEventArgs e)
     {
       this.multiview_.ActiveViewIndex = int.Parse (e.Item.Value);
@@ -1083,26 +1075,8 @@ namespace CUTS
       // is as simple as iterating over all the rows in the table and locating
       // the 'log_format_' control in that row. ;-)
 
-      ArrayList lfids = new ArrayList ();
-      ArrayList relations = new ArrayList ();
-
-      //for (int i = 1; i < this.log_formats_.Rows.Count; ++i)
-      //{
-      //  // Find the "log_format_" control in this row.
-      //  DropDownList formats = this.get_log_format_control (this.log_formats_.Rows[i]);
-
-      //  // Insert its value into the listing of log format ids.
-      //  lfids.Add (formats.SelectedValue);
-      //}
-
-      //// Get the relations for the unit test.
-      //for (int i = 2; i < this.log_formats_.Rows.Count; ++i)
-      //{
-      //  DropDownList lhs_relation, rhs_relation;
-      //  this.get_relations (this.log_formats_.Rows[i], out lhs_relation, out rhs_relation);
-
-      //  relations.Add (new Pair (lhs_relation.SelectedValue, rhs_relation.SelectedValue));
-      //}
+      int[] lfids = this.log_format_table_.SelectedLogFormats;
+      CUTS.Data.Relation [] relations = this.log_format_table_.SelectedRelations;
 
       // Prepare the variables for inserting the new unit test.
       Hashtable variables = new Hashtable ();
@@ -1114,8 +1088,8 @@ namespace CUTS
       variables.Add ("WarnValue", this.unit_test_warn_.Text);
       variables.Add ("Evaluation", this.unit_test_eval_.Text);
       variables.Add ("Aggregration_Func", this.aggr_function_.SelectedValue);
-      variables.Add ("Formats", (string[])lfids.ToArray (typeof (string)));
-      variables.Add ("Relations", (Pair[])relations.ToArray (typeof (Pair)));
+      variables.Add ("Formats", lfids);
+      variables.Add ("Relations", relations);
 
       try
       {
