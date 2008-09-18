@@ -16,6 +16,8 @@ CUTS_Log_T <T, LOCK>::CUTS_Log_T (const CUTS_Log_T & log)
   used_ (0),
   auto_grow_ (log.auto_grow_)
 {
+  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::CUTS_Log_T (const CUTS_Log_T &)");
+
   this->copy_log_i (log);
 }
 
@@ -25,6 +27,8 @@ CUTS_Log_T <T, LOCK>::CUTS_Log_T (const CUTS_Log_T & log)
 template <typename T, typename LOCK>
 T * CUTS_Log_T <T, LOCK>::next_free_record (void)
 {
+  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::next_free_record");
+
   if (this->used_ < this->cur_size_)
   {
     // Optimized for the fast path.
@@ -53,6 +57,8 @@ template <typename T, typename LOCK>
 const CUTS_Log_T <T, LOCK> &
 CUTS_Log_T <T, LOCK>::operator = (const CUTS_Log_T <T, LOCK> & log)
 {
+  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::operator = (const CUTS_Log_T <T, LOCK> &)");
+
   // Save the auto grow state.
   this->auto_grow_ = log.auto_grow_;
   this->copy_log (log);
@@ -65,6 +71,7 @@ CUTS_Log_T <T, LOCK>::operator = (const CUTS_Log_T <T, LOCK> & log)
 template <typename T, typename LOCK>
 void CUTS_Log_T <T, LOCK>::copy_log (const CUTS_Log_T & log)
 {
+  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::copy_log (const CUTS_Log_T &)");
   ACE_WRITE_GUARD (LOCK, guard, this->lock_);
 
   // Set the size of the log and copy it.
@@ -78,6 +85,7 @@ void CUTS_Log_T <T, LOCK>::copy_log (const CUTS_Log_T & log)
 template <typename T, typename LOCK>
 void CUTS_Log_T <T, LOCK>::copy_log_i (const CUTS_Log_T & log)
 {
+  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::copy_log_i (const CUTS_Log_T &)");
   std::copy (log.begin (), log.used_end (), this->begin ());
   this->used_ = log.used_;
 }
@@ -90,6 +98,7 @@ CUTS_INLINE
 typename CUTS_Log_T <T, LOCK>::size_type
 CUTS_Log_T <T, LOCK>::size (void) const
 {
+  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::size (void) const");
   ACE_READ_GUARD_RETURN (LOCK,
                          guard,
                          this->lock_,
@@ -106,6 +115,7 @@ CUTS_INLINE
 int CUTS_Log_T <T, LOCK>::
 size (typename CUTS_Log_T <T, LOCK>::size_type new_size)
 {
+  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::size (typename CUTS_Log_T <T, LOCK>::size_type)");
   ACE_WRITE_GUARD_RETURN (LOCK, guard, this->lock_, -1);
   return this->ACE_Array_Base <T>::size (new_size);
 }

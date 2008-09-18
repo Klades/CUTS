@@ -64,6 +64,33 @@ namespace actors
 
     std::ostringstream & ostr_;
   };
+
+  /**
+   * @class simple_arg
+   */
+  template < >
+  class simple_arg <char>
+  {
+  public:
+    simple_arg (va_list & args, std::ostringstream & ostr)
+      : args_ (args),
+        ostr_ (ostr)
+    {
+
+    }
+
+    template <typename CharT>
+    void operator () (CharT) const
+    {
+      char arg = static_cast <char> (va_arg (this->args_, int));
+      this->ostr_ << arg;
+    }
+
+  private:
+    va_list & args_;
+
+    std::ostringstream & ostr_;
+  };
 }
 
 ///////////////////////////////////////////////////////////////////////////////

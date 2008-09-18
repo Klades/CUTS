@@ -1,15 +1,37 @@
+Thu Sep 18 06:38:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/Benchmark_Agent_i.cpp:
+        * cuts/Event_Handler_T.inl:
+        * cuts/Event_Handler_T.cpp:
+        * cuts/Log_Msg.h:
+        * cuts/Log_T.inl:
+        * cuts/Log_T.cpp:
+        * cuts/Port_Agent.inl:
+        * cuts/Port_Agent.cpp:
+        * cuts/Thread_Activation_Record.inl:
+        * cuts/performance_i.cpp:
+
+	  . Starting the add tracing logging to all the classes to help with
+	    debugging efforts, when necessary.
+	
+        * cuts/workers/Test_Logger/Format_Parser.cpp:
+
+	  . Fixed compilation warning related to using 'char' types within
+	    variable arguments. This was resolved by specializing the 
+	    problematic functor to treat 'char' types as 'integers'.
+	
 Wed Sep 17 05:21:58 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/svcs/dbase/DB_Registry.cpp:
-	  
-	  . Bug fix where the number of parameters specified for the 
-	    stored procedure to insert the hostname into the database
-	    was too many.
+
+          . Bug fix where the number of parameters specified for the
+            stored procedure to insert the hostname into the database
+            was too many.
 
         * cuts/utils/logging/TestLoggerFactory_i.cpp:
 
-	  . Bug fix where the descriptor index used to access the test
-	    uuid from the returned SQL query was invalid.
+          . Bug fix where the descriptor index used to access the test
+            uuid from the returned SQL query was invalid.
 
 Wed Sep 17 05:11:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

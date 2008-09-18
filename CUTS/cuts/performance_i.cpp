@@ -32,6 +32,8 @@ namespace CUTS
 static inline
 void operator >>= (const CUTS::Time_Stamp & ts, ACE_Time_Value & tm)
 {
+  CUTS_TRACE ("operator >>= (const CUTS::Time_Stamp &, ACE_Time_Value &)");
+
   tm.set (ts.sec, ts.usec);
 }
 
@@ -41,6 +43,8 @@ void operator >>= (const CUTS::Time_Stamp & ts, ACE_Time_Value & tm)
 void operator >>= (const CUTS::Action_Time & time,
                    CUTS_Activation_Record_Entry & entry)
 {
+  CUTS_TRACE ("operator >>= (const CUTS::Action_Time &, CUTS_Activation_Record_Entry &)");
+
   entry.uid_ = time.unique_id;
   entry.type_ = time.type;
 
@@ -53,6 +57,8 @@ void operator >>= (const CUTS::Action_Time & time,
 template <typename S, typename T, typename LOCK>
 static void operator >>= (const S & sequence, CUTS_Log_T <T, LOCK> & log)
 {
+  CUTS_TRACE ("operator >>= (const S &, CUTS_Log_T <T, LOCK> &)");
+
   // Get the size of the sequence.
   CORBA::ULong curr_size = sequence.length ();
   //curr_size =  curr_size > 2 ? curr_size - 2 : 0;
@@ -93,6 +99,8 @@ static void operator >>= (const S & sequence, CUTS_Log_T <T, LOCK> & log)
 void operator >>= (const CUTS::Action_Times & times,
                    CUTS_Activation_Record_Entry_Log & entries)
 {
+  CUTS_TRACE ("operator >>= (const CUTS::Action_Times &, CUTS_Activation_Record_Entry_Log &)");
+
   // Get the current size of the buffer and resize the log.
   CORBA::ULong curr_size = times.length ();
   entries.size (curr_size);
@@ -112,6 +120,8 @@ static
 void operator >>= (const CUTS::Endpoint_Time & ep_time,
                    CUTS_Activation_Record_Endpoint & endpoint)
 {
+  CUTS_TRACE ("operator >>= (const CUTS::Endpoint_Time &, CUTS_Activation_Record_Endpoint &");
+
   // Get the time value for the endpoint.
   ACE_Time_Value tv;
   ep_time.exittime >>= tv;
@@ -129,6 +139,8 @@ void operator >>= (const CUTS::Endpoint_Time & ep_time,
 static void
 operator >>= (const CUTS::Metric_Record & mr, CUTS_Activation_Record & ar)
 {
+  CUTS_TRACE ("operator >>= (const CUTS::Metric_Record &, CUTS_Activation_Record &)");
+
   // Extract the owner of the <mr>.
   ar.owner (mr.sender);
 
@@ -155,6 +167,8 @@ operator >>= (const CUTS::Metric_Record & mr, CUTS_Activation_Record & ar)
 static
 void operator >>= (const CUTS::Port_Metric & pm, CUTS_Port_Metric & port)
 {
+  CUTS_TRACE ("operator >>= (const CUTS::Port_Metric &, CUTS_Port_Metric &)");
+
   // Update the time for the port metric.
   port.timestamp (CUTS::global::tv_placeholder_);
 
@@ -178,6 +192,8 @@ void operator >>= (const CUTS::Port_Metric & pm, CUTS_Port_Metric & port)
 void operator >>= (const CUTS::Component_Metric & src,
                    CUTS_Component_Metric & dst)
 {
+  CUTS_TRACE ("operator >>= (const CUTS::Component_Metric &, CUTS_Component_Metric &)");
+
   // Save the collection time for this component.
   CUTS::global::tv_placeholder_ = dst.timestamp ();
 
@@ -224,6 +240,8 @@ template <typename SEQUENCE, typename T, typename LOCK>
 static bool
 operator <<= (SEQUENCE & sequence, CUTS_Log_T <T, LOCK> & log)
 {
+  CUTS_TRACE ("operator <<= (SEQUENCE &, CUTS_Log_T <T, LOCK> &)");
+
   typedef typename CUTS_Log_T <T, LOCK>::lock_type lock_type;
   ACE_READ_GUARD_RETURN (lock_type, guard, log.lock (), false);
 
@@ -264,6 +282,8 @@ operator <<= (SEQUENCE & sequence, CUTS_Log_T <T, LOCK> & log)
 inline static bool
 operator <<= (CUTS::Time_Stamp & ts, const ACE_Time_Value & tv)
 {
+  CUTS_TRACE ("operator <<= (CUTS::Time_Stamp &, const ACE_Time_Value &)");
+
   ts.sec = tv.sec ();
   ts.usec = tv.usec ();
   return true;
@@ -276,6 +296,8 @@ static bool
 operator <<= (CUTS::Action_Time & act,
               const CUTS_Activation_Record_Entry & entry)
 {
+  CUTS_TRACE ("operator <<= (CUTS::Action_Time &, const CUTS_Activation_Record_Entry &)");
+
   act.unique_id = entry.uid_;
   act.type = entry.type_;
   act.duration <<= entry.duration_;
@@ -286,6 +308,8 @@ static bool
 operator <<= (CUTS::Endpoint_Time & ept,
               CUTS_Activation_Record_Endpoint & endpoint)
 {
+  CUTS_TRACE ("operator <<= (CUTS::Endpoint_Time &, CUTS_Activation_Record_Endpoint &)");
+
   ept.unique_id = endpoint.id ();
   ept.datasize = endpoint.data_size ();
   ept.exittime <<= endpoint.time_of_completion ();
@@ -295,6 +319,8 @@ operator <<= (CUTS::Endpoint_Time & ept,
 static bool
 operator <<= (CUTS::Metric_Record & dest, CUTS_Activation_Record & record)
 {
+  CUTS_TRACE ("operator <<= (CUTS::Metric_Record &, CUTS_Activation_Record &)");
+
   if (record.is_open ())
     return false;
 
@@ -319,6 +345,8 @@ operator <<= (CUTS::Metric_Record & dest, CUTS_Activation_Record & record)
 inline
 void operator <<= (CUTS::Port_Metric & pm, CUTS_Port_Agent & agent)
 {
+  CUTS_TRACE ("operator <<= (CUTS::Port_Metric &, CUTS_Port_Agent &)");
+
   pm.record_log <<= agent.log ();
 }
 
@@ -328,6 +356,8 @@ void operator <<= (CUTS::Port_Metric & pm, CUTS_Port_Agent & agent)
 static void
 operator <<= (CUTS::Port_Metrics & ports, CUTS_Port_Agent_Set & agents)
 {
+  CUTS_TRACE ("operator <<= (CUTS::Port_Metrics &, CUTS_Port_Agent_Set &)");
+
   // Get the number of agents and update the size of the
   // port metrics.
   CORBA::ULong size = agents.current_size ();
@@ -367,6 +397,8 @@ operator <<= (CUTS::Port_Metrics & ports, CUTS_Port_Agent_Set & agents)
 void
 operator <<= (CUTS::Component_Metric & cm, CUTS_Benchmark_Agent & agent)
 {
+  CUTS_TRACE ("operator <<= (CUTS::Component_Metric &, CUTS_Benchmark_Agent &)");
+
   // Set the parent id and the collection time.
   cm.unique_id = agent.parent ();
   cm.collection_time <<= ACE_OS::gettimeofday ();

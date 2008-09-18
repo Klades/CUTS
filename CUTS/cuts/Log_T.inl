@@ -118,4 +118,3 @@ void CUTS_Log_T <T, LOCK>::auto_grow (bool flag)
 {
   this->auto_grow_ = flag;
 }
-

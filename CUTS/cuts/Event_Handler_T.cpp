@@ -48,29 +48,43 @@ CUTS_Event_Handler_Base_T <COMPONENT, EVENTTYPE>::
 handle_event_i (EVENTTYPE * ev,
                 const ACE_Time_Value & queue_time)
 {
+  CUTS_TRACE ("CUTS_Event_Handler_Base_T <COMPONENT, EVENTTYPE>::handle_event_i (EVENTTYPE *, const ACE_Time_Value &)");
+
   // Get a new record and assign it to this thread.
   CUTS_Activation_Record * record = this->port_agent ().record_alloc ();
 
   CUTS_Activation_Record * old_record =
     CUTS_Thread_Activation_Record::set_record (record);
 
-  // Open the record.
-  record->open ();
+  if (record != 0)
+    {
+      // Open the record.
+      record->open ();
+    }
+  else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - activation record is NIL\n"));
+    }
 
   // Make an upcall to the callback
   if (!this->config_.dispatch_event (ev))
-  {
-    ACE_ERROR ((LM_ERROR,
-                "[%M] -%T - failed to dispatch an event\n"));
-  }
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "[%M] -%T - failed to dispatch an event\n"));
+    }
 
-  // Close the record and store it's queueing time as well.
-  record->close ();
-  record->queue_time (queue_time);
+  if (record != 0)
+    {
+      // Close the record and store it's queueing time as well.
+      record->close ();
+      record->queue_time (queue_time);
+
+      this->port_agent ().record_free (record);
+    } 
 
   // We should now update the port agent.
   CUTS_Thread_Activation_Record::set_record (old_record);
-  this->port_agent ().record_free (record);
 }
 
 //=============================================================================

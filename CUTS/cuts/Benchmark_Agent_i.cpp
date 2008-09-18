@@ -13,7 +13,7 @@
 //
 Benchmark_Agent_i::Benchmark_Agent_i (void)
 {
-
+  CUTS_TRACE ("Benchmark_Agent_i::Benchmark_Agent_i");
 }
 
 //
@@ -21,7 +21,7 @@ Benchmark_Agent_i::Benchmark_Agent_i (void)
 //
 Benchmark_Agent_i::~Benchmark_Agent_i (void)
 {
-
+  CUTS_TRACE ("Benchmark_Agent_i::Benchmark_Agent_i");
 }
 
 //
@@ -30,6 +30,8 @@ Benchmark_Agent_i::~Benchmark_Agent_i (void)
 void Benchmark_Agent_i::
 collect_performance_data (CUTS::Component_Metric_out data)
 {
+  CUTS_TRACE ("Benchmark_Agent_i::collect_performance_data");
+              
   // Allocate a new <CUTS::Benchmark_Data> object then call the
   // packing operation(s) for the collected operations.
   ACE_NEW_THROW_EX (data,

@@ -1,3 +1,4 @@
+// -*- C++ -*-
 // $Id$
 
 //
@@ -8,7 +9,7 @@ CUTS_INLINE
 CUTS_Event_Handler_T <COMPONENT, EVENTTYPE>::
 CUTS_Event_Handler_T (void)
 {
-
+  CUTS_TRACE ("CUTS_Event_Handler_T <COMPONENT, EVENTTYPE>::CUTS_Event_Handler_T");
 }
 
 //
@@ -19,7 +20,7 @@ CUTS_INLINE
 CUTS_Event_Handler_T <COMPONENT, EVENTTYPE>::
 ~CUTS_Event_Handler_T (void)
 {
-
+  CUTS_TRACE ("CUTS_Event_Handler_T <COMPONENT, EVENTTYPE>::~CUTS_Event_Handler_T");
 }
 
 //
@@ -30,20 +31,20 @@ CUTS_INLINE
 bool CUTS_Event_Handler_Config_T <COMPONENT, EVENTTYPE>::
 dispatch_event (EVENTTYPE * ev) const
 {
-  /// @note Should this check even been here?? Maybe for debug
-  /// mode, and not for release mode??
-  try		
-    {	
-      if (this->component_ == 0 || this->method_ == 0)
-        return false;
+  CUTS_TRACE ("CUTS_Event_Handler_Config_T <COMPONENT, EVENTTYPE>::dispatch_event (EVENTTYPE *) const");
 
-      (this->component_->*this->method_) (ev);
-    }
-  catch (...)
+  if (this->component_ != 0 && this->method_ != 0)
     {
-       return false;
+      (this->component_->*this->method_) (ev);
+      return true;
     }
-  return true;
+  else
+    {
+      ACE_ERROR ((LM_CRITICAL,
+                  "%T (%t) - %M - callback component and method are NIL\n"));
+    }
+
+  return false;
 }
 
 //=============================================================================
