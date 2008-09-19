@@ -1,3 +1,12 @@
+Fri Sep 19 14:50:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/Log_T.h:
+        * cuts/Log_T.inl:
+        * cuts/Log_T.cpp:
+
+	  . Fixed compilation errors on non-Windows based systems related
+	    to implementation of template classes.
+
 Fri Sep 19 05:20:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/Activation_Record.inl:

@@ -94,7 +94,7 @@ size_t CUTS_Log_T <T, LOCK>::size (void) const
                          this->lock_,
                          this->curr_size_);
 
-  return this->curr_size_
+  return this->curr_size_;
 }
 
 //

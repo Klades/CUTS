@@ -14,6 +14,7 @@
 #define _CUTS_LOG_T_H_
 
 #include "CUTS_export.h"
+#include "ace/Guard_T.h"
 #include "ace/Containers_T.h"
 
 // Forward decl.

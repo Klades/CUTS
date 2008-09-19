@@ -4,7 +4,6 @@
 #include "Log_T.inl"
 #endif
 
-#include "ace/Guard_T.h"
 #include "ace/Auto_Ptr.h"
 #include "ace/CORBA_macros.h"
 #include <algorithm>
@@ -23,7 +22,7 @@ CUTS_Log_T <T, LOCK>::CUTS_Log_T (size_t chunk_size)
 {
   CUTS_TRACE ("CUTS_Log_T (typename CUTS_Log_T <T, LOCK>::size_type)");
 
-  typename chunk_type * chunk = 0;
+  chunk_type * chunk = 0;
   ACE_NEW_THROW_EX (chunk, chunk_type (chunk_size), ACE_bad_alloc ());
 
   this->records_[0] = chunk;
@@ -94,7 +93,7 @@ void CUTS_Log_T <T, LOCK>::copy_i (const CUTS_Log_T & log)
 {
   CUTS_TRACE ("CUTS_Log_T <T, LOCK>::copy_i (const CUTS_Log_T &)");
 
-  typename const_iterator iter (log);
+  const_iterator iter (log);
 
   for ( ; !iter.done (); iter.advance ())
     *this->next_free_record_no_lock () = *iter;
@@ -153,18 +152,18 @@ int CUTS_Log_T <T, LOCK>::size_i (size_t new_size)
     size_t chunks = (new_size / this->chunk_size_) - this->records_.size ();
 
     // Initialize a temporary array of chunks.
-    ACE_Auto_Ptr <typename chunk_type> * temp_chunks = 0;
+    ACE_Auto_Ptr <chunk_type> * temp_chunks = 0;
     ACE_NEW_RETURN (temp_chunks,
-                    ACE_Auto_Ptr <typename chunk_type> [chunks],
+                    ACE_Auto_Ptr <chunk_type> [chunks],
                     -1);
 
-    ACE_Auto_Array_Ptr <ACE_Auto_Ptr <typename chunk_type> > temp (temp_chunks);
+    ACE_Auto_Array_Ptr <ACE_Auto_Ptr <chunk_type> > temp (temp_chunks);
 
     for (size_t i = 0; i < chunks; ++ i)
     {
       // Allocate a new chuck for the record log.
-      typename chunk_type * chunk = 0;
-      ACE_NEW_RETURN (chunk, typename chunk_type (this->chunk_size_), -1);
+      chunk_type * chunk = 0;
+      ACE_NEW_RETURN (chunk, chunk_type (this->chunk_size_), -1);
 
       // Insert the chunk into the temp data store.
       temp[i].reset (chunk);
