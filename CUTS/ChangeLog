@@ -1,3 +1,38 @@
+Fri Sep 19 05:20:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/Activation_Record.inl:
+        * cuts/Activation_Record.cpp:
+        * cuts/Async_Event_Handler_Queue_T.h:
+        * cuts/Async_Event_Handler_Queue_T.cpp:
+        * cuts/Async_Event_Handler_T.inl:
+        * cuts/Async_Event_Handler_T.cpp:
+        * cuts/BDC/svcs/IO/IO_System_Metric_Visitor.cpp:
+        * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.cpp:
+        * cuts/BDC/svcs/baseline/System_Metric_Accumulator.cpp:
+        * cuts/BDC/svcs/dbase/DBase_Service.cpp:
+        * cuts/Endpoint_Log_Summary.h:
+        * cuts/Endpoint_Log_Summary.inl:
+        * cuts/Endpoint_Log_Summary.cpp:
+        * cuts/Event_Handler_Manager_T.inl:
+        * cuts/Event_Handler_T.cpp:
+        * cuts/Log_T.h:
+        * cuts/Log_T.inl:
+        * cuts/Log_T.cpp:
+        * cuts/Port_Metric.inl:
+        * cuts/Port_Metric.cpp:
+        * cuts/Port_Summary.h:
+        * cuts/Port_Summary.inl:
+        * cuts/Port_Summary.cpp:
+        * cuts/performance_i.cpp:
+
+          . Major bug fix where using more than one thread in an event handler
+            for an input event caused the system to segfault. This was due to
+            a bad design of the CUTS_Log_T class. The fix for this bug resulted
+            in re-architecting the CUTS_Log_T class, and any class that used
+            this class.
+
+          . Inserted more trace messages into the code for debugging purposes.
+
 Thu Sep 18 07:11:13 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Data/CUTS/Data/Relation.cs:

@@ -14,9 +14,11 @@ CUTS_Activation_Record (const CUTS_Activation_Record & rec)
 : active_ (rec.active_),
   owner_ (rec.owner_),
   stopwatch_ (rec.stopwatch_),
-  queue_time_ (rec.queue_time_)
+  queue_time_ (rec.queue_time_),
+  endpoints_ (rec.endpoints_),
+  entries_ (50)
 {
-  this->endpoints_ = rec.endpoints_;
+
 }
 
 //

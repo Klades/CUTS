@@ -15,31 +15,21 @@
 #ifndef _CUTS_PORT_SUMMARY_H_
 #define _CUTS_PORT_SUMMARY_H_
 
-#include "cuts/Activation_Record_Log.h"
-#include "cuts/Endpoint_Log_Summary.h"
-#include "cuts/Time_Measurement.h"
+#include "Activation_Record_Log.h"
+#include "Endpoint_Log_Summary.h"
+#include "Time_Measurement.h"
 
 // Forward decl.
 class CUTS_Metrics_Visitor;
 
-//=============================================================================
 /**
  * @class CUTS_Port_Summary_Base
  */
-//=============================================================================
-
 class CUTS_Export CUTS_Port_Summary_Base
 {
 public:
   /// Default constructor.
   CUTS_Port_Summary_Base (void);
-
-  /**
-   * Copy constructor.
-   *
-   * @param[in]     copy        Source object.
-   */
-  CUTS_Port_Summary_Base (const CUTS_Port_Summary_Base & copy);
 
   /// Destructor.
   virtual ~CUTS_Port_Summary_Base (void);
@@ -80,21 +70,14 @@ public:
   /// Accept the visitor.
   virtual void accept (CUTS_Metrics_Visitor & visitor) const;
 
-  /**
-   * Assignment operator.
-   *
-   * @param[in]     rhs     Right-hand side of operator.
-   * @return        Reference to self.
-   */
-  const CUTS_Port_Summary_Base & operator = (const CUTS_Port_Summary_Base & rhs);
 
-  /**
-   * Addition assignment operator.
-   *
-   * @param[in]     rhs     Right-hand side of operator.
-   * @return        Reference to self.
-   */
-  const CUTS_Port_Summary_Base & operator += (const CUTS_Port_Summary_Base & rhs);
+  ///**
+  // * Addition assignment operator.
+  // *
+  // * @param[in]     rhs     Right-hand side of operator.
+  // * @return        Reference to self.
+  // */
+  //const CUTS_Port_Summary_Base & operator += (const CUTS_Port_Summary_Base & rhs);
 
 protected:
   /// The queuing time of the port.
@@ -105,9 +88,13 @@ protected:
 
   /// Map of endpoints by id in chronologicial order.
   CUTS_Endpoint_Log_Summary endpoints_;
+
+  // prevent the following operations
+  CUTS_Port_Summary_Base (const CUTS_Port_Summary_Base &);
+  const CUTS_Port_Summary_Base & operator = (const CUTS_Port_Summary_Base &);
 };
 
-/// Type definition of map that stores CUTS_Port_Summary_Base 
+/// Type definition of map that stores CUTS_Port_Summary_Base
 /// objects by sender.
 typedef ACE_Hash_Map_Manager <
   int, CUTS_Port_Summary_Base *, ACE_RW_Thread_Mutex>

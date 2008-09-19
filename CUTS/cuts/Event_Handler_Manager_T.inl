@@ -32,6 +32,7 @@ void
 CUTS_Event_Handler_Manager_T <COMPONENT, EVENTTYPE>::
 handle_event (EVENTTYPE * ev)
 {
+  CUTS_TRACE ("CUTS_Event_Handler_Manager_T <COMPONENT, EVENTTYPE>::handle_event (EVENTTYPE *)");
   this->impl_->handle_event (ev);
 }
 
@@ -86,8 +87,7 @@ void CUTS_Event_Handler_Manager_T <COMPONENT, EVENTTYPE>::unbind (void)
 template <typename COMPONENT, typename EVENTTYPE>
 CUTS_INLINE
 CUTS_Event_Handler::Event_Mode
-CUTS_Event_Handler_Manager_T <COMPONENT, EVENTTYPE>::
-mode (void) const
+CUTS_Event_Handler_Manager_T <COMPONENT, EVENTTYPE>::mode (void) const
 {
   return this->mode_;
 }
@@ -98,8 +98,7 @@ mode (void) const
 template <typename COMPONENT, typename EVENTTYPE>
 CUTS_INLINE
 int
-CUTS_Event_Handler_Manager_T <COMPONENT, EVENTTYPE>::
-priority (void) const
+CUTS_Event_Handler_Manager_T <COMPONENT, EVENTTYPE>::priority (void) const
 {
   return this->impl_->priority ();
 }
@@ -109,9 +108,7 @@ priority (void) const
 //
 template <typename COMPONENT, typename EVENTTYPE>
 CUTS_INLINE
-void
-CUTS_Event_Handler_Manager_T <COMPONENT, EVENTTYPE>::
-priority (int prio)
+void CUTS_Event_Handler_Manager_T <COMPONENT, EVENTTYPE>::priority (int prio)
 {
   this->impl_->priority (prio);
 }
@@ -122,8 +119,7 @@ priority (int prio)
 template <typename COMPONENT, typename EVENTTYPE>
 CUTS_INLINE
 size_t
-CUTS_Event_Handler_Manager_T <COMPONENT, EVENTTYPE>::
-thread_count (void) const
+CUTS_Event_Handler_Manager_T <COMPONENT, EVENTTYPE>::thread_count (void) const
 {
   return this->impl_->thread_count ();
 }
@@ -134,8 +130,7 @@ thread_count (void) const
 template <typename COMPONENT, typename EVENTTYPE>
 CUTS_INLINE
 void
-CUTS_Event_Handler_Manager_T <COMPONENT, EVENTTYPE>::
-thread_count (size_t count)
+CUTS_Event_Handler_Manager_T <COMPONENT, EVENTTYPE>::thread_count (size_t count)
 {
   this->impl_->thread_count (count);
 }
@@ -157,8 +152,7 @@ CUTS_Event_Handler_Manager_T <COMPONENT, EVENTTYPE>::name (void) const
 template <typename COMPONENT, typename EVENTTYPE>
 CUTS_INLINE
 void
-CUTS_Event_Handler_Manager_T <COMPONENT, EVENTTYPE>::
-name (const char * name)
+CUTS_Event_Handler_Manager_T <COMPONENT, EVENTTYPE>::name (const char * name)
 {
   return this->config_.port_agent_.name (name);
 }

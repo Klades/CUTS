@@ -6,6 +6,7 @@
 CUTS_INLINE
 const CUTS_Activation_Record_Log & CUTS_Port_Metric::log (void) const
 {
+  CUTS_TRACE ("CUTS_Activation_Record_Log & CUTS_Port_Metric::log (void) const");
   return this->log_;
 }
 
@@ -15,6 +16,7 @@ const CUTS_Activation_Record_Log & CUTS_Port_Metric::log (void) const
 CUTS_INLINE
 CUTS_Activation_Record_Log & CUTS_Port_Metric::log (void)
 {
+  CUTS_TRACE ("CUTS_Port_Metric::log (void)");
   return this->log_;
 }
 
@@ -24,6 +26,7 @@ CUTS_Activation_Record_Log & CUTS_Port_Metric::log (void)
 CUTS_INLINE
 CUTS_Port_Summary & CUTS_Port_Metric::summary (void)
 {
+  CUTS_TRACE ("CUTS_Port_Metric::summary (void)");
   return this->summary_;
 }
 
@@ -33,5 +36,6 @@ CUTS_Port_Summary & CUTS_Port_Metric::summary (void)
 CUTS_INLINE
 const CUTS_Port_Summary & CUTS_Port_Metric::summary (void) const
 {
+  CUTS_TRACE ("CUTS_Port_Metric::summary (void) const");
   return this->summary_;
 }

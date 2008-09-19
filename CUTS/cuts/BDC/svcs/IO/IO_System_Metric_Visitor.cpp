@@ -132,27 +132,22 @@ visit_endpoint_log_summary (const CUTS_Endpoint_Log_Summary & summary)
     for (; !log_iter.done (); log_iter ++)
     {
       // Get iterator to the endpoint log data.
-      CUTS_Endpoint_Data_Log::iterator
-        ep_iter = log_iter->item ()->begin (),
-        ep_iter_end = log_iter->item ()->used_end ();
+      CUTS_Endpoint_Data_Log::iterator ep_iter (*log_iter->item ());
 
-      for ( ; ep_iter != ep_iter_end; ep_iter ++)
+      for ( ; !ep_iter.done (); ep_iter.advance ())
       {
-        if (ep_iter != 0)
-        {
-          if (this->myinfo_->type_->sources_.find (log_iter->key (), name) == 0)
-            std::cout << "      " << name.c_str ();
-          else
-            std::cout << "      <unknown port>";
+        if (this->myinfo_->type_->sources_.find (log_iter->key (), name) == 0)
+          std::cout << "      " << name.c_str ();
+        else
+          std::cout << "      <unknown port>";
 
-          ep_iter->avg_value (data_avg);
+        ep_iter->avg_value (data_avg);
 
-          std::cout
-            << " : [" << ep_iter->count () << "] "
-            << ep_iter->min_value ().time_of_completion ().msec () << "/"
-            << data_avg.time_of_completion ().msec () << "/"
-            << ep_iter->max_value ().time_of_completion ().msec () << std::endl;
-        }
+        std::cout
+          << " : [" << ep_iter->count () << "] "
+          << ep_iter->min_value ().time_of_completion ().msec () << "/"
+          << data_avg.time_of_completion ().msec () << "/"
+          << ep_iter->max_value ().time_of_completion ().msec () << std::endl;
       }
     }
   }

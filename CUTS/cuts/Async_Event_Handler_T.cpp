@@ -41,8 +41,7 @@ template <typename COMPONENT, typename EVENTTYPE>
 ACE_THR_FUNC_RETURN
 CUTS_Async_Event_Handler_T <COMPONENT, EVENTTYPE>::event_loop (void * param)
 {
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - starting event loop\n"));
+  CUTS_TRACE ("CUTS_Async_Event_Handler_T <COMPONENT, EVENTTYPE>::event_loop (void *)");
 
   bool active = true;
   THIS * _this = reinterpret_cast <THIS *> (param);
@@ -73,7 +72,7 @@ CUTS_Async_Event_Handler_T <COMPONENT, EVENTTYPE>::event_loop (void * param)
         _this->handle_event_i (event, queue_time);
 
         // Release the event.
-        ::CORBA::remove_ref (event);
+        CORBA::remove_ref (event);
       }
     }
   }
@@ -107,7 +106,7 @@ void CUTS_Async_Event_Handler_T <COMPONENT, EVENTTYPE>::deactivate (void)
     EVENTTYPE * ev = 0;
 
     while (this->event_queue_.dequeue (ev) > 0)
-      ::CORBA::remove_ref (ev);
+      CORBA::remove_ref (ev);
   }
 
   // Deactivate the <event_queue_> and wait all threads owned
@@ -122,7 +121,9 @@ template <typename COMPONENT, typename EVENTTYPE>
 void CUTS_Async_Event_Handler_T <COMPONENT, EVENTTYPE>::
 handle_event (EVENTTYPE * ev)
 {
-  ::CORBA::add_ref (ev);
+  CUTS_TRACE ("CUTS_Async_Event_Handler_T <COMPONENT, EVENTTYPE>::handle_event (EVENTTYPE *)");
+
+  CORBA::add_ref (ev);
   this->event_queue_.enqueue (ev);
 }
 
@@ -130,8 +131,7 @@ handle_event (EVENTTYPE * ev)
 // thread_count
 //
 template <typename COMPONENT, typename EVENTTYPE>
-void CUTS_Async_Event_Handler_T <COMPONENT, EVENTTYPE>::
-thread_count (size_t count)
+void CUTS_Async_Event_Handler_T <COMPONENT, EVENTTYPE>::thread_count (size_t count)
 {
   // We only allow one thread to change the thread count
   // at any given time.
@@ -212,9 +212,9 @@ template <typename COMPONENT, typename EVENTTYPE>
 int CUTS_Async_Event_Handler_T <COMPONENT, EVENTTYPE>::
 register_thread (bool * active)
 {
-  ACE_GUARD_RETURN (ACE_Thread_Mutex, 
-                    guard, 
-                    this->spawn_lock_, 
+  ACE_GUARD_RETURN (ACE_Thread_Mutex,
+                    guard,
+                    this->spawn_lock_,
                     -1);
 
   // Get the id and handle to the calling thread.
@@ -235,11 +235,13 @@ register_thread (bool * active)
       // Decrement the spawn count.
       -- this->spawn_count_;
 
-      // Signal the thread that we have activate all the 
+      // Signal the thread that we have activate all the
       // threads in the event handler.
       if (this->spawn_count_ == 0)
         this->spawn_condition_.signal ();
     }
+
+  return retval;
 }
 
 //
@@ -252,3 +254,42 @@ unregister_thread (void)
   ACE_thread_t thr_id = this->thr_manager_.thr_self ();
   return this->thread_map_.unbind (thr_id);
 }
+
+//
+// spawn_i
+//
+template <typename COMPONENT, typename EVENTTYPE>
+int CUTS_Async_Event_Handler_T <COMPONENT, EVENTTYPE>::
+spawn_i (size_t count)
+{
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - spawning %d threads\n",
+              count));
+
+  ACE_GUARD_RETURN (ACE_Thread_Mutex,
+                    guard,
+                    this->spawn_lock_,
+                    -1);
+
+  // We need to spawn <thread_count_> number of threads
+  // with specified <priority_>.
+  int retval = this->thr_manager_.spawn_n (count,
+                                           &THIS::event_loop,
+                                           this,
+                                           THR_NEW_LWP | THR_JOINABLE |
+                                           THR_INHERIT_SCHED,
+                                           this->priority_,
+                                           GRP_ACTIVE);
+
+  if (retval != -1)
+  {
+    // Initialize the count value and wait for all the
+    // threads to spawn.
+    this->spawn_count_ = count;
+    this->spawn_condition_.wait ();
+  }
+
+  return retval;
+}
+
+

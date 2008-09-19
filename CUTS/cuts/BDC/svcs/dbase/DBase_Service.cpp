@@ -147,13 +147,13 @@ int CUTS_Database_Service::fini (void)
   catch (const CUTS_DB_Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-		            "*** error [achvive]: %s\n",
-		            ex.message ().c_str ()));
+                "*** error [achvive]: %s\n",
+                ex.message ().c_str ()));
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-		            "*** error [archive]: caught unknown exception\n"));
+                "*** error [archive]: caught unknown exception\n"));
   }
 
   return 0;
@@ -480,13 +480,11 @@ handle_metrics (const CUTS_System_Metric & metrics)
                       outport));
 
           // Store the metrics in their parameters.
-          CUTS_Endpoint_Data_Log::const_iterator
-            eplog_iter = ep_iter->item ()->begin (),
-            eplog_iter_end = ep_iter->item ()->used_end ();
+          CUTS_Endpoint_Data_Log::const_iterator eplog_iter (*ep_iter->item ());
 
           outport_index = 0;
 
-          for (eplog_iter; eplog_iter != eplog_iter_end; eplog_iter ++)
+          for ( ; !eplog_iter.done (); eplog_iter.advance ())
           {
             // Set the values of the parameter.
             best_time = eplog_iter->min_value ().time_of_completion ().msec ();

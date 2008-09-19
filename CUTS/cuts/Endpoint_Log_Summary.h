@@ -43,8 +43,6 @@ public:
   /// Default constructor.
   CUTS_Endpoint_Log_Summary (void);
 
-  CUTS_Endpoint_Log_Summary (const CUTS_Endpoint_Log_Summary & copy);
-
   /// Destructor.
   ~CUTS_Endpoint_Log_Summary (void);
 
@@ -72,11 +70,8 @@ public:
   /// Accept the visitor object.
   void accept (CUTS_Metrics_Visitor & visitor) const;
 
-  const CUTS_Endpoint_Log_Summary &
-    operator = (const CUTS_Endpoint_Log_Summary & summary);
-
-  const CUTS_Endpoint_Log_Summary &
-    operator += (const CUTS_Endpoint_Log_Summary & summary);
+  //const CUTS_Endpoint_Log_Summary &
+  //  operator += (const CUTS_Endpoint_Log_Summary & summary);
 
 private:
   /// Delete all the logs in the table.
@@ -91,13 +86,9 @@ private:
   /// The logs of the endpoint data.
   CUTS_Endpoint_Data_Logs logs_;
 
-  /// Type defintion for the indexer of the logs.
-  typedef ACE_Hash_Map_Manager <
-    int, CUTS_Endpoint_Data_Log::iterator, ACE_Null_Mutex>
-    CUTS_Endpoint_Data_Log_Iterators;
-
-  /// The current offset into the log for the next record.
-  CUTS_Endpoint_Data_Log_Iterators iters_;
+  // prevent the following operations
+  CUTS_Endpoint_Log_Summary (const CUTS_Endpoint_Log_Summary & copy);
+  const CUTS_Endpoint_Log_Summary & operator = (const CUTS_Endpoint_Log_Summary &);
 };
 
 #if defined (__CUTS_INLINE__)

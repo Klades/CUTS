@@ -108,13 +108,10 @@ private:
     typename _node_type::_type> _cache_type;
 
   /// Event queue for the underlying queue.
-  ACE_Message_Queue_Ex <_node_type,
-                        ACE_MT_SYNCH> event_queue_;
+  ACE_Message_Queue_Ex <_node_type, ACE_MT_SYNCH> event_queue_;
 
   /// Collection of free nodes to prevent (re)allocation.
-  ACE_Locked_Free_List <
-    _cache_type,
-    ACE_RW_Thread_Mutex> free_list_;
+  ACE_Locked_Free_List <_cache_type, ACE_RW_Thread_Mutex> free_list_;
 };
 
 #if defined (__CUTS_INLINE__)

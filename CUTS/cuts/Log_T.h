@@ -13,10 +13,15 @@
 #ifndef _CUTS_LOG_T_H_
 #define _CUTS_LOG_T_H_
 
-#include "cuts/config.h"
+#include "CUTS_export.h"
 #include "ace/Containers_T.h"
 
-//=============================================================================
+// Forward decl.
+template <typename T, typename LOCK> class CUTS_Log_Iterator_T;
+
+// Forward decl.
+template <typename T, typename LOCK> class CUTS_Log_Const_Iterator_T;
+
 /**
  * @class CUTS_Log_T
  *
@@ -26,26 +31,24 @@
  * The log is also thread-safe, depending on the type of LOCK used
  * to parameterize this class.
  */
-//=============================================================================
-
 template <typename T, typename LOCK>
-class CUTS_Log_T : protected ACE_Array_Base <T>
+class CUTS_Log_T
 {
 public:
+  // Friend decl.
+  friend class CUTS_Log_Iterator_T <T, LOCK>;
+  friend class CUTS_Log_Const_Iterator_T <T, LOCK>;
+
   /// Type definition of the lock type.
   typedef LOCK lock_type;
 
   /// Type definition of the iterator.
-  typedef typename ACE_Array_Base <T>::iterator iterator;
+  typedef CUTS_Log_Iterator_T <T, LOCK> iterator;
 
   /// Type definition of the constant iterator.
-  typedef typename ACE_Array_Base <T>::const_iterator const_iterator;
+  typedef CUTS_Log_Const_Iterator_T <T, LOCK> const_iterator;
 
-  /// Type definition of the size type.
-  typedef typename ACE_Array_Base <T>::size_type size_type;
-
-  /// Type definition of the pointer type.
-  typedef typename ACE_Array_Base <T>::pointer pointer;
+  typedef T * pointer;
 
   /**
    * Initializing constructor.
@@ -53,14 +56,8 @@ public:
    * @param[in]         size        Initial size of the log.
    * @param[in]         grow        Allow the log to grow as needed.
    */
-  CUTS_Log_T (size_type size = 0, 
-              bool auto_grow = true);
+  CUTS_Log_T (size_t chuck_size);
 
-  /**
-   * Copy constructor.
-   *
-   * @param[in]         log         The source log.
-   */
   CUTS_Log_T (const CUTS_Log_T & log);
 
   /// Destructor
@@ -72,7 +69,7 @@ public:
    *
    * @return        The number of free records.
    */
-  size_type free_size (void) const;
+  size_t free_size (void) const;
 
   /**
    * Get the number of used records in the log. Used records are
@@ -80,7 +77,7 @@ public:
    *
    * @return        The number of used records.
    */
-  size_type used_size (void) const;
+  size_t used_size (void) const;
 
   /// Reset the log by converting all used records to free records.
   void reset (void);
@@ -93,6 +90,11 @@ public:
    * @return          Pointer to the next free record.
    */
   T * next_free_record (void);
+
+  /**
+   * Assignment operator
+   */
+  const CUTS_Log_T & operator = (const CUTS_Log_T & log);
 
   // @{ @name Batch Mode Operations
 
@@ -112,93 +114,159 @@ public:
    */
   T * next_free_record_no_lock (void);
 
-  // @}
-
-  /**
-   * Assignment operator.
-   *
-   * @param[in]       log       Right-hand side of the operator.
-   * @return          Reference to self.
-   */
-  const CUTS_Log_T & operator = (const CUTS_Log_T & log);
-
-  // @{ @name STL-based iterators
-
-  /// Get iterator to beginning of log.
-  using ACE_Array_Base <T>::begin;
-
-  /// Get iterator to end of log.
-  using ACE_Array_Base <T>::end;
-
-  /**
-   * Get an iterator to the end of the used log entries. The state
-   * of this element may, or may not be valid. It is advised that
-   * you do not try to dereference this iterator.
-   *
-   * @return          Iterator object.
-   */
-  iterator used_end (void);
-
-  /**
-   * @overload
-   */
-  const_iterator used_end (void) const;
+  /// Reset the log without acquiring a lock.
+  void reset_no_lock (void);
 
   // @}
 
   /**
-   * Get the auto grow state of the log.
-   *
-   * @retval        true        Auto grow is enabled.
-   * @retval        false       Auto grow is not enabled.
-   */
-  bool auto_grow (void) const;
-  
-  /**
-   * Set the auto grow state of the log.
-   *
-   * @param[in]     flag        The auto grow state.
-   */
-  void auto_grow (bool flag);
-
-  /**
-   * Get the size of the log. This include both used, and unused 
+   * Get the size of the log. This include both used, and unused
    * entries in the log.
    *
    * @return        Size of the log.
    */
-  size_type size (void) const;
+  size_t size (void) const;
 
   /**
-   * Set the new size of the log. This will perserve the existing 
+   * Set the new size of the log. This will perserve the existing
    * entries in the log.
    *
    * @retval        0       Successfully set the new size.
    * @retval        -1      Failed to set the new size.
    */
-  int size (size_type new_size);
+  int size (size_t new_size);
 
 private:
-  /// Thread-safe helper method to copy a log.
-  void copy_log (const CUTS_Log_T & log);
 
-  /// Implementation of the copy_log () function.
-  void copy_log_i (const CUTS_Log_T & log);
+  void copy_i (const CUTS_Log_T & log);
+
+  int size_i (size_t new_size);
+
+  /// Allocation size for a chuck of records.
+  size_t chunk_size_;
+
+  /// The current size of the log; used + free space.
+  size_t curr_size_;
 
   /// Number of used records in the log.
-  size_type used_;
-
-  /// Flag that determines if the log can grow when needed.
-  bool auto_grow_;
+  size_t used_size_;
 
   /// Lock for the log.
   mutable LOCK lock_;
+
+  /// Type definition for a chuck of records.
+  typedef ACE_Array <T> chunk_type;
+
+  /// Type definition for the underlying record log.
+  typedef ACE_Array <chunk_type *> record_log;
+
+  /// Collection of records.
+  record_log records_;
+};
+
+/**
+ * @class CUTS_Log_Iterator_T
+ */
+template <typename T, typename LOCK>
+class CUTS_Log_Iterator_T
+{
+public:
+  CUTS_Log_Iterator_T (CUTS_Log_T <T, LOCK> & log);
+
+  ~CUTS_Log_Iterator_T (void);
+
+  int done (void) const;
+
+  int advance (void);
+
+  T * operator -> (void);
+
+  T & operator * (void);
+
+private:
+  CUTS_Log_T <T, LOCK> & log_;
+
+  size_t index_;
+
+  size_t offset_;
+
+  size_t location_;
+
+  size_t used_size_;
+
+  // prevent the following operations
+  CUTS_Log_Iterator_T (CUTS_Log_Iterator_T &);
+  CUTS_Log_Iterator_T & operator = (const CUTS_Log_Iterator_T &);
+};
+
+/**
+ * @class CUTS_Log_Const_Iterator_T
+ */
+template <typename T, typename LOCK>
+class CUTS_Log_Const_Iterator_T
+{
+public:
+  /**
+   * Initializing constructor.
+   *
+   * @param[in]         log       Target log.
+   */
+  CUTS_Log_Const_Iterator_T (const CUTS_Log_T <T, LOCK> & log);
+
+  /// Destructor.
+  ~CUTS_Log_Const_Iterator_T (void);
+
+  /**
+   * Determine if the iterator is done.
+   *
+   * @retval        0         Iterator is not done
+   * @retval        1         Iterator is done
+   */
+  int done (void) const;
+
+  /**
+   * Move the next element in the log.
+   *
+   * @retval        1         There are more elements
+   * @retval        0         There are no more elements
+   */
+  int advance (void);
+
+  /**
+   * Get a pointer reference to the next element. This treats
+   * the iterator like a pointer.
+   *
+   * @return        Address of the current element.
+   */
+  const T * operator -> (void) const;
+
+  /**
+   * Get a reference to the next element.
+   *
+   * @return        Reference to current element.
+   */
+  const T & operator * (void) const;
+
+private:
+  const CUTS_Log_T <T, LOCK> & log_;
+
+  size_t index_;
+
+  size_t offset_;
+
+  size_t location_;
+
+  size_t used_size_;
+
+  // prevent the following operations
+  CUTS_Log_Const_Iterator_T (const CUTS_Log_Const_Iterator_T &);
+  const CUTS_Log_Const_Iterator_T & operator = (const CUTS_Log_Const_Iterator_T &);
 };
 
 #if defined (__CUTS_INLINE__)
-#include "cuts/Log_T.inl"
+#include "Log_T.inl"
 #endif
 
-#include "cuts/Log_T.cpp"
+#include "Log_T.cpp"
 
 #endif  // !defined _CUTS_LOG_T_H_

@@ -1,22 +1,24 @@
 // $Id$
 
-#include "cuts/Port_Summary.h"
+#include "Port_Summary.h"
 
 #if !defined (__CUTS_INLINE__)
-#include "cuts/Port_Summary.inl"
+#include "Port_Summary.inl"
 #endif
 
-#include "cuts/Metrics_Visitor.h"
+#include "Metrics_Visitor.h"
 #include "ace/Auto_Ptr.h"
 
 ///////////////////////////////////////////////////////////////////////////////
-// @@ CUTS_Port_Summary_Base
+// class CUTS_Port_Summary_Base
 
 //
 // reset
 //
 void CUTS_Port_Summary_Base::reset (void)
 {
+  CUTS_TRACE ("CUTS_Port_Summary_Base::reset (void)");
+
   this->queuing_time_.reset ();
   this->service_time_.reset ();
   this->endpoints_.reset ();
@@ -28,6 +30,8 @@ void CUTS_Port_Summary_Base::reset (void)
 int CUTS_Port_Summary_Base::
 process (const CUTS_Activation_Record & record)
 {
+  CUTS_TRACE ("CUTS_Port_Summary_Base::process (const CUTS_Activation_Record &)");
+
   // Store the queuing and service time of the record.
   this->queuing_time_ += record.queue_time ();
 
@@ -36,39 +40,14 @@ process (const CUTS_Activation_Record & record)
 
   this->service_time_ += tmp_tv;
 
-  if (this->endpoints_.process (record.endpoints ()) == -1)
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       "*** error (CUTS_Port_Summary_Base): failed to process "
-                       "endpoints\n"),
-                       -1);
+  if (this->endpoints_.process (record.endpoints ()) == 0)
+    return 0;
 
-  return 0;
-}
+  ACE_ERROR ((LM_ERROR,
+              "*** error (CUTS_Port_Summary_Base): failed to process "
+              "endpoints\n"));
 
-//
-// operator =
-//
-const CUTS_Port_Summary_Base &
-CUTS_Port_Summary_Base::operator = (const CUTS_Port_Summary_Base & rhs)
-{
-  this->queuing_time_ = rhs.queuing_time_;
-  this->service_time_ = rhs.service_time_;
-  this->endpoints_ = rhs.endpoints_;
-
-  return *this;
-}
-
-//
-// operator +=
-//
-const CUTS_Port_Summary_Base &
-CUTS_Port_Summary_Base::operator += (const CUTS_Port_Summary_Base & rhs)
-{
-  this->queuing_time_ += rhs.queuing_time_;
-  this->service_time_ += rhs.service_time_;
-  this->endpoints_  += rhs.endpoints_;
-
-  return *this;
+  return -1;
 }
 
 //
@@ -76,17 +55,20 @@ CUTS_Port_Summary_Base::operator += (const CUTS_Port_Summary_Base & rhs)
 //
 void CUTS_Port_Summary_Base::accept (CUTS_Metrics_Visitor & visitor) const
 {
+  CUTS_TRACE ("CUTS_Port_Summary_Base::accept (CUTS_Metrics_Visitor &) const");
   visitor.visit_port_summary_base (*this);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// @@ CUTS_Port_Summary
+// class CUTS_Port_Summary
 
 //
 // ~CUTS_Port_Summary
 //
 CUTS_Port_Summary::~CUTS_Port_Summary (void)
 {
+  CUTS_TRACE ("CUTS_Port_Summary::~CUTS_Port_Summary (void)");
+
   CUTS_Sender_Port_Summary::iterator iter = this->ssp_.begin ();
   CUTS_Sender_Port_Summary::iterator iter_end = this->ssp_.end ();
 
@@ -100,19 +82,11 @@ CUTS_Port_Summary::~CUTS_Port_Summary (void)
 int CUTS_Port_Summary::
 process (const CUTS_Activation_Record_Log & log)
 {
-  CUTS_Activation_Record_Log::const_iterator p_record = log.begin ();
-  CUTS_Activation_Record_Log::const_iterator p_record_end = log.used_end ();
+  CUTS_TRACE ("CUTS_Port_Summary::process (const CUTS_Activation_Record_Log &)");
+  CUTS_Activation_Record_Log::const_iterator iter (log);
 
-  for ( ; p_record != p_record_end; p_record ++)
-  {
-    if (p_record != 0)
-    {
-      if (this->process (*p_record) == -1)
-        ACE_ERROR ((LM_ERROR,
-                    "*** error (CUTS_Port_Summary): failed to process "
-                    "record\n"));
-    }
-  }
+  for ( ; !iter.done (); iter.advance ())
+    this->process (*iter);
 
   return 0;
 }
@@ -123,6 +97,8 @@ process (const CUTS_Activation_Record_Log & log)
 int CUTS_Port_Summary::
 process (const CUTS_Activation_Record & record)
 {
+  CUTS_TRACE ("CUTS_Port_Summary::process (const CUTS_Activation_Record &)");
+
   // Update the overall summary of the port.
   this->CUTS_Port_Summary_Base::process (record);
 
@@ -146,7 +122,7 @@ process (const CUTS_Activation_Record & record)
       if (retval == 1)
       {
         ACE_ERROR_RETURN ((LM_ERROR,
-                           "*** error (CUTS_Port_Summary): duplicate port\n"),
+                           "%T - %M - duplicate port\n"),
                            -1);
       }
       else
@@ -166,8 +142,7 @@ process (const CUTS_Activation_Record & record)
   else
   {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "*** error (CUTS_Port_Summary): invalid port "
-                       "summary\n"),
+                       "%T - %M - invalid port summary object\n"),
                        -1);
   }
 
@@ -179,6 +154,8 @@ process (const CUTS_Activation_Record & record)
 //
 void CUTS_Port_Summary::reset (void)
 {
+  CUTS_TRACE ("CUTS_Port_Summary::reset (void)");
+
   // Reset the base class.
   this->CUTS_Port_Summary_Base::reset ();
 
@@ -197,5 +174,6 @@ void CUTS_Port_Summary::reset (void)
 //
 void CUTS_Port_Summary::accept (CUTS_Metrics_Visitor & visitor) const
 {
+  CUTS_TRACE ("CUTS_Port_Summary::accept (CUTS_Metrics_Visitor &) const");
   visitor.visit_port_summary (*this);
 }

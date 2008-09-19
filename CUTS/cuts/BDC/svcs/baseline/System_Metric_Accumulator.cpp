@@ -89,5 +89,5 @@ visit_port_metric (const CUTS_Port_Metric & port)
 void CUTS_System_Metric_Accumulator::
 visit_port_summary (const CUTS_Port_Summary & summary)
 {
-  *this->port_summary_ += summary;
+  //*this->port_summary_ += summary;
 }

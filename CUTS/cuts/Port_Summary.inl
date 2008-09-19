@@ -2,26 +2,13 @@
 // $Id$
 
 ///////////////////////////////////////////////////////////////////////////////
-// @@ CUTS_Port_Summary_Base
+// class CUTS_Port_Summary_Base
 
 //
 // CUTS_Port_Summary_Base
 //
 CUTS_INLINE
 CUTS_Port_Summary_Base::CUTS_Port_Summary_Base (void)
-{
-
-}
-
-//
-// CUTS_Port_Summary_Base
-//
-CUTS_INLINE
-CUTS_Port_Summary_Base::
-CUTS_Port_Summary_Base (const CUTS_Port_Summary_Base & copy)
-: queuing_time_ (copy.queuing_time_),
-  service_time_ (copy.service_time_),
-  endpoints_ (copy.endpoints_)
 {
 
 }

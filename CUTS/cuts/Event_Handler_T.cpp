@@ -45,8 +45,7 @@ CUTS_Event_Handler_Base_T <COMPONENT, EVENTTYPE>::
 template <typename COMPONENT, typename EVENTTYPE>
 void
 CUTS_Event_Handler_Base_T <COMPONENT, EVENTTYPE>::
-handle_event_i (EVENTTYPE * ev,
-                const ACE_Time_Value & queue_time)
+handle_event_i (EVENTTYPE * ev, const ACE_Time_Value & queue_time)
 {
   CUTS_TRACE ("CUTS_Event_Handler_Base_T <COMPONENT, EVENTTYPE>::handle_event_i (EVENTTYPE *, const ACE_Time_Value &)");
 
@@ -81,7 +80,7 @@ handle_event_i (EVENTTYPE * ev,
       record->queue_time (queue_time);
 
       this->port_agent ().record_free (record);
-    } 
+    }
 
   // We should now update the port agent.
   CUTS_Thread_Activation_Record::set_record (old_record);

@@ -32,6 +32,8 @@ template <typename EVENTTYPE>
 int CUTS_Async_Event_Handler_Queue_T <EVENTTYPE>::
 enqueue (EVENTTYPE * event)
 {
+  CUTS_TRACE ("CUTS_Async_Event_Handler_Queue_T <EVENTTYPE>::enqueue (EVENTTYPE *)");
+
   // Get a node from the free list.
   _cache_type * node = this->free_list_.remove ();
 
@@ -55,11 +57,13 @@ template <typename EVENTTYPE>
 int CUTS_Async_Event_Handler_Queue_T <EVENTTYPE>::
 dequeue (EVENTTYPE * & event, ACE_Time_Value * toc)
 {
+  CUTS_TRACE ("CUTS_Async_Event_Handler_Queue_T <EVENTTYPE>::dequeue (EVENTTYPE * &, ACE_Time_Value *)");
+
   // Get a node from the free list.
   _node_type * node = 0;
   int retval = this->event_queue_.dequeue (node);
 
-  if (retval != -1)
+  if (retval != -1 && node != 0)
   {
     // Return the information to the client.
     event = node->event_;
@@ -69,6 +73,19 @@ dequeue (EVENTTYPE * & event, ACE_Time_Value * toc)
 
     // Place the node back on the free list.
     this->free_list_.add (static_cast <_cache_type *> (node));
+  }
+  else
+  {
+    if (node == 0)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - node on queue is NIL\n"));
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - failed to get next event off of queue\n"));
+    }
   }
 
   return retval;

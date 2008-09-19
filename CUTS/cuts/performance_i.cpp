@@ -1,18 +1,18 @@
 // $Id$
 
-#include "cuts/performance_i.h"
+#include "performance_i.h"
 
 #if !defined (__CUTS_INLINE__)
-#include "cuts/performance_i.inl"
+#include "performance_i.inl"
 #endif
 
-#include "cuts/Port_Agent.h"
-#include "cuts/Port_Metric.h"
+#include "Port_Agent.h"
+#include "Port_Metric.h"
 #include "tao/corba.h"
 #include "ace/Guard_T.h"
 
 ///////////////////////////////////////////////////////////////////////////////
-// @@ extraction operators
+// extraction operators
 
 namespace CUTS
 {
@@ -61,8 +61,7 @@ static void operator >>= (const S & sequence, CUTS_Log_T <T, LOCK> & log)
 
   // Get the size of the sequence.
   CORBA::ULong curr_size = sequence.length ();
-  //curr_size =  curr_size > 2 ? curr_size - 2 : 0;
-  
+
   // Get a pointer to the buffer w/ the activation records.
   typename S::const_value_type * buf = sequence.get_buffer ()/* + 1*/;
   typename S::const_value_type * buf_stop = buf + curr_size;
@@ -251,28 +250,21 @@ operator <<= (SEQUENCE & sequence, CUTS_Log_T <T, LOCK> & log)
 
   // Get iterators to the source and destination buffer.
   typename SEQUENCE::value_type * buf = sequence.get_buffer ();
-
-  typename CUTS_Log_T <T, LOCK>::iterator
-    iter = log.begin (),
-    iter_end = log.used_end ();
+  typename CUTS_Log_T <T, LOCK>::iterator iter (log);
 
   CORBA::ULong count = 0;
 
-  for (; iter != iter_end; iter ++)
+  for (; !iter.done (); iter.advance ())
   {
-    if ((*buf <<= *iter))
-    {
-      ++ buf;
+    if ((*buf ++ <<= *iter))
       ++ count;
-    }
   }
 
-  // Reset the log.
-  log.reset ();
+  // Reset the log without locking it since we already have it.
+  log.reset_no_lock ();
 
   // Set the actual size of the sequence.
   sequence.length (count);
-
   return true;
 }
 
@@ -304,6 +296,9 @@ operator <<= (CUTS::Action_Time & act,
   return true;
 }
 
+//
+// operator <<=
+//
 static bool
 operator <<= (CUTS::Endpoint_Time & ept,
               CUTS_Activation_Record_Endpoint & endpoint)

@@ -331,13 +331,11 @@ visit_endpoint_log_summary (const CUTS_Endpoint_Log_Summary & summary)
                        sizeof (this->outport_));
 
       // Visit the port metric.
-      CUTS_Endpoint_Data_Log::const_iterator
-        endpoint_iter = logs_iter->item ()->begin (),
-        endpoint_iter_end = logs_iter->item ()->used_end ();
+      CUTS_Endpoint_Data_Log::const_iterator endpoint_iter (*logs_iter->item ());
 
       this->outport_index_ = 0;
 
-      for (; endpoint_iter != endpoint_iter_end; endpoint_iter ++)
+      for ( ; !endpoint_iter.done (); endpoint_iter.advance ())
       {
         this->perf_count_ = endpoint_iter->count ();
 

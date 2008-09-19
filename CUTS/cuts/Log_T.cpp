@@ -1,53 +1,66 @@
 // $Id$
 
 #if !defined (__CUTS_INLINE__)
-#include "cuts/Log_T.inl"
+#include "Log_T.inl"
 #endif
 
 #include "ace/Guard_T.h"
+#include "ace/Auto_Ptr.h"
+#include "ace/CORBA_macros.h"
 #include <algorithm>
+#include <typeinfo>
+
+//
+// CUTS_Log_T
+//
+template <typename T, typename LOCK>
+CUTS_INLINE
+CUTS_Log_T <T, LOCK>::CUTS_Log_T (size_t chunk_size)
+: chunk_size_ (chunk_size),
+  curr_size_ (chunk_size),
+  used_size_ (0),
+  records_ (1)
+{
+  CUTS_TRACE ("CUTS_Log_T (typename CUTS_Log_T <T, LOCK>::size_type)");
+
+  typename chunk_type * chunk = 0;
+  ACE_NEW_THROW_EX (chunk, chunk_type (chunk_size), ACE_bad_alloc ());
+
+  this->records_[0] = chunk;
+}
 
 //
 // CUTS_Log_T
 //
 template <typename T, typename LOCK>
 CUTS_Log_T <T, LOCK>::CUTS_Log_T (const CUTS_Log_T & log)
-: ACE_Array_Base <T> (log.used_),
-  used_ (0),
-  auto_grow_ (log.auto_grow_)
+: chunk_size_ (log.chunk_size_),
+  curr_size_ (0),
+  used_size_ (0)
 {
   CUTS_TRACE ("CUTS_Log_T <T, LOCK>::CUTS_Log_T (const CUTS_Log_T &)");
 
-  this->copy_log_i (log);
+  // Set the size of this log.
+  if (this->size_i (log.used_size_) == -1)
+    return;
+
+  this->copy_i (log);
 }
 
 //
-// next_free_record
+// ~CUTS_Log_T
 //
 template <typename T, typename LOCK>
-T * CUTS_Log_T <T, LOCK>::next_free_record (void)
+CUTS_Log_T <T, LOCK>::~CUTS_Log_T (void)
 {
-  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::next_free_record");
+  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::~CUTS_Log_T");
 
-  if (this->used_ < this->cur_size_)
-  {
-    // Optimized for the fast path.
-    ACE_READ_GUARD_RETURN (LOCK, guard, this->lock_, 0);
-    return this->next_free_record_no_lock ();
-  }
-  else if (this->auto_grow_)
-  {
-    ACE_WRITE_GUARD_RETURN (LOCK, guard, this->lock_, 0);
+  // Delete each chuck of the record log.
+  typename record_log::iterator
+    iter = this->records_.begin (), iter_end = this->records_.end ();
 
-    // Double the size of the log and return the next record. We add
-    // one to the size just in case the current size is 0.
-    this->ACE_Array_Base <T>::size (this->cur_size_ * 2 + 1);
-    return this->next_free_record_no_lock ();
-  }
-  else
-  {
-    return 0;
-  }
+  for ( ; iter != iter_end; ++ iter)
+    delete (*iter);
 }
 
 //
@@ -55,67 +68,181 @@ T * CUTS_Log_T <T, LOCK>::next_free_record (void)
 //
 template <typename T, typename LOCK>
 const CUTS_Log_T <T, LOCK> &
-CUTS_Log_T <T, LOCK>::operator = (const CUTS_Log_T <T, LOCK> & log)
+CUTS_Log_T <T, LOCK>::operator = (const CUTS_Log_T & log)
 {
-  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::operator = (const CUTS_Log_T <T, LOCK> &)");
+  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::operator = (const CUTS_Log_T &)");
 
-  // Save the auto grow state.
-  this->auto_grow_ = log.auto_grow_;
-  this->copy_log (log);
+  if (this == &log)
+    return *this;
+
+  ACE_WRITE_GUARD_RETURN (LOCK, guard, this->lock_, *this);
+
+  // Do a fast reset of this object.
+  this->reset_no_lock ();
+
+  // Copy the content of the log.
+  this->copy_i (log);
+
   return *this;
 }
 
 //
-// copy_log
+// copy_i
 //
 template <typename T, typename LOCK>
-void CUTS_Log_T <T, LOCK>::copy_log (const CUTS_Log_T & log)
+void CUTS_Log_T <T, LOCK>::copy_i (const CUTS_Log_T & log)
 {
-  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::copy_log (const CUTS_Log_T &)");
-  ACE_WRITE_GUARD (LOCK, guard, this->lock_);
+  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::copy_i (const CUTS_Log_T &)");
 
-  // Set the size of the log and copy it.
-  this->ACE_Array_Base <T>::size (log.used_size ());
-  this->copy_log_i (log);
+  typename const_iterator iter (log);
+
+  for ( ; !iter.done (); iter.advance ())
+    *this->next_free_record_no_lock () = *iter;
 }
 
 //
-// copy_log_i
+// next_free_record_no_lock
 //
 template <typename T, typename LOCK>
-void CUTS_Log_T <T, LOCK>::copy_log_i (const CUTS_Log_T & log)
+T * CUTS_Log_T <T, LOCK>::next_free_record_no_lock (void)
 {
-  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::copy_log_i (const CUTS_Log_T &)");
-  std::copy (log.begin (), log.used_end (), this->begin ());
-  this->used_ = log.used_;
+  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::next_free_record_no_lock");
+
+  if (this->used_size_ < this->curr_size_)
+  {
+    // Calculate the index and offset into the log.
+    size_t index = this->used_size_ / this->chunk_size_;
+    size_t offset = this->used_size_ % this->chunk_size_;
+
+    // Increment the used count.
+    ++ this->used_size_;
+
+    return &((*this->records_[index])[offset]);
+  }
+
+  // Increment the size of the record log.
+  size_t index = this->records_.size ();
+
+  if (this->size_i (this->curr_size_ + this->chunk_size_) == -1)
+    return 0;
+
+  // Increment the used count.
+  ++ this->used_size_;
+
+  // Return the next record to the caller.
+  return &((*this->records_[index])[0]);
 }
 
 //
-// size
+// size_i
 //
 template <typename T, typename LOCK>
-CUTS_INLINE
-typename CUTS_Log_T <T, LOCK>::size_type
-CUTS_Log_T <T, LOCK>::size (void) const
+int CUTS_Log_T <T, LOCK>::size_i (size_t new_size)
 {
-  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::size (void) const");
-  ACE_READ_GUARD_RETURN (LOCK,
-                         guard,
-                         this->lock_,
-                         this->ACE_Array_Base <T>::size ());
+  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::size_i");
 
-  return this->ACE_Array_Base <T>::size ();
+  if (new_size < this->curr_size_)
+  {
+    // For now, let's ingore request to make the log smaller. We need to
+    // revisit this later though.
+    return 0;
+  }
+  else
+  {
+    // Determine how many chunks we need to allocate.
+    size_t chunks = (new_size / this->chunk_size_) - this->records_.size ();
+
+    // Initialize a temporary array of chunks.
+    ACE_Auto_Ptr <typename chunk_type> * temp_chunks = 0;
+    ACE_NEW_RETURN (temp_chunks,
+                    ACE_Auto_Ptr <typename chunk_type> [chunks],
+                    -1);
+
+    ACE_Auto_Array_Ptr <ACE_Auto_Ptr <typename chunk_type> > temp (temp_chunks);
+
+    for (size_t i = 0; i < chunks; ++ i)
+    {
+      // Allocate a new chuck for the record log.
+      typename chunk_type * chunk = 0;
+      ACE_NEW_RETURN (chunk, typename chunk_type (this->chunk_size_), -1);
+
+      // Insert the chunk into the temp data store.
+      temp[i].reset (chunk);
+    }
+
+    // Increase the number of real chunks.
+    size_t size = this->records_.size ();
+
+    if (this->records_.size (size + chunks) == -1)
+      return -1;
+
+    // Insert the newly allocated chunks into the record log.
+    for (size_t i = 0; i < chunks; ++ i)
+      this->records_[size ++] = temp[i].release ();
+
+    // Set the size of the record log.
+    this->curr_size_ = this->chunk_size_ * this->records_.size ();
+  }
+
+  return 0;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// @class CUTS_Log_Iterator_T
+
 //
-// size
+// advance
 //
 template <typename T, typename LOCK>
-CUTS_INLINE
-int CUTS_Log_T <T, LOCK>::
-size (typename CUTS_Log_T <T, LOCK>::size_type new_size)
+int CUTS_Log_Iterator_T <T, LOCK>::advance (void)
 {
-  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::size (typename CUTS_Log_T <T, LOCK>::size_type)");
-  ACE_WRITE_GUARD_RETURN (LOCK, guard, this->lock_, -1);
-  return this->ACE_Array_Base <T>::size (new_size);
+  CUTS_TRACE ("CUTS_Log_Iterator_T <T, LOCK>::advance");
+
+  // Get the size of the chunks.
+  size_t chunk_size = this->log_.chunk_size_;
+
+  // Move to the next item. If we go pass the size end of the
+  // current chunk, we need to move to the next one.
+  if (++ this->offset_ >= chunk_size)
+  {
+    ++ this->index_;
+    this->offset_ = 0;
+  }
+
+  // Increment the location.
+  ++ this->location_;
+
+  // Determine if there are more item left.
+  return this->location_ < this->used_size_ ? 1 : 0;
 }
+
+
+///////////////////////////////////////////////////////////////////////////////
+// @class CUTS_Log_Const_Iterator_T
+
+//
+// advance
+//
+template <typename T, typename LOCK>
+int CUTS_Log_Const_Iterator_T <T, LOCK>::advance (void)
+{
+  CUTS_TRACE ("CUTS_Log_Const_Iterator_T <T, LOCK>::advance");
+
+  // Get the size of the chunks.
+  size_t chunk_size = this->log_.chunk_size_;
+
+  // Move to the next item. If we go pass the size end of the
+  // current chunk, we need to move to the next one.
+  if (++ this->offset_ >= chunk_size)
+  {
+    ++ this->index_;
+    this->offset_ = 0;
+  }
+
+  // Increment the location.
+  ++ this->location_;
+
+  // Determine if there are more item left.
+  return this->location_ < this->used_size_ ? 1 : 0;
+}
+
