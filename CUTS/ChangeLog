@@ -1,11 +1,22 @@
+Fri Sep 19 18:41:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Proxy_Source_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Proxy_Source_Traits.cpp:
+
+          . Updated CIAO code generator to set the thread count for the
+            event handler. Right now, this is done incorrectly. In reality,
+            the event handler should be a *worker* that is added to the
+            model. This way, we can make the proxy more lightweight and
+            model how we process events using CBML and WML.
+
 Fri Sep 19 14:50:00 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/Log_T.h:
         * cuts/Log_T.inl:
         * cuts/Log_T.cpp:
 
-	  . Fixed compilation errors on non-Windows based systems related
-	    to implementation of template classes.
+          . Fixed compilation errors on non-Windows based systems related
+            to implementation of template classes.
 
 Fri Sep 19 05:20:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

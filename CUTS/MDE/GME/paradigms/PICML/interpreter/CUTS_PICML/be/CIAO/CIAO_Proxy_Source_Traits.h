@@ -88,6 +88,8 @@ protected:
     const PICML::RequiredRequestPort & receptacle);
 
 private:
+  void write_port_configuration (const PICML::InEventPort & port);
+
   /// Type definition for a collection of events.
   typedef std::set <PICML::Event> EventType_Set;
 

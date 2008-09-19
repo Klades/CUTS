@@ -510,28 +510,45 @@ write_agent_register (const PICML::InEventPort & sink)
     << "this->event_handlers_.insert (&this->push_" << name << "_);"
     << std::endl;
 
-  // temporary hack to set the priorities!!
-  PICML::Input input = sink.dstInput ();
+  // Write any of the known properties for the sink here.
+  this->write_port_configuration (sink);
+}
+
+//
+// write_port_configuration
+//
+void CUTS_CIAO_Proxy_Source_Traits::
+write_port_configuration (const PICML::InEventPort & port)
+{
+  std::string name = port.name ();
+  PICML::Input input = port.dstInput ();
 
   if (input != Udm::null)
   {
-    PICML::InputAction action = input.dstInput_end ();
+    PICML::InputAction ia = input.dstInput_end ();
 
     typedef std::vector <PICML::Property> Property_Set;
-    Property_Set propset = action.Property_children ();
+    Property_Set properties = ia.Property_kind_children ();
 
-    Property_Set::iterator iter =
-      std::find_if (propset.begin (),
-                    propset.end (),
-                    boost::bind (std::equal_to <std::string> (),
-                                 "priority",
-                                 boost::bind (&PICML::Property::name, _1)));
+    Property_Set::iterator
+      iter = properties.begin (), iter_end = properties.end ();
 
-    if (iter != propset.end ())
+    for ( ; iter != iter_end; ++ iter)
     {
-      this->outfile ()
-        << "this->push_" << sink.name () << "_.priority ("
-        << iter->DataValue () << ");";
+      std::string propname = iter->name ();
+
+      if (propname == "threads")
+      {
+        this->outfile ()
+          << "this->push_" << name << "_.thread_count ("
+          << iter->DataValue () << ");";
+      }
+      else if (propname == "priority")
+      {
+        this->outfile ()
+          << "this->push_" << name << "_.priority ("
+          << iter->DataValue () << ");";
+      }
     }
   }
 }
