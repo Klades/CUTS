@@ -154,24 +154,14 @@ namespace CUTS.Web.UI.UnitTesting
       foreach (int lfid in this.selected_log_formats_)
         this.create_new_log_format (table, lfid);
 
-      // Prepare the footer row of the table.
-      TableFooterRow footer = new TableFooterRow ();
-      table.Rows.Add (footer);
-
-      // Prepare the cell for displaying the link.
-      TableCell footer_cell = new TableCell ();
-      footer.Cells.Add (footer_cell);
-
-      footer_cell.ColumnSpan = header.Cells.Count;
-
       // Insert the link button for adding more log formats.
       LinkButton link = new LinkButton ();
-      footer_cell.Controls.Add (link);
+      this.Controls.Add (link);
 
       link.EnableViewState = true;
       link.Text = "I need more log formats";
       link.ID = "link_more_formats_";
-      link.Click += new System.EventHandler (this.onclick_handler);
+      link.Click += new System.EventHandler (this.onclick_more_formats);
     }
 
     /**
@@ -217,20 +207,18 @@ namespace CUTS.Web.UI.UnitTesting
      */
     protected override void Render (HtmlTextWriter writer)
     {
+      // Register all the dropdown list for validation.
       Table table = (Table)this.Controls[0];
-      int count = table.Rows.Count - 1;
 
-      for (int i = 1; i < count; ++i)
+      foreach (TableRow row in table.Rows)
       {
-        TableRow row = table.Rows[i];
-
-        // Register the log format control for validation.
-        this.Page.ClientScript.RegisterForEventValidation (row.Cells[1].Controls[0].UniqueID);
+        if (!(row is TableHeaderRow))
+          this.Page.ClientScript.RegisterForEventValidation (row.Cells[1].Controls[0].UniqueID);
       }
 
       // Register the link for adding more log formats.
       TableRow footer = table.Rows[table.Rows.Count - 1];
-      this.Page.ClientScript.RegisterForEventValidation (footer.Cells[0].Controls[0].UniqueID);
+      this.Page.ClientScript.RegisterForEventValidation (this.Controls[1].UniqueID);
 
       // Pass control to the base class.
       base.Render (writer);
@@ -241,6 +229,9 @@ namespace CUTS.Web.UI.UnitTesting
      */
     public override void DataBind ()
     {
+      // First, ensure we have created the child control.
+      this.EnsureChildControls ();
+
       // Create the first log format for the table.
       Table table = (Table)this.Controls[0];
       this.create_new_log_format (table, -1);
@@ -249,13 +240,16 @@ namespace CUTS.Web.UI.UnitTesting
     /**
      *
      */
-    private void onclick_handler (object sender, EventArgs e)
+    private void onclick_more_formats (object sender, EventArgs e)
     {
       // Get the table from the control.
       Table table = (Table)this.Controls[0];
 
       // Create a new log format for the table.
       this.create_new_log_format (table, -1);
+
+      int lfid = (int)this.selected_log_formats_[this.selected_log_formats_.Count - 1];
+      this.update_log_format_listings (table, -1, lfid, this.selected_log_formats_.Count);
     }
 
     /**
@@ -274,74 +268,84 @@ namespace CUTS.Web.UI.UnitTesting
       // Update the selected log format.
       Table table = (Table)this.Controls[0];
       int index = table.Rows.GetRowIndex (row) - 1;
+      int old_lfid = (int)this.selected_log_formats_[index];
       this.selected_log_formats_[index] = lfid;
 
       // Get the prefix control for this row.
       LiteralControl prefix = this.get_prefix_control (row);
       this.set_prefix_text (prefix, lfid);
 
-      RelationTable relation = null;
-
       if (index > 0)
       {
         // Update the relation.
-        relation = (RelationTable)row.Cells[2].Controls[0];
-        relation.LeftID = lfid;
+        RelationTable relation = (RelationTable)row.Cells[2].Controls[0];
+        relation.EffectID = lfid;
       }
 
-      if (++index < this.selected_log_formats_.Count)
-      {
-        row = table.Rows[index + 1];
-        relation = (RelationTable)row.Cells[2].Controls[0];
-
-        // Update the right id and the selected log formats.
-        relation.RightID = lfid;
-        relation.LogIDList = (int [])this.selected_log_formats_.ToArray (typeof (int));
-      }
+      // Update the candidate causalities for all the relations.
+      this.update_candidate_causalities (table, index + 1);
+      this.update_log_format_listings (table, old_lfid, lfid, index + 1);
     }
 
     /**
      *
      */
-    private void ondatabound_log_format (object sender, EventArgs e)
+    private void update_candidate_causalities (Table table, int ignore)
     {
-      // The sender of the event is a dropdown list.
-      DropDownList format_list = (DropDownList)sender;
-
-      // Get the parent row of this selection.
-      TableCell format_cell = (TableCell) format_list.Parent;
-      TableRow row = (TableRow)format_cell.Parent;
-
-      // Get the index of this row in the table, which will tell us
-      // which selected log format changed.
-      Table table = (Table)row.Parent;
-      int index = table.Rows.GetRowIndex (row) - 1;
-
-      // Save the selected log format.
-      int[] curr_id_list = (int []) this.selected_log_formats_.ToArray (typeof (int));
-      int lfid = int.Parse (format_list.SelectedValue);
-      this.selected_log_formats_.Add (lfid);
-
-      // Update the prefix for this row.
-      LiteralControl prefix = this.get_prefix_control (row);
-      this.set_prefix_text (prefix, lfid);
-
-      if (index > 0)
+      for (int i = 2; i < table.Rows.Count; ++i)
       {
-        // Get the relation cell for this row.
-        TableCell relation_cell = row.Cells[2];
-        RelationTable relation_table = (RelationTable)relation_cell.Controls[0];
+        if (i != ignore)
+        {
+          RelationTable relation = (RelationTable)table.Rows[i].Cells[2].Controls[0];
 
-        // Reset the contents of the relation.
-        int left = (int)this.selected_log_formats_[index];
-        int right = (int)this.selected_log_formats_[index - 1];
+          relation.LogIDList = (int[])this.selected_log_formats_.ToArray (typeof (int));
+          relation.DataBind ();
+        }
+      }
+    }
 
-        relation_table.LeftID = left;
-        relation_table.LogIDList = curr_id_list;
+    /**
+     * Helper method for updating the log formats when one of the log
+     * formats changes. The current implementation is very inefficient
+     * and needs to be updated. What should really happen is we add a
+     * single format to all the controls, and remove one from all the
+     * controls.
+     */
+    private void update_log_format_listings (Table table, int add, int remove, int ignore)
+    {
+      DataTable dt = this.ds_.Tables[this.formats_table_];
 
-        // Bind the data to the control.
-        relation_table.DataSource = this.get_relations (left, right);
-        relation_table.DataBind ();
+      // Get the list item for the new log format.
+      DataRow [] dr = dt.Select (String.Format ("lfid={0}", add));
+
+      ListItem add_item = add != -1 ?
+        new ListItem (dr[0]["lfmt"].ToString (), dr[0]["lfid"].ToString ()) : null;
+
+      // Get the list item for the old log format.
+      dr = dt.Select (String.Format ("lfid={0}", remove));
+
+      ListItem remove_item = remove != -1 ?
+        new ListItem (dr[0]["lfmt"].ToString (), dr[0]["lfid"].ToString ()) : null;
+
+      foreach (TableRow row in table.Rows)
+      {
+        if (!(row is TableHeaderRow))
+        {
+          // Get the index of the row.
+          int index = table.Rows.GetRowIndex (row);
+
+          if (index != ignore)
+          {
+            // Get the dropdown list for this row and save its value.
+            DropDownList list = this.get_log_format_control (row);
+
+            if (add_item != null)
+              list.Items.Add (add_item);
+
+            if (remove_item != null)
+              list.Items.Remove (remove_item);
+          }
+        }
       }
     }
 
@@ -356,11 +360,7 @@ namespace CUTS.Web.UI.UnitTesting
     {
       // Create a new log format item for the table.
       TableRow row = new TableRow ();
-
-      if (lfid != -1)
-        table.Rows.Add (row);
-      else
-        table.Rows.AddAt (table.Rows.Count - 1, row);
+      table.Rows.Add (row);
 
       // Create the prefix cell for the table.
       TableCell prefix_cell = new TableCell ();
@@ -385,7 +385,6 @@ namespace CUTS.Web.UI.UnitTesting
       // Configure the dropdown list for the log formats.
       format_list.EnableViewState = true;
       format_list.AutoPostBack = true;
-      format_list.DataBound += new EventHandler (this.ondatabound_log_format);
       format_list.SelectedIndexChanged += new EventHandler (this.onchange_log_format_selection);
       format_list.Width = new Unit (500, UnitType.Pixel);
 
@@ -394,51 +393,55 @@ namespace CUTS.Web.UI.UnitTesting
       row.Cells.Add (relation_cell);
 
       int index = this.selected_log_formats_.IndexOf (lfid);
+      RelationTable relation = null;
 
       if ((lfid == -1 && this.selected_log_formats_.Count > 0) ||
           (lfid != -1 && index > 0))
       {
         // Insert the default relation table.
-        RelationTable relation_table = new RelationTable ();
-        relation_cell.Controls.Add (relation_table);
-        relation_table.EnableViewState = true;
+        relation = new RelationTable ();
+        relation_cell.Controls.Add (relation);
 
-        //if (lfid != -1)
-        //{
-        //  relation_table.LeftID = lfid;
-        //  relation_table.RightID = this.selected_log_formats_[index - 1];
-        //}
+        relation.EnableViewState = true;
       }
 
       if (lfid != -1)
         return;
 
-      // Finally, bind the data to the control. We need to do this last to
-      // ensure all the controls for this row have been created.
-      if (this.selected_log_formats_.Count > 0)
+      // Insert the log formats into the table.
+      DataTable log_formats = this.ds_.Tables[this.formats_table_];
+
+      foreach (DataRow format in log_formats.Rows)
       {
-        // Do not select log formats that are already showing.
-        DataTable unselected = this.get_unselected_log_formats (0);
+        if (!this.selected_log_formats_.Contains (format["lfid"]))
+        {
+          string text = format["lfmt"].ToString ();
+          string value = format["lfid"].ToString ();
 
-        if (unselected.Rows.Count <= 1)
-          this.disable_more_log_format_link ();
-
-        format_list.DataSource = unselected;
-      }
-      else
-      {
-        // Use the entire list of log formats.
-        DataTable complete = this.ds_.Tables[this.formats_table_];
-
-        if (complete.Rows.Count <= 1)
-          this.disable_more_log_format_link ();
-
-        format_list.DataSource = complete;
+          format_list.Items.Add (new ListItem (text, value));
+        }
       }
 
-      format_list.DataTextField = "lfmt";
-      format_list.DataValueField = "lfid";
-      format_list.DataBind ();
+      // Update the prefix control.
+      lfid = int.Parse (format_list.SelectedValue);
+      this.set_prefix_text (prefix, lfid);
+
+      // Now, set the selection for the list control.
+      this.selected_log_formats_.Add (lfid);
+
+      if (relation != null)
+      {
+        // Update the casual relation for this format.
+        relation.EffectID = lfid;
+        relation.LogIDList = (int[])this.selected_log_formats_.ToArray (typeof (int));
+        relation.DataSource = this.ds_.Tables[this.relations_table_];
+
+        relation.DataBind ();
+      }
+
+      // Finally, update the link for adding more formats.
+      if (this.selected_log_formats_.Count == log_formats.Rows.Count)
+        this.disable_more_log_format_link ();
     }
 
     /**
@@ -494,6 +497,11 @@ namespace CUTS.Web.UI.UnitTesting
     private void set_prefix_text (LiteralControl prefix, int lfid)
     {
       prefix.Text = String.Format ("LF{0}.", lfid);
+    }
+
+    private DropDownList get_log_format_control (TableRow row)
+    {
+      return (DropDownList)row.Cells[1].Controls[0];
     }
 
     /**

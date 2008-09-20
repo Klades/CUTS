@@ -45,6 +45,14 @@ namespace Actions.DataBaseActions
         this.conn_.Close ();
     }
 
+    public MySqlConnection Connection
+    {
+      get
+      {
+        return this.conn_;
+      }
+    }
+
     /**
      * Used to safely execute any block of SQL code that is
      *   not intended to return a value.
