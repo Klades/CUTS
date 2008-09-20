@@ -379,15 +379,21 @@ BEGIN
     WHERE utid = utid_;
 END //
 
--- Simply inserts a relation into a unit test
+--
+-- PROCEDURE: cuts.insert_unit_test_relation
+--
 
-DROP PROCEDURE IF EXISTS cuts.insert_unit_test_relation//
+DROP PROCEDURE IF EXISTS cuts.insert_unit_test_relation //
+
 CREATE PROCEDURE
-  cuts.insert_unit_test_relation (IN utid_in  INT,
-                           IN vid_1_in INT,
-                           IN vid_2_in INT)
+  cuts.insert_unit_test_relation (IN _utid  INT,
+                                  IN _relid INT,
+                                  IN _index INT,
+                                  IN _cause INT,
+                                  IN _effect INT)
 BEGIN
-      INSERT INTO unit_test_relations (utid,variable_id,variable_id_2) VALUES (utid_in, vid_1_in, vid_2_in);
+  INSERT INTO cuts.unit_test_relations (utid, relid, rel_index, variable_id, variable_id_2)
+    VALUES (_utid, _relid, _index, _cause, _effect);
 END //
 
 DROP PROCEDURE IF EXISTS cuts.insert_log_format//
