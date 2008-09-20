@@ -1,3 +1,25 @@
+Sat Sep 20 17:02:17 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/Database.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/DbDataAdapterFactory.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/ExecutionTime.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/MySqlDataAdapterFactory.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/OdbcDataAdapterFactory.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/PathElement.cs:
+
+          . Moved project source files from the root project directory to
+            their corresponding directory based on their namespace.
+
+        * utils/BMW/assemblies/CUTS.Data/Database.cs:
+        * utils/BMW/assemblies/CUTS.Data/DbDataAdapterFactory.cs:
+        * utils/BMW/assemblies/CUTS.Data/ExecutionTime.cs:
+        * utils/BMW/assemblies/CUTS.Data/MySqlDataAdapterFactory.cs:
+        * utils/BMW/assemblies/CUTS.Data/OdbcDataAdapterFactory.cs:
+        * utils/BMW/assemblies/CUTS.Data/PathElement.cs:
+
+          . Removed these files.
+
 Sat Sep 20 16:19:08 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-unittest.sql:
