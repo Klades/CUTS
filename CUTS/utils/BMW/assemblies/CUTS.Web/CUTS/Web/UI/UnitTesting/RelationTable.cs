@@ -47,6 +47,8 @@ namespace CUTS.Web.UI.UnitTesting
     {
       get
       {
+        this.EnsureChildControls ();
+
         this.save_relation (ref this.relation_);
         return this.relation_;
       }
@@ -198,11 +200,10 @@ namespace CUTS.Web.UI.UnitTesting
       TextBox text_lhs = new TextBox ();
       this.Controls.Add (text_lhs);
 
-      text_lhs.EnableViewState = true;
-      text_lhs.CausesValidation = false;
+      text_lhs.ID = String.Format ("cause{0}_", this.effect_id_);
 
-      LiteralControl lit_equal = new LiteralControl (" => ");
-      this.Controls.Add (lit_equal);
+      LiteralControl implies = new LiteralControl (" => ");
+      this.Controls.Add (implies);
 
       // Insert the log format prefix for the left side.
       LiteralControl lit_lhs = new LiteralControl (String.Format ("LF{0}. ", this.effect_id_));
@@ -212,8 +213,7 @@ namespace CUTS.Web.UI.UnitTesting
       TextBox text_rhs = new TextBox ();
       this.Controls.Add (text_rhs);
 
-      text_rhs.EnableViewState = true;
-      text_rhs.CausesValidation = false;
+      text_rhs.ID = String.Format ("effect{0}_", this.effect_id_);
     }
 
     /**

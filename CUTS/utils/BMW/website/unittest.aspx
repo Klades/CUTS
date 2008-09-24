@@ -32,9 +32,9 @@
       <!--
         unit test configuration view of the page
         -->
-      <table cellpadding="15" cellspacing="20" border="1" class="view_wrapper">
+      <table cellpadding="15" cellspacing="20" border="1" style="table-layout:fixed">
         <tr>
-          <td style="width: 40%; vertical-align: top">
+          <td style="width:500px; vertical-align: top">
             <!--
               section of the table for creating/removing test suites
               -->
@@ -42,40 +42,55 @@
 
             <p>Use the controls below to create a new test suite.</p>
 
-            <asp:requiredfieldvalidator id="test_suite_name_required_" runat="server" controltovalidate="test_suite_name_"
-              errormessage="test suite name is required. <br />" forecolor="red" validationgroup="testsuite_create"
-              display="dynamic" />
+            <table>
+              <tr>
+                <td class="title">Name: </td>
+                <td><asp:textbox id="test_suite_name_" runat="server" cssclass="default_width" /></td>
+                <td><asp:button id="btn1" runat="server" text="Create"
+                                onclick="onclick_create_test_suite"
+                                tabindex="2" cssclass="button" causesvalidation="true"
+                                validationgroup="testsuite_create_group_" /></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td colspan="2">
+                  <asp:requiredfieldvalidator id="test_suite_name_required_" runat="server"
+                                              controltovalidate="test_suite_name_"
+                                              errormessage="Test suite name is required"
+                                              forecolor="red" validationgroup="testsuite_create_group_"
+                                              display="static" /></td>
+              </tr>
 
-            <span style="margin-left: 10px;"><b>Name:</b></span>
+              <tr>
+                <td colspan="3">
+                  <hr style="color: white; border-top: dashed 1px blue" />
+                  <p>Use the controls below to manage existing test suites.</p>
+                  <p></p>
+                </td>
+              </tr>
 
-            <asp:textbox id="test_suite_name_" runat="server" tabindex="1" cssclass="default_width" /><br />
+              <!-- This is the section of the box for managing existing test suites.
+                   By clicking a test suite, then a user can either delete it, or
+                   add new packages to the test suite -->
 
-            <span style="position: relative; top: 5px; padding-left: 250px;">
-              <asp:button id="btn1" runat="server" text="Create" onclick="onclick_create_test_suite"
-                tabindex="2" cssclass="button" causesvalidation="true" validationgroup="testsuite_create" /></span>
-
-            <hr style="color: white; border-top: dashed 1px blue; margin-top: 16px;" />
-
-            <p>Use the controls below to manage existing test suites.</p>
-
-            <div>
-              <span style="vertical-align: top;"><b>Existing:</b></span>
-
-              <asp:listbox id="existing_test_suites_" runat="server" autopostback="True" selectionmode="Multiple"
-                datatextfield="name" datavaluefield="id" onselectedindexchanged="onchange_existing_test_suites"
-                cssclass="default_width" appenddatabounditems="true" rows="7" />
-
-              <br />
-
-              <span style="position: relative; top: 10px; padding-left: 55px;">
-                <asp:linkbutton id="delete_test_suite_" runat="server"
-                  text="Delete selected test suite(s)"
-                  onclick="onclick_delete_test_suite" />
-              </span>
-            </div>
+              <tr>
+                <td class="title" style="vertical-align:top">Existing: </td>
+                <td><asp:listbox id="existing_test_suites_" runat="server"
+                                 autopostback="true" selectionmode="multiple"
+                                 datatextfield="name" datavaluefield="id"
+                                 onselectedindexchanged="onchange_existing_test_suites"
+                                 cssclass="default_width" appenddatabounditems="true" rows="7" /></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td><asp:linkbutton id="delete_test_suite_" runat="server"
+                                    text="Delete selected test suite(s)"
+                                    onclick="onclick_delete_test_suite" /></td>
+              </tr>
+            </table>
           </td>
 
-          <td>
+          <td style="width:500px; vertical-align: top">
             <!--
               section of the table for creating/configuring test packages
               for the currently selected test suite.
@@ -84,51 +99,64 @@
 
             <p>Use the controls below to create a new test package.</p>
 
-            <asp:requiredfieldvalidator id="test_package_name_required_" runat="server"
-              controltovalidate="test_package_name_"
-              errormessage="test package name is required.<br />" forecolor="red" validationgroup="test_package_create"
-              display="dynamic" />
+            <table>
+              <tr>
+                <td class="title">Name: </td>
+                <td><asp:textbox id="test_package_name_" runat="server" cssclass="default_width" /></td>
+                <td><asp:button id="create_package_" runat="server" text="Create"
+                                onclick="onclick_create_test_package" cssclass="button" causesvalidation="true"
+                                validationgroup="test_package_create_group_" /></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td colspan="2">
+                  <asp:requiredfieldvalidator id="test_package_name_required_" runat="server"
+                                              controltovalidate="test_package_name_"
+                                              errormessage="Test package name is required"
+                                              forecolor="red" validationgroup="test_package_create_group_"
+                                              display="static" /></td>
+                <td></td>
+              </tr>
 
-            <span style="padding-left: 10px;"><b>Name:</b></span>
+              <tr>
+                <td colspan="3">
+                  <hr style="color: white; border-top: dashed 1px blue;" />
+                  <p>Use the controls below to manage existing test packages.</p>
+                  <p></p>
+                </td>
+              </tr>
 
-            <asp:textbox id="test_package_name_" runat="server" tabindex="3" cssclass="default_width" />
+              <tr>
+                <td class="title">Existing: </td>
+                <td><asp:dropdownlist id="existing_test_packages_" autopostback="true" runat="server"
+                                      datatextfield="name" datavaluefield="id" cssclass="default_width"
+                                      onselectedindexchanged="onchange_existing_test_packages" /></td>
+                <td><asp:button id="insert_test_package_" runat="server" text="Insert" cssclass="button"
+                                onclick="onclick_insert_test_package" /></td>
+              </tr>
 
-            <div class="button_array">
-              <asp:checkbox id="create_then_insert_test_package" runat="server" checked="true"
-                enabled="true" />
-              <span style="position: relative; left: -3px;">Insert into test suite?</span> <span
-                style="position: relative; left: 10px;">
-                <asp:button id="create_package_" runat="server" text="Create" onclick="onclick_create_test_package"
-                  tabindex="4" cssclass="button" causesvalidation="true" validationgroup="test_package_create" />
-              </span>
-            </div>
+              <tr>
+                <td></td>
+                <td><asp:linkbutton id="delete_test_package_" runat="server"
+                                    text="Delete existing test package"
+                                    onclick="onclick_delete_test_package" /></td>
+              </tr>
 
-            <hr style="color: White; border-top: dashed 1px blue;" />
+              <tr>
+                <td></td>
+                <td><asp:listbox id="current_test_packages_" runat="server" autopostback="true"
+                                 selectionmode="multiple" datatextfield="name" datavaluefield="id"
+                                 cssclass="default_width" onselectedindexchanged="onchange_current_test_packages" /></td>
+              </tr>
 
-            <p>Use the controls below to manage existing test packages. Note that a test package must be removed
-              from all test suites before it can be deleted.</p>
-
-            <b>Existing:</b>
-            <asp:dropdownlist id="existing_test_packages_" autopostback="true" runat="server"
-              datatextfield="name" datavaluefield="id" cssclass="default_width" onselectedindexchanged="onchange_existing_test_packages" />
-            <asp:button id="insert_test_package_" runat="server" text="Insert" cssclass="button"
-              tabindex="5" onclick="onclick_insert_test_package" />
-            <br />
-            <span style="position: relative; left: 55px; top: 6px;">
-              <asp:linkbutton id="delete_test_package_" runat="server" text="Delete existing test package"
-                onclick="onclick_delete_test_package" />
-            </span>
-            <br />
-            <span style="padding-left: 53px; position: relative; top: 15px;">
-              <asp:listbox id="current_test_packages_" runat="server" autopostback="True" selectionmode="Multiple"
-                datatextfield="name" datavaluefield="id" cssclass="default_width" onselectedindexchanged="onchange_current_test_packages" />
-            </span>
-            <br />
-            <br />
-            <span style="position: relative; padding-left: 55px; top: 10px;">
-              <asp:linkbutton id="remove_test_package_" runat="server" text="Remove selected test package(s)"
-                enabled="false" onclick="onclick_remove_test_package" />
-            </span>
+              <tr>
+                <td></td>
+                <td colspan="2">
+                  <asp:linkbutton id="remove_test_package_" runat="server"
+                                  text="Remove selected test package(s) from active test suite" enabled="false"
+                                  onclick="onclick_remove_test_package" /></td>
+              </tr>
+            </table>
           </td>
         </tr>
         <tr>
@@ -140,33 +168,40 @@
 
             <p>Use the controls below to manage unit test.</p>
 
-            <b>Existing: </b>
-            <asp:dropdownlist id="existing_unit_tests_" autopostback="true" runat="server"
-              datatextfield="name" datavaluefield="utid" cssclass="larger_width"
-              onselectedindexchanged="onchange_existing_unit_tests" />
+            <table>
+              <tr>
+                <td class="title">Existing: </td>
+                <td><asp:dropdownlist id="existing_unit_tests_" autopostback="true"
+                                      runat="server" datatextfield="name" datavaluefield="utid"
+                                      cssclass="larger_width"
+                                      onselectedindexchanged="onchange_existing_unit_tests" /></td>
+                <td><asp:button id="insert_unit_test_" runat="server"
+                                onclick="onclick_insert_unit_test" text="Insert" cssclass="button" /></td>
+              </tr>
 
-            <asp:button id="insert_unit_test_" runat="server"
-              onclick="onclick_insert_unit_test" text="Insert" cssclass="button" />
+              <tr>
+                <td></td>
+                <td><asp:linkbutton id="delete_unit_test_" runat="server" text="Delete existing unit test"
+                                    onclick="onclick_delete_unit_test_from_database" /></td>
+              </tr>
 
-            <br />
+              <tr>
+                <td></td>
+                <td><asp:listbox id="current_unit_tests_" runat="server"
+                                 selectionmode="multiple" datatextfield="name"
+                                 datavaluefield="id" autopostback="true" enableviewstate="true"
+                                 onselectedindexchanged="onchange_current_unit_tests"
+                                 rows="15" cssclass="larger_width" /></td>
+              </tr>
 
-            <span style="position: relative; left: 55px; top: 6px;">
-              <asp:linkbutton id="delete_unit_test_" runat="server" text="Delete existing unit test"
-                onclick="onclick_delete_unit_test" />
-            </span>
-            <br />
-            <span style="position: relative; left: 55px; top: 13px;">
-              <asp:listbox id="current_unit_tests_" runat="server" selectionmode="Multiple" datatextfield="name"
-                datavaluefield="id" autopostback="true" enableviewstate="true" onselectedindexchanged="onchange_current_unit_tests"
-                rows="15" cssclass="larger_width" />
-            </span>
-            <br />
-            <span style="position: relative; left: 55px; top: 18px;">
-              <asp:linkbutton id="remove_unit_test_" runat="server" text="Remove selected unit test(s)"
-                onclick="onclick_remove_unit_test" />
-            </span>
-            <br />
-            <br />
+              <tr>
+                <td></td>
+                <td colspan="2">
+                  <asp:linkbutton id="remove_unit_test_" runat="server"
+                                  text="Remove selected unit test(s) from active test package"
+                                  onclick="onclick_remove_unit_test_from_test_package" /></td>
+              </tr>
+            </table>
           </td>
         </tr>
       </table>

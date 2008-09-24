@@ -145,8 +145,8 @@ namespace CUTS
         // Disable appropriate package buttons
         this.insert_test_package_.Enabled = false;
         this.remove_test_package_.Enabled = false;
-        this.create_then_insert_test_package.Checked = false;
-        this.create_then_insert_test_package.Enabled = false;
+        //this.create_then_insert_test_package.Checked = false;
+        //this.create_then_insert_test_package.Enabled = false;
 
         // Disable appropriate unit test buttons
         this.insert_unit_test_.Enabled = false;
@@ -285,8 +285,8 @@ namespace CUTS
       this.insert_test_package_.Enabled = (count > 0);
       this.insert_unit_test_.Enabled = (count > 0);
       this.remove_unit_test_.Enabled = (count > 0);
-      this.create_then_insert_test_package.Checked = (count > 0);
-      this.create_then_insert_test_package.Enabled = (count > 0);
+      //this.create_then_insert_test_package.Checked = (count > 0);
+      //this.create_then_insert_test_package.Enabled = (count > 0);
     }
 
     /**
@@ -399,44 +399,44 @@ namespace CUTS
 
       // Check if we should create, then insert
       //   test package - or just create test package
-      if (this.create_then_insert_test_package.Checked == true)
-      {
-        // Check test suite validity
-        if (this.is_valid_selection (this.existing_test_suites_) == false)
-        {
-          this.master_.show_error_message ("Please select a valid test suite to " +
-            "add test package " + name + " to.");
-          return;
-        }
+      //if (this.create_then_insert_test_package.Checked == true)
+      //{
+      //  // Check test suite validity
+      //  if (this.is_valid_selection (this.existing_test_suites_) == false)
+      //  {
+      //    this.master_.show_error_message ("Please select a valid test suite to " +
+      //      "add test package " + name + " to.");
+      //    return;
+      //  }
 
-        try
-        {
-          // Insert test package
-          this.uta_.insert_new_package (this.existing_test_suites_.SelectedValue, name);
+      //  try
+      //  {
+      //    // Insert test package
+      //    this.uta_.insert_new_package (this.existing_test_suites_.SelectedValue, name);
 
-          // Show info messages
-          this.master_.show_info_message ("test package " + name + " created successfully");
-          this.master_.show_info_message ("test package " + name + " inserted into test " +
-            "suite " + this.existing_test_suites_.SelectedItem.Text + " successfully");
+      //    // Show info messages
+      //    this.master_.show_info_message ("test package " + name + " created successfully");
+      //    this.master_.show_info_message ("test package " + name + " inserted into test " +
+      //      "suite " + this.existing_test_suites_.SelectedItem.Text + " successfully");
 
-          // Update the UI
-          this.load_current_packages ();
-          this.load_existing_packages ();
-          this.test_package_name_.Text = "";
-        }
-        catch (Exception ex1)
-        {
-          // Show current message
-          this.master_.show_error_message (ex1.Message);
+      //    // Update the UI
+      //    this.load_current_packages ();
+      //    this.load_existing_packages ();
+      //    this.test_package_name_.Text = "";
+      //  }
+      //  catch (Exception ex1)
+      //  {
+      //    // Show current message
+      //    this.master_.show_error_message (ex1.Message);
 
-          // Show more meaningful message
-          this.master_.show_error_message ("Failed to create, then insert, test package " + name);
+      //    // Show more meaningful message
+      //    this.master_.show_error_message ("Failed to create, then insert, test package " + name);
 
-          return;
-        }
+      //    return;
+      //  }
 
-      }
-      else
+      //}
+      //else
       {
         // We just want to create the test package, not insert it
         try
@@ -542,23 +542,14 @@ namespace CUTS
     }
 
     /**
-     * Button handler that is used to delete a unit test,
-     *   print a success or fail message, and reload the
-     *   user interface.
+     * Handler for clicking the link button to delete a unit test from the
+     * database.
      *
      * @param[in]     sender    The button that sent the click event.
      * @param[in]     e         The EventArgs that were sent with the event.
      */
-    protected void onclick_delete_unit_test (object sender, EventArgs e)
+    protected void onclick_delete_unit_test_from_database (object sender, EventArgs e)
     {
-      // Check that the selected unit test is valid
-      if (this.current_unit_tests_.SelectedIndex == -1)
-      {
-        this.master_.show_error_message ("Please select a valid unit test to " +
-          "delete. ");
-        return;
-      }
-
       if (this.existing_unit_tests_.SelectedIndex != -1)
       {
         string name = this.existing_unit_tests_.SelectedItem.Text;
@@ -570,7 +561,7 @@ namespace CUTS
           this.master_.show_info_message ("Successfully deleted " + name + " unit test from database");
 
           // Force reloading of the unit tests.
-          //this.load_unit_tests ();
+          this.load_existing_unit_tests ();
         }
         catch (Exception ex)
         {
@@ -690,14 +681,13 @@ namespace CUTS
     }
 
     /**
-     * Button handler function that removes a unit test from
-     *   a test package, reloads the current unit test list, and
-     *   prints an info message.
+     * Handler for clicking the link button to remove an existing unit test
+     * from the active test package.
      *
      * @param[in]     sender    The button that sent the click event.
      * @param[in]     e         The EventArgs that were sent with the event.
      */
-    protected void onclick_remove_unit_test (object sender, EventArgs e)
+    protected void onclick_remove_unit_test_from_test_package (object sender, EventArgs e)
     {
       // Check that the unit test selection is valid
       if (this.is_valid_selection (this.current_unit_tests_) == false)
@@ -1099,9 +1089,6 @@ namespace CUTS
 
         // Reset the unit test form.
         this.reset_unit_test_form ();
-
-        // Reload the existing test suite control.
-        //this.load_unit_tests ();
       }
       catch (Exception ex)
       {
@@ -1121,6 +1108,7 @@ namespace CUTS
       this.unit_test_eval_.Text = String.Empty;
       this.unit_test_fail_.Text = String.Empty;
       this.unit_test_warn_.Text = String.Empty;
+      this.log_format_table_.Clear ();
     }
 
     private string get_mysql_comparison (string comparison)

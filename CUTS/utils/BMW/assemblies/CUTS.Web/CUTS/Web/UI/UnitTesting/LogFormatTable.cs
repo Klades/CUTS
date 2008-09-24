@@ -33,6 +33,22 @@ namespace CUTS.Web.UI.UnitTesting
     }
 
     /**
+     * Clear the contents of the log format table.
+     */
+    public void Clear ()
+    {
+      // Clear the data objects for the control.
+      this.selected_log_formats_.Clear ();
+      this.selected_relations_.Clear ();
+
+      Table table = (Table)this.Controls[0];
+      table.Rows.Clear ();
+
+      this.insert_header_row (ref table);
+      this.create_new_log_format (ref table, -1);
+    }
+
+    /**
      * Readonly property for the selected log formats.
      */
     public int[] SelectedLogFormats
@@ -128,31 +144,12 @@ namespace CUTS.Web.UI.UnitTesting
       Table table = new Table ();
       this.Controls.Add (table);
 
-      // Prepare the header row of the table.
-      TableHeaderRow header = new TableHeaderRow ();
-      table.Rows.Add (header);
-
-      // Prepare the header cell for the prefix.
-      TableHeaderCell prefix = new TableHeaderCell ();
-      header.Cells.Add (prefix);
-
-      prefix.Controls.Add (new LiteralControl ("Prefix"));
-
-      // Prepare the header cell for the format.
-      TableHeaderCell format = new TableHeaderCell ();
-      header.Cells.Add (format);
-
-      format.Controls.Add (new LiteralControl ("Log Format"));
-
-      // Prepare the header cell for the relations.
-      TableHeaderCell relation = new TableHeaderCell ();
-      header.Cells.Add (relation);
-
-      relation.Controls.Add (new LiteralControl ("Causality"));
+      // Insert the header row for the table.
+      this.insert_header_row (ref table);
 
       // Now, insert the rows into the table.
       foreach (int lfid in this.selected_log_formats_)
-        this.create_new_log_format (table, lfid);
+        this.create_new_log_format (ref table, lfid);
 
       // Insert the link button for adding more log formats.
       LinkButton link = new LinkButton ();
@@ -234,7 +231,7 @@ namespace CUTS.Web.UI.UnitTesting
 
       // Create the first log format for the table.
       Table table = (Table)this.Controls[0];
-      this.create_new_log_format (table, -1);
+      this.create_new_log_format (ref table, -1);
     }
 
     /**
@@ -246,7 +243,7 @@ namespace CUTS.Web.UI.UnitTesting
       Table table = (Table)this.Controls[0];
 
       // Create a new log format for the table.
-      this.create_new_log_format (table, -1);
+      this.create_new_log_format (ref table, -1);
 
       int lfid = (int)this.selected_log_formats_[this.selected_log_formats_.Count - 1];
       this.update_log_format_listings (table, -1, lfid, this.selected_log_formats_.Count);
@@ -356,7 +353,7 @@ namespace CUTS.Web.UI.UnitTesting
      *
      * @param[in]           use_viewstate         Using the view state.
      */
-    private void create_new_log_format (Table table, int lfid)
+    private void create_new_log_format (ref Table table, int lfid)
     {
       // Create a new log format item for the table.
       TableRow row = new TableRow ();
@@ -442,6 +439,37 @@ namespace CUTS.Web.UI.UnitTesting
       // Finally, update the link for adding more formats.
       if (this.selected_log_formats_.Count == log_formats.Rows.Count)
         this.disable_more_log_format_link ();
+    }
+
+    /**
+     * Helper method to insert the header row for the log format
+     * table.
+     *
+     * @param[inout]         table          Target table to create header
+     */
+    private void insert_header_row (ref Table table)
+    {
+      // Prepare the header row of the table.
+      TableHeaderRow header = new TableHeaderRow ();
+      table.Rows.Add (header);
+
+      // Prepare the header cell for the prefix.
+      TableHeaderCell prefix = new TableHeaderCell ();
+      header.Cells.Add (prefix);
+
+      prefix.Controls.Add (new LiteralControl ("Prefix"));
+
+      // Prepare the header cell for the format.
+      TableHeaderCell format = new TableHeaderCell ();
+      header.Cells.Add (format);
+
+      format.Controls.Add (new LiteralControl ("Log Format"));
+
+      // Prepare the header cell for the relations.
+      TableHeaderCell relation = new TableHeaderCell ();
+      header.Cells.Add (relation);
+
+      relation.Controls.Add (new LiteralControl ("Causality"));
     }
 
     /**

@@ -1,3 +1,23 @@
+Wed Sep 24 01:18:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/LogFormatTable.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/RelationTable.cs:
+
+          . Tried to fix a bug where the state of the relation textbox is not
+            saved when its first created. After (re)creating the textbox for the
+            relations will the page safe the controls state. :-(
+
+        * utils/BMW/website/styles/default.css:
+        * utils/BMW/website/unittest.aspx:
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . Re-implemented the unit test specification portion of the page
+            using a table layout. This helps ensure items align properly on
+            the page.
+
+          . Bug fix where it was impossible to delete an existing unit test
+            from the database.
+
 Sat Sep 20 17:02:17 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
