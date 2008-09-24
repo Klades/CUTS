@@ -121,11 +121,6 @@ namespace CUTS
       {
         this.master_.show_error_message (ex.Message);
       }
-      finally
-      {
-        if (this.conn_.State == ConnectionState.Open)
-          this.conn_.Close ();
-      }
     }
 
     /**

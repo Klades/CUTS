@@ -1,3 +1,21 @@
+Wed Sep 24 03:56:22 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-unittest.sql:
+
+          . Implemented a stored procedure for selecting the log data
+            in ascending order.
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTestEvaluator.cs:
+
+          . Bug fix where inserting the relations into the evaluator caused
+            an exception.
+
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/unittestchart.aspx.cs:
+
+          . Bug fix where the connection to the database for the page was
+            not open.
+
 Wed Sep 24 01:18:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/LogFormatTable.cs:

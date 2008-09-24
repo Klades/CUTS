@@ -211,12 +211,12 @@ namespace CUTS.Data
 
           foreach (DataRow equality in relations)
           {
-            int index = (int)equality["rel_index"] - 1;
+            // int index = (int)equality["rel_index"] - 1;
             string lhs_eq = (string)equality["lhs"];
             string rhs_eq = (string)equality["rhs"];
 
             // Insert the next equality into the relation.
-            relation.insert (index, lhs_eq, rhs_eq);
+            relation.add (lhs_eq, rhs_eq);
           }
 
           // Store the relation with the source node.
@@ -245,7 +245,7 @@ namespace CUTS.Data
       IDbCommand logdata_command = this.conn_.CreateCommand ();
 
       command.CommandText =
-        "CALL cuts.select_log_data_desc_by_test_number (?test, ?lfid)";
+        "CALL cuts.select_log_data_asc_by_test_number (?test, ?lfid)";
 
       p1.ParameterName = "?test";
       p1.DbType = DbType.Int32;

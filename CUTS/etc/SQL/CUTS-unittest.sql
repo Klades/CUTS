@@ -315,6 +315,25 @@ BEGIN
     ORDER BY hostname, t1.msgtime DESC, t1.msgid DESC;
 END //
 
+--
+-- PROCEDURE: cuts.select_log_data_asc_by_test_number
+--
+
+DROP PROCEDURE IF EXISTS cuts.select_log_data_asc_by_test_number //
+
+CREATE PROCEDURE
+  cuts.select_log_data_asc_by_test_number (IN test_number_ INT,
+                                           IN format_ INT)
+BEGIN
+  SELECT hostname, msgtime, severity, message
+    FROM cuts.msglog AS t1, cuts.ipaddr_host_map AS t2
+    WHERE test_number = test_number_ AND
+          t1.hostid = t2.hostid AND
+          message REGEXP (
+            SELECT icase_regex FROM cuts.log_formats WHERE lfid = format_)
+    ORDER BY hostname, t1.msgtime ASC, t1.msgid DESC;
+END //
+
 DROP FUNCTION IF EXISTS cuts.get_qualified_variable_name //
 
 CREATE FUNCTION cuts.get_qualified_variable_name (var_ INT)
@@ -488,7 +507,8 @@ END //
 
 -- given 1-1 data for unit test, inserts new UT and returns id
 
-DROP PROCEDURE IF EXISTS cuts.insert_unit_test//
+DROP PROCEDURE IF EXISTS cuts.insert_unit_test //
+
 CREATE PROCEDURE cuts.insert_unit_test(IN name_in VARCHAR(45),
                                 IN descr VARCHAR(95),
                                 IN fail_comp VARCHAR(20),
