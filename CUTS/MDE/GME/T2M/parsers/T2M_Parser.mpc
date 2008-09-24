@@ -5,6 +5,8 @@ project (GME_T2M_Parser) : cuts_gme, cutslib {
 
   dynamicflags += GME_T2M_PARSER_BUILD_DLL
 
+  libs -= CUTS
+
   Source_Files {
     T2M_Parser.cpp
   }

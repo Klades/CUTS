@@ -3,6 +3,8 @@
 project (Scatter_Deployment_Parser) : boost_base, gme_t2m, cutslib {
   sharedname    = Scatter_Deployment_Parser
 
+  libs -= CUTS
+
   dynamicflags += SCATTER_DEPLOYMENT_PARSER_BUILD_DLL
 
   pch_header = stdafx.h

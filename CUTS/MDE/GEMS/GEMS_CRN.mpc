@@ -6,6 +6,8 @@ project (GEMS_CRN) : naming, cutslib {
 
   dynamicflags = GEMS_CRN_BUILD_DLL
 
+  libs -= CUTS
+
   idlflags += -Wb,export_macro=GEMS_CRN_Export \
               -Wb,export_include=GEMS_CRN_export.h
 

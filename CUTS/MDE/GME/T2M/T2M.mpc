@@ -6,6 +6,8 @@ project (gmet2m) : cutsexe, boost_base {
   includes += $(CIAO_ROOT)/CCF \
               $(ACE_ROOT)/contrib/utility
 
+  libs -= CUTS
+
   Header_Files {
 
   }
