@@ -86,12 +86,14 @@
           <td class="title">Test Suite: </td>
           <td><asp:dropdownlist runat="server" id="ddl_Test_Suites"
                                 datatextfield="name" datavaluefield="id"
-                                autopostback="false" runat="server" />
+                                autopostback="false" runat="server"
+                                width="150px" />
           <td><asp:button runat="server" id="evaluate_test_suite_"
                           onclick="onclick_evaluate_test_suite" text="Evaluate" /> </td>
         </tr>
       </table>
-      <asp:panel id="panel_Packages_Unit_Tests" runat="server" />
+      <br />
+      <asp:panel id="unit_test_panel_" runat="server" />
     </asp:view>
 
     <asp:view runat="server" id="log_formats_view_">

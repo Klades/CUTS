@@ -33,6 +33,9 @@ project (CUTS.Data) {
     CUTS/Data/UnitTestEvaluator.cs
     CUTS/Data/VariableTable.cs
 
+    // unit testing package
+    CUTS/Data/UnitTesting/UnitTestResult.cs
+
     // graphing package
     CUTS/Graph/Algorithm.cs
     CUTS/Graph/DirectedEdge.cs

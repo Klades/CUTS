@@ -23,6 +23,9 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Text;
 
+using CUTS.Data.UnitTesting;
+using CUTS.Web.UI.UnitTesting;
+
 using Actions.UnitTestActions;
 using MySql.Data.MySqlClient;
 
@@ -211,12 +214,15 @@ namespace CUTS
       }
     }
 
+    /**
+     *
+     */
     protected void onclick_evaluate_test_suite (object sender, EventArgs e)
     {
       try
       {
-        this.panel_Packages_Unit_Tests.Controls.Clear ();
-        this.load_panel_Packages_Unit_Tests ();
+        this.unit_test_panel_.Controls.Clear ();
+        this.load_unit_test_panel ();
       }
       catch (Exception ex)
       {
@@ -224,85 +230,58 @@ namespace CUTS
       }
     }
 
-    private void load_panel_Packages_Unit_Tests ()
+    /**
+     *
+     */
+    private void load_unit_test_panel ()
     {
       DataTable dt = this.uta_.get_packages (ddl_Test_Suites.SelectedValue);
 
-      // An explicit cast to string will not work here
-      //   because the adapter types the column to int
       foreach (DataRow row in dt.Rows)
-        Add_Package (row["id"].ToString ());
+        this.add_package (row["id"].ToString ());
     }
 
-    private void Add_Package (string p_id)
+    /**
+     *
+     */
+    private void add_package (string p_id)
     {
+      // Get information about the package from the database.
       DataRow package_info = this.uta_.get_package_info (p_id);
-      string Package_Name = (string)package_info["name"];
+      string package_name = (string)package_info["name"];
 
-      // Add Package Title
-      Label Title = new Label ();
-      panel_Packages_Unit_Tests.Controls.Add (Title);
-      Title.Text = Package_Name;
-      Title.CssClass = "performance-ut_view-package_name";
-
-      // Add <hr />
-      panel_Packages_Unit_Tests.Controls.Add (new LiteralControl ("<hr />"));
+      TestPackage package = new TestPackage (this.test_number_, package_name);
+      this.unit_test_panel_.Controls.Add (package);
 
       // Fill the DataTable with Name and id
       DataTable dt = this.uta_.get_unit_tests (p_id);
-
-      // Add Evaluation, Result
-      //dt.Columns.Add ("Evaluation");
-      dt.Columns.Add ("Result");
-      dt.Columns.Add ("Chart");
-
-      // Ensure package has at least one Unit Test
-      if (dt.Rows.Count < 1)
-        return;
 
       string eval;
 
       foreach (DataRow row in dt.Rows)
       {
         // Evaluate the unit test.
-        DataTable temp =
-          this.evaluator_.evaluate (this.test_number_, (int)row["id"], true, out eval);
+        int utid = (int)row["id"];
 
-        if (temp.Rows.Count == 0)
-        {
-          //row ["Evaluation"] = "No Data";
-          row["Result"] = "No Data";
-          row["Chart"] = @"<a href='unittestchart.aspx?utid=" + row["id"].ToString () +
-              "'>Chart</a>";
-        }
-        else
-        {
-          DataRow temp_Row = temp.Rows[0];
+        DataTable data = this.evaluator_.evaluate (this.test_number_,
+                                                   utid,
+                                                   true,
+                                                   out eval);
 
-          // Add Results of Evaluation to Main Table
-          //row ["Evaluation"] = temp_Row ["evaluation"];
-          row["Result"] = temp_Row["result"];
+        // Create a new result set for the evaluation.
+        UnitTestResult result = new UnitTestResult ();
+        result.ID = utid;
+        result.Name = (string)row["name"];
 
-          row["Chart"] =
-            "<a href='unittestchart.aspx?utid=" + row["id"].ToString () +
-            "&t=" + this.test_number_ + "'>view dataset</a>";
-        }
+        if (data.Rows.Count > 0)
+          result.Result = data.Rows[0]["result"];
+
+        // Insert the result into the package.
+        package.Add (result);
       }
 
-
-      // Add the DataGrid
-      DataGrid dg = new DataGrid ();
-      panel_Packages_Unit_Tests.Controls.Add (dg);
-      dg.AlternatingItemStyle.CssClass = "alternate-row";
-      dg.Width = new Unit (100, UnitType.Percentage);
-      dg.CssClass = "performance-ut-grid";
-
-      // Bind the DataGrid
-      dg.DataSource = dt;
-      dg.DataBind ();
-
-      // Add  few spaces
-      panel_Packages_Unit_Tests.Controls.Add (new LiteralControl ("<br /><br />"));
+      // Bind the data in the package.
+      package.DataBind ();
     }
 
     #region Event Handlers
@@ -353,8 +332,8 @@ namespace CUTS
     #endregion
 
     /**
-     * Button handler for the current log formats view that
-     *   will export the datagrid on that view in the chosen format.
+     * Button handler for the current log formats view that will export the
+     * datagrid on that view in the chosen format.
      */
     protected void onclick_export (object sender, EventArgs e)
     {

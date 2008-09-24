@@ -25,5 +25,6 @@ project (CUTS.Web) {
 
     CUTS/Web/UI/UnitTesting/LogFormatTable.cs
     CUTS/Web/UI/UnitTesting/RelationTable.cs
+    CUTS/Web/UI/UnitTesting/TestPackage.cs
   }
 }
