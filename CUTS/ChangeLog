@@ -1,3 +1,9 @@
+Wed Sep 24 14:01:31 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * install/CUTS_CoSMIC.wxs:
+
+          . Removed deprecated attributes from the installer script.
+
 Wed Sep 24 13:54:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GEMS/GEMS_CRN.mpc:

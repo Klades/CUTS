@@ -7,8 +7,7 @@
            Language="1033" Codepage="1252" Version="0.2.1"
            Manufacturer="DOC Group, ISIS, Vanderbilt University">
 
-    <Package Id="????????-????-????-????-????????????"
-             Keywords='Installer'
+    <Package Keywords='Installer'
              Description='CUTS Modeling Tools for CoSMIC'
              Manufacturer='DOC Group, ISIS, Vanderbilt University'
              InstallerVersion='200' Languages='1033' Compressed='yes'
