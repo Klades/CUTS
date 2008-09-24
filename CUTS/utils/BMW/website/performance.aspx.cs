@@ -183,8 +183,6 @@ namespace CUTS
 
       ddl_Test_Suites.DataSource = table;
       ddl_Test_Suites.DataBind ();
-
-      ddl_Test_Suites.Items.Insert (0, new ListItem ("Choose a Test Suite to see results . . .    ", "-1"));
     }
 
     private void load_log_messages_view ()
@@ -213,19 +211,16 @@ namespace CUTS
       }
     }
 
-    protected void OnChange_ddl_Test_Suites (object sender, EventArgs e)
+    protected void onclick_evaluate_test_suite (object sender, EventArgs e)
     {
-      if (ddl_Test_Suites.SelectedIndex != 0)
+      try
       {
-        // Clear out Panel
         this.panel_Packages_Unit_Tests.Controls.Clear ();
-
-        // Load new Panel Data
         this.load_panel_Packages_Unit_Tests ();
       }
-      else
+      catch (Exception ex)
       {
-        this.master_.show_error_message ("Please select a valid test suite");
+        this.master_.show_error_message (ex.Message);
       }
     }
 

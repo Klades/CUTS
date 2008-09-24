@@ -1,3 +1,16 @@
+Wed Sep 24 04:42:32 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/performance.aspx:
+        * utils/BMW/website/performance.aspx.cs:
+
+          . Evaluation of a unit test does not occur until the user clicks
+            the 'Evaluate' button, instead of performing the evaluation when
+            the user changes their selection.
+
+        * utils/BMW/website/styles/default.css:
+
+          . Updated several of the style classes.
+
 Wed Sep 24 03:56:22 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-unittest.sql:
