@@ -31,7 +31,7 @@
     <items>
       <asp:menuitem text="Snapshot Performance" selected="true" value="0" />
       <asp:menuitem text="Cumulative Performance" value="1" />
-      <asp:menuitem text="Unit Test" value="2" />
+      <asp:menuitem text="Unit Testing" value="2" />
       <asp:menuitem text="Log Messages" value="3" />
     </items>
   </asp:menu>
@@ -83,7 +83,7 @@
     <asp:view runat="server" id="unittest_view_">
       <table>
         <tr>
-          <td>Test Suite: </td>
+          <td class="title">Test Suite: </td>
           <td><asp:dropdownlist runat="server" id="ddl_Test_Suites"
                                 datatextfield="name" datavaluefield="id"
                                 autopostback="false" runat="server" />

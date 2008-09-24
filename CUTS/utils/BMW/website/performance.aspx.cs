@@ -268,14 +268,8 @@ namespace CUTS
         DataTable temp =
           this.evaluator_.evaluate (this.test_number_, (int)row["id"], true, out eval);
 
-        // Evaluate
-        //DataTable temp =
-        //  UnitTestActions.Evalate_UT_for_single_test  (Int32.Parse (row ["id"].ToString ()), this.test_number_);
-
         if (temp.Rows.Count == 0)
         {
-          master_.show_info_message ("Oops - Looks like there is no data for '" + row["Name"].ToString () +
-              "' in '" + Package_Name + "'");
           //row ["Evaluation"] = "No Data";
           row["Result"] = "No Data";
           row["Chart"] = @"<a href='unittestchart.aspx?utid=" + row["id"].ToString () +
