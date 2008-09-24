@@ -91,8 +91,10 @@ namespace CUTS
 
       writer.WriteStartDocument ();
       writer.WriteStartElement ("chart"); // <chart>
-      writer.WriteStartElement ("chart_data"); // <chart_data>
 
+      writer.WriteElementString ("chart_type", "line");
+
+      writer.WriteStartElement ("chart_data"); // <chart_data>
       writer.WriteStartElement ("row");   // <row>
       writer.WriteRaw ("<null/>");        // <null/>
       for (int i = 0; i < dt.Rows.Count; i++)
