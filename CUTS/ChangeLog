@@ -1,3 +1,10 @@
+Thu Sep 25 22:41:38 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/TestPackage.cs:
+
+          . Added support for viewing unit tests that have groupings, however
+            the analysis side does not support group evaluation.
+
 Thu Sep 25 05:00:05 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestGroupResult.cs:

@@ -205,6 +205,31 @@ namespace CUTS.Web.UI.UnitTesting
           button.ImageUrl = "~/images/table.gif";
           button.AlternateText = "view data trend";
         }
+
+        // Finally, let's see if this is actually a group result. If it is, then
+        // we need to display the results for each group member.
+        if (result is UnitTestGroupResult)
+        {
+          UnitTestGroupResult group = (UnitTestGroupResult)result;
+
+          foreach (UnitTestResult member in group.Results)
+          {
+            TableRow member_row = new TableRow ();
+            result_table.Rows.Add (member_row);
+
+            // Insert the name of the member into the table.
+            TableCell member_name_cell = new TableCell ();
+            member_row.Cells.Add (member_name_cell);
+
+            member_name_cell.Controls.Add (new LiteralControl (member.Name));
+
+            // Insert the result of the member into the table.
+            TableCell member_result_cell = new TableCell ();
+            member_row.Cells.Add (member_result_cell);
+
+            member_result_cell.Controls.Add (new LiteralControl (member.Result.ToString ()));
+          }
+        }
       }
     }
 
