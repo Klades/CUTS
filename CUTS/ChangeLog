@@ -1,3 +1,16 @@
+Thu Sep 25 04:57:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-unittest.sql:
+
+          . Inserted a table for storing grouping information for a unit
+            test.
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+
+          . Implemented an abstract data type for storing the results
+            of a unit test group. This data type is built on top of the
+            basic UnitTestResult type.
+
 Wed Sep 24 15:02:28 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
@@ -14,21 +27,6 @@ Wed Sep 24 15:02:28 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
             CompositeControl. This removed all the implementation used to
             display a test package, and its unit test, from the performance
             page and making its a LOT cleaner.
-
-Wed Sep 24 14:59:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
-
-        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
-
-        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting:
-
-        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestResult.cs:
-
-        * utils/BMW/assemblies/CUTS.Web/CUTS.Web.mpc:
-
-        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/TestPackage.cs:
-
-        * utils/BMW/website/performance.aspx:
-        * utils/BMW/website/performance.aspx.cs:
 
 Wed Sep 24 14:01:31 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

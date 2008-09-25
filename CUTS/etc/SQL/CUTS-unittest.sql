@@ -179,9 +179,9 @@ CREATE TABLE IF NOT EXISTS cuts.unit_test_relations
     ON UPDATE CASCADE
 );
 
--- sub table for unit tests
--- contains log format ids
-
+--
+-- TABLE: cuts.unit_test_log_formats
+--
 CREATE TABLE IF NOT EXISTS cuts.unit_test_log_formats
 (
   utid          INT           NOT NULL,
@@ -194,6 +194,30 @@ CREATE TABLE IF NOT EXISTS cuts.unit_test_log_formats
     ON UPDATE CASCADE,
 
   FOREIGN KEY (lfid) REFERENCES cuts.log_formats (lfid)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
+);
+
+--
+-- TABLE: cuts.unit_test_log_formats
+--
+CREATE TABLE IF NOT EXISTS cuts.unit_test_groupings
+(
+  utid          INT           NOT NULL,
+  grpid         INT           NOT NULL,
+  grpindex      INT           NOT NULL,
+  varid         INT           NOT NULL,
+
+  UNIQUE (utid, grpid, grpindex),
+  UNIQUE (utid, grpid, varid),
+
+  FOREIGN KEY (utid)
+    REFERENCES cuts.unit_tests (utid)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+
+  FOREIGN KEY (varid)
+    REFERENCES cuts.log_format_variables (variable_id)
     ON DELETE RESTRICT
     ON UPDATE CASCADE
 );

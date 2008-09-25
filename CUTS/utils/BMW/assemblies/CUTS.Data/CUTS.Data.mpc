@@ -35,6 +35,7 @@ project (CUTS.Data) {
 
     // unit testing package
     CUTS/Data/UnitTesting/UnitTestResult.cs
+    CUTS/Data/UnitTesting/UnitTestGroupResult.cs
 
     // graphing package
     CUTS/Graph/Algorithm.cs
