@@ -29,40 +29,68 @@ namespace CUTS
 {
   public partial class Unit_Testing : System.Web.UI.Page
   {
-    private CUTS.Master master_;
-
     private MySqlConnection conn_ =
       new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
 
-    private UnitTestActions uta_ = new UnitTestActions ();
+    private CUTS.Master master_;
 
-    protected void Page_Load (object sender, EventArgs e)
+    private UnitTestActions uta_;
+
+    public Unit_Testing ()
     {
       // Get the concrete master page.
       this.master_ = (CUTS.Master)Master;
 
-      if (this.IsPostBack)
-        return;
+      try
+      {
+        this.conn_.Open ();
+        this.uta_ = new UnitTestActions (this.conn_);
+      }
+      catch (Exception ex)
+      {
+        this.master_.show_error_message (ex.Message);
+      }
+    }
 
-      // Load initial existing data
-      this.load_existing_test_suites ();
-      this.load_existing_packages ();
-      this.load_existing_unit_tests ();
+    protected void Page_Load (object sender, EventArgs e)
+    {
+      try
+      {
+        if (this.IsPostBack)
+          return;
 
-      // Select the log formats from the database.
-      DataSet ds = new DataSet ();
+        // Load initial existing data
+        this.load_existing_test_suites ();
+        this.load_existing_packages ();
+        this.load_existing_unit_tests ();
 
-      MySqlDataAdapter adapter = new MySqlDataAdapter ("SELECT lfid, lfmt FROM log_formats", this.conn_);
-      adapter.Fill (ds, "logformats");
+        // Select the log formats from the database.
+        DataSet ds = new DataSet ();
 
-      // Select the relations from the database.
-      adapter.SelectCommand.CommandText = "CALL cuts.select_log_format_variable_details_all ()";
-      adapter.Fill (ds, "relations");
+        MySqlDataAdapter adapter = new MySqlDataAdapter ("SELECT lfid, lfmt FROM log_formats", this.conn_);
+        adapter.Fill (ds, "logformats");
 
-      this.log_format_table_.DataSource = ds;
-      this.log_format_table_.DataMemberLogFormats = "logformats";
-      this.log_format_table_.DataMemberRelations = "relations";
-      this.log_format_table_.DataBind ();
+        // Select the relations from the database.
+        adapter.SelectCommand.CommandText = "CALL cuts.select_log_format_variable_details_all ()";
+        adapter.Fill (ds, "relations");
+
+        this.log_format_table_.DataSource = ds;
+        this.log_format_table_.DataMemberLogFormats = "logformats";
+        this.log_format_table_.DataMemberRelations = "relations";
+        this.log_format_table_.DataBind ();
+
+        adapter.SelectCommand.CommandText = "CALL cuts.select_log_format_variable_details_all ()";
+        adapter.Fill (ds, "variables");
+
+        // Bind the data for the grouping.
+        this.grouping_.DataSource = ds;
+        this.grouping_.DataMember = "variables";
+        this.grouping_.DataBind ();
+      }
+      catch (Exception ex)
+      {
+        this.master_.show_error_message (ex.Message);
+      }
     }
 
     /**
@@ -397,83 +425,39 @@ namespace CUTS
     {
       string name = this.test_package_name_.Text;
 
-      // Check if we should create, then insert
-      //   test package - or just create test package
-      //if (this.create_then_insert_test_package.Checked == true)
-      //{
-      //  // Check test suite validity
-      //  if (this.is_valid_selection (this.existing_test_suites_) == false)
-      //  {
-      //    this.master_.show_error_message ("Please select a valid test suite to " +
-      //      "add test package " + name + " to.");
-      //    return;
-      //  }
-
-      //  try
-      //  {
-      //    // Insert test package
-      //    this.uta_.insert_new_package (this.existing_test_suites_.SelectedValue, name);
-
-      //    // Show info messages
-      //    this.master_.show_info_message ("test package " + name + " created successfully");
-      //    this.master_.show_info_message ("test package " + name + " inserted into test " +
-      //      "suite " + this.existing_test_suites_.SelectedItem.Text + " successfully");
-
-      //    // Update the UI
-      //    this.load_current_packages ();
-      //    this.load_existing_packages ();
-      //    this.test_package_name_.Text = "";
-      //  }
-      //  catch (Exception ex1)
-      //  {
-      //    // Show current message
-      //    this.master_.show_error_message (ex1.Message);
-
-      //    // Show more meaningful message
-      //    this.master_.show_error_message ("Failed to create, then insert, test package " + name);
-
-      //    return;
-      //  }
-
-      //}
-      //else
+      try
       {
-        // We just want to create the test package, not insert it
-        try
+        // Create the test package
+        this.uta_.create_test_package (name);
+
+        // Show info message
+        this.master_.show_info_message ("Succesfully created " + name + " test package");
+
+        // Update the UI
+        this.load_existing_packages ();
+        this.test_package_name_.Text = "";
+
+        // If we are here, no errors have been thrown
+        // Attempt to select the test package
+        ListItem item = this.existing_test_packages_.Items.FindByText (name);
+
+        if (item != null)
         {
-          // Create the test package
-          this.uta_.create_test_package (name);
+          // Select the item
+          this.existing_test_packages_.SelectedIndex = this.existing_test_packages_.Items.IndexOf (item);
 
-          // Show info message
-          this.master_.show_info_message ("Succesfully created " + name + " test package");
-
-          // Update the UI
-          this.load_existing_packages ();
-          this.test_package_name_.Text = "";
-        }
-        catch (Exception ex2)
-        {
-          // Show current message
-          this.master_.show_error_message (ex2.Message);
-
-          // Show more meaningful message
-          this.master_.show_error_message ("Failed to create test package " + name);
-
-          return;
+          // Ensure the onchange event is fired no matter where in the page
+          //   lifecycle we are
+          this.onchange_existing_test_packages (new object (), new EventArgs ());
         }
       }
-
-      // If we are here, no errors have been thrown
-      // Attempt to select the test package
-      ListItem item = this.existing_test_packages_.Items.FindByText (name);
-      if (item != null)
+      catch (Exception ex)
       {
-        // Select the item
-        this.existing_test_packages_.SelectedIndex = this.existing_test_packages_.Items.IndexOf (item);
+        // Show current message
+        this.master_.show_error_message (ex.Message);
 
-        // Ensure the onchange event is fired no matter where in the page
-        //   lifecycle we are
-        this.onchange_existing_test_packages (new object (), new EventArgs ());
+        // Show more meaningful message
+        this.master_.show_error_message ("Failed to create test package " + name);
       }
     }
 
@@ -1080,6 +1064,7 @@ namespace CUTS
       variables.Add ("Aggregration_Func", this.aggr_function_.SelectedValue);
       variables.Add ("Formats", lfids);
       variables.Add ("Relations", relations);
+      variables.Add ("Groupings", this.grouping_.Variables);
 
       try
       {

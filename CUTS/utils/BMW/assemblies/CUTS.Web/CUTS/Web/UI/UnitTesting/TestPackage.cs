@@ -193,7 +193,8 @@ namespace CUTS.Web.UI.UnitTesting
         TableCell chart_cell = new TableCell ();
         row.Cells.Add (chart_cell);
 
-        if (result.Result != null)
+        if (result.Result != null ||
+            result is UnitTestGroupResult)
         {
           ImageButton button = new ImageButton ();
           chart_cell.Controls.Add (button);

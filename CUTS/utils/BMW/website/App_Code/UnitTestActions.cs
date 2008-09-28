@@ -24,25 +24,18 @@ namespace Actions.UnitTestActions
 {
   /**
    * @class UnitTestActions
-   *
-   * Perform insertion and evaluation of Unit Tests. This class needs some
-   *   updates!!! It uses a faulty singleton in a few places, needs to be
-   *   refactored so that it is not a static class, and needs to be
-   *   removed into the CUTS namespace at some appropriate level.
-   *
-   * Also, this class should not throw errors on functions of type
-   *   remove this, delete this, remove this from that if 'this'
-   *   does not exist, or does not exist in 'that'. This might not happen,
-   *   but it needs to be checked to make sure.
    */
   public class UnitTestActions
   {
     /**
-    * @var  DataBaseActions this.dba_
-    * Contains a reference to the standard Database Actions library
-    */
-    private DataBaseActions.DataBaseActions dba_ =
-      new DataBaseActions.DataBaseActions (ConfigurationManager.AppSettings["MySQL"]);
+     * Contains a reference to the standard Database Actions library
+     */
+    private DataBaseActions.DataBaseActions dba_;
+
+    public UnitTestActions (MySqlConnection conn)
+    {
+      this.dba_ = new Actions.DataBaseActions.DataBaseActions (conn);
+    }
 
     /**
      * Used to insert a brand new unit test. Uses SQL procedure
@@ -87,6 +80,14 @@ namespace Actions.UnitTestActions
 
           for (int i = 0; i < relations.Length; ++ i)
             this.insert_unit_test_relation (utid, i, relations[i].LeftValues, relations[i].RightValues);
+        }
+
+        if (properties["Groupings"] != null)
+        {
+          int[] groupings = (int[])properties["Groupings"];
+
+          if (groupings.Length > 0)
+            this.insert_unit_test_grouping (utid, groupings);
         }
 
         // Commit this transaction to the database.
@@ -435,6 +436,39 @@ namespace Actions.UnitTestActions
     }
 
     /**
+     *
+     */
+    private void insert_unit_test_grouping (int utid, int [] grouping)
+    {
+      string sql = "CALL cuts.insert_unit_test_grouping (?utid, ?index, ?varid)";
+      MySqlCommand command = this.dba_.get_command (sql);
+
+      MySqlParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "?utid";
+      p1.Value = utid;
+
+      command.Parameters.Add (p1);
+
+      MySqlParameter p2 = command.CreateParameter ();
+      p2.ParameterName = "?index";
+      command.Parameters.Add (p2);
+
+      MySqlParameter p3 = command.CreateParameter ();
+      p3.ParameterName = "?varid";
+      command.Parameters.Add (p3);
+
+      for (int i = 0; i < grouping.Length; ++i)
+      {
+        // Update the parameters.
+        p2.Value = i;
+        p3.Value = grouping[i];
+
+        // Execute the SQL query.
+        command.ExecuteNonQuery ();
+      }
+    }
+
+    /**
      * Used to insert a relationship into a unit test. This is always an equality
      * relation, aka var1 == var2. For each log format n > 1, there must be a relation
      * equating any prior n to the current n (normally, n-1 and n are related, so
@@ -444,7 +478,7 @@ namespace Actions.UnitTestActions
      * @param[in]  rel1     The id of the first variable.
      * @param[in]  rel2     The id of the second variable.
      */
-    private void insert_unit_test_relation (int utid, int relid, object [] cause, object [] effect)
+    private void insert_unit_test_relation (int utid, int relid, object[] cause, object[] effect)
     {
       // Initialize the command statement.
       string sql = "CALL insert_unit_test_relation (?utid, ?relid, ?index, ?cause, ?effect)";

@@ -32,6 +32,13 @@ namespace CUTS.Graph
       // the graph is acyclic and connected.
       topological_sort_i (graph.edges, ref sort_list);
 
+      // Finally, make sure all the nodes are in the sorted list.
+      foreach (Node node in graph.nodes)
+      {
+        if (!sort_list.Contains (node))
+          sort_list.Insert (0, node);
+      }
+
       return (Node [])sort_list.ToArray (typeof (Node));
     }
 

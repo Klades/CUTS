@@ -47,9 +47,17 @@ namespace CUTS
      */
     private CUTS.Master master_;
 
-    private MySqlConnection conn_;
+    private MySqlConnection conn_ =
+      new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
 
     private CUTS.Data.UnitTestEvaluator evaluator_;
+
+    /**
+     * Unit test actions.
+     *
+     * @todo Move a lot of this code into the CUTS.Data assembly.
+     */
+    private UnitTestActions uta_;
 
     public int TestNumber
     {
@@ -66,13 +74,6 @@ namespace CUTS
     }
 
     /**
-     * Unit test actions.
-     *
-     * @todo Move a lot of this code into the CUTS.Data assembly.
-     */
-    private UnitTestActions uta_ = new UnitTestActions ();
-
-    /**
      * Callback method for when the page is loading.
      *
      * @param[in]       sender        Sender of the event.
@@ -82,8 +83,8 @@ namespace CUTS
     {
       try
       {
-        this.conn_ = new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
         this.conn_.Open ();
+        this.uta_ = new UnitTestActions (this.conn_);
 
         this.evaluator_ =
           new CUTS.Data.UnitTestEvaluator (this.conn_, new CUTS.Data.MySqlDataAdapterFactory ());
@@ -257,6 +258,7 @@ namespace CUTS
       DataTable dt = this.uta_.get_unit_tests (p_id);
 
       string eval;
+      string[] groups;
 
       foreach (DataRow row in dt.Rows)
       {
@@ -266,18 +268,47 @@ namespace CUTS
         DataTable data = this.evaluator_.evaluate (this.test_number_,
                                                    utid,
                                                    true,
+                                                   out groups,
                                                    out eval);
 
-        // Create a new result set for the evaluation.
-        UnitTestResult result = new UnitTestResult ();
-        result.ID = utid;
-        result.Name = (string)row["name"];
-
-        if (data.Rows.Count > 0)
+        if (groups.Length == 0)
+        {
+          // Create a new result set for the evaluation.
+          UnitTestResult result = new UnitTestResult ();
+          result.ID = utid;
+          result.Name = (string)row["name"];
           result.Result = data.Rows[0]["result"];
 
-        // Insert the result into the package.
-        package.Add (result);
+          // Insert the result into the package.
+          package.Add (result);
+        }
+        else
+        {
+          UnitTestGroupResult group_result = new UnitTestGroupResult ();
+          group_result.ID = utid;
+          group_result.Name = (string)row["name"];
+
+          foreach (DataRow group_data in data.Rows)
+          {
+            UnitTestResult partial = new UnitTestResult ();
+
+            // Get the actual names in this group.
+            ArrayList name_list = new ArrayList ();
+
+            foreach (string grp_name in groups)
+              name_list.Add (group_data[grp_name]);
+
+            // Construct the actual name of the group.
+            partial.Name = String.Join (".", (string [])name_list.ToArray (typeof (string)));
+            partial.Result = group_data["result"];
+
+            // Create a new group to the result set.
+            group_result.Add (partial);
+          }
+
+          // Insert the group result into the package.
+          package.Add (group_result);
+        }
       }
 
       // Bind the data in the package.

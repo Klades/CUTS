@@ -53,11 +53,15 @@ namespace CUTS
         int test_num = Int32.Parse (test_num_str);
 
         string eval;
+        string[] groups;
 
-        DataTable table =
-          this.evaluator_.evaluate (test_num, id, false, out eval);
+        DataTable table = this.evaluator_.evaluate (test_num,
+                                                    id,
+                                                    false,
+                                                    out groups,
+                                                    out eval);
 
-        this.Chart (eval, table);
+        this.generate_chart (eval, table, groups);
 
         string ChartObject = @"<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0'" +
             @" width='900' height='500' id='charts'>" +
@@ -79,51 +83,122 @@ namespace CUTS
       }
     }
 
-    private void Chart (string evaluation, DataTable dt)
+    private void generate_chart (string evaluation, DataTable dt, string [] groups)
     {
-      string xmlPath = Server.MapPath ("~/xml/auto_generated.xml");
-      FileInfo XMLExists = new FileInfo (xmlPath);
+      int xcount = 0;
 
-      if (XMLExists.Exists)
+      string datafile = Server.MapPath ("~/xml/datasets.xml");
+
+      if (File.Exists (datafile))
+        File.Delete (datafile);
+
+      // Write the data for each group in the dataset.
+      XmlTextWriter data_writer = new XmlTextWriter (datafile, Encoding.UTF8);
+
+      if (groups.Length == 0)
+      {
+        // Write the data set for the single group.
+        data_writer.WriteStartElement ("row");   // <row>
+        data_writer.WriteElementString ("string", "result");
+
+        foreach (DataRow row in dt.Rows)
+          data_writer.WriteElementString ("number", row["result"].ToString ());
+
+        data_writer.WriteEndElement ();
+
+        // Set the xcount equal to the number of rows.
+        xcount = dt.Rows.Count;
+      }
+      else
+      {
+        string current_group = String.Empty;
+        int group_size = 0;
+
+        foreach (DataRow grp_row in dt.Rows)
+        {
+          // First, construct the name of the group for this row in
+          // the data table.
+          ArrayList name_list = new ArrayList ();
+
+          foreach (string name in groups)
+            name_list.Add (grp_row[name]);
+
+          string grp_name = String.Join (".", (string [])name_list.ToArray (typeof (string)));
+
+          if (grp_name != current_group)
+          {
+            if (current_group != String.Empty)
+            {
+              // End the current group's data.
+              data_writer.WriteEndElement ();
+
+              // Save the group with the largest size.
+              xcount = Math.Max (xcount, group_size);
+              group_size = 0;
+            }
+
+            // Start the new group's data.
+            data_writer.WriteStartElement ("row");
+            data_writer.WriteElementString ("string", grp_name);
+
+            // Save the group name as the current group.
+            current_group = grp_name;
+          }
+
+          // Write the data for the group.
+          data_writer.WriteElementString ("number", grp_row["result"].ToString ());
+
+          // Increment the size of the group.
+          ++group_size;
+        }
+
+        // Check the sizes one last time.
+        xcount = Math.Max (group_size, xcount);
+      }
+
+      // Close the file the contains the dataset.
+      data_writer.Close ();
+
+      string xmlPath = Server.MapPath ("~/xml/auto_generated.xml");
+
+      if (File.Exists (xmlPath))
         File.Delete (xmlPath);
 
       XmlTextWriter writer = new XmlTextWriter (xmlPath, Encoding.UTF8);
 
       writer.WriteStartDocument ();
-      writer.WriteStartElement ("chart"); // <chart>
-
+      writer.WriteStartElement ("chart");
       writer.WriteElementString ("chart_type", "line");
+      writer.WriteStartElement ("chart_data");
 
-      writer.WriteStartElement ("chart_data"); // <chart_data>
-      writer.WriteStartElement ("row");   // <row>
-      writer.WriteRaw ("<null/>");        // <null/>
-      for (int i = 0; i < dt.Rows.Count; i++)
+      // Write the X-axis for the chart.
+      writer.WriteStartElement ("row");
+      writer.WriteRaw ("<null/>");
+
+      for (int i = 0; i < xcount; ++ i)
         writer.WriteElementString ("string", i.ToString ());
-      writer.WriteEndElement ();           // </row>
-
-      writer.WriteStartElement ("row");   // <row>
-      writer.WriteElementString ("string", evaluation);
-
-      foreach (DataRow row in dt.Rows)
-        writer.WriteElementString ("number", row["result"].ToString ());
 
       writer.WriteEndElement ();
 
+      // Now, write the actual file for the chart. We need to load this
+      // from the dataset temporary file.
+      TextReader reader = File.OpenText (datafile);
+      writer.WriteRaw (reader.ReadToEnd ());
+      reader.Close ();
+      writer.WriteEndElement ();
 
-      writer.WriteEndElement ();  // </chart_data>
-
-      /* If you would like to add/set other charting attributes
-       *   using the charting class below, do that here!!
-       */
+      // If you would like to add/set other charting attributes using
+      // the charting class below, then do that here.
       ChartingAPI api = new ChartingAPI (writer);
 
-
-      writer.WriteEndElement ();  // </chart>
+      writer.WriteEndElement ();
       writer.WriteEndDocument ();
       writer.Flush ();
       writer.Close ();
-    }
 
+      // Delete the old dataset file.
+      File.Delete (datafile);
+    }
   }
 }
 

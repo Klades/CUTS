@@ -23,8 +23,12 @@ project (CUTS.Web) {
   Source_Files {
     Properties/AssemblyInfo.cs
 
+    CUTS/Web/UI/UnitTesting/Grouping.cs
     CUTS/Web/UI/UnitTesting/LogFormatTable.cs
     CUTS/Web/UI/UnitTesting/RelationTable.cs
     CUTS/Web/UI/UnitTesting/TestPackage.cs
+
+    CUTS/Web/UI/Charts/XmlCharts/XmlChart.cs
+    CUTS/Web/UI/Charts/XmlCharts/XmlChartType.cs
   }
 }

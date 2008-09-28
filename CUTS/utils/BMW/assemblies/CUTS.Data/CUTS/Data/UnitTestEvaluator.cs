@@ -44,7 +44,11 @@ namespace CUTS.Data
      * @param[in]       aggr       Apply aggregation function
      * @param[out]      eval       Evaluation function
      */
-    public DataTable evaluate (int test, int utid, bool aggr, out string eval)
+    public DataTable evaluate (int test,
+                               int utid,
+                               bool aggr,
+                               out string [] group_name,
+                               out string eval)
     {
       // Create a new variable table for this unit test.
       CUTS.Data.VariableTable vtable = new CUTS.Data.VariableTable ("vtable");
@@ -91,25 +95,56 @@ namespace CUTS.Data
         string eval_escaped_stmt = (string)ds.Tables["evaluation"].Rows[0]["eval_escaped"];
         string aggr_stmt = (string)ds.Tables["evaluation"].Rows[0]["aggr"];
 
+        // Get the groupings for the unit test. At this point, we need
+        // to create a comma separate list of the group variables. This will
+        // be used to construct the GROUP BY statement.
+        string sql_grouping = "CALL cuts.select_unit_test_grouping (?utid)";
+        command.CommandText = sql_grouping;
+        adapter.Fill (ds, "groupings");
+
+        ArrayList group_list = new ArrayList ();
+
+        foreach (DataRow row in ds.Tables["groupings"].Rows)
+        {
+          string name = (string)row["fq_name"];
+          group_list.Add (name.Replace (".", "_"));
+        }
+
+        group_name = (string[])group_list.ToArray (typeof (string));
+        string grouping = String.Join (",", group_name);
+
         // Finally, construct the entire SQL statement for the evaluation.
         string sql_result;
 
         if (aggr)
         {
-          sql_result =
-            "SELECT " + aggr_stmt + "(" + eval_escaped_stmt + ") AS result FROM " +
+          sql_result = "SELECT ";
+
+          if (grouping != String.Empty)
+            sql_result += grouping + ",";
+
+          sql_result +=
+            aggr_stmt + "(" + eval_escaped_stmt + ") AS result FROM " +
             vtable.data.TableName;
 
           eval = aggr_stmt + "(" + eval_stmt + ")";
         }
         else
         {
-          sql_result =
-            "SELECT " + eval_escaped_stmt + " AS result FROM " +
+          sql_result = "SELECT ";
+
+          if (grouping != String.Empty)
+            sql_result += grouping + ",";
+
+          sql_result +=
+            eval_escaped_stmt + " AS result FROM " +
             vtable.data.TableName;
 
           eval = eval_stmt;
         }
+
+        if (aggr && grouping != String.Empty)
+            sql_result += " GROUP BY " + grouping;
 
         // Execute the statement, which will calculate the result.
         command.CommandText = sql_result;

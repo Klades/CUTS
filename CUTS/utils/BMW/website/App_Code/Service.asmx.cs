@@ -111,7 +111,8 @@ namespace CUTS.Web
         new CUTS.Data.MySqlDataAdapterFactory ());
 
       string eval;
-      DataTable result = evaluator.evaluate (test, utid, true, out eval);
+      string[] groups;
+      DataTable result = evaluator.evaluate (test, utid, true, out groups, out eval);
 
       // Since we are aggregating the results, there should only be
       // one row in the result section until grouping is supported.

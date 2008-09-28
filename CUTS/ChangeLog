@@ -1,3 +1,57 @@
+Sun Sep 28 07:28:38 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-unittest.sql:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTestEvaluator.cs:
+
+          . Added support to evaluating unit test that contain groupings. The
+            evaluation produces a separate result for each group, similar to
+            a GROUP BY statement in SQL.
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Graph/Algorithm.cs:
+
+          . Bug fix where the topological_sort () method failed to include node
+            that were not connect in the graph. This caused unit test with a
+            single log format to fail.
+
+        * utils/BMW/assemblies/CUTS.Web/CUTS.Web.mpc:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/Charts:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/Charts/XmlCharts:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/Charts/XmlCharts/XmlChart.cs:
+
+          . Initial layout of the custom control for generating XMLCharts. This
+            custom control is only a wrapper for the XMLCharts library.
+
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/Grouping.cs:
+
+          . Custom control for managing grouping information on the unit test
+            specification page.
+
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/TestPackage.cs:
+
+          . Enabled viewing graphs of unit test with groupings.
+
+        * utils/BMW/website/App_Code/DataBaseActions.cs:
+        * utils/BMW/website/App_Code/LogFormatActions.cs:
+        * utils/BMW/website/App_Code/UnitTestActions.cs:
+
+          . Re-implemented the classes so they are not responsible for instantiating
+            a database connection. Instead, the parent page provides the class with
+            the database connection.
+
+        * utils/BMW/website/App_Code/Service.asmx.cs:
+
+          . Updated the service to operating with groupings; however, this
+            infomation is not returned to the client.
+
+        * utils/BMW/website/logformats.aspx.cs:
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/unittest.aspx:
+        * utils/BMW/website/unittest.aspx.cs:
+        * utils/BMW/website/unittestchart.aspx.cs:
+
+          . Bug fix where the page failed to load dues to private variables
+            not being instantiated properly.
+
 Thu Sep 25 22:41:38 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/TestPackage.cs:

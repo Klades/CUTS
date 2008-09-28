@@ -29,10 +29,9 @@ namespace Actions.LogFormatActions
    */
   public class LogFormatActions
   {
-    public LogFormatActions ()
+    public LogFormatActions (MySqlConnection conn)
     {
-      this.dba_ =
-        new DataBaseActions.DataBaseActions (ConfigurationManager.AppSettings["MySQL"]);
+      this.dba_ = new DataBaseActions.DataBaseActions (conn);
     }
 
     /**

@@ -33,16 +33,9 @@ namespace Actions.DataBaseActions
      * @param[in] connection_string   The connection string used to initialize
      *                                  the database connection.
      */
-    public DataBaseActions (string connection_string)
+    public DataBaseActions (MySqlConnection conn)
     {
-      this.conn_ = new MySqlConnection (connection_string);
-      this.conn_.Open ();
-    }
-
-    ~DataBaseActions ()
-    {
-      if (this.conn_.State == ConnectionState.Open)
-        this.conn_.Close ();
+      this.conn_ = conn;
     }
 
     public MySqlConnection Connection

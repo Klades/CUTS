@@ -17,14 +17,16 @@ namespace CUTS
 {
   public partial class Log_Formats : System.Web.UI.Page
   {
+    private MySqlConnection conn_ =
+      new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
+
     /**
      * @var Master master_  A reference to the Master page that easily
      *                      allows access to the messagins system.
      */
     private CUTS.Master master_;
 
-    private Actions.LogFormatActions.LogFormatActions actions_ =
-      new Actions.LogFormatActions.LogFormatActions ();
+    private LogFormatActions actions_;
 
     /**
      * Callback method for when the page is loading.
@@ -35,6 +37,7 @@ namespace CUTS
     protected void Page_Load (object sender, EventArgs e)
     {
       this.master_ = (CUTS.Master)Master;
+      this.actions_ = new LogFormatActions (this.conn_);
 
       if (IsPostBack)
         return;

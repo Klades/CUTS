@@ -204,12 +204,11 @@ CREATE TABLE IF NOT EXISTS cuts.unit_test_log_formats
 CREATE TABLE IF NOT EXISTS cuts.unit_test_groupings
 (
   utid          INT           NOT NULL,
-  grpid         INT           NOT NULL,
   grpindex      INT           NOT NULL,
   varid         INT           NOT NULL,
 
-  UNIQUE (utid, grpid, grpindex),
-  UNIQUE (utid, grpid, varid),
+  UNIQUE (utid, grpindex),
+  UNIQUE (utid, varid),
 
   FOREIGN KEY (utid)
     REFERENCES cuts.unit_tests (utid)
@@ -589,7 +588,7 @@ BEGIN
 END //
 
 --
--- cuts.select_unit_tests_in_test_suite_i
+-- PROCEDURE: cuts.select_unit_tests_in_test_suite_i
 --
 
 DROP PROCEDURE IF EXISTS cuts.select_unit_tests_in_test_suite_i //
@@ -622,6 +621,34 @@ BEGIN
   SELECT *, CONCAT('LF', CAST(lfid AS CHAR), '.', varname) AS fq_name
     FROM cuts.log_format_variables
     ORDER BY fq_name;
+END //
+
+--
+-- PROCEDURE: cuts.insert_unit_test_grouping
+--
+
+DROP PROCEDURE IF EXISTS cuts.insert_unit_test_grouping //
+
+CREATE PROCEDURE cuts.insert_unit_test_grouping (IN _utid INT,
+                                                 IN _index INT,
+                                                 IN _varid INT)
+BEGIN
+  INSERT INTO cuts.unit_test_groupings (utid, grpindex, varid)
+    VALUES (_utid, _index, _varid);
+END //
+
+--
+-- PROCEDURE: cuts.select_unit_test_grouping
+--
+
+DROP PROCEDURE IF EXISTS cuts.select_unit_test_grouping //
+
+CREATE PROCEDURE cuts.select_unit_test_grouping (IN _utid INT)
+BEGIN
+  SELECT grpindex, cuts.get_qualified_variable_name (varid) AS fq_name
+    FROM cuts.unit_Test_groupings
+    WHERE utid = _utid
+    ORDER BY grpindex;
 END //
 
 DELIMITER ;

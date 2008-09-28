@@ -173,8 +173,7 @@
                 <td class="title">Existing: </td>
                 <td><asp:dropdownlist id="existing_unit_tests_" autopostback="true"
                                       runat="server" datatextfield="name" datavaluefield="utid"
-                                      cssclass="larger_width"
-                                      onselectedindexchanged="onchange_existing_unit_tests" /></td>
+                                      cssclass="larger_width" /></td>
                 <td><asp:button id="insert_unit_test_" runat="server"
                                 onclick="onclick_insert_unit_test" text="Insert" cssclass="button" /></td>
               </tr>
@@ -190,7 +189,6 @@
                 <td><asp:listbox id="current_unit_tests_" runat="server"
                                  selectionmode="multiple" datatextfield="name"
                                  datavaluefield="id" autopostback="true" enableviewstate="true"
-                                 onselectedindexchanged="onchange_current_unit_tests"
                                  rows="15" cssclass="larger_width" /></td>
               </tr>
 
@@ -271,39 +269,10 @@
                     display="dynamic" /></td>
               </tr>
               <tr>
-                <td style="width: 50px">
-                  result =
-                </td>
-                <td>
-                  <asp:textbox id="unit_test_eval_" runat="server" width="100%" /></td>
+                <td style="width: 50px">result = </td>
+                <td><asp:textbox id="unit_test_eval_" runat="server" width="100%" /></td>
               </tr>
             </table>
-            <p>
-              Warn when&nbsp;&nbsp;&nbsp; &nbsp;result&nbsp;&nbsp;&nbsp;
-              <asp:dropdownlist id="UT_warn_comp" runat="server">
-                <asp:listitem value="less">&lt;</asp:listitem>
-                <asp:listitem value="greater">&gt;</asp:listitem>
-                <asp:listitem value="less_equal">&lt;=</asp:listitem>
-                <asp:listitem value="greater_equal">&gt;=</asp:listitem>
-                <asp:listitem value="equal">==</asp:listitem>
-                <asp:listitem value="not_equal">!=</asp:listitem>
-              </asp:dropdownlist>
-              <asp:textbox id="unit_test_warn_" runat="server" />
-              (optional)
-            </p>
-            <p>
-              Fail when&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;result&nbsp;&nbsp;&nbsp;
-              <asp:dropdownlist id="UT_fail_comp" runat="server">
-                <asp:listitem value="less">&lt;</asp:listitem>
-                <asp:listitem value="greater">&gt;</asp:listitem>
-                <asp:listitem value="less_equal">&lt;=</asp:listitem>
-                <asp:listitem value="greater_equal">&gt;=</asp:listitem>
-                <asp:listitem value="equal">==</asp:listitem>
-                <asp:listitem value="not_equal">!=</asp:listitem>
-              </asp:dropdownlist>
-              <asp:textbox id="unit_test_fail_" runat="server" />
-              (optional)
-            </p>
 
             <!--
               select how to aggregrate multiple results
@@ -322,11 +291,56 @@
               <asp:listitem text="Count Distinct" value="COUNT DISTINCT" />
             </asp:dropdownlist>
 
+            <h3>Grouping (optional)</h3>
+
+            <p>When the same log format(s) extract data for different sources, grouping is used
+            to determine what data should be processed indepedently. Please use the text box below
+            to specifiy what variables from the log formats are used to identify groups within
+            the data. Separate varibles using a semi-colon (;) and use the variables fully
+            qualified name, <i>e.g.</i>, LF1.sender</p>
+            <cuts:grouping runat="server" id="grouping_" enableviewstate="true"
+                           width="80%" />
+
+            <h3>Notifications (optional)</h3>
+
+            <table>
+              <tr>
+                <td style="text-align:right">Warn when <b>result</b> </td>
+                <td>
+                  <asp:dropdownlist id="UT_warn_comp" runat="server">
+                    <asp:listitem value="less">&lt;</asp:listitem>
+                    <asp:listitem value="greater">&gt;</asp:listitem>
+                    <asp:listitem value="less_equal">&lt;=</asp:listitem>
+                    <asp:listitem value="greater_equal">&gt;=</asp:listitem>
+                    <asp:listitem value="equal">==</asp:listitem>
+                    <asp:listitem value="not_equal">!=</asp:listitem>
+                  </asp:dropdownlist>
+                </td>
+                <td><asp:textbox id="unit_test_warn_" runat="server" /></td>
+              </tr>
+              <tr>
+                <td style="text-align:right">Fail when <b>result</b> </td>
+                <td>
+                  <asp:dropdownlist id="UT_fail_comp" runat="server">
+                    <asp:listitem value="less">&lt;</asp:listitem>
+                    <asp:listitem value="greater">&gt;</asp:listitem>
+                    <asp:listitem value="less_equal">&lt;=</asp:listitem>
+                    <asp:listitem value="greater_equal">&gt;=</asp:listitem>
+                    <asp:listitem value="equal">==</asp:listitem>
+                    <asp:listitem value="not_equal">!=</asp:listitem>
+                  </asp:dropdownlist>
+                </td>
+                <td><asp:textbox id="unit_test_fail_" runat="server" /></td>
+              </tr>
+            </table>
+
             <!-- button for submitting the new unit test -->
             <p><asp:button id="create_unit_test_" runat="server" text="Create"
                            onclick="onclick_create_unit_test"
                            cssclass="button" causesvalidation="true"
-                           validationgroup="unit_test_create" /></p></td>
+                           validationgroup="unit_test_create" /></p>
+
+          </td>
         </tr>
       </table>
     </asp:view>
