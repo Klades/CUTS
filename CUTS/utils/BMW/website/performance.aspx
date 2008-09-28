@@ -11,7 +11,7 @@
       <td style="text-align: right; font-weight: bold">
         Test Number:</td>
       <td>
-        <%= this.TestNumber %>
+        <%= this.test_number_ %>
       </td>
     </tr>
     <tr>

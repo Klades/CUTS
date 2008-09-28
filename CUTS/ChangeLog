@@ -1,3 +1,14 @@
+Sun Sep 28 07:56:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/performance.aspx:
+        * utils/BMW/website/performance.aspx.cs:
+
+          . Moved all the object instantiation for member variables to
+            the default constructor.
+
+          . Remove attribute methods for the test number and collection
+            time. This data is now declared as protected variables.
+
 Sun Sep 28 07:28:38 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-unittest.sql:

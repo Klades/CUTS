@@ -23,6 +23,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Text;
 
+using CUTS.Data;
 using CUTS.Data.UnitTesting;
 using CUTS.Web.UI.UnitTesting;
 
@@ -59,18 +60,31 @@ namespace CUTS
      */
     private UnitTestActions uta_;
 
-    public int TestNumber
+    public Performance ()
     {
-      get { return this.test_number_; }
-    }
+      this.master_ = (CUTS.Master)Master;
 
-    /**
-     * Get the current collection time for the page. This is the
-     * same time submitted in the query string.
-     */
-    public DateTime CollectionTime
-    {
-      get { return this.collection_time_; }
+      try
+      {
+        // Open the connection to the database.
+        this.conn_.Open ();
+
+        // Create a new unit test action object.
+        this.uta_ = new UnitTestActions (this.conn_);
+
+        // Create a new evaluator object.
+        this.evaluator_ = new UnitTestEvaluator (this.conn_,
+                                                 new MySqlDataAdapterFactory ());
+
+        // Create a new database object for this page.
+        this.database_ = new Database (this.conn_,
+                                       new MySqlDataAdapterFactory ());
+
+      }
+      catch (Exception ex)
+      {
+        this.master_.show_error_message (ex.Message);
+      }
     }
 
     /**
@@ -83,23 +97,11 @@ namespace CUTS
     {
       try
       {
-        this.conn_.Open ();
-        this.uta_ = new UnitTestActions (this.conn_);
-
-        this.evaluator_ =
-          new CUTS.Data.UnitTestEvaluator (this.conn_, new CUTS.Data.MySqlDataAdapterFactory ());
-
-        // Create a new database object for this page.
-        this.database_ =
-          new CUTS.Data.Database (this.conn_, new CUTS.Data.MySqlDataAdapterFactory ());
-
         // Get the test number from the query string.
         String value = Request.QueryString["t"];
 
         if (value != null)
           this.test_number_ = System.Int32.Parse (value);
-
-        this.master_ = (CUTS.Master)Master;
 
         if (!this.Page.IsPostBack)
         {
@@ -451,10 +453,10 @@ namespace CUTS
     private CUTS.Data.Database database_;
 
     /// The current test number for the performance metrics.
-    private int test_number_;
+    protected int test_number_;
 
     /// The current collection time for the performance metrics.
-    private DateTime collection_time_;
+    protected DateTime collection_time_;
     #endregion
   }
 }
