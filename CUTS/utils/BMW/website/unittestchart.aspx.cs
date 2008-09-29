@@ -15,6 +15,7 @@ using System.Text;
 using MySql.Data.MySqlClient;
 
 using CUTS.Data;
+using CUTS.Data.UnitTesting;
 
 namespace CUTS
 {
