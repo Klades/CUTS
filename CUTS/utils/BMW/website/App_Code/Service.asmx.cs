@@ -20,6 +20,7 @@ using System.Web.Services.Protocols;
 using System.Xml;
 
 using MySql.Data.MySqlClient;
+using CUTS.Data.UnitTesting;
 
 //=============================================================================
 /**
@@ -106,9 +107,8 @@ namespace CUTS.Web
       int test = this.database_.get_test_number (UUID);
       int utid = this.database_.get_unit_test_id (UnitTest);
 
-      CUTS.Data.UnitTestEvaluator evaluator =
-        new CUTS.Data.UnitTestEvaluator (this.database_.Connection,
-        new CUTS.Data.MySqlDataAdapterFactory ());
+      UnitTestEvaluator evaluator = new UnitTestEvaluator (this.database_.Connection,
+                                                           new CUTS.Data.MySqlDataAdapterFactory ());
 
       string eval;
       string[] groups;

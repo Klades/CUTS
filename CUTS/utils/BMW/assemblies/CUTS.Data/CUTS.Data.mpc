@@ -30,12 +30,12 @@ project (CUTS.Data) {
     CUTS/Data/ExecutionTime.cs
     CUTS/Data/PathElement.cs
     CUTS/Data/Relation.cs
-    CUTS/Data/UnitTestEvaluator.cs
     CUTS/Data/VariableTable.cs
 
     // unit testing package
-    CUTS/Data/UnitTesting/UnitTestResult.cs
+    CUTS/Data/UnitTesting/UnitTestEvaluator.cs
     CUTS/Data/UnitTesting/UnitTestGroupResult.cs
+    CUTS/Data/UnitTesting/UnitTestResult.cs
 
     // graphing package
     CUTS/Graph/Algorithm.cs

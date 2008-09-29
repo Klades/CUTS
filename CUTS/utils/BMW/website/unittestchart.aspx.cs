@@ -26,7 +26,7 @@ namespace CUTS
     private MySqlConnection conn_ =
       new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
 
-    private CUTS.Data.UnitTestEvaluator evaluator_;
+    private UnitTestEvaluator evaluator_;
 
     private CUTS.Master master_;
 

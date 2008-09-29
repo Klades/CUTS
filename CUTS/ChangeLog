@@ -1,3 +1,16 @@
+Mon Sep 29 06:15:04 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestEvaluator.cs:
+        * utils/BMW/website/App_Code/Service.asmx.cs:
+        * utils/BMW/website/unittestchart.aspx.cs:
+
+          . Changed the location (and namespace) of the UnitTestEvaluator.
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTestEvaluator.cs:
+
+          Removed this file.
+
 Mon Sep 29 06:01:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-msglog.sql:

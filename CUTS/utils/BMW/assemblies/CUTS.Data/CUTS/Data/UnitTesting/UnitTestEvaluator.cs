@@ -6,7 +6,7 @@ using System.Data;
 using System.Data.Common;
 using System.Text.RegularExpressions;
 
-namespace CUTS.Data
+namespace CUTS.Data.UnitTesting
 {
   /**
    * @class UnitTestEvaluator
