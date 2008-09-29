@@ -70,7 +70,8 @@ namespace CUTS
 
       // Create a new evaluator object.
       this.evaluator_ = new UnitTestEvaluator (this.conn_,
-                                               new MySqlDataAdapterFactory ());
+                                               new MySqlDataAdapterFactory (),
+                                               Server.MapPath ("~/db"));
 
       // Create a new database object for this page.
       this.database_ = new Database (this.conn_,

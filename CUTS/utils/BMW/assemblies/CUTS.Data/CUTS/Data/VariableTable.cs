@@ -1,8 +1,22 @@
 // -*- C# -*-
 
+//=============================================================================
+/**
+ * @file          VariableTable.cs
+ *
+ * $Id$
+ *
+ * @author        James H. Hill
+ */
+//=============================================================================
+
 using System;
 using System.Collections;
 using System.Data;
+using System.Data.Common;
+using System.Data.SQLite;
+using System.IO;
+using System.Text;
 
 namespace CUTS.Data
 {
@@ -14,190 +28,158 @@ namespace CUTS.Data
    */
   public class VariableTable
   {
-    private DataTable variables_;
-
-    private string name_;
-
     /**
      * Initializing constructor.
      *
-     * @param[in]     name          Name of the variable table
+     * @param[in]     location          Location of the variable table.
      */
-    public VariableTable (string name)
+    public VariableTable (string location)
     {
-      this.name_ = name;
-      this.variables_ = new DataTable (this.name_);
+      // Append the extension to the location.
+      location += ".vt";
+
+      // Make sure the file exists.
+      if (!File.Exists (location))
+        SQLiteConnection.CreateFile (location);
+
+      // Save the location.
+      this.location_ = location;
+
+      // Update the connection string.
+      String connstr = String.Format ("Data Source={0}", this.location_);
+      this.connection_.ConnectionString = connstr;
     }
 
     /**
-     * Initializing constructor.
+     * Delete the variable table database.
+     */
+    public void Delete ()
+    {
+      if (File.Exists (this.location_))
+        File.Delete (this.location_);
+    }
+
+    /**
+     * Open the variable table.
+     */
+    public void Open ()
+    {
+      this.connection_.Open ();
+    }
+
+    /**
+     * Close the variable table.
+     */
+    public void Close ()
+    {
+      this.connection_.Close ();
+    }
+
+    /**
+     * Begin a transaction on the variable table.
      *
-     * @param[in]     name          Name of the table
-     * @param[in]     vars          Names of the variables
+     * @return        Transaction object.
      */
-    public VariableTable (string name, Hashtable vars)
+    public DbTransaction BeginTransaction ()
     {
-      this.name_ = name;
-      this.reset_i (vars);
+      return this.connection_.BeginTransaction ();
     }
 
     /**
-     * Clear the contents of the variable table. This does not delete
-     * the columns in the table. It only deletes the rows.
+     * Create the variable table. This will instantiate a new table in
+     * the database.
      */
-    public void clear ()
+    public void Create (Hashtable columns)
     {
-      this.variables_.Clear ();
-    }
+      // First, drop the 'vtable' if it already exists.
+      SQLiteCommand command = this.connection_.CreateCommand ();
+      command.CommandText = "DROP TABLE IF EXISTS vtable";
+      command.ExecuteNonQuery ();
 
-    /**
-     * Reset the variable table. This will delete all the data from the
-     * data table, including its columns. It will then construct a new
-     * data table using the variables defined in \a columns as the
-     * columns for the data table.
-     */
-    public void reset (Hashtable columns)
-    {
-      // Reset the data table.
-      this.variables_ = new DataTable (this.name_);
+      // Convert the columns into types supported by SQLite.
+      ArrayList column_list = new ArrayList ();
 
-      // Recreate the columns for the table.
-      this.reset_i (columns);
-    }
-
-    /**
-     * Implementation of the reset () method. This method set the
-     * columns for the data table. It is assumed that the data table
-     * is an uninitialized one.
-     */
-    private void reset_i (Hashtable columns)
-    {
-      foreach (DictionaryEntry item in columns)
-        this.insert_column ((string)item.Key, (string)item.Value);
-    }
-
-    /**
-     * Helper method to insert a column into the data table. This will
-     * only work if the colunm does not have any data.
-     *
-     * @param[in]       name              Name of the column
-     * @param[in]       typename          Typename of the column
-     */
-    private void insert_column (string name, string typename)
-    {
-      Type type;
-
-      switch (typename)
+      foreach (DictionaryEntry entry in columns)
       {
-        case "SMALLINT":
-          type = typeof (System.Int16);
-          break;
-
-        case "INT":
-          type = typeof (System.Int32);
-          break;
-
-        case "BIGINT":
-          type = typeof (System.Int64);
-          break;
-
-        case "STRING":
-          type = typeof (System.String);
-          break;
-
-        default:
-          throw new Exception ("variable '" + name + "' has an invalid type : " + typename);
-      }
-
-      // Insert the new column into the table.
-      this.variables_.Columns.Add (name, type);
-    }
-
-    /**
-     *
-     */
-    public void update_value (int row, string column, object value)
-    {
-      if (row < this.variables_.Rows.Count)
-      {
-        // Update an existing row in the table.
-        this.variables_.Rows[row][column] = value;
-      }
-      else if (row == this.variables_.Rows.Count)
-      {
-        // Create a new data row for the table.
-        DataRow new_row = this.variables_.NewRow ();
-        new_row[column] = value;
-
-        // Insert the data row into the table.
-        this.variables_.Rows.Add (new_row);
-      }
-      else
-      {
-        throw new Exception ("row is greater than row count");
-      }
-    }
-
-    /**
-     *
-     */
-    public void add_value (string column, object value)
-    {
-      // First, locate the last row in the data table that does not have
-      // a value, i.e., has a NULL value. If we find it, then we need to
-      // set its value and return.
-      for (int i = 0; i < this.variables_.Rows.Count; ++i)
-      {
-        if (this.variables_.Rows[i][column] == DBNull.Value)
+        switch (entry.Value.ToString ())
         {
-          // Update the value of the column.
-          this.variables_.Rows[i][column] = value;
-          return;
+          case "STRING":
+            column_list.Add (String.Format ("{0} TEXT DEFAULT NULL", entry.Key));
+            break;
+
+          case "INT":
+          case "BIGINT":
+          case "SMALLINT":
+            column_list.Add (String.Format ("{0} INT DEFAULT NULL", entry.Key));
+            break;
+
+          default:
+            throw new Exception ("Unknown data type");
         }
       }
 
-      // Create a new row in the data table.
-      DataRow new_row = this.variables_.NewRow ();
+      // Convert the list to a partial SQL statement for the columns.
+      String column_stmt = String.Join (",", (string [])column_list.ToArray (typeof (string)));
 
-      // Initialize the column of the new row.
-      new_row[column] = value;
+      StringBuilder builder = new StringBuilder ("CREATE TABLE vtable (");
+      builder.Append (column_stmt.Replace ('.', '_'));
+      builder.Append (")");
 
-      // Insert the new row into the data table.
-      this.variables_.Rows.Add (new_row);
-    }
-
-    public DataTable data
-    {
-      get
-      {
-        return this.variables_;
-      }
+      // Create the table in the database.
+      command.CommandText = builder.ToString ();
+      command.ExecuteNonQuery ();
     }
 
     /**
-     * Add the values of the variables to the row. This will append the
-     * values to the current variable table.
+     * Insert the variables and their values into the database. This will
+     * append the values to the end of the variable table in the database.
+     *
+     * @param[in]         variables           Variables to add to database
      */
-    public void add_values (Hashtable variables)
+    public void Insert (Hashtable variables)
     {
-      // Create a new row in the data table.
-      DataRow row = this.variables_.NewRow ();
+      ArrayList column_list = new ArrayList ();
+      ArrayList values_list = new ArrayList ();
 
-      // Set the values of the new row.
-      foreach (DictionaryEntry variable in variables)
+      foreach (DictionaryEntry entry in variables)
       {
-        string var_name = (string)variable.Key;
-        row[var_name] = variable.Value;
+        column_list.Add (entry.Key);
+        values_list.Add (String.Format ("'{0}'", entry.Value));
       }
 
-      // Add the new row into the table.
-      this.variables_.Rows.Add (row);
+      // Start the insert SQL statement.
+      StringBuilder builder = new StringBuilder ("INSERT INTO vtable ");
+
+      // Append the column list to the statement.
+      String column_stmt = String.Join (",", (String[])column_list.ToArray (typeof (String)));
+      builder.Append (String.Format ("({0}) ",
+                                     this.normalize (column_stmt)));
+
+      // Append the values list to the statement.
+      String values_stmt = String.Join (",", (String[])values_list.ToArray (typeof (String)));
+      builder.Append (String.Format (" VALUES ({0})", values_stmt));
+
+      // Execute the SQL statement on the database.
+      SQLiteCommand command = this.connection_.CreateCommand ();
+      command.CommandText = builder.ToString ();
+      command.ExecuteNonQuery ();
     }
 
-    public void add_values (Hashtable variables,
-                            CUTS.Data.Relation relation,
-                            bool rhs_filter)
+    /**
+     * Update the variable table with the new values.
+     */
+    public void Update (Hashtable variables, Relation relation, bool rhs_filter)
     {
+      // Construct the list of columns to set in the table.
+      ArrayList set_list = new ArrayList ();
+
+      foreach (DictionaryEntry entry in variables)
+        set_list.Add (String.Format ("{0} = '{1}'",
+                                     this.normalize ((string)entry.Key),
+                                     entry.Value));
+
+      String set_stmt = String.Join (",", (String[])set_list.ToArray (typeof (String)));
+
       // Determine what side of the relation is the filter, and what
       // side is the target values for the filter.
       object[] filter_column_names =
@@ -206,52 +188,86 @@ namespace CUTS.Data
       object[] target_column_names =
         rhs_filter ? relation.LeftValues : relation.RightValues;
 
-      // Create a filter for each of the columns, making sure to insert
-      // them into a listing for joining.
+      // Now, construct the list of columns to filter on.
       ArrayList filter_list = new ArrayList ();
 
       for (int i = 0; i < filter_column_names.Length; ++i)
       {
-        string filter_column_name = (string)filter_column_names[i];
-        string column_filter = String.Format ("({0} = ", filter_column_name);
-
-        string target_column_name = (string)target_column_names[i];
+        String target_column_name = (string)target_column_names[i];
         object target_value = variables[target_column_name];
 
-        switch (target_value.GetType ().ToString ())
-        {
-          case "System.String":
-            column_filter += "'" + (string)target_value + "'";
-            break;
+        String filter_column_name = (string)filter_column_names[i];
+        String filter = String.Format ("({0} = '{1}')",
+                                       this.normalize (filter_column_name),
+                                       target_value);
 
-          default:
-            column_filter += target_value;
-            break;
-        }
-
-        // Close the equality.
-        column_filter += ")";
-
-        // Insert the equality into the filter list.
-        filter_list.Add (column_filter);
+        filter_list.Add (filter);
       }
 
       // Finally, create the complete filter for the relation.
-      string filter =
-        String.Join (" AND ", (string[])filter_list.ToArray (typeof (string)));
+      String filter_stmt = String.Join (" AND ", (String[])filter_list.ToArray (typeof (String)));
 
-      // Select the rows in the data table that match this filter.
-      DataRow[] candidate_rows = this.variables_.Select (filter);
+      // Construct the UPDATE command.
+      String command_str = String.Format ("UPDATE vtable SET {0} WHERE {1}",
+                                          set_stmt,
+                                          filter_stmt);
 
-      // Update the values in the row.
-      foreach (DataRow row in candidate_rows)
-      {
-        foreach (DictionaryEntry entry in variables)
-        {
-          string var_name = (string)entry.Key;
-          row[var_name] = entry.Value;
-        }
-      }
+      // Execute the statement on the database.
+      SQLiteCommand command = new SQLiteCommand (this.connection_);
+      command.CommandText = command_str;
+      command.ExecuteNonQuery ();
     }
+
+    /**
+     * Evaluate the given statement and return the result in the table.
+     *
+     * @param[in]         statement         Statement to evaluate
+     * @param[inout]      table             Table to store results
+     */
+    public void Evaluate (String statement, ref DataTable table)
+    {
+      SQLiteCommand command = this.connection_.CreateCommand ();
+      command.CommandText = statement;
+
+      SQLiteDataAdapter adapter = new SQLiteDataAdapter (command);
+      adapter.Fill (table);
+    }
+
+    /**
+     * Purge incomplete rows from the variable table. An incomplete
+     * row is one that has at least one NULL value.
+     */
+    public void PurgeIncompleteRows ()
+    {
+
+    }
+
+    /**
+     * Clear all the rows in the database.
+     */
+    public void Clear ()
+    {
+      SQLiteCommand command = this.connection_.CreateCommand ();
+      command.CommandText = "DELETE FROM vtable";
+      command.ExecuteNonQuery ();
+    }
+
+    /**
+     * Helper method to normalize a column name.
+     */
+    private String normalize (String str)
+    {
+      return str.Replace ('.', '_');
+    }
+
+    /**
+     * SQLite database connection for the variable table.
+     */
+    private SQLiteConnection connection_ = new SQLiteConnection ();
+
+    /**
+     * Location of the variable table.
+     */
+    private string location_;
   }
 }

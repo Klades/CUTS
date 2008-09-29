@@ -1,3 +1,30 @@
+Mon Sep 29 09:00:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestEvaluator.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/VariableTable.cs:
+        * utils/BMW/website/App_Code/Service.asmx.cs:
+
+          . Re-implemented the variable table on top of SQLite, instead of
+            using the built in operations for the DataTable to construct the
+            variable table. This actually improved the performance for
+            constructing the variable table for a unit test.
+
+        * utils/BMW/website/Web.config:
+
+          . Added System.Data and System.Data.SQLite to the assembly
+            configuration.
+
+        * utils/BMW/website/db:
+
+          . Directory for storing the databases.
+
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/unittestchart.aspx.cs:
+
+          . Updated the code to be compatiable with the new implementation
+            of the CUTS.Data.Variable object.
+
 Mon Sep 29 06:20:06 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/performance.aspx.cs:

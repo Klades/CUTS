@@ -5,6 +5,7 @@ using System.Collections;
 using System.Data;
 using System.Data.Common;
 using System.Text.RegularExpressions;
+using CUTS.Data;
 
 namespace CUTS.Data.UnitTesting
 {
@@ -23,15 +24,18 @@ namespace CUTS.Data.UnitTesting
     /**
      * Factory for generating data adapters.
      */
-    private CUTS.Data.IDbDataAdapterFactory adapter_factory_;
+    private IDbDataAdapterFactory adapter_factory_;
+
+    private String location_;
 
     /**
      * Initializing constructor.
      */
-    public UnitTestEvaluator (IDbConnection conn, IDbDataAdapterFactory factory)
+    public UnitTestEvaluator (IDbConnection conn, IDbDataAdapterFactory factory, String location)
     {
       this.conn_ = conn;
       this.adapter_factory_ = factory;
+      this.location_ = location;
     }
 
     /**
@@ -51,20 +55,37 @@ namespace CUTS.Data.UnitTesting
                                out string eval)
     {
       // Create a new variable table for this unit test.
-      CUTS.Data.VariableTable vtable = new CUTS.Data.VariableTable ("vtable");
+      String location = String.Format ("{0}\\t{1}ut{2}",
+                                       this.location_,
+                                       test,
+                                       utid);
+
+      VariableTable vtable = new VariableTable (location);
 
       try
       {
-        // Get the variable table for this unit test. This table is then sent
-        // back to the database for processing, i.e., to execute the user-defined
-        // expression to evaluate the unit test.
-        this.create_variable_table (test, utid, ref vtable);
+        // Open the variable table.
+        vtable.Open ();
 
-        // Create the table in the database.
-        this.create_table_in_database (vtable.data);
+        // Begin a new transaction.
+        DbTransaction transaction = vtable.BeginTransaction ();
 
-        // Fill the table in the database.
-        this.populate_table_in_database (vtable.data);
+        try
+        {
+          // Get the variable table for this unit test. This table is then sent
+          // back to the database for processing, i.e., to execute the user-defined
+          // expression to evaluate the unit test.
+          this.create_variable_table (test, utid, ref vtable);
+
+          // Commit the transaction.
+          transaction.Commit ();
+        }
+        catch (Exception)
+        {
+          // Rollback the transaction and rethrow the exception.
+          transaction.Rollback ();
+          throw;
+        }
 
         // SQL statements for extracting data to construct the final SQL
         // that calculates the result for the unit test.
@@ -124,8 +145,7 @@ namespace CUTS.Data.UnitTesting
             sql_result += grouping + ",";
 
           sql_result +=
-            aggr_stmt + "(" + eval_escaped_stmt + ") AS result FROM " +
-            vtable.data.TableName;
+            aggr_stmt + "(" + eval_escaped_stmt + ") AS result FROM vtable";
 
           eval = aggr_stmt + "(" + eval_stmt + ")";
         }
@@ -137,24 +157,22 @@ namespace CUTS.Data.UnitTesting
             sql_result += grouping + ",";
 
           sql_result +=
-            eval_escaped_stmt + " AS result FROM " +
-            vtable.data.TableName;
+            eval_escaped_stmt + " AS result FROM vtable";
 
           eval = eval_stmt;
         }
 
         if (aggr && grouping != String.Empty)
-            sql_result += " GROUP BY " + grouping;
+          sql_result += " GROUP BY " + grouping;
 
-        // Execute the statement, which will calculate the result.
-        command.CommandText = sql_result;
-        adapter.Fill (ds, "result");
+        DataTable table = new DataTable ("result");
+        vtable.Evaluate (sql_result, ref table);
 
-        return ds.Tables["result"];
+        return table;
       }
       finally
       {
-        this.remove_table (vtable.data.TableName);
+        vtable.Close ();
       }
     }
 
@@ -273,7 +291,7 @@ namespace CUTS.Data.UnitTesting
       foreach (DataRow row in ds.Tables["variables"].Rows)
         vars.Add (row["fq_name"], row["vartype"]);
 
-      vtable.reset (vars);
+      vtable.Create (vars);
 
       // Prepare the command that will be used to select the log messages
       // based on the log formats of the current unit test.
@@ -346,15 +364,9 @@ namespace CUTS.Data.UnitTesting
           }
 
           if (relation != null)
-          {
-            // Update table based on relation between two log messages.
-            vtable.add_values (variables, relation, true);
-          }
+            vtable.Update (variables, relation, true);
           else
-          {
-            // Just insert the data into the table.
-            vtable.add_values (variables);
-          }
+            vtable.Insert (variables);
         }
       }
     }

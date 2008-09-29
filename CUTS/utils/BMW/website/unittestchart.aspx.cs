@@ -38,7 +38,8 @@ namespace CUTS
 
       // Create an evaluator for this page.
       this.evaluator_ = new UnitTestEvaluator (this.conn_,
-                                               new MySqlDataAdapterFactory ());
+                                               new MySqlDataAdapterFactory (),
+                                               Server.MapPath ("~/db"));
     }
 
     /**

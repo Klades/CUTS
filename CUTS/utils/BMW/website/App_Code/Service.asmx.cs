@@ -108,7 +108,8 @@ namespace CUTS.Web
       int utid = this.database_.get_unit_test_id (UnitTest);
 
       UnitTestEvaluator evaluator = new UnitTestEvaluator (this.database_.Connection,
-                                                           new CUTS.Data.MySqlDataAdapterFactory ());
+                                                           new CUTS.Data.MySqlDataAdapterFactory (),
+                                                           Server.MapPath ("~/db"));
 
       string eval;
       string[] groups;
