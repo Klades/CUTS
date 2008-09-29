@@ -51,7 +51,7 @@ namespace Actions.UnitTestActions
       try
       {
         // Prepare SQL
-        string sql = "CALL insert_unit_test(?name,?desc,?fail_comp,?warn_comp," +
+        string sql = "CALL cuts.insert_unit_test (?name,?desc,?fail_comp,?warn_comp," +
           "?eval,?fail,?warn,?aggreg_func);";
         MySqlCommand comm = this.dba_.get_command (sql);
 
@@ -65,7 +65,7 @@ namespace Actions.UnitTestActions
         comm.Parameters.AddWithValue ("?warn", properties["WarnValue"]);
         comm.Parameters.AddWithValue ("?aggreg_func", properties["Aggregration_Func"]);
 
-        int utid = this.dba_.execute_mysql_scalar (comm);
+        long utid = this.dba_.execute_mysql_scalar (comm);
 
         // Insert all log formats
         int[] formats = (int[])properties["Formats"];
@@ -424,7 +424,7 @@ namespace Actions.UnitTestActions
      * @param[in]   utid    The id of the unit test.
      * @param[in]   lfid    The id of the log format.
      */
-    private void insert_unit_test_log_format (int utid, int lfid)
+    private void insert_unit_test_log_format (long utid, int lfid)
     {
       string sql = "CALL insert_unit_test_log_format (?utid, ?lfid);";
       MySqlCommand comm = this.dba_.get_command (sql);
@@ -438,7 +438,7 @@ namespace Actions.UnitTestActions
     /**
      *
      */
-    private void insert_unit_test_grouping (int utid, int [] grouping)
+    private void insert_unit_test_grouping (long utid, int [] grouping)
     {
       string sql = "CALL cuts.insert_unit_test_grouping (?utid, ?index, ?varid)";
       MySqlCommand command = this.dba_.get_command (sql);
@@ -478,7 +478,7 @@ namespace Actions.UnitTestActions
      * @param[in]  rel1     The id of the first variable.
      * @param[in]  rel2     The id of the second variable.
      */
-    private void insert_unit_test_relation (int utid, int relid, object[] cause, object[] effect)
+    private void insert_unit_test_relation (long utid, int relid, object[] cause, object[] effect)
     {
       // Initialize the command statement.
       string sql = "CALL insert_unit_test_relation (?utid, ?relid, ?index, ?cause, ?effect)";

@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS cuts.msglog
   hostid          INT             NOT NULL,
   msgtime         DATETIME        NOT NULL,
   severity        INT             NOT NULL,
-  message         VARCHAR (255)   NOT NULL,
+  message         TEXT,
 
   -- set the contraints for the table
   PRIMARY KEY (msgid),
@@ -35,6 +35,26 @@ CREATE TABLE IF NOT EXISTS cuts.msglog
 DELIMITER //
 
 -- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.insert_log_message_using_uuid
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.insert_log_message_using_uuid //
+
+CREATE PROCEDURE
+  cuts.insert_log_message_using_uuid (IN _uuid VARCHAR(255),
+                                      IN _hostname VARCHAR (255),
+                                      IN _msgtime DATETIME,
+                                      IN _severity INT,
+                                      IN _message TEXT)
+BEGIN
+  CALL cuts.insert_log_message_i (cuts.get_test_number_using_uuid (_uuid),
+                                  cuts.get_hostname_id (_hostname),
+                                  _msgtime,
+                                  _severity,
+                                  _message);
+END; //
+
+-- -----------------------------------------------------------------------------
 -- PROCEDURE: cuts.insert_log_message
 -- -----------------------------------------------------------------------------
 
@@ -45,7 +65,7 @@ CREATE PROCEDURE
                            IN _hostname VARCHAR (255),
                            IN _msgtime DATETIME,
                            IN _severity INT,
-                           IN _message VARCHAR (255))
+                           IN _message TEXT)
 BEGIN
   CALL cuts.insert_log_message_i (_test_number,
                                   cuts.get_hostname_id (_hostname),
@@ -65,7 +85,7 @@ CREATE PROCEDURE
                              IN _hostid INT,
                              IN _msgtime DATETIME,
                              IN _severity INT,
-                             IN _message VARCHAR (255))
+                             IN _message TEXT)
 BEGIN
   INSERT INTO cuts.msglog (test_number,
                            hostid,

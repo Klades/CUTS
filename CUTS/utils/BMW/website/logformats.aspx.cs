@@ -28,6 +28,12 @@ namespace CUTS
 
     private LogFormatActions actions_;
 
+    public Log_Formats ()
+    {
+      this.conn_.Open ();
+      this.actions_ = new LogFormatActions (this.conn_);
+    }
+
     /**
      * Callback method for when the page is loading.
      *
@@ -36,8 +42,7 @@ namespace CUTS
      */
     protected void Page_Load (object sender, EventArgs e)
     {
-      this.master_ = (CUTS.Master)Master;
-      this.actions_ = new LogFormatActions (this.conn_);
+      this.master_ = (CUTS.Master)this.Master;
 
       if (IsPostBack)
         return;
@@ -117,8 +122,24 @@ namespace CUTS
 
             switch (vartype)
             {
-              case "int":
+              case "BYTE":
+              case "byte":
+                mysql_regex.Append ("[[:digit:]]+");
+                csharp_regex.Append ("(?<" + varname + @">\d+)");
+
+                variables.Add (varname, "TINYINT");
+                break;
+
+              case "SHORT":
+              case "short":
+                mysql_regex.Append ("[[:digit:]]+");
+                csharp_regex.Append ("(?<" + varname + @">\d+)");
+
+                variables.Add (varname, "SMALLINT");
+                break;
+
               case "INT":
+              case "int":
                 // Update the regular expressions.
                 mysql_regex.Append ("[[:digit:]]+");
                 csharp_regex.Append ("(?<" + varname + @">\d+)");
@@ -126,8 +147,16 @@ namespace CUTS
                 variables.Add (varname, "INT");
                 break;
 
-              case "string":
+              case "LONGLONG":
+              case "longlong":
+                mysql_regex.Append ("[[:digit:]]+");
+                csharp_regex.Append ("(?<" + varname + @">\d+)");
+
+                variables.Add (varname, "BIGINT");
+                break;
+
               case "STRING":
+              case "string":
                 // Update the regular expressions.
                 mysql_regex.Append ("[^[:blank:]]+");
                 csharp_regex.Append (@"(?<" + varname + @">\S+)");
@@ -144,6 +173,10 @@ namespace CUTS
           match = match.NextMatch ();
         }
 
+        // Replace reserved characters with their escape string.
+        mysql_regex.Replace (".", "[[.period.]]");
+        csharp_regex.Replace (".", "\\.");
+
         // Insert log format into the database.
         this.actions_.insert_log_format (this.log_format_.Text,
                                          mysql_regex.ToString (),
@@ -158,8 +191,8 @@ namespace CUTS
       }
       catch (Exception ex)
       {
-        this.master_.show_error_message (ex.Message);
         this.master_.show_error_message ("Failed to create log format: " + this.log_format_.Text);
+        this.master_.show_exception (ex);
       }
     }
 

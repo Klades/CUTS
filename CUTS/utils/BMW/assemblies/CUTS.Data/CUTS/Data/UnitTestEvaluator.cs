@@ -397,6 +397,10 @@ namespace CUTS.Data
             column_decl += "INT";
             break;
 
+          case "System.Int64":
+            column_decl += "BIGINT";
+            break;
+
           default:
             throw new Exception ("Unknown column type: " + column.DataType.ToString ());
         }
@@ -456,7 +460,9 @@ namespace CUTS.Data
 
           switch (obj.GetType ().ToString ())
           {
+            case "System.Int16":
             case "System.Int32":
+            case "System.Int64":
               encoding = obj.ToString ();
               break;
 

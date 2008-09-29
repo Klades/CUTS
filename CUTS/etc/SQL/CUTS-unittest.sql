@@ -17,22 +17,18 @@
 
 CREATE TABLE IF NOT EXISTS  cuts.log_formats
 (
-  lfid            INT             NOT NULL auto_increment,
-  lfmt            VARCHAR(150)    NOT NULL,
-  icase_regex     VARCHAR(180)    NOT NULL,
-  csharp_regex    VARCHAR(200)    DEFAULT NULL,
+  lfid            INT     NOT NULL auto_increment,
+  lfmt            TEXT    NOT NULL,
+  icase_regex     TEXT    NOT NULL,
+  csharp_regex    TEXT    NOT NULL,
 
   -- set the constraints for the table
-  PRIMARY KEY  (lfid),
-
-  UNIQUE (lfmt)
+  PRIMARY KEY (lfid)
 );
 
-
--- main table for unit tests
--- contains all one-one UT info
--- Need to update fail/warn comparison so they are ENUM
--- Need to extend so there are n-levels of warning
+--
+-- TABLE: cuts.unit_tests
+--
 CREATE TABLE IF NOT EXISTS cuts.unit_tests
 (
   utid                      INT               NOT NULL auto_increment,
@@ -438,14 +434,20 @@ BEGIN
     VALUES (_utid, _relid, _index, _cause, _effect);
 END //
 
-DROP PROCEDURE IF EXISTS cuts.insert_log_format//
-CREATE PROCEDURE
-  cuts.insert_log_format(IN log_form VARCHAR(150),
-                 IN iregex VARCHAR(180),
-                 IN csregex VARCHAR(180))
+--
+-- PROCEDURE: cuts.insert_log_format
+--
+
+DROP PROCEDURE IF EXISTS cuts.insert_log_format //
+
+CREATE PROCEDURE cuts.insert_log_format (IN _format TEXT,
+                                         IN _mysql_regex TEXT,
+                                         IN _csharp_regex TEXT)
 BEGIN
-    INSERT INTO log_formats (lfmt,icase_regex,csharp_regex) VALUES (log_form, iregex, csregex);
-    SELECT lfid FROM  log_formats WHERE lfmt = log_form;
+  INSERT INTO cuts.log_formats (lfmt, icase_regex, csharp_regex)
+    VALUES (_format, _mysql_regex, _csharp_regex);
+
+  SELECT LAST_INSERT_ID() AS lfid;
 END //
 
 
@@ -542,12 +544,12 @@ CREATE PROCEDURE cuts.insert_unit_test(IN name_in VARCHAR(45),
                                 IN aggr VARCHAR(25))
 BEGIN
     INSERT INTO cuts.unit_tests (name,
-                                   description,
-                                   fail_comparison,
-                                   warn,fail,
-                                   evaluation,
-                                   warn_comparison,
-                                   aggregration_function)
+                                 description,
+                                 fail_comparison,
+                                 warn,fail,
+                                 evaluation,
+                                 warn_comparison,
+                                 aggregration_function)
                            VALUES (name_in,
                                    descr,
                                    fail_comp,
@@ -557,7 +559,7 @@ BEGIN
                                    warn_comp,
                                    aggr);
 
-    SELECT utid FROM unit_tests WHERE name = name_in;
+  SELECT LAST_INSERT_ID() AS utid;
 END //
 
 --

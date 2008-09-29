@@ -89,8 +89,16 @@ namespace CUTS.Data
 
       switch (typename)
       {
+        case "SMALLINT":
+          type = typeof (System.Int16);
+          break;
+
         case "INT":
           type = typeof (System.Int32);
+          break;
+
+        case "BIGINT":
+          type = typeof (System.Int64);
           break;
 
         case "STRING":

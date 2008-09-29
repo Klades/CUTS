@@ -55,19 +55,19 @@ namespace Actions.LogFormatActions
     public void insert_log_format (string log_format, string icase_regex, string cs_regex, Hashtable vars)
     {
 
-      string sql = "CALL insert_log_format(?lf, ?icase_regex, ?cs_regex);";
+      string sql = "CALL insert_log_format (?lf, ?icase_regex, ?cs_regex);";
       MySqlCommand comm = this.dba_.get_command (sql);
       comm.Parameters.AddWithValue ("?lf", log_format);
       comm.Parameters.AddWithValue ("?icase_regex", icase_regex);
       comm.Parameters.AddWithValue ("?cs_regex", cs_regex);
 
-      int lfid = this.dba_.execute_mysql_scalar (comm);
+      long lfid = this.dba_.execute_mysql_scalar (comm);
 
       // Itera
       string[] keys = new string[vars.Count];
       vars.Keys.CopyTo (keys, 0);
       foreach (string key in keys)
-        insert_log_format_variable (lfid, key, vars[key].ToString ());
+        this.insert_log_format_variable (lfid, key, vars[key].ToString ());
     }
 
     /**
@@ -77,7 +77,7 @@ namespace Actions.LogFormatActions
      * @param[in]  lfid       The ID of the Log Format the variable belongs to.
      * @param[in]  varname    The name of the variable.
      */
-    private void insert_log_format_variable (int lfid, string varname, string vartype)
+    private void insert_log_format_variable (long lfid, string varname, string vartype)
     {
       string sql = "CALL insert_log_format_variable(?lfid,?varname,?vartype);";
       MySqlCommand comm = this.dba_.get_command (sql);

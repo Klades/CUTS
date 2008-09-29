@@ -46,8 +46,7 @@
                 cellspacing="0"
                 allowpaging="true"
                 pagesize="25"
-                width="650px"
-                showheader="true"
+                showheader="false"
                 showfooter="false"
                 datakeyfield="lfid">
 

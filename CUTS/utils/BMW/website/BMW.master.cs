@@ -98,6 +98,15 @@ namespace CUTS
     }
 
     /**
+     * Show the exception as an error message.
+     */
+    public void show_exception (Exception ex)
+    {
+      this.show_error_message (ex.Message);
+      this.show_error_message (ex.StackTrace.Replace ("\n", "<br />"));
+    }
+
+    /**
      * Insert the actual message into the console. This will display the
      * console if it is not already visible to the user.
      *

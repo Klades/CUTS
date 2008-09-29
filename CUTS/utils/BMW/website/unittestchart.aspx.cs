@@ -14,6 +14,8 @@ using System.Xml;
 using System.Text;
 using MySql.Data.MySqlClient;
 
+using CUTS.Data;
+
 namespace CUTS
 {
   /**
@@ -28,6 +30,16 @@ namespace CUTS
 
     private CUTS.Master master_;
 
+    public Unit_Test_Chart ()
+    {
+      // Open the connection to the database.
+      this.conn_.Open ();
+
+      // Create an evaluator for this page.
+      this.evaluator_ = new UnitTestEvaluator (this.conn_,
+                                               new MySqlDataAdapterFactory ());
+    }
+
     /**
      *
      */
@@ -36,17 +48,11 @@ namespace CUTS
       // Get the master page for this page.
       this.master_ = (CUTS.Master)Master;
 
+      if (this.IsPostBack)
+        return;
+
       try
       {
-        // Open the connection to the database.
-        this.conn_.Open ();
-
-        // Create an evaluator for this page.
-        this.evaluator_ = new CUTS.Data.UnitTestEvaluator (this.conn_, new CUTS.Data.MySqlDataAdapterFactory ());
-
-        if (this.IsPostBack)
-          return;
-
         string id_string = Request.QueryString.Get ("utid");
         int id = Int32.Parse (id_string);
         string test_num_str = Request.QueryString.Get ("t");

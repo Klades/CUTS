@@ -62,29 +62,19 @@ namespace CUTS
 
     public Performance ()
     {
-      this.master_ = (CUTS.Master)Master;
+      // Open the connection to the database.
+      this.conn_.Open ();
 
-      try
-      {
-        // Open the connection to the database.
-        this.conn_.Open ();
+      // Create a new unit test action object.
+      this.uta_ = new UnitTestActions (this.conn_);
 
-        // Create a new unit test action object.
-        this.uta_ = new UnitTestActions (this.conn_);
+      // Create a new evaluator object.
+      this.evaluator_ = new UnitTestEvaluator (this.conn_,
+                                               new MySqlDataAdapterFactory ());
 
-        // Create a new evaluator object.
-        this.evaluator_ = new UnitTestEvaluator (this.conn_,
-                                                 new MySqlDataAdapterFactory ());
-
-        // Create a new database object for this page.
-        this.database_ = new Database (this.conn_,
-                                       new MySqlDataAdapterFactory ());
-
-      }
-      catch (Exception ex)
-      {
-        this.master_.show_error_message (ex.Message);
-      }
+      // Create a new database object for this page.
+      this.database_ = new Database (this.conn_,
+                                     new MySqlDataAdapterFactory ());
     }
 
     /**
@@ -95,6 +85,8 @@ namespace CUTS
      */
     private void Page_Load (object sender, System.EventArgs e)
     {
+      this.master_ = (CUTS.Master)Master;
+
       try
       {
         // Get the test number from the query string.
@@ -229,7 +221,7 @@ namespace CUTS
       }
       catch (Exception ex)
       {
-        this.master_.show_error_message (ex.Message);
+        this.master_.show_exception (ex);
       }
     }
 
@@ -238,10 +230,17 @@ namespace CUTS
      */
     private void load_unit_test_panel ()
     {
-      DataTable dt = this.uta_.get_packages (ddl_Test_Suites.SelectedValue);
+      try
+      {
+        DataTable dt = this.uta_.get_packages (ddl_Test_Suites.SelectedValue);
 
-      foreach (DataRow row in dt.Rows)
-        this.add_package (row["id"].ToString ());
+        foreach (DataRow row in dt.Rows)
+          this.add_package (row["id"].ToString ());
+      }
+      catch (Exception ex)
+      {
+        this.master_.show_exception (ex);
+      }
     }
 
     /**

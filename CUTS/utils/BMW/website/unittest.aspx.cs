@@ -38,22 +38,15 @@ namespace CUTS
 
     public Unit_Testing ()
     {
-      // Get the concrete master page.
-      this.master_ = (CUTS.Master)Master;
-
-      try
-      {
-        this.conn_.Open ();
-        this.uta_ = new UnitTestActions (this.conn_);
-      }
-      catch (Exception ex)
-      {
-        this.master_.show_error_message (ex.Message);
-      }
+      this.conn_.Open ();
+      this.uta_ = new UnitTestActions (this.conn_);
     }
 
     protected void Page_Load (object sender, EventArgs e)
     {
+      // Get the concrete master page.
+      this.master_ = (CUTS.Master)Master;
+
       try
       {
         if (this.IsPostBack)

@@ -76,11 +76,10 @@ namespace Actions.DataBaseActions
      *
      * @param[in]  sql  The sql to be executed.
      */
-    public int execute_mysql_scalar (string sql)
+    public long execute_mysql_scalar (string sql)
     {
       MySqlCommand comm = new MySqlCommand (sql, conn_);
-      object obj = comm.ExecuteScalar ();
-      return (int)obj;
+      return this.execute_mysql_scalar (comm);
     }
 
     /**
@@ -90,10 +89,10 @@ namespace Actions.DataBaseActions
      *
      * @param[in]  comm   The MySqlCommand to be executed.
      */
-    public int execute_mysql_scalar (MySqlCommand comm)
+    public long execute_mysql_scalar (MySqlCommand comm)
     {
       object obj = comm.ExecuteScalar ();
-      return (int)obj;
+      return (long)obj;
     }
 
     /**

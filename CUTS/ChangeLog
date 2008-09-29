@@ -1,3 +1,37 @@
+Mon Sep 29 06:01:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-msglog.sql:
+        * etc/SQL/CUTS-unittest.sql:
+
+          . Updated several of the stored procedures that inserting new
+            data into the database and return the id of the new data to
+            use the LAST_INSERT_ID() function.
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTestEvaluator.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/VariableTable.cs:
+
+          . Added support for SHORT, LONG, and LONGLONG data types in the
+            log formats.
+
+        * utils/BMW/website/App_Code/DataBaseActions.cs:
+        * utils/BMW/website/App_Code/LogFormatActions.cs:
+        * utils/BMW/website/App_Code/UnitTestActions.cs:
+
+          . Switched all the ids for unit test, log formats, and etc.
+            over to 'long' data types since LAST_INSERT_ID() returns
+            a 'long' type.
+
+        * utils/BMW/website/BMW.master.cs:
+        * utils/BMW/website/logformats.aspx:
+        * utils/BMW/website/logformats.aspx.cs:
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/unittest.aspx.cs:
+        * utils/BMW/website/unittestchart.aspx.cs:
+
+          . Bug fix where getting the master page at in the constructor
+            resulted in a (null) object. The proper place to get the
+            master page, and storing it, is in the Page_Load () function.
+
 Sun Sep 28 07:56:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/performance.aspx:
