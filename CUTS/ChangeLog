@@ -1,3 +1,10 @@
+Tue Sep 30 18:46:23 UTC 2008  Chris Bellande  <chris.bellande@vanderbilt.edu>
+
+        * etc/SQL/CUTS-bmw.sql:
+		
+		. Added create table script for users table-- needed to store
+		  username/password info for registered users.
+
 Tue Sep 30 09:18:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/SQL/CUTS-create.sql:
