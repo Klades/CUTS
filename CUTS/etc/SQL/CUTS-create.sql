@@ -229,8 +229,42 @@ DROP PROCEDURE IF EXISTS cuts.start_new_test //
 CREATE PROCEDURE cuts.start_new_test (IN _uuid VARCHAR (255),
                                       IN _time DATETIME)
 BEGIN
+  DECLARE CONTINUE HANDLER FOR SQLSTATE '23000'
+  BEGIN
+    CALL cuts.start_existing_test (_uuid, _time);
+  END;
+
   INSERT INTO cuts.tests (start_time, test_uuid, status)
    VALUES (_time, _uuid, 'active');
+END; //
+
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.start_existing_test
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.start_existing_test //
+
+CREATE PROCEDURE cuts.start_existing_test (IN _uuid VARCHAR (255),
+                                           IN _time DATETIME)
+BEGIN
+  DECLARE test INT;
+  SET test = cuts.get_test_number_using_uuid (_uuid);
+
+  CALL cuts.start_existing_test_i (test, _time);
+END; //
+
+-- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.start_existing_test_i
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.start_existing_test_i //
+
+CREATE PROCEDURE cuts.start_existing_test_i (IN _test INT,
+                                             IN _time DATETIME)
+BEGIN
+  UPDATE cuts.tests
+    SET start_time = _time AND status = 'active'
+    WHERE test_number = _test;
 END; //
 
 -- -----------------------------------------------------------------------------
@@ -242,8 +276,10 @@ DROP PROCEDURE IF EXISTS cuts.stop_existing_test //
 CREATE PROCEDURE cuts.stop_existing_test (IN _uuid VARCHAR (255),
                                           IN _time DATETIME)
 BEGIN
-  CALL cuts.stop_existing_test_i (cuts.get_test_number_using_uuid (_uuid),
-                                  _time);
+  DECLARE test INT;
+
+  SET test = cuts.get_test_number_using_uuid (_uuid);
+  CALL cuts.stop_existing_test_i (test, _time);
 END; //
 
 -- -----------------------------------------------------------------------------

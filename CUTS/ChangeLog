@@ -1,11 +1,19 @@
+Tue Sep 30 09:18:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-create.sql:
+
+          . Implemented a stored procedure for (re)starting an existing
+            test. Also, if you try to start a new test, and the UUID
+            already exists, it will restart the test.
+
 Mon Sep 29 19:25:11 UTC 2008  Chris Bellande  <chris.bellande@vanderbilt.edu>
 
         * utils/BMW/website/Web.config:
         * utils/BMW/website/login.aspx:
         * utils/BMW/website/login.aspx.cs:
-		
-		. Added FormsAuthentication so that anonymous users are 
-		  redirected to login page
+
+          . Added FormsAuthentication so that anonymous users are
+            redirected to login page
 
 Mon Sep 29 09:00:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
