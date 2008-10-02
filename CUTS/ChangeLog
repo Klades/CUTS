@@ -1,9 +1,21 @@
+Thu Oct  2 22:34:46 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * docs/presentations/CBML-WML.ppt:
+        * docs/presentations/CUTS-overview.ppt:
+        * docs/presentations/CiCUTS.ppt:
+
+	  . Updated the presentations for different parts of CUTS.
+
+        * docs/web/MoDELS08.pdf:
+
+	  . Tutorial presented at MoDELS 2008 in Toulouse, France.
+
 Tue Sep 30 18:46:23 UTC 2008  Chris Bellande  <chris.bellande@vanderbilt.edu>
 
         * etc/SQL/CUTS-bmw.sql:
-		
-		. Added create table script for users table-- needed to store
-		  username/password info for registered users.
+
+                . Added create table script for users table-- needed to store
+                  username/password info for registered users.
 
 Tue Sep 30 09:18:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
