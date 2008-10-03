@@ -1,3 +1,10 @@
+Fri Oct  3 19:49:59 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * docs/manual/CUTS-manual.tex:
+
+	  . Fixed the bug that was causing the header's text to overwrite
+	    the main text of the book.
+
 Fri Oct  3 19:08:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * docs/manual/CUTS-manual.tex:
@@ -10,9 +17,9 @@ Fri Oct  3 19:08:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * docs/manual/other:
         * docs/manual/other/drawing-palette.pptx:
 
-	  . Checkpoint the user's manual for CUTS. I am almost complete with the
-	    chapter on installing CUTS.
-	
+          . Checkpoint the user's manual for CUTS. I am almost complete with the
+            chapter on installing CUTS.
+
 Thu Oct  2 22:34:46 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * docs/presentations/CBML-WML.ppt:
