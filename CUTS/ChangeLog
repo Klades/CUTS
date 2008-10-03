@@ -1,14 +1,29 @@
+Fri Oct  3 19:08:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * docs/manual/CUTS-manual.tex:
+        * docs/manual/abstract.tex:
+        * docs/manual/images:
+        * docs/manual/images/cuts-analysis-blocks.pdf:
+        * docs/manual/images/cuts-modeling-blocks.pdf:
+        * docs/manual/images/cuts-runtime-blocks.pdf:
+        * docs/manual/install.tex:
+        * docs/manual/other:
+        * docs/manual/other/drawing-palette.pptx:
+
+	  . Checkpoint the user's manual for CUTS. I am almost complete with the
+	    chapter on installing CUTS.
+	
 Thu Oct  2 22:34:46 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * docs/presentations/CBML-WML.ppt:
         * docs/presentations/CUTS-overview.ppt:
         * docs/presentations/CiCUTS.ppt:
 
-	  . Updated the presentations for different parts of CUTS.
+          . Updated the presentations for different parts of CUTS.
 
         * docs/web/MoDELS08.pdf:
 
-	  . Tutorial presented at MoDELS 2008 in Toulouse, France.
+          . Tutorial presented at MoDELS 2008 in Toulouse, France.
 
 Tue Sep 30 18:46:23 UTC 2008  Chris Bellande  <chris.bellande@vanderbilt.edu>
 
