@@ -1,9 +1,20 @@
+Mon Oct  6 21:41:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Web:
+        * utils/BMW/assemblies/CUTS.Web/CUTS.Web.mpc:
+
+          . Removed the CUTS.Web.UI.Charts package.
+
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/Charts/XmlCharts:
+
+          . Removed this file.
+
 Fri Oct  3 19:49:59 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * docs/manual/CUTS-manual.tex:
 
-	  . Fixed the bug that was causing the header's text to overwrite
-	    the main text of the book.
+    . Fixed the bug that was causing the header's text to overwrite
+      the main text of the book.
 
 Fri Oct  3 19:08:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
@@ -36,8 +47,8 @@ Tue Sep 30 18:46:23 UTC 2008  Chris Bellande  <chris.bellande@vanderbilt.edu>
 
         * etc/SQL/CUTS-bmw.sql:
 
-                . Added create table script for users table-- needed to store
-                  username/password info for registered users.
+          . Added create table script for users table-- needed to store
+            username/password info for registered users.
 
 Tue Sep 30 09:18:29 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

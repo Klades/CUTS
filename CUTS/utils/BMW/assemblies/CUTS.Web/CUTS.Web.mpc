@@ -27,8 +27,5 @@ project (CUTS.Web) {
     CUTS/Web/UI/UnitTesting/LogFormatTable.cs
     CUTS/Web/UI/UnitTesting/RelationTable.cs
     CUTS/Web/UI/UnitTesting/TestPackage.cs
-
-    CUTS/Web/UI/Charts/XmlCharts/XmlChart.cs
-    CUTS/Web/UI/Charts/XmlCharts/XmlChartType.cs
   }
 }
