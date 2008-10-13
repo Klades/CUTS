@@ -108,6 +108,44 @@ namespace CUTS.Data
       }
     }
 
+    /**
+     *
+     */
+    public override bool Equals (object obj)
+    {
+      if (obj == null)
+        return false;
+
+      if (!(obj is Relation))
+        return false;
+
+      Relation r = (Relation)obj;
+
+      if (this.rhs_.Count != r.RightValues.Length ||
+          this.lhs_.Count != r.LeftValues.Length)
+      {
+        return false;
+      }
+
+      int count = this.lhs_.Count;
+
+      for (int i = 0; i < count; ++ i)
+      {
+        if (!this.lhs_[i].Equals (r.lhs_[i]) ||
+            !this.rhs_[i].Equals (r.rhs_[i]))
+        {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    public override int GetHashCode ()
+    {
+      return base.GetHashCode ();
+    }
+
     private ArrayList lhs_;
 
     private ArrayList rhs_;

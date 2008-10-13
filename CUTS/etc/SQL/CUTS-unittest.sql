@@ -538,7 +538,7 @@ CREATE PROCEDURE cuts.insert_unit_test(IN name_in VARCHAR(45),
                                 IN descr VARCHAR(95),
                                 IN fail_comp VARCHAR(20),
                                 IN warn_comp VARCHAR(20),
-                                IN eval VARCHAR(150),
+                                IN eval TEXT,
                                 IN fail VARCHAR(25),
                                 IN warn VARCHAR(25),
                                 IN aggr VARCHAR(25))

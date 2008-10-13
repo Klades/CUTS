@@ -267,11 +267,11 @@ namespace CUTS
         // Evaluate the unit test.
         int utid = (int)row["id"];
 
-        DataTable data = this.evaluator_.evaluate (this.test_number_,
-                                                   utid,
-                                                   true,
-                                                   out groups,
-                                                   out eval);
+        DataTable data = this.evaluator_.Reevaluate (this.test_number_,
+                                                     utid,
+                                                     true,
+                                                     out groups,
+                                                     out eval);
 
         if (groups.Length == 0)
         {

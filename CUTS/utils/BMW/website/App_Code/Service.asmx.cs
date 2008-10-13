@@ -113,7 +113,7 @@ namespace CUTS.Web
 
       string eval;
       string[] groups;
-      DataTable result = evaluator.evaluate (test, utid, true, out groups, out eval);
+      DataTable result = evaluator.Evaluate (test, utid, true, out groups, out eval);
 
       // Since we are aggregating the results, there should only be
       // one row in the result section until grouping is supported.

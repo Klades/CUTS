@@ -33,38 +33,43 @@ namespace CUTS.Data
      *
      * @param[in]     location          Location of the variable table.
      */
-    public VariableTable (string location)
+    public VariableTable ()
     {
-      // Append the extension to the location.
-      location += ".vt";
-
-      // Make sure the file exists.
-      if (!File.Exists (location))
-        SQLiteConnection.CreateFile (location);
-
-      // Save the location.
-      this.location_ = location;
-
-      // Update the connection string.
-      String connstr = String.Format ("Data Source={0}", this.location_);
-      this.connection_.ConnectionString = connstr;
     }
 
+    ~VariableTable ()
+    {
+      if (this.connection_.State == ConnectionState.Open)
+        this.connection_.Close ();
+    }
     /**
      * Delete the variable table database.
      */
     public void Delete ()
     {
-      if (File.Exists (this.location_))
-        File.Delete (this.location_);
+      if (File.Exists (this.pathname_))
+        File.Delete (this.pathname_);
     }
 
     /**
      * Open the variable table.
      */
-    public void Open ()
+    public void Open (String pathname)
     {
+      // Append the extension to the location.
+      pathname += ".vt";
+
+      // Make sure the file exists.
+      if (!File.Exists (pathname))
+        SQLiteConnection.CreateFile (pathname);
+
+      // Update the connection string.
+      String connstr = String.Format ("Data Source={0}", pathname);
+      this.connection_.ConnectionString = connstr;
       this.connection_.Open ();
+
+      // Save the location.
+      this.pathname_ = pathname;
     }
 
     /**
@@ -89,13 +94,8 @@ namespace CUTS.Data
      * Create the variable table. This will instantiate a new table in
      * the database.
      */
-    public void Create (Hashtable columns)
+    public void Create (Hashtable columns, bool drop_existing)
     {
-      // First, drop the 'vtable' if it already exists.
-      SQLiteCommand command = this.connection_.CreateCommand ();
-      command.CommandText = "DROP TABLE IF EXISTS vtable";
-      command.ExecuteNonQuery ();
-
       // Convert the columns into types supported by SQLite.
       ArrayList column_list = new ArrayList ();
 
@@ -110,7 +110,7 @@ namespace CUTS.Data
           case "INT":
           case "BIGINT":
           case "SMALLINT":
-            column_list.Add (String.Format ("{0} INT DEFAULT NULL", entry.Key));
+            column_list.Add (String.Format ("{0} INTEGER DEFAULT NULL", entry.Key));
             break;
 
           default:
@@ -120,14 +120,45 @@ namespace CUTS.Data
 
       // Convert the list to a partial SQL statement for the columns.
       String column_stmt = String.Join (",", (string [])column_list.ToArray (typeof (string)));
+      String schema = column_stmt.Replace ('.', '_');
 
-      StringBuilder builder = new StringBuilder ("CREATE TABLE vtable (");
-      builder.Append (column_stmt.Replace ('.', '_'));
-      builder.Append (")");
+      this.create_i (schema, drop_existing);
+    }
 
-      // Create the table in the database.
-      command.CommandText = builder.ToString ();
+    /**
+     * Create a set of indices on the variable table.
+     */
+    public void CreateIndex (String name, string [] index)
+    {
+      ArrayList values = new ArrayList ();
+
+      // Create the list of index values.
+      foreach (String index_name in index)
+        values.Add (this.normalize (index_name));
+
+      String index_values =
+        String.Join (", ", (String[])values.ToArray (typeof (String)));
+
+      // Create the SQL statement for this index.
+      String index_stmt =
+        String.Format ("CREATE INDEX IF NOT EXISTS {0} ON vtable ({1})",
+                       name,
+                       index_values);
+
+      SQLiteCommand command = this.connection_.CreateCommand ();
+      command.CommandText = index_stmt;
       command.ExecuteNonQuery ();
+    }
+
+    /**
+     * Attribute for getting the connection.
+     */
+    public SQLiteConnection Connection
+    {
+      get
+      {
+        return this.connection_;
+      }
     }
 
     /**
@@ -205,7 +236,9 @@ namespace CUTS.Data
       }
 
       // Finally, create the complete filter for the relation.
-      String filter_stmt = String.Join (" AND ", (String[])filter_list.ToArray (typeof (String)));
+      String filter_stmt =
+        String.Join (" AND ",
+                     (String[])filter_list.ToArray (typeof (String)));
 
       // Construct the UPDATE command.
       String command_str = String.Format ("UPDATE vtable SET {0} WHERE {1}",
@@ -233,6 +266,21 @@ namespace CUTS.Data
       adapter.Fill (table);
     }
 
+    public DataTable Data
+    {
+      get
+      {
+        SQLiteCommand command = this.connection_.CreateCommand ();
+        command.CommandText = "SELECT * FROM vtable";
+
+        SQLiteDataAdapter adapter = new SQLiteDataAdapter (command);
+        DataTable table = new DataTable ();
+        adapter.Fill (table);
+
+        return table;
+      }
+    }
+
     /**
      * Purge incomplete rows from the variable table. An incomplete
      * row is one that has at least one NULL value.
@@ -253,6 +301,30 @@ namespace CUTS.Data
     }
 
     /**
+     *
+     */
+    protected void create_i (String schema, bool drop_existing)
+    {
+      SQLiteCommand command = this.connection_.CreateCommand ();
+
+      if (drop_existing)
+      {
+        // First, drop the 'vtable' if it already exists.
+        command.CommandText = "DROP TABLE IF EXISTS vtable";
+        command.ExecuteNonQuery ();
+      }
+
+      // Now, create the variable table in the database.
+      StringBuilder builder = new StringBuilder ("CREATE TABLE vtable (");
+      builder.Append (schema);
+      builder.Append (")");
+
+      // Create the table in the database.
+      command.CommandText = builder.ToString ();
+      command.ExecuteNonQuery ();
+    }
+
+    /**
      * Helper method to normalize a column name.
      */
     private String normalize (String str)
@@ -268,6 +340,6 @@ namespace CUTS.Data
     /**
      * Location of the variable table.
      */
-    private string location_;
+    private string pathname_;
   }
 }

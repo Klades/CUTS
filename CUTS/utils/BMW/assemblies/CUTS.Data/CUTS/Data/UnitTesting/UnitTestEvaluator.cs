@@ -5,7 +5,9 @@ using System.Collections;
 using System.Data;
 using System.Data.Common;
 using System.Text.RegularExpressions;
+
 using CUTS.Data;
+using CUTS.Graph;
 
 namespace CUTS.Data.UnitTesting
 {
@@ -38,6 +40,46 @@ namespace CUTS.Data.UnitTesting
       this.location_ = location;
     }
 
+    public DataTable Reevaluate (int test,
+                                 int utid,
+                                 bool aggr,
+                                 out string[] group_name,
+                                 out string eval)
+    {
+      // Create a new variable table for this unit test.
+      UnitTestVariableTable vtable =
+        new UnitTestVariableTable (this.location_);
+
+      try
+      {
+        // Open the variable table.
+        vtable.Open (test, utid);
+        DbTransaction transaction = vtable.BeginTransaction ();
+
+        try
+        {
+          // Get the variable table for this unit test. This table is then sent
+          // back to the database for processing, i.e., to execute the user-defined
+          // expression to evaluate the unit test.
+          this.create_variable_table (ref vtable);
+
+          // Commit the transaction.
+          transaction.Commit ();
+        }
+        catch (Exception)
+        {
+          transaction.Rollback ();
+          throw;
+        }
+
+        return this.evaluate_i (vtable, aggr, out group_name, out eval);
+      }
+      finally
+      {
+        vtable.Close ();
+      }
+    }
+
     /**
      * Evaluate the unit test of a specific test. When evaluating the unit
      * test, the user has the option of either aggregating the results, or
@@ -48,127 +90,24 @@ namespace CUTS.Data.UnitTesting
      * @param[in]       aggr       Apply aggregation function
      * @param[out]      eval       Evaluation function
      */
-    public DataTable evaluate (int test,
+    public DataTable Evaluate (int test,
                                int utid,
                                bool aggr,
-                               out string [] group_name,
+                               out string[] group_name,
                                out string eval)
     {
       // Create a new variable table for this unit test.
-      String location = String.Format ("{0}\\t{1}ut{2}",
-                                       this.location_,
-                                       test,
-                                       utid);
-
-      VariableTable vtable = new VariableTable (location);
+      UnitTestVariableTable vtable =
+        new UnitTestVariableTable (this.location_);
 
       try
       {
         // Open the variable table.
-        vtable.Open ();
+        vtable.Open (test, utid);
+        DataTable table = vtable.Data;
 
         // Begin a new transaction.
-        DbTransaction transaction = vtable.BeginTransaction ();
-
-        try
-        {
-          // Get the variable table for this unit test. This table is then sent
-          // back to the database for processing, i.e., to execute the user-defined
-          // expression to evaluate the unit test.
-          this.create_variable_table (test, utid, ref vtable);
-
-          // Commit the transaction.
-          transaction.Commit ();
-        }
-        catch (Exception)
-        {
-          // Rollback the transaction and rethrow the exception.
-          transaction.Rollback ();
-          throw;
-        }
-
-        // SQL statements for extracting data to construct the final SQL
-        // that calculates the result for the unit test.
-        string sql_eval =
-          "SELECT evaluation AS eval, REPLACE(evaluation, '.', '_') AS eval_escaped, aggregration_function AS aggr " +
-          "FROM cuts.unit_tests WHERE utid = ?utid";
-
-        IDbCommand command = this.conn_.CreateCommand ();
-        command.CommandText = sql_eval;
-
-        IDbDataParameter p1 = command.CreateParameter ();
-
-        p1.ParameterName = "?utid";
-        p1.DbType = DbType.Int32;
-        p1.Value = utid;
-        command.Parameters.Add (p1);
-
-        // Execute the SQL statement.
-        DataSet ds = new DataSet ();
-        DbDataAdapter adapter =
-          (DbDataAdapter)this.adapter_factory_.CreateDbDataAdapter (command);
-
-        command.CommandText = sql_eval;
-        adapter.Fill (ds, "evaluation");
-
-        // Get the evaluation and aggregation functions.
-        string eval_stmt = (string)ds.Tables["evaluation"].Rows[0]["eval"];
-        string eval_escaped_stmt = (string)ds.Tables["evaluation"].Rows[0]["eval_escaped"];
-        string aggr_stmt = (string)ds.Tables["evaluation"].Rows[0]["aggr"];
-
-        // Get the groupings for the unit test. At this point, we need
-        // to create a comma separate list of the group variables. This will
-        // be used to construct the GROUP BY statement.
-        string sql_grouping = "CALL cuts.select_unit_test_grouping (?utid)";
-        command.CommandText = sql_grouping;
-        adapter.Fill (ds, "groupings");
-
-        ArrayList group_list = new ArrayList ();
-
-        foreach (DataRow row in ds.Tables["groupings"].Rows)
-        {
-          string name = (string)row["fq_name"];
-          group_list.Add (name.Replace (".", "_"));
-        }
-
-        group_name = (string[])group_list.ToArray (typeof (string));
-        string grouping = String.Join (",", group_name);
-
-        // Finally, construct the entire SQL statement for the evaluation.
-        string sql_result;
-
-        if (aggr)
-        {
-          sql_result = "SELECT ";
-
-          if (grouping != String.Empty)
-            sql_result += grouping + ",";
-
-          sql_result +=
-            aggr_stmt + "(" + eval_escaped_stmt + ") AS result FROM vtable";
-
-          eval = aggr_stmt + "(" + eval_stmt + ")";
-        }
-        else
-        {
-          sql_result = "SELECT ";
-
-          if (grouping != String.Empty)
-            sql_result += grouping + ",";
-
-          sql_result +=
-            eval_escaped_stmt + " AS result FROM vtable";
-
-          eval = eval_stmt;
-        }
-
-        if (aggr && grouping != String.Empty)
-          sql_result += " GROUP BY " + grouping;
-
-        DataTable table = new DataTable ("result");
-        vtable.Evaluate (sql_result, ref table);
-
-        return table;
+        return this.evaluate_i (vtable, aggr, out group_name, out eval);
       }
       finally
       {
@@ -185,9 +124,7 @@ namespace CUTS.Data.UnitTesting
      * @param[in]       utid          Unit test to evaluate
      * @param[out]      vtable        Target variable table
      */
-    private void create_variable_table (int test,
-                                        int utid,
-                                        ref CUTS.Data.VariableTable vtable)
+    private void create_variable_table (ref UnitTestVariableTable vtable)
     {
       // Initialize the database objects.
       DataSet ds = new DataSet ();
@@ -201,7 +138,7 @@ namespace CUTS.Data.UnitTesting
       // Initialize the parameter.
       p1.ParameterName = "?utid";
       p1.DbType = DbType.Int32;
-      p1.Value = utid;
+      p1.Value = vtable.UnitTestNumber;
 
       command.Parameters.Add (p1);
 
@@ -242,6 +179,8 @@ namespace CUTS.Data.UnitTesting
         log_graph.insert_node (node);
       }
 
+      ArrayList relation_set = new ArrayList ();
+
       foreach (DataRow row in ds.Tables["causality"].Rows)
       {
         // Get the name of the source/target nodes.
@@ -254,17 +193,17 @@ namespace CUTS.Data.UnitTesting
         // Get the source node of the causality.
         CUTS.Graph.Node source_node = log_graph.node (source);
 
+        Relation relation;
         string filter = String.Format ("relid = {0}", row["relid"]);
         DataRow[] relations = ds.Tables["relations"].Select (filter, "rel_index ASC");
 
         if (relations.Length != 0)
         {
           // Create a new relation for this log format.
-          CUTS.Data.Relation relation = new CUTS.Data.Relation ();
+          relation = new Relation ();
 
           foreach (DataRow equality in relations)
           {
-            // int index = (int)equality["rel_index"] - 1;
             string lhs_eq = (string)equality["lhs"];
             string rhs_eq = (string)equality["rhs"];
 
@@ -273,7 +212,24 @@ namespace CUTS.Data.UnitTesting
           }
 
           // Store the relation with the source node.
-          source_node.property ("relation", relation);
+          ArrayList r;
+
+          if (source_node.properties.ContainsKey ("relation"))
+          {
+            r = (ArrayList)source_node.property ("relation");
+          }
+          else
+          {
+            r = new ArrayList ();
+            source_node.property ("relation", r);
+          }
+
+          // Add the relation to this node's relation set.
+          r.Add (relation);
+
+          // Save the relation.
+          if (!relation_set.Contains (relation))
+            relation_set.Add (relation);
         }
       }
 
@@ -291,226 +247,251 @@ namespace CUTS.Data.UnitTesting
       foreach (DataRow row in ds.Tables["variables"].Rows)
         vars.Add (row["fq_name"], row["vartype"]);
 
-      vtable.Create (vars);
+      vtable.Create (vars, true);
+      vtable.CreateIndices ((Relation[])relation_set.ToArray (typeof (Relation)));
 
       // Prepare the command that will be used to select the log messages
       // based on the log formats of the current unit test.
-      IDbCommand logdata_command = this.conn_.CreateCommand ();
+      DbCommand logdata_command = (DbCommand)this.conn_.CreateCommand ();
+      adapter.SelectCommand = logdata_command;
 
-      command.CommandText =
+      logdata_command.CommandText =
         "CALL cuts.select_log_data_asc_by_test_number (?test, ?lfid)";
 
-      p1.ParameterName = "?test";
-      p1.DbType = DbType.Int32;
-      p1.Value = test;
+      DbParameter test_param = logdata_command.CreateParameter ();
+      test_param.ParameterName = "?test";
+      test_param.DbType = DbType.Int32;
+      test_param.Value = vtable.TestNumber;
+      logdata_command.Parameters.Add (test_param);
 
-      IDbDataParameter p2 = command.CreateParameter ();
-
-      p2.ParameterName = "?lfid";
-      p2.DbType = DbType.Int32;
-      command.Parameters.Add (p2);
+      DbParameter lfid_param = logdata_command.CreateParameter ();
+      lfid_param.ParameterName = "?lfid";
+      lfid_param.DbType = DbType.Int32;
+      logdata_command.Parameters.Add (lfid_param);
 
       // Iterate over each of the log formats and select the log messages
       // for the current test that match the format. The log message are
       // returned in order of [hostname, msgtime].
+      DataTable logdata = new DataTable ();
+      Hashtable variables = new Hashtable ();
 
       foreach (CUTS.Graph.Node node in sorted_node_list)
       {
-        // Set the parameter value.
+        // Set the parameter value for the log format.
         int lfid = (int)node.property ("lfid");
-        p2.Value = lfid;
-
-        // Clear the 'logdata' table.
-        if (ds.Tables.Contains ("logdata"))
-          ds.Tables["logdata"].Clear ();
-
-        // Prepare the command then fill a data table. This will select
-        // all the log data for the current log format.
-        adapter.Fill (ds, "logdata");
+        lfid_param.Value = lfid;
 
         // Select the variables for this log format.
         string lfid_filter = String.Format ("lfid = {0}", lfid);
-        DataRow[] log_variables = ds.Tables["variables"].Select (lfid_filter);
 
-        // Get the relation for this log format, i.e., the variables
-        // that we must ensure are equal between this format and  another
-        // format.
-        CUTS.Data.Relation relation =
-          (CUTS.Data.Relation)node.property ("relation");
+        DataRow[] log_variables = ds.Tables["variables"].Select (lfid_filter);
+        Hashtable log_vars = new Hashtable ();
+        ArrayList rel_list = new ArrayList ();
+
+        foreach (DataRow info in log_variables)
+        {
+          log_vars.Add (info["varname"], info["fq_name"]);
+          rel_list.Add (info["fq_name"]);
+        }
 
         // Create a regular expression to locate the variables in the
         // each of the log messages.
-        string regex = (string)node.property ("regex.csharp");
-        Regex variable_regex = new Regex (regex);
+        String csharp_regex = (String)node.property ("regex.csharp");
+        Regex regex = new Regex (csharp_regex);
 
-        Hashtable variables = new Hashtable ();
+        // Get the log data for this log format.
+        if (logdata.Rows.Count != 0)
+          logdata.Clear ();
 
-        foreach (DataRow logdata in ds.Tables["logdata"].Rows)
+        adapter.Fill (logdata);
+
+        // Get the relation for this log format.
+        ArrayList relations = (ArrayList)node.property ("relation");
+
+        // Create a data entry object for this log format.
+        LogFormatDataEntry entry;
+
+        if (relations == null)
         {
-          // Apply the C# regular expression to the log message.
-          string message = (string)logdata["message"];
-          Match variable_match = variable_regex.Match (message);
+          entry = new LogFormatDataEntry (vtable,
+                                          (String[])rel_list.ToArray (typeof (String)));
 
-          // Get all the variables from this log message.
-          foreach (DataRow variable in log_variables)
+          this.process_log_messages (entry, regex, log_vars, logdata);
+        }
+        else
+        {
+          foreach (Relation relation in relations)
           {
-            // Get the name of the variable.
-            string varname = (string)variable["varname"];
-            string fq_name = (string)variable["fq_name"];
+            entry = new LogFormatDataEntry (vtable,
+                                            (String[])rel_list.ToArray (typeof (String)),
+                                            relation);
 
-            // Get the value of the variable from the match.
-            object var_value = variable_match.Groups[varname].Captures[0].Value;
-            variables[fq_name] = var_value;
+            this.process_log_messages (entry, regex, log_vars, logdata);
           }
-
-          if (relation != null)
-            vtable.Update (variables, relation, true);
-          else
-            vtable.Insert (variables);
         }
+
+        //// Clear the variable hash table.
+        //if (variables.Count > 0)
+        //  variables.Clear ();
+
+
+        //foreach (Relation relation in relations)
+        //{
+        //  while (reader.Read ())
+        //  {
+        //    // Apply the C# regular expression to the log message.
+        //    String varname, fq_name;
+        //    String message = (String)reader["message"];
+        //    Match variable_match = variable_regex.Match (message);
+
+        //    // Get all the variables from this log message.
+        //    foreach (DictionaryEntry v in log_vars)
+        //    {
+        //      // Get the name of the variable.
+        //      varname = (String)v.Key;
+        //      fq_name = (String)v.Value;
+
+        //      // Get the value of the variable from the match.
+        //      variables[fq_name] =
+        //        variable_match.Groups[varname].Captures[0].Value;
+        //    }
+
+        //    // Process the set of variables.
+        //    entry.Process (variables);
+        //  }
+
+        //  // Close the reader for the next set of data.
+        //  reader.Close ();
+        //}
       }
     }
 
-    /**
-     * Used to safely remove a table from the database.
-     *
-     * @param[in] table_name   The name of the table to be removed.
-     */
-    public void remove_table (string table_name)
+    private void process_log_messages (LogFormatDataEntry entry,
+                                       Regex regex,
+                                       Hashtable variables,
+                                       DataTable logdata)
     {
-      IDbCommand command = this.conn_.CreateCommand ();
+      String varname, fq_name, message;
+      Match match;
+      Hashtable parameter = new Hashtable ();
 
-      command.CommandText = "DROP TABLE IF EXISTS " + table_name + ";";
-      command.ExecuteNonQuery ();
-    }
-
-    /**
-     * Used to create a single table in the database. THis is
-     *   probably a legacy function that can be safely removed.
-     *
-     * @param[in]  table   The table to be created in the database.
-     */
-    public void create_table_in_database (DataTable table)
-    {
-      ArrayList column_list = new ArrayList ();
-      string column_decl;
-
-      foreach (DataColumn column in table.Columns)
+      foreach (DataRow row in logdata.Rows)
       {
-        column_decl = column.ColumnName.Replace ('.', '_') + " ";
+        if (parameter.Count != 0)
+          parameter.Clear ();
 
-        switch (column.DataType.ToString ())
+        // Apply the C# regular expression to the log message.
+        message = (String)row["message"];
+        match = regex.Match (message);
+
+        // Get all the variables from this log message.
+        foreach (DictionaryEntry var in variables)
         {
-          case "System.String":
-            column_decl += "VARCHAR (256)";
-            break;
+          // Get the name of the variable.
+          varname = (String)var.Key;
+          fq_name = (String)var.Value;
 
-          case "System.Int32":
-            column_decl += "INT";
-            break;
-
-          case "System.Int64":
-            column_decl += "BIGINT";
-            break;
-
-          default:
-            throw new Exception ("Unknown column type: " + column.DataType.ToString ());
+          // Get the value of the variable from the match.
+          parameter[fq_name] = match.Groups[varname].Captures[0].Value;
         }
 
-        // Insert the column declaration into the database.
-        column_list.Add (column_decl);
+        // Process the set of variables.
+        entry.Process (parameter);
       }
-
-      // Build the query for creating the table.
-      string table_columns =
-        String.Join (", ", (string[])column_list.ToArray (typeof (string)));
-
-      string sql =
-        "CREATE TABLE " + table.TableName + " (" + table_columns + ");";
-
-      // Creat the table in the database.
-      IDbCommand command = this.conn_.CreateCommand ();
-      command.CommandText = sql;
-      command.ExecuteNonQuery ();
     }
 
-    /**
-     * Used to send all of the data in the data table to the database
-     * using an insert statement.
-     *
-     * @param[in]       table             Source data table
-     */
-    public void populate_table_in_database (DataTable table)
+    private DataTable evaluate_i (UnitTestVariableTable vtable,
+                                  bool aggr,
+                                  out string[] group_name,
+                                  out string eval)
     {
-      if (table.Rows.Count == 0)
-        return;
+      // SQL statements for extracting data to construct the final SQL
+      // that calculates the result for the unit test.
+      string sql_eval =
+        "SELECT evaluation AS eval, REPLACE(evaluation, '.', '_') AS eval_escaped, aggregration_function AS aggr " +
+        "FROM cuts.unit_tests WHERE utid = ?utid";
 
-      ArrayList list = new ArrayList ();
+      IDbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = sql_eval;
 
-      // First, construct the columns for the insert statement.
-      foreach (DataColumn column in table.Columns)
-        list.Add (column.ColumnName.Replace ('.', '_'));
+      IDbDataParameter p1 = command.CreateParameter ();
 
-      string sql_columns =
-        String.Join (", ", (string[])list.ToArray (typeof (string)));
+      p1.ParameterName = "?utid";
+      p1.DbType = DbType.Int32;
+      p1.Value = vtable.UnitTestNumber;
+      command.Parameters.Add (p1);
 
-      // Listing for storing the values.
-      ArrayList values = new ArrayList ();
+      // Execute the SQL statement.
+      DataSet ds = new DataSet ();
+      DbDataAdapter adapter =
+        (DbDataAdapter)this.adapter_factory_.CreateDbDataAdapter (command);
 
-      // Next, construct the values to insert into the table.
-      foreach (DataRow row in table.Rows)
+      command.CommandText = sql_eval;
+      adapter.Fill (ds, "evaluation");
+
+      // Get the evaluation and aggregation functions.
+      string eval_stmt = (string)ds.Tables["evaluation"].Rows[0]["eval"];
+      string eval_escaped_stmt = (string)ds.Tables["evaluation"].Rows[0]["eval_escaped"];
+      string aggr_stmt = (string)ds.Tables["evaluation"].Rows[0]["aggr"];
+
+      // Get the groupings for the unit test. At this point, we need
+      // to create a comma separate list of the group variables. This will
+      // be used to construct the GROUP BY statement.
+      string sql_grouping = "CALL cuts.select_unit_test_grouping (?utid)";
+      command.CommandText = sql_grouping;
+      adapter.Fill (ds, "groupings");
+
+      ArrayList group_list = new ArrayList ();
+
+      foreach (DataRow row in ds.Tables["groupings"].Rows)
       {
-        // Clear the listing for this iteration.
-        if (list.Count > 0)
-          list.Clear ();
-
-        // Gather all the values for this row. They will be used to
-        // construct the VALUES portion of the INSERT INTO SQL statement.
-        foreach (object obj in row.ItemArray)
-        {
-          string encoding;
-
-          switch (obj.GetType ().ToString ())
-          {
-            case "System.Int16":
-            case "System.Int32":
-            case "System.Int64":
-              encoding = obj.ToString ();
-              break;
-
-            case "System.String":
-              encoding = "'" + obj.ToString () + "'";
-              break;
-
-            default:
-              throw new Exception ("data type is not supported : " + obj.GetType ().ToString ());
-          }
-
-          // Insert the value into the listing.
-          list.Add (encoding);
-        }
-
-        // Create the SQL statement for setting the values.
-        string sql_values =
-          "(" + String.Join (", ", (string[])list.ToArray (typeof (string))) + ")";
-
-        // Insert the statement into the value list.
-        values.Add (sql_values);
+        string name = (string)row["fq_name"];
+        group_list.Add (name.Replace (".", "_"));
       }
 
-      // Convert the values into their SQL portion of the statement.
-      string sql_values_stmt =
-        String.Join (", ", (string[])values.ToArray (typeof (string)));
+      group_name = (string[])group_list.ToArray (typeof (string));
+      string grouping = String.Join (",", group_name);
 
-      // Finally, create the insert statement for the data.
-      string sql_insert =
-        "INSERT INTO " + table.TableName + " (" + sql_columns + ") " +
-        "VALUES " + sql_values_stmt;
+      // Finally, construct the entire SQL statement for the evaluation.
+      string sql_result;
 
-      // Send the data to the database.
-      IDbCommand command = this.conn_.CreateCommand ();
-      command.CommandText = sql_insert;
-      command.ExecuteNonQuery ();
+      if (aggr)
+      {
+        sql_result = "SELECT ";
+
+        if (grouping != String.Empty)
+          sql_result += grouping + ",";
+
+        sql_result +=
+          aggr_stmt + "(" + eval_escaped_stmt + ") AS result FROM vtable";
+
+        eval = aggr_stmt + "(" + eval_stmt + ")";
+      }
+      else
+      {
+        sql_result = "SELECT ";
+
+        if (grouping != String.Empty)
+          sql_result += grouping + ",";
+
+        sql_result +=
+          eval_escaped_stmt + " AS result FROM vtable";
+
+        eval = eval_stmt;
+      }
+
+      if (grouping != String.Empty)
+      {
+        if (aggr)
+          sql_result += " GROUP BY " + grouping;
+        else
+          sql_result += " ORDER BY " + grouping;
+      }
+
+      DataTable table = new DataTable ("result");
+      vtable.Evaluate (sql_result, ref table);
+
+      return table;
     }
   }
 }

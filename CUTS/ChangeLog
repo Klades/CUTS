@@ -1,3 +1,42 @@
+Mon Oct 13 16:53:38 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/SQL/CUTS-unittest.sql:
+
+          . Updated the cuts.insert_unit_test () stored procedure to
+            use a TEXT type for the 'eval' parameter.
+
+        * contrib/WebChart:
+        * contrib/WebChart/WebChart.dll:
+        * contrib/WebChart/WebChart.snk:
+
+          . Place the WebChart assembly used by CUTS in the contribution
+            directory.
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/Relation.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/LogFormatDataEntry.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestEvaluator.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/VariableTable.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Drawing:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Drawing/ColorMap.cs:
+        * utils/BMW/website/App_Code/Service.asmx.cs:
+        * utils/BMW/website/logformats.aspx:
+        * utils/BMW/website/login.aspx.cs:
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/unittestchart.aspx:
+        * utils/BMW/website/unittestchart.aspx.cs:
+
+          . Re-implemented the tab for evaluating unit test such that
+            it use SQLite to perform the construction of the variable table
+            instead of using the in-memory ADO provided by Microsoft.NET
+
+          . Now, the generation of the chart does not force constructing
+            the variable table.
+
+        * utils/BMW/website/WebCharts:
+
+          . Updated the svn:ingore property.
+
 Mon Oct  6 21:41:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Web:

@@ -19,7 +19,7 @@
   </tr>
   <tr>
     <td class="title">Log format: </td>
-    <td><asp:textbox id="log_format_" runat="server" width="300px" /></td>
+    <td><asp:textbox id="log_format_" runat="server" width="900px" /></td>
     <td><asp:requiredfieldvalidator id="logformat_required_" runat="server"
                                     controltovalidate="log_format_"
                                     errormessage="log format is required"

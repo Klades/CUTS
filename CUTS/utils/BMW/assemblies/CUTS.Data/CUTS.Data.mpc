@@ -8,6 +8,7 @@ project (CUTS.Data) {
   lit_libs   = System \
                System.Data \
                System.Data.SQLite \
+               System.Drawing \
                System.Xml \
                MySql.Data
 
@@ -21,24 +22,29 @@ project (CUTS.Data) {
   Source_Files {
     Properties\AssemblyInfo.cs
 
-    // interfaces
+    //= interfaces
     CUTS/Data/DbDataAdapterFactory.cs
     CUTS/Data/MySqlDataAdapterFactory.cs
     CUTS/Data/OdbcDataAdapterFactory.cs
 
-    // data package
+    //= namespace CUTS.Data
     CUTS/Data/Database.cs
     CUTS/Data/ExecutionTime.cs
     CUTS/Data/PathElement.cs
     CUTS/Data/Relation.cs
     CUTS/Data/VariableTable.cs
 
-    // unit testing package
+    //= namespace CUTS.Drawing
+    CUTS/Drawing/ColorMap.cs
+
+    //= namespace CUTS.Data.UnitTesting
+    CUTS/Data/UnitTesting/LogFormatDataEntry.cs
     CUTS/Data/UnitTesting/UnitTestEvaluator.cs
     CUTS/Data/UnitTesting/UnitTestGroupResult.cs
     CUTS/Data/UnitTesting/UnitTestResult.cs
+    CUTS/Data/UnitTesting/UnitTestVariableTable.cs
 
-    // graphing package
+    //= namespace CUTS.Graph
     CUTS/Graph/Algorithm.cs
     CUTS/Graph/DirectedEdge.cs
     CUTS/Graph/DirectedGraph.cs

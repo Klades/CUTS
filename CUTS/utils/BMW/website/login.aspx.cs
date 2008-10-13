@@ -21,9 +21,9 @@ public partial class login : System.Web.UI.Page
 {
     private void Page_Load(object sender, System.EventArgs e)
     {
-        
+
     }
-    
+
     protected void Login1_Authenticate(object sender, AuthenticateEventArgs e)
     {
         try
@@ -39,8 +39,8 @@ public partial class login : System.Web.UI.Page
             else
             {
                 e.Authenticated = false;
-            }   
-                
+            }
+
         }
         catch (Exception)
         {
@@ -51,7 +51,7 @@ public partial class login : System.Web.UI.Page
     private bool AuthenticateUser(string uname, string password)
     {
         bool flag = false;
-        string connString = "Server=localhost;Port=3306;Database=cuts;Uid=root;Pwd=Vandy;";
+        string connString = "Server=localhost;Port=3306;Database=cuts;Uid=cuts;Pwd=cuts;";
         string query = "SELECT * FROM users WHERE username ='" + uname + "' AND password ='" + password + "'";
         DataSet userDS = new DataSet();
         MySqlConnection conn;
