@@ -1,3 +1,9 @@
+Mon Oct 13 17:49:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * docs:
+
+          . Updated the svn:ignore property.
+
 Mon Oct 13 17:29:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * docs/manual/CUTS-manual.tex:
@@ -5,10 +11,10 @@ Mon Oct 13 17:29:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * docs/manual/images/cuts-modeling-blocks.pdf:
         * docs/manual/images/cuts-runtime-blocks.pdf:
 
-	  . Updated the images for the manual.
+          . Updated the images for the manual.
 
-	  . Enabled hyperlink references for chapters, section, and 
-	    reference in the PDF manual.
+          . Enabled hyperlink references for chapters, section, and
+            reference in the PDF manual.
 
 Mon Oct 13 16:53:38 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
