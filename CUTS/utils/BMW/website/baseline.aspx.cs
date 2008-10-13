@@ -24,6 +24,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using MySql.Data.MySqlClient;
+using CUTS.Data;
 
 namespace CUTS
 {
@@ -34,10 +35,14 @@ namespace CUTS
    */
   public partial class Baseline_Metrics : System.Web.UI.Page
   {
-    private CUTS.Data.Database database_ =
-      new CUTS.Data.Database (
-      new MySqlConnection (ConfigurationManager.AppSettings ["MySQL"]),
-      new CUTS.Data.MySqlDataAdapterFactory ());
+    private Database database_ = new Database (new MySqlClientFactory ());
+
+    private CUTS.Master master_;
+
+    public Baseline_Metrics ()
+    {
+      this.database_.Open (ConfigurationManager.AppSettings["MySQL"]);
+    }
 
     /**
      * Callback method for when the page is loading.
@@ -47,8 +52,17 @@ namespace CUTS
      */
     private void Page_Load(object sender, System.EventArgs e)
     {
-      if (!this.IsPostBack)
-        this.load_baseline ();
+      this.master_ = (CUTS.Master)this.Master;
+
+      try
+      {
+        if (!this.IsPostBack)
+          this.load_baseline ();
+      }
+      catch (Exception ex)
+      {
+        this.master_.show_exception (ex);
+      }
     }
 
     /// Helper method that loads baseline data from database.

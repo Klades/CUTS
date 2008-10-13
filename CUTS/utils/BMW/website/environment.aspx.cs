@@ -22,6 +22,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using MySql.Data.MySqlClient;
+using CUTS.Data;
 
 namespace CUTS
 {
@@ -38,7 +39,7 @@ namespace CUTS
     /**
      * Database object for interacting with the CUTS datbase
      */
-    private CUTS.Data.Database database_ = null;
+    private Database database_ = new Database (new MySqlClientFactory ());
 
     /**
      * Master page for the website.
@@ -46,6 +47,11 @@ namespace CUTS
     private CUTS.Master master_ = null;
 
     private DataGridItem prev_item_ = null;
+
+    public Environment ()
+    {
+      this.database_.Open (ConfigurationManager.AppSettings["MySQL"]);
+    }
 
     /**
      * Method invoked when the page is loaded.
@@ -60,15 +66,6 @@ namespace CUTS
 
       try
       {
-        // Create a new database connection and open it.
-        MySqlConnection conn =
-          new MySqlConnection (ConfigurationManager.AppSettings ["MySQL"]);
-        conn.Open ();
-
-        // Create a new database object for this page.
-        this.database_ =
-          new CUTS.Data.Database (conn, new CUTS.Data.MySqlDataAdapterFactory ());
-
         if (!this.IsPostBack)
           this.load_hosts_from_database ();
       }

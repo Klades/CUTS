@@ -41,9 +41,8 @@ namespace CUTS
       this.conn_.Open ();
 
       // Create an evaluator for this page.
-      this.evaluator_ = new UnitTestEvaluator (this.conn_,
-                                               new MySqlDataAdapterFactory (),
-                                               Server.MapPath ("~/db"));
+      this.evaluator_ = new UnitTestEvaluator (new MySqlClientFactory (), Server.MapPath ("~/db"));
+      this.evaluator_.Open (ConfigurationManager.AppSettings["MySQL"]);
     }
 
     /**

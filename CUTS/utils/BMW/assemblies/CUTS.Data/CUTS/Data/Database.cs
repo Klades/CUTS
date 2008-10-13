@@ -13,6 +13,7 @@
 using System;
 using System.Collections;
 using System.Data;
+using System.Data.Common;
 using System.Text;
 
 namespace CUTS.Data
@@ -28,12 +29,9 @@ namespace CUTS.Data
     /**
      * Connection used by this database object.
      */
-    private IDbConnection conn_;
+    private DbProviderFactory factory_;
 
-    /**
-     * Factory for creating data adapter objects.
-     */
-    private IDbDataAdapterFactory adapter_factory_;
+    private DbConnection conn_;
 
     /**
      * Initializing constructor.
@@ -41,19 +39,57 @@ namespace CUTS.Data
      * @param[in]       conn        Open connection to a database
      * @param[in]       adapter     Factory for creating data adapters
      */
-    public Database (IDbConnection conn,
-                     IDbDataAdapterFactory adapter_factory)
+    public Database (DbProviderFactory factory)
     {
-      this.conn_ = conn;
-      this.adapter_factory_ = adapter_factory;
+      this.factory_ = factory;
     }
 
     /**
-     * Get the connection associated with this database object.
+     * Destructor.
      */
-    public IDbConnection Connection
+    ~Database ()
     {
-      get { return this.conn_; }
+      if (this.conn_ != null && this.conn_.State == ConnectionState.Open)
+        this.conn_.Close ();
+    }
+
+    /**
+     * Open a connection to the database.
+     *
+     * @param[in]       connstr     Connection string.
+     */
+    public void Open (String connstr)
+    {
+      if (this.conn_ == null)
+        this.conn_ = this.factory_.CreateConnection ();
+
+      if (this.conn_.State == ConnectionState.Open)
+        this.conn_.Close ();
+
+      this.conn_.ConnectionString = connstr;
+      this.conn_.Open ();
+    }
+
+    /**
+     * Close the connection to the database.
+     */
+    public void Close ()
+    {
+      if (this.conn_ != null)
+        this.conn_.Close ();
+    }
+
+    /**
+     * Get the provider factory associated with this database object.
+     *
+     * @return      Provider factory object.
+     */
+    public DbProviderFactory ProviderFactory
+    {
+      get
+      {
+        return this.factory_;
+      }
     }
 
     /**
@@ -64,13 +100,16 @@ namespace CUTS.Data
      */
     public System.Int32 path_id_by_name (string name)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       // Create a new command object.
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
 
       // Initialize the command object.
       command.CommandText = "SELECT path_id FROM critical_path WHERE path_name = ?p";
 
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?p";
       p1.DbType = DbType.String;
       p1.Value = name;
@@ -78,11 +117,10 @@ namespace CUTS.Data
       command.Parameters.Add (p1);
 
       // Execute the command.
-      command.Prepare ();
       object result = command.ExecuteScalar ();
 
       if (result == null)
-        throw new ApplicationException ("The specified path [" + name + "] does not exist");
+        throw new Exception ("Path name " + name + " does not exist");
 
       return (System.Int32)result;
     }
@@ -93,15 +131,20 @@ namespace CUTS.Data
      *
      * @param[in]     dataset     Reference to target dataset.
      */
-    public void get_critical_paths (ref DataSet dataset)
+    public void get_critical_paths (ref DataSet dataset, string tablename)
     {
-      IDbCommand command = this.conn_.CreateCommand ();
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "SELECT path_id, path_name FROM execution_paths ORDER BY path_name";
 
       // Create an adapter w/ the following select command. Then, fill the
       // dataset using the new adapter.
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
-      adapter.Fill (dataset);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+
+      adapter.Fill (dataset, tablename);
     }
 
     /**
@@ -110,14 +153,16 @@ namespace CUTS.Data
      * @param[in]       test        The id of the test.
      * @param[out]      dataset     Reference to target dataset.
      */
-    public void get_collection_times (Int32 test,
-                                      ref DataSet dataset)
+    public void get_collection_times (Int32 test, ref DataSet dataset)
     {
-      IDbCommand command = this.conn_.CreateCommand ();
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "CALL cuts.select_distinct_performance_collection_times (?t)";
 
       // Create the parameters for the statement..
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?t";
       p1.DbType = DbType.Int32;
       p1.Value = test;
@@ -127,8 +172,9 @@ namespace CUTS.Data
 
       // Create an adapter w/ the following select command. Then, fill the
       // dataset using the new adapter.
-      command.Prepare ();
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+
       adapter.Fill (dataset);
     }
 
@@ -143,16 +189,19 @@ namespace CUTS.Data
                                      DateTime collection_time,
                                      ref DataSet ds)
     {
-      IDbCommand command = this.conn_.CreateCommand ();
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "CALL cuts.select_performance_by_collection_time(?test, ?time)";
 
       // Create the parameters for the statement.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?test";
       p1.DbType = DbType.Int32;
       p1.Value = test_number;
 
-      IDbDataParameter p2 = command.CreateParameter ();
+      DbParameter p2 = command.CreateParameter ();
       p2.ParameterName = "?time";
       p2.DbType = DbType.DateTime;
       p2.Value = collection_time;
@@ -161,8 +210,9 @@ namespace CUTS.Data
       command.Parameters.Add (p1);
       command.Parameters.Add (p2);
 
-      command.Prepare ();
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+
       adapter.Fill (ds);
     }
 
@@ -174,6 +224,9 @@ namespace CUTS.Data
      */
     public ExecutionTime path_execution_time (int test, string pathname)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       // Get the id of the path. We really need to make this a STORED
       // PROCEDURE in the database to reduce communication.
 
@@ -182,10 +235,10 @@ namespace CUTS.Data
       ArrayList critical_path = new ArrayList ();
 
       // Get all the elements in the critical path.
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "CALL select_path (?p)";
 
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?p";
       p1.DbType = DbType.Int32;
       p1.Value = path_id;
@@ -212,7 +265,7 @@ namespace CUTS.Data
       command.CommandText = "CALL select_path_execution_times (?t, ?p)";
 
       // Create the parameters for the statement.
-      IDbDataParameter p = command.CreateParameter ();
+      DbParameter p = command.CreateParameter ();
       p.ParameterName = "?t";
       p.DbType = DbType.Int32;
       p.Value = test;
@@ -355,11 +408,12 @@ namespace CUTS.Data
     public void get_all_test (ref DataSet ds)
     {
       // Create the command for the query.
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "SELECT * FROM tests ORDER BY test_number";
 
       // Create a new adapter to ease the creation of the dataset.
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
       adapter.Fill (ds);
     }
 
@@ -371,10 +425,15 @@ namespace CUTS.Data
      */
     public void get_all_hosts (ref DataSet ds)
     {
-      IDbCommand command = this.conn_.CreateCommand ();
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "SELECT * FROM ipaddr_host_map ORDER BY hostname";
 
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+
       adapter.Fill (ds);
     }
 
@@ -385,13 +444,18 @@ namespace CUTS.Data
      */
     public void get_testenv (ref DataSet ds)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       StringBuilder builder = new StringBuilder ();
       builder.Append ("SELECT * FROM ipaddr_host_map ORDER BY hostname");
 
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = builder.ToString ();
 
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+
       adapter.Fill (ds);
     }
 
@@ -400,20 +464,23 @@ namespace CUTS.Data
      */
     public void update_testenv (System.Int32 hostid, System.Int32 portnum)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       StringBuilder builder = new StringBuilder ();
       builder.Append ("UPDATE ipaddr_host_map SET portnum = ?portnum ");
       builder.Append ("WHERE hostid = ?hostid");
 
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = builder.ToString ();
 
       // Create the parameters for the statement.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?portnum";
       p1.DbType = DbType.Int32;
       p1.Value = portnum;
 
-      IDbDataParameter p2 = command.CreateParameter ();
+      DbParameter p2 = command.CreateParameter ();
       p2.ParameterName = "?hostid";
       p2.DbType = DbType.Int32;
       p2.Value = hostid;
@@ -434,17 +501,20 @@ namespace CUTS.Data
      */
     public void register_host (String hostname)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       // Build the command.
       StringBuilder builder = new StringBuilder ();
       builder.Append ("INSERT INTO ipaddr_host_map (hostname) ");
       builder.Append ("VALUES (?hostname)");
 
       // Create the command object.
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = builder.ToString ();
 
       // Create the parameters for the query.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?hostname";
       p1.DbType = DbType.String;
       p1.Value = hostname;
@@ -465,10 +535,15 @@ namespace CUTS.Data
      */
     public void get_component_instances (ref DataSet ds)
     {
-      IDbCommand command = this.conn_.CreateCommand ();
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "CALL cuts.select_component_instances_all ()";
 
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+
       adapter.Fill (ds);
     }
 
@@ -479,19 +554,21 @@ namespace CUTS.Data
      * @param[out]        ds        Target dataset for query.
      * @param[in]         typeid    Typeid of the instances.
      */
-    public void get_component_instances (System.Int32 typeid,
-                                         ref DataSet ds)
+    public void get_component_instances (System.Int32 typeid, ref DataSet ds)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       StringBuilder builder = new StringBuilder ();
       builder.Append ("SELECT * FROM component_instances WHERE typeid = ?t ");
       builder.Append ("ORDER BY component_name");
 
       // Create the SQL statement, or command.
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = builder.ToString ();
 
       // Create the parameters for the statement.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?t";
       p1.DbType = DbType.Int32;
       p1.Value = typeid;
@@ -500,8 +577,9 @@ namespace CUTS.Data
       command.Parameters.Add (p1);
 
       // Prepare and execute the statement.
-      command.Prepare ();
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+
       adapter.Fill (ds);
     }
 
@@ -513,10 +591,15 @@ namespace CUTS.Data
      */
     public void get_component_types (ref DataSet ds)
     {
-      IDbCommand command = this.conn_.CreateCommand ();
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "CALL cuts.select_component_types_all ()";
 
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+
       adapter.Fill (ds);
     }
 
@@ -527,26 +610,26 @@ namespace CUTS.Data
      */
     public void delete_tests (System.Int32 [] tests)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       // Verify that we have at least one test.
       if (tests.Length == 0)
         return;
 
       // Build the comma seperated list of test.
-      StringBuilder builder = new StringBuilder (tests [0].ToString ());
+      ArrayList list = new ArrayList ();
 
-      for (int i = 1; i < tests.Length; i++)
-      {
-        builder.Append (", ");
-        builder.Append (tests [i].ToString ());
-      }
+      foreach (System.Int32 test in tests)
+        list.Add (test.ToString ());
 
       // Create the command that will delete all the tests.
-      String cmdstr =
+      String sqlstr =
         String.Format ("DELETE FROM tests WHERE test_number IN ({0})",
-                       builder.ToString ());
+                       String.Join (",", (string[])list.ToArray (typeof (string))));
 
-      IDbCommand command = this.conn_.CreateCommand ();
-      command.CommandText = cmdstr;
+      DbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = sqlstr;
 
       // Execute the command.
       command.ExecuteNonQuery ();
@@ -563,6 +646,9 @@ namespace CUTS.Data
                                     System.Int32 test,
                                     DateTime time)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       // Create the query to select the senders.
       System.Text.StringBuilder builder = new System.Text.StringBuilder ();
       builder.Append ("SELECT DISTINCT sender, component_name FROM execution_time ");
@@ -571,21 +657,21 @@ namespace CUTS.Data
       builder.Append ("AND collection_time = ?collection_time)");
 
       // Create and initialize the parameters.
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = builder.ToString ();
 
       // Create the parameters for the statement.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?test_number";
       p1.DbType = DbType.Int32;
       p1.Value = test;
 
-      IDbDataParameter p2 = command.CreateParameter ();
+      DbParameter p2 = command.CreateParameter ();
       p2.ParameterName = "?component";
       p2.DbType = DbType.Int32;
       p2.Value = component;
 
-      IDbDataParameter p3 = command.CreateParameter ();
+      DbParameter p3 = command.CreateParameter ();
       p3.ParameterName = "?collection_time";
       p3.DbType = DbType.DateTime;
       p3.Value = time;
@@ -602,14 +688,17 @@ namespace CUTS.Data
 
     public System.DateTime get_latest_collection_time (System.Int32 test)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       // Create a new command.
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
 
       // Initalize the command.
       command.CommandText = "SELECT cuts.get_max_collection_time(?t)";
 
       // Create the parameters.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?t";
       p1.DbType = DbType.Int32;
       p1.Value = test;
@@ -627,23 +716,26 @@ namespace CUTS.Data
                                          System.DateTime timestamp,
                                          ref DataSet ds)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       StringBuilder builder = new StringBuilder ();
       builder.Append ("SELECT UNIQUE component, component_name FROM execution_time AS et ");
       builder.Append ("LEFT JOIN component_instances AS ci ");
       builder.Append ("ON (ci.component_id = et.component) ");
       builder.Append ("WHERE test_number = ?t AND collection_time = ?ct ORDER BY component_name");
 
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = builder.ToString ();
 
       // Create the parameters for the statement.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?t";
       p1.DbType = DbType.Int32;
       p1.Value = test;
 
       // Create the parameters for the statement.
-      IDbDataParameter p2 = command.CreateParameter ();
+      DbParameter p2 = command.CreateParameter ();
       p2.ParameterName = "?ct";
       p2.DbType = DbType.DateTime;
       p2.Value = timestamp;
@@ -653,17 +745,22 @@ namespace CUTS.Data
       command.Parameters.Add (p2);
 
       // Prepare and execute the statement.
-      command.Prepare ();
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+
       adapter.Fill (ds);
     }
 
     public void get_baseline_data (ref DataSet ds)
     {
-      IDbCommand command = this.conn_.CreateCommand ();
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "CALL cuts.select_performance_baseline_all()";
 
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
       adapter.Fill (ds);
     }
 
@@ -671,17 +768,20 @@ namespace CUTS.Data
                                                              DateTime colltime,
                                                              ref DataSet ds)
     {
-      IDbCommand command = this.conn_.CreateCommand ();
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "CALL cuts.select_distinct_components_in_execution_time(?t, ?ct)";
 
       // Create the parameters for the statement.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?t";
       p1.DbType = DbType.Int32;
       p1.Value = test;
 
       // Create the parameters for the statement.
-      IDbDataParameter p2 = command.CreateParameter ();
+      DbParameter p2 = command.CreateParameter ();
       p2.ParameterName = "?ct";
       p2.DbType = DbType.DateTime;
       p2.Value = colltime;
@@ -691,8 +791,9 @@ namespace CUTS.Data
       command.Parameters.Add (p2);
 
       // Prepare and execute the command.
-      command.Prepare ();
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+
       adapter.Fill (ds);
     }
 
@@ -704,11 +805,14 @@ namespace CUTS.Data
      */
     public void select_execution_time_cumulative (Int32 test, ref DataSet ds)
     {
-      IDbCommand command = this.conn_.CreateCommand ();
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "CALL cuts.select_performance_cumulative(?test)";
 
       // Create the parameters for the statement.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?test";
       p1.DbType = DbType.Int32;
       p1.Value = test;
@@ -717,8 +821,9 @@ namespace CUTS.Data
       command.Parameters.Add (p1); ;
 
       // Prepare and execute the statement.
-      command.Prepare ();
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+
       adapter.Fill (ds);
     }
 
@@ -730,12 +835,15 @@ namespace CUTS.Data
      */
     public string get_component_name (Int32 id)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       // Prepare the command.
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "SELECT cuts.get_component_name(?id)";
 
       // Create the parameters for the statement.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?id";
       p1.DbType = DbType.Int32;
       p1.Value = id;
@@ -755,12 +863,15 @@ namespace CUTS.Data
      */
     public string get_component_portname (Int32 id)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       // Prepare the command.
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "SELECT cuts.component_portname(?id)";
 
       // Create the parameters for the statement.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?id";
       p1.DbType = DbType.Int32;
       p1.Value = id;
@@ -783,6 +894,9 @@ namespace CUTS.Data
                                               Int32 dst,
                                               ref DataSet ds)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       // Create the command to get the desired execution times
       StringBuilder builder = new StringBuilder ();
       builder.Append ("SELECT collection_time, best_time, (total_time / metric_count) AS average_time, worst_time ");
@@ -797,31 +911,31 @@ namespace CUTS.Data
       builder.Append (") ORDER BY collection_time");
 
       // Create the SQL command.
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = builder.ToString ();
 
       // Create the parameters for the statement.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?t";
       p1.DbType = DbType.Int32;
       p1.Value = test;
 
-      IDbDataParameter p2 = command.CreateParameter ();
+      DbParameter p2 = command.CreateParameter ();
       p2.ParameterName = "?c";
       p2.DbType = DbType.Int32;
       p2.Value = component;
 
-      IDbDataParameter p3 = command.CreateParameter ();
+      DbParameter p3 = command.CreateParameter ();
       p3.ParameterName = "?s";
       p3.DbType = DbType.Int32;
       p3.Value = sender;
 
-      IDbDataParameter p4 = command.CreateParameter ();
+      DbParameter p4 = command.CreateParameter ();
       p4.ParameterName = "?m";
       p4.DbType = DbType.String;
       p4.Value = metric_type;
 
-      IDbDataParameter p5 = command.CreateParameter ();
+      DbParameter p5 = command.CreateParameter ();
       p5.ParameterName = "?src";
       p5.DbType = DbType.Int32;
       p5.Value = src;
@@ -844,29 +958,33 @@ namespace CUTS.Data
       }
 
       // Prepare and execute the SQL command.
-      command.Prepare ();
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+
       adapter.Fill (ds);
     }
 
     public long get_worst_execution_time (Int32 test, Int32 component)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       // Create the command and initialize the parameters.
       StringBuilder builder = new System.Text.StringBuilder ();
       builder.Append ("SELECT MAX(worst_time) FROM execution_time ");
       builder.Append ("WHERE (test_number = ?t AND component = ?c)");
 
       // Prepare the command for execution.
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = builder.ToString ();
 
       // Create the parameters for the statement.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?t";
       p1.DbType = DbType.Int32;
       p1.Value = test;
 
-      IDbDataParameter p2 = command.CreateParameter ();
+      DbParameter p2 = command.CreateParameter ();
       p2.ParameterName = "?c";
       p2.DbType = DbType.Int32;
       p2.Value = component;
@@ -882,12 +1000,15 @@ namespace CUTS.Data
 
     public void get_baseline_data (Int32 test, ref DataSet ds)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       // Prepare the command for execution.
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "CALL cuts.select_baseline_metric_for_test(?t)";
 
       // Create the parameters for the statement.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?t";
       p1.DbType = DbType.Int32;
       p1.Value = test;
@@ -896,8 +1017,9 @@ namespace CUTS.Data
       command.Parameters.Add (p1);
 
       // Prepare the execute the command.
-      command.Prepare ();
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+
       adapter.Fill (ds);
     }
 
@@ -905,17 +1027,20 @@ namespace CUTS.Data
                                    DateTime timestamp,
                                    ref DataSet ds)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       // Prepare the command for execution.
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "CALL cuts.select_baseline_metric_for_test_by_time(?t,?ct)";
 
       // Create the parameters for the statement.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?t";
       p1.DbType = DbType.Int32;
       p1.Value = test;
 
-      IDbDataParameter p2 = command.CreateParameter ();
+      DbParameter p2 = command.CreateParameter ();
       p2.ParameterName = "?ct";
       p2.DbType = DbType.DateTime;
       p2.Value = timestamp;
@@ -924,29 +1049,33 @@ namespace CUTS.Data
       command.Parameters.Add (p1);
       command.Parameters.Add (p2);
 
-      command.Prepare ();
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+
       adapter.Fill (ds);
     }
 
     public void insert_execution_path (string name, int deadline)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       // Create the SQL string for creating the critical path.
       System.Text.StringBuilder insert_sql = new System.Text.StringBuilder ();
       insert_sql.Append ("INSERT INTO execution_paths (path_name, deadline) ");
       insert_sql.Append ("VALUES (?path, ?deadline)");
 
       // Create the SQL command.
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = insert_sql.ToString ();
 
       // Create the parameters from the statement.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?path";
       p1.DbType = DbType.String;
       p1.Value = name;
 
-      IDbDataParameter p2 = command.CreateParameter ();
+      DbParameter p2 = command.CreateParameter ();
       p2.ParameterName = "?deadline";
       p2.DbType = DbType.Int32;
       p2.Value = deadline;
@@ -962,19 +1091,27 @@ namespace CUTS.Data
 
     public void select_execution_paths (ref DataSet ds)
     {
-      IDbCommand command = this.conn_.CreateCommand ();
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "SELECT * FROM execution_paths ORDER BY path_name";
 
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+
       adapter.Fill (ds);
     }
 
     public DataTable select_unit_tests_in_test_suite (string suite)
     {
-      IDbCommand command = this.conn_.CreateCommand ();
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "CALL cuts.select_unit_tests_in_test_suite (?name)";
 
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?name";
       p1.DbType = DbType.String;
       p1.Value = suite;
@@ -982,23 +1119,27 @@ namespace CUTS.Data
       command.Parameters.Add (p1);
 
       DataSet ds = new DataSet ();
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
-      adapter.Fill (ds);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
 
+      adapter.Fill (ds);
       return ds.Tables["Table"];
     }
 
     public void select_component_portnames_i (int inst, string porttype, ref DataSet ds)
     {
-      IDbCommand command = this.conn_.CreateCommand ();
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "CALL cuts.select_component_portnames_i (?inst, ?type)";
 
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?inst";
       p1.DbType = DbType.Int32;
       p1.Value = inst;
 
-      IDbDataParameter p2 = command.CreateParameter ();
+      DbParameter p2 = command.CreateParameter ();
       p2.ParameterName = "?type";
       p2.DbType = DbType.String;
       p2.Value = porttype;
@@ -1007,19 +1148,23 @@ namespace CUTS.Data
       command.Parameters.Add (p2);
 
       // Create an adapter and fill the dataset.
-      command.Prepare ();
-      IDbDataAdapter adapter = this.adapter_factory_.CreateDbDataAdapter (command);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+
       adapter.Fill (ds);
     }
 
     public void delete_execution_paths (int [] paths)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       // Create a new SQL statement/command.
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "DELETE FROM execution_paths WHERE path_id = ?path";
 
       // Create the parameter for the statment.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?path";
       p1.DbType = DbType.Int32;
 
@@ -1037,11 +1182,14 @@ namespace CUTS.Data
 
     public int get_test_number (string uuid)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       // Create a new SQL statement/command.
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "SELECT test_number FROM tests WHERE test_uuid = ?uuid";
 
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?uuid";
       p1.DbType = DbType.String;
       p1.Value = uuid;
@@ -1054,11 +1202,14 @@ namespace CUTS.Data
 
     public int get_unit_test_id (string name)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       // Create a new SQL statement/command.
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "SELECT utid FROM unit_tests WHERE name = ?name";
 
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
 
       p1.ParameterName = "?name";
       p1.DbType = DbType.String;
@@ -1071,12 +1222,15 @@ namespace CUTS.Data
 
     public void delete_execution_paths (string[] names)
     {
+      if (this.conn_ == null)
+        throw new Exception ("Connection to database is not open");
+
       // Create a new SQL statement/command.
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "DELETE FROM execution_paths WHERE path_name = ?name";
 
       // Create the parameter for the statment.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
       p1.ParameterName = "?name";
       p1.DbType = DbType.String;
 

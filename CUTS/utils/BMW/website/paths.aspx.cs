@@ -18,6 +18,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using MySql.Data.MySqlClient;
+using CUTS.Data;
 
 namespace CUTS
 {
@@ -32,7 +33,7 @@ namespace CUTS
 
     static private string INSTANCE_TABLE = "execution_paths";
 
-    private CUTS.Data.Database database_;
+    private Database database_ = new Database (new MySqlClientFactory ());
 
     private CUTS.Master master_;
 
@@ -45,59 +46,55 @@ namespace CUTS
     private void Page_Load (object sender, System.EventArgs e)
     {
       this.master_ = (CUTS.Master)this.Master;
-      MySqlConnection conn = new MySqlConnection (ConfigurationManager.AppSettings ["MySQL"]);
+      MySqlConnection conn = new MySqlConnection ();
 
       try
       {
         // Open a connection to the database.
-        conn.Open ();
+        this.database_.Open (ConfigurationManager.AppSettings["MySQL"]);
 
-        // Create a new database object the newly created connection.
-        this.database_ =
-          new CUTS.Data.Database (conn, new CUTS.Data.MySqlDataAdapterFactory ());
+        if (Page.IsPostBack)
+          return;
 
-        if (!Page.IsPostBack)
+        // Open the connection and create an adapter.
+        this.InitializeCritialPaths ();
+
+        // Determine if there is a request to display a path.
+        string p_query = Request.QueryString["p"];
+
+        if (p_query != null)
         {
-          // Open the connection and create an adapter.
-          this.InitializeCritialPaths ();
+          // Get the path to query.
+          long path_id = Int32.Parse (p_query);
+          Session["path_id"] = path_id;
 
-          // Determine if there is a request to display a path.
-          string p_query = Request.QueryString ["p"];
+          // Update the name of the selected path.
+          DataTable paths = (DataTable)this.paths_.DataSource;
+          DataRow[] rows = paths.Select (String.Format ("path_id = {0}", path_id));
 
-          if (p_query != null)
-          {
-            // Get the path to query.
-            long path_id = Int32.Parse (p_query);
-            Session ["path_id"] = path_id;
+          this.notice_.Text =
+            "<p>You are now editing the " + rows[0]["path_name"].ToString () +
+            " execution path. Use the controls below to add new instances to the " +
+            " execution path sequence.</p>";
 
-            // Update the name of the selected path.
-            DataTable paths = (DataTable)this.paths_.DataSource;
-            DataRow [] rows = paths.Select (String.Format ("path_id = {0}", path_id));
+          DataSet ds = new DataSet ();
 
-            this.notice_.Text =
-              "<p>You are now editing the " + rows [0] ["path_name"].ToString () +
-              " execution path. Use the controls below to add new instances to the " +
-              " execution path sequence.</p>";
+          // Fill the adapter w/ the path element data.
+          MySqlDataAdapter path_adapter = this.CreatePathElementAdapter (conn, path_id);
+          path_adapter.Fill (ds, PATH_ELEMENTS_TABLE);
 
-            DataSet ds = new DataSet ();
+          DataTable table = ds.Tables[PATH_ELEMENTS_TABLE];
+          DataColumn[] primary_key = new DataColumn[1];
+          primary_key[0] = table.Columns["path_order"];
+          table.PrimaryKey = primary_key;
 
-            // Fill the adapter w/ the path element data.
-            MySqlDataAdapter path_adapter = this.CreatePathElementAdapter (conn, path_id);
-            path_adapter.Fill (ds, PATH_ELEMENTS_TABLE);
+          // Fill the dataset with the instance data.
+          MySqlDataAdapter inst_adapter = Execution_Paths.create_instance_adapter (conn);
+          inst_adapter.Fill (ds, Execution_Paths.INSTANCE_TABLE);
 
-            DataTable table = ds.Tables [PATH_ELEMENTS_TABLE];
-            DataColumn [] primary_key = new DataColumn [1];
-            primary_key [0] = table.Columns ["path_order"];
-            table.PrimaryKey = primary_key;
-
-            // Fill the dataset with the instance data.
-            MySqlDataAdapter inst_adapter = Execution_Paths.create_instance_adapter (conn);
-            inst_adapter.Fill (ds, Execution_Paths.INSTANCE_TABLE);
-
-            // Update the view.
-            UpdateView (ds);
-            Session ["dataset"] = ds;
-          }
+          // Update the view.
+          UpdateView (ds);
+          Session["dataset"] = ds;
         }
       }
       catch (Exception ex)
@@ -205,23 +202,23 @@ namespace CUTS
       // Get the dataset for the session.
       DataSet ds = (DataSet)Session ["dataset"];
 
-      try
-      {
-        // Update the information in the database.
-        long path_id = (long)Session ["path_id"];
+      //try
+      //{
+      //  // Update the information in the database.
+      //  long path_id = (long)Session ["path_id"];
 
-        MySqlDataAdapter adapter =
-          this.CreatePathElementAdapter ((MySqlConnection) this.database_.Connection, path_id);
+      //  MySqlDataAdapter adapter =
+      //    this.CreatePathElementAdapter ((MySqlConnection) this.database_.Connection, path_id);
 
-        adapter.Update (ds, Execution_Paths.PATH_ELEMENTS_TABLE);
+      //  adapter.Update (ds, Execution_Paths.PATH_ELEMENTS_TABLE);
 
-        // Refresh the view.
-        UpdateView (ds);
-      }
-      catch (Exception ex)
-      {
-        this.master_.show_error_message (ex.Message);
-      }
+      //  // Refresh the view.
+      //  UpdateView (ds);
+      //}
+      //catch (Exception ex)
+      //{
+      //  this.master_.show_error_message (ex.Message);
+      //}
     }
 
     /**

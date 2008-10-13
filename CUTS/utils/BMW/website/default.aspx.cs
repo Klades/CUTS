@@ -22,6 +22,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using MySql.Data.MySqlClient;
+using CUTS.Data;
 
 namespace CUTS
 {
@@ -35,10 +36,14 @@ namespace CUTS
 
   public partial class Test : System.Web.UI.Page
   {
-    private CUTS.Data.Database database_ =
-      new CUTS.Data.Database (
-      new MySqlConnection (ConfigurationManager.AppSettings ["MySQL"]),
-      new CUTS.Data.MySqlDataAdapterFactory ());
+    private CUTS.Master master_;
+
+    private Database database_ = new Database (new MySqlClientFactory ());
+
+    public Test ()
+    {
+      this.database_.Open (ConfigurationManager.AppSettings["MySQL"]);
+    }
 
     /**
      * Callback method for loading a page.
@@ -48,8 +53,17 @@ namespace CUTS
      */
     private void Page_Load (object sender, System.EventArgs e)
     {
-      if (!this.IsPostBack)
-        this.load_test_data ();
+      this.master_ = (CUTS.Master)this.Master;
+
+      try
+      {
+        if (!this.IsPostBack)
+          this.load_test_data ();
+      }
+      catch (Exception ex)
+      {
+        this.master_.show_exception (ex);
+      }
     }
 
     /**

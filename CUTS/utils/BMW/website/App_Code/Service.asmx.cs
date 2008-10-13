@@ -18,9 +18,9 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml;
-
-using MySql.Data.MySqlClient;
+using CUTS.Data;
 using CUTS.Data.UnitTesting;
+using MySql.Data.MySqlClient;
 
 //=============================================================================
 /**
@@ -43,7 +43,7 @@ namespace CUTS.Web
      */
     public Service ()
     {
-      this.database_.Connection.Open ();
+      this.database_.Open (ConfigurationManager.AppSettings["MySQL"]);
     }
 
     /**
@@ -51,7 +51,7 @@ namespace CUTS.Web
      */
     ~Service ()
     {
-      this.database_.Connection.Close ();
+      this.database_.Close ();
     }
 
     /**
@@ -107,17 +107,26 @@ namespace CUTS.Web
       int test = this.database_.get_test_number (UUID);
       int utid = this.database_.get_unit_test_id (UnitTest);
 
-      UnitTestEvaluator evaluator = new UnitTestEvaluator (this.database_.Connection,
-                                                           new CUTS.Data.MySqlDataAdapterFactory (),
-                                                           Server.MapPath ("~/db"));
+      // Create a new evaluator for the unit test.
+      UnitTestEvaluator evaluator =
+        new UnitTestEvaluator (new MySqlClientFactory (), Server.MapPath ("~/db"));
 
-      string eval;
-      string[] groups;
-      DataTable result = evaluator.Evaluate (test, utid, true, out groups, out eval);
+      evaluator.Open (ConfigurationManager.AppSettings["MySQL"]);
 
-      // Since we are aggregating the results, there should only be
-      // one row in the result section until grouping is supported.
-      return result.Rows[0]["result"].ToString ();
+      try
+      {
+        string eval;
+        string[] groups;
+        DataTable result = evaluator.Evaluate (test, utid, true, out groups, out eval);
+
+        // Since we are aggregating the results, there should only be
+        // one row in the result section until grouping is supported.
+        return result.Rows[0]["result"].ToString ();
+      }
+      finally
+      {
+        evaluator.Close ();
+      }
     }
 
     /**
@@ -140,9 +149,6 @@ namespace CUTS.Web
      * closing the connection because it is handled when the
      * object is destroyed.
      */
-    private CUTS.Data.Database database_ =
-      new CUTS.Data.Database (
-      new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]),
-      new CUTS.Data.MySqlDataAdapterFactory ());
+    private Database database_ = new Database (new MySqlClientFactory ());
   }
 }

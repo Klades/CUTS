@@ -1,3 +1,25 @@
+Mon Oct 13 21:34:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/Database.cs:
+        * utils/BMW/website/App_Code/Service.asmx.cs:
+        * utils/BMW/website/Timeline.aspx.cs:
+        * utils/BMW/website/Web.config:
+        * utils/BMW/website/baseline.aspx.cs:
+        * utils/BMW/website/components.aspx.cs:
+        * utils/BMW/website/default.aspx.cs:
+        * utils/BMW/website/environment.aspx.cs:
+        * utils/BMW/website/paths.aspx.cs:
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/unittestchart.aspx.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestEvaluator.cs:
+
+          . Refactored the backend to use the common database provider
+            factory for instantiating ADO.
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestVariableTable.cs:
+
+          . Missing source file.
+
 Mon Oct 13 17:49:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * docs:

@@ -69,13 +69,12 @@ namespace CUTS
       this.uta_ = new UnitTestActions (this.conn_);
 
       // Create a new evaluator object.
-      this.evaluator_ = new UnitTestEvaluator (this.conn_,
-                                               new MySqlDataAdapterFactory (),
-                                               Server.MapPath ("~/db"));
+      this.evaluator_ = new UnitTestEvaluator (new MySqlClientFactory (), Server.MapPath ("~/db"));
+      this.evaluator_.Open (ConfigurationManager.AppSettings["MySQL"]);
 
       // Create a new database object for this page.
-      this.database_ = new Database (this.conn_,
-                                     new MySqlDataAdapterFactory ());
+      this.database_ = new Database (new MySqlClientFactory ());
+      this.database_.Open (ConfigurationManager.AppSettings["MySQL"]);
     }
 
     /**
@@ -107,9 +106,9 @@ namespace CUTS
             this.database_.get_latest_collection_time (this.test_number_);
 
           DataSet ds = new DataSet ();
-          this.database_.get_critical_paths (ref ds);
+          this.database_.get_critical_paths (ref ds, "cpaths");
           this.execution_path_.DataSource = ds;
-          this.execution_path_.DataMember = "Table";
+          this.execution_path_.DataMember = "cpaths";
           this.execution_path_.DataBind ();
 
           this.collection_times_.SelectedValue = this.collection_time_.ToString ();
@@ -253,7 +252,7 @@ namespace CUTS
       DataRow package_info = this.uta_.get_package_info (p_id);
       string package_name = (string)package_info["name"];
 
-      TestPackage package = new TestPackage (this.test_number_, package_name);
+      UnitTestPackage package = new UnitTestPackage (this.test_number_, package_name);
       this.unit_test_panel_.Controls.Add (package);
 
       // Fill the DataTable with Name and id

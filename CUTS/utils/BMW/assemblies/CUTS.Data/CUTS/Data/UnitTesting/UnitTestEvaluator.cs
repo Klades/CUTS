@@ -21,25 +21,59 @@ namespace CUTS.Data.UnitTesting
     /**
      * Database connection for the evaluator.
      */
-    private IDbConnection conn_;
+    private DbProviderFactory factory_;
 
-    /**
-     * Factory for generating data adapters.
-     */
-    private IDbDataAdapterFactory adapter_factory_;
+    private DbConnection conn_;
 
     private String location_;
 
     /**
      * Initializing constructor.
      */
-    public UnitTestEvaluator (IDbConnection conn, IDbDataAdapterFactory factory, String location)
+    public UnitTestEvaluator (DbProviderFactory factory, String location)
     {
-      this.conn_ = conn;
-      this.adapter_factory_ = factory;
+      this.factory_ = factory;
       this.location_ = location;
     }
 
+    /**
+     * Destructor.
+     */
+    ~UnitTestEvaluator ()
+    {
+      this.Close ();
+    }
+
+    /**
+     * Open the connection to the database for the evaluator.
+     *
+     * @param[in]       connstr       Connection string.
+     */
+    public void Open (string connstr)
+    {
+      if (this.conn_ == null)
+        this.conn_ = this.factory_.CreateConnection ();
+
+      // Close the current database connection.
+      this.Close ();
+
+      // Open a new connection to the database.
+      this.conn_.ConnectionString = connstr;
+      this.conn_.Open ();
+    }
+
+    /**
+     * Close the evaluator.
+     */
+    public void Close ()
+    {
+      if (this.conn_.State == ConnectionState.Open)
+        this.conn_.Close ();
+    }
+
+    /**
+     * Re-evaluate a unit test.
+     */
     public DataTable Reevaluate (int test,
                                  int utid,
                                  bool aggr,
@@ -47,8 +81,7 @@ namespace CUTS.Data.UnitTesting
                                  out string eval)
     {
       // Create a new variable table for this unit test.
-      UnitTestVariableTable vtable =
-        new UnitTestVariableTable (this.location_);
+      UnitTestVariableTable vtable = new UnitTestVariableTable (this.location_);
 
       try
       {
@@ -126,14 +159,17 @@ namespace CUTS.Data.UnitTesting
      */
     private void create_variable_table (ref UnitTestVariableTable vtable)
     {
+      if (this.conn_ == null || this.conn_.State != ConnectionState.Open)
+        throw new Exception ("Connection to database is not open");
+
       // Initialize the database objects.
       DataSet ds = new DataSet ();
-      IDbCommand command = this.conn_.CreateCommand ();
-      DbDataAdapter adapter =
-        (DbDataAdapter) this.adapter_factory_.CreateDbDataAdapter (command);
+      DbCommand command = this.conn_.CreateCommand ();
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
 
       // Create a parameter for the command.
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
 
       // Initialize the parameter.
       p1.ParameterName = "?utid";
@@ -411,10 +447,10 @@ namespace CUTS.Data.UnitTesting
         "SELECT evaluation AS eval, REPLACE(evaluation, '.', '_') AS eval_escaped, aggregration_function AS aggr " +
         "FROM cuts.unit_tests WHERE utid = ?utid";
 
-      IDbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = sql_eval;
 
-      IDbDataParameter p1 = command.CreateParameter ();
+      DbParameter p1 = command.CreateParameter ();
 
       p1.ParameterName = "?utid";
       p1.DbType = DbType.Int32;
@@ -423,8 +459,8 @@ namespace CUTS.Data.UnitTesting
 
       // Execute the SQL statement.
       DataSet ds = new DataSet ();
-      DbDataAdapter adapter =
-        (DbDataAdapter)this.adapter_factory_.CreateDbDataAdapter (command);
+      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
 
       command.CommandText = sql_eval;
       adapter.Fill (ds, "evaluation");

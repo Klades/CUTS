@@ -22,6 +22,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using MySql.Data.MySqlClient;
+using CUTS.Data;
 
 namespace CUTS
 {
@@ -36,14 +37,16 @@ namespace CUTS
 
   public partial class Components : System.Web.UI.Page
   {
-    private CUTS.Data.Database database_ =
-      new CUTS.Data.Database (
-      new MySqlConnection (ConfigurationManager.AppSettings ["MySQL"]),
-      new CUTS.Data.MySqlDataAdapterFactory ());
+    private Database database_ = new Database (new MySqlClientFactory ());
 
     private DataGridItem prev_item_ = null;
 
     private CUTS.Master master_;
+
+    public Components ()
+    {
+      this.database_.Open (ConfigurationManager.AppSettings["MySQL"]);
+    }
 
     /**
      * Callback method for when the page is loading.
@@ -65,7 +68,9 @@ namespace CUTS
           this.components_.CurrentPageIndex = 0;
         }
         else
+        {
           this.load_component_instances ();
+        }
       }
       catch (Exception ex)
       {

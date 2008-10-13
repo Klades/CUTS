@@ -24,6 +24,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using MySql.Data.MySqlClient;
 using WebChart;
+using CUTS.Data;
 
 namespace CUTS
 {
@@ -35,17 +36,23 @@ namespace CUTS
   public partial class Timeline : System.Web.UI.Page
   {
     /// Utility class for interacting with the CUTS database.
-    private CUTS.Data.Database database_ =
-      new CUTS.Data.Database (
-      new MySqlConnection (ConfigurationManager.AppSettings ["MySQL"]),
-      new CUTS.Data.MySqlDataAdapterFactory ());
+    private Database database_ = new Database (new MySqlClientFactory ());
 
     protected string component_name_;
 
     protected string sender_name_;
 
+    private CUTS.Master master_;
+
+    public Timeline ()
+    {
+      this.database_.Open (ConfigurationManager.AppSettings["MySQL"]);
+    }
+
     private void Page_Load(object sender, System.EventArgs e)
     {
+      this.master_ = (CUTS.Master)this.Master;
+
       try
       {
         // Get the appropriate values from the query string.
@@ -97,19 +104,14 @@ namespace CUTS
         DataTable execution_time = ds.Tables["execution_time"];
         create_execution_time_charts (execution_time);
       }
-      catch (OdbcException ex)
-      {
-        this.exception_label_.Text =
-          "ODBC exception has occured; " + ex.Message;
-      }
       catch (Exception ex)
       {
-        this.exception_label_.Text =
-          "Unknown exeception has occurred; " + ex.Message;
+        this.master_.show_exception (ex);
       }
       finally
       {
         this.timeline_.RedrawChart ();
+        this.database_.Close ();
       }
     }
 
