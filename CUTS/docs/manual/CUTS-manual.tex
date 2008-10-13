@@ -1,6 +1,6 @@
 % $Id$
 
-\documentclass{book}
+\documentclass[titlepage]{book}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{helvet}
@@ -15,6 +15,13 @@
 \usepackage{listings}
 \usepackage[usenames, dvipsnames]{color}
 \usepackage[toc,page]{appendix}
+\usepackage{ifpdf}
+
+\ifpdf
+\usepackage[pdftex,colorlinks,backref,bookmarks]{hyperref}
+\else
+\usepackage[hypertex,colorlinks]{hyperref}
+\fi
 
 \setlength \headsep{.25in}
 
@@ -28,7 +35,7 @@
 }
 
 \title{The Component Workload Emulator (CoWorkEr) Utilization Test Suite (CUTS) User's Manual}
-%\subtitle{Tool suite for Distributed Component-based System Integration}
+
 \author{James H. Hill}
 
 \begin{document}
