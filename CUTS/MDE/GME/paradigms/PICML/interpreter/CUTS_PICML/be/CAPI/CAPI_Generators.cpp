@@ -90,7 +90,7 @@ generate (const PICML::ComponentImplementationContainer & container,
     << std::endl
     << "import org.infospherics.jbi.client.Connection;"
     << "import org.infospherics.jbi.client.exception.*;"
-    << "import cuts.java.jbi.client.JbiClient;";
+    << "import CUTS.jbi.client.JbiClient;";
 
   return true;
 }
@@ -113,7 +113,7 @@ generate (const PICML::MonolithicImplementation & mono,
     CUTS_BE_CAPI ()->outfile_
       << std::endl
       << "// imports for handling events" << std::endl
-      << "import cuts.java.jbi.client.JbiEvent;"
+      << "import CUTS.jbi.client.JbiEvent;"
       << "import org.exolab.castor.xml.MarshalException;"
       << "import org.exolab.castor.xml.ValidationException;"
       << "import org.exolab.castor.mapping.MappingException;"
@@ -129,7 +129,7 @@ generate (const PICML::MonolithicImplementation & mono,
         << "// imports for receiving MIOs" << std::endl
         << "import org.infospherics.jbi.client.ObjectAvailableCallback;"
         << "import org.infospherics.jbi.client.InfoObject;"
-        << "import cuts.java.jbi.client.JbiSink;";
+        << "import CUTS.jbi.client.JbiSink;";
 
       // Store the event types for later usage. We also need to
       // generate the import files for the event objects.
@@ -164,7 +164,7 @@ generate (const PICML::MonolithicImplementation & mono,
       CUTS_BE_CAPI ()->outfile_
         << std::endl
         << "// imports for sending MIOs" << std::endl
-        << "import cuts.java.jbi.client.JbiSource;";
+        << "import CUTS.jbi.client.JbiSource;";
 
       // Store the event types for later usage. We also need to
       // generate the import files for the event objects.
@@ -226,7 +226,7 @@ generate (const PICML::MonolithicImplementation & mono,
     CUTS_BE_CAPI ()->outfile_
       << std::endl
       << "// imports for periodic events" << std::endl
-      << "import cuts.java.PeriodicTask;";
+      << "import CUTS.PeriodicTask;";
   }
 
 
