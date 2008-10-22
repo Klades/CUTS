@@ -9,7 +9,8 @@ project (CUTS.Web) {
                System.Data \
                System.Web \
                System.Xml \
-               CUTS.Data
+               CUTS.Data \
+               MySql.Data
 
   requires  += bmw
 
@@ -26,6 +27,10 @@ project (CUTS.Web) {
     CUTS/Web/UI/UnitTesting/Grouping.cs
     CUTS/Web/UI/UnitTesting/LogFormatTable.cs
     CUTS/Web/UI/UnitTesting/RelationTable.cs
-    CUTS/Web/UI/UnitTesting/TestPackage.cs
+    CUTS/Web/UI/UnitTesting/UnitTest.cs
+    CUTS/Web/UI/UnitTesting/UnitTests.cs
+    CUTS/Web/UI/UnitTesting/UnitTestPackage.cs
+    CUTS/Web/UI/UnitTesting/UnitTestPackages.cs
+    CUTS/Web/UI/UnitTesting/UnitTestSuite.cs
   }
 }

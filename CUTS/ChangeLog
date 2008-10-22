@@ -1,3 +1,39 @@
+Wed Oct 22 16:46:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestEvaluator.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestGroupResult.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestResult.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS.Web.mpc:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTest.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTestPackage.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTestPackages.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTestSuite.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTests.cs:
+        * utils/BMW/website/App_Code/Service.asmx.cs:
+        * utils/BMW/website/performance.aspx:
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/styles/default.css:
+        * utils/BMW/website/unittestchart.aspx.cs:
+
+          . Refactored the unit testing view so that the test suites is a
+            custom control.
+
+          . Unit tests are not evaluated with a test suite is displayed. Instead,
+            the user has the option of evaluating each unit test individually, or
+            evaluating all the unit test in the test suite. This is to account for
+            unit test that may take a LONG time to complete.
+
+          . Functionality for showing the data trend over time, i.e., charting
+            the unit test is broken.
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/DbDataAdapterFactory.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/MySqlDataAdapterFactory.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/OdbcDataAdapterFactory.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/TestPackage.cs:
+
+          Removed these files.
+
 Thu Oct 16 04:29:20 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Generators.cpp:

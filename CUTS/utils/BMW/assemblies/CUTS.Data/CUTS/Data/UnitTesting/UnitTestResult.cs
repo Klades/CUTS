@@ -28,74 +28,60 @@ namespace CUTS.Data.UnitTesting
     /**
      * Initializing constructor.
      */
-    public UnitTestResult (int utid, string name, object result)
+    public UnitTestResult (object value)
     {
-      this.id_ = utid;
-      this.name_ = name;
-      this.result_ = result;
+      this.value_ = value;
     }
 
-    /**
-     * Setter/getter attribute for the unit test's name.
-     */
-    public string Name
-    {
-      set
-      {
-        this.name_ = value;
-      }
-
-      get
-      {
-        return this.name_;
-      }
-    }
-
+    #region Attributes
     /**
      * Setter/getter attribute for the unit test's result.
      */
-    public object Result
+    public object Value
     {
       set
       {
-        this.result_ = value;
+        this.value_ = value;
       }
 
       get
       {
-        return this.result_;
+        return this.value_;
       }
     }
 
-    /**
-     * Setter/getter methods for the unit test's id.
-     */
-    public int ID
+    public GroupResults GroupResults
     {
-      set
-      {
-        this.id_ = value;
-      }
-
       get
       {
-        return this.id_;
+        return this.groups_;
       }
     }
 
-    /**
-     * Name of the unit test.
-     */
-    private string name_;
+    public string EvaluationString
+    {
+      get
+      {
+        return this.eval_;
+      }
 
-    /**
-     * ID associated with the unit test.
-     */
-    private int id_ = -1;
+      set
+      {
+        this.eval_ = value;
+      }
+    }
+    #endregion
 
     /**
      * Result of the unit test.
      */
-    private object result_;
+    private object value_;
+
+    private string eval_;
+
+    /**
+     * Group result set for the unit test.
+     */
+    private GroupResults groups_ = new GroupResults ();
   }
 }

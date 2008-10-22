@@ -51,8 +51,6 @@ namespace CUTS
     private MySqlConnection conn_ =
       new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
 
-    private UnitTestEvaluator evaluator_;
-
     /**
      * Unit test actions.
      *
@@ -68,10 +66,6 @@ namespace CUTS
       // Create a new unit test action object.
       this.uta_ = new UnitTestActions (this.conn_);
 
-      // Create a new evaluator object.
-      this.evaluator_ = new UnitTestEvaluator (new MySqlClientFactory (), Server.MapPath ("~/db"));
-      this.evaluator_.Open (ConfigurationManager.AppSettings["MySQL"]);
-
       // Create a new database object for this page.
       this.database_ = new Database (new MySqlClientFactory ());
       this.database_.Open (ConfigurationManager.AppSettings["MySQL"]);
@@ -85,7 +79,12 @@ namespace CUTS
      */
     private void Page_Load (object sender, System.EventArgs e)
     {
+      // Get the master page.
       this.master_ = (CUTS.Master)Master;
+
+      // Configure the connection string for the evaluator.
+      this.testsuite_.Evaluator.ConnectionString = ConfigurationManager.AppSettings["MySQL"];
+      this.testsuite_.Evaluator.TempPath = Server.MapPath ("~/db");
 
       try
       {
@@ -114,6 +113,8 @@ namespace CUTS
           this.collection_times_.SelectedValue = this.collection_time_.ToString ();
           this.load_execution_times ();
         }
+
+        this.testsuite_.TestNumber = this.test_number_;
       }
       catch (Exception ex)
       {
@@ -212,26 +213,14 @@ namespace CUTS
     /**
      *
      */
-    protected void onclick_evaluate_test_suite (object sender, EventArgs e)
+    protected void onclick_view_test_suite (object sender, EventArgs e)
     {
       try
       {
-        this.unit_test_panel_.Controls.Clear ();
-        this.load_unit_test_panel ();
-      }
-      catch (Exception ex)
-      {
-        this.master_.show_exception (ex);
-      }
-    }
+        // First, clear the contents of the test suite.
+        this.testsuite_.Clear ();
 
-    /**
-     *
-     */
-    private void load_unit_test_panel ()
-    {
-      try
-      {
+        // Next, insert the test packages for the test suite.
         DataTable dt = this.uta_.get_packages (ddl_Test_Suites.SelectedValue);
 
         foreach (DataRow row in dt.Rows)
@@ -246,74 +235,37 @@ namespace CUTS
     /**
      *
      */
-    private void add_package (string p_id)
+    private void add_package (string package_id)
     {
       // Get information about the package from the database.
-      DataRow package_info = this.uta_.get_package_info (p_id);
-      string package_name = (string)package_info["name"];
+      DataRow info = this.uta_.get_package_info (package_id);
+      string package_name = (string)info["name"];
 
-      UnitTestPackage package = new UnitTestPackage (this.test_number_, package_name);
-      this.unit_test_panel_.Controls.Add (package);
+      // Create a new unit test package.
+      UnitTestPackage package = this.testsuite_.NewUnitTestPackage ();
+      this.testsuite_.Add (package);
+
+      // Configure the settings of the package.
+      package.Name = package_name;
+      package.EnableViewState = true;
 
       // Fill the DataTable with Name and id
-      DataTable dt = this.uta_.get_unit_tests (p_id);
+      DataTable dt = this.uta_.get_unit_tests (package_id);
 
-      string eval;
-      string[] groups;
+      string name;
+      int id;
 
+      // Insert the unit test into the package.
       foreach (DataRow row in dt.Rows)
       {
-        // Evaluate the unit test.
-        int utid = (int)row["id"];
+        id = (int)row["id"];
+        name = (string)row["name"];
 
-        DataTable data = this.evaluator_.Reevaluate (this.test_number_,
-                                                     utid,
-                                                     true,
-                                                     out groups,
-                                                     out eval);
+        UnitTest unittest = new UnitTest (name, id);
+        unittest.Result = this.testsuite_.Evaluator.Evaluate (this.test_number_, id, true);
 
-        if (groups.Length == 0)
-        {
-          // Create a new result set for the evaluation.
-          UnitTestResult result = new UnitTestResult ();
-          result.ID = utid;
-          result.Name = (string)row["name"];
-          result.Result = data.Rows[0]["result"];
-
-          // Insert the result into the package.
-          package.Add (result);
-        }
-        else
-        {
-          UnitTestGroupResult group_result = new UnitTestGroupResult ();
-          group_result.ID = utid;
-          group_result.Name = (string)row["name"];
-
-          foreach (DataRow group_data in data.Rows)
-          {
-            UnitTestResult partial = new UnitTestResult ();
-
-            // Get the actual names in this group.
-            ArrayList name_list = new ArrayList ();
-
-            foreach (string grp_name in groups)
-              name_list.Add (group_data[grp_name]);
-
-            // Construct the actual name of the group.
-            partial.Name = String.Join (".", (string [])name_list.ToArray (typeof (string)));
-            partial.Result = group_data["result"];
-
-            // Create a new group to the result set.
-            group_result.Add (partial);
-          }
-
-          // Insert the group result into the package.
-          package.Add (group_result);
-        }
+        package.Add (unittest);
       }
-
-      // Bind the data in the package.
-      package.DataBind ();
     }
 
     #region Event Handlers

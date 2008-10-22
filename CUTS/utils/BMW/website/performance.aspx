@@ -1,28 +1,36 @@
-<%@ page language="C#" codefile="performance.aspx.cs" autoeventwireup="false" inherits="CUTS.Performance"
-  masterpagefile="~/BMW.master" %>
+<%@ page language="C#" codefile="performance.aspx.cs" autoeventwireup="false"
+         inherits="CUTS.Performance"
+         masterpagefile="~/BMW.master" %>
 
-<%@ register tagprefix="cuts" tagname="systemperformance" src="~/controls/SystemPerformance.ascx" %>
-<%@ register tagprefix="cuts" tagname="cumulativesystemperformance" src="~/controls/CumulativeSystemPerformance.ascx" %>
+<%@ register tagprefix="cuts"
+             tagname="systemperformance"
+             src="~/controls/SystemPerformance.ascx" %>
+
+<%@ register tagprefix="cuts"
+             tagname="cumulativesystemperformance"
+             src="~/controls/CumulativeSystemPerformance.ascx" %>
+
+<%@ register tagprefix="cuts"
+             namespace="CUTS.Web.UI.UnitTesting"
+             assembly="CUTS.Web" %>
+
 <asp:content runat="server" id="main_content" contentplaceholderid="MainContent">
-  <h2>
-    System-wide Performance Metrics</h2>
+  <h2>System-wide Performance Metrics</h2>
+
   <table style="margin-bottom: 10px">
     <tr>
-      <td style="text-align: right; font-weight: bold">
-        Test Number:</td>
-      <td>
-        <%= this.test_number_ %>
-      </td>
+      <td style="text-align: right; font-weight: bold">Test Number:</td>
+      <td><%= this.test_number_ %></td>
     </tr>
     <tr>
-      <td style="text-align: right; font-weight: bold">
-        Execution Path:</td>
+      <td style="text-align: right; font-weight: bold">Execution Path:</td>
       <td>
         <asp:dropdownlist runat="server" id="execution_path_" datatextfield="path_name" datavaluefield="path_id" />
         <asp:button runat="server" id="view_execution_path_" text="View..." oncommand="handle_on_command"
           commandname="viewpath" /></td>
     </tr>
   </table>
+
   <asp:menu runat="server" id="viewmenu_" orientation="horizontal" onmenuitemclick="handle_onmenuitemclick">
     <staticmenuitemstyle backcolor="darkgray" forecolor="black" verticalpadding="5px"
       horizontalpadding="10px" font-bold="true" />
@@ -86,14 +94,14 @@
           <td class="title">Test Suite: </td>
           <td><asp:dropdownlist runat="server" id="ddl_Test_Suites"
                                 datatextfield="name" datavaluefield="id"
-                                autopostback="false" runat="server"
-                                width="150px" />
-          <td><asp:button runat="server" id="evaluate_test_suite_"
-                          onclick="onclick_evaluate_test_suite" text="Evaluate" /> </td>
+                                autopostback="false" width="150px" /></td>
+          <td><asp:button runat="server" id="view_test_suite_"
+                          onclick="onclick_view_test_suite" text="View..." /></td>
         </tr>
       </table>
       <br />
-      <asp:panel id="unit_test_panel_" runat="server" />
+
+      <cuts:unittestsuite id="testsuite_" runat="server" enableviewstate="true" />
     </asp:view>
 
     <asp:view runat="server" id="log_formats_view_">

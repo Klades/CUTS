@@ -42,7 +42,8 @@ namespace CUTS
 
       // Create an evaluator for this page.
       this.evaluator_ = new UnitTestEvaluator (new MySqlClientFactory (), Server.MapPath ("~/db"));
-      this.evaluator_.Open (ConfigurationManager.AppSettings["MySQL"]);
+      this.evaluator_.ConnectionString = ConfigurationManager.AppSettings["MySQL"];
+      this.evaluator_.Open ();
     }
 
     /**
@@ -61,16 +62,10 @@ namespace CUTS
         int id = Int32.Parse (Request.QueryString.Get ("utid"));
         int test_num = Int32.Parse (Request.QueryString.Get ("t"));
 
-        string eval;
-        string[] groups;
+        UnitTestResult result =
+          this.evaluator_.Evaluate (test_num, id, false);
 
-        DataTable table = this.evaluator_.Evaluate (test_num,
-                                                    id,
-                                                    false,
-                                                    out groups,
-                                                    out eval);
-
-        this.generate_chart (eval, table, groups);
+        //this.generate_chart (eval, table, groups);
       }
       catch (Exception ex)
       {

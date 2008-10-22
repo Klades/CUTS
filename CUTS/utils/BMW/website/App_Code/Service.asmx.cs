@@ -108,24 +108,21 @@ namespace CUTS.Web
       int utid = this.database_.get_unit_test_id (UnitTest);
 
       // Create a new evaluator for the unit test.
-      UnitTestEvaluator evaluator =
-        new UnitTestEvaluator (new MySqlClientFactory (), Server.MapPath ("~/db"));
-
-      evaluator.Open (ConfigurationManager.AppSettings["MySQL"]);
+      UnitTestEvaluator evalutor = new UnitTestEvaluator (new MySqlClientFactory (), Server.MapPath ("~/db"));
+      evalutor.ConnectionString = ConfigurationManager.AppSettings["MySQL"];
+      evalutor.Open ();
 
       try
       {
-        string eval;
-        string[] groups;
-        DataTable result = evaluator.Evaluate (test, utid, true, out groups, out eval);
+        UnitTestResult result = evalutor.Evaluate (test, utid, true);
 
         // Since we are aggregating the results, there should only be
         // one row in the result section until grouping is supported.
-        return result.Rows[0]["result"].ToString ();
+        return result.Value.ToString ();
       }
       finally
       {
-        evaluator.Close ();
+        evalutor.Close ();
       }
     }
 

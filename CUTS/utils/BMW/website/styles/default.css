@@ -3,6 +3,7 @@
   font-family: Verdana, Helvetica, sans-serif;
   font-size: 11px;
 }
+
 /* Used mainly on the unittest page,
     where there are a lot of buttons
     to manage.  */
@@ -11,11 +12,12 @@ div.button_array, span.button_array
     padding-left:60px; padding-top:5px; padding-bottom:6px;
 }
 
-h1,h2,h3,h4,h5,h6
+h1, h2, h3, h4, h5, h6
 {
     font-family: Verdana, Arial, Sans-Serif;
     font-weight: 800;
 }
+
 h1
 {
   font-size:18pt;
@@ -58,7 +60,14 @@ h3
 
 a
 {
-  color:blue;
+  color: blue;
+  text-decoration: underline;
+}
+
+a.evaluate
+{
+  color: blue;
+  text-decoration: none;
 }
 
 a:hover

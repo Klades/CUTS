@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Text.RegularExpressions;
@@ -19,21 +20,20 @@ namespace CUTS.Data.UnitTesting
   public class UnitTestEvaluator
   {
     /**
-     * Database connection for the evaluator.
-     */
-    private DbProviderFactory factory_;
-
-    private DbConnection conn_;
-
-    private String location_;
-
-    /**
      * Initializing constructor.
      */
-    public UnitTestEvaluator (DbProviderFactory factory, String location)
+    public UnitTestEvaluator (DbProviderFactory factory)
+      : this (factory, String.Empty)
+    {
+
+    }
+
+    public UnitTestEvaluator (DbProviderFactory factory, string temppath)
     {
       this.factory_ = factory;
-      this.location_ = location;
+      this.location_ = temppath;
+
+      this.conn_ = this.factory_.CreateConnection ();
     }
 
     /**
@@ -44,21 +44,43 @@ namespace CUTS.Data.UnitTesting
       this.Close ();
     }
 
+    public string TempPath
+    {
+      get
+      {
+        return this.location_;
+      }
+
+      set
+      {
+        this.location_ = value;
+      }
+    }
+
+    public string ConnectionString
+    {
+      get
+      {
+        return this.conn_.ConnectionString;
+      }
+
+      set
+      {
+        this.conn_.ConnectionString = value;
+      }
+    }
+
     /**
      * Open the connection to the database for the evaluator.
      *
      * @param[in]       connstr       Connection string.
      */
-    public void Open (string connstr)
+    public void Open ()
     {
-      if (this.conn_ == null)
-        this.conn_ = this.factory_.CreateConnection ();
-
       // Close the current database connection.
       this.Close ();
 
       // Open a new connection to the database.
-      this.conn_.ConnectionString = connstr;
       this.conn_.Open ();
     }
 
@@ -74,11 +96,7 @@ namespace CUTS.Data.UnitTesting
     /**
      * Re-evaluate a unit test.
      */
-    public DataTable Reevaluate (int test,
-                                 int utid,
-                                 bool aggr,
-                                 out string[] group_name,
-                                 out string eval)
+    public UnitTestResult Reevaluate (int test, int utid, bool aggr)
     {
       // Create a new variable table for this unit test.
       UnitTestVariableTable vtable = new UnitTestVariableTable (this.location_);
@@ -105,7 +123,7 @@ namespace CUTS.Data.UnitTesting
           throw;
         }
 
-        return this.evaluate_i (vtable, aggr, out group_name, out eval);
+        return this.evaluate_i (vtable, aggr);
       }
       finally
       {
@@ -123,11 +141,7 @@ namespace CUTS.Data.UnitTesting
      * @param[in]       aggr       Apply aggregation function
      * @param[out]      eval       Evaluation function
      */
-    public DataTable Evaluate (int test,
-                               int utid,
-                               bool aggr,
-                               out string[] group_name,
-                               out string eval)
+    public UnitTestResult Evaluate (int test, int utid, bool aggr)
     {
       // Create a new variable table for this unit test.
       UnitTestVariableTable vtable =
@@ -140,7 +154,7 @@ namespace CUTS.Data.UnitTesting
         DataTable table = vtable.Data;
 
         // Begin a new transaction.
-        return this.evaluate_i (vtable, aggr, out group_name, out eval);
+        return this.evaluate_i (vtable, aggr);
       }
       finally
       {
@@ -436,10 +450,8 @@ namespace CUTS.Data.UnitTesting
       }
     }
 
-    private DataTable evaluate_i (UnitTestVariableTable vtable,
-                                  bool aggr,
-                                  out string[] group_name,
-                                  out string eval)
+    private UnitTestResult evaluate_i (UnitTestVariableTable vtable,
+                                       bool aggr)
     {
       // SQL statements for extracting data to construct the final SQL
       // that calculates the result for the unit test.
@@ -477,19 +489,20 @@ namespace CUTS.Data.UnitTesting
       command.CommandText = sql_grouping;
       adapter.Fill (ds, "groupings");
 
-      ArrayList group_list = new ArrayList ();
+      List <string> group_list = new List <string> ();
+      string name;
 
       foreach (DataRow row in ds.Tables["groupings"].Rows)
       {
-        string name = (string)row["fq_name"];
+        name = (string)row["fq_name"];
         group_list.Add (name.Replace (".", "_"));
       }
 
-      group_name = (string[])group_list.ToArray (typeof (string));
-      string grouping = String.Join (",", group_name);
+      string grouping = String.Join (",", group_list.ToArray ());
 
       // Finally, construct the entire SQL statement for the evaluation.
       string sql_result;
+      UnitTestResult result = new UnitTestResult ();
 
       if (aggr)
       {
@@ -501,7 +514,7 @@ namespace CUTS.Data.UnitTesting
         sql_result +=
           aggr_stmt + "(" + eval_escaped_stmt + ") AS result FROM vtable";
 
-        eval = aggr_stmt + "(" + eval_stmt + ")";
+        result.EvaluationString = aggr_stmt + "(" + eval_stmt + ")";
       }
       else
       {
@@ -513,7 +526,7 @@ namespace CUTS.Data.UnitTesting
         sql_result +=
           eval_escaped_stmt + " AS result FROM vtable";
 
-        eval = eval_stmt;
+        result.EvaluationString = eval_stmt;
       }
 
       if (grouping != String.Empty)
@@ -524,10 +537,46 @@ namespace CUTS.Data.UnitTesting
           sql_result += " ORDER BY " + grouping;
       }
 
+      // Evaluate the unit test.
       DataTable table = new DataTable ("result");
       vtable.Evaluate (sql_result, ref table);
 
-      return table;
+      if (group_list.Count == 0)
+      {
+        // There is only a single result in the set.
+        result.Value = table.Rows[0]["result"];
+      }
+      else
+      {
+        // Each row in the result set is its own group. We just need to
+        // construct the name of the groups based on the provided columns
+        // used for grouping.
+
+        foreach (DataRow grp_row in table.Rows)
+        {
+          // First, construct name of group for this row in data table.
+          ArrayList name_list = new ArrayList ();
+
+          foreach (string column in group_list)
+            name_list.Add (grp_row[column]);
+
+          name = String.Join (".", (string[])name_list.ToArray (typeof (string)));
+
+          // Save group result to main result set.
+          result.GroupResults.Add (name, grp_row["result"]);
+        }
+      }
+
+      return result;
     }
+
+    /**
+     * Database connection for the evaluator.
+     */
+    private DbProviderFactory factory_;
+
+    private DbConnection conn_;
+
+    private string location_;
   }
 }
