@@ -262,7 +262,15 @@ namespace CUTS
         name = (string)row["name"];
 
         UnitTest unittest = new UnitTest (name, id);
-        unittest.Result = this.testsuite_.Evaluator.Evaluate (this.test_number_, id, true);
+
+        try
+        {
+          unittest.Result = this.testsuite_.Evaluator.Evaluate (this.test_number_, id, true);
+        }
+        catch (Exception)
+        {
+          // do nothing...
+        }
 
         package.Add (unittest);
       }

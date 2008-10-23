@@ -146,6 +146,11 @@ td.performance-data-count, th.performance-data-count
   width: 50px;
 }
 
+td.unittest-groupname
+{
+  padding-left: 20px;
+}
+
 td.performance-data, th.performance-data
 {
   text-align: center;

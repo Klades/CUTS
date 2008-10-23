@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -201,13 +202,14 @@ namespace CUTS.Web.UI.UnitTesting
 
       foreach (TableRow row in table.Rows)
       {
-        cell = row.Cells[2];
-        ImageButton imgbtn = (ImageButton)cell.Controls[0];
-        this.Page.ClientScript.RegisterForEventValidation (imgbtn.UniqueID);
+        if (row.Cells.Count > 2)
+        {
+          cell = row.Cells[2];
+          this.Page.ClientScript.RegisterForEventValidation (cell.Controls[0].UniqueID);
 
-        cell = row.Cells[3];
-        LinkButton link = (LinkButton)cell.Controls[0];
-        this.Page.ClientScript.RegisterForEventValidation (link.UniqueID);
+          cell = row.Cells[3];
+          this.Page.ClientScript.RegisterForEventValidation (cell.Controls[0].UniqueID);
+        }
       }
 
       // Pass control to the base class.
@@ -238,7 +240,11 @@ namespace CUTS.Web.UI.UnitTesting
                                                 utid,
                                                 true);
 
-            // Update the result for the unit test.
+            // Save the result for the evaluation
+            UnitTest test = this.unit_tests_.Find (utid);
+
+            if (test != UnitTest.Undefined)
+              test.Result = result;
           }
           finally
           {
@@ -259,19 +265,53 @@ namespace CUTS.Web.UI.UnitTesting
       TableCell cell = new TableCell ();
       row.Cells.Add (cell);
 
-      cell.Controls.Add (new LiteralControl ("&middot; " + unittest.Name));
+      cell.Controls.Add (new LiteralControl (" &middot; " + unittest.Name));
 
       // Create the cell that display's the results.
       cell = new TableCell ();
       row.Cells.Add (cell);
 
-      LiteralControl result = new LiteralControl ();
+      Label result = new Label ();
       cell.Controls.Add (result);
 
-      if (unittest.Result != null)
-        result.Text = unittest.Result.Value.ToString ();
+      UnitTestResult ut_result = unittest.Result;
+
+      if (ut_result != null)
+      {
+        if (ut_result.Value != null)
+         result.Text = ut_result.Value.ToString ();
+
+        GroupResults grp_results = ut_result.GroupResults;
+
+        if (grp_results.Count != 0)
+        {
+          foreach (KeyValuePair<string, object> grp in grp_results)
+          {
+            // Create a new row for the group result.
+            TableRow grp_row = new TableRow ();
+            table.Rows.Add (grp_row);
+
+            // Insert the cell that displays the group's name.
+            TableCell grp_cell = new TableCell ();
+            grp_row.Cells.Add (grp_cell);
+
+            grp_cell.CssClass = "unittest-groupname";
+            grp_cell.Controls.Add (new LiteralControl (grp.Key));
+
+            // Insert the cell that displays the group's result.
+            grp_cell = new TableCell ();
+            grp_row.Cells.Add (grp_cell);
+
+            grp_cell.Controls.Add (new LiteralControl (grp.Value.ToString ()));
+          }
+
+        }
+      }
       else
-        result.Text = String.Empty;
+      {
+        result.Text = "(no result)";
+        result.ForeColor = Color.Gray;
+      }
 
       // Create cell that will hold link for charting data trend.
       cell = new TableCell ();
@@ -290,6 +330,8 @@ namespace CUTS.Web.UI.UnitTesting
                                 unittest.ID);
 
       chart.ImageUrl = "~/images/graph.gif";
+      chart.AlternateText = "view data trend";
+      chart.ToolTip = "view data trend";
 
       // Create the cell for manually evaluating the unit test.
       cell = new TableCell ();

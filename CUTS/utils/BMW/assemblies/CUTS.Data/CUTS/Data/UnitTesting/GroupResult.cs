@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace CUTS.Data.UnitTesting
 {
@@ -28,6 +29,11 @@ namespace CUTS.Data.UnitTesting
     public GroupResults ()
     {
 
+    }
+
+    protected GroupResults (SerializationInfo info, StreamingContext context)
+      : base (info, context)
+    {
     }
   }
 }

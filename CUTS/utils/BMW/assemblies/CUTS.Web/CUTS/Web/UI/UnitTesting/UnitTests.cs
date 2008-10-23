@@ -28,5 +28,23 @@ namespace CUTS.Web.UI.UnitTesting
     {
 
     }
+
+    public UnitTest Find (int utid)
+    {
+      return base.Find (
+        delegate (UnitTest t)
+        {
+          return t.ID == utid;
+        });
+    }
+
+    public UnitTest Find (string name)
+    {
+      return base.Find (
+        delegate (UnitTest t)
+        {
+          return t.Name == name;
+        });
+    }
   }
 }

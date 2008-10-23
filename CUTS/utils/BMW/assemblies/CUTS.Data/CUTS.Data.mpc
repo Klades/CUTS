@@ -33,6 +33,7 @@ project (CUTS.Data) {
     CUTS/Drawing/ColorMap.cs
 
     //= namespace CUTS.Data.UnitTesting
+    CUTS/Data/UnitTesting/UnitTestDataTrend.cs
     CUTS/Data/UnitTesting/GroupResult.cs
     CUTS/Data/UnitTesting/LogFormatDataEntry.cs
     CUTS/Data/UnitTesting/UnitTestEvaluator.cs

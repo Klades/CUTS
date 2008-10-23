@@ -50,6 +50,8 @@ namespace CUTS.Web.UI.UnitTesting
       this.utid_ = utid;
     }
 
+    public static readonly UnitTest Undefined = new UnitTest ();
+
     [NotifyParentProperty (true)]
     public int ID
     {

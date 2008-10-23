@@ -1,8 +1,11 @@
+// $Id$
+
 using System;
 using System.Data;
 using System.Drawing;
 using System.Configuration;
 using System.Collections;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
@@ -62,10 +65,9 @@ namespace CUTS
         int id = Int32.Parse (Request.QueryString.Get ("utid"));
         int test_num = Int32.Parse (Request.QueryString.Get ("t"));
 
-        UnitTestResult result =
-          this.evaluator_.Evaluate (test_num, id, false);
+        UnitTestDataTrend trend = this.evaluator_.GetDataTrend (test_num, id);
 
-        //this.generate_chart (eval, table, groups);
+        this.generate_chart (trend);
       }
       catch (Exception ex)
       {
@@ -76,9 +78,7 @@ namespace CUTS
     /**
      *
      */
-    private void generate_chart (string evaluation,
-                                 DataTable dt,
-                                 string [] group_names)
+    private void generate_chart (UnitTestDataTrend trend)
     {
       LineChart line_chart;
       float y_value;
@@ -86,33 +86,28 @@ namespace CUTS
 
       ChartPointCollection points = new ChartPointCollection ();
 
-      if (group_names.Length == 0)
+      if (trend.GroupData.Count == 0)
       {
         // Write the data set for the single group.
-        foreach (DataRow row in dt.Rows)
+        foreach (object v in trend.Data)
         {
-          y_value = float.Parse (row["result"].ToString ());
+          y_value = float.Parse (v.ToString ());
           points.Add (new ChartPoint (i.ToString (), y_value));
-
-          // Increment the x-value
-          ++i;
         }
 
         // Insert the line chart into the chart control.
         line_chart = new LineChart (points);
 
         // Create a new color for the group.
-        Color color = this.color_map_.Add ("unknown");
-        line_chart.Fill.Color = color;
-        line_chart.Line.Color = color;
+        Color color = this.color_map_.Add ("unknown", Color.Red);
+        line_chart.Fill.Color = Color.Red;
+        line_chart.Line.Color = Color.Red;
 
         // Insert the line chart into the control.
         this.chart_.Charts.Add (line_chart);
 
         // We can hide the legend since we only have 1 line chart.
         this.chart_.HasChartLegend = false;
-
-        max_x = i;
       }
       else
       {
@@ -120,70 +115,35 @@ namespace CUTS
         // good chance more than one line graph will be produced.
         this.chart_.HasChartLegend = true;
 
-        string current_group = String.Empty;
-
-        foreach (DataRow grp_row in dt.Rows)
+        foreach (KeyValuePair <string, DataTrend> entry in trend.GroupData)
         {
-          // First, construct the name of the group for this row in
-          // the data table.
-          ArrayList name_list = new ArrayList ();
+          // Reset the x-axis counter.
+          i = 0;
 
-          foreach (string name in group_names)
-            name_list.Add (grp_row[name]);
-
-          string grp_name = String.Join (".", (string[])name_list.ToArray (typeof (string)));
-
-          if (grp_name != current_group)
+          foreach (object v in entry.Value)
           {
-            if (current_group != String.Empty)
-            {
-              // End the current group's data by creating a new chart.
-              line_chart = new LineChart (points);
-              line_chart.Legend = current_group;
+            y_value = float.Parse (v.ToString ());
+            points.Add (new ChartPoint (i.ToString (), y_value));
 
-              // Create a new color for the group.
-              Color color = this.color_map_.Add (current_group);
-              line_chart.Fill.Color = color;
-              line_chart.Line.Color = color;
-
-              // Insert the chart into the control.
-              this.chart_.Charts.Add (line_chart);
-
-              // Reset the points.
-              points.Clear ();
-            }
-
-            // Save the new group name.
-            current_group = grp_name;
-
-            // Reset the x-value.
-            i = 0;
-            max_x = Math.Max (i, max_x);
+            ++i;
           }
 
+          max_x = Math.Max (i, max_x);
 
-          // Write the data for the group.
-          y_value = float.Parse (grp_row["result"].ToString ());
-          points.Add (new ChartPoint (i.ToString (), y_value));
-
-          // Increment the x-value.
-          ++i;
-        }
-
-        if (points.Count != 0)
-        {
-          // Make sure we add a line chart for the last group.
+          // End the current group's data by creating a new chart.
           line_chart = new LineChart (points);
-          line_chart.Legend = current_group;
+          line_chart.Legend = entry.Key;
 
           // Create a new color for the group.
-          Color color = this.color_map_.Add (current_group);
+          Color color = this.color_map_.Add (entry.Key);
           line_chart.Fill.Color = color;
           line_chart.Line.Color = color;
 
-          // Insert the line chart into the control.
+          // Insert the chart into the control.
           this.chart_.Charts.Add (line_chart);
-          max_x = Math.Max (i, max_x);
+
+          // Reset the points.
+          points.Clear ();
         }
 
         this.chart_.XTicksInterval = (max_x / 20) + 1;
