@@ -161,6 +161,8 @@ namespace CUTS.Data.UnitTesting
             group_data.Add (grprow["result"]);
           }
 
+          if (group_data.Count > 0)
+            trend.GroupData.Add (current_group, group_data);
         }
 
         return trend;

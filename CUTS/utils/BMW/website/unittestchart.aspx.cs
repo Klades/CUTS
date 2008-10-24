@@ -84,10 +84,12 @@ namespace CUTS
       float y_value;
       int i = 0, max_x = 0;
 
-      ChartPointCollection points = new ChartPointCollection ();
+      ChartPointCollection points;
 
       if (trend.GroupData.Count == 0)
       {
+        points = new ChartPointCollection ();
+
         // Write the data set for the single group.
         foreach (object v in trend.Data)
         {
@@ -119,6 +121,7 @@ namespace CUTS
         {
           // Reset the x-axis counter.
           i = 0;
+          points = new ChartPointCollection ();
 
           foreach (object v in entry.Value)
           {
@@ -141,9 +144,6 @@ namespace CUTS
 
           // Insert the chart into the control.
           this.chart_.Charts.Add (line_chart);
-
-          // Reset the points.
-          points.Clear ();
         }
 
         this.chart_.XTicksInterval = (max_x / 20) + 1;

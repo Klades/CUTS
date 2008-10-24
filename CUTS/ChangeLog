@@ -1,3 +1,31 @@
+Fri Oct 24 22:47:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestEvaluator.cs:
+        * utils/BMW/website/unittestchart.aspx.cs:
+
+          . Fixed the data trend graph for groups under the new
+            implementation of the infrastructure.
+
+Thu Oct 23 21:35:56 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/GroupResult.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestDataTrend.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestEvaluator.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS.Web.mpc:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTest.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTestPackage.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTests.cs:
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/styles/default.css:
+        * utils/BMW/website/unittestchart.aspx.cs:
+
+          . Bug fix where the GroupResult was missing the constructor for
+            enabling serialization of its object.
+
+          . Fixed the implementation for showing group results if a unit test
+            contained grouping information.
+
 Wed Oct 22 16:46:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
