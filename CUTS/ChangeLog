@@ -1,3 +1,20 @@
+Sat Oct 25 20:23:52 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/GroupResult.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestEvaluator.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestResult.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTestPackage.cs:
+        * utils/BMW/website/App_Code/Service.asmx.cs:
+        * utils/BMW/website/default.aspx:
+        * utils/BMW/website/performance.aspx:
+
+          . Bug fix where the web service was not able to return results if
+            the unit test contained grouping results. This required redesigning
+            the UnitTestResult packaging so that no dictionaries are used.
+            Instead, list of items are used since they can be serialized by
+            WebMethods
+
 Fri Oct 24 22:47:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestEvaluator.cs:

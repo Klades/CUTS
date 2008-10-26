@@ -26,8 +26,10 @@
 
   <columns>
     <asp:boundcolumn datafield="test_number" headertext="Test #"
-      itemstyle-horizontalalign="left" itemstyle-font-bold="true" />
-    <asp:boundcolumn datafield="test_name" headertext="Deployment" />
+                     itemstyle-horizontalalign="center"
+                     itemstyle-font-bold="true" />
+
+    <asp:boundcolumn datafield="test_uuid" headertext="UUID" />
     <asp:boundcolumn datafield="start_time" headertext="Start Time" />
     <asp:boundcolumn datafield="stop_time" headertext="Stop Time" />
 

@@ -10,6 +10,7 @@ project (CUTS.Data) {
                System.Data.SQLite \
                System.Drawing \
                System.Xml \
+               System.Web \
                MySql.Data
 
   requires  += mysql bmw

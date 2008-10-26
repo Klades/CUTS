@@ -102,6 +102,7 @@
       <br />
 
       <cuts:unittestsuite id="testsuite_" runat="server" enableviewstate="true" />
+
     </asp:view>
 
     <asp:view runat="server" id="log_formats_view_">

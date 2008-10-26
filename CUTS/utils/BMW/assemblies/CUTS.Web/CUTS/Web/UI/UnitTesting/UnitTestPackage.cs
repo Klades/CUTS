@@ -281,11 +281,11 @@ namespace CUTS.Web.UI.UnitTesting
         if (ut_result.Value != null)
          result.Text = ut_result.Value.ToString ();
 
-        GroupResults grp_results = ut_result.GroupResults;
+        GroupResult grp_results = ut_result.GroupResult;
 
         if (grp_results.Count != 0)
         {
-          foreach (KeyValuePair<string, object> grp in grp_results)
+          foreach (GroupResultItem grp in grp_results)
           {
             // Create a new row for the group result.
             TableRow grp_row = new TableRow ();
@@ -296,7 +296,7 @@ namespace CUTS.Web.UI.UnitTesting
             grp_row.Cells.Add (grp_cell);
 
             grp_cell.CssClass = "unittest-groupname";
-            grp_cell.Controls.Add (new LiteralControl (grp.Key));
+            grp_cell.Controls.Add (new LiteralControl (grp.Name));
 
             // Insert the cell that displays the group's result.
             grp_cell = new TableCell ();

@@ -101,28 +101,25 @@ namespace CUTS.Web
      */
     [WebMethod (
       Description="Evaulate an unit test for the given test")]
-    public string EvaluateUnitTest (string UUID, string UnitTest)
+    public UnitTestResult EvaluateUnitTest (string UUID, string UnitTest)
     {
       // Get the test number for the uuid.
       int test = this.database_.get_test_number (UUID);
       int utid = this.database_.get_unit_test_id (UnitTest);
 
       // Create a new evaluator for the unit test.
-      UnitTestEvaluator evalutor = new UnitTestEvaluator (new MySqlClientFactory (), Server.MapPath ("~/db"));
-      evalutor.ConnectionString = ConfigurationManager.AppSettings["MySQL"];
-      evalutor.Open ();
+      UnitTestEvaluator evaluator = new UnitTestEvaluator (new MySqlClientFactory ());
+      evaluator.TempPath = Server.MapPath ("~/db");
+      evaluator.ConnectionString = ConfigurationManager.AppSettings["MySQL"];
+      evaluator.Open ();
 
       try
       {
-        UnitTestResult result = evalutor.Evaluate (test, utid, true);
-
-        // Since we are aggregating the results, there should only be
-        // one row in the result section until grouping is supported.
-        return result.Value.ToString ();
+        return evaluator.Evaluate (test, utid, true);
       }
       finally
       {
-        evalutor.Close ();
+        evaluator.Close ();
       }
     }
 

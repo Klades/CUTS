@@ -570,7 +570,7 @@ namespace CUTS.Data.UnitTesting
           string name = String.Join (".", (string[])name_list.ToArray (typeof (string)));
 
           // Save group result to main result set.
-          result.GroupResults.Add (name, grp_row["result"]);
+          result.GroupResult.Add (new GroupResultItem (name, grp_row["result"]));
         }
       }
 

@@ -11,6 +11,8 @@
 //=============================================================================
 
 using System;
+using System.ComponentModel;
+using System.Web.UI;
 
 namespace CUTS.Data.UnitTesting
 {
@@ -50,7 +52,9 @@ namespace CUTS.Data.UnitTesting
       }
     }
 
-    public GroupResults GroupResults
+    [MergableProperty (false),
+     PersistenceMode (PersistenceMode.InnerProperty)]
+    public GroupResult GroupResult
     {
       get
       {
@@ -82,6 +86,6 @@ namespace CUTS.Data.UnitTesting
     /**
      * Group result set for the unit test.
      */
-    private GroupResults groups_ = new GroupResults ();
+    private GroupResult groups_ = new GroupResult ();
   }
 }
