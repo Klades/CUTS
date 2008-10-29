@@ -1,3 +1,31 @@
+Wed Oct 29 13:36:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/charts:
+        * utils/BMW/website/charts/charts.swf:
+        * utils/BMW/website/charts/charts_library:
+        * utils/BMW/website/charts/charts_library/arno.swf:
+        * utils/BMW/website/charts/charts_library/arst.swf:
+        * utils/BMW/website/charts/charts_library/brfl.swf:
+        * utils/BMW/website/charts/charts_library/brno.swf:
+        * utils/BMW/website/charts/charts_library/brst.swf:
+        * utils/BMW/website/charts/charts_library/cl3d.swf:
+        * utils/BMW/website/charts/charts_library/clfl.swf:
+        * utils/BMW/website/charts/charts_library/clno.swf:
+        * utils/BMW/website/charts/charts_library/clp3.swf:
+        * utils/BMW/website/charts/charts_library/cls3.swf:
+        * utils/BMW/website/charts/charts_library/clst.swf:
+        * utils/BMW/website/charts/charts_library/cnno.swf:
+        * utils/BMW/website/charts/charts_library/lnno.swf:
+        * utils/BMW/website/charts/charts_library/mxno.swf:
+        * utils/BMW/website/charts/charts_library/pi3d.swf:
+        * utils/BMW/website/charts/charts_library/pino.swf:
+        * utils/BMW/website/charts/charts_library/pono.swf:
+        * utils/BMW/website/charts/charts_library/scno.swf:
+        * utils/BMW/website/xml:
+        * utils/BMW/website/xml/README.txt:
+
+          Removed these files.
+
 Sat Oct 25 20:23:52 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
