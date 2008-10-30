@@ -6,8 +6,8 @@
 #include "cuts/Testing_Service.h"
 #include "cuts/Host_Table_Entry.h"
 #include "cuts/BDC/BDC_Service_Manager.h"
-#include "cuts/utils/ODBC/ODBC_Connection.h"
-#include "cuts/utils/ODBC/ODBC_Query.h"
+#include "cuts/utils/db/ODBC/ODBC_Connection.h"
+#include "cuts/utils/db/ODBC/ODBC_Query.h"
 #include "ace/Get_Opt.h"
 
 // Helper macro for writing verbose messages.

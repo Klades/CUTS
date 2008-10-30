@@ -1,7 +1,7 @@
 // $Id$
 
-project (CUTS_Utils_DBase) : cutslib {
-  sharedname += CUTS_Utils_DBase
+project (CUTS_DB) : cutslib {
+  sharedname += CUTS_DB
 
   dynamicflags += CUTS_DB_UTILS_BUILD_DLL
 

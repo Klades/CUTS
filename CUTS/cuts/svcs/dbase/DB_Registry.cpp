@@ -7,11 +7,11 @@
 #endif
 
 #include "cuts/Auto_Functor_T.h"
-#include "cuts/utils/DB_Connection.h"
-#include "cuts/utils/DB_Exception.h"
-#include "cuts/utils/DB_Query.h"
-#include "cuts/utils/DB_Record.h"
-#include "cuts/utils/DB_Parameter.h"
+#include "cuts/utils/db/DB_Connection.h"
+#include "cuts/utils/db/DB_Exception.h"
+#include "cuts/utils/db/DB_Query.h"
+#include "cuts/utils/db/DB_Record.h"
+#include "cuts/utils/db/DB_Parameter.h"
 #include "ace/Log_Msg.h"
 #include <sstream>
 

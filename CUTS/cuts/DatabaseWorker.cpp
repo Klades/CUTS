@@ -6,8 +6,8 @@
 #include "cuts/DatabaseWorker.inl"
 #endif
 
-#include "cuts/utils/ODBC/ODBC_Connection.h"
-#include "cuts/utils/DB_Query.h"
+#include "cuts/utils/db/ODBC/ODBC_Connection.h"
+#include "cuts/utils/db/DB_Query.h"
 #include "ace/OS_NS_stdlib.h"
 #include "ace/Basic_Types.h"
 #include "ace/Log_Msg.h"

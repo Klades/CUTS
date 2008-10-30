@@ -7,10 +7,10 @@
 #endif
 
 #include "TestLoggerFactory_i.h"
-#include "cuts/utils/DB_Connection.h"
-#include "cuts/utils/DB_Query.h"
-#include "cuts/utils/DB_Parameter.h"
-#include "cuts/utils/ODBC/ODBC_Types.h"
+#include "cuts/utils/db/DB_Connection.h"
+#include "cuts/utils/db/DB_Query.h"
+#include "cuts/utils/db/DB_Parameter.h"
+#include "cuts/utils/db/ODBC/ODBC_Types.h"
 #include "cuts/Auto_Functor_T.h"
 #include "cuts/Time.h"
 #include "ace/CORBA_macros.h"

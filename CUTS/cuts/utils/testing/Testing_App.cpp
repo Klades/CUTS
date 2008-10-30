@@ -4,9 +4,9 @@
 #include "Testing_App_Task.h"
 #include "Testing_Options.h"
 
-#include "cuts/utils/ODBC/ODBC_Connection.h"
-#include "cuts/utils/DB_Query.h"
-#include "cuts/utils/DB_Parameter.h"
+#include "cuts/utils/db/ODBC/ODBC_Connection.h"
+#include "cuts/utils/db/DB_Query.h"
+#include "cuts/utils/db/DB_Parameter.h"
 #include "cuts/Auto_Functor_T.h"
 
 #include "ace/Get_Opt.h"

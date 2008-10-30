@@ -4,7 +4,7 @@ project : odbc {
   specific (!nmake, !vc6, !vc7, !vc71, !vc8, !vc9) {
     requires += unixodbc
   }
-  
-  libs  += CUTS_Utils_DBase CUTS_ODBC_DBase
-  after += CUTS_Utils_DBase CUTS_ODBC_DBase
+
+  libs  += CUTS_DB CUTS_DB_ODBC
+  after += CUTS_DB CUTS_DB_ODBC
 }

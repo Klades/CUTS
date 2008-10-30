@@ -1,3 +1,81 @@
+Thu Oct 30 03:16:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.cpp:
+        * cuts/BDC/svcs/baseline/Baseline_Service.cpp:
+        * cuts/BDC/svcs/dbase/DBase_Service.cpp:
+        * cuts/DatabaseWorker.cpp:
+        * cuts/svcs/dbase/DB_Registry.cpp:
+        * cuts/svcs/dbase/DB_Registry.mpc:
+        * cuts/utils/db:
+        * cuts/utils/db/DB.mpc:
+        * cuts/utils/db/DB_Connection.h:
+        * cuts/utils/db/DB_Connection.inl:
+        * cuts/utils/db/DB_Connection.cpp:
+        * cuts/utils/db/DB_Exception.h:
+        * cuts/utils/db/DB_Exception.inl:
+        * cuts/utils/db/DB_Exception.cpp:
+        * cuts/utils/db/DB_Parameter.h:
+        * cuts/utils/db/DB_Parameter.inl:
+        * cuts/utils/db/DB_Parameter.cpp:
+        * cuts/utils/db/DB_Query.h:
+        * cuts/utils/db/DB_Query.inl:
+        * cuts/utils/db/DB_Query.cpp:
+        * cuts/utils/db/DB_Record.h:
+        * cuts/utils/db/DB_Record.inl:
+        * cuts/utils/db/DB_Record.cpp:
+        * cuts/utils/db/DB_Types_Impl.h:
+        * cuts/utils/db/DB_Types_Impl.inl:
+        * cuts/utils/db/DB_Types_Impl.cpp:
+        * cuts/utils/db/DB_Utils_Export.h:
+        * cuts/utils/db/MySQL:
+        * cuts/utils/db/ODBC:
+        * cuts/utils/db/ODBC/CUTS_ODBC.mpc:
+        * cuts/utils/db/ODBC/ODBC_Connection.h:
+        * cuts/utils/db/ODBC/ODBC_Exception.h:
+        * cuts/utils/db/ODBC/ODBC_Parameter.h:
+        * cuts/utils/db/ODBC/ODBC_Query.h:
+        * cuts/utils/db/ODBC/ODBC_Record.h:
+        * cuts/utils/db/ODBC/ODBC_Types.h:
+        * cuts/utils/db/SQLite:
+        * cuts/utils/logging/TestLoggerClient_i.h:
+        * cuts/utils/logging/TestLoggerFactory_i.h:
+        * cuts/utils/logging/TestLoggerFactory_i.cpp:
+        * cuts/utils/logging/TestLogger_i.cpp:
+        * cuts/utils/testing/Testing_App.cpp:
+        * etc/config/cuts_dbsvc.mpb:
+        * etc/config/cuts_odbclib.mpb:
+
+          . Changed the location of all files related to the different
+            databases. This will enable CUTS to support more database
+            engines.
+
+          . Changed the name of the database projects, and their
+            generated binaries.
+
+        * cuts/utils/CUTS_Utils.mpc:
+        * cuts/utils/DB_Connection.h:
+        * cuts/utils/DB_Connection.inl:
+        * cuts/utils/DB_Connection.cpp:
+        * cuts/utils/DB_Exception.h:
+        * cuts/utils/DB_Exception.inl:
+        * cuts/utils/DB_Exception.cpp:
+        * cuts/utils/DB_Parameter.h:
+        * cuts/utils/DB_Parameter.inl:
+        * cuts/utils/DB_Parameter.cpp:
+        * cuts/utils/DB_Query.h:
+        * cuts/utils/DB_Query.inl:
+        * cuts/utils/DB_Query.cpp:
+        * cuts/utils/DB_Record.h:
+        * cuts/utils/DB_Record.inl:
+        * cuts/utils/DB_Record.cpp:
+        * cuts/utils/DB_Types_Impl.h:
+        * cuts/utils/DB_Types_Impl.inl:
+        * cuts/utils/DB_Types_Impl.cpp:
+        * cuts/utils/DB_Utils_Export.h:
+        * cuts/utils/ODBC:
+
+          Removed these files.
+
 Wed Oct 29 13:36:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/charts:

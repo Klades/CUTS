@@ -1,6 +1,6 @@
 // $Id$
 
 project : cuts_odbclib {
-  after += CUTS_DB 
-  libs  += CUTS_DB 
+  after += CUTS_DB_Registry
+  libs  += CUTS_DB_Registry
 }

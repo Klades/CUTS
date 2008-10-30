@@ -14,7 +14,7 @@
 #define _CUTS_TEST_LOGGER_FACTORY_I_H_
 
 #include "loggingS.h"
-#include "cuts/utils/ODBC/ODBC_Connection.h"
+#include "cuts/utils/db/ODBC/ODBC_Connection.h"
 #include "ace/UUID.h"
 
 /**
