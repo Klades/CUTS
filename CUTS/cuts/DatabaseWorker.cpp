@@ -6,12 +6,12 @@
 #include "cuts/DatabaseWorker.inl"
 #endif
 
-#include "cuts/utils/db/ODBC/ODBC_Connection.h"
 #include "cuts/utils/db/DB_Query.h"
-#include "ace/OS_NS_stdlib.h"
 #include "ace/Basic_Types.h"
-#include "ace/Log_Msg.h"
+#include "ace/CORBA_macros.h"
 #include "ace/OS_Memory.h"
+#include "ace/OS_NS_stdlib.h"
+#include "ace/Log_Msg.h"
 #include <sstream>
 
 #define MAX_DATA_SIZE 255
@@ -24,7 +24,10 @@ CUTS_Database_Worker::CUTS_Database_Worker (void)
 {
   // Allocate a new <MyODBC_Connection> object.
   ODBC_Connection * conn = 0;
-  ACE_NEW (conn, ODBC_Connection ());
+
+  ACE_NEW_THROW_EX (conn,
+                    ODBC_Connection (),
+                    ACE_bad_alloc ());
 
   this->conn_.reset (conn);
 }

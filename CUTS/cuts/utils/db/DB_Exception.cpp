@@ -19,6 +19,18 @@ CUTS_DB_Exception::CUTS_DB_Exception (void)
 //
 // CUTS_DB_Exception
 //
+CUTS_DB_Exception::
+CUTS_DB_Exception (long native, const char * state, const char * msg)
+: native_ (native),
+  state_ (state),
+  message_ (msg)
+{
+
+}
+
+//
+// CUTS_DB_Exception
+//
 CUTS_DB_Exception::CUTS_DB_Exception (const CUTS_DB_Exception & ex)
 : native_ (ex.native_),
   state_ (ex.state_),

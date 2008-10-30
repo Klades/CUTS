@@ -54,10 +54,12 @@ public:
    * @param[in]     host          location of the database
    * @param[in]     port          port of connection
    */
-  virtual void connect (const char * username,
-                        const char * password,
-                        const char * host,
-                        int port = 3306);
+  void connect (const ACE_CString & username,
+                const ACE_CString & password,
+                const ACE_CString & host,
+                int port = 3306);
+
+  virtual void connect (const ACE_CString & connstr);
 
   /// Close the existing connection
   virtual void disconnect (void);
@@ -82,6 +84,9 @@ protected:
 
   /// Handle to the database connection
   HDBC conn_;
+
+private:
+  void connect_i (const char * str, size_t length);
 };
 
 #if defined (__CUTS_INLINE__)

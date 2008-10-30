@@ -9,6 +9,7 @@
 #include "cuts/utils/db/DB_Parameter.h"
 #include "cuts/Auto_Functor_T.h"
 
+#include "ace/CORBA_macros.h"
 #include "ace/Get_Opt.h"
 #include "ace/streams.h"
 #include "ace/Reactor.h"
@@ -320,8 +321,12 @@ void CUTS_Testing_App::print_help_i (void)
 void CUTS_Testing_App::connect_to_database (void)
 {
   // Create a new database connection.
-  CUTS_DB_Connection * conn = 0;
-  ACE_NEW (conn, ODBC_Connection ());
+  ODBC_Connection * conn = 0;
+
+  ACE_NEW_THROW_EX (conn,
+                    ODBC_Connection (),
+                    ACE_bad_alloc ());
+
   this->conn_.reset (conn);
 
   // Connect to the specified server using the default port.
@@ -329,10 +334,10 @@ void CUTS_Testing_App::connect_to_database (void)
               "%T - %M - connecting to test database on %s\n",
               this->server_addr_.c_str ()));
 
-  this->conn_->connect (CUTS_USERNAME,
-                        CUTS_PASSWORD,
-                        this->server_addr_.c_str (),
-                        CUTS_DEFAULT_PORT);
+  conn->connect (CUTS_USERNAME,
+                 CUTS_PASSWORD,
+                 this->server_addr_,
+                 CUTS_DEFAULT_PORT);
 }
 
 //

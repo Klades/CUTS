@@ -81,7 +81,7 @@ get_hostid_by_ipaddr (const char * ipaddr, long * hostid)
     // We need to store the host id if the caller requests.
     if (hostid != 0)
     {
-      record->fetch ();
+      record->advance ();
       record->get_data (1, *hostid);
     }
 
@@ -130,7 +130,7 @@ get_hostid_by_hostname (const char * hostname, long * hostid)
     // We need to store the host id if the caller requests.
     if (hostid != 0)
     {
-      record->fetch ();
+      record->advance ();
       record->get_data (1, *hostid);
     }
 
@@ -175,7 +175,7 @@ get_instance_id (const char * inst, long * instid)
 
     if (count > 0 && instid != 0)
     {
-      record->fetch ();
+      record->advance ();
       record->get_data (1, *instid);
     }
 
@@ -218,7 +218,7 @@ get_component_typeid (const char * type, long & type_id)
 
     if (record->count () > 0)
     {
-      record->fetch ();
+      record->advance ();
       record->get_data (1, type_id);
       return true;
     }
@@ -261,7 +261,7 @@ get_port_id (const char * porttype, const char * portname, long & portid)
 
     if (record->count () > 0)
     {
-      record->fetch ();
+      record->advance ();
       record->get_data (1, portid);
       return true;
     }

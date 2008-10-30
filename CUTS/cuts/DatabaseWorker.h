@@ -16,6 +16,7 @@
 #define _CUTS_DATABASE_WORKER_H_
 
 #include "cuts/Worker.h"
+#include "cuts/utils/db/ODBC/ODBC_Connection.h"
 #include "ace/Auto_Ptr.h"
 #include <string>
 
@@ -68,7 +69,7 @@ private:
   std::string hostname_;
 
   /// Pointer to the database connection.
-  ACE_Auto_Ptr <CUTS_DB_Connection> conn_;
+  ACE_Auto_Ptr <ODBC_Connection> conn_;
 
   /// Pointer to the statement for the connection.
   ACE_Auto_Ptr <CUTS_DB_Query> stmt_;

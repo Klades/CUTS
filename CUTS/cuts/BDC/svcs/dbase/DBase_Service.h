@@ -16,6 +16,7 @@
 #include "DBase_Service_export.h"
 #include "cuts/BDC/BDC_Service.h"
 #include "cuts/svcs/dbase/DB_Registry.h"
+#include "cuts/utils/db/ODBC/ODBC_Connection.h"
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/Hash_Map_Manager.h"
 
@@ -135,7 +136,7 @@ private:
   bool enable_deployment_;
 
   /// The connection for the database service.
-  ACE_Auto_Ptr <CUTS_DB_Connection> conn_;
+  ACE_Auto_Ptr <ODBC_Connection> conn_;
 
   /// The registry part of the database.
   CUTS_DB_Registry registry_;

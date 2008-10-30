@@ -10,6 +10,7 @@
 #include "ODBC_Parameter.h"
 #include "ODBC_Parameter_List.h"
 #include "ace/Log_Msg.h"
+#include "ace/CORBA_macros.h"
 
 //
 // ODBC_Query
@@ -72,7 +73,7 @@ long ODBC_Query::last_insert_id (void)
   CUTS_DB_Record * record = this->execute ("SELECT LAST_INSERT_ID()");
 
   // Get the data returned from the statement.
-  record->fetch ();
+  record->advance ();
   record->get_data (1, last_id);
 
   return last_id;
@@ -100,6 +101,7 @@ void ODBC_Query::prepare (const char * stmt)
   {
     // Create a new parameter list.
     ODBC_Parameter_List * plist = 0;
+
     if (pcount)
     {
       ACE_NEW (plist, ODBC_Parameter_List (this->stmt_, pcount));
@@ -160,14 +162,13 @@ CUTS_DB_Record * ODBC_Query::execute (void)
 //
 ODBC_Record * ODBC_Query::record_i (void)
 {
-  if (this->record_.get () == 0)
-  {
-    ODBC_Record * record = 0;
-    ACE_NEW_RETURN (record, ODBC_Record (this->stmt_), 0);
-    this->record_.reset (record);
-  }
+  ODBC_Record * record = 0;
 
-  return this->record_.get ();
+  ACE_NEW_THROW_EX (record,
+                    ODBC_Record (*this),
+                    ACE_bad_alloc ());
+
+  return record;
 }
 
 //

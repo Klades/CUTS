@@ -2,48 +2,52 @@
 
 //=============================================================================
 /**
- * @file      DB_Query.h
+ * @file        Query.h
  *
  * $Id$
  *
- * @author    James H. Hill
+ * @author      James H. Hill
  */
 //=============================================================================
 
-#ifndef _CUTS_DB_QUERY_H_
-#define _CUTS_DB_QUERY_H_
+#ifndef _CUTS_DB_SQLITE_QUERY_H_
+#define _CUTS_DB_SQLITE_QUERY_H_
 
-#include "DB_Exception.h"
-
-// Forward decl.
-class CUTS_DB_Record;
+#include "cuts/utils/db/DB_Query.h"
+#include "Record.h"
 
 // Forward decl.
-class CUTS_DB_Parameter;
+class CUTS_DB_SQLite_Connection;
 
-//=============================================================================
 /**
- * @class CUTS_DB_Query
+ * @class CUTS_DB_SQLite_Query
  *
- * Base class implemenation/interface for database query objects.
+ * Implemenation of the CUTS_DB_Query class for SQLite
  */
-//=============================================================================
-
-class CUTS_DB_UTILS_Export CUTS_DB_Query
+class CUTS_DB_SQLITE_Export CUTS_DB_SQLite_Query : public CUTS_DB_Query
 {
-public:
-  /// Default constructor.
-  CUTS_DB_Query (void);
+  friend class CUTS_DB_SQLite_Record;
 
-  /// Destructor.
-  virtual ~CUTS_DB_Query (void);
+public:
+  /// Default constructor
+  CUTS_DB_SQLite_Query (CUTS_DB_SQLite_Connection & parent);
+
+  /// Destructor
+  virtual ~CUTS_DB_SQLite_Query (void);
 
   /**
    * Prepare a statement for execution.
    *
    * @param[in]     query     NULL-terminated query string.
    */
-  virtual void prepare (const char * query) = 0;
+  virtual void prepare (const char * query);
+
+  /**
+   * Prepare a statement for execution.
+   *
+   * @param[in]     query     NULL-terminated query string.
+   */
+  virtual void prepare (const char * query, size_t len);
 
   /// Destroy the query. The queury is no longer usable after
   /// this method returns.
@@ -54,10 +58,10 @@ public:
    *
    * @param[in]     query     NULL-terminated query string.
    */
-  virtual void execute_no_record (const char * query) = 0;
+  virtual void execute_no_record (const char * query);
 
   /// Execute an already prepared query.
-  virtual void execute_no_record (void) = 0;
+  virtual void execute_no_record (void);
 
   /**
    * Execute a query. This method is useful with the query is known
@@ -67,7 +71,7 @@ public:
    *
    * @return  Pointer to a record.
    */
-  virtual CUTS_DB_Record * execute (const char * query) = 0;
+  virtual CUTS_DB_SQLite_Record * execute (const char * query);
 
   /**
    * Execute a prepared query. This method is useful with the query is
@@ -77,10 +81,10 @@ public:
    *
    * @return  Pointer to a record.
    */
-  virtual CUTS_DB_Record * execute (void) = 0;
+  virtual CUTS_DB_SQLite_Record * execute (void);
 
   /// Cancel the current query.
-  virtual void cancel (void) = 0;
+  virtual void cancel (void);
 
   /**
    * Get the last insert id. This method is only value if an
@@ -88,7 +92,7 @@ public:
    *
    * @return The last id inserted.
    */
-  virtual long last_insert_id (void) = 0;
+  virtual long last_insert_id (void);
 
   /**
    * Create a parameter for the statement. The parameter must
@@ -96,26 +100,28 @@ public:
    *
    * @return        Pointer to the new parameter.
    */
-  virtual CUTS_DB_Parameter * parameter (size_t index) = 0;
+  virtual CUTS_DB_Parameter * parameter (size_t index);
 
   /**
    * Get the number of parameters.
    *
    * @return        The number of parameters.
    */
-  virtual size_t parameter_count (void) const = 0;
+  virtual size_t parameter_count (void) const;
 
   /// Reset the query string.
-  virtual void reset (void) = 0;
+  virtual void reset (void);
 
 private:
-  // prevent the following operations
-  CUTS_DB_Query (const CUTS_DB_Query &);
-  const CUTS_DB_Query & operator = (const CUTS_DB_Query &);
+  void finalize (void);
+
+  /// Owner of the query.
+  CUTS_DB_SQLite_Connection & parent_;
+
+  /// Actual SQLite3 statement.
+  ::sqlite3_stmt * stmt_;
+
+  bool needs_reseting_;
 };
 
-#if defined (__CUTS_INLINE__)
-#include "DB_Query.inl"
-#endif
-
-#endif  // !defined _CUTS_DB_QUERY_H_
+#endif  // !defined _CUTS_DB_SQLITE_QUERY_H_

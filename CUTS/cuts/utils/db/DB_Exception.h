@@ -40,6 +40,13 @@ public:
   CUTS_DB_Exception (const char * message);
 
   /**
+   * Initializing constructor.
+   *
+   * @param[in]     message     Error message.
+   */
+  CUTS_DB_Exception (long native, const char * state, const char * msg);
+
+  /**
    * Copy constructor.
    *
    * @param[in]     ex          Source exception.

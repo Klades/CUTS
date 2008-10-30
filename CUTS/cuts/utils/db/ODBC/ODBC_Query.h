@@ -45,6 +45,8 @@ class CUTS_ODBC_Export ODBC_Query :
   public ODBC_Base,
   public CUTS_DB_Query
 {
+  friend class ODBC_Record;
+
 public:
   /**
    * Initializing constructor.
@@ -134,9 +136,6 @@ private:
 
   /// The state of the cursor.
   int cursor_open_;
-
-  /// Pointer to one and only record.
-  ACE_Auto_Ptr <ODBC_Record> record_;
 
   /// Pointer to the parameters for the method.
   ACE_Auto_Ptr <ODBC_Parameter_List> params_;

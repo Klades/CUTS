@@ -9,6 +9,7 @@
 
 #include "ace/Log_Msg.h"
 #include <sstream>
+#include <algorithm>
 
 //
 // ODBC_Connection
@@ -51,9 +52,9 @@ ODBC_Connection::~ODBC_Connection (void)
 //
 // connect
 //
-void ODBC_Connection::connect (const char * username,
-                               const char * password,
-                               const char * server,
+void ODBC_Connection::connect (const ACE_CString & username,
+                               const ACE_CString & password,
+                               const ACE_CString & server,
                                int port)
 {
   // Genereate the connection string for MySQL.
@@ -61,34 +62,53 @@ void ODBC_Connection::connect (const char * username,
 
 #if defined (_WIN32) || defined (WIN32)
   connstr << "Driver={MySQL ODBC 3.51 Driver};"
-          << "Uid=" << username << ";"
-          << "Pwd=" << password << ";"
+          << "Uid=" << username.c_str () << ";"
+          << "Pwd=" << password.c_str () << ";"
 #else
   connstr << "Dsn=CUTS;"
-          << "User=" << username << ";"
-          << "Password=" << password << ";"
+          << "User=" << username.c_str () << ";"
+          << "Password=" << password.c_str () << ";"
 #endif  // defined _WIN32
           << "Database=cuts;"
-          << "Server=" << server << ";"
+          << "Server=" << server.c_str () << ";"
           << "Port=" << port << ";"
           << "Option=3;" << std::ends;
 
+  this->connect_i (connstr.str ().c_str (), connstr.str ().length ());
+}
+
+//
+// connect
+//
+void ODBC_Connection::connect (const ACE_CString & connstr)
+{
+  this->connect_i (connstr.c_str (), connstr.length ());
+}
+
+//
+// connect_i
+//
+void ODBC_Connection::connect_i (const char * connstr, size_t length)
+{
   short result = 0;
   SQLCHAR tempstr[1024];
+
+  // Remove this connection.
+  this->disconnect ();
 
   SQL_VERIFY (
     ::SQLDriverConnect (this->conn_,
                         0,
-                        (SQLCHAR *)connstr.str ().c_str (),
-                        SQL_NTS,
+                        (SQLCHAR *) connstr,
+                        length,
                         tempstr,
                         sizeof (tempstr),
                         &result,
-                        SQL_DRIVER_NOPROMPT) ,
+                        SQL_DRIVER_NOPROMPT),
     ODBC_Conn_Exception (this->conn_));
 
   // Pass control to the base class.
-  CUTS_DB_Connection::connect (username, password, server, port);
+  CUTS_DB_Connection::connect (ACE_CString (connstr, length, 0, false));
 }
 
 //
@@ -96,7 +116,7 @@ void ODBC_Connection::connect (const char * username,
 //
 void ODBC_Connection::disconnect (void)
 {
-  if (this->conn_ != SQL_NULL_HDBC)
+  if (this->conn_ != SQL_NULL_HDBC && this->connected_)
   {
     SQL_VERIFY (::SQLDisconnect (this->conn_),
                 ODBC_Conn_Exception (this->conn_));

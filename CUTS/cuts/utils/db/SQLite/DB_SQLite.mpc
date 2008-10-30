@@ -1,0 +1,15 @@
+// $Id$
+
+project (CUTS_DB_SQLite) : cuts_db, sqlite3, cutslib {
+  sharedname = CUTS_DB_SQLite
+
+  dynamicflags += CUTS_DB_SQLITE_BUILD_DLL
+
+  Source_Files {
+    Connection.cpp
+    Exception.cpp
+    Parameter.cpp
+    Query.cpp
+    Record.cpp
+  }
+}

@@ -1,15 +1,9 @@
 // $Id$
 
-project (CUTS_DB_ODBC) : cuts_odbclib, cutslib {
+project (CUTS_DB_ODBC) : cuts_db, odbc, cutslib {
   sharedname += CUTS_DB_ODBC
 
   dynamicflags += CUTS_ODBC_BUILD_DLL
-
-  libs  += CUTS_DB
-  libs  -= CUTS_DB_ODBC
-
-  after += CUTS_DB
-  after -= CUTS_DB_ODBC
 
   Source_Files {
     ODBC_Base.cpp

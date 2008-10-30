@@ -22,15 +22,8 @@ void CUTS_DB_Connection::disconnect (void)
 // connect
 //
 CUTS_INLINE
-void CUTS_DB_Connection::connect (const char * username,
-                                  const char * password,
-                                  const char * server,
-                                  int port)
+void CUTS_DB_Connection::connect (const ACE_CString & connstr)
 {
   this->connected_ = true;
-
-  ACE_UNUSED_ARG (username);
-  ACE_UNUSED_ARG (password);
-  ACE_UNUSED_ARG (server);
-  ACE_UNUSED_ARG (port);
+  this->connstr_ = connstr;
 }

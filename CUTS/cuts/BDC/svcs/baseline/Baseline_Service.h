@@ -16,6 +16,7 @@
 #include "Baseline_Service_export.h"
 #include "cuts/BDC/BDC_Service.h"
 #include "cuts/svcs/dbase/DB_Registry.h"
+#include "cuts/utils/db/ODBC/ODBC_Connection.h"
 #include "cuts/System_Metric.h"
 #include "ace/SString.h"
 
@@ -84,7 +85,7 @@ private:
   ACE_CString instance_;
 
   /// The connection for the database service.
-  ACE_Auto_Ptr <CUTS_DB_Connection> conn_;
+  ACE_Auto_Ptr <ODBC_Connection> conn_;
 
   /// The component registry for the database.
   CUTS_DB_Registry registry_;

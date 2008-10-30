@@ -43,10 +43,7 @@ public:
    * @param[in]     server          Location of the database.
    * @param[in]     port            Port number for connection.
    */
-  virtual void connect (const char * username,
-                        const char * password,
-                        const char * server,
-                        int port) = 0;
+  virtual void connect (const ACE_CString & connstr) = 0;
 
   /// Close the current connection.
   virtual void disconnect (void) = 0;
@@ -70,6 +67,9 @@ public:
 protected:
   /// Holds the current connection state.
   bool connected_;
+
+  /// The connction string for the connection.
+  ACE_CString connstr_;
 
 private:
   // Prevent the following operations.

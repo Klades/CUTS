@@ -40,10 +40,23 @@ public:
    *
    * @return Number of records.
    */
-  virtual size_t count (void) = 0;
+  virtual size_t count (void) const = 0;
 
-  /// Fetch the next row in the records.
-  virtual void fetch (void) = 0;
+  /**
+   * Get the number of columns in the result.
+   *
+   * @return Number of columns.
+   */
+  virtual size_t columns (void) const = 0;
+
+  /// Move the next row in the records.
+  virtual void advance (void) = 0;
+
+  /// Determine if the record iterator is done.
+  virtual bool done (void) const = 0;
+
+  /// Destructor the record iterator.
+  virtual void destroy (void);
 
   /**
    * Get a string data value at the specified column.
@@ -125,13 +138,6 @@ public:
    * @param[out]    value         Character value.
    */
   virtual void get_data (size_t column, ACE_Date_Time & value) = 0;
-
-  /**
-   * Get the number of columns in the result.
-   *
-   * @return Number of columns.
-   */
-  virtual size_t columns (void) = 0;
 
 private:
   /// prevent the following operations

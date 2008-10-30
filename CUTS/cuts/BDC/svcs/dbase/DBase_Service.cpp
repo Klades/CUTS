@@ -17,7 +17,6 @@
 #include "cuts/Time.h"
 #include "cuts/Testing_Service.h"
 #include "cuts/BDC/BDC_Service_Manager.h"
-#include "cuts/utils/db/ODBC/ODBC_Connection.h"
 #include "cuts/utils/db/ODBC/ODBC_Types.h"
 #include "cuts/utils/db/DB_Query.h"
 #include "cuts/utils/db/DB_Record.h"
@@ -61,8 +60,12 @@ CUTS_Database_Service::CUTS_Database_Service (void)
   test_number_ (-1),
   enable_deployment_ (false)
 {
-  CUTS_DB_Connection * conn = 0;
-  ACE_NEW (conn, ODBC_Connection ());
+  ODBC_Connection * conn = 0;
+
+  ACE_NEW_THROW_EX (conn,
+                    ODBC_Connection (),
+                    ACE_bad_alloc ());
+
   this->conn_.reset (conn);
 }
 

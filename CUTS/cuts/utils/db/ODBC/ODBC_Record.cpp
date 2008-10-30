@@ -6,15 +6,31 @@
 #include "ODBC_Record.inl"
 #endif
 
+#include "ODBC_Query.h"
 #include "ace/Date_Time.h"
 
 //
 // ODBC_Record
 //
-ODBC_Record::ODBC_Record (HSTMT handle)
-: handle_ (handle)
+ODBC_Record::ODBC_Record (const ODBC_Query & query)
+: query_ (query),
+  index_ (0),
+  count_ (0),
+  columns_ (0)
 {
+  SQLINTEGER count;
 
+  SQL_VERIFY (::SQLRowCount (this->query_.stmt_, &count),
+              ODBC_Stmt_Exception (this->query_.stmt_));
+
+  this->count_ = static_cast <size_t> (count);
+
+  SQLSMALLINT cols = 0;
+
+  SQL_VERIFY (::SQLNumResultCols (this->query_.stmt_, &cols),
+              ODBC_Stmt_Exception (this->query_.stmt_));
+
+  this->columns_ = static_cast <size_t> (cols);
 }
 
 //
@@ -22,35 +38,36 @@ ODBC_Record::ODBC_Record (HSTMT handle)
 //
 ODBC_Record::~ODBC_Record (void)
 {
-  this->handle_ = 0;
+
 }
 
 //
-// fetch
+// advance
 //
-void ODBC_Record::fetch (void)
+void ODBC_Record::advance (void)
 {
-  SQL_VERIFY (::SQLFetch (this->handle_),
-              ODBC_Stmt_Exception (this->handle_));
+  if (this->index_ < this->count_)
+  {
+    SQL_VERIFY (::SQLFetch (this->query_.stmt_),
+                ODBC_Stmt_Exception (this->query_.stmt_));
+
+    ++ this->index_;
+  }
 }
 
 //
 // count
 //
-size_t ODBC_Record::count (void)
+size_t ODBC_Record::count (void) const
 {
-  SQLLEN count = 0;
-  SQL_VERIFY (::SQLRowCount (this->handle_, &count),
-              ODBC_Stmt_Exception (this->handle_));
-
-  return static_cast <size_t> (count);
+  return this->count_;
 }
 
 //
 // get_data
 //
-void ODBC_Record::get_data (size_t column,
-                            ACE_Date_Time & datetime)
+void ODBC_Record::
+get_data (size_t column, ACE_Date_Time & datetime)
 {
   SQL_TIMESTAMP_STRUCT timestamp;
 
@@ -79,23 +96,27 @@ void ODBC_Record::get_data_i (SQLUSMALLINT column,
                               SQLINTEGER bufsize,
                               SQLINTEGER * result)
 {
-  SQL_VERIFY (::SQLGetData (this->handle_,
+  SQL_VERIFY (::SQLGetData (this->query_.stmt_,
                             column,
                             target_type,
                             target,
                             bufsize,
                             result),
-              ODBC_Stmt_Exception (this->handle_));
+              ODBC_Stmt_Exception (this->query_.stmt_));
 }
 
 //
 // columns
 //
-size_t ODBC_Record::columns (void)
+size_t ODBC_Record::columns (void) const
 {
-  SQLSMALLINT cols = 0;
-  SQL_VERIFY (::SQLNumResultCols (this->handle_, &cols),
-              ODBC_Stmt_Exception (this->handle_));
+  return this->columns_;
+}
 
-  return static_cast <size_t> (cols);
+//
+// done
+//
+bool ODBC_Record::done (void) const
+{
+  return this->index_ >= this->count_;
 }

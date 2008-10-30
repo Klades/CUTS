@@ -6,7 +6,6 @@
 #include "cuts/Testing_Service.h"
 #include "cuts/Host_Table_Entry.h"
 #include "cuts/BDC/BDC_Service_Manager.h"
-#include "cuts/utils/db/ODBC/ODBC_Connection.h"
 #include "cuts/utils/db/ODBC/ODBC_Query.h"
 #include "ace/Get_Opt.h"
 
@@ -49,7 +48,10 @@ int CUTS_Baseline_Service::init (int argc, ACE_TCHAR * argv[])
 {
   // Allocate a new connection.
   ODBC_Connection * conn = 0;
-  ACE_NEW_RETURN (conn, ODBC_Connection (), 1);
+
+  ACE_NEW_THROW_EX (conn,
+                    ODBC_Connection (),
+                    ACE_bad_alloc ());
 
   // Save the connection and attach it to the <registry_>.
   this->conn_.reset (conn);

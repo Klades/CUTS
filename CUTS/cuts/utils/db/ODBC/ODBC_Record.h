@@ -17,14 +17,14 @@
 #include "ODBC_Exception.h"
 #include "cuts/utils/db/DB_Record.h"
 
-//=============================================================================
+// Forward decl.
+class ODBC_Query;
+
 /**
  * @class ODBC_Record
  *
  * @brief ODBC implementation of the CUTS_DB_Record class.
  */
-//=============================================================================
-
 class CUTS_ODBC_Export ODBC_Record :
   public ODBC_Base,
   public CUTS_DB_Record
@@ -35,16 +35,25 @@ public:
    *
    * @param[in]     handle      Statement handle.
    */
-  ODBC_Record (HSTMT handle);
+  ODBC_Record (const ODBC_Query & query);
 
   /// Destructor.
   virtual ~ODBC_Record (void);
 
   /// Fetch the next row in the records.
-  virtual void fetch (void);
+  virtual void advance (void);
 
   /// Get the number of records
-  virtual size_t count (void);
+  virtual size_t count (void) const;
+
+  virtual bool done (void) const;
+
+  /**
+   * Get the number of columns in the result.
+   *
+   * @return Number of columns.
+   */
+  virtual size_t columns (void) const;
 
   virtual void get_data (size_t column, char * buffer, size_t bufsize);
 
@@ -66,13 +75,6 @@ public:
 
   virtual void get_data (size_t column, ACE_Date_Time & datetime);
 
-  /**
-   * Get the number of columns in the result.
-   *
-   * @return Number of columns.
-   */
-  virtual size_t columns (void);
-
 private:
   /// Help method that wraps the SQLGetData method.
   void get_data_i (SQLUSMALLINT column,
@@ -82,7 +84,16 @@ private:
                    SQLINTEGER * result);
 
   /// ODBC statement resource handle.
-  HSTMT handle_;
+  const ODBC_Query & query_;
+
+  /// Current location in the record set.
+  size_t index_;
+
+  /// Number of records.
+  size_t count_;
+
+  /// Number of columns in the record set.
+  size_t columns_;
 };
 
 #if defined (__CUTS_INLINE__)
