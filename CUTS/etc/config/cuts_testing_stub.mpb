@@ -1,6 +1,6 @@
 // $Id$
 
 project {
-  after += CUTS_Testing_stub
-  libs  += CUTS_Testing_stub
+  after += CUTS_Testing_Server_stub
+  libs  += CUTS_Testing_Server_stub
 }

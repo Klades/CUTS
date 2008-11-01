@@ -16,7 +16,7 @@
 #include "testingS.h"
 
 // Forward decl.
-class CUTS_Testing_App;
+class CUTS_Testing_Server;
 
 /**
  * @class TestManager_i
@@ -28,7 +28,7 @@ class CUTS_TestManager_i :
 {
 public:
   /// Default constructor.
-  CUTS_TestManager_i (CUTS_Testing_App & parent);
+  CUTS_TestManager_i (CUTS_Testing_Server & server);
 
   /// Destructor.
   virtual ~CUTS_TestManager_i (void);
@@ -42,7 +42,7 @@ public:
 
 private:
   /// Parent testing application for the manager.
-  CUTS_Testing_App & parent_;
+  CUTS_Testing_Server & server_;
 };
 
 #endif  // !defined _TESTMANAGER_I_H_

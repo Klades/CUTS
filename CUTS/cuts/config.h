@@ -16,6 +16,8 @@
 #ifndef _CUTS_CONFIG_H_
 #define _CUTS_CONFIG_H_
 
+#include "ace/config-all.h"
+
 #if defined (__CUTS_INLINE__)
 # define CUTS_INLINE inline
 #else

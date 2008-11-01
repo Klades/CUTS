@@ -13,7 +13,7 @@
 #ifndef _CUTS_TESTING_APP_SERVER_H_
 #define _CUTS_TESTING_APP_SERVER_H_
 
-#include "Testing_App.h"
+#include "cuts/utils/testing/Testing_Service.h"
 #include "tao/PortableServer/Servant_Base.h"
 #include "orbsvcs/CosNamingC.h"
 #include "ace/Task.h"
@@ -22,9 +22,9 @@
 class CUTS_TestManager_i;
 
 /**
- * @class CUTS_Testing_App_Server
+ * @class CUTS_Testing_Server
  */
-class CUTS_Testing_App_Server : public CUTS_Testing_App
+class CUTS_Testing_Server : public CUTS_Testing_Service
 {
 public:
   /**
@@ -32,10 +32,10 @@ public:
    *
    * @param[in]         parent        Parent testing application.
    */
-  CUTS_Testing_App_Server (void);
+  CUTS_Testing_Server (void);
 
   /// Destructor.
-  virtual ~CUTS_Testing_App_Server (void);
+  virtual ~CUTS_Testing_Server (void);
 
   /**
    * Run the testing application's server. This method will spawn
@@ -45,10 +45,10 @@ public:
    * @param[in]         argc          Number of command-line arguments.
    * @param[in]         argv          The command-line arguments.
    */
-  virtual int run_main (int argc, char * argv []);
+  virtual int init (int argc, char * argv []);
 
   /// Shutdown the server.
-  virtual int shutdown (void);
+  virtual int fini (void);
 
 private:
   /// Print the help message to the screen.

@@ -13,33 +13,32 @@
 #ifndef _CUTS_TESTING_APP_H_
 #define _CUTS_TESTING_APP_H_
 
-#include "Testing_Base_export.h"
 #include "Testing_App_Task.h"
+#include "Testing_Options.h"
+#include "ace/Condition_T.h"
+#include "ace/Service_Gestalt.h"
 #include "ace/SString.h"
 #include "ace/Thread_Mutex.h"
-#include "ace/Condition_T.h"
 
-namespace ACE_Utils
+namespace CUTS
 {
-  class UUID;
+  // Forward decl.
+  class serviceDescription;
 }
-
-// Forward decl.
-class CUTS_DB_Connection;
 
 /**
  * @class CUTS_Testing_App
  *
  * The main entry point class for the application.
  */
-class CUTS_TESTING_BASE_Export CUTS_Testing_App
+class CUTS_Testing_App
 {
 public:
   /// Default constructor.
   CUTS_Testing_App (void);
 
   /// Destructor.
-  virtual ~CUTS_Testing_App (void);
+  ~CUTS_Testing_App (void);
 
   /**
    * Run the main part of the application. This method does not return
@@ -48,36 +47,20 @@ public:
    * @param[in]       argc        Number of command-line arguments
    * @param[in]       argv        The command-line arguments
    */
-  virtual int run_main (int argc, char * argv []);
+  int run_main (int argc, char * argv []);
 
   /// Shutdown the testing application. This will stop the ORBs main
   /// event loop and allow the run_main () method to return.
-  virtual int shutdown (void);
-
-  /// Start a new test in the database (if applicable).
-  int start_new_test (void);
-
-  /// Stop the current test.
-  int stop_current_test (void);
-
-  long current_test_number (void) const;
-
-  const ACE_Utils::UUID & test_uuid (void) const;
-
-  const ACE_CString & test_name (void) const;
+  int shutdown (void);
 
   /**
-   * Get the name of the testing application. This is determined by the
-   * --name=NAME command-line option.
+   * Get the options for the testing application.
    *
-   * @return        Name of the testing application.
+   * @return        Options for the testing application.
    */
-  const ACE_CString & name (void) const;
+  const CUTS_Testing_Options & options (void) const;
 
 protected:
-  /// Implementation of the run_main () function.
-  int run_main_i (void);
-
   /**
    * Parse the command-line arguments.
    *
@@ -87,18 +70,6 @@ protected:
    * @retval          -1          Failed to parse arguments
    */
   virtual int parse_args (int argc, char * argv []);
-
-  /// Connect to the specified database.
-  void connect_to_database (void);
-
-  /// Server address of the test database.
-  ACE_CString server_addr_;
-
-  /// The connection for the database service.
-  ACE_Auto_Ptr <CUTS_DB_Connection> conn_;
-
-  /// Implementation of the print help method.
-  void print_help_i (void);
 
 private:
   /// Print the help for this application.
@@ -110,14 +81,19 @@ private:
   /// Teardown the current test.
   int teardown_test (void);
 
-  /// The test number associated with the experiment.
-  long test_number_;
+  /// Load the configuration for the test.
+  int load_configuration (void);
+
+  int load_service (const CUTS::serviceDescription &);
 
   /// Timer id for the test.
   long test_timer_id_;
 
   /// Task for the testing application.
-  ACE_Auto_Ptr <CUTS_Testing_App_Task> task_;
+  CUTS_Testing_App_Task task_;
+
+  /// Options for the testing application.
+  CUTS_Testing_Options opts_;
 
   /// Lock for the condition variable.
   ACE_Thread_Mutex lock_;
@@ -125,8 +101,12 @@ private:
   /// Condition variable to wait for shutdown.
   ACE_Condition <ACE_Thread_Mutex> shutdown_;
 
-  /// UUID for the test.
-  ACE_Auto_Ptr <ACE_Utils::UUID> test_uuid_;
+  /// Service configurator for this test.
+  ACE_Service_Gestalt svc_config_;
 };
+
+#if defined (__CUTS_INLINE__)
+#include "Testing_App.inl"
+#endif
 
 #endif  // !defined _CUTS_TESTING_APP_H_

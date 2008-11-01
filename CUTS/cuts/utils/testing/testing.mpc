@@ -1,22 +1,12 @@
 // $Id$
 
-project (CUTS_Testing_stub) : taolib_with_idl, cutslib {
-  sharedname = CUTS_Testing_stub
+project (CUTS_Testing_Service) : cutslib {
+  sharedname = CUTS_Testing_Service
 
-  idlflags += -Wb,skel_export_macro=CUTS_TESTING_SKEL_Export \
-              -Wb,skel_export_include=Testing_skel_export.h \
-              -Wb,stub_export_macro=CUTS_TESTING_STUB_Export \
-              -Wb,stub_export_include=Testing_stub_export.h \
-              -I$(CUTS_ROOT)
-
-  dynamicflags += CUTS_TESTING_STUB_BUILD_DLL
-
-  IDL_Files {
-    testing.idl
-  }
+  dynamicflags += CUTS_TESTING_SERVICE_BUILD_DLL
 
   Source_Files {
-    testingC.cpp
+    Testing_Service.cpp
   }
 
   Header_Files {
@@ -26,83 +16,45 @@ project (CUTS_Testing_stub) : taolib_with_idl, cutslib {
   Inline_Files {
 
   }
-
 }
 
-project (CUTS_Testing_skel) : portableserver, cuts_testing_stub, cutslib {
-  sharedname = CUTS_Testing_skel
+project (cutstest_Xml) : xsc_cxx {
+  custom_only = 1
 
-  dynamicflags += CUTS_TESTING_SKEL_BUILD_DLL
-
-  Source_Files {
-    testingS.cpp
+  Modify_Custom (XSC) {
+    header_outputext = .h
+    inline_outputext = .inl
   }
 
-  Header_Files {
-
+  specific {
+    xscflags += --cxx-header-suffix .h --cxx-source-suffix .cpp \
+                --cxx-inline-suffix .inl --cxx-generate-inline \
+                --cxx-char-type char
   }
 
-  Inline_Files {
+  Xsc_Files {
+    gendir = .
 
-  }
-
-  IDL_Files {
-
+    $(CUTS_ROOT)/etc/schemas/test.xsd
   }
 }
 
-project (CUTS_Testing_Base) : cuts_odbclib, cutslib {
-  sharedname = CUTS_Testing_Base
+project (cutstest) : boost_base, xscrt, cuts_testing_svc, cutsexe {
+  exename = cutstest
 
-  dynamicflags += CUTS_TESTING_BASE_BUILD_DLL
+  after += cutstest_Xml
 
   Source_Files {
+    cutstest.cpp
+    test.cpp
+    Test_Configuration_File.cpp
+    Test_Database.cpp
     Testing_App.cpp
     Testing_App_Task.cpp
   }
 
   Header_Files {
     Testing_Options.h
-    Testing_Base_export.h
-  }
-
-  Inline_Files {
-
-  }
-}
-
-project (cutstest) : cutsexe {
-  exename = cutstest
-
-  after += CUTS_Testing_Base
-  libs  += CUTS_Testing_Base
-
-  Source_Files {
-    cutstest.cpp
-  }
-
-  Header_Files {
-  }
-
-  Inline_Files {
-
-  }
-}
-
-project (cutstest_d) : naming, iortable, cuts_testing_skel, cutsexe {
-  exename = cutstest_d
-
-  after += CUTS_Testing_Base
-  libs  += CUTS_Testing_Base
-
-  Source_Files {
-    cutstest_d.cpp
-    Testing_App_Server.cpp
-    TestManager_i.cpp
-  }
-
-  Header_Files {
-
   }
 
   Inline_Files {

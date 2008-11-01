@@ -13,7 +13,7 @@
 #ifndef _CUTS_TEST_EVENT_HANDLER_H_
 #define _CUTS_TEST_EVENT_HANDLER_H_
 
-#include "Testing_Base_export.h"
+#include "cuts/config.h"
 #include "ace/Task.h"
 
 // Forward decl.
@@ -24,7 +24,7 @@ class CUTS_Testing_App;
  *
  * Event handler for the CUTS_Testing_App class.
  */
-class CUTS_TESTING_BASE_Export CUTS_Testing_App_Task : protected ACE_Task_Base
+class CUTS_Testing_App_Task : protected ACE_Task_Base
 {
 public:
   CUTS_Testing_App_Task (CUTS_Testing_App & parent);
@@ -32,7 +32,7 @@ public:
   virtual ~CUTS_Testing_App_Task (void);
 
   /**
-   * Start the task. This will allow the task to respond to events of 
+   * Start the task. This will allow the task to respond to events of
    * interest, such as timeout events for executing tests.
    */
   int start (void);

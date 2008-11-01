@@ -1,3 +1,62 @@
+Sat Nov  1 21:18:12 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/config.h:
+
+          . The config file now includes ace/config-all.h
+
+        * cuts/utils/testing/Test_Configuration_File.h:
+        * cuts/utils/testing/Test_Configuration_File.inl:
+        * cuts/utils/testing/Test_Configuration_File.cpp:
+        * cuts/utils/testing/Test_Database.h:
+        * cuts/utils/testing/Test_Database.cpp:
+        * cuts/utils/testing/Testing_App.h:
+        * cuts/utils/testing/Testing_App.inl:
+        * cuts/utils/testing/Testing_App.cpp:
+        * cuts/utils/testing/Testing_App_Task.h:
+        * cuts/utils/testing/Testing_Base_export.h:
+        * cuts/utils/testing/Testing_Options.h:
+        * cuts/utils/testing/Testing_Service.h:
+        * cuts/utils/testing/Testing_Service.inl:
+        * cuts/utils/testing/Testing_Service.cpp:
+        * cuts/utils/testing/Testing_Service_export.h:
+        * cuts/utils/testing/svcs:
+        * cuts/utils/testing/testing.mpc:
+        * etc/config/cuts_testing_skel.mpb:
+        * etc/config/cuts_testing_stub.mpb:
+        * etc/config/cuts_testing_svc.mpb:
+        * etc/schemas/test.xsd:
+
+          . Reimplemented the test manager so that is service-based. This
+            means that developers implement different services that can
+            be loaded by the test manager. The services can iteract with
+            the test manager so they can operate based on current test
+            information.
+
+
+        * cuts/utils/testing/svcs/server:
+        * cuts/utils/testing/svcs/server/TestManager_i.h:
+        * cuts/utils/testing/svcs/server/TestManager_i.cpp:
+        * cuts/utils/testing/svcs/server/Testing_Server.h:
+        * cuts/utils/testing/svcs/server/Testing_Server.cpp:
+        * cuts/utils/testing/svcs/server/Testing_Server_skel_export.h:
+        * cuts/utils/testing/svcs/server/Testing_Server_stub_export.h:
+        * cuts/utils/testing/svcs/server/server.mpc:
+        * cuts/utils/testing/svcs/server/testing.idl:
+
+          . Converted the cutstest_d executable into a service
+            for the test manager.
+
+        * cuts/utils/testing/TestManager_i.h:
+        * cuts/utils/testing/TestManager_i.cpp:
+        * cuts/utils/testing/Testing_App_Server.h:
+        * cuts/utils/testing/Testing_App_Server.cpp:
+        * cuts/utils/testing/Testing_skel_export.h:
+        * cuts/utils/testing/Testing_stub_export.h:
+        * cuts/utils/testing/cutstest_d.cpp:
+        * cuts/utils/testing/testing.idl:
+
+          Removed these files.
+
 Thu Oct 30 22:01:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/svcs/baseline/Baseline_Service.h:

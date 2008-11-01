@@ -13,15 +13,15 @@
 #ifndef _CUTS_TESTING_OPTIONS_H_
 #define _CUTS_TESTING_OPTIONS_H_
 
-#include "Testing_Base_export.h"
 #include "ace/SString.h"
-#include "ace/Singleton.h"
-#include "ace/Null_Mutex.h"
+#include "ace/UUID.h"
 
 /**
  * @class CUTS_Testing_Options
+ *
+ * Container class for options of the testing application
  */
-class CUTS_TESTING_BASE_Export CUTS_Testing_Options
+class CUTS_Testing_Options
 {
 public:
   /// Default constructor.
@@ -31,6 +31,9 @@ public:
   {
 
   }
+
+  /// Configuration file for the test.
+  ACE_CString config_;
 
   /// Deployment command for the test.
   ACE_CString deploy_;
@@ -47,13 +50,9 @@ public:
 
   /// Current working directory for deploy/teardown commands
   ACE_CString working_directory_;
+
+  /// UUID for the testing application.
+  ACE_Utils::UUID uuid_;
 };
-
-CUTS_TESTING_BASE_SINGLETON_DECLARE(ACE_Singleton,
-                                    CUTS_Testing_Options,
-                                    ACE_Null_Mutex);
-
-#define CUTS_TESTING_OPTIONS \
-  ACE_Singleton <CUTS_Testing_Options, ACE_Null_Mutex>::instance ()
 
 #endif  // !defined _CUTS_TESTING_OPTIONS_H_
