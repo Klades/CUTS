@@ -3,7 +3,7 @@
 #include "Baseline_Service.h"
 #include "Baseline_Archiver_DB.h"
 #include "System_Metric_Accumulator.h"
-#include "cuts/Testing_Service.h"
+#include "cuts/BDC/Testing_Service.h"
 #include "cuts/Host_Table_Entry.h"
 #include "cuts/BDC/BDC_Service_Manager.h"
 #include "cuts/utils/db/ODBC/ODBC_Query.h"

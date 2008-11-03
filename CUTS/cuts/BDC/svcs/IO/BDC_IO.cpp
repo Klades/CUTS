@@ -2,12 +2,12 @@
 
 #include "BDC_IO.h"
 #include "IO_System_Metric_Visitor.h"
+#include "cuts/BDC/Testing_Service.h"
+#include "cuts/BDC/BDC_Service_Manager.h"
 #include "cuts/Component_Info.h"
 #include "cuts/Host_Table.h"
 #include "cuts/Host_Table_Entry.h"
 #include "cuts/System_Metric.h"
-#include "cuts/Testing_Service.h"
-#include "cuts/BDC/BDC_Service_Manager.h"
 #include <iostream>
 #include <sstream>
 

@@ -1,3 +1,19 @@
+Mon Nov  3 22:26:04 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/Benchmark_Data_Collector.mpc:
+        * cuts/BDC/Testing_Service.h:
+        * cuts/BDC/Testing_Service.inl:
+        * cuts/BDC/Testing_Service.cpp:
+        * cuts/BDC/Testing_Service_exec_i.h:
+        * cuts/BDC/svcs/IO/BDC_IO.cpp:
+        * cuts/BDC/svcs/IO/IO_System_Metric_Visitor.cpp:
+        * cuts/BDC/svcs/XML/CUTS_XML.cpp:
+        * cuts/BDC/svcs/baseline/Baseline_Service.cpp:
+        * cuts/BDC/svcs/dbase/DBase_Service.cpp:
+
+          . Fixed compilation issues related to changing the location of
+            where the BDC testing service base class is located on disk.
+
 Sat Nov  1 21:18:12 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/config.h:

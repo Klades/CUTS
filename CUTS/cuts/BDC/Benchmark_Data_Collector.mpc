@@ -12,6 +12,7 @@ project (CUTS_BDC) : portableserver, cutslib {
   Source_Files {
     BDC_Service.cpp
     BDC_Service_Manager.cpp
+    Testing_Service.cpp
   }
 
   Header_Files {

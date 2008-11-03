@@ -2,7 +2,7 @@
 
 #include "CUTS_XML.h"
 #include "cuts/BDC/BDC_Service_Manager.h"
-#include "cuts/Testing_Service.h"
+#include "cuts/BDC/Testing_Service.h"
 #include "cuts/Time.h"
 #include "cuts/XML_Metrics_Writer.h"
 #include "ace/Get_Opt.h"

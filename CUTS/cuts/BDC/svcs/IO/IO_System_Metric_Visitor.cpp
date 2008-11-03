@@ -6,7 +6,7 @@
 #include "cuts/System_Metric.h"
 #include "cuts/Component_Metric.h"
 #include "cuts/Port_Metric.h"
-#include "cuts/Testing_Service.h"
+#include "cuts/BDC/Testing_Service.h"
 #include "cuts/Time.h"
 #include <iostream>
 

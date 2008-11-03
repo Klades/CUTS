@@ -23,8 +23,7 @@
 
 #include "Benchmark_Data_Collector_exec_export.h"
 #include "Benchmark_Data_CollectorEC.h"
-#include "cuts/Testing_Service.h"
-#include "tao/LocalObject.h"
+#include "Testing_Service.h"
 
 namespace CUTS
 {

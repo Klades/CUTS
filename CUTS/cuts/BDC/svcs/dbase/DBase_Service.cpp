@@ -15,7 +15,7 @@
 #include "cuts/Host_Table_Entry.h"
 #include "cuts/Port_Metric.h"
 #include "cuts/Time.h"
-#include "cuts/Testing_Service.h"
+#include "cuts/BDC/Testing_Service.h"
 #include "cuts/BDC/BDC_Service_Manager.h"
 #include "cuts/utils/db/ODBC/ODBC_Types.h"
 #include "cuts/utils/db/DB_Query.h"
