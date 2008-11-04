@@ -6,14 +6,12 @@
 CUTS has many small projects that comprise the entire system execution modeling
 (SEM) tool. Its many projects, however, can be divided into three main categories, or
 project groups:
-
 \begin{itemize}
   \item Runtime architecture
   \item Modeling tools
   \item Analysis tools
 \end{itemize}
-
-\noindent This chapter discusses how to build and install each of the aforementioned
+This chapter discusses how to build and install each of the aforementioned
 project groups for CUTS. Depending on your usage of CUTS, you may not need to build 
 and install all projects in a category on the same machine. For example, you may install the 
 runtime architecture of CUTS in your testing environment, and the modeling and analysis
@@ -32,7 +30,6 @@ experiments on their target architecture. CUTS also provides the mechanisms
 to monitor and collect performance metrics for the executing system. In order to 
 build the CUTS runtime architecture, you will need the following technologies 
 installed on the target machine(s):
-
 \begin{figure}[htbp]
   \centering
   \includegraphics[scale=0.5]{cuts-runtime-blocks.pdf}
@@ -57,7 +54,6 @@ installed on the target machine(s):
   \item \textbf{XSC} - This set of middleware is used to convert XML documents 
   to/from objects. You can download XSC from the following location: 
   \url{svn://svn.dre.vanderbilt.edu/XSC/trunk}.
-
 \end{itemize}
 
 \subsection{Downloading source files}
@@ -65,14 +61,11 @@ installed on the target machine(s):
 
 You can obtain the latest snapshot of the CUTS runtime architecture from the
 DOC Group Subversion repository at the following location:
-
 \begin{lstlisting}
 (*@\url{svn://svn.dre.vanderbilt.edu/DOC/CUTS/trunk/CUTS}@*)
 \end{lstlisting}
-
 If you need to download a stable version of the source code, then you can 
 access at one of the subdirectories in the repository at the following location:
-
 \begin{lstlisting}
 (*@\url{svn://svn.dre.vanderbilt.edu/DOC/CUTS/tags}@*)
 \end{lstlisting}
@@ -93,16 +86,12 @@ seperated using semi-colons (\texttt{;})}:
 Windows-based systems, please add library paths to \texttt{PATH}. On Mac OS-based
 systems, please add library paths to \texttt{DYLD\_LIBRARY\_PATH}.}@*)
 \end{lstlisting}
-
-\noindent To configure unixODBC, please set the following variables:
-
+To configure unixODBC, please set the following variables:
 \begin{lstlisting}
 (*@\texttt{\%> export UNIXODBC\_ROOT=} location of unixODBC@*)
 (*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$UNIXODBC\_ROOT/lib}@*)
 \end{lstlisting}
-
-\noindent Finally, set the environment variables for CUTS as follows:
-
+Finally, set the environment variables for CUTS as follows:
 \begin{lstlisting}
 (*@\texttt{\%> export CUTS\_ROOT=} location of CUTS@*)
 (*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$CUTS\_ROOT/lib}@*)
@@ -115,12 +104,10 @@ We use Makefile, Workspace, Project Creator (MPC) to assist in building CUTS
 on different operating systems, and with different compilers. Before you can
 build the runtime architecture, you must first generate the target workspace.
 Use the following command to generate the workspace:
-
 \begin{lstlisting}
 (*@\texttt{\%> \$(ACE\_ROOT)/bin/mwc.pl -type TYPE [-features FEATURES] CUTS.mwc}@*)
 \end{lstlisting}
-
-\noindent where TYPE is your compiler type, and FEATURES are the enabled features
+where TYPE is your compiler type, and FEATURES are the enabled features
 for your build of the CUTS runtime architecture\footnote{You can type 
 \texttt{\$ACE\_ROOT/bin/mwc.pl --help} to view the command-line options for 
 MPC.}. CUTS has a set of features enabled by default, which are located 
@@ -135,11 +122,9 @@ schemas on your MySQL server. We strongly recommend that you use MySQL 5.0 or
 greater. The installation scripts for the database schemas are at the following 
 location: \texttt{\$(CUTS\_ROOT)/etc/SQL}. When installing the schemas use a 
 command similar to the following:
-
 \begin{lstlisting}
 (*@\texttt{\%> mysql --user=root [--password=PASSWORD] < CUTS-create.sql}@*)
 \end{lstlisting}
-
 The CUTS database script named \texttt{CUTS-create.sql} has to be the first SQL 
 script installed into the database. If you install any of the other scripts before
 \texttt{CUTS-create.sql}, then you will not be able to properly install the CUTS 
@@ -154,8 +139,6 @@ CUTS modeling tools provide system developers and testers with an enviroment
 for rapidly constructing experiments for distributed component-based systems,
 and generating testing system for their target architecture. The modeling
 tools are built on the following technologies:
-
-
 \begin{figure}[htbp]
   \centering
   \includegraphics[scale=0.5]{cuts-modeling-blocks.pdf}
@@ -193,22 +176,18 @@ first install the latest version of GME. Then, you \textbf{MUST} build CoSMIC
 from source as well. This is required because the CUTS modeling tools are
 built on top of CoSMIC, and its therefore dependent on CoSMIC. You can find
 instructions for building CoSMIC from source at the following location:
-
 \begin{lstlisting}
 (*@\texttt{www.dre.vanderbilt.edu/cosmic/downloads}@*)
 \end{lstlisting}
-
 After you have built and installed CoSMIC from sources, you are ready to build
 the CUTS modeling tools from source. Please use the following commands to 
 build the modeling tools using your flavor of Visual C++:
-
 \begin{lstlisting}
-(*@\texttt{\%> cd \$CUTS\_ROOT}@*)
+(*@\texttt{\%> cd \%CUTS\_ROOT\%}@*)
 (*@\texttt{\%> mwc.pl -type [vc71 | vc8 | vc9] -features modeling=1,cosmic=1,boost=1,xsc=1,xscrt=1 CUTS\_CoSMIC.mwc}@*)
 (*@\texttt{\%> open solution and build}@*)
 \end{lstlisting}
-
-\noindent The build process will ensure that all the interpreters are installed
+The build process will ensure that all the interpreters are installed
 and configured for your environment.
 
 \section{CUTS Analysis Tools (Windows-only)}
@@ -216,25 +195,49 @@ and configured for your environment.
 The CUTS analysis tools allow developers to view and analyze performance metrics
 of their system, and a CUTS test run. The analysis tools are built using the 
 following key technologies:
-
-
 \begin{figure}[htbp]
   \centering
   \includegraphics[scale=0.5]{cuts-analysis-blocks.pdf}
   \caption{Building blocks for the CUTS analysis tools}
   \label{fig:cuts-analysis-blocks}
 \end{figure}
-
 \begin{itemize}
   \item \textbf{ASP.NET} - ASP.NET is used to create the web application
   for the analysis tools, which is the main access portal for viewing 
   test results.
 
-  \item \textbf{SQLite(.NET)} - SQLite is the embedded database technology
-  we use to manage the backend database(s). You can download SQLite(.NET) 
-  from the folloi
+  \item \textbf{SQLite.NET} - SQLite.NET is the embedded database technology
+  we use to manage the backend database(s). You can download SQLite.NET
+  from the following location:~\url{sqlite.phxsoftware.com}
 \end{itemize}
 
 \subsection{Installing prebuilt version via .msi package}
 
+The easiest and quickest way to install the CUTS analysis tools is to install
+them using the .msi installer. You can download the latest version of the
+CUTS analysis tools from the following location:~\url{www.dre.vanderbilt.edu/CUTS/downloads}.
+Before you can install the CUTS modeling tools, please make sure you have
+installed ASP.NET 2.0 and SQLite.NET. Once both ASP.NET 2.0 and SQLite.NET are 
+installed, then you can install the CUTS modeling tools~\footnote{We assume that 
+Microsoft Internet Information Services (IIS) is already installed on the server
+that you installing the CUTS analysis tools. Otherwise, please install Microsoft
+IIS before installing the CUTS analysis tools, or any of its dependencies.}~\footnote{We
+currently do not support Mono. Future versions of the CUTS analysis tools, however, will
+support Mono.}.
+
 \subsection{Building from sources (advanced)}
+
+If you choose, you can build the CUTS analysis tools from source. This is given 
+you have downloaded all the source from the CUTS source code repository (see
+Section~\ref{sec:install-download-runtime}). To build the CUTS analysis tools,
+first install Visual Studio.NET 2003 or better. Afterwards, please use the following 
+commands to build the analysis tools:
+\begin{lstlisting}
+(*@\texttt{\%> cd \%CUTS\_ROOT\%$\backslash$utils$\backslash$BMW}@*)
+(*@\texttt{\%> mwc.pl -type [vc8 | vc9] BMW.mwc}@*)
+(*@\texttt{\%> open solution and build}@*)
+\end{lstlisting}
+The build process will ensure that all assemblies and the website build correctly. 
+Once the build process is complete, you will to register the following location
+with Microsoft IIS: \texttt{\%CUTS\_ROOT\%$\backslash$utils$\backslash$BMW$\backslash$website}.
+This will allow you to view the website from your favorite web browser.
