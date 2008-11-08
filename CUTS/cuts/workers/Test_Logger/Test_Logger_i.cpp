@@ -128,7 +128,7 @@ log (const ACE_Time_Value & tv, long severity, const char * msg, size_t msg_leng
     try
     {
       // Copy over the time value.
-      CUTS::Time_Stamp ts;
+      CUTS::TimeValue ts;
       ts.sec = tv.sec ();
       ts.usec = tv.usec ();
 

@@ -30,9 +30,9 @@ namespace CUTS
 // operator >>=
 //
 static inline
-void operator >>= (const CUTS::Time_Stamp & ts, ACE_Time_Value & tm)
+void operator >>= (const CUTS::TimeValue & ts, ACE_Time_Value & tm)
 {
-  CUTS_TRACE ("operator >>= (const CUTS::Time_Stamp &, ACE_Time_Value &)");
+  CUTS_TRACE ("operator >>= (const CUTS::TimeValue &, ACE_Time_Value &)");
 
   tm.set (ts.sec, ts.usec);
 }
@@ -272,9 +272,9 @@ operator <<= (SEQUENCE & sequence, CUTS_Log_T <T, LOCK> & log)
 // operator <<=
 //
 inline static bool
-operator <<= (CUTS::Time_Stamp & ts, const ACE_Time_Value & tv)
+operator <<= (CUTS::TimeValue & ts, const ACE_Time_Value & tv)
 {
-  CUTS_TRACE ("operator <<= (CUTS::Time_Stamp &, const ACE_Time_Value &)");
+  CUTS_TRACE ("operator <<= (CUTS::TimeValue &, const ACE_Time_Value &)");
 
   ts.sec = tv.sec ();
   ts.usec = tv.usec ();

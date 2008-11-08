@@ -14,7 +14,7 @@
 #define _CUTS_TEST_LOGGER_I_H_
 
 #include "cuts/utils/logging/loggingC.h"
-#include "cuts/utils/testing/testingC.h"
+#include "cuts/utils/testing/svcs/server/testingC.h"
 
 /**
  * @class CUTS_Test_Logger_i

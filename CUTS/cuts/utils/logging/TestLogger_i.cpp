@@ -71,7 +71,7 @@ CUTS_TestLogger_i::~CUTS_TestLogger_i (void)
 //
 // log
 //
-void CUTS_TestLogger_i::log (const CUTS::Time_Stamp & tv,
+void CUTS_TestLogger_i::log (const CUTS::TimeValue & tv,
                              CORBA::Long severity,
                              const CUTS::MessageText & msg)
 {

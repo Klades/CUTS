@@ -60,7 +60,6 @@ project (CUTS) : portableserver, anytypecode, cutslib {
     Port_Summary.cpp
     Component_Registry.cpp
     str.cpp
-    Testing_Service.cpp
     Time.cpp
     Time_Measurement.cpp
     Timestamp_Metric.cpp

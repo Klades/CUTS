@@ -13,8 +13,9 @@
 #ifndef _CUTS_DB_SQLITE_QUERY_H_
 #define _CUTS_DB_SQLITE_QUERY_H_
 
-#include "cuts/utils/db/DB_Query.h"
 #include "Record.h"
+#include "Parameter.h"
+#include "cuts/utils/db/DB_Query.h"
 
 // Forward decl.
 class CUTS_DB_SQLite_Connection;
@@ -100,7 +101,7 @@ public:
    *
    * @return        Pointer to the new parameter.
    */
-  virtual CUTS_DB_Parameter * parameter (size_t index);
+  virtual CUTS_DB_SQLite_Parameter * parameter (size_t index);
 
   /**
    * Get the number of parameters.

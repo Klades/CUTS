@@ -139,7 +139,7 @@ long CUTS_DB_SQLite_Query::last_insert_id (void)
 //
 // parameter
 //
-CUTS_DB_Parameter * CUTS_DB_SQLite_Query::parameter (size_t index)
+CUTS_DB_SQLite_Parameter * CUTS_DB_SQLite_Query::parameter (size_t index)
 {
   return 0;
 }

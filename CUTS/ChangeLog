@@ -1,10 +1,75 @@
+Sat Nov  8 17:07:54 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/CUTS.mpc:
+        * cuts/TimeValue.idl:
+        * cuts/UUID.idl:
+        * cuts/performance.idl:
+        * cuts/performance_i.cpp:
+        * cuts/utils/logging/TestLogger_i.h:
+        * cuts/utils/logging/TestLogger_i.cpp:
+        * cuts/utils/logging/logging.idl:
+        * cuts/workers/Test_Logger/Test_Logger_i.h:
+        * cuts/workers/Test_Logger/Test_Logger_i.cpp:
+
+          . Changed the name of the CUTS::Time_Stamp structure to
+            CUTS::TimeValue.
+
+        * cuts/utils/db/DB_Query.h:
+        * cuts/utils/db/DB_Utils_Export.h:
+        * cuts/utils/db/SQLite/Parameter.h:
+        * cuts/utils/db/SQLite/Parameter.cpp:
+        * cuts/utils/db/SQLite/Query.h:
+        * cuts/utils/db/SQLite/Query.cpp:
+
+          . Next update to the wrappers for SQLite.
+
+        * cuts/utils/testing/Test_Configuration_File.cpp:
+        * cuts/utils/testing/Test_Options.h:
+        * cuts/utils/testing/Testing_App.h:
+        * cuts/utils/testing/Testing_App.inl:
+        * cuts/utils/testing/Testing_App.cpp:
+        * cuts/utils/testing/Testing_App_Task.cpp:
+        * cuts/utils/testing/Testing_Service.h:
+        * cuts/utils/testing/Testing_Service.inl:
+        * cuts/utils/testing/Testing_Service.cpp:
+        * cuts/utils/testing/Testing_Service_Manager.h:
+        * cuts/utils/testing/Testing_Service_Manager.cpp:
+        * cuts/utils/testing/cutstest.cpp:
+        * cuts/utils/testing/testing.mpc:
+
+          . The testing service is no longer implemented on top of
+            the ACE_Service_Config framework. This makes it a LOT
+            easier to implement the service manager, and keep the testing
+            services separate from services within the ACE_Service_Config.
+
+          . The testing service object no longer extends the
+            ACE_Service_Object by default.
+
+        * cuts/utils/testing/svcs/server/Testing_Server.h:
+        * cuts/utils/testing/svcs/server/Testing_Server.cpp:
+        * cuts/utils/testing/svcs/server/Testing_Server_Task.h:
+        * cuts/utils/testing/svcs/server/Testing_Server_Task.cpp:
+        * cuts/utils/testing/svcs/server/Testing_Server_export.h:
+        * cuts/utils/testing/svcs/server/server.mpc:
+
+          . Reimplemented the testing server service in terms on the new
+            testing service framework. The service is still experiencing
+            a few bugs dealing with the internals of TAO.
+
+        * cuts/Testing_Service.h:
+        * cuts/Testing_Service.inl:
+        * cuts/Testing_Service.cpp:
+        * cuts/utils/testing/Testing_Options.h:
+
+          . Removed these files.
+
 Tue Nov  4 00:39:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * docs/manual/install.tex:
         * docs/presentations/CBML-WML.ppt:
 
-	  . Finished first chapter of user manual.
-	
+          . Finished first chapter of user manual.
+
 Mon Nov  3 22:26:04 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/Benchmark_Data_Collector.mpc:

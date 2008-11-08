@@ -21,9 +21,8 @@ module CUTS
   /**
    * @struct UUID
    *
-   * UUID used for identifing a registered EINode. The UUID is
-   * assigned by the DAC and used, instead of a variable string,
-   * to identify the EINode at runtime.
+   * Data structure for sending a Universal Unique Identifer (UUID)
+   * between distributed clients.
    */
   struct UUID
   {

@@ -16,11 +16,11 @@
 module CUTS
 {
   /**
-   * @struct Time_Stamp
+   * @struct TimeValue
    *
    * Time value specified in seconds and microseconds.
    */
-  struct Time_Stamp
+  struct TimeValue
   {
     /// The second time value.
     unsigned long sec;

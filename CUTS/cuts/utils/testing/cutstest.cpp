@@ -10,6 +10,7 @@
  */
 //=============================================================================
 
+#include "Test_export.h"
 #include "Testing_App.h"
 #include "ace/Null_Mutex.h"
 #include "ace/Singleton.h"
@@ -32,8 +33,9 @@ static void server_sighandler (int sig)
 //
 static void register_sighandler (void)
 {
-  ACE_Sig_Action sa (&server_sighandler);
+  CUTS_TEST_TRACE ("void register_sighandler (void)");
 
+  ACE_Sig_Action sa (&server_sighandler);
   sa.register_action (SIGINT);
   sa.register_action (SIGTERM);
 }
@@ -41,11 +43,11 @@ static void register_sighandler (void)
 //
 // main
 //
-int main (int argc, char * argv [])
+int ACE_TMAIN (int argc, ACE_TCHAR * argv [])
 {
   int retval;
 
-  u_long default_mask = 
+  u_long default_mask =
     LM_EMERGENCY | LM_ALERT | LM_CRITICAL | LM_ERROR | LM_WARNING | LM_NOTICE;
 
   ACE_Log_Msg::instance ()->priority_mask (default_mask, ACE_Log_Msg::PROCESS);
@@ -60,7 +62,8 @@ int main (int argc, char * argv [])
   }
   catch (...)
   {
-    ACE_ERROR ((LM_ERROR, "*** error : caught unknown exception\n"));
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - caught unknown exception\n"));
     retval = 1;
   }
 

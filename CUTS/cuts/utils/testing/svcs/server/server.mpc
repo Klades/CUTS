@@ -54,13 +54,16 @@ project (CUTS_Testing_Server_skel) : portableserver, cuts_testing_stub, cutslib 
 project (CUTS_Testing_Server) : cuts_testing_svc, naming, iortable, cuts_testing_skel, cutslib {
   sharedname = CUTS_Testing_Server
 
+  dynamicflags += CUTS_TESTING_SERVER_BUILD_DLL
+
   Source_Files {
     Testing_Server.cpp
+    Testing_Server_Task.cpp
     TestManager_i.cpp
   }
 
   Header_Files {
-
+    Testing_Server_export.h
   }
 
   Inline_Files {

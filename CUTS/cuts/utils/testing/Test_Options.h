@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- * @file        Testing_Options.h
+ * @file        Test_Options.h
  *
  * $Id$
  *
@@ -10,24 +10,24 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_TESTING_OPTIONS_H_
-#define _CUTS_TESTING_OPTIONS_H_
+#ifndef _CUTS_TEST_OPTIONS_H_
+#define _CUTS_TEST_OPTIONS_H_
 
 #include "ace/SString.h"
+#include "ace/Time_Value.h"
 #include "ace/UUID.h"
 
 /**
- * @class CUTS_Testing_Options
+ * @class CUTS_Test_Options
  *
  * Container class for options of the testing application
  */
-class CUTS_Testing_Options
+class CUTS_Test_Options
 {
 public:
   /// Default constructor.
-  CUTS_Testing_Options (void)
-    : name_ ("(default)"),
-      test_duration_ (static_cast <time_t> (30))
+  CUTS_Test_Options (void)
+    : name_ ("(default)")
   {
 
   }
@@ -41,8 +41,7 @@ public:
   /// Teardown command for the test.
   ACE_CString teardown_;
 
-  /// Name of the testing application. The default name of the
-  /// application is '(default)'.
+  /// Name of the testing application.
   ACE_CString name_;
 
   /// The duration of the test.
@@ -53,6 +52,12 @@ public:
 
   /// UUID for the testing application.
   ACE_Utils::UUID uuid_;
+
+  /// Start time of the test
+  ACE_Time_Value start_;
+
+  /// Stop time of the test.
+  ACE_Time_Value stop_;
 };
 
-#endif  // !defined _CUTS_TESTING_OPTIONS_H_
+#endif  // !defined _CUTS_TEST_OPTIONS_H_

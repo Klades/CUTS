@@ -13,7 +13,7 @@
 #ifndef _CUTS_DB_QUERY_H_
 #define _CUTS_DB_QUERY_H_
 
-#include "DB_Exception.h"
+#include "DB_Utils_Export.h"
 
 // Forward decl.
 class CUTS_DB_Record;

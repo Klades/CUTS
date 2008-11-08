@@ -79,7 +79,7 @@ public:
   /// Destructor.
   virtual ~CUTS_TestLogger_i (void);
 
-  virtual void log (const CUTS::Time_Stamp & tv,
+  virtual void log (const CUTS::TimeValue & tv,
                     CORBA::Long severity,
                     const CUTS::MessageText & message);
 

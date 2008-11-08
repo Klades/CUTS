@@ -13,12 +13,11 @@
 #ifndef _CUTS_TESTING_APP_H_
 #define _CUTS_TESTING_APP_H_
 
+#include "Test_Options.h"
 #include "Testing_App_Task.h"
-#include "Testing_Options.h"
+#include "Testing_Service_Manager.h"
 #include "ace/Condition_T.h"
-#include "ace/Service_Gestalt.h"
 #include "ace/SString.h"
-#include "ace/Thread_Mutex.h"
 
 namespace CUTS
 {
@@ -58,7 +57,7 @@ public:
    *
    * @return        Options for the testing application.
    */
-  const CUTS_Testing_Options & options (void) const;
+  const CUTS_Test_Options & options (void) const;
 
 protected:
   /**
@@ -82,7 +81,7 @@ private:
   int teardown_test (void);
 
   /// Load the configuration for the test.
-  int load_configuration (void);
+  int load_configuration (const ACE_CString & config);
 
   int load_service (const CUTS::serviceDescription &);
 
@@ -93,7 +92,7 @@ private:
   CUTS_Testing_App_Task task_;
 
   /// Options for the testing application.
-  CUTS_Testing_Options opts_;
+  CUTS_Test_Options opts_;
 
   /// Lock for the condition variable.
   ACE_Thread_Mutex lock_;
@@ -101,8 +100,8 @@ private:
   /// Condition variable to wait for shutdown.
   ACE_Condition <ACE_Thread_Mutex> shutdown_;
 
-  /// Service configurator for this test.
-  ACE_Service_Gestalt svc_config_;
+  /// Testing service manager for the testing application.
+  CUTS_Testing_Service_Manager svc_mgr_;
 };
 
 #if defined (__CUTS_INLINE__)

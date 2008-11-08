@@ -1,6 +1,7 @@
 // $Id$
 
 #include "Testing_Server.h"
+#include "Testing_Server_Task.h"
 #include "TestManager_i.h"
 #include "cuts/utils/testing/Testing_App.h"
 #include "tao/IORTable/IORTable.h"
@@ -9,28 +10,16 @@
 #include "ace/Guard_T.h"
 #include "ace/streams.h"
 
-static const char * __USAGE__ =
-"Test manager daemon for CUTS-based experiments\n"
-"\n"
-"USAGE: cutstest_d [DAEMON OPTIONS] [OPTIONS]\n";
-
-static const char * __HELP__ =
-"DAEMON OPTIONS:\n"
-"  --register-with-ns      register daemon with CORBA naming service\n";
-
-static const char * __DETAILS__ =
-"DETAILS:\n"
-"By default, the test manager daemon registers itself with its ORB's IOR\n"
-"table as CUTS/TestManager/NAME where NAME is the value of the --name=NAME\n"
-"option\n";
+CUTS_TESTING_SERVICE_IMPL (CUTS_Testing_Server, _make_CUTS_Testing_Server);
 
 //
 // CUTS_Testing_Server
 //
 CUTS_Testing_Server::CUTS_Testing_Server (void)
-: register_with_ns_ (false)
+: register_with_ns_ (false),
+  task_ (*this)
 {
-
+  CUTS_TESTING_SERVER_TRACE ("CUTS_Testing_Server::CUTS_Testing_Server (void)");
 }
 
 //
@@ -38,7 +27,7 @@ CUTS_Testing_Server::CUTS_Testing_Server (void)
 //
 CUTS_Testing_Server::~CUTS_Testing_Server (void)
 {
-
+  CUTS_TESTING_SERVER_TRACE ("CUTS_Testing_Server::~CUTS_Testing_Server (void)");
 }
 
 //
@@ -46,22 +35,66 @@ CUTS_Testing_Server::~CUTS_Testing_Server (void)
 //
 int CUTS_Testing_Server::init (int argc, char * argv [])
 {
+  CUTS_TESTING_SERVER_TRACE ("CUTS_Testing_Server::init (int, char * [])");
+
   if (this->parse_args (argc, argv) == -1)
     return -1;
 
-  // Spawn the server's service thread.
-  int grp_id =
-    ACE_Thread_Manager::instance ()->spawn (
-      CUTS_Testing_Server::svc_run,
-      this);
+  try
+  {
+    // Get a reference to the <RootPOA>
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - resolving initial reference to RootPOA\n"));
+    CORBA::Object_var obj = this->orb_->resolve_initial_references ("RootPOA");
+    this->root_poa_ = PortableServer::POA::_narrow (obj.in ());
 
-  if (grp_id == -1)
+    // Activate the RootPOA's manager.
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - getting reference to POAManager\n"));
+
+    PortableServer::POAManager_var mgr = this->root_poa_->the_POAManager ();
+    mgr->activate ();
+
+    // Create a new test manager.
+    ACE_NEW_THROW_EX (this->test_manager_,
+                      CUTS_TestManager_i (*this),
+                      CORBA::NO_MEMORY ());
+
+    // Activate the manager and transfer ownership.
+    CUTS::TestManager_var manager = this->test_manager_->_this ();
+    this->servant_ = this->test_manager_;
+
+    // Register the test manager with the IORTable for the ORB.
+    //if (this->register_with_iortable () == -1)
+    //{
+    //  ACE_ERROR ((LM_ERROR,
+    //              "%T (%t) - %M - failed to register with IOR table\n"));
+    //}
+
+    // Register the test manager with the naming service, if applicable.
+    if (this->register_with_ns_)
+    {
+      if (this->register_with_name_service () == -1)
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "%T (%t) - %M - failed to register %s with naming service",
+                    this->test_app ()->options ().name_.c_str ()));
+      }
+    }
+
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - activating the server's task\n"));
+
+    return this->task_.activate ();
+  }
+  catch (const CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - failed to start test manger server\n"));
+                "%T (%t) - %M - %s\n",
+                ex._info ().c_str ()));
   }
 
-  return grp_id != -1 ? 0 : -1;
+  return -1;
 }
 
 //
@@ -69,64 +102,22 @@ int CUTS_Testing_Server::init (int argc, char * argv [])
 //
 int CUTS_Testing_Server::parse_args (int argc, char * argv [])
 {
-  this->orb_ = CORBA::ORB_init (argc, argv);
+  CUTS_TESTING_SERVER_TRACE ("CUTS_Testing_Server::parse_args (int, char * [])");
 
-  // Parse the remainder of the command-line options.
-  const ACE_TCHAR * opts = ACE_TEXT ("h");
-  ACE_Get_Opt get_opt (argc, argv, opts);
-
-  get_opt.long_option ("register-with-ns");
-  get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
-
-  char ch;
-
-  while ((ch = get_opt ()) != EOF)
+  try
   {
-    switch (ch)
-    {
-    case 0:
-      if (ACE_OS::strcmp ("register-with-ns", get_opt.long_option ()) == 0)
-        this->register_with_ns_ = true;
-      else if (ACE_OS::strcmp ("help", get_opt.long_option ()) == 0)
-        this->print_help ();
+    this->orb_ = ::CORBA::ORB_init (argc, argv);
 
-      break;
-
-    case 'h':
-      this->print_help ();
-      break;
-
-    case ':':
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T - [%M] - -%c is missing an argument\n",
-                         get_opt.opt_opt ()),
-                         -1);
-      break;
-    };
+    return 0;
+  }
+  catch (const CORBA::Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - %s\n",
+                ex._info ().c_str ()));
   }
 
-  return 0;
-}
-
-//
-// svc_run
-//
-ACE_THR_FUNC_RETURN CUTS_Testing_Server::svc_run (void * param)
-{
-  // Get the server from the thread's parameter.
-  CUTS_Testing_Server * server =
-    reinterpret_cast <CUTS_Testing_Server *> (param);
-
-  int const svc_status = server->orb_svc ();
-
-  ACE_THR_FUNC_RETURN status;
-#if defined (ACE_HAS_INTEGRAL_TYPE_THR_FUNC_RETURN)
-  status = static_cast <ACE_THR_FUNC_RETURN> (svc_status);
-#else
-  status = reinterpret_cast <ACE_THR_FUNC_RETURN> (svc_status);
-#endif /* ACE_HAS_INTEGRAL_TYPE_THR_FUNC_RETURN */
-
-  return status;
+  return -1;
 }
 
 //
@@ -134,6 +125,8 @@ ACE_THR_FUNC_RETURN CUTS_Testing_Server::svc_run (void * param)
 //
 int CUTS_Testing_Server::fini (void)
 {
+  CUTS_TESTING_SERVER_TRACE ("CUTS_Testing_Server::fini (void)");
+
   try
   {
     // We need to unregister the object with the naming service before we
@@ -142,21 +135,23 @@ int CUTS_Testing_Server::fini (void)
       this->unregister_with_name_service ();
 
     // Stop the main event loop for the ORB.
-    ACE_DEBUG ((LM_DEBUG,
-                  "%T - %M - shutting down the ORB\n"));
-
+    ACE_DEBUG ((LM_DEBUG, "%T (%t) - %M - shutting down the ORB\n"));
     this->orb_->shutdown (true);
+    this->task_.wait ();
+
+    // Destroy the RootPOA.
+    ACE_DEBUG ((LM_DEBUG, "%T (%t) - %M - destroying the RootPOA\n"));
+    this->root_poa_->destroy (true, true);
+
+    // Destroy the ORB.
+    ACE_DEBUG ((LM_DEBUG, "%T (%t) - %M - destroying the ORB\n"));
+    this->orb_->destroy ();
   }
   catch (const CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - %s\n",
+                "%T (%t) - %M - %s\n",
                 ex._info ().c_str ()));
-  }
-  catch (...)
-  {
-    ACE_ERROR ((LM_ERROR,
-                "%T - %M - caught unknown exception\n"));
   }
 
   return -1;
@@ -176,13 +171,13 @@ int CUTS_Testing_Server::register_with_iortable (void)
     if (::CORBA::is_nil (ior_table.in ()))
     {
       ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T - %M - failed to resolve IOR table\n"),
+                         "%T (%t) - %M - failed to resolve IOR table\n"),
                          -1);
     }
 
     // Construct the name for the test manager.
     ACE_CString manager_name = "CUTS/TestManager/";
-    //manager_name += this->
+    manager_name += this->test_app ()->options ().name_;
 
     // Get the IOR string for the test manager.
     CUTS::TestManager_var test_mgr = this->test_manager_->_this ();
@@ -191,7 +186,7 @@ int CUTS_Testing_Server::register_with_iortable (void)
 
     // Bind the object to the IOR table.
     ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - registering test manager with the IOR table [%s]\n",
+                "%T (%t) - %M - registering test manager with the IOR table [%s]\n",
                 manager_name.c_str ()));
 
     ior_table->bind (name_str.in (), obj_str.in ());
@@ -200,7 +195,7 @@ int CUTS_Testing_Server::register_with_iortable (void)
   catch (const CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - %s\n",
+                "%T (%t) - %M - %s\n",
                 ex._info ().c_str ()));
   }
 
@@ -270,10 +265,6 @@ int CUTS_Testing_Server::register_with_name_service (void)
                 "%T - %M - %s\n",
                 ex._info ().c_str ()));
   }
-  catch (...)
-  {
-
-  }
 
   return -1;
 }
@@ -309,86 +300,6 @@ int CUTS_Testing_Server::unregister_with_name_service (void)
                 "%T - %M - %s\n",
                 ex._info ().c_str ()));
   }
-  catch (...)
-  {
-    ACE_ERROR ((LM_ERROR,
-                "%T - %M - caught unknown exception\n"));
-  }
-
-  return -1;
-}
-
-//
-// svc
-//
-int CUTS_Testing_Server::orb_svc (void)
-{
-  try
-  {
-    // Get a reference to the <RootPOA>
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - resolving initial reference to RootPOA\n"));
-    CORBA::Object_var obj = this->orb_->resolve_initial_references ("RootPOA");
-    PortableServer::POA_var root_poa = PortableServer::POA::_narrow (obj.in ());
-
-    // Activate the RootPOA's manager.
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - getting reference to POAManager\n"));
-    PortableServer::POAManager_var mgr = root_poa->the_POAManager ();
-    mgr->activate ();
-
-    // Create a new test manager.
-    ACE_NEW_THROW_EX (this->test_manager_,
-                      CUTS_TestManager_i (*this),
-                      CORBA::NO_MEMORY ());
-
-    // Activate the manager and transfer ownership.
-    CUTS::TestManager_var manager = this->test_manager_->_this ();
-    this->servant_ = this->test_manager_;
-
-    // Register the test manager with the IORTable for the ORB.
-    if (this->register_with_iortable () == -1)
-    {
-      ACE_ERROR ((LM_ERROR,
-                  "%T - %M - failed to register with IOR table\n"));
-    }
-
-    // Register the test manager with the naming service, if applicable.
-    if (this->register_with_ns_)
-    {
-      if (this->register_with_name_service () == -1)
-      {
-        ACE_ERROR ((LM_ERROR,
-                    "%T - %M - failed to register %s with naming service",
-                    this->test_app ()->options ().name_.c_str ()));
-      }
-    }
-
-    // Run the ORB's main event loop.
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - running the server's main event loop\n"));
-    this->orb_->run ();
-
-    // Destroy the RootPOA.
-    ACE_DEBUG ((LM_DEBUG, "%T - %M - destroying the RootPOA\n"));
-    root_poa->destroy (true, true);
-
-    // Destroy the ORB.
-    ACE_DEBUG ((LM_DEBUG, "%T - %M - destroying the ORB\n"));
-    this->orb_->destroy ();
-    return 0;
-  }
-  catch (const CORBA::Exception & ex)
-  {
-    ACE_ERROR ((LM_ERROR,
-                "%T - %M - %s\n",
-                ex._info ().c_str ()));
-  }
-  catch (...)
-  {
-    ACE_ERROR ((LM_ERROR,
-                "%T - %M - caught unknown exception\n"));
-  }
 
   return -1;
 }
@@ -398,8 +309,14 @@ int CUTS_Testing_Server::orb_svc (void)
 //
 void CUTS_Testing_Server::print_help (void)
 {
-  std::cout
-    << ::__USAGE__ << std::endl
-    << ::__HELP__ << std::endl
-    << ::__DETAILS__ << std::endl;
+
 }
+
+//
+// the_ORB
+//
+CORBA::ORB_ptr CUTS_Testing_Server::the_ORB (void)
+{
+  return CORBA::ORB::_duplicate (this->orb_.in ());
+}
+

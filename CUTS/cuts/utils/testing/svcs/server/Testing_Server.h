@@ -13,10 +13,11 @@
 #ifndef _CUTS_TESTING_APP_SERVER_H_
 #define _CUTS_TESTING_APP_SERVER_H_
 
+#include "Testing_Server_export.h"
+#include "Testing_Server_Task.h"
 #include "cuts/utils/testing/Testing_Service.h"
 #include "tao/PortableServer/Servant_Base.h"
 #include "orbsvcs/CosNamingC.h"
-#include "ace/Task.h"
 
 // Forward decl.
 class CUTS_TestManager_i;
@@ -50,6 +51,13 @@ public:
   /// Shutdown the server.
   virtual int fini (void);
 
+  /**
+   * Get the ORB owned by this server.
+   *
+   * @return        Reference to the ORB.
+   */
+  CORBA::ORB_ptr the_ORB (void);
+
 private:
   /// Print the help message to the screen.
   void print_help (void);
@@ -58,14 +66,6 @@ private:
    * Parse the command-line arguments.
    */
   virtual int parse_args (int argc, char * argv []);
-
-  /// Service thread for the server. This actually runs the ORB's
-  /// main event loop so control can return to the main part of
-  /// the application.
-  static ACE_THR_FUNC_RETURN svc_run (void * param);
-
-  /// The service thread for the CORBA aspect.
-  int orb_svc (void);
 
   /// Helper method to register TestManager with IORTable.
   int register_with_iortable (void);
@@ -88,8 +88,16 @@ private:
   /// Register the daemon with the naming service.
   bool register_with_ns_;
 
+  /// The RootPOA for the server.
+  PortableServer::POA_var root_poa_;
+
   /// The root context of the naming service.
   CosNaming::NamingContextExt_var root_ctx_;
+
+  /// Task for the testing server.
+  CUTS_Testing_Server_Task task_;
 };
+
+CUTS_TESTING_SERVICE_DECL (CUTS_TESTING_SERVER_Export, _make_CUTS_Testing_Server);
 
 #endif  // !defined _CUTS_TESTING_APP_SERVER_H_

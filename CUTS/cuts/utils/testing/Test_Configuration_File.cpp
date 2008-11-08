@@ -6,6 +6,7 @@
 #include "Test_Configuration_File.inl"
 #endif
 
+#include "Test_export.h"
 #include "XSCRT/utils/Buffer_Writer_T.h"
 #include "XSCRT/utils/Xml_Schema_Resolver_T.h"
 #include "ace/Env_Value_T.h"
@@ -15,6 +16,8 @@
 //
 void CUTS_Test_Configuration_File::configure (void)
 {
+  CUTS_TEST_TRACE ("CUTS_Test_Configuration_File::configure (void)");
+
   ACE_Env_Value <char *> CUTS_ROOT ("CUTS_ROOT", "");
 
   std::ostringstream schemas_dir;

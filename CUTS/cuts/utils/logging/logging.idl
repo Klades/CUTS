@@ -34,7 +34,7 @@ module CUTS
   struct LogMessage
   {
     /// Timestamp of the log message.
-    CUTS::Time_Stamp timestamp;
+    CUTS::TimeValue timestamp;
 
     /// Priority of the log message.
     long severity;
@@ -60,7 +60,7 @@ module CUTS
      * @param[in]       severity          Severity of the message
      * @param[in]       message           Content of the message
      */
-    void log (in CUTS::Time_Stamp timestamp,
+    void log (in CUTS::TimeValue timestamp,
               in long severity,
               in MessageText message);
 

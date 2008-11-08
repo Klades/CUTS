@@ -1,5 +1,6 @@
 // $Id$
 
+#include "Test_export.h"
 #include "Testing_App_Task.h"
 #include "Testing_App.h"
 #include "ace/CORBA_macros.h"
@@ -12,23 +13,16 @@ CUTS_Testing_App_Task::CUTS_Testing_App_Task (CUTS_Testing_App & parent)
 : parent_ (parent),
   active_ (false)
 {
-  // Create the thread pool reactor for the task.
-  ACE_TP_Reactor * tp_reactor = 0;
+  CUTS_TEST_TRACE ("CUTS_Testing_App_Task::CUTS_Testing_App_Task (CUTS_Testing_App &)");
 
-  ACE_NEW_THROW_EX (tp_reactor,
-                    ACE_TP_Reactor (),
-                    ACE_bad_alloc ());
-  
-  ACE_Auto_Ptr <ACE_TP_Reactor> auto_clean (tp_reactor);
-
-  // Setup the auto clean just in case the next allocation fails.
+  // Create the reactor for the task.
   ACE_Reactor * reactor = 0;
+
   ACE_NEW_THROW_EX (reactor,
-                    ACE_Reactor (tp_reactor, 1),
+                    ACE_Reactor (),
                     ACE_bad_alloc ());
 
   this->reactor (reactor);
-  auto_clean.release ();
 }
 
 //
@@ -36,6 +30,8 @@ CUTS_Testing_App_Task::CUTS_Testing_App_Task (CUTS_Testing_App & parent)
 //
 CUTS_Testing_App_Task::~CUTS_Testing_App_Task (void)
 {
+  CUTS_TEST_TRACE ("CUTS_Testing_App_Task::~CUTS_Testing_App_Task (void)");
+
   ACE_Reactor * reactor = this->reactor ();
   this->reactor (0);
 
@@ -48,6 +44,8 @@ CUTS_Testing_App_Task::~CUTS_Testing_App_Task (void)
 int CUTS_Testing_App_Task::
 handle_timeout (const ACE_Time_Value & tv, const void * act)
 {
+  CUTS_TEST_TRACE ("CUTS_Testing_App_Task::handle_timeout (const ACE_Time_Value &, const void *)");
+
   this->parent_.shutdown ();
   return 0;
 }
@@ -57,10 +55,20 @@ handle_timeout (const ACE_Time_Value & tv, const void * act)
 //
 int CUTS_Testing_App_Task::svc (void)
 {
-  //this->reactor ()->owner (ACE_OS::thr_self ());
+  CUTS_TEST_TRACE ("CUTS_Testing_App_Task::svc (void)");
+
+  ACE_DEBUG ((LM_INFO,
+              "%T (%t) - %M - running application task's thread\n"));
+
+  this->reactor ()->owner (ACE_OS::thr_self ());
 
   while (this->active_)
+  {
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - waiting for the next event\n"));
+
     this->reactor ()->handle_events ();
+  }
 
   return 0;
 }
@@ -70,11 +78,17 @@ int CUTS_Testing_App_Task::svc (void)
 //
 int CUTS_Testing_App_Task::start (void)
 {
-  this->active_ = true;
- 
-  if (this->activate () == -1)
-    this->active_ = false;
+  CUTS_TEST_TRACE ("CUTS_Testing_App_Task::start (void)");
 
+  this->active_ = true;
+
+  if (this->activate () == -1)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - failed to activate testing application task\n"));
+
+    this->active_ = false;
+  }
   return 0;
 }
 
@@ -83,6 +97,8 @@ int CUTS_Testing_App_Task::start (void)
 //
 int CUTS_Testing_App_Task::stop (void)
 {
+  CUTS_TEST_TRACE ("CUTS_Testing_App_Task::stop (void)");
+
   if (this->active_)
   {
     // Toggle the active state of the task.
@@ -101,9 +117,11 @@ int CUTS_Testing_App_Task::stop (void)
 //
 long CUTS_Testing_App_Task::start_test (const ACE_Time_Value & duration)
 {
-  return 
-    this->reactor ()->schedule_timer (this, 
-                                      0, 
+  CUTS_TEST_TRACE ("CUTS_Testing_App_Task::start_test (const ACE_Time_Value &)");
+
+  return
+    this->reactor ()->schedule_timer (this,
+                                      0,
                                       duration);
 }
 
@@ -112,5 +130,7 @@ long CUTS_Testing_App_Task::start_test (const ACE_Time_Value & duration)
 //
 long CUTS_Testing_App_Task::stop_test (long test_id)
 {
+  CUTS_TEST_TRACE ("CUTS_Testing_App_Task::stop_test (long)");
+
   return this->reactor ()->cancel_timer (test_id);
 }

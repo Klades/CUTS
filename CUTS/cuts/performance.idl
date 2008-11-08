@@ -36,7 +36,7 @@ module CUTS
     unsigned long datasize;
 
     /// Timing information for the endpoint.
-    Time_Stamp exittime;
+    TimeValue exittime;
   };
 
   /// Type defintition for a listing of endpoints.
@@ -61,7 +61,7 @@ module CUTS
     long type;
 
     /// The measured duration of the action.
-    Time_Stamp duration;
+    TimeValue duration;
   };
 
   /// Type definition for a listing of action times.
@@ -85,13 +85,13 @@ module CUTS
     long sender;
 
     /// Open time of the record.
-    Time_Stamp open_time;
+    TimeValue open_time;
 
     /// Close time of the record.
-    Time_Stamp close_time;
+    TimeValue close_time;
 
     /// Queueing time for the event.
-    Time_Stamp queue_time;
+    TimeValue queue_time;
 
     /// Log of the endpoints for this record.
     Endpoint_Times ep_times;
@@ -139,7 +139,7 @@ module CUTS
     long unique_id;
 
     /// Time of collection.
-    Time_Stamp collection_time;
+    TimeValue collection_time;
 
     /// Collection of port metrics for the component.
     Port_Metrics ports;
