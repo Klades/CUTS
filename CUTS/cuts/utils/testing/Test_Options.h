@@ -27,7 +27,8 @@ class CUTS_Test_Options
 public:
   /// Default constructor.
   CUTS_Test_Options (void)
-    : name_ ("(default)")
+    : name_ ("(default)"),
+      test_duration_ (ACE_Time_Value::zero)
   {
 
   }

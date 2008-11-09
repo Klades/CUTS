@@ -36,8 +36,8 @@ static const char * __HELP__ =
 "  --uuid=UUID             user-defined UUID for the test\n"
 "\n"
 "  -C, --directory=DIR     change to directory DIR\n"
-"  --deploy=CMD            use CMD to deploy test\n"
-"  --teardown=CMD          use CMD to teardown test\n"
+"  --startup=CMD           use CMD to startup test\n"
+"  --shutdown=CMD          use CMD to shutdown test\n"
 "\n"
 "  -v, --verbose           print verbose infomration\n"
 "  --debug                 print debugging information\n"
@@ -52,10 +52,7 @@ static const char * __HELP__ =
 // CUTS_Testing_App
 //
 CUTS_Testing_App::CUTS_Testing_App (void)
-: test_timer_id_ (-1),
-  task_ (*this),
-  shutdown_ (this->lock_),
-  svc_mgr_ (*this)
+: svc_mgr_ (*this)
 {
   CUTS_TEST_TRACE ("CUTS_Testing_App::CUTS_Testing_App (void)");
   ACE_Utils::UUID_GENERATOR::instance ()->init ();
@@ -87,8 +84,8 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("uuid", ACE_Get_Opt::ARG_REQUIRED);
 
   get_opt.long_option ("directory", 'C', ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("deploy", ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("teardown", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("startup", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("shutdown", ACE_Get_Opt::ARG_REQUIRED);
 
   get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
@@ -146,11 +143,11 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
 
         ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
       }
-      else if (ACE_OS::strcmp (get_opt.long_option (), "deploy") == 0)
+      else if (ACE_OS::strcmp (get_opt.long_option (), "startup") == 0)
       {
         this->opts_.deploy_ = get_opt.opt_arg ();
       }
-      else if (ACE_OS::strcmp (get_opt.long_option (), "teardown") == 0)
+      else if (ACE_OS::strcmp (get_opt.long_option (), "shutdown") == 0)
       {
         this->opts_.teardown_ = get_opt.opt_arg ();
       }
@@ -223,53 +220,58 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
                 "%T (%t) - %M - failed to load test configuration\n"));
   }
 
-  // Start the testing application's task.
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - starting the testing service task\n"));
-  this->task_.start ();
-
   if (!this->opts_.deploy_.empty ())
   {
     // Deploy the test into the environment.
     int retval = this->deploy_test ();
 
-    if (retval == -1)
+    if (retval == 0)
+    {
+      this->svc_mgr_.handle_startup (this->opts_.start_);
+    }
+    else if (retval == -1)
     {
       ACE_ERROR_RETURN ((LM_ERROR,
-                        "%T (%t) - %M - aborting test since deployment failed\n"),
-                        -1);
+                         "%T (%t) - %M - aborting test since deployment failed\n"),
+                         -1);
     }
     else if (retval == 1)
     {
-      ACE_ERROR ((LM_WARNING,
-                  "%T (%t) - %M - state of deployment unknown; continuing...\n"));
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "%T (%t) - %M - state of deployment unknown; aborting...\n"),
+                         -1);
     }
   }
 
   if (this->opts_.test_duration_ != ACE_Time_Value::zero)
   {
-    // Start the actual test. This involves starting the timer
-    // for the test.
-    ACE_DEBUG ((LM_INFO,
-                "%T (%t) - %M - running test for %d second(s)\n",
-                this->opts_.test_duration_.sec ()));
+    // Start the testing application's task.
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - running the test\n"));
 
-    this->test_timer_id_ =
-      this->task_.start_test (this->opts_.test_duration_);
+    if (this->task_.run_test (this->opts_.test_duration_) != 0)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T (%t) - %M - failed to run test\n"));
+    }
   }
 
-  // Wait for testing application to receive shutdown event.
-  ACE_GUARD_RETURN (ACE_Thread_Mutex,  guard, this->lock_, -1);
+  if (!this->opts_.teardown_.empty ())
+  {
+    // Teardown the current test.
+    int retval = this->teardown_test ();
 
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - waiting for test to complete\n"));
-
-  this->shutdown_.wait ();
-
-  // Shutdown the testing application task.
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - waiting for application task to stop\n"));
-  this->task_.stop ();
+    if (retval == 0)
+    {
+      this->svc_mgr_.handle_shutdown (this->opts_.stop_);
+    }
+    else
+    {
+      ACE_ERROR_RETURN ((LM_ERROR,
+                        "%T (%t) - %M - failed to teardown test\n"),
+                        -1);
+    }
+  }
 
   return 0;
 }
@@ -281,25 +283,10 @@ int CUTS_Testing_App::shutdown (void)
 {
   CUTS_TEST_TRACE ("CUTS_Testing_App::shutdown (void)");
 
-  if (!this->opts_.teardown_.empty ())
-  {
-    // Teardown the current test.
-    int retval = this->teardown_test ();
-
-    if (retval == -1)
-    {
-      ACE_ERROR_RETURN ((LM_ERROR,
-                        "%T (%t) - %M - failed to teardown test\n"),
-                        -1);
-    }
-  }
-
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - notifying all threads of shutdown event\n"));
-
   // Wake all threads waiting for shutdown event.
-  ACE_GUARD_RETURN (ACE_Thread_Mutex, guard, this->lock_, -1);
-  this->shutdown_.broadcast ();
+  if (this->opts_.test_duration_ != ACE_Time_Value::zero)
+    this->task_.stop_test ();
+
   return 0;
 }
 

@@ -1,3 +1,57 @@
+Sun Nov  9 16:36:18 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/testing.mpc:
+        * cuts/utils/testing/Test_Options.h:
+        * cuts/utils/testing/Test_export.h:
+        * cuts/utils/testing/Testing_App.h:
+        * cuts/utils/testing/Testing_App.inl:
+        * cuts/utils/testing/Testing_App.cpp:
+        * cuts/utils/testing/Testing_App_Task.h:
+        * cuts/utils/testing/Testing_App_Task.cpp:
+        * cuts/utils/testing/Testing_Service.h:
+        * cuts/utils/testing/Testing_Service_DLL.h:
+        * cuts/utils/testing/Testing_Service_DLL.inl:
+        * cuts/utils/testing/Testing_Service_DLL.cpp:
+        * cuts/utils/testing/Testing_Service_Manager.h:
+        * cuts/utils/testing/Testing_Service_Manager.inl:
+        * cuts/utils/testing/Testing_Service_Manager.cpp:
+        * cuts/utils/testing/cutstest.cpp:
+
+          . Bug fix where using a service that was loaded resulted in a
+            segfault. This error was caused because the ACE_DLL was static
+            and closed to services module when the load_service () method
+            returned.
+
+            This was resolved dynamically creating an ACE_DLL object and
+            storing it until the service is removed from the testing service
+            manager.
+
+        * cuts/utils/testing/svcs/summary:
+        * cuts/utils/testing/svcs/summary/Basic_Test_Summary_Impl.h:
+        * cuts/utils/testing/svcs/summary/Basic_Test_Summary_Impl.inl:
+        * cuts/utils/testing/svcs/summary/Basic_Test_Summary_Impl.cpp:
+        * cuts/utils/testing/svcs/summary/Test_Summary_Impl.h:
+        * cuts/utils/testing/svcs/summary/Test_Summary_Impl.inl:
+        * cuts/utils/testing/svcs/summary/Test_Summary_Impl.cpp:
+        * cuts/utils/testing/svcs/summary/Test_Summary_Service.h:
+        * cuts/utils/testing/svcs/summary/Test_Summary_Service.inl:
+        * cuts/utils/testing/svcs/summary/Test_Summary_Service.cpp:
+        * cuts/utils/testing/svcs/summary/Test_Summary_export.h:
+        * cuts/utils/testing/svcs/summary/XML_Test_Summary_Impl.h:
+        * cuts/utils/testing/svcs/summary/XML_Test_Summary_Impl.inl:
+        * cuts/utils/testing/svcs/summary/XML_Test_Summary_Impl.cpp:
+        * cuts/utils/testing/svcs/summary/streams.h:
+        * cuts/utils/testing/svcs/summary/streams.cpp:
+        * cuts/utils/testing/svcs/summary/summary.mpc:
+
+          . Implementation of a simple testing service that will print a
+            summary of the test upon shutdown.
+
+        * etc/config/cuts_base.mpb:
+
+          . Added the /wd4355 compile flag to disable another annoying compile
+            warning on Windows. :-/
+
 Sat Nov  8 17:07:54 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/CUTS.mpc:

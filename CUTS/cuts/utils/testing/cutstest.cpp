@@ -33,7 +33,7 @@ static void server_sighandler (int sig)
 //
 static void register_sighandler (void)
 {
-  CUTS_TEST_TRACE ("void register_sighandler (void)");
+  CUTS_TEST_TRACE ("register_sighandler (void)");
 
   ACE_Sig_Action sa (&server_sighandler);
   sa.register_action (SIGINT);
@@ -45,6 +45,8 @@ static void register_sighandler (void)
 //
 int ACE_TMAIN (int argc, ACE_TCHAR * argv [])
 {
+  CUTS_TEST_TRACE ("ACE_TMAIN (int, ACE_TCHAR * [])");
+
   int retval;
 
   u_long default_mask =
@@ -63,7 +65,7 @@ int ACE_TMAIN (int argc, ACE_TCHAR * argv [])
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - caught unknown exception\n"));
+                "%T (%t) - %M - caught unknown exception\n"));
     retval = 1;
   }
 

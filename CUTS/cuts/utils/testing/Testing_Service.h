@@ -15,6 +15,7 @@
 
 #include "Testing_Service_export.h"
 #include "ace/Time_Value.h"
+#include "ace/OS_Memory.h"
 
 // Forward decl.
 class CUTS_Testing_App;
@@ -30,6 +31,9 @@ class CUTS_TESTING_SERVICE_Export CUTS_Testing_Service
   friend class CUTS_Testing_Service_Manager;
 
 public:
+  /// Default constructor.
+  CUTS_Testing_Service (void);
+
   virtual int init (int argc, char * argv []);
 
   virtual int fini (void);
@@ -51,17 +55,14 @@ public:
   /**
    * Get the pointer to the testing application.
    */
-  CUTS_Testing_App * const test_app (void);
+  virtual CUTS_Testing_App * const test_app (void);
 
   /// Destroy the service.
   virtual void destroy (void);
 
 protected:
-  /// Default constructor.
-  CUTS_Testing_Service (void);
-
   /// Destructor.
-  virtual ~CUTS_Testing_Service (void) = 0;
+  virtual ~CUTS_Testing_Service (void) ;
 
 private:
   /// Pointer to the testing application.

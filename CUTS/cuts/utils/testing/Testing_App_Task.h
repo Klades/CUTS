@@ -16,9 +16,6 @@
 #include "cuts/config.h"
 #include "ace/Task.h"
 
-// Forward decl.
-class CUTS_Testing_App;
-
 /**
  * @class CUTS_Testing_App_Task
  *
@@ -27,21 +24,15 @@ class CUTS_Testing_App;
 class CUTS_Testing_App_Task : protected ACE_Task_Base
 {
 public:
-  CUTS_Testing_App_Task (CUTS_Testing_App & parent);
+  /**
+   * Initializing constructor
+   *
+   * @param[in]       parent        Parent testing application
+   */
+  CUTS_Testing_App_Task (void);
 
+  /// Destructor
   virtual ~CUTS_Testing_App_Task (void);
-
-  /**
-   * Start the task. This will allow the task to respond to events of
-   * interest, such as timeout events for executing tests.
-   */
-  int start (void);
-
-  /**
-   * Stop the application task. It will not longer be able to respond
-   * to events of interest.
-   */
-  int stop (void);
 
   /**
    * @name Test Management
@@ -54,9 +45,9 @@ public:
   /**
    * Start a new test.
    */
-  long start_test (const ACE_Time_Value & duration);
+  int run_test (const ACE_Time_Value & duration);
 
-  long stop_test (long test_id);
+  int stop_test (void);
   // @}
 
 protected:
@@ -67,11 +58,11 @@ protected:
   virtual int svc (void);
 
 private:
-  /// The parent of the event handler.
-  CUTS_Testing_App & parent_;
-
   /// The active state of the task.
   bool active_;
+
+  /// Id of the timer for the task.
+  long timer_id_;
 };
 
 #endif  // !defined _CUTS_TEST_EVENT_HANDLER_H_

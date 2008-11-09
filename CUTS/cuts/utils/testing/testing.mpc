@@ -39,7 +39,7 @@ project (cutstest_Xml) : xsc_cxx {
   }
 }
 
-project (cutstest) : taoclient, boost_base, xscrt, cutsexe {
+project (cutstest) : taoclient, boost_base, xscrt, cuts_testing_svc, cutsexe {
   exename = cutstest
 
   after += cutstest_Xml
@@ -51,6 +51,7 @@ project (cutstest) : taoclient, boost_base, xscrt, cutsexe {
     Test_Database.cpp
     Testing_App.cpp
     Testing_App_Task.cpp
+    Testing_Service_DLL.cpp
     Testing_Service_Manager.cpp
   }
 

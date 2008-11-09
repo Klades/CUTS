@@ -13,13 +13,18 @@
 #ifndef _CUTS_TESTING_SERVICE_MANAGER_H_
 #define _CUTS_TESTING_SERVICE_MANAGER_H_
 
+#include "Test_export.h"
 #include "Testing_Service.h"
+#include "ace/DLL.h"
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/Hash_Map_Manager_T.h"
 #include "ace/SString.h"
 
 // Forward decl.
 class CUTS_Testing_App;
+
+// Forward decl.
+class CUTS_Testing_Service_DLL;
 
 /**
  * @class CUTS_Testing_Service_Manager
@@ -29,7 +34,7 @@ class CUTS_Testing_Service_Manager
 public:
   /// Type definition of the map type.
   typedef ACE_Hash_Map_Manager <ACE_CString,
-                                CUTS_Testing_Service *,
+                                CUTS_Testing_Service_DLL *,
                                 ACE_RW_Thread_Mutex> map_type;
 
   /**
@@ -59,6 +64,8 @@ private:
 
   /// Service map for the testing application.
   map_type svc_map_;
+
+  ACE_DLL module_;
 };
 
 #if defined (__CUTS_INLINE__)

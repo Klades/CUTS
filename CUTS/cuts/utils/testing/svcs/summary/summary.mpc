@@ -1,0 +1,26 @@
+// $Id$
+
+project (CUTS_Testing_Summary) : cuts_testing_svc, cutslib {
+  sharedname = CUTS_Testing_Summary
+
+  libs  -= CUTS
+  after -= CUTS
+
+  dynamicflags += CUTS_TESTING_SUMMARY_BUILD_DLL
+
+  Source_Files {
+    Basic_Test_Summary_Impl.cpp
+    streams.cpp
+    Test_Summary_Impl.cpp
+    Test_Summary_Service.cpp
+    XML_Test_Summary_Impl.cpp
+  }
+
+  Header_Files {
+    Test_Summary_export.h
+  }
+
+  Inline_Files {
+
+  }
+}

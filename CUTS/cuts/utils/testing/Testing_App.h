@@ -16,7 +16,6 @@
 #include "Test_Options.h"
 #include "Testing_App_Task.h"
 #include "Testing_Service_Manager.h"
-#include "ace/Condition_T.h"
 #include "ace/SString.h"
 
 namespace CUTS
@@ -83,22 +82,14 @@ private:
   /// Load the configuration for the test.
   int load_configuration (const ACE_CString & config);
 
+  /// Helper method to load a service from XML file.
   int load_service (const CUTS::serviceDescription &);
-
-  /// Timer id for the test.
-  long test_timer_id_;
 
   /// Task for the testing application.
   CUTS_Testing_App_Task task_;
 
   /// Options for the testing application.
   CUTS_Test_Options opts_;
-
-  /// Lock for the condition variable.
-  ACE_Thread_Mutex lock_;
-
-  /// Condition variable to wait for shutdown.
-  ACE_Condition <ACE_Thread_Mutex> shutdown_;
 
   /// Testing service manager for the testing application.
   CUTS_Testing_Service_Manager svc_mgr_;
