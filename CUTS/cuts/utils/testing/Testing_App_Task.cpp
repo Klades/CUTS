@@ -75,7 +75,7 @@ int CUTS_Testing_App_Task::svc (void)
 //
 int CUTS_Testing_App_Task::run_test (const ACE_Time_Value & duration)
 {
-  CUTS_TEST_TRACE ("CUTS_Testing_App_Task::start_test (const ACE_Time_Value &)");
+  CUTS_TEST_TRACE ("CUTS_Testing_App_Task::run_test (const ACE_Time_Value &)");
 
   if (!this->active_)
   {
@@ -95,10 +95,9 @@ int CUTS_Testing_App_Task::run_test (const ACE_Time_Value & duration)
   }
 
   // Schedule the timer for the test.
-  this->timer_id_ =
-    this->reactor ()->schedule_timer (this,
-                                      0,
-                                      duration);
+  this->timer_id_ = this->reactor ()->schedule_timer (this,
+                                                      0,
+                                                      duration);
 
   // Wait for the test to end. This means waiting for the spawned
   // thread to return.

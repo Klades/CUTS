@@ -6,7 +6,7 @@
 #include "Testing_App.inl"
 #endif
 
-#include "Test_export.h"
+#include "Testing_Service_Manager.h"
 #include "Test_Configuration_File.h"
 #include "Testing_Service.h"
 #include "ace/CORBA_macros.h"
@@ -17,7 +17,6 @@
 #include "ace/Reactor.h"
 #include "ace/streams.h"
 #include "ace/UUID.h"
-#include "tao/corba.h"
 #include "boost/bind.hpp"
 #include "XSCRT/utils/Console_Error_Handler.h"
 #include <sstream>
@@ -52,7 +51,6 @@ static const char * __HELP__ =
 // CUTS_Testing_App
 //
 CUTS_Testing_App::CUTS_Testing_App (void)
-: svc_mgr_ (*this)
 {
   CUTS_TEST_TRACE ("CUTS_Testing_App::CUTS_Testing_App (void)");
   ACE_Utils::UUID_GENERATOR::instance ()->init ();
@@ -214,7 +212,12 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
   if (this->parse_args (argc, argv) == -1)
     return -1;
 
-  if (this->load_configuration (this->opts_.config_) != 0)
+  // Instantiate a service manager that valid only in this scope.
+  CUTS_Testing_Service_Manager manager (*this);
+  this->svc_mgr_ = &manager;
+
+  // Load the configuration this test run.
+  if (this->load_configuration (manager, this->opts_.config_) != 0)
   {
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - failed to load test configuration\n"));
@@ -227,25 +230,28 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
 
     if (retval == 0)
     {
-      this->svc_mgr_.handle_startup (this->opts_.start_);
+      manager.handle_startup (this->opts_.start_);
     }
-    else if (retval == -1)
+    else
     {
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T (%t) - %M - aborting test since deployment failed\n"),
-                         -1);
-    }
-    else if (retval == 1)
-    {
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T (%t) - %M - state of deployment unknown; aborting...\n"),
-                         -1);
+      if (retval == -1)
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "%T (%t) - %M - aborting test since deployment failed\n"));
+      }
+      else if (retval == 1)
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "%T (%t) - %M - state of deployment unknown; aborting...\n"));
+      }
+
+      return -1;
     }
   }
 
   if (this->opts_.test_duration_ != ACE_Time_Value::zero)
   {
-    // Start the testing application's task.
+    // Execute a timed version of the test.
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - running the test\n"));
 
@@ -258,18 +264,27 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
 
   if (!this->opts_.teardown_.empty ())
   {
-    // Teardown the current test.
+    // Execute the shutdown command for the test.
     int retval = this->teardown_test ();
 
     if (retval == 0)
     {
-      this->svc_mgr_.handle_shutdown (this->opts_.stop_);
+      manager.handle_shutdown (this->opts_.stop_);
     }
     else
     {
-      ACE_ERROR_RETURN ((LM_ERROR,
-                        "%T (%t) - %M - failed to teardown test\n"),
-                        -1);
+      if (retval == -1)
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "%T (%t) - %M - failed to teardown test\n"));
+      }
+      else if (retval == 1)
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "%T (%t) - %M - the state of shutdown is unknown\n"));
+      }
+
+      return -1;
     }
   }
 
@@ -425,7 +440,8 @@ int CUTS_Testing_App::teardown_test (void)
 //
 // load_configuration
 //
-int CUTS_Testing_App::load_configuration (const ACE_CString & filename)
+int CUTS_Testing_App::load_configuration (CUTS_Testing_Service_Manager & mgr,
+                                          const ACE_CString & filename)
 {
   CUTS_TEST_TRACE ("CUTS_Testing_App::load_configuration (const ACE_CString &)");
 
@@ -443,7 +459,7 @@ int CUTS_Testing_App::load_configuration (const ACE_CString & filename)
   {
     ACE_ERROR_RETURN ((LM_ERROR,
                        "%T (%t) - %M - failed to read configuration file [%s]\n",
-                       this->opts_.config_.c_str ()),
+                       filename.c_str ()),
                        -1);
   }
 
@@ -456,7 +472,7 @@ int CUTS_Testing_App::load_configuration (const ACE_CString & filename)
     std::for_each (config.services ().begin_service (),
                    config.services ().end_service (),
                    boost::bind (&CUTS_Testing_App::load_service,
-                                this,
+                                boost::ref (mgr),
                                 _1));
   }
 
@@ -466,12 +482,14 @@ int CUTS_Testing_App::load_configuration (const ACE_CString & filename)
 //
 // load_service
 //
-int CUTS_Testing_App::load_service (const CUTS::serviceDescription & desc)
+int CUTS_Testing_App::
+load_service (CUTS_Testing_Service_Manager & mgr,
+              const CUTS::serviceDescription & desc)
 {
   CUTS_TEST_TRACE ("CUTS_Testing_App::load_service (const CUTS::serviceDescription &)");
 
-  return this->svc_mgr_.load_service (desc.id ().c_str (),
-                                      desc.location ().c_str (),
-                                      desc.entryPoint ().c_str (),
-                                      desc.params_p () ? desc.params ().c_str () : 0);
+  return mgr.load_service (desc.id ().c_str (),
+                           desc.location ().c_str (),
+                           desc.entryPoint ().c_str (),
+                           desc.params_p () ? desc.params ().c_str () : 0);
 }

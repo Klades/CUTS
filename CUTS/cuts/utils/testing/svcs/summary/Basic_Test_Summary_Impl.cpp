@@ -8,6 +8,8 @@
 
 #include "streams.h"
 #include "cuts/utils/testing/Testing_App.h"
+#include "ace/UUID.h"
+#include "ace/SString.h"
 #include <sstream>
 
 //
@@ -20,12 +22,14 @@ generate (std::ostream & out, const CUTS_Testing_App & app) const
 
   // Calculate the duration of the test.
   ACE_Time_Value duration = app.options ().stop_ - app.options ().start_;
+  ACE_Utils::UUID uuid (app.options ().uuid_);
 
   // Buffer the test summary before output it.
   ostr
     << "CUTS Test Summary" << std::endl
     << "=============================================================" << std::endl
     << "  Name       : " << app.options ().name_.c_str () << std::endl
+    << "  UUID       : " << uuid.to_string ()->c_str () << std::endl
     << "  Start Time : " << app.options ().start_ << std::endl
     << "  Stop Time  : " << app.options ().stop_ << std::endl
     << "  Duration   : " << duration.sec () << " second(s)" << std::endl

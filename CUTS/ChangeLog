@@ -1,3 +1,23 @@
+Mon Nov 10 05:44:21 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/testing.mpc:
+        * cuts/utils/testing/Testing_App.h:
+        * cuts/utils/testing/Testing_App.cpp:
+        * cuts/utils/testing/Testing_App_Task.h:
+        * cuts/utils/testing/Testing_App_Task.cpp:
+        * cuts/utils/testing/Testing_Service_Manager.h:
+        * cuts/utils/testing/Testing_Service_Manager.cpp:
+        * cuts/utils/testing/cutstest.cpp:
+
+          . Bug fix where waiting to close the testing service manager
+            during the destructor resulted in a segfault due to unloaded
+            modules.
+
+        * cuts/utils/testing/svcs/summary/Basic_Test_Summary_Impl.cpp:
+
+          . Updated the summary to show teh test UUID.
+
+
 Sun Nov  9 16:36:18 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/testing.mpc:

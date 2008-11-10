@@ -15,6 +15,7 @@
 #include "ace/Null_Mutex.h"
 #include "ace/Singleton.h"
 #include "ace/Signal.h"
+//#include "tao/PortableServer/PortableServer.h"
 
 #define TESTING_APP \
   ACE_Singleton <CUTS_Testing_App, ACE_Null_Mutex>::instance ()
@@ -45,14 +46,14 @@ static void register_sighandler (void)
 //
 int ACE_TMAIN (int argc, ACE_TCHAR * argv [])
 {
-  CUTS_TEST_TRACE ("ACE_TMAIN (int, ACE_TCHAR * [])");
-
-  int retval;
-
+  // Initialize the logging priorities.
   u_long default_mask =
-    LM_EMERGENCY | LM_ALERT | LM_CRITICAL | LM_ERROR | LM_WARNING | LM_NOTICE;
+    LM_EMERGENCY | LM_ALERT | LM_CRITICAL | LM_ERROR | LM_WARNING | LM_NOTICE | LM_TRACE;
 
   ACE_Log_Msg::instance ()->priority_mask (default_mask, ACE_Log_Msg::PROCESS);
+  ACE_Log_Msg::instance ()->priority_mask (default_mask, ACE_Log_Msg::THREAD);
+
+  CUTS_TEST_TRACE ("ACE_TMAIN (int, ACE_TCHAR * [])");
 
   try
   {
@@ -60,14 +61,13 @@ int ACE_TMAIN (int argc, ACE_TCHAR * argv [])
     register_sighandler ();
 
     // Run the main part of the application.
-    retval = TESTING_APP->run_main (argc, argv);
+    return TESTING_APP->run_main (argc, argv);
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - caught unknown exception\n"));
-    retval = 1;
   }
 
-  return retval;
+  return 1;
 }

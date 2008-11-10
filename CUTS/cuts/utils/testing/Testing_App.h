@@ -15,7 +15,6 @@
 
 #include "Test_Options.h"
 #include "Testing_App_Task.h"
-#include "Testing_Service_Manager.h"
 #include "ace/SString.h"
 
 namespace CUTS
@@ -23,6 +22,9 @@ namespace CUTS
   // Forward decl.
   class serviceDescription;
 }
+
+// Forward decl.
+class CUTS_Testing_Service_Manager;
 
 /**
  * @class CUTS_Testing_App
@@ -80,10 +82,12 @@ private:
   int teardown_test (void);
 
   /// Load the configuration for the test.
-  int load_configuration (const ACE_CString & config);
+  static int load_configuration (CUTS_Testing_Service_Manager & mgr,
+                                 const ACE_CString & config);
 
   /// Helper method to load a service from XML file.
-  int load_service (const CUTS::serviceDescription &);
+  static int load_service (CUTS_Testing_Service_Manager & mgr,
+                           const CUTS::serviceDescription &);
 
   /// Task for the testing application.
   CUTS_Testing_App_Task task_;
@@ -92,7 +96,7 @@ private:
   CUTS_Test_Options opts_;
 
   /// Testing service manager for the testing application.
-  CUTS_Testing_Service_Manager svc_mgr_;
+  CUTS_Testing_Service_Manager * svc_mgr_;
 };
 
 #if defined (__CUTS_INLINE__)

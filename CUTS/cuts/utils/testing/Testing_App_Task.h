@@ -13,7 +13,7 @@
 #ifndef _CUTS_TEST_EVENT_HANDLER_H_
 #define _CUTS_TEST_EVENT_HANDLER_H_
 
-#include "cuts/config.h"
+#include "Test_export.h"
 #include "ace/Task.h"
 
 /**

@@ -11,6 +11,7 @@
 #include "ace/ARGV.h"
 #include "ace/Guard_T.h"
 #include "ace/CORBA_macros.h"
+#include "ace/Service_Config.h"
 
 //
 // load_service
@@ -169,5 +170,6 @@ int CUTS_Testing_Service_Manager::close (void)
 
   // Remote all the entries from the mapping.
   this->svc_map_.unbind_all ();
+  ACE_Service_Config::global ()->close ();
   return 0;
 }

@@ -39,7 +39,7 @@ project (cutstest_Xml) : xsc_cxx {
   }
 }
 
-project (cutstest) : taoclient, boost_base, xscrt, cuts_testing_svc, cutsexe {
+project (cutstest) : boost_base, xscrt, cuts_testing_svc, cutsexe {
   exename = cutstest
 
   after += cutstest_Xml
