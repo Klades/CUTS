@@ -1,3 +1,16 @@
+Mon Nov 10 14:41:07 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/Test_Options.h:
+
+          . Removed the default values for the ACE_Time_Value variables since
+            the their initialize value is already ACE_Time_Value::zero.
+
+        * cuts/utils/testing/svcs/summary/Basic_Test_Summary_Impl.cpp:
+
+          . The summary will print N/A for either the start or stop time if
+            the --startup or --shutdown command-line option is not specified,
+            respectively.
+
 Mon Nov 10 05:44:21 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/testing.mpc:

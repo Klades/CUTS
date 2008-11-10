@@ -30,8 +30,22 @@ generate (std::ostream & out, const CUTS_Testing_App & app) const
     << "=============================================================" << std::endl
     << "  Name       : " << app.options ().name_.c_str () << std::endl
     << "  UUID       : " << uuid.to_string ()->c_str () << std::endl
-    << "  Start Time : " << app.options ().start_ << std::endl
-    << "  Stop Time  : " << app.options ().stop_ << std::endl
+    << "  Start Time : ";
+
+  if (app.options ().start_ != ACE_Time_Value::zero)
+    ostr << app.options ().start_ << std::endl;
+  else
+    ostr << "N/A" << std::endl;
+
+  ostr
+    << "  Stop Time  : ";
+
+  if (app.options ().stop_ != ACE_Time_Value::zero)
+    ostr << app.options ().stop_  << std::endl;
+  else
+    ostr << "N/A" << std::endl;
+
+  ostr
     << "  Duration   : " << duration.sec () << " second(s)" << std::endl
     << std::endl;
 
