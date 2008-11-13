@@ -8,7 +8,7 @@
 #include "ace/Date_Time.h"
 
 class CUTS_DB_SQLITE_Export CUTS_DB_SQLite_Date_Time :
-  public CUTS_DB_Date_Time_Impl
+  public CUTS_DB_Date_Time
 {
 public:
   CUTS_DB_SQLite_Date_Time (void);
@@ -45,11 +45,15 @@ public:
 
   virtual void fraction (long val);
 
-  virtual void * value_i (void);
+  virtual void * value (void);
 
 private:
-  /// The actual date time.
   ACE_Date_Time dt_;
+
+  /// String version of the time.
+  char buffer_[20];
+
+  bool out_of_date_;
 };
 
 #if defined (__CUTS_INLINE__)

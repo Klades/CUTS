@@ -6,9 +6,9 @@
 #include "Parameter.inl"
 #endif
 
-#include "Query.h"
 #include "Exception.h"
-#include "cuts/utils/db/DB_Types_Impl.h"
+#include "Query.h"
+#include "Types.h"
 #include "sqlite3.h"
 #include <sstream>
 
@@ -19,6 +19,21 @@ void CUTS_DB_SQLite_Parameter::null (void)
 {
   int retval = ::sqlite3_bind_null (this->owner_->owner ().stmt_,
                                     this->index_);
+
+  if (retval != SQLITE_OK)
+    throw CUTS_DB_SQLite_Exception (this->owner_->owner ().parent_);
+}
+
+//
+// bind
+//
+void CUTS_DB_SQLite_Parameter::bind (const char * buffer, size_t bufsize)
+{
+  int retval = ::sqlite3_bind_text (this->owner_->owner ().stmt_,
+                                    this->index_,
+                                    buffer,
+                                    bufsize,
+                                    SQLITE_TRANSIENT);
 
   if (retval != SQLITE_OK)
     throw CUTS_DB_SQLite_Exception (this->owner_->owner ().parent_);
@@ -42,15 +57,12 @@ void CUTS_DB_SQLite_Parameter::bind (char * buffer, size_t bufsize)
 //
 // bind
 //
-void CUTS_DB_SQLite_Parameter::bind (CUTS_DB_Date_Time_Impl * dt)
+void CUTS_DB_SQLite_Parameter::bind (CUTS_DB_Date_Time & dt)
 {
-  std::ostringstream ostr;
-  ostr << dt->year () << "-" << dt->month () << "-" << dt->day ()
-       << " "
-       << dt->hour () << ":" << dt->minute () << ":" << dt->second ();
+  char * value = reinterpret_cast <char *> (dt.value ());
+  this->bind (value, 20);
 
-  this->bind (const_cast <char *> (ostr.str ().c_str ()),
-              ostr.str ().length ());
+  CUTS_DB_Parameter::bind (dt);
 }
 
 void CUTS_DB_SQLite_Parameter::length (long len)

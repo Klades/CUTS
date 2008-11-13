@@ -1,5 +1,39 @@
 // $Id$
 
+
+//
+// CUTS_DB_Parameter
+//
+CUTS_INLINE
+CUTS_DB_Parameter::CUTS_DB_Parameter (void)
+: index_ (-1),
+  type_ (PT_UNKNOWN),
+  is_null_ (true)
+{
+
+}
+
+//
+// CUTS_DB_Parameter
+//
+CUTS_INLINE
+CUTS_DB_Parameter::CUTS_DB_Parameter (const CUTS_DB_Parameter & p)
+: index_ (p.index_),
+  type_ (p.type_),
+  is_null_ (p.is_null_)
+{
+
+}
+
+//
+// CUTS_DB_Parameter
+//
+CUTS_INLINE
+CUTS_DB_Parameter::~CUTS_DB_Parameter (void)
+{
+
+}
+
 //
 // type
 //
@@ -26,78 +60,96 @@ CUTS_INLINE
 void CUTS_DB_Parameter::bind (char *, size_t)
 {
   this->type_ = CUTS_DB_Parameter::PT_CHAR;
+  this->is_null_ = false;
 }
 
 //
 // bind
 //
 CUTS_INLINE
-void CUTS_DB_Parameter::bind (short *)
+void CUTS_DB_Parameter::bind (const char *, size_t)
+{
+  this->type_ = CUTS_DB_Parameter::PT_CHAR;
+  this->is_null_ = false;
+}
+
+//
+// bind
+//
+CUTS_INLINE
+void CUTS_DB_Parameter::bind (ACE_INT16 &)
 {
   this->type_ = CUTS_DB_Parameter::PT_SHORT;
+  this->is_null_ = false;
 }
 
 //
 // bind
 //
 CUTS_INLINE
-void CUTS_DB_Parameter::bind (u_short *)
+void CUTS_DB_Parameter::bind (ACE_UINT16 &)
 {
   this->type_ = CUTS_DB_Parameter::PT_USHORT;
+  this->is_null_ = false;
 }
 
 //
 // bind
 //
 CUTS_INLINE
-void CUTS_DB_Parameter::bind (long *)
+void CUTS_DB_Parameter::bind (ACE_INT32 &)
 {
   this->type_ = CUTS_DB_Parameter::PT_LONG;
+  this->is_null_ = false;
 }
 
 //
 // bind
 //
 CUTS_INLINE
-void CUTS_DB_Parameter::bind (u_long *)
+void CUTS_DB_Parameter::bind (ACE_UINT32 &)
 {
   this->type_ = CUTS_DB_Parameter::PT_ULONG;
+  this->is_null_ = false;
 }
 
 //
 // bind
 //
 CUTS_INLINE
-void CUTS_DB_Parameter::bind (double *)
+void CUTS_DB_Parameter::bind (double &)
 {
   this->type_ = CUTS_DB_Parameter::PT_DOUBLE;
+  this->is_null_ = false;
 }
 
 //
 // bind
 //
 CUTS_INLINE
-void CUTS_DB_Parameter::bind (float *)
+void CUTS_DB_Parameter::bind (float &)
 {
   this->type_ = CUTS_DB_Parameter::PT_FLOAT;
+  this->is_null_ = false;
 }
 
 //
 // bind
 //
 CUTS_INLINE
-void CUTS_DB_Parameter::bind (CUTS_DB_Date_Time_Impl *)
+void CUTS_DB_Parameter::bind (CUTS_DB_Date_Time &)
 {
   this->type_ = CUTS_DB_Parameter::PT_DATETIME;
+  this->is_null_ = false;
 }
 
 //
 // is_null
 //
 CUTS_INLINE
-int CUTS_DB_Parameter::is_null (void) const
+bool CUTS_DB_Parameter::is_null (void) const
 {
-  return this->null_;
+  return this->is_null_;
 }
 
 //
@@ -106,7 +158,7 @@ int CUTS_DB_Parameter::is_null (void) const
 CUTS_INLINE
 void CUTS_DB_Parameter::null (void)
 {
-  this->null_ = 1;
+  this->is_null_ = true;
 }
 
 //

@@ -13,28 +13,21 @@
 #ifndef _CUTS_DB_TYPES_IMPL_H_
 #define _CUTS_DB_TYPES_IMPL_H_
 
-#include "cuts/config.h"
 #include "DB_Utils_Export.h"
 
-//=============================================================================
 /**
- * @class CUTS_DB_Date_Time_Impl
+ * @class CUTS_DB_Date_Time
  *
  * Interface definition for date/time database data types.
  */
-//=============================================================================
-
-class CUTS_DB_UTILS_Export CUTS_DB_Date_Time_Impl
+class CUTS_DB_UTILS_Export CUTS_DB_Date_Time
 {
 public:
   /// Default constructor.
-  CUTS_DB_Date_Time_Impl (void);
-
-  /// Copy constructor.
-  CUTS_DB_Date_Time_Impl (const CUTS_DB_Date_Time_Impl &);
+  CUTS_DB_Date_Time (void);
 
   /// Destructor.
-  virtual ~CUTS_DB_Date_Time_Impl (void) = 0;
+  virtual ~CUTS_DB_Date_Time (void);
 
   /**
    * Get the month. This value should be within the range of
@@ -140,7 +133,11 @@ public:
    *
    * @return      Pointer to the data.
    */
-  virtual void * value_i (void) = 0;
+  virtual void * value (void) = 0;
+
+private:
+  CUTS_DB_Date_Time (const CUTS_DB_Date_Time &);
+  const CUTS_DB_Date_Time & operator = (const CUTS_DB_Date_Time &);
 };
 
 #if defined (__CUTS_INLINE__)

@@ -130,7 +130,7 @@ private:
   ACE_RW_Thread_Mutex lock_;
 
   /// The current test number.
-  long test_number_;
+  ACE_INT32 test_number_;
 
   /// Determine if we should log the deployment information.
   bool enable_deployment_;

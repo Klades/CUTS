@@ -41,7 +41,7 @@ public:
   ACE_Time_Value timestamp_;
 
   /// Severity of the log message.
-  long severity_;
+  ACE_INT32 severity_;
 
   /// The textual content of the log message.
   ACE_Array <char> text_;

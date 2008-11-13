@@ -13,19 +13,17 @@
 #ifndef _CUTS_DB_PARAMETER_H_
 #define _CUTS_DB_PARAMETER_H_
 
-#include "DB_Exception.h"
+#include "DB_Utils_Export.h"
+#include "ace/SStringfwd.h"
 
 // Forward decl.
-class CUTS_DB_Date_Time_Impl;
+class CUTS_DB_Date_Time;
 
-//=============================================================================
 /**
  * @class CUTS_DB_Parameter
  *
  * Base class for parameters of different database implementations.
  */
-//=============================================================================
-
 class CUTS_DB_UTILS_Export CUTS_DB_Parameter
 {
 public:
@@ -112,7 +110,7 @@ public:
    * @retval      1       The parameter is null.
    * @retval      0       The parameter is not null.
    */
-  virtual int is_null (void) const;
+  virtual bool is_null (void) const;
 
   /// Make the parameter a NULL value.
   virtual void null (void) = 0;
@@ -126,53 +124,55 @@ public:
    */
   virtual void bind (char * buffer, size_t bufsize) = 0;
 
+  virtual void bind (const char * buffer, size_t bufsize) = 0;
+
   /**
    * Bind the parameter to a short value.
    *
-   * @param[in]       buffer    Source short value.
+   * @param[in]       value       Reference to 16-bit value
    */
-  virtual void bind (short * buffer) = 0;
+  virtual void bind (ACE_INT16 & value) = 0;
   /**
    * Bind the parameter to a unsigned short value.
    *
-   * @param[in]       buffer    Source unsigned short value.
+   * @param[in]       buffer      Reference to unsigned 16-bit value
    */
-  virtual void bind (u_short * buffer) = 0;
+  virtual void bind (ACE_UINT16 & value) = 0;
 
   /**
    * Bind the parameter to a signed long value.
    *
    * @param[in]       buffer    Source signed long value.
    */
-  virtual void bind (long * buffer) = 0;
+  virtual void bind (ACE_UINT32 & value) = 0;
 
   /**
    * Bind the parameter to a unsigned long value.
    *
    * @param[in]       buffer    Source unsigned long value.
    */
-  virtual void bind (u_long * buffer) = 0;
+  virtual void bind (ACE_INT32 & value) = 0;
 
   /**
    * Bind the parameter to a float value.
    *
    * @param[in]       buffer    Source float value.
    */
-  virtual void bind (float * buffer) = 0;
+  virtual void bind (float & value) = 0;
 
   /**
    * Bind the parameter to a double value.
    *
    * @param[in]       buffer    Source double value.
    */
-  virtual void bind (double * buffer) = 0;
+  virtual void bind (double & value) = 0;
 
   /**
    * Bind the parameter to a data/time value.
    *
-   * @param[in]       datetime    Source date/time value.
+   * @param[in]       dt        Date/time value.
    */
-  virtual void bind (CUTS_DB_Date_Time_Impl * datetime) = 0;
+  virtual void bind (CUTS_DB_Date_Time & dt) = 0;
 
   /**
    * Set the length of the parameter. This is necessary of the
@@ -202,7 +202,7 @@ private:
   Direction_Type direction_;
 
   /// Null flags for the parameter.
-  int null_;
+  bool is_null_;
 };
 
 #if defined (__CUTS_INLINE__)

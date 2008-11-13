@@ -1,26 +1,6 @@
 // $Id$
 
 //
-// ODBC_Date_Time
-//
-CUTS_INLINE
-ODBC_Date_Time::ODBC_Date_Time (const ODBC_Date_Time & datetime)
-: CUTS_DB_Date_Time_Impl (datetime)
-{
-  this->set (datetime);
-}
-
-
-//
-// ODBC_Date_Time
-//
-CUTS_INLINE
-ODBC_Date_Time::ODBC_Date_Time (const ACE_Date_Time & datetime)
-{
-  this->set (datetime);
-}
-
-//
 // month
 //
 CUTS_INLINE
@@ -150,25 +130,7 @@ long ODBC_Date_Time::fraction (void) const
 // fraction
 //
 CUTS_INLINE
-void * ODBC_Date_Time::value_i (void)
+void * ODBC_Date_Time::value (void)
 {
   return &this->datetime_;
-}
-
-//
-// operator =
-//
-CUTS_INLINE
-void ODBC_Date_Time::operator = (const ODBC_Date_Time & datetime)
-{
-  this->set (datetime);
-}
-
-//
-// operator <<=
-//
-CUTS_INLINE
-void ODBC_Date_Time::operator <<= (const ACE_Date_Time & datetime)
-{
-  this->set (datetime);
 }

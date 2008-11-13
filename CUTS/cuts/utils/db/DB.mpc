@@ -5,6 +5,9 @@ project (CUTS_DB) : cutslib {
 
   dynamicflags += CUTS_DB_UTILS_BUILD_DLL
 
+  libs  -= CUTS
+  after -= CUTS
+
   Source_Files {
     DB_Connection.cpp
     DB_Exception.cpp

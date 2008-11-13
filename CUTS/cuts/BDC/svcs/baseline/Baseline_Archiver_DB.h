@@ -17,6 +17,7 @@
 
 #include "cuts/Metrics_Visitor.h"
 #include "cuts/Auto_Functor_T.h"
+#include "ace/Basic_Types.h"
 
 // Forward decl.
 class CUTS_Component_Registry;
@@ -108,18 +109,18 @@ private:
   char hostname_[256];
 
   /// The event count for the baseline metrics.
-  long perf_count_;
+  ACE_INT32 perf_count_;
 
   /// The event count for the baseline metrics.
-  long outport_index_;
+  ACE_INT32 outport_index_;
 
   /// The best execution time for the baseline.
-  long best_time_;
+  ACE_INT32 best_time_;
 
   /// The worst execution time for the baseline.
-  long worst_time_;
+  ACE_INT32 worst_time_;
 
   /// The total time for the execution time.
-  long total_time_;
+  ACE_INT32 total_time_;
 };
 #endif  // !defined _CUTS_BASELINE_ARCHIVER_H_

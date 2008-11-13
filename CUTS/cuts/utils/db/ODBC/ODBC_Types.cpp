@@ -56,17 +56,3 @@ void ODBC_Date_Time::set (const ODBC_Date_Time & datetime)
                   &datetime.datetime_,
                   sizeof (SQL_TIMESTAMP_STRUCT));
 }
-
-//
-// operator >>=
-//
-void ODBC_Date_Time::operator >>= (ACE_Date_Time & datetime)
-{
-  datetime.month (this->datetime_.month);
-  datetime.day (this->datetime_.day);
-  datetime.year (this->datetime_.year);
-  datetime.hour (this->datetime_.hour);
-  datetime.minute (this->datetime_.minute);
-  datetime.second (this->datetime_.second);
-  datetime.microsec (this->datetime_.fraction);
-}

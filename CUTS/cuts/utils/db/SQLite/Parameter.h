@@ -54,53 +54,55 @@ public:
    */
   virtual void bind (char * buffer, size_t bufsize);
 
+  virtual void bind (const char * buffer, size_t bufsize);
+
   /**
    * Bind the parameter to a short value.
    *
    * @param[in]       buffer    Source short value.
    */
-  virtual void bind (short * buffer);
+  virtual void bind (ACE_INT16 & value);
   /**
    * Bind the parameter to a unsigned short value.
    *
    * @param[in]       buffer    Source unsigned short value.
    */
-  virtual void bind (u_short * buffer);
+  virtual void bind (ACE_UINT16 & value);
 
   /**
    * Bind the parameter to a signed long value.
    *
    * @param[in]       buffer    Source signed long value.
    */
-  virtual void bind (long * buffer);
+  virtual void bind (ACE_INT32 & buffer);
 
   /**
    * Bind the parameter to a unsigned long value.
    *
    * @param[in]       buffer    Source unsigned long value.
    */
-  virtual void bind (u_long * buffer);
+  virtual void bind (ACE_UINT32 & buffer);
 
   /**
    * Bind the parameter to a float value.
    *
    * @param[in]       buffer    Source float value.
    */
-  virtual void bind (float * buffer);
+  virtual void bind (float & buffer);
 
   /**
    * Bind the parameter to a double value.
    *
    * @param[in]       buffer    Source double value.
    */
-  virtual void bind (double * buffer);
+  virtual void bind (double & value);
 
   /**
    * Bind the parameter to a data/time value.
    *
    * @param[in]       datetime    Source date/time value.
    */
-  virtual void bind (CUTS_DB_Date_Time_Impl * datetime);
+  virtual void bind (CUTS_DB_Date_Time & dt);
 
   /**
    * Set the length of the parameter. This is necessary of the

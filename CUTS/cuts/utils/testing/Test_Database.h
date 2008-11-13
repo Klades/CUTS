@@ -80,7 +80,7 @@ private:
   ACE_Auto_Ptr <CUTS_DB_SQLite_Connection> conn_;
 
   /// Id of the active test in the database.
-  long active_id_;
+  ACE_INT32 active_id_;
 };
 
 #if defined (__CUTS_INLINE__)

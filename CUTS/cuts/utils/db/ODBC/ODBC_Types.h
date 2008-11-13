@@ -28,33 +28,14 @@ class ACE_Date_Time;
 //=============================================================================
 
 class CUTS_ODBC_Export ODBC_Date_Time :
-  public CUTS_DB_Date_Time_Impl
+  public CUTS_DB_Date_Time
 {
 public:
   /// Default constructor.
   ODBC_Date_Time (void);
 
-  /**
-   * Copy constructor.
-   *
-   * @param[in]     datetime      Initial value.
-   */
-  ODBC_Date_Time (const ODBC_Date_Time & datetime);
-
-  /**
-   * Initializing constructor.
-   *
-   * @param[in]     datetime      Initial value.
-   */
-  ODBC_Date_Time (const ACE_Date_Time & datetime);
-
   /// Destructor.
   virtual ~ODBC_Date_Time (void);
-
-  void operator = (const ODBC_Date_Time & datetime);
-
-  void operator <<= (const ACE_Date_Time & datetime);
-  void operator >>= (ACE_Date_Time & datetime);
 
   long month (void) const;
   void month (long);
@@ -77,7 +58,7 @@ public:
   long fraction (void) const;
   void fraction (long);
 
-  void * value_i (void);
+  void * value (void);
 
   void set (const ACE_Date_Time & datetime);
 

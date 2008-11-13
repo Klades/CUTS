@@ -209,7 +209,7 @@ void CUTS_TestLogger_i::flush_messages_into_database (void)
   try
   {
     // Get the test number for this test.
-    long test_number = this->parent_.test_number ();
+    ACE_INT32 test_number = this->parent_.test_number ();
 
     // Create a new database query.
     CUTS_DB_Query * query = this->parent_.connection ().create_query ();
@@ -223,9 +223,9 @@ void CUTS_TestLogger_i::flush_messages_into_database (void)
     ODBC_Date_Time timestamp;
 
     // Initialize the persistant parameters of the statement.
-    query->parameters ()[0].bind (&test_number);
+    query->parameters ()[0].bind (test_number);
     query->parameters ()[1].bind (this->hostname_, 0);
-    query->parameters ()[2].bind (&timestamp);
+    query->parameters ()[2].bind (timestamp);
 
     // Determine how many messages we are going to dump into the database. If
     // the max_count == 0, then we are going to dump all that we have
@@ -258,10 +258,10 @@ void CUTS_TestLogger_i::flush_messages_into_database (void)
       {
         // Initialize the timestamp parameter.
         date_time.update (msg->timestamp_);
-        timestamp <<= date_time;
+        timestamp.set (date_time);
 
         // Bind the remaining parameters.
-        query->parameters ()[3].bind (&msg->severity_);
+        query->parameters ()[3].bind (msg->severity_);
         query->parameters ()[4].bind (msg->text_.begin (), 0);
 
         // Execute the query.
@@ -410,16 +410,16 @@ int CUTS_TestLogger_i::insert_messages_into_database (void)
     const char * stmt = "CALL cuts.insert_log_message (?,?,?,?,?)";
     query->prepare (stmt);
 
+    // Get the current test's number.
+    ACE_UINT32 test_number = this->parent_.test_number ();
+
     ACE_Date_Time dt_temp;
     ODBC_Date_Time date_time;
 
-    // Get the test number for this test.
-    long test_number = this->parent_.test_number ();
-
     // Initialize the persistant parameters of the statement.
-    query->parameters ()[0].bind (&test_number);
+    query->parameters ()[0].bind (test_number);
     query->parameters ()[1].bind (this->hostname_, 0);
-    query->parameters ()[2].bind (&date_time);
+    query->parameters ()[2].bind (date_time);
 
     // Determine how many messages we are going to dump into the database. If
     // the max_count == 0, then we are going to dump all that we have
@@ -450,10 +450,10 @@ int CUTS_TestLogger_i::insert_messages_into_database (void)
       {
         // Initialize the timestamp parameter.
         dt_temp.update (msg->timestamp_);
-        date_time <<= dt_temp;
+        date_time.set (dt_temp);
 
         // Bind the remaining parameters.
-        query->parameters ()[3].bind (&msg->severity_);
+        query->parameters ()[3].bind (msg->severity_);
         query->parameters ()[4].bind (msg->text_.begin (), 0);
 
         // Execute the query.

@@ -146,7 +146,7 @@ void CUTS_Test_Database::start_new_test (const ACE_Time_Value & tv)
   ACE_Date_Time temp (tv);
   CUTS_DB_SQLite_Date_Time dt (temp);
 
-  query->parameters ()[0].bind (&dt);
+  query->parameters ()[0].bind (dt);
   query->execute_no_record ();
 
   // Save the id of the active test run.
@@ -173,10 +173,11 @@ void CUTS_Test_Database::stop_current_test (const ACE_Time_Value & tv)
   query->prepare (__sql_stmt__);
 
   ACE_Date_Time temp (tv);
-  CUTS_DB_SQLite_Date_Time dt (temp);
+  CUTS_DB_SQLite_Date_Time dt;
+  (temp);
 
-  query->parameters ()[0].bind (&dt);
-  query->parameters ()[1].bind (&this->active_id_);
+  query->parameters ()[0].bind (dt);
+  query->parameters ()[1].bind (this->active_id_);
 
   query->execute_no_record ();
 }

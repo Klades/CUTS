@@ -75,10 +75,10 @@ execute (const CUTS_System_Metric & metrics,
       this->perf_query_->parameters ()[1].bind (this->instance_, 0);
       this->perf_query_->parameters ()[2].bind (this->inport_, 0);
       this->perf_query_->parameters ()[3].bind (this->perf_type_, 0);
-      this->perf_query_->parameters ()[4].bind (&this->perf_count_);
-      this->perf_query_->parameters ()[5].bind (&this->best_time_);
-      this->perf_query_->parameters ()[6].bind (&this->worst_time_);
-      this->perf_query_->parameters ()[7].bind (&this->total_time_);
+      this->perf_query_->parameters ()[4].bind (this->perf_count_);
+      this->perf_query_->parameters ()[5].bind (this->best_time_);
+      this->perf_query_->parameters ()[6].bind (this->worst_time_);
+      this->perf_query_->parameters ()[7].bind (this->total_time_);
 
       const char * perf_endpoint_stmt =
         "CALL cuts."
@@ -89,12 +89,12 @@ execute (const CUTS_System_Metric & metrics,
       this->perf_endpoint_query_->parameters ()[0].bind (this->hostname_, 0);
       this->perf_endpoint_query_->parameters ()[1].bind (this->instance_, 0);
       this->perf_endpoint_query_->parameters ()[2].bind (this->inport_, 0);
-      this->perf_endpoint_query_->parameters ()[3].bind (&this->outport_index_);
+      this->perf_endpoint_query_->parameters ()[3].bind (this->outport_index_);
       this->perf_endpoint_query_->parameters ()[4].bind (this->outport_, 0);
-      this->perf_endpoint_query_->parameters ()[5].bind (&this->perf_count_);
-      this->perf_endpoint_query_->parameters ()[6].bind (&this->best_time_);
-      this->perf_endpoint_query_->parameters ()[7].bind (&this->worst_time_);
-      this->perf_endpoint_query_->parameters ()[8].bind (&this->total_time_);
+      this->perf_endpoint_query_->parameters ()[5].bind (this->perf_count_);
+      this->perf_endpoint_query_->parameters ()[6].bind (this->best_time_);
+      this->perf_endpoint_query_->parameters ()[7].bind (this->worst_time_);
+      this->perf_endpoint_query_->parameters ()[8].bind (this->total_time_);
     }
     else
     {
@@ -109,10 +109,10 @@ execute (const CUTS_System_Metric & metrics,
       this->perf_query_->parameters ()[0].bind (this->instance_, 0);
       this->perf_query_->parameters ()[1].bind (this->inport_, 0);
       this->perf_query_->parameters ()[2].bind (this->perf_type_, 0);
-      this->perf_query_->parameters ()[3].bind (&this->perf_count_);
-      this->perf_query_->parameters ()[4].bind (&this->best_time_);
-      this->perf_query_->parameters ()[5].bind (&this->worst_time_);
-      this->perf_query_->parameters ()[6].bind (&this->total_time_);
+      this->perf_query_->parameters ()[3].bind (this->perf_count_);
+      this->perf_query_->parameters ()[4].bind (this->best_time_);
+      this->perf_query_->parameters ()[5].bind (this->worst_time_);
+      this->perf_query_->parameters ()[6].bind (this->total_time_);
 
       const char * perf_endpoint_stmt =
         "CALL cuts."
@@ -120,12 +120,12 @@ execute (const CUTS_System_Metric & metrics,
       this->perf_endpoint_query_->prepare (perf_endpoint_stmt);
       this->perf_endpoint_query_->parameters ()[0].bind (this->instance_, 0);
       this->perf_endpoint_query_->parameters ()[1].bind (this->inport_, 0);
-      this->perf_endpoint_query_->parameters ()[2].bind (&this->outport_index_);
+      this->perf_endpoint_query_->parameters ()[2].bind (this->outport_index_);
       this->perf_endpoint_query_->parameters ()[3].bind (this->outport_, 0);
-      this->perf_endpoint_query_->parameters ()[4].bind (&this->perf_count_);
-      this->perf_endpoint_query_->parameters ()[5].bind (&this->best_time_);
-      this->perf_endpoint_query_->parameters ()[6].bind (&this->worst_time_);
-      this->perf_endpoint_query_->parameters ()[7].bind (&this->total_time_);
+      this->perf_endpoint_query_->parameters ()[4].bind (this->perf_count_);
+      this->perf_endpoint_query_->parameters ()[5].bind (this->best_time_);
+      this->perf_endpoint_query_->parameters ()[6].bind (this->worst_time_);
+      this->perf_endpoint_query_->parameters ()[7].bind (this->total_time_);
     }
 
     // Visit the system metrics.

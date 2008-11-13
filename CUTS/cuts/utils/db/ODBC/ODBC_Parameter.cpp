@@ -46,6 +46,25 @@ operator = (const ODBC_Parameter & rhs)
 //
 // bind
 //
+void ODBC_Parameter::bind (const char * buffer, size_t bufsize)
+{
+  this->bind_i (SQL_PARAM_INPUT,
+                SQL_C_CHAR,
+                SQL_CHAR,
+                0,
+                0,
+                (SQLPOINTER)buffer,
+                bufsize);
+
+  if (bufsize == 0)
+    this->intptr_ = SQL_NTS;
+
+  CUTS_DB_Parameter::bind (buffer, bufsize);
+}
+
+//
+// bind
+//
 void ODBC_Parameter::bind (char * buffer, size_t bufsize)
 {
   this->bind_i (SQL_PARAM_INPUT,
@@ -65,14 +84,14 @@ void ODBC_Parameter::bind (char * buffer, size_t bufsize)
 //
 // bind
 //
-void ODBC_Parameter::bind (short * buffer)
+void ODBC_Parameter::bind (ACE_INT16 & buffer)
 {
   this->bind_i (SQL_PARAM_INPUT,
                 SQL_C_SSHORT,
                 SQL_SMALLINT,
                 0,
                 0,
-                buffer,
+                &buffer,
                 0);
 
   this->intptr_ = 0;
@@ -82,14 +101,14 @@ void ODBC_Parameter::bind (short * buffer)
 //
 // bind
 //
-void ODBC_Parameter::bind (u_short * buffer)
+void ODBC_Parameter::bind (ACE_UINT16 & buffer)
 {
   this->bind_i (SQL_PARAM_INPUT,
                 SQL_C_USHORT,
                 SQL_SMALLINT,
                 0,
                 0,
-                buffer,
+                &buffer,
                 0);
 
   this->intptr_ = 0;
@@ -99,14 +118,14 @@ void ODBC_Parameter::bind (u_short * buffer)
 //
 // bind
 //
-void ODBC_Parameter::bind (long * buffer)
+void ODBC_Parameter::bind (ACE_INT32 & buffer)
 {
   this->bind_i (SQL_PARAM_INPUT,
                 SQL_C_SLONG,
                 SQL_INTEGER,
                 0,
                 0,
-                buffer,
+                &buffer,
                 0);
 
   this->intptr_ = 0;
@@ -116,14 +135,14 @@ void ODBC_Parameter::bind (long * buffer)
 //
 // bind
 //
-void ODBC_Parameter::bind (u_long * buffer)
+void ODBC_Parameter::bind (ACE_UINT32 & buffer)
 {
   this->bind_i (SQL_PARAM_INPUT,
                 SQL_C_ULONG,
                 SQL_INTEGER,
                 0,
                 0,
-                buffer,
+                &buffer,
                 0);
 
   this->intptr_ = 0;
@@ -133,14 +152,14 @@ void ODBC_Parameter::bind (u_long * buffer)
 //
 // bind
 //
-void ODBC_Parameter::bind (float * buffer)
+void ODBC_Parameter::bind (float & buffer)
 {
   this->bind_i (SQL_PARAM_INPUT,
                 SQL_C_FLOAT,
                 SQL_REAL,
                 0,
                 0,
-                buffer,
+                &buffer,
                 0);
 
   this->intptr_ = 0;
@@ -150,14 +169,14 @@ void ODBC_Parameter::bind (float * buffer)
 //
 // bind
 //
-void ODBC_Parameter::bind (double * buffer)
+void ODBC_Parameter::bind (double & buffer)
 {
   this->bind_i (SQL_PARAM_INPUT,
                 SQL_C_DOUBLE,
                 SQL_DOUBLE,
                 0,
                 0,
-                buffer,
+                &buffer,
                 0);
 
   this->intptr_ = 0;
@@ -167,18 +186,18 @@ void ODBC_Parameter::bind (double * buffer)
 //
 // bind
 //
-void ODBC_Parameter::bind (CUTS_DB_Date_Time_Impl * datetime)
+void ODBC_Parameter::bind (CUTS_DB_Date_Time & dt)
 {
   this->bind_i (SQL_PARAM_INPUT,
                 SQL_C_TYPE_TIMESTAMP,
                 SQL_TYPE_TIMESTAMP,
                 0,
                 0,
-                datetime->value_i (),
+                dt.value (),
                 0);
 
   this->intptr_ = 0;
-  CUTS_DB_Parameter::bind (datetime);
+  CUTS_DB_Parameter::bind (dt);
 }
 
 //

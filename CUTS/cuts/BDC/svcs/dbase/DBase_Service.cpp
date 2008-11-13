@@ -308,7 +308,7 @@ bool CUTS_Database_Service::stop_current_test_i (void)
 
     // Create the binding for initializing a test.
     query->prepare (str_stmt);
-    query->parameters ()[0].bind (&this->test_number_);
+    query->parameters ()[0].bind (this->test_number_);
 
     // Execute the statement and reset the test number.
     query->execute_no_record ();
@@ -340,11 +340,11 @@ handle_metrics (const CUTS_System_Metric & metrics)
 {
   ACE_READ_GUARD_RETURN (ACE_RW_Thread_Mutex, guard, this->lock_, 0);
 
-  long best_time,
-       worst_time,
-       total_time,
-       perf_count,
-       outport_index;
+  ACE_INT32 best_time,
+            worst_time,
+            total_time,
+            perf_count,
+            outport_index;
 
   char inport[MAX_VARCHAR_LENGTH],
        outport[MAX_VARCHAR_LENGTH],
@@ -362,9 +362,10 @@ handle_metrics (const CUTS_System_Metric & metrics)
 
     // Convert the <timestamp> to a known type.
     ACE_Time_Value timestamp = metrics.get_timestamp ();
-    ACE_Date_Time ct (timestamp);
+    ACE_Date_Time temp (timestamp);
 
-    ODBC_Date_Time datetime (ct);
+    ODBC_Date_Time datetime;
+    datetime.set (temp);
 
     // Prepare the statement and bind all the parameters.
     const char * perf_stmt =
@@ -378,29 +379,29 @@ handle_metrics (const CUTS_System_Metric & metrics)
       this->svc_mgr ()->testing_service ()->registry ();
 
     perf_query->prepare (perf_stmt);
-    perf_query->parameters ()[0].bind (&this->test_number_);
-    perf_query->parameters ()[1].bind (&datetime);
+    perf_query->parameters ()[0].bind (this->test_number_);
+    perf_query->parameters ()[1].bind (datetime);
     perf_query->parameters ()[2].bind (component, 0);
     perf_query->parameters ()[3].bind (sender, 0);
     perf_query->parameters ()[4].bind (inport, 0);
     perf_query->parameters ()[5].bind (metric_type, 0);
-    perf_query->parameters ()[6].bind (&perf_count);
-    perf_query->parameters ()[7].bind (&best_time);
-    perf_query->parameters ()[8].bind (&total_time);
-    perf_query->parameters ()[9].bind (&worst_time);
+    perf_query->parameters ()[6].bind (perf_count);
+    perf_query->parameters ()[7].bind (best_time);
+    perf_query->parameters ()[8].bind (total_time);
+    perf_query->parameters ()[9].bind (worst_time);
 
     perf_endpoint_query->prepare (perf_endpoint_stmt);
-    perf_endpoint_query->parameters ()[0].bind (&this->test_number_);
-    perf_endpoint_query->parameters ()[1].bind (&datetime);
+    perf_endpoint_query->parameters ()[0].bind (this->test_number_);
+    perf_endpoint_query->parameters ()[1].bind (datetime);
     perf_endpoint_query->parameters ()[2].bind (component, 0);
     perf_endpoint_query->parameters ()[3].bind (sender, 0);
     perf_endpoint_query->parameters ()[4].bind (inport, 0);
-    perf_endpoint_query->parameters ()[5].bind (&outport_index);
+    perf_endpoint_query->parameters ()[5].bind (outport_index);
     perf_endpoint_query->parameters ()[6].bind (outport, 0);
-    perf_endpoint_query->parameters ()[7].bind (&perf_count);
-    perf_endpoint_query->parameters ()[8].bind (&best_time);
-    perf_endpoint_query->parameters ()[9].bind (&total_time);
-    perf_endpoint_query->parameters ()[10].bind (&worst_time);
+    perf_endpoint_query->parameters ()[7].bind (perf_count);
+    perf_endpoint_query->parameters ()[8].bind (best_time);
+    perf_endpoint_query->parameters ()[9].bind (total_time);
+    perf_endpoint_query->parameters ()[10].bind (worst_time);
 
     CUTS_Component_Metric_Map::
       CONST_ITERATOR cm_iter (metrics.component_metrics ());
@@ -641,7 +642,7 @@ bool CUTS_Database_Service::set_test_uuid (void)
 
     query->prepare (query_stmt);
     query->parameters ()[0].bind (uuid, 0);
-    query->parameters ()[1].bind (&this->test_number_);
+    query->parameters ()[1].bind (this->test_number_);
 
     // Execute the query.
     query->execute_no_record ();
@@ -682,7 +683,7 @@ set_component_uptime (const CUTS_Component_Info & info)
 
     // Prepare the statement and it's parameters.
     query->prepare (stmt);
-    query->parameters ()[0].bind (&this->test_number_);
+    query->parameters ()[0].bind (this->test_number_);
     query->parameters ()[1].bind (instance, 0);
     query->parameters ()[2].bind (hostname, 0);
 
@@ -736,7 +737,7 @@ set_component_downtime (const CUTS_Component_Info & info)
 
     // Prepare the statement and it's parameters.
     query->prepare (stmt);
-    query->parameters ()[0].bind (&this->test_number_);
+    query->parameters ()[0].bind (this->test_number_);
     query->parameters ()[1].bind (instance, 0);
     query->parameters ()[2].bind (hostname, 0);
 

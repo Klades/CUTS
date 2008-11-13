@@ -51,19 +51,21 @@ public:
 
   virtual void bind (char * buffer, size_t bufsize);
 
-  virtual void bind (short * buffer);
+  virtual void bind (const char * buffer, size_t bufsize);
 
-  virtual void bind (u_short * buffer);
+  virtual void bind (ACE_INT16 & buffer);
 
-  virtual void bind (long * buffer);
+  virtual void bind (ACE_UINT16 & buffer);
 
-  virtual void bind (u_long * buffer);
+  virtual void bind (ACE_INT32 & buffer);
 
-  virtual void bind (float * buffer);
+  virtual void bind (ACE_UINT32 & buffer);
 
-  virtual void bind (double * buffer);
+  virtual void bind (float & value);
 
-  virtual void bind (CUTS_DB_Date_Time_Impl * datetime);
+  virtual void bind (double & value);
+
+  virtual void bind (CUTS_DB_Date_Time & dt);
 
   const ODBC_Parameter & operator = (const ODBC_Parameter & rhs);
 
@@ -98,6 +100,9 @@ private:
 
   /// Size of the parameter buffer.
   SQLINTEGER intptr_;
+
+  /// Pointer to allocated memory.
+  void * buffer_;
 };
 
 #endif  // !defined _ODBC_PARAMETER_H_

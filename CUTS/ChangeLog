@@ -1,3 +1,40 @@
+Thu Nov 13 06:26:01 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/db/DB.mpc:
+        * cuts/utils/db/DB_Parameter.h:
+        * cuts/utils/db/DB_Parameter.inl:
+        * cuts/utils/db/DB_Parameter.cpp:
+        * cuts/utils/db/DB_Types_Impl.h:
+        * cuts/utils/db/DB_Types_Impl.inl:
+        * cuts/utils/db/ODBC/ODBC_Parameter.h:
+        * cuts/utils/db/ODBC/ODBC_Parameter.cpp:
+        * cuts/utils/db/ODBC/ODBC_Types.h:
+        * cuts/utils/db/ODBC/ODBC_Types.inl:
+        * cuts/utils/db/ODBC/ODBC_Types.cpp:
+        * cuts/utils/db/SQLite/Parameter.h:
+        * cuts/utils/db/SQLite/Parameter.inl:
+        * cuts/utils/db/SQLite/Parameter.cpp:
+        * cuts/utils/db/SQLite/Types.h:
+        * cuts/utils/db/SQLite/Types.inl:
+        * cuts/utils/db/SQLite/Types.cpp:
+
+          . The parameters now use references to values instead of
+            pointers. This is meant alleviate the need of checking
+            for NIL pointers since the caller should ensure the buffer
+            is valid.
+
+        * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.h:
+        * cuts/BDC/svcs/baseline/Baseline_Archiver_DB.cpp:
+        * cuts/BDC/svcs/dbase/DBase_Service.h:
+        * cuts/BDC/svcs/dbase/DBase_Service.cpp:
+        * cuts/utils/logging/TestLogger_i.h:
+        * cuts/utils/logging/TestLogger_i.cpp:
+        * cuts/utils/testing/Test_Database.h:
+        * cuts/utils/testing/Test_Database.cpp:
+
+          . Fixed compilation errors related to changes listed
+            above.
+
 Thu Nov 13 02:01:56 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/Test_Database.cpp:
