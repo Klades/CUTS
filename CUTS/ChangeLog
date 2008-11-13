@@ -1,3 +1,14 @@
+Thu Nov 13 06:47:15 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/Testing_Service_Manager.cpp:
+
+          . Bug fix where the service manager add required arguments
+            to the service's parameters.
+
+          . Made sure '-ORBGestalt CURRENT' is in the parameters for
+            the service. Shouldn't this be done in a base class for
+            a service that uses TAO??
+
 Thu Nov 13 06:26:01 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/db/DB.mpc:

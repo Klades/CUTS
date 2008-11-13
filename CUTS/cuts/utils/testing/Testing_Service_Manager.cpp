@@ -35,20 +35,8 @@ int CUTS_Testing_Service_Manager::load_service (const char * name,
 
   ACE_Auto_Ptr <CUTS_Testing_Service_DLL> auto_clean (dll);
 
-  ACE_DEBUG ((LM_DEBUG,
-              "current = %@; global = %@; instance = %@\n",
-              ACE_Service_Config::current (),
-              ACE_Service_Config::global (),
-              ACE_Service_Config::instance ()));
-
   // Make sure this service configuration is current.
   CUTS_Testing_Service_DLL_Guard guard (*dll);
-
-  ACE_DEBUG ((LM_DEBUG,
-              "current = %@; global = %@; instance = %@\n",
-              ACE_Service_Config::current (),
-              ACE_Service_Config::global (),
-              ACE_Service_Config::instance ()));
 
   // Open the DLL for usage.
   if (dll->open (location, entryPoint) != 0)
@@ -66,9 +54,17 @@ int CUTS_Testing_Service_Manager::load_service (const char * name,
               "%T (%t) - %M - initializing the service with arguments (%s)\n",
               args));
 
-  ACE_ARGV_T <char> arg_list (args != 0 ? args : "");
-  arg_list.add ("-ORBGestalt CURRENT");
-  int retval = (*dll)->init (arg_list.argc (), arg_list.argv ());
+  // Make sure '-ORBGestalt CURRENT' is one of the command-line arguments.
+  ACE_ARGV_T <char> args_list;
+  args_list.add (name);
+  args_list.add ("-ORBGestalt CURRENT");
+
+  // Copy the remaining command-line arguments
+  ACE_ARGV_T <char> args_copy (args != 0 ? args : "");
+  args_list.add (args_copy.argv ());
+
+  // Initialize the service.
+  int retval = (*dll)->init (args_list.argc (), args_list.argv ());
 
   if (retval == 0)
   {
