@@ -1,0 +1,6 @@
+// $Id$
+
+project {
+  after += CUTS_DB_SQLite
+  libs  += CUTS_DB_SQLite
+}
