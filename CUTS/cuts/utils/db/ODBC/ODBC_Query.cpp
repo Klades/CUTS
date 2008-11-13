@@ -17,7 +17,8 @@
 //
 ODBC_Query::ODBC_Query (HDBC handle)
 : stmt_ (SQL_NULL_HSTMT),
-  cursor_open_ (0)
+  cursor_open_ (0),
+  params_ (*this)
 {
   SQL_VERIFY (
     ::SQLAllocHandle (SQL_HANDLE_STMT, handle, &this->stmt_),
@@ -90,35 +91,8 @@ void ODBC_Query::prepare (const char * stmt)
   SQL_VERIFY (::SQLPrepare (this->stmt_, (SQLCHAR *) stmt, SQL_NTS),
               ODBC_Stmt_Exception (this->stmt_));
 
-  // Get the number of parameters in the prepared statement.
-  SQLSMALLINT pcount;
-  SQL_VERIFY (::SQLNumParams (this->stmt_, &pcount),
-              ODBC_Stmt_Exception (this->stmt_));
-
-  // If this is the first prepared statement on this handle
-  // then we need to allocate a new parameter list.
-  if (this->params_.get () == 0)
-  {
-    // Create a new parameter list.
-    ODBC_Parameter_List * plist = 0;
-
-    if (pcount)
-    {
-      ACE_NEW (plist, ODBC_Parameter_List (this->stmt_, pcount));
-    }
-    else
-    {
-      ACE_NEW (plist, ODBC_Parameter_List ());
-    }
-
-    if (plist == 0)
-      throw CUTS_DB_Exception ("failed to allocate parameter list");
-
-    this->params_.reset (plist);
-  }
-
-  // Set the <size> of the parameter list.
-  this->params_->resize (this->stmt_, pcount);
+  /// Reset the parameters for this statement.
+  this->params_.reset ();
 }
 
 //
@@ -172,22 +146,6 @@ ODBC_Record * ODBC_Query::record_i (void)
 }
 
 //
-// parameter
-//
-CUTS_DB_Parameter * ODBC_Query::parameter (size_t index)
-{
-  return this->params_->get (index);
-}
-
-//
-// parameter_count
-//
-size_t ODBC_Query::parameter_count (void) const
-{
-  return this->params_.get () != 0 ? this->params_->count () : 0;
-}
-
-//
 // reset
 //
 void ODBC_Query::reset (void)
@@ -203,4 +161,6 @@ void ODBC_Query::reset_i (void)
 {
   SQL_VERIFY (::SQLFreeStmt (this->stmt_, SQL_CLOSE),
               ODBC_Stmt_Exception (this->stmt_));
+
+  this->params_.reset ();
 }

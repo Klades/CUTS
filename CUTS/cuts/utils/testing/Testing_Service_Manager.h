@@ -67,6 +67,8 @@ private:
   map_type svc_map_;
 
   ACE_DLL module_;
+
+  bool is_open_;
 };
 
 #if defined (__CUTS_INLINE__)

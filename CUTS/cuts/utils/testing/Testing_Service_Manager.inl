@@ -6,7 +6,8 @@
 CUTS_INLINE
 CUTS_Testing_Service_Manager::
 CUTS_Testing_Service_Manager (CUTS_Testing_App & app)
-: test_app_ (app)
+: test_app_ (app),
+  is_open_ (true)
 {
   CUTS_TEST_TRACE ("CUTS_Testing_Service_Manager::CUTS_Testing_Service_Manager (CUTS_Testing_App &)");
 }

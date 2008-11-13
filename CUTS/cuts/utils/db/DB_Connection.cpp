@@ -24,3 +24,12 @@ CUTS_DB_Connection::~CUTS_DB_Connection (void)
 {
   this->disconnect ();
 }
+
+//
+// is_connected
+//
+bool CUTS_DB_Connection::is_connected (void) const
+{
+  return this->connected_;
+}
+

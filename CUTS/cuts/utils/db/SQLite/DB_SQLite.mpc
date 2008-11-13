@@ -9,7 +9,9 @@ project (CUTS_DB_SQLite) : cuts_db, sqlite3, cutslib {
     Connection.cpp
     Exception.cpp
     Parameter.cpp
+    Parameter_List.cpp
     Query.cpp
     Record.cpp
+    Types.cpp
   }
 }

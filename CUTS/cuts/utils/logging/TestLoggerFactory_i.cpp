@@ -6,6 +6,7 @@
 #include "cuts/Auto_Functor_T.h"
 #include "cuts/utils/db/DB_Query.h"
 #include "cuts/utils/db/DB_Parameter.h"
+#include "cuts/utils/db/DB_Parameter_List.h"
 #include "cuts/utils/db/DB_Record.h"
 #include "ace/INET_Addr.h"
 #include "ace/OS_NS_unistd.h"
@@ -140,7 +141,7 @@ void CUTS_TestLoggerFactory_i::connect (const ACE_CString & server_addr)
     char uuid_str[37];
     ACE_OS::strcmp (uuid_str, this->test_uuid_.to_string ()->c_str ());
 
-    query->parameter (0)->bind (const_cast <char *> (uuid_str), 0);
+    query->parameters ()[0].bind (const_cast <char *> (uuid_str), 0);
     CUTS_DB_Record * record = query->execute ();
 
     if (record != 0 && record->count ())

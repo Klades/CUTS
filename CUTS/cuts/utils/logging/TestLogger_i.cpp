@@ -10,6 +10,7 @@
 #include "cuts/utils/db/DB_Connection.h"
 #include "cuts/utils/db/DB_Query.h"
 #include "cuts/utils/db/DB_Parameter.h"
+#include "cuts/utils/db/DB_Parameter_List.h"
 #include "cuts/utils/db/ODBC/ODBC_Types.h"
 #include "cuts/Auto_Functor_T.h"
 #include "cuts/Time.h"
@@ -222,9 +223,9 @@ void CUTS_TestLogger_i::flush_messages_into_database (void)
     ODBC_Date_Time timestamp;
 
     // Initialize the persistant parameters of the statement.
-    query->parameter (0)->bind (&test_number);
-    query->parameter (1)->bind (this->hostname_, 0);
-    query->parameter (2)->bind (&timestamp);
+    query->parameters ()[0].bind (&test_number);
+    query->parameters ()[1].bind (this->hostname_, 0);
+    query->parameters ()[2].bind (&timestamp);
 
     // Determine how many messages we are going to dump into the database. If
     // the max_count == 0, then we are going to dump all that we have
@@ -260,8 +261,8 @@ void CUTS_TestLogger_i::flush_messages_into_database (void)
         timestamp <<= date_time;
 
         // Bind the remaining parameters.
-        query->parameter (3)->bind (&msg->severity_);
-        query->parameter (4)->bind (msg->text_.begin (), 0);
+        query->parameters ()[3].bind (&msg->severity_);
+        query->parameters ()[4].bind (msg->text_.begin (), 0);
 
         // Execute the query.
         query->execute_no_record ();
@@ -416,9 +417,9 @@ int CUTS_TestLogger_i::insert_messages_into_database (void)
     long test_number = this->parent_.test_number ();
 
     // Initialize the persistant parameters of the statement.
-    query->parameter (0)->bind (&test_number);
-    query->parameter (1)->bind (this->hostname_, 0);
-    query->parameter (2)->bind (&date_time);
+    query->parameters ()[0].bind (&test_number);
+    query->parameters ()[1].bind (this->hostname_, 0);
+    query->parameters ()[2].bind (&date_time);
 
     // Determine how many messages we are going to dump into the database. If
     // the max_count == 0, then we are going to dump all that we have
@@ -452,8 +453,8 @@ int CUTS_TestLogger_i::insert_messages_into_database (void)
         date_time <<= dt_temp;
 
         // Bind the remaining parameters.
-        query->parameter (3)->bind (&msg->severity_);
-        query->parameter (4)->bind (msg->text_.begin (), 0);
+        query->parameters ()[3].bind (&msg->severity_);
+        query->parameters ()[4].bind (msg->text_.begin (), 0);
 
         // Execute the query.
         query->execute_no_record ();

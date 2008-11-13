@@ -17,6 +17,12 @@
 #include "ODBC_Exception.h"
 #include "cuts/utils/db/DB_Parameter.h"
 
+// Forward decl.
+class ODBC_Query;
+
+// Forward decl.
+class ODBC_Parameter_List;
+
 //=============================================================================
 /**
  * @class ODBC_Parameter
@@ -29,13 +35,14 @@ class CUTS_ODBC_Export ODBC_Parameter :
   public CUTS_DB_Parameter,
   public ODBC_Base
 {
+  // Friend decl.
+  friend class ODBC_Parameter_List;
+
 public:
-  /**
-   * Initializing constructor.
-   *
-   * @param[in]     handle      Handle to the ODBC statement.
-   */
-  ODBC_Parameter (HSTMT handle, int index);
+  /// Default constructor
+  ODBC_Parameter (void);
+
+  ODBC_Parameter (const ODBC_Parameter & p);
 
   /// Destructor.
   virtual ~ODBC_Parameter (void);
@@ -57,6 +64,8 @@ public:
   virtual void bind (double * buffer);
 
   virtual void bind (CUTS_DB_Date_Time_Impl * datetime);
+
+  const ODBC_Parameter & operator = (const ODBC_Parameter & rhs);
 
   /**
    * Set the length of the parameter. This is necessary of the
@@ -85,7 +94,7 @@ private:
                SQLINTEGER  buffer_length);
 
   /// Handle to the ODBC statement.
-  HSTMT handle_;
+  const ODBC_Query * query_;
 
   /// Size of the parameter buffer.
   SQLINTEGER intptr_;

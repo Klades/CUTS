@@ -1,16 +1,26 @@
 // $Id$
 
 #include "ODBC_Parameter.h"
+#include "ODBC_Query.h"
 #include "ODBC_Types.h"
 
 //
 // ODBC_Parameter
 //
-ODBC_Parameter::ODBC_Parameter (HSTMT handle, int index)
-: handle_ (handle),
-  intptr_ (SQL_NULL_DATA)
+ODBC_Parameter::ODBC_Parameter (void)
+: query_ (0)
 {
-  this->index_ = index;
+
+}
+
+//
+// ODBC_Parameter
+//
+ODBC_Parameter::ODBC_Parameter (const ODBC_Parameter & p)
+: CUTS_DB_Parameter (p),
+  query_ (p.query_)
+{
+
 }
 
 //
@@ -19,6 +29,18 @@ ODBC_Parameter::ODBC_Parameter (HSTMT handle, int index)
 ODBC_Parameter::~ODBC_Parameter (void)
 {
 
+}
+
+//
+// operator =
+//
+const ODBC_Parameter & ODBC_Parameter::
+operator = (const ODBC_Parameter & rhs)
+{
+  this->query_ = rhs.query_;
+  this->index_ = rhs.index_;
+
+  return *this;
 }
 
 //
@@ -181,7 +203,7 @@ void ODBC_Parameter::bind_i (SQLSMALLINT iotype,
                              SQLPOINTER  valueptr,
                              SQLINTEGER  buffer_length)
 {
-  SQL_VERIFY (::SQLBindParameter (this->handle_,
+  SQL_VERIFY (::SQLBindParameter (this->query_->stmt_,
                                   this->index_,
                                   iotype,
                                   valuetype,
@@ -191,7 +213,7 @@ void ODBC_Parameter::bind_i (SQLSMALLINT iotype,
                                   valueptr,
                                   buffer_length,
                                   &this->intptr_),
-              ODBC_Stmt_Exception (this->handle_));
+              ODBC_Stmt_Exception (this->query_->stmt_));
 }
 
 //

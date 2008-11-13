@@ -1,0 +1,6 @@
+// $Id$
+
+project {
+  after += CUTS_Test_Database
+  libs  += CUTS_Test_Database
+}

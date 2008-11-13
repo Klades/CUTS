@@ -15,7 +15,6 @@
 #include "ace/Null_Mutex.h"
 #include "ace/Singleton.h"
 #include "ace/Signal.h"
-//#include "tao/PortableServer/PortableServer.h"
 
 #define TESTING_APP \
   ACE_Singleton <CUTS_Testing_App, ACE_Null_Mutex>::instance ()
@@ -23,10 +22,9 @@
 //
 // server_sighandler
 //
-static void server_sighandler (int sig)
+static void server_sighandler (int)
 {
   TESTING_APP->shutdown ();
-  ACE_UNUSED_ARG (sig);
 }
 
 //
@@ -41,18 +39,37 @@ static void register_sighandler (void)
   sa.register_action (SIGTERM);
 }
 
+/**
+ *
+ */
+class CUTS_Test_App_Init
+{
+public:
+  CUTS_Test_App_Init (void)
+  {
+
+  };
+
+  static int init (void)
+  {
+    // Initialize the logging priorities.
+    u_long default_mask =
+      LM_EMERGENCY | LM_ALERT | LM_CRITICAL | LM_ERROR | LM_WARNING | LM_NOTICE | LM_TRACE;
+
+    ACE_Log_Msg::instance ()->priority_mask (default_mask, ACE_Log_Msg::PROCESS);
+    ACE_Log_Msg::instance ()->priority_mask (default_mask, ACE_Log_Msg::THREAD);
+
+    return 0;
+  }
+};
+
+static int _init_status = CUTS_Test_App_Init::init ();
+
 //
 // main
 //
 int ACE_TMAIN (int argc, ACE_TCHAR * argv [])
 {
-  // Initialize the logging priorities.
-  u_long default_mask =
-    LM_EMERGENCY | LM_ALERT | LM_CRITICAL | LM_ERROR | LM_WARNING | LM_NOTICE | LM_TRACE;
-
-  ACE_Log_Msg::instance ()->priority_mask (default_mask, ACE_Log_Msg::PROCESS);
-  ACE_Log_Msg::instance ()->priority_mask (default_mask, ACE_Log_Msg::THREAD);
-
   CUTS_TEST_TRACE ("ACE_TMAIN (int, ACE_TCHAR * [])");
 
   try
@@ -60,7 +77,7 @@ int ACE_TMAIN (int argc, ACE_TCHAR * argv [])
     // Register the signal handler.
     register_sighandler ();
 
-    // Run the main part of the application.
+    // Run the main application.
     return TESTING_APP->run_main (argc, argv);
   }
   catch (...)

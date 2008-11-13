@@ -15,6 +15,7 @@
 
 #include "Testing_Server_export.h"
 #include "Testing_Server_Task.h"
+#include "TestManager_i.h"
 #include "cuts/utils/testing/Testing_Service.h"
 #include "tao/PortableServer/Servant_Base.h"
 #include "orbsvcs/CosNamingC.h"
@@ -90,6 +91,8 @@ private:
 
   /// The RootPOA for the server.
   PortableServer::POA_var root_poa_;
+
+  PortableServer::POAManager_var poa_mgr_;
 
   /// The root context of the naming service.
   CosNaming::NamingContextExt_var root_ctx_;

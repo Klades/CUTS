@@ -12,6 +12,7 @@
 #include "cuts/utils/db/DB_Query.h"
 #include "cuts/utils/db/DB_Record.h"
 #include "cuts/utils/db/DB_Parameter.h"
+#include "cuts/utils/db/DB_Parameter_List.h"
 #include "ace/Log_Msg.h"
 #include <sstream>
 
@@ -46,7 +47,7 @@ register_host (const CUTS_Host_Table_Entry & host)
 
   // Prepare the statement for execution.
   query->prepare (str_stmt);
-  query->parameter (0)->bind (const_cast <char *> (host.hostname_.c_str ()), 0);
+  query->parameters ()[0].bind (const_cast <char *> (host.hostname_.c_str ()), 0);
 
   // Execute the statement.
   query->execute_no_record ();
@@ -69,7 +70,7 @@ get_hostid_by_ipaddr (const char * ipaddr, long * hostid)
       "SELECT hostid FROM ipaddr_host_map WHERE ipaddr = ?";
 
     query->prepare (str_stmt);
-    query->parameter (0)->bind (const_cast <char *> (ipaddr), 0);
+    query->parameters ()[0].bind (const_cast <char *> (ipaddr), 0);
 
     // Get the results from executing the query. If the query returns
     // nothing then this will throw an exception.
@@ -118,7 +119,7 @@ get_hostid_by_hostname (const char * hostname, long * hostid)
       "SELECT hostid FROM ipaddr_host_map WHERE hostname = ?";
 
     query->prepare (str_stmt);
-    query->parameter (0)->bind (const_cast <char *> (hostname), 0);
+    query->parameters ()[0].bind (const_cast <char *> (hostname), 0);
 
     // Get the results from executing the query. If the query returns
     // nothing then this will throw an exception.
@@ -167,7 +168,7 @@ get_instance_id (const char * inst, long * instid)
       "SELECT component_id FROM component_instances WHERE component_name = ?";
 
     query->prepare (query_stmt);
-    query->parameter (0)->bind (const_cast <char *> (inst), 0);
+    query->parameters ()[0].bind (const_cast <char *> (inst), 0);
 
     // Execute the statement and get the returned id.
     CUTS_DB_Record * record = query->execute ();
@@ -211,7 +212,7 @@ get_component_typeid (const char * type, long & type_id)
     const char * query_stmt = "SELECT cuts.get_component_typename_id (?)";
 
     query->prepare (query_stmt);
-    query->parameter (0)->bind (const_cast <char *> (type), 0);
+    query->parameters ()[0].bind (const_cast <char *> (type), 0);
 
     // Execute the query.
     CUTS_DB_Record * record = query->execute ();
@@ -253,8 +254,8 @@ get_port_id (const char * porttype, const char * portname, long & portid)
     const char * query_stmt = "SELECT cuts.get_port_id (?, ?)";
 
     query->prepare (query_stmt);
-    query->parameter (0)->bind (const_cast <char *> (porttype), 0);
-    query->parameter (1)->bind (const_cast <char *> (portname), 0);
+    query->parameters ()[0].bind (const_cast <char *> (porttype), 0);
+    query->parameters ()[1].bind (const_cast <char *> (portname), 0);
 
     // Execute the query.
     CUTS_DB_Record * record = query->execute ();
@@ -300,8 +301,8 @@ register_component_instance (const CUTS_Component_Info & info)
       "CALL cuts.insert_component_instance (?, ?)";
 
     query->prepare (query_stmt);
-    query->parameter (0)->bind (const_cast <char *> (info.inst_.c_str ()), 0);
-    query->parameter (1)->bind (const_cast <char *> (info.type_->name_.c_str ()), 0);
+    query->parameters ()[0].bind (const_cast <char *> (info.inst_.c_str ()), 0);
+    query->parameters ()[1].bind (const_cast <char *> (info.type_->name_.c_str ()), 0);
 
     // Execute the record. We are not expecting any results.
     query->execute_no_record ();
@@ -322,7 +323,7 @@ register_component_type (const CUTS_Component_Type & type)
     "CALL cuts.insert_component_typeinfo (?, ?, ?)";
 
   query->prepare (query_stmt);
-  query->parameter (0)->bind (const_cast <char *> (type.name_.c_str ()), 0);
+  query->parameters ()[0].bind (const_cast <char *> (type.name_.c_str ()), 0);
 
   this->insert_component_ports (*query, "sink", type.sinks_);
   this->insert_component_ports (*query, "source", type.sources_);
@@ -337,14 +338,14 @@ insert_component_ports (CUTS_DB_Query & query,
                         const CUTS_Port_Description_Map & ports)
 {
   // Initialize the port type parameter.
-  query.parameter (1)->bind (const_cast <char *> (porttype), 0);
+  query.parameters ()[1].bind (const_cast <char *> (porttype), 0);
 
   // Insert all the ports into the database.
   for (CUTS_Port_Description_Map::CONST_ITERATOR iter (ports);
        !iter.done ();
        iter ++)
   {
-    query.parameter (2)->bind (const_cast <char *> (iter->item ().c_str ()), 0);
+    query.parameters ()[2].bind (const_cast <char *> (iter->item ().c_str ()), 0);
     query.execute_no_record ();
   }
 }

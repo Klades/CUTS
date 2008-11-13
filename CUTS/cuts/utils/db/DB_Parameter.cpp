@@ -20,6 +20,17 @@ CUTS_DB_Parameter::CUTS_DB_Parameter (void)
 //
 // CUTS_DB_Parameter
 //
+CUTS_DB_Parameter::CUTS_DB_Parameter (const CUTS_DB_Parameter & p)
+: index_ (p.index_),
+  type_ (p.type_),
+  null_ (p.null_)
+{
+
+}
+
+//
+// CUTS_DB_Parameter
+//
 CUTS_DB_Parameter::~CUTS_DB_Parameter (void)
 {
 

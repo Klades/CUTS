@@ -15,7 +15,7 @@
 
 #include "Test_Options.h"
 #include "Testing_App_Task.h"
-#include "ace/SString.h"
+#include "Test_Database.h"
 
 namespace CUTS
 {
@@ -95,8 +95,8 @@ private:
   /// Options for the testing application.
   CUTS_Test_Options opts_;
 
-  /// Testing service manager for the testing application.
-  CUTS_Testing_Service_Manager * svc_mgr_;
+  /// Database for the test.
+  CUTS_Test_Database test_db_;
 };
 
 #if defined (__CUTS_INLINE__)

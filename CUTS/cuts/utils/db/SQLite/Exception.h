@@ -15,7 +15,9 @@
 
 #include "cuts/utils/db/DB_Exception.h"
 #include "DB_SQLite_export.h"
-#include "sqlite3.h"
+
+// Forward decl.
+class CUTS_DB_SQLite_Connection;
 
 /**
  * @class CUTS_DB_SQLite_Exception
@@ -34,7 +36,7 @@ public:
    *
    * @param[in]       err_code      Error code for the exception
    */
-  CUTS_DB_SQLite_Exception (long err_code);
+  CUTS_DB_SQLite_Exception (const CUTS_DB_SQLite_Connection & conn);
 
   /// Destructor
   virtual ~CUTS_DB_SQLite_Exception (void);

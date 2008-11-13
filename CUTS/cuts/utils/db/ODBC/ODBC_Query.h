@@ -14,18 +14,12 @@
 #define _CUTS_ODBC_QUERY_H_
 
 #include "ODBC_Base.h"
-#include "ODBC_Exception.h"
+#include "ODBC_Parameter_List.h"
 #include "cuts/utils/db/DB_Query.h"
 #include "ace/Auto_Ptr.h"
 
 // Forward decl.
 class ODBC_Record;
-
-// Forward decl.
-class ODBC_Parameter;
-
-// Forward decl.
-class ODBC_Parameter_List;
 
 //=============================================================================
 /**
@@ -45,7 +39,14 @@ class CUTS_ODBC_Export ODBC_Query :
   public ODBC_Base,
   public CUTS_DB_Query
 {
+  /// Friend decl.
   friend class ODBC_Record;
+
+  /// Friend decl.
+  friend class ODBC_Parameter_List;
+
+  /// Friend decl.
+  friend class ODBC_Parameter;
 
 public:
   /**
@@ -106,20 +107,11 @@ public:
    */
   virtual CUTS_DB_Record * execute (void);
 
-  /**
-   * Get the parameter.
-   *
-   * @param[in]     index     Index of the parameter.
-   * @return        Pointer to the parameter.
-   */
-  CUTS_DB_Parameter * parameter (size_t index);
+  /// Get a read-only list of the parameters.
+  virtual const ODBC_Parameter_List & parameters (void) const;
 
-  /**
-   * Get the number of parameters.
-   *
-   * @return        The number of parameters.
-   */
-  size_t parameter_count (void) const;
+  /// Get a list of the parameters.
+  virtual ODBC_Parameter_List & parameters (void);
 
   /// Reset the query string.
   void reset (void);
@@ -138,7 +130,7 @@ private:
   int cursor_open_;
 
   /// Pointer to the parameters for the method.
-  ACE_Auto_Ptr <ODBC_Parameter_List> params_;
+  ODBC_Parameter_List params_;
 };
 
 #if defined (__CUTS_INLINE__)

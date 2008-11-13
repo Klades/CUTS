@@ -7,7 +7,7 @@
 #endif
 
 #include "Testing_Service.h"
-#include "ace/Log_Msg.h"
+#include "ace/CORBA_macros.h"
 
 //
 // close
@@ -26,9 +26,13 @@ int CUTS_Testing_Service_DLL::close (void)
     this->svc_ = 0;
   }
 
-  // Reset the pointer to the factory function.
-  if (this->factory_ != 0)
-    this->factory_ = 0;
+  // Close the service configurator for this DLL.
+  if (this->svc_config_->close () != 0)
+  {
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       "%T (%t) - failed to close service configurator\n"),
+                       -1);
+  }
 
   // Pass control to the contained DLL.
   return this->dll_.close ();
@@ -43,7 +47,7 @@ open (const char * module, const char * factory)
 {
   CUTS_TEST_TRACE ("CUTS_Testing_Service_DLL::open (const char *, const char *)");
 
-  if (this->factory_ != 0)
+  if (this->svc_ != 0 || this->svc_config_->is_opened ())
     this->close ();
 
   // First, load the module into memory.
@@ -79,19 +83,27 @@ open (const char * module, const char * factory)
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - converting symbol into factory object\n"));
 
-  this->factory_ = reinterpret_cast <factory_type> (symbol);
-  return 0;
+  factory_type f = reinterpret_cast <factory_type> (symbol);
+
+  // Use the factory to create a new service object.
+  this->svc_ = (*f) ();
+
+  return this->svc_ != 0 ? 0 : -1;
 }
 
 //
-// get_svc
+// init
 //
-CUTS_Testing_Service * CUTS_Testing_Service_DLL::get_svc (void)
+int CUTS_Testing_Service_DLL::init (void)
 {
-  CUTS_TEST_TRACE ("CUTS_Testing_Service_DLL::get_svc (void)");
+  CUTS_TEST_TRACE ("CUTS_Testing_Service_DLL::init (void)");
 
-  if (this->svc_ == 0)
-    this->svc_ = (*this->factory_) ();
+  ACE_Service_Gestalt * gestalt = 0;
 
-  return this->svc_;
+  ACE_NEW_THROW_EX (gestalt,
+                    ACE_Service_Gestalt (),
+                    ACE_bad_alloc ());
+
+  this->svc_config_.reset (gestalt);
+  return 0;
 }

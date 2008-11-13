@@ -79,6 +79,8 @@ public:
    */
   CUTS_DB_Parameter (void);
 
+  CUTS_DB_Parameter (const CUTS_DB_Parameter & p);
+
   /// Destructor.
   virtual ~CUTS_DB_Parameter (void);
 
@@ -87,7 +89,7 @@ public:
    *
    * @return The parameter type.
    */
-  Parameter_Type type (void) const;
+  virtual Parameter_Type type (void) const;
 
   /**
    * Get the direction of the parameter. The direction will be
@@ -95,14 +97,14 @@ public:
    *
    * @return      Direction of the parameter.
    */
-  Direction_Type direction (void) const;
+  virtual Direction_Type direction (void) const;
 
   /**
    * Get the index of the parameter.
    *
    * @return    The index of the parameter; 1-based.
    */
-  size_t index (void) const;
+  virtual size_t index (void) const;
 
   /**
    * Determine if the parameter is null.
@@ -110,7 +112,7 @@ public:
    * @retval      1       The parameter is null.
    * @retval      0       The parameter is not null.
    */
-  int is_null (void) const;
+  virtual int is_null (void) const;
 
   /// Make the parameter a NULL value.
   virtual void null (void) = 0;

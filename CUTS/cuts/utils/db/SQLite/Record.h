@@ -13,8 +13,8 @@
 #ifndef _CUTS_DB_SQLITE_RECORD_H_
 #define _CUTS_DB_SQLITE_RECORD_H_
 
+#include "DB_SQLite_export.h"
 #include "cuts/utils/db/DB_Record.h"
-#include "Exception.h"
 
 // Forward decl.
 class CUTS_DB_SQLite_Query;

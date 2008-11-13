@@ -61,7 +61,7 @@ public:
    *
    * @return Native error number.
    */
-  long native (void) const;
+  virtual long native (void) const;
 
   /**
    * Get the state code of the database. This is usually the
@@ -69,17 +69,17 @@ public:
    *
    * @return Read-only reference to the SQL state.
    */
-  const ACE_CString & state (void) const;
+  virtual const ACE_CString & state (void) const;
 
   /**
    * Get the error message.
    *
    * @return Read-only reference to the message.
    */
-  const ACE_CString & message (void) const;
+  virtual const ACE_CString & message (void) const;
 
   /// Print a formatted error message to the ACE_Logger.
-  void print (void) const;
+  virtual void print (void) const;
 
   /**
    * Print a formatted error message to the ACE_Logger.
@@ -88,7 +88,7 @@ public:
    *
    * @param[in]     message       Personal message to print.
    */
-  void print (const char * message) const;
+  virtual void print (const char * message) const;
 
 protected:
   /// The native error number.

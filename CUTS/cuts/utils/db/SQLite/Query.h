@@ -14,11 +14,14 @@
 #define _CUTS_DB_SQLITE_QUERY_H_
 
 #include "Record.h"
-#include "Parameter.h"
+#include "Parameter_List.h"
 #include "cuts/utils/db/DB_Query.h"
 
 // Forward decl.
 class CUTS_DB_SQLite_Connection;
+
+// Forward decl.
+struct sqlite3_stmt;
 
 /**
  * @class CUTS_DB_SQLite_Query
@@ -27,7 +30,14 @@ class CUTS_DB_SQLite_Connection;
  */
 class CUTS_DB_SQLITE_Export CUTS_DB_SQLite_Query : public CUTS_DB_Query
 {
+  // Friend decl.
   friend class CUTS_DB_SQLite_Record;
+
+  // Friend decl.
+  friend class CUTS_DB_SQLite_Parameter_List;
+
+  // Friend decl.
+  friend class CUTS_DB_SQLite_Parameter;
 
 public:
   /// Default constructor
@@ -95,20 +105,9 @@ public:
    */
   virtual long last_insert_id (void);
 
-  /**
-   * Create a parameter for the statement. The parameter must
-   * still be added to the collection of the parameters
-   *
-   * @return        Pointer to the new parameter.
-   */
-  virtual CUTS_DB_SQLite_Parameter * parameter (size_t index);
+  virtual CUTS_DB_Parameter_List & parameters (void);
 
-  /**
-   * Get the number of parameters.
-   *
-   * @return        The number of parameters.
-   */
-  virtual size_t parameter_count (void) const;
+  virtual const CUTS_DB_Parameter_List & parameters (void) const;
 
   /// Reset the query string.
   virtual void reset (void);
@@ -123,6 +122,9 @@ private:
   ::sqlite3_stmt * stmt_;
 
   bool needs_reseting_;
+
+  /// Collection of parameters for this query.
+  CUTS_DB_SQLite_Parameter_List params_;
 };
 
 #endif  // !defined _CUTS_DB_SQLITE_QUERY_H_

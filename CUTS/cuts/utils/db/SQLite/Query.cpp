@@ -2,7 +2,9 @@
 
 #include "Query.h"
 #include "Connection.h"
+#include "Exception.h"
 #include "ace/CORBA_macros.h"
+#include "sqlite3.h"
 
 //
 // CUTS_DB_SQLite_Query
@@ -11,7 +13,8 @@ CUTS_DB_SQLite_Query::
 CUTS_DB_SQLite_Query (CUTS_DB_SQLite_Connection & parent)
 : parent_ (parent),
   stmt_ (0),
-  needs_reseting_ (false)
+  needs_reseting_ (false),
+  params_ (*this)
 {
 
 }
@@ -51,7 +54,10 @@ void CUTS_DB_SQLite_Query::prepare (const char * query, size_t len)
                                      &tail);
 
   if (retval != SQLITE_OK)
-    throw CUTS_DB_SQLite_Exception (retval);
+    throw CUTS_DB_SQLite_Exception (this->parent_);
+
+  // Reset the parameters for the statement.
+  this->params_.reset ();
 }
 
 //
@@ -77,7 +83,7 @@ void CUTS_DB_SQLite_Query::execute_no_record (const char * query)
 void CUTS_DB_SQLite_Query::execute_no_record (void)
 {
   if (this->stmt_ == 0)
-    throw CUTS_DB_SQLite_Exception (SQLITE_ERROR);
+    throw CUTS_DB_SQLite_Exception ();
 
   if (this->needs_reseting_)
     this->reset ();
@@ -87,7 +93,7 @@ void CUTS_DB_SQLite_Query::execute_no_record (void)
   this->needs_reseting_ = true;
 
   if (retval != SQLITE_DONE)
-    throw CUTS_DB_SQLite_Exception (retval);
+    throw CUTS_DB_SQLite_Exception (this->parent_);
 }
 
 //
@@ -105,7 +111,7 @@ CUTS_DB_SQLite_Record * CUTS_DB_SQLite_Query::execute (const char * query)
 CUTS_DB_SQLite_Record * CUTS_DB_SQLite_Query::execute (void)
 {
   if (this->stmt_ == 0)
-    throw CUTS_DB_SQLite_Exception (SQLITE_ERROR);
+    throw CUTS_DB_SQLite_Exception ();
 
   if (this->needs_reseting_)
     this->reset ();
@@ -137,22 +143,6 @@ long CUTS_DB_SQLite_Query::last_insert_id (void)
 }
 
 //
-// parameter
-//
-CUTS_DB_SQLite_Parameter * CUTS_DB_SQLite_Query::parameter (size_t index)
-{
-  return 0;
-}
-
-//
-// parameter_count
-//
-size_t CUTS_DB_SQLite_Query::parameter_count (void) const
-{
-  return 0;
-}
-
-//
 // finalize
 //
 void CUTS_DB_SQLite_Query::finalize (void)
@@ -172,4 +162,20 @@ void CUTS_DB_SQLite_Query::reset (void)
 {
   ::sqlite3_reset (this->stmt_);
   this->needs_reseting_ = false;
+}
+
+//
+// parameters
+//
+CUTS_DB_Parameter_List & CUTS_DB_SQLite_Query::parameters (void)
+{
+  return this->params_;
+}
+
+//
+// parameters
+//
+const CUTS_DB_Parameter_List & CUTS_DB_SQLite_Query::parameters (void) const
+{
+  return this->params_;
 }

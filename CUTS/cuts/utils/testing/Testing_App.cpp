@@ -212,80 +212,99 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
   if (this->parse_args (argc, argv) == -1)
     return -1;
 
-  // Instantiate a service manager that valid only in this scope.
-  CUTS_Testing_Service_Manager manager (*this);
-  this->svc_mgr_ = &manager;
-
-  // Load the configuration this test run.
-  if (this->load_configuration (manager, this->opts_.config_) != 0)
+  try
   {
-    ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - failed to load test configuration\n"));
-  }
+    // Create the database for this test.
+    this->test_db_.create (this->opts_.uuid_);
 
-  if (!this->opts_.deploy_.empty ())
-  {
-    // Deploy the test into the environment.
-    int retval = this->deploy_test ();
+    // Instantiate a service manager that's valid only in this scope.
+    CUTS_Testing_Service_Manager svc_mgr (*this);
 
-    if (retval == 0)
-    {
-      manager.handle_startup (this->opts_.start_);
-    }
-    else
-    {
-      if (retval == -1)
-      {
-        ACE_ERROR ((LM_ERROR,
-                    "%T (%t) - %M - aborting test since deployment failed\n"));
-      }
-      else if (retval == 1)
-      {
-        ACE_ERROR ((LM_ERROR,
-                    "%T (%t) - %M - state of deployment unknown; aborting...\n"));
-      }
-
-      return -1;
-    }
-  }
-
-  if (this->opts_.test_duration_ != ACE_Time_Value::zero)
-  {
-    // Execute a timed version of the test.
-    ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - running the test\n"));
-
-    if (this->task_.run_test (this->opts_.test_duration_) != 0)
+    // Load the configuration this test run.
+    if (this->load_configuration (svc_mgr, this->opts_.config_) != 0)
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T (%t) - %M - failed to run test\n"));
+                  "%T (%t) - %M - failed to load test configuration\n"));
+    }
+
+    if (!this->opts_.deploy_.empty ())
+    {
+      // Deploy the test into the environment.
+      int retval = this->deploy_test ();
+
+      if (retval == 0)
+      {
+        // Start a new test run in the database.
+        this->test_db_.start_new_test (this->opts_.start_);
+
+        // Notify loaded services of test startup.
+        svc_mgr.handle_startup (this->opts_.start_);
+      }
+      else
+      {
+        if (retval == -1)
+        {
+          ACE_ERROR ((LM_ERROR,
+                      "%T (%t) - %M - aborting test since deployment failed\n"));
+        }
+        else if (retval == 1)
+        {
+          ACE_ERROR ((LM_ERROR,
+                      "%T (%t) - %M - state of deployment unknown; aborting...\n"));
+        }
+
+        return -1;
+      }
+    }
+
+    if (this->opts_.test_duration_ != ACE_Time_Value::zero)
+    {
+      // Execute a timed version of the test.
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T (%t) - %M - running the test\n"));
+
+      if (this->task_.run_test (this->opts_.test_duration_) != 0)
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "%T (%t) - %M - failed to run test\n"));
+      }
+    }
+
+    if (!this->opts_.teardown_.empty ())
+    {
+      // Execute the shutdown command for the test.
+      int retval = this->teardown_test ();
+
+      if (retval == 0)
+      {
+        // Stop the current test in the database.
+        this->test_db_.stop_current_test (this->opts_.stop_);
+
+        // Notify loaded service of test shutdown.
+        svc_mgr.handle_shutdown (this->opts_.stop_);
+      }
+      else
+      {
+        if (retval == -1)
+        {
+          ACE_ERROR ((LM_ERROR,
+                      "%T (%t) - %M - failed to teardown test\n"));
+        }
+        else if (retval == 1)
+        {
+          ACE_ERROR ((LM_ERROR,
+                      "%T (%t) - %M - the state of shutdown is unknown\n"));
+        }
+
+        return -1;
+      }
     }
   }
-
-  if (!this->opts_.teardown_.empty ())
+  catch (const CUTS_DB_Exception & ex)
   {
-    // Execute the shutdown command for the test.
-    int retval = this->teardown_test ();
-
-    if (retval == 0)
-    {
-      manager.handle_shutdown (this->opts_.stop_);
-    }
-    else
-    {
-      if (retval == -1)
-      {
-        ACE_ERROR ((LM_ERROR,
-                    "%T (%t) - %M - failed to teardown test\n"));
-      }
-      else if (retval == 1)
-      {
-        ACE_ERROR ((LM_ERROR,
-                    "%T (%t) - %M - the state of shutdown is unknown\n"));
-      }
-
-      return -1;
-    }
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - %s\n",
+                ex.message ().c_str ()));
   }
 
   return 0;

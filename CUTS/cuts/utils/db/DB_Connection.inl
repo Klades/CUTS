@@ -1,15 +1,6 @@
 // $Id$
 
 //
-// is_connected
-//
-CUTS_INLINE
-bool CUTS_DB_Connection::is_connected (void) const
-{
-  return this->connected_;
-}
-
-//
 // disconnect
 //
 CUTS_INLINE

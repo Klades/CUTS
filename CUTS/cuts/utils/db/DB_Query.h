@@ -19,16 +19,13 @@
 class CUTS_DB_Record;
 
 // Forward decl.
-class CUTS_DB_Parameter;
+class CUTS_DB_Parameter_List;
 
-//=============================================================================
 /**
  * @class CUTS_DB_Query
  *
  * Base class implemenation/interface for database query objects.
  */
-//=============================================================================
-
 class CUTS_DB_UTILS_Export CUTS_DB_Query
 {
 public:
@@ -96,14 +93,15 @@ public:
    *
    * @return        Pointer to the new parameter.
    */
-  virtual CUTS_DB_Parameter * parameter (size_t index) = 0;
+  virtual CUTS_DB_Parameter_List & parameters (void) = 0;
 
   /**
-   * Get the number of parameters.
+   * Create a parameter for the statement. The parameter must
+   * still be added to the collection of the parameters
    *
-   * @return        The number of parameters.
+   * @return        Pointer to the new parameter.
    */
-  virtual size_t parameter_count (void) const = 0;
+  virtual const CUTS_DB_Parameter_List & parameters (void) const = 0;
 
   /// Reset the query string.
   virtual void reset (void) = 0;

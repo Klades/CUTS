@@ -23,6 +23,9 @@ int CUTS_Testing_Service_Manager::load_service (const char * name,
 {
   CUTS_TEST_TRACE ("CUTS_Testing_Service_Manager::load_service (const char *, const char *, const char *, const char *)");
 
+  if (!this->is_open_)
+    return -1;
+
   // First, load the module into memory.
   CUTS_Testing_Service_DLL * dll = 0;
 
@@ -32,6 +35,22 @@ int CUTS_Testing_Service_Manager::load_service (const char * name,
 
   ACE_Auto_Ptr <CUTS_Testing_Service_DLL> auto_clean (dll);
 
+  ACE_DEBUG ((LM_DEBUG,
+              "current = %@; global = %@; instance = %@\n",
+              ACE_Service_Config::current (),
+              ACE_Service_Config::global (),
+              ACE_Service_Config::instance ()));
+
+  // Make sure this service configuration is current.
+  CUTS_Testing_Service_DLL_Guard guard (*dll);
+
+  ACE_DEBUG ((LM_DEBUG,
+              "current = %@; global = %@; instance = %@\n",
+              ACE_Service_Config::current (),
+              ACE_Service_Config::global (),
+              ACE_Service_Config::instance ()));
+
+  // Open the DLL for usage.
   if (dll->open (location, entryPoint) != 0)
   {
     ACE_ERROR_RETURN ((LM_ERROR,
@@ -40,47 +59,36 @@ int CUTS_Testing_Service_Manager::load_service (const char * name,
                        -1);
   }
 
-  // Get the service from the DLL.
-  CUTS_Testing_Service * svc = dll->get_svc ();
+  // Initialize the contents of the service.
+  (*dll)->app_ = &this->test_app_;
 
-  if (svc != 0)
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - initializing the service with arguments (%s)\n",
+              args));
+
+  ACE_ARGV_T <char> arg_list (args != 0 ? args : "");
+  arg_list.add ("-ORBGestalt CURRENT");
+  int retval = (*dll)->init (arg_list.argc (), arg_list.argv ());
+
+  if (retval == 0)
   {
-    // Initialize the contents of the service.
-    svc->app_ = &this->test_app_;
-
+    // Save the service in the service map.
     ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - initializing the service with arguments (%s)\n",
-                args));
+                "%T (%t) - %M - storing testing service in map under id '%s'\n",
+                name));
 
-    ACE_ARGV_T <char> arg_list (args != 0 ? args : "");
-    int retval = svc->init (arg_list.argc (), arg_list.argv ());
+    retval = this->svc_map_.bind (ACE_CString (name), dll);
 
     if (retval == 0)
-    {
-      // Save the service in the service map.
-      ACE_DEBUG ((LM_DEBUG,
-                  "%T (%t) - %M - storing testing service in map under id '%s'\n",
-                  name));
-
-      retval = this->svc_map_.bind (ACE_CString (name), dll);
-
-      if (retval == 0)
-        auto_clean.release ();
-    }
-    else
-    {
-
-    }
-
-    return retval;
+      auto_clean.release ();
   }
   else
   {
     ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - failed to get service from DLL\n"));
+                "% T (%t) - %M - failed to initialize testing service\n"));
   }
 
-  return -1;
+  return retval;
 }
 
 //
@@ -107,7 +115,13 @@ handle_shutdown (const ACE_Time_Value & tv)
     dll = iter->item ();
 
     if (dll != 0)
-      dll->get_svc ()->handle_shutdown (tv);
+    {
+      // Make sure this service configuration is current.
+      CUTS_Testing_Service_DLL_Guard guard (*dll);
+
+      // Send the shutdown signal to the DLL.
+      (*dll)->handle_shutdown (tv);
+    }
   }
 
   return 0;
@@ -137,7 +151,13 @@ handle_startup (const ACE_Time_Value & tv)
     dll = iter->item ();
 
     if (dll != 0)
-      dll->get_svc ()->handle_startup (tv);
+    {
+      // Make sure this service configuration is current.
+      CUTS_Testing_Service_DLL_Guard guard (*dll);
+
+      // Send the startup signal to the DLL.
+      (*dll)->handle_startup (tv);
+    }
   }
 
   return 0;
@@ -150,26 +170,42 @@ int CUTS_Testing_Service_Manager::close (void)
 {
   CUTS_TEST_TRACE ("CUTS_Testing_Service_Manager::close (void)");
 
+  if (this->is_open_)
   {
-    ACE_READ_GUARD_RETURN (map_type::lock_type,
-                          guard,
-                          this->svc_map_.mutex (),
-                          -1);
+    this->is_open_ = false;
 
-    CUTS_Testing_Service_DLL * dll = 0;
-    map_type::CONST_ITERATOR iter (this->svc_map_);
-
-    for ( ; !iter.done (); iter ++)
+    do
     {
-      dll = iter->item ();
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T (%t) - %M - removing %d testing services\n",
+                  this->svc_map_.current_size ()));
 
-      if (dll != 0)
-        dll->close ();
-    }
+      ACE_WRITE_GUARD_RETURN (map_type::lock_type,
+                              guard,
+                              this->svc_map_.mutex (),
+                              -1);
+
+      CUTS_Testing_Service_DLL * dll = 0;
+      map_type::CONST_ITERATOR iter (this->svc_map_);
+
+      for ( ; !iter.done (); iter ++)
+      {
+        dll = iter->item ();
+
+        if (dll != 0)
+        {
+          // Make sure this service configuration is current.
+          CUTS_Testing_Service_DLL_Guard guard (*dll);
+
+          // Delete the loaded DLL.
+          delete dll;
+        }
+      }
+    } while (0);
+
+    // Remote all the entries from the mapping.
+    this->svc_map_.unbind_all ();
   }
 
-  // Remote all the entries from the mapping.
-  this->svc_map_.unbind_all ();
-  ACE_Service_Config::global ()->close ();
   return 0;
 }

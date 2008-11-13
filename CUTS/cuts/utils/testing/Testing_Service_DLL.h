@@ -15,9 +15,13 @@
 
 #include "Test_export.h"
 #include "ace/DLL.h"
+#include "ace/Service_Config.h"
 
 // Forward decl.
 class CUTS_Testing_Service;
+
+// Forward decl.
+class CUTS_Testing_Service_DLL_Guard;
 
 /**
  * @class CUTS_Testing_Service_DLL
@@ -26,6 +30,8 @@ class CUTS_Testing_Service;
  */
 class CUTS_Testing_Service_DLL
 {
+  friend class CUTS_Testing_Service_DLL_Guard;
+
 public:
   /// Type definition of the factory type.
   typedef CUTS_Testing_Service * (* factory_type) (void);
@@ -52,17 +58,43 @@ public:
   /**
    * Get a pointer to the testing service loaded from the module.
    */
-  CUTS_Testing_Service * get_svc (void);
+  CUTS_Testing_Service * operator -> (void);
 
 private:
+  int init (void);
+
   /// The actual DLL for the testing service.
   ACE_DLL dll_;
 
-  /// The factory for the testing service.
-  factory_type factory_;
-
   /// Pointer to the loaded testing service.
   CUTS_Testing_Service * svc_;
+
+  /// Service configurator for this DLL.
+  ACE_Intrusive_Auto_Ptr <ACE_Service_Gestalt> svc_config_;
+};
+
+/**
+ * @class CUTS_Testing_Service_DLL_Service_Guard
+ *
+ * Guard that ensures service configuration of a CUTS_Testing_Service_DLL
+ * is ACE_Service_Config::current (). This is useful when loading DLL
+ * that may contain static services and controlling which configuration
+ * it is installed.
+ */
+class CUTS_Testing_Service_DLL_Guard
+{
+public:
+  /**
+   * Initializing constructor.
+   */
+  CUTS_Testing_Service_DLL_Guard (CUTS_Testing_Service_DLL & dll);
+
+  /// Destructor.
+  ~CUTS_Testing_Service_DLL_Guard (void);
+
+private:
+  /// Service configuration guard.
+  ACE_Service_Config_Guard guard_;
 };
 
 #if defined (__CUTS_INLINE__)

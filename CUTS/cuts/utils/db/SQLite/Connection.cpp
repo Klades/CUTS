@@ -1,14 +1,17 @@
 // $Id$
 
 #include "Connection.h"
+#include "Exception.h"
 #include "ace/CORBA_macros.h"
+#include "sqlite3.h"
+
 //
 // CUTS_DB_SQLite_Connection
 //
 CUTS_DB_SQLite_Connection::CUTS_DB_SQLite_Connection (void)
 : conn_ (0)
 {
-  CUTS_DB_SQLite_Connection * p = new CUTS_DB_SQLite_Connection  ();
+
 }
 
 //
@@ -41,7 +44,7 @@ connect (const ACE_CString & connstr, long flags, const char * vfs)
                                   vfs);
 
   if (retval != SQLITE_OK)
-    throw CUTS_DB_SQLite_Exception (retval);
+    throw CUTS_DB_SQLite_Exception (*this);
 
   CUTS_DB_Connection::connect (connstr);
 }

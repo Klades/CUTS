@@ -39,7 +39,25 @@ project (cutstest_Xml) : xsc_cxx {
   }
 }
 
-project (cutstest) : boost_base, xscrt, cuts_testing_svc, cutsexe {
+project (CUTS_Test_Database) : cuts_db_sqlite3, cuts_db, cutslib {
+  sharedname = CUTS_Test_Database
+
+  dynamicflags += CUTS_TEST_DATABASE_BUILD_DLL
+
+  Source_Files {
+    Test_Database.cpp
+  }
+
+  Header_Files {
+    Test_Database_export.h
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (cutstest) : boost_base, xscrt, cuts_testing_svc, cuts_test_database, cutsexe {
   exename = cutstest
 
   after += cutstest_Xml
@@ -48,7 +66,6 @@ project (cutstest) : boost_base, xscrt, cuts_testing_svc, cutsexe {
     cutstest.cpp
     test.cpp
     Test_Configuration_File.cpp
-    Test_Database.cpp
     Testing_App.cpp
     Testing_App_Task.cpp
     Testing_Service_DLL.cpp

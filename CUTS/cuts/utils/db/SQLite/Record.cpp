@@ -7,7 +7,9 @@
 #endif
 
 #include "Query.h"
+#include "Exception.h"
 #include "ace/Date_Time.h"
+#include "sqlite3.h"
 #include <sstream>
 
 //
@@ -46,7 +48,7 @@ void CUTS_DB_SQLite_Record::advance (void)
   this->state_ = ::sqlite3_step (this->query_.stmt_);
 
   if (this->state_ != SQLITE_ROW || this->state_ != SQLITE_DONE)
-    throw CUTS_DB_SQLite_Exception (this->state_);
+    throw CUTS_DB_SQLite_Exception (this->query_.parent_);
 }
 
 //
@@ -183,4 +185,12 @@ void CUTS_DB_SQLite_Record::get_data (size_t column, float & value)
 void CUTS_DB_SQLite_Record::get_data (size_t column, double & value)
 {
   value = ::sqlite3_column_double (this->query_.stmt_, column);
+}
+
+//
+// done
+//
+bool CUTS_DB_SQLite_Record::done (void) const
+{
+  return this->state_ == SQLITE_DONE;
 }

@@ -17,6 +17,12 @@
 #include "ace/SString.h"
 #include "Query.h"
 
+// Forward decl.
+struct sqlite3;
+
+// Forward decl.
+class CUTS_DB_SQLite_Exception;
+
 /**
  * @class CUTS_DB_SQLite_Connection
  *
@@ -25,7 +31,11 @@
 class CUTS_DB_SQLITE_Export CUTS_DB_SQLite_Connection :
   public CUTS_DB_Connection
 {
+  // Friend decl.
   friend class CUTS_DB_SQLite_Query;
+
+  // Friend decl.
+  friend class CUTS_DB_SQLite_Exception;
 
 public:
   /// Default constructor

@@ -9,6 +9,7 @@ project (CUTS_DB) : cutslib {
     DB_Connection.cpp
     DB_Exception.cpp
     DB_Parameter.cpp
+    DB_Parameter_List.cpp
     DB_Query.cpp
     DB_Record.cpp
     DB_Types_Impl.cpp

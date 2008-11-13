@@ -2,8 +2,8 @@
 
 #include "Testing_Server.h"
 #include "Testing_Server_Task.h"
-#include "TestManager_i.h"
 #include "cuts/utils/testing/Testing_App.h"
+#include "tao/TAO_Singleton_Manager.h"
 #include "tao/IORTable/IORTable.h"
 #include "ace/Thread_Manager.h"
 #include "ace/Get_Opt.h"
@@ -38,7 +38,11 @@ int CUTS_Testing_Server::init (int argc, char * argv [])
   CUTS_TESTING_SERVER_TRACE ("CUTS_Testing_Server::init (int, char * [])");
 
   if (this->parse_args (argc, argv) == -1)
-    return -1;
+  {
+    ACE_ERROR_RETURN  ((LM_ERROR,
+                        "%T (%t) - %M - failed to parse command-line options\n"),
+                        -1);
+  }
 
   try
   {
@@ -52,16 +56,20 @@ int CUTS_Testing_Server::init (int argc, char * argv [])
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - getting reference to POAManager\n"));
 
-    PortableServer::POAManager_var mgr = this->root_poa_->the_POAManager ();
-    mgr->activate ();
+    this->poa_mgr_ = this->root_poa_->the_POAManager ();
+    this->poa_mgr_->activate ();
 
     // Create a new test manager.
     ACE_NEW_THROW_EX (this->test_manager_,
                       CUTS_TestManager_i (*this),
                       CORBA::NO_MEMORY ());
 
-    // Activate the manager and transfer ownership.
-    CUTS::TestManager_var manager = this->test_manager_->_this ();
+    // Activate the object and transfer ownership.
+    PortableServer::ObjectId_var id =
+      this->root_poa_->activate_object (this->test_manager_);
+
+    //CORBA::Object_var obj = this->poa_->id_to_reference (id.in ());
+    //CUTS::TestManager_var manager = CUTS::TestManager::_narrow (obj.in ());
     this->servant_ = this->test_manager_;
 
     // Register the test manager with the IORTable for the ORB.
@@ -106,7 +114,7 @@ int CUTS_Testing_Server::parse_args (int argc, char * argv [])
 
   try
   {
-    this->orb_ = ::CORBA::ORB_init (argc, argv);
+    this->orb_ = ::CORBA::ORB_init (argc, argv, "SERVER");
 
     return 0;
   }
@@ -136,16 +144,18 @@ int CUTS_Testing_Server::fini (void)
 
     // Stop the main event loop for the ORB.
     ACE_DEBUG ((LM_DEBUG, "%T (%t) - %M - shutting down the ORB\n"));
-    this->orb_->shutdown (true);
+    this->orb_->shutdown (1);
     this->task_.wait ();
 
     // Destroy the RootPOA.
     ACE_DEBUG ((LM_DEBUG, "%T (%t) - %M - destroying the RootPOA\n"));
-    this->root_poa_->destroy (true, true);
+    this->root_poa_->destroy (1, 1);
 
     // Destroy the ORB.
     ACE_DEBUG ((LM_DEBUG, "%T (%t) - %M - destroying the ORB\n"));
     this->orb_->destroy ();
+
+    return 0;
   }
   catch (const CORBA::Exception & ex)
   {

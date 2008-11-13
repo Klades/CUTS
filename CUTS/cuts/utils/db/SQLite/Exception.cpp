@@ -1,6 +1,8 @@
 // $Id$
 
 #include "Exception.h"
+#include "Connection.h"
+#include "sqlite3.h"
 
 //
 // error_msgs_
@@ -47,13 +49,13 @@ CUTS_DB_SQLite_Exception::CUTS_DB_SQLite_Exception (void)
 //
 // CUTS_DB_SQLite_Exception
 //
-CUTS_DB_SQLite_Exception::CUTS_DB_SQLite_Exception (long err_code)
-: CUTS_DB_Exception (err_code, "", "")
+CUTS_DB_SQLite_Exception::
+CUTS_DB_SQLite_Exception (const CUTS_DB_SQLite_Connection & conn)
+: CUTS_DB_Exception (::sqlite3_errcode (conn.conn_),
+                     "",
+                     ::sqlite3_errmsg (conn.conn_))
 {
-  if (err_code >= 0 && err_code <= 26)
-    this->message_ = CUTS_DB_SQLite_Exception::error_msgs_[err_code];
-  else
-    this->message_ = "unknown error code";
+
 }
 
 //

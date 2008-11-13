@@ -62,7 +62,7 @@ public:
    * @retval      true        There is a connection.
    * @retval      false       There is not a connection.
    */
-  bool is_connected (void) const;
+  virtual bool is_connected (void) const;
 
 protected:
   /// Holds the current connection state.
