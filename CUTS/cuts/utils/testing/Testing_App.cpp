@@ -6,9 +6,9 @@
 #include "Testing_App.inl"
 #endif
 
-#include "Testing_Service_Manager.h"
 #include "Test_Configuration_File.h"
 #include "Testing_Service.h"
+#include "Testing_Service_Manager.h"
 #include "ace/CORBA_macros.h"
 #include "ace/Get_Opt.h"
 #include "ace/Guard_T.h"
@@ -38,14 +38,13 @@ static const char * __HELP__ =
 "  --startup=CMD           use CMD to startup test\n"
 "  --shutdown=CMD          use CMD to shutdown test\n"
 "\n"
-"  -v, --verbose           print verbose infomration\n"
-"  --debug                 print debugging information\n"
-"  -h, --help              print this help message\n"
+"  --deamon                daemonize test application\n"
+"  --daemon-endpoint       endpoint to bind application ADDRESS[:PORT]\n"
 "\n"
-"DEPLOY\\TEARDOWN:\n"
-"If you specify the --deploy option, then you must specify the --teardown\n"
-"option. Also, the process spawned by the --deploy option must exit so the\n"
-"--teardown option can execute.\n";
+"  -v, --verbose           print verbose information\n"
+"  --debug                 print debug information\n"
+"  --trace                 print trace information (requires compile support)\n"
+"  -h, --help              print this help message\n";
 
 //
 // CUTS_Testing_App
@@ -84,6 +83,9 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("directory", 'C', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("startup", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("shutdown", ACE_Get_Opt::ARG_REQUIRED);
+
+  get_opt.long_option ("daemon", ACE_Get_Opt::NO_ARG);
+  get_opt.long_option ("daemon-endpoint", ACE_Get_Opt::ARG_REQUIRED);
 
   get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
@@ -132,6 +134,14 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
         istr >> seconds;
 
         this->opts_.test_duration_.sec (seconds);
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "daemon") == 0)
+      {
+        this->opts_.deamon_ = true;
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "daemon-endpoint") == 0)
+      {
+        this->opts_.daemon_endpoint_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "trace") == 0)
       {
@@ -212,19 +222,29 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
   if (this->parse_args (argc, argv) == -1)
     return -1;
 
+  // Service manager for the application.
+  CUTS_Testing_Service_Manager svc_mgr (*this);
+
   try
   {
     // Create the database for this test.
     this->test_db_.create (this->opts_.uuid_);
-
-    // Instantiate a service manager that's valid only in this scope.
-    CUTS_Testing_Service_Manager svc_mgr (*this);
 
     // Load the configuration this test run.
     if (this->load_configuration (svc_mgr, this->opts_.config_) != 0)
     {
       ACE_ERROR ((LM_ERROR,
                   "%T (%t) - %M - failed to load test configuration\n"));
+    }
+
+    if (this->opts_.deamon_)
+    {
+      // Make the process a deamon, or CORBA application. ;-)
+      if (this->make_daemon (svc_mgr) != 0)
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "%T (%t) - %T - failed to make application a daemon\n"));
+      }
     }
 
     if (!this->opts_.deploy_.empty ())
@@ -511,4 +531,24 @@ load_service (CUTS_Testing_Service_Manager & mgr,
                            desc.location ().c_str (),
                            desc.entryPoint ().c_str (),
                            desc.params_p () ? desc.params ().c_str () : 0);
+}
+
+//
+// make_daemon
+//
+int CUTS_Testing_App::
+make_daemon (CUTS_Testing_Service_Manager & svc_mgr)
+{
+  std::ostringstream ostr;
+
+  if (!this->opts_.daemon_endpoint_.empty ())
+  {
+    ostr << "-ORBEndpoint iiop://"
+         << this->opts_.daemon_endpoint_.c_str ();
+  }
+
+  return svc_mgr.load_service ("daemon",
+                               "CUTS_Testing_Server",
+                               "_make_CUTS_Testing_Server",
+                               !ostr.str ().empty () ? ostr.str ().c_str () : 0);
 }

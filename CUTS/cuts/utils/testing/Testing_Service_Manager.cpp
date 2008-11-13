@@ -9,6 +9,7 @@
 #include "Testing_Service.h"
 #include "Testing_Service_DLL.h"
 #include "ace/ARGV.h"
+#include "ace/Argv_Type_Converter.h"
 #include "ace/Guard_T.h"
 #include "ace/CORBA_macros.h"
 #include "ace/Service_Config.h"
@@ -54,17 +55,23 @@ int CUTS_Testing_Service_Manager::load_service (const char * name,
               "%T (%t) - %M - initializing the service with arguments (%s)\n",
               args));
 
-  // Make sure '-ORBGestalt CURRENT' is one of the command-line arguments.
+  // Make sure the name of the service if the first argument.
   ACE_ARGV_T <char> args_list;
   args_list.add (name);
-  args_list.add ("-ORBGestalt CURRENT");
 
-  // Copy the remaining command-line arguments
-  ACE_ARGV_T <char> args_copy (args != 0 ? args : "");
-  args_list.add (args_copy.argv ());
+  // Copy the remaining arguments.
+  ACE_ARGV_T <char> args_copy (args);
+
+  if (args_copy.argc ())
+    args_list.add (args_copy.argv ());
+
+  // Let's not corrupt the original command-line.
+  int argc = args_list.argc ();
+  ACE_Argv_Type_Converter command_line (argc, args_list.argv ());
 
   // Initialize the service.
-  int retval = (*dll)->init (args_list.argc (), args_list.argv ());
+  int retval = (*dll)->init (command_line.get_argc (),
+                             command_line.get_ASCII_argv ());
 
   if (retval == 0)
   {
@@ -101,7 +108,9 @@ handle_shutdown (const ACE_Time_Value & tv)
                          -1);
 
   ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - sending handle_shutdown () singal to all services\n"));
+              "%T (%t) - %M - sending handle_shutdown () singal to all "
+              "%d service(s)\n",
+              this->svc_map_.current_size ()));
 
   CUTS_Testing_Service_DLL * dll = 0;
   map_type::CONST_ITERATOR iter (this->svc_map_);
@@ -137,7 +146,9 @@ handle_startup (const ACE_Time_Value & tv)
                          -1);
 
   ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - sending handle_startup () singal to all services\n"));
+              "%T (%t) - %M - sending handle_startup () singal to "
+              "all %d service(s)\n",
+              this->svc_map_.current_size ()));
 
   CUTS_Testing_Service_DLL * dll = 0;
   map_type::CONST_ITERATOR iter (this->svc_map_);
@@ -173,7 +184,7 @@ int CUTS_Testing_Service_Manager::close (void)
     do
     {
       ACE_DEBUG ((LM_DEBUG,
-                  "%T (%t) - %M - removing %d testing services\n",
+                  "%T (%t) - %M - removing %d testing service(s)\n",
                   this->svc_map_.current_size ()));
 
       ACE_WRITE_GUARD_RETURN (map_type::lock_type,

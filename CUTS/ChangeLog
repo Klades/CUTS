@@ -1,3 +1,43 @@
+Thu Nov 13 17:56:49 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/TAO_Testing_Service.h:
+        * cuts/utils/testing/TAO_Testing_Service.inl:
+        * cuts/utils/testing/TAO_Testing_Service.cpp:
+        * cuts/utils/testing/TAO_Testing_Service_export.h:
+        * etc/config/cuts_tao_testing_svc.mpb:
+        * etc/config/cuts_testing_svc.mpb:
+        * cuts/utils/testing/testing.mpc:
+
+          . The TAO-specific testing services are defined in a seperate
+            module to help reduce footprint size.
+
+        * cuts/utils/testing/Test_Options.h:
+        * cuts/utils/testing/Testing_App.h:
+        * cuts/utils/testing/Testing_App.cpp:
+        * cuts/utils/testing/Testing_Service_Manager.cpp:
+
+          . Bug fix where the objects for managing command-line options
+            was becoming corrupted, and causing the application to
+            segfault.
+
+          . Implemented two new command-line options:
+
+            --daemon: loads the server testing service
+            --daemon-endpoint: sets the ORB's endpoint
+
+        * cuts/utils/testing/svcs/server/Testing_Server.h:
+        * cuts/utils/testing/svcs/server/Testing_Server.cpp:
+        * cuts/utils/testing/svcs/server/server.mpc:
+
+          . Re-implemented the server/daemon on top of the
+            CUTS_TAO_Testing_Service object.
+
+        * etc/config/cuts.mpb:
+
+          . New base class for including the CUTS library. This will allow
+            us to remove 'libs += CUTS' and 'after += CUTS' from the
+            cutslib.mpb and cutsexe.mpb files.
+
 Thu Nov 13 06:47:15 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/Testing_Service_Manager.cpp:

@@ -14,8 +14,8 @@
 #define _CUTS_TESTING_APP_H_
 
 #include "Test_Options.h"
-#include "Testing_App_Task.h"
 #include "Test_Database.h"
+#include "Testing_App_Task.h"
 
 namespace CUTS
 {
@@ -80,6 +80,9 @@ private:
 
   /// Teardown the current test.
   int teardown_test (void);
+
+  /// Make the application a daemon.
+  int make_daemon (CUTS_Testing_Service_Manager & mgr);
 
   /// Load the configuration for the test.
   static int load_configuration (CUTS_Testing_Service_Manager & mgr,

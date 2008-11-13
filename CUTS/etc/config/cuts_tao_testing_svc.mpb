@@ -1,0 +1,6 @@
+// $Id$
+
+project : taolib, cuts_testing_svc {
+  after += CUTS_TAO_Testing_Service
+  libs  += CUTS_TAO_Testing_Service
+}

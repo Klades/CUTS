@@ -67,17 +67,27 @@ int CUTS_Testing_Server::init (int argc, char * argv [])
     // Activate the object and transfer ownership.
     PortableServer::ObjectId_var id =
       this->root_poa_->activate_object (this->test_manager_);
-
-    //CORBA::Object_var obj = this->poa_->id_to_reference (id.in ());
-    //CUTS::TestManager_var manager = CUTS::TestManager::_narrow (obj.in ());
     this->servant_ = this->test_manager_;
 
+    // Convert the object id into a string.
+    obj = this->root_poa_->id_to_reference (id.in ());
+    CORBA::String_var objstr = this->orb_->object_to_string (obj.in ());
+
+    // Construct the name for the test manager.
+    ACE_CString name = "CUTS/TestManager/";
+    name += this->test_app ()->options ().name_;
+
     // Register the test manager with the IORTable for the ORB.
-    //if (this->register_with_iortable () == -1)
-    //{
-    //  ACE_ERROR ((LM_ERROR,
-    //              "%T (%t) - %M - failed to register with IOR table\n"));
-    //}
+    int retval =
+      CUTS_Testing_Server::register_with_iortable (this->orb_.in (),
+                                                   name.c_str (),
+                                                   objstr.in ());
+
+    if (retval == -1)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T (%t) - %M - failed to register with IOR table\n"));
+    }
 
     // Register the test manager with the naming service, if applicable.
     if (this->register_with_ns_)
@@ -114,8 +124,8 @@ int CUTS_Testing_Server::parse_args (int argc, char * argv [])
 
   try
   {
-    this->orb_ = ::CORBA::ORB_init (argc, argv, "SERVER");
-
+    // First, pass control to the base class.
+    CUTS_TAO_Testing_Service::init (argc, argv);
     return 0;
   }
   catch (const CORBA::Exception & ex)
@@ -151,10 +161,8 @@ int CUTS_Testing_Server::fini (void)
     ACE_DEBUG ((LM_DEBUG, "%T (%t) - %M - destroying the RootPOA\n"));
     this->root_poa_->destroy (1, 1);
 
-    // Destroy the ORB.
-    ACE_DEBUG ((LM_DEBUG, "%T (%t) - %M - destroying the ORB\n"));
-    this->orb_->destroy ();
-
+    // Finally, pass control to the base class
+    CUTS_TAO_Testing_Service::fini ();
     return 0;
   }
   catch (const CORBA::Exception & ex)
@@ -170,12 +178,15 @@ int CUTS_Testing_Server::fini (void)
 //
 // register_with_iortable
 //
-int CUTS_Testing_Server::register_with_iortable (void)
+int CUTS_Testing_Server::
+register_with_iortable (CORBA::ORB_ptr orb,
+                        const char * name,
+                        const char * objstr)
 {
   try
   {
     // Locate the IORTable for the application.
-    CORBA::Object_var obj = this->orb_->resolve_initial_references ("IORTable");
+    CORBA::Object_var obj = orb->resolve_initial_references ("IORTable");
     IORTable::Table_var ior_table = IORTable::Table::_narrow (obj.in ());
 
     if (::CORBA::is_nil (ior_table.in ()))
@@ -185,21 +196,12 @@ int CUTS_Testing_Server::register_with_iortable (void)
                          -1);
     }
 
-    // Construct the name for the test manager.
-    ACE_CString manager_name = "CUTS/TestManager/";
-    manager_name += this->test_app ()->options ().name_;
-
-    // Get the IOR string for the test manager.
-    CUTS::TestManager_var test_mgr = this->test_manager_->_this ();
-    CORBA::String_var obj_str  = this->orb_->object_to_string (test_mgr.in ());
-    CORBA::String_var name_str = CORBA::string_dup (manager_name.c_str ());
-
     // Bind the object to the IOR table.
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - registering test manager with the IOR table [%s]\n",
-                manager_name.c_str ()));
+                name));
 
-    ior_table->bind (name_str.in (), obj_str.in ());
+    ior_table->bind (name, objstr);
     return 0;
   }
   catch (const CORBA::Exception & ex)

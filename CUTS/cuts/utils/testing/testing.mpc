@@ -18,6 +18,24 @@ project (CUTS_Testing_Service) : cutslib {
   }
 }
 
+project (CUTS_TAO_Testing_Service) : taolib, cuts_testing_svc {
+  sharedname = CUTS_TAO_Testing_Service
+
+  dynamicflags += CUTS_TAO_TESTING_SERVICE_BUILD_DLL
+
+  Source_Files {
+    TAO_Testing_Service.cpp
+  }
+
+  Header_Files {
+    TAO_Testing_Service_export.h
+  }
+
+  Inline_Files {
+
+  }
+}
+
 project (cutstest_Xml) : xsc_cxx {
   custom_only = 1
 

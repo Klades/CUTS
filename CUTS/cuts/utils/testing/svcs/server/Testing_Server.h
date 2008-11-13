@@ -16,7 +16,7 @@
 #include "Testing_Server_export.h"
 #include "Testing_Server_Task.h"
 #include "TestManager_i.h"
-#include "cuts/utils/testing/Testing_Service.h"
+#include "cuts/utils/testing/TAO_Testing_Service.h"
 #include "tao/PortableServer/Servant_Base.h"
 #include "orbsvcs/CosNamingC.h"
 
@@ -26,7 +26,7 @@ class CUTS_TestManager_i;
 /**
  * @class CUTS_Testing_Server
  */
-class CUTS_Testing_Server : public CUTS_Testing_Service
+class CUTS_Testing_Server : public CUTS_TAO_Testing_Service
 {
 public:
   /**
@@ -69,16 +69,15 @@ private:
   virtual int parse_args (int argc, char * argv []);
 
   /// Helper method to register TestManager with IORTable.
-  int register_with_iortable (void);
+  static int register_with_iortable (CORBA::ORB_ptr orb,
+                                     const char * name,
+                                     const char * objstr);
 
   /// Helper method to register TestManager with naming service.
   int register_with_name_service (void);
 
   /// Helper method to unregister TestManger with the name service.
   int unregister_with_name_service (void);
-
-  /// The ORB for the server.
-  CORBA::ORB_var orb_;
 
   /// Test manager for the server.
   CUTS_TestManager_i * test_manager_;

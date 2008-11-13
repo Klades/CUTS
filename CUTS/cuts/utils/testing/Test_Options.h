@@ -27,7 +27,8 @@ class CUTS_Test_Options
 public:
   /// Default constructor.
   CUTS_Test_Options (void)
-    : name_ ("(default)")
+    : name_ ("(default)"),
+      deamon_ (false)
   {
 
   }
@@ -58,6 +59,12 @@ public:
 
   /// Stop time of the test.
   ACE_Time_Value stop_;
+
+  /// The application is a daemon
+  bool deamon_;
+
+  /// The address of the daemon.
+  ACE_CString daemon_endpoint_;
 };
 
 #endif  // !defined _CUTS_TEST_OPTIONS_H_
