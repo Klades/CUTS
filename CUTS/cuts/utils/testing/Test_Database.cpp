@@ -23,7 +23,7 @@ static const char * __CREATE_CUTS_TEST_TABLE__ =
 ")";
 
 static const char * __CREATE_CUTS_TEST_SCHED_TABLE__ =
-"CREATE TABLE IF NOT EXISTS cuts_test_schedule "
+"CREATE TABLE IF NOT EXISTS cuts_test_interval"
 "("
 "tsid INTEGER PRIMARY KEY AUTOINCREMENT, "
 "start_time DATETIME, "
@@ -139,7 +139,7 @@ void CUTS_Test_Database::start_new_test (const ACE_Time_Value & tv)
     auto_release (query, &CUTS_DB_SQLite_Query::destroy);
 
   const char * __sql_stmt__ =
-    "INSERT INTO cuts_test_schedule (start_time) VALUES (?)";
+    "INSERT INTO cuts_test_interval (start_time) VALUES (?)";
 
   query->prepare (__sql_stmt__);
 
@@ -168,7 +168,7 @@ void CUTS_Test_Database::stop_current_test (const ACE_Time_Value & tv)
     auto_release (query, &CUTS_DB_SQLite_Query::destroy);
 
   const char * __sql_stmt__ =
-    "UPDATE cuts_test_schedule SET stop_time = ? WHERE tsid = ?";
+    "UPDATE cuts_test_interval SET stop_time = ? WHERE tsid = ?";
 
   query->prepare (__sql_stmt__);
 
