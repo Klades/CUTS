@@ -48,7 +48,7 @@ module CUTS
    *
    * Log message send from a test logging client to a server.
    */
-  struct TestLogMessage
+  struct LogMessagePacket
   {
     /// UUID of the test log message.
     CUTS::UUID uuid;
@@ -68,9 +68,11 @@ module CUTS
   interface TestLoggerServer
   {
     /**
-     * Send a collection of messages to the server.
+     * Send a message packet to the logging server.
+     *
+     * @param[in]     packet      Message packet containing messages.
      */
-    void send_message (in TestLogMessage msg);
+    void send_message_packet (in LogMessagePacket packet);
   };
 };
 

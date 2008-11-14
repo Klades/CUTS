@@ -72,6 +72,7 @@ LOCK & CUTS_Log_T <T, LOCK>::lock (void)
 // next_free_record
 //
 template <typename T, typename LOCK>
+CUTS_INLINE
 T * CUTS_Log_T <T, LOCK>::next_free_record (void)
 {
   CUTS_TRACE ("CUTS_Log_T <T, LOCK>::next_free_record");

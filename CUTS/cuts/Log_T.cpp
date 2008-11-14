@@ -142,6 +142,19 @@ T * CUTS_Log_T <T, LOCK>::next_free_record_no_lock (void)
 }
 
 //
+// next_free_record
+//
+template <typename T, typename LOCK>
+size_t CUTS_Log_T <T, LOCK>::next_free_record (T * & record)
+{
+  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::next_free_record");
+  ACE_WRITE_GUARD_RETURN (LOCK, guard, this->lock_, 0);
+
+  record = this->next_free_record_no_lock ();
+  return this->used_size_;
+}
+
+//
 // size_i
 //
 template <typename T, typename LOCK>

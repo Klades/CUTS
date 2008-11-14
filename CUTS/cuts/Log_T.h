@@ -58,7 +58,7 @@ public:
    * @param[in]         size        Initial size of the log.
    * @param[in]         grow        Allow the log to grow as needed.
    */
-  CUTS_Log_T (size_t chuck_size, bool auto_grow = true);
+  CUTS_Log_T (size_t chuck_size = 25, bool auto_grow = true);
 
   /**
    * Copy constructor.
@@ -97,6 +97,8 @@ public:
    * @return          Pointer to the next free record.
    */
   T * next_free_record (void);
+
+  size_t next_free_record (T * & record);
 
   /**
    * Assignment operator

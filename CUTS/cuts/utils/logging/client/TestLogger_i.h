@@ -13,9 +13,9 @@
 #ifndef _CUTS_TEST_LOGGER_I_H_
 #define _CUTS_TEST_LOGGER_I_H_
 
-#include "cuts/config.h"
 #include "clientS.h"
-#include "ace/Task_Ex_T.h"
+#include "cuts/Log_T.h"
+#include "ace/Task.h"
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/Refcountable_T.h"
 #include "ace/OS_NS_netdb.h"
@@ -71,12 +71,19 @@ private:
  */
 class CUTS_TestLogger_i :
   public virtual POA_CUTS::TestLogger,
-  public ACE_Task_Ex <ACE_MT_SYNCH, CUTS_Log_Message>
+  public ACE_Task_Base
 {
 public:
-  typedef ACE_Task_Ex <ACE_MT_SYNCH, CUTS_Log_Message> task_type;
-
-  CUTS_TestLogger_i (long logid, CUTS_TestLoggerFactory_i & parent);
+  /**
+   * Initializing constructor
+   *
+   * @param[in]         logid             ID of the logger
+   * @param[in]         parent            Parent factory object
+   * @param[in]         msg_queue_size    Size of the message queue
+   */
+  CUTS_TestLogger_i (long logid,
+                     CUTS_TestLoggerFactory_i & parent,
+                     size_t msg_queue_size = 25);
 
   /// Destructor.
   virtual ~CUTS_TestLogger_i (void);
@@ -86,7 +93,6 @@ public:
                     const CUTS::MessageText & message);
 
   virtual void batch_log (const CUTS::LogMessages & msgs);
-
 
   /**
    * Start the logger. It will flush the message queue at the defined
@@ -111,12 +117,7 @@ protected:
   virtual int handle_input (ACE_HANDLE fd);
 
 private:
-  /**
-   * Helper method to handle a new log message.
-   *
-   * @param[in]     message       New log message.
-   */
-  int handle_message (CUTS_Log_Message * message);
+  void copy_message (CUTS::LogMessage & dst, const CUTS::LogMessage & src);
 
   /// Send messages to the logging server.
   void send_messages (void);
@@ -130,32 +131,35 @@ private:
   /// Active state of the task.
   bool is_active_;
 
+  /// Timeout value for the logger.
+  ACE_Time_Value timeout_;
+
   /// Id of the timer for insert events into the database.
   long timer_id_;
-
-  /// Low water mark for the message queue.
-  size_t lwm_msg_queue_;
-
-  /// High water mark for the message queue.
-  size_t hwm_msg_queue_;
-
-  /// Hostname associated with the logger.
-  char hostname_[MAXHOSTNAMELEN + 1];
-
-  /// Free list of log messages owned by handler.
-  ACE_Locked_Free_List <CUTS_Log_Message, ACE_RW_Thread_Mutex> msg_free_list_;
 
   /// Mutex for swapping the message queues.
   ACE_RW_Thread_Mutex swap_mutex_;
 
-  /// The main log message queue for the logger.
-  MESSAGE_QUEUE_EX log_msg_queue_1_;
+  /// Reference to the logging server.
+  CUTS::TestLoggerServer_var server_;
 
-  /// The secondary log message queue for the logger.
-  MESSAGE_QUEUE_EX log_msg_queue_2_;
+  /// Type definition of the message log.
+  typedef CUTS_Log_T <CUTS::LogMessage, ACE_RW_Thread_Mutex> msg_log_type;
 
-  /// Pointer to the old message queue.
-  MESSAGE_QUEUE_EX * old_msg_queue_;
+  /// Maximum size of the message queue.
+  size_t msg_queue_size_;
+
+  /// Double buffer for the log messages.
+  msg_log_type msg_logs_[2];
+
+  /// Pointer to the active message log.
+  msg_log_type * active_log_;
+
+  /// Pointer to the inactive message log.
+  msg_log_type * inactive_log_;
+
+  /// Log message packet that is sent to the server.
+  CUTS::LogMessagePacket packet_;
 };
 
 #if defined (__CUTS_INLINE__)

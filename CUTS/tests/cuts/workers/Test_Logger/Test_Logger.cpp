@@ -58,9 +58,12 @@ static void log (void)
 
     BOOST_CHECK (logger.log (LM_DEBUG, "This is a simple message"));
 
-    BOOST_CHECK (logger.log (LM_DEBUG,
-                             "This is a simple message with an integer %d",
-                             2345));
+    for (int i = 0; i < 30; ++ i)
+    {
+      BOOST_CHECK (logger.log (LM_DEBUG,
+                              "This is a simple message with an integer %d",
+                              2345));
+    }
   }
   catch (...)
   {
