@@ -49,6 +49,7 @@ public:
   /// Type definition of the constant iterator.
   typedef CUTS_Log_Const_Iterator_T <T, LOCK> const_iterator;
 
+  /// Type definition of the pointer.
   typedef T * pointer;
 
   /**
@@ -57,8 +58,13 @@ public:
    * @param[in]         size        Initial size of the log.
    * @param[in]         grow        Allow the log to grow as needed.
    */
-  CUTS_Log_T (size_t chuck_size);
+  CUTS_Log_T (size_t chuck_size, bool auto_grow = true);
 
+  /**
+   * Copy constructor.
+   *
+   * @param[in]         log         Source log.
+   */
   CUTS_Log_T (const CUTS_Log_T & log);
 
   /// Destructor
@@ -137,6 +143,9 @@ public:
    */
   int size (size_t new_size);
 
+  /// Determine if the log is full.
+  bool is_full (void) const;
+
 private:
 
   void copy_i (const CUTS_Log_T & log);
@@ -151,6 +160,9 @@ private:
 
   /// Number of used records in the log.
   size_t used_size_;
+
+  /// Flag that determines of log should auto grow.
+  bool auto_grow_;
 
   /// Lock for the log.
   mutable LOCK lock_;

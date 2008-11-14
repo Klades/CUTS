@@ -1,3 +1,15 @@
+Fri Nov 14 19:22:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/Log_T.h:
+        * cuts/Log_T.inl:
+        * cuts/Log_T.cpp:
+
+          . Added an 'auto_grow' flag to determine if the log should grow
+            if it runs out of space. We should probably throw an exception
+            if the log runs out of space and it is not allowed to grow.
+
+          . Implemented an is_full () method to test if the log is full.
+
 Fri Nov 14 18:40:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/Logging_skel_export.h:

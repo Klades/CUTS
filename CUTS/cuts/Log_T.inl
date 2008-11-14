@@ -89,11 +89,6 @@ CUTS_INLINE
 size_t CUTS_Log_T <T, LOCK>::size (void) const
 {
   CUTS_TRACE ("CUTS_Log_T <T, LOCK>::size (void) const");
-  ACE_READ_GUARD_RETURN (LOCK,
-                         guard,
-                         this->lock_,
-                         this->curr_size_);
-
   return this->curr_size_;
 }
 
@@ -101,6 +96,7 @@ size_t CUTS_Log_T <T, LOCK>::size (void) const
 // size
 //
 template <typename T, typename LOCK>
+CUTS_INLINE
 int CUTS_Log_T <T, LOCK>::size (size_t new_size)
 {
   CUTS_TRACE ("CUTS_Log_T <T, LOCK>::size (size_t)");
@@ -108,6 +104,18 @@ int CUTS_Log_T <T, LOCK>::size (size_t new_size)
 
   return this->size_i (new_size);
 }
+
+//
+// is_full
+//
+template <typename T, typename LOCK>
+CUTS_INLINE
+bool CUTS_Log_T <T, LOCK>::is_full (void) const
+{
+  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::is_full (void) const");
+  return this->used_size_ >= this->curr_size_;
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // @class CUTS_Log_Iterator_T

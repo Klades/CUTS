@@ -14,16 +14,20 @@
 //
 template <typename T, typename LOCK>
 CUTS_INLINE
-CUTS_Log_T <T, LOCK>::CUTS_Log_T (size_t chunk_size)
+CUTS_Log_T <T, LOCK>::CUTS_Log_T (size_t chunk_size, bool auto_grow)
 : chunk_size_ (chunk_size),
   curr_size_ (chunk_size),
   used_size_ (0),
+  auto_grow_ (auto_grow),
   records_ (1)
 {
   CUTS_TRACE ("CUTS_Log_T (typename CUTS_Log_T <T, LOCK>::size_type)");
 
   chunk_type * chunk = 0;
-  ACE_NEW_THROW_EX (chunk, chunk_type (chunk_size), ACE_bad_alloc ());
+
+  ACE_NEW_THROW_EX (chunk,
+                    chunk_type (chunk_size),
+                    ACE_bad_alloc ());
 
   this->records_[0] = chunk;
 }
@@ -35,7 +39,8 @@ template <typename T, typename LOCK>
 CUTS_Log_T <T, LOCK>::CUTS_Log_T (const CUTS_Log_T & log)
 : chunk_size_ (log.chunk_size_),
   curr_size_ (0),
-  used_size_ (0)
+  used_size_ (0),
+  auto_grow_ (log.auto_grow_)
 {
   CUTS_TRACE ("CUTS_Log_T <T, LOCK>::CUTS_Log_T (const CUTS_Log_T &)");
 
@@ -118,18 +123,22 @@ T * CUTS_Log_T <T, LOCK>::next_free_record_no_lock (void)
 
     return &((*this->records_[index])[offset]);
   }
+  else if (this->auto_grow_)
+  {
+    // Increment the size of the record log.
+    size_t index = this->records_.size ();
 
-  // Increment the size of the record log.
-  size_t index = this->records_.size ();
+    if (this->size_i (this->curr_size_ + this->chunk_size_) == -1)
+      return 0;
 
-  if (this->size_i (this->curr_size_ + this->chunk_size_) == -1)
+    // Increment the used count.
+    ++ this->used_size_;
+
+    // Return the next record to the caller.
+    return &((*this->records_[index])[0]);
+  }
+  else
     return 0;
-
-  // Increment the used count.
-  ++ this->used_size_;
-
-  // Return the next record to the caller.
-  return &((*this->records_[index])[0]);
 }
 
 //
