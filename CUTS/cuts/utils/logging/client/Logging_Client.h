@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- * @file          Logging_Client_Server.h
+ * @file          Logging_Client.h
  *
  * $Id$
  *
@@ -20,18 +20,18 @@
 class CUTS_TestLoggerClient_i;
 
 /**
- * @class CUTS_Logging_Client_Server
+ * @class CUTS_Logging_Client
  *
  * The server class that will daemonize the client application.
  */
-class CUTS_Logging_Client_Server
+class CUTS_Logging_Client
 {
 public:
   /// Constructor.
-  CUTS_Logging_Client_Server (void);
+  CUTS_Logging_Client (void);
 
   /// Destructor.
-  ~CUTS_Logging_Client_Server (void);
+  ~CUTS_Logging_Client (void);
 
   /**
    * Run the server.

@@ -31,3 +31,28 @@ CUTS_Log_Message * CUTS_Log_Message::get_next (void)
   return this->next_;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_TestLogger_i
+
+//
+// handle_input
+//
+CUTS_INLINE
+int CUTS_TestLogger_i::handle_input (ACE_HANDLE)
+{
+  this->send_messages ();
+  return 0;
+}
+
+//
+// handle_timeout
+//
+CUTS_INLINE
+int CUTS_TestLogger_i::
+handle_timeout (const ACE_Time_Value &, const void *)
+{
+  // Send messages to the server.
+  this->send_messages ();
+  return 0;
+}
+

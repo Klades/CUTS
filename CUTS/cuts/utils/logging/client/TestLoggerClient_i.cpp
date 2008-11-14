@@ -15,14 +15,9 @@ CUTS_TestLoggerClient_i (PortableServer::POA_ptr poa)
   CORBA::PolicyList policies (3);
   policies.length (3);
 
-  policies[0] =
-    poa->create_thread_policy (PortableServer::ORB_CTRL_MODEL);
-
-  policies[1] =
-    poa->create_id_assignment_policy (PortableServer::SYSTEM_ID);
-
-  policies[2] =
-    poa->create_servant_retention_policy (PortableServer::RETAIN);
+  policies[0] = poa->create_thread_policy (PortableServer::ORB_CTRL_MODEL);
+  policies[1] = poa->create_id_assignment_policy (PortableServer::SYSTEM_ID);
+  policies[2] = poa->create_servant_retention_policy (PortableServer::RETAIN);
 
   // Create the child POA for the test.
   PortableServer::POAManager_var mgr = poa->the_POAManager ();
@@ -81,9 +76,6 @@ CUTS_TestLoggerClient_i::create (const CUTS::UUID & uuid)
                     CORBA::NO_MEMORY ());
 
   PortableServer::ServantBase_var safety = servant;
-
-  // Connect the factory to the datbase.
-  servant->connect (CUTS_LOGGING_OPTIONS->database_);
 
   if (this->factory_map_.bind (*test_uuid.to_string (), servant) != 0)
     throw CUTS::FactoryOperationFailed ();

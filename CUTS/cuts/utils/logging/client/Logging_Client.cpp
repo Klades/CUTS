@@ -1,10 +1,12 @@
 // $Id$
 
-#include "Logging_Client_Server.h"
+#include "Logging_Client.h"
 #include "Logging_Client_Options.h"
 #include "Logging_Client_Task.h"
 #include "TestLoggerClient_i.h"
 #include "tao/IORTable/IORTable.h"
+#include "ace/ARGV.h"
+#include "ace/Argv_Type_Converter.h"
 #include "ace/Get_Opt.h"
 #include "ace/streams.h"
 #include <sstream>
@@ -15,35 +17,31 @@ static const char * __HELP__ =
 "USAGE: cutslog_d [OPTIONS]\n"
 "\n"
 "Options:\n"
-"  --database=HOSTNAME   location of CUTS database (default='localhost')\n"
-"  -t, --timeout=TIME    timeout interval to flush message queue\n"
-"                        in seconds (default=30)\n"
-"\n"
-"Server Options:\n"
-"  --server-threadpool-size=N\n"
-"                        size of the server's thread pool for receiving\n"
+"  --thread-count=N      size of the server's thread pool for receiving\n"
 "                        log messages from client applications (default N=1)\n"
+"  --timeout=TIME        timeout interval to flush message queue\n"
+"                        in seconds (default=30)\n"
 "\n"
 "  -v, --verbose         print verbose infomration\n"
 "  --debug               print debugging information\n"
 "  -h, --help            print this help message\n"
 "\n"
 "Remarks:\n"
-"If the server's threadpool size is set to one, then server will act like a\n"
-"single-threaded server application\n";
+"If the client's threadpool size is set to 1, then the client will act\n"
+"like a single-threaded logging client\n";
 
 //
-// CUTS_Logging_Client_Server
+// CUTS_Logging_Client
 //
-CUTS_Logging_Client_Server::CUTS_Logging_Client_Server (void)
+CUTS_Logging_Client::CUTS_Logging_Client (void)
 {
 
 }
 
 //
-// CUTS_Logging_Client_Server
+// CUTS_Logging_Client
 //
-CUTS_Logging_Client_Server::~CUTS_Logging_Client_Server (void)
+CUTS_Logging_Client::~CUTS_Logging_Client (void)
 {
 
 }
@@ -51,17 +49,17 @@ CUTS_Logging_Client_Server::~CUTS_Logging_Client_Server (void)
 //
 // run_main
 //
-int CUTS_Logging_Client_Server::run_main (int argc, char * argv [])
+int CUTS_Logging_Client::run_main (int argc, char * argv [])
 {
-  if (this->parse_args (argc, argv) == -1)
-  {
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T - %M - failed to parse command-line arguments\n"),
-                       -1);
-  }
-
   try
   {
+    if (this->parse_args (argc, argv) == -1)
+    {
+      ACE_ERROR_RETURN ((LM_ERROR,
+                        "%T - %M - failed to parse command-line arguments\n"),
+                        -1);
+    }
+
     // Get a reference to the <RootPOA>
     ACE_DEBUG ((LM_DEBUG,
                 "%T - %M - resolving initial reference to RootPOA\n"));
@@ -136,7 +134,7 @@ int CUTS_Logging_Client_Server::run_main (int argc, char * argv [])
 //
 // shutdown
 //
-int CUTS_Logging_Client_Server::shutdown (void)
+int CUTS_Logging_Client::shutdown (void)
 {
   // Stop the ORB's main event loop.
   this->orb_->shutdown (true);
@@ -146,22 +144,21 @@ int CUTS_Logging_Client_Server::shutdown (void)
 //
 // parse_args
 //
-int CUTS_Logging_Client_Server::parse_args (int argc, char * argv [])
+int CUTS_Logging_Client::parse_args (int argc, char * argv [])
 {
   // Initialize the ORB.
   this->orb_ = CORBA::ORB_init (argc, argv);
 
   // Parse the remaining command-line arguments.
-  const char * opts = ACE_TEXT ("vht:");
+  const char * opts = ACE_TEXT ("vh");
   ACE_Get_Opt get_opt (argc, argv, opts);
 
-  get_opt.long_option ("database", ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("timeout", 't', ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("thread-count", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("timeout", ACE_Get_Opt::ARG_REQUIRED);
 
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
-  get_opt.long_option ("server-threadpool-size", ACE_Get_Opt::ARG_REQUIRED);
 
   char ch;
 
@@ -188,32 +185,25 @@ int CUTS_Logging_Client_Server::parse_args (int argc, char * argv [])
 
         ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
       }
-      else if (ACE_OS::strcmp ("database", get_opt.long_option ()) == 0)
-      {
-        CUTS_LOGGING_OPTIONS->database_ = get_opt.opt_arg ();
-      }
       else if (ACE_OS::strcmp ("timeout", get_opt.long_option ()) == 0)
       {
         std::istringstream istr (get_opt.opt_arg ());
-        istr >> CUTS_LOGGING_OPTIONS->timeout_;
+
+        time_t seconds;
+        istr >> seconds;
+
+        CUTS_LOGGING_OPTIONS->timeout_.sec (seconds);
       }
       else if (ACE_OS::strcmp ("help", get_opt.long_option ()) == 0)
       {
         this->print_help ();
       }
-      else if (ACE_OS::strcmp ("server-threadpool-size", get_opt.long_option ()) == 0)
+      else if (ACE_OS::strcmp ("thread-count", get_opt.long_option ()) == 0)
       {
         std::istringstream istr (get_opt.opt_arg ());
         istr >> CUTS_LOGGING_OPTIONS->thr_count_;
       }
 
-      break;
-
-    case 't':
-      {
-        std::istringstream istr (get_opt.opt_arg ());
-        istr >> CUTS_LOGGING_OPTIONS->timeout_;
-      }
       break;
 
     case 'v':
@@ -236,7 +226,7 @@ int CUTS_Logging_Client_Server::parse_args (int argc, char * argv [])
   // Validate all the command-line options.
   if (CUTS_LOGGING_OPTIONS->thr_count_ == 0)
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T - %M - threadpool size must be greater than 0\n"),
+                       "%T (%t) - %M - --thread-count must be greater than 0\n"),
                        -1);
 
   return 0;
@@ -245,7 +235,7 @@ int CUTS_Logging_Client_Server::parse_args (int argc, char * argv [])
 //
 // register_with_iortable
 //
-int CUTS_Logging_Client_Server::register_with_iortable (void)
+int CUTS_Logging_Client::register_with_iortable (void)
 {
   try
   {
@@ -285,7 +275,7 @@ int CUTS_Logging_Client_Server::register_with_iortable (void)
 //
 // print_help
 //
-void CUTS_Logging_Client_Server::print_help (void)
+void CUTS_Logging_Client::print_help (void)
 {
   std::cout << ::__HELP__ << std::endl;
   ACE_OS::exit (0);

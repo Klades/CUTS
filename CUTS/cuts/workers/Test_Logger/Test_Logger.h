@@ -43,27 +43,22 @@ public:
    *
    * @param[in]             port          Port number of logging client
    */
-  void configure (short port);
+  bool configure (short port);
 
   /**
    * Connect to the test manager identified by \a test.
    *
    * @param[in]             test          Name of the test.
    */
-  void connect (const ACE_CString & name);
+  bool connect (const ACE_CString & name);
 
   /// Connect to the existing test manager.
-  void connect (void);
+  bool connect (void);
 
   /**
    *
    */
-  void log (long severity, const char * msg);
-
-  /**
-   *
-   */
-  void log (long severity, const char * format, ...);
+  bool log (long severity, const char * format, ...);
 
 private:
   /// Parser for format messages.

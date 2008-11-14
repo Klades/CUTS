@@ -1,0 +1,10 @@
+// $Id$
+
+project : portableserver, cuts_logging_client_stub {
+  after += CUTS_Logging_Client_skel
+  libs  += CUTS_Logging_Client_skel
+
+  IDL_Files {
+
+  }
+}

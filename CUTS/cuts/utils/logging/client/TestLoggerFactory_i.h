@@ -13,8 +13,7 @@
 #ifndef _CUTS_TEST_LOGGER_FACTORY_I_H_
 #define _CUTS_TEST_LOGGER_FACTORY_I_H_
 
-#include "loggingS.h"
-#include "cuts/utils/db/ODBC/ODBC_Connection.h"
+#include "clientS.h"
 #include "ace/UUID.h"
 
 /**
@@ -52,20 +51,7 @@ public:
    *
    * @param[in]       logger        Target logger to destroy.
    */
-  void destroy (CUTS::TestLogger_ptr logger);
-
-  /**
-   * Set the address of the database server.
-   */
-  void connect (const ACE_CString & server_addr);
-
-  /**
-   * Get the database connection for the logger factory. This connection
-   * should already be open.
-   *
-   * @return          The database connection.
-   */
-  CUTS_DB_Connection & connection (void);
+  virtual void destroy (CUTS::TestLogger_ptr logger);
 
   const ACE_Utils::UUID & test_uuid (void) const;
 
@@ -100,9 +86,6 @@ private:
 
   /// POA that the test logger factory activated in.
   PortableServer::POA_var logger_POA_;
-
-  /// The database connection for the client.
-  ODBC_Connection conn_;
 
   /// Lock for synchronizing assessing the servant collection.
   ACE_Thread_Mutex lock_;

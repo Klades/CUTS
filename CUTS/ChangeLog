@@ -1,3 +1,96 @@
+Fri Nov 14 16:44:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/client:
+        * cuts/utils/logging/client/Logging_Client.h:
+        * cuts/utils/logging/client/Logging_Client.cpp:
+        * cuts/utils/logging/client/Logging_Client_Options.h:
+        * cuts/utils/logging/client/Logging_Client_Task.h:
+        * cuts/utils/logging/client/Logging_Client_Task.inl:
+        * cuts/utils/logging/client/Logging_Client_Task.cpp:
+        * cuts/utils/logging/client/Logging_Client_skel_export.h:
+        * cuts/utils/logging/client/Logging_Client_stub_export.h:
+        * cuts/utils/logging/client/TestLoggerClient_i.h:
+        * cuts/utils/logging/client/TestLoggerClient_i.cpp:
+        * cuts/utils/logging/client/TestLoggerFactory_i.h:
+        * cuts/utils/logging/client/TestLoggerFactory_i.inl:
+        * cuts/utils/logging/client/TestLoggerFactory_i.cpp:
+        * cuts/utils/logging/client/TestLogger_i.h:
+        * cuts/utils/logging/client/TestLogger_i.inl:
+        * cuts/utils/logging/client/TestLogger_i.cpp:
+        * cuts/utils/logging/client/Test_Log_Message_Handler.h:
+        * cuts/utils/logging/client/Test_Log_Message_Handler.inl:
+        * cuts/utils/logging/client/Test_Log_Message_Handler.cpp:
+        * cuts/utils/logging/client/client.idl:
+        * cuts/utils/logging/client/client.mpc:
+        * cuts/utils/logging/client/cutslog_d.cpp:
+        * etc/config/cuts_logging_client_skel.mpb:
+        * etc/config/cuts_logging_client_stub.mpb:
+
+          . Moved all the source code related to the logging client into
+            the client directory.
+
+          . Bug fix where shutting down the logger client after collecting
+            messages caused the application to crash.
+
+          . Implemented first version of the double buffering scheme to
+            reduce the amount of locking contention.
+
+        * cuts/utils/logging/server:
+
+          . Location of the logging server.
+
+        * cuts/workers/Test_Logger/Test_Logger.h:
+        * cuts/workers/Test_Logger/Test_Logger.mpc:
+        * cuts/workers/Test_Logger/Test_Logger.cpp:
+        * cuts/workers/Test_Logger/Test_Logger_i.h:
+        * cuts/workers/Test_Logger/Test_Logger_i.cpp:
+
+          . Re-desiged the functionality of the logger worker such that
+            configure () only connects to the logger client and connect ()
+            creates a new logger using the current test UUID.
+
+          . connect (name) is now used to get the UUID for the test from
+            the test manager, and then create a logger based on the returned
+            UUID.
+
+        * tests/cuts/Log_T_Test.cpp:
+        * tests/cuts/workers/Test_Logger/Test_Logger.mpc:
+        * tests/cuts/workers/Test_Logger/Test_Logger.cpp:
+
+          . Implemented unit test for the logger worker, which tests the
+            logging client.
+
+        * tests/bin:
+        * tests/lib:
+
+          . Location of the test binaries and libraries, respectively.
+
+        * cuts/utils/logging/Logging_Client_Options.h:
+        * cuts/utils/logging/Logging_Client_Server.h:
+        * cuts/utils/logging/Logging_Client_Server.cpp:
+        * cuts/utils/logging/Logging_Client_Task.h:
+        * cuts/utils/logging/Logging_Client_Task.inl:
+        * cuts/utils/logging/Logging_Client_Task.cpp:
+        * cuts/utils/logging/Logging_skel_export.h:
+        * cuts/utils/logging/Logging_stub_export.h:
+        * cuts/utils/logging/TestLoggerClient_i.h:
+        * cuts/utils/logging/TestLoggerClient_i.cpp:
+        * cuts/utils/logging/TestLoggerFactory_i.h:
+        * cuts/utils/logging/TestLoggerFactory_i.inl:
+        * cuts/utils/logging/TestLoggerFactory_i.cpp:
+        * cuts/utils/logging/TestLogger_i.h:
+        * cuts/utils/logging/TestLogger_i.inl:
+        * cuts/utils/logging/TestLogger_i.cpp:
+        * cuts/utils/logging/Test_Log_Message_Handler.h:
+        * cuts/utils/logging/Test_Log_Message_Handler.inl:
+        * cuts/utils/logging/Test_Log_Message_Handler.cpp:
+        * cuts/utils/logging/cutslog_d.cpp:
+        * cuts/utils/logging/logging.mpc:
+        * etc/config/cuts_logging_skel.mpb:
+        * etc/config/cuts_logging_stub.mpb:
+
+          . Removed these files.
+
 Thu Nov 13 17:56:49 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/TAO_Testing_Service.h:

@@ -17,13 +17,3 @@ const ACE_Utils::UUID & CUTS_TestLoggerFactory_i::test_uuid (void) const
 {
   return this->test_uuid_;
 }
-
-
-//
-// connection
-//
-CUTS_INLINE
-CUTS_DB_Connection & CUTS_TestLoggerFactory_i::connection (void)
-{
-  return this->conn_;
-}

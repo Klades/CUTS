@@ -13,7 +13,7 @@
 #ifndef _CUTS_TEST_LOGGER_I_H_
 #define _CUTS_TEST_LOGGER_I_H_
 
-#include "cuts/utils/logging/loggingC.h"
+#include "cuts/utils/logging/client/clientC.h"
 #include "cuts/utils/testing/svcs/server/testingC.h"
 
 /**
@@ -40,7 +40,7 @@ public:
    * @param[in]       msg           Pointer to the message
    * @param[in]       msg_length    Length of the message.
    */
-  void log (const ACE_Time_Value & tv,
+  bool log (const ACE_Time_Value & tv,
             long severity,
             const char * msg,
             size_t msg_length);
@@ -51,18 +51,17 @@ public:
    *
    * @param[in]       port          Port number of the client.
    */
-  void configure (short port);
+  bool configure (short port);
 
   /**
    * Connect to the test manager.
    *
    * @param[in]       name          Name of the test manager.
    */
-  void connect (const ACE_CString & name);
+  bool connect (const ACE_CString & name);
 
-  /// Reconnect to the test manager. This will also update the test
-  /// number for the logger.
-  void connect (void);
+  /// Connect to the logging client using current configuration.
+  bool connect (void);
 
 private:
   bool connect_i (const ACE_CString & name);
@@ -84,6 +83,9 @@ private:
 
   /// The test manager for this logger.
   CUTS::TestManager_var test_manager_;
+
+  /// UUID assigned to the test.
+  CUTS::UUID uuid_;
 };
 
 #endif  // !defined _CUTS_TEST_LOGGER_I_H_

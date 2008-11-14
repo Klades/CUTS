@@ -1,6 +1,0 @@
-// $Id$
-
-project {
-  after += CUTS_Logging_stub
-  libs  += CUTS_Logging_stub
-}

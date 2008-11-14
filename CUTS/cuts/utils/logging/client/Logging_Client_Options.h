@@ -16,6 +16,7 @@
 #include "ace/Singleton.h"
 #include "ace/Null_Mutex.h"
 #include "ace/SString.h"
+#include "ace/Time_Value.h"
 
 /**
  * @class CUTS_Logging_Client_Options
@@ -26,21 +27,17 @@ class CUTS_Logging_Client_Options
 {
 public:
   CUTS_Logging_Client_Options (void)
-    : database_ ("localhost"),
-      thr_count_ (1),
+    : thr_count_ (1),
       timeout_ (30)
   {
 
   }
 
-  /// Address of the logging database.
-  ACE_CString database_;
-
   /// The size of the threadpool.
   size_t thr_count_;
 
   /// Timeout to flush the server in seconds.
-  time_t timeout_;
+  ACE_Time_Value timeout_;
 };
 
 #define CUTS_LOGGING_OPTIONS \

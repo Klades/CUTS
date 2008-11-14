@@ -1,0 +1,72 @@
+// $Id$
+
+project (CUTS_Logging_Client_stub) : taolib_with_idl, cutslib {
+  sharedname = CUTS_Logging_Client_stub
+
+  idlflags += -Wb,skel_export_macro=CUTS_LOGGING_CLIENT_SKEL_Export \
+              -Wb,skel_export_include=Logging_Client_skel_export.h \
+              -Wb,stub_export_macro=CUTS_LOGGING_CLIENT_STUB_Export \
+              -Wb,stub_export_include=Logging_Client_stub_export.h \
+              -I $(CUTS_ROOT)
+
+  dynamicflags += CUTS_LOGGING_CLIENT_STUB_BUILD_DLL
+
+  IDL_Files {
+    client.idl
+  }
+
+  Source_Files {
+    clientC.cpp
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (CUTS_Logging_Client_skel) : portableserver, cuts_logging_client_stub, cutslib {
+  sharedname = CUTS_Logging_Client_skel
+
+  dynamicflags += CUTS_LOGGING_CLIENT_SKEL_BUILD_DLL
+
+  Source_Files {
+    clientS.cpp
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+}
+
+project (cutslog_d) : iortable, cuts_logging_client_skel, cutsexe {
+  exename = cutslog_d
+
+  Source_Files {
+    Logging_Client.cpp
+    Logging_Client_Task.cpp
+    cutslog_d.cpp
+    TestLogger_i.cpp
+    TestLoggerFactory_i.cpp
+    TestLoggerClient_i.cpp
+  }
+
+  Header_Files {
+    Logging_Client_Options.h
+  }
+
+  Inline_Files {
+
+  }
+}

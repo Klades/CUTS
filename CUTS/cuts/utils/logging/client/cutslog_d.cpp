@@ -10,13 +10,13 @@
  */
 //=============================================================================
 
-#include "Logging_Client_Server.h"
+#include "Logging_Client.h"
 #include "ace/Null_Mutex.h"
 #include "ace/Singleton.h"
 #include "ace/Signal.h"
 
 #define LOGGING_SERVER \
-  ACE_Singleton <CUTS_Logging_Client_Server, ACE_Null_Mutex>::instance ()
+  ACE_Singleton <CUTS_Logging_Client, ACE_Null_Mutex>::instance ()
 
 //
 // server_sighandler
@@ -45,7 +45,7 @@ int main (int argc, char * argv [])
 {
   int retval;
 
-  u_long default_mask = 
+  u_long default_mask =
     LM_EMERGENCY | LM_ALERT | LM_CRITICAL | LM_ERROR | LM_WARNING | LM_NOTICE;
 
   ACE_Log_Msg::instance ()->priority_mask (default_mask, ACE_Log_Msg::PROCESS);

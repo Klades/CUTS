@@ -14,7 +14,7 @@
 #define _CUTS_TEST_LOGGER_I_H_
 
 #include "cuts/config.h"
-#include "loggingS.h"
+#include "clientS.h"
 #include "ace/Task_Ex_T.h"
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/Refcountable_T.h"
@@ -74,6 +74,8 @@ class CUTS_TestLogger_i :
   public ACE_Task_Ex <ACE_MT_SYNCH, CUTS_Log_Message>
 {
 public:
+  typedef ACE_Task_Ex <ACE_MT_SYNCH, CUTS_Log_Message> task_type;
+
   CUTS_TestLogger_i (long logid, CUTS_TestLoggerFactory_i & parent);
 
   /// Destructor.
@@ -116,15 +118,8 @@ private:
    */
   int handle_message (CUTS_Log_Message * message);
 
-  /**
-   * Insert the messages into the database. This will take the current
-   * size of the queue, and dump that many messages into the database.
-   * Any messages that come along while the messages are being dumped
-   * into the database will be processed next time.
-   */
-  int insert_messages_into_database (void);
-
-  void flush_messages_into_database (void);
+  /// Send messages to the logging server.
+  void send_messages (void);
 
   /// Id of the logger assigned by the parent.
   long logid_;
@@ -149,6 +144,18 @@ private:
 
   /// Free list of log messages owned by handler.
   ACE_Locked_Free_List <CUTS_Log_Message, ACE_RW_Thread_Mutex> msg_free_list_;
+
+  /// Mutex for swapping the message queues.
+  ACE_RW_Thread_Mutex swap_mutex_;
+
+  /// The main log message queue for the logger.
+  MESSAGE_QUEUE_EX log_msg_queue_1_;
+
+  /// The secondary log message queue for the logger.
+  MESSAGE_QUEUE_EX log_msg_queue_2_;
+
+  /// Pointer to the old message queue.
+  MESSAGE_QUEUE_EX * old_msg_queue_;
 };
 
 #if defined (__CUTS_INLINE__)

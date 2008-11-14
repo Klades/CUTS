@@ -27,42 +27,42 @@ CUTS_Test_Logger::~CUTS_Test_Logger (void)
 //
 // configure
 //
-void CUTS_Test_Logger::configure (short port)
+bool CUTS_Test_Logger::configure (short port)
 {
-  this->impl_->configure (port);
+  return this->impl_->configure (port);
 }
 
 //
 // connect
 //
-void CUTS_Test_Logger::connect (const ACE_CString & name)
+bool CUTS_Test_Logger::connect (const ACE_CString & name)
 {
-  this->impl_->connect (name);
+  return this->impl_->connect (name);
 }
 
 //
 // connect
 //
-void CUTS_Test_Logger::connect (void)
+bool CUTS_Test_Logger::connect (void)
 {
-  this->impl_->connect ();
+  return this->impl_->connect ();
 }
+
+////
+//// log
+////
+//bool CUTS_Test_Logger::log (long severity, const char * msg)
+//{
+//  ACE_Time_Value tv = ACE_OS::gettimeofday ();
+//  size_t length = ACE_OS::strlen (msg);
+//
+//  return this->impl_->log (tv, severity, msg, length);
+//}
 
 //
 // log
 //
-void CUTS_Test_Logger::log (long severity, const char * msg)
-{
-  ACE_Time_Value tv = ACE_OS::gettimeofday ();
-  size_t length = ACE_OS::strlen (msg);
-
-  this->impl_->log (tv, severity, msg, length);
-}
-
-//
-// log
-//
-void CUTS_Test_Logger::log (long severity, const char * format, ...)
+bool CUTS_Test_Logger::log (long severity, const char * format, ...)
 {
   ACE_Time_Value tv = ACE_OS::gettimeofday ();
 
@@ -74,12 +74,12 @@ void CUTS_Test_Logger::log (long severity, const char * format, ...)
   std::ostringstream ostr;
   this->parser_.parse (format, args, ostr);
 
-  // Pass control to the implementation.
-  this->impl_->log (tv,
-                    severity,
-                    ostr.str ().c_str (),
-                    ostr.str ().length ());
-
   // End the variable arguments.
   va_end (args);
+
+  // Pass control to the implementation.
+  return this->impl_->log (tv,
+                           severity,
+                           ostr.str ().c_str (),
+                           ostr.str ().length ());
 }

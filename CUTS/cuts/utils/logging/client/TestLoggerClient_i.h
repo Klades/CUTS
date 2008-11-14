@@ -13,7 +13,7 @@
 #ifndef _CUTS_TEST_LOGGER_CLIENT_I_H_
 #define _CUTS_TEST_LOGGER_CLIENT_I_H_
 
-#include "loggingS.h"
+#include "clientS.h"
 #include "cuts/utils/db/ODBC/ODBC_Connection.h"
 #include "ace/Hash_Map_Manager_T.h"
 #include "ace/Null_Mutex.h"
