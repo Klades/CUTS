@@ -10,16 +10,14 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_LOGGING_IDL_
-#define _CUTS_LOGGING_IDL_
+#ifndef _CUTS_CUTS_LOGGING_IDL_
+#define _CUTS_CUTS_LOGGING_IDL_
 
 #include "cuts/TimeValue.idl"
 #include "cuts/UUID.idl"
 
 module CUTS
 {
-  exception FactoryOperationFailed {};
-
   /// Type definition of the message's text. We use a sequence of char's
   /// instead of a string so we can amortize calculating the length of
   /// the data. Also, we want the data store to act like a buffer, as opposed
@@ -46,80 +44,34 @@ module CUTS
   typedef sequence <LogMessage> LogMessages;
 
   /**
-   * @interface TestLogger
+   * @struct TestLogMessage
    *
-   * Interface for logging messages so they are assoicated with a
-   * test run in CUTS.
+   * Log message send from a test logging client to a server.
    */
-  interface TestLogger
+  struct TestLogMessage
   {
-    /**
-     * Log a message to the logging client.
-     *
-     * @param[in]       timestamp         Timestamp of the message
-     * @param[in]       severity          Severity of the message
-     * @param[in]       message           Content of the message
-     */
-    void log (in CUTS::TimeValue timestamp,
-              in long severity,
-              in MessageText message);
+    /// UUID of the test log message.
+    CUTS::UUID uuid;
 
-    void batch_log (in LogMessages msgs);
+    /// Host that is sending the log message.
+    string hostname;
+
+    /// Collection of messages to send to the server.
+    CUTS::LogMessages messages;
   };
 
   /**
-   * @interface TestLoggerClient
+   * @interface TestLoggerServer
    *
-   * Interface definition for sending messeages to the logging client on
-   * a specific host. The test logger client works in conjunction with
-   * the CUTS::TestManager.
+   * Interface to remotely interacting with the test logging server.
    */
-  interface TestLoggerFactory
+  interface TestLoggerServer
   {
     /**
-     * Register a logging object with the logging client. This is necessary
-     * so the client can keep track of a test's lifecycle. Also, it will
-     * help the logger manage its resources and ensure messages are dump
-     * to the database when a test is no longer active on the client.
-     *
-     * If any of the test ids is -1, then the logger client will ingore
-     * it and add the client object to the default resources.
-     *
-     * If there is not \a old_test, then it should have a value of -1.
-     *
-     * @param[in]     test_number       Test number associated with logger.
+     * Send a collection of messages to the server.
      */
-    TestLogger create ()
-      raises (FactoryOperationFailed);
-
-    /// Destroy the logging factory.
-    void destroy (in TestLogger logger);
-  };
-
-  /**
-   * @interface TestLoggerClient
-   *
-   * Root access interface to the test logger client. This allow applications
-   * to create a new factory object for a specified test.
-   */
-  interface TestLoggerClient
-  {
-    /**
-     * Create a factory object for the test. All loggers created by the
-     * returned factory will be assigned to the test number.
-     *
-     * @param[in]       uid           Unique id for the factory.
-     */
-    TestLoggerFactory create (in UUID uid)
-      raises (FactoryOperationFailed);
-
-    /**
-     * Destroy the test logger factory.
-     *
-     * @param[in]       factory       Target factory to destroy.
-     */
-    void destroy (in TestLoggerFactory tlf);
+    void send_message (in TestLogMessage msg);
   };
 };
 
-#endif  // !defined _CUTS_LOGGING_IDL_
+#endif  // !defined _CUTS_CUTS_LOGGING_IDL_

@@ -1,6 +1,6 @@
 // $Id$
 
-project {
+project : cuts_logging_stub {
   after += CUTS_Logging_Client_stub
   libs  += CUTS_Logging_Client_stub
 }

@@ -1,3 +1,20 @@
+Fri Nov 14 18:40:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/Logging_skel_export.h:
+        * cuts/utils/logging/Logging_stub_export.h:
+        * cuts/utils/logging/client/client.idl:
+        * cuts/utils/logging/client/client.mpc:
+        * cuts/utils/logging/logging.idl:
+        * cuts/utils/logging/logging.mpc:
+        * etc/config/cuts_logging_client_stub.mpb:
+        * etc/config/cuts_logging_skel.mpb:
+        * etc/config/cuts_logging_stub.mpb:
+
+          . Defined the interface for the logging server.
+
+          . Restructure the IDL files so that common artifacts between the
+            logging client and server appear in logging.idl
+
 Fri Nov 14 16:44:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/client:

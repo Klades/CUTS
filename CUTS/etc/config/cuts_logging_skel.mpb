@@ -1,0 +1,6 @@
+// $Id$
+
+project : cuts_logging_stub {
+  after += CUTS_Logging_skel
+  libs  += CUTS_Logging_skel
+}

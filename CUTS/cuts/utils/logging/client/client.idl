@@ -10,40 +10,14 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_LOGGING_IDL_
-#define _CUTS_LOGGING_IDL_
+#ifndef _CUTS_LOGGING_CLIENT_IDL_
+#define _CUTS_LOGGING_CLIENT_IDL_
 
-#include "cuts/TimeValue.idl"
-#include "cuts/UUID.idl"
+#include "../logging.idl"
 
 module CUTS
 {
   exception FactoryOperationFailed {};
-
-  /// Type definition of the message's text. We use a sequence of char's
-  /// instead of a string so we can amortize calculating the length of
-  /// the data. Also, we want the data store to act like a buffer, as opposed
-  /// to a string object.
-  typedef sequence <char> MessageText;
-
-  /**
-   * @struct LogMessage
-   *
-   * Log message send from an application to the logger client.
-   */
-  struct LogMessage
-  {
-    /// Timestamp of the log message.
-    CUTS::TimeValue timestamp;
-
-    /// Priority of the log message.
-    long severity;
-
-    /// The actual content of the log message.
-    MessageText message;
-  };
-
-  typedef sequence <LogMessage> LogMessages;
 
   /**
    * @interface TestLogger
@@ -122,4 +96,4 @@ module CUTS
   };
 };
 
-#endif  // !defined _CUTS_LOGGING_IDL_
+#endif  // !defined _CUTS_LOGGING_CLIENT_IDL_
