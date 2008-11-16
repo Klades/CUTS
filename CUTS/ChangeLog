@@ -1,3 +1,28 @@
+Sun Nov 16 02:55:18 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/server/Logging_Server.h:
+        * cuts/utils/logging/server/Logging_Server.inl:
+        * cuts/utils/logging/server/Logging_Server.cpp:
+
+          . Implemented a spawn_main () method that starts an logging
+            server, but does not wait for it to exit.
+
+          . Re-implemented the run_main () method in terms of the
+            spawn_main () method.
+
+          . Implemented a new constructor that allows clients to
+            provide an ORB to install the logging server.
+
+        * cuts/utils/testing/svcs/logging:
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service.h:
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service.inl:
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service.cpp:
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service_export.h:
+        * cuts/utils/testing/svcs/logging/logging.mpc:
+
+          . First version of a testing service that is responsible for
+            creating a test logging server.
+
 Sun Nov 16 01:42:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/client/Logging_Client.h:

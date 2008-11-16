@@ -11,9 +11,29 @@
 #include "ace/Get_Opt.h"
 
 //
-// CUTS_Test_Logging_Server
+// run_main
 //
 int CUTS_Test_Logging_Server::run_main (int argc, char * argv [])
+{
+  // Spawn a new instance of the server.
+  int retval = this->spawn_main (argc, argv);
+
+  if (retval == 0)
+  {
+    // Wait for the server to exit.
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - waiting for logging server to exit\n"));
+
+    this->task_.wait ();
+  }
+
+  return retval;
+}
+
+//
+// spawn_main
+//
+int CUTS_Test_Logging_Server::spawn_main (int argc, char * argv [])
 {
   try
   {
@@ -54,13 +74,6 @@ int CUTS_Test_Logging_Server::run_main (int argc, char * argv [])
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - activating server task\n"));
     this->task_.activate ();
-    this->task_.wait ();
-
-    // Destroy the RootPOA.
-    this->root_poa_->destroy (1, 1);
-
-    // Destroy the ORB.
-    this->orb_->destroy ();
     return 0;
   }
   catch (const CORBA::Exception & ex)
@@ -70,7 +83,7 @@ int CUTS_Test_Logging_Server::run_main (int argc, char * argv [])
                 ex._info ().c_str ()));
   }
 
-  return 1;
+  return -1;
 }
 
 //
@@ -79,7 +92,8 @@ int CUTS_Test_Logging_Server::run_main (int argc, char * argv [])
 int CUTS_Test_Logging_Server::parse_args (int argc, char * argv[])
 {
   // Initailize the ORB.
-  this->orb_ = CORBA::ORB_init (argc, argv);
+  if (CORBA::is_nil (this->orb_.in ()))
+    this->orb_ = CORBA::ORB_init (argc, argv);
 
   const char * optstr = "hv";
   ACE_Get_Opt get_opt (argc, argv, optstr);
@@ -147,8 +161,25 @@ void CUTS_Test_Logging_Server::shutdown (void)
 {
   try
   {
+    // Shutdown the ORB.
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - shutting down the ORB\n"));
+
     if (!CORBA::is_nil (this->orb_.in ()))
       this->orb_->shutdown (1);
+
+    // Destroy the RootPOA.
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - destorying the RootPOA\n"));
+
+    if (!CORBA::is_nil (this->root_poa_.in ()))
+      this->root_poa_->destroy (1, 1);
+
+    // Destroy the ORB.
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - destorying the ORB\n"));
+    if (!CORBA::is_nil (this->orb_.in ()))
+      this->orb_->destroy ();
   }
   catch (const CORBA::Exception & ex)
   {

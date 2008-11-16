@@ -33,6 +33,13 @@ public:
   /// Constructor
   CUTS_Test_Logging_Server (void);
 
+  /**
+   * Initializing constructor
+   *
+   * @param[in]         orb         Target ORB for server.
+   */
+  CUTS_Test_Logging_Server (CORBA::ORB_ptr orb);
+
   /// Destructor
   virtual ~CUTS_Test_Logging_Server (void);
 
@@ -43,6 +50,8 @@ public:
    * @param[in]     argv          Command-line arguments
    */
   int run_main (int argc, char * argv[]);
+
+  int spawn_main (int argc, char * argv []);
 
   /// Shutdown the application.
   void shutdown (void);
