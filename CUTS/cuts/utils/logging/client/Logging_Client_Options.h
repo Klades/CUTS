@@ -38,6 +38,9 @@ public:
 
   /// Timeout to flush the server in seconds.
   ACE_Time_Value timeout_;
+
+  /// Location of the server.
+  ACE_CString server_;
 };
 
 #define CUTS_LOGGING_OPTIONS \

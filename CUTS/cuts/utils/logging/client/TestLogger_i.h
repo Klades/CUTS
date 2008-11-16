@@ -24,47 +24,6 @@
 class CUTS_TestLoggerFactory_i;
 
 /**
- * @struct CUTS_Log_Message
- *
- * Data structure used by the CUTS_Test_Log_Message_Handler to buffer log
- * messages before sending them to the server. This data structure has been
- * designed to work with the ACE_Locked_Free_List to amortize memory
- * allocations for a test.
- */
-class CUTS_Log_Message
-{
-public:
-  /// Default constructor.
-  CUTS_Log_Message (void);
-
-  /// Timestamp of the log message.
-  ACE_Time_Value timestamp_;
-
-  /// Severity of the log message.
-  ACE_INT32 severity_;
-
-  /// The textual content of the log message.
-  ACE_Array <char> text_;
-
-  // @{ @name ACE_Free_List methods
-
-  /**
-   * Set the next element on the free list.
-   */
-  void set_next (CUTS_Log_Message * next);
-
-  /**
-   * Get the next element on the free list.
-   */
-  CUTS_Log_Message * get_next (void);
-
-private:
-  /// Next element in the free list.
-  CUTS_Log_Message * next_;
-  // @}
-};
-
-/**
  * @class CUTS_TestLogger_i
  *
  * Default implemenation of the CUTS::TestLogger interface.
@@ -116,6 +75,8 @@ protected:
   /// Handle the input event.
   virtual int handle_input (ACE_HANDLE fd);
 
+  virtual int handle_exception (ACE_HANDLE fd);
+
 private:
   void copy_message (CUTS::LogMessage & dst, const CUTS::LogMessage & src);
 
@@ -139,9 +100,6 @@ private:
 
   /// Mutex for swapping the message queues.
   ACE_RW_Thread_Mutex swap_mutex_;
-
-  /// Reference to the logging server.
-  CUTS::TestLoggerServer_var server_;
 
   /// Type definition of the message log.
   typedef CUTS_Log_T <CUTS::LogMessage, ACE_RW_Thread_Mutex> msg_log_type;

@@ -1,3 +1,49 @@
+Sun Nov 16 01:42:09 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/client/Logging_Client.h:
+        * cuts/utils/logging/client/Logging_Client.cpp:
+        * cuts/utils/logging/client/Logging_Client_Options.h:
+        * cuts/utils/logging/client/Logging_Client_export.h:
+        * cuts/utils/logging/client/TestLoggerClient_i.h:
+        * cuts/utils/logging/client/TestLoggerFactory_i.h:
+        * cuts/utils/logging/client/TestLoggerFactory_i.cpp:
+        * cuts/utils/logging/client/TestLoggerServer_Singleton.h:
+        * cuts/utils/logging/client/TestLoggerServer_Singleton.inl:
+        * cuts/utils/logging/client/TestLoggerServer_Singleton.cpp:
+        * cuts/utils/logging/client/TestLogger_i.h:
+        * cuts/utils/logging/client/TestLogger_i.inl:
+        * cuts/utils/logging/client/TestLogger_i.cpp:
+        * cuts/utils/logging/client/client.mpc:
+        * cuts/utils/logging/client/cutslog.cpp:
+        * cuts/utils/logging/logging.idl:
+        * cuts/utils/logging/server/Logging_Server.h:
+        * cuts/utils/logging/server/Logging_Server.inl:
+        * cuts/utils/logging/server/Logging_Server.cpp:
+        * cuts/utils/logging/server/Logging_Server_Task.h:
+        * cuts/utils/logging/server/Logging_Server_Task.inl:
+        * cuts/utils/logging/server/Logging_Server_Task.cpp:
+        * cuts/utils/logging/server/Logging_Server_export.h:
+        * cuts/utils/logging/server/TestLoggerServer_i.h:
+        * cuts/utils/logging/server/TestLoggerServer_i.inl:
+        * cuts/utils/logging/server/TestLoggerServer_i.cpp:
+        * cuts/utils/logging/server/cutslog_d.cpp:
+        * cuts/utils/logging/server/server.mpc:
+        * etc/config/cuts_logging_server.mpb:
+        * etc/config/cuts_logging_skel.mpb:
+
+          . Implemented the test logging server.
+
+          . Extracted the logging server's implementation into a separate
+            project so it can be used in other projects, such as the
+            test logging server service.
+
+          . Defined the interface that callback objects of the test logging
+            server implement.
+
+        * cuts/utils/logging/client/cutslog_d.cpp:
+
+          . Removed this file.
+
 Fri Nov 14 23:19:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/Log_T.h:

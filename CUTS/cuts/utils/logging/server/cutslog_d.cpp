@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- * @file        cutslog_d.cpp
+ * @file        cutslog.cpp
  *
  * $Id$
  *
@@ -10,13 +10,13 @@
  */
 //=============================================================================
 
-#include "Logging_Client.h"
+#include "Logging_Server.h"
 #include "ace/Null_Mutex.h"
 #include "ace/Singleton.h"
 #include "ace/Signal.h"
 
 #define LOGGING_SERVER \
-  ACE_Singleton <CUTS_Logging_Client, ACE_Null_Mutex>::instance ()
+  ACE_Singleton <CUTS_Test_Logging_Server, ACE_Null_Mutex>::instance ()
 
 //
 // server_sighandler

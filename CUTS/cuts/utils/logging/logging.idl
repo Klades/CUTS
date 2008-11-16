@@ -74,6 +74,16 @@ module CUTS
      */
     void send_message_packet (in LogMessagePacket packet);
   };
+
+  /**
+   * @interface TestLoggerServerCallback
+   *
+   * Interface for callback objects of the test logger server.
+   */
+  local interface TestLoggerServerCallback
+  {
+    void handle_messeages (in LogMessagePacket packet);
+  };
 };
 
 #endif  // !defined _CUTS_CUTS_LOGGING_IDL_

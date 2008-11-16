@@ -7,6 +7,7 @@
 #endif
 
 #include "TestLoggerFactory_i.h"
+#include "TestLoggerServer_Singleton.h"
 #include "cuts/UUID.h"
 #include "ace/CORBA_macros.h"
 #include "ace/Date_Time.h"
@@ -29,6 +30,8 @@ CUTS_TestLogger_i::CUTS_TestLogger_i (long logid,
     active_log_ (msg_logs_),
     inactive_log_ (msg_logs_ + 1)
 {
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLogger_i::CUTS_TestLogger_i (long, CUTS_TestLoggerFactory_i &, size_t)");
+
   // Initialize the reactor for the logger.
   ACE_Reactor * reactor = 0;
   ACE_NEW_THROW_EX (reactor,
@@ -52,7 +55,7 @@ CUTS_TestLogger_i::CUTS_TestLogger_i (long logid,
 //
 CUTS_TestLogger_i::~CUTS_TestLogger_i (void)
 {
-  ACE_Utils::UUID uuid = this->parent_.test_uuid ();
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLogger_i::~CUTS_TestLogger_i (void)");
 
   ACE_Reactor * reactor = this->reactor ();
   this->reactor (0);
@@ -68,6 +71,8 @@ void CUTS_TestLogger_i::log (const CUTS::TimeValue & tv,
                              CORBA::Long severity,
                              const CUTS::MessageText & msg)
 {
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLogger_i::log (const CUTS::TimeValue &, CORBA::Long, const CUTS::MessageText &)");
+
   // Just in case we overflow the size of the message log, lets
   // prevent the cleanup thread from swapping the log message buffer.
   ACE_READ_GUARD (ACE_RW_Thread_Mutex, guard, this->swap_mutex_);
@@ -105,6 +110,8 @@ void CUTS_TestLogger_i::log (const CUTS::TimeValue & tv,
 //
 int CUTS_TestLogger_i::handle_input (ACE_HANDLE)
 {
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLogger_i::handle_input (ACE_HANDLE)");
+
   // Reset timeout interval so we don't prematurely send data to server.
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - reseting timeout interval\n"));
@@ -117,10 +124,31 @@ int CUTS_TestLogger_i::handle_input (ACE_HANDLE)
 }
 
 //
+// handle_exception
+//
+int CUTS_TestLogger_i::handle_exception (ACE_HANDLE)
+{
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLogger_i::handle_exception (ACE_HANDLE)");
+
+  if (this->timer_id_ != -1)
+  {
+    // Cancel the timer.
+    this->reactor ()->cancel_timer (this->timer_id_);
+    this->timer_id_ = -1;
+  }
+
+  // Flush the message queue.
+  this->send_messages ();
+  return 0;
+}
+
+//
 // batch_log
 //
 void CUTS_TestLogger_i::batch_log (const CUTS::LogMessages & msgs)
 {
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLogger_i::batch_log (const CUTS::LogMessages &)");
+
   throw CORBA::NO_IMPLEMENT ();
 }
 
@@ -129,6 +157,8 @@ void CUTS_TestLogger_i::batch_log (const CUTS::LogMessages & msgs)
 //
 int CUTS_TestLogger_i::svc (void)
 {
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLogger_i::svc (void)");
+
   // Since this is a single threaded task, we have to let the reactor
   // know we are the owner. Otherwise, we will not be able to handle
   // the reactor's events, i.e., handle_event ();
@@ -148,6 +178,8 @@ int CUTS_TestLogger_i::svc (void)
 //
 void CUTS_TestLogger_i::send_messages (void)
 {
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLogger_i::send_messages (void)");
+
   do
   {
     // Replace the message queues.
@@ -161,30 +193,36 @@ void CUTS_TestLogger_i::send_messages (void)
   // Get the size of the message log.
   size_t used_size = this->inactive_log_->used_size ();
 
-  if (used_size > 0)
+  if (used_size == 0)
+    return;
+
+  try
   {
-    if (!CORBA::is_nil (this->server_.in ()))
+    // Resize the message buffer accordingly.
+    this->packet_.messages.length (used_size);
+
+    // Get a fast iterator to the message log.
+    msg_log_type::iterator iter (*this->inactive_log_);
+
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - sending %d message(s) in old message"
+                " log server\n",
+                used_size));
+
+    // Get a pointer to the packet's log message buffer.
+    CUTS::LogMessages::
+      value_type * ptr = this->packet_.messages.get_buffer ();
+
+    for (; !iter.done (); iter.advance ())
+      this->copy_message (*ptr ++, *iter);
+
+    // Get a reference to the server.
+    CUTS::TestLoggerServer_var server = CUTS_TESTLOGGERSERVER->get ();
+
+    if (!CORBA::is_nil (server.in ()))
     {
-      // Resize the message buffer accordingly.
-      this->packet_.messages.length (used_size);
-
-      // Get a fast iterator to the message log.
-      msg_log_type::iterator iter (*this->inactive_log_);
-
-      ACE_DEBUG ((LM_DEBUG,
-                  "%T (%t) - %M - sending %d message(s) in old message"
-                  " log server\n",
-                  used_size));
-
-      // Get a pointer to the packet's log message buffer.
-      CUTS::LogMessages::
-        value_type * ptr = this->packet_.messages.get_buffer ();
-
-      for (; !iter.done (); iter.advance ())
-        this->copy_message (*ptr ++, *iter);
-
       // Send the packet to the server.
-      this->server_->send_message_packet (this->packet_);
+      server->send_message_packet (this->packet_);
     }
     else
     {
@@ -196,12 +234,21 @@ void CUTS_TestLogger_i::send_messages (void)
     // Empty the contents of the old message queue.
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - flushing contents of old message log\n"));
+
     this->inactive_log_->reset_no_lock ();
   }
-  else
+  catch (const CORBA::TRANSIENT & )
   {
     ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - no message in old log to send to server\n"));
+                "%T - %M - reseting the test logger singleton\n"));
+
+    CUTS_TESTLOGGERSERVER->reset ();
+  }
+  catch (const CORBA::Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - %s\n",
+                ex._info ().c_str ()));
   }
 }
 
@@ -210,6 +257,8 @@ void CUTS_TestLogger_i::send_messages (void)
 //
 int CUTS_TestLogger_i::start (const ACE_Time_Value & timeout)
 {
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLogger_i::start (const ACE_Time_Value &)");
+
   // Spawn a thread that will handle the reactor's events. Right now, we are
   // spawning 1 thread to handle all the events. This should suffice, but if
   // we are going to scale this, we will need a strategy for determining the
@@ -262,29 +311,20 @@ int CUTS_TestLogger_i::start (const ACE_Time_Value & timeout)
 //
 int CUTS_TestLogger_i::stop (void)
 {
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLogger_i::stop (void)");
+
   if (this->is_active_)
   {
-    // Stop the timer for the reactor.
+    // Signal processing thread to stop and wait for it to return.
     ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - logger %d: canceling the timer for the logger\n",
-                this->logid_));
-
-    this->reactor ()->cancel_timer (this->timer_id_);
-    this->timer_id_ = -1;
-
-    // Signal the processing thread to stop and wait for the thread
-    // to exit.
-
-    ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - logger %d: notifying the logger the shutdown\n",
-                this->logid_));
+                "%T (%t) - %M - notifying logger to shutdown\n"));
 
     this->is_active_ = false;
     this->reactor ()->notify (this, ACE_Event_Handler::EXCEPT_MASK);
-    this->wait ();
 
-    // Finally, flush the message queues.
-    this->send_messages ();
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - waiting for logger task to return\n"));
+    this->wait ();
 
     ACE_Utils::UUID uuid = this->parent_.test_uuid ();
 
@@ -303,6 +343,8 @@ int CUTS_TestLogger_i::stop (void)
 void CUTS_TestLogger_i::copy_message (CUTS::LogMessage & dst,
                                       const CUTS::LogMessage & src)
 {
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLogger_i::copy_message (CUTS::LogMessage &, const CUTS::LogMessage &)");
+
   // Copy the elements into the log message.
   dst.timestamp.sec  = src.timestamp.sec;
   dst.timestamp.usec = src.timestamp.usec;

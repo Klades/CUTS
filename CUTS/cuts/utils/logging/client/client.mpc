@@ -50,20 +50,22 @@ project (CUTS_Logging_Client_skel) : portableserver, cuts_logging_client_stub, c
   }
 }
 
-project (cutslog_d) : iortable, cuts_logging_client_skel, cutsexe {
-  exename = cutslog_d
+project (cutslog) : iortable, cuts_logging_client_skel, cutsexe {
+  exename = cutslog
 
   Source_Files {
     Logging_Client.cpp
     Logging_Client_Task.cpp
-    cutslog_d.cpp
+    cutslog.cpp
     TestLogger_i.cpp
     TestLoggerFactory_i.cpp
     TestLoggerClient_i.cpp
+    TestLoggerServer_Singleton.cpp
   }
 
   Header_Files {
     Logging_Client_Options.h
+    Logging_Client_export.h
   }
 
   Inline_Files {

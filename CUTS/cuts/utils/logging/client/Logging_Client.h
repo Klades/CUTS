@@ -42,7 +42,7 @@ public:
   int run_main (int argc, char * argv []);
 
   /// Shutdown the server.
-  int shutdown (void);
+  void shutdown (void);
 
 private:
   /// Parse the command-line arguments.
@@ -50,6 +50,9 @@ private:
 
   /// Register the logger with the IOR table.
   int register_with_iortable (void);
+
+  /// Connect to the logging server.
+  int connect_to_server (void);
 
   /// Print the help message to the screen.
   void print_help (void);

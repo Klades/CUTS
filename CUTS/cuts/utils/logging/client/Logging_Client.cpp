@@ -4,6 +4,7 @@
 #include "Logging_Client_Options.h"
 #include "Logging_Client_Task.h"
 #include "TestLoggerClient_i.h"
+#include "TestLoggerServer_Singleton.h"
 #include "tao/IORTable/IORTable.h"
 #include "ace/ARGV.h"
 #include "ace/Argv_Type_Converter.h"
@@ -17,14 +18,16 @@ static const char * __HELP__ =
 "USAGE: cutslog_d [OPTIONS]\n"
 "\n"
 "Options:\n"
+"  --server=ADDR         address of logging server (HOSTNAME[:PORT])\n"
 "  --thread-count=N      size of the server's thread pool for receiving\n"
 "                        log messages from client applications (default N=1)\n"
 "  --timeout=TIME        timeout interval to flush message queue\n"
 "                        in seconds (default=30)\n"
 "\n"
+"  -h, --help            print this help message\n"
 "  -v, --verbose         print verbose infomration\n"
 "  --debug               print debugging information\n"
-"  -h, --help            print this help message\n"
+"  --trace               print tracing information\n"
 "\n"
 "Remarks:\n"
 "If the client's threadpool size is set to 1, then the client will act\n"
@@ -35,7 +38,7 @@ static const char * __HELP__ =
 //
 CUTS_Logging_Client::CUTS_Logging_Client (void)
 {
-
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_Logging_Client::CUTS_Logging_Client (void)");
 }
 
 //
@@ -43,7 +46,7 @@ CUTS_Logging_Client::CUTS_Logging_Client (void)
 //
 CUTS_Logging_Client::~CUTS_Logging_Client (void)
 {
-
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_Logging_Client::~CUTS_Logging_Client (void)");
 }
 
 //
@@ -51,6 +54,8 @@ CUTS_Logging_Client::~CUTS_Logging_Client (void)
 //
 int CUTS_Logging_Client::run_main (int argc, char * argv [])
 {
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_Logging_Client::run_main (int, char * [])");
+
   try
   {
     if (this->parse_args (argc, argv) == -1)
@@ -89,6 +94,12 @@ int CUTS_Logging_Client::run_main (int argc, char * argv [])
                   "%T - %M - failed to register with IOR table\n"));
     }
 
+    if (this->connect_to_server () == -1)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T (%t) - %M - failed to connect to logging server\n"));
+    }
+
     CUTS_Logging_Client_Task task (this->orb_.in ());
 
     // Activate the server task with N number of threads. We then wait for
@@ -99,6 +110,9 @@ int CUTS_Logging_Client::run_main (int argc, char * argv [])
 
     if (retval == 0)
     {
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T - %M - waiting for client task to return\n"));
+
       task.wait ();
     }
     else
@@ -106,6 +120,9 @@ int CUTS_Logging_Client::run_main (int argc, char * argv [])
       ACE_ERROR ((LM_ERROR,
                   "%T - %M - failed to activate server task\n"));
     }
+
+    // Release reference to logging server
+    CUTS_TESTLOGGERSERVER->reset ();
 
     // Destroy the RootPOA.
     ACE_DEBUG ((LM_DEBUG, "%T - %M - destroying the RootPOA\n"));
@@ -122,11 +139,6 @@ int CUTS_Logging_Client::run_main (int argc, char * argv [])
                 "%T - %M - %s\n",
                 ex._info ().c_str ()));
   }
-  catch (...)
-  {
-    ACE_ERROR ((LM_ERROR,
-                "%T - %M - caught unknown exception\n"));
-  }
 
   return -1;
 }
@@ -134,11 +146,22 @@ int CUTS_Logging_Client::run_main (int argc, char * argv [])
 //
 // shutdown
 //
-int CUTS_Logging_Client::shutdown (void)
+void CUTS_Logging_Client::shutdown (void)
 {
-  // Stop the ORB's main event loop.
-  this->orb_->shutdown (true);
-  return 0;
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_Logging_Client::shutdown (void)");
+
+  try
+  {
+    // Stop the ORB's main event loop.
+    if (!CORBA::is_nil (this->orb_.in ()))
+      this->orb_->shutdown (true);
+  }
+  catch (const CORBA::Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - %s\n",
+                ex._info ().c_str ()));
+  }
 }
 
 //
@@ -146,6 +169,8 @@ int CUTS_Logging_Client::shutdown (void)
 //
 int CUTS_Logging_Client::parse_args (int argc, char * argv [])
 {
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_Logging_Client::parse_args (int, char * [])");
+
   // Initialize the ORB.
   this->orb_ = CORBA::ORB_init (argc, argv);
 
@@ -153,12 +178,14 @@ int CUTS_Logging_Client::parse_args (int argc, char * argv [])
   const char * opts = ACE_TEXT ("vh");
   ACE_Get_Opt get_opt (argc, argv, opts);
 
+  get_opt.long_option ("server", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("thread-count", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("timeout", ACE_Get_Opt::ARG_REQUIRED);
 
+  get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
-  get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
+  get_opt.long_option ("trace", ACE_Get_Opt::NO_ARG);
 
   char ch;
 
@@ -176,12 +203,25 @@ int CUTS_Logging_Client::parse_args (int argc, char * argv [])
 
         ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
       }
+      else if (ACE_OS::strcmp ("server", get_opt.long_option ()) == 0)
+      {
+        CUTS_LOGGING_OPTIONS->server_ = get_opt.opt_arg ();
+      }
       else if (ACE_OS::strcmp ("debug", get_opt.long_option ()) == 0)
       {
         u_long mask =
           ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
 
         mask |= LM_DEBUG;
+
+        ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
+      }
+      else if (ACE_OS::strcmp ("trace", get_opt.long_option ()) == 0)
+      {
+        u_long mask =
+          ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
+
+        mask |= LM_TRACE;
 
         ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
       }
@@ -237,6 +277,8 @@ int CUTS_Logging_Client::parse_args (int argc, char * argv [])
 //
 int CUTS_Logging_Client::register_with_iortable (void)
 {
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_Logging_Client::register_with_iortable (void)");
+
   try
   {
     // Locate the IORTable for the application.
@@ -277,6 +319,50 @@ int CUTS_Logging_Client::register_with_iortable (void)
 //
 void CUTS_Logging_Client::print_help (void)
 {
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_Logging_Client::print_help (void)");
+
   std::cout << ::__HELP__ << std::endl;
   ACE_OS::exit (0);
+}
+
+//
+// connect_to_server
+//
+int CUTS_Logging_Client::connect_to_server (void)
+{
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_Logging_Client::connect_to_server (void)");
+
+  try
+  {
+    ::CORBA::Object_var obj =
+      this->orb_->resolve_initial_references ("TestLoggerServer");
+
+    if (::CORBA::is_nil (obj.in ()))
+    {
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "%T (%t) - %M - failed to resolve TestLoggerServer\n"),
+                         -1);
+    }
+
+    CUTS::TestLoggerServer_var server = CUTS::TestLoggerServer::_narrow (obj.in ());
+
+    if (::CORBA::is_nil (server.in ()))
+    {
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "%T (%t) - %M - object reference is not a TestLoggerServer\n"),
+                         -1);
+    }
+
+    // Reset the test logger server singleton.
+    CUTS_TESTLOGGERSERVER->reset (server.in ());
+    return 0;
+  }
+  catch (const CORBA::Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - %s\n",
+                ex._info ().c_str ()));
+  }
+
+  return -1;
 }

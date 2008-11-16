@@ -14,6 +14,7 @@
 #define _CUTS_TEST_LOGGER_FACTORY_I_H_
 
 #include "clientS.h"
+#include "Logging_Client_export.h"
 #include "ace/UUID.h"
 
 /**

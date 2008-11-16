@@ -1,0 +1,37 @@
+// $Id$
+
+project (CUTS_Logging_Server) : iortable, cuts_logging_skel, cutslib {
+  sharedname = CUTS_Logging_Server
+
+  dynamicflags += CUTS_TEST_LOGGING_SERVER_BUILD_DLL
+
+  Source_Files {
+    Logging_Server.cpp
+    Logging_Server_Task.cpp
+    TestLoggerServer_i.cpp
+  }
+
+  Inline_Files {
+
+  }
+
+  Header_Files {
+    Logging_Server_export.h
+  }
+}
+
+project (cutslog_d) : cuts_logging_server, cutsexe {
+  exename = cutslog_d
+
+  Source_Files {
+    cutslog_d.cpp
+  }
+
+  Inline_Files {
+
+  }
+
+  Header_Files {
+
+  }
+}

@@ -1,0 +1,6 @@
+// $Id$
+
+project : portableserver, cuts_logging_stub {
+  libs  += CUTS_Logging_Server
+  after += CUTS_Logging_Server
+}

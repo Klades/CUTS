@@ -64,6 +64,9 @@ private:
 
   /// Factory map for each test.
   map_type factory_map_;
+
+  /// Server to send log messages.
+  CUTS::TestLoggerServer_var server_;
 };
 
 #endif  // !defined _CUTS_TEST_LOGGER_CLIENT_I_H_

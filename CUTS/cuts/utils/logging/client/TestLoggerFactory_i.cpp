@@ -28,6 +28,8 @@ CUTS_TestLoggerFactory_i (const ACE_Utils::UUID & test_uuid,
   log_count_ (0),
   default_POA_ (PortableServer::POA::_duplicate (poa))
 {
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLoggerFactory_i (const ACE_Utils::UUID &, PortableServer::POA_ptr)");
+
   // Construct the policy list for the TestLoggerFactory POA.
   CORBA::PolicyList policies (3);
   policies.length (3);
