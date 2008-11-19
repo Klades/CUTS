@@ -22,6 +22,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Text;
+using System.Text.RegularExpressions;
+using Actions.LogFormatActions;
 
 using CUTS.Data;
 using CUTS.Data.UnitTesting;
@@ -70,7 +72,7 @@ namespace CUTS
       this.database_ = new Database (new MySqlClientFactory ());
       this.database_.Open (ConfigurationManager.AppSettings["MySQL"]);
     }
-
+    
     /**
      * Callback method for when the page is loading.
      *
@@ -193,6 +195,10 @@ namespace CUTS
       DataTable dt = this.uta_.get_test_messages (test_number);
       this.current_test_messages_.DataSource = dt;
       this.current_test_messages_.DataBind ();
+      if (dt.Rows.Count <= current_test_messages_.PageSize)
+        current_test_messages_.PagerStyle.Visible = false;
+      else
+        current_test_messages_.PagerStyle.Visible = true;
     }
 
     protected void on_collection_time_changed (Object sender, EventArgs e)
@@ -387,6 +393,11 @@ namespace CUTS
       Response.End ();
     }
 
+    protected void OnClick_btn_filter_LM (object sender, EventArgs e)
+    {
+
+    }
+
     #region Web Form Designer generated code
     override protected void OnInit (EventArgs e)
     {
@@ -417,5 +428,6 @@ namespace CUTS
     /// The current collection time for the performance metrics.
     protected DateTime collection_time_;
     #endregion
-  }
+    
+}
 }

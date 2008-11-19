@@ -10,71 +10,73 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using MySql.Data.MySqlClient;
+using System.Data.SQLite;
 
-
-// logout
-// store DB stuff in cookie info
-// encrypt password
-// add admin folder and admin functions
-
-public partial class login : System.Web.UI.Page
+public partial class Login : System.Web.UI.Page
 {
-    private void Page_Load(object sender, System.EventArgs e)
+  private void Page_Load (object sender, System.EventArgs e)
+  {
+
+  }
+
+  protected void Login1_Authenticate (object sender, AuthenticateEventArgs e)
+  {
+    try
     {
+      string uname = Login1.UserName.Trim ();
+      string password = Login1.Password.Trim ();
+      bool flag = AuthenticateUser (uname, password);
+      if (flag)
+      {
+        e.Authenticated = true;
+        Login1.DestinationPageUrl = "Default.aspx";
+      }
+      else
+      {
+        e.Authenticated = false;
+      }
 
     }
+    catch (Exception)
 
-    protected void Login1_Authenticate(object sender, AuthenticateEventArgs e)
     {
-        try
-        {
-            string uname = Login1.UserName.Trim();
-            string password = Login1.Password.Trim();
-            bool flag = AuthenticateUser(uname, password);
-            if (flag)
-            {
-                e.Authenticated = true;
-                Login1.DestinationPageUrl = "Default.aspx";
-            }
-            else
-            {
-                e.Authenticated = false;
-            }
-
-        }
-        catch (Exception)
-        {
-            e.Authenticated = false;
-        }
+      e.Authenticated = false;
     }
+  }
 
-    private bool AuthenticateUser(string uname, string password)
+  private bool AuthenticateUser (string uname, string password)
+  {
+    bool flag = false;
+    //string connString = "Server=localhost;Port=3306;Database=cuts;Uid=root;Pwd=Vandy;";
+    String connString = String.Format ("Data Source={0}", Server.MapPath("~/db/cutsbmw.sqlite"));
+    //string query = "SELECT * FROM users WHERE username ='" + uname + "' AND password =SHA1('" + password + "')";
+    string query = "SELECT * FROM users WHERE username ='" + uname + "' AND password ='" + password + "'";
+    DataSet userDS = new DataSet ();
+    //MySqlConnection conn;
+    SQLiteConnection conn;
+    //MySqlDataAdapter dataAdapter;
+    SQLiteDataAdapter dataAdapter;
+    //MySqlCommand command;
+    try
     {
-        bool flag = false;
-        string connString = "Server=localhost;Port=3306;Database=cuts;Uid=cuts;Pwd=cuts;";
-        string query = "SELECT * FROM users WHERE username ='" + uname + "' AND password ='" + password + "'";
-        DataSet userDS = new DataSet();
-        MySqlConnection conn;
-        MySqlDataAdapter dataAdapter;
-        //MySqlCommand command;
-        try
-        {
-            conn = new MySqlConnection(connString);
-            conn.Open();
-            dataAdapter = new MySqlDataAdapter(query, conn);
-            dataAdapter.Fill(userDS);
-            conn.Close();
-        }
-        catch (Exception)
-        {
-            userDS = null;
-        }
+      conn = new SQLiteConnection ();
+      conn.ConnectionString = connString;
+      conn.Open ();
 
-        if (userDS != null)
-        {
-            if (userDS.Tables[0].Rows.Count > 0)
-                flag = true;
-        }
-        return flag;
+      dataAdapter = new SQLiteDataAdapter (query, conn);
+      dataAdapter.Fill (userDS);
+      conn.Close ();
     }
+    catch (Exception ex)
+    {
+      string errstr = ex.Message;
+      userDS = null;
+    }
+    if (userDS != null)
+    {
+      if (userDS.Tables [0].Rows.Count > 0)
+        flag = true;
+    }
+    return flag;
+  }
 }

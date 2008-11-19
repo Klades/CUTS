@@ -1,3 +1,35 @@
+Tue Nov 18 21:27:14 UTC 2008  Chris Bellande  <chris.bellande@vanderbilt.edu>
+
+		* etc/SQL/CUTS-bmw.sql:
+		  
+		  . Create table syntax for users table (used for authentication purposes)
+        
+		* utils/BMW/website/BMW.master:
+        * utils/BMW/website/BMW.master.cs:
+        * utils/BMW/website/Web.config:
+		
+		  . Added logout functionality
+        
+		* utils/BMW/website/admin:
+		* utils/BMW/website/admin/createuser.aspx:
+        * utils/BMW/website/admin/createuser.aspx.cs:
+        * utils/BMW/website/admin/web.config:
+		* utils/BMW/website/login.aspx:
+        * utils/BMW/website/login.aspx.cs:
+		
+		  . Added create user functionality for administrator
+		  
+		  . Re-implemented database connections needed for 
+		    authentication using SQLite instead of MySQL
+
+        * utils/BMW/website/db/cutsbmw.sqlite:
+		
+		  . SQLite database used for authentication
+
+        * utils/BMW/website/performance.aspx.cs:
+		
+		  . Fixed table formatting issues in Log Messages tab
+
 Sun Nov 16 02:55:18 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/server/Logging_Server.h:

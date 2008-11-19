@@ -37,7 +37,7 @@
   <form runat="server" id="main_form_">
   <table border="0" width="100%" cellpadding="0" cellspacing="0">
   <tr>
-    <td><img src="images/logo.jpg" alt="CUTS logo" /></td>
+    <td> <asp:Image runat = "server" ImageUrl="~/images/logo.jpg" AlternateText = "CUTS logo" /></td>
     <td><h1>CUTS Benchmark Manager Web Utility</h1></td>
   </tr>
 
@@ -92,6 +92,19 @@
                        navigateurl="~/paths.aspx"
                        text="Execution Paths" /></div>
 
+      <br />
+      
+      <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
+        <asp:image runat="server" id="Image3" imageurl="~/images/menudot.gif" imagealign="absmiddle" />
+        <asp:hyperlink runat="server" id="create_user_menu_item"
+                       navigateurl = "~/admin/createuser.aspx"
+                       text="Create New User" /></div>
+      
+      <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
+        <asp:image runat="server" id="Image2" imageurl="~/images/menudot.gif" imagealign="absmiddle" />
+        <asp:LinkButton runat="server" id="logout"
+                       text="Logout" onclick="logout_Click" /></div>
+      
       <br />
 
       <asp:placeholder runat="server" id="help_item_" />

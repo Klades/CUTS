@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.ServiceProcess;
 using System.Drawing;
 using System.Web;
+using System.Web.Security;
 using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -124,5 +125,16 @@ namespace CUTS
       if (this.console_.Style["display"] == "none")
         this.console_.Style["display"] = "block";
     }
-  }
+    protected void logout_Click (object sender, EventArgs e)
+    {
+      Session.Abandon ();
+      FormsAuthentication.SignOut ();
+      Response.Redirect ("login.aspx");
+    }
 }
+}
+
+//remember messages across pages
+//allow user to hide/show console
+//allow user to clear console
+//allow user to delete selected messages
