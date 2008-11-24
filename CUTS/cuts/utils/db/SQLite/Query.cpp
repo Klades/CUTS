@@ -82,6 +82,8 @@ void CUTS_DB_SQLite_Query::execute_no_record (const char * query)
 //
 void CUTS_DB_SQLite_Query::execute_no_record (void)
 {
+  CUTS_DB_SQLITE_TRACE ("CUTS_DB_SQLite_Query::execute_no_record (void)");
+
   if (this->stmt_ == 0)
     throw CUTS_DB_SQLite_Exception ();
 
@@ -160,6 +162,8 @@ void CUTS_DB_SQLite_Query::finalize (void)
 //
 void CUTS_DB_SQLite_Query::reset (void)
 {
+  CUTS_DB_SQLITE_TRACE ("CUTS_DB_SQLite_Query::reset (void)");
+
   ::sqlite3_reset (this->stmt_);
   this->needs_reseting_ = false;
 }

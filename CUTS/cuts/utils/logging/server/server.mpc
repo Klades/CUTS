@@ -1,12 +1,65 @@
 // $Id$
 
-project (CUTS_Logging_Server) : iortable, cuts_logging_skel, cutslib {
+project (CUTS_Logging_Server_Xml) : xsc_cxx {
+  custom_only = 1
+
+  Modify_Custom (XSC) {
+    header_outputext = .h
+    inline_outputext = .inl
+  }
+
+  specific {
+    xscflags += --cxx-header-suffix .h --cxx-source-suffix .cpp \
+                --cxx-inline-suffix .inl --cxx-generate-inline \
+                --cxx-char-type char
+  }
+
+  Xsc_Files {
+    gendir = .
+
+    $(CUTS_ROOT)/etc/schemas/logging.xsd
+  }
+}
+
+project (CUTS_Logging_Server_stub) :  taolib_with_idl, cuts_logging_stub, cutslib {
+  sharedname = CUTS_Logging_Server_stub
+
+  idlflags += -Wb,skel_export_macro=CUTS_TEST_LOGGING_SERVER_SKEL_Export \
+              -Wb,skel_export_include=Logging_Server_skel_export.h \
+              -Wb,stub_export_macro=CUTS_TEST_LOGGING_SERVER_STUB_Export \
+              -Wb,stub_export_include=Logging_Server_stub_export.h \
+              -I $(CUTS_ROOT)
+
+  dynamicflags += CUTS_TEST_LOGGING_SERVER_STUB_BUILD_DLL
+
+  Source_Files {
+    serverC.cpp
+  }
+
+  Inline_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  IDL_Files {
+    server.idl
+  }
+}
+
+project (CUTS_Logging_Server) : boost_base, xscrt, iortable, cuts_logging_server_skel, cutslib {
   sharedname = CUTS_Logging_Server
 
   dynamicflags += CUTS_TEST_LOGGING_SERVER_BUILD_DLL
 
+  after += CUTS_Logging_Server_Xml
+
   Source_Files {
+    logging.cpp
     Logging_Server.cpp
+    Logging_Server_File.cpp
     Logging_Server_Task.cpp
     TestLoggerServer_i.cpp
   }
@@ -17,6 +70,11 @@ project (CUTS_Logging_Server) : iortable, cuts_logging_skel, cutslib {
 
   Header_Files {
     Logging_Server_export.h
+    Logging_Server_Options.h
+  }
+
+  IDL_Files {
+
   }
 }
 
@@ -32,6 +90,5 @@ project (cutslog_d) : cuts_logging_server, cutsexe {
   }
 
   Header_Files {
-
   }
 }

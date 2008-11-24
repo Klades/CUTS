@@ -7,7 +7,6 @@
 #endif
 
 #include "TestLoggerFactory_i.h"
-#include "TestLoggerServer_Singleton.h"
 #include "cuts/UUID.h"
 #include "ace/CORBA_macros.h"
 #include "ace/Date_Time.h"
@@ -217,7 +216,7 @@ void CUTS_TestLogger_i::send_messages (void)
       this->copy_message (*ptr ++, *iter);
 
     // Get a reference to the server.
-    CUTS::TestLoggerServer_var server = CUTS_TESTLOGGERSERVER->get ();
+    CUTS::TestLoggerServer_var server = this->parent_.server ();
 
     if (!CORBA::is_nil (server.in ()))
     {
@@ -241,8 +240,6 @@ void CUTS_TestLogger_i::send_messages (void)
   {
     ACE_DEBUG ((LM_DEBUG,
                 "%T - %M - reseting the test logger singleton\n"));
-
-    CUTS_TESTLOGGERSERVER->reset ();
   }
   catch (const CORBA::Exception & ex)
   {

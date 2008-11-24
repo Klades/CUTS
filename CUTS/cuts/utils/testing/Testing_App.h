@@ -31,7 +31,7 @@ class CUTS_Testing_Service_Manager;
  *
  * The main entry point class for the application.
  */
-class CUTS_Testing_App
+class CUTS_TEST_Export CUTS_Testing_App
 {
 public:
   /// Default constructor.
@@ -59,6 +59,13 @@ public:
    * @return        Options for the testing application.
    */
   const CUTS_Test_Options & options (void) const;
+
+  /**
+   * Get a reference to the test database.
+   *
+   * @return        Reference to test database.
+   */
+  CUTS_Test_Database & test_db (void);
 
 protected:
   /**

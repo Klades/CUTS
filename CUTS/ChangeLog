@@ -1,34 +1,134 @@
+Mon Nov 24 14:15:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/CUTS.mpc:
+        * cuts/exceptions.idl:
+
+          . Moved all the exceptions to a common location.
+
+        * cuts/utils/db/SQLite/Query.cpp:
+
+          . Added tracing information for debugging purposes.
+
+        * cuts/utils/logging/client/LocalTestLoggerClient_i.h:
+        * cuts/utils/logging/client/LocalTestLoggerClient_i.cpp:
+        * cuts/utils/logging/client/Local_Logging_Client_App.h:
+        * cuts/utils/logging/client/Local_Logging_Client_App.cpp:
+        * cuts/utils/logging/client/Logging_Client.h:
+        * cuts/utils/logging/client/Logging_Client.cpp:
+        * cuts/utils/logging/client/Logging_Client_Options.h:
+        * cuts/utils/logging/client/Logging_Client_Task.h:
+        * cuts/utils/logging/client/Logging_Client_Task.cpp:
+        * cuts/utils/logging/client/Logging_Client_export.h:
+        * cuts/utils/logging/client/TestLoggerClient_i.h:
+        * cuts/utils/logging/client/TestLoggerClient_i.cpp:
+        * cuts/utils/logging/client/TestLoggerFactory_i.h:
+        * cuts/utils/logging/client/TestLoggerFactory_i.inl:
+        * cuts/utils/logging/client/TestLoggerFactory_i.cpp:
+        * cuts/utils/logging/client/TestLogger_i.cpp:
+        * cuts/utils/logging/client/Test_Logger_Map.h:
+        * cuts/utils/logging/client/Test_Logger_Map.cpp:
+        * cuts/utils/logging/client/client.idl:
+        * cuts/utils/logging/client/client.mpc:
+        * cuts/utils/logging/logging.idl:
+        * cuts/utils/logging/server/Logging_Server.h:
+        * cuts/utils/logging/server/Logging_Server.inl:
+        * cuts/utils/logging/server/Logging_Server.cpp:
+        * cuts/utils/logging/server/Logging_Server_File.h:
+        * cuts/utils/logging/server/Logging_Server_File.inl:
+        * cuts/utils/logging/server/Logging_Server_File.cpp:
+        * cuts/utils/logging/server/Logging_Server_Options.h:
+        * cuts/utils/logging/server/Logging_Server_skel_export.h:
+        * cuts/utils/logging/server/Logging_Server_stub_export.h:
+        * cuts/utils/logging/server/TestLoggerServer_i.h:
+        * cuts/utils/logging/server/TestLoggerServer_i.inl:
+        * cuts/utils/logging/server/TestLoggerServer_i.cpp:
+        * cuts/utils/logging/server/server.idl:
+        * cuts/utils/logging/server/server.mpc:
+
+          . Once again a re-design of the test logging framework. Now, the logging
+            clients are daemons (or components) that starts a server to listen on
+            the global port for incoming connections. These connections register
+            or unregister logging servers for a specific test. The logging clients
+            also start a local server that allows tests to get a logger for a specific
+            test.
+
+            There are still a few bugs dealing w/ restarting either applications,
+            however, the basic functionaly exist and functions correctly.
+
+        * cuts/utils/testing/Test_Options.h:
+        * cuts/utils/testing/Testing_App.h:
+        * cuts/utils/testing/testing.mpc:
+
+          . Exported the classes located in the corresponding files.
+
+        * cuts/utils/testing/Testing_App.inl:
+
+          . Added an accessor method for the database.
+
+        * cuts/utils/testing/svcs/logging/Test_Logging_Callback.h:
+        * cuts/utils/testing/svcs/logging/Test_Logging_Callback.inl:
+        * cuts/utils/testing/svcs/logging/Test_Logging_Callback.cpp:
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service.cpp:
+        * cuts/utils/testing/svcs/logging/logging.mpc:
+
+        * cuts/workers/Test_Logger/Test_Logger_i.h:
+        * cuts/workers/Test_Logger/Test_Logger_i.cpp:
+
+          . Updated the object_to_string () function call to resolve the
+            LocalTestLoggerClient instead of TestLoggerClient.
+
+        * etc/config/cuts_logging_client_skel.mpb:
+        * etc/config/cuts_logging_server.mpb:
+        * etc/config/cuts_logging_server_skel.mpb:
+        * etc/config/cuts_logging_server_stub.mpb:
+        * etc/config/cuts_testing.mpb:
+        * etc/config/cuts_testing_svc.mpb:
+
+          . Updated the base projects based on the new projects.
+
+        * etc/schemas/logging.xsd:
+
+          . Schema definition for the XML file that the logging server uses
+            to resolve the target logging clients.
+
+        * cuts/utils/logging/client/TestLoggerServer_Singleton.h:
+        * cuts/utils/logging/client/TestLoggerServer_Singleton.inl:
+        * cuts/utils/logging/client/TestLoggerServer_Singleton.cpp:
+
+          . Removed these files.
+
 Tue Nov 18 21:27:14 UTC 2008  Chris Bellande  <chris.bellande@vanderbilt.edu>
 
-		* etc/SQL/CUTS-bmw.sql:
-		  
-		  . Create table syntax for users table (used for authentication purposes)
-        
-		* utils/BMW/website/BMW.master:
+        * etc/SQL/CUTS-bmw.sql:
+
+          . Create table syntax for users table (used for authentication
+            purposes)
+
+        * utils/BMW/website/BMW.master:
         * utils/BMW/website/BMW.master.cs:
         * utils/BMW/website/Web.config:
-		
-		  . Added logout functionality
-        
-		* utils/BMW/website/admin:
-		* utils/BMW/website/admin/createuser.aspx:
+
+          . Added logout functionality
+
+        * utils/BMW/website/admin:
+        * utils/BMW/website/admin/createuser.aspx:
         * utils/BMW/website/admin/createuser.aspx.cs:
         * utils/BMW/website/admin/web.config:
-		* utils/BMW/website/login.aspx:
+        * utils/BMW/website/login.aspx:
         * utils/BMW/website/login.aspx.cs:
-		
-		  . Added create user functionality for administrator
-		  
-		  . Re-implemented database connections needed for 
-		    authentication using SQLite instead of MySQL
+
+          . Added create user functionality for administrator
+
+          . Re-implemented database connections needed for authentication using
+            SQLite instead of MySQL
 
         * utils/BMW/website/db/cutsbmw.sqlite:
-		
-		  . SQLite database used for authentication
+
+          . SQLite database used for authentication
 
         * utils/BMW/website/performance.aspx.cs:
-		
-		  . Fixed table formatting issues in Log Messages tab
+
+          . Fixed table formatting issues in Log Messages tab
 
 Sun Nov 16 02:55:18 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

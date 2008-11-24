@@ -13,7 +13,7 @@
 #ifndef _CUTS_LOGGING_SERVER_TASK_H_
 #define _CUTS_LOGGING_SERVER_TASK_H_
 
-#include "cuts/config.h"
+#include "Logging_Client_export.h"
 #include "tao/corba.h"
 #include "ace/Task.h"
 

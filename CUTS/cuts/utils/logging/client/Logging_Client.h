@@ -13,7 +13,9 @@
 #ifndef _CUTS_LOGGING_CLIENT_SERVER_H_
 #define _CUTS_LOGGING_CLIENT_SERVER_H_
 
-#include "tao/PortableServer/Servant_Base.h"
+#include "Logging_Client_export.h"
+#include "Local_Logging_Client_App.h"
+#include "TestLoggerClient_i.h"
 #include "ace/SString.h"
 
 // Forward decl.
@@ -51,20 +53,16 @@ private:
   /// Register the logger with the IOR table.
   int register_with_iortable (void);
 
-  /// Connect to the logging server.
-  int connect_to_server (void);
-
   /// Print the help message to the screen.
   void print_help (void);
 
   /// The ORB for the server.
   CORBA::ORB_var orb_;
 
-  /// POA servant.
-  PortableServer::ServantBase_var servant_;
+  /// Implementation of the CUTS::TestLoggerClient.
+  ACE_Auto_Ptr <CUTS_TestLoggerClient_i> client_;
 
-  /// Implemenation of the CUTS::TestLoggerClient.
-  CUTS_TestLoggerClient_i * client_;
+  ACE_Auto_Ptr <CUTS_Local_Logging_Client_App> local_client_;
 };
 
 #endif  // !defined _CUTS_LOGGING_CLIENT_SERVER_H_

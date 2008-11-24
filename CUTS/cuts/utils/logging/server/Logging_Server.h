@@ -15,8 +15,17 @@
 
 #include "Logging_Server_export.h"
 #include "Logging_Server_Task.h"
+#include "Logging_Server_Options.h"
 #include "TestLoggerServer_i.h"
 #include "tao/PortableServer/PortableServer.h"
+#include "ace/UUID.h"
+#include "ace/Unbounded_Set.h"
+#include <string>
+
+namespace ACE_Utils
+{
+  class UUID;
+}
 
 /**
  * @class CUTS_Test_Logging_Server
@@ -56,11 +65,31 @@ public:
   /// Shutdown the application.
   void shutdown (void);
 
+  /**
+   * Install a callback into the logging server.
+   *
+   * @param[in]     callback      Pointer to callback to install.
+   */
+  int install_callback (CUTS::TestLoggerServerCallback_ptr callback);
+
+  /**
+   * Set the UUID for the server.
+   *
+   * @param[in]     uuid          UUID of the server.
+   */
+  void uuid (const ACE_Utils::UUID & uuid);
+
 private:
   int parse_args (int argc, char * argv[]);
 
-  int register_with_iortable (const char * name,
-                              const char * objstr);
+  void print_help (void);
+
+  void register_with_clients (void);
+
+  void register_with_client (const std::string & client,
+                             ::CUTS::TestLoggerServer_ptr server);
+
+  void unregister_with_clients (void);
 
   /// The task for the server.
   CUTS_Test_Logging_Server_Task task_;
@@ -76,6 +105,17 @@ private:
 
   /// The actual implemenation of the server.
   CUTS_TestLoggerServer_i server_;
+
+  /// Logging server options.
+  CUTS_Logging_Server_Options opts_;
+
+  /// The UUID of the server.
+  CUTS::UUID uuid_;
+
+  /// Collection of clients server is registered.
+  typedef ACE_Unbounded_Set <CUTS::TestLoggerClient_ptr> clients_set_type;
+
+  clients_set_type clients_;
 };
 
 #if defined (__CUTS_INLINE__)

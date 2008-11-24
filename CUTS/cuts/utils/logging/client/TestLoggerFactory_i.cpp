@@ -22,11 +22,12 @@
 //
 CUTS_TestLoggerFactory_i::
 CUTS_TestLoggerFactory_i (const ACE_Utils::UUID & test_uuid,
+                          CUTS::TestLoggerServer_ptr server,
                           PortableServer::POA_ptr poa)
 : test_uuid_ (test_uuid),
-  test_number_ (-1),
   log_count_ (0),
-  default_POA_ (PortableServer::POA::_duplicate (poa))
+  default_POA_ (PortableServer::POA::_duplicate (poa)),
+  server_ (CUTS::TestLoggerServer::_duplicate (server))
 {
   CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLoggerFactory_i (const ACE_Utils::UUID &, PortableServer::POA_ptr)");
 
@@ -48,21 +49,13 @@ CUTS_TestLoggerFactory_i (const ACE_Utils::UUID & test_uuid,
   ostr << "TestLogger-" << this->test_uuid_.to_string ()->c_str ();
 
   PortableServer::POAManager_var mgr = poa->the_POAManager ();
+  this->logger_POA_ = poa->create_POA (ostr.str ().c_str (),
+                                       mgr.in (),
+                                       policies);
 
-  this->logger_POA_ =
-    poa->create_POA (ostr.str ().c_str (), mgr.in (), policies);
-
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - destroying POA policies\n"));
-
+  // Destroy the POA policies
   for (CORBA::ULong i = 0; i < policies.length (); ++ i)
     policies[i]->destroy ();
-
-  // Get the POAManager for the newly created POA and activate it. Otherwise,
-  // the factory will not be able to receive any calls.
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - activating POAManager for %s\n",
-              ostr.str ().c_str ()));
 }
 
 //
@@ -70,11 +63,8 @@ CUTS_TestLoggerFactory_i (const ACE_Utils::UUID & test_uuid,
 //
 CUTS_TestLoggerFactory_i::~CUTS_TestLoggerFactory_i (void)
 {
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - destroying logger POA for test %s\n",
-              this->test_uuid_.to_string ()->c_str ()));
-
-  this->logger_POA_->destroy (true, true);
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLoggerFactory_i::~CUTS_TestLoggerFactory_i (void)");
+  this->logger_POA_->destroy (0, 0);
 }
 
 //
@@ -82,6 +72,8 @@ CUTS_TestLoggerFactory_i::~CUTS_TestLoggerFactory_i (void)
 //
 CUTS::TestLogger_ptr CUTS_TestLoggerFactory_i::create (void)
 {
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLoggerFactory_i::create (void)");
+
   // Create a new TestLogger object and instantiate it under the
   // child POA provided in the constructor.
   ACE_DEBUG ((LM_DEBUG,
@@ -93,7 +85,7 @@ CUTS::TestLogger_ptr CUTS_TestLoggerFactory_i::create (void)
 
   ACE_NEW_THROW_EX (servant,
                     CUTS_TestLogger_i (logid, *this),
-                    CORBA::NO_MEMORY ());
+                    ::CORBA::NO_MEMORY ());
 
   PortableServer::ServantBase_var servant_base = servant;
 
@@ -122,6 +114,8 @@ CUTS::TestLogger_ptr CUTS_TestLoggerFactory_i::create (void)
 //
 void CUTS_TestLoggerFactory_i::destroy (CUTS::TestLogger_ptr ref)
 {
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLoggerFactory_i::destroy (CUTS::TestLogger_ptr)");
+
   PortableServer::ServantBase_var servant =
     this->logger_POA_->reference_to_servant (ref);
 
@@ -142,6 +136,8 @@ void CUTS_TestLoggerFactory_i::destroy (CUTS::TestLogger_ptr ref)
 //
 PortableServer::POA_ptr CUTS_TestLoggerFactory_i::_default_POA (void)
 {
+  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLoggerFactory_i::_default_POA (void)");
+
   PortableServer::POA_var poa =
     PortableServer::POA::_duplicate (this->default_POA_.in ());
 

@@ -33,6 +33,7 @@ public:
    * @param[in]       poa             POA this object is activated in
    */
   CUTS_TestLoggerFactory_i (const ACE_Utils::UUID & test_uuid,
+                            CUTS::TestLoggerServer_ptr server,
                             PortableServer::POA_ptr poa);
 
   /// Destructor.
@@ -54,17 +55,6 @@ public:
    */
   virtual void destroy (CUTS::TestLogger_ptr logger);
 
-  const ACE_Utils::UUID & test_uuid (void) const;
-
-  /**
-   * Get the test number assigned to the factory. All loggers that
-   * were created by this factory are logging messages for the
-   * test number returned by this test.
-   *
-   * @return      The test number for the factory.
-   */
-  long test_number (void) const;
-
   /**
    * Get the POA assigned to the test logger factory.
    *
@@ -72,12 +62,15 @@ public:
    */
   virtual PortableServer::POA_ptr _default_POA (void);
 
+  const ACE_Utils::UUID & test_uuid (void) const;
+
+  CUTS::TestLoggerServer_ptr server (void);
+
+  void server (CUTS::TestLoggerServer_ptr s);
+
 private:
   /// Test number for the factory.
   ACE_Utils::UUID test_uuid_;
-
-  /// Database test number for the logger's.
-  long test_number_;
 
   /// Number of loggers.
   size_t log_count_;
@@ -90,6 +83,9 @@ private:
 
   /// Lock for synchronizing assessing the servant collection.
   ACE_Thread_Mutex lock_;
+
+  /// Reference to the logger server.
+  CUTS::TestLoggerServer_var server_;
 };
 
 #if defined (__CUTS_INLINE__)

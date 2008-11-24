@@ -1,6 +1,6 @@
 // $Id$
 
-project : cutslib {
+project : cuts_testing, cutslib {
   after += CUTS_Testing_Service
   libs  += CUTS_Testing_Service
 

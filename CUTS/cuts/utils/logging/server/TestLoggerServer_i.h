@@ -14,7 +14,8 @@
 #define _CUTS_TEST_LOGGER_SERVER_I_H_
 
 #include "cuts/config.h"
-#include "../loggingS.h"
+#include "serverS.h"
+#include "ace/Unbounded_Set.h"
 
 /**
  * @class CUTS_TestLoggerServer_i
@@ -35,6 +36,15 @@ public:
    * @param[in]       packet        The message packet.
    */
   virtual void send_message_packet (const CUTS::LogMessagePacket & packet);
+
+  int install_callback (CUTS::TestLoggerServerCallback_ptr callback);
+
+private:
+  /// Type definition of the array of callback objects.
+  typedef ACE_Unbounded_Set <CUTS::TestLoggerServerCallback_ptr> callbacks_type;
+
+  /// Collection of callback objects.
+  callbacks_type callbacks_;
 };
 
 #if defined (__CUTS_INLINE__)

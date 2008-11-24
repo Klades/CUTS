@@ -54,13 +54,15 @@ project (cutslog) : iortable, cuts_logging_client_skel, cutsexe {
   exename = cutslog
 
   Source_Files {
+    Local_Logging_Client_App.cpp
+    LocalTestLoggerClient_i.cpp
     Logging_Client.cpp
     Logging_Client_Task.cpp
     cutslog.cpp
     TestLogger_i.cpp
     TestLoggerFactory_i.cpp
     TestLoggerClient_i.cpp
-    TestLoggerServer_Singleton.cpp
+    Test_Logger_Map.cpp
   }
 
   Header_Files {

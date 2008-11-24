@@ -1,0 +1,5 @@
+// $Id$
+
+project : cuts_logging_server_stub, cuts_logging_skel {
+
+}

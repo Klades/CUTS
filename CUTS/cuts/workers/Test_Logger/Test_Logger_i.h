@@ -73,7 +73,7 @@ private:
   CORBA::ORB_var orb_;
 
   /// The logger client for the hosting machine.
-  CUTS::TestLoggerClient_var log_client_;
+  CUTS::LocalTestLoggerClient_var log_client_;
 
   /// Factory for creating/destroying the logger.
   CUTS::TestLoggerFactory_var log_factory_;

@@ -11,9 +11,8 @@
 //
 int CUTS_Logging_Client_Task::svc (void)
 {
-  ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - running the server's main event loop (thr_id: %t)\n"));
+  if (!CORBA::is_nil (this->orb_.in ()))
+    this->orb_->run ();
 
-  this->orb_->run ();
   return 0;
 }

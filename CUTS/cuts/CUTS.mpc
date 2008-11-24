@@ -14,6 +14,7 @@ project (CUTS) : portableserver, anytypecode, cutslib {
 
   IDL_Files {
     CUTS.idl
+    exceptions.idl
     performance.idl
     TimeValue.idl
     UUID.idl

@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<xsd:schema targetNamespace="http://www.dre.vanderbilt.edu/CUTS" xmlns="http://www.dre.vanderbilt.edu/CUTS"
+  xmlns:cuts="http://www.dre.vanderbilt.edu/CUTS" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema XMLSchema.xsd"
+  elementFormDefault="qualified" version="1.0">
+  <xsd:complexType name="loggingClients">
+    <xsd:sequence>
+      <xsd:element name="client" maxOccurs="unbounded" minOccurs="0" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="logging" type="loggingClients"></xsd:element>
+</xsd:schema>

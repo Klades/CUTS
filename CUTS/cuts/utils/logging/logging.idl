@@ -13,6 +13,7 @@
 #ifndef _CUTS_CUTS_LOGGING_IDL_
 #define _CUTS_CUTS_LOGGING_IDL_
 
+#include "cuts/exceptions.idl"
 #include "cuts/TimeValue.idl"
 #include "cuts/UUID.idl"
 
@@ -76,13 +77,36 @@ module CUTS
   };
 
   /**
-   * @interface TestLoggerServerCallback
+   * @interface TestLoggerClient
    *
-   * Interface for callback objects of the test logger server.
+   * Query interface for the test logger client. This is the interface
+   * application use to located the correct test logger factory for their
+   * specific test.
    */
-  local interface TestLoggerServerCallback
+  interface TestLoggerClient
   {
-    void handle_messeages (in LogMessagePacket packet);
+    /**
+     * Register a server test logger server under the specified UUID. This
+     * is a one-time only function.
+     *
+     * @param[in]       uid           UUID of the test
+     * @param[in]       server        Reference to logger server
+     */
+    void register_server (in UUID uid,
+                          in TestLoggerServer server)
+      raises (DuplicationRegistration,
+              RegistrationFailed,
+              InvalidRegistration);
+
+    /**
+     * Unregister the server with the logger client.
+     *
+     * @param[in]       uid           UUID of the test
+     * @param[in]       server        Reference to logger server
+     */
+    void unregister_server (in UUID uid,
+                            in TestLoggerServer server)
+      raises (RegistrationNotFound);
   };
 };
 

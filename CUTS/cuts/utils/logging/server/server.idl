@@ -1,0 +1,31 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ * @file        server.idl
+ *
+ * $Id$
+ *
+ * @author      James H. Hill
+ */
+//=============================================================================
+
+#ifndef _CUTS_TEST_LOGGING_SERVER_IDL_
+#define _CUTS_TEST_LOGGING_SERVER_IDL_
+
+#include "../logging.idl"
+
+module CUTS
+{
+  /**
+   * @interface TestLoggerServerCallback
+   *
+   * Interface for callback objects of the test logger server.
+   */
+  local interface TestLoggerServerCallback
+  {
+    void handle_messages (in LogMessagePacket packet);
+  };
+};
+
+#endif  // !defined _CUTS_TEST_LOGGING_SERVER_IDL_

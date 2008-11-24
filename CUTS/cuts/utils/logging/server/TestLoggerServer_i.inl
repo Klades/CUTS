@@ -10,10 +10,11 @@ CUTS_TestLoggerServer_i::CUTS_TestLoggerServer_i (void)
 }
 
 //
-// CUTS_TestLoggerServer_i
+// install_callback
 //
 CUTS_INLINE
-CUTS_TestLoggerServer_i::~CUTS_TestLoggerServer_i (void)
+int CUTS_TestLoggerServer_i::
+install_callback (CUTS::TestLoggerServerCallback_ptr callback)
 {
-
+  return this->callbacks_.insert (callback);
 }

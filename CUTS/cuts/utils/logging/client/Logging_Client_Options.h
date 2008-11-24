@@ -28,7 +28,8 @@ class CUTS_Logging_Client_Options
 public:
   CUTS_Logging_Client_Options (void)
     : thr_count_ (1),
-      timeout_ (30)
+      timeout_ (30),
+      localport_ (20000)
   {
 
   }
@@ -39,8 +40,8 @@ public:
   /// Timeout to flush the server in seconds.
   ACE_Time_Value timeout_;
 
-  /// Location of the server.
-  ACE_CString server_;
+  /// Local port for the client.
+  unsigned short localport_;
 };
 
 #define CUTS_LOGGING_OPTIONS \

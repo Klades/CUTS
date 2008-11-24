@@ -13,6 +13,7 @@
 #ifndef _CUTS_TEST_OPTIONS_H_
 #define _CUTS_TEST_OPTIONS_H_
 
+#include "Test_export.h"
 #include "ace/SString.h"
 #include "ace/Time_Value.h"
 #include "ace/UUID.h"
@@ -22,7 +23,7 @@
  *
  * Container class for options of the testing application
  */
-class CUTS_Test_Options
+class CUTS_TEST_Export CUTS_Test_Options
 {
 public:
   /// Default constructor.

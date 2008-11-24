@@ -1,0 +1,27 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ * @file        exceptions.idl
+ *
+ * $Id$
+ *
+ * @author      James H. Hill
+ */
+//=============================================================================
+
+#ifndef _CUTS_EXCEPTIONS_IDL_
+#define _CUTS_EXCEPTIOSN_IDL_
+
+module CUTS
+{
+  exception DuplicationRegistration { };
+
+  exception InvalidRegistration { };
+
+  exception RegistrationNotFound { };
+
+  exception RegistrationFailed { };
+};
+
+#endif  // !defined _CUTS_EXCEPTIOSN_IDL_

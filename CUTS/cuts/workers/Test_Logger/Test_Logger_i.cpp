@@ -36,15 +36,8 @@ CUTS_Test_Logger_i::~CUTS_Test_Logger_i (void)
       this->log_factory_->destroy (this->logger_.in ());
   }
 
-  if (!::CORBA::is_nil (this->log_client_.in ()))
-  {
-    // Destroy the factory if we have reference to the client.
-    if (!::CORBA::is_nil (this->log_factory_.in ()))
-      this->log_client_->destroy (this->log_factory_.in ());
-  }
-
   // Destroy the ORB.
-  if (!CORBA::is_nil (this->orb_.in ()))
+  if (!::CORBA::is_nil (this->orb_.in ()))
     this->orb_->destroy ();
 }
 
@@ -54,13 +47,19 @@ CUTS_Test_Logger_i::~CUTS_Test_Logger_i (void)
 bool CUTS_Test_Logger_i::configure (short port)
 {
   std::ostringstream ostr;
-  ostr << "corbaloc:iiop:localhost:" << port << "/CUTS/TestLoggerClient";
+  ostr << "corbaloc:iiop:localhost:" << port << "/CUTS/LocalTestLoggerClient";
 
   try
   {
-    // Request a reference to the CUTS::TestLoggerClient.
+    // Request a reference to the CUTS::LocalTestLoggerClient
     ::CORBA::Object_var obj = this->orb_->string_to_object (ostr.str ().c_str ());
-    this->log_client_ = CUTS::TestLoggerClient::_narrow (obj.in ());
+
+    if (::CORBA::is_nil (obj.in ()))
+      return false;
+
+    // Extract the local logging client.
+    this->log_client_ =
+      CUTS::LocalTestLoggerClient::_narrow (obj.in ());
 
     return !::CORBA::is_nil (this->log_client_.in ());
   }
@@ -129,22 +128,31 @@ bool CUTS_Test_Logger_i::connect (void)
                   "%T (%t) - %T - creating logger factory for test %s\n",
                   uuid.to_string ()->c_str ()));
 
-      // Create a new logging factory for the test logger.
-      this->log_factory_ = this->log_client_->create (this->uuid_);
-
-      if (!CORBA::is_nil (this->log_factory_.in ()))
+      try
       {
-        ACE_DEBUG ((LM_DEBUG,
-                    "%T (%t) - %M - creating a new logger\n"));
+        // Locate the logger factory for this test.
+        this->log_factory_ = this->log_client_->find (this->uuid_);
 
-        // Create a logger from the logging factory.
-        this->logger_ = this->log_factory_->create ();
-        return !::CORBA::is_nil (this->logger_.in ());
+        if (!CORBA::is_nil (this->log_factory_.in ()))
+        {
+          ACE_DEBUG ((LM_DEBUG,
+                      "%T (%t) - %M - creating a new logger\n"));
+
+          // Create a logger from the logging factory.
+          this->logger_ = this->log_factory_->create ();
+          return !::CORBA::is_nil (this->logger_.in ());
+        }
+        else
+        {
+          ACE_ERROR ((LM_ERROR,
+                      "%T (%t) - %M - test logger factory is NIL\n"));
+        }
       }
-      else
+      catch (const CUTS::RegistrationNotFound &)
       {
         ACE_ERROR ((LM_ERROR,
-                    "%T (%t) - %M - test logger factory is NIL\n"));
+                    "%T (%t) - %M - failed to find factory for test %s\n",
+                    uuid.to_string ()->c_str ()));
       }
     }
     else

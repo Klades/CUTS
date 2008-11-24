@@ -75,13 +75,14 @@ project (CUTS_Test_Database) : cuts_db_sqlite3, cuts_db, cutslib {
   }
 }
 
-project (cutstest) : boost_base, xscrt, cuts_testing_svc, cuts_test_database, cutsexe {
-  exename = cutstest
+project (CUTS_Testing) : boost_base, xscrt, cuts_test_database, cutslib {
+  sharedname = CUTS_Testing
+
+  dynamicflags += CUTS_TEST_BUILD_DLL
 
   after += cutstest_Xml
 
   Source_Files {
-    cutstest.cpp
     test.cpp
     Test_Configuration_File.cpp
     Testing_App.cpp
@@ -93,6 +94,22 @@ project (cutstest) : boost_base, xscrt, cuts_testing_svc, cuts_test_database, cu
   Header_Files {
     Test_export.h
     Test_Options.h
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (cutstest) : cuts_testing, cutsexe {
+  exename = cutstest
+
+  Source_Files {
+    cutstest.cpp
+  }
+
+  Header_Files {
+
   }
 
   Inline_Files {
