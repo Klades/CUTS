@@ -5,9 +5,9 @@
 #include "Model_Cache_T.h"
 #include "Model_Cache_Manager.h"
 
-#include "gme/Project.h"
-#include "gme/Connection.h"
-#include "gme/MetaFCO.h"
+#include "game/Project.h"
+#include "game/Connection.h"
+#include "game/MetaFCO.h"
 
 #include "boost/bind.hpp"
 #include "boost/spirit/core.hpp"

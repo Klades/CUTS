@@ -1,3 +1,10 @@
+Tue Dec  2 17:44:04 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Scatter_Deployment_Parser.cpp:
+
+          . Fixed compilation errors related to the relation of GAME
+            in CoSMIC.
+
 Tue Dec  2 05:03:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/RawComponent.cpp:
