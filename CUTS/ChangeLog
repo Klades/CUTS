@@ -1,3 +1,12 @@
+Tue Dec  2 05:03:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/RawComponent.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/RawComponent.cpp:
+        * etc/config/cuts_gme.mpb:
+
+          . Fixed compilation errors related to relation of GAME
+            in CoSMIC.
+
 Mon Nov 24 14:15:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/CUTS.mpc:

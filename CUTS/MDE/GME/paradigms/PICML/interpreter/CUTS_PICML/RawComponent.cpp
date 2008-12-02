@@ -30,7 +30,7 @@
 // Global config object
 _config config;
 
-#include "gme/Project.h"
+#include "game/Project.h"
 #include "be/BE_Options.h"
 
 //

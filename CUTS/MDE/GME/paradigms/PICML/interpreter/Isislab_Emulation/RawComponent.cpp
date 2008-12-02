@@ -30,8 +30,8 @@
 // Global config object
 _config config;
 
-#include "gme/Project.h"
-#include "Utils/Project.h"
+#include "game/Project.h"
+#include "game/utils/Project_Settings.h"
 
 //
 // Initialize
@@ -366,9 +366,8 @@ STDMETHODIMP RawComponent::put_ComponentParameter (BSTR name,
 //
 int RawComponent::preprocess (IMgaProject * project)
 {
-  CUdmApp::output_path_ =
-    Utils::Project::get_default_output_dir (project,
-                                            "__OutputDir__/CUTS_ISISLab");
+  GME::Utils::Project_Settings settings (project);
+  CUdmApp::output_path_ = settings.default_output_directory ("CUTS/ISISLab");
 
   return 0;
 }
@@ -378,9 +377,8 @@ int RawComponent::preprocess (IMgaProject * project)
 //
 int RawComponent::postprocess (IMgaProject * project)
 {
-  Utils::Project::set_default_output_dir (project,
-                                          "__OutputDir__/CUTS_ISISLab",
-                                          CUdmApp::output_path_);
+  GME::Utils::Project_Settings settings (project);
+  settings.default_output_directory ("CUTS/ISISLab", CUdmApp::output_path_);
 
   return 0;
 }
