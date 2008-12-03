@@ -17,6 +17,7 @@
              Title="Backend Generators"
              Level="1">
       <FeatureRef Id="CUTS_BE_CIAO.feature" />
+      <FeatureRef Id="CUTS_BE_EISA.feature" />
       <FeatureRef Id="CUTS_BE_TIOA.feature" />
       <FeatureRef Id="CUTS_BE_CAPI.feature" />
       <FeatureRef Id="CUTS_BE_XML.feature" />
@@ -31,6 +32,12 @@
              Title="Component Integrated ACE ORB (CIAO)"
              Level="1">
       <ComponentRef Id="CUTS_BE_CIAO.component" />
+    </Feature>
+
+    <Feature Id="CUTS_BE_EISA.feature"
+             Title="EISA (CIAO)"
+             Level="1">
+      <ComponentRef Id="CUTS_BE_EISA.component" />
     </Feature>
 
     <Feature Id="CUTS_BE_TIOA.feature"
@@ -235,6 +242,40 @@
                       Sequence="3"
                       Permanent="no"
                       Value="[INSTALLDIR]bin\CUTS_BE_CIAO" />
+      </Component>
+
+      <!--
+        install the EISA - CIAO generator
+        -->
+      <Component Id="CUTS_BE_EISA.component" Guid="67A0AAE3-A68D-401A-9E40-8DF8F8C43525">
+        <File Id="CUTS_BE_EISA.dll" Name="CUTS_BE_EISA.dll"
+              Source="$(env.CUTS_ROOT)\lib\CUTS_BE_EISA.dll" DiskId="1" />
+
+        <util:XmlFile Id="generator.EISA"
+                      File="[INSTALLDIR]bin\cuts.config"
+                      ElementPath="//cuts:modelgen/backend"
+                      Action="createElement"
+                      Name="cuts:generator"
+                      Sequence="1"
+                      Permanent="no" />
+
+        <util:XmlFile Id="generator.EISA.id"
+                      File="[INSTALLDIR]bin\cuts.config"
+                      ElementPath="//cuts:modelgen/backend/cuts:generator[\[]not(@id)[\]]"
+                      Action="setValue"
+                      Name="id"
+                      Value="EISA"
+                      Permanent="no"
+                      Sequence="2" />
+
+        <util:XmlFile Id="generator.EISA.location"
+                      File="[INSTALLDIR]bin\cuts.config"
+                      Action="createElement"
+                      ElementPath="//cuts:modelgen/backend/cuts:generator[\[]@id='EISA'[\]]"
+                      Name="cuts:location"
+                      Sequence="3"
+                      Permanent="no"
+                      Value="[INSTALLDIR]bin\CUTS_BE_EISA" />
       </Component>
 
       <!--

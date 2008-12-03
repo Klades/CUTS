@@ -1,3 +1,9 @@
+Wed Dec  3 16:58:43 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * install/CUTS_PICML.wxs:
+
+          . Added the EISA CIAO generator to installer.
+
 Wed Dec  3 16:22:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA:
