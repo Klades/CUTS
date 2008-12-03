@@ -1,0 +1,45 @@
+// $Id$
+
+project (CUTS_BE_EISA) : cuts_be, boost_base, picml_udm, cuts_cosmic {
+  sharedname    += CUTS_BE_EISA
+  dynamicflags  += CUTS_BE_EISA_BUILD_DLL
+
+  includes += $(CIAO_ROOT)/CCF \
+              $(ACE_ROOT)/contrib/utility \
+              $(CUTS_ROOT)/MDE/GME/paradigms/PICML
+
+  libpaths += $(CIAO_ROOT)/CCF/CCF
+
+  after += CodeGenerationKit
+  libs  += CodeGenerationKits
+
+  Source_Files {
+    Exec_Header_Generator.cpp
+    Exec_Source_Generator.cpp
+    Generators.cpp
+    Generator_Base.cpp
+    Header_Generator.cpp
+    In_Type.cpp
+    Inout_Type.cpp
+    Manager_Factory.cpp
+    Out_Type.cpp
+    Preprocessor_Handlers.cpp
+    Retn_Type.cpp
+    Source_Generator.cpp
+    Var_Type.cpp
+  }
+
+  Template_Files {
+    Port_Manager_T.cpp
+  }
+
+  Header_Files {
+    Context.h
+    Manager.h
+    Preprocessor.h
+  }
+
+  Inline_Files {
+
+  }
+}

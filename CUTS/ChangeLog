@@ -1,3 +1,58 @@
+Wed Dec  3 16:22:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/BE_EISA.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/BE_EISA_export.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Context.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Exec_Header_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Exec_Header_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Exec_Source_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Exec_Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Generator_Base.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Generator_Base.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Header_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Header_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Header_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/In_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/In_Type.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/In_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Inout_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Inout_Type.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Inout_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Manager_Factory.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Manager_Factory.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Out_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Out_Type.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Out_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Port_Manager_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Port_Manager_T.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Port_Manager_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Preprocessor.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Preprocessor_Handlers.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Preprocessor_Handlers.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Retn_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Retn_Type.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Retn_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Source_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Source_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Var_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Var_Type.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Var_Type.cpp:
+
+          . First version of the CUTS code generator for EISA.
+
+        * bin/cuts.config:
+
+          . Added the CUTS generator for EISA to the configuration.
+
+        * cuts/CCM_Events_T.h:
+
+          . Added the 'cuts/config.h' include file.
+
 Tue Dec  2 17:44:04 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/T2M/parsers/Scatter_Deployment/Scatter_Deployment_Parser.cpp:
