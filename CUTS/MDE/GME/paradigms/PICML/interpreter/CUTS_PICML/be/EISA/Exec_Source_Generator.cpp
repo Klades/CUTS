@@ -279,34 +279,34 @@ write_ReadonlyAttribute_begin (const PICML::ReadonlyAttribute & attr)
 void CUTS_EISA_Exec_Source_Generator::
 write_Attribute_begin (const PICML::Attribute & attr)
 {
-  if (!this->outfile ().is_open ())
-    return;
-
-  this->_super::write_Attribute_begin (attr);
-  this->outfile () << "this->" << attr.name () << "_ = ";
-
-  PICML::AttributeMember member = attr.AttributeMember_child ();
-  PICML::MemberType mtype = member.ref ();
-  Uml::Class metatype = mtype.type ();
-
-  if (metatype == PICML::GenericObject::meta)
+  if (std::string (attr.name ()) != "configuration")
   {
-    // We need to create a duplicate copy of the interface
-    // before we store it.
-    this->outfile ()
-      << std::endl
-      << "  ::CORBA::Object::_duplicate (" << attr.name () << ");";
+    this->_super::write_Attribute_begin (attr);
+    this->outfile () << "this->" << attr.name () << "_ = ";
+
+    PICML::AttributeMember member = attr.AttributeMember_child ();
+    PICML::MemberType mtype = member.ref ();
+    Uml::Class metatype = mtype.type ();
+
+    if (metatype == PICML::GenericObject::meta)
+    {
+      // We need to create a duplicate copy of the interface
+      // before we store it.
+      this->outfile ()
+        << std::endl
+        << "  ::CORBA::Object::_duplicate (" << attr.name () << ");";
+    }
+    else if (metatype == PICML::TypeEncoding::meta)
+    {
+      // We need to create a duplicate copy of the typecode
+      // interface before we store it.
+      this->outfile ()
+        << std::endl
+        << "  ::CORBA::TypeCode::_duplicate (" << attr.name () << ");";
+    }
+    else
+      this->outfile () << attr.name () << ";";
   }
-  else if (metatype == PICML::TypeEncoding::meta)
-  {
-    // We need to create a duplicate copy of the typecode
-    // interface before we store it.
-    this->outfile ()
-      << std::endl
-      << "  ::CORBA::TypeCode::_duplicate (" << attr.name () << ");";
-  }
-  else
-    this->outfile () << attr.name () << ";";
 }
 
 //

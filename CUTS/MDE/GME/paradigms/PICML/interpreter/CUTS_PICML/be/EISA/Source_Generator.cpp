@@ -226,9 +226,7 @@ write_Attribute_begin (const PICML::Attribute & attr)
     << "void " << parent.name () << "::";
 
   this->_super::write_Attribute_begin (attr);
-
-  this->outfile ()
-    << "{";
+  this->outfile () << "{";
 }
 
 //
@@ -237,8 +235,8 @@ write_Attribute_begin (const PICML::Attribute & attr)
 void CUTS_EISA_Source_Generator::
 write_Attribute_end (const PICML::Attribute & attr)
 {
-  this->outfile ()
-    << "}";
+  if (std::string (attr.name ()) != "configuration")
+    this->outfile () << "}";
 }
 
 //

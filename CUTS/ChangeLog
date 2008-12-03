@@ -1,3 +1,13 @@
+Wed Dec  3 17:50:20 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Exec_Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Header_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Source_Generator.cpp:
+
+          . Bug fix where the code generator was generating code for the
+            'configuration' attribute, which is a special attribute already
+            implemented in the EISA_CCM_Component_T base class.
+
 Wed Dec  3 16:58:43 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * install/CUTS_PICML.wxs:

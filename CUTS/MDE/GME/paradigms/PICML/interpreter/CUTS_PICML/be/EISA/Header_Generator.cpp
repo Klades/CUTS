@@ -369,20 +369,23 @@ write_ReadonlyAttribute_end (const PICML::ReadonlyAttribute & attr)
 void CUTS_EISA_Header_Generator::
 write_Attribute_begin (const PICML::Attribute & attr)
 {
-  // Generate the getter method for the attribute.
-  PICML::Attribute temp_attr (attr);
-  PICML::ReadonlyAttribute ro = PICML::ReadonlyAttribute::Cast (temp_attr);
+  if (std::string (attr.name ()) != "configuration")
+  {
+    // Generate the getter method for the attribute.
+    PICML::Attribute temp_attr (attr);
+    PICML::ReadonlyAttribute ro = PICML::ReadonlyAttribute::Cast (temp_attr);
 
-  this->write_ReadonlyAttribute_begin (ro);
-  this->write_ReadonlyAttribute_end (ro);
+    this->write_ReadonlyAttribute_begin (ro);
+    this->write_ReadonlyAttribute_end (ro);
 
-  // Close the getter method and generate the setter method
-  // for the current attribute.
-  this->outfile ()
-    << single_line_comment ("set " + (std::string)attr.name ())
-    << "virtual void ";
+    // Close the getter method and generate the setter method
+    // for the current attribute.
+    this->outfile ()
+      << single_line_comment ("set " + (std::string)attr.name ())
+      << "virtual void ";
 
-  this->_super::write_Attribute_begin (attr);
+    this->_super::write_Attribute_begin (attr);
+  }
 }
 
 //
@@ -391,7 +394,8 @@ write_Attribute_begin (const PICML::Attribute & attr)
 void CUTS_EISA_Header_Generator::
 write_Attribute_end (const PICML::Attribute & attr)
 {
-  this->outfile () << ";" << std::endl;
+  if (std::string (attr.name ()) != "configuration")
+    this->outfile () << ";" << std::endl;
 }
 
 //
