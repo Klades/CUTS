@@ -1,3 +1,4 @@
+// -*- C++ -*-
 // $Id$
 
 //
@@ -5,7 +6,7 @@
 //
 CUTS_INLINE
 CUTS_Testing_Service_Manager::
-CUTS_Testing_Service_Manager (CUTS_Testing_App & app)
+CUTS_Testing_Service_Manager (CUTS_Testing_App_Base * app)
 : test_app_ (app),
   is_open_ (true)
 {

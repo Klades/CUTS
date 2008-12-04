@@ -18,7 +18,7 @@
 #include "ace/OS_Memory.h"
 
 // Forward decl.
-class CUTS_Testing_App;
+class CUTS_Testing_App_Base;
 
 // Forward decl.
 class CUTS_Testing_Service_Manager;
@@ -28,34 +28,44 @@ class CUTS_Testing_Service_Manager;
  */
 class CUTS_TESTING_SERVICE_Export CUTS_Testing_Service
 {
+  // Friend decl.
   friend class CUTS_Testing_Service_Manager;
 
 public:
   /// Default constructor.
   CUTS_Testing_Service (void);
 
+  /**
+   * Initialize the testing service.
+   *
+   * @param[in]     argc           Number of command-line arguments
+   * @param[in]     argv           The command-line arguments
+   */
   virtual int init (int argc, char * argv []);
 
+  /// Finalize the testing service.
   virtual int fini (void);
 
   /**
    * Handle the startup of a test.
    *
-   * @param[in]         app         Parent testing application
+   * @param[in]     app         Parent testing application
    */
   virtual int handle_startup (const ACE_Time_Value & tv);
 
   /**
    * Handle the shutdown of a test.
    *
-   * @param[in]         app         Parent testing application
+   * @param[in]     app         Parent testing application
    */
   virtual int handle_shutdown (const ACE_Time_Value & tv);
 
   /**
    * Get the pointer to the testing application.
+   *
+   * @return        Pointer to the testing application.
    */
-  virtual CUTS_Testing_App * const test_app (void);
+  virtual CUTS_Testing_App_Base * const test_app (void);
 
   /// Destroy the service.
   virtual void destroy (void);
@@ -66,7 +76,7 @@ protected:
 
 private:
   /// Pointer to the testing application.
-  CUTS_Testing_App * app_;
+  CUTS_Testing_App_Base * app_;
 
   CUTS_Testing_Service (const CUTS_Testing_Service &);
   const CUTS_Testing_Service & operator = (const CUTS_Testing_Service &);

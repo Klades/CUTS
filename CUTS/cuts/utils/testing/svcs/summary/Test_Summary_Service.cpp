@@ -34,7 +34,7 @@ handle_shutdown (const ACE_Time_Value & tv)
   CUTS_TESTING_SUMMARY_TRACE ("CUTS_Test_Summary_Service::handle_shutdown (const ACE_Time_Value &)");
 
   if (this->impl_.get () != 0)
-    return this->impl_->generate (std::cout, *this->test_app ());
+    return this->impl_->generate (std::cout, this->test_app ());
 
   return 0;
 }

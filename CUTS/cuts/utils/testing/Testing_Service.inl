@@ -1,3 +1,4 @@
+// -*- C++ -*-
 // $Id$
 
 //
@@ -59,7 +60,7 @@ int CUTS_Testing_Service::handle_shutdown (const ACE_Time_Value &)
 // test_app
 //
 CUTS_INLINE
-CUTS_Testing_App * const CUTS_Testing_Service::test_app (void)
+CUTS_Testing_App_Base * const CUTS_Testing_Service::test_app (void)
 {
   return this->app_;
 }

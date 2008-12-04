@@ -112,7 +112,6 @@ bool CUTS_Test_Database::open (const ACE_Utils::UUID & uuid)
   CUTS_TEST_DATABASE_TRACE ("CUTS_Test_Database::open (const ACE_Utils::UUID &)");
 
   // Construct the location of the database.
-  ACE_Env_Value <char *> ;
   ACE_Utils::UUID temp (uuid);
 
   std::ostringstream ostr;

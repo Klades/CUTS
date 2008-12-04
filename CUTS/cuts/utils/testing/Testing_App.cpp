@@ -7,7 +7,6 @@
 #endif
 
 #include "Test_Configuration_File.h"
-#include "Testing_Service.h"
 #include "Testing_Service_Manager.h"
 #include "ace/CORBA_macros.h"
 #include "ace/Get_Opt.h"
@@ -223,7 +222,7 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
     return -1;
 
   // Service manager for the application.
-  CUTS_Testing_Service_Manager svc_mgr (*this);
+  CUTS_Testing_Service_Manager svc_mgr (this);
 
   try
   {

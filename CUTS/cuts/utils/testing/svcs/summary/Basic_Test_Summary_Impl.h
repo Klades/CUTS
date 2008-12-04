@@ -30,7 +30,8 @@ public:
   /**
    *
    */
-  int generate (std::ostream & out, const CUTS_Testing_App & app) const;
+  int generate (std::ostream & out, 
+                const CUTS_Testing_App_Base * app) const;
 };
 
 #if defined (__CUTS_INLINE__)

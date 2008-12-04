@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_Testing_Summary) : cuts_testing_svc, cutslib {
+project (CUTS_Testing_Summary) : cuts_testing_svc {
   sharedname = CUTS_Testing_Summary
 
   libs  -= CUTS

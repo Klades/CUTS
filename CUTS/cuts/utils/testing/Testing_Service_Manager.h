@@ -15,14 +15,13 @@
 
 #include "Test_export.h"
 #include "Testing_Service.h"
-#include "ace/DLL.h"
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/Hash_Map_Manager_T.h"
 #include "ace/Singleton.h"
 #include "ace/SString.h"
 
 // Forward decl.
-class CUTS_Testing_App;
+class CUTS_Testing_App_Base;
 
 // Forward decl.
 class CUTS_Testing_Service_DLL;
@@ -43,7 +42,7 @@ public:
    *
    * @param[in]       app         Testing application
    */
-  CUTS_Testing_Service_Manager (CUTS_Testing_App & app);
+  CUTS_Testing_Service_Manager (CUTS_Testing_App_Base * app);
 
   /// Destructor
   ~CUTS_Testing_Service_Manager (void);
@@ -61,13 +60,12 @@ public:
 
 private:
   /// Testing application
-  CUTS_Testing_App & test_app_;
+  CUTS_Testing_App_Base * test_app_;
 
   /// Service map for the testing application.
   map_type svc_map_;
 
-  ACE_DLL module_;
-
+  /// The open state of the manager.
   bool is_open_;
 };
 

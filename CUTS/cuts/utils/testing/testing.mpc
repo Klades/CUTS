@@ -6,6 +6,7 @@ project (CUTS_Testing_Service) : cutslib {
   dynamicflags += CUTS_TESTING_SERVICE_BUILD_DLL
 
   Source_Files {
+    Testing_App_Base.cpp
     Testing_Service.cpp
   }
 
@@ -75,7 +76,7 @@ project (CUTS_Test_Database) : cuts_db_sqlite3, cuts_db, cutslib {
   }
 }
 
-project (CUTS_Testing) : boost_base, xscrt, cuts_test_database, cutslib {
+project (CUTS_Testing) : boost_base, xscrt, cuts_test_database, cuts_testing_svc {
   sharedname = CUTS_Testing
 
   dynamicflags += CUTS_TEST_BUILD_DLL

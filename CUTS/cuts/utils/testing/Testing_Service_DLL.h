@@ -30,6 +30,7 @@ class CUTS_Testing_Service_DLL_Guard;
  */
 class CUTS_Testing_Service_DLL
 {
+  /// Friend decl.
   friend class CUTS_Testing_Service_DLL_Guard;
 
 public:

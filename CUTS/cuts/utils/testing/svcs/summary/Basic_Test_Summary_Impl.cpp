@@ -16,32 +16,32 @@
 // generate
 //
 int CUTS_Basic_Test_Summary_Impl::
-generate (std::ostream & out, const CUTS_Testing_App & app) const
+generate (std::ostream & out, const CUTS_Testing_App_Base * app) const
 {
   std::ostringstream ostr;
 
   // Calculate the duration of the test.
-  ACE_Time_Value duration = app.options ().stop_ - app.options ().start_;
-  ACE_Utils::UUID uuid (app.options ().uuid_);
+  ACE_Time_Value duration = app->options ().stop_ - app->options ().start_;
+  ACE_Utils::UUID uuid (app->options ().uuid_);
 
   // Buffer the test summary before output it.
   ostr
     << "CUTS Test Summary" << std::endl
     << "=============================================================" << std::endl
-    << "  Name       : " << app.options ().name_.c_str () << std::endl
+    << "  Name       : " << app->options ().name_.c_str () << std::endl
     << "  UUID       : " << uuid.to_string ()->c_str () << std::endl
     << "  Start Time : ";
 
-  if (app.options ().start_ != ACE_Time_Value::zero)
-    ostr << app.options ().start_ << std::endl;
+  if (app->options ().start_ != ACE_Time_Value::zero)
+    ostr << app->options ().start_ << std::endl;
   else
     ostr << "N/A" << std::endl;
 
   ostr
     << "  Stop Time  : ";
 
-  if (app.options ().stop_ != ACE_Time_Value::zero)
-    ostr << app.options ().stop_  << std::endl;
+  if (app->options ().stop_ != ACE_Time_Value::zero)
+    ostr << app->options ().stop_  << std::endl;
   else
     ostr << "N/A" << std::endl;
 

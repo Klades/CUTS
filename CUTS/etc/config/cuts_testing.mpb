@@ -1,6 +1,6 @@
 // $Id$
 
-project : cuts_test_database {
+project : xscrt {
   after += CUTS_Testing
   libs  += CUTS_Testing
 }

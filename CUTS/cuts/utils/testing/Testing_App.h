@@ -13,9 +13,10 @@
 #ifndef _CUTS_TESTING_APP_H_
 #define _CUTS_TESTING_APP_H_
 
+#include "Testing_App_Base.h"
+#include "Testing_App_Task.h"
 #include "Test_Options.h"
 #include "Test_Database.h"
-#include "Testing_App_Task.h"
 
 namespace CUTS
 {
@@ -31,7 +32,7 @@ class CUTS_Testing_Service_Manager;
  *
  * The main entry point class for the application.
  */
-class CUTS_TEST_Export CUTS_Testing_App
+class CUTS_TEST_Export CUTS_Testing_App : public CUTS_Testing_App_Base
 {
 public:
   /// Default constructor.
@@ -58,14 +59,14 @@ public:
    *
    * @return        Options for the testing application.
    */
-  const CUTS_Test_Options & options (void) const;
+  virtual const CUTS_Test_Options & options (void) const;
 
   /**
    * Get a reference to the test database.
    *
    * @return        Reference to test database.
    */
-  CUTS_Test_Database & test_db (void);
+  virtual CUTS_Test_Database & test_db (void);
 
 protected:
   /**

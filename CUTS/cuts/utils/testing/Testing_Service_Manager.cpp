@@ -49,7 +49,7 @@ int CUTS_Testing_Service_Manager::load_service (const char * name,
   }
 
   // Initialize the contents of the service.
-  (*dll)->app_ = &this->test_app_;
+  (*dll)->app_ = this->test_app_;
 
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - initializing the service with arguments (%s)\n",
