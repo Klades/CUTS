@@ -8,7 +8,7 @@
 
 #include "Test_export.h"
 #include "XSCRT/utils/Buffer_Writer_T.h"
-#include "XSCRT/utils/Xml_Schema_Resolver_T.h"
+#include "XSCRT/utils/XML_Schema_Resolver_T.h"
 #include "ace/Env_Value_T.h"
 
 //

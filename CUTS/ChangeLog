@@ -1,3 +1,9 @@
+Thu Dec  4 23:27:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/Test_Configuration_File.cpp:
+
+	  . Fixed compilation errors on Linux.
+
 Thu Dec  4 22:34:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/svcs/logging/logging.mpc:
