@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_Test_Logging_Service) : boost_base, iortable, cuts, cuts_logging_server, cuts_tao_testing_svc {
+project (CUTS_Test_Logging_Service) : boost_base, iortable, cuts, cuts_logging_server, cuts_test_database, cuts_tao_testing_svc {
   sharedname = CUTS_Test_Logging_Service
 
   dynamicflags += CUTS_TEST_LOGGING_SERVICE_BUILD_DLL

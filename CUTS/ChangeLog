@@ -1,3 +1,9 @@
+Thu Dec  4 22:34:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/svcs/logging/logging.mpc:
+
+          . Fixed build errors on Windows.
+
 Thu Dec  4 22:22:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/client/TestLoggerFactory_i.cpp:
@@ -20,16 +26,16 @@ Thu Dec  4 22:22:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/utils/testing/svcs/summary/summary.mpc:
         * cuts/utils/testing/testing.mpc:
         * etc/config/cuts_db_sqlite3.mpb:
-	* etc/config/cuts_logging_server.mpb:
-	* etc/config/cuts_testing.mpb:
-	* etc/config/cuts_testing_svc.mpb:
-	
-	  . Fixed compilation error on non-Windows systems.
+        * etc/config/cuts_logging_server.mpb:
+        * etc/config/cuts_testing.mpb:
+        * etc/config/cuts_testing_svc.mpb:
+
+          . Fixed compilation error on non-Windows systems.
 
         * docs/manual/manual.tex:
 
           . Move the user's manual to a new file.
-	
+
         * docs/manual/CUTS-manual.tex:
 
           Removed this file.
