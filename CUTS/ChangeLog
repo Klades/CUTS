@@ -1,3 +1,57 @@
+Tue Dec  9 17:45:31 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/naomi:
+
+          . Moved all the NAOMI projects to the MDE/ directory.
+
+        * MDE/GME/naomi:
+        * MDE/GME/naomi/CUTS:
+        * MDE/GME/naomi/CUTS/analysis:
+        * MDE/GME/naomi/CUTS/analysis/cuts.analysis.py:
+        * MDE/GME/naomi/CUTS/emulation:
+        * MDE/GME/naomi/CUTS/emulation/CUTS:
+        * MDE/GME/naomi/CUTS/emulation/CUTS/Emulation.java:
+        * MDE/GME/naomi/CUTS/emulation/emulation.build:
+        * MDE/GME/naomi/GME:
+        * MDE/GME/naomi/GME/Attribute_Tag.h:
+        * MDE/GME/naomi/GME/Attribute_Tag.inl:
+        * MDE/GME/naomi/GME/Attribute_Tag.cpp:
+        * MDE/GME/naomi/GME/GNC.mpc:
+        * MDE/GME/naomi/GME/GNC.cpp:
+        * MDE/GME/naomi/GME/GNC_App.h:
+        * MDE/GME/naomi/GME/GNC_App.cpp:
+        * MDE/GME/naomi/GME/GNC_Base_export.h:
+        * MDE/GME/naomi/GME/Naomi_Generator.h:
+        * MDE/GME/naomi/GME/Naomi_Generator.cpp:
+        * MDE/GME/naomi/GME/Naomi_Parser.h:
+        * MDE/GME/naomi/GME/Naomi_Parser.cpp:
+        * MDE/GME/naomi/GME/Resource_List.h:
+        * MDE/GME/naomi/GME/URI_Tag_Parser.h:
+        * MDE/GME/naomi/GME/URI_Tag_Parser.cpp:
+        * MDE/GME/naomi/GME/attribute.h:
+        * MDE/GME/naomi/GME/attribute.inl:
+        * MDE/GME/naomi/GME/attribute.cpp:
+        * MDE/GME/naomi/GME/generators:
+        * MDE/GME/naomi/GME/generators/CUTS_Isislab_Emulation:
+        * MDE/GME/naomi/GME/generators/CUTS_Isislab_Emulation/Isislab_Emulation_Generator.h:
+        * MDE/GME/naomi/GME/generators/CUTS_Isislab_Emulation/Isislab_Emulation_Generator.cpp:
+        * MDE/GME/naomi/GME/generators/CUTS_Isislab_Emulation/Isislab_Emulation_Generator.mpc:
+        * MDE/GME/naomi/GME/generators/CUTS_Isislab_Emulation/Isislab_Emulation_Generator_export.h:
+        * MDE/GME/naomi/GME/generators/DAnCE_Deployment:
+        * MDE/GME/naomi/GME/generators/DAnCE_Deployment/DAnCE_Deployment_Generator.h:
+        * MDE/GME/naomi/GME/generators/DAnCE_Deployment/DAnCE_Deployment_Generator.cpp:
+        * MDE/GME/naomi/GME/generators/DAnCE_Deployment/DAnCE_Deployment_Generator.mpc:
+        * MDE/GME/naomi/GME/generators/DAnCE_Deployment/DAnCE_Deployment_Generator_export.h:
+        * MDE/GME/naomi/GME/gnc.mwc:
+        * MDE/GME/naomi/GME/parsers:
+        * MDE/GME/naomi/GME/parsers/Scatter_Deployment:
+        * MDE/GME/naomi/GME/parsers/Scatter_Deployment/Scatter_Deployment_Parser.h:
+        * MDE/GME/naomi/GME/parsers/Scatter_Deployment/Scatter_Deployment_Parser.cpp:
+        * MDE/GME/naomi/GME/parsers/Scatter_Deployment/Scatter_Deployment_Parser.mpc:
+        * MDE/GME/naomi/GME/parsers/Scatter_Deployment/Scatter_Deployment_Parser_export.h:
+
+          Removed these files.
+
 Tue Dec  9 17:36:33 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
