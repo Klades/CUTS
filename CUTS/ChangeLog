@@ -1,3 +1,18 @@
+Tue Dec  9 18:34:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestEvaluator.cs:
+
+          . Fixed compilitation warnings.
+
+        * utils/BMW/website/rmi:
+        * utils/BMW/website/rmi/Service.asmx:
+
+          . Moved the webservice to a new folder.
+
+        * utils/BMW/website/Service.asmx:
+
+          Removed this file.
+
 Tue Dec  9 17:45:31 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/naomi:

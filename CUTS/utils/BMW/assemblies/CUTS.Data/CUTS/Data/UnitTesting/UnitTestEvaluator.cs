@@ -213,7 +213,7 @@ namespace CUTS.Data.UnitTesting
           // Commit the transaction.
           transaction.Commit ();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
           transaction.Rollback ();
           throw;
