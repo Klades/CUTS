@@ -10,8 +10,7 @@ project (CUTS.Data) {
                System.Data.SQLite \
                System.Drawing \
                System.Xml \
-               System.Web \
-               MySql.Data
+               System.Web
 
   requires  += mysql bmw
 
@@ -46,5 +45,8 @@ project (CUTS.Data) {
     CUTS/Graph/DirectedEdge.cs
     CUTS/Graph/DirectedGraph.cs
     CUTS/Graph/Node.cs
+
+    //= namespace CUTS.Teeting
+    CUTS/Testing/TestDatabase.cs
   }
 }

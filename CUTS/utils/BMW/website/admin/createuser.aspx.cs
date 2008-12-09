@@ -17,7 +17,7 @@ public partial class admin_createuser : System.Web.UI.Page
   {
 
   }
-  
+
   protected void submit_button__Click (object sender, EventArgs e)
   {
     string uname = this.user_name_.Text;
@@ -40,16 +40,13 @@ public partial class admin_createuser : System.Web.UI.Page
       conn.Open ();
       cmd.Connection = conn;
       cmd.ExecuteNonQuery ();
-    }
 
+      this.error_message_.Text = "Creation successful";
+    }
     catch (Exception ex)
     {
-      this.error_message_.Text = "Unhandled exception: creation unsuccessful";
-      return;
+      this.error_message_.Text = ex.Message;
     }
-
-    this.error_message_.Text = "Creation successful";
   }
 }
 
-  

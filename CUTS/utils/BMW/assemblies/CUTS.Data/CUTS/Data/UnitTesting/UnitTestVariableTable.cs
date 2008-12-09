@@ -34,26 +34,26 @@ namespace CUTS.Data.UnitTesting
       }
     }
 
-    public void Open (int test_number, int unit_test_id)
+    public void Open (string test_uuid, int unit_test_id)
     {
       // Open the variable table for the unit test.
-      String pathname = String.Format ("{0}//t{1}ut{2}",
+      String pathname = String.Format ("{0}//{1}-ut{2}",
                                        this.root_,
-                                       test_number,
+                                       test_uuid,
                                        unit_test_id);
 
       base.Open (pathname);
 
       // Store the unit test information.
-      this.test_number_ = test_number;
+      this.test_uuid_ = test_uuid;
       this.unit_test_id_ = unit_test_id;
     }
 
-    public int TestNumber
+    public string TestUUID
     {
       get
       {
-        return this.test_number_;
+        return this.test_uuid_;
       }
     }
 
@@ -67,7 +67,7 @@ namespace CUTS.Data.UnitTesting
 
     private String root_;
 
-    private int test_number_;
+    private string test_uuid_;
 
     private int unit_test_id_;
   }

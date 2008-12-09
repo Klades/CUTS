@@ -1,8 +1,43 @@
+Tue Dec  9 17:36:33 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestEvaluator.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestVariableTable.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTestPackage.cs:
+        * utils/BMW/website/App_Code/Service.asmx.cs:
+        * utils/BMW/website/admin/createuser.aspx.cs:
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/unittestchart.aspx.cs:
+
+          . Started migrating to the new analysis framework where test results
+            are no longer stored in central database, but are stored in individual
+            files uploaded to a server.
+
+        * utils/BMW/website/Web.config:
+
+          . Removed all built-in authentication code via Forms since it
+            does not work soundly with the WebService. We need to find
+            another approach that doesn't rely on cookie support.
+
+        * utils/BMW/website/db/archive:
+
+          . Default location for CUTS test database files.
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Testing:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Testing/TestDatabase.cs:
+
+          . First implementation of a helper class for reading CUTS test database
+            files.
+
+          . Implemented method for filtering log messages based on a regular
+            expression. This required implementing the REGEXP SQLite function
+            in terms of C# regular expressions.
+
 Tue Dec  9 04:37:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/archiving/client/Test_Archive_Client.cpp:
 
-	  . Fixed compilation errors on MacOS X systems.
+          . Fixed compilation errors on MacOS X systems.
 
 Tue Dec  9 02:18:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

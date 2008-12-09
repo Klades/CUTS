@@ -72,7 +72,7 @@ namespace CUTS
       this.database_ = new Database (new MySqlClientFactory ());
       this.database_.Open (ConfigurationManager.AppSettings["MySQL"]);
     }
-    
+
     /**
      * Callback method for when the page is loading.
      *
@@ -271,7 +271,7 @@ namespace CUTS
 
         try
         {
-          unittest.Result = this.testsuite_.Evaluator.Evaluate (this.test_number_, id, true);
+          //unittest.Result = this.testsuite_.Evaluator.Evaluate (this.test_number_, id, true);
         }
         catch (Exception)
         {
@@ -428,6 +428,6 @@ namespace CUTS
     /// The current collection time for the performance metrics.
     protected DateTime collection_time_;
     #endregion
-    
+
 }
 }

@@ -65,7 +65,7 @@ namespace CUTS
         int id = Int32.Parse (Request.QueryString.Get ("utid"));
         int test_num = Int32.Parse (Request.QueryString.Get ("t"));
 
-        UnitTestDataTrend trend = this.evaluator_.GetDataTrend (test_num, id);
+        UnitTestDataTrend trend = this.evaluator_.GetDataTrend ("", id);
 
         this.generate_chart (trend);
       }

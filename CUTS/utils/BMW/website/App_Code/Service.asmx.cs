@@ -15,6 +15,7 @@ using System.Collections;
 using System.Configuration;
 using System.Data;
 using System.Web;
+using System.Web.Security;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml;
@@ -32,10 +33,49 @@ using MySql.Data.MySqlClient;
 
 namespace CUTS.Web
 {
+  public class UserCredentials : System.Web.Services.Protocols.SoapHeader
+  {
+    public string Username
+    {
+      get
+      {
+        return this.username_;
+      }
+
+      set
+      {
+        this.username_ = value;
+      }
+    }
+
+    public string Password
+    {
+      get
+      {
+        return this.password_;
+      }
+
+      set
+      {
+        this.password_ = value;
+      }
+    }
+
+    private string username_;
+
+    private string password_;
+  }
+
+  public class InvalidUserCredentials : Exception
+  {
+
+  }
+
   [WebService(Namespace = "http://www.dre.vanderbilt.edu/CUTS",
               Name="CUTS BMW Web Service",
               Description="Remotely execute BMW operations")]
-  [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
+  [WebServiceBinding(Name="CUTS",
+                     ConformsTo = WsiProfiles.BasicProfile1_1)]
   public class Service : System.Web.Services.WebService
   {
     /**
@@ -59,8 +99,9 @@ namespace CUTS.Web
      *
      * @return    List of all the test suites.
      */
-    [WebMethod (
-      Description="List all the test suites")]
+    [WebMethod (Description="List all the test suites")]
+    [SoapDocumentMethod (Binding="CUTS")]
+    [SoapHeader ("consumer_")]
     public string[] ListTestSuites ()
     {
       ArrayList list = new ArrayList ();
@@ -73,8 +114,9 @@ namespace CUTS.Web
      *
      * @return    List of all the unit tests.
      */
-    [WebMethod (
-      Description="List unit test for the given test suite")]
+    [WebMethod (Description="List unit test for the given test suite")]
+    [SoapDocumentMethod (Binding="CUTS")]
+    [SoapHeader ("consumer_")]
     public string[] ListUnitTests (string TestSuite)
     {
       DataTable table =
@@ -99,12 +141,12 @@ namespace CUTS.Web
      *         supported. Eventually, we will need to add support to
      *         all result to maintain grouping.
      */
-    [WebMethod (
-      Description="Evaulate an unit test for the given test")]
+    [WebMethod (Description="Evaulate an unit test for the given test")]
+    [SoapDocumentMethod (Binding="CUTS")]
+    [SoapHeader ("consumer_")]
     public UnitTestResult EvaluateUnitTest (string UUID, string UnitTest)
     {
-      // Get the test number for the uuid.
-      int test = this.database_.get_test_number (UUID);
+      // Get the unit test id from the database.
       int utid = this.database_.get_unit_test_id (UnitTest);
 
       // Create a new evaluator for the unit test.
@@ -115,7 +157,11 @@ namespace CUTS.Web
 
       try
       {
-        return evaluator.Evaluate (test, utid, true);
+        string test_datafile = String.Format ("{0}/{1}.cdb",
+                                              Server.MapPath ("~/db/archive"),
+                                              UUID);
+
+        return evaluator.Reevaluate (test_datafile, utid, true);
       }
       finally
       {
@@ -127,13 +173,29 @@ namespace CUTS.Web
      * List all the known tests in the database. This does not take
      * the state of the test into account.
      */
-    [WebMethod (
-      Description="List all the known tests")]
+    [WebMethod (Description="List all the known tests")]
+    [SoapDocumentMethod (Binding="CUTS")]
+    [SoapHeader ("consumer_")]
     public string[] ListTests ()
     {
       ArrayList list = new ArrayList ();
 
       return (string[])list.ToArray (typeof (string));
+    }
+
+    /**
+     * Helper method to validate user credentials. This should be invoked
+     * before every web method processes its request.
+     */
+    private void validate_credentials ()
+    {
+      if (this.consumer_.Username.Equals ("testuser") &&
+          this.consumer_.Password.Equals ("testpass"))
+      {
+        return;
+      }
+
+      throw new InvalidUserCredentials ();
     }
 
     /**
@@ -144,5 +206,7 @@ namespace CUTS.Web
      * object is destroyed.
      */
     private Database database_ = new Database (new MySqlClientFactory ());
+
+    public UserCredentials consumer_;
   }
 }

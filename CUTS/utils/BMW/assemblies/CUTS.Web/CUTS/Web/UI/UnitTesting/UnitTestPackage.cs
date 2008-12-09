@@ -48,29 +48,29 @@ namespace CUTS.Web.UI.UnitTesting
       this.suite_ = suite;
     }
 
-    /**
-     * Evaluate all the unit test in this test package.
-     */
-    public void EvaluateAll ()
-    {
-      try
-      {
-        // Open the evaluator for usage.
-        this.suite_.Evaluator.Open ();
+    ///**
+    // * Evaluate all the unit test in this test package.
+    // */
+    //public void EvaluateAll ()
+    //{
+    //  try
+    //  {
+    //    // Open the evaluator for usage.
+    //    this.suite_.Evaluator.Open ();
 
-        // Evaluate each of the unit test in the test package.
-        foreach (UnitTest ut in this.unit_tests_)
-        {
-          ut.Result =
-            this.suite_.Evaluator.Reevaluate (this.suite_.TestNumber, ut.ID, true);
-        }
-      }
-      finally
-      {
-        // Close the evaluator connection.
-        this.suite_.Evaluator.Close ();
-      }
-    }
+    //    // Evaluate each of the unit test in the test package.
+    //    foreach (UnitTest ut in this.unit_tests_)
+    //    {
+    //      ut.Result =
+    //        this.suite_.Evaluator.Reevaluate (this.suite_, ut.ID, true);
+    //    }
+    //  }
+    //  finally
+    //  {
+    //    // Close the evaluator connection.
+    //    this.suite_.Evaluator.Close ();
+    //  }
+    //}
 
     /**
      * Clear all the unit test from the test package.
@@ -236,7 +236,7 @@ namespace CUTS.Web.UI.UnitTesting
 
             // Evaluate the result.
             UnitTestResult result =
-              this.suite_.Evaluator.Reevaluate (this.suite_.TestNumber,
+              this.suite_.Evaluator.Reevaluate (""/*this.suite_.TestNumber */,
                                                 utid,
                                                 true);
 

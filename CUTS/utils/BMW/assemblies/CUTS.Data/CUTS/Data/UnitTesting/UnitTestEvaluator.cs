@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 
 using CUTS.Data;
 using CUTS.Graph;
+using CUTS.Testing;
 
 namespace CUTS.Data.UnitTesting
 {
@@ -22,18 +23,17 @@ namespace CUTS.Data.UnitTesting
     /**
      * Initializing constructor.
      */
-    public UnitTestEvaluator (DbProviderFactory factory)
-      : this (factory, String.Empty)
+    public UnitTestEvaluator (DbProviderFactory unit_test)
+      : this (unit_test, String.Empty)
     {
 
     }
 
-    public UnitTestEvaluator (DbProviderFactory factory, string temppath)
+    public UnitTestEvaluator (DbProviderFactory unit_test,
+                              string temppath)
     {
-      this.factory_ = factory;
-      this.location_ = temppath;
-
-      this.conn_ = this.factory_.CreateConnection ();
+      this.unit_test_ = unit_test;
+      this.ut_conn_ = this.unit_test_.CreateConnection ();
     }
 
     /**
@@ -61,12 +61,12 @@ namespace CUTS.Data.UnitTesting
     {
       get
       {
-        return this.conn_.ConnectionString;
+        return this.ut_conn_.ConnectionString;
       }
 
       set
       {
-        this.conn_.ConnectionString = value;
+        this.ut_conn_.ConnectionString = value;
       }
     }
 
@@ -81,7 +81,7 @@ namespace CUTS.Data.UnitTesting
       this.Close ();
 
       // Open a new connection to the database.
-      this.conn_.Open ();
+      this.ut_conn_.Open ();
     }
 
     /**
@@ -89,14 +89,14 @@ namespace CUTS.Data.UnitTesting
      */
     public void Close ()
     {
-      if (this.conn_.State == ConnectionState.Open)
-        this.conn_.Close ();
+      if (this.ut_conn_.State == ConnectionState.Open)
+        this.ut_conn_.Close ();
     }
 
     /**
      * Get the data trend for the unit test.
      */
-    public UnitTestDataTrend GetDataTrend (int test, int utid)
+    public UnitTestDataTrend GetDataTrend (string testdata, int utid)
     {
       // First, get the SQL string for selecting the data trend.
       List<string> groups;
@@ -105,8 +105,13 @@ namespace CUTS.Data.UnitTesting
       // Create a new variable table for this unit test.
       UnitTestVariableTable vtable = new UnitTestVariableTable (this.location_);
 
+      // Get the UUID for this test.
+      this.test_db_.Open (testdata);
+      string test_uuid = this.test_db_.GetTestUUID ();
+
       // Open the variable table.
-      vtable.Open (test, utid);
+      vtable.Open (test_uuid, utid);
+
       DbTransaction transaction = vtable.BeginTransaction ();
 
       try
@@ -174,6 +179,7 @@ namespace CUTS.Data.UnitTesting
       }
       finally
       {
+        this.test_db_.Close ();
         vtable.Close ();
       }
    }
@@ -181,15 +187,20 @@ namespace CUTS.Data.UnitTesting
     /**
      * Re-evaluate a unit test.
      */
-    public UnitTestResult Reevaluate (int test, int utid, bool aggr)
+    public UnitTestResult Reevaluate (string test_datafile,
+                                      int utid,
+                                      bool aggr)
     {
       // Create a new variable table for this unit test.
       UnitTestVariableTable vtable = new UnitTestVariableTable (this.location_);
 
       try
       {
-        // Open the variable table.
-        vtable.Open (test, utid);
+        // Open the test database.
+        this.test_db_.Open (test_datafile);
+        string test_uuid = this.test_db_.GetTestUUID ();
+
+        vtable.Open (test_uuid, utid);
         DbTransaction transaction = vtable.BeginTransaction ();
 
         try
@@ -197,12 +208,12 @@ namespace CUTS.Data.UnitTesting
           // Get the variable table for this unit test. This table is then sent
           // back to the database for processing, i.e., to execute the user-defined
           // expression to evaluate the unit test.
-          this.create_variable_table (ref vtable);
+          this.create_variable_table (test_datafile, ref vtable);
 
           // Commit the transaction.
           transaction.Commit ();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
           transaction.Rollback ();
           throw;
@@ -212,6 +223,7 @@ namespace CUTS.Data.UnitTesting
       }
       finally
       {
+        this.test_db_.Close ();
         vtable.Close ();
       }
     }
@@ -226,7 +238,9 @@ namespace CUTS.Data.UnitTesting
      * @param[in]       aggr       Apply aggregation function
      * @param[out]      eval       Evaluation function
      */
-    public UnitTestResult Evaluate (int test, int utid, bool aggr)
+    public UnitTestResult Evaluate (string testdata,
+                                    int utid,
+                                    bool aggr)
     {
       // Create a new variable table for this unit test.
       UnitTestVariableTable vtable =
@@ -234,8 +248,11 @@ namespace CUTS.Data.UnitTesting
 
       try
       {
+        this.test_db_.Open (testdata);
+        string test_uuid = this.test_db_.GetTestUUID ();
+
         // Open the variable table.
-        vtable.Open (test, utid);
+        vtable.Open (test_uuid, utid);
         DataTable table = vtable.Data;
 
         // Begin a new transaction.
@@ -243,6 +260,7 @@ namespace CUTS.Data.UnitTesting
       }
       finally
       {
+        this.test_db_.Close ();
         vtable.Close ();
       }
     }
@@ -256,15 +274,16 @@ namespace CUTS.Data.UnitTesting
      * @param[in]       utid          Unit test to evaluate
      * @param[out]      vtable        Target variable table
      */
-    private void create_variable_table (ref UnitTestVariableTable vtable)
+    private void create_variable_table (string test_datafile,
+                                        ref UnitTestVariableTable vtable)
     {
-      if (this.conn_ == null || this.conn_.State != ConnectionState.Open)
+      if (this.ut_conn_ == null || this.ut_conn_.State != ConnectionState.Open)
         throw new Exception ("Connection to database is not open");
 
       // Initialize the database objects.
       DataSet ds = new DataSet ();
-      DbCommand command = this.conn_.CreateCommand ();
-      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      DbCommand command = this.ut_conn_.CreateCommand ();
+      DbDataAdapter adapter = this.unit_test_.CreateDataAdapter ();
       adapter.SelectCommand = command;
 
       // Create a parameter for the command.
@@ -385,25 +404,6 @@ namespace CUTS.Data.UnitTesting
       vtable.Create (vars, true);
       vtable.CreateIndices ((Relation[])relation_set.ToArray (typeof (Relation)));
 
-      // Prepare the command that will be used to select the log messages
-      // based on the log formats of the current unit test.
-      DbCommand logdata_command = (DbCommand)this.conn_.CreateCommand ();
-      adapter.SelectCommand = logdata_command;
-
-      logdata_command.CommandText =
-        "CALL cuts.select_log_data_asc_by_test_number (?test, ?lfid)";
-
-      DbParameter test_param = logdata_command.CreateParameter ();
-      test_param.ParameterName = "?test";
-      test_param.DbType = DbType.Int32;
-      test_param.Value = vtable.TestNumber;
-      logdata_command.Parameters.Add (test_param);
-
-      DbParameter lfid_param = logdata_command.CreateParameter ();
-      lfid_param.ParameterName = "?lfid";
-      lfid_param.DbType = DbType.Int32;
-      logdata_command.Parameters.Add (lfid_param);
-
       // Iterate over each of the log formats and select the log messages
       // for the current test that match the format. The log message are
       // returned in order of [hostname, msgtime].
@@ -412,11 +412,8 @@ namespace CUTS.Data.UnitTesting
 
       foreach (CUTS.Graph.Node node in sorted_node_list)
       {
-        // Set the parameter value for the log format.
-        int lfid = (int)node.property ("lfid");
-        lfid_param.Value = lfid;
-
         // Select the variables for this log format.
+        int lfid = (int)node.property ("lfid");
         string lfid_filter = String.Format ("lfid = {0}", lfid);
 
         DataRow[] log_variables = ds.Tables["variables"].Select (lfid_filter);
@@ -429,8 +426,7 @@ namespace CUTS.Data.UnitTesting
           rel_list.Add (info["fq_name"]);
         }
 
-        // Create a regular expression to locate the variables in the
-        // each of the log messages.
+        // Create C# regex to locate variables in each log message.
         String csharp_regex = (String)node.property ("regex.csharp");
         Regex regex = new Regex (csharp_regex);
 
@@ -438,85 +434,52 @@ namespace CUTS.Data.UnitTesting
         if (logdata.Rows.Count != 0)
           logdata.Clear ();
 
-        adapter.Fill (logdata);
+        // Select log messages that match the current expression.
+        string mysql_regex = (string)node.property ("regex.mysql");
+        DbDataReader reader = this.test_db_.FilterLogMessages (csharp_regex);
 
         // Get the relation for this log format.
         ArrayList relations = (ArrayList)node.property ("relation");
 
         // Create a data entry object for this log format.
         LogFormatDataEntry entry;
+        String[] strlist = (String[])rel_list.ToArray (typeof (String));
 
         if (relations == null)
         {
-          entry = new LogFormatDataEntry (vtable,
-                                          (String[])rel_list.ToArray (typeof (String)));
-
-          this.process_log_messages (entry, regex, log_vars, logdata);
+          entry = new LogFormatDataEntry (vtable, strlist);
+          this.process_log_messages (entry, regex, log_vars, reader);
         }
         else
         {
           foreach (Relation relation in relations)
           {
-            entry = new LogFormatDataEntry (vtable,
-                                            (String[])rel_list.ToArray (typeof (String)),
-                                            relation);
-
-            this.process_log_messages (entry, regex, log_vars, logdata);
+            entry = new LogFormatDataEntry (vtable, strlist, relation);
+            this.process_log_messages (entry, regex, log_vars, reader);
           }
         }
 
-        //// Clear the variable hash table.
-        //if (variables.Count > 0)
-        //  variables.Clear ();
-
-
-        //foreach (Relation relation in relations)
-        //{
-        //  while (reader.Read ())
-        //  {
-        //    // Apply the C# regular expression to the log message.
-        //    String varname, fq_name;
-        //    String message = (String)reader["message"];
-        //    Match variable_match = variable_regex.Match (message);
-
-        //    // Get all the variables from this log message.
-        //    foreach (DictionaryEntry v in log_vars)
-        //    {
-        //      // Get the name of the variable.
-        //      varname = (String)v.Key;
-        //      fq_name = (String)v.Value;
-
-        //      // Get the value of the variable from the match.
-        //      variables[fq_name] =
-        //        variable_match.Groups[varname].Captures[0].Value;
-        //    }
-
-        //    // Process the set of variables.
-        //    entry.Process (variables);
-        //  }
-
-        //  // Close the reader for the next set of data.
-        //  reader.Close ();
-        //}
+        // Close the data reader.
+        reader.Close ();
       }
     }
 
     private void process_log_messages (LogFormatDataEntry entry,
                                        Regex regex,
                                        Hashtable variables,
-                                       DataTable logdata)
+                                       DbDataReader reader)
     {
-      String varname, fq_name, message;
       Match match;
+      String varname, fq_name, message;
       Hashtable parameter = new Hashtable ();
 
-      foreach (DataRow row in logdata.Rows)
+      while (reader.Read ())
       {
         if (parameter.Count != 0)
           parameter.Clear ();
 
         // Apply the C# regular expression to the log message.
-        message = (String)row["message"];
+        message = (String)reader.GetString (3);
         match = regex.Match (message);
 
         // Get all the variables from this log message.
@@ -538,9 +501,11 @@ namespace CUTS.Data.UnitTesting
     private UnitTestResult evaluate_i (UnitTestVariableTable vtable, bool aggr)
     {
       List<string> groups;
-      string sqlstr = this.create_evaluation_query (vtable.UnitTestNumber,
-                                                    !aggr,
-                                                    out groups);
+
+      string sqlstr =
+        this.create_evaluation_query (vtable.UnitTestNumber,
+                                      !aggr,
+                                      out groups);
 
       // Evaluate the unit test.
       DataTable table = new DataTable ("result");
@@ -587,7 +552,7 @@ namespace CUTS.Data.UnitTesting
         "SELECT evaluation AS eval, REPLACE(evaluation, '.', '_') AS eval_escaped, aggregration_function AS aggr " +
         "FROM cuts.unit_tests WHERE utid = ?utid";
 
-      DbCommand command = this.conn_.CreateCommand ();
+      DbCommand command = this.ut_conn_.CreateCommand ();
       command.CommandText = sql_eval;
 
       DbParameter p1 = command.CreateParameter ();
@@ -599,7 +564,7 @@ namespace CUTS.Data.UnitTesting
 
       // Execute the SQL statement.
       DataSet ds = new DataSet ();
-      DbDataAdapter adapter = this.factory_.CreateDataAdapter ();
+      DbDataAdapter adapter = this.unit_test_.CreateDataAdapter ();
       adapter.SelectCommand = command;
 
       command.CommandText = sql_eval;
@@ -662,9 +627,11 @@ namespace CUTS.Data.UnitTesting
     /**
      * Database connection for the evaluator.
      */
-    private DbProviderFactory factory_;
+    private DbProviderFactory unit_test_;
 
-    private DbConnection conn_;
+    private DbConnection ut_conn_;
+
+    private TestDatabase test_db_ = new TestDatabase ();
 
     private string location_;
   }
