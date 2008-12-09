@@ -6,6 +6,7 @@
 #include "Test_Summary_export.h"
 #include "cuts/utils/testing/Testing_Service.h"
 #include "ace/Auto_Ptr.h"
+#include "ace/SString.h"
 
 // Forward decl.
 class CUTS_Test_Summary_Impl;
@@ -31,6 +32,9 @@ public:
 private:
   /// Pointer to the concrete implementation.
   ACE_Auto_Ptr <CUTS_Test_Summary_Impl> impl_;
+
+  /// Optional output file.
+  ACE_CString output_;
 };
 
 CUTS_TESTING_SERVICE_DECL (CUTS_TESTING_SUMMARY_Export, _make_CUTS_Test_Summary_Service);

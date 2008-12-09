@@ -8,6 +8,7 @@
 
 #include "Basic_Test_Summary_Impl.h"
 #include "XML_Test_Summary_Impl.h"
+#include "ace/Get_Opt.h"
 
 CUTS_TESTING_SERVICE_IMPL (CUTS_Test_Summary_Service, _make_CUTS_Test_Summary_Service);
 
@@ -17,6 +18,22 @@ CUTS_TESTING_SERVICE_IMPL (CUTS_Test_Summary_Service, _make_CUTS_Test_Summary_Se
 int CUTS_Test_Summary_Service::init (int argc, char * argv [])
 {
   CUTS_TESTING_SUMMARY_TRACE ("CUTS_Test_Summary_Service::init (int, char * [])");
+
+  const char * optstr = "o:";
+  ACE_Get_Opt get_opt (argc, argv, optstr);
+
+  char opt;
+
+  while ((opt = get_opt ()) != EOF)
+  {
+    switch (opt)
+    {
+    case 'o':
+      this->output_ = get_opt.opt_arg ();
+      break;
+
+    }
+  }
 
   CUTS_Test_Summary_Impl * impl = 0;
   ACE_NEW_RETURN (impl, CUTS_Basic_Test_Summary_Impl (), -1);
@@ -33,8 +50,37 @@ handle_shutdown (const ACE_Time_Value & tv)
 {
   CUTS_TESTING_SUMMARY_TRACE ("CUTS_Test_Summary_Service::handle_shutdown (const ACE_Time_Value &)");
 
-  if (this->impl_.get () != 0)
-    return this->impl_->generate (std::cout, this->test_app ());
+  if (this->impl_.get () == 0)
+  {
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       "%T - %M - writer type undefined; aborting...\n"),
+                       -1);
+  }
 
-  return 0;
+  int retval = -1;
+
+  if (this->output_.empty ())
+  {
+    retval = this->impl_->generate (std::cout, this->test_app ());
+  }
+  else
+  {
+    std::ofstream outfile;
+    outfile.open (this->output_.c_str ());
+
+    if (outfile.is_open ())
+    {
+      retval = this->impl_->generate (outfile, this->test_app ());
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T (%t) - %M - failed to open %s for writing\n",
+                  this->output_.c_str ()));
+
+      retval = -1;
+    }
+  }
+
+  return retval;
 }

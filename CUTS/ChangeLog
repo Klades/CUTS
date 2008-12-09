@@ -1,3 +1,11 @@
+Tue Dec  9 19:12:35 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/svcs/summary/Test_Summary_Service.h:
+        * cuts/utils/testing/svcs/summary/Test_Summary_Service.cpp:
+
+          . Added command-line parameter (-o) for writing the
+            summary to an output file.
+
 Tue Dec  9 18:34:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestEvaluator.cs:
