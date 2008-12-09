@@ -1,3 +1,18 @@
+Tue Dec  9 22:00:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/svcs/summary/Basic_Test_Summary_Impl.h:
+        * cuts/utils/testing/svcs/summary/Basic_Test_Summary_Impl.cpp:
+        * cuts/utils/testing/svcs/summary/Test_Summary_Impl.h:
+        * cuts/utils/testing/svcs/summary/Test_Summary_Service.cpp:
+        * cuts/utils/testing/svcs/summary/XML_Test_Summary_Impl.h:
+        * cuts/utils/testing/svcs/summary/XML_Test_Summary_Impl.inl:
+        * cuts/utils/testing/svcs/summary/XML_Test_Summary_Impl.cpp:
+
+          . Implemented the XML format test summary generator.
+
+          . Modified the generate () to take a reference to a CUTS_Testing_App_Base
+            object, instead of a pointer.
+
 Tue Dec  9 21:24:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MPC:

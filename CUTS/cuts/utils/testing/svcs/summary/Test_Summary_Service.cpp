@@ -9,6 +9,7 @@
 #include "Basic_Test_Summary_Impl.h"
 #include "XML_Test_Summary_Impl.h"
 #include "ace/Get_Opt.h"
+#include "ace/CORBA_macros.h"
 
 CUTS_TESTING_SERVICE_IMPL (CUTS_Test_Summary_Service, _make_CUTS_Test_Summary_Service);
 
@@ -22,22 +23,47 @@ int CUTS_Test_Summary_Service::init (int argc, char * argv [])
   const char * optstr = "o:";
   ACE_Get_Opt get_opt (argc, argv, optstr);
 
+  get_opt.long_option ("xml-format", ACE_Get_Opt::NO_ARG);
+
   char opt;
 
   while ((opt = get_opt ()) != EOF)
   {
     switch (opt)
     {
-    case 'o':
-      this->output_ = get_opt.opt_arg ();
+    case 0:
+      if (ACE_OS::strcmp ("xml-format", get_opt.long_option ()) == 0)
+      {
+        // Let's use the XML format for this summary.
+        CUTS_Test_Summary_Impl * impl = 0;
+
+        ACE_NEW_THROW_EX (impl,
+                          CUTS_XML_Test_Summary_Impl (),
+                          ACE_bad_alloc ());
+
+        this->impl_.reset (impl);
+      }
+
       break;
 
+    case 'o':
+      // Set the output file location.
+      this->output_ = get_opt.opt_arg ();
+      break;
     }
   }
 
-  CUTS_Test_Summary_Impl * impl = 0;
-  ACE_NEW_RETURN (impl, CUTS_Basic_Test_Summary_Impl (), -1);
-  this->impl_.reset (impl);
+  if (this->impl_.get () == 0)
+  {
+    // We need to use the default format.
+    CUTS_Test_Summary_Impl * impl = 0;
+
+    ACE_NEW_THROW_EX (impl,
+                      CUTS_XML_Test_Summary_Impl (),
+                      ACE_bad_alloc ());
+
+    this->impl_.reset (impl);
+  }
 
   return 0;
 }
@@ -61,16 +87,18 @@ handle_shutdown (const ACE_Time_Value & tv)
 
   if (this->output_.empty ())
   {
-    retval = this->impl_->generate (std::cout, this->test_app ());
+    // Write the summary to STDOUT.
+    retval = this->impl_->generate (std::cout, *this->test_app ());
   }
   else
   {
+    // Write the summary to the specified location.
     std::ofstream outfile;
     outfile.open (this->output_.c_str ());
 
     if (outfile.is_open ())
     {
-      retval = this->impl_->generate (outfile, this->test_app ());
+      retval = this->impl_->generate (outfile, *this->test_app ());
     }
     else
     {

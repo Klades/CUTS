@@ -40,7 +40,7 @@ public:
    * @param[in]     app         Testing application
    */
   virtual int generate (std::ostream & out,
-                        const CUTS_Testing_App_Base * app) const = 0;
+                        const CUTS_Testing_App_Base & app) const = 0;
 };
 
 #if defined (__CUTS_INLINE__)

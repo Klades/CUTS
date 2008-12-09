@@ -17,6 +17,8 @@
 
 /**
  * @class CUTS_Basic_Test_Summary_Impl
+ *
+ * Generates test summart in a basic format.
  */
 class CUTS_Basic_Test_Summary_Impl : public CUTS_Test_Summary_Impl
 {
@@ -28,10 +30,12 @@ public:
   virtual ~CUTS_Basic_Test_Summary_Impl (void);
 
   /**
+   * Generate the test summary
    *
+   * @param[in]         out         Target output stream
+   * @param[in]         app         Pointer to test application
    */
-  int generate (std::ostream & out, 
-                const CUTS_Testing_App_Base * app) const;
+  int generate (std::ostream & out, const CUTS_Testing_App_Base & app) const;
 };
 
 #if defined (__CUTS_INLINE__)
