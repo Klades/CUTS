@@ -91,4 +91,8 @@ project (cutslog_d) : cuts_logging_server, cutsexe {
 
   Header_Files {
   }
+
+  IDL_Files {
+
+  }
 }

@@ -15,8 +15,8 @@
 // load
 //
 bool CUTS_BE_Manager_Factory_Repo::
-load (const std::string & id, 
-      const std::string & module, 
+load (const std::string & id,
+      const std::string & module,
       CUTS_BE_Manager_Factory * & factory)
 {
   ACE_DLL be_dll;
@@ -41,6 +41,8 @@ load (const std::string & id,
     }
   }
 
+  // Save the last error message.
+  this->error_msg_ = be_dll.error ();
   return false;
 }
 

@@ -118,10 +118,13 @@ CUTS_DB_SQLite_Record * CUTS_DB_SQLite_Query::execute (void)
   if (this->needs_reseting_)
     this->reset ();
 
+  // Initialize the cursor for the record.
+  int retval = ::sqlite3_step (this->stmt_);
+
   CUTS_DB_SQLite_Record * record = 0;
 
   ACE_NEW_THROW_EX (record,
-                    CUTS_DB_SQLite_Record (*this),
+                    CUTS_DB_SQLite_Record (*this, retval),
                     ACE_bad_alloc ());
 
   this->needs_reseting_ = true;

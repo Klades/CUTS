@@ -16,6 +16,7 @@
 #include "ace/Reactor.h"
 #include "ace/streams.h"
 #include "ace/UUID.h"
+#include "ace/Env_Value_T.h"
 #include "boost/bind.hpp"
 #include "XSCRT/utils/Console_Error_Handler.h"
 #include <sstream>
@@ -227,7 +228,14 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
   try
   {
     // Create the database for this test.
-    this->test_db_.create (this->opts_.uuid_);
+    ACE_Env_Value <const char *> CUTS_ROOT ("CUTS_ROOT", "");
+
+    std::ostringstream location;
+    location << CUTS_ROOT
+             << "/etc/tests/"
+             << this->opts_.uuid_.to_string ()->c_str () << ".cdb";
+
+    this->test_db_.create (location.str ().c_str (), this->opts_.uuid_);
 
     // Load the configuration this test run.
     if (this->load_configuration (svc_mgr, this->opts_.config_) != 0)

@@ -1,0 +1,16 @@
+// $Id$
+
+project (cutsarc_d) : iortable, cuts_archiving_skel, cutsexe {
+  exename = cutsarc_d
+
+  Source_Files {
+    cutsarc_d.cpp
+    TestArchive_i.cpp
+    TestUploader_i.cpp
+    Test_Archive_Server.cpp
+  }
+
+  Header_Files {
+    TestArchive_Options.h
+  }
+}

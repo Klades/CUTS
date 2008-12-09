@@ -29,7 +29,7 @@ class CUTS_DB_SQLITE_Export CUTS_DB_SQLite_Record :
 {
 public:
   /// Default constructor
-  CUTS_DB_SQLite_Record (const CUTS_DB_SQLite_Query & query);
+  CUTS_DB_SQLite_Record (const CUTS_DB_SQLite_Query & query, int state);
 
   /// Destructor
   virtual ~CUTS_DB_SQLite_Record (void);

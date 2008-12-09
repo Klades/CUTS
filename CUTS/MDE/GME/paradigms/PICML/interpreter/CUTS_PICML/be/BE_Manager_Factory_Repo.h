@@ -93,11 +93,15 @@ public:
    */
   bool find (const char * name, CUTS_BE_Manager_Factory * &factory);
 
+  const std::string & last_error_message (void) const;
+
 private:
   std::map <std::string, std::string> path_map_;
 
   /// Collection of loaded factories.
   CUTS_BE_Manager_Factory_Set factories_;
+
+  std::string error_msg_;
 };
 
 #if defined (__CUTS_INLINE__)

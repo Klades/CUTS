@@ -17,9 +17,7 @@ bool operator >>= (const CUTS::UUID & src, ACE_Utils::UUID & dst)
   dst.clock_seq_hi_and_reserved (src.data4[0]);
   dst.clock_seq_low (src.data4[1]);
 
-  ACE_Utils::UUID_Node::Node_ID & node_id = dst.node ()->node_ID ();
-
-  ACE_OS::memcpy (&node_id,
+  ACE_OS::memcpy (dst.node ()->node_ID (),
                   src.data4.get_buffer () + 2,
                   ACE_Utils::UUID_Node::NODE_ID_SIZE);
 

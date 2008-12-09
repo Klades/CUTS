@@ -13,25 +13,6 @@
 #include <sstream>
 
 //
-// CUTS_DB_SQLite_Record
-//
-CUTS_DB_SQLite_Record::
-CUTS_DB_SQLite_Record (const CUTS_DB_SQLite_Query & query)
-: query_ (query),
-  state_ (SQLITE_ROW)
-{
-
-}
-
-//
-// ~CUTS_DB_SQLite_Record
-//
-CUTS_DB_SQLite_Record::~CUTS_DB_SQLite_Record (void)
-{
-
-}
-
-//
 // count
 //
 size_t CUTS_DB_SQLite_Record::columns (void) const

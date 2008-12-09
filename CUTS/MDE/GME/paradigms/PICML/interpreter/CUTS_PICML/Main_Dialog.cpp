@@ -370,7 +370,8 @@ load_backend_generator (const CUTS::Generator_Description & desc)
   {
     // Display an error message for the user.
     std::ostringstream ostr;
-    ostr << "Failed to load backend <" << desc.id () << ">";
+    ostr << "Failed to load backend <" << desc.id () << ">.\r\n"
+         << this->factory_repo_.last_error_message () << "";
 
     ::AfxMessageBox (ostr.str ().c_str (),
                      MB_ICONEXCLAMATION | MB_OK);

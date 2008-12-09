@@ -1,0 +1,51 @@
+// $Id$
+
+project (CUTS_Archiving_stub) : taolib_with_idl, cutslib {
+  sharedname = CUTS_Archiving_stub
+
+  dynamicflags += CUTS_ARCHIVING_STUB_BUILD_DLL
+
+  idlflags += -Wb,skel_export_macro=CUTS_ARCHIVING_SKEL_Export \
+              -Wb,skel_export_include=Archiving_skel_export.h \
+              -Wb,stub_export_macro=CUTS_ARCHIVING_STUB_Export \
+              -Wb,stub_export_include=Archiving_stub_export.h \
+              -I $(CUTS_ROOT)
+
+  IDL_Files {
+    archiving.idl
+  }
+
+  Source_Files {
+    archivingC.cpp
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (CUTS_Archiving_skel) : portableserver, cuts_archiving_stub, cutslib {
+  sharedname = CUTS_Archiving_skel
+
+  dynamicflags += CUTS_ARCHIVING_SKEL_BUILD_DLL
+
+  IDL_Files {
+
+  }
+
+  Source_Files {
+    archivingS.cpp
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}

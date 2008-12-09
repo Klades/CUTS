@@ -39,8 +39,6 @@ public:
   /// Default constructor.
   CUTS_Test_Database (void);
 
-  CUTS_Test_Database (const ACE_CString & outdir);
-
   /// Destructor
   ~CUTS_Test_Database (void);
 
@@ -54,12 +52,15 @@ public:
   /**
    * Create the test database.
    */
-  bool create (const ACE_Utils::UUID & uuid);
+  bool create (const ACE_CString & location,
+               const ACE_Utils::UUID & uuid);
 
   /**
    * Open the test database.
+   *
+   *@param[in]      location        Location of the database.
    */
-  bool open (const ACE_Utils::UUID & uuid);
+  bool open (const ACE_CString & location);
 
   /// Close the connection to the database.
   void close (void);
@@ -70,8 +71,24 @@ public:
   void stop_current_test (void);
   void stop_current_test (const ACE_Time_Value & tv);
 
+  /**
+   * Get the UUID stored in the test database.
+   *
+   * @param[out]        uuid        UUID in the database
+   * @retval            0           Successfully read test UUID
+   * @retval            -1          Failed to read test UUID
+   */
+  int get_test_uuid (ACE_Utils::UUID & uuid);
+
+  /**
+   * Set the UUID for the test.
+   */
+  int set_test_uuid (const ACE_Utils::UUID & uuid);
+
 private:
   void init (void);
+
+  bool open_i (const ACE_CString & location, long flags);
 
   /// Output directory of the database.
   ACE_CString outdir_;

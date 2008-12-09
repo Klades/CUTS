@@ -1,8 +1,95 @@
+Tue Dec  9 02:18:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Manager_Factory_Repo.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Manager_Factory_Repo.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Manager_Factory_Repo.cpp:
+
+          . Improved the error message that is displayed when a backend generator
+            cannot be loaded into memory.
+
+        * cuts/CUTS.mpc:
+        * cuts/ORB_Server_Task.h:
+        * cuts/ORB_Server_Task.inl:
+        * cuts/ORB_Server_Task.cpp:
+
+          . Utility class for running an ORB event loop with multiple threads of
+            execution.
+
+        * cuts/UUID.cpp:
+
+          . Updated the extraction/insertion operators to comform to the
+            changes of the ACE_Utils::UUID.
+
+        * cuts/utils/archiving:
+        * cuts/utils/archiving/Archiving_skel_export.h:
+        * cuts/utils/archiving/Archiving_stub_export.h:
+        * cuts/utils/archiving/archiving.idl:
+        * cuts/utils/archiving/archiving.mpc:
+        * cuts/utils/archiving/client:
+        * cuts/utils/archiving/client/Test_Archive_Client.h:
+        * cuts/utils/archiving/client/Test_Archive_Client.inl:
+        * cuts/utils/archiving/client/Test_Archive_Client.cpp:
+        * cuts/utils/archiving/client/Test_Archive_Client_Options.h:
+        * cuts/utils/archiving/client/cutsarc.cpp:
+        * cuts/utils/archiving/client/cutsarc.mpc:
+        * cuts/utils/archiving/server:
+        * cuts/utils/archiving/server/TestArchive_Options.h:
+        * cuts/utils/archiving/server/TestArchive_i.h:
+        * cuts/utils/archiving/server/TestArchive_i.inl:
+        * cuts/utils/archiving/server/TestArchive_i.cpp:
+        * cuts/utils/archiving/server/TestUploader_i.h:
+        * cuts/utils/archiving/server/TestUploader_i.inl:
+        * cuts/utils/archiving/server/TestUploader_i.cpp:
+        * cuts/utils/archiving/server/Test_Archive_Server.h:
+        * cuts/utils/archiving/server/Test_Archive_Server.inl:
+        * cuts/utils/archiving/server/Test_Archive_Server.cpp:
+        * cuts/utils/archiving/server/cutsarc_d.cpp:
+        * cuts/utils/archiving/server/cutsarc_d.mpc:
+        * etc/config/cuts_archiving_skel.mpb:
+        * etc/config/cuts_archiving_stub.mpb:
+
+          . First implementation of the test archiving server. Right now, it will
+            store test in a target directory. The next phase will store index each
+            test's details in the archive table.
+
+        * cuts/utils/db/SQLite/Query.cpp:
+        * cuts/utils/db/SQLite/Record.h:
+        * cuts/utils/db/SQLite/Record.inl:
+        * cuts/utils/db/SQLite/Record.cpp:
+
+          . Bug fix where executing a query that returned a result set did
+            not set the cursor to the first item in the dataset.
+
+        * cuts/utils/logging/server/server.mpc:
+
+          . Added an empty IDL_Files block to the 'cutslog_d' project to prevent
+            unnecessary IDL files being added.
+
+        * cuts/utils/testing/Test_Database.h:
+        * cuts/utils/testing/Test_Database.inl:
+        * cuts/utils/testing/Test_Database.cpp:
+        * cuts/utils/testing/testing.mpc:
+        * cuts/utils/testing/Testing_App.cpp:
+
+          . The test database no longer has a open () method that stores the
+            test in a predefined location.
+
+          . Bug fix where using the open () method to open a database would
+            create the database if it did not exist.
+
+          . When the database is created, it will store the test UUID in the
+            cuts_test table.
+
+          . Implemented setter/getter methods for the test UUID. Eventually,
+            we will change this method to setter/getter methods for the test
+            details.
+
 Thu Dec  4 23:27:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/Test_Configuration_File.cpp:
 
-	  . Fixed compilation errors on Linux.
+    . Fixed compilation errors on Linux.
 
 Thu Dec  4 22:34:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

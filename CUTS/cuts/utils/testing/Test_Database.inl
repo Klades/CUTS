@@ -2,15 +2,24 @@
 
 #include "ace/OS_NS_sys_time.h"
 
+
 //
 // CUTS_Test_Database
 //
 CUTS_INLINE
-CUTS_Test_Database::CUTS_Test_Database (const ACE_CString & outdir)
-: outdir_ (outdir)
+CUTS_Test_Database::CUTS_Test_Database (void)
 {
-  CUTS_TEST_DATABASE_TRACE ("CUTS_Test_Database::CUTS_Test_Database (const ACE_CString &)");
+  CUTS_TEST_DATABASE_TRACE ("CUTS_Test_Database::CUTS_Test_Database (void)");
   this->init ();
+}
+
+//
+// ~CUTS_Test_Database
+//
+CUTS_INLINE
+CUTS_Test_Database::~CUTS_Test_Database (void)
+{
+  CUTS_TEST_DATABASE_TRACE ("CUTS_Test_Database::~CUTS_Test_Database (void)");
 }
 
 //

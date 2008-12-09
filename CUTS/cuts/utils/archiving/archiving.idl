@@ -1,0 +1,94 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ * @file          archiving.idl
+ *
+ * $Id$
+ *
+ * @author        James H. Hill
+ */
+//=============================================================================
+
+#ifndef _CUTS_ARCHIVING_IDL_
+#define _CUTS_ARCHIVING_IDL_
+
+#include "cuts/UUID.idl"
+
+module CUTS
+{
+  exception InvalidFile
+  {
+
+  };
+
+  exception UploadAlreadyActive
+  {
+
+  };
+
+  /// Type definition for the result data.
+  typedef sequence <octet> ResultData;
+
+  /**
+   * @struct TestResult
+   *
+   * Details about the test results. This allows the test archiving
+   * agent to allocate space for the result's data, which is uploaded
+   * using the TestUploader interface.
+   */
+  struct TestResult
+  {
+    /// Unique ID for the test.
+    CUTS::UUID uid;
+
+    /// Owner of the results.
+    string owner;
+  };
+
+  /**
+   * @interface TestUploader
+   *
+   * Interface for uploading data for the results.
+   */
+  interface TestUploader
+  {
+    /**
+     * Send data for the test results. This method is invoked multiple
+     * times to send chunks of data to the archiver.
+     *
+     * @param[in]       data        Test result data.
+     */
+    void send_data (in ResultData packet);
+  };
+
+  /**
+   * @interface TestArchive
+   *
+   * Interface for interacting with the CUTS test archiving agent. Right
+   * now, you can only upload results. Eventually, you will be able to fully
+   * manage results remotely.
+   */
+  interface TestArchive
+  {
+    /**
+     * Upload test results to the database.
+     *
+     * @param[in]       info        Preliminary info about the results
+     * @return          Agent for uploading the result's data.
+     */
+    TestUploader begin_upload (in TestResult info)
+      raises (InvalidFile, UploadAlreadyActive);
+
+    /**
+     * Nofity the test archiver that the upload is complete. This
+     * allows the object to finalize the upload, and release the
+     * necessary resources.
+     *
+     * @param[in]       agent       Agent used to upload results.
+     */
+    void upload_complete (in TestUploader agent);
+  };
+};
+
+#endif  // !defined _CUTS_ARCHIVING_IDL_

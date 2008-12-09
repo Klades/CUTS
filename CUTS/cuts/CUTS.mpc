@@ -54,6 +54,7 @@ project (CUTS) : portableserver, anytypecode, cutslib {
     Host_Table.cpp
     Metrics_Visitor.cpp
     Operation_Measurement.cpp
+    ORB_Server_Task.cpp
     Port_Agent.cpp
     Port_Measurement.cpp
     Port_Measurement_Map.cpp

@@ -1,0 +1,6 @@
+// $Id$
+
+project {
+  after += CUTS_Archiving_stub
+  libs  += CUTS_Archiving_stub
+}
