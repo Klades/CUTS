@@ -55,7 +55,7 @@ int CUTS_Test_Archive_Client::run_main (int argc, char * argv [])
     ACE_FILE_Addr addr (this->opts_.input_file_.c_str ());
 
     ACE_FILE_IO file;
-    int flags = O_BINARY | O_RDONLY | O_SEQUENTIAL;
+    int flags = O_BINARY | O_RDONLY;
     ACE_FILE_Connector connector (file, addr, 0, ACE_Addr::sap_any, 0, flags);
 
     if (file.get_handle () == ACE_INVALID_HANDLE)
