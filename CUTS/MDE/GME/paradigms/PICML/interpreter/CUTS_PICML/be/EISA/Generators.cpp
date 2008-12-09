@@ -111,7 +111,7 @@ generate (const std::string & name)
     << "workspace (" << name << ") {" << std::endl
     << "  // -- initialize the includes for the project." << std::endl
     << "  cmdline += -include $EISA_ROOT/MPC/config \\" << std::endl
-    << "             -include $CUTS_ROOT/etc/config \\" << std::endl
+    << "             -include $CUTS_ROOT/MPC/config \\" << std::endl
     << "             -include $XSC_ROOT/MPC/config \\" << std::endl
     << "             -relative PROJECT_ROOT=" << std::endl
     << std::endl;

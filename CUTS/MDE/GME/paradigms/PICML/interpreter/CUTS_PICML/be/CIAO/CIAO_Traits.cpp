@@ -106,7 +106,7 @@ generate (const std::string & name)
     << std::endl
     << "workspace (" << name << ") {" << std::endl
     << "  // -- initialize the includes for the project." << std::endl
-    << "  cmdline += -include $CUTS_ROOT/etc/config \\" << std::endl
+    << "  cmdline += -include $CUTS_ROOT/MPC/config \\" << std::endl
     << "             -feature_file $CUTS_ROOT/default.features \\" << std::endl
     << "             -relative PROJECT_ROOT=" << std::endl
     << std::endl;

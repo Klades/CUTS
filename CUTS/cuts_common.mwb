@@ -1,7 +1,7 @@
 // $Id$
 
 workspace {
-  cmdline += -include $CUTS_ROOT/etc/config \
+  cmdline += -include $CUTS_ROOT/MPC/config \
              -include $XSC_ROOT/MPC/config \
              -feature_file default.features
 }

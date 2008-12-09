@@ -1,3 +1,82 @@
+Tue Dec  9 21:24:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC:
+        * MPC/config:
+
+          . Moved the MPC base project into the /MPC directory to be
+            consistent with the other DOC middleware manifest.
+
+        * cuts_common.mwb:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Generators.cpp:
+
+          . Update the workspace generators/files to reflect the new
+            location of the MPC base projects.
+
+        * etc/config:
+        * etc/config/cuts.mpb:
+        * etc/config/cuts_archiving_skel.mpb:
+        * etc/config/cuts_archiving_stub.mpb:
+        * etc/config/cuts_base.mpb:
+        * etc/config/cuts_bdcsvc.mpb:
+        * etc/config/cuts_be.mpb:
+        * etc/config/cuts_client_dnc.mpb:
+        * etc/config/cuts_common_utils.mpb:
+        * etc/config/cuts_component_dnc.mpb:
+        * etc/config/cuts_cosmic.mpb:
+        * etc/config/cuts_coworker_exec.mpb:
+        * etc/config/cuts_coworker_skel.mpb:
+        * etc/config/cuts_coworker_stub.mpb:
+        * etc/config/cuts_coworker_svnt.mpb:
+        * etc/config/cuts_db.mpb:
+        * etc/config/cuts_db_sqlite3.mpb:
+        * etc/config/cuts_dbsvc.mpb:
+        * etc/config/cuts_gems.mpb:
+        * etc/config/cuts_gme.mpb:
+        * etc/config/cuts_logging_client_skel.mpb:
+        * etc/config/cuts_logging_client_stub.mpb:
+        * etc/config/cuts_logging_server.mpb:
+        * etc/config/cuts_logging_server_skel.mpb:
+        * etc/config/cuts_logging_server_stub.mpb:
+        * etc/config/cuts_logging_skel.mpb:
+        * etc/config/cuts_logging_stub.mpb:
+        * etc/config/cuts_odbclib.mpb:
+        * etc/config/cuts_servant_dnc.mpb:
+        * etc/config/cuts_stub.mpb:
+        * etc/config/cuts_tao_testing_svc.mpb:
+        * etc/config/cuts_test_database.mpb:
+        * etc/config/cuts_testing.mpb:
+        * etc/config/cuts_testing_skel.mpb:
+        * etc/config/cuts_testing_stub.mpb:
+        * etc/config/cuts_testing_svc.mpb:
+        * etc/config/cutsexe.mpb:
+        * etc/config/cutslib.mpb:
+        * etc/config/cutsutils.mpb:
+        * etc/config/gme_addon.mpb:
+        * etc/config/gme_base.mpb:
+        * etc/config/gme_bon.mpb:
+        * etc/config/gme_bon2.mpb:
+        * etc/config/gme_component.mpb:
+        * etc/config/gme_interpreter.mpb:
+        * etc/config/gme_rawcom.mpb:
+        * etc/config/gme_t2m.mpb:
+        * etc/config/gnc_base.mpb:
+        * etc/config/gnc_generator.mpb:
+        * etc/config/gnc_parser.mpb:
+        * etc/config/jni.mpb:
+        * etc/config/jnilib.mpb:
+        * etc/config/msi.mpb:
+        * etc/config/picml_udm.mpb:
+        * etc/config/regsvr32.mpb:
+        * etc/config/requires_bmw.mpb:
+        * etc/config/requires_ciao.mpb:
+        * etc/config/requires_cosmic.mpb:
+        * etc/config/requires_modeling.mpb:
+        * etc/config/requires_naomi.mpb:
+        * etc/config/udm_component.mpb:
+
+          Removed these files.
+
 Tue Dec  9 19:12:35 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/svcs/summary/Test_Summary_Service.h:
