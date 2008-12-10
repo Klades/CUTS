@@ -1,9 +1,16 @@
+Wed Dec 10 05:30:54 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/emulab/generate-naomi-test-uuid-attribute.sh:
+
+	  . Shell script that will generate the CUTS.test.uuid NAOMI attribute
+	    given the summary output file.
+
 Wed Dec 10 04:17:01 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/emulab/get-test-uuid-from-basic-summary.sh:
 
-	  . Shell script for getting the test UUID from a basic summary
-	    of a CUTS test run.
+          . Shell script for getting the test UUID from a basic summary
+            of a CUTS test run.
 
 Wed Dec 10 03:54:32 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
