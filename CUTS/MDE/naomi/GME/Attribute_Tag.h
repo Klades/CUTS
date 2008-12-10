@@ -15,7 +15,7 @@
 
 #include "cuts/config.h"
 #include "GNC_Base_export.h"
-#include "gme/GME.h"
+#include "game/GME.h"
 #include <string>
 
 /**

@@ -8,8 +8,8 @@
 #include "attribute.h"
 #include "interface.h"
 
-#include "gme/GME.h"
-#include "gme/XML.h"
+#include "game/GME.h"
+#include "game/XML.h"
 
 #include "ace/ACE.h"
 #include "ace/Get_Opt.h"
@@ -35,21 +35,21 @@ static const char * usage =
 \n\
 USAGE: gnc [OPTIONS]\n\
 \n\
-General Options:\n\
+General options:\n\
   -p, --project=GMEFILE            absolute/relative path to GME project\n\
 \n\
   -v, --verbose                    display progress\n\
   --debug                          display debugging information\n\
   -h, --help                       display this help message\n\
 \n\
-Atttribute Options:\n\
+Atttribute options:\n\
   --owner=OWNER                    owner of the output attribute\n\
   -l, --list-attributes            list naomi attribute in project\n\
   -u, --update-attributes          update all input/output attributes\n\
 \n\
   -P, --attribute-path=PATH        path to naomi attributes on disk\n\
 \n\
-Interface Options:\n\
+Interface options:\n\
   --create-interface-file=PATH     create an interface file for the\n\
                                    at the specified location\n\
 \n\
@@ -66,7 +66,7 @@ in the model for the connector to work properly. Also, the owner of\n\
 the attribute must match the paradigm name of the target GME project.\n\
 \n\
 The GMEFILE can be either a .mga file or a .xme file. You do not have to\n\
-provide a quantifier before the filename, such as \'MGA=', as required in\n\
+provide a qualifier before the filename, such as \'MGA=', as required in\n\
 previous versions.\n";
 
 //

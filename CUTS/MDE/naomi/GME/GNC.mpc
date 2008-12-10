@@ -1,6 +1,6 @@
 // $Id$
 
-project (GNC_Xsc_Gen) : requires_naomi, xsc_cxx {
+project (GNC_Xsc_Gen) : game, requires_naomi, xsc_cxx {
   custom_only = 1
 
   specific {
@@ -48,6 +48,10 @@ project (GNC) : requires_naomi, boost_base, cuts_gme, xscrt, cutsexe {
 
   after -= CUTS
   libs  -= CUTS
+
+  specific (vc6, vc7, vc71, vc8, vc9) {
+    subsystem = 1
+  }
 
   Source_Files {
     attribute.cpp

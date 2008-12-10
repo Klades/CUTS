@@ -16,13 +16,14 @@ workspace (CUTS_CoSMIC) : cuts_common {
     MDE/GEMS
     MDE/utils
 
-    exclude (!vc6, !vc71, !vc8, !nmake) {
+    exclude (!vc6, !vc71, !vc8, !vc9, !nmake) {
       //== CoSMIC projects
       cmdline += -include $COSMIC_ROOT/MPC/config \
                  -include $XSC_ROOT/MPC/config \
                  -base requires_cosmic
 
       MDE/GME
+      MDE/naomi/GME
 
       static {
         cmdline += -static -base requires_cosmic

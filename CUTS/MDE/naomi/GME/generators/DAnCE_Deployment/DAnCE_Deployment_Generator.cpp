@@ -1,7 +1,7 @@
 // $Id$
 
 #include "DAnCE_Deployment_Generator.h"
-#include "gme/Object.h"
+#include "game/Object.h"
 #include <sstream>
 
 GME_NAOMI_CREATE_GENERATOR_IMPLEMENT (DAnCE_Deployment_Generator);

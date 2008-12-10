@@ -3,7 +3,7 @@
 workspace (GNC) {
   //== define required command-line options
   cmdline += -feature_file $CUTS_ROOT/default.features \
-             -include $CUTS_ROOT/etc/config \
+             -include $CUTS_ROOT/MPC/config \
              -include $COSMIC_ROOT/MPC/config \
              -include $XSC_ROOT/MPC/config
 

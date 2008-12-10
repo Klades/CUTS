@@ -13,15 +13,9 @@
 #ifndef _CUTS_GNC_APP_H_
 #define _CUTS_GNC_APP_H_
 
-#include <string>
-#include <set>
-#include <list>
-
-#include "gme/Project.h"
-
+#include "game/Project.h"
 #include "boost/graph/adjacency_list.hpp"
 #include "boost/graph/graph_traits.hpp"
-
 #include "URI_Tag_Parser.h"
 
 namespace naomi

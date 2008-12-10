@@ -6,7 +6,7 @@
 //
 // main
 //
-int main (int argc, char * argv [])
+int ACE_TMAIN (int argc, char * argv [])
 {
   CUTS_GNC_App app;
 

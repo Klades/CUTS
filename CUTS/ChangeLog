@@ -1,3 +1,24 @@
+Wed Dec 10 16:25:14 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * CUTS_CoSMIC.mwc:
+
+          . Added the NAOMI projects to the workspace.
+
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.cpp:
+        * MDE/naomi/GME/Attribute_Tag.h:
+        * MDE/naomi/GME/GNC.cpp:
+        * MDE/naomi/GME/GNC.mpc:
+        * MDE/naomi/GME/GNC_App.h:
+        * MDE/naomi/GME/GNC_App.cpp:
+        * MDE/naomi/GME/Naomi_Generator.cpp:
+        * MDE/naomi/GME/generators/CUTS_Isislab_Emulation/Isislab_Emulation_Generator.cpp:
+        * MDE/naomi/GME/generators/DAnCE_Deployment/DAnCE_Deployment_Generator.cpp:
+        * MDE/naomi/GME/gnc.mwc:
+
+          . Fixed build errors related the Windows SUBSYSTEM specification.
+
+          . Fixed build errors related to new location of GAME in CoSMIC.
+
 Wed Dec 10 07:09:04 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/emulab/get-experiment-name.sh:

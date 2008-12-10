@@ -1,7 +1,7 @@
 // $Id$
 
 #include "Isislab_Emulation_Generator.h"
-#include "gme/Object.h"
+#include "game/Object.h"
 #include <sstream>
 #include <iostream>
 
@@ -11,7 +11,7 @@ GME_NAOMI_CREATE_GENERATOR_IMPLEMENT (Isislab_Emulation_Generator);
 // Isislab_Emulation_Generator
 //
 Isislab_Emulation_Generator::Isislab_Emulation_Generator (void)
-: GME_Naomi_Generator ("ISISLab NS script generator for CUTS")
+: GME_Naomi_Generator ("ISISlab NS script generator for CUTS")
 {
 
 }

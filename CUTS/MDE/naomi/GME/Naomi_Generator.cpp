@@ -1,8 +1,8 @@
 // $Id$
 
 #include "Naomi_Generator.h"
-#include "gme/GME.h"
-#include "gme/ComponentEx.h"
+#include "game/GME.h"
+#include "game/ComponentEx.h"
 #include <sstream>
 
 //

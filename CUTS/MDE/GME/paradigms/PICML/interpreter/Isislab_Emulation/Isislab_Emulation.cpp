@@ -3,7 +3,6 @@
 #include "StdAfx.h"
 #include "Isislab_Emulation.h"
 #include "boost/bind.hpp"
-#include "Utils/Utils.h"
 #include <algorithm>
 #include <sstream>
 #include <iostream>
@@ -86,13 +85,6 @@ Visit_Domain (const PICML::Domain & domain)
       << "source tb_compat.tcl" << std::endl
       << std::endl;
 
-    // Create the UUID for the emulation.
-    std::string uuid = Utils::CreateUuid ();
-
-    this->outfile_
-      << "set opt(TEST_UUID) \"" << uuid << "\"" << std::endl
-      << std::endl;
-
     // Visit all the node in this domain.
     typedef std::vector <PICML::Node> Node_Set;
     Node_Set nodes = domain.Node_children ();
@@ -110,7 +102,8 @@ Visit_Domain (const PICML::Domain & domain)
       << "tb-set-node-os $control FC6-STD" << std::endl
       << "tb-set-hardware $control pc8832" << std::endl
       << std::endl
-      << "tb-set-node-startcmd $control /proj/GUTS/scripts/naomi-startup.sh" << std::endl
+      << "tb-set-node-startcmd $control \"/proj/GUTS/scripts/naomi-controller-startup.sh "
+      << this->project_name_ << "\"" << std::endl
       << std::endl
       << "# set the sync server for the system" << std::endl
       << "tb-set-sync-server $control" << std::endl
