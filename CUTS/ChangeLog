@@ -1,9 +1,23 @@
+Wed Dec 10 07:09:04 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/emulab/get-experiment-name.sh:
+
+          . Shell script that prints the name of the active experiment.
+
+        * etc/emulab/get-project-name.sh:
+
+          . Added an blank line to the end of the file.
+
+        * etc/tests:
+
+          . Added svn:ignore properties for the *.cdb files.
+
 Wed Dec 10 05:51:33 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/emulab/get-project-name.sh:
 
-	  . Shell script that will get the parent project's name for the 
-	    Emulab experiment.
+          . Shell script that will get the parent project's name for the
+            Emulab experiment.
 
 Wed Dec 10 05:30:54 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
