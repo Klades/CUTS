@@ -1021,7 +1021,7 @@ update_input_attribute (const std::string & attr, GME_Attribute_Tag & info)
     catch (...)
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T - %M - failed to load %s input attribute's information",
+                  "%T - %M - failed to load %s input attribute's information\n",
                   attr.c_str ()));
     }
 

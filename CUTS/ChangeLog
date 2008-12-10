@@ -1,3 +1,9 @@
+Wed Dec 10 16:36:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/naomi/GME/GNC_App.cpp:
+
+          . Fixed format of a log message.
+
 Wed Dec 10 16:25:14 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * CUTS_CoSMIC.mwc:
