@@ -240,7 +240,16 @@ int CUTS_Node_Daemon_Server::parse_args (int argc, char * argv [])
 //
 void CUTS_Node_Daemon_Server::shutdown (void)
 {
-  this->orb_->shutdown (true);
+  try
+  {
+    this->orb_->shutdown ();
+  }
+  catch (const CORBA::Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - %s\n",
+                ex._info ().c_str ()));
+  }
 }
 
 //

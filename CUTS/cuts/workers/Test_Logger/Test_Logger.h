@@ -50,7 +50,7 @@ public:
    *
    * @param[in]             test          Name of the test.
    */
-  bool connect (const ACE_CString & name);
+  bool connect_using_location (const ACE_CString & location);
 
   /// Connect to the existing test manager.
   bool connect (void);

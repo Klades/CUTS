@@ -1,3 +1,27 @@
+Thu Dec 11 14:56:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+
+          . Added try...catch blocks to the shutdown () method.
+
+        * cuts/utils/testing/svcs/server/Testing_Server.cpp:
+
+          . Removed the 'name' of the testing application from the test manager
+            name in the IORTable. Now, its name is CUTS/TestManager, which makes
+            resolving it by location a LOT easier.
+
+        * cuts/workers/Test_Logger/TestLogger.xme:
+
+          . GME model for using the TestLogger in a CBML/WML model.
+
+        * cuts/workers/Test_Logger/Test_Logger.h:
+        * cuts/workers/Test_Logger/Test_Logger.cpp:
+        * cuts/workers/Test_Logger/Test_Logger_i.h:
+        * cuts/workers/Test_Logger/Test_Logger_i.cpp:
+
+          . Implemented a connect_using_location () method that connects to the
+            test manager using a locations, such as hostname:port.
+
 Wed Dec 10 16:36:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/naomi/GME/GNC_App.cpp:

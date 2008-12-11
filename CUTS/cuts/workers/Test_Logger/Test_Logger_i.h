@@ -58,13 +58,14 @@ public:
    *
    * @param[in]       name          Name of the test manager.
    */
-  bool connect (const ACE_CString & name);
+  bool connect_using_location (const ACE_CString & location);
 
   /// Connect to the logging client using current configuration.
   bool connect (void);
 
 private:
-  bool connect_i (const ACE_CString & name);
+
+  int connect_i (const char * refstr);
 
   /// Name of the test manager.
   ACE_CString test_name_;
@@ -85,7 +86,7 @@ private:
   CUTS::TestManager_var test_manager_;
 
   /// UUID assigned to the test.
-  CUTS::UUID uuid_;
+  CUTS::TestDetails details_;
 };
 
 #endif  // !defined _CUTS_TEST_LOGGER_I_H_

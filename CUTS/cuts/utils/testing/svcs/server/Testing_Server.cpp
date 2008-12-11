@@ -73,14 +73,10 @@ int CUTS_Testing_Server::init (int argc, char * argv [])
     obj = this->root_poa_->id_to_reference (id.in ());
     CORBA::String_var objstr = this->orb_->object_to_string (obj.in ());
 
-    // Construct the name for the test manager.
-    ACE_CString name = "CUTS/TestManager/";
-    name += this->test_app ()->options ().name_;
-
     // Register the test manager with the IORTable for the ORB.
     int retval =
       CUTS_Testing_Server::register_with_iortable (this->orb_.in (),
-                                                   name.c_str (),
+                                                   "CUTS/TestManager",
                                                    objstr.in ());
 
     if (retval == -1)

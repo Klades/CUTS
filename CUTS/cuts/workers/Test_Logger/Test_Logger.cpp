@@ -35,9 +35,10 @@ bool CUTS_Test_Logger::configure (short port)
 //
 // connect
 //
-bool CUTS_Test_Logger::connect (const ACE_CString & name)
+bool CUTS_Test_Logger::
+connect_using_location (const ACE_CString & location)
 {
-  return this->impl_->connect (name);
+  return this->impl_->connect_using_location (location);
 }
 
 //
@@ -47,17 +48,6 @@ bool CUTS_Test_Logger::connect (void)
 {
   return this->impl_->connect ();
 }
-
-////
-//// log
-////
-//bool CUTS_Test_Logger::log (long severity, const char * msg)
-//{
-//  ACE_Time_Value tv = ACE_OS::gettimeofday ();
-//  size_t length = ACE_OS::strlen (msg);
-//
-//  return this->impl_->log (tv, severity, msg, length);
-//}
 
 //
 // log
