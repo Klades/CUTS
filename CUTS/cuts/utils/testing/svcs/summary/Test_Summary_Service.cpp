@@ -59,7 +59,7 @@ int CUTS_Test_Summary_Service::init (int argc, char * argv [])
     CUTS_Test_Summary_Impl * impl = 0;
 
     ACE_NEW_THROW_EX (impl,
-                      CUTS_XML_Test_Summary_Impl (),
+                      CUTS_Basic_Test_Summary_Impl (),
                       ACE_bad_alloc ());
 
     this->impl_.reset (impl);
