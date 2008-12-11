@@ -1208,6 +1208,8 @@ private:
   static IDL_Node_Set visited_nodes_;
 
   static std::string svnt_project_;
+
+  static std::string svnt_artifact_;
 };
 
 /**

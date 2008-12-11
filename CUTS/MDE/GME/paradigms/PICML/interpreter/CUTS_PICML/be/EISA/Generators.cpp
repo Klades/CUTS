@@ -212,6 +212,12 @@ std::string CUTS_BE_Project_Write_T <
 CUTS_BE_Eisa, CUTS_BE_Impl_Node>::svnt_project_;
 
 //
+// svnt_artifact_
+//
+std::string CUTS_BE_Project_Write_T <
+CUTS_BE_Eisa, CUTS_BE_Impl_Node>::svnt_artifact_;
+
+//
 // CUTS_BE_Project_Write_T <CUTS_BE_Eisa, CUTS_BE_Impl_Node>
 //
 bool CUTS_BE_Project_Write_T <CUTS_BE_Eisa, CUTS_BE_Impl_Node>::
@@ -310,7 +316,7 @@ generate_exec_project (const CUTS_BE_Impl_Node & node)
     visited_nodes_.clear ();
 
     CUTS_BE_EISA->project_file_
-      << "  libs += " << svnt_project_ << " " << skel_project;
+      << "  libs += " << svnt_artifact_ << " " << skel_project;
 
     std::for_each (node.references_.begin (),
                    node.references_.end (),
@@ -380,6 +386,7 @@ generate_svnt_project (const CUTS_BE_Impl_Node & node)
 
   // Save the name for the servant project.
   svnt_project_ = std::string (iter_svnt->name ());
+  svnt_artifact_ = basename (iter_svnt->location ());
 
   CUTS_BE_EISA->project_file_
     << "project (" << svnt_project_
