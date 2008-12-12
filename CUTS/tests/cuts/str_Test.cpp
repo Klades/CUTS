@@ -79,31 +79,21 @@ void operator_equal (void)
 //
 // init_unit_test_suite
 //
-bool init_unit_test_suite (void)
+boost::unit_test::test_suite *
+init_unit_test_suite (int argc, char * argv[])
 {
   using namespace ::boost::unit_test;
 
+  test_suite * test = BOOST_TEST_SUITE ("CUTS_str");
+
   // Add the unit test to the master suite.
-  framework::master_test_suite ().p_name.value = "CUTS_str";
+  test->p_name.value = "CUTS_str";
+  test->add (make_test_case (&constructor, "CUTS_str (void)"));
+  test->add (make_test_case (&init_constructor, "CUTS_str (const char *)"));
+  test->add (make_test_case (&copy_constructor, "CUTS_str (const CUTS_str &amp;)"));
+  test->add (make_test_case (&operator_equal, "operator = (const CUTS_str &amp;)"));
 
-  framework::master_test_suite ().add (
-    make_test_case (&constructor,
-    "CUTS_str (void)"));
+  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS"), false);
 
-  framework::master_test_suite ().add (
-    make_test_case (&init_constructor,
-    "CUTS_str (const char *)"));
-
-  framework::master_test_suite ().add (
-    make_test_case (&copy_constructor,
-    "CUTS_str (const CUTS_str &amp;)"));
-
-  framework::master_test_suite ().add (
-    make_test_case (&operator_equal,
-    "operator = (const CUTS_str &amp;)"));
-
-  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS"),
-                               false);
-
-  return true;
+  return test;
 }

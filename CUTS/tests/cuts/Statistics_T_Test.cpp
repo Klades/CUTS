@@ -152,43 +152,24 @@ void avg_value (void)
 //
 // init_unit_test_suite
 //
-bool init_unit_test_suite (void)
+boost::unit_test::test_suite *
+init_unit_test_suite (int argc, char * argv[])
 {
   using namespace ::boost::unit_test;
 
+  test_suite * test = BOOST_TEST_SUITE ("CUTS_Statistics_T &lt;T&gt;");
+
   // Add the unit test to the master suite.
-  framework::master_test_suite ().p_name.value =
-    "CUTS_Statistics_T &lt;T&gt;";
-
-  framework::master_test_suite ().add (
-    make_test_case (&constructor,
-    "Statistics_T (void)"));
-
-  framework::master_test_suite ().add (
-    make_test_case (&copy_constructor,
-    "Statistics_T (const Statistics_T &amp;)"));
-
-  framework::master_test_suite ().add (
-    make_test_case (&operator_plus_equal_value,
-    "operator += (T &amp;)"));
-
-  framework::master_test_suite ().add (
-    make_test_case (&operator_plus_equal_statistics,
-    "operator += (const CUTS_Statistic_T &amp;)"));
-
-  framework::master_test_suite ().add (
-    make_test_case (&operator_equal_statistics,
-    "operator = (const CUTS_Statistic_T &amp;)"));
-
-  framework::master_test_suite ().add (
-    make_test_case (&reset,
-    "reset (void)"));
-
-  framework::master_test_suite ().add (
-    make_test_case (&avg_value,
-    "avg_value (T &amp;)"));
+  test->p_name.value = "CUTS_Statistics_T &lt;T&gt;";
+  test->add (make_test_case (&constructor, "Statistics_T (void)"));
+  test->add (make_test_case (&copy_constructor, "Statistics_T (const Statistics_T &amp;)"));
+  test->add (make_test_case (&operator_plus_equal_value, "operator += (T &amp;)"));
+  test->add (make_test_case (&operator_plus_equal_statistics, "operator += (const CUTS_Statistic_T &amp;)"));
+  test->add (make_test_case (&operator_equal_statistics, "operator = (const CUTS_Statistic_T &amp;)"));
+  test->add (make_test_case (&reset, "reset (void)"));
+  test->add (make_test_case (&avg_value, "avg_value (T &amp;)"));
 
   INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS"), false);
 
-  return true;
+  return test;
 }

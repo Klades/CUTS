@@ -133,6 +133,7 @@ init_unit_test_suite (int argc, char * argv[])
   test_suite * test = BOOST_TEST_SUITE ("CUTS_TestManager");
 
   // Add the unit test to the master suite.
+  test->p_name.value = "CUTS_TestManager";
   test->add (make_test_case (&test::constructor, "CUTS_TestManager (void)"));
   test->add (make_test_case (&test::details, "details ()"));
 

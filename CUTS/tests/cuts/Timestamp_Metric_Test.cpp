@@ -72,17 +72,20 @@ void CUTS_Timestamp_Metric_assignment (void)
 //
 // init_unit_test_suite
 //
-bool init_unit_test_suite (void)
+boost::unit_test::test_suite *
+init_unit_test_suite (int argc, char * argv[])
 {
   using namespace ::boost::unit_test;
 
+  test_suite * test = BOOST_TEST_SUITE ("CUTS_Timestamp_Metric");
+
   // Add the unit test to the test suite.
-  framework::master_test_suite ().p_name.value = "CUTS_Timestamp_Metric";
-  framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_contructor));
-  framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_setter));
-  framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_is_valid));
-  framework::master_test_suite ().add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_assignment));
+  test->p_name.value = "CUTS_Timestamp_Metric";
+  test->add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_contructor));
+  test->add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_setter));
+  test->add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_is_valid));
+  test->add (BOOST_TEST_CASE (&CUTS_Timestamp_Metric_assignment));
 
   INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS"), false);
-  return true;
+  return test;
 }

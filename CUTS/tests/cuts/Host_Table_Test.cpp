@@ -138,45 +138,44 @@ void unbind_by_ipaddr (void)
 //
 // init_unit_test_suite
 //
-bool init_unit_test_suite (void)
+boost::unit_test::test_suite *
+init_unit_test_suite (int argc, char * argv[])
 {
   using namespace ::boost::unit_test;
 
-  // Add the unit test to the master suite.
-  framework::master_test_suite ().p_name.value = "CUTS_Host_Table";
+  test_suite * test = BOOST_TEST_SUITE ("CUTS_Host_Table");
 
-  framework::master_test_suite ().add (
+  // Add the unit test to the master suite.
+  test->p_name.value = "CUTS_Host_Table";
+
+  test->add (
     make_test_case (&constructor,
     "CUTS_Host_Table (void)"));
 
-  framework::master_test_suite ().add (
+  test->add (
     make_test_case (&host_table_bind,
-    "bind (const ACE_CString &, const ACE_CString &amp;, "
-    "const CUTS_Host_Table_Entry **)"));
+    "bind (const ACE_CString &, const ACE_CString &amp;, const CUTS_Host_Table_Entry **)"));
 
-  framework::master_test_suite ().add (
+  test->add (
     make_test_case (&reset, "reset (void)"));
 
-  framework::master_test_suite ().add (
+  test->add (
     make_test_case (&find_by_ipaddr,
-    "find_by_ipaddr (const ACE_CString &amp;, "
-    "const CUTS_Host_Table_Entry * &amp;)"));
+    "find_by_ipaddr (const ACE_CString &amp;, const CUTS_Host_Table_Entry * &amp;)"));
 
-  framework::master_test_suite ().add (
+  test->add (
     make_test_case (&find_by_name,
-    "find_by_name (const ACE_CString &amp;, "
-    "const CUTS_Host_Table_Entry * &amp;)"));
+    "find_by_name (const ACE_CString &amp;, const CUTS_Host_Table_Entry * &amp;)"));
 
-  framework::master_test_suite ().add (
+  test->add (
     make_test_case (&unbind_by_ipaddr,
     "unbind_by_ipaddr (const ACE_CString &amp;)"));
 
-  framework::master_test_suite ().add (
+  test->add (
     make_test_case (&unbind_by_name,
     "unbind_by_name (const ACE_CString &amp;)"));
 
-  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS"),
-                               false);
+  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS"), false);
 
-  return true;
+  return test;
 }

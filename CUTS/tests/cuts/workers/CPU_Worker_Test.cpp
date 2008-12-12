@@ -40,16 +40,17 @@ void Unit_Test_CPU_run (void)
 //
 // init_unit_test_suite
 //
-bool init_unit_test_suite (void)
+boost::unit_test::test_suite *
+init_unit_test_suite (int argc, char * argv[])
 {
   using namespace ::boost::unit_test;
 
+  test_suite * test = BOOST_TEST_SUITE ("CUTS_CPU_Worker");
+
   // Add the unit test to the test suite.
-  framework::master_test_suite ().p_name.value = "CUTS_CPU_Worker";
-  framework::master_test_suite ().add (BOOST_TEST_CASE (&Unit_Test_CPU_run));
+  test->p_name.value = "CUTS_CPU_Worker";
+  test->add (BOOST_TEST_CASE (&Unit_Test_CPU_run));
 
-  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS_CPU_Worker"),
-                               false);
-
-  return true;
+  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS"), false);
+  return test;
 }

@@ -1,3 +1,21 @@
+Fri Dec 12 17:08:19 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * tests/MPC/config/cuts_test.mpb:
+        * tests/cuts/Host_Table_Test.cpp:
+        * tests/cuts/Log_T_Test.cpp:
+        * tests/cuts/Port_Measurement_Test.cpp:
+        * tests/cuts/Statistics_T_Test.cpp:
+        * tests/cuts/Test_Main.cpp:
+        * tests/cuts/Time_Measurement_Test.cpp:
+        * tests/cuts/Timestamp_Metric_Test.cpp:
+        * tests/cuts/str_Test.cpp:
+        * tests/cuts/utils/testing/TestManager.cpp:
+        * tests/cuts/workers/CPU_Worker_Test.cpp:
+        * tests/cuts/workers/Test_Logger/Test_Logger.cpp:
+
+          . Simplified unit test specification by allowing Boost to define
+            the 'main' function.
+
 Fri Dec 12 16:37:21 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MPC/config/cuts_testing_stub.mpb:

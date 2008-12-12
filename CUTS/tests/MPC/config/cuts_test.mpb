@@ -14,12 +14,6 @@ project : cutsexe, boost_unit_test_framework {
   includes += $(CUTS_ROOT)/tests/cuts
   libpaths += $(CUTS_ROOT)/tests/lib
 
-  macros += BOOST_TEST_DYN_LINK
-  
-  Source_Files {
-    $(CUTS_ROOT)/tests/cuts/Test_Main.cpp
-  }
-
   Header_Files {
     $(CUTS_ROOT)/tests/cuts/Test_Log.h
   }

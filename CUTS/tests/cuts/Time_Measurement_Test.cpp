@@ -99,19 +99,20 @@ void Time_Measurement_Reset (void)
 //
 // init_unit_test_suite
 //
-bool init_unit_test_suite (void)
+boost::unit_test::test_suite *
+init_unit_test_suite (int argc, char * argv[])
 {
   using namespace ::boost::unit_test;
 
-  boost::unit_test::test_suite * ts =
-    BOOST_TEST_SUITE ("CUTS_Time_Measurement");
+  test_suite * test = BOOST_TEST_SUITE ("CUTS_Time_Measurement");
 
   // Add the unit test to the test suite.
-  framework::master_test_suite ().p_name.value = "CUTS_Time_Measurement";
-  framework::master_test_suite ().add (BOOST_TEST_CASE (&Time_Measurement_Constructor));
-  framework::master_test_suite ().add (BOOST_TEST_CASE (&Time_Measurement_Add_Time));
-  framework::master_test_suite ().add (BOOST_TEST_CASE (&Time_Measurement_Reset));
+  test->p_name.value = "CUTS_Time_Measurement";
+  test->add (BOOST_TEST_CASE (&Time_Measurement_Constructor));
+  test->add (BOOST_TEST_CASE (&Time_Measurement_Add_Time));
+  test->add (BOOST_TEST_CASE (&Time_Measurement_Reset));
 
   INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS"), false);
-  return true;
+
+  return test;
 }

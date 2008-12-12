@@ -76,27 +76,21 @@ static void log (void)
 //
 // init_unit_test_suite
 //
-bool init_unit_test_suite (void)
+boost::unit_test::test_suite *
+init_unit_test_suite (int argc, char * argv[])
 {
   using namespace ::boost::unit_test;
 
+  test_suite * test = BOOST_TEST_SUITE ("CUTS_Test_Logger");
+
   // Add the unit test to the master suite.
-  framework::master_test_suite ().p_name.value = "CUTS_Test_Logger";
+  test->p_name.value = "CUTS_Test_Logger";
+  test->add (make_test_case (&test::constructor, "CUTS_Test_Logger (void)"));
+  test->add (make_test_case (&test::configure, "configure (short)"));
+  test->add (make_test_case (&test::connect_noname, "connect (void)"));
+  test->add (make_test_case (&test::log, "log (long, const char *, ...)"));
 
-  framework::master_test_suite ().add (
-    make_test_case (&test::constructor, "CUTS_Test_Logger (void)"));
+  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS"), false);
 
-  framework::master_test_suite ().add (
-    make_test_case (&test::configure, "configure (short)"));
-
-  framework::master_test_suite ().add (
-    make_test_case (&test::connect_noname, "connect (void)"));
-
-  framework::master_test_suite ().add (
-    make_test_case (&test::log, "log (long, const char *, ...)"));
-
-  INSTALL_BOOST_LOG_FORMATTER (CUTS_Boost_JUnit_Formatter ("CUTS"),
-                               false);
-
-  return true;
+  return test;
 }
