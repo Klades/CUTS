@@ -1,7 +1,6 @@
 // $Id$
 
 #include "Testing_Server.h"
-#include "Testing_Server_Task.h"
 #include "cuts/utils/testing/Testing_App.h"
 #include "tao/TAO_Singleton_Manager.h"
 #include "tao/IORTable/IORTable.h"
@@ -16,10 +15,16 @@ CUTS_TESTING_SERVICE_IMPL (CUTS_Testing_Server, _make_CUTS_Testing_Server);
 // CUTS_Testing_Server
 //
 CUTS_Testing_Server::CUTS_Testing_Server (void)
-: register_with_ns_ (false),
-  task_ (*this)
+: register_with_ns_ (false)
 {
   CUTS_TESTING_SERVER_TRACE ("CUTS_Testing_Server::CUTS_Testing_Server (void)");
+
+  CUTS_TestManager_i * manager = 0;
+  ACE_NEW_THROW_EX (manager,
+                    CUTS_TestManager_i (*this),
+                    CORBA::NO_MEMORY ());
+
+  this->test_manager_.reset (manager);
 }
 
 //
@@ -56,18 +61,12 @@ int CUTS_Testing_Server::init (int argc, char * argv [])
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - getting reference to POAManager\n"));
 
-    this->poa_mgr_ = this->root_poa_->the_POAManager ();
-    this->poa_mgr_->activate ();
-
-    // Create a new test manager.
-    ACE_NEW_THROW_EX (this->test_manager_,
-                      CUTS_TestManager_i (*this),
-                      CORBA::NO_MEMORY ());
+    PortableServer::POAManager_var poa_mgr = this->root_poa_->the_POAManager ();
+    poa_mgr->activate ();
 
     // Activate the object and transfer ownership.
     PortableServer::ObjectId_var id =
-      this->root_poa_->activate_object (this->test_manager_);
-    this->servant_ = this->test_manager_;
+      this->root_poa_->activate_object (this->test_manager_.get ());
 
     // Convert the object id into a string.
     obj = this->root_poa_->id_to_reference (id.in ());
@@ -99,7 +98,16 @@ int CUTS_Testing_Server::init (int argc, char * argv [])
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - activating the server's task\n"));
 
-    return this->task_.activate ();
+    this->task_.reset (this->orb_.in ());
+    retval = this->task_.activate ();
+
+    if (retval == -1)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T (%t) - %M - failed to activate server task\n"));
+    }
+
+    return retval;
   }
   catch (const CORBA::Exception & ex)
   {
@@ -120,8 +128,29 @@ int CUTS_Testing_Server::parse_args (int argc, char * argv [])
 
   try
   {
-    // First, pass control to the base class.
     CUTS_TAO_Testing_Service::init (argc, argv);
+
+    const char * optargs = "";
+    ACE_Get_Opt get_opt (argc, argv, optargs);
+
+    get_opt.long_option ("register-with-ns", ACE_Get_Opt::NO_ARG);
+
+    char opt;
+
+    while ((opt = get_opt ()) != EOF)
+    {
+      switch (opt)
+      {
+      case 0:
+        if (ACE_OS::strcmp ("register-with-ns", get_opt.long_option ()) == 0)
+        {
+          this->register_with_ns_ = true;
+        }
+        break;
+
+      }
+    }
+
     return 0;
   }
   catch (const CORBA::Exception & ex)
@@ -150,7 +179,7 @@ int CUTS_Testing_Server::fini (void)
 
     // Stop the main event loop for the ORB.
     ACE_DEBUG ((LM_DEBUG, "%T (%t) - %M - shutting down the ORB\n"));
-    this->orb_->shutdown (1);
+    this->orb_->shutdown ();
     this->task_.wait ();
 
     // Destroy the RootPOA.
@@ -253,7 +282,7 @@ int CUTS_Testing_Server::register_with_name_service (void)
 
     // Bind the actual test manger to the naming service.
     ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - binding testing manager to naming service as %s\n",
+                "%T (%t) - %M - binding testing manager to naming service as %s\n",
                 this->test_app ()->options ().name_.c_str ()));
 
     CUTS::TestManager_var tm = this->test_manager_->_this ();
@@ -263,7 +292,7 @@ int CUTS_Testing_Server::register_with_name_service (void)
   catch (const CosNaming::NamingContext::AlreadyBound & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - %s already registered with naming service (%s)\n",
+                "%T (%t) - %M - %s already registered with naming service (%s)\n",
                 this->test_app ()->options ().name_.c_str (),
                 ex._info ().c_str ()));
   }

@@ -78,7 +78,7 @@ int CUTS_Test_Logging_Server::spawn_main (int argc, char * argv [])
   {
     // Parse the command-line arguments.
     if (this->parse_args (argc, argv) == -1)
-      return 1;
+      return -1;
 
     // Get a reference to the <RootPOA>
     ACE_DEBUG ((LM_DEBUG,
@@ -90,8 +90,8 @@ int CUTS_Test_Logging_Server::spawn_main (int argc, char * argv [])
     // Activate the RootPOA's manager.
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - getting reference to POAManager\n"));
-    this->poa_mgr_ = this->root_poa_->the_POAManager ();
-    this->poa_mgr_->activate ();
+    PortableServer::POAManager_var poa_mgr = this->root_poa_->the_POAManager ();
+    poa_mgr->activate ();
 
     // Activate the servant.
     PortableServer::ObjectId_var id =
@@ -107,8 +107,8 @@ int CUTS_Test_Logging_Server::spawn_main (int argc, char * argv [])
     this->task_.activate (this->opts_.thread_count_);
 
     // Register the server with the logging clients.
-    if (!this->opts_.clients_file_.empty ())
-      this->register_with_clients ();
+    //if (!this->opts_.clients_file_.empty ())
+    //  this->register_with_clients ();
 
     return 0;
   }
@@ -128,8 +128,10 @@ int CUTS_Test_Logging_Server::spawn_main (int argc, char * argv [])
 int CUTS_Test_Logging_Server::parse_args (int argc, char * argv[])
 {
   // Initailize the ORB.
-  if (CORBA::is_nil (this->orb_.in ()))
-    this->orb_ = CORBA::ORB_init (argc, argv, "cuts.logging.server");
+  if (::CORBA::is_nil (this->orb_.in ()))
+    this->orb_ = ::CORBA::ORB_init (argc, argv, "cuts.logging.server");
+  else
+    ACE_DEBUG ((LM_DEBUG, "ORB already initialized\n"));
 
   const char * optstr = "hv";
   ACE_Get_Opt get_opt (argc, argv, optstr);

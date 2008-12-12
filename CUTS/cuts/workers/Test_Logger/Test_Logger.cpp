@@ -44,6 +44,15 @@ connect_using_location (const ACE_CString & location)
 //
 // connect
 //
+bool CUTS_Test_Logger::
+connect_using_name (const ACE_CString & name)
+{
+  return this->impl_->connect_using_name (name);
+}
+
+//
+// connect
+//
 bool CUTS_Test_Logger::connect (void)
 {
   return this->impl_->connect ();

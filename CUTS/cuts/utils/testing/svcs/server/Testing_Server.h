@@ -14,10 +14,9 @@
 #define _CUTS_TESTING_APP_SERVER_H_
 
 #include "Testing_Server_export.h"
-#include "Testing_Server_Task.h"
 #include "TestManager_i.h"
+#include "cuts/ORB_Server_Task.h"
 #include "cuts/utils/testing/TAO_Testing_Service.h"
-#include "tao/PortableServer/Servant_Base.h"
 #include "orbsvcs/CosNamingC.h"
 
 // Forward decl.
@@ -80,10 +79,7 @@ private:
   int unregister_with_name_service (void);
 
   /// Test manager for the server.
-  CUTS_TestManager_i * test_manager_;
-
-  /// POA servant.
-  PortableServer::ServantBase_var servant_;
+  ACE_Auto_Ptr <CUTS_TestManager_i> test_manager_;
 
   /// Register the daemon with the naming service.
   bool register_with_ns_;
@@ -91,13 +87,11 @@ private:
   /// The RootPOA for the server.
   PortableServer::POA_var root_poa_;
 
-  PortableServer::POAManager_var poa_mgr_;
-
   /// The root context of the naming service.
   CosNaming::NamingContextExt_var root_ctx_;
 
   /// Task for the testing server.
-  CUTS_Testing_Server_Task task_;
+  CUTS_ORB_Server_Task task_;
 };
 
 CUTS_TESTING_SERVICE_DECL (CUTS_TESTING_SERVER_Export, _make_CUTS_Testing_Server);

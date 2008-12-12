@@ -1,5 +1,5 @@
 // $Id$
 
-project : gnc_base, cutslib {
+project : gnc_base, cuts_gme, cutslib {
 
 }

@@ -89,9 +89,6 @@ private:
   /// Teardown the current test.
   int teardown_test (void);
 
-  /// Make the application a daemon.
-  int make_daemon (CUTS_Testing_Service_Manager & mgr);
-
   /// Load the configuration for the test.
   static int load_configuration (CUTS_Testing_Service_Manager & mgr,
                                  const ACE_CString & config);

@@ -28,10 +28,15 @@ public:
   /**
    * Initializing constructor.
    */
-  CUTS_ORB_Server_Task (CORBA::ORB_ptr orb);
+  CUTS_ORB_Server_Task (CORBA::ORB_ptr orb = CORBA::ORB::_nil ());
 
   /// Destructor.
   virtual ~CUTS_ORB_Server_Task (void);
+
+  /**
+   * Initialize the ORB for the task.
+   */
+  int reset (CORBA::ORB_ptr orb = CORBA::ORB::_nil ());
 
   /**
    * Service routine for the task. If you do not want to spawn mutiple

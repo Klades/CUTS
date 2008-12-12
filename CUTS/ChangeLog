@@ -1,3 +1,91 @@
+Fri Dec 12 16:37:21 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_testing_stub.mpb:
+
+          . Derived project from taolib to pull in TAO libraries.
+
+        * MPC/config/gnc_parser.mpb:
+
+          . Added cuts_gme as a base project.
+
+        * contrib/java/commons-collections-3.1.jar:
+        * contrib/java/commons-lang-2.2.jar:
+        * contrib/java/cssparser-0.9.5.jar:
+        * contrib/java/nekohtml.jar:
+        * contrib/java/xalan.jar:
+        * contrib/java/xml-apis-ext.jar:
+
+          . Missing jar files for the NAOMI emulation connector.
+
+        * cuts/ORB_Server_Task.h:
+        * cuts/ORB_Server_Task.inl:
+
+          . Implemented an reset () method so this object behaves like an
+            auto_ptr, and does not have to be dynamically allocated.
+
+        * cuts/utils/logging/server/Logging_Server.h:
+        * cuts/utils/logging/server/Logging_Server.cpp:
+
+          . The PortableServer::POAManager is no longer a member variable
+            of this class.
+
+        * cuts/utils/testing/Test_Options.h:
+        * cuts/utils/testing/Testing_App.h:
+        * cuts/utils/testing/Testing_App.cpp:
+
+          . Removed --daemon options, which means the testing service must be
+            loaded manually from a configuration file.
+
+        * cuts/utils/testing/Testing_Service.h:
+        * cuts/utils/testing/Testing_Service.inl:
+
+          . Removed the 'const' modifier from the test_app () method.
+
+        * cuts/utils/testing/TAO_Testing_Service.cpp:
+
+          . Bug fix where the initializing a CORBA-based service did not
+            initialize the ORBs with unique names.
+
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service.cpp:
+        * cuts/utils/testing/svcs/server/Testing_Server.h:
+        * cuts/utils/testing/svcs/server/Testing_Server.cpp:
+        * cuts/utils/testing/svcs/server/server.mpc:
+
+          . Removed the task class, and switched to using the CUTS_ORB_Server_Task
+            object.
+
+          . Implemented the --register-with-ns command-line option, which register
+            the server object with the naming service under CUTS/TestManager/[NAME]
+            where NAME is the name of the test application.
+
+        * cuts/workers/Test_Logger/Test_Logger.h:
+        * cuts/workers/Test_Logger/Test_Logger.cpp:
+        * cuts/workers/Test_Logger/Test_Logger_i.h:
+        * cuts/workers/Test_Logger/Test_Logger_i.cpp:
+
+          . Implemented method for connecting to test manager using the
+            naming service.
+
+        * tests/MPC:
+        * tests/tests.mwc:
+
+          . Moved contents of /etc to /MPC
+
+        * tests/cuts/utils:
+        * tests/cuts/utils/testing:
+        * tests/cuts/utils/testing/TestManager.cpp:
+        * tests/cuts/utils/testing/test.mpc:
+
+          . Implemented ad-hoc unit test for the CUTS::TestManager object.
+
+        * cuts/utils/testing/svcs/server/Testing_Server_Task.h:
+        * cuts/utils/testing/svcs/server/Testing_Server_Task.cpp:
+        * tests/etc:
+        * tests/etc/config:
+        * tests/etc/config/cuts_test.mpb:
+
+          Removed these files.
+
 Thu Dec 11 20:56:41 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/svcs/summary/Test_Summary_Service.cpp:

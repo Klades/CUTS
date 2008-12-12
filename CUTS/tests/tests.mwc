@@ -1,8 +1,8 @@
 // $Id$
 
 workspace (tests) {
-  cmdline += -include $CUTS_ROOT/etc/config \
-             -include $CUTS_ROOT/tests/etc/config \
+  cmdline += -include $CUTS_ROOT/MPC/config \
+             -include $CUTS_ROOT/tests/MPC/config \
              -feature_file $CUTS_ROOT/default.features
 
   // -- explicitly specify the project directories

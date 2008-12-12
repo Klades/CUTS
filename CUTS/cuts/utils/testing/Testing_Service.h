@@ -65,7 +65,7 @@ public:
    *
    * @return        Pointer to the testing application.
    */
-  virtual CUTS_Testing_App_Base * const test_app (void);
+  virtual CUTS_Testing_App_Base * test_app (void);
 
   /// Destroy the service.
   virtual void destroy (void);

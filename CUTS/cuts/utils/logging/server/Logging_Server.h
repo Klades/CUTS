@@ -100,9 +100,6 @@ private:
   /// Reference to the RootPOA
   PortableServer::POA_var root_poa_;
 
-  /// Reference to the POA manager.
-  PortableServer::POAManager_var poa_mgr_;
-
   /// The actual implemenation of the server.
   CUTS_TestLoggerServer_i server_;
 

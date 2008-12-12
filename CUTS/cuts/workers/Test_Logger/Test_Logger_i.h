@@ -60,6 +60,13 @@ public:
    */
   bool connect_using_location (const ACE_CString & location);
 
+  /**
+   * Connect to the test manager.
+   *
+   * @param[in]       name          Name of the test manager.
+   */
+  bool connect_using_name (const ACE_CString & name);
+
   /// Connect to the logging client using current configuration.
   bool connect (void);
 

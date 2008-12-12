@@ -58,7 +58,6 @@ project (CUTS_Testing_Server) : naming, iortable, cuts_testing_skel, cuts, cuts_
 
   Source_Files {
     Testing_Server.cpp
-    Testing_Server_Task.cpp
     TestManager_i.cpp
   }
 

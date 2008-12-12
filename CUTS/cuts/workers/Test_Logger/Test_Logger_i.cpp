@@ -18,7 +18,7 @@ CUTS_Test_Logger_i::CUTS_Test_Logger_i (void)
   char ** argv;
 
   ACE_OS::string_to_argv (args_str, argc, argv);
-  this->orb_ = CORBA::ORB_init (argc, argv);
+  this->orb_ = ::CORBA::ORB_init (argc, argv);
 
   // Initialize the contents of the UUID.
   this->details_.uid <<= ACE_Utils::UUID::NIL_UUID;
@@ -75,7 +75,7 @@ bool CUTS_Test_Logger_i::configure (short port)
 }
 
 //
-// connect
+// connect_using_location
 //
 bool CUTS_Test_Logger_i::
 connect_using_location (const ACE_CString & location)
@@ -83,6 +83,24 @@ connect_using_location (const ACE_CString & location)
   // Construct the corbaloc for the CUTS/TestManager
   std::ostringstream ostr;
   ostr << "corbaloc:iiop:" << location.c_str () << "/CUTS/TestManager";
+
+  if (this->connect_i (ostr.str ().c_str ()) == 0)
+    return this->connect ();
+
+  ACE_ERROR ((LM_ERROR,
+              "%T (%t) - %M - failed to get test manager\n"));
+  return false;
+}
+
+//
+// connect_using_name
+//
+bool CUTS_Test_Logger_i::
+connect_using_name (const ACE_CString & name)
+{
+  // Construct the corbaloc for the CUTS/TestManager
+  std::ostringstream ostr;
+  ostr << "corbaname:rir:#" << name.c_str ();
 
   if (this->connect_i (ostr.str ().c_str ()) == 0)
     return this->connect ();
@@ -198,13 +216,28 @@ log (const ACE_Time_Value & tv, long severity, const char * msg, size_t msg_leng
 //
 int CUTS_Test_Logger_i::connect_i (const char * refstr)
 {
+  ACE_OS::sleep (15);
+
   try
   {
     // Resolve the test manager.
-    CORBA::Object_var obj =
-      this->orb_->resolve_initial_references (refstr);
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - converting string into object [%s]\n",
+                refstr));
 
-    this->test_manager_ = CUTS::TestManager::_narrow (obj.in ());
+    CORBA::Object_var obj = this->orb_->string_to_object (refstr);
+
+    if (::CORBA::is_nil (obj.in ()))
+    {
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "%T (%t) - %M - failed to locate object\n"),
+                         -1);
+    }
+
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - converting object into test manager\n"));
+
+    this->test_manager_ = ::CUTS::TestManager::_narrow (obj.in ());
 
     if (::CORBA::is_nil (this->test_manager_.in ()))
     {
@@ -215,7 +248,14 @@ int CUTS_Test_Logger_i::connect_i (const char * refstr)
     }
 
     // Get the test details and store the UUID
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - getting details from test manager\n"));
+
     CUTS::TestDetails_var details = this->test_manager_->details ();
+
+    ACE_DEBUG ((LM_DEBUG,
+                "CRAP\n"));
+
     this->details_ = *details;
     return 0;
   }

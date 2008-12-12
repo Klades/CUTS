@@ -1,0 +1,9 @@
+// $Id$
+
+project (CUTS_TestManager) : cuts_testing_stub, cuts_test {
+  exename = CUTS_TestManager
+
+  Source_Files {
+    TestManager.cpp
+  }
+}

@@ -52,6 +52,8 @@ public:
    */
   bool connect_using_location (const ACE_CString & location);
 
+  bool connect_using_name (const ACE_CString & name);
+
   /// Connect to the existing test manager.
   bool connect (void);
 

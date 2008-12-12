@@ -113,6 +113,7 @@ int CUTS_Test_Logging_Service::init (int argc, char * argv [])
   }
 
   // Spawn a new instance of the server. ;-)
+  this->server_->uuid (this->test_app ()->options ().uuid_);
   return this->server_->spawn_main (argc, argv);
 }
 
