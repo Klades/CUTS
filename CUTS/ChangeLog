@@ -1,3 +1,22 @@
+Mon Dec 15 00:54:26 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/db/SQLite/Connection.h:
+        * cuts/utils/db/SQLite/Connection.cpp:
+
+          . Implemented the has_table () method, which can be used to
+            determine if a table exist in the database.
+
+        * cuts/utils/logging/server/Logging_Server.cpp:
+
+          . Added a catch () block for CUTS_DB_Exception types.
+
+        * cuts/utils/testing/Test_Database.h:
+        * cuts/utils/testing/Test_Database.cpp:
+
+          . Bug fix where invoking the create () method multiple times on
+            an existing database created duplicate entries in the cuts_test
+            table.
+
 Mon Dec 15 00:04:58 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MPC/config/cuts_logging_stub.mpb:

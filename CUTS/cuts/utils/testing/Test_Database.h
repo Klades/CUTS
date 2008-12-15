@@ -45,15 +45,20 @@ public:
   /**
    * Get a reference to the test database.
    *
-   * @return        Reference to database connection.
+   * @return          Reference to database connection.
    */
   CUTS_DB_Connection * operator -> (void);
 
   /**
-   * Create the test database.
+   * Create the test database. This will initialize the test descriptor
+   * stored in the database with UUID. If the specified \a location of
+   * is an existing database, then \a uuid will be updated to the UUID
+   * currently stored in the test descriptor.
+   *
+   * @param[in]       location      Location of the database
+   * @param[inout]    uuid          UUID of the test
    */
-  bool create (const ACE_CString & location,
-               const ACE_Utils::UUID & uuid);
+  bool create (const ACE_CString & location, ACE_Utils::UUID & uuid);
 
   /**
    * Open the test database.
@@ -88,6 +93,9 @@ public:
   int set_test_uuid (const ACE_Utils::UUID & uuid);
 
 private:
+  static int get_test_uuid_i (CUTS_DB_SQLite_Query * query,
+                              ACE_Utils::UUID & uuid);
+
   void init (void);
 
   bool open_i (const ACE_CString & location, long flags);

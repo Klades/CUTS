@@ -2,6 +2,7 @@
 
 #include "Connection.h"
 #include "Exception.h"
+#include "cuts/Auto_Functor_T.h"
 #include "ace/CORBA_macros.h"
 #include "sqlite3.h"
 
@@ -73,4 +74,30 @@ CUTS_DB_SQLite_Query * CUTS_DB_SQLite_Connection::create_query (void)
                     ACE_bad_alloc ());
 
   return query;
+}
+
+//
+// has_table
+//
+bool CUTS_DB_SQLite_Connection::has_table (const ACE_CString & tablename)
+{
+  // Instantiate a new query for the database.
+  CUTS_DB_SQLite_Query * query = this->create_query ();
+
+  CUTS_Auto_Functor_T <CUTS_DB_SQLite_Query>
+    auto1 (query, &CUTS_DB_SQLite_Query::destroy);
+
+  // Prepare the SQL statement.
+  const char * __sql_stmt__ = "SELECT * FROM sqlite_master WHERE tbl_name = ?";
+  query->prepare (__sql_stmt__);
+
+  query->parameters ()[0].bind (tablename.c_str (), tablename.length ());
+
+  // Execute the query and get the result
+  CUTS_DB_SQLite_Record * record = query->execute ();
+
+  CUTS_Auto_Functor_T <CUTS_DB_SQLite_Record>
+    auto2 (record, &CUTS_DB_SQLite_Record::destroy);
+
+  return !record->done ();
 }

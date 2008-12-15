@@ -58,7 +58,7 @@ void CUTS_Test_Database::init (void)
 // create
 //
 bool CUTS_Test_Database::
-create (const ACE_CString & location, const ACE_Utils::UUID & uuid)
+create (const ACE_CString & location, ACE_Utils::UUID & uuid)
 {
   long flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
   bool retval = this->open_i (location, flags);
@@ -76,18 +76,27 @@ create (const ACE_CString & location, const ACE_Utils::UUID & uuid)
     for (size_t i = 0; i < CREATE_TABLES_COUNT; ++ i)
       query->execute_no_record (__CREATE_TABLES__[i]);
 
-    // Finally, initialize the database.
-    const char * __sql_stmt__ =
-      "INSERT INTO cuts_test (uuid) VALUES (?)";
+    ACE_Utils::UUID curr_uuid;
 
-    // Prepare the SQL statement.
-    query->prepare (__sql_stmt__);
+    if (CUTS_Test_Database::get_test_uuid_i (query, curr_uuid) == 0)
+    {
+      uuid = curr_uuid;
+    }
+    else
+    {
+      // Store the UUID in the database.
+      const char * __sql_stmt__ =
+        "INSERT INTO cuts_test (uuid) VALUES (?)";
 
-    const ACE_CString * uuidstr = uuid.to_string ();
-    query->parameters ()[0].bind (uuidstr->c_str (), uuidstr->length ());
+      // Prepare the SQL statement.
+      query->prepare (__sql_stmt__);
 
-    // Execute the SQL statement.
-    query->execute_no_record ();
+      const ACE_CString * uuidstr = uuid.to_string ();
+      query->parameters ()[0].bind (uuidstr->c_str (), uuidstr->length ());
+
+      // Execute the SQL statement.
+      query->execute_no_record ();
+    }
   }
 
   return retval;
@@ -211,12 +220,22 @@ int CUTS_Test_Database::get_test_uuid (ACE_Utils::UUID & uuid)
   CUTS_Auto_Functor_T <CUTS_DB_SQLite_Query>
     auto_release (query, &CUTS_DB_SQLite_Query::destroy);
 
+  return CUTS_Test_Database::get_test_uuid_i (query, uuid);
+}
+
+//
+// get_test_uuid
+//
+int CUTS_Test_Database::
+get_test_uuid_i (CUTS_DB_SQLite_Query * query, ACE_Utils::UUID & uuid)
+{
   // Prepare the SQL statement.
   const char * __sql_stmt__ = "SELECT * FROM cuts_test WHERE tid = 1";
   query->prepare (__sql_stmt__);
 
   // Execute the SQL statement.
   CUTS_DB_SQLite_Record * record = query->execute ();
+
   CUTS_Auto_Functor_T <CUTS_DB_SQLite_Record>
     auto_destroy (record, &CUTS_DB_SQLite_Record::destroy);
 

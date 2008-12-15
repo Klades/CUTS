@@ -123,6 +123,12 @@ int CUTS_Test_Logging_Server::spawn_main (int argc, char * argv [])
 
     return 0;
   }
+  catch (const CUTS_DB_Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - %s\n",
+                ex.message ().c_str ()));
+  }
   catch (const CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,

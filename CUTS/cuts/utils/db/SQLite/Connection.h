@@ -53,6 +53,8 @@ public:
 
   virtual CUTS_DB_SQLite_Query * create_query (void);
 
+  bool has_table (const ACE_CString & tablename);
+
 private:
   /// Connection the database.
   sqlite3 * conn_;
