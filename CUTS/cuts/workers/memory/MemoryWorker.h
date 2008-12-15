@@ -8,18 +8,25 @@
  *
  * This file contains the default memory worker in CUTS.
  *
- * @author James H. Hill <hillj@isis.vanderbilt.edu>
+ * @author            James H. Hill <hillj@isis.vanderbilt.edu>
  */
 //=============================================================================
 
 #ifndef _CUTS_MEMORY_WORKER_H_
 #define _CUTS_MEMORY_WORKER_H_
 
+#include "Memory_Worker_export.h"
 #include "cuts/Worker.h"
 #include "ace/Thread_Mutex.h"
 #include <list>
 
-class CUTS_Export CUTS_Memory_Worker : public CUTS_Worker
+/**
+ * @class CUTS_Memory_Worker
+ *
+ * Workload generator for memory operations
+ */
+class CUTS_MEMORY_WORKER_Export CUTS_Memory_Worker :
+  public CUTS_Worker
 {
 public:
   /// Constructor.
@@ -61,7 +68,7 @@ public:
 };
 
 #if defined (__CUTS_INLINE__)
-#include "cuts/MemoryWorker.inl"
+#include "MemoryWorker.inl"
 #endif
 
 #endif  // !defined _CUTS_MEMORY_WORKER_H_

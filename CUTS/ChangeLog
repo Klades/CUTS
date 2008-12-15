@@ -1,3 +1,22 @@
+Mon Dec 15 14:06:59 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/workers/memory:
+        * cuts/workers/memory/Memory_Worker.mpc:
+        * cuts/workers/memory/Memory_Worker_export.h:
+        * cuts/workers/memory/MemoryWorker.h:
+        * cuts/workers/memory/MemoryWorker.inl:
+        * cuts/workers/memory/MemoryWorker.cpp:
+
+          . Moved the CUTS_Memory_Worker object to its own directory under
+            cuts/workers.
+
+        * cuts/CUTS_Worker.mpc:
+        * cuts/MemoryWorker.h:
+        * cuts/MemoryWorker.inl:
+        * cuts/MemoryWorker.cpp:
+
+          Removed these files.
+
 Mon Dec 15 13:59:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/CUTS_Worker.mpc:
