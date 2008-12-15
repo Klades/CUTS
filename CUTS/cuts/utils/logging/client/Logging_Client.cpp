@@ -166,6 +166,9 @@ int CUTS_Logging_Client::run_main (int argc, char * argv [])
                   retval));
     }
 
+    if (CUTS_LOGGING_OPTIONS->register_with_ns_)
+      this->unregister_with_name_service ();
+
     // Destroy the RootPOA.
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - destroying the RootPOA\n"));
@@ -199,7 +202,7 @@ void CUTS_Logging_Client::shutdown (void)
   {
     // Stop the ORB's main event loop.
     if (!::CORBA::is_nil (this->orb_.in ()))
-      this->orb_->shutdown (1);
+      this->orb_->shutdown ();
   }
   catch (const CORBA::Exception & ex)
   {
@@ -424,7 +427,7 @@ int CUTS_Logging_Client::register_with_name_service (CORBA::Object_ptr client)
                 "CUTS/TestLoggerClient/%s\n",
                 this->hostname_.c_str ()));
 
-    this->root_ctx_->bind (ns_name, client);
+    this->root_ctx_->rebind (ns_name, client);
     return 0;
   }
   catch (const CosNaming::NamingContext::AlreadyBound & ex)
@@ -460,7 +463,7 @@ int CUTS_Logging_Client::unregister_with_name_service (void)
     ns_name.length (3);
 
     ns_name[0].id = CORBA::string_dup ("CUTS");
-    ns_name[1].id = CORBA::string_dup ("TestManager");
+    ns_name[1].id = CORBA::string_dup ("TestLoggerClient");
     ns_name[2].id = CORBA::string_dup (this->hostname_.c_str ());
 
     // Unregister the TestManger with the naming service.

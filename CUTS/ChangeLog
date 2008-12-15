@@ -1,3 +1,10 @@
+Mon Dec 15 01:08:19 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/client/Logging_Client.cpp:
+
+          . The logging client now rebinds () to the naming service, which
+            overwrites the previous entry if one exists.
+
 Mon Dec 15 00:54:26 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/db/SQLite/Connection.h:
