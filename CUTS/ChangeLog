@@ -1,3 +1,11 @@
+Mon Dec 15 01:49:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.cpp:
+
+          . Bug fix where the CIAO generator did not generate code to
+            set a variable's initial value, if specified.
+
 Mon Dec 15 01:08:19 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/client/Logging_Client.cpp:

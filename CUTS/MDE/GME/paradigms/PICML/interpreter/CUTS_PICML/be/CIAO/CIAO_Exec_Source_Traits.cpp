@@ -141,7 +141,39 @@ write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
 
   this->outfile ()
     << function_header (this->object_impl_)
-    << this->object_impl_ << "::" << this->object_impl_ << " (void)"
+    << this->object_impl_ << "::" << this->object_impl_ << " (void)";
+
+  // Set the initial value for each variable.
+
+  typedef std::vector <PICML::Variable> Variable_Set;
+  Variable_Set variables = component.Variable_children ();
+
+  if (!variables.empty ())
+  {
+    // Locate the first variable with an initial value.
+    Variable_Set::iterator iter =
+      std::find_if (variables.begin (), variables.end (),
+                    boost::bind (std::not_equal_to <std::string> (),
+                                 "",
+                                 boost::bind (&PICML::Variable::name, _1)));
+
+    if (iter != variables.end ())
+    {
+      // Write the initial value of the first variable.
+      this->outfile () << std::endl
+                       << ": " << iter->name () << "_ ("
+                       << iter->InitialValue () << ")";
+
+      // Write the initial values of the remaining variables.
+      std::for_each (++ iter,
+                    variables.end (),
+                    boost::bind (&CUTS_CIAO_Exec_Source_Traits::write_variable_initializer,
+                                  this,
+                                  _1));
+    }
+  }
+
+  this->outfile ()
     << "{"
     << "}"
 
@@ -885,4 +917,20 @@ void CUTS_CIAO_Exec_Source_Traits::write_and_symbol (void)
 void CUTS_CIAO_Exec_Source_Traits::write_or_symbol (void)
 {
   this->outfile () << " || ";
+}
+
+//
+// write_variable_initializer
+//
+void CUTS_CIAO_Exec_Source_Traits::
+write_variable_initializer (const PICML::Variable & variable)
+{
+  std::string value = variable.InitialValue ();
+
+  if (!value.empty ())
+  {
+    this->outfile () << "," << std::endl
+                     << "  " << variable.name () << "_ ("
+                     << variable.InitialValue () << ")";
+  }
 }

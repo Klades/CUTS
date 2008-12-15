@@ -166,6 +166,8 @@ protected:
     const PICML::Component & component);
 
 private:
+  void write_variable_initializer (const PICML::Variable & variable);
+
   /// Type definition for pointer-to-methods to environment methods.
   typedef void (CUTS_CIAO_Exec_Source_Traits::
     *Environment_Method) (const PICML::Component &);
