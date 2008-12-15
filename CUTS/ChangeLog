@@ -1,3 +1,90 @@
+Mon Dec 15 00:04:58 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_logging_stub.mpb:
+
+          . Added 'taolib' as a base class.
+
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+
+          . Updated the help printout for the application.
+
+        * cuts/utils/logging/client/Logging_Client.h:
+        * cuts/utils/logging/client/Logging_Client.cpp:
+        * cuts/utils/logging/client/Logging_Client_Options.h:
+        * cuts/utils/logging/client/TestLoggerClient_i.h:
+        * cuts/utils/logging/client/TestLoggerClient_i.cpp:
+        * cuts/utils/logging/client/TestLoggerFactory_i.h:
+        * cuts/utils/logging/client/TestLoggerFactory_i.inl:
+        * cuts/utils/logging/client/TestLoggerFactory_i.cpp:
+        * cuts/utils/logging/client/TestLogger_i.h:
+        * cuts/utils/logging/client/TestLogger_i.inl:
+        * cuts/utils/logging/client/TestLogger_i.cpp:
+        * cuts/utils/logging/client/client.idl:
+        * cuts/utils/logging/client/client.mpc:
+        * cuts/utils/logging/logging.idl:
+
+          . The logging client is no longer responsible for starting/stopping
+            the logger.
+
+          . Re-implemented the factories such that they do not the
+            servants once they are activated. Instead, they only keep
+            track of the user-defined ids of each servant.
+
+          . The logging client is now able to register itself with the
+            naming service using the --register-with-ns command-line
+            option.
+
+        * cuts/utils/logging/server/Logging_Server.h:
+        * cuts/utils/logging/server/Logging_Server.cpp:
+        * cuts/utils/logging/server/Logging_Server_Options.h:
+        * cuts/utils/logging/server/TestLoggerServer_i.h:
+        * cuts/utils/logging/server/TestLoggerServer_i.inl:
+        * cuts/utils/logging/server/TestLoggerServer_i.cpp
+        * cuts/utils/logging/server/server.mpc:
+
+          . Hard-coded the logging server to install the
+            CUTS_Test_Logging_Callback object. This is temporary since
+            there is a BUG in TAO that prevents it from being loaded as
+            a CUTS testing service.
+
+        * cuts/utils/testing/svcs/server/Testing_Server.cpp:
+
+          . Disabled IORTable registration.
+
+        * cuts/utils/logging/server/callbacks:
+        * cuts/utils/logging/server/callbacks/testing:
+        * cuts/utils/logging/server/callbacks/testing/Test_Logging_Callback.h:
+        * cuts/utils/logging/server/callbacks/testing/Test_Logging_Callback.inl:
+        * cuts/utils/logging/server/callbacks/testing/Test_Logging_Callback.cpp:
+        * cuts/utils/logging/server/callbacks/testing/Test_Logging_Callback_export.h:
+        * cuts/utils/logging/server/callbacks/testing/testing.mpc:
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service.cpp:
+        * cuts/utils/testing/svcs/logging/logging.mpc:
+
+          . Refactored code such that the logging client callback is
+            now in its own library. This allows its reuse across multiple
+            projects.
+
+        * cuts/utils/testing/Test_Database.h:
+        * cuts/utils/testing/Test_Database.inl:
+
+          . Implemented the create_query () method on the database so that
+            clients can creating a SQL query on the database.
+
+
+        * cuts/workers/Test_Logger/Test_Logger_i.cpp:
+
+          . Aded try...catch blocks to the destructor.
+
+        * cuts/utils/logging/server/Logging_Server_Task.h:
+        * cuts/utils/logging/server/Logging_Server_Task.inl:
+        * cuts/utils/logging/server/Logging_Server_Task.cpp:
+        * cuts/utils/testing/svcs/logging/Test_Logging_Callback.h:
+        * cuts/utils/testing/svcs/logging/Test_Logging_Callback.inl:
+        * cuts/utils/testing/svcs/logging/Test_Logging_Callback.cpp:
+
+          Removed these files.
+
 Fri Dec 12 17:08:19 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * tests/MPC/config/cuts_test.mpb:

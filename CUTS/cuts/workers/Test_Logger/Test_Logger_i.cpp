@@ -29,16 +29,28 @@ CUTS_Test_Logger_i::CUTS_Test_Logger_i (void)
 //
 CUTS_Test_Logger_i::~CUTS_Test_Logger_i (void)
 {
-  if (!::CORBA::is_nil (this->logger_.in ()))
+  try
   {
-    // Destroy the logger if we have reference to the factory.
-    if (!::CORBA::is_nil (this->log_factory_.in ()))
-      this->log_factory_->destroy (this->logger_.in ());
-  }
+    if (!::CORBA::is_nil (this->logger_.in ()))
+    {
+      // Stop the logger.
+      this->logger_->stop ();
 
-  // Destroy the ORB.
-  if (!::CORBA::is_nil (this->orb_.in ()))
-    this->orb_->destroy ();
+      // Destroy the logger if we have reference to the factory.
+      if (!::CORBA::is_nil (this->log_factory_.in ()))
+        this->log_factory_->destroy (this->logger_.in ());
+    }
+
+    // Destroy the ORB.
+    if (!::CORBA::is_nil (this->orb_.in ()))
+      this->orb_->destroy ();
+  }
+  catch (const CORBA::Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - %s\n",
+                ex._info ().c_str ()));
+  }
 }
 
 //
@@ -100,7 +112,7 @@ connect_using_name (const ACE_CString & name)
 {
   // Construct the corbaloc for the CUTS/TestManager
   std::ostringstream ostr;
-  ostr << "corbaname:rir:#" << name.c_str ();
+  ostr << "corbaname:rir:#CUTS/TestManager/" << name.c_str ();
 
   if (this->connect_i (ostr.str ().c_str ()) == 0)
     return this->connect ();
@@ -123,10 +135,6 @@ bool CUTS_Test_Logger_i::connect (void)
       ACE_Utils::UUID uuid;
       this->details_.uid >>= uuid;
 
-      ACE_DEBUG ((LM_DEBUG,
-                  "%T (%t) - %T - creating logger factory for test %s\n",
-                  uuid.to_string ()->c_str ()));
-
       try
       {
         // Locate the logger factory for this test.
@@ -139,7 +147,12 @@ bool CUTS_Test_Logger_i::connect (void)
 
           // Create a logger from the logging factory.
           this->logger_ = this->log_factory_->create ();
-          return !::CORBA::is_nil (this->logger_.in ());
+
+          if (::CORBA::is_nil (this->logger_.in ()))
+            return false;
+
+          this->logger_->start (30);
+          return true;
         }
         else
         {
@@ -216,8 +229,6 @@ log (const ACE_Time_Value & tv, long severity, const char * msg, size_t msg_leng
 //
 int CUTS_Test_Logger_i::connect_i (const char * refstr)
 {
-  ACE_OS::sleep (15);
-
   try
   {
     // Resolve the test manager.
@@ -252,10 +263,6 @@ int CUTS_Test_Logger_i::connect_i (const char * refstr)
                 "%T (%t) - %M - getting details from test manager\n"));
 
     CUTS::TestDetails_var details = this->test_manager_->details ();
-
-    ACE_DEBUG ((LM_DEBUG,
-                "CRAP\n"));
-
     this->details_ = *details;
     return 0;
   }

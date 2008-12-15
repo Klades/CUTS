@@ -5,8 +5,10 @@ project (CUTS_Test_Logging_Service) : boost_base, iortable, cuts, cuts_logging_s
 
   dynamicflags += CUTS_TEST_LOGGING_SERVICE_BUILD_DLL
 
+  libs  += CUTS_Test_Logging_Callback
+  after += CUTS_Test_Logging_Callback
+
   Source_Files {
-    Test_Logging_Callback.cpp
     Test_Logging_Service.cpp
   }
 

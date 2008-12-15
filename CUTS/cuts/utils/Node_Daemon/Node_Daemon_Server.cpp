@@ -23,7 +23,7 @@ static const char * __HELP__ =
 "  -c, --config=FILE                  initial configuration file\n"
 "  -o, --ior-file=NAME                output file for IOR\n"
 "\n"
-"  -D NAME=VALUE                      define property NAME=VALUE\n"
+"  -DNAME=VALUE                      define property NAME=VALUE\n"
 "\n"
 "  -v, --verbose                      print verbose infomration\n"
 "  --debug                            print debugging information\n"

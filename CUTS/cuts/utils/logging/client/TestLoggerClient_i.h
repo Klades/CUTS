@@ -14,7 +14,8 @@
 #define _CUTS_TEST_LOGGER_CLIENT_I_H_
 
 #include "clientS.h"
-#include "Test_Logger_Map.h"
+#include "ace/Unbounded_Set.h"
+#include "ace/UUID.h"
 
 /**
  * @class CUTS_TestLoggerClient_i
@@ -36,17 +37,18 @@ public:
   virtual void register_server (const CUTS::UUID & uuid,
                                 CUTS::TestLoggerServer_ptr server);
 
-  virtual void unregister_server (const CUTS::UUID & uuid,
-                                  CUTS::TestLoggerServer_ptr server);
+  virtual void unregister_server (const CUTS::UUID & uuid);
 
   CUTS::TestLoggerFactory_ptr find (const CUTS::UUID & uuid) const;
 
 private:
   /// POA for activating test logger factories.
-  PortableServer::POA_var factory_poa_;
+  PortableServer::POA_var poa_;
 
-  /// Registration map for the test loggers.
-  CUTS_Test_Logger_Map map_;
+  /// Collection of active tests managed by client.
+  ACE_Unbounded_Set <ACE_Utils::UUID> tests_;
+
+  mutable ACE_RW_Thread_Mutex lock_;
 };
 
 #endif  // !defined _CUTS_TEST_LOGGER_CLIENT_I_H_

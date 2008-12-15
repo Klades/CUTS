@@ -29,7 +29,8 @@ public:
   CUTS_Logging_Client_Options (void)
     : thr_count_ (1),
       timeout_ (30),
-      localport_ (20000)
+      localport_ (20000),
+      register_with_ns_ (false)
   {
 
   }
@@ -42,6 +43,8 @@ public:
 
   /// Local port for the client.
   unsigned short localport_;
+
+  bool register_with_ns_;
 };
 
 #define CUTS_LOGGING_OPTIONS \

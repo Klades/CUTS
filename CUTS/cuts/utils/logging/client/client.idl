@@ -37,6 +37,10 @@ module CUTS
               in MessageText message);
 
     void batch_log (in LogMessages msgs);
+
+    void start (in unsigned long seconds);
+
+    void stop ();
   };
 
   /**

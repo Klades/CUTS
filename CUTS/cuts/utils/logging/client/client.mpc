@@ -50,7 +50,7 @@ project (CUTS_Logging_Client_skel) : portableserver, cuts_logging_client_stub, c
   }
 }
 
-project (cutslog) : iortable, cuts_logging_client_skel, cutsexe {
+project (cutslog) : naming, iortable, cuts_logging_client_skel, cutsexe {
   exename = cutslog
 
   Source_Files {

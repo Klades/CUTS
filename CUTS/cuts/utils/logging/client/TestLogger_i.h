@@ -59,10 +59,12 @@ public:
    *
    * @param[in]       timeout       Timeout value.
    */
-  int start (const ACE_Time_Value & timeout);
+  virtual void start (CORBA::ULong seconds);
 
   /// Stop the logger.
-  int stop (void);
+  virtual void stop (void);
+
+  size_t id (void) const;
 
 protected:
   /// Service handler routine for the task.

@@ -41,7 +41,7 @@ public:
 
 private:
   /// Type definition of the array of callback objects.
-  typedef ACE_Unbounded_Set <CUTS::TestLoggerServerCallback_ptr> callbacks_type;
+  typedef ACE_Unbounded_Set <CUTS::TestLoggerServerCallback_var> callbacks_type;
 
   /// Collection of callback objects.
   callbacks_type callbacks_;

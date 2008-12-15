@@ -7,17 +7,7 @@
 #endif
 
 #include "cuts/UUID.h"
-
-//
-// CUTS_TestLoggerServer_i
-//
-CUTS_TestLoggerServer_i::~CUTS_TestLoggerServer_i (void)
-{
-  callbacks_type::iterator iter (this->callbacks_);
-
-  for (; !iter.done (); ++ iter)
-    ::CORBA::release (*iter);
-}
+#include "ace/streams.h"
 
 //
 // send_message_packet
@@ -25,6 +15,8 @@ CUTS_TestLoggerServer_i::~CUTS_TestLoggerServer_i (void)
 void CUTS_TestLoggerServer_i::
 send_message_packet (const CUTS::LogMessagePacket & packet)
 {
+  std::cerr << "GREAT!!!" << std::endl;
+
   // Extract the UUID from the packet.
   ACE_Utils::UUID uuid;
   packet.uuid >>= uuid;
@@ -40,4 +32,16 @@ send_message_packet (const CUTS::LogMessagePacket & packet)
 
   for (; !iter.done (); ++ iter)
     (*iter)->handle_messages (packet);
+}
+
+//
+// install_callback
+//
+int CUTS_TestLoggerServer_i::
+install_callback (CUTS::TestLoggerServerCallback_ptr callback)
+{
+  CUTS::TestLoggerServerCallback_var temp =
+    CUTS::TestLoggerServerCallback::_duplicate (callback);
+
+  return this->callbacks_.insert (temp);
 }

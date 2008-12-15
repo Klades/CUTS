@@ -71,6 +71,8 @@ public:
   void stop_current_test (void);
   void stop_current_test (const ACE_Time_Value & tv);
 
+  CUTS_DB_SQLite_Query * create_query (void);
+
   /**
    * Get the UUID stored in the test database.
    *

@@ -5,29 +5,34 @@
 #include "Test_Logger_Map.h"
 #include "TestLoggerFactory_i.h"
 #include "cuts/UUID.h"
+#include "ace/Guard_T.h"
+#include "ace/OS_NS_unistd.h"
 
 //
 // CUTS_TestLoggerClient_i
 //
 CUTS_TestLoggerClient_i::
-CUTS_TestLoggerClient_i (PortableServer::POA_ptr poa)
+CUTS_TestLoggerClient_i (PortableServer::POA_ptr parent)
 {
   // Construct the policy list for the TestLoggerFactory POA.
-  CORBA::PolicyList policies (3);
-  policies.length (3);
+  CORBA::PolicyList policies (6);
+  policies.length (6);
 
-  policies[0] =
-    poa->create_thread_policy (PortableServer::SINGLE_THREAD_MODEL);
-  policies[1] =
-    poa->create_id_assignment_policy (PortableServer::SYSTEM_ID);
-  policies[2] =
-    poa->create_servant_retention_policy (PortableServer::RETAIN);
+  policies[0] = parent->create_thread_policy (PortableServer::ORB_CTRL_MODEL);
+  policies[1] = parent->create_servant_retention_policy (PortableServer::RETAIN);
+  policies[2] = parent->create_id_assignment_policy (PortableServer::USER_ID);
+  policies[3] = parent->create_id_uniqueness_policy (PortableServer::UNIQUE_ID);
+  policies[4] = parent->create_lifespan_policy (PortableServer::TRANSIENT);
+  policies[5] = parent->create_request_processing_policy (PortableServer::USE_ACTIVE_OBJECT_MAP_ONLY);
 
   // Create the child POA for the test logger factory servants.
-  PortableServer::POAManager_var mgr = poa->the_POAManager ();
-  this->factory_poa_ = poa->create_POA ("TestLoggerFactory",
-                                        mgr.in (),
-                                        policies);
+  this->poa_ = parent->create_POA ("TestLoggerFactory",
+                                   PortableServer::POAManager::_nil (),
+                                   policies);
+
+  // Activate the POA manager.
+  PortableServer::POAManager_var mgr = this->poa_->the_POAManager ();
+  mgr->activate ();
 
   // Destroy the POA policies
   for (CORBA::ULong i = 0; i < policies.length (); ++ i)
@@ -39,110 +44,84 @@ CUTS_TestLoggerClient_i (PortableServer::POA_ptr poa)
 //
 CUTS_TestLoggerClient_i::~CUTS_TestLoggerClient_i (void)
 {
-  //this->factory_poa_->destroy (1, 1);
+  //this->poa_->destroy (1, 1);
 }
 
 //
 // register_server
 //
 void CUTS_TestLoggerClient_i::
-register_server (const CUTS::UUID & uid,
-                 CUTS::TestLoggerServer_ptr server)
+register_server (const CUTS::UUID & uid, CUTS::TestLoggerServer_ptr server)
 {
+  ACE_WRITE_GUARD (ACE_RW_Thread_Mutex, guard, this->lock_);
+
   // Extract the UUID from the object.
   ACE_Utils::UUID uuid;
   uid >>= uuid;
 
   // This is not a fast path implementation. Instead, we don't want
   // allocate memory and find out UUID has already been registered.
-  if (this->map_.find (*uuid.to_string ()) == 0)
+  if (this->tests_.find (uuid) == 0)
     throw CUTS::DuplicationRegistration ();
 
   // Create the logger factory for the test.
   ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - creating logger factory for test %s\n",
+              "%T (%t) - %M - registering test %s\n",
               uuid.to_string ()->c_str ()));
 
   CUTS_TestLoggerFactory_i * servant = 0;
 
   ACE_NEW_THROW_EX (servant,
-                    CUTS_TestLoggerFactory_i (uuid, server, this->factory_poa_.in ()),
+                    CUTS_TestLoggerFactory_i (uuid, server, this->poa_.in ()),
                     CORBA::NO_MEMORY ());
 
   ACE_Auto_Ptr <CUTS_TestLoggerFactory_i> auto_clean (servant);
 
-  // Activate the factory object.
+  // Activate the servant and store the UUID. Do we really need to
+  // store the UUID??
   PortableServer::ObjectId_var oid =
-    this->factory_poa_->activate_object (servant);
+    PortableServer::string_to_ObjectId (uuid.to_string ()->c_str ());
 
-  // Save the node in the registration map.
-  int retval = this->map_.bind (*uuid.to_string (), servant);
+  this->poa_->activate_object_with_id (oid.in (), servant);
+  this->tests_.insert (uuid);
 
-  if (retval == 0)
-  {
-    // Release the auto pointer.
-    auto_clean.release ();
-  }
-  else if (retval == 1)
-  {
-    // This cause should never happen, but just in case it does.
-    throw CUTS::DuplicationRegistration ();
-  }
-  else if (retval == -1)
-  {
-    // Internal error.
-    throw CUTS::RegistrationFailed ();
-  }
+  CORBA::String_var str = PortableServer::ObjectId_to_string (oid.in ());
+  auto_clean.release ();
 }
 
 //
 // unregister_server
 //
-void CUTS_TestLoggerClient_i::
-unregister_server (const CUTS::UUID & uid, CUTS::TestLoggerServer_ptr server)
+void CUTS_TestLoggerClient_i::unregister_server (const CUTS::UUID & uid)
 {
+  ACE_WRITE_GUARD (ACE_RW_Thread_Mutex, guard, this->lock_);
+
   // Extract the UUID from its binary form.
   ACE_Utils::UUID uuid;
   uid >>= uuid;
 
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - unregistering server for test %s\n",
-              uuid.to_string ()->c_str ()));
-
-  // Locate the node in the registration.
-  CUTS_Test_Logger_Map::ENTRY * entry = 0;
-  int retval = this->map_.find (*uuid.to_string (), entry);
-
-  if (retval == 0)
+  try
   {
-    // Get the node from the entry.
-    CUTS_TestLoggerFactory_i * servant = entry->item ();
+    // Convert the UUID into an object id.
+    PortableServer::ObjectId_var oid =
+      PortableServer::string_to_ObjectId (uuid.to_string ()->c_str ());
 
-    // Validate that the server is the same as the one passed into
-    // the unregister () method.
-    CUTS::TestLoggerServer_var s = servant->server ();
+    // Locate the servant with this object id.
+    PortableServer::ServantBase_var servant =
+      this->poa_->id_to_servant (oid.in ());
 
-    if (s->_is_equivalent (server))
-    {
-      // Deactivate the servant.
-      PortableServer::ObjectId_var oid =
-        this->factory_poa_->servant_to_id (servant);
+    // Deactivate the object.
+    this->poa_->deactivate_object (oid);
 
-      this->factory_poa_->deactivate_object (oid.in ());
-
-      // Remove the entry from the map.
-      this->map_.unbind (entry);
-
-      // Delete the servant.
-      delete servant;
-    }
-    else
-    {
-      throw CUTS::RegistrationNotFound ();
-    }
+    // Remove the UUID from the tests.
+    this->tests_.remove (uuid);
   }
-  else
+  catch (const PortableServer::POA::ObjectNotActive & ex)
   {
+    ACE_ERROR ((LM_ERROR,
+                 "%T (%t) - %M - %s\n",
+                 ex._info ().c_str ()));
+
     throw CUTS::RegistrationNotFound ();
   }
 }
@@ -153,6 +132,11 @@ unregister_server (const CUTS::UUID & uid, CUTS::TestLoggerServer_ptr server)
 CUTS::TestLoggerFactory_ptr
 CUTS_TestLoggerClient_i::find (const CUTS::UUID & uid) const
 {
+  ACE_READ_GUARD_RETURN (ACE_RW_Thread_Mutex,
+                         guard,
+                         this->lock_,
+                         CUTS::TestLoggerFactory::_nil ());
+
   // Convert the UUID.
   ACE_Utils::UUID uuid;
   uid >>= uuid;
@@ -162,21 +146,31 @@ CUTS_TestLoggerClient_i::find (const CUTS::UUID & uid) const
               "%T (%t) - %M - locating factory for test %s\n",
               uuid.to_string ()->c_str ()));
 
-  CUTS_TestLoggerFactory_i * servant = 0;
-  int retval = this->map_.find (*uuid.to_string (), servant);
-
-  if (retval == 0)
+  try
   {
-    // Convert the servant to a reference.
-    CORBA::Object_var obj =
-      this->factory_poa_->servant_to_reference (servant);
+    // Convert the UUID into an object reference.
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - converting UUID into an object id\n"));
 
-    // Narrow the object to a factory.
-    CUTS::TestLoggerFactory_var f = CUTS::TestLoggerFactory::_narrow (obj.in ());
-    return f._retn ();
+    PortableServer::ObjectId_var oid =
+      PortableServer::string_to_ObjectId (uuid.to_string ()->c_str ());
+
+    // Get a reference for the object id.
+    CORBA::Object_var obj = this->poa_->id_to_reference (oid.in ());
+
+    // Narrow the object to an factory object.
+    CUTS::TestLoggerFactory_var factory =
+      CUTS::TestLoggerFactory::_narrow (obj.in ());
+
+    // Return the object to the client.
+    return factory._retn ();
   }
-  else
+  catch (const PortableServer::POA::ObjectNotActive &)
   {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - test logger factory is not active [%s]\n",
+                uuid.to_string ()->c_str ()));
+
     throw CUTS::RegistrationNotFound ();
   }
 }

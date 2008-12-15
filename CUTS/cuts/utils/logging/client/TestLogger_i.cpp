@@ -197,6 +197,13 @@ void CUTS_TestLogger_i::send_messages (void)
 
   try
   {
+    CUTS::LogMessagePacket packet;
+    packet.messages.length (0);
+
+    // Get a reference to the server.
+    CUTS::TestLoggerServer_var server = this->parent_.server ();
+    server->send_message_packet (packet);
+
     // Resize the message buffer accordingly.
     this->packet_.messages.length (used_size);
 
@@ -204,8 +211,7 @@ void CUTS_TestLogger_i::send_messages (void)
     msg_log_type::iterator iter (*this->inactive_log_);
 
     ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - sending %d message(s) in old message"
-                " log server\n",
+                "%T (%t) - %M - packaging %d message(s)\n",
                 used_size));
 
     // Get a pointer to the packet's log message buffer.
@@ -215,12 +221,16 @@ void CUTS_TestLogger_i::send_messages (void)
     for (; !iter.done (); iter.advance ())
       this->copy_message (*ptr ++, *iter);
 
-    // Get a reference to the server.
-    CUTS::TestLoggerServer_var server = this->parent_.server ();
+    //// Get a reference to the server.
+    //CUTS::TestLoggerServer_var server = this->parent_.server ();
 
-    if (!CORBA::is_nil (server.in ()))
+    if (!::CORBA::is_nil (server.in ()))
     {
       // Send the packet to the server.
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T (%t) - %M - sending %d message(s) to logging server\n",
+                  used_size));
+
       server->send_message_packet (this->packet_);
     }
     else
@@ -236,11 +246,6 @@ void CUTS_TestLogger_i::send_messages (void)
 
     this->inactive_log_->reset_no_lock ();
   }
-  catch (const CORBA::TRANSIENT & )
-  {
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - reseting the test logger singleton\n"));
-  }
   catch (const CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
@@ -252,7 +257,7 @@ void CUTS_TestLogger_i::send_messages (void)
 //
 // start
 //
-int CUTS_TestLogger_i::start (const ACE_Time_Value & timeout)
+void CUTS_TestLogger_i::start (CORBA::ULong seconds)
 {
   CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLogger_i::start (const ACE_Time_Value &)");
 
@@ -270,15 +275,14 @@ int CUTS_TestLogger_i::start (const ACE_Time_Value & timeout)
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - logger %d: setting timeout interval to %u second(s)\n",
                 this->logid_,
-                timeout.sec ()));
+                seconds));
 
-    this->timer_id_ =
-      this->reactor ()->schedule_timer (this, 0, timeout, timeout);
+    ACE_Time_Value tv (seconds, 0);
+    this->timer_id_ = this->reactor ()->schedule_timer (this, 0, tv, tv);
 
     if (this->timer_id_ != -1)
     {
-      // Save the timeout value.
-      this->timeout_ = timeout;
+      this->timeout_ = tv;
     }
     else
     {
@@ -299,14 +303,12 @@ int CUTS_TestLogger_i::start (const ACE_Time_Value & timeout)
 
     this->is_active_ = false;
   }
-
-  return retval;
 }
 
 //
 // stop
 //
-int CUTS_TestLogger_i::stop (void)
+void CUTS_TestLogger_i::stop (void)
 {
   CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLogger_i::stop (void)");
 
@@ -330,8 +332,6 @@ int CUTS_TestLogger_i::stop (void)
                 this->logid_,
                 uuid.to_string ()->c_str ()));
   }
-
-  return 0;
 }
 
 //

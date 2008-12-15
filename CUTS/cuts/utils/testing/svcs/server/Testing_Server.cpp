@@ -73,10 +73,10 @@ int CUTS_Testing_Server::init (int argc, char * argv [])
     CORBA::String_var objstr = this->orb_->object_to_string (obj.in ());
 
     // Register the test manager with the IORTable for the ORB.
-    int retval =
-      CUTS_Testing_Server::register_with_iortable (this->orb_.in (),
-                                                   "CUTS/TestManager",
-                                                   objstr.in ());
+    int retval = 0;
+      //CUTS_Testing_Server::register_with_iortable (this->orb_.in (),
+      //                                             "CUTS/TestManager",
+      //                                             objstr.in ());
 
     if (retval == -1)
     {

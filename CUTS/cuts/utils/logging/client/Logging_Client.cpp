@@ -9,8 +9,13 @@
 #include "ace/Argv_Type_Converter.h"
 #include "ace/Get_Opt.h"
 #include "ace/streams.h"
+#include "ace/INET_Addr.h"
+#include "ace/OS_NS_unistd.h"
 #include <sstream>
 
+//
+// __HELP__
+//
 static const char * __HELP__ =
 "Logging client daemon for submitting log messages to a CUTS database\n"
 "\n"
@@ -38,6 +43,13 @@ static const char * __HELP__ =
 CUTS_Logging_Client::CUTS_Logging_Client (void)
 {
   CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_Logging_Client::CUTS_Logging_Client (void)");
+
+  // Get the hostname of the logging client.
+  char hostname[1024];
+  ACE_OS::hostname (hostname, sizeof (hostname));
+  ACE_INET_Addr inet ((u_short)0, hostname, AF_ANY);
+
+  this->hostname_ = hostname;
 }
 
 //
@@ -97,6 +109,18 @@ int CUTS_Logging_Client::run_main (int argc, char * argv [])
                          "%T (%t) - %M - failed to register with IOR table; "
                          "aborting...\n"),
                          -1);
+    }
+
+    if (CUTS_LOGGING_OPTIONS->register_with_ns_)
+    {
+      obj = root_poa->id_to_reference (oid.in ());
+
+      if (this->register_with_name_service (obj.in ()) == -1)
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "%T (%t) - %M - failed to register logging client "
+                    "with naming service\n"));
+      }
     }
 
     CUTS_Logging_Client_Task task (this->orb_.in ());
@@ -203,6 +227,8 @@ int CUTS_Logging_Client::parse_args (int argc, char * argv [])
   get_opt.long_option ("thread-count", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("timeout", ACE_Get_Opt::ARG_REQUIRED);
 
+  get_opt.long_option ("register-with-ns", ACE_Get_Opt::NO_ARG);
+
   get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
@@ -254,6 +280,10 @@ int CUTS_Logging_Client::parse_args (int argc, char * argv [])
       else if (ACE_OS::strcmp ("help", get_opt.long_option ()) == 0)
       {
         this->print_help ();
+      }
+      else if (ACE_OS::strcmp ("register-with-ns", get_opt.long_option ()) == 0)
+      {
+        CUTS_LOGGING_OPTIONS->register_with_ns_ = true;
       }
       else if (ACE_OS::strcmp ("thread-count", get_opt.long_option ()) == 0)
       {
@@ -346,3 +376,106 @@ void CUTS_Logging_Client::print_help (void)
   std::cout << ::__HELP__ << std::endl;
   ACE_OS::exit (0);
 }
+
+//
+// register_with_name_service
+//
+int CUTS_Logging_Client::register_with_name_service (CORBA::Object_ptr client)
+{
+  try
+  {
+    // Get the root context of the naming service.
+    CORBA::Object_var obj =
+      this->orb_->resolve_initial_references ("NameService");
+
+    this->root_ctx_ = CosNaming::NamingContextExt::_narrow (obj.in ());
+
+    // Construct all the context we would like to create, then contact
+    // the naming service to ensure they all exist.
+    const char * ctx_names [] = {"CUTS", "TestLoggerClient"};
+
+    CosNaming::Name ns_name (3);
+    CosNaming::NamingContext_var ctx;
+
+    for (int i = 0; i < 2; ++ i)
+    {
+      // Initialize the next id in the name.
+      ns_name.length (i + 1);
+      ns_name[i].id = CORBA::string_dup (ctx_names[i]);
+
+      try
+      {
+        ctx = this->root_ctx_->bind_new_context (ns_name);
+      }
+      catch (const CosNaming::NamingContext::AlreadyBound &)
+      {
+        // do nothing
+      }
+    }
+
+    // Update the length so that the test manager's name is visible
+    // to the naming service.
+    ns_name.length (3);
+    ns_name[2].id = CORBA::string_dup (this->hostname_.c_str ());
+
+    // Bind the actual test manger to the naming service.
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - binding logging to naming service as "
+                "CUTS/TestLoggerClient/%s\n",
+                this->hostname_.c_str ()));
+
+    this->root_ctx_->bind (ns_name, client);
+    return 0;
+  }
+  catch (const CosNaming::NamingContext::AlreadyBound & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - %s already registered with naming service (%s)\n",
+                this->hostname_.c_str (),
+                ex._info ().c_str ()));
+  }
+  catch (const CORBA::Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - %s\n",
+                ex._info ().c_str ()));
+  }
+
+  return -1;
+}
+
+//
+// register_with_name_service
+//
+int CUTS_Logging_Client::unregister_with_name_service (void)
+{
+  if (CORBA::is_nil (this->root_ctx_))
+    return 0;
+
+  try
+  {
+    // Construct the fully qualified name of the test manger for
+    // within the naming service.
+    CosNaming::Name ns_name (3);
+    ns_name.length (3);
+
+    ns_name[0].id = CORBA::string_dup ("CUTS");
+    ns_name[1].id = CORBA::string_dup ("TestManager");
+    ns_name[2].id = CORBA::string_dup (this->hostname_.c_str ());
+
+    // Unregister the TestManger with the naming service.
+    ACE_DEBUG ((LM_INFO,
+                "%T - %M - unregistering test manager with naming service\n"));
+
+    this->root_ctx_->unbind (ns_name);
+  }
+  catch (const CORBA::Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - %s\n",
+                ex._info ().c_str ()));
+  }
+
+  return -1;
+}
+

@@ -104,8 +104,7 @@ module CUTS
      * @param[in]       uid           UUID of the test
      * @param[in]       server        Reference to logger server
      */
-    void unregister_server (in UUID uid,
-                            in TestLoggerServer server)
+    void unregister_server (in UUID uid)
       raises (RegistrationNotFound);
   };
 };

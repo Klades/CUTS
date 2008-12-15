@@ -17,12 +17,11 @@
 // CUTS_TestLoggerFactory_i
 //
 CUTS_TestLoggerFactory_i::
-CUTS_TestLoggerFactory_i (const ACE_Utils::UUID & test_uuid,
+CUTS_TestLoggerFactory_i (const ACE_Utils::UUID & uuid,
                           CUTS::TestLoggerServer_ptr server,
                           PortableServer::POA_ptr poa)
-: test_uuid_ (test_uuid),
-  log_count_ (0),
-  default_POA_ (PortableServer::POA::_duplicate (poa)),
+: uuid_ (uuid),
+  next_log_id_ (0),
   server_ (CUTS::TestLoggerServer::_duplicate (server))
 {
   CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLoggerFactory_i (const ACE_Utils::UUID &, PortableServer::POA_ptr)");
@@ -31,23 +30,20 @@ CUTS_TestLoggerFactory_i (const ACE_Utils::UUID & test_uuid,
   CORBA::PolicyList policies (3);
   policies.length (3);
 
-  policies[0] =
-    poa->create_thread_policy (PortableServer::ORB_CTRL_MODEL);
-
-  policies[1] =
-    poa->create_id_assignment_policy (PortableServer::SYSTEM_ID);
-
-  policies[2] =
-    poa->create_servant_retention_policy (PortableServer::RETAIN);
+  policies[0] = poa->create_thread_policy (PortableServer::ORB_CTRL_MODEL);
+  policies[1] = poa->create_id_assignment_policy (PortableServer::USER_ID);
+  policies[2] = poa->create_servant_retention_policy (PortableServer::RETAIN);
 
   // Create the child POA for the test.
   std::ostringstream ostr;
-  ostr << "TestLogger-" << this->test_uuid_.to_string ()->c_str ();
+  ostr << "TestLogger-" << this->uuid_.to_string ()->c_str ();
 
-  PortableServer::POAManager_var mgr = poa->the_POAManager ();
-  this->logger_POA_ = poa->create_POA (ostr.str ().c_str (),
-                                       mgr.in (),
-                                       policies);
+  this->poa_ = poa->create_POA (ostr.str ().c_str (),
+                                PortableServer::POAManager::_nil (),
+                                policies);
+
+  PortableServer::POAManager_var mgr = this->poa_->the_POAManager ();
+  mgr->activate ();
 
   // Destroy the POA policies
   for (CORBA::ULong i = 0; i < policies.length (); ++ i)
@@ -60,7 +56,7 @@ CUTS_TestLoggerFactory_i (const ACE_Utils::UUID & test_uuid,
 CUTS_TestLoggerFactory_i::~CUTS_TestLoggerFactory_i (void)
 {
   CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLoggerFactory_i::~CUTS_TestLoggerFactory_i (void)");
-  this->logger_POA_->destroy (0, 0);
+  //this->poa_->destroy (0, 0);
 }
 
 //
@@ -74,34 +70,33 @@ CUTS::TestLogger_ptr CUTS_TestLoggerFactory_i::create (void)
   // child POA provided in the constructor.
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - creating a new logger for test %s\n",
-              this->test_uuid_.to_string ()->c_str ()));
+              this->uuid_.to_string ()->c_str ()));
+
+  long logid = this->next_log_id_ ++;
 
   CUTS_TestLogger_i * servant = 0;
-  long logid = ++ this->log_count_;
 
   ACE_NEW_THROW_EX (servant,
                     CUTS_TestLogger_i (logid, *this),
                     ::CORBA::NO_MEMORY ());
 
-  PortableServer::ServantBase_var servant_base = servant;
+  ACE_Auto_Ptr <CUTS_TestLogger_i> auto_clean (servant);
 
-  // Initialize the logger. This means, start its event loop so that
-  // it can flush log messages.
-
-  ACE_Time_Value timeout (CUTS_LOGGING_OPTIONS->timeout_);
-  servant->start (timeout);
-
-  // Activate the newly created logger servant.
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - activating newly created logger for test %s\n",
-              this->test_uuid_.to_string ()->c_str ()));
+  // Construct the object id for this logger.
+  std::ostringstream ostr;
+  ostr << "Logger-" << logid;
 
   PortableServer::ObjectId_var oid =
-    this->logger_POA_->activate_object (servant);
+    PortableServer::string_to_ObjectId (ostr.str ().c_str ());
+
+  // Activate the object using the constructed object id.
+  this->poa_->activate_object_with_id (oid.in (), servant);
+  auto_clean.release ();
 
   // Return ownership of the object to the client.
-  CORBA::Object_var obj = this->logger_POA_->id_to_reference (oid);
+  CORBA::Object_var obj = this->poa_->id_to_reference (oid);
   CUTS::TestLogger_var logger = CUTS::TestLogger::_narrow (obj.in ());
+
   return logger._retn ();
 }
 
@@ -113,7 +108,7 @@ void CUTS_TestLoggerFactory_i::destroy (CUTS::TestLogger_ptr ref)
   CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLoggerFactory_i::destroy (CUTS::TestLogger_ptr)");
 
   PortableServer::ServantBase_var servant =
-    this->logger_POA_->reference_to_servant (ref);
+    this->poa_->reference_to_servant (ref);
 
   CUTS_TestLogger_i * logger =
     dynamic_cast <CUTS_TestLogger_i *> (servant.in ());
@@ -122,20 +117,13 @@ void CUTS_TestLoggerFactory_i::destroy (CUTS::TestLogger_ptr ref)
   // flush its message queue.
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - stopping a logger for test %s\n",
-              this->test_uuid_.to_string ()->c_str ()));
+              this->uuid_.to_string ()->c_str ()));
 
-  logger->stop ();
-}
+  // Deactivate the object.
+  std::ostringstream ostr;
+  ostr << "Logger-" << logger->id ();
 
-//
-// _default_POA
-//
-PortableServer::POA_ptr CUTS_TestLoggerFactory_i::_default_POA (void)
-{
-  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLoggerFactory_i::_default_POA (void)");
-
-  PortableServer::POA_var poa =
-    PortableServer::POA::_duplicate (this->default_POA_.in ());
-
-  return poa._retn ();
+  PortableServer::ObjectId_var oid =
+    PortableServer::string_to_ObjectId (ostr.str ().c_str ());
+  this->poa_->deactivate_object (oid.in ());
 }

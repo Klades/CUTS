@@ -59,3 +59,12 @@ void CUTS_Test_Database::stop_current_test (void)
 {
   this->stop_current_test (ACE_OS::gettimeofday ());
 }
+
+//
+// start_new_test
+//
+CUTS_INLINE
+CUTS_DB_SQLite_Query * CUTS_Test_Database::create_query (void)
+{
+  return this->conn_->create_query ();
+}

@@ -49,18 +49,18 @@ project (CUTS_Logging_Server_stub) :  taolib_with_idl, cuts_logging_stub, cutsli
   }
 }
 
-project (CUTS_Logging_Server) : boost_base, xscrt, iortable, cuts_logging_server_skel, cutslib {
+project (CUTS_Logging_Server) : boost_base, xscrt, iortable, cuts_test_database, cuts_logging_server_skel, cutslib {
   sharedname = CUTS_Logging_Server
 
   dynamicflags += CUTS_TEST_LOGGING_SERVER_BUILD_DLL
 
-  after += CUTS_Logging_Server_Xml
+  after += CUTS_Logging_Server_Xml CUTS_Test_Logging_Callback
+  libs  += CUTS_Test_Logging_Callback
 
   Source_Files {
     logging.cpp
     Logging_Server.cpp
     Logging_Server_File.cpp
-    Logging_Server_Task.cpp
     TestLoggerServer_i.cpp
   }
 

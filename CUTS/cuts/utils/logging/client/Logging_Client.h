@@ -16,7 +16,7 @@
 #include "Logging_Client_export.h"
 #include "Local_Logging_Client_App.h"
 #include "TestLoggerClient_i.h"
-#include "ace/SString.h"
+#include "orbsvcs/CosNamingC.h"
 
 // Forward decl.
 class CUTS_TestLoggerClient_i;
@@ -53,6 +53,10 @@ private:
   /// Register the logger with the IOR table.
   int register_with_iortable (void);
 
+  int register_with_name_service (CORBA::Object_ptr obj);
+
+  int unregister_with_name_service (void);
+
   /// Print the help message to the screen.
   void print_help (void);
 
@@ -63,6 +67,12 @@ private:
   ACE_Auto_Ptr <CUTS_TestLoggerClient_i> client_;
 
   ACE_Auto_Ptr <CUTS_Local_Logging_Client_App> local_client_;
+
+  /// The hostname for this client.
+  ACE_CString hostname_;
+
+  /// The root context of the naming service.
+  CosNaming::NamingContextExt_var root_ctx_;
 };
 
 #endif  // !defined _CUTS_LOGGING_CLIENT_SERVER_H_

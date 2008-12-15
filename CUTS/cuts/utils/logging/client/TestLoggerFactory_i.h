@@ -16,6 +16,7 @@
 #include "clientS.h"
 #include "Logging_Client_export.h"
 #include "ace/UUID.h"
+#include "ace/Unbounded_Set.h"
 
 /**
  * @class CUTS_TestLoggerFactory_i
@@ -29,10 +30,10 @@ public:
   /**
    * Initializing constructor.
    *
-   * @param[in]       test_number     Test number for the factory
+   * @param[in]       uuid            Test number for the factory
    * @param[in]       poa             POA this object is activated in
    */
-  CUTS_TestLoggerFactory_i (const ACE_Utils::UUID & test_uuid,
+  CUTS_TestLoggerFactory_i (const ACE_Utils::UUID & uuid,
                             CUTS::TestLoggerServer_ptr server,
                             PortableServer::POA_ptr poa);
 
@@ -55,13 +56,6 @@ public:
    */
   virtual void destroy (CUTS::TestLogger_ptr logger);
 
-  /**
-   * Get the POA assigned to the test logger factory.
-   *
-   * @return          The assigned POA.
-   */
-  virtual PortableServer::POA_ptr _default_POA (void);
-
   const ACE_Utils::UUID & test_uuid (void) const;
 
   CUTS::TestLoggerServer_ptr server (void);
@@ -70,19 +64,13 @@ public:
 
 private:
   /// Test number for the factory.
-  ACE_Utils::UUID test_uuid_;
+  ACE_Utils::UUID uuid_;
 
   /// Number of loggers.
-  size_t log_count_;
+  ACE_Atomic_Op <ACE_RW_Thread_Mutex, size_t> next_log_id_;
 
   /// POA that the test logger factory activated in.
-  PortableServer::POA_var default_POA_;
-
-  /// POA that the test logger factory activated in.
-  PortableServer::POA_var logger_POA_;
-
-  /// Lock for synchronizing assessing the servant collection.
-  ACE_Thread_Mutex lock_;
+  PortableServer::POA_var poa_;
 
   /// Reference to the logger server.
   CUTS::TestLoggerServer_var server_;
