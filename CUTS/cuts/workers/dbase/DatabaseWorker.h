@@ -15,6 +15,7 @@
 #ifndef _CUTS_DATABASE_WORKER_H_
 #define _CUTS_DATABASE_WORKER_H_
 
+#include "DatabaseWorker_export.h"
 #include "cuts/Worker.h"
 #include "cuts/utils/db/ODBC/ODBC_Connection.h"
 #include "ace/Auto_Ptr.h"
@@ -26,13 +27,13 @@ class CUTS_DB_Connection;
 // Forward decl.
 class CUTS_DB_Query;
 
-//=============================================================================
 /**
- * @class CUTS_DatabaseWorker
+ * @class CUTS_Database_Worker
+ *
+ * Workload generator for database operations.
  */
-//=============================================================================
-
-class CUTS_Export CUTS_Database_Worker : public CUTS_Worker
+class CUTS_DATABASE_WORKER_Export CUTS_Database_Worker :
+  public CUTS_Worker
 {
 public:
   /// Constructor.
@@ -76,7 +77,7 @@ private:
 };
 
 #if defined (__CUTS_INLINE__)
-#include "cuts/DatabaseWorker.inl"
-#endif  // defined __CUTS_INLINE__
+#include "DatabaseWorker.inl"
+#endif
 
 #endif  // !defined _CUTS_DATABASE_WORKER_H_

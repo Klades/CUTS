@@ -1,3 +1,21 @@
+Mon Dec 15 13:59:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/CUTS_Worker.mpc:
+        * cuts/workers/dbase:
+        * cuts/workers/dbase/DatabaseWorker.h:
+        * cuts/workers/dbase/DatabaseWorker.inl:
+        * cuts/workers/dbase/DatabaseWorker.cpp:
+        * cuts/workers/dbase/DatabaseWorker.mpc:
+        * cuts/workers/dbase/DatabaseWorker_export.h:
+
+          . Moved the CUT_Database_Worker to its own worker directory.
+
+        * cuts/DatabaseWorker.h:
+        * cuts/DatabaseWorker.inl:
+        * cuts/DatabaseWorker.cpp:
+
+          Removed these files.
+
 Mon Dec 15 01:49:51 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.h:

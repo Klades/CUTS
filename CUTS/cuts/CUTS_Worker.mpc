@@ -1,19 +1,5 @@
 // $Id$
 
-project (CUTS_Database_Worker) : cuts_odbclib, cutslib {
-  sharedname += CUTS_Database_Worker
-
-  dynamicflags += CUTS_BUILD_DLL
-
-  Source_Files {
-    DatabaseWorker.cpp
-  }
-
-  Template_Files {
-
-  }
-}
-
 project (CUTS_Memory_Worker) : cutslib {
   sharedname += CUTS_Memory_Worker
 
