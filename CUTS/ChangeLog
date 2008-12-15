@@ -1,8 +1,16 @@
+Mon Dec 15 21:35:57 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/uuidgen:
+        * cuts/utils/uuidgen/uuidgen.cpp:
+        * cuts/utils/uuidgen/uuidgen.mpc:
+
+          . Utility for generating UUIDs
+
 Mon Dec 15 17:33:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/emulab/get-host-count.sh:
 
-	  . Helper script for getting the number of host in a experiment.
+          . Helper script for getting the number of host in a experiment.
 
 Mon Dec 15 14:15:35 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

@@ -1,0 +1,9 @@
+// $Id$
+
+project (CUTS_UUID_Generator) : cutsexe {
+  exename = cuts-uuidgen
+
+  Source_Files {
+    uuidgen.cpp
+  }
+}
