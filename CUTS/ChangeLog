@@ -1,3 +1,9 @@
+Mon Dec 15 17:33:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/emulab/get-host-count.sh:
+
+	  . Helper script for getting the number of host in a experiment.
+
 Mon Dec 15 14:15:35 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * CUTS_Runtime_Arch.mwc:
