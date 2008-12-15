@@ -54,12 +54,9 @@ private:
   Memory_Allocations memory_;
 };
 
-//=============================================================================
 /**
- * CUTS_Worker_Traits <CUTS_Memory_Worker>
+ * @class CUTS_Worker_Traits <CUTS_Memory_Worker>
  */
-//=============================================================================
-
 template <>
 class CUTS_Worker_Traits <CUTS_Memory_Worker>
 {
@@ -68,7 +65,7 @@ public:
 };
 
 #if defined (__CUTS_INLINE__)
-#include "MemoryWorker.inl"
+#include "Memory_Worker.inl"
 #endif
 
 #endif  // !defined _CUTS_MEMORY_WORKER_H_

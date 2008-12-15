@@ -1,9 +1,9 @@
 // $Id$
 
-#include "DatabaseWorker.h"
+#include "Database_Worker.h"
 
 #if !defined (__CUTS_INLINE__)
-#include "DatabaseWorker.inl"
+#include "Database_Worker.inl"
 #endif
 
 #include "cuts/utils/db/DB_Query.h"

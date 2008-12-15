@@ -15,7 +15,7 @@
 #ifndef _CUTS_DATABASE_WORKER_H_
 #define _CUTS_DATABASE_WORKER_H_
 
-#include "DatabaseWorker_export.h"
+#include "Database_Worker_export.h"
 #include "cuts/Worker.h"
 #include "cuts/utils/db/ODBC/ODBC_Connection.h"
 #include "ace/Auto_Ptr.h"
@@ -77,7 +77,7 @@ private:
 };
 
 #if defined (__CUTS_INLINE__)
-#include "DatabaseWorker.inl"
+#include "Database_Worker.inl"
 #endif
 
 #endif  // !defined _CUTS_DATABASE_WORKER_H_

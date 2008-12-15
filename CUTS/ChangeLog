@@ -1,3 +1,32 @@
+Mon Dec 15 14:15:35 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * CUTS_Runtime_Arch.mwc:
+
+          . Simplified the workspace specification.
+
+        * cuts/workers/dbase/Database_Worker.h:
+        * cuts/workers/dbase/Database_Worker.inl:
+        * cuts/workers/dbase/Database_Worker.cpp:
+        * cuts/workers/dbase/Database_Worker.mpc:
+        * cuts/workers/dbase/Database_Worker_export.h:
+        * cuts/workers/memory/Memory_Worker.h:
+        * cuts/workers/memory/Memory_Worker.inl:
+        * cuts/workers/memory/Memory_Worker.cpp:
+        * cuts/workers/memory/Memory_Worker.mpc:
+
+          . Renamed files to standard naming convention.
+
+        * cuts/workers/dbase/DatabaseWorker.h:
+        * cuts/workers/dbase/DatabaseWorker.inl:
+        * cuts/workers/dbase/DatabaseWorker.mpc:
+        * cuts/workers/dbase/DatabaseWorker.cpp:
+        * cuts/workers/dbase/DatabaseWorker_export.h:
+        * cuts/workers/memory/MemoryWorker.h:
+        * cuts/workers/memory/MemoryWorker.inl:
+        * cuts/workers/memory/MemoryWorker.cpp:
+
+          Removed these files.
+
 Mon Dec 15 14:06:59 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/workers/memory:

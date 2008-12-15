@@ -1,12 +1,12 @@
 // $Id$
 
-#include "MemoryWorker.h"
+#include "Memory_Worker.h"
 #include "ace/Guard_T.h"
 
 #define CUTS_MEMORY_ALLOC_SIZE 1024
 
 #if !defined (__CUTS_INLINE__)
-#include "MemoryWorker.inl"
+#include "Memory_Worker.inl"
 #endif
 
 //
