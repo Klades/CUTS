@@ -1,3 +1,10 @@
+Tue Dec 16 16:52:07 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Property_Map.h:
+        * cuts/utils/Property_Map.inl:
+
+	  . Fixed compilation errors on non-Windows systems.
+	
 Tue Dec 16 16:42:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/naomi/CUTS/emulation/CUTS/Emulation.java:

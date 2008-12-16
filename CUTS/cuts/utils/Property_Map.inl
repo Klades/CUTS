@@ -114,7 +114,7 @@ CUTS_Property_Map::const_iterator CUTS_Property_Map::end (void) const
 // map
 //
 CUTS_INLINE
-const CUTS_Property_Map::map_type CUTS_Property_Map::map (void) const
+const CUTS_Property_Map::map_type & CUTS_Property_Map::map (void) const
 {
   return this->map_;
 }
