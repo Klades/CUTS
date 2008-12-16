@@ -8,7 +8,7 @@
   <target name="cuts.emulation.build">
     <path id="emulation.classpath">
       <pathelement path="." />
-      <pathelement path="${contrib.dir}/fireantisis.jar" />
+      <pathelement path="${contrib.dir}/fireant.jar" />
     </path>
 
     <javac srcdir="."

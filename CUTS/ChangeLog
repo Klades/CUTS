@@ -1,3 +1,20 @@
+Tue Dec 16 06:02:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/naomi/CUTS/emulation/CUTS/Emulation.java:
+        * MDE/naomi/CUTS/emulation/emulation.build:
+        * contrib/java/fireant.jar:
+
+          . New version of the emulation connector that works w/ the latest
+            version of ISISlab.
+
+        * contrib/java/xml-apis.jar:
+
+          . Missing JAR file.
+
+        * contrib/java/fireantisis.jar:
+
+          Removed this file.
+
 Tue Dec 16 05:18:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Property_Map.h:

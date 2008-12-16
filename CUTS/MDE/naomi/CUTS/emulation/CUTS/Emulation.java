@@ -30,6 +30,7 @@ public class Emulation
   public Emulation ()
   {
     this.exp_.put ("swapin", false);
+    this.exp_.put ("description", "NAOMI auto-generated experiment");
   }
 
   /**
@@ -48,20 +49,15 @@ public class Emulation
 
     if (this.updateAttributes_)
     {
-      // Generate a UUID for the experiment.
-      this.readTestUUID ();
+      // Create the experiment.
+      System.out.println ("creating a new emulab experiment");
+      ISISLabUtil.createExperiment (this.isislab_, this.exp_);
 
-      if (this.testUUID_ != null)
+      // Swapin the experiment.
+      if (this.swapin_)
       {
-        // Create the experiment.
-        //ISISLabUtil.createExperiment (this.isislab_, this.exp_);
-
-        // Swapin the experiment.
-        //if (this.swapin_)
-        //  ISISLabUtil.swapinExperiment (this.isislab_, this.exp_);
-
-        // Write the UUID to the CUTS.test.uuid attribute file.
-        this.writeTestUUID ();
+        System.out.println ("swapping in the experiment in batch mode");
+        ISISLabUtil.swapinExperiment (this.isislab_, this.exp_);
       }
     }
 
@@ -97,77 +93,6 @@ public class Emulation
       out.println ("  <output>CUTS.test.uuid</output>");
       out.println ("</interface>");
 
-      out.close ();
-    }
-    catch (Exception e)
-    {
-      e.printStackTrace ();
-    }
-  }
-
-  /**
-   *
-   */
-  private void readTestUUID ()
-  {
-    try
-    {
-      String nsfile = (String) this.exp_.get ("nsfile");
-      System.out.println ("Searching for test UUID in " + nsfile);
-
-      FileReader reader = new FileReader (nsfile);
-      BufferedReader buffer = new BufferedReader (reader);
-
-      String regex = new String ("([\\p{Alnum}]{8}-[\\p{Alnum}]{4}-[\\p{Alnum}]{4}-[\\p{Alnum}]{4}-[\\p{Alnum}]{12})");
-      Pattern pattern = Pattern.compile (regex);
-
-      String line;
-
-      while ((line = buffer.readLine ()) != null)
-      {
-        // Run the patter against the current line.
-        Matcher matcher = pattern.matcher (line);
-
-        if (matcher.find ())
-        {
-          // We found the UUID for the test.
-          this.testUUID_ = UUID.fromString (matcher.group (0));
-          break;
-        }
-      }
-
-      // Close the reader.
-      buffer.close ();
-    }
-    catch (Exception e)
-    {
-      e.printStackTrace ();
-    }
-  }
-
-  /**
-   * Writes the test UUID to CUTS.test.uuid NAOMI attribute file.
-   */
-  private void writeTestUUID ()
-  {
-    try
-    {
-      String attributeFileName = this.attributePath_ + "/CUTS.test.uuid";
-      System.out.println ("Writing attribute: " + attributeFileName);
-
-      // Open the attribute file for writing.
-      PrintWriter out = new PrintWriter (new FileWriter (attributeFileName));
-
-      out.println ("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
-      out.println ("<attribute xmlns=\"http://www.atl.lmco.com/naomi/attributes\"");
-      out.println ("           xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
-      out.println ("           xsi:schemaLocation=\"http://www.atl.lmco.com/naomi/attributes attribute.xsd\">");
-      out.println ("  <owner>" + this.owner_ + "</owner>");
-      out.println ("  <value>" + this.testUUID_.toString ().toUpperCase () + "</value>");
-      out.println ("  <documentation>Test UUID for the latest CUTS emulation</documentation>");
-      out.println ("</attribute>");
-
-      // Close the attribute file.
       out.close ();
     }
     catch (Exception e)
@@ -227,10 +152,6 @@ public class Emulation
       else if (arg.equals ("-experiment"))
       {
         this.exp_.put ("name", args[++ i]);
-      }
-      else if (arg.equals ("-description"))
-      {
-        this.exp_.put ("description", args[++ i]);
       }
       else if (arg.equals ("-nsfile"))
       {
