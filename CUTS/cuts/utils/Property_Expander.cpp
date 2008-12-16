@@ -47,9 +47,9 @@ CUTS_Property_Expander::CUTS_Property_Expander_i::
 CUTS_Property_Expander_i (const CUTS_Property_Map & map,
                           bool use_env,
                           std::ostream & ostr)
-: prop_map_ (map),
-  use_env_ (use_env),
-  ostr_ (ostr)
+  : ostr_ (ostr),
+    use_env_ (use_env),
+    prop_map_ (map)
 {
 
 }
