@@ -30,7 +30,8 @@ public class Emulation
   public Emulation ()
   {
     this.exp_.put ("swapin", false);
-    this.exp_.put ("description", "NAOMI auto-generated experiment");
+    this.exp_.put ("description", "CUTS auto-generated experiment for NAOMI");
+    this.exp_.put ("batch", true);
   }
 
   /**

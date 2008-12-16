@@ -1,3 +1,11 @@
+Tue Dec 16 16:42:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/naomi/CUTS/emulation/CUTS/Emulation.java:
+
+          . Updated the emulation connector to run ISISlab experiments in
+            batch mode by default. This will allow experiments to run whenever
+            there are enough computing resources.
+
 Tue Dec 16 06:02:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/naomi/CUTS/emulation/CUTS/Emulation.java:
