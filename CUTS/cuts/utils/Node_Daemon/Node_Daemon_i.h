@@ -15,7 +15,7 @@
 
 #include "Node_DaemonS.h"
 #include "Node_Daemon_Event_Handler.h"
-#include "cuts/utils/common/Property_Map.h"
+#include "cuts/utils/Property_Map.h"
 #include "ace/Process_Manager.h"
 #include "ace/Timer_Heap.h"
 #include "ace/Timer_Queue_Adapters.h"

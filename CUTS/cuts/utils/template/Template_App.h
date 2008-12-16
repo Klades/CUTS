@@ -15,8 +15,8 @@
 #define _CUTS_TEMPLATE_APP_H_
 
 #include "Template_App_Options.h"
-#include "cuts/utils/common/Property_Expander.h"
-#include "cuts/utils/common/Property_Map.h"
+#include "cuts/utils/Property_Expander.h"
+#include "cuts/utils/Property_Map.h"
 
 /**
  * @class CUTS_Template_App

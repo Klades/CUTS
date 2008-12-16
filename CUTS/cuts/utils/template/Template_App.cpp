@@ -2,8 +2,8 @@
 
 #include "Template_App.h"
 #include "boost/spirit/iterator/file_iterator.hpp"
-#include "cuts/utils/common/Property_Map_File.h"
-#include "cuts/utils/common/Property_Parser.h"
+#include "cuts/utils/Property_Map_File.h"
+#include "cuts/utils/Property_Parser.h"
 #include "ace/Get_Opt.h"
 #include "ace/streams.h"
 

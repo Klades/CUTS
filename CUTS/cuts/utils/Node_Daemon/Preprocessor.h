@@ -13,7 +13,7 @@
 #ifndef _CUTS_TEXT_PREPROCESSOR_H_
 #define _CUTS_TEXT_PREPROCESSOR_H_
 
-#include "cuts/utils/common/Property_Expander.h"
+#include "cuts/utils/Property_Expander.h"
 #include "Command_Substitution.h"
 
 // Forward decl.
