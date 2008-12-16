@@ -1,8 +1,26 @@
+Tue Dec 16 05:18:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Property_Map.h:
+        * cuts/utils/Property_Map.inl:
+
+          . Implemented the map () method, which gives clients direct
+            access to the underlying hash table.
+
+        * cuts/workers/CPU/CPU_Worker.h:
+        * cuts/workers/CPU/CPU_Worker.inl:
+        * cuts/workers/CPU/CPU_Worker.cpp:
+        * cuts/workers/CPU/CPU_Worker.mpc:
+        * cuts/workers/CPU/CUTS_CPU_Worker.xme:
+
+          . Implemented load-dependent CPU workload generator. It uses
+            a simple Java-like property file to configure its load-dependent
+            workloads.
+
 Tue Dec 16 01:27:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Property_Expander.cpp:
 
-	  . Fixed compilation warning for Linux.
+          . Fixed compilation warning for Linux.
 
 Tue Dec 16 00:38:15 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

@@ -115,6 +115,8 @@ public:
    */
   const_iterator end (void) const;
 
+  const map_type map (void) const;
+
 private:
   /// Internal hash map of the property list.
   map_type map_;

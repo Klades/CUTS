@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_CPU_Worker) : cutslib {
+project (CUTS_CPU_Worker) : boost_base, cuts_utils, cutslib {
   sharedname   += CUTS_CPU_Worker
   dynamicflags += CUTS_CPU_WORKER_BUILD_DLL
 
