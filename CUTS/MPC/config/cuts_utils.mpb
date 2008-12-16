@@ -1,0 +1,9 @@
+// $Id$
+
+project {
+  after += CUTS_Utils
+  libs  += CUTS_Utils
+
+  libs  -= CUTS
+  after -= CUTS
+}

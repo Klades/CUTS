@@ -1,9 +1,9 @@
 // $Id$
 
-project (CUTS_Common_Utils) : boost_base, cutslib {
-  sharedname = CUTS_Common_Utils
+project (CUTS_Utils) : boost_base, cutslib {
+  sharedname = CUTS_Utils
 
-  dynamicflags += CUTS_COMMON_UTILS_BUILD_DLL
+  dynamicflags += CUTS_UTILS_BUILD_DLL
 
   Source_Files {
     Property_Expander.cpp

@@ -1,6 +1,0 @@
-// $Id$
-
-project {
-  after += CUTS_Common_Utils
-  libs  += CUTS_Common_Utils
-}

@@ -13,7 +13,7 @@
 #ifndef _CUTS_PROPERTY_MAP_FILE_H_
 #define _CUTS_PROPERTY_MAP_FILE_H_
 
-#include "Common_Utils_export.h"
+#include "Utils_export.h"
 
 // Forward decl.
 class CUTS_Property_Map;
@@ -21,7 +21,7 @@ class CUTS_Property_Map;
 /**
  * @class CUTS_Property_Map_File
  */
-class CUTS_COMMON_UTILS_Export CUTS_Property_Map_File
+class CUTS_UTILS_Export CUTS_Property_Map_File
 {
 public:
   /**

@@ -58,7 +58,7 @@ namespace actors
 /**
  * @class CUTS_Property_Parser
  */
-class CUTS_COMMON_UTILS_Export CUTS_Property_Parser
+class CUTS_UTILS_Export CUTS_Property_Parser
 {
 public:
   /**
@@ -93,7 +93,7 @@ private:
   /**
    * @class CUTS_Property_Parser_i
    */
-  class CUTS_COMMON_UTILS_Export CUTS_Property_Parser_i :
+  class CUTS_UTILS_Export CUTS_Property_Parser_i :
     public boost::spirit::grammar <CUTS_Property_Parser_i>
   {
   public:

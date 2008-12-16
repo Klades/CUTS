@@ -27,7 +27,7 @@
  * with the following: ${ }. Right now, the value of a variable is located
  * in the system's environment variables.
  */
-class CUTS_COMMON_UTILS_Export CUTS_Property_Expander
+class CUTS_UTILS_Export CUTS_Property_Expander
 {
 public:
   /// Defualt constructor.
@@ -54,7 +54,7 @@ private:
    *
    * Implementation
    */
-  class CUTS_COMMON_UTILS_Export CUTS_Property_Expander_i :
+  class CUTS_UTILS_Export CUTS_Property_Expander_i :
     public boost::spirit::grammar <CUTS_Property_Expander_i>
   {
   public:

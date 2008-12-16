@@ -13,8 +13,7 @@
 #ifndef _CUTS_PROPERTY_MAP_T_H_
 #define _CUTS_PROPERTY_MAP_T_H_
 
-#include "Common_Utils_export.h"
-#include "cuts/config.h"
+#include "Utils_export.h"
 #include "ace/Hash_Map_Manager_T.h"
 #include "ace/Null_Mutex.h"
 #include "ace/SString.h"
@@ -22,7 +21,7 @@
 /**
  * @class CUTS_Property_Map
  */
-class CUTS_COMMON_UTILS_Export CUTS_Property_Map
+class CUTS_UTILS_Export CUTS_Property_Map
 {
 public:
   /// Type definition of the internal hash map.

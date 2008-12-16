@@ -1,6 +1,6 @@
 // $Id$
 
-project (cutstmpl) : boost_base, cuts_common_utils, cutsexe {
+project (cutstmpl) : boost_base, cuts_utils, cutsexe {
   exename = cutstmpl
 
   Source_Files {

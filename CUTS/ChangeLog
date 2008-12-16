@@ -1,3 +1,47 @@
+Tue Dec 16 00:38:15 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_utils.mpb:
+        * cuts/utils/Node_Daemon/Node_Daemon.mpc:
+        * cuts/utils/template/cutstmpl.mpc:
+
+          . Changed name of CUTS_Common_Utils project to CUTS_Utils
+
+        * cuts/utils/Property_Expander.h:
+        * cuts/utils/Property_Expander.cpp:
+        * cuts/utils/Property_Expander_T.cpp:
+        * cuts/utils/Property_Map.h:
+        * cuts/utils/Property_Map.inl:
+        * cuts/utils/Property_Map.cpp:
+        * cuts/utils/Property_Map_File.h:
+        * cuts/utils/Property_Map_File.inl:
+        * cuts/utils/Property_Map_File.cpp:
+        * cuts/utils/Property_Parser.h:
+        * cuts/utils/Property_Parser.cpp:
+        * cuts/utils/Property_Parser_T.cpp:
+        * cuts/utils/utils.mpc:
+
+          . Moved the CUTS utility classes from cuts/utils/common to
+            cuts/utils
+
+        * MPC/config/cuts_common_utils.mpb:
+        * cuts/utils/common:
+        * cuts/utils/common/Common_Utils_export.h:
+        * cuts/utils/common/Property_Expander.h:
+        * cuts/utils/common/Property_Expander.cpp:
+        * cuts/utils/common/Property_Expander_T.cpp:
+        * cuts/utils/common/Property_Map.h:
+        * cuts/utils/common/Property_Map.inl:
+        * cuts/utils/common/Property_Map.cpp:
+        * cuts/utils/common/Property_Map_File.h:
+        * cuts/utils/common/Property_Map_File.inl:
+        * cuts/utils/common/Property_Map_File.cpp:
+        * cuts/utils/common/Property_Parser.h:
+        * cuts/utils/common/Property_Parser.cpp:
+        * cuts/utils/common/Property_Parser_T.cpp:
+        * cuts/utils/common/common.mpc:
+
+          Removed these files.
+
 Mon Dec 15 23:15:49 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * THANKS:
