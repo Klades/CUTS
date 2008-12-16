@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{5FB59F6B-6826-4033-8E7A-3F22B732DE12}" cdate="Wed Dec 10 17:32:23 2008" mdate="Wed Dec 10 17:32:23 2008" version="" metaguid="{6131D657-5E06-4D59-B9A5-39B0F7A830D4}" metaversion="" metaname="PICML">
+<project guid="{7682C881-900C-438D-A531-926435162833}" cdate="Wed Dec 10 17:32:23 2008" mdate="Wed Dec 10 17:32:23 2008" version="" metaguid="{6131D657-5E06-4D59-B9A5-39B0F7A830D4}" metaversion="" metaname="PICML">
 	<name>TestLogger</name>
 	<comment>Traffic light system for the NAOMI project</comment>
 	<author>James H. Hill</author>
@@ -49,7 +49,7 @@
 					<attribute kind="Location">
 						<value>$(CUTS_ROOT)/cuts/workers/Test_Logger</value>
 					</attribute>
-					<model id="id-0065-0000004e" kind="Worker" role="Worker" guid="{005B4DF0-250F-40b3-9E5D-16A568C268EF}" relid="0x1" childrelidcntr="0x3">
+					<model id="id-0065-0000004e" kind="Worker" role="Worker" guid="{005B4DF0-250F-40b3-9E5D-16A568C268EF}" relid="0x1" childrelidcntr="0x4">
 						<name>CUTS_Test_Logger</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -166,7 +166,7 @@
 								<regnode name="Behavior" status="undefined">
 									<value></value>
 									<regnode name="Position" isopaque="yes">
-										<value>80,157</value>
+										<value>80,227</value>
 									</regnode>
 								</regnode>
 							</regnode>
@@ -252,6 +252,51 @@
 											<value></value>
 											<regnode name="Position" isopaque="yes">
 												<value>221,74</value>
+											</regnode>
+										</regnode>
+									</regnode>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-0000008c" kind="Action" role="Action" guid="{2BC30493-6012-4cc3-9569-E1F987793F8C}" relid="0x4" childrelidcntr="0x1">
+							<name>connect_using_name</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>80,157</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-0000008d" kind="Property" role="Property" guid="{23EFB202-7A5D-423f-934F-3EF6617FF142}" relid="0x1" childrelidcntr="0x1">
+								<name>location</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="Behavior" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>100,23</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="DataValue">
+									<value>10</value>
+								</attribute>
+								<reference id="id-0067-0000006c" kind="DataType" role="DataType" guid="{84DA5FB9-78C8-4581-A771-F4B04FB68D31}" relid="0x1" referred="id-0066-00000003">
+									<name>String</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="Packaging" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>242,123</value>
 											</regnode>
 										</regnode>
 									</regnode>
