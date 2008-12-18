@@ -21,5 +21,5 @@ echo "              xmlns:cuts='http://www.dre.vanderbilt.edu/CUTS'"
 echo "              xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"
 echo "              xsi:schemaLocation='http://www.dre.vanderbilt.edu/CUTS logging.xsd'>"
 
-grep h /var/emulab/boot/ltmap | sed "s/h //" | awk -F ' ' '{ if ($1 != "control") printf "  <client>corbaloc:iiop:%s.%s.isislab.vanderbilt.edu:"'"${PORT_NUMBER}"'"/CUTS/TestLoggerClient</client>\n", $1, "'"${HOSTNAME_SUFFIX}"'" }'
+grep h /var/emulab/boot/ltmap | sed "s/h //" | awk -F ' ' '{ if ($1 != "control") printf "  <client>corbaname:rir:#CUTS/TestLoggerClient/%s</client>\n", $1 }'
 echo "</cuts:logging>"

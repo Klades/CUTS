@@ -4,6 +4,10 @@
 #include "cuts/Async_Event_Handler_T.inl"
 #endif
 
+#if !defined (WIN32)
+#include <sched.h>
+#endif
+
 /**
  * Default thread count for the event handler.
  *
@@ -42,6 +46,23 @@ ACE_THR_FUNC_RETURN
 CUTS_Async_Event_Handler_T <COMPONENT, EVENTTYPE>::event_loop (void * param)
 {
   CUTS_TRACE ("CUTS_Async_Event_Handler_T <COMPONENT, EVENTTYPE>::event_loop (void *)");
+
+#if !defined (WIN32)
+  ACE_DEBUG ((LM_DEBUG,
+              "%T - %M - setting processor affinity to 1\n"));
+
+  cpu_set_t mask;
+  size_t length = sizeof (mask);
+
+  CPU_ZERO (&mask);
+  CPU_SET (0, &mask);
+
+  if (::sched_setaffinity (ACE_OS::getpid (), length, &mask) == -1)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - failed to set processor affinity\n"));
+    }
+#endif
 
   bool active = true;
   THIS * _this = reinterpret_cast <THIS *> (param);
