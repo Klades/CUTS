@@ -14,7 +14,7 @@
 #include "ace/Get_Opt.h"
 #include "ace/Env_Value_T.h"
 #include "ace/streams.h"
-#include "XSCRT/utils/Console_Error_Handler.h"
+#include "XSC/utils/XML_Error_Handler.h"
 #include "boost/bind.hpp"
 #include <sstream>
 #include <algorithm>
@@ -278,8 +278,9 @@ void CUTS_Test_Logging_Server::register_with_clients (void)
 {
   CUTS_Logging_Server_File reader;
 
-  // Set the error handler for the console.
-  reader.parser ()->setErrorHandler (new XSCRT::utils::Console_Error_Handler ());
+  // Set the error handler for the reader.
+  XSC::XML::XML_Error_Handler error_handler;
+  reader->setErrorHandler (&error_handler);
 
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - loading configuration file %s\n",

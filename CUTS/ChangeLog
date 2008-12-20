@@ -1,3 +1,17 @@
+Sat Dec 20 09:22:38 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+        * cuts/utils/logging/server/Logging_Server.cpp:
+        * cuts/utils/logging/server/Logging_Server_File.cpp:
+        * cuts/utils/testing/Test_Configuration_File.cpp:
+        * cuts/utils/testing/Testing_App.cpp:
+
+          . Updated CUTS to build with the latest version of XSC.
+
+        * CUTS_CIAO.mwc:
+
+          Removed this file.
+
 Sat Dec 20 09:15:57 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/T2M/parsers/Scatter_Deployment/Scatter_Deployment_Parser.mpc:

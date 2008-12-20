@@ -18,7 +18,7 @@
 #include "ace/UUID.h"
 #include "ace/Env_Value_T.h"
 #include "boost/bind.hpp"
-#include "XSCRT/utils/Console_Error_Handler.h"
+#include "XSC/utils/XML_Error_Handler.h"
 #include <sstream>
 #include <algorithm>
 
@@ -475,9 +475,8 @@ int CUTS_Testing_App::load_configuration (CUTS_Testing_Service_Manager & mgr,
   // First, read the configuration into memory.
   CUTS_Test_Configuration_File file;
 
-  XSCRT::utils::Console_Error_Handler * error_handler = 0;
-  ACE_NEW_NORETURN (error_handler, XSCRT::utils::Console_Error_Handler ());
-  file.parser ()->setErrorHandler (error_handler);
+  XSC::XML::XML_Error_Handler error_handler;
+  file->setErrorHandler (&error_handler);
 
   if (!file.read (filename.c_str ()))
   {
