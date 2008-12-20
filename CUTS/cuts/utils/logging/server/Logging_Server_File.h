@@ -6,6 +6,7 @@
 #include "cuts/config.h"
 #include "logging.h"
 #include "XSCRT/utils/File_Reader_T.h"
+#include "XSC/utils/XML_Schema_Resolver.h"
 
 /**
  * @class CUTS_Logging_Server_File
@@ -24,6 +25,10 @@ public:
 private:
   /// Set the default configuration for the file.
   void configure (void);
+
+  XSC::XML::Basic_Resolver br_;
+
+  XSC::XML::XML_Schema_Resolver <XSC::XML::Basic_Resolver> resolver_;
 };
 
 #if defined (__CUTS_INLINE__)

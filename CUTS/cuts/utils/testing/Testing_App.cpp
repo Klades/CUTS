@@ -464,8 +464,9 @@ int CUTS_Testing_App::teardown_test (void)
 //
 // load_configuration
 //
-int CUTS_Testing_App::load_configuration (CUTS_Testing_Service_Manager & mgr,
-                                          const ACE_CString & filename)
+int CUTS_Testing_App::
+load_configuration (CUTS_Testing_Service_Manager & mgr,
+                    const ACE_CString & filename)
 {
   CUTS_TEST_TRACE ("CUTS_Testing_App::load_configuration (const ACE_CString &)");
 

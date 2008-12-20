@@ -1,3 +1,16 @@
+Sat Dec 20 17:26:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/server/Logging_Server_File.h:
+        * cuts/utils/logging/server/Logging_Server_File.inl:
+        * cuts/utils/logging/server/Logging_Server_File.cpp:
+        * cuts/utils/testing/Test_Configuration_File.h:
+        * cuts/utils/testing/Test_Configuration_File.inl:
+        * cuts/utils/testing/Test_Configuration_File.cpp:
+        * cuts/utils/testing/Testing_App.cpp:
+
+          . Bug fix where the entity resolver was declared as a temporary
+            variable, which prevented it from storing the schema directory.
+
 Sat Dec 20 16:58:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:

@@ -16,6 +16,7 @@
 #include "test.h"
 #include "cuts/config.h"
 #include "XSCRT/utils/File_Reader_T.h"
+#include "XSC/utils/XML_Schema_Resolver.h"
 
 /**
  * @class CUTS_Test_Configuration_File
@@ -39,6 +40,10 @@ public:
 private:
   /// Helper method to configure the reader.
   void configure (void);
+
+  XSC::XML::Basic_Resolver br_;
+
+  XSC::XML::XML_Schema_Resolver <XSC::XML::Basic_Resolver> resolver_;
 };
 
 #if defined (__CUTS_INLINE__)
