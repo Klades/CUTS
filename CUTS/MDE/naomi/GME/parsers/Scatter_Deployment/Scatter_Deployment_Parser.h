@@ -36,7 +36,9 @@ public:
                                const std::string & uri);
 
   // Run the parser.
-  virtual int run (GME::Object & target, const std::string & attr_path);
+  virtual int run (GME::Object & target,
+                   const std::string & attr,
+                   const std::string & path);
 
 private:
   /// Name of file to parse.

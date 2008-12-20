@@ -273,8 +273,12 @@ namespace naomi
       {
         pre (o);
         owner (o);
-        value (o);
-        resource (o);
+
+        if (o.count_resource () == 0)
+          value (o);
+        else
+          resource (o);
+
         if (o.units_p ()) units (o);
         else units_none (o);
         if (o.documentation_p ()) documentation (o);
@@ -288,20 +292,15 @@ namespace naomi
         pre (o);
         owner (o);
 
-        if (o.value_p ())
+        if (o.count_resource () == 0)
           value (o);
         else
           resource (o);
 
-        if (o.units_p ())
-          units (o);
-        else
-          units_none (o);
-
-        if (o.documentation_p ())
-          documentation (o);
-        else
-          documentation_none (o);
+        if (o.units_p ()) units (o);
+        else units_none (o);
+        if (o.documentation_p ()) documentation (o);
+        else documentation_none (o);
         post (o);
       }
 

@@ -26,6 +26,8 @@ project (GNC_Base) : requires_naomi, xscrt, cuts_gme, cutslib {
   sharedname   =  GNC_Base
   dynamicflags += GNC_BASE_BUILD_DLL
 
+  after += GNC_Xsc_Gen
+
   Header_Files {
     GNC_Base_export.h
     Resource_List.h

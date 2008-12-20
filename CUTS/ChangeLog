@@ -1,9 +1,35 @@
+Sat Dec 20 09:11:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/CUTS_NAOMI.mwc:
+
+          . Stand-alone workspace for building NAOMI specific projects.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
+
+          . Update XSC code to work with latest version of XSC.
+
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Scatter_Deployment_Parser.h:
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Scatter_Deployment_Parser.cpp:
+        * MDE/naomi/GME/GNC.mpc:
+        * MDE/naomi/GME/GNC_App.h:
+        * MDE/naomi/GME/GNC_App.cpp:
+        * MDE/naomi/GME/Naomi_Parser.h:
+        * MDE/naomi/GME/attribute.h:
+        * MDE/naomi/GME/attribute.inl:
+        * MDE/naomi/GME/attribute.cpp:
+        * MDE/naomi/GME/parsers/Scatter_Deployment/Scatter_Deployment_Parser.h:
+        * MDE/naomi/GME/parsers/Scatter_Deployment/Scatter_Deployment_Parser.cpp:
+        * MDE/naomi/GME/parsers/Scatter_Deployment/Scatter_Deployment_Parser.mpc:
+
+          . Updated the Scatter input connector for CUTS to work with the
+            latest attribute format for the Scatter deployment.
+
 Thu Dec 18 20:37:40 UTC 2008  Pooja Varshneya  <varshneya_p@signalprocessor.guts.isislab.vanderbilt.edu>
 
-	* etc/emulab/generate-logging-client-map.sh:
- 
+        * etc/emulab/generate-logging-client-map.sh:
+
           . Updated script to use naming service instead of
-	    corbaloc to resolve logging clients.
+            corbaloc to resolve logging clients.
 
 Tue Dec 16 21:01:20 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 

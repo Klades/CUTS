@@ -174,7 +174,8 @@ private:
    * @param[in]         info          Information about the attribute
    */
   void update_input_attribute_complex (
-    const naomi::attributes::attributeType & attr,
+    const std::string & attr,
+    const naomi::attributes::attributeType & naomi_attr,
     GME_Attribute_Tag & info);
 
   /**

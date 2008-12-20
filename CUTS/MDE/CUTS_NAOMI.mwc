@@ -1,0 +1,18 @@
+// $Id$
+
+workspace (CUTS_NAOMI) {
+  cmdline += -include $CUTS_ROOT/MPC/config \
+             -include $XSC_ROOT/MPC/config \
+             -include $COSMIC_ROOT/MPC/config \
+             -feature_file $CUTS_ROOT/default.features
+
+  exclude (!vc6, !vc7, !vc71, !vc8, !vc9, !vc10) {
+    //== Text-2-Model parsers
+    GME/T2M/T2M.mpc
+    GME/T2M/parsers/T2M_Parser.mpc
+    GME/T2M/parsers/Scatter_Deployment
+
+    //== all projects in the NAOMI directory
+    naomi
+  }
+}

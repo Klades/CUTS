@@ -50,7 +50,8 @@ public:
    * @param[in]         attr_path       Attribute path.
    */
   virtual int run (GME::Object & target,
-                   const std::string & attr_path) = 0;
+                   const std::string & attr,
+                   const std::string & path) = 0;
 
   /// Delete the parser. This function should only be used if the parser
   /// was created dynamcially and in a different memory space.

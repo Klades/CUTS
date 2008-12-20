@@ -21,21 +21,11 @@ namespace naomi
 
     inline
     attributeType::
-    attributeType (::XMLSchema::string< char > const& owner__)
-    :
-    ::XSCRT::Type (),
-    owner_ (new ::XMLSchema::string< char > (owner__)),
-    regulator__ ()
-    {
-      owner_->container (this);
-    }
-
-    inline
-    attributeType::
     attributeType (attributeType const& s)
     :
     ::XSCRT::Type (),
     owner_ (new ::XMLSchema::string< char > (*s.owner_)),
+    value_ (s.value_.get () ? new ::XMLSchema::string< char > (*s.value_) : 0),
     resource_ (s.resource_),
     units_ (s.units_.get () ? new ::XMLSchema::string< char > (*s.units_) : 0),
     documentation_ (s.documentation_.get () ? new ::XMLSchema::string< char > (*s.documentation_) : 0),
@@ -43,17 +33,11 @@ namespace naomi
     {
       owner_->container (this);
 
-      if (s.value_.get ())
-      {
-        value_.reset (new ::XMLSchema::string< char > (*s.value_));
+      if (value_.get ())
         value_->container (this);
-      }
 
-      if (units_.get ())
-        units_->container (this);
-
-      if (documentation_.get ())
-        documentation_->container (this);
+      if (units_.get ()) units_->container (this);
+      if (documentation_.get ()) documentation_->container (this);
     }
 
     inline
@@ -100,15 +84,12 @@ namespace naomi
     // attributeType
     //
     inline
-    bool attributeType::value_p () const
-    {
-      return value_.get () != 0;
-    }
-
-    inline
     ::XMLSchema::string< char > const& attributeType::
     value () const
     {
+      if (value_.get () == 0)
+        value_.reset (new ::XMLSchema::string< char > (""));
+
       return *value_;
     }
 
@@ -116,15 +97,10 @@ namespace naomi
     void attributeType::
     value (::XMLSchema::string< char > const& e)
     {
-      if (value_.get () == 0)
-      {
-        value_.reset (new ::XMLSchema::string< char > (e));
-        value_->container (this);
-      }
-      else
-      {
+      if (value_.get ())
         *value_ = e;
-      }
+      else
+        value_.reset (new ::XMLSchema::string< char > (e));
     }
 
     // attributeType::resourceType

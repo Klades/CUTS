@@ -39,10 +39,9 @@ namespace naomi
       public:
       ::XMLSchema::string< char > const& value () const;
       void value (::XMLSchema::string< char > const& );
-      bool value_p () const;
 
       protected:
-      ::std::auto_ptr< ::XMLSchema::string< char > > value_;
+      mutable ::std::auto_ptr< ::XMLSchema::string< char > > value_;
 
       // anonymous type for resourceType
       //
@@ -135,8 +134,6 @@ namespace naomi
       public:
       attributeType (::XMLSchema::string< char > const& owner__,
                      ::XMLSchema::string< char > const& value__);
-
-      attributeType (::XMLSchema::string< char > const& owner__);
 
       attributeType (::XSCRT::XML::Element< char > const&);
       attributeType (attributeType const& s);

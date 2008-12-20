@@ -10,7 +10,8 @@
 #include "be/BE_Manager_Factory.h"
 
 #include "XSCRT/utils/File_Reader_T.h"
-#include "XSCRT/utils/XML_Schema_Resolver_T.h"
+#include "XSC/utils/XML_Schema_Resolver.h"
+#include "XSC/utils/XML_Error_Handler.h"
 
 #include "boost/bind.hpp"
 
@@ -71,52 +72,47 @@ BOOL Main_Dialog::OnInitDialog (void)
       XSCRT::utils::File_Reader_T <
         CUTS::Configuration> reader (&CUTS::reader::modelgen);
 
-      reader.parser ()->setEntityResolver (
-        XSCRT::utils::xml_schema_resolver (
-          XSCRT::utils::Basic_Resolver_T <char> (cuts_schema.str ().c_str ())));
+      XSC::XML::Basic_Resolver br (cuts_schema.str ().c_str ());
+      XSC::XML::XML_Schema_Resolver <XSC::XML::Basic_Resolver> resolver (br);
+      reader->setEntityResolver (&resolver);
+
+      XSC::XML::XML_Error_Handler error_handler;
+      reader->setErrorHandler (&error_handler);
 
       // Discard comment nodes in the document.
-      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMComments, false))
-        reader.parser ()->setFeature (xercesc::XMLUni::fgDOMComments, false);
+      reader->setCreateCommentNodes (false);
 
       // Disable datatype normalization. The XML 1.0 attribute value
       // normalization always occurs though.
-      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true))
-        reader.parser ()->setFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true);
+      //if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true))
+      //  reader.parser ()->setFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true);
 
       // Do not create EntityReference nodes in the DOM tree. No
       // EntityReference nodes will be created, only the nodes
       // corresponding to their fully expanded substitution text will be
       // created.
-      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMEntities, false))
-        reader.parser ()->setFeature (xercesc::XMLUni::fgDOMEntities, false);
+      reader->setCreateEntityReferenceNodes (false);
 
       // Perform Namespace processing.
-      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMNamespaces, true))
-        reader.parser ()->setFeature (xercesc::XMLUni::fgDOMNamespaces, true);
+      reader->setDoNamespaces (true);
 
       // Do not include ignorable whitespace in the DOM tree.
-      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMWhitespaceInElementContent, false))
-        reader.parser ()->setFeature (xercesc::XMLUni::fgDOMWhitespaceInElementContent, false);
+      reader->setIncludeIgnorableWhitespace (false);
 
       // Perform Validation
-      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMValidation, true))
-        reader.parser ()->setFeature (xercesc::XMLUni::fgDOMValidation, true);
+      reader->setValidationScheme (AbstractDOMParser::ValSchemes::Val_Auto);
 
       // Enable the GetParser()'s schema support.
-      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesSchema, true))
-        reader.parser ()->setFeature (xercesc::XMLUni::fgXercesSchema, true);
+      reader->setDoSchema (true);
 
       // Enable full schema constraint checking, including checking which
       // may be time-consuming or memory intensive. Currently, particle
       // unique attribution constraint checking and particle derivation
       // restriction checking are controlled by this option.
-      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesSchemaFullChecking, true))
-        reader.parser ()->setFeature (xercesc::XMLUni::fgXercesSchemaFullChecking, true);
+      reader->setValidationSchemaFullChecking (true);
 
       // The GetParser() will treat validation error as fatal and will exit.
-      if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, false))
-        reader.parser ()->setFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, false);
+      reader->setValidationConstraintFatal (false);
 
       CUTS::Configuration config;
 

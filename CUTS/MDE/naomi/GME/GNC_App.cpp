@@ -12,6 +12,7 @@
 #include "game/XML.h"
 
 #include "ace/ACE.h"
+#include "ace/Env_Value_T.h"
 #include "ace/Get_Opt.h"
 #include "ace/OS_NS_unistd.h"
 #include "ace/OS_NS_string.h"
@@ -23,9 +24,11 @@
 #include "boost/utility.hpp"
 #include "boost/graph/topological_sort.hpp"
 
+#include "XSC/utils/XML_Schema_Resolver.h"
+#include "XSC/utils/XML_Error_Handler.h"
 #include "XSCRT/utils/File_Reader_T.h"
 #include "XSCRT/utils/File_Writer_T.h"
-#include "XSCRT/utils/XML_Schema_Resolver_T.h"
+#include "xercesc/validators/common/Grammar.hpp"
 
 #include <sstream>
 #include <algorithm>
@@ -958,53 +961,47 @@ update_input_attribute (const std::string & attr, GME_Attribute_Tag & info)
   // Create the file reader for the configuration file.
   naomi::attributes::attributeType attr_info ("", "");
 
+  ACE_Env_Value <const char *> NAOMI_ROOT ("NAOMI_ROOT", "");
+  std::ostringstream schemas_dir;
+  schemas_dir << NAOMI_ROOT << "/schemas/";
+
+  std::string attribute_xsd =
+    schemas_dir.str () + std::string ("attribute.xsd");
+
   XSCRT::utils::File_Reader_T <
     naomi::attributes::attributeType>
     reader (&naomi::attributes::reader::attribute);
 
-  // Discard comment nodes in the document.
-  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMComments, false))
-    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMComments, false);
+  // Configure the entity resolver.
+  XSC::XML::Basic_Resolver br (schemas_dir.str ().c_str ());
+  XSC::XML::XML_Schema_Resolver <XSC::XML::Basic_Resolver> resolver (br);
+  reader->setEntityResolver (&resolver);
 
-  // Disable datatype normalization. The XML 1.0 attribute value
-  // normalization always occurs though.
-  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true))
-    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true);
+  // Configure the error handler
+  XSC::XML::XML_Error_Handler error_handler;
+  reader->setErrorHandler (&error_handler);
 
-  // Do not create EntityReference nodes in the DOM tree. No
-  // EntityReference nodes will be created, only the nodes
-  // corresponding to their fully expanded substitution text will be
-  // created.
-  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMEntities, false))
-    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMEntities, false);
+  reader->setCreateEntityReferenceNodes (false);
+  reader->setDoNamespaces (true);
+  reader->setDoSchema (true);
+  reader->setIncludeIgnorableWhitespace (false);
+  reader->setValidationConstraintFatal (true);
+  reader->setValidationScheme (xercesc::AbstractDOMParser::Val_Always);
+  reader->setValidationSchemaFullChecking (true);
+  reader->setCreateCommentNodes (false);
+  reader->setExternalSchemaLocation ("http://www.atl.lmco.com/naomi/attributes attribute.xsd");
 
-  // Perform Namespace processing.
-  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMNamespaces, true))
-    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMNamespaces, true);
+  // Load the attribute.xsd grammar just in case.
+  //reader->loadGrammar ("attribute.xsd", Grammar::SchemaGrammarType);
 
-  // Do not include ignorable whitespace in the DOM tree.
-  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMWhitespaceInElementContent, false))
-    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMWhitespaceInElementContent, false);
+  if (error_handler.getErrors ())
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - failed to load attribute.xsd grammar\n"));
+    return;
+  }
 
-  // Perform Validation
-  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMValidation, true))
-    reader.parser ()->setFeature (xercesc::XMLUni::fgDOMValidation, true);
-
-  // Enable the GetParser()'s schema support.
-  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesSchema, true))
-    reader.parser ()->setFeature (xercesc::XMLUni::fgXercesSchema, true);
-
-  // Enable full schema constraint checking, including checking which
-  // may be time-consuming or memory intensive. Currently, particle
-  // unique attribution constraint checking and particle derivation
-  // restriction checking are controlled by this option.
-  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesSchemaFullChecking, true))
-    reader.parser ()->setFeature (xercesc::XMLUni::fgXercesSchemaFullChecking, true);
-
-  // The GetParser() will treat validation error as fatal and will exit.
-  if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, false))
-    reader.parser ()->setFeature (xercesc::XMLUni::fgXercesValidationErrorAsFatal, false);
-
+  // Now, parse the attribute file.
   std::ostringstream pathname;
   pathname << this->opts_.attribute_path_ << "/" << attr;
 
@@ -1017,6 +1014,15 @@ update_input_attribute (const std::string & attr, GME_Attribute_Tag & info)
                   "%T - %M - loading input attribute's information\n"));
 
       reader >>= attr_info;
+
+      if (info.complex_.empty ())
+        this->update_input_attribute_simple (attr_info, info);
+      else
+        this->update_input_attribute_complex (attr, attr_info, info);
+    }
+    catch (const GME::Failed_Result &)
+    {
+
     }
     catch (...)
     {
@@ -1024,11 +1030,6 @@ update_input_attribute (const std::string & attr, GME_Attribute_Tag & info)
                   "%T - %M - failed to load %s input attribute's information\n",
                   attr.c_str ()));
     }
-
-    if (info.complex_.empty ())
-      this->update_input_attribute_simple (attr_info, info);
-    else
-      this->update_input_attribute_complex (attr_info, info);
   }
   else
   {
@@ -1088,7 +1089,8 @@ update_input_attribute_simple (const naomi::attributes::attributeType & attr,
 // update_complex_attribute_input
 //
 void CUTS_GNC_App::
-update_input_attribute_complex (const naomi::attributes::attributeType & attr,
+update_input_attribute_complex (const std::string & attr_name,
+                                const naomi::attributes::attributeType & naomi_attr,
                                 GME_Attribute_Tag & info)
 {
   ACE_DEBUG ((LM_DEBUG,
@@ -1137,7 +1139,7 @@ update_input_attribute_complex (const naomi::attributes::attributeType & attr,
   {
     // Pass each of the resources to the parser.
     naomi::attributes::attributeType::resource_const_iterator
-      iter = attr.begin_resource (), iter_end = attr.end_resource ();
+      iter = naomi_attr.begin_resource (), iter_end = naomi_attr.end_resource ();
 
     for ( ; iter != iter_end; ++ iter)
       parser->handle_resource (iter->name (), iter->uri ());
@@ -1145,7 +1147,7 @@ update_input_attribute_complex (const naomi::attributes::attributeType & attr,
     // Now, run the parser. We need to pass it the target object and the path to
     // attriburtes. This will be used to resolve any relative paths that are
     // specified in the resources.
-    if (parser->run (info.object_, this->opts_.attribute_path_))
+    if (parser->run (info.object_, attr_name, this->opts_.attribute_path_) == 0)
     {
       ACE_DEBUG ((LM_INFO,
                   "%T - %M - successfully run parser\n"));
@@ -1208,7 +1210,7 @@ update_output_attribute (const std::string & attr, GME_Attribute_Tag & info)
 
   // Create the file reader for the configuration file. Right now, we can
   // only set the owner of the attribute.
-  naomi::attributes::attributeType attr_info (this->opts_.owner_);
+  naomi::attributes::attributeType attr_info (this->opts_.owner_, "");
 
   // Pass control to either the simple/complex attribute finish initializing
   // the reset of the attribute's information
