@@ -1,3 +1,19 @@
+Sat Dec 20 09:15:57 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Scatter_Deployment_Parser.mpc:
+
+          . Remove the file below from the project.
+
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Deployment_Map.h:
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Model_Cache.h:
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Model_Cache.cpp:
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Model_Cache_Manager.h:
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Model_Cache_Manager.cpp:
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Model_Cache_T.h:
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Model_Cache_T.cpp:
+
+          Removed these files.
+
 Sat Dec 20 09:11:16 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/CUTS_NAOMI.mwc:
