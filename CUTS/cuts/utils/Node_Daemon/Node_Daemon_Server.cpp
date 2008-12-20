@@ -11,6 +11,7 @@
 #include "ace/Env_Value_T.h"
 
 #include "XSC/utils/XML_Schema_Resolver.h"
+#include "XSC/utils/XML_Error_Handler.h"
 #include "XSCRT/utils/File_Reader_T.h"
 
 static const char * __HELP__ =
@@ -276,45 +277,23 @@ int CUTS_Node_Daemon_Server::load_initial_config (void)
   try
   {
     // Configure the entity resolver.
-    XSC::XML::XML_Schema_Resolver <XSC::XML::Basic_Resolver>
-      resolver (XSC::XML::Basic_Resolver (cuts_schema.str ().c_str ()));
-
+    XSC::XML::Basic_Resolver br (cuts_schema.str ().c_str ());
+    XSC::XML::XML_Schema_Resolver <XSC::XML::Basic_Resolver> resolver (br);
     reader->setEntityResolver (&resolver);
 
-    // Discard comment nodes in the document.
+    // Configure the error handler.
+    XSC::XML::XML_Error_Handler error_handler;
+    reader->setErrorHandler (&error_handler);
+
+    // Set the features for the parser.
     reader->setCreateCommentNodes (false);
-
-    // Disable datatype normalization. The XML 1.0 attribute value
-    // normalization always occurs though.
-    //if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true))
-    //  reader.parser ()->setFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true);
-
-    // Do not create EntityReference nodes in the DOM tree. No
-    // EntityReference nodes will be created, only the nodes
-    // corresponding to their fully expanded substitution text will be
-    // created.
     reader->setCreateEntityReferenceNodes (false);
-
-    // Perform Namespace processing.
     reader->setDoNamespaces (true);
-
-    // Do not include ignorable whitespace in the DOM tree.
     reader->setIncludeIgnorableWhitespace (false);
-
-    // Perform Validation
     reader->setValidationScheme (AbstractDOMParser::ValSchemes::Val_Auto);
-
-    // Enable the GetParser()'s schema support.
     reader->setDoSchema (true);
-
-    // Enable full schema constraint checking, including checking which
-    // may be time-consuming or memory intensive. Currently, particle
-    // unique attribution constraint checking and particle derivation
-    // restriction checking are controlled by this option.
     reader->setValidationSchemaFullChecking (true);
-
-    // The GetParser() will treat validation error as fatal and will exit.
-    reader->setValidationConstraintFatal (false);
+    reader->setValidationConstraintFatal (true);
 
     CUTS::nodeConfig node_config;
 

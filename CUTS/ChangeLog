@@ -1,3 +1,13 @@
+Sat Dec 20 16:58:48 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+
+          . Bug fix where the entity resolver was declared as a temporary
+            variable, which prevented it from storing the schema directory.
+
+          . Added the error handler to the parser. This will enable use to
+            get a printout of errors/warning that occur during parsing.
+
 Sat Dec 20 09:22:38 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
