@@ -92,8 +92,8 @@ int CUTS_Node_Daemon_Server::run_main (int argc, char * argv [])
     this->servant_ = this->daemon_;
 
     // Export the reference to the servant's IOR
-    this->write_ior_to_file ();
-    this->write_ior_to_table ();
+    //this->write_ior_to_file ();
+    //this->write_ior_to_table ();
 
     // Run the ORB's main event loop.
     ACE_DEBUG ((LM_DEBUG, "%T - %M - running ORB's main event loop\n"));

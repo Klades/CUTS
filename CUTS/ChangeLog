@@ -1,3 +1,31 @@
+Tue Dec 23 06:56:05 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+
+          . Disable all discovery service for the node daemon.
+
+        * cuts/utils/logging/client/Logging_Client.cpp:
+        * cuts/utils/logging/server/Logging_Server.cpp:
+
+          . Cleaned some of the code.
+
+        * cuts/utils/testing/TAO_Testing_Service.cpp:
+        * cuts/utils/testing/Testing_Service_DLL.cpp:
+        * cuts/utils/testing/Testing_Service_Manager.cpp:
+
+          . Bug fix where loading mulitple servants from different modules
+            resulted in a segmentation fault. This is because the static
+            services were loaded under a context-specific ACE_Service_Gestalt
+            and not the global one. Also, when the module was unloaded, it
+            unloaded all dependent modules, and caused dangling references.
+            This problem was resolved by not closing the handle on destruction
+            of the DLL. Instead, we let ACE manage the lifecycle of loaded
+            modules.
+
+        * cuts/utils/testing/svcs/server/Testing_Server.cpp:
+
+          . Re-enabled IORTable support the testing server.
+
 Sat Dec 20 17:26:55 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/server/Logging_Server_File.h:

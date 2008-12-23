@@ -350,13 +350,12 @@ int CUTS_Logging_Client::register_with_iortable (void)
     // Get the IOR string for the test manager.
     CUTS::TestLoggerClient_var client = this->client_->_this ();
     CORBA::String_var obj_str  = this->orb_->object_to_string (client.in ());
-    CORBA::String_var ior_name = CORBA::string_dup ("CUTS/TestLoggerClient");
 
     // Bind the object to the IOR table.
     ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - registering test logger client with localhost\n"));
+                "%T (%t) - %M - binding logging client to IORTable\n"));
 
-    ior_table->bind (ior_name.in (), obj_str.in ());
+    ior_table->bind ("CUTS/TestLoggerClient", obj_str.in ());
     return 0;
   }
   catch (const CORBA::Exception & ex)

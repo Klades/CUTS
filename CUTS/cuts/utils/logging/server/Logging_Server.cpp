@@ -341,13 +341,17 @@ register_with_client (const std::string & str,
   try
   {
     // Resolve the logger's client reference.
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - resolving object: %s\n",
+                str.c_str ()));
+
     ::CORBA::Object_var obj = this->orb_->string_to_object (str.c_str ());
 
     if (::CORBA::is_nil (obj.in ()))
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T (%t) - %M - failed to locate object in "
-                  "naming service\n"));
+                  "%T (%t) - %M - failed to locate object [%s]\n",
+                  str.c_str ()));
       return;
     }
 

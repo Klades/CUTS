@@ -35,6 +35,7 @@ int CUTS_Testing_Service_DLL::close (void)
   }
 
   // Pass control to the contained DLL.
+  //ACE_Service_Config_Guard gaurd (ACE_Service_Config::global ());
   return this->dll_.close ();
 }
 
@@ -50,12 +51,16 @@ open (const char * module, const char * factory)
   if (this->svc_ != 0 || this->svc_config_->is_opened ())
     this->close ();
 
-  // First, load the module into memory.
+  // First, load the module into memory. Make sure we do not close the
+  // handle on destruction. This way, we make sure we unload all the
+  // static services before unloading the module. Also, there is a
+  // good chance the same module is used to load mulitple servies. We
+  // want to make sure the handle stays open until the very end.
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - loading %s module into memory\n",
               module));
 
-  if (this->dll_.open (module) != 0)
+  if (this->dll_.open (module, ACE_DEFAULT_SHLIB_MODE, false) != 0)
   {
     ACE_ERROR_RETURN ((LM_ERROR,
                        "%T - %M - %m [%s]\n",
@@ -85,7 +90,10 @@ open (const char * module, const char * factory)
 
   factory_type f = reinterpret_cast <factory_type> (symbol);
 
-  // Use the factory to create a new service object.
+  // Use the factory to create a new service object. We need to switch
+  // to the current service gestalt just in case creating the service
+  // loads services.
+  ACE_Service_Config_Guard guard (this->svc_config_.get ());
   this->svc_ = (*f) ();
 
   return this->svc_ != 0 ? 0 : -1;

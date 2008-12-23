@@ -24,9 +24,11 @@ int CUTS_TAO_Testing_Service::init (int argc, char * argv [])
   argc = args_list.argc ();
   ACE_Argv_Type_Converter command_line (argc, args_list.argv ());
 
+  char ** new_argv = command_line.get_ASCII_argv ();
+
   this->orb_ = ::CORBA::ORB_init (command_line.get_argc (),
-                                  command_line.get_ASCII_argv (),
-                                  command_line.get_ASCII_argv ()[0]);
+                                  new_argv,
+                                  new_argv[0]);
 
   return 0;
 }

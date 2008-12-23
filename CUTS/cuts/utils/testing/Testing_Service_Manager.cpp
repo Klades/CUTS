@@ -36,17 +36,22 @@ int CUTS_Testing_Service_Manager::load_service (const char * name,
 
   ACE_Auto_Ptr <CUTS_Testing_Service_DLL> auto_clean (dll);
 
+  do
+  {
+    ACE_Service_Config_Guard guard (ACE_Service_Config::global ());
+
+    // Open the DLL for usage.
+    if (dll->open (location, entryPoint) != 0)
+    {
+      ACE_ERROR_RETURN ((LM_ERROR,
+                        "%T (%t) - %M - failed to loaded service '%s' into memory\n",
+                        name),
+                        -1);
+    }
+  } while (0);
+
   // Make sure this service configuration is current.
   CUTS_Testing_Service_DLL_Guard guard (*dll);
-
-  // Open the DLL for usage.
-  if (dll->open (location, entryPoint) != 0)
-  {
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T (%t) - %M - failed to loaded service '%s' into memory\n",
-                       name),
-                       -1);
-  }
 
   // Initialize the contents of the service.
   (*dll)->app_ = this->test_app_;
