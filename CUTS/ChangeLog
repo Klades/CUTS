@@ -1,3 +1,11 @@
+Tue Dec 23 18:57:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+        * cuts/utils/logging/server/Logging_Server_File.cpp:
+        * cuts/utils/testing/Test_Configuration_File.cpp:
+
+	  . Fixed compilation errors on non-Windows systems.
+
 Tue Dec 23 07:09:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/Testing_Service_Manager.cpp:

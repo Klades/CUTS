@@ -27,7 +27,7 @@ void CUTS_Logging_Server_File::configure (void)
   (*this)->setCreateEntityReferenceNodes (false);
   (*this)->setDoNamespaces (true);
   (*this)->setIncludeIgnorableWhitespace (false);
-  (*this)->setValidationScheme (AbstractDOMParser::ValSchemes::Val_Auto);
+  (*this)->setValidationScheme (AbstractDOMParser::Val_Auto);
   (*this)->setDoSchema (true);
   (*this)->setValidationSchemaFullChecking (true);
   (*this)->setValidationConstraintFatal (false);

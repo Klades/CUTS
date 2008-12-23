@@ -117,11 +117,8 @@ int CUTS_Node_Daemon_Server::run_main (int argc, char * argv [])
                 "%T - %M - %s\n",
                 ex._info ().c_str ()));
   }
-  catch (...)
-  {
-    ACE_ERROR ((LM_ERROR,
-                "%T - %M - caught unknown exception\n"));
-  }
+
+  return -1;
 }
 
 //
@@ -290,7 +287,7 @@ int CUTS_Node_Daemon_Server::load_initial_config (void)
     reader->setCreateEntityReferenceNodes (false);
     reader->setDoNamespaces (true);
     reader->setIncludeIgnorableWhitespace (false);
-    reader->setValidationScheme (AbstractDOMParser::ValSchemes::Val_Auto);
+    reader->setValidationScheme (AbstractDOMParser::Val_Auto);
     reader->setDoSchema (true);
     reader->setValidationSchemaFullChecking (true);
     reader->setValidationConstraintFatal (true);
