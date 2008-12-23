@@ -1,3 +1,10 @@
+Tue Dec 23 07:09:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/Testing_Service_Manager.cpp:
+
+          . Simplified the code for switching between the global service
+            configurator and the context-specific one.
+
 Tue Dec 23 06:56:05 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:

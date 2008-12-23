@@ -36,28 +36,25 @@ int CUTS_Testing_Service_Manager::load_service (const char * name,
 
   ACE_Auto_Ptr <CUTS_Testing_Service_DLL> auto_clean (dll);
 
-  do
+  // At this stage of the game, we need to make sure all static
+  // services load under the global configuration. Otherwise, we
+  // may run into trouble down the road. :-)
+  ACE_Service_Config_Guard global_guard (ACE_Service_Config::global ());
+
+  // Open the DLL for usage.
+  if (dll->open (location, entryPoint) != 0)
   {
-    ACE_Service_Config_Guard guard (ACE_Service_Config::global ());
-
-    // Open the DLL for usage.
-    if (dll->open (location, entryPoint) != 0)
-    {
-      ACE_ERROR_RETURN ((LM_ERROR,
-                        "%T (%t) - %M - failed to loaded service '%s' into memory\n",
-                        name),
-                        -1);
-    }
-  } while (0);
-
-  // Make sure this service configuration is current.
-  CUTS_Testing_Service_DLL_Guard guard (*dll);
+    ACE_ERROR_RETURN ((LM_ERROR,
+                      "%T (%t) - %M - failed to loaded service '%s'",
+                      name),
+                      -1);
+  }
 
   // Initialize the contents of the service.
   (*dll)->app_ = this->test_app_;
 
   ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - initializing the service with arguments (%s)\n",
+              "%T (%t) - %M - initializing service with arguments [%s]\n",
               args));
 
   // Make sure the name of the service if the first argument.
@@ -73,6 +70,10 @@ int CUTS_Testing_Service_Manager::load_service (const char * name,
   // Let's not corrupt the original command-line.
   int argc = args_list.argc ();
   ACE_Argv_Type_Converter command_line (argc, args_list.argv ());
+
+  // New, make sure this service configuration is the current. This is
+  // necessary to ensure services are loaded under their context.
+  CUTS_Testing_Service_DLL_Guard guard (*dll);
 
   // Initialize the service.
   int retval = (*dll)->init (command_line.get_argc (),
