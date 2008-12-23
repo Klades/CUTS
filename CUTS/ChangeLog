@@ -1,10 +1,23 @@
+Tue Dec 23 19:30:38 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/Web.config:
+        
+          . Re-enabled form authentication for the entire website, and 
+            disabled form authentication for the /rmi directory. The 
+            username and password are sent as part of the SOAP header 
+            since using Cookies for web services is discouraged.
+           
+        * utils/BMW/website/admin/web.config:
+
+          Removed this file.
+
 Tue Dec 23 18:57:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
         * cuts/utils/logging/server/Logging_Server_File.cpp:
         * cuts/utils/testing/Test_Configuration_File.cpp:
 
-	  . Fixed compilation errors on non-Windows systems.
+          . Fixed compilation errors on non-Windows systems.
 
 Tue Dec 23 07:09:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
