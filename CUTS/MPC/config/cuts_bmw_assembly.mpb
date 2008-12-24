@@ -1,0 +1,7 @@
+// $Id$
+
+project {
+  requires += bmw
+  
+  dllout = $(CUTS_ROOT)/utils/BMW/website/bin
+}

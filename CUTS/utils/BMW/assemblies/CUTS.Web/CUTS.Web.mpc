@@ -1,9 +1,7 @@
 // $Id$
 
-project (CUTS.Web) {
+project (CUTS.Web) : cuts_bmw_assembly{
   sharedname = CUTS.Web
-
-  dllout     = $(CUTS_ROOT)\bin
 
   lit_libs   = System \
                System.Data \
@@ -13,12 +11,10 @@ project (CUTS.Web) {
                CUTS.Data \
                MySql.Data
 
-  requires  += bmw
-
   after += CUTS.Data
 
   specific {
-    keyfile = CUTS.Web.snk
+    keyfile    = CUTS.Web.snk
     output_dir =
   }
 

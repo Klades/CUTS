@@ -1,0 +1,20 @@
+// $Id$
+
+project (CUTS.BMW) : cuts_bmw_assembly {
+  sharedname = CUTS.BMW
+
+  lit_libs   = System \
+               System.Data \
+               System.Data.SQLite \
+
+  specific {
+    keyfile    = CUTS.BMW.snk
+    output_dir = 
+  }
+
+  Source_Files {
+    Properties/AssemblyInfo.cs
+
+    CUTS/BMW/Database.cs
+  }
+}

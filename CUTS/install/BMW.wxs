@@ -41,17 +41,10 @@
                       Name="Version" />
     </Property>
 
-    <!--Property Id="SQLITE_INSTALLED">
-      <RegistrySearch Id="SQLite.NET" Root="HKLM" Type="raw"
-                      Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v2.0.50727"
-                      Name="Install" />
-    </Property-->
-
     <!-- install conditions -->
     <Condition Message='The Benchmark Manager Web Utility requires Microsoft.NET Framework 2.0'>DOTNET_2_0_INSTALLED</Condition>
     <Condition Message='The Benchmark Manager Web Utility requires Microsoft Internet Information Services (IIS)'>IIS_INSTALLED</Condition>
     <Condition Message='The Benchmark Manager Web Utility requires MySQL.NET Connector 5.2.5'>MYSQL_CONNECTOR_INSTALLED</Condition>
-    <!-- Condition Message='The Benchmark Manager Web Utility requires SQLite.NET 1.0.60'>SQLITE_INSTALLED</Condition-->
 
     <Media Id="1" Cabinet="BMW.cab" EmbedCab="yes" />
 
@@ -241,7 +234,7 @@
 
                     <!-- this need to be changed to an environment variable -->
                     <File Id="System.Data.SQLite.DLL" Name="System.Data.SQLite.DLL"
-                          Source="C:\Program Files\SQLite.NET\bin\System.Data.SQLite.DLL" DiskId="1" />
+                          Source="$(var.BMW_ROOT)\bin\System.Data.SQLite.DLL" DiskId="1" />
                   </Component>
                 </Directory>
 
