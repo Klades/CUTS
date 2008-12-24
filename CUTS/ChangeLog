@@ -1,8 +1,24 @@
+Wed Dec 24 18:22:23 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * install/BMW.wxs:
+        * install/BMW_installers.mpc:
+        * utils/BMW/website/db/cutsbmw.empty.db:
+
+          . Updated the BMW installer.
+
+        * utils/BMW/website/rmi/unittest.asmx:
+
+          . Changed the name of the web service page.
+
+        * utils/BMW/website/rmi/Service.asmx:
+
+          Removed this file.
+
 Wed Dec 24 15:57:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/db/cutsbmw.db:
         * utils/BMW/website/login.aspx.cs:
-        
+
           . Changed the name of the BMW database.
 
         * utils/BMW/website/db/cutsbmw.sqlite:

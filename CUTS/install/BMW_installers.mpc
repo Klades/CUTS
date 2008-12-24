@@ -1,7 +1,8 @@
 // $Id$
 
 project (BMW) : wix {
-  after += CUTS.Data
+  after += CUTS.Data \
+           CUTS.Web
 
   prebuild = \
     aspnet_compiler -v CUTS -p $(CUTS_ROOT)/utils/BMW/website -f \
