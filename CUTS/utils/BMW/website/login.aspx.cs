@@ -1,4 +1,16 @@
-﻿using System;
+﻿// -*- C# -*-
+
+//=============================================================================
+/**
+ * @file        login.aspx.cs
+ *
+ * $Id$
+ *
+ * @author      Chris Bellande <chris dot bellande at vanderbilt dot edu>
+ */
+//=============================================================================
+
+using System;
 using System.Collections;
 using System.Configuration;
 using System.Data;
