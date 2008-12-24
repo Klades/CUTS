@@ -32,60 +32,20 @@ public partial class Login : System.Web.UI.Page
 
   protected void handle_onauthenticate (object sender, AuthenticateEventArgs e)
   {
+    CUTS.BMW.Database bmw = new CUTS.BMW.Database ();
+
     try
     {
+      bmw.Open (this.Server.MapPath ("~/db/cutsbmw.db"));
+
       string username = this.login_.UserName.Trim ();
       string password = this.login_.Password.Trim ();
 
-      bool result = this.authenticate_user (username, password);
-
-      if (result)
-      {
-        e.Authenticated = true;
-        this.login_.DestinationPageUrl = "Default.aspx";
-      }
-      else
-      {
-        e.Authenticated = false;
-      }
+      e.Authenticated = bmw.AuthenticateUser (username, password);
     }
-    catch (Exception)
+    finally
     {
-      e.Authenticated = false;
+      bmw.Close ();
     }
-  }
-
-  private bool authenticate_user (string uname, string password)
-  {
-    bool flag = false;
-    String connString = String.Format ("Data Source={0}", Server.MapPath("~/db/cutsbmw.db"));
-    string query = "SELECT * FROM users WHERE username ='" + uname + "' AND password ='" + password + "'";
-    DataSet userDS = new DataSet ();
-
-    SQLiteConnection conn;
-    SQLiteDataAdapter dataAdapter;
-
-    try
-    {
-      conn = new SQLiteConnection ();
-      conn.ConnectionString = connString;
-      conn.Open ();
-
-      dataAdapter = new SQLiteDataAdapter (query, conn);
-      dataAdapter.Fill (userDS);
-      conn.Close ();
-    }
-    catch (Exception ex)
-    {
-      string errstr = ex.Message;
-      userDS = null;
-    }
-    if (userDS != null)
-    {
-      if (userDS.Tables [0].Rows.Count > 0)
-        flag = true;
-    }
-
-    return flag;
   }
 }

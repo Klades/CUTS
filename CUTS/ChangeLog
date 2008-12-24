@@ -1,20 +1,33 @@
+Wed Dec 24 21:40:28 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.BMW/CUTS/BMW/Database.cs:
+        * utils/BMW/website/db/cutsbmw.db:
+        
+          . Added basic encryption support to the passwords. The next phase
+            will encrypt the email addresses as well. This is just an extra
+            security measure.
+            
+        * utils/BMW/website/login.aspx.cs:
+        
+          . Moved the authentication code into the CUTS.BMW assembly.
+
 Wed Dec 24 20:34:31 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MPC/config/cuts_bmw_assembly.mpb:
         * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
         * utils/BMW/assemblies/CUTS.Web/CUTS.Web.mpc:
-        
+
           . Base project that all BMW assemblies should derive from. This
             will make sure the assemblies are put in the correct location to
             build the BMW.
 
         * install/BMW.wxs:
-        
+
           . Remove the hardcoded location of the SQLite.NET assembly.
 
         * utils/BMW/BMW.mwc:
-        
-          . Fixed compilation errors related to relating the CUTS 
+
+          . Fixed compilation errors related to relating the CUTS
             MPC configuration files.
 
         * utils/BMW/assemblies/CUTS.BMW:
@@ -25,10 +38,10 @@ Wed Dec 24 20:34:31 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * utils/BMW/assemblies/CUTS.BMW/CUTS/BMW/Database.cs:
         * utils/BMW/assemblies/CUTS.BMW/Properties:
         * utils/BMW/assemblies/CUTS.BMW/Properties/AssemblyInfo.cs:
-        
+
           . Start of a new assembly that will contain all the BMW specific
             objects.
-    
+
 Wed Dec 24 19:34:14 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/BMW.master:
