@@ -19,32 +19,32 @@ public partial class Login : System.Web.UI.Page
 
   }
 
-  protected void Login1_Authenticate (object sender, AuthenticateEventArgs e)
+  protected void handle_onauthenticate (object sender, AuthenticateEventArgs e)
   {
     try
     {
-      string uname = Login1.UserName.Trim ();
-      string password = Login1.Password.Trim ();
-      bool flag = AuthenticateUser (uname, password);
-      if (flag)
+      string username = this.login_.UserName.Trim ();
+      string password = this.login_.Password.Trim ();
+
+      bool result = this.authenticate_user (username, password);
+
+      if (result)
       {
         e.Authenticated = true;
-        Login1.DestinationPageUrl = "Default.aspx";
+        this.login_.DestinationPageUrl = "Default.aspx";
       }
       else
       {
         e.Authenticated = false;
       }
-
     }
     catch (Exception)
-
     {
       e.Authenticated = false;
     }
   }
 
-  private bool AuthenticateUser (string uname, string password)
+  private bool authenticate_user (string uname, string password)
   {
     bool flag = false;
     String connString = String.Format ("Data Source={0}", Server.MapPath("~/db/cutsbmw.db"));
@@ -74,6 +74,7 @@ public partial class Login : System.Web.UI.Page
       if (userDS.Tables [0].Rows.Count > 0)
         flag = true;
     }
+
     return flag;
   }
 }

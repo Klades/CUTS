@@ -1,55 +1,53 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/BMW.master" AutoEventWireup="true" CodeFile="login.aspx.cs" Inherits="Login" %>
+﻿<%@ page language="C#" masterpagefile="~/BMW.master" autoeventwireup="true" codefile="login.aspx.cs"
+  inherits="Login" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
-    <h2>Login Page</h2>
-    
-    <asp:Login ID="Login1" runat="server" onauthenticate="Login1_Authenticate">
-        <LayoutTemplate>
-            <table border="0" cellpadding="1" cellspacing="0" 
-                style="border-collapse:collapse;">
-                <tr>
-                    <td>
-                        <table border="0" cellpadding="0">
-                            
-                            <tr>
-                                <td align="right">
-                                    <asp:Label ID="UserNameLabel" runat="server" AssociatedControlID="UserName">User 
-                                    Name:</asp:Label>
-                                </td>
-                                <td>
-                                    <asp:TextBox ID="UserName" runat="server"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" 
-                                        ControlToValidate="UserName" ErrorMessage="User Name is required." 
-                                        ToolTip="User Name is required." ValidationGroup="Login1">*User Name Required</asp:RequiredFieldValidator>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align="right">
-                                    <asp:Label ID="PasswordLabel" runat="server" AssociatedControlID="Password">Password:</asp:Label>
-                                </td>
-                                <td>
-                                    <asp:TextBox ID="Password" runat="server" TextMode="Password"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" 
-                                        ControlToValidate="Password" ErrorMessage="Password is required." 
-                                        ToolTip="Password is required." ValidationGroup="Login1">*Password Required</asp:RequiredFieldValidator>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align="center" colspan="2" style="color:Red;">
-                                    <asp:Literal ID="FailureText" runat="server" EnableViewState="False"></asp:Literal>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align="right" colspan="2">
-                                    <asp:Button ID="LoginButton" runat="server" CommandName="Login" Text="Log In" 
-                                        ValidationGroup="Login1" />
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+<asp:content id="Content1" contentplaceholderid="MainContent" runat="Server">
+  <h2>
+    Login Page</h2>
+  <asp:login id="login_" runat="server" onauthenticate="handle_onauthenticate">
+    <layouttemplate>
+      <table border="0" cellpadding="1" cellspacing="0" style="border-collapse: collapse;">
+        <tr>
+          <td>
+            <table border="0" cellpadding="0">
+              <tr>
+                <td align="right">
+                  <asp:label id="UserNameLabel" runat="server"
+                             associatedcontrolid="UserName">Username:</asp:label>
+                </td>
+                <td>
+                  <asp:textbox id="UserName" runat="server"></asp:textbox>
+                  <asp:requiredfieldvalidator id="UserNameRequired" runat="server"
+                                              controltovalidate="UserName"
+                                              errormessage="Username is required"
+                                              validationgroup="Login1">Username is required</asp:requiredfieldvalidator>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">
+                  <asp:label id="PasswordLabel" runat="server" associatedcontrolid="Password">Password:</asp:label>
+                </td>
+                <td>
+                  <asp:textbox id="Password" runat="server" textmode="Password"></asp:textbox>
+                  <asp:requiredfieldvalidator id="PasswordRequired" runat="server" controltovalidate="Password"
+                                              errormessage="Password is required." tooltip="Password is required"
+                                              validationgroup="Login1">Password is required</asp:requiredfieldvalidator>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" colspan="2" style="color: Red;">
+                  <asp:literal id="FailureText" runat="server" enableviewstate="False"></asp:literal>
+                </td>
+              </tr>
+              <tr>
+                <td align="right" colspan="2">
+                  <asp:button id="LoginButton" runat="server" commandname="Login" text="Log In" validationgroup="Login1" />
+                </td>
+              </tr>
             </table>
-        </LayoutTemplate>
-    </asp:Login>
-</asp:Content>
-
+          </td>
+        </tr>
+      </table>
+    </layouttemplate>
+  </asp:login>
+</asp:content>
