@@ -1,12 +1,23 @@
+Wed Dec 24 15:57:47 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/db/cutsbmw.db:
+        * utils/BMW/website/login.aspx.cs:
+        
+          . Changed the name of the BMW database.
+
+        * utils/BMW/website/db/cutsbmw.sqlite:
+
+          Removed this file.
+
 Tue Dec 23 19:30:38 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/Web.config:
-        
-          . Re-enabled form authentication for the entire website, and 
-            disabled form authentication for the /rmi directory. The 
-            username and password are sent as part of the SOAP header 
+
+          . Re-enabled form authentication for the entire website, and
+            disabled form authentication for the /rmi directory. The
+            username and password are sent as part of the SOAP header
             since using Cookies for web services is discouraged.
-           
+
         * utils/BMW/website/admin/web.config:
 
           Removed this file.

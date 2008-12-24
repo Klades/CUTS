@@ -47,16 +47,13 @@ public partial class Login : System.Web.UI.Page
   private bool AuthenticateUser (string uname, string password)
   {
     bool flag = false;
-    //string connString = "Server=localhost;Port=3306;Database=cuts;Uid=root;Pwd=Vandy;";
-    String connString = String.Format ("Data Source={0}", Server.MapPath("~/db/cutsbmw.sqlite"));
-    //string query = "SELECT * FROM users WHERE username ='" + uname + "' AND password =SHA1('" + password + "')";
+    String connString = String.Format ("Data Source={0}", Server.MapPath("~/db/cutsbmw.db"));
     string query = "SELECT * FROM users WHERE username ='" + uname + "' AND password ='" + password + "'";
     DataSet userDS = new DataSet ();
-    //MySqlConnection conn;
+
     SQLiteConnection conn;
-    //MySqlDataAdapter dataAdapter;
     SQLiteDataAdapter dataAdapter;
-    //MySqlCommand command;
+
     try
     {
       conn = new SQLiteConnection ();
