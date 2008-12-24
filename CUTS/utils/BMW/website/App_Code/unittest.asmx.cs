@@ -23,16 +23,14 @@ using CUTS.Data;
 using CUTS.Data.UnitTesting;
 using MySql.Data.MySqlClient;
 
-//=============================================================================
-/**
- * @class BMW_Web_Service
- *
- * @brief Web service for the CUTS Benchmark Manager Web utility.
- */
-//=============================================================================
-
 namespace CUTS.Web
 {
+  /**
+   * @class UserCredentials
+   *
+   * User credentials for the SOAP request. This is a header and must be
+   * completed for each SOAP request because we are not using cookies.
+   */
   public class UserCredentials : System.Web.Services.Protocols.SoapHeader
   {
     public string Username
@@ -66,15 +64,25 @@ namespace CUTS.Web
     private string password_;
   }
 
+  /**
+   * @class InvalidUserCredentials
+   *
+   * Exception thrown when the provided user credentials are not valid.
+   */
   public class InvalidUserCredentials : Exception
   {
 
   }
 
-  [WebService(Namespace = "http://www.dre.vanderbilt.edu/CUTS",
-              Name="CUTS BMW Web Service",
-              Description="Remotely execute BMW operations")]
-  [WebServiceBinding(Name="CUTS",
+  /**
+   * @class InvalidUserCredentials
+   *
+   * Exception thrown when the provided user credentials are not valid.
+   */
+  [WebService (Namespace = "http://www.dre.vanderbilt.edu/CUTS",
+              Name="CUTS BMW Web Service for Unit Testing",
+              Description="Remotely execute BMW unit test operations")]
+  [WebServiceBinding(Name="CUTS.UnitTesting",
                      ConformsTo = WsiProfiles.BasicProfile1_1)]
   public class Service : System.Web.Services.WebService
   {
@@ -84,6 +92,7 @@ namespace CUTS.Web
     public Service ()
     {
       this.database_.Open (ConfigurationManager.AppSettings["MySQL"]);
+      this.bmw_.Open (this.Server.MapPath ("~/db/cutsbmw.db"));
     }
 
     /**
@@ -100,10 +109,11 @@ namespace CUTS.Web
      * @return    List of all the test suites.
      */
     [WebMethod (Description="List all the test suites")]
-    [SoapDocumentMethod (Binding="CUTS")]
+    [SoapDocumentMethod (Binding="CUTS.UnitTesting")]
     [SoapHeader ("consumer_")]
     public string[] ListTestSuites ()
     {
+      this.authenticate_user ();
       ArrayList list = new ArrayList ();
 
       return (string[])list.ToArray (typeof (string));
@@ -115,10 +125,12 @@ namespace CUTS.Web
      * @return    List of all the unit tests.
      */
     [WebMethod (Description="List unit test for the given test suite")]
-    [SoapDocumentMethod (Binding="CUTS")]
+    [SoapDocumentMethod (Binding="CUTS.UnitTesting")]
     [SoapHeader ("consumer_")]
     public string[] ListUnitTests (string TestSuite)
     {
+      this.authenticate_user ();
+
       DataTable table =
         this.database_.select_unit_tests_in_test_suite (TestSuite);
 
@@ -142,10 +154,12 @@ namespace CUTS.Web
      *         all result to maintain grouping.
      */
     [WebMethod (Description="Evaulate an unit test for the given test")]
-    [SoapDocumentMethod (Binding="CUTS")]
+    [SoapDocumentMethod (Binding="CUTS.UnitTesting")]
     [SoapHeader ("consumer_")]
     public UnitTestResult EvaluateUnitTest (string UUID, string UnitTest)
     {
+      this.authenticate_user ();
+
       // Get the unit test id from the database.
       int utid = this.database_.get_unit_test_id (UnitTest);
 
@@ -174,10 +188,12 @@ namespace CUTS.Web
      * the state of the test into account.
      */
     [WebMethod (Description="List all the known tests")]
-    [SoapDocumentMethod (Binding="CUTS")]
+    [SoapDocumentMethod (Binding="CUTS.UnitTesting")]
     [SoapHeader ("consumer_")]
     public string[] ListTests ()
     {
+      this.authenticate_user ();
+
       ArrayList list = new ArrayList ();
 
       return (string[])list.ToArray (typeof (string));
@@ -187,15 +203,17 @@ namespace CUTS.Web
      * Helper method to validate user credentials. This should be invoked
      * before every web method processes its request.
      */
-    private void validate_credentials ()
+    private void authenticate_user ()
     {
-      if (this.consumer_.Username.Equals ("testuser") &&
-          this.consumer_.Password.Equals ("testpass"))
-      {
-        return;
-      }
+      if (this.consumer_ == null)
+        throw new InvalidUserCredentials ();
 
-      throw new InvalidUserCredentials ();
+      bool result =
+        this.bmw_.AuthenticateUser (this.consumer_.Username,
+                                    this.consumer_.Password);
+
+      if (!result)
+        throw new InvalidUserCredentials ();
     }
 
     /**
@@ -206,6 +224,8 @@ namespace CUTS.Web
      * object is destroyed.
      */
     private Database database_ = new Database (new MySqlClientFactory ());
+
+    private CUTS.BMW.Database bmw_ = new CUTS.BMW.Database ();
 
     public UserCredentials consumer_;
   }
