@@ -21,7 +21,6 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using MySql.Data.MySqlClient;
 using System.Data.SQLite;
 
 public partial class Login : System.Web.UI.Page

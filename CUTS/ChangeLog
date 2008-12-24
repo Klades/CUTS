@@ -1,7 +1,16 @@
+Wed Dec 24 19:34:14 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/BMW.master:
+        * utils/BMW/website/BMW.master.cs:
+        * utils/BMW/website/login.aspx.cs:
+        
+          . The main menu for the BMW is now only visible if you login to 
+            the website.
+
 Wed Dec 24 19:07:35 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/login.aspx.cs:
-        
+
           . Added a header to the file.
 
 Wed Dec 24 19:04:11 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

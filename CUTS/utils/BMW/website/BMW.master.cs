@@ -46,22 +46,22 @@ namespace CUTS
      */
     private void Page_Load (object sender, System.EventArgs e)
     {
-      int index =
-        this.Request.FilePath.IndexOf ('/', 1);
+      //int index =
+      //  this.Request.FilePath.IndexOf ('/', 1);
 
-      string help_url =
-        this.Request.FilePath.Insert (index, "/help");
+      //string help_url =
+      //  this.Request.FilePath.Insert (index, "/help");
 
-      string filepath = this.Server.MapPath (help_url);
+      //string filepath = this.Server.MapPath (help_url);
 
-      if (File.Exists (filepath))
-      {
-        Label show_help = new Label ();
-        show_help.Text =
-          "<input type=\"button\" value=\"Show Help\" onclick=\"show_help ('" + help_url + "');\" />";
+      //if (File.Exists (filepath))
+      //{
+      //  Label show_help = new Label ();
+      //  show_help.Text =
+      //    "<input type=\"button\" value=\"Show Help\" onclick=\"show_help ('" + help_url + "');\" />";
 
-        this.help_item_.Controls.Add (show_help);
-      }
+      //  this.help_item_.Controls.Add (show_help);
+      //}
 
       // Hide the console if it is not needed
       if (this.console_text_.Controls.Count == 0)
@@ -125,11 +125,15 @@ namespace CUTS
       if (this.console_.Style["display"] == "none")
         this.console_.Style["display"] = "block";
     }
+
     protected void logout_Click (object sender, EventArgs e)
     {
-      Session.Abandon ();
+      // Delete this session.
+      this.Session.Abandon ();
+
+      // Complete the logout process.
       FormsAuthentication.SignOut ();
-      Response.Redirect ("login.aspx");
+      this.Response.Redirect ("login.aspx");
     }
 }
 }
