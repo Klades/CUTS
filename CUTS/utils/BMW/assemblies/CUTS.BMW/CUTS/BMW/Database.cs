@@ -65,10 +65,19 @@ namespace CUTS.BMW
       }
     }
 
+    /**
+     * Username of the new user
+     */
     private string username_;
 
+    /**
+     * Password for the new user
+     */
     private string password_;
 
+    /**
+     * Email address of the new user
+     */
     private string email_;
   }
 

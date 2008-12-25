@@ -216,13 +216,17 @@
                     <File Id="App_Web_unittestchart.aspx.cdcab7d2.dll" Name="App_Web_unittestchart.aspx.cdcab7d2.dll"
                           Source="$(var.BMW_ROOT)\bin\App_Web_unittestchart.aspx.cdcab7d2.dll" DiskId="1" />
 
-                    <!-- 3rd-party assemblies -->
+                    <!-- CUTS assemblies -->
+                    <File Id="CUTS.BMW.dll" Name="CUTS.BMW.dll"
+                          Source="$(var.BMW_ROOT)\bin\CUTS.BMW.dll" DiskId="1" />
+
                     <File Id="CUTS.Data.dll" Name="CUTS.Data.dll"
-                          Source="$(env.CUTS_ROOT)\bin\CUTS.Data.dll" DiskId="1" />
+                          Source="$(var.BMW_ROOT)\bin\CUTS.Data.dll" DiskId="1" />
 
                     <File Id="CUTS.Web.dll" Name="CUTS.Web.dll"
-                          Source="$(env.CUTS_ROOT)\bin\CUTS.Web.dll" DiskId="1" />
+                          Source="$(var.BMW_ROOT)\bin\CUTS.Web.dll" DiskId="1" />
 
+                    <!-- 3rd-party assemblies -->
                     <File Id="IIOPChannel.dll" Name="IIOPChannel.dll"
                           Source="$(var.BMW_ROOT)\bin\IIOPChannel.dll" DiskId="1" />
 
@@ -232,9 +236,11 @@
                     <File Id="WebChart.dll" Name="WebChart.dll"
                           Source="$(var.BMW_ROOT)\bin\WebChart.dll" DiskId="1" />
 
-                    <!-- this need to be changed to an environment variable -->
                     <File Id="System.Data.SQLite.DLL" Name="System.Data.SQLite.DLL"
                           Source="$(var.BMW_ROOT)\bin\System.Data.SQLite.DLL" DiskId="1" />
+
+                    <File Id="System.Data.SQLite.xml" Name="System.Data.SQLite.xml"
+                          Source="$(var.BMW_ROOT)\bin\System.Data.SQLite.xml" DiskId="1" />
                   </Component>
                 </Directory>
 

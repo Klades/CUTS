@@ -30,20 +30,29 @@ public partial class Login : System.Web.UI.Page
 
   protected void handle_onauthenticate (object sender, AuthenticateEventArgs e)
   {
-    CUTS.BMW.Database bmw = new CUTS.BMW.Database ();
+    string username = this.login_.UserName.Trim ();
+    string password = this.login_.Password.Trim ();
 
-    try
+    if (!username.Equals ("admin"))
     {
-      bmw.Open (this.Server.MapPath ("~/db/cutsbmw.db"));
+      CUTS.BMW.Database bmw = new CUTS.BMW.Database ();
 
-      string username = this.login_.UserName.Trim ();
-      string password = this.login_.Password.Trim ();
-
-      e.Authenticated = bmw.AuthenticateUser (username, password);
+      try
+      {
+        // Authenticate a standard user
+        bmw.Open (this.Server.MapPath ("~/db/cutsbmw.db"));
+        e.Authenticated = bmw.AuthenticateUser (username, password);
+      }
+      finally
+      {
+        bmw.Close ();
+      }
     }
-    finally
+    else
     {
-      bmw.Close ();
+      // Authenticate the administrator
+      string value = ConfigurationManager.AppSettings["admin"];
+      e.Authenticated = value.Equals (password);
     }
   }
 }

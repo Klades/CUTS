@@ -1,14 +1,15 @@
 // $Id$
 
 workspace (BMW_installers) {
-  cmdline += -include $COSMIC_ROOT/MPC/config
+  cmdline += -include $COSMIC_ROOT/MPC/config \
+             -include $CUTS_ROOT/MPC/config
 
   exclude (!vc8) {
     csharp {
       cmdline += -language csharp
       $(CUTS_ROOT)/utils/BMW/assemblies
     }
-    
+
     BMW_installers.mpc
   }
 }
