@@ -15,6 +15,12 @@ import httplib
 import getopt
 import xml.dom.minidom
 
+
+class UserCredentials(object):
+  def __init__ (self, username=None, password=None):
+    self.username = username
+    self.password = password
+
 #
 # main
 #
@@ -24,7 +30,8 @@ def main ():
     long_opt = ["help", "server=", "test-suite=",
                 "list-attributes", "update-attributes",
                 "attribute-path=", "owner=",
-                "interface-basename="]
+                "interface-basename=", "username=",
+                "password="]
 
     opts, args = getopt.gnu_getopt (sys.argv[1:], short_opt, long_opt)
 
@@ -40,7 +47,9 @@ def main ():
   path = None
   owner = None
   interface_basename = "."
-  
+
+  creds = UserCredentials ()
+
   # parse the command-line arguments
   for o, a in opts:
     if o == "-v":
@@ -59,38 +68,30 @@ def main ():
       path = a
     elif o in ("--interface-basename"):
       interface_basename = a;
-    elif o in ("--owner"):
+    elif o in ("--username"):
+      creds.username = a
+    elif o in ("--password"):
+      creds.password = a
+    elif o in ("--owner") :
       owner = a
     else:
-      assert False, "unhandled option"
+      assert False, "unhandled option (%s)" % o
 
   if list:
-    list_attributes (server, suite)
+    listNaomiAttributes (server, creds, suite)
 
   if update:
-    attributes = update_attributes (path, owner, server, suite)
-    write_interface_file (interface_basename, owner, attributes)
+    attrs = updateNaomiAttributes (path, owner, server, creds, suite)
+    wriateNaomiInterfaceFile (interface_basename, owner, attrs)
 
 #
-# list_attributes
+# wriateNaomiInterfaceFile
 #
-def list_attributes (server, suite):
-  attributes = get_output_attributes (server, suite)
-
-  # print the only input attribute
-  print " input attribute : CUTS.test.uuid"
- 
-  for attr in attributes:
-    print "output attribute : %s" % attr
-
-#
-# write_interface_file
-#
-def write_interface_file (basename, owner, outputs):
+def wriateNaomiInterfaceFile (basename, owner, attrs):
   # open the interface file for writing
   filename = "%s_interface.xml" % basename
   f = open (filename, "w")
-  
+
   # write the interface file
   f.write ("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n")
   f.write ("<interface xmlns=\"http://www.atl.lmco.com/naomi/interfaces\"\n")
@@ -100,62 +101,66 @@ def write_interface_file (basename, owner, outputs):
   f.write ("  <type>%s</type>\n\n" % owner)
   f.write ("  <!-- attributes -->\n")
   f.write ("  <input>CUTS.test.uuid</input>\n")
-  
-  for attr in outputs:
+
+  for attr in attrs:
     f.write ("  <output>%s</output>\n" % attr)
 
   f.write ("</interface>\n")
 
   # close the file
   f.close ()
-  
-#
-# update_attributes
-#
-def update_attributes (path, owner, server, suite):
-  attributes = get_output_attributes (server, suite)
-  uuid = read_test_uuid (path)
-  
-  for attr in attributes:
-    write_output_attribute (path, owner, server, uuid, attr)
-    
-  return attributes
 
 #
-# write_output_attribute
+# listNaomiAttributes
 #
-def write_output_attribute (path, owner, server, uuid, attr):
-  print "writing attribute %s for test %s" % (attr, uuid)
+def listNaomiAttributes (server, creds, suite):
+  attributes = getUnitTests (server, creds, suite)
+
+  # print the only input attribute
+  print " input attribute : CUTS.test.uuid"
+
+  # print the output attributes, which are the unit tests
+  for attr in attributes:
+    print "output attribute : %s" % attr
+
+#
+# updateNaomiAttributes
+#
+def updateNaomiAttributes (path, owner, server, creds, suite):
+  attrs = getUnitTests (server, creds, suite)
+  uuid = readTestUUID (path)
+
+  for attr in attrs:
+    writeNaomiAttribute (path, owner, server, creds, uuid, attr)
+
+  return attrs
+
+#
+# writeNaomiAttribute
+#
+def writeNaomiAttribute (path, owner, server, creds, uuid, attr):
+  print "info: writing attribute %s for test %s" % (attr, uuid)
 
   # construct the message for the request
-  message = "UUID=%s&UnitTest=%s" % (uuid, attr)
-   
-  # prepare the web service client
-  webservice = httplib.HTTP (server)
-  webservice.putrequest ("POST", "/CUTS/Service.asmx/EvaluateUnitTest")
-  webservice.putheader ("Host", server)
-  webservice.putheader ("Content-Type", "application/x-www-form-urlencoded")
-  webservice.putheader ("Content-Length", "%d" % len (message))
-  webservice.endheaders ()
-  
-  # send the message to the server
-  webservice.send (message)
-  
-  # get the reply
-  statuscode, statusmessage, header = webservice.getreply ()
+  message = """<EvaluateUnitTest xmlns="http://www.dre.vanderbilt.edu/CUTS">
+      <UUID>%s</UUID>
+      <UnitTest>%s</UnitTest>
+    </EvaluateUnitTest>""" % (uuid, attr)
 
-  if (statuscode == 200):
+  # prepare the web service client
+  response = sendSOAPMessage (server, creds, message, 'EvaluateUnitTest')
+
+  if (response) :
     # convert the response into an XML document
-    response = xml.dom.minidom.parse (webservice.getfile ());
-    values = response.getElementsByTagName ("string")
+    values = response.getElementsByTagName ("Value")
 
     # get the value from the response
-    value = get_text (values[0].childNodes)
-    
+    value = getNodeText (values[0].childNodes)
+
     # write the value to the XML attribute file
     filename = "%s/%s" % (path, attr)
     f = open (filename, "w")
-    
+
     f.write ("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n")
     f.write ("<attribute xmlns=\"http://www.atl.lmco.com/naomi/attributes\"\n")
     f.write ("           xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n")
@@ -167,77 +172,123 @@ def write_output_attribute (path, owner, server, uuid, attr):
 
     # close the file
     f.close ()
-    
+
   else:
-    # print the headers for the response
-    print statuscode, statusmessage
+    print 'error: failed to evaluate unit test %s for %s' % (attr, uuid)
 
 #
-# get_output_attributes
+# getUnitTests
 #
-def get_output_attributes (server, suite):
+def getUnitTests (server, creds, suite):
   attrs = []
 
-  # construct the message for the request
-  message = "TestSuite=" + suite
+  message = """<ListUnitTests xmlns="http://www.dre.vanderbilt.edu/CUTS">
+  <TestSuite>%s</TestSuite>
+  </ListUnitTests>""" % (suite)
 
-  # construct and send the header
-  webservice = httplib.HTTP (server)
-  webservice.putrequest ("POST", "/CUTS/Service.asmx/ListUnitTests")
-  webservice.putheader ("Host", server)
-  webservice.putheader ("Content-Type", "application/x-www-form-urlencoded")
-  webservice.putheader ("Content-Length", "%d" % len (message))
-  webservice.endheaders ()
+  response = sendSOAPMessage (server, creds, message, 'ListUnitTests')
 
-  # send the message to the server
-  webservice.send (message)
-
-  # get the response
-  statuscode, statusmessage, header = webservice.getreply ()
-
-  if (statuscode == 200):
-    response = xml.dom.minidom.parse (webservice.getfile ());
+  if (response) :
     attributes = response.getElementsByTagName ("string")
 
     for attr in attributes:
-      attrs.append (get_text (attr.childNodes))
+      attrs.append (getNodeText (attr.childNodes))
 
   else:
-    # print the headers for the response
-    print statuscode, statusmessage
+    print 'error: failed to retrieve unit tests'
 
   return attrs
 
 #
-# read_test_uuid
+# readTestUUID
 #
-def read_test_uuid (path):
+def readTestUUID (path):
   uuid = None
   filename = "%s/%s" % (path, "CUTS.test.uuid")
-  
+
   # open the XML attribute file for reading
   f = open (filename, "r")
-  
+
   # read the document then close the file
   xmldoc = xml.dom.minidom.parse (f);
-  f.close ()  
+  f.close ()
 
   # locate the value attribute
   values = xmldoc.getElementsByTagName ("value")
-  
+
   # get the UUID from the value tag
-  uuid = get_text (values[0].childNodes)
-  return uuid  
-  
+  uuid = getNodeText (values[0].childNodes)
+  return uuid
+
 #
-# get_text
+# getNodeText
 #
-def get_text (nodelist):
+def getNodeText (nodelist):
   rc = ""
   for node in nodelist:
     if node.nodeType == node.TEXT_NODE:
       rc = rc + node.data
   return rc
+
+#
+# buildSOAPHeader
+#
+def buildSOAPHeader (creds) :
+  header = """<UserCredentials xmlns="http://www.dre.vanderbilt.edu/CUTS">
+      <Username>%s</Username>
+      <Password>%s</Password>
+    </UserCredentials>""" % (creds.username, creds.password)
+
+  return header
+
+#
+# buildSOAPMessage
+#
+def buildSOAPMessage (creds, body) :
+  # first, build the header for the SOAP message
+  header = buildSOAPHeader (creds)
+
+  # finally, build the complete SOAP message
+  message = """<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+  SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>%s</SOAP-ENV:Header>
+  <SOAP-ENV:Body>%s</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>""" % (header, body)
+
+  return message
+
+#
+# sendSOAPMessage
+#
+def sendSOAPMessage (server, creds, message, action) :
+  # prepare the web service client
+  message = buildSOAPMessage (creds, message)
+
+  # construct a HTTP service object
+  webservice = httplib.HTTP (server)
+
+  # insert the headers into the message
+  webservice.putrequest ("POST", "/CUTS/rmi/unittest.asmx HTTP/1.0")
+  webservice.putheader ("Host", server)
+  webservice.putheader ("User-Agent", "CUTS")
+  webservice.putheader ("Content-type", "text/xml; charset=\"UTF-8\"")
+  webservice.putheader ("Content-length", "%d" % len (message))
+  webservice.putheader ("SOAPAction", '"http://www.dre.vanderbilt.edu/CUTS/' + action + '"')
+  webservice.endheaders ()
+
+  # send the message to the server and get its reply
+  webservice.send (message)
+  statuscode, statusmessage, header = webservice.getreply ()
+
+  if (statuscode == 200):
+    return xml.dom.minidom.parse (webservice.getfile ())
+
+  print 'error:', statuscode, statusmessage
+  return None
 
 ###############################################################################
 ## main entry point

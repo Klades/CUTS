@@ -80,9 +80,9 @@ namespace CUTS.Web
    * Exception thrown when the provided user credentials are not valid.
    */
   [WebService (Namespace = "http://www.dre.vanderbilt.edu/CUTS",
-              Name="CUTS BMW Web Service for Unit Testing",
-              Description="Remotely execute BMW unit test operations")]
-  [WebServiceBinding(Name="CUTS.UnitTesting",
+               Name="CUTS BMW Web Service for Unit Testing",
+               Description="Remotely execute BMW unit test operations")]
+  [WebServiceBinding(Name="CUTS",
                      ConformsTo = WsiProfiles.BasicProfile1_1)]
   public class Service : System.Web.Services.WebService
   {
@@ -109,7 +109,7 @@ namespace CUTS.Web
      * @return    List of all the test suites.
      */
     [WebMethod (Description="List all the test suites")]
-    [SoapDocumentMethod (Binding="CUTS.UnitTesting")]
+    [SoapDocumentMethod (Binding = "CUTS")]
     [SoapHeader ("consumer_")]
     public string[] ListTestSuites ()
     {
@@ -125,7 +125,7 @@ namespace CUTS.Web
      * @return    List of all the unit tests.
      */
     [WebMethod (Description="List unit test for the given test suite")]
-    [SoapDocumentMethod (Binding="CUTS.UnitTesting")]
+    [SoapDocumentMethod (Binding = "CUTS")]
     [SoapHeader ("consumer_")]
     public string[] ListUnitTests (string TestSuite)
     {
@@ -154,7 +154,7 @@ namespace CUTS.Web
      *         all result to maintain grouping.
      */
     [WebMethod (Description="Evaulate an unit test for the given test")]
-    [SoapDocumentMethod (Binding="CUTS.UnitTesting")]
+    [SoapDocumentMethod (Binding = "CUTS")]
     [SoapHeader ("consumer_")]
     public UnitTestResult EvaluateUnitTest (string UUID, string UnitTest)
     {
@@ -188,7 +188,7 @@ namespace CUTS.Web
      * the state of the test into account.
      */
     [WebMethod (Description="List all the known tests")]
-    [SoapDocumentMethod (Binding="CUTS.UnitTesting")]
+    [SoapDocumentMethod (Binding = "CUTS")]
     [SoapHeader ("consumer_")]
     public string[] ListTests ()
     {
@@ -227,6 +227,6 @@ namespace CUTS.Web
 
     private CUTS.BMW.Database bmw_ = new CUTS.BMW.Database ();
 
-    public UserCredentials consumer_;
+    public UserCredentials consumer_ = new UserCredentials ();
   }
 }
