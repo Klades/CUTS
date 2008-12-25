@@ -1,9 +1,15 @@
+Thu Dec 25 18:39:40 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/naomi/CUTS/analysis/cuts.analysis.py:
+        
+          . Added --help to the script.
+
 Thu Dec 25 08:18:35 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/naomi/CUTS/analysis/cuts.analysis.py:
         * utils/BMW/website/App_Code/unittest.asmx.cs:
-        
-          . Update the webserver (and NAOMI client) to support username/password 
+
+          . Update the webserver (and NAOMI client) to support username/password
             authentication, which is passed via SOAP headers.
 
 Wed Dec 24 22:04:13 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

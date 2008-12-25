@@ -15,8 +15,37 @@ import httplib
 import getopt
 import xml.dom.minidom
 
+__doc__ = """CUTS BMW service and analysis client connector for NAOMI
 
-class UserCredentials(object):
+Usage: cuts.analysis.py [OPTIONS]
+
+Connection Options:
+  --server=HOST                connect to BMW at location HOST[:PORT]
+  --username=VALUE             username for login to server
+  --password=VALUE             password to use when connecting to server
+
+NAOMI Options:
+  -l, --list-attributes        list NAOMI attributes for model
+  -u, --update-attributes      update all attributes for the model
+  -p, --attribute-path=PATH    location of the attibutes on disk
+  --interface-basename=PATH    path of interface file, excluding
+                               _interface.xml suffix
+  --owner=NAME                 NAME is the owner of the attributes
+
+BMW Options:
+  --test-suite=NAME            use attributes in test suite NAME
+
+Information Options:
+  -h, --help                   print this help message
+"""
+
+#
+# @class UserCredentials
+#
+# Storage object for user credentials. The credentials are the username
+# and password set to the web service.
+#
+class UserCredentials (object):
   def __init__ (self, username=None, password=None):
     self.username = username
     self.password = password
@@ -55,6 +84,7 @@ def main ():
     if o == "-v":
       verbose = True
     elif o in ("-h", "--help"):
+      print __doc__
       sys.exit()
     elif o in ("--server"):
       server = a
