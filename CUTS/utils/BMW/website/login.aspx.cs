@@ -51,7 +51,7 @@ public partial class Login : System.Web.UI.Page
     else
     {
       // Authenticate the administrator
-      string value = ConfigurationManager.AppSettings["admin"];
+      string value = ConfigurationManager.AppSettings["admin.password"];
       e.Authenticated = value.Equals (password);
     }
   }

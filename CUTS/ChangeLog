@@ -1,21 +1,28 @@
-Thu Dec 25 19:31:14 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
-
-        * install/BMW.wxs:
-        
-          . Added the CUTS.BMW.dll assembly to the installer.
-          
-        * install/BMW_installers.mwc:
-        
-          . Bug fix where the workspace was missing the -include 
-            parameter for the CUTS base projects.
-
-        * utils/BMW/assemblies/CUTS.BMW/CUTS/BMW/Database.cs:
-        
-          . Added some Doxygen documentation.
+Thu Dec 25 21:45:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/Web.config:
         * utils/BMW/website/login.aspx.cs:
         
+          . Changed the 'admin' appSetting to 'admin.password'
+
+Thu Dec 25 19:31:14 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * install/BMW.wxs:
+
+          . Added the CUTS.BMW.dll assembly to the installer.
+
+        * install/BMW_installers.mwc:
+
+          . Bug fix where the workspace was missing the -include
+            parameter for the CUTS base projects.
+
+        * utils/BMW/assemblies/CUTS.BMW/CUTS/BMW/Database.cs:
+
+          . Added some Doxygen documentation.
+
+        * utils/BMW/website/Web.config:
+        * utils/BMW/website/login.aspx.cs:
+
           . Added administrator login support to the BMW, which is set
             in the Web.config file. Right now, the default password is
             'admin'. The installer will allow end-users to update the
