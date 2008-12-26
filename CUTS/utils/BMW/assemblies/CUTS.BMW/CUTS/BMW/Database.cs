@@ -103,7 +103,19 @@ namespace CUTS.BMW
      */
     public void Open (string database)
     {
-      string connstr = String.Format ("Data Source={0}", database);
+      this.Open (database, false);
+    }
+
+    /**
+     * Open a connection to the databse.
+     *
+     * @param[in]         filename          Location of the database.
+     */
+    public void Open (string database, bool rdonly)
+    {
+      string connstr =
+        String.Format ("Data Source={0}; Read Only={1}", database, rdonly);
+
       this.conn_.ConnectionString = connstr;
       this.conn_.Open ();
     }
@@ -113,7 +125,16 @@ namespace CUTS.BMW
      */
     ~Database ()
     {
-      this.Close ();
+      if (this.conn_.State == ConnectionState.Open)
+        this.conn_.Close ();
+    }
+
+    public ConnectionState State
+    {
+      get
+      {
+        return this.conn_.State;
+      }
     }
 
     /**
@@ -121,8 +142,7 @@ namespace CUTS.BMW
      */
     public void Close ()
     {
-      if (this.conn_.State == ConnectionState.Open)
-        this.conn_.Close ();
+      this.conn_.Close ();
     }
 
     /**

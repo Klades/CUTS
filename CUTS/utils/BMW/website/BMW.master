@@ -45,95 +45,104 @@
     <td class="menu" style="width:150px;padding-left:5px">
       <!-- begin main menu -->
       <asp:loginview id="main_menu_" runat="server">
+        <rolegroups>
+          <asp:rolegroup roles="User">
+            <contenttemplate>
+              <div class="title">Testing</div>
+
+              <div class="menu_item" onmouseover="hilite (this);" onmouseout="unhilite (this);">
+                <asp:image runat="server" id="menudot0" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
+                <asp:hyperlink runat="server" id="test_menu_item_"
+                               navigateurl="~/"
+                               text="Test Runs" /></div>
+
+              <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
+                <asp:image runat="server" id="menudot4" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
+                <asp:hyperlink runat="server" id="Hyperlink1"
+                               navigateurl="~/baseline.aspx"
+                               text="Baseline Metrics" /></div>
+
+              <hr />
+
+              <div class="title">Configuration</div>
+              <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
+                <asp:image runat="server" id="Image1" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
+                <asp:hyperlink runat="server" id="Test_Suites"
+                               navigateurl="~/unittest.aspx"
+                               text="Unit Tests" /></div>
+
+              <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
+                <asp:image runat="server" id="Image4" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
+                <asp:hyperlink runat="server" id="Hyperlink2"
+                               navigateurl="~/logformats.aspx"
+                               text="Log Formats" /></div>
+
+              <hr />
+
+              <div class="title">System Details</div>
+              <div class="menu_item" onmouseover="hilite (this);" onmouseout="unhilite (this);">
+                <asp:image runat="server" id="menudot2" imageurl="~/images/menudot.gif" imagealign="absmiddle" />
+                <asp:hyperlink runat="server" id="ci_menu_item_"
+                               navigateurl="~/components.aspx"
+                               text="Components" /></div>
+
+              <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
+                <asp:image runat="server" id="menudot1" imageurl="~/images/menudot.gif" imagealign="absmiddle" />
+                <asp:hyperlink runat="server" id="hosts_menu_item_"
+                               navigateurl="~/environment.aspx"
+                               text="Environment" /></div>
+              <div class="menu_item" onmouseover="hilite(this);" onmouseout="unhilite(this);">
+                <asp:image runat="server" id="menudot3" imageurl="~/images/menudot.gif" imagealign="absmiddle" />
+                <asp:hyperlink runat="server" id="cp_menu_item_"
+                               navigateurl="~/paths.aspx"
+                               text="Execution Paths" /></div>
+            </contenttemplate>
+          </asp:rolegroup>
+
+          <asp:rolegroup roles="Administrator">
+            <contenttemplate>
+              <div class="title" style="margin-top:10px">Administration</div>
+
+              <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
+                <asp:image runat="server" id="Image3" imageurl="~/images/menudot.gif" imagealign="absmiddle" />
+                <asp:hyperlink runat="server" id="create_user_menu_item"
+                               navigateurl = "~/admin/createuser.aspx"
+                               text="Create New User" /></div>
+            </contenttemplate>
+          </asp:rolegroup>
+        </rolegroups>
+      </asp:loginview>
+
+      <asp:loginview id="logoutview_" runat="server">
         <loggedintemplate>
-          <div class="title">Testing</div>
-
-          <div class="menu_item" onmouseover="hilite (this);" onmouseout="unhilite (this);">
-            <asp:image runat="server" id="menudot0" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
-            <asp:hyperlink runat="server" id="test_menu_item_"
-                           navigateurl="~/"
-                           text="Test Runs" /></div>
-          <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
-            <asp:image runat="server" id="menudot4" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
-            <asp:hyperlink runat="server" id="Hyperlink1"
-                           navigateurl="~/baseline.aspx"
-                           text="Baseline Metrics" /></div>
-
-            <br />
-
-            <div class="title">Configuration</div>
-            <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
-              <asp:image runat="server" id="Image1" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
-              <asp:hyperlink runat="server" id="Test_Suites"
-                             navigateurl="~/unittest.aspx"
-                             text="Unit Tests" /></div>
-
-            <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
-              <asp:image runat="server" id="Image4" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
-              <asp:hyperlink runat="server" id="Hyperlink2"
-                             navigateurl="~/logformats.aspx"
-                             text="Log Formats" /></div>
-
-            <br />
-
-            <div class="title" style="margin-top:10px">System Details</div>
-            <div class="menu_item" onmouseover="hilite (this);" onmouseout="unhilite (this);">
-              <asp:image runat="server" id="menudot2" imageurl="~/images/menudot.gif" imagealign="absmiddle" />
-              <asp:hyperlink runat="server" id="ci_menu_item_"
-                             navigateurl="~/components.aspx"
-                             text="Components" /></div>
-
-            <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
-              <asp:image runat="server" id="menudot1" imageurl="~/images/menudot.gif" imagealign="absmiddle" />
-              <asp:hyperlink runat="server" id="hosts_menu_item_"
-                             navigateurl="~/environment.aspx"
-                             text="Environment" /></div>
-            <div class="menu_item" onmouseover="hilite(this);" onmouseout="unhilite(this);">
-              <asp:image runat="server" id="menudot3" imageurl="~/images/menudot.gif" imagealign="absmiddle" />
-              <asp:hyperlink runat="server" id="cp_menu_item_"
-                             navigateurl="~/paths.aspx"
-                             text="Execution Paths" /></div>
-
-            <br />
-
-            <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
-              <asp:image runat="server" id="Image3" imageurl="~/images/menudot.gif" imagealign="absmiddle" />
-              <asp:hyperlink runat="server" id="create_user_menu_item"
-                             navigateurl = "~/admin/createuser.aspx"
-                             text="Create New User" /></div>
-
-            <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
-              <asp:image runat="server" id="Image2" imageurl="~/images/menudot.gif" imagealign="absmiddle" />
-              <asp:LinkButton runat="server" id="logout"
-                             text="Logout" onclick="logout_Click" /></div>
-
-            <br />
-
-            <!-- placeholder for displaying the help button -->
-            <asp:placeholder runat="server" id="help_item_" />
-
-          </loggedintemplate>
-        </asp:loginview>
-      </td>
-      <td>
-        <!-- status/error message label for the page. -->
-        <asp:label id="message_" runat="server" />
-
-        <asp:panel runat="server" id="console_" visible="true" scrollbars="none"
-                   style="display:none" width="750px" backcolor="lavender"
-                   cssclass="console console_text">
-          <asp:panel runat="server" id="console_text_" height="50px" scrollbars="auto"
-                     wrap="true" visible="true" cssclass="console_text" />
-
           <hr />
+          <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
+            <asp:image runat="server" id="Image2" imageurl="~/images/menudot.gif" imagealign="absmiddle" />
+            <asp:LinkButton runat="server" id="logout"
+                           text="Logout" onclick="logout_Click" /></div>
 
-          <!-- controls for the console -->
-          <a href="javascript:console_clear ('<%= this.console_.ClientID %>');">Clear Messages</a>
-        </asp:panel>
+          <asp:placeholder runat="server" id="help_item_" />
+        </loggedintemplate>
+      </asp:loginview>
+    </td>
+    <td style="padding-left:10px">
+      <!-- status/error message label for the page. -->
+      <asp:label id="message_" runat="server" />
 
-        <br />
+      <asp:panel runat="server" id="console_" visible="true" scrollbars="none"
+                 style="display:none" width="750px" backcolor="lavender"
+                 cssclass="console console_text">
+        <asp:panel runat="server" id="console_text_" height="50px" scrollbars="auto"
+                   wrap="true" visible="true" cssclass="console_text" />
 
-        <asp:contentplaceholder runat="server" id="MainContent" />
+        <hr />
+
+        <!-- controls for the console -->
+        <a href="javascript:console_clear ('<%= this.console_.ClientID %>');">Clear Messages</a>
+      </asp:panel>
+
+      <asp:contentplaceholder runat="server" id="MainContent" />
+
       <hr />
       <p>Copyright &copy; 2004 - <%= DateTime.Today.Year %>; All rights reserved.</p>
     </td>

@@ -6,15 +6,20 @@ project (CUTS.BMW) : cuts_bmw_assembly {
   lit_libs   = System \
                System.Data \
                System.Data.SQLite \
+               System.Web \
+               System.Configuration
 
   specific {
     keyfile    = CUTS.BMW.snk
-    output_dir = 
+    output_dir =
   }
 
   Source_Files {
     Properties/AssemblyInfo.cs
 
     CUTS/BMW/Database.cs
+    
+    CUTS/BMW/Security/MembershipProvider.cs
+    CUTS/BMW/Security/RoleProvider.cs
   }
 }

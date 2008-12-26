@@ -35,7 +35,13 @@ h3
 
 .title
 {
-  font-weight:bold;
+  font-weight: bold;
+}
+
+.form-title
+{
+  font-weight: bold;
+  text-align: right;
 }
 
 .console
