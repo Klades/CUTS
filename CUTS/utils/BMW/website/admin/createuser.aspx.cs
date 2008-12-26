@@ -29,7 +29,13 @@ namespace CUTS.BMW.Page.Admin
   {
     protected void Page_Load (object sender, EventArgs e)
     {
+      ConnectionStringSettings settings =
+        ConfigurationManager.ConnectionStrings["BMWConnectionString"];
 
+      // Open a connection to the database.
+      this.bmw_ = new CUTS.BMW.Database (settings.ProviderName);
+      this.bmw_.ConnectionString = settings.ConnectionString;
+      this.bmw_.Open ();
     }
 
     protected void handle_button_oncommand (object sender, CommandEventArgs e)
@@ -43,24 +49,18 @@ namespace CUTS.BMW.Page.Admin
           profile.Password = this.password_.Text;
           profile.EmailAddress = this.email_.Text;
 
-          CUTS.BMW.Database bmw = new CUTS.BMW.Database ();
-
           try
           {
-            // Open a connection to the database.
-            bmw.Open (Server.MapPath ("~/db/cutsbmw.db"), false);
-
             // Create a new user in the database.
-            bmw.CreateNewUser (profile);
+            this.bmw_.CreateNewUser (profile);
 
             // Reset the text for the controls.
             this.username_.Text = String.Empty;
             this.email_.Text = String.Empty;
           }
-          finally
+          catch (Exception)
           {
-            if (bmw.State == ConnectionState.Open)
-              bmw.Close ();
+
           }
 
           break;
@@ -69,5 +69,7 @@ namespace CUTS.BMW.Page.Admin
           break;
       }
     }
+
+    private CUTS.BMW.Database bmw_;
   }
 }

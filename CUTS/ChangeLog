@@ -1,3 +1,47 @@
+Fri Dec 26 23:22:42 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/SQL:
+        
+          . Move the SQL scripts to the BMW directory.
+          
+        * utils/BMW/SQL/CUTS-create.sql:
+        
+          . Changed the password column to a TINYBLOB since its a 
+            binary format.
+
+        * utils/BMW/assemblies/CUTS.BMW/CUTS.BMW.mpc:
+        * utils/BMW/assemblies/CUTS.BMW/CUTS/BMW/Database.cs:
+        * utils/BMW/assemblies/CUTS.BMW/CUTS/BMW/NewUserProfile.cs:
+        * utils/BMW/assemblies/CUTS.BMW/CUTS/BMW/Security/MembershipProvider.cs:
+        * utils/BMW/website/App_Code/unittest.asmx.cs:
+        * utils/BMW/website/Web.config:
+        * utils/BMW/website/admin/createuser.aspx.cs:
+        * utils/BMW/website/login.aspx.cs:
+        
+          . Switched back to using MySQL as the backend database for the
+            BMW. This time instead of storing test data in the database, it
+            is used for managing user profiles, analysis configurations, and
+            indexing test results. The actual tests are stored in individual 
+            files on disk as a SQLite database, and are referenced by the 
+            MySQL database.
+            
+          . Updated the database configuration so that its not dependent on
+            MySQL. Instead, you specify a provider in Web.config. This allows
+            end-users to use their own database engine for the BMW.
+
+        * etc/SQL:
+        * etc/SQL/CUTS-baseline.sql:
+        * etc/SQL/CUTS-bmw.sql:
+        * etc/SQL/CUTS-create.sql:
+        * etc/SQL/CUTS-deployment.sql:
+        * etc/SQL/CUTS-execution-paths.sql:
+        * etc/SQL/CUTS-msglog.sql:
+        * etc/SQL/CUTS-performance.sql:
+        * etc/SQL/CUTS-unittest.sql:
+        * etc/SQL/install-mysql.bat:
+
+          Removed these files.
+
 Fri Dec 26 19:35:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.BMW/CUTS.BMW.mpc:
@@ -13,9 +57,9 @@ Fri Dec 26 19:35:37 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * utils/BMW/website/login.aspx:
         * utils/BMW/website/login.aspx.cs:
         * utils/BMW/website/styles/default.css:
-        
+
           . Fixed the page for creating a new user
-          
+
           . Added role-based displays to the website.
 
 Thu Dec 25 21:45:27 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

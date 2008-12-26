@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.Reflection;
 using System.Web;
 using System.Web.Security;
 
@@ -52,18 +53,19 @@ namespace CUTS.BMW.Security
       // Pass control to the base class first.
       base.Initialize (name, config);
 
-      // Map the location of the database.
-      string location = HttpContext.Current.Server.MapPath (config["path"]);
+      // Instantiate a connection to the database.
+      string connstr = config["connectionstring"];
+
+      ConnectionStringSettings settings =
+        ConfigurationManager.ConnectionStrings[connstr];
+
+      this.bmw_ = new CUTS.BMW.Database (settings.ProviderName);
+      this.bmw_.ConnectionString = settings.ConnectionString;
+      this.bmw_.Open ();
 
       // Discover the administrator password
-      if (config.Get ("adminAppSetting") != null)
-      {
-        this.admin_password_ =
-          ConfigurationManager.AppSettings[config["adminAppSetting"]];
-      }
-
-      // Establish a connection to the database
-      this.bmw_.Open (location);
+      if (config.Get ("adminappsetting") != null)
+        this.admin_passwd_ = ConfigurationManager.AppSettings[config["adminappsetting"]];
     }
 
     public override bool EnablePasswordReset
@@ -135,7 +137,7 @@ namespace CUTS.BMW.Security
         return this.bmw_.AuthenticateUser (username, password);
 
       // Authenticate the adminstrator.
-      return password.Equals (this.admin_password_);
+      return password.Equals (this.admin_passwd_);
     }
 
     public override bool DeleteUser (string username, bool deleteAllRelatedData)
@@ -233,8 +235,8 @@ namespace CUTS.BMW.Security
 
     private string appname_;
 
-    private string admin_password_ = String.Empty;
+    private string admin_passwd_ = String.Empty;
 
-    private CUTS.BMW.Database bmw_ = new CUTS.BMW.Database ();
+    private CUTS.BMW.Database bmw_;
   }
 }
