@@ -491,7 +491,7 @@ write_factory_impl_begin (const PICML::ComponentFactory & factory,
 
   this->outfile ()
     << "class " << factory_impl << " :" << std::endl
-    << "  public virtual " << factory.name () << "_Exec {" 
+    << "  public virtual " << factory.name () << "_Exec {"
     << "public:" << std::endl
     << single_line_comment ("default constructor")
     << factory_impl << " (void);"

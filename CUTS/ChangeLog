@@ -1,8 +1,27 @@
+Sat Dec 27 06:20:42 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Traits_Base.cpp:
+        * cuts/CCM_Component_T.h:
+        * cuts/CCM_Component_T.inl:
+        * cuts/CCM_Component_T.cpp:
+        * cuts/CCM_Events_T.h:
+        * cuts/CUTS_CIAO.mpc:
+        
+          . Simpified the auto-generator CIAO code by creating a CCM 
+            component template class that implements required/common 
+            methods of every CCM component. The auto-generated classes
+            override the pre-implemented methods if they want to define
+            their own implementation.
+
 Sat Dec 27 04:48:17 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/admin/createuser.aspx:
         * utils/BMW/website/login.aspx:
-        
+
           . Fixed page formatting.
 
 Fri Dec 26 23:22:42 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>

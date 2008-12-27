@@ -106,7 +106,7 @@ write_prologue (const PICML::ComponentImplementationContainer & container)
     << single_line_comment ("executor client")
     << "#include \"" << container.name () << "EC.h\"" << std::endl
     << std::endl
-    << "#include \"cuts/config.h\"" << std::endl;
+    << "#include \"cuts/CCM_Component_T.h\"" << std::endl;
 }
 
 //
@@ -184,14 +184,26 @@ write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
   std::string destructor ("~");
   destructor += name;
 
-  // Construct the name of the context.
+  // Construct the name of the executor.
   std::string exec (name);
   exec.append ("_Exec");
 
+  // Construct the name of the context.
+  std::ostringstream context;
+  context << scope (component, "::") << "CCM_"
+          << component.name () << "_Context";
+
+  std::ostringstream basetype;
+  basetype << "CUTS_CCM_Component_T < "
+           << exec << ", " << context.str () << " >";
+
   this->outfile ()
     << "class " << name << " :" << std::endl
-    << "  public " << exec << " {"
+    << "  public " << basetype.str () << " {"
     << "public:" << std::endl
+    << single_line_comment ("Type definition of the base component type")
+    << "typedef " << basetype.str () << " base_type;"
+    << std::endl
 
     // Write the default constructor.
     << single_line_comment ("Default constructor")
@@ -228,12 +240,6 @@ write_variables_begin (const PICML::Component & component)
     return;
 
   this->_super::write_variables_begin (component);
-
-  this->outfile ()
-    << single_line_comment ("context for the component (proxy-enabled)")
-    << scope (component, "::") << "CCM_" << component.name ()
-    << "_Context::_var_type context_;"
-    << std::endl;
 }
 
 //

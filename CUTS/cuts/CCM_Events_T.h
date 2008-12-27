@@ -13,9 +13,8 @@
 #ifndef _CUTS_CCM_EVENTS_T_H_
 #define _CUTS_CCM_EVENTS_T_H_
 
-#include "cuts/config.h"
+#include "config.h"
 
-//=============================================================================
 /**
  * @class CUTS_CCM_Event_T
  *
@@ -25,8 +24,6 @@
  * the real event. Therefore, code generators do not have to worry
  * about dynamically allocating/freeing memory acquired by the event.
  */
-//=============================================================================
-
 template <typename OBV_TYPE>
 class CUTS_CCM_Event_T
 {
@@ -67,9 +64,8 @@ private:
   _var_type event_;
 };
 
-//=============================================================================
 /**
- * @class CUTS_EventInfo
+ * @class CUTS_Event_Info
  *
  * This class contains the traits for uniquely identifying event types. To
  * define events in CUTS, you must specialize this template with your event
@@ -78,8 +74,6 @@ private:
  * default values. This will result in the event being considered not
  * register/defined.
  */
-//=============================================================================
-
 template <typename EVENTTYPE>
 class CUTS_Event_Info
 {
@@ -88,7 +82,6 @@ public:
   static const long event_id_ = -1;
 };
 
-//=============================================================================
 /**
  * @class CUTS_Event_T
  *
@@ -99,8 +92,6 @@ public:
  * default values. This will result in the event being considered not
  * register/defined.
  */
-//=============================================================================
-
 template <typename EVENTTYPE>
 class CUTS_Event_T
   : virtual public EVENTTYPE,
@@ -120,12 +111,9 @@ public:
   virtual ::CORBA::Long event_id (void);
 };
 
-//=============================================================================
 /**
  * @class CUTS_Event_init_T
  */
-//=============================================================================
-
 template <typename EVENTTYPE>
 class CUTS_Event_init_T
   : public virtual ::CORBA::ValueFactoryBase

@@ -257,8 +257,8 @@ to_upper (const std::string & str)
 void CIAO_Traits_Base::
 write_environment_begin (const PICML::Component & component)
 {
-  this->env_bits_.reset ();
-  this->write_set_session_context (component);
+  //this->env_bits_.reset ();
+  //this->write_set_session_context (component);
 }
 
 //
@@ -267,20 +267,20 @@ write_environment_begin (const PICML::Component & component)
 void CIAO_Traits_Base::
 write_environment_end (const PICML::Component & component)
 {
-  if (!this->env_bits_[ENV_PREACTIVATE])
-    this->write_ciao_preactivate (component);
+  //if (!this->env_bits_[ENV_PREACTIVATE])
+  //  this->write_ciao_preactivate (component);
 
-  if (!this->env_bits_[ENV_ACTIVATE])
-    this->write_ccm_activate (component);
+  //if (!this->env_bits_[ENV_ACTIVATE])
+  //  this->write_ccm_activate (component);
 
-  if (!this->env_bits_[ENV_POSTACTIVATE])
-    this->write_ciao_postactivate (component);
+  //if (!this->env_bits_[ENV_POSTACTIVATE])
+  //  this->write_ciao_postactivate (component);
 
-  if (!this->env_bits_[ENV_PASSIVATE])
-    this->write_ccm_passivate (component);
+  //if (!this->env_bits_[ENV_PASSIVATE])
+  //  this->write_ccm_passivate (component);
 
-  if (!this->env_bits_[ENV_REMOVE])
-    this->write_ccm_remove (component);
+  //if (!this->env_bits_[ENV_REMOVE])
+  //  this->write_ccm_remove (component);
 }
 
 //
@@ -289,7 +289,7 @@ write_environment_end (const PICML::Component & component)
 void CIAO_Traits_Base::
 write_set_session_context (const PICML::Component & component)
 {
-  this->env_bits_[ENV_SET_SESSION_CONTEXT] = true;
+  //this->env_bits_[ENV_SET_SESSION_CONTEXT] = true;
 
   this->outfile ()
     << "set_session_context (::Components::SessionContext_ptr ctx)";
@@ -301,7 +301,7 @@ write_set_session_context (const PICML::Component & component)
 void CIAO_Traits_Base::
 write_ciao_preactivate (const PICML::Component & component)
 {
-  this->env_bits_[ENV_PREACTIVATE] = true;
+  //this->env_bits_[ENV_PREACTIVATE] = true;
   this->outfile () << "ciao_preactivate (void)";
 }
 
@@ -311,7 +311,7 @@ write_ciao_preactivate (const PICML::Component & component)
 void CIAO_Traits_Base::
 write_ccm_activate (const PICML::Component & component)
 {
-  this->env_bits_[ENV_ACTIVATE] = true;
+  //this->env_bits_[ENV_ACTIVATE] = true;
   this->outfile () << "ccm_activate (void)";
 }
 
@@ -321,14 +321,14 @@ write_ccm_activate (const PICML::Component & component)
 void CIAO_Traits_Base::
 write_ciao_postactivate (const PICML::Component & component)
 {
-  this->env_bits_[ENV_POSTACTIVATE] = true;
+  //this->env_bits_[ENV_POSTACTIVATE] = true;
   this->outfile () << "ciao_postactivate (void)";
 }
 
 void CIAO_Traits_Base::
 write_ccm_passivate (const PICML::Component & component)
 {
-  this->env_bits_[ENV_PASSIVATE] = true;
+  //this->env_bits_[ENV_PASSIVATE] = true;
   this->outfile () << "ccm_passivate (void)";
 }
 
@@ -338,7 +338,7 @@ write_ccm_passivate (const PICML::Component & component)
 void CIAO_Traits_Base::
 write_ccm_remove (const PICML::Component & component)
 {
-  this->env_bits_[ENV_REMOVE] = true;
+  //this->env_bits_[ENV_REMOVE] = true;
   this->outfile () << "ccm_remove (void)";
 }
 

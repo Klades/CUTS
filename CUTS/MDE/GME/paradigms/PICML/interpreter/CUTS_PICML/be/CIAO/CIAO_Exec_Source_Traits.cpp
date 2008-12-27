@@ -96,8 +96,10 @@ write_prologue (const PICML::ComponentImplementationContainer & container)
     << single_line_comment ("$Id$")
     << std::endl
     << include (basename + CUTS_BE_OPTIONS ()->exec_suffix_)
-    << include ("cuts/CCM_Events_T")
-    << include ("cuts/Thread_Activation_Record");
+    /// @todo We should only include the following header if there are
+    ///       are output events (or output ports) for this component.
+    ///       Otherwise, we can leave this include out of this source.
+    << include ("cuts/CCM_Events_T");
 }
 
 //
@@ -229,11 +231,6 @@ write_InEventPort_begin (const PICML::InEventPort & sink)
     return;
 
   this->_super::write_InEventPort_begin (sink);
-
-  this->outfile ()
-    << single_line_comment ("get activation record for this thread")
-    << "CUTS_Activation_Record * record = CUTS_THR_ACTIVATION_RECORD ();"
-    << std::endl;
 }
 
 //
@@ -246,9 +243,7 @@ write_InEventPort_end (const PICML::InEventPort & sink)
     return;
 
   this->outfile ()
-    << single_line_comment ("just in case we don't use either one")
-    << "ACE_UNUSED_ARG (ev);"
-    << "ACE_UNUSED_ARG (record);";
+    << "ACE_UNUSED_ARG (ev);";
 
   this->_super::write_InEventPort_end (sink);
 }
@@ -340,33 +335,6 @@ write_Attribute_begin (const PICML::Attribute & attr)
   }
   else
     this->outfile () << attr.name () << ";";
-}
-
-//
-// write_set_session_context
-//
-void CUTS_CIAO_Exec_Source_Traits::
-write_set_session_context (const PICML::Component & component)
-{
-  if (!this->outfile ().is_open ())
-    return;
-
-  this->_super::write_set_session_context (component);
-
-  // Since we do not support this method, we do not have to guard
-  // the implemenation. There is no way this method will not be
-  // auto generated (i.e., called as a result of the modeler excluding
-  // this environment method).
-
-  this->outfile ()
-    << "{"
-    << "this->context_ =" << std::endl
-    << "  " << scope (component, "::")
-    << "CCM_" << component.name () << "_Context::_narrow (ctx);"
-    << std::endl
-    << "if (::CORBA::is_nil (this->context_.in ()))" << std::endl
-    << "  throw ::CORBA::INTERNAL ();"
-    << "}";
 }
 
 //
@@ -529,10 +497,6 @@ write_environment_method_begin (const PICML::MultiInputAction & action)
     // of this method. This means generating the code that will access
     // the activation record for the calling thread.
     (this->*(iter->second)) (component);
-
-    this->outfile ()
-      << "CUTS_Activation_Record * record = CUTS_THR_ACTIVATION_RECORD ();"
-      << std::endl;
   }
   else
   {
@@ -705,7 +669,7 @@ write_OutputAction_end (const PICML::OutputAction & action)
   if (!this->skip_action_)
   {
     this->outfile ()
-      << "this->context_->push_"
+      << "this->ctx_->push_"
       << action.name () << " (__event_" << action.uniqueId () << "__.in ());"
       << std::endl;
   }
@@ -747,11 +711,6 @@ write_PeriodicEvent_begin (const PICML::PeriodicEvent & periodic)
     return;
 
   this->_super::write_PeriodicEvent_begin (periodic);
-
-  this->outfile ()
-    << single_line_comment ("get activation record for this thread")
-    << "CUTS_Activation_Record * record = CUTS_THR_ACTIVATION_RECORD ();"
-    << std::endl;
 }
 
 //
@@ -761,7 +720,6 @@ void CUTS_CIAO_Exec_Source_Traits::
 write_PeriodicEvent_end (const PICML::PeriodicEvent & periodic)
 {
   this->outfile ()
-    << "ACE_UNUSED_ARG (record);"
     << "}";
 }
 

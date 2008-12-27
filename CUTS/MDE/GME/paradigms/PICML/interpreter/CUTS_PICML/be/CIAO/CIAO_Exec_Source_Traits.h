@@ -147,9 +147,6 @@ public:
   void write_or_symbol (void);
 
 protected:
-  virtual void write_set_session_context (
-    const PICML::Component & component);
-
   virtual void write_ciao_preactivate (
     const PICML::Component & component);
 
