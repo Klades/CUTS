@@ -11,7 +11,7 @@
           <td>
             <table border="0" cellpadding="0">
               <tr>
-                <td align="right">
+                <td class="form-title">
                   <asp:label id="UserNameLabel" runat="server"
                              associatedcontrolid="UserName">Username: </asp:label>
                 </td>
@@ -23,7 +23,7 @@
                 </td>
               </tr>
               <tr>
-                <td align="right">
+                <td class="form-title">
                   <asp:label id="PasswordLabel" runat="server"
                              associatedcontrolid="Password">Password: </asp:label>
                 </td>

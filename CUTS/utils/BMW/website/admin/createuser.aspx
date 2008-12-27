@@ -13,7 +13,6 @@
       <td><asp:requiredfieldvalidator id="username_required_" runat="server"
                                       controltovalidate="username_"
                                       errormessage="required"
-                                      tooltip="Username is required"
                                       validationgroup="createuser_"></asp:requiredfieldvalidator></td>
     </tr>
 
@@ -25,7 +24,6 @@
       <td><asp:requiredfieldvalidator id="password_required_" runat="server"
                                       controltovalidate="password_"
                                       errormessage="required"
-                                      tooltip="Password is required"
                                       validationgroup="createuser_"></asp:requiredfieldvalidator></td>
     </tr>
 
@@ -38,13 +36,13 @@
         <asp:requiredfieldvalidator id="confirm_password_required_" runat="server"
                                     controltovalidate="confirm_password_"
                                     errormessage="required"
-                                    tooltip="Password confirmation is required"
+                                    display="dynamic"
                                     validationgroup="createuser_"></asp:requiredfieldvalidator>
         <asp:comparevalidator id="password_compare_" runat="server"
                               controltocompare="password_"
                               controltovalidate="confirm_password_"
                               display="dynamic"
-                              errormessage="Passwords do not match"
+                              errormessage="passwords do not match"
                               validationgroup="createuser_"></asp:comparevalidator></td>
     </tr>
 
@@ -57,7 +55,6 @@
         <asp:requiredfieldvalidator id="email_required_" runat="server"
                                     controltovalidate="email_"
                                     errormessage="required"
-                                    tooltip="E-mail address is required"
                                     validationgroup="createuser_"></asp:requiredfieldvalidator></td>
     </tr>
 
