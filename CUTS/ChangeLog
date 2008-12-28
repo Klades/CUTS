@@ -1,9 +1,16 @@
+Sun Dec 28 09:59:18 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM:
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+
+          . Checkpointing the Anti-SPAM GME model.
+
 Sun Dec 28 08:24:54 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/Trigger_T.inl:
         * cuts/Trigger_T.cpp:
 
-	  . Fixed compilation errors on non-Windows systems.
+          . Fixed compilation errors on non-Windows systems.
 
 Sun Dec 28 07:18:10 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
