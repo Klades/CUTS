@@ -1,19 +1,5 @@
+// -*- C++ -*-
 // $Id$
-
-//
-// CUTS_Periodic_Trigger_T
-//
-template <typename COMPONENT>
-CUTS_INLINE
-CUTS_Periodic_Trigger_T <COMPONENT>::CUTS_Periodic_Trigger_T (void)
-: component_ (0),
-  method_ (0),
-  timer_ (-1),
-  timeout_ (1000),
-  probability_ (1.0)
-{
-  ACE_OS::srand (ACE_OS::time (0));
-}
 
 //
 // probability
