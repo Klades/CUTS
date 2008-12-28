@@ -97,8 +97,8 @@
         <File Id="XERCES_C_2_6.DLL" Name="XERCES-C_2_7.DLL"
               Source="$(env.XERCESCROOT)\bin\xerces-c_2_7.dll" DiskId="1" />
 
-        <File Id="XSCRT_Utils.dll" Name="XSCRT.dll"
-              Source="$(env.XSC_ROOT)\lib\XSCRT.dll" DiskId="1" />
+        <File Id="XSC_Utils.dll" Name="XSC_Utils.dll"
+              Source="$(env.XSC_ROOT)\lib\XSC_Utils.dll" DiskId="1" />
 
         <File Id="ACE.dll" Name="ACE.dll"
               Source="$(env.ACE_ROOT)\lib\ACE.dll" DiskId="1" />

@@ -16,6 +16,15 @@
 
 namespace actor
 {
+  void normalize (std::string & name)
+  {
+    std::remove_if (name.begin (),
+                    name.end (),
+                    boost::bind (std::equal_to <int> (),
+                                 0,
+                                 boost::bind (&isalnum, _1)));
+  }
+
 /**
  * @struct find_instance
  */
@@ -92,6 +101,8 @@ struct deploy_instance
 
         // Get the target collocation group.
         std::string name (begin, end);
+        normalize (name);
+
         groups_type::const_iterator iter = this->groups_.find (name);
 
         // Insert the component into the collocation group.
@@ -130,7 +141,10 @@ public:
   template <typename IteratorT>
   void operator () (IteratorT begin, IteratorT end) const
   {
+    // Get the name of the node and normalize it.
     std::string name (begin, end);
+    normalize (name);
+
     GME::Object obj;
 
     if (this->domain_)
