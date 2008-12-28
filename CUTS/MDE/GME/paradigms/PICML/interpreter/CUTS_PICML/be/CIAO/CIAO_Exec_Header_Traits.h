@@ -72,7 +72,18 @@ public:
   virtual void write_ReadonlyAttribute_variable (
     const PICML::ReadonlyAttribute & readonly);
 
+  virtual void write_InEventPort_begin (
+    const PICML::InEventPort & sink,
+    const std::vector <PICML::Property> & properties);
+
+  virtual void write_InEventPort_end (
+    const PICML::InEventPort & sink,
+    const std::vector <PICML::Property> & properties);
+
 private:
+  void write_event_handler_variable (
+    const std::map <std::string, std::string>::value_type &);
+
   /// Type definition for pointer-to-methods to environment methods.
   typedef void (CUTS_CIAO_Exec_Header_Traits::
     *Environment_Method) (const PICML::Component &);
@@ -83,6 +94,8 @@ private:
 
   /// Global jump table for the environment writers.
   static Environment_Table env_table_;
+
+  std::map <std::string, std::string> asynch_events_;
 };
 
 // Singleton definition.

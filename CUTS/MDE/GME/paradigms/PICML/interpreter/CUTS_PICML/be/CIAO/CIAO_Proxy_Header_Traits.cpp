@@ -53,7 +53,7 @@ open_file (const PICML::ComponentImplementationContainer & container)
 void CUTS_CIAO_Proxy_Header_Traits::
 write_prologue (const PICML::ComponentImplementationContainer & container)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   // Generate the hash definition for this file.
@@ -65,7 +65,7 @@ write_prologue (const PICML::ComponentImplementationContainer & container)
                 hashdef.end (),
                 '/', '_');
 
-  this->outfile ()
+  this->out_
     << "// -*- C++ -*-" << std::endl
     << std::endl
     << "#ifndef _" << hashdef << "_H_" << std::endl
@@ -91,7 +91,7 @@ write_prologue (const PICML::ComponentImplementationContainer & container)
 void CUTS_CIAO_Proxy_Header_Traits::
 write_epilogue (const PICML::ComponentImplementationContainer & container)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   std::string hashdef =
@@ -102,7 +102,7 @@ write_epilogue (const PICML::ComponentImplementationContainer & container)
                 hashdef.end (),
                 '/', '_');
 
-  this->outfile ()
+  this->out_
     << "#include /**/ \"ace/post.h\"" << std::endl
     << std::endl
     << "#endif  // !defined _" << hashdef << "_H_" << std::endl;
@@ -115,7 +115,7 @@ void CUTS_CIAO_Proxy_Header_Traits::
 write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
                   const PICML::Component & component)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   std::string name = component.name ();
@@ -138,7 +138,7 @@ write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
 
   std::string ctx_proxy = name + "_Context_Proxy";
 
-  this->outfile ()
+  this->out_
     << std::endl
     << "namespace CIDL_" << monoimpl.name () << "{"
 
@@ -186,7 +186,7 @@ write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
                  _1));
 
   // We are now ready to generate the executor.
-  this->outfile ()
+  this->out_
     << "private:" << std::endl;
 
   // Reset the endpoint id for this iteration.
@@ -199,7 +199,7 @@ write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
                  this,
                  _1));
 
-  this->outfile ()
+  this->out_
     << "};"
     << single_line_comment ("Type definition for proxy base class")
     << "typedef CUTS_CCM_CoWorkEr_Proxy_T <" << std::endl
@@ -234,10 +234,10 @@ void CUTS_CIAO_Proxy_Header_Traits::
 write_impl_end (const PICML::MonolithicImplementation & monoimpl,
                 const PICML::Component & component)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
-  this->outfile () << "};";
+  this->out_ << "};";
 }
 
 //
@@ -284,10 +284,10 @@ get_component_factory (const PICML::Component & component,
 void CUTS_CIAO_Proxy_Header_Traits::
 write_variables_begin (const PICML::Component & component)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
-  this->outfile ()
+  this->out_
     << "private:" << std::endl;
 
   typedef std::vector <PICML::InEventPort> InEventPort_Set;
@@ -307,12 +307,12 @@ write_variables_begin (const PICML::Component & component)
 void CUTS_CIAO_Proxy_Header_Traits::
 write_eventsink_variable (const PICML::InEventPort & sink)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   PICML::Event event = sink.ref ();
 
-  this->outfile ()
+  this->out_
     << single_line_comment ((std::string)sink.name () + " event handler")
     << "CUTS_Event_Handler_Manager_T <" << std::endl
     << "  _proxy_type::_impl_type," << std::endl
@@ -327,12 +327,12 @@ write_eventsink_variable (const PICML::InEventPort & sink)
 void CUTS_CIAO_Proxy_Header_Traits::
 write_id_variable (const PICML::OutEventPort & source)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   std::string name = source.name ();
 
-  this->outfile ()
+  this->out_
     << single_line_comment (name + " id variable")
     << "static const size_t push_" << name << "_id_ = "
     << this->endpoint_id_ ++ << ";" << std::endl;

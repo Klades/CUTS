@@ -13,19 +13,23 @@
 #ifndef _CUTS_CCM_COMPONENT_T_H_
 #define _CUTS_CCM_COMPONENT_T_H_
 
-#include "config.h"
+#include "Component.h"
+#include "CCM_Event_Handler_T.h"
+#include "ace/SString.h"
 
 /**
  * @class CUTS_CCM_Component_T
  *
  * Template class for CCM components. This class defines the required
- * methods that must be implemented by every CCM session component. 
+ * methods that must be implemented by every CCM session component.
  * This prevents the compiler from complaining about undefined methods
  * on the executor class. If a derived class needs to implement one
  * of the required methods, then it needs to only overload the method.
  */
 template <typename T, typename CTX>
-class CUTS_CCM_Component_T : public T
+class CUTS_CCM_Component_T :
+  public CUTS_Component,
+  public T
 {
 public:
   /// Type definition for the executor type.

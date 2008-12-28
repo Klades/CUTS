@@ -17,11 +17,10 @@
 # pragma once
 #endif  // ACE_LACKS_PRAGMA_ONCE
 
-#include "cuts/config.h"
+#include "Active_Object.h"
 #include "ace/Timer_Heap.h"
 #include "ace/Timer_Queue_Adapters.h"
 
-//=============================================================================
 /**
  * @class CUTS_Periodic_Trigger_T
  *
@@ -29,10 +28,10 @@
  * that processes workload on a periodic basis. It also has an associated
  * probablity for performing the workload to create non-determinism.
  */
-//=============================================================================
-
 template <typename COMPONENT>
-class CUTS_Periodic_Trigger_T : public ACE_Event_Handler
+class CUTS_Periodic_Trigger_T :
+  public ACE_Event_Handler,
+  public CUTS_Active_Object
 {
 public:
   /// Type definition for the hosting component type.
@@ -59,8 +58,7 @@ public:
    * @param[in]     component         Pointer to the target component.
    * @param[in]     method            Target method to invoke on component.
    */
-  void init (Component_Type * component,
-             Method_Pointer method);
+  void init (Component_Type * component, Method_Pointer method);
 
   /**
    * Activate the trigger with the current probability and timeout value.
@@ -70,18 +68,10 @@ public:
    * order for the change to take place. However, changing the probability
    * of the trigger takes affect instantaneously.
    */
-  virtual void activate (long msec);
-
-  /**
-   * Reactivate the periodic task with a new timeout value. If the
-   * object is not active, it will activate it.
-   *
-   * @param[in]     msec      Timeout value in milliseconds.
-   */
-  virtual void reactivate (long msec);
+  virtual int activate (void);
 
   /// Deactivate the trigger.
-  virtual void deactivate (void);
+  virtual int deactivate (void);
 
   /// Get the current probability.
   double probability (void) const;
@@ -97,6 +87,8 @@ public:
   /// Get the current timeout value.
   long timeout (void) const;
 
+  void timeout (long msec);
+
 private:
   /// Shared implementation for activating
   void schedule_timeout (long msec);
@@ -105,8 +97,7 @@ private:
   void cancel_timeout (void);
 
   /// Handler for the timeout event.
-  int handle_timeout (const ACE_Time_Value &current_time,
-                      const void * act);
+  int handle_timeout (const ACE_Time_Value & , const void *);
 
   /// Pointer the parent component of the stored method.
   Component_Type * component_;

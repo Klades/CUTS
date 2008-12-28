@@ -464,10 +464,10 @@ template < >
 struct CUTS_BE_InEventPort_Begin_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::InEventPort & sink,
-                        const std::vector <PICML::Property> &)
+                        const std::vector <PICML::Property> & properties)
   {
-    CIAO_EXEC_HEADER_GENERATOR ()->write_InEventPort_begin (sink);
-    CIAO_EXEC_SOURCE_GENERATOR ()->write_InEventPort_begin (sink);
+    CIAO_EXEC_HEADER_GENERATOR ()->write_InEventPort_begin (sink, properties);
+    CIAO_EXEC_SOURCE_GENERATOR ()->write_InEventPort_begin (sink, properties);
 
     CIAO_PROXY_HEADER_GENERATOR ()->write_InEventPort_begin (sink);
     CIAO_PROXY_SOURCE_GENERATOR ()->write_InEventPort_begin (sink);
@@ -485,10 +485,10 @@ template < >
 struct CUTS_BE_InEventPort_End_T <CUTS_BE_Ciao>
 {
   static bool generate (const PICML::InEventPort & sink,
-                        const std::vector <PICML::Property> &)
+                        const std::vector <PICML::Property> & properties)
   {
-    CIAO_EXEC_HEADER_GENERATOR ()->write_InEventPort_end  (sink);
-    CIAO_EXEC_SOURCE_GENERATOR ()->write_InEventPort_end  (sink);
+    CIAO_EXEC_HEADER_GENERATOR ()->write_InEventPort_end  (sink, properties);
+    CIAO_EXEC_SOURCE_GENERATOR ()->write_InEventPort_end  (sink, properties);
 
     CIAO_PROXY_HEADER_GENERATOR ()->write_InEventPort_end  (sink);
     CIAO_PROXY_SOURCE_GENERATOR ()->write_InEventPort_end  (sink);

@@ -41,7 +41,9 @@ project (CUTS) : portableserver, anytypecode, cutslib {
     Action_Iterator.cpp
     Activation_Record.cpp
     Activation_Record_Endpoint.cpp
+    Active_Object.cpp
     Benchmark_Agent.cpp
+    Component.cpp
     Component_Metric.cpp
     Component_Registry_Node.cpp
     Component_Registry_Handler.cpp

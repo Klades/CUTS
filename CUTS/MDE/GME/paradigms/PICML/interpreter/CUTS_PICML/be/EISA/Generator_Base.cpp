@@ -46,7 +46,7 @@ CUTS_EISA_Generator_Base::~CUTS_EISA_Generator_Base (void)
 //
 void CUTS_EISA_Generator_Base::open_file_i (void)
 {
-  this->formatter_.reset (new Formatter_Type (this->outfile ()));
+  this->formatter_.reset (new Formatter_Type (this->out_));
 }
 
 //
@@ -56,7 +56,7 @@ void CUTS_EISA_Generator_Base::
 close_file (const PICML::ComponentImplementationContainer & container)
 {
   this->formatter_.reset ();
-  this->outfile ().close ();
+  this->out_.close ();
   this->node_ = 0;
 }
 
@@ -125,7 +125,7 @@ void CUTS_EISA_Generator_Base::
 write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
                   const PICML::Component & type)
 {
-  this->outfile ()
+  this->out_
     << std::endl
     << "namespace CIDL_" << monoimpl.name () << "{";
 }
@@ -146,7 +146,7 @@ write_factory_impl_end (const PICML::ComponentFactory & factory,
   }
 
   // This is really closing off the implementation namespace
-  this->outfile ()
+  this->out_
     << "}";
 }
 
@@ -160,7 +160,7 @@ write_InEventPort_begin (const PICML::InEventPort & sink)
 
   if (event != Udm::null)
   {
-    this->outfile ()
+    this->out_
       << "push_" << sink.name () << " ("
       << scope (event, "::") << event.name () << " * ev)";
   }
@@ -172,7 +172,7 @@ write_InEventPort_begin (const PICML::InEventPort & sink)
 void CUTS_EISA_Generator_Base::
 write_PeriodicEvent_begin (const PICML::PeriodicEvent & periodic)
 {
-  this->outfile ()
+  this->out_
     << "periodic_" << periodic.name () << " (void)";
 }
 
@@ -182,7 +182,7 @@ write_PeriodicEvent_begin (const PICML::PeriodicEvent & periodic)
 void CUTS_EISA_Generator_Base::
 write_ProvidedRequestPort_begin (const PICML::ProvidedRequestPort & facet)
 {
-  this->outfile ()
+  this->out_
     << "get_" << facet.name () << " (void)";
 }
 
@@ -192,7 +192,7 @@ write_ProvidedRequestPort_begin (const PICML::ProvidedRequestPort & facet)
 void CUTS_EISA_Generator_Base::
 write_ReadonlyAttribute_begin (const PICML::ReadonlyAttribute & ro_attr)
 {
-  this->outfile ()
+  this->out_
     << ro_attr.name () << " (void)";
 }
 
@@ -206,7 +206,7 @@ write_Attribute_begin (const PICML::Attribute & attr)
   PICML::AttributeMember member = attr.AttributeMember_child ();
   PICML::MemberType mtype = member.ref ();
 
-  this->outfile ()
+  this->out_
     << attr_name << " (" << CIAO_IN_TYPE (mtype)
     << " " << attr_name << ")";
 }
@@ -221,7 +221,7 @@ write_method (const PICML::OutEventPort & source)
 
   if (event != Udm::null)
   {
-    this->outfile ()
+    this->out_
       << "push_" << source.name () << " ("
       << scope (event, "::") << event.name () << " * ev)";
   }
@@ -233,7 +233,7 @@ write_method (const PICML::OutEventPort & source)
 void CUTS_EISA_Generator_Base::
 write_method (const PICML::RequiredRequestPort & receptacle)
 {
-  this->outfile ()
+  this->out_
     << "get_connection_" << receptacle.name () << " (void)";
 }
 
@@ -259,7 +259,7 @@ to_upper (const std::string & str)
 void CUTS_EISA_Generator_Base::
 write_set_session_context (const PICML::Component & component)
 {
-  this->outfile ()
+  this->out_
     << "set_session_context (::Components::SessionContext_ptr ctx)";
 }
 
@@ -269,7 +269,7 @@ write_set_session_context (const PICML::Component & component)
 void CUTS_EISA_Generator_Base::
 write_ciao_preactivate (const PICML::Component & component)
 {
-  this->outfile () << "ciao_preactivate (void)";
+  this->out_ << "ciao_preactivate (void)";
 }
 
 //
@@ -278,7 +278,7 @@ write_ciao_preactivate (const PICML::Component & component)
 void CUTS_EISA_Generator_Base::
 write_ccm_activate (const PICML::Component & component)
 {
-  this->outfile () << "ccm_activate (void)";
+  this->out_ << "ccm_activate (void)";
 }
 
 //
@@ -287,13 +287,13 @@ write_ccm_activate (const PICML::Component & component)
 void CUTS_EISA_Generator_Base::
 write_ciao_postactivate (const PICML::Component & component)
 {
-  this->outfile () << "ciao_postactivate (void)";
+  this->out_ << "ciao_postactivate (void)";
 }
 
 void CUTS_EISA_Generator_Base::
 write_ccm_passivate (const PICML::Component & component)
 {
-  this->outfile () << "ccm_passivate (void)";
+  this->out_ << "ccm_passivate (void)";
 }
 
 //
@@ -302,7 +302,7 @@ write_ccm_passivate (const PICML::Component & component)
 void CUTS_EISA_Generator_Base::
 write_ccm_remove (const PICML::Component & component)
 {
-  this->outfile () << "ccm_remove (void)";
+  this->out_ << "ccm_remove (void)";
 }
 
 //
@@ -311,7 +311,7 @@ write_ccm_remove (const PICML::Component & component)
 void CUTS_EISA_Generator_Base::
 write_TwowayOperation_begin (const PICML::TwowayOperation & twoway)
 {
-  this->outfile ()
+  this->out_
     << twoway.name () << " (";
 
   typedef std::vector <PICML::ParameterType> ParameterType_Set;
@@ -333,9 +333,9 @@ write_TwowayOperation_begin (const PICML::TwowayOperation & twoway)
   }
   else
     // Print the correct trailing macro for no arguments.
-    this->outfile () << "void";
+    this->out_ << "void";
 
-  this->outfile () << ")";
+  this->out_ << ")";
 }
 
 //
@@ -357,7 +357,7 @@ write_in_parameter_first (const PICML::InParameter & in)
 
   if (type != Udm::null)
   {
-    this->outfile ()
+    this->out_
       << CIAO_IN_TYPE (type) << " " << in.name ();
   }
 }
@@ -368,7 +368,7 @@ write_in_parameter_first (const PICML::InParameter & in)
 void CUTS_EISA_Generator_Base::
 write_in_parameter (const PICML::InParameter & in)
 {
-  this->outfile ()
+  this->out_
     << "," << std::endl;
 
   this->write_in_parameter_first (in);
@@ -384,7 +384,7 @@ write_out_parameter_first (const PICML::OutParameter & out)
 
   if (type != Udm::null)
   {
-    this->outfile ()
+    this->out_
       << CIAO_OUT_TYPE (type) << " " << out.name ();
   }
 }
@@ -395,7 +395,7 @@ write_out_parameter_first (const PICML::OutParameter & out)
 void CUTS_EISA_Generator_Base::
 write_out_parameter (const PICML::OutParameter & out)
 {
-  this->outfile ()
+  this->out_
     << "," << std::endl;
 
   this->write_out_parameter_first (out);
@@ -411,7 +411,7 @@ write_inout_parameter_first (const PICML::InoutParameter & inout)
 
   if (type != Udm::null)
   {
-    this->outfile ()
+    this->out_
       << CIAO_INOUT_TYPE (type) << " " << inout.name ();
   }
 }
@@ -422,7 +422,7 @@ write_inout_parameter_first (const PICML::InoutParameter & inout)
 void CUTS_EISA_Generator_Base::
 write_inout_parameter (const PICML::InoutParameter & inout)
 {
-  this->outfile ()
+  this->out_
     << "," << std::endl;
 
   this->write_inout_parameter_first (inout);
@@ -469,7 +469,7 @@ write_exception_spec (const PICML::ExceptionRef & ref)
   PICML::Exception exception = ref.ref ();
   std::string scope = this->scope (exception, "::", true);
 
-  this->outfile ()
+  this->out_
     << "," << std::endl
     << scope << exception.name ();
 }
@@ -498,7 +498,7 @@ write_FactoryOperation_end (const PICML::FactoryOperation & factory_op)
 void CUTS_EISA_Generator_Base::
 write_OperationBase_begin (const PICML::OperationBase & operation_base)
 {
-  this->outfile ()
+  this->out_
     << operation_base.name () << " (";
 
   // Get all the in parameters for this method.
@@ -520,10 +520,10 @@ write_OperationBase_begin (const PICML::OperationBase & operation_base)
                                 _1));
   }
   else
-    this->outfile () << "void";
+    this->out_ << "void";
 
   // Close the method declaration and write the exception.
-  this->outfile () << ")";
+  this->out_ << ")";
 }
 
 //
@@ -571,7 +571,7 @@ get_impl_entry_point (const PICML::
 //
 void CUTS_EISA_Generator_Base::write_include (const std::string & file)
 {
-  this->outfile () << include (file);
+  this->out_ << include (file);
 }
 
 //

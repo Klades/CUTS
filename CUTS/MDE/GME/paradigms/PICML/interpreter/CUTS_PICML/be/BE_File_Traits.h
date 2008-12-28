@@ -1,16 +1,25 @@
+// -*- C++ -*-
+
+//=============================================================================
+/**
+ * @file        BE_File_Traits.h
+ *
+ * $Id$
+ *
+ * @author      James H. Hill
+ */
+//=============================================================================
+
 #ifndef _CUTS_BE_FILE_TRAITS_H_
 #define _CUTS_BE_FILE_TRAITS_H_
 
 #include "BE_Traits.h"
-#include <iosfwd>
+#include <fstream>
 #include <memory>
 
-//=============================================================================
 /**
- *
+ * @class CUTS_BE_File_Traits
  */
-//=============================================================================
-
 class CUTS_BE_Export CUTS_BE_File_Traits :
   public CUTS_BE_Traits
 {
@@ -25,21 +34,8 @@ public:
     const PICML::ComponentImplementationContainer & container);
 
 protected:
-  /**
-   * Get a reference to the output file. This method will segfault
-   * if called before one of the init () methods is called.
-   *
-   * @return      Reference to output file stream.
-   */
-  std::ofstream & outfile (void);
-
-private:
-  /// Flag specifying if this object owns \outfile_.
-  bool outfile_owner_;
-
   /// Pointer to the output file stream.
-  std::auto_ptr <std::ofstream> outfile_;
-
+  std::ofstream out_;
 };
 
 #if defined (__CUTS_INLINE__)

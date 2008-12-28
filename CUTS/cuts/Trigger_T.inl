@@ -1,12 +1,27 @@
 // $Id$
 
 //
+// CUTS_Periodic_Trigger_T
+//
+template <typename COMPONENT>
+CUTS_INLINE
+CUTS_Periodic_Trigger_T <COMPONENT>::CUTS_Periodic_Trigger_T (void)
+: component_ (0),
+  method_ (0),
+  timer_ (-1),
+  timeout_ (1000),
+  probability_ (1.0)
+{
+  ACE_OS::srand (ACE_OS::time (0));
+}
+
+//
 // probability
 //
 template <typename COMPONENT>
 CUTS_INLINE
-void CUTS_Periodic_Trigger_T <COMPONENT>::init (Component_Type * component,
-                                                Method_Pointer method)
+void CUTS_Periodic_Trigger_T <COMPONENT>::
+init (Component_Type * component, Method_Pointer method)
 {
   this->component_ = component;
   this->method_ = method;
@@ -43,6 +58,16 @@ long CUTS_Periodic_Trigger_T <COMPONENT>::timeout (void) const
 }
 
 //
+// timeout
+//
+template <typename COMPONENT>
+CUTS_INLINE
+void CUTS_Periodic_Trigger_T <COMPONENT>::timeout (long msec)
+{
+  this->timeout_ = msec;
+}
+
+//
 // cancel_timeout
 //
 template <typename COMPONENT>
@@ -55,18 +80,3 @@ void CUTS_Periodic_Trigger_T <COMPONENT>::cancel_timeout (void)
     this->timer_ = -1;
   }
 }
-
-//
-// reactivate
-//
-template <typename COMPONENT>
-CUTS_INLINE
-void CUTS_Periodic_Trigger_T <COMPONENT>::reactivate (long msec)
-{
-  ACE_Time_Value interval;
-  interval.msec (msec);
-
-  this->timer_queue_.timer_queue ()->reset_interval (this->timer_,
-                                                     interval);
-}
-

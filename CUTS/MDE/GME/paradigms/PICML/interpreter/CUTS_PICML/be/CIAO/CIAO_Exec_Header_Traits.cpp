@@ -26,16 +26,8 @@ CUTS_CIAO_Exec_Header_Traits::CUTS_CIAO_Exec_Header_Traits (void)
   if (this->env_table_.empty ())
   {
     this->env_table_.insert (
-      Environment_Table::value_type ("preactivate",
-      &CUTS_CIAO_Exec_Header_Traits::write_ciao_preactivate));
-
-    this->env_table_.insert (
       Environment_Table::value_type ("activate",
       &CUTS_CIAO_Exec_Header_Traits::write_ccm_activate));
-
-    this->env_table_.insert (
-      Environment_Table::value_type ("postactivate",
-      &CUTS_CIAO_Exec_Header_Traits::write_ciao_postactivate));
 
     this->env_table_.insert (
       Environment_Table::value_type ("passivate",
@@ -76,7 +68,7 @@ open_file (const PICML::ComponentImplementationContainer & container)
 void CUTS_CIAO_Exec_Header_Traits::
 write_prologue (const PICML::ComponentImplementationContainer & container)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   // Generate the hash definition for this file.
@@ -88,7 +80,7 @@ write_prologue (const PICML::ComponentImplementationContainer & container)
                 hashdef.end (),
                 '/', '_');
 
-  this->outfile ()
+  this->out_
     << "// -*- C++ -*-" << std::endl
     << std::endl
     << "#ifndef _" << hashdef << "_H_" << std::endl
@@ -99,13 +91,7 @@ write_prologue (const PICML::ComponentImplementationContainer & container)
     << "#endif /* ACE_LACKS_PRAGMA_ONCE */" << std::endl
     << std::endl
     << "#include /**/ \"ace/pre.h\"" << std::endl
-    << std::endl
-    << single_line_comment ("for string variable types")
-    << include ("ace/SString")
-    << std::endl
-    << single_line_comment ("executor client")
     << "#include \"" << container.name () << "EC.h\"" << std::endl
-    << std::endl
     << "#include \"cuts/CCM_Component_T.h\"" << std::endl;
 }
 
@@ -115,7 +101,7 @@ write_prologue (const PICML::ComponentImplementationContainer & container)
 void CUTS_CIAO_Exec_Header_Traits::
 write_epilogue (const PICML::ComponentImplementationContainer & container)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   std::string hashdef =
@@ -126,7 +112,7 @@ write_epilogue (const PICML::ComponentImplementationContainer & container)
                 hashdef.end (),
                 '/', '_');
 
-  this->outfile ()
+  this->out_
     << "#include /**/ \"ace/post.h\"" << std::endl
     << std::endl
     << "#endif  // !defined _" << hashdef << "_H_" << std::endl;
@@ -139,7 +125,7 @@ void CUTS_CIAO_Exec_Header_Traits::
 write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
                   const PICML::Component & component)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   typedef std::vector <PICML::PeriodicEvent> PeriodicEvent_Set;
@@ -147,7 +133,7 @@ write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
 
   if (!periodics.empty ())
   {
-    this->outfile () << include ("cuts/Trigger_T");
+    this->out_ << include ("cuts/Trigger_T");
   }
 
   // We need to determine if any of the events sources has a
@@ -170,7 +156,7 @@ write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
 
     if (eventtype == "CUTS::Payload_Event")
     {
-      this->outfile () << include ("cuts/events_i");
+      this->out_ << include ("cuts/events_i");
       break;
     }
   }
@@ -197,10 +183,18 @@ write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
   basetype << "CUTS_CCM_Component_T < "
            << exec << ", " << context.str () << " >";
 
-  this->outfile ()
+  this->out_
+    << "/**" << std::endl
+    << " * @class " << name << std::endl
+    << " *" << std::endl
+    << " * Implementation of the " << exec << " component executor" << std::endl
+    << " */" << std::endl
     << "class " << name << " :" << std::endl
     << "  public " << basetype.str () << " {"
     << "public:" << std::endl
+    << single_line_comment ("Type definition for this component")
+    << "typedef " << name << " type;"
+    << std::endl
     << single_line_comment ("Type definition of the base component type")
     << "typedef " << basetype.str () << " base_type;"
     << std::endl
@@ -223,11 +217,23 @@ void CUTS_CIAO_Exec_Header_Traits::
 write_impl_end (const PICML::MonolithicImplementation & monoimpl,
                 const PICML::Component & component)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
-  this->outfile ()
-    << "};";
+  std::vector <PICML::PeriodicEvent>
+    periodics = component.PeriodicEvent_kind_children ();
+
+  if (!periodics.empty ())
+  {
+    this->out_ << "private:" << std::endl
+               << single_line_comment ("helper method to configure necessary objects")
+               << "void cuts_configure_objects (void);";
+  }
+
+  this->out_ << "};";
+
+  // Clear the list of asynchronous events.
+  this->asynch_events_.clear ();
 }
 
 //
@@ -236,10 +242,28 @@ write_impl_end (const PICML::MonolithicImplementation & monoimpl,
 void CUTS_CIAO_Exec_Header_Traits::
 write_variables_begin (const PICML::Component & component)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   this->_super::write_variables_begin (component);
+
+  std::for_each (this->asynch_events_.begin (),
+                 this->asynch_events_.end (),
+                 boost::bind (&CUTS_CIAO_Exec_Header_Traits::write_event_handler_variable,
+                              this,
+                              _1));
+}
+
+//
+// write_event_handler_variable
+//
+void CUTS_CIAO_Exec_Header_Traits::
+write_event_handler_variable (
+  const std::map <std::string, std::string>::value_type & val)
+{
+  this->out_ << single_line_comment (std::string ("event handler for ") + val.first)
+             << "CUTS_CCM_Event_Handler_T < type, "
+             << val.second << " > push_" << val.first << "_;";
 }
 
 //
@@ -248,7 +272,7 @@ write_variables_begin (const PICML::Component & component)
 void CUTS_CIAO_Exec_Header_Traits::
 write_variable (const PICML::Variable & variable)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   PICML::PredefinedType ptype = variable.ref ();
@@ -257,7 +281,7 @@ write_variable (const PICML::Variable & variable)
   {
     std::string name = variable.name ();
 
-    this->outfile ()
+    this->out_
       << single_line_comment ("variable: " + name)
       << CIAO_VAR_TYPE (ptype) << " " << name << "_;"
       << std::endl;
@@ -270,7 +294,7 @@ write_variable (const PICML::Variable & variable)
 void CUTS_CIAO_Exec_Header_Traits::
 write_ReadonlyAttribute_variable (const PICML::ReadonlyAttribute & readonly)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   // Get the contained attribute member.
@@ -287,7 +311,7 @@ write_ReadonlyAttribute_variable (const PICML::ReadonlyAttribute & readonly)
       // the variable for this attribute.
       std::string name = readonly.name ();
 
-      this->outfile ()
+      this->out_
         << single_line_comment ("variable: " + name)
         << CIAO_VAR_TYPE (mtype) << " " << name << "_;"
         << std::endl;
@@ -301,12 +325,12 @@ write_ReadonlyAttribute_variable (const PICML::ReadonlyAttribute & readonly)
 void CUTS_CIAO_Exec_Header_Traits::
 write_PeriodicEvent_variable (const PICML::PeriodicEvent & periodic)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   PICML::Component parent = PICML::Component::Cast (periodic.parent ());
 
-  this->outfile ()
+  this->out_
     << single_line_comment ("periodic: " + (std::string)periodic.name ())
     << "CUTS_Periodic_Trigger_T <" << parent.name ()
     << "> periodic_" << periodic.name () << "_;" << std::endl;
@@ -320,10 +344,10 @@ void CUTS_CIAO_Exec_Header_Traits::
 write_worker_variable (const PICML::WorkerType & var,
                 const PICML::Worker & worker)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
-  this->outfile ()
+  this->out_
     << single_line_comment ("worker variable: " + (std::string)var.name ())
     << worker.name () << " " << var.name () << "_;" << std::endl;
 }
@@ -334,7 +358,7 @@ write_worker_variable (const PICML::WorkerType & var,
 void CUTS_CIAO_Exec_Header_Traits::
 write_environment_method_begin (const PICML::MultiInputAction & action)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   // Extract the necessary information.
@@ -345,12 +369,51 @@ write_environment_method_begin (const PICML::MultiInputAction & action)
   Environment_Table::const_iterator iter = this->env_table_.find (name);
 
   if (iter != this->env_table_.end ())
-  {
     (this->*(iter->second)) (component);
-  }
   else
+    this->out_ << single_line_comment ("ignoring environment method: " + name);
+}
+
+//
+// write_InEventPort_begin
+//
+void CUTS_CIAO_Exec_Header_Traits::
+write_InEventPort_begin (const PICML::InEventPort & sink,
+                         const std::vector <PICML::Property> & properties)
+{
+  this->_super::write_InEventPort_begin (sink);
+
+  std::vector <PICML::Property>::const_iterator iter =
+    std::find_if (properties.begin (),
+                  properties.end (),
+                  boost::bind (std::equal_to <std::string> (),
+                               "asynchronous",
+                               boost::bind (&PICML::Property::name, _1)));
+
+  if (iter != properties.end ())
   {
-    this->outfile ()
-      << single_line_comment ("ignoring environment method: " + name);
+    PICML::Event event = sink.ref ();
+    std::ostringstream etype;
+    etype << scope (event, "::") << event.name ();
+
+    this->out_
+      // End the current function declaration.
+      << ";"
+      << std::endl
+      // Begin a new function declaration.
+      << "void push_" << sink.name () << "_i ("
+      << etype.str () << " * ev)";
+
+    this->asynch_events_[sink.name ()] = etype.str ();
   }
+}
+
+//
+// write_InEventPort_end
+//
+void CUTS_CIAO_Exec_Header_Traits::
+write_InEventPort_end (const PICML::InEventPort & sink,
+                       const std::vector <PICML::Property> & properties)
+{
+  this->_super::write_InEventPort_end (sink);
 }

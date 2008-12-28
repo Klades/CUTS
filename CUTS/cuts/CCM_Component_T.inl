@@ -28,7 +28,7 @@ template <typename T, typename CTX>
 CUTS_INLINE
 void CUTS_CCM_Component_T <T, CTX>::ccm_activate (void)
 {
-
+  CUTS_Component::activate ();
 }
 
 //
@@ -58,7 +58,7 @@ template <typename T, typename CTX>
 CUTS_INLINE
 void CUTS_CCM_Component_T <T, CTX>::ccm_passivate (void)
 {
-
+  CUTS_Component::deactivate ();
 }
 
 //

@@ -1,3 +1,59 @@
+Sat Dec 27 23:57:43 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Header_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Proxy_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Proxy_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Traits_Base.cpp:
+
+          . Simplified the complexity of the CIAO code generator.
+
+          . Changed outfile () to out_, which simplifies the complexity of
+            the code generator.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_File_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_File_Traits.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_File_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Exec_Header_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Exec_Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Generator_Base.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Header_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Source_Generator.cpp:
+
+          . Changed outfile () to out_, which simplifies the complexity of
+            the code generator.
+
+        * cuts/CCM_Event_Handler_T.h:
+        * cuts/CCM_Event_Handler_T.inl:
+        * cuts/CCM_Event_Handler_T.cpp:
+
+          . Event handler specifically designed for CCM events.
+
+        * cuts/Active_Object.h:
+        * cuts/Active_Object.inl:
+        * cuts/Active_Object.cpp:
+        * cuts/CCM_Component_T.h:
+        * cuts/CCM_Component_T.inl:
+        * cuts/CCM_Events_T.h:
+        * cuts/CUTS.mpc:
+        * cuts/CUTS_export.h:
+        * cuts/Component.h:
+        * cuts/Component.inl:
+        * cuts/Component.cpp:
+        * cuts/Trigger_T.h:
+        * cuts/Trigger_T.inl:
+        * cuts/Trigger_T.cpp:
+
+          . Implemented active object strategy class that objects with an
+            activate/deactivate method can extend. This objects can also
+            be registered with the CUTS_Component so that it the component
+            can manage its lifecycle.
+
 Sat Dec 27 06:20:42 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Header_Traits.cpp:
@@ -10,9 +66,9 @@ Sat Dec 27 06:20:42 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/CCM_Component_T.cpp:
         * cuts/CCM_Events_T.h:
         * cuts/CUTS_CIAO.mpc:
-        
-          . Simpified the auto-generator CIAO code by creating a CCM 
-            component template class that implements required/common 
+
+          . Simpified the auto-generator CIAO code by creating a CCM
+            component template class that implements required/common
             methods of every CCM component. The auto-generated classes
             override the pre-implemented methods if they want to define
             their own implementation.

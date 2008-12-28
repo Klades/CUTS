@@ -7,7 +7,6 @@
 #ifndef CUTS_EXPORT_H
 #define CUTS_EXPORT_H
 
-#include "ace/config-all.h"
 #include "cuts/config.h"
 
 #if !defined (CUTS_HAS_DLL)

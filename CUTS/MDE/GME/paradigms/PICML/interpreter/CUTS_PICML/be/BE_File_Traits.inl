@@ -1,7 +1,20 @@
 // $Id$
 
+//
+// CUTS_BE_File_Traits
+//
 CUTS_INLINE
-std::ofstream & CUTS_BE_File_Traits::outfile (void)
+CUTS_BE_File_Traits::CUTS_BE_File_Traits (void)
 {
-  return *this->outfile_.get ();
+
+}
+
+//
+// close_file
+//
+CUTS_INLINE
+void CUTS_BE_File_Traits::
+close_file (const PICML::ComponentImplementationContainer & container)
+{
+  this->out_.close ();
 }

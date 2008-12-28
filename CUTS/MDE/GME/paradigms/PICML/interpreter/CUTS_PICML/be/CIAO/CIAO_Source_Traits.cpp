@@ -53,13 +53,13 @@ open_file (const PICML::ComponentImplementationContainer & container)
     << CUTS_BE_OPTIONS ()->exec_suffix_ << ".cpp";
 
   // Open the file and pass contol to base class.
-  this->outfile ().open (ostr.str ().c_str ());
+  this->out_.open (ostr.str ().c_str ());
 
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return false;
 
   this->open_file_i ();
-  return this->outfile ().good ();
+  return this->out_.good ();
 }
 
 //
@@ -76,14 +76,14 @@ write_ProvidedRequestPort_begin (const PICML::ProvidedRequestPort & facet)
 
   std::string obj_scope = scope (obj, "::", true);
 
-  this->outfile ()
+  this->out_
     << function_header ("Facet: get_" + (std::string)facet.name ())
     << obj_scope << "CCM_" << obj.name () << "_ptr" << std::endl
     << "  " << parent.name () << "::";
 
   this->_super::write_ProvidedRequestPort_begin (facet);
 
-  this->outfile ()
+  this->out_
     << "{";
 }
 
@@ -93,7 +93,7 @@ write_ProvidedRequestPort_begin (const PICML::ProvidedRequestPort & facet)
 void CUTS_CIAO_Source_Traits::
 write_ProvidedRequestPort_end (const PICML::ProvidedRequestPort & facet)
 {
-  this->outfile () << "}";
+  this->out_ << "}";
 }
 
 //
@@ -104,13 +104,13 @@ write_InEventPort_begin (const PICML::InEventPort & sink)
 {
   PICML::Component parent = PICML::Component::Cast (sink.parent ());
 
-  this->outfile ()
+  this->out_
     << function_header ("EventSink: push_" + (std::string)sink.name ())
     << "void " << parent.name () << "::";
 
   this->_super::write_InEventPort_begin (sink);
 
-  this->outfile ()
+  this->out_
     << "{";
 }
 
@@ -123,13 +123,13 @@ write_method (const PICML::OutEventPort & source)
   PICML::Component parent =
     PICML::Component::Cast (source.parent ());
 
-  this->outfile ()
+  this->out_
     << function_header ("EventSource: " + (std::string)source.name ())
     << "void " << parent.name () << "_Context_Proxy::" << std::endl;
 
   this->_super::write_method (source);
 
-  this->outfile ()
+  this->out_
     << "{";
 }
 
@@ -144,14 +144,14 @@ write_method (const PICML::RequiredRequestPort & receptacle)
 
   PICML::Object object = PICML::Object::Cast (receptacle.ref ());
 
-  this->outfile ()
+  this->out_
     << function_header ("Receptacle: " + (std::string)receptacle.name ())
     << scope (object, "::") << object.name () << "_ptr "
     << parent.name () << "_Context_Proxy::" << std::endl;
 
   this->_super::write_method (receptacle);
 
-  this->outfile ()
+  this->out_
     << "{";
 }
 
@@ -161,7 +161,7 @@ write_method (const PICML::RequiredRequestPort & receptacle)
 void CUTS_CIAO_Source_Traits::
 write_InEventPort_end (const PICML::InEventPort & sink)
 {
-  this->outfile ()
+  this->out_
     << "}";
 }
 
@@ -174,14 +174,14 @@ write_PeriodicEvent_begin (const PICML::PeriodicEvent & periodic)
   // Write the getter method for the attribute.
   PICML::Component parent = PICML::Component::Cast (periodic.parent ());
 
-  this->outfile ()
+  this->out_
     << function_header (periodic.name ())
     << "void " << parent.name () << "::";
 
   // Write the class scope resolution.
   this->_super::write_PeriodicEvent_begin (periodic);
 
-  this->outfile ()
+  this->out_
     << "{";
 }
 
@@ -195,22 +195,22 @@ write_ReadonlyAttribute_begin (const PICML::ReadonlyAttribute & ro_attr)
   PICML::MemberType mtype = member.ref ();
 
   // Write the getter method for the attribute.
-  this->outfile ()
+  this->out_
     << function_header ((std::string)ro_attr.name () + " [getter]")
     << CIAO_RETURN_TYPE (mtype);
 
   if (this->is_variable_type (mtype))
-    this->outfile () << " *";
+    this->out_ << " *";
 
   PICML::Component parent = ro_attr.Component_parent ();
 
-  this->outfile ()
+  this->out_
     << " " << parent.name () << "::";
 
   // Write the class scope resolution.
   this->_super::write_ReadonlyAttribute_begin (ro_attr);
 
-  this->outfile ()
+  this->out_
     << "{";
 }
 
@@ -220,7 +220,7 @@ write_ReadonlyAttribute_begin (const PICML::ReadonlyAttribute & ro_attr)
 void CUTS_CIAO_Source_Traits::
 write_ReadonlyAttribute_end (const PICML::ReadonlyAttribute & ro_attr)
 {
-  this->outfile ()
+  this->out_
     << "}";
 }
 
@@ -243,13 +243,13 @@ write_Attribute_begin (const PICML::Attribute & attr)
 
   // Close the getter method and generate the setter method
   // for the current attribute.
-  this->outfile ()
+  this->out_
     << function_header ((std::string)attr.name () + " [setter]")
     << "void " << parent.name () << "::";
 
   this->_super::write_Attribute_begin (attr);
 
-  this->outfile ()
+  this->out_
     << "{";
 }
 
@@ -259,7 +259,7 @@ write_Attribute_begin (const PICML::Attribute & attr)
 void CUTS_CIAO_Source_Traits::
 write_Attribute_end (const PICML::Attribute & attr)
 {
-  this->outfile ()
+  this->out_
     << "}";
 }
 
@@ -269,7 +269,7 @@ write_Attribute_end (const PICML::Attribute & attr)
 void CUTS_CIAO_Source_Traits::
 write_set_session_context (const PICML::Component & component)
 {
-  this->outfile ()
+  this->out_
     << function_header ("Environment: session context")
     << "void " << component.name () << "::";
 
@@ -282,7 +282,7 @@ write_set_session_context (const PICML::Component & component)
 void CUTS_CIAO_Source_Traits::
 write_ciao_preactivate (const PICML::Component & component)
 {
-  this->outfile ()
+  this->out_
     << function_header ("Environment: preactivate")
     << "void " << component.name () << "::";
 
@@ -296,7 +296,7 @@ void CUTS_CIAO_Source_Traits::
 write_ccm_activate (const PICML::Component & component)
 {
   // Write the function declartion for the method.
-  this->outfile ()
+  this->out_
     << function_header ("Environment: activate")
     << "void " << component.name () << "::";
 
@@ -309,7 +309,7 @@ write_ccm_activate (const PICML::Component & component)
 void CUTS_CIAO_Source_Traits::
 write_ciao_postactivate (const PICML::Component & component)
 {
-  this->outfile ()
+  this->out_
     <<  function_header ("Environment: postactivate")
     << "void " << component.name () << "::";
 
@@ -323,7 +323,7 @@ void CUTS_CIAO_Source_Traits::
 write_ccm_passivate (const PICML::Component & component)
 {
   // Write the function declaration.
-  this->outfile ()
+  this->out_
     << function_header ("Environment: passivate")
     << "void " << component.name () << "::";
 
@@ -337,7 +337,7 @@ void CUTS_CIAO_Source_Traits::
 write_ccm_remove (const PICML::Component & component)
 {
   // Write the function declartion for the method.
-  this->outfile ()
+  this->out_
     << function_header ("Environment: remove")
     << "void " << component.name () << "::";
 
@@ -367,7 +367,7 @@ write_TwowayOperation_begin (const PICML::TwowayOperation & twoway)
 {
   PICML::ReturnType return_type = twoway.ReturnType_child ();
 
-  this->outfile ()
+  this->out_
     << function_header ("twoway: " + (std::string) twoway.name ());
 
   if (return_type != Udm::null)
@@ -376,23 +376,23 @@ write_TwowayOperation_begin (const PICML::TwowayOperation & twoway)
 
     if (type != Udm::null)
     {
-      this->outfile () << CIAO_RETURN_TYPE (type);
+      this->out_ << CIAO_RETURN_TYPE (type);
 
       if (this->is_variable_type (type))
-        this->outfile () << " *";
+        this->out_ << " *";
     }
   }
   else
   {
-    this->outfile () << "void";
+    this->out_ << "void";
   }
 
-  this->outfile ()
+  this->out_
     << " " << this->object_impl_ << "::";
 
   this->_super::write_TwowayOperation_begin (twoway);
 
-  this->outfile ()
+  this->out_
     << "{";
 }
 
@@ -404,13 +404,13 @@ write_OnewayOperation_begin (const PICML::OnewayOperation & oneway)
 {
   PICML::Object parent = PICML::Object::Cast (oneway.parent ());
 
-  this->outfile ()
+  this->out_
     << function_header ("oneway: " + (std::string) oneway.name ())
     << "void " << this->object_impl_ << "::";
 
   this->_super::write_OnewayOperation_begin (oneway);
 
-  this->outfile ()
+  this->out_
     << "{";
 }
 
@@ -420,7 +420,7 @@ write_OnewayOperation_begin (const PICML::OnewayOperation & oneway)
 void CUTS_CIAO_Source_Traits::
 write_OnewayOperation_end (const PICML::OnewayOperation & oneway)
 {
-  this->outfile ()
+  this->out_
     << "}";
 }
 
@@ -436,7 +436,7 @@ write_factory_impl_begin (const PICML::ComponentFactory & factory,
   std::string destructor = "~" + factory_name;
   this->object_impl_ = factory_name;
 
-  this->outfile ()
+  this->out_
     << function_header (factory_name)
     << factory_name << "::" << factory_name << " (void)"
     << "{"
@@ -468,14 +468,14 @@ write_factory_impl_begin (const PICML::ComponentFactory & factory,
 void CUTS_CIAO_Source_Traits::
 write_FactoryOperation_begin (const PICML::FactoryOperation & factory_op)
 {
-  this->outfile ()
+  this->out_
     << function_header ("factory operation: " + (std::string) factory_op.name ())
     << "::Components::EnterpriseComponent_ptr" << std::endl
     << "  " << this->object_impl_ << "::";
 
   this->_super::write_FactoryOperation_begin (factory_op);
 
-  this->outfile ()
+  this->out_
     << "{";
 }
 
@@ -485,7 +485,7 @@ write_FactoryOperation_begin (const PICML::FactoryOperation & factory_op)
 void CUTS_CIAO_Source_Traits::
 write_FactoryOperation_end (const PICML::FactoryOperation & factory_op)
 {
-  this->outfile ()
+  this->out_
     << "return Components::EnterpriseComponent::_nil ();"
     << "}";
 }
@@ -500,7 +500,7 @@ write_factory_impl_end (const PICML::ComponentFactory & factory,
 {
   this->_super::write_factory_impl_end (factory, impl, type);
 
-  this->outfile ()
+  this->out_
     << function_header (this->entry_point_)
     << "::Components::HomeExecutorBase_ptr" << std::endl
     << this->entry_point_ << " (void) {"
@@ -525,7 +525,7 @@ write_object_impl_begin (const PICML::Component & component,
 {
   this->object_impl_ = (std::string) facet.name () + "_i";
 
-  this->outfile ()
+  this->out_
     // Write the constructor.
     << function_header (this->object_impl_)
     << this->object_impl_ << "::" << this->object_impl_ << " (void)"
@@ -574,28 +574,28 @@ write_TwowayOperation_end (const PICML::TwowayOperation & twoway)
           classtype == PICML::ShortInteger::meta ||
           classtype == PICML::Byte::meta)
       {
-        this->outfile ()
+        this->out_
           << "return 0;";
       }
       else if (classtype == PICML::String::meta)
       {
-        this->outfile ()
+        this->out_
           << "::CORBA::String_var str = ::CORBA::string_dup (\"\");"
           << "return str._retn ();";
       }
       else if (classtype == PICML::RealNumber::meta)
       {
-        this->outfile ()
+        this->out_
           << "return 0.0;";
       }
       else if (classtype == PICML::Boolean::meta)
       {
-        this->outfile ()
+        this->out_
           << "return true;";
       }
       else
       {
-        this->outfile ()
+        this->out_
           << "/* unsupported type [" << classtype.name ()
           << "] */" << std::endl;
       }
@@ -606,6 +606,6 @@ write_TwowayOperation_end (const PICML::TwowayOperation & twoway)
     }
   }
 
-  this->outfile ()
+  this->out_
     << "}";
 }

@@ -9,20 +9,6 @@
 #include "ace/Time_Value.h"
 
 //
-// CUTS_Periodic_Trigger_T
-//
-template <typename COMPONENT>
-CUTS_Periodic_Trigger_T <COMPONENT>::CUTS_Periodic_Trigger_T (void)
-: component_ (0),
-  method_ (0),
-  timer_ (-1),
-  timeout_ (1000),
-  probability_ (1.0)
-{
-  ACE_OS::srand (ACE_OS::time (0));
-}
-
-//
 // ~CUTS_Periodic_Trigger_T
 //
 template <typename COMPONENT>
@@ -35,36 +21,43 @@ CUTS_Periodic_Trigger_T <COMPONENT>::~CUTS_Periodic_Trigger_T (void)
 // activate
 //
 template <typename COMPONENT>
-void CUTS_Periodic_Trigger_T <COMPONENT>::activate (long msec)
+int CUTS_Periodic_Trigger_T <COMPONENT>::activate (void)
 {
-  // Schedule the timeout and activate the <timer_queue_>.
+  // Activate the timer queue.
   int retval = this->timer_queue_.activate ();
-  this->schedule_timeout (msec);
 
-  if (retval == -1)
+  if (retval == 0)
+  {
+    // Schedule a timeout interval.
+    this->schedule_timeout (this->timeout_);
+  }
+  else
   {
     ACE_ERROR ((LM_ERROR,
-                "[%M] -%T - failed to activate periodic task\n"));
+                "%T (%t) - %M - failed to activate periodic task\n"));
   }
+
+  return retval;
 }
 
 //
 // deactivate
 //
 template <typename COMPONENT>
-void CUTS_Periodic_Trigger_T <COMPONENT>::deactivate (void)
+int CUTS_Periodic_Trigger_T <COMPONENT>::deactivate (void)
 {
   this->timer_queue_.deactivate ();
   this->cancel_timeout ();
+
+  return 0;
 }
 
 //
 // handle_timeout
 //
 template <typename COMPONENT>
-int CUTS_Periodic_Trigger_T <COMPONENT>::handle_timeout (
-  const ACE_Time_Value &current_time,
-  const void * act)
+int CUTS_Periodic_Trigger_T <COMPONENT>::
+handle_timeout (const ACE_Time_Value & , const void *)
 {
   // Calculate the score for this <timeout_> event.
   double score = (double) ACE_OS::rand () / (double) RAND_MAX;
@@ -92,9 +85,6 @@ int CUTS_Periodic_Trigger_T <COMPONENT>::handle_timeout (
   }
 
   return 0;
-
-  ACE_UNUSED_ARG (current_time);
-  ACE_UNUSED_ARG (act);
 }
 
 //

@@ -72,7 +72,7 @@ open_file (const PICML::ComponentImplementationContainer & container)
 void CUTS_EISA_Exec_Header_Generator::
 write_prologue (const PICML::ComponentImplementationContainer & container)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   // Generate the hash definition for this file.
@@ -84,7 +84,7 @@ write_prologue (const PICML::ComponentImplementationContainer & container)
                 hashdef.end (),
                 '/', '_');
 
-  this->outfile ()
+  this->out_
     << "// -*- C++ -*-" << std::endl
     << std::endl
     << "#ifndef _" << hashdef << "_H_" << std::endl
@@ -107,7 +107,7 @@ write_prologue (const PICML::ComponentImplementationContainer & container)
 void CUTS_EISA_Exec_Header_Generator::
 write_epilogue (const PICML::ComponentImplementationContainer & container)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   std::string hashdef =
@@ -118,7 +118,7 @@ write_epilogue (const PICML::ComponentImplementationContainer & container)
                 hashdef.end (),
                 '/', '_');
 
-  this->outfile ()
+  this->out_
     << "#include /**/ \"ace/post.h\"" << std::endl
     << std::endl
     << "#endif  // !defined _" << hashdef << "_H_" << std::endl;
@@ -131,7 +131,7 @@ void CUTS_EISA_Exec_Header_Generator::
 write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
                   const PICML::Component & component)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   typedef std::vector <PICML::PeriodicEvent> PeriodicEvent_Set;
@@ -139,7 +139,7 @@ write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
 
   if (!periodics.empty ())
   {
-    this->outfile () << include ("cuts/Trigger_T");
+    this->out_ << include ("cuts/Trigger_T");
   }
 
   // We need to determine if any of the events sources has a
@@ -162,7 +162,7 @@ write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
 
     if (eventtype == "CUTS::Payload_Event")
     {
-      this->outfile () << include ("cuts/events_i");
+      this->out_ << include ("cuts/events_i");
       break;
     }
   }
@@ -184,7 +184,7 @@ write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
   base_type << "EISA_CCM_Component_T <"
             << exec << ", " << name << "_Context>";
 
-  this->outfile ()
+  this->out_
     << "class " << name << " :" << std::endl
     << "  public " << base_type.str () << " {"
     << "public:" << std::endl
@@ -210,10 +210,10 @@ void CUTS_EISA_Exec_Header_Generator::
 write_impl_end (const PICML::MonolithicImplementation & monoimpl,
                 const PICML::Component & component)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
-  this->outfile ()
+  this->out_
     << "};";
 }
 
@@ -223,7 +223,7 @@ write_impl_end (const PICML::MonolithicImplementation & monoimpl,
 void CUTS_EISA_Exec_Header_Generator::
 write_variable (const PICML::Variable & variable)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   PICML::PredefinedType ptype = variable.ref ();
@@ -232,7 +232,7 @@ write_variable (const PICML::Variable & variable)
   {
     std::string name = variable.name ();
 
-    this->outfile ()
+    this->out_
       << single_line_comment ("variable: " + name)
       << EISA_VAR_TYPE (ptype) << " " << name << "_;"
       << std::endl;
@@ -245,7 +245,7 @@ write_variable (const PICML::Variable & variable)
 void CUTS_EISA_Exec_Header_Generator::
 write_ReadonlyAttribute_variable (const PICML::ReadonlyAttribute & readonly)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   // Get the contained attribute member.
@@ -262,7 +262,7 @@ write_ReadonlyAttribute_variable (const PICML::ReadonlyAttribute & readonly)
       // the variable for this attribute.
       std::string name = readonly.name ();
 
-      this->outfile ()
+      this->out_
         << single_line_comment ("variable: " + name)
         << EISA_VAR_TYPE (mtype) << " " << name << "_;"
         << std::endl;
@@ -276,12 +276,12 @@ write_ReadonlyAttribute_variable (const PICML::ReadonlyAttribute & readonly)
 void CUTS_EISA_Exec_Header_Generator::
 write_PeriodicEvent_variable (const PICML::PeriodicEvent & periodic)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   PICML::Component parent = PICML::Component::Cast (periodic.parent ());
 
-  this->outfile ()
+  this->out_
     << single_line_comment ("periodic: " + (std::string)periodic.name ())
     << "CUTS_Periodic_Trigger_T <" << parent.name ()
     << "> periodic_" << periodic.name () << "_;" << std::endl;
@@ -295,7 +295,7 @@ void CUTS_EISA_Exec_Header_Generator::
 write_worker_variable (const PICML::WorkerType & var,
                 const PICML::Worker & worker)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   PICML::Worker worker_type = worker.Archetype ();
@@ -306,14 +306,14 @@ write_worker_variable (const PICML::WorkerType & var,
   if (std::string (worker_type.name ()) == "Software_Probe")
   {
     // Declare a EISA software probe.
-    this->outfile ()
+    this->out_
       << single_line_comment ("probe variable: " + (std::string)var.name ())
       << "EISA_App_Software_Probe_T <" << worker.name () << "> " << var.name () << "_;" << std::endl;
   }
   else
   {
     // Declare a stardard worker.
-    this->outfile ()
+    this->out_
       << single_line_comment ("worker variable: " + (std::string)var.name ())
       << worker.name () << " " << var.name () << "_;" << std::endl;
   }
@@ -325,7 +325,7 @@ write_worker_variable (const PICML::WorkerType & var,
 void CUTS_EISA_Exec_Header_Generator::
 write_environment_method_begin (const PICML::MultiInputAction & action)
 {
-  if (!this->outfile ().is_open ())
+  if (!this->out_.is_open ())
     return;
 
   // Extract the necessary information.
@@ -341,7 +341,7 @@ write_environment_method_begin (const PICML::MultiInputAction & action)
   }
   else
   {
-    this->outfile ()
+    this->out_
       << single_line_comment ("ignoring environment method: " + name);
   }
 }

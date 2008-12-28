@@ -56,10 +56,12 @@ public:
     const PICML::ProvidedRequestPort & facet);
 
   virtual void write_InEventPort_begin (
-    const PICML::InEventPort & sink);
+    const PICML::InEventPort & sink,
+    const std::vector <PICML::Property> & properties);
 
   virtual void write_InEventPort_end (
-    const PICML::InEventPort & sink);
+    const PICML::InEventPort & sink,
+    const std::vector <PICML::Property> & properties);
 
   virtual void write_PeriodicEvent_begin (
     const PICML::PeriodicEvent & periodic);
@@ -165,6 +167,8 @@ protected:
 private:
   void write_variable_initializer (const PICML::Variable & variable);
 
+  void write_event_handler_init (const PICML::InEventPort & port);
+
   /// Type definition for pointer-to-methods to environment methods.
   typedef void (CUTS_CIAO_Exec_Source_Traits::
     *Environment_Method) (const PICML::Component &);
@@ -179,9 +183,6 @@ private:
   /// Flag for determining if current action is skipped.
   bool skip_action_;
 
-  /// Flag that determines calling method for environment.
-  bool auto_env_;
-
   /// Number of arguments in action.
   size_t arg_count_;
 
@@ -189,6 +190,8 @@ private:
   CUTS_UDM_Port_Manager_T <const PICML::OutEventPort> outevent_mgr_;
 
   std::stack <size_t> branches_;
+
+  std::set <PICML::InEventPort> asynch_events_;
 };
 
 // Singleton definition.
