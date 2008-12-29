@@ -6,10 +6,12 @@ project (CUTS_Utils) : boost_base, cutslib {
   dynamicflags += CUTS_UTILS_BUILD_DLL
 
   Source_Files {
+    Command_Substitution.cpp
     Property_Expander.cpp
     Property_Map.cpp
     Property_Map_File.cpp
     Property_Parser.cpp
+    Text_Processor.cpp
   }
 
   Template_Files {

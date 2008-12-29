@@ -1,6 +1,11 @@
 // $Id$
 
 #include "Command_Substitution.h"
+
+#if !defined (__CUTS_INLINE__)
+#include "Command_Substitution.inl"
+#endif
+
 #include "ace/Env_Value_T.h"
 #include "ace/Log_Msg.h"
 #include "ace/OS_NS_fcntl.h"
@@ -288,22 +293,6 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////
 // class CUTS_Command_Substitution
-
-//
-// CUTS_Command_Substitution
-//
-CUTS_Command_Substitution::CUTS_Command_Substitution (void)
-{
-
-}
-
-//
-// ~CUTS_Command_Substitution
-//
-CUTS_Command_Substitution::~CUTS_Command_Substitution (void)
-{
-
-}
 
 //
 // evaluate

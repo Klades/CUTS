@@ -61,7 +61,7 @@ process_insert (CUTS_Process_Info & info)
   if (!logfile.is_open ())
   {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T - %M - failed to open file %s\n",
+                       "%T (%t) - %M - failed to open file %s\n",
                        this->log_file_.c_str ()),
                        false);
   }
@@ -105,7 +105,7 @@ bool Process_Log::process_remove (pid_t pid)
   if (!logfile.is_open ())
   {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T - %M - failed to open file %s\n",
+                       "%T (%t) - %M - failed to open file %s\n",
                        this->log_file_.c_str ()),
                        false);
   }
@@ -179,7 +179,7 @@ void Process_Log::log_file (const char * log_file)
   else
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - failed to create file %s\n",
+                "%T (%t) - %M - failed to create file %s\n",
                 log_file));
   }
 }
@@ -201,7 +201,7 @@ get_active_processes (CUTS_Process_Info_Set & list)
   if (!logfile.is_open ())
   {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T - %M - file %s does not exist\n",
+                       "%T (%t) - %M - file %s does not exist\n",
                        this->log_file_.c_str ()),
                        false);
   }
@@ -264,7 +264,7 @@ bool Process_Log::clean (size_t * active_count)
   if (!logfile.is_open ())
   {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T - %M - file %s does not exist\n",
+                       "%T (%t) - %M - file %s does not exist\n",
                        this->log_file_.c_str ()),
                        false);
   }
@@ -279,7 +279,7 @@ bool Process_Log::clean (size_t * active_count)
   {
     logfile.close ();
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T - %M - failed to open temporary file for copying\n"),
+                       "%T (%t) - %M - failed to open temporary file for copying\n"),
                        false);
   }
 

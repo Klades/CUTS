@@ -63,20 +63,20 @@ int CUTS_Node_Daemon_Server::run_main (int argc, char * argv [])
 
     // Get a reference to the RootPOA.
     ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - resolving initial reference to RootPOA\n"));
+                "%T (%t) - %M - resolving initial reference to RootPOA\n"));
 
     CORBA::Object_var obj = this->orb_->resolve_initial_references ("RootPOA");
     PortableServer::POA_var poa = PortableServer::POA::_narrow (obj.in ());
 
     // Activate the POAManager
     ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - getting reference to POAManager\n"));
+                "%T (%t) - %M - getting reference to POAManager\n"));
 
     PortableServer::POAManager_var mgr = poa->the_POAManager ();
     mgr->activate ();
 
     // Create the servant for the node daemon.
-    ACE_DEBUG ((LM_DEBUG, "%T - %M - creating the node daemon server\n"));
+    ACE_DEBUG ((LM_DEBUG, "%T (%t) - %M - creating the node daemon server\n"));
     ACE_NEW_RETURN (this->daemon_, CUTS_Node_Daemon_i (this->orb_), 1);
 
     // Setup the servant before activate it.
@@ -96,25 +96,25 @@ int CUTS_Node_Daemon_Server::run_main (int argc, char * argv [])
     //this->write_ior_to_table ();
 
     // Run the ORB's main event loop.
-    ACE_DEBUG ((LM_DEBUG, "%T - %M - running ORB's main event loop\n"));
+    ACE_DEBUG ((LM_DEBUG, "%T (%t) - %M - running ORB's main event loop\n"));
     this->orb_->run ();
 
     // Terminate all the task in the task manager.
     this->daemon_->terminate_tasks ();
 
     // Destroy the RootPOA.
-    ACE_DEBUG ((LM_DEBUG, "%T - %M - destroying the RootPOA\n"));
+    ACE_DEBUG ((LM_DEBUG, "%T (%t) - %M - destroying the RootPOA\n"));
     poa->destroy (1, 1);
 
     // Destroy the ORB.
-    ACE_DEBUG ((LM_DEBUG, "%T - %M - destroying the ORB\n"));
+    ACE_DEBUG ((LM_DEBUG, "%T (%t) - %M - destroying the ORB\n"));
     this->orb_->destroy ();
     return 0;
   }
   catch (const ::CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - %s\n",
+                "%T (%t) - %M - %s\n",
                 ex._info ().c_str ()));
   }
 
@@ -220,7 +220,7 @@ int CUTS_Node_Daemon_Server::parse_args (int argc, char * argv [])
 
     case ':':
       ACE_ERROR ((LM_ERROR,
-                  "%T - %M - %c is missing an argument\n",
+                  "%T (%t) - %M - %c is missing an argument\n",
                   get_opt.opt_opt ()));
       return -1;
       break;
@@ -259,7 +259,7 @@ int CUTS_Node_Daemon_Server::load_initial_config (void)
     return 0;
 
   ACE_DEBUG ((LM_INFO,
-              "%T - %M - loading initial configuration [file=%s]\n",
+              "%T (%t) - %M - loading initial configuration [file=%s]\n",
               this->opts_.config_.c_str ()));
 
   // Get the CUTS_ROOT environment variable value.
@@ -298,7 +298,7 @@ int CUTS_Node_Daemon_Server::load_initial_config (void)
     if (!reader.read (this->opts_.config_.c_str ()))
     {
       ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T - %M - failed to open configuration file [%s]\n",
+                         "%T (%t) - %M - failed to open configuration file [%s]\n",
                          this->opts_.config_.c_str ()),
                          -1);
     }
@@ -341,18 +341,18 @@ int CUTS_Node_Daemon_Server::load_initial_config (void)
   catch (const xercesc::DOMException & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - %s\n",
+                "%T (%t) - %M - %s\n",
                 ex.getMessage ()));
   }
   catch (const xercesc::XMLException & )
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - caught XML exception\n"));
+                "%T (%t) - %M - caught XML exception\n"));
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - caught unknown exception\n"));
+                "%T (%t) - %M - caught unknown exception\n"));
   }
 
   return -1;
@@ -378,7 +378,7 @@ int CUTS_Node_Daemon_Server::write_ior_to_file (void)
       CORBA::String_var ior = this->orb_->object_to_string (this->daemon_->_this ());
 
       ACE_DEBUG ((LM_DEBUG,
-                  "%T - %M - writing node daemon IOR to file %s\n",
+                  "%T (%t) - %M - writing node daemon IOR to file %s\n",
                   this->opts_.ior_file_.c_str ()));
 
       // Write the IOR to the file.
@@ -390,20 +390,20 @@ int CUTS_Node_Daemon_Server::write_ior_to_file (void)
     else
     {
       ACE_DEBUG ((LM_ERROR,
-                  "%T - %M - failed to open %s for writing\n",
+                  "%T (%t) - %M - failed to open %s for writing\n",
                   this->opts_.ior_file_.c_str ()));
     }
   }
   catch (const CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - %s\n",
+                "%T (%t) - %M - %s\n",
                 ex._info ().c_str ()));
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - caught unknown exception\n"));
+                "%T (%t) - %M - caught unknown exception\n"));
   }
 
   return -1;
@@ -424,7 +424,7 @@ int CUTS_Node_Daemon_Server::write_ior_to_table (void)
     CORBA::String_var ior = this->orb_->object_to_string (this->daemon_->_this ());
 
     ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - writing node daemon IOR to IORTable\n"));
+                "%T (%t) - %M - writing node daemon IOR to IORTable\n"));
 
     ior_table->bind ("CUTS/NodeDaemon", ior.in ());
     return 0;
@@ -432,13 +432,13 @@ int CUTS_Node_Daemon_Server::write_ior_to_table (void)
   catch (const CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - %s\n",
+                "%T (%t) - %M - %s\n",
                 ex._info ().c_str ()));
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - caught unknown exception\n"));
+                "%T (%t) - %M - caught unknown exception\n"));
   }
 
   return -1;

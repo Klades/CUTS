@@ -17,6 +17,7 @@
 #include "Testing_App_Task.h"
 #include "Test_Options.h"
 #include "Test_Database.h"
+#include "cuts/utils/Property_Map.h"
 
 namespace CUTS
 {
@@ -84,18 +85,14 @@ private:
   void print_help (void);
 
   /// Deploy the current test.
-  int deploy_test (void);
+  int deploy_test (ACE_Process_Options & options);
 
   /// Teardown the current test.
-  int teardown_test (void);
+  int teardown_test (ACE_Process_Options & options);
 
   /// Load the configuration for the test.
-  static int load_configuration (CUTS_Testing_Service_Manager & mgr,
-                                 const ACE_CString & config);
-
-  /// Helper method to load a service from XML file.
-  static int load_service (CUTS_Testing_Service_Manager & mgr,
-                           const CUTS::serviceDescription &);
+  int load_configuration (CUTS_Testing_Service_Manager & mgr,
+                          const ACE_CString & config);
 
   /// Task for the testing application.
   CUTS_Testing_App_Task task_;
@@ -105,6 +102,9 @@ private:
 
   /// Database for the test.
   CUTS_Test_Database test_db_;
+
+  /// Collection of properties.
+  CUTS_Property_Map props_;
 };
 
 #if defined (__CUTS_INLINE__)

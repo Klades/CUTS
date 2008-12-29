@@ -14,6 +14,7 @@
 #define _CUTS_TEST_OPTIONS_H_
 
 #include "Test_export.h"
+#include "ace/Process.h"
 #include "ace/SString.h"
 #include "ace/Time_Value.h"
 #include "ace/UUID.h"
@@ -37,10 +38,10 @@ public:
   ACE_CString config_;
 
   /// Deployment command for the test.
-  ACE_CString deploy_;
+  ACE_Auto_Ptr <ACE_Process_Options> startup_;
 
   /// Teardown command for the test.
-  ACE_CString teardown_;
+  ACE_Auto_Ptr <ACE_Process_Options> shutdown_;
 
   /// Name of the testing application.
   ACE_CString name_;

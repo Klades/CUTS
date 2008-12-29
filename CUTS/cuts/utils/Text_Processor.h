@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- * @file          Preprocessor.h
+ * @file          Text_Processor.h
  *
  * $Id$
  *
@@ -10,29 +10,29 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_TEXT_PREPROCESSOR_H_
-#define _CUTS_TEXT_PREPROCESSOR_H_
+#ifndef _CUTS_TEXT_PROCESSOR_H_
+#define _CUTS_TEXT_PROCESSOR_H_
 
-#include "cuts/utils/Property_Expander.h"
+#include "Property_Expander.h"
 #include "Command_Substitution.h"
 
 // Forward decl.
 class CUTS_Property_Map;
 
 /**
- * @class CUTS_Text_Preprocessor
+ * @class CUTS_Text_Processor
  *
  * Preprocess for string values. The preprocessor will expand all environment
  * variables, and substitute all commands with the generated text.
  */
-class CUTS_Text_Preprocessor
+class CUTS_UTILS_Export CUTS_Text_Processor
 {
 public:
   /// Default constructor.
-  CUTS_Text_Preprocessor (const CUTS_Property_Map & map);
+  CUTS_Text_Processor (const CUTS_Property_Map & map);
 
   /// Destructor.
-  ~CUTS_Text_Preprocessor (void);
+  ~CUTS_Text_Processor (void);
 
   /**
    * Run the preprocess on a string.
@@ -50,5 +50,9 @@ private:
   /// Command substitution engine.
   CUTS_Command_Substitution command_sub_;
 };
+
+#if defined (__CUTS_INLINE__)
+#include "Text_Processor.inl"
+#endif
 
 #endif  // !defined _CUTS_NODE_PREPROCESSOR_H_

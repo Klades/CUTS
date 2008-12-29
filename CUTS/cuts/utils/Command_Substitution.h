@@ -13,6 +13,7 @@
 #ifndef _CUTS_COMMAND_SUBSTITUTION_H_
 #define _CUTS_COMMAND_SUBSTITUTION_H_
 
+#include "Utils_export.h"
 #include "ace/SStringfwd.h"
 
 /**
@@ -22,7 +23,7 @@
  * command. Commands are defined by characters enclosed by `', similar
  * to a shell script on Unix platforms.
  */
-class CUTS_Command_Substitution
+class CUTS_UTILS_Export CUTS_Command_Substitution
 {
 public:
   /// Default constructor.
@@ -42,5 +43,9 @@ public:
    */
   bool evaluate (const char * str, ACE_CString & result);
 };
+
+#if defined (__CUTS_INLINE__)
+#include "Command_Substitution.inl"
+#endif
 
 #endif  // !defined _CUTS_COMMAND_SUBSTITUTION_H_

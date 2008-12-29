@@ -1,32 +1,18 @@
 // $Id$
 
-#include "Preprocessor.h"
-#include "ace/Log_Msg.h"
+#include "Text_Processor.h"
+
+#if !defined (__CUTS_INLINE__)
+#include "Text_Processor.inl"
+#endif
+
 #include "ace/SString.h"
 #include <sstream>
 
 //
-// CUTS_Text_Preprocessor
-//
-CUTS_Text_Preprocessor::
-CUTS_Text_Preprocessor (const CUTS_Property_Map & map)
-: prop_expander_ (map)
-{
-
-}
-
-//
-// ~CUTS_Text_Preprocessor
-//
-CUTS_Text_Preprocessor::~CUTS_Text_Preprocessor (void)
-{
-
-}
-
-//
 // evaluate
 //
-int CUTS_Text_Preprocessor::
+int CUTS_Text_Processor::
 evaluate (const char * str, ACE_CString & output)
 {
   int retval = 0;

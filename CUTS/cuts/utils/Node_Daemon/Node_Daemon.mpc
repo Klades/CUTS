@@ -33,7 +33,6 @@ project (CUTS_Node_Daemon) : boost_base, taoserver, iortable, xscrt, cuts_utils,
 
   Source_Files {
     Active_Process.cpp
-    Command_Substitution.cpp
     cutsnode_d.cpp
     Node_Daemon_Event_Handler.cpp
     Node_Daemon_i.cpp
@@ -41,7 +40,6 @@ project (CUTS_Node_Daemon) : boost_base, taoserver, iortable, xscrt, cuts_utils,
     Node_Daemon_Server_Options.cpp
     Process_Info.cpp
     Process_Log.cpp
-    Preprocessor.cpp
     cutsnode.cpp
   }
 

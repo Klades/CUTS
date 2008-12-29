@@ -59,7 +59,7 @@ int main (int argc, char * argv [])
     if (guard.locked () == 0)
     {
       ACE_ERROR_RETURN ((LM_ERROR,
-                        "%T - %M - cutsnode_d is already active\n"),
+                        "%T (%t) - %M - cutsnode_d is already active\n"),
                         1);
     }
 
@@ -72,7 +72,7 @@ int main (int argc, char * argv [])
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - caught unknown exception\n"));
+                "%T (%t) - %M - caught unknown exception\n"));
   }
 
   return 1;

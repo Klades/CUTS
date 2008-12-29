@@ -8,19 +8,54 @@
 
 #include "Testing_Service.h"
 #include "Testing_Service_DLL.h"
+#include "test.h"
 #include "ace/ARGV.h"
 #include "ace/Argv_Type_Converter.h"
 #include "ace/Guard_T.h"
 #include "ace/CORBA_macros.h"
 #include "ace/Service_Config.h"
+#include "boost/bind.hpp"
+#include <algorithm>
+
+//
+// load_services
+//
+int CUTS_Testing_Service_Manager::
+load_services (const CUTS::serviceList & list)
+{
+  CUTS_TEST_TRACE ("CUTS_Testing_Service_Manager::load_services (const CUTS::serviceList & )");
+
+  std::for_each (list.begin_service (),
+                 list.end_service (),
+                 boost::bind (&CUTS_Testing_Service_Manager::load_service,
+                              this,
+                              _1));
+
+  return 0;
+}
 
 //
 // load_service
 //
-int CUTS_Testing_Service_Manager::load_service (const char * name,
-                                                const char * location,
-                                                const char * entryPoint,
-                                                const char * args)
+int CUTS_Testing_Service_Manager::
+load_service (const CUTS::serviceDescription & svc)
+{
+  CUTS_TEST_TRACE ("CUTS_Testing_Service_Manager::load_service (const CUTS::serviceDescription &)");
+
+  return this->load_service (svc.id ().c_str (),
+                             svc.location ().c_str (),
+                             svc.entryPoint ().c_str (),
+                             svc.params_p () ? svc.params ().c_str () : 0);
+}
+
+//
+// load_service
+//
+int CUTS_Testing_Service_Manager::
+load_service (const char * name,
+              const char * location,
+              const char * entryPoint,
+              const char * args)
 {
   CUTS_TEST_TRACE ("CUTS_Testing_Service_Manager::load_service (const char *, const char *, const char *, const char *)");
 

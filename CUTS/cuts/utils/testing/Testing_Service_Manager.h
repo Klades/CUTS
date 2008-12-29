@@ -26,6 +26,15 @@ class CUTS_Testing_App_Base;
 // Forward decl.
 class CUTS_Testing_Service_DLL;
 
+namespace CUTS
+{
+  // Forward decl.
+  class serviceDescription;
+
+  // Forward decl.
+  class serviceList;
+}
+
 /**
  * @class CUTS_Testing_Service_Manager
  */
@@ -47,16 +56,21 @@ public:
   /// Destructor
   ~CUTS_Testing_Service_Manager (void);
 
+  int load_service (const CUTS::serviceDescription & svc);
+
   int load_service (const char * name,
                     const char * location,
                     const char * entry,
                     const char * params = 0);
+
+  int load_services (const CUTS::serviceList & svcs);
 
   int close (void);
 
   int handle_startup (const ACE_Time_Value & tv);
 
   int handle_shutdown (const ACE_Time_Value & tv);
+
 
 private:
   /// Testing application

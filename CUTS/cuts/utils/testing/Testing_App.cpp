@@ -8,6 +8,7 @@
 
 #include "Test_Configuration_File.h"
 #include "Testing_Service_Manager.h"
+#include "cuts/utils/Property_Parser.h"
 #include "ace/CORBA_macros.h"
 #include "ace/Get_Opt.h"
 #include "ace/Guard_T.h"
@@ -34,6 +35,8 @@ static const char * __HELP__ =
 "  --time=TIME             test duration in seconds (default=60)\n"
 "  --uuid=UUID             user-defined UUID for the test\n"
 "\n"
+"  -DNAME=VALUE            set property NAME=VALUE\n"
+"\n"
 "Execution options:\n"
 "  -C, --directory=DIR     change to directory DIR\n"
 "  --startup=CMD           use CMD to startup test\n"
@@ -51,6 +54,7 @@ static const char * __HELP__ =
 CUTS_Testing_App::CUTS_Testing_App (void)
 {
   CUTS_TEST_TRACE ("CUTS_Testing_App::CUTS_Testing_App (void)");
+
   ACE_Utils::UUID_GENERATOR::instance ()->init ();
 }
 
@@ -71,7 +75,7 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
   CUTS_TEST_TRACE ("CUTS_Testing_App::parse_args (int argc, char * argv [])");
 
   // Now, parse the remaining command-line options.
-  const char * opts = ACE_TEXT ("n:vht:c:");
+  const char * opts = ACE_TEXT ("n:vht:c:D:");
   ACE_Get_Opt get_opt (argc, argv, opts);
 
   get_opt.long_option ("config", 'c', ACE_Get_Opt::ARG_REQUIRED);
@@ -89,6 +93,7 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("trace", ACE_Get_Opt::NO_ARG);
 
   char ch;
+  CUTS_Property_Parser property_parser (this->props_);
 
   while ((ch = get_opt ()) != EOF)
   {
@@ -141,11 +146,31 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "startup") == 0)
       {
-        this->opts_.deploy_ = get_opt.opt_arg ();
+        // Allocate a process option for the startup command.
+        ACE_Process_Options * options = 0;
+
+        ACE_NEW_THROW_EX (options,
+                          ACE_Process_Options (),
+                          ACE_bad_alloc ());
+
+        this->opts_.startup_.reset (options);
+
+        // Save the command-line for the startup command.
+        options->command_line (get_opt.opt_arg ());
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "shutdown") == 0)
       {
-        this->opts_.teardown_ = get_opt.opt_arg ();
+        // Allocate a process option for the shutdown command.
+        ACE_Process_Options * options = 0;
+
+        ACE_NEW_THROW_EX (options,
+                          ACE_Process_Options (),
+                          ACE_bad_alloc ());
+
+        this->opts_.shutdown_.reset (options);
+
+        // Save the command-line for the shutdown command.
+        options->command_line (get_opt.opt_arg ());
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "directory") == 0)
       {
@@ -177,6 +202,16 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
 
     case 'h':
       this->print_help ();
+      break;
+
+    case 'D':
+      if (!property_parser.parse (get_opt.opt_arg ()))
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "%T (%t) - %M - failed to parse property %s\n",
+                    get_opt.opt_arg ()));
+      }
+
       break;
 
     case 'C':
@@ -232,10 +267,13 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
                   "%T (%t) - %M - failed to load test configuration\n"));
     }
 
-    if (!this->opts_.deploy_.empty ())
+    if (this->opts_.startup_.get ())
     {
       // Deploy the test into the environment.
-      int retval = this->deploy_test ();
+      ACE_DEBUG ((LM_INFO,
+                  "%T (%t) - %M - running startup process for test\n"));
+
+      int retval = this->deploy_test (*this->opts_.startup_.get ());
 
       if (retval == 0)
       {
@@ -275,10 +313,13 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
       }
     }
 
-    if (!this->opts_.teardown_.empty ())
+    if (this->opts_.shutdown_.get ())
     {
+      ACE_DEBUG ((LM_INFO,
+                  "%T (%t) - %M - running shutdown process for test\n"));
+
       // Execute the shutdown command for the test.
-      int retval = this->teardown_test ();
+      int retval = this->teardown_test (*this->opts_.shutdown_.get ());
 
       if (retval == 0)
       {
@@ -344,25 +385,15 @@ void CUTS_Testing_App::print_help (void)
 //
 // deploy_test
 //
-int CUTS_Testing_App::deploy_test (void)
+int CUTS_Testing_App::deploy_test (ACE_Process_Options & options)
 {
   CUTS_TEST_TRACE ("CUTS_Testing_App::deploy_test (void)");
 
-  // Initialize the process options.
-  ACE_Process_Options options;
-  options.command_line ("%s", this->opts_.deploy_.c_str ());
-
-  if (this->opts_.working_directory_.empty ())
+  if (!options.working_directory () &&
+      !this->opts_.working_directory_.empty ())
+  {
     options.working_directory (this->opts_.working_directory_.c_str ());
-
-  // Process id of the deployment application during its deploy stage
-  // of the test.
-  ACE_DEBUG ((LM_INFO,
-              "%T (%t) - %M - running deploy command for the test [%s]\n",
-              this->opts_.deploy_.c_str ()));
-
-  // Get the current time for test startup.
-  this->opts_.start_ = ACE_OS::gettimeofday ();
+  }
 
   ACE_Process_Manager * proc_man = ACE_Process_Manager::instance ();
   pid_t pid = proc_man->spawn (options);
@@ -373,27 +404,38 @@ int CUTS_Testing_App::deploy_test (void)
     ACE_exitcode status;
     pid_t retval = proc_man->wait (pid, &status);
 
-    if (retval == ACE_INVALID_PID)
+    switch (retval)
     {
+    case 0:
+      // Get the current time for test startup.
+      this->opts_.start_ = ACE_OS::gettimeofday ();
+      break;
+
+    case ACE_INVALID_PID:
       ACE_ERROR_RETURN ((LM_WARNING,
-                         "%T (%t) - %M - failed to wait for deploy process "
+                         "%T (%t) - %M - failed to wait for startup process "
                          "to exit [%m]\n"),
                          1);
-    }
-    else if (status != 0)
-    {
-      ACE_ERROR ((LM_WARNING,
-                  "%T - %M - deploy proess exit status was %d\n",
-                  status));
+      break;
+
+    default:
+      if (status == 0)
+      {
+        this->opts_.stop_ = ACE_OS::gettimeofday ();
+      }
+      else
+      {
+        ACE_ERROR_RETURN ((LM_WARNING,
+                           "%T - %M - startup proess exit status was %d\n",
+                           status),
+                           -1);
+      }
     }
   }
   else
   {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T (%t) - %M - failed to run deploy process [cmd="
-                       "'%s'; cwd='%s']\n",
-                       this->opts_.deploy_.c_str (),
-                       options.working_directory ()),
+                       "%T (%t) - %M - failed to execute startup process\n"),
                        -1);
   }
 
@@ -403,26 +445,16 @@ int CUTS_Testing_App::deploy_test (void)
 //
 // teardown_test
 //
-int CUTS_Testing_App::teardown_test (void)
+int CUTS_Testing_App::
+teardown_test (ACE_Process_Options & options)
 {
   CUTS_TEST_TRACE ("CUTS_Testing_App::teardown_test (void)");
 
-  // Initialize the process options.
-  ACE_Process_Options options;
-  options.command_line ("%s", this->opts_.teardown_.c_str ());
-
-  if (this->opts_.working_directory_.empty ())
+  if (!options.working_directory () &&
+      !this->opts_.working_directory_.empty ())
   {
-    options.working_directory (
-      this->opts_.working_directory_.c_str ());
+    options.working_directory (this->opts_.working_directory_.c_str ());
   }
-
-  ACE_DEBUG ((LM_INFO,
-              "%T (%t) - %M - running teardown command for the test [%s]\n",
-              this->opts_.teardown_.c_str ()));
-
-  // Get the current time for test teardown.
-  this->opts_.stop_ = ACE_OS::gettimeofday ();
 
   // Run the teardown command for the test.
   ACE_Process_Manager * proc_man = ACE_Process_Manager::instance ();
@@ -434,27 +466,38 @@ int CUTS_Testing_App::teardown_test (void)
     ACE_exitcode status;
     pid_t retval = proc_man->wait (pid, &status);
 
-    if (retval == ACE_INVALID_PID)
+    switch (retval)
     {
+    case 0:
+      // Get the current time for test teardown.
+      this->opts_.stop_ = ACE_OS::gettimeofday ();
+      break;
+
+    case ACE_INVALID_PID:
       ACE_ERROR_RETURN ((LM_WARNING,
                          "%T (%t) - %M - failed to wait for teardown process "
                          "to exit [%m]\n"),
                          1);
-    }
-    else if (status != 0)
-    {
-      ACE_ERROR ((LM_WARNING,
-                  "%T (%t) - %M - teardown proess exit status was %d\n",
-                  status));
+      break;
+
+    default:
+      if (status == 0)
+      {
+        this->opts_.stop_ = ACE_OS::gettimeofday ();
+      }
+      else
+      {
+        ACE_ERROR_RETURN ((LM_WARNING,
+                           "%T - %M - shutdown process exit status was %d\n",
+                           status),
+                           -1);
+      }
     }
   }
   else
   {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T (%t) - %M - failed to run teardown process [cmd="
-                       "'%s'; cwd='%s']\n",
-                       this->opts_.deploy_.c_str (),
-                       options.working_directory ()),
+                       "%T (%t) - %M - failed to execute shutdown process\n"),
                        -1);
   }
 
@@ -474,12 +517,12 @@ load_configuration (CUTS_Testing_Service_Manager & mgr,
     return 0;
 
   // First, read the configuration into memory.
-  CUTS_Test_Configuration_File file;
+  CUTS_Test_Configuration_File file (this->props_);
 
   XSC::XML::XML_Error_Handler error_handler;
   file->setErrorHandler (&error_handler);
 
-  if (!file.read (filename.c_str ()))
+  if (!file.load (filename.c_str ()))
   {
     ACE_ERROR_RETURN ((LM_ERROR,
                        "%T (%t) - %M - failed to read configuration file [%s]\n",
@@ -487,33 +530,40 @@ load_configuration (CUTS_Testing_Service_Manager & mgr,
                        -1);
   }
 
-  // Transform the XML document into usable objects.
-  CUTS::testFile config;
-  file >>= config;
+  // First, load the services from the configuration.
+  if (file.config ().services_p ())
+    mgr.load_services (file.config ().services ());
 
-  if (config.services_p ())
+  // Next, load the startup/shutdown commands, if present.
+  if (this->opts_.startup_.get () == 0 &&
+      file.config ().startup_p ())
   {
-    std::for_each (config.services ().begin_service (),
-                   config.services ().end_service (),
-                   boost::bind (&CUTS_Testing_App::load_service,
-                                boost::ref (mgr),
-                                _1));
+    ACE_Process_Options * options = 0;
+
+    ACE_NEW_THROW_EX (options,
+                      ACE_Process_Options (),
+                      ACE_bad_alloc ());
+
+    this->opts_.startup_.reset (options);
+
+    // Get the startup process for the test.
+    file.get_startup_process (*options);
+  }
+
+  if (this->opts_.shutdown_.get () == 0 &&
+      file.config ().shutdown_p ())
+  {
+    ACE_Process_Options * options = 0;
+
+    ACE_NEW_THROW_EX (options,
+                      ACE_Process_Options (),
+                      ACE_bad_alloc ());
+
+    this->opts_.shutdown_.reset (options);
+
+    // Get the shutdown process for the test.
+    file.get_shutdown_process (*options);
   }
 
   return 0;
-}
-
-//
-// load_service
-//
-int CUTS_Testing_App::
-load_service (CUTS_Testing_Service_Manager & mgr,
-              const CUTS::serviceDescription & desc)
-{
-  CUTS_TEST_TRACE ("CUTS_Testing_App::load_service (const CUTS::serviceDescription &)");
-
-  return mgr.load_service (desc.id ().c_str (),
-                           desc.location ().c_str (),
-                           desc.entryPoint ().c_str (),
-                           desc.params_p () ? desc.params ().c_str () : 0);
 }

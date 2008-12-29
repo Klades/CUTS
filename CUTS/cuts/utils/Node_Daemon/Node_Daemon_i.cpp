@@ -9,7 +9,7 @@
 #include "Active_Process.h"
 #include "Process_Info.h"
 #include "Process_Log.h"
-#include "Preprocessor.h"
+#include "cuts/utils/Text_Processor.h"
 #include "cuts/utils/Property_Parser.h"
 
 #include "ace/INET_Addr.h"
@@ -65,7 +65,7 @@ task_spawn (const CUTS::taskDescriptor & task)
   if (this->process_map_.find (task.id.in ()) == 0)
   {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T - %M - '%s' task already exists\n",
+                       "%T (%t) - %M - '%s' task already exists\n",
                        task.id.in ()),
                        1);
   }
@@ -79,20 +79,20 @@ task_spawn (const CUTS::taskDescriptor & task)
 
   // Decode the environment variable in the executable and arguments
   // member of the task descriptor.
-  CUTS_Text_Preprocessor preprocessor (this->prop_map_);
+  CUTS_Text_Processor preprocessor (this->prop_map_);
   ACE_CString exec_value, args_value;
 
   if (preprocessor.evaluate (task.executable.in (), exec_value) != 0)
   {
     ACE_ERROR ((LM_WARNING,
-                "%T - %M - failed to preproess <executable> value\n",
+                "%T (%t) - %M - failed to preproess <executable> value\n",
                 task.executable.in ()));
   }
 
   if (preprocessor.evaluate (task.arguments.in (), args_value) != 0)
   {
     ACE_ERROR ((LM_WARNING,
-                "%T - %M - failed to preproess <arguments> value\n",
+                "%T (%t) - %M - failed to preproess <arguments> value\n",
                 task.arguments.in ()));
   }
 
@@ -111,13 +111,13 @@ task_spawn (const CUTS::taskDescriptor & task)
     if (preprocessor.evaluate (task.workingdirectory.in (), cwd) != 0)
     {
       ACE_DEBUG ((LM_WARNING,
-                  "%T - %M - failed to preprocess <workingdirectory> "
+                  "%T (%t) - %M - failed to preprocess <workingdirectory> "
                   "value [%s]\n",
                   task.workingdirectory.in ()));
     }
 
     ACE_DEBUG ((LM_INFO,
-                "%T - %M - setting working directory to %s\n",
+                "%T (%t) - %M - setting working directory to %s\n",
                 cwd.c_str ()));
 
     info->options_.working_directory (cwd.c_str ());
@@ -129,7 +129,7 @@ task_spawn (const CUTS::taskDescriptor & task)
     if (!this->init_dir_.empty ())
     {
       ACE_DEBUG ((LM_INFO,
-                  "%T - %M - setting working directory to %s\n",
+                  "%T (%t) - %M - setting working directory to %s\n",
                   this->init_dir_.c_str ()));
 
       info->options_.working_directory (this->init_dir_.c_str ());
@@ -166,20 +166,20 @@ task_terminate (const char * name, CORBA::Boolean wait)
     if (this->task_terminate_i (*info, wait) == 0)
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T - %M - successfully termintaed task <%s>\n",
+                  "%T (%t) - %M - successfully termintaed task <%s>\n",
                   name));
     }
     else
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T - %M - failed to terminate task <%s>\n",
+                  "%T (%t) - %M - failed to terminate task <%s>\n",
                   name));
     }
   }
   else
   {
     ACE_ERROR ((LM_WARNING,
-                "%T - %M - %s was not found\n",
+                "%T (%t) - %M - %s was not found\n",
                 name));
   }
 
@@ -194,7 +194,7 @@ task_terminate_i (CUTS_Process_Info & info, bool wait)
 {
   // Terminate the process and wait for it to d
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - terminating task <%s>\n",
+              "%T (%t) - %M - terminating task <%s>\n",
               info.id_.c_str ()));
 
   int retval = this->pm_.terminate (info.pid_);
@@ -208,7 +208,7 @@ task_terminate_i (CUTS_Process_Info & info, bool wait)
   else
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - failed to terminate <%s>\n",
+                "%T (%t) - %M - failed to terminate <%s>\n",
                 info.id_.c_str ()));
   }
 
@@ -224,7 +224,7 @@ CORBA::ULong CUTS_Node_Daemon_i::task_restart (const char * name)
     return -1;
 
   ACE_DEBUG ((LM_INFO,
-              "%T - %M - restarting task <%s>\n", name));
+              "%T (%t) - %M - restarting task <%s>\n", name));
 
   // Locate the task. There is not need to restart the task
   // if we can't find it.
@@ -334,7 +334,7 @@ void CUTS_Node_Daemon_i::init (void)
   if (!this->event_handler_.activate ())
   {
     ACE_ERROR ((LM_WARNING,
-                "%T - %M - failed to active event "
+                "%T (%t) - %M - failed to active event "
                 "handler; cannot manager spawned processes\n"));
   }
 
@@ -415,13 +415,13 @@ size_t CUTS_Node_Daemon_i::recover (void)
 
         case 1:
           ACE_ERROR ((LM_ERROR,
-                      "%T - %M - process with pid = %d already in map\n",
+                      "%T (%t) - %M - process with pid = %d already in map\n",
                       info->pid_));
           break;
 
         case -1:
           ACE_ERROR ((LM_ERROR,
-                      "%T - %M - failed to save process with pid = %d in map\n",
+                      "%T (%t) - %M - failed to save process with pid = %d in map\n",
                       info->pid_));
           break;
         }
@@ -432,7 +432,7 @@ size_t CUTS_Node_Daemon_i::recover (void)
       else
       {
         ACE_ERROR ((LM_CRITICAL,
-                    "%T - %M - fatal error: recovered pid's do not match [%d != %d]",
+                    "%T (%t) - %M - fatal error: recovered pid's do not match [%d != %d]",
                     pid,
                     info->pid_));
       }
@@ -440,7 +440,7 @@ size_t CUTS_Node_Daemon_i::recover (void)
     else
     {
       ACE_DEBUG ((LM_DEBUG,
-                  "%T - %M - info (node daemon): pid %u is not active\n",
+                  "%T (%t) - %M - info (node daemon): pid %u is not active\n",
                   info->pid_));
 
       // Remove the entry from the log and delete its resources.
@@ -498,7 +498,7 @@ task_spawn_i (CUTS_Process_Info & info)
   // Spawn the new task and register the <event_handler_> as the
   // notifier for process termination.
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - spawning new process ['%s']\n",
+              "%T (%t) - %M - spawning new process ['%s']\n",
               info.options_.command_line_buf ()));
 
   // Spawn the new process.
@@ -516,7 +516,7 @@ task_spawn_i (CUTS_Process_Info & info)
     if (retval == -1)
     {
       ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T - %M - failed to save spawned task\n"),
+                         "%T (%t) - %M - failed to save spawned task\n"),
                          -1);
     }
 
@@ -526,7 +526,7 @@ task_spawn_i (CUTS_Process_Info & info)
   else
   {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T - %M - failed to spawn task [%m]\n"),
+                       "%T (%t) - %M - failed to spawn task [%m]\n"),
                        -1);
   }
 
@@ -549,7 +549,7 @@ insert_properties (const ACE_Array <ACE_CString> & props)
     if (!parser.parse (iter->c_str ()))
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T - %M - failed to parse property '%s'\n",
+                  "%T (%t) - %M - failed to parse property '%s'\n",
                   iter->c_str ()));
     }
   }
@@ -568,7 +568,7 @@ void CUTS_Node_Daemon_i::terminate_tasks (void)
     pids.insert (iter->item ()->pid_);
 
   ACE_DEBUG ((LM_INFO,
-              "%T - %M - terminating %d process(es)\n",
+              "%T (%t) - %M - terminating %d process(es)\n",
               pids.size ()));
 
   // Now, iterate over all the gathered pid's, whilet terminating
@@ -585,7 +585,7 @@ void CUTS_Node_Daemon_i::terminate_tasks (void)
     // using a singal. This will give the process a chance to do any
     // cleanup operations.
     ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - signalling process %d to terminate\n",
+                "%T (%t) - %M - signalling process %d to terminate\n",
                 pid));
 
     int retval = this->pm_.terminate (pid, SIGTERM);
@@ -596,7 +596,7 @@ void CUTS_Node_Daemon_i::terminate_tasks (void)
       // resort just in case we are not able to gracefully terminate
       // the process via a signal.
       ACE_DEBUG ((LM_DEBUG,
-                  "%T - %M - forcing process %d to terminate\n",
+                  "%T (%t) - %M - forcing process %d to terminate\n",
                   pid));
 
       retval = this->pm_.terminate (pid);
@@ -604,7 +604,7 @@ void CUTS_Node_Daemon_i::terminate_tasks (void)
       if (retval == -1)
       {
         ACE_ERROR ((LM_WARNING,
-                    "%T - %M - failed to terminate process %d\n",
+                    "%T (%t) - %M - failed to terminate process %d\n",
                     pid));
       }
     }
