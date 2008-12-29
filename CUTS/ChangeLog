@@ -1,3 +1,9 @@
+Mon Dec 29 02:00:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/emulab/generate-logging-client-map.sh:
+
+	  . Switched back to using corbaloc for client discovery.
+
 Sun Dec 28 09:59:18 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM:
