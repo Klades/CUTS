@@ -192,6 +192,8 @@ private:
   std::stack <size_t> branches_;
 
   std::set <PICML::InEventPort> asynch_events_;
+
+  bool has_activate_;
 };
 
 // Singleton definition.

@@ -22,6 +22,7 @@ CUTS_CIAO_Exec_Header_Traits::env_table_;
 // CUTS_CIAO_Exec_Header_Traits
 //
 CUTS_CIAO_Exec_Header_Traits::CUTS_CIAO_Exec_Header_Traits (void)
+: has_activate_ (false)
 {
   if (this->env_table_.empty ())
   {
@@ -234,6 +235,7 @@ write_impl_end (const PICML::MonolithicImplementation & monoimpl,
 
   // Clear the list of asynchronous events.
   this->asynch_events_.clear ();
+  this->has_activate_ = false;
 }
 
 //
@@ -252,6 +254,25 @@ write_variables_begin (const PICML::Component & component)
                  boost::bind (&CUTS_CIAO_Exec_Header_Traits::write_event_handler_variable,
                               this,
                               _1));
+}
+
+//
+// write_environment_end
+//
+void CUTS_CIAO_Exec_Header_Traits::
+write_environment_end (const PICML::Component & component)
+{
+  if (!this->out_.is_open ())
+    return;
+
+  // Make sure we have an activate method, if necessary.
+  std::vector <PICML::PeriodicEvent> periodics;
+  periodics = component.PeriodicEvent_kind_children ();
+
+  if (!this->has_activate_ && !periodics.empty ())
+    this->write_ccm_activate (component);
+
+  this->_super::write_environment_end (component);
 }
 
 //
@@ -369,7 +390,12 @@ write_environment_method_begin (const PICML::MultiInputAction & action)
   Environment_Table::const_iterator iter = this->env_table_.find (name);
 
   if (iter != this->env_table_.end ())
+  {
+    if (name == "activate")
+      this->has_activate_ = true;
+
     (this->*(iter->second)) (component);
+  }
   else
     this->out_ << single_line_comment ("ignoring environment method: " + name);
 }

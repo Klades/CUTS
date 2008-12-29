@@ -24,7 +24,8 @@ CUTS_CIAO_Exec_Source_Traits::env_table_;
 // CUTS_CIAO_Exec_Source_Traits
 //
 CUTS_CIAO_Exec_Source_Traits::CUTS_CIAO_Exec_Source_Traits (void)
-: skip_action_ (false)
+: skip_action_ (false),
+  has_activate_ (false)
 {
   if (this->env_table_.empty ())
   {
@@ -229,6 +230,7 @@ write_impl_end (const PICML::MonolithicImplementation & monoimpl,
   // Clear the listing of output events.
   this->outevent_mgr_.clear ();
   this->asynch_events_.clear ();
+  this->has_activate_ = false;
 }
 
 //
@@ -602,6 +604,18 @@ write_environment_end (const PICML::Component & component)
 {
   if (!this->out_.is_open ())
     return;
+
+  // Make sure we have an activate method, if necessary.
+  std::vector <PICML::PeriodicEvent> periodics;
+  periodics = component.PeriodicEvent_kind_children ();
+
+  if (!this->has_activate_ && !periodics.empty ())
+  {
+    this->write_ccm_activate (component);
+    this->out_ << single_line_comment ("pass control to base class")
+               << "base_type::ccm_activate ();"
+               << "}";
+  }
 
   this->_super::write_environment_end (component);
 }

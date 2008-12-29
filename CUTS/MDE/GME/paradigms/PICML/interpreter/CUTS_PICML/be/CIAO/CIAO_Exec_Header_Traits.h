@@ -80,6 +80,9 @@ public:
     const PICML::InEventPort & sink,
     const std::vector <PICML::Property> & properties);
 
+  virtual void write_environment_end (
+    const PICML::Component & component);
+
 private:
   void write_event_handler_variable (
     const std::map <std::string, std::string>::value_type &);
@@ -96,6 +99,8 @@ private:
   static Environment_Table env_table_;
 
   std::map <std::string, std::string> asynch_events_;
+
+  bool has_activate_;
 };
 
 // Singleton definition.
