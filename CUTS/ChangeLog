@@ -1,3 +1,10 @@
+Tue Dec 30 18:38:05 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/barrier/client/Barrier_Client.h:
+        * cuts/utils/barrier/client/Barrier_Client.cpp:
+
+          . Added a help screen for the barrier client.
+
 Tue Dec 30 07:26:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MPC/config/cuts_barrier_skel.mpb:
