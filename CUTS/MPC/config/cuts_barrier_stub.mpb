@@ -1,0 +1,6 @@
+// $Id$
+
+project : taolib {
+  after += CUTS_Barrier_stub
+  libs  += CUTS_Barrier_stub
+}

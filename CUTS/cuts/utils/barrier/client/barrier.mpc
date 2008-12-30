@@ -1,0 +1,15 @@
+// $Id$
+
+project (cuts-barrier) : cuts_barrier_skel, cutsexe {
+  exename = cuts-barrier
+
+  Source_Files {
+    barrier.cpp
+    Barrier_Client.cpp
+    BarrierCallback_i.cpp
+  }
+
+  Header_Files {
+
+  }
+}

@@ -1,0 +1,23 @@
+// $Id$
+
+project (cuts-barrier_d) : iortable, cuts_barrier_skel, cutsexe {
+  exename = cuts-barrier_d
+
+  Source_Files {
+    barrier_d.cpp
+    Barrier_i.cpp
+    Barrier_Server.cpp
+  }
+
+  Inline_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Template_Files {
+    Barrier_T.cpp
+  }
+}

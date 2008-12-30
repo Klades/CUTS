@@ -1,3 +1,36 @@
+Tue Dec 30 07:26:34 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_barrier_skel.mpb:
+        * MPC/config/cuts_barrier_stub.mpb:
+        * cuts/utils/barrier:
+        * cuts/utils/barrier/Barrier_skel_export.h:
+        * cuts/utils/barrier/Barrier_stub_export.h:
+        * cuts/utils/barrier/barrier.idl:
+        * cuts/utils/barrier/barrier.mpc:
+        * cuts/utils/barrier/client:
+        * cuts/utils/barrier/client/BarrierCallback_i.h:
+        * cuts/utils/barrier/client/BarrierCallback_i.inl:
+        * cuts/utils/barrier/client/BarrierCallback_i.cpp:
+        * cuts/utils/barrier/client/Barrier_Client.h:
+        * cuts/utils/barrier/client/Barrier_Client.inl:
+        * cuts/utils/barrier/client/Barrier_Client.cpp:
+        * cuts/utils/barrier/client/barrier.cpp:
+        * cuts/utils/barrier/client/barrier.mpc:
+        * cuts/utils/barrier/server:
+        * cuts/utils/barrier/server/Barrier_Server.h:
+        * cuts/utils/barrier/server/Barrier_Server.inl:
+        * cuts/utils/barrier/server/Barrier_Server.cpp:
+        * cuts/utils/barrier/server/Barrier_T.inl:
+        * cuts/utils/barrier/server/Barrier_T.cpp:
+        * cuts/utils/barrier/server/Barrier_i.h:
+        * cuts/utils/barrier/server/Barrier_i.inl:
+        * cuts/utils/barrier/server/Barrier_i.cpp:
+        * cuts/utils/barrier/server/barrier_d.cpp:
+        * cuts/utils/barrier/server/barrier_d.mpc:
+
+          . Simple distributed barrier application for sychronizing work performed
+            on host in a distributed environment.
+
 Mon Dec 29 20:22:39 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Command_Substitution.h:

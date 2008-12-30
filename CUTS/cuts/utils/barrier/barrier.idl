@@ -1,0 +1,44 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ * @file          barrier.idl
+ *
+ * $Id$
+ *
+ * @author        James H. Hill
+ */
+//=============================================================================
+
+#ifndef _CUTS_BARRIER_IDL_
+#define _CUTS_BARRIER_IDL_
+
+module CUTS
+{
+  exception WaitFailed { };
+
+  /**
+   * @interface BarrierCallback
+   *
+   * Callback interface implemented by client.
+   */
+  interface BarrierCallback
+  {
+    void signal ();
+
+    void abort ();
+  };
+
+  /**
+   * @interface TestUploader
+   *
+   * Interface for uploading data for the results.
+   */
+  interface Barrier
+  {
+    void register_client (in BarrierCallback bc)
+      raises (WaitFailed);
+  };
+};
+
+#endif  // !defined _CUTS_ARCHIVING_IDL_

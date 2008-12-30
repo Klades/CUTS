@@ -1,0 +1,51 @@
+// $Id$
+
+project (CUTS_Barrier_stub) : taolib_with_idl, cutslib {
+  sharedname = CUTS_Barrier_stub
+
+  dynamicflags += CUTS_BARRIER_STUB_BUILD_DLL
+
+  idlflags += -Wb,skel_export_macro=CUTS_BARRIER_SKEL_Export \
+              -Wb,skel_export_include=Barrier_skel_export.h \
+              -Wb,stub_export_macro=CUTS_BARRIER_STUB_Export \
+              -Wb,stub_export_include=Barrier_stub_export.h \
+              -I $(CUTS_ROOT)
+
+  IDL_Files {
+    barrier.idl
+  }
+
+  Source_Files {
+    barrierC.cpp
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (CUTS_Barrier_skel) : portableserver, cuts_barrier_stub, cutslib {
+  sharedname = CUTS_Barrier_skel
+
+  dynamicflags += CUTS_BARRIER_SKEL_BUILD_DLL
+
+  IDL_Files {
+
+  }
+
+  Source_Files {
+    barrierS.cpp
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
