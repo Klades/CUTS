@@ -27,10 +27,14 @@ void CUTS_Barrier_i::register_client (CUTS::BarrierCallback_ptr node)
 //
 void CUTS_Barrier_i::broadcast (void)
 {
+  // Signal each of the nodes.
   set_type::ITERATOR iter (this->nodes_);
 
   for ( ; !iter.done (); ++ iter)
     (*iter)->signal ();
+
+  // Delete all the nodes in the listing.
+  this->nodes_.reset ();
 }
 
 //

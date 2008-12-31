@@ -1,3 +1,11 @@
+Wed Dec 31 05:46:36 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/barrier/server/Barrier_i.cpp:
+
+          . Bug fix where broadcast () did not remove the clients from
+            its collection. This mean the close () method was signaling
+            non-existent clients.
+
 Wed Dec 31 03:10:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Node_Daemon.idl:
