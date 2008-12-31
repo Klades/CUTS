@@ -41,6 +41,7 @@ static const char * __HELP__ =
 "  -C, --directory=DIR     change to directory DIR\n"
 "  --startup=CMD           use CMD to startup test\n"
 "  --shutdown=CMD          use CMD to shutdown test\n"
+"  --ignore-errors         ignore errors at startup/shutdown\n"
 "\n"
 "Output options:\n"
 "  -v, --verbose           print verbose information\n"
@@ -275,7 +276,7 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
 
       int retval = this->deploy_test (*this->opts_.startup_.get ());
 
-      if (retval == 0)
+      if (retval == 0 || this->opts_.ignore_errors_)
       {
         // Start a new test run in the database.
         this->test_db_.start_new_test (this->opts_.start_);
@@ -321,7 +322,7 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
       // Execute the shutdown command for the test.
       int retval = this->teardown_test (*this->opts_.shutdown_.get ());
 
-      if (retval == 0)
+      if (retval == 0 || this->opts_.ignore_errors_)
       {
         // Stop the current test in the database.
         this->test_db_.stop_current_test (this->opts_.stop_);

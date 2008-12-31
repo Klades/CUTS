@@ -29,7 +29,8 @@ class CUTS_TEST_Export CUTS_Test_Options
 public:
   /// Default constructor.
   CUTS_Test_Options (void)
-    : name_ ("(default)")
+    : name_ ("(default)"),
+      ignore_errors_ (false)
   {
 
   }
@@ -60,6 +61,8 @@ public:
 
   /// Stop time of the test.
   ACE_Time_Value stop_;
+
+  bool ignore_errors_;
 };
 
 #endif  // !defined _CUTS_TEST_OPTIONS_H_
