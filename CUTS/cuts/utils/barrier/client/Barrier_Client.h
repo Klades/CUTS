@@ -36,6 +36,8 @@ public:
 private:
   int parse_args (int argc, char * argv []);
 
+  CUTS::Barrier_ptr connect (void);
+
   void print_help (void);
 
   CORBA::ORB_var orb_;

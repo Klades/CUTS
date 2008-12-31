@@ -52,40 +52,19 @@ int CUTS_Barrier_Client::run_main (int argc, char * argv [])
     // Convert the servant into a reference.
     obj = this->root_->id_to_reference (oid.in ());
     CUTS::BarrierCallback_var callback = CUTS::BarrierCallback::_narrow (obj.in ());
-    CUTS::Barrier_var barrier;
+
 
     // Resolve the reference to the BarrierService. We need to enter a
     // reconnection loop just in case the barrier is not present when
     // we initially attempt to connect.
-    do
+    CUTS::Barrier_var barrier = this->connect ();
+
+    if (CORBA::is_nil (barrier.in ()))
     {
-      try
-      {
-        ACE_DEBUG ((LM_DEBUG,
-                    "%T (%t) - %M - resolving reference to BarrierService\n"));
-        obj = this->orb_->resolve_initial_references ("BarrierService");
-
-        if (CORBA::is_nil (obj.in ()))
-        {
-          ACE_ERROR_RETURN ((LM_ERROR,
-                            "%T (%t) - %M - failed to resolve initial reference"
-                            " BarrierService\n"),
-                            -1);
-        }
-
-        barrier = CUTS::Barrier::_narrow (obj.in ());
-
-        if (CORBA::is_nil (barrier.in ()))
-        {
-          ACE_ERROR_RETURN ((LM_ERROR,
-                            "%T (%t) - %M - object is not a CUTS::Barrier\n"),
-                            -1);
-        }
-      }
-      catch (const CORBA::TRANSIENT & )
-      {
-      }
-    } while (CORBA::is_nil (barrier.in ()));
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "%T (%t( - %M - failed to connect to barrier\n"),
+                         -1);
+    }
 
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - activating server's task\n"));
@@ -184,6 +163,51 @@ void CUTS_Barrier_Client::print_help (void)
 {
   std::cout << __HELP__ << std::endl;
   ACE_OS::exit (0);
+}
+
+//
+// connect
+//
+CUTS::Barrier_ptr CUTS_Barrier_Client::connect (void)
+{
+  // Resolve the reference to the BarrierService. We need to enter a
+  // reconnection loop just in case the barrier is not present when
+  // we initially attempt to connect.
+
+  CUTS::Barrier_var barrier;
+  CORBA::Object_var obj;
+
+  do
+  {
+    try
+    {
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T (%t) - %M - resolving reference to BarrierService\n"));
+      obj = this->orb_->resolve_initial_references ("BarrierService");
+
+      if (CORBA::is_nil (obj.in ()))
+      {
+        ACE_ERROR_RETURN ((LM_ERROR,
+                           "%T (%t) - %M - failed to resolve initial reference"
+                           " BarrierService\n"),
+                           0);
+      }
+
+      barrier = CUTS::Barrier::_narrow (obj.in ());
+
+      if (CORBA::is_nil (barrier.in ()))
+      {
+        ACE_ERROR_RETURN ((LM_ERROR,
+                           "%T (%t) - %M - object is not a CUTS::Barrier\n"),
+                           0);
+      }
+    }
+    catch (const CORBA::TRANSIENT & )
+    {
+    }
+  } while (CORBA::is_nil (barrier.in ()));
+
+  return barrier._retn ();
 }
 
 //
