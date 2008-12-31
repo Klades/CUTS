@@ -53,7 +53,6 @@ int CUTS_Barrier_Client::run_main (int argc, char * argv [])
     obj = this->root_->id_to_reference (oid.in ());
     CUTS::BarrierCallback_var callback = CUTS::BarrierCallback::_narrow (obj.in ());
 
-
     // Resolve the reference to the BarrierService. We need to enter a
     // reconnection loop just in case the barrier is not present when
     // we initially attempt to connect.

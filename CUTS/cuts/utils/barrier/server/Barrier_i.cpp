@@ -11,8 +11,8 @@
 //
 // wait
 //
-void CUTS_Barrier_i::register_client (const char * name,
-                                      CUTS::BarrierCallback_ptr node)
+void CUTS_Barrier_i::
+register_client (const char * name, CUTS::BarrierCallback_ptr bc)
 {
   ACE_GUARD_THROW_EX (ACE_Thread_Mutex,
                       guard,
@@ -24,12 +24,12 @@ void CUTS_Barrier_i::register_client (const char * name,
               name));
 
   // Insert the callback into the listing.
-  CUTS::BarrierCallback_var callback =
-    CUTS::BarrierCallback::_duplicate (node);
+  CUTS::BarrierCallback_var node = CUTS::BarrierCallback::_duplicate (bc);
+  int retval = this->nodes_.bind (name, node);
 
-  int retval = this->nodes_.bind (name, callback);
-
-  if (retval == -1)
+  if (retval == 0)
+    node._retn ();
+  else if (retval == -1)
     throw CUTS::WaitFailed ();
   else if (retval == 1)
     throw CUTS::DuplicateName ();
