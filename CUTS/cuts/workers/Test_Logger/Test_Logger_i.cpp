@@ -70,17 +70,16 @@ bool CUTS_Test_Logger_i::configure (short port)
       return false;
 
     // Extract the local logging client.
-    this->log_client_ =
-      CUTS::LocalTestLoggerClient::_narrow (obj.in ());
-
+    this->log_client_ = CUTS::LocalTestLoggerClient::_narrow (obj.in ());
     return !::CORBA::is_nil (this->log_client_.in ());
   }
   catch (const CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - %s\n"
-                "%T (%t) - %M - failed to connect to test logger client\n",
-                ex._info ().c_str ()));
+                "%T (%t) - %M - failed to connect to local test logger client [%s]\n",
+                ex._info ().c_str (),
+                ostr.str ().c_str ()));
   }
 
   return false;
