@@ -1,3 +1,13 @@
+Wed Dec 31 06:53:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/barrier/server/Barrier_i.h:
+        * cuts/utils/barrier/server/Barrier_i.cpp:
+
+          . Protected the register_client () method with a thread mutex
+            just in case there is a race condition. This should not be
+            the case, however, since the object is activated under the
+            RootPOA, which should be single-threaded by default.
+
 Wed Dec 31 05:46:36 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/barrier/server/Barrier_i.cpp:

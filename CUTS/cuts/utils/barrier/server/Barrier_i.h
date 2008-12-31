@@ -15,6 +15,7 @@
 
 #include "../barrierS.h"
 #include "ace/Unbounded_Set.h"
+#include "ace/Thread_Mutex.h"
 
 /**
  * @class ACE_Node
@@ -77,6 +78,8 @@ private:
   typedef ACE_Unbounded_Set <CUTS::BarrierCallback_var> set_type;
 
   set_type nodes_;
+
+  ACE_Thread_Mutex mutex_;
 };
 
 #if defined (__CUTS_INLINE__)

@@ -6,11 +6,18 @@
 #include "Barrier_i.inl"
 #endif
 
+#include "ace/Guard_T.h"
+
 //
 // wait
 //
 void CUTS_Barrier_i::register_client (CUTS::BarrierCallback_ptr node)
 {
+  ACE_GUARD_THROW_EX (ACE_Thread_Mutex,
+                      guard,
+                      this->mutex_,
+                      CUTS::WaitFailed ());
+
   // Insert the callback into the listing.
   CUTS::BarrierCallback_var callback =
     CUTS::BarrierCallback::_duplicate (node);
