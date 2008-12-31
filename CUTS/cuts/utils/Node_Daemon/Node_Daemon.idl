@@ -26,6 +26,10 @@ module CUTS
     string arguments;
 
     string workingdirectory;
+
+    string output;
+
+    string error;
   };
 
   /**

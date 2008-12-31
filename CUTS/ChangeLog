@@ -1,3 +1,20 @@
+Wed Dec 31 03:10:30 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Node_Daemon.idl:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+        * cuts/utils/Node_Daemon/Node_File_Reader.h:
+        * cuts/utils/Node_Daemon/Node_File_Reader.inl:
+        * cuts/utils/Node_Daemon/Node_File_Reader.cpp:
+        * cuts/utils/Node_Daemon/cutsnode_d.mpc:
+        * etc/schemas/cutsnode.xsd:
+
+          . Added support for redirecting stdour/stderr to files.
+
+        * cuts/utils/Node_Daemon/Node_Daemon.mpc:
+
+          Removed this file.
+
 Tue Dec 30 20:42:02 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/emulab/is-master-node.sh:

@@ -1,18 +1,12 @@
 // $Id$
 
 #include "Node_Daemon_Server.h"
-#include "cutsnode.h"
-
+#include "Node_File_Reader.h"
 #include "tao/IORTable/IORTable.h"
-
 #include "ace/Get_Opt.h"
 #include "ace/OS_NS_unistd.h"
 #include "ace/streams.h"
-#include "ace/Env_Value_T.h"
-
-#include "XSC/utils/XML_Schema_Resolver.h"
 #include "XSC/utils/XML_Error_Handler.h"
-#include "XSCRT/utils/File_Reader_T.h"
 
 static const char * __HELP__ =
 "CUTS node manager for remotely invoking task on target \n"
@@ -262,40 +256,17 @@ int CUTS_Node_Daemon_Server::load_initial_config (void)
               "%T (%t) - %M - loading initial configuration [file=%s]\n",
               this->opts_.config_.c_str ()));
 
-  // Get the CUTS_ROOT environment variable value.
-  ACE_Env_Value <const char *> CUTS_ROOT ("CUTS_ROOT", "");
-
-  std::ostringstream cuts_schema;
-  cuts_schema << CUTS_ROOT << "/etc/schemas/";
-
-  // Create the file reader for the configuration file.
-  XSCRT::utils::File_Reader_T <CUTS::nodeConfig> reader (&CUTS::reader::node);
 
   try
   {
-    // Configure the entity resolver.
-    XSC::XML::Basic_Resolver br (cuts_schema.str ().c_str ());
-    XSC::XML::XML_Schema_Resolver <XSC::XML::Basic_Resolver> resolver (br);
-    reader->setEntityResolver (&resolver);
+    CUTS_Node_File_Reader reader;
 
     // Configure the error handler.
     XSC::XML::XML_Error_Handler error_handler;
     reader->setErrorHandler (&error_handler);
 
-    // Set the features for the parser.
-    reader->setCreateCommentNodes (false);
-    reader->setCreateEntityReferenceNodes (false);
-    reader->setDoNamespaces (true);
-    reader->setIncludeIgnorableWhitespace (false);
-    reader->setValidationScheme (AbstractDOMParser::Val_Auto);
-    reader->setDoSchema (true);
-    reader->setValidationSchemaFullChecking (true);
-    reader->setValidationConstraintFatal (true);
-
-    CUTS::nodeConfig node_config;
-
     // Open the default configuration.
-    if (!reader.read (this->opts_.config_.c_str ()))
+    if (!reader.load (this->opts_.config_))
     {
       ACE_ERROR_RETURN ((LM_ERROR,
                          "%T (%t) - %M - failed to open configuration file [%s]\n",
@@ -303,13 +274,10 @@ int CUTS_Node_Daemon_Server::load_initial_config (void)
                          -1);
     }
 
-    // Read the default node configuration.
-    reader >>= node_config;
-
-    if (node_config.tasklist_p ())
+    if (reader.config ().tasklist_p ())
     {
       // Get the task list for the node.
-      CUTS::taskList const & tasks = node_config.tasklist ();
+      CUTS::taskList const & tasks = reader.config ().tasklist ();
 
       CUTS::taskList::task_const_iterator
         iter = tasks.begin_task (), iter_end = tasks.end_task ();
@@ -330,6 +298,14 @@ int CUTS_Node_Daemon_Server::load_initial_config (void)
         task.workingdirectory =
           ::CORBA::string_dup (iter->workingdirectory_p () ?
                                iter->workingdirectory ().c_str () : "");
+
+        task.output =
+          CORBA::string_dup (iter->output_p () ?
+                             iter->output ().c_str () : "");
+
+        task.error =
+          CORBA::string_dup (iter->error_p () ?
+                             iter->error ().c_str () : "");
 
         // Spawn the new task.
         this->daemon_->task_spawn (task);

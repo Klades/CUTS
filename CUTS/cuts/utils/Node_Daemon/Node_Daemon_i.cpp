@@ -11,7 +11,6 @@
 #include "Process_Log.h"
 #include "cuts/utils/Text_Processor.h"
 #include "cuts/utils/Property_Parser.h"
-
 #include "ace/INET_Addr.h"
 #include "ace/Null_Mutex.h"
 #include "ace/OS_NS_unistd.h"
@@ -21,7 +20,7 @@
 #include "ace/Process.h"
 #include "ace/Process_Manager.h"
 #include "ace/Singleton.h"
-
+#include "ace/FILE_Connector.h"
 #include <sstream>
 
 #define PROCESS_LOG() \
@@ -80,7 +79,7 @@ task_spawn (const CUTS::taskDescriptor & task)
   // Decode the environment variable in the executable and arguments
   // member of the task descriptor.
   CUTS_Text_Processor preprocessor (this->prop_map_);
-  ACE_CString exec_value, args_value;
+  ACE_CString exec_value, args_value, result;
 
   if (preprocessor.evaluate (task.executable.in (), exec_value) != 0)
   {
@@ -135,6 +134,68 @@ task_spawn (const CUTS::taskDescriptor & task)
       info->options_.working_directory (this->init_dir_.c_str ());
     }
   }
+
+  // Next, redirect the output/error streams.
+  ACE_FILE_IO stderr_handle;
+  ACE_FILE_IO stdout_handle;
+
+  ACE_FILE_Connector disk;
+  ACE_FILE_Addr file_addr;
+
+  if (ACE_OS::strlen (task.output.in ()) != 0)
+  {
+    // Preprocess the output filename.
+    if (preprocessor.evaluate (task.output.in (), result) == -1)
+    {
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "%T (%t) - %M - failed to evaluate output filename\n"),
+                         -1);
+    }
+
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - setting output filename to: %s\n",
+                result.c_str ()));
+
+    // Open the file for the process.
+    file_addr.set (result.c_str ());
+
+    if (disk.connect (stdout_handle, file_addr) == -1)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T (%t) - %M - failed to open file %s\n",
+                  file_addr.get_path_name ()));
+    }
+  }
+
+  if (ACE_OS::strlen (task.error.in ()) != 0)
+  {
+    // Preprocess the error filename.
+    if (preprocessor.evaluate (task.error.in (), result) == -1)
+    {
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "%T (%t) - %M - failed to evaluate error filename\n"),
+                         -1);
+    }
+
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - setting error filename to: %s\n",
+                result.c_str ()));
+
+    // Open the file for the process.
+    file_addr.set (result.c_str ());
+
+    if (disk.connect (stderr_handle, file_addr) == -1)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - failed to open file %s\n",
+                  file_addr.get_path_name ()));
+    }
+  }
+
+  // Set the handles for the process.
+  info->options_.set_handles (ACE_INVALID_HANDLE,
+                              stdout_handle.get_handle (),
+                              stderr_handle.get_handle ());
 
   // Spawn the new task and register the <event_handler_> as the
   // notifier for process termination.
