@@ -43,6 +43,8 @@ private:
   PortableServer::POA_var root_;
 
   CUTS_Barrier_Callback_i callback_;
+
+  ACE_CString name_;
 };
 
 #if defined (__CUTS_INLINE__)

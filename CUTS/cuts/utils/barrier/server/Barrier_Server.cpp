@@ -72,13 +72,25 @@ int CUTS_Barrier_Server::run_main (int argc, char * argv [])
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - processing the server's messages\n"));
 
-    while (this->count_ > 0)
-      this->orb_->perform_work ();
+    try
+    {
+      while (this->count_ > 0)
+        this->orb_->perform_work ();
+    }
+    catch (const CORBA::BAD_INV_ORDER & )
+    {
+      // Swallow this exception. It is thrown when the ORB is shutdown,
+      // but the server attempts to perform an operation.
+    }
 
-    // We can signal all the nodes to continue work now.
-    ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - notifying all nodes to continue work\n"));
-    this->barrier_.broadcast ();
+    if (this->count_ == 0)
+    {
+      // We can signal all the nodes to continue work now.
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T (%t) - %M - notifying all nodes to continue work\n"));
+      this->barrier_.broadcast ();
+    }
+
     return 0;
   }
   catch (const CORBA::Exception & ex)
@@ -87,11 +99,6 @@ int CUTS_Barrier_Server::run_main (int argc, char * argv [])
                 "%T (%t) - %M - %s\n",
                 ex._info ().c_str ()));
   }
-
-  // Close the servant, which will abort all the nodes.
-  if (this->barrier_.close () == -1)
-    ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - failed to close the barrier\n"));
 
   return -1;
 }
@@ -154,6 +161,11 @@ void CUTS_Barrier_Server::shutdown (void)
 {
   try
   {
+    // Close the servant, which will abort all the nodes.
+    if (this->barrier_.close () == -1)
+      ACE_ERROR ((LM_ERROR,
+                  "%T (%t) - %M - failed to close the barrier\n"));
+
     // Shutdown the ORB.
     this->orb_->shutdown ();
   }

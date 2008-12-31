@@ -11,37 +11,52 @@
 //
 // wait
 //
-void CUTS_Barrier_i::register_client (CUTS::BarrierCallback_ptr node)
+void CUTS_Barrier_i::register_client (const char * name,
+                                      CUTS::BarrierCallback_ptr node)
 {
   ACE_GUARD_THROW_EX (ACE_Thread_Mutex,
                       guard,
                       this->mutex_,
                       CUTS::WaitFailed ());
 
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - registering %s with barrier\n",
+              name));
+
   // Insert the callback into the listing.
   CUTS::BarrierCallback_var callback =
     CUTS::BarrierCallback::_duplicate (node);
 
-  if (this->nodes_.insert (callback) == -1)
+  int retval = this->nodes_.bind (name, callback);
+
+  if (retval == -1)
     throw CUTS::WaitFailed ();
+  else if (retval == 1)
+    throw CUTS::DuplicateName ();
 
   // Decrement the count.
   -- this->count_;
 }
 
 //
-// close
+// broadcast
 //
 void CUTS_Barrier_i::broadcast (void)
 {
-  // Signal each of the nodes.
-  set_type::ITERATOR iter (this->nodes_);
+  map_type::ITERATOR iter (this->nodes_);
 
+  // Signal each of the nodes.
   for ( ; !iter.done (); ++ iter)
-    (*iter)->signal ();
+  {
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - signaling %s to continue...\n",
+                iter->key ().c_str ()));
+
+    iter->item ()->signal ();
+  }
 
   // Delete all the nodes in the listing.
-  this->nodes_.reset ();
+  this->nodes_.unbind_all ();
 }
 
 //
@@ -51,12 +66,20 @@ int CUTS_Barrier_i::close (void)
 {
   try
   {
-    set_type::ITERATOR iter (this->nodes_);
+    map_type::ITERATOR iter (this->nodes_);
 
+    // Signal each node to abort.
     for ( ; !iter.done (); ++ iter)
-      (*iter)->abort ();
+    {
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T (%t) - %M - signaling %s to abort...\n",
+                  iter->key ().c_str ()));
 
-    this->nodes_.reset ();
+      iter->item ()->abort ();
+    }
+
+    // Delete all the nodes in the map.
+    this->nodes_.unbind_all ();
     return 0;
   }
   catch (const CORBA::Exception & ex)

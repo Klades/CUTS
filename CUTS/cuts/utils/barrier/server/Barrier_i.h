@@ -14,7 +14,8 @@
 #define _CUTS_BARRIER_I_H_
 
 #include "../barrierS.h"
-#include "ace/Unbounded_Set.h"
+#include "ace/Hash_Map_Manager_T.h"
+#include "ace/Null_Mutex.h"
 #include "ace/Thread_Mutex.h"
 
 /**
@@ -65,7 +66,8 @@ public:
   /**
    * Wait for all clients to reach the barrier.
    */
-  void register_client (CUTS::BarrierCallback_ptr node);
+  void register_client (const char * name,
+                        CUTS::BarrierCallback_ptr node);
 
   void broadcast (void);
 
@@ -75,10 +77,15 @@ private:
   /// Number of clients to listen.
   size_t & count_;
 
-  typedef ACE_Unbounded_Set <CUTS::BarrierCallback_var> set_type;
+  /// Type definition of the map type.
+  typedef ACE_Hash_Map_Manager <ACE_CString,
+                                CUTS::BarrierCallback_var,
+                                ACE_Null_Mutex> map_type;
 
-  set_type nodes_;
+  /// Collection of clients waiting on barrier.
+  map_type nodes_;
 
+  /// Mutex to prevent race condition when registering clients.
   ACE_Thread_Mutex mutex_;
 };
 

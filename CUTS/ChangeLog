@@ -1,3 +1,21 @@
+Wed Dec 31 08:00:28 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/barrier/barrier.idl:
+        * cuts/utils/barrier/client/Barrier_Client.h:
+        * cuts/utils/barrier/client/Barrier_Client.cpp:
+        * cuts/utils/barrier/server/Barrier_Server.cpp:
+        * cuts/utils/barrier/server/Barrier_i.h:
+        * cuts/utils/barrier/server/Barrier_i.cpp:
+
+          . The host/client specifies an unique name when registering with
+            the barrier.
+
+          . Bug fix where Ctrl+C the barrier failed to abort registered
+            clients.
+
+          . Bug fix where registering duplicate names resulted in a
+            segfault in the barrier client application.
+
 Wed Dec 31 06:53:50 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/barrier/server/Barrier_i.h:

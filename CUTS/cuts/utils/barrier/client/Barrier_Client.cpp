@@ -8,6 +8,7 @@
 
 #include "cuts/ORB_Server_Task.h"
 #include "ace/Get_Opt.h"
+#include "ace/INET_Addr.h"
 #include "ace/streams.h"
 
 const char * __HELP__ =
@@ -15,7 +16,7 @@ const char * __HELP__ =
 "\n"
 "  Usage: cuts-barrier [OPTIONS]\n"
 "\n"
-"Informative output:\n"
+"Informative Output:\n"
 "  -h, --help                 display this help screen\n";
 
 //
@@ -23,6 +24,8 @@ const char * __HELP__ =
 //
 int CUTS_Barrier_Client::run_main (int argc, char * argv [])
 {
+  CUTS_ORB_Server_Task task;
+
   try
   {
     if (this->parse_args (argc, argv) != 0)
@@ -87,7 +90,7 @@ int CUTS_Barrier_Client::run_main (int argc, char * argv [])
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - activating server's task\n"));
 
-    CUTS_ORB_Server_Task task (this->orb_.in ());
+    task.reset (this->orb_.in ());
 
     if (task.activate () == 0)
     {
@@ -95,16 +98,16 @@ int CUTS_Barrier_Client::run_main (int argc, char * argv [])
       ACE_DEBUG ((LM_DEBUG,
                   "%T (%t) - %M - registering callback with barrier\n"));
 
-      barrier->register_client (callback.in ());
+      CORBA::String_var name = CORBA::string_dup (this->name_.c_str ());
+      barrier->register_client (name.in (), callback.in ());
 
       // Wait for notification from the server.
       ACE_DEBUG ((LM_DEBUG,
                   "%T (%t) - %M - waiting for all nodes to reach barrier\n"));
 
       if (this->callback_.wait () == -1)
-        ACE_ERROR_RETURN ((LM_ERROR,
-                           "%T (%t) - %M - failed to wait for barrier\n"),
-                           -1);
+        ACE_ERROR ((LM_ERROR,
+                    "%T (%t) - %M - failed to wait for barrier\n"));
 
       // Shutdown the ORB and wait for the task to return.
       ACE_DEBUG ((LM_DEBUG,
@@ -115,8 +118,9 @@ int CUTS_Barrier_Client::run_main (int argc, char * argv [])
     }
     else
     {
-      ACE_ERROR ((LM_ERROR,
-                  "%T (%t) - %M - failed to activate server's task\n"));
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "%T (%t) - %M - failed to activate server's task\n"),
+                         -1);
     }
 
     return 0;
@@ -126,6 +130,10 @@ int CUTS_Barrier_Client::run_main (int argc, char * argv [])
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - %s\n",
                 ex._info ().c_str ()));
+
+    // Make sure we shutdown the server.
+    this->shutdown ();
+    task.wait ();
   }
 
   return -1;
@@ -161,6 +169,10 @@ int CUTS_Barrier_Client::parse_args (int argc, char * argv [])
       break;
     }
   }
+
+  // Set the default name of the client.
+  ACE_INET_Addr inet_addr;
+  this->name_ = inet_addr.get_host_name ();
 
   return 0;
 }

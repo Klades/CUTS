@@ -17,6 +17,8 @@ module CUTS
 {
   exception WaitFailed { };
 
+  exception DuplicateName { };
+
   /**
    * @interface BarrierCallback
    *
@@ -36,8 +38,8 @@ module CUTS
    */
   interface Barrier
   {
-    void register_client (in BarrierCallback bc)
-      raises (WaitFailed);
+    void register_client (in string name, in BarrierCallback bc)
+      raises (WaitFailed, DuplicateName);
   };
 };
 
