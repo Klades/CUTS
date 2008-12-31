@@ -87,6 +87,7 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("directory", 'C', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("startup", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("shutdown", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("ignore-errors", ACE_Get_Opt::NO_ARG);
 
   get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
@@ -172,6 +173,10 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
 
         // Save the command-line for the shutdown command.
         options->command_line (get_opt.opt_arg ());
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "ignore-errors") == 0)
+      {
+        this->opts_.ignore_errors_ = true;
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "directory") == 0)
       {
