@@ -1,3 +1,12 @@
+Thu Jan  1 01:40:11 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.BMW/CUTS/BMW/Security/MembershipProvider.cs:
+
+          . Bug fix where the connection was not open during the validation
+            step. This was resolved by open/closing the connection in the
+            ValidateUser () method, instead of during the Initialize ()
+            method.
+
 Wed Dec 31 21:01:24 UTC 2008  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/Testing_App.cpp:

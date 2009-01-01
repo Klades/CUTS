@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.Data;
 using System.Reflection;
 using System.Web;
 using System.Web.Security;
@@ -61,7 +62,6 @@ namespace CUTS.BMW.Security
 
       this.bmw_ = new CUTS.BMW.Database (settings.ProviderName);
       this.bmw_.ConnectionString = settings.ConnectionString;
-      this.bmw_.Open ();
 
       // Discover the administrator password
       if (config.Get ("adminappsetting") != null)
@@ -132,12 +132,31 @@ namespace CUTS.BMW.Security
 
     public override bool ValidateUser (string username, string password)
     {
-      // Authenticate the normal user.
-      if (!username.Equals ("admin"))
-        return this.bmw_.AuthenticateUser (username, password);
+      bool retval = false;
 
-      // Authenticate the adminstrator.
-      return password.Equals (this.admin_passwd_);
+      try
+      {
+        if (this.bmw_.State == System.Data.ConnectionState.Closed)
+          this.bmw_.Open ();
+
+        // Authenticate the normal user.
+        if (!username.Equals ("admin"))
+          return this.bmw_.AuthenticateUser (username, password);
+
+        // Authenticate the adminstrator.
+        retval = password.Equals (this.admin_passwd_);
+      }
+      catch (Exception)
+      {
+        retval = false;
+      }
+      finally
+      {
+        if (this.bmw_.State == ConnectionState.Open)
+          this.bmw_.Close ();
+      }
+
+      return retval;
     }
 
     public override bool DeleteUser (string username, bool deleteAllRelatedData)
