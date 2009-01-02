@@ -53,9 +53,9 @@ CUTS_CPU_Worker_T <T>::~CUTS_CPU_Worker_T (void)
 // run
 //
 template <typename T>
-void CUTS_CPU_Worker_T <T>::run (size_t msec)
+void CUTS_CPU_Worker_T <T>::run (double msec)
 {
-  double count = static_cast <double> (msec) * this->count_per_msec_;
+  double count = msec * this->count_per_msec_;
   this->work (static_cast <size_t> (count));
 }
 

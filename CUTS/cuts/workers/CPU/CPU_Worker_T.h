@@ -55,7 +55,7 @@ public:
    * @param[in]     msec      Number of msec to occupy the CPU
    * @return        Number of cycles executed.
    */
-  void run (size_t msec);
+  void run (double msec);
 
   // Calibrate the CPU worker.
   virtual bool calibrate (void);

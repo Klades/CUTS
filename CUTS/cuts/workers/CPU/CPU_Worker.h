@@ -91,7 +91,7 @@ public:
 private:
   /// Type definition of the map type.
   typedef ACE_Hash_Map_Manager <ACE_CString,
-                                size_t,
+                                double,
                                 ACE_Null_Mutex> map_type;
 
   /// Profile for the load-dependent workload generator.

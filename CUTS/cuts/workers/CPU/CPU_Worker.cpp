@@ -72,7 +72,7 @@ int CUTS_LD_CPU_Worker::load_profile (const ACE_CString & profile)
 //
 int CUTS_LD_CPU_Worker::profile_run (const ACE_CString & key)
 {
-  size_t msec = 0;
+  map_type::VALUE msec;
 
   // This is case of optimize for the fast path design pattern. Since
   // we want to fast path to be when the key is found if profile, we

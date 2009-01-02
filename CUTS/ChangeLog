@@ -1,3 +1,13 @@
+Fri Jan  2 21:42:15 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/workers/CPU/CPU_Worker.h:
+        * cuts/workers/CPU/CPU_Worker.cpp:
+        * cuts/workers/CPU/CPU_Worker_T.h:
+        * cuts/workers/CPU/CPU_Worker_T.cpp:
+
+          . Updated the CPU workers to use 'double' data types for workload
+            specification.
+
 Fri Jan  2 07:41:39 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/naomi/CUTS/analysis/cuts.analysis.py:
