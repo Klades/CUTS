@@ -299,11 +299,11 @@ def sendSOAPMessage (server, creds, message, action) :
   message = buildSOAPMessage (creds, message)
 
   # construct a HTTP service object
-  webservice = httplib.HTTP (server)
+  print 'info: connecting to %s' % (server)
+  webservice = httplib.HTTPSConnection (server)
 
   # insert the headers into the message
-  webservice.putrequest ("POST", "/CUTS/rmi/unittest.asmx HTTP/1.0")
-  webservice.putheader ("Host", server)
+  webservice.putrequest ("POST", "/CUTS/rmi/unittest.asmx")
   webservice.putheader ("User-Agent", "CUTS")
   webservice.putheader ("Content-type", "text/xml; charset=\"UTF-8\"")
   webservice.putheader ("Content-length", "%d" % len (message))
@@ -311,13 +311,17 @@ def sendSOAPMessage (server, creds, message, action) :
   webservice.endheaders ()
 
   # send the message to the server and get its reply
+  print 'info: sending SOAP message to %s' % (server)
   webservice.send (message)
-  statuscode, statusmessage, header = webservice.getreply ()
 
-  if (statuscode == 200):
-    return xml.dom.minidom.parse (webservice.getfile ())
+  # get the response from the web server
+  print 'info: getting response from %s' % (server)
+  response = webservice.getresponse ()
 
-  print 'error:', statuscode, statusmessage
+  if (response.status == 200):
+    return xml.dom.minidom.parseString (response.read ())
+
+  print 'error:', response.status, response.reason
   return None
 
 ###############################################################################
