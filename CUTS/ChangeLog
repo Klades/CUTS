@@ -1,3 +1,9 @@
+Fri Jan  2 07:41:39 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/naomi/CUTS/analysis/cuts.analysis.py:
+
+          . Updated SOAP message formatting.
+
 Fri Jan  2 07:38:47 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/naomi/CUTS/analysis/cuts.analysis.py:

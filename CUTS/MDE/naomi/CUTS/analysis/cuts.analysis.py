@@ -265,9 +265,9 @@ def getNodeText (nodelist):
 #
 def buildSOAPHeader (creds) :
   header = """<UserCredentials xmlns="http://www.dre.vanderbilt.edu/CUTS">
-      <Username>%s</Username>
-      <Password>%s</Password>
-    </UserCredentials>""" % (creds.username, creds.password)
+  <Username>%s</Username>
+  <Password>%s</Password>
+</UserCredentials>""" % (creds.username, creds.password)
 
   return header
 
