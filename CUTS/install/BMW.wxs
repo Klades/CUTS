@@ -104,6 +104,9 @@
                   <File Id="timeline.aspx" Name="timeline.aspx"
                         Source="$(var.BMW_ROOT)\timeline.aspx" DiskId="1" />
 
+                  <File Id="tests.aspx" Name="tests.aspx"
+                        Source="$(var.BMW_ROOT)\tests.aspx" DiskId="1" />
+
                   <File Id="unittest.aspx" Name="unittest.aspx"
                         Source="$(var.BMW_ROOT)\unittest.aspx" DiskId="1" />
 
@@ -206,6 +209,9 @@
 
                     <File Id="App_Web_timeline.aspx.cdcab7d2.dll" Name="App_Web_timeline.aspx.cdcab7d2.dll"
                           Source="$(var.BMW_ROOT)\bin\App_Web_timeline.aspx.cdcab7d2.dll" DiskId="1" />
+
+                    <File Id="App_Web_tests.aspx.cdcab7d2.dll" Name="App_Web_tests.aspx.cdcab7d2.dll"
+                          Source="$(var.BMW_ROOT)\bin\App_Web_tests.aspx.cdcab7d2.dll" DiskId="1" />
 
                     <File Id="App_Web_unittest.aspx.cdcab7d2.dll" Name="App_Web_unittest.aspx.cdcab7d2.dll"
                           Source="$(var.BMW_ROOT)\bin\App_Web_unittest.aspx.cdcab7d2.dll" DiskId="1" />

@@ -1,3 +1,9 @@
+Sat Jan  3 00:44:17 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * install/BMW.wxs:
+
+          . Updated installer with new pages in the BMW.
+
 Sat Jan  3 00:40:05 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/BMW.master:
