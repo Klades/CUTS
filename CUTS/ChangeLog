@@ -1,3 +1,24 @@
+Sat Jan  3 00:34:18 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/App_Code/unittest.asmx.cs:
+
+          . Reformatted the code.
+
+        * utils/BMW/website/BMW.master:
+        * utils/BMW/website/BMW.master.cs:
+        * utils/BMW/website/Web.config:
+        * utils/BMW/website/default.aspx:
+        * utils/BMW/website/default.aspx.cs:
+        * utils/BMW/website/tests.aspx:
+        * utils/BMW/website/tests.aspx.cs:
+
+          . Moved the login controls to the master page sidebar. If the user
+            is not logged in, then the login controls will display. If the
+            user is logged in, then it will display the menu.
+
+          . Moved the controls for displaying the test data from default.aspx
+            to test.aspx.
+
 Fri Jan  2 21:42:15 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/workers/CPU/CPU_Worker.h:

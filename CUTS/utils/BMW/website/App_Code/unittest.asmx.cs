@@ -117,7 +117,7 @@ namespace CUTS.Web
      */
     [WebMethod (Description="List all the test suites")]
     [SoapDocumentMethod (Binding = "CUTS.UnitTesting")]
-    [SoapHeader ("consumer_")]
+    [SoapHeader ("creds_")]
     public string[] ListTestSuites ()
     {
       this.authenticate_user ();
@@ -133,7 +133,7 @@ namespace CUTS.Web
      */
     [WebMethod (Description="List unit test for the given test suite")]
     [SoapDocumentMethod (Binding = "CUTS.UnitTesting")]
-    [SoapHeader ("consumer_")]
+    [SoapHeader ("creds_")]
     public string[] ListUnitTests (string TestSuite)
     {
       this.authenticate_user ();
@@ -162,7 +162,7 @@ namespace CUTS.Web
      */
     [WebMethod (Description="Evaulate an unit test for the given test")]
     [SoapDocumentMethod (Binding = "CUTS.UnitTesting")]
-    [SoapHeader ("consumer_")]
+    [SoapHeader ("creds_")]
     public UnitTestResult EvaluateUnitTest (string UUID, string UnitTest)
     {
       this.authenticate_user ();
@@ -196,7 +196,7 @@ namespace CUTS.Web
      */
     [WebMethod (Description="List all the known tests")]
     [SoapDocumentMethod (Binding = "CUTS.UnitTesting")]
-    [SoapHeader ("consumer_")]
+    [SoapHeader ("creds_")]
     public string[] ListTests ()
     {
       this.authenticate_user ();
@@ -212,12 +212,11 @@ namespace CUTS.Web
      */
     private void authenticate_user ()
     {
-      if (this.consumer_ == null)
+      if (this.creds_ == null)
         throw new InvalidUserCredentials ();
 
       bool result =
-        this.bmw_.AuthenticateUser (this.consumer_.Username,
-                                    this.consumer_.Password);
+        this.bmw_.AuthenticateUser (this.creds_.Username, this.creds_.Password);
 
       if (!result)
         throw new InvalidUserCredentials ();
@@ -234,6 +233,6 @@ namespace CUTS.Web
 
     private CUTS.BMW.Database bmw_;
 
-    public UserCredentials consumer_ = new UserCredentials ();
+    public UserCredentials creds_ = new UserCredentials ();
   }
 }

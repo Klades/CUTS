@@ -45,6 +45,29 @@
     <td class="menu" style="width:150px;padding-left:5px">
       <!-- begin main menu -->
       <asp:loginview id="main_menu_" runat="server">
+        <anonymoustemplate>
+          <asp:login id="login_" runat="server" membershipprovider="BMW" visiblewhenloggedin="false" >
+            <layouttemplate>
+              <table border="0" cellpadding="1" cellspacing="0" style="border-collapse: collapse;">
+                <tr>
+                  <td class="title">
+                    <asp:label id="UserNameLabel" runat="server"
+                               associatedcontrolid="UserName">Username:</asp:label></td>
+                </tr>
+                <tr><td><asp:textbox id="UserName" runat="server"></asp:textbox></td></tr>
+                <tr><td class="title">
+                    <asp:label id="PasswordLabel" runat="server"
+                               associatedcontrolid="Password">Password:</asp:label></td>
+                </tr>
+                <tr><td><asp:textbox id="Password" runat="server" textmode="Password"></asp:textbox></td></tr>
+                <tr><td align="right" colspan="2">
+                    <asp:button id="LoginButton" runat="server" commandname="Login"
+                                text="Log In" validationgroup="Login" /></td></tr>
+              </table>
+            </layouttemplate>
+          </asp:login>
+        </anonymoustemplate>
+
         <rolegroups>
           <asp:rolegroup roles="User">
             <contenttemplate>
@@ -53,7 +76,7 @@
               <div class="menu_item" onmouseover="hilite (this);" onmouseout="unhilite (this);">
                 <asp:image runat="server" id="menudot0" imageurl="~/images/menudot.gif" imagealign="absMiddle" />
                 <asp:hyperlink runat="server" id="test_menu_item_"
-                               navigateurl="~/"
+                               navigateurl="~/tests.aspx"
                                text="Test Runs" /></div>
 
               <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
@@ -118,8 +141,8 @@
           <hr />
           <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
             <asp:image runat="server" id="Image2" imageurl="~/images/menudot.gif" imagealign="absmiddle" />
-            <asp:LinkButton runat="server" id="logout"
-                           text="Logout" onclick="logout_Click" /></div>
+            <asp:linkbutton runat="server" id="logout"
+                            text="Logout" onclick="handle_onlogout" /></div>
 
           <asp:placeholder runat="server" id="help_item_" />
         </loggedintemplate>
@@ -141,7 +164,7 @@
         <a href="javascript:console_clear ('<%= this.console_.ClientID %>');">Clear Messages</a>
       </asp:panel>
 
-      <asp:contentplaceholder runat="server" id="MainContent" />
+      <asp:contentplaceholder runat="server" id="MainContent"  />
 
       <hr />
       <p>Copyright &copy; 2004 - <%= DateTime.Today.Year %>; All rights reserved.</p>

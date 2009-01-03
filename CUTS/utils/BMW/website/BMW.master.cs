@@ -126,19 +126,14 @@ namespace CUTS
         this.console_.Style["display"] = "block";
     }
 
-    protected void logout_Click (object sender, EventArgs e)
+    protected void handle_onlogout (object sender, EventArgs e)
     {
       // Delete this session.
       this.Session.Abandon ();
 
       // Complete the logout process.
       FormsAuthentication.SignOut ();
-      this.Response.Redirect ("login.aspx");
+      this.Response.Redirect ("~/default.aspx");
     }
+  }
 }
-}
-
-//remember messages across pages
-//allow user to hide/show console
-//allow user to clear console
-//allow user to delete selected messages
