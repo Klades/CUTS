@@ -1,6 +1,8 @@
 // $Id$
 
 project (CUTS_DB_ODBC) : cuts_db, odbc, cutslib {
+  requires += odbc
+
   sharedname += CUTS_DB_ODBC
 
   dynamicflags += CUTS_ODBC_BUILD_DLL
