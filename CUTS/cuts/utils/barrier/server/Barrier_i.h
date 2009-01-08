@@ -18,6 +18,7 @@
 #include "ace/Null_Mutex.h"
 #include "ace/Thread_Mutex.h"
 
+ACE_BEGIN_VERSIONED_NAMESPACE_DECL
 /**
  * @class ACE_Node
  *
@@ -48,6 +49,8 @@ private:
   /// Current value of the item in this node.
   CUTS::BarrierCallback_var item_;
 };
+
+ACE_END_VERSIONED_NAMESPACE_DECL
 
 /**
  * @class CUTS_Barrier_i

@@ -34,11 +34,13 @@ class CUTS_System_Metric;
 // Forward decl.
 class CUTS_System_Metric_Handler;
 
+ACE_BEGIN_VERSIONED_NAMESPACE_DECL
 // Forward decl.
 class ACE_Time_Value;
 
 // Forward decl.
 class ACE_Event;
+ACE_END_VERSIONED_NAMESPACE_DECL
 
 namespace CUTS
 {

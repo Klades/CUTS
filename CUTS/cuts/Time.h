@@ -19,8 +19,10 @@
 #include "cuts/CUTS_export.h"
 #include "ace/OS_NS_time.h"
 
+ACE_BEGIN_VERSIONED_NAMESPACE_DECL
 // Forward decl.
 class ACE_Time_Value;
+ACE_END_VERSIONED_NAMESPACE_DECL
 
 //=============================================================================
 /**

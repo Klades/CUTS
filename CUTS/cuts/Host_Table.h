@@ -18,8 +18,10 @@
 #include "ace/Unbounded_Set.h"
 #include "ace/SString.h"
 
+ACE_BEGIN_VERSIONED_NAMESPACE_DECL
 // Forward decl.
 class ACE_RW_Thread_Mutex;
+ACE_END_VERSIONED_NAMESPACE_DECL
 
 // Forward decl.
 class CUTS_Host_Table_Entry;
