@@ -113,6 +113,7 @@ generate (const std::string & name)
     << "  cmdline += -include $EISA_ROOT/MPC/config \\" << std::endl
     << "             -include $CUTS_ROOT/MPC/config \\" << std::endl
     << "             -include $XSC_ROOT/MPC/config \\" << std::endl
+    << "             -feature_file $CUTS_ROOT/default.features \\" << std::endl
     << "             -relative PROJECT_ROOT=" << std::endl
     << std::endl;
 
