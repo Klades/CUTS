@@ -2,22 +2,6 @@
 
 #include "Property_Parser.h"
 
-///////////////////////////////////////////////////////////////////////////////
-// class CUTS_Property_Parser_i
-
-//
-// CUTS_Property_Parser_i
-//
-CUTS_Property_Parser::
-CUTS_Property_Parser_i::CUTS_Property_Parser_i (CUTS_Property_Map & map)
-: prop_map_ (map)
-{
-
-}
-
-///////////////////////////////////////////////////////////////////////////////
-// class CUTS_Property_Parser
-
 //
 // CUTS_Property_Parser
 //
@@ -41,10 +25,10 @@ CUTS_Property_Parser::~CUTS_Property_Parser (void)
 //
 bool CUTS_Property_Parser::parse (const char * str)
 {
-  CUTS_Property_Parser_i parser (this->prop_map_);
+  CUTS_Property_Parser_Grammar grammar (this->prop_map_);
 
   boost::spirit::parse_info < > info =
-    boost::spirit::parse (str, parser, boost::spirit::space_p);
+    boost::spirit::parse (str, grammar, boost::spirit::space_p);
 
   return info.full;
 }

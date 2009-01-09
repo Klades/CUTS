@@ -2,9 +2,6 @@
 
 #include "Property_Expander.h"
 
-///////////////////////////////////////////////////////////////////////////////
-// class CUTS_Property_Expander
-
 //
 // CUTS_Property_Expander
 //
@@ -29,27 +26,10 @@ CUTS_Property_Expander::~CUTS_Property_Expander (void)
 bool CUTS_Property_Expander::
 expand (const char * str, bool use_env, std::ostream & out)
 {
-  CUTS_Property_Expander_i parser (this->prop_map_, use_env, out);
+  CUTS_Property_Expander_Grammar grammar (this->prop_map_, use_env, out);
 
   boost::spirit::parse_info < > info =
-    boost::spirit::parse (str, parser);
+    boost::spirit::parse (str, grammar);
 
   return info.full;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-// class CUTS_Property_Expander_i
-
-//
-// CUTS_Property_Expander_i
-//
-CUTS_Property_Expander::CUTS_Property_Expander_i::
-CUTS_Property_Expander_i (const CUTS_Property_Map & map,
-                          bool use_env,
-                          std::ostream & ostr)
-  : ostr_ (ostr),
-    use_env_ (use_env),
-    prop_map_ (map)
-{
-
 }

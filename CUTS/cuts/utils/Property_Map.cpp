@@ -5,3 +5,29 @@
 #if !defined (__CUTS_INLINE__)
 #include "Property_Map.inl"
 #endif
+
+//
+// join
+//
+size_t CUTS_Property_Map::
+join (const CUTS_Property_Map & map, bool overwrite)
+{
+  int retval;
+  size_t count = 0;
+
+  CUTS_Property_Map::const_iterator iter (map.map ());
+
+  for ( ; !iter.done (); ++ iter)
+  {
+    // Insert the item into the map.
+    if (overwrite)
+      retval = this->map_.rebind (iter->key (), iter->item ());
+    else
+      retval = this->map_.bind (iter->key (), iter->item ());
+
+    if (retval == 0 || (overwrite && retval != -1))
+      ++ count;
+  }
+
+  return count;
+}

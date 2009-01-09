@@ -118,3 +118,21 @@ const CUTS_Property_Map::map_type & CUTS_Property_Map::map (void) const
 {
   return this->map_;
 }
+
+//
+// map
+//
+CUTS_INLINE
+void CUTS_Property_Map::clear (void)
+{
+  this->map_.unbind_all ();
+}
+
+//
+// map
+//
+CUTS_INLINE
+bool CUTS_Property_Map::empty (void) const
+{
+  return this->map_.current_size () == 0;
+}

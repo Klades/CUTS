@@ -18,11 +18,63 @@
 #include "boost/spirit/utility/lists.hpp"
 #include "ace/Log_Msg.h"
 
-// Forward decl.
-class CUTS_Property_Map;
+// Forward decl
+class CUTS_Property_Parser_Grammar;
 
-namespace actors
+/**
+ * @class CUTS_Property_Parser
+ */
+class CUTS_UTILS_Export CUTS_Property_Parser
 {
+public:
+  /**
+   * Initializing constructor. This will set the target property
+   * map the parser will use to store new properties, and retrieve
+   * existing ones.
+   *
+   * @param[in]       map       Target property map
+   */
+  CUTS_Property_Parser (CUTS_Property_Map & map);
+
+  /// Destructor
+  ~CUTS_Property_Parser (void);
+
+  /**
+   * Parse the specified string for properties.
+   *
+   * @param[in]       str       String to parse.
+   */
+  bool parse (const char * str);
+
+  template <typename IteratorT>
+  bool parse (IteratorT begin, IteratorT end)
+  {
+    CUTS_Property_Parser_Grammar grammar (this->prop_map_);
+
+    boost::spirit::parse_info <IteratorT> result =
+      boost::spirit::parse (begin, end, grammar, boost::spirit::space_p);
+
+    return result.full;
+  }
+
+private:
+  /// Reference to property map used during substitution
+  CUTS_Property_Map & prop_map_;
+};
+
+/**
+ * @class CUTS_Property_Parser_Grammar
+ */
+class CUTS_Property_Parser_Grammar :
+  public boost::spirit::grammar <CUTS_Property_Parser_Grammar>
+{
+public:
+  CUTS_Property_Parser_Grammar (CUTS_Property_Map & prop_map)
+    : prop_map_ (prop_map)
+  {
+
+  }
+
   struct insert_property
   {
     insert_property (CUTS_Property_Map & map,
@@ -53,93 +105,51 @@ namespace actors
 
     const std::string & value_;
   };
-}
 
-/**
- * @class CUTS_Property_Parser
- */
-class CUTS_UTILS_Export CUTS_Property_Parser
-{
-public:
-  /**
-   * Initializing constructor. This will set the target property
-   * map the parser will use to store new properties, and retrieve
-   * existing ones.
-   *
-   * @param[in]       map       Target property map
-   */
-  CUTS_Property_Parser (CUTS_Property_Map & map);
-
-  /// Destructor
-  ~CUTS_Property_Parser (void);
-
-  /**
-   * Parse the data between the iterators.
-   *
-   * @param[in]       begin     Beginning of data
-   * @param[in]       end       End of data
-   */
-  template <typename IteratorT>
-  bool parse (IteratorT begin, IteratorT end);
-
-  /**
-   * Parse the specified string for properties.
-   *
-   * @param[in]       str       String to parse.
-   */
-  bool parse (const char * str);
-
-private:
-  /**
-   * @class CUTS_Property_Parser_i
-   */
-  class CUTS_UTILS_Export CUTS_Property_Parser_i :
-    public boost::spirit::grammar <CUTS_Property_Parser_i>
+  template <typename ScannerT>
+  class definition
   {
   public:
-    /**
-     * Initializing constructor
-     *
-     * @param[inout]        map         Target property map.
-     */
-    CUTS_Property_Parser_i (CUTS_Property_Map & map);
-
-    /**
-     * @class definition
-     *
-     * Definition of the grammar for the hosting parser.
-     */
-    template <typename ScannerT>
-    class definition
+    definition (CUTS_Property_Parser_Grammar const & self)
     {
-    public:
-      definition (CUTS_Property_Parser_i const & self);
+      this->property_name_ =
+        boost::spirit::lexeme_d [*(boost::spirit::print_p - '=')];
 
-      const boost::spirit::rule <ScannerT> & start (void) const;
+      this->property_value_ =
+        *(boost::spirit::anychar_p - boost::spirit::eol_p);
 
-    private:
-      boost::spirit::rule <ScannerT> property_;
+      this->property_ =
+        this->property_name_[boost::spirit::assign_a (this->name_)] >> '=' >>
+        this->property_value_[boost::spirit::assign_a (this->value_)];
 
-      boost::spirit::rule <ScannerT> property_name_;
+      this->property_list_ =
+        boost::spirit::list_p (
+          this->property_[
+              insert_property (self.prop_map_, this->name_, this->value_)],
+              boost::spirit::eol_p);
+    }
 
-      boost::spirit::rule <ScannerT> property_value_;
-
-      boost::spirit::rule <ScannerT> property_list_;
-
-      std::string name_;
-
-      std::string value_;
-    };
+    const boost::spirit::rule <ScannerT> & start (void) const
+    {
+      return this->property_list_;
+    }
 
   private:
-    /// Property map used by the decoder.
-    CUTS_Property_Map & prop_map_;
+    boost::spirit::rule <ScannerT> property_;
+
+    boost::spirit::rule <ScannerT> property_name_;
+
+    boost::spirit::rule <ScannerT> property_value_;
+
+    boost::spirit::rule <ScannerT> property_list_;
+
+    std::string name_;
+
+    std::string value_;
   };
 
-  /// Reference to property map used during substitution
+private:
   CUTS_Property_Map & prop_map_;
 };
-
-#include "Property_Parser_T.cpp"
 
 #endif  // !defined _CUTS_PROPERTY_PARSER_H_

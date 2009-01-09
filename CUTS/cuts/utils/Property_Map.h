@@ -10,8 +10,8 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_PROPERTY_MAP_T_H_
-#define _CUTS_PROPERTY_MAP_T_H_
+#ifndef _CUTS_PROPERTY_MAP_H_
+#define _CUTS_PROPERTY_MAP_H_
 
 #include "Utils_export.h"
 #include "ace/Hash_Map_Manager_T.h"
@@ -116,6 +116,13 @@ public:
   const_iterator end (void) const;
 
   const map_type & map (void) const;
+
+  size_t join (const CUTS_Property_Map & map, bool overwrite);
+
+  /// Clear all the item in the map.
+  void clear (void);
+
+  bool empty (void) const;
 
 private:
   /// Internal hash map of the property list.

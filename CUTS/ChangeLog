@@ -1,3 +1,23 @@
+Fri Jan  9 02:35:48 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Property_Expander.h:
+        * cuts/utils/Property_Expander.cpp:
+        * cuts/utils/Property_Map.h:
+        * cuts/utils/Property_Map.inl:
+        * cuts/utils/Property_Map.cpp:
+        * cuts/utils/Property_Parser.h:
+        * cuts/utils/Property_Parser.cpp:
+        * cuts/utils/utils.mpc:
+
+          . Refactored code to fix a LOT of compilation errors related to
+            increasing the functionality of the utility classes, and using
+            them with applications that use the Boost Spirit framework.
+
+        * cuts/utils/Property_Expander_T.cpp:
+        * cuts/utils/Property_Parser_T.cpp:
+
+          Removed these files.
+
 Fri Jan  9 02:32:46 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/template/Template_App.h:
