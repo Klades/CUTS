@@ -15,7 +15,6 @@
 #define _CUTS_TEMPLATE_APP_H_
 
 #include "Template_App_Options.h"
-#include "cuts/utils/Property_Expander.h"
 #include "cuts/utils/Property_Map.h"
 
 /**
@@ -56,13 +55,6 @@ private:
    */
   void expand_into (std::ostream & out);
 
-  /**
-   * Load the property configuration file.
-   *
-   * @param[in]         file        Source property file
-   */
-  bool load_property_file (const ACE_CString & file);
-
   /// Print the help for the application.
   void print_help (void);
 
@@ -75,8 +67,6 @@ private:
   CUTS_Template_App_Options opts_;
 
   CUTS_Property_Map prop_map_;
-
-  CUTS_Property_Expander expander_;
 };
 
 #endif  // !defined _CUTS_TEMPLATE_APP_H_

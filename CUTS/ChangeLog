@@ -1,3 +1,24 @@
+Fri Jan  9 02:32:46 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/template/Template_App.h:
+        * cuts/utils/template/Template_App.cpp:
+        * cuts/utils/template/Template_App_Options.h:
+        * cuts/utils/template/Template_Config_List_Parser.h:
+        * cuts/utils/template/Template_Config_List_Parser.inl:
+        * cuts/utils/template/Template_Config_List_Parser.cpp:
+        * cuts/utils/template/Template_Engine.h:
+        * cuts/utils/template/Template_Engine.inl:
+        * cuts/utils/template/Template_Engine.cpp:
+        * cuts/utils/template/cutstmpl.mpc:
+
+          . The template application can now handle a list of configurations
+            where each configuration for the template is placed is it own
+            file.
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+
+          . Checkpointing the model.
+
 Fri Jan  9 02:25:46 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Generators.cpp:

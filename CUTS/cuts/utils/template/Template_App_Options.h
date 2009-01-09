@@ -39,6 +39,9 @@ public:
   /// Property configuration file.
   ACE_CString config_;
 
+  /// File with list of configurations.
+  ACE_CString config_list_;
+
   /// List of properties defined on the command-line.
   ACE_Vector <ACE_CString> defines_;
 

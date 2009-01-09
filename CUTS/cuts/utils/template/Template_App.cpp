@@ -1,19 +1,24 @@
 // $Id$
 
 #include "Template_App.h"
-#include "boost/spirit/iterator/file_iterator.hpp"
+#include "Template_Engine.h"
+#include "Template_Config_List_Parser.h"
 #include "cuts/utils/Property_Map_File.h"
 #include "cuts/utils/Property_Parser.h"
 #include "ace/Get_Opt.h"
 #include "ace/streams.h"
+#include "boost/bind.hpp"
 
 static const char * __HELP__ =
-"Template expansion engine for property-based configuration files\n"
+"Template engine for property-based configuration files\n"
 "\n"
-"USAGE: cutstmpl [OPTIONS] TEMPLATE\n"
+"USAGE: cuts-template [OPTIONS]\n"
 "\n"
-"OPTIONS:\n"
-"  -c, --config=FILE          property configuration file\n"
+"General Options:\n"
+"  --template=TEMPLATE        generate configuration for TEMPLATE\n"
+"  -c, --config=FILE          use configuration in FILE\n"
+"  --config-list=FILE         use configurations in FILE\n"
+"\n"
 "  -Dname=VALUE               define property name with VALUE\n"
 "  --use-env                  use environment variables\n"
 "\n"
@@ -27,7 +32,6 @@ static const char * __HELP__ =
 // CUTS_Template_App
 //
 CUTS_Template_App::CUTS_Template_App (void)
-: expander_ (prop_map_)
 {
 
 }
@@ -45,14 +49,20 @@ CUTS_Template_App::~CUTS_Template_App (void)
 //
 int CUTS_Template_App::run_main (int argc, char * argv [])
 {
+  // Parse the command-line options.
   if (this->parse_args (argc, argv) == -1)
     return 1;
 
-  // First, load the configuration file if the user specified one
-  // on the command-line.
+  // First, load configuration file if user specified one.
   if (!this->opts_.config_.empty ())
   {
-    if (this->load_property_file (this->opts_.config_))
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - loading property file %s\n",
+                this->opts_.config_.c_str ()));
+
+    CUTS_Property_Map_File file (this->prop_map_);
+
+    if (file.read (this->opts_.config_.c_str ()))
     {
       ACE_DEBUG ((LM_INFO,
                   "%T - %M - successfully loaded property file %s\n",
@@ -66,49 +76,57 @@ int CUTS_Template_App::run_main (int argc, char * argv [])
     }
   }
 
-  // Next, parse the properties explicitly defined on the command-line.
-  // These take precedence over the properties defined in the configuration
-  // file.
+  // First, parse the properties explicitly defined on the command-line.
+  // These take precedence over properties defined in configuration file.
+  CUTS_Property_Map overrides;
+
   if (this->opts_.defines_.size () > 0)
   {
-    CUTS_Property_Parser parser (this->prop_map_);
+    CUTS_Property_Parser parser (overrides);
     ACE_Vector <ACE_CString>::ITERATOR iter (this->opts_.defines_);
 
-    for ( ; !iter.done (); iter.advance ())
-    {
-      ACE_CString * item = 0;
-      iter.next (item);
-
-      parser.parse (item->c_str ());
-    }
+    std::for_each (this->opts_.defines_.begin (),
+                   this->opts_.defines_.end (),
+                   boost::bind (&CUTS_Property_Parser::parse,
+                                boost::ref (parser),
+                                boost::bind (&ACE_CString::c_str,
+                                             _1)));
   }
 
-  // Now, we are ready to parse the template file. We are either going to
-  // output the concrete file to standard output, or a file.
-  if (!this->opts_.output_.empty ())
+  // Join the overwrites with the default property map.
+  this->prop_map_.join (overrides, true);
+
+  if (this->opts_.config_list_.empty ())
   {
-    std::ofstream outfile;
-    outfile.open (this->opts_.output_.c_str ());
-
-    if (outfile.is_open ())
+    // Now, we are ready to parse the template file. We are either going to
+    // output the concrete file to standard output, or a file.
+    if (!this->opts_.output_.empty ())
     {
-      // Expand the template into the output file.
-      this->expand_into (outfile);
+      std::ofstream outfile;
+      outfile.open (this->opts_.output_.c_str ());
 
-      // Close the output file.
-      outfile.close ();
+      if (outfile.is_open ())
+      {
+        this->expand_into (outfile);
+        outfile.close ();
+      }
+      else
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "%T - %M - failed to open %s for writing\n",
+                    this->opts_.output_.c_str ()));
+      }
     }
     else
     {
-      ACE_ERROR ((LM_ERROR,
-                  "%T - %M - failed to open %s for writing\n",
-                  this->opts_.output_.c_str ()));
+      this->expand_into (std::cout);
     }
   }
   else
   {
-    // Expand the contents of the template file to standard output.
-    this->expand_into (std::cout);
+    // Use the configuration list.
+    CUTS_Template_Config_List_Parser parser (this->opts_.input_, overrides);
+    parser.parse (this->opts_.config_list_.c_str ());
   }
 
   return 0;
@@ -127,6 +145,8 @@ int CUTS_Template_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("use-env", ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("config", 'c', ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("config-list", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("template", ACE_Get_Opt::ARG_REQUIRED);
 
   char ch;
 
@@ -143,6 +163,10 @@ int CUTS_Template_App::parse_args (int argc, char * argv [])
       {
         this->opts_.use_env_ = true;
       }
+      else if (ACE_OS::strcmp ("template", get_opt.long_option ()) == 0)
+      {
+        this->opts_.input_ = get_opt.opt_arg ();
+      }
       else if (ACE_OS::strcmp ("debug", get_opt.long_option ()) == 0)
       {
         this->enable_logmsg_severity (LM_DEBUG);
@@ -154,6 +178,10 @@ int CUTS_Template_App::parse_args (int argc, char * argv [])
       else if (ACE_OS::strcmp ("config", get_opt.long_option ()) == 0)
       {
         this->opts_.config_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp ("config-list", get_opt.long_option ()) == 0)
+      {
+        this->opts_.config_list_ = get_opt.opt_arg ();
       }
       break;
 
@@ -192,9 +220,6 @@ int CUTS_Template_App::parse_args (int argc, char * argv [])
     }
   }
 
-  // Get the option for the name of the input file. This will be the
-  // last option identified by get_opt.
-  this->opts_.input_ = argv[get_opt.opt_ind ()];
   return 0;
 }
 
@@ -212,30 +237,20 @@ void CUTS_Template_App::print_help (void)
 //
 void CUTS_Template_App::expand_into (std::ostream & out)
 {
-  // Find the start of the file.
-  boost::spirit::file_iterator <char> begin (this->opts_.input_.c_str ());
+  CUTS_Template_Engine engine (this->prop_map_);
 
-  if (begin)
+  if (engine.process (this->opts_.input_.c_str (),
+                      this->opts_.use_env_,
+                      out))
   {
-    // Find the end of the file.
-    boost::spirit::file_iterator <char> end = begin.make_end ();
-
-    if (this->expander_.expand (begin, end, this->opts_.use_env_, out))
-    {
-      ACE_DEBUG ((LM_DEBUG,
-                  "%T - %M - successfully converted template file\n"));
-    }
-    else
-    {
-      ACE_ERROR ((LM_ERROR,
-                  "%T - %M - failed to convert template file [file=%s]\n",
-                  this->opts_.input_.c_str ()));
-    }
+    ACE_DEBUG ((LM_INFO,
+                "%T (%t) - %M - successully processed %s\n",
+                this->opts_.input_.c_str ()));
   }
   else
   {
-    ACE_ERROR ((LM_ERROR,
-                "%T - %M - failed to open file %s for reading\n",
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - failed to process %s\n",
                 this->opts_.input_.c_str ()));
   }
 }
@@ -251,18 +266,4 @@ void CUTS_Template_App::enable_logmsg_severity (u_long severity)
   mask |= severity;
 
   ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
-}
-
-//
-// load_property_config
-//
-bool CUTS_Template_App::
-load_property_file (const ACE_CString & filename)
-{
-  ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - loading property file %s\n",
-              filename.c_str ()));
-
-  CUTS_Property_Map_File file (this->prop_map_);
-  return file.read (filename.c_str ());
 }

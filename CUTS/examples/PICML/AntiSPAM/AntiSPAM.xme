@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{F154B1FC-6071-4734-9791-B9F29447E729}" cdate="Sun Dec 28 04:00:38 2008" mdate="Sun Dec 28 04:00:38 2008" version="" metaguid="{6131D657-5E06-4D59-B9A5-39B0F7A830D4}" metaversion="" metaname="PICML">
+<project guid="{E221220B-2848-4F25-A6DC-854FED20B275}" cdate="Sun Dec 28 04:00:38 2008" mdate="Sun Dec 28 04:00:38 2008" version="" metaguid="{6131D657-5E06-4D59-B9A5-39B0F7A830D4}" metaversion="" metaname="PICML">
 	<name>AntiSPAM</name>
 	<comment></comment>
 	<author>James H. Hill</author>
-	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x4" kind="RootFolder" guid="{683680DB-97A8-4b26-9569-CC012A813818}">
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x8" kind="RootFolder" guid="{683680DB-97A8-4b26-9569-CC012A813818}">
 		<name>AntiSPAM</name>
 		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x3" kind="PredefinedTypes" guid="{811A9593-12A5-43af-976A-4EDBB349F7F0}">
 			<name>PredefinedTypes</name>
@@ -87,7 +87,7 @@
 								<value>NEWSnews</value>
 							</regnode>
 							<model id="id-0065-00000005" kind="Property" role="Property" guid="{E05478F5-DBC9-4e4f-A570-F16F0A6D3F0B}" relid="0x1" childrelidcntr="0x1">
-								<name>asychronous</name>
+								<name>asynchronous</name>
 								<regnode name="PartRegs" status="undefined">
 									<value></value>
 									<regnode name="Behavior" status="undefined">
@@ -356,7 +356,7 @@
 							<model id="id-0065-00000031" kind="Property" role="Property" guid="{6CEDFF4A-146E-4245-A6E6-4A32227933FC}" derivedfrom="id-0065-00000027" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue">
-									<value>this-&gt;instName_, this-&gt;eventCount_</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
 								</attribute>
 								<reference id="id-0067-00000016" kind="DataType" role="DataType" guid="{A6312BD9-CFA0-4abe-9812-9A625515FC2B}" derivedfrom="id-0067-00000014" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
 									<name>GenericValue</name>
@@ -401,7 +401,7 @@
 							<model id="id-0065-00000035" kind="Property" role="Property" guid="{7483611E-A962-4c8c-A35A-B74DC5F1E9E9}" derivedfrom="id-0065-00000027" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue">
-									<value>this-&gt;instName_, this-&gt;eventCount_</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
 								</attribute>
 								<reference id="id-0067-00000015" kind="DataType" role="DataType" guid="{C6D40771-9A34-4083-AACA-038FFD0EE1E9}" derivedfrom="id-0067-00000014" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
 									<name>GenericValue</name>
@@ -1002,7 +1002,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 				<attribute kind="path" status="meta">
 					<value></value>
 				</attribute>
-				<model id="id-0065-00000010" kind="Package" role="Package" guid="{2203B6DF-9857-44d3-8F66-B1348F94F7B7}" relid="0x1" childrelidcntr="0x1">
+				<model id="id-0065-00000010" kind="Package" role="Package" guid="{2203B6DF-9857-44d3-8F66-B1348F94F7B7}" relid="0x1" childrelidcntr="0x3">
 					<name>antispam</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -1230,6 +1230,32 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 							<connpoint role="src" target="id-0066-00000012"/>
 						</connection>
 					</model>
+					<model id="id-0065-0000003e" kind="ComponentFactory" role="ComponentFactory" guid="{04E7CA36-553A-4dcf-9878-E82878147376}" relid="0x2" childrelidcntr="0x0">
+						<name>NullEventGeneratorHome</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>422,191</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+					</model>
+					<connection id="id-0068-0000001b" kind="ManagesComponent" role="ManagesComponent" guid="{E992A584-02C2-44ee-8720-DE78DA1D582A}" relid="0x3">
+						<name>ManagesComponent</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>We</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000011"/>
+						<connpoint role="src" target="id-0065-0000003e"/>
+					</connection>
 				</model>
 			</model>
 		</folder>
@@ -1776,5 +1802,3117 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 				</regnode>
 			</regnode>
 		</folder>
+		<folder id="id-006a-0000000a" relid="0x5" childrelidcntr="0x4" kind="ComponentImplementations" guid="{EAA5DAEA-C6AB-4ed9-8C63-E8B6CBB36F8E}">
+			<name>ComponentImplementations</name>
+			<model id="id-0065-0000003f" kind="ComponentImplementationContainer" guid="{AF3FA690-78CA-4950-BDD0-AD08C4152DED}" relid="0x1" childrelidcntr="0x8">
+				<name>NullEventGeneratorImpl</name>
+				<atom id="id-0066-00000019" kind="MonolithicImplementation" role="MonolithicImplementation" guid="{31990BE0-B0FF-4d52-ACF2-0EB4CF4BD624}" relid="0x2">
+					<name>NullEventGeneratorImpl</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>314,258</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>6828C5EB-EBC5-48F7-B051-A1F865F4DB0E</value>
+					</attribute>
+					<attribute kind="defaultVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<reference id="id-0067-00000022" kind="ComponentRef" role="ComponentRef" guid="{7AF11009-7844-4b29-98AA-BB97ACA48FCD}" relid="0x1" referred="id-0065-00000011">
+					<name>NullEventGenerator</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>257,110</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-00000025" kind="ImplementationArtifactReference" role="ImplementationArtifactReference" guid="{D4FA1284-869F-41fa-A5FF-E3203A06620B}" relid="0x4" referred="id-0066-0000001a">
+					<name>NullEventGeneratorImpl_exec</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>545,307</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-00000026" kind="ImplementationArtifactReference" role="ImplementationArtifactReference" guid="{393D45A3-4B27-4cc5-B09B-4986DA3DEA13}" relid="0x5" referred="id-0066-0000001b">
+					<name>NullEventGeneratorImpl_svnt</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>545,209</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<connection id="id-0068-0000001f" kind="Implements" role="Implements" guid="{FE526AB5-D3F5-470b-A535-058BD3E70ADB}" relid="0x6">
+					<name>Implements</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ns</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000019"/>
+					<connpoint role="dst" target="id-0067-00000022"/>
+				</connection>
+				<connection id="id-0068-00000020" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{93B8CD0D-AAAB-40ea-AA31-CD927C1841DA}" relid="0x7">
+					<name>MonolithprimaryArtifact</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000019"/>
+					<connpoint role="dst" target="id-0067-00000026"/>
+				</connection>
+				<connection id="id-0068-00000021" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{46655C26-BAA5-4816-9BC2-607BD3DB88B3}" relid="0x8">
+					<name>MonolithprimaryArtifact</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000019"/>
+					<connpoint role="dst" target="id-0067-00000025"/>
+				</connection>
+			</model>
+			<model id="id-0065-00000046" kind="ComponentImplementationContainer" guid="{DF1C9E08-E2B8-4b08-888A-FCE2F05C0F8E}" relid="0x2" childrelidcntr="0x7">
+				<name>CPUBoundImpl</name>
+				<atom id="id-0066-00000020" kind="MonolithicImplementation" role="MonolithicImplementation" guid="{94436B89-AF41-4b43-9722-269B6562244B}" relid="0x1">
+					<name>CPUBoundImpl</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>307,272</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>1C925CC4-892B-4519-AAC5-4F644CB48405</value>
+					</attribute>
+					<attribute kind="defaultVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<reference id="id-0067-00000029" kind="ComponentRef" role="ComponentRef" guid="{C3211807-A804-45a7-A2B9-FDD63A270927}" relid="0x2" referred="id-0065-00000003">
+					<name>CPUBound</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>250,83</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000002a" kind="ImplementationArtifactReference" role="ImplementationArtifactReference" guid="{2FD2C7F4-9111-434a-8B19-AA98C5D1AD6F}" relid="0x4" referred="id-0066-0000001e">
+					<name>CPUBoundImpl_exec</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>517,307</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000002b" kind="ImplementationArtifactReference" role="ImplementationArtifactReference" guid="{1C659F8B-5365-45e6-8D9A-FEDFBD8571B8}" relid="0x5" referred="id-0066-0000001f">
+					<name>CPUBoundImpl_svnt</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>517,223</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<connection id="id-0068-00000027" kind="Implements" role="Implements" guid="{D6EAD857-6EDF-46af-9D19-73D98087AAD7}" relid="0x3">
+					<name>Implements</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ns</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000020"/>
+					<connpoint role="dst" target="id-0067-00000029"/>
+				</connection>
+				<connection id="id-0068-00000028" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{ABAC6DE6-F447-423c-8517-8372EBDF2708}" relid="0x6">
+					<name>MonolithprimaryArtifact</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000020"/>
+					<connpoint role="dst" target="id-0067-0000002b"/>
+				</connection>
+				<connection id="id-0068-00000029" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{6C2D8EB5-B13C-4a70-89FA-9FBCACE3107F}" relid="0x7">
+					<name>MonolithprimaryArtifact</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000020"/>
+					<connpoint role="dst" target="id-0067-0000002a"/>
+				</connection>
+			</model>
+			<model id="id-0065-00000047" kind="ComponentImplementationContainer" guid="{AE602BEE-E022-4c68-8A7A-0EDF692BECC9}" relid="0x3" childrelidcntr="0x1">
+				<name>SingleSenderSingleReceiver</name>
+				<model id="id-0065-00000048" kind="ComponentAssembly" role="ComponentAssembly" guid="{BEA6674C-3DB4-4338-960C-8FDBB46EAD80}" relid="0x1" childrelidcntr="0x1f">
+					<name>SSSR</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>233,100</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>ED50962E-CF24-4B21-8A53-E795A579FECB</value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000049" kind="Component" role="Component" guid="{44FD1284-DE79-4e88-A0E4-57594CA7EECF}" derivedfrom="id-0065-00000003" isinstance="yes" isprimary="yes" relid="0x1" childrelidcntr="0x0">
+						<name>CPUBound1</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>572,412</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="UUID">
+							<value>90A932AA-10F0-48F8-BE1B-5B5D82F056A9</value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="label" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-0000004a" kind="Attribute" role="Attribute" guid="{7E3734C5-0E90-4d3e-A1F6-B8A193ACA660}" derivedfrom="id-0065-00000009" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>cpuTime</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-0000002c" kind="AttributeMember" role="AttributeMember" guid="{C8FAC252-5CC7-4762-BD3F-72603A2155F8}" derivedfrom="id-0067-00000004" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+								<name>LongInteger</name>
+							</reference>
+						</model>
+						<model id="id-0065-0000004b" kind="MultiInputAction" role="MultiInputAction" guid="{9EDD4D9D-DEE0-4fba-A605-CAFD1A87214F}" derivedfrom="id-0065-00000007" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>activate</name>
+						</model>
+						<model id="id-0065-0000004c" kind="Action" role="Action" guid="{C47B5ED9-285A-4b37-9D70-26B79F5BE371}" derivedfrom="id-0065-0000003a" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-0000004d" kind="Property" role="Property" guid="{453E8D41-A5EB-41e6-B38F-3495D88A1EF6}" derivedfrom="id-0065-0000003b" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>location</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;testName_</value>
+								</attribute>
+								<reference id="id-0067-0000002d" kind="DataType" role="DataType" guid="{02D7E06C-0512-448a-968C-A1AAE0972E00}" derivedfrom="id-0067-00000013" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-0000004e" kind="Action" role="Action" guid="{8A3A958E-F8BB-498f-9473-400B75A14028}" derivedfrom="id-0065-00000038" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-0000004f" kind="Property" role="Property" guid="{A7256BFC-7DC7-42cd-A28D-967BA29B1D18}" derivedfrom="id-0065-00000039" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>port</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>20000</value>
+								</attribute>
+								<reference id="id-0067-0000002e" kind="DataType" role="DataType" guid="{CD8B3CFE-8B33-4449-B457-241480463333}" derivedfrom="id-0067-0000001e" isinstance="yes" isprimary="no" referred="id-0066-00000017" isbound="yes">
+									<name>ShortInteger</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-00000050" kind="Attribute" role="Attribute" guid="{EBE163B0-00BD-483c-A2C5-F736783A4F2D}" derivedfrom="id-0065-00000008" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>testName</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-0000002f" kind="AttributeMember" role="AttributeMember" guid="{CC44F393-DB37-4e99-B158-2AEB1A8BA10D}" derivedfrom="id-0067-00000003" isinstance="yes" isprimary="no" referred="id-0066-00000001" isbound="yes">
+								<name>String</name>
+							</reference>
+						</model>
+						<model id="id-0065-00000051" kind="Attribute" role="Attribute" guid="{C7D5A7A6-E709-4db1-BE47-2B57AF4DD391}" derivedfrom="id-0065-00000006" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logRate</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-00000030" kind="AttributeMember" role="AttributeMember" guid="{ADDA5D2E-3A93-46de-884E-95271B8E850A}" derivedfrom="id-0067-00000002" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+								<name>AttributeMember</name>
+							</reference>
+						</model>
+						<model id="id-0065-00000052" kind="InputAction" role="InputAction" guid="{2FDCBBF5-9CF2-4206-8053-A7F84797D2A0}" derivedfrom="id-0065-00000004" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>NullEvent</name>
+							<model id="id-0065-00000053" kind="Property" role="Property" guid="{D08C70FD-AB15-4fc7-9F95-C5A58EE563D1}" derivedfrom="id-0065-0000003d" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>threads</name>
+								<attribute kind="DataValue" status="meta">
+									<value></value>
+								</attribute>
+								<reference id="id-0067-00000031" kind="DataType" role="DataType" guid="{2AFB3BFC-051E-4f84-9BF5-7646AC82FE5A}" derivedfrom="id-0067-00000021" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+							<model id="id-0065-00000054" kind="Property" role="Property" guid="{F492C406-940B-4af6-9D16-4CE93C98EE36}" derivedfrom="id-0065-0000003c" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>affinity</name>
+								<attribute kind="DataValue" status="meta">
+									<value></value>
+								</attribute>
+								<reference id="id-0067-00000032" kind="DataType" role="DataType" guid="{F1BD3732-1498-4f3b-9652-CA2388FB0962}" derivedfrom="id-0067-00000020" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+							<model id="id-0065-00000055" kind="Property" role="Property" guid="{10D3E8E4-8207-46f6-A4B8-4052744764B3}" derivedfrom="id-0065-00000005" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>asynchronous</name>
+								<attribute kind="DataValue" status="meta">
+									<value></value>
+								</attribute>
+								<reference id="id-0067-00000033" kind="DataType" role="DataType" guid="{68B133F0-1CE4-49f9-B4AC-803F6875FDCD}" derivedfrom="id-0067-00000001" isinstance="yes" isprimary="no" referred="id-0066-00000001" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-00000056" kind="Action" role="Action" guid="{5F8F622C-C4A3-4efa-AACC-890356D8B160}" derivedfrom="id-0065-00000030" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-00000057" kind="Property" role="Property" guid="{F01B64E5-BBC6-4587-AEF8-54191638D5A4}" derivedfrom="id-0065-00000033" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>severity</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>LM_INFO</value>
+								</attribute>
+								<reference id="id-0067-00000038" kind="DataType" role="DataType" guid="{4B6ED4B3-BF43-43ec-8DA7-805431002DC4}" derivedfrom="id-0067-0000001c" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+							<model id="id-0065-00000058" kind="Property" role="Property" guid="{9FBCE178-C591-47e4-97AF-414DC989F7DD}" derivedfrom="id-0065-00000032" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>format</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>&quot;%s is preprocessing event %d&quot;</value>
+								</attribute>
+								<reference id="id-0067-00000039" kind="DataType" role="DataType" guid="{64E91629-FAE3-4784-A9C4-50A943CB0460}" derivedfrom="id-0067-00000019" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+							<model id="id-0065-00000059" kind="Property" role="Property" guid="{DE365199-2302-4668-BF27-2E46BCF02D8D}" derivedfrom="id-0065-00000031" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>arglist</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
+								</attribute>
+								<reference id="id-0067-0000003a" kind="DataType" role="DataType" guid="{7C874E5A-8B7E-4744-8F8A-F0CE420F9D56}" derivedfrom="id-0067-00000016" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+									<name>GenericValue</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-0000005a" kind="Action" role="Action" guid="{87639071-C0EE-4150-A7C7-A1FCFE6C91F8}" derivedfrom="id-0065-0000002e" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>mycpu</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-0000005b" kind="Property" role="Property" guid="{0E388CD8-B526-4ff3-B397-2449566C2644}" derivedfrom="id-0065-0000002f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>msec</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;cpuTime_</value>
+								</attribute>
+								<reference id="id-0067-0000003b" kind="DataType" role="DataType" guid="{A3441E3C-4352-489c-880F-BB2A053D74C9}" derivedfrom="id-0067-0000000e" isinstance="yes" isprimary="no" referred="id-0066-00000014" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-0000005c" kind="Attribute" role="Attribute" guid="{F7E2B34F-E603-44b3-8EB0-04DBD8965EA0}" derivedfrom="id-0065-0000000a" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>instName</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-0000003c" kind="AttributeMember" role="AttributeMember" guid="{B07B236D-761A-4ea0-BED8-C71C73F2545E}" derivedfrom="id-0067-00000005" isinstance="yes" isprimary="no" referred="id-0066-00000001" isbound="yes">
+								<name>String</name>
+							</reference>
+						</model>
+						<model id="id-0065-0000005d" kind="Action" role="Action" guid="{F7C4B5A2-0436-4808-8E30-EA8098427367}" derivedfrom="id-0065-00000034" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-0000005e" kind="Property" role="Property" guid="{1656B2DB-2830-4ba9-B157-5C3A5B9D8AF7}" derivedfrom="id-0065-00000037" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>severity</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>LM_INFO</value>
+								</attribute>
+								<reference id="id-0067-0000003e" kind="DataType" role="DataType" guid="{6B0FE462-6D60-431f-8C0A-AA63F5583302}" derivedfrom="id-0067-0000001b" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+							<model id="id-0065-0000005f" kind="Property" role="Property" guid="{B14CE829-8E61-4b5f-8C44-F2103DB4BE95}" derivedfrom="id-0065-00000036" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>format</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>&quot;%s is postprocessing event %d&quot;</value>
+								</attribute>
+								<reference id="id-0067-0000003f" kind="DataType" role="DataType" guid="{C2C6D1D8-4F8B-4828-9482-611EF1E32EA4}" derivedfrom="id-0067-00000018" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+							<model id="id-0065-00000060" kind="Property" role="Property" guid="{66536162-2186-4aef-A009-419729D15378}" derivedfrom="id-0065-00000035" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>arglist</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
+								</attribute>
+								<reference id="id-0067-00000040" kind="DataType" role="DataType" guid="{1942DB30-1CB9-4e08-8D46-AD64A922E04C}" derivedfrom="id-0067-00000015" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+									<name>GenericValue</name>
+								</reference>
+							</model>
+						</model>
+						<atom id="id-0066-00000021" kind="State" role="State" guid="{D19E4946-D68F-4654-AB1E-0C543604DCBF}" derivedfrom="id-0066-0000000b" isinstance="yes" isprimary="no">
+							<name>State</name>
+						</atom>
+						<atom id="id-0066-00000022" kind="Environment" role="Environment" guid="{4B8573F0-E377-420c-8808-C4372254A49E}" derivedfrom="id-0066-0000000c" isinstance="yes" isprimary="no">
+							<name>Environment</name>
+						</atom>
+						<atom id="id-0066-00000023" kind="State" role="State" guid="{83B86260-BAB7-4c8d-9737-9A830757A164}" derivedfrom="id-0066-0000000d" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-00000024" kind="State" role="State" guid="{1C41A7DC-994F-4556-BA45-16600E60A551}" derivedfrom="id-0066-0000000e" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-00000025" kind="State" role="State" guid="{FE800A91-4FF4-48e8-9115-15AFA9E725E4}" derivedfrom="id-0066-0000000f" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-00000026" kind="Terminal" role="Terminal" guid="{2B6F6DE4-F3AF-4046-9981-0F40F3D95310}" derivedfrom="id-0066-0000000a" isinstance="yes" isprimary="no">
+							<name>Terminal</name>
+						</atom>
+						<atom id="id-0066-00000027" kind="Terminal" role="Terminal" guid="{866E303D-C9C2-4669-BD94-0602A9282C37}" derivedfrom="id-0066-00000008" isinstance="yes" isprimary="no">
+							<name>Terminal</name>
+						</atom>
+						<atom id="id-0066-00000028" kind="State" role="State" guid="{9A4522CF-EC1B-4f38-A47E-DF62D8ECCC5F}" derivedfrom="id-0066-00000007" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-00000029" kind="State" role="State" guid="{C4E50876-6EC2-474b-A9B6-F1EDBD151AC1}" derivedfrom="id-0066-00000004" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-0000002a" kind="BranchState" role="BranchState" guid="{11CE84DE-F8DB-4ec6-8ECD-39E422F13552}" derivedfrom="id-0066-00000006" isinstance="yes" isprimary="no">
+							<name>BranchState</name>
+						</atom>
+						<atom id="id-0066-0000002b" kind="State" role="State" guid="{F15E2BAD-73F6-4b56-9736-69A82A8067CA}" derivedfrom="id-0066-00000005" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-0000002c" kind="BranchState" role="BranchState" guid="{21B46630-5CD7-49c9-99B4-8F4BF2771479}" derivedfrom="id-0066-00000009" isinstance="yes" isprimary="no">
+							<name>BranchState</name>
+						</atom>
+						<reference id="id-0067-00000034" kind="WorkerType" role="WorkerType" guid="{F9584B42-96F9-4413-A809-A96A68A41AAA}" derivedfrom="id-0067-00000010" isinstance="yes" isprimary="no" referred="id-0065-00000017" isbound="yes">
+							<name>mycpu</name>
+						</reference>
+						<reference id="id-0067-00000035" kind="Variable" role="Variable" guid="{2E5C9BFB-EF70-44eb-A165-D540F1C23D7C}" derivedfrom="id-0067-00000006" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+							<name>eventCount</name>
+							<attribute kind="InitialValue" status="meta">
+								<value></value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-00000036" kind="Variable" role="Variable" guid="{D0D1820C-E81D-446f-A475-3ABEF6CD8AF9}" derivedfrom="id-0067-00000007" isinstance="yes" isprimary="no" referred="id-0066-00000003" isbound="yes">
+							<name>logEvent</name>
+							<attribute kind="InitialValue" status="meta">
+								<value></value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-00000037" kind="InEventPort" role="InEventPort" guid="{42FB46D8-718B-4361-ADB8-08FD401AB0F5}" derivedfrom="id-0067-0000000f" isinstance="yes" isprimary="no" referred="id-0065-0000000e" isbound="yes">
+							<name>NullEvent</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="exclusiveProvider" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="exclusiveUser" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="optional" status="meta">
+								<value>false</value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-0000003d" kind="WorkerType" role="WorkerType" guid="{A92397DA-7F65-4c45-A6BF-B1BC8CC34501}" derivedfrom="id-0067-00000011" isinstance="yes" isprimary="no" referred="id-0065-00000023" isbound="yes">
+							<name>logger</name>
+						</reference>
+						<connection isbound="yes" id="id-0068-0000002a" kind="Effect" role="Effect" guid="{F6D422FA-9D14-4dc0-AB54-7056BBDD3F61}" derivedfrom="id-0068-00000013" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000002b" kind="MultiInput" role="MultiInput" guid="{1A5AC3F3-83F2-4b98-BF79-ADBFB2CE5CE8}" derivedfrom="id-0068-0000000f" isinstance="yes" isprimary="no">
+							<name>MultiInput</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000002c" kind="Effect" role="Effect" guid="{734A2BC9-A5A5-41da-B730-09226EA8C00A}" derivedfrom="id-0068-00000005" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000002d" kind="Transition" role="Transition" guid="{AF5EB713-76AA-4640-9BF4-F2070DF091CD}" derivedfrom="id-0068-00000012" isinstance="yes" isprimary="no">
+							<name></name>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000002e" kind="Effect" role="Effect" guid="{C08D9519-0925-42e2-8CC7-2FDB3321AFC0}" derivedfrom="id-0068-00000011" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000002f" kind="InputEffect" role="InputEffect" guid="{B8962D68-8E82-4ea3-8F45-3C7840EF9002}" derivedfrom="id-0068-0000000e" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000030" kind="Transition" role="Transition" guid="{2012F619-2644-4a83-A35A-09AFC78EB69C}" derivedfrom="id-0068-00000010" isinstance="yes" isprimary="no">
+							<name></name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000031" kind="Effect" role="Effect" guid="{B1866097-4A67-47bd-A3CC-DE87A50678BA}" derivedfrom="id-0068-00000009" isinstance="yes" isprimary="no">
+							<name>Effect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000032" kind="TerminalEffect" role="TerminalEffect" guid="{343557C9-2C57-4d29-91EB-056A45ADABCF}" derivedfrom="id-0068-00000007" isinstance="yes" isprimary="no">
+							<name>TerminalEffect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000033" kind="BranchTransition" role="BranchTransition" guid="{A02F3029-D114-43a9-938D-06EFD0AA5405}" derivedfrom="id-0068-00000008" isinstance="yes" isprimary="no">
+							<name>BranchTransition</name>
+							<attribute kind="Condition" status="inherited">
+								<value>this-&gt;logEvent_</value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000034" kind="TerminalTransition" role="TerminalTransition" guid="{AC0321F5-17BF-4fc4-8064-6A11ECA758DA}" derivedfrom="id-0068-00000006" isinstance="yes" isprimary="no">
+							<name>TerminalTransition</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000035" kind="InputEffect" role="InputEffect" guid="{2EE83A66-1298-42a3-87D8-E967836F0B21}" derivedfrom="id-0068-00000004" isinstance="yes" isprimary="no">
+							<name>InputEffect</name>
+							<attribute kind="Postcondition" status="inherited">
+								<value>this-&gt;eventCount_ ++;
+this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000036" kind="Finish" role="Finish" guid="{1D221E82-8DD3-44f5-B119-7B35E1EC39FB}" derivedfrom="id-0068-00000003" isinstance="yes" isprimary="no">
+							<name>Finish</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000037" kind="TerminalEffect" role="TerminalEffect" guid="{D6DC00FA-8038-47f7-A166-1D072B586320}" derivedfrom="id-0068-0000000d" isinstance="yes" isprimary="no">
+							<name>TerminalEffect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000038" kind="TerminalTransition" role="TerminalTransition" guid="{F288371E-A259-42ab-B300-1EF35191DA4F}" derivedfrom="id-0068-0000000c" isinstance="yes" isprimary="no">
+							<name>TerminalTransition</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000039" kind="Transition" role="Transition" guid="{5E2A08F4-E086-48c7-98AC-988A9B14AD66}" derivedfrom="id-0068-00000002" isinstance="yes" isprimary="no">
+							<name>Transition</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000003a" kind="Finish" role="Finish" guid="{754BDE06-ECF4-4a78-AEB6-AB4AD98894CD}" derivedfrom="id-0068-00000014" isinstance="yes" isprimary="no">
+							<name>Finish</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000003b" kind="Effect" role="Effect" guid="{A20559DE-995E-4b26-86FB-6E7778036CF6}" derivedfrom="id-0068-0000000b" isinstance="yes" isprimary="no">
+							<name>Effect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000003c" kind="BranchTransition" role="BranchTransition" guid="{C34B3CEF-8050-4c65-AA28-42ABAA95DCFC}" derivedfrom="id-0068-0000000a" isinstance="yes" isprimary="no">
+							<name>BranchTransition</name>
+							<attribute kind="Condition" status="inherited">
+								<value>this-&gt;logEvent_</value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000003d" kind="Input" role="Input" guid="{7C0C9179-27EE-45fc-AE8C-74D6DD9A47B6}" derivedfrom="id-0068-00000001" isinstance="yes" isprimary="no">
+							<name>Input</name>
+						</connection>
+					</model>
+					<model id="id-0065-00000061" kind="Component" role="Component" guid="{F3C0562D-A976-4894-8AE6-219958B876D4}" derivedfrom="id-0065-00000011" isinstance="yes" isprimary="yes" relid="0x2" childrelidcntr="0x0">
+						<name>NullEventGenerator</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>124,250</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="UUID">
+							<value>249FBC64-775A-458F-A1DE-E909F5E3B3A5</value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="label" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-00000062" kind="Attribute" role="Attribute" guid="{F5733D9C-464F-4882-844F-B54FD142C4F1}" derivedfrom="id-0065-00000014" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>publishInterval</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-00000041" kind="AttributeMember" role="AttributeMember" guid="{EB5F9EF1-BE68-4a1b-AFC4-00A5A6208A2E}" derivedfrom="id-0067-00000008" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+								<name>LongInteger</name>
+							</reference>
+						</model>
+						<model id="id-0065-00000063" kind="InputAction" role="InputAction" guid="{D08A6250-DB03-412f-9850-6705505C21E2}" derivedfrom="id-0065-00000012" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>eventGenerator</name>
+						</model>
+						<model id="id-0065-00000064" kind="OutputAction" role="OutputAction" guid="{DC056A62-C01E-4e2c-89CE-A57780E13767}" derivedfrom="id-0065-00000013" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>NullEvent</name>
+						</model>
+						<atom id="id-0066-0000002d" kind="PeriodicEvent" role="PeriodicEvent" guid="{824051EF-18F4-4b5d-BA17-B1E3A318A569}" derivedfrom="id-0066-00000010" isinstance="yes" isprimary="no">
+							<name>eventGenerator</name>
+							<attribute kind="Period" status="inherited">
+								<value>this-&gt;publishInterval_</value>
+							</attribute>
+							<attribute kind="Probability" status="meta">
+								<value>1.0</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000002e" kind="State" role="State" guid="{CD8A2819-2FB7-4d52-90D0-955BEA807FE3}" derivedfrom="id-0066-00000011" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-0000002f" kind="State" role="State" guid="{D68DFE3D-A1E7-49cf-8E5C-525F2872B7D8}" derivedfrom="id-0066-00000012" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<reference id="id-0067-00000042" kind="OutEventPort" role="OutEventPort" guid="{317B0189-D96E-4e6c-901C-48AF5B928869}" derivedfrom="id-0067-00000009" isinstance="yes" isprimary="no" referred="id-0065-0000000e" isbound="yes">
+							<name>NullEvent</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="exclusiveProvider" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="exclusiveUser" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="optional" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="out_event_port_type" status="meta">
+								<value>DirectConnect</value>
+							</attribute>
+							<attribute kind="single_destination" status="meta">
+								<value>false</value>
+							</attribute>
+						</reference>
+						<connection isbound="yes" id="id-0068-0000003e" kind="Effect" role="Effect" guid="{4C0405DE-B7E5-420b-B439-A8BC0D93992A}" derivedfrom="id-0068-00000019" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000003f" kind="InputEffect" role="InputEffect" guid="{F332E558-EF87-47f5-99BF-F4398586A42B}" derivedfrom="id-0068-00000016" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000040" kind="Input" role="Input" guid="{4666E1E3-1B3D-4241-BDB6-79E1568952CF}" derivedfrom="id-0068-00000017" isinstance="yes" isprimary="no">
+							<name>Input</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000041" kind="Transition" role="Transition" guid="{409AAEA3-37D9-4dae-BF4C-CCCC0CF8581E}" derivedfrom="id-0068-00000018" isinstance="yes" isprimary="no">
+							<name></name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000042" kind="Finish" role="Finish" guid="{BE9B5DCD-BA9B-4ab9-B20F-74F3035AFC3B}" derivedfrom="id-0068-0000001a" isinstance="yes" isprimary="no">
+							<name>Finish</name>
+						</connection>
+					</model>
+					<model id="id-0065-00000065" kind="Property" role="Property" guid="{07B64D32-E64A-4a1f-9996-9B535FA4618E}" relid="0x6" childrelidcntr="0x1">
+						<name>publishInterval</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>55,370</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="DataValue">
+							<value>1000</value>
+						</attribute>
+						<reference id="id-0067-00000043" kind="DataType" role="DataType" guid="{21F5E17A-15FA-45f8-A759-FC066E124186}" relid="0x1" referred="id-0066-00000002">
+							<name>LongInteger</name>
+						</reference>
+					</model>
+					<model id="id-0065-00000066" kind="Property" role="Property" guid="{95312E37-8558-4399-9A48-D810CA66A5B6}" relid="0x8" childrelidcntr="0x1">
+						<name>logRate</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>405,538</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="DataValue">
+							<value>10</value>
+						</attribute>
+						<reference id="id-0067-00000044" kind="DataType" role="DataType" guid="{ECF35369-92E6-4919-8FD8-9247AC21C410}" relid="0x1" referred="id-0066-00000002">
+							<name>LongInteger</name>
+						</reference>
+					</model>
+					<model id="id-0065-00000067" kind="Property" role="Property" guid="{47687D2A-F4FB-4a03-AEF3-743A99932E6B}" relid="0x9" childrelidcntr="0x1">
+						<name>testName</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>454,573</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="DataValue">
+							<value>AntiSPAM</value>
+						</attribute>
+						<reference id="id-0067-00000045" kind="DataType" role="DataType" guid="{6E1E9C34-B434-451a-8769-A32AC06BC8AF}" relid="0x1" referred="id-0066-00000001">
+							<name>String</name>
+						</reference>
+					</model>
+					<model id="id-0065-00000068" kind="Property" role="Property" guid="{9634D820-1C49-462d-AF94-9D597CC33050}" relid="0xa" childrelidcntr="0x1">
+						<name>instName</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>349,468</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="DataValue">
+							<value>CPUBound.1</value>
+						</attribute>
+						<reference id="id-0067-00000046" kind="DataType" role="DataType" guid="{8C3A1C30-CE90-4ea6-B59C-16FA1DE39A07}" relid="0x1" referred="id-0066-00000001">
+							<name>String</name>
+						</reference>
+					</model>
+					<model id="id-0065-00000070" kind="Property" role="Property" guid="{A3FDF634-95E1-429b-84AB-D952EC71561B}" relid="0xe" childrelidcntr="0x1">
+						<name>cpuTime</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>510,601</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="DataValue">
+							<value>32</value>
+						</attribute>
+						<reference id="id-0067-0000004c" kind="DataType" role="DataType" guid="{38510055-CAAF-47c5-99F2-2C974429AEFE}" relid="0x1" referred="id-0066-00000002">
+							<name>LongInteger</name>
+						</reference>
+					</model>
+					<model id="id-0065-00000071" kind="Component" role="Component" guid="{DCED6248-C41C-4182-89AD-7B9FFCE26849}" derivedfrom="id-0065-00000003" isinstance="yes" isprimary="yes" relid="0x10" childrelidcntr="0x0">
+						<name>CPUBound2</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>572,272</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="UUID">
+							<value>B297620B-2D0E-4CA1-B183-4710323ABEC1</value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="label" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-00000072" kind="Action" role="Action" guid="{7F7F7671-6F9E-4d5c-AC02-94C8CD05CE9D}" derivedfrom="id-0065-00000038" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-00000073" kind="Property" role="Property" guid="{E9B813CF-F112-47c1-85AF-91F6A5E7EB79}" derivedfrom="id-0065-00000039" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>port</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>20000</value>
+								</attribute>
+								<reference id="id-0067-0000004d" kind="DataType" role="DataType" guid="{3004919A-8971-4be2-B23E-D74C00538277}" derivedfrom="id-0067-0000001e" isinstance="yes" isprimary="no" referred="id-0066-00000017" isbound="yes">
+									<name>ShortInteger</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-00000074" kind="Attribute" role="Attribute" guid="{6538627A-725A-4234-84ED-068CF408AFAD}" derivedfrom="id-0065-0000000a" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>instName</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-0000004e" kind="AttributeMember" role="AttributeMember" guid="{022C4148-CECE-44e5-9374-BA85F5699B4A}" derivedfrom="id-0067-00000005" isinstance="yes" isprimary="no" referred="id-0066-00000001" isbound="yes">
+								<name>String</name>
+							</reference>
+						</model>
+						<model id="id-0065-00000075" kind="Attribute" role="Attribute" guid="{81D95D6B-6E42-4632-8965-81A74E1BB247}" derivedfrom="id-0065-00000006" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logRate</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-0000004f" kind="AttributeMember" role="AttributeMember" guid="{D5D7B921-8F42-4a58-A97C-ADB0CC46A0BF}" derivedfrom="id-0067-00000002" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+								<name>AttributeMember</name>
+							</reference>
+						</model>
+						<model id="id-0065-00000076" kind="Action" role="Action" guid="{CE3B9FEE-021F-46ad-999A-4386C1CFB2CA}" derivedfrom="id-0065-00000034" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-00000077" kind="Property" role="Property" guid="{BEDBC80B-6C4D-4fce-854B-A4EECB6B712A}" derivedfrom="id-0065-00000036" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>format</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>&quot;%s is postprocessing event %d&quot;</value>
+								</attribute>
+								<reference id="id-0067-00000050" kind="DataType" role="DataType" guid="{69115CCB-C6AB-4622-B808-F4363CC83FE1}" derivedfrom="id-0067-00000018" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+							<model id="id-0065-00000078" kind="Property" role="Property" guid="{89C8774D-F7FE-42c5-8505-291E8BD40788}" derivedfrom="id-0065-00000037" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>severity</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>LM_INFO</value>
+								</attribute>
+								<reference id="id-0067-00000051" kind="DataType" role="DataType" guid="{D84B0A8C-4EF9-4724-80A3-51C87C7D46D3}" derivedfrom="id-0067-0000001b" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+							<model id="id-0065-00000079" kind="Property" role="Property" guid="{A20F5183-9D61-410b-ACF6-249AAD93C3A5}" derivedfrom="id-0065-00000035" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>arglist</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
+								</attribute>
+								<reference id="id-0067-00000052" kind="DataType" role="DataType" guid="{D0BD674F-9980-42a9-898B-D34F00F73299}" derivedfrom="id-0067-00000015" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+									<name>GenericValue</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-0000007a" kind="Action" role="Action" guid="{ED14F67D-6E52-4972-A1B4-7D7EFD61EDD2}" derivedfrom="id-0065-00000030" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-0000007b" kind="Property" role="Property" guid="{B957D642-97B5-4c2e-AA68-D7EFA3A40B8A}" derivedfrom="id-0065-00000033" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>severity</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>LM_INFO</value>
+								</attribute>
+								<reference id="id-0067-00000053" kind="DataType" role="DataType" guid="{6064910A-0523-4ad3-86B0-645C8EC21D24}" derivedfrom="id-0067-0000001c" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+							<model id="id-0065-0000007c" kind="Property" role="Property" guid="{EC6A37D0-8E49-4bda-A7E5-3DB0D2D42567}" derivedfrom="id-0065-00000032" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>format</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>&quot;%s is preprocessing event %d&quot;</value>
+								</attribute>
+								<reference id="id-0067-00000054" kind="DataType" role="DataType" guid="{3A7652A9-D84B-4a81-B5EB-B200F2C9E647}" derivedfrom="id-0067-00000019" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+							<model id="id-0065-0000007d" kind="Property" role="Property" guid="{1FD10799-3A7B-4ee7-B325-43369E53A829}" derivedfrom="id-0065-00000031" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>arglist</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
+								</attribute>
+								<reference id="id-0067-00000055" kind="DataType" role="DataType" guid="{3C312D57-7DF7-4339-9071-41C4C1B87712}" derivedfrom="id-0067-00000016" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+									<name>GenericValue</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-0000007e" kind="Attribute" role="Attribute" guid="{E296B482-FDCA-4b18-BEC6-7E108EAF69B5}" derivedfrom="id-0065-00000009" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>cpuTime</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-00000056" kind="AttributeMember" role="AttributeMember" guid="{C7D6D588-A4E4-43a3-B648-EE7C72A15E57}" derivedfrom="id-0067-00000004" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+								<name>LongInteger</name>
+							</reference>
+						</model>
+						<model id="id-0065-0000007f" kind="Action" role="Action" guid="{FA12AA42-F81C-4f43-B68C-BABBE689BCC6}" derivedfrom="id-0065-0000002e" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>mycpu</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-00000080" kind="Property" role="Property" guid="{99F9FABA-53CE-4452-AFE1-277898A86B8E}" derivedfrom="id-0065-0000002f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>msec</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;cpuTime_</value>
+								</attribute>
+								<reference id="id-0067-00000057" kind="DataType" role="DataType" guid="{55350C68-4174-4221-9B12-61347C0D8BA2}" derivedfrom="id-0067-0000000e" isinstance="yes" isprimary="no" referred="id-0066-00000014" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-00000081" kind="Attribute" role="Attribute" guid="{06D4D305-B18F-4db5-B480-B144ABBF6A32}" derivedfrom="id-0065-00000008" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>testName</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-00000058" kind="AttributeMember" role="AttributeMember" guid="{C76F44CC-76B7-4e5c-A93F-59CEA95008D8}" derivedfrom="id-0067-00000003" isinstance="yes" isprimary="no" referred="id-0066-00000001" isbound="yes">
+								<name>String</name>
+							</reference>
+						</model>
+						<model id="id-0065-00000082" kind="InputAction" role="InputAction" guid="{AB248D36-56EC-48de-979B-0E623A565A19}" derivedfrom="id-0065-00000004" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>NullEvent</name>
+							<model id="id-0065-00000083" kind="Property" role="Property" guid="{5E155725-0D16-4d0a-82D1-3078DAD92217}" derivedfrom="id-0065-00000005" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>asynchronous</name>
+								<attribute kind="DataValue" status="meta">
+									<value></value>
+								</attribute>
+								<reference id="id-0067-00000059" kind="DataType" role="DataType" guid="{F5E76A78-5744-4c69-9B33-9AE88EBAFED1}" derivedfrom="id-0067-00000001" isinstance="yes" isprimary="no" referred="id-0066-00000001" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+							<model id="id-0065-00000084" kind="Property" role="Property" guid="{8BDFF123-BC18-4a12-A27E-1E740737BD86}" derivedfrom="id-0065-0000003d" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>threads</name>
+								<attribute kind="DataValue" status="meta">
+									<value></value>
+								</attribute>
+								<reference id="id-0067-0000005a" kind="DataType" role="DataType" guid="{62A3CC0B-58DB-454f-A14F-FD7D37FF0D8D}" derivedfrom="id-0067-00000021" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+							<model id="id-0065-00000085" kind="Property" role="Property" guid="{8DAA8377-5241-4a39-9FAF-D300567DA196}" derivedfrom="id-0065-0000003c" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>affinity</name>
+								<attribute kind="DataValue" status="meta">
+									<value></value>
+								</attribute>
+								<reference id="id-0067-0000005b" kind="DataType" role="DataType" guid="{6E22CFEF-2DB0-4b27-9267-2325206ED934}" derivedfrom="id-0067-00000020" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-00000086" kind="MultiInputAction" role="MultiInputAction" guid="{0BD5C6CE-8323-444b-9B4B-60AE97C3D8C9}" derivedfrom="id-0065-00000007" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>activate</name>
+						</model>
+						<model id="id-0065-00000087" kind="Action" role="Action" guid="{7FE32720-481D-46e4-9894-40BD23D8CCCC}" derivedfrom="id-0065-0000003a" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-00000088" kind="Property" role="Property" guid="{2AE82C3A-C352-44f0-B8C6-A0DB04B7745E}" derivedfrom="id-0065-0000003b" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>location</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;testName_</value>
+								</attribute>
+								<reference id="id-0067-00000060" kind="DataType" role="DataType" guid="{A19D120D-3D54-4922-B3D6-0F01AF27A964}" derivedfrom="id-0067-00000013" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+						</model>
+						<atom id="id-0066-00000031" kind="State" role="State" guid="{211C846E-6951-40ff-9D25-5713E066397D}" derivedfrom="id-0066-0000000d" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-00000032" kind="State" role="State" guid="{87B5CF37-1BD1-42f4-AA06-AFBEB06F5EA9}" derivedfrom="id-0066-0000000f" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-00000033" kind="Terminal" role="Terminal" guid="{64CD6B6A-D940-49c4-891C-73C84253A6B7}" derivedfrom="id-0066-00000008" isinstance="yes" isprimary="no">
+							<name>Terminal</name>
+						</atom>
+						<atom id="id-0066-00000034" kind="State" role="State" guid="{4CC79FAC-3DCF-46d6-9334-96E01DBB0C62}" derivedfrom="id-0066-00000007" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-00000035" kind="BranchState" role="BranchState" guid="{08FABFDD-905D-46cc-812F-E0250D95A7DE}" derivedfrom="id-0066-00000006" isinstance="yes" isprimary="no">
+							<name>BranchState</name>
+						</atom>
+						<atom id="id-0066-00000036" kind="State" role="State" guid="{44B332BF-3B5C-49d2-A4E9-DDFF774C922F}" derivedfrom="id-0066-0000000b" isinstance="yes" isprimary="no">
+							<name>State</name>
+						</atom>
+						<atom id="id-0066-00000037" kind="State" role="State" guid="{650E19AC-8053-4500-8783-AC7A473FB9B1}" derivedfrom="id-0066-0000000e" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-00000038" kind="Environment" role="Environment" guid="{C36958C2-38F0-4c17-AB20-74534BE59C82}" derivedfrom="id-0066-0000000c" isinstance="yes" isprimary="no">
+							<name>Environment</name>
+						</atom>
+						<atom id="id-0066-00000039" kind="Terminal" role="Terminal" guid="{92B8BD40-F39D-47f2-B5BD-64A9BD611557}" derivedfrom="id-0066-0000000a" isinstance="yes" isprimary="no">
+							<name>Terminal</name>
+						</atom>
+						<atom id="id-0066-0000003a" kind="BranchState" role="BranchState" guid="{A22F8490-D1D8-49f2-95A9-EF3EE8EA296A}" derivedfrom="id-0066-00000009" isinstance="yes" isprimary="no">
+							<name>BranchState</name>
+						</atom>
+						<atom id="id-0066-0000003b" kind="State" role="State" guid="{42E551CC-4B44-4121-B820-D5C64DB4AC40}" derivedfrom="id-0066-00000005" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-0000003c" kind="State" role="State" guid="{4E993A89-3653-49fb-9BEB-C306A5BF993B}" derivedfrom="id-0066-00000004" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<reference id="id-0067-0000005c" kind="WorkerType" role="WorkerType" guid="{35DB01A7-E426-49f1-A618-6FD5FBFE536B}" derivedfrom="id-0067-00000010" isinstance="yes" isprimary="no" referred="id-0065-00000017" isbound="yes">
+							<name>mycpu</name>
+						</reference>
+						<reference id="id-0067-0000005d" kind="Variable" role="Variable" guid="{A42196AA-7A60-4d72-A3C6-5614C30AC634}" derivedfrom="id-0067-00000006" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+							<name>eventCount</name>
+							<attribute kind="InitialValue" status="meta">
+								<value></value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-0000005e" kind="Variable" role="Variable" guid="{BECD1971-BC97-48ed-9A65-EE73C94339B1}" derivedfrom="id-0067-00000007" isinstance="yes" isprimary="no" referred="id-0066-00000003" isbound="yes">
+							<name>logEvent</name>
+							<attribute kind="InitialValue" status="meta">
+								<value></value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-0000005f" kind="InEventPort" role="InEventPort" guid="{C0637CBA-B3D6-452e-B2DB-430179C37593}" derivedfrom="id-0067-0000000f" isinstance="yes" isprimary="no" referred="id-0065-0000000e" isbound="yes">
+							<name>NullEvent</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="exclusiveProvider" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="exclusiveUser" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="optional" status="meta">
+								<value>false</value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-00000061" kind="WorkerType" role="WorkerType" guid="{27F5B781-B5CD-4bcd-98BB-DD54D83A6C5C}" derivedfrom="id-0067-00000011" isinstance="yes" isprimary="no" referred="id-0065-00000023" isbound="yes">
+							<name>logger</name>
+						</reference>
+						<connection isbound="yes" id="id-0068-0000004f" kind="InputEffect" role="InputEffect" guid="{98CE6E0C-C327-4983-B0CF-74DABD74CCEA}" derivedfrom="id-0068-0000000e" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000050" kind="BranchTransition" role="BranchTransition" guid="{1EDC7F9F-181E-4d75-A6FD-E14B07C61C57}" derivedfrom="id-0068-0000000a" isinstance="yes" isprimary="no">
+							<name>BranchTransition</name>
+							<attribute kind="Condition" status="inherited">
+								<value>this-&gt;logEvent_</value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000051" kind="TerminalTransition" role="TerminalTransition" guid="{54CBD396-DDC8-4573-9E57-844BCDE240ED}" derivedfrom="id-0068-00000006" isinstance="yes" isprimary="no">
+							<name>TerminalTransition</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000052" kind="Finish" role="Finish" guid="{62CE6DF7-556E-4d64-9FA4-A030C7016A1F}" derivedfrom="id-0068-00000014" isinstance="yes" isprimary="no">
+							<name>Finish</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000053" kind="Effect" role="Effect" guid="{E73BF2B8-3323-42d0-A300-B58F478CD36C}" derivedfrom="id-0068-00000013" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000054" kind="TerminalEffect" role="TerminalEffect" guid="{4EE0CCA8-FA09-4cc8-98D0-8E499048EF77}" derivedfrom="id-0068-0000000d" isinstance="yes" isprimary="no">
+							<name>TerminalEffect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000055" kind="TerminalTransition" role="TerminalTransition" guid="{0479078F-0DAB-4952-A416-BD5F773D9A94}" derivedfrom="id-0068-0000000c" isinstance="yes" isprimary="no">
+							<name>TerminalTransition</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000056" kind="Effect" role="Effect" guid="{2624785F-8466-4b90-B7DD-B2E9A00857F1}" derivedfrom="id-0068-00000009" isinstance="yes" isprimary="no">
+							<name>Effect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000057" kind="Effect" role="Effect" guid="{370E7828-2145-43b6-B631-DD2ADB25EB17}" derivedfrom="id-0068-0000000b" isinstance="yes" isprimary="no">
+							<name>Effect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000058" kind="BranchTransition" role="BranchTransition" guid="{894879F5-2F3E-42ab-B039-086F5D85B3DF}" derivedfrom="id-0068-00000008" isinstance="yes" isprimary="no">
+							<name>BranchTransition</name>
+							<attribute kind="Condition" status="inherited">
+								<value>this-&gt;logEvent_</value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000059" kind="Effect" role="Effect" guid="{3150D01D-CB00-44c9-9356-ACFABE544BC9}" derivedfrom="id-0068-00000005" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000005a" kind="TerminalEffect" role="TerminalEffect" guid="{1CDA05DF-7288-41bb-A523-164684DA245C}" derivedfrom="id-0068-00000007" isinstance="yes" isprimary="no">
+							<name>TerminalEffect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000005b" kind="InputEffect" role="InputEffect" guid="{587274D0-2D2F-4545-AB65-3F89E7775568}" derivedfrom="id-0068-00000004" isinstance="yes" isprimary="no">
+							<name>InputEffect</name>
+							<attribute kind="Postcondition" status="inherited">
+								<value>this-&gt;eventCount_ ++;
+this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000005c" kind="Finish" role="Finish" guid="{54927D1A-1A5E-424d-91D0-854756D2A11B}" derivedfrom="id-0068-00000003" isinstance="yes" isprimary="no">
+							<name>Finish</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000005d" kind="Transition" role="Transition" guid="{E48D0FBF-D815-4ace-8C8B-C8BE188CF25F}" derivedfrom="id-0068-00000012" isinstance="yes" isprimary="no">
+							<name></name>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000005e" kind="Transition" role="Transition" guid="{FFCD9BCA-E1EB-4743-ADF9-F05CCBEB737A}" derivedfrom="id-0068-00000002" isinstance="yes" isprimary="no">
+							<name>Transition</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000005f" kind="Effect" role="Effect" guid="{4D6136A5-A404-49bd-8803-EA6E978A3A63}" derivedfrom="id-0068-00000011" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000060" kind="Transition" role="Transition" guid="{B93A2BAD-EA94-4d34-9505-0BAD286F4464}" derivedfrom="id-0068-00000010" isinstance="yes" isprimary="no">
+							<name></name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000061" kind="MultiInput" role="MultiInput" guid="{27CCA67E-E7AB-4ba3-9614-CE98D9AF5168}" derivedfrom="id-0068-0000000f" isinstance="yes" isprimary="no">
+							<name>MultiInput</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000062" kind="Input" role="Input" guid="{78CF7156-7179-43da-BEB2-7C66889DBA3E}" derivedfrom="id-0068-00000001" isinstance="yes" isprimary="no">
+							<name>Input</name>
+						</connection>
+					</model>
+					<model id="id-0065-00000089" kind="Component" role="Component" guid="{A82E9017-7887-4d85-839F-11331DABD5B9}" derivedfrom="id-0065-00000003" isinstance="yes" isprimary="yes" relid="0x11" childrelidcntr="0x0">
+						<name>CPUBound3</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>572,125</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="UUID">
+							<value>4E33D43E-B60B-48D0-943D-5B461A65594B</value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="label" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-0000008a" kind="Action" role="Action" guid="{7F556BAA-DA9E-4a43-BDE9-3B426F91909C}" derivedfrom="id-0065-00000038" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-0000008b" kind="Property" role="Property" guid="{AAA61DF9-B54B-441b-9BC8-58897DB7D594}" derivedfrom="id-0065-00000039" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>port</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>20000</value>
+								</attribute>
+								<reference id="id-0067-00000062" kind="DataType" role="DataType" guid="{1AA53610-244D-40ae-8BDE-DBEB5A1B7C2D}" derivedfrom="id-0067-0000001e" isinstance="yes" isprimary="no" referred="id-0066-00000017" isbound="yes">
+									<name>ShortInteger</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-0000008c" kind="Attribute" role="Attribute" guid="{0158E4DF-0AD7-431e-8252-5D47A6E036C0}" derivedfrom="id-0065-0000000a" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>instName</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-00000063" kind="AttributeMember" role="AttributeMember" guid="{5E32F51F-A8EF-48f9-BA3D-44045DDAD9E3}" derivedfrom="id-0067-00000005" isinstance="yes" isprimary="no" referred="id-0066-00000001" isbound="yes">
+								<name>String</name>
+							</reference>
+						</model>
+						<model id="id-0065-0000008d" kind="Attribute" role="Attribute" guid="{3EF0E292-30A9-4980-B8DF-2CFC6FFC3806}" derivedfrom="id-0065-00000006" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logRate</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-00000064" kind="AttributeMember" role="AttributeMember" guid="{8E5793D1-E4C4-496e-B9F7-181F4CACB029}" derivedfrom="id-0067-00000002" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+								<name>AttributeMember</name>
+							</reference>
+						</model>
+						<model id="id-0065-0000008e" kind="Action" role="Action" guid="{FBFBEC31-FD66-48d2-BB44-6F2F33D35ABF}" derivedfrom="id-0065-00000034" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-0000008f" kind="Property" role="Property" guid="{07748EF9-5BDA-4d37-86FE-EF891BFF4316}" derivedfrom="id-0065-00000036" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>format</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>&quot;%s is postprocessing event %d&quot;</value>
+								</attribute>
+								<reference id="id-0067-00000065" kind="DataType" role="DataType" guid="{CF45449C-63FA-4503-BBB3-D7F7530247E0}" derivedfrom="id-0067-00000018" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+							<model id="id-0065-00000090" kind="Property" role="Property" guid="{88A6FD0E-9FF9-4d71-985B-80780915F489}" derivedfrom="id-0065-00000037" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>severity</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>LM_INFO</value>
+								</attribute>
+								<reference id="id-0067-00000066" kind="DataType" role="DataType" guid="{1D753363-4837-45c9-A5F8-D829C9AFB619}" derivedfrom="id-0067-0000001b" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+							<model id="id-0065-00000091" kind="Property" role="Property" guid="{C72D891F-960F-4c44-BF17-9970E6C512BE}" derivedfrom="id-0065-00000035" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>arglist</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
+								</attribute>
+								<reference id="id-0067-00000067" kind="DataType" role="DataType" guid="{61622BBC-21D7-4cf2-9381-CA36220B5407}" derivedfrom="id-0067-00000015" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+									<name>GenericValue</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-00000092" kind="Action" role="Action" guid="{E96BD677-2B8C-4137-8D16-051D65809331}" derivedfrom="id-0065-00000030" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-00000093" kind="Property" role="Property" guid="{9BCA073B-BAC3-40b8-B76F-806520809868}" derivedfrom="id-0065-00000031" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>arglist</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
+								</attribute>
+								<reference id="id-0067-00000068" kind="DataType" role="DataType" guid="{EF3ACFB8-0815-4535-9AC3-509F9488A6D8}" derivedfrom="id-0067-00000016" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+									<name>GenericValue</name>
+								</reference>
+							</model>
+							<model id="id-0065-00000094" kind="Property" role="Property" guid="{AD829411-44D5-4bd4-B92A-0F0EE726887A}" derivedfrom="id-0065-00000032" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>format</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>&quot;%s is preprocessing event %d&quot;</value>
+								</attribute>
+								<reference id="id-0067-00000069" kind="DataType" role="DataType" guid="{A29B5FDC-32F5-4d98-9E48-2CC9F21858F7}" derivedfrom="id-0067-00000019" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+							<model id="id-0065-00000095" kind="Property" role="Property" guid="{FA7CC2E8-953F-4680-B0D0-9E0A49F467FD}" derivedfrom="id-0065-00000033" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>severity</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>LM_INFO</value>
+								</attribute>
+								<reference id="id-0067-0000006a" kind="DataType" role="DataType" guid="{E5C67828-AD1C-4c0c-9F1F-C40ECDDE0A26}" derivedfrom="id-0067-0000001c" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-00000096" kind="Attribute" role="Attribute" guid="{A30E2FDE-1C2E-4d50-AD8A-21D3EF4B58AD}" derivedfrom="id-0065-00000009" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>cpuTime</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-0000006b" kind="AttributeMember" role="AttributeMember" guid="{4DBCB246-ADC8-4b7d-8174-663FC2D95DFB}" derivedfrom="id-0067-00000004" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+								<name>LongInteger</name>
+							</reference>
+						</model>
+						<model id="id-0065-00000097" kind="Action" role="Action" guid="{DE42A7E0-FBE8-4e29-AF30-AA1C93DBBA73}" derivedfrom="id-0065-0000002e" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>mycpu</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-00000098" kind="Property" role="Property" guid="{30B18D8C-46E3-4260-96D1-F7F92BEDA673}" derivedfrom="id-0065-0000002f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>msec</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;cpuTime_</value>
+								</attribute>
+								<reference id="id-0067-0000006c" kind="DataType" role="DataType" guid="{D58D7874-F0D5-4eb6-ACC7-F781AF9585A6}" derivedfrom="id-0067-0000000e" isinstance="yes" isprimary="no" referred="id-0066-00000014" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-00000099" kind="Attribute" role="Attribute" guid="{E8293F68-6CCE-4d00-ADE6-34908F28F337}" derivedfrom="id-0065-00000008" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>testName</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-0000006d" kind="AttributeMember" role="AttributeMember" guid="{B6E8CE6D-DAA7-46f5-8149-25A41094FF63}" derivedfrom="id-0067-00000003" isinstance="yes" isprimary="no" referred="id-0066-00000001" isbound="yes">
+								<name>String</name>
+							</reference>
+						</model>
+						<model id="id-0065-0000009a" kind="InputAction" role="InputAction" guid="{0E4BA0AC-B05D-4d8c-B3FC-8005B68B854C}" derivedfrom="id-0065-00000004" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>NullEvent</name>
+							<model id="id-0065-0000009b" kind="Property" role="Property" guid="{5DBECEF1-28AF-4e70-BE49-5BA0621D769F}" derivedfrom="id-0065-00000005" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>asynchronous</name>
+								<attribute kind="DataValue" status="meta">
+									<value></value>
+								</attribute>
+								<reference id="id-0067-0000006e" kind="DataType" role="DataType" guid="{D171BAF4-44AA-489a-8812-37AFBC1E739B}" derivedfrom="id-0067-00000001" isinstance="yes" isprimary="no" referred="id-0066-00000001" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+							<model id="id-0065-0000009c" kind="Property" role="Property" guid="{33CC119B-7DE3-4b4b-8A00-B948F2287F5C}" derivedfrom="id-0065-0000003d" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>threads</name>
+								<attribute kind="DataValue" status="meta">
+									<value></value>
+								</attribute>
+								<reference id="id-0067-0000006f" kind="DataType" role="DataType" guid="{80273239-6FA2-41d1-A36C-3345EC04B651}" derivedfrom="id-0067-00000021" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+							<model id="id-0065-0000009d" kind="Property" role="Property" guid="{27A69C9E-3467-40b2-8000-5348A6F33C58}" derivedfrom="id-0065-0000003c" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>affinity</name>
+								<attribute kind="DataValue" status="meta">
+									<value></value>
+								</attribute>
+								<reference id="id-0067-00000070" kind="DataType" role="DataType" guid="{F3CB3B9E-A966-49ce-95AD-85434854C9E8}" derivedfrom="id-0067-00000020" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-0000009e" kind="MultiInputAction" role="MultiInputAction" guid="{71897233-CFF5-4a3e-82A1-5CA59AF2EF14}" derivedfrom="id-0065-00000007" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>activate</name>
+						</model>
+						<model id="id-0065-0000009f" kind="Action" role="Action" guid="{1B8BD437-40CA-44fc-A9B6-6601E5212720}" derivedfrom="id-0065-0000003a" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-000000a0" kind="Property" role="Property" guid="{F39B6601-C989-4fb9-9430-8476419A4DAE}" derivedfrom="id-0065-0000003b" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>location</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;testName_</value>
+								</attribute>
+								<reference id="id-0067-00000075" kind="DataType" role="DataType" guid="{83CAC8C0-6A6A-4506-BC1B-4FC3B9F2ADFF}" derivedfrom="id-0067-00000013" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+						</model>
+						<atom id="id-0066-0000003d" kind="State" role="State" guid="{B41C4619-0F36-4512-8FF6-8F3D8F2B6D2B}" derivedfrom="id-0066-0000000d" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-0000003e" kind="State" role="State" guid="{B39D26AD-A41C-4e6f-AEF5-9969D689AAEC}" derivedfrom="id-0066-0000000f" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-0000003f" kind="Terminal" role="Terminal" guid="{A4781F07-8AD4-46f0-87F4-51B513A5A85C}" derivedfrom="id-0066-00000008" isinstance="yes" isprimary="no">
+							<name>Terminal</name>
+						</atom>
+						<atom id="id-0066-00000040" kind="State" role="State" guid="{7AD23E72-771D-48d5-9655-93D4B31F8FBC}" derivedfrom="id-0066-00000007" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-00000041" kind="BranchState" role="BranchState" guid="{078E7D9B-6BE2-420c-82F1-4D0332EA1DC6}" derivedfrom="id-0066-00000006" isinstance="yes" isprimary="no">
+							<name>BranchState</name>
+						</atom>
+						<atom id="id-0066-00000042" kind="State" role="State" guid="{F7A54FDA-1ACF-40bc-9020-40B54F2B9BFE}" derivedfrom="id-0066-0000000b" isinstance="yes" isprimary="no">
+							<name>State</name>
+						</atom>
+						<atom id="id-0066-00000043" kind="State" role="State" guid="{32AE5689-50E6-48cd-9FFF-756E72CFE516}" derivedfrom="id-0066-0000000e" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-00000044" kind="Environment" role="Environment" guid="{2A597E22-A048-408d-8A5A-79FCF873F62E}" derivedfrom="id-0066-0000000c" isinstance="yes" isprimary="no">
+							<name>Environment</name>
+						</atom>
+						<atom id="id-0066-00000045" kind="Terminal" role="Terminal" guid="{4FBB26F1-5D4A-4056-9414-76A6D07B6AEB}" derivedfrom="id-0066-0000000a" isinstance="yes" isprimary="no">
+							<name>Terminal</name>
+						</atom>
+						<atom id="id-0066-00000046" kind="BranchState" role="BranchState" guid="{E4F4EFAD-83AD-4384-84F3-BB3220CC056A}" derivedfrom="id-0066-00000009" isinstance="yes" isprimary="no">
+							<name>BranchState</name>
+						</atom>
+						<atom id="id-0066-00000047" kind="State" role="State" guid="{512249EF-0430-40cf-9380-1B487A6E407B}" derivedfrom="id-0066-00000005" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-00000048" kind="State" role="State" guid="{16267B7A-044C-43b3-81B1-4486E036892C}" derivedfrom="id-0066-00000004" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<reference id="id-0067-00000071" kind="WorkerType" role="WorkerType" guid="{6CEEF74F-51FC-4b1d-B7CF-28D35CEDFDCC}" derivedfrom="id-0067-00000010" isinstance="yes" isprimary="no" referred="id-0065-00000017" isbound="yes">
+							<name>mycpu</name>
+						</reference>
+						<reference id="id-0067-00000072" kind="Variable" role="Variable" guid="{9FD6EC70-8058-4131-A850-43DC2364B2B8}" derivedfrom="id-0067-00000006" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+							<name>eventCount</name>
+							<attribute kind="InitialValue" status="meta">
+								<value></value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-00000073" kind="Variable" role="Variable" guid="{46E23297-704A-47bf-A86B-8C0329FE1A72}" derivedfrom="id-0067-00000007" isinstance="yes" isprimary="no" referred="id-0066-00000003" isbound="yes">
+							<name>logEvent</name>
+							<attribute kind="InitialValue" status="meta">
+								<value></value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-00000074" kind="InEventPort" role="InEventPort" guid="{A90CAA69-FB6C-42ba-A7F9-4346C8E1E807}" derivedfrom="id-0067-0000000f" isinstance="yes" isprimary="no" referred="id-0065-0000000e" isbound="yes">
+							<name>NullEvent</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="exclusiveProvider" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="exclusiveUser" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="optional" status="meta">
+								<value>false</value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-00000076" kind="WorkerType" role="WorkerType" guid="{7AE22B9A-47E0-4285-9FD9-F0608BB9F227}" derivedfrom="id-0067-00000011" isinstance="yes" isprimary="no" referred="id-0065-00000023" isbound="yes">
+							<name>logger</name>
+						</reference>
+						<connection isbound="yes" id="id-0068-00000063" kind="InputEffect" role="InputEffect" guid="{A076DC67-73A8-4ea1-8FE4-803D1936D85D}" derivedfrom="id-0068-0000000e" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000064" kind="BranchTransition" role="BranchTransition" guid="{960CB428-3BB9-445f-A3F8-906E06928075}" derivedfrom="id-0068-0000000a" isinstance="yes" isprimary="no">
+							<name>BranchTransition</name>
+							<attribute kind="Condition" status="inherited">
+								<value>this-&gt;logEvent_</value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000065" kind="TerminalTransition" role="TerminalTransition" guid="{8ECEB794-374B-4751-B512-75D4AC59D3D0}" derivedfrom="id-0068-00000006" isinstance="yes" isprimary="no">
+							<name>TerminalTransition</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000066" kind="Finish" role="Finish" guid="{92163DC7-5964-4ef2-818C-556AA7BA3B32}" derivedfrom="id-0068-00000014" isinstance="yes" isprimary="no">
+							<name>Finish</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000067" kind="Effect" role="Effect" guid="{B8DF6391-9C5C-446f-B538-5B169F205907}" derivedfrom="id-0068-00000013" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000068" kind="TerminalEffect" role="TerminalEffect" guid="{35295568-A3C7-49a5-A389-2E58BAE96DE5}" derivedfrom="id-0068-0000000d" isinstance="yes" isprimary="no">
+							<name>TerminalEffect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000069" kind="TerminalTransition" role="TerminalTransition" guid="{5CE4981B-EE5A-4a50-9351-889933105CDC}" derivedfrom="id-0068-0000000c" isinstance="yes" isprimary="no">
+							<name>TerminalTransition</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000006a" kind="Effect" role="Effect" guid="{262688E0-2AA0-4065-9EC5-68BF9F046115}" derivedfrom="id-0068-00000009" isinstance="yes" isprimary="no">
+							<name>Effect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000006b" kind="Effect" role="Effect" guid="{F91A8745-D454-4032-9E8D-A5A222AF9DF1}" derivedfrom="id-0068-0000000b" isinstance="yes" isprimary="no">
+							<name>Effect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000006c" kind="BranchTransition" role="BranchTransition" guid="{CF72B3A8-D2C5-4354-98A0-299D506589DF}" derivedfrom="id-0068-00000008" isinstance="yes" isprimary="no">
+							<name>BranchTransition</name>
+							<attribute kind="Condition" status="inherited">
+								<value>this-&gt;logEvent_</value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000006d" kind="Effect" role="Effect" guid="{3948B769-E3F3-4ea5-AE54-7B824B7611E9}" derivedfrom="id-0068-00000005" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000006e" kind="TerminalEffect" role="TerminalEffect" guid="{8032084E-4B50-4ba6-9810-3DD2D16E93B5}" derivedfrom="id-0068-00000007" isinstance="yes" isprimary="no">
+							<name>TerminalEffect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000006f" kind="InputEffect" role="InputEffect" guid="{CBB9FA23-82AF-4c63-B944-8D5D828505D6}" derivedfrom="id-0068-00000004" isinstance="yes" isprimary="no">
+							<name>InputEffect</name>
+							<attribute kind="Postcondition" status="inherited">
+								<value>this-&gt;eventCount_ ++;
+this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000070" kind="Finish" role="Finish" guid="{C8CBC098-D5F4-4daf-86D5-7409451A3DCF}" derivedfrom="id-0068-00000003" isinstance="yes" isprimary="no">
+							<name>Finish</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000071" kind="Transition" role="Transition" guid="{F462ACB8-5C2F-4f78-8BEB-ECF08C3DAFBB}" derivedfrom="id-0068-00000012" isinstance="yes" isprimary="no">
+							<name></name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000072" kind="Transition" role="Transition" guid="{2918026C-CE87-4131-A451-79CE812ED4FD}" derivedfrom="id-0068-00000002" isinstance="yes" isprimary="no">
+							<name>Transition</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000073" kind="Effect" role="Effect" guid="{727543EB-86C0-4050-A041-51A82A40C332}" derivedfrom="id-0068-00000011" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000074" kind="Transition" role="Transition" guid="{A64D0234-C6E2-47c2-A5EE-3C28815AF8C9}" derivedfrom="id-0068-00000010" isinstance="yes" isprimary="no">
+							<name></name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000075" kind="MultiInput" role="MultiInput" guid="{141CA6C5-6D59-46cd-A76E-D4E6BF795E15}" derivedfrom="id-0068-0000000f" isinstance="yes" isprimary="no">
+							<name>MultiInput</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000076" kind="Input" role="Input" guid="{7E3C6C66-A0CF-494c-94B7-CC59BEB1890A}" derivedfrom="id-0068-00000001" isinstance="yes" isprimary="no">
+							<name>Input</name>
+						</connection>
+					</model>
+					<model id="id-0065-000000a1" kind="Property" role="Property" guid="{0858355D-D8FE-4254-8DD0-1473274F0CE4}" relid="0x1b" childrelidcntr="0x1">
+						<name>instName</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>349,181</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="DataValue">
+							<value>CPUBound.3</value>
+						</attribute>
+						<reference id="id-0067-00000077" kind="DataType" role="DataType" guid="{5FE13D10-C16C-4337-AB7D-C37334A7B20E}" relid="0x1" referred="id-0066-00000001">
+							<name>String</name>
+						</reference>
+					</model>
+					<model id="id-0065-000000a2" kind="Property" role="Property" guid="{6A9CF4ED-780C-4e3d-B6D4-7586D1ECD9C8}" relid="0x1d" childrelidcntr="0x1">
+						<name>instName</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>349,328</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="DataValue">
+							<value>CPUBound.2</value>
+						</attribute>
+						<reference id="id-0067-00000078" kind="DataType" role="DataType" guid="{AC70DCFB-4322-49df-9A7B-F85CD892BB81}" relid="0x1" referred="id-0066-00000001">
+							<name>String</name>
+						</reference>
+					</model>
+					<atom id="id-0066-00000030" kind="PublishConnector" role="PublishConnector" guid="{DDC666BE-DB95-4ea2-8640-7E9D54704430}" relid="0x3">
+						<name>id-0066-00000030</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>350,280</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</atom>
+					<connection id="id-0068-00000043" kind="publish" role="publish" guid="{D4FF9B95-D4DB-4f3c-B9F7-DB5515578B93}" relid="0x4">
+						<name>publish</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>w</value>
+						</regnode>
+						<connpoint role="dst" target="id-0066-00000030"/>
+						<connpoint role="src" target="id-0067-00000042"/>
+					</connection>
+					<connection id="id-0068-00000044" kind="deliverTo" role="deliverTo" guid="{E211AD73-9B7B-4db0-9A4D-D257ED098D33}" relid="0x5">
+						<name>deliverTo</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>E</value>
+						</regnode>
+						<connpoint role="src" target="id-0066-00000030"/>
+						<connpoint role="dst" target="id-0067-00000037"/>
+					</connection>
+					<connection id="id-0068-00000045" kind="AttributeValue" role="AttributeValue" guid="{E96F4894-B1F7-4dc1-B95B-90146505FE4F}" relid="0x7">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="src" target="id-0065-00000062"/>
+						<connpoint role="dst" target="id-0065-00000065"/>
+					</connection>
+					<connection id="id-0068-00000046" kind="AttributeValue" role="AttributeValue" guid="{C2983DDA-BAB6-4962-BBF6-EF899BCB2D39}" relid="0xb">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="src" target="id-0065-00000051"/>
+						<connpoint role="dst" target="id-0065-00000066"/>
+					</connection>
+					<connection id="id-0068-00000047" kind="AttributeValue" role="AttributeValue" guid="{91AA8C0A-AC4E-46ab-A5F1-0B2A9A407CEB}" relid="0xc">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="src" target="id-0065-00000050"/>
+						<connpoint role="dst" target="id-0065-00000067"/>
+					</connection>
+					<connection id="id-0068-0000004e" kind="AttributeValue" role="AttributeValue" guid="{253F89DA-7130-4a65-95B9-ACCC693873CA}" relid="0xf">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="src" target="id-0065-0000004a"/>
+						<connpoint role="dst" target="id-0065-00000070"/>
+					</connection>
+					<connection id="id-0068-00000077" kind="deliverTo" role="deliverTo" guid="{CB36E85F-7EA8-488a-8FD1-2C1A4332212C}" relid="0x12">
+						<name>deliverTo</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>E</value>
+						</regnode>
+						<connpoint role="src" target="id-0066-00000030"/>
+						<connpoint role="dst" target="id-0067-0000005f"/>
+					</connection>
+					<connection id="id-0068-00000079" kind="deliverTo" role="deliverTo" guid="{67E64659-6495-4669-B895-42D6638E2E09}" relid="0x14">
+						<name>deliverTo</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>E</value>
+						</regnode>
+						<connpoint role="src" target="id-0066-00000030"/>
+						<connpoint role="dst" target="id-0067-00000074"/>
+					</connection>
+					<connection id="id-0068-0000007a" kind="AttributeValue" role="AttributeValue" guid="{6F4346A4-9FA7-497b-BCB8-CE1CB5E9DF38}" relid="0x15">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000070"/>
+						<connpoint role="src" target="id-0065-00000096"/>
+					</connection>
+					<connection id="id-0068-0000007b" kind="AttributeValue" role="AttributeValue" guid="{F5127B6B-AA23-43fe-BF98-EE8296E3C37D}" relid="0x16">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000070"/>
+						<connpoint role="src" target="id-0065-0000007e"/>
+					</connection>
+					<connection id="id-0068-0000007c" kind="AttributeValue" role="AttributeValue" guid="{0B0E4012-2236-4656-9EFE-9763A40A9140}" relid="0x17">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000067"/>
+						<connpoint role="src" target="id-0065-00000081"/>
+					</connection>
+					<connection id="id-0068-0000007d" kind="AttributeValue" role="AttributeValue" guid="{FC7F2B76-A25D-4fff-8516-4E548392FE64}" relid="0x18">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000067"/>
+						<connpoint role="src" target="id-0065-00000099"/>
+					</connection>
+					<connection id="id-0068-0000007e" kind="AttributeValue" role="AttributeValue" guid="{A3244296-CC49-43ad-9EF3-649B7219F6F7}" relid="0x19">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000066"/>
+						<connpoint role="src" target="id-0065-0000008d"/>
+					</connection>
+					<connection id="id-0068-0000007f" kind="AttributeValue" role="AttributeValue" guid="{78D12816-2024-4a96-BEDF-B07A3D9DB3E0}" relid="0x1a">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000066"/>
+						<connpoint role="src" target="id-0065-00000075"/>
+					</connection>
+					<connection id="id-0068-00000080" kind="AttributeValue" role="AttributeValue" guid="{0122CB45-C7E9-4f7e-B99C-9A5D4309F537}" relid="0x1c">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>e</value>
+						</regnode>
+						<connpoint role="src" target="id-0065-0000008c"/>
+						<connpoint role="dst" target="id-0065-000000a1"/>
+					</connection>
+					<connection id="id-0068-00000081" kind="AttributeValue" role="AttributeValue" guid="{3174FEBC-01A6-44da-A3D9-19603519D852}" relid="0x1e">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>e</value>
+						</regnode>
+						<connpoint role="src" target="id-0065-00000074"/>
+						<connpoint role="dst" target="id-0065-000000a2"/>
+					</connection>
+					<connection id="id-0068-00000082" kind="AttributeValue" role="AttributeValue" guid="{86A40FAC-EE4C-4ed7-A004-6BF1A9010AF3}" relid="0x1f">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>e</value>
+						</regnode>
+						<connpoint role="src" target="id-0065-0000005c"/>
+						<connpoint role="dst" target="id-0065-00000068"/>
+					</connection>
+				</model>
+			</model>
+			<model id="id-0065-000000a4" kind="ComponentImplementationContainer" guid="{827F5409-7F64-4d99-96BF-7E35D03C372B}" relid="0x4" childrelidcntr="0x1">
+				<name>SingleSenderSingleReceiverTemplate</name>
+				<model id="id-0065-000000a5" kind="ComponentAssembly" role="ComponentAssembly" guid="{32C24A49-0777-4da3-83B9-22CE9CF6DE56}" relid="0x1" childrelidcntr="0xf">
+					<name>SingleSenderSingleReceiverTemplate</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>233,135</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>17DE01D0-26DF-49CB-9AB9-F5CE000A696B</value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-000000a6" kind="Component" role="Component" guid="{2F69633D-6B0C-4859-A8F2-5BA5E960D043}" derivedfrom="id-0065-00000003" isinstance="yes" isprimary="yes" relid="0x1" childrelidcntr="0x0">
+						<name>CPUBound</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>530,258</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="UUID">
+							<value>E31040B1-CE16-452C-8279-4718F8198F6C</value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="label" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-000000a7" kind="Action" role="Action" guid="{CE7C8311-636F-4431-9D76-1A8559663F8F}" derivedfrom="id-0065-0000003a" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-000000a8" kind="Property" role="Property" guid="{E1557FEE-5D8A-4b4e-9316-C49029B5C8F3}" derivedfrom="id-0065-0000003b" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>location</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;testName_</value>
+								</attribute>
+								<reference id="id-0067-0000007f" kind="DataType" role="DataType" guid="{33925F6A-AEDB-4627-829B-FF795C0B4AC5}" derivedfrom="id-0067-00000013" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-000000a9" kind="Action" role="Action" guid="{6EF26635-1E1D-4eaa-9BA3-3AA870305656}" derivedfrom="id-0065-00000038" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-000000aa" kind="Property" role="Property" guid="{4A2203F7-0ACC-4cdd-9B34-866E3D0C141F}" derivedfrom="id-0065-00000039" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>port</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>20000</value>
+								</attribute>
+								<reference id="id-0067-00000080" kind="DataType" role="DataType" guid="{8C928179-8E52-46bd-B0EE-95FB534C3689}" derivedfrom="id-0067-0000001e" isinstance="yes" isprimary="no" referred="id-0066-00000017" isbound="yes">
+									<name>ShortInteger</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-000000ab" kind="Action" role="Action" guid="{820721BE-7E7C-4054-9775-F46F8A0949E0}" derivedfrom="id-0065-00000034" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-000000ac" kind="Property" role="Property" guid="{9DF08D24-8CCE-4d1f-A981-70FBB7D5A5F9}" derivedfrom="id-0065-00000037" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>severity</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>LM_INFO</value>
+								</attribute>
+								<reference id="id-0067-00000081" kind="DataType" role="DataType" guid="{66E72F56-8E80-483c-B401-5938835A1E96}" derivedfrom="id-0067-0000001b" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+							<model id="id-0065-000000ad" kind="Property" role="Property" guid="{1A92FBFD-E6D7-4c93-937F-A3E5C80D39D1}" derivedfrom="id-0065-00000036" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>format</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>&quot;%s is postprocessing event %d&quot;</value>
+								</attribute>
+								<reference id="id-0067-00000082" kind="DataType" role="DataType" guid="{1E18C324-9AED-4005-81E4-477281A6E629}" derivedfrom="id-0067-00000018" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+							<model id="id-0065-000000ae" kind="Property" role="Property" guid="{8CE04789-9A6B-492e-991A-BD543B40AD7A}" derivedfrom="id-0065-00000035" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>arglist</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
+								</attribute>
+								<reference id="id-0067-00000083" kind="DataType" role="DataType" guid="{F0C504FF-7BA7-43bd-BB2F-5D6EBFBD5086}" derivedfrom="id-0067-00000015" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+									<name>GenericValue</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-000000af" kind="Action" role="Action" guid="{85F34DFA-C5E2-441d-880B-147D086C2C6B}" derivedfrom="id-0065-00000030" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logger</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-000000b0" kind="Property" role="Property" guid="{C837EA51-8B21-4606-8385-39DC720DFB57}" derivedfrom="id-0065-00000033" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>severity</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>LM_INFO</value>
+								</attribute>
+								<reference id="id-0067-00000084" kind="DataType" role="DataType" guid="{22DE4097-997B-476a-AB62-9D31EDA6DF0B}" derivedfrom="id-0067-0000001c" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+							<model id="id-0065-000000b1" kind="Property" role="Property" guid="{FCBFFA70-4F68-40ee-AE69-824AB097CA2F}" derivedfrom="id-0065-00000032" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>format</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>&quot;%s is preprocessing event %d&quot;</value>
+								</attribute>
+								<reference id="id-0067-00000085" kind="DataType" role="DataType" guid="{58926DD2-BEE9-494e-927C-FE992C9DFE26}" derivedfrom="id-0067-00000019" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+							<model id="id-0065-000000b2" kind="Property" role="Property" guid="{22226493-B31F-4881-8D7B-E4433A037E70}" derivedfrom="id-0065-00000031" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>arglist</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
+								</attribute>
+								<reference id="id-0067-00000086" kind="DataType" role="DataType" guid="{8F745E87-1C6D-45e0-B634-972F7AF5AAEA}" derivedfrom="id-0067-00000016" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+									<name>GenericValue</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-000000b3" kind="Action" role="Action" guid="{8EEE9D56-9786-465c-8B25-99B472723624}" derivedfrom="id-0065-0000002e" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>mycpu</name>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-000000b4" kind="Property" role="Property" guid="{5072BDE1-6715-4f61-8911-27428EBC62A6}" derivedfrom="id-0065-0000002f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>msec</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;cpuTime_</value>
+								</attribute>
+								<reference id="id-0067-00000087" kind="DataType" role="DataType" guid="{9C4D0E46-07CC-412d-A4B6-97DE2D2F77BF}" derivedfrom="id-0067-0000000e" isinstance="yes" isprimary="no" referred="id-0066-00000014" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+						</model>
+						<model id="id-0065-000000b5" kind="Attribute" role="Attribute" guid="{9AB25023-E0D9-4a71-9335-BED6C495AEA7}" derivedfrom="id-0065-0000000a" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>instName</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-00000088" kind="AttributeMember" role="AttributeMember" guid="{D106B824-1E95-40ac-AA68-DF6B3ADEBD39}" derivedfrom="id-0067-00000005" isinstance="yes" isprimary="no" referred="id-0066-00000001" isbound="yes">
+								<name>String</name>
+							</reference>
+						</model>
+						<model id="id-0065-000000b6" kind="Attribute" role="Attribute" guid="{D830E594-8B05-4e3b-8C9D-F17FB7359145}" derivedfrom="id-0065-00000009" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>cpuTime</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-00000089" kind="AttributeMember" role="AttributeMember" guid="{EFCC24C4-8BED-48ae-8CC8-181D2A9ADB2F}" derivedfrom="id-0067-00000004" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+								<name>LongInteger</name>
+							</reference>
+						</model>
+						<model id="id-0065-000000b7" kind="Attribute" role="Attribute" guid="{2092D109-C300-423a-98D8-795C2AF62B20}" derivedfrom="id-0065-00000008" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>testName</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-0000008a" kind="AttributeMember" role="AttributeMember" guid="{F0D7F73C-0656-447b-85BD-A5DEECD277F9}" derivedfrom="id-0067-00000003" isinstance="yes" isprimary="no" referred="id-0066-00000001" isbound="yes">
+								<name>String</name>
+							</reference>
+						</model>
+						<model id="id-0065-000000b8" kind="MultiInputAction" role="MultiInputAction" guid="{3DCDBFFC-F7C4-4000-8077-E2CB2FE3FAC0}" derivedfrom="id-0065-00000007" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>activate</name>
+						</model>
+						<model id="id-0065-000000b9" kind="Attribute" role="Attribute" guid="{7CF982ED-9D0D-44cf-A463-47DD1D0F483C}" derivedfrom="id-0065-00000006" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>logRate</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-0000008b" kind="AttributeMember" role="AttributeMember" guid="{B34B8178-C266-40a6-99B2-101D08B99FE1}" derivedfrom="id-0067-00000002" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+								<name>AttributeMember</name>
+							</reference>
+						</model>
+						<model id="id-0065-000000ba" kind="InputAction" role="InputAction" guid="{297E84CB-B95B-4128-8F82-27676C4E6045}" derivedfrom="id-0065-00000004" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>NullEvent</name>
+							<model id="id-0065-000000bb" kind="Property" role="Property" guid="{744D7E71-21BD-47da-89BD-0DB433DABF40}" derivedfrom="id-0065-0000003d" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>threads</name>
+								<attribute kind="DataValue" status="meta">
+									<value></value>
+								</attribute>
+								<reference id="id-0067-0000008c" kind="DataType" role="DataType" guid="{54F5CC6E-1B4A-4e90-AA02-ACF20862E44B}" derivedfrom="id-0067-00000021" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+							<model id="id-0065-000000bc" kind="Property" role="Property" guid="{8AD4221D-E484-4fd5-BED6-A8175192023D}" derivedfrom="id-0065-0000003c" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>affinity</name>
+								<attribute kind="DataValue" status="meta">
+									<value></value>
+								</attribute>
+								<reference id="id-0067-0000008d" kind="DataType" role="DataType" guid="{331F464A-FA20-4db4-9DED-C8B44FD95223}" derivedfrom="id-0067-00000020" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+									<name>LongInteger</name>
+								</reference>
+							</model>
+							<model id="id-0065-000000bd" kind="Property" role="Property" guid="{EC7430F2-7372-46f9-B662-71CDE34A33A2}" derivedfrom="id-0065-00000005" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>asynchronous</name>
+								<attribute kind="DataValue" status="meta">
+									<value></value>
+								</attribute>
+								<reference id="id-0067-0000008e" kind="DataType" role="DataType" guid="{745286F7-3A85-43db-BAEB-446585436C1F}" derivedfrom="id-0067-00000001" isinstance="yes" isprimary="no" referred="id-0066-00000001" isbound="yes">
+									<name>String</name>
+								</reference>
+							</model>
+						</model>
+						<atom id="id-0066-00000049" kind="State" role="State" guid="{5B969FD9-9AB2-4644-8725-AF5E52213052}" derivedfrom="id-0066-0000000f" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-0000004a" kind="State" role="State" guid="{1286ED48-4C49-48a5-A732-CE93E4AA11F8}" derivedfrom="id-0066-0000000e" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-0000004b" kind="State" role="State" guid="{F1477093-6EA5-44af-B1FF-BBB0EB9B899A}" derivedfrom="id-0066-0000000d" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-0000004c" kind="Environment" role="Environment" guid="{0B38973E-A970-45f1-BC6C-1A5309B961FC}" derivedfrom="id-0066-0000000c" isinstance="yes" isprimary="no">
+							<name>Environment</name>
+						</atom>
+						<atom id="id-0066-0000004d" kind="State" role="State" guid="{83D450D9-50D6-469f-ADD5-467797BBD8C7}" derivedfrom="id-0066-0000000b" isinstance="yes" isprimary="no">
+							<name>State</name>
+						</atom>
+						<atom id="id-0066-0000004e" kind="Terminal" role="Terminal" guid="{50F39CA2-1885-4556-ABCE-1B4A1B454404}" derivedfrom="id-0066-0000000a" isinstance="yes" isprimary="no">
+							<name>Terminal</name>
+						</atom>
+						<atom id="id-0066-0000004f" kind="BranchState" role="BranchState" guid="{D46C5484-F50A-41df-8A75-DEB1F229D7F3}" derivedfrom="id-0066-00000009" isinstance="yes" isprimary="no">
+							<name>BranchState</name>
+						</atom>
+						<atom id="id-0066-00000050" kind="Terminal" role="Terminal" guid="{FCA99569-278C-4892-93AC-BECA40218DC4}" derivedfrom="id-0066-00000008" isinstance="yes" isprimary="no">
+							<name>Terminal</name>
+						</atom>
+						<atom id="id-0066-00000051" kind="State" role="State" guid="{8B7BF80E-DDA0-42cb-8EB7-DF44C281F3DB}" derivedfrom="id-0066-00000007" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-00000052" kind="BranchState" role="BranchState" guid="{8FB988EF-5467-4b5d-9075-703496237996}" derivedfrom="id-0066-00000006" isinstance="yes" isprimary="no">
+							<name>BranchState</name>
+						</atom>
+						<atom id="id-0066-00000053" kind="State" role="State" guid="{2BA73E88-021A-485e-9410-3CDA7CB24FF0}" derivedfrom="id-0066-00000005" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-00000054" kind="State" role="State" guid="{FB384F06-9015-4937-A11F-5569593390D6}" derivedfrom="id-0066-00000004" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<reference id="id-0067-0000008f" kind="WorkerType" role="WorkerType" guid="{4ED26C80-38AE-4160-B302-EA7160477477}" derivedfrom="id-0067-00000011" isinstance="yes" isprimary="no" referred="id-0065-00000023" isbound="yes">
+							<name>logger</name>
+						</reference>
+						<reference id="id-0067-00000090" kind="WorkerType" role="WorkerType" guid="{A0236905-6419-4c3c-8CA2-A305BA3296F3}" derivedfrom="id-0067-00000010" isinstance="yes" isprimary="no" referred="id-0065-00000017" isbound="yes">
+							<name>mycpu</name>
+						</reference>
+						<reference id="id-0067-00000091" kind="InEventPort" role="InEventPort" guid="{C145F82A-9CE9-46d2-9A1E-37B10872DF1A}" derivedfrom="id-0067-0000000f" isinstance="yes" isprimary="no" referred="id-0065-0000000e" isbound="yes">
+							<name>NullEvent</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="exclusiveProvider" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="exclusiveUser" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="optional" status="meta">
+								<value>false</value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-00000092" kind="Variable" role="Variable" guid="{5AA6042F-6322-461e-93BA-52EF955AD0FA}" derivedfrom="id-0067-00000007" isinstance="yes" isprimary="no" referred="id-0066-00000003" isbound="yes">
+							<name>logEvent</name>
+							<attribute kind="InitialValue" status="meta">
+								<value></value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-00000093" kind="Variable" role="Variable" guid="{65B667D2-A89B-4a7c-A7BB-CBC26F41B085}" derivedfrom="id-0067-00000006" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+							<name>eventCount</name>
+							<attribute kind="InitialValue" status="meta">
+								<value></value>
+							</attribute>
+						</reference>
+						<connection isbound="yes" id="id-0068-00000085" kind="Finish" role="Finish" guid="{67D730D6-E369-4ef3-9BD3-276508D11160}" derivedfrom="id-0068-00000014" isinstance="yes" isprimary="no">
+							<name>Finish</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000086" kind="Effect" role="Effect" guid="{7CCAAC74-843E-442e-BAB3-38CB828E0C07}" derivedfrom="id-0068-00000013" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000087" kind="Transition" role="Transition" guid="{6D066DF9-6197-419f-A512-44C5583FBA2F}" derivedfrom="id-0068-00000012" isinstance="yes" isprimary="no">
+							<name></name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000088" kind="Effect" role="Effect" guid="{BBA1B1B6-D9EC-4124-95DA-832844FB69F9}" derivedfrom="id-0068-00000011" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000089" kind="Transition" role="Transition" guid="{DC8DB33E-7761-4b8c-A677-99C0EC3B3695}" derivedfrom="id-0068-00000010" isinstance="yes" isprimary="no">
+							<name></name>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000008a" kind="MultiInput" role="MultiInput" guid="{5930E9BB-48F6-4c84-9BAB-79FB9E4BAA73}" derivedfrom="id-0068-0000000f" isinstance="yes" isprimary="no">
+							<name>MultiInput</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000008b" kind="InputEffect" role="InputEffect" guid="{C6653F31-5742-4ff7-AC3E-48FD587C8760}" derivedfrom="id-0068-0000000e" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000008c" kind="TerminalEffect" role="TerminalEffect" guid="{00348825-FE89-4933-B09C-5C3E9D2F80F1}" derivedfrom="id-0068-0000000d" isinstance="yes" isprimary="no">
+							<name>TerminalEffect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000008d" kind="TerminalTransition" role="TerminalTransition" guid="{25F336F2-70F1-4cb0-8DAC-7006536E2AF1}" derivedfrom="id-0068-0000000c" isinstance="yes" isprimary="no">
+							<name>TerminalTransition</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000008e" kind="Effect" role="Effect" guid="{0CB1A701-A4B3-4984-908E-24F03F8C75D4}" derivedfrom="id-0068-0000000b" isinstance="yes" isprimary="no">
+							<name>Effect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000008f" kind="BranchTransition" role="BranchTransition" guid="{26F21F92-A337-479d-8B19-6BB6416A001C}" derivedfrom="id-0068-0000000a" isinstance="yes" isprimary="no">
+							<name>BranchTransition</name>
+							<attribute kind="Condition" status="inherited">
+								<value>this-&gt;logEvent_</value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000090" kind="Effect" role="Effect" guid="{C30E72C3-C997-40c9-8BDC-3B5D3B492CD6}" derivedfrom="id-0068-00000009" isinstance="yes" isprimary="no">
+							<name>Effect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000091" kind="BranchTransition" role="BranchTransition" guid="{57EA690F-AEAC-48dd-969D-70CE4CC2D128}" derivedfrom="id-0068-00000008" isinstance="yes" isprimary="no">
+							<name>BranchTransition</name>
+							<attribute kind="Condition" status="inherited">
+								<value>this-&gt;logEvent_</value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000092" kind="TerminalEffect" role="TerminalEffect" guid="{668DBA9F-F9DC-4c63-988E-CA8F2A02E732}" derivedfrom="id-0068-00000007" isinstance="yes" isprimary="no">
+							<name>TerminalEffect</name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000093" kind="TerminalTransition" role="TerminalTransition" guid="{E2FCFF95-08FF-480c-BF48-6A667EEEAA07}" derivedfrom="id-0068-00000006" isinstance="yes" isprimary="no">
+							<name>TerminalTransition</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000094" kind="Effect" role="Effect" guid="{0899BED9-8CCF-40d1-80EA-2D8B5D5457E3}" derivedfrom="id-0068-00000005" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000095" kind="InputEffect" role="InputEffect" guid="{5ECFED0A-F0DB-40e4-9933-4572F5C9DDE2}" derivedfrom="id-0068-00000004" isinstance="yes" isprimary="no">
+							<name>InputEffect</name>
+							<attribute kind="Postcondition" status="inherited">
+								<value>this-&gt;eventCount_ ++;
+this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000096" kind="Finish" role="Finish" guid="{40EA7C2A-7B48-4a0e-BECF-380BDD6D72F4}" derivedfrom="id-0068-00000003" isinstance="yes" isprimary="no">
+							<name>Finish</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000097" kind="Transition" role="Transition" guid="{5FE2710C-2C58-46ee-B181-0398086B2C93}" derivedfrom="id-0068-00000002" isinstance="yes" isprimary="no">
+							<name>Transition</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-00000098" kind="Input" role="Input" guid="{DAE4BD15-EC85-4308-BA4C-BEAE0322D3B4}" derivedfrom="id-0068-00000001" isinstance="yes" isprimary="no">
+							<name>Input</name>
+						</connection>
+					</model>
+					<model id="id-0065-000000be" kind="Component" role="Component" guid="{0CB7419B-9662-4344-A003-E564E65E06DD}" derivedfrom="id-0065-00000011" isinstance="yes" isprimary="yes" relid="0x2" childrelidcntr="0x0">
+						<name>NullEventGenerator</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>180,236</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="UUID">
+							<value>5480577E-D385-4DDD-8056-003C3B51CAFC</value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="label" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-000000bf" kind="Attribute" role="Attribute" guid="{7795A179-B9AF-4688-ADF5-E04636C21325}" derivedfrom="id-0065-00000014" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>publishInterval</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-00000094" kind="AttributeMember" role="AttributeMember" guid="{4D9DBDE4-4980-4cdd-BB2D-17EE2740C32A}" derivedfrom="id-0067-00000008" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+								<name>LongInteger</name>
+							</reference>
+						</model>
+						<model id="id-0065-000000c0" kind="OutputAction" role="OutputAction" guid="{BB1953EF-283C-4f3f-A94D-A07B342D0C54}" derivedfrom="id-0065-00000013" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>NullEvent</name>
+						</model>
+						<model id="id-0065-000000c1" kind="InputAction" role="InputAction" guid="{D5DC46B4-8891-42d1-A9CA-E21A5B7ED0BB}" derivedfrom="id-0065-00000012" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+							<name>eventGenerator</name>
+						</model>
+						<atom id="id-0066-00000055" kind="State" role="State" guid="{257F5EE6-9BF9-485c-8088-04E1A3A1AB93}" derivedfrom="id-0066-00000012" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-00000056" kind="State" role="State" guid="{D5D1945F-C155-497f-8CF3-61B7BD98BA9C}" derivedfrom="id-0066-00000011" isinstance="yes" isprimary="no">
+							<name></name>
+						</atom>
+						<atom id="id-0066-00000057" kind="PeriodicEvent" role="PeriodicEvent" guid="{BE3CACCF-3A28-4f0d-883A-F35E078ED51D}" derivedfrom="id-0066-00000010" isinstance="yes" isprimary="no">
+							<name>eventGenerator</name>
+							<attribute kind="Period" status="inherited">
+								<value>this-&gt;publishInterval_</value>
+							</attribute>
+							<attribute kind="Probability" status="meta">
+								<value>1.0</value>
+							</attribute>
+						</atom>
+						<reference id="id-0067-00000095" kind="OutEventPort" role="OutEventPort" guid="{36B39B8A-458E-4d3d-878F-5D2EC5AA10A1}" derivedfrom="id-0067-00000009" isinstance="yes" isprimary="no" referred="id-0065-0000000e" isbound="yes">
+							<name>NullEvent</name>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="exclusiveProvider" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="exclusiveUser" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="optional" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="out_event_port_type" status="meta">
+								<value>DirectConnect</value>
+							</attribute>
+							<attribute kind="single_destination" status="meta">
+								<value>false</value>
+							</attribute>
+						</reference>
+						<connection isbound="yes" id="id-0068-00000099" kind="Finish" role="Finish" guid="{0CDD0B79-599B-4a80-A727-A899879A55C0}" derivedfrom="id-0068-0000001a" isinstance="yes" isprimary="no">
+							<name>Finish</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000009a" kind="Effect" role="Effect" guid="{C9201702-28DC-4965-BD1F-54C2A8F25D18}" derivedfrom="id-0068-00000019" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000009b" kind="Transition" role="Transition" guid="{D8121137-794C-4507-98E2-909425D21FCF}" derivedfrom="id-0068-00000018" isinstance="yes" isprimary="no">
+							<name></name>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000009c" kind="Input" role="Input" guid="{50548AF8-6C98-444a-B7EE-5FFC8F558F51}" derivedfrom="id-0068-00000017" isinstance="yes" isprimary="no">
+							<name>Input</name>
+						</connection>
+						<connection isbound="yes" id="id-0068-0000009d" kind="InputEffect" role="InputEffect" guid="{71156CFE-A96F-4ab7-A571-2D17C9BBD8BF}" derivedfrom="id-0068-00000016" isinstance="yes" isprimary="no">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+						</connection>
+					</model>
+					<model id="id-0065-000000c2" kind="Property" role="Property" guid="{62ECB55C-EDFD-4bea-A81C-A4627F620B01}" relid="0x6" childrelidcntr="0x1">
+						<name>publishInterval</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>128,366</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="DataValue">
+							<value>${publishInterval}</value>
+						</attribute>
+						<reference id="id-0067-00000096" kind="DataType" role="DataType" guid="{862750C4-543E-4fc8-8A41-0CBC4EEFB2F5}" relid="0x1" referred="id-0066-00000002">
+							<name>LongInteger</name>
+						</reference>
+					</model>
+					<model id="id-0065-000000c3" kind="Property" role="Property" guid="{42B0F289-F057-4d01-844B-C5B6EC2C0C04}" relid="0x8" childrelidcntr="0x1">
+						<name>logRate</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>391,328</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="DataValue">
+							<value>${logRate}</value>
+						</attribute>
+						<reference id="id-0067-00000097" kind="DataType" role="DataType" guid="{423AF693-328D-4a0d-9D69-875EE818A210}" relid="0x1" referred="id-0066-00000002">
+							<name>LongInteger</name>
+						</reference>
+					</model>
+					<model id="id-0065-000000c4" kind="Property" role="Property" guid="{7B426D3D-559E-4ae2-8A57-9FED43EBDB5B}" relid="0xa" childrelidcntr="0x1">
+						<name>testName</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>419,384</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="DataValue">
+							<value>${testName}</value>
+						</attribute>
+						<reference id="id-0067-00000098" kind="DataType" role="DataType" guid="{1DB71987-77E3-4fd0-868E-DEBE0F557490}" relid="0x1" referred="id-0066-00000001">
+							<name>String</name>
+						</reference>
+					</model>
+					<model id="id-0065-000000c5" kind="Property" role="Property" guid="{A8664334-12DA-4b4c-80FD-F46E67919A78}" relid="0xb" childrelidcntr="0x1">
+						<name>cpuTime</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>454,440</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="DataValue">
+							<value>${cpuTime}</value>
+						</attribute>
+						<reference id="id-0067-00000099" kind="DataType" role="DataType" guid="{82298E17-C76F-42c6-BF7C-C3796B2DF139}" relid="0x1" referred="id-0066-00000002">
+							<name>LongInteger</name>
+						</reference>
+					</model>
+					<model id="id-0065-000000c6" kind="Property" role="Property" guid="{411B8FA0-BEB6-4e91-8890-5ACD1739DDF3}" relid="0xc" childrelidcntr="0x1">
+						<name>instName</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>489,496</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="DataValue">
+							<value>CPUBound</value>
+						</attribute>
+						<reference id="id-0067-0000009a" kind="DataType" role="DataType" guid="{E02BCC5F-BEE5-4f60-9D93-C34C1B1E23F3}" relid="0x1" referred="id-0066-00000001">
+							<name>String</name>
+						</reference>
+					</model>
+					<atom id="id-0066-00000058" kind="PublishConnector" role="PublishConnector" guid="{8161914E-9674-4407-B65C-1A35F8514ADB}" relid="0x3">
+						<name>id-0066-00000058</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>385,266</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</atom>
+					<connection id="id-0068-0000009f" kind="publish" role="publish" guid="{7DF6994E-FAD6-407f-969D-C5B0C343DD19}" relid="0x4">
+						<name>publish</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>w</value>
+						</regnode>
+						<connpoint role="dst" target="id-0066-00000058"/>
+						<connpoint role="src" target="id-0067-00000095"/>
+					</connection>
+					<connection id="id-0068-000000a0" kind="deliverTo" role="deliverTo" guid="{99C49CEB-9AED-496d-8B74-478D141C558C}" relid="0x5">
+						<name>deliverTo</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>E</value>
+						</regnode>
+						<connpoint role="src" target="id-0066-00000058"/>
+						<connpoint role="dst" target="id-0067-00000091"/>
+					</connection>
+					<connection id="id-0068-000000a1" kind="AttributeValue" role="AttributeValue" guid="{79F71F81-3424-4a52-B4E9-9A7D8C5CBC3F}" relid="0x7">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="src" target="id-0065-000000bf"/>
+						<connpoint role="dst" target="id-0065-000000c2"/>
+					</connection>
+					<connection id="id-0068-000000a2" kind="AttributeValue" role="AttributeValue" guid="{91FF8B4F-5E95-41b2-B938-123D966629C0}" relid="0x9">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="src" target="id-0065-000000b9"/>
+						<connpoint role="dst" target="id-0065-000000c3"/>
+					</connection>
+					<connection id="id-0068-000000a3" kind="AttributeValue" role="AttributeValue" guid="{ACB7466B-7A3A-4186-BFB6-ADB04F9CEF9E}" relid="0xd">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="src" target="id-0065-000000b7"/>
+						<connpoint role="dst" target="id-0065-000000c4"/>
+					</connection>
+					<connection id="id-0068-000000a4" kind="AttributeValue" role="AttributeValue" guid="{A6A81F4B-AD07-4a33-8CD6-1BE6BF550D84}" relid="0xe">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="src" target="id-0065-000000b6"/>
+						<connpoint role="dst" target="id-0065-000000c5"/>
+					</connection>
+					<connection id="id-0068-000000a5" kind="AttributeValue" role="AttributeValue" guid="{3C5CFBDA-FF63-4087-9684-3DAD68B0567F}" relid="0xf">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="src" target="id-0065-000000b5"/>
+						<connpoint role="dst" target="id-0065-000000c6"/>
+					</connection>
+				</model>
+			</model>
+		</folder>
+		<folder id="id-006a-0000000b" relid="0x6" childrelidcntr="0x2" kind="ImplementationArtifacts" guid="{09C8C7BF-57D4-485e-9F26-FAB3B05F40DA}">
+			<name>ImplementationArtifacts</name>
+			<model id="id-0065-00000040" kind="ArtifactContainer" guid="{A3E7D801-DBA4-45aa-9BAE-B2622E9771E0}" relid="0x1" childrelidcntr="0xb">
+				<name>NullEventGeneratorImpl</name>
+				<model id="id-0065-00000041" kind="Property" role="Property" guid="{FD939AD5-E9D9-4755-85A5-D53E6EF6FD39}" relid="0x4" childrelidcntr="0x1">
+					<name>entryPoint</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>489,335</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DataValue">
+						<value>create_antispam_NullEventGeneratorHome_Servant</value>
+					</attribute>
+					<reference id="id-0067-00000024" kind="DataType" role="DataType" guid="{48ACAC26-95B5-4625-8717-2E8DB346977E}" relid="0x1" referred="id-0066-00000001">
+						<name>String</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>333,242</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+				</model>
+				<model id="id-0065-00000042" kind="Property" role="Property" guid="{6DB91EB7-065A-4d7b-A011-BAFD4D0112FD}" relid="0x5" childrelidcntr="0x1">
+					<name>entryPoint</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>251,335</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DataValue">
+						<value>create_antispam_NullEventGeneratorHome_Impl</value>
+					</attribute>
+					<reference id="id-0067-00000023" kind="DataType" role="DataType" guid="{B7B9BF40-3461-48c9-8DCC-A88C2FAB6BD3}" relid="0x1" referred="id-0066-00000001">
+						<name>String</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>291,186</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+				</model>
+				<atom id="id-0066-0000001a" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{02D19656-0E21-4420-9DCD-93A441289EBA}" relid="0x1">
+					<name>NullEventGeneratorImpl_exec</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>251,237</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>FC940262-17EF-40FA-9E28-FDCA65D04A48</value>
+					</attribute>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="artifactVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="configuration" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="location">
+						<value>NullEventGeneratorImpl_exec</value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001b" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{DA2B54D1-CE76-4598-B21A-BCEB38E8D924}" relid="0x2">
+					<name>NullEventGeneratorImpl_svnt</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>489,237</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>9FA419B4-2D23-47DE-988A-5FFE43D1C289</value>
+					</attribute>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="artifactVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="configuration" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="location">
+						<value>NullEventGeneratorImpl_svnt</value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<connection id="id-0068-0000001d" kind="ArtifactExecParameter" role="ArtifactExecParameter" guid="{3ACA7FA4-C260-4c47-80B6-C124995F2112}" relid="0x6">
+					<name>ArtifactExecParameter</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Sn</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-00000042"/>
+					<connpoint role="src" target="id-0066-0000001a"/>
+				</connection>
+				<connection id="id-0068-0000001e" kind="ArtifactExecParameter" role="ArtifactExecParameter" guid="{7AAFEA1C-4994-432d-A9CC-FD9B2524A7F3}" relid="0x7">
+					<name>ArtifactExecParameter</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Sn</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-00000041"/>
+					<connpoint role="src" target="id-0066-0000001b"/>
+				</connection>
+			</model>
+			<model id="id-0065-00000043" kind="ArtifactContainer" guid="{7E655DFC-D06E-4d93-A855-09076872517D}" relid="0x2" childrelidcntr="0xb">
+				<name>CPUBoundImpl</name>
+				<model id="id-0065-00000044" kind="Property" role="Property" guid="{84D04417-20F8-49ee-AB1B-AE7431438C07}" relid="0x5" childrelidcntr="0x1">
+					<name>entryPoint</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>251,335</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DataValue">
+						<value>create_antispam_CPUBoundHome_Impl</value>
+					</attribute>
+					<reference id="id-0067-00000027" kind="DataType" role="DataType" guid="{1F2A8456-844A-4096-9278-0E23262857FF}" relid="0x1" referred="id-0066-00000001">
+						<name>String</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>291,186</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+				</model>
+				<model id="id-0065-00000045" kind="Property" role="Property" guid="{85CAA5B0-8E4F-4d1c-A1EF-9ED0091AB2A6}" relid="0x4" childrelidcntr="0x1">
+					<name>entryPoint</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>489,335</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="DataValue">
+						<value>create_antispam_CPUBoundHome_Servant</value>
+					</attribute>
+					<reference id="id-0067-00000028" kind="DataType" role="DataType" guid="{C66695DD-7350-4b6a-8F6D-91905848B3D0}" relid="0x1" referred="id-0066-00000001">
+						<name>String</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>333,242</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+				</model>
+				<atom id="id-0066-0000001e" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{8358C3B5-6A16-40c3-95AA-A3A45A489DAE}" relid="0x1">
+					<name>CPUBoundImpl_exec</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>251,237</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>86DD8118-8FD9-451D-B6BB-AE3E348631AB</value>
+					</attribute>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="artifactVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="configuration" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="location">
+						<value>CPUBoundImpl_exec</value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001f" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{CE2B1EBD-ADF6-4194-BB5E-50A6ED465A37}" relid="0x2">
+					<name>CPUBoundImpl_svnt</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>489,237</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>7E78E671-86ED-4552-801B-FF70E0D204FC</value>
+					</attribute>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="artifactVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="configuration" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="location">
+						<value>CPUBoundImpl_svnt</value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<connection id="id-0068-00000025" kind="ArtifactExecParameter" role="ArtifactExecParameter" guid="{DCEAF3FE-CA65-47a1-8E44-397364D90502}" relid="0x6">
+					<name>ArtifactExecParameter</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Sn</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-00000044"/>
+					<connpoint role="src" target="id-0066-0000001e"/>
+				</connection>
+				<connection id="id-0068-00000026" kind="ArtifactExecParameter" role="ArtifactExecParameter" guid="{E06DC609-9590-4f78-9226-38020FDFAD7D}" relid="0x7">
+					<name>ArtifactExecParameter</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Sn</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-00000045"/>
+					<connpoint role="src" target="id-0066-0000001f"/>
+				</connection>
+			</model>
+		</folder>
+		<folder id="id-006a-0000000c" relid="0x7" childrelidcntr="0x1" kind="Targets" guid="{CB0C8F2D-4C0C-4fe8-B6FA-7CEFE42B981B}">
+			<name>Targets</name>
+			<model id="id-0065-00000069" kind="Domain" guid="{D8CE41BB-5973-485b-89D8-82E831B12550}" relid="0x1" childrelidcntr="0x7">
+				<name>ISISlab</name>
+				<attribute kind="UUID">
+					<value>B7F3E6EE-D5FF-4F64-8CD3-02243F3B6F55</value>
+				</attribute>
+				<attribute kind="label" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-0000006b" kind="Node" role="Node" guid="{5B141718-1FAB-47c8-BD75-41A57FCB507A}" relid="0x2" childrelidcntr="0x0">
+					<name>node1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Target" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>237,160</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000006c" kind="Node" role="Node" guid="{1EB116B9-E612-4658-9659-A3E45C0DA84A}" relid="0x3" childrelidcntr="0x0">
+					<name>node2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Target" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>408,163</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<model id="id-0065-0000006d" kind="Interconnect" role="Interconnect" guid="{C0BFB423-8681-455b-A547-42FDEE6C9C07}" relid="0x4" childrelidcntr="0x0">
+					<name>lan1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Target" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>324,240</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<connection id="id-0068-00000049" kind="InterconnectConnection" role="InterconnectConnection" guid="{3D9A59F3-3215-4891-B5D1-3B1139C33540}" relid="0x5">
+					<name>InterconnectConnection</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>En</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-0000006b"/>
+					<connpoint role="dst" target="id-0065-0000006d"/>
+				</connection>
+				<connection id="id-0068-0000004a" kind="InterconnectConnection" role="InterconnectConnection" guid="{E9C927FD-7FED-4b6b-BC33-A106F8D8FEA9}" relid="0x6">
+					<name>InterconnectConnection</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Wn</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-0000006c"/>
+					<connpoint role="dst" target="id-0065-0000006d"/>
+				</connection>
+			</model>
+		</folder>
+		<folder id="id-006a-0000000d" relid="0x8" childrelidcntr="0x3" kind="DeploymentPlans" guid="{D248A44F-E2F4-4f1d-9ABC-67297E633596}">
+			<name>DeploymentPlans</name>
+			<model id="id-0065-0000006f" kind="DeploymentPlan" guid="{5B8A82D9-E2CE-40f1-BF34-41BF97DF0927}" relid="0x1" childrelidcntr="0xb">
+				<name>SingleSenderSingleReceiver</name>
+				<attribute kind="UUID">
+					<value>D8721010-B370-45B7-ADA5-3FB80BCA1B3A</value>
+				</attribute>
+				<attribute kind="label" status="meta">
+					<value></value>
+				</attribute>
+				<reference id="id-0067-00000048" kind="NodeReference" role="NodeReference" guid="{4FA37D49-6DD1-4dd9-896E-D14A1D0EF35F}" relid="0x2" referred="id-0065-0000006b">
+					<name>node1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>95,81</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-00000049" kind="NodeReference" role="NodeReference" guid="{13C65093-EAAB-476b-A7C2-0B610EFBB62F}" relid="0x3" referred="id-0065-0000006c">
+					<name>node2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>263,81</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000004a" kind="ComponentRef" role="ComponentRef" guid="{3F8EBA72-C154-4c1d-A16C-AE5C06AE6F15}" relid="0xa" referred="id-0065-00000049">
+					<name>CPUBound</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>278,342</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000004b" kind="ComponentRef" role="ComponentRef" guid="{9233970C-0B3F-469f-B43A-A9A711295E46}" relid="0xb" referred="id-0065-00000061">
+					<name>NullEventGenerator</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>61,348</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<connection id="id-0068-0000004c" kind="InstanceMapping" role="InstanceMapping" guid="{A5B74D71-C5AF-413a-805C-E7D7F8B948CB}" relid="0x7">
+					<name></name>
+					<connpoint role="dst" target="id-0067-00000048"/>
+					<connpoint role="src" target="id-0069-00000002"/>
+				</connection>
+				<connection id="id-0068-0000004d" kind="InstanceMapping" role="InstanceMapping" guid="{0097FF3E-0086-427e-B5B9-E94180846F74}" relid="0x9">
+					<name></name>
+					<connpoint role="dst" target="id-0067-00000049"/>
+					<connpoint role="src" target="id-0069-00000003"/>
+				</connection>
+				<set id="id-0069-00000002" kind="CollocationGroup" role="CollocationGroup" guid="{B5AE0B41-D7AC-485f-B0C5-3C717AB41BAE}" relid="0x6" members="id-0067-0000004b">
+					<name>DefaultGroup</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>97,209</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</set>
+				<set id="id-0069-00000003" kind="CollocationGroup" role="CollocationGroup" guid="{28817BC9-D8FE-4a62-A8FE-D0F04572F938}" relid="0x8" members="id-0067-0000004a">
+					<name>DefaultGroup</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>265,209</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</set>
+			</model>
+			<model id="id-0065-000000a3" kind="DeploymentPlan" guid="{3BD42173-79A2-4ab1-9B44-2C3B7BF2A939}" relid="0x2" childrelidcntr="0xa">
+				<name>SingleSenderMultiReceiver</name>
+				<attribute kind="UUID">
+					<value>E1D1412F-A57C-441C-A25F-66F61F5B08C6</value>
+				</attribute>
+				<attribute kind="label" status="meta">
+					<value></value>
+				</attribute>
+				<reference id="id-0067-00000079" kind="NodeReference" role="NodeReference" guid="{32CC08AC-8EC7-4bdb-A993-1E241D780FF3}" relid="0x1" referred="id-0065-0000006b">
+					<name>node1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>116,53</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000007a" kind="NodeReference" role="NodeReference" guid="{F20ED62B-0DEE-4f8d-B055-169E1CD2CDCB}" relid="0x2" referred="id-0065-0000006c">
+					<name>node2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>270,53</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000007b" kind="ComponentRef" role="ComponentRef" guid="{44089241-14C2-40e4-84B1-C731E03286B1}" relid="0x7" referred="id-0065-00000049">
+					<name>CPUBound1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>369,377</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000007c" kind="ComponentRef" role="ComponentRef" guid="{38F4D0A8-CD06-41f4-8CAB-68BF4FC374FC}" relid="0x8" referred="id-0065-00000071">
+					<name>CPUBound2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>285,265</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000007d" kind="ComponentRef" role="ComponentRef" guid="{4570303D-2F7E-44a6-BB99-1850CA0A3B0D}" relid="0x9" referred="id-0065-00000089">
+					<name>CPUBound3</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>460,265</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000007e" kind="ComponentRef" role="ComponentRef" guid="{35A3241A-E39F-43d5-97BE-7EC40409C3FC}" relid="0xa" referred="id-0065-00000061">
+					<name>NullEventGenerator</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>75,285</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<connection id="id-0068-00000083" kind="InstanceMapping" role="InstanceMapping" guid="{5FF3CAC2-B3BD-44c9-97B7-BECF88BB49AA}" relid="0x4">
+					<name></name>
+					<connpoint role="dst" target="id-0067-00000079"/>
+					<connpoint role="src" target="id-0069-00000004"/>
+				</connection>
+				<connection id="id-0068-00000084" kind="InstanceMapping" role="InstanceMapping" guid="{CC2DFE35-25FB-4b2d-B6C6-83D56BCCC603}" relid="0x6">
+					<name></name>
+					<connpoint role="dst" target="id-0067-0000007a"/>
+					<connpoint role="src" target="id-0069-00000005"/>
+				</connection>
+				<set id="id-0069-00000004" kind="CollocationGroup" role="CollocationGroup" guid="{2A3A11D3-5DBE-4fb9-BFF3-4E7920DC484B}" relid="0x3" members="id-0067-0000007e">
+					<name>DefaultGroup</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>118,181</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</set>
+				<set id="id-0069-00000005" kind="CollocationGroup" role="CollocationGroup" guid="{029D229E-8580-4e84-A0D9-B319C707EED4}" relid="0x5" members="id-0067-0000007b id-0067-0000007c id-0067-0000007d">
+					<name>DefaultGroup</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>272,181</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</set>
+			</model>
+			<model id="id-0065-000000c7" kind="DeploymentPlan" guid="{5D09A77E-3E69-4bcd-90FA-B522FFF1EFA0}" relid="0x3" childrelidcntr="0x8">
+				<name>SingleSenderSingleReceiverTemplate</name>
+				<attribute kind="UUID">
+					<value>4EA6B97B-65B4-4376-BBCD-410E1AFB994B</value>
+				</attribute>
+				<attribute kind="label" status="meta">
+					<value></value>
+				</attribute>
+				<reference id="id-0067-0000009b" kind="NodeReference" role="NodeReference" guid="{AA4F13F3-EB43-47dd-9043-CEF71F2AC420}" relid="0x1" referred="id-0065-0000006b">
+					<name>node1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>102,88</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000009c" kind="NodeReference" role="NodeReference" guid="{58972F27-2ACE-4734-A269-D18C22049016}" relid="0x2" referred="id-0065-0000006c">
+					<name>node2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>312,88</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000009d" kind="ComponentRef" role="ComponentRef" guid="{583167E7-64FC-493d-BDB7-4E3650619B95}" relid="0x7" referred="id-0065-000000a6">
+					<name>CPUBound</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>257,307</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000009e" kind="ComponentRef" role="ComponentRef" guid="{BD529C1A-4B27-4cbb-81F8-9CDA3FA3ED61}" relid="0x8" referred="id-0065-000000be">
+					<name>NullEventGenerator</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>47,313</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<connection id="id-0068-000000a6" kind="InstanceMapping" role="InstanceMapping" guid="{D77B1956-B2FD-48b7-96AB-4B452B9DBD9D}" relid="0x4">
+					<name></name>
+					<connpoint role="dst" target="id-0067-0000009b"/>
+					<connpoint role="src" target="id-0069-00000006"/>
+				</connection>
+				<connection id="id-0068-000000a7" kind="InstanceMapping" role="InstanceMapping" guid="{D97F80E6-DD52-47b4-AED6-1B8AC0E7E136}" relid="0x6">
+					<name></name>
+					<connpoint role="dst" target="id-0067-0000009c"/>
+					<connpoint role="src" target="id-0069-00000007"/>
+				</connection>
+				<set id="id-0069-00000006" kind="CollocationGroup" role="CollocationGroup" guid="{215F923D-4CE0-4ec1-B966-FE7EA9431D91}" relid="0x3" members="id-0067-0000009e">
+					<name>DefaultGroup</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>104,202</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</set>
+				<set id="id-0069-00000007" kind="CollocationGroup" role="CollocationGroup" guid="{D5190427-D891-424e-9967-90CB42ED6D1D}" relid="0x5" members="id-0067-0000009d">
+					<name>DefaultGroup</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>314,202</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</set>
+			</model>
+		</folder>
+		<regnode name="__OutputDir__" status="undefined">
+			<value></value>
+			<regnode name="CIDL" isopaque="yes">
+				<value>E:\TEMP\AntiSPAM</value>
+			</regnode>
+			<regnode name="CUTS_PICML" isopaque="yes">
+				<value>E:\TEMP\AntiSPAM</value>
+			</regnode>
+		</regnode>
 	</folder>
 </project>
