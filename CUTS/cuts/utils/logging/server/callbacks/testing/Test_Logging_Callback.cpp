@@ -8,6 +8,7 @@
 
 #include "cuts/Auto_Functor_T.h"
 #include "cuts/utils/db/DB_Query.h"
+#include "cuts/utils/db/SQLite/Types.h"
 #include "cuts/utils/testing/Test_Database.h"
 #include "boost/bind.hpp"
 #include <algorithm>
@@ -88,11 +89,13 @@ insert_message (CUTS_DB_Query * query, const CUTS::LogMessage & msg)
   try
   {
     ACE_Time_Value tv (msg.timestamp.sec, msg.timestamp.usec);
+    ACE_Date_Time dt (tv);
+    CUTS_DB_SQLite_Date_Time datetime (dt);
+
     ACE_INT16 severity = msg.severity;
 
     // Bind the remaining parameters.
-    const char * ts = "2008-12-21 12:12:12";
-    query->parameters ()[0].bind (ts, ACE_OS::strlen (ts));
+    query->parameters ()[0].bind (datetime);
     query->parameters ()[1].bind (severity);
     query->parameters ()[3].bind (msg.message.get_buffer (),
                                   msg.message.length ());

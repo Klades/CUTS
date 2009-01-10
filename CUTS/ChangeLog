@@ -1,3 +1,47 @@
+Sat Jan 10 21:33:35 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Exec_Header_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Exec_Header_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Exec_Source_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Exec_Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Header_Generator.cpp:
+
+          . Updated the EISA code generator to the latest version
+            of CUTS.
+
+        * MPC/config/cuts_test_database.mpb:
+
+          . This base project now derives from the SQLite
+            base project.
+
+        * cuts/utils/Property_Parser.h:
+
+          . Bug fix where the property parsing was failing to parse
+            properties of configuration lists.
+
+          . Each property now must be terminated by a semi-colon.
+
+        * cuts/utils/logging/server/callbacks/testing/Test_Logging_Callback.cpp:
+
+          . Bug fix where the callback was not inserting the log messages
+            timestamp into the database.
+
+        * cuts/utils/template/Template_App.cpp:
+        * cuts/utils/template/Template_Config_List_Parser.h:
+        * cuts/utils/template/Template_Config_List_Parser.inl:
+        * cuts/utils/template/Template_Config_List_Parser.cpp:
+        * cuts/utils/template/Template_Engine.cpp:
+
+          . Bug fix where parsing the configuration list failed if the
+            property contained leading spaces.
+
+          . Now the configuration list honors property overrides.
+
+        * utils/BMW/website/login.aspx:
+        * utils/BMW/website/login.aspx.cs:
+
+          Removed these files.
+
 Fri Jan  9 02:35:48 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Property_Expander.h:

@@ -20,7 +20,7 @@ CUTS_EISA_Exec_Source_Generator::env_table_;
 //
 CUTS_EISA_Exec_Source_Generator::CUTS_EISA_Exec_Source_Generator (void)
 : skip_action_ (false),
-  auto_env_ (false)
+  has_postactivate_ (false)
 {
   if (this->env_table_.empty ())
   {
@@ -146,6 +146,21 @@ write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
                  boost::bind (&CUTS_EISA_Exec_Source_Generator::init_software_probe,
                               this,
                               _1));
+
+  typedef std::vector <PICML::PeriodicEvent> PeriodicEvent_set;
+  PeriodicEvent_set periodics = component.PeriodicEvent_kind_children ();
+
+  if (!periodics.empty ())
+  {
+    this->out_ << std::endl
+               << single_line_comment ("initializing periodic event generators");
+
+    std::for_each (periodics.begin (),
+                  periodics.end (),
+                  boost::bind (&CUTS_EISA_Exec_Source_Generator::init_periodic_events,
+                                this,
+                                _1));
+  }
 
   this->out_
     << "}"
@@ -386,7 +401,7 @@ write_ciao_postactivate (const PICML::Component & component)
   this->out_
     << "{"
     << single_line_comment ("Pass control to base class")
-    << "base_type::ciao_preactivate ();";
+    << "base_type::ciao_postactivate ();";
 
   typedef std::vector <PICML::PeriodicEvent> PeriodicEvent_Set;
   PeriodicEvent_Set periodics = component.PeriodicEvent_kind_children ();
@@ -396,9 +411,12 @@ write_ciao_postactivate (const PICML::Component & component)
        iter ++)
   {
     this->out_
-      << "this->periodic_" << iter->name () << "_.activate ("
-      << iter->Period () << ");";
+      << "this->periodic_" << iter->name () << "_.timeout (" << iter->Period () << ");"
+      << "this->periodic_" << iter->name () << "_.probability (" << iter->Probability () << ");"
+      << "this->periodic_" << iter->name () << "_.activate ();";
   }
+
+  this->has_postactivate_ = true;
 }
 
 //
@@ -424,11 +442,6 @@ write_ccm_passivate (const PICML::Component & component)
     this->out_
       << "this->periodic_" << iter->name () << "_.deactivate ();";
   }
-
-  //this->out_
-  //  << single_line_comment ("Pass control to base class");
-  //  << "base_type::ccm_passivate ();";
-  //  << "}";
 }
 
 //
@@ -441,15 +454,7 @@ write_ccm_remove (const PICML::Component & component)
     return;
 
   this->_super::write_ccm_remove (component);
-
-  this->out_
-    << "{";
-
-  if (this->auto_env_)
-  {
-    this->out_
-      << "}";
-  }
+  this->out_ << "{";
 }
 
 //
@@ -461,7 +466,7 @@ write_environment_begin (const PICML::Component & component)
   if (!this->out_.is_open ())
     return;
 
-  this->auto_env_ = false;
+  this->has_postactivate_ = false;
   this->_super::write_environment_begin (component);
 }
 
@@ -522,7 +527,12 @@ write_environment_end (const PICML::Component & component)
   if (!this->out_.is_open ())
     return;
 
-  this->auto_env_ = true;
+  if (!this->has_postactivate_)
+  {
+    this->write_ciao_postactivate (component);
+    this->out_ << "}";
+  }
+
   this->_super::write_environment_end (component);
 }
 
@@ -873,4 +883,15 @@ init_software_probe (const PICML::WorkerType & w)
       << "this->" << name << "_.init (\"" << name
       << "\", this->einode ());";
   }
+}
+
+//
+// init_periodic_events
+//
+void CUTS_EISA_Exec_Source_Generator::
+init_periodic_events (const PICML::PeriodicEvent & periodic)
+{
+  this->out_ << "this->"
+             << "periodic_" << periodic.name () << "_.init (this, &"
+             << "type::periodic_" << periodic.name () << ");";
 }

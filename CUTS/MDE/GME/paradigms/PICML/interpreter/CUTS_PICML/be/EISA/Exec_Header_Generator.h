@@ -66,6 +66,12 @@ public:
   virtual void write_ReadonlyAttribute_variable (
     const PICML::ReadonlyAttribute & readonly);
 
+  virtual void write_environment_begin (
+    const PICML::Component & component);
+
+  virtual void write_environment_end (
+    const PICML::Component & component);
+
 private:
   /// Type definition for pointer-to-methods to environment methods.
   typedef void (CUTS_EISA_Exec_Header_Generator::
@@ -77,6 +83,8 @@ private:
 
   /// Global jump table for the environment writers.
   static Environment_Table env_table_;
+
+  bool has_postactivate_;
 };
 
 // Singleton definition.

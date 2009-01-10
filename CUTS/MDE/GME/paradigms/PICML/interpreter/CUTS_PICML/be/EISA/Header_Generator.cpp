@@ -610,6 +610,5 @@ void CUTS_EISA_Header_Generator::
 write_object_impl_end (const PICML::Component & component,
                        const PICML::ProvidedRequestPort & facet)
 {
-  this->out_
-    << "};";
+  this->out_ << "};";
 }

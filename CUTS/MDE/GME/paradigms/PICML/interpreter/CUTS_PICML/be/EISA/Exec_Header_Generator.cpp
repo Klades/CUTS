@@ -18,6 +18,7 @@ CUTS_EISA_Exec_Header_Generator::env_table_;
 // CUTS_EISA_Exec_Header_Generator
 //
 CUTS_EISA_Exec_Header_Generator::CUTS_EISA_Exec_Header_Generator (void)
+: has_postactivate_ (false)
 {
   if (this->env_table_.empty ())
   {
@@ -58,9 +59,6 @@ bool CUTS_EISA_Exec_Header_Generator::
 open_file (const PICML::ComponentImplementationContainer & container)
 {
   if (!CUTS_BE_EISA_PREPROCESSOR->impls ().find (container.name (), this->node_))
-    return false;
-
-  if (this->node_->is_proxy_)
     return false;
 
   return this->_super::open_file (container);
@@ -188,6 +186,8 @@ write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
     << "class " << name << " :" << std::endl
     << "  public " << base_type.str () << " {"
     << "public:" << std::endl
+    << single_line_comment ("type definition of this type")
+    << "typedef " << name << " type;"
     << single_line_comment ("type definition of the base type")
     << "typedef " << base_type.str () << " base_type;"
     << std::endl
@@ -338,10 +338,32 @@ write_environment_method_begin (const PICML::MultiInputAction & action)
   if (iter != this->env_table_.end ())
   {
     (this->*(iter->second)) (component);
+
+    if (name == "postactivate")
+      this->has_postactivate_ = true;
   }
   else
   {
     this->out_
       << single_line_comment ("ignoring environment method: " + name);
   }
+}
+
+//
+// write_environment_begin
+//
+void CUTS_EISA_Exec_Header_Generator::
+write_environment_begin (const PICML::Component & component)
+{
+  this->has_postactivate_ = false;
+}
+
+//
+// write_environment_begin
+//
+void CUTS_EISA_Exec_Header_Generator::
+write_environment_end (const PICML::Component & component)
+{
+  if (!this->has_postactivate_)
+    this->write_ciao_postactivate (component);
 }

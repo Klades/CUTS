@@ -26,13 +26,13 @@ process (const char * filename, bool use_env, std::ostream & out)
       return true;
 
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - failed to convert template file [file=%s]\n",
+                "%T (%t) - %M - failed to convert template file [file=%s]\n",
                 filename));
   }
   else
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - failed to open file %s for reading\n",
+                "%T (%t) - %M - failed to open file %s for reading\n",
                 filename));
   }
 

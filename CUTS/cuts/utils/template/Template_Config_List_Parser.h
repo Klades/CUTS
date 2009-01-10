@@ -21,39 +21,10 @@
 #include "boost/spirit/actor/assign_actor.hpp"
 #include "boost/spirit/iterator/file_iterator.hpp"
 #include <fstream>
+#include <sstream>
 
 // Forward decl.
 class CUTS_Property_Map;
-
-// Forward decl.
-class CUTS_Template_Config_List_Parser;
-
-/**
- * @class CUTS_Template_Config_List_Parser
- */
-class CUTS_Template_Config_List_Parser
-{
-public:
-  /**
-   * Initializing constructor
-   *
-   * @param[in]       overrides       Property overrides.
-   */
-  CUTS_Template_Config_List_Parser (const ACE_CString & template_file,
-                                    const CUTS_Property_Map & overrides);
-
-  /// Destructor.
-  ~CUTS_Template_Config_List_Parser (void);
-
-  bool parse (const char * filename);
-
-private:
-  /// Template file to complete with configurations.
-  ACE_CString template_file_;
-
-  /// Reference to property overrides.
-  const CUTS_Property_Map & overrides_;
-};
 
 /**
  * @class CUTS_Template_Config_List_Parser_Grammar
@@ -62,8 +33,11 @@ class CUTS_Template_Config_List_Parser_Grammar :
   public boost::spirit::grammar <CUTS_Template_Config_List_Parser_Grammar>
 {
 public:
-  CUTS_Template_Config_List_Parser_Grammar (const ACE_CString & template_file);
+  CUTS_Template_Config_List_Parser_Grammar (const ACE_CString & template_file,
+                                            const ACE_CString & output_dir,
+                                            const CUTS_Property_Map & overrides);
 
+  /// Destructor
   ~CUTS_Template_Config_List_Parser_Grammar (void);
 
   template <typename ScannerT>
@@ -82,8 +56,8 @@ public:
       this->config_ =
         str_p ("config") >>
         confix_p ('(', (*anychar_p)[assign_a (this->filename_)] , ')') >>
-        confix_p ('{', (*anychar_p)[parse_config (this->prop_map_)], '}')[
-          generate_file (self.template_file_, this->filename_, this->prop_map_)];
+        confix_p ('{', (*anychar_p)[parse_config (this->prop_map_, self.overrides_)], '}')[
+          generate_file (self.template_file_, self.output_dir_, this->filename_, this->prop_map_)];
 
       this->config_list_ = *this->config_;
     }
@@ -96,8 +70,9 @@ public:
   private:
     struct parse_config
     {
-      parse_config (CUTS_Property_Map & prop_map)
-        : prop_map_ (prop_map)
+      parse_config (CUTS_Property_Map & prop_map, const CUTS_Property_Map & overrides)
+        : prop_map_ (prop_map),
+          overrides_ (overrides)
       {
 
       }
@@ -105,24 +80,33 @@ public:
       template <typename IteratorT>
       void operator () (IteratorT begin, IteratorT end) const
       {
+        // Empty the property map.
         if (!this->prop_map_.empty ())
           this->prop_map_.clear ();
 
+        // Parse the configuration.
         CUTS_Property_Parser parser (this->prop_map_);
         parser.parse (begin, end);
+
+        // Insert the overrides into the property map.
+        this->prop_map_.join (this->overrides_, true);
       }
 
     private:
       CUTS_Property_Map & prop_map_;
+
+      const CUTS_Property_Map & overrides_;
     };
 
     struct generate_file
     {
       generate_file (const ACE_CString & template_file,
+                     const ACE_CString & output_dir,
                      const std::string & filename,
                      const CUTS_Property_Map & prop_map)
-        : begin_ (template_file.c_str ()),
-          filename_ (filename),
+        : filename_ (filename),
+          output_dir_ (output_dir),
+          begin_ (template_file.c_str ()),
           prop_map_ (prop_map)
       {
         if (this->begin_)
@@ -132,9 +116,13 @@ public:
       template <typename IteratorT>
       void operator () (IteratorT begin, IteratorT end) const
       {
+        std::ostringstream ostr;
+        ostr << this->output_dir_.c_str ()
+             << "/" << this->filename_.c_str ();
+
         // Now, generate the file using the template.
         std::ofstream outfile;
-        outfile.open (this->filename_.c_str ());
+        outfile.open (ostr.str ().c_str ());
 
         if (outfile.is_open ())
         {
@@ -160,6 +148,8 @@ public:
     private:
       const std::string & filename_;
 
+      const ACE_CString & output_dir_;
+
       boost::spirit::file_iterator < > begin_;
 
       boost::spirit::file_iterator < > end_;
@@ -179,7 +169,37 @@ public:
 
 private:
   const ACE_CString & template_file_;
+
+  const ACE_CString & output_dir_;
+
+  const CUTS_Property_Map & overrides_;
 };
+
+/**
+ * @class CUTS_Template_Config_List_Parser
+ */
+class CUTS_Template_Config_List_Parser
+{
+public:
+  /**
+   * Initializing constructor
+   *
+   * @param[in]       overrides       Property overrides.
+   */
+  CUTS_Template_Config_List_Parser (const ACE_CString & template_file,
+                                    const ACE_CString & output_dir,
+                                    const CUTS_Property_Map & overrides);
+
+  /// Destructor.
+  ~CUTS_Template_Config_List_Parser (void);
+
+  bool parse (const char * filename);
+
+private:
+  CUTS_Template_Config_List_Parser_Grammar grammar_;
+};
+
+
 
 #if defined (__CUTS_INLINE__)
 #include "Template_Config_List_Parser.inl"

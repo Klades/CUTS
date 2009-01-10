@@ -18,8 +18,12 @@
 // CUTS_Template_Config_List_Parser_Grammar
 //
 CUTS_Template_Config_List_Parser_Grammar::
-CUTS_Template_Config_List_Parser_Grammar (const ACE_CString & template_file)
-: template_file_ (template_file)
+CUTS_Template_Config_List_Parser_Grammar (const ACE_CString & template_file,
+                                          const ACE_CString & output_dir,
+                                          const CUTS_Property_Map & overrides)
+: template_file_ (template_file),
+  output_dir_ (output_dir),
+  overrides_ (overrides)
 {
 
 }
@@ -37,6 +41,18 @@ CUTS_Template_Config_List_Parser_Grammar::
 // class CUTS_Template_Config_List_Parser
 
 //
+// CUTS_Template_Config_List_Parser
+//
+CUTS_Template_Config_List_Parser::
+CUTS_Template_Config_List_Parser (const ACE_CString & template_file,
+                                  const ACE_CString & output_dir,
+                                  const CUTS_Property_Map & overrides)
+: grammar_ (template_file, output_dir, overrides)
+{
+
+}
+
+//
 // parse
 //
 bool CUTS_Template_Config_List_Parser::parse (const char * filename)
@@ -50,11 +66,9 @@ bool CUTS_Template_Config_List_Parser::parse (const char * filename)
     // Find the end of the file.
     iterator_t end = begin.make_end ();
 
-    CUTS_Template_Config_List_Parser_Grammar grammar (this->template_file_);
-
     // Parse the configuration file.
     boost::spirit::parse_info <iterator_t> info =
-      boost::spirit::parse (begin, end, grammar, boost::spirit::space_p);
+      boost::spirit::parse (begin, end, this->grammar_, boost::spirit::space_p);
 
     return info.full;
   }

@@ -57,7 +57,7 @@ int CUTS_Template_App::run_main (int argc, char * argv [])
   if (!this->opts_.config_.empty ())
   {
     ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - loading property file %s\n",
+                "%T (%t) - %M - loading property file %s\n",
                 this->opts_.config_.c_str ()));
 
     CUTS_Property_Map_File file (this->prop_map_);
@@ -65,13 +65,13 @@ int CUTS_Template_App::run_main (int argc, char * argv [])
     if (file.read (this->opts_.config_.c_str ()))
     {
       ACE_DEBUG ((LM_INFO,
-                  "%T - %M - successfully loaded property file %s\n",
+                  "%T (%t) - %M - successfully loaded property file %s\n",
                   this->opts_.config_.c_str ()));
     }
     else
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T - %M - failed to load property file %s\n",
+                  "%T (%t) - %M - failed to load property file %s\n",
                   this->opts_.config_.c_str ()));
     }
   }
@@ -113,7 +113,7 @@ int CUTS_Template_App::run_main (int argc, char * argv [])
       else
       {
         ACE_ERROR ((LM_ERROR,
-                    "%T - %M - failed to open %s for writing\n",
+                    "%T (%t) - %M - failed to open %s for writing\n",
                     this->opts_.output_.c_str ()));
       }
     }
@@ -124,8 +124,15 @@ int CUTS_Template_App::run_main (int argc, char * argv [])
   }
   else
   {
+    // Initialize the output directory, if necessary.
+    if (this->opts_.output_.empty ())
+      this->opts_.output_ = ".";
+
     // Use the configuration list.
-    CUTS_Template_Config_List_Parser parser (this->opts_.input_, overrides);
+    CUTS_Template_Config_List_Parser parser (this->opts_.input_,
+                                             this->opts_.output_,
+                                             overrides);
+
     parser.parse (this->opts_.config_list_.c_str ());
   }
 
@@ -207,13 +214,13 @@ int CUTS_Template_App::parse_args (int argc, char * argv [])
 
     case '?':
       ACE_ERROR ((LM_WARNING,
-                  "%T - %M - -%c is an unknown option; ignoring\n",
+                  "%T (%t) - %M - -%c is an unknown option; ignoring\n",
                   get_opt.opt_opt ()));
       break;
 
     case ':':
       ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T - %M - -%c is missing an argument\n",
+                         "%T (%t) - %M - -%c is missing an argument\n",
                          get_opt.opt_opt ()),
                          -1);
       break;

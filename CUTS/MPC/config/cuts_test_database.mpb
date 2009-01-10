@@ -1,6 +1,6 @@
 // $Id$
 
-project {
+project : cuts_db_sqlite3 {
   after += CUTS_Test_Database
   libs  += CUTS_Test_Database
 }

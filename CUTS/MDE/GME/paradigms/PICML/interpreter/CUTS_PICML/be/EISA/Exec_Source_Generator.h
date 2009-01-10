@@ -176,11 +176,10 @@ private:
 
   void init_software_probe (const PICML::WorkerType & worker);
 
+  void init_periodic_events (const PICML::PeriodicEvent & periodic);
+
   /// Flag for determining if current action is skipped.
   bool skip_action_;
-
-  /// Flag that determines calling method for environment.
-  bool auto_env_;
 
   /// Number of arguments in action.
   size_t arg_count_;
@@ -189,6 +188,8 @@ private:
   CUTS_EISA_Port_Manager_T <const PICML::OutEventPort> outevent_mgr_;
 
   std::stack <size_t> branches_;
+
+  bool has_postactivate_;
 };
 
 // Singleton definition.

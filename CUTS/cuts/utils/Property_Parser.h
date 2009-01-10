@@ -91,7 +91,7 @@ public:
     void operator () (IteratorT, IteratorT) const
     {
       ACE_DEBUG ((LM_DEBUG,
-                  "%T - %M - storing property [%s] => %s\n",
+                  "%T (%t) - %M - storing property [%s] => %s\n",
                   this->name_.c_str (),
                   this->value_.c_str ()));
 
@@ -112,21 +112,21 @@ public:
   public:
     definition (CUTS_Property_Parser_Grammar const & self)
     {
-      this->property_name_ =
-        boost::spirit::lexeme_d [*(boost::spirit::print_p - '=')];
+      using namespace boost::spirit;
 
-      this->property_value_ =
-        *(boost::spirit::anychar_p - boost::spirit::eol_p);
+      this->property_name_ =
+        lexeme_d [*(print_p - '=')];
+
+      this->property_value_ = *(anychar_p - ';');
 
       this->property_ =
-        this->property_name_[boost::spirit::assign_a (this->name_)] >> '=' >>
-        this->property_value_[boost::spirit::assign_a (this->value_)];
+        *space_p >>
+        this->property_name_[assign_a (this->name_)] >> '=' >>
+        this->property_value_[assign_a (this->value_)];
 
       this->property_list_ =
-        boost::spirit::list_p (
-          this->property_[
-              insert_property (self.prop_map_, this->name_, this->value_)],
-              boost::spirit::eol_p);
+        list_p (this->property_[insert_property (self.prop_map_, this->name_, this->value_)],
+                ch_p (';'));
     }
 
     const boost::spirit::rule <ScannerT> & start (void) const
