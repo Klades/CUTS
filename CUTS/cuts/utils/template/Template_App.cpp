@@ -8,6 +8,7 @@
 #include "ace/Get_Opt.h"
 #include "ace/streams.h"
 #include "boost/bind.hpp"
+#include <algorithm>
 
 static const char * __HELP__ =
 "Template engine for property-based configuration files\n"
@@ -87,10 +88,9 @@ int CUTS_Template_App::run_main (int argc, char * argv [])
 
     std::for_each (this->opts_.defines_.begin (),
                    this->opts_.defines_.end (),
-                   boost::bind (&CUTS_Property_Parser::parse,
+                   boost::bind (&CUTS_Property_Parser::parse_str,
                                 boost::ref (parser),
-                                boost::bind (&ACE_CString::c_str,
-                                             _1)));
+                                _1));
   }
 
   // Join the overwrites with the default property map.

@@ -46,6 +46,8 @@ public:
    */
   bool parse (const char * str);
 
+  bool parse_str (const ACE_CString & str);
+
   template <typename IteratorT>
   bool parse (IteratorT begin, IteratorT end)
   {

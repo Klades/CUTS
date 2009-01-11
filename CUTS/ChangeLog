@@ -1,3 +1,12 @@
+Sun Jan 11 03:45:54 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_db_sqlite3.mpb:
+        * cuts/utils/Property_Parser.h:
+        * cuts/utils/Property_Parser.cpp:
+        * cuts/utils/template/Template_App.cpp:
+
+	  . Fixed build errors on non-Windows systems.
+
 Sat Jan 10 21:33:35 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/Exec_Header_Generator.h:
