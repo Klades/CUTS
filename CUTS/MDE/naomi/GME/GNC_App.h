@@ -40,7 +40,8 @@ struct CUTS_GNC_App_Options
   /// Default constructor. Sets the default values for the options.
   CUTS_GNC_App_Options (void)
     : list_attributes_ (false),
-      update_attributes_ (false)
+      update_attributes_ (false),
+      enable_auto_addons_ (true)
   {
 
   }
@@ -56,6 +57,8 @@ struct CUTS_GNC_App_Options
 
   /// Update all the attributes.
   bool update_attributes_;
+
+  bool enable_auto_addons_;
 
   /// Pathname of the interface file.
   std::string interface_file_pathname_;

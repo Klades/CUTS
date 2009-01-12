@@ -511,17 +511,22 @@ insert_nodes_in_deployment (GME::Model & deployment,
     noderef.name (iter->first);
     noderef.refers_to (iter->second);
 
-    // Create a collocation group for this node.
-    GME::Set group = GME::Set::_create ("CollocationGroup", deployment);
-    group.name ("DefaultGroup");
+    // Force a new transaction. This should cause the loaded add-on(s)
+    // to execute their event handlers.
+    noderef.project ().begin_transaction (true);
 
-    // Save the group to the collection.
-    groups.insert (std::make_pair (iter->first, group));
+    GME::ConnectionPoints points;
 
-    // Create a instance mapping connection between the node and
-    // the collocation group.
-    GME::Connection mapping =
-      GME::Connection::_create ("InstanceMapping", deployment, group, noderef);
+    if (noderef.in_connection_points (points))
+    {
+      // Get the destination point for this connection.
+      GME::Connection conn = points.begin ()->item ().owner ();
+      GME::ConnectionPoint dst = conn[std::string ("src")];
+
+      // Save the collocation group.
+      GME::Set group = GME::Set::_narrow (dst.target ());
+      groups.insert (std::make_pair (iter->first, group));
+    }
   }
 }
 

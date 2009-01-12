@@ -99,6 +99,8 @@ int CUTS_GNC_App::parse_args (int argc, char * argv [])
   ACE_Get_Opt get_opt (argc, argv, opts, 0);
 
   get_opt.long_option ("project", 'p', ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("disable-addons", ACE_Get_Opt::NO_ARG);
+
   get_opt.long_option ("attribute-path", 'P', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("update-attributes", 'u', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("list-attributes", 'l', ACE_Get_Opt::NO_ARG);
@@ -120,6 +122,10 @@ int CUTS_GNC_App::parse_args (int argc, char * argv [])
       if (ACE_OS::strcmp (get_opt.long_option (), "project") == 0)
       {
         this->opts_.project_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "disable-addons") == 0)
+      {
+        this->opts_.enable_auto_addons_ = false;
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "list-attributes") == 0)
       {
@@ -204,7 +210,7 @@ int CUTS_GNC_App::parse_args (int argc, char * argv [])
 
     case ':':
       ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T - %M - -%c is missing an argument\n",
+                         "%T (%t) - %M - -%c is missing an argument\n",
                          get_opt.opt_opt ()),
                          -1);
       break;
@@ -218,7 +224,7 @@ int CUTS_GNC_App::parse_args (int argc, char * argv [])
   if (this->opts_.project_.empty ())
   {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T - %M - please specify a GME project; either a .mga or .xme file\n"),
+                       "%T (%t) - %M - please specify a GME project; either a .mga or .xme file\n"),
                         -1);
   }
 
@@ -259,7 +265,7 @@ int CUTS_GNC_App::run_main (void)
     this->project_->abort_transaction ();
 
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - GME operation failed [0x%X]\n",
+                "%T (%t) - %M - GME operation failed [0x%X]\n",
                 ex.value ()));
   }
   catch (...)
@@ -268,7 +274,7 @@ int CUTS_GNC_App::run_main (void)
     this->project_->abort_transaction ();
 
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - caught unknown exception\n"));
+                "%T (%t) - %M - caught unknown exception\n"));
   }
 
   // Finalize the GME project.
@@ -284,7 +290,7 @@ int CUTS_GNC_App::gme_project_init (void)
   try
   {
     ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - initializing GME automation engine\n"));
+                "%T (%t) - %M - initializing GME automation engine\n"));
 
     GME::init ();
 
@@ -300,7 +306,7 @@ int CUTS_GNC_App::gme_project_init (void)
       connstr << "MGA=" << this->opts_.project_;
 
       ACE_DEBUG ((LM_INFO,
-                  "%T - %M - opening %s for processing\n",
+                  "%T (%t) - %M - opening %s for processing\n",
                   this->opts_.project_.c_str ()));
 
       this->project_->open (connstr.str ());
@@ -322,7 +328,7 @@ int CUTS_GNC_App::gme_project_init (void)
         ACE_HANDLE fd = ACE_OS::mkstemp (pathname);
 
         ACE_DEBUG ((LM_DEBUG,
-                    "%T - %M - creating temporary file '%s'\n",
+                    "%T (%t) - %M - creating temporary file '%s'\n",
                     pathname));
 
         if (fd == 0)
@@ -338,7 +344,7 @@ int CUTS_GNC_App::gme_project_init (void)
 
         // Create a empty PICML project and import the XML file.
         ACE_DEBUG ((LM_INFO,
-                    "%T - %M - importing '%s' for processing\n",
+                    "%T (%t) - %M - importing '%s' for processing\n",
                     this->opts_.project_.c_str ()));
 
         this->project_->create (connstr.str (), info.paradigm_);
@@ -350,18 +356,23 @@ int CUTS_GNC_App::gme_project_init (void)
       }
     }
 
+    // Make sure we have the add-ons enabled. Otherwise, the project
+    // may enter an inconsistent state.
+    if (this->opts_.enable_auto_addons_)
+      this->project_->enable_auto_addons (true);
+
     return 0;
   }
   catch (const GME::Failed_Result & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - GME operation failed [0x%X]\n",
+                "%T (%t) - %M - GME operation failed [0x%X]\n",
                 ex.value ()));
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - caught unknown exception\n"));
+                "%T (%t) - %M - caught unknown exception\n"));
   }
 
   return -1;
@@ -382,7 +393,7 @@ int CUTS_GNC_App::gme_project_fini (void)
       tempfile = this->project_->connstr ().substr (4);
 
       ACE_DEBUG ((LM_INFO,
-                  "%T - %M - exporting project as %s\n",
+                  "%T (%t) - %M - exporting project as %s\n",
                   this->opts_.project_.c_str (),
                   tempfile.c_str ()));
 
@@ -395,14 +406,14 @@ int CUTS_GNC_App::gme_project_fini (void)
     if (this->save_model_)
     {
       ACE_DEBUG ((LM_INFO,
-                  "%T - %M - saving updates to model\n"));
+                  "%T (%t) - %M - saving updates to model\n"));
 
       this->project_->save ();
     }
 
     // Close the project file.
     ACE_DEBUG ((LM_INFO,
-                "%T - %M - closing the project\n"));
+                "%T (%t) - %M - closing the project\n"));
 
     this->project_->close ();
     this->project_.reset ();
@@ -410,7 +421,7 @@ int CUTS_GNC_App::gme_project_fini (void)
     if (!tempfile.empty ())
     {
       ACE_DEBUG ((LM_DEBUG,
-                  "%T - %M - deleting temporary file %s\n",
+                  "%T (%t) - %M - deleting temporary file %s\n",
                   tempfile.c_str ()));
 
       ACE_OS::unlink (tempfile.c_str ());
@@ -418,7 +429,7 @@ int CUTS_GNC_App::gme_project_fini (void)
   }
 
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - finalizing GME automation engine\n"));
+              "%T (%t) - %M - finalizing GME automation engine\n"));
 
   // Finalize GME backend.
   GME::fini ();
@@ -448,7 +459,7 @@ locate_object_attribute_i (const std::string & attr,
   std::string path = parent.path (".", false).c_str ();
 
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - searching %s ...\n",
+              "%T (%t) - %M - searching %s ...\n",
               path.c_str ()));
 
   GME::Collection_T <GME::RegistryNode> registry;
@@ -563,7 +574,7 @@ void CUTS_GNC_App::create_interface_file (void)
 
   // Gather all the attributes in the model.
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - gathering all attributes in the model for "
+              "%T (%t) - %M - gathering all attributes in the model for "
               "interface file\n"));
 
   this->gather_all_attributes (root, input, output);
@@ -587,7 +598,7 @@ void CUTS_GNC_App::create_interface_file (void)
   // Create a new interface object, which will be translated
   // into XML.
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - creating interface file named %s for type %s\n",
+              "%T (%t) - %M - creating interface file named %s for type %s\n",
               name.c_str (),
               type.c_str ()));
 
@@ -645,13 +656,13 @@ void CUTS_GNC_App::create_interface_file (void)
   if (writer.write (pathname.c_str ()))
   {
     ACE_DEBUG ((LM_INFO,
-                 "%T - %M - successfully wrote interface file to '%s'\n",
+                 "%T (%t) - %M - successfully wrote interface file to '%s'\n",
                  this->opts_.interface_file_pathname_.c_str ()));
   }
   else
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - failed to open '%s' for writing\n",
+                "%T (%t) - %M - failed to open '%s' for writing\n",
                 this->opts_.interface_file_pathname_.c_str ()));
   }
 }
@@ -701,14 +712,14 @@ gather_all_attributes (const GME::Object & parent,
       if (direct == "input")
       {
         ACE_DEBUG ((LM_DEBUG,
-                    "%T - %M - remembering <%s> as an input attribute\n",
+                    "%T (%t) - %M - remembering <%s> as an input attribute\n",
                     reg_iter->name ().c_str ()));
         input.push_back (attr);
       }
       else if (direct == "output")
       {
         ACE_DEBUG ((LM_DEBUG,
-                    "%T - %M - remembering <%s> as an output attribute\n",
+                    "%T (%t) - %M - remembering <%s> as an output attribute\n",
                     reg_iter->name ().c_str ()));
 
         output.push_back (attr);
@@ -716,7 +727,7 @@ gather_all_attributes (const GME::Object & parent,
       else
       {
         ACE_ERROR ((LM_ERROR,
-                    "%T - %M - attribute <%s> tagged at <%s> has "
+                    "%T (%t) - %M - attribute <%s> tagged at <%s> has "
                     "no direction; skipping...\n",
                     attr.c_str (),
                     path.c_str ()));
@@ -763,15 +774,15 @@ iterate_all_attributes_i (const GME::Object & parent,
   GME::Collection_T <GME::RegistryNode> registry;
   std::string path = parent.path (".", false).c_str ();
 
-  try
-  {
-    GME::FCO fco = GME::FCO::_narrow (parent);
-    fco.registry (registry);
-  }
-  catch (...)
+  if (parent.type () == OBJTYPE_FOLDER)
   {
     GME::Folder folder = GME::Folder::_narrow (parent);
     folder.registry (registry);
+  }
+  else
+  {
+    GME::FCO fco = GME::FCO::_narrow (parent);
+    fco.registry (registry);
   }
 
   // Get all the top-level registry nodes for this object.
@@ -822,7 +833,7 @@ void CUTS_GNC_App::update_attributes (void)
 {
   // Update all the input attributes.
   ACE_DEBUG ((LM_INFO,
-              "%T - %M - updating input attributes\n"));
+              "%T (%t) - %M - updating input attributes\n"));
 
   this->attr_graph_.clear ();
   this->iterate_all_attributes (&CUTS_GNC_App::gather_input_attributes_callback);
@@ -830,7 +841,7 @@ void CUTS_GNC_App::update_attributes (void)
 
   // Update all the output attributes.
   ACE_DEBUG ((LM_INFO,
-              "%T - %M - updating output attributes\n"));
+              "%T (%t) - %M - updating output attributes\n"));
 
   this->attr_graph_.clear ();
   this->iterate_all_attributes (&CUTS_GNC_App::gather_output_attributes_callback);
@@ -864,7 +875,7 @@ void CUTS_GNC_App::
 insert_into_attr_graph (const std::string & attr, GME_Attribute_Tag & info)
 {
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - inserting %s into attribute graph\n",
+              "%T (%t) - %M - inserting %s into attribute graph\n",
               attr.c_str ()));
 
   // First, try to locate the vertex that has the given attribute's
@@ -886,7 +897,7 @@ insert_into_attr_graph (const std::string & attr, GME_Attribute_Tag & info)
   if (iter == iter_end)
   {
     ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - creating new vertex in graph for "
+                "%T (%t) - %M - creating new vertex in graph for "
                 "attribute %s\n",
                 attr.c_str ()));
 
@@ -895,7 +906,7 @@ insert_into_attr_graph (const std::string & attr, GME_Attribute_Tag & info)
   else
   {
     ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - using an existing vertex in graph "
+                "%T (%t) - %M - using an existing vertex in graph "
                 "for attribute %s\n",
                 attr.c_str ()));
 
@@ -905,7 +916,7 @@ insert_into_attr_graph (const std::string & attr, GME_Attribute_Tag & info)
   // Update its color, just in case.
 
   ACE_DEBUG ((LM_DEBUG,
-            "%T - %M - saving tag information for %s\n",
+            "%T (%t) - %M - saving tag information for %s\n",
             attr.c_str ()));
 
   boost::put (boost::vertex_color, this->attr_graph_, attr_vertex, info);
@@ -955,7 +966,7 @@ void CUTS_GNC_App::
 update_input_attribute (const std::string & attr, GME_Attribute_Tag & info)
 {
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - updating <%s> input attribute\n",
+              "%T (%t) - %M - updating <%s> input attribute\n",
               attr.c_str ()));
 
   // Create the file reader for the configuration file.
@@ -997,7 +1008,7 @@ update_input_attribute (const std::string & attr, GME_Attribute_Tag & info)
   if (error_handler.getErrors ())
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - failed to load attribute.xsd grammar\n"));
+                "%T (%t) - %M - failed to load attribute.xsd grammar\n"));
     return;
   }
 
@@ -1011,7 +1022,7 @@ update_input_attribute (const std::string & attr, GME_Attribute_Tag & info)
     {
       // Read the attribute information from the file.
       ACE_DEBUG ((LM_DEBUG,
-                  "%T - %M - loading input attribute's information\n"));
+                  "%T (%t) - %M - loading input attribute's information\n"));
 
       reader >>= attr_info;
 
@@ -1020,21 +1031,23 @@ update_input_attribute (const std::string & attr, GME_Attribute_Tag & info)
       else
         this->update_input_attribute_complex (attr, attr_info, info);
     }
-    catch (const GME::Failed_Result &)
+    catch (const GME::Failed_Result & ex)
     {
-
+      ACE_ERROR ((LM_ERROR,
+                  "%T (%t) - %M - caught GME exception [0x%d]\n",
+                  ex.value ()));
     }
     catch (...)
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T - %M - failed to load %s input attribute's information\n",
+                  "%T (%t) - %M - failed to load %s input attribute's information\n",
                   attr.c_str ()));
     }
   }
   else
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - could not locate attribute <%s> on disk; "
+                "%T (%t) - %M - could not locate attribute <%s> on disk; "
                 "please make sure path is correct\n",
                 attr.c_str ()));
   }
@@ -1048,7 +1061,7 @@ update_input_attribute_simple (const naomi::attributes::attributeType & attr,
                                GME_Attribute_Tag & info)
 {
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - updating simple attribute at location %s\n",
+              "%T (%t) - %M - updating simple attribute at location %s\n",
               info.object_.path ("/").c_str ()));
 
   if (info.gme_attribute_.empty ())
@@ -1062,15 +1075,11 @@ update_input_attribute_simple (const naomi::attributes::attributeType & attr,
     // The value is an attribute of the object.
     GME::Attribute target_attr;
 
-    try
-    {
-      GME::FCO fco = GME::FCO::_narrow (info.object_);
-      target_attr = fco.attribute (info.gme_attribute_);
-    }
-    catch (...)
-    {
-      GME::Folder folder = GME::Folder::_narrow (info.object_);
-    }
+    if (info.object_.type () == OBJTYPE_FOLDER)
+      return;
+
+    GME::FCO fco = GME::FCO::_narrow (info.object_);
+    target_attr = fco.attribute (info.gme_attribute_);
 
     // Set the value of the GME attribute.
     std::string curr_value = target_attr.string_value ();
@@ -1094,7 +1103,7 @@ update_input_attribute_complex (const std::string & attr_name,
                                 GME_Attribute_Tag & info)
 {
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - updating complex attribute at location %s\n",
+              "%T (%t) - %M - updating complex attribute at location %s\n",
               info.object_.path ("/").c_str ()));
 
   GME_Naomi_Parser * parser = 0;
@@ -1104,7 +1113,7 @@ update_input_attribute_complex (const std::string & attr_name,
   // Open the DLL that contains the parser. This will be specified in the
   // 'complex_' property of the \a info parameter.
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - opening complex attribute parser in module %s\n",
+              "%T (%t) - %M - opening complex attribute parser in module %s\n",
               info.complex_.c_str ()));
 
   if (parser_dll.open (info.complex_.c_str (), ACE_DEFAULT_SHLIB_MODE, 0) == 0)
@@ -1113,7 +1122,7 @@ update_input_attribute_complex (const std::string & attr_name,
     typedef GME_Naomi_Parser * (* CREATION_FUNCTION) (void);
 
     ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - loading parser creation function symbol [%s]\n",
+                "%T (%t) - %M - loading parser creation function symbol [%s]\n",
                 GME_NAOMI_CREATE_PARSER_FUNC_STR));
 
     CREATION_FUNCTION creation_function =
@@ -1122,7 +1131,7 @@ update_input_attribute_complex (const std::string & attr_name,
     if (creation_function != 0)
     {
       ACE_DEBUG ((LM_DEBUG,
-                  "%T - %M - creating new parser object\n"));
+                  "%T (%t) - %M - creating new parser object\n"));
 
       // Create a new parser using the creation function.
       parser = (*creation_function) ();
@@ -1130,7 +1139,7 @@ update_input_attribute_complex (const std::string & attr_name,
     else
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T - %M - module '%s' does not define parser creation function\n",
+                  "%T (%t) - %M - module '%s' does not define parser creation function\n",
                   info.complex_.c_str ()));
     }
   }
@@ -1150,19 +1159,19 @@ update_input_attribute_complex (const std::string & attr_name,
     if (parser->run (info.object_, attr_name, this->opts_.attribute_path_) == 0)
     {
       ACE_DEBUG ((LM_INFO,
-                  "%T - %M - successfully run parser\n"));
+                  "%T (%t) - %M - successfully run parser\n"));
     }
     else
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T - %M - failed to run parser in module %s\n",
+                  "%T (%t) - %M - failed to run parser in module %s\n",
                   info.complex_.c_str ()));
     }
   }
   else
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - failed to load parser from module %s\n",
+                "%T (%t) - %M - failed to load parser from module %s\n",
                 info.complex_.c_str ()));
   }
 
@@ -1201,7 +1210,7 @@ void CUTS_GNC_App::
 update_output_attribute (const std::string & attr, GME_Attribute_Tag & info)
 {
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - updating output attribute: %s\n",
+              "%T (%t) - %M - updating output attribute: %s\n",
               attr.c_str ()));
 
   // Get the paradigm for the project. This is the actual owner
@@ -1253,7 +1262,7 @@ update_output_attribute (const std::string & attr, GME_Attribute_Tag & info)
   if (!writer.write (pathname.str ().c_str ()))
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - failed to open '%s' for writing\n",
+                "%T (%t) - %M - failed to open '%s' for writing\n",
                 pathname.str ().c_str ()));
   }
 }
@@ -1275,15 +1284,11 @@ update_output_attribute_simple (naomi::attributes::attributeType & attr,
     // The value is an attribute of the object.
     GME::Attribute target_attr;
 
-    try
-    {
-      GME::FCO fco = GME::FCO::_narrow (info.object_);
-      target_attr = fco.attribute (info.gme_attribute_);
-    }
-    catch (...)
-    {
-      GME::Folder folder = GME::Folder::_narrow (info.object_);
-    }
+    if (info.object_.type () == OBJTYPE_FOLDER)
+      return;
+
+    GME::FCO fco = GME::FCO::_narrow (info.object_);
+    target_attr = fco.attribute (info.gme_attribute_);
 
     // Set the attribute info using the GME attribute.
     attr.value (target_attr.string_value ());;
@@ -1299,7 +1304,7 @@ update_output_attribute_complex (const std::string & attr,
                                  GME_Attribute_Tag & info)
 {
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - updating complex attribute at location %s\n",
+              "%T (%t) - %M - updating complex attribute at location %s\n",
               info.object_.path ("/").c_str ()));
 
   GME_Naomi_Generator * generator = 0;
@@ -1309,7 +1314,7 @@ update_output_attribute_complex (const std::string & attr,
   // Open the DLL that contains the parser. This will be specified in the
   // 'complex_' property of the \a info parameter.
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - opening complex attribute generator in module %s\n",
+              "%T (%t) - %M - opening complex attribute generator in module %s\n",
               info.complex_.c_str ()));
 
   if (generator_dll.open (info.complex_.c_str (), ACE_DEFAULT_SHLIB_MODE, 0) == 0)
@@ -1318,7 +1323,7 @@ update_output_attribute_complex (const std::string & attr,
     typedef GME_Naomi_Generator * (* CREATION_FUNCTION) (void);
 
     ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - loading generator creation function symbol [%s]\n",
+                "%T (%t) - %M - loading generator creation function symbol [%s]\n",
                 GME_NAOMI_CREATE_GENERATOR_FUNC_STR));
 
     CREATION_FUNCTION creation_function =
@@ -1327,7 +1332,7 @@ update_output_attribute_complex (const std::string & attr,
     if (creation_function != 0)
     {
       ACE_DEBUG ((LM_DEBUG,
-                  "%T - %M - creating new generator object\n"));
+                  "%T (%t) - %M - creating new generator object\n"));
 
       // Create a new parser using the creation function.
       generator = (*creation_function) ();
@@ -1335,7 +1340,7 @@ update_output_attribute_complex (const std::string & attr,
     else
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T - %M - module [%s] does not define generator creation function\n",
+                  "%T (%t) - %M - module [%s] does not define generator creation function\n",
                   info.complex_.c_str ()));
     }
   }
@@ -1349,7 +1354,7 @@ update_output_attribute_complex (const std::string & attr,
     if (generator->run (attr, this->opts_.attribute_path_, info.object_) == 0)
     {
       ACE_DEBUG ((LM_INFO,
-                  "%T - %M - successfully run generator\n"));
+                  "%T (%t) - %M - successfully run generator\n"));
 
       // We need to update the resources list for this attribute.
       const GME_Naomi_Resource_List & resources = generator->resources ();
@@ -1371,14 +1376,14 @@ update_output_attribute_complex (const std::string & attr,
     else
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T - %M - failed to run generator in module %s\n",
+                  "%T (%t) - %M - failed to run generator in module %s\n",
                   info.complex_.c_str ()));
     }
   }
   else
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - failed to load parser from module %s\n",
+                "%T (%t) - %M - failed to load parser from module %s\n",
                 info.complex_.c_str ()));
   }
 

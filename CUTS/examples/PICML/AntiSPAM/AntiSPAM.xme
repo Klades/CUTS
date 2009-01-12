@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{E221220B-2848-4F25-A6DC-854FED20B275}" cdate="Sun Dec 28 04:00:38 2008" mdate="Sun Dec 28 04:00:38 2008" version="" metaguid="{6131D657-5E06-4D59-B9A5-39B0F7A830D4}" metaversion="" metaname="PICML">
+<project guid="{537E7CB1-A920-4956-9D85-763AA82308E1}" cdate="Sun Dec 28 04:00:38 2008" mdate="Sun Dec 28 04:00:38 2008" version="" metaguid="{6131D657-5E06-4D59-B9A5-39B0F7A830D4}" metaversion="" metaname="PICML">
 	<name>AntiSPAM</name>
 	<comment></comment>
 	<author>James H. Hill</author>
@@ -1076,7 +1076,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 							</regnode>
 						</model>
 						<model id="id-0065-00000014" kind="Attribute" role="Attribute" guid="{008C8368-4B24-4d76-9423-1906A0F35BD8}" relid="0xc" childrelidcntr="0x1">
-							<name>publishInterval</name>
+							<name>publishHertz</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
 								<regnode name="InterfaceDefinition" status="undefined">
@@ -1117,7 +1117,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								</regnode>
 							</regnode>
 							<attribute kind="Period">
-								<value>this-&gt;publishInterval_</value>
+								<value>1000 / this-&gt;publishHertz_</value>
 							</attribute>
 							<attribute kind="Probability" status="meta">
 								<value>1.0</value>
@@ -2412,7 +2412,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 							<value></value>
 						</attribute>
 						<model id="id-0065-00000062" kind="Attribute" role="Attribute" guid="{F5733D9C-464F-4882-844F-B54FD142C4F1}" derivedfrom="id-0065-00000014" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-							<name>publishInterval</name>
+							<name>publishHertz</name>
 							<attribute kind="SpecifyIdTag" status="meta">
 								<value></value>
 							</attribute>
@@ -2432,7 +2432,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 						<atom id="id-0066-0000002d" kind="PeriodicEvent" role="PeriodicEvent" guid="{824051EF-18F4-4b5d-BA17-B1E3A318A569}" derivedfrom="id-0066-00000010" isinstance="yes" isprimary="no">
 							<name>eventGenerator</name>
 							<attribute kind="Period" status="inherited">
-								<value>this-&gt;publishInterval_</value>
+								<value>1000 / this-&gt;publishHertz_</value>
 							</attribute>
 							<attribute kind="Probability" status="meta">
 								<value>1.0</value>
@@ -4000,7 +4000,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 							<value></value>
 						</attribute>
 						<model id="id-0065-000000bf" kind="Attribute" role="Attribute" guid="{7795A179-B9AF-4688-ADF5-E04636C21325}" derivedfrom="id-0065-00000014" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-							<name>publishInterval</name>
+							<name>publishHertz</name>
 							<attribute kind="SpecifyIdTag" status="meta">
 								<value></value>
 							</attribute>
@@ -4026,7 +4026,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 						<atom id="id-0066-00000057" kind="PeriodicEvent" role="PeriodicEvent" guid="{BE3CACCF-3A28-4f0d-883A-F35E078ED51D}" derivedfrom="id-0066-00000010" isinstance="yes" isprimary="no">
 							<name>eventGenerator</name>
 							<attribute kind="Period" status="inherited">
-								<value>this-&gt;publishInterval_</value>
+								<value>1000 / this-&gt;publishHertz_</value>
 							</attribute>
 							<attribute kind="Probability" status="meta">
 								<value>1.0</value>

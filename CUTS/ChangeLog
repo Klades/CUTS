@@ -1,3 +1,20 @@
+Mon Jan 12 05:41:15 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Scatter_Deployment_Parser.cpp:
+
+          . Updated the parser to support add-ons.
+
+        * MDE/naomi/GME/GNC_App.h:
+        * MDE/naomi/GME/GNC_App.cpp:
+
+          . Auto auto-ons for the project is enabled by default. The disable
+            auto add-on support, then use the --disable-addons command-line
+            parameter.
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+
+          . Checkpointing the model.
+
 Sun Jan 11 03:45:54 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MPC/config/cuts_db_sqlite3.mpb:
@@ -5,7 +22,7 @@ Sun Jan 11 03:45:54 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/utils/Property_Parser.cpp:
         * cuts/utils/template/Template_App.cpp:
 
-	  . Fixed build errors on non-Windows systems.
+          . Fixed build errors on non-Windows systems.
 
 Sat Jan 10 21:33:35 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
