@@ -22,7 +22,9 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using MySql.Data.MySqlClient;
+
 using CUTS.Data;
+using CUTS.Web.UI;
 
 namespace CUTS
 {
@@ -71,7 +73,7 @@ namespace CUTS
       }
       catch (Exception ex)
       {
-        this.master_.show_error_message (ex.Message + "<br /><verbatim>" + ex.StackTrace + "</verbatim>");
+        this.master_.Console.Add (ex);
       }
     }
 
@@ -192,16 +194,13 @@ namespace CUTS
         }
         catch (Exception ex)
         {
-          string message =
-            ex.Message + "<br /><verbatim>" + ex.StackTrace + "</verbatim>";
-
-          this.master_.show_error_message (message);
+          this.master_.Console.Add (ex);
         }
       }
       else
       {
-        this.master_.show_error_message ("Cannot register host while in edit mode");
-        this.master_.show_info_message ("Please leave edit mode to register a new host");
+        this.master_.Console.Add (MessageSeverity.Error, "Cannot register host while in edit mode");
+        this.master_.Console.Add (MessageSeverity.Info, "Please leave edit mode to register a new host");
       }
     }
 
@@ -218,18 +217,21 @@ namespace CUTS
       {
         if (this.verify_edit_mode (false))
         {
-          TableCell cell = (TableCell)e.Item.Controls [0];
-          LinkButton linkbtn = (LinkButton)cell.Controls [0];
+          TableCell cell = (TableCell)e.Item.Controls[0];
+          LinkButton linkbtn = (LinkButton)cell.Controls[0];
 
           // Get the "details" row for the selected item.
           int index = (2 * e.Item.ItemIndex) + 3;
-          Table table = (Table)this.hosts_.Controls [0];
-          TableRow row = table.Rows [index];
+          Table table = (Table)this.hosts_.Controls[0];
+          TableRow row = table.Rows[index];
 
-          this.toggle_details (table.Rows [index - 1], table.Rows [index]);
+          this.toggle_details (table.Rows[index - 1], table.Rows[index]);
         }
         else
-          this.master_.show_error_message ("cannot view details while in edit mode");
+        {
+          this.master_.Console.Add (MessageSeverity.Error,
+                                    "cannot view details while in edit mode");
+        }
       }
     }
 
@@ -270,7 +272,7 @@ namespace CUTS
       }
       catch (Exception ex)
       {
-        this.master_.show_error_message (ex.Message);
+        this.master_.Console.Add (MessageSeverity.Error, ex.Message);
       }
     }
 

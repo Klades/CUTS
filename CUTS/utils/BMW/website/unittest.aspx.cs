@@ -24,6 +24,7 @@ using System.Web.UI.HtmlControls;
 using MySql.Data.MySqlClient;
 using Actions.UnitTestActions;
 using Actions.LogFormatActions;
+using CUTS.Web.UI;
 
 namespace CUTS
 {
@@ -82,7 +83,7 @@ namespace CUTS
       }
       catch (Exception ex)
       {
-        this.master_.show_error_message (ex.Message);
+        this.master_.Console.Add (MessageSeverity.Error, ex.Message);
       }
     }
 
@@ -374,7 +375,10 @@ namespace CUTS
       {
         // Create the new test suite.
         this.uta_.insert_test_suite (name);
-        this.master_.show_info_message ("Succesfully created " + name + " test suite");
+        this.master_.Console.Add (MessageSeverity.Info,
+                                  "Succesfully created " + name +
+                                  " test suite");
+
         this.test_suite_name_.Text = "";
 
         // Reload the data
@@ -383,8 +387,8 @@ namespace CUTS
       catch (Exception ex)
       {
         // Show error message
-        this.master_.show_error_message (ex.Message);
-        this.master_.show_error_message ("Failed to create test suite " + name);
+        this.master_.Console.Add (MessageSeverity.Error, ex.Message);
+        this.master_.Console.Add (MessageSeverity.Error, "Failed to create test suite " + name);
       }
       finally
       {
@@ -424,7 +428,9 @@ namespace CUTS
         this.uta_.create_test_package (name);
 
         // Show info message
-        this.master_.show_info_message ("Succesfully created " + name + " test package");
+        this.master_.Console.Add (MessageSeverity.Info,
+                                  "Succesfully created " + name +
+                                  " test package");
 
         // Update the UI
         this.load_existing_packages ();
@@ -447,10 +453,10 @@ namespace CUTS
       catch (Exception ex)
       {
         // Show current message
-        this.master_.show_error_message (ex.Message);
+        this.master_.Console.Add (MessageSeverity.Error, ex.Message);
 
         // Show more meaningful message
-        this.master_.show_error_message ("Failed to create test package " + name);
+        this.master_.Console.Add (MessageSeverity.Error, "Failed to create test package " + name);
       }
     }
 
@@ -471,7 +477,7 @@ namespace CUTS
       // Check that the selected one is valid
       if (this.existing_test_packages_.SelectedIndex == -1)
       {
-        this.master_.show_error_message ("Please select a valid test package to " +
+        this.master_.Console.Add (MessageSeverity.Error, "Please select a valid test package to " +
           "delete. ");
         return;
       }
@@ -485,7 +491,7 @@ namespace CUTS
 
         // Show success message
         string msg = "Successfully deleted " + name + " test package from database";
-        this.master_.show_info_message (msg);
+        this.master_.Console.Add (MessageSeverity.Info, msg);
 
         // Reload all the existing and current lists
         this.load_existing_packages ();
@@ -497,7 +503,7 @@ namespace CUTS
           this.uta_.containing_test_suites (this.existing_test_packages_.SelectedValue);
 
         // Show current message
-        this.master_.show_error_message (ex.Message);
+        this.master_.Console.Add (MessageSeverity.Error, ex.Message);
 
         // Show more meaningful message
         string message = "Failed to delete " + name + " test package";
@@ -514,7 +520,7 @@ namespace CUTS
 
           message = message.Remove (message.LastIndexOf (','));
         }
-        this.master_.show_error_message (message);
+        this.master_.Console.Add (MessageSeverity.Error, message);
       }
     }
 
@@ -535,20 +541,22 @@ namespace CUTS
         {
           // Remove the unit test from the database, if possible.
           this.uta_.delete_unit_test (this.existing_unit_tests_.SelectedValue);
-          this.master_.show_info_message ("Successfully deleted " + name + " unit test from database");
+          this.master_.Console.Add (MessageSeverity.Info,
+                                    "Successfully deleted " + name +
+                                    " unit test from database");
 
           // Force reloading of the unit tests.
           this.load_existing_unit_tests ();
         }
         catch (Exception ex)
         {
-          this.master_.show_error_message (ex.Message);
-          this.master_.show_error_message ("Failed to delete " + name + " unit test from database");
+          this.master_.Console.Add (MessageSeverity.Error, ex.Message);
+          this.master_.Console.Add (MessageSeverity.Error, "Failed to delete " + name + " unit test from database");
         }
       }
       else
       {
-        this.master_.show_error_message ("Please select a valid unit test to delete");
+        this.master_.Console.Add (MessageSeverity.Error, "Please select a valid unit test to delete");
       }
     }
 
@@ -565,7 +573,7 @@ namespace CUTS
       // Check if any of the test suites are selected
       if (this.is_valid_selection (this.existing_test_suites_) == false)
       {
-        this.master_.show_error_message ("Please select a valid test suite to delete");
+        this.master_.Console.Add (MessageSeverity.Error, "Please select a valid test suite to delete");
         return;
       }
 
@@ -580,12 +588,12 @@ namespace CUTS
 
             // Show a message to the user.
             string msg = "Successfully deleted test suite " + item.Text;
-            this.master_.show_info_message (msg);
+            this.master_.Console.Add (MessageSeverity.Info, msg);
           }
           catch (Exception ex)
           {
-            this.master_.show_error_message (ex.Message);
-            this.master_.show_error_message ("Failed to delete test suite " + item.Text);
+            this.master_.Console.Add (MessageSeverity.Error, ex.Message);
+            this.master_.Console.Add (MessageSeverity.Error, "Failed to delete test suite " + item.Text);
           }
         }
 
@@ -608,7 +616,7 @@ namespace CUTS
       if (this.is_valid_selection (this.current_test_packages_) == false)
       {
         string message = "Please select a valid test package to remove.";
-        this.master_.show_error_message (message);
+        this.master_.Console.Add (MessageSeverity.Error, message);
         return;
       }
 
@@ -616,7 +624,7 @@ namespace CUTS
       if (this.is_valid_selection (this.existing_test_suites_) == false)
       {
         string message = "Please select a valid test suite to remove the test package from.";
-        this.master_.show_error_message (message);
+        this.master_.Console.Add (MessageSeverity.Error, message);
         return;
       }
 
@@ -640,16 +648,16 @@ namespace CUTS
               " test package from " + suite_name_ + " test suite";
 
             // Show the message to the user.
-            this.master_.show_info_message (msg);
+            this.master_.Console.Add (MessageSeverity.Info, msg);
           }
           catch (Exception ex)
           {
             // Show the current exception.
-            this.master_.show_error_message (ex.Message);
+            this.master_.Console.Add (MessageSeverity.Error, ex.Message);
 
             // Show a more meaningful message.
             string msg = "Failed to remove selected package from " + suite_name_ + " test suite";
-            this.master_.show_error_message (msg);
+            this.master_.Console.Add (MessageSeverity.Error, msg);
           }
         }
 
@@ -670,7 +678,7 @@ namespace CUTS
       if (this.is_valid_selection (this.current_unit_tests_) == false)
       {
         string message = "Please select a valid unit test to remove.";
-        this.master_.show_error_message (message);
+        this.master_.Console.Add (MessageSeverity.Error, message);
         return;
       }
 
@@ -678,7 +686,7 @@ namespace CUTS
       if (this.is_valid_selection (this.current_test_packages_) == false)
       {
         string message = "Please select a valid test package to remove the unit test from.";
-        this.master_.show_error_message (message);
+        this.master_.Console.Add (MessageSeverity.Error, message);
         return;
       }
 
@@ -702,19 +710,19 @@ namespace CUTS
               " unit test from " + package_name + " test package";
 
             // Show the message to the user.
-            this.master_.show_info_message (msg);
+            this.master_.Console.Add (MessageSeverity.Info, msg);
           }
           catch (Exception ex)
           {
             // Show the current exception.
-            this.master_.show_error_message (ex.Message);
+            this.master_.Console.Add (MessageSeverity.Error, ex.Message);
 
             // Show a more meaningful message.
             string message =
               "Failed to remove " + unit_test_name +
               " unit test from " + package_name + " test package";
 
-            this.master_.show_error_message (message);
+            this.master_.Console.Add (MessageSeverity.Error, message);
           }
         }
       }
@@ -735,7 +743,7 @@ namespace CUTS
       // Check if any of the test suites are selected
       if (this.is_valid_selection (this.existing_test_suites_) == false)
       {
-        this.master_.show_error_message ("Please select a test suite to add test package");
+        this.master_.Console.Add (MessageSeverity.Error, "Please select a test suite to add test package");
         return;
       }
 
@@ -751,7 +759,8 @@ namespace CUTS
         string message =
           "Successfully added " + package_name + " test package to " +
           test_suite_name + " test suite";
-        this.master_.show_info_message (message);
+
+        this.master_.Console.Add (MessageSeverity.Info, message);
 
         // Reload the packages for the selected test suite.
         this.load_current_packages ();
@@ -759,7 +768,7 @@ namespace CUTS
       catch (Exception ex)
       {
         // Show current message
-        this.master_.show_error_message (ex.Message);
+        this.master_.Console.Add (MessageSeverity.Error, ex.Message);
 
         DataTable dt = this.uta_.get_packages (this.existing_test_suites_.SelectedValue);
 
@@ -774,12 +783,12 @@ namespace CUTS
             "Test suite " + test_suite_name +
             " already contains test package " + package_name;
 
-          this.master_.show_error_message (message);
+          this.master_.Console.Add (MessageSeverity.Error, message);
         }
         else
         {
           string message = "Failed to create " + package_name + " test package";
-          this.master_.show_error_message (message);
+          this.master_.Console.Add (MessageSeverity.Error, message);
         }
       }
     }
@@ -796,7 +805,7 @@ namespace CUTS
       // Validate selected test package
       if (this.is_valid_selection (this.current_test_packages_) == false)
       {
-        this.master_.show_error_message ("Please select a valid test package to add the unit test to. ");
+        this.master_.Console.Add (MessageSeverity.Error, "Please select a valid test package to add the unit test to. ");
         return;
       }
 
@@ -811,8 +820,10 @@ namespace CUTS
 
         // Display useful message to the user.
         string message =
-          "Successfully added " + unit_test_name + " unit test to " + package_name + " test package";
-        this.master_.show_info_message (message);
+          "Successfully added " + unit_test_name +
+          " unit test to " + package_name + " test package";
+
+        this.master_.Console.Add (MessageSeverity.Info, message);
 
         // Reload the unit tests.
         this.load_current_unit_tests ();
@@ -820,7 +831,7 @@ namespace CUTS
       catch (Exception ex)
       {
         // Show current message
-        this.master_.show_error_message (ex.Message);
+        this.master_.Console.Add (MessageSeverity.Error, ex.Message);
 
         DataTable dt = this.uta_.get_unit_tests (this.current_test_packages_.SelectedValue);
 
@@ -831,12 +842,12 @@ namespace CUTS
         if (dt.Rows.Contains (unit_test_name))
         {
           // Show a more meaningful message
-          this.master_.show_error_message ("Test package " + package_name +
+          this.master_.Console.Add (MessageSeverity.Error, "Test package " + package_name +
             " already contains unit test " + unit_test_name);
         }
         else
         {
-          this.master_.show_error_message ("Failed to create " + unit_test_name + " unit test");
+          this.master_.Console.Add (MessageSeverity.Error, "Failed to create " + unit_test_name + " unit test");
         }
       }
     }
@@ -1063,15 +1074,15 @@ namespace CUTS
       {
         // Insert the neq unit test into the database.
         this.uta_.insert_new_unit_test (variables);
-        this.master_.show_info_message ("Successfully created new unit test");
+        this.master_.Console.Add (MessageSeverity.Info, "Successfully created new unit test");
 
         // Reset the unit test form.
         this.reset_unit_test_form ();
       }
       catch (Exception ex)
       {
-        this.master_.show_error_message (ex.Message);
-        this.master_.show_error_message ("Failed to create new unit test");
+        this.master_.Console.Add (MessageSeverity.Error, ex.Message);
+        this.master_.Console.Add (MessageSeverity.Error, "Failed to create new unit test");
       }
     }
 
@@ -1107,7 +1118,7 @@ namespace CUTS
         case "not_equal":
           return @"<>";
         default:
-          master_.show_error_message ("The warn or fail comparison had a problem." +
+          master_.Console.Add (MessageSeverity.Error, "The warn or fail comparison had a problem." +
             "Please refresh the page and try again.");
           return String.Empty;
       }

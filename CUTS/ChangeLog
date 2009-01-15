@@ -1,3 +1,29 @@
+Thu Jan 15 07:02:05 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Web/CUTS.Web.mpc:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/Console.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/ConsoleMessage.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/ConsoleMessages.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/MessageSeverity.cs:
+        * utils/BMW/website/BMW.master:
+        * utils/BMW/website/BMW.master.cs:
+        * utils/BMW/website/Timeline.aspx.cs:
+        * utils/BMW/website/baseline.aspx.cs:
+        * utils/BMW/website/components.aspx.cs:
+        * utils/BMW/website/environment.aspx.cs:
+        * utils/BMW/website/logformats.aspx.cs:
+        * utils/BMW/website/paths.aspx.cs:
+        * utils/BMW/website/performance.aspx.cs:
+        * utils/BMW/website/styles/default.css:
+        * utils/BMW/website/unittest.aspx.cs:
+        * utils/BMW/website/unittestchart.aspx.cs:
+
+          . The console for the BMW is now a custom control that resides
+            in the CUTS.Web.dll assembly.
+
+          . Updated all web pages to leverage the new custom control
+            accordingly.
+
 Thu Jan 15 04:12:33 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * install/BMW.wxs:

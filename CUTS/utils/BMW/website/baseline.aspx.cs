@@ -61,7 +61,7 @@ namespace CUTS
       }
       catch (Exception ex)
       {
-        this.master_.show_exception (ex);
+        this.master_.Console.Add (ex);
       }
     }
 

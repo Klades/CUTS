@@ -1,6 +1,6 @@
 <!-- $Id$ -->
-<%@ master language="C#" codefile="BMW.master.cs" autoeventwireup="true"
-           inherits="CUTS.Master"%>
+<%@ master language="C#" codefile="BMW.master.cs" autoeventwireup="true" inherits="CUTS.Master"%>
+<%@ register tagprefix="cuts" namespace="CUTS.Web.UI" assembly="CUTS.Web" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -16,12 +16,6 @@
   function unhilite(obj)
   {
     obj.style.fontWeight = "normal";
-  }
-
-  function console_clear (console_id)
-  {
-    console = document.getElementById (console_id);
-    console.style.display = "none";
   }
 
   function show_help (url)
@@ -149,20 +143,10 @@
       </asp:loginview>
     </td>
     <td style="padding-left:10px">
-      <!-- status/error message label for the page. -->
-      <asp:label id="message_" runat="server" />
-
-      <asp:panel runat="server" id="console_" visible="true" scrollbars="none"
-                 style="display:none" width="750px" backcolor="lavender"
-                 cssclass="console console_text">
-        <asp:panel runat="server" id="console_text_" height="50px" scrollbars="auto"
-                   wrap="true" visible="true" cssclass="console_text" />
-
-        <hr />
-
-        <!-- controls for the console -->
-        <a href="javascript:console_clear ('<%= this.console_.ClientID %>');">Clear Messages</a>
-      </asp:panel>
+      <cuts:console runat="server" id="console_" backcolor="lavender"
+                    visible="false" width="750px"
+                    enableviewstate="true"
+                    cssclass="console" />
 
       <asp:contentplaceholder runat="server" id="MainContent"  />
 

@@ -47,6 +47,7 @@ h3
 .console
 {
   border: 3px solid black;
+  padding: 5px;
 }
 
 .console_text

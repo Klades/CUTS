@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using MySql.Data.MySqlClient;
 using Actions.LogFormatActions;
+using CUTS.Web.UI;
 
 namespace CUTS
 {
@@ -183,7 +184,10 @@ namespace CUTS
                                          csharp_regex.ToString (),
                                          variables);
 
-        this.master_.show_info_message ("Successfully created log format: " + this.log_format_.Text);
+        this.master_.Console.Add (MessageSeverity.Info,
+                                  "Successfully created log format: " +
+                                  this.log_format_.Text);
+
         this.log_format_.Text = "";
 
         // Load the data for the control.
@@ -191,8 +195,8 @@ namespace CUTS
       }
       catch (Exception ex)
       {
-        this.master_.show_error_message ("Failed to create log format: " + this.log_format_.Text);
-        this.master_.show_exception (ex);
+        this.master_.Console.Add (ex);
+        this.master_.Console.Add (MessageSeverity.Error, "Failed to create log format: " + this.log_format_.Text);
       }
     }
 
@@ -247,15 +251,16 @@ namespace CUTS
         }
 
         // Show a message to the user.
-        this.master_.show_info_message ("Successfully deleted selected log formats");
+        this.master_.Console.Add (MessageSeverity.Info,
+                                  "Successfully deleted selected log formats");
 
         // Force reloading of the data.
         this.load_data ();
       }
       catch (Exception ex)
       {
-        this.master_.show_error_message (ex.Message);
-        this.master_.show_error_message ("Failed to delete selected log message formats");
+        this.master_.Console.Add (MessageSeverity.Error, ex.Message);
+        this.master_.Console.Add (MessageSeverity.Error, "Failed to delete selected log message formats");
       }
     }
   }

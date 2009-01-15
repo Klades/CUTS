@@ -120,7 +120,7 @@ namespace CUTS
       }
       catch (Exception ex)
       {
-        this.master_.show_error_message (ex.Message);
+        this.master_.Console.Add (ex);
       }
     }
 
@@ -212,7 +212,7 @@ namespace CUTS
       }
       catch (Exception ex)
       {
-        this.master_.show_error_message (ex.Message);
+        this.master_.Console.Add (ex);
       }
     }
 
@@ -234,7 +234,7 @@ namespace CUTS
       }
       catch (Exception ex)
       {
-        this.master_.show_exception (ex);
+        this.master_.Console.Add (ex);
       }
     }
 

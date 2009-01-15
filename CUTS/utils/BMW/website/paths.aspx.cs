@@ -19,6 +19,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using MySql.Data.MySqlClient;
 using CUTS.Data;
+using CUTS.Web.UI;
 
 namespace CUTS
 {
@@ -99,7 +100,7 @@ namespace CUTS
       }
       catch (Exception ex)
       {
-        this.master_.show_error_message (ex.Message);
+        this.master_.Console.Add (MessageSeverity.Error, ex.Message);
       }
     }
 
@@ -125,7 +126,7 @@ namespace CUTS
       }
       catch (Exception ex)
       {
-        this.master_.show_error_message (ex.Message);
+        this.master_.Console.Add (MessageSeverity.Error, ex.Message);
       }
     }
 
@@ -217,7 +218,7 @@ namespace CUTS
       //}
       //catch (Exception ex)
       //{
-      //  this.master_.show_error_message (ex.Message);
+      //  this.master_.Console.Add (MessageSeverity.Error, ex.Message);
       //}
     }
 
@@ -428,7 +429,7 @@ namespace CUTS
       }
       catch (Exception ex)
       {
-        this.master_.show_error_message (ex.Message);
+        this.master_.Console.Add (ex);
       }
     }
 

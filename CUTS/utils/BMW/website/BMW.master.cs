@@ -62,68 +62,14 @@ namespace CUTS
 
       //  this.help_item_.Controls.Add (show_help);
       //}
-
-      // Hide the console if it is not needed
-      if (this.console_text_.Controls.Count == 0)
-        this.console_.Style["display"] = "none";
     }
 
-    /**
-     * Show an error message to the user.
-     *
-     * @param[in]         msg             Message to display
-     */
-    public void show_error_message (String msg)
+    public CUTS.Web.UI.Console Console
     {
-      this.show_message (msg, "msg_error");
-    }
-
-    /**
-     * Show an info message to the user.
-     *
-     * @param[in]         msg             Message to display
-     */
-    public void show_info_message (String msg)
-    {
-      this.show_message (msg, "msg_info");
-    }
-
-    /**
-     * Show a warning message to the user.
-     *
-     * @param[in]         msg             Message to display
-     */
-    public void show_warning_message (String msg)
-    {
-      this.show_message (msg, "msg_warning");
-    }
-
-    /**
-     * Show the exception as an error message.
-     */
-    public void show_exception (Exception ex)
-    {
-      this.show_error_message (ex.Message);
-      this.show_error_message (ex.StackTrace.Replace ("\n", "<br />"));
-    }
-
-    /**
-     * Insert the actual message into the console. This will display the
-     * console if it is not already visible to the user.
-     *
-     * @param[in]         msg_control     Control containing the message
-     */
-    private void show_message (String msg, String cssclass)
-    {
-      Label label = new Label ();
-      label.CssClass = cssclass;
-      label.Text = "<div>&middot; " + msg + "</div>";
-
-      this.console_text_.Controls.Add (label);
-
-      // Make sure we can actually see the console.
-      if (this.console_.Style["display"] == "none")
-        this.console_.Style["display"] = "block";
+      get
+      {
+        return this.console_;
+      }
     }
 
     protected void handle_onlogout (object sender, EventArgs e)
