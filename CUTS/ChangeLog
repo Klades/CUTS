@@ -1,3 +1,14 @@
+Thu Jan 15 03:44:28 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/SQL/CUTS-create.sql:
+        * utils/BMW/assemblies/CUTS.BMW/CUTS/BMW/Database.cs:
+        * utils/BMW/assemblies/CUTS.BMW/CUTS/BMW/NewUserProfile.cs:
+        * utils/BMW/website/BMW.master:
+        * utils/BMW/website/admin/createuser.aspx:
+        * utils/BMW/website/admin/createuser.aspx.cs:
+
+          . Switched the username to an email address.
+
 Mon Jan 12 05:41:15 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/T2M/parsers/Scatter_Deployment/Scatter_Deployment_Parser.cpp:
