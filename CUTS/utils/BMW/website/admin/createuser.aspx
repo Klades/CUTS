@@ -7,13 +7,14 @@
   <table border="0">
     <tr>
       <td class="form-title">
-        <asp:label id="username_label_" runat="server"
-                   associatedcontrolid="username_">Username: </asp:label></td>
-      <td><asp:textbox id="username_" runat="server"></asp:textbox></td>
-      <td><asp:requiredfieldvalidator id="username_required_" runat="server"
-                                      controltovalidate="username_"
-                                      errormessage="required"
-                                      validationgroup="createuser_"></asp:requiredfieldvalidator></td>
+        <asp:label id="email_label_" runat="server"
+                   associatedcontrolid="email_">E-mail address: </asp:label></td>
+      <td><asp:textbox id="email_" runat="server"></asp:textbox></td>
+      <td>
+        <asp:requiredfieldvalidator id="email_required_" runat="server"
+                                    controltovalidate="email_"
+                                    errormessage="required"
+                                    validationgroup="createuser_"></asp:requiredfieldvalidator></td>
     </tr>
 
     <tr>
@@ -44,18 +45,6 @@
                               display="dynamic"
                               errormessage="passwords do not match"
                               validationgroup="createuser_"></asp:comparevalidator></td>
-    </tr>
-
-    <tr>
-      <td class="form-title">
-        <asp:label id="email_label_" runat="server"
-                   associatedcontrolid="email_">E-mail address: </asp:label></td>
-      <td><asp:textbox id="email_" runat="server"></asp:textbox></td>
-      <td>
-        <asp:requiredfieldvalidator id="email_required_" runat="server"
-                                    controltovalidate="email_"
-                                    errormessage="required"
-                                    validationgroup="createuser_"></asp:requiredfieldvalidator></td>
     </tr>
 
     <tr>

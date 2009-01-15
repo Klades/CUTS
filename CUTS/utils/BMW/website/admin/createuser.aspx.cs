@@ -45,9 +45,8 @@ namespace CUTS.BMW.Page.Admin
         case "Submit":
           // Create a new user profile.
           NewUserProfile profile = new NewUserProfile ();
-          profile.Username = this.username_.Text;
-          profile.Password = this.password_.Text;
           profile.EmailAddress = this.email_.Text;
+          profile.Password = this.password_.Text;
 
           try
           {
@@ -55,7 +54,6 @@ namespace CUTS.BMW.Page.Admin
             this.bmw_.CreateNewUser (profile);
 
             // Reset the text for the controls.
-            this.username_.Text = String.Empty;
             this.email_.Text = String.Empty;
           }
           catch (Exception)

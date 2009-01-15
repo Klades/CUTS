@@ -113,17 +113,17 @@ namespace CUTS.BMW
     /**
      * Autheticate username/password with the database.
      */
-    public bool AuthenticateUser (string username, string password)
+    public bool AuthenticateUser (string email, string password)
     {
       // Create a new SQL command.
       DbCommand command = this.conn_.CreateCommand ();
-      command.CommandText = "SELECT password FROM users WHERE username=@username";
+      command.CommandText = "SELECT password FROM users WHERE email=@email";
 
       // Initialize the parameters.
       DbParameter p1 = command.CreateParameter ();
-      p1.ParameterName = "@username";
+      p1.ParameterName = "@email";
       p1.DbType = DbType.String;
-      p1.Value = username;
+      p1.Value = email;
 
       command.Parameters.Add (p1);
 
@@ -138,7 +138,7 @@ namespace CUTS.BMW
       // Compute the hash for the username/password.
       UTF8Encoding encoding = new UTF8Encoding ();
       SHA1CryptoServiceProvider crypt = new SHA1CryptoServiceProvider ();
-      Byte[] hash = crypt.ComputeHash (encoding.GetBytes (username + password));
+      Byte[] hash = crypt.ComputeHash (encoding.GetBytes (email + password));
 
       // First, check the lengths of the arrays.
       if (passwd.Length != hash.Length)
@@ -165,18 +165,18 @@ namespace CUTS.BMW
       // Compute the hash for the username/password.
       UTF8Encoding encoding = new UTF8Encoding ();
       SHA1CryptoServiceProvider crypt = new SHA1CryptoServiceProvider ();
-      Byte[] hash = crypt.ComputeHash (encoding.GetBytes (profile.Username + profile.Password));
+      Byte[] hash = crypt.ComputeHash (encoding.GetBytes (profile.EmailAddress + profile.Password));
 
       // Create the SQL command.
       DbCommand command = this.conn_.CreateCommand ();
       command.CommandText =
-        "INSERT INTO users (username, password, email) VALUES (@username, @password, @email)";
+        "INSERT INTO users (email, password) VALUES (@email, @password)";
 
       // Prepare the SQL parameters.
       DbParameter p1 = command.CreateParameter ();
-      p1.ParameterName = "@username";
+      p1.ParameterName = "@email";
       p1.DbType = DbType.String;
-      p1.Value = profile.Username;
+      p1.Value = profile.EmailAddress;
       command.Parameters.Add (p1);
 
       DbParameter p2 = command.CreateParameter ();
@@ -184,12 +184,6 @@ namespace CUTS.BMW
       p2.DbType = DbType.Binary;
       p2.Value = hash;
       command.Parameters.Add (p2);
-
-      DbParameter p3 = command.CreateParameter ();
-      p3.ParameterName = "@email";
-      p3.DbType = DbType.String;
-      p3.Value = profile.EmailAddress;
-      command.Parameters.Add (p3);
 
       // Execute the SQL query.
       command.ExecuteNonQuery ();

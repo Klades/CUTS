@@ -22,19 +22,6 @@ namespace CUTS.BMW
    */
   public class NewUserProfile
   {
-    public string Username
-    {
-      set
-      {
-        this.username_ = value;
-      }
-
-      get
-      {
-        return this.username_;
-      }
-    }
-
     public string Password
     {
       get
@@ -60,11 +47,6 @@ namespace CUTS.BMW
         this.email_ = value;
       }
     }
-
-    /**
-     * Username of the new user
-     */
-    private string username_;
 
     /**
      * Password for the new user

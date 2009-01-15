@@ -166,12 +166,11 @@ CREATE TABLE IF NOT EXISTS scratchpad
 CREATE TABLE IF NOT EXISTS users
 (
   userid          INT             NOT NULL auto_increment,
-  username        VARCHAR(50)     NOT NULL,
-  password        TINYTEXT        NOT NULL,
   email           VARCHAR(50)     NOT NULL,
+  password        TINYBLOB        NOT NULL,
 
   PRIMARY KEY (userid),
-  UNIQUE (username)
+  UNIQUE (email)
 );
 
 --

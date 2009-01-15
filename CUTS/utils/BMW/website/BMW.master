@@ -52,7 +52,7 @@
                 <tr>
                   <td class="title">
                     <asp:label id="UserNameLabel" runat="server"
-                               associatedcontrolid="UserName">Username:</asp:label></td>
+                               associatedcontrolid="UserName">Email:</asp:label></td>
                 </tr>
                 <tr><td><asp:textbox id="UserName" runat="server"></asp:textbox></td></tr>
                 <tr><td class="title">

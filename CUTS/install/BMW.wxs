@@ -86,9 +86,6 @@
                   <File Id="logformats.aspx" Name="logformats.aspx"
                         Source="$(var.BMW_ROOT)\logformats.aspx" DiskId="1" />
 
-                  <File Id="login.aspx" Name="login.aspx"
-                        Source="$(var.BMW_ROOT)\login.aspx" DiskId="1" />
-
                   <File Id="Node_Details.ascx" Name="Node_Details.ascx"
                         Source="$(var.BMW_ROOT)\Node_Details.ascx" DiskId="1" />
 
@@ -188,9 +185,6 @@
 
                     <File Id="App_Web_logformats.aspx.cdcab7d2.dll" Name="App_Web_logformats.aspx.cdcab7d2.dll"
                           Source="$(var.BMW_ROOT)\bin\App_Web_logformats.aspx.cdcab7d2.dll" DiskId="1" />
-
-                    <File Id="App_Web_login.aspx.cdcab7d2.dll" Name="App_Web_login.aspx.cdcab7d2.dll"
-                          Source="$(var.BMW_ROOT)\bin\App_Web_login.aspx.cdcab7d2.dll" DiskId="1" />
 
                     <File Id="App_Web_node_details.ascx.cdcab7d2.dll" Name="App_Web_node_details.ascx.cdcab7d2.dll"
                           Source="$(var.BMW_ROOT)\bin\App_Web_node_details.ascx.cdcab7d2.dll" DiskId="1" />
