@@ -229,7 +229,7 @@ private:
   CUTS_GNC_App_Options opts_;
 
   /// The target GME project.
-  std::auto_ptr <GME::Project> project_;
+  GME::Project project_;
 
   /// Flag that containse the project type.
   bool is_mga_file_;

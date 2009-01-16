@@ -242,7 +242,7 @@ int CUTS_GNC_App::run_main (void)
     if (this->gme_project_init () == 0)
     {
       // Begin a new transaction.
-      this->project_->begin_transaction ();
+      this->project_.begin_transaction ();
 
       // List all the attributes, if necessary.
       if (this->opts_.list_attributes_)
@@ -257,12 +257,12 @@ int CUTS_GNC_App::run_main (void)
         this->create_interface_file ();
 
       // Commit the current transaction.
-      this->project_->commit_transaction ();
+      this->project_.commit_transaction ();
     }
   }
   catch (GME::Failed_Result & ex)
   {
-    this->project_->abort_transaction ();
+    this->project_.abort_transaction ();
 
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - GME operation failed [0x%X]\n",
@@ -271,7 +271,7 @@ int CUTS_GNC_App::run_main (void)
   catch (...)
   {
     // Abort the current transaction.
-    this->project_->abort_transaction ();
+    this->project_.abort_transaction ();
 
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - caught unknown exception\n"));
@@ -292,10 +292,6 @@ int CUTS_GNC_App::gme_project_init (void)
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - initializing GME automation engine\n"));
 
-    GME::init ();
-
-    this->project_.reset (new GME::Project ());
-
     // Determine if this file is a MGA file.
     this->is_mga_file_ =
       this->opts_.project_.rfind (".mga") != std::string::npos;
@@ -309,7 +305,7 @@ int CUTS_GNC_App::gme_project_init (void)
                   "%T (%t) - %M - opening %s for processing\n",
                   this->opts_.project_.c_str ()));
 
-      this->project_->open (connstr.str ());
+      this->project_.open (connstr.str ());
     }
     else
     {
@@ -347,8 +343,8 @@ int CUTS_GNC_App::gme_project_init (void)
                     "%T (%t) - %M - importing '%s' for processing\n",
                     this->opts_.project_.c_str ()));
 
-        this->project_->create (connstr.str (), info.paradigm_);
-        parser.parse (this->opts_.project_, *this->project_);
+        this->project_.create (connstr.str (), info.paradigm_);
+        parser.parse (this->opts_.project_, this->project_);
       }
       else
       {
@@ -359,7 +355,7 @@ int CUTS_GNC_App::gme_project_init (void)
     // Make sure we have the add-ons enabled. Otherwise, the project
     // may enter an inconsistent state.
     if (this->opts_.enable_auto_addons_)
-      this->project_->enable_auto_addons (true);
+      this->project_.enable_auto_addons (true);
 
     return 0;
   }
@@ -383,56 +379,47 @@ int CUTS_GNC_App::gme_project_init (void)
 //
 int CUTS_GNC_App::gme_project_fini (void)
 {
-  if (this->project_.get ())
+  std::string tempfile;
+
+  if (!this->is_mga_file_)
   {
-    std::string tempfile;
+    // Save the temporary filename for the .mga file.
+    tempfile = this->project_.connstr ().substr (4);
 
-    if (!this->is_mga_file_)
-    {
-      // Save the temporary filename for the .mga file.
-      tempfile = this->project_->connstr ().substr (4);
-
-      ACE_DEBUG ((LM_INFO,
-                  "%T (%t) - %M - exporting project as %s\n",
-                  this->opts_.project_.c_str (),
-                  tempfile.c_str ()));
-
-      // Export the project to the source XML file.
-      GME::XML_Dumper dumper;
-      dumper.write (this->opts_.project_, *this->project_);
-    }
-
-    // Save the project file.
-    if (this->save_model_)
-    {
-      ACE_DEBUG ((LM_INFO,
-                  "%T (%t) - %M - saving updates to model\n"));
-
-      this->project_->save ();
-    }
-
-    // Close the project file.
     ACE_DEBUG ((LM_INFO,
-                "%T (%t) - %M - closing the project\n"));
+                "%T (%t) - %M - exporting project as %s\n",
+                this->opts_.project_.c_str (),
+                tempfile.c_str ()));
 
-    this->project_->close ();
-    this->project_.reset ();
-
-    if (!tempfile.empty ())
-    {
-      ACE_DEBUG ((LM_DEBUG,
-                  "%T (%t) - %M - deleting temporary file %s\n",
-                  tempfile.c_str ()));
-
-      ACE_OS::unlink (tempfile.c_str ());
-    }
+    // Export the project to the source XML file.
+    GME::XML_Dumper dumper;
+    dumper.write (this->opts_.project_, this->project_);
   }
 
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - finalizing GME automation engine\n"));
+  // Save the project file.
+  if (this->save_model_)
+  {
+    ACE_DEBUG ((LM_INFO,
+                "%T (%t) - %M - saving updates to model\n"));
 
-  // Finalize GME backend.
-  GME::fini ();
+    this->project_.save ();
+  }
+
+  // Close the project file.
+  ACE_DEBUG ((LM_INFO,
+              "%T (%t) - %M - closing the project\n"));
+
+  this->project_.close ();
+
+  if (!tempfile.empty ())
+  {
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - deleting temporary file %s\n",
+                tempfile.c_str ()));
+
+    ACE_OS::unlink (tempfile.c_str ());
+  }
+
   return 0;
 }
 
@@ -443,7 +430,7 @@ bool CUTS_GNC_App::
 locate_object_attribute (const std::string & attr,
                          GME_Attribute_Tag & info)
 {
-  GME::Folder root = this->project_->root_folder ();
+  GME::Folder root = this->project_.root_folder ();
   return this->locate_object_attribute_i (attr, root, info);
 }
 
@@ -570,7 +557,7 @@ void CUTS_GNC_App::create_interface_file (void)
 {
   // Get the root folder for the project.
   std::list <std::string> input, output;
-  GME::Folder root = this->project_->root_folder ();
+  GME::Folder root = this->project_.root_folder ();
 
   // Gather all the attributes in the model.
   ACE_DEBUG ((LM_DEBUG,
@@ -580,7 +567,7 @@ void CUTS_GNC_App::create_interface_file (void)
   this->gather_all_attributes (root, input, output);
 
   // Get the value for the <type> field.
-  std::string type = this->project_->paradigm_name ();
+  std::string type = this->project_.paradigm_name ();
 
   // Get the value for the <name> field.
   std::string name = this->opts_.interface_file_pathname_;
@@ -759,7 +746,7 @@ gather_all_attributes (const GME::Object & parent,
 void CUTS_GNC_App::
 iterate_all_attributes (attribute_callback callback)
 {
-  GME::Folder root = this->project_->root_folder ();
+  GME::Folder root = this->project_.root_folder ();
   return this->iterate_all_attributes_i (root, callback);
 }
 

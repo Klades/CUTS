@@ -1,3 +1,19 @@
+Fri Jan 16 20:27:14 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/naomi/GME/GNC_App.h:
+        * MDE/naomi/GME/GNC_App.cpp:
+
+          . Removed manual invocation of GME::init () and GME::fini () since
+            GAME performs initialization/finalization automatically.
+
+          . The GME::Project is no longer dynamically allocated on the
+            heap since GAME handle initalization automatically before
+            the GME_GNC_App object is allocated.
+
+        * utils/BMW/SQL/CUTS-bmw.sql:
+
+          Removed this file.
+
 Thu Jan 15 07:02:05 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Web/CUTS.Web.mpc:
