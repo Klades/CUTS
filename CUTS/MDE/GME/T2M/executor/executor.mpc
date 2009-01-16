@@ -1,0 +1,15 @@
+// $Id$
+
+project (gmet2m-exec) : game, cutsexe {
+  exename = gmet2m-exec
+
+  specific (vc6, vc7, vc71, vc8, vc9, nmake) {
+    subsystem = 1
+  }
+
+  Source_Files {
+    executor.cpp
+    Executor_App.cpp
+    Executor_App_Options.cpp
+  }
+}
