@@ -1,3 +1,15 @@
+Sat Jan 17 20:53:30 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/T2M/parsers/PICML_Assembly:
+        * MDE/GME/T2M/parsers/PICML_Assembly/PICML_Assembly_Parser.h:
+        * MDE/GME/T2M/parsers/PICML_Assembly/PICML_Assembly_Parser.inl:
+        * MDE/GME/T2M/parsers/PICML_Assembly/PICML_Assembly_Parser.cpp:
+        * MDE/GME/T2M/parsers/PICML_Assembly/PICML_Assembly_Parser.mpc:
+        * MDE/GME/T2M/parsers/PICML_Assembly/PICML_Assembly_Parser_export.h:
+
+          . First version of the text-2-model parser for importing
+            assemblies into PICML.
+
 Sat Jan 17 20:47:06 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/T2M/executor/Executor_App.h:

@@ -1,0 +1,17 @@
+// $Id$
+
+project (GME_T2M_PICML_Assembly_Parser) : boost_base, gme_t2m, cutslib {
+  sharedname = GME_T2M_PICML_Assembly_Parser
+
+  libs -= CUTS
+
+  dynamicflags += PICML_ASSEMBLY_PARSER_BUILD_DLL
+
+  Source_Files {
+    PICML_Assembly_Parser.cpp
+  }
+
+  Header_Files {
+    PICML_Assembly_Parser_export.h
+  }
+}
