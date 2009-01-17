@@ -40,78 +40,108 @@ int CUTS_T2M_Executor_App::run_main (int argc, char * argv [])
                        "%T (%t) - %M - failed to parse command-line arguments\n"),
                        -1);
 
-  // Open the project for writing.
-  if (this->open_gme_project () != 0)
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T (%t) - %M - failed to open GME project [file=%s]\n",
-                       this->opts_.project_.c_str ()),
-                       -1);
-
-  // Load the parser from its file.
-  ACE_DLL dll;
-
-  if (dll.open (this->opts_.parser_.c_str ()) == 0)
+  try
   {
-    // Begin a new transaction.
-    this->project_.begin_transaction ();
-
-    void * symbol = dll.symbol (GME_T2M_CREATE_PARSER_FUNC_STR);
-
-    if (symbol == 0)
+    // Open the project for writing.
+    if (this->open_gme_project () != 0)
       ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T (%t) - %M - failed to load factory symbol [%s]\n",
-                         GME_T2M_CREATE_PARSER_FUNC_STR),
-                         -1);
+                        "%T (%t) - %M - failed to open GME project [file=%s]\n",
+                        this->opts_.project_.c_str ()),
+                        -1);
 
-    // Cast the symbol to a facotry function.
-    typedef GME_T2M_Parser * (* CREATION_FUNCTION) (void);
-    CREATION_FUNCTION factory = reinterpret_cast <CREATION_FUNCTION> (symbol);
+    // Load the parser from its file.
+    ACE_DLL dll;
 
-    // Create the parser using the factory.
-    GME_T2M_Parser * parser = factory ();
-
-    if (parser != 0)
+    if (dll.open (this->opts_.parser_.c_str ()) == 0)
     {
-      // Get the root folder of the project.
-      GME::Folder root_folder = this->project_.root_folder ();
+      // Begin a new transaction.
+      this->project_.begin_transaction ();
 
-      // Determine what is the parent object for parsing.
-      GME::Object target;
+      void * symbol = dll.symbol (GME_T2M_CREATE_PARSER_FUNC_STR);
 
-      if (this->opts_.target_.empty ())
-        target = this->project_.root_folder ();
-      else
-        target = root_folder.find_object_by_path (this->opts_.target_);
+      if (symbol == 0)
+        ACE_ERROR_RETURN ((LM_ERROR,
+                          "%T (%t) - %M - failed to load factory symbol [%s]\n",
+                          GME_T2M_CREATE_PARSER_FUNC_STR),
+                          -1);
 
-      if (parser->parse (this->opts_.filename_.c_str (), target))
+      // Cast the symbol to a facotry function.
+      typedef GME_T2M_Parser * (* CREATION_FUNCTION) (void);
+      CREATION_FUNCTION factory = reinterpret_cast <CREATION_FUNCTION> (symbol);
+
+      // Create the parser using the factory.
+      GME_T2M_Parser * parser = factory ();
+
+      if (parser != 0)
       {
-        ACE_DEBUG ((LM_DEBUG,
-                    "%T (%t) - %M - successully parsed %s\n",
-                    this->opts_.filename_.c_str ()));
+        // Get the root folder of the project.
+        GME::Folder root_folder = this->project_.root_folder ();
 
-        this->project_.commit_transaction ();
+        // Determine what is the parent object for parsing.
+        GME::Object target;
+
+        if (this->opts_.target_.empty ())
+          target = this->project_.root_folder ();
+        else
+          target = root_folder.find_object_by_path (this->opts_.target_);
+
+        if (target)
+        {
+          if (parser->parse (this->opts_.filename_.c_str (), target))
+          {
+            ACE_DEBUG ((LM_DEBUG,
+                        "%T (%t) - %M - successully parsed %s\n",
+                        this->opts_.filename_.c_str ()));
+
+            // Commit the outstanding transactions.
+            this->project_.commit_transaction ();
+
+            // Save the GME project to disk.
+            this->save_gme_project ();
+          }
+          else
+          {
+            ACE_ERROR ((LM_ERROR,
+                        "%T (%t) - %M - failed to parse %s\n",
+                        this->opts_.filename_.c_str ()));
+
+            this->project_.abort_transaction ();
+          }
+        }
+        else
+        {
+          ACE_ERROR ((LM_ERROR,
+                      "%T (%t) - %M - failed to resolve target element\n"));
+        }
+
+        // Destroy the parser.
+        parser->destroy ();
       }
       else
-      {
-        ACE_ERROR ((LM_ERROR,
-                    "%T (%t) - %M - failed to parse %s\n",
-                    this->opts_.filename_.c_str ()));
-
-        this->project_.abort_transaction ();
-      }
-
-      // Destroy the parser.
-      parser->destroy ();
+        ACE_ERROR_RETURN ((LM_ERROR,
+                          "%T (%t) - %M - failed to create parser\n"),
+                          -1);
     }
     else
       ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T (%t) - %M - failed to create parser\n"),
-                         -1);
+                        "%T (%t) - %M - failed to open parser module [%m]\n"),
+                        -1);
   }
-  else
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T (%t) - %M - failed to open parser module [%m]\n"),
-                       -1);
+  catch (const GME::Failed_Result & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - caught GME exception [0x%X]\n",
+                ex.value ()));
+
+    this->project_.abort_transaction ();
+  }
+  catch (const GME::Exception & ex)
+  {
+    this->project_.abort_transaction ();
+  }
+
+  // Close the GME project.
+  this->project_.close ();
 
   return 0;
 }
@@ -252,6 +282,35 @@ int CUTS_T2M_Executor_App::open_gme_project (void)
   // may enter an inconsistent state.
   if (this->opts_.enable_auto_addons_)
     this->project_.enable_auto_addons (true);
+
+  return 0;
+}
+
+//
+// save_gme_project
+//
+int CUTS_T2M_Executor_App::save_gme_project (void)
+{
+  if (this->opts_.is_mga_file_)
+  {
+    this->project_.save ();
+  }
+  else
+  {
+    // Save the temporary filename for the .mga file.
+    std::string tempfile = this->project_.connstr ().substr (4);
+
+    ACE_DEBUG ((LM_INFO,
+                "%T (%t) - %M - exporting project as %s\n",
+                this->opts_.project_.c_str (),
+                tempfile.c_str ()));
+
+    // Export the project to the source XML file.
+    GME::XML_Dumper dumper;
+    dumper.write (this->opts_.project_, this->project_);
+
+    ACE_OS::unlink (tempfile.c_str ());
+  }
 
   return 0;
 }

@@ -35,6 +35,8 @@ private:
 
   int open_gme_project (void);
 
+  int save_gme_project (void);
+
   /// Print the help screen for the application.
   void print_help (void);
 
