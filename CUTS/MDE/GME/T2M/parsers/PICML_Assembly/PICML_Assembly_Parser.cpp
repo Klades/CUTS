@@ -588,14 +588,6 @@ public:
       this->assembly_content_ =
         this->instances_ [actors::checkpoint (this->gme_assembly_)] >>
         !(this->connections_[actors::checkpoint (this->gme_assembly_)]);
-
-
-      BOOST_SPIRIT_DEBUG_NODE (this->assembly_content_);
-      BOOST_SPIRIT_DEBUG_NODE (this->instances_);
-      BOOST_SPIRIT_DEBUG_NODE (this->identifier_);
-      BOOST_SPIRIT_DEBUG_NODE (this->connections_);
-      BOOST_SPIRIT_DEBUG_NODE (this->connection_);
-      BOOST_SPIRIT_DEBUG_NODE (this->connection_type_);
     }
 
     /**

@@ -1,3 +1,24 @@
+Sun Jan 18 00:36:08 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/T2M/parsers/PICML_Assembly/PICML_Assembly_Parser.cpp:
+
+          . Removed debugging information.
+
+        * MDE/GME/T2M/parsers/PICML_Deployment:
+        * MDE/GME/T2M/parsers/PICML_Deployment/PICML_Deployment_Parser.h:
+        * MDE/GME/T2M/parsers/PICML_Deployment/PICML_Deployment_Parser.inl:
+        * MDE/GME/T2M/parsers/PICML_Deployment/PICML_Deployment_Parser.cpp:
+        * MDE/GME/T2M/parsers/PICML_Deployment/PICML_Deployment_Parser.mpc:
+        * MDE/GME/T2M/parsers/PICML_Deployment/PICML_Deployment_Parser_export.h:
+
+          . First version of the text-2-model parser for importing
+            deployments into PICML. This parser will auto-generate
+            a domain for the deployment in the AutoTargets folder.
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+
+          . Checkpoint the PICML model.
+
 Sat Jan 17 20:53:30 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/T2M/parsers/PICML_Assembly:
