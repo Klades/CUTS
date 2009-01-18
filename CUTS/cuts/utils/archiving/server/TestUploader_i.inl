@@ -6,19 +6,13 @@
 //
 CUTS_INLINE
 CUTS_TestUploader_i::
-CUTS_TestUploader_i (const ACE_Utils::UUID & uuid)
-: uuid_ (uuid)
+CUTS_TestUploader_i (const ACE_Utils::UUID & uuid,
+                     const ACE_CString & output_dir)
+: uuid_ (uuid),
+  output_dir_ (output_dir),
+  file_addr_ (reinterpret_cast <const ACE_FILE_Addr &> (ACE_Addr::sap_any))
 {
-
-}
-
-//
-// close
-//
-CUTS_INLINE
-int CUTS_TestUploader_i::close (void)
-{
-  return this->file_.close ();
+  this->init ();
 }
 
 //
@@ -38,4 +32,13 @@ CUTS_INLINE
 const ACE_Utils::UUID & CUTS_TestUploader_i::uuid (void) const
 {
   return this->uuid_;
+}
+
+//
+// uuid
+//
+CUTS_INLINE
+bool CUTS_TestUploader_i::is_open (void) const
+{
+  return this->file_.get_handle () != ACE_INVALID_HANDLE;
 }

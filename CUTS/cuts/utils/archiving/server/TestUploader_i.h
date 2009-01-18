@@ -15,6 +15,7 @@
 
 #include "cuts/config.h"
 #include "../archivingS.h"
+#include "ace/FILE_Addr.h"
 #include "ace/FILE_IO.h"
 #include "ace/UUID.h"
 
@@ -27,7 +28,8 @@ class CUTS_TestUploader_i : public POA_CUTS::TestUploader
 {
 public:
   /// Default constructor.
-  CUTS_TestUploader_i (const ACE_Utils::UUID & uuid);
+  CUTS_TestUploader_i (const ACE_Utils::UUID & uuid,
+                       const ACE_CString & output_dir);
 
   /// Destructor.
   virtual ~CUTS_TestUploader_i (void);
@@ -52,11 +54,22 @@ public:
   /// Get the UUID of the agent/test for this upload.
   const ACE_Utils::UUID & uuid (void) const;
 
+  bool is_open (void) const;
+
 private:
+  /// Initialize the uploader.
+  int init (void);
+
   /// UUID of the upload.
   ACE_Utils::UUID uuid_;
 
+  /// Output directory for the test.
+  const ACE_CString & output_dir_;
+
   /// File where data is written.
+  ACE_FILE_Addr file_addr_;
+
+  /// File handle for the upload.
   ACE_FILE_IO file_;
 };
 

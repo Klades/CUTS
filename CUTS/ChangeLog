@@ -1,3 +1,14 @@
+Sun Jan 18 07:07:07 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/archiving/archiving.idl:
+        * cuts/utils/archiving/server/TestArchive_i.cpp:
+        * cuts/utils/archiving/server/TestUploader_i.h:
+        * cuts/utils/archiving/server/TestUploader_i.inl:
+        * cuts/utils/archiving/server/TestUploader_i.cpp:
+
+          . The test uploader now writes the test data to temporary file,
+            before storing it as the real file.
+
 Sun Jan 18 00:55:29 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/T2M/parsers/PICML_Deployment/PICML_Deployment_Parser.cpp:

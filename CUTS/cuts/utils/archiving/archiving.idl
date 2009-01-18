@@ -27,6 +27,11 @@ module CUTS
 
   };
 
+  exception UploadFailed
+  {
+
+  };
+
   /// Type definition for the result data.
   typedef sequence <octet> ResultData;
 

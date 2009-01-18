@@ -61,7 +61,7 @@ begin_upload (const CUTS::TestResult & result)
   CUTS_TestUploader_i * servant = 0;
 
   ACE_NEW_THROW_EX (servant,
-                    CUTS_TestUploader_i (uuid),
+                    CUTS_TestUploader_i (uuid, this->opts_.upload_dir_),
                     CORBA::NO_MEMORY ());
 
   ACE_Auto_Ptr <CUTS_TestUploader_i> auto_clean (servant);
@@ -70,18 +70,9 @@ begin_upload (const CUTS::TestResult & result)
               "%T (%t) - %M - opening file to store test results for %s\n",
               servant->uuid ().to_string ()->c_str ()));
 
-  // Open the file for the uploader.
-  std::ostringstream ostr;
-  ostr << this->opts_.upload_dir_.c_str ()
-       << "/" << uuid.to_string ()->c_str () << ".cdb";
-
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - storing test results at %s\n",
-              ostr.str ().c_str ()));
-
-  // Attempt to open target file for writing.
-  if (servant->open (ostr.str ().c_str ()) == -1)
-    throw CUTS::InvalidFile ();
+  // Verify the uploader is open.
+  if (!servant->is_open ())
+    throw CUTS::UploadFailed ();
 
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - activating the upload agent\n"));
