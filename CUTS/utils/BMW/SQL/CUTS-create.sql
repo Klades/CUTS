@@ -19,14 +19,7 @@ CREATE TABLE IF NOT EXISTS tests
 (
   test_number   INT             NOT NULL auto_increment,
   test_name     VARCHAR(255),
-  test_uuid     VARCHAR(255),
-
-  start_time    DATETIME,
-  stop_time     DATETIME,
-
-  status        ENUM ('inactive',
-                      'active',
-                      'complete'),
+  test_uuid     CHAR(36),
 
   -- set the contraints for the table
   PRIMARY KEY (test_number),
@@ -217,83 +210,6 @@ CREATE PROCEDURE cuts.select_test_number_using_uuid (_uuid VARCHAR (255))
 BEGIN
   SELECT cuts.get_test_number_using_uuid (_uuid);
 END; //
-
--- -----------------------------------------------------------------------------
--- PROCEDURE: cuts.start_new_test
--- -----------------------------------------------------------------------------
-
-DROP PROCEDURE IF EXISTS cuts.start_new_test //
-
-CREATE PROCEDURE cuts.start_new_test (IN _uuid VARCHAR (255),
-                                      IN _time DATETIME)
-BEGIN
-  DECLARE CONTINUE HANDLER FOR SQLSTATE '23000'
-  BEGIN
-    CALL cuts.start_existing_test (_uuid, _time);
-  END;
-
-  INSERT INTO cuts.tests (start_time, test_uuid, status)
-   VALUES (_time, _uuid, 'active');
-END; //
-
--- -----------------------------------------------------------------------------
--- PROCEDURE: cuts.start_existing_test
--- -----------------------------------------------------------------------------
-
-DROP PROCEDURE IF EXISTS cuts.start_existing_test //
-
-CREATE PROCEDURE cuts.start_existing_test (IN _uuid VARCHAR (255),
-                                           IN _time DATETIME)
-BEGIN
-  DECLARE test INT;
-  SET test = cuts.get_test_number_using_uuid (_uuid);
-
-  CALL cuts.start_existing_test_i (test, _time);
-END; //
-
--- -----------------------------------------------------------------------------
--- PROCEDURE: cuts.start_existing_test_i
--- -----------------------------------------------------------------------------
-
-DROP PROCEDURE IF EXISTS cuts.start_existing_test_i //
-
-CREATE PROCEDURE cuts.start_existing_test_i (IN _test INT,
-                                             IN _time DATETIME)
-BEGIN
-  UPDATE cuts.tests
-    SET start_time = _time AND status = 'active'
-    WHERE test_number = _test;
-END; //
-
--- -----------------------------------------------------------------------------
--- PROCEDURE: cuts.stop_existing_test
--- -----------------------------------------------------------------------------
-
-DROP PROCEDURE IF EXISTS cuts.stop_existing_test //
-
-CREATE PROCEDURE cuts.stop_existing_test (IN _uuid VARCHAR (255),
-                                          IN _time DATETIME)
-BEGIN
-  DECLARE test INT;
-
-  SET test = cuts.get_test_number_using_uuid (_uuid);
-  CALL cuts.stop_existing_test_i (test, _time);
-END; //
-
--- -----------------------------------------------------------------------------
--- PROCEDURE: cuts.stop_existing_test
--- -----------------------------------------------------------------------------
-
-DROP PROCEDURE IF EXISTS cuts.stop_existing_test_i //
-
-CREATE PROCEDURE cuts.stop_existing_test_i (IN _test_number INT,
-                                            IN _time DATETIME)
-BEGIN
-  UPDATE cuts.tests
-    SET stop_time = _time, status = 'complete'
-    WHERE test_number = _test_number;
-END; //
-
 
 -- -----------------------------------------------------------------------------
 -- FUNCTION: cuts.get_portname_id

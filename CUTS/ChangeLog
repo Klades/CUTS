@@ -1,3 +1,10 @@
+Sun Jan 18 07:21:31 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/SQL/CUTS-create.sql:
+
+          . Removed all the columns and procedures related to storing
+            test start/stop time.
+
 Sun Jan 18 07:07:07 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/archiving/archiving.idl:
