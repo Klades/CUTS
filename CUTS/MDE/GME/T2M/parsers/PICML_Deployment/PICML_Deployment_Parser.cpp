@@ -406,6 +406,12 @@ public:
       this->identifier_ =
         lexeme_d[(alpha_p | '_') >> *(alnum_p | '_')];
 
+      this->placeholder_ =
+        lexeme_d[str_p ("${") >> *(print_p - '}') >> '}'];
+
+      this->nodename_ =
+        this->identifier_ | this->placeholder_;
+
       this->fq_name_ =
         lexeme_d[!str_p ("::") >>
         (alpha_p | '_') >> *(alnum_p | '_') >>
@@ -422,8 +428,12 @@ public:
 
       this->single_deployment_ =
         this->fq_path_ >> ':' >>
-        this->identifier_[actors::new_domain_node (this->gme_domain_, self.nodemap_)] >>
+        this->nodename_[actors::new_domain_node (this->gme_domain_, self.nodemap_)] >>
         '[' >> this->identifier_ >> ']';
+
+      BOOST_SPIRIT_DEBUG_NODE (this->nodename_);
+      BOOST_SPIRIT_DEBUG_NODE (this->identifier_);
+      BOOST_SPIRIT_DEBUG_NODE (this->placeholder_);
     }
 
     /**
@@ -442,6 +452,10 @@ public:
     boost::spirit::rule <ScannerT> single_deployment_;
 
     boost::spirit::rule <ScannerT> identifier_;
+
+    boost::spirit::rule <ScannerT> placeholder_;
+
+    boost::spirit::rule <ScannerT> nodename_;
 
     boost::spirit::rule <ScannerT> fq_name_;
 
@@ -490,6 +504,12 @@ public:
       this->identifier_ =
         lexeme_d[(alpha_p | '_') >> *(alnum_p | '_')];
 
+      this->placeholder_ =
+        lexeme_d[str_p ("${") >> *(print_p - '}') >> '}'];
+
+      this->nodename_ =
+        this->identifier_ | this->placeholder_;
+
       this->fq_name_ =
         lexeme_d[!str_p ("::") >>
         (alpha_p | '_') >> *(alnum_p | '_') >>
@@ -506,7 +526,7 @@ public:
 
       this->single_deployment_ =
         this->fq_path_[actors::refer_to_instance (this->gme_deployment_, this->gme_instance_ref_)] >> ':' >>
-        this->identifier_[actors::new_node (self.nodemap_, this->gme_deployment_, this->hostname_, this->gme_cache_)] >> '[' >>
+        this->nodename_[actors::new_node (self.nodemap_, this->gme_deployment_, this->hostname_, this->gme_cache_)] >> '[' >>
         this->identifier_[actors::install (this->gme_cache_, this->hostname_, this->gme_instance_ref_)] >> ']';
     }
 
@@ -526,6 +546,10 @@ public:
     boost::spirit::rule <ScannerT> single_deployment_;
 
     boost::spirit::rule <ScannerT> identifier_;
+
+    boost::spirit::rule <ScannerT> placeholder_;
+
+    boost::spirit::rule <ScannerT> nodename_;
 
     boost::spirit::rule <ScannerT> fq_name_;
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{3EFFEAB7-0477-4A09-8A90-42DDF3963E55}" cdate="Sat Jan 17 18:35:01 2009" mdate="Sat Jan 17 18:35:01 2009" version="" metaguid="{6131D657-5E06-4D59-B9A5-39B0F7A830D4}" metaversion="" metaname="PICML">
+<project guid="{8FF92E1B-93A4-457B-A7D4-BE2B24FBB8D8}" cdate="Sat Jan 17 18:53:08 2009" mdate="Sat Jan 17 18:53:08 2009" version="" metaguid="{6131D657-5E06-4D59-B9A5-39B0F7A830D4}" metaversion="" metaname="PICML">
 	<name>AntiSPAM</name>
 	<comment></comment>
 	<author>James H. Hill</author>
@@ -358,7 +358,7 @@
 								<attribute kind="DataValue">
 									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
 								</attribute>
-								<reference id="id-0067-000000a1" kind="DataType" role="DataType" guid="{A6312BD9-CFA0-4abe-9812-9A625515FC2B}" derivedfrom="id-0067-00000099" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+								<reference id="id-0067-0000009a" kind="DataType" role="DataType" guid="{A6312BD9-CFA0-4abe-9812-9A625515FC2B}" derivedfrom="id-0067-00000099" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
 									<name>GenericValue</name>
 								</reference>
 							</model>
@@ -367,7 +367,7 @@
 								<attribute kind="DataValue">
 									<value>&quot;%s is preprocessing event %d&quot;</value>
 								</attribute>
-								<reference id="id-0067-000000b0" kind="DataType" role="DataType" guid="{25C70283-7897-4dd7-8414-9E835961F3C2}" derivedfrom="id-0067-000000a8" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+								<reference id="id-0067-000000a9" kind="DataType" role="DataType" guid="{25C70283-7897-4dd7-8414-9E835961F3C2}" derivedfrom="id-0067-000000a8" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
 									<name>String</name>
 								</reference>
 							</model>
@@ -376,7 +376,7 @@
 								<attribute kind="DataValue">
 									<value>LM_INFO</value>
 								</attribute>
-								<reference id="id-0067-000000bf" kind="DataType" role="DataType" guid="{DC80C849-3B56-4f55-9464-F70FB3724EC9}" derivedfrom="id-0067-000000b7" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+								<reference id="id-0067-000000b8" kind="DataType" role="DataType" guid="{DC80C849-3B56-4f55-9464-F70FB3724EC9}" derivedfrom="id-0067-000000b7" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
 									<name>LongInteger</name>
 								</reference>
 							</model>
@@ -403,7 +403,7 @@
 								<attribute kind="DataValue">
 									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
 								</attribute>
-								<reference id="id-0067-0000009a" kind="DataType" role="DataType" guid="{C6D40771-9A34-4083-AACA-038FFD0EE1E9}" derivedfrom="id-0067-00000099" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+								<reference id="id-0067-000000a1" kind="DataType" role="DataType" guid="{C6D40771-9A34-4083-AACA-038FFD0EE1E9}" derivedfrom="id-0067-00000099" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
 									<name>GenericValue</name>
 								</reference>
 							</model>
@@ -412,7 +412,7 @@
 								<attribute kind="DataValue">
 									<value>&quot;%s is postprocessing event %d&quot;</value>
 								</attribute>
-								<reference id="id-0067-000000a9" kind="DataType" role="DataType" guid="{79042606-903A-49c7-9B33-1CAED41A0200}" derivedfrom="id-0067-000000a8" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+								<reference id="id-0067-000000b0" kind="DataType" role="DataType" guid="{79042606-903A-49c7-9B33-1CAED41A0200}" derivedfrom="id-0067-000000a8" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
 									<name>String</name>
 								</reference>
 							</model>
@@ -421,7 +421,7 @@
 								<attribute kind="DataValue">
 									<value>LM_INFO</value>
 								</attribute>
-								<reference id="id-0067-000000b8" kind="DataType" role="DataType" guid="{67E92A4F-5403-4f5a-BFF0-E506E571EB5B}" derivedfrom="id-0067-000000b7" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+								<reference id="id-0067-000000bf" kind="DataType" role="DataType" guid="{67E92A4F-5403-4f5a-BFF0-E506E571EB5B}" derivedfrom="id-0067-000000b7" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
 									<name>LongInteger</name>
 								</reference>
 							</model>
@@ -2121,13 +2121,13 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 							<attribute kind="LogAction" status="meta">
 								<value>false</value>
 							</attribute>
-							<model id="id-0065-000000b7" kind="Property" role="Property" guid="{DE365199-2302-4668-BF27-2E46BCF02D8D}" derivedfrom="id-0065-000000b3" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-								<name>arglist</name>
+							<model id="id-0065-000000b7" kind="Property" role="Property" guid="{F01B64E5-BBC6-4587-AEF8-54191638D5A4}" derivedfrom="id-0065-000000b5" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>severity</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
+									<value>LM_INFO</value>
 								</attribute>
-								<reference id="id-0067-000000a2" kind="DataType" role="DataType" guid="{7C874E5A-8B7E-4744-8F8A-F0CE420F9D56}" derivedfrom="id-0067-000000a1" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
-									<name>GenericValue</name>
+								<reference id="id-0067-000000bd" kind="DataType" role="DataType" guid="{4B6ED4B3-BF43-43ec-8DA7-805431002DC4}" derivedfrom="id-0067-000000b8" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+									<name>LongInteger</name>
 								</reference>
 							</model>
 							<model id="id-0065-000000b8" kind="Property" role="Property" guid="{9FBCE178-C591-47e4-97AF-414DC989F7DD}" derivedfrom="id-0065-000000b4" isinstance="yes" isprimary="no" childrelidcntr="0x0">
@@ -2135,17 +2135,17 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>&quot;%s is preprocessing event %d&quot;</value>
 								</attribute>
-								<reference id="id-0067-000000b1" kind="DataType" role="DataType" guid="{64E91629-FAE3-4784-A9C4-50A943CB0460}" derivedfrom="id-0067-000000b0" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+								<reference id="id-0067-000000ad" kind="DataType" role="DataType" guid="{64E91629-FAE3-4784-A9C4-50A943CB0460}" derivedfrom="id-0067-000000a9" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
 									<name>String</name>
 								</reference>
 							</model>
-							<model id="id-0065-000000b9" kind="Property" role="Property" guid="{F01B64E5-BBC6-4587-AEF8-54191638D5A4}" derivedfrom="id-0065-000000b5" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-								<name>severity</name>
+							<model id="id-0065-000000b9" kind="Property" role="Property" guid="{DE365199-2302-4668-BF27-2E46BCF02D8D}" derivedfrom="id-0065-000000b3" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>LM_INFO</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
 								</attribute>
-								<reference id="id-0067-000000c0" kind="DataType" role="DataType" guid="{4B6ED4B3-BF43-43ec-8DA7-805431002DC4}" derivedfrom="id-0067-000000bf" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
-									<name>LongInteger</name>
+								<reference id="id-0067-0000009b" kind="DataType" role="DataType" guid="{7C874E5A-8B7E-4744-8F8A-F0CE420F9D56}" derivedfrom="id-0067-0000009a" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+									<name>GenericValue</name>
 								</reference>
 							</model>
 						</model>
@@ -2162,7 +2162,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
 								</attribute>
-								<reference id="id-0067-0000009b" kind="DataType" role="DataType" guid="{1942DB30-1CB9-4e08-8D46-AD64A922E04C}" derivedfrom="id-0067-0000009a" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+								<reference id="id-0067-000000a2" kind="DataType" role="DataType" guid="{1942DB30-1CB9-4e08-8D46-AD64A922E04C}" derivedfrom="id-0067-000000a1" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
 									<name>GenericValue</name>
 								</reference>
 							</model>
@@ -2171,7 +2171,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>&quot;%s is postprocessing event %d&quot;</value>
 								</attribute>
-								<reference id="id-0067-000000aa" kind="DataType" role="DataType" guid="{C2C6D1D8-4F8B-4828-9482-611EF1E32EA4}" derivedfrom="id-0067-000000a9" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+								<reference id="id-0067-000000b1" kind="DataType" role="DataType" guid="{C2C6D1D8-4F8B-4828-9482-611EF1E32EA4}" derivedfrom="id-0067-000000b0" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
 									<name>String</name>
 								</reference>
 							</model>
@@ -2180,7 +2180,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>LM_INFO</value>
 								</attribute>
-								<reference id="id-0067-000000b9" kind="DataType" role="DataType" guid="{6B0FE462-6D60-431f-8C0A-AA63F5583302}" derivedfrom="id-0067-000000b8" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+								<reference id="id-0067-000000c0" kind="DataType" role="DataType" guid="{6B0FE462-6D60-431f-8C0A-AA63F5583302}" derivedfrom="id-0067-000000bf" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
 									<name>LongInteger</name>
 								</reference>
 							</model>
@@ -2710,13 +2710,13 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 							<attribute kind="LogAction" status="meta">
 								<value>false</value>
 							</attribute>
-							<model id="id-0065-000000bb" kind="Property" role="Property" guid="{1FD10799-3A7B-4ee7-B325-43369E53A829}" derivedfrom="id-0065-000000b3" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-								<name>arglist</name>
+							<model id="id-0065-000000bb" kind="Property" role="Property" guid="{B957D642-97B5-4c2e-AA68-D7EFA3A40B8A}" derivedfrom="id-0065-000000b5" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>severity</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
+									<value>LM_INFO</value>
 								</attribute>
-								<reference id="id-0067-000000a3" kind="DataType" role="DataType" guid="{3C312D57-7DF7-4339-9071-41C4C1B87712}" derivedfrom="id-0067-000000a1" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
-									<name>GenericValue</name>
+								<reference id="id-0067-000000b9" kind="DataType" role="DataType" guid="{6064910A-0523-4ad3-86B0-645C8EC21D24}" derivedfrom="id-0067-000000b8" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+									<name>LongInteger</name>
 								</reference>
 							</model>
 							<model id="id-0065-000000bc" kind="Property" role="Property" guid="{EC6A37D0-8E49-4bda-A7E5-3DB0D2D42567}" derivedfrom="id-0065-000000b4" isinstance="yes" isprimary="no" childrelidcntr="0x0">
@@ -2724,17 +2724,17 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>&quot;%s is preprocessing event %d&quot;</value>
 								</attribute>
-								<reference id="id-0067-000000b2" kind="DataType" role="DataType" guid="{3A7652A9-D84B-4a81-B5EB-B200F2C9E647}" derivedfrom="id-0067-000000b0" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+								<reference id="id-0067-000000aa" kind="DataType" role="DataType" guid="{3A7652A9-D84B-4a81-B5EB-B200F2C9E647}" derivedfrom="id-0067-000000a9" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
 									<name>String</name>
 								</reference>
 							</model>
-							<model id="id-0065-000000bd" kind="Property" role="Property" guid="{B957D642-97B5-4c2e-AA68-D7EFA3A40B8A}" derivedfrom="id-0065-000000b5" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-								<name>severity</name>
+							<model id="id-0065-000000bd" kind="Property" role="Property" guid="{1FD10799-3A7B-4ee7-B325-43369E53A829}" derivedfrom="id-0065-000000b3" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>LM_INFO</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
 								</attribute>
-								<reference id="id-0067-000000c1" kind="DataType" role="DataType" guid="{6064910A-0523-4ad3-86B0-645C8EC21D24}" derivedfrom="id-0067-000000bf" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
-									<name>LongInteger</name>
+								<reference id="id-0067-0000009c" kind="DataType" role="DataType" guid="{3C312D57-7DF7-4339-9071-41C4C1B87712}" derivedfrom="id-0067-0000009a" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+									<name>GenericValue</name>
 								</reference>
 							</model>
 						</model>
@@ -2751,7 +2751,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
 								</attribute>
-								<reference id="id-0067-0000009c" kind="DataType" role="DataType" guid="{D0BD674F-9980-42a9-898B-D34F00F73299}" derivedfrom="id-0067-0000009a" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+								<reference id="id-0067-000000a3" kind="DataType" role="DataType" guid="{D0BD674F-9980-42a9-898B-D34F00F73299}" derivedfrom="id-0067-000000a1" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
 									<name>GenericValue</name>
 								</reference>
 							</model>
@@ -2760,7 +2760,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>&quot;%s is postprocessing event %d&quot;</value>
 								</attribute>
-								<reference id="id-0067-000000ab" kind="DataType" role="DataType" guid="{69115CCB-C6AB-4622-B808-F4363CC83FE1}" derivedfrom="id-0067-000000a9" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+								<reference id="id-0067-000000b2" kind="DataType" role="DataType" guid="{69115CCB-C6AB-4622-B808-F4363CC83FE1}" derivedfrom="id-0067-000000b0" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
 									<name>String</name>
 								</reference>
 							</model>
@@ -2769,7 +2769,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>LM_INFO</value>
 								</attribute>
-								<reference id="id-0067-000000ba" kind="DataType" role="DataType" guid="{D84B0A8C-4EF9-4724-80A3-51C87C7D46D3}" derivedfrom="id-0067-000000b8" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+								<reference id="id-0067-000000c1" kind="DataType" role="DataType" guid="{D84B0A8C-4EF9-4724-80A3-51C87C7D46D3}" derivedfrom="id-0067-000000bf" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
 									<name>LongInteger</name>
 								</reference>
 							</model>
@@ -3107,13 +3107,13 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 							<attribute kind="LogAction" status="meta">
 								<value>false</value>
 							</attribute>
-							<model id="id-0065-000000bf" kind="Property" role="Property" guid="{9BCA073B-BAC3-40b8-B76F-806520809868}" derivedfrom="id-0065-000000b3" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-								<name>arglist</name>
+							<model id="id-0065-000000bf" kind="Property" role="Property" guid="{FA7CC2E8-953F-4680-B0D0-9E0A49F467FD}" derivedfrom="id-0065-000000b5" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>severity</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
+									<value>LM_INFO</value>
 								</attribute>
-								<reference id="id-0067-000000a4" kind="DataType" role="DataType" guid="{EF3ACFB8-0815-4535-9AC3-509F9488A6D8}" derivedfrom="id-0067-000000a1" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
-									<name>GenericValue</name>
+								<reference id="id-0067-000000ba" kind="DataType" role="DataType" guid="{E5C67828-AD1C-4c0c-9F1F-C40ECDDE0A26}" derivedfrom="id-0067-000000b8" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+									<name>LongInteger</name>
 								</reference>
 							</model>
 							<model id="id-0065-000000c0" kind="Property" role="Property" guid="{AD829411-44D5-4bd4-B92A-0F0EE726887A}" derivedfrom="id-0065-000000b4" isinstance="yes" isprimary="no" childrelidcntr="0x0">
@@ -3121,17 +3121,17 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>&quot;%s is preprocessing event %d&quot;</value>
 								</attribute>
-								<reference id="id-0067-000000b3" kind="DataType" role="DataType" guid="{A29B5FDC-32F5-4d98-9E48-2CC9F21858F7}" derivedfrom="id-0067-000000b0" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+								<reference id="id-0067-000000ab" kind="DataType" role="DataType" guid="{A29B5FDC-32F5-4d98-9E48-2CC9F21858F7}" derivedfrom="id-0067-000000a9" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
 									<name>String</name>
 								</reference>
 							</model>
-							<model id="id-0065-000000c1" kind="Property" role="Property" guid="{FA7CC2E8-953F-4680-B0D0-9E0A49F467FD}" derivedfrom="id-0065-000000b5" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-								<name>severity</name>
+							<model id="id-0065-000000c1" kind="Property" role="Property" guid="{9BCA073B-BAC3-40b8-B76F-806520809868}" derivedfrom="id-0065-000000b3" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>LM_INFO</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
 								</attribute>
-								<reference id="id-0067-000000c2" kind="DataType" role="DataType" guid="{E5C67828-AD1C-4c0c-9F1F-C40ECDDE0A26}" derivedfrom="id-0067-000000bf" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
-									<name>LongInteger</name>
+								<reference id="id-0067-0000009d" kind="DataType" role="DataType" guid="{EF3ACFB8-0815-4535-9AC3-509F9488A6D8}" derivedfrom="id-0067-0000009a" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+									<name>GenericValue</name>
 								</reference>
 							</model>
 						</model>
@@ -3148,7 +3148,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
 								</attribute>
-								<reference id="id-0067-0000009d" kind="DataType" role="DataType" guid="{61622BBC-21D7-4cf2-9381-CA36220B5407}" derivedfrom="id-0067-0000009a" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+								<reference id="id-0067-000000a4" kind="DataType" role="DataType" guid="{61622BBC-21D7-4cf2-9381-CA36220B5407}" derivedfrom="id-0067-000000a1" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
 									<name>GenericValue</name>
 								</reference>
 							</model>
@@ -3157,7 +3157,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>&quot;%s is postprocessing event %d&quot;</value>
 								</attribute>
-								<reference id="id-0067-000000ac" kind="DataType" role="DataType" guid="{CF45449C-63FA-4503-BBB3-D7F7530247E0}" derivedfrom="id-0067-000000a9" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+								<reference id="id-0067-000000b3" kind="DataType" role="DataType" guid="{CF45449C-63FA-4503-BBB3-D7F7530247E0}" derivedfrom="id-0067-000000b0" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
 									<name>String</name>
 								</reference>
 							</model>
@@ -3166,7 +3166,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>LM_INFO</value>
 								</attribute>
-								<reference id="id-0067-000000bb" kind="DataType" role="DataType" guid="{1D753363-4837-45c9-A5F8-D829C9AFB619}" derivedfrom="id-0067-000000b8" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+								<reference id="id-0067-000000c2" kind="DataType" role="DataType" guid="{1D753363-4837-45c9-A5F8-D829C9AFB619}" derivedfrom="id-0067-000000bf" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
 									<name>LongInteger</name>
 								</reference>
 							</model>
@@ -3709,13 +3709,13 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 							<attribute kind="LogAction" status="meta">
 								<value>false</value>
 							</attribute>
-							<model id="id-0065-000000c3" kind="Property" role="Property" guid="{22226493-B31F-4881-8D7B-E4433A037E70}" derivedfrom="id-0065-000000b3" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-								<name>arglist</name>
+							<model id="id-0065-000000c3" kind="Property" role="Property" guid="{C837EA51-8B21-4606-8385-39DC720DFB57}" derivedfrom="id-0065-000000b5" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>severity</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
+									<value>LM_INFO</value>
 								</attribute>
-								<reference id="id-0067-000000a5" kind="DataType" role="DataType" guid="{8F745E87-1C6D-45e0-B634-972F7AF5AAEA}" derivedfrom="id-0067-000000a1" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
-									<name>GenericValue</name>
+								<reference id="id-0067-000000bb" kind="DataType" role="DataType" guid="{22DE4097-997B-476a-AB62-9D31EDA6DF0B}" derivedfrom="id-0067-000000b8" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+									<name>LongInteger</name>
 								</reference>
 							</model>
 							<model id="id-0065-000000c4" kind="Property" role="Property" guid="{FCBFFA70-4F68-40ee-AE69-824AB097CA2F}" derivedfrom="id-0065-000000b4" isinstance="yes" isprimary="no" childrelidcntr="0x0">
@@ -3723,17 +3723,17 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>&quot;%s is preprocessing event %d&quot;</value>
 								</attribute>
-								<reference id="id-0067-000000b4" kind="DataType" role="DataType" guid="{58926DD2-BEE9-494e-927C-FE992C9DFE26}" derivedfrom="id-0067-000000b0" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+								<reference id="id-0067-000000ac" kind="DataType" role="DataType" guid="{58926DD2-BEE9-494e-927C-FE992C9DFE26}" derivedfrom="id-0067-000000a9" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
 									<name>String</name>
 								</reference>
 							</model>
-							<model id="id-0065-000000c5" kind="Property" role="Property" guid="{C837EA51-8B21-4606-8385-39DC720DFB57}" derivedfrom="id-0065-000000b5" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-								<name>severity</name>
+							<model id="id-0065-000000c5" kind="Property" role="Property" guid="{22226493-B31F-4881-8D7B-E4433A037E70}" derivedfrom="id-0065-000000b3" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>LM_INFO</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
 								</attribute>
-								<reference id="id-0067-000000c3" kind="DataType" role="DataType" guid="{22DE4097-997B-476a-AB62-9D31EDA6DF0B}" derivedfrom="id-0067-000000bf" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
-									<name>LongInteger</name>
+								<reference id="id-0067-0000009e" kind="DataType" role="DataType" guid="{8F745E87-1C6D-45e0-B634-972F7AF5AAEA}" derivedfrom="id-0067-0000009a" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+									<name>GenericValue</name>
 								</reference>
 							</model>
 						</model>
@@ -3750,7 +3750,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
 								</attribute>
-								<reference id="id-0067-0000009e" kind="DataType" role="DataType" guid="{F0C504FF-7BA7-43bd-BB2F-5D6EBFBD5086}" derivedfrom="id-0067-0000009a" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+								<reference id="id-0067-000000a5" kind="DataType" role="DataType" guid="{F0C504FF-7BA7-43bd-BB2F-5D6EBFBD5086}" derivedfrom="id-0067-000000a1" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
 									<name>GenericValue</name>
 								</reference>
 							</model>
@@ -3759,7 +3759,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>&quot;%s is postprocessing event %d&quot;</value>
 								</attribute>
-								<reference id="id-0067-000000ad" kind="DataType" role="DataType" guid="{1E18C324-9AED-4005-81E4-477281A6E629}" derivedfrom="id-0067-000000a9" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+								<reference id="id-0067-000000b4" kind="DataType" role="DataType" guid="{1E18C324-9AED-4005-81E4-477281A6E629}" derivedfrom="id-0067-000000b0" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
 									<name>String</name>
 								</reference>
 							</model>
@@ -3768,7 +3768,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>LM_INFO</value>
 								</attribute>
-								<reference id="id-0067-000000bc" kind="DataType" role="DataType" guid="{66E72F56-8E80-483c-B401-5938835A1E96}" derivedfrom="id-0067-000000b8" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+								<reference id="id-0067-000000c3" kind="DataType" role="DataType" guid="{66E72F56-8E80-483c-B401-5938835A1E96}" derivedfrom="id-0067-000000bf" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
 									<name>LongInteger</name>
 								</reference>
 							</model>
@@ -4378,13 +4378,13 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 							<attribute kind="LogAction" status="meta">
 								<value>false</value>
 							</attribute>
-							<model id="id-0065-000000c7" kind="Property" role="Property" guid="{EED59C02-85B6-4f88-83A0-2B2C996AAC9E}" derivedfrom="id-0065-000000b3" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-								<name>arglist</name>
+							<model id="id-0065-000000c7" kind="Property" role="Property" guid="{71D17874-1622-4231-85F9-54D1CE8C4980}" derivedfrom="id-0065-000000b5" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>severity</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
+									<value>LM_INFO</value>
 								</attribute>
-								<reference id="id-0067-000000a6" kind="DataType" role="DataType" guid="{4C17FE2D-5A55-4f65-96B9-FAA3E6848BC9}" derivedfrom="id-0067-000000a1" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
-									<name>GenericValue</name>
+								<reference id="id-0067-000000bc" kind="DataType" role="DataType" guid="{3E7ED79B-498A-47af-871D-3238265CC386}" derivedfrom="id-0067-000000b8" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+									<name>LongInteger</name>
 								</reference>
 							</model>
 							<model id="id-0065-000000c8" kind="Property" role="Property" guid="{7E890A08-91EB-4bac-AA16-160D7C6A2010}" derivedfrom="id-0065-000000b4" isinstance="yes" isprimary="no" childrelidcntr="0x0">
@@ -4392,17 +4392,17 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>&quot;%s is preprocessing event %d&quot;</value>
 								</attribute>
-								<reference id="id-0067-000000b5" kind="DataType" role="DataType" guid="{406957D1-AD0A-400f-A22C-73ED024B55FF}" derivedfrom="id-0067-000000b0" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+								<reference id="id-0067-000000ae" kind="DataType" role="DataType" guid="{406957D1-AD0A-400f-A22C-73ED024B55FF}" derivedfrom="id-0067-000000a9" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
 									<name>String</name>
 								</reference>
 							</model>
-							<model id="id-0065-000000c9" kind="Property" role="Property" guid="{71D17874-1622-4231-85F9-54D1CE8C4980}" derivedfrom="id-0065-000000b5" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-								<name>severity</name>
+							<model id="id-0065-000000c9" kind="Property" role="Property" guid="{EED59C02-85B6-4f88-83A0-2B2C996AAC9E}" derivedfrom="id-0065-000000b3" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>LM_INFO</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
 								</attribute>
-								<reference id="id-0067-000000c4" kind="DataType" role="DataType" guid="{3E7ED79B-498A-47af-871D-3238265CC386}" derivedfrom="id-0067-000000bf" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
-									<name>LongInteger</name>
+								<reference id="id-0067-0000009f" kind="DataType" role="DataType" guid="{4C17FE2D-5A55-4f65-96B9-FAA3E6848BC9}" derivedfrom="id-0067-0000009a" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+									<name>GenericValue</name>
 								</reference>
 							</model>
 						</model>
@@ -4419,7 +4419,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
 								</attribute>
-								<reference id="id-0067-0000009f" kind="DataType" role="DataType" guid="{7F09038A-0598-4e6e-9BC2-F69352B7948B}" derivedfrom="id-0067-0000009a" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+								<reference id="id-0067-000000a6" kind="DataType" role="DataType" guid="{7F09038A-0598-4e6e-9BC2-F69352B7948B}" derivedfrom="id-0067-000000a1" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
 									<name>GenericValue</name>
 								</reference>
 							</model>
@@ -4428,7 +4428,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>&quot;%s is postprocessing event %d&quot;</value>
 								</attribute>
-								<reference id="id-0067-000000ae" kind="DataType" role="DataType" guid="{A9EAC921-54AC-4607-953C-E4D9E7C872B4}" derivedfrom="id-0067-000000a9" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+								<reference id="id-0067-000000b5" kind="DataType" role="DataType" guid="{A9EAC921-54AC-4607-953C-E4D9E7C872B4}" derivedfrom="id-0067-000000b0" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
 									<name>String</name>
 								</reference>
 							</model>
@@ -4437,7 +4437,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>LM_INFO</value>
 								</attribute>
-								<reference id="id-0067-000000bd" kind="DataType" role="DataType" guid="{E43DC910-4C83-48ab-AACA-A34CDF420565}" derivedfrom="id-0067-000000b8" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+								<reference id="id-0067-000000c4" kind="DataType" role="DataType" guid="{E43DC910-4C83-48ab-AACA-A34CDF420565}" derivedfrom="id-0067-000000bf" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
 									<name>LongInteger</name>
 								</reference>
 							</model>
@@ -4829,13 +4829,13 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 							<attribute kind="LogAction" status="meta">
 								<value>false</value>
 							</attribute>
-							<model id="id-0065-000000cb" kind="Property" role="Property" guid="{9F8C52BE-7CC8-4431-8DE5-447F7BC69A67}" derivedfrom="id-0065-000000b3" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-								<name>arglist</name>
+							<model id="id-0065-000000cb" kind="Property" role="Property" guid="{F9BEEBFF-B787-4790-94A2-5A03866DEE80}" derivedfrom="id-0065-000000b5" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>severity</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
+									<value>LM_INFO</value>
 								</attribute>
-								<reference id="id-0067-000000a7" kind="DataType" role="DataType" guid="{C696CE60-6921-4ba8-A44C-EBC7C6A7A7B3}" derivedfrom="id-0067-000000a1" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
-									<name>GenericValue</name>
+								<reference id="id-0067-000000be" kind="DataType" role="DataType" guid="{F6F9AD92-E272-4a88-9AB4-49F3FFBC1B35}" derivedfrom="id-0067-000000b8" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+									<name>LongInteger</name>
 								</reference>
 							</model>
 							<model id="id-0065-000000cc" kind="Property" role="Property" guid="{C05382D4-09CE-4db3-9C4C-1520ABDAA99D}" derivedfrom="id-0065-000000b4" isinstance="yes" isprimary="no" childrelidcntr="0x0">
@@ -4843,17 +4843,17 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>&quot;%s is preprocessing event %d&quot;</value>
 								</attribute>
-								<reference id="id-0067-000000b6" kind="DataType" role="DataType" guid="{3A90BC1E-4C31-4580-9A25-07BEB62D1285}" derivedfrom="id-0067-000000b0" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+								<reference id="id-0067-000000af" kind="DataType" role="DataType" guid="{3A90BC1E-4C31-4580-9A25-07BEB62D1285}" derivedfrom="id-0067-000000a9" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
 									<name>String</name>
 								</reference>
 							</model>
-							<model id="id-0065-000000cd" kind="Property" role="Property" guid="{F9BEEBFF-B787-4790-94A2-5A03866DEE80}" derivedfrom="id-0065-000000b5" isinstance="yes" isprimary="no" childrelidcntr="0x0">
-								<name>severity</name>
+							<model id="id-0065-000000cd" kind="Property" role="Property" guid="{9F8C52BE-7CC8-4431-8DE5-447F7BC69A67}" derivedfrom="id-0065-000000b3" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>LM_INFO</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
 								</attribute>
-								<reference id="id-0067-000000c5" kind="DataType" role="DataType" guid="{F6F9AD92-E272-4a88-9AB4-49F3FFBC1B35}" derivedfrom="id-0067-000000bf" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
-									<name>LongInteger</name>
+								<reference id="id-0067-000000a0" kind="DataType" role="DataType" guid="{C696CE60-6921-4ba8-A44C-EBC7C6A7A7B3}" derivedfrom="id-0067-0000009a" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+									<name>GenericValue</name>
 								</reference>
 							</model>
 						</model>
@@ -4870,7 +4870,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>this-&gt;instName_.c_str (), this-&gt;eventCount_</value>
 								</attribute>
-								<reference id="id-0067-000000a0" kind="DataType" role="DataType" guid="{13F51C00-DAE3-4def-A1FC-DB205A45FD75}" derivedfrom="id-0067-0000009a" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
+								<reference id="id-0067-000000a7" kind="DataType" role="DataType" guid="{13F51C00-DAE3-4def-A1FC-DB205A45FD75}" derivedfrom="id-0067-000000a1" isinstance="yes" isprimary="no" referred="id-0066-00000015" isbound="yes">
 									<name>GenericValue</name>
 								</reference>
 							</model>
@@ -4879,7 +4879,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>&quot;%s is postprocessing event %d&quot;</value>
 								</attribute>
-								<reference id="id-0067-000000af" kind="DataType" role="DataType" guid="{BEFB0C7A-4D13-4f49-9802-70BA8BFDE439}" derivedfrom="id-0067-000000a9" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
+								<reference id="id-0067-000000b6" kind="DataType" role="DataType" guid="{BEFB0C7A-4D13-4f49-9802-70BA8BFDE439}" derivedfrom="id-0067-000000b0" isinstance="yes" isprimary="no" referred="id-0066-00000018" isbound="yes">
 									<name>String</name>
 								</reference>
 							</model>
@@ -4888,7 +4888,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 								<attribute kind="DataValue" status="inherited">
 									<value>LM_INFO</value>
 								</attribute>
-								<reference id="id-0067-000000be" kind="DataType" role="DataType" guid="{9B62426C-7882-478e-9651-A64F3F5739ED}" derivedfrom="id-0067-000000b8" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
+								<reference id="id-0067-000000c5" kind="DataType" role="DataType" guid="{9B62426C-7882-478e-9651-A64F3F5739ED}" derivedfrom="id-0067-000000bf" isinstance="yes" isprimary="no" referred="id-0066-00000016" isbound="yes">
 									<name>LongInteger</name>
 								</reference>
 							</model>
@@ -5678,7 +5678,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 				</connection>
 			</model>
 		</folder>
-		<folder id="id-006a-0000000d" relid="0x8" childrelidcntr="0x5" kind="DeploymentPlans" guid="{D248A44F-E2F4-4f1d-9ABC-67297E633596}">
+		<folder id="id-006a-0000000d" relid="0x8" childrelidcntr="0x7" kind="DeploymentPlans" guid="{D248A44F-E2F4-4f1d-9ABC-67297E633596}">
 			<name>DeploymentPlans</name>
 			<model id="id-0065-0000009d" kind="DeploymentPlan" guid="{5B8A82D9-E2CE-40f1-BF34-41BF97DF0927}" relid="0x1" childrelidcntr="0xb">
 				<name>SingleSenderSingleReceiver</name>
@@ -5977,7 +5977,7 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 					</regnode>
 				</set>
 			</model>
-			<model id="id-0065-00000109" kind="DeploymentPlan" guid="{6F751A21-54F4-485c-8AAC-44D4DEBB8485}" relid="0x5" childrelidcntr="0x9">
+			<model id="id-0065-0000010a" kind="DeploymentPlan" guid="{8C71B67D-A26C-44b9-9C43-80F9B56EBEEA}" relid="0x7" childrelidcntr="0xc">
 				<name>TemplateDeployment</name>
 				<attribute kind="UUID" status="meta">
 					<value></value>
@@ -5985,42 +5985,53 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 				<attribute kind="label" status="meta">
 					<value></value>
 				</attribute>
-				<reference id="id-0067-000000d5" kind="ComponentRef" role="ComponentRef" guid="{2F74FA5E-969F-4a4e-9F25-9BF40BFEB19E}" relid="0x1" referred="id-0065-00000075">
+				<reference id="id-0067-000000d5" kind="ComponentRef" role="ComponentRef" guid="{3F9FF3C0-898D-4452-81F7-6B6B2857EE54}" relid="0x1" referred="id-0065-00000075">
 					<name>CPUBound1</name>
 				</reference>
-				<reference id="id-0067-000000d6" kind="NodeReference" role="NodeReference" guid="{B1131401-4626-4743-9FA6-7FA05EAC6376}" relid="0x2" referred="id-0065-00000107">
-					<name>Host1</name>
+				<reference id="id-0067-000000d6" kind="NodeReference" role="NodeReference" guid="{1DE53C8C-330E-4320-8C86-45D80D718903}" relid="0x2" referred="id-0065-00000107">
+					<name>${host.CPUBound1}</name>
 				</reference>
-				<reference id="id-0067-000000d7" kind="ComponentRef" role="ComponentRef" guid="{EF6B2242-E0F2-4fd7-B20F-59AAD82BF864}" relid="0x5" referred="id-0065-00000082">
+				<reference id="id-0067-000000d7" kind="ComponentRef" role="ComponentRef" guid="{284381FB-2C4E-4e08-A271-7439C5C54870}" relid="0x5" referred="id-0065-00000082">
 					<name>CPUBound2</name>
 				</reference>
-				<reference id="id-0067-000000d8" kind="NodeReference" role="NodeReference" guid="{D0A79D3B-A1D9-49a6-B51E-9B9FDE6AD624}" relid="0x6" referred="id-0065-00000108">
-					<name>Host2</name>
+				<reference id="id-0067-000000d8" kind="NodeReference" role="NodeReference" guid="{3997C62A-A642-4e3c-82AB-04458ED22EE5}" relid="0x6" referred="id-0065-00000108">
+					<name>${host.CPUBound2}</name>
 				</reference>
-				<reference id="id-0067-000000d9" kind="ComponentRef" role="ComponentRef" guid="{7523C3F2-D992-419d-8234-C51A1B2D122F}" relid="0x9" referred="id-0065-0000008f">
+				<reference id="id-0067-000000d9" kind="ComponentRef" role="ComponentRef" guid="{BC4FD3EE-F6F1-4f92-8C4E-5CC3A1894720}" relid="0x9" referred="id-0065-0000008f">
 					<name>EventGenerator</name>
 				</reference>
-				<connection id="id-0068-000000d9" kind="InstanceMapping" role="InstanceMapping" guid="{1A0444FE-7D91-4e91-A2C7-50900CDE28E8}" relid="0x4">
+				<reference id="id-0067-000000da" kind="NodeReference" role="NodeReference" guid="{7F50474E-FDE8-4f18-B1E8-5204F50BE591}" relid="0xa" referred="id-0065-00000109">
+					<name>${host.EventGenerator}</name>
+				</reference>
+				<connection id="id-0068-000000d8" kind="InstanceMapping" role="InstanceMapping" guid="{34CDCBE0-3883-4683-A49B-7B3CBB7F0548}" relid="0x4">
 					<name></name>
 					<connpoint role="dst" target="id-0067-000000d6"/>
-					<connpoint role="src" target="id-0069-0000000a"/>
+					<connpoint role="src" target="id-0069-00000009"/>
 				</connection>
-				<connection id="id-0068-000000da" kind="InstanceMapping" role="InstanceMapping" guid="{25EA4219-2477-4290-8C8D-0D5A43B67D09}" relid="0x8">
+				<connection id="id-0068-000000d9" kind="InstanceMapping" role="InstanceMapping" guid="{A45ACEB3-9D57-4864-A7BA-35F49C074E47}" relid="0x8">
 					<name></name>
 					<connpoint role="dst" target="id-0067-000000d8"/>
+					<connpoint role="src" target="id-0069-0000000a"/>
+				</connection>
+				<connection id="id-0068-000000da" kind="InstanceMapping" role="InstanceMapping" guid="{D2159590-788A-4393-BE95-6121C9F85DB4}" relid="0xc">
+					<name></name>
+					<connpoint role="dst" target="id-0067-000000da"/>
 					<connpoint role="src" target="id-0069-0000000b"/>
 				</connection>
-				<set id="id-0069-0000000a" kind="CollocationGroup" role="CollocationGroup" guid="{C54CDC4D-6B7F-449d-B23D-912449DABCE0}" relid="0x3" members="id-0067-000000d5">
+				<set id="id-0069-00000009" kind="CollocationGroup" role="CollocationGroup" guid="{AD880F8D-513C-4b78-9A80-C94CCE48F37B}" relid="0x3" members="id-0067-000000d5">
 					<name>DefaultGroup</name>
 				</set>
-				<set id="id-0069-0000000b" kind="CollocationGroup" role="CollocationGroup" guid="{5A37E73A-E124-4cc0-BE49-8C90CDE13111}" relid="0x7" members="id-0067-000000d7 id-0067-000000d9">
+				<set id="id-0069-0000000a" kind="CollocationGroup" role="CollocationGroup" guid="{E4F313AD-AC75-4406-A305-1EE0411CAD43}" relid="0x7" members="id-0067-000000d7">
+					<name>DefaultGroup</name>
+				</set>
+				<set id="id-0069-0000000b" kind="CollocationGroup" role="CollocationGroup" guid="{ED819C44-7E7A-4259-967A-DC15DC0288D7}" relid="0xb" members="id-0067-000000d9">
 					<name>DefaultGroup</name>
 				</set>
 			</model>
 		</folder>
-		<folder id="id-006a-0000000e" relid="0x9" childrelidcntr="0x2" kind="Targets" guid="{C7173C02-0749-4561-85AF-131E81218D9B}">
+		<folder id="id-006a-0000000e" relid="0x9" childrelidcntr="0x4" kind="Targets" guid="{C7173C02-0749-4561-85AF-131E81218D9B}">
 			<name>AutoTargets</name>
-			<model id="id-0065-00000106" kind="Domain" guid="{255B92CA-1A43-4fd8-B73E-E06D27572882}" relid="0x2" childrelidcntr="0x2">
+			<model id="id-0065-00000106" kind="Domain" guid="{67B1D9C1-A168-4ac4-9B1E-34A49188EF58}" relid="0x4" childrelidcntr="0x3">
 				<name>TemplateDeployment</name>
 				<attribute kind="UUID" status="meta">
 					<value></value>
@@ -6028,8 +6039,8 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 				<attribute kind="label" status="meta">
 					<value></value>
 				</attribute>
-				<model id="id-0065-00000107" kind="Node" role="Node" guid="{4CE6584C-FD92-4516-A2DC-6FE7FE2CD095}" relid="0x1" childrelidcntr="0x0">
-					<name>Host1</name>
+				<model id="id-0065-00000107" kind="Node" role="Node" guid="{5105CE22-08F9-4d45-A1E3-EF47DFA01C50}" relid="0x1" childrelidcntr="0x0">
+					<name>${host.CPUBound1}</name>
 					<attribute kind="architecture" status="meta">
 						<value></value>
 					</attribute>
@@ -6040,8 +6051,20 @@ this-&gt;logEvent_ = this-&gt;eventCount_ % this-&gt;logRate_ == 0;</value>
 						<value></value>
 					</attribute>
 				</model>
-				<model id="id-0065-00000108" kind="Node" role="Node" guid="{4270D41E-CE91-4fb0-A907-C06480CF6AEF}" relid="0x2" childrelidcntr="0x0">
-					<name>Host2</name>
+				<model id="id-0065-00000108" kind="Node" role="Node" guid="{B5555933-9C32-49a6-9348-119FFC839097}" relid="0x2" childrelidcntr="0x0">
+					<name>${host.CPUBound2}</name>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000109" kind="Node" role="Node" guid="{C563914B-62B7-4a17-BBCA-2911ACBD5D03}" relid="0x3" childrelidcntr="0x0">
+					<name>${host.EventGenerator}</name>
 					<attribute kind="architecture" status="meta">
 						<value></value>
 					</attribute>

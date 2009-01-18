@@ -1,3 +1,14 @@
+Sun Jan 18 00:55:29 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/T2M/parsers/PICML_Deployment/PICML_Deployment_Parser.cpp:
+
+          . Added support for using placeholders (i.e., ${...}) for the nanes
+            of nodes in the deployment.
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+
+          . Checkpoint the PICML model.
+
 Sun Jan 18 00:36:08 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/T2M/parsers/PICML_Assembly/PICML_Assembly_Parser.cpp:
