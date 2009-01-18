@@ -1,6 +1,6 @@
 // $Id$
 
-project (cutsarc_d) : iortable, cuts_archiving_skel, cutsexe {
+project (cutsarc_d) : iortable, cuts_archiving_skel, cuts_db_odbc, cuts_test_database, cutsexe {
   exename = cutsarc_d
 
   Source_Files {
@@ -11,6 +11,6 @@ project (cutsarc_d) : iortable, cuts_archiving_skel, cutsexe {
   }
 
   Header_Files {
-    TestArchive_Options.h
+    Test_Archive_Options.h
   }
 }

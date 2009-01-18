@@ -19,6 +19,9 @@
 #include "ace/FILE_IO.h"
 #include "ace/UUID.h"
 
+// Forward decl.
+class CUTS_DB_Connection;
+
 /**
  * @class CUTS_TestUploader_i
  *
@@ -41,8 +44,12 @@ public:
    */
   int open (const ACE_CString & filename);
 
-  /// Close the uploader object.
-  int close (void);
+  /**
+   * Close the uploader object. This will index the test in the
+   * database using the provied connection. The connection will
+   * already be open.
+   */
+  int close (CUTS_DB_Connection & conn);
 
   /**
    * Send data to the upload agent.

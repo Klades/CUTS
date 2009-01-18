@@ -17,7 +17,10 @@ const char * __HELP__ =
 "  Usage: cutsarc_d [OPTIONS]\n"
 "\n"
 "Main options:\n"
-"  -f, --file=ARCHIVE         store test information in ARCHIVE\n"
+"  --host=HOST                location of database [default='localhost']\n"
+"  --usernane=USERNAME        username of connection [default='cuts']\n"
+"  --password=PASSWORD        password for authentication [default='cuts']\n"
+"\n"
 "  -o, --output=DIR           upload test results to DIR\n"
 "\n"
 "Informative output:\n"
@@ -58,7 +61,10 @@ int CUTS_Test_Archive_Server::run_main (int argc, char * argv [])
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - initializing archive servant\n"));
 
-    this->archive_.init (this->root_poa_.in ());
+    if (this->archive_.init (this->root_poa_.in ()) != 0)
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "%T - %M - failed to initialize server\n"),
+                         -1);
 
     // Now, activate the test archive servant.
     ACE_DEBUG ((LM_DEBUG,
@@ -143,6 +149,10 @@ int CUTS_Test_Archive_Server::parse_args (int argc, char * argv [])
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
 
+  get_opt.long_option ("host", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("username", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("password", ACE_Get_Opt::ARG_REQUIRED);
+
   char opt;
 
   while ((opt = get_opt ()) != EOF)
@@ -157,6 +167,18 @@ int CUTS_Test_Archive_Server::parse_args (int argc, char * argv [])
       else if (ACE_OS::strcmp ("output", get_opt.long_option ()) == 0)
       {
         this->archive_.opts ().upload_dir_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp ("host", get_opt.long_option ()) == 0)
+      {
+        this->archive_.opts ().hostname_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp ("username", get_opt.long_option ()) == 0)
+      {
+        this->archive_.opts ().username_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp ("password", get_opt.long_option ()) == 0)
+      {
+        this->archive_.opts ().password_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp ("verbose", get_opt.long_option ()) == 0)
       {

@@ -253,7 +253,13 @@ get_test_uuid (ACE_Utils::UUID & uuid)
     }
 
     // Extract the UUID from the test database.
-    return test_db.get_test_uuid (uuid);
+    CUTS_Test_Profile profile;
+    int retval = test_db.get_test_profile (profile);
+
+    if (retval == 0)
+      uuid = profile.uuid_;
+
+    return retval;
   }
   catch (const CUTS_DB_Exception & ex)
   {

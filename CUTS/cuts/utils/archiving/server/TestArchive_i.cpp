@@ -36,7 +36,28 @@ int CUTS_TestArchive_i::init (PortableServer::POA_ptr parent)
   for (CORBA::ULong i = 0; i < policies.length (); ++ i)
     policies[i]->destroy ();
 
-  return 0;
+  // Finally, open a connection to the database.
+  int retval = 0;
+
+  try
+  {
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - opening connection to database\n"));
+
+    this->conn_.connect (this->opts_.username_.c_str (),
+                         this->opts_.password_.c_str (),
+                         this->opts_.hostname_.c_str ());
+  }
+  catch (const CUTS_DB_Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - failed to open connection to database [%s]\n",
+                ex.message ().c_str ()));
+
+    retval = -1;
+  }
+
+  return retval;
 }
 
 //
@@ -115,7 +136,7 @@ void CUTS_TestArchive_i::upload_complete (CUTS::TestUploader_ptr uploader)
   this->upload_poa_->deactivate_object (oid.in ());
 
   // Close the file from writing.
-  servant->close ();
+  servant->close (this->conn_);
 
   ACE_DEBUG ((LM_INFO,
               "%T (%t) - %M - sucessfully uploaded test results for %s\n",

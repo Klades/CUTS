@@ -14,7 +14,8 @@
 #define _CUTS_TEST_ARCHIVE_I_H_
 
 #include "../archivingS.h"
-#include "TestArchive_Options.h"
+#include "Test_Archive_Options.h"
+#include "cuts/utils/db/ODBC/ODBC_Connection.h"
 #include "tao/PortableServer/POAC.h"
 #include "ace/Unbounded_Set.h"
 #include "ace/UUID.h"
@@ -56,7 +57,7 @@ public:
   virtual void upload_complete (CUTS::TestUploader_ptr uploader);
 
   /// Access the test archive options.
-  CUTS_TestArchive_Options & opts (void);
+  CUTS_Test_Archive_Options & opts (void);
 
 private:
   /// Type definition for the collection of uploads.
@@ -69,7 +70,10 @@ private:
   PortableServer::POA_var upload_poa_;
 
   /// Upload directory for the archive.
-  CUTS_TestArchive_Options opts_;
+  CUTS_Test_Archive_Options opts_;
+
+  /// Connection to the indexing database.
+  ODBC_Connection conn_;
 };
 
 #if defined (__CUTS_INLINE__)

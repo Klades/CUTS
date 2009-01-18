@@ -208,23 +208,7 @@ int CUTS_Test_Database::set_test_uuid (const ACE_Utils::UUID & uuid)
 }
 
 //
-// get_test_uuid
-//
-int CUTS_Test_Database::get_test_uuid (ACE_Utils::UUID & uuid)
-{
-  CUTS_TEST_DATABASE_TRACE ("CUTS_Test_Database::get_test_uuid (ACE_Utils::UUID &)");
-
-  // Instantiate a new query for the database.
-  CUTS_DB_SQLite_Query * query = this->conn_->create_query ();
-
-  CUTS_Auto_Functor_T <CUTS_DB_SQLite_Query>
-    auto_release (query, &CUTS_DB_SQLite_Query::destroy);
-
-  return CUTS_Test_Database::get_test_uuid_i (query, uuid);
-}
-
-//
-// get_test_uuid
+// get_test_uuid_i
 //
 int CUTS_Test_Database::
 get_test_uuid_i (CUTS_DB_SQLite_Query * query, ACE_Utils::UUID & uuid)
@@ -253,4 +237,47 @@ get_test_uuid_i (CUTS_DB_SQLite_Query * query, ACE_Utils::UUID & uuid)
   {
     return -1;
   }
+}
+
+//
+// get_test_profile
+//
+int CUTS_Test_Database::
+get_test_profile (CUTS_Test_Profile & profile)
+{
+  // Instantiate a new query for the database.
+  CUTS_DB_SQLite_Query * query = this->conn_->create_query ();
+
+  CUTS_Auto_Functor_T <CUTS_DB_SQLite_Query>
+    auto_release (query, &CUTS_DB_SQLite_Query::destroy);
+
+  // Prepare the SQL statement.
+  const char * __sql_stmt__ = "SELECT * FROM cuts_test WHERE tid = 1";
+  query->prepare (__sql_stmt__);
+
+  // Execute the SQL statement.
+  CUTS_DB_SQLite_Record * record = query->execute ();
+
+  CUTS_Auto_Functor_T <CUTS_DB_SQLite_Record>
+    auto_destroy (record, &CUTS_DB_SQLite_Record::destroy);
+
+  // Make sure there is at least one record.
+  if (!record->done ())
+  {
+    char uuid[37];
+    char name[256];
+
+    record->get_data (1, uuid, sizeof (uuid));
+    record->get_data (2, name, sizeof (name));
+
+    // Save the data in the profile.
+    profile.uuid_.from_string (uuid);
+    profile.name_ = name;
+    return 0;
+  }
+  else
+  {
+    return -1;
+  }
+
 }

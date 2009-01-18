@@ -1,10 +1,10 @@
 // $Id$
 
-project : odbc {
+project : odbc, cuts_db {
   specific (!nmake, !vc6, !vc7, !vc71, !vc8, !vc9) {
     requires += unixodbc
   }
 
-  libs  += CUTS_DB CUTS_DB_ODBC
-  after += CUTS_DB CUTS_DB_ODBC
+  libs  += CUTS_DB_ODBC
+  after += CUTS_DB_ODBC
 }

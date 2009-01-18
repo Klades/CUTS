@@ -1,3 +1,46 @@
+Sun Jan 18 23:34:08 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/BDC/svcs/dbase/DBase_Service.mpc:
+        * cuts/workers/dbase/Database_Worker.mpc:
+        * MPC/config/cuts_db_odbc.mpb:
+        * MPC/config/cuts_dbsvc.mpb:
+
+          . Update the ODBC base project.
+
+        * cuts/utils/archiving/server/TestArchive_i.h:
+        * cuts/utils/archiving/server/TestArchive_i.inl:
+        * cuts/utils/archiving/server/TestArchive_i.cpp:
+        * cuts/utils/archiving/server/TestUploader_i.h:
+        * cuts/utils/archiving/server/TestUploader_i.cpp:
+        * cuts/utils/archiving/server/Test_Archive_Options.h:
+        * cuts/utils/archiving/server/Test_Archive_Server.cpp:
+        * cuts/utils/archiving/server/cutsarc_d.mpc:
+
+          . Tied the archiving server into a backend database. Right
+            now the database has to be a MySQL database. The will
+            store the test database profile in the MySQL database.
+
+        * cuts/utils/db/ODBC/ODBC_Parameter.cpp:
+
+          . Bug fix where the binding index was incorrect.
+
+        * cuts/utils/testing/Test_Database.h:
+        * cuts/utils/testing/Test_Database.cpp:
+        * cuts/utils/archiving/client/Test_Archive_Client.cpp:
+
+          . Replaced the get_test_uuid () method with the get_profile ()
+            method. This returns the profile for the test database, which
+            include test name and UUID.
+
+        * utils/BMW/SQL/CUTS-create.sql:
+
+          . Implemented a procedure for inserting a new test.
+
+        * MPC/config/cuts_odbclib.mpb:
+        * cuts/utils/archiving/server/TestArchive_Options.h:
+
+          Removed these files.
+
 Sun Jan 18 07:21:31 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/SQL/CUTS-create.sql:

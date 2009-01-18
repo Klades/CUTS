@@ -223,7 +223,7 @@ void ODBC_Parameter::bind_i (SQLSMALLINT iotype,
                              SQLINTEGER  buffer_length)
 {
   SQL_VERIFY (::SQLBindParameter (this->query_->stmt_,
-                                  this->index_,
+                                  this->index_ + 1,
                                   iotype,
                                   valuetype,
                                   paramtype,

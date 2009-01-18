@@ -183,6 +183,19 @@ GRANT SELECT, UPDATE, DELETE, INSERT, EXECUTE, CREATE, DROP
 DELIMITER //
 
 -- -----------------------------------------------------------------------------
+-- PROCEDURE: cuts.insert_test
+-- -----------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS cuts.insert_test //
+
+CREATE PROCEDURE cuts.insert_test (IN _uuid CHAR (36),
+                                   IN _name VARCHAR (255))
+BEGIN
+  INSERT INTO cuts.tests (test_uuid, test_name)
+    VALUES (_uuid, _name);
+END; //
+
+-- -----------------------------------------------------------------------------
 -- FUNCTION: cuts.get_test_number_using_uuid
 -- -----------------------------------------------------------------------------
 

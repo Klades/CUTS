@@ -17,18 +17,31 @@
 #include "cuts/utils/db/SQLite/Connection.h"
 #include "ace/Auto_Ptr.h"
 #include "ace/SString.h"
+#include "ace/UUID.h"
 
-// Forward decl.
-class CUTS_DB_Connection;
+ACE_BEGIN_VERSIONED_NAMESPACE_DECL
 
 // Forward decl.
 class ACE_Time_Value;
 
-namespace ACE_Utils
+ACE_END_VERSIONED_NAMESPACE_DECL
+
+// Forward decl.
+class CUTS_DB_Connection;
+
+/**
+ * @struct CUTS_Test_Profile
+ *
+ * Profile of the test.
+ */
+struct CUTS_Test_Profile
 {
-  // Forward decl.
-  class UUID;
-}
+  /// Name of the test.
+  ACE_CString name_;
+
+  /// UUID of the test.
+  ACE_Utils::UUID uuid_;
+};
 
 /**
  * @class CUTS_Test_Database
@@ -79,13 +92,13 @@ public:
   CUTS_DB_SQLite_Query * create_query (void);
 
   /**
-   * Get the UUID stored in the test database.
+   * Get the test profile from the database.
    *
-   * @param[out]        uuid        UUID in the database
-   * @retval            0           Successfully read test UUID
-   * @retval            -1          Failed to read test UUID
+   * @param[out]        profile     Profile of the test.
+   * @retval            0           Successfully read profile
+   * @retval            -1          Failed to read profile
    */
-  int get_test_uuid (ACE_Utils::UUID & uuid);
+  int get_test_profile (CUTS_Test_Profile & profile);
 
   /**
    * Set the UUID for the test.
