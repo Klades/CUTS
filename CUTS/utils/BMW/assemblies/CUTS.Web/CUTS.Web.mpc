@@ -8,8 +8,10 @@ project (CUTS.Web) : cuts_bmw_assembly{
                System.Drawing \
                System.Web \
                System.Xml \
+               CUTS.Archive \
                CUTS.Data \
-               MySql.Data
+               MySql.Data \
+               IIOPChannel
 
   after += CUTS.Data
 
@@ -25,6 +27,8 @@ project (CUTS.Web) : cuts_bmw_assembly{
     CUTS/Web/UI/ConsoleMessage.cs
     CUTS/Web/UI/ConsoleMessages.cs
     CUTS/Web/UI/MessageSeverity.cs
+
+    CUTS/Web/UI/Archive/TestBrowser.cs
 
     CUTS/Web/UI/UnitTesting/Grouping.cs
     CUTS/Web/UI/UnitTesting/LogFormatTable.cs

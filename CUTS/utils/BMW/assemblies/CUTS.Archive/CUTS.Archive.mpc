@@ -5,6 +5,7 @@ project (CUTS.Archive) : iiopnet {
     iiopnetflags += -idir $(CUTS_ROOT) \
                     -idir $(CUTS_ROOT)/cuts \
                     -o $(CUTS_ROOT)/utils/BMW/website/bin \
+                    -snk CUTS.Archive.snk \
                     CUTS.Archive
   }
 

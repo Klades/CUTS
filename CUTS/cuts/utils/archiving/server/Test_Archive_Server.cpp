@@ -221,12 +221,15 @@ void CUTS_Test_Archive_Server::destroy (void)
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - destroying the RootPOA\n"));
 
-    this->root_poa_->destroy (1, 1);
+    if (CORBA::is_nil (this->root_poa_.in ()))
+      this->root_poa_->destroy (1, 1);
 
     // Destroy the ORB.
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - destroying the ORB\n"));
-    this->orb_->destroy ();
+
+    if (!CORBA::is_nil (this->orb_.in ()))
+      this->orb_->destroy ();
   }
   catch (const CORBA::Exception & ex)
   {

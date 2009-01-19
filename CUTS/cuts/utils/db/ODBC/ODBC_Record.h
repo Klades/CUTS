@@ -87,7 +87,7 @@ private:
   const ODBC_Query & query_;
 
   /// Current location in the record set.
-  size_t index_;
+  size_t curr_;
 
   /// Number of records.
   size_t count_;

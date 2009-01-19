@@ -14,7 +14,7 @@
 //
 ODBC_Record::ODBC_Record (const ODBC_Query & query)
 : query_ (query),
-  index_ (0),
+  curr_ (0),
   count_ (0),
   columns_ (0)
 {
@@ -31,6 +31,15 @@ ODBC_Record::ODBC_Record (const ODBC_Query & query)
               ODBC_Stmt_Exception (this->query_.stmt_));
 
   this->columns_ = static_cast <size_t> (cols);
+
+  if (this->count_ > 0)
+  {
+    // Fetch the first set of records.
+    SQL_VERIFY (::SQLFetch (this->query_.stmt_),
+                ODBC_Stmt_Exception (this->query_.stmt_));
+
+    ++ this->curr_;
+  }
 }
 
 //
@@ -46,13 +55,15 @@ ODBC_Record::~ODBC_Record (void)
 //
 void ODBC_Record::advance (void)
 {
-  if (this->index_ < this->count_)
+  if (this->curr_ < this->count_)
   {
     SQL_VERIFY (::SQLFetch (this->query_.stmt_),
                 ODBC_Stmt_Exception (this->query_.stmt_));
 
-    ++ this->index_;
+    ++ this->curr_;
   }
+  else if (this->curr_ == this->count_)
+    ++ this->curr_;
 }
 
 //
@@ -118,5 +129,5 @@ size_t ODBC_Record::columns (void) const
 //
 bool ODBC_Record::done (void) const
 {
-  return this->index_ >= this->count_;
+  return this->curr_ > this->count_;
 }

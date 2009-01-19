@@ -1,3 +1,50 @@
+Mon Jan 19 17:43:31 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/archiving/server/TestArchiveBrowser_i.cpp:
+        * cuts/utils/archiving/server/TestArchive_i.cpp:
+        * cuts/utils/archiving/server/Test_Archive_Server.cpp:
+
+          . Bug fix where the test browser was not detecting the end
+            of the test profiles in the database.
+
+        * cuts/utils/db/ODBC/ODBC_Record.h:
+        * cuts/utils/db/ODBC/ODBC_Record.cpp:
+
+          . Bug fix where the record iterator did not advance to the
+            first record in the result.
+
+        * utils/BMW/assemblies/CUTS.Archive/CUTS.Archive.mpc:
+        * utils/BMW/assemblies/CUTS.Archive/CUTS.Archive.snk:
+
+          . Added support to signing the assembly with a strong name key.
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UUID.cs:
+
+          . Added support for converting a CUTS::UUID to a string.
+
+        * utils/BMW/assemblies/CUTS.Web/CUTS.Web.mpc:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/Archive:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/Archive/TestBrowser.cs:
+
+          . Simple control that allows you to view the test profiles in
+            the database. The next step is to flush out this control and
+            allow downloading of test data.
+
+        * utils/BMW/website/BMW.master:
+        * utils/BMW/website/Web.config:
+        * utils/BMW/website/tests.aspx:
+        * utils/BMW/website/tests.aspx.cs:
+
+          . First step to integrating the test archive into the BMW.
+
+        * utils/BMW/website/Node_Details.ascx:
+        * utils/BMW/website/Node_Details.ascx.cs:
+        * utils/BMW/website/environment.aspx:
+        * utils/BMW/website/environment.aspx.cs:
+
+          Removed these files.
+
 Mon Jan 19 15:08:17 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/bin/IIOPChannel.dll:

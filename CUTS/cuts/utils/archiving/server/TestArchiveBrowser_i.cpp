@@ -77,9 +77,8 @@ get_next (CUTS::TestProfiles_out profiles)
       // Increment the index count.
       this->index_ += count;
     }
-    else
-      this->is_done_ = true;
 
+    this->is_done_ = record->done ();
     return this->is_done_;
   }
   catch (const CUTS_DB_Exception & ex)

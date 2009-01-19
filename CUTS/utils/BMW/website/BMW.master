@@ -103,11 +103,12 @@
                                navigateurl="~/components.aspx"
                                text="Components" /></div>
 
-              <div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
+              <!--div class="menu_item" onmouseover="hilite (this)" onmouseout="unhilite (this)">
                 <asp:image runat="server" id="menudot1" imageurl="~/images/menudot.gif" imagealign="absmiddle" />
                 <asp:hyperlink runat="server" id="hosts_menu_item_"
                                navigateurl="~/environment.aspx"
-                               text="Environment" /></div>
+                               text="Environment" /></div-->
+
               <div class="menu_item" onmouseover="hilite(this);" onmouseout="unhilite(this);">
                 <asp:image runat="server" id="menudot3" imageurl="~/images/menudot.gif" imagealign="absmiddle" />
                 <asp:hyperlink runat="server" id="cp_menu_item_"

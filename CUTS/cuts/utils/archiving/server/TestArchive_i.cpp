@@ -183,7 +183,7 @@ CUTS_TestArchive_i::create_broswer (CORBA::ULong size)
 
   // Return the servant to the client..
   ::CORBA::Object_var obj =
-    this->upload_poa_->id_to_reference (oid.in ());
+    this->browser_poa_->id_to_reference (oid.in ());
 
   CUTS::TestArchiveBrowser_var browser =
     CUTS::TestArchiveBrowser::_narrow (obj.in ());

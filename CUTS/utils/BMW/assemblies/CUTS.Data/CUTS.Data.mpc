@@ -8,7 +8,9 @@ project (CUTS.Data) : cuts_bmw_assembly {
                System.Data.SQLite \
                System.Drawing \
                System.Xml \
-               System.Web
+               System.Web \
+               CUTS.Archive \
+               IIOPChannel
 
   requires  += mysql bmw
 
@@ -25,6 +27,7 @@ project (CUTS.Data) : cuts_bmw_assembly {
     CUTS/Data/ExecutionTime.cs
     CUTS/Data/PathElement.cs
     CUTS/Data/Relation.cs
+    CUTS/Data/UUID.cs
     CUTS/Data/VariableTable.cs
 
     //= namespace CUTS.Drawing
