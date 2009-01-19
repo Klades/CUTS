@@ -149,13 +149,16 @@
                     enableviewstate="true"
                     cssclass="console" />
 
-      <asp:contentplaceholder runat="server" id="MainContent"  />
+      <asp:contentplaceholder runat="server" id="MainContent" />
 
-      <hr />
-      <p>Copyright &copy; 2004 - <%= DateTime.Today.Year %>; All rights reserved.</p>
     </td>
   </tr>
   </table>
   </form>
+
+  <div style="width:100%">
+    <hr />
+    <p style="padding-left:5px">Copyright &copy; 2004 - <%= DateTime.Today.Year %>; All rights reserved.</p>
+  </div>
 </body>
 </html>

@@ -29,6 +29,7 @@ project (CUTS.Web) : cuts_bmw_assembly{
     CUTS/Web/UI/MessageSeverity.cs
 
     CUTS/Web/UI/Archive/TestBrowser.cs
+    CUTS/Web/UI/Archive/TestProfile.cs
 
     CUTS/Web/UI/UnitTesting/Grouping.cs
     CUTS/Web/UI/UnitTesting/LogFormatTable.cs

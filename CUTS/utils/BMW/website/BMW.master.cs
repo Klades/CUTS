@@ -46,22 +46,6 @@ namespace CUTS
      */
     private void Page_Load (object sender, System.EventArgs e)
     {
-      //int index =
-      //  this.Request.FilePath.IndexOf ('/', 1);
-
-      //string help_url =
-      //  this.Request.FilePath.Insert (index, "/help");
-
-      //string filepath = this.Server.MapPath (help_url);
-
-      //if (File.Exists (filepath))
-      //{
-      //  Label show_help = new Label ();
-      //  show_help.Text =
-      //    "<input type=\"button\" value=\"Show Help\" onclick=\"show_help ('" + help_url + "');\" />";
-
-      //  this.help_item_.Controls.Add (show_help);
-      //}
     }
 
     public CUTS.Web.UI.Console Console

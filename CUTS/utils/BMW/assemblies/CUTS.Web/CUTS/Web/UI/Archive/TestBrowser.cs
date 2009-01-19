@@ -60,24 +60,17 @@ namespace CUTS.Web.UI.Archive
       base.CreateChildControls ();
 
       CUTS.TestArchiveBrowser browser = this.archive_.create_broswer (20);
-      TestProfile[] profiles;
+      CUTS.TestProfile[] profiles;
 
       while (!browser.done)
       {
         // Get the next set of profiles.
         browser.get_next (out profiles);
 
-        foreach (TestProfile profile in profiles)
+        foreach (CUTS.TestProfile profile in profiles)
         {
-          // Create the controls for test profile information.
-          PlaceHolder ph = new PlaceHolder ();
-          this.Controls.Add (ph);
-
-          LiteralControl literal = new LiteralControl ();
-          literal.Text = String.Format ("&middot; Name: {0}; UUID: {1}",
-                                        profile.name.Length != 0 ? profile.name : "[Undefined]",
-                                        CUTS.Data.UUID.ToString (profile.uuid));
-          ph.Controls.Add (literal);
+          TestProfile test = new TestProfile (profile);
+          this.Controls.Add (test);
         }
       }
     }
