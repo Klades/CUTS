@@ -56,6 +56,10 @@ public:
    */
   virtual void upload_complete (CUTS::TestUploader_ptr uploader);
 
+  virtual CUTS::TestArchiveBrowser_ptr create_broswer (CORBA::ULong size);
+
+  virtual void destroy_browser (CUTS::TestArchiveBrowser_ptr browser);
+
   /// Access the test archive options.
   CUTS_Test_Archive_Options & opts (void);
 
@@ -68,6 +72,9 @@ private:
 
   /// POA for activating objects.
   PortableServer::POA_var upload_poa_;
+
+  /// POA for activating objects.
+  PortableServer::POA_var browser_poa_;
 
   /// Upload directory for the archive.
   CUTS_Test_Archive_Options opts_;

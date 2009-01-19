@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_BDC_DB) : cuts_bdcsvc, cuts_db_odbc {
+project (CUTS_BDC_DB) : cuts_bdcsvc, cuts_dbsvc {
   sharedname   = CUTS_BDC_DB
   dynamicflags = DBASE_SVC_BUILD_DLL
 

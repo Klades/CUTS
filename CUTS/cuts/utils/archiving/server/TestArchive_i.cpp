@@ -7,6 +7,7 @@
 #endif
 
 #include "TestUploader_i.h"
+#include "TestArchiveBrowser_i.h"
 #include "cuts/UUID.h"
 #include <sstream>
 
@@ -15,21 +16,33 @@
 //
 int CUTS_TestArchive_i::init (PortableServer::POA_ptr parent)
 {
-  // Create the POA for the upload agents.
   CORBA::PolicyList policies (5);
   policies.length (5);
 
   policies[0] = parent->create_thread_policy (PortableServer::ORB_CTRL_MODEL);
   policies[1] = parent->create_servant_retention_policy (PortableServer::RETAIN);
-  policies[2] = parent->create_id_assignment_policy (PortableServer::SYSTEM_ID);
+  policies[2] = parent->create_id_assignment_policy (PortableServer::USER_ID);
   policies[3] = parent->create_id_uniqueness_policy (PortableServer::UNIQUE_ID);
   policies[4] = parent->create_lifespan_policy (PortableServer::TRANSIENT);
 
+  // Create the POA for the upload agents.
   this->upload_poa_ = parent->create_POA ("TestUploader",
                                           PortableServer::POAManager::_nil (),
                                           policies);
 
   PortableServer::POAManager_var mgr = this->upload_poa_->the_POAManager ();
+  mgr->activate ();
+
+  // Update the policy set.
+  policies[2]->destroy ();
+  policies[2] = parent->create_id_assignment_policy (PortableServer::SYSTEM_ID);
+
+  // Create the POA for the test archive browser servants.
+  this->browser_poa_ = parent->create_POA ("TestArchiveBrowser",
+                                           PortableServer::POAManager::_nil (),
+                                           policies);
+
+  mgr = this->browser_poa_->the_POAManager ();
   mgr->activate ();
 
   // Destroy the POA policies
@@ -68,7 +81,7 @@ begin_upload (const CUTS::TestProfile & result)
 {
   // Extract the UUID of the test.
   ACE_Utils::UUID uuid;
-  result.uid >>= uuid;
+  result.uuid >>= uuid;
 
   // Make sure the upload is not already taking place.
   if (this->uploads_.find (uuid) == 0)
@@ -144,6 +157,58 @@ void CUTS_TestArchive_i::upload_complete (CUTS::TestUploader_ptr uploader)
 
   // Remove the UUID from the upload list.
   this->uploads_.remove (servant->uuid ());
+
+  // We can savely delete the servant.
+  delete servant;
+}
+
+//
+// create_broswer
+//
+CUTS::TestArchiveBrowser_ptr
+CUTS_TestArchive_i::create_broswer (CORBA::ULong size)
+{
+  // Allocate a new servant.
+  CUTS_TestArchiveBrowser_i * servant = 0;
+
+  ACE_NEW_THROW_EX (servant,
+                    CUTS_TestArchiveBrowser_i (this->conn_, size),
+                    CORBA::NO_MEMORY ());
+
+  ACE_Auto_Ptr <CUTS_TestArchiveBrowser_i> auto_clean (servant);
+
+  // Activate the servant.
+  PortableServer::ObjectId_var oid =
+    this->browser_poa_->activate_object (servant);
+
+  // Return the servant to the client..
+  ::CORBA::Object_var obj =
+    this->upload_poa_->id_to_reference (oid.in ());
+
+  CUTS::TestArchiveBrowser_var browser =
+    CUTS::TestArchiveBrowser::_narrow (obj.in ());
+
+  auto_clean.release ();
+  return browser._retn ();
+}
+
+//
+// destroy_browser
+//
+void CUTS_TestArchive_i::
+destroy_browser (CUTS::TestArchiveBrowser_ptr browser)
+{
+  // Locate the servant.
+  PortableServer::ServantBase_var servant_base =
+    this->browser_poa_->reference_to_servant (browser);
+
+  // Cast the servant base to an uploader agent.
+  CUTS_TestArchiveBrowser_i * servant =
+    dynamic_cast <CUTS_TestArchiveBrowser_i *> (servant_base.in ());
+
+  // Deactivate the object.
+  PortableServer::ObjectId_var oid = this->browser_poa_->servant_to_id (servant);
+  this->browser_poa_->deactivate_object (oid.in ());
 
   // We can savely delete the servant.
   delete servant;

@@ -2,12 +2,18 @@
 
 //=============================================================================
 /**
+ * @file          Auto_Functor_T.h
  *
+ * $Id$
+ *
+ * @author        James H. Hill
  */
 //=============================================================================
 
 #ifndef _CUTS_AUTO_FUNCTOR_T_H_
 #define _CUTS_AUTO_FUNCTOR_T_H_
+
+#include "cuts/config.h"
 
 template <typename T>
 class CUTS_Auto_Functor_T

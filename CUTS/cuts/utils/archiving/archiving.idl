@@ -32,6 +32,11 @@ module CUTS
 
   };
 
+  exception OperationFailed
+  {
+
+  };
+
   /// Type definition for the result data.
   typedef sequence <octet> ResultData;
 
@@ -45,10 +50,10 @@ module CUTS
   struct TestProfile
   {
     /// Unique ID for the test.
-    CUTS::UUID uid;
+    CUTS::UUID uuid;
 
-    /// Owner of the results.
-    string owner;
+    /// Name of the test.
+    string name;
   };
 
   /// Type definition for a collection of test profiles.
@@ -78,6 +83,9 @@ module CUTS
    */
   interface TestArchiveBrowser
   {
+    /// Attribute for retrieving the iterator's state.
+    readonly attribute boolean done;
+
     /**
      * Get the next set of profiles.
      *
@@ -85,15 +93,8 @@ module CUTS
      * @retval            true            More profiles remain.
      * @retval            false           No more profiles remain.
      */
-    boolean get_next (out TestProfiles profiles);
-
-    /**
-     * Check if the iterator is done.
-     *
-     * @retval            true            Iterator is done
-     * @retval            false           Iterator is not done
-     */
-    boolean done ();
+    boolean get_next (out TestProfiles profiles)
+      raises (OperationFailed);
 
     /// Reset the iterator.
     void reset ();
@@ -125,6 +126,10 @@ module CUTS
      * @param[in]       agent       Agent used to upload results.
      */
     void upload_complete (in TestUploader agent);
+
+    TestArchiveBrowser create_broswer (in unsigned long size);
+
+    void destroy_browser (in TestArchiveBrowser browser);
   };
 };
 

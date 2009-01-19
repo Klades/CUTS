@@ -1,3 +1,28 @@
+Mon Jan 19 06:17:05 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/Auto_Functor_T.h:
+
+          . Included cuts/config.h in the preprocessor specification.
+
+        * cuts/BDC/svcs/dbase/DBase_Service.mpc:
+
+          . Fixed compiliation errors.
+
+        * cuts/utils/archiving/archiving.idl:
+        * cuts/utils/archiving/client/Test_Archive_Client.cpp:
+
+          . Sanatized the CUTS::TestProfile structure.
+
+        * cuts/utils/archiving/server/TestArchiveBrowser_i.h:
+        * cuts/utils/archiving/server/TestArchiveBrowser_i.inl:
+        * cuts/utils/archiving/server/TestArchiveBrowser_i.cpp:
+        * cuts/utils/archiving/server/TestArchive_i.h:
+        * cuts/utils/archiving/server/TestArchive_i.cpp:
+        * cuts/utils/archiving/server/cutsarc_d.mpc:
+
+          . Implemented the CUTS::TestArchiveBrowser interface, but I
+            have not test it.
+
 Mon Jan 19 00:25:36 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/archiving/archiving.idl:
