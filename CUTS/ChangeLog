@@ -1,3 +1,9 @@
+Mon Jan 19 15:08:17 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/website/bin/IIOPChannel.dll:
+
+          Removed this file.
+
 Mon Jan 19 14:49:26 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/archiving/server/TestArchive_i.cpp:
