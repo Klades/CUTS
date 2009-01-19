@@ -85,7 +85,7 @@ begin_upload (const CUTS::TestProfile & result)
 
   // Make sure the upload is not already taking place.
   if (this->uploads_.find (uuid) == 0)
-    throw CUTS::UploadAlreadyActive ();
+    throw CUTS::TestArchive::UploadAlreadyActive ();
 
   // Allocate a new uploader agent for this test.
   ACE_DEBUG ((LM_DEBUG,
@@ -106,7 +106,7 @@ begin_upload (const CUTS::TestProfile & result)
 
   // Verify the uploader is open.
   if (!servant->is_open ())
-    throw CUTS::UploadFailed ();
+    throw CUTS::TestArchive::UploadFailed ();
 
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - activating the upload agent\n"));

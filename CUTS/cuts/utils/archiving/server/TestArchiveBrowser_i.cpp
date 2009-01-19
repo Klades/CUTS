@@ -87,7 +87,7 @@ get_next (CUTS::TestProfiles_out profiles)
                 "%T (%t) - %M - %s\n",
                 ex.message ().c_str ()));
 
-    throw CUTS::OperationFailed ();
+    throw CUTS::TestArchiveBrowser::OperationFailed ();
   }
 }
 

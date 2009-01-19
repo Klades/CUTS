@@ -1,3 +1,11 @@
+Mon Jan 19 22:09:12 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/archiving/archiving.idl:
+        * cuts/utils/archiving/server/TestArchiveBrowser_i.cpp:
+        * cuts/utils/archiving/server/TestArchive_i.cpp:
+
+          . Self-contained the exceptions to their classes.
+
 Mon Jan 19 21:59:06 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Web/CUTS.Web.mpc:

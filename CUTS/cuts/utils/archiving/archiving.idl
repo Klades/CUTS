@@ -17,26 +17,6 @@
 
 module CUTS
 {
-  exception InvalidFile
-  {
-
-  };
-
-  exception UploadAlreadyActive
-  {
-
-  };
-
-  exception UploadFailed
-  {
-
-  };
-
-  exception OperationFailed
-  {
-
-  };
-
   /// Type definition for the result data.
   typedef sequence <octet> ResultData;
 
@@ -83,6 +63,8 @@ module CUTS
    */
   interface TestArchiveBrowser
   {
+    exception OperationFailed { };
+
     /// Attribute for retrieving the iterator's state.
     readonly attribute boolean done;
 
@@ -109,6 +91,21 @@ module CUTS
    */
   interface TestArchive
   {
+    exception InvalidFile
+    {
+
+    };
+
+    exception UploadAlreadyActive
+    {
+
+    };
+
+    exception UploadFailed
+    {
+
+    };
+
     /**
      * Upload test results to the database.
      *
