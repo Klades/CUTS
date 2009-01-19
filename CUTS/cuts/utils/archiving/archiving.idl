@@ -71,14 +71,32 @@ module CUTS
   };
 
   /**
-   * @interface TestBrowser
+   * @interface TestArchiveBrowser
    *
    * Interface for browsing test profiles in the database. The
    * browser acts like an iterator.
    */
-  interface TestBrowser
+  interface TestArchiveBrowser
   {
-    
+    /**
+     * Get the next set of profiles.
+     *
+     * @param[out]        profiles        List of profiles.
+     * @retval            true            More profiles remain.
+     * @retval            false           No more profiles remain.
+     */
+    boolean get_next (out TestProfiles profiles);
+
+    /**
+     * Check if the iterator is done.
+     *
+     * @retval            true            Iterator is done
+     * @retval            false           Iterator is not done
+     */
+    boolean done ();
+
+    /// Reset the iterator.
+    void reset ();
   };
 
   /**
