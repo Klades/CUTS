@@ -1,3 +1,16 @@
+Mon Jan 19 14:49:26 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/archiving/server/TestArchive_i.cpp:
+
+          . Added more exception handling.
+
+        * utils/BMW/BMW.mwc:
+        * utils/BMW/assemblies/CUTS.Archive:
+        * utils/BMW/assemblies/CUTS.Archive/CUTS.Archive.mpc:
+
+          . IIOP.NET project for building the CUTS.Archive assembly, which
+            enables the BMW to interact with the CORBA-based CUTS archive.
+
 Mon Jan 19 06:17:05 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/Auto_Functor_T.h:

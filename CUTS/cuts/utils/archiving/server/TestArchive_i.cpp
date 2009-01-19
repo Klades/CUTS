@@ -198,18 +198,33 @@ CUTS_TestArchive_i::create_broswer (CORBA::ULong size)
 void CUTS_TestArchive_i::
 destroy_browser (CUTS::TestArchiveBrowser_ptr browser)
 {
-  // Locate the servant.
-  PortableServer::ServantBase_var servant_base =
-    this->browser_poa_->reference_to_servant (browser);
+  try
+  {
+    // Locate the servant.
+    PortableServer::ServantBase_var servant_base =
+      this->browser_poa_->reference_to_servant (browser);
 
-  // Cast the servant base to an uploader agent.
-  CUTS_TestArchiveBrowser_i * servant =
-    dynamic_cast <CUTS_TestArchiveBrowser_i *> (servant_base.in ());
+    // Cast the servant base to an uploader agent.
+    CUTS_TestArchiveBrowser_i * servant =
+      dynamic_cast <CUTS_TestArchiveBrowser_i *> (servant_base.in ());
 
-  // Deactivate the object.
-  PortableServer::ObjectId_var oid = this->browser_poa_->servant_to_id (servant);
-  this->browser_poa_->deactivate_object (oid.in ());
+    // Deactivate the object.
+    PortableServer::ObjectId_var oid = this->browser_poa_->servant_to_id (servant);
+    this->browser_poa_->deactivate_object (oid.in ());
 
-  // We can savely delete the servant.
-  delete servant;
+    // We can savely delete the servant.
+    delete servant;
+  }
+  catch (const PortableServer::POA::ObjectNotActive &)
+  {
+
+  }
+  catch (const PortableServer::POA::WrongAdapter &)
+  {
+
+  }
+  catch (const PortableServer::POA::WrongPolicy &)
+  {
+
+  }
 }

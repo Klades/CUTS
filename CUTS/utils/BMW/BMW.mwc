@@ -8,6 +8,13 @@ workspace (BMW) {
 
   csharp {
     cmdline += -language csharp
-    assemblies
+
+    assemblies/CUTS.BMW
+    assemblies/CUTS.Data
+    assemblies/CUTS.Web
+  }
+
+  cplusplus {
+    assemblies/CUTS.Archive
   }
 }

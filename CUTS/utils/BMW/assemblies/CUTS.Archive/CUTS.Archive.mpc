@@ -1,0 +1,14 @@
+// $Id$
+
+project (CUTS.Archive) : iiopnet {
+  specific {
+    iiopnetflags += -idir $(CUTS_ROOT) \
+                    -idir $(CUTS_ROOT)/cuts \
+                    -o $(CUTS_ROOT)/utils/BMW/website/bin \
+                    CUTS.Archive
+  }
+
+  IDL_Files {
+    $(CUTS_ROOT)/cuts/utils/archiving/archiving.idl
+  }
+}
