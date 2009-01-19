@@ -36,13 +36,13 @@ module CUTS
   typedef sequence <octet> ResultData;
 
   /**
-   * @struct TestResult
+   * @struct TestProfile
    *
    * Details about the test results. This allows the test archiving
    * agent to allocate space for the result's data, which is uploaded
    * using the TestUploader interface.
    */
-  struct TestResult
+  struct TestProfile
   {
     /// Unique ID for the test.
     CUTS::UUID uid;
@@ -50,6 +50,9 @@ module CUTS
     /// Owner of the results.
     string owner;
   };
+
+  /// Type definition for a collection of test profiles.
+  typedef sequence <CUTS::TestProfile> TestProfiles;
 
   /**
    * @interface TestUploader
@@ -68,6 +71,17 @@ module CUTS
   };
 
   /**
+   * @interface TestBrowser
+   *
+   * Interface for browsing test profiles in the database. The
+   * browser acts like an iterator.
+   */
+  interface TestBrowser
+  {
+    
+  };
+
+  /**
    * @interface TestArchive
    *
    * Interface for interacting with the CUTS test archiving agent. Right
@@ -82,7 +96,7 @@ module CUTS
      * @param[in]       info        Preliminary info about the results
      * @return          Agent for uploading the result's data.
      */
-    TestUploader begin_upload (in TestResult info)
+    TestUploader begin_upload (in TestProfile info)
       raises (InvalidFile, UploadAlreadyActive);
 
     /**

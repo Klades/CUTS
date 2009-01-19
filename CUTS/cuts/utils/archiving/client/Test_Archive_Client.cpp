@@ -87,7 +87,7 @@ int CUTS_Test_Archive_Client::run_main (int argc, char * argv [])
     }
 
     // Begin uploading the test to the archive server.
-    CUTS::TestResult result;
+    CUTS::TestProfile result;
     result.uid <<= uuid;
 
     CUTS::TestUploader_var uploader = this->archive_->begin_upload (result);

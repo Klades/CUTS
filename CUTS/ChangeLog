@@ -1,3 +1,14 @@
+Mon Jan 19 00:07:26 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/archiving/archiving.idl:
+        * cuts/utils/archiving/client/Test_Archive_Client.cpp:
+        * cuts/utils/archiving/server/TestArchive_i.h:
+        * cuts/utils/archiving/server/TestArchive_i.cpp:
+
+          . Change the name of the CUTS::TestResult structure to
+            CUTS::TestProfile. This allows it to be more inline with
+            the CUTS_Test_Profile object.
+
 Sun Jan 18 23:34:08 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/BDC/svcs/dbase/DBase_Service.mpc:

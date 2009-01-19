@@ -64,7 +64,7 @@ int CUTS_TestArchive_i::init (PortableServer::POA_ptr parent)
 // begin_upload
 //
 CUTS::TestUploader_ptr CUTS_TestArchive_i::
-begin_upload (const CUTS::TestResult & result)
+begin_upload (const CUTS::TestProfile & result)
 {
   // Extract the UUID of the test.
   ACE_Utils::UUID uuid;

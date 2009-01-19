@@ -47,7 +47,7 @@ public:
    * @param[in]         info        Information about the test results
    * @return            Agent for uplaoding the results.
    */
-  virtual CUTS::TestUploader_ptr begin_upload (const CUTS::TestResult & info);
+  virtual CUTS::TestUploader_ptr begin_upload (const CUTS::TestProfile & info);
 
   /**
    * The upload of the data is complete.
