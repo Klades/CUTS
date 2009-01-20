@@ -13,9 +13,10 @@
 #ifndef _CUTS_TEMPLATE_CONFIG_LIST_PARSER_H_
 #define _CUTS_TEMPLATE_CONFIG_LIST_PARSER_H_
 
+#define BOOST_SPIRIT_DEBUG
+
 #include "cuts/utils/Property_Parser.h"
-#include "cuts/utils/Property_Expander.h"
-#include "ace/SString.h"
+#include "cuts/utils/Text_Processor.h"
 #include "boost/spirit/core.hpp"
 #include "boost/spirit/utility/confix.hpp"
 #include "boost/spirit/actor/assign_actor.hpp"
@@ -60,6 +61,9 @@ public:
           generate_file (self.template_file_, self.output_dir_, this->filename_, this->prop_map_)];
 
       this->config_list_ = *this->config_;
+
+      BOOST_SPIRIT_DEBUG_NODE (this->config_list_);
+      BOOST_SPIRIT_DEBUG_NODE (this->config_);
     }
 
     const boost::spirit::rule <ScannerT> & start (void) const
@@ -126,9 +130,9 @@ public:
 
         if (outfile.is_open ())
         {
-          CUTS_Property_Expander expander (this->prop_map_);
+          CUTS_Text_Processor processor (this->prop_map_);
 
-          if (expander.expand (this->begin_, this->end_, true, outfile))
+          if (processor.evaluate (this->begin_, this->end_, outfile) == 0)
           {
             ACE_DEBUG ((LM_DEBUG,
                         "%T (%t) - %M - successfully generated %s\n",

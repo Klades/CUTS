@@ -36,7 +36,9 @@ bool CUTS_Property_Parser::parse (const char * str)
   CUTS_Property_Parser_Grammar grammar (this->prop_map_);
 
   boost::spirit::parse_info < > info =
-    boost::spirit::parse (str, grammar, boost::spirit::space_p);
+    boost::spirit::parse (str,
+                          grammar >> !boost::spirit::end_p,
+                          boost::spirit::space_p);
 
   return info.full;
 }

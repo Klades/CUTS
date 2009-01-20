@@ -1,3 +1,25 @@
+Tue Jan 20 06:03:28 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Property_Parser.h:
+        * cuts/utils/Property_Parser.cpp:
+
+          . Bug fix where the property parser was not handling certain
+            cases correctly.
+
+          . Remove the requirement of ending a property list with a
+            semi-colon.
+
+        * cuts/utils/Command_Substitution.h:
+        * cuts/utils/Command_Substitution.cpp:
+
+          . Bug fix where the parser was not able to handle strings that
+            contains newlines.
+
+        * cuts/utils/Text_Processor.h:
+        * cuts/utils/template/Template_Config_List_Parser.h:
+
+          . Implemented a iterator version of the parsers.
+
 Tue Jan 20 04:03:07 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/Archive/TestBrowser.cs:

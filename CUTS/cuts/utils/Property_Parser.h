@@ -13,6 +13,8 @@
 #ifndef _CUTS_PROPERTY_PARSER_H_
 #define _CUTS_PROPERTY_PARSER_H_
 
+#define BOOST_SPIRIT_DEBUG
+
 #include "Property_Map.h"
 #include "boost/spirit/core.hpp"
 #include "boost/spirit/utility/lists.hpp"
@@ -54,7 +56,10 @@ public:
     CUTS_Property_Parser_Grammar grammar (this->prop_map_);
 
     boost::spirit::parse_info <IteratorT> result =
-      boost::spirit::parse (begin, end, grammar, boost::spirit::space_p);
+      boost::spirit::parse (begin,
+                            end,
+                            grammar >> !boost::spirit::end_p,
+                            boost::spirit::space_p);
 
     return result.full;
   }
@@ -117,18 +122,22 @@ public:
       using namespace boost::spirit;
 
       this->property_name_ =
-        lexeme_d [*(print_p - '=')];
+        lexeme_d[(alpha_p | '_') >> *(alnum_p | '_')];
 
-      this->property_value_ = *(anychar_p - ';');
+      this->property_value_ =
+        lexeme_d[*(anychar_p - eol_p)];
 
       this->property_ =
-        *space_p >>
         this->property_name_[assign_a (this->name_)] >> '=' >>
         this->property_value_[assign_a (this->value_)];
 
       this->property_list_ =
-        list_p (this->property_[insert_property (self.prop_map_, this->name_, this->value_)],
-                ch_p (';'));
+        *(this->property_[insert_property (self.prop_map_, this->name_, this->value_)]);
+
+      BOOST_SPIRIT_DEBUG_NODE (this->property_list_);
+      BOOST_SPIRIT_DEBUG_NODE (this->property_);
+      BOOST_SPIRIT_DEBUG_NODE (this->property_name_);
+      BOOST_SPIRIT_DEBUG_NODE (this->property_value_);
     }
 
     const boost::spirit::rule <ScannerT> & start (void) const
