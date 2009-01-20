@@ -1,3 +1,11 @@
+Tue Jan 20 14:33:15 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/archiving/server/TestRetriever_i.h:
+        * cuts/utils/archiving/server/TestRetriever_i.inl:
+        * cuts/utils/archiving/server/TestRetriever_i.cpp:
+
+          . Added missing files.
+
 Tue Jan 20 14:28:42 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Property_Parser.h:
