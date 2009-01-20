@@ -1,8 +1,21 @@
+Tue Jan 20 16:49:47 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/CCM_Event_Handler_T.h:
+        * cuts/CCM_Event_Handler_T.inl:
+        * cuts/CCM_Event_Handler_T.cpp:
+
+          . Implemented support for setting the thread count and processor
+            affinity for the event handler.
+
+        * cuts/CUTS_CIAO.mpc:
+
+          . Changed the name of the CUTS_CIAO project(s).
+
 Tue Jan 20 14:41:54 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/archiving/server/TestArchiveBrowser_i.cpp:
 
-	  . Fixed compilation errors on non-Windows systems.
+          . Fixed compilation errors on non-Windows systems.
 
 Tue Jan 20 14:33:15 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 

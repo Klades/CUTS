@@ -67,6 +67,10 @@ public:
 
   virtual int svc (void);
 
+  void thread_count (size_t count);
+
+  void affinity_mask (ACE_UINT32 mask);
+
 private:
   /// Type definition of the task type.
   typedef ACE_Task_Ex <ACE_MT_SYNCH, EVENT> task_type;
@@ -79,6 +83,8 @@ private:
 
   /// Number of threads to spawn.
   size_t thr_count_;
+
+  ACE_UINT32 affinity_mask_;
 };
 
 #if defined (__CUTS_INLINE__)

@@ -87,6 +87,55 @@ int CUTS_CCM_Event_Handler_T <T, EVENT>::svc (void)
 {
   CUTS_TRACE ("CUTS_CCM_Event_Handler_T <T, EVENT>::svc (void)");
 
+  if (this->affinity_mask_ != 0)
+  {
+    // Get this thread's handle. We need to set its processor
+    // affinity before we process any events.
+    ACE_hthread_t thr_handle;
+    ACE_OS::thr_self (thr_handle);
+
+    cpu_set_t cpu_set;
+
+    // First, zero all the bits in the CPU set.
+    size_t count = ACE_CPU_SETSIZE / (8 * sizeof (ACE_UINT32));
+    ACE_UINT32 * cpu_iter = reinterpret_cast <ACE_UINT32 *> (&cpu_set);
+    ACE_UINT32 * cpu_iter_end = cpu_iter + count;
+
+    for ( ; cpu_iter != cpu_iter_end; ++ cpu_iter)
+      *cpu_iter = 0;
+
+    // Next, set the mask in the CPU set.
+    cpu_iter = reinterpret_cast <ACE_UINT32 *> (&cpu_set);
+
+    for (ACE_UINT32 mask = this->affinity_mask_, index = 1;
+         mask != 0;
+         mask >>= 1)
+    {
+      if ((mask & 1))
+        (*cpu_iter) |= index;
+
+      if (index != 128)
+      {
+        index <<= 1;
+      }
+      else
+      {
+        index = 1;
+        cpu_iter ++;
+      }
+    }
+
+    // Finally, use the mask to set the processor affinity.
+    if (ACE_OS::thr_set_affinity (thr_handle,
+                                  sizeof (cpu_set),
+                                  &cpu_set) != 0)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T (%t) - %M - failed to set processor affinity [%d]\n",
+                  this->affinity_mask_));
+    }
+  }
+
   try
   {
     int retval;
@@ -108,16 +157,12 @@ int CUTS_CCM_Event_Handler_T <T, EVENT>::svc (void)
           ev->_remove_ref ();
         }
         else
-        {
           ACE_ERROR ((LM_WARNING,
                       "%T (%t) - %M - event is a NIL object; ignoring...\n"));
-        }
       }
       else if (errno != ESHUTDOWN)
-      {
         ACE_ERROR ((LM_ERROR,
                     "%T (%t) - %M - failed to get event from queue\n"));
-      }
     }
 
     return 0;
