@@ -18,55 +18,6 @@
 #include "boost/spirit/utility/lists.hpp"
 #include "ace/Log_Msg.h"
 
-// Forward decl
-class CUTS_Property_Parser_Grammar;
-
-/**
- * @class CUTS_Property_Parser
- */
-class CUTS_UTILS_Export CUTS_Property_Parser
-{
-public:
-  /**
-   * Initializing constructor. This will set the target property
-   * map the parser will use to store new properties, and retrieve
-   * existing ones.
-   *
-   * @param[in]       map       Target property map
-   */
-  CUTS_Property_Parser (CUTS_Property_Map & map);
-
-  /// Destructor
-  ~CUTS_Property_Parser (void);
-
-  /**
-   * Parse the specified string for properties.
-   *
-   * @param[in]       str       String to parse.
-   */
-  bool parse (const char * str);
-
-  bool parse_str (const ACE_CString & str);
-
-  template <typename IteratorT>
-  bool parse (IteratorT begin, IteratorT end)
-  {
-    CUTS_Property_Parser_Grammar grammar (this->prop_map_);
-
-    boost::spirit::parse_info <IteratorT> result =
-      boost::spirit::parse (begin,
-                            end,
-                            grammar >> !boost::spirit::end_p,
-                            boost::spirit::space_p);
-
-    return result.full;
-  }
-
-private:
-  /// Reference to property map used during substitution
-  CUTS_Property_Map & prop_map_;
-};
-
 /**
  * @class CUTS_Property_Parser_Grammar
  */
@@ -153,6 +104,52 @@ public:
   };
 
 private:
+  CUTS_Property_Map & prop_map_;
+};
+
+/**
+ * @class CUTS_Property_Parser
+ */
+class CUTS_UTILS_Export CUTS_Property_Parser
+{
+public:
+  /**
+   * Initializing constructor. This will set the target property
+   * map the parser will use to store new properties, and retrieve
+   * existing ones.
+   *
+   * @param[in]       map       Target property map
+   */
+  CUTS_Property_Parser (CUTS_Property_Map & map);
+
+  /// Destructor
+  ~CUTS_Property_Parser (void);
+
+  /**
+   * Parse the specified string for properties.
+   *
+   * @param[in]       str       String to parse.
+   */
+  bool parse (const char * str);
+
+  bool parse_str (const ACE_CString & str);
+
+  template <typename IteratorT>
+  bool parse (IteratorT begin, IteratorT end)
+  {
+    CUTS_Property_Parser_Grammar grammar (this->prop_map_);
+
+    boost::spirit::parse_info <IteratorT> result =
+      boost::spirit::parse (begin,
+                            end,
+                            grammar >> !boost::spirit::end_p,
+                            boost::spirit::space_p);
+
+    return result.full;
+  }
+
+private:
+  /// Reference to property map used during substitution
   CUTS_Property_Map & prop_map_;
 };
 

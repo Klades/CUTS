@@ -1,3 +1,10 @@
+Tue Jan 20 14:28:42 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Property_Parser.h:
+
+          . Bug fix where the grammar was defined after the parser. This
+            did not compile on non-Windows systems.
+
 Tue Jan 20 10:39:36 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/Test_Options.h:
