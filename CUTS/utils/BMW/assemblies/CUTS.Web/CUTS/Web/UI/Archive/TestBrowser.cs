@@ -32,6 +32,11 @@ namespace CUTS.Web.UI.Archive
 
     }
 
+    public TestBrowser (CUTS.TestArchive archive)
+    {
+      this.archive_ = archive;
+    }
+
     public CUTS.TestArchive TestArchive
     {
       get
@@ -56,78 +61,6 @@ namespace CUTS.Web.UI.Archive
       {
         this.download_path_ = HttpContext.Current.Server.MapPath (value);
       }
-    }
-
-    public void DataBind (CUTS.TestArchive archive)
-    {
-      this.archive_ = archive;
-      this.DataBind ();
-    }
-
-    public override void DataBind ()
-    {
-      // Clear the existing child controls.
-      this.Controls.Clear ();
-      this.profile_count_ = 0;
-
-      // Make sure the required controls are created.
-      this.EnsureChildControls ();
-
-      if (this.archive_ == null)
-        return;
-
-      CUTS.TestArchiveBrowser browser = this.archive_.create_broswer (20);
-      CUTS.TestProfile[] profiles;
-
-      while (!browser.done)
-      {
-        // Get the next set of profiles.
-        browser.get_next (out profiles);
-
-        foreach (CUTS.TestProfile profile in profiles)
-        {
-          TestProfile test = new TestProfile (this, profile);
-          this.Controls.Add (test);
-
-          test.EnableViewState = this.EnableViewState;
-        }
-
-        // Update the number of profiles.
-        this.profile_count_ += profiles.Length;
-      }
-    }
-
-    protected override object SaveViewState ()
-    {
-      object[] state = new object[3];
-      state[0] = base.SaveViewState ();
-      state[1] = this.download_path_;
-      state[2] = this.profile_count_;
-
-      return state;
-    }
-
-    protected override void LoadViewState (object savedState)
-    {
-      object[] state = (object[])savedState;
-
-      if (state[0] != null)
-        base.LoadViewState (state[0]);
-
-      if (state[1] != null)
-        this.download_path_ = (string)state[1];
-
-      if (state[2] != null)
-        this.profile_count_ = (int)state[2];
-    }
-
-    protected override void CreateChildControls ()
-    {
-      base.CreateChildControls ();
-
-      // Make the existing profiles.
-      for (int i = 0; i < this.profile_count_; ++i)
-        this.Controls.Add (new TestProfile (this));
     }
 
     public void DownloadTest (CUTS.TestProfile profile)
@@ -167,6 +100,91 @@ namespace CUTS.Web.UI.Archive
         }
       }
     }
+
+    public void DataBind (CUTS.TestArchive archive)
+    {
+      this.archive_ = archive;
+      this.DataBind ();
+    }
+
+    void handle_download_test (object sender, EventArgs e)
+    {
+      TestProfile test = (TestProfile)sender;
+      this.DownloadTest (test.Profile);
+    }
+
+    #region Overriden Methods
+    public override void DataBind ()
+    {
+      // Clear the existing child controls.
+      this.Controls.Clear ();
+      this.profile_count_ = 0;
+
+      // Make sure the required controls are created.
+      this.EnsureChildControls ();
+
+      if (this.archive_ == null)
+        return;
+
+      CUTS.TestArchiveBrowser browser = this.archive_.create_broswer (20);
+      CUTS.TestProfile[] profiles;
+
+      while (!browser.done)
+      {
+        // Get the next set of profiles.
+        browser.get_next (out profiles);
+
+        foreach (CUTS.TestProfile profile in profiles)
+        {
+          TestProfile test = new TestProfile (profile);
+          this.Controls.Add (test);
+
+          test.DownloadTest += new EventHandler (handle_download_test);
+        }
+
+        // Update the number of profiles.
+        this.profile_count_ += profiles.Length;
+      }
+    }
+
+    protected override object SaveViewState ()
+    {
+      object[] state = new object[3];
+      state[0] = base.SaveViewState ();
+      state[1] = this.download_path_;
+      state[2] = this.profile_count_;
+
+      return state;
+    }
+
+    protected override void LoadViewState (object savedState)
+    {
+      object[] state = (object[])savedState;
+
+      if (state[0] != null)
+        base.LoadViewState (state[0]);
+
+      if (state[1] != null)
+        this.download_path_ = (string)state[1];
+
+      if (state[2] != null)
+        this.profile_count_ = (int)state[2];
+    }
+
+    protected override void CreateChildControls ()
+    {
+      base.CreateChildControls ();
+
+      for (int i = 0; i < this.profile_count_; ++i)
+      {
+        // Make a new test profile.
+        TestProfile test = new TestProfile ();
+        this.Controls.Add (test);
+
+        test.DownloadTest += new EventHandler (handle_download_test);
+      }
+    }
+    #endregion
 
     private CUTS.TestArchive archive_;
 

@@ -25,23 +25,27 @@ namespace CUTS.Web.UI.Archive
   public class TestProfile : CompositeControl, INamingContainer
   {
     /**
-     * Initializing constructor.
-     *
-     * @param[in]           browser         Parent browser of the profile
-     * @param[in]           profile         The actual profile to display
+     * Default constructor.
      */
-    public TestProfile (TestBrowser browser)
+    public TestProfile ()
     {
-      this.browser_ = browser;
+
     }
 
-    public TestProfile (TestBrowser browser, CUTS.TestProfile profile)
+    /**
+     * Initializing constructor.
+     *
+     * @param[in]           profile         The actual profile to display
+     */
+    public TestProfile (CUTS.TestProfile profile)
     {
-      this.browser_ = browser;
       this.profile_ = profile;
     }
 
-    public CUTS.TestProfile Data
+    /**
+     * Attribute for getting/setting the CUTS.TestProfile.
+     */
+    public CUTS.TestProfile Profile
     {
       get
       {
@@ -54,6 +58,17 @@ namespace CUTS.Web.UI.Archive
       }
     }
 
+    #region Event Handlers
+    protected void handle_download_test (object sender, EventArgs ea)
+    {
+      if (this.DownloadTest != null)
+        this.DownloadTest (this, ea);
+    }
+
+    public event EventHandler DownloadTest;
+    #endregion
+
+    #region Overriden Methods
     protected override void CreateChildControls ()
     {
       base.CreateChildControls ();
@@ -116,11 +131,6 @@ namespace CUTS.Web.UI.Archive
       link.Click += new EventHandler (handle_download_test);
     }
 
-    protected void handle_download_test (object sender, EventArgs e)
-    {
-      this.browser_.DownloadTest (this.profile_);
-    }
-
     protected override object SaveViewState ()
     {
       object [] state = new object[2];
@@ -140,8 +150,7 @@ namespace CUTS.Web.UI.Archive
       if (state[1] != null)
         this.profile_ = (CUTS.TestProfile)state[1];
     }
-
-    private TestBrowser browser_;
+    #endregion
 
     private CUTS.TestProfile profile_;
   }
