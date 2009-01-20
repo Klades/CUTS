@@ -63,6 +63,9 @@ public:
   ACE_Time_Value stop_;
 
   bool ignore_errors_;
+
+  /// Name of the test file.
+  ACE_CString filename_;
 };
 
 #endif  // !defined _CUTS_TEST_OPTIONS_H_

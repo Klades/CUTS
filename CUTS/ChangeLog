@@ -1,3 +1,18 @@
+Tue Jan 20 10:39:36 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/Test_Options.h:
+        * cuts/utils/testing/Testing_App.cpp:
+
+          . Added support for setting the name of the test database used
+            for collecting results.
+
+          . The default location of the database is now the working
+            directory instead of $CUTS_ROOT/etc/tests
+
+        * etc/tests:
+
+          Removed this file.
+
 Tue Jan 20 06:30:13 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Command_Substitution.h:

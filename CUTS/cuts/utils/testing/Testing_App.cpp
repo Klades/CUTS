@@ -17,7 +17,6 @@
 #include "ace/Reactor.h"
 #include "ace/streams.h"
 #include "ace/UUID.h"
-#include "ace/Env_Value_T.h"
 #include "boost/bind.hpp"
 #include "XSC/utils/XML_Error_Handler.h"
 #include <sstream>
@@ -34,6 +33,7 @@ static const char * __HELP__ =
 "  -c, --config=FILE       configuration file for test\n"
 "  --time=TIME             test duration in seconds (default=60)\n"
 "  --uuid=UUID             user-defined UUID for the test\n"
+"  -f, --file=ARCHIVE      store results in ARCHIVE\n"
 "\n"
 "  -DNAME=VALUE            set property NAME=VALUE\n"
 "\n"
@@ -76,13 +76,14 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
   CUTS_TEST_TRACE ("CUTS_Testing_App::parse_args (int argc, char * argv [])");
 
   // Now, parse the remaining command-line options.
-  const char * opts = ACE_TEXT ("n:vht:c:D:");
+  const char * opts = ACE_TEXT ("n:vht:c:D:f:");
   ACE_Get_Opt get_opt (argc, argv, opts);
 
   get_opt.long_option ("config", 'c', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("name", 'n', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("time", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("uuid", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("file", ACE_Get_Opt::ARG_REQUIRED);
 
   get_opt.long_option ("directory", 'C', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("startup", ACE_Get_Opt::ARG_REQUIRED);
@@ -186,10 +187,18 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
       {
         this->opts_.uuid_.from_string (get_opt.opt_arg ());
       }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "file") == 0)
+      {
+        this->opts_.filename_  = get_opt.opt_arg ();
+      }
       break;
 
     case 'n':
       this->opts_.name_ = get_opt.opt_arg ();
+      break;
+
+    case 'f':
+      this->opts_.filename_ = get_opt.opt_arg ();
       break;
 
     case 'c':
@@ -237,6 +246,10 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
   if (this->opts_.uuid_ == ACE_Utils::UUID::NIL_UUID)
     ACE_Utils::UUID_GENERATOR::instance ()->generate_UUID (this->opts_.uuid_);
 
+  // Make sure we have the filename set.
+  if (this->opts_.filename_.empty ())
+    this->opts_.filename_ = *this->opts_.uuid_.to_string () + ".cdb";
+
   return 0;
 }
 
@@ -256,15 +269,8 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
 
   try
   {
-    // Create the database for this test.
-    ACE_Env_Value <const char *> CUTS_ROOT ("CUTS_ROOT", "");
-
-    std::ostringstream location;
-    location << CUTS_ROOT
-             << "/etc/tests/"
-             << this->opts_.uuid_.to_string ()->c_str () << ".cdb";
-
-    this->test_db_.create (location.str ().c_str (), this->opts_.uuid_);
+    // Open the test database for writing.
+    this->test_db_.create (this->opts_.filename_, this->opts_.uuid_);
 
     // Load the configuration this test run.
     if (this->load_configuration (svc_mgr, this->opts_.config_) != 0)
