@@ -69,41 +69,59 @@ public:
     std::ofstream tempfile;
     tempfile.open (tempname.c_str ());
 
-    if (!tempfile.is_open ())
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T (%t) - %M - failed to open temp file %s for writing\n",
-                         tempname.c_str ()),
-                         -1);
+    if (tempfile.is_open ())
+    {
+      // Expand the properties in the file.
+      retval = this->prop_expander_.expand (begin, end, true, tempfile);
 
-    if (!this->prop_expander_.expand (begin, end, true, tempfile))
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T (%t) - %M - failed to expand environment variables\n"),
-                         -1);
+      if (retval == 0)
+      {
+        // Close the temp file from writing.
+        tempfile.close ();
 
-    // Close the temp file from writing.
-    tempfile.close ();
+        // Reopen the temp file using an iterator this time.
+        boost::spirit::file_iterator < > temp_begin (tempname);
 
-    // Reopen the temp file using an iterator this time.
-    boost::spirit::file_iterator < > temp_begin (tempname);
+        if (temp_begin)
+        {
+          boost::spirit::file_iterator < > temp_end = temp_begin.make_end ();
 
-    if (!temp_begin)
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T (%t) - %M - failed to open temp file %s for reading\n",
-                         tempname.c_str ()),
-                         -1);
+          // Second pass will substitute all commands.
+          retval = this->command_sub_.evaluate (temp_begin, temp_end, out);
 
-    boost::spirit::file_iterator < > temp_end = temp_begin.make_end ();
+          if (retval != 0)
+            ACE_ERROR ((LM_ERROR,
+                        "%T (%t) - %M - command substitution failed\n"));
+        }
+        else
+        {
+          ACE_ERROR ((LM_ERROR,
+                      "%T (%t) - %M - failed to open temp file %s for reading\n",
+                      tempname.c_str ()));
+        }
+      }
+      else
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "%T (%t) - %M - variable substitution failed\n"));
+      }
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T (%t) - %M - failed to open temp file %s for writing\n",
+                  tempname.c_str ()));
 
-    // Second pass will substitute all commands.
-    if (!this->command_sub_.evaluate (temp_begin, temp_end, out))
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T (%t) - %M - failed to substitute some of the commands\n"),
-                         -1);
+      retval = -1;
+    }
 
     // Delete the temp file for good.
-    ACE_OS::unlink (tempname.c_str ());
+    if (ACE_OS::unlink (tempname.c_str ()) == -1)
+      ACE_ERROR ((LM_ERROR,
+                  "%T (%t) - %M - failed to delete temp file %s [%m]\n",
+                  tempname.c_str ()));
 
-    return 0;
+    return retval;
   }
 
 private:

@@ -47,17 +47,17 @@ public:
    * @param[in]         str       String with environment variables
    * @param[out]        out       Output stream for expansion of \a str.
    */
-  bool expand (const char * str, bool use_env, std::ostream & out);
+  int expand (const char * str, bool use_env, std::ostream & out);
 
   template <typename IteratorT>
-  bool expand (IteratorT begin, IteratorT end, bool use_env, std::ostream & out)
+  int expand (IteratorT begin, IteratorT end, bool use_env, std::ostream & out)
   {
     CUTS_Property_Expander_Grammar grammar (this->prop_map_, use_env, out);
 
     boost::spirit::parse_info <IteratorT> info =
       boost::spirit::parse (begin, end, grammar);
 
-    return info.full;
+    return info.full ? 0 : -1;
   }
 
 private:

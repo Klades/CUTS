@@ -13,8 +13,6 @@
 #ifndef _CUTS_TEMPLATE_CONFIG_LIST_PARSER_H_
 #define _CUTS_TEMPLATE_CONFIG_LIST_PARSER_H_
 
-#define BOOST_SPIRIT_DEBUG
-
 #include "cuts/utils/Property_Parser.h"
 #include "cuts/utils/Text_Processor.h"
 #include "boost/spirit/core.hpp"
@@ -61,9 +59,6 @@ public:
           generate_file (self.template_file_, self.output_dir_, this->filename_, this->prop_map_)];
 
       this->config_list_ = *this->config_;
-
-      BOOST_SPIRIT_DEBUG_NODE (this->config_list_);
-      BOOST_SPIRIT_DEBUG_NODE (this->config_);
     }
 
     const boost::spirit::rule <ScannerT> & start (void) const

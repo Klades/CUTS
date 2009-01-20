@@ -13,8 +13,6 @@
 #ifndef _CUTS_PROPERTY_PARSER_H_
 #define _CUTS_PROPERTY_PARSER_H_
 
-#define BOOST_SPIRIT_DEBUG
-
 #include "Property_Map.h"
 #include "boost/spirit/core.hpp"
 #include "boost/spirit/utility/lists.hpp"
@@ -133,11 +131,6 @@ public:
 
       this->property_list_ =
         *(this->property_[insert_property (self.prop_map_, this->name_, this->value_)]);
-
-      BOOST_SPIRIT_DEBUG_NODE (this->property_list_);
-      BOOST_SPIRIT_DEBUG_NODE (this->property_);
-      BOOST_SPIRIT_DEBUG_NODE (this->property_name_);
-      BOOST_SPIRIT_DEBUG_NODE (this->property_value_);
     }
 
     const boost::spirit::rule <ScannerT> & start (void) const
