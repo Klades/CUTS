@@ -24,13 +24,20 @@ namespace CUTS.Web.UI.Archive
    */
   public class TestProfile : CompositeControl, INamingContainer
   {
-    public TestProfile ()
+    /**
+     * Initializing constructor.
+     *
+     * @param[in]           browser         Parent browser of the profile
+     * @param[in]           profile         The actual profile to display
+     */
+    public TestProfile (TestBrowser browser)
     {
-
+      this.browser_ = browser;
     }
 
-    public TestProfile (CUTS.TestProfile profile)
+    public TestProfile (TestBrowser browser, CUTS.TestProfile profile)
     {
+      this.browser_ = browser;
       this.profile_ = profile;
     }
 
@@ -50,6 +57,8 @@ namespace CUTS.Web.UI.Archive
     protected override void CreateChildControls ()
     {
       base.CreateChildControls ();
+
+      string uuidstr = CUTS.Data.UUID.ToString (this.profile_.uuid);
 
       Label label = new Label ();
       this.Controls.Add (label);
@@ -89,7 +98,27 @@ namespace CUTS.Web.UI.Archive
       //== cell for the UUID's value
       cell = new TableCell ();
       row.Cells.Add (cell);
-      cell.Text = CUTS.Data.UUID.ToString (this.profile_.uuid);
+      cell.Text = uuidstr;
+
+      // Create the row for opening a test.
+      row = new TableRow ();
+      profile.Rows.Add (row);
+
+      cell = new TableCell ();
+      row.Cells.Add (cell);
+      cell.ColumnSpan = 2;
+
+      //== link button for download the test.
+      LinkButton link = new LinkButton ();
+      cell.Controls.Add (link);
+
+      link.Text = "Click here to open test";
+      link.Click += new EventHandler (handle_download_test);
+    }
+
+    protected void handle_download_test (object sender, EventArgs e)
+    {
+      this.browser_.DownloadTest (this.profile_);
     }
 
     protected override object SaveViewState ()
@@ -111,6 +140,8 @@ namespace CUTS.Web.UI.Archive
       if (state[1] != null)
         this.profile_ = (CUTS.TestProfile)state[1];
     }
+
+    private TestBrowser browser_;
 
     private CUTS.TestProfile profile_;
   }

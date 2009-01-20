@@ -2,5 +2,7 @@
 <%@ register tagprefix="cuts" namespace="CUTS.Web.UI.Archive" assembly="CUTS.Web" %>
 
 <asp:content runat="server" id="content_" contentplaceholderid="MainContent">
-  <cuts:testbrowser id="browser_" runat="server" />
+  <cuts:testbrowser id="browser_" runat="server"
+                    downloadpath="~/db/sandbox"
+                    enableviewstate="true" />
 </asp:content>

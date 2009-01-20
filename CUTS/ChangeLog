@@ -1,3 +1,33 @@
+Tue Jan 20 00:47:09 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/archiving/archiving.idl:
+        * cuts/utils/archiving/client/Test_Archive_Client.cpp:
+        * cuts/utils/archiving/server/TestArchiveBrowser_i.cpp:
+        * cuts/utils/archiving/server/TestArchive_i.h:
+        * cuts/utils/archiving/server/TestArchive_i.cpp:
+        * cuts/utils/archiving/server/TestUploader_i.h:
+        * cuts/utils/archiving/server/TestUploader_i.inl:
+        * cuts/utils/archiving/server/cutsarc_d.mpc:
+
+          . Implemented support for downloading a test from the archive. We
+            still need to tie the filename's into the database just in case
+            there is a case-sensitivity issue.
+
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/Archive/TestBrowser.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/Archive/TestProfile.cs:
+        * utils/BMW/website/db/sandbox:
+        * utils/BMW/website/tests.aspx:
+        * utils/BMW/website/tests.aspx.cs:
+
+          . Added support for download test files. Right now, they are stored
+            in the ~/db/sandbox directory. Eventually, we will need to store
+            files in a user context, or auto-generate a temp filename for the
+            user. This will prevent name clashses.
+
+        * utils/BMW/website/db/archive:
+
+          Removed this file.
+
 Mon Jan 19 22:09:12 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/archiving/archiving.idl:

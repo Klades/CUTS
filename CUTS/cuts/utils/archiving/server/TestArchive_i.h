@@ -29,7 +29,7 @@ class CUTS_TestArchive_i : public POA_CUTS::TestArchive
 {
 public:
   /// Default constructor.
-  CUTS_TestArchive_i ();
+  CUTS_TestArchive_i (void);
 
   /// Destructor.
   virtual ~CUTS_TestArchive_i (void);
@@ -60,6 +60,11 @@ public:
 
   virtual void destroy_browser (CUTS::TestArchiveBrowser_ptr browser);
 
+  virtual CUTS::TestRetriever_ptr begin_download (
+    const CUTS::DownloadRequest & req);
+
+  virtual void download_complete (CUTS::TestRetriever_ptr retriever);
+
   /// Access the test archive options.
   CUTS_Test_Archive_Options & opts (void);
 
@@ -75,6 +80,9 @@ private:
 
   /// POA for activating objects.
   PortableServer::POA_var browser_poa_;
+
+  /// POA for activating objects.
+  PortableServer::POA_var download_poa_;
 
   /// Upload directory for the archive.
   CUTS_Test_Archive_Options opts_;

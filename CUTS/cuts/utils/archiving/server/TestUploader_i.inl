@@ -20,7 +20,7 @@ CUTS_TestUploader_i (const ACE_Utils::UUID & uuid,
 //
 CUTS_INLINE
 void CUTS_TestUploader_i::
-send_data (const CUTS::ResultData & packet)
+send_data (const CUTS::BinaryData & packet)
 {
   this->file_.send (packet.get_buffer (), packet.length ());
 }

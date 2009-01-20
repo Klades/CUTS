@@ -56,7 +56,7 @@ public:
    *
    * @param[in]       packet            Data packet to upload.
    */
-  virtual void send_data (const CUTS::ResultData & packet);
+  virtual void send_data (const CUTS::BinaryData & packet);
 
   /// Get the UUID of the agent/test for this upload.
   const ACE_Utils::UUID & uuid (void) const;

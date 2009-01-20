@@ -7,6 +7,7 @@ project (cutsarc_d) : iortable, cuts_archiving_skel, cuts_db_odbc, cuts_test_dat
     cutsarc_d.cpp
     TestArchive_i.cpp
     TestArchiveBrowser_i.cpp
+    TestRetriever_i.cpp
     TestUploader_i.cpp
     Test_Archive_Server.cpp
   }

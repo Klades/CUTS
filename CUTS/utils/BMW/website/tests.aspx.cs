@@ -64,8 +64,7 @@ namespace CUTS.Web.Page
       string corbaloc = String.Format ("corbaloc:iiop:{0}/CUTS/TestArchive", address);
 
       // Connect to the test archive.
-      this.archive_ =
-        (CUTS.TestArchive)RemotingServices.Connect (typeof (CUTS.TestArchive), corbaloc);
+      this.archive_ = (CUTS.TestArchive)RemotingServices.Connect (typeof (CUTS.TestArchive), corbaloc);
     }
 
     /**
@@ -78,9 +77,9 @@ namespace CUTS.Web.Page
       try
       {
         if (!this.IsPostBack)
-        {
           this.browser_.DataBind (this.archive_);
-        }
+        else
+          this.browser_.TestArchive = this.archive_;
       }
       catch (Exception ex)
       {

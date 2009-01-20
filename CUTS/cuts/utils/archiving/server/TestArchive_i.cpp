@@ -6,8 +6,9 @@
 #include "TestArchive_i.inl"
 #endif
 
-#include "TestUploader_i.h"
 #include "TestArchiveBrowser_i.h"
+#include "TestRetriever_i.h"
+#include "TestUploader_i.h"
 #include "cuts/UUID.h"
 #include <sstream>
 
@@ -43,6 +44,14 @@ int CUTS_TestArchive_i::init (PortableServer::POA_ptr parent)
                                            policies);
 
   mgr = this->browser_poa_->the_POAManager ();
+  mgr->activate ();
+
+  // Create the POA for the test download servants.
+  this->download_poa_ = parent->create_POA ("TestRetriever",
+                                            PortableServer::POAManager::_nil (),
+                                            policies);
+
+  mgr = this->download_poa_->the_POAManager ();
   mgr->activate ();
 
   // Destroy the POA policies
@@ -211,6 +220,99 @@ destroy_browser (CUTS::TestArchiveBrowser_ptr browser)
     // Deactivate the object.
     PortableServer::ObjectId_var oid = this->browser_poa_->servant_to_id (servant);
     this->browser_poa_->deactivate_object (oid.in ());
+
+    // We can savely delete the servant.
+    delete servant;
+  }
+  catch (const PortableServer::POA::ObjectNotActive &)
+  {
+
+  }
+  catch (const PortableServer::POA::WrongAdapter &)
+  {
+
+  }
+  catch (const PortableServer::POA::WrongPolicy &)
+  {
+
+  }
+}
+
+//
+// begin_download
+//
+CUTS::TestRetriever_ptr CUTS_TestArchive_i::
+begin_download (const CUTS::DownloadRequest & req)
+{
+  // Extract the UUID from the request.
+  ACE_Utils::UUID uuid;
+  req.uuid >>= uuid;
+
+  // Allocate a new servant.
+  CUTS_TestRetriever_i * servant = 0;
+
+  ACE_NEW_THROW_EX (servant,
+                    CUTS_TestRetriever_i (uuid, req.chunk_size),
+                    CORBA::NO_MEMORY ());
+
+  ACE_Auto_Ptr <CUTS_TestRetriever_i> auto_clean (servant);
+
+  if (servant->open (this->opts_.upload_dir_) == 0)
+  {
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - successfully opened test %s\n",
+                uuid.to_string ()->c_str ()));
+  }
+  else
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - failed to open test %s [%m]\n",
+                uuid.to_string ()->c_str ()));
+
+    throw CUTS::TestArchive::TestNotExist ();
+  }
+
+  // Activate the servant.
+  PortableServer::ObjectId_var oid =
+    this->download_poa_->activate_object (servant);
+
+  // Return the servant to the client..
+  ::CORBA::Object_var obj =
+    this->download_poa_->id_to_reference (oid.in ());
+
+  CUTS::TestRetriever_var retriever =
+    CUTS::TestRetriever::_narrow (obj.in ());
+
+  auto_clean.release ();
+  return retriever._retn ();
+}
+
+//
+// download_complete
+//
+void CUTS_TestArchive_i::
+download_complete (const CUTS::TestRetriever_ptr retriever)
+{
+  try
+  {
+    // Locate the servant.
+    PortableServer::ServantBase_var servant_base =
+      this->download_poa_->reference_to_servant (retriever);
+
+    // Cast the servant base to an uploader agent.
+    CUTS_TestRetriever_i * servant =
+      dynamic_cast <CUTS_TestRetriever_i *> (servant_base.in ());
+
+    // Deactivate the object.
+    PortableServer::ObjectId_var oid = this->download_poa_->servant_to_id (servant);
+    this->download_poa_->deactivate_object (oid.in ());
+
+    // Close the servant.
+    servant->close ();
+
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - test %s download is complete\n",
+                servant->uuid ().to_string ()->c_str ()));
 
     // We can savely delete the servant.
     delete servant;

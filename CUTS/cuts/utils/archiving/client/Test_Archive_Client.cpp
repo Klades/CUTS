@@ -93,7 +93,7 @@ int CUTS_Test_Archive_Client::run_main (int argc, char * argv [])
     CUTS::TestUploader_var uploader = this->archive_->begin_upload (result);
 
     // Send the test's data to the server.
-    CUTS::ResultData data (DEFAULT_BUFSIZE);
+    CUTS::BinaryData data (DEFAULT_BUFSIZE);
 
     this->is_busy_ = true;
     ssize_t count;

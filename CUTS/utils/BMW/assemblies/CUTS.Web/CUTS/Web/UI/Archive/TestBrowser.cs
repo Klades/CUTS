@@ -13,6 +13,7 @@
 using System;
 using System.Drawing;
 using System.ComponentModel;
+using System.IO;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -44,20 +45,36 @@ namespace CUTS.Web.UI.Archive
       }
     }
 
+    public string DownloadPath
+    {
+      get
+      {
+        return this.download_path_;
+      }
+
+      set
+      {
+        this.download_path_ = HttpContext.Current.Server.MapPath (value);
+      }
+    }
+
     public void DataBind (CUTS.TestArchive archive)
     {
       this.archive_ = archive;
-      this.EnsureChildControls ();
+      this.DataBind ();
     }
 
     public override void DataBind ()
     {
-      this.EnsureChildControls ();
-    }
+      // Clear the existing child controls.
+      this.Controls.Clear ();
+      this.profile_count_ = 0;
 
-    protected override void CreateChildControls ()
-    {
-      base.CreateChildControls ();
+      // Make sure the required controls are created.
+      this.EnsureChildControls ();
+
+      if (this.archive_ == null)
+        return;
 
       CUTS.TestArchiveBrowser browser = this.archive_.create_broswer (20);
       CUTS.TestProfile[] profiles;
@@ -69,12 +86,92 @@ namespace CUTS.Web.UI.Archive
 
         foreach (CUTS.TestProfile profile in profiles)
         {
-          TestProfile test = new TestProfile (profile);
+          TestProfile test = new TestProfile (this, profile);
           this.Controls.Add (test);
+
+          test.EnableViewState = this.EnableViewState;
+        }
+
+        // Update the number of profiles.
+        this.profile_count_ += profiles.Length;
+      }
+    }
+
+    protected override object SaveViewState ()
+    {
+      object[] state = new object[3];
+      state[0] = base.SaveViewState ();
+      state[1] = this.download_path_;
+      state[2] = this.profile_count_;
+
+      return state;
+    }
+
+    protected override void LoadViewState (object savedState)
+    {
+      object[] state = (object[])savedState;
+
+      if (state[0] != null)
+        base.LoadViewState (state[0]);
+
+      if (state[1] != null)
+        this.download_path_ = (string)state[1];
+
+      if (state[2] != null)
+        this.profile_count_ = (int)state[2];
+    }
+
+    protected override void CreateChildControls ()
+    {
+      base.CreateChildControls ();
+
+      // Make the existing profiles.
+      for (int i = 0; i < this.profile_count_; ++i)
+        this.Controls.Add (new TestProfile (this));
+    }
+
+    public void DownloadTest (CUTS.TestProfile profile)
+    {
+      // Open the file to receieve the download on the server.
+      string path = String.Format ("{0}/{1}.cdb",
+                                   this.download_path_,
+                                   CUTS.Data.UUID.ToString (profile.uuid));
+
+      BinaryWriter writer = new BinaryWriter (File.Open (path, FileMode.OpenOrCreate));
+
+      // Request a new download from the server.
+      CUTS.DownloadRequest request = new DownloadRequest ();
+      request.uuid = profile.uuid;
+      request.chunk_size = 1024;
+
+      CUTS.TestRetriever retriever = this.archive_.begin_download (request);
+
+      try
+      {
+        // Download the data from the archive.
+        byte[] data;
+
+        while (retriever.recv_data (out data))
+          writer.Write (data);
+      }
+      finally
+      {
+        try
+        {
+          if (retriever != null)
+            this.archive_.download_complete (retriever);
+        }
+        finally
+        {
+          writer.Close ();
         }
       }
     }
 
     private CUTS.TestArchive archive_;
+
+    private string download_path_;
+
+    private int profile_count_ = 0;
   }
 }

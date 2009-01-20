@@ -17,8 +17,10 @@
 
 module CUTS
 {
+  exception OperationFailed { };
+
   /// Type definition for the result data.
-  typedef sequence <octet> ResultData;
+  typedef sequence <octet> BinaryData;
 
   /**
    * @struct TestProfile
@@ -50,9 +52,41 @@ module CUTS
      * Send data for the test results. This method is invoked multiple
      * times to send chunks of data to the archiver.
      *
-     * @param[in]       data        Test result data.
+     * @param[in]       data          Test result data.
      */
-    void send_data (in ResultData packet);
+    void send_data (in BinaryData packet)
+      raises (OperationFailed);
+  };
+
+  /**
+   * @struct DownloadRequest
+   */
+  struct DownloadRequest
+  {
+    /// UUID of the test to download.
+    CUTS::UUID uuid;
+
+    /// Size of each chunk in download.
+    unsigned long chunk_size;
+  };
+
+  /**
+   * @interface TestRetriever
+   *
+   * Interface for downloading a test from the archive.
+   */
+  interface TestRetriever
+  {
+
+    /**
+     * Retreive the next packet of data.
+     *
+     * @param[out]      packet        Data packet with test data.
+     * @retval          true          More data to download
+     * @retval          false         No more data to download.
+     */
+    boolean recv_data (out BinaryData packet)
+      raises (OperationFailed);
   };
 
   /**
@@ -63,8 +97,6 @@ module CUTS
    */
   interface TestArchiveBrowser
   {
-    exception OperationFailed { };
-
     /// Attribute for retrieving the iterator's state.
     readonly attribute boolean done;
 
@@ -91,20 +123,13 @@ module CUTS
    */
   interface TestArchive
   {
-    exception InvalidFile
-    {
+    exception InvalidFile { };
 
-    };
+    exception UploadAlreadyActive { };
 
-    exception UploadAlreadyActive
-    {
+    exception UploadFailed { };
 
-    };
-
-    exception UploadFailed
-    {
-
-    };
+    exception TestNotExist { };
 
     /**
      * Upload test results to the database.
@@ -124,8 +149,35 @@ module CUTS
      */
     void upload_complete (in TestUploader agent);
 
+    /**
+     * Begin downloading a new test.
+     *
+     * @param[in]       req         Client's download request.
+     * @return          Reference to download agent.
+     */
+    TestRetriever begin_download (in DownloadRequest req)
+      raises (TestNotExist);
+
+    /**
+     * Destroy the download object.
+     *
+     * @param[in]       retreiver   Object used to download test.
+     */
+    void download_complete (in TestRetriever retriever);
+
+    /**
+     * Create a new iterator for browsing the archive.
+     *
+     * @param[in]       size        Batch processing size.
+     * @return          Reference to browser servant.
+     */
     TestArchiveBrowser create_broswer (in unsigned long size);
 
+    /**
+     * Destroy the browser object.
+     *
+     * @param[in]       browser     Browser object to destroy.
+     */
     void destroy_browser (in TestArchiveBrowser browser);
   };
 };
