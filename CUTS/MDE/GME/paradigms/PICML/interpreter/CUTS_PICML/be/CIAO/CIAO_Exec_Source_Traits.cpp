@@ -248,6 +248,40 @@ write_event_handler_init (const PICML::InEventPort & port)
              << "&type::push_" << name << "_i);"
              << "this->register_object (&this->"
              << varname.str () << ");";
+
+  PICML::Input input = port.dstInput ();
+  PICML::InputAction action = input.dstInput_end ();
+
+  std::vector <PICML::Property>
+    properties = action.Property_kind_children ();
+
+  std::for_each (properties.begin (),
+                 properties.end (),
+                 boost::bind (&CUTS_CIAO_Exec_Source_Traits::write_event_handler_init_property,
+                              this,
+                              boost::ref (name),
+                              _1));
+}
+
+//
+// write_event_handler_init_property
+//
+void CUTS_CIAO_Exec_Source_Traits::
+write_event_handler_init_property (const std::string & name,
+                                   const PICML::Property & prop)
+{
+  std::string propname = prop.name ();
+
+  if (propname == "threadCount")
+  {
+    this->out_ << "this->push_" << name << "_.thread_count ("
+               << prop.DataValue () << ");";
+  }
+  else if (propname == "threadAffinity")
+  {
+    this->out_ << "this->push_" << name << "_.affinity_mask ("
+               << prop.DataValue () << ");";
+  }
 }
 
 //

@@ -1,3 +1,11 @@
+Tue Jan 20 17:28:42 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.cpp:
+
+          . Added support for setting the thread count and thread affinity
+            from the model under the new version of CUTS.
+
 Tue Jan 20 16:49:47 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/CCM_Event_Handler_T.h:
