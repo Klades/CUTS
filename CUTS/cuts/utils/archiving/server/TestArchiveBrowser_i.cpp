@@ -6,10 +6,10 @@
 #include "TestArchiveBrowser_i.inl"
 #endif
 
-#include "cuts/utils/DB/DB_Connection.h"
-#include "cuts/utils/DB/DB_Parameter_List.h"
-#include "cuts/utils/DB/DB_Parameter.h"
-#include "cuts/utils/DB/DB_Record.h"
+#include "cuts/utils/db/DB_Connection.h"
+#include "cuts/utils/db/DB_Parameter_List.h"
+#include "cuts/utils/db/DB_Parameter.h"
+#include "cuts/utils/db/DB_Record.h"
 #include "cuts/UUID.h"
 
 //
