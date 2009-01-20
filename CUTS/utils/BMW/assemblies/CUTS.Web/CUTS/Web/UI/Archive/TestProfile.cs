@@ -58,14 +58,34 @@ namespace CUTS.Web.UI.Archive
       }
     }
 
-    #region Event Handlers
-    protected void handle_download_test (object sender, EventArgs ea)
+    public bool IsOpen
     {
-      if (this.DownloadTest != null)
-        this.DownloadTest (this, ea);
+      get
+      {
+        return this.is_open_;
+      }
     }
 
-    public event EventHandler DownloadTest;
+    #region Event Handlers
+    protected void handle_test_command (object sender, EventArgs ea)
+    {
+      if (this.Command != null)
+      {
+        string command = !this.is_open_ ? "open" : "close";
+        CommandEventArgs args = new CommandEventArgs (command, this.profile_.uuid);
+
+        // Send the command
+        this.Command (this, args);
+      }
+
+      // Update the state of the profile.
+      this.is_open_ = !this.is_open_;
+
+      LinkButton link = (LinkButton)sender;
+      this.set_link_text (link);
+    }
+
+    public event CommandEventHandler Command;
     #endregion
 
     #region Overriden Methods
@@ -127,15 +147,17 @@ namespace CUTS.Web.UI.Archive
       LinkButton link = new LinkButton ();
       cell.Controls.Add (link);
 
-      link.Text = "Click here to open test";
-      link.Click += new EventHandler (handle_download_test);
+      this.set_link_text (link);
+      link.Click += new EventHandler (handle_test_command);
     }
 
     protected override object SaveViewState ()
     {
-      object [] state = new object[2];
+      object [] state = new object[3];
+
       state[0] = base.SaveViewState ();
       state[1] = this.profile_;
+      state[2] = this.is_open_;
 
       return state;
     }
@@ -149,9 +171,24 @@ namespace CUTS.Web.UI.Archive
 
       if (state[1] != null)
         this.profile_ = (CUTS.TestProfile)state[1];
+
+      if (state[2] != null)
+        this.is_open_ = (bool)state[2];
     }
     #endregion
 
+    private void set_link_text (LinkButton link)
+    {
+      if (this.is_open_)
+        link.Text = "Click here to close test";
+      else
+        link.Text = "Click here to open test";
+    }
+
+    #region Member Variables
     private CUTS.TestProfile profile_;
+
+    private bool is_open_;
+    #endregion
   }
 }

@@ -4,5 +4,6 @@
 <asp:content runat="server" id="content_" contentplaceholderid="MainContent">
   <cuts:testbrowser id="browser_" runat="server"
                     downloadpath="~/db/sandbox"
-                    enableviewstate="true" />
+                    enableviewstate="true"
+                    ondownloadcomplete="handle_download_complete" />
 </asp:content>

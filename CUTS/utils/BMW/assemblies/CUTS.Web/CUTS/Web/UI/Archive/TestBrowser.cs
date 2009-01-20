@@ -63,29 +63,38 @@ namespace CUTS.Web.UI.Archive
       }
     }
 
-    public void DownloadTest (CUTS.TestProfile profile)
+    public CUTS.UUID ActiveTest
+    {
+      get
+      {
+        return this.active_test_;
+      }
+    }
+
+    public void DownloadTest (CUTS.UUID uuid)
     {
       // Open the file to receieve the download on the server.
-      string path = String.Format ("{0}/{1}.cdb",
-                                   this.download_path_,
-                                   CUTS.Data.UUID.ToString (profile.uuid));
-
-      BinaryWriter writer = new BinaryWriter (File.Open (path, FileMode.OpenOrCreate));
+      string path = this.get_filename (uuid);
+      BinaryWriter writer = new BinaryWriter (File.Open (path, FileMode.Create));
 
       // Request a new download from the server.
       CUTS.DownloadRequest request = new DownloadRequest ();
-      request.uuid = profile.uuid;
+      request.uuid = uuid;
       request.chunk_size = 1024;
 
       CUTS.TestRetriever retriever = this.archive_.begin_download (request);
+      bool success = false;
 
       try
       {
-        // Download the data from the archive.
         byte[] data;
 
+        // Download the data from the archive.
         while (retriever.recv_data (out data))
           writer.Write (data);
+
+        // Set the result of the download.
+        success = true;
       }
       finally
       {
@@ -99,19 +108,46 @@ namespace CUTS.Web.UI.Archive
           writer.Close ();
         }
       }
+
+      if (success)
+      {
+        // Save the UUID of the test.
+        this.active_test_ = uuid;
+
+        // Notify controls of the download complete.
+        if (this.DownloadComplete != null)
+          this.DownloadComplete (this, new EventArgs ());
+      }
     }
 
-    public void DataBind (CUTS.TestArchive archive)
+    public void CloseTest (CUTS.UUID uuid)
     {
-      this.archive_ = archive;
-      this.DataBind ();
+      // Open the file to receieve the download on the server.
+      string path = this.get_filename (uuid);
+
+      if (File.Exists (path))
+        File.Delete (path);
     }
 
-    void handle_download_test (object sender, EventArgs e)
+    void handle_profile_command (object sender, CommandEventArgs e)
     {
-      TestProfile test = (TestProfile)sender;
-      this.DownloadTest (test.Profile);
+      CUTS.UUID uuid = (CUTS.UUID)e.CommandArgument;
+
+      switch (e.CommandName)
+      {
+        case "open":
+          this.DownloadTest (uuid);
+          break;
+
+        case "close":
+          this.CloseTest (uuid);
+          break;
+      }
     }
+
+    #region Custom Events
+    public event EventHandler DownloadComplete;
+    #endregion
 
     #region Overriden Methods
     public override void DataBind ()
@@ -139,7 +175,7 @@ namespace CUTS.Web.UI.Archive
           TestProfile test = new TestProfile (profile);
           this.Controls.Add (test);
 
-          test.DownloadTest += new EventHandler (handle_download_test);
+          test.Command += new CommandEventHandler (handle_profile_command);
         }
 
         // Update the number of profiles.
@@ -149,10 +185,12 @@ namespace CUTS.Web.UI.Archive
 
     protected override object SaveViewState ()
     {
-      object[] state = new object[3];
+      object[] state = new object[4];
+
       state[0] = base.SaveViewState ();
       state[1] = this.download_path_;
       state[2] = this.profile_count_;
+      state[3] = this.active_test_;
 
       return state;
     }
@@ -169,6 +207,9 @@ namespace CUTS.Web.UI.Archive
 
       if (state[2] != null)
         this.profile_count_ = (int)state[2];
+
+      if (state[3] != null)
+        this.active_test_ = (CUTS.UUID)state[3];
     }
 
     protected override void CreateChildControls ()
@@ -181,15 +222,26 @@ namespace CUTS.Web.UI.Archive
         TestProfile test = new TestProfile ();
         this.Controls.Add (test);
 
-        test.DownloadTest += new EventHandler (handle_download_test);
+        test.Command += new CommandEventHandler (handle_profile_command);
       }
     }
     #endregion
 
+    private string get_filename (CUTS.UUID uuid)
+    {
+      return String.Format ("{0}/{1}.cdb",
+                            this.download_path_,
+                            CUTS.Data.UUID.ToString (uuid));
+    }
+
+    #region Member Variables
     private CUTS.TestArchive archive_;
 
     private string download_path_;
 
     private int profile_count_ = 0;
+
+    private CUTS.UUID active_test_;
+    #endregion
   }
 }

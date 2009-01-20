@@ -1,3 +1,16 @@
+Tue Jan 20 04:03:07 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/Archive/TestBrowser.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/Archive/TestProfile.cs:
+        * utils/BMW/website/BMW.master.cs:
+        * utils/BMW/website/tests.aspx:
+        * utils/BMW/website/tests.aspx.cs:
+
+          . Added support to deleting (or closing) an existing test.
+
+          . When the user logs out from the BMW, it will close any
+            existing test that are open.
+
 Tue Jan 20 01:18:56 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/Archive/TestBrowser.cs:

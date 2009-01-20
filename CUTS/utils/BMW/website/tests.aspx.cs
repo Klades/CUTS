@@ -25,6 +25,8 @@ using System.Web.UI.HtmlControls;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 
+using CUTS.Web.UI.Archive;
+
 // from IIOPChannel.dll
 using Ch.Elca.Iiop.Idl;
 using Ch.Elca.Iiop;
@@ -76,15 +78,22 @@ namespace CUTS.Web.Page
 
       try
       {
+        this.browser_.TestArchive = this.archive_;
+
         if (!this.IsPostBack)
-          this.browser_.DataBind (this.archive_);
-        else
-          this.browser_.TestArchive = this.archive_;
+          this.browser_.DataBind ();
       }
       catch (Exception ex)
       {
         this.master_.Console.Add (ex);
       }
+    }
+
+    protected void handle_download_complete (object sender, EventArgs e)
+    {
+      // Save the active test in the session.
+      TestBrowser browser = (TestBrowser)sender;
+      Session["activeTest"] = browser.ActiveTest;
     }
 
     /**

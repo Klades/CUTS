@@ -46,6 +46,7 @@ namespace CUTS
      */
     private void Page_Load (object sender, System.EventArgs e)
     {
+      this.download_path_ = Server.MapPath ("~/db/sandbox");
     }
 
     public CUTS.Web.UI.Console Console
@@ -56,8 +57,33 @@ namespace CUTS
       }
     }
 
+    public string DownloadPath
+    {
+      get
+      {
+        return this.download_path_;
+      }
+    }
+
+    public string GetFileName (CUTS.UUID uuid)
+    {
+      return String.Format ("{0}/{1}.cdb",
+                            this.download_path_,
+                            CUTS.Data.UUID.ToString (uuid));
+    }
+
     protected void handle_onlogout (object sender, EventArgs e)
     {
+      if (Session["activeTest"] != null)
+      {
+        // Delete the active test.
+        CUTS.UUID uuid = (CUTS.UUID)Session["activeTest"];
+        string path = this.GetFileName (uuid);
+
+        if (File.Exists (path))
+          File.Delete (path);
+      }
+
       // Delete this session.
       this.Session.Abandon ();
 
@@ -65,5 +91,7 @@ namespace CUTS
       FormsAuthentication.SignOut ();
       this.Response.Redirect ("~/default.aspx");
     }
+
+    private string download_path_;
   }
 }
