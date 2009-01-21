@@ -108,7 +108,6 @@ public class NodeApplicationImpl
    * string, File.pathSeparator delimited, to the caller. If this can
    * be used elsewhere also, we may want to move this to a separate file
    * 
-   * @author James Edmondson (james.r.edmondson@vanderbilt.edu)
    * @param[in]       dirString        directory to open and read files from
    * @return          string that may be set to a path after the function call
    */
