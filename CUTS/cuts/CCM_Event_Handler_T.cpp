@@ -97,7 +97,11 @@ int CUTS_CCM_Event_Handler_T <T, EVENT>::svc (void)
     cpu_set_t cpu_set;
 
     // First, zero all the bits in the CPU set.
+#if !defined (__USE_GNU)
     size_t count = ACE_CPU_SETSIZE / (8 * sizeof (ACE_UINT32));
+#else
+    size_t count = CPU_SETSIZE / (8 * sizeof (ACE_UINT32));
+#endif
     ACE_UINT32 * cpu_iter = reinterpret_cast <ACE_UINT32 *> (&cpu_set);
     ACE_UINT32 * cpu_iter_end = cpu_iter + count;
 

@@ -1,3 +1,10 @@
+Wed Jan 21 04:20:29 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/CCM_Event_Handler_T.cpp:
+
+	   . Bug fix where the ACE_CPU_SETSIZE was undefined if 
+	     the underlying system supported thread affinity.
+
 Tue Jan 20 17:28:42 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.h:
