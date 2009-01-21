@@ -55,6 +55,15 @@ public class NodeApplicationImpl
     System.getenv ("JBI_ROOT") + fileSeparator +
     "lib" + fileSeparator;
 
+  // we're now setting these in the constructor according to the jar files in the
+  // respective directories --James Edmondson
+  private String jbiClassPath_;
+  private String cutsClassPath_;
+
+  /* Commented out (January 20, 2009) to address Matt Gillen's comments on QED list
+   * I'm leaving this here just in case someone needs this for some reason. I set
+   * -- James Edmondson
+   * 
   private final String jbiClassPath_ =
     jbiLibDir + "capi1.5.jar" + pathSeparator +
     jbiLibDir + "dom4j-1.6.1.jar" + pathSeparator +
@@ -72,7 +81,7 @@ public class NodeApplicationImpl
     cutsContribDir + "log4j-1.2.15.jar" + pathSeparator +
     cutsContribDir + "commons-logging-1.1.1.jar" + pathSeparator +
     cutsContribDir + "castor-1.2.jar";
-
+  */
 
   /**
    * Initializing constructor.
@@ -84,10 +93,52 @@ public class NodeApplicationImpl
   {
     this.orb_ = orb;
 
+    jbiClassPath_ = directoryJarsToPath(jbiLibDir);
+    cutsClassPath_ = directoryJarsToPath(cutsLibDir) + File.pathSeparator +
+      directoryJarsToPath(cutsContribDir);
+
     // Create a callback object and activate it. This is what we will
     // pass to each of the spawn application processes.
     this.processManagerImpl_ = new ApplicationProcessManagerImpl ();
     this.processManagerImpl_._this (this.orb_);
+  }
+
+  /**
+   * Reads a directory, filtering for only jar files, and returns a 
+   * string, File.pathSeparator delimited, to the caller. If this can
+   * be used elsewhere also, we may want to move this to a separate file
+   * 
+   * @author James Edmondson (james.r.edmondson@vanderbilt.edu)
+   * @param[in]       dirString        directory to open and read files from
+   * @return          string that may be set to a path after the function call
+   */
+
+  public static String directoryJarsToPath(String dirString)
+  {
+    StringBuffer path = new StringBuffer ();
+
+    // open the directory
+    File dir = new File (dirString);
+  	
+    // create an anonymous FileFilter for jar files in the directory
+    File [] jars = dir.listFiles (new FileFilter () 
+      {
+        @Override
+        public boolean accept (File pathname) 
+          {
+            return pathname.getName ().endsWith (".jar");
+          }
+      });
+      
+    // iterate through the jars and add them to the local string path
+    for (File jar : jars) 
+      {
+        path.append (jar.getAbsolutePath ());
+        path.append (File.pathSeparator);
+      }
+  	
+    // return the new path
+    return path.toString ();
   }
 
   public void finishLaunch ()
