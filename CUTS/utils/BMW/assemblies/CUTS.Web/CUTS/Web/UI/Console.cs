@@ -74,9 +74,9 @@ namespace CUTS.Web.UI
       Panel console = this.get_console ();
       Console.insert_message (console, msg);
 
-      // Make the console visible.
-      if (!this.Visible)
-        this.Visible = true;
+      // Bubble the event to any parents.
+      if (this.AddMessage != null)
+        this.AddMessage (this, new EventArgs ());
     }
 
     /**
@@ -94,9 +94,8 @@ namespace CUTS.Web.UI
       Panel console = this.get_console ();
       console.Controls.Clear ();
 
-      // We can actually hide the console now.
-      if (this.Visible)
-        this.Visible = false;
+      if (this.ClearMessages != null)
+        this.ClearMessages (this, new EventArgs ());
     }
 
     protected override void CreateChildControls ()
@@ -154,6 +153,9 @@ namespace CUTS.Web.UI
 
       return state;
     }
+
+    public event EventHandler ClearMessages;
+    public event EventHandler AddMessage;
 
     static private void insert_message (Panel panel, ConsoleMessage msg)
     {

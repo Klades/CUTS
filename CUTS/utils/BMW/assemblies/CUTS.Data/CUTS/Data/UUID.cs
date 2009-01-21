@@ -41,5 +41,25 @@ namespace CUTS.Data
     {
       return new CUTS.UUID ();
     }
+
+    public static bool IsEqual (CUTS.UUID u1, CUTS.UUID u2)
+    {
+      return u1.data1 == u2.data1 &&
+             u1.data2 == u2.data2 &&
+             u1.data3 == u2.data3 &&
+             u1.data4[0] == u2.data4[0] &&
+             u1.data4[1] == u2.data4[1] &&
+             u1.data4[2] == u2.data4[2] &&
+             u1.data4[3] == u2.data4[3] &&
+             u1.data4[4] == u2.data4[4] &&
+             u1.data4[5] == u2.data4[5] &&
+             u1.data4[6] == u2.data4[6] &&
+             u1.data4[7] == u2.data4[7];
+    }
+
+    public static bool IsNotEqual (CUTS.UUID u1, CUTS.UUID u2)
+    {
+      return !IsEqual (u1, u2);
+    }
   }
 }

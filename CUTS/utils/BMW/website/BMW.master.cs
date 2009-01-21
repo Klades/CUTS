@@ -72,6 +72,28 @@ namespace CUTS
                             CUTS.Data.UUID.ToString (uuid));
     }
 
+    /**
+     * Handler for the Consol.ClearMessages event.
+     */
+    protected void handle_clear_message (object sender, EventArgs e)
+    {
+      CUTS.Web.UI.Console console = (CUTS.Web.UI.Console)sender;
+
+      if (console.Visible)
+        console.Visible = false;
+    }
+
+    /**
+     * Handler for the Console.AddMessage event.
+     */
+    protected void handle_add_message (object sender, EventArgs e)
+    {
+      CUTS.Web.UI.Console console = (CUTS.Web.UI.Console)sender;
+
+      if (!console.Visible)
+        console.Visible = true;
+    }
+
     protected void handle_onlogout (object sender, EventArgs e)
     {
       if (Session["activeTest"] != null)

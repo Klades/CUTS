@@ -40,7 +40,7 @@ namespace CUTS.Web.Page
    *
    * Code-behind for the timeline.aspx webpage.
    */
-  public partial class Tests : System.Web.UI.Page
+  public partial class Analysis : System.Web.UI.Page
   {
     /**
      * Default constructor. This will attempt to establish connection
@@ -48,25 +48,9 @@ namespace CUTS.Web.Page
      * here instead of in Page_Load since Page_Load can be invoked many
      * times during a single visit to a page.
      */
-    public Tests ()
+    public Analysis ()
     {
-      try
-      {
-        // Register the IiopChannel with the framework.
-        IiopChannel channel = new IiopChannel ();
-        ChannelServices.RegisterChannel (channel, false);
-      }
-      catch (RemotingException)
-      {
 
-      }
-
-      // Configure the address of the test archive.
-      string address = ConfigurationManager.AppSettings["cuts.archive.address"];
-      string corbaloc = String.Format ("corbaloc:iiop:{0}/CUTS/TestArchive", address);
-
-      // Connect to the test archive.
-      this.archive_ = (CUTS.TestArchive)RemotingServices.Connect (typeof (CUTS.TestArchive), corbaloc);
     }
 
     /**
@@ -78,21 +62,7 @@ namespace CUTS.Web.Page
 
       try
       {
-        // Initialize the archive for the browser.
-        this.browser_.TestArchive = this.archive_;
 
-        if (!this.IsPostBack)
-        {
-          // Set the active test for the control.
-          if (Session["activeTest"] != null)
-          {
-            CUTS.UUID uuid = (CUTS.UUID)Session["activeTest"];
-            this.browser_.ActivateTest (uuid);
-          }
-
-          // Bind the data to the control.
-          this.browser_.DataBind ();
-        }
       }
       catch (Exception ex)
       {
@@ -100,20 +70,27 @@ namespace CUTS.Web.Page
       }
     }
 
-    protected void handle_download_complete (object sender, EventArgs e)
+    protected void handle_onmenuitemclick (Object sender, MenuEventArgs e)
     {
-      // Save the active test in the session.
-      TestBrowser browser = (TestBrowser)sender;
-      Session["activeTest"] = browser.ActiveTest;
-
-      // Redirect to the analysis page.
-      this.Response.Redirect ("~/analysis.aspx");
+      this.multiview_.ActiveViewIndex = int.Parse (e.Item.Value);
     }
 
-    /**
-     * Reference to the test archive.
-     */
-    private CUTS.TestArchive archive_;
+    protected void handle_onactiveviewchanged (Object sender, EventArgs e)
+    {
+      switch (this.multiview_.ActiveViewIndex)
+      {
+        case 0:
+          break;
+
+        case 1:
+          break;
+      }
+    }
+
+    protected void handle_download_complete (object sender, EventArgs e)
+    {
+
+    }
 
     /**
      * Reference to the master page.

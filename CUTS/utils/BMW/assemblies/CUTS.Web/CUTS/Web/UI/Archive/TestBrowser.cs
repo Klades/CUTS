@@ -71,6 +71,11 @@ namespace CUTS.Web.UI.Archive
       }
     }
 
+    public void ActivateTest (CUTS.UUID uuid)
+    {
+      this.active_test_ = uuid;
+    }
+
     public void DownloadTest (CUTS.UUID uuid)
     {
       // Open the file to receieve the download on the server.
@@ -172,9 +177,14 @@ namespace CUTS.Web.UI.Archive
 
         foreach (CUTS.TestProfile profile in profiles)
         {
-          TestProfile test = new TestProfile (profile);
+          // Determine if this profile is open.
+          bool is_open = CUTS.Data.UUID.IsEqual (profile.uuid, this.active_test_);
+
+          // Create a new control for the profile.
+          TestProfile test = new TestProfile (profile, is_open);
           this.Controls.Add (test);
 
+          // Initialize the control's properties.
           test.Command += new CommandEventHandler (handle_profile_command);
         }
 

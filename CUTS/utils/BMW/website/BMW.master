@@ -147,7 +147,9 @@
       <cuts:console runat="server" id="console_" backcolor="lavender"
                     visible="false" width="750px"
                     enableviewstate="true"
-                    cssclass="console" />
+                    cssclass="console"
+                    onclearmessages="handle_clear_message"
+                    onaddmessage="handle_add_message" />
 
       <asp:contentplaceholder runat="server" id="MainContent" />
 

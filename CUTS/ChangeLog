@@ -1,9 +1,40 @@
+Wed Jan 21 05:35:33 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+
+          . Checkpointing the GME model.
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UUID.cs:
+
+          . Implemented support for comparing UUIDs.
+
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/Console.cs:
+        * utils/BMW/website/BMW.master:
+        * utils/BMW/website/BMW.master.cs:
+
+          . Added events to the console for inserting and clearing
+            messages in the console.
+
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/Archive/TestBrowser.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/Archive/TestProfile.cs:
+        * utils/BMW/website/tests.aspx:
+        * utils/BMW/website/tests.aspx.cs:
+
+          . Implemented support for keeping track of the active test.
+            Whenever you leave this page and return to it, it will show
+            the active test as open.
+
+        * utils/BMW/website/analysis.aspx:
+        * utils/BMW/website/analysis.aspx.cs:
+
+          . This is the future page for all analysis controls.
+
 Wed Jan 21 04:20:29 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/CCM_Event_Handler_T.cpp:
 
-	   . Bug fix where the ACE_CPU_SETSIZE was undefined if 
-	     the underlying system supported thread affinity.
+           . Bug fix where the ACE_CPU_SETSIZE was undefined if
+             the underlying system supported thread affinity.
 
 Tue Jan 20 17:28:42 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 

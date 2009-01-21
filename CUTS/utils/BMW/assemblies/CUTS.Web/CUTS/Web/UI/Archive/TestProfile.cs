@@ -37,9 +37,10 @@ namespace CUTS.Web.UI.Archive
      *
      * @param[in]           profile         The actual profile to display
      */
-    public TestProfile (CUTS.TestProfile profile)
+    public TestProfile (CUTS.TestProfile profile, bool is_open)
     {
       this.profile_ = profile;
+      this.is_open_ = is_open;
     }
 
     /**
