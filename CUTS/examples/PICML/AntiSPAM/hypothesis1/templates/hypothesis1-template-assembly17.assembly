@@ -1,0 +1,68 @@
+assembly H1TemplateAssembly17
+{
+  instances
+  {
+    antispam::CPUBound inst1
+    {
+      instName=inst1
+      testName=`${CUTS_ROOT}/etc/emulab/get-project-name.sh`.`${CUTS_ROOT}/etc/emulab/get-experiment-name.sh`
+      logRate=10
+    }
+    antispam::CPUBound inst2
+    {
+      instName=inst2
+      testName=`${CUTS_ROOT}/etc/emulab/get-project-name.sh`.`${CUTS_ROOT}/etc/emulab/get-experiment-name.sh`
+      logRate=10
+    }
+    antispam::CPUBound inst3
+    {
+      instName=inst3
+      testName=`${CUTS_ROOT}/etc/emulab/get-project-name.sh`.`${CUTS_ROOT}/etc/emulab/get-experiment-name.sh`
+      logRate=10
+    }
+    antispam::CPUBound inst4
+    {
+      instName=inst4
+      testName=`${CUTS_ROOT}/etc/emulab/get-project-name.sh`.`${CUTS_ROOT}/etc/emulab/get-experiment-name.sh`
+      logRate=10
+    }
+    antispam::CPUBound inst5
+    {
+      instName=inst5
+      testName=`${CUTS_ROOT}/etc/emulab/get-project-name.sh`.`${CUTS_ROOT}/etc/emulab/get-experiment-name.sh`
+      logRate=10
+    }
+    antispam::NullEventGenerator generator1
+    {
+      publishHertz=${generator1.publishHertz}
+    }
+    antispam::NullEventGenerator generator2
+    {
+      publishHertz=${generator2.publishHertz}
+    }
+    antispam::NullEventGenerator generator3
+    {
+      publishHertz=${generator3.publishHertz}
+    }
+    antispam::NullEventGenerator generator4
+    {
+      publishHertz=${generator4.publishHertz}
+    }
+    antispam::NullEventGenerator generator5
+    {
+      publishHertz=${generator5.publishHertz}
+    }
+    }
+
+  connections
+  {
+    generator5.NullEvent >> inst1.InPortA
+    generator3.NullEvent >> inst1.InPortA
+    generator5.NullEvent >> inst2.InPortA
+    generator5.NullEvent >> inst3.InPortA
+    generator4.NullEvent >> inst3.InPortA
+    generator2.NullEvent >> inst3.InPortA
+    generator3.NullEvent >> inst4.InPortA
+    generator4.NullEvent >> inst5.InPortA
+  }
+}
