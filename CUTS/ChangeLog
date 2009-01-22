@@ -1,3 +1,14 @@
+Thu Jan 22 06:56:44 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+
+          Checkpointing the GME model.
+
+        * examples/PICML/AntiSPAM/cpu-profile-generator.py:
+
+          . Simple script for generating CPU workload profiles for the
+            AntiSPAM emulation model.
+
 Thu Jan 22 05:25:34 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/AntiSPAM.xme:

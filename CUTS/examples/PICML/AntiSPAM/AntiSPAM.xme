@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{2957B166-4D38-4D8D-81C5-A5C90157FDBB}" cdate="Sat Jan 17 18:53:30 2009" mdate="Sat Jan 17 18:53:30 2009" version="" metaguid="{6131D657-5E06-4D59-B9A5-39B0F7A830D4}" metaversion="" metaname="PICML">
+<project guid="{6A2CC96C-0D1B-4DC9-B7C5-56E0ACCF766E}" cdate="Sat Jan 17 18:53:30 2009" mdate="Sat Jan 17 18:53:30 2009" version="" metaguid="{6131D657-5E06-4D59-B9A5-39B0F7A830D4}" metaversion="" metaname="PICML">
 	<name>AntiSPAM</name>
 	<comment></comment>
 	<author>James H. Hill</author>
@@ -1922,7 +1922,7 @@
 							<model id="id-0065-0000048f" kind="Property" role="Property" guid="{46C77578-1245-4e43-8C7D-B3589AF9FDAA}" derivedfrom="id-0065-00000023" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>profile</name>
 								<attribute kind="DataValue">
-									<value>this-&gt;instName_</value>
+									<value>this-&gt;instName_ + &quot;.cpu&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000378" kind="DataType" role="DataType" guid="{BC9DF175-33CD-4379-9D51-05E3F5B36DB3}" derivedfrom="id-0067-0000000f" isinstance="yes" isprimary="no" referred="id-0066-00000013" isbound="yes">
 									<name>String</name>
@@ -6579,7 +6579,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000499" kind="Property" role="Property" guid="{4EF54320-1F3A-4699-82C8-718D1F220C3F}" derivedfrom="id-0065-0000048f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>profile</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_</value>
+									<value>this-&gt;instName_ + &quot;.cpu&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000037d" kind="DataType" role="DataType" guid="{3598F4EB-C51C-40c9-8C08-3C87EFE1D9C1}" derivedfrom="id-0067-00000378" isinstance="yes" isprimary="no" referred="id-0066-00000013" isbound="yes">
 									<name>String</name>
@@ -8858,7 +8858,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000491" kind="Property" role="Property" guid="{CF84FE5F-A267-48b0-967F-73F96E093F99}" derivedfrom="id-0065-0000048f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>profile</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_</value>
+									<value>this-&gt;instName_ + &quot;.cpu&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000379" kind="DataType" role="DataType" guid="{6276F92C-ECF6-43e0-B410-B742E8EADB29}" derivedfrom="id-0067-00000378" isinstance="yes" isprimary="no" referred="id-0066-00000013" isbound="yes">
 									<name>String</name>
@@ -10945,7 +10945,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000493" kind="Property" role="Property" guid="{406CBA1B-6CCC-4ea8-A5CC-3C1D67CD2281}" derivedfrom="id-0065-0000048f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>profile</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_</value>
+									<value>this-&gt;instName_ + &quot;.cpu&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000037a" kind="DataType" role="DataType" guid="{1873517C-DF34-4ba9-ADA0-C3B411FCD0A7}" derivedfrom="id-0067-00000378" isinstance="yes" isprimary="no" referred="id-0066-00000013" isbound="yes">
 									<name>String</name>
@@ -13213,7 +13213,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000495" kind="Property" role="Property" guid="{ED7CAE95-BE14-493e-A60F-00A6721CB5DB}" derivedfrom="id-0065-0000048f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>profile</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_</value>
+									<value>this-&gt;instName_ + &quot;.cpu&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000037b" kind="DataType" role="DataType" guid="{9E135F5A-43E5-4bba-9456-AF14A266D150}" derivedfrom="id-0067-00000378" isinstance="yes" isprimary="no" referred="id-0066-00000013" isbound="yes">
 									<name>String</name>
@@ -15573,7 +15573,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000049b" kind="Property" role="Property" guid="{54FFAE1D-5F5B-46aa-B560-363B977DA652}" derivedfrom="id-0065-0000048f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>profile</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_</value>
+									<value>this-&gt;instName_ + &quot;.cpu&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000037e" kind="DataType" role="DataType" guid="{93AC6182-48C1-4a9b-9441-3D514E0FE33E}" derivedfrom="id-0067-00000378" isinstance="yes" isprimary="no" referred="id-0066-00000013" isbound="yes">
 									<name>String</name>
@@ -17714,7 +17714,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000497" kind="Property" role="Property" guid="{3D37E8F2-AB4A-48c8-AD8B-0C27DFD39719}" derivedfrom="id-0065-0000048f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>profile</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_</value>
+									<value>this-&gt;instName_ + &quot;.cpu&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000037c" kind="DataType" role="DataType" guid="{EFEB908D-822D-4b78-831A-FE0CA1B98846}" derivedfrom="id-0067-00000378" isinstance="yes" isprimary="no" referred="id-0066-00000013" isbound="yes">
 									<name>String</name>
