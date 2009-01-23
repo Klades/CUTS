@@ -1,3 +1,36 @@
+Fri Jan 23 22:56:13 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/cutsnode.h:
+        * cuts/utils/Node_Daemon/cutsnode.inl:
+        * cuts/utils/Node_Daemon/cutsnode.cpp:
+        * cuts/utils/logging/server/logging.h:
+        * cuts/utils/logging/server/logging.inl:
+        * cuts/utils/logging/server/logging.cpp:
+        * cuts/utils/testing/test.h:
+        * cuts/utils/testing/test.inl:
+        * cuts/utils/testing/test.cpp:
+
+          . Committing the auto-generated XSC files so end-users do
+            not have to have the XSC binary to build CUTS.
+
+        * cuts/utils/deployment/Deployment_T.h:
+        * cuts/utils/deployment/Deployment_T.inl:
+        * cuts/utils/deployment/Deployment_T.cpp:
+        * cuts/utils/deployment/Domain_T.h:
+        * cuts/utils/deployment/Domain_T.inl:
+        * cuts/utils/deployment/Domain_T.cpp:
+        * cuts/utils/deployment/Host_T.h:
+        * cuts/utils/deployment/Host_T.inl:
+        * cuts/utils/deployment/Host_T.cpp:
+        * cuts/utils/deployment/Unique_Deployment_T.h:
+        * cuts/utils/deployment/Unique_Deployment_T.inl:
+        * cuts/utils/deployment/Unique_Deployment_T.cpp:
+        * cuts/utils/deployment/deployment.mpc:
+        * cuts/utils/deployment/unique-deployments.cpp:
+
+          . Re-designed the unique deployment generator so that the
+            key classes are in their own file.
+
 Fri Jan 23 16:45:59 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/modelgen.h:

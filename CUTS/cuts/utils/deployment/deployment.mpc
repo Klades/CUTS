@@ -6,4 +6,11 @@ project (CUTS_Unique_Deployments) : boost_base, cutsexe {
   Source_Files {
     unique-deployments.cpp
   }
+
+  Template_Files {
+    Deployment_T.cpp
+    Domain_T.cpp
+    CUTS_Host_T.cpp
+    Unique_Deployment_T.cpp
+  }
 }
