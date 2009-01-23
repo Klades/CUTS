@@ -1,3 +1,15 @@
+Fri Jan 23 16:45:59 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/modelgen.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/modelgen.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/modelgen.cpp:
+
+          . Commiting the auto-generated XSC files. This will prevent
+            end-users from having to install XSC. They will still need
+            the runtime library. If they want to use the XSC_Utils, they
+            will need to build that as well until we make that completely
+            template-driven.
+
 Fri Jan 23 16:40:53 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/SQL/CUTS-unittest.sql:
