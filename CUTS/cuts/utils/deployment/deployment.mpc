@@ -1,0 +1,9 @@
+// -*- MPC -*-
+
+project (CUTS_Unique_Deployments) : boost_base, cutsexe {
+  exename = cuts-unique-deployments
+
+  Source_Files {
+    unique-deployments.cpp
+  }
+}
