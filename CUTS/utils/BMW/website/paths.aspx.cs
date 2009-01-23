@@ -34,9 +34,19 @@ namespace CUTS
 
     static private string INSTANCE_TABLE = "execution_paths";
 
-    private Database database_ = new Database (new MySqlClientFactory ());
+    private CUTS.BMW.Database database_;
 
     private CUTS.Master master_;
+
+    public Execution_Paths ()
+    {
+      // Instantiate a connection to the database.
+      ConnectionStringSettings settings =
+        ConfigurationManager.ConnectionStrings["BMWConnectionString"];
+
+      this.database_ = new CUTS.BMW.Database (settings.ProviderName);
+      this.database_.ConnectionString = settings.ConnectionString;
+    }
 
     /**
      * Callback method for when the page is loading.
@@ -44,16 +54,12 @@ namespace CUTS
      * @param[in]         sender          Sender of the event.
      * @param[in]         e               Event arguments.
      */
-    private void Page_Load (object sender, System.EventArgs e)
+    protected void Page_Load (object sender, System.EventArgs e)
     {
       this.master_ = (CUTS.Master)this.Master;
-      MySqlConnection conn = new MySqlConnection ();
 
       try
       {
-        // Open a connection to the database.
-        this.database_.Open (ConfigurationManager.AppSettings["MySQL"]);
-
         if (Page.IsPostBack)
           return;
 
@@ -80,22 +86,22 @@ namespace CUTS
 
           DataSet ds = new DataSet ();
 
-          // Fill the adapter w/ the path element data.
-          MySqlDataAdapter path_adapter = this.CreatePathElementAdapter (conn, path_id);
-          path_adapter.Fill (ds, PATH_ELEMENTS_TABLE);
+          //// Fill the adapter w/ the path element data.
+          //MySqlDataAdapter path_adapter = this.CreatePathElementAdapter (conn, path_id);
+          //path_adapter.Fill (ds, PATH_ELEMENTS_TABLE);
 
-          DataTable table = ds.Tables[PATH_ELEMENTS_TABLE];
-          DataColumn[] primary_key = new DataColumn[1];
-          primary_key[0] = table.Columns["path_order"];
-          table.PrimaryKey = primary_key;
+          //DataTable table = ds.Tables[PATH_ELEMENTS_TABLE];
+          //DataColumn[] primary_key = new DataColumn[1];
+          //primary_key[0] = table.Columns["path_order"];
+          //table.PrimaryKey = primary_key;
 
-          // Fill the dataset with the instance data.
-          MySqlDataAdapter inst_adapter = Execution_Paths.create_instance_adapter (conn);
-          inst_adapter.Fill (ds, Execution_Paths.INSTANCE_TABLE);
+          //// Fill the dataset with the instance data.
+          //MySqlDataAdapter inst_adapter = Execution_Paths.create_instance_adapter (conn);
+          //inst_adapter.Fill (ds, Execution_Paths.INSTANCE_TABLE);
 
-          // Update the view.
-          UpdateView (ds);
-          Session["dataset"] = ds;
+          //// Update the view.
+          //UpdateView (ds);
+          //Session["dataset"] = ds;
         }
       }
       catch (Exception ex)

@@ -10,7 +10,6 @@ namespace CUTS.Web.UI.UnitTesting
    *
    * A collection of UnitTest objects.
    */
-  [Serializable]
   public class UnitTests : List <UnitTest>
   {
     /**
@@ -19,32 +18,6 @@ namespace CUTS.Web.UI.UnitTesting
     public UnitTests ()
     {
 
-    }
-
-    /**
-     * Initializing constructor.
-     */
-    public UnitTests (UnitTest[] tests) : base (tests)
-    {
-
-    }
-
-    public UnitTest Find (int utid)
-    {
-      return base.Find (
-        delegate (UnitTest t)
-        {
-          return t.ID == utid;
-        });
-    }
-
-    public UnitTest Find (string name)
-    {
-      return base.Find (
-        delegate (UnitTest t)
-        {
-          return t.Name == name;
-        });
     }
   }
 }

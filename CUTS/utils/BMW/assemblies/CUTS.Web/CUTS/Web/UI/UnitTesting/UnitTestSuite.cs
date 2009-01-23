@@ -35,36 +35,37 @@ namespace CUTS.Web.UI.UnitTesting
 
     }
 
-    public UnitTestSuite (int test)
-    {
-      this.test_number_ = test;
-    }
-
     /**
      *
      */
     public void Add (UnitTestPackage package)
     {
+      // Make sure the child controls exist.
+      this.EnsureChildControls ();
+
       // Inser the package into the control.
-      PlaceHolder holder = this.UnitTestPackagePlaceHolder;
+      PlaceHolder holder = this.get_package_placeholder ();
       holder.Controls.Add (package);
 
+      package.EvaluateUnitTest += new CommandEventHandler (this.handle_evaluate_unit_test);
+
       // Increment the package count.
-      ++this.packages_;
-      this.EvaluateAllLinkButton.Visible = true;
+      this.packages_.Add (package);
+      ++this.package_count_;
     }
 
-    /**
-     * Clear all the test packages from the control. This is as simple
-     * as deleting all the child controls.
-     */
+    /// Clear all the test packages in the suite.
     public void Clear ()
     {
-      PlaceHolder holder = this.UnitTestPackagePlaceHolder;
+      // Make sure the child controls exist.
+      this.EnsureChildControls ();
+
+      // Clear the controls.
+      PlaceHolder holder = this.get_package_placeholder ();
       holder.Controls.Clear ();
 
-      this.packages_ = 0;
-      this.EvaluateAllLinkButton.Visible = false;
+      // Reset the package count.
+      this.package_count_ = 0;
     }
 
     /**
@@ -72,25 +73,20 @@ namespace CUTS.Web.UI.UnitTesting
      */
     protected override void CreateChildControls ()
     {
+      base.CreateChildControls ();
+
       PlaceHolder holder = new PlaceHolder ();
       this.Controls.Add (holder);
 
-      for (int i = 0; i < this.packages_; ++i)
-        holder.Controls.Add (new UnitTestPackage (this));
+      for (int i = 0; i < this.package_count_; ++i)
+      {
+        UnitTestPackage package = new UnitTestPackage ();
+        holder.Controls.Add (package);
+
+        package.EvaluateUnitTest += new CommandEventHandler (this.handle_evaluate_unit_test);
+      }
 
       this.Controls.Add (new LiteralControl ("<br clear='all' />"));
-
-      LinkButton link = new LinkButton ();
-      this.Controls.Add (link);
-
-      link.Click += new System.EventHandler (this.onclick_evaluate_all_unit_tests);
-      link.Text = "Evaluate all unit tests";
-      link.Visible = false;
-    }
-
-    void onclick_evaluate_all_unit_tests (object sender, EventArgs e)
-    {
-      throw new Exception ("The method or operation is not implemented.");
     }
 
     /**
@@ -106,10 +102,7 @@ namespace CUTS.Web.UI.UnitTesting
         base.LoadViewState (state[0]);
 
       if (state[1] != null)
-        this.test_number_ = (int)state[1];
-
-      if (state[2] != null)
-        this.packages_ = (int)state[2];
+        this.package_count_ = (int)state[1];
     }
 
     /**
@@ -119,105 +112,48 @@ namespace CUTS.Web.UI.UnitTesting
      */
     protected override object SaveViewState ()
     {
-      object[] state = new object[3];
+      object[] state = new object[2];
 
       state[0] = base.SaveViewState ();
-      state[1] = this.test_number_;
-      state[2] = this.packages_;
+      state[1] = this.package_count_;
 
       return state;
     }
 
-    #region Factory Methods
-    public UnitTestPackage NewUnitTestPackage ()
-    {
-      return new UnitTestPackage (this);
-    }
-    #endregion
-
     #region Attributes
-    public int TestNumber
-    {
-      get
-      {
-        return this.test_number_;
-      }
-
-      set
-      {
-        this.test_number_ = value;
-      }
-    }
-
     /**
      *
      */
-    [MergableProperty (false),
-     PersistenceMode (PersistenceMode.InnerProperty)]
+    [ MergableProperty (false),
+      PersistenceMode (PersistenceMode.InnerProperty)]
     public UnitTestPackages UnitTestPackages
     {
       get
       {
-        // Make sure the child controls are in place.
-        this.EnsureChildControls ();
-
-        // Gather all the unit test packages.
-        UnitTestPackages packages = new UnitTestPackages ();
-        PlaceHolder holder = this.UnitTestPackagePlaceHolder;
-
-        foreach (Control control in holder.Controls)
-        {
-          if (control is UnitTestPackage)
-            packages.Add ((UnitTestPackage)control);
-        }
-
-        return packages;
-      }
-    }
-
-    [MergableProperty (false),
-     PersistenceMode (PersistenceMode.InnerProperty)]
-    public UnitTestEvaluator Evaluator
-    {
-      get
-      {
-        return this.evaluator_;
-      }
-    }
-
-    private PlaceHolder UnitTestPackagePlaceHolder
-    {
-      get
-      {
-        return (PlaceHolder)this.Controls[0];
-      }
-    }
-
-    private LinkButton EvaluateAllLinkButton
-    {
-      get
-      {
-        return (LinkButton)this.Controls[2];
+        return this.packages_;
       }
     }
     #endregion
 
+    private PlaceHolder get_package_placeholder ()
+    {
+      return (PlaceHolder)this.Controls[0];
+    }
+
+    public event CommandEventHandler EvaluateUnitTest;
+
+    private void handle_evaluate_unit_test (object sender, CommandEventArgs e)
+    {
+      if (this.EvaluateUnitTest != null)
+        this.EvaluateUnitTest (this, e);
+    }
+
     #region Member Variables
-    /**
-     * Test number for the test suite.
-     */
-    private int test_number_ = -1;
+    /// Number of packages in the test suite.
+    private int package_count_;
 
-    /**
-     * Number of packages in the test suite.
-     */
-    private int packages_ = 0;
-
-    /**
-     * Unit test evaluator for the test suite.
-     */
-    private UnitTestEvaluator evaluator_ =
-      new UnitTestEvaluator (new MySqlClientFactory ());
+    /// The actual packages in the test suite.
+    private UnitTestPackages packages_ = new UnitTestPackages ();
     #endregion
   }
 }

@@ -104,7 +104,7 @@ namespace CUTS.Web.Page
     {
       // Save the active test in the session.
       TestBrowser browser = (TestBrowser)sender;
-      Session["activeTest"] = browser.ActiveTest;
+      this.Session["activeTest"] = browser.ActiveTest;
 
       // Redirect to the analysis page.
       this.Response.Redirect ("~/analysis.aspx");

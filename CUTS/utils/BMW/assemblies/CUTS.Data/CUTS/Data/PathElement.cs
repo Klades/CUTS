@@ -12,7 +12,7 @@
 
 namespace CUTS.Data
 {
-  struct PathElement
+  public struct PathElement
   {
     public PathElement(long component, string src, string dst)
     {

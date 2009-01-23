@@ -36,7 +36,7 @@ namespace CUTS
   public partial class Timeline : System.Web.UI.Page
   {
     /// Utility class for interacting with the CUTS database.
-    private Database database_ = new Database (new MySqlClientFactory ());
+    private CUTS.BMW.Database database_;
 
     protected string component_name_;
 
@@ -46,7 +46,12 @@ namespace CUTS
 
     public Timeline ()
     {
-      this.database_.Open (ConfigurationManager.AppSettings["MySQL"]);
+      // Instantiate a connection to the database.
+      ConnectionStringSettings settings =
+        ConfigurationManager.ConnectionStrings["BMWConnectionString"];
+
+      this.database_ = new CUTS.BMW.Database (settings.ProviderName);
+      this.database_.ConnectionString = settings.ConnectionString;
     }
 
     private void Page_Load(object sender, System.EventArgs e)

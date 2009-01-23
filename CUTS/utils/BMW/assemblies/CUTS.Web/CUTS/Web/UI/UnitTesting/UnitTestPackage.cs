@@ -30,6 +30,8 @@ namespace CUTS.Web.UI.UnitTesting
    * test package has a collection of unit test, which contain the actual
    * results.
    */
+  [ParseChildren (true),
+   PersistChildren (false)]
   public class UnitTestPackage : CompositeControl, INamingContainer
   {
     /**
@@ -41,65 +43,40 @@ namespace CUTS.Web.UI.UnitTesting
     }
 
     /**
-     * Initializing constructor.
-     */
-    public UnitTestPackage (UnitTestSuite suite)
-    {
-      this.suite_ = suite;
-    }
-
-    ///**
-    // * Evaluate all the unit test in this test package.
-    // */
-    //public void EvaluateAll ()
-    //{
-    //  try
-    //  {
-    //    // Open the evaluator for usage.
-    //    this.suite_.Evaluator.Open ();
-
-    //    // Evaluate each of the unit test in the test package.
-    //    foreach (UnitTest ut in this.unit_tests_)
-    //    {
-    //      ut.Result =
-    //        this.suite_.Evaluator.Reevaluate (this.suite_, ut.ID, true);
-    //    }
-    //  }
-    //  finally
-    //  {
-    //    // Close the evaluator connection.
-    //    this.suite_.Evaluator.Close ();
-    //  }
-    //}
-
-    /**
      * Clear all the unit test from the test package.
      */
     public void Clear ()
     {
-      this.unit_tests_.Clear ();
+      // Clear the unit tests.
+      this.tests_.Clear ();
+
+      // Clear the controls for the unit test.
+      Table table = (Table)this.Controls[1];
+      table.Rows.Clear ();
+
+      this.unittest_count_ = 0;
     }
 
     /**
      * Insert a new unit test result into the package.
      */
-    public void Add (UnitTest ut)
+    public void Add (UnitTest test)
     {
       this.EnsureChildControls ();
 
       // Get the table that contains the unit test.
       Table table = (Table)this.Controls[1];
+      table.Rows.Add (test);
+
+      test.Evaluate += new EventHandler (this.handle_evaluate);
 
       // Insert the unit test into the collection and control.
-      this.unit_tests_.Add (ut);
-      this.create_unit_test (table, ut, false);
+      this.tests_.Add (test);
+      ++ this.unittest_count_;
     }
 
     #region Attributes
-    /**
-     * Setter/getter attributes the package's test name.
-     */
-    [NotifyParentProperty (true)]
+    /// Setter/getter attributes the package's test name.
     public string Name
     {
       get
@@ -109,44 +86,23 @@ namespace CUTS.Web.UI.UnitTesting
 
       set
       {
+        // Make sure the child controls exist.
         this.EnsureChildControls ();
 
-        Label label = (Label)this.Controls[0];
-        label.Text = String.Format ("<div>{0} Package</div>", value);
+        // Update the label of the control.
+        Label title = (Label)this.Controls[0];
+        title.Text = String.Format ("{0} Package", value);
 
+        // Save the name of the package.
         this.name_ = value;
       }
     }
 
-    /**
-     * Attribute for setting/gettng the unit test in the
-     * test package.
-     */
-    [ MergableProperty (false),
-      PersistenceMode (PersistenceMode.InnerProperty),
-      NotifyParentProperty (true)]
     public UnitTests UnitTests
     {
       get
       {
-        return this.unit_tests_;
-      }
-
-      set
-      {
-        // Create a temporary table for the unit test.
-        Table table = new Table ();
-        table.Width = new Unit (80, UnitType.Percentage);
-
-        // Build up the table.
-        foreach (UnitTest test in value)
-          this.create_unit_test (table, test, false);
-
-        // Save the unit test information.
-        this.Controls.RemoveAt (1);
-        this.Controls.AddAt (1, table);
-
-        this.unit_tests_ = value;
+        return this.tests_;
       }
     }
     #endregion
@@ -163,7 +119,7 @@ namespace CUTS.Web.UI.UnitTesting
         this.name_ = (string)state[1];
 
       if (state[2] != null)
-        this.unit_tests_ = (UnitTests)state[2];
+        this.unittest_count_ = (int)state[2];
     }
 
     protected override object SaveViewState ()
@@ -172,18 +128,20 @@ namespace CUTS.Web.UI.UnitTesting
 
       state[0] = base.SaveViewState ();
       state[1] = this.name_;
-      state[2] = this.unit_tests_;
+      state[2] = this.unittest_count_;
 
       return state;
     }
 
     protected override void CreateChildControls ()
     {
-      // First, create the header for the package.
-      Label header = new Label ();
-      this.Controls.Add (header);
+      base.CreateChildControls ();
 
-      header.CssClass = "title";
+      // First, create the header for the package.
+      Label title = new Label ();
+      this.Controls.Add (title);
+
+      title.CssClass = "title";
 
       // Next, create the table that will host the unit test results.
       Table table = new Table ();
@@ -191,181 +149,35 @@ namespace CUTS.Web.UI.UnitTesting
 
       table.Width = new Unit (80, UnitType.Percentage);
 
-      foreach (UnitTest unittest in this.unit_tests_)
-        this.create_unit_test (table, unittest, true);
-    }
-
-    protected override void Render (HtmlTextWriter writer)
-    {
-      Table table = (Table)this.Controls[1];
-      TableCell cell;
-
-      foreach (TableRow row in table.Rows)
+      // Create the correct number of unit tests.
+      for (int i = 0; i < this.unittest_count_; ++i)
       {
-        if (row.Cells.Count > 2)
-        {
-          cell = row.Cells[2];
-          this.Page.ClientScript.RegisterForEventValidation (cell.Controls[0].UniqueID);
+        UnitTest test = new UnitTest ();
+        table.Rows.Add (test);
 
-          cell = row.Cells[3];
-          this.Page.ClientScript.RegisterForEventValidation (cell.Controls[0].UniqueID);
-        }
+        test.Evaluate += new EventHandler (this.handle_evaluate);
       }
-
-      // Pass control to the base class.
-      base.Render (writer);
     }
+
+    public event CommandEventHandler EvaluateUnitTest;
+
+    private void handle_evaluate (object sender, EventArgs e)
+    {
+      if (this.EvaluateUnitTest != null)
+        this.EvaluateUnitTest (this, new CommandEventArgs ("evaluate", sender));
+    }
+
     #endregion
-
-    #region Event Handlers
-    /**
-     * Event handler for clicking the evaluate command.
-     */
-    protected void onclick_evaluate_unit_test (object sender, CommandEventArgs e)
-    {
-      if (e.CommandName == "evaluate")
-      {
-        if (this.suite_ != null)
-        {
-          int utid = int.Parse ((string)e.CommandArgument);
-
-          try
-          {
-            // Open the evaluator.
-            this.suite_.Evaluator.Open ();
-
-            // Evaluate the result.
-            UnitTestResult result =
-              this.suite_.Evaluator.Reevaluate (""/*this.suite_.TestNumber */,
-                                                utid,
-                                                true);
-
-            // Save the result for the evaluation
-            UnitTest test = this.unit_tests_.Find (utid);
-
-            if (test != UnitTest.Undefined)
-              test.Result = result;
-          }
-          finally
-          {
-            this.suite_.Evaluator.Close ();
-          }
-        }
-      }
-    }
-    #endregion
-
-    private void create_unit_test (Table table, UnitTest unittest, bool viewstate)
-    {
-      // Create the new table row this unit test.
-      TableRow row = new TableRow ();
-      table.Rows.Add (row);
-
-      // Create the cell that contain's the unit test name.
-      TableCell cell = new TableCell ();
-      row.Cells.Add (cell);
-
-      cell.Controls.Add (new LiteralControl (" &middot; " + unittest.Name));
-
-      // Create the cell that display's the results.
-      cell = new TableCell ();
-      row.Cells.Add (cell);
-
-      Label result = new Label ();
-      cell.Controls.Add (result);
-
-      UnitTestResult ut_result = unittest.Result;
-
-      if (ut_result != null)
-      {
-        if (ut_result.Value != null)
-         result.Text = ut_result.Value.ToString ();
-
-        GroupResult grp_results = ut_result.GroupResult;
-
-        if (grp_results.Count != 0)
-        {
-          foreach (GroupResultItem grp in grp_results)
-          {
-            // Create a new row for the group result.
-            TableRow grp_row = new TableRow ();
-            table.Rows.Add (grp_row);
-
-            // Insert the cell that displays the group's name.
-            TableCell grp_cell = new TableCell ();
-            grp_row.Cells.Add (grp_cell);
-
-            grp_cell.CssClass = "unittest-groupname";
-            grp_cell.Controls.Add (new LiteralControl (grp.Name));
-
-            // Insert the cell that displays the group's result.
-            grp_cell = new TableCell ();
-            grp_row.Cells.Add (grp_cell);
-
-            grp_cell.Controls.Add (new LiteralControl (grp.Value.ToString ()));
-          }
-
-        }
-      }
-      else
-      {
-        result.Text = "(no result)";
-        result.ForeColor = Color.Gray;
-      }
-
-      // Create cell that will hold link for charting data trend.
-      cell = new TableCell ();
-      row.Cells.Add (cell);
-
-      // Create a link for charting the unit test data.
-      ImageButton chart = new ImageButton ();
-      cell.Controls.Add (chart);
-
-      chart.PostBackUrl = String.Format ("~/unittestchart.aspx?t={0}&utid={1}",
-                                         this.suite_.TestNumber,
-                                         unittest.ID);
-
-      chart.ID = String.Format ("ut_chart_{0}_{1}_",
-                                this.suite_.TestNumber,
-                                unittest.ID);
-
-      chart.ImageUrl = "~/images/graph.gif";
-      chart.AlternateText = "view data trend";
-      chart.ToolTip = "view data trend";
-
-      // Create the cell for manually evaluating the unit test.
-      cell = new TableCell ();
-      row.Cells.Add (cell);
-
-      LinkButton link = new LinkButton ();
-      cell.Controls.Add (link);
-
-      link.ID = String.Format ("evaluate_{0}_{1}_",
-                               this.suite_.TestNumber,
-                               unittest.ID);
-
-      link.EnableViewState = true;
-      link.Text = "Click here to evaluate";
-      link.CommandName = "evaluate";
-      link.CommandArgument = unittest.ID.ToString ();
-      link.Command += new CommandEventHandler (this.onclick_evaluate_unit_test);
-    }
 
     #region Member Variables
-    /**
-     * Name of the test package.
-     */
+    /// Name of the unit test package.
     private string name_;
 
-    /**
-     * Test number associate with package.
-     */
-    private UnitTestSuite suite_;
+    /// Number unit test in the package.
+    private int unittest_count_;
 
-    /**
-     * Collection of unit test in the test package.
-     */
-    private UnitTests unit_tests_ = new UnitTests ();
+    /// The collection of unit test in the package.
+    private UnitTests tests_ = new UnitTests ();
     #endregion
   }
 }

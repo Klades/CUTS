@@ -23,7 +23,6 @@ project (CUTS.Data) : cuts_bmw_assembly {
     Properties/AssemblyInfo.cs
 
     //= namespace CUTS.Data
-    CUTS/Data/Database.cs
     CUTS/Data/ExecutionTime.cs
     CUTS/Data/PathElement.cs
     CUTS/Data/Relation.cs

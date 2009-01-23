@@ -1,3 +1,40 @@
+Fri Jan 23 16:40:53 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/SQL/CUTS-unittest.sql:
+
+          . Added more stored procedures.
+
+        * utils/BMW/assemblies/CUTS.BMW/CUTS.BMW.mpc:
+        * utils/BMW/assemblies/CUTS.BMW/CUTS/BMW/Database.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/PathElement.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestEvaluator.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTest.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTestPackage.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTestSuite.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTests.cs:
+        * utils/BMW/website/App_Code/unittest.asmx.cs:
+        * utils/BMW/website/Timeline.aspx.cs:
+        * utils/BMW/website/analysis.aspx:
+        * utils/BMW/website/analysis.aspx.cs:
+        * utils/BMW/website/baseline.aspx.cs:
+        * utils/BMW/website/components.aspx.cs:
+        * utils/BMW/website/db/sandbox/evaluations:
+        * utils/BMW/website/paths.aspx.cs:
+        * utils/BMW/website/tests.aspx.cs:
+
+          . Re-implemented the controls for displaying a unit test suite,
+            its packages, and the unit test.
+
+          . Re-implemented the page for evaluating a unit test. It is
+            a LOT cleaner now.
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/Database.cs:
+        * utils/BMW/website/performance.aspx:
+        * utils/BMW/website/performance.aspx.cs:
+
+          Removed these files.
+
 Fri Jan 23 06:00:49 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/deployment:

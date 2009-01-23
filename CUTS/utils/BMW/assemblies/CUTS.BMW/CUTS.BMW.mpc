@@ -7,7 +7,9 @@ project (CUTS.BMW) : cuts_bmw_assembly {
                System.Data \
                System.Data.SQLite \
                System.Web \
-               System.Configuration
+               System.Xml \
+               System.Configuration \
+               CUTS.Data
 
   specific {
     keyfile    = CUTS.BMW.snk
@@ -19,7 +21,7 @@ project (CUTS.BMW) : cuts_bmw_assembly {
 
     CUTS/BMW/Database.cs
     CUTS/BMW/NewUserProfile.cs
-    
+
     CUTS/BMW/Security/MembershipProvider.cs
     CUTS/BMW/Security/RoleProvider.cs
   }

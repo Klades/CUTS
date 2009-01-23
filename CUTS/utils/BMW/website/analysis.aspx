@@ -13,7 +13,7 @@
     <statichoverstyle backcolor="#CCCCFF" forecolor="black" />
 
     <items>
-      <asp:menuitem text="Unit Testing" value="1" />
+      <asp:menuitem text="Unit Testing" value="0" />
     </items>
   </asp:menu>
 
@@ -22,11 +22,23 @@
     -->
   <div style="background-color: #9999FF; height: 4px; margin-bottom:5px">&nbsp;</div>
 
-  <asp:multiview runat="server" id="multiview_" activeviewindex="0"
+  <asp:multiview runat="server" id="analysis_" activeviewindex="0"
                  onactiveviewchanged="handle_onactiveviewchanged">
 
     <asp:view runat="server" id="unit_testing_">
-      <cuts:unittestsuite runat="server" id="test_suite_" />
+      <div>
+        <span class="title">Test Suite: </span>
+        <asp:dropdownlist id="test_suite_list_" runat="server"
+                          enableviewstate="true" />
+
+        <asp:button id="load_" runat="server"
+                    text="Load..." cssclass="button"
+                    onclick="handle_load_test_suite" />
+      </div>
+
+      <cuts:unittestsuite runat="server" id="test_suite_"
+                          enableviewstate="true"
+                          onevaluateunittest="handle_evaluate_unit_test" />
     </asp:view>
   </asp:multiview>
 </asp:content>

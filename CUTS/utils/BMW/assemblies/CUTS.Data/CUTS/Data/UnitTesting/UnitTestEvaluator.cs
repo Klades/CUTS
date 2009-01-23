@@ -44,6 +44,14 @@ namespace CUTS.Data.UnitTesting
       this.Close ();
     }
 
+    public ConnectionState State
+    {
+      get
+      {
+        return this.ut_conn_.State;
+      }
+    }
+
     public string TempPath
     {
       get

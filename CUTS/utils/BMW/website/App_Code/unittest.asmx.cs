@@ -91,8 +91,6 @@ namespace CUTS.Web
      */
     public Service ()
     {
-      this.database_.Open (ConfigurationManager.AppSettings["MySQL"]);
-
       // Instantiate a connection to the database.
       ConnectionStringSettings settings =
         ConfigurationManager.ConnectionStrings["BMWConnectionString"];
@@ -107,7 +105,7 @@ namespace CUTS.Web
      */
     ~Service ()
     {
-      this.database_.Close ();
+
     }
 
     /**
@@ -138,8 +136,7 @@ namespace CUTS.Web
     {
       this.authenticate_user ();
 
-      DataTable table =
-        this.database_.select_unit_tests_in_test_suite (TestSuite);
+      DataTable table = this.bmw_.SelectUnitTests (TestSuite);
 
       ArrayList list = new ArrayList ();
 
@@ -168,7 +165,7 @@ namespace CUTS.Web
       this.authenticate_user ();
 
       // Get the unit test id from the database.
-      int utid = this.database_.get_unit_test_id (UnitTest);
+      int utid = this.bmw_.get_unit_test_id (UnitTest);
 
       // Create a new evaluator for the unit test.
       UnitTestEvaluator evaluator = new UnitTestEvaluator (new MySqlClientFactory ());
@@ -229,8 +226,6 @@ namespace CUTS.Web
      * closing the connection because it is handled when the
      * object is destroyed.
      */
-    private Database database_ = new Database (new MySqlClientFactory ());
-
     private CUTS.BMW.Database bmw_;
 
     public UserCredentials creds_ = new UserCredentials ();

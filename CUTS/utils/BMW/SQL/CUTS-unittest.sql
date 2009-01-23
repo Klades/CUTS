@@ -579,6 +579,44 @@ BEGIN
 END //
 
 --
+-- cuts.select_test_suite_manifest
+--
+
+DROP PROCEDURE IF EXISTS cuts.select_test_suite_manifest //
+
+CREATE PROCEDURE cuts.select_test_suite_manifest (IN _name VARCHAR (256))
+BEGIN
+  CALL cuts.select_test_suite_manifest_i (cuts.get_test_suite_id (_name));
+END //
+
+--
+-- cuts.select_test_suite_manifest_i
+--
+
+DROP PROCEDURE IF EXISTS cuts.select_test_suite_manifest_i //
+
+CREATE PROCEDURE cuts.select_test_suite_manifest_i (IN _id INT)
+BEGIN
+  SELECT t1.id AS test_suite_id,
+         t1.name AS test_suite_name,
+         t3.id AS package_id,
+         t3.name AS package_name,
+         t5.utid AS unit_test_id,
+         t5.name AS unit_test_name,
+         t5.description AS description,
+         t5.evaluation AS evaluation,
+         t5.aggregration_function AS aggr_func
+    FROM cuts.test_suites AS t1,
+         cuts.test_suite_packages AS t2,
+         cuts.packages AS t3,
+         cuts.package_unit_tests AS t4,
+         cuts.unit_tests AS t5
+    WHERE t1.id = _id AND
+          t1.id = t2.id AND t2.p_id = t3.id AND t3.id = t4.id AND  t4.ut_id = t5.utid
+    ORDER BY t1.name, t3.name, t5.name;
+END //
+
+--
 -- cuts.select_unit_tests_in_test_suite
 --
 

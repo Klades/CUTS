@@ -35,13 +35,18 @@ namespace CUTS
    */
   public partial class Baseline_Metrics : System.Web.UI.Page
   {
-    private Database database_ = new Database (new MySqlClientFactory ());
+    private CUTS.BMW.Database database_;
 
     private CUTS.Master master_;
 
     public Baseline_Metrics ()
     {
-      this.database_.Open (ConfigurationManager.AppSettings["MySQL"]);
+      // Instantiate a connection to the database.
+      ConnectionStringSettings settings =
+        ConfigurationManager.ConnectionStrings["BMWConnectionString"];
+
+      this.database_ = new CUTS.BMW.Database (settings.ProviderName);
+      this.database_.ConnectionString = settings.ConnectionString;
     }
 
     /**

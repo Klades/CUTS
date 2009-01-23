@@ -38,7 +38,7 @@ namespace CUTS
 
   public partial class Components : System.Web.UI.Page
   {
-    private Database database_ = new Database (new MySqlClientFactory ());
+    private CUTS.BMW.Database database_;
 
     private DataGridItem prev_item_ = null;
 
@@ -46,7 +46,12 @@ namespace CUTS
 
     public Components ()
     {
-      this.database_.Open (ConfigurationManager.AppSettings["MySQL"]);
+      // Instantiate a connection to the database.
+      ConnectionStringSettings settings =
+        ConfigurationManager.ConnectionStrings["BMWConnectionString"];
+
+      this.database_ = new CUTS.BMW.Database (settings.ProviderName);
+      this.database_.ConnectionString = settings.ConnectionString;
     }
 
     /**
