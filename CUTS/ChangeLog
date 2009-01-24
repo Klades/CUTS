@@ -1,3 +1,9 @@
+Sat Jan 24 04:40:16 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+
+          . Checkpoint the model.
+
 Sat Jan 24 02:08:15 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/hypothesis1-assembly-generator.py:
