@@ -54,9 +54,9 @@ project (cutsnode_d) : boost_base, taoserver, iortable, xscrt, cuts_utils, cutse
   }
 }
 
-project (CUTS_Node_Daemon_Client): taoclient, anytypecode, cutsexe {
+project (cutsnode): taoclient, anytypecode, cutsexe {
   exename  = cutsnode
-  after   += CUTS_Node_Daemon
+  after   += cutsnode_d
 
   //-- remove unncessary settings
   after -= CUTS
