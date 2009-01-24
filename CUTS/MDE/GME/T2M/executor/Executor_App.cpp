@@ -14,6 +14,7 @@
 #include "ace/DLL.h"
 #include "ace/streams.h"
 #include "game/XML.h"
+#include "game/ComponentEx.h"
 #include <sstream>
 
 static const char * __HELP__ =
@@ -49,83 +50,14 @@ int CUTS_T2M_Executor_App::run_main (int argc, char * argv [])
                         this->opts_.project_.c_str ()),
                         -1);
 
-    // Load the parser from its file.
-    ACE_DLL dll;
+    if (!this->opts_.parser_.empty ())
+      this->run_parser ();
 
-    if (dll.open (this->opts_.parser_.c_str ()) == 0)
-    {
-      // Begin a new transaction.
-      this->project_.begin_transaction ();
+    if (!this->opts_.run_.empty ())
+      this->run (this->opts_.run_);
 
-      void * symbol = dll.symbol (GME_T2M_CREATE_PARSER_FUNC_STR);
-
-      if (symbol == 0)
-        ACE_ERROR_RETURN ((LM_ERROR,
-                          "%T (%t) - %M - failed to load factory symbol [%s]\n",
-                          GME_T2M_CREATE_PARSER_FUNC_STR),
-                          -1);
-
-      // Cast the symbol to a facotry function.
-      typedef GME_T2M_Parser * (* CREATION_FUNCTION) (void);
-      CREATION_FUNCTION factory = reinterpret_cast <CREATION_FUNCTION> (symbol);
-
-      // Create the parser using the factory.
-      GME_T2M_Parser * parser = factory ();
-
-      if (parser != 0)
-      {
-        // Get the root folder of the project.
-        GME::Folder root_folder = this->project_.root_folder ();
-
-        // Determine what is the parent object for parsing.
-        GME::Object target;
-
-        if (this->opts_.target_.empty ())
-          target = this->project_.root_folder ();
-        else
-          target = root_folder.find_object_by_path (this->opts_.target_);
-
-        if (target)
-        {
-          if (parser->parse (this->opts_.filename_.c_str (), target))
-          {
-            ACE_DEBUG ((LM_DEBUG,
-                        "%T (%t) - %M - successully parsed %s\n",
-                        this->opts_.filename_.c_str ()));
-
-            // Commit the outstanding transactions.
-            this->project_.commit_transaction ();
-
-            // Save the GME project to disk.
-            this->save_gme_project ();
-          }
-          else
-          {
-            ACE_ERROR ((LM_ERROR,
-                        "%T (%t) - %M - failed to parse %s\n",
-                        this->opts_.filename_.c_str ()));
-
-            this->project_.abort_transaction ();
-          }
-        }
-        else
-        {
-          ACE_ERROR ((LM_ERROR,
-                      "%T (%t) - %M - failed to resolve target element\n"));
-        }
-
-        // Destroy the parser.
-        parser->destroy ();
-      }
-      else
-        ACE_ERROR_RETURN ((LM_ERROR,
-                          "%T (%t) - %M - failed to create parser\n"),
-                          -1);
-    }
-    else
-      ACE_ERROR_RETURN ((LM_ERROR,
-                        "%T (%t) - %M - failed to open parser module [%m]\n"),
-                        -1);
+    // Close the GME project.
+    this->save_gme_project ();
   }
   catch (const GME::Failed_Result & ex)
   {
@@ -135,7 +67,7 @@ int CUTS_T2M_Executor_App::run_main (int argc, char * argv [])
 
     this->project_.abort_transaction ();
   }
-  catch (const GME::Exception & ex)
+  catch (const GME::Exception &)
   {
     this->project_.abort_transaction ();
   }
@@ -143,6 +75,84 @@ int CUTS_T2M_Executor_App::run_main (int argc, char * argv [])
   // Close the GME project.
   this->project_.close ();
 
+  return 0;
+}
+
+//
+// run_parser
+//
+int CUTS_T2M_Executor_App::run_parser (void)
+{
+  // Load the parser from its file.
+  ACE_DLL dll;
+
+  if (dll.open (this->opts_.parser_.c_str ()) == -1)
+    ACE_ERROR_RETURN ((LM_ERROR,
+                      "%T (%t) - %M - failed to open parser module [%m]\n"),
+                      -1);
+
+  void * symbol = dll.symbol (GME_T2M_CREATE_PARSER_FUNC_STR);
+
+  if (symbol == 0)
+    ACE_ERROR_RETURN ((LM_ERROR,
+                      "%T (%t) - %M - failed to load factory symbol [%s]\n",
+                      GME_T2M_CREATE_PARSER_FUNC_STR),
+                      -1);
+
+  // Cast the symbol to a facotry function.
+  typedef GME_T2M_Parser * (* CREATION_FUNCTION) (void);
+  CREATION_FUNCTION factory = reinterpret_cast <CREATION_FUNCTION> (symbol);
+
+  // Create the parser using the factory.
+  GME_T2M_Parser * parser = factory ();
+
+  if (parser == 0)
+    ACE_ERROR_RETURN ((LM_ERROR,
+                      "%T (%t) - %M - failed to create parser\n"),
+                      -1);
+
+  // Begin a new transaction.
+  this->project_.begin_transaction ();
+
+  // Get the root folder of the project.
+  GME::Folder root_folder = this->project_.root_folder ();
+
+  // Determine what is the parent object for parsing.
+  GME::Object target;
+
+  if (this->opts_.target_.empty ())
+    target = this->project_.root_folder ();
+  else
+    target = root_folder.find_object_by_path (this->opts_.target_);
+
+  if (target)
+  {
+    if (parser->parse (this->opts_.filename_.c_str (), target))
+    {
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T (%t) - %M - successully parsed %s\n",
+                  this->opts_.filename_.c_str ()));
+
+      // Commit the transaction.
+      this->project_.commit_transaction ();
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T (%t) - %M - failed to parse %s\n",
+                  this->opts_.filename_.c_str ()));
+
+      this->project_.abort_transaction ();
+    }
+  }
+  else
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - failed to resolve target element\n"));
+  }
+
+  // Destroy the parser.
+  parser->destroy ();
   return 0;
 }
 
@@ -160,6 +170,9 @@ int CUTS_T2M_Executor_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("file", 'f', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("parser", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("target", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("run", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("run-output", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("run-focus", ACE_Get_Opt::ARG_REQUIRED);
 
   char opt;
 
@@ -187,6 +200,18 @@ int CUTS_T2M_Executor_App::parse_args (int argc, char * argv [])
       else if (ACE_OS::strcmp ("help", get_opt.long_option ()) == 0)
       {
         this->print_help ();
+      }
+      else if (ACE_OS::strcmp ("run", get_opt.long_option ()) == 0)
+      {
+        this->opts_.run_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp ("run-output", get_opt.long_option ()) == 0)
+      {
+        this->opts_.run_output_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp ("run-focus", get_opt.long_option ()) == 0)
+      {
+        this->opts_.run_focus_ = get_opt.opt_arg ();
       }
       break;
 
@@ -313,4 +338,65 @@ int CUTS_T2M_Executor_App::save_gme_project (void)
   }
 
   return 0;
+}
+
+//
+// run
+//
+int CUTS_T2M_Executor_App::run (const std::string & progid)
+{
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - running the interpreter %s\n",
+              progid.c_str ()));
+
+  try
+  {
+    // Let's see if we need to run an interpreter
+    this->project_.begin_transaction ();
+
+    // Load the specified interpreter.
+    GME::ComponentEx interpreter (progid);
+
+    // Pass the standard configuration to the interpreter.
+    interpreter.parameter ("non-interactive", "");
+    interpreter.parameter ("output", this->opts_.run_output_);
+
+    // Execute the interpreter on the currently selected object. We
+    // also should make it the focus object.
+    GME::Object obj = this->project_.object_by_path (this->opts_.run_focus_);
+
+    if (obj.is_nil ())
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "%T (%t) - %M - failed to locate object %s\n",
+                         this->opts_.run_focus_.c_str ()),
+                         -1);
+
+    GME::FCO focus = GME::FCO::_narrow (obj);
+
+    std::vector <GME::FCO> selected;
+    selected.push_back (focus);
+
+    try
+    {
+      this->project_.commit_transaction ();
+      interpreter.invoke (this->project_, focus, selected, 0);
+    }
+    catch (const GME::Exception &)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - caught GME exception\n"));
+
+      this->project_.abort_transaction ();
+    }
+
+    // Just in case something else happens after this point, we
+    // need to restart the default transaction.
+    this->project_.begin_transaction (true);
+    return 0;
+  }
+  catch (GME::Exception &)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - caught GME exception\n"));
+  }
 }

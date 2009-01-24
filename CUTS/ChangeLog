@@ -1,3 +1,23 @@
+Sat Jan 24 04:54:21 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/T2M/executor/Executor_App.h:
+        * MDE/GME/T2M/executor/Executor_App.cpp:
+        * MDE/GME/T2M/executor/Executor_App_Options.h:
+        * MDE/GME/T2M/executor/Executor_App_Options.cpp:
+
+          . Added support for running interpreters.
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/generate.bat:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly1.cdp:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly2.cdp:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly3.cdp:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly4.cdp:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly5.cdp:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly6.cdp:
+
+          . Checkpointing more of the models.
+
 Sat Jan 24 04:40:16 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/AntiSPAM.xme:

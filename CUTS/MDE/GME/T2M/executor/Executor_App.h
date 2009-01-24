@@ -31,6 +31,10 @@ public:
   int run_main (int argc, char * argv []);
 
 private:
+  int run_parser (void);
+
+  int run (const std::string & progid);
+
   int parse_args (int argc, char * argv []);
 
   int open_gme_project (void);

@@ -41,6 +41,12 @@ public:
   bool is_mga_file_;
 
   bool enable_auto_addons_;
+
+  std::string run_;
+
+  std::string run_output_;
+
+  std::string run_focus_;
 };
 
 #if defined (__CUTS_INLINE__)
