@@ -41,16 +41,16 @@ public:
   /// Destructor.
   ~CUTS_Unique_Deployment_T (void);
 
-  bool init (domain_type domain);
+  bool init (const domain_type & domain);
 
-  void calculate (item_type item);
+  void calculate (const item_type & item);
 
   const deployment_type & operator [] (size_t index) const;
 
   size_t size (void) const;
 
 private:
-  void calculate_i (deployment_type deployment, item_type item);
+  void calculate_i (const deployment_type & deployment, const item_type & item);
 
   /// Let of unique deployments.
   collection_type deployments_;

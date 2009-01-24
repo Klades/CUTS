@@ -11,12 +11,12 @@
 // init
 //
 template <typename T>
-bool CUTS_Unique_Deployment_T <T>::init (domain_type domain)
+bool CUTS_Unique_Deployment_T <T>::init (const domain_type & domain)
 {
   if (!this->deployments_.empty ())
     this->deployments_.empty ();
 
-  typename deployment_type empty;
+  deployment_type empty;
 
   std::for_each (domain.begin (),
                  domain.end (),
@@ -33,7 +33,7 @@ bool CUTS_Unique_Deployment_T <T>::init (domain_type domain)
 // calculate
 //
 template <typename T>
-void CUTS_Unique_Deployment_T <T>::calculate (item_type item)
+void CUTS_Unique_Deployment_T <T>::calculate (const item_type & item)
 {
   size_t iterations = this->deployments_.size ();
 
@@ -49,7 +49,7 @@ void CUTS_Unique_Deployment_T <T>::calculate (item_type item)
 //
 template <typename T>
 void CUTS_Unique_Deployment_T <T>::
-calculate_i (deployment_type deployment, item_type item)
+calculate_i (const deployment_type & deployment, const item_type & item)
 {
   size_t count = this->domain_.size ();
 

@@ -139,7 +139,7 @@ bool CUTS_Host_T <T>::operator > (const CUTS_Host_T & host) const
 //
 template <typename T>
 CUTS_INLINE
-bool CUTS_Host_T <T>::insert (item_type item)
+bool CUTS_Host_T <T>::insert (const item_type & item)
 {
   return this->items_.insert (item).second;
 }

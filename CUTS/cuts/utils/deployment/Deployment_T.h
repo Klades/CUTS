@@ -42,13 +42,13 @@ public:
 
   const CUTS_Deployment_T & operator = (const CUTS_Deployment_T & rhs);
 
-  typename iterator begin (void);
+  iterator begin (void);
 
-  typename const_iterator begin (void) const;
+  const_iterator begin (void) const;
 
-  typename iterator end (void);
+  iterator end (void);
 
-  typename const_iterator end (void) const;
+  const_iterator end (void) const;
 
 private:
   collection_type hosts_;

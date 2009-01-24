@@ -22,10 +22,8 @@ project (CUTS_CIAO_stub) : requires_ciao, ciao_events_base_dnc, ciao_servant_dnc
   }
 }
 
-project (CUTS_CIAO_exec) : requires_ciao, cuts_component_dnc {
-  after     += CUTS_stub
+project (CUTS_CIAO_exec) : requires_ciao, cuts_component_dnc, cuts_stub {
   sharedname = CUTS_exec
-  libs      += CUTS_stub
 
   idlflags  +=  -Wb,export_macro=CUTS_EXEC_Export \
                 -Wb,export_include=CUTS_exec_export.h

@@ -81,7 +81,7 @@ public:
 
   size_t size (void) const;
 
-  bool insert (item_type item);
+  bool insert (const item_type & item);
 
 private:
   /// The name of the host.

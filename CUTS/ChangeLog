@@ -1,3 +1,19 @@
+Sat Jan 24 18:05:53 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_client_dnc.mpb:
+        * MPC/config/cuts_stub.mpb:
+        * cuts/CUTS_CIAO.mpc:
+
+	  . Fixed build errors related to project dependencies.
+
+        * cuts/utils/deployment/Deployment_T.h:
+        * cuts/utils/deployment/Host_T.h:
+        * cuts/utils/deployment/Host_T.inl:
+        * cuts/utils/deployment/Unique_Deployment_T.h:
+        * cuts/utils/deployment/Unique_Deployment_T.cpp:
+
+	  . Fixed build errors on non-Windows systems.
+
 Sat Jan 24 15:58:28 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/utils.mpc:
