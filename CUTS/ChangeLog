@@ -1,3 +1,9 @@
+Sat Jan 24 06:43:20 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+
+          . Removed unncessary debug messages.
+
 Sat Jan 24 06:41:44 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Client_Options.h:

@@ -681,7 +681,6 @@ void CUTS_Node_Daemon_i::reset (void)
 
   // Gather all the names in the process map.
   Process_Map::ITERATOR iter (this->process_map_);
-  ACE_DEBUG ((LM_DEBUG, "map size = %d\n", this->process_map_.current_size ()));
 
   ACE_Unbounded_Set <ACE_CString> names;
 
