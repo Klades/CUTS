@@ -1,3 +1,21 @@
+Sat Jan 24 06:41:44 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Client_Options.h:
+        * cuts/utils/Node_Daemon/Client_Options.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon.idl:
+        * cuts/utils/Node_Daemon/Node_Daemon_Client.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+
+          . Implemented support for resetting the node deamon using the
+            node deamon's client application.
+
+        * cuts/utils/Text_Processor.cpp:
+
+          . Bug fix where the processor was handling return values
+            from intermediate steps incorrectly.
+
 Sat Jan 24 05:04:39 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/AntiSPAM.mwc:

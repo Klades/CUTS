@@ -21,7 +21,7 @@ evaluate (const char * str, ACE_CString & output)
   // in the string.
   std::ostringstream ostr;
 
-  if (!this->prop_expander_.expand (str, true, ostr))
+  if (this->prop_expander_.expand (str, true, ostr) != 0)
   {
     ACE_ERROR ((LM_WARNING,
                 "%T - %M - failed to expand environment variables\n"));
@@ -31,7 +31,7 @@ evaluate (const char * str, ACE_CString & output)
 
   // The second pass will substitute all the commands in the string. We
   // can just store the result in the <output>
-  if (!this->command_sub_.evaluate (ostr.str ().c_str (), output))
+  if (this->command_sub_.evaluate (ostr.str ().c_str (), output) != 0)
   {
     ACE_ERROR ((LM_WARNING,
                 "%T - %M - failed to substitute some of the commands\n"));

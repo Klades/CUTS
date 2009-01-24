@@ -21,6 +21,7 @@
 #include "ace/Process_Manager.h"
 #include "ace/Singleton.h"
 #include "ace/FILE_Connector.h"
+#include "ace/Unbounded_Set.h"
 #include <sstream>
 
 #define PROCESS_LOG() \
@@ -303,7 +304,6 @@ CORBA::ULong CUTS_Node_Daemon_i::task_restart (const char * name)
 
   // Remove the process from the map and the log.
   this->process_map_.unbind (name);
-  //PROCESS_LOG ()->process_remove (info->pid_);
 
   // Spawn the task again.
   ACE_Auto_Ptr <CUTS_Process_Info> auto_clean (info);
@@ -565,33 +565,28 @@ task_spawn_i (CUTS_Process_Info & info)
   // Spawn the new process.
   pid_t pid = this->pm_.spawn (info.options_, &this->event_handler_);
 
-  if (pid != ACE_INVALID_PID && pid != 0)
-  {
-    // Save the information about the process.
-    info.pid_ = pid;
-    info.state_ = 1;
-
-    // Save the information block to a mapping.
-    int retval = this->process_map_.bind (info.id_, &info);
-
-    if (retval == -1)
-    {
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T (%t) - %M - failed to save spawned task\n"),
-                         -1);
-    }
-
-    // Write the process to the log.
-    //PROCESS_LOG ()->process_insert (info);
-  }
-  else
-  {
+  if (pid == ACE_INVALID_PID || pid == 0)
     ACE_ERROR_RETURN ((LM_ERROR,
                        "%T (%t) - %M - failed to spawn task [%m]\n"),
                        -1);
-  }
 
-  return 0;
+  // Save the information about the process.
+  info.pid_ = pid;
+  info.state_ = 1;
+
+  // Save the information block to a mapping.
+  int retval = this->process_map_.bind (info.id_, &info);
+
+  if (retval == 0)
+    ACE_DEBUG ((LM_INFO,
+                "%T (%t) - %M - successfully saved spawned task %s\n",
+                info.id_.c_str ()));
+  else
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - failed to save spawned task %s\n",
+                info.id_.c_str ()));
+
+  return retval;
 }
 
 //
@@ -673,5 +668,42 @@ void CUTS_Node_Daemon_i::terminate_tasks (void)
     // Release the resources of this process.
     if (retval == 0)
       this->unmanage (pid);
+  }
+}
+
+//
+// reset
+//
+void CUTS_Node_Daemon_i::reset (void)
+{
+  ACE_DEBUG ((LM_INFO,
+              "%T (%t) - %M - reseting the node daemon\n"));
+
+  // Gather all the names in the process map.
+  Process_Map::ITERATOR iter (this->process_map_);
+  ACE_DEBUG ((LM_DEBUG, "map size = %d\n", this->process_map_.current_size ()));
+
+  ACE_Unbounded_Set <ACE_CString> names;
+
+  for ( ; !iter.done (); ++ iter)
+    names.insert (iter->ext_id_);
+
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - restarting %d task(s)\n",
+              names.size ()));
+
+  // Restart each of the processes in the map.
+  ACE_Unbounded_Set <ACE_CString>::ITERATOR name_iter (names);
+
+  for ( ; !name_iter.done (); ++ name_iter)
+  {
+    if (this->task_restart ((*name_iter).c_str ()) == 0)
+      ACE_DEBUG ((LM_INFO,
+                  "%T (%t) - %M - succesfully restarted task %s\n",
+                  (*name_iter).c_str ()));
+    else
+      ACE_ERROR ((LM_ERROR,
+                  "%T (%t) - %M - failed to restart task %s\n",
+                  (*name_iter).c_str ()));
   }
 }

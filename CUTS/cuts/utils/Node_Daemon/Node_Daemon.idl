@@ -81,6 +81,9 @@ module CUTS
      * @retval        -1          Failed to retrieve info.
      */
     unsigned long task_info (in string name, out taskDescriptor info);
+
+    /// Reset the node to its initial state.
+    void reset ();
   };
 };
 

@@ -86,8 +86,7 @@ int CUTS_Node_Daemon_Server::run_main (int argc, char * argv [])
     this->servant_ = this->daemon_;
 
     // Export the reference to the servant's IOR
-    //this->write_ior_to_file ();
-    //this->write_ior_to_table ();
+    this->write_ior_to_table ();
 
     // Run the ORB's main event loop.
     ACE_DEBUG ((LM_DEBUG, "%T (%t) - %M - running ORB's main event loop\n"));
@@ -127,7 +126,6 @@ int CUTS_Node_Daemon_Server::parse_args (int argc, char * argv [])
   // Setup the long options for the command-line
   get_opt.long_option ("working-directory", 'd', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("config", 'c', ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("ior-file", 'o', ACE_Get_Opt::ARG_REQUIRED);
 
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
@@ -142,10 +140,6 @@ int CUTS_Node_Daemon_Server::parse_args (int argc, char * argv [])
       if (ACE_OS::strcmp (get_opt.long_option (), "working-directory") == 0)
       {
         this->opts_.init_dir_ = get_opt.opt_arg ();
-      }
-      else if (ACE_OS::strcmp (get_opt.long_option (), "ior-file") == 0)
-      {
-        this->opts_.ior_file_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "verbose") == 0)
       {

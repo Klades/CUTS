@@ -72,6 +72,8 @@ public:
    */
   virtual CORBA::ULong task_restart (const char * name);
 
+  virtual void reset (void);
+
   void initial_directory (const ACE_CString & dir);
 
   void insert_properties (const ACE_Array <ACE_CString> & props);

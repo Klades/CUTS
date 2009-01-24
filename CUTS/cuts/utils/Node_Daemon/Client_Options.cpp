@@ -6,7 +6,8 @@
 // Client_Options
 //
 Client_Options::Client_Options (void)
-: verbose_ (false)
+: verbose_ (false),
+  reset_ (false)
 {
 
 }

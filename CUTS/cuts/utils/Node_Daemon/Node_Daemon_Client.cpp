@@ -36,6 +36,8 @@ int parse_args (int argc, char * argv[])
   get_opt.long_option ("task-terminate", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("task-restart", ACE_Get_Opt::ARG_REQUIRED);
 
+  get_opt.long_option ("reset");
+
   int option;
   while ((option = get_opt ()) != EOF)
   {
@@ -69,6 +71,10 @@ int parse_args (int argc, char * argv[])
       {
         CLIENT_OPTIONS ()->task_start_.workingdirectory =
           CORBA::string_dup (get_opt.opt_arg ());
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "reset") == 0)
+      {
+        CLIENT_OPTIONS ()->reset_ = true;
       }
       break;
 
@@ -228,6 +234,9 @@ int main (int argc, char * argv [])
 
     // Restart all the specified tasks.
     restart_tasks (daemon.in ());
+
+    if (CLIENT_OPTIONS ()->reset_)
+      daemon->reset ();
 
     // Destroy the ORB.
     VERBOSE_MESSAGE ((LM_DEBUG, "destroying the ORB\n"));

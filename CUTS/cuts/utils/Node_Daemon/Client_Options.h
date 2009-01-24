@@ -42,6 +42,9 @@ public:
 
   /// The task descriptor for the manually started task.
   ::CUTS::taskDescriptor task_start_;
+
+  /// Reset the node deamon.
+  bool reset_;
 };
 
 /// Singleton for the client options.
