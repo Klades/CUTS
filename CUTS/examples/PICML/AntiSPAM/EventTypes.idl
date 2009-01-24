@@ -1,0 +1,17 @@
+
+#ifndef EVENTTYPES_IDL
+#define EVENTTYPES_IDL
+
+#include <Components.idl>
+
+module antispam
+{
+  eventtype NullEvent
+  {
+    public long eventNumber;
+    public string sourceName;
+  };
+};
+
+#endif // EVENTTYPES_IDL
+

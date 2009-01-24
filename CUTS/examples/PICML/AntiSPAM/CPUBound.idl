@@ -1,0 +1,46 @@
+
+#ifndef CPUBOUND_IDL
+#define CPUBOUND_IDL
+
+#include <Components.idl>
+#include "EventTypes.idl"
+
+module antispam
+{
+  component CPUBound
+  {
+    consumes antispam::NullEvent InPortB;
+    
+    publishes antispam::NullEvent OutPortB;
+    
+    consumes antispam::NullEvent InPortA;
+    
+    consumes antispam::NullEvent InPortE;
+    
+    consumes antispam::NullEvent InPortC;
+    
+    consumes antispam::NullEvent InPortD;
+    
+    publishes antispam::NullEvent OutPortA;
+    
+    publishes antispam::NullEvent OutPortC;
+    
+    publishes antispam::NullEvent OutPortD;
+    
+    publishes antispam::NullEvent OutPortE;
+    
+    attribute long logRate;
+    
+    attribute string instName;
+    
+    attribute string testName;
+  };
+  
+  home CPUBoundHome
+    manages CPUBound
+  {
+  };
+};
+
+#endif // CPUBOUND_IDL
+

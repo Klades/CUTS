@@ -1,0 +1,24 @@
+
+#ifndef EVENTGENERATOR_IDL
+#define EVENTGENERATOR_IDL
+
+#include <Components.idl>
+#include "EventTypes.idl"
+
+module antispam
+{
+  component NullEventGenerator
+  {
+    publishes antispam::NullEvent NullEvent;
+    
+    attribute long publishHertz;
+  };
+  
+  home NullEventGeneratorHome
+    manages NullEventGenerator
+  {
+  };
+};
+
+#endif // EVENTGENERATOR_IDL
+
