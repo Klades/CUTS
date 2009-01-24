@@ -1,3 +1,12 @@
+Sat Jan 24 07:12:46 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+        * examples/PICML/AntiSPAM/AntiSPAM.mwc:
+        * examples/PICML/AntiSPAM/CPUBoundImpl_exec.h:
+        * examples/PICML/AntiSPAM/CPUBoundImpl_exec.cpp:
+
+          . The component now connects to the test manager via location.
+
 Sat Jan 24 06:50:51 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/cutsnode_d.mpc:
