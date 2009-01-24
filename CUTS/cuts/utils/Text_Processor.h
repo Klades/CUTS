@@ -15,9 +15,6 @@
 
 #include "Property_Expander.h"
 #include "Command_Substitution.h"
-#include "ace/FILE_Connector.h"
-#include "ace/FILE_IO.h"
-#include "boost/spirit/iterator/file_iterator.hpp"
 
 // Forward decl.
 class CUTS_Property_Map;
@@ -43,86 +40,19 @@ public:
    * @param[in]         str           String to preprocess.
    * @param[out]        output        Resultant string.
    */
-  int evaluate (const char * str, ACE_CString & output);
+  int evaluate (const char * str,
+                ACE_CString & output,
+                bool use_env = false,
+                bool ignore_variables = false,
+                bool ignore_commands = false);
 
   template <typename IteratorT>
-  int evaluate (IteratorT begin, IteratorT end, std::ostream & out)
-  {
-    int retval = 0;
-
-    // Create a temporary file on the disk.
-    ACE_FILE_IO file;
-    ACE_FILE_Connector disk (file,
-                             reinterpret_cast <const ACE_FILE_Addr &> (ACE_Addr::sap_any));
-
-    if (file.get_handle () == ACE_INVALID_HANDLE)
-      return -1;
-
-    // Delete the temp file so we can use in the stream.
-    ACE_FILE_Addr file_addr;
-    file.get_local_addr (file_addr);
-
-    std::string tempname = file_addr.get_path_name ();
-    file.remove ();
-
-    // Reopen the temp file using a stream.
-    std::ofstream tempfile;
-    tempfile.open (tempname.c_str ());
-
-    if (tempfile.is_open ())
-    {
-      // Expand the properties in the file.
-      retval = this->prop_expander_.expand (begin, end, true, tempfile);
-
-      if (retval == 0)
-      {
-        // Close the temp file from writing.
-        tempfile.close ();
-
-        // Reopen the temp file using an iterator this time.
-        boost::spirit::file_iterator < > temp_begin (tempname);
-
-        if (temp_begin)
-        {
-          boost::spirit::file_iterator < > temp_end = temp_begin.make_end ();
-
-          // Second pass will substitute all commands.
-          retval = this->command_sub_.evaluate (temp_begin, temp_end, out);
-
-          if (retval != 0)
-            ACE_ERROR ((LM_ERROR,
-                        "%T (%t) - %M - command substitution failed\n"));
-        }
-        else
-        {
-          ACE_ERROR ((LM_ERROR,
-                      "%T (%t) - %M - failed to open temp file %s for reading\n",
-                      tempname.c_str ()));
-        }
-      }
-      else
-      {
-        ACE_ERROR ((LM_ERROR,
-                    "%T (%t) - %M - variable substitution failed\n"));
-      }
-    }
-    else
-    {
-      ACE_ERROR ((LM_ERROR,
-                  "%T (%t) - %M - failed to open temp file %s for writing\n",
-                  tempname.c_str ()));
-
-      retval = -1;
-    }
-
-    // Delete the temp file for good.
-    if (ACE_OS::unlink (tempname.c_str ()) == -1)
-      ACE_ERROR ((LM_ERROR,
-                  "%T (%t) - %M - failed to delete temp file %s [%m]\n",
-                  tempname.c_str ()));
-
-    return retval;
-  }
+  int evaluate (IteratorT begin,
+                IteratorT end,
+                std::ostream & out,
+                bool use_env = false,
+                bool ignore_variables = false,
+                bool ignore_commands = false);
 
 private:
   /// Environment variable substitution engine.
@@ -135,5 +65,7 @@ private:
 #if defined (__CUTS_INLINE__)
 #include "Text_Processor.inl"
 #endif
+
+#include "Text_Processor_T.cpp"
 
 #endif  // !defined _CUTS_NODE_PREPROCESSOR_H_

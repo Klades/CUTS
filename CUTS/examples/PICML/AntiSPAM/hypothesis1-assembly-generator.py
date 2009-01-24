@@ -97,7 +97,7 @@ def writeCPUBoundComponent (outfile, id) :
   instance = """antispam::CPUBound %s
     {
       instName=%s
-      testName=`${CUTS_ROOT}/etc/emulab/get-project-name.sh`.`${CUTS_ROOT}/etc/emulab/get-experiment-name.sh`
+      testName=`cat /var/emulab/boot/syncserver`:10000
       logRate=10
     }
     """ % (instid, instid)

@@ -39,6 +39,11 @@ public:
   /// Destructor
   ~CUTS_Template_Config_List_Parser_Grammar (void);
 
+  /**
+   * Configure the grammar's behavior.
+   */
+  void configure (bool use_env, bool ignore_variables, bool ignore_commands);
+
   template <typename ScannerT>
   class definition
   {
@@ -56,7 +61,13 @@ public:
         str_p ("config") >>
         confix_p ('(', (*anychar_p)[assign_a (this->filename_)] , ')') >>
         confix_p ('{', (*anychar_p)[parse_config (this->prop_map_, self.overrides_)], '}')[
-          generate_file (self.template_file_, self.output_dir_, this->filename_, this->prop_map_)];
+          generate_file (self.template_file_,
+                         self.output_dir_,
+                         this->filename_,
+                         this->prop_map_,
+                         self.use_env_,
+                         self.ignore_variables_,
+                         self.ignore_commands_)];
 
       this->config_list_ = *this->config_;
     }
@@ -102,11 +113,17 @@ public:
       generate_file (const ACE_CString & template_file,
                      const ACE_CString & output_dir,
                      const std::string & filename,
-                     const CUTS_Property_Map & prop_map)
+                     const CUTS_Property_Map & prop_map,
+                     const bool & use_env,
+                     const bool & ignore_variables,
+                     const bool & ignore_commands)
         : filename_ (filename),
           output_dir_ (output_dir),
           begin_ (template_file.c_str ()),
-          prop_map_ (prop_map)
+          prop_map_ (prop_map),
+          use_env_ (use_env),
+          ignore_variables_ (ignore_variables),
+          ignore_commands_ (ignore_commands)
       {
         if (this->begin_)
           this->end_ = this->begin_.make_end ();
@@ -127,7 +144,12 @@ public:
         {
           CUTS_Text_Processor processor (this->prop_map_);
 
-          if (processor.evaluate (this->begin_, this->end_, outfile) == 0)
+          if (processor.evaluate (this->begin_,
+                                  this->end_,
+                                  outfile,
+                                  this->use_env_,
+                                  this->ignore_variables_,
+                                  this->ignore_commands_) == 0)
           {
             ACE_DEBUG ((LM_DEBUG,
                         "%T (%t) - %M - successfully generated %s\n",
@@ -154,6 +176,12 @@ public:
       boost::spirit::file_iterator < > end_;
 
       const CUTS_Property_Map & prop_map_;
+
+      const bool & use_env_;
+
+      const bool & ignore_variables_;
+
+      const bool & ignore_commands_;
     };
 
     std::string filename_;
@@ -172,6 +200,12 @@ private:
   const ACE_CString & output_dir_;
 
   const CUTS_Property_Map & overrides_;
+
+  bool use_env_;
+
+  bool ignore_variables_;
+
+  bool ignore_commands_;
 };
 
 /**
@@ -192,8 +226,10 @@ public:
   /// Destructor.
   ~CUTS_Template_Config_List_Parser (void);
 
-  bool parse (const char * filename);
-
+  bool parse (const char * filename,
+              bool use_env = false,
+              bool ignore_variables = false,
+              bool ignore_commands = false);
 private:
   CUTS_Template_Config_List_Parser_Grammar grammar_;
 };

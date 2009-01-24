@@ -40,7 +40,7 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>`${CUTS_ROOT}/etc/emulab/get-project-name.sh`.`${CUTS_ROOT}/etc/emulab/get-experiment-name.sh`</string>
+          <string>`cat /var/emulab/boot/syncserver`:10000</string>
         </value>
       </value>
     </configProperty>
@@ -80,7 +80,7 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>`${CUTS_ROOT}/etc/emulab/get-project-name.sh`.`${CUTS_ROOT}/etc/emulab/get-experiment-name.sh`</string>
+          <string>`cat /var/emulab/boot/syncserver`:10000</string>
         </value>
       </value>
     </configProperty>
@@ -120,7 +120,7 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>`${CUTS_ROOT}/etc/emulab/get-project-name.sh`.`${CUTS_ROOT}/etc/emulab/get-experiment-name.sh`</string>
+          <string>`cat /var/emulab/boot/syncserver`:10000</string>
         </value>
       </value>
     </configProperty>
@@ -160,7 +160,7 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>`${CUTS_ROOT}/etc/emulab/get-project-name.sh`.`${CUTS_ROOT}/etc/emulab/get-experiment-name.sh`</string>
+          <string>`cat /var/emulab/boot/syncserver`:10000</string>
         </value>
       </value>
     </configProperty>

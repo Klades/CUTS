@@ -183,26 +183,34 @@ public:
           // Close the file used to store the output.
           ACE_OS::close (pipe);
 
-          // Open tie
-          char substitution[BUFSIZ];
-          std::ifstream infile;
-
-          infile.open (this->tempfile_.c_str ());
-
-          if (infile.is_open ())
+          if (process.exit_code () == 0)
           {
-            // Get only the first line of the file.
-            infile.getline (substitution, BUFSIZ);
+            char substitution[BUFSIZ];
+            std::ifstream infile;
 
-            // Append the line to the stream.
-            this->ostr_ << substitution;
+            infile.open (this->tempfile_.c_str ());
 
-            // Close the file.
-            infile.close ();
+            if (infile.is_open ())
+            {
+              // Get only the first line of the file.
+              infile.getline (substitution, BUFSIZ);
+
+              // Append the line to the stream.
+              this->ostr_ << substitution;
+
+              // Close the file.
+              infile.close ();
+            }
           }
+          else
+          {
+            ACE_ERROR ((LM_ERROR,
+                        "%T - %M - process had exit status of %d [%s]\n",
+                        process.exit_code (),
+                        str.c_str ()));
 
-          // Delete the temporary file.
-          ACE_OS::unlink (this->tempfile_.c_str ());
+            this->ostr_ << '`' << str << '`';
+          }
         }
         else
         {
@@ -211,8 +219,11 @@ public:
                       str.c_str ()));
 
           // Insert the original command to the stream.
-          this->ostr_ << str;
+          this->ostr_ << '`' << str << '`';
         }
+
+        // Delete the temporary file.
+        ACE_OS::unlink (this->tempfile_.c_str ());
       }
       else
       {

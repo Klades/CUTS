@@ -5,31 +5,31 @@ assembly TemplateAssembly
     antispam::CPUBound inst1
     {
       instName=inst1
-      testName=`${CUTS_ROOT}/etc/emulab/get-project-name.sh`.`${CUTS_ROOT}/etc/emulab/get-experiment-name.sh`
+      testName=`cat /var/emulab/boot/syncserver`:10000
       logRate=10
     }
     antispam::CPUBound inst2
     {
       instName=inst2
-      testName=`${CUTS_ROOT}/etc/emulab/get-project-name.sh`.`${CUTS_ROOT}/etc/emulab/get-experiment-name.sh`
+      testName=`cat /var/emulab/boot/syncserver`:10000
       logRate=10
     }
     antispam::CPUBound inst3
     {
       instName=inst3
-      testName=`${CUTS_ROOT}/etc/emulab/get-project-name.sh`.`${CUTS_ROOT}/etc/emulab/get-experiment-name.sh`
+      testName=`cat /var/emulab/boot/syncserver`:10000
       logRate=10
     }
     antispam::CPUBound inst4
     {
       instName=inst4
-      testName=`${CUTS_ROOT}/etc/emulab/get-project-name.sh`.`${CUTS_ROOT}/etc/emulab/get-experiment-name.sh`
+      testName=`cat /var/emulab/boot/syncserver`:10000
       logRate=10
     }
     antispam::CPUBound inst5
     {
       instName=inst5
-      testName=`${CUTS_ROOT}/etc/emulab/get-project-name.sh`.`${CUTS_ROOT}/etc/emulab/get-experiment-name.sh`
+      testName=`cat /var/emulab/boot/syncserver`:10000
       logRate=10
     }
     antispam::NullEventGenerator generator1

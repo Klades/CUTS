@@ -1,3 +1,56 @@
+Sat Jan 24 15:58:28 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/utils.mpc:
+        * cuts/utils/Command_Substitution.h:
+        * cuts/utils/Text_Processor.h:
+        * cuts/utils/Text_Processor.cpp:
+        * cuts/utils/Text_Processor_T.cpp:
+        * cuts/utils/template/Template_App.cpp:
+        * cuts/utils/template/Template_App_Options.h:
+        * cuts/utils/template/Template_Config_List_Parser.h:
+        * cuts/utils/template/Template_Config_List_Parser.cpp:
+        * cuts/utils/template/Template_Engine.h:
+        * cuts/utils/template/Template_Engine.inl:
+        * cuts/utils/template/Template_Engine.cpp:
+
+          . The template engine now handles commands in a template.
+
+          . It is now possible to ignore either commands, variables, or
+            both when processing a template.
+
+          . Bug fix where failing to process a command removed the command
+            from the generated file.
+
+        * examples/PICML/AntiSPAM/hypothesis1-assembly-generator.py:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly1.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly1.cdp:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly10.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly11.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly12.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly13.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly14.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly15.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly16.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly17.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly18.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly19.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly2.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly2.cdp:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly20.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly3.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly3.cdp:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly4.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly4.cdp:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly5.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly5.cdp:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly6.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly6.cdp:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly7.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly8.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly9.assembly:
+
+          . Updated the testName configuration parameter the deployments
+
 Sat Jan 24 07:12:46 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/AntiSPAM.xme:

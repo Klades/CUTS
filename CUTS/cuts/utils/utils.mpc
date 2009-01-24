@@ -13,4 +13,8 @@ project (CUTS_Utils) : boost_base, cutslib {
     Property_Parser.cpp
     Text_Processor.cpp
   }
+
+  Template_Files {
+    Text_Processor_T.cpp
+  }
 }

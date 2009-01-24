@@ -14,7 +14,7 @@
 #define _CUTS_TEMPATE_ENGINE_H_
 
 #include "cuts/config.h"
-#include "cuts/utils/Property_Expander.h"
+#include "cuts/utils/Text_Processor.h"
 
 // Forward decl.
 class CUTS_Property_Map;
@@ -32,11 +32,13 @@ public:
   ~CUTS_Template_Engine (void);
 
   bool process (const char * file,
-                bool use_env,
-                std::ostream & out);
+                std::ostream & out,
+                bool use_env = false,
+                bool ignore_variables = false,
+                bool ignore_commands = false);
 
 private:
-  CUTS_Property_Expander pe_;
+  CUTS_Text_Processor tp_;
 };
 
 #if defined (__CUTS_INLINE__)

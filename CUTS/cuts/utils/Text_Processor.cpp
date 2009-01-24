@@ -12,8 +12,11 @@
 //
 // evaluate
 //
-int CUTS_Text_Processor::
-evaluate (const char * str, ACE_CString & output)
+int CUTS_Text_Processor::evaluate (const char * str,
+                                   ACE_CString & output,
+                                   bool use_env,
+                                   bool ignore_variables,
+                                   bool ignore_commands)
 {
   int retval = 0;
 

@@ -7,7 +7,7 @@
 CUTS_INLINE
 CUTS_Template_Engine::
 CUTS_Template_Engine (const CUTS_Property_Map & map)
-: pe_ (map)
+: tp_ (map)
 {
 
 }

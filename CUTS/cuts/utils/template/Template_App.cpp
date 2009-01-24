@@ -19,12 +19,16 @@ static const char * __HELP__ =
 "  --template=TEMPLATE        generate configuration for TEMPLATE\n"
 "  -c, --config=FILE          use configuration in FILE\n"
 "  --config-list=FILE         use configurations in FILE\n"
-"\n"
-"  -Dname=VALUE               define property name with VALUE\n"
-"  --use-env                  use environment variables\n"
-"\n"
 "  -o OUTFILE                 output expansion to OUTFILE\n"
 "\n"
+"  -Dname=VALUE               define property name with VALUE\n"
+"\n"
+"Expansion Options:\n"
+"  --use-env                  use environment variables\n"
+"  --ignore-variables         do not expand variables in template\n"
+"  --ignore-commands          do not expand commands in template\n"
+"\n"
+"Print Options:\n"
 "  -v, --verbose              print verbose infomration\n"
 "  --debug                    print debugging information\n"
 "  -h, --help                 print this help message\n";
@@ -133,7 +137,10 @@ int CUTS_Template_App::run_main (int argc, char * argv [])
                                              this->opts_.output_,
                                              overrides);
 
-    parser.parse (this->opts_.config_list_.c_str ());
+    parser.parse (this->opts_.config_list_.c_str (),
+                  this->opts_.use_env_,
+                  this->opts_.ignore_variables_,
+                  this->opts_.ignore_commands_);
   }
 
   return 0;
@@ -147,13 +154,16 @@ int CUTS_Template_App::parse_args (int argc, char * argv [])
   const char * optargs = "ho:vc:D:";
   ACE_Get_Opt get_opt (argc, argv, optargs);
 
-  get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
-  get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
-  get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
-  get_opt.long_option ("use-env", ACE_Get_Opt::NO_ARG);
+  get_opt.long_option ("verbose", 'v');
+  get_opt.long_option ("debug");
+  get_opt.long_option ("help", 'h');
+  get_opt.long_option ("use-env");
   get_opt.long_option ("config", 'c', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("config-list", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("template", ACE_Get_Opt::ARG_REQUIRED);
+
+  get_opt.long_option ("ignore-variables");
+  get_opt.long_option ("ignore-commands");
 
   char ch;
 
@@ -189,6 +199,14 @@ int CUTS_Template_App::parse_args (int argc, char * argv [])
       else if (ACE_OS::strcmp ("config-list", get_opt.long_option ()) == 0)
       {
         this->opts_.config_list_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp ("ignore-commands", get_opt.long_option ()) == 0)
+      {
+        this->opts_.ignore_commands_ = true;
+      }
+      else if (ACE_OS::strcmp ("ignore-variables", get_opt.long_option ()) == 0)
+      {
+        this->opts_.ignore_variables_ = true;
       }
       break;
 
@@ -247,8 +265,10 @@ void CUTS_Template_App::expand_into (std::ostream & out)
   CUTS_Template_Engine engine (this->prop_map_);
 
   if (engine.process (this->opts_.input_.c_str (),
+                      out,
                       this->opts_.use_env_,
-                      out))
+                      this->opts_.ignore_variables_,
+                      this->opts_.ignore_commands_))
   {
     ACE_DEBUG ((LM_INFO,
                 "%T (%t) - %M - successully processed %s\n",

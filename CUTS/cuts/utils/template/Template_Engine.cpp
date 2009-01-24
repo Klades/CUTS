@@ -11,8 +11,11 @@
 //
 // process
 //
-bool CUTS_Template_Engine::
-process (const char * filename, bool use_env, std::ostream & out)
+bool CUTS_Template_Engine::process (const char * filename,
+                                    std::ostream & out,
+                                    bool use_env,
+                                    bool ignore_variables,
+                                    bool ignore_commands)
 {
   // Find the start of the file.
   boost::spirit::file_iterator <char> begin (filename);
@@ -22,12 +25,12 @@ process (const char * filename, bool use_env, std::ostream & out)
     // Find the end of the file.
     boost::spirit::file_iterator <char> end = begin.make_end ();
 
-    if (this->pe_.expand (begin, end, use_env, out))
-      return true;
-
-    ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - failed to convert template file [file=%s]\n",
-                filename));
+    return this->tp_.evaluate (begin,
+                               end,
+                               out,
+                               use_env,
+                               ignore_variables,
+                               ignore_commands) == 0 ? true : false;
   }
   else
   {

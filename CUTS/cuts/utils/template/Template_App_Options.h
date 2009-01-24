@@ -25,7 +25,9 @@ public:
   /// Default constructor. Set the default values for the command-line
   /// options.
   CUTS_Template_App_Options (void)
-    : use_env_ (false)
+    : use_env_ (false),
+      ignore_variables_ (false),
+      ignore_commands_ (false)
   {
 
   }
@@ -47,6 +49,10 @@ public:
 
   /// Use environment variables in the conversion.
   bool use_env_;
+
+  bool ignore_variables_;
+
+  bool ignore_commands_;
 };
 
 #endif  // !defined _CUTS_TEMPLATE_APP_OPTIONS_H_
