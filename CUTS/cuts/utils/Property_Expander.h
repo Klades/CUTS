@@ -164,7 +164,7 @@ public:
       {
         // Store the name of the property.
         std::string name (begin, end);
-
+        
         // Locate the value of the property.
         ACE_CString value;
 
@@ -187,6 +187,10 @@ public:
           }
           else
           {
+            ACE_DEBUG ((LM_ERROR,
+                        "%T (%t) - %M - failed to locate variable %s\n",
+                        name.c_str ()));
+
             this->out_ << "${" << name << "}";
           }
         }

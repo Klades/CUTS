@@ -71,7 +71,7 @@ public:
       using namespace boost::spirit;
 
       this->property_name_ =
-        lexeme_d[(alpha_p | '_') >> *(alnum_p | '_')];
+        lexeme_d[(alpha_p | '_') >> *(alnum_p | '_' | '.')];
 
       this->property_value_ =
         lexeme_d[*(anychar_p - eol_p)];

@@ -80,7 +80,8 @@ public:
   private:
     struct parse_config
     {
-      parse_config (CUTS_Property_Map & prop_map, const CUTS_Property_Map & overrides)
+      parse_config (CUTS_Property_Map & prop_map, 
+                    const CUTS_Property_Map & overrides)
         : prop_map_ (prop_map),
           overrides_ (overrides)
       {
@@ -96,7 +97,11 @@ public:
 
         // Parse the configuration.
         CUTS_Property_Parser parser (this->prop_map_);
-        parser.parse (begin, end);
+        if (!parser.parse (begin, end))
+          ACE_ERROR ((LM_ERROR,
+                      "%T (%t) - %M - failed to parse configuration "
+                      "properties [%s]\n",
+                      std::string (begin, end).c_str ()));
 
         // Insert the overrides into the property map.
         this->prop_map_.join (this->overrides_, true);

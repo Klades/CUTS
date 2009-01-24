@@ -1,3 +1,12 @@
+Sat Jan 24 19:10:07 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Property_Expander.h:
+        * cuts/utils/Property_Parser.h:
+        * cuts/utils/template/Template_Config_List_Parser.h:
+
+	  . Bug fix where '.' in the property name cased the parser 
+	    to fail when parsing a property list.	  
+
 Sat Jan 24 18:26:55 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/descriptors/hypothesis1/generate.bat:
