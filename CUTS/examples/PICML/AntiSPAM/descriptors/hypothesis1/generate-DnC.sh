@@ -1,6 +1,11 @@
 #!/bin/bash
 
 CONFIG_LIST="$(ls *.cdp)"
+CONFIG_LIST_FILE=$1
+
+if [ -f ${CONFIG_LIST_FILE} ]; then
+  rm ${CONFIG_LIST_FILE}
+fi
 
 # iterate thru each configuration
 for i in `ls ${CONFIG_LIST}`; do
@@ -39,5 +44,7 @@ for i in `ls ${CONFIG_LIST}`; do
     # generate the deployment(s)
     echo "*** info: generating $j into ${DEPLOYMENT_OUTPUT_DIR}"
     $CUTS_ROOT/bin/cuts-template --template=$j --config-list=unique-deployments.config -o ${DEPLOYMENT_OUTPUT_DIR} --use-env
+
+    ls ${DEPLOYMENT_OUTPUT_DIR}/*.cdp >> ${CONFIG_LIST_FILE}
   done
 done

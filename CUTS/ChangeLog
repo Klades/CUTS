@@ -1,8 +1,20 @@
+Sat Jan 24 20:53:01 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/generate-DnC.sh:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/generate-and-run-test-all.sh:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/run-test-all.sh:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/run-test.sh:
+
+	  . Scripts to make running all the test easier. The script also
+	    ensures that a test runs only once if for some reason we have
+	    to regenerate everything. This only holds as long as you 
+	    write data files to the same location.
+
 Sat Jan 24 20:17:54 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/descriptors/hypothesis1/generate-DnC.sh:
 
-	  . Script to generate all the D&C's for hypothesis 1.
+          . Script to generate all the D&C's for hypothesis 1.
 
 Sat Jan 24 19:10:07 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
