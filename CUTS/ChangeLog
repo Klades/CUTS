@@ -1,3 +1,72 @@
+Sat Jan 24 18:26:55 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/generate.bat:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly.config:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly.deployment:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly1.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly1.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly10.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly11.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly12.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly13.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly14.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly15.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly16.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly17.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly18.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly19.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly2.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly2.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly20.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly3.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly3.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly4.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly4.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly5.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly5.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly6.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly6.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly7.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly8.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly9.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/unique-deployments.config:
+
+          . Moved the location of the templates.
+
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/generate.bat:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly.config:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly.deployment:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly1.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly1.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly10.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly11.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly12.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly13.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly14.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly15.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly16.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly17.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly18.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly19.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly2.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly2.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly20.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly3.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly3.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly4.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly4.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly5.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly5.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly6.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly6.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly7.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly8.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/hypothesis1-template-assembly9.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/templates/unique-deployments.config:
+
+          Removed these files.
+
 Sat Jan 24 18:21:59 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/descriptors:
