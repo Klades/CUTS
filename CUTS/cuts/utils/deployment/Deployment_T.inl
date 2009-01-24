@@ -39,7 +39,8 @@ template <typename T>
 CUTS_INLINE
 bool CUTS_Deployment_T <T>::insert (item_type item)
 {
-  return this->hosts_.insert (item).second;
+  this->hosts_.push_back (item);
+  return true;
 }
 
 //

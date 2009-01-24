@@ -61,6 +61,7 @@ calculate_i (const deployment_type & deployment, const item_type & item)
     typename deployment_type::iterator iter = updated.begin ();
     std::advance (iter, i);
 
+    // For some reason, this is being treated as a 'const'
     iter->insert (item);
 
     // Save the updated deployment.

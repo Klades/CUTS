@@ -13,6 +13,7 @@
 #ifndef _CUTS_DEPLOYMENT_T_H_
 #define _CUTS_DEPLOYMENT_T_H_
 
+#include <list>
 #include "cuts/config.h"
 
 /**
@@ -24,7 +25,7 @@ class CUTS_Deployment_T
 public:
   typedef T item_type;
 
-  typedef std::set <item_type> collection_type;
+  typedef std::list <item_type> collection_type;
 
   typedef typename collection_type::iterator iterator;
 
