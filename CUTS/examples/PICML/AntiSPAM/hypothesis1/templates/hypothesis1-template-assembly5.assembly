@@ -1,4 +1,4 @@
-assembly H1TemplateAssembly5
+assembly TemplateAssembly
 {
   instances
   {
@@ -57,15 +57,13 @@ assembly H1TemplateAssembly5
   connections
   {
     generator4.NullEvent >> inst1.InPortA
-    generator3.NullEvent >> inst1.InPortA
-    generator5.NullEvent >> inst2.InPortA
+    generator2.NullEvent >> inst1.InPortA
     generator4.NullEvent >> inst2.InPortA
-    generator3.NullEvent >> inst2.InPortA
-    generator4.NullEvent >> inst3.InPortA
-    generator2.NullEvent >> inst3.InPortA
-    generator1.NullEvent >> inst3.InPortA
+    generator1.NullEvent >> inst2.InPortA
+    generator5.NullEvent >> inst3.InPortA
+    generator4.NullEvent >> inst4.InPortA
+    generator3.NullEvent >> inst4.InPortA
     generator2.NullEvent >> inst4.InPortA
-    generator4.NullEvent >> inst5.InPortA
-    generator1.NullEvent >> inst5.InPortA
+    generator2.NullEvent >> inst5.InPortA
   }
 }

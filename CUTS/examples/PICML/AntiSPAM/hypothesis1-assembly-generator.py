@@ -48,11 +48,12 @@ def main () :
   random.seed (None)
 
   # generate all the assemblies
-  for i in range (1, count) :
+  for i in range (1, count + 1) :
     generateAssembly (i)
 
   # generate all the configurations
   generateConfigs (configs)
+  generateDeployment ()
 
   return 0
 
@@ -65,7 +66,7 @@ def generateAssembly (id) :
   outfile = open (filename, "w")
 
   # write the header for the assembly
-  outfile.write ("assembly H1TemplateAssembly%d\n{\n" % id)
+  outfile.write ("assembly TemplateAssembly\n{\n")
 
   # write the instances in the assembly
   outfile.write ("  instances\n  {\n    ")
@@ -171,6 +172,25 @@ def generateConfigs (count) :
     outfile.write (config)
 
   # close the configuration
+  outfile.close ()
+
+def generateDeployment () :
+  outfile = open ("hypothesis1-template-assembly.deployment", "w")
+
+  str = """deployment TemplateDeployment {
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/inst1 : ${host.inst2}[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/inst3 : ${host.inst1}[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/inst3 : ${host.inst3}[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/inst4 : ${host.inst4}[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/inst5 : ${host.inst5}[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/generator1 : generator[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/generator2 : generator[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/generator3 : generator[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/generator4 : generator[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/generator5 : generator[DefaultGroup]
+}"""
+
+  outfile.write (str)
   outfile.close ()
 
 ###############################################################################

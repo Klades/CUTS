@@ -1,3 +1,37 @@
+Sat Jan 24 02:08:15 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/hypothesis1-assembly-generator.py:
+
+          . Bug fix where the generator was not generating the correct
+            number of assemblies.
+
+        * cuts/utils/deployment/unique-deployments.cpp:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly.config:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly.deployment:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly1.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly10.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly11.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly12.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly13.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly14.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly15.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly16.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly17.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly18.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly19.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly2.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly20.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly3.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly4.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly5.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly6.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly7.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly8.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/hypothesis1-template-assembly9.assembly:
+        * examples/PICML/AntiSPAM/hypothesis1/templates/unique-deployments.config:
+
+          . Checkpointing the configuration(s).
+
 Fri Jan 23 22:59:25 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/ChangeLog:

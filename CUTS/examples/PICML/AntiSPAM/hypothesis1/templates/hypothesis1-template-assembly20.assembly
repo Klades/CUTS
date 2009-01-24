@@ -1,4 +1,4 @@
-assembly H1TemplateAssembly20
+assembly TemplateAssembly
 {
   instances
   {
@@ -34,38 +34,36 @@ assembly H1TemplateAssembly20
     }
     antispam::NullEventGenerator generator1
     {
-      publishHertz=${publishHertz}
+      publishHertz=${generator1.publishHertz}
     }
     antispam::NullEventGenerator generator2
     {
-      publishHertz=${publishHertz}
+      publishHertz=${generator2.publishHertz}
     }
     antispam::NullEventGenerator generator3
     {
-      publishHertz=${publishHertz}
+      publishHertz=${generator3.publishHertz}
     }
     antispam::NullEventGenerator generator4
     {
-      publishHertz=${publishHertz}
+      publishHertz=${generator4.publishHertz}
     }
     antispam::NullEventGenerator generator5
     {
-      publishHertz=${publishHertz}
+      publishHertz=${generator5.publishHertz}
     }
     }
 
-    connections
-    {
-      generator5.NullEvent >> inst1.InPortA
-      generator3.NullEvent >> inst1.InPortA
-      generator2.NullEvent >> inst1.InPortA
-      generator4.NullEvent >> inst2.InPortA
-      generator1.NullEvent >> inst2.InPortA
-      generator3.NullEvent >> inst3.InPortA
-      generator2.NullEvent >> inst3.InPortA
-      generator3.NullEvent >> inst4.InPortA
-      generator1.NullEvent >> inst4.InPortA
-      generator5.NullEvent >> inst5.InPortA
-      generator3.NullEvent >> inst5.InPortA
-      generator1.NullEvent >> inst5.InPortA
-    }}
+  connections
+  {
+    generator5.NullEvent >> inst1.InPortA
+    generator4.NullEvent >> inst2.InPortA
+    generator1.NullEvent >> inst2.InPortA
+    generator3.NullEvent >> inst3.InPortA
+    generator1.NullEvent >> inst3.InPortA
+    generator4.NullEvent >> inst4.InPortA
+    generator3.NullEvent >> inst4.InPortA
+    generator1.NullEvent >> inst4.InPortA
+    generator1.NullEvent >> inst5.InPortA
+  }
+}
