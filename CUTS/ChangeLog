@@ -1,9 +1,25 @@
+Sat Jan 24 22:34:33 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/lib/hypothesis1:
+        * examples/PICML/AntiSPAM/lib/hypothesis1/inst1.cpu:
+        * examples/PICML/AntiSPAM/lib/hypothesis1/inst2.cpu:
+        * examples/PICML/AntiSPAM/lib/hypothesis1/inst3.cpu:
+        * examples/PICML/AntiSPAM/lib/hypothesis1/inst4.cpu:
+        * examples/PICML/AntiSPAM/lib/hypothesis1/inst5.cpu:
+        * examples/PICML/AntiSPAM/lib/inst1.cpu:
+        * examples/PICML/AntiSPAM/lib/inst2.cpu:
+        * examples/PICML/AntiSPAM/lib/inst3.cpu:
+        * examples/PICML/AntiSPAM/lib/inst4.cpu:
+        * examples/PICML/AntiSPAM/lib/inst5.cpu:
+
+          . Saving the CPU profiles for hypothesis 1
+
 Sat Jan 24 21:30:58 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/descriptors/hypothesis1/run-test-all.sh:
 
-	  . Updated the script to reset the node daemons on each host in
-	    the testing environment.
+          . Updated the script to reset the node daemons on each host in
+            the testing environment.
 
 Sat Jan 24 20:53:01 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
