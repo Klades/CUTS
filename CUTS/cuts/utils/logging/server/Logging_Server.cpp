@@ -12,7 +12,6 @@
 #include "cuts/utils/logging/server/callbacks/testing/Test_Logging_Callback.h"
 #include "tao/IORTable/IORTable.h"
 #include "ace/Get_Opt.h"
-#include "ace/Env_Value_T.h"
 #include "ace/streams.h"
 #include "XSC/utils/XML_Error_Handler.h"
 #include "boost/bind.hpp"
@@ -23,32 +22,16 @@ static const char * __HELP__ =
 "Logging server daemon for collecting log messages\n"
 "\n"
 "General options:\n"
-"  --clients=FILE        register server with clients in FILE\n"
-"  --thread-count=N      execute N threads in server (default: N=1)\n"
-"  --uuid=UUID           associate log message with test UUID\n"
+"  --clients=FILE             register server with clients in FILE\n"
+"  --thread-count=N           execute N threads in server (default: N=1)\n"
+"\n"
+"  -f, --file=ARCHIVE         log message into ARCHIVE\n"
 "\n"
 "Printing options:\n"
-"  -h, --help            print this help message\n"
-"  -v, --verbose         print verbose infomration\n"
-"  --debug               print debugging information\n"
-"  --trace               print tracing information\n";
-
-//
-// CUTS_Test_Logging_Server
-//
-CUTS_Test_Logging_Server::CUTS_Test_Logging_Server (void)
-{
-  this->uuid_ <<= ACE_Utils::UUID::NIL_UUID;
-}
-
-//
-// CUTS_Test_Logging_Server
-//
-CUTS_Test_Logging_Server::CUTS_Test_Logging_Server (CORBA::ORB_ptr orb)
-: orb_ (::CORBA::ORB::_duplicate (orb))
-{
-  this->uuid_ <<= ACE_Utils::UUID::NIL_UUID;
-}
+"  -h, --help                 print this help message\n"
+"  -v, --verbose              print verbose infomration\n"
+"  --debug                    print debugging information\n"
+"  --trace                    print tracing information\n";
 
 //
 // run_main
@@ -148,12 +131,12 @@ int CUTS_Test_Logging_Server::parse_args (int argc, char * argv[])
   if (::CORBA::is_nil (this->orb_.in ()))
     this->orb_ = ::CORBA::ORB_init (argc, argv, "cuts.logging.server");
 
-  const char * optstr = "hv";
+  const char * optstr = "hvf:";
   ACE_Get_Opt get_opt (argc, argv, optstr);
 
   get_opt.long_option ("clients", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("thread-count", ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("uuid", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("file", 'f', ACE_Get_Opt::ARG_REQUIRED);
 
   get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
@@ -184,10 +167,8 @@ int CUTS_Test_Logging_Server::parse_args (int argc, char * argv[])
 
         ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
       }
-      else if (ACE_OS::strcmp ("uuid", get_opt.long_option ()) == 0)
+      else if (ACE_OS::strcmp ("file", get_opt.long_option ()) == 0)
       {
-        ACE_Utils::UUID uuid (get_opt.opt_arg ());
-        this->uuid_ <<= uuid;
       }
       else if (ACE_OS::strcmp ("help", get_opt.long_option ()) == 0)
       {
@@ -394,9 +375,18 @@ register_with_client (const std::string & str,
 //
 // uuid
 //
-void CUTS_Test_Logging_Server::uuid (const ACE_Utils::UUID & uuid)
+void CUTS_Test_Logging_Server::archive (CUTS_Test_Database * archive)
 {
-  this->uuid_ <<= uuid;
+  if (this->is_owner_ && this->archive_ != 0)
+  {
+    // Delete our reference to the archive.
+    delete this->archive_;
+    this->archive_ = 0;
+  }
+
+  // Save the new archive. We don't have ownership this time.
+  this->archive_ = archive;
+  this->is_owner_ = false;
 }
 
 //
@@ -430,23 +420,30 @@ void CUTS_Test_Logging_Server::unregister_with_clients (void)
 //
 int CUTS_Test_Logging_Server::init_test_database (void)
 {
-  // This is temporary hack until we figure out how to resolve
-  // the BUGS in TAO for loading servants in shared libraries.
-  ACE_Utils::UUID uuid;
-  this->uuid_ >>= uuid;
+  if (this->archive_ == 0)
+  {
+    // Create a new test database object.
+    ACE_NEW_RETURN (this->archive_, CUTS_Test_Database (), -1);
+    this->is_owner_ = true;
 
-  ACE_Env_Value <char *> CUTS_ROOT ("CUTS_ROOT", "");
-  std::ostringstream ostr;
-  ostr << CUTS_ROOT << "/etc/tests/"
-       << uuid.to_string ()->c_str () << ".cdb";
+    // Open the archive.
+    if (!this->archive_->open (this->archive_file_))
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "%T (%t) - %M - failed to open archive %s\n",
+                         this->archive_file_.c_str ()),
+                         -1);
+  }
 
-  if (!this->db_.create (ostr.str ().c_str (), uuid))
-    return -1;
+  // Get the profile from the database and save the UUID.
+  CUTS_Test_Profile profile;
+  this->archive_->get_test_profile (profile);
+  this->uuid_ <<= profile.uuid_;
 
+  // Instantiate a new callback object.
   CUTS_Test_Logging_Callback * callback = 0;
 
   ACE_NEW_THROW_EX (callback,
-                    CUTS_Test_Logging_Callback (this->db_),
+                    CUTS_Test_Logging_Callback (*this->archive_),
                     CORBA::NO_MEMORY ());
 
   ACE_Auto_Ptr <CUTS_Test_Logging_Callback> auto_clean (callback);

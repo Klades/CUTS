@@ -1,3 +1,16 @@
+Sun Jan 25 04:53:48 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/server/Logging_Server.h:
+        * cuts/utils/logging/server/Logging_Server.inl:
+        * cuts/utils/logging/server/Logging_Server.cpp:
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service.cpp:
+
+          . Bug fix where the logger server was not up-to-date with the
+            the new test manager, and where is stores the database. Now,
+            the logging server determines the location of the archive
+            via the -f, --file parameter, or being given a reference to
+            an archive.
+
 Sun Jan 25 01:23:42 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/workers/CPU/CPU_Worker.cpp:

@@ -71,11 +71,11 @@ public:
   int install_callback (CUTS::TestLoggerServerCallback_ptr callback);
 
   /**
-   * Set the UUID for the server.
+   * Set the archive for logging data.
    *
-   * @param[in]     uuid          UUID of the server.
+   * @param[in]     archive          Location of the archive.
    */
-  void uuid (const ACE_Utils::UUID & uuid);
+  void archive (CUTS_Test_Database * archive);
 
 private:
   int parse_args (int argc, char * argv[]);
@@ -106,7 +106,10 @@ private:
   /// Logging server options.
   CUTS_Logging_Server_Options opts_;
 
-  /// The UUID of the server.
+  /// Archive for logging data.
+  ACE_CString archive_file_;
+
+  /// UUID from the archive.
   CUTS::UUID uuid_;
 
   /// Collection of clients server is registered.
@@ -114,8 +117,11 @@ private:
 
   clients_set_type clients_;
 
+  /// Ownership flag for the archive.
+  bool is_owner_;
+
   /// Temporary CUTS database
-  CUTS_Test_Database db_;
+  CUTS_Test_Database * archive_;
 };
 
 #if defined (__CUTS_INLINE__)
