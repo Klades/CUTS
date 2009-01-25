@@ -44,7 +44,7 @@ CUTS_TestLoggerClient_i (PortableServer::POA_ptr parent)
 //
 CUTS_TestLoggerClient_i::~CUTS_TestLoggerClient_i (void)
 {
-  //this->poa_->destroy (1, 1);
+
 }
 
 //
@@ -102,6 +102,10 @@ void CUTS_TestLoggerClient_i::unregister_server (const CUTS::UUID & uid)
 
   try
   {
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - unregistering test %s\n",
+                uuid.to_string ()->c_str ()));
+
     // Convert the UUID into an object id.
     PortableServer::ObjectId_var oid =
       PortableServer::string_to_ObjectId (uuid.to_string ()->c_str ());

@@ -29,7 +29,17 @@ CUTS_Test_Logger::~CUTS_Test_Logger (void)
 //
 bool CUTS_Test_Logger::configure (short port)
 {
-  return this->impl_->configure (port);
+  try
+  {
+    return this->impl_->configure (port);
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - caught unknown exception (%N:%l)\n"));
+  }
+
+  return false;
 }
 
 //
@@ -38,7 +48,17 @@ bool CUTS_Test_Logger::configure (short port)
 bool CUTS_Test_Logger::
 connect_using_location (const ACE_CString & location)
 {
-  return this->impl_->connect_using_location (location);
+  try
+  {
+    return this->impl_->connect_using_location (location);
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - caught unknown exception (%N:%l)\n"));
+  }
+
+  return false;
 }
 
 //
@@ -47,7 +67,17 @@ connect_using_location (const ACE_CString & location)
 bool CUTS_Test_Logger::
 connect_using_name (const ACE_CString & name)
 {
-  return this->impl_->connect_using_name (name);
+  try
+  {
+    return this->impl_->connect_using_name (name);
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - caught unknown exception (%N:%l)\n"));
+  }
+
+  return false;
 }
 
 //
@@ -55,7 +85,17 @@ connect_using_name (const ACE_CString & name)
 //
 bool CUTS_Test_Logger::connect (void)
 {
-  return this->impl_->connect ();
+  try
+  {
+    return this->impl_->connect ();
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - caught unknown exception (%N:%l)\n"));
+  }
+
+  return false;
 }
 
 //
@@ -63,22 +103,48 @@ bool CUTS_Test_Logger::connect (void)
 //
 bool CUTS_Test_Logger::log (long severity, const char * format, ...)
 {
-  ACE_Time_Value tv = ACE_OS::gettimeofday ();
+  try
+  {
+    ACE_Time_Value tv = ACE_OS::gettimeofday ();
 
-  // Initialize the variable arguments list.
-  va_list args;
-  va_start (args, format);
+    // Initialize the variable arguments list.
+    va_list args;
+    va_start (args, format);
 
-  // Parse the format string.
-  std::ostringstream ostr;
-  this->parser_.parse (format, args, ostr);
+    // Parse the format string.
+    std::ostringstream ostr;
+    this->parser_.parse (format, args, ostr);
 
-  // End the variable arguments.
-  va_end (args);
+    // End the variable arguments.
+    va_end (args);
 
-  // Pass control to the implementation.
-  return this->impl_->log (tv,
-                           severity,
-                           ostr.str ().c_str (),
-                           ostr.str ().length ());
+    // Pass control to the implementation.
+    return this->impl_->log (tv,
+                             severity,
+                             ostr.str ().c_str (),
+                             ostr.str ().length ());
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - caught unknown exception (%N:%l)\n"));
+  }
+
+  return false;
+}
+
+//
+// disconnect
+//
+void CUTS_Test_Logger::disconnect (void)
+{
+  try
+  {
+    this->impl_->disconnect ();
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - caught unknown exception (%N:%l)\n"));
+  }
 }

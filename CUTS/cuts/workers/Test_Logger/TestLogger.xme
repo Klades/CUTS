@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{7682C881-900C-438D-A531-926435162833}" cdate="Wed Dec 10 17:32:23 2008" mdate="Wed Dec 10 17:32:23 2008" version="" metaguid="{6131D657-5E06-4D59-B9A5-39B0F7A830D4}" metaversion="" metaname="PICML">
+<project guid="{D9D8A2AC-273C-4369-9CC6-9C05F2A646F5}" cdate="Sun Jan 25 09:15:20 2009" mdate="Sun Jan 25 09:15:20 2009" version="" metaguid="{6131D657-5E06-4D59-B9A5-39B0F7A830D4}" metaversion="" metaname="PICML">
 	<name>TestLogger</name>
 	<comment>Traffic light system for the NAOMI project</comment>
 	<author>James H. Hill</author>
 	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0xd" kind="RootFolder" guid="{F1819BB3-901E-40fb-94F7-A20058D05651}">
 		<name>TestLogger</name>
-		<folder id="id-006a-00000006" relid="0x15" childrelidcntr="0x5" kind="PredefinedTypes" guid="{C18A3327-7E87-46f2-A393-915539EA4FFC}">
+		<folder id="id-006a-00000002" relid="0x15" childrelidcntr="0x5" kind="PredefinedTypes" guid="{C18A3327-7E87-46f2-A393-915539EA4FFC}">
 			<name>PredefinedTypes</name>
 			<regnode name="__udm_namespace" isopaque="yes">
 				<value></value>
 			</regnode>
-			<atom id="id-0066-00000003" kind="String" guid="{44BCD813-1F0E-46bc-BDDC-81FEEE90382F}" relid="0x1">
+			<atom id="id-0066-00000001" kind="String" guid="{44BCD813-1F0E-46bc-BDDC-81FEEE90382F}" relid="0x1">
 				<name>String</name>
 				<regnode name="__udm_namespace" isopaque="yes">
 					<value></value>
 				</regnode>
 			</atom>
-			<atom id="id-0066-0000001a" kind="ShortInteger" guid="{55E03F63-0C53-48b1-8B82-FB81FA3953D8}" relid="0x3">
+			<atom id="id-0066-00000002" kind="ShortInteger" guid="{55E03F63-0C53-48b1-8B82-FB81FA3953D8}" relid="0x3">
 				<name>ShortInteger</name>
 			</atom>
-			<atom id="id-0066-0000001b" kind="LongInteger" guid="{97CDE4DD-72D0-4eda-9CA8-B0BFB86936D9}" relid="0x4">
+			<atom id="id-0066-00000003" kind="LongInteger" guid="{97CDE4DD-72D0-4eda-9CA8-B0BFB86936D9}" relid="0x4">
 				<name>LongInteger</name>
 			</atom>
-			<atom id="id-0066-0000001c" kind="GenericValue" guid="{691D513E-4406-42f7-BA96-62AB7C887524}" relid="0x5">
+			<atom id="id-0066-00000004" kind="GenericValue" guid="{691D513E-4406-42f7-BA96-62AB7C887524}" relid="0x5">
 				<name>GenericValue</name>
 			</atom>
 		</folder>
-		<folder id="id-006a-00000009" relid="0x1a" childrelidcntr="0x3" kind="WorkerLibraries" guid="{B75400B9-6467-49d8-9D34-CB68A969AC4A}">
+		<folder id="id-006a-00000003" relid="0x1a" childrelidcntr="0x3" kind="WorkerLibraries" guid="{B75400B9-6467-49d8-9D34-CB68A969AC4A}">
 			<name>WorkerLibraries</name>
-			<model id="id-0065-0000004c" kind="WorkerLibrary" guid="{06903DAD-78C3-4b48-B4FB-AE68FF2F24EF}" relid="0x1" childrelidcntr="0x1">
+			<model id="id-0065-00000001" kind="WorkerLibrary" guid="{06903DAD-78C3-4b48-B4FB-AE68FF2F24EF}" relid="0x1" childrelidcntr="0x1">
 				<name>CUTS_Test_Logger</name>
 				<attribute kind="Location">
 					<value>$(CUTS_ROOT)/lib</value>
 				</attribute>
-				<model id="id-0065-0000004d" kind="WorkerFile" role="WorkerFile" guid="{DA6737A3-B444-4670-A19C-45E5D4497869}" relid="0x1" childrelidcntr="0x1">
+				<model id="id-0065-00000002" kind="WorkerFile" role="WorkerFile" guid="{DA6737A3-B444-4670-A19C-45E5D4497869}" relid="0x1" childrelidcntr="0x1">
 					<name>Test_Logger</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -49,7 +49,7 @@
 					<attribute kind="Location">
 						<value>$(CUTS_ROOT)/cuts/workers/Test_Logger</value>
 					</attribute>
-					<model id="id-0065-0000004e" kind="Worker" role="Worker" guid="{005B4DF0-250F-40b3-9E5D-16A568C268EF}" relid="0x1" childrelidcntr="0x4">
+					<model id="id-0065-00000003" kind="Worker" role="Worker" guid="{005B4DF0-250F-40b3-9E5D-16A568C268EF}" relid="0x1" childrelidcntr="0x5">
 						<name>CUTS_Test_Logger</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -69,7 +69,7 @@
 						<attribute kind="Abstract" status="meta">
 							<value>false</value>
 						</attribute>
-						<model id="id-0065-0000004f" kind="Action" role="Action" guid="{F0D739E8-9AAE-4d5b-A1F3-C372B82A4C89}" relid="0x1" childrelidcntr="0x1">
+						<model id="id-0065-00000004" kind="Action" role="Action" guid="{F0D739E8-9AAE-4d5b-A1F3-C372B82A4C89}" relid="0x1" childrelidcntr="0x1">
 							<name>connect_using_location</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -86,7 +86,7 @@
 							<attribute kind="LogAction" status="meta">
 								<value>false</value>
 							</attribute>
-							<model id="id-0065-00000050" kind="Property" role="Property" guid="{C5DD7652-C0E4-41ac-9F6B-667B3045B2A1}" relid="0x1" childrelidcntr="0x1">
+							<model id="id-0065-00000005" kind="Property" role="Property" guid="{C5DD7652-C0E4-41ac-9F6B-667B3045B2A1}" relid="0x1" childrelidcntr="0x1">
 								<name>location</name>
 								<regnode name="PartRegs" status="undefined">
 									<value></value>
@@ -100,7 +100,7 @@
 								<attribute kind="DataValue">
 									<value>10</value>
 								</attribute>
-								<reference id="id-0067-00000022" kind="DataType" role="DataType" guid="{B023853E-1107-4494-B02A-7795F1E51F7B}" relid="0x1" referred="id-0066-00000003">
+								<reference id="id-0067-00000001" kind="DataType" role="DataType" guid="{B023853E-1107-4494-B02A-7795F1E51F7B}" relid="0x1" referred="id-0066-00000001">
 									<name>String</name>
 									<regnode name="PartRegs" status="undefined">
 										<value></value>
@@ -114,7 +114,7 @@
 								</reference>
 							</model>
 						</model>
-						<model id="id-0065-00000086" kind="Action" role="Action" guid="{A038244E-D66F-4b1b-A749-9CAA09AC7CEF}" relid="0x2" childrelidcntr="0x1">
+						<model id="id-0065-00000006" kind="Action" role="Action" guid="{A038244E-D66F-4b1b-A749-9CAA09AC7CEF}" relid="0x2" childrelidcntr="0x1">
 							<name>configure</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -131,7 +131,7 @@
 							<attribute kind="LogAction" status="meta">
 								<value>false</value>
 							</attribute>
-							<model id="id-0065-00000087" kind="Property" role="Property" guid="{33E5BFD4-FCCB-46dd-93CA-A5B016365FA1}" relid="0x1" childrelidcntr="0x1">
+							<model id="id-0065-00000007" kind="Property" role="Property" guid="{33E5BFD4-FCCB-46dd-93CA-A5B016365FA1}" relid="0x1" childrelidcntr="0x1">
 								<name>port</name>
 								<regnode name="PartRegs" status="undefined">
 									<value></value>
@@ -145,7 +145,7 @@
 								<attribute kind="DataValue">
 									<value>20000</value>
 								</attribute>
-								<reference id="id-0067-00000068" kind="DataType" role="DataType" guid="{FC26F4A0-56A4-476e-9D54-6EF8DCA5DBB4}" relid="0x1" referred="id-0066-0000001a">
+								<reference id="id-0067-00000002" kind="DataType" role="DataType" guid="{FC26F4A0-56A4-476e-9D54-6EF8DCA5DBB4}" relid="0x1" referred="id-0066-00000002">
 									<name>ShortInteger</name>
 									<regnode name="PartRegs" status="undefined">
 										<value></value>
@@ -159,7 +159,7 @@
 								</reference>
 							</model>
 						</model>
-						<model id="id-0065-00000088" kind="Action" role="Action" guid="{B3378DF2-7D51-45fd-A32E-7F12BF558D37}" relid="0x3" childrelidcntr="0x3">
+						<model id="id-0065-00000008" kind="Action" role="Action" guid="{B3378DF2-7D51-45fd-A32E-7F12BF558D37}" relid="0x3" childrelidcntr="0x3">
 							<name>log</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -176,7 +176,7 @@
 							<attribute kind="LogAction" status="meta">
 								<value>false</value>
 							</attribute>
-							<model id="id-0065-00000089" kind="Property" role="Property" guid="{3023411D-D46F-4a3d-A119-85FC6ABB04AA}" relid="0x1" childrelidcntr="0x1">
+							<model id="id-0065-00000009" kind="Property" role="Property" guid="{3023411D-D46F-4a3d-A119-85FC6ABB04AA}" relid="0x1" childrelidcntr="0x1">
 								<name>severity</name>
 								<regnode name="PartRegs" status="undefined">
 									<value></value>
@@ -190,7 +190,7 @@
 								<attribute kind="DataValue" status="meta">
 									<value></value>
 								</attribute>
-								<reference id="id-0067-00000069" kind="DataType" role="DataType" guid="{C07C5871-5E2D-46e9-BCE7-A4CF374B9F27}" relid="0x1" referred="id-0066-0000001b">
+								<reference id="id-0067-00000003" kind="DataType" role="DataType" guid="{C07C5871-5E2D-46e9-BCE7-A4CF374B9F27}" relid="0x1" referred="id-0066-00000003">
 									<name>LongInteger</name>
 									<regnode name="PartRegs" status="undefined">
 										<value></value>
@@ -203,7 +203,7 @@
 									</regnode>
 								</reference>
 							</model>
-							<model id="id-0065-0000008a" kind="Property" role="Property" guid="{D1A623DC-B723-4541-B3A5-082098741021}" relid="0x2" childrelidcntr="0x1">
+							<model id="id-0065-0000000a" kind="Property" role="Property" guid="{D1A623DC-B723-4541-B3A5-082098741021}" relid="0x2" childrelidcntr="0x1">
 								<name>format</name>
 								<regnode name="PartRegs" status="undefined">
 									<value></value>
@@ -217,7 +217,7 @@
 								<attribute kind="DataValue" status="meta">
 									<value></value>
 								</attribute>
-								<reference id="id-0067-0000006a" kind="DataType" role="DataType" guid="{207C08EC-9136-49dd-970C-685FFD8972F7}" relid="0x1" referred="id-0066-00000003">
+								<reference id="id-0067-00000004" kind="DataType" role="DataType" guid="{207C08EC-9136-49dd-970C-685FFD8972F7}" relid="0x1" referred="id-0066-00000001">
 									<name>String</name>
 									<regnode name="PartRegs" status="undefined">
 										<value></value>
@@ -230,7 +230,7 @@
 									</regnode>
 								</reference>
 							</model>
-							<model id="id-0065-0000008b" kind="Property" role="Property" guid="{26A91C62-4FB5-4312-B22A-270954A639C7}" relid="0x3" childrelidcntr="0x1">
+							<model id="id-0065-0000000b" kind="Property" role="Property" guid="{26A91C62-4FB5-4312-B22A-270954A639C7}" relid="0x3" childrelidcntr="0x1">
 								<name>arglist</name>
 								<regnode name="PartRegs" status="undefined">
 									<value></value>
@@ -244,7 +244,7 @@
 								<attribute kind="DataValue" status="meta">
 									<value></value>
 								</attribute>
-								<reference id="id-0067-0000006b" kind="DataType" role="DataType" guid="{ABCFADA3-DD44-44fe-A593-9312B149D858}" relid="0x1" referred="id-0066-0000001c">
+								<reference id="id-0067-00000005" kind="DataType" role="DataType" guid="{ABCFADA3-DD44-44fe-A593-9312B149D858}" relid="0x1" referred="id-0066-00000004">
 									<name>GenericValue</name>
 									<regnode name="PartRegs" status="undefined">
 										<value></value>
@@ -258,7 +258,7 @@
 								</reference>
 							</model>
 						</model>
-						<model id="id-0065-0000008c" kind="Action" role="Action" guid="{2BC30493-6012-4cc3-9569-E1F987793F8C}" relid="0x4" childrelidcntr="0x1">
+						<model id="id-0065-0000000c" kind="Action" role="Action" guid="{2BC30493-6012-4cc3-9569-E1F987793F8C}" relid="0x4" childrelidcntr="0x1">
 							<name>connect_using_name</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -275,7 +275,7 @@
 							<attribute kind="LogAction" status="meta">
 								<value>false</value>
 							</attribute>
-							<model id="id-0065-0000008d" kind="Property" role="Property" guid="{23EFB202-7A5D-423f-934F-3EF6617FF142}" relid="0x1" childrelidcntr="0x1">
+							<model id="id-0065-0000000d" kind="Property" role="Property" guid="{23EFB202-7A5D-423f-934F-3EF6617FF142}" relid="0x1" childrelidcntr="0x1">
 								<name>location</name>
 								<regnode name="PartRegs" status="undefined">
 									<value></value>
@@ -289,7 +289,7 @@
 								<attribute kind="DataValue">
 									<value>10</value>
 								</attribute>
-								<reference id="id-0067-0000006c" kind="DataType" role="DataType" guid="{84DA5FB9-78C8-4581-A771-F4B04FB68D31}" relid="0x1" referred="id-0066-00000003">
+								<reference id="id-0067-00000006" kind="DataType" role="DataType" guid="{84DA5FB9-78C8-4581-A771-F4B04FB68D31}" relid="0x1" referred="id-0066-00000001">
 									<name>String</name>
 									<regnode name="PartRegs" status="undefined">
 										<value></value>
@@ -302,6 +302,24 @@
 									</regnode>
 								</reference>
 							</model>
+						</model>
+						<model id="id-0065-0000000e" kind="Action" role="Action" guid="{01ED5A1A-6E00-49e3-BCFE-2C4207EA5CC5}" relid="0x5" childrelidcntr="0x0">
+							<name>disconnect</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>80,297</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<attribute kind="LogAction" status="meta">
+								<value>false</value>
+							</attribute>
 						</model>
 					</model>
 				</model>

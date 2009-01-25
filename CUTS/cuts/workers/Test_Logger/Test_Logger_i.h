@@ -70,9 +70,13 @@ public:
   /// Connect to the logging client using current configuration.
   bool connect (void);
 
-private:
+  /// Disconnect the logger from the client.
+  void disconnect (void);
 
+private:
   int connect_i (const char * refstr);
+
+  bool is_connected_;
 
   /// Name of the test manager.
   ACE_CString test_name_;

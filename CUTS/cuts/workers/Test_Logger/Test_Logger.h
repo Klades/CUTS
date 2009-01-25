@@ -62,6 +62,9 @@ public:
    */
   bool log (long severity, const char * format, ...);
 
+  /// Disconnect the logger.
+  void disconnect (void);
+
 private:
   /// Parser for format messages.
   CUTS_Format_Parser parser_;

@@ -11,14 +11,15 @@
 // CUTS_Test_Logger_i
 //
 CUTS_Test_Logger_i::CUTS_Test_Logger_i (void)
-: test_name_ ("(default)")
+: is_connected_ (false),
+  test_name_ ("(default)")
 {
   char * args_str = "";
   int argc = 0;
   char ** argv;
 
   ACE_OS::string_to_argv (args_str, argc, argv);
-  this->orb_ = ::CORBA::ORB_init (argc, argv);
+  this->orb_ = ::CORBA::ORB_init (argc, argv, "CUTS_Test_Logger_i");
 
   // Initialize the contents of the UUID.
   this->details_.uid <<= ACE_Utils::UUID::NIL_UUID;
@@ -29,18 +30,11 @@ CUTS_Test_Logger_i::CUTS_Test_Logger_i (void)
 //
 CUTS_Test_Logger_i::~CUTS_Test_Logger_i (void)
 {
+  if (this->is_connected_)
+    this->disconnect ();
+
   try
   {
-    if (!::CORBA::is_nil (this->logger_.in ()))
-    {
-      // Stop the logger.
-      this->logger_->stop ();
-
-      // Destroy the logger if we have reference to the factory.
-      if (!::CORBA::is_nil (this->log_factory_.in ()))
-        this->log_factory_->destroy (this->logger_.in ());
-    }
-
     // Destroy the ORB.
     if (!::CORBA::is_nil (this->orb_.in ()))
       this->orb_->destroy ();
@@ -50,6 +44,11 @@ CUTS_Test_Logger_i::~CUTS_Test_Logger_i (void)
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - %s\n",
                 ex._info ().c_str ()));
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - caught unknown exception (%N:%l)\n"));
   }
 }
 
@@ -126,52 +125,48 @@ connect_using_name (const ACE_CString & name)
 //
 bool CUTS_Test_Logger_i::connect (void)
 {
+  // Convert the UUID to display it in string format.
+  ACE_Utils::UUID uuid;
+  this->details_.uid >>= uuid;
+
   try
   {
-    if (!::CORBA::is_nil (this->log_client_.in ()))
-    {
-      // Convert the UUID to display it in string format.
-      ACE_Utils::UUID uuid;
-      this->details_.uid >>= uuid;
+    if (::CORBA::is_nil (this->log_client_.in ()))
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "%T (%t) - %M - logger client is NIL; please invoke "
+                         "configure () first\n"),
+                         false);
 
-      try
-      {
-        // Locate the logger factory for this test.
-        this->log_factory_ = this->log_client_->find (this->details_.uid);
 
-        if (!::CORBA::is_nil (this->log_factory_.in ()))
-        {
-          ACE_DEBUG ((LM_DEBUG,
-                      "%T (%t) - %M - creating a new logger\n"));
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - locating factory for test %s\n",
+                uuid.to_string ()->c_str ()));
 
-          // Create a logger from the logging factory.
-          this->logger_ = this->log_factory_->create ();
+    // Locate the logger factory for this test.
+    this->log_factory_ = this->log_client_->find (this->details_.uid);
 
-          if (::CORBA::is_nil (this->logger_.in ()))
-            return false;
+    if (::CORBA::is_nil (this->log_factory_.in ()))
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "%T (%t) - %M - test logger factory is NIL\n"),
+                         false);
 
-          this->logger_->start (30);
-          return true;
-        }
-        else
-        {
-          ACE_ERROR ((LM_ERROR,
-                      "%T (%t) - %M - test logger factory is NIL\n"));
-        }
-      }
-      catch (const CUTS::RegistrationNotFound &)
-      {
-        ACE_ERROR ((LM_ERROR,
-                    "%T (%t) - %M - failed to find factory for test %s\n",
-                    uuid.to_string ()->c_str ()));
-      }
-    }
-    else
-    {
-      ACE_ERROR ((LM_ERROR,
-                  "%T (%t) - %M - logger client is NIL; please invoke "
-                  "configure () first\n"));
-    }
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - creating a new logger\n"));
+
+    // Create a logger from the logging factory.
+    this->logger_ = this->log_factory_->create ();
+
+    if (::CORBA::is_nil (this->logger_.in ()))
+      return false;
+
+    this->logger_->start (30);
+    return true;
+  }
+  catch (const CUTS::RegistrationNotFound &)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - failed to find factory for test %s\n",
+                uuid.to_string ()->c_str ()));
   }
   catch (const CORBA::Exception & ex)
   {
@@ -190,34 +185,36 @@ bool CUTS_Test_Logger_i::connect (void)
 bool CUTS_Test_Logger_i::
 log (const ACE_Time_Value & tv, long severity, const char * msg, size_t msg_length)
 {
-  if (!CORBA::is_nil (this->logger_.in ()))
+  try
   {
-    try
-    {
-      // Copy over the time value.
-      CUTS::TimeValue ts;
-      ts.sec = tv.sec ();
-      ts.usec = tv.usec ();
+    if (::CORBA::is_nil (this->logger_.in ()))
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "%T (%t) - %M - logger is NIL; please connect with client\n"),
+                         false);
 
-      // Copy the message into the buffer.
-      CUTS::MessageText msg_txt (msg_length);
-      msg_txt.length (msg_length);
+    // Copy over the time value.
+    CUTS::TimeValue ts;
+    ts.sec = tv.sec ();
+    ts.usec = tv.usec ();
 
-      ACE_OS::memcpy (msg_txt.get_buffer (), msg, msg_length);
+    // Copy the message into the buffer.
+    CUTS::MessageText msg_txt (msg_length);
+    msg_txt.length (msg_length);
 
-      // Send the message to the client.
-      this->logger_->log (ts, severity, msg_txt);
-      return true;
-    }
-    catch (const CORBA::Exception & ex)
-    {
-      ACE_ERROR ((LM_ERROR,
-                  "%T (%t) - %M - %s\n",
-                  ex._info ().c_str ()));
+    ACE_OS::memcpy (msg_txt.get_buffer (), msg, msg_length);
 
-      ACE_ERROR ((LM_ERROR,
-                  "%T (%t) - %M - log message failed\n"));
-    }
+    // Send the message to the client.
+    this->logger_->log (ts, severity, msg_txt);
+    return true;
+  }
+  catch (const CORBA::Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - %s\n",
+                ex._info ().c_str ()));
+
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - log message failed\n"));
   }
 
   return false;
@@ -273,4 +270,31 @@ int CUTS_Test_Logger_i::connect_i (const char * refstr)
   }
 
   return -1;
+}
+
+//
+// disconnect
+//
+void CUTS_Test_Logger_i::disconnect (void)
+{
+  try
+  {
+    if (!::CORBA::is_nil (this->logger_.in ()))
+    {
+      // Stop the logger.
+      this->logger_->stop ();
+
+      // Destroy the logger if we have reference to the factory.
+      if (!::CORBA::is_nil (this->log_factory_.in ()))
+        this->log_factory_->destroy (this->logger_.in ());
+
+      this->is_connected_ = false;
+    }
+  }
+  catch (const CORBA::Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - %s\n",
+                ex._info ().c_str ()));
+  }
 }

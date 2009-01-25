@@ -158,17 +158,24 @@ int CUTS_TestLogger_i::svc (void)
 {
   CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_TestLogger_i::svc (void)");
 
-  // Since this is a single threaded task, we have to let the reactor
-  // know we are the owner. Otherwise, we will not be able to handle
-  // the reactor's events, i.e., handle_event ();
-  this->reactor ()->owner (ACE_OS::thr_self ());
+  try
+  {
+    // Since this is a single threaded task, we have to let the reactor
+    // know we are the owner. Otherwise, we will not be able to handle
+    // the reactor's events, i.e., handle_event ();
+    this->reactor ()->owner (ACE_OS::thr_self ());
 
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - waiting for reactor events\n"));
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - waiting for reactor events\n"));
 
-  while (this->is_active_)
-    this->reactor ()->handle_events ();
-
+    while (this->is_active_)
+      this->reactor ()->handle_events ();
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - caught unknown exception (%N:%l)\n"));
+  }
   return 0;
 }
 
@@ -200,10 +207,6 @@ void CUTS_TestLogger_i::send_messages (void)
     CUTS::LogMessagePacket packet;
     packet.messages.length (0);
 
-    // Get a reference to the server.
-    CUTS::TestLoggerServer_var server = this->parent_.server ();
-    server->send_message_packet (packet);
-
     // Resize the message buffer accordingly.
     this->packet_.messages.length (used_size);
 
@@ -215,14 +218,13 @@ void CUTS_TestLogger_i::send_messages (void)
                 used_size));
 
     // Get a pointer to the packet's log message buffer.
-    CUTS::LogMessages::
-      value_type * ptr = this->packet_.messages.get_buffer ();
+    CUTS::LogMessages::value_type * ptr = this->packet_.messages.get_buffer ();
 
     for (; !iter.done (); iter.advance ())
       this->copy_message (*ptr ++, *iter);
 
-    //// Get a reference to the server.
-    //CUTS::TestLoggerServer_var server = this->parent_.server ();
+    // Get a reference to the server.
+    CUTS::TestLoggerServer_var server = this->parent_.server ();
 
     if (!::CORBA::is_nil (server.in ()))
     {

@@ -1,8 +1,36 @@
+Sun Jan 25 15:35:49 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/client/TestLoggerClient_i.cpp:
+        * cuts/utils/logging/client/TestLogger_i.cpp:
+        * cuts/utils/logging/server/TestLoggerServer_i.cpp:
+
+          . Simplied the complexity of the code.
+
+          . Added more exception handling, and debug messages.
+
+        * cuts/workers/Test_Logger/TestLogger.xme:
+        * cuts/workers/Test_Logger/Test_Logger.h:
+        * cuts/workers/Test_Logger/Test_Logger.cpp:
+        * cuts/workers/Test_Logger/Test_Logger_i.h:
+        * cuts/workers/Test_Logger/Test_Logger_i.cpp:
+
+          . Implemented a disconnect () method on the test logger worker.
+
+          . Added more exception handling to prevent unknown exceptions
+            from reaching the emulation layer.
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+        * examples/PICML/AntiSPAM/CPUBoundImpl_exec.h:
+        * examples/PICML/AntiSPAM/CPUBoundImpl_exec.cpp:
+
+          . Force the logger to disconnect when the component is
+            passivated.
+
 Sun Jan 25 06:24:12 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/descriptors/hypothesis1/run-test.sh:
 
-	  . Uncommented parts of the test file.
+          . Uncommented parts of the test file.
 
 Sun Jan 25 06:15:54 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
