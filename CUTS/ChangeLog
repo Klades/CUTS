@@ -1,3 +1,11 @@
+Sun Jan 25 21:59:30 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/workers/Test_Logger/Test_Logger_i.h:
+        * cuts/workers/Test_Logger/Test_Logger_i.cpp:
+
+          . Switch to only storing the UUID of a test in its
+            object format, instead of as a CUTS::UUID.
+
 Sun Jan 25 21:04:37 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/svcs/logging/Test_Logging_Service.cpp:

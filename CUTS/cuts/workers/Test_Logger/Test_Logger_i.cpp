@@ -20,9 +20,6 @@ CUTS_Test_Logger_i::CUTS_Test_Logger_i (void)
 
   ACE_OS::string_to_argv (args_str, argc, argv);
   this->orb_ = ::CORBA::ORB_init (argc, argv, "CUTS_Test_Logger_i");
-
-  // Initialize the contents of the UUID.
-  this->details_.uid <<= ACE_Utils::UUID::NIL_UUID;
 }
 
 //
@@ -125,10 +122,6 @@ connect_using_name (const ACE_CString & name)
 //
 bool CUTS_Test_Logger_i::connect (void)
 {
-  // Convert the UUID to display it in string format.
-  ACE_Utils::UUID uuid;
-  this->details_.uid >>= uuid;
-
   try
   {
     if (::CORBA::is_nil (this->log_client_.in ()))
@@ -137,13 +130,15 @@ bool CUTS_Test_Logger_i::connect (void)
                          "configure () first\n"),
                          false);
 
-
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - locating factory for test %s\n",
-                uuid.to_string ()->c_str ()));
+                this->uuid_.to_string ()->c_str ()));
 
     // Locate the logger factory for this test.
-    this->log_factory_ = this->log_client_->find (this->details_.uid);
+    CUTS::UUID uuid;
+
+    uuid <<= this->uuid_;
+    this->log_factory_ = this->log_client_->find (uuid);
 
     if (::CORBA::is_nil (this->log_factory_.in ()))
       ACE_ERROR_RETURN ((LM_ERROR,
@@ -166,7 +161,7 @@ bool CUTS_Test_Logger_i::connect (void)
   {
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - failed to find factory for test %s\n",
-                uuid.to_string ()->c_str ()));
+                this->uuid_.to_string ()->c_str ()));
   }
   catch (const CORBA::Exception & ex)
   {
@@ -255,11 +250,12 @@ int CUTS_Test_Logger_i::connect_i (const char * refstr)
     }
 
     // Get the test details and store the UUID
-    ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - getting details from test manager\n"));
-
     CUTS::TestDetails_var details = this->test_manager_->details ();
-    this->details_ = *details;
+    details->uid >>= this->uuid_;
+
+    ACE_DEBUG ((LM_INFO,
+                "%T (%t) - %M - logging data under test %s\n",
+                this->uuid_.to_string ()));
     return 0;
   }
   catch (const ::CORBA::Exception & ex)

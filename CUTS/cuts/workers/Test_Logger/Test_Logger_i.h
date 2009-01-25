@@ -15,6 +15,7 @@
 
 #include "cuts/utils/logging/client/clientC.h"
 #include "cuts/utils/testing/svcs/server/testingC.h"
+#include "ace/UUID.h"
 
 /**
  * @class CUTS_Test_Logger_i
@@ -97,7 +98,7 @@ private:
   CUTS::TestManager_var test_manager_;
 
   /// UUID assigned to the test.
-  CUTS::TestDetails details_;
+  ACE_Utils::UUID uuid_;
 };
 
 #endif  // !defined _CUTS_TEST_LOGGER_I_H_
