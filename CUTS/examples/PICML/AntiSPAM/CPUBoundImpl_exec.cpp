@@ -34,8 +34,8 @@ namespace CIDL_CPUBoundImpl
     }
 
     CUTS_CCM_Event_T <OBV_antispam::NullEvent> __event_100000011__;
-    __event_100000011__->eventNumber (ev->eventNumber ());
     __event_100000011__->sourceName (ev->sourceName ());
+    __event_100000011__->eventNumber (ev->eventNumber ());
     this->ctx_->push_OutPortA (__event_100000011__.in ());
 
     this->mycpu_.profile_run ("postA");
@@ -75,8 +75,8 @@ namespace CIDL_CPUBoundImpl
     }
 
     CUTS_CCM_Event_T <OBV_antispam::NullEvent> __event_100000017__;
-    __event_100000017__->sourceName (ev->sourceName ());
     __event_100000017__->eventNumber (ev->eventNumber ());
+    __event_100000017__->sourceName (ev->sourceName ());
     this->ctx_->push_OutPortB (__event_100000017__.in ());
 
     this->mycpu_.profile_run ("postB");
@@ -116,8 +116,8 @@ namespace CIDL_CPUBoundImpl
     }
 
     CUTS_CCM_Event_T <OBV_antispam::NullEvent> __event_100000035__;
-    __event_100000035__->sourceName (ev->sourceName ());
     __event_100000035__->eventNumber (ev->eventNumber ());
+    __event_100000035__->sourceName (ev->sourceName ());
     this->ctx_->push_OutPortE (__event_100000035__.in ());
 
     this->mycpu_.profile_run ("postE");
@@ -157,8 +157,8 @@ namespace CIDL_CPUBoundImpl
     }
 
     CUTS_CCM_Event_T <OBV_antispam::NullEvent> __event_100000023__;
-    __event_100000023__->sourceName (ev->sourceName ());
     __event_100000023__->eventNumber (ev->eventNumber ());
+    __event_100000023__->sourceName (ev->sourceName ());
     this->ctx_->push_OutPortC (__event_100000023__.in ());
 
     this->mycpu_.profile_run ("postC");
@@ -198,8 +198,8 @@ namespace CIDL_CPUBoundImpl
     }
 
     CUTS_CCM_Event_T <OBV_antispam::NullEvent> __event_100000029__;
-    __event_100000029__->sourceName (ev->sourceName ());
     __event_100000029__->eventNumber (ev->eventNumber ());
+    __event_100000029__->sourceName (ev->sourceName ());
     this->ctx_->push_OutPortD (__event_100000029__.in ());
 
     this->mycpu_.profile_run ("postD");
@@ -271,6 +271,7 @@ namespace CIDL_CPUBoundImpl
     this->logger_.configure (20000);
     this->logger_.connect_using_location (this->testName_);
     this->mycpu_.load_profile (this->instName_ + ".cpu");
+    this->logger_.log (LM_INFO, "%s: preA=%f; postA=%f; preB=%f; postB=%f; preC=%f; postC=%f; preD=%f; postD=%f; preE=%f; postE=%f", this->instName_.c_str (), this->mycpu_.workload ("preA"), this->mycpu_.workload ("postA"), this->mycpu_.workload ("preB"), this->mycpu_.workload ("postB"), this->mycpu_.workload ("preC"), this->mycpu_.workload ("postC"), this->mycpu_.workload ("preD"), this->mycpu_.workload ("postD"), this->mycpu_.workload ("preE"), this->mycpu_.workload ("postE"));
 
     // pass control to base class
     base_type::ccm_activate ();

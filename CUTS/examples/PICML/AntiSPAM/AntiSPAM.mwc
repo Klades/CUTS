@@ -17,9 +17,9 @@ workspace (AntiSPAM) {
 
   CPUBoundImpl_exec.mpc
   NullEventGeneratorImpl_exec.mpc
-  EventGenerator_stub.mpc
-  EventTypes_stub.mpc
   CPUBound_stub.mpc
+  EventTypes_stub.mpc
+  EventGenerator_stub.mpc
 }
 
 // end of auto-generated workspace
