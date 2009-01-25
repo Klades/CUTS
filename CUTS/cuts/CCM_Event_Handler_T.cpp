@@ -94,17 +94,18 @@ int CUTS_CCM_Event_Handler_T <T, EVENT>::svc (void)
     ACE_hthread_t thr_handle;
     ACE_OS::thr_self (thr_handle);
 
+#if defined (__USE_GNU)
     cpu_set_t cpu_set;
     CPU_ZERO (&cpu_set);
     CPU_SET (1, &cpu_set);
 
-    if (::sched_setaffinity (0, sizeof (cpu_set), &cpu_set) < 0) 
+    if (::sched_setaffinity (0, sizeof (cpu_set), &cpu_set) < 0)
       ACE_ERROR ((LM_ERROR,
                   "%T (%t) - %M - failed to set CPU affinity [%m]\n"));
+#endif
 
     /*
     // First, zero all the bits in the CPU set.
-#if !defined (__USE_GNU)
     size_t count = ACE_CPU_SETSIZE / (8 * sizeof (ACE_UINT32));
 #else
     size_t count = CPU_SETSIZE / (8 * sizeof (ACE_UINT32));

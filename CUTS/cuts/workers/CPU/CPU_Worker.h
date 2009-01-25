@@ -88,6 +88,14 @@ public:
    */
   int profile_run (const ACE_CString & key);
 
+  /**
+   * Get the workload for the given key.
+   *
+   * @param[in]       key             Key of interest.
+   * @return          The workload for the key.
+   */
+  double workload (const ACE_CString & key) const;
+
 private:
   /// Type definition of the map type.
   typedef ACE_Hash_Map_Manager <ACE_CString,
