@@ -1,8 +1,21 @@
+Sun Jan 25 16:37:18 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/Test_Options.h:
+        * cuts/utils/testing/Testing_App.cpp:
+
+          . Added support for shutdown timeout to prevent the test
+            from running indefinitely.
+
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service.cpp:
+
+          . Temporarily disable server shutdown until we can find out
+            where the race conditions are.
+
 Sun Jan 25 15:44:25 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/descriptors/hypothesis1/run-test-all.sh:
 
-	  . Removed the sleep time from the script.
+          . Removed the sleep time from the script.
 
 Sun Jan 25 15:39:15 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 

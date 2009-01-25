@@ -29,25 +29,26 @@ static const char * __USAGE__ =
 
 static const char * __HELP__ =
 "General options:\n"
-"  -n, --name=NAME         name for test manager (default='(default)')\n"
-"  -c, --config=FILE       configuration file for test\n"
-"  --time=TIME             test duration in seconds (default=60)\n"
-"  --uuid=UUID             user-defined UUID for the test\n"
-"  -f, --file=ARCHIVE      store results in ARCHIVE\n"
+"  -n, --name=NAME           name for test manager (default='(default)')\n"
+"  -c, --config=FILE         configuration file for test\n"
+"  --time=TIME               test duration in seconds (default=60)\n"
+"  --uuid=UUID               user-defined UUID for the test\n"
+"  -f, --file=ARCHIVE        store results in ARCHIVE\n"
 "\n"
-"  -DNAME=VALUE            set property NAME=VALUE\n"
+"  -DNAME=VALUE              set property NAME=VALUE\n"
 "\n"
 "Execution options:\n"
-"  -C, --directory=DIR     change to directory DIR\n"
-"  --startup=CMD           use CMD to startup test\n"
-"  --shutdown=CMD          use CMD to shutdown test\n"
-"  --ignore-errors         ignore errors at startup/shutdown\n"
+"  -C, --directory=DIR       change to directory DIR\n"
+"  --startup=CMD             use CMD to startup test\n"
+"  --shutdown=CMD            use CMD to shutdown test\n"
+"  --shutdown-timeout=N      timeout shutdown after N seconds\n"
+"  --ignore-errors           ignore errors at startup/shutdown\n"
 "\n"
 "Output options:\n"
-"  -v, --verbose           print verbose information\n"
-"  --debug                 print debug information\n"
-"  --trace                 print trace information (requires compile support)\n"
-"  -h, --help              print this help message\n";
+"  -v, --verbose             print verbose information\n"
+"  --debug                   print debug information\n"
+"  --trace                   print trace information (requires compile support)\n"
+"  -h, --help                print this help message\n";
 
 //
 // CUTS_Testing_App
@@ -88,6 +89,7 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("directory", 'C', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("startup", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("shutdown", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("shutdown-timeout", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("ignore-errors", ACE_Get_Opt::NO_ARG);
 
   get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
@@ -178,6 +180,14 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
       else if (ACE_OS::strcmp (get_opt.long_option (), "ignore-errors") == 0)
       {
         this->opts_.ignore_errors_ = true;
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "shutdown-timeout") == 0)
+      {
+        time_t seconds;
+        std::istringstream istr (get_opt.opt_arg ());
+        istr >> seconds;
+
+        this->opts_.shutdown_timeout_.sec (seconds);
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "directory") == 0)
       {
@@ -478,14 +488,17 @@ teardown_test (ACE_Process_Options & options)
 
   if (pid != ACE_INVALID_PID)
   {
-    // The spawned application should return, so we can just wait on it.
+    // Run the shutdown command. But, let's only wait for a certain
+    // amount of time just in case it doesn't want to return. ;-)
     ACE_exitcode status;
-    pid_t retval = proc_man->wait (pid, &status);
+    pid_t retval = proc_man->wait (pid,
+                                   this->opts_.shutdown_timeout_,
+                                   &status);
 
     switch (retval)
     {
     case 0:
-      // Get the current time for test teardown.
+      // There was a timeout.
       this->opts_.stop_ = ACE_OS::gettimeofday ();
       break;
 
@@ -497,17 +510,14 @@ teardown_test (ACE_Process_Options & options)
       break;
 
     default:
-      if (status == 0)
-      {
-        this->opts_.stop_ = ACE_OS::gettimeofday ();
-      }
-      else
-      {
+      // Save the time of day, but check the return status.
+      this->opts_.stop_ = ACE_OS::gettimeofday ();
+
+      if (status != 0)
         ACE_ERROR_RETURN ((LM_WARNING,
                            "%T - %M - shutdown process exit status was %d\n",
                            status),
                            -1);
-      }
     }
   }
   else

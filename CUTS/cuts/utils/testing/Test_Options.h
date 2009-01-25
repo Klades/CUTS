@@ -30,7 +30,8 @@ public:
   /// Default constructor.
   CUTS_Test_Options (void)
     : name_ ("(default)"),
-      ignore_errors_ (false)
+      ignore_errors_ (false),
+      shutdown_timeout_ (ACE_Time_Value::max_time)
   {
 
   }
@@ -49,6 +50,9 @@ public:
 
   /// The duration of the test.
   ACE_Time_Value test_duration_;
+
+  /// Timeout value for the shutdown process.
+  ACE_Time_Value shutdown_timeout_;
 
   /// Current working directory for deploy/teardown commands
   ACE_CString working_directory_;
