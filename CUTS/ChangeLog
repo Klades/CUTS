@@ -1,3 +1,10 @@
+Sun Jan 25 05:26:50 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/CCM_Event_Handler_T.cpp:
+
+	  . Forced all threads in the event handler to bind to the
+	    first CPU if their affinity flag is set.
+
 Sun Jan 25 04:53:48 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/server/Logging_Server.h:
