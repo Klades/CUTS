@@ -15,8 +15,6 @@
 void CUTS_TestLoggerServer_i::
 send_message_packet (const CUTS::LogMessagePacket & packet)
 {
-  std::cerr << "GREAT!!!" << std::endl;
-
   // Extract the UUID from the packet.
   ACE_Utils::UUID uuid;
   packet.uuid >>= uuid;
