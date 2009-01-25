@@ -38,7 +38,7 @@ int CUTS_LD_CPU_Worker::load_profile (const ACE_CString & profile)
     std::istringstream istr (iter->item ().c_str ());
     istr >> msec;
 
-    if (istr.good ())
+    if (!istr.fail ())
     {
       switch (this->profile_.bind (iter->key (), msec))
       {

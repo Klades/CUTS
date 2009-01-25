@@ -1,15 +1,22 @@
+Sun Jan 25 01:23:42 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/workers/CPU/CPU_Worker.cpp:
+
+          . Bug fix where the worker was parsing the CPU time correctly,
+            but was checking the wrong bit for success.
+
 Sun Jan 25 00:51:25 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/Testing_App.cpp:
         * cuts/utils/testing/Testing_Service_Manager.cpp:
-	  
-	  . Added debug output.
+
+          . Added debug output.
 
         * examples/PICML/AntiSPAM/descriptors/hypothesis1/generate-and-run-test-all.sh:
         * examples/PICML/AntiSPAM/descriptors/hypothesis1/run-test-all.sh:
         * examples/PICML/AntiSPAM/descriptors/hypothesis1/run-test.sh:
 
-	  . Updated the scripts.
+          . Updated the scripts.
 
 Sat Jan 24 22:34:33 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
