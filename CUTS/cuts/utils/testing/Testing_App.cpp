@@ -490,6 +490,10 @@ teardown_test (ACE_Process_Options & options)
   {
     // Run the shutdown command. But, let's only wait for a certain
     // amount of time just in case it doesn't want to return. ;-)
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - waiting %d second(s) for shutdown process...\n",
+                this->opts_.shutdown_timeout_.sec ()));
+    
     ACE_exitcode status;
     pid_t retval = proc_man->wait (pid,
                                    this->opts_.shutdown_timeout_,
@@ -499,6 +503,8 @@ teardown_test (ACE_Process_Options & options)
     {
     case 0:
       // There was a timeout.
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T (%t) - %M - shutdown process timed out\n"));
       this->opts_.stop_ = ACE_OS::gettimeofday ();
       break;
 

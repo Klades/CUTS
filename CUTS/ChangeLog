@@ -1,3 +1,9 @@
+Sun Jan 25 20:02:45 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/Testing_App.cpp:
+
+	  . Added debug output for the shutdown timeout.
+
 Sun Jan 25 16:37:18 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/Test_Options.h:
