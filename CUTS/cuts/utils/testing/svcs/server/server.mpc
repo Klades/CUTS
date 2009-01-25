@@ -51,7 +51,7 @@ project (CUTS_Testing_Server_skel) : portableserver, cuts_testing_stub, cutslib 
   }
 }
 
-project (CUTS_Testing_Server) : naming, iortable, cuts_testing_skel, cuts, cuts_tao_testing_svc {
+project (CUTS_Testing_Server) : naming, iortable, cuts_testing_skel, cuts, cuts_test_database, cuts_tao_testing_svc {
   sharedname = CUTS_Testing_Server
 
   dynamicflags += CUTS_TESTING_SERVER_BUILD_DLL

@@ -1,8 +1,20 @@
+Sun Jan 25 21:04:37 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service.cpp:
+
+          . Re-enabled server shutdown.
+
+        * cuts/utils/testing/svcs/server/TestManager_i.cpp:
+        * cuts/utils/testing/svcs/server/server.mpc:
+
+          . Bug fix where the manager was using the incorrect UUID. Now,
+            it get the test UUID from the database profile
+
 Sun Jan 25 20:02:45 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/Testing_App.cpp:
 
-	  . Added debug output for the shutdown timeout.
+          . Added debug output for the shutdown timeout.
 
 Sun Jan 25 16:37:18 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 

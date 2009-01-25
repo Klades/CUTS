@@ -92,6 +92,6 @@ int CUTS_Test_Logging_Service::init (int argc, char * argv [])
 int CUTS_Test_Logging_Service::fini (void)
 {
   // Shutdown the server. This actually destorys the ORB.
-  // this->server_->shutdown ();
+  this->server_->shutdown ();
   return 0;
 }
