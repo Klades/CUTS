@@ -83,6 +83,7 @@ int CUTS_Test_Logging_Service::init (int argc, char * argv [])
   // Spawn a new instance of the server.
   CUTS_Test_Database & archive = this->test_app ()->test_db ();
   this->server_->archive (&archive);
+
   return this->server_->spawn_main (argc, argv);
 }
 

@@ -297,6 +297,10 @@ void CUTS_Test_Logging_Server::register_with_clients (void)
                                   this,
                                   _1,
                                   server.in ()));
+
+      ACE_DEBUG ((LM_INFO,
+                  "%T - %M - successfully registered with %d client(s)\n",
+                  clients.count_client ()));
     }
     else
     {
@@ -323,7 +327,7 @@ register_with_client (const std::string & str,
   {
     // Resolve the logger's client reference.
     ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - resolving object: %s\n",
+                "%T (%t) - %M - resolving object: %s\n",
                 str.c_str ()));
 
     ::CORBA::Object_var obj = this->orb_->string_to_object (str.c_str ());
