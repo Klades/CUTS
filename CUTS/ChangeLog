@@ -1,3 +1,10 @@
+Sun Jan 25 06:05:33 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/workers/CPU/CPU_Worker.cpp:
+
+          . Bug fix where we actually didn't get the workload. Instead,
+            we were only checking if a given workload existed.
+
 Sun Jan 25 05:58:37 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/AntiSPAM.mwc:

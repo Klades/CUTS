@@ -91,9 +91,9 @@ int CUTS_LD_CPU_Worker::profile_run (const ACE_CString & key)
 //
 double CUTS_LD_CPU_Worker::workload (const ACE_CString & key) const
 {
-  const double workload = 0.0;
+  double workload = 0.0;
 
-  if (this->profile_.find (key) != 0)
+  if (this->profile_.find (key, workload) != 0)
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - failed to find workload for %s\n",
                 key.c_str ()));
