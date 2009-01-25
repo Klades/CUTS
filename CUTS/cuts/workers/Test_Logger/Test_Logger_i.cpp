@@ -255,7 +255,7 @@ int CUTS_Test_Logger_i::connect_i (const char * refstr)
 
     ACE_DEBUG ((LM_INFO,
                 "%T (%t) - %M - logging data under test %s\n",
-                this->uuid_.to_string ()));
+                this->uuid_.to_string ()->c_str ()));
     return 0;
   }
   catch (const ::CORBA::Exception & ex)
