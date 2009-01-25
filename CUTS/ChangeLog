@@ -1,9 +1,15 @@
+Sun Jan 25 15:44:25 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/run-test-all.sh:
+
+	  . Removed the sleep time from the script.
+
 Sun Jan 25 15:39:15 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/descriptors/hypothesis1/run-test-all.sh:
         * examples/PICML/AntiSPAM/descriptors/hypothesis1/run-test.sh:
 
-	  . Improved the scripts for running all the tests.
+          . Improved the scripts for running all the tests.
 
 Sun Jan 25 15:35:49 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 

@@ -17,6 +17,5 @@ for i in `cat ${CONFIG_LIST}`; do
     
     # reset the test environment
     ./reset-nodes.sh 30000
-    sleep 5s
   fi
 done
