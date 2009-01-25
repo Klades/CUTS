@@ -1,3 +1,11 @@
+Sun Jan 25 06:15:54 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+        * examples/PICML/AntiSPAM/CPUBoundImpl_exec.h:
+        * examples/PICML/AntiSPAM/CPUBoundImpl_exec.cpp:
+
+          . Added port identifiers to the log messages.
+
 Sun Jan 25 06:05:33 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/workers/CPU/CPU_Worker.cpp:
