@@ -1,3 +1,9 @@
+Sun Jan 25 06:24:12 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/run-test.sh:
+
+	  . Uncommented parts of the test file.
+
 Sun Jan 25 06:15:54 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/AntiSPAM.xme:
