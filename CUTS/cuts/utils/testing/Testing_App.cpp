@@ -270,6 +270,10 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
   try
   {
     // Open the test database for writing.
+    ACE_DEBUG ((LM_INFO,
+                "%T (%t) - %M - writing test data to %s\n",
+                this->opts_.filename_.c_str ()));
+
     this->test_db_.create (this->opts_.filename_, this->opts_.uuid_);
 
     // Load the configuration this test run.
@@ -529,6 +533,10 @@ load_configuration (CUTS_Testing_Service_Manager & mgr,
     return 0;
 
   // First, read the configuration into memory.
+  ACE_DEBUG ((LM_INFO,
+              "%T (%t) - %M - loading configuration %s\n",
+              filename.c_str ()));
+
   CUTS_Test_Configuration_File file (this->props_);
 
   XSC::XML::XML_Error_Handler error_handler;

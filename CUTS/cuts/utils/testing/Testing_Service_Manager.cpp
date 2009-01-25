@@ -58,9 +58,14 @@ load_service (const char * name,
               const char * args)
 {
   CUTS_TEST_TRACE ("CUTS_Testing_Service_Manager::load_service (const char *, const char *, const char *, const char *)");
-
+  
   if (!this->is_open_)
     return -1;
+
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - loading service %s in %s\n",
+              name, 
+              location));
 
   // First, load the module into memory.
   CUTS_Testing_Service_DLL * dll = 0;
