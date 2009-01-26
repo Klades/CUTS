@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <Deployment:deploymentPlan xmlns:Deployment="http://www.omg.org/Deployment" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/Deployment Deployment.xsd">
 
-  <UUID>22230E4C-BCF8-412A-97BC-118536D00C98</UUID>
+  <UUID>B069B35B-AD06-40C4-981E-E276D8137254</UUID>
 
   <implementation id="_6828C5EB-EBC5-48F7-B051-A1F865F4DB0E">
     <name>AntiSPAM.ComponentImplementations.NullEventGeneratorImpl.NullEventGeneratorImpl</name>
@@ -19,9 +19,20 @@
 
   <instance id="AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst1">
     <name>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst1</name>
-    <node>${host.inst2}</node>
+    <node>${host.inst1}</node>
     <source/>
     <implementation>_1C925CC4-892B-4519-AAC5-4F644CB48405</implementation>
+    <configProperty>
+      <name>instName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>inst1</string>
+        </value>
+      </value>
+    </configProperty>
     <configProperty>
       <name>logRate</name>
       <value>
@@ -34,13 +45,42 @@
       </value>
     </configProperty>
     <configProperty>
+      <name>testName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>`cat /var/emulab/boot/syncserver`:10000</string>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
+  <instance id="AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst2">
+    <name>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst2</name>
+    <node>${host.inst2}</node>
+    <source/>
+    <implementation>_1C925CC4-892B-4519-AAC5-4F644CB48405</implementation>
+    <configProperty>
       <name>instName</name>
       <value>
         <type>
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>inst1</string>
+          <string>inst2</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>logRate</name>
+      <value>
+        <type>
+          <kind>tk_long</kind>
+        </type>
+        <value>
+          <long>10</long>
         </value>
       </value>
     </configProperty>
@@ -59,20 +99,9 @@
 
   <instance id="AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst3">
     <name>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst3</name>
-    <node>${host.inst1}</node>
+    <node>${host.inst3}</node>
     <source/>
     <implementation>_1C925CC4-892B-4519-AAC5-4F644CB48405</implementation>
-    <configProperty>
-      <name>logRate</name>
-      <value>
-        <type>
-          <kind>tk_long</kind>
-        </type>
-        <value>
-          <long>10</long>
-        </value>
-      </value>
-    </configProperty>
     <configProperty>
       <name>instName</name>
       <value>
@@ -81,6 +110,17 @@
         </type>
         <value>
           <string>inst3</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>logRate</name>
+      <value>
+        <type>
+          <kind>tk_long</kind>
+        </type>
+        <value>
+          <long>10</long>
         </value>
       </value>
     </configProperty>
@@ -103,17 +143,6 @@
     <source/>
     <implementation>_1C925CC4-892B-4519-AAC5-4F644CB48405</implementation>
     <configProperty>
-      <name>logRate</name>
-      <value>
-        <type>
-          <kind>tk_long</kind>
-        </type>
-        <value>
-          <long>10</long>
-        </value>
-      </value>
-    </configProperty>
-    <configProperty>
       <name>instName</name>
       <value>
         <type>
@@ -121,6 +150,17 @@
         </type>
         <value>
           <string>inst4</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>logRate</name>
+      <value>
+        <type>
+          <kind>tk_long</kind>
+        </type>
+        <value>
+          <long>10</long>
         </value>
       </value>
     </configProperty>
@@ -143,17 +183,6 @@
     <source/>
     <implementation>_1C925CC4-892B-4519-AAC5-4F644CB48405</implementation>
     <configProperty>
-      <name>logRate</name>
-      <value>
-        <type>
-          <kind>tk_long</kind>
-        </type>
-        <value>
-          <long>10</long>
-        </value>
-      </value>
-    </configProperty>
-    <configProperty>
       <name>instName</name>
       <value>
         <type>
@@ -161,6 +190,17 @@
         </type>
         <value>
           <string>inst5</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>logRate</name>
+      <value>
+        <type>
+          <kind>tk_long</kind>
+        </type>
+        <value>
+          <long>10</long>
         </value>
       </value>
     </configProperty>
@@ -282,6 +322,20 @@
   </connection>
 
   <connection>
+    <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator4AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst2</name>
+    <internalEndpoint>
+      <portName>NullEvent</portName>
+      <kind>EventPublisher</kind>
+      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator4</instance>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>InPortA</portName>
+      <kind>EventConsumer</kind>
+      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst2</instance>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
     <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator4AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst4</name>
     <internalEndpoint>
       <portName>NullEvent</portName>
@@ -334,6 +388,20 @@
       <portName>InPortA</portName>
       <kind>EventConsumer</kind>
       <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst5</instance>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator1AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst2</name>
+    <internalEndpoint>
+      <portName>NullEvent</portName>
+      <kind>EventPublisher</kind>
+      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator1</instance>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>InPortA</portName>
+      <kind>EventConsumer</kind>
+      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst2</instance>
     </internalEndpoint>
   </connection>
 

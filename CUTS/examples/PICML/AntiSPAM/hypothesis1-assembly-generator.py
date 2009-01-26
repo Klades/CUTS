@@ -178,8 +178,8 @@ def generateDeployment () :
   outfile = open ("hypothesis1-template-assembly.deployment", "w")
 
   str = """deployment TemplateDeployment {
-  ComponentImplementations/TemplateAssembly/TemplateAssembly/inst1 : ${host.inst2}[DefaultGroup]
-  ComponentImplementations/TemplateAssembly/TemplateAssembly/inst3 : ${host.inst1}[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/inst1 : ${host.inst1}[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/inst2 : ${host.inst2}[DefaultGroup]
   ComponentImplementations/TemplateAssembly/TemplateAssembly/inst3 : ${host.inst3}[DefaultGroup]
   ComponentImplementations/TemplateAssembly/TemplateAssembly/inst4 : ${host.inst4}[DefaultGroup]
   ComponentImplementations/TemplateAssembly/TemplateAssembly/inst5 : ${host.inst5}[DefaultGroup]

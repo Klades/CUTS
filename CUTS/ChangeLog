@@ -1,10 +1,44 @@
+Mon Jan 26 17:34:00 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/generate.bat:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly.deployment:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly1.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly10.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly11.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly12.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly13.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly14.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly15.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly16.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly17.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly18.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly19.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly2.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly20.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly3.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly4.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly5.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly6.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly7.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly8.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly9.cdp:
+
+          . Committing the updated version of the template D&C's based on the
+            change below.
+
+        * examples/PICML/AntiSPAM/hypothesis1-assembly-generator.py:
+
+          . Bug fix where the script was generating an incorrect deployment
+            template.
+
 Mon Jan 26 16:01:37 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/svcs/logging/Test_Logging_Service.cpp:
 
-	  . Removed the 'shutdown' process from the fini () method. Right now,
-	    there is some deadlock happening, which is preventing the server
-	    from shutting down.
+          . Removed the 'shutdown' process from the fini () method. Right now,
+            there is some deadlock happening, which is preventing the server
+            from shutting down.
 
 Mon Jan 26 16:00:26 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 

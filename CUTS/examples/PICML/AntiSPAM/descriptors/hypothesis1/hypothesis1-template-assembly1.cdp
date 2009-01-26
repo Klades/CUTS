@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <Deployment:deploymentPlan xmlns:Deployment="http://www.omg.org/Deployment" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/Deployment Deployment.xsd">
 
-  <UUID>B1A351DE-746E-47F9-8E28-851B11797A65</UUID>
+  <UUID>0A65E6EB-408A-44C0-942D-C27EE6D7618F</UUID>
 
   <implementation id="_6828C5EB-EBC5-48F7-B051-A1F865F4DB0E">
     <name>AntiSPAM.ComponentImplementations.NullEventGeneratorImpl.NullEventGeneratorImpl</name>
@@ -19,7 +19,7 @@
 
   <instance id="AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst1">
     <name>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst1</name>
-    <node>${host.inst2}</node>
+    <node>${host.inst1}</node>
     <source/>
     <implementation>_1C925CC4-892B-4519-AAC5-4F644CB48405</implementation>
     <configProperty>
@@ -57,9 +57,49 @@
     </configProperty>
   </instance>
 
+  <instance id="AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst2">
+    <name>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst2</name>
+    <node>${host.inst2}</node>
+    <source/>
+    <implementation>_1C925CC4-892B-4519-AAC5-4F644CB48405</implementation>
+    <configProperty>
+      <name>logRate</name>
+      <value>
+        <type>
+          <kind>tk_long</kind>
+        </type>
+        <value>
+          <long>10</long>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>instName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>inst2</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>testName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>`cat /var/emulab/boot/syncserver`:10000</string>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
   <instance id="AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst3">
     <name>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst3</name>
-    <node>${host.inst1}</node>
+    <node>${host.inst3}</node>
     <source/>
     <implementation>_1C925CC4-892B-4519-AAC5-4F644CB48405</implementation>
     <configProperty>
@@ -278,6 +318,20 @@
       <portName>InPortA</portName>
       <kind>EventConsumer</kind>
       <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst1</instance>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator5AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst2</name>
+    <internalEndpoint>
+      <portName>NullEvent</portName>
+      <kind>EventPublisher</kind>
+      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator5</instance>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>InPortA</portName>
+      <kind>EventConsumer</kind>
+      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst2</instance>
     </internalEndpoint>
   </connection>
 
