@@ -1,3 +1,11 @@
+Mon Jan 26 21:44:06 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service.cpp:
+
+          . Bug fix where the default logging server callback we
+            being installed more than once. This resulted in duplicate
+            log messages in the test database.
+
 Mon Jan 26 18:06:41 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/AntiSPAM.xme:

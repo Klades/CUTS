@@ -47,43 +47,11 @@ int CUTS_Test_Logging_Service::init (int argc, char * argv [])
 
   this->server_.reset (server);
 
-  // Install the callback object for the server. This will insert log
-  // messages into the database for the test.
-  CUTS_Test_Logging_Callback * callback = 0;
-
-  ACE_NEW_THROW_EX (callback,
-                    CUTS_Test_Logging_Callback (this->test_app ()->test_db ()),
-                    CORBA::NO_MEMORY ());
-
-  ACE_Auto_Ptr <CUTS_Test_Logging_Callback> auto_clean (callback);
-
-  if (callback->init () == -1)
-  {
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T - %M - failed to initialize callback\n"),
-                       -1);
-  }
-
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - installing main callback object\n"));
-
-  int retval = this->server_->install_callback (callback);
-
-  if (retval == 0)
-  {
-    auto_clean.release ();
-  }
-  else
-  {
-    ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - failed to install main callback object; "
-                "log messages with not be saved to database\n"));
-  }
-
-  // Spawn a new instance of the server.
+  // Initialize the logging server's database archive.
   CUTS_Test_Database & archive = this->test_app ()->test_db ();
   this->server_->archive (&archive);
 
+  // Spawn a new instance of the server.
   return this->server_->spawn_main (argc, argv);
 }
 
