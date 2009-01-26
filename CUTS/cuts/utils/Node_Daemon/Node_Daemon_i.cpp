@@ -705,4 +705,17 @@ void CUTS_Node_Daemon_i::reset (void)
                   "%T (%t) - %M - failed to restart task %s\n",
                   (*name_iter).c_str ()));
   }
+
+  // This is a simple hack until we improve the node daemon.
+  ACE_Process_Options opts;
+  opts.command_line ("/bin/pkill NodeApplication");
+
+  // Spawn the new process.
+  pid_t pid = this->pm_.spawn (opts);
+
+  if (pid != ACE_INVALID_PID && pid != 0)
+    this->pm_.wait (pid);
+  else
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - failed to spawn task [%m]\n"));
 }
