@@ -21,7 +21,7 @@
  *
  * Event handler for the CUTS_Testing_App class.
  */
-class CUTS_Testing_App_Task : protected ACE_Task_Base
+class CUTS_Testing_App_Task : public ACE_Task_Base
 {
 public:
   /**

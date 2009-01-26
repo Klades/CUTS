@@ -56,17 +56,24 @@ handle_timeout (const ACE_Time_Value & tv, const void * act)
 //
 int CUTS_Testing_App_Task::svc (void)
 {
-  CUTS_TEST_TRACE ("CUTS_Testing_App_Task::svc (void)");
+  try
+    {
+      CUTS_TEST_TRACE ("CUTS_Testing_App_Task::svc (void)");
 
-  // Set the reactor's owner to this thread.
-  this->reactor ()->owner (ACE_OS::thr_self ());
-
-  ACE_DEBUG ((LM_INFO,
-              "%T (%t) - %M - running testing application's event loop\n"));
-
-  while (this->active_)
-    this->reactor ()->handle_events ();
-
+      // Set the reactor's owner to this thread.
+      this->reactor ()->owner (ACE_OS::thr_self ());
+      
+      ACE_DEBUG ((LM_INFO,
+                  "%T (%t) - %M - running testing application's event loop\n"));
+      
+      while (this->active_)
+        this->reactor ()->handle_events ();
+    }
+  catch (...)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T (%t) - %M - caught unknown exception (%N:%l)\n"));
+    }
   return 0;
 }
 

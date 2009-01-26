@@ -1,3 +1,15 @@
+Mon Jan 26 00:40:15 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/Testing_App_Task.h:
+        * cuts/utils/testing/Testing_App_Task.cpp:
+
+	  . Made the ACE_Task_Base public. I doubt this fixed anything,
+	    but for some reason the test engine is working now.
+
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/run-test.sh:
+
+	  . Added the --shutdown-timeout command-line parameter.
+
 Sun Jan 25 23:47:06 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/server/Logging_Server.cpp:
