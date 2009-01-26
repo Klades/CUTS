@@ -708,7 +708,7 @@ void CUTS_Node_Daemon_i::reset (void)
 
   // This is a simple hack until we improve the node daemon.
   ACE_Process_Options opts;
-  opts.command_line ("/bin/pkill NodeApplication");
+  opts.command_line ("pkill NodeApplication");
 
   // Spawn the new process.
   pid_t pid = this->pm_.spawn (opts);

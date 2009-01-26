@@ -1,3 +1,9 @@
+Mon Jan 26 16:00:26 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+
+	  . Remove the path from the 'pkill' operation.
+
 Mon Jan 26 14:10:54 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
