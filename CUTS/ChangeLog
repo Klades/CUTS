@@ -1,3 +1,17 @@
+Fri Jan 30 18:42:23 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * docs/manual/images/cuts-analysis-blocks.pdf:
+        * docs/manual/images/cuts-modeling-blocks.pdf:
+        * docs/manual/images/cuts-runtime-blocks.pdf:
+        * docs/manual/install.tex:
+        * docs/manual/manual.pdf:
+        * docs/manual/other/drawing-palette.pptx:
+
+	  . Updated the figures in Chapter 1 to include SQLite.
+
+	  . Updated the installation process to include SQLite and removed
+	    unixODBC.
+
 Mon Jan 26 21:44:06 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/svcs/logging/Test_Logging_Service.cpp:

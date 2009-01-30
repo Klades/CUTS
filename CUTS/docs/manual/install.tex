@@ -47,12 +47,12 @@ installed on the target machine(s):
   (Boost Spirit) used within different artifacts of CUTS. You can download Boost from
   the following location: \url{http://www.boost.org}.
 
-  \item \textbf{unixODBC (non-Windows only)} - This set of middleware is used to  
-  support ODBC on non-Windows systems. You can download unixODBC at the following
-  location: \url{http://www.unixodbc.org}.
+  \item \textbf{SQLite} - This set of middleware is used to support flat file archives
+  for test results. You can download SQLite at the following location: 
+  \url{http://www.sqlite.org}.
 
-  \item \textbf{XSC} - This set of middleware is used to convert XML documents 
-  to/from objects. You can download XSC from the following location: 
+  \item \textbf{XSC (not pictured)} - This set of middleware is used to convert 
+  XML documents to/from objects. You can download XSC from the following location: 
   \url{svn://svn.dre.vanderbilt.edu/XSC/trunk}.
 \end{itemize}
 
@@ -86,10 +86,10 @@ seperated using semi-colons (\texttt{;})}:
 Windows-based systems, please add library paths to \texttt{PATH}. On Mac OS-based
 systems, please add library paths to \texttt{DYLD\_LIBRARY\_PATH}.}@*)
 \end{lstlisting}
-To configure unixODBC, please set the following variables:
+To configure SQLite, please set the following variables:
 \begin{lstlisting}
-(*@\texttt{\%> export UNIXODBC\_ROOT=} location of unixODBC@*)
-(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$UNIXODBC\_ROOT/lib}@*)
+(*@\texttt{\%> export SQLITE\_ROOT=} location of SQLite@*)
+(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$SQLITE\_ROOT/lib}@*)
 \end{lstlisting}
 Finally, set the environment variables for CUTS as follows:
 \begin{lstlisting}
@@ -105,7 +105,7 @@ on different operating systems, and with different compilers. Before you can
 build the runtime architecture, you must first generate the target workspace.
 Use the following command to generate the workspace:
 \begin{lstlisting}
-(*@\texttt{\%> \$(ACE\_ROOT)/bin/mwc.pl -type TYPE [-features FEATURES] CUTS.mwc}@*)
+(*@\texttt{\%> \$(ACE\_ROOT)/bin/mwc.pl -type TYPE -features boost=1,xsc=0, \\sqlite3=1[,FEATURES] CUTS.mwc}@*)
 \end{lstlisting}
 where TYPE is your compiler type, and FEATURES are the enabled features
 for your build of the CUTS runtime architecture\footnote{You can type 
@@ -115,6 +115,7 @@ in \texttt{\$(CUTS\_ROOT)/default.features}. You can either enable features
 within that file, or via the command-line. Once you have generated the 
 workspace, you can build the solution using your specified compiler.
 
+\iffalse
 \subsection{Installing database schemas}
 
 To use the database features of CUTS, you must first install the CUTS database 
@@ -132,6 +133,7 @@ database. After you install the \texttt{CUTS-create.sql}, you can install any of
 the other scripts in \texttt{\$(CUTS\_ROOT)/etc/SQL}. The table below lists the
 different scripts you can install. We, however, recommend you install all the 
 database schemas for completeness.
+\fi
 
 \section{CUTS Modeling Tools (Windows-only)}
 
