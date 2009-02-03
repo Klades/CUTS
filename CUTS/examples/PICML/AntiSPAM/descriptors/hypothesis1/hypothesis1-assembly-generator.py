@@ -113,8 +113,10 @@ def writeEventGeneratorComponent (outfile, id) :
   instance = """antispam::NullEventGenerator %s
     {
       publishHertz=${%s.publishHertz}
+      instName=%s
+      testName=`cat /var/emulab/boot/syncserver`:10000
     }
-    """ % (name, name)
+    """ % (name, name, name)
 
   outfile.write (instance)
 

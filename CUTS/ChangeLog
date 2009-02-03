@@ -1,3 +1,36 @@
+Tue Feb  3 17:12:54 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-assembly-generator.py:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly1.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly10.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly11.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly12.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly13.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly14.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly15.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly16.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly17.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly18.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly19.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly2.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly20.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly3.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly4.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly5.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly6.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly7.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly8.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly9.assembly:
+
+          . Updated the assembly generator and assemblies so that the
+            event generator component logs its configuration, and
+            can set its instance name via attributes.
+
+        * examples/PICML/AntiSPAM/hypothesis1-assembly-generator.py:
+
+          Removed this file.
+
 Tue Feb  3 15:43:42 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/descriptors/hypothesis1/generate.bat:
