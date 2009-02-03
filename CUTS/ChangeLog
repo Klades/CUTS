@@ -1,9 +1,16 @@
+Tue Feb  3 06:15:04 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * docs/manual/manual.pdf:
+        * docs/manual/quickstart.tex:
+
+	  . Updated Section 2.2 and Section 2.3 in the quick start guide.
+
 Tue Feb  3 03:15:57 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * docs/manual/install.tex:
         * docs/manual/manual.pdf:
 
-	  . Fixed a typo in the installation guide.
+          . Fixed a typo in the installation guide.
 
 Tue Feb  3 01:04:29 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 

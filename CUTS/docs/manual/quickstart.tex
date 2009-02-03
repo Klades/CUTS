@@ -1,0 +1,115 @@
+% $Id$
+
+\chapter{Quick Start Tutorial}
+
+This chapter provides a quick start tutorial for using CUTS. After reading this
+chapter, you will have a basic understanding of how to:
+\begin{enumerate}
+  \item model application behavior and workload;
+
+  \item generate a test system model the constructed model;
+
+  \item execute the system in your target environment;
+
+  \item collect and analyze test results.
+\end{enumerate}
+In this tutorial, you will be measuring the end-to-end response time a simple
+client/\-server application that communicates using asychronous events. This
+tutorial assumes you have basic understanding of the Generic Modeling 
+Environment (GME), CoSMIC, and the CORBA Component Model (CCM). More specifically,
+this turorial will target the Component Integrated ACE ORB (CIAO) 
+middleware\footnote{CIAO is a open-source implementation of the CCM and freely 
+available for download at the following location: \url{www.dre.vanderbilt.edu/CIAO}.}.
+Although this tutorial targets CIAO, the experience gained from
+this tutorial can be applied to any architecture CUTS supports.
+
+\section{Modeling Behavior and Workload}
+\label{sec:quickstart-modeling}
+
+Using GME, open the following file: 
+\begin{lstlisting}
+(*@\texttt{\$(CUTS\_ROOT)/examples/PICML/GettingStarted.xme}@*)
+\end{lstlisting}
+This model contains the structure of the client/\-server application. Moreover, 
+this is usually the starting point for using CUTS within CoSMIC. 
+Currently, application behavior and workload is modeled in the \texttt{Behavior}
+aspect of a component's interface definition in PICML. First, let's add behavior 
+and workload to the client component by assuming the client component should 
+periodically send an event to the server.
+As illustrated in Figure~\ref{fig:client-no-behavior}, the client model already
+contains model elements for its input/\-output ports. What remains is associating
+the correct behavior and workload with these input/\-output ports for emulation
+purposes. Therefore, please complete the following steps:
+\begin{enumerate}
+  \item Add a \texttt{PeriodicEvent} model element to the active model and 
+  set its \texttt{Period} attribute to 1000 msec. 
+  
+  \item Insert an \texttt{InputAction} element, changes its name to 
+  \texttt{periodicPing}, and connect the \texttt{PeriodicEvent} to the \texttt{InputAction}.
+
+  \item Insert a \texttt{State} element, connect it with the \texttt{InputAction}.
+
+  \item Insert an \texttt{OutputAction}, connect it with the \texttt{State}.
+
+  \item Insert and connect another \texttt{State}. 
+
+  \item Connect the final \texttt{State} with the originating \texttt{InputAction},
+  \textit{i.e.}, \texttt{periodicPing}, to signify end of the behavior.
+\end{enumerate}
+Figure~\ref{fig:client-behavior} illustrates a complete model for the previous 
+steps.
+
+\section{Generating Test System Implementation}
+\label{sec:quickstart-generation}
+
+After modeling the behavior and workload, the next step is to 
+generate source code from the model. This will enable emulation 
+of the test system on its target architecture. To generate source 
+code from the model, launch the CUTS interpreter and excute the 
+following steps (also illustrated in Figure~\ref{fig:quickstart-generate}):
+\begin{enumerate}
+  \item Select \texttt{Generate component implementation} radio button;
+  \item Enter the target output directory;
+  \item Select \texttt{Component Integrated ACE ORB (CIAO)} in the listbox;
+  \item Click the \texttt{OK} button.
+\end{enumerate}
+Once the CUTS interpreter finishes generating source code, the IDL and CIDL 
+files need to be generated in order to compile the source code. These files 
+are created by the IDL Generator and CIDL Generator interpreters, respectively, 
+provided with CoSMIC~\footnote{Please ensure to generate the IDL and CIDL 
+files in the same directory as the source code previously generated 
+from the model.}. Finally, there will be a \texttt{GettingStarted.mwc} 
+file (its name may be different) located in the output directory selected 
+for source code generation. This is a Makefile, Project and Workspace Creator 
+(MPC) workspace file that contains all the necessary information to sucessfully 
+compile the generated source code. Use \texttt{ettingStarted.mwc} to generate 
+the appropriate workspace and then compile it.
+
+\section{Executing in Target Environment}
+\label{sec:quickstart-execution}
+
+One design goal of CUTS is to (re)use the same infrastruture used in the 
+target environment. The \texttt{GettingStarted.xme} example uses the Deployment 
+And Configuration Engine (DAnCE), which is included with CIAO's standard 
+distribution, to deploy the test system. To deploy the CUTS stock quoter 
+example, use the following steps~\footnote{CUTS has a distributed testing
+framework that simplifies many of the complexities associated with running
+distributed system tests. We will cover the CUTS testing framework in later
+chapters}:
+\begin{enumerate}
+  \item Generate the flat deployment plan descriptors from the 
+  \texttt{GettingStarted}  model. You can find instructions on generating 
+  the flat deployment plan in the original stock quoter tutorial included 
+  with CoSMIC.
+  
+  \item Use DAnCE to deploy the GettingStarted.cdp. The original stock 
+  quoter tutorial in CoSMIC has instructions on how to deploy a solution. 
+  Be sure, however, to update the \texttt{nodemap.dat} file to the appropriate
+  hosts and their location.
+\end{enumerate}
+When the CUTS version of the GettingStarted example is deployed, the test
+manager will periodic collect log messages from each host/\-client, and 
+insert them into a SQLite database for postprocessing.
+
+\section{Analyzing Test Results}
+\label{sec:quickstart-analysis}
