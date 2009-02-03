@@ -55,3 +55,11 @@ project (CUTS_Log_T_Test) : cuts_test {
     Log_T_Test.cpp
   }
 }
+
+project (Exponential_Periodic_Event_Test) : cuts_test {
+  exename = Exponential_Periodic_Event_Test
+
+  Source_Files {
+    Exponential_Periodic_Event_Test.cpp
+  }
+}

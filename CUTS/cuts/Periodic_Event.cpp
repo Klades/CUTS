@@ -37,6 +37,7 @@ int CUTS_Periodic_Event::configure (Strategy_Type type, double hertz)
   }
 
   this->strategy_.reset (strategy);
+  this->type_ = type;
   return 0;
 }
 
@@ -48,7 +49,6 @@ int CUTS_Periodic_Event::schedule_timeout (const ACE_Time_Value & curr_time)
   // Do we really next to cancel the current timeout??
   if (this->timer_ != -1)
     this->cancel_timeout ();
-
 
   if (this->strategy_.get () != 0)
   {

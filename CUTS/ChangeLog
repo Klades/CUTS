@@ -1,3 +1,15 @@
+Tue Feb  3 19:43:32 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/Periodic_Event.inl:
+        * cuts/Periodic_Event.cpp:
+
+          . Bug fixes related to initialize variables.
+
+        * tests/cuts/Exponential_Periodic_Event_Test.cpp:
+        * tests/cuts/test.mpc:
+
+          . Simple test for the exponential periodic event generator.
+
 Tue Feb  3 17:12:54 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/AntiSPAM.xme:
