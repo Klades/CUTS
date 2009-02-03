@@ -1,3 +1,10 @@
+Tue Feb  3 03:15:57 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * docs/manual/install.tex:
+        * docs/manual/manual.pdf:
+
+	  . Fixed a typo in the installation guide.
+
 Tue Feb  3 01:04:29 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Generators.cpp:
