@@ -28,6 +28,8 @@ static const char * __HELP__ =
 "  --target=PATH                   use element at PATH as parent\n"
 "  --parser=LIBRARY                load text-2-model parser in LIBRARY\n"
 "\n"
+"  --disable-addons                disable GME auto add-ons\n"
+"\n"
 "Informative Options:\n"
 "  -h, --help                      print this help message\n";
 
@@ -149,6 +151,8 @@ int CUTS_T2M_Executor_App::run_parser (void)
   {
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - failed to resolve target element\n"));
+
+    this->project_.abort_transaction ();
   }
 
   // Destroy the parser.
@@ -165,7 +169,7 @@ int CUTS_T2M_Executor_App::parse_args (int argc, char * argv [])
 
   ACE_Get_Opt get_opt (argc, argv, optargs);
 
-  get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
+  get_opt.long_option ("help", 'h');
   get_opt.long_option ("project", 'p', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("file", 'f', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("parser", ACE_Get_Opt::ARG_REQUIRED);
@@ -173,6 +177,7 @@ int CUTS_T2M_Executor_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("run", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("run-output", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("run-focus", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("disable-addons");
 
   char opt;
 
@@ -212,6 +217,10 @@ int CUTS_T2M_Executor_App::parse_args (int argc, char * argv [])
       else if (ACE_OS::strcmp ("run-focus", get_opt.long_option ()) == 0)
       {
         this->opts_.run_focus_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp ("disable-addons", get_opt.long_option ()) == 0)
+      {
+        this->opts_.enable_auto_addons_ = false;
       }
       break;
 
@@ -305,8 +314,7 @@ int CUTS_T2M_Executor_App::open_gme_project (void)
 
   // Make sure we have the add-ons enabled. Otherwise, the project
   // may enter an inconsistent state.
-  if (this->opts_.enable_auto_addons_)
-    this->project_.enable_auto_addons (true);
+  this->project_.enable_auto_addons (this->opts_.enable_auto_addons_);
 
   return 0;
 }
@@ -349,6 +357,8 @@ int CUTS_T2M_Executor_App::run (const std::string & progid)
               "%T (%t) - %M - running the interpreter %s\n",
               progid.c_str ()));
 
+  // ACE_OS::sleep (20);
+
   try
   {
     // Let's see if we need to run an interpreter
@@ -379,24 +389,21 @@ int CUTS_T2M_Executor_App::run (const std::string & progid)
     try
     {
       this->project_.commit_transaction ();
-      interpreter.invoke (this->project_, focus, selected, 0);
+      interpreter.invoke (focus.project (), focus, selected, 0);
     }
     catch (const GME::Exception &)
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T - %M - caught GME exception\n"));
+                  "%T - %M - caught GME exception (%N:%l)\n"));
 
       this->project_.abort_transaction ();
     }
 
-    // Just in case something else happens after this point, we
-    // need to restart the default transaction.
-    this->project_.begin_transaction (true);
     return 0;
   }
   catch (GME::Exception &)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - caught GME exception\n"));
+                "%T - %M - caught GME exception (%N:%l)\n"));
   }
 }

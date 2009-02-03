@@ -1,9 +1,21 @@
+Tue Feb  3 15:37:15 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/T2M/executor/Executor_App.cpp:
+        * MDE/GME/T2M/executor/Executor_App_Options.inl:
+
+          . Bug fix where running an interpreter failed. This was caused
+            by not using the project returned from the focus object, and
+            using the project that was orginally opened when invoking the
+            interpreter. This is strange because they should be the same!!
+
+          . Added a --disable-addon option to disable GME auto add-ons.
+
 Tue Feb  3 06:15:04 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * docs/manual/manual.pdf:
         * docs/manual/quickstart.tex:
 
-	  . Updated Section 2.2 and Section 2.3 in the quick start guide.
+    . Updated Section 2.2 and Section 2.3 in the quick start guide.
 
 Tue Feb  3 03:15:57 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
