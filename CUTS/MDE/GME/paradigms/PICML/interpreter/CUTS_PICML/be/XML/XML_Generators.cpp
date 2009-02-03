@@ -300,8 +300,8 @@ bool CUTS_BE_PeriodicEvent_Begin_T <CUTS_BE_Xml>::
 generate (const PICML::PeriodicEvent & periodic)
 {
   CUTS_BE_XML ()->outfile_
-    << "<periodic period=\"" << periodic.Period ()
-    << "\" probability=\"" << periodic.Probability () << "\">" << std::endl;
+    << "<periodic hertz=\"" << periodic.Hertz ()
+    << "\" distribution=\"" << periodic.Distribution () << "\">" << std::endl;
 
   return true;
 }

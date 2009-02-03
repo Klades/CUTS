@@ -24,23 +24,23 @@ module antispam
 {
   local interface CCM_CPUBound : ::Components::EnterpriseComponent
   {
-    void push_InPortB (in ::antispam::NullEvent e);
-    void push_InPortA (in ::antispam::NullEvent e);
+    void push_InPortD (in ::antispam::NullEvent e);
     void push_InPortE (in ::antispam::NullEvent e);
     void push_InPortC (in ::antispam::NullEvent e);
-    void push_InPortD (in ::antispam::NullEvent e);
-    attribute long logRate;
-    attribute string instName;
+    void push_InPortA (in ::antispam::NullEvent e);
+    void push_InPortB (in ::antispam::NullEvent e);
     attribute string testName;
+    attribute string instName;
+    attribute long logRate;
   };
 
   local interface CCM_CPUBound_Context : ::Components::SessionContext
   {
     void push_OutPortB (in ::antispam::NullEvent e);
     void push_OutPortA (in ::antispam::NullEvent e);
-    void push_OutPortC (in ::antispam::NullEvent e);
     void push_OutPortD (in ::antispam::NullEvent e);
     void push_OutPortE (in ::antispam::NullEvent e);
+    void push_OutPortC (in ::antispam::NullEvent e);
   };
 
   local interface CCM_CPUBoundHomeImplicit

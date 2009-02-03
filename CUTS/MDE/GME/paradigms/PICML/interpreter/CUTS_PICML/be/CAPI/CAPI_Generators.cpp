@@ -866,7 +866,7 @@ generate (const PICML::PeriodicEvent & periodic)
 
     // Save the periodic event's name.
     CUTS_BE_CAPI ()->periodics_.insert (
-      std::make_pair (periodic_name, periodic.Period ()));
+      std::make_pair (periodic_name, periodic.Hertz ()));
   }
 
   return true;
@@ -913,7 +913,8 @@ generate (const PICML::PeriodicEvent & periodic)
       << "public " << periodic_task << " ("
       << parent_name << " component)"
       << "{"
-      << "super (" << periodic.Probability () << ");"
+      // Need to update architecture to handle different distributions.
+      << "super (1.0);"
       << "this.component_ = component;"
       << "}"
       << std::endl

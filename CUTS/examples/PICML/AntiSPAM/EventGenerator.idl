@@ -11,7 +11,7 @@ module antispam
   {
     publishes antispam::NullEvent NullEvent;
     
-    attribute long publishHertz;
+    attribute double publishHertz;
   };
   
   home NullEventGeneratorHome

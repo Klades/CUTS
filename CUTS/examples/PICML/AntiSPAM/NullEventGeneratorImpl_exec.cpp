@@ -11,14 +11,14 @@ namespace CIDL_NullEventGeneratorImpl
   //
   void NullEventGenerator::periodic_eventGenerator (void)
   {
-    CUTS_CCM_Event_T <OBV_antispam::NullEvent> __event_100000046__;
-    this->ctx_->push_NullEvent (__event_100000046__.in ());
+    CUTS_CCM_Event_T <OBV_antispam::NullEvent> __event_100000047__;
+    this->ctx_->push_NullEvent (__event_100000047__.in ());
   }
 
   //
   // publishHertz [getter]
   //
-  ::CORBA::Long NullEventGenerator::publishHertz (void)
+  ::CORBA::Double NullEventGenerator::publishHertz (void)
   {
     return this->publishHertz_;
   }
@@ -26,7 +26,7 @@ namespace CIDL_NullEventGeneratorImpl
   //
   // publishHertz [setter]
   //
-  void NullEventGenerator::publishHertz (::CORBA::Long publishHertz)
+  void NullEventGenerator::publishHertz (::CORBA::Double publishHertz)
   {
     this->publishHertz_ = publishHertz;
   }
@@ -36,8 +36,8 @@ namespace CIDL_NullEventGeneratorImpl
   //
   void NullEventGenerator::ccm_activate (void)
   {
-    // we need to configure all objects first
-    this->cuts_configure_objects ();
+    // configure the event generators
+    this->periodic_eventGenerator_.configure (CUTS_Periodic_Event::PE_EXPONENTIAL, this->publishHertz_);
 
     // pass control to base class
     base_type::ccm_activate ();
@@ -57,15 +57,6 @@ namespace CIDL_NullEventGeneratorImpl
   //
   NullEventGenerator::~NullEventGenerator (void)
   {
-  }
-
-  //
-  // cuts_configure_objects
-  //
-  void NullEventGenerator::cuts_configure_objects (void)
-  {
-    this->periodic_eventGenerator_.probability (1.0);
-    this->periodic_eventGenerator_.timeout (1000 / this->publishHertz_);
   }
 
   //

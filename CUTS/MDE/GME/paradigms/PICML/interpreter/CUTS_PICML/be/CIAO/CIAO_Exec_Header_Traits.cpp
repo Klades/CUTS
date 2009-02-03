@@ -134,7 +134,7 @@ write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
 
   if (!periodics.empty ())
   {
-    this->out_ << include ("cuts/Trigger_T");
+    this->out_ << include ("cuts/Periodic_Event_T");
   }
 
   // We need to determine if any of the events sources has a
@@ -220,16 +220,6 @@ write_impl_end (const PICML::MonolithicImplementation & monoimpl,
 {
   if (!this->out_.is_open ())
     return;
-
-  std::vector <PICML::PeriodicEvent>
-    periodics = component.PeriodicEvent_kind_children ();
-
-  if (!periodics.empty ())
-  {
-    this->out_ << "private:" << std::endl
-               << single_line_comment ("helper method to configure necessary objects")
-               << "void cuts_configure_objects (void);";
-  }
 
   this->out_ << "};";
 
@@ -353,7 +343,7 @@ write_PeriodicEvent_variable (const PICML::PeriodicEvent & periodic)
 
   this->out_
     << single_line_comment ("periodic: " + (std::string)periodic.name ())
-    << "CUTS_Periodic_Trigger_T <" << parent.name ()
+    << "CUTS_Periodic_Event_T <" << parent.name ()
     << "> periodic_" << periodic.name () << "_;" << std::endl;
 }
 

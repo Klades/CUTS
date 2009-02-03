@@ -195,6 +195,7 @@ write_impl_end (const PICML::MonolithicImplementation & monoimpl,
     std::string name ("periodic_");
     name.append (iter->name ());
 
+    // Configure the periodic event.
     this->out_ << "this->" << name << "_.init (this, &type::" << name << ");"
                << "this->register_object (&this->" << name << "_);";
   }
@@ -205,27 +206,6 @@ write_impl_end (const PICML::MonolithicImplementation & monoimpl,
              << this->object_impl_ << "::" << destructor << " (void)"
              << "{"
              << "}";
-
-  if (!periodics.empty ())
-  {
-    this->out_ << function_header ("cuts_configure_objects")
-               << "void " << this->object_impl_ << "::"
-               << "cuts_configure_objects (void)"
-               << "{";
-
-    for (PeriodicEvent_Set::iterator iter = periodics.begin ();
-         iter != periodics.end ();
-         ++ iter)
-    {
-      this->out_ << "this->periodic_" << iter->name () << "_.probability ("
-                 << iter->Probability () << ");"
-                 << "this->periodic_" << iter->name () << "_.timeout ("
-                 << iter->Period () << ");"
-                 << std::endl;
-    }
-
-    this->out_ << "}";
-  }
 
   // Clear the listing of output events.
   this->outevent_mgr_.clear ();
@@ -466,21 +446,6 @@ write_ciao_preactivate (const PICML::Component & component)
 
   this->_super::write_ciao_preactivate (component);
   this->out_ << "{";
-
-  typedef std::vector <PICML::PeriodicEvent> PeriodicEvent_Set;
-  PeriodicEvent_Set periodics = component.PeriodicEvent_kind_children ();
-
-  for (PeriodicEvent_Set::iterator iter = periodics.begin ();
-       iter != periodics.end ();
-       iter ++)
-  {
-    this->out_
-      << "this->periodic_" << iter->name () << "_.init (this, &"
-      << component.name () << "::periodic_" << iter->name () << ");"
-      << "this->periodic_" << iter->name () << "_.probability ("
-      << iter->Probability () << ");"
-      << std::endl;
-  }
 }
 
 //
@@ -500,8 +465,27 @@ write_ccm_activate (const PICML::Component & component)
 
   if (!periodics.empty ())
   {
-    this->out_ << single_line_comment ("we need to configure all objects first")
-               << "this->cuts_configure_objects ();" << std::endl;
+    this->out_ << single_line_comment ("configure the event generators");
+
+    for (PeriodicEvent_Set::iterator iter = periodics.begin ();
+        iter != periodics.end ();
+        ++ iter)
+    {
+      std::string name ("periodic_");
+      name.append (iter->name ());
+
+      // Determine the distribution class.
+      std::string distro (iter->Distribution ());
+
+      if (distro.empty ())
+        distro = "UNDEFINED";
+
+      this->out_ << "this->" << name << "_.configure (CUTS_Periodic_Event::PE_"
+                << distro << ", " << iter->Hertz () << ");";
+    }
+
+    // Force a newline.
+    this->out_ << std::endl;
   }
 }
 
@@ -511,23 +495,11 @@ write_ccm_activate (const PICML::Component & component)
 void CUTS_CIAO_Exec_Source_Traits::
 write_ciao_postactivate (const PICML::Component & component)
 {
-  //if (!this->out_.is_open ())
-  //  return;
+  if (!this->out_.is_open ())
+    return;
 
-  //this->_super::write_ciao_postactivate (component);
-  //this->out_ << "{";
-
-  //typedef std::vector <PICML::PeriodicEvent> PeriodicEvent_Set;
-  //PeriodicEvent_Set periodics = component.PeriodicEvent_kind_children ();
-
-  //for (PeriodicEvent_Set::iterator iter = periodics.begin ();
-  //     iter != periodics.end ();
-  //     iter ++)
-  //{
-  //  this->out_
-  //    << "this->periodic_" << iter->name () << "_.activate ("
-  //    << iter->Period () << ");";
-  //}
+  this->_super::write_ciao_postactivate (component);
+  this->out_ << "{";
 }
 
 //
@@ -681,22 +653,6 @@ write_WorkerAction_begin (const PICML::Worker & parent,
   Property_Set args = action_type.Property_kind_children ();
 
   this->arg_count_ = args.size ();
-
-  //if (action.LogAction ())
-  //{
-  //  this->out_
-  //    << "record->perform_action (" << std::endl
-  //    << action.uniqueId () << ", -1, ";
-  //}
-  //else
-  //{
-  //  this->out_
-  //    << "record->perform_action_no_logging (" << std::endl;
-  //}
-
-  //this->out_
-  //  << "&" << parent.name () << "::" << action_type.name ()
-  //  << ", this->" << action.name () << "_";
 }
 
 //

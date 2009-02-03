@@ -10,7 +10,7 @@
 #include /**/ "ace/pre.h"
 #include "NullEventGeneratorImplEC.h"
 #include "cuts/CCM_Component_T.h"
-#include "cuts/Trigger_T.h"
+#include "cuts/Periodic_Event_T.h"
 
 namespace CIDL_NullEventGeneratorImpl
 {
@@ -39,24 +39,20 @@ namespace CIDL_NullEventGeneratorImpl
     void periodic_eventGenerator (void);
 
     // get publishHertz
-    virtual ::CORBA::Long publishHertz (void);
+    virtual ::CORBA::Double publishHertz (void);
 
     // set publishHertz
-    virtual void publishHertz (::CORBA::Long publishHertz);
+    virtual void publishHertz (::CORBA::Double publishHertz);
 
     // Environment: activate
     virtual void ccm_activate (void);
 
     private:
     // variable: publishHertz
-    ::CORBA::Long publishHertz_;
+    ::CORBA::Double publishHertz_;
 
     // periodic: eventGenerator
-    CUTS_Periodic_Trigger_T <NullEventGenerator> periodic_eventGenerator_;
-
-    private:
-    // helper method to configure necessary objects
-    void cuts_configure_objects (void);
+    CUTS_Periodic_Event_T <NullEventGenerator> periodic_eventGenerator_;
   };
 
   class NullEventGeneratorHome_i :

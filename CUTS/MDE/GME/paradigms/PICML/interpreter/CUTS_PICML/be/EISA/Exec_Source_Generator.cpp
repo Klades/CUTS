@@ -362,11 +362,20 @@ write_ciao_preactivate (const PICML::Component & component)
        iter != periodics.end ();
        iter ++)
   {
+    std::string name ("periodic_");
+    name.append (iter->name ());
+
+    // Determine the distribution class.
+    std::string distro (iter->Distribution ());
+
+    if (distro.empty ())
+      distro = "UNDEFINED";
+
     this->out_
-      << "this->periodic_" << iter->name () << "_.init (this, &"
-      << component.name () << "::periodic_" << iter->name () << ");"
-      << "this->periodic_" << iter->name () << "_.probability ("
-      << iter->Probability () << ");"
+      << "this->" << name << "_.init (this, &"
+      << component.name () << "::" << name << ");"
+      << "this->" << name << "_.configure (CUTS_Periodic_Event::PE_"
+      << distro << ", " << iter->Hertz () << ");"
       << std::endl;
   }
 }
@@ -411,8 +420,6 @@ write_ciao_postactivate (const PICML::Component & component)
        iter ++)
   {
     this->out_
-      << "this->periodic_" << iter->name () << "_.timeout (" << iter->Period () << ");"
-      << "this->periodic_" << iter->name () << "_.probability (" << iter->Probability () << ");"
       << "this->periodic_" << iter->name () << "_.activate ();";
   }
 

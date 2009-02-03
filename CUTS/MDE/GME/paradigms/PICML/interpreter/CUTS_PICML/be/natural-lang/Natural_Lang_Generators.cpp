@@ -88,8 +88,9 @@ bool CUTS_BE_PeriodicEvent_Begin_T <CUTS_BE_Natural_Lang>::
 generate (const PICML::PeriodicEvent & periodic)
 {
   CUTS_BE_NATURAL_LANG ()->outfile_
-    << "* every " << periodic.Period ()
-    << " msec with probability of " << periodic.Probability () << std::endl;
+    << "* " << periodic.Hertz ()
+    << " events/sec with " << periodic.Distribution ()
+    << " distribution" << std::endl;
 
   return true;
 }

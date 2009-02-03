@@ -36,42 +36,42 @@ namespace CIDL_CPUBoundImpl
     // Destructor
     virtual ~CPUBound (void);
 
-    // EventSink: InPortB
-    virtual void push_InPortB (antispam::NullEvent * ev);
+    // EventSink: InPortD
+    virtual void push_InPortD (antispam::NullEvent * ev);
 
-    void push_InPortB_i (antispam::NullEvent * ev);
+    void push_InPortD_i (antispam::NullEvent * ev);
 
     // EventSink: InPortE
     virtual void push_InPortE (antispam::NullEvent * ev);
 
     void push_InPortE_i (antispam::NullEvent * ev);
 
-    // EventSink: InPortD
-    virtual void push_InPortD (antispam::NullEvent * ev);
+    // EventSink: InPortC
+    virtual void push_InPortC (antispam::NullEvent * ev);
 
-    void push_InPortD_i (antispam::NullEvent * ev);
+    void push_InPortC_i (antispam::NullEvent * ev);
 
     // EventSink: InPortA
     virtual void push_InPortA (antispam::NullEvent * ev);
 
     void push_InPortA_i (antispam::NullEvent * ev);
 
-    // EventSink: InPortC
-    virtual void push_InPortC (antispam::NullEvent * ev);
+    // EventSink: InPortB
+    virtual void push_InPortB (antispam::NullEvent * ev);
 
-    void push_InPortC_i (antispam::NullEvent * ev);
-
-    // get instName
-    virtual char * instName (void);
-
-    // set instName
-    virtual void instName (const char * instName);
+    void push_InPortB_i (antispam::NullEvent * ev);
 
     // get testName
     virtual char * testName (void);
 
     // set testName
     virtual void testName (const char * testName);
+
+    // get instName
+    virtual char * instName (void);
+
+    // set instName
+    virtual void instName (const char * instName);
 
     // get logRate
     virtual ::CORBA::Long logRate (void);
@@ -96,35 +96,35 @@ namespace CIDL_CPUBoundImpl
     CUTS_CCM_Event_Handler_T < type, antispam::NullEvent > push_InPortD_;
     // event handler for InPortE
     CUTS_CCM_Event_Handler_T < type, antispam::NullEvent > push_InPortE_;
-    // variable: logEventD
-    ::CORBA::Boolean logEventD_;
-
     // variable: eventCountB
     ::CORBA::Long eventCountB_;
-
-    // variable: logEventA
-    ::CORBA::Boolean logEventA_;
-
-    // variable: eventCountE
-    ::CORBA::Long eventCountE_;
-
-    // variable: eventCountC
-    ::CORBA::Long eventCountC_;
-
-    // variable: logEventE
-    ::CORBA::Boolean logEventE_;
 
     // variable: eventCountA
     ::CORBA::Long eventCountA_;
 
+    // variable: logEventA
+    ::CORBA::Boolean logEventA_;
+
+    // variable: logEventE
+    ::CORBA::Boolean logEventE_;
+
+    // variable: eventCountE
+    ::CORBA::Long eventCountE_;
+
+    // variable: logEventD
+    ::CORBA::Boolean logEventD_;
+
     // variable: logEventC
     ::CORBA::Boolean logEventC_;
+
+    // variable: eventCountD
+    ::CORBA::Long eventCountD_;
 
     // variable: logEventB
     ::CORBA::Boolean logEventB_;
 
-    // variable: eventCountD
-    ::CORBA::Long eventCountD_;
+    // variable: eventCountC
+    ::CORBA::Long eventCountC_;
 
     // worker variable: mycpu
     CUTS_LD_CPU_Worker mycpu_;
@@ -132,11 +132,11 @@ namespace CIDL_CPUBoundImpl
     // worker variable: logger
     CUTS_Test_Logger logger_;
 
-    // variable: instName
-    ACE_CString instName_;
-
     // variable: testName
     ACE_CString testName_;
+
+    // variable: instName
+    ACE_CString instName_;
 
     // variable: logRate
     ::CORBA::Long logRate_;
