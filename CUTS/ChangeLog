@@ -1,3 +1,15 @@
+Tue Feb  3 15:43:42 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/generate.bat:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly1.cdp:
+
+          . Updated the generator script to copy the template deployment
+            to its target deployment filename.
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+
+          . Checkpointing the model.
+
 Tue Feb  3 15:37:15 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/T2M/executor/Executor_App.cpp:
