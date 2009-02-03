@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <Deployment:deploymentPlan xmlns:Deployment="http://www.omg.org/Deployment" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/Deployment Deployment.xsd">
 
-  <UUID>0A65E6EB-408A-44C0-942D-C27EE6D7618F</UUID>
+  <UUID>1EA93C4E-06C8-4D2B-A105-1C0222DED5E6</UUID>
 
   <implementation id="_6828C5EB-EBC5-48F7-B051-A1F865F4DB0E">
     <name>AntiSPAM.ComponentImplementations.NullEventGeneratorImpl.NullEventGeneratorImpl</name>
@@ -34,17 +34,6 @@
       </value>
     </configProperty>
     <configProperty>
-      <name>instName</name>
-      <value>
-        <type>
-          <kind>tk_string</kind>
-        </type>
-        <value>
-          <string>inst1</string>
-        </value>
-      </value>
-    </configProperty>
-    <configProperty>
       <name>testName</name>
       <value>
         <type>
@@ -52,6 +41,17 @@
         </type>
         <value>
           <string>`cat /var/emulab/boot/syncserver`:10000</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>instName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>inst1</string>
         </value>
       </value>
     </configProperty>
@@ -74,17 +74,6 @@
       </value>
     </configProperty>
     <configProperty>
-      <name>instName</name>
-      <value>
-        <type>
-          <kind>tk_string</kind>
-        </type>
-        <value>
-          <string>inst2</string>
-        </value>
-      </value>
-    </configProperty>
-    <configProperty>
       <name>testName</name>
       <value>
         <type>
@@ -92,6 +81,17 @@
         </type>
         <value>
           <string>`cat /var/emulab/boot/syncserver`:10000</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>instName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>inst2</string>
         </value>
       </value>
     </configProperty>
@@ -114,17 +114,6 @@
       </value>
     </configProperty>
     <configProperty>
-      <name>instName</name>
-      <value>
-        <type>
-          <kind>tk_string</kind>
-        </type>
-        <value>
-          <string>inst3</string>
-        </value>
-      </value>
-    </configProperty>
-    <configProperty>
       <name>testName</name>
       <value>
         <type>
@@ -132,6 +121,17 @@
         </type>
         <value>
           <string>`cat /var/emulab/boot/syncserver`:10000</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>instName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>inst3</string>
         </value>
       </value>
     </configProperty>
@@ -154,17 +154,6 @@
       </value>
     </configProperty>
     <configProperty>
-      <name>instName</name>
-      <value>
-        <type>
-          <kind>tk_string</kind>
-        </type>
-        <value>
-          <string>inst4</string>
-        </value>
-      </value>
-    </configProperty>
-    <configProperty>
       <name>testName</name>
       <value>
         <type>
@@ -172,6 +161,17 @@
         </type>
         <value>
           <string>`cat /var/emulab/boot/syncserver`:10000</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>instName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>inst4</string>
         </value>
       </value>
     </configProperty>
@@ -194,17 +194,6 @@
       </value>
     </configProperty>
     <configProperty>
-      <name>instName</name>
-      <value>
-        <type>
-          <kind>tk_string</kind>
-        </type>
-        <value>
-          <string>inst5</string>
-        </value>
-      </value>
-    </configProperty>
-    <configProperty>
       <name>testName</name>
       <value>
         <type>
@@ -212,6 +201,17 @@
         </type>
         <value>
           <string>`cat /var/emulab/boot/syncserver`:10000</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>instName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>inst5</string>
         </value>
       </value>
     </configProperty>
@@ -226,10 +226,10 @@
       <name>publishHertz</name>
       <value>
         <type>
-          <kind>tk_long</kind>
+          <kind>tk_double</kind>
         </type>
         <value>
-          <long>${generator1.publishHertz}</long>
+          <double>${generator1.publishHertz}</double>
         </value>
       </value>
     </configProperty>
@@ -244,10 +244,10 @@
       <name>publishHertz</name>
       <value>
         <type>
-          <kind>tk_long</kind>
+          <kind>tk_double</kind>
         </type>
         <value>
-          <long>${generator2.publishHertz}</long>
+          <double>${generator2.publishHertz}</double>
         </value>
       </value>
     </configProperty>
@@ -262,10 +262,10 @@
       <name>publishHertz</name>
       <value>
         <type>
-          <kind>tk_long</kind>
+          <kind>tk_double</kind>
         </type>
         <value>
-          <long>${generator3.publishHertz}</long>
+          <double>${generator3.publishHertz}</double>
         </value>
       </value>
     </configProperty>
@@ -280,10 +280,10 @@
       <name>publishHertz</name>
       <value>
         <type>
-          <kind>tk_long</kind>
+          <kind>tk_double</kind>
         </type>
         <value>
-          <long>${generator4.publishHertz}</long>
+          <double>${generator4.publishHertz}</double>
         </value>
       </value>
     </configProperty>
@@ -298,10 +298,10 @@
       <name>publishHertz</name>
       <value>
         <type>
-          <kind>tk_long</kind>
+          <kind>tk_double</kind>
         </type>
         <value>
-          <long>${generator5.publishHertz}</long>
+          <double>${generator5.publishHertz}</double>
         </value>
       </value>
     </configProperty>
