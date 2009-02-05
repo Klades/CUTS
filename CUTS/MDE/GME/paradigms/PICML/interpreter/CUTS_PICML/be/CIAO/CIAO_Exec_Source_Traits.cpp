@@ -460,33 +460,7 @@ write_ccm_activate (const PICML::Component & component)
   this->_super::write_ccm_activate (component);
   this->out_ << "{";
 
-  typedef std::vector <PICML::PeriodicEvent> PeriodicEvent_Set;
-  PeriodicEvent_Set periodics = component.PeriodicEvent_kind_children ();
-
-  if (!periodics.empty ())
-  {
-    this->out_ << single_line_comment ("configure the event generators");
-
-    for (PeriodicEvent_Set::iterator iter = periodics.begin ();
-        iter != periodics.end ();
-        ++ iter)
-    {
-      std::string name ("periodic_");
-      name.append (iter->name ());
-
-      // Determine the distribution class.
-      std::string distro (iter->Distribution ());
-
-      if (distro.empty ())
-        distro = "UNDEFINED";
-
-      this->out_ << "this->" << name << "_.configure (CUTS_Periodic_Event::PE_"
-                << distro << ", " << iter->Hertz () << ");";
-    }
-
-    // Force a newline.
-    this->out_ << std::endl;
-  }
+  this->has_activate_ = true;
 }
 
 //
@@ -594,6 +568,38 @@ write_environment_method_end (const PICML::MultiInputAction & action)
   // base class before we exit the function.
   if (name == "activate" || name == "remove")
   {
+    if (name == "activate")
+    {
+      PICML::Component component = PICML::Component::Cast (action.parent ());
+
+      typedef std::vector <PICML::PeriodicEvent> PeriodicEvent_Set;
+      PeriodicEvent_Set periodics = component.PeriodicEvent_kind_children ();
+
+      if (!periodics.empty ())
+      {
+        this->out_ << std::endl
+                   << single_line_comment ("configure the event generators");
+
+        for (PeriodicEvent_Set::iterator iter = periodics.begin ();
+             iter != periodics.end ();
+             ++ iter)
+        {
+          std::string name ("periodic_");
+          name.append (iter->name ());
+
+          // Determine the distribution class.
+          std::string distro (iter->Distribution ());
+
+          if (distro.empty ())
+            distro = "UNDEFINED";
+
+          this->out_ << "this->" << name << "_.configure (CUTS_Periodic_Event::PE_"
+                    << distro << ", " << iter->Hertz () << ");";
+        }
+      }
+
+    }
+
     this->out_ << std::endl
                << single_line_comment ("pass control to base class")
                << "base_type::ccm_" << name << " ();";

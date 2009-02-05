@@ -1,3 +1,10 @@
+Thu Feb  5 14:01:44 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.cpp:
+
+          . Updated the generator such that configures the periodic events
+            last in ccm_activate ().
+
 Thu Feb  5 13:56:46 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/server/Logging_Server.inl:
