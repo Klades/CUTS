@@ -1,3 +1,9 @@
+Thu Feb  5 18:07:12 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/Periodic_Event.inl:
+
+	  . Fixed compilation errors on non-Windows systems.
+
 Thu Feb  5 14:01:44 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.cpp:
