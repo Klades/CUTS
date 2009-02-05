@@ -13,7 +13,6 @@
 #ifndef _CUTS_TEST_LOGGER_H_
 #define _CUTS_TEST_LOGGER_H_
 
-#include "ace/Auto_Ptr.h"
 #include "ace/Log_Priority.h"
 #include "ace/SStringfwd.h"
 #include "Test_Logger_export.h"
@@ -70,7 +69,7 @@ private:
   CUTS_Format_Parser parser_;
 
   /// The implementation for the test logger.
-  ACE_Auto_Ptr <CUTS_Test_Logger_i> impl_;
+  CUTS_Test_Logger_i * impl_;
 };
 
 #endif  // !defined _CUTS_TEST_LOGGER_H_

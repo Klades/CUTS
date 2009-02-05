@@ -16,7 +16,9 @@ CUTS_Test_Logging_Server::CUTS_Test_Logging_Server (void)
 //
 CUTS_INLINE
 CUTS_Test_Logging_Server::CUTS_Test_Logging_Server (CORBA::ORB_ptr orb)
-: orb_ (::CORBA::ORB::_duplicate (orb))
+: orb_ (::CORBA::ORB::_duplicate (orb)),
+  is_owner_ (false),
+  archive_ (0)
 {
 
 }

@@ -1,3 +1,22 @@
+Thu Feb  5 13:56:46 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/server/Logging_Server.inl:
+
+          . Bug fix where the ORB verion of the constructor did not
+            initialize the member variables.
+
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service.cpp:
+
+          . Instead of throwing an exception if allocation of the
+            CUTS_Test_Logger_Server fails, we just return -1.
+
+        * cuts/workers/Test_Logger/Test_Logger.h:
+        * cuts/workers/Test_Logger/Test_Logger.cpp:
+
+          . Switched from using a ACE_Auto_Ptr to using a raw pointer
+            since the ACE_Auto_Ptr required including the CUTS_Test_Logger_i
+            header file, which would violate implementation hiding.
+
 Tue Feb  3 19:43:32 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/Periodic_Event.inl:

@@ -11,9 +11,9 @@
 //
 CUTS_Test_Logger::CUTS_Test_Logger (void)
 {
-  CUTS_Test_Logger_i * impl = 0;
-  ACE_NEW_THROW_EX (impl, CUTS_Test_Logger_i (), ACE_bad_alloc ());
-  this->impl_.reset (impl);
+  ACE_NEW_THROW_EX (this->impl_,
+                    CUTS_Test_Logger_i (),
+                    ACE_bad_alloc ());
 }
 
 //
@@ -21,7 +21,8 @@ CUTS_Test_Logger::CUTS_Test_Logger (void)
 //
 CUTS_Test_Logger::~CUTS_Test_Logger (void)
 {
-
+  if (this->impl_ != 0)
+    delete this->impl_;
 }
 
 //

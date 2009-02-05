@@ -10,6 +10,7 @@
 #include "cuts/utils/db/DB_Query.h"
 #include "cuts/utils/logging/server/callbacks/testing/Test_Logging_Callback.h"
 #include "cuts/utils/testing/Testing_App.h"
+#include "ace/OS_NS_unistd.h"
 
 CUTS_TESTING_SERVICE_IMPL (CUTS_Test_Logging_Service, _make_CUTS_Test_Logging_Service);
 
@@ -41,9 +42,9 @@ int CUTS_Test_Logging_Service::init (int argc, char * argv [])
   // under the ORB in this service.
   CUTS_Test_Logging_Server * server = 0;
 
-  ACE_NEW_THROW_EX (server,
-                    CUTS_Test_Logging_Server (this->orb_.in ()),
-                    CORBA::NO_MEMORY ());
+  ACE_NEW_RETURN (server,
+                  CUTS_Test_Logging_Server (this->orb_.in ()),
+                  -1);
 
   this->server_.reset (server);
 
