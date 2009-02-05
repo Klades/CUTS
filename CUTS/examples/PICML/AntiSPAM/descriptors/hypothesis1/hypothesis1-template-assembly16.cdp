@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <Deployment:deploymentPlan xmlns:Deployment="http://www.omg.org/Deployment" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/Deployment Deployment.xsd">
 
-  <UUID>81909C92-F3F9-4A3D-AF57-B1340D787DE5</UUID>
+  <UUID>4E9CC477-7017-4EF8-8689-0DFBCE442881</UUID>
 
   <implementation id="_6828C5EB-EBC5-48F7-B051-A1F865F4DB0E">
     <name>AntiSPAM.ComponentImplementations.NullEventGeneratorImpl.NullEventGeneratorImpl</name>
@@ -226,10 +226,32 @@
       <name>publishHertz</name>
       <value>
         <type>
-          <kind>tk_long</kind>
+          <kind>tk_double</kind>
         </type>
         <value>
-          <long>${generator1.publishHertz}</long>
+          <double>${generator1.publishHertz}</double>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>testName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>`cat /var/emulab/boot/syncserver`:10000</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>instName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>generator1</string>
         </value>
       </value>
     </configProperty>
@@ -244,10 +266,32 @@
       <name>publishHertz</name>
       <value>
         <type>
-          <kind>tk_long</kind>
+          <kind>tk_double</kind>
         </type>
         <value>
-          <long>${generator2.publishHertz}</long>
+          <double>${generator2.publishHertz}</double>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>testName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>`cat /var/emulab/boot/syncserver`:10000</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>instName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>generator2</string>
         </value>
       </value>
     </configProperty>
@@ -262,10 +306,32 @@
       <name>publishHertz</name>
       <value>
         <type>
-          <kind>tk_long</kind>
+          <kind>tk_double</kind>
         </type>
         <value>
-          <long>${generator3.publishHertz}</long>
+          <double>${generator3.publishHertz}</double>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>testName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>`cat /var/emulab/boot/syncserver`:10000</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>instName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>generator3</string>
         </value>
       </value>
     </configProperty>
@@ -280,10 +346,32 @@
       <name>publishHertz</name>
       <value>
         <type>
-          <kind>tk_long</kind>
+          <kind>tk_double</kind>
         </type>
         <value>
-          <long>${generator4.publishHertz}</long>
+          <double>${generator4.publishHertz}</double>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>testName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>`cat /var/emulab/boot/syncserver`:10000</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>instName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>generator4</string>
         </value>
       </value>
     </configProperty>
@@ -298,56 +386,36 @@
       <name>publishHertz</name>
       <value>
         <type>
-          <kind>tk_long</kind>
+          <kind>tk_double</kind>
         </type>
         <value>
-          <long>${generator5.publishHertz}</long>
+          <double>${generator5.publishHertz}</double>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>testName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>`cat /var/emulab/boot/syncserver`:10000</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>instName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>generator5</string>
         </value>
       </value>
     </configProperty>
   </instance>
-
-  <connection>
-    <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator5AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst1</name>
-    <internalEndpoint>
-      <portName>NullEvent</portName>
-      <kind>EventPublisher</kind>
-      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator5</instance>
-    </internalEndpoint>
-    <internalEndpoint>
-      <portName>InPortA</portName>
-      <kind>EventConsumer</kind>
-      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst1</instance>
-    </internalEndpoint>
-  </connection>
-
-  <connection>
-    <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator5AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst2</name>
-    <internalEndpoint>
-      <portName>NullEvent</portName>
-      <kind>EventPublisher</kind>
-      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator5</instance>
-    </internalEndpoint>
-    <internalEndpoint>
-      <portName>InPortA</portName>
-      <kind>EventConsumer</kind>
-      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst2</instance>
-    </internalEndpoint>
-  </connection>
-
-  <connection>
-    <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator5AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst5</name>
-    <internalEndpoint>
-      <portName>NullEvent</portName>
-      <kind>EventPublisher</kind>
-      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator5</instance>
-    </internalEndpoint>
-    <internalEndpoint>
-      <portName>InPortA</portName>
-      <kind>EventConsumer</kind>
-      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst5</instance>
-    </internalEndpoint>
-  </connection>
 
   <connection>
     <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator3AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst1</name>
@@ -364,7 +432,7 @@
   </connection>
 
   <connection>
-    <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator3AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst2</name>
+    <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator3AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst5</name>
     <internalEndpoint>
       <portName>NullEvent</portName>
       <kind>EventPublisher</kind>
@@ -373,30 +441,16 @@
     <internalEndpoint>
       <portName>InPortA</portName>
       <kind>EventConsumer</kind>
-      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst2</instance>
+      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst5</instance>
     </internalEndpoint>
   </connection>
 
   <connection>
-    <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator3AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst3</name>
+    <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator2AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst1</name>
     <internalEndpoint>
       <portName>NullEvent</portName>
       <kind>EventPublisher</kind>
-      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator3</instance>
-    </internalEndpoint>
-    <internalEndpoint>
-      <portName>InPortA</portName>
-      <kind>EventConsumer</kind>
-      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst3</instance>
-    </internalEndpoint>
-  </connection>
-
-  <connection>
-    <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator1AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst1</name>
-    <internalEndpoint>
-      <portName>NullEvent</portName>
-      <kind>EventPublisher</kind>
-      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator1</instance>
+      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator2</instance>
     </internalEndpoint>
     <internalEndpoint>
       <portName>InPortA</portName>
@@ -406,16 +460,30 @@
   </connection>
 
   <connection>
-    <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator1AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst4</name>
+    <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator2AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst2</name>
     <internalEndpoint>
       <portName>NullEvent</portName>
       <kind>EventPublisher</kind>
-      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator1</instance>
+      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator2</instance>
     </internalEndpoint>
     <internalEndpoint>
       <portName>InPortA</portName>
       <kind>EventConsumer</kind>
-      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst4</instance>
+      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst2</instance>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator2AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst3</name>
+    <internalEndpoint>
+      <portName>NullEvent</portName>
+      <kind>EventPublisher</kind>
+      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator2</instance>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>InPortA</portName>
+      <kind>EventConsumer</kind>
+      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst3</instance>
     </internalEndpoint>
   </connection>
 
@@ -448,11 +516,25 @@
   </connection>
 
   <connection>
-    <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator2AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst4</name>
+    <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator1AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst3</name>
     <internalEndpoint>
       <portName>NullEvent</portName>
       <kind>EventPublisher</kind>
-      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator2</instance>
+      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator1</instance>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>InPortA</portName>
+      <kind>EventConsumer</kind>
+      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst3</instance>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>NullEvent_InPortAAntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator1AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst4</name>
+    <internalEndpoint>
+      <portName>NullEvent</portName>
+      <kind>EventPublisher</kind>
+      <instance>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.generator1</instance>
     </internalEndpoint>
     <internalEndpoint>
       <portName>InPortA</portName>

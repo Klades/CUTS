@@ -10,6 +10,7 @@
 #include /**/ "ace/pre.h"
 #include "NullEventGeneratorImplEC.h"
 #include "cuts/CCM_Component_T.h"
+#include "Test_Logger.h"
 #include "cuts/Periodic_Event_T.h"
 
 namespace CIDL_NullEventGeneratorImpl
@@ -44,12 +45,36 @@ namespace CIDL_NullEventGeneratorImpl
     // set publishHertz
     virtual void publishHertz (::CORBA::Double publishHertz);
 
+    // get testName
+    virtual char * testName (void);
+
+    // set testName
+    virtual void testName (const char * testName);
+
+    // get instName
+    virtual char * instName (void);
+
+    // set instName
+    virtual void instName (const char * instName);
+
     // Environment: activate
     virtual void ccm_activate (void);
 
     private:
+    // variable: eventNumber
+    ::CORBA::Long eventNumber_;
+
+    // worker variable: logger
+    CUTS_Test_Logger logger_;
+
     // variable: publishHertz
     ::CORBA::Double publishHertz_;
+
+    // variable: testName
+    ACE_CString testName_;
+
+    // variable: instName
+    ACE_CString instName_;
 
     // periodic: eventGenerator
     CUTS_Periodic_Event_T <NullEventGenerator> periodic_eventGenerator_;

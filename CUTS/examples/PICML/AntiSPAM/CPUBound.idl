@@ -9,31 +9,31 @@ module antispam
 {
   component CPUBound
   {
-    consumes antispam::NullEvent InPortD;
-    
-    consumes antispam::NullEvent InPortE;
-    
     consumes antispam::NullEvent InPortC;
-    
-    consumes antispam::NullEvent InPortA;
-    
-    consumes antispam::NullEvent InPortB;
-    
-    publishes antispam::NullEvent OutPortB;
-    
-    publishes antispam::NullEvent OutPortA;
-    
-    publishes antispam::NullEvent OutPortD;
     
     publishes antispam::NullEvent OutPortE;
     
+    consumes antispam::NullEvent InPortB;
+    
+    consumes antispam::NullEvent InPortA;
+    
+    consumes antispam::NullEvent InPortE;
+    
+    consumes antispam::NullEvent InPortD;
+    
+    publishes antispam::NullEvent OutPortD;
+    
+    publishes antispam::NullEvent OutPortA;
+    
     publishes antispam::NullEvent OutPortC;
     
-    attribute string testName;
+    publishes antispam::NullEvent OutPortB;
+    
+    attribute long logRate;
     
     attribute string instName;
     
-    attribute long logRate;
+    attribute string testName;
   };
   
   home CPUBoundHome

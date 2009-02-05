@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{CD5CE4BD-57C4-4D9C-A466-D77239CEF8E2}" cdate="Tue Feb 03 10:48:07 2009" mdate="Tue Feb 03 10:48:07 2009" version="" metaguid="{B2C6FE15-D49A-4E85-B092-71CEC7A2A60D}" metaversion="" metaname="PICML">
+<project guid="{E4E74ED4-9A13-4933-9267-E26CFDBF2769}" cdate="Tue Feb 03 10:48:07 2009" mdate="Tue Feb 03 10:48:07 2009" version="" metaguid="{B2C6FE15-D49A-4E85-B092-71CEC7A2A60D}" metaversion="" metaname="PICML">
 	<name>AntiSPAM</name>
 	<comment></comment>
 	<author>James H. Hill</author>
@@ -1028,7 +1028,7 @@
 							<model id="id-0065-0000024e" kind="Property" role="Property" guid="{C4628BA8-B183-497e-8D33-79FF9EA99CA5}" derivedfrom="id-0065-000001e4" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002f6" kind="DataType" role="DataType" guid="{7ECBAF41-1F42-4e01-8045-F0D5A14FD94A}" derivedfrom="id-0067-0000029b" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -1037,7 +1037,7 @@
 							<model id="id-0065-0000024f" kind="Property" role="Property" guid="{880E2BA2-4DAA-4a6a-B4DD-C1138FA03A36}" derivedfrom="id-0065-000001e5" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue">
-									<value>&quot;%s port A is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port A is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000347" kind="DataType" role="DataType" guid="{E7194278-D8A1-4fcb-8EA8-CCBBD9D911F5}" derivedfrom="id-0067-0000033c" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -1076,7 +1076,7 @@
 							<model id="id-0065-00000276" kind="Property" role="Property" guid="{89D7867D-BA31-4345-8C5F-A3C5D2995901}" derivedfrom="id-0065-000001e4" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002ec" kind="DataType" role="DataType" guid="{23AB9123-66A2-4591-8E4E-E56AD1AA6A03}" derivedfrom="id-0067-0000029b" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -1085,7 +1085,7 @@
 							<model id="id-0065-00000277" kind="Property" role="Property" guid="{0E60414B-F765-475e-B84B-137A4B05AFAE}" derivedfrom="id-0065-000001e5" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue">
-									<value>&quot;%s port B is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port B is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000035b" kind="DataType" role="DataType" guid="{542FAE97-C350-4180-8FCB-3DE9C7D6E465}" derivedfrom="id-0067-0000033c" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -1217,7 +1217,7 @@
 							<model id="id-0065-000002ee" kind="Property" role="Property" guid="{364ADA2E-A69B-4ebd-BEDE-48A484F8B4A2}" derivedfrom="id-0065-000001e4" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-0000030a" kind="DataType" role="DataType" guid="{599274DC-7940-479f-96C6-4F23D931D514}" derivedfrom="id-0067-0000029b" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -1226,7 +1226,7 @@
 							<model id="id-0065-000002ef" kind="Property" role="Property" guid="{E7B64C8C-C12F-4d39-A824-1990CC8DFA79}" derivedfrom="id-0065-000001e5" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue">
-									<value>&quot;%s port C is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port C is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000379" kind="DataType" role="DataType" guid="{3E7518CA-C853-4238-93BD-A9BFD0A524A2}" derivedfrom="id-0067-0000033c" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -1358,7 +1358,7 @@
 							<model id="id-0065-00000366" kind="Property" role="Property" guid="{E8EAB139-DDDE-489c-AEE1-470746C104D3}" derivedfrom="id-0065-000001e4" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002a6" kind="DataType" role="DataType" guid="{AC76514B-1B99-4d39-8E95-E407EE1704A5}" derivedfrom="id-0067-0000029b" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -1367,7 +1367,7 @@
 							<model id="id-0065-00000367" kind="Property" role="Property" guid="{868B5E9D-3E33-4745-8763-A524FAB9F2AE}" derivedfrom="id-0065-000001e5" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue">
-									<value>&quot;%s port D is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port D is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000038d" kind="DataType" role="DataType" guid="{40CEE2AA-3DE4-4006-96C1-5F6F461EC16B}" derivedfrom="id-0067-0000033c" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -1499,7 +1499,7 @@
 							<model id="id-0065-000003de" kind="Property" role="Property" guid="{2C8A28AC-C804-4185-9A80-CD3055C66AB1}" derivedfrom="id-0065-000001e4" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002ba" kind="DataType" role="DataType" guid="{2C582F3E-DE12-4a7f-A7EC-3118874D6ABF}" derivedfrom="id-0067-0000029b" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -1508,7 +1508,7 @@
 							<model id="id-0065-000003df" kind="Property" role="Property" guid="{F7FCB779-7E29-4526-8FA4-16AA6353CB92}" derivedfrom="id-0065-000001e5" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue">
-									<value>&quot;%s port E is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port E is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-000003b5" kind="DataType" role="DataType" guid="{80CB6918-4052-4af1-B8CC-E52B8AA2EDBA}" derivedfrom="id-0067-0000033c" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -4675,7 +4675,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 					<attribute kind="VersionTag" status="meta">
 						<value></value>
 					</attribute>
-					<model id="id-0065-0000002a" kind="Event" role="Event" guid="{A35D8173-A609-43ad-8371-C69760944236}" relid="0x1" childrelidcntr="0x2">
+					<model id="id-0065-0000002a" kind="Event" role="Event" guid="{A35D8173-A609-43ad-8371-C69760944236}" relid="0x1" childrelidcntr="0x3">
 						<name>NullEvent</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -4722,6 +4722,18 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 								</regnode>
 							</regnode>
 						</reference>
+						<reference id="id-0067-000004d1" kind="Member" role="Member" guid="{219E4F5A-7E8A-4f69-9C25-5666F6AFF372}" relid="0x3" referred="id-0066-00000002">
+							<name>recvTime</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="InterfaceDefinition" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>156,310</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</reference>
 					</model>
 				</model>
 			</model>
@@ -4753,7 +4765,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 					<attribute kind="VersionTag" status="meta">
 						<value></value>
 					</attribute>
-					<model id="id-0065-0000002d" kind="Component" role="Component" guid="{84B17FD6-5073-496f-A44B-3147359FA582}" relid="0x1" childrelidcntr="0x3c">
+					<model id="id-0065-0000002d" kind="Component" role="Component" guid="{84B17FD6-5073-496f-A44B-3147359FA582}" relid="0x1" childrelidcntr="0x3d">
 						<name>NullEventGenerator</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -4791,7 +4803,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 								<value>NEWSnews</value>
 							</regnode>
 						</model>
-						<model id="id-0065-0000002f" kind="OutputAction" role="OutputAction" guid="{052FA270-0F8E-4634-8274-2A995A354005}" relid="0x7" childrelidcntr="0x0">
+						<model id="id-0065-0000002f" kind="OutputAction" role="OutputAction" guid="{052FA270-0F8E-4634-8274-2A995A354005}" relid="0x7" childrelidcntr="0x2">
 							<name>NullEvent</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -4805,6 +4817,36 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<regnode name="autorouterPref" isopaque="yes">
 								<value>NEWSnews</value>
 							</regnode>
+							<model id="id-0065-000005cf" kind="Property" role="Property" guid="{B32D7B55-BBC5-4cda-8841-4F553BA3087D}" relid="0x1" childrelidcntr="0x0">
+								<name>eventNumber</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="Behavior" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>107,149</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="DataValue">
+									<value>this-&gt;eventNumber_</value>
+								</attribute>
+							</model>
+							<model id="id-0065-000005d7" kind="Property" role="Property" guid="{1107183D-807F-45a0-84A4-8D2EA2E44291}" relid="0x2" childrelidcntr="0x0">
+								<name>sourceName</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="Behavior" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>230,146</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="DataValue">
+									<value>this-&gt;instName_.c_str ()</value>
+								</attribute>
+							</model>
 						</model>
 						<model id="id-0065-00000030" kind="Attribute" role="Attribute" guid="{008C8368-4B24-4d76-9423-1906A0F35BD8}" relid="0xc" childrelidcntr="0x1">
 							<name>publishHertz</name>
@@ -4970,7 +5012,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000005aa" kind="Property" role="Property" guid="{FB5ED32A-5A17-4246-8ACC-3A107D5A54FD}" derivedfrom="id-0065-000001e4" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue">
-									<value>this-&gt;instName_, this-&gt;publishHertz_</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;publishHertz_</value>
 								</attribute>
 								<reference id="id-0067-000004ab" kind="DataType" role="DataType" guid="{D241B8B6-1876-4873-A528-59175460206F}" derivedfrom="id-0067-0000029b" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -5062,7 +5104,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 								<regnode name="Behavior" status="undefined">
 									<value></value>
 									<regnode name="Position" isopaque="yes">
-										<value>72,373</value>
+										<value>73,368</value>
 									</regnode>
 								</regnode>
 							</regnode>
@@ -5166,10 +5208,25 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 								</regnode>
 							</regnode>
 						</reference>
+						<reference id="id-0067-000004c9" kind="Variable" role="Variable" guid="{4167B47E-1B4F-4fb3-BF79-3D35B399F36F}" relid="0x3d" referred="id-0066-00000002">
+							<name>eventNumber</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>254,51</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="InitialValue">
+								<value>0</value>
+							</attribute>
+						</reference>
 						<connection id="id-0068-0000007b" kind="InputEffect" role="InputEffect" guid="{80B94FD4-3AD3-414a-8206-CE202AC979EC}" relid="0x5">
 							<name></name>
-							<attribute kind="Postcondition" status="meta">
-								<value></value>
+							<attribute kind="Postcondition">
+								<value>++ this-&gt;eventNumber_;</value>
 							</attribute>
 							<connpoint role="src" target="id-0065-0000002e"/>
 							<connpoint role="dst" target="id-0066-0000004f"/>
@@ -6101,7 +6158,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000252" kind="Property" role="Property" guid="{F63EA635-76AA-48c9-A822-6A1B8CE5ED6B}" derivedfrom="id-0065-0000024f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port A is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port A is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000034b" kind="DataType" role="DataType" guid="{A68D9954-59B0-4df6-8A64-AA5B404107CE}" derivedfrom="id-0067-00000347" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -6119,7 +6176,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000254" kind="Property" role="Property" guid="{30D04636-32F3-411c-8725-B13B7B71DD80}" derivedfrom="id-0065-0000024e" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002ff" kind="DataType" role="DataType" guid="{568D6AFB-2DD2-44f0-B1FA-B92D274C69FB}" derivedfrom="id-0067-000002f6" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -6137,7 +6194,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000027a" kind="Property" role="Property" guid="{EE11D236-C01A-4129-B639-A210E82CD358}" derivedfrom="id-0065-00000276" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002ed" kind="DataType" role="DataType" guid="{061994CF-D87B-4ae4-A2A3-E4F6EB183C6F}" derivedfrom="id-0067-000002ec" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -6146,7 +6203,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000027b" kind="Property" role="Property" guid="{F41EA9B7-367F-4823-B6C8-B098E02B5064}" derivedfrom="id-0065-00000277" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port B is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port B is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000035c" kind="DataType" role="DataType" guid="{76A7983F-DA33-46fc-A335-C258B391E931}" derivedfrom="id-0067-0000035b" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -6245,7 +6302,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000002f2" kind="Property" role="Property" guid="{05DAF0A1-2319-452c-9D01-AC9D9D918582}" derivedfrom="id-0065-000002ee" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-0000030b" kind="DataType" role="DataType" guid="{0CF13B24-3E5D-47f1-953F-E6758E7F0E5F}" derivedfrom="id-0067-0000030a" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -6254,7 +6311,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000002f3" kind="Property" role="Property" guid="{8A4FB8B3-3EEA-4ed1-B3AA-1BF36CEF9A14}" derivedfrom="id-0065-000002ef" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port C is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port C is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000037a" kind="DataType" role="DataType" guid="{67D45168-1D2F-4660-B2A1-9A9EDDF9F774}" derivedfrom="id-0067-00000379" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -6353,7 +6410,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000036a" kind="Property" role="Property" guid="{7E63F922-BFC6-4db1-9F31-AC42C2E70047}" derivedfrom="id-0065-00000366" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002a7" kind="DataType" role="DataType" guid="{5B173E02-4D9B-46a2-B34E-BB662647E426}" derivedfrom="id-0067-000002a6" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -6362,7 +6419,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000036b" kind="Property" role="Property" guid="{6CCAE5F0-4AAD-4166-8308-054175EB7E07}" derivedfrom="id-0065-00000367" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port D is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port D is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000038e" kind="DataType" role="DataType" guid="{DE436F13-C390-454a-92BF-966040C772C8}" derivedfrom="id-0067-0000038d" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -6461,7 +6518,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000003e2" kind="Property" role="Property" guid="{51E69E92-3045-4c33-874D-D077C15C9B91}" derivedfrom="id-0065-000003de" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002bb" kind="DataType" role="DataType" guid="{361725E9-F9B0-4120-9DAF-B5FEA02E47E0}" derivedfrom="id-0067-000002ba" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -6470,7 +6527,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000003e3" kind="Property" role="Property" guid="{D61913FB-0C51-4e20-ACAC-83A27B7B7DDD}" derivedfrom="id-0065-000003df" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port E is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port E is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-000003b6" kind="DataType" role="DataType" guid="{449EDD99-CE56-418f-9E86-23F1E22DBE93}" derivedfrom="id-0067-000003b5" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -7927,6 +7984,18 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 						</model>
 						<model id="id-0065-00000068" kind="OutputAction" role="OutputAction" guid="{DC056A62-C01E-4e2c-89CE-A57780E13767}" derivedfrom="id-0065-0000002f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>NullEvent</name>
+							<model id="id-0065-000005d6" kind="Property" role="Property" guid="{C7EB77EA-CB01-41e3-BCDA-82DC3BC447EA}" derivedfrom="id-0065-000005cf" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>eventNumber</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;eventNumber_</value>
+								</attribute>
+							</model>
+							<model id="id-0065-000005de" kind="Property" role="Property" guid="{D0616C82-8A4F-4377-9B56-70C84B7DEF9E}" derivedfrom="id-0065-000005d7" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>sourceName</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;instName_.c_str ()</value>
+								</attribute>
+							</model>
 						</model>
 						<model id="id-0065-00000069" kind="Attribute" role="Attribute" guid="{F5733D9C-464F-4882-844F-B54FD142C4F1}" derivedfrom="id-0065-00000030" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>publishHertz</name>
@@ -8011,7 +8080,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000005ad" kind="Property" role="Property" guid="{5646711D-EA30-458f-AFA3-B1C658583836}" derivedfrom="id-0065-000005aa" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_, this-&gt;publishHertz_</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;publishHertz_</value>
 								</attribute>
 								<reference id="id-0067-000004ad" kind="DataType" role="DataType" guid="{A7BE2037-F2D8-4237-9B27-A8875A2F8427}" derivedfrom="id-0067-000004ab" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -8096,10 +8165,16 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 						<reference id="id-0067-00000492" kind="WorkerType" role="WorkerType" guid="{355DBAE0-2BA1-46d7-B268-1FC05CC6FC2F}" derivedfrom="id-0067-00000491" isinstance="yes" isprimary="no" referred="id-0065-000001dd" isbound="yes">
 							<name>logger</name>
 						</reference>
+						<reference id="id-0067-000004d0" kind="Variable" role="Variable" guid="{7BE4B4BB-9AE9-4650-A10F-ACEA93385D3D}" derivedfrom="id-0067-000004c9" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+							<name>eventNumber</name>
+							<attribute kind="InitialValue" status="inherited">
+								<value>0</value>
+							</attribute>
+						</reference>
 						<connection isbound="yes" id="id-0068-00000100" kind="InputEffect" role="InputEffect" guid="{F332E558-EF87-47f5-99BF-F4398586A42B}" derivedfrom="id-0068-0000007b" isinstance="yes" isprimary="no">
 							<name></name>
-							<attribute kind="Postcondition" status="meta">
-								<value></value>
+							<attribute kind="Postcondition" status="inherited">
+								<value>++ this-&gt;eventNumber_;</value>
 							</attribute>
 						</connection>
 						<connection isbound="yes" id="id-0068-00000101" kind="Input" role="Input" guid="{4666E1E3-1B3D-4241-BDB6-79E1568952CF}" derivedfrom="id-0068-0000007c" isinstance="yes" isprimary="no">
@@ -8623,7 +8698,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000025a" kind="Property" role="Property" guid="{FFDC7AAB-41A8-4b0f-BE3F-1559FD36C9AB}" derivedfrom="id-0065-0000024f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port A is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port A is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000350" kind="DataType" role="DataType" guid="{BD0F2989-72E4-42d6-B0BF-3D6358E72BCF}" derivedfrom="id-0067-00000347" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -8641,7 +8716,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000025c" kind="Property" role="Property" guid="{B6A80AEB-67F7-44ff-B88C-AE46DBEF477D}" derivedfrom="id-0065-0000024e" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002f9" kind="DataType" role="DataType" guid="{693BEF54-94F2-49e3-8241-37F7DB4485E1}" derivedfrom="id-0067-000002f6" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -8659,7 +8734,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000282" kind="Property" role="Property" guid="{8A636AB7-8FEA-42bd-977C-B78D21B2258D}" derivedfrom="id-0065-00000276" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002ef" kind="DataType" role="DataType" guid="{6E5CA35F-6AE7-48a8-A1B5-046C1E79AEFE}" derivedfrom="id-0067-000002ec" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -8668,7 +8743,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000283" kind="Property" role="Property" guid="{B49A4F34-2D41-4f78-A1B5-28B6B732CFBD}" derivedfrom="id-0065-00000277" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port B is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port B is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000035e" kind="DataType" role="DataType" guid="{2E645E33-9656-4973-A641-3B0725AB063F}" derivedfrom="id-0067-0000035b" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -8767,7 +8842,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000002fa" kind="Property" role="Property" guid="{79AA0374-3210-4243-A485-E3EE8372F5EF}" derivedfrom="id-0065-000002ee" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-0000030d" kind="DataType" role="DataType" guid="{8E567588-D6CF-4f1e-86DC-7C3CC571E4BF}" derivedfrom="id-0067-0000030a" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -8776,7 +8851,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000002fb" kind="Property" role="Property" guid="{674ADCC9-09C1-46b1-B7FB-BCF512ACC618}" derivedfrom="id-0065-000002ef" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port C is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port C is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000037c" kind="DataType" role="DataType" guid="{06AA50C6-68B5-493d-ACD2-21D4CD90E6DC}" derivedfrom="id-0067-00000379" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -8875,7 +8950,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000372" kind="Property" role="Property" guid="{0005320B-6E2A-4472-B707-677D10B1E476}" derivedfrom="id-0065-00000366" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002a9" kind="DataType" role="DataType" guid="{AB7A9BBE-83E6-41ad-B30C-41F996A8FFB2}" derivedfrom="id-0067-000002a6" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -8884,7 +8959,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000373" kind="Property" role="Property" guid="{18F59377-B555-44a3-ADE7-09FE6F2D4DE2}" derivedfrom="id-0065-00000367" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port D is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port D is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000390" kind="DataType" role="DataType" guid="{2047C114-A7BB-4a86-A94A-693ADBBEE70A}" derivedfrom="id-0067-0000038d" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -8983,7 +9058,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000003ea" kind="Property" role="Property" guid="{6AFF9986-4D1E-4192-A12C-F942D0146ED5}" derivedfrom="id-0065-000003de" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002bd" kind="DataType" role="DataType" guid="{744E6C96-8607-4d9a-83B1-6A0300D7574B}" derivedfrom="id-0067-000002ba" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -8992,7 +9067,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000003eb" kind="Property" role="Property" guid="{F5AB943C-DC90-414e-A7E6-A2393750B550}" derivedfrom="id-0065-000003df" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port E is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port E is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-000003b8" kind="DataType" role="DataType" guid="{1673C927-A867-4ec7-983D-3925C2CB9B13}" derivedfrom="id-0067-000003b5" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -10797,7 +10872,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000256" kind="Property" role="Property" guid="{EF9377FF-AC36-45b0-AA95-8AACCD61172B}" derivedfrom="id-0065-0000024f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port A is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port A is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000034f" kind="DataType" role="DataType" guid="{93BBC26B-8BD7-442b-AAF1-E9A946D07793}" derivedfrom="id-0067-00000347" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -10815,7 +10890,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000258" kind="Property" role="Property" guid="{E55ED1B6-20BE-4a2f-9A02-76D162539D1D}" derivedfrom="id-0065-0000024e" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002fe" kind="DataType" role="DataType" guid="{9BF42B4F-36DC-422d-87E1-BAFEE987C456}" derivedfrom="id-0067-000002f6" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -10833,7 +10908,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000027e" kind="Property" role="Property" guid="{D59E8054-AE9E-41dc-A6E2-E7FE3F649232}" derivedfrom="id-0065-00000276" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002ee" kind="DataType" role="DataType" guid="{58E5BBFB-1BFA-4880-89A3-7BA7A349D44A}" derivedfrom="id-0067-000002ec" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -10842,7 +10917,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000027f" kind="Property" role="Property" guid="{AE5E4842-E806-41b1-A22F-EFCB5856EE6A}" derivedfrom="id-0065-00000277" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port B is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port B is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000035d" kind="DataType" role="DataType" guid="{79FAA4FE-2B5F-4ecf-9481-4A6A5187E32D}" derivedfrom="id-0067-0000035b" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -10941,7 +11016,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000002f6" kind="Property" role="Property" guid="{E02DFEF8-D63B-4819-936F-7699D3171BB6}" derivedfrom="id-0065-000002ee" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-0000030c" kind="DataType" role="DataType" guid="{4781355D-B156-4f46-A100-52DDE4F367C7}" derivedfrom="id-0067-0000030a" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -10950,7 +11025,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000002f7" kind="Property" role="Property" guid="{E54389BF-BE89-4f70-A7A9-635AB58D4C10}" derivedfrom="id-0065-000002ef" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port C is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port C is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000037b" kind="DataType" role="DataType" guid="{AD9BC896-2F2F-43dc-ACB0-A6A192CAEC28}" derivedfrom="id-0067-00000379" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -11049,7 +11124,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000036e" kind="Property" role="Property" guid="{F90DECA0-AFDC-4070-B7E7-63D2A86EC5F4}" derivedfrom="id-0065-00000366" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002a8" kind="DataType" role="DataType" guid="{5F68EFD9-6AB1-4985-8864-43553C28B83A}" derivedfrom="id-0067-000002a6" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -11058,7 +11133,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000036f" kind="Property" role="Property" guid="{9E6EF663-6860-4ba6-AC6A-512F401F918F}" derivedfrom="id-0065-00000367" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port D is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port D is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000038f" kind="DataType" role="DataType" guid="{E0FF34C9-32FF-426b-BB15-6AA0D0D23070}" derivedfrom="id-0067-0000038d" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -11157,7 +11232,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000003e6" kind="Property" role="Property" guid="{03251EE5-965D-4886-A240-60ED6FEFD438}" derivedfrom="id-0065-000003de" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002bc" kind="DataType" role="DataType" guid="{FE7D5912-EAF8-44bc-811B-A9804FED29D4}" derivedfrom="id-0067-000002ba" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -11166,7 +11241,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000003e7" kind="Property" role="Property" guid="{FCFC9D2D-CD84-413d-BCE0-FAC30C7E4E4F}" derivedfrom="id-0065-000003df" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port E is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port E is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-000003b7" kind="DataType" role="DataType" guid="{36EAAAD1-2E97-45f6-8778-C6C021326688}" derivedfrom="id-0067-000003b5" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -13152,7 +13227,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000025e" kind="Property" role="Property" guid="{272A1594-1BB0-4174-8F68-5D599CD57E6F}" derivedfrom="id-0065-0000024f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port A is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port A is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000034c" kind="DataType" role="DataType" guid="{C498D19E-6931-4f4b-BFC3-23F64561D5EB}" derivedfrom="id-0067-00000347" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -13170,7 +13245,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000260" kind="Property" role="Property" guid="{3EFFF56E-285D-44f2-B0AA-67A544B3DF32}" derivedfrom="id-0065-0000024e" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002fc" kind="DataType" role="DataType" guid="{5ADA0DBF-95F0-4ce1-910A-1C8848FAC319}" derivedfrom="id-0067-000002f6" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -13188,7 +13263,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000286" kind="Property" role="Property" guid="{DAD648A6-8C4B-46d1-8194-F7A6956BC1F0}" derivedfrom="id-0065-00000276" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002f0" kind="DataType" role="DataType" guid="{CA82774A-37CD-494f-B49A-15CF7FE004A0}" derivedfrom="id-0067-000002ec" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -13197,7 +13272,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000287" kind="Property" role="Property" guid="{75FF53B4-4C41-4b39-BB8D-17BBAF7FF94E}" derivedfrom="id-0065-00000277" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port B is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port B is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000035f" kind="DataType" role="DataType" guid="{F02A4A30-C55C-44fa-A022-0EB16435CD6E}" derivedfrom="id-0067-0000035b" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -13296,7 +13371,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000002fe" kind="Property" role="Property" guid="{79ACC84D-D3D9-42ca-BCD1-B0AF74EFBF0F}" derivedfrom="id-0065-000002ee" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-0000030e" kind="DataType" role="DataType" guid="{05E53BE6-4351-4da5-A603-941ADEA9EE70}" derivedfrom="id-0067-0000030a" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -13305,7 +13380,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000002ff" kind="Property" role="Property" guid="{D302DD01-6463-47e7-A0F8-0EE3BD2860EE}" derivedfrom="id-0065-000002ef" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port C is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port C is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000037d" kind="DataType" role="DataType" guid="{AAAABABA-73B4-4ca3-86FB-049BE4F7D5E1}" derivedfrom="id-0067-00000379" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -13404,7 +13479,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000376" kind="Property" role="Property" guid="{3854B000-8A18-4e96-9C0B-2FA3D0B68717}" derivedfrom="id-0065-00000366" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002aa" kind="DataType" role="DataType" guid="{4A2AE244-2EFB-4c01-A669-6A9F9F397D9E}" derivedfrom="id-0067-000002a6" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -13413,7 +13488,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000377" kind="Property" role="Property" guid="{DDC63095-9E51-46b4-87FC-91F905366B0A}" derivedfrom="id-0065-00000367" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port D is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port D is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000391" kind="DataType" role="DataType" guid="{4C965626-ED90-4219-A735-EFB3F71324C8}" derivedfrom="id-0067-0000038d" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -13512,7 +13587,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000003ee" kind="Property" role="Property" guid="{74CF5B83-EE2B-4d1a-BA54-DDF2486DBC11}" derivedfrom="id-0065-000003de" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002be" kind="DataType" role="DataType" guid="{1C92AAB3-FDEB-4c48-9477-58AFD66C505E}" derivedfrom="id-0067-000002ba" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -13521,7 +13596,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000003ef" kind="Property" role="Property" guid="{77657511-D65C-4723-B4B0-9F4529F6D1B4}" derivedfrom="id-0065-000003df" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port E is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port E is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-000003b9" kind="DataType" role="DataType" guid="{23A0664F-BCF5-4b34-9A36-E3E9E20C6FC2}" derivedfrom="id-0067-000003b5" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -14978,6 +15053,18 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 						</model>
 						<model id="id-0065-000000e1" kind="OutputAction" role="OutputAction" guid="{BB1953EF-283C-4f3f-A94D-A07B342D0C54}" derivedfrom="id-0065-0000002f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>NullEvent</name>
+							<model id="id-0065-000005d5" kind="Property" role="Property" guid="{CA299100-11E7-4428-BCA1-6AB72FF4FF7B}" derivedfrom="id-0065-000005cf" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>eventNumber</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;eventNumber_</value>
+								</attribute>
+							</model>
+							<model id="id-0065-000005dd" kind="Property" role="Property" guid="{CD31CC1E-1B43-4311-9AF5-A43C715D18F4}" derivedfrom="id-0065-000005d7" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>sourceName</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;instName_.c_str ()</value>
+								</attribute>
+							</model>
 						</model>
 						<model id="id-0065-000000e2" kind="Attribute" role="Attribute" guid="{7795A179-B9AF-4688-ADF5-E04636C21325}" derivedfrom="id-0065-00000030" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>publishHertz</name>
@@ -15062,7 +15149,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000005b1" kind="Property" role="Property" guid="{BD1F8287-1236-4bff-91B5-A3B2B7ED3D0E}" derivedfrom="id-0065-000005aa" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_, this-&gt;publishHertz_</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;publishHertz_</value>
 								</attribute>
 								<reference id="id-0067-000004b0" kind="DataType" role="DataType" guid="{280B22C6-067C-401f-8C45-BEFF461889E8}" derivedfrom="id-0067-000004ab" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -15147,10 +15234,16 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 						<reference id="id-0067-00000493" kind="WorkerType" role="WorkerType" guid="{87210B61-C059-47fb-8958-4DD2B3DAABE3}" derivedfrom="id-0067-00000491" isinstance="yes" isprimary="no" referred="id-0065-000001dd" isbound="yes">
 							<name>logger</name>
 						</reference>
+						<reference id="id-0067-000004cf" kind="Variable" role="Variable" guid="{417F5BAA-7DB1-413d-829E-D6123A1C081B}" derivedfrom="id-0067-000004c9" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+							<name>eventNumber</name>
+							<attribute kind="InitialValue" status="inherited">
+								<value>0</value>
+							</attribute>
+						</reference>
 						<connection isbound="yes" id="id-0068-0000027e" kind="InputEffect" role="InputEffect" guid="{71156CFE-A96F-4ab7-A571-2D17C9BBD8BF}" derivedfrom="id-0068-0000007b" isinstance="yes" isprimary="no">
 							<name></name>
-							<attribute kind="Postcondition" status="meta">
-								<value></value>
+							<attribute kind="Postcondition" status="inherited">
+								<value>++ this-&gt;eventNumber_;</value>
 							</attribute>
 						</connection>
 						<connection isbound="yes" id="id-0068-0000027f" kind="Input" role="Input" guid="{50548AF8-6C98-444a-B7EE-5FFC8F558F51}" derivedfrom="id-0068-0000007c" isinstance="yes" isprimary="no">
@@ -15746,7 +15839,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000262" kind="Property" role="Property" guid="{21990C9E-9306-4d32-A0EA-08BF1391B060}" derivedfrom="id-0065-0000024f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port A is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port A is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000034e" kind="DataType" role="DataType" guid="{09FDFE42-891B-46f2-87DF-AA85B286CEDD}" derivedfrom="id-0067-00000347" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -15764,7 +15857,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000264" kind="Property" role="Property" guid="{0D80B102-A54D-44e7-BA1D-D16A94A3A748}" derivedfrom="id-0065-0000024e" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002fd" kind="DataType" role="DataType" guid="{A5FF43C8-6B09-469a-B40F-14C6E9D097B6}" derivedfrom="id-0067-000002f6" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -15782,7 +15875,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000028a" kind="Property" role="Property" guid="{9941A2A3-3826-4748-9F9D-48D1422CEFB6}" derivedfrom="id-0065-00000276" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002f1" kind="DataType" role="DataType" guid="{33FC7235-BE7A-4bf2-B6E7-36D03CEF5B9A}" derivedfrom="id-0067-000002ec" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -15791,7 +15884,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000028b" kind="Property" role="Property" guid="{120556C1-9213-4ede-A136-F4DCFD9CD63D}" derivedfrom="id-0065-00000277" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port B is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port B is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000360" kind="DataType" role="DataType" guid="{80301E23-BF54-496d-A1D7-9BB76533DDEC}" derivedfrom="id-0067-0000035b" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -15890,7 +15983,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000302" kind="Property" role="Property" guid="{6C4F7B02-AEE9-4b43-A2B4-79A6CC542079}" derivedfrom="id-0065-000002ee" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-0000030f" kind="DataType" role="DataType" guid="{FD4897D8-147F-4ef4-B3F2-3E9F8C29644C}" derivedfrom="id-0067-0000030a" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -15899,7 +15992,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000303" kind="Property" role="Property" guid="{6996337D-9777-49c9-96EA-5C9E1EA89D97}" derivedfrom="id-0065-000002ef" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port C is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port C is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000037e" kind="DataType" role="DataType" guid="{0317054C-CE60-4532-85C0-97A4EDA5947D}" derivedfrom="id-0067-00000379" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -15998,7 +16091,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000037a" kind="Property" role="Property" guid="{B8E2D50C-43D7-40ed-907A-A816D5B61465}" derivedfrom="id-0065-00000366" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002ab" kind="DataType" role="DataType" guid="{6E56D0D0-C53A-4948-ADA7-3CA5B5DE6809}" derivedfrom="id-0067-000002a6" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -16007,7 +16100,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000037b" kind="Property" role="Property" guid="{2A3DFC90-F8F3-431f-8CD9-E9F9BA60A612}" derivedfrom="id-0065-00000367" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port D is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port D is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000392" kind="DataType" role="DataType" guid="{2663C957-3C91-4c8e-8662-A899E33F96BB}" derivedfrom="id-0067-0000038d" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -16106,7 +16199,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000003f2" kind="Property" role="Property" guid="{6F5631FC-3B0A-4316-8AA8-475E86BDA35A}" derivedfrom="id-0065-000003de" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002bf" kind="DataType" role="DataType" guid="{701839CA-A6D9-4c4d-A8A9-037A161E608E}" derivedfrom="id-0067-000002ba" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -16115,7 +16208,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000003f3" kind="Property" role="Property" guid="{40B1C4B4-92FC-487d-B91C-A9AF89281A20}" derivedfrom="id-0065-000003df" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port E is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port E is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-000003ba" kind="DataType" role="DataType" guid="{4741AADF-5A1A-439d-9E8B-7F3D05D0E654}" derivedfrom="id-0067-000003b5" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -17938,7 +18031,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000266" kind="Property" role="Property" guid="{4F7EE491-F59E-4d8f-81A3-06095A96B1BE}" derivedfrom="id-0065-0000024f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port A is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port A is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000348" kind="DataType" role="DataType" guid="{C125B9D2-A75E-42ef-9679-4479C70D3364}" derivedfrom="id-0067-00000347" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -17956,7 +18049,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000268" kind="Property" role="Property" guid="{C608B514-7D8C-4d2e-B22B-93D4844A198F}" derivedfrom="id-0065-0000024e" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002f7" kind="DataType" role="DataType" guid="{17640FC2-DFB0-46a4-8D9B-FE3680B6AFFB}" derivedfrom="id-0067-000002f6" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -17974,7 +18067,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000028e" kind="Property" role="Property" guid="{E71EF9AF-2A27-49c1-B9E2-1A52784A4445}" derivedfrom="id-0065-00000276" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002f2" kind="DataType" role="DataType" guid="{4ECE1CFF-54EA-4176-BC09-E31F36E28697}" derivedfrom="id-0067-000002ec" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -17983,7 +18076,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000028f" kind="Property" role="Property" guid="{E677A45C-D4E7-4d1a-BA1F-6CC91F825184}" derivedfrom="id-0065-00000277" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port B is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port B is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000361" kind="DataType" role="DataType" guid="{FC93D81A-24EB-4fce-89A9-C3CBFABE4BF2}" derivedfrom="id-0067-0000035b" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -18082,7 +18175,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000306" kind="Property" role="Property" guid="{9DFA966D-26A2-45eb-8773-1939367B19C9}" derivedfrom="id-0065-000002ee" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-00000310" kind="DataType" role="DataType" guid="{ED1525C5-D311-4763-9C9E-5C8B499F0722}" derivedfrom="id-0067-0000030a" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -18091,7 +18184,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000307" kind="Property" role="Property" guid="{6E048109-06B5-488a-A96F-56FED8CA957B}" derivedfrom="id-0065-000002ef" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port C is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port C is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000037f" kind="DataType" role="DataType" guid="{F9ABE455-B274-4185-9EAC-E70B42121E87}" derivedfrom="id-0067-00000379" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -18190,7 +18283,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000037e" kind="Property" role="Property" guid="{9A43C718-7E20-4ded-A776-281217B93CEE}" derivedfrom="id-0065-00000366" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002ac" kind="DataType" role="DataType" guid="{24A9117F-12D5-4b15-A7D1-A6315E1E3633}" derivedfrom="id-0067-000002a6" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -18199,7 +18292,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000037f" kind="Property" role="Property" guid="{01474AFC-57E0-4f0e-8157-213A47EFFEE3}" derivedfrom="id-0065-00000367" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port D is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port D is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000393" kind="DataType" role="DataType" guid="{5044DBB3-62ED-4013-8A63-8ED7BFA37F5B}" derivedfrom="id-0067-0000038d" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -18298,7 +18391,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000003f6" kind="Property" role="Property" guid="{B7EC0DC8-D4F6-4f64-84BA-34244F21EC32}" derivedfrom="id-0065-000003de" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002c0" kind="DataType" role="DataType" guid="{21326990-AC30-4599-ADFA-CDEFCAEEE2ED}" derivedfrom="id-0067-000002ba" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -18307,7 +18400,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000003f7" kind="Property" role="Property" guid="{2F351677-672C-4a87-9AF5-93E78EAB271E}" derivedfrom="id-0065-000003df" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port E is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port E is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-000003bb" kind="DataType" role="DataType" guid="{51F3C248-4810-4edf-9185-B891D29CEB8B}" derivedfrom="id-0067-000003b5" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -20130,7 +20223,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000026a" kind="Property" role="Property" guid="{AE959B54-62DE-4a10-9ED2-1DE3F03E7B31}" derivedfrom="id-0065-0000024f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port A is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port A is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000349" kind="DataType" role="DataType" guid="{F2CB50B1-E1EA-47d5-956F-8976F68113F1}" derivedfrom="id-0067-00000347" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -20148,7 +20241,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000026c" kind="Property" role="Property" guid="{3BD7B987-6263-4687-8CB0-55937608276D}" derivedfrom="id-0065-0000024e" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002f8" kind="DataType" role="DataType" guid="{4FDB2A2D-CC9E-46c3-B1E3-838C346DA82F}" derivedfrom="id-0067-000002f6" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -20166,7 +20259,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000292" kind="Property" role="Property" guid="{CFC07AB6-1C54-4d2b-A3EF-D83E6F6C9634}" derivedfrom="id-0065-00000276" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002f3" kind="DataType" role="DataType" guid="{F5A2353E-5DDD-426e-80D8-C61DFA833F95}" derivedfrom="id-0067-000002ec" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -20175,7 +20268,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000293" kind="Property" role="Property" guid="{32F91D64-F9A6-43fe-A934-09A548935BD0}" derivedfrom="id-0065-00000277" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port B is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port B is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000362" kind="DataType" role="DataType" guid="{948D4361-5B74-4391-82A6-CD67CB629CBE}" derivedfrom="id-0067-0000035b" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -20274,7 +20367,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000030a" kind="Property" role="Property" guid="{EBD1CB2A-9B40-49bd-8986-D2A8154F4472}" derivedfrom="id-0065-000002ee" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-00000311" kind="DataType" role="DataType" guid="{EEE50751-FCFB-47bb-AE3F-ACC77E4495C9}" derivedfrom="id-0067-0000030a" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -20283,7 +20376,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000030b" kind="Property" role="Property" guid="{44FE1847-A87D-4ca0-8730-DBAAB7AFA778}" derivedfrom="id-0065-000002ef" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port C is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port C is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000380" kind="DataType" role="DataType" guid="{8A9D6746-E95E-498a-B466-968A0CC60648}" derivedfrom="id-0067-00000379" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -20382,7 +20475,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000382" kind="Property" role="Property" guid="{0E6FAA1A-CE5B-46c1-BA10-4B7888BBB48F}" derivedfrom="id-0065-00000366" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002ad" kind="DataType" role="DataType" guid="{AE1A9565-F9D0-44f9-86BC-8A25B9E53A31}" derivedfrom="id-0067-000002a6" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -20391,7 +20484,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000383" kind="Property" role="Property" guid="{63BB8912-D993-473d-83CE-B56AF526C82B}" derivedfrom="id-0065-00000367" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port D is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port D is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000394" kind="DataType" role="DataType" guid="{EECDC71C-5D98-463e-BCFA-85FCCCBDD0CE}" derivedfrom="id-0067-0000038d" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -20490,7 +20583,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000003fa" kind="Property" role="Property" guid="{0F55489F-C6F7-44ac-8478-8A1D528B05CC}" derivedfrom="id-0065-000003de" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002c1" kind="DataType" role="DataType" guid="{EA466477-CBA9-4452-9EA2-DD75CD21D1CF}" derivedfrom="id-0067-000002ba" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -20499,7 +20592,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000003fb" kind="Property" role="Property" guid="{CE209F4F-EA47-4648-9BBA-ADF878DC3817}" derivedfrom="id-0065-000003df" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port E is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port E is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-000003bc" kind="DataType" role="DataType" guid="{BF83749B-02FD-4ce3-AF1D-6B5E11943E42}" derivedfrom="id-0067-000003b5" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -22322,7 +22415,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000026e" kind="Property" role="Property" guid="{00340061-9E0A-471f-B031-2D46A9C1064D}" derivedfrom="id-0065-0000024f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port A is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port A is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000034a" kind="DataType" role="DataType" guid="{88BBF6EA-5ED9-4983-8CEA-12C384F079EB}" derivedfrom="id-0067-00000347" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -22340,7 +22433,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000270" kind="Property" role="Property" guid="{A6BAF883-3F8A-4a9a-8044-FF2A7E09076A}" derivedfrom="id-0065-0000024e" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002fa" kind="DataType" role="DataType" guid="{B26C90D1-0BA7-4786-8EF8-635EBB683973}" derivedfrom="id-0067-000002f6" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -22358,7 +22451,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000296" kind="Property" role="Property" guid="{883AC179-9043-4695-B975-C243E203E0DD}" derivedfrom="id-0065-00000276" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002f4" kind="DataType" role="DataType" guid="{892A1AE6-9FCB-4085-9FFC-5CE18B6A4893}" derivedfrom="id-0067-000002ec" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -22367,7 +22460,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000297" kind="Property" role="Property" guid="{8192FF6A-6B6D-48c8-8169-D2100E4C5CFA}" derivedfrom="id-0065-00000277" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port B is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port B is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000363" kind="DataType" role="DataType" guid="{7A1BA340-A270-4761-8D5C-3582B2A78DE5}" derivedfrom="id-0067-0000035b" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -22466,7 +22559,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000030e" kind="Property" role="Property" guid="{B398A022-117D-4b37-A095-0965618874CD}" derivedfrom="id-0065-000002ee" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-00000312" kind="DataType" role="DataType" guid="{D8EA5DCB-5432-4bfc-8C61-64C5D07AB2F6}" derivedfrom="id-0067-0000030a" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -22475,7 +22568,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000030f" kind="Property" role="Property" guid="{73F7E8AB-93F2-4c72-8C9B-62B4E86FC856}" derivedfrom="id-0065-000002ef" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port C is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port C is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000381" kind="DataType" role="DataType" guid="{FDED186C-3300-471c-934B-5D3654E6EDA5}" derivedfrom="id-0067-00000379" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -22574,7 +22667,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000386" kind="Property" role="Property" guid="{C1DDF57C-C0FE-4372-B710-52307C309DFE}" derivedfrom="id-0065-00000366" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002ae" kind="DataType" role="DataType" guid="{1B9198A4-7853-4d30-A140-BFDAAD9BEAAA}" derivedfrom="id-0067-000002a6" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -22583,7 +22676,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000387" kind="Property" role="Property" guid="{130D8CC3-5DBC-45cc-90A7-018448B0A05F}" derivedfrom="id-0065-00000367" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port D is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port D is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000395" kind="DataType" role="DataType" guid="{EAD01823-B816-4981-ADE1-8796FA317766}" derivedfrom="id-0067-0000038d" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -22682,7 +22775,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000003fe" kind="Property" role="Property" guid="{DD333C3E-F02A-4959-94A9-E52C01FB66D3}" derivedfrom="id-0065-000003de" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002c2" kind="DataType" role="DataType" guid="{5F745324-8115-4acf-B66F-904B511BD103}" derivedfrom="id-0067-000002ba" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -22691,7 +22784,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000003ff" kind="Property" role="Property" guid="{014E2FD3-C38F-4e6d-BCDF-7F547B4E4C44}" derivedfrom="id-0065-000003df" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port E is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port E is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-000003bd" kind="DataType" role="DataType" guid="{A0DE7812-D2BC-4bda-B47D-68910FB816D0}" derivedfrom="id-0067-000003b5" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -24514,7 +24607,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000272" kind="Property" role="Property" guid="{C01EF30E-1516-454f-BD4D-1265D25E0B0E}" derivedfrom="id-0065-0000024f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port A is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port A is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-0000034d" kind="DataType" role="DataType" guid="{409D5F44-2011-4b07-AAD1-5FEBB3B01528}" derivedfrom="id-0067-00000347" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -24532,7 +24625,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000274" kind="Property" role="Property" guid="{4C0C3015-66D9-4e75-9B71-56A1682D5E87}" derivedfrom="id-0065-0000024e" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountA_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002fb" kind="DataType" role="DataType" guid="{B362A354-9473-4f74-BE28-0DF2901C38BE}" derivedfrom="id-0067-000002f6" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -24550,7 +24643,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000029a" kind="Property" role="Property" guid="{7DB4D8C3-5EC1-4728-AE17-B86AF44C50F2}" derivedfrom="id-0065-00000276" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountB_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002f5" kind="DataType" role="DataType" guid="{6DE7DF75-703C-485e-BCEC-83DD9349A687}" derivedfrom="id-0067-000002ec" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -24559,7 +24652,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000029b" kind="Property" role="Property" guid="{8D156D3F-9C69-4481-829D-7B3BEF0FEBD5}" derivedfrom="id-0065-00000277" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port B is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port B is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000364" kind="DataType" role="DataType" guid="{611A52E6-DE52-4929-87F8-7199006C92D1}" derivedfrom="id-0067-0000035b" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -24658,7 +24751,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000312" kind="Property" role="Property" guid="{355BA906-52DD-4aa4-A7F3-D54BABBCA0C8}" derivedfrom="id-0065-000002ee" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountC_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-00000313" kind="DataType" role="DataType" guid="{5DA3A660-3E3E-457d-B4FF-AC68AFC7DEE9}" derivedfrom="id-0067-0000030a" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -24667,7 +24760,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000313" kind="Property" role="Property" guid="{6C16F32A-3C4E-4463-939A-5E8788E53674}" derivedfrom="id-0065-000002ef" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port C is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port C is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000382" kind="DataType" role="DataType" guid="{7CEB3285-7CA0-4903-ADE6-A396091CA122}" derivedfrom="id-0067-00000379" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -24766,7 +24859,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000038a" kind="Property" role="Property" guid="{BB965EE2-B51F-4dab-8130-812EE8400F4C}" derivedfrom="id-0065-00000366" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountD_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002af" kind="DataType" role="DataType" guid="{EC32A803-2D55-47ef-AB74-9E13D8C2F0EC}" derivedfrom="id-0067-000002a6" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -24775,7 +24868,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-0000038b" kind="Property" role="Property" guid="{B1B9496B-083D-48fc-9E6B-A555AFA4A21A}" derivedfrom="id-0065-00000367" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port D is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port D is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-00000396" kind="DataType" role="DataType" guid="{FF9AE022-FD64-4f43-8B94-F0044B447D12}" derivedfrom="id-0067-0000038d" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -24874,7 +24967,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000402" kind="Property" role="Property" guid="{8BE03303-8777-4483-9D35-B1B0950BDAAD}" derivedfrom="id-0065-000003de" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec ()</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;eventCountE_, ACE_OS::gettimeofday ().msec (), ev-&gt;recvTime ()</value>
 								</attribute>
 								<reference id="id-0067-000002c3" kind="DataType" role="DataType" guid="{1BCA7B8E-50DE-4e52-BAE0-C8497C1A52E0}" derivedfrom="id-0067-000002ba" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -24883,7 +24976,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-00000403" kind="Property" role="Property" guid="{3A768202-86E9-44e6-B401-E09E58B74119}" derivedfrom="id-0065-000003df" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>format</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>&quot;%s port E is finalizing event %d at %d&quot;</value>
+									<value>&quot;%s port E is finalizing event %d at %d (recv time: %d)&quot;</value>
 								</attribute>
 								<reference id="id-0067-000003be" kind="DataType" role="DataType" guid="{B6725857-9C57-4fd0-AF8B-9124523074EF}" derivedfrom="id-0067-000003b5" isinstance="yes" isprimary="no" referred="id-0066-00000307" isbound="yes">
 									<name>String</name>
@@ -26358,6 +26451,18 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 						</model>
 						<model id="id-0065-000001af" kind="OutputAction" role="OutputAction" guid="{42CF331F-2BB0-4693-8543-0E2FDFC9F5AA}" derivedfrom="id-0065-0000002f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>NullEvent</name>
+							<model id="id-0065-000005d4" kind="Property" role="Property" guid="{FA23A227-4E55-4d43-BF28-45793E66DFE8}" derivedfrom="id-0065-000005cf" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>eventNumber</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;eventNumber_</value>
+								</attribute>
+							</model>
+							<model id="id-0065-000005dc" kind="Property" role="Property" guid="{07A6DD88-8C4E-41f5-AD3F-DBB11FDF1217}" derivedfrom="id-0065-000005d7" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>sourceName</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;instName_.c_str ()</value>
+								</attribute>
+							</model>
 						</model>
 						<model id="id-0065-000001b0" kind="Attribute" role="Attribute" guid="{2F863954-9406-4690-91AA-C915E21FA334}" derivedfrom="id-0065-00000030" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>publishHertz</name>
@@ -26442,7 +26547,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000005b5" kind="Property" role="Property" guid="{CF862870-1273-4891-A47A-222430099F6A}" derivedfrom="id-0065-000005aa" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_, this-&gt;publishHertz_</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;publishHertz_</value>
 								</attribute>
 								<reference id="id-0067-000004b3" kind="DataType" role="DataType" guid="{2969B5A4-61DF-4742-9E12-C9D9B36B51CF}" derivedfrom="id-0067-000004ab" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -26527,10 +26632,16 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 						<reference id="id-0067-00000494" kind="WorkerType" role="WorkerType" guid="{578B1474-20DE-491f-9D97-F868F6C9F6FB}" derivedfrom="id-0067-00000491" isinstance="yes" isprimary="no" referred="id-0065-000001dd" isbound="yes">
 							<name>logger</name>
 						</reference>
+						<reference id="id-0067-000004ce" kind="Variable" role="Variable" guid="{7B2708EC-6DB1-4aaf-B492-B848AE60C6E9}" derivedfrom="id-0067-000004c9" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+							<name>eventNumber</name>
+							<attribute kind="InitialValue" status="inherited">
+								<value>0</value>
+							</attribute>
+						</reference>
 						<connection isbound="yes" id="id-0068-000004e6" kind="InputEffect" role="InputEffect" guid="{F7F04DBB-11AD-4632-B6B1-EA07A9AC35BA}" derivedfrom="id-0068-0000007b" isinstance="yes" isprimary="no">
 							<name></name>
-							<attribute kind="Postcondition" status="meta">
-								<value></value>
+							<attribute kind="Postcondition" status="inherited">
+								<value>++ this-&gt;eventNumber_;</value>
 							</attribute>
 						</connection>
 						<connection isbound="yes" id="id-0068-000004e7" kind="Input" role="Input" guid="{C2E81BFC-04B2-44b0-A2B7-D95833EF56D0}" derivedfrom="id-0068-0000007c" isinstance="yes" isprimary="no">
@@ -26616,6 +26727,18 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 						</model>
 						<model id="id-0065-000001b4" kind="OutputAction" role="OutputAction" guid="{511E25E6-CBA3-41cc-96B7-3B8DE2B4BA25}" derivedfrom="id-0065-0000002f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>NullEvent</name>
+							<model id="id-0065-000005d3" kind="Property" role="Property" guid="{E956A37B-6E8D-42cf-8AFF-763A8D212F14}" derivedfrom="id-0065-000005cf" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>eventNumber</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;eventNumber_</value>
+								</attribute>
+							</model>
+							<model id="id-0065-000005d9" kind="Property" role="Property" guid="{0B56124B-6145-4d61-93A0-79822EA23E11}" derivedfrom="id-0065-000005d7" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>sourceName</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;instName_.c_str ()</value>
+								</attribute>
+							</model>
 						</model>
 						<model id="id-0065-000001b5" kind="Attribute" role="Attribute" guid="{15FF696B-D5FA-4cd1-B679-572503B9D559}" derivedfrom="id-0065-00000030" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>publishHertz</name>
@@ -26700,7 +26823,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000005b9" kind="Property" role="Property" guid="{393FCF5E-EF21-40a1-9B4D-AE0527B9ACD5}" derivedfrom="id-0065-000005aa" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_, this-&gt;publishHertz_</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;publishHertz_</value>
 								</attribute>
 								<reference id="id-0067-000004b6" kind="DataType" role="DataType" guid="{BB762F04-541E-47b9-B906-F120D00114C4}" derivedfrom="id-0067-000004ab" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -26785,10 +26908,16 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 						<reference id="id-0067-00000495" kind="WorkerType" role="WorkerType" guid="{8F49A81A-9AC3-49c1-B9AB-D3776EF6FE3B}" derivedfrom="id-0067-00000491" isinstance="yes" isprimary="no" referred="id-0065-000001dd" isbound="yes">
 							<name>logger</name>
 						</reference>
+						<reference id="id-0067-000004cd" kind="Variable" role="Variable" guid="{9364AE2D-E13F-4b38-8D1F-8B7F0F2B474B}" derivedfrom="id-0067-000004c9" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+							<name>eventNumber</name>
+							<attribute kind="InitialValue" status="inherited">
+								<value>0</value>
+							</attribute>
+						</reference>
 						<connection isbound="yes" id="id-0068-000004eb" kind="InputEffect" role="InputEffect" guid="{88B0463C-BA38-4b90-9A10-40FBEE0C829D}" derivedfrom="id-0068-0000007b" isinstance="yes" isprimary="no">
 							<name></name>
-							<attribute kind="Postcondition" status="meta">
-								<value></value>
+							<attribute kind="Postcondition" status="inherited">
+								<value>++ this-&gt;eventNumber_;</value>
 							</attribute>
 						</connection>
 						<connection isbound="yes" id="id-0068-000004ec" kind="Input" role="Input" guid="{46A0061B-A8A4-4ac3-AB5A-D0EA717218F1}" derivedfrom="id-0068-0000007c" isinstance="yes" isprimary="no">
@@ -26874,6 +27003,18 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 						</model>
 						<model id="id-0065-000001b9" kind="OutputAction" role="OutputAction" guid="{B477B7A7-9D86-47a5-BF68-DFCAB1BA4E1D}" derivedfrom="id-0065-0000002f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>NullEvent</name>
+							<model id="id-0065-000005d2" kind="Property" role="Property" guid="{B8048BF2-1DC5-45b7-8A9D-79981524631A}" derivedfrom="id-0065-000005cf" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>eventNumber</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;eventNumber_</value>
+								</attribute>
+							</model>
+							<model id="id-0065-000005da" kind="Property" role="Property" guid="{6D8BBDD9-6049-460c-B2F5-095515AFAFDA}" derivedfrom="id-0065-000005d7" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>sourceName</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;instName_.c_str ()</value>
+								</attribute>
+							</model>
 						</model>
 						<model id="id-0065-000001ba" kind="Attribute" role="Attribute" guid="{5099EB6C-F3CA-46ba-B794-A05370255978}" derivedfrom="id-0065-00000030" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>publishHertz</name>
@@ -26958,7 +27099,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000005bd" kind="Property" role="Property" guid="{3D0083D0-F49F-4114-908D-8DE0AE59DA51}" derivedfrom="id-0065-000005aa" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_, this-&gt;publishHertz_</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;publishHertz_</value>
 								</attribute>
 								<reference id="id-0067-000004b9" kind="DataType" role="DataType" guid="{6A4A62BB-E138-4168-BEFF-890CE09A5EC1}" derivedfrom="id-0067-000004ab" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -27043,10 +27184,16 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 						<reference id="id-0067-00000496" kind="WorkerType" role="WorkerType" guid="{F6415257-9FEB-4d19-A0EA-12B042A1C862}" derivedfrom="id-0067-00000491" isinstance="yes" isprimary="no" referred="id-0065-000001dd" isbound="yes">
 							<name>logger</name>
 						</reference>
+						<reference id="id-0067-000004cc" kind="Variable" role="Variable" guid="{83C5DFD0-2E16-4952-B8AD-6B2D8EC2A319}" derivedfrom="id-0067-000004c9" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+							<name>eventNumber</name>
+							<attribute kind="InitialValue" status="inherited">
+								<value>0</value>
+							</attribute>
+						</reference>
 						<connection isbound="yes" id="id-0068-000004f0" kind="InputEffect" role="InputEffect" guid="{49B727A1-11A1-431b-8112-35F70530B6A3}" derivedfrom="id-0068-0000007b" isinstance="yes" isprimary="no">
 							<name></name>
-							<attribute kind="Postcondition" status="meta">
-								<value></value>
+							<attribute kind="Postcondition" status="inherited">
+								<value>++ this-&gt;eventNumber_;</value>
 							</attribute>
 						</connection>
 						<connection isbound="yes" id="id-0068-000004f1" kind="Input" role="Input" guid="{FA725C17-8C25-4a59-A20D-0C11426D19F2}" derivedfrom="id-0068-0000007c" isinstance="yes" isprimary="no">
@@ -27132,6 +27279,18 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 						</model>
 						<model id="id-0065-000001be" kind="OutputAction" role="OutputAction" guid="{C44D2D8F-F7F4-43d1-88F2-B2C62FF92E8E}" derivedfrom="id-0065-0000002f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>NullEvent</name>
+							<model id="id-0065-000005d1" kind="Property" role="Property" guid="{F1BD7D4A-05F7-4647-A9F7-4ADAD8649355}" derivedfrom="id-0065-000005cf" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>eventNumber</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;eventNumber_</value>
+								</attribute>
+							</model>
+							<model id="id-0065-000005d8" kind="Property" role="Property" guid="{138FE359-4F6A-4c8e-B2BD-D47DFAB27515}" derivedfrom="id-0065-000005d7" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>sourceName</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;instName_.c_str ()</value>
+								</attribute>
+							</model>
 						</model>
 						<model id="id-0065-000001bf" kind="Attribute" role="Attribute" guid="{2CA8C04E-3567-4351-BD9D-7B046ABF4E67}" derivedfrom="id-0065-00000030" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>publishHertz</name>
@@ -27216,7 +27375,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000005c1" kind="Property" role="Property" guid="{08842B85-FFA6-4f44-B51F-5FABCEC47B38}" derivedfrom="id-0065-000005aa" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_, this-&gt;publishHertz_</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;publishHertz_</value>
 								</attribute>
 								<reference id="id-0067-000004bc" kind="DataType" role="DataType" guid="{5285ACCB-E181-41be-AE9D-DBA339A12296}" derivedfrom="id-0067-000004ab" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -27301,10 +27460,16 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 						<reference id="id-0067-00000497" kind="WorkerType" role="WorkerType" guid="{197D0D68-86B0-4c6f-BA3C-097DBF8ED4E2}" derivedfrom="id-0067-00000491" isinstance="yes" isprimary="no" referred="id-0065-000001dd" isbound="yes">
 							<name>logger</name>
 						</reference>
+						<reference id="id-0067-000004cb" kind="Variable" role="Variable" guid="{003BFE6F-2460-4dc3-95E9-CBAFEF555818}" derivedfrom="id-0067-000004c9" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+							<name>eventNumber</name>
+							<attribute kind="InitialValue" status="inherited">
+								<value>0</value>
+							</attribute>
+						</reference>
 						<connection isbound="yes" id="id-0068-000004f5" kind="InputEffect" role="InputEffect" guid="{90F19488-22EC-482c-AB86-21D3A5CF3DFF}" derivedfrom="id-0068-0000007b" isinstance="yes" isprimary="no">
 							<name></name>
-							<attribute kind="Postcondition" status="meta">
-								<value></value>
+							<attribute kind="Postcondition" status="inherited">
+								<value>++ this-&gt;eventNumber_;</value>
 							</attribute>
 						</connection>
 						<connection isbound="yes" id="id-0068-000004f6" kind="Input" role="Input" guid="{932D1DB6-EE05-40e7-BD08-980995A3E1BE}" derivedfrom="id-0068-0000007c" isinstance="yes" isprimary="no">
@@ -27390,6 +27555,18 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 						</model>
 						<model id="id-0065-000001c3" kind="OutputAction" role="OutputAction" guid="{CB0B8BE9-F485-4ee9-986A-2A93036E969B}" derivedfrom="id-0065-0000002f" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>NullEvent</name>
+							<model id="id-0065-000005d0" kind="Property" role="Property" guid="{8A8BFA56-4E58-4406-AAA0-27D299449A94}" derivedfrom="id-0065-000005cf" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>eventNumber</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;eventNumber_</value>
+								</attribute>
+							</model>
+							<model id="id-0065-000005db" kind="Property" role="Property" guid="{75445993-102F-478d-B0BD-5BD44FD50D3D}" derivedfrom="id-0065-000005d7" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+								<name>sourceName</name>
+								<attribute kind="DataValue" status="inherited">
+									<value>this-&gt;instName_.c_str ()</value>
+								</attribute>
+							</model>
 						</model>
 						<model id="id-0065-000001c4" kind="Attribute" role="Attribute" guid="{25D05DCA-4FE6-44ea-BCCA-48DEEBE8626B}" derivedfrom="id-0065-00000030" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 							<name>publishHertz</name>
@@ -27474,7 +27651,7 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 							<model id="id-0065-000005c5" kind="Property" role="Property" guid="{DBD87AA6-2134-4c56-A05A-ACA0ABDFD24B}" derivedfrom="id-0065-000005aa" isinstance="yes" isprimary="no" childrelidcntr="0x0">
 								<name>arglist</name>
 								<attribute kind="DataValue" status="inherited">
-									<value>this-&gt;instName_, this-&gt;publishHertz_</value>
+									<value>this-&gt;instName_.c_str (), this-&gt;publishHertz_</value>
 								</attribute>
 								<reference id="id-0067-000004bf" kind="DataType" role="DataType" guid="{558518E7-3E56-4015-9D0C-2016E79C66FD}" derivedfrom="id-0067-000004ab" isinstance="yes" isprimary="no" referred="id-0066-00000304" isbound="yes">
 									<name>GenericValue</name>
@@ -27559,10 +27736,16 @@ this-&gt;logEventE_ = this-&gt;eventCountE_ % this-&gt;logRate_ == 0;</value>
 						<reference id="id-0067-00000498" kind="WorkerType" role="WorkerType" guid="{4D78AA24-CF47-4b56-B860-01E165B4A748}" derivedfrom="id-0067-00000491" isinstance="yes" isprimary="no" referred="id-0065-000001dd" isbound="yes">
 							<name>logger</name>
 						</reference>
+						<reference id="id-0067-000004ca" kind="Variable" role="Variable" guid="{AD7A3534-5B48-4f1f-BBA3-831C1DBAA9EA}" derivedfrom="id-0067-000004c9" isinstance="yes" isprimary="no" referred="id-0066-00000002" isbound="yes">
+							<name>eventNumber</name>
+							<attribute kind="InitialValue" status="inherited">
+								<value>0</value>
+							</attribute>
+						</reference>
 						<connection isbound="yes" id="id-0068-000004fa" kind="InputEffect" role="InputEffect" guid="{64037E04-D219-440a-87FD-0042D9DAC2E9}" derivedfrom="id-0068-0000007b" isinstance="yes" isprimary="no">
 							<name></name>
-							<attribute kind="Postcondition" status="meta">
-								<value></value>
+							<attribute kind="Postcondition" status="inherited">
+								<value>++ this-&gt;eventNumber_;</value>
 							</attribute>
 						</connection>
 						<connection isbound="yes" id="id-0068-000004fb" kind="Input" role="Input" guid="{0703D320-1BE2-4982-8820-B027148ABDD3}" derivedfrom="id-0068-0000007c" isinstance="yes" isprimary="no">

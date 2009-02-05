@@ -11,7 +11,10 @@ namespace CIDL_NullEventGeneratorImpl
   //
   void NullEventGenerator::periodic_eventGenerator (void)
   {
+    ++ this->eventNumber_;
     CUTS_CCM_Event_T <OBV_antispam::NullEvent> __event_100000047__;
+    __event_100000047__->sourceName (this->instName_.c_str ());
+    __event_100000047__->eventNumber (this->eventNumber_);
     this->ctx_->push_NullEvent (__event_100000047__.in ());
   }
 
@@ -32,10 +35,50 @@ namespace CIDL_NullEventGeneratorImpl
   }
 
   //
+  // testName [getter]
+  //
+  char * NullEventGenerator::testName (void)
+  {
+    ::CORBA::String_var s =
+      ::CORBA::string_dup (this->testName_.c_str ());
+    return s._retn ();
+  }
+
+  //
+  // testName [setter]
+  //
+  void NullEventGenerator::testName (const char * testName)
+  {
+    this->testName_ = testName;
+  }
+
+  //
+  // instName [getter]
+  //
+  char * NullEventGenerator::instName (void)
+  {
+    ::CORBA::String_var s =
+      ::CORBA::string_dup (this->instName_.c_str ());
+    return s._retn ();
+  }
+
+  //
+  // instName [setter]
+  //
+  void NullEventGenerator::instName (const char * instName)
+  {
+    this->instName_ = instName;
+  }
+
+  //
   // Environment: activate
   //
   void NullEventGenerator::ccm_activate (void)
   {
+    this->logger_.configure (20000);
+    this->logger_.connect_using_location (this->testName_);
+    this->logger_.log (LM_INFO, "generator %s hertz is %d", this->instName_.c_str (), this->publishHertz_);
+
     // configure the event generators
     this->periodic_eventGenerator_.configure (CUTS_Periodic_Event::PE_EXPONENTIAL, this->publishHertz_);
 
@@ -47,6 +90,7 @@ namespace CIDL_NullEventGeneratorImpl
   // NullEventGenerator
   //
   NullEventGenerator::NullEventGenerator (void)
+  : eventNumber_ (0)
   {
     this->periodic_eventGenerator_.init (this, &type::periodic_eventGenerator);
     this->register_object (&this->periodic_eventGenerator_);

@@ -1,10 +1,54 @@
+Thu Feb  5 23:33:07 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+        * examples/PICML/AntiSPAM/CPUBound.idl:
+        * examples/PICML/AntiSPAM/CPUBoundImpl_exec.h:
+        * examples/PICML/AntiSPAM/CPUBoundImpl_exec.cpp:
+        * examples/PICML/AntiSPAM/EventGenerator.idl:
+        * examples/PICML/AntiSPAM/EventTypes.idl:
+        * examples/PICML/AntiSPAM/NullEventGeneratorImpl_exec.h:
+        * examples/PICML/AntiSPAM/NullEventGeneratorImpl_exec.cpp:
+        * examples/PICML/AntiSPAM/NullEventGeneratorImpl_exec.mpc:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/generate-single.bat:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/generate.bat:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly1.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly10.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly11.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly12.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly13.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly14.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly15.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly16.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly17.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly18.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly19.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly2.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly20.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly3.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly4.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly5.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly6.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly7.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly8.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly9.cdp:
+
+          . Regenerated the template descriptors with the new additions
+            to the generator components.
+
+          . Updated the log messages to log the configuration of
+            each generator.
+
+        * examples/PICML/AntiSPAM/CPUBoundImplE.idl:
+
+          Deleted these files.
+
 Thu Feb  5 18:21:27 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * THANKS:
 
-	  . Added more names and email address to the THANKS.
+          . Added more names and email address to the THANKS.
 
-	  . Updated the format of the file.
+          . Updated the format of the file.
 
 Thu Feb  5 18:07:12 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 

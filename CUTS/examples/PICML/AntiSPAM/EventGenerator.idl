@@ -11,6 +11,10 @@ module antispam
   {
     publishes antispam::NullEvent NullEvent;
     
+    attribute string testName;
+    
+    attribute string instName;
+    
     attribute double publishHertz;
   };
   

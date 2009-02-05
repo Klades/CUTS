@@ -41,25 +41,25 @@ namespace CIDL_CPUBoundImpl
 
     void push_InPortD_i (antispam::NullEvent * ev);
 
-    // EventSink: InPortE
-    virtual void push_InPortE (antispam::NullEvent * ev);
-
-    void push_InPortE_i (antispam::NullEvent * ev);
-
     // EventSink: InPortC
     virtual void push_InPortC (antispam::NullEvent * ev);
 
     void push_InPortC_i (antispam::NullEvent * ev);
 
-    // EventSink: InPortA
-    virtual void push_InPortA (antispam::NullEvent * ev);
+    // EventSink: InPortE
+    virtual void push_InPortE (antispam::NullEvent * ev);
 
-    void push_InPortA_i (antispam::NullEvent * ev);
+    void push_InPortE_i (antispam::NullEvent * ev);
 
     // EventSink: InPortB
     virtual void push_InPortB (antispam::NullEvent * ev);
 
     void push_InPortB_i (antispam::NullEvent * ev);
+
+    // EventSink: InPortA
+    virtual void push_InPortA (antispam::NullEvent * ev);
+
+    void push_InPortA_i (antispam::NullEvent * ev);
 
     // get testName
     virtual char * testName (void);
@@ -96,20 +96,20 @@ namespace CIDL_CPUBoundImpl
     CUTS_CCM_Event_Handler_T < type, antispam::NullEvent > push_InPortD_;
     // event handler for InPortE
     CUTS_CCM_Event_Handler_T < type, antispam::NullEvent > push_InPortE_;
-    // variable: eventCountB
-    ::CORBA::Long eventCountB_;
+    // variable: eventCountC
+    ::CORBA::Long eventCountC_;
 
-    // variable: eventCountA
-    ::CORBA::Long eventCountA_;
-
-    // variable: logEventA
-    ::CORBA::Boolean logEventA_;
-
-    // variable: logEventE
-    ::CORBA::Boolean logEventE_;
+    // variable: eventCountD
+    ::CORBA::Long eventCountD_;
 
     // variable: eventCountE
     ::CORBA::Long eventCountE_;
+
+    // variable: eventCountB
+    ::CORBA::Long eventCountB_;
+
+    // variable: logEventA
+    ::CORBA::Boolean logEventA_;
 
     // variable: logEventD
     ::CORBA::Boolean logEventD_;
@@ -117,20 +117,20 @@ namespace CIDL_CPUBoundImpl
     // variable: logEventC
     ::CORBA::Boolean logEventC_;
 
-    // variable: eventCountD
-    ::CORBA::Long eventCountD_;
-
     // variable: logEventB
     ::CORBA::Boolean logEventB_;
 
-    // variable: eventCountC
-    ::CORBA::Long eventCountC_;
+    // variable: logEventE
+    ::CORBA::Boolean logEventE_;
 
-    // worker variable: mycpu
-    CUTS_LD_CPU_Worker mycpu_;
+    // variable: eventCountA
+    ::CORBA::Long eventCountA_;
 
     // worker variable: logger
     CUTS_Test_Logger logger_;
+
+    // worker variable: mycpu
+    CUTS_LD_CPU_Worker mycpu_;
 
     // variable: testName
     ACE_CString testName_;

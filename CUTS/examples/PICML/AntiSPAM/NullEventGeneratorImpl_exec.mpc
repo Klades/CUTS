@@ -85,6 +85,15 @@ project (NullEventGeneratorImpl_exec) : cuts_coworker_exec {
     EventGenerator_stub \
     EventTypes_stub
 
+  includes += \
+    $(CUTS_ROOT)/cuts/workers/Test_Logger
+
+  libpaths += \
+    $(CUTS_ROOT)/lib
+
+  libs += \
+    CUTS_Test_Logger
+
   Source_Files {
     NullEventGeneratorImpl_exec.cpp
   }
