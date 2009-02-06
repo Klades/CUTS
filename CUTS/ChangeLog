@@ -1,9 +1,24 @@
+Fri Feb  6 13:14:32 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/Periodic_Event.inl:
+
+          . Added a call to deactivate () to the destrutor just in case
+            is it not called before the object is destroyed.
+
+        * cuts/Periodic_Event.cpp:
+
+          . Simplified the activate () code.
+
+        * cuts/Periodic_Event_T.h:
+
+          . Move the handle_timeout_i () method to the protected section.
+
 Fri Feb  6 00:49:56 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/NullEventGeneratorImpl_exec.cpp:
-	 
-	  . Bug fix where the log message to capturing the hertz 
-	    used the wrong escape character.
+
+          . Bug fix where the log message to capturing the hertz
+            used the wrong escape character.
 
 Thu Feb  5 23:33:07 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 

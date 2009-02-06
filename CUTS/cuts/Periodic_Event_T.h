@@ -56,10 +56,11 @@ public:
    */
   void init (Component_Type * component, Method_Pointer method);
 
-private:
+protected:
   /// Handler for the timeout event.
   virtual int handle_timeout_i (void);
 
+private:
   /// Pointer the parent component of the stored method.
   Component_Type * component_;
 

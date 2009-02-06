@@ -58,18 +58,12 @@ int CUTS_Periodic_Event::schedule_timeout (const ACE_Time_Value & curr_time)
 
     // Schedule the arrival of the next event.
     this->timer_ = this->timer_queue_.schedule (this, 0, next_arrival);
-
-    if (this->timer_ == -1)
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T (%t) - %M - failed to schedule next timeout\n"),
-                         -1);
   }
   else
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T (%t) - %M - periodic strategy not set\n"),
-                       -1);
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - periodic strategy not set\n"));
 
-  return 0;
+  return this->timer_ != -1 ? 0 : -1;
 }
 
 //
@@ -93,12 +87,12 @@ int CUTS_Periodic_Event::activate (void)
   int retval = this->timer_queue_.activate ();
 
   if (retval == 0)
-    this->schedule_timeout (ACE_OS::gettimeofday ());
+    return this->schedule_timeout (ACE_OS::gettimeofday ());
   else
     ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - failed to activate periodic task\n"));
+                "%T (%t) - %M - failed to activate task\n"));
 
-  return retval;
+  return -1;
 }
 
 //
@@ -116,13 +110,12 @@ int CUTS_Periodic_Event::deactivate (void)
 // handle_timeout
 //
 int CUTS_Periodic_Event::
-handle_timeout (const ACE_Time_Value & timeout, const void *)
+handle_timeout (const ACE_Time_Value & curr_time, const void *)
 {
-  // First, schedule the next timeout event. This should be
-  // on the order of microseconds.
-  ACE_Time_Value next_arrival (timeout);
+  // First, schedule the next timeout event.
+  this->schedule_timeout (curr_time);
 
-  this->schedule_timeout (timeout);
+  // Now, let's handle the timeout event.
   this->handle_timeout_i ();
   return 0;
 }

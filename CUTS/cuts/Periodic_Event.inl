@@ -19,7 +19,7 @@ CUTS_Periodic_Event::CUTS_Periodic_Event (void)
 CUTS_INLINE
 CUTS_Periodic_Event::~CUTS_Periodic_Event (void)
 {
-
+  this->deactivate ();
 }
 
 //
