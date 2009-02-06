@@ -1,3 +1,10 @@
+Fri Feb  6 00:49:56 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/NullEventGeneratorImpl_exec.cpp:
+	 
+	  . Bug fix where the log message to capturing the hertz 
+	    used the wrong escape character.
+
 Thu Feb  5 23:33:07 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/AntiSPAM.xme:
