@@ -11,6 +11,8 @@
 #include "Port_Instance.h"
 #include "ace/CORBA_macros.h"
 #include "boost/bind.hpp"
+#include <algorithm>
+#include <numeric>
 
 //
 // CUTS_Component_Instance
@@ -98,4 +100,21 @@ void CUTS_Component_Instance::
 accept (CUTS_Antispam_Visitor & visitor)
 {
   visitor.visit_CUTS_Component_Instance (*this);
+}
+
+//
+// utilization
+//
+double CUTS_Component_Instance::utilization (void) const
+{
+  double util = 0.0;
+
+  // The component's utilization is the sum of the utilization
+  // of each of its input ports.
+  input_event_port_type::CONST_ITERATOR iter (this->input_events_);
+
+  for ( ; !iter.done (); ++ iter)
+    util += iter->int_id_->utilization ();
+
+  return util;
 }

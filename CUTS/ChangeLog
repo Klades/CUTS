@@ -1,3 +1,18 @@
+Sat Feb  7 18:14:39 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/antispam/Component_Instance.h:
+        * cuts/utils/antispam/Component_Instance.cpp:
+        * cuts/utils/antispam/Port_Instance.h:
+        * cuts/utils/antispam/Port_Instance.inl:
+        * cuts/utils/antispam/Update_Service_Times.h:
+        * cuts/utils/antispam/Update_Service_Times.inl:
+        * cuts/utils/antispam/Update_Service_Times.cpp:
+        * cuts/utils/antispam/antispam.mpc:
+
+          . Added support for updating the service times at the component
+            level. This is based on determining how much effect sibling ports
+            have on each other.
+
 Sat Feb  7 16:25:07 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/antispam/Propagate_Arrival_Rates.h:

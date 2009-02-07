@@ -117,6 +117,25 @@ CUTS_Input_Event_Port_Instance::outputs (void) const
   return this->outputs_;
 }
 
+//
+// utilization
+//
+CUTS_INLINE
+double CUTS_Input_Event_Port_Instance::utilization (void) const
+{
+  return this->lambda_ * this->service_time_;
+}
+
+//
+// utilization
+//
+CUTS_INLINE
+double CUTS_Input_Event_Port_Instance::response_time (void) const
+{
+  // RT = 1 / (mu - lambda)
+  return 1.0 / ((1.0 / this->service_time_) - this->lambda_);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // class CUTS_Output_Event_Port_Instance
 

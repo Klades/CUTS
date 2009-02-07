@@ -13,6 +13,7 @@ project (CUTS_AntiSPAM) : boost_base, cutslib {
     Port_Instance.cpp
     Response_Time_Evaluator.cpp
     Propagate_Arrival_Rates.cpp
+    Update_Service_Times.cpp
   }
 
   Template_Files {

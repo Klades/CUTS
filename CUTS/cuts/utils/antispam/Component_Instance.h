@@ -60,6 +60,9 @@ public:
 
   void accept (CUTS_Antispam_Visitor & visitor);
 
+  /// Calculate the utilization of the component.
+  double utilization (void) const;
+
 private:
   /// Initialize the instance based on its type.
   void init (void);

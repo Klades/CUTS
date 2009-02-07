@@ -108,6 +108,11 @@ public:
   /// Reset the output port instance.
   virtual void reset (void);
 
+  /// Calculate the utilization of the port.
+  double utilization (void) const;
+
+  double response_time (void) const;
+
 private:
   double lambda_;
 
