@@ -17,7 +17,7 @@
 //
 CUTS_Input_Event_Port_Instance::~CUTS_Input_Event_Port_Instance (void)
 {
-  output_set_type::ITERATOR iter (this->outputs_);
+  outputs_type::ITERATOR iter (this->outputs_);
 
   for ( ; !iter.done (); ++ iter)
     delete *iter;
@@ -49,6 +49,21 @@ accept (CUTS_Antispam_Visitor & visitor)
   visitor.visit_CUTS_Input_Event_Port_Instance (*this);
 }
 
+//
+// reset
+//
+void CUTS_Input_Event_Port_Instance::reset (void)
+{
+  // Reset each of the output ports.
+  outputs_type::ITERATOR iter (this->outputs_);
+
+  for ( ; !iter.done (); ++ iter)
+    (*iter)->reset ();
+
+  // Pass control to the base class.
+  CUTS_Port_Instance::reset ();
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // class CUTS_Ouput_Event_Port_Instance
 
@@ -60,3 +75,4 @@ accept (CUTS_Antispam_Visitor & visitor)
 {
   visitor.visit_CUTS_Output_Event_Port_Instance (*this);
 }
+

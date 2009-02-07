@@ -12,7 +12,8 @@ CUTS_Port_Instance::
 CUTS_Port_Instance (const CUTS_Component_Instance & parent,
                     const CUTS_Port & type)
 : parent_ (parent),
-  type_ (type)
+  type_ (type),
+  service_time_ (type.service_time ())
 {
 
 }
@@ -44,8 +45,36 @@ const CUTS_Component_Instance & CUTS_Port_Instance::parent (void) const
   return this->parent_;
 }
 
+//
+// reset
+//
+CUTS_INLINE
+void CUTS_Port_Instance::reset (void)
+{
+  this->service_time_ = this->type_.service_time ();
+}
+
+//
+// service_time
+//
+CUTS_INLINE
+double CUTS_Port_Instance::service_time (void) const
+{
+  return this->service_time_;
+}
+
+//
+// service_time
+//
+CUTS_INLINE
+void CUTS_Port_Instance::service_time (double t)
+{
+  this->service_time_ = t;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // class CUTS_Input_Event_Port_Instance
+
 
 //
 // CUTS_Input_Event_Port_Instance
@@ -82,7 +111,7 @@ void CUTS_Input_Event_Port_Instance::lambda (double l)
 // outputs
 //
 CUTS_INLINE
-const CUTS_Input_Event_Port_Instance::output_set_type &
+const CUTS_Input_Event_Port_Instance::outputs_type &
 CUTS_Input_Event_Port_Instance::outputs (void) const
 {
   return this->outputs_;
@@ -117,7 +146,35 @@ CUTS_Output_Event_Port_Instance::~CUTS_Output_Event_Port_Instance (void)
 //
 CUTS_INLINE
 int CUTS_Output_Event_Port_Instance::
-new_connection (const CUTS_Input_Event_Port_Instance * input)
+new_connection (CUTS_Input_Event_Port_Instance * input)
 {
   return this->conns_.insert (input);
+}
+
+//
+// service_time
+//
+CUTS_INLINE
+double CUTS_Output_Event_Port_Instance::service_time (void) const
+{
+  return this->service_time_;
+}
+
+//
+// new_connection
+//
+CUTS_INLINE
+void CUTS_Output_Event_Port_Instance::service_time (double t)
+{
+  this->service_time_ = t;
+}
+
+//
+// connections
+//
+CUTS_INLINE
+const CUTS_Output_Event_Port_Instance::connections_type &
+CUTS_Output_Event_Port_Instance::connections (void) const
+{
+  return this->conns_;
 }

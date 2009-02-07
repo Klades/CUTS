@@ -51,6 +51,13 @@ public:
    */
   const CUTS_Component_Instance & parent (void) const;
 
+  double service_time (void) const;
+
+  void service_time (double t);
+
+  /// Reset the port instance.
+  virtual void reset (void);
+
 protected:
   /// Default constructor.
   CUTS_Port_Instance (const CUTS_Component_Instance & parent,
@@ -61,6 +68,9 @@ protected:
 
   /// The port type for this instance.
   const CUTS_Port & type_;
+
+  /// Service time for the port.
+  double service_time_;
 
 private:
   // prevent the following operations
@@ -75,7 +85,7 @@ class CUTS_ANTISPAM_Export CUTS_Input_Event_Port_Instance :
   public CUTS_Port_Instance
 {
 public:
-  typedef ACE_Unbounded_Set <CUTS_Output_Event_Port_Instance *> output_set_type;
+  typedef ACE_Unbounded_Set <CUTS_Output_Event_Port_Instance *> outputs_type;
 
   /// Default constructor.
   CUTS_Input_Event_Port_Instance (const CUTS_Component_Instance & parent,
@@ -88,17 +98,20 @@ public:
 
   void lambda (double l);
 
-  const output_set_type & outputs (void) const;
+  const outputs_type & outputs (void) const;
 
   CUTS_Output_Event_Port_Instance *
     new_output (const CUTS_Output_Event_Port * type);
 
   void accept (CUTS_Antispam_Visitor & visitor);
 
+  /// Reset the output port instance.
+  virtual void reset (void);
+
 private:
   double lambda_;
 
-  output_set_type outputs_;
+  outputs_type outputs_;
 };
 
 /**
@@ -108,7 +121,7 @@ class CUTS_ANTISPAM_Export CUTS_Output_Event_Port_Instance :
   public CUTS_Port_Instance
 {
 public:
-  typedef ACE_Unbounded_Set <const CUTS_Input_Event_Port_Instance *> connection_set_type;
+  typedef ACE_Unbounded_Set <CUTS_Input_Event_Port_Instance *> connections_type;
 
   /// Default constructor.
   CUTS_Output_Event_Port_Instance (const CUTS_Component_Instance & parent,
@@ -122,13 +135,22 @@ public:
    *
    * @param[in]       input       Target input port.
    */
-  int new_connection (const CUTS_Input_Event_Port_Instance * input);
+  int new_connection (CUTS_Input_Event_Port_Instance * input);
 
   void accept (CUTS_Antispam_Visitor & visitor);
 
+  double service_time (void) const;
+
+  void service_time (double t);
+
+  const connections_type & connections (void) const;
+
 private:
+  /// Service time for this port.
+  double service_time_;
+
   /// Collection of target inputs for this output.
-  connection_set_type conns_;
+  connections_type conns_;
 };
 
 #if defined (__CUTS_INLINE__)

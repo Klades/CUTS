@@ -11,6 +11,8 @@ project (CUTS_AntiSPAM) : boost_base, cutslib {
     Component_Assembly.cpp
     Port.cpp
     Port_Instance.cpp
+    Response_Time_Evaluator.cpp
+    Propogate_Arrival_Rates.cpp
   }
 
   Template_Files {

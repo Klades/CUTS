@@ -24,6 +24,9 @@ class CUTS_Input_Event_Port_Instance;
 // Forward decl.
 class CUTS_Component_Instance;
 
+// Forward decl.
+class CUTS_Component_Assembly;
+
 /**
  * @class CUTS_Antispam_Visitor
  */
@@ -32,6 +35,9 @@ class CUTS_ANTISPAM_Export CUTS_Antispam_Visitor
 public:
   /// Destructor
   virtual ~CUTS_Antispam_Visitor (void);
+
+  virtual void visit_CUTS_Component_Assembly (
+    CUTS_Component_Assembly & assembly);
 
   virtual void visit_CUTS_Output_Event_Port_Instance (
     CUTS_Output_Event_Port_Instance & port);

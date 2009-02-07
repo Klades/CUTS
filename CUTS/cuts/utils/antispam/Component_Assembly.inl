@@ -22,6 +22,7 @@ CUTS_Component_Assembly::instances (void) const
 //
 // start
 //
+CUTS_INLINE
 const CUTS_Component_Assembly::start_type &
 CUTS_Component_Assembly::start (void) const
 {

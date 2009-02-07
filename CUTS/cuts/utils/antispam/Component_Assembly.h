@@ -28,6 +28,8 @@ class CUTS_Component;
 // Forward decl.
 class CUTS_Input_Event_Port_Instance;
 
+class CUTS_Antispam_Visitor;
+
 /**
  * @class CUTS_Component_Assembly
  */
@@ -52,6 +54,8 @@ public:
                                           const CUTS_Component & type);
 
   const start_type & start (void) const;
+
+  void accept (CUTS_Antispam_Visitor & visitor);
 
 private:
   instances_type instances_;

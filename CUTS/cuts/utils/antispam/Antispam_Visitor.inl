@@ -48,3 +48,13 @@ visit_CUTS_Component_Instance (CUTS_Component_Instance & )
 {
 
 }
+
+//
+// visit_CUTS_Component_Assembly
+//
+CUTS_INLINE
+void CUTS_Antispam_Visitor::
+visit_CUTS_Component_Assembly (CUTS_Component_Assembly & )
+{
+
+}
