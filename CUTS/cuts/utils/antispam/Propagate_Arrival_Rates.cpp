@@ -1,10 +1,10 @@
 // $Id$
 
 #define NOMINMAX
-#include "Propogate_Arrival_Rates.h"
+#include "Propagate_Arrival_Rates.h"
 
 #if !defined (__CUTS_INLINE__)
-#include "Propogate_Arrival_Rates.inl"
+#include "Propagate_Arrival_Rates.inl"
 #endif
 
 #include "Component_Assembly.h"
@@ -15,7 +15,7 @@
 //
 // visit_CUTS_Component_Assembly
 //
-void CUTS_Propogate_Arrival_Rates::
+void CUTS_Propagate_Arrival_Rates::
 visit_CUTS_Component_Assembly (CUTS_Component_Assembly & assembly)
 {
   // Visit each of the start ports. We need to update the model
@@ -32,7 +32,7 @@ visit_CUTS_Component_Assembly (CUTS_Component_Assembly & assembly)
 //
 // visit_CUTS_Input_Event_Port_Instance
 //
-void CUTS_Propogate_Arrival_Rates::
+void CUTS_Propagate_Arrival_Rates::
 visit_CUTS_Input_Event_Port_Instance (CUTS_Input_Event_Port_Instance & port)
 {
   // Save the current lambda.
@@ -56,7 +56,7 @@ visit_CUTS_Input_Event_Port_Instance (CUTS_Input_Event_Port_Instance & port)
 //
 // visit_CUTS_Output_Event_Port_Instance
 //
-void CUTS_Propogate_Arrival_Rates::
+void CUTS_Propagate_Arrival_Rates::
 visit_CUTS_Output_Event_Port_Instance (CUTS_Output_Event_Port_Instance & port)
 {
   double mu = 1.0 / port.service_time ();

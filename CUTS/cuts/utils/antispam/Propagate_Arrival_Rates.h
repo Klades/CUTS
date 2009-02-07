@@ -19,9 +19,9 @@
 class CUTS_Component_Assembly;
 
 /**
- * @class CUTS_Propogate_Arrival_Rates
+ * @class CUTS_Propagate_Arrival_Rates
  */
-class CUTS_Propogate_Arrival_Rates :
+class CUTS_Propagate_Arrival_Rates :
   public CUTS_Antispam_Visitor
 {
 public:
@@ -30,10 +30,10 @@ public:
    *
    * @param[inout]         assembly       Target assembly to evaluate.
    */
-  CUTS_Propogate_Arrival_Rates (void);
+  CUTS_Propagate_Arrival_Rates (void);
 
   /// Destructor.
-  virtual ~CUTS_Propogate_Arrival_Rates (void);
+  virtual ~CUTS_Propagate_Arrival_Rates (void);
 
   virtual void visit_CUTS_Component_Assembly (
     CUTS_Component_Assembly & assembly);
@@ -49,7 +49,7 @@ private:
 };
 
 #if defined (__CUTS_INLINE__)
-#include "Propogate_Arrival_Rates.inl"
+#include "Propagate_Arrival_Rates.inl"
 #endif
 
 #endif  // !defined _CUTS_RESPONSE_TIME_EVALUATOR_I_H_
