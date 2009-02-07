@@ -1,0 +1,19 @@
+// $Id$
+
+project (CUTS_AntiSPAM) : boost_base, cutslib {
+  sharedname    = CUTS_AntiSPAM
+  dynamicflags += CUTS_ANTISPAM_BUILD_DLL
+
+  Source_Files {
+    Antispam_Visitor.cpp
+    Component.cpp
+    Component_Instance.cpp
+    Component_Assembly.cpp
+    Port.cpp
+    Port_Instance.cpp
+  }
+
+  Template_Files {
+    Connection_T.cpp
+  }
+}

@@ -1,3 +1,30 @@
+Sat Feb  7 02:05:04 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/antispam:
+        * cuts/utils/antispam/Antispam_Visitor.h:
+        * cuts/utils/antispam/Antispam_Visitor.inl:
+        * cuts/utils/antispam/Antispam_Visitor.cpp:
+        * cuts/utils/antispam/Antispam_export.h:
+        * cuts/utils/antispam/Component.h:
+        * cuts/utils/antispam/Component.inl:
+        * cuts/utils/antispam/Component.cpp:
+        * cuts/utils/antispam/Component_Assembly.h:
+        * cuts/utils/antispam/Component_Assembly.inl:
+        * cuts/utils/antispam/Component_Assembly.cpp:
+        * cuts/utils/antispam/Component_Instance.h:
+        * cuts/utils/antispam/Component_Instance.inl:
+        * cuts/utils/antispam/Component_Instance.cpp:
+        * cuts/utils/antispam/Port.h:
+        * cuts/utils/antispam/Port.inl:
+        * cuts/utils/antispam/Port.cpp:
+        * cuts/utils/antispam/Port_Instance.h:
+        * cuts/utils/antispam/Port_Instance.inl:
+        * cuts/utils/antispam/Port_Instance.cpp:
+        * cuts/utils/antispam/antispam.mpc:
+
+          . First version of the AntiSPAM model. I still need to implement
+            the algorithm that will evaluate the constructed model.
+
 Fri Feb  6 13:14:32 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/Periodic_Event.inl:
