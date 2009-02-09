@@ -1,3 +1,46 @@
+Mon Feb  9 18:33:56 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/README:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/generate-DnC.sh:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/generate-and-run-test-all.sh:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/generate-single.bat:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/generate.bat:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-assembly-generator.py:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly.config:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly.deployment:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly1.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly1.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly10.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly10.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly2.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly2.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly3.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly3.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly4.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly4.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly5.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly5.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly6.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly6.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly7.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly7.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly8.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly8.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly9.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly9.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/run-test-all.sh:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/run-test.sh:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/unique-deployments.config:
+
+          . Files for testing hypothesis 3.
+
+        * examples/PICML/GettingStarted.xme:
+
+          . Example for the *Getting Started* chapter of the CUTS
+            user's manual.
+
 Sat Feb  7 18:14:39 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/antispam/Component_Instance.h:

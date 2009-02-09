@@ -1,0 +1,53 @@
+assembly TemplateAssembly
+{
+  instances
+  {
+    antispam::CPUBound inst1
+    {
+      instName=inst1
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=10
+    }
+    antispam::CPUBound inst2
+    {
+      instName=inst2
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=10
+    }
+    antispam::CPUBound inst3
+    {
+      instName=inst3
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=10
+    }
+    antispam::NullEventGenerator generator1
+    {
+      publishHertz=${generator1.publishHertz}
+      instName=generator1
+      testName=`cat /var/emulab/boot/syncserver`:10000
+    }
+    antispam::NullEventGenerator generator2
+    {
+      publishHertz=${generator2.publishHertz}
+      instName=generator2
+      testName=`cat /var/emulab/boot/syncserver`:10000
+    }
+    antispam::NullEventGenerator generator3
+    {
+      publishHertz=${generator3.publishHertz}
+      instName=generator3
+      testName=`cat /var/emulab/boot/syncserver`:10000
+    }
+    }
+
+  connections
+  {
+    generator3.NullEvent >> inst1.InPortB
+    generator3.NullEvent >> inst1.InPortE
+    generator1.NullEvent >> inst2.InPortC
+    generator2.NullEvent >> inst2.InPortD
+    generator1.NullEvent >> inst2.InPortE
+    generator1.NullEvent >> inst3.InPortA
+    generator2.NullEvent >> inst3.InPortD
+  }
+}
