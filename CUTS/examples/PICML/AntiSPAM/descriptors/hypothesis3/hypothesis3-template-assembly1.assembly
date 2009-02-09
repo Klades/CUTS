@@ -7,18 +7,21 @@ assembly TemplateAssembly
       instName=inst1
       testName=`cat /var/emulab/boot/syncserver`:10000
       logRate=10
+      cpuProfile=hypothesis3/inst1.cpu
     }
     antispam::CPUBound inst2
     {
       instName=inst2
       testName=`cat /var/emulab/boot/syncserver`:10000
       logRate=10
+      cpuProfile=hypothesis3/inst2.cpu
     }
     antispam::CPUBound inst3
     {
       instName=inst3
       testName=`cat /var/emulab/boot/syncserver`:10000
       logRate=10
+      cpuProfile=hypothesis3/inst3.cpu
     }
     antispam::NullEventGenerator generator1
     {
@@ -42,11 +45,9 @@ assembly TemplateAssembly
 
   connections
   {
-    generator3.NullEvent >> inst1.InPortA
-    generator3.NullEvent >> inst1.InPortB
-    generator1.NullEvent >> inst1.InPortE
-    generator2.NullEvent >> inst2.InPortB
-    generator2.NullEvent >> inst3.InPortC
-    generator1.NullEvent >> inst3.InPortD
+    generator2.NullEvent >> inst1.InPortE
+    generator3.NullEvent >> inst2.InPortA
+    generator3.NullEvent >> inst2.InPortD
+    generator1.NullEvent >> inst3.InPortB
   }
 }

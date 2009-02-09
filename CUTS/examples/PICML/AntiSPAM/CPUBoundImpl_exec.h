@@ -36,30 +36,36 @@ namespace CIDL_CPUBoundImpl
     // Destructor
     virtual ~CPUBound (void);
 
-    // EventSink: InPortD
-    virtual void push_InPortD (antispam::NullEvent * ev);
+    // EventSink: InPortA
+    virtual void push_InPortA (antispam::NullEvent * ev);
 
-    void push_InPortD_i (antispam::NullEvent * ev);
-
-    // EventSink: InPortC
-    virtual void push_InPortC (antispam::NullEvent * ev);
-
-    void push_InPortC_i (antispam::NullEvent * ev);
-
-    // EventSink: InPortE
-    virtual void push_InPortE (antispam::NullEvent * ev);
-
-    void push_InPortE_i (antispam::NullEvent * ev);
+    void push_InPortA_i (antispam::NullEvent * ev);
 
     // EventSink: InPortB
     virtual void push_InPortB (antispam::NullEvent * ev);
 
     void push_InPortB_i (antispam::NullEvent * ev);
 
-    // EventSink: InPortA
-    virtual void push_InPortA (antispam::NullEvent * ev);
+    // EventSink: InPortE
+    virtual void push_InPortE (antispam::NullEvent * ev);
 
-    void push_InPortA_i (antispam::NullEvent * ev);
+    void push_InPortE_i (antispam::NullEvent * ev);
+
+    // EventSink: InPortC
+    virtual void push_InPortC (antispam::NullEvent * ev);
+
+    void push_InPortC_i (antispam::NullEvent * ev);
+
+    // EventSink: InPortD
+    virtual void push_InPortD (antispam::NullEvent * ev);
+
+    void push_InPortD_i (antispam::NullEvent * ev);
+
+    // get logRate
+    virtual ::CORBA::Long logRate (void);
+
+    // set logRate
+    virtual void logRate (::CORBA::Long logRate);
 
     // get testName
     virtual char * testName (void);
@@ -73,11 +79,11 @@ namespace CIDL_CPUBoundImpl
     // set instName
     virtual void instName (const char * instName);
 
-    // get logRate
-    virtual ::CORBA::Long logRate (void);
+    // get cpuProfile
+    virtual char * cpuProfile (void);
 
-    // set logRate
-    virtual void logRate (::CORBA::Long logRate);
+    // set cpuProfile
+    virtual void cpuProfile (const char * cpuProfile);
 
     // Environment: activate
     virtual void ccm_activate (void);
@@ -99,38 +105,41 @@ namespace CIDL_CPUBoundImpl
     // variable: eventCountC
     ::CORBA::Long eventCountC_;
 
-    // variable: eventCountD
-    ::CORBA::Long eventCountD_;
-
-    // variable: eventCountE
-    ::CORBA::Long eventCountE_;
-
-    // variable: eventCountB
-    ::CORBA::Long eventCountB_;
-
-    // variable: logEventA
-    ::CORBA::Boolean logEventA_;
-
-    // variable: logEventD
-    ::CORBA::Boolean logEventD_;
-
-    // variable: logEventC
-    ::CORBA::Boolean logEventC_;
-
-    // variable: logEventB
-    ::CORBA::Boolean logEventB_;
+    // variable: eventCountA
+    ::CORBA::Long eventCountA_;
 
     // variable: logEventE
     ::CORBA::Boolean logEventE_;
 
-    // variable: eventCountA
-    ::CORBA::Long eventCountA_;
+    // variable: logEventB
+    ::CORBA::Boolean logEventB_;
+
+    // variable: logEventC
+    ::CORBA::Boolean logEventC_;
+
+    // variable: logEventD
+    ::CORBA::Boolean logEventD_;
+
+    // variable: logEventA
+    ::CORBA::Boolean logEventA_;
+
+    // variable: eventCountB
+    ::CORBA::Long eventCountB_;
+
+    // variable: eventCountE
+    ::CORBA::Long eventCountE_;
+
+    // variable: eventCountD
+    ::CORBA::Long eventCountD_;
+
+    // worker variable: mycpu
+    CUTS_LD_CPU_Worker mycpu_;
 
     // worker variable: logger
     CUTS_Test_Logger logger_;
 
-    // worker variable: mycpu
-    CUTS_LD_CPU_Worker mycpu_;
+    // variable: logRate
+    ::CORBA::Long logRate_;
 
     // variable: testName
     ACE_CString testName_;
@@ -138,8 +147,8 @@ namespace CIDL_CPUBoundImpl
     // variable: instName
     ACE_CString instName_;
 
-    // variable: logRate
-    ::CORBA::Long logRate_;
+    // variable: cpuProfile
+    ACE_CString cpuProfile_;
   };
 
   class CPUBoundHome_i :

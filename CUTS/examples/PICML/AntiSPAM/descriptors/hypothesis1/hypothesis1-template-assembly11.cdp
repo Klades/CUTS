@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <Deployment:deploymentPlan xmlns:Deployment="http://www.omg.org/Deployment" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/Deployment Deployment.xsd">
 
-  <UUID>D099547B-5E04-42A8-A364-874D7FD41A15</UUID>
+  <UUID>9FD6CA51-A2EF-4820-9C05-555DDDE43A45</UUID>
 
   <implementation id="_6828C5EB-EBC5-48F7-B051-A1F865F4DB0E">
     <name>AntiSPAM.ComponentImplementations.NullEventGeneratorImpl.NullEventGeneratorImpl</name>

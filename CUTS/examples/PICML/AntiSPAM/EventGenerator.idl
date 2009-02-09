@@ -11,11 +11,11 @@ module antispam
   {
     publishes antispam::NullEvent NullEvent;
     
+    attribute double publishHertz;
+    
     attribute string testName;
     
     attribute string instName;
-    
-    attribute double publishHertz;
   };
   
   home NullEventGeneratorHome

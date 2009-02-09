@@ -100,8 +100,9 @@ def writeCPUBoundComponent (outfile, id) :
       instName=%s
       testName=`cat /var/emulab/boot/syncserver`:10000
       logRate=10
+      cpuProfile=hypothesis3/%s.cpu
     }
-    """ % (instid, instid)
+    """ % (instid, instid, instid)
 
   outfile.write (instance)
 

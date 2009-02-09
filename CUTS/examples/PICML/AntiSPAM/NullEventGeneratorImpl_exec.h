@@ -39,17 +39,17 @@ namespace CIDL_NullEventGeneratorImpl
     // PeriodicEvent: eventGenerator
     void periodic_eventGenerator (void);
 
-    // get publishHertz
-    virtual ::CORBA::Double publishHertz (void);
-
-    // set publishHertz
-    virtual void publishHertz (::CORBA::Double publishHertz);
-
     // get testName
     virtual char * testName (void);
 
     // set testName
     virtual void testName (const char * testName);
+
+    // get publishHertz
+    virtual ::CORBA::Double publishHertz (void);
+
+    // set publishHertz
+    virtual void publishHertz (::CORBA::Double publishHertz);
 
     // get instName
     virtual char * instName (void);
@@ -67,11 +67,11 @@ namespace CIDL_NullEventGeneratorImpl
     // worker variable: logger
     CUTS_Test_Logger logger_;
 
-    // variable: publishHertz
-    ::CORBA::Double publishHertz_;
-
     // variable: testName
     ACE_CString testName_;
+
+    // variable: publishHertz
+    ::CORBA::Double publishHertz_;
 
     // variable: instName
     ACE_CString instName_;

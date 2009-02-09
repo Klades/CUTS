@@ -19,22 +19,6 @@ namespace CIDL_NullEventGeneratorImpl
   }
 
   //
-  // publishHertz [getter]
-  //
-  ::CORBA::Double NullEventGenerator::publishHertz (void)
-  {
-    return this->publishHertz_;
-  }
-
-  //
-  // publishHertz [setter]
-  //
-  void NullEventGenerator::publishHertz (::CORBA::Double publishHertz)
-  {
-    this->publishHertz_ = publishHertz;
-  }
-
-  //
   // testName [getter]
   //
   char * NullEventGenerator::testName (void)
@@ -50,6 +34,22 @@ namespace CIDL_NullEventGeneratorImpl
   void NullEventGenerator::testName (const char * testName)
   {
     this->testName_ = testName;
+  }
+
+  //
+  // publishHertz [getter]
+  //
+  ::CORBA::Double NullEventGenerator::publishHertz (void)
+  {
+    return this->publishHertz_;
+  }
+
+  //
+  // publishHertz [setter]
+  //
+  void NullEventGenerator::publishHertz (::CORBA::Double publishHertz)
+  {
+    this->publishHertz_ = publishHertz;
   }
 
   //
@@ -77,7 +77,7 @@ namespace CIDL_NullEventGeneratorImpl
   {
     this->logger_.configure (20000);
     this->logger_.connect_using_location (this->testName_);
-    this->logger_.log (LM_INFO, "generator %s hertz is %f", this->instName_.c_str (), this->publishHertz_);
+    this->logger_.log (LM_INFO, "generator %s hertz is %d", this->instName_.c_str (), this->publishHertz_);
 
     // configure the event generators
     this->periodic_eventGenerator_.configure (CUTS_Periodic_Event::PE_EXPONENTIAL, this->publishHertz_);

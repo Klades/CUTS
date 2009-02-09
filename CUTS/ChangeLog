@@ -1,3 +1,50 @@
+Mon Feb  9 22:07:31 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/AntiSPAM.mwc:
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+        * examples/PICML/AntiSPAM/CPUBound.idl:
+        * examples/PICML/AntiSPAM/CPUBoundImpl_exec.h:
+        * examples/PICML/AntiSPAM/CPUBoundImpl_exec.cpp:
+        * examples/PICML/AntiSPAM/EventGenerator.idl:
+        * examples/PICML/AntiSPAM/EventTypes.idl:
+        * examples/PICML/AntiSPAM/NullEventGeneratorImpl_exec.h:
+        * examples/PICML/AntiSPAM/NullEventGeneratorImpl_exec.cpp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly1.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly10.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly11.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly12.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly13.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly14.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly15.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly16.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly17.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly18.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly19.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly2.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly20.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly3.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly4.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly5.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly6.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly7.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly8.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis1/hypothesis1-template-assembly9.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-assembly-generator.py:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly.config:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly1.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly10.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly2.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly3.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly4.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly5.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly6.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly7.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly8.assembly:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly9.assembly:
+
+          . Updated the CPUBound component to have an attribute for
+            setting the location of its CPU profile.
+
 Mon Feb  9 18:41:02 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/lib/cpu-profile-generator.py:

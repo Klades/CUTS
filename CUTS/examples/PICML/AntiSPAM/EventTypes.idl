@@ -8,8 +8,8 @@ module antispam
 {
   eventtype NullEvent
   {
-    public long recvTime;
     public long eventNumber;
+    public long recvTime;
     public string sourceName;
   };
 };
