@@ -1,3 +1,20 @@
+Mon Feb  9 23:08:43 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
+        
+	* cuts/utils/logging/client/interceptors:
+
+	  . Added the folder for interceptors
+
+        * cuts/utils/logging/client/interceptors/acelog:	
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Callback.h:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Callback.cpp:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.h:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.cpp:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.mpc:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor_App_Options.h:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor_export.h:
+
+          . First version of logger interceptors for ACE
+       
 Mon Feb  9 22:21:07 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/AntiSPAM.xme:

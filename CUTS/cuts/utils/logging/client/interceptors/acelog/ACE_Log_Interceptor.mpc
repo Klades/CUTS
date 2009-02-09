@@ -1,0 +1,22 @@
+// $Id$
+
+project (CUTS_ACE_Log_Interceptor) : cutslib  {
+
+  dynamicflags += CUTS_ACE_LOG_INTERCEPTOR_BUILD_DLL
+  sharedname = CUTS_ACE_Log_Interceptor
+
+  after += CUTS_Test_Logger
+  libs += CUTS_Test_Logger
+
+  Source_Files {
+    ACE_Log_Interceptor.cpp
+    ACE_Log_Callback.cpp
+  }
+
+  Header_Files {
+    ACE_Log_Interceptor_App_Options.h
+    ACE_Log_Interceptor_export.h
+    ACE_Log_Interceptor.h
+    ACE_Log_Callback.h
+  }
+}
