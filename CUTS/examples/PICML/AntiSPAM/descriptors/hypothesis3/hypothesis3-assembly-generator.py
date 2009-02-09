@@ -191,6 +191,7 @@ def generateDeployment () :
   ComponentImplementations/TemplateAssembly/TemplateAssembly/generator1 : generator[DefaultGroup]
   ComponentImplementations/TemplateAssembly/TemplateAssembly/generator2 : generator[DefaultGroup]
   ComponentImplementations/TemplateAssembly/TemplateAssembly/generator3 : generator[DefaultGroup]
+}
  """
 
   outfile.write (str)

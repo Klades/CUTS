@@ -1,3 +1,22 @@
+Mon Feb  9 22:21:07 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-assembly-generator.py:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly.deployment:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly1.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly10.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly2.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly3.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly4.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly5.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly6.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly7.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly8.cdp:
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/hypothesis3-template-assembly9.cdp:
+
+          . Bug fix where the deployment configuration was missing the
+            closing braces. This was causing the parser to fail.
+
 Mon Feb  9 22:07:31 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/AntiSPAM.mwc:
