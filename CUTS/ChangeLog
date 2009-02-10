@@ -1,10 +1,17 @@
+Tue Feb 10 14:16:12 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/descriptors/hypothesis3/generate-DnC.sh:
+
+	  . Bug fix where the script was not generating the output
+	    files correctly.
+
 Mon Feb  9 23:08:43 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
-        
-	* cuts/utils/logging/client/interceptors:
 
-	  . Added the folder for interceptors
+        * cuts/utils/logging/client/interceptors:
 
-        * cuts/utils/logging/client/interceptors/acelog:	
+          . Added the folder for interceptors
+
+        * cuts/utils/logging/client/interceptors/acelog:
         * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Callback.h:
         * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Callback.cpp:
         * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.h:
@@ -14,7 +21,7 @@ Mon Feb  9 23:08:43 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
         * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor_export.h:
 
           . First version of logger interceptors for ACE
-       
+
 Mon Feb  9 22:21:07 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/AntiSPAM.xme:

@@ -31,7 +31,7 @@ for i in `ls ${CONFIG_LIST}`; do
 
   for j in `ls ${DEPLOYMENT_LIST}`; do
     # intialize the deployment variables
-    DEPLOYMENT_NUMBER=`echo "$j" | sed "s/configuration[0-9]*\/H1-DeploymentTemplate-//" | sed "s/.cdp//"`
+    DEPLOYMENT_NUMBER=`echo "$j" | sed "s/configuration[0-9]*\/H[0-9]-DeploymentTemplate-//" | sed "s/.cdp//"`
     DEPLOYMENT_OUTPUT_DIR=${CONFIG_OUTPUT_DIR}/deployment${DEPLOYMENT_NUMBER}
 
     # delete any of the existing deployments
