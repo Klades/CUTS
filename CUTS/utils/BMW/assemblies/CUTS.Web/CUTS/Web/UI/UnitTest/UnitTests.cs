@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CUTS.Web.UI.UnitTesting
+namespace CUTS.Web.UI.UnitTest
 {
   /**
    * @class UnitTests

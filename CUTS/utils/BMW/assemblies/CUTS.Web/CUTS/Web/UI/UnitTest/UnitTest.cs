@@ -20,7 +20,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using CUTS.Data.UnitTesting;
 
-namespace CUTS.Web.UI.UnitTesting
+namespace CUTS.Web.UI.UnitTest
 {
   /**
    * @class UnitTest

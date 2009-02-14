@@ -1,9 +1,75 @@
+Sat Feb 14 01:26:44 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/antispam/antispam.mpc:
+        * cuts/utils/deployment/unique-deployments.cpp:
+
+          . Updated the deployment generator to work with hypothesis 3.
+
+        * tests/cuts/Exponential_Periodic_Event_Test.cpp:
+
+          . Unit test for the exponential distribution version of the
+            periodic event generator.
+
+        * utils/BMW/SQL/CUTS-unittest.sql:
+
+          . Removed notification columns from the cuts.unit_test table.
+
+          . Re-implemented several of the stored proceduces to coincide
+            with the new implementation for creating a unit test.
+
+        * utils/BMW/assemblies/CUTS.BMW/CUTS/BMW/Database.cs:
+
+          . Implemented a function for creating a new unit test.
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS.Data.mpc:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/LogFormat.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/LogFormatCollection.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/LogFormatRelation.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/LogFormatRelationCollection.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/LogFormatVariable.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/LogFormatVariableCollection.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestDefinition.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/VariableRelation.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS.Web.mpc:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTest:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTest/Grouping.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTest/LogFormatManager.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTest/LogFormatNode.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTest/LogFormatNodeRow.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTest/LogFormatSelector.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTest/LogFormatTable.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTest/UnitTest.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTest/UnitTestPackage.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTest/UnitTestPackages.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTest/UnitTestSuite.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTest/UnitTests.cs:
+        * utils/BMW/website/analysis.aspx:
+        * utils/BMW/website/analysis.aspx.cs:
+        * utils/BMW/website/tests.aspx:
+        * utils/BMW/website/unittest.aspx:
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . Re-designed the controls for creating a new unit test.
+
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTest/RelationTable.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/Grouping.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/LogFormatTable.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/RelationTable.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTest.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTestPackage.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTestPackages.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTestSuite.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTesting/UnitTests.cs:
+
+          Removed these files.
+
 Tue Feb 10 14:16:12 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/descriptors/hypothesis3/generate-DnC.sh:
 
-	  . Bug fix where the script was not generating the output
-	    files correctly.
+          . Bug fix where the script was not generating the output
+            files correctly.
 
 Mon Feb  9 23:08:43 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
 

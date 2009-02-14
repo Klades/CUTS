@@ -28,16 +28,20 @@ project (CUTS.Web) : cuts_bmw_assembly{
     CUTS/Web/UI/ConsoleMessages.cs
     CUTS/Web/UI/MessageSeverity.cs
 
+    // == namespace CUTS.Web.UI.Archive
     CUTS/Web/UI/Archive/TestBrowser.cs
     CUTS/Web/UI/Archive/TestProfile.cs
 
-    CUTS/Web/UI/UnitTesting/Grouping.cs
-    CUTS/Web/UI/UnitTesting/LogFormatTable.cs
-    CUTS/Web/UI/UnitTesting/RelationTable.cs
-    CUTS/Web/UI/UnitTesting/UnitTest.cs
-    CUTS/Web/UI/UnitTesting/UnitTests.cs
-    CUTS/Web/UI/UnitTesting/UnitTestPackage.cs
-    CUTS/Web/UI/UnitTesting/UnitTestPackages.cs
-    CUTS/Web/UI/UnitTesting/UnitTestSuite.cs
+    // == namespace CUTS.Web.UI.UnitTest
+    CUTS/Web/UI/UnitTest/LogFormatSelector.cs
+    CUTS/Web/UI/UnitTest/LogFormatNode.cs
+    CUTS/Web/UI/UnitTest/LogFormatNodeRow.cs
+    CUTS/Web/UI/UnitTest/LogFormatManager.cs
+    CUTS/Web/UI/UnitTest/Grouping.cs
+    CUTS/Web/UI/UnitTest/UnitTest.cs
+    CUTS/Web/UI/UnitTest/UnitTests.cs
+    CUTS/Web/UI/UnitTest/UnitTestPackage.cs
+    CUTS/Web/UI/UnitTest/UnitTestPackages.cs
+    CUTS/Web/UI/UnitTest/UnitTestSuite.cs
   }
 }

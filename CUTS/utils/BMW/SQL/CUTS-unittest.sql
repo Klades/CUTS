@@ -35,10 +35,6 @@ CREATE TABLE IF NOT EXISTS cuts.unit_tests
   name                      VARCHAR(45)       NOT NULL,
   description               VARCHAR(256),
   evaluation                VARCHAR(45)       NOT NULL,
-  fail_comparison           VARCHAR(20),
-  fail                      VARCHAR(25),
-  warn_comparison           VARCHAR(20),
-  warn                      VARCHAR(25),
   aggregration_function     VARCHAR(25)       NOT NULL,
 
   -- set the primary key for the table
@@ -255,6 +251,25 @@ BEGIN
 END //
 
 --
+-- FUNCTION: cuts.get_log_format_variable_id
+--
+
+DROP FUNCTION IF EXISTS cuts.get_log_format_variable_id //
+
+CREATE FUNCTION cuts.get_log_format_variable_id (_lfid INT,
+                                                 _varname VARCHAR(45))
+  RETURNS INT
+BEGIN
+  DECLARE retval INT;
+
+  SELECT variable_id INTO retval
+    FROM cuts.log_format_variables
+    WHERE lfid = _lfid AND varname = _varname;
+
+  RETURN retval;
+END //
+
+--
 -- PROCEDURE: cuts.select_log_data
 --
 
@@ -353,6 +368,27 @@ BEGIN
     ORDER BY hostname, t1.msgtime ASC, t1.msgid DESC;
 END //
 
+--
+-- FUNCTION: cuts.get_unit_test_id
+--
+
+DROP FUNCTION IF EXISTS cuts.get_unit_test_id //
+
+CREATE FUNCTION cuts.get_unit_test_id (_name VARCHAR(45))
+  RETURNS INT
+BEGIN
+  DECLARE retval INT;
+
+  SELECT utid INTO retval
+    FROM cuts.unit_tests WHERE name = _name;
+
+  RETURN retval;
+END //
+
+--
+-- FUNCTION: cuts.get_qualified_variable_name
+--
+
 DROP FUNCTION IF EXISTS cuts.get_qualified_variable_name //
 
 CREATE FUNCTION cuts.get_qualified_variable_name (var_ INT)
@@ -424,14 +460,20 @@ END //
 DROP PROCEDURE IF EXISTS cuts.insert_unit_test_relation //
 
 CREATE PROCEDURE
-  cuts.insert_unit_test_relation (IN _utid  INT,
+  cuts.insert_unit_test_relation (IN _name VARCHAR(45),
                                   IN _relid INT,
                                   IN _index INT,
-                                  IN _cause INT,
-                                  IN _effect INT)
+                                  IN _lfid_cause INT,
+                                  IN _varname_cause VARCHAR(45),
+                                  IN _lfid_effect INT,
+                                  IN _varname_effect VARCHAR(45))
 BEGIN
   INSERT INTO cuts.unit_test_relations (utid, relid, rel_index, variable_id, variable_id_2)
-    VALUES (_utid, _relid, _index, _cause, _effect);
+    VALUES (cuts.get_unit_test_id (_name),
+            _relid,
+            _index,
+            cuts.get_log_format_variable_id (_lfid_cause, _varname_cause),
+            cuts.get_log_format_variable_id (_lfid_effect, _varname_effect));
 END //
 
 --
@@ -534,32 +576,13 @@ END //
 
 DROP PROCEDURE IF EXISTS cuts.insert_unit_test //
 
-CREATE PROCEDURE cuts.insert_unit_test(IN name_in VARCHAR(45),
-                                IN descr VARCHAR(95),
-                                IN fail_comp VARCHAR(20),
-                                IN warn_comp VARCHAR(20),
-                                IN eval TEXT,
-                                IN fail VARCHAR(25),
-                                IN warn VARCHAR(25),
-                                IN aggr VARCHAR(25))
+CREATE PROCEDURE cuts.insert_unit_test (IN name_in VARCHAR(45),
+                                        IN descr VARCHAR(95),
+                                        IN eval TEXT,
+                                        IN aggr VARCHAR(25))
 BEGIN
-    INSERT INTO cuts.unit_tests (name,
-                                 description,
-                                 fail_comparison,
-                                 warn,fail,
-                                 evaluation,
-                                 warn_comparison,
-                                 aggregration_function)
-                           VALUES (name_in,
-                                   descr,
-                                   fail_comp,
-                                   warn,
-                                   fail,
-                                   eval,
-                                   warn_comp,
-                                   aggr);
-
-  SELECT LAST_INSERT_ID() AS utid;
+  INSERT INTO cuts.unit_tests (name, description, evaluation, aggregration_function)
+    VALUES (name_in, descr, eval, aggr);
 END //
 
 --
@@ -642,13 +665,26 @@ END //
 
 -- given utid and lfid, add log format to ut
 
-DROP PROCEDURE IF EXISTS cuts.insert_unit_test_log_format//
+DROP PROCEDURE IF EXISTS cuts.insert_unit_test_log_format //
+
 CREATE PROCEDURE
-  cuts.insert_unit_test_log_format(IN utid_in INT,
-                                   IN lfid_in INT)
+  cuts.insert_unit_test_log_format (IN _name VARCHAR(45),
+                                    IN _lfid INT)
+BEGIN
+  CALL cuts.insert_unit_test_log_format_i (cuts.get_unit_test_id (_name), _lfid);
+END //
+
+--
+-- PROCEDURE: cuts.insert_unit_test_log_format_i
+--
+
+DROP PROCEDURE IF EXISTS cuts.insert_unit_test_log_format_i //
+CREATE PROCEDURE
+  cuts.insert_unit_test_log_format_i (IN _utid INT,
+                                      IN _lfid INT)
 BEGIN
     INSERT INTO cuts.unit_test_log_formats (utid, lfid)
-      VALUES (utid_in, lfid_in);
+      VALUES (_utid, _lfid);
 END //
 
 --
@@ -669,12 +705,15 @@ END //
 
 DROP PROCEDURE IF EXISTS cuts.insert_unit_test_grouping //
 
-CREATE PROCEDURE cuts.insert_unit_test_grouping (IN _utid INT,
+CREATE PROCEDURE cuts.insert_unit_test_grouping (IN _testname VARCHAR(45),
                                                  IN _index INT,
-                                                 IN _varid INT)
+                                                 IN _lfid INT,
+                                                 IN _varname VARCHAR(45))
 BEGIN
   INSERT INTO cuts.unit_test_groupings (utid, grpindex, varid)
-    VALUES (_utid, _index, _varid);
+    VALUES (cuts.get_unit_test_id (_testname),
+            _index,
+            cuts.get_log_format_variable_id (_lfid, _varname));
 END //
 
 --

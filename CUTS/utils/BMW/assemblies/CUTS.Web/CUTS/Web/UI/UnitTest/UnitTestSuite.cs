@@ -21,7 +21,7 @@ using System.Web.UI.WebControls;
 using CUTS.Data.UnitTesting;
 using MySql.Data.MySqlClient;
 
-namespace CUTS.Web.UI.UnitTesting
+namespace CUTS.Web.UI.UnitTest
 {
   /**
    * @class UnitTestSuite

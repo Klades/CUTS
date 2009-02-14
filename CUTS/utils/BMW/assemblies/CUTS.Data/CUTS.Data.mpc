@@ -35,10 +35,18 @@ project (CUTS.Data) : cuts_bmw_assembly {
     //= namespace CUTS.Data.UnitTesting
     CUTS/Data/UnitTesting/UnitTestDataTrend.cs
     CUTS/Data/UnitTesting/GroupResult.cs
+    CUTS/Data/UnitTesting/LogFormat.cs
+    CUTS/Data/UnitTesting/LogFormatCollection.cs
+    CUTS/Data/UnitTesting/LogFormatRelation.cs
+    CUTS/Data/UnitTesting/LogFormatRelationCollection.cs
+    CUTS/Data/UnitTesting/LogFormatVariable.cs
+    CUTS/Data/UnitTesting/LogFormatVariableCollection.cs
     CUTS/Data/UnitTesting/LogFormatDataEntry.cs
+    CUTS/Data/UnitTesting/UnitTestDefinition.cs
     CUTS/Data/UnitTesting/UnitTestEvaluator.cs
     CUTS/Data/UnitTesting/UnitTestResult.cs
     CUTS/Data/UnitTesting/UnitTestVariableTable.cs
+    CUTS/Data/UnitTesting/VariableRelation.cs
 
     //= namespace CUTS.Graph
     CUTS/Graph/Algorithm.cs
@@ -46,7 +54,9 @@ project (CUTS.Data) : cuts_bmw_assembly {
     CUTS/Graph/DirectedGraph.cs
     CUTS/Graph/Node.cs
 
-    //= namespace CUTS.Teeting
+    //= namespace CUTS.Testing
     CUTS/Testing/TestDatabase.cs
+
+    //= namespace CUTS.UnitTest
   }
 }

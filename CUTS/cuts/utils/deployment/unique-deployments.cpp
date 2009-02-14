@@ -133,8 +133,8 @@ int main (int argc, char * argv [])
   unique_deployments.calculate ("inst1");
   unique_deployments.calculate ("inst2");
   unique_deployments.calculate ("inst3");
-  unique_deployments.calculate ("inst4");
-  unique_deployments.calculate ("inst5");
+  //unique_deployments.calculate ("inst4");
+  //unique_deployments.calculate ("inst5");
 
   std::cerr << "Number of unique deployments : "
             << unique_deployments.size () << std::endl;

@@ -9,6 +9,8 @@ project (CUTS_AntiSPAM) : boost_base, cutslib {
     Component.cpp
     Component_Instance.cpp
     Component_Assembly.cpp
+    Deployment.cpp
+    Host.cpp
     Port.cpp
     Port_Instance.cpp
     Response_Time_Evaluator.cpp

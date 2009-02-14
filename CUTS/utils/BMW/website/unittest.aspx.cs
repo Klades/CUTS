@@ -13,6 +13,7 @@
 using System;
 using System.Text;
 using System.Data;
+using System.Data.Common;
 using System.Configuration;
 using System.Collections;
 using System.Web;
@@ -25,10 +26,12 @@ using MySql.Data.MySqlClient;
 using Actions.UnitTestActions;
 using Actions.LogFormatActions;
 using CUTS.Web.UI;
+using CUTS.Web.UI.UnitTest;
+using CUTS.Data.UnitTesting;
 
-namespace CUTS
+namespace CUTS.Web.Page
 {
-  public partial class Unit_Testing : System.Web.UI.Page
+  public partial class UnitTesting : System.Web.UI.Page
   {
     private MySqlConnection conn_ =
       new MySqlConnection (ConfigurationManager.AppSettings["MySQL"]);
@@ -37,10 +40,17 @@ namespace CUTS
 
     private UnitTestActions uta_;
 
-    public Unit_Testing ()
+    public UnitTesting ()
     {
       this.conn_.Open ();
       this.uta_ = new UnitTestActions (this.conn_);
+
+      // Instantiate a connection to the database.
+      ConnectionStringSettings settings =
+        ConfigurationManager.ConnectionStrings["BMWConnectionString"];
+
+      this.database_ = new CUTS.BMW.Database (settings.ProviderName);
+      this.database_.ConnectionString = settings.ConnectionString;
     }
 
     protected void Page_Load (object sender, EventArgs e)
@@ -50,36 +60,13 @@ namespace CUTS
 
       try
       {
-        if (this.IsPostBack)
-          return;
+        //if (this.IsPostBack)
+        //  return;
 
-        // Load initial existing data
-        this.load_existing_test_suites ();
-        this.load_existing_packages ();
-        this.load_existing_unit_tests ();
-
-        // Select the log formats from the database.
-        DataSet ds = new DataSet ();
-
-        MySqlDataAdapter adapter = new MySqlDataAdapter ("SELECT lfid, lfmt FROM log_formats", this.conn_);
-        adapter.Fill (ds, "logformats");
-
-        // Select the relations from the database.
-        adapter.SelectCommand.CommandText = "CALL cuts.select_log_format_variable_details_all ()";
-        adapter.Fill (ds, "relations");
-
-        this.log_format_table_.DataSource = ds;
-        this.log_format_table_.DataMemberLogFormats = "logformats";
-        this.log_format_table_.DataMemberRelations = "relations";
-        this.log_format_table_.DataBind ();
-
-        adapter.SelectCommand.CommandText = "CALL cuts.select_log_format_variable_details_all ()";
-        adapter.Fill (ds, "variables");
-
-        // Bind the data for the grouping.
-        this.grouping_.DataSource = ds;
-        this.grouping_.DataMember = "variables";
-        this.grouping_.DataBind ();
+        //// Load initial existing data
+        //this.load_existing_test_suites ();
+        //this.load_existing_packages ();
+        //this.load_existing_unit_tests ();
       }
       catch (Exception ex)
       {
@@ -355,6 +342,59 @@ namespace CUTS
       this.insert_unit_test_.Enabled = (count > 0);
       this.remove_unit_test_.Enabled = (count > 0);
       this.delete_unit_test_.Enabled = (count > 0);
+    }
+
+    private void load_log_formats ()
+    {
+      if (this.master_ == null)
+        this.master_ = (CUTS.Master)this.Page.Master;
+
+      try
+      {
+        // Open the connection to the database.
+        if (this.database_.State == ConnectionState.Closed)
+          this.database_.Open ();
+
+        // Select the log formats from the table.
+        DbDataReader reader = this.database_.SelectLogFormatReader ();
+
+        try
+        {
+          if (reader.HasRows)
+          {
+            // Get the ordinals of the columns in the table.
+            int lfid = reader.GetOrdinal ("lfid");
+            int lfmt = reader.GetOrdinal ("lfmt");
+            LogFormat lf;
+
+            while (reader.Read ())
+            {
+              // Create a new log format.
+              lf = new LogFormat (reader.GetInt32 (lfid),
+                                  reader.GetString (lfmt));
+
+              // Insert the log format into the manager.
+              this.lf_manager_.Add (lf);
+            }
+          }
+        }
+        finally
+        {
+          // Make sure the reader is closed.
+          if (!reader.IsClosed)
+            reader.Close ();
+        }
+      }
+      catch (Exception ex)
+      {
+        this.master_.Console.Add (ex);
+      }
+      finally
+      {
+        // Make sure the database collection if closed.
+        if (this.database_.State == ConnectionState.Open)
+          this.database_.Close ();
+      }
     }
     #endregion
 
@@ -1039,6 +1079,7 @@ namespace CUTS
           break;
 
         case 1:
+          this.load_log_formats ();
           break;
       }
     }
@@ -1049,40 +1090,37 @@ namespace CUTS
      */
     protected void onclick_create_unit_test (object sender, EventArgs e)
     {
-      // Get all the log format ids that are used in this unit test. This
-      // is as simple as iterating over all the rows in the table and locating
-      // the 'log_format_' control in that row. ;-)
-
-      int[] lfids = this.log_format_table_.SelectedLogFormats;
-      CUTS.Data.Relation [] relations = this.log_format_table_.SelectedRelations;
-
-      // Prepare the variables for inserting the new unit test.
-      Hashtable variables = new Hashtable ();
-      variables.Add ("Name", this.unit_test_name_.Text);
-      variables.Add ("Description", this.unit_test_description_.Text);
-      variables.Add ("FailComparison", this.get_mysql_comparison (UT_fail_comp.Text));
-      variables.Add ("WarnComparison", this.get_mysql_comparison (UT_warn_comp.Text));
-      variables.Add ("FailValue", this.unit_test_fail_.Text);
-      variables.Add ("WarnValue", this.unit_test_warn_.Text);
-      variables.Add ("Evaluation", this.unit_test_eval_.Text);
-      variables.Add ("Aggregration_Func", this.aggr_function_.SelectedValue);
-      variables.Add ("Formats", lfids);
-      variables.Add ("Relations", relations);
-      variables.Add ("Groupings", this.grouping_.Variables);
-
       try
       {
-        // Insert the neq unit test into the database.
-        this.uta_.insert_new_unit_test (variables);
-        this.master_.Console.Add (MessageSeverity.Info, "Successfully created new unit test");
+        // Create a new unit test definition.
+        UnitTestDefinition test = new UnitTestDefinition ();
 
-        // Reset the unit test form.
+        test.Name = this.unit_test_name_.Text;
+        test.Description = this.unit_test_description_.Text;
+        test.LogFormats.AddRange (this.lf_manager_.SelectedItems);
+        test.Relations.AddRange (this.lf_manager_.SelectedRelations);
+        test.Grouping.AddRange (this.grouping_.Variables);
+        test.EvalFunction = this.unit_test_eval_.Text;
+        test.AggrFunction = this.aggr_function_.Text;
+
+        if (this.database_.State == ConnectionState.Closed)
+          this.database_.Open ();
+
+        // Create the unit test in the database.
+        this.database_.CreateNewUnitTest (test);
+
+        this.master_.Console.Add (MessageSeverity.Info, "Successfully created unit test");
         this.reset_unit_test_form ();
       }
       catch (Exception ex)
       {
         this.master_.Console.Add (MessageSeverity.Error, ex.Message);
         this.master_.Console.Add (MessageSeverity.Error, "Failed to create new unit test");
+      }
+      finally
+      {
+        if (this.database_.State == ConnectionState.Open)
+          this.database_.Close ();
       }
     }
 
@@ -1091,13 +1129,12 @@ namespace CUTS
      */
     private void reset_unit_test_form ()
     {
-      // Reset all of the textboxes
       this.unit_test_name_.Text = String.Empty;
       this.unit_test_description_.Text = String.Empty;
       this.unit_test_eval_.Text = String.Empty;
-      this.unit_test_fail_.Text = String.Empty;
-      this.unit_test_warn_.Text = String.Empty;
-      this.log_format_table_.Clear ();
+
+      this.lf_manager_.Clear ();
+      this.grouping_.Clear ();
     }
 
     private string get_mysql_comparison (string comparison)
@@ -1124,16 +1161,6 @@ namespace CUTS
       }
     }
 
-    private DropDownList get_log_format_control (TableRow row)
-    {
-      return this.get_log_format_control (row.Cells[1]);
-    }
-
-    private DropDownList get_log_format_control (TableCell cell)
-    {
-      return (DropDownList)cell.Controls[0];
-    }
-
     override protected void OnInit (EventArgs e)
     {
       // Initialize the component.
@@ -1148,5 +1175,7 @@ namespace CUTS
       // Set the page load callback.
       this.Load += new System.EventHandler (this.Page_Load);
     }
+
+    private CUTS.BMW.Database database_;
   }
 }

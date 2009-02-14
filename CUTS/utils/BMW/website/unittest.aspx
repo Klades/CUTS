@@ -1,5 +1,6 @@
-<%@ page language="C#" masterpagefile="~/BMW.master" autoeventwireup="false" codefile="unittest.aspx.cs" inherits="CUTS.Unit_Testing" %>
-<%@ register tagprefix="cuts" namespace="CUTS.Web.UI.UnitTesting" assembly="CUTS.Web" %>
+<%@ page language="C#" masterpagefile="~/BMW.master" autoeventwireup="false"
+         codefile="unittest.aspx.cs" inherits="CUTS.Web.Page.UnitTesting" %>
+<%@ register tagprefix="cuts" namespace="CUTS.Web.UI.UnitTest" assembly="CUTS.Web" %>
 
 <asp:content id="Content1" contentplaceholderid="MainContent" runat="server">
   <h2>Functional/Non-functional Unit Testing</h2>
@@ -235,18 +236,18 @@
 
             <!-- select the log formats to use for the unit test -->
             <h3>Log Formats</h3>
-            <p>Using the dropdown control below, please select the <a href="logformats.aspx">log
-              formats</a> to use when evaluating this unit test. If you need more than one more
-              <a href="logformats.aspx">log format</a>, then click the <b>I need more log formats</b>
-              link below.</p>
+            <p>Using the dropdown control below, please select the
+              <a href="logformats.aspx">log formats</a> to use when evaluating this
+              unit test.</p>
 
 
             <!-- Table for selecting log format. A better solution would be to use a placeholder control
                and make each of its children a user-defined log format control. This way, the number
                of child control in the placeholder will represent the number of log messages. It
                will make this webpage a LOT easier to develop and maintain. -->
-            <cuts:logformattable runat="server" id="log_format_table_"
-                                 enableviewstate="true" />
+            <cuts:logformatmanager runat="server" id="lf_manager_"
+                                   enableviewstate="true"
+                                   width="80%" />
 
             <!--
               required evaluation for the unit test

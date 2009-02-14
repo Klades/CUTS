@@ -27,7 +27,7 @@ using System.Runtime.Remoting.Channels;
 
 using CUTS.Web.UI;
 using CUTS.Web.UI.Archive;
-using CUTS.Web.UI.UnitTesting;
+using CUTS.Web.UI.UnitTest;
 using CUTS.Data.UnitTesting;
 
 // from IIOPChannel.dll

@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Runtime.Remoting;
 using System.Text;
+using CUTS.Data.UnitTesting;
 
 namespace CUTS.BMW
 {
@@ -198,6 +199,131 @@ namespace CUTS.BMW
       // Execute the SQL query.
       command.ExecuteNonQuery ();
     }
+
+    public void CreateNewUnitTest (UnitTestDefinition definition)
+    {
+      DbTransaction transaction = this.conn_.BeginTransaction ();
+
+      try
+      {
+        // Prepare the SQL statement for inserting a new unit test.
+        DbCommand command = this.conn_.CreateCommand ();
+        command.CommandText = "CALL cuts.insert_unit_test (@name, @desc, @eval, @aggr)";
+
+        DbParameter p1 = command.CreateParameter ();
+        p1.ParameterName = "@name";
+        p1.Value = definition.Name;
+        command.Parameters.Add (p1);
+
+        DbParameter p2 = command.CreateParameter ();
+        p2.ParameterName = "@desc";
+        p2.Value = definition.Description;
+        command.Parameters.Add (p2);
+
+        DbParameter p3 = command.CreateParameter ();
+        p3.ParameterName = "@eval";
+        p3.Value = definition.EvalFunction;
+        command.Parameters.Add (p3);
+
+        DbParameter p4 = command.CreateParameter ();
+        p4.ParameterName = "@aggr";
+        p4.Value = definition.AggrFunction;
+        command.Parameters.Add (p4);
+
+        // Execute the SQL statement.
+        command.ExecuteNonQuery ();
+
+        // We need to insert each of the log formats next. We can reuse
+        // some of the parameters from the previous query.
+        command.CommandText = "CALL cuts.insert_unit_test_log_format (@name, @lfid)";
+        p2.ParameterName = "@lfid";
+
+        foreach (LogFormat format in definition.LogFormats)
+        {
+          p2.Value = format.ID;
+          command.ExecuteNonQuery ();
+        }
+
+        // Finally, insert the relations for the unit test.
+        command.CommandText =
+          "CALL cuts.insert_unit_test_relation (@name, @relid, @varindex, " +
+          "@lfid_cause, @varname_cause, @lfid_effect, @varname_effect)";
+
+        p2.ParameterName = "@relid";
+        p3.ParameterName = "@varindex";
+        p4.ParameterName = "@lfid_cause";
+
+        DbParameter p5 = command.CreateParameter ();
+        p5.ParameterName = "@varname_cause";
+        command.Parameters.Add (p5);
+
+        DbParameter p6 = command.CreateParameter ();
+        p6.ParameterName = "@lfid_effect";
+        command.Parameters.Add (p6);
+
+        DbParameter p7 = command.CreateParameter ();
+        p7.ParameterName = "@varname_effect";
+        command.Parameters.Add (p7);
+
+        int relation_id = 0;
+
+        foreach (LogFormatRelation relation in definition.Relations)
+        {
+          // Set the value of the next relation index.
+          p2.Value = relation_id++;
+
+          int var_index = 0;
+          foreach (VariableRelation variables in relation)
+          {
+            // Set the value of the next variable's index.
+            p3.Value = var_index++;
+
+            // Update the remainder of the parameters.
+            p4.Value = variables.Left.ID;
+            p5.Value = variables.Left.Name;
+            p6.Value = variables.Right.ID;
+            p7.Value = variables.Right.Name;
+
+            // Execute the SQL statement.
+            command.ExecuteNonQuery ();
+          }
+        }
+
+        if (definition.Grouping.Count > 0)
+        {
+          // Finally, insert the grouping information into database.
+          command.CommandText = "CALL cuts.insert_unit_test_grouping (@name, @index, @lfid, @varname)";
+
+          // Update the parameter names.
+          p2.ParameterName = "@index";
+          p3.ParameterName = "@lfid";
+          p4.ParameterName = "@varname";
+
+          int index = 0;
+
+          foreach (LogFormatVariable variable in definition.Grouping)
+          {
+            // Update the values of the variables.
+            p2.Value = index++;
+            p3.Value = variable.ID;
+            p4.Value = variable.Name;
+
+            // Execute the SQL command.
+            command.ExecuteNonQuery ();
+          }
+        }
+
+        // Commit the transaction.
+        transaction.Commit ();
+      }
+      catch (Exception)
+      {
+        // Rollback the transaction and rethrow exception.
+        transaction.Rollback ();
+        throw;
+      }
+    }
+
     /**
      * Get the id of a path by name.
      *
@@ -206,9 +332,6 @@ namespace CUTS.BMW
      */
     public System.Int32 path_id_by_name (string name)
     {
-      if (this.conn_ == null)
-        throw new Exception ("Connection to database is not open");
-
       // Create a new command object.
       DbCommand command = this.conn_.CreateCommand ();
 
@@ -1282,6 +1405,14 @@ namespace CUTS.BMW
 
       adapter.Fill (ds);
       return ds.Tables["Table"];
+    }
+
+    public DbDataReader SelectLogFormatReader ()
+    {
+      DbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "SELECT lfid, lfmt FROM cuts.log_formats ORDER BY lfmt";
+
+      return command.ExecuteReader ();
     }
 
     public void select_component_portnames_i (int inst, string porttype, ref DataSet ds)

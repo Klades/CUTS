@@ -3,19 +3,19 @@
 #include "boost/test/unit_test.hpp"
 #include "cuts/Periodic_Event_T.h"
 #include "ace/Condition_T.h"
-#include "ace/RW_Thread_Mutex.h"
+#include "ace/Recursive_Thread_Mutex.h"
 #include "ace/Guard_T.h"
 #include "ace/streams.h"
 #include "Boost_JUnit_Formatter.h"
 #include "Test_Log.h"
 
-class Simple_Component
+class Simple_Test_Event_Port
 {
 public:
-  Simple_Component (size_t max_count)
+  Simple_Test_Event_Port (size_t max_count)
     : count_ (0),
       max_count_ (max_count),
-      done_ (mutex_)
+      is_done_ (mutex_)
   {
 
   }
@@ -29,7 +29,7 @@ public:
 
     // Signal all the waiting threads.
     if (this->count_ == this->max_count_)
-      this->done_.broadcast ();
+      this->is_done_.broadcast ();
   }
 
   size_t count (void) const
@@ -37,11 +37,23 @@ public:
     return this->count_;
   }
 
-  void wait (void)
+  int run (void)
   {
-    ACE_GUARD (ACE_Thread_Mutex, guard, this->mutex_);
-    this->done_.wait ();
+    this->start_time_ = ACE_OS::gettimeofday ();
+
+    ACE_GUARD_RETURN (ACE_Thread_Mutex, guard, this->mutex_, -1);
+    this->is_done_.wait ();
+
+    this->stop_time_ = ACE_OS::gettimeofday ();
+    return 0;
   }
+
+  size_t events_per_second () const
+  {
+    ACE_Time_Value duration = this->stop_time_ - this->start_time_;
+    return this->count_ / duration.sec ();
+  }
+
 
 private:
   size_t count_;
@@ -50,32 +62,34 @@ private:
 
   ACE_Thread_Mutex mutex_;
 
-  ACE_Condition <ACE_Thread_Mutex> done_;
+  ACE_Condition <ACE_Thread_Mutex> is_done_;
+
+  ACE_Time_Value start_time_;
+
+  ACE_Time_Value stop_time_;
 };
 
 void run (void)
 {
-  Simple_Component component (2000);
+  Simple_Test_Event_Port test (2000);
 
-  CUTS_Periodic_Event_T <Simple_Component> generator;
-  generator.init (&component, &Simple_Component::handle_timeout);
+  CUTS_Periodic_Event_T <Simple_Test_Event_Port> generator;
+  generator.init (&test, &Simple_Test_Event_Port::handle_timeout);
   generator.configure (CUTS_Periodic_Event::PE_EXPONENTIAL, 20);
 
-  // Get the start time of the test.
-  ACE_Time_Value start_time = ACE_OS::gettimeofday ();
-
   // Activate the test and wait for it to complete.
-  generator.activate ();
-  component.wait ();
+  if (generator.activate () == 0)
+  {
+    test.run ();
+  }
+  else
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - failed to activate the generator\n"));
 
-  // Get the stop time of the test.
-  ACE_Time_Value stop_time = ACE_OS::gettimeofday ();
-
-  // Calculate the duration, and the arrival rate.
-  ACE_Time_Value duration = stop_time - start_time;
-
-  std::cout << "results: " << component.count () / duration.sec ()
+  std::cout << "results: " << test.events_per_second ()
             << " events/sec" << std::endl;
+
+  generator.deactivate ();
 }
 
 //

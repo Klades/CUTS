@@ -1,5 +1,5 @@
 <%@ Page language="c#" codefile="analysis.aspx.cs" inherits="CUTS.Web.Page.Analysis" masterpagefile="~/BMW.master" %>
-<%@ register tagprefix="cuts" namespace="CUTS.Web.UI.UnitTesting" assembly="CUTS.Web" %>
+<%@ register tagprefix="cuts" namespace="CUTS.Web.UI.UnitTest" assembly="CUTS.Web" %>
 
 <asp:content runat="server" id="content_" contentplaceholderid="MainContent">
   <!--
