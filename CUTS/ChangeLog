@@ -1,3 +1,18 @@
+Sat Feb 14 15:29:53 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTest/UnitTest.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTest/UnitTestPackage.cs:
+        * utils/BMW/assemblies/CUTS.Web/CUTS/Web/UI/UnitTest/UnitTestSuite.cs:
+        * utils/BMW/website/analysis.aspx:
+        * utils/BMW/website/analysis.aspx.cs:
+
+          . Added support for charting a unit test's data trend.
+
+        * utils/BMW/website/unittestchart.aspx:
+        * utils/BMW/website/unittestchart.aspx.cs:
+
+          Removed these files.
+
 Sat Feb 14 08:02:06 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/SQL/CUTS-unittest.sql:

@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
@@ -29,12 +30,16 @@ using CUTS.Web.UI;
 using CUTS.Web.UI.Archive;
 using CUTS.Web.UI.UnitTest;
 using CUTS.Data.UnitTesting;
+using CUTS.Drawing;
 
 // from IIOPChannel.dll
 using Ch.Elca.Iiop.Idl;
 using Ch.Elca.Iiop;
 using Ch.Elca.Iiop.Services;
 using omg.org.CORBA;
+
+// from WebChart
+using WebChart;
 
 namespace CUTS.Web.Page
 {
@@ -226,9 +231,9 @@ namespace CUTS.Web.Page
 
       pathname = this.Server.MapPath (pathname);
 
-      // Re-evalatue the unit test
       try
       {
+        // Re-evalatue the unit test
         evaluator.Open ();
         unittest.Result = evaluator.Reevaluate (pathname, unittest.UnitTestId, true);
       }
@@ -242,6 +247,135 @@ namespace CUTS.Web.Page
           evaluator.Close ();
       }
     }
+
+    protected void handle_chart_unit_test (object sender, CommandEventArgs e)
+    {
+      if (this.master_ == null)
+        this.master_ = (CUTS.Master)this.Page.Master;
+
+      // Get the unit test from the argument.
+      UnitTest unittest = (UnitTest)e.CommandArgument;
+
+      // Initialize a new evaluator.
+      UnitTestEvaluator evaluator = new UnitTestEvaluator (this.database_.Provider);
+      evaluator.ConnectionString = this.database_.ConnectionString;
+      evaluator.TempPath = Server.MapPath ("~/db/sandbox/evaluations");
+
+      // Get the active test.
+      CUTS.UUID active_test = (CUTS.UUID)this.Session["activeTest"];
+
+      // Construct the location of the test data.
+      string pathname = String.Format ("~/db/sandbox/{0}.cdb",
+                                       CUTS.Data.UUID.ToString (active_test));
+
+      pathname = this.Server.MapPath (pathname);
+
+      try
+      {
+        // Get the data trend from the test result.
+        evaluator.Open ();
+        UnitTestDataTrend trend = evaluator.GetDataTrend (pathname, unittest.UnitTestId);
+
+        // Generate the chart for the test.
+        this.generate_chart (unittest, trend);
+
+        // Show the chart and hide the test suite.
+        this.test_suite_.Visible = false;
+        this.chart_.Visible = true;
+      }
+      catch (Exception ex)
+      {
+        this.master_.Console.Add (ex);
+      }
+      finally
+      {
+        if (evaluator.State == ConnectionState.Open)
+          evaluator.Close ();
+      }
+    }
+
+    /**
+     *
+     */
+    private void generate_chart (UnitTest test, UnitTestDataTrend trend)
+    {
+      LineChart line_chart;
+      float y_value;
+      int i = 0, max_x = 0;
+
+      ChartPointCollection points;
+
+      if (trend.GroupData.Count == 0)
+      {
+        points = new ChartPointCollection ();
+
+        // Write the data set for the single group.
+        foreach (object v in trend.Data)
+        {
+          y_value = float.Parse (v.ToString ());
+          points.Add (new ChartPoint (i.ToString (), y_value));
+        }
+
+        // Insert the line chart into the chart control.
+        line_chart = new LineChart (points);
+
+        // Create a new color for the group.
+        Color color = this.color_map_.Add ("unknown", Color.Red);
+        line_chart.Fill.Color = Color.Red;
+        line_chart.Line.Color = Color.Red;
+
+        // Insert the line chart into the control.
+        this.chart_.Charts.Add (line_chart);
+
+        // We can hide the legend since we only have 1 line chart.
+        this.chart_.HasChartLegend = false;
+      }
+      else
+      {
+        // Make sure we can see the legend for the chart since there is a
+        // good chance more than one line graph will be produced.
+        this.chart_.HasChartLegend = true;
+
+        foreach (KeyValuePair<string, DataTrend> entry in trend.GroupData)
+        {
+          // Reset the x-axis counter.
+          i = 0;
+          points = new ChartPointCollection ();
+
+          foreach (object v in entry.Value)
+          {
+            y_value = float.Parse (v.ToString ());
+            points.Add (new ChartPoint (i.ToString (), y_value));
+
+            ++i;
+          }
+
+          max_x = Math.Max (i, max_x);
+
+          // End the current group's data by creating a new chart.
+          line_chart = new LineChart (points);
+          line_chart.Legend = entry.Key;
+
+          // Create a new color for the group.
+          Color color = this.color_map_.Add (entry.Key);
+          line_chart.Fill.Color = color;
+          line_chart.Line.Color = color;
+
+          // Insert the chart into the control.
+          this.chart_.Charts.Add (line_chart);
+        }
+
+        this.chart_.YTitle.Text = test.Name;
+        this.chart_.AlternateText = test.Name;
+        this.chart_.ChartTitle.Text = test.Name;
+        this.chart_.XTicksInterval = (max_x / 20) + 1;
+      }
+
+      // Redraw the chart control.
+      this.chart_.RedrawChart ();
+    }
+
+    private ColorMap color_map_ = new ColorMap ();
 
     private CUTS.BMW.Database database_;
 

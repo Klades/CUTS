@@ -65,8 +65,21 @@ namespace CUTS.Web.UI.UnitTest
         this.EnsureChildControls ();
 
         // Update the result for the unit test.
+        if (value.Value != null)
+          this.result_label_.Text = value.Value.ToString ();
 
-        // Save the result.
+        LiteralControl literal;
+
+        foreach (GroupResultItem item in value.GroupResult)
+        {
+          literal = new LiteralControl ("<br />" + item.Name);
+          this.group_label_.Controls.Add (literal);
+
+          literal = new LiteralControl ("<br />" + item.Value.ToString ());
+          this.group_result_.Controls.Add (literal);
+        }
+
+        // Save the result value.
         this.results_ = value;
       }
     }
@@ -84,10 +97,7 @@ namespace CUTS.Web.UI.UnitTest
         this.EnsureChildControls ();
 
         // Update the unit test name.
-        Label title = this.get_control_unit_test_name ();
-        title.Text = String.Format (" &middot {0}", value);
-
-        // Save the name of the unit test.
+        this.title_.Text = String.Format (" &middot {0}", value);
         this.name_ = value;
       }
     }
@@ -100,20 +110,26 @@ namespace CUTS.Web.UI.UnitTest
       TableCell cell = new TableCell ();
       this.Cells.Add (cell);
 
-      Label title = new Label ();
-      cell.Controls.Add (title);
+      this.title_ = new Label ();
+      cell.Controls.Add (this.title_);
+
+      this.group_label_ = new PlaceHolder ();
+      cell.Controls.Add (this.group_label_);
 
       // Create the cell that display's the results.
       cell = new TableCell ();
       this.Cells.Add (cell);
 
-      Label result = new Label ();
-      cell.Controls.Add (result);
+      this.result_label_ = new Label ();
+      cell.Controls.Add (this.result_label_);
+
+      this.group_result_ = new PlaceHolder ();
+      cell.Controls.Add (this.group_result_);
 
       if (this.results_ == null)
       {
-        result.Text = "(no result)";
-        result.ForeColor = Color.Gray;
+        this.result_label_.Text = "(no result)";
+        this.result_label_.ForeColor = Color.Gray;
       }
 
       // Create cell that will hold link for charting data trend.
@@ -124,6 +140,9 @@ namespace CUTS.Web.UI.UnitTest
       ImageButton chart = new ImageButton ();
       cell.Controls.Add (chart);
 
+      chart.ImageUrl = "images/graph.gif";
+      chart.Click += new ImageClickEventHandler (this.handle_chart);
+
       // Create the cell for manually evaluating the unit test.
       cell = new TableCell ();
       this.Cells.Add (cell);
@@ -131,6 +150,7 @@ namespace CUTS.Web.UI.UnitTest
       LinkButton link = new LinkButton ();
       cell.Controls.Add (link);
 
+      link.ID = "evaluate";
       link.Text = "Click here to evaluate";
       link.Click += new EventHandler (this.handle_evaluate);
     }
@@ -170,7 +190,15 @@ namespace CUTS.Web.UI.UnitTest
         this.Evaluate (this, e);
     }
 
+    private void handle_chart (object sender, ImageClickEventArgs e)
+    {
+      if (this.Chart != null)
+        this.Chart (this, new EventArgs ());
+    }
+
     public event EventHandler Evaluate;
+
+    public event EventHandler Chart;
 
     private Label get_control_unit_test_name ()
     {
@@ -187,6 +215,13 @@ namespace CUTS.Web.UI.UnitTest
       return (LinkButton)this.Cells[3].Controls[0];
     }
 
+    protected override void OnInit (EventArgs e)
+    {
+      // Make sure we are aligned up top.
+      this.VerticalAlign = VerticalAlign.Top;
+      base.OnInit (e);
+    }
+
     /**
      * Name of the unit test.
      */
@@ -201,5 +236,13 @@ namespace CUTS.Web.UI.UnitTest
      * Results for the unit test.
      */
     private UnitTestResult results_;
+
+    private Label title_;
+
+    private Label result_label_;
+
+    private PlaceHolder group_label_;
+
+    private PlaceHolder group_result_;
   }
 }

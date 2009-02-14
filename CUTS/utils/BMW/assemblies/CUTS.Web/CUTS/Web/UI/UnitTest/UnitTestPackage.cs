@@ -69,6 +69,7 @@ namespace CUTS.Web.UI.UnitTest
       table.Rows.Add (test);
 
       test.Evaluate += new EventHandler (this.handle_evaluate);
+      test.Chart += new EventHandler (this.handle_chart);
 
       // Insert the unit test into the collection and control.
       this.tests_.Add (test);
@@ -156,10 +157,12 @@ namespace CUTS.Web.UI.UnitTest
         table.Rows.Add (test);
 
         test.Evaluate += new EventHandler (this.handle_evaluate);
+        test.Chart += new EventHandler (this.handle_chart);
       }
     }
 
     public event CommandEventHandler EvaluateUnitTest;
+    public event CommandEventHandler ChartUnitTest;
 
     private void handle_evaluate (object sender, EventArgs e)
     {
@@ -167,6 +170,11 @@ namespace CUTS.Web.UI.UnitTest
         this.EvaluateUnitTest (this, new CommandEventArgs ("evaluate", sender));
     }
 
+    private void handle_chart (object sender, EventArgs e)
+    {
+      if (this.ChartUnitTest != null)
+        this.ChartUnitTest (this, new CommandEventArgs ("chart", sender));
+    }
     #endregion
 
     #region Member Variables

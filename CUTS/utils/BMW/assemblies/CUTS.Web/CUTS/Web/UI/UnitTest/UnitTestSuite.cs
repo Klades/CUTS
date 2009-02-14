@@ -47,7 +47,8 @@ namespace CUTS.Web.UI.UnitTest
       PlaceHolder holder = this.get_package_placeholder ();
       holder.Controls.Add (package);
 
-      package.EvaluateUnitTest += new CommandEventHandler (this.handle_evaluate_unit_test);
+      package.EvaluateUnitTest += new CommandEventHandler (this.handle_unit_test_command);
+      package.ChartUnitTest += new CommandEventHandler (this.handle_unit_test_command);
 
       // Increment the package count.
       this.packages_.Add (package);
@@ -83,7 +84,8 @@ namespace CUTS.Web.UI.UnitTest
         UnitTestPackage package = new UnitTestPackage ();
         holder.Controls.Add (package);
 
-        package.EvaluateUnitTest += new CommandEventHandler (this.handle_evaluate_unit_test);
+        package.EvaluateUnitTest += new CommandEventHandler (this.handle_unit_test_command);
+        package.ChartUnitTest += new CommandEventHandler(this.handle_unit_test_command);
       }
 
       this.Controls.Add (new LiteralControl ("<br clear='all' />"));
@@ -142,13 +144,25 @@ namespace CUTS.Web.UI.UnitTest
 
     public event CommandEventHandler EvaluateUnitTest;
 
-    private void handle_evaluate_unit_test (object sender, CommandEventArgs e)
+    public event CommandEventHandler ChartUnitTest;
+
+    private void handle_unit_test_command (object sender, CommandEventArgs e)
     {
-      if (this.EvaluateUnitTest != null)
-        this.EvaluateUnitTest (this, e);
+      switch (e.CommandName)
+      {
+        case "evaluate":
+          if (this.EvaluateUnitTest != null)
+            this.EvaluateUnitTest (this, e);
+          break;
+
+        case "chart":
+          if (this.ChartUnitTest != null)
+            this.ChartUnitTest (this, e);
+          break;
+      }
     }
 
-    #region Member Variables
+#region Member Variables
     /// Number of packages in the test suite.
     private int package_count_;
 
