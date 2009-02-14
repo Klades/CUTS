@@ -688,10 +688,10 @@ BEGIN
     FROM cuts.test_suites AS t1,
          cuts.test_suite_packages AS t2,
          cuts.packages AS t3,
-         cuts.package_unit_tests AS t4,
+         cuts.test_package_items AS t4,
          cuts.unit_tests AS t5
     WHERE t1.id = _id AND
-          t1.id = t2.id AND t2.p_id = t3.id AND t3.id = t4.id AND  t4.ut_id = t5.utid
+          t1.id = t2.tsid AND t2.tpid = t3.id AND t2.tspid = t4.tspid AND  t4.utid = t5.utid
     ORDER BY t1.name, t3.name, t5.name;
 END //
 

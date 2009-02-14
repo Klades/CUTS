@@ -1,3 +1,11 @@
+Sat Feb 14 08:02:06 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/SQL/CUTS-unittest.sql:
+
+          . Bug fix where the stored procedure responsible for reading
+            the test suite manifest was not up-to-date with the new
+            database layout.
+
 Sat Feb 14 07:47:25 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/unittest.aspx.cs:
