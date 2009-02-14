@@ -43,11 +43,10 @@
                           onchartunittest="handle_chart_unit_test" />
 
       <cuts:chartcontrol runat="server" id="chart_"
-                         chartpadding="30" padding="40" borderstyle="ridge"
-                         height="400px" width="800px" ycustomend="0" yvaluesinterval="0"
-                         ycustomstart="0" bordercolor="Silver" showxvalues="false"
-                         visible="false"
-                         enableviewstate="true">
+                         chartpadding="30" padding="40" borderstyle="None"
+                         height="400px" width="800px"
+                         ycustomend="0" yvaluesinterval="0" ycustomstart="0"
+                         showxvalues="false" visible="false" enableviewstate="true">
         <yaxisfont stringformat="Far,Near,Character,LineLimit" />
         <charttitle forecolor="black" stringformat="Center,Near,Character,LineLimit" font="Tahoma, 10pt, style=Bold" />
         <legend font="Microsoft Sans Serif, 8pt" position="right" />
