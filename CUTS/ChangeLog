@@ -1,3 +1,18 @@
+Sat Feb 14 07:34:01 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * utils/BMW/SQL/CUTS-unittest.sql:
+        * utils/BMW/assemblies/CUTS.BMW/CUTS/BMW/Database.cs:
+        * utils/BMW/website/analysis.aspx.cs:
+        * utils/BMW/website/logformats.aspx.cs:
+        * utils/BMW/website/unittest.aspx:
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . Changed the test suite specification such that test packages
+            can not be shared between test suite. Instead, they are
+            solely used for grouping related unit tests in a test suite.
+
+          . Cleaned up a LOT of old/stale code.
+
 Sat Feb 14 01:26:44 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/antispam/antispam.mpc:

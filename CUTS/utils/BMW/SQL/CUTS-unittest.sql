@@ -73,6 +73,43 @@ CREATE TABLE IF NOT EXISTS cuts.test_suites
   UNIQUE (name)
 );
 
+CREATE TABLE IF NOT EXISTS cuts.test_suite_packages
+(
+  tspid   INT   NOT NULL auto_increment,
+  tsid    INT   NOT NULL,
+  tpid    INT   NOT NULL,
+
+  -- package can appear only once in a test suite
+  PRIMARY KEY (tspid),
+  UNIQUE (tsid, tpid),
+
+  FOREIGN KEY (tsid) REFERENCES cuts.test_suites (id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+
+  FOREIGN KEY (tpid) REFERENCES cuts.packages (id)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS cuts.test_package_items
+(
+  tpiid   INT   NOT NULL auto_increment,
+  tspid   INT   NOT NULL,
+  utid    INT   NOT NULL,
+
+  -- a unit test can appear only once in a test suite
+  PRIMARY KEY (tpiid),
+  UNIQUE (tspid, utid),
+
+  FOREIGN KEY (tspid) REFERENCES cuts.test_suite_packages (tspid)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+
+  FOREIGN KEY (utid) REFERENCES cuts.unit_tests (utid)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
+);
 
 -- sub table for log formats
 -- contains variable info - name, type, id
@@ -94,49 +131,6 @@ CREATE TABLE IF NOT EXISTS cuts.log_format_variables
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
-
-
--- sub table for packages
--- contains unit test ids
-
-CREATE TABLE IF NOT EXISTS cuts.package_unit_tests
-(
-  id            INT              NOT NULL auto_increment,
-  ut_id         INT              NOT NULL,
-
-  -- set the constraints for the table
-  FOREIGN KEY (id) REFERENCES cuts.packages (id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-
-  FOREIGN KEY (ut_id) REFERENCES cuts.unit_tests (utid)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE,
-  UNIQUE (id,ut_id)
-);
-
-
--- sub table for test_suites
--- contains package ids
-
-CREATE TABLE IF NOT EXISTS cuts.test_suite_packages
-(
-  id              INT             NOT NULL,
-  p_id            INT             NOT NULL,
-
-  -- set the unique values for the constraint
-  UNIQUE (id, p_id),
-
-  -- set the foreign keys for the table
-  FOREIGN KEY (id) REFERENCES cuts.test_suites (id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-
-  FOREIGN KEY (p_id) REFERENCES cuts.packages (id)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE
-);
-
 
 -- sub table for unit tests
 -- will contain relation info
@@ -233,6 +227,29 @@ BEGIN
       where log_formats.lfid = lfid_in;
 END //
 
+-- -----------------------------------------------------------------------------
+-- FUNCTION: cuts.get_test_package_id
+-- -----------------------------------------------------------------------------
+
+DROP FUNCTION IF EXISTS cuts.get_test_package_id //
+
+CREATE FUNCTION
+  cuts.get_test_package_id (_name VARCHAR (255))
+  RETURNS INT
+BEGIN
+  DECLARE retval INT;
+
+  DECLARE CONTINUE HANDLER FOR NOT FOUND
+  BEGIN
+    INSERT INTO packages (name) VALUES (_name);
+    SET retval = LAST_INSERT_ID();
+  END;
+
+  SELECT id INTO retval FROM packages WHERE name = _name;
+
+  RETURN retval;
+END; //
+
 --
 -- FUNCTION: cuts.get_variable_log_format_id
 --
@@ -313,6 +330,52 @@ BEGIN
          cuts.log_formats AS t2
     WHERE utid = utid_ AND
           t1.lfid = t2.lfid;
+END //
+
+--
+-- PROCEDURE: cuts.select_test_suite_packages_i
+--
+DROP PROCEDURE IF EXISTS cuts.select_test_suite_packages_i //
+
+CREATE PROCEDURE
+  cuts.select_test_suite_packages_i (IN _suite INT)
+BEGIN
+  SELECT t1.tspid, t2.name
+    FROM cuts.test_suite_packages AS t1,
+         cuts.packages AS t2
+    WHERE t1.tsid = _suite AND
+          t1.tpid = t2.id;
+END //
+
+--
+-- PROCEDURE: cuts.select_test_package_items_i
+--
+DROP PROCEDURE IF EXISTS cuts.select_test_package_items_i //
+
+CREATE PROCEDURE
+  cuts.select_test_package_items_i (IN _package INT)
+BEGIN
+  SELECT t1.tpiid, t2.name
+    FROM cuts.test_package_items AS t1,
+         cuts.unit_tests AS t2
+    WHERE t1.tspid = _package AND
+          t1.utid = t2.utid;
+END //
+
+--
+-- PROCEDURE: cuts.select_unused_test_package_items_i
+--
+DROP PROCEDURE IF EXISTS cuts.select_unused_test_package_items_i //
+
+CREATE PROCEDURE
+  cuts.select_unused_test_package_items_i (IN _package INT)
+BEGIN
+  SELECT t1.utid, t1.name
+    FROM cuts.unit_tests AS t1
+    WHERE t1.utid NOT IN (
+      SELECT utid FROM cuts.test_package_items
+        WHERE tspid = _package)
+    ORDER BY t1.name;
 END //
 
 DROP PROCEDURE IF EXISTS cuts.select_log_data_by_test //
@@ -524,24 +587,17 @@ END //
 
 -- given a test suite id and name, this inserts the name as a new package, and then inserts that package into the test suite
 
-DROP PROCEDURE IF EXISTS cuts.insert_test_suite_package//
-CREATE PROCEDURE
-  cuts.insert_test_suite_package(IN tsid INT,
-                                 IN pkg_name VARCHAR(65))
-BEGIN
-  INSERT INTO test_suite_packages (id, p_id)
-    VALUES (tsid,
-            cuts.get_test_package_id (pkg_name));
-END //
-
-
-DROP PROCEDURE IF EXISTS cuts.create_test_package //
+DROP PROCEDURE IF EXISTS cuts.insert_test_suite_package //
 
 CREATE PROCEDURE
-  cuts.create_test_package (IN pkg_name VARCHAR (65))
+  cuts.insert_test_suite_package (IN _tsid INT,
+                                  IN _name VARCHAR(65))
 BEGIN
-  INSERT INTO cuts.packages (name) VALUES (pkg_name);
+  INSERT INTO cuts.test_suite_packages (tsid, tpid)
+    VALUES (_tsid,
+            cuts.get_test_package_id (_name));
 END //
+
 
 DROP FUNCTION IF EXISTS cuts.get_test_package_id //
 

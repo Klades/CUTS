@@ -75,18 +75,15 @@
                    add new packages to the test suite -->
 
               <tr>
-                <td class="title" style="vertical-align:top">Existing: </td>
-                <td><asp:listbox id="existing_test_suites_" runat="server"
-                                 autopostback="true" selectionmode="multiple"
-                                 datatextfield="name" datavaluefield="id"
-                                 onselectedindexchanged="onchange_existing_test_suites"
-                                 cssclass="default_width" appenddatabounditems="true" rows="7" /></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td><asp:linkbutton id="delete_test_suite_" runat="server"
-                                    text="Delete selected test suite(s)"
-                                    onclick="onclick_delete_test_suite" /></td>
+                <td colspan="2">
+                  <asp:listbox id="existing_test_suites_" runat="server"
+                               autopostback="true" selectionmode="multiple"
+                               onselectedindexchanged="onchange_existing_test_suites"
+                               width="100%" rows="7" />
+                  <br />
+                  <asp:linkbutton id="delete_test_suite_" runat="server"
+                                  text="Delete selected test suite(s)"
+                                  onclick="onclick_delete_test_suite" /></td>
               </tr>
             </table>
           </td>
@@ -128,34 +125,19 @@
               </tr>
 
               <tr>
-                <td class="title">Existing: </td>
-                <td><asp:dropdownlist id="existing_test_packages_" autopostback="true" runat="server"
-                                      datatextfield="name" datavaluefield="id" cssclass="default_width"
-                                      onselectedindexchanged="onchange_existing_test_packages" /></td>
-                <td><asp:button id="insert_test_package_" runat="server" text="Insert" cssclass="button"
-                                onclick="onclick_insert_test_package" /></td>
-              </tr>
-
-              <tr>
-                <td></td>
-                <td><asp:linkbutton id="delete_test_package_" runat="server"
-                                    text="Delete existing test package"
-                                    onclick="onclick_delete_test_package" /></td>
-              </tr>
-
-              <tr>
-                <td></td>
-                <td><asp:listbox id="current_test_packages_" runat="server" autopostback="true"
-                                 selectionmode="multiple" datatextfield="name" datavaluefield="id"
-                                 cssclass="default_width" onselectedindexchanged="onchange_current_test_packages" /></td>
-              </tr>
-
-              <tr>
-                <td></td>
                 <td colspan="2">
+                  <asp:listbox id="existing_test_packages_" runat="server"
+                               autopostback="true"
+                               selectionmode="multiple"
+                               cssclass="default_width"
+                               onselectedindexchanged="onchange_existing_test_packages"
+                               rows="7"
+                               width="100%" />
+                  <br />
                   <asp:linkbutton id="remove_test_package_" runat="server"
-                                  text="Remove selected test package(s) from active test suite" enabled="false"
-                                  onclick="onclick_remove_test_package" /></td>
+                                  text="Delete selected test package(s)"
+                                  onclick="onclick_remove_test_package" />
+                               </td>
               </tr>
             </table>
           </td>
@@ -172,8 +154,8 @@
             <table>
               <tr>
                 <td class="title">Existing: </td>
-                <td><asp:dropdownlist id="existing_unit_tests_" autopostback="true"
-                                      runat="server" datatextfield="name" datavaluefield="utid"
+                <td><asp:dropdownlist id="unused_unit_tests_"
+                                      runat="server"
                                       cssclass="larger_width" /></td>
                 <td><asp:button id="insert_unit_test_" runat="server"
                                 onclick="onclick_insert_unit_test" text="Insert" cssclass="button" /></td>
@@ -181,15 +163,8 @@
 
               <tr>
                 <td></td>
-                <td><asp:linkbutton id="delete_unit_test_" runat="server" text="Delete existing unit test"
-                                    onclick="onclick_delete_unit_test_from_database" /></td>
-              </tr>
-
-              <tr>
-                <td></td>
-                <td><asp:listbox id="current_unit_tests_" runat="server"
-                                 selectionmode="multiple" datatextfield="name"
-                                 datavaluefield="id" autopostback="true" enableviewstate="true"
+                <td><asp:listbox id="existing_unit_tests_" runat="server"
+                                 enableviewstate="true"
                                  rows="15" cssclass="larger_width" /></td>
               </tr>
 
@@ -197,8 +172,8 @@
                 <td></td>
                 <td colspan="2">
                   <asp:linkbutton id="remove_unit_test_" runat="server"
-                                  text="Remove selected unit test(s) from active test package"
-                                  onclick="onclick_remove_unit_test_from_test_package" /></td>
+                                  text="Remove selected unit test"
+                                  onclick="onclick_remove_unit_test" /></td>
               </tr>
             </table>
           </td>

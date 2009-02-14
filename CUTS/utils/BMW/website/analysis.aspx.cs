@@ -101,10 +101,12 @@ namespace CUTS.Web.Page
       try
       {
         // Open a connection to the database.
-        this.database_.Open ();
+        if (this.database_.State == ConnectionState.Closed)
+          this.database_.Open ();
 
         // Initialize the dropdown list.
-        DataTable suites = this.database_.SelectUnitTestSuites ();
+        DataTable suites = new DataTable ();
+        this.database_.SelectUnitTestSuites (ref suites);
 
         this.test_suite_list_.DataSource = suites;
         this.test_suite_list_.DataTextField = "name";

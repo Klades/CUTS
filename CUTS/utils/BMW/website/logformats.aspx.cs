@@ -113,6 +113,17 @@ namespace CUTS
           if (text != null)
           {
             mysql_regex.Append (text);
+
+            // Escape any special characters.
+            text.Replace (".", "\\.");
+            text.Replace ("(", "\\(");
+            text.Replace (")", "\\)");
+            text.Replace ("|", "\\|");
+            text.Replace ("$", "\\$");
+            text.Replace ("{", "\\{");
+            text.Replace ("}", "\\}");
+
+            // Append the text.
             csharp_regex.Append (text);
           }
 
@@ -173,10 +184,6 @@ namespace CUTS
           // Get the next match.
           match = match.NextMatch ();
         }
-
-        // Replace reserved characters with their escape string.
-        mysql_regex.Replace (".", "[[.period.]]");
-        csharp_regex.Replace (".", "\\.");
 
         // Insert log format into the database.
         this.actions_.insert_log_format (this.log_format_.Text,

@@ -200,6 +200,111 @@ namespace CUTS.BMW
       command.ExecuteNonQuery ();
     }
 
+    public void CreateTestSuite (string name)
+    {
+      // Create the SQL statement.
+      DbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "INSERT INTO cuts.test_suites (name) VALUES (@name)";
+
+      // Initialize the parameters.
+      DbParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "@name";
+      p1.Value = name;
+      command.Parameters.Add (p1);
+
+      // Execute the SQL statement.
+      command.ExecuteNonQuery ();
+    }
+
+    public void DeleteTestSuite (string name)
+    {
+      // Create the SQL statement.
+      DbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "DELETE FROM cuts.test_suites WHERE name = @name";
+
+      // Initialize the parameters.
+      DbParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "@name";
+      p1.Value = name;
+      command.Parameters.Add (p1);
+
+      // Execute the SQL statement.
+      command.ExecuteNonQuery ();
+    }
+
+    public void DeleteTestSuite (System.Int32 id)
+    {
+      // Create the SQL statement.
+      DbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "DELETE FROM cuts.test_suites WHERE id = @id";
+
+      // Initialize the parameters.
+      DbParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "@id";
+      p1.Value = id;
+      command.Parameters.Add (p1);
+
+      // Execute the SQL statement.
+      command.ExecuteNonQuery ();
+    }
+
+    public void CreateTestPackage (Int32 suite, string name)
+    {
+      // Create the SQL statement.
+      DbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "CALL cuts.insert_test_suite_package (@suite, @name)";
+
+      // Initialize the parameters.
+      DbParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "@suite";
+      p1.Value = suite;
+      command.Parameters.Add (p1);
+
+      DbParameter p2 = command.CreateParameter ();
+      p2.ParameterName = "@name";
+      p2.Value = name;
+      command.Parameters.Add (p2);
+
+      // Execute the SQL statement.
+      command.ExecuteNonQuery ();
+    }
+
+    public void InsertUnitTest (Int32 package, Int32 utid)
+    {
+      DbCommand command = this.conn_.CreateCommand ();
+      command.CommandText =
+        "INSERT INTO cuts.test_package_items (tspid, utid) VALUES (@package, @utid)";
+
+      // Initialize the parameters.
+      DbParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "@package";
+      p1.Value = package;
+      command.Parameters.Add (p1);
+
+      DbParameter p2 = command.CreateParameter ();
+      p2.ParameterName = "@utid";
+      p2.Value = utid;
+      command.Parameters.Add (p2);
+
+      // Execute the SQL statement.
+      command.ExecuteNonQuery ();
+    }
+
+    public void RemoveUnitTest (Int32 item)
+    {
+      DbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "DELETE FROM cuts.test_package_items WHERE tpiid = @item";
+
+      // Initialize the parameters.
+      DbParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "@item";
+      p1.Value = item;
+      command.Parameters.Add (p1);
+
+      // Execute the SQL statement.
+      command.ExecuteNonQuery ();
+    }
+
     public void CreateNewUnitTest (UnitTestDefinition definition)
     {
       DbTransaction transaction = this.conn_.BeginTransaction ();
@@ -1394,17 +1499,64 @@ namespace CUTS.BMW
       return ds.Tables["Table"];
     }
 
-    public DataTable SelectUnitTestSuites ()
+    public void SelectUnitTestSuites (ref DataTable table)
     {
       DbCommand command = this.conn_.CreateCommand ();
       command.CommandText = "SELECT * FROM cuts.test_suites ORDER BY name";
 
-      DataSet ds = new DataSet ();
       DbDataAdapter adapter = this.provider_.CreateDataAdapter ();
       adapter.SelectCommand = command;
 
-      adapter.Fill (ds);
-      return ds.Tables["Table"];
+      // Fill the table with the data.
+      adapter.Fill (table);
+    }
+
+    public void SelectUnitTests (Int32 package, ref DataTable tests)
+    {
+      DbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "CALL cuts.select_test_package_items_i (@package)";
+
+      DbParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "@package";
+      p1.Value = package;
+      command.Parameters.Add (p1);
+
+      // Fill the table with the data.
+      DbDataAdapter adapter = this.provider_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+      adapter.Fill (tests);
+    }
+
+    public void SelectUnusedUnitTests (Int32 package, ref DataTable tests)
+    {
+      DbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "CALL cuts.select_unused_test_package_items_i (@package)";
+
+      DbParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "@package";
+      p1.Value = package;
+      command.Parameters.Add (p1);
+
+      // Fill the table with the data.
+      DbDataAdapter adapter = this.provider_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+      adapter.Fill (tests);
+    }
+
+    public void SelectTestPackages (Int32 suite, ref DataTable packages)
+    {
+      DbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "CALL cuts.select_test_suite_packages_i (@suite)";
+
+      DbParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "@suite";
+      p1.Value = suite;
+      command.Parameters.Add (p1);
+
+      // Fill the table with the data.
+      DbDataAdapter adapter = this.provider_.CreateDataAdapter ();
+      adapter.SelectCommand = command;
+      adapter.Fill (packages);
     }
 
     public DbDataReader SelectLogFormatReader ()
@@ -1413,6 +1565,20 @@ namespace CUTS.BMW
       command.CommandText = "SELECT lfid, lfmt FROM cuts.log_formats ORDER BY lfmt";
 
       return command.ExecuteReader ();
+    }
+
+    public void DeleteTestSuitePackage (Int32 id)
+    {
+      DbCommand command = this.conn_.CreateCommand ();
+      command.CommandText = "DELETE FROM cuts.test_suite_packages WHERE tspid = @tspid";
+
+      DbParameter p1 = command.CreateParameter ();
+      p1.ParameterName = "@tspid";
+      p1.Value = id;
+      command.Parameters.Add (p1);
+
+      // Execute the SQL statement.
+      command.ExecuteNonQuery ();
     }
 
     public void select_component_portnames_i (int inst, string porttype, ref DataSet ds)
