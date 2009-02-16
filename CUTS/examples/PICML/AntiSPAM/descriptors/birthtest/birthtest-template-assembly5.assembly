@@ -1,0 +1,27 @@
+assembly TemplateAssembly
+{
+  instances
+  {
+    antispam::CPUBound inst1
+    {
+      instName=inst1
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=10
+      cpuProfile=hypothesis3/inst1.cpu
+    }
+
+    antispam::NullEventGenerator generator1
+    {
+      publishHertz=${generator1.publishHertz}
+      instName=generator1
+      testName=`cat /var/emulab/boot/syncserver`:10000
+    }
+  }
+
+  connections
+  {
+    generator1.NullEvent >> inst1.InPortA
+    generator1.NullEvent >> inst1.InPortB
+    generator1.NullEvent >> inst1.InPortC
+  }
+}

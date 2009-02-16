@@ -1,0 +1,4 @@
+deployment TemplateDeployment {
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/inst1 : ${host.inst1}[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/generator1 : generator[DefaultGroup]
+}

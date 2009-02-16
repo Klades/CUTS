@@ -1,3 +1,34 @@
+Mon Feb 16 23:13:30 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+        * examples/PICML/AntiSPAM/descriptors/birthtest:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/birthtest-template-assembly.config:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/birthtest-template-assembly1.assembly:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/birthtest-template-assembly1.cdp:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/birthtest-template-assembly1.deployment:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/birthtest-template-assembly2.assembly:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/birthtest-template-assembly2.cdp:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/birthtest-template-assembly2.deployment:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/birthtest-template-assembly3.assembly:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/birthtest-template-assembly3.cdp:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/birthtest-template-assembly3.deployment:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/birthtest-template-assembly4.assembly:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/birthtest-template-assembly4.cdp:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/birthtest-template-assembly4.deployment:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/birthtest-template-assembly5.assembly:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/birthtest-template-assembly5.cdp:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/birthtest-template-assembly5.deployment:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/generate-DnC.sh:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/generate-and-run-test-all.sh:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/generate-single.bat:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/generate.bat:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/run-test-all.sh:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/run-test.sh:
+        * examples/PICML/AntiSPAM/descriptors/birthtest/unique-deployments.config:
+
+          . Initial version of AntiSPAM test for evaluating causes
+            where event birth occur throughout an assembly.
+
 Mon Feb 16 21:49:54 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/emulab/cuts-node-reset-all.sh:
