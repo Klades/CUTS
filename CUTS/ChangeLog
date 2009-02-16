@@ -1,3 +1,11 @@
+Mon Feb 16 21:49:54 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/emulab/cuts-node-reset-all.sh:
+        * etc/emulab/cuts-node-reset.sh:
+
+          . Shell scripts for reseting the CUTS node daemon in an
+            Emulab experiment.
+
 Sat Feb 14 15:36:31 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * utils/BMW/website/analysis.aspx:
