@@ -14,7 +14,7 @@ NODE_LIST=`grep h /var/emulab/boot/ltmap | sed "s/h //"`
 
 for j in ${NODE_LIST}; do
   # get the fully qualified name of the host
-  HOSTNAME=$j.${EXP_NAME}.${PROJ_NAME}.isislab.vanderbilt.du
+  HOSTNAME=$j.${EXP_NAME}.${PROJ_NAME}.isislab.vanderbilt.edu
 
   # reset the host
   ${CUTS_ROOT}/etc/emulab/cuts-node-reset.sh ${HOSTNAME}:$1

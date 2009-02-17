@@ -1,13 +1,23 @@
+Tue Feb 17 00:28:49 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * etc/emulab/cuts-node-reset-all.sh:
+
+	  . Bug fix where the hostname was missing the 'e' in '.edu'.
+	
+        * etc/emulab/cuts-node-reset.sh:
+
+	  . Added output to the script.
+
 Tue Feb 17 00:15:51 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/NullEventGeneratorImpl_exec.cpp:
 
-	  . Bug fix where the log message for capturing the 
-	    hertz of a generator had incorrect format markers.
+          . Bug fix where the log message for capturing the
+            hertz of a generator had incorrect format markers.
 
         * examples/PICML/AntiSPAM/descriptors/birthtest/generate-and-run-test-all.sh:
 
-	  . Updated test script.
+          . Updated test script.
 
 Mon Feb 16 23:13:30 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
