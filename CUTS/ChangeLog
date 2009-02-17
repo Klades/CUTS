@@ -1,12 +1,19 @@
+Tue Feb 17 00:33:49 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/descriptors/birthtest/run-test.sh:
+
+	  . Changed the configuration since template support hasn't been
+	    added to all parts of the test configuration file.
+
 Tue Feb 17 00:28:49 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * etc/emulab/cuts-node-reset-all.sh:
 
-	  . Bug fix where the hostname was missing the 'e' in '.edu'.
-	
+          . Bug fix where the hostname was missing the 'e' in '.edu'.
+
         * etc/emulab/cuts-node-reset.sh:
 
-	  . Added output to the script.
+          . Added output to the script.
 
 Tue Feb 17 00:15:51 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
