@@ -1,3 +1,14 @@
+Tue Feb 17 00:15:51 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/NullEventGeneratorImpl_exec.cpp:
+
+	  . Bug fix where the log message for capturing the 
+	    hertz of a generator had incorrect format markers.
+
+        * examples/PICML/AntiSPAM/descriptors/birthtest/generate-and-run-test-all.sh:
+
+	  . Updated test script.
+
 Mon Feb 16 23:13:30 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/AntiSPAM.xme:

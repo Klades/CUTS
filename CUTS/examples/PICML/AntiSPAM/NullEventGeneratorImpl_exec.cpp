@@ -77,7 +77,7 @@ namespace CIDL_NullEventGeneratorImpl
   {
     this->logger_.configure (20000);
     this->logger_.connect_using_location (this->testName_);
-    this->logger_.log (LM_INFO, "generator %s hertz is %d", this->instName_.c_str (), this->publishHertz_);
+    this->logger_.log (LM_INFO, "generator %s hertz is %f", this->instName_.c_str (), this->publishHertz_);
 
     // configure the event generators
     this->periodic_eventGenerator_.configure (CUTS_Periodic_Event::PE_EXPONENTIAL, this->publishHertz_);
