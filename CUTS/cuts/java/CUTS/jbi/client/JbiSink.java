@@ -1,3 +1,6 @@
+// -*- Java -*-
+
+//=============================================================================
 /**
  * @file      JbiSource.java
  *
@@ -5,48 +8,30 @@
  *
  * @author      James H. Hill
  */
+//=============================================================================
 
 package CUTS.jbi.client;
-
 import org.infospherics.jbi.client.ObjectAvailableCallback;
 import org.infospherics.jbi.client.Connection;
 import org.infospherics.jbi.client.InfoObject;
 import org.infospherics.jbi.client.SubscriberSequence;
 import org.infospherics.jbi.client.exception.*;
-import org.exolab.castor.mapping.*;
-import org.exolab.castor.mapping.xml.*;
-import org.exolab.castor.xml.Unmarshaller;
-import org.exolab.castor.xml.MarshalException;
-import org.exolab.castor.xml.ValidationException;
 import java.io.StringReader;
 import java.io.IOException;
 
 /**
  * @class JbiSink
  */
-public class JbiSink
+public class JbiSink extends JbiPort
 {
-  /// The connection for the source.
-  private Connection jbiConn_ = null;
-
   /// Publisher sequence for the source.
   private SubscriberSequence jbiSink_ = null;
-
-  /// The information object's type.
-  private String typeName_;
-
-  /// The information object's version.
-  private String typeVersion_;
 
   /// The name of the predicate.
   private String predicateName_ = null;
 
   /// Predicate, if any, assocated with sink.
   private String predicateValue_ = null;
-
-    private Mapping mapping_ = new Mapping ();
-
-    private Unmarshaller unmarshaller_ = new Unmarshaller ();
 
   /**
    * Initializining constructor. In order to create a source object
@@ -57,30 +42,14 @@ public class JbiSink
    * @param[in]     version             The version of the event type.
    */
   public JbiSink (Connection connection, String type, String version)
-      throws PermissionDeniedException, UnsupportedVersionException,
-           MappingException, IOException
+      throws PermissionDeniedException, UnsupportedVersionException
   {
-    // Store the information about the publisher source.
-    this.jbiConn_ = connection;
-    this.typeName_ = type;
-    this.typeVersion_ = version;
+    super (connection, type, version);
 
-    // Construct the name of the mapping file. This is necessary
-    // since Castor likes to construct *bad* tags. ;-)
-    String mappingFile = type.replace ('.', '/');
-    mappingFile += "/mapping.xml";
-
-    // Load the mapping file for the type.
-    this.mapping_.loadMapping (getClass ().getClassLoader ().getResource (mappingFile));
-
-    // Initialize the mashaller.
-    this.unmarshaller_.setMapping (this.mapping_);
-    this.unmarshaller_.setValidation (false);
-
-   // Create the publisher sequence for the source.
+    // Create the publisher sequence for the source.
     this.jbiSink_ =
-      this.jbiConn_.createSubscriberSequence (
-          this.typeName_, this.typeVersion_);
+      this.getConnection ().createSubscriberSequence (this.getTypeName (),
+                                                      this.getVersion ());
   }
 
   /**
@@ -113,19 +82,12 @@ public class JbiSink
   public void close ()
     throws PermissionDeniedException
   {
-      if (this.jbiSink_ != null)
-          {
-              //this.jbiConn_.destroySequence (this.jbiSink_);
-              //this.jbiSink_ = null;
-          }
-  }
-
-  public Object metadataToObject (String metadata)
-      throws MarshalException, ValidationException
+    if (this.jbiSink_ != null)
     {
-        StringReader reader = new StringReader (metadata);
-        return this.unmarshaller_.unmarshal (reader);
+      //this.jbiConn_.destroySequence (this.jbiSink_);
+      //this.jbiSink_ = null;
     }
+  }
 
   /**
    * Set the predicate for the sink. The predicate is a regular

@@ -7,7 +7,6 @@
  */
 
 package CUTS.jbi.client;
-
 import org.infospherics.jbi.client.Connection;
 import org.infospherics.jbi.client.InfoObject;
 import org.infospherics.jbi.client.PublisherSequence;
@@ -27,53 +26,24 @@ import java.io.IOException;
  * required interface necessary for integrating with the CUTS testing
  * environment.
  */
-public class JbiSource
+public class JbiSource extends JbiPort
 {
-  /// The connection for the source.
-  private Connection jbiConn_ = null;
-
   /// Publisher sequence for the source.
   private PublisherSequence jbiSrc_ = null;
-
-  /// The information object's type.
-  private String typeName_;
-
-  /// The information object's version.
-  private String typeVersion_;
-
-    private Mapping mapping_ = new Mapping ();
-
-    private Marshaller marshaller_ = new Marshaller ();
 
   /**
    * Initializining constructor. In order to create a source object
    * for a client, you have to provide it will a parent connection.
    */
   public JbiSource (Connection connection, String type, String version)
-      throws PermissionDeniedException, UnsupportedVersionException,
-             MappingException, IOException
+      throws PermissionDeniedException, UnsupportedVersionException
   {
-    // Store the information about the publisher source.
-    this.jbiConn_ = connection;
-    this.typeName_ = type;
-    this.typeVersion_ = version;
-
-    // Construct the name of the mapping file. This is necessary
-    // since Castor likes to construct *bad* tags. ;-)
-    String mappingFile = type.replace ('.', '/');
-    mappingFile += "/mapping.xml";
-
-    // Load the mapping file for the type.
-    this.mapping_.loadMapping (getClass ().getClassLoader ().getResource (mappingFile));
-
-    // Initialize the mashaller.
-    this.marshaller_.setMapping (this.mapping_);
-    this.marshaller_.setValidation (false);
+    super (connection, type, version);
 
     // Create the publisher sequence for the source.
     this.jbiSrc_ =
-      this.jbiConn_.createPublisherSequence (
-          this.typeName_, this.typeVersion_);
+      this.getConnection ().createPublisherSequence (this.getTypeName (),
+                                                     this.getVersion ());
   }
 
   /**
@@ -81,7 +51,7 @@ public class JbiSource
    *
    * @param       event         Event object to publish.
    */
-  public InfoObject publishData (JbiEvent <?> event)
+  public void publishData (JbiEvent <?> event)
     throws UnsupportedVersionException, PermissionDeniedException,
            InvalidPayloadException, InvalidMetadataException,
            ObjectSizeException, VersionNumberException,
@@ -90,46 +60,15 @@ public class JbiSource
            MarshalException, ValidationException, IOException,
            InstantiationException, IllegalAccessException
   {
-      String metadata;
-
-      // Marshall the object to a XML string.
-      if (event.getMetadataString () == null)
-          {
-              StringWriter writer = new StringWriter ();
-              this.marshaller_.setWriter (writer);
-              this.marshaller_.marshal (event.getMetadata ());
-              metadata = writer.toString ();
-          }
-      else
-          {
-              metadata = event.getMetadataString ();
-          }
-
-      // Publish the event, which creates an MIO.
-      InfoObject io =
-          this.publishData (metadata, event.getPayload ());
+    // Publish the event, which creates an MIO.
+    InfoObject io =
+      this.getConnection ().createInfoObject (this.getTypeName (),
+                                              this.getVersion (),
+                                              event.getPayload (),
+                                              event.getMetadataString ());
 
     // Store the information object in the event.
     event.setInfoObject (io);
-    return io;
-  }
-
-  /**
-   * Publish data to the environment. This will return the published
-   * information object for the client's reference.
-   */
-  public InfoObject publishData (String header, byte [] payload)
-    throws UnsupportedVersionException, PermissionDeniedException,
-           InvalidPayloadException, InvalidMetadataException,
-           ObjectSizeException, VersionNumberException,
-           PausedSequenceException, SequenceStateException
-  {
-    InfoObject io =
-      this.jbiConn_.createInfoObject (
-          this.typeName_, this.typeVersion_, payload, header);
-
-    this.jbiSrc_.publishInfoObject (io);
-    return io;
   }
 
   /**
@@ -150,11 +89,11 @@ public class JbiSource
   public void close ()
     throws PermissionDeniedException
   {
-      if (this.jbiSrc_ != null)
-          {
-              //this.jbiConn_.destroySequence (this.jbiSrc_);
-              //this.jbiSrc_ = null;
-          }
+    if (this.jbiSrc_ != null)
+    {
+        //this.jbiConn_.destroySequence (this.jbiSrc_);
+        //this.jbiSrc_ = null;
+    }
   }
 }
 

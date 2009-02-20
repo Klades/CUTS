@@ -5,6 +5,7 @@
 #include "Set_Classpath_Script_Generator.h"
 #include "Register_Type_Script_Generator.h"
 #include "XML_Mapping_File_Generator.h"
+#include "CAPI_Event_Impl_Generator.h"
 #include "XSD_File_Generator.h"
 #include "../BE_Options.h"
 #include "../BE_Scope_Manager.h"
@@ -420,17 +421,7 @@ generate (const PICML::MonolithicImplementation & mono,
         << type_name << "\") && version.equals(\""
         << version << "\"))" << std::endl
         << "{"
-        << "// Convert the string metadata into an object" << std::endl
-        << "metadata = mio.getMetadata ();"
-        << class_name << " t = (" << class_name << ") this."
-        << sink_iter->first << "_.metadataToObject (metadata);"
-        << std::endl
-        << "// Create a new event" << std::endl
-        << "JbiEvent <" << class_name << "> event =" << std::endl
-        << "  new JbiEvent <" << class_name << "> (" << class_name << ".class, t);"
-        << std::endl
-        << "// Save the information object and make the upcall" << std::endl
-        << "event.setInfoObject (mio);"
+        << class_name << "Impl event =  new " << class_name << "Impl (mio);"
         << "this." << sink_iter->first << " (event);"
         << "}";
 
@@ -453,10 +444,7 @@ generate (const PICML::MonolithicImplementation & mono,
           << type_name << "\" && version.equals (\""
           << version << "\"))" << std::endl
           << "{"
-          << "JbiEvent <" << class_name
-          << "> event = new JbiEvent <" << class_name
-          << "> (" << class_name << ".class);"
-          << "event.setInfoObject (mio);"
+          << class_name << "Impl event = new " << class_name << "Impl (mio);"
           << "this." << sink_iter->first << " (event);"
           << "}";
       }
@@ -951,11 +939,10 @@ generate (const PICML::OutputAction & action)
 
   tagname[0] = ::toupper (tagname[0]);
 
-  CUTS_BE_CAPI ()->outfile_
-    << "// Create a new event for publishing" << std::endl
-    << "JbiEvent <" << tagname << "> ev_" << action.uniqueId ()
-    << "_ = new JbiEvent <" << tagname << "> (" << tagname << ".class);"
-    << std::endl;
+  CUTS_BE_CAPI ()->outfile_ << "// Create a new event for publishing" << std::endl
+                            << tagname << "Impl ev_" << action.uniqueId ()
+                            << "_ = new " << tagname << "Impl ();"
+                            << std::endl;
 
   return true;
 }
@@ -967,9 +954,9 @@ bool CUTS_BE_OutputAction_Property_T <CUTS_BE_Capi>::
 generate (const PICML::OutputAction & action,
           const PICML::Property & property)
 {
-  std::string property_name = property.name ();
+  std::string name = property.name ();
 
-  if (property_name == "metadata")
+  if (name == "metadata")
   {
     // We handle the metadata property specially.
     PICML::DataType datatype = property.DataType_child ();
@@ -988,10 +975,16 @@ generate (const PICML::OutputAction & action,
 
     }
   }
+  else if (name == "payload")
+  {
+    CUTS_BE_CAPI ()->outfile_ << "ev_" << action.uniqueId ()
+                              << "_.setPayload (" << property.DataValue ()
+                              << ");";
+  }
   else
   {
     CUTS_BE_CAPI ()->outfile_
-      << "ev_" << action.uniqueId () << "_." <<
+      << "ev_" << action.uniqueId () << "_.getMetadata ()." <<
       CUTS_BE_CAPI ()->setter_method (property.name ())
       << " (" << property.DataValue () << ");";
   }
@@ -1548,4 +1541,7 @@ generate_mapping_file (const PICML::Event & event, const std::string & outdir)
   // Generate the XSD file.
   XSD_File_Generator xsd (outdir);
   e.Accept (xsd);
+
+  CUTS_BE_CAPI_Event_Impl_Generator eventimpl (outdir);
+  e.Accept (eventimpl);
 }

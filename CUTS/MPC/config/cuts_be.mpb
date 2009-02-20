@@ -1,6 +1,11 @@
 // $Id$
 
 project {
-  after += CUTS_BE
-  libs  += CUTS_BE
+  after += CUTS_BE CodeGenerationKit
+  libs  += CUTS_BE CodeGenerationKits
+
+  includes += $(CIAO_ROOT)/CCF \
+              $(ACE_ROOT)/contrib/utility
+
+  libpaths += $(CIAO_ROOT)/CCF/CCF
 }

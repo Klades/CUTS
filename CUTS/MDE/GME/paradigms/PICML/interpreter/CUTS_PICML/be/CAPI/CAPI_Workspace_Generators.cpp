@@ -122,6 +122,7 @@ generate_eventtypes_project (void)
     << "<property name=\"jbi.schemas.dir\" value=\".\" />" << std::endl
     << std::endl
     << "<!-- import necessary external files -->" << std::endl
+    << "<import file=\"${env.CUTS_ROOT}/etc/ANT/include/cuts.build\" />" << std::endl
     << "<import file=\"${env.CUTS_ROOT}/etc/ANT/include/castor.build\" />" << std::endl
     << std::endl
     << "<!-- build all the implementations -->" << std::endl
@@ -175,6 +176,7 @@ generate_target_eventtypes_srcgen (std::ofstream & outfile)
       << "<fileset dir=\".\">" << std::endl
       << "<include name=\"" << pathname << "/*.java\" />" << std::endl
       << "<include name=\"" << pathname << "/*.class\" />" << std::endl
+      << "<exclude name=\"" << pathname << "/*Impl.java\" />" << std::endl
       << "</fileset>" << std::endl
       << "</delete>" << std::endl
       << std::endl
@@ -209,7 +211,7 @@ generate_target_eventtypes_build (std::ofstream & outfile)
   outfile
     << std::endl
     << "<target name=\"eventtypes.build\" depends=\"eventtypes.srcgen\">" << std::endl
-    << "<javac srcdir=\".\" classpath=\".\">" << std::endl;
+    << "<javac srcdir=\".\" classpathref=\"cuts.build.classpath\">" << std::endl;
 
   for ( ; iter != iter_end; ++ iter)
   {
