@@ -1,3 +1,9 @@
+Sat Feb 21 22:53:47 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/CPUBoundImpl_exec.cpp:
+
+          . Added the source name to the generated log messages.
+
 Fri Feb 20 07:04:38 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI.mpc:

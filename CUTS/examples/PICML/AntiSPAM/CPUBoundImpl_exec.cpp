@@ -25,13 +25,21 @@ namespace CIDL_CPUBoundImpl
     this->logEventA_ = this->eventCountA_ % this->logRate_ == 0;
     if (this->logEventA_)
     {
-      this->logger_.log (LM_INFO, "%s port A is preprocessing event %d at %d", this->instName_.c_str (), this->eventCountA_, ACE_OS::gettimeofday ().msec ());
+      this->logger_.log (LM_INFO, "%s port A is preprocessing event %s.%d at %d",
+                         this->instName_.c_str (),
+                         ev->sourceName (),
+                         this->eventCountA_,
+                         ACE_OS::gettimeofday ().msec ());
     }
 
     this->mycpu_.profile_run ("preA");
     if (this->logEventA_)
     {
-      this->logger_.log (LM_INFO, "%s port A is postprocessing event %d at %d", this->instName_.c_str (), this->eventCountA_, ACE_OS::gettimeofday ().msec ());
+      this->logger_.log (LM_INFO, "%s port A is postprocessing event %s.%d at %d",
+                         this->instName_.c_str (),
+                         ev->sourceName (),
+                         this->eventCountA_,
+                         ACE_OS::gettimeofday ().msec ());
     }
 
     CUTS_CCM_Event_T <OBV_antispam::NullEvent> __event_100000011__;
@@ -42,7 +50,12 @@ namespace CIDL_CPUBoundImpl
     this->mycpu_.profile_run ("postA");
     if (this->logEventA_)
     {
-      this->logger_.log (LM_INFO, "%s port A is finalizing event %d at %d (recv time: %d)", this->instName_.c_str (), this->eventCountA_, ACE_OS::gettimeofday ().msec (), ev->recvTime ());
+      this->logger_.log (LM_INFO, "%s port A is finalizing event %s.%d at %d (recv time: %d)",
+                         this->instName_.c_str (),
+                         ev->sourceName (),
+                         this->eventCountA_,
+                         ACE_OS::gettimeofday ().msec (),
+                         ev->recvTime ());
     }
 
     ACE_UNUSED_ARG (ev);
@@ -67,13 +80,21 @@ namespace CIDL_CPUBoundImpl
     this->logEventB_ = this->eventCountB_ % this->logRate_ == 0;
     if (this->logEventB_)
     {
-      this->logger_.log (LM_INFO, "%s port B is preprocessing event %d at %d", this->instName_.c_str (), this->eventCountB_, ACE_OS::gettimeofday ().msec ());
+      this->logger_.log (LM_INFO, "%s port B is preprocessing event %s.%d at %d",
+                         this->instName_.c_str (),
+                         this->eventCountB_,
+                         ev->sourceName (),
+                         ACE_OS::gettimeofday ().msec ());
     }
 
     this->mycpu_.profile_run ("preB");
     if (this->logEventB_)
     {
-      this->logger_.log (LM_INFO, "%s port B is postprocessing event %d at %d", this->instName_.c_str (), this->eventCountB_, ACE_OS::gettimeofday ().msec ());
+      this->logger_.log (LM_INFO, "%s port B is postprocessing event %s.%d at %d",
+                         this->instName_.c_str (),
+                         ev->sourceName (),
+                         this->eventCountB_,
+                         ACE_OS::gettimeofday ().msec ());
     }
 
     CUTS_CCM_Event_T <OBV_antispam::NullEvent> __event_100000017__;
@@ -84,7 +105,12 @@ namespace CIDL_CPUBoundImpl
     this->mycpu_.profile_run ("postB");
     if (this->logEventB_)
     {
-      this->logger_.log (LM_INFO, "%s port B is finalizing event %d at %d (recv time: %d)", this->instName_.c_str (), this->eventCountB_, ACE_OS::gettimeofday ().msec (), ev->recvTime ());
+      this->logger_.log (LM_INFO, "%s port B is finalizing event $s.%d at %d (recv time: %d)",
+                         this->instName_.c_str (),
+                         ev->sourceName (),
+                         this->eventCountB_,
+                         ACE_OS::gettimeofday ().msec (),
+                         ev->recvTime ());
     }
 
     ACE_UNUSED_ARG (ev);
@@ -109,13 +135,21 @@ namespace CIDL_CPUBoundImpl
     this->logEventE_ = this->eventCountE_ % this->logRate_ == 0;
     if (this->logEventE_)
     {
-      this->logger_.log (LM_INFO, "%s port E is preprocessing event %d at %d", this->instName_.c_str (), this->eventCountE_, ACE_OS::gettimeofday ().msec ());
+      this->logger_.log (LM_INFO, "%s port E is preprocessing event %s.%d at %d",
+                         this->instName_.c_str (),
+                         ev->sourceName (),
+                         this->eventCountE_,
+                         ACE_OS::gettimeofday ().msec ());
     }
 
     this->mycpu_.profile_run ("preE");
     if (this->logEventE_)
     {
-      this->logger_.log (LM_INFO, "%s port E is postprocessing event %d at %d", this->instName_.c_str (), this->eventCountE_, ACE_OS::gettimeofday ().msec ());
+      this->logger_.log (LM_INFO, "%s port E is postprocessing event %s.%d at %d",
+                         this->instName_.c_str (),
+                         ev->sourceName (),
+                         this->eventCountE_,
+                         ACE_OS::gettimeofday ().msec ());
     }
 
     CUTS_CCM_Event_T <OBV_antispam::NullEvent> __event_100000035__;
@@ -126,7 +160,13 @@ namespace CIDL_CPUBoundImpl
     this->mycpu_.profile_run ("postE");
     if (this->logEventE_)
     {
-      this->logger_.log (LM_INFO, "%s port E is finalizing event %d at %d (recv time: %d)", this->instName_.c_str (), this->eventCountE_, ACE_OS::gettimeofday ().msec (), ev->recvTime ());
+      this->logger_.log (LM_INFO,
+                         "%s port E is finalizing event %s.%d at %d (recv time: %d)",
+                         this->instName_.c_str (),
+                         ev->sourceName (),
+                         this->eventCountE_,
+                         ACE_OS::gettimeofday ().msec (),
+                         ev->recvTime ());
     }
 
     ACE_UNUSED_ARG (ev);
@@ -151,13 +191,21 @@ namespace CIDL_CPUBoundImpl
     this->logEventC_ = this->eventCountC_ % this->logRate_ == 0;
     if (this->logEventC_)
     {
-      this->logger_.log (LM_INFO, "%s port C is preprocessing event %d at %d", this->instName_.c_str (), this->eventCountC_, ACE_OS::gettimeofday ().msec ());
+      this->logger_.log (LM_INFO, "%s port C is preprocessing event %s.%d at %d",
+                         this->instName_.c_str (),
+                         ev->sourceName (),
+                         this->eventCountC_,
+                         ACE_OS::gettimeofday ().msec ());
     }
 
     this->mycpu_.profile_run ("preC");
     if (this->logEventC_)
     {
-      this->logger_.log (LM_INFO, "%s port C is postprocessing event %d at %d", this->instName_.c_str (), this->eventCountC_, ACE_OS::gettimeofday ().msec ());
+      this->logger_.log (LM_INFO, "%s port C is postprocessing event %s.%d at %d",
+                         this->instName_.c_str (),
+                         ev->sourceName (),
+                         this->eventCountC_,
+                         ACE_OS::gettimeofday ().msec ());
     }
 
     CUTS_CCM_Event_T <OBV_antispam::NullEvent> __event_100000023__;
@@ -168,7 +216,12 @@ namespace CIDL_CPUBoundImpl
     this->mycpu_.profile_run ("postC");
     if (this->logEventC_)
     {
-      this->logger_.log (LM_INFO, "%s port C is finalizing event %d at %d (recv time: %d)", this->instName_.c_str (), this->eventCountC_, ACE_OS::gettimeofday ().msec (), ev->recvTime ());
+      this->logger_.log (LM_INFO, "%s port C is finalizing event %s.%d at %d (recv time: %d)",
+                         this->instName_.c_str (),
+                         ev->sourceName (),
+                         this->eventCountC_,
+                         ACE_OS::gettimeofday ().msec (),
+                         ev->recvTime ());
     }
 
     ACE_UNUSED_ARG (ev);
@@ -193,13 +246,21 @@ namespace CIDL_CPUBoundImpl
     this->logEventD_ = this->eventCountD_ % this->logRate_ == 0;
     if (this->logEventD_)
     {
-      this->logger_.log (LM_INFO, "%s port D is preprocessing event %d at %d", this->instName_.c_str (), this->eventCountD_, ACE_OS::gettimeofday ().msec ());
+      this->logger_.log (LM_INFO, "%s port D is preprocessing event %s.%d at %d",
+                         this->instName_.c_str (),
+                         ev->sourceName (),
+                         this->eventCountD_,
+                         ACE_OS::gettimeofday ().msec ());
     }
 
     this->mycpu_.profile_run ("preD");
     if (this->logEventD_)
     {
-      this->logger_.log (LM_INFO, "%s port D is postprocessing event %d at %d", this->instName_.c_str (), this->eventCountD_, ACE_OS::gettimeofday ().msec ());
+      this->logger_.log (LM_INFO, "%s port D is postprocessing event %s.%d at %d",
+                         this->instName_.c_str (),
+                         ev->sourceName (),
+                         this->eventCountD_,
+                         ACE_OS::gettimeofday ().msec ());
     }
 
     CUTS_CCM_Event_T <OBV_antispam::NullEvent> __event_100000029__;
@@ -210,7 +271,12 @@ namespace CIDL_CPUBoundImpl
     this->mycpu_.profile_run ("postD");
     if (this->logEventD_)
     {
-      this->logger_.log (LM_INFO, "%s port D is finalizing event %d at %d (recv time: %d)", this->instName_.c_str (), this->eventCountD_, ACE_OS::gettimeofday ().msec (), ev->recvTime ());
+      this->logger_.log (LM_INFO, "%s port D is finalizing event %s.%d at %d (recv time: %d)",
+                         this->instName_.c_str (),
+                         ev->sourceName (),
+                         this->eventCountD_,
+                         ACE_OS::gettimeofday ().msec (),
+                         ev->recvTime ());
     }
 
     ACE_UNUSED_ARG (ev);
