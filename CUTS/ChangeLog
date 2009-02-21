@@ -1,3 +1,9 @@
+Sat Feb 21 23:01:23 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/NullEventGeneratorImpl_exec.cpp:
+
+          . The generator now logs when it sent the event.
+
 Sat Feb 21 22:53:47 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/CPUBoundImpl_exec.cpp:

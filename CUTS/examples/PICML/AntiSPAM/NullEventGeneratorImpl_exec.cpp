@@ -12,10 +12,18 @@ namespace CIDL_NullEventGeneratorImpl
   void NullEventGenerator::periodic_eventGenerator (void)
   {
     ++ this->eventNumber_;
+
     CUTS_CCM_Event_T <OBV_antispam::NullEvent> __event_100000047__;
     __event_100000047__->sourceName (this->instName_.c_str ());
     __event_100000047__->eventNumber (this->eventNumber_);
+
+    ACE_Time_Value tv = ACE_OS::gettimeofday ();
     this->ctx_->push_NullEvent (__event_100000047__.in ());
+
+    this->logger_.log (LM_INFO, "%s sent event %d at %d",
+                       this->instName_.c_str (),
+                       this->eventNumber_,
+                       tv.msec ());
   }
 
   //
@@ -120,8 +128,8 @@ namespace CIDL_NullEventGeneratorImpl
   //
   // create
   //
-  ::Components::EnterpriseComponent_ptr 
-    NullEventGeneratorHome_i::create (void) 
+  ::Components::EnterpriseComponent_ptr
+    NullEventGeneratorHome_i::create (void)
   {
     ::Components::EnterpriseComponent_ptr retval =
       ::Components::EnterpriseComponent::_nil ();
@@ -138,7 +146,7 @@ namespace CIDL_NullEventGeneratorImpl
 // create_antispam_NullEventGeneratorHome_Impl
 //
 ::Components::HomeExecutorBase_ptr
-create_antispam_NullEventGeneratorHome_Impl (void) 
+create_antispam_NullEventGeneratorHome_Impl (void)
 {
   ::Components::HomeExecutorBase_ptr retval =
     ::Components::HomeExecutorBase::_nil ();
