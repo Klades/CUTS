@@ -1,0 +1,158 @@
+assembly TemplateAssembly
+{
+  instances
+  {
+    antispam::CPUBound inst1
+    {
+      instName=inst1
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=10
+      cpuProfile=e2e/inst1.cpu
+    }
+    antispam::CPUBound inst2
+    {
+      instName=inst2
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=10
+      cpuProfile=e2e/inst2.cpu
+    }
+    antispam::CPUBound inst3
+    {
+      instName=inst3
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=10
+      cpuProfile=e2e/inst3.cpu
+    }
+    antispam::CPUBound inst4
+    {
+      instName=inst4
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=10
+      cpuProfile=e2e/inst4.cpu
+    }
+    antispam::CPUBound inst5
+    {
+      instName=inst5
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=10
+      cpuProfile=e2e/inst5.cpu
+    }
+    antispam::CPUBound inst6
+    {
+      instName=inst6
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=10
+      cpuProfile=e2e/inst6.cpu
+    }
+    antispam::CPUBound inst7
+    {
+      instName=inst7
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=10
+      cpuProfile=e2e/inst7.cpu
+    }
+    antispam::CPUBound inst8
+    {
+      instName=inst8
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=10
+      cpuProfile=e2e/inst8.cpu
+    }
+    antispam::CPUBound inst9
+    {
+      instName=inst9
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=10
+      cpuProfile=e2e/inst9.cpu
+    }
+    antispam::CPUBound inst10
+    {
+      instName=inst10
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=10
+      cpuProfile=e2e/inst10.cpu
+    }
+    antispam::CPUBound inst11
+    {
+      instName=inst11
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=10
+      cpuProfile=e2e/inst11.cpu
+    }
+    antispam::CPUBound inst12
+    {
+      instName=inst12
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=10
+      cpuProfile=e2e/inst12.cpu
+    }
+    antispam::NullEventGenerator generator1
+    {
+      publishHertz=${generator1.publishHertz}
+      instName=generator1
+      testName=`cat /var/emulab/boot/syncserver`:10000
+    }
+    antispam::NullEventGenerator generator2
+    {
+      publishHertz=${generator1.publishHertz}
+      instName=generator2
+      testName=`cat /var/emulab/boot/syncserver`:10000
+    }
+    antispam::NullEventGenerator generator3
+    {
+      publishHertz=${generator1.publishHertz}
+      instName=generator3
+      testName=`cat /var/emulab/boot/syncserver`:10000
+    }
+    antispam::NullEventGenerator generator4
+    {
+      publishHertz=${generator1.publishHertz}
+      instName=generator4
+      testName=`cat /var/emulab/boot/syncserver`:10000
+    }
+    antispam::NullEventGenerator generator5
+    {
+      publishHertz=${generator1.publishHertz}
+      instName=generator5
+      testName=`cat /var/emulab/boot/syncserver`:10000
+    }
+    antispam::NullEventGenerator generator6
+    {
+      publishHertz=${generator1.publishHertz}
+      instName=generator6
+      testName=`cat /var/emulab/boot/syncserver`:10000
+    }
+    antispam::NullEventGenerator generator7
+    {
+      publishHertz=${generator1.publishHertz}
+      instName=generator7
+      testName=`cat /var/emulab/boot/syncserver`:10000
+    }
+  }
+
+  connections
+  {
+    generator1.NullEvent >> inst1.InPortA
+    generator2.NullEvent >> inst2.InPortA
+    generator3.NullEvent >> inst3.InPortA
+    generator4.NullEvent >> inst4.InPortA
+    generator5.NullEvent >> inst6.InPortA
+    generator6.NullEvent >> inst6.InPortA
+    generator7.NullEvent >> inst6.InPortA
+
+    inst1.OutPortA >> inst5.InPortA
+    inst2.OutPortA >> inst5.InPortA
+    inst3.OutPortA >> inst5.InPortA
+    inst4.OutPortA >> inst5.InPortA
+
+    inst6.OutPortA >> inst5.InPortB
+    inst6.OutPortA >> inst7.InPortB
+
+    inst5.OutPortA >> inst7.InPortA
+    inst7.OutPortA >> inst8.InPortA
+    inst8.OutPortA >> inst9.InPortA
+    inst9.OutPortA >> inst10.InPortA
+    inst9.OutPortA >> inst11.InPortA
+    inst9.OutPortA >> inst12.InPortA
+  }
+}

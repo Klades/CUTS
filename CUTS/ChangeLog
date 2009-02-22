@@ -1,3 +1,35 @@
+Sun Feb 22 01:24:48 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+        * examples/PICML/AntiSPAM/descriptors/e2e:
+        * examples/PICML/AntiSPAM/descriptors/e2e/e2e-template-assembly1.assembly:
+        * examples/PICML/AntiSPAM/descriptors/e2e/e2e-template-assembly1.cdp:
+        * examples/PICML/AntiSPAM/descriptors/e2e/e2e-template-assembly1.config:
+        * examples/PICML/AntiSPAM/descriptors/e2e/e2e-template-assembly1.deployment:
+        * examples/PICML/AntiSPAM/descriptors/e2e/e2e-template-assembly1.unique:
+        * examples/PICML/AntiSPAM/descriptors/e2e/e2e-template-assembly2.assembly:
+        * examples/PICML/AntiSPAM/descriptors/e2e/e2e-template-assembly2.cdp:
+        * examples/PICML/AntiSPAM/descriptors/e2e/e2e-template-assembly2.config:
+        * examples/PICML/AntiSPAM/descriptors/e2e/e2e-template-assembly2.deployment:
+        * examples/PICML/AntiSPAM/descriptors/e2e/e2e-template-assembly2.unique:
+        * examples/PICML/AntiSPAM/descriptors/e2e/generate-single.bat:
+        * examples/PICML/AntiSPAM/descriptors/e2e/generate.bat:
+        * examples/PICML/AntiSPAM/lib/e2e:
+        * examples/PICML/AntiSPAM/lib/e2e/inst1.cpu:
+        * examples/PICML/AntiSPAM/lib/e2e/inst10.cpu:
+        * examples/PICML/AntiSPAM/lib/e2e/inst11.cpu:
+        * examples/PICML/AntiSPAM/lib/e2e/inst12.cpu:
+        * examples/PICML/AntiSPAM/lib/e2e/inst2.cpu:
+        * examples/PICML/AntiSPAM/lib/e2e/inst3.cpu:
+        * examples/PICML/AntiSPAM/lib/e2e/inst4.cpu:
+        * examples/PICML/AntiSPAM/lib/e2e/inst5.cpu:
+        * examples/PICML/AntiSPAM/lib/e2e/inst6.cpu:
+        * examples/PICML/AntiSPAM/lib/e2e/inst7.cpu:
+        * examples/PICML/AntiSPAM/lib/e2e/inst8.cpu:
+        * examples/PICML/AntiSPAM/lib/e2e/inst9.cpu:
+
+          . Configuration files for the end-to-end test.
+
 Sat Feb 21 23:01:23 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/NullEventGeneratorImpl_exec.cpp:
