@@ -1,3 +1,13 @@
+Sun Feb 22 02:45:25 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/descriptors/e2e/generate-DnC.sh:
+        * examples/PICML/AntiSPAM/descriptors/e2e/generate-and-run-test-all.sh:
+        * examples/PICML/AntiSPAM/descriptors/e2e/run-test-all.sh:
+        * examples/PICML/AntiSPAM/descriptors/e2e/run-test.sh:
+
+          . Scripts for generating all the deployments, and running the
+            tests in ISISlab.
+
 Sun Feb 22 01:24:48 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/AntiSPAM.xme:
