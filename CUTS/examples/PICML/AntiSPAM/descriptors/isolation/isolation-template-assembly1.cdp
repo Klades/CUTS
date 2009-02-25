@@ -19,7 +19,7 @@
 
   <instance id="AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst1">
     <name>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst1</name>
-    <node>host1</node>
+    <node>node-1</node>
     <source/>
     <implementation>_1C925CC4-892B-4519-AAC5-4F644CB48405</implementation>
     <configProperty>
@@ -70,7 +70,7 @@
 
   <instance id="AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst2">
     <name>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst2</name>
-    <node>host2</node>
+    <node>node-2</node>
     <source/>
     <implementation>_1C925CC4-892B-4519-AAC5-4F644CB48405</implementation>
     <configProperty>
@@ -121,7 +121,7 @@
 
   <instance id="AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst3">
     <name>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst3</name>
-    <node>host3</node>
+    <node>node-3</node>
     <source/>
     <implementation>_1C925CC4-892B-4519-AAC5-4F644CB48405</implementation>
     <configProperty>
@@ -172,7 +172,7 @@
 
   <instance id="AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst4">
     <name>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst4</name>
-    <node>host4</node>
+    <node>node-4</node>
     <source/>
     <implementation>_1C925CC4-892B-4519-AAC5-4F644CB48405</implementation>
     <configProperty>
@@ -223,7 +223,7 @@
 
   <instance id="AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst5">
     <name>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst5</name>
-    <node>host5</node>
+    <node>node-5</node>
     <source/>
     <implementation>_1C925CC4-892B-4519-AAC5-4F644CB48405</implementation>
     <configProperty>
@@ -274,7 +274,7 @@
 
   <instance id="AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst6">
     <name>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst6</name>
-    <node>host6</node>
+    <node>node-6</node>
     <source/>
     <implementation>_1C925CC4-892B-4519-AAC5-4F644CB48405</implementation>
     <configProperty>
@@ -325,7 +325,7 @@
 
   <instance id="AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst7">
     <name>AntiSPAM.ComponentImplementations.TemplateAssembly.TemplateAssembly.inst7</name>
-    <node>host7</node>
+    <node>node-7</node>
     <source/>
     <implementation>_1C925CC4-892B-4519-AAC5-4F644CB48405</implementation>
     <configProperty>
