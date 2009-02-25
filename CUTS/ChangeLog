@@ -1,3 +1,13 @@
+Wed Feb 25 14:35:13 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/descriptors/isolation/generate-DnC.sh:
+        * examples/PICML/AntiSPAM/descriptors/isolation/generate-and-run-test-all.sh:
+        * examples/PICML/AntiSPAM/descriptors/isolation/run-test-all.sh:
+        * examples/PICML/AntiSPAM/descriptors/isolation/run-test.sh:
+
+          . Scripts for running the baseline test for the SLICE scenario
+            in AntiSPAM.
+
 Wed Feb 25 14:29:12 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/AntiSPAM.xme:
