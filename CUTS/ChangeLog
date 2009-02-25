@@ -1,3 +1,11 @@
+Wed Feb 25 17:59:44 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/descriptors/isolation/isolation-template-assembly1.cdp:
+        * examples/PICML/AntiSPAM/descriptors/isolation/isolation-template-assembly1.config:
+
+	  . Bug fix in the descriptors where both generators were using
+	    generator's publish rate.
+
 Wed Feb 25 14:55:57 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/descriptors/controlled/generate-and-run-test-all.sh:

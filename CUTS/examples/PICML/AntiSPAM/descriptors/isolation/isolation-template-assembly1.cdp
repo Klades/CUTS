@@ -426,7 +426,7 @@
           <kind>tk_double</kind>
         </type>
         <value>
-          <double>${generator1.publishHertz}</double>
+          <double>${generator2.publishHertz}</double>
         </value>
       </value>
     </configProperty>
