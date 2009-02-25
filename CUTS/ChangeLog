@@ -1,3 +1,21 @@
+Wed Feb 25 14:43:59 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/descriptors/controlled:
+        * examples/PICML/AntiSPAM/descriptors/controlled/e2e-template-assembly1.assembly:
+        * examples/PICML/AntiSPAM/descriptors/controlled/e2e-template-assembly1.cdp:
+        * examples/PICML/AntiSPAM/descriptors/controlled/e2e-template-assembly1.config:
+        * examples/PICML/AntiSPAM/descriptors/controlled/e2e-template-assembly1.deployment:
+        * examples/PICML/AntiSPAM/descriptors/controlled/e2e-template-assembly1.unique:
+        * examples/PICML/AntiSPAM/descriptors/controlled/generate-DnC.sh:
+        * examples/PICML/AntiSPAM/descriptors/controlled/generate-and-run-test-all.sh:
+        * examples/PICML/AntiSPAM/descriptors/controlled/generate-single.bat:
+        * examples/PICML/AntiSPAM/descriptors/controlled/generate.bat:
+        * examples/PICML/AntiSPAM/descriptors/controlled/run-test-all.sh:
+        * examples/PICML/AntiSPAM/descriptors/controlled/run-test.sh:
+
+          . Configurations and scripts for running the controlled version of
+            the SLICE scenario for AntiSPAM.
+
 Wed Feb 25 14:35:13 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/descriptors/isolation/generate-DnC.sh:
