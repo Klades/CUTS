@@ -1,3 +1,9 @@
+Wed Feb 25 14:20:39 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/CPUBoundImpl_exec.cpp:
+
+          . Removed some of the logging information.
+
 Sun Feb 22 04:21:43 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/descriptors/e2e/e2e-template-assembly1.unique:

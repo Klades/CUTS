@@ -21,18 +21,19 @@ namespace CIDL_CPUBoundImpl
   void CPUBound::push_InPortA_i (antispam::NullEvent * ev)
   {
     this->eventCountA_ ++;
-
     this->logEventA_ = this->eventCountA_ % this->logRate_ == 0;
-    if (this->logEventA_)
-    {
-      this->logger_.log (LM_INFO, "%s port A is preprocessing event %s.%d at %d",
-                         this->instName_.c_str (),
-                         ev->sourceName (),
-                         this->eventCountA_,
-                         ACE_OS::gettimeofday ().msec ());
-    }
+
+    //if (this->logEventA_)
+    //{
+    //  this->logger_.log (LM_INFO, "%s port A is preprocessing event %s.%d at %d",
+    //                     this->instName_.c_str (),
+    //                     ev->sourceName (),
+    //                     this->eventCountA_,
+    //                     ACE_OS::gettimeofday ().msec ());
+    //}
 
     this->mycpu_.profile_run ("preA");
+
     if (this->logEventA_)
     {
       this->logger_.log (LM_INFO, "%s port A is postprocessing event %s.%d at %d",
@@ -47,16 +48,16 @@ namespace CIDL_CPUBoundImpl
     __event_100000011__->eventNumber (ev->eventNumber ());
     this->ctx_->push_OutPortA (__event_100000011__.in ());
 
-    this->mycpu_.profile_run ("postA");
-    if (this->logEventA_)
-    {
-      this->logger_.log (LM_INFO, "%s port A is finalizing event %s.%d at %d (recv time: %d)",
-                         this->instName_.c_str (),
-                         ev->sourceName (),
-                         this->eventCountA_,
-                         ACE_OS::gettimeofday ().msec (),
-                         ev->recvTime ());
-    }
+    //this->mycpu_.profile_run ("postA");
+    //if (this->logEventA_)
+    //{
+    //  this->logger_.log (LM_INFO, "%s port A is finalizing event %s.%d at %d (recv time: %d)",
+    //                     this->instName_.c_str (),
+    //                     ev->sourceName (),
+    //                     this->eventCountA_,
+    //                     ACE_OS::gettimeofday ().msec (),
+    //                     ev->recvTime ());
+    //}
 
     ACE_UNUSED_ARG (ev);
   }
@@ -78,14 +79,14 @@ namespace CIDL_CPUBoundImpl
     this->eventCountB_ ++;
 
     this->logEventB_ = this->eventCountB_ % this->logRate_ == 0;
-    if (this->logEventB_)
-    {
-      this->logger_.log (LM_INFO, "%s port B is preprocessing event %s.%d at %d",
-                         this->instName_.c_str (),
-                         this->eventCountB_,
-                         ev->sourceName (),
-                         ACE_OS::gettimeofday ().msec ());
-    }
+    //if (this->logEventB_)
+    //{
+    //  this->logger_.log (LM_INFO, "%s port B is preprocessing event %s.%d at %d",
+    //                     this->instName_.c_str (),
+    //                     this->eventCountB_,
+    //                     ev->sourceName (),
+    //                     ACE_OS::gettimeofday ().msec ());
+    //}
 
     this->mycpu_.profile_run ("preB");
     if (this->logEventB_)
@@ -102,16 +103,16 @@ namespace CIDL_CPUBoundImpl
     __event_100000017__->sourceName (ev->sourceName ());
     this->ctx_->push_OutPortB (__event_100000017__.in ());
 
-    this->mycpu_.profile_run ("postB");
-    if (this->logEventB_)
-    {
-      this->logger_.log (LM_INFO, "%s port B is finalizing event $s.%d at %d (recv time: %d)",
-                         this->instName_.c_str (),
-                         ev->sourceName (),
-                         this->eventCountB_,
-                         ACE_OS::gettimeofday ().msec (),
-                         ev->recvTime ());
-    }
+    //this->mycpu_.profile_run ("postB");
+    //if (this->logEventB_)
+    //{
+    //  this->logger_.log (LM_INFO, "%s port B is finalizing event $s.%d at %d (recv time: %d)",
+    //                     this->instName_.c_str (),
+    //                     ev->sourceName (),
+    //                     this->eventCountB_,
+    //                     ACE_OS::gettimeofday ().msec (),
+    //                     ev->recvTime ());
+    //}
 
     ACE_UNUSED_ARG (ev);
   }
