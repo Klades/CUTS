@@ -36,11 +36,12 @@ namespace CIDL_CPUBoundImpl
 
     if (this->logEventA_)
     {
-      this->logger_.log (LM_INFO, "%s port A is postprocessing event %s.%d at %d",
+      this->logger_.log (LM_INFO, "%s port A is postprocessing event %s.%d at %d (recv time: %d)",
                          this->instName_.c_str (),
                          ev->sourceName (),
                          this->eventCountA_,
-                         ACE_OS::gettimeofday ().msec ());
+                         ACE_OS::gettimeofday ().msec (),
+                         ev->recvTime ());
     }
 
     CUTS_CCM_Event_T <OBV_antispam::NullEvent> __event_100000011__;
