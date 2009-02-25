@@ -1,0 +1,79 @@
+assembly TemplateAssembly
+{
+  instances
+  {
+    antispam::CPUBound inst1
+    {
+      instName=inst1
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=1
+      cpuProfile=e2e/inst1.cpu
+    }
+    antispam::CPUBound inst2
+    {
+      instName=inst2
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=1
+      cpuProfile=e2e/inst2.cpu
+    }
+    antispam::CPUBound inst3
+    {
+      instName=inst3
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=1
+      cpuProfile=e2e/inst3.cpu
+    }
+    antispam::CPUBound inst4
+    {
+      instName=inst4
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=1
+      cpuProfile=e2e/inst4.cpu
+    }
+    antispam::CPUBound inst5
+    {
+      instName=inst5
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=1
+      cpuProfile=e2e/inst5.cpu
+    }
+    antispam::CPUBound inst6
+    {
+      instName=inst6
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=1
+      cpuProfile=e2e/inst6.cpu
+    }
+    antispam::CPUBound inst7
+    {
+      instName=inst7
+      testName=`cat /var/emulab/boot/syncserver`:10000
+      logRate=1
+      cpuProfile=e2e/inst7.cpu
+    }
+    antispam::NullEventGenerator generator1
+    {
+      publishHertz=${generator1.publishHertz}
+      instName=generator1
+      testName=`cat /var/emulab/boot/syncserver`:10000
+    }
+    antispam::NullEventGenerator generator2
+    {
+      publishHertz=${generator1.publishHertz}
+      instName=generator2
+      testName=`cat /var/emulab/boot/syncserver`:10000
+    }
+  }
+
+  connections
+  {
+    generator1.NullEvent >> inst1.InPortA
+    generator2.NullEvent >> inst2.InPortA
+    inst1.OutPortA >> inst3.InPortA
+    inst2.OutPortA >> inst3.InPortA
+    inst3.OutPortA >> inst4.InPortA
+    inst4.OutPortA >> inst5.InPortA
+    inst5.OutPortA >> inst6.InPortA
+    inst5.OutPortA >> inst7.InPortA
+  }
+}

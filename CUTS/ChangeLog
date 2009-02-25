@@ -1,3 +1,17 @@
+Wed Feb 25 14:29:12 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+        * examples/PICML/AntiSPAM/descriptors/isolation:
+        * examples/PICML/AntiSPAM/descriptors/isolation/generate-single.bat:
+        * examples/PICML/AntiSPAM/descriptors/isolation/generate.bat:
+        * examples/PICML/AntiSPAM/descriptors/isolation/isolation-template-assembly1.assembly:
+        * examples/PICML/AntiSPAM/descriptors/isolation/isolation-template-assembly1.cdp:
+        * examples/PICML/AntiSPAM/descriptors/isolation/isolation-template-assembly1.config:
+        * examples/PICML/AntiSPAM/descriptors/isolation/isolation-template-assembly1.deployment:
+
+          . Descriptors for running the baseline test of the SLICE
+            scenario.
+
 Wed Feb 25 14:20:39 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/CPUBoundImpl_exec.cpp:

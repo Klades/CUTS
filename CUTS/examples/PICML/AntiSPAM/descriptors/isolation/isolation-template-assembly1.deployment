@@ -1,0 +1,11 @@
+deployment TemplateDeployment {
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/inst1 : host1[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/inst2 : host2[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/inst3 : host3[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/inst4 : host4[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/inst5 : host5[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/inst6 : host6[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/inst7 : host7[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/generator1 : generator[DefaultGroup]
+  ComponentImplementations/TemplateAssembly/TemplateAssembly/generator2 : generator[DefaultGroup]
+}
