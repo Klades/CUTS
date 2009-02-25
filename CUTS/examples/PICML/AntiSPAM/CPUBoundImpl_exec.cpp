@@ -33,16 +33,17 @@ namespace CIDL_CPUBoundImpl
     //}
 
     this->mycpu_.profile_run ("preA");
+    bool logEvent = this->logEventA_ % 2 == 0 ? true : false;
 
-    //if (this->logEventA_)
-    //{
+    if (logEvent)
+    {
       this->logger_.log (LM_INFO, "%s port A is postprocessing event %s.%d at %d (recv time: %d)",
                          this->instName_.c_str (),
                          ev->sourceName (),
                          ev->eventNumber (),
                          ACE_OS::gettimeofday ().msec (),
                          ev->recvTime ());
-      //}
+    }
 
     CUTS_CCM_Event_T <OBV_antispam::NullEvent> __event_100000011__;
     __event_100000011__->sourceName (ev->sourceName ());
@@ -50,15 +51,15 @@ namespace CIDL_CPUBoundImpl
     this->ctx_->push_OutPortA (__event_100000011__.in ());
 
     //this->mycpu_.profile_run ("postA");
-    //if (this->logEventA_)
-    //{
+    if (logEvent)
+    {
       this->logger_.log (LM_INFO, "%s port A is finalizing event %s.%d at %d (recv time: %d)",
                          this->instName_.c_str (),
                          ev->sourceName (),
                          ev->eventNumber (),
                          ACE_OS::gettimeofday ().msec (),
                          ev->recvTime ());
-    //}
+    }
 
     ACE_UNUSED_ARG (ev);
   }
