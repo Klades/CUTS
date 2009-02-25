@@ -5,7 +5,7 @@ DIRNAME=`dirname $0`
 
 # generate all deployments; list specified file
 ${DIRNAME}/generate-DnC.sh ${CONFIG_LIST}
-ARCHIVE=$1/birthtest
+ARCHIVE=$1/controlled
 
 # run all tests; store data in specified directory
 if [ ! -d ${ARCHIVE} ]; then

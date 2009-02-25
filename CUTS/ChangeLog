@@ -1,3 +1,9 @@
+Wed Feb 25 14:55:57 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/descriptors/controlled/generate-and-run-test-all.sh:
+
+          . Changed the output directory for the test results.
+
 Wed Feb 25 14:50:24 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/CPUBoundImpl_exec.cpp:
