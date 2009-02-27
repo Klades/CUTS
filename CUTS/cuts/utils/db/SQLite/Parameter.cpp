@@ -110,3 +110,4 @@ void CUTS_DB_SQLite_Parameter::bind_double (double val)
   if (retval != SQLITE_OK)
     throw CUTS_DB_SQLite_Exception (this->owner_->owner ().parent_);
 }
+

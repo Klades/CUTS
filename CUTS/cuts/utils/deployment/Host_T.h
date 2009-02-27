@@ -83,6 +83,8 @@ public:
 
   bool insert (const item_type & item);
 
+  bool contains (const item_type & item) const;
+
 private:
   /// The name of the host.
   std::string name_;

@@ -35,6 +35,10 @@ public:
 
   typedef std::list <deployment_type> collection_type;
 
+  typedef typename collection_type::iterator iterator;
+
+  typedef typename collection_type::const_iterator const_iterator;
+
   /// Initializing constructor.
   CUTS_Unique_Deployment_T (void);
 

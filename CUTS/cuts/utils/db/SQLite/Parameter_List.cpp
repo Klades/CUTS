@@ -27,3 +27,29 @@ void CUTS_DB_SQLite_Parameter_List::reset (void)
       this->params_[i].reset (this, i + 1);
   }
 }
+
+//
+// operator []
+//
+CUTS_INLINE
+CUTS_DB_SQLite_Parameter &
+CUTS_DB_SQLite_Parameter_List::operator [] (const ACE_CString & name)
+{
+  int index = ::sqlite3_bind_parameter_index (this->parent_.stmt_,
+                                              name.c_str ());
+
+  return this->params_[index - 1];
+}
+
+//
+// operator []
+//
+CUTS_INLINE
+const CUTS_DB_SQLite_Parameter &
+CUTS_DB_SQLite_Parameter_List::operator [] (const ACE_CString & name) const
+{
+  int index = ::sqlite3_bind_parameter_index (this->parent_.stmt_,
+                                              name.c_str ());
+
+  return this->params_[index - 1];
+}

@@ -174,7 +174,7 @@ void CUTS_DB_SQLite_Query::reset (void)
 //
 // parameters
 //
-CUTS_DB_Parameter_List & CUTS_DB_SQLite_Query::parameters (void)
+CUTS_DB_SQLite_Parameter_List & CUTS_DB_SQLite_Query::parameters (void)
 {
   return this->params_;
 }
@@ -182,7 +182,7 @@ CUTS_DB_Parameter_List & CUTS_DB_SQLite_Query::parameters (void)
 //
 // parameters
 //
-const CUTS_DB_Parameter_List & CUTS_DB_SQLite_Query::parameters (void) const
+const CUTS_DB_SQLite_Parameter_List & CUTS_DB_SQLite_Query::parameters (void) const
 {
   return this->params_;
 }

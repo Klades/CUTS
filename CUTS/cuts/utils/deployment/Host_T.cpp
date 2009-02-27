@@ -17,10 +17,5 @@ const CUTS_Host_T <T> & CUTS_Host_T <T>::operator = (const CUTS_Host_T & host)
 }
 
 //
-// size
+// contains
 //
-template <typename T>
-size_t CUTS_Host_T <T>::size (void) const
-{
-  return this->items_.size ();
-}

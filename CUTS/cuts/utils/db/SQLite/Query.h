@@ -105,9 +105,9 @@ public:
    */
   virtual long last_insert_id (void);
 
-  virtual CUTS_DB_Parameter_List & parameters (void);
+  virtual CUTS_DB_SQLite_Parameter_List & parameters (void);
 
-  virtual const CUTS_DB_Parameter_List & parameters (void) const;
+  virtual const CUTS_DB_SQLite_Parameter_List & parameters (void) const;
 
   /// Reset the query string.
   virtual void reset (void);

@@ -9,6 +9,7 @@
 #include "Query.h"
 #include "Exception.h"
 #include "ace/Date_Time.h"
+#include "ace/Array.h"
 #include "sqlite3.h"
 #include <sstream>
 
@@ -20,6 +21,18 @@ size_t CUTS_DB_SQLite_Record::columns (void) const
   return ::sqlite3_column_count (this->query_.stmt_);
 }
 
+//
+// reset
+//
+void CUTS_DB_SQLite_Record::reset (void)
+{
+  // Reset the cursor
+  this->state_ = ::sqlite3_reset (this->query_.stmt_);
+
+  // Move the first element in the result.
+  if (this->state_ == SQLITE_OK)
+    this->state_ = ::sqlite3_step (this->query_.stmt_);
+}
 
 //
 // advance
@@ -28,7 +41,7 @@ void CUTS_DB_SQLite_Record::advance (void)
 {
   this->state_ = ::sqlite3_step (this->query_.stmt_);
 
-  if (this->state_ != SQLITE_ROW || this->state_ != SQLITE_DONE)
+  if (this->state_ != SQLITE_ROW && this->state_ != SQLITE_DONE)
     throw CUTS_DB_SQLite_Exception (this->query_.parent_);
 }
 
@@ -56,6 +69,20 @@ void CUTS_DB_SQLite_Record::get_data (size_t column,
                    size);
 
   buffer[size] = '\0';
+}
+
+//
+// get_data
+//
+void CUTS_DB_SQLite_Record::
+get_data (size_t column, ACE_CString & value)
+{
+  size_t size = ::sqlite3_column_bytes (this->query_.stmt_, column);
+
+  const unsigned char * text =
+    ::sqlite3_column_text (this->query_.stmt_, column);
+
+  value.set (reinterpret_cast <const char *> (text), size, true);
 }
 
 //
@@ -174,4 +201,21 @@ void CUTS_DB_SQLite_Record::get_data (size_t column, double & value)
 bool CUTS_DB_SQLite_Record::done (void) const
 {
   return this->state_ == SQLITE_DONE;
+}
+
+//
+// column_name
+//
+void CUTS_DB_SQLite_Record::
+column_name (size_t index, ACE_CString & name)
+{
+  const char * result = ::sqlite3_column_name (this->query_.stmt_, index);
+
+  if (result != 0)
+  {
+    name = result;
+    return;
+  }
+  else
+    throw CUTS_DB_Exception ("index out of range");
 }

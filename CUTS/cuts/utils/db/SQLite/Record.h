@@ -38,6 +38,8 @@ public:
 
   virtual size_t columns (void) const;
 
+  void column_name (size_t index, ACE_CString & name);
+
   virtual void advance (void);
 
   virtual bool done (void) const;
@@ -61,6 +63,10 @@ public:
   virtual void get_data (size_t column, double & value);
 
   virtual void get_data (size_t column, ACE_Date_Time & datetime);
+
+  virtual void get_data (size_t column, ACE_CString & value);
+
+  virtual void reset (void);
 
 private:
   /// SQLite statement for the record.

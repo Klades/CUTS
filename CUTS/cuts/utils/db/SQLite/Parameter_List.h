@@ -26,6 +26,10 @@ public:
 
   virtual CUTS_DB_SQLite_Parameter & operator [] (size_t index);
 
+  virtual const CUTS_DB_SQLite_Parameter & operator [] (const ACE_CString & name) const;
+
+  virtual CUTS_DB_SQLite_Parameter & operator [] (const ACE_CString & name);
+
   virtual size_t size (void) const;
 
   const CUTS_DB_SQLite_Query & owner (void) const;

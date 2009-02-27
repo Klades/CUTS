@@ -143,3 +143,23 @@ bool CUTS_Host_T <T>::insert (const item_type & item)
 {
   return this->items_.insert (item).second;
 }
+
+//
+// size
+//
+template <typename T>
+CUTS_INLINE
+size_t CUTS_Host_T <T>::size (void) const
+{
+  return this->items_.size ();
+}
+
+//
+// contains
+//
+template <typename T>
+CUTS_INLINE
+bool CUTS_Host_T <T>::contains (const item_type & item) const
+{
+  return this->items_.find (item) != this->items_.end ();
+}

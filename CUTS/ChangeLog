@@ -1,8 +1,79 @@
+Fri Feb 27 15:16:36 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_unite.mpb:
+
+          . Base project for building against UNITE.
+
+        * cuts/utils/db/SQLite/Parameter.cpp:
+        * cuts/utils/db/SQLite/Parameter_List.h:
+        * cuts/utils/db/SQLite/Parameter_List.cpp:
+        * cuts/utils/db/SQLite/Query.h:
+        * cuts/utils/db/SQLite/Query.cpp:
+        * cuts/utils/db/SQLite/Record.h:
+        * cuts/utils/db/SQLite/Record.cpp:
+
+          . Implemented some SQLite specific functions that are
+            needed by UNITE. We should figure out how to push these
+            functions down into the interfaces so all backends can
+            leverage it.
+
+        * cuts/utils/deployment/Host_T.h:
+        * cuts/utils/deployment/Host_T.inl:
+        * cuts/utils/deployment/Host_T.cpp:
+        * cuts/utils/deployment/Unique_Deployment_T.h:
+        * cuts/utils/deployment/deployment.mpc:
+        * cuts/utils/deployment/unique-deployments.cpp:
+
+          . Made some more application-specific chanages. We need to
+            generalize  this application so it can become useful.
+
+        * cuts/utils/unite:
+        * cuts/utils/unite/Log_Format.h:
+        * cuts/utils/unite/Log_Format.cpp:
+        * cuts/utils/unite/Log_Format_Compiler.h:
+        * cuts/utils/unite/Log_Format_Compiler.cpp:
+        * cuts/utils/unite/Log_Format_Data_Entry.h:
+        * cuts/utils/unite/Log_Format_Data_Entry.cpp:
+        * cuts/utils/unite/Relation.h:
+        * cuts/utils/unite/Relation.cpp:
+        * cuts/utils/unite/Unit_Test.h:
+        * cuts/utils/unite/Unit_Test.cpp:
+        * cuts/utils/unite/Unit_Test_Builder.h:
+        * cuts/utils/unite/Unit_Test_Builder.cpp:
+        * cuts/utils/unite/Unit_Test_Evaluator.h:
+        * cuts/utils/unite/Unit_Test_Evaluator.cpp:
+        * cuts/utils/unite/Unit_Test_Graph.h:
+        * cuts/utils/unite/Unit_Test_Graph.cpp:
+        * cuts/utils/unite/Unit_Test_Result.h:
+        * cuts/utils/unite/Unit_Test_Result.cpp:
+        * cuts/utils/unite/Unite_App.h:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/Unite_Config_File.h:
+        * cuts/utils/unite/Unite_Config_File.cpp:
+        * cuts/utils/unite/Unite_export.h:
+        * cuts/utils/unite/Variable.h:
+        * cuts/utils/unite/Variable.inl:
+        * cuts/utils/unite/Variable.cpp:
+        * cuts/utils/unite/Variable_Table.h:
+        * cuts/utils/unite/Variable_Table.cpp:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * cuts/utils/unite/unite.mpc:
+        * cuts/utils/unite/unite.cpp:
+        * etc/schemas/cuts-unite.xsd:
+
+          . First version of the C++ version of UNITE. It is built
+            on top of the Perl Compatible Regular Expressions (PCRE)
+            C++ library. You therefore need to have the PCRE installed
+            and the latest version of MPC, since it host the PCRE
+            base project.
+
 Wed Feb 25 19:59:14 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/CPUBoundImpl_exec.cpp:
 
-	  . Updated the code such that it samples every other event.
+          . Updated the code such that it samples every other event.
 
 Wed Feb 25 19:54:04 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
