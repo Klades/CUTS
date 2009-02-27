@@ -59,7 +59,7 @@ assembly TemplateAssembly
     }
     antispam::NullEventGenerator generator2
     {
-      publishHertz=${generator1.publishHertz}
+      publishHertz=${generator2.publishHertz}
       instName=generator2
       testName=`cat /var/emulab/boot/syncserver`:10000
     }

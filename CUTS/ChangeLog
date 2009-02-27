@@ -1,3 +1,11 @@
+Fri Feb 27 17:48:36 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/AntiSPAM.xme:
+        * examples/PICML/AntiSPAM/descriptors/controlled/e2e-template-assembly1.assembly:
+        * examples/PICML/AntiSPAM/descriptors/controlled/e2e-template-assembly1.cdp:
+
+          . Bug fix where generator2 was using generator1's configuration.
+
 Fri Feb 27 15:49:59 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/unite/Log_Format.h:

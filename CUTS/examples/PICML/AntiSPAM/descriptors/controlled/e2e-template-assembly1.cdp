@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <Deployment:deploymentPlan xmlns:Deployment="http://www.omg.org/Deployment" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/Deployment Deployment.xsd">
 
-  <UUID>48364633-9825-4D9B-9157-C4BA9AD36C1B</UUID>
+  <UUID>F9B802EF-888A-46E7-9B19-058C31222546</UUID>
 
   <implementation id="_6828C5EB-EBC5-48F7-B051-A1F865F4DB0E">
     <name>AntiSPAM.ComponentImplementations.NullEventGeneratorImpl.NullEventGeneratorImpl</name>
@@ -426,7 +426,7 @@
           <kind>tk_double</kind>
         </type>
         <value>
-          <double>${generator1.publishHertz}</double>
+          <double>${generator2.publishHertz}</double>
         </value>
       </value>
     </configProperty>
