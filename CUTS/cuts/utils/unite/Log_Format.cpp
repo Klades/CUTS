@@ -12,6 +12,7 @@
 CUTS_Log_Format::CUTS_Log_Format (const ACE_CString & name)
 : name_ (name),
   expr_ (0),
+  extra_ (0),
   captures_size_ (0)
 {
 
@@ -24,6 +25,9 @@ CUTS_Log_Format::~CUTS_Log_Format (void)
 {
   if (this->expr_ != 0)
     ::pcre_free (this->expr_);
+
+  if (this->extra_ != 0)
+    ::pcre_free (this->extra_);
 
   // Make sure to release the variable table resources.
   CUTS_Log_Format_Variable_Table::ITERATOR iter (this->vars_);
@@ -57,6 +61,9 @@ bool CUTS_Log_Format::compile (const ACE_CString & format)
                                 &error_offset,
                                 0);
 
+  // Let's try and study the expression.
+  this->extra_ = ::pcre_study (this->expr_, 0, &error);
+
   if (this->expr_ != 0)
   {
     int * captures = 0;
@@ -78,7 +85,7 @@ bool CUTS_Log_Format::compile (const ACE_CString & format)
 bool CUTS_Log_Format::match (const ACE_CString & message)
 {
   int retval = ::pcre_exec (this->expr_,
-                            0,
+                            this->extra_,
                             message.c_str (),
                             message.length (),
                             0,
@@ -115,16 +122,21 @@ bool CUTS_Log_Format::match (const ACE_CString & message)
 //
 void CUTS_Log_Format::reset (void)
 {
+  // Reset the state of the PCRE variables.
   if (this->expr_ != 0)
   {
-    // Reset the expression if it already exist.
     ::pcre_free (this->expr_);
     this->expr_ = 0;
   }
 
+  if (this->extra_ != 0)
+  {
+    ::pcre_free (this->extra_);
+    this->extra_ = 0;
+  }
+
   if (this->captures_size_ > 0)
   {
-    // Reset the capturs for the log format.
     this->captures_.reset ();
     this->captures_size_ = 0;
   }

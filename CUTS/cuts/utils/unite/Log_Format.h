@@ -22,6 +22,9 @@
 struct real_pcre;
 typedef struct real_pcre pcre;
 
+// Forward decl.
+struct pcre_extra;
+
 /**
  * @class CUTS_Log_Format
  */
@@ -62,15 +65,20 @@ private:
   /// Compiled version of the log format.
   pcre * expr_;
 
+  /// Extra information about the log format.
+  pcre_extra * extra_;
+
   /// Variables in the log format.
   CUTS_Log_Format_Variable_Table vars_;
 
   /// Relations for the log format.
   relations_type relations_;
 
-  ACE_Auto_Array_Ptr <int> captures_;
-
+  /// Number of captures in the log format.
   size_t captures_size_;
+
+  /// Indices for storing capture information.
+  ACE_Auto_Array_Ptr <int> captures_;
 
   // prevent the following operations
   CUTS_Log_Format (const CUTS_Log_Format &);

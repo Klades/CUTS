@@ -9,6 +9,7 @@
 #include "cuts/utils/testing/Test_Database.h"
 #include "ace/Get_Opt.h"
 #include "ace/Env_Value_T.h"
+#include "ace/High_Res_Timer.h"
 #include "XSC/utils/XML_Error_Handler.h"
 
 //
@@ -22,14 +23,15 @@ std::ostream & operator << (std::ostream & ostr, const CUTS_Unit_Test_Result & r
   }
   else
   {
-    ostr << "Group Results:" << std::endl;
+    ostr << "Group Results:" << std::endl
+         << "----------------------------------";
 
     for (CUTS_Unit_Test_Group_Result::CONST_ITERATOR iter (result.groups ());
          !iter.done (); ++ iter)
     {
-      ostr << ". " << iter->key ().c_str ()
-           << " = " << iter->item ().c_str ()
-           << std::endl;
+      ostr << std::endl
+           << ". " << iter->key ().c_str ()
+           << " = " << iter->item ().c_str ();
     }
   }
 
@@ -93,12 +95,25 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
   CUTS_Unit_Test_Result result;
   CUTS_Unit_Test_Evaluator evaluator (this->sandbox_);
 
-  if (!evaluator.evaluate (testdata, unit_test, result))
+  // Time the evaluation operation.
+  ACE_High_Res_Timer timer;
+
+  timer.start ();
+  bool retval = evaluator.evaluate (testdata, unit_test, result);
+  timer.stop ();
+
+  if (!retval)
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - failed to evaluate unit test\n"));
 
+  ACE_Time_Value elapsed;
+  timer.elapsed_time (elapsed);
+
   // Print the result.
-  std::cout << result << std::endl;
+  std::cout << result << std::endl << std::endl
+            << "Evaluation Time: "
+            << elapsed.sec () << "." << elapsed.usec ()
+            << " second(s)" << std::endl ;
 
   return 0;
 }
