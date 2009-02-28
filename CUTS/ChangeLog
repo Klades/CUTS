@@ -1,9 +1,27 @@
+Sat Feb 28 01:48:01 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.cpp:
+
+          . Bug fix where the code for configuring the periodic event
+            generators was not generated if there wasn't an 'activate'
+            environment action.
+
+        * cuts/Constant_Periodic_Event_Strategy.cpp:
+
+          . Bug fix where the constant rate was miscalculated.
+
+        * cuts/utils/unite/Unit_Test_Evaluator.cpp:
+
+          . Added an 'ORDER BY' clause to the result SQL expression
+            that contained group information.
+
 Fri Feb 27 18:30:02 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/PICML/AntiSPAM/descriptors/controlled/run-test.sh:
 
-	  . Switched to using the test configuration template when running
-	    the test for this experiment.
+          . Switched to using the test configuration template when running
+            the test for this experiment.
 
 Fri Feb 27 17:48:36 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 

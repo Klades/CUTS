@@ -194,7 +194,8 @@ void CUTS_Unit_Test_Evaluator::get_result (CUTS_DB_SQLite_Connection & conn,
          << '(' << eval << ") AS result FROM vtable";
 
   if (!group_str.str ().empty ())
-    sqlstr << " GROUP BY " << group_str.str ();
+    sqlstr << " GROUP BY " << group_str.str ()
+           << " ORDER BY " << group_str.str ();
 
   // Allocate a new SQL statement on the connection.
   CUTS_DB_SQLite_Query * query = conn.create_query ();
