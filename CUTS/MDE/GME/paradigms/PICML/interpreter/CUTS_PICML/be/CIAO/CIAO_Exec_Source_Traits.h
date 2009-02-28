@@ -172,6 +172,8 @@ private:
   void write_event_handler_init_property (const std::string & name,
                                           const PICML::Property & prop);
 
+  void write_cuts_init_objects (const PICML::Component & component);
+
   /// Type definition for pointer-to-methods to environment methods.
   typedef void (CUTS_CIAO_Exec_Source_Traits::
     *Environment_Method) (const PICML::Component &);
