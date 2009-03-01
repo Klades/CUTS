@@ -13,39 +13,37 @@
 #ifndef _CUTS_PROPOGATE_ARRIVAL_RATES_H_
 #define _CUTS_PROPOGATE_ARRIVAL_RATES_H_
 
-#include "Antispam_Visitor.h"
-
-// Forward decl.
-class CUTS_Component_Assembly;
+#include "Component_Assembly.h"
 
 /**
  * @class CUTS_Propagate_Arrival_Rates
  */
-class CUTS_Propagate_Arrival_Rates :
-  public CUTS_Antispam_Visitor
+class CUTS_ANTISPAM_Export CUTS_Propagate_Arrival_Rates
 {
 public:
-  /**
-   * Initializing constructor.
-   *
-   * @param[inout]         assembly       Target assembly to evaluate.
-   */
+  /// Default constructor.
   CUTS_Propagate_Arrival_Rates (void);
 
   /// Destructor.
-  virtual ~CUTS_Propagate_Arrival_Rates (void);
+  ~CUTS_Propagate_Arrival_Rates (void);
 
-  virtual void visit_CUTS_Component_Assembly (
-    CUTS_Component_Assembly & assembly);
-
-  virtual void visit_CUTS_Input_Event_Port_Instance (
-    CUTS_Input_Event_Port_Instance & port);
-
-  virtual void visit_CUTS_Output_Event_Port_Instance (
-    CUTS_Output_Event_Port_Instance & port);
+  /**
+   * Propogate the arrival rates for the given assembly.
+   *
+   * @param[in]           assembly        Target assembly to update.
+   */
+  void propogate (CUTS_Component_Assembly & assembly);
 
 private:
-  double curr_lambda_;
+  void propogate_input (CUTS_Behavior_Graph::vertex_descriptor port);
+
+  void visit_input_to_output (CUTS_Behavior_Graph::edge_descriptor edge);
+
+  void visit_output_to_input (CUTS_Behavior_Graph::edge_descriptor edge);
+
+  CUTS_Component_Assembly * assembly_;
+
+  double incr_lambda_;
 };
 
 #if defined (__CUTS_INLINE__)

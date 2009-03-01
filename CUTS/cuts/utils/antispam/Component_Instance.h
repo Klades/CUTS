@@ -13,13 +13,11 @@
 #ifndef _CUTS_COMPONENT_INSTANCE_H_
 #define _CUTS_COMPONENT_INSTANCE_H_
 
-#include "Component.h"
+#include "Behavior_Graph.h"
+#include <vector>
 
 // Forward decl.
-class CUTS_Input_Event_Port_Instance;
-
-// Forward decl.
-class CUTS_Antispam_Visitor;
+class CUTS_Component_Assembly;
 
 /**
  * @class CUTS_Component_Instance
@@ -27,59 +25,39 @@ class CUTS_Antispam_Visitor;
 class CUTS_ANTISPAM_Export CUTS_Component_Instance
 {
 public:
-  typedef ACE_Hash_Map_Manager <ACE_CString,
-                                CUTS_Input_Event_Port_Instance *,
-                                ACE_Null_Mutex> input_event_port_type;
+  /// Type definition for the collection of ports.
+  typedef
+    std::vector <CUTS_Behavior_Graph::vertex_descriptor>
+    ports_type;
 
-  typedef ACE_Unbounded_Set <CUTS_Input_Event_Port_Instance *> start_type;
-
-  /// Constructor.
-  CUTS_Component_Instance (const ACE_CString & name,
-                           const CUTS_Component & type);
+  /**
+   * Initializing constructor
+   *
+   * @param[in]         type        The component instance's type
+   */
+  CUTS_Component_Instance (const CUTS_Component_Assembly & assembly,
+                           ports_type ports);
 
   /// Destructor.
   ~CUTS_Component_Instance (void);
 
   /**
-   * Get the component's type.
+   * Calculate the utilization of the component.
    *
-   * @return      Reference to the component's type.
+   * @return            Utilization of the component.
    */
-  const CUTS_Component & type (void) const;
-
-  const ACE_CString & name (void) const;
-
-  /**
-   * Get the component's input events.
-   *
-   * @return      Reference to the input events.
-   */
-  const input_event_port_type & input_events (void) const;
-
-  const start_type & start (void) const;
-
-  void accept (CUTS_Antispam_Visitor & visitor);
-
-  /// Calculate the utilization of the component.
   double utilization (void) const;
 
+  const CUTS_Component_Assembly & assembly (void) const;
+
+  void response_time (double util);
+
 private:
-  /// Initialize the instance based on its type.
-  void init (void);
+  /// Parent assembly for the instance.
+  const CUTS_Component_Assembly & assembly_;
 
-  void new_input_event (const CUTS_Component::input_event_map_type::ENTRY & entry);
-
-  void make_start (const CUTS_Input_Event_Port * port);
-
-  /// Name of the component instance.
-  ACE_CString name_;
-
-  /// The type of the component.
-  const CUTS_Component & type_;
-
-  input_event_port_type input_events_;
-
-  start_type start_;
+  /// Ports for the instance in the assembly's behavior graph
+  std::vector <CUTS_Behavior_Graph::vertex_descriptor> ports_;
 };
 
 #if defined (__CUTS_INLINE__)

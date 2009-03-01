@@ -1,39 +1,34 @@
 // $Id$
 
 //
-// type
+// CUTS_Component_Instance
 //
 CUTS_INLINE
-const CUTS_Component & CUTS_Component_Instance::type (void) const
+CUTS_Component_Instance::
+CUTS_Component_Instance (const CUTS_Component_Assembly & assembly,
+                         ports_type ports)
+: assembly_ (assembly),
+  ports_ (ports)
 {
-  return this->type_;
+
+}
+
+
+//
+// ~CUTS_Component_Instance
+//
+CUTS_INLINE
+CUTS_Component_Instance::~CUTS_Component_Instance (void)
+{
+
 }
 
 //
-// input_events
+// assembly
 //
 CUTS_INLINE
-const CUTS_Component_Instance::input_event_port_type &
-CUTS_Component_Instance::input_events (void) const
+const CUTS_Component_Assembly &
+CUTS_Component_Instance::assembly (void) const
 {
-  return this->input_events_;
-}
-
-//
-// name
-//
-CUTS_INLINE
-const ACE_CString & CUTS_Component_Instance::name (void) const
-{
-  return this->name_;
-}
-
-//
-// start
-//
-CUTS_INLINE
-const CUTS_Component_Instance::start_type &
-CUTS_Component_Instance::start (void) const
-{
-  return this->start_;
+  return this->assembly_;
 }

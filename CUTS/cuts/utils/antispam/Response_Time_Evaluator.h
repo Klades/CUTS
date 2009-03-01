@@ -18,6 +18,9 @@
 // Forward decl.
 class CUTS_Component_Assembly;
 
+// Forward decl.
+class CUTS_Deployment;
+
 /**
  * @class CUTS_Response_Time_Evaluator
  */
@@ -35,7 +38,8 @@ public:
    *
    * @param[inout]        assembly        Target assembly to evaluate.
    */
-  void evaluate (CUTS_Component_Assembly & assembly);
+  void evaluate (const CUTS_Component_Assembly & assembly,
+                 const CUTS_Deployment & deployment);
 };
 
 #if defined (__CUTS_INLINE__)

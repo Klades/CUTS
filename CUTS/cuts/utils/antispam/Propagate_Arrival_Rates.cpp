@@ -8,64 +8,102 @@
 #endif
 
 #include "Component_Assembly.h"
-#include "Port_Instance.h"
 #include "boost/bind.hpp"
 #include <algorithm>
 
 //
-// visit_CUTS_Component_Assembly
+// propogate
 //
 void CUTS_Propagate_Arrival_Rates::
-visit_CUTS_Component_Assembly (CUTS_Component_Assembly & assembly)
+propogate (CUTS_Component_Assembly & assembly)
 {
-  // Visit each of the start ports. We need to update the model
-  // according to the arrival rate (lambda) of each input port.
-  this->curr_lambda_ = 0.0;
+  this->incr_lambda_ = 0.0;
+  this->assembly_ = &assembly;
 
   std::for_each (assembly.start ().begin (),
                  assembly.start ().end (),
-                 boost::bind (&CUTS_Input_Event_Port_Instance::accept,
-                              _1,
-                              boost::ref (*this)));
+                 boost::bind (&CUTS_Propagate_Arrival_Rates::propogate_input,
+                              this,
+                              _1));
 }
 
 //
-// visit_CUTS_Input_Event_Port_Instance
+// propogate_input
 //
 void CUTS_Propagate_Arrival_Rates::
-visit_CUTS_Input_Event_Port_Instance (CUTS_Input_Event_Port_Instance & port)
+propogate_input (CUTS_Behavior_Graph::vertex_descriptor port)
 {
-  // Save the current lambda.
-  double cached_lambda = this->curr_lambda_;
+  // Save the current increment lamda value.
+  double saved_lambda = this->incr_lambda_;
 
-  // Update the current lambda base on the current port.
-  this->curr_lambda_ += port.lambda ();
-  port.lambda (this->curr_lambda_);
+  // Get the details about the port.
+  CUTS_Port_Details details;
+  this->assembly_->get_port_details (port, details);
 
-  // Visit each of the output ports for the input port.
-  std::for_each (port.outputs ().begin (),
-                 port.outputs ().end (),
-                 boost::bind (&CUTS_Output_Event_Port_Instance::accept,
-                              _1,
-                              boost::ref (*this)));
+  if (this->incr_lambda_ > 0.0)
+  {
+    // Middle of the behavior model.
+    details.arrival_rate_ += this->incr_lambda_;
 
-  // Restore the cached lambda
-  this->curr_lambda_ = cached_lambda;
+    // Update the port details.
+    this->assembly_->set_port_details (port, details);
+  }
+  else
+    // Start of the behavior model.
+    this->incr_lambda_ = details.arrival_rate_;
+
+  // Calculate the service rate for the port (in secs)
+  double mu = (1000.0 / details.service_time_);
+
+  if (details.arrival_rate_ > mu)
+    // We are over utilized. We can't push through more than we
+    // can handle. So, adjust the arrival rate.
+    this->incr_lambda_ -= (details.arrival_rate_ - mu);
+
+  // Visit all the output ports this port is connected.
+  CUTS_Behavior_Graph::out_edge_iterator iter, iter_end;
+  boost::tie (iter, iter_end) = boost::out_edges (port, this->assembly_->behavior ());
+
+  std::for_each (iter,
+                 iter_end,
+                 boost::bind (&CUTS_Propagate_Arrival_Rates::visit_input_to_output,
+                              this,
+                              _1));
+
+  // Restore the saved lambda.
+  this->incr_lambda_ = saved_lambda;
 }
 
 //
-// visit_CUTS_Output_Event_Port_Instance
+// visit_input_to_output
 //
 void CUTS_Propagate_Arrival_Rates::
-visit_CUTS_Output_Event_Port_Instance (CUTS_Output_Event_Port_Instance & port)
+visit_input_to_output (CUTS_Behavior_Graph::edge_descriptor edge)
 {
-  double mu = 1.0 / port.service_time ();
-  double tput = std::min (this->curr_lambda_, mu);
-  this->curr_lambda_ = tput;
+  // Get the output port for this edge.
+  CUTS_Behavior_Graph::vertex_descriptor output =
+    boost::target (edge, this->assembly_->behavior ());
 
-  std::for_each (port.connections ().begin (),
-                 port.connections ().end (),
-                 boost::bind (&CUTS_Input_Event_Port_Instance::accept,
-                              _1,
-                              boost::ref (*this)));
+  // Visit all the input ports for this output port.
+  CUTS_Behavior_Graph::out_edge_iterator iter, iter_end;
+  boost::tie (iter, iter_end) = boost::out_edges (output, this->assembly_->behavior ());
+
+  std::for_each (iter,
+                 iter_end,
+                 boost::bind (&CUTS_Propagate_Arrival_Rates::visit_output_to_input,
+                              this,
+                              _1));
+}
+
+//
+// visit_input_to_output
+//
+void CUTS_Propagate_Arrival_Rates::
+visit_output_to_input (CUTS_Behavior_Graph::edge_descriptor edge)
+{
+  // Get the output port for this edge.
+  CUTS_Behavior_Graph::vertex_descriptor input =
+    boost::target (edge, this->assembly_->behavior ());
+
+  this->propogate_input (input);
 }

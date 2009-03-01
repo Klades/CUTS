@@ -6,20 +6,36 @@
 #include "Response_Time_Evaluator.inl"
 #endif
 
-#include "Propagate_Arrival_Rates.h"
 #include "Component_Assembly.h"
+#include "Component_Instance.h"
+#include "Deployment.h"
+#include "Host.h"
 
 //
 // evaluate
 //
 void CUTS_Response_Time_Evaluator::
-evaluate (CUTS_Component_Assembly & assembly)
+evaluate (const CUTS_Component_Assembly & assembly,
+          const CUTS_Deployment & deployment)
 {
-  // 1. Propogate the arrival rates throughout the assembly.
-  CUTS_Propagate_Arrival_Rates arrivals;
-  assembly.accept (arrivals);
+  // Iterate over each host in the deployment.
+  CUTS_Deployment::map_type::CONST_ITERATOR host_iter (deployment.items ());
+  CUTS_Host * host;
+  CUTS_Component_Instance * inst;
 
-  // 2. Update service times based on component structure.
+  for (; !host_iter.done (); ++ host_iter)
+  {
+    // Get the utilization of the host.
+    host = host_iter->item ();
+    double util = host->utilization ();
 
-  // 3. Update service times based on component deployment.
+    // Iterate over each component on the current host.
+    CUTS_Host::container_type::CONST_ITERATOR inst_iter (host->instances ());
+
+    for ( ; !inst_iter.done (); ++ inst_iter)
+    {
+      inst = *inst_iter;
+      inst->response_time (util);
+    }
+  }
 }

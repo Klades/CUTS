@@ -66,7 +66,6 @@ visit_CUTS_Component_Instance (CUTS_Component_Instance & instance)
 void CUTS_Update_Service_Times::
 visit_CUTS_Input_Event_Port_Instance (CUTS_Input_Event_Port_Instance & port)
 {
-
   // Determine how much of the CPU is occurpied by other ports.
   double util = port.utilization ();
   double used_util = this->used_util_ + (this->curr_util_ - util);

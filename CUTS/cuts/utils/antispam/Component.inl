@@ -5,26 +5,44 @@
 // CUTS_Component
 //
 CUTS_INLINE
-CUTS_Component::CUTS_Component (void)
+CUTS_Component::CUTS_Component (const ACE_CString & name)
+: name_ (name)
 {
 
 }
 
 //
-// input_events
+// ~CUTS_Component
 //
 CUTS_INLINE
-const CUTS_Component::input_event_map_type &
-CUTS_Component::input_events (void) const
+CUTS_Component::~CUTS_Component (void)
 {
-  return this->input_events_;
+
 }
 
 //
-// start
+// behavior
 //
 CUTS_INLINE
-const CUTS_Component::start_type & CUTS_Component::start (void) const
+const CUTS_Behavior_Graph & CUTS_Component::behavior (void) const
 {
-  return this->start_;
+  return this->graph_;
+}
+
+//
+// port_count
+//
+CUTS_INLINE
+size_t CUTS_Component::port_count (void) const
+{
+  return boost::num_vertices (this->graph_);
+}
+
+//
+// name
+//
+CUTS_INLINE
+const ACE_CString & CUTS_Component::name (void) const
+{
+  return this->name_;
 }

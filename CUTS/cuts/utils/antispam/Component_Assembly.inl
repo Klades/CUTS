@@ -4,7 +4,9 @@
 // CUTS_Component_Assembly
 //
 CUTS_INLINE
-CUTS_Component_Assembly::CUTS_Component_Assembly (void)
+CUTS_Component_Assembly::
+CUTS_Component_Assembly (const ACE_CString & name)
+: CUTS_Component (name)
 {
 
 }
@@ -15,6 +17,15 @@ CUTS_Component_Assembly::CUTS_Component_Assembly (void)
 CUTS_INLINE
 const CUTS_Component_Assembly::instances_type &
 CUTS_Component_Assembly::instances (void) const
+{
+  return this->instances_;
+}
+
+//
+// instances
+//
+CUTS_INLINE
+CUTS_Component_Assembly::instances_type & CUTS_Component_Assembly::instances (void)
 {
   return this->instances_;
 }

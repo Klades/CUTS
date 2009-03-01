@@ -13,9 +13,7 @@
 #ifndef _CUTS_ANTISPAM_COMPONENT_H_
 #define _CUTS_ANTISPAM_COMPONENT_H_
 
-#include "ace/Hash_Map_Manager_T.h"
-#include "ace/Null_Mutex.h"
-#include "Port.h"
+#include "Behavior_Graph.h"
 
 /**
  * @class CUTS_Component
@@ -23,32 +21,64 @@
 class CUTS_ANTISPAM_Export CUTS_Component
 {
 public:
-  /// Type definition of the port map.
-  typedef ACE_Hash_Map_Manager <ACE_CString,
-                                CUTS_Input_Event_Port *,
-                                ACE_Null_Mutex> input_event_map_type;
-
-  typedef ACE_Unbounded_Set <CUTS_Input_Event_Port *> start_type;
 
   /// Constructor.
-  CUTS_Component (void);
+  CUTS_Component (const ACE_CString & name);
 
   /// Destructor.
   ~CUTS_Component (void);
 
-  CUTS_Input_Event_Port * new_input_event (const ACE_CString & name,
-                                           bool start = false);
+  /**
+   * Get the name of the component.
+   */
+  const ACE_CString & name (void) const;
 
-  const input_event_map_type & input_events (void) const;
+  /**
+   * Associate an input port with an output port.
+   *
+   * @param[in]       input       Name of the input port
+   * @param[in]       output      Name of the output port
+   */
+  bool associate (const ACE_CString & input,
+                  const ACE_CString & output,
+                  bool create = true);
 
-  const start_type & start (void) const;
+  bool get_port_details (const ACE_CString & name,
+                         CUTS_Port_Details & details) const;
 
-private:
-  /// Collection of input ports.
-  input_event_map_type input_events_;
+  bool get_port_details (CUTS_Behavior_Graph::vertex_descriptor,
+                         CUTS_Port_Details & details) const;
 
-  /// Collection of input event ports that
-  start_type start_;
+  bool set_port_details (const ACE_CString & name,
+                         const CUTS_Port_Details & details);
+
+  bool set_port_details (CUTS_Behavior_Graph::vertex_descriptor,
+                         const CUTS_Port_Details & details);
+
+  /**
+   * Count the number of ports.
+   */
+  size_t port_count (void) const;
+
+  const CUTS_Behavior_Graph & behavior (void) const;
+
+  /**
+   * Locate a port in the component.
+   *
+   * @param[in]       name        Name of the port
+   * @param[out]      vertex      The port in question.
+   * @retval          true        Port is found (\a vertex is valid)
+   * @retval          true        Port is not found (\a vertex is not valid)
+   */
+  bool find_port (const ACE_CString & name,
+                  CUTS_Behavior_Graph::vertex_descriptor & vertex) const;
+
+protected:
+  /// Name of the component.
+  ACE_CString name_;
+
+  /// Behavior graph for the component.
+  CUTS_Behavior_Graph graph_;
 };
 
 #if defined (__CUTS_INLINE__)

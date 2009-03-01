@@ -1,3 +1,55 @@
+Sun Mar  1 06:47:39 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/antispam/Antispam_App.h:
+        * cuts/utils/antispam/Antispam_App.cpp:
+        * cuts/utils/antispam/Antispam_Config_File.h:
+        * cuts/utils/antispam/Antispam_Config_File.cpp:
+        * cuts/utils/antispam/Behavior_Graph.h:
+        * cuts/utils/antispam/Behavior_Graph.cpp:
+        * cuts/utils/antispam/Component.h:
+        * cuts/utils/antispam/Component.inl:
+        * cuts/utils/antispam/Component.cpp:
+        * cuts/utils/antispam/Component_Assembly.h:
+        * cuts/utils/antispam/Component_Assembly.inl:
+        * cuts/utils/antispam/Component_Assembly.cpp:
+        * cuts/utils/antispam/Component_Instance.h:
+        * cuts/utils/antispam/Component_Instance.inl:
+        * cuts/utils/antispam/Component_Instance.cpp:
+        * cuts/utils/antispam/Component_Manager.h:
+        * cuts/utils/antispam/Component_Manager.cpp:
+        * cuts/utils/antispam/Deployment.h:
+        * cuts/utils/antispam/Deployment.cpp:
+        * cuts/utils/antispam/Host.h:
+        * cuts/utils/antispam/Host.inl:
+        * cuts/utils/antispam/Host.cpp:
+        * cuts/utils/antispam/Propagate_Arrival_Rates.h:
+        * cuts/utils/antispam/Propagate_Arrival_Rates.inl:
+        * cuts/utils/antispam/Propagate_Arrival_Rates.cpp:
+        * cuts/utils/antispam/Response_Time_Evaluator.h:
+        * cuts/utils/antispam/Response_Time_Evaluator.cpp:
+        * cuts/utils/antispam/Update_Service_Times.cpp:
+        * cuts/utils/antispam/antispam.mpc:
+        * cuts/utils/antispam/antispam.cpp:
+        * cuts/utils/antispam/cuts-antispam.h:
+        * cuts/utils/antispam/cuts-antispam.inl:
+        * cuts/utils/antispam/cuts-antispam.cpp:
+        * etc/schemas/cuts-antispam.xsd:
+
+          . First complete version of Anti-SPAM without heuristic
+            model for predicting response time.
+
+        * cuts/utils/antispam/Antispam_Visitor.h:
+        * cuts/utils/antispam/Antispam_Visitor.inl:
+        * cuts/utils/antispam/Antispam_Visitor.cpp:
+        * cuts/utils/antispam/Port.h:
+        * cuts/utils/antispam/Port.inl:
+        * cuts/utils/antispam/Port.cpp:
+        * cuts/utils/antispam/Port_Instance.h:
+        * cuts/utils/antispam/Port_Instance.inl:
+        * cuts/utils/antispam/Port_Instance.cpp:
+
+          Removed these files.
+
 Sat Feb 28 01:48:01 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.h:

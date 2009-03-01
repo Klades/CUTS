@@ -1,24 +1,59 @@
 // $Id$
 
-project (CUTS_AntiSPAM) : boost_base, cutslib {
-  sharedname    = CUTS_AntiSPAM
+project (CUTS_AntiSPAM_Common) : boost_base, cutslib {
+  sharedname    = CUTS_AntiSPAM_Common
   dynamicflags += CUTS_ANTISPAM_BUILD_DLL
 
   Source_Files {
-    Antispam_Visitor.cpp
+    Behavior_Graph.cpp
     Component.cpp
     Component_Instance.cpp
+    Component_Manager.cpp
     Component_Assembly.cpp
     Deployment.cpp
     Host.cpp
-    Port.cpp
-    Port_Instance.cpp
     Response_Time_Evaluator.cpp
     Propagate_Arrival_Rates.cpp
-    Update_Service_Times.cpp
+  }
+}
+
+project (CUTS_AntiSPAM_Xml) : xsc_cxx {
+  custom_only = 1
+
+  Modify_Custom (XSC) {
+    header_outputext = .h
+    inline_outputext = .inl
   }
 
-  Template_Files {
-    Connection_T.cpp
+  specific {
+    xscflags += --cxx-header-suffix .h --cxx-source-suffix .cpp \
+                --cxx-inline-suffix .inl --cxx-generate-inline \
+                --cxx-char-type char
+  }
+
+  Xsc_Files {
+    gendir = .
+    $(CUTS_ROOT)/etc/schemas/cuts-antispam.xsd
+  }
+}
+
+project (CUTS_AntiSPAM) : xscrt, boost_base, cuts_antispam, cutsexe {
+  exename = cuts-antispam
+
+  after += CUTS_AntiSPAM_Xml
+
+  Source_Files {
+    Antispam_App.cpp
+    Antispam_Config_File.cpp
+    antispam.cpp
+    cuts-antispam.cpp
+  }
+
+  Inline_Files {
+
+  }
+
+  Header_Files {
+
   }
 }

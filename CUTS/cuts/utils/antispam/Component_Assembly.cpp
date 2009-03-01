@@ -6,7 +6,7 @@
 #include "Component_Assembly.inl"
 #endif
 
-#include "Antispam_Visitor.h"
+#include "Component.h"
 #include "Component_Instance.h"
 #include "ace/CORBA_macros.h"
 #include "boost/bind.hpp"
@@ -19,39 +19,132 @@ CUTS_Component_Assembly::~CUTS_Component_Assembly (void)
   instances_type::ITERATOR iter (this->instances_);
 
   for ( ; !iter.done (); ++ iter)
-    delete iter->int_id_;
+    delete iter->item ();
 }
 
 //
 // new_instance
 //
-CUTS_Component_Instance * CUTS_Component_Assembly::
-new_instance (const ACE_CString & name, const CUTS_Component & type)
+int CUTS_Component_Assembly::new_instance (const ACE_CString & name,
+                                           const CUTS_Component & type,
+                                           CUTS_Component_Instance * & inst)
 {
-  // Create a new instance.
-  CUTS_Component_Instance * instance = 0;
+  if (this->instances_.find (name, inst) == 0)
+    return 0;
 
-  ACE_NEW_THROW_EX (instance,
-                    CUTS_Component_Instance (name, type),
+  // We need to partition the ports for deployment. This is done
+  // by creating a duplicate behavior graph of the component's
+  // type in this graph (mangling names of course), while caching
+  // instances vertices from the assembly graph.
+  boost::graph_traits <CUTS_Behavior_Graph>::
+    vertex_iterator iter, iter_end;
+
+  // First, copy over the vertices.
+  boost::tie (iter, iter_end) = boost::vertices (type.behavior ());
+
+  ACE_CString temp;
+  CUTS_Behavior_Graph::vertex_descriptor vertex;
+  CUTS_Component_Instance::ports_type ports;
+  CUTS_Port_Details details;
+
+  for (; iter != iter_end; ++ iter)
+  {
+    // Create the new name of the port.
+    temp = name;
+    temp += '.' + boost::get (boost::vertex_name_t (), type.behavior (), *iter);
+
+    // Insert the port into the assembly's graph.
+    vertex = boost::add_vertex (this->graph_);
+    boost::put (boost::vertex_name_t (), this->graph_, vertex, temp);
+
+    // Copy the port detials
+    details = boost::get (CUTS_Port_Details_Tag (), type.behavior (), *iter);
+    boost::put (CUTS_Port_Details_Tag (), this->graph_, vertex, details);
+
+    // Cache the vertex with its instance.
+    ports.push_back (vertex);
+  }
+
+  // Next, copy the edges in the bahavior graph.
+  boost::graph_traits <CUTS_Behavior_Graph>::
+    edge_iterator edge_iter, edge_iter_end;
+
+  boost::tie (edge_iter, edge_iter_end) = boost::edges (type.behavior ());
+
+  ACE_CString src_name, dst_name;
+  CUTS_Behavior_Graph::edge_descriptor edge;
+  CUTS_Behavior_Graph::vertex_descriptor src, dst;
+
+  for (; edge_iter != edge_iter_end; ++ edge_iter)
+  {
+    // Reset the base name of the dst/src strings.
+    src_name = dst_name = name + '.';
+
+    // Get the vertices of this edge.
+    src = boost::source (*edge_iter, type.behavior ());
+    dst = boost::target (*edge_iter, type.behavior ());
+
+    // Construct the name of the vertices.
+    src_name += boost::get (boost::vertex_name_t (), type.behavior (), src);
+    dst_name += boost::get (boost::vertex_name_t (), type.behavior (), dst);
+
+    // Connect the two vertices in the assembly graph.
+    if (!this->associate (src_name, dst_name, false))
+      return -1;
+  }
+
+  CUTS_Component_Instance * temp_inst = 0;
+
+  ACE_NEW_THROW_EX (temp_inst,
+                    CUTS_Component_Instance (*this, ports),
                     ACE_bad_alloc ());
 
+  ACE_Auto_Ptr <CUTS_Component_Instance> auto_clean (temp_inst);
+
   // Save the instance.
-  this->instances_.bind (name, instance);
+  int retval = this->instances_.bind (name, temp_inst);
 
-  // Update the start for the assembly.
-  std::for_each (instance->start ().begin (),
-                 instance->start ().end (),
-                 boost::bind (&start_type::insert,
-                              boost::ref (this->start_),
-                              _1));
+  if (retval == 0)
+    inst = auto_clean.release ();
 
-  return instance;
+  return retval;
 }
 
 //
-// accept
+// get_port
 //
-void CUTS_Component_Assembly::accept (CUTS_Antispam_Visitor & visitor)
+bool CUTS_Component_Assembly::
+get_port (const ACE_CString & name,
+          CUTS_Behavior_Graph::vertex_descriptor & vertex)
 {
-  visitor.visit_CUTS_Component_Assembly (*this);
+  boost::graph_traits <CUTS_Behavior_Graph>::
+    vertex_iterator iter, iter_end;
+
+  // Locate the source vertex.
+  for (boost::tie (iter, iter_end) = boost::vertices (this->graph_);
+       iter != iter_end;  ++ iter)
+  {
+    if (boost::get (boost::vertex_name_t (), this->graph_, *iter) == name)
+    {
+      vertex = *iter;
+      return true;
+    }
+  }
+
+  return false;
+}
+
+//
+// set_start_port
+//
+bool CUTS_Component_Assembly::set_start_port (const ACE_CString & name)
+{
+  CUTS_Behavior_Graph::vertex_descriptor vertex;
+
+  bool retval = this->get_port (name, vertex);
+
+  if (retval)
+    this->start_.push_back (vertex);
+
+  return retval;
 }
