@@ -49,16 +49,14 @@ int CUTS_Component_Assembly::new_instance (const ACE_CString & name,
 
   for (; iter != iter_end; ++ iter)
   {
-    // Create the new name of the port.
-    temp = name;
-    temp += '.' + boost::get (boost::vertex_name_t (), type.behavior (), *iter);
+    // Get the port's details.
+    details = boost::get (CUTS_Port_Details_Tag (), type.behavior (), *iter);
 
     // Insert the port into the assembly's graph.
     vertex = boost::add_vertex (this->graph_);
-    boost::put (boost::vertex_name_t (), this->graph_, vertex, temp);
 
-    // Copy the port detials
-    details = boost::get (CUTS_Port_Details_Tag (), type.behavior (), *iter);
+    // Set the port's details
+    details.name_ = name + '.' + details.name_;
     boost::put (CUTS_Port_Details_Tag (), this->graph_, vertex, details);
 
     // Cache the vertex with its instance.
@@ -85,8 +83,8 @@ int CUTS_Component_Assembly::new_instance (const ACE_CString & name,
     dst = boost::target (*edge_iter, type.behavior ());
 
     // Construct the name of the vertices.
-    src_name += boost::get (boost::vertex_name_t (), type.behavior (), src);
-    dst_name += boost::get (boost::vertex_name_t (), type.behavior (), dst);
+    src_name += boost::get (CUTS_Port_Details_Tag (), type.behavior (), src).name_;
+    dst_name += boost::get (CUTS_Port_Details_Tag (), type.behavior (), dst).name_;
 
     // Connect the two vertices in the assembly graph.
     if (!this->associate (src_name, dst_name, false))
@@ -120,11 +118,15 @@ get_port (const ACE_CString & name,
   boost::graph_traits <CUTS_Behavior_Graph>::
     vertex_iterator iter, iter_end;
 
-  // Locate the source vertex.
+  CUTS_Port_Details details;
+
   for (boost::tie (iter, iter_end) = boost::vertices (this->graph_);
        iter != iter_end;  ++ iter)
   {
-    if (boost::get (boost::vertex_name_t (), this->graph_, *iter) == name)
+    // Get the port's details.
+    details = boost::get (CUTS_Port_Details_Tag (), this->graph_, *iter);
+
+    if (details.name_ == name)
     {
       vertex = *iter;
       return true;

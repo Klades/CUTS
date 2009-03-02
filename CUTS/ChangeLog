@@ -1,3 +1,16 @@
+Mon Mar  2 03:45:38 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/antispam/Behavior_Graph.h:
+        * cuts/utils/antispam/Component.cpp:
+        * cuts/utils/antispam/Component_Assembly.cpp:
+        * cuts/utils/antispam/Component_Instance.cpp:
+
+          . Added the port's name to the CUTS_Port_Details instead of
+            as a separate property.
+
+          . Now the names of the ports are printed with their predicted
+            response times.
+
 Sun Mar  1 06:47:39 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/antispam/Antispam_App.h:

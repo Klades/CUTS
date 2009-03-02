@@ -22,11 +22,16 @@ bool CUTS_Component::associate (const ACE_CString & input,
     if (!create)
       return false;
 
-    input_vertex = boost::add_vertex (this->graph_);
-    boost::put (boost::vertex_name_t (), this->graph_, input_vertex, input);
-
+    // Initialize the details
+    details.name_ = input;
     details.input_ = true;
-    boost::put (CUTS_Port_Details_Tag (), this->graph_, input_vertex, details);
+
+    // Creaate a new vertex
+    input_vertex = boost::add_vertex (details, this->graph_);
+
+    // Set the dea
+
+    // boost::put (CUTS_Port_Details_Tag (), this->graph_, input_vertex, details);
   }
 
   // Locate, or create, a vertex for the output port.
@@ -37,11 +42,12 @@ bool CUTS_Component::associate (const ACE_CString & input,
     if (!create)
       return false;
 
-    output_vertex = boost::add_vertex (this->graph_);
-    boost::put (boost::vertex_name_t (), this->graph_, output_vertex, output);
-
+    // Set the details of the port.
+    details.name_ = output;
     details.input_ = false;
-    boost::put (CUTS_Port_Details_Tag (), this->graph_, output_vertex, details);
+
+    // Create a new vertex for the port.
+    output_vertex = boost::add_vertex (details, this->graph_);
   }
 
   // Create a new edge between the two ports.
@@ -107,13 +113,15 @@ find_port (const ACE_CString & name,
   ACE_CString temp;
 
   // Locate the source vertex.
+  CUTS_Port_Details details;
+
   for (boost::tie (iter, iter_end) = boost::vertices (this->graph_);
        iter != iter_end;
        ++ iter)
   {
-    temp = boost::get (boost::vertex_name_t (), this->graph_, *iter);
+    details = boost::get (CUTS_Port_Details_Tag (), this->graph_, *iter);
 
-    if (temp == name)
+    if (details.name_ == name)
     {
       vertex = *iter;
       return true;

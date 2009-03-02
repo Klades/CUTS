@@ -32,8 +32,18 @@ struct CUTS_ANTISPAM_Export CUTS_Port_Details
 
   }
 
+  CUTS_Port_Details (const ACE_CString & name)
+    : name_ (name),
+      input_ (false),
+      arrival_rate_ (0.0),
+      service_time_ (0.0)
+  {
+
+  }
+
   CUTS_Port_Details (const CUTS_Port_Details & copy)
-    : input_ (copy.input_),
+    : name_ (copy.name_),
+      input_ (copy.input_),
       arrival_rate_ (copy.arrival_rate_),
       service_time_ (copy.service_time_)
   {
@@ -45,12 +55,15 @@ struct CUTS_ANTISPAM_Export CUTS_Port_Details
     if (this == &rhs)
       return *this;
 
+    this->name_ = rhs.name_;
     this->input_ = rhs.input_;
     this->arrival_rate_ = rhs.arrival_rate_;
     this->service_time_ = rhs.service_time_;
 
     return *this;
   }
+
+  ACE_CString name_;
 
   bool input_;
 
@@ -73,8 +86,7 @@ struct CUTS_Port_Details_Tag
 
 /// Type definition of the behavior graph's properties.
 typedef
-  boost::property <boost::vertex_name_t, ACE_CString,
-  boost::property <CUTS_Port_Details_Tag, CUTS_Port_Details > >
+  boost::property <CUTS_Port_Details_Tag, CUTS_Port_Details >
   CUTS_Behavior_Graph_Property;
 
 /// Type definition of the behavior graph.

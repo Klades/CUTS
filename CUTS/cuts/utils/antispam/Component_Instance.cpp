@@ -54,15 +54,19 @@ struct response_time_t
     CUTS_Port_Details details;
     this->inst_.assembly ().get_port_details (port, details);
 
-    // Elongate the ports service time.
-    double baseline_util =
-      details.arrival_rate_ * details.service_time_ / 1000.0;
-    double host_util = this->util_ - baseline_util;
+    if (details.input_)
+    {
+      // Elongate the ports service time.
+      double baseline_util =
+        details.arrival_rate_ * details.service_time_ / 1000.0;
+      double host_util = this->util_ - baseline_util;
 
-    double elongated = details.service_time_ / (1 - host_util);
-    double rt = 1.0 / (1.0 / elongated - details.arrival_rate_ / 1000.0);
+      double elongated = details.service_time_ / (1 - host_util);
+      double rt = 1.0 / (1.0 / elongated - details.arrival_rate_ / 1000.0);
 
-    std::cout << ". " << rt << " msec" << std::endl;
+      std::cout << ". " << details.name_.c_str ()
+                << ' ' << rt << " msec" << std::endl;
+    }
   }
 
 private:
