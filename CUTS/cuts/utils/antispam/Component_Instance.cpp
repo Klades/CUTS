@@ -36,45 +36,6 @@ private:
   const CUTS_Component_Instance & inst_;
 };
 
-/**
- * @struct response_time_t
- */
-struct response_time_t
-{
-  response_time_t (const CUTS_Component_Instance & inst, double & util)
-    : inst_ (inst),
-      util_ (util)
-  {
-
-  }
-
-  void operator () (CUTS_Behavior_Graph::vertex_descriptor port) const
-  {
-    // Get the port details.
-    CUTS_Port_Details details;
-    this->inst_.assembly ().get_port_details (port, details);
-
-    if (details.input_)
-    {
-      // Elongate the ports service time.
-      double baseline_util =
-        details.arrival_rate_ * details.service_time_ / 1000.0;
-      double host_util = this->util_ - baseline_util;
-
-      double elongated = details.service_time_ / (1 - host_util);
-      double rt = 1.0 / (1.0 / elongated - details.arrival_rate_ / 1000.0);
-
-      std::cout << ". " << details.name_.c_str ()
-                << ' ' << rt << " msec" << std::endl;
-    }
-  }
-
-private:
-  const CUTS_Component_Instance & inst_;
-
-  double & util_;
-};
-
 //
 // utilization
 //
@@ -87,14 +48,3 @@ double CUTS_Component_Instance::utilization (void) const
 
   return util;
 }
-
-//
-// response_time
-//
-void CUTS_Component_Instance::response_time (double util)
-{
-  std::for_each (this->ports_.begin (),
-                 this->ports_.end (),
-                 response_time_t (*this, util));
-}
-

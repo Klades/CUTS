@@ -1,3 +1,15 @@
+Mon Mar  2 04:20:44 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/antispam/Antispam_App.cpp:
+        * cuts/utils/antispam/Component_Instance.h:
+        * cuts/utils/antispam/Component_Instance.inl:
+        * cuts/utils/antispam/Component_Instance.cpp:
+        * cuts/utils/antispam/Response_Time_Evaluator.h:
+        * cuts/utils/antispam/Response_Time_Evaluator.cpp:
+
+          . Moved the calculation of response time for each port from
+            the component instance to the CUTS_Response_Time_Evaluator.
+
 Mon Mar  2 03:45:38 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/antispam/Behavior_Graph.h:

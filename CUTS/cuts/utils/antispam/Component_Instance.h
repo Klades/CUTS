@@ -50,7 +50,7 @@ public:
 
   const CUTS_Component_Assembly & assembly (void) const;
 
-  void response_time (double util);
+  const ports_type & ports (void) const;
 
 private:
   /// Parent assembly for the instance.

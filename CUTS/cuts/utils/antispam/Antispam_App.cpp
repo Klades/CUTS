@@ -44,8 +44,20 @@ int CUTS_Antispam_App::run_main (int argc, char * argv [])
     CUTS_Propagate_Arrival_Rates propogate;
     propogate.propogate (this->assembly_);
 
+    // Calculate the response time for each port.
     CUTS_Response_Time_Evaluator rt_eval;
-    rt_eval.evaluate (this->assembly_, this->deployment_);
+    CUTS_Response_Time_Evaluator::result_type results;
+
+    rt_eval.evaluate (this->assembly_, this->deployment_, results);
+
+    CUTS_Response_Time_Evaluator::result_type::ITERATOR iter (results);
+
+    // Print the results.
+    for (; !iter.done (); ++ iter)
+    {
+      std::cout << ". " << iter->key ()
+                << " = " << iter->item () << std::endl;
+    }
   }
   else
     ACE_ERROR ((LM_ERROR,

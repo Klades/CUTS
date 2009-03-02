@@ -32,3 +32,14 @@ CUTS_Component_Instance::assembly (void) const
 {
   return this->assembly_;
 }
+
+//
+// ports
+//
+CUTS_INLINE
+const CUTS_Component_Instance::ports_type &
+CUTS_Component_Instance::ports (void) const
+{
+  return this->ports_;
+}
+
