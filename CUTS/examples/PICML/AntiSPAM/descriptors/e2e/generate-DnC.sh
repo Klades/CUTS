@@ -11,7 +11,10 @@ fi
 for i in `ls ${CONFIG_LIST}`; do
   # initialize the configration variables
   CONFIG_NUMBER=`echo $i | sed "s/e2e-template-assembly//" | sed "s/.cdp//"`
+
   CONFIG_TEMPLATE=e2e-template-assembly${CONFIG_NUMBER}.cdp
+  ANTISPAM_TEMPLATE=e2e-template-assembly${CONFIG_NUMBER}.antispam
+
   CONFIG_OUTPUT_DIR=configuration${CONFIG_NUMBER}
 
   # delete any of the existing configurations
@@ -25,6 +28,7 @@ for i in `ls ${CONFIG_LIST}`; do
   # generate the current configuration(s)
   echo "*** info: generating $i into ${CONFIG_OUTPUT_DIR}"
   $CUTS_ROOT/bin/cuts-template --template=${CONFIG_TEMPLATE} --config-list=e2e-template-assembly${CONFIG_NUMBER}.config -o ${CONFIG_OUTPUT_DIR} --use-env
+  $CUTS_ROOT/bin/cuts-template --template=${ANTISPAM_TEMPLATE} --config-list=e2e-template-assembly${CONFIG_NUMBER}.config -o ${CONFIG_OUTPUT_DIR} --use-env
 
   # iterate thur each generated configuration
   DEPLOYMENT_LIST=${CONFIG_OUTPUT_DIR}/*.cdp
