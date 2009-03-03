@@ -37,29 +37,39 @@
                     onclick="handle_load_test_suite" />
       </div>
 
-      <cuts:unittestsuite runat="server" id="test_suite_"
-                          enableviewstate="true"
-                          onevaluateunittest="handle_evaluate_unit_test"
-                          onchartunittest="handle_chart_unit_test" />
+      <asp:placeholder runat="server" id="scalar_view_" visible="true">
+        <cuts:unittestsuite runat="server" id="test_suite_"
+                            enableviewstate="true"
+                            onevaluateunittest="handle_evaluate_unit_test"
+                            onchartunittest="handle_chart_unit_test" />
+      </asp:placeholder>
 
-      <cuts:chartcontrol runat="server" id="chart_"
-                         chartpadding="30" padding="40" borderstyle="None"
-                         height="400px" width="800px"
-                         ycustomend="0" yvaluesinterval="0" ycustomstart="0"
-                         showxvalues="false" visible="false" enableviewstate="true">
-        <yaxisfont stringformat="Far,Near,Character,LineLimit" />
-        <charttitle forecolor="black" stringformat="Center,Near,Character,LineLimit" font="Tahoma, 10pt, style=Bold" />
-        <legend font="Microsoft Sans Serif, 8pt" position="right" />
-        <background type="Solid" angle="90" endpoint="100, 400" color="white" hatchstyle="Horizontal"/>
-        <ytitle stringformat="Center,Near,Character,DirectionVertical"
-                font="Tahoma, 8pt, style=Bold" />
-        <xtitle stringformat="Center,Far,Character,LineLimit"
-                font="Tahoma, 8pt, style=Bold"
-                text="Event Number"  />
+      <asp:placeholder runat="server" id="trend_view_" visible="false">
+        <cuts:chartcontrol runat="server" id="chart_"
+                           chartpadding="30" padding="40" borderstyle="None"
+                           height="400px" width="800px"
+                           ycustomend="0" yvaluesinterval="0" ycustomstart="0"
+                           showxvalues="false" enableviewstate="true">
+          <yaxisfont stringformat="Far,Near,Character,LineLimit" />
+          <charttitle forecolor="black" stringformat="Center,Near,Character,LineLimit" font="Tahoma, 10pt, style=Bold" />
+          <legend font="Microsoft Sans Serif, 8pt" position="right" />
+          <background type="Solid" angle="90" endpoint="100, 400" color="white" hatchstyle="Horizontal"/>
+          <ytitle stringformat="Center,Near,Character,DirectionVertical"
+                  font="Tahoma, 8pt, style=Bold" />
+          <xtitle stringformat="Center,Far,Character,LineLimit"
+                  font="Tahoma, 8pt, style=Bold"
+                  text="Event Number"  />
 
-        <border dashstyle="dashdot" color="black" />
-        <plotbackground forecolor="white" />
-      </cuts:chartcontrol>
+          <border dashstyle="dashdot" color="black" />
+          <plotbackground forecolor="white" />
+        </cuts:chartcontrol>
+
+        <br />
+
+        <asp:linkbutton runat="server" id="rechart_"
+                        text="Click here to rechart"
+                        onclick="handle_onclick_rechart" />
+      </asp:placeholder>
     </asp:view>
   </asp:multiview>
 </asp:content>

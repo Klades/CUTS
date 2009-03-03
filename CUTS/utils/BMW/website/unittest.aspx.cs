@@ -140,13 +140,10 @@ namespace CUTS.Web.Page
         DataTable suites = new DataTable ();
         this.database_.SelectUnitTestSuites (ref suites);
 
-        ListItem item;
-
-        foreach (DataRow row in suites.Rows)
-        {
-          item = new ListItem (row["name"].ToString (), row["id"].ToString ());
-          this.existing_test_suites_.Items.Add (item);
-        }
+        this.existing_test_suites_.DataSource = suites;
+        this.existing_test_suites_.DataValueField = "id";
+        this.existing_test_suites_.DataTextField = "name";
+        this.existing_test_suites_.DataBind ();
       }
       catch (Exception e)
       {

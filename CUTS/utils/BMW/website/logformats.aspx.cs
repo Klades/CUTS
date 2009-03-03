@@ -137,7 +137,7 @@ namespace CUTS
               case "BYTE":
               case "byte":
                 mysql_regex.Append ("[[:digit:]]+");
-                csharp_regex.Append ("(?<" + varname + @">\d+)");
+                csharp_regex.Append ("(?<" + varname + @">-?\d+)");
 
                 variables.Add (varname, "TINYINT");
                 break;
@@ -145,7 +145,7 @@ namespace CUTS
               case "SHORT":
               case "short":
                 mysql_regex.Append ("[[:digit:]]+");
-                csharp_regex.Append ("(?<" + varname + @">\d+)");
+                csharp_regex.Append ("(?<" + varname + @">-?\d+)");
 
                 variables.Add (varname, "SMALLINT");
                 break;
@@ -154,7 +154,7 @@ namespace CUTS
               case "int":
                 // Update the regular expressions.
                 mysql_regex.Append ("[[:digit:]]+");
-                csharp_regex.Append ("(?<" + varname + @">\d+)");
+                csharp_regex.Append ("(?<" + varname + @">-?\d+)");
 
                 variables.Add (varname, "INT");
                 break;
@@ -162,7 +162,7 @@ namespace CUTS
               case "LONGLONG":
               case "longlong":
                 mysql_regex.Append ("[[:digit:]]+");
-                csharp_regex.Append ("(?<" + varname + @">\d+)");
+                csharp_regex.Append ("(?<" + varname + @">-?\d+)");
 
                 variables.Add (varname, "BIGINT");
                 break;

@@ -1,6 +1,10 @@
 // $Id$
 
-workspace (CUTS_Runtime_Arch) : cuts_common {
+workspace (CUTS_Runtime_Arch) {
+  cmdline += -include $CUTS_ROOT/MPC/config \
+             -include $XSC_ROOT/MPC/config \
+             -feature_file default.features
+
   cuts
 
   exclude {

@@ -1,3 +1,29 @@
+Tue Mar  3 20:07:50 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * CUTS.mwc:
+        * CUTS_CoSMIC.mwc:
+        * CUTS_Runtime_Arch.mwc:
+
+          . Re-designed the workspace layout so that you don't need
+            to define some features if you are building a specific
+            workspace.
+
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/UnitTesting/UnitTestEvaluator.cs:
+        * utils/BMW/assemblies/CUTS.Data/CUTS/Data/VariableTable.cs:
+
+          . Bug fixes.
+
+        * utils/BMW/website/analysis.aspx:
+        * utils/BMW/website/analysis.aspx.cs:
+        * utils/BMW/website/logformats.aspx.cs:
+        * utils/BMW/website/unittest.aspx.cs:
+
+          . Tried to cleanup the webpage.
+
+        * cuts_common.mwb:
+
+          Removed this file.
+
 Tue Mar  3 19:46:20 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MPC/config/cuts_antispam.mpb:

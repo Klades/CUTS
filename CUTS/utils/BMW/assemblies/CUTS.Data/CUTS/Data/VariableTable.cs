@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SQLite;
@@ -282,15 +283,6 @@ namespace CUTS.Data
     }
 
     /**
-     * Purge incomplete rows from the variable table. An incomplete
-     * row is one that has at least one NULL value.
-     */
-    public void PurgeIncompleteRows ()
-    {
-
-    }
-
-    /**
      * Clear all the rows in the database.
      */
     public void Clear ()
@@ -321,6 +313,29 @@ namespace CUTS.Data
 
       // Create the table in the database.
       command.CommandText = builder.ToString ();
+      command.ExecuteNonQuery ();
+    }
+
+    public void Compact ()
+    {
+      // First, get the names of all the columns in the 'vtable'
+      SQLiteCommand command = this.connection_.CreateCommand ();
+      command.CommandText = "PRAGMA table_info (vtable)";
+
+      List<string> columns = new List<string> ();
+      SQLiteDataReader reader = command.ExecuteReader ();
+
+      while (reader.Read ())
+        columns.Add (reader.GetString (1) + " IS NULL");
+
+      // Close the reader.
+      reader.Close ();
+
+      // Construct the SQL statement for purging incomplete rows.
+      string partial = String.Join (" OR ", columns.ToArray ());
+      command.CommandText = String.Format ("DELETE FROM vtable WHERE {0}", partial);
+
+      // Execute the SQL statement.
       command.ExecuteNonQuery ();
     }
 

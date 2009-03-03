@@ -12,18 +12,21 @@
 ///               runtime and modeling, apply to this workspace.
 ///=============================================================================
 
-workspace (CUTS) : CUTS_Runtime_Arch, CUTS_CoSMIC {    
+workspace (CUTS) {
+  // == build the runtime architecture
+  CUTS_Runtime_Arch.mwc
+
+  exclude (!vc6, !vc7, !vc71, !vc8, !vc9, !vc10, !nmake) {
+    // == build the modeling tools
+    cmdline += -base requires_modeling
+
+    CUTS_CoSMIC.mwc
+  }
+
   exclude (!vc8) {
+    // == build the BMW
     cmdline += -base requires_bmw
 
     utils/BMW/BMW.mwc
-  }
-
-  // -- prevent the following inclusion of the following
-  // -- workspaces
-
-  exclude {
-    performance-tests
-    tests
   }
 }

@@ -280,8 +280,8 @@ namespace CUTS.Web.Page
         this.generate_chart (unittest, trend);
 
         // Show the chart and hide the test suite.
-        this.test_suite_.Visible = false;
-        this.chart_.Visible = true;
+        this.trend_view_.Visible = true;
+        this.scalar_view_.Visible = false;
       }
       catch (Exception ex)
       {
@@ -373,6 +373,20 @@ namespace CUTS.Web.Page
 
       // Redraw the chart control.
       this.chart_.RedrawChart ();
+    }
+
+    protected override void LoadViewState (object savedState)
+    {
+      base.LoadViewState (savedState);
+    }
+
+    protected override object SaveViewState ()
+    {
+      return base.SaveViewState ();
+    }
+
+    protected void handle_onclick_rechart (object sender, EventArgs e)
+    {
     }
 
     private ColorMap color_map_ = new ColorMap ();

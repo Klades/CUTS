@@ -218,16 +218,18 @@ namespace CUTS.Data.UnitTesting
           // expression to evaluate the unit test.
           this.create_variable_table (test_datafile, ref vtable);
 
+          // Delete rows with incomplete data.
+          vtable.Compact ();
+
           // Commit the transaction.
           transaction.Commit ();
+          return this.evaluate_i (vtable, aggr);
         }
         catch (Exception)
         {
           transaction.Rollback ();
           throw;
         }
-
-        return this.evaluate_i (vtable, aggr);
       }
       finally
       {
@@ -285,9 +287,6 @@ namespace CUTS.Data.UnitTesting
     private void create_variable_table (string test_datafile,
                                         ref UnitTestVariableTable vtable)
     {
-      if (this.ut_conn_ == null || this.ut_conn_.State != ConnectionState.Open)
-        throw new Exception ("Connection to database is not open");
-
       // Initialize the database objects.
       DataSet ds = new DataSet ();
       DbCommand command = this.ut_conn_.CreateCommand ();
@@ -443,7 +442,6 @@ namespace CUTS.Data.UnitTesting
           logdata.Clear ();
 
         // Select log messages that match the current expression.
-        string mysql_regex = (string)node.property ("regex.mysql");
         DbDataReader reader = this.test_db_.FilterLogMessages (csharp_regex);
 
         // Get the relation for this log format.
