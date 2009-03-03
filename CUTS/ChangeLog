@@ -1,3 +1,9 @@
+Tue Mar  3 18:31:28 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * default.features:
+
+          . Disabled xerces3 by default over xerces2.
+
 Tue Mar  3 18:26:07 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/template/Template_App_Options.h:
