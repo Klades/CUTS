@@ -1,3 +1,9 @@
+Tue Mar  3 19:46:20 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_antispam.mpb:
+
+          . Missing base project.
+
 Tue Mar  3 18:31:28 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * default.features:

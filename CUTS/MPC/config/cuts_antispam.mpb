@@ -1,0 +1,6 @@
+// $Id$
+
+project {
+  after += CUTS_AntiSPAM_Common
+  libs  += CUTS_AntiSPAM_Common
+}
