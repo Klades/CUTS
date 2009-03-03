@@ -83,7 +83,7 @@ bool CUTS_Unit_Test_Evaluator::evaluate (CUTS_Test_Database & data,
 
     CUTS_Log_Format * format = 0;
 
-    for (iter; iter != iter_end; ++ iter)
+    for ( ; iter != iter_end; ++ iter)
     {
       // Get the log format from the vertex.
       format = boost::get (CUTS_Unit_Test_Graph::log_format_t (),
@@ -266,7 +266,7 @@ create_vtable (CUTS_DB_SQLite_Connection & conn,
   CUTS_DB_SQLite_Query * query = conn.create_query ();
 
   CUTS_Auto_Functor_T <CUTS_DB_SQLite_Query>
-    auto_clean (query, CUTS_DB_SQLite_Query::destroy);
+    auto_clean (query, &CUTS_DB_SQLite_Query::destroy);
 
   query->execute_no_record ("DROP TABLE IF EXISTS vtable");
 
@@ -313,6 +313,9 @@ create_vtable (CUTS_DB_SQLite_Connection & conn,
       case CUTS_Log_Format_Variable::VT_DOUBLE:
         sqlstr << "REAL";
         break;
+
+      default:
+        ;
       }
     }
   }
@@ -335,7 +338,7 @@ create_vtable_indices (CUTS_DB_SQLite_Connection & conn,
   CUTS_DB_SQLite_Query * query = conn.create_query ();
 
   CUTS_Auto_Functor_T <CUTS_DB_SQLite_Query>
-    auto_clean (query, CUTS_DB_SQLite_Query::destroy);
+    auto_clean (query, &CUTS_DB_SQLite_Query::destroy);
 
   // Iterate over all the relations
   CUTS_Log_Format::relations_type::const_iterator

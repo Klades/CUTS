@@ -16,9 +16,9 @@ chapter, you will have a basic understanding of how to:
 In this tutorial, you will be measuring the end-to-end response time a simple
 client/\-server application that communicates using asychronous events. This
 tutorial assumes you have basic understanding of the Generic Modeling 
-Environment (GME), CoSMIC, and the CORBA Component Model (CCM). More specifically,
+Environment (GME), CoSMIC/\-PICML, and the CORBA Component Model (CCM). More specifically,
 this turorial will target the Component Integrated ACE ORB (CIAO) 
-middleware\footnote{CIAO is a open-source implementation of the CCM and freely 
+middleware\footnote{CIAO is an open-source implementation of the CCM, and is freely 
 available for download at the following location: \url{www.dre.vanderbilt.edu/CIAO}.}.
 Although this tutorial targets CIAO, the experience gained from
 this tutorial can be applied to any architecture CUTS supports.
@@ -30,22 +30,27 @@ Using GME, open the following file:
 \begin{lstlisting}
 (*@\texttt{\$(CUTS\_ROOT)/examples/PICML/GettingStarted.xme}@*)
 \end{lstlisting}
-This model contains the structure of the client/\-server application. Moreover, 
-this is usually the starting point for using CUTS within CoSMIC. 
+This model contains the structure of the client/\-server application, and 
+is usually the starting point for using CUTS within PICML. 
 Currently, application behavior and workload is modeled in the \texttt{Behavior}
-aspect of a component's interface definition in PICML. First, let's add behavior 
-and workload to the client component by assuming the client component should 
-periodically send an event to the server.
-As illustrated in Figure~\ref{fig:client-no-behavior}, the client model already
-contains model elements for its input/\-output ports. What remains is associating
+aspect of a component's interface definition in PICML. The components in the model
+located at:
+\begin{lstlisting}
+(*@\texttt{GettingStarted/InterfaceDefinitions/GettingStarted/GettingStarted}@*)
+\end{lstlisting}
+already contain model elements for its input/\-output ports. What remains is associating
 the correct behavior and workload with these input/\-output ports for emulation
-purposes. Therefore, please complete the following steps:
+purposes. First, let's add behavior and workload to the client component by 
+assuming the client component should periodically send an event to the server.
+Please complete the following steps:
 \begin{enumerate}
   \item Add a \texttt{PeriodicEvent} model element to the active model and 
-  set its \texttt{Period} attribute to 1000 msec. 
+  set its name to \texttt{periodicPing} and its \texttt{Hertz} attribute to 
+  10 (\textit{i.e.}, 10 events/sec). 
   
-  \item Insert an \texttt{InputAction} element, changes its name to 
-  \texttt{periodicPing}, and connect the \texttt{PeriodicEvent} to the \texttt{InputAction}.
+  \item Insert an \texttt{InputAction} element, change its name to 
+  \texttt{periodicPing}, and connect the \texttt{PeriodicEvent} to 
+  the \texttt{InputAction}.
 
   \item Insert a \texttt{State} element, connect it with the \texttt{InputAction}.
 
@@ -56,8 +61,14 @@ purposes. Therefore, please complete the following steps:
   \item Connect the final \texttt{State} with the originating \texttt{InputAction},
   \textit{i.e.}, \texttt{periodicPing}, to signify end of the behavior.
 \end{enumerate}
-Figure~\ref{fig:client-behavior} illustrates a complete model for the previous 
-steps.
+Figure~\ref{fig:gettingstarted-client-behavior} illustrates the complete behavior 
+model of the client in PICML, which is implemented in the previous steps.
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{gettingstarted-client-behavior.pdf}
+  \caption{Client behavior model in PICML for CUTS emulation.}
+  \label{fig:gettingstarted-client-behavior}
+\end{figure}
 
 \section{Generating Test System Implementation}
 \label{sec:quickstart-generation}

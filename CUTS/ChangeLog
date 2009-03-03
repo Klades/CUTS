@@ -1,3 +1,14 @@
+Tue Mar  3 20:54:51 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/unite/Unit_Test_Evaluator.cpp:
+
+	  . Fixed compilation errors on non-Windows systems.
+
+        * docs/manual/manual.pdf:
+        * docs/manual/quickstart.tex:
+
+	  . Updated the documentation.
+
 Tue Mar  3 20:07:50 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * CUTS.mwc:
