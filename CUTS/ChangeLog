@@ -1,3 +1,25 @@
+Tue Mar  3 18:26:07 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/template/Template_App_Options.h:
+        * cuts/utils/template/Template_Config_List_Parser.h:
+        * cuts/utils/template/Template_Config_List_Parser.cpp:
+
+          . Updated the template engine such that the extention for
+            the generated configuration is taken from the source
+            template file.
+
+        * examples/PICML/AntiSPAM/descriptors/controlled/e2e-template-assembly1.antispam:
+        * examples/PICML/AntiSPAM/descriptors/e2e/e2e-template-assembly1.antispam:
+
+          . AntiSPAM input model for the SLICE scenario. It has templates
+            variables that are should be substituted using CUTS template
+            engine.
+
+        * examples/PICML/AntiSPAM/descriptors/e2e/e2e-template-assembly1.config:
+        * examples/PICML/AntiSPAM/descriptors/e2e/e2e-template-assembly2.config:
+
+          . Removed the extension from each of the configurations.
+
 Mon Mar  2 04:31:39 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/antispam/Update_Service_Times.h:

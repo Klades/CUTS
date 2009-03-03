@@ -21,6 +21,7 @@
 #include "boost/spirit/iterator/file_iterator.hpp"
 #include <fstream>
 #include <sstream>
+#include <string>
 
 // Forward decl.
 class CUTS_Property_Map;
@@ -32,8 +33,8 @@ class CUTS_Template_Config_List_Parser_Grammar :
   public boost::spirit::grammar <CUTS_Template_Config_List_Parser_Grammar>
 {
 public:
-  CUTS_Template_Config_List_Parser_Grammar (const ACE_CString & template_file,
-                                            const ACE_CString & output_dir,
+  CUTS_Template_Config_List_Parser_Grammar (const std::string & template_file,
+                                            const std::string & output_dir,
                                             const CUTS_Property_Map & overrides);
 
   /// Destructor
@@ -80,7 +81,7 @@ public:
   private:
     struct parse_config
     {
-      parse_config (CUTS_Property_Map & prop_map, 
+      parse_config (CUTS_Property_Map & prop_map,
                     const CUTS_Property_Map & overrides)
         : prop_map_ (prop_map),
           overrides_ (overrides)
@@ -115,8 +116,8 @@ public:
 
     struct generate_file
     {
-      generate_file (const ACE_CString & template_file,
-                     const ACE_CString & output_dir,
+      generate_file (const std::string & template_file,
+                     const std::string & output_dir,
                      const std::string & filename,
                      const CUTS_Property_Map & prop_map,
                      const bool & use_env,
@@ -124,61 +125,72 @@ public:
                      const bool & ignore_commands)
         : filename_ (filename),
           output_dir_ (output_dir),
-          begin_ (template_file.c_str ()),
+          template_file_ (template_file),
           prop_map_ (prop_map),
           use_env_ (use_env),
           ignore_variables_ (ignore_variables),
           ignore_commands_ (ignore_commands)
       {
-        if (this->begin_)
-          this->end_ = this->begin_.make_end ();
       }
 
       template <typename IteratorT>
       void operator () (IteratorT begin, IteratorT end) const
       {
+        // Get filename extension of template file, if it exist.
+        size_t pos = this->template_file_.find_last_of ('.');
+
         std::ostringstream ostr;
-        ostr << this->output_dir_.c_str ()
-             << "/" << this->filename_.c_str ();
+        ostr << this->output_dir_ << "/" << this->filename_;
+
+        if (pos != std::string::npos)
+          ostr << this->template_file_.substr (pos);
 
         // Now, generate the file using the template.
         std::ofstream outfile;
         outfile.open (ostr.str ().c_str ());
 
-        if (outfile.is_open ())
+        // Open the template file for parsing.
+        boost::spirit::
+          file_iterator < > file_begin (this->template_file_.c_str ());
+
+        if (file_begin)
         {
-          CUTS_Text_Processor processor (this->prop_map_);
+          // Locate the end of the template file.
+          boost::spirit::file_iterator < > file_end = file_begin.make_end ();
 
-          if (processor.evaluate (this->begin_,
-                                  this->end_,
-                                  outfile,
-                                  this->use_env_,
-                                  this->ignore_variables_,
-                                  this->ignore_commands_) == 0)
+          if (outfile.is_open ())
           {
-            ACE_DEBUG ((LM_DEBUG,
-                        "%T (%t) - %M - successfully generated %s\n",
-                        this->filename_.c_str ()));
-          }
-          else
-          {
-            ACE_ERROR ((LM_ERROR,
-                        "%T (%t) - %M - failed to generate %s\n",
-                        this->filename_.c_str ()));
-          }
+            CUTS_Text_Processor processor (this->prop_map_);
 
-          outfile.close ();
+            if (processor.evaluate (file_begin,
+                                    file_end,
+                                    outfile,
+                                    this->use_env_,
+                                    this->ignore_variables_,
+                                    this->ignore_commands_) == 0)
+            {
+              ACE_DEBUG ((LM_DEBUG,
+                          "%T (%t) - %M - successfully generated %s\n",
+                          this->filename_.c_str ()));
+            }
+            else
+            {
+              ACE_ERROR ((LM_ERROR,
+                          "%T (%t) - %M - failed to generate %s\n",
+                          this->filename_.c_str ()));
+            }
+
+            outfile.close ();
+          }
         }
       }
 
     private:
       const std::string & filename_;
 
-      const ACE_CString & output_dir_;
+      const std::string & output_dir_;
 
-      boost::spirit::file_iterator < > begin_;
-
-      boost::spirit::file_iterator < > end_;
+      const std::string & template_file_;
 
       const CUTS_Property_Map & prop_map_;
 
@@ -200,9 +212,9 @@ public:
   };
 
 private:
-  const ACE_CString & template_file_;
+  const std::string & template_file_;
 
-  const ACE_CString & output_dir_;
+  const std::string & output_dir_;
 
   const CUTS_Property_Map & overrides_;
 
@@ -224,8 +236,8 @@ public:
    *
    * @param[in]       overrides       Property overrides.
    */
-  CUTS_Template_Config_List_Parser (const ACE_CString & template_file,
-                                    const ACE_CString & output_dir,
+  CUTS_Template_Config_List_Parser (const std::string & template_file,
+                                    const std::string & output_dir,
                                     const CUTS_Property_Map & overrides);
 
   /// Destructor.

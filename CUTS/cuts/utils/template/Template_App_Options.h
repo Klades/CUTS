@@ -15,6 +15,7 @@
 
 #include "ace/SString.h"
 #include "ace/Vector_T.h"
+#include <string>
 
 /**
  * @class CUTS_Template_App_Options
@@ -33,16 +34,16 @@ public:
   }
 
   /// Input template.
-  ACE_CString input_;
+  std::string input_;
 
   /// Target output file for the conversion.
-  ACE_CString output_;
+  std::string output_;
 
   /// Property configuration file.
-  ACE_CString config_;
+  std::string config_;
 
   /// File with list of configurations.
-  ACE_CString config_list_;
+  std::string config_list_;
 
   /// List of properties defined on the command-line.
   ACE_Vector <ACE_CString> defines_;

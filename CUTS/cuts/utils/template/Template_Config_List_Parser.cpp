@@ -18,8 +18,8 @@
 // CUTS_Template_Config_List_Parser_Grammar
 //
 CUTS_Template_Config_List_Parser_Grammar::
-CUTS_Template_Config_List_Parser_Grammar (const ACE_CString & template_file,
-                                          const ACE_CString & output_dir,
+CUTS_Template_Config_List_Parser_Grammar (const std::string & template_file,
+                                          const std::string & output_dir,
                                           const CUTS_Property_Map & overrides)
 : template_file_ (template_file),
   output_dir_ (output_dir),
@@ -58,8 +58,8 @@ configure (bool use_env, bool ignore_variables, bool ignore_commands)
 // CUTS_Template_Config_List_Parser
 //
 CUTS_Template_Config_List_Parser::
-CUTS_Template_Config_List_Parser (const ACE_CString & template_file,
-                                  const ACE_CString & output_dir,
+CUTS_Template_Config_List_Parser (const std::string & template_file,
+                                  const std::string & output_dir,
                                   const CUTS_Property_Map & overrides)
 : grammar_ (template_file, output_dir, overrides)
 {

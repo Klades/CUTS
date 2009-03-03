@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<cuts:antispam xmlns="http://www.dre.vanderbilt.edu/CUTS"
+               xmlns:cuts="http://www.dre.vanderbilt.edu/CUTS"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://www.dre.vanderbilt.edu/CUTS cuts-antispam.xsd">
+  <components>
+    <component type="CPUBound">
+      <input name="A">
+        <output>outA</output>
+      </input>
+    </component>
+  </components>
+
+  <assembly>
+    <instance type="CPUBound" name="inst1">
+      <input name="A" baseline="51" arrival="${generator1.publishHertz}" />
+    </instance>
+
+    <instance type="CPUBound" name="inst2">
+      <input name="A" baseline="64" arrival="${generator2.publishHertz}" />
+    </instance>
+
+    <instance type="CPUBound" name="inst3">
+      <input name="A" baseline="11" />
+    </instance>
+
+    <instance type="CPUBound" name="inst4">
+      <input name="A" baseline="10" />
+    </instance>
+
+    <instance type="CPUBound" name="inst5">
+      <input name="A" baseline="14" />
+    </instance>
+
+    <instance type="CPUBound" name="inst6">
+      <input name="A" baseline="54" />
+    </instance>
+
+    <instance type="CPUBound" name="inst7">
+      <input name="A" baseline="37" />
+    </instance>
+
+    <connection src="inst1.outA" dst="inst3.A" />
+    <connection src="inst2.outA" dst="inst3.A" />
+    <connection src="inst3.outA" dst="inst4.A" />
+    <connection src="inst4.outA" dst="inst5.A" />
+    <connection src="inst5.outA" dst="inst6.A" />
+    <connection src="inst5.outA" dst="inst7.A" />
+  </assembly>
+
+  <deployment>
+    <host name="${host.inst1}"><instance>inst1</instance></host>
+    <host name="${host.inst2}"><instance>inst2</instance></host>
+    <host name="${host.inst3}"><instance>inst3</instance></host>
+    <host name="${host.inst4}"><instance>inst4</instance></host>
+    <host name="${host.inst5}"><instance>inst5</instance></host>
+    <host name="${host.inst6}"><instance>inst6</instance></host>
+    <host name="${host.inst7}"><instance>inst7</instance></host>
+  </deployment>
+</cuts:antispam>
