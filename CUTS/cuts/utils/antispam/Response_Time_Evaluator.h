@@ -25,13 +25,55 @@ class CUTS_Component_Assembly;
 class CUTS_Deployment;
 
 /**
+ * @struct CUTS_Response_Time_Evaluator_Result
+ */
+struct CUTS_Response_Time_Evaluator_Result
+{
+  CUTS_Response_Time_Evaluator_Result (void)
+    : response_time_ (0.0),
+      host_util_ (0.0),
+      count_ (0)
+  {
+
+  }
+  CUTS_Response_Time_Evaluator_Result (const CUTS_Response_Time_Evaluator_Result & copy)
+    : response_time_ (copy.response_time_),
+      host_util_ (copy.host_util_),
+      count_ (copy.count_)
+  {
+
+  }
+
+  const CUTS_Response_Time_Evaluator_Result &
+    operator = (const CUTS_Response_Time_Evaluator_Result & copy)
+  {
+    if (this == &copy)
+      return *this;
+
+    this->response_time_ = copy.response_time_;
+    this->host_util_ = copy.host_util_;
+    this->count_ = copy.count_;
+
+    return *this;
+  }
+
+  /// Response time of the component.
+  double response_time_;
+
+  /// Packing utilization of the host.
+  double host_util_;
+
+  size_t count_;
+};
+
+/**
  * @class CUTS_Response_Time_Evaluator
  */
 class CUTS_ANTISPAM_Export CUTS_Response_Time_Evaluator
 {
 public:
   typedef ACE_Hash_Map_Manager <ACE_CString,
-                                double,
+                                CUTS_Response_Time_Evaluator_Result,
                                 ACE_Null_Mutex> result_type;
 
   /// Default constructor.

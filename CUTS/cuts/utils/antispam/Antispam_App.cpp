@@ -56,7 +56,9 @@ int CUTS_Antispam_App::run_main (int argc, char * argv [])
     for (; !iter.done (); ++ iter)
     {
       std::cout << ". " << iter->key ()
-                << " = " << iter->item () << std::endl;
+                << " = " << iter->item ().response_time_
+                << ", " << iter->item ().host_util_
+                << std::endl;
     }
   }
   else

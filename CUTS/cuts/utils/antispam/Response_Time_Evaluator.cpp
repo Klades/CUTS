@@ -41,7 +41,6 @@ evaluate (const CUTS_Component_Assembly & assembly,
     for ( ; !inst_iter.done (); ++ inst_iter)
     {
       inst = *inst_iter;
-      // inst->response_time (util);
 
       std::for_each (inst->ports ().begin (),
                      inst->ports ().end (),
@@ -73,6 +72,10 @@ evaluate_i (CUTS_Behavior_Graph::vertex_descriptor port)
     double rt = 1.0 / (1.0 / elongated - details.arrival_rate_ / 1000.0);
 
     // Save the results.
-    this->results_->bind (details.name_, rt);
+    CUTS_Response_Time_Evaluator_Result result;
+    result.response_time_ = rt;
+    result.host_util_ = baseline_util;
+
+    this->results_->bind (details.name_, result);
   }
 }
