@@ -1,3 +1,9 @@
+Wed Mar  4 05:31:38 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/PICML/AntiSPAM/descriptors/e2e/antispam.unite:
+
+          . UNITE configuration file for evalating a unit test.
+
 Wed Mar  4 05:17:36 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/antispam/Antispam_App.cpp:
