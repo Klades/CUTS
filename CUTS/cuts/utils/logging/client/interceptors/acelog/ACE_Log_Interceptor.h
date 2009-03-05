@@ -15,10 +15,8 @@
 #define _CUTS_ACE_LOG_INTERCEPTOR_H_
 
 #include "ace/Service_Object.h"
-#include "ace/Auto_Ptr.h"
 #include "ACE_Log_Interceptor_export.h"
-#include "ACE_Log_Interceptor_App_Options.h"
-#include "ACE_Log_Callback.h"
+#include "ACE_Msg_Backend.h"
 
 /**
  * @class CUTS_ACE_Log_Interceptor
@@ -26,19 +24,18 @@
  * 
  */
 
-class CUTS_ACE_Log_Interceptor_Export CUTS_ACE_Log_Interceptor : public ACE_Service_Object
+class CUTS_ACE_Log_Interceptor_Export CUTS_ACE_Log_Interceptor 
+: public ACE_Service_Object
 {
 	public:
-		
-		/**
+ 		/**
 		 *  Performs initialization for run-time service configuration
 		 *
      * @param[in]         argc        Number of arguments
      * @param[in]         argv        Command-line arguments
      */
 	  virtual int init (int argc, ACE_TCHAR *argv[]);
-		
-		
+			
 		/// Performs cleanup 
 		virtual int fini (void);
 		
@@ -59,7 +56,7 @@ class CUTS_ACE_Log_Interceptor_Export CUTS_ACE_Log_Interceptor : public ACE_Serv
      * @param[in]         argc        Number of arguments
      * @param[in]         argv        Command-line arguments
 		 *
-		 * @param[out]        -1				  Represents faliure
+		 * @retval		        -1				  Represents faliure
 		 *										 0					Represents success
      */
 		int parse_args (int argc, char * argv []);
@@ -67,18 +64,11 @@ class CUTS_ACE_Log_Interceptor_Export CUTS_ACE_Log_Interceptor : public ACE_Serv
 		/// Print the help for the application.
 		int print_help (void);
 		
-		/// Makes the connection to test-manager based on command-line arguments
-		int make_connection(void);
-
-		/// callback_ is used for handling callbacks 
-		ACE_Auto_Ptr<CUTS_ACE_Log_Callback> callback_;
+		// CUTS_ACE_Msg_Backend object used for logging
+		CUTS_ACE_Msg_Backend msg_backend_;
 		
-    /// logger_ is used for to make connection with test_logger
-		CUTS_Test_Logger logger_;
-		
-		/// app_options is used to save the parsed command-line options
-		CUTS_ACE_Log_Interceptor_App_Options app_options_;
-		
+		ACE_Log_Msg * alm_;
+				
 };
 
 ACE_FACTORY_DEFINE(CUTS_ACE_Log_Interceptor, CUTS_ACE_Log_Interceptor)

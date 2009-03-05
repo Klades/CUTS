@@ -11,12 +11,12 @@ project (CUTS_ACE_Log_Interceptor) : cutslib  {
   Source_Files {
     ACE_Log_Interceptor.cpp
     ACE_Log_Callback.cpp
+    ACE_Msg_Backend.cpp
   }
 
   Header_Files {
-    ACE_Log_Interceptor_App_Options.h
-    ACE_Log_Interceptor_export.h
     ACE_Log_Interceptor.h
     ACE_Log_Callback.h
+    ACE_Msg_Backend.h
   }
 }

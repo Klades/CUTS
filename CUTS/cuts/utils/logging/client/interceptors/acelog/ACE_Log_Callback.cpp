@@ -3,7 +3,7 @@
 #include "ACE_Log_Callback.h"
 
 //
-// Callback
+// CUTS_ACE_Log_Callback
 //
 CUTS_ACE_Log_Callback::CUTS_ACE_Log_Callback (CUTS_Test_Logger &logger)
 : logger_ (logger),
@@ -12,7 +12,7 @@ CUTS_ACE_Log_Callback::CUTS_ACE_Log_Callback (CUTS_Test_Logger &logger)
 }
 
 //
-// ~Callback
+// ~CUTS_ACE_Log_Callback
 //
 CUTS_ACE_Log_Callback::~CUTS_ACE_Log_Callback (void)
 {
@@ -32,13 +32,19 @@ void CUTS_ACE_Log_Callback::log (ACE_Log_Record &log_record)
 		this->old_callback_->log (log_record);
 }
 
+//
+// get_old_callback
+//
 ACE_Log_Msg_Callback *
-CUTS_ACE_Log_Callback::get_old_callback (void)
+CUTS_ACE_Log_Callback::old_callback (void)
 {
 	return this->old_callback_;
 }
 
-void CUTS_ACE_Log_Callback::set_old_callback (ACE_Log_Msg_Callback *old_callback)
+//
+// set_old_callback
+//
+void CUTS_ACE_Log_Callback::old_callback (ACE_Log_Msg_Callback *old_callback_obj)
 {
-	this->old_callback_ = old_callback_;
+	this->old_callback_ = old_callback_obj;
 }

@@ -34,13 +34,31 @@ public:
 	///Destructor
 	virtual ~CUTS_ACE_Log_Callback (void);
 	
-  virtual void log (ACE_Log_Record &log_record) ;
+	/**
+   * Process a log record
+   *
+   * @param[in]        log_record        Number of arguments
+   *   
+   * @retval		      -1	,	for faliure
+   *									 number of bytes processed on success
+   */
+  virtual void log (ACE_Log_Record &log_record);
+
+  /**
+   * Saves the value of previous callback
+   *
+   * @param[in]    old_callback_obj		  Old callback pointer.       
+   *   
+   */
+  void old_callback (ACE_Log_Msg_Callback * old_callback_obj);
   
-  // Saves the value of previous callback that has been replaced by this one
-  void set_old_callback (ACE_Log_Msg_Callback * old_callback);
-  
-  // Returns the previous callback
-  ACE_Log_Msg_Callback * get_old_callback(void);
+  /**
+   * Returns the previous callback set for logging
+   *
+   * @retval    old_msg_callback	
+   *
+   */
+  ACE_Log_Msg_Callback * old_callback (void);
   
 private:
 

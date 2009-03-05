@@ -5,8 +5,6 @@
 #include "ace/OS_Memory.h"
 #include "ace/Get_Opt.h"
 
-#include <iostream>
-
 static const char * __HELP__ =
 "CUTS_ACE_Log_Interceptor for CUTS"
 "\n"
@@ -23,48 +21,36 @@ static const char * __HELP__ =
 //
 int CUTS_ACE_Log_Interceptor::init (int argc, ACE_TCHAR *argv[])
 {
-  // initialize callback_
-
-  CUTS_ACE_Log_Callback * callback = 0;
+	// Parse command line parameters and set up 
+  // connect parameters for message back-end
   
-  ACE_NEW_RETURN (callback, CUTS_ACE_Log_Callback (logger_),-1);
-  this->callback_.reset (callback);
-
-  // parse command line parameters and set up msg_callback for logger
   if (this->parse_args (argc, argv) == -1)
-  {
-    ACE_ERROR_RETURN ((LM_ERROR, 
-    									"%T (%t) - %M - Invalid command line arguments passed."),
+		ACE_ERROR_RETURN ((LM_ERROR, 
+    									"%T (%t) - %M - invalid command line arguments passed."),
     									-1);
-  }
-  
-  // retval=1 means help option was printed
-  if (this->parse_args (argc, argv) == 1)
-  {
-  	return 0;
-  }
 
-  // Make connection to Test-Manager based on parsed arguments
-  if (this->make_connection () == -1)
-  {
-    ACE_ERROR_RETURN ((LM_ERROR, 
-    									"%T (%t) - %M - Connection to CUTS_Logger failed."),
-    									-1);
-  }
+	// get the Log_MSg singleton instance 
+	alm_ = ACE_Log_Msg::instance ();
+	
+	// Set the new message_backend
+	ACE_Log_Msg_Backend * backend = alm_->msg_backend (&this->msg_backend_);
+	
+	// Set the custom flag for msg_backend logging
+	u_long flags = alm_->flags ();
+  flags |= ACE_Log_Msg::CUSTOM;
+	
+	// Intialize ACE_Logger for backend
+  if (-1 == alm_->open (ACE_TEXT ("CUTS_ACE_Log_Interceptor"), flags))
+    {
+      ACE_ERROR_RETURN ((LM_ERROR,
+												"%T (%t) - %M -failed to open ACE_Log_Msg_Backend."),
+												-1);
+    }
+	
+	// Save the previous backend
+	this->msg_backend_.old_msg_backend (backend);
 
-  ACE_LOG_MSG->set_flags (ACE_Log_Msg::MSG_CALLBACK);
-
-  // Pooja, please cache the previous set callback in ACE_Log. You need
-  // to ensure this is restored before this service exits. Also, if the 
-  // previous callback is not 0, then you need to invoke it manually,
-  // which is called ``chaining''. I am sure that a end-user that
-  // installs their own callback will be pretty upset if you replace
-  // their callback with your and aren't nice enough to invoke it on
-  // their behave when you handle log messages. ;-)
-  this->callback_->set_old_callback (ACE_LOG_MSG->msg_callback 
-  																		(this->callback_.get()));
-
-  return 0;
+	return 0;
 }
 
 int CUTS_ACE_Log_Interceptor::parse_args (int argc, char * argv [])
@@ -87,27 +73,24 @@ int CUTS_ACE_Log_Interceptor::parse_args (int argc, char * argv [])
 
   while ((option = cmd_opts ()) != EOF)
   {
-    std::cerr << "Option= " << option;
     switch (option)
     {
       case 0:
         if (ACE_OS::strcmp ("help", cmd_opts.long_option ()) == 0)
-        {
-          this->print_help ();
-        }
+  				this->print_help ();
+       
         else if (ACE_OS::strcmp ("connect-port", cmd_opts.long_option ()) == 0)
-        {
-          this->app_options_.connect_port_ = ACE_OS::atoi (cmd_opts.opt_arg ());
-        }
+       		this->msg_backend_.connect_port (ACE_OS::atoi (cmd_opts.opt_arg ()));
+
         else if (ACE_OS::strcmp ("connect-name", cmd_opts.long_option ()) == 0)
         {
-          this->app_options_.is_connect_name_ = true;
-          this->app_options_.connect_string = cmd_opts.opt_arg ();
+          this->msg_backend_.is_connect_name (true);
+          this->msg_backend_.connect_string ((ACE_CString)cmd_opts.opt_arg ());
         }
         else if (ACE_OS::strcmp ("connect-location", cmd_opts.long_option ()) == 0)
         {
-          this->app_options_.is_connect_location_ = true;
-          this->app_options_.connect_string = cmd_opts.opt_arg ();
+          this->msg_backend_.is_connect_name (false);
+          this->msg_backend_.connect_string ((ACE_CString)cmd_opts.opt_arg ());
         }
         break;
 
@@ -115,37 +98,34 @@ int CUTS_ACE_Log_Interceptor::parse_args (int argc, char * argv [])
         this->print_help ();
 
       case 'p':
-        this->app_options_.connect_port_ = ACE_OS::atoi (cmd_opts.opt_arg ());
+        this->msg_backend_.connect_port (ACE_OS::atoi (cmd_opts.opt_arg ()));
         break;
 
       case 'n':
-        this->app_options_.is_connect_name_ = true;
-        this->app_options_.connect_string = cmd_opts.opt_arg ();
+        this->msg_backend_.is_connect_name (true);
+        this->msg_backend_.connect_string ((ACE_CString)cmd_opts.opt_arg ());
         break;
 
       case 'l':
-        this->app_options_.is_connect_location_ = true;
-        this->app_options_.connect_string = cmd_opts.opt_arg ();
+        this->msg_backend_.is_connect_name (false);
+        this->msg_backend_.connect_string ((ACE_CString)cmd_opts.opt_arg ());
         break;
 
       case ':':
         ACE_ERROR_RETURN ((LM_ERROR,
-        									 ACE_TEXT ("Logger_Interceptor::init():")
           								 ACE_TEXT ("-%c requires an argument.\n"),
           								 cmd_opts.opt_opt ()), -1);
         break;
 
       case '?':
         ACE_ERROR ((LM_WARNING,
-          					"Logger_Interceptor::init():"
           					"-%c is an unknown option; ignoring\n",
           					cmd_opts.opt_opt ()));
         break;
 
       default:
         ACE_ERROR_RETURN ((LM_ERROR,
-          								 ACE_TEXT ("Logger_Interceptor::init():"
-          								 "Parse Error.\n")),
+          								 ACE_TEXT ("parse error.\n")),
           								 -1);
     }
   }
@@ -166,43 +146,11 @@ int CUTS_ACE_Log_Interceptor::print_help (void)
 // fini
 //
 int CUTS_ACE_Log_Interceptor::fini (void)
-{
-  // Pooja, please make sure to restore the previous callback. Right now,
-  // once this service goes away, you reset the callback. That deletes
-  // the callback, however, it is still registered with ACE_Log!! This 
-  // will cause a segfault.
-  ACE_LOG_MSG->clr_flags (ACE_Log_Msg ::MSG_CALLBACK);
-	
-	// Restore the old callback
-	ACE_LOG_MSG->msg_callback (this->callback_->get_old_callback ());
-  callback_.reset();
-
+{	
+  ACE_LOG_MSG->msg_backend (this->msg_backend_.old_msg_backend ());
   return 0;
 }
 
-//
-// make_connection
-//
-int CUTS_ACE_Log_Interceptor::make_connection ()
-{
-  this->logger_.configure (this->app_options_.connect_port_);
-
-  if ( this->app_options_.is_connect_name_ )
-  {
-    this->logger_.connect_using_name (this->app_options_.connect_string);
-  }
-  else if ( this->app_options_.is_connect_location_ )
-  {
-    this->logger_.connect_using_location (this->app_options_.connect_string);
-  }
-  else
-  {
-    ACE_ERROR_RETURN ((LM_ERROR, ACE_TEXT (
-      "Logger_Interceptor: No connect options found\n")), -1);
-  }
-
-  return 0;
-}
 
 //
 // info
