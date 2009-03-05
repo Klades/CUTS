@@ -79,7 +79,7 @@ def generateCPUProfile (id, enable_post) :
 # getRandomServiceTime
 #
 def getRandomServiceTime () :
-  return random.randint (10, 70)
+  return random.randint (7, 16)
 
 #
 # getRandomPrePostTimes
