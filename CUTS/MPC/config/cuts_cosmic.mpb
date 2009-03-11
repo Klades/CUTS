@@ -1,5 +1,6 @@
 // $Id$
 
 project : requires_modeling, cutslib {
-  libs -= CUTS
+  libs  -= CUTS
+  after -= CUTS
 }

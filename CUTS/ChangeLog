@@ -1,22 +1,31 @@
+Wed Mar 11 00:24:38 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_cosmic.mpb:
+        * MDE/GME/T2M/executor/executor.mpc:
+
+          . Build compilation errors - removed CUTS from the project
+            dependencies/libraries.
+
 Thu Mar  5 20:49:20 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
 
         * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Callback.h:
         * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Callback.cpp:
         * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.h:
 
-	  . Updated the design to initialize message_backend instead of message_callback
+          . Updated the design to initialize message_backend instead
+            of message_callback
 
         * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.mpc:
-	  
-	  . Added new files
+
+          . Added new files
 
         * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.cpp:
 
-	  . Updated the design to initialize message_backend instead of message_callback
+          . Updated the design to initialize message_backend
+            instead of message_callback
 
         * cuts/utils/logging/client/interceptors/acelog/ACE_Msg_Backend.h:
         * cuts/utils/logging/client/interceptors/acelog/ACE_Msg_Backend.cpp:
-
         * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor_App_Options.h:
 
           Removed this file.
