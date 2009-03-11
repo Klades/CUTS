@@ -1,3 +1,11 @@
+Wed Mar 11 00:40:46 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * CUTS_CoSMIC.mwc:
+        * MPC/config/requires_gems.mpb:
+        * default.features:
+
+          . Added features to enable/disable GEMS related projects.
+
 Wed Mar 11 00:24:38 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MPC/config/cuts_cosmic.mpb:

@@ -14,8 +14,13 @@ workspace (CUTS_CoSMIC) {
              -include $XSC_ROOT/MPC/config \
              -feature_file default.features
 
-  MDE/GEMS
   MDE/utils
+
+  gems {
+    cmdline += -base requires_gems
+
+    MDE/GEMS
+  }
 
   exclude (!vc6, !vc71, !vc8, !vc9, !nmake) {
     //== CoSMIC projects
