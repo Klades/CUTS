@@ -1,3 +1,9 @@
+Wed Mar 11 03:59:25 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/template/File_Generator_T.cpp:
+
+          Removed this file.
+
 Wed Mar 11 03:56:56 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.cpp:
