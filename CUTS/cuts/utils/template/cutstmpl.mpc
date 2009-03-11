@@ -1,16 +1,42 @@
 // $Id$
 
-project (CUTS_Template_Engine) : boost_base, cuts_utils, cutsexe {
+project (CUTS_Template_Common) : boost_base, cuts_utils, cutslib {
+  sharedname = CUTS_Template_Common
+
+  dynamicflags += CUTS_TEMPLATE_COMMON_BUILD_DLL
+
+  Source_Files {
+    Template_Config_Handler.cpp
+    Template_Config_List_Parser.cpp
+  }
+
+  Template_Files {
+  }
+
+  Inline_Files {
+
+  }
+
+  Header_Files {
+
+  }
+}
+
+project (CUTS_Template_Engine) : boost_base, cuts_template, cutsexe {
   exename = cuts-template
 
   Source_Files {
     cutstmpl.cpp
+    File_Generator.cpp
     Template_App.cpp
     Template_Engine.cpp
-    Template_Config_List_Parser.cpp
   }
 
   Header_Files {
     Template_App_Options.h
+  }
+
+  Template_Files {
+
   }
 }

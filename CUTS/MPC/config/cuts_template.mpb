@@ -1,0 +1,6 @@
+// $Id$
+
+project : cuts_utils {
+  libs  += CUTS_Template_Common
+  after += CUTS_Template_Common
+}

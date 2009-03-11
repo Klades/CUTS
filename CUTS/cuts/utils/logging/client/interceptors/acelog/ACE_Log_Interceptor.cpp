@@ -4,53 +4,54 @@
 #include "ace/Log_Msg.h"
 #include "ace/OS_Memory.h"
 #include "ace/Get_Opt.h"
+#include "ace/streams.h"
 
 static const char * __HELP__ =
-"CUTS_ACE_Log_Interceptor for CUTS"
+"ACE logging interceptor for CUTS\n"
 "\n"
 "USAGE: CUTS_ACE_Log_Interceptor [OPTIONS]\n"
 "\n"
 "General Options:\n"
-"  -p, --connect-port=PORT    set the port for connection\n"
+"  -p, --connect-port=PORT            set the port for connection\n"
 "  -l, --connect-location=LOCATION    set the location to search for connection\n"
-"  -n, --connect-name=NAME    set the name to serch for connection\n"
-"  -h, --help                 print this help message\n";
+"  -n, --connect-name=NAME            set the name to serch for connection\n"
+"  -h, --help                         print this help message\n";
 
 //
 // init
 //
 int CUTS_ACE_Log_Interceptor::init (int argc, ACE_TCHAR *argv[])
 {
-	// Parse command line parameters and set up 
+  // Parse command line parameters and set up
   // connect parameters for message back-end
-  
-  if (this->parse_args (argc, argv) == -1)
-		ACE_ERROR_RETURN ((LM_ERROR, 
-    									"%T (%t) - %M - invalid command line arguments passed."),
-    									-1);
 
-	// get the Log_MSg singleton instance 
-	alm_ = ACE_Log_Msg::instance ();
-	
-	// Set the new message_backend
-	ACE_Log_Msg_Backend * backend = alm_->msg_backend (&this->msg_backend_);
-	
-	// Set the custom flag for msg_backend logging
-	u_long flags = alm_->flags ();
+  if (this->parse_args (argc, argv) == -1)
+    ACE_ERROR_RETURN ((LM_ERROR,
+                      "%T (%t) - %M - invalid command line arguments passed."),
+                      -1);
+
+  // get the Log_MSg singleton instance
+  alm_ = ACE_Log_Msg::instance ();
+
+  // Set the new message_backend
+  ACE_Log_Msg_Backend * backend = alm_->msg_backend (&this->msg_backend_);
+
+  // Set the custom flag for msg_backend logging
+  u_long flags = alm_->flags ();
   flags |= ACE_Log_Msg::CUSTOM;
-	
-	// Intialize ACE_Logger for backend
+
+  // Intialize ACE_Logger for backend
   if (-1 == alm_->open (ACE_TEXT ("CUTS_ACE_Log_Interceptor"), flags))
     {
       ACE_ERROR_RETURN ((LM_ERROR,
-												"%T (%t) - %M -failed to open ACE_Log_Msg_Backend."),
-												-1);
+                        "%T (%t) - %M -failed to open ACE_Log_Msg_Backend."),
+                        -1);
     }
-	
-	// Save the previous backend
-	this->msg_backend_.old_msg_backend (backend);
 
-	return 0;
+  // Save the previous backend
+  this->msg_backend_.old_msg_backend (backend);
+
+  return 0;
 }
 
 int CUTS_ACE_Log_Interceptor::parse_args (int argc, char * argv [])
@@ -77,10 +78,10 @@ int CUTS_ACE_Log_Interceptor::parse_args (int argc, char * argv [])
     {
       case 0:
         if (ACE_OS::strcmp ("help", cmd_opts.long_option ()) == 0)
-  				this->print_help ();
-       
+          this->print_help ();
+
         else if (ACE_OS::strcmp ("connect-port", cmd_opts.long_option ()) == 0)
-       		this->msg_backend_.connect_port (ACE_OS::atoi (cmd_opts.opt_arg ()));
+           this->msg_backend_.connect_port (ACE_OS::atoi (cmd_opts.opt_arg ()));
 
         else if (ACE_OS::strcmp ("connect-name", cmd_opts.long_option ()) == 0)
         {
@@ -113,20 +114,20 @@ int CUTS_ACE_Log_Interceptor::parse_args (int argc, char * argv [])
 
       case ':':
         ACE_ERROR_RETURN ((LM_ERROR,
-          								 ACE_TEXT ("-%c requires an argument.\n"),
-          								 cmd_opts.opt_opt ()), -1);
+                           ACE_TEXT ("-%c requires an argument.\n"),
+                           cmd_opts.opt_opt ()), -1);
         break;
 
       case '?':
         ACE_ERROR ((LM_WARNING,
-          					"-%c is an unknown option; ignoring\n",
-          					cmd_opts.opt_opt ()));
+                    "-%c is an unknown option; ignoring\n",
+                    cmd_opts.opt_opt ()));
         break;
 
       default:
         ACE_ERROR_RETURN ((LM_ERROR,
-          								 ACE_TEXT ("parse error.\n")),
-          								 -1);
+                           ACE_TEXT ("parse error.\n")),
+                           -1);
     }
   }
 
@@ -146,7 +147,7 @@ int CUTS_ACE_Log_Interceptor::print_help (void)
 // fini
 //
 int CUTS_ACE_Log_Interceptor::fini (void)
-{	
+{
   ACE_LOG_MSG->msg_backend (this->msg_backend_.old_msg_backend ());
   return 0;
 }

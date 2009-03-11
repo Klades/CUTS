@@ -1,3 +1,29 @@
+Wed Mar 11 03:56:56 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.cpp:
+
+          . Fixed formatting.
+
+        * MPC/config/cuts_template.mpb:
+        * cuts/utils/template/File_Generator.h:
+        * cuts/utils/template/File_Generator.inl:
+        * cuts/utils/template/File_Generator.cpp:
+        * cuts/utils/template/File_Generator_T.cpp:
+        * cuts/utils/template/Template_App.cpp:
+        * cuts/utils/template/Template_Common_export.h:
+        * cuts/utils/template/Template_Config_Handler.h:
+        * cuts/utils/template/Template_Config_Handler.inl:
+        * cuts/utils/template/Template_Config_Handler.cpp:
+        * cuts/utils/template/Template_Config_List_Parser.h:
+        * cuts/utils/template/Template_Config_List_Parser.inl:
+        * cuts/utils/template/Template_Config_List_Parser.cpp:
+        * cuts/utils/template/cutstmpl.cpp:
+        * cuts/utils/template/cutstmpl.mpc:
+
+          . Refactored the CUTS template engine project so that it can
+            be reused in other CUTS projects that need template configuration
+            support.
+
 Wed Mar 11 00:43:50 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * docs/CUTS.smp:
