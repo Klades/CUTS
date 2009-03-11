@@ -133,7 +133,7 @@ public:
       void operator () (IteratorT begin, IteratorT end) const
       {
         std::string name (begin, end);
-        this->map_.set ("name", name.c_str());
+        this->map_.set ("config.name", name.c_str());
       }
 
     private:

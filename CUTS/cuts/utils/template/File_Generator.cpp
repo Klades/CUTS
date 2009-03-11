@@ -22,7 +22,7 @@ handle_config (const CUTS_Property_Map & config)
 
   ACE_CString filename;
 
-  if (config.get ("name", filename) != 0)
+  if (config.get ("config.name", filename) != 0)
     ACE_ERROR_RETURN ((LM_ERROR,
                        "%T (%t) - %M - failed to locate configuration name\n"),
                        -1);
