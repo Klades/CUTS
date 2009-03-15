@@ -60,7 +60,7 @@ public class Logger
   public static final int LM_EMERGENCY = 0x00002000;
 
   /// The test number for the logger.
-  private int testNumber_ = -1;
+  private CUTS.UUID testUUID_;
 
   /// The location of the test manager.
   private String testManagerLocation_ = "localhost";
@@ -70,7 +70,7 @@ public class Logger
   /// ORB used by the logger to communicate with outside world.
   private org.omg.CORBA.ORB orb_ = null;
 
-  private CUTS.TestLoggerClient loggerClient_ = null;
+  private CUTS.LocalTestLoggerClient loggerClient_ = null;
 
   private CUTS.TestLoggerFactory loggerFactory_ = null;
 
@@ -79,7 +79,7 @@ public class Logger
   private NamingContextExt naming_ = null;
 
   /// The default logging client port number.
-  private int loggingClientPort_ = 10000;
+  private short loggingClientPort_ = 10000;
 
   /**
    * Default constructor.
@@ -114,17 +114,17 @@ public class Logger
    * Configure the logger with the logger client. This primarily sets
    * the port number to connect to the logger client.
    */
-  public void configure (int port)
+  public void configure (short port)
   {
     // Construct the string location of the logging client.
     String location =
-      "corbaloc:iiop:localhost:" + port + "/CUTS/TestLoggerClient";
+      "corbaloc:iiop:localhost:" + port + "/CUTS/LocalTestLoggerClient";
 
     try
     {
       // Convert the string into an actual object.
       this.loggerClient_ =
-        CUTS.TestLoggerClientHelper.narrow (
+        CUTS.LocalTestLoggerClientHelper.narrow (
         this.orb_.string_to_object (location));
 
       this.loggingClientPort_ = port;
@@ -156,7 +156,7 @@ public class Logger
   public void connect ()
   {
     // Save the old test number.
-    int oldTestNumber = this.testNumber_;
+    CUTS.UUID oldTestUUID = this.testUUID_;
 
     try
     {
@@ -175,7 +175,7 @@ public class Logger
 
       // Get the current id of the test. We need to use this to identify
       // the test which the log message belongs.
-      this.testNumber_ = tm.test_number ();
+      this.testUUID_ = tm.details ().uid;
     }
     catch (Exception ex)
     {
@@ -184,11 +184,10 @@ public class Logger
 
     try
     {
-      if (this.testLogger_ == null ||
-          oldTestNumber != this.testNumber_)
+      if (this.testLogger_ == null || oldTestUUID != this.testUUID_)
       {
         // Instruct the logger client to create a new factory.
-        this.loggerFactory_ = this.loggerClient_.create (this.testNumber_);
+        this.loggerFactory_ = this.loggerClient_.find (this.testUUID_);
 
         // Create a new thread local test logger.
         this.testLogger_ = this.loggerFactory_.create ();
@@ -210,8 +209,8 @@ public class Logger
       if (this.loggerFactory_ != null)
         this.loggerFactory_.destroy (this.testLogger_);
 
-      if (this.loggerClient_ != null)
-        this.loggerClient_.destroy (this.loggerFactory_);
+      //if (this.loggerClient_ != null)
+      //  this.loggerClient_.destroy (this.loggerFactory_);
     }
     catch (Exception ex)
     {
@@ -230,7 +229,7 @@ public class Logger
     try
     {
       // Get the current time value for the message.
-      CUTS.Time_Stamp tv = this.getTimeOfDay ();
+      CUTS.TimeValue tv = this.getTimeOfDay ();
 
       // Send the log message to the logger.
       this.testLogger_.log (tv, priority, message.toCharArray ());
@@ -246,9 +245,9 @@ public class Logger
    *
    * @return      The test number for the logger.
    */
-  public int getTestNumber ()
+  public CUTS.UUID getTestUUID ()
   {
-    return this.testNumber_;
+    return this.testUUID_;
   }
 
   /**
@@ -256,7 +255,7 @@ public class Logger
    *
    * @return      Current time as a time value
    */
-  private CUTS.Time_Stamp getTimeOfDay ()
+  private CUTS.TimeValue getTimeOfDay ()
   {
     long msec = System.currentTimeMillis ();
 
@@ -266,6 +265,6 @@ public class Logger
     // Convert remainder to microseconds;
     long usec = (msec - (secs * 1000)) * 1000;
 
-    return new CUTS.Time_Stamp ((int)secs, (int)usec);
+    return new CUTS.TimeValue ((int)secs, (int)usec);
   }
 }

@@ -45,6 +45,7 @@ Visit_Event (const PICML::Event & event)
     this->formatter_.reset (new _formatter_type (this->outfile_));
 
     // Write the preamble for the file.
+    this->outfile_ << "package " << CUTS_BE_Capi::fq_name (event, '.') << ";";
     this->write_includes ();
 
     // Begin the class definition.
@@ -57,7 +58,7 @@ Visit_Event (const PICML::Event & event)
     this->write_getter_methods ();
 
     // Write the static part of the event.
-    this->write_static ();
+    this->write_static (event);
 
     // End the class definition.
     this->outfile_ << "}";
@@ -73,8 +74,7 @@ Visit_Event (const PICML::Event & event)
 //
 void CUTS_BE_CAPI_Event_Impl_Generator::write_includes (void)
 {
-  static const char * str = "package afrl.ConstrainEvent;"
-                            "import CUTS.jbi.client.JbiEvent;"
+  static const char * str = "import CUTS.jbi.client.JbiEvent;"
                             "import org.infospherics.jbi.client.exception.*;"
                             "import org.infospherics.jbi.client.InfoObject;"
                             "import org.exolab.castor.mapping.*;"
@@ -116,27 +116,26 @@ void CUTS_BE_CAPI_Event_Impl_Generator::write_constructors (void)
 //
 // write_static
 //
-void CUTS_BE_CAPI_Event_Impl_Generator::write_static (void)
+void CUTS_BE_CAPI_Event_Impl_Generator::
+write_static (const PICML::Event & event)
 {
-  static const char * str =
-    "/// Mapping file for this event type.\n"
-    "private static Mapping mapping_ = new Mapping ();\n"
-    "/// XML -> Java unmarshaller for this event type.\n"
-    "private static Unmarshaller unmarshaller_ = new Unmarshaller ();\n"
-    "/// Java -> XML marshaller for this event type.\n"
-    "private static Marshaller marshaller_ = new Marshaller ();\n"
-    "static {"
-    "try {"
-    "// Get the class for the type.\n"
-    "Class thisClass = ConstrainMIO.class.getClass ();\n"
-    "// Construct the name of the mapping file. This is necessary\n"
-    "// since Castor likes to construct *bad* tags.\n"
-    "String packageName = thisClass.getPackage ().getName ();"
-    "String mappingFile = packageName.replace ('.', '/') + \"/mapping.xml\";\n"
-    "// Load the mapping file for the type.\n";
-
   this->outfile_ << std::endl
-                 << str
+                 << "/// Mapping file for this event type." << std::endl
+                 << "private static Mapping mapping_ = new Mapping ();" << std::endl
+                 << "/// XML -> Java unmarshaller for this event type." << std::endl
+                 << "private static Unmarshaller unmarshaller_ = new Unmarshaller ();" << std::endl
+                 << "/// Java -> XML marshaller for this event type." << std::endl
+                 << "private static Marshaller marshaller_ = new Marshaller ();" << std::endl
+                 << "static {"
+                 << "try {"
+                 << "// Get the class for the type." << std::endl
+                 << "Class thisClass = " << CUTS_BE_Capi::classname (event.SpecifyIdTag ())
+                 << ".class.getClass ();" << std::endl
+                 << "// Construct the name of the mapping file. This is necessary" << std::endl
+                 << "// since Castor likes to construct *bad* tags." << std::endl
+                 << "String packageName = thisClass.getPackage ().getName ();"
+                 << "String mappingFile = packageName.replace ('.', '/') + \"/mapping.xml\";" << std::endl
+                 << "// Load the mapping file for the type." << std::endl
                  << this->impl_ << ".mapping_.loadMapping (thisClass.getClassLoader ().getResource (mappingFile));"
                  << std::endl
                  << "// Set the mappings for the marshaller/unmarshaller." << std::endl

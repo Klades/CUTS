@@ -215,28 +215,26 @@ generate_required_method_impl (const std::string & method)
   }
   else if (method == "activate")
   {
-    if (!this->periodics_.empty ())
+    CUTS_BE_Capi::Periodic_Map::const_iterator
+      iter = this->periodics_.begin (), iter_end = this->periodics_.end ();
+    std::string name;
+
+    for ( ; iter != iter_end; ++ iter)
     {
-      this->outfile_
-        << "/**" << std::endl
-        << " * Activating all periodic tasks." << std::endl
-        << " *" << std::endl
-        << " * @todo Register all periodic task with the base class so" << std::endl
-        << " *       it can manage them" << std::endl
-        << " */" << std::endl;
+      name = iter->second.name ();
 
-      CUTS_BE_Capi::Periodic_Map::const_iterator
-        iter = this->periodics_.begin (), iter_end = this->periodics_.end ();
-
-      for ( ; iter != iter_end; ++ iter)
-      {
-        // Right now, the default delay time is 0. Eventually, we will
-        // all the developer to specify this in the model.
-        this->outfile_
-          << "this.getTimer ().scheduleAtFixedRate (this."
-          << iter->first << "PeriodicTask_, 0, " << iter->second << ");";
-      }
+      this->outfile_  << "this." << name << "_.setHertz ("
+                      << iter->second.Hertz () << ");"
+                      << "this." << name << "_.scheduleNextTimeout ();";
     }
+  }
+  else if (method == "deactivate")
+  {
+    CUTS_BE_Capi::Periodic_Map::const_iterator
+      iter = this->periodics_.begin (), iter_end = this->periodics_.end ();
+
+    for ( ; iter != iter_end; ++ iter)
+      this->outfile_ << "this." << iter->first << "_.cancel ();";
   }
 }
 

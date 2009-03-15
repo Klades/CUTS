@@ -227,7 +227,8 @@ generate (const PICML::MonolithicImplementation & mono,
     CUTS_BE_CAPI ()->outfile_
       << std::endl
       << "// imports for periodic events" << std::endl
-      << "import CUTS.PeriodicTask;";
+      << "import CUTS.PeriodicTask;"
+      << "import java.util.TimerTask;";
   }
 
 
@@ -276,7 +277,28 @@ generate (const PICML::MonolithicImplementation & mono,
     << " * Default constructor" << std::endl
     << " */" << std::endl
     << "public " << class_name << " ()"
-    << "{"
+    << "{";
+
+  if (!periodics.empty ())
+  {
+    // Set the strategy type for the periodic event
+    std::string distribution;
+
+    PeriodicEvent_Set::iterator
+      periodic_iter = periodics.begin (),
+      periodic_iter_end = periodics.end ();
+
+    for ( ; periodic_iter != periodic_iter_end; ++ periodic_iter)
+    {
+      CUTS_BE_CAPI ()->outfile_ << "this."
+                                << periodic_iter->name ()
+                                << "_.setPeriodicTaskStrategy (new CUTS."
+                                << periodic_iter->Distribution ()
+                                << "PeriodicTaskStrategy ());";
+    }
+  }
+
+  CUTS_BE_CAPI ()->outfile_
     << "}";
 
   return true;
@@ -696,13 +718,20 @@ configure (const PICML::InEventPort & sink,
 
     // Construct the name of the predicate.
     std::ostringstream predicate_name;
-    predicate_name
-      << "parent.getInstanceName () + \"." << sink.name () << ".predicate";
+    predicate_name << "parent.getInstanceName () + \"."
+                   << sink.name () << ".predicate";
 
     // Write the code to set the predicate.
     CUTS_BE_CAPI ()->outfile_
       << "this.setPredicate (" << predicate_name.str () << "\", "
       << property.DataValue () << ");";
+  }
+  else
+  {
+    // We assume the property is an attribute of the sink.
+    CUTS_BE_CAPI ()->outfile_ << "this.setAttribute ("
+                              << "\"" << property.name () << "\", "
+                              << property.DataValue () << ");";
   }
 }
 
@@ -838,7 +867,7 @@ generate (const PICML::PeriodicEvent & periodic)
   if (input != Udm::null)
   {
     PICML::InputAction input_action = input.dstInput_end ();
-    std::string periodic_name = input_action.name ();
+    std::string periodic_name = periodic.name ();
 
     CUTS_BE_CAPI ()->outfile_
       << std::endl
@@ -853,8 +882,7 @@ generate (const PICML::PeriodicEvent & periodic)
       << "{";
 
     // Save the periodic event's name.
-    CUTS_BE_CAPI ()->periodics_.insert (
-      std::make_pair (periodic_name, periodic.Hertz ()));
+    CUTS_BE_CAPI ()->periodics_.insert (std::make_pair (periodic_name, periodic));
   }
 
   return true;
@@ -874,8 +902,8 @@ generate (const PICML::PeriodicEvent & periodic)
   {
     PICML::InputAction input_action = input.dstInput_end ();
 
-    std::string periodic_name = input_action.name ();
-    std::string periodic_task = periodic_name + "PeriodicTask";
+    std::string periodic_name = periodic.name ();
+    std::string periodic_task = CUTS_BE_Capi::classname (periodic_name + "PeriodicTask");
 
     CUTS_BE_CAPI ()->outfile_
       << "}"
@@ -886,38 +914,39 @@ generate (const PICML::PeriodicEvent & periodic)
       << "}"
       << std::endl
       << "/**" << std::endl
-      << " * @class " << periodic_name << std::endl
+      << " * @class " << periodic_task << std::endl
       << " *" << std::endl
-      << " * Defines the handler for the periodicSend PeriodicEvent element" << std::endl
+      << " * Defines the handler/task for the " << periodic_name << " PeriodicEvent element" << std::endl
       << " * specified in the component behavior model." << std::endl
       << " */" << std::endl
-      << "private class " << periodic_task << " extends PeriodicTask"
+      << "private class " << periodic_task << std::endl
+      << "  extends CUTS.PeriodicTaskHandler < " << parent_name << " > {"
+      << "public " << periodic_task << " (CUTS.PeriodicTask < " << parent_name << " > task)"
       << "{"
-      << "/**" << std::endl
-      << " * The owner of the task" << std::endl
-      << " */" << std::endl
-      << "private " << parent_name << " component_ = null;"
-      << std::endl
-      << "public " << periodic_task << " ("
-      << parent_name << " component)"
-      << "{"
-      // Need to update architecture to handle different distributions.
-      << "super (1.0);"
-      << "this.component_ = component;"
+      << "super (task);"
       << "}"
       << std::endl
       << "public void handleTimeout ()"
       << "{"
-      << "this.component_." << periodic_name << "();"
+      << "this.task_.getOwner ()." << periodic_name << " ();"
+      << "}"
+      << "}"
+      << std::endl
+      << "private class " << periodic_task << "Factory" << std::endl
+      << "  implements CUTS.PeriodicTaskHandlerFactory < " << parent_name << " > {"
+      << "public " << periodic_task << "Factory () { }"
+      << "public TimerTask createTimerTask (CUTS.PeriodicTask < " << parent_name << " > task)"
+      << "{"
+      << "return new " << periodic_task << " (task);"
       << "}"
       << "}"
       << std::endl
       << "/**" << std::endl
-      << " * periodicTask : " << periodic_name << std::endl
+      << " * PeriodicTask : " << periodic_name << std::endl
       << " */" << std::endl
-      << "private " << periodic_task << " "
-      << periodic_task << "_ = " << std::endl
-      << "  new " << periodic_task << " (this);";
+      << "private CUTS.PeriodicTask <" << parent_name << "> "
+      << periodic_name << "_ = " << std::endl
+      << "  new CUTS.PeriodicTask <" << parent_name << " > (this, new " << periodic_task << "Factory ());";
   }
 
   return true;

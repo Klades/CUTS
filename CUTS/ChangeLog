@@ -1,3 +1,41 @@
+Sun Mar 15 23:11:26 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Event_Impl_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Event_Impl_Generator.cpp:
+
+          . Bug fix where some of the generated code included excerpts
+            of example code that was used to determine what code to
+            generate.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Ctx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Ctx.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Generators.cpp:
+
+          . Updated the code generators to handle the new semantics
+            of PeriodicEvent elements in the PICML model.
+
+        * cuts/java/CUTS/ConstantPeriodicTaskStrategy.java:
+        * cuts/java/CUTS/ExponentialPeriodicTaskStrategy.java:
+        * cuts/java/CUTS/PeriodicTask.java:
+        * cuts/java/CUTS/PeriodicTaskHandler.java:
+        * cuts/java/CUTS/PeriodicTaskHandlerFactory.java:
+        * cuts/java/CUTS/PeriodicTaskStrategy.java:
+
+          . Re-designed the PeriodicEvent architecture so that you can
+            strategize the object with an event distribution strategy.
+
+          . Bug fix where each PeriodicTask in a component shared the
+            same processing thread, instead of having its own.
+
+        * cuts/java/cuts.java.build:
+
+          . Added missing IDL files to the build.
+
+        * cuts/workers/Test_Logger/CUTS/Logger.java:
+        * cuts/workers/Test_Logger/TestLogger.build:
+
+          . Updated the logger to the last version in CUTS.
+
 Wed Mar 11 11:50:02 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/template/File_Generator.cpp:

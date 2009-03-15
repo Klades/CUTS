@@ -32,7 +32,8 @@
 
       <arg line="-d ." />
       <arg line="-noskel" />
-      <arg line="${cuts.src.dir}/utils/testing/testing.idl" />
+      <arg line="-I${cuts.dir}" />
+      <arg line="${cuts.src.dir}/utils/testing/svcs/server/testing.idl" />
     </java>
 
     <java classname="org.jacorb.idl.parser"
@@ -44,12 +45,33 @@
       <arg line="-I${cuts.dir}" />
       <arg line="${cuts.src.dir}/utils/logging/logging.idl" />
     </java>
+
+    <java classname="org.jacorb.idl.parser"
+        classpathref="jacorb.idl.classpath"
+        failonerror="true">
+
+      <arg line="-d ." />
+      <arg line="-noskel" />
+      <arg line="-I${cuts.dir}" />
+      <arg line="${cuts.src.dir}/utils/logging/client/client.idl" />
+    </java>
+
+    <java classname="org.jacorb.idl.parser"
+         classpathref="jacorb.idl.classpath"
+         failonerror="true">
+
+      <arg line="-d ." />
+      <arg line="-noskel" />
+      <arg line="-I${cuts.dir}" />
+      <arg line="${cuts.src.dir}/utils/logging/server/server.idl" />
+    </java>
   </target>
 
   <target name="TestLogger.build" depends="TestLogger.idl">
     <path id="TestLogger.build.classpath">
       <pathelement path="." />
       <pathelement path="${cuts.lib.dir}/cuts.java.jar" />
+      <pathelement path="${contrib.dir}/jacorb.jar" />
     </path>
 
     <javac srcdir="."

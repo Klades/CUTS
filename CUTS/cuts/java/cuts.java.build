@@ -39,6 +39,15 @@
       <arg line="${cuts.src.dir}/UUID.idl" />
     </java>
 
+    <java classname="org.jacorb.idl.parser"
+          classpathref="jacorb.idl.classpath"
+          failonerror="true">
+
+      <arg line="-I${cuts.src.dir}" />
+      <arg line="-d ${cuts.java.dir}" />
+      <arg line="${cuts.src.dir}/exceptions.idl" />
+    </java>
+
     <javac srcdir="${cuts.src.dir}/java"
            debug="true"
            debuglevel="source,lines"

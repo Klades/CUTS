@@ -95,7 +95,7 @@ public:
 
   void generate_throws_signature (const std::string & method);
 
-  typedef std::map <std::string, std::string> Periodic_Map;
+  typedef std::map <std::string, PICML::PeriodicEvent> Periodic_Map;
 
   // <port name, event>
   typedef std::map <std::string, PICML::Event> Event_Port_Map;

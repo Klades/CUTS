@@ -7,11 +7,8 @@
  */
 
 package CUTS;
-
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.Random;
-import java.lang.Integer;
 
 /**
  * @class PeriodicTask
@@ -22,28 +19,85 @@ import java.lang.Integer;
  * which defines the workload that must execute during each timeout
  * interval.
  */
-public abstract class PeriodicTask extends TimerTask
+public class PeriodicTask <T>
 {
-  /// The probability of the timer firing.
-  private double probability_;
-
-  private Random random_ = new Random ();
-
-  public PeriodicTask (double probability)
+  /**
+   * Default constructor
+   */
+  public PeriodicTask (T owner, PeriodicTaskHandlerFactory <T> factory)
   {
-    this.probability_ = probability;
+    this.owner_ = owner;
+    this.factory_ = factory;
   }
 
-  public void run ()
+  /**
+   * Set the strategy for the periodic task. This will determine
+   * the event distribution for the task.
+   *
+   * @param[in]         strategy          Strategy for the task
+   */
+  public void setPeriodicTaskStrategy (PeriodicTaskStrategy strategy)
   {
-    // Calculate the score for this timeout event.
-    double score = (double)this.random_.nextInt () / (double)Integer.MAX_VALUE;
-
-    // Execute the timeout handler, if applicable.
-    if (score <= this.probability_)
-      this.handleTimeout ();
+    this.strategy_ = strategy;
   }
 
-  public abstract void handleTimeout ();
+  /**
+   * Set the hertz for generating events
+   *
+   * @param[in]         h         New hertz value
+   */
+  public void setHertz (long h)
+  {
+    if (this.strategy_ != null)
+      this.strategy_.setHertz (h);
+  }
+
+  /**
+   * Get the strategy for the periodic task.
+   *
+   * @return            Strategy for the task.
+   */
+  public PeriodicTaskStrategy getPeriodicTaskStrategy ()
+  {
+    return this.strategy_;
+  }
+
+  /**
+   * Schedule the next timeout for the periodic task.
+   */
+  public void scheduleNextTimeout ()
+  {
+    long delay = this.strategy_.getDelay ();
+    TimerTask task = this.factory_.createTimerTask (this);
+
+    this.timer_.schedule (task, delay);
+  }
+
+  public void cancel ()
+  {
+    this.timer_.cancel ();
+  }
+
+  /**
+   * Get the owner of the periodic event
+   *
+   * @return            Parent of the periodic event.
+   */
+  public T getOwner ()
+  {
+    return this.owner_;
+  }
+
+  /// The event distribution for the periodic task.
+  private PeriodicTaskStrategy strategy_;
+
+  /// The timer thread for the task.
+  private Timer timer_ = new Timer ();
+
+  /// Parent/owner of the object.
+  private T owner_;
+
+  /// Factory for creating timer task objects.
+  private PeriodicTaskHandlerFactory <T> factory_;
 }
 

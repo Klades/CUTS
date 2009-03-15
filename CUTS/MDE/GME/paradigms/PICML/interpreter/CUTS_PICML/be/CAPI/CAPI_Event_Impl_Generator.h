@@ -38,7 +38,7 @@ private:
 
   void write_constructors (void);
 
-  void write_static (void);
+  void write_static (const PICML::Event & event);
 
   void write_getter_methods (void);
 
