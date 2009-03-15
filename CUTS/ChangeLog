@@ -1,3 +1,15 @@
+Sun Mar 15 23:18:35 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * tests/cuts/java:
+        * tests/cuts/java/cuts:
+
+          . Location of the Java-based CUTS tests.
+
+        * tests/cuts/java/cuts/ExponentialPeriodicTaskTest.java:
+
+          . Simple test to determine if the exponential event strategy
+            is working correctly.
+
 Sun Mar 15 23:11:26 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Event_Impl_Generator.h:
