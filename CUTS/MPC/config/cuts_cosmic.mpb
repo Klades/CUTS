@@ -1,6 +1,6 @@
 // $Id$
 
-project : requires_modeling, cutslib {
+project : cutslib {
   libs  -= CUTS
   after -= CUTS
 }

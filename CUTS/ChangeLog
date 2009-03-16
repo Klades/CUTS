@@ -1,3 +1,13 @@
+Mon Mar 16 14:32:41 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_cosmic.mpb:
+
+          . Removed the requires_modeling base project.
+
+        * cuts/utils/unite/Unit_Test_Evaluator.h:
+
+          . Added Doxygen comments to the header file.
+
 Mon Mar 16 04:34:09 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/unite/Log_Format_Data_Entry.h:

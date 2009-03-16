@@ -43,7 +43,11 @@ class CUTS_Unit_Test_Result;
 class CUTS_UNITE_Export CUTS_Unit_Test_Evaluator
 {
 public:
-  /// Default constructor
+  /**
+   * Initializing constructor
+   *
+   * @param[in]       sandbox         Location of the variable tables
+   */
   CUTS_Unit_Test_Evaluator (const ACE_CString & sandbox);
 
   /// Destructor
@@ -52,19 +56,38 @@ public:
   /**
    * Open the evaluator for the given test database
    *
-   * @param[in]       data        Test database.
+   * @param[in]       data            Test database.
    */
   bool open (CUTS_Test_Database & data);
 
   /// Close the active test.
   void close (void);
 
+  /**
+   * Evaluate a new unit test. This will delete any existing
+   * records of the unit test in the variable database.
+   *
+   * @param[in]       test            Unit test to evaluate
+   * @param[out]      result          Results of the evaluation.
+   */
   bool evaluate (const CUTS_Unit_Test & test,
                  CUTS_Unit_Test_Result & result);
 
+  /**
+   * Get the results of an existing test.
+   *
+   * @param[in]       test            Test in question
+   * @param[out]      result          Results of the evaluation.
+   */
   void get_result (const CUTS_Unit_Test & test,
                    CUTS_Unit_Test_Result & result);
 
+  /**
+   * Get the data trend for the specified unit test.
+   *
+   * @param[in]       test            Test in question
+   * @param[out]      result          Pointer to the results
+   */
   bool get_data_trend (const CUTS_Unit_Test & test,
                        CUTS_DB_SQLite_Connection * & record);
 
