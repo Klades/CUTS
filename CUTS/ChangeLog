@@ -1,3 +1,10 @@
+Mon Mar 16 16:44:13 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/UNITE:
+        * examples/UNITE/example.unite:
+
+          . Example configuration file for UNITE.
+
 Mon Mar 16 14:32:41 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MPC/config/cuts_cosmic.mpb:
