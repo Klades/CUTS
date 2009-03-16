@@ -41,9 +41,9 @@ public:
   /**
    *
    */
-  void prepare (CUTS_Log_Format * format);
+  void prepare (const ACE_CString & table, CUTS_Log_Format * format);
 
-  void prepare (CUTS_Log_Format * format, size_t relation);
+  void prepare (const ACE_CString & table, CUTS_Log_Format * format, size_t relation);
 
   /**
    *

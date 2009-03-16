@@ -1,3 +1,15 @@
+Mon Mar 16 04:34:09 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/unite/Log_Format_Data_Entry.h:
+        * cuts/utils/unite/Log_Format_Data_Entry.cpp:
+        * cuts/utils/unite/Unit_Test_Evaluator.h:
+        * cuts/utils/unite/Unit_Test_Evaluator.cpp:
+        * cuts/utils/unite/Unite_App.cpp:
+
+          . Re-designed the evaluator such that for a give test
+            database, a single variable database is created. Each
+            unit test creates a single table in the variable database.
+
 Sun Mar 15 23:18:35 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * tests/cuts/java:

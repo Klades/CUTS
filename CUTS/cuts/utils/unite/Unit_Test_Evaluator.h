@@ -49,26 +49,44 @@ public:
   /// Destructor
   ~CUTS_Unit_Test_Evaluator (void);
 
-  bool evaluate (CUTS_Test_Database & data,
-                 const CUTS_Unit_Test & test,
+  /**
+   * Open the evaluator for the given test database
+   *
+   * @param[in]       data        Test database.
+   */
+  bool open (CUTS_Test_Database & data);
+
+  /// Close the active test.
+  void close (void);
+
+  bool evaluate (const CUTS_Unit_Test & test,
                  CUTS_Unit_Test_Result & result);
 
-private:
-  void create_vtable (CUTS_DB_SQLite_Connection & conn,
-                      const CUTS_Unit_Test & test);
+  void get_result (const CUTS_Unit_Test & test,
+                   CUTS_Unit_Test_Result & result);
 
-  void create_vtable_indices (CUTS_DB_SQLite_Connection & conn,
+  bool get_data_trend (const CUTS_Unit_Test & test,
+                       CUTS_DB_SQLite_Connection * & record);
+
+private:
+  int open_vtable (CUTS_Test_Database & test);
+
+  void create_vtable (const CUTS_Unit_Test & test);
+
+  void create_vtable_indices (const CUTS_Unit_Test & test,
                               const CUTS_Log_Format & format);
 
   void process (CUTS_Log_Format_Data_Entry & entry,
                 CUTS_DB_SQLite_Record & record);
 
-  void get_result (CUTS_DB_SQLite_Connection & conn,
-                   const CUTS_Unit_Test & test,
-                   CUTS_Unit_Test_Result & result);
-
   /// Location where evaluator performs calculations.
   ACE_CString sandbox_;
+
+  /// Pointer to the test database.
+  CUTS_Test_Database * data_;
+
+  /// Variable table for the active test.
+  CUTS_DB_SQLite_Connection * vtable_;
 };
 
 #endif  // !defined _CUTS_UNITE_UNIT_TEST_EVALUATOR_H_

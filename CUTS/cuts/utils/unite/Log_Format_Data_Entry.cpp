@@ -36,7 +36,8 @@ CUTS_Log_Format_Data_Entry::~CUTS_Log_Format_Data_Entry (void)
 //
 // prepare
 //
-void CUTS_Log_Format_Data_Entry::prepare (CUTS_Log_Format * format)
+void CUTS_Log_Format_Data_Entry::
+prepare (const ACE_CString & table, CUTS_Log_Format * format)
 {
   std::ostringstream colstr, varstr;
 
@@ -69,7 +70,7 @@ void CUTS_Log_Format_Data_Entry::prepare (CUTS_Log_Format * format)
 
   // Now, construct the insert statement
   std::ostringstream ostr;
-  ostr << "INSERT INTO vtable ("
+  ostr << "INSERT INTO " << table << " ("
        << colstr.str () << ") VALUES ("
        << varstr.str () << ")";
 
@@ -85,7 +86,7 @@ void CUTS_Log_Format_Data_Entry::prepare (CUTS_Log_Format * format)
 // prepare
 //
 void CUTS_Log_Format_Data_Entry::
-prepare (CUTS_Log_Format * format, size_t relation)
+prepare (const ACE_CString & table, CUTS_Log_Format * format, size_t relation)
 {
   // Get the relation we are preparing.
   CUTS_Log_Format_Relation & rel = format->relations ()[relation];
@@ -135,7 +136,7 @@ prepare (CUTS_Log_Format * format, size_t relation)
   }
 
   std::ostringstream sqlstr;
-  sqlstr << "UPDATE vtable SET " << setstr.str ()
+  sqlstr << "UPDATE " << table << " SET " << setstr.str ()
          << " WHERE " << where_str.str ();
 
   // Prepare the statement for execution.

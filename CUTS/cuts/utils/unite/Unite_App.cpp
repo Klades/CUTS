@@ -95,12 +95,20 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
   CUTS_Unit_Test_Result result;
   CUTS_Unit_Test_Evaluator evaluator (this->sandbox_);
 
+
+  // Open the evaluator for the given test.
+  evaluator.open (testdata);
+
   // Time the evaluation operation.
   ACE_High_Res_Timer timer;
-
   timer.start ();
-  bool retval = evaluator.evaluate (testdata, unit_test, result);
+
+  bool retval = evaluator.evaluate (unit_test, result);
+
   timer.stop ();
+
+  // Close the evaluator for the given test.
+  evaluator.close ();
 
   if (!retval)
     ACE_ERROR ((LM_ERROR,
