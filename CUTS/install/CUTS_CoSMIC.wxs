@@ -47,6 +47,7 @@
 
             <Directory Id="bin" Name="bin" />
             <Directory Id="etc" Name="etc">
+              <Directory Id="modeling" Name="modeling" />
               <Directory Id="schemas" Name="schemas" />
             </Directory>
           </Directory>

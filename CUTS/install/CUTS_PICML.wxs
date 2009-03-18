@@ -9,6 +9,7 @@
     <FeatureGroup Id="CUTS_CoSMIC.features.all">
       <ComponentRef Id="CUTS_CoSMIC.component.bin" />
       <ComponentRef Id="CUTS_CoSMIC.component.schemas" />
+      <ComponentRef Id="CUTS_CoSMIC.component.modeling" />
       <ComponentRef Id="CoSMIC" />
       <ComponentRef Id="UDM" />
 
@@ -65,6 +66,21 @@
 
     <!--
       install the 'schemas' for the backend
+      -->
+    <DirectoryRef Id='modeling'>
+      <Component Id="CUTS_CoSMIC.component.modeling"
+                 Guid='7D71E5AE-46B3-43F4-8CD0-EF09B1D15294'>
+
+        <File Id='CUTS_CPU_Worker.mga' Name='CUTS_CPU_Worker.mga'
+              Source='$(env.CUTS_ROOT)\cuts\workers\CPU\CUTS_CPU_Worker.mga' />
+
+        <File Id='TestLogger.mga' Name='TestLogger.mga'
+              Source='$(env.CUTS_ROOT)\cuts\workers\Test_Logger\TestLogger.mga' />
+      </Component>
+    </DirectoryRef>
+
+    <!--
+      install the 'modeling' files
       -->
     <DirectoryRef Id='schemas'>
       <Component Id="CUTS_CoSMIC.component.schemas"
