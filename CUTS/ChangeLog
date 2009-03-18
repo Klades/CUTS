@@ -1,3 +1,14 @@
+Wed Mar 18 22:28:12 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * install/CUTS_PICML.wxs:
+
+          . Disabled installation of several code generators.
+
+          . The PICML shared libraries are now installed with CUTS
+            to decouple the CUTS installer from the CoSMIC installer.
+            You still have to install CoSMIC to install the PICML
+            paradigm.
+
 Mon Mar 16 16:44:13 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/UNITE:

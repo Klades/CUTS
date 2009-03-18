@@ -7,8 +7,10 @@
       definition of features
       -->
     <FeatureGroup Id="CUTS_CoSMIC.features.all">
+      <ComponentRef Id="CUTS_CoSMIC.component.bin" />
       <ComponentRef Id="CUTS_CoSMIC.component.schemas" />
-      <ComponentRef Id="CUTS_PICML.component.bin" />
+      <ComponentRef Id="CoSMIC" />
+      <ComponentRef Id="UDM" />
 
       <FeatureRef Id="CUTS_CoSMIC.features.generators" />
     </FeatureGroup>
@@ -24,10 +26,6 @@
       <FeatureRef Id="CUTS_BE_Natural_Lang.feature" />
     </Feature>
 
-    <Feature Id="CUTS_CoSMIC.feature"
-             Level="0">
-    </Feature>
-
     <Feature Id="CUTS_BE_CIAO.feature"
              Title="Component Integrated ACE ORB (CIAO)"
              Level="1">
@@ -40,27 +38,28 @@
       <ComponentRef Id="CUTS_BE_EISA.component" />
     </Feature>
 
-    <Feature Id="CUTS_BE_TIOA.feature"
-             Title="Timed I/O Automata (TIAO) [experimental]"
-             Level="1">
-      <ComponentRef Id="CUTS_BE_TIOA.component" />
-    </Feature>
-
     <Feature Id="CUTS_BE_CAPI.feature"
-             Title="CAPI [experimental]"
+             Title="JBI Common API"
              Level="1">
       <ComponentRef Id="CUTS_BE_CAPI.component" />
     </Feature>
 
+    <Feature Id="CUTS_BE_TIOA.feature"
+             Title="Timed I/O Automata (TIAO) [experimental]"
+             Level="0"
+             TypicalDefault="advertise">
+      <ComponentRef Id="CUTS_BE_TIOA.component" />
+    </Feature>
+
     <Feature Id="CUTS_BE_XML.feature"
              Title="eXtensible Markup Language (XML) [experimental]"
-             Level="1">
+             Level="0">
       <ComponentRef Id="CUTS_BE_XML.component" />
     </Feature>
 
     <Feature Id="CUTS_BE_Natural_Lang.feature"
              Title="Natural language (English) [experimental]"
-             Level="1">
+             Level="0">
       <ComponentRef Id="CUTS_BE_Natural_Lang.component" />
     </Feature>
 
@@ -74,11 +73,47 @@
         <File Id='modelgen.xsd' Name='modelgen.xsd'
               Source='$(env.CUTS_ROOT)\etc\schemas\modelgen.xsd' />
       </Component>
-
     </DirectoryRef>
 
     <DirectoryRef Id='bin'>
-      <Component Id='CUTS_PICML.component.bin' Guid='1B880B88-2944-419C-843F-433096213675'>
+      <Component Id="UDM" Guid="F069845F-C8E8-48e6-98CB-F9FBDFE76EDD">
+        <File Id="$(env.UDM_VERSION).DLL" Name="$(env.UDM_VERSION).DLL"
+              Source="$(env.UDM_PATH)\bin\$(env.UDM_VERSION).DLL"
+              DiskId="1" />
+
+        <File Id="XERCES_C_2_5_0.DLL" Name="XERCES-C_2_5_0.DLL"
+              Source="$(env.UDM_PATH)\3rdparty\xerces-c_2_5_0\bin\XERCES-C_2_5_0.DLL"
+              DiskId="1" />
+      </Component>
+
+      <Component Id="CoSMIC" Guid="5B59328D-54CE-4A0D-AABF-0FF22CD5781C">
+        <File Id='ACEDLL'
+              Name='ACE.dll'
+              DiskId='1'
+              Source='$(env.ACE_ROOT)\lib\ACE.dll'  />
+
+        <File Id='xerces_c.dll'
+              Name='xerces-c_$(env.XERCESC_VERSION).dll'
+              DiskId='1'
+              Source='$(env.XERCESCROOT)\bin\xerces-c_$(env.XERCESC_VERSION).dll'  />
+
+        <File Id='PICML.dll'
+              Name='PICML.dll'
+              DiskId='1'
+              Source='$(env.COSMIC_ROOT)\bin\PICML.dll'  />
+
+        <File Id='GAME.dll'
+              Name='GAME.dll'
+              DiskId='1'
+              Source='$(env.COSMIC_ROOT)\bin\GAME.dll'  />
+
+        <File Id='Utils.dll'
+              Name='Utils.dll'
+              DiskId='1'
+              Source='$(env.COSMIC_ROOT)\bin/Utils.dll'  />
+      </Component>
+
+      <Component Id='CUTS_CoSMIC.component.bin' Guid='1B880B88-2944-419C-843F-433096213675'>
         <!--
           install the XML configuration
           -->
@@ -94,23 +129,8 @@
         <File Id="CUTS_Isislab_Emulation.dll" Name="CUTS_Isislab_Emulation.dll"
               Source="$(env.CUTS_ROOT)\lib\CUTS_Isislab_Emulation.dll" DiskId="1" />
 
-        <File Id="XERCES_C_2_6.DLL" Name="XERCES-C_2_7.DLL"
-              Source="$(env.XERCESCROOT)\bin\xerces-c_2_7.dll" DiskId="1" />
-
         <File Id="XSC_Utils.dll" Name="XSC_Utils.dll"
               Source="$(env.XSC_ROOT)\lib\XSC_Utils.dll" DiskId="1" />
-
-        <File Id="ACE.dll" Name="ACE.dll"
-              Source="$(env.ACE_ROOT)\lib\ACE.dll" DiskId="1" />
-
-        <File Id="GME.dll" Name="GME.dll"
-              Source="$(env.COSMIC_ROOT)\bin\GME.dll" DiskId="1" />
-
-        <File Id="PICML.dll" Name="PICML.dll"
-              Source="$(env.COSMIC_ROOT)\bin\PICML.dll" DiskId="1" />
-
-        <File Id="Utils.dll" Name="Utils.dll"
-              Source="$(env.COSMIC_ROOT)\bin\Utils.dll" DiskId="1" />
 
         <!-- GME registry information -->
         <RegistryKey Root="HKLM" Key="SOFTWARE">
