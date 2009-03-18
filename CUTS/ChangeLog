@@ -1,3 +1,16 @@
+Wed Mar 18 22:53:47 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/workers/CPU/CUTS_CPU_Worker.xme:
+        * cuts/workers/Test_Logger/TestLogger.xme:
+
+          . Updated the binaries to the latest version of PICML.
+
+        * install/CUTS_CoSMIC.wxs:
+        * install/CUTS_PICML.wxs:
+
+          . The installer now includes the WML models for the
+            TestLogger and CPU workload generators.
+
 Wed Mar 18 22:28:12 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * install/CUTS_PICML.wxs:
