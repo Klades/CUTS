@@ -204,9 +204,11 @@ Visit_String (const PICML::String & )
 // Visit_String
 //
 void XML_Mapping_File_Generator::
-Visit_Enum (const PICML::Enum & )
+Visit_Enum (const PICML::Enum & e)
 {
-  this->outfile_ << "java.lang.String";
+  this->outfile_ << this->package_
+                 << ".types."
+                 << CUTS_BE_Capi::classname (e.name ());
 }
 
 //

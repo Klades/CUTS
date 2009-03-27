@@ -1,3 +1,9 @@
+Fri Mar 27 22:53:01 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/XML_Mapping_File_Generator.cpp:
+
+          . Bug fix where the mapping for Enum types was incorrect.
+
 Fri Mar 27 22:30:34 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/XML_Mapping_File_Generator.h:
