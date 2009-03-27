@@ -1,3 +1,9 @@
+Fri Mar 27 21:22:42 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.cpp:
+
+          . Bug fix where the distribution mapping was incorrect.
+
 Wed Mar 18 22:53:47 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/workers/CPU/CUTS_CPU_Worker.xme:

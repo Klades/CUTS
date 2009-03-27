@@ -607,8 +607,10 @@ write_cuts_init_objects (const PICML::Component & component)
     // Determine the distribution class.
     std::string distro (iter->Distribution ());
 
-    if (distro.empty ())
-      distro = "UNDEFINED";
+    std::transform (distro.begin (),
+                    distro.end (),
+                    distro.begin (),
+                    &::toupper);
 
     this->out_ << "this->" << name << "_.configure (CUTS_Periodic_Event::PE_"
               << distro << ", " << iter->Hertz () << ");";
