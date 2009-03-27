@@ -27,6 +27,7 @@ XSD_File_Generator::XSD_File_Generator (const std::string & outdir)
   this->dispatcher_.insert <PICML::Byte> ();
   this->dispatcher_.insert <PICML::RealNumber> ();
   this->dispatcher_.insert <PICML::Aggregate> ();
+  this->dispatcher_.insert <PICML::Enum> ();
 
   // Initialize Xerces-C
   using namespace xercesc;
@@ -129,6 +130,12 @@ void XSD_File_Generator::Visit_Event (const PICML::Event & event)
 
     this->Visit_Aggregate_i (aggr);
   }
+
+  std::for_each (this->enum_types_.begin (),
+                 this->enum_types_.end (),
+                 boost::bind (&XSD_File_Generator::Visit_Enum_i,
+                              this,
+                              _1));
 
   // Gather required information about the event.
   std::string xmltag = event.SpecifyIdTag ();
@@ -239,6 +246,77 @@ void XSD_File_Generator::Visit_Aggregate (const PICML::Aggregate & aggr)
     this->seen_complex_types_.insert (aggr);
     this->complex_types_.push (aggr);
   }
+}
+
+//
+// Visit_Enum
+//
+void XSD_File_Generator::Visit_Enum (const PICML::Enum & e)
+{
+  std::string name = e.name ();
+
+  // First, set the type for the current element.
+  xercesc::DOMElement * element = this->root_.top ();
+  element->setAttribute (Utils::XStr ("type"),
+                         Utils::XStr (name));
+
+  this->enum_types_.insert (e);
+}
+
+//
+// Visit_Enum
+//
+void XSD_File_Generator::Visit_Enum_i (const PICML::Enum & e)
+{
+  xercesc::DOMElement * root = this->root_.top ();
+
+  // The Enum is actually a *simpleType* in XSD.
+  xercesc::DOMElement * simpleType =
+    this->doc_->createElement (Utils::XStr ("xsd:simpleType"));
+  root->appendChild (simpleType);
+
+  // Set the type name of the enumeration.
+  std::string name (e.name ());
+  simpleType->setAttribute (Utils::XStr ("name"),
+                            Utils::XStr (name));
+
+  // Create the container for the enum values.
+  xercesc::DOMElement * restriction =
+    this->doc_->createElement (Utils::XStr ("xsd:restriction"));
+  simpleType->appendChild (restriction);
+
+  restriction->setAttribute (Utils::XStr ("base"),
+                             Utils::XStr ("xsd:string"));
+
+  // Visit each of the enum values.
+  std::vector <PICML::EnumValue> values = e.EnumValue_children ();
+
+  this->root_.push (restriction);
+
+  std::for_each (values.begin (),
+                 values.end (),
+                 boost::bind (&PICML::EnumValue::Accept,
+                              _1,
+                              boost::ref (*this)));
+
+  this->root_.pop ();
+}
+
+//
+// Visit_EnumValue
+//
+void XSD_File_Generator::Visit_EnumValue (const PICML::EnumValue & val)
+{
+  xercesc::DOMElement * restriction = this->root_.top ();
+
+  // Create the node for the enum value.
+  xercesc::DOMElement * value = this->doc_->createElement (Utils::XStr ("xsd:enumeration"));
+  restriction->appendChild (value);
+
+  // Set the enum's value.
+  std::string name = val.name ();
+  value->setAttribute (Utils::XStr ("value"),
+                       Utils::XStr (name));
 }
 
 //

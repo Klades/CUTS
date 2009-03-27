@@ -56,10 +56,16 @@ public:
 
   void Visit_Aggregate (const PICML::Aggregate & );
 
+  void Visit_Enum (const PICML::Enum & );
+
+  void Visit_EnumValue (const PICML::EnumValue & );
+
 private:
   void Visit_Aggregate_i (const PICML::Aggregate & aggr);
 
   void Visit_Event_i (const PICML::Event & event, bool anonymous = false);
+
+  void Visit_Enum_i (const PICML::Enum & e);
 
   void serialize_xsd_to_file (const std::string & filename);
 
@@ -74,6 +80,9 @@ private:
 
   /// Complex types that need a mapping.
   std::stack <PICML::Aggregate> complex_types_;
+
+  /// Enum types that need mapping.
+  std::set <PICML::Enum> enum_types_;
 
   /// Dispatcher for abstract element types.
   UDM_Abstract_Type_Dispatcher_T <XSD_File_Generator> dispatcher_;

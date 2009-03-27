@@ -1,3 +1,12 @@
+Fri Mar 27 22:30:34 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/XML_Mapping_File_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/XML_Mapping_File_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/XSD_File_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/XSD_File_Generator.cpp:
+
+          . Added support for Enum types in events.
+
 Fri Mar 27 21:22:42 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.cpp:

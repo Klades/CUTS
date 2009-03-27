@@ -55,6 +55,8 @@ public:
 
   void Visit_Aggregate (const PICML::Aggregate & );
 
+  void Visit_Enum (const PICML::Enum & );
+
 private:
   void write_extension_mapping (const std::pair <std::string, std::string> &);
 

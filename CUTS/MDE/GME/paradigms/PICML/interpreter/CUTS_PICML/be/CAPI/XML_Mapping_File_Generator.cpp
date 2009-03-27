@@ -24,6 +24,7 @@ XML_Mapping_File_Generator (const std::string & outdir)
   this->dispatcher_.insert <PICML::Byte> ();
   this->dispatcher_.insert <PICML::RealNumber> ();
   this->dispatcher_.insert <PICML::Aggregate> ();
+  this->dispatcher_.insert <PICML::Enum> ();
 }
 
 //
@@ -195,6 +196,15 @@ Visit_Member (const PICML::Member & member)
 //
 void XML_Mapping_File_Generator::
 Visit_String (const PICML::String & )
+{
+  this->outfile_ << "java.lang.String";
+}
+
+//
+// Visit_String
+//
+void XML_Mapping_File_Generator::
+Visit_Enum (const PICML::Enum & )
 {
   this->outfile_ << "java.lang.String";
 }
