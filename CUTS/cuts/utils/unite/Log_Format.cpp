@@ -82,7 +82,7 @@ bool CUTS_Log_Format::compile (const ACE_CString & format)
 //
 // match
 //
-bool CUTS_Log_Format::match (const ACE_CString & message)
+bool CUTS_Log_Format::match (const ACE_CString & message) const
 {
   int retval = ::pcre_exec (this->expr_,
                             this->extra_,
@@ -99,7 +99,7 @@ bool CUTS_Log_Format::match (const ACE_CString & message)
     CUTS_Log_Format_Variable * variable = 0;
     const char * msgrep = message.rep ();
 
-    for (CUTS_Log_Format_Variable_Table::ITERATOR iter (this->vars_);
+    for (CUTS_Log_Format_Variable_Table::CONST_ITERATOR iter (this->vars_);
         !iter.done ();
         ++ iter)
     {

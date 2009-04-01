@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{F865BAC4-B0B3-4C87-8FDD-93EE1D36AF00}" cdate="Wed Apr 01 10:16:48 2009" mdate="Wed Apr 01 10:16:48 2009" version="" metaguid="{BD6CF72A-77F9-4382-9B59-7A05735292FC}" metaversion="" metaname="PICML">
+	<name>Root Folder</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x5" kind="RootFolder" guid="{448383B1-F088-4564-BDE9-E7D9A6700C47}">
+		<name>Root Folder</name>
+		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x1" kind="InterfaceDefinitions" guid="{7583EF2F-863F-4bd9-AA7E-CD0AFB6143B5}">
+			<name>InterfaceDefinitions</name>
+			<model id="id-0065-00000001" kind="File" guid="{7AD8A4A6-714A-4068-B1FC-F4C266F21583}" relid="0x1" childrelidcntr="0x2">
+				<name>XSLSchema</name>
+				<attribute kind="PrefixTag" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="path" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-00000022" kind="Package" role="Package" guid="{1309784F-530E-43a9-8503-94F2EEAFB156}" relid="0x2" childrelidcntr="0xb">
+					<name>XSD</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="InterfaceDefinition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>58,163</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="PrefixTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="SpecifyIdTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VersionTag" status="meta">
+						<value></value>
+					</attribute>
+					<reference id="id-0067-000000cd" kind="Alias" role="Alias" guid="{FB3F2F35-2F0C-428b-9383-8251A49D43FD}" relid="0x2" referred="id-0066-00000035">
+						<name>dateTime</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>90,62</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-000000ce" kind="Alias" role="Alias" guid="{9363DC78-D7C3-4792-BD8D-7066DE75C19A}" relid="0x3" referred="id-0066-00000035">
+						<name>anyURI</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>90,146</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-000000cf" kind="Alias" role="Alias" guid="{EFA71862-B04C-4189-A556-69C8A6BCEB17}" relid="0x4" referred="id-0066-00000035">
+						<name>duration</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>191,65</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-000000d0" kind="Alias" role="Alias" guid="{DB348D93-16EC-4d4f-8527-C20B695AC115}" relid="0x5" referred="id-0066-00000035">
+						<name>normalizedString</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>90,244</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-000000d2" kind="Alias" role="Alias" guid="{9DF75027-52F2-4b3a-8042-EF7F66504938}" derivedfrom="id-0067-000000d0" isinstance="no" isprimary="yes" relid="0x7" referred="id-0066-00000035" isbound="yes">
+						<name>token</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>90,328</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-000000d3" kind="Alias" role="Alias" guid="{08D4DFAE-BDC0-4d85-8863-8588869E9AF1}" derivedfrom="id-0067-000000d2" isinstance="no" isprimary="yes" relid="0x8" referred="id-0066-00000035" isbound="yes">
+						<name>language</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>90,405</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-000000d4" kind="Alias" role="Alias" guid="{20CFD2EE-D23A-483a-A51F-DDEB58E4E778}" derivedfrom="id-0067-000000d2" isinstance="no" isprimary="yes" relid="0x9" referred="id-0066-00000035" isbound="yes">
+						<name>Name</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>195,405</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-000000d5" kind="Alias" role="Alias" guid="{B64557B4-8FD6-4780-9AC4-9A4BFA0F0E60}" derivedfrom="id-0067-000000d2" isinstance="no" isprimary="yes" relid="0xa" referred="id-0066-00000035" isbound="yes">
+						<name>NMTOKEN</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>293,405</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-000000d6" kind="Alias" role="Alias" guid="{8759E4DD-EFB0-4e3c-B48A-E5D1854193F8}" derivedfrom="id-0067-000000d4" isinstance="no" isprimary="yes" relid="0xb" referred="id-0066-00000035" isbound="yes">
+						<name>NCName</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>195,475</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+				</model>
+			</model>
+		</folder>
+		<folder id="id-006a-00000003" relid="0x2" childrelidcntr="0x6" kind="PredefinedTypes" guid="{3E5FFCC8-CC71-4e86-A22D-6D9E782A5A90}">
+			<name>PredefinedTypes</name>
+			<atom id="id-0066-00000035" kind="String" guid="{E201C9A1-64FF-4108-908C-931898FC0B45}" relid="0x1">
+				<name>String</name>
+			</atom>
+			<atom id="id-0066-00000036" kind="Byte" guid="{CD688BCE-2E9F-4c05-9F52-929D575FB67D}" relid="0x2">
+				<name>Byte</name>
+			</atom>
+			<atom id="id-0066-00000037" kind="LongInteger" guid="{9D833373-EC56-4ac9-8194-93D285347075}" relid="0x3">
+				<name>LongInteger</name>
+			</atom>
+			<atom id="id-0066-00000038" kind="Boolean" guid="{C0E4649C-E579-4db7-9FEA-53AC09720C93}" relid="0x4">
+				<name>Boolean</name>
+			</atom>
+			<atom id="id-0066-00000039" kind="ShortInteger" guid="{B11DB1F3-302C-450d-AB16-2547BA675C8C}" relid="0x5">
+				<name>ShortInteger</name>
+			</atom>
+			<atom id="id-0066-0000003a" kind="RealNumber" guid="{9891641A-BA8B-4653-A674-B620A6199B22}" relid="0x6">
+				<name>RealNumber</name>
+			</atom>
+		</folder>
+		<regnode name="__OutputDir__" status="undefined">
+			<value></value>
+			<regnode name="CUTS_PICML" isopaque="yes">
+				<value>C:\Users\jedmondson\Models\CUTS\QED\Ambush</value>
+			</regnode>
+			<regnode name="QEDDeployment" isopaque="yes">
+				<value>C:\Users\jedmondson\Models\CUTS\QED\Ambush</value>
+			</regnode>
+		</regnode>
+	</folder>
+</project>

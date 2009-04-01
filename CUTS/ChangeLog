@@ -1,3 +1,73 @@
+Wed Apr  1 15:30:19 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/models:
+        * MDE/GME/paradigms/PICML/models/XMLSchema.xme:
+
+          . Model elements for using built-in types in XMLSchema.
+
+        * cuts/config.h:
+
+          . Added another default value to the configuration.
+
+        * cuts/utils/unite/Log_Format.h:
+        * cuts/utils/unite/Log_Format.cpp:
+        * cuts/utils/unite/Log_Format_Data_Entry.h:
+        * cuts/utils/unite/Log_Format_Data_Entry.cpp:
+        * cuts/utils/unite/Presentation_Service.h:
+        * cuts/utils/unite/Presentation_Service.inl:
+        * cuts/utils/unite/Presentation_Service.cpp:
+        * cuts/utils/unite/Presentation_Service_Manager.h:
+        * cuts/utils/unite/Presentation_Service_Manager.inl:
+        * cuts/utils/unite/Presentation_Service_Manager.cpp:
+        * cuts/utils/unite/Unit_Test.h:
+        * cuts/utils/unite/Unit_Test.inl:
+        * cuts/utils/unite/Unit_Test.cpp:
+        * cuts/utils/unite/Unit_Test_Builder.h:
+        * cuts/utils/unite/Unit_Test_Builder.cpp:
+        * cuts/utils/unite/Unit_Test_Graph.h:
+        * cuts/utils/unite/Unit_Test_Graph.inl:
+        * cuts/utils/unite/Unit_Test_Graph.cpp:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.h:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.inl:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.cpp:
+        * cuts/utils/unite/Unit_Test_Result.h:
+        * cuts/utils/unite/Unit_Test_Result.inl:
+        * cuts/utils/unite/Unit_Test_Result.cpp:
+        * cuts/utils/unite/Unite_App.h:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/Unite_Datagraph_File.h:
+        * cuts/utils/unite/Unite_Datagraph_File.cpp:
+        * cuts/utils/unite/Variable_Table_Repo.h:
+        * cuts/utils/unite/Variable_Table_Repo.inl:
+        * cuts/utils/unite/Variable_Table_Repo.cpp:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * cuts/utils/unite/unite.mpc:
+        * etc/schemas/cuts-unite.xsd:
+
+          . Re-designed UNITE's architecture such that you can reuse
+            a data graph across much unit tests.
+
+          . Developers can implement their own presentation modules
+            for displaying the data however they want.
+
+        * cuts/utils/unite/presentation:
+        * cuts/utils/unite/presentation/console:
+        * cuts/utils/unite/presentation/console/Console_Presentation_Service.h:
+        * cuts/utils/unite/presentation/console/Console_Presentation_Service.inl:
+        * cuts/utils/unite/presentation/console/Console_Presentation_Service.cpp:
+        * cuts/utils/unite/presentation/console/Console_Presentation_Service.mpc:
+        * cuts/utils/unite/presentation/console/Console_Presentation_Service_export.h:
+
+          . Presentation module/service for writing the results to
+            console.
+
+        * cuts/utils/unite/Unit_Test_Evaluator.h:
+        * cuts/utils/unite/Unit_Test_Evaluator.cpp:
+
+          Removed these files.
+
 Fri Mar 27 22:53:01 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/XML_Mapping_File_Generator.cpp:

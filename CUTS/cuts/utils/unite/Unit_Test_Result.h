@@ -17,11 +17,22 @@
 #include "ace/SString.h"
 #include "ace/Hash_Map_Manager.h"
 #include "ace/Null_Mutex.h"
+#include "ace/Array.h"
 
-/// Type definition of a group result.
-typedef ACE_Hash_Map_Manager <ACE_CString,
-                              ACE_CString,
-                              ACE_Null_Mutex> CUTS_Unit_Test_Group_Result;
+// Forward decl.
+class CUTS_DB_SQLite_Query;
+
+// Forward decl.
+class CUTS_DB_SQLite_Record;
+
+// Forward decl.
+class CUTS_Variable_Table_Repo;
+
+// Forward decl.
+class CUTS_Unit_Test;
+
+typedef ACE_Array <ACE_CString> CUTS_Group_Name;
+
 /**
  * @class CUTS_Unit_Test_Result
  *
@@ -33,28 +44,109 @@ typedef ACE_Hash_Map_Manager <ACE_CString,
 class CUTS_UNITE_Export CUTS_Unit_Test_Result
 {
 public:
-
-  /// Default constructor.
-  CUTS_Unit_Test_Result (void);
+  /**
+   * Initializing constructor
+   *
+   * @param[in]         eval        Evaluator of the unit test
+   * @param[in]         graph       Name of the graph to evaluate
+   */
+  CUTS_Unit_Test_Result (CUTS_Variable_Table_Repo & repo,
+                         size_t bufsize = CUTS_RESULT_DEFAULT_BUFFER_SIZE);
 
   /// Destructor.
   ~CUTS_Unit_Test_Result (void);
 
-  void result (const ACE_CString & result);
+  /**
+   * Evaluate a unit test.
+   *
+   * @param[in]         test        Unit test to evaluate
+   * @param[in]         vtable      Variable table containing data.
+   */
+  int evaluate (const CUTS_Unit_Test & test,
+                const ACE_CString & vtable);
 
-  const ACE_CString & result (void) const;
+  /// Close the result.
+  void close (void);
 
-  CUTS_Unit_Test_Group_Result & groups (void);
+  /// Get the number of rows in the result.
+  size_t count (void) const;
 
-  const CUTS_Unit_Test_Group_Result & groups (void) const;
+  /// Determine if the result is done.
+  bool done (void) const;
+
+  /// Advance to the next result in the record.
+  void advance (void);
+
+  /**
+   * Get the current result.
+   */
+  const char * get_result (void);
+
+  const CUTS_Group_Name & get_group_name (void);
+
+  /// Determine if the result has groupings.
+  bool has_groupings (void) const;
+
+  /**
+   * Get the unit test associated with the result
+   *
+   * @return        Unit test for the result.
+   */
+  const CUTS_Unit_Test * unit_test (void) const;
+
+  /**
+   * Get the name of the variable table used for evaluating the
+   * unit test.
+   *
+   * @return        Name of the variable table.
+   */
+  const ACE_CString * vtable_name (void) const;
+
+  /// Move to the first row in the result.
+  void rewind (void);
 
 private:
-  ACE_CString result_;
+  /// The target variable repo for the result.
+  CUTS_Variable_Table_Repo * repo_;
 
-  CUTS_Unit_Test_Group_Result group_;
+  /// The query that created the result.
+  CUTS_DB_SQLite_Query * query_;
 
+  /// The record holding the results.
+  CUTS_DB_SQLite_Record * record_;
+
+  /// The index of the result.
+  size_t result_index_;
+
+  /// The buffer holding the result.
+  ACE_Auto_Array_Ptr <char> result_;
+
+  /// The size of the result buffer.
+  size_t bufsize_;
+
+  /// Name of the variable table used for evaluation.
+  const ACE_CString * vtable_name_;
+
+  /// The unit test used in the evaluation.
+  const CUTS_Unit_Test * unit_test_;
+
+  /// Group name associated with the current result.
+  CUTS_Group_Name group_name_;
+
+  /// The result is old, i.e., needs updating.
+  bool result_is_old_;
+
+  /// The result is old, i.e., needs updating.
+  bool group_is_old_;
+
+  // prevent the following operations
   CUTS_Unit_Test_Result (const CUTS_Unit_Test_Result &);
   const CUTS_Unit_Test_Result & operator = (const CUTS_Unit_Test_Result &);
 };
+
+#if defined (__CUTS_INLINE__)
+#include "Unit_Test_Result.inl"
+#endif
+
 
 #endif  // !defined _CUTS_UNITE_UNIT_TEST_RESULT_H_

@@ -28,11 +28,13 @@ project (CUTS_Unite_Common) : pcre, boost_base, cuts_test_database, cutslib {
     Log_Format.cpp
     Log_Format_Compiler.cpp
     Log_Format_Data_Entry.cpp
+    Presentation_Service.cpp
+    Presentation_Service_Manager.cpp
     Relation.cpp
     Unit_Test.cpp
     Unit_Test_Result.cpp
     Unit_Test_Graph.cpp
-    Unit_Test_Evaluator.cpp
+    Variable_Table_Repo.cpp
     Variable.cpp
   }
 
@@ -44,12 +46,17 @@ project (CUTS_Unite_Common) : pcre, boost_base, cuts_test_database, cutslib {
 project (cuts-unite) : boost_base, xscrt, cuts_unite, cutsexe {
   exename = cuts-unite
 
-  after += CUTS_Unite_Xml
+  after += CUTS_Unite_Xml \
+           CUTS_Console_Presentation_Service
+
+  libs  += CUTS_Console_Presentation_Service
 
   Source_Files {
     cuts-unite.cpp
     unite.cpp
     Unit_Test_Builder.cpp
+    Unit_Test_Graph_Builder.cpp
+    Unite_Datagraph_File.cpp
     Unite_Config_File.cpp
     Unite_App.cpp
   }

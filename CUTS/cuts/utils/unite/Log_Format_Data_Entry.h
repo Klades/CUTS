@@ -41,9 +41,12 @@ public:
   /**
    *
    */
-  void prepare (const ACE_CString & table, CUTS_Log_Format * format);
+  void prepare (const ACE_CString & table,
+                const CUTS_Log_Format * format);
 
-  void prepare (const ACE_CString & table, CUTS_Log_Format * format, size_t relation);
+  void prepare (const ACE_CString & table,
+                const CUTS_Log_Format * format,
+                size_t relation);
 
   /**
    *
@@ -55,7 +58,7 @@ private:
   CUTS_DB_SQLite_Query * query_;
 
   /// Name of the log format.
-  CUTS_Log_Format * format_;
+  const CUTS_Log_Format * format_;
 };
 
 #endif // !defined _CUTS_UNITE_LOG_FORMAT_DATA_ENTRY_H_

@@ -8,19 +8,19 @@ namespace CUTS
   uniteConfig (::XMLSchema::string< char > const& name__,
                ::XMLSchema::string< char > const& evaluation__,
                ::XMLSchema::string< char > const& aggregation__,
-               ::CUTS::logformatList const& logformats__)
+               ::CUTS::datagraphLink const& datagraph__)
   : 
   ::XSCRT::Type (), 
   name_ (new ::XMLSchema::string< char > (name__)),
   evaluation_ (new ::XMLSchema::string< char > (evaluation__)),
   aggregation_ (new ::XMLSchema::string< char > (aggregation__)),
-  logformats_ (new ::CUTS::logformatList (logformats__)),
+  datagraph_ (new ::CUTS::datagraphLink (datagraph__)),
   regulator__ ()
   {
     name_->container (this);
     evaluation_->container (this);
     aggregation_->container (this);
-    logformats_->container (this);
+    datagraph_->container (this);
   }
 
   inline
@@ -32,7 +32,7 @@ namespace CUTS
   description_ (s.description_.get () ? new ::XMLSchema::string< char > (*s.description_) : 0),
   evaluation_ (new ::XMLSchema::string< char > (*s.evaluation_)),
   aggregation_ (new ::XMLSchema::string< char > (*s.aggregation_)),
-  logformats_ (new ::CUTS::logformatList (*s.logformats_)),
+  datagraph_ (new ::CUTS::datagraphLink (*s.datagraph_)),
   grouping_ (s.grouping_.get () ? new ::CUTS::groupingType (*s.grouping_) : 0),
   regulator__ ()
   {
@@ -40,7 +40,7 @@ namespace CUTS
     if (description_.get ()) description_->container (this);
     evaluation_->container (this);
     aggregation_->container (this);
-    logformats_->container (this);
+    datagraph_->container (this);
     if (grouping_.get ()) grouping_->container (this);
   }
 
@@ -59,7 +59,7 @@ namespace CUTS
 
     aggregation (*s.aggregation_);
 
-    logformats (*s.logformats_);
+    datagraph (*s.datagraph_);
 
     if (s.grouping_.get ())
       grouping (*(s.grouping_));
@@ -153,17 +153,17 @@ namespace CUTS
   // uniteConfig
   // 
   inline
-  ::CUTS::logformatList const& uniteConfig::
-  logformats () const
+  ::CUTS::datagraphLink const& uniteConfig::
+  datagraph () const
   {
-    return *logformats_;
+    return *datagraph_;
   }
 
   inline
   void uniteConfig::
-  logformats (::CUTS::logformatList const& e)
+  datagraph (::CUTS::datagraphLink const& e)
   {
-    *logformats_ = e;
+    *datagraph_ = e;
   }
 
   // uniteConfig
@@ -795,6 +795,137 @@ namespace CUTS
   count_groupitem(void) const
   {
     return groupitem_.size ();
+  }
+
+
+  // datagraphType
+  // 
+
+  inline
+  datagraphType::
+  datagraphType (::XMLSchema::string< char > const& name__,
+                 ::CUTS::logformatList const& logformats__)
+  : 
+  name_ (new ::XMLSchema::string< char > (name__)),
+  logformats_ (new ::CUTS::logformatList (logformats__)),
+  regulator__ ()
+  {
+    name_->container (this);
+    logformats_->container (this);
+  }
+
+  inline
+  datagraphType::
+  datagraphType (datagraphType const& s)
+  :
+  ::XSCRT::Type (),
+  name_ (new ::XMLSchema::string< char > (*s.name_)),
+  logformats_ (new ::CUTS::logformatList (*s.logformats_)),
+  regulator__ ()
+  {
+    name_->container (this);
+    logformats_->container (this);
+  }
+
+  inline
+  datagraphType& datagraphType::
+  operator= (datagraphType const& s)
+  {
+    name (*s.name_);
+
+    logformats (*s.logformats_);
+
+    return *this;
+  }
+
+
+  // datagraphType
+  // 
+  inline
+  ::XMLSchema::string< char > const& datagraphType::
+  name () const
+  {
+    return *name_;
+  }
+
+  inline
+  void datagraphType::
+  name (::XMLSchema::string< char > const& e)
+  {
+    *name_ = e;
+  }
+
+  // datagraphType
+  // 
+  inline
+  ::CUTS::logformatList const& datagraphType::
+  logformats () const
+  {
+    return *logformats_;
+  }
+
+  inline
+  void datagraphType::
+  logformats (::CUTS::logformatList const& e)
+  {
+    *logformats_ = e;
+  }
+
+
+  // datagraphLink
+  // 
+
+  inline
+  datagraphLink::
+  datagraphLink (::XMLSchema::anyURI< char > const& location__)
+  : 
+  location_ (new ::XMLSchema::anyURI< char > (location__)),
+  regulator__ ()
+  {
+    location_->container (this);
+  }
+
+  inline
+  datagraphLink::
+  datagraphLink (datagraphLink const& s)
+  :
+  location_ (new ::XMLSchema::anyURI< char > (*s.location_)),
+  regulator__ ()
+  {
+    location_->container (this);
+  }
+
+  inline
+  datagraphLink& datagraphLink::
+  operator= (datagraphLink const& s)
+  {
+    location (s.location ());
+
+    return *this;
+  }
+
+
+  // datagraphLink
+  // 
+  inline
+  ::XMLSchema::anyURI< char > const& datagraphLink::
+  location () const
+  {
+    return *location_;
+  }
+
+  inline
+  ::XMLSchema::anyURI< char >& datagraphLink::
+  location ()
+  {
+    return *location_;
+  }
+
+  inline
+  void datagraphLink::
+  location (::XMLSchema::anyURI< char > const& e)
+  {
+    *location_ = e;
   }
 }
 

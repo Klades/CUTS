@@ -43,7 +43,7 @@ public:
 
   bool is_valid (void) const;
 
-  bool match (const ACE_CString & message);
+  bool match (const ACE_CString & message) const;
 
   /// Reset the log format.
   void reset (void);

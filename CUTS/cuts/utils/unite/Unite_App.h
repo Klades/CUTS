@@ -14,6 +14,7 @@
 #define _CUTS_UNITE_APP_H_
 
 #include "ace/SString.h"
+#include "Presentation_Service_Manager.h"
 
 /**
  * @class CUTS_Unite_App
@@ -30,16 +31,35 @@ public:
   /// Destructor
   ~CUTS_Unite_App (void);
 
+  /**
+   * Main entry point for the application
+   *
+   * @param[in]       argc        Number of command-line arguments
+   * @param[in]       argv        The command-line arguements
+   */
   int run_main (int argc, char * argv []);
 
 private:
+  /// Helper method to parse the command-line arguments.
   int parse_args (int argc, char * argv []);
 
+  /// Load services from the configuration.
+  int load_services (void);
+
+  /// Print the help screen for the application.
+  void print_help (void);
+
+  /// Location of the configuration file.
   ACE_CString config_;
 
+  /// Location of the test data file.
   ACE_CString datafile_;
 
+  /// Location of the variable tables.
   ACE_CString sandbox_;
+
+  /// Service manager for the application.
+  CUTS_Unite_Presentation_Service_Manager svc_mgr_;
 };
 
 #endif  // !defined _CUTS_UNITE_APP_H_

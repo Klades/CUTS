@@ -41,10 +41,10 @@ namespace CUTS
         aggregation_->container (this);
       }
 
-      else if (n == "logformats")
+      else if (n == "datagraph")
       {
-        logformats_ = ::std::auto_ptr< ::CUTS::logformatList > (new ::CUTS::logformatList (e));
-        logformats_->container (this);
+        datagraph_ = ::std::auto_ptr< ::CUTS::datagraphLink > (new ::CUTS::datagraphLink (e));
+        datagraph_->container (this);
       }
 
       else if (n == "grouping")
@@ -287,6 +287,65 @@ namespace CUTS
       }
     }
   }
+
+  // datagraphType
+  //
+
+  datagraphType::
+  datagraphType (::XSCRT::XML::Element< char > const& e)
+  :Base (e), regulator__ ()
+  {
+
+    ::XSCRT::Parser< char > p (e);
+
+    while (p.more_elements ())
+    {
+      ::XSCRT::XML::Element< char > e (p.next_element ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
+
+      if (n == "name")
+      {
+        name_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
+        name_->container (this);
+      }
+
+      else if (n == "logformats")
+      {
+        logformats_ = ::std::auto_ptr< ::CUTS::logformatList > (new ::CUTS::logformatList (e));
+        logformats_->container (this);
+      }
+
+      else 
+      {
+      }
+    }
+  }
+
+  // datagraphLink
+  //
+
+  datagraphLink::
+  datagraphLink (::XSCRT::XML::Element< char > const& e)
+  :Base (e), regulator__ ()
+  {
+
+    ::XSCRT::Parser< char > p (e);
+
+    while (p.more_attributes ())
+    {
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "location")
+      {
+        location_ = ::std::auto_ptr< ::XMLSchema::anyURI< char > > (new ::XMLSchema::anyURI< char > (a));
+        location_->container (this);
+      }
+
+      else 
+      {
+      }
+    }
+  }
 }
 
 namespace CUTS
@@ -300,6 +359,25 @@ namespace CUTS
       if (e.name () == "unite")
       {
         ::CUTS::uniteConfig r (e);
+        return r;
+      }
+
+      else
+      {
+        throw 1;
+      }
+    }
+  }
+
+  namespace reader
+  {
+    ::CUTS::datagraphType
+    datagraph (xercesc::DOMDocument const* d)
+    {
+      ::XSCRT::XML::Element< char > e (d->getDocumentElement ());
+      if (e.name () == "datagraph")
+      {
+        ::CUTS::datagraphType r (e);
         return r;
       }
 

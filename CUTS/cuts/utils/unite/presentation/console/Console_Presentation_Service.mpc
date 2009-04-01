@@ -1,0 +1,10 @@
+// $Id$
+
+project (CUTS_Console_Presentation_Service) : cuts_unite, cutslib {
+  sharedname    = CUTS_Console_Presentation_Service
+  dynamicflags += CUTS_CONSOLE_PRESENTATION_SERVICE_BUILD_DLL
+
+  Source_Files {
+    Console_Presentation_Service.cpp
+  }
+}

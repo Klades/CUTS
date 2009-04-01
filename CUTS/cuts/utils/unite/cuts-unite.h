@@ -13,6 +13,8 @@ namespace CUTS
   class logformatList;
   class groupitemType;
   class groupingType;
+  class datagraphType;
+  class datagraphLink;
 }
 
 #include <memory>
@@ -62,14 +64,14 @@ namespace CUTS
     protected:
     ::std::auto_ptr< ::XMLSchema::string< char > > aggregation_;
 
-    // logformats
+    // datagraph
     // 
     public:
-    ::CUTS::logformatList const& logformats () const;
-    void logformats (::CUTS::logformatList const& );
+    ::CUTS::datagraphLink const& datagraph () const;
+    void datagraph (::CUTS::datagraphLink const& );
 
     protected:
-    ::std::auto_ptr< ::CUTS::logformatList > logformats_;
+    ::std::auto_ptr< ::CUTS::datagraphLink > datagraph_;
 
     // grouping
     // 
@@ -85,7 +87,7 @@ namespace CUTS
     uniteConfig (::XMLSchema::string< char > const& name__,
                  ::XMLSchema::string< char > const& evaluation__,
                  ::XMLSchema::string< char > const& aggregation__,
-                 ::CUTS::logformatList const& logformats__);
+                 ::CUTS::datagraphLink const& datagraph__);
 
     uniteConfig (::XSCRT::XML::Element< char > const&);
     uniteConfig (uniteConfig const& s);
@@ -353,6 +355,71 @@ namespace CUTS
     private:
     char regulator__;
   };
+
+
+  class datagraphType : public ::XSCRT::Type
+  {
+    typedef ::XSCRT::Type Base;
+
+    // name
+    // 
+    public:
+    ::XMLSchema::string< char > const& name () const;
+    void name (::XMLSchema::string< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::string< char > > name_;
+
+    // logformats
+    // 
+    public:
+    ::CUTS::logformatList const& logformats () const;
+    void logformats (::CUTS::logformatList const& );
+
+    protected:
+    ::std::auto_ptr< ::CUTS::logformatList > logformats_;
+
+    public:
+    datagraphType (::XMLSchema::string< char > const& name__,
+                   ::CUTS::logformatList const& logformats__);
+
+    datagraphType (::XSCRT::XML::Element< char > const&);
+    datagraphType (datagraphType const& s);
+
+    datagraphType&
+    operator= (datagraphType const& s);
+
+    private:
+    char regulator__;
+  };
+
+
+  class datagraphLink : public ::XSCRT::Type
+  {
+    typedef ::XSCRT::Type Base;
+
+    // location
+    // 
+    public:
+    ::XMLSchema::anyURI< char > const& location () const;
+    ::XMLSchema::anyURI< char >& location ();
+    void location (::XMLSchema::anyURI< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::anyURI< char > > location_;
+
+    public:
+    datagraphLink (::XMLSchema::anyURI< char > const& location__);
+
+    datagraphLink (::XSCRT::XML::Element< char > const&);
+    datagraphLink (datagraphLink const& s);
+
+    datagraphLink&
+    operator= (datagraphLink const& s);
+
+    private:
+    char regulator__;
+  };
 }
 
 namespace CUTS
@@ -361,6 +428,13 @@ namespace CUTS
   {
     ::CUTS::uniteConfig
     unite (xercesc::DOMDocument const*);
+  }
+
+
+  namespace reader
+  {
+    ::CUTS::datagraphType
+    datagraph (xercesc::DOMDocument const*);
   }
 }
 

@@ -26,20 +26,29 @@ class CUTS_Log_Format_Relation;
 
 /**
  * @class CUTS_Unit_Test_Builder
+ *
+ * Helper class that converts the datagraph in a XML file into
+ * a CUTS_Unit_Test object.
  */
 class CUTS_Unit_Test_Builder
 {
 public:
+  /// Default constructor.
   CUTS_Unit_Test_Builder (void);
 
+  /// Destructor.
   ~CUTS_Unit_Test_Builder (void);
 
+  /**
+   * Build the unit test.
+   *
+   * @param[in]       config        Source configuration
+   * @param[out]      test          Target unit test object.
+   */
   bool build (const CUTS::uniteConfig & config,
               CUTS_Unit_Test & test);
-private:
-  void process_log_format (const CUTS::logformatType & format,
-                           CUTS_Unit_Test & test);
 
+private:
   void process_relation (const CUTS::relationType & relation,
                          CUTS_Unit_Test & test,
                          CUTS_Log_Format & format);

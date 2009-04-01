@@ -1,9 +1,12 @@
 // $Id$
 
-#include "Unit_Test_Evaluator.h"
+#include "Variable_Table_Repo.h"
+
+#if !defined (__CUTS_INLINE__)
+#include "Variable_Table_Repo.inl"
+#endif
+
 #include "Unit_Test_Graph.h"
-#include "Unit_Test.h"
-#include "Unit_Test_Result.h"
 #include "Log_Format.h"
 #include "Log_Format_Data_Entry.h"
 #include "Relation.h"
@@ -17,10 +20,10 @@
 #include <sstream>
 
 //
-// CUTS_Unit_Test_Evaluator
+// CUTS_Variable_Table_Repo
 //
-CUTS_Unit_Test_Evaluator::
-CUTS_Unit_Test_Evaluator (const ACE_CString & sandbox)
+CUTS_Variable_Table_Repo::
+CUTS_Variable_Table_Repo (const ACE_CString & sandbox)
 : sandbox_ (sandbox),
   data_ (0),
   vtable_ (0)
@@ -31,9 +34,9 @@ CUTS_Unit_Test_Evaluator (const ACE_CString & sandbox)
 }
 
 //
-// ~CUTS_Unit_Test_Evaluator
+// ~CUTS_Variable_Table_Repo
 //
-CUTS_Unit_Test_Evaluator::~CUTS_Unit_Test_Evaluator (void)
+CUTS_Variable_Table_Repo::~CUTS_Variable_Table_Repo (void)
 {
   if (this->vtable_ != 0)
     delete this->vtable_;
@@ -42,7 +45,7 @@ CUTS_Unit_Test_Evaluator::~CUTS_Unit_Test_Evaluator (void)
 //
 // open
 //
-bool CUTS_Unit_Test_Evaluator::open (CUTS_Test_Database & data)
+bool CUTS_Variable_Table_Repo::open (CUTS_Test_Database & data)
 {
   if (this->data_ != 0)
     this->close ();
@@ -61,7 +64,7 @@ bool CUTS_Unit_Test_Evaluator::open (CUTS_Test_Database & data)
 //
 // close
 //
-void CUTS_Unit_Test_Evaluator::close (void)
+void CUTS_Variable_Table_Repo::close (void)
 {
   if (this->vtable_->is_connected ())
     this->vtable_->disconnect ();
@@ -73,46 +76,25 @@ void CUTS_Unit_Test_Evaluator::close (void)
 //
 // evaluate
 //
-bool CUTS_Unit_Test_Evaluator::evaluate (const CUTS_Unit_Test & test,
-                                         CUTS_Unit_Test_Result & result)
+bool CUTS_Variable_Table_Repo::insert (const CUTS_Unit_Test_Graph & graph)
 {
-  // Normalize the name of the test.
-  std::string tablename = test.name ().c_str ();
-  std::replace (tablename.begin (), tablename.end (), ' ', '_');
-
-  typedef
-    boost::graph_traits <CUTS_Unit_Test_Graph::graph_type>::
-    vertex_descriptor vertex_type;
-
-  // Sort the contents of the graph. This will give us the processing
-  // order for each log format in the unit test.
-  typedef std::vector <vertex_type> vertex_list_type;
-  vertex_list_type sorted_list;
-  boost::topological_sort (test.graph ()->graph (),
-                           std::back_inserter (sorted_list));
-
   try
   {
-    // Create the variable table for the test.
-    this->create_vtable (test);
+    // Create an empty table for the data set.
+    this->create_vtable (graph);
 
-    // Create the indices for the dataset.
-    vertex_list_type::iterator
-      iter = sorted_list.begin (),
-      iter_end = sorted_list.end ();
+    // Create all the indices for the dataset.
+    this->create_vtable_indices (graph);
 
-    CUTS_Log_Format * format = 0;
+    // Sort the contents of the graph. This will give us the processing
+    // order for each log format in the unit test.
+    typedef
+      boost::graph_traits <CUTS_Unit_Test_Graph::graph_type>::
+      vertex_descriptor vertex_type;
 
-    for ( ; iter != iter_end; ++ iter)
-    {
-      // Get the log format from the vertex.
-      format = boost::get (CUTS_Unit_Test_Graph::log_format_t (),
-                           test.graph ()->graph (),
-                           *iter);
-
-      if (!format->relations ().empty ())
-        this->create_vtable_indices (test, *format);
-    }
+    typedef std::vector <vertex_type> vertex_list_type;
+    vertex_list_type sorted_list;
+    boost::topological_sort (graph.graph (), std::back_inserter (sorted_list));
 
     // First, select all the log message from the database.
     CUTS_DB_SQLite_Query * query = this->data_->create_query ();
@@ -121,22 +103,22 @@ bool CUTS_Unit_Test_Evaluator::evaluate (const CUTS_Unit_Test & test,
 
     // Next, iterate over all the log formats. This will enable
     // us to construct the dataset using the provided data.
-    iter = sorted_list.begin ();
-    iter_end = sorted_list.end ();
+    vertex_list_type::iterator
+      iter = sorted_list.begin (),
+      iter_end = sorted_list.end ();
 
+    const CUTS_Log_Format * format;
     CUTS_Log_Format_Data_Entry entry (*this->vtable_);
 
     for ( ; iter != iter_end; ++ iter)
     {
       // Get the log format from the vertex.
-      format = boost::get (CUTS_Unit_Test_Graph::log_format_t (),
-                           test.graph ()->graph (),
-                           *iter);
+      format = graph.log_format (*iter);
 
       if (format->relations ().empty ())
       {
         // Process this log format.
-        entry.prepare (tablename.c_str (), format);
+        entry.prepare (graph.name (), format);
         this->process (entry, *record);
       }
       else
@@ -146,124 +128,11 @@ bool CUTS_Unit_Test_Evaluator::evaluate (const CUTS_Unit_Test & test,
 
         for (size_t i = 0; i < relation_count; ++ i)
         {
-          entry.prepare (tablename.c_str (), format, i);
+          entry.prepare (graph.name (), format, i);
           this->process (entry, *record);
         }
       }
     }
-
-    // Get the result from the dataset.
-    this->get_result (test, result);
-    return true;
-  }
-  catch (const CUTS_DB_Exception & ex)
-  {
-    ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - %s\n",
-                ex.message ().c_str ()));
-  }
-
-  return false;
-}
-
-//
-// get_result
-//
-void CUTS_Unit_Test_Evaluator::get_result (const CUTS_Unit_Test & test,
-                                           CUTS_Unit_Test_Result & result)
-{
-  std::string tablename = test.name ().c_str ();
-  std::replace (tablename.begin (), tablename.end (), ' ', '_');
-
-  // Normalize the evaluation string.
-  std::string eval = test.evaluation ().c_str ();
-  std::replace (eval.begin (), eval.end (), '.', '_');
-
-  // Construct the grouping portion of the string.
-  std::ostringstream group_str;
-
-  if (test.groupings ().size () != 0)
-  {
-    std::string name;
-    CUTS_Unit_Test::grouping_type::const_iterator
-      iter = test.groupings ().begin (), end = test.groupings ().end ();
-
-    // Normalize the name.
-    name = iter->c_str ();
-    std::replace (name.begin (), name.end (), '.', '_');
-
-    // Append the name to the SQL string.
-    group_str << name;
-
-    for (++ iter; iter != end; ++ iter)
-    {
-      // Normalize the name.
-      name = iter->c_str ();
-      std::replace (name.begin (), name.end (), '.', '_');
-
-      // Append the name to the SQL string.
-      group_str << ", " << name;
-    }
-  }
-
-  // Construct the final SQL string.
-  std::ostringstream sqlstr;
-  sqlstr << "SELECT";
-
-  if (!group_str.str ().empty ())
-    sqlstr << ' ' << group_str.str () << ", ";
-
-  sqlstr << ' ' << test.aggregation ().c_str ()
-         << '(' << eval << ") AS result FROM " << tablename;
-
-  if (!group_str.str ().empty ())
-    sqlstr << " GROUP BY " << group_str.str ()
-           << " ORDER BY " << group_str.str ();
-
-  // Allocate a new SQL statement on the connection.
-  CUTS_DB_SQLite_Query * query = this->vtable_->create_query ();
-  CUTS_Auto_Functor_T <CUTS_DB_SQLite_Query> auto_clean (query, &CUTS_DB_SQLite_Query::destroy);
-
-  // Execute the SQL statement.
-  ACE_CString result_str;
-  CUTS_DB_SQLite_Record * record = query->execute (sqlstr.str ().c_str ());
-
-  if (test.groupings ().size () == 0)
-  {
-    record->get_data (0, result_str);
-    result.result (result_str);
-  }
-  else
-  {
-    // Get the number of columns in the record. We need to keep one less
-    // since the result is the last column.
-    ACE_CString group_name, temp;
-    size_t columns = record->columns () - 1;
-
-    for ( ; !record->done (); record->advance ())
-    {
-      record->get_data (0, group_name);
-
-      for (size_t index = 1; index < columns; ++ index)
-      {
-        record->get_data (index, temp);
-        group_name += '.' + temp;
-      }
-
-      record->get_data (columns, result_str);
-      result.groups ().bind (group_name, result_str);
-    }
-  }
-}
-
-//
-// get_data_trend
-//
-bool CUTS_Unit_Test_Evaluator::get_data_trend (const CUTS_Unit_Test & test,
-                                               CUTS_DB_SQLite_Connection * & record)
-{
-  try
-  {
 
     return true;
   }
@@ -280,7 +149,7 @@ bool CUTS_Unit_Test_Evaluator::get_data_trend (const CUTS_Unit_Test & test,
 //
 // open_vtable
 //
-int CUTS_Unit_Test_Evaluator::open_vtable (CUTS_Test_Database & data)
+int CUTS_Variable_Table_Repo::open_vtable (CUTS_Test_Database & data)
 {
   // Extract the profile from the database.
   CUTS_Test_Profile profile;
@@ -303,7 +172,7 @@ int CUTS_Unit_Test_Evaluator::open_vtable (CUTS_Test_Database & data)
 //
 // process
 //
-void CUTS_Unit_Test_Evaluator::
+void CUTS_Variable_Table_Repo::
 process (CUTS_Log_Format_Data_Entry & entry, CUTS_DB_SQLite_Record & record)
 {
   char message[1024];
@@ -325,35 +194,34 @@ process (CUTS_Log_Format_Data_Entry & entry, CUTS_DB_SQLite_Record & record)
 //
 // create_data_table
 //
-void CUTS_Unit_Test_Evaluator::create_vtable (const CUTS_Unit_Test & test)
+void CUTS_Variable_Table_Repo::
+create_vtable (const CUTS_Unit_Test_Graph & graph)
 {
+  CUTS_Unit_Test_Graph::vertex_iterator iter, iter_end;
+  boost::tie (iter, iter_end) = boost::vertices (graph.graph ());
+
   // Create a new query on the variable table database.
   CUTS_DB_SQLite_Query * query = this->vtable_->create_query ();
 
   CUTS_Auto_Functor_T <CUTS_DB_SQLite_Query>
     auto_clean (query, &CUTS_DB_SQLite_Query::destroy);
 
-  // Normalize the name of the test.
-  std::string tablename = test.name ().c_str ();
-  std::replace (tablename.begin (), tablename.end (), ' ', '_');
-
   // Delete the variable table for the unit test.
-  std::string sqlstmt = "DROP TABLE IF EXISTS " + tablename;
+  ACE_CString sqlstmt = "DROP TABLE IF EXISTS " + graph.name ();
   query->execute_no_record (sqlstmt.c_str ());
 
   // Begin the SQL statement for creating the table.
-  CUTS_Unit_Test::formats_type::CONST_ITERATOR log_iter (test.log_formats ());
+  bool first_entry = true;
+  const CUTS_Log_Format * format = 0;
 
   std::ostringstream sqlstr;
-  sqlstr << "CREATE TABLE IF NOT EXISTS " << tablename << " (";
+  sqlstr << "CREATE TABLE IF NOT EXISTS " << graph.name ().c_str () << " (";
 
-  bool first_entry = true;
-
-  for ( ; !log_iter.done (); ++ log_iter)
+  for ( ; iter != iter_end; ++ iter)
   {
     // Iterate over the variables in the log format. We need to
     // make sure we include columns for them in the data set.
-    CUTS_Log_Format * format = log_iter->item ();
+    format = graph.log_format (*iter);
     CUTS_Log_Format_Variable_Table::CONST_ITERATOR var_iter (format->variables ());
 
     for ( ; !var_iter.done (); ++ var_iter)
@@ -365,7 +233,7 @@ void CUTS_Unit_Test_Evaluator::create_vtable (const CUTS_Unit_Test & test)
         first_entry = false;
 
       // Write the fully qualified name for the column.
-      sqlstr << log_iter->key ().c_str ()
+      sqlstr << format->name ().c_str ()
              << "_"
              << var_iter->key ().c_str ()
              << " ";
@@ -401,8 +269,29 @@ void CUTS_Unit_Test_Evaluator::create_vtable (const CUTS_Unit_Test & test)
 //
 // create_indices
 //
-void CUTS_Unit_Test_Evaluator::
-create_vtable_indices (const CUTS_Unit_Test & test,
+void CUTS_Variable_Table_Repo::
+create_vtable_indices (const CUTS_Unit_Test_Graph & graph)
+{
+  CUTS_Unit_Test_Graph::vertex_iterator iter, iter_end;
+  boost::tie (iter, iter_end) = boost::vertices (graph.graph ());
+
+  const CUTS_Log_Format * format = 0;
+
+  for ( ; iter != iter_end; ++ iter)
+  {
+    // Get the log format from the vertex.
+    format = graph.log_format (*iter);
+
+    if (!format->relations ().empty ())
+      this->create_vtable_indices (graph, *format);
+  }
+}
+
+//
+// create_indices
+//
+void CUTS_Variable_Table_Repo::
+create_vtable_indices (const CUTS_Unit_Test_Graph & test,
                        const CUTS_Log_Format & format)
 {
   // Allocate a new database query.

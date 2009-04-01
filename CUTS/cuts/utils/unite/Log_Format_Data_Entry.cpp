@@ -37,7 +37,7 @@ CUTS_Log_Format_Data_Entry::~CUTS_Log_Format_Data_Entry (void)
 // prepare
 //
 void CUTS_Log_Format_Data_Entry::
-prepare (const ACE_CString & table, CUTS_Log_Format * format)
+prepare (const ACE_CString & table, const CUTS_Log_Format * format)
 {
   std::ostringstream colstr, varstr;
 
@@ -86,10 +86,10 @@ prepare (const ACE_CString & table, CUTS_Log_Format * format)
 // prepare
 //
 void CUTS_Log_Format_Data_Entry::
-prepare (const ACE_CString & table, CUTS_Log_Format * format, size_t relation)
+prepare (const ACE_CString & table, const CUTS_Log_Format * format, size_t relation)
 {
   // Get the relation we are preparing.
-  CUTS_Log_Format_Relation & rel = format->relations ()[relation];
+  const CUTS_Log_Format_Relation & rel = format->relations ()[relation];
 
   // First, set the column names we are updating.
   ACE_CString varname;
