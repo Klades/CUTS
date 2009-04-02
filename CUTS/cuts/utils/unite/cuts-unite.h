@@ -5,7 +5,7 @@
 //
 namespace CUTS
 {
-  class uniteConfig;
+  class testConfig;
   class logformatType;
   class relationList;
   class causalityType;
@@ -15,6 +15,11 @@ namespace CUTS
   class groupingType;
   class datagraphType;
   class datagraphLink;
+  class filterList;
+  class filterType;
+  class filterVariableType;
+  class serviceType;
+  class serviceList;
 }
 
 #include <memory>
@@ -23,7 +28,7 @@ namespace CUTS
 
 namespace CUTS
 {
-  class uniteConfig : public ::XSCRT::Type
+  class testConfig : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
 
@@ -83,17 +88,27 @@ namespace CUTS
     protected:
     ::std::auto_ptr< ::CUTS::groupingType > grouping_;
 
+    // services
+    // 
     public:
-    uniteConfig (::XMLSchema::string< char > const& name__,
-                 ::XMLSchema::string< char > const& evaluation__,
-                 ::XMLSchema::string< char > const& aggregation__,
-                 ::CUTS::datagraphLink const& datagraph__);
+    bool services_p () const;
+    ::CUTS::serviceList const& services () const;
+    void services (::CUTS::serviceList const& );
 
-    uniteConfig (::XSCRT::XML::Element< char > const&);
-    uniteConfig (uniteConfig const& s);
+    protected:
+    ::std::auto_ptr< ::CUTS::serviceList > services_;
 
-    uniteConfig&
-    operator= (uniteConfig const& s);
+    public:
+    testConfig (::XMLSchema::string< char > const& name__,
+                ::XMLSchema::string< char > const& evaluation__,
+                ::XMLSchema::string< char > const& aggregation__,
+                ::CUTS::datagraphLink const& datagraph__);
+
+    testConfig (::XSCRT::XML::Element< char > const&);
+    testConfig (testConfig const& s);
+
+    testConfig&
+    operator= (testConfig const& s);
 
     private:
     char regulator__;
@@ -420,14 +435,233 @@ namespace CUTS
     private:
     char regulator__;
   };
+
+
+  class filterList : public ::XSCRT::Type
+  {
+    typedef ::XSCRT::Type Base;
+
+    // filter
+    // 
+    public:
+    typedef ::std::list< ::CUTS::filterType >::iterator filter_iterator;
+    typedef ::std::list< ::CUTS::filterType >::const_iterator filter_const_iterator;
+    filter_iterator begin_filter ();
+    filter_iterator end_filter ();
+    filter_const_iterator begin_filter () const;
+    filter_const_iterator end_filter () const;
+    void add_filter (::CUTS::filterType const& );
+    size_t count_filter (void) const;
+
+    protected:
+    ::std::list< ::CUTS::filterType > filter_;
+
+    public:
+    filterList ();
+
+    filterList (::XSCRT::XML::Element< char > const&);
+    filterList (filterList const& s);
+
+    filterList&
+    operator= (filterList const& s);
+
+    private:
+    char regulator__;
+  };
+
+
+  class filterType : public ::XSCRT::Type
+  {
+    typedef ::XSCRT::Type Base;
+
+    // variable
+    // 
+    public:
+    typedef ::std::list< ::CUTS::filterVariableType >::iterator variable_iterator;
+    typedef ::std::list< ::CUTS::filterVariableType >::const_iterator variable_const_iterator;
+    variable_iterator begin_variable ();
+    variable_iterator end_variable ();
+    variable_const_iterator begin_variable () const;
+    variable_const_iterator end_variable () const;
+    void add_variable (::CUTS::filterVariableType const& );
+    size_t count_variable (void) const;
+
+    protected:
+    ::std::list< ::CUTS::filterVariableType > variable_;
+
+    // id
+    // 
+    public:
+    ::XMLSchema::ID< char > const& id () const;
+    ::XMLSchema::ID< char >& id ();
+    void id (::XMLSchema::ID< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::ID< char > > id_;
+
+    // target
+    // 
+    public:
+    ::XMLSchema::string< char > const& target () const;
+    ::XMLSchema::string< char >& target ();
+    void target (::XMLSchema::string< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::string< char > > target_;
+
+    public:
+    filterType (::std::list< ::CUTS::filterVariableType > const& variable__,
+                ::XMLSchema::ID< char > const& id__,
+                ::XMLSchema::string< char > const& target__);
+
+    filterType (::XSCRT::XML::Element< char > const&);
+    filterType (filterType const& s);
+
+    filterType&
+    operator= (filterType const& s);
+
+    private:
+    char regulator__;
+  };
+
+
+  class filterVariableType : public ::XSCRT::Type
+  {
+    typedef ::XSCRT::Type Base;
+
+    // name
+    // 
+    public:
+    bool name_p () const;
+    ::XMLSchema::string< char > const& name () const;
+    ::XMLSchema::string< char >& name ();
+    void name (::XMLSchema::string< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::string< char > > name_;
+
+    // when
+    // 
+    public:
+    bool when_p () const;
+    ::XMLSchema::string< char > const& when () const;
+    ::XMLSchema::string< char >& when ();
+    void when (::XMLSchema::string< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::string< char > > when_;
+
+    public:
+    filterVariableType ();
+
+    filterVariableType (::XSCRT::XML::Element< char > const&);
+    filterVariableType (filterVariableType const& s);
+
+    filterVariableType&
+    operator= (filterVariableType const& s);
+
+    private:
+    char regulator__;
+  };
+
+
+  class serviceType : public ::XSCRT::Type
+  {
+    typedef ::XSCRT::Type Base;
+
+    // location
+    // 
+    public:
+    ::XMLSchema::string< char > const& location () const;
+    void location (::XMLSchema::string< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::string< char > > location_;
+
+    // classname
+    // 
+    public:
+    ::XMLSchema::string< char > const& classname () const;
+    void classname (::XMLSchema::string< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::string< char > > classname_;
+
+    // params
+    // 
+    public:
+    bool params_p () const;
+    ::XMLSchema::string< char > const& params () const;
+    void params (::XMLSchema::string< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::string< char > > params_;
+
+    // id
+    // 
+    public:
+    ::XMLSchema::ID< char > const& id () const;
+    ::XMLSchema::ID< char >& id ();
+    void id (::XMLSchema::ID< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::ID< char > > id_;
+
+    public:
+    serviceType (::XMLSchema::string< char > const& location__,
+                 ::XMLSchema::string< char > const& classname__,
+                 ::XMLSchema::ID< char > const& id__);
+
+    serviceType (::XSCRT::XML::Element< char > const&);
+    serviceType (serviceType const& s);
+
+    serviceType&
+    operator= (serviceType const& s);
+
+    private:
+    char regulator__;
+  };
+
+
+  class serviceList : public ::XSCRT::Type
+  {
+    typedef ::XSCRT::Type Base;
+
+    // service
+    // 
+    public:
+    typedef ::std::list< ::CUTS::serviceType >::iterator service_iterator;
+    typedef ::std::list< ::CUTS::serviceType >::const_iterator service_const_iterator;
+    service_iterator begin_service ();
+    service_iterator end_service ();
+    service_const_iterator begin_service () const;
+    service_const_iterator end_service () const;
+    void add_service (::CUTS::serviceType const& );
+    size_t count_service (void) const;
+
+    protected:
+    ::std::list< ::CUTS::serviceType > service_;
+
+    public:
+    serviceList (::std::list< ::CUTS::serviceType > const& service__);
+
+    serviceList (::XSCRT::XML::Element< char > const&);
+    serviceList (serviceList const& s);
+
+    serviceList&
+    operator= (serviceList const& s);
+
+    private:
+    char regulator__;
+  };
 }
 
 namespace CUTS
 {
   namespace reader
   {
-    ::CUTS::uniteConfig
-    unite (xercesc::DOMDocument const*);
+    ::CUTS::testConfig
+    test (xercesc::DOMDocument const*);
   }
 
 
@@ -435,6 +669,13 @@ namespace CUTS
   {
     ::CUTS::datagraphType
     datagraph (xercesc::DOMDocument const*);
+  }
+
+
+  namespace reader
+  {
+    ::CUTS::filterList
+    filters (xercesc::DOMDocument const*);
   }
 }
 

@@ -132,7 +132,7 @@ const CUTS_Group_Name & CUTS_Unit_Test_Result::get_group_name (void)
 // evaluate
 //
 int CUTS_Unit_Test_Result::
-evaluate (const CUTS_Unit_Test & test, const ACE_CString & vtable)
+evaluate (const CUTS_Unit_Test & test, const ACE_CString & vtable, bool aggr)
 {
   try
   {
@@ -174,15 +174,31 @@ evaluate (const CUTS_Unit_Test & test, const ACE_CString & vtable)
     std::ostringstream sqlstr;
     sqlstr << "SELECT";
 
+    // Make sure we select the group columns.
     if (!group_str.str ().empty ())
-      sqlstr << ' ' << group_str.str () << ", ";
+        sqlstr << ' ' << group_str.str () << ", ";
 
-    sqlstr << ' ' << test.aggregation ().c_str ()
-          << '(' << eval << ") AS result FROM " << vtable.c_str ();
+    // Insert the aggregation construct, if necessary.
+    if (aggr)
+      sqlstr << ' ' << test.aggregation ().c_str () << "(";
+
+    sqlstr << eval;
+
+    if (aggr)
+      sqlstr << ")";
+
+    // Set the evaluation column to 'result'.
+    sqlstr << " AS result FROM " << vtable.c_str ();
 
     if (!group_str.str ().empty ())
-      sqlstr << " GROUP BY " << group_str.str ()
-            << " ORDER BY " << group_str.str ();
+    {
+      // We need to group the data for aggregation.
+      if (aggr)
+        sqlstr << " GROUP BY " << group_str.str ();
+
+      // Make sure we order the data by its groups.
+      sqlstr << " ORDER BY " << group_str.str ();
+    }
 
     // Execute the SQL statement.
     this->record_ = this->query_->execute (sqlstr.str ().c_str ());

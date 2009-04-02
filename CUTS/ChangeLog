@@ -1,3 +1,39 @@
+Thu Apr  2 07:38:37 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/unite/Presentation_Service_Manager.h:
+        * cuts/utils/unite/Presentation_Service_Manager.cpp:
+        * cuts/utils/unite/Unit_Test_Builder.h:
+        * cuts/utils/unite/Unit_Test_Builder.cpp:
+        * cuts/utils/unite/Unit_Test_Result.h:
+        * cuts/utils/unite/Unit_Test_Result.cpp:
+        * cuts/utils/unite/Unite_App.h:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/Unite_Config_File.h:
+        * cuts/utils/unite/Unite_Config_File.cpp:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * etc/schemas/cuts-unite.xsd:
+
+          . Added support for dynamically loading presentation services
+            via a test configuration file.
+
+          . Added support for disabling a service from the command-line.
+
+          . Added support for viewing the data trend using the (--view-trend)
+            command-line option.
+
+        * cuts/utils/unite/presentation/gnuplot:
+        * cuts/utils/unite/presentation/gnuplot/Gnuplot_Presentation_Service.h:
+        * cuts/utils/unite/presentation/gnuplot/Gnuplot_Presentation_Service.inl:
+        * cuts/utils/unite/presentation/gnuplot/Gnuplot_Presentation_Service.cpp:
+        * cuts/utils/unite/presentation/gnuplot/Gnuplot_Presentation_Service.mpc:
+        * cuts/utils/unite/presentation/gnuplot/Gnuplot_Presentation_Service_export.h:
+
+          . First implementation of the GNUPlot presentation service. This
+            will generate a configuration file for GNUPlot. It is primarily
+            used for viewing data trends.
+
 Wed Apr  1 15:30:19 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/models:

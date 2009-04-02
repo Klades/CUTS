@@ -21,10 +21,10 @@
  * @class CUTS_Unite_Config_File
  */
 class CUTS_Unite_Config_File :
-  public XSCRT::utils::File_Reader_T <CUTS::uniteConfig>
+  public XSCRT::utils::File_Reader_T <CUTS::testConfig>
 {
 public:
-  typedef XSCRT::utils::File_Reader_T <CUTS::uniteConfig> reader_type;
+  typedef XSCRT::utils::File_Reader_T <CUTS::testConfig> reader_type;
 
   /// Default constructor.
   CUTS_Unite_Config_File (void);

@@ -1,14 +1,14 @@
 namespace CUTS
 {
-  // uniteConfig
+  // testConfig
   // 
 
   inline
-  uniteConfig::
-  uniteConfig (::XMLSchema::string< char > const& name__,
-               ::XMLSchema::string< char > const& evaluation__,
-               ::XMLSchema::string< char > const& aggregation__,
-               ::CUTS::datagraphLink const& datagraph__)
+  testConfig::
+  testConfig (::XMLSchema::string< char > const& name__,
+              ::XMLSchema::string< char > const& evaluation__,
+              ::XMLSchema::string< char > const& aggregation__,
+              ::CUTS::datagraphLink const& datagraph__)
   : 
   ::XSCRT::Type (), 
   name_ (new ::XMLSchema::string< char > (name__)),
@@ -24,8 +24,8 @@ namespace CUTS
   }
 
   inline
-  uniteConfig::
-  uniteConfig (uniteConfig const& s)
+  testConfig::
+  testConfig (testConfig const& s)
   :
   ::XSCRT::Type (),
   name_ (new ::XMLSchema::string< char > (*s.name_)),
@@ -34,6 +34,7 @@ namespace CUTS
   aggregation_ (new ::XMLSchema::string< char > (*s.aggregation_)),
   datagraph_ (new ::CUTS::datagraphLink (*s.datagraph_)),
   grouping_ (s.grouping_.get () ? new ::CUTS::groupingType (*s.grouping_) : 0),
+  services_ (s.services_.get () ? new ::CUTS::serviceList (*s.services_) : 0),
   regulator__ ()
   {
     name_->container (this);
@@ -42,11 +43,12 @@ namespace CUTS
     aggregation_->container (this);
     datagraph_->container (this);
     if (grouping_.get ()) grouping_->container (this);
+    if (services_.get ()) services_->container (this);
   }
 
   inline
-  uniteConfig& uniteConfig::
-  operator= (uniteConfig const& s)
+  testConfig& testConfig::
+  operator= (testConfig const& s)
   {
     name (*s.name_);
 
@@ -66,44 +68,49 @@ namespace CUTS
     else
       grouping_.reset (0);
 
+    if (s.services_.get ())
+      services (*(s.services_));
+    else
+      services_.reset (0);
+
     return *this;
   }
 
 
-  // uniteConfig
+  // testConfig
   // 
   inline
-  ::XMLSchema::string< char > const& uniteConfig::
+  ::XMLSchema::string< char > const& testConfig::
   name () const
   {
     return *name_;
   }
 
   inline
-  void uniteConfig::
+  void testConfig::
   name (::XMLSchema::string< char > const& e)
   {
     *name_ = e;
   }
 
-  // uniteConfig
+  // testConfig
   // 
   inline
-  bool uniteConfig::
+  bool testConfig::
   description_p () const
   {
     return description_.get () != 0;
   }
 
   inline
-  ::XMLSchema::string< char > const& uniteConfig::
+  ::XMLSchema::string< char > const& testConfig::
   description () const
   {
     return *description_;
   }
 
   inline
-  void uniteConfig::
+  void testConfig::
   description (::XMLSchema::string< char > const& e)
   {
     if (description_.get ())
@@ -118,72 +125,72 @@ namespace CUTS
     }
   }
 
-  // uniteConfig
+  // testConfig
   // 
   inline
-  ::XMLSchema::string< char > const& uniteConfig::
+  ::XMLSchema::string< char > const& testConfig::
   evaluation () const
   {
     return *evaluation_;
   }
 
   inline
-  void uniteConfig::
+  void testConfig::
   evaluation (::XMLSchema::string< char > const& e)
   {
     *evaluation_ = e;
   }
 
-  // uniteConfig
+  // testConfig
   // 
   inline
-  ::XMLSchema::string< char > const& uniteConfig::
+  ::XMLSchema::string< char > const& testConfig::
   aggregation () const
   {
     return *aggregation_;
   }
 
   inline
-  void uniteConfig::
+  void testConfig::
   aggregation (::XMLSchema::string< char > const& e)
   {
     *aggregation_ = e;
   }
 
-  // uniteConfig
+  // testConfig
   // 
   inline
-  ::CUTS::datagraphLink const& uniteConfig::
+  ::CUTS::datagraphLink const& testConfig::
   datagraph () const
   {
     return *datagraph_;
   }
 
   inline
-  void uniteConfig::
+  void testConfig::
   datagraph (::CUTS::datagraphLink const& e)
   {
     *datagraph_ = e;
   }
 
-  // uniteConfig
+  // testConfig
   // 
   inline
-  bool uniteConfig::
+  bool testConfig::
   grouping_p () const
   {
     return grouping_.get () != 0;
   }
 
   inline
-  ::CUTS::groupingType const& uniteConfig::
+  ::CUTS::groupingType const& testConfig::
   grouping () const
   {
     return *grouping_;
   }
 
   inline
-  void uniteConfig::
+  void testConfig::
   grouping (::CUTS::groupingType const& e)
   {
     if (grouping_.get ())
@@ -195,6 +202,38 @@ namespace CUTS
     {
       grouping_ = ::std::auto_ptr< ::CUTS::groupingType > (new ::CUTS::groupingType (e));
       grouping_->container (this);
+    }
+  }
+
+  // testConfig
+  // 
+  inline
+  bool testConfig::
+  services_p () const
+  {
+    return services_.get () != 0;
+  }
+
+  inline
+  ::CUTS::serviceList const& testConfig::
+  services () const
+  {
+    return *services_;
+  }
+
+  inline
+  void testConfig::
+  services (::CUTS::serviceList const& e)
+  {
+    if (services_.get ())
+    {
+      *services_ = e;
+    }
+
+    else
+    {
+      services_ = ::std::auto_ptr< ::CUTS::serviceList > (new ::CUTS::serviceList (e));
+      services_->container (this);
     }
   }
 
@@ -926,6 +965,555 @@ namespace CUTS
   location (::XMLSchema::anyURI< char > const& e)
   {
     *location_ = e;
+  }
+
+
+  // filterList
+  // 
+
+  inline
+  filterList::
+  filterList ()
+  : 
+  regulator__ ()
+  {
+  }
+
+  inline
+  filterList::
+  filterList (filterList const& s)
+  :
+  ::XSCRT::Type (),
+  filter_ (s.filter_),
+  regulator__ ()
+  {
+  }
+
+  inline
+  filterList& filterList::
+  operator= (filterList const& s)
+  {
+    filter_ = s.filter_;
+
+    return *this;
+  }
+
+
+  // filterList
+  // 
+  inline
+  filterList::filter_iterator filterList::
+  begin_filter ()
+  {
+    return filter_.begin ();
+  }
+
+  inline
+  filterList::filter_iterator filterList::
+  end_filter ()
+  {
+    return filter_.end ();
+  }
+
+  inline
+  filterList::filter_const_iterator filterList::
+  begin_filter () const
+  {
+    return filter_.begin ();
+  }
+
+  inline
+  filterList::filter_const_iterator filterList::
+  end_filter () const
+  {
+    return filter_.end ();
+  }
+
+  inline
+  void filterList::
+  add_filter (::CUTS::filterType const& e)
+  {
+    filter_.push_back (e);
+  }
+
+  inline
+  size_t filterList::
+  count_filter(void) const
+  {
+    return filter_.size ();
+  }
+
+
+  // filterType
+  // 
+
+  inline
+  filterType::
+  filterType (::std::list< ::CUTS::filterVariableType > const& variable__,
+              ::XMLSchema::ID< char > const& id__,
+              ::XMLSchema::string< char > const& target__)
+  : 
+  variable_ (variable__),
+  id_ (new ::XMLSchema::ID< char > (id__)),
+  target_ (new ::XMLSchema::string< char > (target__)),
+  regulator__ ()
+  {
+    id_->container (this);
+    target_->container (this);
+  }
+
+  inline
+  filterType::
+  filterType (filterType const& s)
+  :
+  ::XSCRT::Type (),
+  variable_ (s.variable_),
+  id_ (new ::XMLSchema::ID< char > (*s.id_)),
+  target_ (new ::XMLSchema::string< char > (*s.target_)),
+  regulator__ ()
+  {
+    id_->container (this);
+    target_->container (this);
+  }
+
+  inline
+  filterType& filterType::
+  operator= (filterType const& s)
+  {
+    variable_ = s.variable_;
+
+    id (s.id ());
+
+    target (s.target ());
+
+    return *this;
+  }
+
+
+  // filterType
+  // 
+  inline
+  filterType::variable_iterator filterType::
+  begin_variable ()
+  {
+    return variable_.begin ();
+  }
+
+  inline
+  filterType::variable_iterator filterType::
+  end_variable ()
+  {
+    return variable_.end ();
+  }
+
+  inline
+  filterType::variable_const_iterator filterType::
+  begin_variable () const
+  {
+    return variable_.begin ();
+  }
+
+  inline
+  filterType::variable_const_iterator filterType::
+  end_variable () const
+  {
+    return variable_.end ();
+  }
+
+  inline
+  void filterType::
+  add_variable (::CUTS::filterVariableType const& e)
+  {
+    variable_.push_back (e);
+  }
+
+  inline
+  size_t filterType::
+  count_variable(void) const
+  {
+    return variable_.size ();
+  }
+
+  // filterType
+  // 
+  inline
+  ::XMLSchema::ID< char > const& filterType::
+  id () const
+  {
+    return *id_;
+  }
+
+  inline
+  ::XMLSchema::ID< char >& filterType::
+  id ()
+  {
+    return *id_;
+  }
+
+  inline
+  void filterType::
+  id (::XMLSchema::ID< char > const& e)
+  {
+    *id_ = e;
+  }
+
+  // filterType
+  // 
+  inline
+  ::XMLSchema::string< char > const& filterType::
+  target () const
+  {
+    return *target_;
+  }
+
+  inline
+  ::XMLSchema::string< char >& filterType::
+  target ()
+  {
+    return *target_;
+  }
+
+  inline
+  void filterType::
+  target (::XMLSchema::string< char > const& e)
+  {
+    *target_ = e;
+  }
+
+
+  // filterVariableType
+  // 
+
+  inline
+  filterVariableType::
+  filterVariableType ()
+  : 
+  regulator__ ()
+  {
+  }
+
+  inline
+  filterVariableType::
+  filterVariableType (filterVariableType const& s)
+  :
+  name_ (s.name_.get () ? new ::XMLSchema::string< char > (*s.name_) : 0),
+  when_ (s.when_.get () ? new ::XMLSchema::string< char > (*s.when_) : 0),
+  regulator__ ()
+  {
+    if (name_.get ()) name_->container (this);
+    if (when_.get ()) when_->container (this);
+  }
+
+  inline
+  filterVariableType& filterVariableType::
+  operator= (filterVariableType const& s)
+  {
+    if (s.name_.get ()) name (*(s.name_));
+    else name_ = ::std::auto_ptr< ::XMLSchema::string< char > > (0);
+
+    if (s.when_.get ()) when (*(s.when_));
+    else when_ = ::std::auto_ptr< ::XMLSchema::string< char > > (0);
+
+    return *this;
+  }
+
+
+  // filterVariableType
+  // 
+  inline
+  bool filterVariableType::
+  name_p () const
+  {
+    return name_.get () != 0;
+  }
+
+  inline
+  ::XMLSchema::string< char > const& filterVariableType::
+  name () const
+  {
+    return *name_;
+  }
+
+  inline
+  ::XMLSchema::string< char >& filterVariableType::
+  name ()
+  {
+    return *name_;
+  }
+
+  inline
+  void filterVariableType::
+  name (::XMLSchema::string< char > const& e)
+  {
+    if (name_.get ())
+    {
+      *name_ = e;
+    }
+
+    else
+    {
+      name_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
+      name_->container (this);
+    }
+  }
+
+  // filterVariableType
+  // 
+  inline
+  bool filterVariableType::
+  when_p () const
+  {
+    return when_.get () != 0;
+  }
+
+  inline
+  ::XMLSchema::string< char > const& filterVariableType::
+  when () const
+  {
+    return *when_;
+  }
+
+  inline
+  ::XMLSchema::string< char >& filterVariableType::
+  when ()
+  {
+    return *when_;
+  }
+
+  inline
+  void filterVariableType::
+  when (::XMLSchema::string< char > const& e)
+  {
+    if (when_.get ())
+    {
+      *when_ = e;
+    }
+
+    else
+    {
+      when_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
+      when_->container (this);
+    }
+  }
+
+
+  // serviceType
+  // 
+
+  inline
+  serviceType::
+  serviceType (::XMLSchema::string< char > const& location__,
+               ::XMLSchema::string< char > const& classname__,
+               ::XMLSchema::ID< char > const& id__)
+  : 
+  location_ (new ::XMLSchema::string< char > (location__)),
+  classname_ (new ::XMLSchema::string< char > (classname__)),
+  id_ (new ::XMLSchema::ID< char > (id__)),
+  regulator__ ()
+  {
+    location_->container (this);
+    classname_->container (this);
+    id_->container (this);
+  }
+
+  inline
+  serviceType::
+  serviceType (serviceType const& s)
+  :
+  ::XSCRT::Type (),
+  location_ (new ::XMLSchema::string< char > (*s.location_)),
+  classname_ (new ::XMLSchema::string< char > (*s.classname_)),
+  params_ (s.params_.get () ? new ::XMLSchema::string< char > (*s.params_) : 0),
+  id_ (new ::XMLSchema::ID< char > (*s.id_)),
+  regulator__ ()
+  {
+    location_->container (this);
+    classname_->container (this);
+    if (params_.get ()) params_->container (this);
+    id_->container (this);
+  }
+
+  inline
+  serviceType& serviceType::
+  operator= (serviceType const& s)
+  {
+    location (*s.location_);
+
+    classname (*s.classname_);
+
+    if (s.params_.get ())
+      params (*(s.params_));
+    else
+      params_.reset (0);
+
+    id (s.id ());
+
+    return *this;
+  }
+
+
+  // serviceType
+  // 
+  inline
+  ::XMLSchema::string< char > const& serviceType::
+  location () const
+  {
+    return *location_;
+  }
+
+  inline
+  void serviceType::
+  location (::XMLSchema::string< char > const& e)
+  {
+    *location_ = e;
+  }
+
+  // serviceType
+  // 
+  inline
+  ::XMLSchema::string< char > const& serviceType::
+  classname () const
+  {
+    return *classname_;
+  }
+
+  inline
+  void serviceType::
+  classname (::XMLSchema::string< char > const& e)
+  {
+    *classname_ = e;
+  }
+
+  // serviceType
+  // 
+  inline
+  bool serviceType::
+  params_p () const
+  {
+    return params_.get () != 0;
+  }
+
+  inline
+  ::XMLSchema::string< char > const& serviceType::
+  params () const
+  {
+    return *params_;
+  }
+
+  inline
+  void serviceType::
+  params (::XMLSchema::string< char > const& e)
+  {
+    if (params_.get ())
+    {
+      *params_ = e;
+    }
+
+    else
+    {
+      params_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
+      params_->container (this);
+    }
+  }
+
+  // serviceType
+  // 
+  inline
+  ::XMLSchema::ID< char > const& serviceType::
+  id () const
+  {
+    return *id_;
+  }
+
+  inline
+  ::XMLSchema::ID< char >& serviceType::
+  id ()
+  {
+    return *id_;
+  }
+
+  inline
+  void serviceType::
+  id (::XMLSchema::ID< char > const& e)
+  {
+    *id_ = e;
+  }
+
+
+  // serviceList
+  // 
+
+  inline
+  serviceList::
+  serviceList (::std::list< ::CUTS::serviceType > const& service__)
+  : 
+  service_ (service__),
+  regulator__ ()
+  {
+  }
+
+  inline
+  serviceList::
+  serviceList (serviceList const& s)
+  :
+  ::XSCRT::Type (),
+  service_ (s.service_),
+  regulator__ ()
+  {
+  }
+
+  inline
+  serviceList& serviceList::
+  operator= (serviceList const& s)
+  {
+    service_ = s.service_;
+
+    return *this;
+  }
+
+
+  // serviceList
+  // 
+  inline
+  serviceList::service_iterator serviceList::
+  begin_service ()
+  {
+    return service_.begin ();
+  }
+
+  inline
+  serviceList::service_iterator serviceList::
+  end_service ()
+  {
+    return service_.end ();
+  }
+
+  inline
+  serviceList::service_const_iterator serviceList::
+  begin_service () const
+  {
+    return service_.begin ();
+  }
+
+  inline
+  serviceList::service_const_iterator serviceList::
+  end_service () const
+  {
+    return service_.end ();
+  }
+
+  inline
+  void serviceList::
+  add_service (::CUTS::serviceType const& e)
+  {
+    service_.push_back (e);
+  }
+
+  inline
+  size_t serviceList::
+  count_service(void) const
+  {
+    return service_.size ();
   }
 }
 

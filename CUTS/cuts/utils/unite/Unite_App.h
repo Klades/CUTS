@@ -14,7 +14,17 @@
 #define _CUTS_UNITE_APP_H_
 
 #include "ace/SString.h"
+#include "ace/Unbounded_Set.h"
 #include "Presentation_Service_Manager.h"
+
+namespace CUTS
+{
+  // Forward decl.
+  class serviceList;
+
+  // Forward decl.
+  class serviceType;
+}
 
 /**
  * @class CUTS_Unite_App
@@ -44,7 +54,9 @@ private:
   int parse_args (int argc, char * argv []);
 
   /// Load services from the configuration.
-  int load_services (void);
+  void load_services (const CUTS::serviceList & list);
+
+  void load_service (const CUTS::serviceType & service);
 
   /// Print the help screen for the application.
   void print_help (void);
@@ -57,6 +69,14 @@ private:
 
   /// Location of the variable tables.
   ACE_CString sandbox_;
+
+  /// Show the data trend for the result.
+  bool show_trend_;
+
+  typedef ACE_Unbounded_Set <ACE_CString> string_set;
+
+  /// List of services to disable.
+  string_set disables_;
 
   /// Service manager for the application.
   CUTS_Unite_Presentation_Service_Manager svc_mgr_;

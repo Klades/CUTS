@@ -15,6 +15,7 @@
 #include "ace/Env_Value_T.h"
 #include "ace/High_Res_Timer.h"
 #include "XSC/utils/XML_Error_Handler.h"
+#include "boost/bind.hpp"
 
 static const char * __HELP__ =
 "UNITE - a QoS unit test evaluation engine\n"
@@ -26,6 +27,11 @@ static const char * __HELP__ =
 "  -c, --config=FILE         configuration file for evaluation\n"
 "  --sandbox=PATH            location for storing scratchpad data\n"
 "\n"
+"  --show-trend              show the data trend for the test\n"
+"\n"
+"Service options:\n"
+"  --disable=NAME            disable service with id NAME\n"
+"\n"
 "Output options:\n"
 "  -h, --help                print this help message\n";
 
@@ -33,7 +39,8 @@ static const char * __HELP__ =
 // CUTS_Unite_App
 //
 CUTS_Unite_App::CUTS_Unite_App (void)
-: sandbox_ (".")
+: sandbox_ ("."),
+  show_trend_ (false)
 {
   this->svc_mgr_.open ("cuts-unite",
                        ACE_DEFAULT_LOGGER_KEY,
@@ -62,7 +69,7 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
 
   // Load the configuration file.
   CUTS_Unite_Config_File config_file;
-  CUTS::uniteConfig config ("", "", "", CUTS::datagraphLink (""));
+  CUTS::testConfig config ("", "", "", CUTS::datagraphLink (""));
 
   XSC::XML::XML_Error_Handler error_handler;
   config_file->setErrorHandler (&error_handler);
@@ -70,6 +77,10 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
   if (config_file.read (this->config_.c_str ()))
     config_file >>= config;
 
+  // Load the services.
+  this->load_services (config.services ());
+
+  // Construct the binary version of the unit test.
   CUTS_Unit_Test unit_test;
   CUTS_Unit_Test_Builder builder;
 
@@ -129,7 +140,7 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
   ACE_High_Res_Timer timer;
   timer.start ();
 
-  if (result.evaluate (unit_test, graph.name ()) != 0)
+  if (result.evaluate (unit_test, graph.name (), !this->show_trend_) != 0)
     ACE_ERROR_RETURN ((LM_ERROR,
                        "%T (%t) - %M - failed to evaluate test %s [vtable=%s]\n",
                        unit_test.name ().c_str (),
@@ -161,6 +172,8 @@ int CUTS_Unite_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("config", 'c', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("datafile", 'f', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("sandbox", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("show-trend");
+  get_opt.long_option ("disable", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("help", 'h');
 
   char ch;
@@ -185,6 +198,14 @@ int CUTS_Unite_App::parse_args (int argc, char * argv [])
       else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
       {
         this->print_help ();
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "show-trend") == 0)
+      {
+        this->show_trend_ = true;
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "disable") == 0)
+      {
+        this->disables_.insert (get_opt.opt_arg ());
       }
       break;
 
@@ -211,4 +232,33 @@ void CUTS_Unite_App::print_help (void)
 {
   std::cerr << __HELP__ << std::endl;
   ACE_OS::exit (0);
+}
+
+//
+// load_services
+//
+void CUTS_Unite_App::load_services (const CUTS::serviceList & list)
+{
+  std::for_each (list.begin_service (),
+                 list.end_service (),
+                 boost::bind (&CUTS_Unite_App::load_service,
+                              this,
+                              _1));
+
+  // Disable the service listed on the command-line.
+  string_set::CONST_ITERATOR iter (this->disables_);
+
+  for (; !iter.done (); ++ iter)
+    this->svc_mgr_.suspend ((*iter).c_str ());
+}
+
+//
+// load_services
+//
+void CUTS_Unite_App::load_service (const CUTS::serviceType & svc)
+{
+  this->svc_mgr_.load_service (svc.id ().c_str (),
+                               svc.location ().c_str (),
+                               svc.classname ().c_str (),
+                               svc.params_p () ? svc.params ().c_str () : 0);
 }

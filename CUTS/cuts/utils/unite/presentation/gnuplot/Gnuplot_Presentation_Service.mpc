@@ -1,0 +1,10 @@
+// $Id$
+
+project (CUTS_Gnuplot_Presentation_Service) : cuts_unite, cutslib {
+  sharedname    = CUTS_Gnuplot_Presentation_Service
+  dynamicflags += CUTS_GNUPLOT_PRESENTATION_SERVICE_BUILD_DLL
+
+  Source_Files {
+    Gnuplot_Presentation_Service.cpp
+  }
+}

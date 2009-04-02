@@ -61,9 +61,11 @@ public:
    *
    * @param[in]         test        Unit test to evaluate
    * @param[in]         vtable      Variable table containing data.
+   * @param[in]         aggr        Aggregate the results
    */
   int evaluate (const CUTS_Unit_Test & test,
-                const ACE_CString & vtable);
+                const ACE_CString & vtable,
+                bool aggr = true);
 
   /// Close the result.
   void close (void);

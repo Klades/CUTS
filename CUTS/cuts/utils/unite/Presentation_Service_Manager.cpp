@@ -9,6 +9,7 @@
 #include "Presentation_Service.h"
 #include "Unit_Test_Result.h"
 #include "ace/Service_Types.h"
+#include <sstream>
 
 //
 // handle_result
@@ -53,4 +54,23 @@ handle_result (CUTS_Unit_Test_Result & result)
   }
 
   return retval;
+}
+
+//
+// load_service
+//
+int CUTS_Unite_Presentation_Service_Manager::
+load_service (const char * id,
+              const char * location,
+              const char * classname,
+              const char * params)
+{
+  std::ostringstream directive;
+  directive << "dynamic " << id << " Service_Object * "
+            << location << ":_make_" << classname << "() active";
+
+  if (params != 0)
+    directive << " '" << params << "'";
+
+  return this->process_directive (directive.str ().c_str ());
 }

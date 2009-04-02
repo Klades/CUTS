@@ -25,7 +25,7 @@ CUTS_Unit_Test_Builder::~CUTS_Unit_Test_Builder (void)
 //
 // build
 //
-bool CUTS_Unit_Test_Builder::build (const CUTS::uniteConfig & config,
+bool CUTS_Unit_Test_Builder::build (const CUTS::testConfig & config,
                                     CUTS_Unit_Test & test)
 {
   // Set the basic information.

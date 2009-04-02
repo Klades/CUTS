@@ -32,6 +32,11 @@ public:
   /// Destructor
   virtual ~CUTS_Unite_Presentation_Service_Manager (void);
 
+  int load_service (const char * id,
+                    const char * location,
+                    const char * classname,
+                    const char * params);
+
   int handle_result (CUTS_Unit_Test_Result & result);
 };
 
