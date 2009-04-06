@@ -1,5 +1,5 @@
+// -*- C++ -*-
 // $Id$
-
 
 //
 // CUTS_DB_Parameter
@@ -110,6 +110,26 @@ CUTS_INLINE
 void CUTS_DB_Parameter::bind (ACE_UINT32 &)
 {
   this->type_ = CUTS_DB_Parameter::PT_ULONG;
+  this->is_null_ = false;
+}
+
+//
+// bind
+//
+CUTS_INLINE
+void CUTS_DB_Parameter::bind (ACE_INT64 &)
+{
+  this->type_ = CUTS_DB_Parameter::PT_LONGLONG;
+  this->is_null_ = false;
+}
+
+//
+// bind
+//
+CUTS_INLINE
+void CUTS_DB_Parameter::bind (ACE_UINT64 &)
+{
+  this->type_ = CUTS_DB_Parameter::PT_ULONGLONG;
   this->is_null_ = false;
 }
 

@@ -83,6 +83,10 @@ public:
    */
   virtual void bind (ACE_UINT32 & buffer);
 
+  virtual void bind (ACE_INT64 & buffer);
+
+  virtual void bind (ACE_UINT64 & buffer);
+
   /**
    * Bind the parameter to a float value.
    *

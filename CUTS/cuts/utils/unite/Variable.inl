@@ -1,3 +1,4 @@
+// -*- C++ -*-
 // $Id$
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -40,38 +41,6 @@ CUTS_INLINE
 CUTS_Log_Format_Variable::type_t CUTS_Log_Format_Variable::type (void) const
 {
   return this->type_;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-// class CUTS_Integer_Log_Format_Variable
-
-//
-// CUTS_Integer_Log_Format_Variable
-//
-CUTS_INLINE
-CUTS_Integer_Log_Format_Variable::
-CUTS_Integer_Log_Format_Variable (size_t index)
-: CUTS_Log_Format_Variable (CUTS_Log_Format_Variable::VT_INTEGER, index)
-{
-
-}
-
-//
-// CUTS_Integer_Log_Format_Variable
-//
-CUTS_INLINE
-CUTS_Integer_Log_Format_Variable::~CUTS_Integer_Log_Format_Variable (void)
-{
-
-}
-
-//
-// bind
-//
-CUTS_INLINE
-void CUTS_Integer_Log_Format_Variable::bind (CUTS_DB_SQLite_Parameter & param)
-{
-  param.bind (this->value_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

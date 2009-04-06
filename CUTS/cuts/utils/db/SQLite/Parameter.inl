@@ -1,3 +1,4 @@
+// -*- C++ -*-
 // $Id$
 
 #include "ace/SString.h"
@@ -101,6 +102,20 @@ void CUTS_DB_SQLite_Parameter::bind (ACE_INT32 & value)
 //
 CUTS_INLINE
 void CUTS_DB_SQLite_Parameter::bind (ACE_UINT32 & value)
+{
+  this->bind_int (static_cast <int> (value));
+  CUTS_DB_Parameter::bind (value);
+}
+
+CUTS_INLINE
+void CUTS_DB_SQLite_Parameter::bind (ACE_INT64 & value)
+{
+  this->bind_int (static_cast <int> (value));
+  CUTS_DB_Parameter::bind (value);
+}
+
+CUTS_INLINE
+void CUTS_DB_SQLite_Parameter::bind (ACE_UINT64 & value)
 {
   this->bind_int (static_cast <int> (value));
   CUTS_DB_Parameter::bind (value);

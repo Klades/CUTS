@@ -85,6 +85,8 @@ private:
   void create_vtable_indices (const CUTS_Unit_Test_Graph & test,
                               const CUTS_Log_Format & format);
 
+  void prune_incomplete_rows (const CUTS_Unit_Test_Graph & graph);
+
   void process (CUTS_Log_Format_Data_Entry & entry,
                 CUTS_DB_SQLite_Record & record);
 

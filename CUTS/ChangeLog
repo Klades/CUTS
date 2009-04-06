@@ -1,3 +1,33 @@
+Mon Apr  6 17:11:18 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/db/DB_Parameter.h:
+        * cuts/utils/db/DB_Parameter.inl:
+        * cuts/utils/db/SQLite/Parameter.h:
+        * cuts/utils/db/SQLite/Parameter.inl:
+
+	  . Added support for 64-bit integers.
+
+        * cuts/utils/unite/Log_Format.cpp:
+        * cuts/utils/unite/Log_Format_Compiler.cpp:
+        * cuts/utils/unite/Variable.h:
+        * cuts/utils/unite/Variable.inl:
+        * cuts/utils/unite/Variable.cpp:
+        * cuts/utils/unite/Variable_T.inl:
+        * cuts/utils/unite/Variable_T.cpp:
+        * cuts/utils/unite/Variable_Table_Repo.h:
+        * cuts/utils/unite/Variable_Table_Repo.cpp:
+        * cuts/utils/unite/unite.mpc:
+	  
+	  . Added support for the following types: SHORT, USHORT,
+	    LONG, ULONG, LONGLONG, ULONGLONG.
+	  
+        * cuts/utils/unite/presentation/gnuplot/Gnuplot_Presentation_Service.h:
+        * cuts/utils/unite/presentation/gnuplot/Gnuplot_Presentation_Service.inl:
+        * cuts/utils/unite/presentation/gnuplot/Gnuplot_Presentation_Service.cpp:
+
+	  . Added support for removing the titles from group
+	    items using the command-line flag --disable-group-titles
+	
 Thu Apr  2 07:38:37 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/unite/Presentation_Service_Manager.h:

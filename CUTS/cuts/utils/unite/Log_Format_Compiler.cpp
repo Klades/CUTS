@@ -5,6 +5,7 @@
 #include "boost/spirit/core.hpp"
 #include "boost/spirit/utility/confix.hpp"
 #include "ace/CORBA_macros.h"
+#include "ace/streams.h"
 
 /**
  * @struct append
@@ -57,9 +58,15 @@ struct capture
   {
     std::string pcre_type;
 
-    if (this->type_ == "INT")
+    if (this->type_ == "INT" ||
+        this->type_ == "LONG" ||
+        this->type_ == "LONGLONG" ||
+        this->type_ == "SHORT")
       pcre_type = "-?\\d+";
-    else if (this->type_ == "UINT")
+    else if (this->type_ == "UINT" ||
+             this->type_ == "ULONG" ||
+             this->type_ == "ULONGLONG" ||
+             this->type_ == "USHORT")
       pcre_type = "\\d+";
     else if (this->type_ == "STRING")
       pcre_type = "\\S+";
@@ -105,19 +112,37 @@ struct insert
     else if (this->type_ == "INT")
     {
       ACE_NEW_THROW_EX (variable,
-                        CUTS_Integer_Log_Format_Variable (index),
+                        CUTS_Basic_Log_Format_Variable_T <ACE_INT32> (index),
                         ACE_bad_alloc ());
     }
+    else if (this->type_ == "LONG")
+      {
+        ACE_NEW_THROW_EX (variable,
+                          CUTS_Basic_Log_Format_Variable_T <ACE_INT32> (index),
+                          ACE_bad_alloc ());
+      }
+    else if (this->type_ == "LONGLONG")
+      {
+        ACE_NEW_THROW_EX (variable,
+                          CUTS_Basic_Log_Format_Variable_T <ACE_INT64> (index),
+                          ACE_bad_alloc ());
+      }
+    else if (this->type_ == "SHORT")
+      {
+        ACE_NEW_THROW_EX (variable,
+                          CUTS_Basic_Log_Format_Variable_T <ACE_INT16> (index),
+                          ACE_bad_alloc ());
+      }
     else if (this->type_ == "FLOAT")
     {
       ACE_NEW_THROW_EX (variable,
-                        CUTS_Integer_Log_Format_Variable (index),
+                        CUTS_Basic_Log_Format_Variable_T <double> (index),
                         ACE_bad_alloc ());
     }
     else if (this->type_ == "UINT")
     {
       ACE_NEW_THROW_EX (variable,
-                        CUTS_Integer_Log_Format_Variable (index),
+                        CUTS_Basic_Log_Format_Variable_T <unsigned int> (index),
                         ACE_bad_alloc ());
     }
 

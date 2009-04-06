@@ -89,26 +89,80 @@ private:
 };
 
 /**
- * @class CUTS_Integer_Log_Format_Variable
+ * @class CUTS_Basic_Log_Format_Variable_T
  */
-class CUTS_UNITE_Export CUTS_Integer_Log_Format_Variable :
+template <typename T>
+class CUTS_Basic_Log_Format_Variable_T :
   public CUTS_Log_Format_Variable
 {
 public:
-  CUTS_Integer_Log_Format_Variable (size_t index);
+  /// Type definition of the integer type.
+  typedef T type;
 
-  virtual ~CUTS_Integer_Log_Format_Variable (void);
+  CUTS_Basic_Log_Format_Variable_T (size_t index);
+
+  virtual ~CUTS_Basic_Log_Format_Variable_T (void);
 
   virtual void value (const char * begin, const char * end);
 
   virtual void bind (CUTS_DB_SQLite_Parameter & param);
 
 private:
-  int value_;
+  T value_;
+};
+
+/**
+ * @struct CUTS_Log_Format_Variable_Type_T
+ *
+ * Trait class for determining a variables type.
+ */
+template <typename T>
+struct CUTS_Log_Format_Variable_Type_T 
+{
+  static const CUTS_Log_Format_Variable::type_t result_type = CUTS_Log_Format_Variable::VT_UNKNOWN;
+};
+
+template < >
+struct CUTS_Log_Format_Variable_Type_T <ACE_INT16>
+{
+  static const CUTS_Log_Format_Variable::type_t result_type = CUTS_Log_Format_Variable::VT_INTEGER;
+};
+
+template < >
+struct CUTS_Log_Format_Variable_Type_T <ACE_UINT16>
+{
+  static const CUTS_Log_Format_Variable::type_t result_type = CUTS_Log_Format_Variable::VT_INTEGER;
+};
+
+template < >
+struct CUTS_Log_Format_Variable_Type_T <ACE_INT32>
+{
+  static const CUTS_Log_Format_Variable::type_t result_type = CUTS_Log_Format_Variable::VT_INTEGER;
+};
+
+template < >
+struct CUTS_Log_Format_Variable_Type_T <ACE_UINT32>
+{
+  static const CUTS_Log_Format_Variable::type_t result_type = CUTS_Log_Format_Variable::VT_INTEGER;
+};
+
+template < >
+struct CUTS_Log_Format_Variable_Type_T <ACE_INT64>
+{
+  static const CUTS_Log_Format_Variable::type_t result_type = CUTS_Log_Format_Variable::VT_INTEGER;
+};
+
+template < >
+struct CUTS_Log_Format_Variable_Type_T <ACE_UINT64>
+{
+  static const CUTS_Log_Format_Variable::type_t result_type = CUTS_Log_Format_Variable::VT_INTEGER;
 };
 
 #if defined (__CUTS_INLINE__)
 #include "Variable.inl"
+#include "Variable_T.inl"
 #endif
+
+#include "Variable_T.cpp"
 
 #endif  // !defined _CUTS_UNITE_VARIABLE_H_

@@ -41,6 +41,10 @@ project (CUTS_Unite_Common) : pcre, boost_base, cuts_test_database, cutslib {
   Header_Files {
     Variable_Table.h
   }
+
+  Template_Files {
+    Variable_T.cpp
+  }
 }
 
 project (cuts-unite) : boost_base, xscrt, cuts_unite, cutsexe {

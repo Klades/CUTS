@@ -38,12 +38,16 @@ public:
     PT_CHAR,
     /// The parameter is a short integer.
     PT_SHORT,
-    /// The parameter is a unsigned short type.
+    /// The parameter is an unsigned short type.
     PT_USHORT,
     /// The parameter is a long type.
     PT_LONG,
-    /// The parameter is a unsigned long type.
+    /// The parameter is an unsigned long type.
     PT_ULONG,
+    /// The parameter is a long long type.
+    PT_LONGLONG,
+    /// The parameter is an unsigned long long type.
+    PT_ULONGLONG,
     /// The parameter is a float type.
     PT_FLOAT,
     /// The parameter is a double type.
@@ -152,6 +156,9 @@ public:
    * @param[in]       buffer    Source unsigned long value.
    */
   virtual void bind (ACE_INT32 & value) = 0;
+
+  virtual void bind (ACE_UINT64 & value) = 0;
+  virtual void bind (ACE_INT64 & value) = 0;
 
   /**
    * Bind the parameter to a float value.

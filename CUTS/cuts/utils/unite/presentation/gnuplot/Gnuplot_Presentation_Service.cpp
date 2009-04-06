@@ -56,12 +56,19 @@ int CUTS_Gnuplot_Presentation_Service::init (int argc, char * argv [])
   const char * optstr = "o:";
   ACE_Get_Opt get_opt (argc, argv, optstr, 0);
 
+  get_opt.long_option ("disable-group-title");
+
   char ch;
 
   while ((ch = get_opt ()) != EOF)
   {
     switch (ch)
     {
+    case 0:
+      if (ACE_OS::strcmp (get_opt.long_option (), "disable-group-title") == 0)
+        this->has_group_titles_ = false;
+      break;
+
     case 'o':
       this->output_ = get_opt.opt_arg ();
       break;
@@ -175,15 +182,25 @@ handle_result (CUTS_Unit_Test_Result & result)
   if (!iter.done ())
   {
     outfile << "'" << (*iter).c_str ()
-            << ".dat' using 1:2 with lines title '"
-            << (*iter).c_str () << "'";
+            << ".dat' using 1:2 with lines";
+    
+    if (this->has_group_titles_)
+      outfile << " title '"
+              << (*iter).c_str () << "'";
+    else
+      outfile << " notitle";
 
     for (++ iter ; !iter.done (); ++ iter)
     {
       outfile << ", \\" << std::endl
               << "     '" << (*iter).c_str ()
-              << ".dat' using 1:2 with lines title '"
-              << (*iter).c_str () << "'";
+              << ".dat' using 1:2 with lines";
+
+      if (this->has_group_titles_)
+        outfile << " title '"
+                << (*iter).c_str () << "'";
+      else
+        outfile << " notitle";
     }
   }
 

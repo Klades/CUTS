@@ -134,6 +134,8 @@ bool CUTS_Variable_Table_Repo::insert (const CUTS_Unit_Test_Graph & graph)
       }
     }
 
+    // Finally, prune the incomplete rows from the table.
+    this->prune_incomplete_rows (graph);
     return true;
   }
   catch (const CUTS_DB_Exception & ex)
@@ -254,7 +256,9 @@ create_vtable (const CUTS_Unit_Test_Graph & graph)
         break;
 
       default:
-        ;
+        ACE_ERROR ((LM_ERROR,
+                    "%T (%t) - %M - %s has an unknown variable type\n",
+                    var_iter->key ().c_str ()));
       }
     }
   }
@@ -345,3 +349,50 @@ create_vtable_indices (const CUTS_Unit_Test_Graph & test,
   }
 }
 
+//
+// prune_incomplete_rows
+//
+void CUTS_Variable_Table_Repo::
+prune_incomplete_rows (const CUTS_Unit_Test_Graph & graph)
+{
+  CUTS_Unit_Test_Graph::vertex_iterator iter, iter_end;
+  boost::tie (iter, iter_end) = boost::vertices (graph.graph ());
+
+  // Create a new query on the variable table database.
+  CUTS_DB_SQLite_Query * query = this->vtable_->create_query ();
+  CUTS_Auto_Functor_T <CUTS_DB_SQLite_Query>
+    auto_clean (query, &CUTS_DB_SQLite_Query::destroy);
+
+  // Begin the SQL statement for creating the table.
+  bool first_entry = true;
+  const CUTS_Log_Format * format = 0;
+
+  std::ostringstream sqlstr;
+  sqlstr << "DELETE FROM " << graph.name ().c_str () << " WHERE ";
+
+  for ( ; iter != iter_end; ++ iter)
+    {
+      // Iterate over the variables in the log format. We need to 
+      // make sure we include columns for them in the data set. 
+      format = graph.log_format (*iter);
+      CUTS_Log_Format_Variable_Table::CONST_ITERATOR var_iter (format->variables ());
+      
+      for ( ; !var_iter.done (); ++ var_iter)
+        {
+          // Make sure we insert a comma between column declarations.
+          if (!first_entry)
+            sqlstr << " OR ";
+          else
+            first_entry = false;
+
+          // Write the fully qualified name for the column.
+          sqlstr << format->name ().c_str ()
+                 << "_"
+                 << var_iter->key ().c_str ()
+                 << " IS NULL";
+        }
+    }
+
+  // Execute the query to delete the incomplete rows.
+  query->execute_no_record (sqlstr.str ().c_str ());
+}

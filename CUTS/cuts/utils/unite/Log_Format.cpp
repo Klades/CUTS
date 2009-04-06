@@ -49,7 +49,10 @@ bool CUTS_Log_Format::compile (const ACE_CString & format)
   CUTS_Log_Format_Compiler compiler;
 
   if (!compiler.compile (format.c_str (), expr, this->vars_))
-    return false;
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       "%T (%t) - %M - log format is invalid [%s]\n",
+                       format.c_str ()),
+                      false);
 
   const char * error = 0;
   int error_offset;

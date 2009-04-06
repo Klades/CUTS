@@ -39,7 +39,11 @@ public:
   virtual int handle_result (CUTS_Unit_Test_Result & result);
 
 private:
+  /// Target directory for gnuplot files.
   ACE_CString output_;
+
+  /// Flag that determines to include group titles.
+  bool has_group_titles_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
