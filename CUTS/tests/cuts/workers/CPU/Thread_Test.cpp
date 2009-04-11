@@ -137,5 +137,11 @@ int main (int argc, char * argv [])
   // Wait for all the threads to return.
   test.wait ();
 
+  // Print the results to standard output.
+  for (size_t i = 0; i < test.config ().size (); ++ i)
+    std::cout << test.config ()[i].cpu_ << " "
+              << test.config ()[i].msec_ << " "
+              << test.config ()[i].elapsed_.msec () << std::endl;
+
   return 0;
 }
