@@ -1,3 +1,16 @@
+Sat Apr 11 18:31:29 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_cpu_worker.mpb:
+
+          . Base project for including the CUTS_CPU_Worker.
+
+        * tests/cuts/workers/CPU:
+        * tests/cuts/workers/CPU/Thread_Test.cpp:
+        * tests/cuts/workers/CPU/Thread_Test.mpc:
+
+          . Test for validating the CPU worker with multiple
+            threads of execution.
+
 Tue Apr  7 16:51:15 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * ChangeLog:

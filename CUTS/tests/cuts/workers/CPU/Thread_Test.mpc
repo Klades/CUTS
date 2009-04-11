@@ -1,0 +1,9 @@
+// $Id$
+
+project (CUTS_CPU_Worker_Thread_Test) : cuts_cpu_worker, cuts_test {
+  exename = CUTS_CPU_Worker_Thread_Test
+
+  Source_Files {
+    Thread_Test.cpp
+  }
+}

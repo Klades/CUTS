@@ -1,0 +1,6 @@
+// $Id$
+
+project {
+  after += CUTS_CPU_Worker
+  libs  += CUTS_CPU_Worker
+}
