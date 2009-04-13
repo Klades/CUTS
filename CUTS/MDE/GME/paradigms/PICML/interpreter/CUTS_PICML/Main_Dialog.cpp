@@ -69,11 +69,9 @@ BOOL Main_Dialog::OnInitDialog (void)
       cuts_schema << CUTS_ROOT << "/etc/schemas/";
 
       // Create the file reader for the configuration file.
-      XSCRT::utils::File_Reader_T <
-        CUTS::Configuration> reader (&CUTS::reader::modelgen);
-
-      XSC::XML::Basic_Resolver br (cuts_schema.str ().c_str ());
-      XSC::XML::XML_Schema_Resolver <XSC::XML::Basic_Resolver> resolver (br);
+      XSCRT::utils::File_Reader_T <CUTS::Configuration> reader (&CUTS::reader::modelgen);
+      XSC::XML::Basic_Resolver < > br (cuts_schema.str ().c_str ());
+      XSC::XML::XML_Schema_Resolver <XSC::XML::Basic_Resolver < > > resolver (br);
       reader->setEntityResolver (&resolver);
 
       XSC::XML::XML_Error_Handler error_handler;

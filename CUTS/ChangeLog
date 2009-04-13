@@ -1,3 +1,13 @@
+Mon Apr 13 22:26:15 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
+
+          . Fixed compilation errors related the XSC updates.
+
+        * cuts/idl:
+
+          . Location of all CUTS IDL files.
+
 Mon Apr 13 22:12:17 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/mpi:
