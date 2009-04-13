@@ -1,3 +1,22 @@
+Mon Apr 13 22:12:17 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/mpi:
+
+          . Move the MPI backend to the architecture directory.
+
+        * cuts/MPI:
+        * cuts/MPI/CUTS_MPI.mpc:
+        * cuts/MPI/Datatype_Port_Manager.h:
+        * cuts/MPI/Datatype_Port_Manager.inl:
+        * cuts/MPI/Datatype_Port_Manager.cpp:
+        * cuts/MPI/MPI_Env.h:
+        * cuts/MPI/MPI_Env.inl:
+        * cuts/MPI/MPI_Env.cpp:
+        * cuts/MPI/mpi.cpp:
+        * cuts/MPI/mpi_export.def:
+
+          Removed these files.
+
 Mon Apr 13 22:01:48 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MPC/config/cuts_client_dnc.mpb:
