@@ -152,6 +152,40 @@ void ODBC_Parameter::bind (ACE_UINT32 & buffer)
 //
 // bind
 //
+void ODBC_Parameter::bind (ACE_INT64 & buffer)
+{
+  this->bind_i (SQL_PARAM_INPUT,
+                SQL_C_UBIGINT,
+                SQL_BIGINT,
+                0,
+                0,
+                &buffer,
+                0);
+
+  this->intptr_ = 0;
+  CUTS_DB_Parameter::bind (buffer);
+}
+
+//
+// bind
+//
+void ODBC_Parameter::bind (ACE_UINT64 & buffer)
+{
+  this->bind_i (SQL_PARAM_INPUT,
+                SQL_C_SBIGINT,
+                SQL_BIGINT,
+                0,
+                0,
+                &buffer,
+                0);
+
+  this->intptr_ = 0;
+  CUTS_DB_Parameter::bind (buffer);
+}
+
+//
+// bind
+//
 void ODBC_Parameter::bind (float & buffer)
 {
   this->bind_i (SQL_PARAM_INPUT,

@@ -157,7 +157,18 @@ public:
    */
   virtual void bind (ACE_INT32 & value) = 0;
 
+  /**
+   * Bind the parameter to a signed 64-bit value.
+   *
+   * @param[in]       buffer    Source unsigned long value.
+   */
   virtual void bind (ACE_UINT64 & value) = 0;
+
+  /**
+   * Bind the parameter to a unsigned 64-bit value.
+   *
+   * @param[in]       buffer    Source unsigned long value.
+   */
   virtual void bind (ACE_INT64 & value) = 0;
 
   /**

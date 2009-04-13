@@ -44,9 +44,9 @@ public:
 private:
   CUTS::nodeConfig config_;
 
-  XSC::XML::Basic_Resolver br_;
+  XSC::XML::Basic_Resolver < > br_;
 
-  XSC::XML::XML_Schema_Resolver <XSC::XML::Basic_Resolver> resolver_;
+  XSC::XML::XML_Schema_Resolver <XSC::XML::Basic_Resolver < > > resolver_;
 };
 
 #if defined (__CUTS_INLINE__)

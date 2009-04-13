@@ -27,7 +27,7 @@
  */
 //=============================================================================
 
-class CUTS_EXEC_Export CUTS_CCM_CoWorkEr_Proxy 
+class CUTS_EXEC_Export CUTS_CCM_CoWorkEr_Proxy
 {
 protected:
   /// Default constructor.
@@ -70,7 +70,7 @@ protected:
 };
 
 #if defined (__CUTS_INLINE__)
-#include "cuts/CCM_CoWorkEr_Proxy.inl"
+#include "CCM_CoWorkEr_Proxy.inl"
 #endif
 
 #endif  // !defined _CUTS_CCM_COWORKER_H_

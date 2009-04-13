@@ -48,9 +48,7 @@ namespace CUTS
       virtual void set_session_context (
         ::Components::SessionContext::_ptr_type ctx);
 
-      virtual void ciao_preactivate (void);
-
-      virtual void ciao_postactivate (void);
+      virtual void configuration_complete (void);
 
       virtual void ccm_activate (void);
 
@@ -98,32 +96,6 @@ namespace CUTS
       /// Listing of all the services.
       ACE_CString svcs_;
     };
-
-    //=========================================================================
-    /**
-     * @class Benchmark_Data_Collector_Home_exec_i
-     *
-     * @brief Implemenation of the Benchmark_Data_Collector_Home
-     */
-    //=========================================================================
-
-    class BENCHMARK_DATA_COLLECTOR_EXEC_Export Benchmark_Data_Collector_Home_exec_i
-      : public virtual Benchmark_Data_Collector_Home_Exec
-    {
-    public:
-      /// Constructor.
-      Benchmark_Data_Collector_Home_exec_i (void);
-
-      /// Destructor.
-      virtual ~Benchmark_Data_Collector_Home_exec_i (void);
-
-      /**
-       * Creation method.
-       *
-       * @return Newly created Benchmark_Data_Collector component.
-       */
-      virtual ::Components::EnterpriseComponent_ptr create (void);
-    };
   }
 }
 
@@ -137,8 +109,8 @@ namespace CUTS
 //=========================================================================
 
 extern "C" BENCHMARK_DATA_COLLECTOR_EXEC_Export
-::Components::HomeExecutorBase_ptr
-create_CUTS_Benchmark_Data_Collector_Home_Impl (void);
+::Components::EnterpriseComponent_ptr
+create_CUTS_Benchmark_Data_Collector_Impl (void);
 
 #include /**/ "ace/post.h"
 

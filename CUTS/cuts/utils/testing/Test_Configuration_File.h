@@ -59,9 +59,9 @@ private:
   int load_process_options (const CUTS::processOptions & po,
                             ACE_Process_Options & options);
 
-  XSC::XML::Basic_Resolver br_;
+  XSC::XML::Basic_Resolver < > br_;
 
-  XSC::XML::XML_Schema_Resolver <XSC::XML::Basic_Resolver> resolver_;
+  XSC::XML::XML_Schema_Resolver <XSC::XML::Basic_Resolver < > > resolver_;
 
   CUTS::testFile config_;
 

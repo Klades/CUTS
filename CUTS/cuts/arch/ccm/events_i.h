@@ -13,7 +13,7 @@
 #ifndef _CUTS_EVENTS_I_H_
 #define _CUTS_EVENTS_I_H_
 
-#include "cuts/CUTS_CIAOC.h"
+#include "CUTS_CIAOC.h"
 
 namespace OBV_CUTS
 {
@@ -47,7 +47,7 @@ namespace OBV_CUTS
 }
 
 #if defined (__CUTS_INLINE__)
-#include "cuts/events_i.inl"
+#include "events_i.inl"
 #endif
 
 #endif  // !defined _CUTS_EVENTS_I_H_

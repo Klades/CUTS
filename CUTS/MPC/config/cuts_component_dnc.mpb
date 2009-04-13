@@ -1,5 +1,5 @@
 // $Id$
 
-project : ciao_component_dnc, cutslib {
+project : ciao_executor, cutslib {
 
 }

@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_CIAO_stub) : requires_ciao, ciao_events_base_dnc, ciao_servant_dnc, cutslib {
+project (CUTS_CIAO_stub) : requires_ciao, ciao_servant, cutslib {
   sharedname     = CUTS_stub
 
   idlflags      += -Wb,export_macro=CUTS_STUB_Export \

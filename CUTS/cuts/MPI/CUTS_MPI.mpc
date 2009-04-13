@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_MPI) : mpich, ciao_servant_dnc, cutslib {
+project (CUTS_MPI) : mpich, ciao_servant, cutslib {
   sharedname    = CUTS_MPI
   dynamicflags += CUTS_MPI_BUILD_DLL
 

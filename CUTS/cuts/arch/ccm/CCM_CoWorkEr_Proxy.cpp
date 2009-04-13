@@ -1,9 +1,9 @@
 // $Id$
 
-#include "cuts/CCM_CoWorkEr_Proxy.h"
+#include "CCM_CoWorkEr_Proxy.h"
 
 #if !defined (__CUTS_INLINE__)
-#include "cuts/CCM_CoWorkEr_Proxy.inl"
+#include "CCM_CoWorkEr_Proxy.inl"
 #endif
 
 //#include "tao/RTCORBA/RT_ORB_Loader.h"

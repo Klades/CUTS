@@ -26,9 +26,9 @@ private:
   /// Set the default configuration for the file.
   void configure (void);
 
-  XSC::XML::Basic_Resolver br_;
+  XSC::XML::Basic_Resolver < > br_;
 
-  XSC::XML::XML_Schema_Resolver <XSC::XML::Basic_Resolver> resolver_;
+  XSC::XML::XML_Schema_Resolver <XSC::XML::Basic_Resolver < > > resolver_;
 };
 
 #if defined (__CUTS_INLINE__)

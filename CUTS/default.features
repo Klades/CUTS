@@ -86,4 +86,5 @@ exceptions = 1
 cidl = 1
 boost = 1
 mfc = 1
+xerces = 1
 xerces3 = 0

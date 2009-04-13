@@ -1,3 +1,100 @@
+Mon Apr 13 22:01:48 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_client_dnc.mpb:
+        * MPC/config/cuts_component_dnc.mpb:
+        * MPC/config/cuts_servant_dnc.mpb:
+        * cuts/BDC/Benchmark_Data_Collector.idl:
+        * cuts/BDC/Benchmark_Data_Collector.mpc:
+        * cuts/BDC/Benchmark_Data_Collector_exec_i.h:
+        * cuts/BDC/Benchmark_Data_Collector_exec_i.cpp:
+        * cuts/BDC/client/client.mpc:
+        * cuts/MPI/CUTS_MPI.mpc:
+        * cuts/arch:
+        * cuts/utils/Node_Daemon/Node_File_Reader.h:
+        * cuts/utils/antispam/Antispam_Config_File.h:
+        * cuts/utils/db/DB_Parameter.h:
+        * cuts/utils/db/ODBC/ODBC_Parameter.h:
+        * cuts/utils/db/ODBC/ODBC_Parameter.cpp:
+        * cuts/utils/logging/server/Logging_Server_File.h:
+        * cuts/utils/testing/Test_Configuration_File.h:
+        * cuts/utils/unite/Unite_Config_File.h:
+        * cuts/utils/unite/Unite_Datagraph_File.h:
+        * default.features:
+
+          . Updated CUTS to the latest version of ACE+TAO+CIAO.
+
+        * cuts/arch/ccm:
+        * cuts/arch/ccm/CCM_CoWorkEr_Proxy.h:
+        * cuts/arch/ccm/CCM_CoWorkEr_Proxy.inl:
+        * cuts/arch/ccm/CCM_CoWorkEr_Proxy.cpp:
+        * cuts/arch/ccm/CCM_CoWorkEr_Proxy_T.h:
+        * cuts/arch/ccm/CCM_CoWorkEr_Proxy_T.inl:
+        * cuts/arch/ccm/CCM_CoWorkEr_Proxy_T.cpp:
+        * cuts/arch/ccm/CCM_CoWorkEr_T.h:
+        * cuts/arch/ccm/CCM_CoWorkEr_T.inl:
+        * cuts/arch/ccm/CCM_CoWorkEr_T.cpp:
+        * cuts/arch/ccm/CCM_Component_T.h:
+        * cuts/arch/ccm/CCM_Component_T.inl:
+        * cuts/arch/ccm/CCM_Component_T.cpp:
+        * cuts/arch/ccm/CCM_Context_T.h:
+        * cuts/arch/ccm/CCM_Context_T.inl:
+        * cuts/arch/ccm/CCM_Context_T.cpp:
+        * cuts/arch/ccm/CCM_Event_Handler_T.h:
+        * cuts/arch/ccm/CCM_Event_Handler_T.inl:
+        * cuts/arch/ccm/CCM_Event_Handler_T.cpp:
+        * cuts/arch/ccm/CCM_Event_Producer_T.h:
+        * cuts/arch/ccm/CCM_Event_Producer_T.inl:
+        * cuts/arch/ccm/CCM_Event_Producer_T.cpp:
+        * cuts/arch/ccm/CCM_Events_T.h:
+        * cuts/arch/ccm/CCM_Events_T.inl:
+        * cuts/arch/ccm/CCM_Events_T.cpp:
+        * cuts/arch/ccm/CCM_Factory_T.h:
+        * cuts/arch/ccm/CCM_Factory_T.cpp:
+        * cuts/arch/ccm/CUTS_CIAO.idl:
+        * cuts/arch/ccm/CUTS_CIAO.mpc:
+        * cuts/arch/ccm/CUTS_stub_export.h:
+        * cuts/arch/ccm/events_i.h:
+        * cuts/arch/ccm/events_i.inl:
+        * cuts/arch/ccm/events_i.cpp:
+
+          . Moved the CCM/CIAO specific abstraction to their own directory
+            under the architectures.
+
+        * cuts/CCM_CoWorkEr_Proxy.h:
+        * cuts/CCM_CoWorkEr_Proxy.inl:
+        * cuts/CCM_CoWorkEr_Proxy.cpp:
+        * cuts/CCM_CoWorkEr_Proxy_T.h:
+        * cuts/CCM_CoWorkEr_Proxy_T.inl:
+        * cuts/CCM_CoWorkEr_Proxy_T.cpp:
+        * cuts/CCM_CoWorkEr_T.h:
+        * cuts/CCM_CoWorkEr_T.inl:
+        * cuts/CCM_CoWorkEr_T.cpp:
+        * cuts/CCM_Component_T.h:
+        * cuts/CCM_Component_T.inl:
+        * cuts/CCM_Component_T.cpp:
+        * cuts/CCM_Context_T.h:
+        * cuts/CCM_Context_T.inl:
+        * cuts/CCM_Context_T.cpp:
+        * cuts/CCM_Event_Handler_T.h:
+        * cuts/CCM_Event_Handler_T.inl:
+        * cuts/CCM_Event_Handler_T.cpp:
+        * cuts/CCM_Event_Producer_T.h:
+        * cuts/CCM_Event_Producer_T.inl:
+        * cuts/CCM_Event_Producer_T.cpp:
+        * cuts/CCM_Events_T.h:
+        * cuts/CCM_Events_T.inl:
+        * cuts/CCM_Events_T.cpp:
+        * cuts/CCM_Factory_T.h:
+        * cuts/CCM_Factory_T.cpp:
+        * cuts/CUTS_CIAO.idl:
+        * cuts/CUTS_CIAO.mpc:
+        * cuts/CUTS_stub_export.h:
+        * cuts/events_i.h:
+        * cuts/events_i.inl:
+        * cuts/events_i.cpp:
+
+          Removed these files.
+
 Sat Apr 11 18:41:05 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * tests/cuts/workers/CPU/Thread_Test.cpp:

@@ -61,6 +61,10 @@ public:
 
   virtual void bind (ACE_UINT32 & buffer);
 
+  virtual void bind (ACE_UINT64 & value);
+
+  virtual void bind (ACE_INT64 & value);
+
   virtual void bind (float & value);
 
   virtual void bind (double & value);

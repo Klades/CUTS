@@ -72,16 +72,8 @@ namespace CUTS
     //
     // ciao_preactivate
     //
-    void Benchmark_Data_Collector_exec_i::ciao_preactivate (void)
+    void Benchmark_Data_Collector_exec_i::configuration_complete (void)
     {
-    }
-
-    //
-    // ciao_postactivate
-    //
-    void Benchmark_Data_Collector_exec_i::ciao_postactivate (void)
-    {
-
     }
 
     //
@@ -280,60 +272,22 @@ namespace CUTS
 
       return svcs._retn ();
     }
-
-    //==================================================================
-    // Benchmark_Data_Collector_Home_exec_i
-    //==================================================================
-
-    //
-    // Benchmark_Data_Collector_Home_exec_i
-    //
-    Benchmark_Data_Collector_Home_exec_i::
-      Benchmark_Data_Collector_Home_exec_i (void)
-    {
-
-    }
-
-    //
-    // ~Benchmark_Data_Collector_Home_exec_i
-    //
-    Benchmark_Data_Collector_Home_exec_i::
-      ~Benchmark_Data_Collector_Home_exec_i (void)
-    {
-
-    }
-
-    //
-    // create
-    //
-    ::Components::EnterpriseComponent_ptr
-      Benchmark_Data_Collector_Home_exec_i::create (void)
-    {
-      ::Components::EnterpriseComponent_ptr retval =
-        ::Components::EnterpriseComponent::_nil ();
-
-      ACE_NEW_THROW_EX (retval,
-                        Benchmark_Data_Collector_exec_i,
-                        ::CORBA::NO_MEMORY ());
-
-      return retval;
-    }
   }
 }
 
 //
 // create_CUTS_Benchmark_Data_Collector_Home_Impl
 //
-::Components::HomeExecutorBase_ptr
+::Components::EnterpriseComponent_ptr
 create_CUTS_Benchmark_Data_Collector_Home_Impl (void)
 {
-  ::Components::HomeExecutorBase_ptr retval =
-    ::Components::HomeExecutorBase::_nil ();
+  using namespace CUTS::CIDL_Benchmark_Data_Collector_Impl;
+
+  ::Components::EnterpriseComponent_ptr retval;
 
   ACE_NEW_RETURN (retval,
-                  CUTS::CIDL_Benchmark_Data_Collector_Impl::
-                  Benchmark_Data_Collector_Home_exec_i,
-                  ::Components::HomeExecutorBase::_nil ());
+                  Benchmark_Data_Collector_exec_i (),
+                  ::Components::EnterpriseComponent::_nil ());
 
   return retval;
 }

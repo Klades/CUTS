@@ -1,6 +1,6 @@
 // $Id$
 
-project : ciao_servant_dnc, cutslib {
+project : ciao_servant, cutslib {
   //-- additional dependencies
   after += CUTS_stub
 

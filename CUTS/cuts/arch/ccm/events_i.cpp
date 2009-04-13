@@ -1,9 +1,9 @@
 // $Id$
 
-#include "cuts/events_i.h"
+#include "events_i.h"
 
 #if !defined (__CUTS_INLINE__)
-#include "cuts/events_i.inl"
+#include "events_i.inl"
 #endif
 
 namespace OBV_CUTS
