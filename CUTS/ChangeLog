@@ -1,3 +1,18 @@
+Tue Apr 14 17:38:19 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/capi/ExecutionManager.bat:
+        * bin/capi/ExecutionManager.sh:
+        * bin/capi/NodeManager.bat:
+        * bin/capi/NodeManager.sh:
+        * bin/capi/PlanLauncher.bat:
+        * bin/capi/PlanLauncher.sh:
+        * bin/capi/RegisterMioType.sh:
+        * bin/capi/SingleProcess.bat:
+        * bin/capi/SingleProcess.sh:
+
+          . Updated the classpath to contain the new name for the
+            CUTS CAPI jarfile.
+
 Tue Apr 14 17:33:12 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * bin/capi:

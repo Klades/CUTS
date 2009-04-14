@@ -13,8 +13,8 @@
 
 @setlocal
 
-@set CLASSPATH=%CLASSPATH%;%CUTS_ROOT%\lib\cuts.java.jbi.deployment.jar
-@rem set CLASSPATH=%CLASSPATH%;%CUTS_ROOT%\lib\cuts.java.jbi.jar
+@set CLASSPATH=%CLASSPATH%;%CUTS_ROOT%\lib\cuts.java.capi.deployment.jar
+@rem set CLASSPATH=%CLASSPATH%;%CUTS_ROOT%\lib\cuts.java.capi.jar
 @rem set CLASSPATH=%CLASSPATH%;%JACORB_ROOT%\lib\jacorb.jar
 @rem set CLASSPATH=%CLASSPATH%;%LOG4J_ROOT%\log4j-1.2.15.jar
 
