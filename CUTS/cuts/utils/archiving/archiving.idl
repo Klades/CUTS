@@ -13,7 +13,7 @@
 #ifndef _CUTS_ARCHIVING_IDL_
 #define _CUTS_ARCHIVING_IDL_
 
-#include "cuts/UUID.idl"
+#include "cuts/idl/UUID.idl"
 
 module CUTS
 {

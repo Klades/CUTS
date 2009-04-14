@@ -1,0 +1,6 @@
+// $Id$
+
+project : cuts_stub {
+  libs  += CUTS_CIAO_stub
+  after += CUTS_CIAO_stub
+}

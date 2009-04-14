@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_Barrier_stub) : taolib_with_idl, cutslib {
+project (CUTS_Barrier_stub) : cuts_stub, cutslib {
   sharedname = CUTS_Barrier_stub
 
   dynamicflags += CUTS_BARRIER_STUB_BUILD_DLL

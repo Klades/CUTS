@@ -1,6 +1,6 @@
 // $Id$
 
-project : taolib {
+project : cuts_stub {
   after += CUTS_Logging_stub
   libs  += CUTS_Logging_stub
 }

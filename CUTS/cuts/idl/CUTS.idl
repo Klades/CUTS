@@ -16,7 +16,7 @@
 #ifndef _CUTS_IDL_
 #define _CUTS_IDL_
 
-#include "cuts/performance.idl"
+#include "performance.idl"
 
 module CUTS
 {

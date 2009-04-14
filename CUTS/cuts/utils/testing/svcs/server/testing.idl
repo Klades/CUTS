@@ -3,7 +3,7 @@
 #ifndef _CUTS_TESTING_IDL_
 #define _CUTS_TESTING_IDL_
 
-#include "cuts/UUID.idl"
+#include "cuts/idl/UUID.idl"
 
 module CUTS
 {

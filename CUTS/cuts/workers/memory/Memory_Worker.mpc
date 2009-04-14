@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_Memory_Worker) : cutslib {
+project (CUTS_Memory_Worker) : cuts_lib, cutslib {
   sharedname += CUTS_Memory_Worker
 
   dynamicflags += CUTS_MEMORY_WORKER_BUILD_DLL

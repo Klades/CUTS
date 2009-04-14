@@ -13,10 +13,8 @@
 #ifndef _CUTS_BENCHMARK_AGENT_T_H_
 #define _CUTS_BENCHMARK_AGENT_T_H_
 
-#include "cuts/config.h"
-#include "cuts/CUTS_export.h"
-#include "cuts/Benchmark_Agent.h"
-#include "cuts/CUTSS.h"
+#include "Benchmark_Agent.h"
+#include "idl/CUTSS.h"
 
 //=============================================================================
 /**

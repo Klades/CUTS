@@ -1,12 +1,11 @@
 // $Id$
 
-project (cutsarc) : cuts_archiving_stub, cuts_test_database, taoclient, cutsexe {
+project (cutsarc) : cuts_archiving_stub, cuts_test_database, cuts_lib, cutsexe {
   exename = cutsarc
 
   Source_Files {
     cutsarc.cpp
     Test_Archive_Client.cpp
-    // Test_Archive_Upload_Task.cpp
   }
 
   Header_Files {

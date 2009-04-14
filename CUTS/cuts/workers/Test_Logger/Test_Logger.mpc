@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_Test_Logger) : taolib, boost_base, cuts_logging_client_stub, cuts_testing_stub, cutslib {
+project (CUTS_Test_Logger) : boost_base, cuts_logging_client_stub, cuts_testing_stub, cuts_lib, cutslib {
   sharedname    = CUTS_Test_Logger
 
   dynamicflags += CUTS_TEST_LOGGER_BUILD_DLL

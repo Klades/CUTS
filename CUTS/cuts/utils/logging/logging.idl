@@ -13,9 +13,9 @@
 #ifndef _CUTS_CUTS_LOGGING_IDL_
 #define _CUTS_CUTS_LOGGING_IDL_
 
-#include "cuts/exceptions.idl"
-#include "cuts/TimeValue.idl"
-#include "cuts/UUID.idl"
+#include "cuts/idl/exceptions.idl"
+#include "cuts/idl/TimeValue.idl"
+#include "cuts/idl/UUID.idl"
 
 module CUTS
 {

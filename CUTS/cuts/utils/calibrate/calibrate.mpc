@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_calibrate) : cutsexe {
+project (CUTS_calibrate) : cuts_lib, cutsexe {
   exename = calibrate
 
   Source_Files {

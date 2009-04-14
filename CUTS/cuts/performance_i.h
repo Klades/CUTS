@@ -13,10 +13,9 @@
 #ifndef _CUTS_PERFORMANCE_I_H_
 #define _CUTS_PERFORMANCE_I_H_
 
-#include "cuts/CUTS_export.h"
-#include "cuts/performanceC.h"
-#include "cuts/Benchmark_Agent.h"
-#include "cuts/Component_Metric.h"
+#include "Benchmark_Agent.h"
+#include "Component_Metric.h"
+#include "idl/performanceC.h"
 
 void CUTS_Export
 operator >>= (const CUTS::Component_Metric & src, CUTS_Component_Metric & dst);

@@ -1,3 +1,74 @@
+Tue Apr 14 16:33:37 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_archiving_skel.mpb:
+        * MPC/config/cuts_archiving_stub.mpb:
+        * MPC/config/cuts_barrier_skel.mpb:
+        * MPC/config/cuts_barrier_stub.mpb:
+        * MPC/config/cuts_bdcsvc.mpb:
+        * MPC/config/cuts_ciao_stub.mpb:
+        * MPC/config/cuts_db.mpb:
+        * MPC/config/cuts_lib.mpb:
+        * MPC/config/cuts_logging_client_skel.mpb:
+        * MPC/config/cuts_logging_skel.mpb:
+        * MPC/config/cuts_logging_stub.mpb:
+        * MPC/config/cuts_skel.mpb:
+        * MPC/config/cuts_stub.mpb:
+        * MPC/config/cuts_testing_skel.mpb:
+        * MPC/config/cuts_testing_stub.mpb:
+        * MPC/config/cutsexe.mpb:
+        * MPC/config/cutslib.mpb:
+        * cuts/BDC/Benchmark_Data_Collector.idl:
+        * cuts/BDC/Benchmark_Data_Collector.mpc:
+        * cuts/BDC/CCM_Component_Registry.h:
+        * cuts/Benchmark_Agent_i.h:
+        * cuts/CUTS.mpc:
+        * cuts/CUTS_i.h:
+        * cuts/UUID.h:
+        * cuts/arch/ccm/CUTS_CIAO.mpc:
+        * cuts/idl/CUTS.idl:
+        * cuts/idl/CUTS.mpc:
+        * cuts/idl/CUTS_skel_export.h:
+        * cuts/idl/CUTS_stub_export.h:
+        * cuts/idl/TimeValue.idl:
+        * cuts/idl/UUID.idl:
+        * cuts/idl/exceptions.idl:
+        * cuts/idl/performance.idl:
+        * cuts/performance_i.h:
+        * cuts/utils/archiving/archiving.idl:
+        * cuts/utils/archiving/archiving.mpc:
+        * cuts/utils/archiving/client/cutsarc.mpc:
+        * cuts/utils/archiving/server/cutsarc_d.mpc:
+        * cuts/utils/barrier/barrier.mpc:
+        * cuts/utils/barrier/client/barrier.mpc:
+        * cuts/utils/barrier/server/barrier_d.mpc:
+        * cuts/utils/calibrate/calibrate.mpc:
+        * cuts/utils/db/DB.mpc:
+        * cuts/utils/logging/client/client.mpc:
+        * cuts/utils/logging/logging.idl:
+        * cuts/utils/logging/logging.mpc:
+        * cuts/utils/logging/server/server.mpc:
+        * cuts/utils/testing/svcs/logging/logging.mpc:
+        * cuts/utils/testing/svcs/server/server.mpc:
+        * cuts/utils/testing/svcs/server/testing.idl:
+        * cuts/workers/CPU/CPU_Worker.mpc:
+        * cuts/workers/Test_Logger/Test_Logger.mpc:
+        * cuts/workers/dbase/Database_Worker.mpc:
+        * cuts/workers/memory/Memory_Worker.mpc:
+        * MPC/config/cuts.mpb:
+
+          . Moved all the runtime IDL files to cuts/idl. This force much
+            needed refactoring of the project builds to ensure the CORBA
+            related projects are included by default in the non-runtime
+            projects, such as the modeling and analysis.
+
+        * cuts/CUTS.idl:
+        * cuts/TimeValue.idl:
+        * cuts/UUID.idl:
+        * cuts/exceptions.idl:
+        * cuts/performance.idl:
+
+          Removed these files.
+
 Tue Apr 14 04:01:19 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI.mpc:

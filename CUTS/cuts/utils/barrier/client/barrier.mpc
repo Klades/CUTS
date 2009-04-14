@@ -1,6 +1,6 @@
 // $Id$
 
-project (cuts-barrier) : cuts_barrier_skel, cutsexe {
+project (cuts-barrier) : cuts_barrier_skel, cuts_lib, cutsexe {
   exename = cuts-barrier
 
   Source_Files {

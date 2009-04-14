@@ -1,24 +1,8 @@
 // $Id$
 
-project (CUTS) : boost_base, portableserver, anytypecode, cutslib {
-  sharedname = CUTS
-
-  idlflags += -Wb,export_macro=CUTS_Export \
-              -Wb,export_include=CUTS_export.h \
-              -I $(CUTS_ROOT)
-
+project (CUTS) : boost_base, cuts_skel, cutslib {
+  sharedname    = CUTS
   dynamicflags += CUTS_BUILD_DLL
-
-  after -= CUTS
-  libs  -= CUTS
-
-  IDL_Files {
-    CUTS.idl
-    exceptions.idl
-    performance.idl
-    TimeValue.idl
-    UUID.idl
-  }
 
   Header_Files {
     Activation_Record_Log.h

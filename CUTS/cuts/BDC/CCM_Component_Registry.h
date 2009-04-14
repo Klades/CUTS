@@ -13,7 +13,7 @@
 #ifndef _CUTS_CCM_COMPONENT_REGISTRY_H_
 #define _CUTS_CCM_COMPONENT_REGISTRY_H_
 
-#include "cuts/CUTSC.h"
+#include "cuts/idl/CUTSC.h"
 #include "cuts/Component_Registry_Node.h"
 
 namespace CUTS

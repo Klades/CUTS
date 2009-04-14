@@ -1,0 +1,9 @@
+// $Id$
+
+project : portableserver, cuts_stub {
+  includes += $(CUTS_ROOT)
+  idlflags += -I$(CUTS_ROOT)
+
+  after += CUTS_skel
+  libs  += CUTS_skel
+}

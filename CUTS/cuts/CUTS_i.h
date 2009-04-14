@@ -13,9 +13,9 @@
 #ifndef _CUTS_I_H_
 #define _CUTS_I_H_
 
-#include "cuts/CUTSC.h"
-#include "cuts/Component_Type.h"
-#include "cuts/Benchmark_Agent.h"
+#include "idl/CUTSC.h"
+#include "Component_Type.h"
+#include "Benchmark_Agent.h"
 
 //=============================================================================
 // @@ extraction operations

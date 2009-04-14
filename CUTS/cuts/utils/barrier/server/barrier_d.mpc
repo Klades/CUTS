@@ -1,6 +1,6 @@
 // $Id$
 
-project (cuts-barrier_d) : iortable, cuts_barrier_skel, cutsexe {
+project (cuts-barrier_d) : iortable, cuts_barrier_skel, cuts_lib, cutsexe {
   exename = cuts-barrier_d
 
   Source_Files {

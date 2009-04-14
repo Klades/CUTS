@@ -14,7 +14,8 @@
 #define _CUTS_UUID_H_
 
 #include "ace/UUID.h"
-#include "cuts/UUIDC.h"
+#include "idl/UUIDC.h"
+#include "CUTS_export.h"
 
 /**
  * Extract a ESIA::UUID from the CORBA structure and store it in an

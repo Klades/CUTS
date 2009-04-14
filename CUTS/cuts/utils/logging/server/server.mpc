@@ -21,7 +21,7 @@ project (CUTS_Logging_Server_Xml) : xsc_cxx {
   }
 }
 
-project (CUTS_Logging_Server_stub) :  taolib_with_idl, cuts_logging_stub, cutslib {
+project (CUTS_Logging_Server_stub) :  cuts_stub, cuts_logging_stub, cutslib {
   sharedname = CUTS_Logging_Server_stub
 
   idlflags += -Wb,skel_export_macro=CUTS_TEST_LOGGING_SERVER_SKEL_Export \
@@ -49,7 +49,7 @@ project (CUTS_Logging_Server_stub) :  taolib_with_idl, cuts_logging_stub, cutsli
   }
 }
 
-project (CUTS_Logging_Server) : boost_base, xscrt, iortable, cuts_test_database, cuts_logging_server_skel, cutslib {
+project (CUTS_Logging_Server) : boost_base, xscrt, iortable, cuts_test_database, cuts_logging_server_skel, cuts_lib, cutslib {
   sharedname = CUTS_Logging_Server
 
   dynamicflags += CUTS_TEST_LOGGING_SERVER_BUILD_DLL

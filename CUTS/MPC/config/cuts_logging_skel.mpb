@@ -1,6 +1,6 @@
 // $Id$
 
-project : portableserver, cuts_logging_stub {
+project : cuts_skel, cuts_logging_stub {
   after += CUTS_Logging_skel
   libs  += CUTS_Logging_skel
 }

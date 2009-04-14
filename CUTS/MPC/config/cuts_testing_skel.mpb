@@ -1,6 +1,6 @@
 // $Id$
 
-project : portableserver, cuts_testing_stub {
+project : cuts_skel, cuts_testing_stub {
   after += CUTS_Testing_Server_skel
   libs  += CUTS_Testing_Server_skel
 

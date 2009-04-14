@@ -1,9 +1,9 @@
 // $Id$
 
-project : taolib, cutslib {
+project : taolib_with_idl {
   includes += $(CUTS_ROOT)
   idlflags += -I$(CUTS_ROOT)
 
-  after += CUTS_CIAO_stub
+  after += CUTS_stub
   libs  += CUTS_stub
 }

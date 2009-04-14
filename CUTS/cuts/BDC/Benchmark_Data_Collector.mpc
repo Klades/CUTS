@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_BDC) : portableserver, cutslib {
+project (CUTS_BDC) : portableserver, cuts_lib, cutslib {
   sharedname = CUTS_BDC
 
   dynamicflags += CUTS_BDC_BUILD_DLL
@@ -88,7 +88,7 @@ project (Benchmark_Data_Collector_skel) : requires_ciao, ciao_executor, ciaocidl
   }
 }
 
-project (Benchmark_Data_Collector_svnt) : requires_ciao, cuts_bdcsvc, cuts_servant_dnc {
+project (Benchmark_Data_Collector_svnt) : requires_ciao, cuts_bdcsvc, cuts_skel,cuts_servant_dnc {
   sharedname   = Benchmark_Data_Collector_svnt
   dynamicflags = BENCHMARK_DATA_COLLECTOR_SVNT_BUILD_DLL
 
@@ -111,7 +111,7 @@ project (Benchmark_Data_Collector_svnt) : requires_ciao, cuts_bdcsvc, cuts_serva
   }
 }
 
-project (Benchmark_Data_Collector_exec) : requires_ciao, cuts_component_dnc {
+project (Benchmark_Data_Collector_exec) : requires_ciao, cuts_lib, cuts_component_dnc {
   sharedname  = Benchmark_Data_Collector_exec
 
   after      += Benchmark_Data_Collector_skel \

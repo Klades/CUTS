@@ -1,6 +1,6 @@
 // $Id$
 
-project : portableserver, cuts_barrier_stub {
+project : cuts_skel, cuts_barrier_stub {
   after += CUTS_Barrier_skel
   libs  += CUTS_Barrier_skel
 }

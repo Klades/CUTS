@@ -1,9 +1,6 @@
 // $Id$
 
 project : acelib, cuts_base {
-  libs  += CUTS
-  after += CUTS
-
   libout = $(CUTS_ROOT)/lib
   dllout = $(CUTS_ROOT)/lib
 }

@@ -1,6 +1,6 @@
 // $Id$
 
-project {
+project : acelib {
   after += CUTS
   libs  += CUTS
 }
