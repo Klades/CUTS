@@ -74,7 +74,7 @@ Visit_Event (const PICML::Event & event)
 //
 void CUTS_BE_CAPI_Event_Impl_Generator::write_includes (void)
 {
-  static const char * str = "import CUTS.jbi.client.JbiEvent;"
+  static const char * str = "import cuts.jbi.client.JbiEvent;"
                             "import org.infospherics.jbi.client.exception.*;"
                             "import org.infospherics.jbi.client.InfoObject;"
                             "import org.exolab.castor.mapping.*;"

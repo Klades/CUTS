@@ -1,3 +1,11 @@
+Tue Apr 14 18:50:11 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Event_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Generators.cpp:
+
+          . Updated the code generator to be consistent with the lastest
+            version of CUTS runtime architecture for the CAPI.
+
 Tue Apr 14 18:34:55 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/capi/cuts.java.jbi.build:
