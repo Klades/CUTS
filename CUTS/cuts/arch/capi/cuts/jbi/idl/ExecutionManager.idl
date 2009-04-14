@@ -1,0 +1,58 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ *  @file       ExecutionManager.idl
+ *
+ * $Id$
+ *
+ * @author      James H. Hill
+ */
+//=============================================================================
+
+#ifndef _EXECUTION_MANAGER_IDL_
+#define _EXECUTION_MANAGER_IDL_
+
+#include "Deployment.idl"
+#include "DomainApplicationManager.idl"
+
+module cuts
+{
+  module jbi
+  {
+    module deployment
+    {
+      typedef sequence <DomainApplicationManager> DomainApplicationManagers;
+
+      /**
+       * @interface ExecutionManager
+       *
+       * Interface for the execution manager of the deployment tool. The
+       * execution manager is responsible for receiving deployment plans
+       * in packaged format and contacting individual nodes for deploying
+       * each instance.
+       */
+      interface ExecutionManager
+      {
+        /**
+         * Deploy a plan into the execution environment.
+         *
+         * @param[in]       deploymentPlan      Deployment plan info.
+         */
+        DomainApplicationManager preparePlan (in DeploymentPlan plan);
+
+        /**
+         * Teardown an entire plan give its unique id.
+         *
+         * @param[in]       deploymentPlanID      Deployment plan id.
+         */
+        void destroyManager (in DomainApplicationManager manager);
+
+        /// Get the managed domain application managers.
+        DomainApplicationManagers getManagers ();
+      };
+    };
+  };
+};
+
+#endif  // !defined _EXECUTION_MANAGER_IDL_

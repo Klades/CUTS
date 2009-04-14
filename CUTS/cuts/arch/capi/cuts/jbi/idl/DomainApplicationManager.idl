@@ -1,0 +1,35 @@
+// -*-IDL -*-
+
+//=============================================================================
+/**
+ * @file        DomainApplicationManager.idl
+ *
+ * $Id$
+ *
+ * @author      James H. Hill
+ */
+//=============================================================================
+
+#ifndef _JBI_DOMAIN_APPLICATION_MANAGER_IDL_
+#define _JBI_DOMAIN_APPLICATION_MANAGER_IDL_
+
+#include "ApplicationManager.idl"
+
+module cuts
+{
+  module jbi
+  {
+    module deployment
+    {
+      interface DomainApplicationManager : ApplicationManager
+      {
+        /// Get the deployment plan associated with this manager.
+        DeploymentPlan getPlan ();
+
+        // sequence <Application> getApplications ();
+      };
+    };
+  };
+};
+
+#endif  // !defined _JBI_DOMAIN_APPLICATION_MANAGER_IDL_

@@ -1,0 +1,28 @@
+// -*- IDL -*-
+
+#ifndef _JBI_APPLICATION_PROCESS_IDL_
+#define _JBI_APPLICATION_PROCESS_IDL_
+
+module cuts
+{
+  module jbi
+  {
+    module deployment
+    {
+      interface ApplicationProcess
+      {
+        readonly attribute string name;
+
+        boolean installClient (in string instanceName);
+
+        boolean uninstallClient (in string instanceName);
+
+        void start ();
+
+        void shutdown ();
+      };
+    };
+  };
+};
+
+#endif  // !defined _JBI_SINGLE_PROCESS_IDL_
