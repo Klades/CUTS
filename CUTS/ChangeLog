@@ -1,3 +1,9 @@
+Tue Apr 14 16:55:59 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/java/cuts.java.build:
+
+          . Fixed build errors related to location of the IDL files.
+
 Tue Apr 14 16:52:47 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * CUTS_Runtime_Arch.mwc:

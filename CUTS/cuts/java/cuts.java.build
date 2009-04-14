@@ -27,7 +27,7 @@
 
       <arg line="-I${cuts.src.dir}" />
       <arg line="-d ${cuts.java.dir}" />
-      <arg line="${cuts.src.dir}/TimeValue.idl" />
+      <arg line="${cuts.src.dir}/idl/TimeValue.idl" />
     </java>
 
     <java classname="org.jacorb.idl.parser"
@@ -36,7 +36,7 @@
 
       <arg line="-I${cuts.src.dir}" />
       <arg line="-d ${cuts.java.dir}" />
-      <arg line="${cuts.src.dir}/UUID.idl" />
+      <arg line="${cuts.src.dir}/idl/UUID.idl" />
     </java>
 
     <java classname="org.jacorb.idl.parser"
@@ -45,7 +45,7 @@
 
       <arg line="-I${cuts.src.dir}" />
       <arg line="-d ${cuts.java.dir}" />
-      <arg line="${cuts.src.dir}/exceptions.idl" />
+      <arg line="${cuts.src.dir}/idl/exceptions.idl" />
     </java>
 
     <javac srcdir="${cuts.src.dir}/java"
