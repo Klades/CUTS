@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{3E76ABE5-6E56-46A8-AFDD-8B5AB72F153F}" cdate="Tue Apr 14 15:11:49 2009" mdate="Tue Apr 14 15:11:49 2009" version="" metaguid="{BD6CF72A-77F9-4382-9B59-7A05735292FC}" metaversion="" metaname="PICML">
+	<name>CAPI</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x2" kind="RootFolder" guid="{ED85671D-EF29-4c87-94DE-7AC6D3BAAA94}">
+		<name>CAPI</name>
+		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x1" kind="InterfaceDefinitions" guid="{CB8074D7-6BC4-44a2-8D3A-7DB1B04F3F41}">
+			<name>InterfaceDefinitions</name>
+			<model id="id-0065-00000001" kind="File" guid="{5333B1F2-DAB9-47d0-9335-57B9C2C6405A}" relid="0x1" childrelidcntr="0x1">
+				<name>CUTS</name>
+				<attribute kind="PrefixTag" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="path" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-00000002" kind="Package" role="Package" guid="{83157B2C-5430-4170-B29B-10DFA5D95B05}" relid="0x1" childrelidcntr="0x1">
+					<name>cuts</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="InterfaceDefinition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>114,135</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="PrefixTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="SpecifyIdTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VersionTag" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000003" kind="Package" role="Package" guid="{EFDBCDE7-E8A6-464e-B19B-650DCAEF91D1}" relid="0x1" childrelidcntr="0x1">
+						<name>jbi</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>212,156</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="PrefixTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+						<model id="id-0065-00000004" kind="Package" role="Package" guid="{39B64350-CF08-4939-B16E-70DD711DC0CA}" relid="0x1" childrelidcntr="0x1">
+							<name>client</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="InterfaceDefinition" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>219,233</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="PrefixTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<model id="id-0065-00000005" kind="Event" role="Event" guid="{893C7D9A-7BE6-499c-8293-0A995321E800}" relid="0x1" childrelidcntr="0x3">
+								<name>JbiAnyEvent</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="InterfaceDefinition" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>233,191</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="PrefixTag" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="SpecifyIdTag" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="VersionTag" status="meta">
+									<value></value>
+								</attribute>
+								<attribute kind="abstract" status="meta">
+									<value>false</value>
+								</attribute>
+								<reference id="id-0067-00000001" kind="Member" role="Member" guid="{FFA773C9-6589-4708-BDA2-BFBB14385A82}" relid="0x1" referred="id-0066-00000001">
+									<name>metadata</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="InterfaceDefinition" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>165,165</value>
+											</regnode>
+										</regnode>
+									</regnode>
+								</reference>
+								<reference id="id-0067-00000002" kind="Collection" role="Collection" guid="{CFC6CCFE-9F55-49b4-9AD6-34282B970280}" relid="0x2" referred="id-0066-00000002">
+									<name>payload</name>
+									<regnode name="PartRegs" status="undefined">
+										<value></value>
+										<regnode name="InterfaceDefinition" status="undefined">
+											<value></value>
+											<regnode name="Position" isopaque="yes">
+												<value>181,265</value>
+											</regnode>
+										</regnode>
+									</regnode>
+									<attribute kind="SpecifyIdTag" status="meta">
+										<value></value>
+									</attribute>
+									<attribute kind="VersionTag" status="meta">
+										<value></value>
+									</attribute>
+									<attribute kind="bound" status="meta">
+										<value></value>
+									</attribute>
+								</reference>
+							</model>
+						</model>
+					</model>
+				</model>
+			</model>
+		</folder>
+		<folder id="id-006a-00000003" relid="0x2" childrelidcntr="0x2" kind="PredefinedTypes" guid="{7AE1857C-66C3-413b-A49A-AB5A02B16C35}">
+			<name>PredefinedTypes</name>
+			<atom id="id-0066-00000001" kind="String" guid="{08C93EB3-BBE2-4c1c-A408-0BAF9FA05427}" relid="0x1">
+				<name>String</name>
+			</atom>
+			<atom id="id-0066-00000002" kind="Byte" guid="{407933AD-18AA-48ae-8D1D-8C5861A4177A}" relid="0x2">
+				<name>Byte</name>
+			</atom>
+		</folder>
+	</folder>
+</project>

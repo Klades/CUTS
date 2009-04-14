@@ -338,21 +338,6 @@ Visit_InEventPort (const PICML::InEventPort & sink)
   exec_visitor.generate (sink);
 
   CUTS_BE_InEventPort_End_T <BE_TYPE>::generate (sink, properties);
-
-  //if (query_input != Udm::null)
-  //{
-  //  // Get the properties associated with the input port.
-  //  PICML::QueryAction action = query_input.dstQueryInput_end ();
-  //  properties = action.Property_children ();
-
-  //  // We are geneating a query-based input port.
-  //  CUTS_BE_Query_InEventPort_Begin_T <BE_TYPE>::generate (sink, properties);
-
-  //  CUTS_BE_Execution_Visitor_T <BE_TYPE> exec_visitor;
-  //  exec_visitor.generate (sink);
-
-  //  CUTS_BE_Query_InEventPort_End_T <BE_TYPE>::generate (sink, properties);
-  //}
 }
 
 //

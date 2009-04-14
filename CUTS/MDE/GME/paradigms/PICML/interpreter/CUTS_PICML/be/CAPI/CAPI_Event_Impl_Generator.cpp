@@ -28,14 +28,18 @@ CUTS_BE_CAPI_Event_Impl_Generator::~CUTS_BE_CAPI_Event_Impl_Generator (void)
 void CUTS_BE_CAPI_Event_Impl_Generator::
 Visit_Event (const PICML::Event & event)
 {
+  std::string fq_name = CUTS_BE_Capi::fq_name (event, '/');
+
+  if (fq_name == "cuts/jbi/client/JbiAnyEvent")
+    return;
+
   // Save the name of the class.
   this->type_ = CUTS_BE_Capi::classname (event.SpecifyIdTag ());
   this->impl_ = this->type_ + "Impl";
 
   // Construct the filename for the implementation.
   std::ostringstream filename;
-  filename << this->outdir_ << "/"
-           << CUTS_BE_Capi::fq_name (event, '/')
+  filename << this->outdir_ << "/" << fq_name
            << "/" << this->impl_ << ".java";
 
   this->outfile_.open (filename.str ().c_str ());

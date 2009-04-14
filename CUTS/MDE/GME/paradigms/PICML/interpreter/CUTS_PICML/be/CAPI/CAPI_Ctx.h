@@ -61,6 +61,8 @@ public:
 
   static PredefinedType_Map predefined_type_map_;
 
+  static const std::pair <std::string, std::string> jbi_anyevent_;
+
   /// Default constructor.
   CUTS_BE_Capi (void);
 

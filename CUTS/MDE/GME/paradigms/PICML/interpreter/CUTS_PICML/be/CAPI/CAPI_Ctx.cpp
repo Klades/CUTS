@@ -7,6 +7,9 @@
 //
 CUTS_BE_Capi::PredefinedType_Map CUTS_BE_Capi::predefined_type_map_;
 
+const std::pair <std::string, std::string>
+CUTS_BE_Capi::jbi_anyevent_ = std::make_pair ("cuts.jbi.client.JbiAnyEvent", "cuts/jbi/client/JbiAnyEvent");
+
 //
 // CUTS_BE_Capi
 //

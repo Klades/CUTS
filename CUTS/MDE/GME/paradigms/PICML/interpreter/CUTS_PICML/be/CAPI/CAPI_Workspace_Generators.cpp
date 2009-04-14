@@ -42,7 +42,14 @@ generate (const std::string & name)
     << std::endl
     << "<target name=\"build.all\" depends=\"build.impl\" />" << std::endl
     << std::endl
-    << "<target name=\"build.impl\" depends=\"build.events\">" << std::endl;
+    << "<target name=\"build.impl\"";
+
+  // Determine if we need to build events in this project.
+  if (!CUTS_BE_CAPI ()->workspace_events_.empty ())
+    CUTS_BE_CAPI ()->workspace_file_ << " depends=\"build.events\"";
+
+  CUTS_BE_CAPI ()->workspace_file_
+    << ">" << std::endl;
 
   return true;
 }
@@ -69,15 +76,21 @@ bool CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::
 generate (const std::string & name)
 {
   // Force the generation of the project that will
-  CUTS_BE_CAPI ()->workspace_file_
-    << "</target>" << std::endl
-    << std::endl
-    << "<target name=\"build.events\">" << std::endl;
+  CUTS_BE_CAPI ()->workspace_file_ << "</target>" << std::endl;
 
-  CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::generate_eventtypes_project ();
+  if (!CUTS_BE_CAPI ()->workspace_events_.empty ())
+  {
+    CUTS_BE_CAPI ()->workspace_file_
+      << std::endl
+      << "<target name=\"build.events\">" << std::endl;
+
+    CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::generate_eventtypes_project ();
+
+    CUTS_BE_CAPI ()->workspace_file_
+      << "</target>" << std::endl;
+  }
 
   CUTS_BE_CAPI ()->workspace_file_
-    << "</target>" << std::endl
     << "</project>" << std::endl
     << std::endl
     << "<!-- end of auto-generated file -->" << std::endl;
@@ -91,9 +104,6 @@ generate (const std::string & name)
 void CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::
 generate_eventtypes_project (void)
 {
-  if (CUTS_BE_CAPI ()->workspace_events_.empty ())
-    return;
-
   // Construct the name of the build file for events.
   std::ostringstream filename;
   filename

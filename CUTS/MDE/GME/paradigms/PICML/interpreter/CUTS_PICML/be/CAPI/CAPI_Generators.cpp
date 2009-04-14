@@ -91,7 +91,7 @@ generate (const PICML::ComponentImplementationContainer & container,
     << std::endl
     << "import org.infospherics.jbi.client.Connection;"
     << "import org.infospherics.jbi.client.exception.*;"
-    << "import cuts.jbi.client.JbiClient;";
+    << "import cuts.jbi.client.*;";
 
   return true;
 }
@@ -129,8 +129,7 @@ generate (const PICML::MonolithicImplementation & mono,
         << std::endl
         << "// imports for receiving MIOs" << std::endl
         << "import org.infospherics.jbi.client.ObjectAvailableCallback;"
-        << "import org.infospherics.jbi.client.InfoObject;"
-        << "import cuts.jbi.client.JbiSink;";
+        << "import org.infospherics.jbi.client.InfoObject;";
 
       // Store the event types for later usage. We also need to
       // generate the import files for the event objects.
@@ -147,26 +146,23 @@ generate (const PICML::MonolithicImplementation & mono,
         version = event.VersionTag ();
         type_name = CUTS_BE_Capi::fq_name (event, '.');
 
-        // Save the event to the globally.
-        CUTS_BE_CAPI ()->workspace_events_.insert (event);
+        if (type_name != CUTS_BE_Capi::jbi_anyevent_.first)
+        {
+          // Store it in the event type for later on.
+          CUTS_BE_CAPI ()->workspace_events_.insert (event);
+          event_types.insert (type_name);
 
-        // Store it in the event types for later on.
-        event_types.insert (type_name);
+          // Store the name of the event since we need to tell the ANT file to
+          // generate the Java bindings for its schema definition.
+          CUTS_BE_CAPI ()->impl_node_->maplist_["events"].insert (type_name);
+        }
 
-        // Store the name of the event since we need to tell the ANT file to
-        // generate the Java bindings for its schema definition.
-        CUTS_BE_CAPI ()->impl_node_->maplist_["events"].insert (type_name);
         CUTS_BE_CAPI ()->sinks_.insert (std::make_pair (iter->name (), event));
       }
     }
 
     if (!outputs.empty ())
     {
-      CUTS_BE_CAPI ()->outfile_
-        << std::endl
-        << "// imports for sending MIOs" << std::endl
-        << "import cuts.jbi.client.JbiSource;";
-
       // Store the event types for later usage. We also need to
       // generate the import files for the event objects.
       PICML::Event event;
@@ -182,20 +178,22 @@ generate (const PICML::MonolithicImplementation & mono,
         version = event.VersionTag ();
         type_name = CUTS_BE_Capi::fq_name (event, '.');
 
-        // Save the event to the globally.
-        CUTS_BE_CAPI ()->workspace_events_.insert (event);
+        if (type_name != CUTS_BE_Capi::jbi_anyevent_.first)
+        {
+          // Store it in the event type for later on.
+          CUTS_BE_CAPI ()->workspace_events_.insert (event);
+          event_types.insert (type_name);
 
-        // Store it in the event types for later on.
-        event_types.insert (type_name);
+          // Store the name of the event since we need to tell the ANT file to
+          // generate the Java bindings for its schema definition.
+          CUTS_BE_CAPI ()->impl_node_->maplist_["events"].insert (type_name);
 
-        // Store the name of the event since we need to tell the ANT file to
-        // generate the Java bindings for its schema definition.
-        CUTS_BE_CAPI ()->impl_node_->maplist_["events"].insert (type_name);
+          // Save the event's information in the sources collection.
+          if (version.empty ())
+            version = "1.0";
+        }
 
-        // Save the event's information in the sources collection.
-        if (version.empty ())
-          version = "1.0";
-
+        // Regardless of the event, we need to store it for later.
         CUTS_BE_CAPI ()->sources_.insert (std::make_pair (iter->name (), event));
       }
     }
@@ -358,39 +356,69 @@ generate (const PICML::MonolithicImplementation & mono,
     source_variable = iter->first + "_";
 
     type_name = CUTS_BE_CAPI ()->fq_name (iter->second, '.');
-    version = iter->second.VersionTag ();
 
-    if (version.empty ())
+    if (type_name != CUTS_BE_Capi::jbi_anyevent_.first)
     {
-      version = "1.0";
-      iter->second.VersionTag () = version;
-    }
+      version = iter->second.VersionTag ();
 
-    CUTS_BE_CAPI ()->outfile_
-      << std::endl
-      << "/**" << std::endl
-      << " * publisherName    : " << iter->first << std::endl
-      << " * publisherType    : " << type_name << std::endl
-      << " * publisherVersion : " << version << std::endl
-      << " */" << std::endl
-      << "private class " << source_classname << " extends JbiSource"
-      << "{"
-      << "public " << source_classname << " ("
-      << CUTS_BE_CAPI ()->impl_classname_ << " parent)" << std::endl
-      << "  throws PermissionDeniedException, UnsupportedVersionException," << std::endl
-      << "         MappingException, IOException" << std::endl
-      << "{"
-      << "super (parent.getJbiConnection (), \""
-      << type_name << "\", \"" << version << "\");"
-      << "}"
-      << "}"
-      << std::endl
-      << "/**" << std::endl
-      << " * publisherVariable : " << iter->first << std::endl
-      << " */" << std::endl
-      << "private " << source_classname << " "
-      << source_variable << " = null;"
-      << std::endl;
+      if (version.empty ())
+      {
+        version = "1.0";
+        iter->second.VersionTag () = version;
+      }
+
+      CUTS_BE_CAPI ()->outfile_
+        << std::endl
+        << "/**" << std::endl
+        << " * publisherName    : " << iter->first << std::endl
+        << " * publisherType    : " << type_name << std::endl
+        << " * publisherVersion : " << version << std::endl
+        << " */" << std::endl
+        << "private class " << source_classname << " extends JbiSource"
+        << "{"
+        << "public " << source_classname << " ("
+        << CUTS_BE_CAPI ()->impl_classname_ << " parent)" << std::endl
+        << "  throws PermissionDeniedException, UnsupportedVersionException," << std::endl
+        << "         MappingException, SequenceStateException, IOException" << std::endl
+        << "{"
+        << "super (parent.getJbiConnection (), \""
+        << type_name << "\", \"" << version << "\");"
+        << "}"
+        << "}"
+        << std::endl
+        << "/**" << std::endl
+        << " * publisherVariable : " << iter->first << std::endl
+        << " */" << std::endl
+        << "private " << source_classname << " "
+        << source_variable << " = null;"
+        << std::endl;
+    }
+    else
+    {
+      CUTS_BE_CAPI ()->outfile_
+        << std::endl
+        << "/**" << std::endl
+        << " * publisherName    : " << iter->first << std::endl
+        << " * publisherType    : cuts.jbi.client.JbiAnyEvent" << std::endl
+        << " */" << std::endl
+        << "private class " << source_classname << " extends JbiSource"
+        << "{"
+        << "public " << source_classname << " ("
+        << CUTS_BE_CAPI ()->impl_classname_ << " parent)" << std::endl
+        << "  throws PermissionDeniedException, UnsupportedVersionException," << std::endl
+        << "         MappingException, IOException" << std::endl
+        << "{"
+        << "super (parent.getJbiConnection ());"
+        << "}"
+        << "}"
+        << std::endl
+        << "/**" << std::endl
+        << " * publisherVariable : " << iter->first << std::endl
+        << " */" << std::endl
+        << "private " << source_classname << " "
+        << source_variable << " = null;"
+        << std::endl;
+    }
   }
 
   if (!CUTS_BE_CAPI ()->sinks_.empty ())
@@ -424,32 +452,16 @@ generate (const PICML::MonolithicImplementation & mono,
       sink_iter = CUTS_BE_CAPI ()->sinks_.begin (),
       sink_iter_end = CUTS_BE_CAPI ()->sinks_.end ();
 
+    std::string anyevent_sink;
+
     if (sink_iter != sink_iter_end)
     {
-      type_name = CUTS_BE_CAPI ()->fq_name (sink_iter->second, '.');
-      version = sink_iter->second.VersionTag ();
+      std::string class_name;
+      std::string type_name = CUTS_BE_CAPI ()->fq_name (sink_iter->second, '.');
 
-      if (version.empty ())
+      if (type_name != CUTS_BE_Capi::jbi_anyevent_.first)
       {
-        version = "1.0";
-        sink_iter->second.VersionTag () = version;
-      }
-
-      std::string class_name = sink_iter->second.SpecifyIdTag ();
-      class_name[0] = ::toupper (class_name[0]);
-
-      CUTS_BE_CAPI ()->outfile_
-        << "if (type.equals (\""
-        << type_name << "\") && version.equals(\""
-        << version << "\"))" << std::endl
-        << "{"
-        << class_name << "Impl event =  new " << class_name << "Impl (mio);"
-        << "this." << sink_iter->first << " (event);"
-        << "}";
-
-      for (++ sink_iter; sink_iter != sink_iter_end; ++ sink_iter)
-      {
-        type_name = CUTS_BE_CAPI ()->fq_name (sink_iter->second, '.');
+        // We are working with a *regular* event.
         version = sink_iter->second.VersionTag ();
 
         if (version.empty ())
@@ -462,23 +474,91 @@ generate (const PICML::MonolithicImplementation & mono,
         class_name[0] = ::toupper (class_name[0]);
 
         CUTS_BE_CAPI ()->outfile_
-          << "else if (type.equals (\""
-          << type_name << "\" && version.equals (\""
+          << "if (type.equals (\""
+          << type_name << "\") && version.equals(\""
           << version << "\"))" << std::endl
           << "{"
-          << class_name << "Impl event = new " << class_name << "Impl (mio);"
+          << class_name << "Impl event =  new " << class_name << "Impl (mio);"
           << "this." << sink_iter->first << " (event);"
           << "}";
       }
+      else
+      {
+        // Save the name of the any event sink.
+        anyevent_sink = sink_iter->first;
+      }
 
-      CUTS_BE_CAPI ()->outfile_
-        << "else"
-        << "{"
-        << "System.err.println (\"error: callback not found [\""
-        << "+ type + \" (\" + version + \")]\");"
-        << "}";
+      // Let's interpret the remainder of the event sinks.
+      for (++ sink_iter; sink_iter != sink_iter_end; ++ sink_iter)
+      {
+        type_name = CUTS_BE_CAPI ()->fq_name (sink_iter->second, '.');
+
+        if (type_name != CUTS_BE_Capi::jbi_anyevent_.first)
+        {
+          version = sink_iter->second.VersionTag ();
+
+          if (version.empty ())
+          {
+            version = "1.0";
+            sink_iter->second.VersionTag () = version;
+          }
+
+          class_name = sink_iter->second.SpecifyIdTag ();
+          class_name[0] = ::toupper (class_name[0]);
+
+          CUTS_BE_CAPI ()->outfile_
+            << "else if (type.equals (\""
+            << type_name << "\" && version.equals (\""
+            << version << "\"))" << std::endl
+            << "{"
+            << class_name << "Impl event = new " << class_name << "Impl (mio);"
+            << "this." << sink_iter->first << " (event);"
+            << "}";
+        }
+        else
+        {
+          // Save the name of the any event sink.
+          anyevent_sink = sink_iter->first;
+        }
+      }
+
+      // Finally, we can generate the final part of the multiplex operation.
+      // This will either be an JbiAnyEvent, or an error message.
+      if (!anyevent_sink.empty ())
+      {
+        if (CUTS_BE_CAPI ()->sinks_.size () > 1)
+        {
+          // This is one of many sinks of the component.
+          CUTS_BE_CAPI ()->outfile_
+            << "else"
+            << "{"
+            << "JbiAnyEvent event = new JbiAnyEvent (mio);"
+            << "this." << anyevent_sink << " (event);"
+            << "}";
+        }
+        else
+        {
+          // This is the one and only sink of the component.
+          CUTS_BE_CAPI ()->outfile_
+            << "JbiAnyEvent event = new JbiAnyEvent (mio);"
+            << "this." << anyevent_sink << " (event);";
+        }
+      }
+      else
+      {
+        // This is the error message for an invalid event. If this part
+        // is ever reached, then there has to something wrong with the
+        // generated code.
+        CUTS_BE_CAPI ()->outfile_
+          << "else"
+          << "{"
+          << "System.err.println (\"error: callback not found [\""
+          << "+ type + \" (\" + version + \")]\");"
+          << "}";
+      }
     }
 
+    // Close off the method and the implementation.
     CUTS_BE_CAPI ()->outfile_
       << "}"
       << "}"
@@ -641,34 +721,64 @@ generate (const PICML::InEventPort & sink,
 
   // Gather information about the event.
   std::string type_name = CUTS_BE_Capi::fq_name (event, '.');
-  std::string version = event.VersionTag ();
-
-  if (version.empty ())
-    version = "1.0";
 
   // Commonly used strings based on the event's name.
   std::string sink_classname = name + "Sink";
   std::string sink_variable = name + "_";
+  bool anyevent = false;
 
-  CUTS_BE_CAPI ()->outfile_
-    << std::endl
-    << "/**" << std::endl
-    << " * subscriberName    : " << name << std::endl
-    << " * subscriberType    : " << type_name << std::endl
-    << " * subscriberVersion : " << version << std::endl
-    << " */" << std::endl
-    << "private class " << sink_classname << " extends JbiSink"
-    << "{"
-    << "public " << sink_classname << " ("
-    << CUTS_BE_CAPI ()->impl_classname_ << " parent)" << std::endl
-    << "  throws PermissionDeniedException, UnsupportedVersionException," << std::endl
-    << "         InvalidPredicateException, PredicateLanguageException," << std::endl
-    << "         PermissionDeniedException, SequenceStateException," << std::endl
-    << "         UnrecognizedObjectTypeException, MappingException," << std::endl
-    << "         IOException" << std::endl
-    << "{"
-    << "super (parent.getJbiConnection (), \""
-    << type_name << "\", \""  << version << "\");";
+  if (type_name != CUTS_BE_Capi::jbi_anyevent_.first)
+  {
+    std::string version = event.VersionTag ();
+
+    if (version.empty ())
+    {
+      version = "1.0";
+      event.VersionTag () = version;
+    }
+
+    CUTS_BE_CAPI ()->outfile_
+      << std::endl
+      << "/**" << std::endl
+      << " * subscriberName    : " << name << std::endl
+      << " * subscriberType    : " << type_name << std::endl
+      << " * subscriberVersion : " << version << std::endl
+      << " */" << std::endl
+      << "private class " << sink_classname << " extends JbiSink"
+      << "{"
+      << "public " << sink_classname << " ("
+      << CUTS_BE_CAPI ()->impl_classname_ << " parent)" << std::endl
+      << "  throws PermissionDeniedException, UnsupportedVersionException," << std::endl
+      << "         InvalidPredicateException, PredicateLanguageException," << std::endl
+      << "         PermissionDeniedException, SequenceStateException," << std::endl
+      << "         UnrecognizedObjectTypeException, MappingException," << std::endl
+      << "         IOException" << std::endl
+      << "{"
+      << "super (parent.getJbiConnection (), \""
+      << type_name << "\", \""  << version << "\");";
+  }
+  else
+  {
+    anyevent = true;
+
+    CUTS_BE_CAPI ()->outfile_
+      << std::endl
+      << "/**" << std::endl
+      << " * subscriberName    : " << name << std::endl
+      << " * subscriberType    : cuts.jbi.client.JbiAnyType" << std::endl
+      << " */" << std::endl
+      << "private class " << sink_classname << " extends JbiSink"
+      << "{"
+      << "public " << sink_classname << " ("
+      << CUTS_BE_CAPI ()->impl_classname_ << " parent)" << std::endl
+      << "  throws PermissionDeniedException, UnsupportedVersionException," << std::endl
+      << "         InvalidPredicateException, PredicateLanguageException," << std::endl
+      << "         PermissionDeniedException, SequenceStateException," << std::endl
+      << "         UnrecognizedObjectTypeException, MappingException," << std::endl
+      << "         IOException" << std::endl
+      << "{"
+      << "super (parent.getJbiConnection ());";
+  }
 
   // Configure the port based on the provided properties.
   std::for_each (properties.begin (),
@@ -689,13 +799,24 @@ generate (const PICML::InEventPort & sink,
     << sink_variable << " = null;"
     << std::endl;
 
-  std::string tag_name = event.SpecifyIdTag ();
-  tag_name[0] = ::toupper (tag_name[0]);
+  std::string event_type;
+
+  if (!anyevent)
+  {
+    event_type = "JbiEvent <";
+
+    std::string tag_name = event.SpecifyIdTag ();
+    tag_name[0] = ::toupper (tag_name[0]);
+
+    event_type += tag_name + ">";
+  }
+  else
+    event_type = "JbiAnyEvent";
 
   // Generate the start of the method's implementation.
+
   CUTS_BE_CAPI ()->outfile_
-    << "void " << sink.name ()
-    << " (JbiEvent <" << tag_name << "> ev)"
+    << "void " << sink.name () << " (" << event_type << " ev)"
     << "{"
     << "try"
     << "{";
@@ -964,14 +1085,27 @@ generate (const PICML::OutputAction & action)
 
   // Construct the fully qualified name for the event.
   std::string fq_name = CUTS_BE_CAPI ()->fq_name (event, '.');
-  std::string tagname = event.SpecifyIdTag ();
 
-  tagname[0] = ::toupper (tagname[0]);
+  std::ostringstream evid;
+  evid << "ev_" << action.uniqueId () << "_";
 
-  CUTS_BE_CAPI ()->outfile_ << "// Create a new event for publishing" << std::endl
-                            << tagname << "Impl ev_" << action.uniqueId ()
-                            << "_ = new " << tagname << "Impl ();"
-                            << std::endl;
+  if (fq_name != CUTS_BE_Capi::jbi_anyevent_.first)
+  {
+    // We are working with a *regular* event.
+    std::string tagname = event.SpecifyIdTag ();
+
+    tagname[0] = ::toupper (tagname[0]);
+
+    CUTS_BE_CAPI ()->outfile_
+      << "// Create a new event for publishing" << std::endl
+      << tagname << "Impl " << evid.str () << " = new " << tagname << "Impl ();";
+  }
+  else
+  {
+    CUTS_BE_CAPI ()->outfile_
+      << "// Create a new JbiAnyEvent for publishing" << std::endl
+      << "JbiAnyEvent " << evid.str () << " = new JbiAnyEvent ();";
+  }
 
   return true;
 }
