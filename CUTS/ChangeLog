@@ -1,3 +1,25 @@
+Tue Apr 14 17:33:12 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * bin/capi:
+
+          . Changed the name of the directory to be in sync with the
+            runtime architecture's directory.
+
+        * bin/jbi:
+        * bin/jbi/ExecutionManager.bat:
+        * bin/jbi/ExecutionManager.sh:
+        * bin/jbi/NameService.bat:
+        * bin/jbi/NameService.sh:
+        * bin/jbi/NodeManager.bat:
+        * bin/jbi/NodeManager.sh:
+        * bin/jbi/PlanLauncher.bat:
+        * bin/jbi/PlanLauncher.sh:
+        * bin/jbi/RegisterMioType.sh:
+        * bin/jbi/SingleProcess.bat:
+        * bin/jbi/SingleProcess.sh:
+
+          Removed these files.
+
 Tue Apr 14 17:29:15 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/capi:
