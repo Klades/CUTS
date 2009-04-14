@@ -1,3 +1,17 @@
+Tue Apr 14 20:07:19 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/capi/cuts/jbi/client/JbiAnyEvent.java:
+        * cuts/arch/capi/cuts/jbi/client/JbiEvent.java:
+        * cuts/arch/capi/cuts/jbi/client/JbiEventBase.java:
+        * cuts/arch/capi/cuts/jbi/client/JbiPort.java:
+        * cuts/arch/capi/cuts/jbi/client/JbiSink.java:
+        * cuts/arch/capi/cuts/jbi/client/JbiSource.java:
+
+          . Added support the dynamic source/sinks (i.e., ones that can
+            be configured at runtime, and any events (i.e., events that
+            are not bound to a static type). Using such events, however,
+            does not enable support for manipulating an event's metadata.
+
 Tue Apr 14 18:50:11 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Event_Impl_Generator.cpp:

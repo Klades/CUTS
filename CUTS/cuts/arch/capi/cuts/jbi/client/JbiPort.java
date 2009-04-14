@@ -31,11 +31,9 @@ public class JbiPort
    * @param[in]           typeName        MIO typename for port
    * @param[in]           typeVersion     MIO version for port
    */
-  public JbiPort (Connection jbiConn, String typeName, String typeVersion)
+  public JbiPort (Connection jbiConn)
   {
     this.jbiConn_ = jbiConn;
-    this.typeName_ = typeName;
-    this.typeVersion_ = typeVersion;
   }
 
   /**
@@ -69,12 +67,11 @@ public class JbiPort
   }
 
   /// The connection for the source.
-  private Connection jbiConn_ = null;
+  protected Connection jbiConn_ = null;
 
   /// The information object's type.
-  private String typeName_;
+  protected String typeName_;
 
   /// The information object's version.
-  private String typeVersion_;
-
+  protected String typeVersion_;
 }

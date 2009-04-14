@@ -1,3 +1,6 @@
+// -*- Java -*-
+
+//=============================================================================
 /**
  * @file      JbiSource.java
  *
@@ -5,33 +8,21 @@
  *
  * @author      James H. Hill
  */
+//=============================================================================
 
 package cuts.jbi.client;
 import org.infospherics.jbi.client.InfoObject;
 import org.infospherics.jbi.client.exception.*;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.ValidationException;
-import java.util.Random;
 import java.io.IOException;
 
 /**
  * Base class for all JBI events generated using CUTS. This object
  * of abstraction simplifies reading/writing MIOs.
  */
-public abstract class JbiEvent <T>
+public abstract class JbiEvent <T> extends JbiEventBase
 {
-  /// Payload associated with the event.
-  protected byte [] payload_ = null;
-
-  /// Information object for the event.
-  protected InfoObject infoObject_ = null;
-
-  /// String version of the metadata.
-  protected String metadataString_ = null;
-
-  /// Random number generator that determines event payload size.
-  private static Random random_ = new Random ();
-
   /// Metadata for the JBI event.
   protected T metadata_ = null;
 
@@ -58,8 +49,8 @@ public abstract class JbiEvent <T>
    */
   public JbiEvent (T metadata, byte [] payload)
   {
+    super (null, payload);
     this.metadata_ = metadata;
-    this.payload_ = payload;
   }
 
   /**
@@ -69,7 +60,7 @@ public abstract class JbiEvent <T>
    */
   public JbiEvent (InfoObject mio)
   {
-    this.infoObject_ = mio;
+    super (mio);
   }
 
   /**
@@ -81,14 +72,6 @@ public abstract class JbiEvent <T>
     throws ObjectUnavailableException, TimeoutException,
            InstantiationException, IllegalAccessException,
            MarshalException, ValidationException;
-
-  /**
-   * Get the metadata for the payload in string format. This
-   * will be an XML string.
-   */
-  public abstract String getMetadataString ()
-    throws ObjectUnavailableException, TimeoutException,
-           MarshalException, ValidationException, IOException;
 
   /**
     * Set the metadata for the object.
@@ -103,45 +86,17 @@ public abstract class JbiEvent <T>
       this.metadataString_ = null;
   }
 
+  /**
+   * Set the string metadata for the event
+   *
+   * @param[in]       metadata      The new metadata
+   */
   public void setMetadata (String metadata)
   {
-    this.metadataString_ = metadata;
+    super.setMetadata (metadata);
 
     if (this.metadata_ != null)
       this.metadata_ = null;
-  }
-
-  /**
-   * Get the payload associated with the event.
-   *
-   * @return      The event's payload.
-   */
-  public byte [] getPayload ()
-    throws ObjectUnavailableException, TimeoutException
-  {
-    return this.payload_;
-  }
-
-  /**
-   * Set the payload associated with the event.
-   *
-   * @return      The event's payload.
-   */
-  public void setPayload (byte [] payload)
-  {
-    this.payload_ = payload;
-  }
-
-  /**
-   * Set the payload associated with the event. This will allocate
-   * a payload of the specified size.
-   *
-   * @param       payloadSize       Size of the payload.
-   */
-  public void setPayload (int payloadSize)
-  {
-    byte [] payload = new byte [payloadSize];
-    this.setPayload (payload);
   }
 
   /**
@@ -151,19 +106,11 @@ public abstract class JbiEvent <T>
    */
   public void setInfoObject (InfoObject io)
   {
-    // Save the info object.
-    this.infoObject_ = io;
+    // Set the info object.
+    super.setInfoObject (io);
 
     // This will delete the existing metadata.
     if (this.metadata_ != null)
       this.metadata_ = null;
-  }
-
-  /**
-   *
-   */
-  public InfoObject getInfoObject ()
-  {
-    return this.infoObject_;
   }
 }
