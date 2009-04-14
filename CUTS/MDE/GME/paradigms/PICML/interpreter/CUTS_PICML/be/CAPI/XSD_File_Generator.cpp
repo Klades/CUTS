@@ -4,20 +4,16 @@
 #include "CAPI_Ctx.h"
 #include "../UDM_Position_Sort_T.h"
 #include "Utils.h"
-#include "XercesString.h"
 #include "boost/bind.hpp"
-#include "xercesc/util/PlatformUtils.hpp"
+#include "CCF/CodeGenerationKit/IndentationXML.hpp"
+#include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
 
 //
 // XSD_File_Generator
 //
 XSD_File_Generator::XSD_File_Generator (const std::string & outdir)
 : outdir_ (outdir),
-  dispatcher_ (*this),
-  impl_ (0),
-  doc_ (0),
-  serializer_ (0),
-  target_ (0)
+  dispatcher_ (*this)
 {
   // Initialize the Accept dispatcher for abstract base types.
   this->dispatcher_.insert <PICML::String> ();
@@ -28,29 +24,6 @@ XSD_File_Generator::XSD_File_Generator (const std::string & outdir)
   this->dispatcher_.insert <PICML::RealNumber> ();
   this->dispatcher_.insert <PICML::Aggregate> ();
   this->dispatcher_.insert <PICML::Enum> ();
-
-  // Initialize Xerces-C
-  using namespace xercesc;
-  XMLPlatformUtils::Initialize();
-
-  this->impl_ =
-    DOMImplementationRegistry::getDOMImplementation (Utils::XStr ("LS"));
-
-  this->serializer_ =
-    ((DOMImplementationLS *)impl_)->createDOMWriter ();
-
-  // Initialize all the features for the writer.
-  if (this->serializer_->canSetFeature (XMLUni::fgDOMWRTDiscardDefaultContent, true))
-    this->serializer_->setFeature (XMLUni::fgDOMWRTDiscardDefaultContent, true);
-
-  if (this->serializer_->canSetFeature (XMLUni::fgDOMWRTFormatPrettyPrint, true))
-    this->serializer_->setFeature (XMLUni::fgDOMWRTFormatPrettyPrint, true);
-
-  if (this->serializer_->canSetFeature (XMLUni::fgDOMWRTBOM, false))
-    this->serializer_->setFeature (XMLUni::fgDOMWRTBOM, false);
-
-  if (this->serializer_->canSetFeature (XMLUni::fgDOMWRTWhitespaceInElementContent, false))
-    this->serializer_->setFeature (XMLUni::fgDOMWRTWhitespaceInElementContent, false);
 }
 
 //
@@ -58,10 +31,8 @@ XSD_File_Generator::XSD_File_Generator (const std::string & outdir)
 //
 XSD_File_Generator::~XSD_File_Generator (void)
 {
-  xercesc::XMLPlatformUtils::Terminate();
-
-  if (this->outfile_.is_open ())
-    this->outfile_.close ();
+  if (this->fout_.is_open ())
+    this->fout_.close ();
 }
 
 //
@@ -69,28 +40,36 @@ XSD_File_Generator::~XSD_File_Generator (void)
 //
 void XSD_File_Generator::Visit_Event (const PICML::Event & event)
 {
-  // Create the XML document.
-  if (this->doc_ != 0)
-    this->doc_->release();
+  // Gather required information about the event.
+  std::string xmltag = event.SpecifyIdTag ();
+  std::string fq_name = CUTS_BE_Capi::fq_name (event, '.');
+  std::string classname = fq_name + '.' + CUTS_BE_Capi::classname (xmltag);
 
-  this->doc_ =
-    this->impl_->createDocument (
-      Utils::XStr ("http://www.w3.org/2001/XMLSchema"),
-      Utils::XStr ("xsd:schema"),
-      0);
+  // Construct the path for the filename. We need to make sure
+  // this directory exist before trying to open the mapping file.
+  std::ostringstream path;
+  path << this->outdir_ << "\\"
+       << CUTS_BE_Capi::fq_name (event, '\\');
 
-  this->doc_->setEncoding (Utils::XStr("UTF-8"));
-  this->doc_->setVersion (Utils::XStr("1.0"));
+  Utils::CreatePath (path.str (), '\\');
+  std::string filename = path.str () + "\\" + fq_name + ".xsd";
 
-  xercesc::DOMElement * root = this->doc_->getDocumentElement ();
-  this->root_.push (root);
+  // Open the file for writing.
+  this->fout_.open (filename.c_str ());
 
-  root->setAttributeNS (Utils::XStr ("http://www.w3.org/2000/xmlns/"),
-                        Utils::XStr ("xmlns:xsd"),
-                        Utils::XStr ("http://www.w3.org/2001/XMLSchema"));
+  if (!this->fout_.is_open ())
+    return;
 
-  root->setAttribute (Utils::XStr ("elementFormDefault"),
-                      Utils::XStr ("unqualified"));
+  // Set the indentation implanter for the output file.
+  typedef Indentation::Implanter <
+    Indentation::XML, char> formatter_type;
+
+  formatter_type formatter (this->fout_);
+
+  // Write the header for the file.
+  this->fout_ << "<?xml version='1.0' encoding='UTF-8' standalone='no' ?>" << std::endl
+              << "<xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema'"
+              << " elementFormDefault='unqualified' version='";
 
   // Set the version number for the schema based on the event's
   // version number.
@@ -102,24 +81,16 @@ void XSD_File_Generator::Visit_Event (const PICML::Event & event)
     event.VersionTag () = version;
   }
 
-  root->setAttribute (Utils::XStr ("version"),
-                      Utils::XStr (version));
+  this->fout_ << version << "'>" << std::endl;
 
   // Push the root element onto the stack then finish visiting
   // the event element.
-  xercesc::DOMElement * element =
-    this->doc_->createElement (Utils::XStr ("xsd:element"));
 
-  // Set the name of the element.
   std::string name = event.SpecifyIdTag ();
-  element->setAttribute (Utils::XStr ("name"),
-                         Utils::XStr (name));
-  root->appendChild (element);
 
-  // Write the rest of the event as an anonymous type.
-  this->root_.push (element);
+  this->fout_ << "<xsd:element name='" << name << "'>" << std::endl;
   this->Visit_Event_i (event, true);
-  this->root_.pop ();
+  this->fout_ << "</xsd:element>" << std::endl;
 
   while (!this->complex_types_.empty ())
   {
@@ -137,22 +108,11 @@ void XSD_File_Generator::Visit_Event (const PICML::Event & event)
                               this,
                               _1));
 
-  // Gather required information about the event.
-  std::string xmltag = event.SpecifyIdTag ();
-  std::string fq_name = CUTS_BE_Capi::fq_name (event, '.');
-  std::string classname = fq_name + '.' + CUTS_BE_Capi::classname (xmltag);
+  this->fout_ << "</xsd:schema>" << std::endl
+              << std::endl;
 
-  // Construct the path for the filename. We need to make sure
-  // this directory exist before trying to open the mapping file.
-  std::ostringstream path;
-  path
-    << this->outdir_ << "\\"
-    << CUTS_BE_Capi::fq_name (event, '\\');
-
-  Utils::CreatePath (path.str (), '\\');
-  std::string filename = path.str () + "\\" + fq_name + ".xsd";
-
-  this->serialize_xsd_to_file (filename);
+  // Close the file.
+  this->fout_.close ();
 }
 
 //
@@ -164,21 +124,10 @@ void XSD_File_Generator::Visit_Member (const PICML::Member & member)
 
   if (mt != Udm::null)
   {
-    xercesc::DOMElement * parent = this->root_.top ();
-
     // Create a xsd:complexType element for the event.
-    xercesc::DOMElement * element =
-      this->doc_->createElement (Utils::XStr ("xsd:element"));
-    parent->appendChild (element);
-
-    // Set the name of the element.
-    element->setAttribute (Utils::XStr ("name"),
-                           Utils::XStr (std::string (member.name ())));
-
-    // Dispatch the member to get its type.
-    this->root_.push (element);
+    this->fout_ << "<xsd:element name='" << member.name () << "' ";
     this->dispatcher_.dispatch (mt);
-    this->root_.pop ();
+    this->fout_ << " />" << std::endl;
   }
 }
 
@@ -187,11 +136,7 @@ void XSD_File_Generator::Visit_Member (const PICML::Member & member)
 //
 void XSD_File_Generator::Visit_String (const PICML::String & )
 {
-  // Set the type for the element.
-  xercesc::DOMElement * element = this->root_.top ();
-  element->setAttribute (Utils::XStr ("type"),
-                         Utils::XStr ("xsd:string"));
-
+  this->fout_ << "type='xsd:string'";
 }
 
 //
@@ -199,10 +144,7 @@ void XSD_File_Generator::Visit_String (const PICML::String & )
 //
 void XSD_File_Generator::Visit_LongInteger (const PICML::LongInteger & )
 {
-  // Set the type for the element.
-  xercesc::DOMElement * element = this->root_.top ();
-  element->setAttribute (Utils::XStr ("type"),
-                         Utils::XStr ("xsd:long"));
+  this->fout_ << "type='xsd:long'";
 }
 
 //
@@ -210,10 +152,7 @@ void XSD_File_Generator::Visit_LongInteger (const PICML::LongInteger & )
 //
 void XSD_File_Generator::Visit_Byte (const PICML::Byte &)
 {
-  // Set the type for the element.
-  xercesc::DOMElement * element = this->root_.top ();
-  element->setAttribute (Utils::XStr ("type"),
-                         Utils::XStr ("xsd:byte"));
+  this->fout_ << "type='xsd:byte'";
 }
 
 //
@@ -221,10 +160,7 @@ void XSD_File_Generator::Visit_Byte (const PICML::Byte &)
 //
 void XSD_File_Generator::Visit_ShortInteger (const PICML::ShortInteger &)
 {
-  // Set the type for the element.
-  xercesc::DOMElement * element = this->root_.top ();
-  element->setAttribute (Utils::XStr ("type"),
-                         Utils::XStr ("xsd:short"));
+  this->fout_ << "type='xsd:short'";
 }
 
 //
@@ -235,9 +171,7 @@ void XSD_File_Generator::Visit_Aggregate (const PICML::Aggregate & aggr)
   std::string name = aggr.name ();
 
   // First, set the type for the current element.
-  xercesc::DOMElement * element = this->root_.top ();
-  element->setAttribute (Utils::XStr ("type"),
-                         Utils::XStr (name));
+  this->fout_ << "type='" << name << "'";
 
   if (this->seen_complex_types_.find (aggr) ==
       this->seen_complex_types_.end ())
@@ -253,13 +187,7 @@ void XSD_File_Generator::Visit_Aggregate (const PICML::Aggregate & aggr)
 //
 void XSD_File_Generator::Visit_Enum (const PICML::Enum & e)
 {
-  std::string name = e.name ();
-
-  // First, set the type for the current element.
-  xercesc::DOMElement * element = this->root_.top ();
-  element->setAttribute (Utils::XStr ("type"),
-                         Utils::XStr (name));
-
+  this->fout_ << "type='" << e.name () << "'";
   this->enum_types_.insert (e);
 }
 
@@ -268,30 +196,12 @@ void XSD_File_Generator::Visit_Enum (const PICML::Enum & e)
 //
 void XSD_File_Generator::Visit_Enum_i (const PICML::Enum & e)
 {
-  xercesc::DOMElement * root = this->root_.top ();
-
   // The Enum is actually a *simpleType* in XSD.
-  xercesc::DOMElement * simpleType =
-    this->doc_->createElement (Utils::XStr ("xsd:simpleType"));
-  root->appendChild (simpleType);
-
-  // Set the type name of the enumeration.
-  std::string name (e.name ());
-  simpleType->setAttribute (Utils::XStr ("name"),
-                            Utils::XStr (name));
-
-  // Create the container for the enum values.
-  xercesc::DOMElement * restriction =
-    this->doc_->createElement (Utils::XStr ("xsd:restriction"));
-  simpleType->appendChild (restriction);
-
-  restriction->setAttribute (Utils::XStr ("base"),
-                             Utils::XStr ("xsd:string"));
+  this->fout_ << "<xsd:simpleType name='" << e.name () << "'>" << std::endl
+              << "<xsd:restriction base='xsd:string'>" << std::endl;
 
   // Visit each of the enum values.
   std::vector <PICML::EnumValue> values = e.EnumValue_children ();
-
-  this->root_.push (restriction);
 
   std::for_each (values.begin (),
                  values.end (),
@@ -299,7 +209,8 @@ void XSD_File_Generator::Visit_Enum_i (const PICML::Enum & e)
                               _1,
                               boost::ref (*this)));
 
-  this->root_.pop ();
+  this->fout_ << "</xsd:restriction>" << std::endl
+              << "</xsd:simpleType>" << std::endl;
 }
 
 //
@@ -307,16 +218,8 @@ void XSD_File_Generator::Visit_Enum_i (const PICML::Enum & e)
 //
 void XSD_File_Generator::Visit_EnumValue (const PICML::EnumValue & val)
 {
-  xercesc::DOMElement * restriction = this->root_.top ();
-
-  // Create the node for the enum value.
-  xercesc::DOMElement * value = this->doc_->createElement (Utils::XStr ("xsd:enumeration"));
-  restriction->appendChild (value);
-
-  // Set the enum's value.
-  std::string name = val.name ();
-  value->setAttribute (Utils::XStr ("value"),
-                       Utils::XStr (name));
+  this->fout_ << "<xsd:enumeration value='" << val.name ()
+              << "' />" << std::endl;
 }
 
 //
@@ -327,26 +230,8 @@ void XSD_File_Generator::Visit_Aggregate_i (const PICML::Aggregate & aggr)
   // Note that we have seen this aggregate type.
   this->seen_complex_types_.insert (aggr);
 
-  // Get the current root element of the document.
-  xercesc::DOMElement * root = this->root_.top ();
-
-  // Create a xsd:complexType element for the aggregate.
-  xercesc::DOMElement * complexType =
-    this->doc_->createElement (Utils::XStr ("xsd:complexType"));
-  root->appendChild (complexType);
-
-  // Set the name of the aggregate type.
-  std::string name = aggr.name ();
-  complexType->setAttribute (Utils::XStr ("name"),
-                             Utils::XStr (name));
-
-  // Create the xsd:sequence element for the event's members.
-  xercesc::DOMElement * sequence =
-    this->doc_->createElement (Utils::XStr ("xsd:sequence"));
-  complexType->appendChild (sequence);
-
-  // Make the sequence the top most element in the stack.
-  this->root_.push (sequence);
+  this->fout_ << "<xsd:complexType name='" << aggr.name () << "'>" << std::endl
+              << "<xsd:sequence>" << std::endl;
 
   // Visit all the members in this event. We sort the members from top
   // to bottom on the page.
@@ -364,37 +249,9 @@ void XSD_File_Generator::Visit_Aggregate_i (const PICML::Aggregate & aggr)
                  boost::bind (&Member_Set::value_type::Accept,
                               _1,
                               boost::ref (*this)));
-  this->root_.pop ();
-}
 
-//
-// serialize_xsd_to_file
-//
-void XSD_File_Generator::
-serialize_xsd_to_file (const std::string & filename)
-{
-  if (this->target_)
-    delete this->target_;
-
-  this->target_ =
-    new xercesc::LocalFileFormatTarget (filename.c_str ());
-
-  if (this->target_ != 0)
-  {
-    // Dump the XML document to the target file.
-    this->serializer_->writeNode (this->target_, *this->doc_);
-
-    // Close the target file.
-    delete this->target_;
-    this->target_ = 0;
-  }
-
-  // Release the XML document.
-  if (this->doc_ != 0)
-  {
-    this->doc_->release ();
-    this->doc_ = 0;
-  }
+  this->fout_ << "</xsd:sequence>" << std::endl
+              << "</xsd:complexType>" << std::endl;
 }
 
 //
@@ -403,29 +260,15 @@ serialize_xsd_to_file (const std::string & filename)
 void XSD_File_Generator::
 Visit_Event_i (const PICML::Event & event, bool anonymous)
 {
-  xercesc::DOMElement * root = this->root_.top ();
-
-  // Create a xsd:complexType element for the event.
-  xercesc::DOMElement * complexType =
-    this->doc_->createElement (Utils::XStr ("xsd:complexType"));
-  root->appendChild (complexType);
+  this->fout_ << "<xsd:complexType";
 
   if (!anonymous)
-  {
-    // Set the name of the complexType.
-    std::string name = event.SpecifyIdTag ();
+    this->fout_ << " name='" << event.SpecifyIdTag () << "'";
 
-    complexType->setAttribute (Utils::XStr ("name"),
-                               Utils::XStr (name));
-  }
+  this->fout_ << ">" << std::endl;
 
   // Create the xsd:sequence element for the event's members.
-  xercesc::DOMElement * sequence =
-    this->doc_->createElement (Utils::XStr ("xsd:sequence"));
-  complexType->appendChild (sequence);
-
-  // Make the sequence the top most element in the stack.
-  this->root_.push (sequence);
+  this->fout_ << "<xsd:sequence>" << std::endl;
 
   // Visit all the members in this event. We sort the members from
   // top to bottom on the page, just like a file.
@@ -444,5 +287,6 @@ Visit_Event_i (const PICML::Event & event, bool anonymous)
                               _1,
                               boost::ref (*this)));
 
-  this->root_.pop ();
+  this->fout_ << "</xsd:sequence>" << std::endl
+              << "</xsd:complexType>" << std::endl;
 }

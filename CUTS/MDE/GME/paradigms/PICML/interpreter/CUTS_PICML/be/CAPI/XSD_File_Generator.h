@@ -15,10 +15,6 @@
 
 #include "PICML/PICML.h"
 #include "../UDM_Abstract_Type_Dispatcher_T.h"
-#include "xercesc/util/PlatformUtils.hpp"
-#include "xercesc/util/XMLString.hpp"
-#include "xercesc/dom/DOM.hpp"
-#include "xercesc/framework/LocalFileFormatTarget.hpp"
 #include <fstream>
 #include <stack>
 
@@ -67,13 +63,11 @@ private:
 
   void Visit_Enum_i (const PICML::Enum & e);
 
-  void serialize_xsd_to_file (const std::string & filename);
-
   /// Output directory for the generated XML mapping.
   const std::string & outdir_;
 
   /// Output file for the XML mapping.
-  std::ofstream outfile_;
+  std::ofstream fout_;
 
   /// Complex types that have been visited.
   std::set <PICML::Aggregate> seen_complex_types_;
@@ -86,16 +80,6 @@ private:
 
   /// Dispatcher for abstract element types.
   UDM_Abstract_Type_Dispatcher_T <XSD_File_Generator> dispatcher_;
-
-  xercesc::DOMImplementation * impl_;
-
-  xercesc::DOMDocument * doc_;
-
-  xercesc::DOMWriter * serializer_;
-
-  xercesc::XMLFormatTarget * target_;
-
-  std::stack <xercesc::DOMElement *> root_;
 };
 
 #endif  // !defined _CUTS_BE_CAPI_XSD_FILE_GENERATOR_H_
