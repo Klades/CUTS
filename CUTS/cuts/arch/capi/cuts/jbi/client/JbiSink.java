@@ -100,16 +100,26 @@ public class JbiSink extends JbiPort
     throws InvalidPredicateException, PredicateLanguageException,
            PermissionDeniedException, SequenceStateException
   {
-    // Save the name and value of the predicate.
-    this.predicateName_ = predicateName;
-    this.predicateValue_ = predicateValue;
-
     // Create the XML string for setting the predicate.
     String xpathPredicate =
       this.createXpathPredicate (this.predicateName_, this.predicateValue_);
 
+    // Make sure sequence is not active before setting the predicate.
+    int state = this.jbiSink_.getSequenceState ();
+
+    if (state == 1)
+      this.jbiSink_.pauseSequence ();
+
     // Set the predicate on the sink.
     this.jbiSink_.setSequencePredicate (xpathPredicate);
+
+    // Reactivate the sequence if necessary.
+    if (state == 1)
+      this.jbiSink_.resumeSequence ();
+
+    // Save the name and value of the predicate.
+    this.predicateName_ = predicateName;
+    this.predicateValue_ = predicateValue;
   }
 
   /**

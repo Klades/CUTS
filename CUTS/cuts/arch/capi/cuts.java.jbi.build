@@ -34,7 +34,7 @@
   <property name="cuts.java.capi.jar" value="cuts.java.capi.jar" />
 
   <target name="cuts.java.capi.build">
-    <path id="cuts.build.classpath">
+    <path id="cuts.java.capi.build.classpath">
       <pathelement path="." />
       <pathelement path="${env.JBI_ROOT}/lib/capi1.5.jar" />
       <pathelement path="${contrib.dir}/spring.jar" />
@@ -43,7 +43,7 @@
     </path>
 
     <javac srcdir="${cuts.capi.dir}"
-           classpathref="cuts.build.classpath"
+           classpathref="cuts.java.capi.build.classpath"
            debug="true"
            debuglevel="source,lines">
 

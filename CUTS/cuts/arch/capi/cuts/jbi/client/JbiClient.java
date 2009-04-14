@@ -1,10 +1,14 @@
+// -*- Java -*-
+
+//=============================================================================
 /**
- * @file       JbiClient.java
+ * @file          JbiClient.java
  *
  * $Id$
  *
- * @author       James H. Hill
+ * @author        James H. Hill
  */
+//=============================================================================
 
 package cuts.jbi.client;
 import mil.af.rl.im.capi.client.impl.ConnectionManager;
