@@ -1,3 +1,10 @@
+Tue Apr 14 16:52:47 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * CUTS_Runtime_Arch.mwc:
+
+          . Update the workspace to exclude Java-based projects unless
+            ANT is specified as the build engine.
+
 Tue Apr 14 16:33:37 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MPC/config/cuts_archiving_skel.mpb:

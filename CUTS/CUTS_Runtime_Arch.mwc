@@ -5,9 +5,15 @@ workspace (CUTS_Runtime_Arch) {
              -include $XSC_ROOT/MPC/config \
              -feature_file default.features
 
-  cuts
+  cuts/CUTS.mpc
+  cuts/arch
+  cuts/BDC
+  cuts/idl
+  cuts/svcs
+  cuts/utils
+  cuts/workers
 
-  exclude {
+  exclude (!ant) {
     cuts/java
   }
 }
