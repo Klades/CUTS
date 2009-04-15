@@ -1,3 +1,10 @@
+Wed Apr 15 03:56:23 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/unite/Unite_App.cpp:
+
+	  . Bug fix where the application crashed if the configuration
+	    did not contain any services.
+	
 Tue Apr 14 23:07:42 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.cpp:

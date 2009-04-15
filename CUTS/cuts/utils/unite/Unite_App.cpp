@@ -78,7 +78,8 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
     config_file >>= config;
 
   // Load the services.
-  this->load_services (config.services ());
+  if (config.services_p ())
+    this->load_services (config.services ());
 
   // Construct the binary version of the unit test.
   CUTS_Unit_Test unit_test;
