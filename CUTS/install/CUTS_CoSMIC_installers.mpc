@@ -1,8 +1,8 @@
 // $Id$
 
-project (CUTS_CoSMIC) : wix_ui, wix_xml {
+project (CUTS_CoSMIC) : gme_upgrade, wix_ui, wix_xml {
   after += Custom_Actions
-  
+
   specific {
     light_flags += -cultures:en-us
   }
@@ -11,5 +11,11 @@ project (CUTS_CoSMIC) : wix_ui, wix_xml {
     CUTS_PICML.wxs
     CUTS_CoSMIC.wxs
     Merge_Modules.wxs
+  }
+
+  GME_Upgrade_Files {
+    $(CUTS_ROOT)/MDE/GME/paradigms/PICML/models/CAPI.xme << $(COSMIC_ROOT)/PIM/PICML/paradigms/PICML.xmp
+    $(CUTS_ROOT)/MDE/GME/paradigms/PICML/models/XMLSchema.xme << $(COSMIC_ROOT)/PIM/PICML/paradigms/PICML.xmp
+    $(CUTS_ROOT)/MDE/GME/paradigms/PICML/models/examples/capi/AnyEvent.xme << $(COSMIC_ROOT)/PIM/PICML/paradigms/PICML.xmp
   }
 }
