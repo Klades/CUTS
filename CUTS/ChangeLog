@@ -1,3 +1,15 @@
+Thu Apr 16 17:00:25 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/calibrate/Calibrate_App.h:
+        * cuts/utils/calibrate/Calibrate_App.inl:
+        * cuts/utils/calibrate/Calibrate_App.cpp:
+        * cuts/utils/calibrate/Calibrate_Options.h:
+        * cuts/utils/calibrate/calibrate.cpp:
+        * cuts/utils/calibrate/calibrate.mpc:
+
+          . Re-designed the application so that uses a C++ application
+            object instead of C functions.
+
 Wed Apr 15 06:18:21 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/models/CAPI.xme:
