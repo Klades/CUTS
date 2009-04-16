@@ -11,6 +11,18 @@
 #include "cuts/Auto_Functor_T.h"
 #include "ace/DLL.h"
 #include "ace/Get_Opt.h"
+#include "ace/streams.h"
+
+const char * __HELP__ =
+"Tool for calibrating CUTS's workload generators\n"
+"\n"
+"USAGE: cuts-calibrate [OPTIONS]\n"
+"\n"
+"General options:\n"
+"  -f, --file                    calibrate worker in FILE\n"
+"\n"
+"Information options:\n"
+"  -h, --help                    display this help screen\n";
 
 //
 // run_main
@@ -28,7 +40,7 @@ int CUTS_Calibrate_App::run_main (int argc, char * argv [])
 
   if (-1 == test_dll.open (this->opts_.worker_library_.c_str ()))
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T - %M - failed to open %s [%m]\n",
+                       "%T (%t) - %M - %m\n",
                        this->opts_.worker_library_.c_str ()),
                        1);
 
@@ -51,7 +63,7 @@ int CUTS_Calibrate_App::run_main (int argc, char * argv [])
 
   if (0 == worker)
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T - %M - failed to create worker object\n"),
+                       "%T (%t) - %M - failed to create worker object\n"),
                        1);
 
   CUTS_Auto_Functor_T <CUTS_Worker> auto_clean (worker, &CUTS_Worker::release);
@@ -60,7 +72,7 @@ int CUTS_Calibrate_App::run_main (int argc, char * argv [])
   bool retval = worker->calibrate ();
 
   ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - calibration %s...\n",
+              "%T (%t) - %M - calibration %s...\n",
               (retval ? "succeeded" : "failed")));
 
   return 0;
@@ -71,8 +83,10 @@ int CUTS_Calibrate_App::run_main (int argc, char * argv [])
 //
 int CUTS_Calibrate_App::parse_args (int argc, char * argv [])
 {
-  const char * opts = ACE_TEXT ("vf:");
+  const char * opts = ACE_TEXT ("f:h");
   ACE_Get_Opt get_opt (argc, argv, opts, 1);
+
+  get_opt.long_option ("help", 'h');
 
   int option;
 
@@ -80,6 +94,15 @@ int CUTS_Calibrate_App::parse_args (int argc, char * argv [])
   {
     switch (option)
     {
+    case 0:
+      if (0 == ACE_OS::strcmp ("help", get_opt.long_option ()))
+        this->print_help ();
+      break;
+
+    case 'h':
+      this->print_help ();
+      break;
+
     case 'f':
       this->opts_.worker_library_ = get_opt.opt_arg ();
       break;
@@ -100,4 +123,13 @@ int CUTS_Calibrate_App::parse_args (int argc, char * argv [])
   }
 
   return 0;
+}
+
+//
+// print_help
+//
+void CUTS_Calibrate_App::print_help (void)
+{
+  std::cerr << __HELP__ << std::endl;
+  ACE_OS::exit (1);
 }

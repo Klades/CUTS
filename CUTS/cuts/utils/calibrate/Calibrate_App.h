@@ -36,6 +36,9 @@ private:
   /// Helper method to parse command-line options.
   int parse_args (int argc, char * argv []);
 
+  /// Print the help message (no return)
+  void print_help (void);
+
   /// Options for the calibration application
   CUTS_Calibrate_Options opts_;
 };

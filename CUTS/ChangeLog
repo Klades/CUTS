@@ -1,3 +1,10 @@
+Thu Apr 16 17:09:43 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/calibrate/Calibrate_App.h:
+        * cuts/utils/calibrate/Calibrate_App.cpp:
+
+          . Added --help command-line option.
+
 Thu Apr 16 17:00:25 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/calibrate/Calibrate_App.h:
