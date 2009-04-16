@@ -34,10 +34,8 @@ CUTS_CPU_Worker_T <T>::CUTS_CPU_Worker_T (T work_function)
   work_function_ (work_function)
 {
   if (!this->init ())
-  {
-    ACE_ERROR ((LM_CRITICAL,
-                "*** critical (CUTS_CPU_Worker): worker not calibrated!!\n"));
-  }
+    ACE_ERROR ((LM_WARNING,
+                "%T (%t) - %M - CPU worker is not calibrated\n"));
 }
 
 //
@@ -99,7 +97,7 @@ bool CUTS_CPU_Worker_T <T>::init_calibrate (void)
 // calibrate
 //
 template <typename T>
-bool CUTS_CPU_Worker_T <T>::calibrate (void)
+int CUTS_CPU_Worker_T <T>::calibrate (int argc, char * argv [])
 {
   ACE_DEBUG ((LM_INFO,
               "*** info (CUTS_CPU_Worker): running calibration; "
@@ -153,7 +151,7 @@ bool CUTS_CPU_Worker_T <T>::calibrate (void)
                 temp_filename.c_str ()));
   }
 
-  return true;
+  return 0;
 }
 
 //

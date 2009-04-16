@@ -12,6 +12,7 @@
 #include "ace/DLL.h"
 #include "ace/Get_Opt.h"
 #include "ace/streams.h"
+#include "ace/ARGV.h"
 
 const char * __HELP__ =
 "Tool for calibrating CUTS's workload generators\n"
@@ -20,6 +21,7 @@ const char * __HELP__ =
 "\n"
 "General options:\n"
 "  -f, --file                    calibrate worker in FILE\n"
+"  -a ARGS                       pass ARGS to calibration routine\n"
 "\n"
 "Information options:\n"
 "  -h, --help                    display this help screen\n";
@@ -35,7 +37,7 @@ int CUTS_Calibrate_App::run_main (int argc, char * argv [])
   ACE_DLL test_dll;
 
   ACE_DEBUG ((LM_INFO,
-              "%T (%t) - %M - opening %s for calibration\n",
+              ACE_TEXT ("%T (%t) - %M - opening %s for calibration\n"),
               this->opts_.worker_library_.c_str ()));
 
   if (-1 == test_dll.open (this->opts_.worker_library_.c_str ()))
@@ -47,13 +49,13 @@ int CUTS_Calibrate_App::run_main (int argc, char * argv [])
   // Load the export symbol that will allow use to create the worker
   // to be calibrated.
   ACE_DEBUG ((LM_INFO,
-              "%T (%t) - %M - extracting worker object from library\n"));
+              ACE_TEXT ("%T (%t) - %M - extracting worker object from library\n")));
 
   void * symbol = test_dll.symbol (CUTS_WORKER_FACTORY_SYMBOL_NAME);
 
   if (0 == symbol)
     ACE_ERROR_RETURN ((LM_ERROR,
-                        "%T (%t) - %M - failed to load symbol '%s'\n",
+                        ACE_TEXT ("%T (%t) - %M - failed to load symbol '%s'\n"),
                         CUTS_WORKER_FACTORY_SYMBOL_NAME),
                         1);
 
@@ -63,19 +65,21 @@ int CUTS_Calibrate_App::run_main (int argc, char * argv [])
 
   if (0 == worker)
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T (%t) - %M - failed to create worker object\n"),
+                       ACE_TEXT ("%T (%t) - %M - failed to create worker object\n")),
                        1);
 
   CUTS_Auto_Functor_T <CUTS_Worker> auto_clean (worker, &CUTS_Worker::release);
 
   // Invoke the calibration method.
-  bool retval = worker->calibrate ();
+  ACE_ARGV_T <ACE_TCHAR> arg_list (this->opts_.calibration_args_.c_str ());
+  int retval = worker->calibrate (arg_list.argc (), arg_list.argv ());
 
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - calibration %s...\n",
-              (retval ? "succeeded" : "failed")));
+  if (0 != retval)
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - calibration failed; return code was %d\n",
+                retval));
 
-  return 0;
+  return retval;
 }
 
 //
@@ -83,7 +87,7 @@ int CUTS_Calibrate_App::run_main (int argc, char * argv [])
 //
 int CUTS_Calibrate_App::parse_args (int argc, char * argv [])
 {
-  const char * opts = ACE_TEXT ("f:h");
+  const char * opts = ACE_TEXT ("f:ha:");
   ACE_Get_Opt get_opt (argc, argv, opts, 1);
 
   get_opt.long_option ("help", 'h');
@@ -97,6 +101,10 @@ int CUTS_Calibrate_App::parse_args (int argc, char * argv [])
     case 0:
       if (0 == ACE_OS::strcmp ("help", get_opt.long_option ()))
         this->print_help ();
+      break;
+
+    case 'a':
+      this->opts_.calibration_args_ = get_opt.opt_arg ();
       break;
 
     case 'h':

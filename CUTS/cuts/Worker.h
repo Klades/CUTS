@@ -83,10 +83,11 @@ public:
   /**
    * Signal the worker to calibrate itself.
    *
-   * @retval      true      Successfully calibrated itself.
-   * @retval      false     Failed to calibrate itself.
+   * @param[in]     argc        Number of command-line arguments
+   * @param[in]     argv        Command-line arguments
+   * @retval        0           Success.
    */
-  virtual bool calibrate (void);
+  virtual int calibrate (int argc, char * argv []);
 
 protected:
   /// Constructor.
@@ -155,7 +156,7 @@ public:
 };
 
 #if defined (__CUTS_INLINE__)
-#include "cuts/Worker.inl"
+#include "Worker.inl"
 #endif
 
 #endif  // !defined _CUTS_WORKER_H_

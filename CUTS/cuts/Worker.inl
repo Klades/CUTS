@@ -67,7 +67,7 @@ void CUTS_Worker::init_action_table (void)
 // calibrate
 //
 CUTS_INLINE
-bool CUTS_Worker::calibrate (void)
+int CUTS_Worker::calibrate (int , char * argv [])
 {
-  return true;
+  return 0;
 }

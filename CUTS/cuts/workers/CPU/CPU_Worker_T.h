@@ -58,7 +58,7 @@ public:
   void run (double msec);
 
   // Calibrate the CPU worker.
-  virtual bool calibrate (void);
+  virtual int calibrate (int argc, char * argv []);
 
 private:
   /**

@@ -1,3 +1,15 @@
+Thu Apr 16 17:23:54 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/Worker.h:
+        * cuts/Worker.inl:
+        * cuts/utils/calibrate/Calibrate_App.cpp:
+        * cuts/utils/calibrate/Calibrate_Options.h:
+        * cuts/workers/CPU/CPU_Worker_T.h:
+        * cuts/workers/CPU/CPU_Worker_T.cpp:
+
+          . Added support for sending command-line arguments to the
+            calibration.
+
 Thu Apr 16 17:09:43 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/calibrate/Calibrate_App.h:

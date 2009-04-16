@@ -25,6 +25,9 @@ class CUTS_Calibrate_Options
 public:
   /// Path of the worker library to calibrate.
   ACE_CString worker_library_;
+
+  /// Arguments for the calibration routine.
+  ACE_CString calibration_args_;
 };
 
 #endif  // !defined _CUTS_CALIBRATE_OPTIONS_H_
