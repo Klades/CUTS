@@ -10,7 +10,7 @@
  */
 //==============================================================================
 
-package CUTS.jbi.utils;
+package cuts.jbi.utils;
 
 /**
  * @class ConnectionString

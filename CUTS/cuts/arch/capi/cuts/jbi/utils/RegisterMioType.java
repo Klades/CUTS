@@ -13,8 +13,7 @@
  */
 //==============================================================================
 
-package CUTS.jbi.utils;
-
+package cuts.jbi.utils;
 import mil.af.rl.im.capi.client.impl.ConnectionManager;
 import mil.af.rl.im.capi.client.impl.typemgt.InfoObjectDescriptor;
 import mil.af.rl.im.capi.client.impl.typemgt.TypeDescriptor;
