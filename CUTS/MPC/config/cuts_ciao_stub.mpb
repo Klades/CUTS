@@ -1,6 +1,6 @@
 // $Id$
 
-project : cuts_stub {
+project : requires_ciao, cuts_stub {
   libs  += CUTS_CIAO_stub
   after += CUTS_CIAO_stub
 }

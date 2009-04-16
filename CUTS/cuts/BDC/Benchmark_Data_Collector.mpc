@@ -24,7 +24,7 @@ project (CUTS_BDC) : portableserver, cuts_lib, cutslib {
   }
 }
 
-project (Benchmark_Data_Collector_stub): requires_ciao, cuts_bdcsvc, cuts_client_dnc {
+project (Benchmark_Data_Collector_stub): cuts_ciao_stub, cuts_bdcsvc, cuts_client_dnc {
   sharedname = Benchmark_Data_Collector_stub
 
   idlflags += -Wb,stub_export_macro=BENCHMARK_DATA_COLLECTOR_STUB_Export \
