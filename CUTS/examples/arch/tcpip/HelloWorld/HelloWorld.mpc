@@ -1,0 +1,33 @@
+// $Id$
+
+project (HelloWorld_svnt) : cuts_tcpip, base {
+  sharedname    = HelloWorld_svnt
+  dynamicflags += HELLOWORLD_SVNT_BUILD_DLL
+
+  Source_Files {
+    HelloWorld_svnt.cpp
+  }
+
+  Header_Files {
+
+  }
+}
+
+project (server) : cuts_tcpip, base {
+  exename = server
+
+  after += HelloWorld_svnt
+  libs  += HelloWorld_svnt
+
+  Source_Files {
+    server.cpp
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}

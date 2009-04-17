@@ -1,0 +1,5 @@
+// $Id$
+
+workspace {
+  cmdline += -include $CUTS_ROOT/MPC/config
+}

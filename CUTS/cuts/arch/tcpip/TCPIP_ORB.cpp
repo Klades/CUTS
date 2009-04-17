@@ -13,7 +13,7 @@
 #include <sstream>
 
 //
-// parse_args
+// init
 //
 int CUTS_TCPIP_ORB::init (int argc, char * argv [])
 {
@@ -44,6 +44,7 @@ int CUTS_TCPIP_ORB::init (int argc, char * argv [])
       else if (0 == ACE_OS::strcmp ("TCPIPThreadpoolSize", get_opt.long_option ()))
       {
         std::istringstream istr (get_opt.long_option ());
+        istr >> thrpool_size;
       }
 
       break;
@@ -56,22 +57,22 @@ int CUTS_TCPIP_ORB::init (int argc, char * argv [])
                     ACE_TP_Reactor (thrpool_size, true),
                     ACE_bad_alloc ());
 
-  ACE_Auto_Ptr <ACE_Reactor_Impl> ac1 (tp_reactor);
+  ACE_Auto_Ptr <ACE_Reactor_Impl> auto_clean (tp_reactor);
 
-  // Configure the reactor the acceptor.
+  // Configure the reactor for the acceptor.
   ACE_Reactor * reactor = 0;
-  ACE_NEW_THROW_EX (reactor, ACE_Reactor (tp_reactor), ACE_bad_alloc ());
-  ac1.release ();
+  ACE_NEW_THROW_EX (reactor,
+                    ACE_Reactor (tp_reactor),
+                    ACE_bad_alloc ());
 
-  ACE_Auto_Ptr <ACE_Reactor> ac2 (reactor);
+  this->reactor_.reset (reactor);
+  auto_clean.release ();
 
-  // Open a connection for listening. Make sure we pass the object
-  // manager as the argument. The event handler will use it for
-  // dispatching received events to objects.
-  int retval = this->acceptor_.open (this->listen_addr_, reactor);
-
-  if (0 == retval)
-    ac2.release ();
+  // Open the acceptoer. This will determine if the specified
+  // endpoint is currently in use.
+  int retval = this->acceptor_.open (this->listen_addr_,
+                                     this->reactor_.get ());
 
   return retval;
 }
+

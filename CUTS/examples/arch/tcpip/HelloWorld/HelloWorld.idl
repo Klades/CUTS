@@ -1,0 +1,24 @@
+// -*- IDL -*-
+
+#ifndef _HELLOWORLD_IDL_
+#define _HELLOWORLD_IDL_
+
+struct TimeValue
+{
+  unsigned long sec;
+  unsigned long usec;
+};
+
+event Message
+{
+  TimeValue time;
+
+  string message;
+};
+
+component HelloWorld
+{
+  consumes Message handle_message;
+};
+
+#endif  // !defined _HELLOWORLD_IDL_

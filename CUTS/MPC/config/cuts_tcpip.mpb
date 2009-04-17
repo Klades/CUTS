@@ -1,0 +1,6 @@
+// $Id$
+
+project : acelib {
+  after += CUTS_TCPIP
+  libs  += CUTS_TCPIP
+}

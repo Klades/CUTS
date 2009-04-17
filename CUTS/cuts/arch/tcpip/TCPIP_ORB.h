@@ -44,6 +44,10 @@ public:
    */
   CUTS_TCPIP_Servant_Manager & the_OM (void);
 
+  int run (void);
+
+  int shutdown (void);
+
 private:
   /// Helper method to parse the command-line arguments.
   int parse_args (int argc, char * argv []);
@@ -56,6 +60,9 @@ private:
 
   /// Acceptor for receiving TCP/IP connections.
   CUTS_TCPIP_Acceptor acceptor_;
+
+  /// Reactor for the ORB.
+  ACE_Auto_Ptr <ACE_Reactor> reactor_;
 };
 
 #if defined (__CUTS_INLINE__)

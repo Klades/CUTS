@@ -1,7 +1,49 @@
+Fri Apr 17 17:56:09 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_tcpip.mpb:
+        * cuts/arch/tcpip/TCPIP.mpc:
+        * cuts/arch/tcpip/TCPIP_ORB.h:
+        * cuts/arch/tcpip/TCPIP_ORB.inl:
+        * cuts/arch/tcpip/TCPIP_ORB.cpp:
+        * cuts/arch/tcpip/TCPIP_Servant_T.h:
+        * cuts/arch/tcpip/TCPIP_Servant_T.inl:
+        * cuts/arch/tcpip/TCPIP_Servant_T.cpp:
+
+          . Bug fixed where the servant failed to initialize its
+            virtual table.
+
+        * examples/arch:
+        * examples/arch/tcpip:
+        * examples/arch/tcpip/HelloWorld:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.idl:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.mwc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.inl:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.cpp:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt_export.h:
+        * examples/arch/tcpip/HelloWorld/base.mpb:
+        * examples/arch/tcpip/HelloWorld/server.cpp:
+
+          .Simple HelloWorld example for TCP/IP.
+
+        * tests/cuts/arch:
+        * tests/cuts/arch/tcpip:
+        * tests/cuts/arch/tcpip/TCPIP_ORB_Test.cpp:
+        * tests/cuts/arch/tcpip/tests.mpc:
+
+          . Unit test for the TCP/IP architecture.
+
+        * cuts/arch/tcpip/TCPIP_Acceptor_T.h:
+        * cuts/arch/tcpip/TCPIP_Acceptor_T.inl:
+        * cuts/arch/tcpip/TCPIP_Acceptor_T.cpp:
+
+          Removed these files.
+
 Fri Apr 17 15:31:19 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/*.*:
-        
+
           New example - pub and sub applications, built as executors
           in a stripped-down version of a CIAO component, pass a
           message via CORBA eventtype. Files include replacement

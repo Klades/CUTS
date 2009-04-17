@@ -1,0 +1,9 @@
+// $Id$
+
+project (CUTS_TCPIP_ORB_Test) : cuts_tcpip, cuts_test {
+  exename = CUTS_TCPIP_ORB_Test
+
+  Source_Files {
+    TCPIP_ORB_Test.cpp
+  }
+}

@@ -1,0 +1,8 @@
+// $Id$
+
+project : cuts_base {
+  libout = .
+  dllout = .
+
+  install = .
+}

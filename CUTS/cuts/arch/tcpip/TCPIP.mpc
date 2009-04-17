@@ -17,8 +17,8 @@ project (CUTS_TCPIP) : cutslib {
   }
 
   Template_Files {
-    TCPIP_Acceptor_T.cpp
     TCPIP_Object_T.cpp
+    TCPIP_Servant_T.cpp
     TCPIP_Var_T.cpp
   }
 
