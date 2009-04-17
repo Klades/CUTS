@@ -1,0 +1,14 @@
+#ifndef SUBAPPCOMPONENT_IDL
+#define SUBAPPCOMPONENT_IDL
+
+#include "ModelData.idl"
+
+module Outer
+{
+  component SubAppComponent
+  {
+    consumes TestData_IDL app_op_recv;
+  };
+};
+
+#endif // SUBAPPCOMPONENT_IDL

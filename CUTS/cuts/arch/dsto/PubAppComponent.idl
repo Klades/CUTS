@@ -1,0 +1,14 @@
+#ifndef PUBAPPCOMPONENT_IDL
+#define PUBAPPCOMPONENT_IDL
+
+#include "ModelData.idl"
+
+module Outer
+{
+  component PubAppComponent
+  {
+    publishes TestData_IDL app_op_send;
+  };
+};
+
+#endif // PUBAPPCOMPONENT_IDL
