@@ -1,3 +1,40 @@
+Fri Apr 17 06:17:01 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/tcpip:
+        * cuts/arch/tcpip/TCPIP.h:
+        * cuts/arch/tcpip/TCPIP.cpp:
+        * cuts/arch/tcpip/TCPIP.mpc:
+        * cuts/arch/tcpip/TCPIP_Acceptor.h:
+        * cuts/arch/tcpip/TCPIP_Acceptor.inl:
+        * cuts/arch/tcpip/TCPIP_Acceptor.cpp:
+        * cuts/arch/tcpip/TCPIP_Acceptor_T.h:
+        * cuts/arch/tcpip/TCPIP_Acceptor_T.inl:
+        * cuts/arch/tcpip/TCPIP_Acceptor_T.cpp:
+        * cuts/arch/tcpip/TCPIP_Event_Handler.h:
+        * cuts/arch/tcpip/TCPIP_Event_Handler.inl:
+        * cuts/arch/tcpip/TCPIP_Event_Handler.cpp:
+        * cuts/arch/tcpip/TCPIP_ORB.h:
+        * cuts/arch/tcpip/TCPIP_ORB.inl:
+        * cuts/arch/tcpip/TCPIP_ORB.cpp:
+        * cuts/arch/tcpip/TCPIP_Object.h:
+        * cuts/arch/tcpip/TCPIP_Object.inl:
+        * cuts/arch/tcpip/TCPIP_Object.cpp:
+        * cuts/arch/tcpip/TCPIP_Object_T.h:
+        * cuts/arch/tcpip/TCPIP_Object_T.inl:
+        * cuts/arch/tcpip/TCPIP_Object_T.cpp:
+        * cuts/arch/tcpip/TCPIP_SPEC.h:
+        * cuts/arch/tcpip/TCPIP_SPEC.cpp:
+        * cuts/arch/tcpip/TCPIP_Servant.h:
+        * cuts/arch/tcpip/TCPIP_Servant.inl:
+        * cuts/arch/tcpip/TCPIP_Servant.cpp:
+        * cuts/arch/tcpip/TCPIP_Servant_Manager.h:
+        * cuts/arch/tcpip/TCPIP_Servant_Manager.inl:
+        * cuts/arch/tcpip/TCPIP_Servant_Manager.cpp:
+        * cuts/arch/tcpip/TCPIP_export.h:
+        * cuts/arch/tcpip/config-default.h:
+
+          . Checkpoint the TCP/IP component-based architecture.
+
 Thu Apr 16 23:11:58 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/capi/cuts/jbi/utils/ConnectionString.java:

@@ -1,0 +1,30 @@
+// $Id$
+
+project (CUTS_TCPIP) : cutslib {
+  sharedname   = CUTS_TCPIP
+  dynamicflags = CUTS_TCPIP_BUILD_DLL
+
+  Source_Files {
+    TCPIP.cpp
+    TCPIP_Acceptor.cpp
+    TCPIP_Container.cpp
+    TCPIP_Event_Handler.cpp
+    TCPIP_ORB.cpp
+    TCPIP_Object.cpp
+    TCPIP_Servant.cpp
+    TCPIP_Servant_Manager.cpp
+    TCPIP_SPEC.cpp
+  }
+
+  Template_Files {
+    TCPIP_Acceptor_T.cpp
+    TCPIP_Object_T.cpp
+    TCPIP_Var_T.cpp
+  }
+
+  Header_Files {
+    config-default.h
+    config.h
+    TCPIP_Exceptions.h
+  }
+}
