@@ -39,10 +39,16 @@ int ACE_TMAIN (int argc, char * argv [])
     HELLOWORLD_SERVER->init (argc, argv);
 
     // Register the servant with the object manager.
-    CUTS_TCPIP::HelloWorld_svnt servant;
+    CUTS_TCPIP::HelloWorld_svnt servant (0);
+
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - activating the object\n"));
     HELLOWORLD_SERVER->the_OM ().activate_object (&servant);
 
     // Run the ORB event loop.
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - running the server's event loop\n"));
+
     return HELLOWORLD_SERVER->run ();
   }
   catch (...)

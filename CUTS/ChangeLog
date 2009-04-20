@@ -1,3 +1,29 @@
+Mon Apr 20 01:15:03 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/UUID.cpp:
+
+          . Updated the UUID to support updates to ACE_Utils::UUID.
+
+        * cuts/arch/tcpip/TCPIP.mpc:
+        * cuts/arch/tcpip/TCPIP_SPEC.cpp:
+        * cuts/arch/tcpip/TCPIP_Servant_Manager.h:
+        * cuts/arch/tcpip/TCPIP_Servant_T.h:
+        * cuts/arch/tcpip/TCPIP_Servant_T.inl:
+        * cuts/arch/tcpip/TCPIP_Servant_T.cpp:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_exec_export.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_stub_export.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.cpp:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldC.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldC.cpp:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldEC.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldEC.cpp:
+        * examples/arch/tcpip/HelloWorld/server.cpp:
+
+          . Checkpointing the TCPIP architecture for CUTS. The servant framework
+            is almost complete. Working the executor framework.
+
 Fri Apr 17 17:56:09 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MPC/config/cuts_tcpip.mpb:

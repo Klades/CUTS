@@ -23,19 +23,6 @@
 class CUTS_TCPIP_Servant;
 
 /**
- * @struct ACE_Hash <ACE_Utils::UUID>
- */
-template < >
-class ACE_Hash <ACE_Utils::UUID>
-{
-public:
-  unsigned long operator () (const ACE_Utils::UUID & uuid) const
-  {
-    return uuid.to_string ()->hash ();
-  }
-};
-
-/**
  * @class CUTS_TCPIP_Servant_Manager
  */
 class CUTS_TCPIP_Export CUTS_TCPIP_Servant_Manager

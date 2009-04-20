@@ -25,7 +25,7 @@ ACE_CDR::Boolean operator << (ACE_OutputCDR & output, const ACE_Utils::UUID & uu
   output << ACE_OutputCDR::from_octet (uuid.clock_seq_hi_and_reserved ());
   output << ACE_OutputCDR::from_octet (uuid.clock_seq_low ());
 
-  output.write_octet_array (uuid.node ()->node_ID (),
+  output.write_octet_array (uuid.node ().node_ID (),
                             ACE_Utils::UUID_Node::NODE_ID_SIZE);
 
   return output.good_bit ();
@@ -73,7 +73,7 @@ ACE_CDR::Boolean operator >> (ACE_InputCDR & input, ACE_Utils::UUID & uuid)
   input >> time_hi_and_version;
   input >> ACE_InputCDR::to_octet (clock_seq_hi_and_reserved);
   input >> ACE_InputCDR::to_octet (clock_seq_low);
-  input.read_octet_array (uuid.node ()->node_ID (),
+  input.read_octet_array (uuid.node ().node_ID (),
                           ACE_Utils::UUID_Node::NODE_ID_SIZE);
 
   if (input.good_bit ())

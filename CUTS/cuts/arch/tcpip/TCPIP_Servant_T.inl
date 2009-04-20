@@ -6,10 +6,8 @@
 //
 template <typename T>
 CUTS_INLINE
-CUTS_TCPIP_Servant_T <T>::
-CUTS_TCPIP_Servant_T (T * servant, size_t vtable_size)
-: vtable_ (vtable_size),
-  servant_ (servant)
+CUTS_TCPIP_Servant_T <T>::CUTS_TCPIP_Servant_T (T * servant)
+: servant_ (servant)
 {
 
 }

@@ -1,14 +1,58 @@
 // $Id$
 
+project (HelloWorld_stub) : cuts_tcpip, base {
+  sharedname    = HelloWorld_stub
+  dynamicflags += HELLOWORLD_STUB_BUILD_DLL
+
+  Source_Files {
+    TCPIP_HelloWorldC.cpp
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (HelloWorld_exec) : cuts_tcpip, base {
+  sharedname    = HelloWorld_exec
+  dynamicflags += HELLOWORLD_EXEC_BUILD_DLL
+
+  libs  += HelloWorld_stub
+  after += HelloWorld_stub
+
+  Source_Files {
+    TCPIP_HelloWorldEC.cpp
+  }
+
+  Inline_Files {
+
+  }
+
+  Header_Files {
+
+  }
+}
+
 project (HelloWorld_svnt) : cuts_tcpip, base {
   sharedname    = HelloWorld_svnt
   dynamicflags += HELLOWORLD_SVNT_BUILD_DLL
+
+  libs  += HelloWorld_exec HelloWorld_stub
+  after += HelloWorld_exec HelloWorld_stub
 
   Source_Files {
     HelloWorld_svnt.cpp
   }
 
   Header_Files {
+
+  }
+
+  Inline_Files {
 
   }
 }
