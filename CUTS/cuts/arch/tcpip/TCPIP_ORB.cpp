@@ -62,7 +62,7 @@ int CUTS_TCPIP_ORB::init (int argc, char * argv [])
   // Configure the reactor for the acceptor.
   ACE_Reactor * reactor = 0;
   ACE_NEW_THROW_EX (reactor,
-                    ACE_Reactor (tp_reactor),
+                    ACE_Reactor (reactor_impl),
                     ACE_bad_alloc ());
 
   this->reactor_.reset (reactor);
