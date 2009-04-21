@@ -19,7 +19,6 @@ static const char * __HELP__ =
 "General Options:\n"
 "  --template=TEMPLATE        generate configuration for TEMPLATE\n"
 "  -c, --config=FILE          use configuration in FILE\n"
-"  --config-list=FILE         use configurations in FILE\n"
 "  -o OUTFILE                 output expansion to OUTFILE\n"
 "\n"
 "  -Dname=VALUE               define property name with VALUE\n"

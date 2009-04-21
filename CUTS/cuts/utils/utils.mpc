@@ -7,7 +7,7 @@ project (CUTS_Utils) : boost_base, cutslib {
 
   Source_Files {
     Command_Substitution.cpp
-    Property_Expander.cpp
+    Property_Evaluator_Stream_Actor.cpp
     Property_Map.cpp
     Property_Map_File.cpp
     Property_Parser.cpp
@@ -16,5 +16,7 @@ project (CUTS_Utils) : boost_base, cutslib {
 
   Template_Files {
     Text_Processor_T.cpp
+    Property_Evaluator_T.cpp
+    Property_Evaluator_Stream_Actor_T.cpp
   }
 }

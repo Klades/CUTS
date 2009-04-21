@@ -13,8 +13,10 @@
 #ifndef _CUTS_TEXT_PROCESSOR_H_
 #define _CUTS_TEXT_PROCESSOR_H_
 
-#include "Property_Expander.h"
+#include "Property_Evaluator_T.h"
+#include "Property_Evaluator_Stream_Actor.h"
 #include "Command_Substitution.h"
+#include <sstream>
 
 // Forward decl.
 class CUTS_Property_Map;
@@ -28,6 +30,11 @@ class CUTS_Property_Map;
 class CUTS_UTILS_Export CUTS_Text_Processor
 {
 public:
+  /// Type definition of the property evaluator.
+  typedef
+    CUTS_Property_Evaluator_T <CUTS_Property_Evaluator_Stream_Actor>
+    property_evaluator_type;
+
   /// Default constructor.
   CUTS_Text_Processor (const CUTS_Property_Map & map);
 
@@ -40,23 +47,27 @@ public:
    * @param[in]         str           String to preprocess.
    * @param[out]        output        Resultant string.
    */
-  int evaluate (const char * str,
-                ACE_CString & output,
-                bool use_env = false,
-                bool ignore_variables = false,
-                bool ignore_commands = false);
+  bool evaluate (const char * str,
+                 ACE_CString & output,
+                 bool use_env = false,
+                 bool ignore_variables = false,
+                 bool ignore_commands = false);
 
   template <typename IteratorT>
-  int evaluate (IteratorT begin,
-                IteratorT end,
-                std::ostream & out,
-                bool use_env = false,
-                bool ignore_variables = false,
-                bool ignore_commands = false);
+  bool evaluate (IteratorT begin,
+                 IteratorT end,
+                 std::ostream & out,
+                 bool use_env = false,
+                 bool ignore_variables = false,
+                 bool ignore_commands = false);
 
 private:
+  std::ostringstream buffer_;
+
+  CUTS_Property_Evaluator_Stream_Actor stream_actor_;
+
   /// Environment variable substitution engine.
-  CUTS_Property_Expander prop_expander_;
+  property_evaluator_type property_eval_;
 
   /// Command substitution engine.
   CUTS_Command_Substitution command_sub_;

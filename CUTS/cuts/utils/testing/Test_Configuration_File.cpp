@@ -93,12 +93,10 @@ load_process_options (const CUTS::processOptions & po,
   if (po.arguments_p ())
     ostr << " " << po.arguments ();
 
-  if (processor.evaluate (ostr.str ().c_str (), result) == -1)
-  {
+  if (!processor.evaluate (ostr.str ().c_str (), result))
     ACE_ERROR_RETURN ((LM_ERROR,
                        "%T (%t) - %M - failed to evaluate command-line\n"),
                        -1);
-  }
 
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - setting command-line to: %s\n",
@@ -109,12 +107,10 @@ load_process_options (const CUTS::processOptions & po,
   // Next, set the working directory for the options.
   if (po.workingdirectory_p ())
   {
-    if (processor.evaluate (po.workingdirectory ().c_str (), result) == -1)
-    {
+    if (!processor.evaluate (po.workingdirectory ().c_str (), result))
       ACE_ERROR_RETURN ((LM_ERROR,
                          "%T (%t) - %M - failed to evaluate working directory\n"),
                          -1);
-    }
 
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - setting working directory to: %s\n",
@@ -133,12 +129,10 @@ load_process_options (const CUTS::processOptions & po,
   if (po.output_p ())
   {
     // Preprocess the output filename.
-    if (processor.evaluate (po.output ().c_str (), result) == -1)
-    {
+    if (!processor.evaluate (po.output ().c_str (), result))
       ACE_ERROR_RETURN ((LM_ERROR,
                          "%T (%t) - %M - failed to evaluate output filename\n"),
                          -1);
-    }
 
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - setting output filename to: %s\n",
@@ -158,12 +152,10 @@ load_process_options (const CUTS::processOptions & po,
   if (po.error_p ())
   {
     // Preprocess the error filename.
-    if (processor.evaluate (po.error ().c_str (), result) == -1)
-    {
+    if (!processor.evaluate (po.error ().c_str (), result))
       ACE_ERROR_RETURN ((LM_ERROR,
                          "%T (%t) - %M - failed to evaluate error filename\n"),
                          -1);
-    }
 
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - setting error filename to: %s\n",

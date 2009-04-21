@@ -330,10 +330,10 @@ public:
    * @retval            true          Evaluation succeeded
    * @retval            false         Evaluation failed
    */
-  int evaluate (const char * str, ACE_CString & result);
+  bool evaluate (const char * str, ACE_CString & result);
 
   template <typename IteratorT>
-  int evaluate (IteratorT begin, IteratorT end, std::ostream & out)
+  bool evaluate (IteratorT begin, IteratorT end, std::ostream & out)
   {
     CUTS_Command_Substitution_Grammar grammar (out);
 
@@ -342,7 +342,7 @@ public:
                             end,
                             grammar >> !boost::spirit::end_p);
 
-    return result.full ? 0 : -1;
+    return result.full;
   }
 };
 

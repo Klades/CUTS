@@ -11,7 +11,7 @@
 //
 // evaluate
 //
-int CUTS_Command_Substitution::
+bool CUTS_Command_Substitution::
 evaluate (const char * str, ACE_CString & result)
 {
   std::ostringstream ostr;
@@ -23,5 +23,5 @@ evaluate (const char * str, ACE_CString & result)
   if (info.full)
     result = ostr.str ().c_str ();
 
-  return info.full ? 0 : -1;
+  return info.full;
 }

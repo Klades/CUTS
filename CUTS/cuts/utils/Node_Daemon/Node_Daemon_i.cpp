@@ -146,12 +146,10 @@ task_spawn (const CUTS::taskDescriptor & task)
   if (ACE_OS::strlen (task.output.in ()) != 0)
   {
     // Preprocess the output filename.
-    if (preprocessor.evaluate (task.output.in (), result) == -1)
-    {
+    if (!preprocessor.evaluate (task.output.in (), result))
       ACE_ERROR_RETURN ((LM_ERROR,
                          "%T (%t) - %M - failed to evaluate output filename\n"),
                          -1);
-    }
 
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - setting output filename to: %s\n",
@@ -171,12 +169,10 @@ task_spawn (const CUTS::taskDescriptor & task)
   if (ACE_OS::strlen (task.error.in ()) != 0)
   {
     // Preprocess the error filename.
-    if (preprocessor.evaluate (task.error.in (), result) == -1)
-    {
+    if (!preprocessor.evaluate (task.error.in (), result))
       ACE_ERROR_RETURN ((LM_ERROR,
                          "%T (%t) - %M - failed to evaluate error filename\n"),
                          -1);
-    }
 
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - setting error filename to: %s\n",

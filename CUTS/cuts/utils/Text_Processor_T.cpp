@@ -1,5 +1,6 @@
 // $Id$
 
+#include "ace/CORBA_macros.h"
 #include "ace/FILE_Connector.h"
 #include "ace/FILE_IO.h"
 #include "boost/spirit/iterator/file_iterator.hpp"
@@ -8,31 +9,35 @@
 // evaluate
 //
 template <typename IteratorT>
-int CUTS_Text_Processor::evaluate (IteratorT begin,
-                                   IteratorT end,
-                                   std::ostream & out,
-                                   bool use_env,
-                                   bool ignore_variables,
-                                   bool ignore_commands)
+bool CUTS_Text_Processor::evaluate (IteratorT begin,
+                                    IteratorT end,
+                                    std::ostream & out,
+                                    bool use_env,
+                                    bool ignore_variables,
+                                    bool ignore_commands)
 {
   // Single pass expanding on the commands.
   if (ignore_variables && !ignore_commands)
     return this->command_sub_.evaluate (begin, end, out);
 
+  this->property_eval_.config ().use_env_ = use_env;
+
   // Single pass expanding on the variables.
   if (ignore_commands && !ignore_variables)
-    return this->prop_expander_.expand (begin, end, use_env, out);
+  {
+    if (this->property_eval_.evaluate (begin, end))
+      out << this->buffer_.str ();
+  }
 
   // Multi-pass expanding both variables and commands.
-  int retval = 0;
 
   // Create a temporary file on the disk.
   ACE_FILE_IO file;
   ACE_FILE_Connector disk (file,
                            reinterpret_cast <const ACE_FILE_Addr &> (ACE_Addr::sap_any));
 
-  if (file.get_handle () == ACE_INVALID_HANDLE)
-    return -1;
+  if (ACE_INVALID_HANDLE == file.get_handle ())
+    return false;
 
   // Delete the temp file so we can use in the stream.
   ACE_FILE_Addr file_addr;
@@ -45,52 +50,35 @@ int CUTS_Text_Processor::evaluate (IteratorT begin,
   std::ofstream tempfile;
   tempfile.open (tempname.c_str ());
 
-  if (tempfile.is_open ())
+  if (!tempfile.is_open ())
+    return false;
+
+  // Expand the properties in to the temporary file.
+  CUTS_Property_Evaluator_Stream_Actor tempfile_actor (tempfile);
+
+  property_evaluator_type * temp_propeval = 0;
+  ACE_NEW_THROW_EX (temp_propeval,
+                    property_evaluator_type (this->property_eval_.property_map (), tempfile_actor),
+                    ACE_bad_alloc ());
+
+  ACE_Auto_Ptr <property_evaluator_type> auto_clean (temp_propeval);
+  bool retval = temp_propeval->evaluate (begin, end);
+
+  // Close the temp file from writing.
+  tempfile.close ();
+
+  if (retval)
   {
-    // Expand the properties in the file.
-    if (!ignore_variables)
-      retval = this->prop_expander_.expand (begin, end, use_env, tempfile);
+    // Reopen the temp file using an iterator this time.
+    boost::spirit::file_iterator < > temp_begin (tempname);
 
-    if (retval == 0)
+    if (temp_begin)
     {
-      // Close the temp file from writing.
-      tempfile.close ();
-
-      // Reopen the temp file using an iterator this time.
-      boost::spirit::file_iterator < > temp_begin (tempname);
-
-      if (temp_begin)
-      {
-        boost::spirit::file_iterator < > temp_end = temp_begin.make_end ();
-
-        // Second pass will substitute all commands.
-        if (!ignore_commands)
-          retval = this->command_sub_.evaluate (temp_begin, temp_end, out);
-
-        if (retval != 0)
-          ACE_ERROR ((LM_ERROR,
-                      "%T (%t) - %M - command substitution failed\n"));
-      }
-      else
-      {
-        ACE_ERROR ((LM_ERROR,
-                    "%T (%t) - %M - failed to open temp file %s for reading\n",
-                    tempname.c_str ()));
-      }
+      boost::spirit::file_iterator < > temp_end = temp_begin.make_end ();
+      retval = this->command_sub_.evaluate (temp_begin, temp_end, out);
     }
     else
-    {
-      ACE_ERROR ((LM_ERROR,
-                  "%T (%t) - %M - variable substitution failed\n"));
-    }
-  }
-  else
-  {
-    ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - failed to open temp file %s for writing\n",
-                tempname.c_str ()));
-
-    retval = -1;
+      retval = false;
   }
 
   // Delete the temp file for good.

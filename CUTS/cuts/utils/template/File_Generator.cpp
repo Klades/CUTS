@@ -56,7 +56,7 @@ handle_config (const CUTS_Property_Map & config)
                               outfile,
                               this->use_env_,
                               this->ignore_variables_,
-                              this->ignore_commands_) == 0)
+                              this->ignore_commands_))
       {
         ACE_DEBUG ((LM_DEBUG,
                     "%T (%t) - %M - successfully generated %s\n",

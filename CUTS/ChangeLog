@@ -1,3 +1,40 @@
+Tue Apr 21 16:49:14 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/gme_base.mpb:
+
+          . Updated base project to include later version of Visual Studio
+            and disabled some compile flags.
+
+        * cuts/utils/Command_Substitution.h:
+        * cuts/utils/Command_Substitution.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+        * cuts/utils/Property_Evaluator_Stream_Actor.h:
+        * cuts/utils/Property_Evaluator_Stream_Actor.inl:
+        * cuts/utils/Property_Evaluator_Stream_Actor.cpp:
+        * cuts/utils/Property_Evaluator_Stream_Actor_T.cpp:
+        * cuts/utils/Property_Evaluator_T.h:
+        * cuts/utils/Property_Evaluator_T.inl:
+        * cuts/utils/Property_Evaluator_T.cpp:
+        * cuts/utils/Text_Processor.h:
+        * cuts/utils/Text_Processor.inl:
+        * cuts/utils/Text_Processor.cpp:
+        * cuts/utils/Text_Processor_T.cpp:
+        * cuts/utils/template/File_Generator.cpp:
+        * cuts/utils/template/Template_App.cpp:
+        * cuts/utils/testing/Test_Configuration_File.cpp:
+        * cuts/utils/utils.mpc:
+
+          . Updated the property evaluator so that is can be strategized
+            with application-specific actors.
+
+          . Added support for customizing the open/close tags for properties
+            in a template file. The default is still ${}.
+
+        * cuts/utils/Property_Expander.h:
+        * cuts/utils/Property_Expander.cpp:
+
+          Removed these files.
+
 Mon Apr 20 01:15:03 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/UUID.cpp:
