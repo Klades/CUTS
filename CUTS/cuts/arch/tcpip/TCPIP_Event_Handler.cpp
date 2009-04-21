@@ -10,34 +10,26 @@
 #include "TCPIP_Servant_Manager.h"
 #include "TCPIP_SPEC.h"
 
+////
+//// open
+////
+//int CUTS_TCPIP_Event_Handler::open (void * args)
+//{
+//  if (0 == this->reactor () ||
+//     -1 == this->reactor ()->register_handler (this, ACE_Event_Handler::READ_MASK))
+//  {
+//    return -1;
+//  }
 //
-// open
+//  //// Turn the handler into an active object.
+//  //this->is_active_ = true;
+//  //int retval = this->activate ();
 //
-int CUTS_TCPIP_Event_Handler::open (void * args)
-{
-  // Turn the handler into an active object.
-  this->is_active_ = true;
-  int retval = this->activate ();
-
-  if (-1 == retval)
-    this->is_active_ = false;
-
-  return retval;
-}
-
+//  //if (-1 == retval)
+//  //  this->is_active_ = false;
 //
-// svc
-//
-int CUTS_TCPIP_Event_Handler::svc (void)
-{
-  ACE_DEBUG ((LM_DEBUG,
-              "(%t) CUTS_TCPIP_Event_Handler::svc ()\n"));
-
-  while (this->is_active_)
-    this->reactor ()->handle_events ();
-
-  return 0;
-}
+//  //return retval;
+//}
 
 //
 // handle_input
@@ -46,6 +38,7 @@ int CUTS_TCPIP_Event_Handler::handle_input (ACE_HANDLE fd)
 {
   // Set the ACE_HANDLE as a socket stream.
   ACE_SOCK_Stream stream (fd);
+
 
   // @todo Since the header size is constant, we can create free list
   //       of the message blocks that are used to read the header from
@@ -102,7 +95,9 @@ int CUTS_TCPIP_Event_Handler::handle_input (ACE_HANDLE fd)
                           "%T - %M - %m\n"),
                           -1);
 
+
     // Substract the amount from the remaining count.
+    mb->wr_ptr (read_count);
     remaining -= read_count;
 
     if (0 != remaining)
@@ -132,7 +127,8 @@ int CUTS_TCPIP_Event_Handler::handle_input (ACE_HANDLE fd)
     if (0 == retval)
     {
       // Signal the object to handle the event.
-      retval = svnt->handle_event (spec.event_id_, *head);
+      ACE_InputCDR event (head, input.byte_order ());
+      retval = svnt->handle_event (spec.event_id_, event);
 
       if (-1 == retval)
         ACE_ERROR ((LM_ERROR,
@@ -145,6 +141,8 @@ int CUTS_TCPIP_Event_Handler::handle_input (ACE_HANDLE fd)
                   spec.uuid_.to_string ()->c_str ()));
   }
 
+  // Release the message block.
+  // head->release ();
 
   return 0;
 }

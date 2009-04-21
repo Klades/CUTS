@@ -52,12 +52,12 @@ int CUTS_TCPIP_ORB::init (int argc, char * argv [])
   }
 
   // We are going to use a TP_Reactor as the implementation.
-  ACE_TP_Reactor * tp_reactor = 0;
-  ACE_NEW_THROW_EX (tp_reactor,
-                    ACE_TP_Reactor (thrpool_size, true),
+  ACE_Reactor_Impl * reactor_impl = 0;
+  ACE_NEW_THROW_EX (reactor_impl,
+                    ACE_TP_Reactor (),
                     ACE_bad_alloc ());
 
-  ACE_Auto_Ptr <ACE_Reactor_Impl> auto_clean (tp_reactor);
+  ACE_Auto_Ptr <ACE_Reactor_Impl> auto_clean (reactor_impl);
 
   // Configure the reactor for the acceptor.
   ACE_Reactor * reactor = 0;
@@ -70,8 +70,7 @@ int CUTS_TCPIP_ORB::init (int argc, char * argv [])
 
   // Open the acceptoer. This will determine if the specified
   // endpoint is currently in use.
-  int retval = this->acceptor_.open (this->listen_addr_,
-                                     this->reactor_.get ());
+  int retval = this->acceptor_.open (this->listen_addr_, this->reactor_.get ());
 
   return retval;
 }

@@ -29,7 +29,7 @@ public:
 
   // Method for handling the event. It will dispatch the events
   // to the correct method.
-  virtual int handle_event (ACE_UINT32 id, ACE_Message_Block & ev);
+  virtual int handle_event (ACE_UINT32 id, ACE_InputCDR & input);
 
 protected:
   /**

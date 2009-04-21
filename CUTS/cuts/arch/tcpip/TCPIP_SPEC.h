@@ -23,9 +23,11 @@
  * Implementation of the Simple Protocol for Event-based
  * Communication (SPEC).
  */
-class CUTS_TCPIP_SPEC
+class CUTS_TCPIP_Export CUTS_TCPIP_SPEC
 {
 public:
+  enum { BINARY_SIZE = 36 };
+
   /// Id of the target object/component.
   ACE_Utils::UUID uuid_;
 
@@ -42,7 +44,7 @@ public:
  * @param[in]       input         Target input stream
  * @param[in]       spec          SPEC header
  */
-ACE_CDR::Boolean operator << (ACE_OutputCDR & input, const CUTS_TCPIP_SPEC & spec);
+CUTS_TCPIP_Export char * operator << (ACE_OutputCDR & input, const CUTS_TCPIP_SPEC & spec);
 
 /**
  * Extract the SPEC from the output stream.
@@ -50,6 +52,6 @@ ACE_CDR::Boolean operator << (ACE_OutputCDR & input, const CUTS_TCPIP_SPEC & spe
  * @param[in]       input         Target input stream
  * @param[in]       spec          SPEC header
  */
-ACE_CDR::Boolean operator >> (ACE_InputCDR & output, CUTS_TCPIP_SPEC & spec);
+CUTS_TCPIP_Export ACE_CDR::Boolean operator >> (ACE_InputCDR & output, CUTS_TCPIP_SPEC & spec);
 
 #endif  // !defined _CUTS_TCPIP_SPEC_H_

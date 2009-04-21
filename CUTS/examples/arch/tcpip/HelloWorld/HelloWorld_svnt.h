@@ -41,7 +41,7 @@ namespace CUTS_TCPIP
      *
      * @param[in]         ev          Message block to unmarshall.
      */
-    int tcpip_handle_message (ACE_Message_Block & ev);
+    int tcpip_handle_message (ACE_InputCDR & input);
 
   private:
     /// Pointer to the implementation.

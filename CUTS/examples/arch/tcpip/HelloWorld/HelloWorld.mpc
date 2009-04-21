@@ -57,14 +57,53 @@ project (HelloWorld_svnt) : cuts_tcpip, base {
   }
 }
 
+project (HelloWorld_impl) : cuts_tcpip, base {
+  sharedname    = HelloWorld_impl
+  dynamicflags += HELLOWORLD_IMPL_BUILD_DLL
+
+  after += HelloWorld_exec HelloWorld_stub
+  libs  += HelloWorld_exec HelloWorld_stub
+
+  Source_Files {
+    HelloWorld_Basic_Impl.cpp
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
 project (server) : cuts_tcpip, base {
   exename = server
 
-  after += HelloWorld_svnt
-  libs  += HelloWorld_svnt
+  after += HelloWorld_svnt HelloWorld_impl
+  libs  += HelloWorld_svnt HelloWorld_impl
 
   Source_Files {
     server.cpp
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (client) : cuts_tcpip, base {
+  exename = client
+
+  after += HelloWorld_stub
+  libs  += HelloWorld_stub
+
+  Source_Files {
+    client.cpp
   }
 
   Header_Files {

@@ -7,6 +7,7 @@
 #endif
 
 #include "TCPIP_HelloWorldC.h"
+#include "ace/CDR_Stream.h"
 
 namespace CUTS_TCPIP
 {
@@ -32,14 +33,21 @@ namespace CUTS_TCPIP
   // tcpip_handle_message
   //
   int HelloWorld_svnt::
-  tcpip_handle_message (ACE_Message_Block & mb)
+  tcpip_handle_message (ACE_InputCDR & stream)
   {
-    TCPIP::Message_var event;
-    ACE_NEW_RETURN (event, TCPIP::Message (), -1);
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - received a message on tcpip_handle_message\n"));
 
     // Store the event in a smart pointer for reference counting.
+    ::TCPIP::Message_var event;
+    ACE_NEW_RETURN (event, ::TCPIP::Message (), -1);
 
     // Extract the contents of the message.
+    if (!(stream >> *event))
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         ACE_TEXT ("%T (%t) - %M - failed to extract %s from stream\n"),
+                         ACE_TEXT ("::TCPIP::Message")),
+                         -1);
 
     // Push the message to the implementation.
     if (this->impl_)

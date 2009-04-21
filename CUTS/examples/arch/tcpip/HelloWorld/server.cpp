@@ -4,6 +4,7 @@
 #include "ace/Singleton.h"
 #include "ace/Null_Mutex.h"
 #include "HelloWorld_svnt.h"
+#include "HelloWorld_Basic_Impl.h"
 
 #define HELLOWORLD_SERVER \
   ACE_Singleton <CUTS_TCPIP_ORB, ACE_Null_Mutex>::instance ()
@@ -38,18 +39,32 @@ int ACE_TMAIN (int argc, char * argv [])
     // Initialize a new ORB for the server.
     HELLOWORLD_SERVER->init (argc, argv);
 
-    // Register the servant with the object manager.
-    CUTS_TCPIP::HelloWorld_svnt servant (0);
+    // Create the implemenation.
+    ::TCPIP::HelloWorld_Exec_var impl;
+    ACE_NEW_RETURN (impl, HelloWorld_Basic_Impl (), -1);
 
+    // Create the servant, giving ownership of implementation.
+    CUTS_TCPIP::HelloWorld_svnt servant (impl._retn ());
+
+    // Register the servant with the object manager.
     ACE_DEBUG ((LM_DEBUG,
                 "%T - %M - activating the object\n"));
     HELLOWORLD_SERVER->the_OM ().activate_object (&servant);
+
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - UUID:%s\n",
+                servant.the_UUID ().to_string ()->c_str ()));
 
     // Run the ORB event loop.
     ACE_DEBUG ((LM_DEBUG,
                 "%T - %M - running the server's event loop\n"));
 
-    return HELLOWORLD_SERVER->run ();
+    int retval = HELLOWORLD_SERVER->run ();
+
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - server's event loop is done\n"));
+
+    return retval;
   }
   catch (...)
   {

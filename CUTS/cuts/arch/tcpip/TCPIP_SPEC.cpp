@@ -34,7 +34,7 @@ ACE_CDR::Boolean operator << (ACE_OutputCDR & output, const ACE_Utils::UUID & uu
 //
 // operator <<
 //
-ACE_CDR::Boolean operator << (ACE_OutputCDR & output, const CUTS_TCPIP_SPEC & spec)
+char * operator << (ACE_OutputCDR & output, const CUTS_TCPIP_SPEC & spec)
 {
   CUTS_TCPIP_TRACE ("operator << (ACE_OutputCDR &, const CUTS_TCPIP_SPEC &)");
 
@@ -49,9 +49,9 @@ ACE_CDR::Boolean operator << (ACE_OutputCDR & output, const CUTS_TCPIP_SPEC & sp
 
   output << spec.uuid_;
   output << spec.event_id_;
-  output << spec.data_size_;
 
-  return output.good_bit ();
+  // End with the placeholder for the size.
+  return output.write_long_placeholder ();
 }
 
 //
@@ -109,7 +109,6 @@ ACE_CDR::Boolean operator >> (ACE_InputCDR & input, CUTS_TCPIP_SPEC & spec)
 
   // Read the byte order of the message.
   ACE_CDR::Boolean byte_order;
-
   if (!(input >> ACE_InputCDR::to_boolean (byte_order)))
     return false;
 
@@ -125,6 +124,9 @@ ACE_CDR::Boolean operator >> (ACE_InputCDR & input, CUTS_TCPIP_SPEC & spec)
   {
     return false;
   }
+
+  // skip the placeholder.
+  input.skip_short ();
 
   // Read the remaining parts of the SPEC.
   return (input >> spec.uuid_) &&

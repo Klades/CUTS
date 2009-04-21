@@ -37,13 +37,10 @@ public:
   /// Destructor.
   virtual ~CUTS_TCPIP_Event_Handler (void);
 
-  /// Open the service handler.
-  int open (void * args);
+  ///// Open the service handler.
+  //int open (void * args);
 
-  /// The service handler routine.
-  int svc (void);
-
-  int handle_input (ACE_HANDLE fd);
+  virtual int handle_input (ACE_HANDLE fd);
 
 private:
   /// The active state of the handler.

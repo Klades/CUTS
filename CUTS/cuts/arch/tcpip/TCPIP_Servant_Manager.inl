@@ -6,7 +6,7 @@
 CUTS_INLINE
 CUTS_TCPIP_Servant_Manager::CUTS_TCPIP_Servant_Manager (void)
 {
-
+  ACE_Utils::UUID_GENERATOR::instance ()->init ();
 }
 
 //
