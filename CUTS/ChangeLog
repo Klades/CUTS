@@ -1,3 +1,20 @@
+Thu Apr 23 01:55:35 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/capi/cuts/jbi/client/JbiSource.java:
+
+          . Bug fix where the source was not publihsing data. The line of
+            code that published the data was removed a LONG time ago on
+            accident.
+
+        * cuts/utils/Property_Evaluator_List_Actor.h:
+        * cuts/utils/Property_Evaluator_List_Actor.inl:
+        * cuts/utils/Property_Evaluator_List_Actor.cpp:
+        * cuts/utils/Property_Evaluator_List_Actor_T.cpp:
+        * cuts/utils/utils.mpc:
+
+          . Implemented an actor strategy for creating a list of all the
+            template parameters in a string of text.
+
 Tue Apr 21 20:14:38 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/tcpip/TCPIP_ORB.cpp:

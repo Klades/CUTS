@@ -72,11 +72,14 @@ public class JbiSource extends JbiPort
            MarshalException, ValidationException, IOException,
            InstantiationException, IllegalAccessException
   {
-    // Publish the event, which creates an MIO.
+    // Create the InfoObjet for this event.
     InfoObject io = this.jbiConn_.createInfoObject (this.typeName_,
                                                     this.typeVersion_,
                                                     event.getPayload (),
                                                     event.getMetadataString ());
+
+    // Publish the info object.
+    this.jbiSrc_.publishInfoObject (io);
 
     // Store the information object in the event.
     event.setInfoObject (io);
