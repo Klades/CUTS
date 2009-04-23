@@ -25,7 +25,8 @@ namespace AppSpace
          << "name: " << ev->packet.name << endl
          << "id: " << ev->packet.id << endl
          << "urgent: "
-         << (ev->packet.urgent ? "true" : "false") << endl;
+         << (ev->packet.urgent ? "true" : "false")
+         << endl << endl;
       
     delete [] ev->packet.name;     
     ev->packet.name = 0;     

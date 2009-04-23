@@ -227,7 +227,7 @@ main (int argc, ACE_TCHAR *argv[])
                              ACE_TEXT ("Consumer narrow failed\n")),
                             -1);
         }
-///*            
+            
       CORBA::ValueFactory_var vf = new ::Components::Cookie_init ();
       vf =
         orb->register_value_factory (
@@ -243,25 +243,18 @@ main (int argc, ACE_TCHAR *argv[])
                              ACE_TEXT ("Subscribe returned null cookie\n")),
                             -1);
         }
+
+      // This method is overridden to trigger a message send. 
+      pub_comp->configuration_complete ();
+
 /*       
-      ::OBV_Outer::TestData_IDL corba_ev;
-      corba_ev.key (5);
-      corba_ev.packet ().name = "catastrophe";
-      corba_ev.packet ().id = 12345;
-      corba_ev.packet ().urgent = true;
-      
-      cout << "\tCORBA data -" << endl
-           << "key: " << corba_ev.key () << endl
-           << "name: " << corba_ev.packet ().name.in () << endl
-           << "id: " << corba_ev.packet ().id << endl
-           << "urgent: " << (corba_ev.packet ().urgent ? "true" : "false")
-           << endl << endl;
-*/           
-      pub_obj->configuration_complete ();
-           
-/*           
-      sub_cont->remove_component (sub_comp.in ());     
+      // These throw CORBA::UNIMPLEMENTED, leading to warnings
+      // for the subsequent cleanup call.    
+      pub_cont->remove_component (pub_comp.in ());     
+      sub_cont->remove_component (sub_comp.in ());  
+         
       server->remove_container (sub_cont.in ());
+      server->remove_container (pub_cont.in ());
       sa->remove_component_server (server.in ());
 */
       root_poa->destroy (true, true);

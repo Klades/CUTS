@@ -33,7 +33,7 @@ namespace DSTO_AppSpace_Impl
       }
   }
   
-  PubAppAdpater::~PubAppAdpater (void)
+  PubAppAdapter::~PubAppAdapter (void)
   {
     delete this->context_;
     delete this->app_;
