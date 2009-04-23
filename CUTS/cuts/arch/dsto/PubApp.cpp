@@ -32,12 +32,6 @@ namespace AppSpace
   }
   
   void
-  PubApp::set_context ( ::DSTO_AppSpace_Impl::PubAppContext * ctx)
-  {
-    this->context_ = ctx;
-  }
-  
-  void
   PubApp::set_session_context (
     ::Components::SessionContext_ptr ctx)
   {
@@ -47,9 +41,6 @@ namespace AppSpace
     // don't need a copy.
     this->context_ =
       dynamic_cast< ::DSTO_AppSpace_Impl::PubAppContext *> (ctx);
-//    this->context_ =
-//      dynamic_cast< ::DSTO_AppSpace_Impl::PubAppContext *> (
-//        ::Components::SessionContext::_duplicate (ctx));
 
     if (CORBA::is_nil (this->context_))
       {

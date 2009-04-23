@@ -1,3 +1,23 @@
+Thu Apr 23 19:12:40 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
+
+        * cuts/arch/dsto/PubAppAdapter.cpp:
+        * cuts/arch/dsto/PubApp.h:
+        * cuts/arch/dsto/PubApp.cpp:
+        * cuts/arch/dsto/PubAppAdapter.h:
+        
+          - Added a duplication of the PubApp pointer in
+            the extern "C" method to create the PubAppAdpater,
+            before it is passed to the PubAppAdpater constructor.
+            The pointer to the PubApp instance passed into this
+            method belongs to a _var in the middleware, and so
+            was having its refcount go to 0 at initialization time.
+            
+          - Removed debugging methods and code from PubApp
+            and PubAppAdapter.
+            
+          - Added a destructor to PubAppAdpater, where the 
+            context and 'executor' allocations are cleaned up.
+
 Thu Apr 23 01:55:35 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/capi/cuts/jbi/client/JbiSource.java:

@@ -19,9 +19,6 @@ namespace AppSpace
     virtual void set_session_context (
       ::Components::SessionContext_ptr ctx);
      
-    // Added for debugging purposes - will be removed.  
-    void set_context ( ::DSTO_AppSpace_Impl::PubAppContext *);
-
   protected:
     ::DSTO_AppSpace_Impl::PubAppContext * context_;
   };

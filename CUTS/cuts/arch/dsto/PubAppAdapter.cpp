@@ -33,6 +33,12 @@ namespace DSTO_AppSpace_Impl
       }
   }
   
+  PubAppAdpater::~PubAppAdpater (void)
+  {
+    delete this->context_;
+    delete this->app_;
+  }
+  
   ::Components::SessionComponent_ptr
   PubAppAdapter::get_executor (void)
   {
@@ -106,14 +112,6 @@ namespace DSTO_AppSpace_Impl
     ev.packet.id = 12345;
     ev.packet.urgent = true;
     
-    // @@@@ (JP) Added this non-virtual method because there is
-    // something wrong with the vf table at this point. The context
-    // set call is repeated here because the app's context pointer
-    // member has been corrupted sometime since it was passed in by
-    // the constructor above.
-    this->app_->set_context (this->context_);
-//    this->app_->set_session_context (this->context_);
-
     this->app_->app_op_send (&ev);
   }
 
@@ -126,7 +124,8 @@ namespace DSTO_AppSpace_Impl
     const char *ins_name)
   {
     ::AppSpace::PubApp * x =
-      dynamic_cast< ::AppSpace::PubApp *> (p);
+      dynamic_cast< ::AppSpace::PubApp *> (
+        ::Components::EnterpriseComponent::_duplicate (p));
 
     if (x == 0)
       {

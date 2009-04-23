@@ -33,6 +33,8 @@ namespace DSTO_AppSpace_Impl
       ::CIAO::Home_Servant_Impl_Base * hs,
       ::CIAO::Container_ptr c);
       
+    virtual ~PubAppAdapter (void);
+      
     virtual
     ::Components::SessionComponent_ptr get_executor (void);
     
