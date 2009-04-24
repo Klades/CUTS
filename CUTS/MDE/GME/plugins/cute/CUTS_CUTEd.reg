@@ -1,0 +1,29 @@
+REGEDIT4
+
+[HKEY_CURRENT_USER\Software\Classes]
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID]
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{F3748950-3B2A-4511-8349-45EBFAF4BD32}]
+@="CUTS.Plugin.CUTE"
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{F3748950-3B2A-4511-8349-45EBFAF4BD32}\ProgID]
+@="CUTS.Plugin.CUTE"
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{F3748950-3B2A-4511-8349-45EBFAF4BD32}\InProcServer32]
+@="CUTS_CUTEd.dll"
+
+[HKEY_CURRENT_USER\Software\Classes\CUTS.Plugin.CUTE]
+@="CUTS.Plugin.CUTE"
+
+[HKEY_CURRENT_USER\Software\Classes\CUTS.Plugin.CUTE\CLSID]
+@="{F3748950-3B2A-4511-8349-45EBFAF4BD32}"
+
+[HKEY_CURRENT_USER\Software\GME\Components\CUTS.Plugin.CUTE]
+"Tooltip"="CUTS Template Engine"
+"Icon"=",IDI_COMPICON"
+"Paradigm"="*"
+"Type"=dword:0000000c
+"Description"="CUTS Template Engine (CUTE)"
+
+[HKEY_CURRENT_USER\Software\GME\Components\CUTS.Plugin.CUTE\Associated]

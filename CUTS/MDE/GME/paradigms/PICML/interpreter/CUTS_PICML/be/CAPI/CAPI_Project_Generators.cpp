@@ -165,7 +165,8 @@ generate_i (const PICML::MonolithicImplementation & monoimpl)
   CUTS_BE_CAPI ()->project_file_
     << std::endl
     << "<target name=\"" << name << ".build\">" << std::endl
-    << "<javac srcdir=\".\" classpathref=\"cuts.build.classpath\">" << std::endl;
+    << "<javac srcdir=\".\" classpathref=\"cuts.build.classpath\" "
+    << "debug=\"true\" debuglevel=\"source,lines\">" << std::endl;
 
   if (!classpath.empty ())
   {

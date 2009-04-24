@@ -134,7 +134,7 @@ write_static (const PICML::Event & event)
                  << "try {"
                  << "// Get the class for the type." << std::endl
                  << "Class thisClass = " << CUTS_BE_Capi::classname (event.SpecifyIdTag ())
-                 << ".class.getClass ();" << std::endl
+                 << ".class;" << std::endl
                  << "// Construct the name of the mapping file. This is necessary" << std::endl
                  << "// since Castor likes to construct *bad* tags." << std::endl
                  << "String packageName = thisClass.getPackage ().getName ();"
@@ -171,9 +171,6 @@ void CUTS_BE_CAPI_Event_Impl_Generator::write_getter_methods (void)
                  << std::endl
                  << "// Create a metadata object if it does not exist." << std::endl
                  << "this.metadata_ = new " << this->type_ << " ();"
-                 << std::endl
-                 << "if (this.metadataString_ == null)" << std::endl
-                 << "  return this.metadata_;"
                  << std::endl
                  << "StringReader reader;" << std::endl
                  << "if (this.infoObject_ != null)" << std::endl

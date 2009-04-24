@@ -843,6 +843,8 @@ configure (const PICML::InEventPort & sink,
                    << sink.name () << ".predicate";
 
     // Write the code to set the predicate.
+    std::string predicate = property.DataValue ();
+
     CUTS_BE_CAPI ()->outfile_
       << "this.setPredicate (" << predicate_name.str () << "\", "
       << property.DataValue () << ");";

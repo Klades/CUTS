@@ -1,16 +1,59 @@
+Fri Apr 24 21:35:28 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Event_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Project_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Workspace_Generators.cpp:
+
+          . Bug fix where the generated code for getting the metadata
+            of an event in object format was incorrect.
+
+          . Added 'debug' and 'debuglevel' flags to the generated
+            ANT scripts.
+
+        * MDE/GME/plugins:
+
+        * MDE/GME/plugins/cute:
+
+        * MDE/GME/plugins/cute/CUTE.ico:
+        * MDE/GME/plugins/cute/CUTE.mpc:
+        * MDE/GME/plugins/cute/CUTE_Dialog.h:
+        * MDE/GME/plugins/cute/CUTE_Dialog.inl:
+        * MDE/GME/plugins/cute/CUTE_Dialog.cpp:
+        * MDE/GME/plugins/cute/CUTS_CUTE.rc:
+        * MDE/GME/plugins/cute/CUTS_CUTEd.reg:
+        * MDE/GME/plugins/cute/ComponentConfig.h:
+        * MDE/GME/plugins/cute/Property_Locator.h:
+        * MDE/GME/plugins/cute/Property_Locator.inl:
+        * MDE/GME/plugins/cute/Property_Locator.cpp:
+        * MDE/GME/plugins/cute/RawComponent.h:
+        * MDE/GME/plugins/cute/RawComponent.cpp:
+        * MDE/GME/plugins/cute/resource.h:
+        * MDE/GME/plugins/cute/stdafx.h:
+        * MDE/GME/plugins/cute/stdafx.cpp:
+        * MDE/GME/plugins/cute/Windows_Registry.cpp:
+        * MDE/GME/plugins/cute/Windows_Registry.h:
+        * MDE/GME/plugins/cute/Windows_Registry.inl:
+
+          . Checkpoint CUTE. Right now, it is able to open a dialog
+            so end-users can select a template configuration, and
+            show all the intepreters for the current parasdigm. It also
+            has code that will gather all the elements that have a
+            template parameter.
+
 Thu Apr 23 20:20:42 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/main.cpp:
-        
-          Added comments explaining why cleanup code is 
+
+          Added comments explaining why cleanup code is
           commented out.
-           
+
         * cuts/arch/dsto/PubAppAdapter.cpp:
-        
+
           Fixed typos.
-          
+
         * cuts/arch/dsto/SubApp.cpp:
-        
+
           Minor change to debugging output.
 
 Thu Apr 23 19:12:40 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
@@ -19,18 +62,18 @@ Thu Apr 23 19:12:40 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
         * cuts/arch/dsto/PubApp.h:
         * cuts/arch/dsto/PubApp.cpp:
         * cuts/arch/dsto/PubAppAdapter.h:
-        
+
           - Added a duplication of the PubApp pointer in
             the extern "C" method to create the PubAppAdpater,
             before it is passed to the PubAppAdpater constructor.
             The pointer to the PubApp instance passed into this
             method belongs to a _var in the middleware, and so
             was having its refcount go to 0 at initialization time.
-            
+
           - Removed debugging methods and code from PubApp
             and PubAppAdapter.
-            
-          - Added a destructor to PubAppAdpater, where the 
+
+          - Added a destructor to PubAppAdpater, where the
             context and 'executor' allocations are cleaned up.
 
 Thu Apr 23 01:55:35 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>

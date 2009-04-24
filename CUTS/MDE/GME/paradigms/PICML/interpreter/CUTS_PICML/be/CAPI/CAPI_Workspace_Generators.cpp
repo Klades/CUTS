@@ -221,7 +221,8 @@ generate_target_eventtypes_build (std::ofstream & outfile)
   outfile
     << std::endl
     << "<target name=\"eventtypes.build\" depends=\"eventtypes.srcgen\">" << std::endl
-    << "<javac srcdir=\".\" classpathref=\"cuts.build.classpath\">" << std::endl;
+    << "<javac srcdir=\".\" classpathref=\"cuts.build.classpath\" "
+    << "debug=\"true\" debuglevel=\"source,lines\">" << std::endl;
 
   for ( ; iter != iter_end; ++ iter)
   {
