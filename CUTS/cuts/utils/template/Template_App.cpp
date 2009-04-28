@@ -2,8 +2,8 @@
 
 #include "Template_App.h"
 #include "Template_Engine.h"
-#include "Template_Config_List_Parser.h"
 #include "File_Generator.h"
+#include "cuts/utils/Config_List_Parser_T.h"
 #include "cuts/utils/Property_Map_File.h"
 #include "cuts/utils/Property_Parser.h"
 #include "ace/Get_Opt.h"
@@ -133,13 +133,13 @@ int CUTS_Template_App::run_main (int argc, char * argv [])
       this->opts_.output_ = ".";
 
     // Use the configuration list.
-    CUTS_File_Generator file (this->opts_.use_env_,
-                              this->opts_.ignore_variables_,
-                              this->opts_.ignore_commands_,
-                              this->opts_.input_,
-                              this->opts_.output_);
+    CUTS_File_Generator actor (this->opts_.use_env_,
+                               this->opts_.ignore_variables_,
+                               this->opts_.ignore_commands_,
+                               this->opts_.input_,
+                               this->opts_.output_);
 
-    CUTS_Template_Config_List_Parser parser (&file, overrides);
+    CUTS_Config_List_Parser_T <CUTS_File_Generator> parser (actor);
     parser.parse (this->opts_.config_list_.c_str ());
   }
 

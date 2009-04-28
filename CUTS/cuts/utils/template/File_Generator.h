@@ -14,7 +14,6 @@
 #define _CUTS_FILE_GENERATOR_H_
 
 #include "cuts/utils/Property_Map.h"
-#include "Template_Config_Handler.h"
 #include <string>
 
 /**
@@ -22,8 +21,7 @@
  *
  * Functor that generates a file for a template.
  */
-class CUTS_File_Generator :
-  public CUTS_Template_Config_Handler
+class CUTS_File_Generator
 {
 public:
   /**

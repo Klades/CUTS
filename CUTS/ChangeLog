@@ -1,3 +1,29 @@
+Tue Apr 28 13:22:58 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Config_List_Parser_T.h:
+        * cuts/utils/Config_List_Parser_T.inl:
+        * cuts/utils/Config_List_Parser_T.cpp:
+        * cuts/utils/template/File_Generator.h:
+        * cuts/utils/template/Template_App.cpp:
+        * cuts/utils/template/cutstmpl.mpc:
+        * cuts/utils/utils.mpc:
+
+          . Moved the configuration list parser to the cuts/utils
+            directory so it can be reused.
+
+          . Parameterized the configuration list parser so different
+            applications can leverage configuration list parser.
+
+        * MPC/config/cuts_template.mpb:
+        * cuts/utils/template/Template_Config_Handler.h:
+        * cuts/utils/template/Template_Config_Handler.inl:
+        * cuts/utils/template/Template_Config_Handler.cpp:
+        * cuts/utils/template/Template_Config_List_Parser.h:
+        * cuts/utils/template/Template_Config_List_Parser.inl:
+        * cuts/utils/template/Template_Config_List_Parser.cpp:
+
+          Removed these files.
+
 Tue Apr 28 12:00:56 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/models/CAPI.xme:
