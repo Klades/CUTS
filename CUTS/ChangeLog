@@ -1,3 +1,29 @@
+Tue Apr 28 23:20:28 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/plugins/cute/CUTE.mpc:
+        * MDE/GME/plugins/cute/CUTE_Dialog.h:
+        * MDE/GME/plugins/cute/CUTE_Dialog.inl:
+        * MDE/GME/plugins/cute/CUTE_Dialog.cpp:
+        * MDE/GME/plugins/cute/CUTS_CUTE.rc:
+        * MDE/GME/plugins/cute/Interpreter_List.h:
+        * MDE/GME/plugins/cute/Model_Interpreter.h:
+        * MDE/GME/plugins/cute/Model_Interpreter.inl:
+        * MDE/GME/plugins/cute/Model_Interpreter.cpp:
+        * MDE/GME/plugins/cute/Model_Interpreter_Action.h:
+        * MDE/GME/plugins/cute/Model_Interpreter_Action.inl:
+        * MDE/GME/plugins/cute/Model_Interpreter_Action.cpp:
+        * MDE/GME/plugins/cute/Model_Interpreter_Action_List.h:
+        * MDE/GME/plugins/cute/Model_Interpreter_Action_List.inl:
+        * MDE/GME/plugins/cute/Model_Interpreter_Action_List.cpp:
+        * MDE/GME/plugins/cute/Property_Element_Map.h:
+        * MDE/GME/plugins/cute/Property_Locator.h:
+        * MDE/GME/plugins/cute/Property_Locator.inl:
+        * MDE/GME/plugins/cute/Property_Locator.cpp:
+        * MDE/GME/plugins/cute/RawComponent.h:
+        * MDE/GME/plugins/cute/RawComponent.cpp:
+
+          . First prototype/implementation of CUTE for GME.
+
 Tue Apr 28 13:42:49 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MPC/config/cuts_template.mpb:

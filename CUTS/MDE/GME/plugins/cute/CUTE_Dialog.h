@@ -15,8 +15,7 @@
 
 #include "cuts/config.h"
 #include "resource.h"
-#include "ace/Unbounded_Set.h"
-#include "ace/SString.h"
+#include "Interpreter_List.h"
 
 /**
  * @class CUTE_Dialog
@@ -46,20 +45,28 @@ public:
 
   virtual BOOL OnInitDialog (void);
 
-  void interpreter_list (ACE_Unbounded_Set <ACE_CString> * list = 0);
+  void interpreter_list (CUTS_CUTE_Interpreter_List * list = 0);
 
-  ACE_Unbounded_Set <ACE_CString> * interpreter_list (void);
+  CUTS_CUTE_Interpreter_List * interpreter_list (void);
+
+  const CString & selected_interpreter (void) const;
+
+  const CString & configuration_filename (void) const;
 
 private:
   void on_click_browse (void);
 
   DECLARE_MESSAGE_MAP ();
 
-  ACE_Unbounded_Set <ACE_CString> * list_;
+  CUTS_CUTE_Interpreter_List * list_;
 
   CComboBox interpreter_list_;
 
   CEdit config_;
+
+  CString selected_interpeter_;
+
+  CString config_file_;
 };
 
 #if defined (__CUTS_INLINE__)

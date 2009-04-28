@@ -13,13 +13,11 @@
 #ifndef _CUTS_CUTE_PROPERTY_LOCATOR_H_
 #define _CUTS_CUTE_PROPERTY_LOCATOR_H_
 
-#include "ace/Hash_Multi_Map_Manager_T.h"
-#include "ace/SString.h"
-#include "ace/Null_Mutex.h"
 #include "game/FCO.h"
 #include "game/Visitor.h"
 #include "cuts/utils/Property_Evaluator_T.h"
 #include "cuts/utils/Property_Evaluator_List_Actor.h"
+#include "Model_Interpreter_Action_List.h"
 
 /**
  * @class CUTS_CUTE_Property_Locator
@@ -27,26 +25,12 @@
 class CUTS_CUTE_Property_Locator : public GME::Visitor
 {
 public:
-  /// Type definition of the map type.
-  typedef ACE_Hash_Multi_Map_Manager <ACE_CString,
-                                      GME::FCO,
-                                      ACE_Hash <ACE_CString>,
-                                      ACE_Equal_To <ACE_CString>,
-                                      ACE_Null_Mutex> map_type;
 
   /// Default constructor.
-  CUTS_CUTE_Property_Locator (void);
+  CUTS_CUTE_Property_Locator (CUTS_CUTE_Model_Interpreter_Action_List & actions);
 
   /// Destructor.
   virtual ~CUTS_CUTE_Property_Locator (void);
-
-  /// Clear the locator.
-  void clear (void);
-
-  /// Get the items found by the locator.
-  const map_type & items (void) const;
-
-  size_t total_items (void);
 
   virtual void visit_Folder (GME::Folder & folder);
 
@@ -58,7 +42,7 @@ private:
   void visit_Attribute (GME::Attribute & attr);
 
   /// Map that holds located items.
-  map_type map_;
+  CUTS_CUTE_Model_Interpreter_Action_List & actions_;
 
   CUTS_Property_Map prop_map_;
 
@@ -71,8 +55,6 @@ private:
     evaluator_type;
 
   evaluator_type evaluator_;
-
-  size_t total_size_;
 };
 
 #if defined (__CUTS_INLINE__)

@@ -12,8 +12,16 @@ project (CUTS_CUTE) : boost_base, cuts_utils, cuts_gme, game_component, register
 
   Source_Files {
     CUTE_Dialog.cpp
+    Model_Interpreter.cpp
+    Model_Interpreter_Action.cpp
+    Model_Interpreter_Action_List.cpp
     Property_Locator.cpp
     Windows_Registry.cpp
+  }
+
+  Header_Files {
+    Property_Element_Map.h
+    Interpreter_List.h
   }
 
   Resource_Files {

@@ -22,10 +22,10 @@ BOOL CUTS_CUTE_Dialog::OnInitDialog (void)
   if (0 != this->list_)
   {
     // Initialize the contents of the interpreter list.
-    ACE_Unbounded_Set <ACE_CString>::ITERATOR iter (*this->list_);
+    CUTS_CUTE_Interpreter_List::CONST_ITERATOR iter (*this->list_);
 
     for ( ; !iter.done (); ++ iter)
-      this->interpreter_list_.InsertString (0, (*iter).c_str ());
+      this->interpreter_list_.InsertString (0, iter->key ().c_str ());
   }
 
   return FALSE;
@@ -37,8 +37,12 @@ BOOL CUTS_CUTE_Dialog::OnInitDialog (void)
 void CUTS_CUTE_Dialog::DoDataExchange (CDataExchange * pDX)
 {
   CDialog::DoDataExchange (pDX);
+
   DDX_Control (pDX, IDC_INTERPRETER, this->interpreter_list_);
   DDX_Control (pDX, IDC_CONFIG, this->config_);
+
+  DDX_CBString (pDX, IDC_INTERPRETER, this->selected_interpeter_);
+  DDX_Text (pDX, IDC_CONFIG, this->config_file_);
 }
 
 //

@@ -16,6 +16,9 @@
 #include "ComponentLib.h"
 #include "game/be/Plugin_T.h"
 #include "game/be/Plugin_Impl.h"
+#include "ace/SString.h"
+#include "ace/Unbounded_Set.h"
+#include "Interpreter_List.h"
 
 /**
  * @class CUTS_CUTE
@@ -42,7 +45,7 @@ public:
 
 private:
   void get_interpreters (const char * paradigm,
-                         ACE_Unbounded_Set <ACE_CString> & list);
+                         CUTS_CUTE_Interpreter_List & list);
 };
 
 GME_RAWCOMPONENT_DECL (GME::Plugin_T, CUTS_CUTE);
