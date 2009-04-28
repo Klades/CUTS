@@ -7,7 +7,6 @@
 #include "boost/spirit/core.hpp"
 #include "boost/spirit/utility/lists.hpp"
 #include "boost/spirit/iterator/file_iterator.hpp"
-#include "ace/Log_Msg.h"
 
 //
 // parse
