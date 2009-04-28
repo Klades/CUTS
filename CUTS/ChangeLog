@@ -1,3 +1,11 @@
+Tue Apr 28 12:00:56 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/models/CAPI.xme:
+        * MDE/GME/paradigms/PICML/models/XMLSchema.xme:
+        * MDE/GME/paradigms/PICML/models/examples/capi/AnyEvent.xme:
+
+          . Updated the model to the latest version of PICML.
+
 Fri Apr 24 21:35:28 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Event_Impl_Generator.cpp:
