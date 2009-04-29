@@ -10,27 +10,6 @@
 #include "TCPIP_Servant_Manager.h"
 #include "TCPIP_SPEC.h"
 
-////
-//// open
-////
-//int CUTS_TCPIP_Event_Handler::open (void * args)
-//{
-//  if (0 == this->reactor () ||
-//     -1 == this->reactor ()->register_handler (this, ACE_Event_Handler::READ_MASK))
-//  {
-//    return -1;
-//  }
-//
-//  //// Turn the handler into an active object.
-//  //this->is_active_ = true;
-//  //int retval = this->activate ();
-//
-//  //if (-1 == retval)
-//  //  this->is_active_ = false;
-//
-//  //return retval;
-//}
-
 //
 // handle_input
 //

@@ -37,9 +37,6 @@ public:
   /// Destructor.
   virtual ~CUTS_TCPIP_Event_Handler (void);
 
-  ///// Open the service handler.
-  //int open (void * args);
-
   virtual int handle_input (ACE_HANDLE fd);
 
 private:

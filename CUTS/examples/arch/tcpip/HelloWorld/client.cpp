@@ -6,6 +6,8 @@
 #include "ace/SOCK_Stream.h"
 #include "ace/OS_NS_unistd.h"
 #include "cuts/arch/tcpip/TCPIP_SPEC.h"
+#include "cuts/arch/tcpip/TCPIP_Connector.h"
+#include "cuts/arch/tcpip/TCPIP_Connector_Svc_Handler.h"
 
 //
 // main
@@ -14,12 +16,9 @@ int ACE_TMAIN (int argc, char * argv [])
 {
   try
   {
-    ACE_INET_Addr server_addr (argv[1]);
+    CUTS_TCPIP_Connector_Svc_Handler * handler = 0;
 
-    ACE_SOCK_Stream stream;
-    ACE_SOCK_Connector connector;
-
-    if (-1 == connector.connect (stream, server_addr))
+    if (-1 == CUTS_TCPIP_CONNECTOR::instance ()->get_peer (argv[1], handler))
       ACE_ERROR_RETURN ((LM_ERROR,
                          ACE_TEXT ("%T (%t) - %M - failed to connect to %s [%m]\n"),
                          argv[1]),
@@ -60,9 +59,7 @@ int ACE_TMAIN (int argc, char * argv [])
     packet.replace (static_cast <ACE_CDR::Long> (datasize), ph_datasize);
 
     // Send the packet across the wire.
-    stream.send_n (packet.begin ());
-
-    ACE_OS::sleep (10);
+    handler->peer ().send_n (packet.begin ());
   }
   catch (...)
   {

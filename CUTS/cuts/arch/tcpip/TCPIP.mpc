@@ -8,6 +8,8 @@ project (CUTS_TCPIP) : cutslib {
     TCPIP.cpp
     TCPIP_Acceptor.cpp
     TCPIP_Container.cpp
+    TCPIP_Connector.cpp
+    TCPIP_Connector_Svc_Handler.cpp
     TCPIP_Event_Handler.cpp
     TCPIP_ORB.cpp
     TCPIP_Object.cpp
@@ -27,5 +29,6 @@ project (CUTS_TCPIP) : cutslib {
     config-default.h
     config.h
     TCPIP_Exceptions.h
+    TCPIP_Peer_Table.h
   }
 }
