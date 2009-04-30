@@ -21,12 +21,17 @@ namespace DSTO_AppSpace_Impl
       context_ (0)
   {
     ACE_NEW (this->context_, ::DSTO::ContextBase);
-//    this->context_->_ciao_instance_id (this->ins_name_);
     
     TAO_OBV_REGISTER_FACTORY ( ::Outer::TestData_IDL_init,
                               ::OBV_Outer::TestData_IDL);
                               
-    this->populate_consumer_table ();
+    try
+      {
+        this->populate_consumer_table ();
+      }
+    catch (const CORBA::Exception&)
+      {
+      }
   }
   
   ::Components::SessionComponent_ptr

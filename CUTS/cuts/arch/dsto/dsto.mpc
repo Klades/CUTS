@@ -1,4 +1,4 @@
-project (*Utilities) : ciao_container_base {
+project (DSTO_Utilities) : ciao_container_base {
   sharedname = DSTO_Utilities
   dynamicflags += DSTO_UTILITIES_BUILD_DLL
   
@@ -30,7 +30,7 @@ project (*Utilities) : ciao_container_base {
 }
 
 project (ModelData) : ccm_svnt {
-  after += *Utilities
+  after += DSTO_Utilities
   libs += DSTO_Utilities
   sharedname = ModelData
   dynamicflags += MODELDATA_BUILD_DLL
@@ -55,7 +55,7 @@ project (ModelData) : ccm_svnt {
 }
 
 project (SubApp) : ccm_svnt {
-  after += *Utilities ModelData
+  after += DSTO_Utilities ModelData
   libs += DSTO_Utilities ModelData
   sharedname = SubApp
   dynamicflags += SUBAPP_BUILD_DLL
@@ -79,7 +79,7 @@ project (SubApp) : ccm_svnt {
 }
 
 project (PubApp) : ccm_svnt, ccm_cookie {
-  after += *Utilities ModelData
+  after += DSTO_Utilities ModelData
   libs += DSTO_Utilities ModelData
   sharedname = PubApp
   dynamicflags += PUBAPP_BUILD_DLL
@@ -121,7 +121,7 @@ project (SubAppAdapter) : ciao_servant {
   
   Header_Files {
     SubAppAdapter.h
-    SubAppComponent_export.h
+    SubAppAdapter_export.h
     SubAppComponentC.h
     SubAppComponentS.h
   }
@@ -153,7 +153,7 @@ project (PubAppAdapter) : ciao_servant {
   
   Header_Files {
     PubAppAdapter.h
-    PubAppComponent_export.h
+    PubAppAdapter_export.h
     PubAppComponentC.h
     PubAppComponentS.h
   }

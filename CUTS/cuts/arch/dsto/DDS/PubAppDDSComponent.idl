@@ -1,0 +1,14 @@
+#ifndef PUBAPPDDSCOMPONENT_IDL
+#define PUBAPPDDSCOMPONENT_IDL
+
+#include "ModelDDSData_EV.idl"
+
+module Outer
+{
+  component PubAppDDSComponent
+  {
+    publishes Dummy app_op_send;
+  };
+};
+
+#endif // PUBAPPDDSCOMPONENT_IDL

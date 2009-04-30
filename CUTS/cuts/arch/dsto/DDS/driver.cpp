@@ -10,8 +10,8 @@
 #include "ciao/Valuetype_Factories/ConfigValue.h"
 #include "ciao/Logger/Logger_Service.h"
 
-#include "SubAppAdapter.h"
-#include "PubAppAdapter.h"
+#include "SubAppDDSAdapter.h"
+#include "PubAppDDSAdapter.h"
 
 const char *cs_path = "ciao_componentserver";
 CORBA::ULong spawn_delay = 5;
@@ -126,22 +126,22 @@ main (int argc, ACE_TCHAR *argv[])
       ::Components::ConfigValues configs (3);
       configs.length (3);
 
-      val <<= "create_SubAppAdapter_Servant";
+      val <<= "create_SubAppDDSAdapter_Servant";
       configs[0] = new CIAO::ConfigValue_impl (CIAO::Deployment::SVNT_ENTRYPT,
                                                val);
-      val <<= "SubAppAdapter";
+      val <<= "SubAppDDSAdapter";
       configs[1] = new CIAO::ConfigValue_impl (CIAO::Deployment::SVNT_ARTIFACT,
                                                val);
-      tmp_ci->install ("SubAppAdapter", "SubAppAdapter");
+      tmp_ci->install ("SubAppDDSAdapter", "SubAppDDSAdapter");
 
-      val <<= "SubApp";
+      val <<= "SubAppDDS";
       configs[2] = new CIAO::ConfigValue_impl (CIAO::Deployment::EXEC_ARTIFACT,
                                                val);
-      tmp_ci->install ("SubApp", "SubApp");
+      tmp_ci->install ("SubAppDDS", "SubAppDDS");
 
       Components::CCMObject_var sub_obj =
-        sub_cont->install_component ("theSubApp",
-                                     "create_SubAppAdapter_Impl",
+        sub_cont->install_component ("theSubAppDDS",
+                                     "create_SubAppDDSAdapter_Impl",
                                      configs);
 
       if (CORBA::is_nil (sub_obj. in ()))
@@ -152,8 +152,8 @@ main (int argc, ACE_TCHAR *argv[])
                             -1);
         }
         
-      ::Outer::SubAppComponent_var sub_comp =
-        ::Outer::SubAppComponent::_narrow (sub_obj.in ());
+      ::Outer::SubAppDDSComponent_var sub_comp =
+        ::Outer::SubAppDDSComponent::_narrow (sub_obj.in ());
         
       if (CORBA::is_nil (sub_comp.in ()))
         {
@@ -172,22 +172,22 @@ main (int argc, ACE_TCHAR *argv[])
                             -1);
         }
 
-      val <<= "create_PubAppAdapter_Servant";
+      val <<= "create_PubAppDDSAdapter_Servant";
       configs[0] = new CIAO::ConfigValue_impl (CIAO::Deployment::SVNT_ENTRYPT,
                                                val);
-      val <<= "PubAppAdapter";
+      val <<= "PubAppDDSAdapter";
       configs[1] = new CIAO::ConfigValue_impl (CIAO::Deployment::SVNT_ARTIFACT,
                                                val);
-      tmp_ci->install ("PubAppAdapter", "PubAppAdapter");
+      tmp_ci->install ("PubAppDDSAdapter", "PubAppDDSAdapter");
 
-      val <<= "PubApp";
+      val <<= "PubAppDDS";
       configs[2] = new CIAO::ConfigValue_impl (CIAO::Deployment::EXEC_ARTIFACT,
                                                val);
-      tmp_ci->install ("PubApp", "PubApp");
+      tmp_ci->install ("PubAppDDS", "PubAppDDS");
 
       Components::CCMObject_var pub_obj =
-        pub_cont->install_component ("thePubApp",
-                                     "create_PubAppAdapter_Impl",
+        pub_cont->install_component ("thePubAppDDS",
+                                     "create_PubAppDDSAdapter_Impl",
                                      configs);
 
       if (CORBA::is_nil (pub_obj. in ()))
@@ -198,8 +198,8 @@ main (int argc, ACE_TCHAR *argv[])
                             -1);
         }
         
-      ::Outer::PubAppComponent_var pub_comp =
-        ::Outer::PubAppComponent::_narrow (pub_obj.in ());
+      ::Outer::PubAppDDSComponent_var pub_comp =
+        ::Outer::PubAppDDSComponent::_narrow (pub_obj.in ());
         
       if (CORBA::is_nil (pub_comp.in ()))
         {
@@ -218,8 +218,8 @@ main (int argc, ACE_TCHAR *argv[])
                             -1);
         }
         
-      ::Outer::TestData_IDLConsumer_var td_ec =
-        ::Outer::TestData_IDLConsumer::_narrow (ec.in ());
+      ::Outer::DummyConsumer_var td_ec =
+        ::Outer::DummyConsumer::_narrow (ec.in ());
       
        if (CORBA::is_nil (td_ec.in ()))
         {

@@ -1,0 +1,14 @@
+#ifndef SUBAPPDDSCOMPONENT_IDL
+#define SUBAPPDDSCOMPONENT_IDL
+
+#include "ModelDDSData_EV.idl"
+
+module Outer
+{
+  component SubAppDDSComponent
+  {
+    consumes Dummy app_op_recv;
+  };
+};
+
+#endif // SUBAPPDDSCOMPONENT_IDL

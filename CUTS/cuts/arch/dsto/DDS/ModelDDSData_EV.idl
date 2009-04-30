@@ -1,0 +1,13 @@
+#ifndef MODEL_DDS_DATA_EV_IDL
+#define MODEL_DDS_DATA_EV_IDL
+
+#include "Components.idl"
+
+module Outer
+{
+  eventtype Dummy
+  {
+  };
+};
+
+#endif // MODEL_DDS_DATA_EV_IDL
