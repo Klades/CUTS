@@ -44,7 +44,7 @@ int ACE_TMAIN (int argc, char * argv [])
     ACE_NEW_RETURN (impl, HelloWorld_Basic_Impl (), -1);
 
     // Create the servant, giving ownership of implementation.
-    CUTS_TCPIP::HelloWorld_svnt servant (impl._retn ());
+    ::TCPIP::HelloWorld_Servant servant (impl._retn ());
 
     // Register the servant with the object manager.
     ACE_DEBUG ((LM_DEBUG,

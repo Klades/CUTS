@@ -17,23 +17,40 @@
 #include "TCPIP_HelloWorldEC.h"
 #include "HelloWorld_svnt_export.h"
 
-namespace CUTS_TCPIP
+namespace TCPIP
 {
+  class HelloWorld_Servant_Context;
+
+  typedef CUTS_TCPIP_Var_T <HelloWorld_Servant_Context> HelloWorld_Servant_Context_var;
+
+  class HELLOWORLD_SVNT_Export HelloWorld_Servant_Context :
+    public CUTS_TCPIP_Context
+  {
+  public:
+    typedef HelloWorld_Servant_Context_var var_type;
+
+    HelloWorld_Servant_Context (void);
+
+    virtual ~HelloWorld_Servant_Context (void);
+  };
+
+  class HelloWorld_Servant;
+
+  typedef CUTS_TCPIP_Servant_T <::TCPIP::HelloWorld_Servant,
+                                ::TCPIP::HelloWorld_Servant_Context,
+                                ::TCPIP::HelloWorld_Exec> HelloWorld_Servant_Base;
   /**
    * @class HelloWorld_svnt
    */
-  class HELLOWORLD_SVNT_Export HelloWorld_svnt :
-    public CUTS_TCPIP_Servant_T <HelloWorld_svnt>
+  class HELLOWORLD_SVNT_Export HelloWorld_Servant :
+    public HelloWorld_Servant_Base
   {
   public:
-    /// Type definition of the servant type.
-    typedef CUTS_TCPIP_Servant_T <HelloWorld_svnt> servant_type;
-
     /// Default constructor.
-    HelloWorld_svnt (TCPIP::HelloWorld_Exec * impl);
+    HelloWorld_Servant (CUTS_TCPIP_Component * impl);
 
     /// Destructor.
-    virtual ~HelloWorld_svnt (void);
+    virtual ~HelloWorld_Servant (void);
 
     /**
      * Method responsible for unmarshalling an ACE_Message_Block object
@@ -42,10 +59,6 @@ namespace CUTS_TCPIP
      * @param[in]         ev          Message block to unmarshall.
      */
     int tcpip_handle_message (ACE_InputCDR & input);
-
-  private:
-    /// Pointer to the implementation.
-    TCPIP::HelloWorld_Exec_var impl_;
   };
 }
 

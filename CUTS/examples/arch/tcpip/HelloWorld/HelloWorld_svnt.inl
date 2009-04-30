@@ -1,10 +1,10 @@
 // -*- C++ -*-
 // $Id$
 
-namespace CUTS_TCPIP
+namespace TCPIP
 {
   CUTS_INLINE
-  HelloWorld_svnt::~HelloWorld_svnt (void)
+  HelloWorld_Servant::~HelloWorld_Servant (void)
   {
 
   }

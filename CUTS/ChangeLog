@@ -1,3 +1,28 @@
+Thu Apr 30 01:07:06 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/tcpip/TCPIP.mpc:
+        * cuts/arch/tcpip/TCPIP_Component.h:
+        * cuts/arch/tcpip/TCPIP_Component.inl:
+        * cuts/arch/tcpip/TCPIP_Component.cpp:
+        * cuts/arch/tcpip/TCPIP_Context.h:
+        * cuts/arch/tcpip/TCPIP_Context.inl:
+        * cuts/arch/tcpip/TCPIP_Context.cpp:
+        * cuts/arch/tcpip/TCPIP_Servant_T.h:
+        * cuts/arch/tcpip/TCPIP_Servant_T.inl:
+        * cuts/arch/tcpip/TCPIP_Servant_T.cpp:
+        * cuts/arch/tcpip/TCPIP_export.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.idl:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.cpp:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.inl:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.cpp:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldEC.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldEC.cpp:
+        * examples/arch/tcpip/HelloWorld/server.cpp:
+
+          . Added the notion of a *context* to the components.
+
 Wed Apr 29 23:28:29 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/tcpip/TCPIP.mpc:

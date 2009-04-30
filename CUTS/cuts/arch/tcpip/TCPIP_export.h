@@ -7,7 +7,7 @@
 #ifndef CUTS_TCPIP_EXPORT_H
 #define CUTS_TCPIP_EXPORT_H
 
-#include "ace/config-all.h"
+#include "config.h"
 
 #if defined (ACE_AS_STATIC_LIBS) && !defined (CUTS_TCPIP_HAS_DLL)
 #  define CUTS_TCPIP_HAS_DLL 0

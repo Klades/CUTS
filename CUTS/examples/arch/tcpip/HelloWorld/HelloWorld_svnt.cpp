@@ -9,30 +9,45 @@
 #include "TCPIP_HelloWorldC.h"
 #include "ace/CDR_Stream.h"
 
-namespace CUTS_TCPIP
+namespace TCPIP
 {
   //
-  // HelloWorld_svnt
+  // HelloWorld_Servant_Context
   //
-  HelloWorld_svnt::
-  HelloWorld_svnt (TCPIP::HelloWorld_Exec * impl)
-    : servant_type (this),
-      impl_ (impl)
+  HelloWorld_Servant_Context::HelloWorld_Servant_Context (void)
+  {
+
+  }
+
+  //
+  // ~HelloWorld_Servant_Context
+  //
+  HelloWorld_Servant_Context::~HelloWorld_Servant_Context (void)
+  {
+
+  }
+
+  //
+  // HelloWorld_Servant
+  //
+  HelloWorld_Servant::
+  HelloWorld_Servant (CUTS_TCPIP_Component * impl)
+    : HelloWorld_Servant_Base (this, impl)
   {
     // Guard the initializing of the virtual table.
-    vtable_type::init_guard_type guard (HelloWorld_svnt::vtable_, 1);
+    vtable_type::init_guard_type guard (HelloWorld_Servant::vtable_, 1);
 
-    if (HelloWorld_svnt::vtable_.is_init ())
+    if (HelloWorld_Servant::vtable_.is_init ())
       return;
 
     // Initialize the virtual table for the servant.
-    HelloWorld_svnt::vtable_[0] = &HelloWorld_svnt::tcpip_handle_message;
+    HelloWorld_Servant::vtable_[0] = &HelloWorld_Servant::tcpip_handle_message;
   }
 
   //
   // tcpip_handle_message
   //
-  int HelloWorld_svnt::
+  int HelloWorld_Servant::
   tcpip_handle_message (ACE_InputCDR & stream)
   {
     ACE_DEBUG ((LM_DEBUG,

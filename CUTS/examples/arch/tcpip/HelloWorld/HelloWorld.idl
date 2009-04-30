@@ -19,6 +19,8 @@ event Message
 component HelloWorld
 {
   consumes Message handle_message;
+
+  emits Message handle_message;
 };
 
 #endif  // !defined _HELLOWORLD_IDL_
