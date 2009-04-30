@@ -9,6 +9,7 @@ project (CUTS_TCPIP) : cutslib {
     TCPIP_Acceptor.cpp
     TCPIP_Container.cpp
     TCPIP_Component.cpp
+    TCPIP_ComponentServer.cpp
     TCPIP_Context.cpp
     TCPIP_Connector.cpp
     TCPIP_Connector_Svc_Handler.cpp

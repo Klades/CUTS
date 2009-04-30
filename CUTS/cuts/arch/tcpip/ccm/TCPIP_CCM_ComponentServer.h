@@ -13,14 +13,16 @@
 #ifndef _CUTS_TCPIP_CCM_COMPONENTSERVER_H_
 #define _CUTS_TCPIP_CCM_COMPONENTSERVER_H_
 
-#include "TCPIP_CCM_export.h"
+#include "cuts/arch/tcpip/TCPIP_ComponentServer.h"
 #include "tao/PortableServer/PortableServer.h"
 #include "ace/Task.h"
+#include "TCPIP_CCM_export.h"
 
 /**
  * @class CUTS_TCPIP_CCM_ComponentServer
  */
 class CUTS_TCPIP_CCM_Export CUTS_TCPIP_CCM_ComponentServer :
+  public CUTS_TCPIP_ComponentServer,
   public ACE_Task_Base
 {
 public:
@@ -30,11 +32,16 @@ public:
   /// Destructor.
   virtual ~CUTS_TCPIP_CCM_ComponentServer (void);
 
-  int init (int & argc, char * argv[]);
+  virtual int init (int & argc, char * argv[]);
 
-  int svc (void);
+  virtual int shutdown (void);
 
-  int shutdown (void);
+  virtual int activate (void);
+
+  virtual int destroy (void);
+
+  /// Service routine for the task/server.
+  virtual int svc (void);
 
 private:
   /// The ORB for the server.

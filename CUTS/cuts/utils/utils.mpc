@@ -6,8 +6,6 @@ project (CUTS_Utils) : boost_base, cutslib {
   dynamicflags += CUTS_UTILS_BUILD_DLL
 
   Source_Files {
-    Config_Handler.cpp
-
     Command_Substitution.cpp
     Property_Evaluator_List_Actor.cpp
     Property_Evaluator_Stream_Actor.cpp

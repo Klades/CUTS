@@ -7,7 +7,7 @@
 #endif
 
 //
-// activate
+// init
 //
 int CUTS_TCPIP_CCM_ComponentServer::init (int & argc, char * argv[])
 {
@@ -29,7 +29,7 @@ int CUTS_TCPIP_CCM_ComponentServer::init (int & argc, char * argv[])
   ::PortableServer::POAManager_var mgr = this->root_->the_POAManager ();
   mgr->activate ();
 
-  return 0;
+  return CUTS_TCPIP_ComponentServer::init (argc, argv);
 }
 
 //
@@ -57,14 +57,16 @@ int CUTS_TCPIP_CCM_ComponentServer::svc (void)
 }
 
 //
-// shutdown
+// activate
 //
-int CUTS_TCPIP_CCM_ComponentServer::shutdown (void)
+int CUTS_TCPIP_CCM_ComponentServer::activate (void)
 {
   try
   {
-    this->orb_->shutdown ();
-    return 0;
+    // Activate the task, which will run the ORB's main event loop.
+    ACE_Task_Base::activate ();
+
+    return CUTS_TCPIP_ComponentServer::activate ();
   }
   catch (const CORBA::Exception & ex)
   {
@@ -72,4 +74,49 @@ int CUTS_TCPIP_CCM_ComponentServer::shutdown (void)
                 "%T (%t) - %M - %s\n",
                 ex._info ().c_str ()));
   }
+
+  return -1;
+}
+
+//
+// shutdown
+//
+int CUTS_TCPIP_CCM_ComponentServer::shutdown (void)
+{
+  try
+  {
+    this->orb_->shutdown ();
+    return CUTS_TCPIP_ComponentServer::shutdown ();
+  }
+  catch (const CORBA::Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - %s\n",
+                ex._info ().c_str ()));
+  }
+
+  return -1;
+}
+
+//
+// destroy
+//
+int CUTS_TCPIP_CCM_ComponentServer::destroy (void)
+{
+  try
+  {
+    // Destroy the ORB and RootPOA
+    this->root_->destroy (0, 0);
+    this->orb_->destroy ();
+
+    return CUTS_TCPIP_ComponentServer::destroy ();
+  }
+  catch (const CORBA::Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - %s\n",
+                ex._info ().c_str ()));
+  }
+
+  return -1;
 }
