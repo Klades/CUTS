@@ -22,6 +22,9 @@
 // Forward decl.
 class CUTS_TCPIP_Servant;
 
+// Forward decl.
+class CUTS_TCPIP_ORB;
+
 /**
  * @class CUTS_TCPIP_Servant_Manager
  */
@@ -35,7 +38,7 @@ public:
                           ACE_RW_Thread_Mutex> map_type;
 
   /// Default constructor.
-  CUTS_TCPIP_Servant_Manager (void);
+  CUTS_TCPIP_Servant_Manager (CUTS_TCPIP_ORB * orb);
 
   /// Destructor.
   ~CUTS_TCPIP_Servant_Manager (void);
@@ -66,6 +69,9 @@ public:
                    CUTS_TCPIP_Servant * & object) const;
 
 private:
+  /// ORB that owns the servant manager.
+  CUTS_TCPIP_ORB * orb_;
+
   /// Collection of active objects in this manager.
   map_type active_objects_;
 };

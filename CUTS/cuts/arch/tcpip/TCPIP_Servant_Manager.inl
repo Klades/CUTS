@@ -4,7 +4,8 @@
 // CUTS_TCPIP_Servant_Manager
 //
 CUTS_INLINE
-CUTS_TCPIP_Servant_Manager::CUTS_TCPIP_Servant_Manager (void)
+CUTS_TCPIP_Servant_Manager::CUTS_TCPIP_Servant_Manager (CUTS_TCPIP_ORB * orb)
+: orb_ (orb)
 {
   ACE_Utils::UUID_GENERATOR::instance ()->init ();
 }

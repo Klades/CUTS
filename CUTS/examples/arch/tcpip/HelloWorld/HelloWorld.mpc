@@ -37,7 +37,7 @@ project (HelloWorld_exec) : cuts_tcpip, base {
   }
 }
 
-project (HelloWorld_svnt) : cuts_tcpip, base {
+project (HelloWorld_svnt) : cuts_tcpip_ccm, base {
   sharedname    = HelloWorld_svnt
   dynamicflags += HELLOWORLD_SVNT_BUILD_DLL
 
@@ -53,6 +53,10 @@ project (HelloWorld_svnt) : cuts_tcpip, base {
   }
 
   Inline_Files {
+
+  }
+
+  IDL_Files {
 
   }
 }
@@ -77,7 +81,7 @@ project (HelloWorld_impl) : cuts_tcpip, base {
   }
 }
 
-project (server) : cuts_tcpip, base {
+project (server) : cuts_tcpip_ccm, base {
   exename = server
 
   after += HelloWorld_svnt HelloWorld_impl
@@ -92,6 +96,10 @@ project (server) : cuts_tcpip, base {
   }
 
   Inline_Files {
+
+  }
+
+  IDL_Files {
 
   }
 }

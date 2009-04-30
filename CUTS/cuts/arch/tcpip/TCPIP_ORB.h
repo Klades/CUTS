@@ -49,6 +49,9 @@ public:
 
   int shutdown (void);
 
+  /// Address the ORB is listening.
+  const CUTS_TCPIP_Acceptor::PEER_ADDR & listen_addr (void) const;
+
 private:
   /// Helper method to parse the command-line arguments.
   int parse_args (int argc, char * argv []);

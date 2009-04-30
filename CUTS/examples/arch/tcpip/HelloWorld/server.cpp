@@ -1,12 +1,13 @@
 // $Id$
 
 #include "cuts/arch/tcpip/TCPIP_ORB.h"
+#include "cuts/arch/tcpip/ccm/TCPIP_CCM_ComponentServer.h"
 #include "ace/Singleton.h"
 #include "ace/Null_Mutex.h"
 #include "HelloWorld_svnt.h"
 #include "HelloWorld_Basic_Impl.h"
 
-#define HELLOWORLD_SERVER \
+#define TCPIP_SERVER_ORB \
   ACE_Singleton <CUTS_TCPIP_ORB, ACE_Null_Mutex>::instance ()
 
 //
@@ -14,7 +15,7 @@
 //
 static void server_sighandler (int sig)
 {
-  HELLOWORLD_SERVER->shutdown ();
+  TCPIP_SERVER_ORB->shutdown ();
   ACE_UNUSED_ARG (sig);
 }
 
@@ -36,8 +37,13 @@ int ACE_TMAIN (int argc, char * argv [])
 {
   try
   {
-    // Initialize a new ORB for the server.
-    HELLOWORLD_SERVER->init (argc, argv);
+    // Initialize the component server.
+    CUTS_TCPIP_CCM_ComponentServer server;
+    server.init (argc, argv);
+    server.activate ();
+
+    // Initialize a new TCPIP ORB for the server.
+    TCPIP_SERVER_ORB->init (argc, argv);
 
     // Create the implemenation.
     ::TCPIP::HelloWorld_Exec_var impl;
@@ -49,22 +55,46 @@ int ACE_TMAIN (int argc, char * argv [])
     // Register the servant with the object manager.
     ACE_DEBUG ((LM_DEBUG,
                 "%T - %M - activating the object\n"));
-    HELLOWORLD_SERVER->the_OM ().activate_object (&servant);
+    TCPIP_SERVER_ORB->the_OM ().activate_object (&servant);
 
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - UUID:%s\n",
-                servant.the_UUID ().to_string ()->c_str ()));
+    // Get the EventConsumerBase object for <handle_message>
+    Components::EventConsumerBase_var consumer = servant.get_consumer ("handle_message");
 
-    // Run the ORB event loop.
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - running the server's event loop\n"));
+    // Subscribe the returned consumer.
+    servant.connect_consumer ("handle_message", consumer.in ());
 
-    int retval = HELLOWORLD_SERVER->run ();
+    servant.configuration_complete ();
 
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - server's event loop is done\n"));
+    // Let's force the activation of the component.
+    servant.ccm_activate ();
 
-    return retval;
+    // sleep for 15 seconds
+    ACE_OS::sleep (60);
+
+    servant.ccm_passivate ();
+
+    servant.ccm_remove ();
+
+    //ACE_DEBUG ((LM_DEBUG,
+    //            "%T - %M - UUID:%s\n",
+    //            servant.the_UUID ().to_string ()->c_str ()));
+
+    //// Run the ORB event loop.
+    //ACE_DEBUG ((LM_DEBUG,
+    //            "%T - %M - running the server's event loop\n"));
+
+    //int retval = TCPIP_SERVER_ORB->run ();
+
+    //ACE_DEBUG ((LM_DEBUG,
+    //            "%T - %M - server's event loop is done\n"));
+
+    return 0;
+  }
+  catch (const CORBA::Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T - %M - %s\n",
+                ex._info ().c_str ()));
   }
   catch (...)
   {

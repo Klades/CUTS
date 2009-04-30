@@ -18,6 +18,9 @@
 // Forward decl.
 class ACE_InputCDR;
 
+// Forward decl.
+class CUTS_TCPIP_ORB;
+
 /**
  * @class CUTS_TCPIP_Servant
  *
@@ -38,6 +41,8 @@ public:
    */
   const ACE_Utils::UUID & the_UUID (void) const;
 
+  const CUTS_TCPIP_ORB * the_ORB (void) const;
+
   /**
    * Handle an event received on the TCP/IP port.
    *
@@ -47,6 +52,14 @@ public:
    * @retval            -1          Failure
    */
   virtual int handle_event (ACE_UINT32 id, ACE_InputCDR & input) = 0;
+
+  virtual void configuration_complete (void) = 0;
+
+  virtual void ccm_activate (void) = 0;
+
+  virtual void ccm_passivate (void) = 0;
+
+  virtual void ccm_remove (void) = 0;
 
 protected:
   /// Default constructor.
@@ -58,6 +71,9 @@ protected:
 private:
   /// UUID assigned to the objeect.
   ACE_Utils::UUID uuid_;
+
+  /// ORB the servant was activated under.
+  CUTS_TCPIP_ORB * orb_;
 };
 
 #if defined (__CUTS_INLINE__)

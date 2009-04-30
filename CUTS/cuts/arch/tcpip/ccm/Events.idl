@@ -1,0 +1,38 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ *  @file         Events.idl
+ *
+ *  $Id$
+ *
+ *  @author       James H. Hill
+ */
+//=============================================================================
+
+#ifndef _CUTS_TCPIP_EVENTS_IDL_
+#define _CUTS_TCPIP_EVENTS_IDL_
+
+#include "ccm/CCM_Events.idl"
+
+module Components
+{
+  module TCPIP
+  {
+    struct Endpoint
+    {
+      string address;
+
+      string UUID;
+
+      unsigned long event;
+    };
+
+    interface EventConsumerBase : ::Components::EventConsumerBase
+    {
+      readonly attribute Endpoint remote_endpoint;
+    };
+  };
+};
+
+#endif  // !defined _CUTS_TCPIP_EVENTS_IDL_

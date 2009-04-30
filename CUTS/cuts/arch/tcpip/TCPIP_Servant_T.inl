@@ -24,3 +24,43 @@ handle_event (ACE_UINT32 id, ACE_InputCDR & input)
 
   return -1;
 }
+
+//
+// configuration_complete
+//
+template <typename T, typename CTX, typename EXEC>
+void CUTS_TCPIP_Servant_T <T, CTX, EXEC>::configuration_complete (void)
+{
+  if (this->impl_)
+    this->impl_->configuration_complete ();
+}
+
+//
+// ccm_activate
+//
+template <typename T, typename CTX, typename EXEC>
+void CUTS_TCPIP_Servant_T <T, CTX, EXEC>::ccm_activate (void)
+{
+  if (this->impl_)
+    this->impl_->ccm_activate ();
+}
+
+//
+// ccm_passivate
+//
+template <typename T, typename CTX, typename EXEC>
+void CUTS_TCPIP_Servant_T <T, CTX, EXEC>::ccm_passivate (void)
+{
+  if (this->impl_)
+    this->impl_->ccm_passivate ();
+}
+
+//
+// ccm_remove
+//
+template <typename T, typename CTX, typename EXEC>
+void CUTS_TCPIP_Servant_T <T, CTX, EXEC>::ccm_remove (void)
+{
+  if (this->impl_)
+    this->impl_->ccm_remove ();
+}

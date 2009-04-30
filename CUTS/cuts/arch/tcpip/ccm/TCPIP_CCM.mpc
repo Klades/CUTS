@@ -1,0 +1,76 @@
+// $Id$
+
+project (CUTS_TCPIP_CCM_stub) : ccm_stub, cutslib {
+  sharedname    = CUTS_TCPIP_CCM_stub
+  dynamicflags += CUTS_TCPIP_CCM_STUB_BUILD_DLL
+
+  idlflags += -Wb,stub_export_macro=CUTS_TCPIP_CCM_STUB_Export \
+              -Wb,stub_export_include=TCPIP_CCM_stub_export.h \
+              -Wb,skel_export_macro=CUTS_TCPIP_CCM_SKEL_Export \
+              -Wb,skel_export_include=TCPIP_CCM_skel_export.h
+
+  IDL_Files {
+    Events.idl
+  }
+
+  Source_Files {
+    EventsC.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (CUTS_TCPIP_CCM_skel) : ccm_svnt, cuts_tcpip_ccm_stub, cutslib {
+  sharedname    = CUTS_TCPIP_CCM_skel
+  dynamicflags += CUTS_TCPIP_CCM_SKEL_BUILD_DLL
+
+  Source_Files {
+    EventsS.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+
+project (CUTS_TCPIP_CCM) : cuts_tcpip_ccm_skel, cutslib {
+  sharedname    = CUTS_TCPIP_CCM
+  dynamicflags += CUTS_TCPIP_CCM_BUILD_DLL
+
+  Source_Files {
+    TCPIP_CCM_ComponentServer.cpp
+    TCPIP_CCM_Events_Impl.cpp
+    TCPIP_CCM_EventConsumer.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+}

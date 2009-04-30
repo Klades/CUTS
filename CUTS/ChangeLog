@@ -1,3 +1,45 @@
+Thu Apr 30 07:22:06 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_tcpip_ccm.mpb:
+        * MPC/config/cuts_tcpip_ccm_skel.mpb:
+        * MPC/config/cuts_tcpip_ccm_stub.mpb:
+        * cuts/arch/tcpip/TCPIP_ORB.h:
+        * cuts/arch/tcpip/TCPIP_ORB.inl:
+        * cuts/arch/tcpip/TCPIP_Servant.h:
+        * cuts/arch/tcpip/TCPIP_Servant.inl:
+        * cuts/arch/tcpip/TCPIP_Servant_Manager.h:
+        * cuts/arch/tcpip/TCPIP_Servant_Manager.inl:
+        * cuts/arch/tcpip/TCPIP_Servant_Manager.cpp:
+        * cuts/arch/tcpip/TCPIP_Servant_T.h:
+        * cuts/arch/tcpip/TCPIP_Servant_T.inl:
+        * cuts/arch/tcpip/ccm:
+        * cuts/arch/tcpip/ccm/Events.idl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM.mpc:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_ComponentServer.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_ComponentServer.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_ComponentServer.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_EventConsumer.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_EventConsumer.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_EventConsumer.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Events_Impl.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Events_Impl.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Events_Impl.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_export.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_skel_export.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_stub_export.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.cpp:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.cpp:
+        * examples/arch/tcpip/HelloWorld/server.cpp:
+
+          . First prototype of TCPIP component that is able to send
+            and receive events.
+
+          . Update the example to have a *simple* component server that
+            goes through the component's lifecycle methods.
+
 Thu Apr 30 01:07:06 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/tcpip/TCPIP.mpc:

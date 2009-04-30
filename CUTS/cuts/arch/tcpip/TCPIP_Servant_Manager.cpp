@@ -25,6 +25,7 @@ CUTS_TCPIP_Servant_Manager::activate_object (CUTS_TCPIP_Servant * obj)
   {
     // Set the UUID of the object.
     obj->uuid_ = uuid;
+    obj->orb_ = this->orb_;
 
     // Increment the reference count.
     obj->incr_refcount ();
@@ -47,6 +48,7 @@ CUTS_TCPIP_Servant_Manager::deactivate_object (const ACE_Utils::UUID & uuid)
   {
     // Reset the UUID of the object.
     obj->uuid_ = ACE_Utils::UUID::NIL_UUID;
+    obj->orb_ = 0;
 
     // Decrement the reference count.
     obj->decr_refcount ();
