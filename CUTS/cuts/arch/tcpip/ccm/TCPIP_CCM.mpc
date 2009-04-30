@@ -56,7 +56,7 @@ project (CUTS_TCPIP_CCM_skel) : ccm_svnt, cuts_tcpip_ccm_stub, cutslib {
 }
 
 
-project (CUTS_TCPIP_CCM) : cuts_tcpip_ccm_skel, cutslib {
+project (CUTS_TCPIP_CCM) : cuts_tcpip_ccm_skel, cuts_lib, cutslib {
   sharedname    = CUTS_TCPIP_CCM
   dynamicflags += CUTS_TCPIP_CCM_BUILD_DLL
 

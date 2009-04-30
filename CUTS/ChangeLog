@@ -1,3 +1,18 @@
+Thu Apr 30 16:06:00 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_EventConsumer.cpp:
+
+          . Bug fix where using INADDR_ANY or INADDR6_ANY for the TCPIP
+            acceptor did not return the right address for the event consumer's
+            endpoint.
+
+        * cuts/arch/tcpip/ccm/TCPIP_CCM.mpc:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_ComponentServer.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_ComponentServer.cpp:
+
+          . Separated the component server's active object from the
+            actual component server.
+
 Thu Apr 30 15:21:05 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/tcpip/TCPIP.mpc:

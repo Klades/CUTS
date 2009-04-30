@@ -26,7 +26,13 @@ CUTS_TCPIP_CCM_EventConsumer::remote_endpoint (void)
   const CUTS_TCPIP_Acceptor::PEER_ADDR & addr = orb->listen_addr ();
 
   std::ostringstream address;
-  address << addr.get_host_addr () << ":" << addr.get_port_number ();
+
+  if (addr.is_any ())
+    address << addr.get_host_name ();
+  else
+    address << addr.get_host_addr ();
+
+  address << ":" << addr.get_port_number ();
 
   ::Components::TCPIP::Endpoint_var endpoint (temp);
   endpoint->address = ::CORBA::string_dup (address.str ().c_str ());

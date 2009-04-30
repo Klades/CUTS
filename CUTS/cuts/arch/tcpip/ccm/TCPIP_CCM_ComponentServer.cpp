@@ -13,6 +13,7 @@ int CUTS_TCPIP_CCM_ComponentServer::init (int & argc, char * argv[])
 {
   // Instantiate a new ORB.
   this->orb_ = ::CORBA::ORB_init (argc, argv);
+  this->task_.reset (this->orb_.in ());
 
   // Get the RootPOA.
   ::CORBA::Object_var obj = this->orb_->resolve_initial_references ("RootPOA");
@@ -33,38 +34,14 @@ int CUTS_TCPIP_CCM_ComponentServer::init (int & argc, char * argv[])
 }
 
 //
-// svc
-//
-int CUTS_TCPIP_CCM_ComponentServer::svc (void)
-{
-  try
-  {
-    this->orb_->run ();
-    return 0;
-  }
-  catch (const CORBA::Exception & ex)
-  {
-    ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - %s\n",
-                ex._info ().c_str ()));
-  }
-  catch (...)
-  {
-
-  }
-
-  return -1;
-}
-
-//
 // activate
 //
 int CUTS_TCPIP_CCM_ComponentServer::activate (void)
 {
   try
   {
-    // Activate the task, which will run the ORB's main event loop.
-    ACE_Task_Base::activate ();
+    if (0 != this->task_.activate ())
+      return -1;
 
     return CUTS_TCPIP_ComponentServer::activate ();
   }
@@ -85,7 +62,10 @@ int CUTS_TCPIP_CCM_ComponentServer::shutdown (void)
 {
   try
   {
+    // Shutdown the ORB and wait for task to exit.
     this->orb_->shutdown ();
+    this->task_.wait ();
+
     return CUTS_TCPIP_ComponentServer::shutdown ();
   }
   catch (const CORBA::Exception & ex)
