@@ -14,6 +14,7 @@
 #define _HELLOWORLD_SVNT_H_
 
 #include "cuts/arch/tcpip/TCPIP_Servant_T.h"
+#include "cuts/arch/tcpip/TCPIP_Remote_Endpoint_T.h"
 #include "cuts/arch/tcpip/ccm/TCPIP_CCM_Events_Impl.h"
 #include "cuts/arch/tcpip/ccm/TCPIP_CCM_EventConsumer.h"
 #include "TCPIP_HelloWorldEC.h"
@@ -41,11 +42,7 @@ namespace TCPIP
     void connect_handle_message (Components::EventConsumerBase_ptr consumer);
 
   private:
-    ACE_SOCK_Stream handle_message_;
-
-    long event_;
-
-    ACE_Utils::UUID uuid_;
+    CUTS_TCPIP_Remote_Endpoint_T <TCPIP::Message> handle_message_;
   };
 
   class HelloWorld_Servant;

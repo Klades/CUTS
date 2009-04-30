@@ -16,12 +16,14 @@ project (CUTS_TCPIP) : cutslib {
     TCPIP_Event_Handler.cpp
     TCPIP_ORB.cpp
     TCPIP_Object.cpp
+    TCPIP_Remote_Endpoint.cpp
     TCPIP_Servant.cpp
     TCPIP_Servant_Manager.cpp
     TCPIP_SPEC.cpp
   }
 
   Template_Files {
+    TCPIP_Remote_Endpoint_T.cpp
     TCPIP_Object_T.cpp
     TCPIP_Servant_T.cpp
     TCPIP_Servant_VTable_T.cpp

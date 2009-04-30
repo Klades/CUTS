@@ -1,7 +1,30 @@
+Thu Apr 30 18:19:46 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/tcpip/TCPIP.mpc:
+        * cuts/arch/tcpip/TCPIP_ComponentServer.h:
+        * cuts/arch/tcpip/TCPIP_ComponentServer.inl:
+        * cuts/arch/tcpip/TCPIP_ComponentServer.cpp:
+        * cuts/arch/tcpip/TCPIP_Connector.h:
+        * cuts/arch/tcpip/TCPIP_Remote_Endpoint.h:
+        * cuts/arch/tcpip/TCPIP_Remote_Endpoint.inl:
+        * cuts/arch/tcpip/TCPIP_Remote_Endpoint.cpp:
+        * cuts/arch/tcpip/TCPIP_Remote_Endpoint_T.h:
+        * cuts/arch/tcpip/TCPIP_Remote_Endpoint_T.inl:
+        * cuts/arch/tcpip/TCPIP_Remote_Endpoint_T.cpp:
+
+          . Extracted the *endpoint* code for connecting to a remote
+            client and sending events into a reusable class.
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.cpp:
+
+          . Updated the example to use the CUTS_TCPIP_Remote_Endpoint
+            classes.
+
 Thu Apr 30 17:50:40 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/DDS/*.*:
-        
+
           New subdirectory, containing a copy of the original DSTO example,
           modified to use OpenSpliceDDS to send the data instead of
           using CORBA eventtypes.

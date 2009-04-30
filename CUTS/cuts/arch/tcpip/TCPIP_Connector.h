@@ -61,8 +61,6 @@ private:
 #define CUTS_TCPIP_CONNECTOR \
   ACE_Singleton <CUTS_TCPIP_Connector, ACE_RW_Thread_Mutex>
 
-CUTS_TCPIP_SINGLETON_DECLARATION (CUTS_TCPIP_CONNECTOR);
-
 #if defined (__CUTS_INLINE__)
 #include "TCPIP_Connector.inl"
 #endif

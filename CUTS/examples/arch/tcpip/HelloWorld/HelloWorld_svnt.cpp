@@ -10,6 +10,7 @@
 #include "ace/CDR_Stream.h"
 #include "cuts/arch/tcpip/TCPIP_Connector.h"
 #include "cuts/arch/tcpip/TCPIP_SPEC.h"
+#include "cuts/arch/tcpip/TCPIP_Remote_Endpoint.h"
 
 namespace TCPIP
 {
@@ -41,17 +42,13 @@ namespace TCPIP
 
     // Get the remote endpoint from the consumer.
     Components::TCPIP::Endpoint_var endpoint = consumer->remote_endpoint ();
-    this->uuid_.from_string (endpoint->UUID.in ());
-    this->event_ = endpoint->event;
 
-    CUTS_TCPIP_Connector_Svc_Handler * handler = 0;
-    int retval = CUTS_TCPIP_CONNECTOR::instance ()->get_peer (endpoint->address.in (), handler);
+    int retval = this->handle_message_.connect (endpoint->address.in (),
+                                                endpoint->UUID.in () ,
+                                                endpoint->event);
 
     if (0 != retval)
       throw Components::InvalidConnection ();
-
-    // Get the handle to the peer.
-    this->handle_message_.set_handle (handler->peer ().get_handle ());
   }
 
   //
@@ -59,33 +56,8 @@ namespace TCPIP
   //
   void HelloWorld_Servant_Context::tcpip_handle_message (TCPIP::Message * ev)
   {
-    if (ACE_INVALID_HANDLE != this->handle_message_.get_handle () &&
-        0 != ev)
-    {
-      // Construct the header for the message.
-      CUTS_TCPIP_SPEC spec;
-      spec.uuid_ = this->uuid_;
-      spec.event_id_ = this->event_;
-      spec.data_size_ = 0;
-
-      char * ph_datasize = 0;
-      ACE_OutputCDR packet;
-
-      ph_datasize = (packet << spec);
-
-      if ((packet << *ev))
-      {
-        // Update the data size of the packet.
-        size_t datasize = packet.total_length () - CUTS_TCPIP_SPEC::BINARY_SIZE;
-        packet.replace (static_cast <ACE_CDR::Long> (datasize), ph_datasize);
-
-        // Send the packet.
-        this->handle_message_.send_n (packet.begin ());
-      }
-      else
-        ACE_ERROR ((LM_ERROR,
-                    ACE_TEXT ("%T - %M - failed to create packet payload\n")));
-    }
+    if (this->handle_message_.is_connected ())
+      this->handle_message_.send_event (ev);
   }
 
   //
