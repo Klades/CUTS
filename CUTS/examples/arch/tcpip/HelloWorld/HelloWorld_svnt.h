@@ -77,7 +77,7 @@ namespace TCPIP
     int tcpip_handle_message (ACE_InputCDR & input);
 
   private:
-    ACE_Auto_Ptr <CUTS_TCPIP_CCM_EventConsumer> handle_message_;
+    CUTS_TCPIP_CCM_EventConsumer handle_message_;
   };
 }
 

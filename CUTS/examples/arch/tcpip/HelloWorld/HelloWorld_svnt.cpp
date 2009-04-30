@@ -65,7 +65,8 @@ namespace TCPIP
   //
   HelloWorld_Servant::
   HelloWorld_Servant (CUTS_TCPIP_Component * impl)
-    : HelloWorld_Servant_Base (this, impl)
+    : HelloWorld_Servant_Base (this, impl),
+      handle_message_ (this, 0)
   {
     // Guard the initializing of the virtual table.
     vtable_type::init_guard_type guard (HelloWorld_Servant::vtable_, 1);
@@ -111,19 +112,7 @@ namespace TCPIP
   HelloWorld_Servant::get_consumer (const char * name)
   {
     if (0 == ACE_OS::strcmp (name, "handle_message"))
-    {
-      if (0 != this->handle_message_.get ())
-        return this->handle_message_->_this ();
-
-      CUTS_TCPIP_CCM_EventConsumer * consumer = 0;
-
-      ACE_NEW_THROW_EX (consumer,
-                        CUTS_TCPIP_CCM_EventConsumer (this, 0),
-                        CORBA::NO_MEMORY ());
-
-      this->handle_message_.reset (consumer);
-      return this->handle_message_->_this ();
-    }
+      return this->handle_message_._this ();
 
     // Failed to locate the connection.
     throw ::Components::InvalidName ();
