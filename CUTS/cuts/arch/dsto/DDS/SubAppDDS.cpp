@@ -1,6 +1,6 @@
 // This include is not to be generated from the model, it's
 // just for debugging.
-#include "ace/Streams.h"
+#include "ace/streams.h"
 
 #include "SubAppDDS.h"
 

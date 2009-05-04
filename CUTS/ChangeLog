@@ -1,13 +1,20 @@
+Mon May  4 19:40:48 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
+
+        * cuts/arch/dsto/SubApp.cpp:
+        * cuts/arch/dsto/DDS/SubAppDDS.cpp:
+        
+          Fixed case errors in #includes.
+        
 Mon May  4 19:15:48 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
-        * DDS/PubAppDDS.cpp:
-        * DDS/SubAppDDS.cpp:
-        * DDS/PubAppDDS.h:
-        * DDS/SubAppDDS.h:
+        * cuts/arch/dsto/DDS/PubAppDDS.cpp:
+        * cuts/arch/dsto/DDS/SubAppDDS.cpp:
+        * cuts/arch/dsto/DDS/PubAppDDS.h:
+        * cuts/arch/dsto/DDS/SubAppDDS.h:
         
           New files.
           
-        * PubApp.cpp:
+        * cuts/arch/dsto/PubApp.cpp:
         
           Fixed case error in #include
 
