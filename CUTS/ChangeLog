@@ -1,3 +1,16 @@
+Mon May  4 19:15:48 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
+
+        * DDS/PubAppDDS.cpp:
+        * DDS/SubAppDDS.cpp:
+        * DDS/PubAppDDS.h:
+        * DDS/SubAppDDS.h:
+        
+          New files.
+          
+        * PubApp.cpp:
+        
+          Fixed case error in #include
+
 Thu Apr 30 18:28:26 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.h:

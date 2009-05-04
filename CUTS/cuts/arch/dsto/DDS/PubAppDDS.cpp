@@ -2,26 +2,26 @@
 // just for debugging.
 #include "ace/streams.h"
 
-#include "PubApp.h"
+#include "PubAppDDS.h"
 
 namespace AppSpace
 {
-  PubApp::PubApp (void)
+  PubAppDDS::PubAppDDS (void)
     : context_ (0)
   {
   }
 
-  PubApp::~PubApp (void)
+  PubAppDDS::~PubAppDDS (void)
   {
   }
 
   void
-  PubApp::app_op_send ( ::Outer::TestData * ev)
+  PubAppDDS::app_op_send ( ::Outer::TestData * ev)
   {
     // For debugging, to compare with the native data values
     // on the other end.
     cout << endl
-         << "\t DSTO pub data -" << endl
+         << "\t DDS pub data -" << endl
          << "key: " << ev->key << endl
          << "name: " << ev->packet.name << endl
          << "id: " << ev->packet.id << endl
@@ -32,7 +32,7 @@ namespace AppSpace
   }
   
   void
-  PubApp::set_session_context (
+  PubAppDDS::set_session_context (
     ::Components::SessionContext_ptr ctx)
   {
     // CIAO duplicates the context when it is passed from the
@@ -40,7 +40,7 @@ namespace AppSpace
     // servant's and exec's lifetime to coincide - if so we 
     // don't need a copy.
     this->context_ =
-      dynamic_cast< ::DSTO_AppSpace_Impl::PubAppContext *> (ctx);
+      dynamic_cast< ::DSTO_AppSpace_Impl::PubAppDDSContext *> (ctx);
 
     if (CORBA::is_nil (this->context_))
       {
@@ -48,15 +48,15 @@ namespace AppSpace
       }
   }
 
-  extern "C" PubApp_Export ::Components::EnterpriseComponent_ptr
-  create_PubAppAdapter_Impl (void)
+  extern "C" PubAppDDS_Export ::Components::EnterpriseComponent_ptr
+  create_PubAppDDSAdapter_Impl (void)
   {
     ::Components::EnterpriseComponent_ptr retval =
       ::Components::EnterpriseComponent::_nil ();
 
     ACE_NEW_RETURN (
       retval,
-      ::AppSpace::PubApp,
+      ::AppSpace::PubAppDDS,
       ::Components::EnterpriseComponent::_nil ());
 
     return retval;
