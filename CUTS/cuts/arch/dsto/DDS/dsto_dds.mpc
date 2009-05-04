@@ -182,7 +182,7 @@ project (PubAppDDSAdapter) : ciao_servant, splicelib {
 project (DDSDriver) : ciao_componentserver_stub, ciao_cs_client, ciao_logger, spliceexe {
   after += PubAppDDSAdapter SubAppDDSAdapter
   libs += DSTO_Utilities \
-          DDS_Utility \
+          DDS_Utilities \
           ModelDDSData \
           PubAppDDS \
           SubAppDDS \

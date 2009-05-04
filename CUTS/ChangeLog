@@ -1,3 +1,9 @@
+Mon May  4 19:53:08 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
+
+        * cuts/arch/dsto/DDS/dsto_dds.mpc:
+        
+          Fixed typo in library name.
+
 Mon May  4 19:40:48 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/SubApp.cpp:
