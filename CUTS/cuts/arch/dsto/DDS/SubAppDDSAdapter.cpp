@@ -89,6 +89,16 @@ namespace DSTO_AppSpace_Impl
         this->consumes_app_op_recv_.in ());
   }
   
+  void
+  SubAppDDSAdapter::populate_consumer_table (void)
+  {
+    ::CORBA::Object_var obj_var;
+    ::Components::EventConsumerBase_var ecb_var;
+
+    ecb_var =
+      this->get_consumer_app_op_recv_i ();
+  }
+  
   ::Components::EventConsumerBase_ptr
   SubAppDDSAdapter::get_consumer_app_op_recv_i (void)
   {
@@ -98,11 +108,14 @@ namespace DSTO_AppSpace_Impl
     ::CORBA::Object_var obj =
       this->container_->generate_reference (
         obj_id.c_str (),
-        "IDL:Outer/TestData_IDLConsumer:1.0",
+        "IDL:Outer/DummyConsumer:1.0",
         ::CIAO::Container_Types::FACET_CONSUMER_t);
         
     ::Components::EventConsumerBase_var ecb =
       ::Components::EventConsumerBase::_narrow (obj.in ());
+
+    this->add_consumer ("app_op_recv",
+                        ecb.in ());
 
     return ecb._retn ();
   }

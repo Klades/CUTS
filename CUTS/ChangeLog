@@ -1,3 +1,10 @@
+Tue May  5 19:12:00 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
+
+        * cuts/arch/dsto/DDS/SubAppDDSAdapter.h:
+        * cuts/arch/dsto/DDS/SubAppDDSAdapter.cpp:
+        
+          Restored mechanism to populate the event consumer table.
+
 Tue May  5 18:33:18 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/DDS/PubAppDDSAdapter.cpp:

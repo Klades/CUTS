@@ -41,6 +41,8 @@ namespace DSTO_AppSpace_Impl
     ::Outer::DummyConsumer_ptr get_consumer_app_op_recv (void);
 
   private:
+    void populate_consumer_table (void);
+  
     ::Components::EventConsumerBase_ptr get_consumer_app_op_recv_i (void);
 
   private:
