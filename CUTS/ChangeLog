@@ -1,3 +1,9 @@
+Tue May  5 19:17:57 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
+
+        * cuts/arch/dsto/DDS/SubAppDDSAdapter.cp:
+        
+          Added overlooked call to populate_consumer_table().
+
 Tue May  5 19:12:00 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/DDS/SubAppDDSAdapter.h:
