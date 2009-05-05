@@ -36,7 +36,8 @@ namespace DSTO_AppSpace_Impl
         if (! this->dds_utility_.init (0))
           {
             ACE_ERROR ((LM_EMERGENCY,
-                        "Error in DDS initialization\n"));
+                        ACE_TEXT ("PubAppDDSAdapter: error ")
+                        ACE_TEXT ("in DDS initialization\n")));
           }  
       }
     catch (const CORBA::Exception& ex)

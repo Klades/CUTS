@@ -1,3 +1,12 @@
+Tue May  5 18:33:18 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
+
+        * cuts/arch/dsto/DDS/PubAppDDSAdapter.cpp:
+        * cuts/arch/dsto/DDS/SubAppDDSAdapter.cpp:
+        
+          Added init() call for DDS_Utility subscriber member,
+          and expanded error reporting for this call on both pub
+          and sub sides.
+
 Tue May  5 17:33:06 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/DDS/DDS_Utility.h:

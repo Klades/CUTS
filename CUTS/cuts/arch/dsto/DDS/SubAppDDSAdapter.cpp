@@ -26,7 +26,15 @@ namespace DSTO_AppSpace_Impl
 //    ACE_NEW (this->context_, ::DSTO::ContextBase);
     
     try
-      {
+     {        
+        // TODO - generate a domain id.  
+        if (! this->dds_utility_.init (0))
+          {
+            ACE_ERROR ((LM_EMERGENCY,
+                        ACE_TEXT ("SubAppDDSAdapter: error ")
+                        ACE_TEXT ("in DDS initialization\n")));
+          }  
+
         ::Outer::TestData_DDSTypeSupport_var ts =
           new ::Outer::TestData_DDSTypeSupport;
           
