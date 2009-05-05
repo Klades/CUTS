@@ -1,24 +1,26 @@
-project (DDS_Utilities) : taolib, splicelib {
+// $Id$
+
+project (DDS_Utilities) : taolib, splicelib, requires_opensplice {
   sharedname = DDS_Utilities
   dynamicflags += DDS_UTILITIES_BUILD_DLL
-  
+
   Source_Files {
     DSTO_ListenerBase.cpp
     DDS_Utility.cpp
   }
-  
+
   Header_Files {
     DDS_Utilities_export.h
   }
-  
+
   Inline_Files {
   }
-  
+
   Template_Files {
   }
 }
 
-project (ModelDDSData) : ccm_svnt, splicelib_with_idl {
+project (ModelDDSData) : ccm_svnt, splicelib_with_idl, requires_opensplice {
   after += DSTO_Utilities
   libs += DSTO_Utilities
   libpaths += ..
@@ -28,23 +30,23 @@ project (ModelDDSData) : ccm_svnt, splicelib_with_idl {
   idlflags += -Wb,export_macro=ModelDDSData_Export \
               -Wb,export_include=ModelDDSData_export.h
   macros += DDS_API=ModelDDSData_Export
-              
+
   SpliceTypeSupport_Files {
     ModelDDSData.idl >> ModelDDSDataDcps.idl ModelDDSDataDcps_impl.cpp ModelDDSDataSplDcps.cpp
   }
-              
+
   IDL_Files {
     ModelDDSData.idl
     ModelDDSData_EV.idl
     ModelDDSDataDcps.idl
   }
-  
+
   Source_Files {
     ModelDDSDataConversion.cpp
     ModelDDSDataDcps_impl.cpp
     ModelDDSDataSplDcps.cpp
   }
-  
+
   Header_Files {
     AppData.h
     ccpp_ModelDDSData.h
@@ -52,65 +54,65 @@ project (ModelDDSData) : ccm_svnt, splicelib_with_idl {
     ModelDDSDataDcps_impl.h
     ModelDDSDataSplDcps.h
   }
-  
+
   Template_Files {
   }
 }
 
-project (SubAppDDS) : ccm_svnt, splicelib {
+project (SubAppDDS) : ccm_svnt, splicelib, requires_opensplice {
   after += DDS_Utilities ModelDDSData
   libs += DSTO_Utilities DDS_Utilities ModelDDSData
   libpaths += ..
   includes += ..
   sharedname = SubAppDDS
   dynamicflags += SUBAPPDDS_BUILD_DLL
-  
+
   IDL_Files {
   }
-  
+
   Source_Files {
     SubAppDDS.cpp
   }
-  
+
   Header_Files {
     SubAppDDS_export.h
   }
-  
+
   Inline_Files {
   }
-  
+
   Template_Files {
   }
 }
 
-project (PubAppDDS) : ccm_svnt, ccm_cookie, splicelib {
+project (PubAppDDS) : ccm_svnt, ccm_cookie, splicelib, requires_opensplice {
   after += DDS_Utilities ModelDDSData
   libs += DSTO_Utilities DDS_Utilities ModelDDSData
   libpaths += ..
   includes += ..
   sharedname = PubAppDDS
   dynamicflags += PUBAPPDDS_BUILD_DLL
-  
+
   IDL_Files {
   }
-  
+
   Source_Files {
     PubAppDDS.cpp
     PubAppDDSContext.cpp
   }
-  
+
   Header_Files {
     PubAppDDS_export.h
   }
-  
+
   Inline_Files {
   }
-  
+
   Template_Files {
   }
 }
 
-project (SubAppDDSAdapter) : ciao_servant, splicelib {
+project (SubAppDDSAdapter) : ciao_servant, splicelib, requires_opensplice {
   after += SubAppDDS
   libs += DSTO_Utilities DDS_Utilities ModelDDSData SubAppDDS
   libpaths += ..
@@ -119,33 +121,33 @@ project (SubAppDDSAdapter) : ciao_servant, splicelib {
   dynamicflags += SUBAPPDDSADAPTER_BUILD_DLL
   idlflags += -Wb,export_macro=SubAppDDSAdapter_Export \
               -Wb,export_include=SubAppDDSAdapter_export.h
-              
+
   IDL_Files {
     SubAppDDSComponent.idl
   }
-  
+
   Source_Files {
     Listeners.cpp
     SubAppDDSAdapter.cpp
   }
-  
+
   Header_Files {
     SubAppDDSAdapter.h
     SubAppDDSAdapter_export.h
     SubAppDDSComponentC.h
     SubAppDDSComponentS.h
   }
-  
+
   Inline_Files {
     SubAppDDSComponentC.inl
     SubAppDDSComponentS.inl
   }
-  
+
   Template_Files {
   }
 }
 
-project (PubAppDDSAdapter) : ciao_servant, splicelib {
+project (PubAppDDSAdapter) : ciao_servant, splicelib, requires_opensplice {
   after += DDS_Utilities PubAppDDS
   libs += DSTO_Utilities ModelDDSData DDS_Utilities PubAppDDS
   libpaths += ..
@@ -154,32 +156,32 @@ project (PubAppDDSAdapter) : ciao_servant, splicelib {
   dynamicflags += PUBAPPDDSADAPTER_BUILD_DLL
   idlflags += -Wb,export_macro=PubAppDDSAdapter_Export \
               -Wb,export_include=PubAppDDSAdapter_export.h
-              
+
   IDL_Files {
     PubAppDDSComponent.idl
   }
-  
+
   Source_Files {
     PubAppDDSAdapter.cpp
   }
-  
+
   Header_Files {
     PubAppDDSAdapter.h
     PubAppDDSAdapter_export.h
     PubAppDDSComponentC.h
     PubAppDDSComponentS.h
   }
-  
+
   Inline_Files {
     PubAppDDSComponentC.inl
     PubAppDDSComponentS.inl
   }
-  
+
   Template_Files {
   }
 }
 
-project (DDSDriver) : ciao_componentserver_stub, ciao_cs_client, ciao_logger, spliceexe {
+project (DDSDriver) : ciao_componentserver_stub, ciao_cs_client, ciao_logger, spliceexe, requires_opensplice {
   after += PubAppDDSAdapter SubAppDDSAdapter
   libs += DSTO_Utilities \
           DDS_Utilities \
@@ -191,20 +193,20 @@ project (DDSDriver) : ciao_componentserver_stub, ciao_cs_client, ciao_logger, sp
   libpaths += ..
   includes += ..
   exename = dds_driver
-  
+
   IDL_Files {
   }
-  
+
   Source_Files {
     driver.cpp
   }
-  
+
   Header_Files {
   }
-  
+
   Inline_Files {
   }
-  
+
   Template_Files {
   }
 }

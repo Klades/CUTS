@@ -1,21 +1,30 @@
+Tue May  5 22:24:49 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/requires_opensplice.mpb:
+        * cuts/arch/dsto/DDS/dsto_dds.mpc:
+
+          . Added base project that adds 'opensplice' to the requires
+            project attribute. This will prevent building OpenSplice
+            projects in CUTS is OpenSplice is not installed.
+
 Tue May  5 19:17:57 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/DDS/SubAppDDSAdapter.cp:
-        
+
           Added overlooked call to populate_consumer_table().
 
 Tue May  5 19:12:00 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/DDS/SubAppDDSAdapter.h:
         * cuts/arch/dsto/DDS/SubAppDDSAdapter.cpp:
-        
+
           Restored mechanism to populate the event consumer table.
 
 Tue May  5 18:33:18 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/DDS/PubAppDDSAdapter.cpp:
         * cuts/arch/dsto/DDS/SubAppDDSAdapter.cpp:
-        
+
           Added init() call for DDS_Utility subscriber member,
           and expanded error reporting for this call on both pub
           and sub sides.
@@ -23,34 +32,34 @@ Tue May  5 18:33:18 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 Tue May  5 17:33:06 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/DDS/DDS_Utility.h:
-        
+
           Temporary workaround for the fact that OpenSpliceDDS's
           register_type() won't accept any scoping in the type name.
 
 Mon May  4 19:53:08 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/DDS/dsto_dds.mpc:
-        
+
           Fixed typo in library name.
 
 Mon May  4 19:40:48 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/SubApp.cpp:
         * cuts/arch/dsto/DDS/SubAppDDS.cpp:
-        
+
           Fixed case errors in #includes.
-        
+
 Mon May  4 19:15:48 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/DDS/PubAppDDS.cpp:
         * cuts/arch/dsto/DDS/SubAppDDS.cpp:
         * cuts/arch/dsto/DDS/PubAppDDS.h:
         * cuts/arch/dsto/DDS/SubAppDDS.h:
-        
+
           New files.
-          
+
         * cuts/arch/dsto/PubApp.cpp:
-        
+
           Fixed case error in #include
 
 Thu Apr 30 18:28:26 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
