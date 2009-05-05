@@ -19,7 +19,9 @@ public:
   Topic_ptr get_topic (T * type_support,
                        const char * topic_name)
   {
-    char * type_name = type_support->get_type_name ();
+    // Can't have scoping in register_type() arg
+    // Permanent fix later.
+    char * type_name = "Outer_TestData_DDS";//type_support->get_type_name ();
     ReturnCode_t status =
       type_support->register_type (participant_.in (),
                                    type_name);

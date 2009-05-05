@@ -1,3 +1,10 @@
+Tue May  5 17:33:06 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
+
+        * cuts/arch/dsto/DDS/DDS_Utility.h:
+        
+          Temporary workaround for the fact that OpenSpliceDDS's
+          register_type() won't accept any scoping in the type name.
+
 Mon May  4 19:53:08 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/DDS/dsto_dds.mpc:
