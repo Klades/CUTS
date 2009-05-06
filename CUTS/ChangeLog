@@ -1,25 +1,31 @@
+Wed May  6 20:10:04 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
+
+        * MPC/config/cuts_dsml.mpb:
+
+	 Added base project for CUTS DSML
+
 Wed May  6 19:49:16 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/DDS/run_test.pl:
-        
+
           New file.
 
 Wed May  6 19:33:04 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
 
         * CUTS_CoSMIC.mwc:
-  
-	  Updated the workspace to add CUTS_UNITE interpreter
-          	 
+
+          Updated the workspace to add CUTS_UNITE interpreter
+
         * MDE/GME/paradigms/CUTS:
-	
-	  Added folder for CUTS DSML
+
+          Added folder for CUTS DSML
 
         * MDE/GME/paradigms/CUTS/addons:
         * MDE/GME/paradigms/CUTS/interpreters:
 
         * MDE/GME/paradigms/CUTS/interpreters/UNITE:
 
-	  UNITE interpreter contains files for CUTS_UNITE interpreter
+          UNITE interpreter contains files for CUTS_UNITE interpreter
 
         * MDE/GME/paradigms/CUTS/interpreters/UNITE/ComponentConfig.h:
         * MDE/GME/paradigms/CUTS/interpreters/UNITE/RawComponent.h:
@@ -36,7 +42,7 @@ Wed May  6 19:33:04 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
 
         * MDE/GME/paradigms/CUTS/paradigm:
 
-	  Folder containing CUTS DSML files
+          Folder containing CUTS DSML files
 
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xme:
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xml:

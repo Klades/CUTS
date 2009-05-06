@@ -1,0 +1,6 @@
+ // $Id$
+
+ project : game {
+  after += CUTS_DSML
+  libs  += CUTS_DSML 
+}
