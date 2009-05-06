@@ -1,3 +1,24 @@
+Wed May  6 20:15:13 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
+
+        * cuts/arch/dsto/DDS/DDS_Utility.h:
+        
+          Wrapped type name passed to register_topic() with
+          CORBA::string_dup, since it is for now a hard-coded
+          string constant and not the return value from 
+          get_type_name().
+          
+        * cuts/arch/dsto/DDS/SubAppDDSAdapter.cpp:
+        
+          Removed unused code.
+          
+        * cuts/arch/dsto/DDS/driver.cpp:
+        
+          Added newline at the end of the file.
+          
+        * cuts/arch/dsto/DDS/README:
+        
+          New file.
+
 Wed May  6 20:10:04 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
 
         * MPC/config/cuts_dsml.mpb:

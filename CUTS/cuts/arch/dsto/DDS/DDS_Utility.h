@@ -21,7 +21,7 @@ public:
   {
     // Can't have scoping in register_type() arg
     // Permanent fix later.
-    char * type_name = "Outer_TestData_DDS";//type_support->get_type_name ();
+    char * type_name = CORBA::string_dup ("Outer_TestData_DDS");//type_support->get_type_name ();
     ReturnCode_t status =
       type_support->register_type (participant_.in (),
                                    type_name);

@@ -22,11 +22,8 @@ namespace DSTO_AppSpace_Impl
                                       ::CIAO::Container_ptr c)
     : ::DSTO::AdapterBase (ins_name, c),
       ::DSTO::Adapter< ::POA_Outer::SubAppDDSComponent> (ins_name, c),
-      app_ (executor)//,
-//      context_ (0)
+      app_ (executor)
   {
-//    ACE_NEW (this->context_, ::DSTO::ContextBase);
-    
     try
      {
        this->populate_consumer_table ();
