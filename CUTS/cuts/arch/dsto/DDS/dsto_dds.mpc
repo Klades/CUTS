@@ -1,18 +1,23 @@
 // $Id$
 
 project (DDS_Utilities) : ccm_svnt, splicelib, requires_opensplice {
+  after += DSTO_Utilities
+  libs += DSTO_Utilities
+  libpaths += ..
+  includes += ..
+  sharedname = DDS_Utilities
   idlflags += -Wb,export_macro=DDS_Utilities_Export \
               -Wb,export_include=DDS_Utilities_export.h
-  sharedname = DDS_Utilities
   dynamicflags += DDS_UTILITIES_BUILD_DLL
-
+  
   IDL_Files {
-    DummyConsumer.idl
+    DummyEvent.idl
   }
 
   Source_Files {
-    DSTO_ListenerBase.cpp
     DDS_Utility.cpp
+    DSTO_ListenerBase.cpp
+    DummyConsumer.cpp
   }
 
   Header_Files {

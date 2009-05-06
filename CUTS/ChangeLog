@@ -1,3 +1,24 @@
+Wed May  6 18:36:51 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
+
+        * cuts/arch/dsto/DDS/DummyConsumer.idl:
+        * cuts/arch/dsto/DDS/DummyEvent.idl:
+        
+          Renamed DummyConsumer.idl as DummyEvent.idl.
+          
+        * cuts/arch/dsto/DDS/DummyConsumer.h:
+        * cuts/arch/dsto/DDS/DummyConsumer.cpp:
+        
+          New files, containing the implementation of the
+          DummyConsumer interface.
+          
+        * cuts/arch/dsto/DDS/PubAppDDSContext.h:
+        * cuts/arch/dsto/DDS/SubAppDDSComponent.idl:
+        * cuts/arch/dsto/DDS/dsto_dds.mpc:
+        * cuts/arch/dsto/DDS/SubAppDDSAdapter.cpp:
+        * cuts/arch/dsto/DDS/PubAppDDSComponent.idl:
+        
+          Changes resulting from the above.
+
 Wed May  6 16:37:37 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/DDS/ModelDDSData_EV.idl:

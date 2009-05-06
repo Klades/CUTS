@@ -4,9 +4,9 @@
 #include "DSTO_ContextBase.h"
 
 #include "DDS_Utility.h"
+#include "DummyEventC.h"
 
 #include "ModelDDSDataDcps_impl.h"
-#include "DummyConsumerC.h"
 #include "AppData.h"
 
 #include "PubAppDDS_export.h"

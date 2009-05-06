@@ -4,6 +4,8 @@
 
 #include "ciao/Servants/Port_Activator_T.h"
 
+#include "DummyConsumer.h"
+
 #include "ModelDDSDataConversion.h"
 
 #include "SubAppDDSAdapter.h"
@@ -121,9 +123,38 @@ namespace DSTO_AppSpace_Impl
   ::Components::EventConsumerBase_ptr
   SubAppDDSAdapter::get_consumer_app_op_recv_i (void)
   {
+    typedef
+    ::CIAO::Port_Activator_T<DummyConsumer_impl,
+                             ::DSTO::ExecBase,
+                             ::DSTO::ContextBase,
+                             SubAppDDSAdapter>
+      MACRO_MADNESS_TYPEDEF;
+      
+    MACRO_MADNESS_TYPEDEF * tmp = 0;
     ACE_CString obj_id (this->ins_name_);
     obj_id += "_app_op_recv";
     
+    ACE_NEW_THROW_EX (
+      tmp,
+      MACRO_MADNESS_TYPEDEF (
+        obj_id.c_str (),
+        "app_op_recv",
+        ::CIAO::Port_Activator_Types::SINK,
+        app_,
+        0,
+        this),
+      ::CORBA::NO_MEMORY ());
+      
+    ::CIAO::Port_Activator_var pa = tmp;
+      
+    ::CIAO::Servant_Activator_var sa =
+      this->container_->ports_servant_activator ();
+      
+    if (!sa->register_port_activator (tmp))
+      {
+        return ::DummyConsumer::_nil ();
+      }
+      
     ::CORBA::Object_var obj =
       this->container_->generate_reference (
         obj_id.c_str (),

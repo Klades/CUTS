@@ -1,7 +1,7 @@
 #ifndef PUBAPPDDSCOMPONENT_IDL
 #define PUBAPPDDSCOMPONENT_IDL
 
-#include "DummyConsumer.idl"
+#include "DummyEvent.idl"
 
 module Outer
 {

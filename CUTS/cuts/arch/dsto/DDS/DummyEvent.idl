@@ -1,0 +1,10 @@
+#ifndef DUMMYEVENT_IDL
+#define DUMMYEVENT_IDL
+
+#include "Components.idl"
+
+eventtype Dummy
+{
+};
+
+#endif // DUMMYEVENT_IDL

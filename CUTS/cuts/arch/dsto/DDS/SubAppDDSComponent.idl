@@ -1,7 +1,7 @@
 #ifndef SUBAPPDDSCOMPONENT_IDL
 #define SUBAPPDDSCOMPONENT_IDL
 
-#include "DummyConsumer.idl"
+#include "DummyEvent.idl"
 
 module Outer
 {
