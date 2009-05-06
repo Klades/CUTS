@@ -17,23 +17,29 @@ workspace (CUTS_CoSMIC) {
   MDE/utils
 
   gems {
-    cmdline += -base requires_gems
+    cmdline += -base requires_gems     
 
     MDE/GEMS
   }
 
   exclude (!vc6, !vc71, !vc8, !vc9, !nmake) {
+    cmdline += -include $COSMIC_ROOT/MPC/config
+
+    MDE/GME/T2M
+    MDE/GME/paradigms/CUTS
+
     //== CoSMIC projects
-    cmdline += -include $COSMIC_ROOT/MPC/config \
-               -base requires_cosmic
+    cosmic {
+      cmdline += -base requires_cosmic          
 
-    MDE/GME
-    MDE/naomi/GME
+		  MDE/GME/paradigms/PICML
+		  MDE/naomi/GME
 
-    static {
-      cmdline += -static -base requires_cosmic
+		  static {
+		    cmdline += -static
 
-      $(CIAO_ROOT)/CCF/CCF/CodeGenerationKit
+		    $(CIAO_ROOT)/CCF/CCF/CodeGenerationKit 
+		  }
     }
   }
 }

@@ -1,0 +1,23 @@
+// $Id$
+
+project (CUTS_DSML) : udm, boost_base, cosmic_utils, cutslib  {
+  sharedname  = CUTS_DSML
+  macros     += CUTS_HAS_DLL CUTS_EXPORT UDM_DYNAMIC_LINKING
+  
+  specific {
+  	udmflags +=  -l CUTS_DSML_Export -v -g
+  }
+  
+  Header_Files {
+  	CUTS_export.h
+  }
+  Source_Files {
+
+  }
+
+  UDM_Files {
+    gendir = .
+    
+    CUTS.xml
+  }
+}

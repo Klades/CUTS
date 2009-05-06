@@ -1,32 +1,71 @@
+Wed May  6 19:33:04 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
+
+        * CUTS_CoSMIC.mwc:
+  
+	  Updated the workspace to add CUTS_UNITE interpreter
+          	 
+        * MDE/GME/paradigms/CUTS:
+	
+	  Added folder for CUTS DSML
+
+        * MDE/GME/paradigms/CUTS/addons:
+        * MDE/GME/paradigms/CUTS/interpreters:
+
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE:
+
+	  UNITE interpreter contains files for CUTS_UNITE interpreter
+
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/ComponentConfig.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/RawComponent.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/RawComponent.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/StdAfx.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/StdAfx.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE.mpc:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UdmApp.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UdmApp.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UdmConfig.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UniteVisitor.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UniteVisitor.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/resource.h:
+
+        * MDE/GME/paradigms/CUTS/paradigm:
+
+	  Folder containing CUTS DSML files
+
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS.xme:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS.xml:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS_DSML.mpc:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS_export.h:
+
 Wed May  6 18:36:51 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/DDS/DummyConsumer.idl:
         * cuts/arch/dsto/DDS/DummyEvent.idl:
-        
+
           Renamed DummyConsumer.idl as DummyEvent.idl.
-          
+
         * cuts/arch/dsto/DDS/DummyConsumer.h:
         * cuts/arch/dsto/DDS/DummyConsumer.cpp:
-        
+
           New files, containing the implementation of the
           DummyConsumer interface.
-          
+
         * cuts/arch/dsto/DDS/PubAppDDSContext.h:
         * cuts/arch/dsto/DDS/SubAppDDSComponent.idl:
         * cuts/arch/dsto/DDS/dsto_dds.mpc:
         * cuts/arch/dsto/DDS/SubAppDDSAdapter.cpp:
         * cuts/arch/dsto/DDS/PubAppDDSComponent.idl:
-        
+
           Changes resulting from the above.
 
 Wed May  6 16:37:37 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/DDS/ModelDDSData_EV.idl:
         * cuts/arch/dsto/DDS/DummyConsumer.idl:
-        
+
           Renamed ModelDDSData_EV.idl as DummyConsumer.idl,
           and moved it to the DDS_Utilities project.
-        
+
         * cuts/arch/dsto/DDS/PubAppDDSAdapter.cpp:
         * cuts/arch/dsto/DDS/SubAppDDSAdapter.h:
         * cuts/arch/dsto/DDS/PubAppDDSContext.h:
@@ -37,9 +76,9 @@ Wed May  6 16:37:37 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
         * cuts/arch/dsto/DDS/PubAppDDSAdapter.h:
         * cuts/arch/dsto/DDS/driver.cpp:
         * cuts/arch/dsto/DDS/PubAppDDSComponent.idl:
-        
+
          - Changes resulting from the file rename above.
-         
+
          - Added override of get_consumer() to SubAppDDSAdapter,
            so a DummyConsumer reference can be generated directly
            and returned, without storing it in the consumer table.

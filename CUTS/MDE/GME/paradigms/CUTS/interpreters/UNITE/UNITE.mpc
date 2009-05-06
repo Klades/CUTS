@@ -1,0 +1,30 @@
+// $Id$
+
+project (CUTS_UNITE) : cuts_gme, cuts_dsml, udm, udm_component, \
+  xerces, game_component, boost_base, register, cutslib  {
+
+  sharedname  = CUTS_UNITE
+  
+  includes += $(CUTS_ROOT)/MDE/GME/paradigms/CUTS $(UDM_PATH)/include 
+  
+  libs -= PICML
+  
+  specific {
+    midl_notlb = 1
+  }
+
+  pch_header = StdAfx.h
+  pch_source = StdAfx.cpp
+
+  specific (vc71, vc8, vc9) {
+    compile_flags += /wd4355
+  }
+
+  Header_Files {
+    resource.h
+  }
+
+  Source_Files {
+    UniteVisitor.cpp
+  } 
+}
