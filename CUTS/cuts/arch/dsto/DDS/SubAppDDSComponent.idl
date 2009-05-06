@@ -1,7 +1,7 @@
 #ifndef SUBAPPDDSCOMPONENT_IDL
 #define SUBAPPDDSCOMPONENT_IDL
 
-#include "ModelDDSData_EV.idl"
+#include "DummyConsumer.idl"
 
 module Outer
 {

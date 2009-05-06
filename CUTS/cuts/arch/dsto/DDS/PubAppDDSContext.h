@@ -6,7 +6,7 @@
 #include "DDS_Utility.h"
 
 #include "ModelDDSDataDcps_impl.h"
-#include "ModelDDSData_EVC.h"
+#include "DummyConsumerC.h"
 #include "AppData.h"
 
 #include "PubAppDDS_export.h"
@@ -26,9 +26,9 @@ namespace DSTO_AppSpace_Impl
     push_app_op_send ( ::Outer::TestData * ev);
     
     virtual ::Components::Cookie *
-    subscribe_app_op_send ( ::Outer::DummyConsumer_ptr c);
+    subscribe_app_op_send ( ::DummyConsumer_ptr c);
     
-    virtual ::Outer::DummyConsumer_ptr
+    virtual ::DummyConsumer_ptr
     unsubscribe_app_op_send ( ::Components::Cookie * ck);
     
     static PubAppDDSContext *

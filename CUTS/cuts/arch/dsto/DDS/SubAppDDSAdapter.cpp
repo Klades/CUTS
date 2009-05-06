@@ -68,26 +68,43 @@ namespace DSTO_AppSpace_Impl
   {
     return ::Components::SessionComponent::_duplicate (app_);
   }
+  
+  ::Components::EventConsumerBase_ptr
+  SubAppDDSAdapter::get_consumer (const char * sink_name)
+  {
+    if (sink_name == 0)
+      {
+        throw ::Components::InvalidName ();
+      }
+      
+    // Generate one of these for each consumes port.
+    if (ACE_OS::strcmp (sink_name, "app_op_recv") == 0)
+      {
+        return this->get_consumer_app_op_recv ();
+      }
+      
+    throw ::Components::InvalidName ();
+  }
 
-  ::Outer::DummyConsumer_ptr
+  ::DummyConsumer_ptr
   SubAppDDSAdapter::get_consumer_app_op_recv (void)
   {
     if (! ::CORBA::is_nil (this->consumes_app_op_recv_.in ()))
       {
         return 
-          ::Outer::DummyConsumer::_duplicate (
+          ::DummyConsumer::_duplicate (
             this->consumes_app_op_recv_.in ());
       }
 
     ::Components::EventConsumerBase_var obj =
       this->get_consumer_app_op_recv_i ();
 
-    ::Outer::DummyConsumer_var eco =
-      ::Outer::DummyConsumer::_narrow (obj.in ());
+    ::DummyConsumer_var eco =
+      ::DummyConsumer::_narrow (obj.in ());
 
     this->consumes_app_op_recv_ = eco;
     return
-      ::Outer::DummyConsumer::_duplicate (
+      ::DummyConsumer::_duplicate (
         this->consumes_app_op_recv_.in ());
   }
   
@@ -110,14 +127,17 @@ namespace DSTO_AppSpace_Impl
     ::CORBA::Object_var obj =
       this->container_->generate_reference (
         obj_id.c_str (),
-        "IDL:Outer/DummyConsumer:1.0",
+        "IDL:DummyConsumer:1.0",
         ::CIAO::Container_Types::FACET_CONSUMER_t);
         
     ::Components::EventConsumerBase_var ecb =
       ::Components::EventConsumerBase::_narrow (obj.in ());
-
-    this->add_consumer ("app_op_recv",
-                        ecb.in ());
+      
+    if (CORBA::is_nil (ecb.in ()))
+      {
+        ACE_ERROR ((LM_EMERGENCY,
+                    ACE_TEXT ("DummyConsumer objref generation failed\n")));
+      }
 
     return ecb._retn ();
   }

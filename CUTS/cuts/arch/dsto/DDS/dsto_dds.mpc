@@ -1,8 +1,14 @@
 // $Id$
 
-project (DDS_Utilities) : taolib, splicelib, requires_opensplice {
+project (DDS_Utilities) : ccm_svnt, splicelib, requires_opensplice {
+  idlflags += -Wb,export_macro=DDS_Utilities_Export \
+              -Wb,export_include=DDS_Utilities_export.h
   sharedname = DDS_Utilities
   dynamicflags += DDS_UTILITIES_BUILD_DLL
+
+  IDL_Files {
+    DummyConsumer.idl
+  }
 
   Source_Files {
     DSTO_ListenerBase.cpp
@@ -37,7 +43,6 @@ project (ModelDDSData) : ccm_svnt, splicelib_with_idl, requires_opensplice {
 
   IDL_Files {
     ModelDDSData.idl
-    ModelDDSData_EV.idl
     ModelDDSDataDcps.idl
   }
 

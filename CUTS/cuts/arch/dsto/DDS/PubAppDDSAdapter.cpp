@@ -71,8 +71,8 @@ namespace DSTO_AppSpace_Impl
       
     if (ACE_OS::strcmp (publisher_name, "app_op_send") == 0)
       {
-        ::Outer::DummyConsumer_var sub =
-          ::Outer::DummyConsumer::_narrow (subscriber);
+        ::DummyConsumer_var sub =
+          ::DummyConsumer::_narrow (subscriber);
           
         if ( ::CORBA::is_nil (sub.in ()))
           {
@@ -106,12 +106,12 @@ namespace DSTO_AppSpace_Impl
     
   ::Components::Cookie *
   PubAppDDSAdapter::subscribe_app_op_send (
-    ::Outer::DummyConsumer_ptr c)
+    ::DummyConsumer_ptr c)
   {
     return this->context_->subscribe_app_op_send (c);
   }
 
-  ::Outer::DummyConsumer_ptr
+  ::DummyConsumer_ptr
   PubAppDDSAdapter::unsubscribe_app_op_send ( ::Components::Cookie * ck)
   {
     return this->context_->unsubscribe_app_op_send (ck);

@@ -1,3 +1,28 @@
+Wed May  6 16:37:37 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
+
+        * cuts/arch/dsto/DDS/ModelDDSData_EV.idl:
+        * cuts/arch/dsto/DDS/DummyConsumer.idl:
+        
+          Renamed ModelDDSData_EV.idl as DummyConsumer.idl,
+          and moved it to the DDS_Utilities project.
+        
+        * cuts/arch/dsto/DDS/PubAppDDSAdapter.cpp:
+        * cuts/arch/dsto/DDS/SubAppDDSAdapter.h:
+        * cuts/arch/dsto/DDS/PubAppDDSContext.h:
+        * cuts/arch/dsto/DDS/SubAppDDSComponent.idl:
+        * cuts/arch/dsto/DDS/dsto_dds.mpc:
+        * cuts/arch/dsto/DDS/SubAppDDSAdapter.cpp:
+        * cuts/arch/dsto/DDS/PubAppDDSContext.cpp:
+        * cuts/arch/dsto/DDS/PubAppDDSAdapter.h:
+        * cuts/arch/dsto/DDS/driver.cpp:
+        * cuts/arch/dsto/DDS/PubAppDDSComponent.idl:
+        
+         - Changes resulting from the file rename above.
+         
+         - Added override of get_consumer() to SubAppDDSAdapter,
+           so a DummyConsumer reference can be generated directly
+           and returned, without storing it in the consumer table.
+
 Tue May  5 22:24:49 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MPC/config/requires_opensplice.mpb:

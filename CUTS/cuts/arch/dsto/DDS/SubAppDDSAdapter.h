@@ -38,7 +38,11 @@ namespace DSTO_AppSpace_Impl
     ::Components::SessionComponent_ptr get_executor (void);
     
     virtual
-    ::Outer::DummyConsumer_ptr get_consumer_app_op_recv (void);
+    ::Components::EventConsumerBase_ptr get_consumer (
+      const char *sink_name);
+
+    virtual
+    ::DummyConsumer_ptr get_consumer_app_op_recv (void);
 
   private:
     void populate_consumer_table (void);
@@ -50,7 +54,7 @@ namespace DSTO_AppSpace_Impl
     ::AppSpace::SubAppDDS * app_;
 //    ::DSTO::ContextBase * context_;
     
-    ::Outer::DummyConsumer_var consumes_app_op_recv_;
+    ::DummyConsumer_var consumes_app_op_recv_;
 
     // Generate this for each consumes port.
     ::Outer::TestData_DDSDataReader_var app_op_recv_reader_;

@@ -218,8 +218,8 @@ main (int argc, ACE_TCHAR *argv[])
                             -1);
         }
         
-      ::Outer::DummyConsumer_var td_ec =
-        ::Outer::DummyConsumer::_narrow (ec.in ());
+      ::DummyConsumer_var td_ec =
+        ::DummyConsumer::_narrow (ec.in ());
       
        if (CORBA::is_nil (td_ec.in ()))
         {

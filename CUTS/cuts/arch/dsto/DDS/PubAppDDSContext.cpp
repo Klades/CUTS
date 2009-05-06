@@ -51,7 +51,7 @@ namespace DSTO_AppSpace_Impl
   
   ::Components::Cookie *
   PubAppDDSContext::subscribe_app_op_send (
-    ::Outer::DummyConsumer_ptr c)
+    ::DummyConsumer_ptr c)
   {
     if ( ::CORBA::is_nil (c))
       {
@@ -67,13 +67,13 @@ namespace DSTO_AppSpace_Impl
     return retv;
   }
   
-  ::Outer::DummyConsumer_ptr
+  ::DummyConsumer_ptr
   PubAppDDSContext::unsubscribe_app_op_send (
     ::Components::Cookie * ck)
   {
     // We may have to keep the whole consumer table mechanism
     // if returning 0 here messes things up.
-    return ::Outer::DummyConsumer::_nil ();
+    return ::DummyConsumer::_nil ();
   }
   
   PubAppDDSContext *

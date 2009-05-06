@@ -51,10 +51,10 @@ namespace DSTO_AppSpace_Impl
       
     virtual
     ::Components::Cookie * subscribe_app_op_send (
-      ::Outer::DummyConsumer_ptr c);
+      ::DummyConsumer_ptr c);
       
     virtual
-    ::Outer::DummyConsumer_ptr unsubscribe_app_op_send (
+    ::DummyConsumer_ptr unsubscribe_app_op_send (
       ::Components::Cookie * ck);
       
     virtual void configuration_complete (void);
