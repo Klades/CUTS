@@ -1,12 +1,22 @@
+Thu May  7 19:42:57 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_UNITE.reg:
+        
+          Added file for registration
+        
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_UNITEd.reg:
+        
+        	Added file for registration
+
 Thu May  7 18:14:36 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
 
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xml:
-        
-        	Updated file as per changes in the model
-        
+
+                Updated file as per changes in the model
+
         * MDE/GME/paradigms/CUTS/paradigm/cuts_uml.xme:
-        
-        	Updated file as per changes in the model
+
+                Updated file as per changes in the model
 
 Wed May  6 21:20:31 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
 
