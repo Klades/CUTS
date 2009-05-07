@@ -1,8 +1,18 @@
+Thu May  7 18:14:36 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS.xml:
+        
+        	Updated file as per changes in the model
+        
+        * MDE/GME/paradigms/CUTS/paradigm/cuts_uml.xme:
+        
+        	Updated file as per changes in the model
+
 Wed May  6 21:20:31 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
 
         * MDE/GME/paradigms/CUTS/paradigm/cuts_uml.xme:
 
-	  Added files for CUTS DSML
+          Added files for CUTS DSML
 
 Wed May  6 20:15:13 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 

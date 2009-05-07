@@ -1,5 +1,5 @@
 <Diagram name="CUTS" version="1.00" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Uml.xsd">
-	<Association _id="id13" name="Connection" assocClass="id5" nonpersistent="false">
+	<Association _id="id13" name="Connection" assocClass="id7" nonpersistent="false">
 		<AssociationRole _id="id14" max="-1" min="0" name="srcConnection" target="id6" isPrimary="false" isNavigable="true"/>
 		<AssociationRole _id="id15" max="-1" min="0" name="dstConnection" target="id6" isPrimary="false" isNavigable="true"/>
 	</Association>
@@ -8,14 +8,14 @@
 		<Attribute max="1" min="1" name="Evaluation" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
 		<Attribute max="1" min="1" name="Aggregation" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
 	</Class>
-	<Class _id="id5" name="Connection" baseTypes="id4" childRoles="ida" isAbstract="false" stereotype="Connection" association="id13">
+	<Class _id="id5" name="LogFormats" baseTypes="id4" childRoles="id8" isAbstract="false" stereotype="Model" parentRoles="idb idd"/>
+	<Class _id="id6" name="LogFormat" baseTypes="id4" childRoles="ida" isAbstract="false" stereotype="Model" associationRoles="id14 id15">
+		<Attribute max="1" min="1" name="value" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
+	</Class>
+	<Class _id="id7" name="Connection" baseTypes="id4" childRoles="idc" isAbstract="false" stereotype="Connection" association="id13">
 		<Attribute max="1" min="1" name="Cause" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
 		<Attribute max="1" min="1" name="Effect" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
 	</Class>
-	<Class _id="id6" name="LogFormat" baseTypes="id4" childRoles="idc" isAbstract="false" stereotype="Model" associationRoles="id14 id15">
-		<Attribute max="1" min="1" name="value" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
-	</Class>
-	<Class _id="id7" name="LogFormats" baseTypes="id4" childRoles="id8" isAbstract="false" stereotype="Model" parentRoles="idb idd"/>
 	<Class _id="idf" name="RootFolder" childRoles="id11" isAbstract="false" stereotype="Folder" parentRoles="id10 id12">
 		<Attribute max="1" min="0" name="name" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
 	</Class>
@@ -24,16 +24,16 @@
 		<Attribute max="1" min="0" name="position" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
 	</Class>
 	<Composition nonpersistent="false">
-		<CompositionChildRole _id="id8" max="1" min="1" target="id7" isNavigable="true"/>
+		<CompositionChildRole _id="id8" max="1" min="1" target="id5" isNavigable="true"/>
 		<CompositionParentRole _id="id9" target="id3" isNavigable="true"/>
 	</Composition>
 	<Composition nonpersistent="false">
-		<CompositionChildRole _id="ida" max="-1" min="0" target="id5" isNavigable="true"/>
-		<CompositionParentRole _id="idb" target="id7" isNavigable="true"/>
+		<CompositionChildRole _id="ida" max="-1" min="1" target="id6" isNavigable="true"/>
+		<CompositionParentRole _id="idb" target="id5" isNavigable="true"/>
 	</Composition>
 	<Composition nonpersistent="false">
-		<CompositionChildRole _id="idc" max="-1" min="1" target="id6" isNavigable="true"/>
-		<CompositionParentRole _id="idd" target="id7" isNavigable="true"/>
+		<CompositionChildRole _id="idc" max="-1" min="0" target="id7" isNavigable="true"/>
+		<CompositionParentRole _id="idd" target="id5" isNavigable="true"/>
 	</Composition>
 	<Composition nonpersistent="false">
 		<CompositionChildRole _id="ide" max="-1" min="0" target="id3" isNavigable="true"/>
