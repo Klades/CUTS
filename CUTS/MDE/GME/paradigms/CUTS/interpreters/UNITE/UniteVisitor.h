@@ -14,7 +14,7 @@
 
 namespace CUTS {
 
-  class CUTS_DSML_Export UniteVisitor : public Visitor
+  class UniteVisitor : public Visitor
   {
   public:
 

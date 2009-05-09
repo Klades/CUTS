@@ -1,7 +1,7 @@
 #ifndef MOBIES_CUTS_export_H
 #	define MOBIES_CUTS_export_H
 #	ifndef CUTS_DSML_Export 
-#		if defined (CUTS_HAS_DLL) && (CUTS_HAS_DLL == 1)
+#		if defined (CUTS_HAS_DLL)
 #			if defined (CUTS_EXPORT)
 #				define CUTS_DSML_Export __declspec(dllexport)
 #			else

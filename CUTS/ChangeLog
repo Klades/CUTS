@@ -1,12 +1,23 @@
+Sat May  9 23:59:21 UTC 2009  Pooja Varshneya  <varshneya_p@local>
+
+       
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UniteVisitor.h:
+        
+        	Removed the export symbol
+
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS_export.h:
+
+					Updated to remove linking error
+
 Thu May  7 19:42:57 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
 
         * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_UNITE.reg:
-        
+
           Added file for registration
-        
+
         * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_UNITEd.reg:
-        
-        	Added file for registration
+
+                Added file for registration
 
 Thu May  7 18:14:36 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
 
