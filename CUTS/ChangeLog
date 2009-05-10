@@ -1,8 +1,18 @@
+Sun May 10 18:52:23 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS_export.h:
+        
+        		Restoring the file to previous version
+
+        * MPC/config/cuts_dsml.mpb:
+        
+        		Updated the file for linker error
+
 Sun May 10 00:09:43 UTC 2009  Pooja Varshneya  <varshneya_p@local>
 
         * MDE/GME/paradigms/CUTS/paradigm/CUTS_DSML.mpc:
-        
-        	Removed -g option for udmflags
+
+                Removed -g option for udmflags
 
 Sat May  9 23:59:21 UTC 2009  Pooja Varshneya  <varshneya_p@local>
 
