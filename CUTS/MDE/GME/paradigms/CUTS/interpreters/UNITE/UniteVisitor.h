@@ -19,20 +19,18 @@ namespace CUTS {
   public:
 
        UniteVisitor (std::string & outputPath);
-    
+
       ~UniteVisitor ();
 
-		   virtual void Visit_Connection (const Connection &);
+       virtual void Visit_Causality (const Causality &);
 
-		   virtual void Visit_Unite (const Unite &);
+       virtual void Visit_UNITE (const UnitTest &);
 
-		   virtual void Visit_LogFormat (const LogFormat &);
+       virtual void Visit_LogFormat (const LogFormat &);
 
-		   virtual void Visit_LogFormats(const LogFormats &);
+       virtual void Visit_RootFolder (const RootFolder &);
 
-		   virtual void Visit_RootFolder (const RootFolder &);
-
-		   virtual void Visit_Object (const Udm::Object &);
+       virtual void Visit_Object (const Udm::Object &);
 
   private:
 
@@ -46,7 +44,7 @@ namespace CUTS {
       xercesc::DOMElement* cur_node_;
       xercesc::DOMElement* logformats_node_;
 
-      std::string outputPath_; 
+      std::string outputPath_;
   };
 }
 #endif // UNITEXMLGENERATOR_CUTS_H

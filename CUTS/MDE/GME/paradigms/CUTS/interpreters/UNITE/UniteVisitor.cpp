@@ -1,14 +1,14 @@
 #include "StdAfx.h"
 #include "UniteVisitor.h"
 
-namespace CUTS 
+namespace CUTS
 {
   UniteVisitor::UniteVisitor (std::string & outputPath)
   : dom_impl_(0), doc_(0), serializer_(0)
-  { 
+  {
     this->initialize (outputPath);
   }
-      
+
   UniteVisitor::~UniteVisitor ()
   {
   }
@@ -56,11 +56,11 @@ namespace CUTS
     this->cur_node_ = root_node;
   }
 
-  void UniteVisitor::Visit_Connection (const Connection &)
+  void UniteVisitor::Visit_Causality (const Causality &)
   {
   }
 
-  void UniteVisitor::Visit_Unite (const Unite & unite)
+  void UniteVisitor::Visit_UNITE (const UnitTest & unite)
   {
     xercesc::DOMElement* name = this->doc_->createElement (Utils::XStr ("name"));
     xercesc::DOMText* name_pValue = this->doc_->createTextNode (Utils::XStr (unite.name().operator std::string()));
@@ -82,8 +82,8 @@ namespace CUTS
     aggr->appendChild (aggr_pValue);
     this->cur_node_->appendChild (aggr);
 
-    CUTS::LogFormats logformats = unite.LogFormats_child ();
-    logformats.Accept (*this);
+    //CUTS::LogFormats logformats = unite.LogFormats_child ();
+    //logformats.Accept (*this);
 
   }
 
@@ -93,7 +93,7 @@ namespace CUTS
     log_format->setAttribute (Utils::XStr ("id"), Utils::XStr (logformat.name ().operator std::string()));
 
     xercesc::DOMElement* log_format_value = this->doc_->createElement (Utils::XStr ("value"));
-    xercesc::DOMText* log_format_value_content = this->doc_->createTextNode (Utils::XStr (logformat.value ().operator std::string()));
+    xercesc::DOMText* log_format_value_content = this->doc_->createTextNode (Utils::XStr (std::string (logformat.Value ())));
     log_format_value->appendChild (log_format_value_content);
 
     xercesc::DOMElement* log_format_relations = this->doc_->createElement (Utils::XStr ("relations"));
@@ -104,34 +104,34 @@ namespace CUTS
     this->logformats_node_->appendChild (log_format);
   }
 
-  void UniteVisitor::Visit_LogFormats(const LogFormats & logformats)
-  {
-    logformats_node_ = this->doc_->createElement (Utils::XStr ("logformats"));
+  //void UniteVisitor::Visit_LogFormats(const LogFormats & logformats)
+  //{
+  //  logformats_node_ = this->doc_->createElement (Utils::XStr ("logformats"));
 
-    std::set <LogFormat> logformat_set = logformats.LogFormat_kind_children();
+  //  std::set <LogFormat> logformat_set = logformats.LogFormat_kind_children();
 
-    for (std::set<LogFormat>::iterator iter = logformat_set.begin();
-         iter != logformat_set.end(); 
-         ++iter)
-    {
-      LogFormat logformat = *iter;
-      logformat.Accept (*this);
-    }
+  //  for (std::set<LogFormat>::iterator iter = logformat_set.begin();
+  //       iter != logformat_set.end();
+  //       ++iter)
+  //  {
+  //    LogFormat logformat = *iter;
+  //    logformat.Accept (*this);
+  //  }
 
-    this->cur_node_->appendChild (logformats_node_);
-  }
+  //  this->cur_node_->appendChild (logformats_node_);
+  //}
 
   void UniteVisitor::Visit_RootFolder (const RootFolder &rf)
   {
-    std::set<Unite> unite_set = rf.Unite_kind_children();
+    //std::set<UnitTest> unite_set = rf.UNITE_kind_children();
 
-    for (std::set<Unite>::iterator iter = unite_set.begin();
-         iter != unite_set.end();
-         ++iter)
-    {
-      Unite unite_obj = *iter;
-      unite_obj.Accept (*this);
-    }
+    //for (std::set<UnitTest>::iterator iter = unite_set.begin();
+    //     iter != unite_set.end();
+    //     ++iter)
+    //{
+    //  UnitTest unite_obj = *iter;
+    //  unite_obj.Accept (*this);
+    //}
     writeDocument ();
   }
 

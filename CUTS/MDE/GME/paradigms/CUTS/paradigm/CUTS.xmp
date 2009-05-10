@@ -1,29 +1,33 @@
 <?xml version="1.0"?>
 <!DOCTYPE paradigm SYSTEM "edf.dtd">
 
-<paradigm name="CUTS" guid="{8128A81F-7D8A-48CB-B548-3E50D1F21F3C}" cdate="Sun May 10 16:31:51 2009" mdate="Sun May 10 16:31:51 2009" >
+<paradigm name="CUTS" guid="{D0AB58BD-EAAA-4653-802C-2CC0F0772B86}" cdate="Sun May 10 16:31:51 2009" mdate="Sun May 10 16:31:51 2009" >
 
 	<comment></comment>
 
 	<author></author>
 
-	<folder name = "RootFolder" metaref = "1000"  rootobjects = "Unite" >
-		<attrdef name="Aggregation" metaref = "1106" valuetype = "string" defvalue = "">
+	<folder name = "RootFolder" metaref = "1000"  subfolders = "UnitTests" >
+		<attrdef name="Aggregation" metaref = "1135" valuetype = "string" defvalue = "">
 		</attrdef>
-		<attrdef name="Cause" metaref = "1107" valuetype = "string" defvalue = "">
+		<attrdef name="Cause" metaref = "1136" valuetype = "string" defvalue = "">
 		</attrdef>
-		<attrdef name="Description" metaref = "1108" valuetype = "string" defvalue = "">
-			<regnode name="multiLine" value = "10"></regnode>
+		<attrdef name="Description" metaref = "1137" valuetype = "string" defvalue = "">
 		</attrdef>
-		<attrdef name="Effect" metaref = "1109" valuetype = "string" defvalue = "">
+		<attrdef name="Effect" metaref = "1138" valuetype = "string" defvalue = "">
 		</attrdef>
-		<attrdef name="Evaluation" metaref = "1110" valuetype = "string" defvalue = "">
+		<attrdef name="Evaluation" metaref = "1139" valuetype = "string" defvalue = "">
 		</attrdef>
-		<attrdef name="name" metaref = "1047" valuetype = "string" defvalue = "">
+		<attrdef name="Value" metaref = "1140" valuetype = "string" defvalue = "">
 		</attrdef>
-		<attrdef name="value" metaref = "1105" valuetype = "string" defvalue = "">
+		<attrdef name="name" metaref = "1141" valuetype = "string" defvalue = "">
 		</attrdef>
-		<connection name = "Connection" metaref = "1111" attributes = "Effect Cause" >
+		<atom name = "Key" metaref = "1142" >
+				<regnode name = "namePosition" value ="4"></regnode>
+		</atom>
+		<connection name = "Causality" metaref = "1143" attributes = "Effect Cause" >
+				<regnode name = "sName" value ="srcCausality"></regnode>
+				<regnode name = "dName" value ="dstCausality"></regnode>
 				<regnode name = "color" value ="0x000000"></regnode>
 				<regnode name = "dstStyle" value ="butt"></regnode>
 				<regnode name = "srcStyle" value ="butt"></regnode>
@@ -37,36 +41,28 @@
 				</pointerspec>
 			</connjoint>
 		</connection>
-		<model name = "LogFormat" metaref = "1112" attributes = "value" >
+		<model name = "LogFormat" metaref = "1144" attributes = "Value" >
 				<regnode name = "namePosition" value ="4"></regnode>
-			<aspect name = "Aspect" metaref = "1124" attributes = "value" >
+			<role name = "Key" metaref = "1145" kind = "Key"></role>
+			<aspect name = "Default" metaref = "1127" attributes = "Value" >
+				<part metaref = "1146" role = "Key" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
-		<model name = "LogFormats" metaref = "1114" >
+		<model name = "UnitTest" metaref = "1147" attributes = "Description Evaluation Aggregation" >
 				<regnode name = "namePosition" value ="4"></regnode>
-			<constraint name="ValidLogFormatsPartCardinality3" eventmask = "0x0" depth = "1" priority = "1">
+			<constraint name="ValidUnitTestPartCardinality3" eventmask = "0x0" depth = "1" priority = "1">
 				<![CDATA[let partCount = self.parts( "LogFormat" ) -> size in
                      (partCount >= 1)]]>
-				<dispname>Multiplicity of parts, which are contained by LogFormats, has to match 1..*.</dispname>
+				<dispname>Multiplicity of parts, which are contained by UnitTest, has to match 1..*.</dispname>
 			</constraint>
-			<role name = "Connection" metaref = "1115" kind = "Connection"></role>
-			<role name = "LogFormat" metaref = "1116" kind = "LogFormat"></role>
-			<aspect name = "Aspect" metaref = "1125" >
-				<part metaref = "1118" role = "Connection" primary = "yes" linked = "no"></part>
-				<part metaref = "1119" role = "LogFormat" primary = "yes" linked = "no"></part>
+			<role name = "Causality" metaref = "1148" kind = "Causality"></role>
+			<role name = "LogFormat" metaref = "1149" kind = "LogFormat"></role>
+			<aspect name = "Default" metaref = "1150" attributes = "Description Evaluation Aggregation" >
+				<part metaref = "1151" role = "Causality" primary = "yes" linked = "no"></part>
+				<part metaref = "1152" role = "LogFormat" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
-		<model name = "Unite" metaref = "1120" attributes = "Description Evaluation Aggregation" >
-				<regnode name = "namePosition" value ="4"></regnode>
-			<constraint name="ValidUnitePartCardinality4" eventmask = "0x0" depth = "1" priority = "1">
-				<![CDATA[let partCount = self.parts( "LogFormats" ) -> size in
-                     (partCount = 1)]]>
-				<dispname>Multiplicity of parts, which are contained by Unite, has to match 1.</dispname>
-			</constraint>
-			<role name = "LogFormats" metaref = "1121" kind = "LogFormats"></role>
-			<aspect name = "Aspect" metaref = "1126" attributes = "Description Evaluation Aggregation" >
-				<part metaref = "1123" role = "LogFormats" primary = "yes" linked = "no"></part>
-			</aspect>
-		</model>
+		<folder name = "UnitTests" metaref = "1153"  rootobjects = "UnitTest" >
+		</folder>
 	</folder>
 </paradigm>
