@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE paradigm SYSTEM "edf.dtd">
+
+<paradigm name="CUTS" guid="{8128A81F-7D8A-48CB-B548-3E50D1F21F3C}" cdate="Sun May 10 16:31:51 2009" mdate="Sun May 10 16:31:51 2009" >
+
+	<comment></comment>
+
+	<author></author>
+
+	<folder name = "RootFolder" metaref = "1000"  rootobjects = "Unite" >
+		<attrdef name="Aggregation" metaref = "1106" valuetype = "string" defvalue = "">
+		</attrdef>
+		<attrdef name="Cause" metaref = "1107" valuetype = "string" defvalue = "">
+		</attrdef>
+		<attrdef name="Description" metaref = "1108" valuetype = "string" defvalue = "">
+			<regnode name="multiLine" value = "10"></regnode>
+		</attrdef>
+		<attrdef name="Effect" metaref = "1109" valuetype = "string" defvalue = "">
+		</attrdef>
+		<attrdef name="Evaluation" metaref = "1110" valuetype = "string" defvalue = "">
+		</attrdef>
+		<attrdef name="name" metaref = "1047" valuetype = "string" defvalue = "">
+		</attrdef>
+		<attrdef name="value" metaref = "1105" valuetype = "string" defvalue = "">
+		</attrdef>
+		<connection name = "Connection" metaref = "1111" attributes = "Effect Cause" >
+				<regnode name = "color" value ="0x000000"></regnode>
+				<regnode name = "dstStyle" value ="butt"></regnode>
+				<regnode name = "srcStyle" value ="butt"></regnode>
+				<regnode name = "lineType" value ="solid"></regnode>
+			<connjoint>
+				<pointerspec name = "src">
+					<pointeritem desc = "LogFormat"></pointeritem>
+				</pointerspec>
+				<pointerspec name = "dst">
+					<pointeritem desc = "LogFormat"></pointeritem>
+				</pointerspec>
+			</connjoint>
+		</connection>
+		<model name = "LogFormat" metaref = "1112" attributes = "value" >
+				<regnode name = "namePosition" value ="4"></regnode>
+			<aspect name = "Aspect" metaref = "1124" attributes = "value" >
+			</aspect>
+		</model>
+		<model name = "LogFormats" metaref = "1114" >
+				<regnode name = "namePosition" value ="4"></regnode>
+			<constraint name="ValidLogFormatsPartCardinality3" eventmask = "0x0" depth = "1" priority = "1">
+				<![CDATA[let partCount = self.parts( "LogFormat" ) -> size in
+                     (partCount >= 1)]]>
+				<dispname>Multiplicity of parts, which are contained by LogFormats, has to match 1..*.</dispname>
+			</constraint>
+			<role name = "Connection" metaref = "1115" kind = "Connection"></role>
+			<role name = "LogFormat" metaref = "1116" kind = "LogFormat"></role>
+			<aspect name = "Aspect" metaref = "1125" >
+				<part metaref = "1118" role = "Connection" primary = "yes" linked = "no"></part>
+				<part metaref = "1119" role = "LogFormat" primary = "yes" linked = "no"></part>
+			</aspect>
+		</model>
+		<model name = "Unite" metaref = "1120" attributes = "Description Evaluation Aggregation" >
+				<regnode name = "namePosition" value ="4"></regnode>
+			<constraint name="ValidUnitePartCardinality4" eventmask = "0x0" depth = "1" priority = "1">
+				<![CDATA[let partCount = self.parts( "LogFormats" ) -> size in
+                     (partCount = 1)]]>
+				<dispname>Multiplicity of parts, which are contained by Unite, has to match 1.</dispname>
+			</constraint>
+			<role name = "LogFormats" metaref = "1121" kind = "LogFormats"></role>
+			<aspect name = "Aspect" metaref = "1126" attributes = "Description Evaluation Aggregation" >
+				<part metaref = "1123" role = "LogFormats" primary = "yes" linked = "no"></part>
+			</aspect>
+		</model>
+	</folder>
+</paradigm>
