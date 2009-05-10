@@ -5,7 +5,7 @@ project (CUTS_DSML) : udm, boost_base, cosmic_utils, cutslib  {
   macros     += CUTS_HAS_DLL CUTS_EXPORT UDM_DYNAMIC_LINKING
   
   specific {
-  	udmflags +=  -l CUTS_DSML_Export -v -g
+  	udmflags +=  -l CUTS_DSML_Export -v
   }
   
   Header_Files {

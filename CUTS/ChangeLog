@@ -1,13 +1,19 @@
+Sun May 10 00:09:43 UTC 2009  Pooja Varshneya  <varshneya_p@local>
+
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS_DSML.mpc:
+        
+        	Removed -g option for udmflags
+
 Sat May  9 23:59:21 UTC 2009  Pooja Varshneya  <varshneya_p@local>
 
-       
+
         * MDE/GME/paradigms/CUTS/interpreters/UNITE/UniteVisitor.h:
-        
-        	Removed the export symbol
+
+                Removed the export symbol
 
         * MDE/GME/paradigms/CUTS/paradigm/CUTS_export.h:
 
-					Updated to remove linking error
+                                        Updated to remove linking error
 
 Thu May  7 19:42:57 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
 
