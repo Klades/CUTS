@@ -15,3 +15,6 @@ After this process exits,
 
 There is also a perl script, you'll notice it is also
 Linux-specific, since it contains the killall call.
+
+Whether using the script or running by hand, don't
+forget to add . and .. to $LD_LIBRARY_PATH.

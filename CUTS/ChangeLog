@@ -1,3 +1,9 @@
+Tue May 12 16:28:01 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
+
+        * cuts/arch/dsto/DDS/README:
+        
+          Additional instructions about setting $LD_LIBRARY_PATH.
+
 Tue May 12 15:00:12 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/tcpip/TCPIP.mpc:
