@@ -3,7 +3,7 @@
 #ifndef _HELLOWORLD_BASIC_IMPL_H_
 #define _HELLOWORLD_BASIC_IMPL_H_
 
-#include "TCPIP_HelloWorldEC.h"
+#include "HelloWorldEC.h"
 #include "HelloWorld_impl_export.h"
 #include "ace/Task.h"
 
@@ -31,16 +31,16 @@ private:
 };
 
 class HELLOWORLD_IMPL_Export HelloWorld_Basic_Impl :
-  public TCPIP::HelloWorld_Exec
+  public CIDL_HelloWorld_Impl::HelloWorld_Exec
 {
 public:
   HelloWorld_Basic_Impl (void);
 
   virtual ~HelloWorld_Basic_Impl (void);
 
-  virtual void tcpip_handle_message (TCPIP::Message * ev);
+  virtual void push_handle_message (::Message * ev);
 
-  virtual void set_session_context (CUTS_TCPIP_Context * ctx);
+  virtual void set_session_context (::Components::SessionContext_ptr context);
 
   virtual void configuration_complete (void);
 
@@ -52,9 +52,12 @@ public:
 
 private:
   /// The context for the component.
-  TCPIP::HelloWorld_Context_var ctx_;
+  ::CCM_HelloWorld_Context_var ctx_;
 
   HelloWorld_Basic_Impl_Task task_;
 };
+
+extern "C" HELLOWORLD_IMPL_Export
+::Components::EnterpriseComponent_ptr create_HelloWorld_Basic_Impl (void);
 
 #endif  // !defined _HELLOWORLD_BASIC_IMPL_H_

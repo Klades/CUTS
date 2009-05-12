@@ -24,7 +24,7 @@ namespace TCPIP
 
     virtual ~HelloWorld_Context (void);
 
-    virtual void tcpip_handle_message (TCPIP::Message * ev) = 0;
+    virtual void tcpip_handle_message (::Message * ev) = 0;
   };
 
   class HelloWorld_Exec;
@@ -43,7 +43,7 @@ namespace TCPIP
 
     virtual ~HelloWorld_Exec (void);
 
-    virtual void tcpip_handle_message (TCPIP::Message * ev) = 0;
+    virtual void tcpip_handle_message (::Message * ev) = 0;
   };
 }
 

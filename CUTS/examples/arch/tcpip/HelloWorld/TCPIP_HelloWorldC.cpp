@@ -1,86 +1,47 @@
 // $Id$
 
 #include "TCPIP_HelloWorldC.h"
-#include "ace/CDR_Stream.h"
 
-namespace TCPIP
+/////////////////////////////////////////////////////////////////////////////
+// ::TimeValue
+
+ACE_CDR::Boolean operator << (ACE_OutputCDR & stream, ::TimeValue & rhs)
 {
-  /////////////////////////////////////////////////////////////////////////////
-  // TimeValue
+  stream << rhs.sec;
+  stream << rhs.usec;
 
-  ACE_CDR::Boolean operator << (ACE_OutputCDR & stream, TimeValue & rhs)
-  {
-    stream << rhs.sec;
-    stream << rhs.usec;
+  return stream.good_bit ();
+}
 
-    return stream.good_bit ();
-  }
+ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & stream, ::TimeValue & rhs)
+{
+  stream >> rhs.sec;
+  stream >> rhs.usec;
 
-  ACE_CDR::Boolean operator >> (ACE_InputCDR & stream, TimeValue & rhs)
-  {
-    stream >> rhs.sec;
-    stream >> rhs.usec;
+  return stream.good_bit ();
+}
 
-    return stream.good_bit ();
-  }
+/////////////////////////////////////////////////////////////////////////////
+// ::Message
 
-  /////////////////////////////////////////////////////////////////////////////
-  // Message
+ACE_CDR::Boolean operator << (ACE_OutputCDR & stream, ::Message & rhs)
+{
+  stream << rhs.time ();
+  stream << rhs.content ();
 
-  Message::Message (void)
-  {
+  return stream.good_bit ();
+}
 
-  }
+ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & stream, ::Message & rhs)
+{
+  // extract the <time> value.
+  stream >> rhs.time ();
 
-  Message::~Message (void)
-  {
+  // extract the <content> value.
+  ACE_CString content;
+  stream >> content;
+  rhs.content (content.c_str ());
 
-  }
-
-  ::TCPIP::TimeValue & Message::time (void)
-  {
-    return this->time_;
-  }
-
-  const ::TCPIP::TimeValue & Message::time (void) const
-  {
-    return this->time_;
-  }
-
-  void Message::time (const ::TCPIP::TimeValue & time)
-  {
-    this->time_ = time;
-  }
-
-  ACE_CString & Message::message (void)
-  {
-    return this->message_;
-  }
-
-  const ACE_CString & Message::message (void) const
-  {
-    return this->message_;
-  }
-
-  void Message::message (const char * message)
-  {
-    this->message_ = message;
-  }
-
-  ACE_CDR::Boolean operator << (ACE_OutputCDR & stream, Message & rhs)
-  {
-    stream << rhs.time_;
-    stream << rhs.message_;
-
-    return stream.good_bit ();
-  }
-
-  ACE_CDR::Boolean operator >> (ACE_InputCDR & stream, Message & rhs)
-  {
-    stream >> rhs.time_;
-    stream >> rhs.message_;
-
-    return stream.good_bit ();
-  }
+  return stream.good_bit ();
 }
 

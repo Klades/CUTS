@@ -20,7 +20,7 @@ CUTS_TCPIP_CCM_EventConsumer::remote_endpoint (void)
 
   ACE_NEW_THROW_EX (temp,
                     ::Components::TCPIP::Endpoint (),
-                    CORBA::NO_MEMORY ());
+                    ::CORBA::NO_MEMORY ());
 
   const CUTS_TCPIP_ORB * orb = this->parent_->the_ORB ();
   const CUTS_TCPIP_Acceptor::PEER_ADDR & addr = orb->listen_addr ();

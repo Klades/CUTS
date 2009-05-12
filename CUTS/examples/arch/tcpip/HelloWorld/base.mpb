@@ -1,8 +1,9 @@
 // $Id$
 
 project : cuts_base {
-  libout = .
-  dllout = .
+  libout  = ./lib
+  dllout  = ./lib
+  install = ./bin
 
-  install = .
+  libpaths += ./lib
 }

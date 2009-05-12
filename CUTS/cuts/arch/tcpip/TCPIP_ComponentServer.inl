@@ -23,7 +23,7 @@ CUTS_TCPIP_ComponentServer::~CUTS_TCPIP_ComponentServer (void)
 // init
 //
 CUTS_INLINE
-int CUTS_TCPIP_ComponentServer::init (int & argc, char * argv [])
+int CUTS_TCPIP_ComponentServer::init (int argc, char * argv [])
 {
   return this->orb_.init (argc, argv);
 }
@@ -37,20 +37,27 @@ int CUTS_TCPIP_ComponentServer::activate (void)
   return this->orb_.run ();
 }
 
+
 //
 // shutdown
 //
 CUTS_INLINE
-int CUTS_TCPIP_ComponentServer::shutdown (void)
+void CUTS_TCPIP_ComponentServer::shutdown (void)
 {
-  return this->orb_.shutdown ();
+  this->orb_.shutdown ();
 }
 
 //
-// destroy
+// shutdown
 //
 CUTS_INLINE
-int CUTS_TCPIP_ComponentServer::destroy (void)
+void CUTS_TCPIP_ComponentServer::destroy (void)
 {
-  return 0;
+
+}
+
+CUTS_INLINE
+CUTS_TCPIP_ORB & CUTS_TCPIP_ComponentServer::the_ORB (void)
+{
+  return this->orb_;
 }

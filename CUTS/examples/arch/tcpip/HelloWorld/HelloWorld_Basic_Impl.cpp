@@ -50,12 +50,12 @@ int HelloWorld_Basic_Impl_Task::svc (void)
 
 int HelloWorld_Basic_Impl_Task::handle_timeout (const ACE_Time_Value & tv, const void *)
 {
-  ::TCPIP::Message_var ev = new ::TCPIP::Message ();
-  ev->message ("This is another message");
+  ::Message_var ev (new OBV_Message ());
+  ev->content ("This is another message");
   ev->time ().sec = tv.sec ();
   ev->time ().usec = tv.usec ();
 
-  this->impl_->tcpip_handle_message (ev);
+  this->impl_->push_handle_message (ev);
   return 0;
 }
 
@@ -79,9 +79,13 @@ HelloWorld_Basic_Impl::~HelloWorld_Basic_Impl (void)
 //
 // set_session_context
 //
-void HelloWorld_Basic_Impl::set_session_context (CUTS_TCPIP_Context * ctx)
+void HelloWorld_Basic_Impl::
+set_session_context (::Components::SessionContext_ptr context)
 {
-  this->ctx_ = TCPIP::HelloWorld_Context::_narrow (ctx);
+  this->ctx_ = ::CCM_HelloWorld_Context::_narrow (context);
+
+  if (CORBA::is_nil (this->ctx_.in ()))
+    throw ::CORBA::INTERNAL ();
 }
 
 //
@@ -119,9 +123,20 @@ void HelloWorld_Basic_Impl::ccm_remove (void)
 //
 // tcpip_handle_message
 //
-void HelloWorld_Basic_Impl::
-tcpip_handle_message (::TCPIP::Message * ev)
+void HelloWorld_Basic_Impl::push_handle_message (::Message * ev)
 {
-  std::cout << "message '" << ev->message () << "' received at "
+  std::cout << "message '" << ev->content () << "' received at "
             << ev->time ().sec << "." << ev->time ().usec << std::endl;
+}
+
+::Components::EnterpriseComponent_ptr create_HelloWorld_Basic_Impl (void)
+{
+  ::Components::EnterpriseComponent_ptr retval =
+    ::Components::EnterpriseComponent::_nil ();
+
+  ACE_NEW_RETURN (retval,
+                  HelloWorld_Basic_Impl (),
+                  ::Components::EnterpriseComponent::_nil ());
+
+  return retval;
 }

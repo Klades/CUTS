@@ -21,6 +21,9 @@
 template <typename T>
 class CUTS_TCPIP_Servant_VTable_Init_Guard_T;
 
+// Forward decl.
+class CUTS_TCPIP_InputCDR;
+
 /**
  * @class CUTS_TCPIP_Servant_VTable_T
  */
@@ -38,7 +41,7 @@ public:
   typedef T servant_type;
 
   /// Type defintion of the pointer-to-member functions.
-  typedef int (T::*method_type) (ACE_InputCDR & input);
+  typedef int (T::*method_type) (CUTS_TCPIP_InputCDR & input);
 
   /// Default constructor.
   CUTS_TCPIP_Servant_VTable_T (void);

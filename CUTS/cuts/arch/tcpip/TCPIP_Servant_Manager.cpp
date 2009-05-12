@@ -19,19 +19,13 @@ CUTS_TCPIP_Servant_Manager::activate_object (CUTS_TCPIP_Servant * obj)
   ACE_Utils::UUID_GENERATOR::instance ()->generate_UUID (uuid);
 
   // Insert the object into the map.
-  int retval = this->active_objects_.bind (uuid, obj);
+  if (0 != this->active_objects_.bind (uuid, obj))
+    return -1;
 
-  if (0 == retval)
-  {
-    // Set the UUID of the object.
-    obj->uuid_ = uuid;
-    obj->orb_ = this->orb_;
-
-    // Increment the reference count.
-    obj->incr_refcount ();
-  }
-
-  return retval;
+  // Set the UUID of the object.
+  obj->uuid_ = uuid;
+  obj->orb_ = this->orb_;
+  return 0;
 }
 
 //
@@ -42,17 +36,11 @@ CUTS_TCPIP_Servant_Manager::deactivate_object (const ACE_Utils::UUID & uuid)
 {
   // Remove the object from the list.
   CUTS_TCPIP_Servant * obj = 0;
-  int retval = this->active_objects_.unbind (uuid, obj);
+  if (0 != this->active_objects_.unbind (uuid, obj))
+    return -1;
 
-  if (0 == retval)
-  {
-    // Reset the UUID of the object.
-    obj->uuid_ = ACE_Utils::UUID::NIL_UUID;
-    obj->orb_ = 0;
-
-    // Decrement the reference count.
-    obj->decr_refcount ();
-  }
-
-  return retval;
+  // Reset the UUID of the object.
+  obj->uuid_ = ACE_Utils::UUID::NIL_UUID;
+  obj->orb_ = 0;
+  return 0;
 }

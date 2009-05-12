@@ -38,15 +38,15 @@ public:
 
   // Method for handling the event. It will dispatch the events
   // to the correct method.
-  virtual int handle_event (ACE_UINT32 id, ACE_InputCDR & input);
+  virtual int handle_event (ACE_UINT32 id, CUTS_TCPIP_InputCDR & input);
 
-  virtual void configuration_complete (void);
+  //virtual void configuration_complete (void);
 
-  virtual void ccm_activate (void);
+  //virtual void ccm_activate (void);
 
-  virtual void ccm_passivate (void);
+  //virtual void ccm_passivate (void);
 
-  virtual void ccm_remove (void);
+  //virtual void ccm_remove (void);
 
 protected:
   /**
@@ -54,7 +54,7 @@ protected:
    *
    * @param[in]           servant         Target servant.
    */
-  CUTS_TCPIP_Servant_T (T * servant, CUTS_TCPIP_Component * impl);
+  CUTS_TCPIP_Servant_T (T * servant, typename EXEC::_ptr_type exec);
 
   /// Destructor.
   virtual ~CUTS_TCPIP_Servant_T (void);
@@ -71,10 +71,10 @@ private:
 
 protected:
   /// The actual context for the servant.
-  typename context_type::var_type ctx_;
+  ACE_Auto_Ptr <CTX> ctx_;
 
   /// The implemenation for this servant.
-  typename executor_type::var_type impl_;
+  typename EXEC::_var_type impl_;
 };
 
 #if defined (__CUTS_INLINE__)

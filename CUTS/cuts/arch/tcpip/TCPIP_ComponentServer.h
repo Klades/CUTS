@@ -25,18 +25,20 @@ public:
 
   virtual ~CUTS_TCPIP_ComponentServer (void);
 
-  virtual int init (int & argc, char * argv []);
+  virtual int init (int argc, char * argv []);
 
   virtual int activate (void);
 
-  virtual int shutdown (void);
+  virtual void destroy (void);
 
-  virtual int destroy (void);
+  virtual void shutdown (void);
 
   virtual int install_component (const ACE_CString & name,
                                  CUTS_TCPIP_Servant * servant);
 
   virtual int uninstall_component (const ACE_CString & name);
+
+  CUTS_TCPIP_ORB & the_ORB (void);
 
 private:
   /// The ORB for the component server.

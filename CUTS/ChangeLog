@@ -1,3 +1,83 @@
+Tue May 12 15:00:12 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/tcpip/TCPIP.mpc:
+        * cuts/arch/tcpip/TCPIP_ComponentServer.h:
+        * cuts/arch/tcpip/TCPIP_ComponentServer.inl:
+        * cuts/arch/tcpip/TCPIP_Event_Handler.cpp:
+        * cuts/arch/tcpip/TCPIP_Servant.h:
+        * cuts/arch/tcpip/TCPIP_Servant_Manager.cpp:
+        * cuts/arch/tcpip/TCPIP_Servant_T.h:
+        * cuts/arch/tcpip/TCPIP_Servant_T.inl:
+        * cuts/arch/tcpip/TCPIP_Servant_T.cpp:
+        * cuts/arch/tcpip/TCPIP_Servant_VTable_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM.mpc:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_EventConsumer.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.cpp:
+        * cuts/arch/tcpip/server:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.inl:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.cpp:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.inl:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.cpp:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_Opts.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container.inl:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container.cpp:
+        * cuts/arch/tcpip/server/server.mpc:
+        * cuts/arch/tcpip/server/server.cpp:
+
+          . First working version of the TCP/IP that can be deployed
+            using DAnCE.
+
+        * default.features:
+
+          . Disabled OpenSplice.
+
+        * cuts/utils/unite/unite.mpc:
+
+          . Changed the name of the project since it clashes with
+            the UNITE interpreter project.
+
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld.cidl:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.idl:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.cpp:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_skel_export.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.cpp:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldC.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldC.cpp:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldEC.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_stub_export.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.inl:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.cpp:
+        * examples/arch/tcpip/HelloWorld/base.mpb:
+        * examples/arch/tcpip/HelloWorld/descriptors:
+        * examples/arch/tcpip/HelloWorld/descriptors/DeploymentPlan.cdp:
+        * examples/arch/tcpip/HelloWorld/descriptors/nodemap.dat:
+
+          . First full working version of the HelloWorld example that
+            can be deployed using DAnCE.
+
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_ComponentServer.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_ComponentServer.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_ComponentServer.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Events_Impl.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Events_Impl.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Events_Impl.cpp:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.inl:
+
+          Removed these files.
+
 Sun May 10 22:29:35 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MDE/GME/paradigms/CUTS/interpreters/UNITE/UniteVisitor.h:

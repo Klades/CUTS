@@ -7,15 +7,16 @@ project (CUTS_TCPIP) : cutslib {
   Source_Files {
     TCPIP.cpp
     TCPIP_Acceptor.cpp
-    TCPIP_Container.cpp
     TCPIP_Component.cpp
     TCPIP_ComponentServer.cpp
     TCPIP_Context.cpp
     TCPIP_Connector.cpp
     TCPIP_Connector_Svc_Handler.cpp
     TCPIP_Event_Handler.cpp
+    TCPIP_InputCDR.cpp
     TCPIP_ORB.cpp
     TCPIP_Object.cpp
+    TCPIP_OutputCDR.cpp
     TCPIP_Remote_Endpoint.cpp
     TCPIP_Servant.cpp
     TCPIP_Servant_Manager.cpp

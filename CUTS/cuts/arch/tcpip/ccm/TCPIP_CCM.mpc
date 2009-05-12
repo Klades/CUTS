@@ -55,22 +55,19 @@ project (CUTS_TCPIP_CCM_skel) : ccm_svnt, cuts_tcpip_ccm_stub, cutslib {
   }
 }
 
-
 project (CUTS_TCPIP_CCM) : cuts_tcpip_ccm_skel, cuts_lib, cutslib {
   sharedname    = CUTS_TCPIP_CCM
   dynamicflags += CUTS_TCPIP_CCM_BUILD_DLL
 
   Source_Files {
-    TCPIP_CCM_ComponentServer.cpp
-    TCPIP_CCM_Events_Impl.cpp
     TCPIP_CCM_EventConsumer.cpp
+    TCPIP_CCM_Servant.cpp
   }
 
   Template_Files {
-
+    TCPIP_CCM_Servant_T.cpp
   }
 
   IDL_Files {
-
   }
 }

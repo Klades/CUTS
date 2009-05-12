@@ -3,17 +3,19 @@
 #ifndef _HELLOWORLD_IDL_
 #define _HELLOWORLD_IDL_
 
+#include <Components.idl>
+
 struct TimeValue
 {
   unsigned long sec;
   unsigned long usec;
 };
 
-event Message
+eventtype Message
 {
-  TimeValue time;
+  public TimeValue time;
 
-  string message;
+  public string content;
 };
 
 component HelloWorld
@@ -21,6 +23,11 @@ component HelloWorld
   consumes Message handle_message;
 
   emits Message handle_message;
+};
+
+home HelloWorldHome manages HelloWorld
+{
+
 };
 
 #endif  // !defined _HELLOWORLD_IDL_

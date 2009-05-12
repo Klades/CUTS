@@ -6,6 +6,7 @@
 #include "TCPIP_Event_Handler.inl"
 #endif
 
+#include "TCPIP_InputCDR.h"
 #include "TCPIP_Servant.h"
 #include "TCPIP_Servant_Manager.h"
 #include "TCPIP_SPEC.h"
@@ -44,7 +45,7 @@ int CUTS_TCPIP_Event_Handler::handle_input (ACE_HANDLE fd)
 
   // Extract the header from the message block.
   CUTS_TCPIP_SPEC spec;
-  ACE_InputCDR input (header.rd_ptr (), header_size);
+  CUTS_TCPIP_InputCDR input (header.rd_ptr (), header_size);
   input >> spec;
 
   if (!input.good_bit ())
@@ -106,7 +107,7 @@ int CUTS_TCPIP_Event_Handler::handle_input (ACE_HANDLE fd)
     if (0 == retval)
     {
       // Signal the object to handle the event.
-      ACE_InputCDR event (head, input.byte_order ());
+      CUTS_TCPIP_InputCDR event (head, input.byte_order ());
       retval = svnt->handle_event (spec.event_id_, event);
 
       if (-1 == retval)

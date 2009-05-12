@@ -1,0 +1,17 @@
+//$Id$
+
+#ifndef _HELLOWORLD_CIDL_
+#define _HELLOWORLD_CIDL_
+
+#include "HelloWorld.idl"
+
+composition session HelloWorld_Impl
+{
+  home executor HelloWorldHome_Exec
+  {
+    implements ::HelloWorldHome;
+    manages HelloWorld_Exec;
+  };
+};
+
+#endif /* _HELLOWORLD_CIDL_ */
