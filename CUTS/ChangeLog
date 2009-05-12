@@ -1,7 +1,25 @@
+Tue May 12 16:45:00 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/tcpip/TCPIP_Servant_T.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM.mpc:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Context_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Context_T.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Context_T.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.h:
+
+          . Implemented a template base class for contexts.
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.cpp:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.cpp:
+
+          . Updated the example to use the template context class.
+
 Tue May 12 16:28:01 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/DDS/README:
-        
+
           Additional instructions about setting $LD_LIBRARY_PATH.
 
 Tue May 12 15:00:12 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>

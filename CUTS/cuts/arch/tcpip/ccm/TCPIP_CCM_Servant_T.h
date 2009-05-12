@@ -31,15 +31,22 @@ class CUTS_TCPIP_CCM_Servant_T :
   public CUTS_TCPIP_CCM_Servant,
   public CUTS_TCPIP_Servant_T <T, CTX, EXEC>
 {
-protected:
+public:
+  /// Type definition of the base class.
   typedef CUTS_TCPIP_Servant_T <T, CTX, EXEC> base_type;
 
+  /**
+   * Initializing constructor.
+   *
+   * @param[in]       servant         The parent servant
+   * @param[in]       svnt_mgr        Manager of the servant.
+   * @param[in]       executor        Executor component for servant.
+   */
   CUTS_TCPIP_CCM_Servant_T (T * servant,
                             CUTS_TCPIP_Servant_Manager & svnt_mgr,
                             typename EXEC::_ptr_type executor);
 
-public:
-
+  /// Destructor.
   virtual ~CUTS_TCPIP_CCM_Servant_T (void);
 
   virtual void activate_component (void);

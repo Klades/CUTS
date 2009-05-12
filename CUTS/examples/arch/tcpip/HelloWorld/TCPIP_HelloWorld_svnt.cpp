@@ -13,7 +13,9 @@ namespace TCPIP
   //
   // HelloWorld_Servant_Context
   //
-  HelloWorld_Servant_Context::HelloWorld_Servant_Context (void)
+  HelloWorld_Servant_Context::
+  HelloWorld_Servant_Context (::TCPIP::HelloWorld_Servant & parent)
+  : HelloWorld_Servant_Context_Base (parent)
   {
 
   }
@@ -52,55 +54,8 @@ namespace TCPIP
   //
   void HelloWorld_Servant_Context::push_handle_message (::Message * ev)
   {
-    //if (this->handle_message_.is_connected ())
-    //  this->handle_message_.send_event (ev);
-  }
-
-  ::Components::Principal_ptr
-  HelloWorld_Servant_Context::get_caller_principal (void)
-  {
-    throw CORBA::NO_IMPLEMENT ();
-  }
-
-  ::Components::CCMHome_ptr
-  HelloWorld_Servant_Context::get_CCM_home (void)
-  {
-    throw CORBA::NO_IMPLEMENT ();
-  }
-
-  ::CORBA::Boolean
-  HelloWorld_Servant_Context::get_rollback_only (void)
-  {
-    throw CORBA::NO_IMPLEMENT ();
-  }
-
-  ::Components::Transaction::UserTransaction_ptr
-  HelloWorld_Servant_Context::get_user_transaction (void)
-  {
-    throw CORBA::NO_IMPLEMENT ();
-  }
-
-  ::CORBA::Boolean HelloWorld_Servant_Context::
-  is_caller_in_role (const char *)
-  {
-    throw CORBA::NO_IMPLEMENT ();
-  }
-
-  void HelloWorld_Servant_Context::set_rollback_only (void)
-  {
-    throw CORBA::NO_IMPLEMENT ();
-  }
-
-  ::CORBA::Object_ptr HelloWorld_Servant_Context::
-  resolve_service_reference (const char *)
-  {
-    throw CORBA::NO_IMPLEMENT ();
-  }
-
-  ::CORBA::Object_ptr
-  HelloWorld_Servant_Context::get_CCM_object (void)
-  {
-    throw CORBA::NO_IMPLEMENT ();
+    if (this->handle_message_.is_connected ())
+      this->handle_message_.send_event (ev);
   }
 
   //

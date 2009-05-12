@@ -23,7 +23,7 @@ CUTS_TCPIP_Servant_T (T * servant, typename EXEC::_ptr_type exec)
 {
   // Create the context for the servant/executor.
   CTX * context = 0;
-  ACE_NEW_THROW_EX (context, CTX (), ACE_bad_alloc ());
+  ACE_NEW_THROW_EX (context, CTX (*servant), ACE_bad_alloc ());
   this->ctx_.reset (context);
 
   // Set the session context of the implementation.

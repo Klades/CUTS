@@ -66,6 +66,7 @@ project (CUTS_TCPIP_CCM) : cuts_tcpip_ccm_skel, cuts_lib, cutslib {
 
   Template_Files {
     TCPIP_CCM_Servant_T.cpp
+    TCPIP_CCM_Context_T.cpp
   }
 
   IDL_Files {

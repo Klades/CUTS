@@ -18,6 +18,7 @@
 #include "TCPIP_HelloWorldC.h"
 #include "cuts/arch/tcpip/TCPIP_Remote_Endpoint_T.h"
 #include "cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.h"
+#include "cuts/arch/tcpip/ccm/TCPIP_CCM_Context_T.h"
 #include "cuts/arch/tcpip/ccm/TCPIP_CCM_EventConsumer.h"
 #include "HelloWorld_svnt_export.h"
 
@@ -26,37 +27,27 @@ class CUTS_TCPIP_Servant_Manager;
 
 namespace TCPIP
 {
+  // Forwar dec.
+  class HelloWorld_Servant;
+
+  typedef CUTS_TCPIP_CCM_Context_T <::CCM_HelloWorld_Context,
+                                    ::TCPIP::HelloWorld_Servant>
+                                    HelloWorld_Servant_Context_Base;
+
   /**
    * @class HelloWorld_Servant_Context
    */
   class HELLOWORLD_SVNT_Export HelloWorld_Servant_Context :
-    public CCM_HelloWorld_Context
+    public HelloWorld_Servant_Context_Base
   {
   public:
-    HelloWorld_Servant_Context (void);
+    HelloWorld_Servant_Context (::TCPIP::HelloWorld_Servant & parent);
 
     virtual ~HelloWorld_Servant_Context (void);
 
     virtual void push_handle_message (::Message * ev);
 
     void connect_handle_message (Components::EventConsumerBase_ptr consumer);
-
-    // prospect template methods
-    ::Components::Principal_ptr get_caller_principal (void);
-
-    ::Components::CCMHome_ptr get_CCM_home (void);
-
-    ::CORBA::Boolean get_rollback_only (void);
-
-    ::Components::Transaction::UserTransaction_ptr get_user_transaction (void);
-
-    ::CORBA::Boolean is_caller_in_role (const char *);
-
-    void set_rollback_only (void);
-
-    ::CORBA::Object_ptr resolve_service_reference (const char *);
-
-    ::CORBA::Object_ptr get_CCM_object (void);
 
   private:
     CUTS_TCPIP_Remote_Endpoint_T <::Message> handle_message_;

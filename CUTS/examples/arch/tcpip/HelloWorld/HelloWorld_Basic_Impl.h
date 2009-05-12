@@ -38,6 +38,8 @@ public:
 
   virtual ~HelloWorld_Basic_Impl (void);
 
+  void send_message (::Message * ev);
+
   virtual void push_handle_message (::Message * ev);
 
   virtual void set_session_context (::Components::SessionContext_ptr context);

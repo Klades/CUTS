@@ -55,7 +55,7 @@ int HelloWorld_Basic_Impl_Task::handle_timeout (const ACE_Time_Value & tv, const
   ev->time ().sec = tv.sec ();
   ev->time ().usec = tv.usec ();
 
-  this->impl_->push_handle_message (ev);
+  this->impl_->send_message (ev);
   return 0;
 }
 
@@ -84,7 +84,7 @@ set_session_context (::Components::SessionContext_ptr context)
 {
   this->ctx_ = ::CCM_HelloWorld_Context::_narrow (context);
 
-  if (CORBA::is_nil (this->ctx_.in ()))
+  if (::CORBA::is_nil (this->ctx_.in ()))
     throw ::CORBA::INTERNAL ();
 }
 
@@ -121,7 +121,15 @@ void HelloWorld_Basic_Impl::ccm_remove (void)
 }
 
 //
-// tcpip_handle_message
+// push_handle_message
+//
+void HelloWorld_Basic_Impl::send_message (::Message * ev)
+{
+  this->ctx_->push_handle_message (ev);
+}
+
+//
+// push_handle_message
 //
 void HelloWorld_Basic_Impl::push_handle_message (::Message * ev)
 {
