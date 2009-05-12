@@ -31,22 +31,7 @@ namespace TCPIP
   void HelloWorld_Servant_Context::
   connect_handle_message (Components::EventConsumerBase_ptr base)
   {
-    // Narrow the object to a TCPIP EventConsumerBase object.
-    Components::TCPIP::EventConsumerBase_var consumer =
-      Components::TCPIP::EventConsumerBase::_narrow (base);
-
-    if (CORBA::is_nil (consumer.in ()))
-      throw Components::InvalidConnection ();
-
-    // Get the remote endpoint from the consumer.
-    Components::TCPIP::Endpoint_var endpoint = consumer->remote_endpoint ();
-
-    int retval = this->handle_message_.connect (endpoint->address.in (),
-                                                endpoint->UUID.in () ,
-                                                endpoint->event);
-
-    if (0 != retval)
-      throw Components::InvalidConnection ();
+    this->handle_message_.connect (base);
   }
 
   //

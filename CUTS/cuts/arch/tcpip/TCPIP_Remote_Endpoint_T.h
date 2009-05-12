@@ -19,7 +19,8 @@
  * @class CUTS_TCPIP_Remote_Endpoint_T
  */
 template <typename T>
-class CUTS_TCPIP_Remote_Endpoint_T : public CUTS_TCPIP_Remote_Endpoint
+class CUTS_TCPIP_Remote_Endpoint_T :
+  public CUTS_TCPIP_Remote_Endpoint
 {
 public:
   typedef T type;

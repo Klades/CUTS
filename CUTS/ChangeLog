@@ -1,3 +1,23 @@
+Tue May 12 18:20:47 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/tcpip/TCPIP_InputCDR.h:
+        * cuts/arch/tcpip/TCPIP_InputCDR.inl:
+        * cuts/arch/tcpip/TCPIP_InputCDR.cpp:
+
+          . Added missing files.
+
+        * cuts/arch/tcpip/TCPIP_Remote_Endpoint_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM.mpc:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T.cpp:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.cpp:
+
+          . Pushed code that was originally in servant code for creating
+            the connection into a template class. This will further reduce
+            the complexity of the code generator.
+
 Tue May 12 16:45:00 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/tcpip/TCPIP_Servant_T.cpp:

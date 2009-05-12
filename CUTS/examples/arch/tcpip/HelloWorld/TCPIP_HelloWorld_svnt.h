@@ -16,10 +16,9 @@
 #include "HelloWorldS.h"
 #include "HelloWorldEC.h"
 #include "TCPIP_HelloWorldC.h"
-#include "cuts/arch/tcpip/TCPIP_Remote_Endpoint_T.h"
-#include "cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.h"
 #include "cuts/arch/tcpip/ccm/TCPIP_CCM_Context_T.h"
-#include "cuts/arch/tcpip/ccm/TCPIP_CCM_EventConsumer.h"
+#include "cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T.h"
+#include "cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.h"
 #include "HelloWorld_svnt_export.h"
 
 // Forward decl.
@@ -50,7 +49,7 @@ namespace TCPIP
     void connect_handle_message (Components::EventConsumerBase_ptr consumer);
 
   private:
-    CUTS_TCPIP_Remote_Endpoint_T <::Message> handle_message_;
+    CUTS_TCPIP_CCM_Remote_Endpoint_T <::Message> handle_message_;
   };
 
   // Forward decl.
