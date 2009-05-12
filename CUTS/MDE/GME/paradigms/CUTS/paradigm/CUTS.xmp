@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE paradigm SYSTEM "edf.dtd">
 
-<paradigm name="CUTS" guid="{D0AB58BD-EAAA-4653-802C-2CC0F0772B86}" cdate="Sun May 10 16:31:51 2009" mdate="Sun May 10 16:31:51 2009" >
+<paradigm name="CUTS" guid="{E3F6EAB2-EF02-44CC-98E1-8906A6124819}" cdate="Tue May 12 12:15:54 2009" mdate="Tue May 12 12:15:54 2009" >
 
 	<comment></comment>
 
@@ -10,34 +10,36 @@
 	<folder name = "RootFolder" metaref = "1000"  subfolders = "UnitTests" >
 		<attrdef name="Aggregation" metaref = "1135" valuetype = "string" defvalue = "">
 		</attrdef>
-		<attrdef name="Cause" metaref = "1136" valuetype = "string" defvalue = "">
-		</attrdef>
 		<attrdef name="Description" metaref = "1137" valuetype = "string" defvalue = "">
-		</attrdef>
-		<attrdef name="Effect" metaref = "1138" valuetype = "string" defvalue = "">
 		</attrdef>
 		<attrdef name="Evaluation" metaref = "1139" valuetype = "string" defvalue = "">
 		</attrdef>
+		<attrdef name="Type" metaref = "1154" valuetype = "enum" defvalue = "STRING">
+			<enumitem dispname = "STRING" value = "STRING"></enumitem>
+			<enumitem dispname = "SHORT(u)" value = "SHORT(u)"></enumitem>
+			<enumitem dispname = "LONG(u)" value = "LONG(u)"></enumitem>
+			<enumitem dispname = "LONGLONG(u)" value = "LONGLONG(u)"></enumitem>
+			<enumitem dispname = "DOUBLE" value = "DOUBLE"></enumitem>
+		</attrdef>
 		<attrdef name="Value" metaref = "1140" valuetype = "string" defvalue = "">
 		</attrdef>
-		<attrdef name="name" metaref = "1141" valuetype = "string" defvalue = "">
-		</attrdef>
-		<atom name = "Key" metaref = "1142" >
+		<atom name = "Key" metaref = "1142"  attributes = "Type">
 				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "isTypeShown" value ="true"></regnode>
 		</atom>
-		<connection name = "Causality" metaref = "1143" attributes = "Effect Cause" >
+		<connection name = "Causality" metaref = "1143" >
 				<regnode name = "sName" value ="srcCausality"></regnode>
 				<regnode name = "dName" value ="dstCausality"></regnode>
 				<regnode name = "color" value ="0x000000"></regnode>
-				<regnode name = "dstStyle" value ="butt"></regnode>
+				<regnode name = "dstStyle" value ="apex"></regnode>
 				<regnode name = "srcStyle" value ="butt"></regnode>
 				<regnode name = "lineType" value ="solid"></regnode>
 			<connjoint>
 				<pointerspec name = "src">
-					<pointeritem desc = "LogFormat"></pointeritem>
+					<pointeritem desc = "LogFormat Key"></pointeritem>
 				</pointerspec>
 				<pointerspec name = "dst">
-					<pointeritem desc = "LogFormat"></pointeritem>
+					<pointeritem desc = "LogFormat Key"></pointeritem>
 				</pointerspec>
 			</connjoint>
 		</connection>
@@ -45,7 +47,7 @@
 				<regnode name = "namePosition" value ="4"></regnode>
 			<role name = "Key" metaref = "1145" kind = "Key"></role>
 			<aspect name = "Default" metaref = "1127" attributes = "Value" >
-				<part metaref = "1146" role = "Key" primary = "yes" linked = "no"></part>
+				<part metaref = "1146" role = "Key" primary = "yes" linked = "yes"></part>
 			</aspect>
 		</model>
 		<model name = "UnitTest" metaref = "1147" attributes = "Description Evaluation Aggregation" >
@@ -58,7 +60,7 @@
 			<role name = "Causality" metaref = "1148" kind = "Causality"></role>
 			<role name = "LogFormat" metaref = "1149" kind = "LogFormat"></role>
 			<aspect name = "Default" metaref = "1150" attributes = "Description Evaluation Aggregation" >
-				<part metaref = "1151" role = "Causality" primary = "yes" linked = "no"></part>
+				<part metaref = "1151" role = "Causality" primary = "yes" linked = "yes"></part>
 				<part metaref = "1152" role = "LogFormat" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>

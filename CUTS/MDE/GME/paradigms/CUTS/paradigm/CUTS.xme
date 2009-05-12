@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{C7801F03-0225-4A76-A745-7DE0ED876B25}" cdate="Sun May 10 16:31:51 2009" mdate="Sun May 10 16:31:51 2009" version="" metaguid="{D300EA57-7F64-4B0E-AE50-878BE38527DC}" metaversion="" metaname="MetaGME">
+<project guid="{3A2F894E-0944-464E-A08B-006AC258C1CB}" cdate="Tue May 12 12:15:54 2009" mdate="Tue May 12 12:15:54 2009" version="" metaguid="{D300EA57-7F64-4B0E-AE50-878BE38527DC}" metaversion="" metaname="MetaGME">
 	<name>CUTS</name>
 	<comment></comment>
 	<author></author>
@@ -367,6 +367,12 @@
 							<value>yes</value>
 						</regnode>
 					</regnode>
+				</regnode>
+			</regnode>
+			<regnode name="Type-78-EnumAttribute" status="undefined">
+				<value></value>
+				<regnode name="MetaRef" isopaque="yes">
+					<value>1154</value>
 				</regnode>
 			</regnode>
 			<regnode name="UnitTest-10-Model" status="undefined">
@@ -1330,7 +1336,7 @@
 				</regnode>
 			</regnode>
 		</regnode>
-		<model id="id-0065-00000001" kind="ParadigmSheet" guid="{DC408AF3-FFF6-415a-937E-A7C2BA0EDC33}" relid="0x1" childrelidcntr="0x77">
+		<model id="id-0065-00000001" kind="ParadigmSheet" guid="{DC408AF3-FFF6-415a-937E-A7C2BA0EDC33}" relid="0x1" childrelidcntr="0x7c">
 			<name>UNITEParadigm</name>
 			<atom id="id-0066-00000001" kind="Model" role="Model" guid="{6202D3F3-4820-49e8-82E8-FC6A92F471B9}" relid="0x10">
 				<name>UnitTest</name>
@@ -1407,7 +1413,7 @@
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000003" kind="Model" role="Model" guid="{06E34AF6-8B2D-49be-AE41-7DCE90FF4CDB}" relid="0x29">
+			<atom id="id-0066-00000002" kind="Model" role="Model" guid="{06E34AF6-8B2D-49be-AE41-7DCE90FF4CDB}" relid="0x29">
 				<name>LogFormat</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -1482,79 +1488,7 @@
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000004" kind="FieldAttribute" role="FieldAttribute" guid="{6ECB1621-1CCF-48a0-A19D-4D5C5D285562}" relid="0x43">
-				<name>Effect</name>
-				<regnode name="PartRegs" status="undefined">
-					<value></value>
-					<regnode name="Attributes" status="undefined">
-						<value></value>
-						<regnode name="Position" isopaque="yes">
-							<value>463,412</value>
-						</regnode>
-					</regnode>
-				</regnode>
-				<attribute kind="ContentType" status="meta">
-					<value></value>
-				</attribute>
-				<attribute kind="DataType" status="meta">
-					<value>string</value>
-				</attribute>
-				<attribute kind="FieldDefault" status="meta">
-					<value></value>
-				</attribute>
-				<attribute kind="GlobalScope" status="meta">
-					<value>true</value>
-				</attribute>
-				<attribute kind="Help" status="meta">
-					<value></value>
-				</attribute>
-				<attribute kind="IsViewable" status="meta">
-					<value>true</value>
-				</attribute>
-				<attribute kind="Multiline" status="meta">
-					<value>1</value>
-				</attribute>
-				<attribute kind="Prompt" status="meta">
-					<value></value>
-				</attribute>
-			</atom>
-			<atom id="id-0066-00000005" kind="FieldAttribute" role="FieldAttribute" guid="{16D6710F-2125-4dc1-AA3A-203F6834BAFE}" relid="0x49">
-				<name>name</name>
-				<regnode name="PartRegs" status="undefined">
-					<value></value>
-					<regnode name="Attributes" status="undefined">
-						<value></value>
-						<regnode name="Position" isopaque="yes">
-							<value>1086,258</value>
-						</regnode>
-					</regnode>
-				</regnode>
-				<attribute kind="ContentType" status="meta">
-					<value></value>
-				</attribute>
-				<attribute kind="DataType" status="meta">
-					<value>string</value>
-				</attribute>
-				<attribute kind="FieldDefault" status="meta">
-					<value></value>
-				</attribute>
-				<attribute kind="GlobalScope" status="meta">
-					<value>true</value>
-				</attribute>
-				<attribute kind="Help" status="meta">
-					<value></value>
-				</attribute>
-				<attribute kind="IsViewable" status="meta">
-					<value>true</value>
-				</attribute>
-				<attribute kind="Multiline" status="meta">
-					<value>1</value>
-				</attribute>
-				<attribute kind="Prompt" status="meta">
-					<value></value>
-				</attribute>
-			</atom>
-			<atom id="id-0066-00000006" kind="FieldAttribute" role="FieldAttribute" guid="{2A8C84AD-F1B8-4adf-A7D8-6D823E70F8D4}" relid="0x58">
+			<atom id="id-0066-00000005" kind="FieldAttribute" role="FieldAttribute" guid="{2A8C84AD-F1B8-4adf-A7D8-6D823E70F8D4}" relid="0x58">
 				<name>Value</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -1590,7 +1524,7 @@
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000007" kind="FieldAttribute" role="FieldAttribute" guid="{513E43D4-42EB-4b1e-8681-8E017CC29A1D}" relid="0x5e">
+			<atom id="id-0066-00000006" kind="FieldAttribute" role="FieldAttribute" guid="{513E43D4-42EB-4b1e-8681-8E017CC29A1D}" relid="0x5e">
 				<name>Description</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -1626,7 +1560,7 @@
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000008" kind="FieldAttribute" role="FieldAttribute" guid="{5FE86F4B-1380-44d6-A946-7421B5D3A5D7}" relid="0x5f">
+			<atom id="id-0066-00000007" kind="FieldAttribute" role="FieldAttribute" guid="{5FE86F4B-1380-44d6-A946-7421B5D3A5D7}" relid="0x5f">
 				<name>Evaluation</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -1662,7 +1596,7 @@
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000009" kind="FieldAttribute" role="FieldAttribute" guid="{DD18F0E6-C122-448f-97CA-60059CCB60FB}" relid="0x60">
+			<atom id="id-0066-00000008" kind="FieldAttribute" role="FieldAttribute" guid="{DD18F0E6-C122-448f-97CA-60059CCB60FB}" relid="0x60">
 				<name>Aggregation</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -1698,7 +1632,7 @@
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-0000000a" kind="Connection" role="Connection" guid="{AADDB90E-A96E-4c4f-82F4-6186494CCEBE}" relid="0x65">
+			<atom id="id-0066-00000009" kind="Connection" role="Connection" guid="{AADDB90E-A96E-4c4f-82F4-6186494CCEBE}" relid="0x65">
 				<name>Causality</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -1711,7 +1645,7 @@
 					<regnode name="ClassDiagram" status="undefined">
 						<value></value>
 						<regnode name="Position" isopaque="yes">
-							<value>337,292</value>
+							<value>337,286</value>
 						</regnode>
 					</regnode>
 					<regnode name="Constraints" status="undefined">
@@ -1730,13 +1664,13 @@
 				<attribute kind="Color" status="meta">
 					<value>0x000000</value>
 				</attribute>
-				<attribute kind="ConnLineEnd" status="meta">
+				<attribute kind="ConnLineEnd">
+					<value>apex</value>
+				</attribute>
+				<attribute kind="ConnLineStart">
 					<value>butt</value>
 				</attribute>
-				<attribute kind="ConnLineStart" status="meta">
-					<value>butt</value>
-				</attribute>
-				<attribute kind="ConnLineType" status="meta">
+				<attribute kind="ConnLineType">
 					<value>solid</value>
 				</attribute>
 				<attribute kind="DisplayedName" status="meta">
@@ -1769,14 +1703,14 @@ dName = dstCausality</value>
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-0000000b" kind="Connector" role="Connector" guid="{75CBA2FD-C893-4f8d-B836-3B39D99B42CD}" relid="0x67">
+			<atom id="id-0066-0000000a" kind="Connector" role="Connector" guid="{75CBA2FD-C893-4f8d-B836-3B39D99B42CD}" relid="0x67">
 				<name>Connector</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
 					<regnode name="ClassDiagram" status="undefined">
 						<value></value>
 						<regnode name="Position" isopaque="yes">
-							<value>513,331</value>
+							<value>396,438</value>
 						</regnode>
 					</regnode>
 					<regnode name="Visualization" status="undefined">
@@ -1787,50 +1721,14 @@ dName = dstCausality</value>
 					</regnode>
 				</regnode>
 			</atom>
-			<atom id="id-0066-0000000c" kind="FieldAttribute" role="FieldAttribute" guid="{F41FE3F2-80A6-4f88-9D0B-712D7C55A082}" relid="0x6b">
-				<name>Cause</name>
-				<regnode name="PartRegs" status="undefined">
-					<value></value>
-					<regnode name="Attributes" status="undefined">
-						<value></value>
-						<regnode name="Position" isopaque="yes">
-							<value>324,422</value>
-						</regnode>
-					</regnode>
-				</regnode>
-				<attribute kind="ContentType" status="meta">
-					<value></value>
-				</attribute>
-				<attribute kind="DataType" status="meta">
-					<value>string</value>
-				</attribute>
-				<attribute kind="FieldDefault" status="meta">
-					<value></value>
-				</attribute>
-				<attribute kind="GlobalScope" status="meta">
-					<value>true</value>
-				</attribute>
-				<attribute kind="Help" status="meta">
-					<value></value>
-				</attribute>
-				<attribute kind="IsViewable" status="meta">
-					<value>true</value>
-				</attribute>
-				<attribute kind="Multiline" status="meta">
-					<value>1</value>
-				</attribute>
-				<attribute kind="Prompt" status="meta">
-					<value></value>
-				</attribute>
-			</atom>
-			<atom id="id-0066-0000000d" kind="Atom" role="Atom" guid="{3EE7D494-6E88-4056-B8F0-2313FE59EEEE}" relid="0x72">
+			<atom id="id-0066-0000000c" kind="Atom" role="Atom" guid="{3EE7D494-6E88-4056-B8F0-2313FE59EEEE}" relid="0x72">
 				<name>Key</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
 					<regnode name="Attributes" status="undefined">
 						<value></value>
 						<regnode name="Position" isopaque="yes">
-							<value>576,422</value>
+							<value>428,356</value>
 						</regnode>
 					</regnode>
 					<regnode name="ClassDiagram" status="undefined">
@@ -1873,14 +1771,14 @@ dName = dstCausality</value>
 				<attribute kind="IsAbstract" status="meta">
 					<value>false</value>
 				</attribute>
-				<attribute kind="IsHotspotEnabled" status="meta">
+				<attribute kind="IsHotspotEnabled">
 					<value>true</value>
 				</attribute>
 				<attribute kind="IsNameEnabled" status="meta">
 					<value>true</value>
 				</attribute>
-				<attribute kind="IsTypeShown" status="meta">
-					<value>false</value>
+				<attribute kind="IsTypeShown">
+					<value>true</value>
 				</attribute>
 				<attribute kind="NamePosition" status="meta">
 					<value>4</value>
@@ -1895,7 +1793,7 @@ dName = dstCausality</value>
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-0000000e" kind="Folder" role="Folder" guid="{DA55CB4A-3F26-49fd-951F-FD0829A98954}" relid="0x74">
+			<atom id="id-0066-0000000d" kind="Folder" role="Folder" guid="{DA55CB4A-3F26-49fd-951F-FD0829A98954}" relid="0x74">
 				<name>UnitTests</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -1931,7 +1829,50 @@ dName = dstCausality</value>
 					<value>true</value>
 				</attribute>
 			</atom>
-			<connection id="id-0068-00000003" kind="HasAttribute" role="HasAttribute" guid="{F3441917-09DC-43fb-93E3-B88CD966A70F}" relid="0x61">
+			<atom id="id-0066-0000000e" kind="EnumAttribute" role="EnumAttribute" guid="{B6185572-F589-4ce5-B0FD-822D0F5E75A4}" relid="0x78">
+				<name>Type</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="Attributes" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>541,359</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="DefaultItem">
+					<value>STRING</value>
+				</attribute>
+				<attribute kind="GlobalScope" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="Help" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="IsViewable" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="MenuItems">
+					<value>STRING
+SHORT(u)
+LONG(u)
+LONGLONG(u)
+DOUBLE
+</value>
+				</attribute>
+				<attribute kind="Prompt" status="meta">
+					<value></value>
+				</attribute>
+			</atom>
+			<connection id="id-0068-00000001" kind="HasAttribute" role="HasAttribute" guid="{F3441917-09DC-43fb-93E3-B88CD966A70F}" relid="0x61">
+				<name>HasAttribute</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>Ns</value>
+				</regnode>
+				<connpoint role="dst" target="id-0066-00000001"/>
+				<connpoint role="src" target="id-0066-00000006"/>
+			</connection>
+			<connection id="id-0068-00000002" kind="HasAttribute" role="HasAttribute" guid="{B247A313-B841-4071-8EDE-82BF0F9D15D8}" relid="0x62">
 				<name>HasAttribute</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ns</value>
@@ -1939,7 +1880,7 @@ dName = dstCausality</value>
 				<connpoint role="dst" target="id-0066-00000001"/>
 				<connpoint role="src" target="id-0066-00000007"/>
 			</connection>
-			<connection id="id-0068-00000004" kind="HasAttribute" role="HasAttribute" guid="{B247A313-B841-4071-8EDE-82BF0F9D15D8}" relid="0x62">
+			<connection id="id-0068-00000003" kind="HasAttribute" role="HasAttribute" guid="{8EABE7E2-59F9-40f1-916C-290788B63FD4}" relid="0x63">
 				<name>HasAttribute</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ns</value>
@@ -1947,75 +1888,15 @@ dName = dstCausality</value>
 				<connpoint role="dst" target="id-0066-00000001"/>
 				<connpoint role="src" target="id-0066-00000008"/>
 			</connection>
-			<connection id="id-0068-00000005" kind="HasAttribute" role="HasAttribute" guid="{8EABE7E2-59F9-40f1-916C-290788B63FD4}" relid="0x63">
-				<name>HasAttribute</name>
-				<regnode name="autorouterPref" isopaque="yes">
-					<value>Ns</value>
-				</regnode>
-				<connpoint role="dst" target="id-0066-00000001"/>
-				<connpoint role="src" target="id-0066-00000009"/>
-			</connection>
-			<connection id="id-0068-00000007" kind="SourceToConnector" role="SourceToConnector" guid="{2DB0EE93-6E54-4c75-9252-D9ED4B58CB6E}" relid="0x68">
-				<name>SourceToConnector</name>
-				<regnode name="autorouterPref" isopaque="yes">
-					<value>Wn</value>
-				</regnode>
-				<attribute kind="Cardinality" status="meta">
-					<value>0..*</value>
-				</attribute>
-				<attribute kind="srcRolename" status="meta">
-					<value>src</value>
-				</attribute>
-				<connpoint role="src" target="id-0066-00000003"/>
-				<connpoint role="dst" target="id-0066-0000000b"/>
-			</connection>
-			<connection id="id-0068-00000008" kind="ConnectorToDestination" role="ConnectorToDestination" guid="{F772B045-751B-4a52-8186-3DC66F019068}" relid="0x69">
-				<name>ConnectorToDestination</name>
-				<regnode name="autorouterPref" isopaque="yes">
-					<value>Sw</value>
-				</regnode>
-				<attribute kind="Cardinality" status="meta">
-					<value>0..*</value>
-				</attribute>
-				<attribute kind="dstRolename" status="meta">
-					<value>dst</value>
-				</attribute>
-				<connpoint role="dst" target="id-0066-00000003"/>
-				<connpoint role="src" target="id-0066-0000000b"/>
-			</connection>
-			<connection id="id-0068-00000009" kind="AssociationClass" role="AssociationClass" guid="{18357784-1310-427a-82B1-BD1A36FE49EF}" relid="0x6a">
-				<name>AssociationClass</name>
-				<regnode name="autorouterPref" isopaque="yes">
-					<value>Ew</value>
-				</regnode>
-				<connpoint role="src" target="id-0066-0000000a"/>
-				<connpoint role="dst" target="id-0066-0000000b"/>
-			</connection>
-			<connection id="id-0068-0000000a" kind="HasAttribute" role="HasAttribute" guid="{5AF40D4E-F2A3-4f21-BCC8-E92319636497}" relid="0x6c">
-				<name>HasAttribute</name>
-				<regnode name="autorouterPref" isopaque="yes">
-					<value>Ns</value>
-				</regnode>
-				<connpoint role="dst" target="id-0066-0000000a"/>
-				<connpoint role="src" target="id-0066-0000000c"/>
-			</connection>
-			<connection id="id-0068-0000000b" kind="HasAttribute" role="HasAttribute" guid="{0F7550B5-C9B9-40bc-904B-A09427DBCD4F}" relid="0x6d">
-				<name>HasAttribute</name>
-				<regnode name="autorouterPref" isopaque="yes">
-					<value>Ns</value>
-				</regnode>
-				<connpoint role="src" target="id-0066-00000004"/>
-				<connpoint role="dst" target="id-0066-0000000a"/>
-			</connection>
-			<connection id="id-0068-0000000c" kind="HasAttribute" role="HasAttribute" guid="{C2B4AA0A-5143-48f7-9E52-A43E102DF9C1}" relid="0x6e">
+			<connection id="id-0068-00000009" kind="HasAttribute" role="HasAttribute" guid="{C2B4AA0A-5143-48f7-9E52-A43E102DF9C1}" relid="0x6e">
 				<name>HasAttribute</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>We</value>
 				</regnode>
-				<connpoint role="dst" target="id-0066-00000003"/>
-				<connpoint role="src" target="id-0066-00000006"/>
+				<connpoint role="dst" target="id-0066-00000002"/>
+				<connpoint role="src" target="id-0066-00000005"/>
 			</connection>
-			<connection id="id-0068-0000000d" kind="HasAspect" role="HasAspect" guid="{5A5EF6ED-64C4-4ec6-8EFE-2D3CC23CDFDD}" relid="0x6f">
+			<connection id="id-0068-0000000a" kind="HasAspect" role="HasAspect" guid="{5A5EF6ED-64C4-4ec6-8EFE-2D3CC23CDFDD}" relid="0x6f">
 				<name>HasAspect</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ne</value>
@@ -2023,15 +1904,15 @@ dName = dstCausality</value>
 				<connpoint role="dst" target="id-0066-00000001"/>
 				<connpoint role="src" target="id-0069-00000001"/>
 			</connection>
-			<connection id="id-0068-0000000f" kind="HasAspect" role="HasAspect" guid="{88BB9C36-7894-4889-8617-FB980FED95B6}" relid="0x71">
+			<connection id="id-0068-0000000b" kind="HasAspect" role="HasAspect" guid="{88BB9C36-7894-4889-8617-FB980FED95B6}" relid="0x71">
 				<name>HasAspect</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Se</value>
 				</regnode>
-				<connpoint role="dst" target="id-0066-00000003"/>
+				<connpoint role="dst" target="id-0066-00000002"/>
 				<connpoint role="src" target="id-0069-00000001"/>
 			</connection>
-			<connection id="id-0068-00000010" kind="Containment" role="Containment" guid="{269DADED-FCF5-43d5-B07A-78F2C22EE174}" relid="0x73">
+			<connection id="id-0068-0000000c" kind="Containment" role="Containment" guid="{269DADED-FCF5-43d5-B07A-78F2C22EE174}" relid="0x73">
 				<name>Containment</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ns</value>
@@ -2039,16 +1920,16 @@ dName = dstCausality</value>
 				<attribute kind="Cardinality" status="meta">
 					<value>0..*</value>
 				</attribute>
-				<attribute kind="IsPort" status="meta">
-					<value>false</value>
+				<attribute kind="IsPort">
+					<value>true</value>
 				</attribute>
 				<attribute kind="Rolename" status="meta">
 					<value></value>
 				</attribute>
-				<connpoint role="dst" target="id-0066-00000003"/>
-				<connpoint role="src" target="id-0066-0000000d"/>
+				<connpoint role="dst" target="id-0066-00000002"/>
+				<connpoint role="src" target="id-0066-0000000c"/>
 			</connection>
-			<connection id="id-0068-00000011" kind="FolderContainment" role="FolderContainment" guid="{7883E880-D40B-4e1e-AE93-B09F797C51C7}" relid="0x75">
+			<connection id="id-0068-0000000d" kind="FolderContainment" role="FolderContainment" guid="{7883E880-D40B-4e1e-AE93-B09F797C51C7}" relid="0x75">
 				<name>FolderContainment</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>We</value>
@@ -2057,9 +1938,9 @@ dName = dstCausality</value>
 					<value>0..*</value>
 				</attribute>
 				<connpoint role="src" target="id-0066-00000001"/>
-				<connpoint role="dst" target="id-0066-0000000e"/>
+				<connpoint role="dst" target="id-0066-0000000d"/>
 			</connection>
-			<connection id="id-0068-00000012" kind="Containment" role="Containment" guid="{565F4FFC-05C5-4427-A22F-B400D3F4022C}" relid="0x76">
+			<connection id="id-0068-0000000e" kind="Containment" role="Containment" guid="{565F4FFC-05C5-4427-A22F-B400D3F4022C}" relid="0x76">
 				<name>Containment</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ns</value>
@@ -2074,9 +1955,9 @@ dName = dstCausality</value>
 					<value></value>
 				</attribute>
 				<connpoint role="dst" target="id-0066-00000001"/>
-				<connpoint role="src" target="id-0066-00000003"/>
+				<connpoint role="src" target="id-0066-00000002"/>
 			</connection>
-			<connection id="id-0068-00000013" kind="Containment" role="Containment" guid="{09D1F5D3-A35E-4ba4-A005-7B1BCC03AEF3}" relid="0x77">
+			<connection id="id-0068-0000000f" kind="Containment" role="Containment" guid="{09D1F5D3-A35E-4ba4-A005-7B1BCC03AEF3}" relid="0x77">
 				<name>Containment</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ns</value>
@@ -2084,16 +1965,60 @@ dName = dstCausality</value>
 				<attribute kind="Cardinality" status="meta">
 					<value>0..*</value>
 				</attribute>
-				<attribute kind="IsPort" status="meta">
-					<value>false</value>
+				<attribute kind="IsPort">
+					<value>true</value>
 				</attribute>
 				<attribute kind="Rolename" status="meta">
 					<value></value>
 				</attribute>
 				<connpoint role="dst" target="id-0066-00000001"/>
+				<connpoint role="src" target="id-0066-00000009"/>
+			</connection>
+			<connection id="id-0068-00000010" kind="SourceToConnector" role="SourceToConnector" guid="{5D26CF16-B7D9-4787-95DD-2369F4CEF893}" relid="0x79">
+				<name>SourceToConnector</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>n</value>
+				</regnode>
+				<attribute kind="Cardinality" status="meta">
+					<value>0..*</value>
+				</attribute>
+				<attribute kind="srcRolename" status="meta">
+					<value>src</value>
+				</attribute>
+				<connpoint role="dst" target="id-0066-0000000a"/>
+				<connpoint role="src" target="id-0066-0000000c"/>
+			</connection>
+			<connection id="id-0068-00000011" kind="ConnectorToDestination" role="ConnectorToDestination" guid="{7AFA8E09-C91E-41d5-8F6B-C95FBE5DAD5C}" relid="0x7a">
+				<name>ConnectorToDestination</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>Sw</value>
+				</regnode>
+				<attribute kind="Cardinality" status="meta">
+					<value>0..*</value>
+				</attribute>
+				<attribute kind="dstRolename" status="meta">
+					<value>dst</value>
+				</attribute>
+				<connpoint role="src" target="id-0066-0000000a"/>
+				<connpoint role="dst" target="id-0066-0000000c"/>
+			</connection>
+			<connection id="id-0068-00000012" kind="AssociationClass" role="AssociationClass" guid="{E7F19EC0-F0BB-42b5-9CE8-940127FEC2C3}" relid="0x7b">
+				<name>AssociationClass</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>Ws</value>
+				</regnode>
+				<connpoint role="dst" target="id-0066-00000009"/>
 				<connpoint role="src" target="id-0066-0000000a"/>
 			</connection>
-			<set id="id-0069-00000001" kind="Aspect" role="Aspect" guid="{CC4FE0DE-1991-49c3-A85B-24BE7619C56A}" relid="0x26" members="id-0066-00000001 id-0066-00000003 id-0066-0000000a id-0066-0000000d">
+			<connection id="id-0068-00000013" kind="HasAttribute" role="HasAttribute" guid="{89DAAD23-CD22-4e78-AE71-BB16B9D213EC}" relid="0x7c">
+				<name>HasAttribute</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>We</value>
+				</regnode>
+				<connpoint role="dst" target="id-0066-0000000c"/>
+				<connpoint role="src" target="id-0066-0000000e"/>
+			</connection>
+			<set id="id-0069-00000001" kind="Aspect" role="Aspect" guid="{CC4FE0DE-1991-49c3-A85B-24BE7619C56A}" relid="0x26" members="id-0066-00000001 id-0066-00000002 id-0066-00000009 id-0066-0000000c">
 				<name>Default</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
