@@ -40,49 +40,6 @@ unsubscribe (const char * publisher_name, ::Components::Cookie * ck)
 }
 
 //
-// get_consumer
-//
-template <typename T, typename CTX, typename EXEC, typename POA_EXEC>
-CUTS_INLINE
-Components::EventConsumerBase_ptr
-CUTS_TCPIP_CCM_Servant_T <T, CTX, EXEC, POA_EXEC>::get_consumer (const char *)
-{
-  ACE_DEBUG ((LM_DEBUG,
-              "get_consumer (const char *)\n"));
-
-  throw CORBA::NO_IMPLEMENT ();
-}
-
-//
-// connect_consumer
-//
-template <typename T, typename CTX, typename EXEC, typename POA_EXEC>
-CUTS_INLINE
-void CUTS_TCPIP_CCM_Servant_T <T, CTX, EXEC, POA_EXEC>::
-connect_consumer (const char *, Components::EventConsumerBase_ptr)
-{
-  ACE_DEBUG ((LM_DEBUG,
-              "connect_consumer (const char *, Components::EventConsumerBase_ptr)\n"));
-
-  throw CORBA::NO_IMPLEMENT ();
-}
-
-//
-// disconnect_consumer
-//
-template <typename T, typename CTX, typename EXEC, typename POA_EXEC>
-CUTS_INLINE
-Components::EventConsumerBase_ptr
-CUTS_TCPIP_CCM_Servant_T <T, CTX, EXEC, POA_EXEC>::
-disconnect_consumer (const char *)
-{
-  ACE_DEBUG ((LM_DEBUG,
-              "disconnect_consumer (const char *)\n"));
-
-  throw CORBA::NO_IMPLEMENT ();
-}
-
-//
 // get_all_consumers
 //
 template <typename T, typename CTX, typename EXEC, typename POA_EXEC>

@@ -1,3 +1,29 @@
+Tue May 12 20:04:11 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/tcpip/TCPIP_Servant_T.inl:
+        * cuts/arch/tcpip/TCPIP_Servant_VTable_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM.mpc:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_T.cpp:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.cpp:
+
+          . Moved more of the servant code into templates, which will
+            further reduce the complexity of code generation.
+
+          . Made the *dispatch* methods on the servant static. This
+            will prevent the servant from accidentally calling those
+            methods.
+
 Tue May 12 18:23:55 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/tcpip/TCPIP_OutputCDR.h:

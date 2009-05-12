@@ -17,6 +17,9 @@
 #include "ccm/CCM_HomeS.h"
 #include "ccm/CCM_EnumerationS.h"
 #include "cuts/arch/tcpip/TCPIP_Servant_T.h"
+#include "ace/Hash_Map_Manager.h"
+#include "ace/RW_Thread_Mutex.h"
+#include "ace/SString.h"
 #include "TCPIP_CCM_Servant.h"
 
 // Forward decl.
@@ -124,6 +127,16 @@ public:
 
 protected:
   CUTS_TCPIP_Servant_Manager & svnt_mgr_;
+
+  /// Collection of consumers for the servant.
+  ACE_Hash_Map_Manager <ACE_CString,
+                        CUTS_TCPIP_CCM_EventConsumer *,
+                        ACE_RW_Thread_Mutex> consumers_;
+
+  /// Collection of endpoints for the servant.
+  ACE_Hash_Map_Manager <ACE_CString,
+                        CUTS_TCPIP_CCM_Remote_Endpoint *,
+                        ACE_RW_Thread_Mutex> endpoints_;
 };
 
 #if defined (__CUTS_INLINE__)

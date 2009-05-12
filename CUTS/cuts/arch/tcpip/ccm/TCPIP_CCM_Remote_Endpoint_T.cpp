@@ -14,14 +14,13 @@ void CUTS_TCPIP_CCM_Remote_Endpoint_T <T>::
 connect (::Components::EventConsumerBase_ptr ptr)
 {
   // Narrow the object to a TCPIP EventConsumerBase object.
-  ::Components::TCPIP::EventConsumerBase_var consumer =
-    ::Components::TCPIP::EventConsumerBase::_narrow (ptr);
+  this->consumer_ = ::Components::TCPIP::EventConsumerBase::_narrow (ptr);
 
-  if (::CORBA::is_nil (consumer.in ()))
+  if (::CORBA::is_nil (this->consumer_.in ()))
     throw ::Components::InvalidConnection ();
 
   // Get the remote endpoint from the consumer.
-  ::Components::TCPIP::Endpoint_var endpoint = consumer->remote_endpoint ();
+  ::Components::TCPIP::Endpoint_var endpoint = this->consumer_->remote_endpoint ();
 
   int retval =
     CUTS_TCPIP_Remote_Endpoint::connect (endpoint->address.in (),

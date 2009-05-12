@@ -13,14 +13,16 @@
 #ifndef _CUTS_TCPIP_CCM_REMOTE_ENDPOINT_T_H_
 #define _CUTS_TCPIP_CCM_REMOTE_ENDPOINT_T_H_
 
-#include "ccm/CCM_EventConsumerBaseC.h"
 #include "cuts/arch/tcpip/TCPIP_Remote_Endpoint_T.h"
+#include "TCPIP_CCM_Remote_Endpoint.h"
+#include "TCPIP_CCM_EventConsumer.h"
 
 /**
  * @class CUTS_TCPIP_CCM_Remote_Endpoint_T
  */
 template <typename T>
 class CUTS_TCPIP_CCM_Remote_Endpoint_T :
+  public CUTS_TCPIP_CCM_Remote_Endpoint,
   public CUTS_TCPIP_Remote_Endpoint_T <T>
 {
 public:
@@ -30,7 +32,13 @@ public:
 
   virtual ~CUTS_TCPIP_CCM_Remote_Endpoint_T (void);
 
-  void connect (::Components::EventConsumerBase_ptr consumer);
+  virtual void connect (::Components::EventConsumerBase_ptr consumer);
+
+  virtual ::Components::EventConsumerBase_ptr disconnect (void);
+
+private:
+  /// The consumer for the endpoint.
+  ::Components::TCPIP::EventConsumerBase_var consumer_;
 };
 
 #if defined (__CUTS_INLINE__)

@@ -61,10 +61,12 @@ project (CUTS_TCPIP_CCM) : cuts_tcpip_ccm_skel, cuts_lib, cutslib {
 
   Source_Files {
     TCPIP_CCM_EventConsumer.cpp
+    TCPIP_CCM_Remote_Endpoint.cpp
     TCPIP_CCM_Servant.cpp
   }
 
   Template_Files {
+    TCPIP_CCM_T.cpp
     TCPIP_CCM_Servant_T.cpp
     TCPIP_CCM_Context_T.cpp
     TCPIP_CCM_Remote_Endpoint_T.cpp

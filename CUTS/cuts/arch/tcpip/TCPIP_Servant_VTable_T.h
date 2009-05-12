@@ -41,7 +41,7 @@ public:
   typedef T servant_type;
 
   /// Type defintion of the pointer-to-member functions.
-  typedef int (T::*method_type) (CUTS_TCPIP_InputCDR & input);
+  typedef int (* method_type) (T *, CUTS_TCPIP_InputCDR & input);
 
   /// Default constructor.
   CUTS_TCPIP_Servant_VTable_T (void);

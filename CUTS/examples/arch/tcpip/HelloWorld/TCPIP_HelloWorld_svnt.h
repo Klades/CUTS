@@ -46,7 +46,7 @@ namespace TCPIP
 
     virtual void push_handle_message (::Message * ev);
 
-    void connect_handle_message (Components::EventConsumerBase_ptr consumer);
+    CUTS_TCPIP_CCM_Remote_Endpoint & endpoint_handle_message (void);
 
   private:
     CUTS_TCPIP_CCM_Remote_Endpoint_T <::Message> handle_message_;
@@ -81,20 +81,17 @@ namespace TCPIP
 
     ::MessageConsumer_ptr get_consumer_handle_message (void);
 
-    virtual Components::EventConsumerBase_ptr get_consumer (const char * name);
-
-    virtual void connect_consumer (const char * name, ::Components::EventConsumerBase_ptr consumer);
-
     /**
      * Method responsible for unmarshalling an ACE_Message_Block object
      * to a Message object.
      *
      * @param[in]         ev          Message block to unmarshall.
      */
-    int tcpip_handle_message (CUTS_TCPIP_InputCDR & input);
+    static int tcpip_handle_message (HelloWorld_Servant * svnt,
+                                     CUTS_TCPIP_InputCDR & input);
 
   private:
-    CUTS_TCPIP_CCM_EventConsumer handle_message_;
+    CUTS_TCPIP_CCM_EventConsumer handle_message_consumer_;
   };
 
   extern "C" HELLOWORLD_SVNT_Export

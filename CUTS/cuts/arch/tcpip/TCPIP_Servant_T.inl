@@ -20,7 +20,7 @@ int CUTS_TCPIP_Servant_T <T, CTX, EXEC>::
 handle_event (ACE_UINT32 id, CUTS_TCPIP_InputCDR & input)
 {
   if (id < this->vtable_.size ())
-    return (this->servant_->*this->vtable_[id]) (input);
+    return (this->vtable_[id]) (this->servant_, input);
 
   return -1;
 }
