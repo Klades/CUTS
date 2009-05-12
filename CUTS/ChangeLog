@@ -1,3 +1,11 @@
+Tue May 12 18:23:55 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/tcpip/TCPIP_OutputCDR.h:
+        * cuts/arch/tcpip/TCPIP_OutputCDR.inl:
+        * cuts/arch/tcpip/TCPIP_OutputCDR.cpp:
+
+          . Missing source files.
+
 Tue May 12 18:20:47 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/tcpip/TCPIP_InputCDR.h:
