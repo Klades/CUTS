@@ -1,3 +1,10 @@
+Wed May 13 06:51:57 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.cpp:
+
+          Removed these files.
+
 Wed May 13 06:47:23 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/tcpip/TCPIP_Event_Handler.cpp:
