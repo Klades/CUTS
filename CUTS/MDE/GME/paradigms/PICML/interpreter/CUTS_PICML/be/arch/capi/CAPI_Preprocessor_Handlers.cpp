@@ -1,7 +1,7 @@
 // $Id$
 
 #include "CAPI_Preprocessor_Handlers.h"
-#include "../BE_Impl_Node.h"
+#include "../../BE_Impl_Node.h"
 #include "boost/spirit/actor.hpp"
 #include <sstream>
 

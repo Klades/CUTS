@@ -1,8 +1,8 @@
 // $Id$
 
 #include "CIAO_Traits.h"
-#include "../BE_Options.h"
-#include "../BE_Impl_Node.h"
+#include "../../BE_Options.h"
+#include "../../BE_Impl_Node.h"
 #include "boost/bind.hpp"
 #include <sstream>
 #include <algorithm>

@@ -19,7 +19,7 @@
 #include "CAPI_Preprocessor_Handlers.h"
 #include "CAPI_Project_Generators.h"
 #include "CAPI_Generators.h"
-#include "../BE_Manager_T.h"
+#include "../../BE_Manager_T.h"
 
 typedef CUTS_BE_Manager_T <CUTS_BE_Capi>
                            CUTS_BE_CAPI_Manager;

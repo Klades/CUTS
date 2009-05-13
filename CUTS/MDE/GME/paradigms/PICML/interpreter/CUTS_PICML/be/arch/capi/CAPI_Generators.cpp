@@ -7,8 +7,8 @@
 #include "XML_Mapping_File_Generator.h"
 #include "CAPI_Event_Impl_Generator.h"
 #include "XSD_File_Generator.h"
-#include "../BE_Options.h"
-#include "../BE_Scope_Manager.h"
+#include "../../BE_Options.h"
+#include "../../BE_Scope_Manager.h"
 #include "boost/bind.hpp"
 #include "Uml.h"
 

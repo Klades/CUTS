@@ -14,7 +14,7 @@
 #define _CUTS_BE_CIAO_PREPROCESSOR_H_
 
 #include "CIAO_Preprocessor_Handlers.h"
-#include "../BE_Preprocessor_T.h"
+#include "../../BE_Preprocessor_T.h"
 
 #define CUTS_BE_CIAO_PREPROCESSOR \
   CUTS_BE_PREPROCESSOR (CUTS_BE_Ciao)

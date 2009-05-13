@@ -16,8 +16,8 @@
 #define _CUTS_BE_XML_GENERATORS_H_
 
 #include "CAPI_Ctx.h"
-#include "../BE_Generators_T.h"
-#include "../BE_algorithm.h"
+#include "../../BE_Generators_T.h"
+#include "../../BE_algorithm.h"
 
 //
 // disable the following points of generation

@@ -16,7 +16,7 @@
 #define _CUTS_BE_XML_MANAGER_FACTORY_H_
 
 #include "CAPI_export.h"
-#include "../BE_Manager_Factory.h"
+#include "../../BE_Manager_Factory.h"
 
 //=============================================================================
 /**

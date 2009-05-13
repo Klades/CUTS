@@ -1,8 +1,8 @@
 // $Id$
 
 #include "CAPI_Workspace_Generators.h"
-#include "../BE_Options.h"
-#include "../BE_Impl_Node.h"
+#include "../../BE_Options.h"
+#include "../../BE_Impl_Node.h"
 #include <sstream>
 
 //

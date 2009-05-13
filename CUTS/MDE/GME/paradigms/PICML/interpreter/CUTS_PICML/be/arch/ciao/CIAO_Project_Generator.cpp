@@ -1,10 +1,10 @@
 // $Id$
 
 #include "CIAO_Project_Generator.h"
-#include "../BE_Options.h"
-#include "../BE_IDL_Node.h"
-#include "../BE_Impl_Node.h"
-#include "../modelgen.h"
+#include "../../BE_Options.h"
+#include "../../BE_IDL_Node.h"
+#include "../../BE_Impl_Node.h"
+#include "../../modelgen.h"
 #include "boost/bind.hpp"
 #include <algorithm>
 #include <fstream>

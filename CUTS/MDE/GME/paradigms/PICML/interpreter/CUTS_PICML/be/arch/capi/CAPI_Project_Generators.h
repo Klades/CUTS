@@ -14,7 +14,7 @@
 #define _CUTS_BE_CAPI_PROJECT_GENERATORS_H_
 
 #include "CAPI_Generators.h"
-#include "../BE_Project_Generators_T.h"
+#include "../../BE_Project_Generators_T.h"
 
 // Forward decl.
 struct CUTS_BE_Impl_Node;

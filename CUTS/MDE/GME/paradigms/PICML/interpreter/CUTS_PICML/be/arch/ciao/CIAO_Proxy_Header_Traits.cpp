@@ -6,8 +6,8 @@
 #include "CIAO_Var_Type.h"
 #include "CIAO_Retn_Type.h"
 #include "CIAO_In_Type.h"
-#include "../BE_Impl_Node.h"
-#include "../BE_Options.h"
+#include "../../BE_Impl_Node.h"
+#include "../../BE_Options.h"
 #include "boost/bind.hpp"
 #include "Uml.h"
 

@@ -1,7 +1,7 @@
 // $Id$
 
 #include "CIAO_Preprocessor_Handlers.h"
-#include "../BE_Impl_Node.h"
+#include "../../BE_Impl_Node.h"
 
 //
 // CUTS_BE_Preprocessor_WorkerLibrary_T

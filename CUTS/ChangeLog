@@ -1,3 +1,62 @@
+Wed May 13 21:51:38 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.cpp:
+
+          . Bug fix where the UUID generator was not initialized.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Manager_Factory.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Preprocessor_Handlers.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Project_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Project_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Workspace_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Workspace_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Exec_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Exec_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_In_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Inout_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Manager_Factory.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Out_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Preprocessor.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Preprocessor_Handlers.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Preprocessor_Handlers.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Proxy_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Proxy_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Retn_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Traits_Base.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Traits_Base.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Var_Type.h:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Callback.h:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Msg_Backend.h:
+
+          . Fixed compilation errors related to moving files around.
+
+        * cuts/workers/logging:
+        * cuts/workers/Test_Logger:
+        * cuts/workers/Test_Logger/CUTS:
+        * cuts/workers/Test_Logger/CUTS/Logger.java:
+        * cuts/workers/Test_Logger/Format_Parser.h:
+        * cuts/workers/Test_Logger/Format_Parser.cpp:
+        * cuts/workers/Test_Logger/TestLogger.build:
+        * cuts/workers/Test_Logger/TestLogger.xme:
+        * cuts/workers/Test_Logger/Test_Logger.h:
+        * cuts/workers/Test_Logger/Test_Logger.cpp:
+        * cuts/workers/Test_Logger/Test_Logger.mpc:
+        * cuts/workers/Test_Logger/Test_Logger_export.h:
+        * cuts/workers/Test_Logger/Test_Logger_i.h:
+        * cuts/workers/Test_Logger/Test_Logger_i.cpp:
+
+          Removed these files.
+
 Wed May 13 19:48:20 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/SubApp.h:
@@ -72,7 +131,7 @@ Wed May 13 16:46:34 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
             creation from {Pub,Sub}AppDDSAdapter constructors to
             SubAppDDSAdapter::get_consumer() and
             PubAppDDSContext::subscribe_app_op_recv().
-            
+
           - Added newlines to the end of several header files.
 
 Wed May 13 14:00:57 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>

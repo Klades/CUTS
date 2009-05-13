@@ -14,9 +14,9 @@
 #ifndef _CUTS_BE_CIAO_TRAITS_H_
 #define _CUTS_BE_CIAO_TRAITS_H_
 
-#include "../BE_Generators_T.h"
-#include "../BE_Workspace_Generators_T.h"
-#include "../BE_Project_Generators_T.h"
+#include "../../BE_Generators_T.h"
+#include "../../BE_Workspace_Generators_T.h"
+#include "../../BE_Project_Generators_T.h"
 
 #include "CIAO_Ctx.h"
 #include "CIAO_Exec_Header_Traits.h"

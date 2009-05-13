@@ -108,6 +108,8 @@ int CUTS_TCPIP_CCM_ComponentServer_App::run_main (int argc, char * argv[])
 //
 void CUTS_TCPIP_CCM_ComponentServer_App::register_valuetypes (CORBA::ORB_ptr orb)
 {
+  ACE_Utils::UUID_GENERATOR::instance ()->init ();
+
   CORBA::ValueFactory_var prev;
 
   prev = orb->register_value_factory (

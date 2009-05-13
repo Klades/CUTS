@@ -1,9 +1,9 @@
 // $Id$
 
 #include "CAPI_Project_Generators.h"
-#include "../BE_Impl_Node.h"
-#include "../BE_Options.h"
-#include "../BE_Env_Variable_Parser_T.h"
+#include "../../BE_Impl_Node.h"
+#include "../../BE_Options.h"
+#include "../../BE_Env_Variable_Parser_T.h"
 #include "boost/bind.hpp"
 #include <algorithm>
 #include <sstream>

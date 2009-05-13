@@ -13,7 +13,7 @@
 #ifndef _CUTS_BE_CAPI_WORKSPACE_GENERATORS_H_
 #define _CUTS_BE_CAPI_WORKSPACE_GENERATORS_H_
 
-#include "../BE_Workspace_Generators_T.h"
+#include "../../BE_Workspace_Generators_T.h"
 #include "CAPI_Generators.h"
 
 // Forward decl.
