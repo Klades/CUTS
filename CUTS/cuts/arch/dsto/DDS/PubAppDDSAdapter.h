@@ -51,10 +51,10 @@ namespace DSTO_AppSpace_Impl
       
     virtual
     ::Components::Cookie * subscribe_app_op_send (
-      ::DummyConsumer_ptr c);
+      ::CUTS_DDS::DummyConsumer_ptr c);
       
     virtual
-    ::DummyConsumer_ptr unsubscribe_app_op_send (
+    ::CUTS_DDS::DummyConsumer_ptr unsubscribe_app_op_send (
       ::Components::Cookie * ck);
       
     virtual void configuration_complete (void);
@@ -73,3 +73,4 @@ namespace DSTO_AppSpace_Impl
 }
   
 #endif // PUBAPPDDSADAPTER_H
+

@@ -26,9 +26,9 @@ namespace DSTO_AppSpace_Impl
     push_app_op_send ( ::Outer::TestData * ev);
     
     virtual ::Components::Cookie *
-    subscribe_app_op_send ( ::DummyConsumer_ptr c);
+    subscribe_app_op_send ( ::CUTS_DDS::DummyConsumer_ptr c);
     
-    virtual ::DummyConsumer_ptr
+    virtual ::CUTS_DDS::DummyConsumer_ptr
     unsubscribe_app_op_send ( ::Components::Cookie * ck);
     
     static PubAppDDSContext *
@@ -43,3 +43,4 @@ namespace DSTO_AppSpace_Impl
 }
 
 #endif // PUBAPPDDSCONTEXT_H
+

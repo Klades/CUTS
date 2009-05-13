@@ -7,7 +7,7 @@ module Outer
 {
   component SubAppDDSComponent
   {
-    consumes Dummy app_op_recv;
+    consumes CUTS_DDS::Dummy app_op_recv;
   };
 };
 

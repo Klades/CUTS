@@ -18,6 +18,20 @@ namespace DSTO_AppSpace_Impl
   void
   PubAppDDSContext::push_app_op_send ( ::Outer::TestData * ev)
   {
+    ::Outer::TestData_DDS dds_ev;
+    ::ModelDDSDataConversion::to_corba (dds_ev, *ev);
+    
+    ReturnCode_t status =
+      this->app_op_send_writer_->write (dds_ev, HANDLE_NIL);
+    this->dds_utility_.check_status (
+      status, 
+      "push_app_op_send: write()");
+  }
+  
+  ::Components::Cookie *
+  PubAppDDSContext::subscribe_app_op_send (
+    ::CUTS_DDS::DummyConsumer_ptr c)
+  {
     if (CORBA::is_nil (this->app_op_send_writer_.in ()))
       {
         ::Outer::TestData_DDSTypeSupport_var ts =
@@ -39,20 +53,6 @@ namespace DSTO_AppSpace_Impl
           "push_app_op_send: get_datawriter()");
       }
 
-    ::Outer::TestData_DDS dds_ev;
-    ::ModelDDSDataConversion::to_corba (dds_ev, *ev);
-    
-    ReturnCode_t status =
-      this->app_op_send_writer_->write (dds_ev, HANDLE_NIL);
-    this->dds_utility_.check_status (
-      status, 
-      "push_app_op_send: write()");
-  }
-  
-  ::Components::Cookie *
-  PubAppDDSContext::subscribe_app_op_send (
-    ::DummyConsumer_ptr c)
-  {
     if ( ::CORBA::is_nil (c))
       {
         throw ::CORBA::BAD_PARAM ();
@@ -67,13 +67,13 @@ namespace DSTO_AppSpace_Impl
     return retv;
   }
   
-  ::DummyConsumer_ptr
+  ::CUTS_DDS::DummyConsumer_ptr
   PubAppDDSContext::unsubscribe_app_op_send (
     ::Components::Cookie * ck)
   {
     // We may have to keep the whole consumer table mechanism
     // if returning 0 here messes things up.
-    return ::DummyConsumer::_nil ();
+    return ::CUTS_DDS::DummyConsumer::_nil ();
   }
   
   PubAppDDSContext *

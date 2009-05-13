@@ -12,14 +12,14 @@ namespace DSTO
 }
 
 class DDS_Utilities_Export DummyConsumer_impl
-  : public virtual POA_DummyConsumer,
-    public virtual ::DSTO::EventConsumer
+  : public virtual POA_CUTS_DDS::DummyConsumer,
+    public virtual DSTO::EventConsumer
 {
 public:
   DummyConsumer_impl ( ::DSTO::ExecBase *,
                       ::DSTO::ContextBase *);
                       
-  void push_Dummy ( ::Dummy *);
+  void push_Dummy ( ::CUTS_DDS::Dummy *);
 };
 
 #endif //DUMMYCONSUMER_H

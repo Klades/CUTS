@@ -36,6 +36,23 @@ namespace DSTO_AppSpace_Impl
                        ACE_TEXT ("in DDS initialization\n")));
          }  
 
+      }
+    catch (const CORBA::Exception&)
+      {
+      }
+  }
+  
+  ::Components::SessionComponent_ptr
+  SubAppDDSAdapter::get_executor (void)
+  {
+    return ::Components::SessionComponent::_duplicate (app_);
+  }
+  
+  ::Components::EventConsumerBase_ptr
+  SubAppDDSAdapter::get_consumer (const char * sink_name)
+  {
+    try
+      {
         ::Outer::TestData_DDSTypeSupport_var ts =
           new ::Outer::TestData_DDSTypeSupport;
           
@@ -56,21 +73,14 @@ namespace DSTO_AppSpace_Impl
           this->dds_utility_.get_datareader< ::Outer::TestData_DDSDataReader> (
             topic.in (),
             this->app_op_recv_listener_.in ());
+            
       }
-    catch (const CORBA::Exception&)
+    catch (const CORBA::Exception& ex)
       {
+        ex._tao_print_exception ("SubAppDDSAdapter::get_consumer - "
+                                 "DDS entity creation");
       }
-  }
-  
-  ::Components::SessionComponent_ptr
-  SubAppDDSAdapter::get_executor (void)
-  {
-    return ::Components::SessionComponent::_duplicate (app_);
-  }
-  
-  ::Components::EventConsumerBase_ptr
-  SubAppDDSAdapter::get_consumer (const char * sink_name)
-  {
+
     if (sink_name == 0)
       {
         throw ::Components::InvalidName ();
@@ -85,25 +95,25 @@ namespace DSTO_AppSpace_Impl
     throw ::Components::InvalidName ();
   }
 
-  ::DummyConsumer_ptr
+  ::CUTS_DDS::DummyConsumer_ptr
   SubAppDDSAdapter::get_consumer_app_op_recv (void)
   {
     if (! ::CORBA::is_nil (this->consumes_app_op_recv_.in ()))
       {
         return 
-          ::DummyConsumer::_duplicate (
+          ::CUTS_DDS::DummyConsumer::_duplicate (
             this->consumes_app_op_recv_.in ());
       }
 
     ::Components::EventConsumerBase_var obj =
       this->get_consumer_app_op_recv_i ();
 
-    ::DummyConsumer_var eco =
-      ::DummyConsumer::_narrow (obj.in ());
+    ::CUTS_DDS::DummyConsumer_var eco =
+      ::CUTS_DDS::DummyConsumer::_narrow (obj.in ());
 
     this->consumes_app_op_recv_ = eco;
     return
-      ::DummyConsumer::_duplicate (
+      ::CUTS_DDS::DummyConsumer::_duplicate (
         this->consumes_app_op_recv_.in ());
   }
   
@@ -149,13 +159,13 @@ namespace DSTO_AppSpace_Impl
       
     if (!sa->register_port_activator (tmp))
       {
-        return ::DummyConsumer::_nil ();
+        return ::CUTS_DDS::DummyConsumer::_nil ();
       }
       
     ::CORBA::Object_var obj =
       this->container_->generate_reference (
         obj_id.c_str (),
-        "IDL:DummyConsumer:1.0",
+        "IDL:CUTS_DDS/DummyConsumer:1.0",
         ::CIAO::Container_Types::FACET_CONSUMER_t);
         
     ::Components::EventConsumerBase_var ecb =

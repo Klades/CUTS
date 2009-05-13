@@ -6,7 +6,7 @@ DummyConsumer_impl::DummyConsumer_impl ( ::DSTO::ExecBase *,
 }
 
 void
-DummyConsumer_impl::push_Dummy ( ::Dummy *)
+DummyConsumer_impl::push_Dummy ( ::CUTS_DDS::Dummy *)
 {
 }
 

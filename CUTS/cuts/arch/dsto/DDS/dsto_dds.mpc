@@ -31,28 +31,40 @@ project (DDS_Utilities) : ccm_svnt, splicelib, requires_opensplice {
   }
 }
 
-project (ModelDDSData) : ccm_svnt, splicelib_with_idl, requires_opensplice {
-  after += DSTO_Utilities
-  libs += DSTO_Utilities
-  libpaths += ..
-  includes += ..
-  sharedname = ModelDDSData
-  dynamicflags += MODELDDSDATA_BUILD_DLL
+project (ModelDDSData_IDL_gen) : splice_ts_defaults, requires_opensplice {
   idlflags += -Wb,export_macro=ModelDDSData_Export \
               -Wb,export_include=ModelDDSData_export.h
-  macros += DDS_API=ModelDDSData_Export
 
   SpliceTypeSupport_Files {
-    ModelDDSData.idl >> ModelDDSDataDcps.idl ModelDDSDataDcps_impl.cpp ModelDDSDataSplDcps.cpp
+    ModelDDSData.idl
   }
 
   IDL_Files {
     ModelDDSData.idl
     ModelDDSDataDcps.idl
   }
+  
+  custom_only = 1
+}
+
+project (ModelDDSData) : ccm_svnt, splicelib, requires_opensplice {
+  after += DSTO_Utilities ModelDDSData_IDL_gen
+  libs += DSTO_Utilities
+  libpaths += ..
+  includes += ..
+  sharedname = ModelDDSData
+  dynamicflags += MODELDDSDATA_BUILD_DLL
+  macros += DDS_API=ModelDDSData_Export
+  
+  IDL_Files {
+  }
 
   Source_Files {
     ModelDDSDataConversion.cpp
+    ModelDDSDataC.cpp
+    ModelDDSDataS.cpp
+    ModelDDSDataDcpsC.cpp
+    ModelDDSDataDcpsS.cpp
     ModelDDSDataDcps_impl.cpp
     ModelDDSDataSplDcps.cpp
   }
@@ -61,8 +73,19 @@ project (ModelDDSData) : ccm_svnt, splicelib_with_idl, requires_opensplice {
     AppData.h
     ccpp_ModelDDSData.h
     ModelDDSData_export.h
+    ModelDDSDataC.h
+    ModelDDSDataS.h
+    ModelDDSDataDcpsC.h
+    ModelDDSDataDcpsS.h
     ModelDDSDataDcps_impl.h
     ModelDDSDataSplDcps.h
+  }
+  
+  Inline_Files {
+    ModelDDSDataC.inl
+    ModelDDSDataS.inl
+    ModelDDSDataDcpsC.inl
+    ModelDDSDataDcpsS.inl
   }
 
   Template_Files {

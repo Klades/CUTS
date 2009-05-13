@@ -7,7 +7,7 @@ module Outer
 {
   component PubAppDDSComponent
   {
-    publishes Dummy app_op_send;
+    publishes CUTS_DDS::Dummy app_op_send;
   };
 };
 

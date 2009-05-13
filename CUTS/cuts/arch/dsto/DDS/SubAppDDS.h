@@ -24,3 +24,4 @@ extern "C" SubAppDDS_Export ::Components::EnterpriseComponent_ptr
 create_SubAppDDSAdapter_Impl (void);
 
 #endif // SUBAPPDDS_H
+
