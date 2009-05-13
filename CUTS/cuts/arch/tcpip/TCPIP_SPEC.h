@@ -13,9 +13,15 @@
 #ifndef _CUTS_TCPIP_SPEC_H_
 #define _CUTS_TCPIP_SPEC_H_
 
+#include "ace/CDR_Base.h"
 #include "ace/UUID.h"
-#include "ace/CDR_Stream.h"
 #include "TCPIP_export.h"
+
+// Forward decl.
+class CUTS_TCPIP_InputCDR;
+
+// Forward decl.
+class CUTS_TCPIP_OutputCDR;
 
 /**
  * @class CUTS_TCPIP_SPEC
@@ -33,18 +39,16 @@ public:
 
   /// Target event of the object.
   ACE_CDR::ULong event_id_;
-
-  /// Size of the event's data (or payload).
-  ACE_CDR::ULong data_size_;
 };
 
 /**
  * Insert the SPEC into the input stream.
  *
- * @param[in]       input         Target input stream
+ * @param[in]       output        Target input stream
  * @param[in]       spec          SPEC header
  */
-CUTS_TCPIP_Export char * operator << (ACE_OutputCDR & input, const CUTS_TCPIP_SPEC & spec);
+CUTS_TCPIP_Export
+ACE_CDR::Boolean operator << (CUTS_TCPIP_OutputCDR & output, const CUTS_TCPIP_SPEC & spec);
 
 /**
  * Extract the SPEC from the output stream.
@@ -52,6 +56,7 @@ CUTS_TCPIP_Export char * operator << (ACE_OutputCDR & input, const CUTS_TCPIP_SP
  * @param[in]       input         Target input stream
  * @param[in]       spec          SPEC header
  */
-CUTS_TCPIP_Export ACE_CDR::Boolean operator >> (ACE_InputCDR & output, CUTS_TCPIP_SPEC & spec);
+CUTS_TCPIP_Export
+ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & output, CUTS_TCPIP_SPEC & spec);
 
 #endif  // !defined _CUTS_TCPIP_SPEC_H_

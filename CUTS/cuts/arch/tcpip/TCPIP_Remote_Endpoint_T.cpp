@@ -4,7 +4,7 @@
 #include "TCPIP_Remote_Endpoint_T.inl"
 #endif
 
-#include "ace/CDR_Stream.h"
+#include "TCPIP_OutputCDR.h"
 
 //
 // send_event
@@ -17,24 +17,26 @@ int CUTS_TCPIP_Remote_Endpoint_T <T>::send_event (T * ev)
   if (0 == this->handler_)
     return -1;
 
-  // Reset the header size.
-  this->header_.data_size_ = 0;
+  CUTS_TCPIP_OutputCDR packet;
+  packet << this->header_;
 
-  char * ph_datasize = 0;
-  ACE_OutputCDR packet;
+  CUTS_TCPIP_OutputCDR payload;
 
-  ph_datasize = (packet << this->header_);
+  if (!(payload << *ev))
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - failed to write event payload\n")),
+                       -1);
 
-  if ((packet << *ev))
-  {
-    // Update the data size of the packet.
-    size_t datasize = packet.total_length () - CUTS_TCPIP_SPEC::BINARY_SIZE;
-    packet.replace (static_cast <ACE_CDR::Long> (datasize), ph_datasize);
+  // Write the payload size and payload to the packet.
+  packet.write_ulong (payload.total_length ());
+  packet.write_octet_array_mb (payload.begin ());
 
-    // Send the packet.
-    this->handler_->peer ().send_n (packet.begin ());
-    return 0;
-  }
-  else
-    return -1;
+  if (!packet.good_bit ())
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - failed to construct packet\n")),
+                       -1);
+
+  // Send the packet to the receiver.
+  ssize_t retval = this->handler_->peer ().send_n (packet.begin ());
+  return retval == packet.total_length () ? 0 : -1;
 }

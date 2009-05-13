@@ -88,6 +88,9 @@ int CUTS_TCPIP_CCM_ComponentServer_App::run_main (int argc, char * argv[])
                          ACE_TEXT ("%T (%t) - %M - failed to activate TCP/IP ORB task\n")),
                          -1);
 
+    // Wait for all threads to exit.
+    this->task_.wait ();
+
     return 0;
   }
   catch (const CORBA::Exception & ex)

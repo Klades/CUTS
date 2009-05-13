@@ -1,6 +1,8 @@
 // $Id$
 
 #include "TCPIP_SPEC.h"
+#include "TCPIP_InputCDR.h"
+#include "TCPIP_OutputCDR.h"
 
 #define CUTS_TCPIP_SPEC_MAGIC_SIZE  4
 
@@ -15,15 +17,15 @@ namespace CUTS_TCPIP
 //
 // operator <<
 //
-ACE_CDR::Boolean operator << (ACE_OutputCDR & output, const ACE_Utils::UUID & uuid)
+ACE_CDR::Boolean operator << (CUTS_TCPIP_OutputCDR & output, const ACE_Utils::UUID & uuid)
 {
-  CUTS_TCPIP_TRACE ("operator << (ACE_OutputCDR &, const ACE_Utils::UUID &)");
+  CUTS_TCPIP_TRACE ("operator << (CUTS_TCPIP_OutputCDR &, const ACE_Utils::UUID &)");
 
   output << uuid.time_low ();
   output << uuid.time_mid ();
   output << uuid.time_hi_and_version ();
-  output << ACE_OutputCDR::from_octet (uuid.clock_seq_hi_and_reserved ());
-  output << ACE_OutputCDR::from_octet (uuid.clock_seq_low ());
+  output << CUTS_TCPIP_OutputCDR::from_octet (uuid.clock_seq_hi_and_reserved ());
+  output << CUTS_TCPIP_OutputCDR::from_octet (uuid.clock_seq_low ());
 
   output.write_octet_array (uuid.node ().node_ID (),
                             ACE_Utils::UUID_Node::NODE_ID_SIZE);
@@ -34,32 +36,31 @@ ACE_CDR::Boolean operator << (ACE_OutputCDR & output, const ACE_Utils::UUID & uu
 //
 // operator <<
 //
-char * operator << (ACE_OutputCDR & output, const CUTS_TCPIP_SPEC & spec)
+ACE_CDR::Boolean operator << (CUTS_TCPIP_OutputCDR & output, const CUTS_TCPIP_SPEC & spec)
 {
-  CUTS_TCPIP_TRACE ("operator << (ACE_OutputCDR &, const CUTS_TCPIP_SPEC &)");
+  CUTS_TCPIP_TRACE ("operator << (CUTS_TCPIP_OutputCDR &, const CUTS_TCPIP_SPEC &)");
 
   output.write_octet_array (CUTS_TCPIP::CUTS_TCPIP_SPEC_MAGIC,
                             CUTS_TCPIP_SPEC_MAGIC_SIZE);
 
-  output << ACE_OutputCDR::from_boolean (ACE_CDR::BYTE_ORDER_NATIVE);
+  output << CUTS_TCPIP_OutputCDR::from_boolean (ACE_CDR::BYTE_ORDER_NATIVE);
   output.write_octet_array (CUTS_TCPIP::CUTS_TCPIP_SPEC_VERSION, 2);
 
   // padding
-  output.write_short_placeholder ();
+  output.write_short (0);
 
   output << spec.uuid_;
   output << spec.event_id_;
 
-  // End with the placeholder for the size.
-  return output.write_long_placeholder ();
+  return output.good_bit ();
 }
 
 //
 // operator >>
 //
-ACE_CDR::Boolean operator >> (ACE_InputCDR & input, ACE_Utils::UUID & uuid)
+ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & input, ACE_Utils::UUID & uuid)
 {
-  CUTS_TCPIP_TRACE ("operator >> (ACE_InputCDR &, ACE_Utils::UUID &)");
+  CUTS_TCPIP_TRACE ("operator >> (CUTS_TCPIP_InputCDR &, ACE_Utils::UUID &)");
 
   ACE_CDR::ULong time_low;
   ACE_CDR::UShort time_mid;
@@ -71,8 +72,8 @@ ACE_CDR::Boolean operator >> (ACE_InputCDR & input, ACE_Utils::UUID & uuid)
   input >> time_low;
   input >> time_mid;
   input >> time_hi_and_version;
-  input >> ACE_InputCDR::to_octet (clock_seq_hi_and_reserved);
-  input >> ACE_InputCDR::to_octet (clock_seq_low);
+  input >> CUTS_TCPIP_InputCDR::to_octet (clock_seq_hi_and_reserved);
+  input >> CUTS_TCPIP_InputCDR::to_octet (clock_seq_low);
   input.read_octet_array (uuid.node ().node_ID (),
                           ACE_Utils::UUID_Node::NODE_ID_SIZE);
 
@@ -94,9 +95,9 @@ ACE_CDR::Boolean operator >> (ACE_InputCDR & input, ACE_Utils::UUID & uuid)
 //
 // operator >>
 //
-ACE_CDR::Boolean operator >> (ACE_InputCDR & input, CUTS_TCPIP_SPEC & spec)
+ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & input, CUTS_TCPIP_SPEC & spec)
 {
-  CUTS_TCPIP_TRACE ("operator >> (ACE_InputCDR &, CUTS_TCPIP_SPEC &)");
+  CUTS_TCPIP_TRACE ("operator >> (CUTS_TCPIP_InputCDR &, CUTS_TCPIP_SPEC &)");
 
   // First, read the magic from the input stream.
   ACE_CDR::Octet magic[CUTS_TCPIP_SPEC_MAGIC_SIZE];
@@ -109,7 +110,7 @@ ACE_CDR::Boolean operator >> (ACE_InputCDR & input, CUTS_TCPIP_SPEC & spec)
 
   // Read the byte order of the message.
   ACE_CDR::Boolean byte_order;
-  if (!(input >> ACE_InputCDR::to_boolean (byte_order)))
+  if (!(input >> CUTS_TCPIP_InputCDR::to_boolean (byte_order)))
     return false;
 
   // Reset the byte order of the stream.
@@ -130,7 +131,6 @@ ACE_CDR::Boolean operator >> (ACE_InputCDR & input, CUTS_TCPIP_SPEC & spec)
 
   // Read the remaining parts of the SPEC.
   return (input >> spec.uuid_) &&
-         (input >> spec.event_id_) &&
-         (input >> spec.data_size_);
+         (input >> spec.event_id_);
 }
 

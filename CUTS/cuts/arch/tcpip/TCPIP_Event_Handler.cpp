@@ -45,8 +45,13 @@ int CUTS_TCPIP_Event_Handler::handle_input (ACE_HANDLE fd)
 
   // Extract the header from the message block.
   CUTS_TCPIP_SPEC spec;
+  ACE_CDR::ULong datasize;
+
   CUTS_TCPIP_InputCDR input (header.rd_ptr (), header_size);
+
+  // Read the SPEC and the datasize from the packet.
   input >> spec;
+  input >> datasize;
 
   if (!input.good_bit ())
     return -1;
@@ -60,7 +65,7 @@ int CUTS_TCPIP_Event_Handler::handle_input (ACE_HANDLE fd)
   ACE_Message_Block * head = mb;
   ACE_Auto_Ptr <ACE_Message_Block> auto_clean (head);
 
-  for (size_t remaining = spec.data_size_; 0 != remaining; )
+  for (size_t remaining = datasize; 0 != remaining; )
   {
     // Determine how much should be read in this attempt.
     read_count =

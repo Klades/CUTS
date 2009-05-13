@@ -1,3 +1,20 @@
+Wed May 13 06:47:23 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/tcpip/TCPIP_Event_Handler.cpp:
+        * cuts/arch/tcpip/TCPIP_OutputCDR.h:
+        * cuts/arch/tcpip/TCPIP_OutputCDR.inl:
+        * cuts/arch/tcpip/TCPIP_OutputCDR.cpp:
+        * cuts/arch/tcpip/TCPIP_Remote_Endpoint_T.cpp:
+        * cuts/arch/tcpip/TCPIP_SPEC.h:
+        * cuts/arch/tcpip/TCPIP_SPEC.cpp:
+
+          . Improved the marshalling/unmarshalling code for events.
+
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.cpp:
+
+          . Bug fix where all threads had not exited before the main
+            application exited.
+
 Wed May 13 06:23:03 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.h:
