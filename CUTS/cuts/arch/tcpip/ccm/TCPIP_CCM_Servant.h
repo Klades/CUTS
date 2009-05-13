@@ -23,8 +23,10 @@ class CUTS_TCPIP_CCM_Export CUTS_TCPIP_CCM_Servant :
   public virtual POA_Components::CCMObject
 {
 public:
-  /// Default constructor.
-  CUTS_TCPIP_CCM_Servant (void);
+  /**
+   * Default constructor.
+   */
+  CUTS_TCPIP_CCM_Servant (const char * name);
 
   /// Destructor.
   virtual ~CUTS_TCPIP_CCM_Servant (void);
@@ -37,6 +39,12 @@ public:
 
   /// Method for removing a component.
   virtual void remove (void) = 0;
+
+  const ACE_CString & name (void) const;
+
+protected:
+  /// Name of the CCM servant.
+  ACE_CString name_;
 };
 
 #if defined (__CUTS_INLINE__)

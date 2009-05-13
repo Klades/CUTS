@@ -67,9 +67,10 @@ namespace TCPIP
   // HelloWorld_Servant
   //
   HelloWorld_Servant::
-  HelloWorld_Servant (CUTS_TCPIP_Servant_Manager & svnt_mgr,
+  HelloWorld_Servant (const char * name,
+                      CUTS_TCPIP_Servant_Manager & svnt_mgr,
                       ::CIDL_HelloWorld_Impl::HelloWorld_Exec_ptr executor)
-    : HelloWorld_Servant_Base (this, svnt_mgr, executor),
+    : HelloWorld_Servant_Base (name, this, svnt_mgr, executor),
       handle_message_consumer_ (this, 0)
   {
     do
@@ -175,10 +176,11 @@ namespace TCPIP
   // create_HelloWorld_Servant
   //
   ::PortableServer::Servant
-  create_HelloWorld_Servant (CUTS_TCPIP_Servant_Manager * svnt_mgr,
+  create_HelloWorld_Servant (const char * name,
+                             CUTS_TCPIP_Servant_Manager * svnt_mgr,
                              ::Components::EnterpriseComponent_ptr p)
   {
     return ::CUTS_TCPIP::CCM::create_servant <::CIDL_HelloWorld_Impl::HelloWorld_Exec,
-                                              ::TCPIP::HelloWorld_Servant> (svnt_mgr, p);
+                                              ::TCPIP::HelloWorld_Servant> (name, svnt_mgr, p);
   }
 }

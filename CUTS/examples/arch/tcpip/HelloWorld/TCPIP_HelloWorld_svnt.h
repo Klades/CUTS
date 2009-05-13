@@ -75,7 +75,8 @@ namespace TCPIP
   {
   public:
     /// Default constructor.
-    HelloWorld_Servant (CUTS_TCPIP_Servant_Manager & svnt_mgr,
+    HelloWorld_Servant (const char * name,
+                        CUTS_TCPIP_Servant_Manager & svnt_mgr,
                         ::CIDL_HelloWorld_Impl::HelloWorld_Exec_ptr executor);
 
     /// Destructor.
@@ -108,7 +109,8 @@ namespace TCPIP
 
   extern "C" HELLOWORLD_SVNT_Export
   ::PortableServer::Servant
-  create_HelloWorld_Servant (CUTS_TCPIP_Servant_Manager * svnt_mgr,
+  create_HelloWorld_Servant (const char * name,
+                             CUTS_TCPIP_Servant_Manager * svnt_mgr,
                              ::Components::EnterpriseComponent_ptr executor);
 }
 

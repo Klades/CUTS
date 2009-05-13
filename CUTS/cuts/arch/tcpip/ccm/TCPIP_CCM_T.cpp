@@ -6,7 +6,8 @@ namespace CCM
 {
   template <typename EXEC, typename SVNT>
   ::PortableServer::Servant
-  create_servant (CUTS_TCPIP_Servant_Manager * svnt_mgr,
+  create_servant (const char * name,
+                  CUTS_TCPIP_Servant_Manager * svnt_mgr,
                   ::Components::EnterpriseComponent_ptr p)
   {
     // First, convert the pointer to its concrete type.
@@ -19,7 +20,7 @@ namespace CCM
     SVNT * servant = 0;
 
     ACE_NEW_RETURN (servant,
-                    SVNT (*svnt_mgr, executor.in ()),
+                    SVNT (name, *svnt_mgr, executor.in ()),
                     0);
 
     return servant;

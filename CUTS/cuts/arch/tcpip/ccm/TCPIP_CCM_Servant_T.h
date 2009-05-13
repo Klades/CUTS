@@ -45,7 +45,8 @@ public:
    * @param[in]       svnt_mgr        Manager of the servant.
    * @param[in]       executor        Executor component for servant.
    */
-  CUTS_TCPIP_CCM_Servant_T (T * servant,
+  CUTS_TCPIP_CCM_Servant_T (const char * name,
+                            T * servant,
                             CUTS_TCPIP_Servant_Manager & svnt_mgr,
                             typename EXEC::_ptr_type executor);
 

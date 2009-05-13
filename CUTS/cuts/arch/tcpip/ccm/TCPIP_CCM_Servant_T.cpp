@@ -9,10 +9,12 @@
 //
 template <typename T, typename CTX, typename EXEC, typename POA_EXEC>
 CUTS_TCPIP_CCM_Servant_T <T, CTX, EXEC, POA_EXEC>::
-CUTS_TCPIP_CCM_Servant_T (T * servant,
+CUTS_TCPIP_CCM_Servant_T (const char * name,
+                          T * servant,
                           CUTS_TCPIP_Servant_Manager & svnt_mgr,
                           typename EXEC::_ptr_type executor)
 : base_type (servant, executor),
+  CUTS_TCPIP_CCM_Servant (name),
   svnt_mgr_ (svnt_mgr)
 {
   this->svnt_mgr_.activate_object (this);

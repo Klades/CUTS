@@ -111,21 +111,27 @@ create_container (const Components::ConfigValues & config)
 // remove_container
 //
 void CUTS_TCPIP_CCM_ComponentServer::
-remove_container (Components::Deployment::Container_ptr container)
+remove_container (Components::Deployment::Container_ptr c)
 {
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("remove_container (Components::Deployment::Container_ptr)\n")));
 
   // Get the servant from the reference.
   PortableServer::ServantBase_var servant =
-    this->poa_->reference_to_servant (container);
+    this->poa_->reference_to_servant (c);
+
+  // Notify the container to remove itself.
+  CUTS_TCPIP_CCM_Container * container =
+    dynamic_cast <CUTS_TCPIP_CCM_Container *> (servant.in ());
+
+  container->remove ();
 
   // Deactivate the object.
   PortableServer::ObjectId_var oid = this->poa_->servant_to_id (servant.in ());
   this->poa_->deactivate_object (oid.in ());
 
-  /// @todo Do we have to delete the actual servant, or will the reference
-  ///       counting mechanisms automatically delete the servant??
+  // Remove the container from the collection.
+  this->containers_.remove (container);
 }
 
 //

@@ -40,14 +40,6 @@ public:
   // to the correct method.
   virtual int handle_event (ACE_UINT32 id, CUTS_TCPIP_InputCDR & input);
 
-  //virtual void configuration_complete (void);
-
-  //virtual void ccm_activate (void);
-
-  //virtual void ccm_passivate (void);
-
-  //virtual void ccm_remove (void);
-
 protected:
   /**
    * Initializing constructor

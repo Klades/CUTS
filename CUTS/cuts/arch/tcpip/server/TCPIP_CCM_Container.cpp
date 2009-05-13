@@ -130,7 +130,25 @@ Components::CCMHomes * CUTS_TCPIP_CCM_Container::get_homes (void)
 //
 void CUTS_TCPIP_CCM_Container::remove (void)
 {
-  throw CORBA::NO_IMPLEMENT ();
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - removing all components in the container\n")));
+
+  components_type::ITERATOR iter (this->components_);
+
+  for (; !iter.done (); ++ iter)
+  {
+    CUTS_TCPIP_CCM_Servant * servant =
+      dynamic_cast <CUTS_TCPIP_CCM_Servant *> (iter->item ().in ());
+
+    if (0 == servant)
+      continue;
+
+    servant->passivate_component ();
+    servant->remove ();
+  }
+
+  // Remove all components from the collection.
+  this->components_.unbind_all ();
 }
 
 //
@@ -201,16 +219,18 @@ install_component (const char * id,
 
   // Load the servant from its shared library.
   ::PortableServer::ServantBase_var servant =
-    this->load_servant (*(*svnt_artifact), *(*svnt_entrypt), executor.in ());
+    this->load_servant (id, *(*svnt_artifact), *(*svnt_entrypt), executor.in ());
+
+  this->components_.bind (id, servant);
 
   // Activate the servant under the provided POA.
   PortableServer::ObjectId_var oid = this->poa_->activate_object (servant.in ());
 
   // Get a reference for to the servant.
   ::CORBA::Object_var obj = this->poa_->id_to_reference (oid.in ());
-  ::Components::CCMObject_var ccmobj = ::Components::CCMObject::_narrow (obj.in ());
+  ::Components::CCMObject_var component = ::Components::CCMObject::_narrow (obj.in ());
 
-  return ccmobj._retn ();
+  return component._retn ();
 }
 
 //
@@ -252,7 +272,8 @@ load_executor (const ::Components::ConfigValue & artifact, const char * entrypt)
 // load_servant
 //
 ::PortableServer::Servant
-CUTS_TCPIP_CCM_Container::load_servant (const ::Components::ConfigValue & artifact,
+CUTS_TCPIP_CCM_Container::load_servant (const char * name,
+                                        const ::Components::ConfigValue & artifact,
                                         const ::Components::ConfigValue & entrypt,
                                         ::Components::EnterpriseComponent_ptr executor)
 {
@@ -281,12 +302,12 @@ CUTS_TCPIP_CCM_Container::load_servant (const ::Components::ConfigValue & artifa
 
   // Load the executor from the executor artifact.
   typedef ::PortableServer::Servant (*ServantFactoryMethod)
-    (CUTS_TCPIP_Servant_Manager *, ::Components::EnterpriseComponent_ptr);
+    (const char *, CUTS_TCPIP_Servant_Manager *, ::Components::EnterpriseComponent_ptr);
 
   ptrdiff_t tmp_ptr = reinterpret_cast <ptrdiff_t> (symbol);
   ServantFactoryMethod factory_method = reinterpret_cast <ServantFactoryMethod> (tmp_ptr);
 
-  return factory_method (&this->parent_.the_ORB ().the_OM (), executor);
+  return factory_method (name, &this->parent_.the_ORB ().the_OM (), executor);
 }
 
 //
@@ -295,17 +316,21 @@ CUTS_TCPIP_CCM_Container::load_servant (const ::Components::ConfigValue & artifa
 void CUTS_TCPIP_CCM_Container::activate_component (::Components::CCMObject_ptr comp)
 {
   // Locate the servant for the object reference.
-  PortableServer::ServantBase_var servant = this->poa_->reference_to_servant (comp);
+  PortableServer::ServantBase_var base = this->poa_->reference_to_servant (comp);
 
   // Convert the servant to a CCM servant object.
-  CUTS_TCPIP_CCM_Servant * ccm_servant =
-    dynamic_cast <CUTS_TCPIP_CCM_Servant *> (servant.in ());
+  CUTS_TCPIP_CCM_Servant * servant =
+    dynamic_cast <CUTS_TCPIP_CCM_Servant *> (base.in ());
 
-  if (0 == ccm_servant)
+  if (0 == servant)
     throw ::CORBA::INTERNAL ();
 
   // Activate the component.
-  ccm_servant->activate_component ();
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - activating %s\n"),
+              servant->name ().c_str ()));
+
+  servant->activate_component ();
 }
 
 //
@@ -314,17 +339,21 @@ void CUTS_TCPIP_CCM_Container::activate_component (::Components::CCMObject_ptr c
 void CUTS_TCPIP_CCM_Container::passivate_component (::Components::CCMObject_ptr comp)
 {
   // Locate the servant for the object reference.
-  PortableServer::ServantBase_var servant = this->poa_->reference_to_servant (comp);
+  PortableServer::ServantBase_var base = this->poa_->reference_to_servant (comp);
 
   // Convert the servant to a CCM servant object.
-  CUTS_TCPIP_CCM_Servant * ccm_servant =
-    dynamic_cast <CUTS_TCPIP_CCM_Servant *> (servant.in ());
+  CUTS_TCPIP_CCM_Servant * servant =
+    dynamic_cast <CUTS_TCPIP_CCM_Servant *> (base.in ());
 
-  if (0 == ccm_servant)
+  if (0 == servant)
     throw ::CORBA::INTERNAL ();
 
-  // Activate the component.
-  ccm_servant->passivate_component ();
+  // Passivate the component.
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - passivating %s\n"),
+              servant->name ().c_str ()));
+
+  servant->passivate_component ();
 }
 
 //
@@ -333,20 +362,27 @@ void CUTS_TCPIP_CCM_Container::passivate_component (::Components::CCMObject_ptr 
 void CUTS_TCPIP_CCM_Container::remove_component (::Components::CCMObject_ptr cref)
 {
   // Locate the servant for the object reference.
-  PortableServer::ServantBase_var servant = this->poa_->reference_to_servant (cref);
+  PortableServer::ServantBase_var base = this->poa_->reference_to_servant (cref);
 
   // Convert the servant to a CCM servant object.
-  CUTS_TCPIP_CCM_Servant * ccm_servant =
-    dynamic_cast <CUTS_TCPIP_CCM_Servant *> (servant.in ());
+  CUTS_TCPIP_CCM_Servant * servant =
+    dynamic_cast <CUTS_TCPIP_CCM_Servant *> (base.in ());
 
-  if (0 == ccm_servant)
+  if (0 == servant)
     throw ::CORBA::INTERNAL ();
 
   // Signal the component that is about to be removed.
-  ccm_servant->remove ();
+  ACE_DEBUG ((LM_DEBUG,
+            ACE_TEXT ("%T (%t) - %M - removing %s\n"),
+            servant->name ().c_str ()));
+
+  servant->remove ();
+
+  // Remove the component from the collection.
+  this->components_.unbind (servant->name ());
 
   // Deactivate the component.
-  PortableServer::ObjectId_var oid = this->poa_->servant_to_id (servant.in ());
+  PortableServer::ObjectId_var oid = this->poa_->servant_to_id (base.in ());
   this->poa_->deactivate_object (oid.in ());
 }
 

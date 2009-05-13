@@ -19,7 +19,8 @@ namespace CCM
 {
   template <typename EXEC, typename SVNT>
   ::PortableServer::Servant
-  create_servant (CUTS_TCPIP_Servant_Manager * svnt_mgr,
+  create_servant (const char * name,
+                  CUTS_TCPIP_Servant_Manager * svnt_mgr,
                   ::Components::EnterpriseComponent_ptr p);
 }
 }
