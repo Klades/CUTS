@@ -1,3 +1,98 @@
+Wed May 13 14:00:57 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Ctx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Preprocessor.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Preprocessor_Handlers.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/Set_Classpath_Script_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/XML_Mapping_File_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/XML_Mapping_File_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/XSD_File_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/XSD_File_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip:
+
+          . Changed the location of the files below.
+
+          MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Ctx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Ctx.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Event_Impl_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Event_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Manager_Factory.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Manager_Factory.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Preprocessor.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Preprocessor_Handlers.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Preprocessor_Handlers.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Project_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Project_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Workspace_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_Workspace_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/CAPI_export.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/Register_Type_Script_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/Register_Type_Script_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/Set_Classpath_Script_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/Set_Classpath_Script_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/XML_Mapping_File_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/XML_Mapping_File_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/XSD_File_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CAPI/XSD_File_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/BE_CIAO.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Ctx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Header_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Exec_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Header_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Header_Traits.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_In_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_In_Type.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_In_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Inout_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Inout_Type.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Inout_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Manager_Factory.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Manager_Factory.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Out_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Out_Type.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Out_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Preprocessor.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Preprocessor_Handlers.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Preprocessor_Handlers.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Proxy_Header_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Proxy_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Proxy_Source_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Proxy_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Retn_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Retn_Type.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Retn_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Source_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Source_Traits.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Traits_Base.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Traits_Base.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Var_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Var_Type.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/CIAO_Var_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/Port_Manager_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/Port_Manager_T.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/Port_Manager_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/CIAO/UDM_CIAO_Export.h:
+
+          Removed these files.
+
 Wed May 13 06:58:49 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldC.h:

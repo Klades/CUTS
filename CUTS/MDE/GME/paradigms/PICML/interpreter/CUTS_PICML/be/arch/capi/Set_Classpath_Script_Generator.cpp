@@ -2,7 +2,7 @@
 
 #include "Set_Classpath_Script_Generator.h"
 #include "CAPI_Preprocessor.h"
-#include "../BE_Env_Variable_Parser_T.h"
+#include "../../BE_Env_Variable_Parser_T.h"
 #include "boost/bind.hpp"
 #include "ace/OS_NS_sys_stat.h"
 #include <algorithm>
@@ -15,7 +15,7 @@ static const char * bat_header =
 "@rem #\n"
 "@rem # $Id$\n"
 "@rem #\n"
-"@rem # @author       James H. Hill (hillj@dre.vanerbilt.edu)\n"
+"@rem # @author       James H. Hill <hillj at dre dot vanerbilt dot edu>\n"
 "@rem #               CUTS Modeling Tools for CoSMIC\n"
 "@rem #               http://www.dre.vanderbilt.edu/CUTS\n"
 "@rem #\n"
@@ -28,7 +28,7 @@ static const char * sh_header =
 "#\n"
 "# $Id$\n"
 "#\n"
-"# @author       James H. Hill\n"
+"# @author       James H. Hill <hillj at dre dot vanderbilt dot edu>\n"
 "#               CUTS Modeling Tools for CoSMIC\n"
 "#               http://www.dre.vanderbilt.edu/CUTS\n"
 "#\n"
