@@ -1,3 +1,48 @@
+Wed May 13 05:05:08 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/tcpip/TCPIP_Remote_Endpoint.h:
+        * cuts/arch/tcpip/TCPIP_Remote_Endpoint.cpp:
+        * cuts/arch/tcpip/TCPIP_Remote_Endpoint_T.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM.mpc:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Cookie.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Cookie.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Cookie.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table_T.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table_T.cpp:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.idl:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.cpp:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.cpp:
+        * examples/arch/tcpip/HelloWorld/descriptors/DeploymentPlan.cdp:
+
+          . Added support for *publishes* connections.
+
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.cpp:
+        * cuts/arch/tcpip/server/server.mpc:
+
+          . The component server now initializes its own valuetype factory
+            objects instead of relying on CIAO. One step closer to decoupling
+            the TCPIP architecture for CIAO.
+
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container.cpp:
+
+          . Fixed debug output.
+
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldEC.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldEC.cpp:
+
+          Removed these files.
+
 Tue May 12 21:42:29 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
 
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xme:
@@ -5,8 +50,8 @@ Tue May 12 21:42:29 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xmp:
         * MDE/GME/paradigms/CUTS/paradigm/CUTS_uml.xme:
 
-							   . Updated metamodel for CUTS_DSML
-							   
+          . Updated metamodel for CUTS_DSML
+
 Tue May 12 20:04:11 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/tcpip/TCPIP_Servant_T.inl:

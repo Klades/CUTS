@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- * @file          HelloWorld_svnt.h
+ * @file          TCPIP_HelloWorld_svnt.h
  *
  * $Id$
  *
@@ -10,14 +10,15 @@
  */
 //=============================================================================
 
-#ifndef _HELLOWORLD_SVNT_H_
-#define _HELLOWORLD_SVNT_H_
+#ifndef _TCPIP_HELLOWORLD_SVNT_H_
+#define _TCPIP_HELLOWORLD_SVNT_H_
 
 #include "HelloWorldS.h"
 #include "HelloWorldEC.h"
 #include "TCPIP_HelloWorldC.h"
 #include "cuts/arch/tcpip/ccm/TCPIP_CCM_Context_T.h"
 #include "cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T.h"
+#include "cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table_T.h"
 #include "cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.h"
 #include "HelloWorld_svnt_export.h"
 
@@ -46,10 +47,16 @@ namespace TCPIP
 
     virtual void push_handle_message (::Message * ev);
 
+    virtual void push_handle_message_ex (::Message * ev);
+
     CUTS_TCPIP_CCM_Remote_Endpoint & endpoint_handle_message (void);
+
+    CUTS_TCPIP_CCM_Subscriber_Table & endpoints_handle_message_ex (void);
 
   private:
     CUTS_TCPIP_CCM_Remote_Endpoint_T <::Message> handle_message_;
+
+    CUTS_TCPIP_CCM_Subscriber_Table_T <::Message> handle_message_ex_;
   };
 
   // Forward decl.
@@ -74,12 +81,17 @@ namespace TCPIP
     /// Destructor.
     virtual ~HelloWorld_Servant (void);
 
-    // MessageConsumer methods
+    // handle_message methods
     void connect_handle_message (::MessageConsumer_ptr);
 
     ::MessageConsumer_ptr disconnect_handle_message (void);
 
     ::MessageConsumer_ptr get_consumer_handle_message (void);
+
+    // handle_message_ex methods
+    ::Components::Cookie * subscribe_handle_message_ex (::MessageConsumer_ptr);
+
+    ::MessageConsumer_ptr unsubscribe_handle_message_ex (::Components::Cookie *);
 
     /**
      * Method responsible for unmarshalling an ACE_Message_Block object
@@ -100,4 +112,4 @@ namespace TCPIP
                              ::Components::EnterpriseComponent_ptr executor);
 }
 
-#endif  // !defined _HELLOWORLD_SVNT_H_
+#endif  // !defined _TCPIP_HELLOWORLD_SVNT_H_

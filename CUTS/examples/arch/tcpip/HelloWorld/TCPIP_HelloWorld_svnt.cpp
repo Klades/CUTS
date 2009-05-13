@@ -39,12 +39,28 @@ namespace TCPIP
   }
 
   //
-  // tcpip_handle_message
+  // endpoints_handle_message_ex
+  //
+  CUTS_TCPIP_CCM_Subscriber_Table &
+  HelloWorld_Servant_Context::endpoints_handle_message_ex (void)
+  {
+    return this->handle_message_ex_;
+  }
+
+  //
+  // push_handle_message
   //
   void HelloWorld_Servant_Context::push_handle_message (::Message * ev)
   {
-    if (this->handle_message_.is_connected ())
-      this->handle_message_.send_event (ev);
+    this->handle_message_.send_event (ev);
+  }
+
+  //
+  // push_handle_message_ex
+  //
+  void HelloWorld_Servant_Context::push_handle_message_ex (::Message * ev)
+  {
+    this->handle_message_ex_.send_event (ev);
   }
 
   //
@@ -67,14 +83,23 @@ namespace TCPIP
       HelloWorld_Servant::vtable_[0] = &HelloWorld_Servant::tcpip_handle_message;
     } while (0);
 
-    // Initialize the endpoint map.
-    this->endpoints_.bind ("handle_message", &this->ctx_->endpoint_handle_message ());
+    // Initialize the <consumers> table.
+    this->consumers_.bind ("handle_message", &this->handle_message_consumer_);
 
-    if (1 != this->endpoints_.current_size ())
+    if (1 != this->consumers_.current_size ())
       throw ::CORBA::INTERNAL ();
 
-    // Initialize the consumer table.
-    this->consumers_.bind ("handle_message", &this->handle_message_consumer_);
+    // Initialize the <emits> table.
+    this->emits_.bind ("handle_message", &this->ctx_->endpoint_handle_message ());
+
+    if (1 != this->emits_.current_size ())
+      throw ::CORBA::INTERNAL ();
+
+    // Initialize the <publishes> table.
+    this->publishes_.bind ("handle_message_ex", &this->ctx_->endpoints_handle_message_ex ());
+
+    if (1 != this->publishes_.current_size ())
+      throw ::CORBA::INTERNAL ();
   }
 
   //
@@ -105,6 +130,18 @@ namespace TCPIP
   // disconnect_handle_message
   //
   ::MessageConsumer_ptr HelloWorld_Servant::get_consumer_handle_message (void)
+  {
+    throw ::CORBA::NO_IMPLEMENT ();
+  }
+
+  ::Components::Cookie * HelloWorld_Servant::
+  subscribe_handle_message_ex (::MessageConsumer_ptr)
+  {
+    throw ::CORBA::NO_IMPLEMENT ();
+  }
+
+  ::MessageConsumer_ptr HelloWorld_Servant::
+  unsubscribe_handle_message_ex (::Components::Cookie *)
   {
     throw ::CORBA::NO_IMPLEMENT ();
   }

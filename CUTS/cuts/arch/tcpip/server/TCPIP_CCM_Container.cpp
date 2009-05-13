@@ -142,7 +142,7 @@ install_component (const char * id,
                    const ::Components::ConfigValues & config)
 {
   ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("installing <%s> from <%s>\n"),
+              ACE_TEXT ("%T (%t) - %M - installing <%s> from <%s>\n"),
               id,
               entrypt));
 

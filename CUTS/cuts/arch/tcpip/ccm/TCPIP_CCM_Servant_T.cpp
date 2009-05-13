@@ -80,7 +80,7 @@ connect_consumer (const char * name, Components::EventConsumerBase_ptr consumer)
   // Locate the endpoint for this consumer.
   CUTS_TCPIP_CCM_Remote_Endpoint * endpoint = 0;
 
-  if (0 != this->endpoints_.find (name, endpoint))
+  if (0 != this->emits_.find (name, endpoint))
     throw ::Components::InvalidName ();
 
   // Now, signal the endpoint to connect.
@@ -99,10 +99,40 @@ disconnect_consumer (const char * name)
   // Locate the endpoint for this consumer.
   CUTS_TCPIP_CCM_Remote_Endpoint * endpoint = 0;
 
-  if (0 != this->endpoints_.find (name, endpoint))
+  if (0 != this->emits_.find (name, endpoint))
     throw ::Components::InvalidName ();
 
   // Now, signal the endpoint to disconnect.
   return endpoint->disconnect ();
+}
+
+//
+// subscribe
+//
+template <typename T, typename CTX, typename EXEC, typename POA_EXEC>
+::Components::Cookie * CUTS_TCPIP_CCM_Servant_T <T, CTX, EXEC, POA_EXEC>::
+subscribe (const char * publisher_name, ::Components::EventConsumerBase_ptr subscriber)
+{
+  CUTS_TCPIP_CCM_Subscriber_Table * table = 0;
+
+  if (0 != this->publishes_.find (publisher_name, table))
+    throw ::Components::InvalidName ();
+
+  return table->subscribe (subscriber);
+}
+
+//
+// unsubscribe
+//
+template <typename T, typename CTX, typename EXEC, typename POA_EXEC>
+::Components::EventConsumerBase_ptr CUTS_TCPIP_CCM_Servant_T <T, CTX, EXEC, POA_EXEC>::
+unsubscribe (const char * publisher_name, ::Components::Cookie * cookie)
+{
+  CUTS_TCPIP_CCM_Subscriber_Table * table = 0;
+
+  if (0 != this->publishes_.find (publisher_name, table))
+    throw ::Components::InvalidName ();
+
+  return table->unsubscribe (cookie);
 }
 

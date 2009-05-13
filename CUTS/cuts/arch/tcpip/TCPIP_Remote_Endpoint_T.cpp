@@ -12,6 +12,11 @@
 template <typename T>
 int CUTS_TCPIP_Remote_Endpoint_T <T>::send_event (T * ev)
 {
+  ACE_READ_GUARD_RETURN (ACE_RW_Thread_Mutex, guard, this->lock_, -1);
+
+  if (0 == this->handler_)
+    return -1;
+
   // Reset the header size.
   this->header_.data_size_ = 0;
 

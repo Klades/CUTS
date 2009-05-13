@@ -40,6 +40,8 @@ public:
 private:
   int parse_arg (int argc, char * argv []);
 
+  static void register_valuetypes (CORBA::ORB_ptr orb);
+
   void print_help (void);
 
   int configure_component_server (::CIAO::Deployment::ServerActivator_ptr activator);

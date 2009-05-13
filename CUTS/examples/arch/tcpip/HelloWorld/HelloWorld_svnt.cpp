@@ -89,6 +89,167 @@ namespace CIDL_HelloWorld_Impl
     return this->ciao_emits_handle_message_consumer_._retn ();
   }
 
+  void
+  HelloWorld_Context::push_handle_message_ex (
+    ::Message *ev)
+  {
+    ACE_READ_GUARD (TAO_SYNCH_MUTEX,
+                    mon,
+                    this->handle_message_ex_lock_);
+
+    for (HANDLE_MESSAGE_EX_TABLE::const_iterator iter =
+           this->ciao_publishes_handle_message_ex_.begin ();
+         iter != this->ciao_publishes_handle_message_ex_.end ();
+         ++iter)
+    {
+      iter->second->push_Message (ev);
+    }
+
+    ACE_CString source_id = this->_ciao_instance_id ();
+    source_id += "_handle_message_ex";
+
+    for (HANDLE_MESSAGE_EX_GENERIC_TABLE::const_iterator giter =
+           this->ciao_publishes_handle_message_ex_generic_.begin ();
+         giter != this->ciao_publishes_handle_message_ex_generic_.end ();
+         ++giter)
+    {
+      giter->second->ciao_push_event (ev,
+                                      source_id.c_str (),
+                                      ::_tc_Message);
+    }
+  }
+
+  ::Components::Cookie *
+  HelloWorld_Context::subscribe_handle_message_ex (
+    ::MessageConsumer_ptr c)
+  {
+    if ( ::CORBA::is_nil (c))
+    {
+      throw ::CORBA::BAD_PARAM ();
+    }
+
+    std::pair<HANDLE_MESSAGE_EX_TABLE::iterator, bool> result;
+    HANDLE_MESSAGE_EX_TABLE::value_type entry;
+    entry.first = reinterpret_cast<ptrdiff_t> (c);
+    entry.second = ::MessageConsumer::_duplicate (c);
+
+    {
+      ACE_WRITE_GUARD_RETURN (TAO_SYNCH_MUTEX,
+                              mon,
+                              this->handle_message_ex_lock_,
+                              0);
+
+      result = this->ciao_publishes_handle_message_ex_.insert (entry);
+    }
+
+    if (! result.second)
+    {
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "subscribe on %C failed\n",
+                         "handle_message_ex"),
+                        0);
+    }
+
+    ::Components::Cookie * retv = 0;
+    ACE_NEW_THROW_EX (retv,
+                      ::CIAO::Cookie_Impl (entry.first),
+                      ::CORBA::NO_MEMORY ());
+
+    return retv;
+  }
+
+  ::Components::Cookie *
+  HelloWorld_Context::subscribe_handle_message_ex_generic (
+    ::Components::EventConsumerBase_ptr c)
+  {
+    if ( ::CORBA::is_nil (c))
+    {
+      throw ::CORBA::BAD_PARAM ();
+    }
+
+    std::pair<HANDLE_MESSAGE_EX_GENERIC_TABLE::iterator, bool> result;
+    HANDLE_MESSAGE_EX_GENERIC_TABLE::value_type entry;
+    entry.first = reinterpret_cast<ptrdiff_t> (c);
+    entry.second = ::Components::EventConsumerBase::_duplicate (c);
+
+    {
+      ACE_WRITE_GUARD_RETURN (TAO_SYNCH_MUTEX,
+                              mon,
+                              this->handle_message_ex_lock_,
+                              0);
+
+      result = this->ciao_publishes_handle_message_ex_generic_.insert (entry);
+    }
+
+    if (! result.second)
+    {
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "generic subscribe on %C failed\n",
+                         "handle_message_ex"),
+                        0);
+    }
+
+    ::Components::Cookie * retv = 0;
+    ACE_NEW_THROW_EX (retv,
+                      ::CIAO::Cookie_Impl (entry.first),
+                      ::CORBA::NO_MEMORY ());
+
+    return retv;
+  }
+
+  ::MessageConsumer_ptr
+  HelloWorld_Context::unsubscribe_handle_message_ex (
+    ::Components::Cookie *ck)
+  {
+    ptrdiff_t key = 0UL;
+    HANDLE_MESSAGE_EX_TABLE::size_type n = 0UL;
+
+    if (ck == 0 || ! ::CIAO::Cookie_Impl::extract (ck, key))
+    {
+      throw ::Components::InvalidConnection ();
+    }
+
+    {
+      ACE_WRITE_GUARD_RETURN (TAO_SYNCH_MUTEX,
+                              mon,
+                              this->handle_message_ex_lock_,
+                              ::MessageConsumer::_nil ());
+
+      HANDLE_MESSAGE_EX_TABLE::iterator iter =
+        this->ciao_publishes_handle_message_ex_.find (key);
+
+      if (iter != this->ciao_publishes_handle_message_ex_.end ())
+      {
+        ::MessageConsumer_var retv = iter->second;
+        n = this->ciao_publishes_handle_message_ex_.erase (key);
+
+        if (n == 1UL)
+        {
+          return retv._retn ();
+        }
+
+        throw ::Components::InvalidConnection ();
+      }
+
+      HANDLE_MESSAGE_EX_GENERIC_TABLE::iterator giter =
+        this->ciao_publishes_handle_message_ex_generic_.find (key);
+
+      if (giter == this->ciao_publishes_handle_message_ex_generic_.end ())
+      {
+        throw ::Components::InvalidConnection ();
+      }
+
+      n = this->ciao_publishes_handle_message_ex_generic_.erase (key);
+    }
+
+    if (n != 1UL)
+    {
+      throw ::Components::InvalidConnection ();
+    }
+
+    return ::MessageConsumer::_nil ();
+  }
+
   /// CIAO-specific.
 
   HelloWorld_Context *
@@ -117,6 +278,10 @@ namespace CIDL_HelloWorld_Impl
     /// Set the instance id of the component on the context
 
     this->context_->_ciao_instance_id (this->ins_name_);
+
+    TAO_OBV_REGISTER_FACTORY (
+      ::Message_init,
+      ::Message);
 
     TAO_OBV_REGISTER_FACTORY (
       ::Message_init,
@@ -161,6 +326,27 @@ namespace CIDL_HelloWorld_Impl
       ACE_UNUSED_ARG (descr_name);
       ACE_UNUSED_ARG (descr_value);
     }
+  }
+
+  ::Components::Cookie *
+  HelloWorld_Servant::subscribe_handle_message_ex (
+    ::MessageConsumer_ptr c)
+  {
+    return this->context_->subscribe_handle_message_ex (c);
+  }
+
+  ::Components::Cookie *
+  HelloWorld_Servant::subscribe_handle_message_ex_generic (
+    ::Components::EventConsumerBase_ptr c)
+  {
+    return this->context_->subscribe_handle_message_ex_generic (c);
+  }
+
+  ::MessageConsumer_ptr
+  HelloWorld_Servant::unsubscribe_handle_message_ex (
+    ::Components::Cookie *ck)
+  {
+    return this->context_->unsubscribe_handle_message_ex (ck);
   }
 
   HelloWorld_Servant::MessageConsumer_handle_message_Servant::MessageConsumer_handle_message_Servant (
@@ -420,7 +606,22 @@ namespace CIDL_HelloWorld_Impl
                     ::Components::PublisherDescriptions,
                     0);
     ::Components::PublisherDescriptions_var safe_retval = retval;
-    safe_retval->length (0UL);
+    safe_retval->length (1UL);
+
+    {
+      ACE_READ_GUARD_RETURN (TAO_SYNCH_MUTEX,
+                             mon,
+                             this->context_->handle_message_ex_lock_,
+                             0);
+
+      ::CIAO::Servant::describe_pub_event_source<
+          ::MessageConsumer_var
+        > ("handle_message_ex",
+           "IDL:Message:1.0",
+           this->context_->ciao_publishes_handle_message_ex_,
+           safe_retval,
+           0UL);
+    }
 
     return safe_retval._retn ();
   }
@@ -459,6 +660,34 @@ namespace CIDL_HelloWorld_Impl
       throw ::Components::InvalidName ();
     }
 
+    if (ACE_OS::strcmp (publisher_name, "handle_message_ex") == 0)
+    {
+      ::MessageConsumer_var sub =
+        ::MessageConsumer::_narrow (subscribe);
+
+      if ( ::CORBA::is_nil (sub.in ()))
+      {
+        ::CORBA::Boolean const substitutable =
+          subscribe->ciao_is_substitutable (
+            ::Message::_tao_obv_static_repository_id ());
+
+        if (substitutable)
+        {
+          return this->subscribe_handle_message_ex_generic (subscribe);
+        }
+
+        else
+        {
+          throw ::Components::InvalidConnection ();
+        }
+      }
+
+      else
+      {
+        return this->subscribe_handle_message_ex (sub.in ());
+      }
+    }
+
     throw ::Components::InvalidName ();
   }
 
@@ -473,6 +702,11 @@ namespace CIDL_HelloWorld_Impl
     if (publisher_name == 0)
     {
       throw ::Components::InvalidName ();
+    }
+
+    if (ACE_OS::strcmp (publisher_name, "handle_message_ex") == 0)
+    {
+      return this->unsubscribe_handle_message_ex (ck);
     }
 
     throw ::Components::InvalidName ();

@@ -75,6 +75,10 @@ namespace CIDL_HelloWorld_Impl
     push_handle_message (
       ::Message *ev);
 
+    virtual void
+    push_handle_message_ex (
+      ::Message *ev);
+
     // CIAO-specific.
 
     static HelloWorld_Context *
@@ -90,9 +94,34 @@ namespace CIDL_HelloWorld_Impl
     virtual ::MessageConsumer_ptr
     disconnect_handle_message ();
 
+    virtual ::Components::Cookie *
+    subscribe_handle_message_ex (
+      ::MessageConsumer_ptr c);
+
+    // CIAO-specific.
+    ::Components::Cookie *
+    subscribe_handle_message_ex_generic (
+      ::Components::EventConsumerBase_ptr c);
+
+    virtual ::MessageConsumer_ptr
+    unsubscribe_handle_message_ex (
+      ::Components::Cookie *ck);
+
     protected:
     ::MessageConsumer_var
     ciao_emits_handle_message_consumer_;
+
+
+    typedef ACE_Array_Map<ptrdiff_t,
+                          ::MessageConsumer_var>
+      HANDLE_MESSAGE_EX_TABLE;
+    HANDLE_MESSAGE_EX_TABLE ciao_publishes_handle_message_ex_;
+    TAO_SYNCH_MUTEX handle_message_ex_lock_;
+
+    typedef ACE_Array_Map<ptrdiff_t,
+                          ::Components::EventConsumerBase_var>
+      HANDLE_MESSAGE_EX_GENERIC_TABLE;
+    HANDLE_MESSAGE_EX_GENERIC_TABLE ciao_publishes_handle_message_ex_generic_;
   };
 
   class HELLOWORLD_SVNT_Export HelloWorld_Servant
@@ -173,6 +202,19 @@ namespace CIDL_HelloWorld_Impl
 
     virtual ::MessageConsumer_ptr
     disconnect_handle_message ();
+
+    virtual ::Components::Cookie *
+    subscribe_handle_message_ex (
+      ::MessageConsumer_ptr c);
+
+    // CIAO-specific.
+    ::Components::Cookie *
+    subscribe_handle_message_ex_generic (
+      ::Components::EventConsumerBase_ptr c);
+
+    virtual ::MessageConsumer_ptr
+    unsubscribe_handle_message_ex (
+      ::Components::Cookie *ck);
 
     // Component attribute operations.
 

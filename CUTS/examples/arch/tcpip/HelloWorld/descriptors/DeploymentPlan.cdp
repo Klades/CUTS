@@ -69,11 +69,27 @@
   </instance>
 
   <connection>
-    <name>EventConnection</name>
+    <name>EventConnection1</name>
     <internalEndpoint>
       <portName>handle_message</portName>
       <provider>false</provider>
       <kind>EventEmitter</kind>
+      <instance xmi:idref="HelloWorld_BasicInstance" />
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>handle_message</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="HelloWorld_BasicInstance" />
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>EventConnection2</name>
+    <internalEndpoint>
+      <portName>handle_message_ex</portName>
+      <provider>false</provider>
+      <kind>EventPublisher</kind>
       <instance xmi:idref="HelloWorld_BasicInstance" />
     </internalEndpoint>
     <internalEndpoint>

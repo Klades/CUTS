@@ -23,6 +23,8 @@ component HelloWorld
   consumes Message handle_message;
 
   emits Message handle_message;
+
+  publishes Message handle_message_ex;
 };
 
 home HelloWorldHome manages HelloWorld

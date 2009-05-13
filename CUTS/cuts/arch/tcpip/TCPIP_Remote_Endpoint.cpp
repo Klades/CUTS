@@ -14,6 +14,8 @@
 int CUTS_TCPIP_Remote_Endpoint::
 connect (const char * addr, const char * uuid, long event)
 {
+  ACE_WRITE_GUARD_RETURN (ACE_RW_Thread_Mutex, guard, this->lock_, -1);
+
   if (0 != CUTS_TCPIP_CONNECTOR::instance ()->get_peer (addr, this->handler_))
     return -1;
 
@@ -27,6 +29,8 @@ connect (const char * addr, const char * uuid, long event)
 //
 void CUTS_TCPIP_Remote_Endpoint::disconnect (void)
 {
+  ACE_WRITE_GUARD (ACE_RW_Thread_Mutex, guard, this->lock_);
+
   this->handler_ = 0;
   this->header_.uuid_ = ACE_Utils::UUID::NIL_UUID;
   this->header_.event_id_ = -1;

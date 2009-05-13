@@ -6,7 +6,7 @@
 #include "TCPIP_CCM_ComponentServer_App.inl"
 #endif
 
-#include "ciao/Server_init.h"
+#include "cuts/arch/tcpip/ccm/TCPIP_CCM_Cookie.h"
 #include "ace/Get_Opt.h"
 
 //
@@ -18,7 +18,9 @@ int CUTS_TCPIP_CCM_ComponentServer_App::run (int argc, char * argv[])
   {
     // Instantiate a new ORB.
     this->orb_ = ::CORBA::ORB_init (argc, argv);
-    CIAO::Server_init (this->orb_.in ());
+
+    // Register the value types.
+    this->register_valuetypes (this->orb_.in ());
 
     // Parse the remaining command-line options.
     if (-1 == this->parse_arg (argc, argv))
@@ -102,6 +104,58 @@ int CUTS_TCPIP_CCM_ComponentServer_App::run (int argc, char * argv[])
   }
 
   return -1;
+}
+
+//
+// register_valuetypes
+//
+void CUTS_TCPIP_CCM_ComponentServer_App::register_valuetypes (CORBA::ORB_ptr orb)
+{
+  CORBA::ValueFactory_var prev;
+
+  prev = orb->register_value_factory (
+    ::Components::PortDescription::_tao_obv_static_repository_id (),
+    new ::Components::PortDescription_init ());
+
+  prev = orb->register_value_factory (
+    ::Components::FacetDescription::_tao_obv_static_repository_id (),
+    new ::Components::FacetDescription_init ());
+
+  prev = orb->register_value_factory (
+    ::Components::FacetDescription::_tao_obv_static_repository_id (),
+    new ::Components::ConnectionDescription_init ());
+
+  prev = orb->register_value_factory (
+    ::Components::ReceptacleDescription::_tao_obv_static_repository_id (),
+    new ::Components::ReceptacleDescription_init ());
+
+  prev = orb->register_value_factory (
+    ::Components::ConsumerDescription::_tao_obv_static_repository_id (),
+    new ::Components::ConsumerDescription_init ());
+
+  prev = orb->register_value_factory (
+    ::Components::EmitterDescription::_tao_obv_static_repository_id (),
+    new ::Components::EmitterDescription_init ());
+
+  prev = orb->register_value_factory (
+    ::Components::SubscriberDescription::_tao_obv_static_repository_id (),
+    new ::Components::SubscriberDescription_init ());
+
+  prev = orb->register_value_factory (
+    ::Components::PublisherDescription::_tao_obv_static_repository_id (),
+    new ::Components::PublisherDescription_init ());
+
+  prev = orb->register_value_factory (
+    ::Components::ConfigValue::_tao_obv_static_repository_id (),
+    new ::Components::ConfigValue_init ());
+
+  prev = orb->register_value_factory (
+    ::Components::ComponentPortDescription::_tao_obv_static_repository_id (),
+    new ::Components::ComponentPortDescription_init ());
+
+  prev = orb->register_value_factory (
+    CUTS_TCPIP_CCM_Cookie::_tao_obv_static_repository_id (),
+    new CUTS_TCPIP_CCM_Cookie_Factory ());
 }
 
 //

@@ -13,6 +13,7 @@
 #ifndef _CUTS_TCPIP_REMOTE_ENDPOINT_H_
 #define _CUTS_TCPIP_REMOTE_ENDPOINT_H_
 
+#include "ace/RW_Thread_Mutex.h"
 #include "TCPIP_SPEC.h"
 
 // Forward decl.
@@ -48,6 +49,9 @@ protected:
 
   /// Header for sending event data to peer.
   CUTS_TCPIP_SPEC header_;
+
+  /// Lock for the handler.
+  ACE_RW_Thread_Mutex lock_;
 };
 
 #if defined (__CUTS_INLINE__)

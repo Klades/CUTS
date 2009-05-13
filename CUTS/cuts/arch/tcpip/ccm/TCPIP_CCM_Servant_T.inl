@@ -12,34 +12,6 @@ CUTS_TCPIP_CCM_Servant_T <T, CTX, EXEC, POA_EXEC>::~CUTS_TCPIP_CCM_Servant_T (vo
 }
 
 //
-// subscribe
-//
-template <typename T, typename CTX, typename EXEC, typename POA_EXEC>
-CUTS_INLINE
-::Components::Cookie * CUTS_TCPIP_CCM_Servant_T <T, CTX, EXEC, POA_EXEC>::
-subscribe (const char * publisher_name, ::Components::EventConsumerBase_ptr subscriber)
-{
-  ACE_DEBUG ((LM_DEBUG,
-              "subscribe (const char * publisher_name, ::Components::EventConsumerBase_ptr subscriber)\n"));
-
-  throw CORBA::NO_IMPLEMENT ();
-}
-
-//
-// unsubscribe
-//
-template <typename T, typename CTX, typename EXEC, typename POA_EXEC>
-CUTS_INLINE
-::Components::EventConsumerBase_ptr CUTS_TCPIP_CCM_Servant_T <T, CTX, EXEC, POA_EXEC>::
-unsubscribe (const char * publisher_name, ::Components::Cookie * ck)
-{
-  ACE_DEBUG ((LM_DEBUG,
-              "unsubscribe (const char * publisher_name, ::Components::Cookie * ck)\n"));
-
-  throw CORBA::NO_IMPLEMENT ();
-}
-
-//
 // get_all_consumers
 //
 template <typename T, typename CTX, typename EXEC, typename POA_EXEC>

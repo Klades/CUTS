@@ -111,11 +111,10 @@ project (HelloWorld_exec) : ciao_executor, cuts_tcpip, base {
   dynamicflags += HELLOWORLD_EXEC_BUILD_DLL
 
   libs  += HelloWorld_stub
-  after += HelloWorld_stub
+  after += HelloWorld_stub HelloWorld_EIDL
 
   Source_Files {
     HelloWorldEC.cpp
-    TCPIP_HelloWorldEC.cpp
   }
 
   Inline_Files {
@@ -123,6 +122,10 @@ project (HelloWorld_exec) : ciao_executor, cuts_tcpip, base {
   }
 
   Header_Files {
+
+  }
+
+  IDL_Files {
 
   }
 }

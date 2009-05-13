@@ -126,6 +126,7 @@ void HelloWorld_Basic_Impl::ccm_remove (void)
 void HelloWorld_Basic_Impl::send_message (::Message * ev)
 {
   this->ctx_->push_handle_message (ev);
+  this->ctx_->push_handle_message_ex (ev);
 }
 
 //

@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_TCPIP_CCM_ComponentServer) : ciao_server, ciao_componentserver_svnt, cuts_tcpip_ccm, cuts_lib, cutsexe {
+project (CUTS_TCPIP_CCM_ComponentServer) : ciao_componentserver_svnt, cuts_tcpip_ccm, cuts_lib, cutsexe {
   exename = cuts-tcpip-componentserver
 
   Source_Files {

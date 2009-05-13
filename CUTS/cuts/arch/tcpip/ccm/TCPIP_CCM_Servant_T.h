@@ -133,10 +133,14 @@ protected:
                         CUTS_TCPIP_CCM_EventConsumer *,
                         ACE_RW_Thread_Mutex> consumers_;
 
+  ACE_Hash_Map_Manager <ACE_CString,
+                        CUTS_TCPIP_CCM_Subscriber_Table *,
+                        ACE_RW_Thread_Mutex> publishes_;
+
   /// Collection of endpoints for the servant.
   ACE_Hash_Map_Manager <ACE_CString,
                         CUTS_TCPIP_CCM_Remote_Endpoint *,
-                        ACE_RW_Thread_Mutex> endpoints_;
+                        ACE_RW_Thread_Mutex> emits_;
 };
 
 #if defined (__CUTS_INLINE__)
