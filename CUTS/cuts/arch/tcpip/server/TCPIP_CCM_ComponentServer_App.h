@@ -31,7 +31,7 @@ public:
   /// Destructor.
   virtual ~CUTS_TCPIP_CCM_ComponentServer_App (void);
 
-  virtual int run (int argc, char * argv []);
+  virtual int run_main (int argc, char * argv []);
 
   virtual void destroy (void);
 

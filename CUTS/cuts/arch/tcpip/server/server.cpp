@@ -42,7 +42,7 @@ int ACE_TMAIN (int argc, char * argv [])
       register_sighandler ();
 
       // Run the component server's app.
-      retval = CUTS_TCPIP_COMPONENT_SERVER_APP->run (argc, argv);
+      retval = CUTS_TCPIP_COMPONENT_SERVER_APP->run_main (argc, argv);
     }
     catch (const CORBA::Exception & ex)
     {

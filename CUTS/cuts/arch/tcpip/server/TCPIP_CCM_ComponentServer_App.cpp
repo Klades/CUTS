@@ -12,12 +12,13 @@
 //
 // run
 //
-int CUTS_TCPIP_CCM_ComponentServer_App::run (int argc, char * argv[])
+int CUTS_TCPIP_CCM_ComponentServer_App::run_main (int argc, char * argv[])
 {
   try
   {
     // Instantiate a new ORB.
     this->orb_ = ::CORBA::ORB_init (argc, argv);
+    this->task_.reset (this->orb_.in ());
 
     // Register the value types.
     this->register_valuetypes (this->orb_.in ());
@@ -49,9 +50,6 @@ int CUTS_TCPIP_CCM_ComponentServer_App::run (int argc, char * argv[])
                          ACE_TEXT ("%T (%t) - %M - object is not a ")
                          ACE_TEXT ("CIAO::Deployment::ServerActivator\n")),
                          -1);
-
-    // Store the ORB in the task.
-    this->task_.reset (this->orb_.in ());
 
     // Get the RootPOA.
     obj = this->orb_->resolve_initial_references ("RootPOA");
@@ -89,10 +87,6 @@ int CUTS_TCPIP_CCM_ComponentServer_App::run (int argc, char * argv[])
        ACE_ERROR_RETURN ((LM_ERROR,
                          ACE_TEXT ("%T (%t) - %M - failed to activate TCP/IP ORB task\n")),
                          -1);
-
-    // Wait for all the threads to return.
-    this->task_.reactor ()->notify (&this->task_);
-    this->task_.wait ();
 
     return 0;
   }
@@ -195,9 +189,15 @@ void CUTS_TCPIP_CCM_ComponentServer_App::shutdown (void)
 {
   try
   {
-    // Shutdown the ORB and wait for task to exit.
+    // Shutdown the ORB.
+    ACE_DEBUG ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - shutdown the ORB task\n")));
+
     this->orb_->shutdown ();
-    this->task_.wait ();
+
+    // Shutdown the application server.
+    ACE_DEBUG ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - shutdown the component server\n")));
 
     this->server_.shutdown (false);
   }
@@ -216,16 +216,16 @@ void CUTS_TCPIP_CCM_ComponentServer_App::destroy (void)
 {
   try
   {
-    if (CORBA::is_nil (this->root_.in ()))
+    if (!::CORBA::is_nil (this->root_.in ()))
     {
       this->root_->destroy (0, 0);
-      this->root_ = PortableServer::POA::_nil ();
+      this->root_ = ::PortableServer::POA::_nil ();
     }
 
-    if (CORBA::is_nil (this->orb_.in ()))
+    if (!::CORBA::is_nil (this->orb_.in ()))
     {
       this->orb_->destroy ();
-      this->orb_ = CORBA::ORB::_nil ();
+      this->orb_ = ::CORBA::ORB::_nil ();
     }
   }
   catch (const CORBA::Exception & ex)

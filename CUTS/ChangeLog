@@ -1,3 +1,12 @@
+Wed May 13 06:23:03 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.cpp:
+        * cuts/arch/tcpip/server/server.cpp:
+
+          . Bug fix where the component server failed to exit when
+            it received the shutdown notification.
+
 Wed May 13 06:06:13 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.cpp:
