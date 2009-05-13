@@ -1,5 +1,5 @@
-#ifndef DSTO_EXECBASE_H
-#define DSTO_EXECBASE_H
+#ifndef CUTS_DSTO_EXECBASE_H
+#define CUTS_DSTO_EXECBASE_H
 
 #include "tao/LocalObject.h"
 
@@ -7,7 +7,7 @@
 
 #include "DSTO_Utilities_export.h"
 
-namespace DSTO
+namespace CUTS_DSTO
 {
   class DSTO_Utilities_Export ExecBase
     : public virtual ::Components::SessionComponent,
@@ -27,4 +27,4 @@ namespace DSTO
   };
 }
 
-#endif // DSTO_EXECBASE_H
+#endif // CUTS_DSTO_EXECBASE_H

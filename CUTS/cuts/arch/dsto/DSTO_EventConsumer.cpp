@@ -1,6 +1,6 @@
 #include "DSTO_EventConsumer.h"
 
-namespace DSTO
+namespace CUTS_DSTO
 {
   EventConsumer::EventConsumer (void)
   {

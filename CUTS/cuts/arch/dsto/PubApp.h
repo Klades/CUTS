@@ -8,7 +8,7 @@
 namespace AppSpace
 {  
   class PubApp_Export PubApp
-    : public virtual ::DSTO::ExecBase
+    : public virtual ::CUTS_DSTO::ExecBase
   {
   public:
     PubApp (void);
@@ -28,3 +28,4 @@ namespace AppSpace
 }
 
 #endif // PUB_APPLICATION_H
+

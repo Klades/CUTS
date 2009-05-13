@@ -23,7 +23,7 @@ namespace CIAO
 namespace DSTO_AppSpace_Impl
 {
   class SubAppAdapter_Export SubAppAdapter
-    : public virtual ::DSTO::Adapter< ::POA_Outer::SubAppComponent>
+    : public virtual ::CUTS_DSTO::Adapter< ::POA_Outer::SubAppComponent>
   {
   public:
     SubAppAdapter (
@@ -46,7 +46,7 @@ namespace DSTO_AppSpace_Impl
 
   private:
     ::AppSpace::SubApp * app_;
-    ::DSTO::ContextBase * context_;
+    ::CUTS_DSTO::ContextBase * context_;
     
     ::Outer::TestData_IDLConsumer_var consumes_app_op_recv_;
   };
@@ -55,11 +55,11 @@ namespace DSTO_AppSpace_Impl
 
   class SubAppAdapter_Export app_op_recv_Consumer
     : public virtual POA_Outer::TestData_IDLConsumer,
-      public virtual ::DSTO::EventConsumer
+      public virtual ::CUTS_DSTO::EventConsumer
   {
   public:
-    app_op_recv_Consumer ( ::DSTO::ExecBase * executor,
-                          ::DSTO::ContextBase * ctx);
+    app_op_recv_Consumer ( ::CUTS_DSTO::ExecBase * executor,
+                          ::CUTS_DSTO::ContextBase * ctx);
     
     virtual void push_TestData_IDL ( ::Outer::TestData_IDL * corba_ev);
     
@@ -75,3 +75,4 @@ namespace DSTO_AppSpace_Impl
 }
 
 #endif // SUBAPPADAPTER_H
+

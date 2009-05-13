@@ -15,12 +15,12 @@ namespace DSTO_AppSpace_Impl
                                 const char * ins_name,
                                 ::CIAO::Home_Servant_Impl_Base *,
                                 ::CIAO::Container_ptr c)
-    : ::DSTO::AdapterBase (ins_name, c),
-      ::DSTO::Adapter< ::POA_Outer::SubAppComponent> (ins_name, c),
+    : ::CUTS_DSTO::AdapterBase (ins_name, c),
+      ::CUTS_DSTO::Adapter< ::POA_Outer::SubAppComponent> (ins_name, c),
       app_ (executor),
       context_ (0)
   {
-    ACE_NEW (this->context_, ::DSTO::ContextBase);
+    ACE_NEW (this->context_, ::CUTS_DSTO::ContextBase);
     
     TAO_OBV_REGISTER_FACTORY ( ::Outer::TestData_IDL_init,
                               ::OBV_Outer::TestData_IDL);
@@ -85,8 +85,8 @@ namespace DSTO_AppSpace_Impl
 
     typedef
     ::CIAO::Port_Activator_T<app_op_recv_Consumer,
-                             ::DSTO::ExecBase,
-                             ::DSTO::ContextBase,
+                             ::CUTS_DSTO::ExecBase,
+                             ::CUTS_DSTO::ContextBase,
                              SubAppAdapter>
       MACRO_MADNESS_TYPEDEF;
       
@@ -132,8 +132,8 @@ namespace DSTO_AppSpace_Impl
 
   //=========================================================
 
-  app_op_recv_Consumer::app_op_recv_Consumer ( ::DSTO::ExecBase * executor,
-                                              ::DSTO::ContextBase *)
+  app_op_recv_Consumer::app_op_recv_Consumer ( ::CUTS_DSTO::ExecBase * executor,
+                                              ::CUTS_DSTO::ContextBase *)
     : executor_ (dynamic_cast< ::AppSpace::SubApp *> (executor))
   {
   }

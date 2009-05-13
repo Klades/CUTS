@@ -14,8 +14,8 @@ namespace DSTO_AppSpace_Impl
                                       const char * ins_name,
                                       ::CIAO::Home_Servant_Impl_Base *,
                                       ::CIAO::Container_ptr c)
-    : ::DSTO::AdapterBase (ins_name, c),
-      ::DSTO::Adapter< ::POA_Outer::PubAppDDSComponent> (ins_name, c),
+    : ::CUTS_DSTO::AdapterBase (ins_name, c),
+      ::CUTS_DSTO::Adapter< ::POA_Outer::PubAppDDSComponent> (ins_name, c),
       app_ (exe),
       context_ (0)
   {

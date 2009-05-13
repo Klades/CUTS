@@ -1,11 +1,11 @@
-#ifndef DSTO_CONTEXTBASE_H
-#define DSTO_CONTEXTBASE_H
+#ifndef CUTS_DSTO_CONTEXTBASE_H
+#define CUTS_DSTO_CONTEXTBASE_H
 
 #include "ccm/CCM_SessionContextC.h"
 
 #include "DSTO_Utilities_export.h"
 
-namespace DSTO
+namespace CUTS_DSTO
 {
   class DSTO_Utilities_Export ContextBase
     : public virtual ::Components::SessionContext
@@ -40,4 +40,4 @@ namespace DSTO
   };
 }
 
-#endif // DSTO_CONTEXTBASE_H
+#endif // CUTS_DSTO_CONTEXTBASE_H

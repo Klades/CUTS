@@ -10,7 +10,7 @@
 namespace AppSpace
 {  
   class SubApp_Export SubApp
-    : public virtual ::DSTO::ExecBase
+    : public virtual ::CUTS_DSTO::ExecBase
   {
   public:
     SubApp (void);
@@ -24,3 +24,4 @@ extern "C" SubApp_Export ::Components::EnterpriseComponent_ptr
 create_SubAppAdapter_Impl (void);
 
 #endif // SUB_APPLICATION_H
+

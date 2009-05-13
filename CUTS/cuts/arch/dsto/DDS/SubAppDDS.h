@@ -10,7 +10,7 @@
 namespace AppSpace
 {  
   class SubAppDDS_Export SubAppDDS
-    : public virtual ::DSTO::ExecBase
+    : public virtual ::CUTS_DSTO::ExecBase
   {
   public:
     SubAppDDS (void);

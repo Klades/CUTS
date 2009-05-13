@@ -5,22 +5,25 @@
 
 #include "DummyEventS.h"
 
-namespace DSTO
+namespace CUTS_DSTO
 {
   class ExecBase;
   class ContextBase;
 }
 
-class DDS_Utilities_Export DummyConsumer_impl
-  : public virtual POA_CUTS_DDS::DummyConsumer,
-    public virtual DSTO::EventConsumer
+namespace CUTS_DDS
 {
-public:
-  DummyConsumer_impl ( ::DSTO::ExecBase *,
-                      ::DSTO::ContextBase *);
-                      
-  void push_Dummy ( ::CUTS_DDS::Dummy *);
-};
+  class DDS_Utilities_Export DummyConsumer_impl
+    : public virtual ::POA_CUTS_DDS::DummyConsumer,
+      public virtual ::CUTS_DSTO::EventConsumer
+  {
+  public:
+    DummyConsumer_impl ( ::CUTS_DSTO::ExecBase *,
+                        ::CUTS_DSTO::ContextBase *);
+                        
+    void push_Dummy ( ::CUTS_DDS::Dummy *);
+  };
+}
 
 #endif //DUMMYCONSUMER_H
 

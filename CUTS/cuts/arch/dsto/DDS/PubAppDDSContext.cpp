@@ -6,7 +6,7 @@
 
 namespace DSTO_AppSpace_Impl
 {
-  PubAppDDSContext::PubAppDDSContext (DDS_Utility & dds_utility)
+  PubAppDDSContext::PubAppDDSContext ( ::CUTS_DDS::DDS_Utility & dds_utility)
     : dds_utility_ (dds_utility)
   {
   }

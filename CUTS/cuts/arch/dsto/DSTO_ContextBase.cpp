@@ -1,6 +1,6 @@
 #include "DSTO_ContextBase.h"
 
-namespace DSTO
+namespace CUTS_DSTO
 {
   ContextBase::ContextBase (void)
   {

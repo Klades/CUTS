@@ -1,6 +1,6 @@
 #include "DSTO_ExecBase.h"
 
-namespace DSTO
+namespace CUTS_DSTO
 {
   ExecBase::ExecBase (void)
     : ::Components::SessionComponent (),

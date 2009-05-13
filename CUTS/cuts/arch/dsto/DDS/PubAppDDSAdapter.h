@@ -24,7 +24,7 @@ namespace CIAO
 namespace DSTO_AppSpace_Impl
 {
   class PubAppDDSAdapter_Export PubAppDDSAdapter
-    : public virtual ::DSTO::Adapter< ::POA_Outer::PubAppDDSComponent>
+    : public virtual ::CUTS_DSTO::Adapter< ::POA_Outer::PubAppDDSComponent>
   {
   public:
     PubAppDDSAdapter (
@@ -62,7 +62,7 @@ namespace DSTO_AppSpace_Impl
   private:
     ::AppSpace::PubAppDDS * app_;
     PubAppDDSContext * context_;
-    DDS_Utility dds_utility_;
+    ::CUTS_DDS::DDS_Utility dds_utility_;
   };
 
   extern "C" PubAppDDSAdapter_Export ::PortableServer::Servant

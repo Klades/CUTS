@@ -23,7 +23,7 @@ namespace CIAO
 namespace DSTO_AppSpace_Impl
 {
   class PubAppAdapter_Export PubAppAdapter
-    : public virtual ::DSTO::Adapter< ::POA_Outer::PubAppComponent>
+    : public virtual ::CUTS_DSTO::Adapter< ::POA_Outer::PubAppComponent>
   {
   public:
     PubAppAdapter (
@@ -72,3 +72,4 @@ namespace DSTO_AppSpace_Impl
 }
   
 #endif // PUBAPPADAPTER_H
+

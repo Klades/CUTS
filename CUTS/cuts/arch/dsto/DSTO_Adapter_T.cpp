@@ -1,9 +1,9 @@
-#ifndef DSTO_ADAPTER_T_CPP
-#define DSTO_ADAPTER_T_CPP
+#ifndef CUTS_DSTO_ADAPTER_T_CPP
+#define CUTS_DSTO_ADAPTER_T_CPP
 
 #include "DSTO_Adapter_T.h"
 
-namespace DSTO
+namespace CUTS_DSTO
 {
   template<typename BASE_SKEL>
   Adapter<BASE_SKEL>::Adapter (const char * instance_name,
@@ -18,4 +18,4 @@ namespace DSTO
   }
 }
 
-#endif // DSTO_ADAPTER_T_CPP
+#endif // CUTS_DSTO_ADAPTER_T_CPP

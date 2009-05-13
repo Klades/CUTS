@@ -1,11 +1,11 @@
-#ifndef DSTO_ADAPTER_T_H
-#define DSTO_ADAPTER_T_H
+#ifndef CUTS_DSTO_ADAPTER_T_H
+#define CUTS_DSTO_ADAPTER_T_H
 
 #include /**/ "ace/pre.h"
 
 #include "DSTO_AdapterBase.h"
 
-namespace DSTO
+namespace CUTS_DSTO
 {
   template<typename BASE_SKEL>
   class Adapter : public virtual BASE_SKEL,
@@ -28,4 +28,4 @@ namespace DSTO
 
 #include /**/ "ace/post.h"
 
-#endif // DSTO_ADAPTER_T_H
+#endif // CUTS_DSTO_ADAPTER_T_H

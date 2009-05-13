@@ -1,9 +1,8 @@
 // $Id$
 
-project (DDS_Utilities) : ccm_svnt, splicelib, requires_opensplice {
+project (CUTS_DDS_Utilities) : cutslib, ccm_svnt, splicelib, requires_opensplice {
   after += DSTO_Utilities
   libs += DSTO_Utilities
-  libpaths += ..
   includes += ..
   sharedname = DDS_Utilities
   idlflags += -Wb,export_macro=DDS_Utilities_Export \
@@ -47,10 +46,9 @@ project (ModelDDSData_IDL_gen) : splice_ts_defaults, requires_opensplice {
   custom_only = 1
 }
 
-project (ModelDDSData) : ccm_svnt, splicelib, requires_opensplice {
+project (ModelDDSData) : cutslib, ccm_svnt, splicelib, requires_opensplice {
   after += DSTO_Utilities ModelDDSData_IDL_gen
   libs += DSTO_Utilities
-  libpaths += ..
   includes += ..
   sharedname = ModelDDSData
   dynamicflags += MODELDDSDATA_BUILD_DLL
@@ -92,10 +90,9 @@ project (ModelDDSData) : ccm_svnt, splicelib, requires_opensplice {
   }
 }
 
-project (SubAppDDS) : ccm_svnt, splicelib, requires_opensplice {
+project (SubAppDDS) : cutslib, ccm_svnt, splicelib, requires_opensplice {
   after += DDS_Utilities ModelDDSData
   libs += DSTO_Utilities DDS_Utilities ModelDDSData
-  libpaths += ..
   includes += ..
   sharedname = SubAppDDS
   dynamicflags += SUBAPPDDS_BUILD_DLL
@@ -118,10 +115,9 @@ project (SubAppDDS) : ccm_svnt, splicelib, requires_opensplice {
   }
 }
 
-project (PubAppDDS) : ccm_svnt, ccm_cookie, splicelib, requires_opensplice {
+project (PubAppDDS) : cutslib, ccm_svnt, ccm_cookie, splicelib, requires_opensplice {
   after += DDS_Utilities ModelDDSData
   libs += DSTO_Utilities DDS_Utilities ModelDDSData
-  libpaths += ..
   includes += ..
   sharedname = PubAppDDS
   dynamicflags += PUBAPPDDS_BUILD_DLL
@@ -145,10 +141,9 @@ project (PubAppDDS) : ccm_svnt, ccm_cookie, splicelib, requires_opensplice {
   }
 }
 
-project (SubAppDDSAdapter) : ciao_servant, splicelib, requires_opensplice {
+project (SubAppDDSAdapter) : cutslib, ciao_servant, splicelib, requires_opensplice {
   after += SubAppDDS
   libs += DSTO_Utilities DDS_Utilities ModelDDSData SubAppDDS
-  libpaths += ..
   includes += ..
   sharedname = SubAppDDSAdapter
   dynamicflags += SUBAPPDDSADAPTER_BUILD_DLL
@@ -180,10 +175,9 @@ project (SubAppDDSAdapter) : ciao_servant, splicelib, requires_opensplice {
   }
 }
 
-project (PubAppDDSAdapter) : ciao_servant, splicelib, requires_opensplice {
+project (PubAppDDSAdapter) : cutslib, ciao_servant, splicelib, requires_opensplice {
   after += DDS_Utilities PubAppDDS
   libs += DSTO_Utilities ModelDDSData DDS_Utilities PubAppDDS
-  libpaths += ..
   includes += ..
   sharedname = PubAppDDSAdapter
   dynamicflags += PUBAPPDDSADAPTER_BUILD_DLL
@@ -214,7 +208,7 @@ project (PubAppDDSAdapter) : ciao_servant, splicelib, requires_opensplice {
   }
 }
 
-project (DDSDriver) : ciao_componentserver_stub, ciao_cs_client, ciao_logger, spliceexe, requires_opensplice {
+project (DDSDriver) : cutsexe, ciao_componentserver_stub, ciao_cs_client, ciao_logger, spliceexe, requires_opensplice {
   after += PubAppDDSAdapter SubAppDDSAdapter
   libs += DSTO_Utilities \
           DDS_Utilities \
@@ -223,7 +217,6 @@ project (DDSDriver) : ciao_componentserver_stub, ciao_cs_client, ciao_logger, sp
           SubAppDDS \
           PubAppDDSAdapter \
           SubAppDDSAdapter
-  libpaths += ..
   includes += ..
   exename = dds_driver
 

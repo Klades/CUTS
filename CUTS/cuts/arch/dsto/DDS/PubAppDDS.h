@@ -8,7 +8,7 @@
 namespace AppSpace
 {  
   class PubAppDDS_Export PubAppDDS
-    : public virtual ::DSTO::ExecBase
+    : public virtual ::CUTS_DSTO::ExecBase
   {
   public:
     PubAppDDS (void);

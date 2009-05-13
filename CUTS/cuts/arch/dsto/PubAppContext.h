@@ -12,7 +12,7 @@
 namespace DSTO_AppSpace_Impl
 {
   class PubApp_Export PubAppContext
-    : public virtual ::DSTO::ContextBase
+    : public virtual ::CUTS_DSTO::ContextBase
   {
   public:
     PubAppContext (void);
@@ -40,3 +40,4 @@ namespace DSTO_AppSpace_Impl
 }
 
 #endif // PUBAPPCONTEXT_H
+

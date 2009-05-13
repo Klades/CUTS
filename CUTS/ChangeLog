@@ -1,3 +1,48 @@
+Wed May 13 19:48:20 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
+
+        * cuts/arch/dsto/SubApp.h:
+        * cuts/arch/dsto/SubAppAdapter.h:
+        * cuts/arch/dsto/DSTO_Adapter_T.h:
+        * cuts/arch/dsto/DSTO_ContextBase.cpp:
+        * cuts/arch/dsto/DSTO_AdapterBase.h:
+        * cuts/arch/dsto/DSTO_ExecBase.h:
+        * cuts/arch/dsto/DSTO_EventConsumer.cpp:
+        * cuts/arch/dsto/PubAppAdapter.cpp:
+        * cuts/arch/dsto/DDS/Listeners.cpp:
+        * cuts/arch/dsto/DDS/DSTO_ListenerBase.cpp:
+        * cuts/arch/dsto/DDS/DummyConsumer.h:
+        * cuts/arch/dsto/DDS/PubAppDDSAdapter.cpp:
+        * cuts/arch/dsto/DDS/SubAppDDSAdapter.h:
+        * cuts/arch/dsto/DDS/PubAppDDSContext.h:
+        * cuts/arch/dsto/DDS/dsto_dds.mpc:
+        * cuts/arch/dsto/DDS/DDS_Utility.h:
+        * cuts/arch/dsto/DDS/DummyConsumer.cpp:
+        * cuts/arch/dsto/DDS/Listeners.h:
+        * cuts/arch/dsto/DDS/DSTO_ListenerBase.h:
+        * cuts/arch/dsto/DDS/SubAppDDSAdapter.cpp:
+        * cuts/arch/dsto/DDS/PubAppDDS.h:
+        * cuts/arch/dsto/DDS/PubAppDDSContext.cpp:
+        * cuts/arch/dsto/DDS/PubAppDDSAdapter.h:
+        * cuts/arch/dsto/DDS/SubAppDDS.h:
+        * cuts/arch/dsto/DDS/DDS_Utility.cpp:
+        * cuts/arch/dsto/SubAppAdapter.cpp:
+        * cuts/arch/dsto/DSTO_Adapter_T.cpp:
+        * cuts/arch/dsto/PubApp.h:
+        * cuts/arch/dsto/PubAppContext.h:
+        * cuts/arch/dsto/DSTO_AdapterBase.cpp:
+        * cuts/arch/dsto/dsto.mpc:
+        * cuts/arch/dsto/DSTO_ExecBase.cpp:
+        * cuts/arch/dsto/DSTO_ContextBase.h:
+        * cuts/arch/dsto/DSTO_EventConsumer.h:
+        * cuts/arch/dsto/PubAppAdapter.h:
+
+          - Changed 'DSTO' namespace to 'CUTS_DSTO'.
+
+          - Added 'CUTS_DDS' namespace to the DDS utility class
+            declarations.
+
+          - Added CUTS MPC base projects.
+
 Wed May 13 16:46:34 UTC 2009  Jeff Parsons <j.parsons@vanderbilt.edu>
 
         * cuts/arch/dsto/DDS/DummyConsumer.h:

@@ -24,7 +24,7 @@ namespace CIAO
 namespace DSTO_AppSpace_Impl
 {
   class SubAppDDSAdapter_Export SubAppDDSAdapter
-    : public virtual ::DSTO::Adapter< ::POA_Outer::SubAppDDSComponent>
+    : public virtual ::CUTS_DSTO::Adapter< ::POA_Outer::SubAppDDSComponent>
   {
   public:
     SubAppDDSAdapter (
@@ -50,9 +50,8 @@ namespace DSTO_AppSpace_Impl
     ::Components::EventConsumerBase_ptr get_consumer_app_op_recv_i (void);
 
   private:
-    DDS_Utility dds_utility_;
+    ::CUTS_DDS::DDS_Utility dds_utility_;
     ::AppSpace::SubAppDDS * app_;
-//    ::DSTO::ContextBase * context_;
     
     ::CUTS_DDS::DummyConsumer_var consumes_app_op_recv_;
 

@@ -11,7 +11,7 @@ namespace DSTO_AppSpace_Impl
 {
   app_op_recv_Listener::app_op_recv_Listener (
     ::AppSpace::SubAppDDS * app,
-    DDS_Utility & dds_utility)
+    ::CUTS_DDS::DDS_Utility & dds_utility)
     : app_ (app),
       dds_utility_ (dds_utility)
   {

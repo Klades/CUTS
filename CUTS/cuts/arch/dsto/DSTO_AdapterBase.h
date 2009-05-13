@@ -1,5 +1,5 @@
-#ifndef DSTO_ADAPTERBASE_H
-#define DSTO_ADAPTERBASE_H
+#ifndef CUTS_DSTO_ADAPTERBASE_H
+#define CUTS_DSTO_ADAPTERBASE_H
 
 #include "ccm/CCM_ObjectS.h"
 
@@ -7,7 +7,7 @@
 
 #include "DSTO_Utilities_export.h"
 
-namespace DSTO
+namespace CUTS_DSTO
 {
   class DSTO_Utilities_Export AdapterBase
     : public virtual POA_Components::CCMObject
@@ -97,4 +97,4 @@ namespace DSTO
   };
 }
 
-#endif // DSTO_ADAPTERBASE_H
+#endif // CUTS_DSTO_ADAPTERBASE_H

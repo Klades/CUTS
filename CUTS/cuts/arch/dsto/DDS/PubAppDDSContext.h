@@ -16,10 +16,10 @@ using namespace DDS;
 namespace DSTO_AppSpace_Impl
 {
   class PubAppDDS_Export PubAppDDSContext
-    : public virtual ::DSTO::ContextBase
+    : public virtual ::CUTS_DSTO::ContextBase
   {
   public:
-    PubAppDDSContext (DDS_Utility & dds_utility_);
+    PubAppDDSContext ( ::CUTS_DDS::DDS_Utility & dds_utility_);
     virtual ~PubAppDDSContext (void);
     
     virtual void
@@ -35,7 +35,7 @@ namespace DSTO_AppSpace_Impl
     _narrow ( ::Components::SessionContext_ptr p);
     
   private:
-    DDS_Utility & dds_utility_;
+    ::CUTS_DDS::DDS_Utility & dds_utility_;
     
     // Generate this for each publish port.
     ::Outer::TestData_DDSDataWriter_var app_op_send_writer_;

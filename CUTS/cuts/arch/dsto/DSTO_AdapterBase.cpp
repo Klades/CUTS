@@ -3,7 +3,7 @@
 
 #include "DSTO_AdapterBase.h"
 
-namespace DSTO
+namespace CUTS_DSTO
 {
   AdapterBase::AdapterBase (const char * instance_name,
                             ::CIAO::Container_ptr container)

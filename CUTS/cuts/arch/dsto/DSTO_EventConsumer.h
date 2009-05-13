@@ -1,11 +1,11 @@
-#ifndef DSTO_EVENTCONSUMER_H
-#define DSTO_EVENTCONSUMER_H
+#ifndef CUTS_DSTO_EVENTCONSUMER_H
+#define CUTS_DSTO_EVENTCONSUMER_H
 
 #include "ccm/CCM_EventConsumerBaseS.h"
 
 #include "DSTO_Utilities_export.h"
 
-namespace DSTO
+namespace CUTS_DSTO
 {
   class DSTO_Utilities_Export EventConsumer
     : public virtual POA_Components::EventConsumerBase
@@ -28,4 +28,4 @@ namespace DSTO
   };
 }
 
-#endif // DSTO_EVENTCONSUMER_H
+#endif // CUTS_DSTO_EVENTCONSUMER_H

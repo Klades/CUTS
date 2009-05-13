@@ -20,8 +20,8 @@ namespace DSTO_AppSpace_Impl
                                       const char * ins_name,
                                       ::CIAO::Home_Servant_Impl_Base *,
                                       ::CIAO::Container_ptr c)
-    : ::DSTO::AdapterBase (ins_name, c),
-      ::DSTO::Adapter< ::POA_Outer::SubAppDDSComponent> (ins_name, c),
+    : ::CUTS_DSTO::AdapterBase (ins_name, c),
+      ::CUTS_DSTO::Adapter< ::POA_Outer::SubAppDDSComponent> (ins_name, c),
       app_ (executor)
   {
     try
@@ -131,9 +131,9 @@ namespace DSTO_AppSpace_Impl
   SubAppDDSAdapter::get_consumer_app_op_recv_i (void)
   {
     typedef
-    ::CIAO::Port_Activator_T<DummyConsumer_impl,
-                             ::DSTO::ExecBase,
-                             ::DSTO::ContextBase,
+    ::CIAO::Port_Activator_T< ::CUTS_DDS::DummyConsumer_impl,
+                             ::CUTS_DSTO::ExecBase,
+                             ::CUTS_DSTO::ContextBase,
                              SubAppDDSAdapter>
       MACRO_MADNESS_TYPEDEF;
       
