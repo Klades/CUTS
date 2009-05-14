@@ -1,3 +1,13 @@
+Thu May 14 15:10:37 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/java/workers/logging/TestLogger.build:
+
+          . The build file for the test logger.
+
+        * cuts/workers/logging/TestLogger.build:
+
+          Removed this file.
+
 Thu May 14 15:06:09 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/models/workers:
