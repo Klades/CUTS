@@ -48,7 +48,8 @@ int CUTS_Antispam_App::run_main (int argc, char * argv [])
     CUTS_Response_Time_Evaluator rt_eval;
     CUTS_Response_Time_Evaluator::result_type results;
 
-    rt_eval.evaluate (this->assembly_, this->deployment_, results);
+    if (rt_eval.evaluate (this->assembly_, this->deployment_, results) != 0)
+      return 1;
 
     CUTS_Response_Time_Evaluator::result_type::ITERATOR iter (results);
 
@@ -57,7 +58,10 @@ int CUTS_Antispam_App::run_main (int argc, char * argv [])
     {
       std::cout << ". " << iter->key ()
                 << " = " << iter->item ().response_time_
-                << ", " << iter->item ().host_util_
+                << ' ' << iter->item ().my_service_
+                << ' ' << iter->item ().my_util_
+                << ' ' << iter->item ().host_util_
+                << ' ' << iter->item ().count_
                 << std::endl;
     }
   }

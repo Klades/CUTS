@@ -13,11 +13,11 @@
 
   <assembly>
     <instance type="CPUBound" name="inst1">
-      <input name="A" baseline="51" arrival="${generator1.publishHertz}" />
+      <input name="A" baseline="14" arrival="${generator1.publishHertz}" />
     </instance>
 
     <instance type="CPUBound" name="inst2">
-      <input name="A" baseline="64" arrival="${generator2.publishHertz}" />
+      <input name="A" baseline="7" arrival="${generator2.publishHertz}" />
     </instance>
 
     <instance type="CPUBound" name="inst3">
@@ -25,19 +25,19 @@
     </instance>
 
     <instance type="CPUBound" name="inst4">
-      <input name="A" baseline="10" />
+      <input name="A" baseline="13" />
     </instance>
 
     <instance type="CPUBound" name="inst5">
-      <input name="A" baseline="14" />
+      <input name="A" baseline="9" />
     </instance>
 
     <instance type="CPUBound" name="inst6">
-      <input name="A" baseline="54" />
+      <input name="A" baseline="14" />
     </instance>
 
     <instance type="CPUBound" name="inst7">
-      <input name="A" baseline="37" />
+      <input name="A" baseline="16" />
     </instance>
 
     <connection src="inst1.outA" dst="inst3.A" />

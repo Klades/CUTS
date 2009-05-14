@@ -15,7 +15,7 @@
 //
 // evaluate
 //
-void CUTS_Response_Time_Evaluator::
+int CUTS_Response_Time_Evaluator::
 evaluate (const CUTS_Component_Assembly & assembly,
           const CUTS_Deployment & deployment,
           result_type & results)
@@ -33,7 +33,15 @@ evaluate (const CUTS_Component_Assembly & assembly,
   {
     // Get the utilization of the host.
     host = host_iter->item ();
+    
     this->host_util_ = host->utilization ();
+
+    if (host->utilization () > 0.90)
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "%T (%t) - %M - host utilization > .90\n"),
+                        -1);
+
+    this->count_ = host->instances ().size ();
 
     // Iterate over each component on the current host.
     CUTS_Host::container_type::CONST_ITERATOR inst_iter (host->instances ());
@@ -49,6 +57,8 @@ evaluate (const CUTS_Component_Assembly & assembly,
                                   _1));
     }
   }
+
+  return 0;
 }
 
 //
@@ -74,7 +84,10 @@ evaluate_i (CUTS_Behavior_Graph::vertex_descriptor port)
     // Save the results.
     CUTS_Response_Time_Evaluator_Result result;
     result.response_time_ = rt;
-    result.host_util_ = baseline_util;
+    result.host_util_ = this->host_util_;
+    result.count_ = this->count_;
+    result.my_util_ = baseline_util;
+    result.my_service_ = details.service_time_;
 
     this->results_->bind (details.name_, result);
   }

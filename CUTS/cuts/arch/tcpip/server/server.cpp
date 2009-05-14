@@ -1,6 +1,7 @@
 // $Id$
 
 #include "ace/Singleton.h"
+#include "ace/Signal.h"
 #include "ace/Null_Mutex.h"
 #include "TCPIP_CCM_ComponentServer_App.h"
 

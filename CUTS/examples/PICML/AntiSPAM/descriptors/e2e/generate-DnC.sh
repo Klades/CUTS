@@ -7,6 +7,10 @@ if [ -f ${CONFIG_LIST_FILE} ]; then
   rm ${CONFIG_LIST_FILE}
 fi
 
+if [ -f ${CONFIG_LIST_FILE}.antispam ]; then
+  rm ${CONFIG_LIST_FILE}
+fi
+
 # iterate thru each configuration
 for i in `ls ${CONFIG_LIST}`; do
   # initialize the configration variables
@@ -48,7 +52,27 @@ for i in `ls ${CONFIG_LIST}`; do
     # generate the deployment(s)
     echo "*** info: generating $j into ${DEPLOYMENT_OUTPUT_DIR}"
     $CUTS_ROOT/bin/cuts-template --template=$j --config-list=e2e-template-assembly${CONFIG_NUMBER}.unique -o ${DEPLOYMENT_OUTPUT_DIR} --use-env
-
     ls ${DEPLOYMENT_OUTPUT_DIR}/*.cdp >> ${CONFIG_LIST_FILE}
+  done
+
+  # iterate thru each generated antispam configuration
+  ANTISPAM_LIST=${CONFIG_OUTPUT_DIR}/*.antispam
+
+  for j in `ls ${ANTISPAM_LIST}`; do
+    # intialize the deployment variables                                                                                                                                                                  
+    DEPLOYMENT_NUMBER=`echo "$j" | sed "s/configuration[0-9]*\/e2e-ConfigTemplate-//" | sed "s/.antispam//"`
+    DEPLOYMENT_OUTPUT_DIR=${CONFIG_OUTPUT_DIR}/deployment${DEPLOYMENT_NUMBER}
+
+    # delete any of the existing deployments                                                                                                                                                              
+    if [ -d "${DEPLOYMENT_OUTPUT_DIR}" ]; then
+      rm -fr ${DEPLOYMENT_OUTPUT_DIR}
+    fi
+
+    mkdir ${DEPLOYMENT_OUTPUT_DIR}
+
+    # generate the deployment(s)                                                                                                                                                                          
+    echo "*** info: generating $j into ${DEPLOYMENT_OUTPUT_DIR}"
+    $CUTS_ROOT/bin/cuts-template --template=$j --config-list=e2e-template-assembly${CONFIG_NUMBER}.unique -o ${DEPLOYMENT_OUTPUT_DIR} --use-env
+    ls ${DEPLOYMENT_OUTPUT_DIR}/*.antispam >> ${CONFIG_LIST_FILE}.antispam
   done
 done

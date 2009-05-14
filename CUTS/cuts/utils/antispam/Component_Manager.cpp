@@ -17,10 +17,10 @@ CUTS_Component_Manager::CUTS_Component_Manager (void)
 //
 CUTS_Component_Manager::~CUTS_Component_Manager (void)
 {
-  map_type::ITERATOR iter (this->map_);
+  //map_type::ITERATOR iter (this->map_);
 
-  for (; !iter.done (); ++ iter)
-    delete iter->item ();
+  //for (; !iter.done (); ++ iter)
+  //delete iter->item ();
 }
 
 //

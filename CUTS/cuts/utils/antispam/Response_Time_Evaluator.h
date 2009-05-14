@@ -32,6 +32,8 @@ struct CUTS_Response_Time_Evaluator_Result
   CUTS_Response_Time_Evaluator_Result (void)
     : response_time_ (0.0),
       host_util_ (0.0),
+      my_service_ (0.0),
+      my_util_ (0.0),
       count_ (0)
   {
 
@@ -39,6 +41,8 @@ struct CUTS_Response_Time_Evaluator_Result
   CUTS_Response_Time_Evaluator_Result (const CUTS_Response_Time_Evaluator_Result & copy)
     : response_time_ (copy.response_time_),
       host_util_ (copy.host_util_),
+      my_service_ (copy.my_service_),
+      my_util_ (copy.my_util_),
       count_ (copy.count_)
   {
 
@@ -53,6 +57,8 @@ struct CUTS_Response_Time_Evaluator_Result
     this->response_time_ = copy.response_time_;
     this->host_util_ = copy.host_util_;
     this->count_ = copy.count_;
+    this->my_util_ = copy.my_util_;
+    this->my_service_ = copy.my_service_;
 
     return *this;
   }
@@ -62,6 +68,10 @@ struct CUTS_Response_Time_Evaluator_Result
 
   /// Packing utilization of the host.
   double host_util_;
+
+  double my_service_;
+
+  double my_util_;
 
   size_t count_;
 };
@@ -87,9 +97,9 @@ public:
    *
    * @param[inout]        assembly        Target assembly to evaluate.
    */
-  void evaluate (const CUTS_Component_Assembly & assembly,
-                 const CUTS_Deployment & deployment,
-                 result_type & results);
+  int evaluate (const CUTS_Component_Assembly & assembly,
+                const CUTS_Deployment & deployment,
+                result_type & results);
 
 private:
   void evaluate_i (CUTS_Behavior_Graph::vertex_descriptor port);
@@ -99,6 +109,8 @@ private:
   const CUTS_Component_Assembly * assembly_;
 
   double host_util_;
+
+  size_t count_;
 };
 
 #if defined (__CUTS_INLINE__)

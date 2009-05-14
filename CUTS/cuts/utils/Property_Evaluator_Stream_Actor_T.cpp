@@ -1,5 +1,7 @@
 // $Id$
 
+#include "Property_Evaluator_T.h"
+
 //
 // append
 //

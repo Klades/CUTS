@@ -1,3 +1,22 @@
+Thu May 14 05:26:45 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/tcpip/server/server.cpp:
+        * cuts/utils/Config_List_Parser_T.h:
+        * cuts/utils/Property_Evaluator_Stream_Actor_T.cpp:
+        * cuts/utils/Property_Evaluator_T.h:
+
+	  . Fixed compilation errors on non-Windows systems.
+
+        * cuts/utils/antispam/Antispam_App.cpp:
+        * cuts/utils/antispam/Component_Manager.cpp:
+        * cuts/utils/antispam/Response_Time_Evaluator.h:
+        * cuts/utils/antispam/Response_Time_Evaluator.cpp:
+        * examples/PICML/AntiSPAM/descriptors/e2e/e2e-template-assembly1.antispam:
+        * examples/PICML/AntiSPAM/descriptors/e2e/generate-DnC.sh:
+        * examples/PICML/AntiSPAM/process.sh:
+
+	  . Fixed errors.
+
 Thu May 14 05:08:47 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/arch/tcpip/HelloWorld/descriptors/HelloWorld.cdp:

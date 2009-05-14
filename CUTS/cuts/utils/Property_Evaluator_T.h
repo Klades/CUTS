@@ -123,7 +123,7 @@ private:
  */
 template <typename T>
 class CUTS_Property_Evaluator_Grammar :
-  public boost::spirit::grammar <CUTS_Property_Evaluator_Grammar>
+  public boost::spirit::grammar <CUTS_Property_Evaluator_Grammar <T> >
 {
 public:
   /**

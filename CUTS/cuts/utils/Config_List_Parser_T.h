@@ -26,7 +26,7 @@
  */
 template <typename ACTOR>
 class CUTS_Config_List_Parser_Grammar_T :
-  public boost::spirit::grammar <CUTS_Config_List_Parser_Grammar_T>
+  public boost::spirit::grammar <CUTS_Config_List_Parser_Grammar_T <ACTOR> >
 {
 public:
   /// Type definition of the actor.
