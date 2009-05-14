@@ -1,3 +1,57 @@
+Thu May 14 15:30:21 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/java/arch:
+        * cuts/java/arch/capi:
+
+          . Moved the CAPI architecture under the Java directory.
+
+        * cuts/arch/capi:
+        * cuts/arch/capi/cuts:
+        * cuts/arch/capi/cuts.java.jbi.build:
+        * cuts/arch/capi/cuts/jbi:
+        * cuts/arch/capi/cuts/jbi/JbiShutdownInterface.java:
+        * cuts/arch/capi/cuts/jbi/JbiShutdownThread.java:
+        * cuts/arch/capi/cuts/jbi/client:
+        * cuts/arch/capi/cuts/jbi/client/JbiAnyEvent.java:
+        * cuts/arch/capi/cuts/jbi/client/JbiClient.java:
+        * cuts/arch/capi/cuts/jbi/client/JbiEvent.java:
+        * cuts/arch/capi/cuts/jbi/client/JbiEventBase.java:
+        * cuts/arch/capi/cuts/jbi/client/JbiPort.java:
+        * cuts/arch/capi/cuts/jbi/client/JbiSink.java:
+        * cuts/arch/capi/cuts/jbi/client/JbiSource.java:
+        * cuts/arch/capi/cuts/jbi/deployment:
+        * cuts/arch/capi/cuts/jbi/deployment/ApplicationProcessImpl.java:
+        * cuts/arch/capi/cuts/jbi/deployment/ApplicationProcessManagerImpl.java:
+        * cuts/arch/capi/cuts/jbi/deployment/DomainApplicationImpl.java:
+        * cuts/arch/capi/cuts/jbi/deployment/DomainApplicationManagerImpl.java:
+        * cuts/arch/capi/cuts/jbi/deployment/ExecutionManagerImpl.java:
+        * cuts/arch/capi/cuts/jbi/deployment/JbiClientApp.java:
+        * cuts/arch/capi/cuts/jbi/deployment/JbiExecutionManager.java:
+        * cuts/arch/capi/cuts/jbi/deployment/JbiNodeManager.java:
+        * cuts/arch/capi/cuts/jbi/deployment/JbiPlanLauncher.java:
+        * cuts/arch/capi/cuts/jbi/deployment/NodeApplicationImpl.java:
+        * cuts/arch/capi/cuts/jbi/deployment/NodeApplicationManagerImpl.java:
+        * cuts/arch/capi/cuts/jbi/deployment/NodeManagerImpl.java:
+        * cuts/arch/capi/cuts/jbi/deployment/mapping.xml:
+        * cuts/arch/capi/cuts/jbi/idl:
+        * cuts/arch/capi/cuts/jbi/idl/Application.idl:
+        * cuts/arch/capi/cuts/jbi/idl/ApplicationManager.idl:
+        * cuts/arch/capi/cuts/jbi/idl/ApplicationProcess.idl:
+        * cuts/arch/capi/cuts/jbi/idl/ApplicationProcessManager.idl:
+        * cuts/arch/capi/cuts/jbi/idl/Deployment.idl:
+        * cuts/arch/capi/cuts/jbi/idl/DomainApplication.idl:
+        * cuts/arch/capi/cuts/jbi/idl/DomainApplicationManager.idl:
+        * cuts/arch/capi/cuts/jbi/idl/ExecutionManager.idl:
+        * cuts/arch/capi/cuts/jbi/idl/NodeApplication.idl:
+        * cuts/arch/capi/cuts/jbi/idl/NodeApplicationManager.idl:
+        * cuts/arch/capi/cuts/jbi/idl/NodeManager.idl:
+        * cuts/arch/capi/cuts/jbi/utils:
+        * cuts/arch/capi/cuts/jbi/utils/ConnectionString.java:
+        * cuts/arch/capi/cuts/jbi/utils/RegisterMioType.java:
+        * cuts/arch/capi/cuts/jbi/utils/UserCredentials.java:
+
+          Removed these files.
+
 Thu May 14 15:25:17 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * CUTS_Runtime_Arch.mwc:
