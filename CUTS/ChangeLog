@@ -1,3 +1,17 @@
+Thu May 14 15:06:09 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/models/workers:
+        * MDE/GME/paradigms/PICML/models/workers/CUTS_CPU_Worker.xme:
+        * MDE/GME/paradigms/PICML/models/workers/TestLogger.xme:
+
+          . Moved the WML models of the workload generators to a
+            common location under the MDE directory.
+
+        * cuts/workers/CPU/CUTS_CPU_Worker.xme:
+        * cuts/workers/logging/TestLogger.xme:
+
+          Removed these files.
+
 Thu May 14 14:56:25 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/java/workers:
