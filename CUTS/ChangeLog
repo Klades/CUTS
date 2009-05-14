@@ -1,3 +1,26 @@
+Thu May 14 15:50:26 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/java/workers/logging/CUTS:
+
+          . Moving the files.
+
+        * cuts/java/workers/logging/cuts.new:
+        * cuts/java/workers/logging/cuts.new/Logger.java:
+
+          Removed these files.
+
+Thu May 14 15:48:47 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/java/workers/logging/cuts.new:
+        * cuts/java/workers/logging/cuts.new/Logger.java:
+
+          . Moving the files.
+
+        * cuts/java/workers/logging/cuts:
+        * cuts/java/workers/logging/cuts/Logger.java:
+
+          Removed these files.
+
 Thu May 14 15:36:29 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/java/utils/logging/client/interceptors/log4j/log4j.mwc:
