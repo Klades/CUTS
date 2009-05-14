@@ -143,17 +143,6 @@ public class Logger
    */
   public void connect (String testManagerName)
   {
-    this.testManagerName_ = testManagerName;
-    this.connect ();
-  }
-
-  /**
-   * Connect to the cached test manager and get the test id. This is useful
-   * if the same test manager starts a new test and the test logger needs to
-   * updates its test id.
-   */
-  public void connect ()
-  {
     // Save the old test number.
     CUTS.UUID oldTestUUID = this.testUUID_;
 
@@ -165,7 +154,7 @@ public class Logger
         System.getProperty ("ORBInitRef.NameService")));
 
       String strName =
-        "CUTS/TestManager/" + this.testManagerName_;
+        "CUTS/TestManager/" + testManagerName;
 
       // Resolve the location of the test manager using the naming service.
       CUTS.TestManager tm =
@@ -175,6 +164,7 @@ public class Logger
       // Get the current id of the test. We need to use this to identify
       // the test which the log message belongs.
       this.testUUID_ = tm.details ().uid;
+      this.testManagerName_ = testManagerName;
     }
     catch (Exception ex)
     {
@@ -196,6 +186,16 @@ public class Logger
     {
       ex.printStackTrace ();
     }
+  }
+
+  /**
+   * Connect to the cached test manager and get the test id. This is useful
+   * if the same test manager starts a new test and the test logger needs to
+   * updates its test id.
+   */
+  public void connect ()
+  {
+    this.connect (this.testManagerName_);
   }
 
   /**

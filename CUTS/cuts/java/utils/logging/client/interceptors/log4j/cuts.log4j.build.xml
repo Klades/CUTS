@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<project name="cuts.log4j" basedir="E:/proj/CUTS/cuts/java/utils/logging/client/interceptors/log4j" default="build">
+<property environment="env" />
+<property name="contrib.dir" value="${env.CUTS_ROOT}/contrib/java" />
+
+  <target name="build">
+    <path id="build.classpath">
+      <pathelement path="${env.CUTS_ROOT}/contrib/java/log4j-1.2.15.jar" />
+      <pathelement path="${env.CUTS_ROOT}/lib/CUTS.TestLogger.jar" />
+    </path>
+
+    <javac srcdir="E:/proj/CUTS/cuts/java/utils/logging/client/interceptors/log4j"
+           debug="true"
+           debuglevel="source,lines"
+           classpathref="build.classpath"
+           >
+      <include name="cuts/log4j/LoggingClientAppender.java" />
+    </javac>
+
+    <jar basedir="E:/proj/CUTS/cuts/java/utils/logging/client/interceptors/log4j"
+         destfile="${env.CUTS_ROOT}/lib/cuts.log4j.jar" >
+      <include name="cuts/log4j/LoggingClientAppender.class" />
+    </jar>
+  </target>
+
+  <target name="clean">
+    <delete file="cuts/log4j/LoggingClientAppender.class" />
+    <delete file="${env.CUTS_ROOT}/lib/cuts.log4j.jar" />
+  </target>
+
+  <target name="realclean" depends="clean" />
+
+</project>

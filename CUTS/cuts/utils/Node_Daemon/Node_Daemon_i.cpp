@@ -63,12 +63,10 @@ task_spawn (const CUTS::taskDescriptor & task)
     return -1;
 
   if (this->process_map_.find (task.id.in ()) == 0)
-  {
     ACE_ERROR_RETURN ((LM_ERROR,
                        "%T (%t) - %M - '%s' task already exists\n",
                        task.id.in ()),
                        1);
-  }
 
   CUTS_Process_Info * info = 0;
   ACE_NEW_THROW_EX (info, CUTS_Process_Info (), CORBA::NO_MEMORY ());
@@ -82,14 +80,14 @@ task_spawn (const CUTS::taskDescriptor & task)
   CUTS_Text_Processor preprocessor (this->prop_map_);
   ACE_CString exec_value, args_value, result;
 
-  if (preprocessor.evaluate (task.executable.in (), exec_value) != 0)
+  if (!preprocessor.evaluate (task.executable.in (), exec_value))
   {
     ACE_ERROR ((LM_WARNING,
                 "%T (%t) - %M - failed to preproess <executable> value\n",
                 task.executable.in ()));
   }
 
-  if (preprocessor.evaluate (task.arguments.in (), args_value) != 0)
+  if (!preprocessor.evaluate (task.arguments.in (), args_value))
   {
     ACE_ERROR ((LM_WARNING,
                 "%T (%t) - %M - failed to preproess <arguments> value\n",

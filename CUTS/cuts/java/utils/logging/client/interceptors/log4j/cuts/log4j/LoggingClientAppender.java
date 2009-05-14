@@ -11,7 +11,9 @@
 //=============================================================================
 
 package cuts.log4j;
+import java.util.Hashtable;
 import org.apache.log4j.AppenderSkeleton;
+import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
 
 /**
@@ -29,6 +31,32 @@ public class LoggingClientAppender extends AppenderSkeleton
 
   }
 
+  public void activateOptions ()
+  {
+    this.logger_.configure (this.localPort_);
+    this.logger_.connect (this.testName_);
+  }
+
+  /**
+   * Set the port for sending events to the logging client on the
+   * localhost.
+   *
+   * @param[in]       port          Port number
+   */
+  public void setPort (short port)
+  {
+    this.localPort_ = port;
+  }
+
+  /**
+   * Set the name of the test manager. This will resolve the test
+   * manager using the Naming Service.
+   */
+  public void setTestName (String name)
+  {
+    this.testName_ = name;
+  }
+
   /**
    * Append the logging event. This will send the event to the logging
    * client. The logging client will then send the event to the logging
@@ -36,7 +64,8 @@ public class LoggingClientAppender extends AppenderSkeleton
    */
   public void append (LoggingEvent event)
   {
-
+    int level = LoggingClientAppender.translateLevel (event.getLevel ());
+    this.logger_.logMessage (level, event.getRenderedMessage ());
   }
 
   /**
@@ -53,6 +82,51 @@ public class LoggingClientAppender extends AppenderSkeleton
    */
   public void close ()
   {
-
+    this.logger_.disconnect ();
   }
+
+  /**
+   * Helper method to translate a log4j priority to its corresponding
+   * CUTS logger priority.
+   *
+   * @param[in]       level           Level to translate.
+   */
+  private static int translateLevel (Level level)
+  {
+    return LoggingClientAppender.levelTable_.get (level);
+  }
+
+  /**
+   * Initialize routine for all the static section.
+   */
+  static
+  {
+    // Initialize the levelTable_ object.
+    LoggingClientAppender.levelTable_ = new Hashtable<Level, Integer> ();
+    LoggingClientAppender.levelTable_.put (Level.DEBUG, CUTS.Logger.LM_DEBUG);
+    LoggingClientAppender.levelTable_.put (Level.ERROR, CUTS.Logger.LM_ERROR);
+    LoggingClientAppender.levelTable_.put (Level.FATAL, CUTS.Logger.LM_CRITICAL);
+    LoggingClientAppender.levelTable_.put (Level.INFO, CUTS.Logger.LM_INFO);
+    LoggingClientAppender.levelTable_.put (Level.TRACE, CUTS.Logger.LM_TRACE);
+    LoggingClientAppender.levelTable_.put (Level.WARN, CUTS.Logger.LM_WARNING);
+
+    // The following our not directly mappable.
+    LoggingClientAppender.levelTable_.put (Level.ALL, CUTS.Logger.LM_DEBUG);
+    LoggingClientAppender.levelTable_.put (Level.OFF, CUTS.Logger.LM_SHUTDOWN);
+  }
+
+  /// The actual logger for the appender.
+  private CUTS.Logger logger_ = new CUTS.Logger ();
+
+  /// Port of the local logging client.
+  private short localPort_;
+
+  /// Name of the test manager.
+  private String testName_;
+
+  /// Initialization state of the appender/logger.
+  private boolean isInit_ = false;
+
+  /// Table for tranlating Level objects to integer values.
+  private static Hashtable<Level, Integer> levelTable_;
 }

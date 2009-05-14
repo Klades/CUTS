@@ -79,13 +79,13 @@
            debug="true"
            debuglevel="source,lines">
 
-      <include name="cuts/*.java" />
+      <include name="CUTS/*.java" />
     </javac>
   </target>
 
   <target name="TestLogger.jar.build" depends="TestLogger.build">
     <jar destfile="${cuts.lib.dir}/${jarfile}" basedir=".">
-      <include name="cuts/*.class" />
+      <include name="CUTS/*.class" />
     </jar>
   </target>
 

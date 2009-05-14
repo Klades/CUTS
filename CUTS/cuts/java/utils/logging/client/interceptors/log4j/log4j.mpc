@@ -4,7 +4,8 @@ project (cuts.log4j) : cuts4java, cutslib {
   sharedname = cuts.log4j
 
   specific (ant) {
-    libs += ${contrib.dir}/log4j-1.2.15
+    libs += $(CUTS_ROOT)/contrib/java/log4j-1.2.15 \
+            $(CUTS_ROOT)/lib/CUTS.TestLogger
   }
 
   Source_Files {
