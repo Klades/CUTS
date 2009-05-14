@@ -1,21 +1,14 @@
-<Deployment:DeploymentPlan
- xmlns:Deployment="http://www.omg.org/Deployment"
- xmlns:xmi="http://www.omg.org/XMI"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://www.omg.org/Deployment Deployment.xsd">
-  <label>Hello_Deployment_1</label>
-  <UUID>Hello_Deployment_1</UUID>
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<Deployment:DeploymentPlan xmlns:Deployment="http://www.omg.org/Deployment" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/Deployment Deployment.xsd">
 
-  <!-- Implementations declarations -->
+  <UUID>F00A71AC-55E7-40FA-BBA4-CE6333280D3E</UUID>
 
-  <!-- Home implementation -->
-  <implementation xmi:id="HelloWorld_Basic_Impl">
-    <name>HelloWorld_Basic_Impl</name>
+  <implementation xmi:id="_0292CD8C-9ED3-4ECB-9E73-E641A5B0524C">
+    <name>HelloWorld.ComponentImplementations.HelloWorld.HelloWorld_Basic_Impl</name>
     <source/>
-    <artifact xmi:idref="HelloWorld_ExecArtifact" />
-    <artifact xmi:idref="HelloWorld_SvntArtifact" />
+    <artifact xmi:idref="_18B9391E-C686-48CF-813E-F73B25F33133"/>
+    <artifact xmi:idref="_1D121260-4907-445B-B18E-E7CE24D1143A"/>
     <execParameter>
-      <!-- entrypoint as exec parameter (see 10.6.1) -->
       <name>component factory</name>
       <value>
         <type>
@@ -61,57 +54,57 @@
     </execParameter>
   </implementation>
 
-  <instance xmi:id="HelloWorld_BasicInstance">
-    <name>HelloWorld_BasicInstance</name>
+  <instance xmi:id="HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld">
+    <name>HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld</name>
     <node>MainNode</node>
     <source/>
-    <implementation xmi:idref="HelloWorld_Basic_Impl" />
+    <implementation xmi:idref="_0292CD8C-9ED3-4ECB-9E73-E641A5B0524C"/>
   </instance>
 
   <connection>
-    <name>EventConnection1</name>
+    <name>HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld:handle_message-HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld:handle_message</name>
     <internalEndpoint>
       <portName>handle_message</portName>
       <provider>false</provider>
       <kind>EventEmitter</kind>
-      <instance xmi:idref="HelloWorld_BasicInstance" />
+      <instance xmi:idref="HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld"/>
     </internalEndpoint>
     <internalEndpoint>
       <portName>handle_message</portName>
       <provider>true</provider>
       <kind>EventConsumer</kind>
-      <instance xmi:idref="HelloWorld_BasicInstance" />
+      <instance xmi:idref="HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld"/>
     </internalEndpoint>
   </connection>
 
   <connection>
-    <name>EventConnection2</name>
+    <name>HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld:handle_message_ex-HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld:handle_message</name>
     <internalEndpoint>
       <portName>handle_message_ex</portName>
       <provider>false</provider>
       <kind>EventPublisher</kind>
-      <instance xmi:idref="HelloWorld_BasicInstance" />
+      <instance xmi:idref="HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld"/>
     </internalEndpoint>
     <internalEndpoint>
       <portName>handle_message</portName>
       <provider>true</provider>
       <kind>EventConsumer</kind>
-      <instance xmi:idref="HelloWorld_BasicInstance" />
+      <instance xmi:idref="HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld"/>
     </internalEndpoint>
   </connection>
 
-  <!-- Artifacts declarations -->
-  <artifact xmi:id="HelloWorld_ExecArtifact">
-    <name>HelloWorld_Basic_Impl</name>
+  <artifact xmi:id="_1D121260-4907-445B-B18E-E7CE24D1143A">
+    <name>HelloWorld.ImplementationArtifacts.HelloWorld.HelloWorld_Basic_Impl</name>
     <source/>
     <node/>
     <location>HelloWorld_Basic_Impl</location>
   </artifact>
 
-  <artifact xmi:id="HelloWorld_SvntArtifact">
-    <name>TCPIP_HelloWorld_svnt</name>
+  <artifact xmi:id="_18B9391E-C686-48CF-813E-F73B25F33133">
+    <name>HelloWorld.ImplementationArtifacts.HelloWorld.TCPIP_HelloWorld_svnt</name>
     <source/>
     <node/>
     <location>TCPIP_HelloWorld_svnt</location>
   </artifact>
+
 </Deployment:DeploymentPlan>

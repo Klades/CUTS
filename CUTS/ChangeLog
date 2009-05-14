@@ -1,3 +1,13 @@
+Thu May 14 05:08:47 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/arch/tcpip/HelloWorld/descriptors/HelloWorld.cdp:
+
+          . Descriptor generated from a PICML model.
+
+        * examples/arch/tcpip/HelloWorld/descriptors/DeploymentPlan.cdp:
+
+          Removed this file.
+
 Thu May 14 04:26:23 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MPC/config/cuts_test_logger.mpb:
