@@ -77,26 +77,6 @@ HelloWorld_Basic_Impl::~HelloWorld_Basic_Impl (void)
 }
 
 //
-// set_session_context
-//
-void HelloWorld_Basic_Impl::
-set_session_context (::Components::SessionContext_ptr context)
-{
-  this->ctx_ = ::CCM_HelloWorld_Context::_narrow (context);
-
-  if (::CORBA::is_nil (this->ctx_.in ()))
-    throw ::CORBA::INTERNAL ();
-}
-
-//
-// configuration_complete
-//
-void HelloWorld_Basic_Impl::configuration_complete (void)
-{
-
-}
-
-//
 // ccm_activate
 //
 void HelloWorld_Basic_Impl::ccm_activate (void)
@@ -110,14 +90,6 @@ void HelloWorld_Basic_Impl::ccm_activate (void)
 void HelloWorld_Basic_Impl::ccm_passivate (void)
 {
   this->task_.deactivate ();
-}
-
-//
-// ccm_remove
-//
-void HelloWorld_Basic_Impl::ccm_remove (void)
-{
-
 }
 
 //

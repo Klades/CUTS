@@ -5,6 +5,7 @@
 
 #include "HelloWorldEC.h"
 #include "HelloWorld_impl_export.h"
+#include "cuts/arch/ccm/CCM_Component_T.h"
 #include "ace/Task.h"
 
 class HelloWorld_Basic_Impl;
@@ -31,9 +32,11 @@ private:
 };
 
 class HELLOWORLD_IMPL_Export HelloWorld_Basic_Impl :
-  public CIDL_HelloWorld_Impl::HelloWorld_Exec
+  public CUTS_CCM_Component_T <CIDL_HelloWorld_Impl::HelloWorld_Exec, ::CCM_HelloWorld_Context>
 {
 public:
+  typedef CUTS_CCM_Component_T <CIDL_HelloWorld_Impl::HelloWorld_Exec, ::CCM_HelloWorld_Context> base_type;
+
   HelloWorld_Basic_Impl (void);
 
   virtual ~HelloWorld_Basic_Impl (void);
@@ -42,15 +45,9 @@ public:
 
   virtual void push_handle_message (::Message * ev);
 
-  virtual void set_session_context (::Components::SessionContext_ptr context);
-
-  virtual void configuration_complete (void);
-
   virtual void ccm_activate (void);
 
   virtual void ccm_passivate (void);
-
-  virtual void ccm_remove (void);
 
 private:
   /// The context for the component.

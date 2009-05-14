@@ -22,6 +22,16 @@ CUTS_CCM_Component_T <T, CTX>::~CUTS_CCM_Component_T (void)
 }
 
 //
+// ciao_preactivate
+//
+template <typename T, typename CTX>
+CUTS_INLINE
+void CUTS_CCM_Component_T <T, CTX>::configuration_complete (void)
+{
+
+}
+
+//
 // ccm_activate
 //
 template <typename T, typename CTX>
@@ -29,26 +39,6 @@ CUTS_INLINE
 void CUTS_CCM_Component_T <T, CTX>::ccm_activate (void)
 {
   CUTS_Component::activate ();
-}
-
-//
-// ciao_preactivate
-//
-template <typename T, typename CTX>
-CUTS_INLINE
-void CUTS_CCM_Component_T <T, CTX>::ciao_preactivate (void)
-{
-
-}
-
-//
-// ciao_postactivate
-//
-template <typename T, typename CTX>
-CUTS_INLINE
-void CUTS_CCM_Component_T <T, CTX>::ciao_postactivate (void)
-{
-
 }
 
 //

@@ -154,7 +154,7 @@ project (TCPIP_HelloWorld_svnt) : cuts_tcpip_ccm, base {
   }
 }
 
-project (HelloWorld_Basic_Impl) : ciao_executor, cuts_tcpip, base {
+project (HelloWorld_Basic_Impl) : cuts_lib, ciao_executor, cuts_tcpip, base {
   sharedname    = HelloWorld_Basic_Impl
   dynamicflags += HELLOWORLD_IMPL_BUILD_DLL
 

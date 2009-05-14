@@ -1,3 +1,19 @@
+Thu May 14 04:21:38 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/ccm/CCM_Component_T.h:
+        * cuts/arch/ccm/CCM_Component_T.inl:
+        * cuts/arch/ccm/CCM_Event_Handler_T.h:
+
+          . Fixed include errors.
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.cpp:
+
+          . Updated the example to use the CUTS_CCM_Component_T template
+            class. This will prevent the code generator from having to
+            define all the required methods of a component.
+
 Thu May 14 01:42:05 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.cpp:

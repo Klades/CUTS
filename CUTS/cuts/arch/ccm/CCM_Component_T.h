@@ -13,9 +13,9 @@
 #ifndef _CUTS_CCM_COMPONENT_T_H_
 #define _CUTS_CCM_COMPONENT_T_H_
 
-#include "Component.h"
-#include "CCM_Event_Handler_T.h"
+#include "cuts/Component.h"
 #include "ace/SString.h"
+#include "CCM_Event_Handler_T.h"
 
 /**
  * @class CUTS_CCM_Component_T
@@ -53,11 +53,9 @@ public:
    */
   virtual void set_session_context (Components::SessionContext_ptr ctx);
 
+  virtual void configuration_complete (void);
+
   virtual void ccm_activate (void);
-
-  virtual void ciao_preactivate (void);
-
-  virtual void ciao_postactivate (void);
 
   virtual void ccm_passivate (void);
 
