@@ -79,13 +79,13 @@
            debug="true"
            debuglevel="source,lines">
 
-      <include name="CUTS/*.java" />
+      <include name="cuts/*.java" />
     </javac>
   </target>
 
   <target name="TestLogger.jar.build" depends="TestLogger.build">
     <jar destfile="${cuts.lib.dir}/${jarfile}" basedir=".">
-      <include name="CUTS/*.class" />
+      <include name="cuts/*.class" />
     </jar>
   </target>
 
@@ -93,7 +93,7 @@
     <delete>
       <fileset dir="CUTS"
                includes="*.class, *.java"
-               excludes="TestLogger.java" />
+               excludes="Logger.java" />
     </delete>
   </target>
 
