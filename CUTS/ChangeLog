@@ -1,3 +1,16 @@
+Thu May 14 14:56:25 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/java/workers:
+        * cuts/java/workers/logging:
+        * cuts/java/workers/logging/cuts:
+
+          . Moved the location of the TestLogger for Java.
+
+        * cuts/workers/logging/CUTS:
+        * cuts/workers/logging/CUTS/Logger.java:
+
+          Removed these files.
+
 Thu May 14 14:51:32 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/tcpip/TCPIP.mpc:
@@ -6,7 +19,7 @@ Thu May 14 14:51:32 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.mpc:
         * cuts/utils/utils.mpc:
 
-	  . Fixed build errors on non-Windows systems.
+          . Fixed build errors on non-Windows systems.
 
 Thu May 14 14:48:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
