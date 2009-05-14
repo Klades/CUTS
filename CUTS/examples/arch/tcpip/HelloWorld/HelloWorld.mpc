@@ -44,6 +44,7 @@ project (HelloWorld_stub) : ccm_stub, avoids_ace_for_tao, base {
   sharedname    = HelloWorld_stub
   dynamicflags += HELLOWORLD_STUB_BUILD_DLL
 
+  after += HelloWorld_IDL
 
   Source_Files {
     HelloWorldC.cpp

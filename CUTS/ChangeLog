@@ -1,3 +1,9 @@
+Thu May 14 05:33:24 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld.mpc:
+
+	  . Fixed build errors.
+
 Thu May 14 05:26:45 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/tcpip/server/server.cpp:
@@ -5,7 +11,7 @@ Thu May 14 05:26:45 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
         * cuts/utils/Property_Evaluator_Stream_Actor_T.cpp:
         * cuts/utils/Property_Evaluator_T.h:
 
-	  . Fixed compilation errors on non-Windows systems.
+          . Fixed compilation errors on non-Windows systems.
 
         * cuts/utils/antispam/Antispam_App.cpp:
         * cuts/utils/antispam/Component_Manager.cpp:
@@ -15,7 +21,7 @@ Thu May 14 05:26:45 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
         * examples/PICML/AntiSPAM/descriptors/e2e/generate-DnC.sh:
         * examples/PICML/AntiSPAM/process.sh:
 
-	  . Fixed errors.
+          . Fixed errors.
 
 Thu May 14 05:08:47 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
