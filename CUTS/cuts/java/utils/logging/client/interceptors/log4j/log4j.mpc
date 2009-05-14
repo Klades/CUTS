@@ -5,7 +5,6 @@ project (cuts.log4j) : cuts4java, cutslib {
 
   specific (ant) {
     libs += ${contrib.dir}/log4j-1.2.15
-
   }
 
   Source_Files {

@@ -15,7 +15,7 @@ import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.spi.LoggingEvent;
 
 /**
- * @class TestAppender
+ * @class LoggingClientAppender
  *
  * Log4j appender that logs data to the CUTS logging client.
  */

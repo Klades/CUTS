@@ -1,3 +1,24 @@
+Thu May 14 14:48:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/java/utils:
+        * cuts/java/utils/logging:
+        * cuts/java/utils/logging/client:
+        * cuts/java/utils/logging/client/interceptors:
+        * cuts/java/utils/logging/client/interceptors/log4j:
+        * cuts/java/utils/logging/client/interceptors/log4j/cuts/log4j/LoggingClientAppender.java:
+        * cuts/java/utils/logging/client/interceptors/log4j/log4j.mpc:
+
+          . Separating the Java projects from the C++ projects.
+
+        * cuts/utils/logging/client/interceptors/log4j:
+        * cuts/utils/logging/client/interceptors/log4j/cuts:
+        * cuts/utils/logging/client/interceptors/log4j/cuts/log4j:
+        * cuts/utils/logging/client/interceptors/log4j/cuts/log4j/LoggingClientAppender.java:
+        * cuts/utils/logging/client/interceptors/log4j/log4j.mpc:
+        * cuts/utils/logging/client/interceptors/log4j/log4j.mwc:
+
+          Removed these files.
+
 Thu May 14 06:07:36 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MPC/config/cuts4java.mpb:
