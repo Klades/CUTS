@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_AntiSPAM_Common) : boost_base, cutslib {
+project (CUTS_AntiSPAM_Common) : boost_base, acelib, cutslib {
   sharedname    = CUTS_AntiSPAM_Common
   dynamicflags += CUTS_ANTISPAM_BUILD_DLL
 

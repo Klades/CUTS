@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_Utils) : boost_base, cutslib {
+project (CUTS_Utils) : boost_base, acelib, cutslib {
   sharedname = CUTS_Utils
 
   dynamicflags += CUTS_UTILS_BUILD_DLL

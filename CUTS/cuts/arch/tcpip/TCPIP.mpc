@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_TCPIP) : cutslib {
+project (CUTS_TCPIP) : acelib, cutslib {
   sharedname   = CUTS_TCPIP
   dynamicflags = CUTS_TCPIP_BUILD_DLL
 
