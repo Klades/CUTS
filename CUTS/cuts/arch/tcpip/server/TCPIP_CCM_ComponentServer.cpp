@@ -113,9 +113,6 @@ create_container (const Components::ConfigValues & config)
 void CUTS_TCPIP_CCM_ComponentServer::
 remove_container (Components::Deployment::Container_ptr c)
 {
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("remove_container (Components::Deployment::Container_ptr)\n")));
-
   // Get the servant from the reference.
   PortableServer::ServantBase_var servant =
     this->poa_->reference_to_servant (c);
@@ -140,9 +137,6 @@ remove_container (Components::Deployment::Container_ptr c)
 Components::Deployment::Containers *
 CUTS_TCPIP_CCM_ComponentServer::get_containers (void)
 {
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("CUTS_TCPIP_CCM_ComponentServer::get_containers ()\n")));
-
   ::Components::Deployment::Containers * temp = 0;
   ::CORBA::ULong length = this->containers_.size ();
 

@@ -1,3 +1,16 @@
+Thu May 14 01:42:05 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.cpp:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container.cpp:
+
+          . Removed unnecessary comments.
+
+        * examples/arch/tcpip/HelloWorld:
+        * examples/arch/tcpip/HelloWorld/models:
+        * examples/arch/tcpip/HelloWorld/models/HelloWorld.xme:
+
+          . PICML model of the Hello, World TCP/IP example.
+
 Wed May 13 21:51:38 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.cpp:

@@ -392,8 +392,5 @@ void CUTS_TCPIP_CCM_Container::remove_component (::Components::CCMObject_ptr cre
 ::Components::CCMObjectSeq *
 CUTS_TCPIP_CCM_Container::get_components (void)
 {
-  ACE_DEBUG ((LM_DEBUG,
-              "get_components (...)\n"));
-
   throw CORBA::NO_IMPLEMENT ();
 }
