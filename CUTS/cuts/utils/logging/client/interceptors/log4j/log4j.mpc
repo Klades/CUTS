@@ -1,0 +1,16 @@
+// $Id$
+
+project (cuts.log4j) : cuts4java, cutslib {
+  sharedname = cuts.log4j
+
+  specific (ant) {
+    libs += ${contrib.dir}/log4j-1.2.15
+
+  }
+
+  Source_Files {
+    conditional (ant) {
+      cuts/log4j/LoggingClientAppender.java
+    }
+  }
+}

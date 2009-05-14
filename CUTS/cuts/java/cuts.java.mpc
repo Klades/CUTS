@@ -1,0 +1,38 @@
+// $Id$
+
+project (cuts.java) : cuts4java, jacorb {
+  specific (ant) {
+    idlflags += -d $(CUTS_ROOT)/cuts/java
+
+    libs += ${contrib.dir}/idl \
+            ${contrib.dir}/logkit-1.2 \
+            ${contrib.dir}/log4j-1.2.15
+  }
+
+  sharedname = cuts.java
+  dllout     = $(CUTS_ROOT)/lib
+
+  Source_Files {
+    CUTS/ConstantPeriodicTaskStrategy.java
+    CUTS/ExponentialPeriodicTaskStrategy.java
+    CUTS/PeriodicTask.java
+    CUTS/PeriodicTaskHandler.java
+    CUTS/PeriodicTaskHandlerFactory.java
+    CUTS/PeriodicTaskStrategy.java
+    CUTS/ProcessHandler.java
+    CUTS/ProcessStreamReader.java
+  }
+
+  IDL_Files {
+    gendir = $(CUTS_ROOT)/cuts/java
+
+    $(CUTS_ROOT)/cuts/idl/exceptions.idl >>
+      $(CUTS_ROOT)/cuts/java/CUTS/InvalidRegistration.java \
+      $(CUTS_ROOT)/cuts/java/CUTS/InvalidRegistrationHelper.java \
+      $(CUTS_ROOT)/cuts/java/CUTS/RegistrationFailed.java \
+      $(CUTS_ROOT)/cuts/java/CUTS/RegistrationNotFound.java
+
+    $(CUTS_ROOT)/cuts/idl/TimeValue.idl
+    $(CUTS_ROOT)/cuts/idl/UUID.idl
+  }
+}

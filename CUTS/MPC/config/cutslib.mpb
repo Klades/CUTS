@@ -1,6 +1,6 @@
 // $Id$
 
-project : acelib, cuts_base {
+project : cuts_base {
   libout = $(CUTS_ROOT)/lib
   dllout = $(CUTS_ROOT)/lib
 }

@@ -1,8 +1,35 @@
+Thu May 14 06:07:36 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts4java.mpb:
+
+          . Base projects for Java projects.
+
+        * MPC/config/cuts_base.mpb:
+
+          . Inserted common configurations.
+
+        * MPC/config/cutslib.mpb:
+
+          . Removed the acelib base project.
+
+        * cuts/java/cuts.java.mpc:
+
+          . Include the cuts4java base project.
+
+        * cuts/utils/logging/client/interceptors/log4j:
+        * cuts/utils/logging/client/interceptors/log4j/cuts:
+        * cuts/utils/logging/client/interceptors/log4j/cuts/log4j:
+        * cuts/utils/logging/client/interceptors/log4j/cuts/log4j/LoggingClientAppender.java:
+        * cuts/utils/logging/client/interceptors/log4j/log4j.mpc:
+        * cuts/utils/logging/client/interceptors/log4j/log4j.mwc:
+
+          . Logging client intercepter for log4j.
+
 Thu May 14 05:33:24 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * examples/arch/tcpip/HelloWorld/HelloWorld.mpc:
 
-	  . Fixed build errors.
+          . Fixed build errors.
 
 Thu May 14 05:26:45 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 

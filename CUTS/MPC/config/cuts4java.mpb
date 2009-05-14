@@ -1,0 +1,12 @@
+// $Id$
+
+project : cuts_base {
+  expand (CUTS_ROOT) {
+    ${env.CUTS_ROOT}
+  }
+
+  verbatim (ant, top) {
+    <property environment=\"env\" />
+    <property name=\"contrib.dir\" value=\"${env.CUTS_ROOT}/contrib/java\" />
+  }
+}
