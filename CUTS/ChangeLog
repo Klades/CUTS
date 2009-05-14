@@ -1,3 +1,10 @@
+Thu May 14 04:26:23 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_test_logger.mpb:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.mpc:
+
+          . Defined a base project for the CUTS_Test_Logger.
+
 Thu May 14 04:21:38 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/arch/ccm/CCM_Component_T.h:

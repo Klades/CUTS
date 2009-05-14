@@ -1,0 +1,6 @@
+// $Id$
+
+project {
+  libs  += CUTS_Test_Logger
+  after += CUTS_Test_Logger
+}
