@@ -11,7 +11,6 @@
 //=============================================================================
 
 package CUTS;
-
 import org.omg.CosNaming.*;
 import java.util.ArrayList;
 import java.util.Properties;
