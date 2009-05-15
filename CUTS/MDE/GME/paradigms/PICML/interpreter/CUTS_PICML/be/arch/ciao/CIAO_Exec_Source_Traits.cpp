@@ -89,7 +89,7 @@ write_prologue (const PICML::ComponentImplementationContainer & container)
     /// @todo We should only include the following header if there are
     ///       are output events (or output ports) for this component.
     ///       Otherwise, we can leave this include out of this source.
-    << include ("cuts/CCM_Events_T");
+    << include ("cuts/arch/ccm/CCM_Events_T");
 }
 
 //

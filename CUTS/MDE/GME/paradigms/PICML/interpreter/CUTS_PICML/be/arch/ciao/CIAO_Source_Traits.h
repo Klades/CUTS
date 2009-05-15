@@ -74,12 +74,6 @@ public:
   virtual void write_OnewayOperation_end (
     const PICML::OnewayOperation & oneway);
 
-  virtual void write_FactoryOperation_begin (
-    const PICML::FactoryOperation & factory_op);
-
-  virtual void write_FactoryOperation_end (
-    const PICML::FactoryOperation & factory_op);
-
   virtual void write_object_impl_begin (
     const PICML::Component & component,
     const PICML::ProvidedRequestPort & facet);
@@ -87,16 +81,6 @@ public:
   virtual void write_object_impl_end (
     const PICML::Component & component,
     const PICML::ProvidedRequestPort & facet);
-
-  virtual void write_factory_impl_begin (
-    const PICML::ComponentFactory & factory,
-    const PICML::MonolithicImplementation & impl,
-    const PICML::Component & type);
-
-  virtual void write_factory_impl_end (
-    const PICML::ComponentFactory & factory,
-    const PICML::MonolithicImplementation & impl,
-    const PICML::Component & type);
 
 protected:
   virtual void write_set_session_context (

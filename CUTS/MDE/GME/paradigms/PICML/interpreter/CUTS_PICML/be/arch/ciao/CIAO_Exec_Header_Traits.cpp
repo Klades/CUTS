@@ -93,7 +93,7 @@ write_prologue (const PICML::ComponentImplementationContainer & container)
     << std::endl
     << "#include /**/ \"ace/pre.h\"" << std::endl
     << "#include \"" << container.name () << "EC.h\"" << std::endl
-    << "#include \"cuts/CCM_Component_T.h\"" << std::endl;
+    << "#include \"cuts/arch/ccm/CCM_Component_T.h\"" << std::endl;
 }
 
 //

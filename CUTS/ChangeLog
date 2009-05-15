@@ -1,3 +1,29 @@
+Fri May 15 01:55:40 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/examples/SLICE-cpu-bound.xme:
+
+          . Update the SLICE example to the latest version of
+            PICML and DAnCE.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/BE_CIAO.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Exec_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Exec_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Header_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Source_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Source_Traits.cpp:
+        * MPC/config/cuts_base.mpb:
+        * MPC/config/cuts_cosmic.mpb:
+        * MPC/config/cuts_coworker_exec.mpb:
+        * MPC/config/cuts_coworker_skel.mpb:
+        * MPC/config/cuts_coworker_stub.mpb:
+        * MPC/config/cuts_stub.mpb:
+        * cuts/arch/ccm/CCM_Events_T.h:
+        * cuts/arch/ccm/CCM_Events_T.cpp:
+
+          . Updated the CIAO code generator to the latest version of
+            CIAO and the CUTS runtime architecture.
+
 Thu May 14 19:41:57 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/java:

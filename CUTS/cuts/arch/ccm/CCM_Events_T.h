@@ -13,7 +13,7 @@
 #ifndef _CUTS_CCM_EVENTS_T_H_
 #define _CUTS_CCM_EVENTS_T_H_
 
-#include "CUTS_export.h"
+#include "cuts/CUTS_export.h"
 
 /**
  * @class CUTS_CCM_Event_T
@@ -140,9 +140,9 @@ protected:
 };
 
 #if defined (__CUTS_INLINE__)
-# include "cuts/CCM_Events_T.inl"
+#include "CCM_Events_T.inl"
 #endif
 
-#include "cuts/CCM_Events_T.cpp"
+#include "CCM_Events_T.cpp"
 
 #endif  // !defined _CUTS_CCM_EVENTS_T_H_

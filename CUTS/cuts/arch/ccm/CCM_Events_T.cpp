@@ -1,15 +1,12 @@
 // $Id$
 
 #if !defined (__CUTS_INLINE__)
-# include "cuts/CCM_Events_T.inl"
+# include "cCCM_Events_T.inl"
 #endif
 
-//=============================================================================
-/*
- * CUTS_CCM_Event_T
- */
-//=============================================================================
-
+//
+// CUTS_CCM_Event_T
+//
 template <typename OBV_TYPE>
 CUTS_CCM_Event_T <OBV_TYPE>::CUTS_CCM_Event_T (void)
 {
@@ -18,12 +15,9 @@ CUTS_CCM_Event_T <OBV_TYPE>::CUTS_CCM_Event_T (void)
   this->event_ = ev;
 }
 
-//=============================================================================
-/*
- * CUTS_Event_T
- */
-//=============================================================================
-
+//
+// CUTS_Event_T
+//
 template <typename EVENTTYPE>
 CUTS_Event_T <EVENTTYPE>::CUTS_Event_T (void)
 {
@@ -35,12 +29,6 @@ CUTS_Event_T <EVENTTYPE>::~CUTS_Event_T (void)
 {
 
 }
-
-//=============================================================================
-/*
- * CUTS_Event_init_T
- */
-//=============================================================================
 
 //
 // CUTS_Event_init_T

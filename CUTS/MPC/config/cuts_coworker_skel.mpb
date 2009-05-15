@@ -1,6 +1,6 @@
 // $Id$
 
-project : ciao_server_dnc, ciaocidldefaults, utils, cutslib {
+project : ccm_svnt, ciaocidldefaults, utils, cutslib {
   // -- specify the output relative to the project root directory.
   dllout = $(PROJECT_ROOT)/lib
   libout = $(PROJECT_ROOT)/lib

@@ -1,6 +1,5 @@
 // $Id$
 
-project : cutslib {
-  libs  -= CUTS
-  after -= CUTS
+project : acelib, cutslib {
+
 }

@@ -1,6 +1,6 @@
 // $Id$
 
-project {
+project : acedefaults {
   specific {
     contrib_dir = $(CUTS_ROOT)
   }

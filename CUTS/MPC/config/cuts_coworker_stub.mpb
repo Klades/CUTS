@@ -1,6 +1,6 @@
 // $Id$
 
-project : cuts_client_dnc {
+project : ccm_svnt, cuts_client_dnc {
   // -- specify the output relative to the project root directory.
   dllout = $(PROJECT_ROOT)/lib
   libout = $(PROJECT_ROOT)/lib

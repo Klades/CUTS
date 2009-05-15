@@ -1,7 +1,6 @@
 // $Id$
 
-project : taolib_with_idl {
-  includes += $(CUTS_ROOT)
+project : taolib_with_idl, cuts_base {
   idlflags += -I$(CUTS_ROOT)
 
   after += CUTS_stub
