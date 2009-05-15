@@ -6,7 +6,7 @@
  *
  * $Id$
  *
- * @author    Unknown
+ * @author    Pooja Varshneya
  */
 //=============================================================================
 
@@ -18,17 +18,17 @@
 #include "game/be/Interpreter_Impl_Base.h"
 
 /**
- * @class CIDL_Interpreter_Impl
+ * @class CUTS_Interpreter_Impl
  *
  * Actual implementation of the interpreter.
  */
-class CIDL_Interpreter_Impl :
+class CUTS_Interpreter_Impl :
   public GME::Interpreter_Impl_Base
 {
 public:
-  CIDL_Interpreter_Impl (void);
+  CUTS_Interpreter_Impl (void);
 
-  virtual ~CIDL_Interpreter_Impl (void);
+  virtual ~CUTS_Interpreter_Impl (void);
 
   int invoke_ex (GME::Project & project,
                  GME::FCO & fco,
@@ -44,6 +44,6 @@ private:
   std::string output_;
 };
 
-GME_RAWCOMPONENT_DECL (GME::Interpreter_T, CIDL_Interpreter_Impl);
+GME_RAWCOMPONENT_DECL (GME::Interpreter_T, CUTS_Interpreter_Impl);
 
 #endif  // !defined _CUTS_COMPONENT_H_

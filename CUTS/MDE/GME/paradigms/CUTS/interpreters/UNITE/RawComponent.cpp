@@ -14,12 +14,12 @@
 #define INTERPRETER_PROGID        "MGA.Interpreter.CUTS"
 
 ///////////////////////////////////////////////////////////////////////////////
-// class CIDL_Interpreter_Impl
+// class CUTS_Interpreter_Impl
 
 //
-// CIDL_Interpreter_Impl
+// CUTS_Interpreter_Impl
 //
-CIDL_Interpreter_Impl::CIDL_Interpreter_Impl (void)
+CUTS_Interpreter_Impl::CUTS_Interpreter_Impl (void)
 : GME::Interpreter_Impl_Base (INTERPRETER_NAME,
                               INTERPRETER_PARADIGMS,
                               INTERPRETER_PROGID,
@@ -29,9 +29,9 @@ CIDL_Interpreter_Impl::CIDL_Interpreter_Impl (void)
 }
 
 //
-// ~CIDL_Interpreter_Impl
+// ~CUTS_Interpreter_Impl
 //
-CIDL_Interpreter_Impl::~CIDL_Interpreter_Impl (void)
+CUTS_Interpreter_Impl::~CUTS_Interpreter_Impl (void)
 {
 
 }
@@ -39,7 +39,7 @@ CIDL_Interpreter_Impl::~CIDL_Interpreter_Impl (void)
 //
 // invoke
 //
-int CIDL_Interpreter_Impl::
+int CUTS_Interpreter_Impl::
 invoke_ex (GME::Project & project,
            GME::FCO & fco,
            GME::Collection_T <GME::FCO> & selected,
@@ -87,7 +87,7 @@ invoke_ex (GME::Project & project,
       CUTS::UniteVisitor visitor (this->output_);
       root.Accept (visitor);
 
-      ::AfxMessageBox ("Successfully generated CIDL files",
+      ::AfxMessageBox ("UNITE configuration file has been generated",
                        MB_OK | MB_ICONINFORMATION);
 
       // Post process the project.
@@ -117,7 +117,7 @@ invoke_ex (GME::Project & project,
 //
 // preprocess
 //
-void CIDL_Interpreter_Impl::preprocess (GME::Project & project)
+void CUTS_Interpreter_Impl::preprocess (GME::Project & project)
 {
   GME::Utils::Project_Settings settings (project);
   this->output_ = settings.default_output_directory ("CUTS");
@@ -126,7 +126,7 @@ void CIDL_Interpreter_Impl::preprocess (GME::Project & project)
 //
 // postprocess
 //
-void CIDL_Interpreter_Impl::postprocess (GME::Project & project)
+void CUTS_Interpreter_Impl::postprocess (GME::Project & project)
 {
   GME::Utils::Project_Settings settings (project);
   settings.default_output_directory ("CUTS", this->output_);

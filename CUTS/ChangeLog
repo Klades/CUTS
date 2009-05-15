@@ -1,3 +1,13 @@
+Fri May 15 02:28:04 UTC 2009  Pooja Varshneya  <varshneya_p@local>
+
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/RawComponent.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/RawComponent.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UniteVisitor.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UniteVisitor.cpp:
+
+          . Updated the CUTS interpreter files for configuration file   
+            generation.
+
 Fri May 15 01:55:40 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/examples/SLICE-cpu-bound.xme:
