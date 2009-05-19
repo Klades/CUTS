@@ -224,37 +224,15 @@ generate (const CUTS_BE_Impl_Node & node)
 void CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
 generate_exec_project (const CUTS_BE_Impl_Node & node)
 {
-  // We need to first locate the artifact that ends with
-  // exec_suffix_. If we can't find one, then we need to
-  // just abort!!
-  CUTS_BE_Impl_Node::Artifact_Set::const_iterator iter_exec =
-    std::find_if (node.artifacts_.begin (), node.artifacts_.end (),
-                  Element_Name_End_With <
-                    CUTS_BE_Impl_Node::Artifact_Set::value_type> (
-                    CUTS_BE_OPTIONS ()->exec_suffix_));
-
-  CUTS_BE_Impl_Node::Artifact_Set::const_iterator iter_svnt =
-    std::find_if (node.artifacts_.begin (), node.artifacts_.end (),
-                  Element_Name_End_With <
-                    CUTS_BE_Impl_Node::Artifact_Set::value_type> (
-                    SVNT_SUFFIX));
-
-  if (iter_exec == node.artifacts_.end () ||
-      iter_svnt == node.artifacts_.end ())
-  {
-    return;
-  }
-
-  // Generate the export_file file for the project.
-  std::string impl_project = iter_exec->name ();
-  std::string export_filename = node.name_ + CUTS_BE_OPTIONS ()->exec_suffix_;
+  std::string exec_basename = node.exec_artifact_.name ();
 
   std::string skel_project = node.name_ + SKEL_SUFFIX;
   std::replace (skel_project.begin (), skel_project.end (), '/', '_');
   std::replace (skel_project.begin (), skel_project.end (), '\\', '_');
 
   // Create the export name for the project.
-  std::string exec_export = impl_project;
+  std::string exec_export (exec_basename);
+
   std::transform (exec_export.begin (),
                   exec_export.end (),
                   exec_export.begin (),
@@ -262,31 +240,28 @@ generate_exec_project (const CUTS_BE_Impl_Node & node)
 
   // Generate the executor project.
   CUTS_BE_CIAO->project_file_
-    << "project (" << std::string (iter_exec->name ())
+    << "project (" << exec_basename
     << ") : cuts_coworker_exec {" << std::endl
-    << "  sharedname   = " << basename (iter_exec->location ()) << std::endl
+    << "  sharedname   = " << exec_basename << std::endl
     << std::endl
     << "  dynamicflags = " << exec_export << "_BUILD_DLL" << std::endl
     << std::endl
     << "  prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl "
     << exec_export << " > $(PROJECT_ROOT)/"
-    << export_filename << "_export.h" << std::endl;
+    << exec_basename << "_export.h" << std::endl;
 
   if (!node.references_.empty ())
   {
-    // Clear the nodes that have already be seen.
     visited_nodes_.clear ();
 
-    // Setup the initial dependency information.
     CUTS_BE_CIAO->project_file_
       << "  after += " << skel_project;
 
-    // Generate the remaining dependencies.
     std::for_each (node.references_.begin (),
                    node.references_.end (),
-                   boost::bind (&CUTS_BE_Project_Write_T <
-                                  CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
-                                  generate_stub_listing, _1));
+                   boost::bind (&CUTS_BE_Project_Write_T::
+                                generate_stub_listing,
+                                _1));
 
     CUTS_BE_CIAO->project_file_
       << std::endl
@@ -301,16 +276,15 @@ generate_exec_project (const CUTS_BE_Impl_Node & node)
 
     std::for_each (node.references_.begin (),
                    node.references_.end (),
-                   boost::bind (&CUTS_BE_Project_Write_T <
-                                  CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
-                                  generate_stub_listing, _1));
+                   boost::bind (&CUTS_BE_Project_Write_T::
+                                generate_stub_listing,
+                                _1));
 
     CUTS_BE_CIAO->project_file_
       << std::endl
       << std::endl;
   }
 
-  // Generate the default MPC information.
   generate_mpc_i (node);
 
   CUTS_BE_CIAO->project_file_
@@ -343,32 +317,22 @@ generate_exec_project (const CUTS_BE_Impl_Node & node)
 void CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
 generate_svnt_project (const CUTS_BE_Impl_Node & node)
 {
-  CUTS_BE_Impl_Node::Artifact_Set::const_iterator iter_svnt =
-    std::find_if (node.artifacts_.begin (), node.artifacts_.end (),
-                  Element_Name_End_With <
-                    CUTS_BE_Impl_Node::Artifact_Set::value_type> (
-                    SVNT_SUFFIX));
-
-  if (iter_svnt == node.artifacts_.end ())
-    return;
-
   // Construct the names of the servant and skeleton project.
-  std::string svnt_project = node.name_ + SVNT_SUFFIX;
+  std::string svnt_project = node.svnt_artifact_.name ();
   std::string skel_project = node.name_ + SKEL_SUFFIX;
   std::replace (skel_project.begin (), skel_project.end (), '/', '_');
   std::replace (skel_project.begin (), skel_project.end (), '\\', '_');
 
   // Create the export name for the project.
-  std::string svnt_export = iter_svnt->name ();
+  std::string svnt_export = node.svnt_artifact_.name ();
   std::transform (svnt_export.begin (),
                   svnt_export.end (),
                   svnt_export.begin (),
                   &toupper);
 
   CUTS_BE_CIAO->project_file_
-    << "project (" << std::string (iter_svnt->name ())
-    << ") : cuts_coworker_svnt {" << std::endl
-    << "  sharedname   = " << basename (iter_svnt->location ()) << std::endl
+    << "project (" << svnt_project << ") : cuts_coworker_svnt {" << std::endl
+    << "  sharedname   = " << node.svnt_artifact_.location () << std::endl
     << std::endl
     << "  dynamicflags = " << svnt_export << "_BUILD_DLL" << std::endl
     << std::endl
@@ -386,9 +350,9 @@ generate_svnt_project (const CUTS_BE_Impl_Node & node)
 
     std::for_each (node.references_.begin (),
                    node.references_.end (),
-                   boost::bind (&CUTS_BE_Project_Write_T <
-                                  CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
-                                  generate_stub_listing, _1));
+                   boost::bind (&CUTS_BE_Project_Write_T::
+                                generate_stub_listing,
+                                _1));
 
     CUTS_BE_CIAO->project_file_
       << std::endl
@@ -403,9 +367,9 @@ generate_svnt_project (const CUTS_BE_Impl_Node & node)
 
     std::for_each (node.references_.begin (),
                    node.references_.end (),
-                   boost::bind (&CUTS_BE_Project_Write_T <
-                                  CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
-                                  generate_stub_listing, _1));
+                   boost::bind (&CUTS_BE_Project_Write_T::
+                                generate_stub_listing,
+                                _1));
 
     CUTS_BE_CIAO->project_file_
       << std::endl
@@ -427,7 +391,7 @@ generate_svnt_project (const CUTS_BE_Impl_Node & node)
 
     // Generate the source files
     << "  Source_Files {" << std::endl
-    << "    " << node.basename_ << SVNT_SUFFIX << ".cpp" << std::endl
+    << "    " << node.basename_ << "_svnt.cpp" << std::endl
     << "  }" << std::endl
     << std::endl
 
@@ -445,18 +409,6 @@ generate_svnt_project (const CUTS_BE_Impl_Node & node)
 void CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
 generate_skel_project (const CUTS_BE_Impl_Node & node)
 {
-  // The skeleton project for a component needs to ensure that there
-  // is a servant project present. This is because the skeleton project
-  // is responsible for generating the servant source files.
-  CUTS_BE_Impl_Node::Artifact_Set::const_iterator iter_svnt =
-    std::find_if (node.artifacts_.begin (), node.artifacts_.end (),
-                  Element_Name_End_With <
-                    CUTS_BE_Impl_Node::Artifact_Set::value_type> (
-                    SVNT_SUFFIX));
-
-  if (iter_svnt == node.artifacts_.end ())
-    return;
-
   // Generator the export file for the CIAO servant project.
   std::string skel_project_name = node.name_ + SKEL_SUFFIX;
   std::string skel_export_file = node.name_ + SKEL_SUFFIX + "_export.h";
@@ -472,8 +424,8 @@ generate_skel_project (const CUTS_BE_Impl_Node & node)
                   &toupper);
 
   // Generator the export file for the CIAO servant project.
-  std::string svnt_export_file = node.name_ + SVNT_SUFFIX + "_export.h";
-  std::string svnt_export = iter_svnt->name ();
+  std::string svnt_export (node.svnt_artifact_.name ());
+  std::string svnt_export_file = svnt_export + "_export.h";
 
   std::transform (svnt_export.begin (),
                   svnt_export.end (),
@@ -509,9 +461,9 @@ generate_skel_project (const CUTS_BE_Impl_Node & node)
 
     std::for_each (node.references_.begin (),
                    node.references_.end (),
-                   boost::bind (&CUTS_BE_Project_Write_T <
-                                  CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
-                                  generate_stub_listing, _1));
+                   boost::bind (&CUTS_BE_Project_Write_T::
+                                generate_stub_listing,
+                                _1));
 
     CUTS_BE_CIAO->project_file_
       << std::endl
@@ -526,9 +478,9 @@ generate_skel_project (const CUTS_BE_Impl_Node & node)
 
     std::for_each (node.references_.begin (),
                    node.references_.end (),
-                   boost::bind (&CUTS_BE_Project_Write_T <
-                                  CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
-                                  generate_stub_listing, _1));
+                   boost::bind (&CUTS_BE_Project_Write_T::
+                                generate_stub_listing,
+                                _1));
 
     CUTS_BE_CIAO->project_file_
       << std::endl
@@ -560,6 +512,31 @@ generate_skel_project (const CUTS_BE_Impl_Node & node)
     << "  }" << std::endl
     << "}" << std::endl
     << std::endl;
+}
+
+//
+// generate_stub_listing
+//
+
+void CUTS_BE_Project_Write_T <
+CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
+generate_stub_listing (const CUTS_BE_IDL_Node * node)
+{
+  IDL_Node_Set::const_iterator iter = visited_nodes_.find (node);
+
+  if (iter != visited_nodes_.end ())
+    return;
+
+  visited_nodes_.insert (node);
+
+  CUTS_BE_CIAO->project_file_
+    << " \\" << std::endl
+    << "    " << node->basename_ << STUB_SUFFIX;
+
+  std::for_each (node->references_.begin (),
+                  node->references_.end (),
+                  boost::bind (&CUTS_BE_Project_Write_T::generate_stub_listing,
+                              _1));
 }
 
 //
@@ -598,30 +575,6 @@ generate_mpc_values (const std::string & heading,
   CUTS_BE_CIAO->project_file_
     << std::endl
     << std::endl;
-}
-
-//
-// CUTS_BE_Project_Write_T
-//
-void CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
-generate_stub_listing (const CUTS_BE_IDL_Node * node)
-{
-  IDL_Node_Set::const_iterator iter = visited_nodes_.find (node);
-
-  if (iter == visited_nodes_.end ())
-  {
-    visited_nodes_.insert (node);
-
-    CUTS_BE_CIAO->project_file_
-      << " \\" << std::endl
-      << "    " << node->basename_ << STUB_SUFFIX;
-
-    std::for_each (node->references_.begin (),
-                   node->references_.end (),
-                   boost::bind (&CUTS_BE_Project_Write_T <
-                                  CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
-                                  generate_stub_listing, _1));
-  }
 }
 
 //

@@ -126,9 +126,6 @@ void CIAO_Traits_Base::
 write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
                   const PICML::Component & type)
 {
-  this->out_
-    << std::endl
-    << "namespace CIDL_" << monoimpl.name () << "{";
 }
 
 //

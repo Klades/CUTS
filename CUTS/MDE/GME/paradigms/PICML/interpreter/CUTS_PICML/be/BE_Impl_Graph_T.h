@@ -1,7 +1,7 @@
 // -*- C++ -*-
 
 //=============================================================================
-/** 
+/**
  * @file        BE_Impl_Graph_T.h
  *
  * $Id$
@@ -35,7 +35,6 @@ public:
   /// Destructor.
   virtual ~CUTS_BE_Impl_Graph_T (void);
 
-protected:
   /// Visit a ComponentImplementationContainer object.
   void Visit_ComponentImplementationContainer (
     const PICML::ComponentImplementationContainer & container);
@@ -43,6 +42,18 @@ protected:
   /// Visit a MonolithicImplementation object.
   void Visit_MonolithicImplementation (
     const PICML::MonolithicImplementation & monoimpl);
+
+  void Visit_ExecutorArtifact (
+    const PICML::ExecutorArtifact & ea);
+
+  void Visit_ComponentImplementationArtifact (
+    const PICML::ComponentImplementationArtifact & cia);
+
+  void Visit_ServantArtifact (
+    const PICML::ServantArtifact & sa);
+
+  void Visit_ComponentServantArtifact (
+    const PICML::ComponentServantArtifact & csa);
 
   /// Visit a MonolithprimaryArtifact object.
   void Visit_MonolithprimaryArtifact (

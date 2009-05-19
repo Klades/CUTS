@@ -22,8 +22,6 @@ project (CUTS_BE_CIAO) : boost_base, picml_udm, cuts_be, cuts_cosmic {
     CIAO_Preprocessor_Handlers.cpp
     CIAO_Proxy_Header_Traits.cpp
     CIAO_Proxy_Source_Traits.cpp
-    CIAO_Project_Generator.cpp
-
     CIAO_Manager_Factory.cpp
   }
 

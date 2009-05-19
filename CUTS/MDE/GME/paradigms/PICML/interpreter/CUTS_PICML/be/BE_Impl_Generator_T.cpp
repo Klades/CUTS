@@ -108,8 +108,7 @@ Visit_ComponentImplementation (const PICML::ComponentImplementation & impl)
 //
 template <typename BE_TYPE>
 void CUTS_BE_Impl_Generator_T <BE_TYPE>::
-Visit_MonolithicImplementation (
-const PICML::MonolithicImplementation & monoimpl)
+Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl)
 {
   // Get the parent of the monolithic implementation.
   PICML::ComponentImplementationContainer container =
@@ -146,16 +145,14 @@ const PICML::MonolithicImplementation & monoimpl)
       PICML::Component component = ref.ref ();
 
       // Write the beginning of the component's implementation.
-      CUTS_BE_Component_Impl_Begin_T <BE_TYPE>::
-        generate (monoimpl, component);
+      CUTS_BE_Component_Impl_Begin_T <BE_TYPE>::generate (monoimpl, component);
 
       // Visit the component.
       CUTS_BE::visit <BE_TYPE> (component,
         boost::bind (&PICML::Component::Accept, _1, boost::ref (*this)));
 
       // Write the end of the component's implementation.
-      CUTS_BE_Component_Impl_End_T <BE_TYPE>::
-        generate (monoimpl, component);
+      CUTS_BE_Component_Impl_End_T <BE_TYPE>::generate (monoimpl, component);
 
       // Get all the facets in the component so that we can
       // generate their implementation.
@@ -166,22 +163,21 @@ const PICML::MonolithicImplementation & monoimpl)
         boost::bind (&CUTS_BE_Impl_Generator_T::Visit_ProvidedRequestPort_impl,
         boost::ref (this), _1));
 
-      PICML::ComponentFactory factory;
+      //PICML::ComponentFactory factory;
 
-      if (this->get_component_factory (component, factory))
-      {
-        // Write the beginning of the factory's implementation.
-        CUTS_BE_Factory_Impl_Begin_T <BE_TYPE>::
-          generate (factory, monoimpl, component);
+      //if (this->get_component_factory (component, factory))
+      //{
+      //  // Write the beginning of the factory's implementation.
+      //  CUTS_BE_Factory_Impl_Begin_T <BE_TYPE>::
+      //    generate (factory, monoimpl, component);
 
-        CUTS_BE::visit <BE_TYPE> (factory,
-          boost::bind (&PICML::ComponentFactory::Accept,
-          _1, boost::ref (*this)));
+      //  CUTS_BE::visit <BE_TYPE> (factory,
+      //    boost::bind (&PICML::ComponentFactory::Accept,
+      //    _1, boost::ref (*this)));
 
-        // Write the end of the factory's implementation.
-        CUTS_BE_Factory_Impl_End_T <BE_TYPE>::
-          generate (factory, monoimpl, component);
-      }
+      //  // Write the end of the factory's implementation.
+      //  CUTS_BE_Factory_Impl_End_T <BE_TYPE>::generate (factory, monoimpl, component);
+      //}
     }
 
     // Write the epilogue for the file, then close it.

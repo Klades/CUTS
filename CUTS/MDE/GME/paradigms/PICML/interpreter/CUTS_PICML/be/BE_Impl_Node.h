@@ -50,14 +50,18 @@ struct CUTS_BE_Export CUTS_BE_Impl_Node :
   /// Flag that determines if implementation is a proxy.
   bool is_proxy_;
 
-  /// Type definition of a collection of artifacts for this.
-  typedef std::set <PICML::ImplementationArtifact> Artifact_Set;
-
   /// The component implementation's container.
   PICML::ComponentImplementationContainer container_;
 
+  /// Type definition of a collection of artifacts for this.
+  typedef std::set <PICML::ImplementationArtifact> Artifact_Set;
+
   /// Collection of artifacts for this implementation.
   Artifact_Set artifacts_;
+
+  PICML::ImplementationArtifact exec_artifact_;
+
+  PICML::ImplementationArtifact svnt_artifact_;
 
   /// Listing of string (values) for a particular topic, such as
   /// include paths, libraries, etc.

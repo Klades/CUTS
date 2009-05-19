@@ -58,9 +58,9 @@ const PICML::ComponentImplementationContainer & container)
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_T <T>::
-Visit_MonolithicImplementation (
-const PICML::MonolithicImplementation & monoimpl)
+Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl)
 {
+  // Visit the component that is being implemented.
   PICML::Implements implements = monoimpl.dstImplements ();
 
   if (implements != Udm::null)
@@ -72,6 +72,17 @@ const PICML::MonolithicImplementation & monoimpl)
       component.Accept (*this);
   }
 
+  // Visit all the artifacts for the implementation.
+  PICML::ExecutorArtifact ea = monoimpl.dstExecutorArtifact ();
+
+  if (Udm::null != ea)
+    ea.Accept (*this);
+
+  PICML::ServantArtifact sa = monoimpl.dstServantArtifact ();
+
+  if (Udm::null != sa)
+    sa.Accept (*this);
+
   typedef std::set <PICML::MonolithprimaryArtifact> PrimaryArtifact_Set;
   PrimaryArtifact_Set primaries = monoimpl.dstMonolithprimaryArtifact ();
 
@@ -80,6 +91,48 @@ const PICML::MonolithicImplementation & monoimpl)
                  boost::bind (&PrimaryArtifact_Set::value_type::Accept,
                               _1,
                               boost::ref (*this)));
+}
+
+//
+// Visit_ExecutorArtifact
+//
+template <typename T>
+void CUTS_BE_Impl_Graph_T <T>::
+Visit_ExecutorArtifact (const PICML::ExecutorArtifact & ea)
+{
+  PICML::ComponentImplementationArtifact cia = ea.dstExecutorArtifact_end ();
+  cia.Accept (*this);
+}
+
+//
+// Visit_ComponentImplementationArtifact
+//
+template <typename T>
+void CUTS_BE_Impl_Graph_T <T>::
+Visit_ComponentImplementationArtifact (const PICML::ComponentImplementationArtifact & cia)
+{
+  this->current_impl_->exec_artifact_ = cia.ref ();
+}
+
+//
+// Visit_ServantArtifact
+//
+template <typename T>
+void CUTS_BE_Impl_Graph_T <T>::
+Visit_ServantArtifact (const PICML::ServantArtifact & sa)
+{
+  PICML::ComponentServantArtifact csa = sa.dstServantArtifact_end ();
+  csa.Accept (*this);
+}
+
+//
+// Visit_ComponentServantArtifact
+//
+template <typename T>
+void CUTS_BE_Impl_Graph_T <T>::
+Visit_ComponentServantArtifact (const PICML::ComponentServantArtifact & csa)
+{
+  this->current_impl_->svnt_artifact_ = csa.ref ();
 }
 
 //

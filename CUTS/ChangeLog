@@ -1,3 +1,27 @@
+Tue May 19 04:02:57 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/examples/SLICE-cpu-bound.xme:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Graph_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Graph_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Node.h:
+
+          . Update the backend generator architecture to the latest
+            version of PICML.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/BE_CIAO.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Exec_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Exec_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Traits_Base.cpp:
+
+          . Updated the CIAO code generator to the latest version of CIAO/DAnCE.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Project_Generator.cpp:
+
+          Removed these files.
+
 Fri May 15 02:28:04 UTC 2009  Pooja Varshneya  <varshneya_p@local>
 
         * MDE/GME/paradigms/CUTS/interpreters/UNITE/RawComponent.h:
@@ -5,7 +29,7 @@ Fri May 15 02:28:04 UTC 2009  Pooja Varshneya  <varshneya_p@local>
         * MDE/GME/paradigms/CUTS/interpreters/UNITE/UniteVisitor.h:
         * MDE/GME/paradigms/CUTS/interpreters/UNITE/UniteVisitor.cpp:
 
-          . Updated the CUTS interpreter files for configuration file   
+          . Updated the CUTS interpreter files for configuration file
             generation.
 
 Fri May 15 01:55:40 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
