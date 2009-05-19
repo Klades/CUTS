@@ -1,0 +1,37 @@
+// $Id$
+
+project (CUTS_BE_TCPIP) : boost_base, picml_udm, cuts_be, cuts_cosmic {
+  sharedname    += CUTS_BE_TCPIP
+  dynamicflags  += CUTS_BE_TCPIP_BUILD_DLL
+
+  includes += $(CUTS_ROOT)/MDE/GME/paradigms/PICML
+
+  Source_Files {
+    Input_Stream_Source_Generator.cpp
+    Input_Stream_Aggr_Member_Generator.cpp
+    Input_Stream_Event_Member_Generator.cpp
+    Output_Stream_Aggr_Member_Generator.cpp
+    Output_Stream_Event_Member_Generator.cpp
+    Output_Stream_Source_Generator.cpp
+    //Project_Generator.cpp
+    TCPIP_Ctx.cpp
+    TCPIP_Generator.cpp
+    TCPIP_Manager_Factory.cpp
+    //Servant_Header_Generator.cpp
+    //Servant_Source_Generator.cpp
+    Stub_Header_Generator.cpp
+    Stub_Source_Generator.cpp
+
+    // Impl_Header_Generator.cpp
+    // Impl_Source_Generator.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  Header_Files {
+    BE_TCPIP_export.h
+    TCPIP_Manager.h
+  }
+}

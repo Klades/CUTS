@@ -19,14 +19,10 @@
 #include "ace/Null_Mutex.h"
 #include <stack>
 
-//=============================================================================
 /**
  * @class CUTS_CIAO_Exec_Source_Traits
  */
-//=============================================================================
-
-class CUTS_CIAO_Exec_Source_Traits :
-  public CUTS_CIAO_Source_Traits
+class CUTS_CIAO_Exec_Source_Traits : public CUTS_CIAO_Source_Traits
 {
 public:
   typedef CUTS_CIAO_Source_Traits _super;

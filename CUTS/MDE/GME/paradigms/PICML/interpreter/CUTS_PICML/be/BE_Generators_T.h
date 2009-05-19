@@ -94,12 +94,9 @@ struct CUTS_BE_File_Open_T
   }
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_ComponentAssembly_File_Open_T
 {
@@ -110,12 +107,9 @@ struct CUTS_BE_ComponentAssembly_File_Open_T
   }
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_File_Close_T
 {
@@ -126,12 +120,9 @@ struct CUTS_BE_File_Close_T
   }
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_ComponentAssembly_File_Close_T
 {
@@ -142,12 +133,9 @@ struct CUTS_BE_ComponentAssembly_File_Close_T
   }
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_Include_File_T
 {
@@ -155,12 +143,9 @@ struct CUTS_BE_Include_File_T
     { return false; }
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_Prologue_T
 {
@@ -171,12 +156,9 @@ struct CUTS_BE_Prologue_T
   }
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_ComponentAssembly_Prologue_T
 {
@@ -187,12 +169,9 @@ struct CUTS_BE_ComponentAssembly_Prologue_T
   }
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_Epilogue_T
 {
@@ -203,12 +182,9 @@ struct CUTS_BE_Epilogue_T
   }
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_ComponentAssembly_Epilogue_T
 {
@@ -219,12 +195,9 @@ struct CUTS_BE_ComponentAssembly_Epilogue_T
   }
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_Component_Impl_Begin_T
 {
@@ -233,12 +206,20 @@ struct CUTS_BE_Component_Impl_Begin_T
     { return false; }
 };
 
-//=============================================================================
+/**
+ * @struct CUTS_BE_Component_Impl_Entrypoint_T
+ */
+template <typename IMPL_STRATEGY>
+struct CUTS_BE_Component_Impl_Entrypoint_T
+{
+  static bool generate (const PICML::MonolithicImplementation & monoimpl,
+                        const PICML::ComponentImplementationArtifact & artifact)
+    { return false; }
+};
+
 /**
  *
  */
-//=============================================================================
-
 template <typename IMPL_STRATEGY>
 struct CUTS_BE_Component_Impl_End_T
 {

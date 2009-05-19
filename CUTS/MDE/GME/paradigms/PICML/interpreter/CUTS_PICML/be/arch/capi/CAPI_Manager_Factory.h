@@ -18,12 +18,9 @@
 #include "CAPI_export.h"
 #include "../../BE_Manager_Factory.h"
 
-//=============================================================================
 /**
  * @class CUTS_BE_CAPI_Manager_Factory
  */
-//=============================================================================
-
 class CUTS_BE_CAPI_Manager_Factory :
   public CUTS_BE_Manager_Factory
 {

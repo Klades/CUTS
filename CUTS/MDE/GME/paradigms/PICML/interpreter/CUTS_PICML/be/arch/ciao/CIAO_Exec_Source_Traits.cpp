@@ -207,30 +207,6 @@ write_impl_end (const PICML::MonolithicImplementation & monoimpl,
              << "{"
              << "}";
 
-  // Write the entry point function for the component.
-  PICML::ExecutorArtifact ea = monoimpl.dstExecutorArtifact ();
-
-  if (Udm::null != ea)
-  {
-    PICML::ComponentImplementationArtifact cia = ea.dstExecutorArtifact_end ();
-
-    this->out_
-      << function_header (cia.EntryPoint ())
-      << "::Components::EnterpriseComponent_ptr " << std::endl
-      << cia.EntryPoint () << " (void)"
-      << "{"
-      << "::Components::EnterpriseComponent_ptr retval =" << std::endl
-      << "  ::Components::EnterpriseComponent::_nil ();"
-      << std::endl
-      << "ACE_NEW_RETURN (retval," << std::endl
-      << "::" << monoimpl.name () << " ()," << std::endl
-      << "::Components::EnterpriseComponent::_nil ());"
-      << std::endl
-      << "return retval;"
-      << "}"
-      << std::endl;
-  }
-
   // Clear the listing of output events.
   this->outevent_mgr_.clear ();
   this->asynch_events_.clear ();

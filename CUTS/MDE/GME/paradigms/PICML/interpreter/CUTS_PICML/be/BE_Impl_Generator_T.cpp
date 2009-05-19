@@ -163,6 +163,17 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
         boost::bind (&CUTS_BE_Impl_Generator_T::Visit_ProvidedRequestPort_impl,
         boost::ref (this), _1));
 
+      // Find the component implementation artifact so we can generate
+      // the entrypoint for this component's implementation.
+      this->monoimpl_ = monoimpl;
+      std::set <PICML::MonolithprimaryArtifact> artifacts = monoimpl.dstMonolithprimaryArtifact ();
+
+      std::for_each (artifacts.begin (),
+                     artifacts.end (),
+                     boost::bind (&PICML::MonolithprimaryArtifact::Accept,
+                                  _1,
+                                  boost::ref (*this)));
+
       //PICML::ComponentFactory factory;
 
       //if (this->get_component_factory (component, factory))
@@ -295,8 +306,9 @@ Visit_Component (const PICML::Component & component)
     CUTS_BE_Env_Visitor_T <BE_TYPE> env_visitor;
 
     CUTS_BE::visit <BE_TYPE> (env,
-      boost::bind (&PICML::Environment::Accept,
-      _1, boost::ref (env_visitor)));
+                              boost::bind (&PICML::Environment::Accept,
+                                           _1,
+                                           boost::ref (env_visitor)));
   }
 
   // End generating environment related metadata.
@@ -305,6 +317,31 @@ Visit_Component (const PICML::Component & component)
   // Determine if we are writing the variables
   if (CUTS_BE_Write_Variables_Last_T <BE_TYPE>::result_type)
     this->write_variables_i (component);
+}
+
+//
+// Visit_MonolithprimaryArtifact
+//
+template <typename BE_TYPE>
+void CUTS_BE_Impl_Generator_T <BE_TYPE>::
+Visit_MonolithprimaryArtifact (const PICML::MonolithprimaryArtifact & primary)
+{
+  PICML::ImplementationArtifactReference artifact = primary.dstMonolithprimaryArtifact_end ();
+  artifact.Accept (*this);
+}
+
+//
+// Visit_ImplementationArtifactReference
+//
+template <typename BE_TYPE>
+void CUTS_BE_Impl_Generator_T <BE_TYPE>::
+Visit_ImplementationArtifactReference (const PICML::ImplementationArtifactReference & artref)
+{
+  if (PICML::ComponentImplementationArtifact::meta == artref.type ())
+  {
+    PICML::ComponentImplementationArtifact artifact = PICML::ComponentImplementationArtifact::Cast (artref);
+    CUTS_BE_Component_Impl_Entrypoint_T <BE_TYPE>::generate (this->monoimpl_, artifact);
+  }
 }
 
 //

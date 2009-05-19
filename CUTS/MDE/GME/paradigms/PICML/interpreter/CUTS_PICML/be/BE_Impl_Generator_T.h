@@ -15,7 +15,6 @@
 
 #include "PICML/PICML.h"
 
-//=============================================================================
 /**
  * @class CUTS_BE_Impl_Generator_T
  *
@@ -25,8 +24,6 @@
  * The backend traits that are used when generating the implemenation
  * can be found in CUTS_BE_Traits.
  */
-//=============================================================================
-
 template <typename IMPL_STRATEGY>
 class CUTS_BE_Impl_Generator_T : public PICML::Visitor
 {
@@ -126,6 +123,12 @@ protected:
   void Visit_FactoryOperation (
     const PICML::FactoryOperation & factory_op);
 
+  void Visit_MonolithprimaryArtifact (
+    const PICML::MonolithprimaryArtifact & primary);
+
+  void Visit_ImplementationArtifactReference (
+    const PICML::ImplementationArtifactReference & artref);
+
 protected:
   void Visit_Include (
     const std::string & include);
@@ -140,6 +143,9 @@ protected:
     const PICML::ComponentImplementation &);
 
 private:
+  /// Current monolithic implementation.
+  PICML::MonolithicImplementation monoimpl_;
+
   /// Helper method to write the variables for the component.
   void write_variables_i (const PICML::Component & component);
 

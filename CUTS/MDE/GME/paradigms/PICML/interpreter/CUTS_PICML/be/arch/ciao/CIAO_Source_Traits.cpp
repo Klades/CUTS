@@ -358,6 +358,29 @@ function_header (const std::string & func)
   return ostr.str ();
 }
 
+//
+// write_entrypoint
+//
+void CUTS_CIAO_Source_Traits::
+write_entrypoint (const PICML::MonolithicImplementation & monoimpl,
+                  const PICML::ComponentImplementationArtifact & artifact)
+{
+  this->out_
+    << function_header (artifact.EntryPoint ())
+    << "::Components::EnterpriseComponent_ptr " << std::endl
+    << artifact.EntryPoint () << " (void)"
+    << "{"
+    << "::Components::EnterpriseComponent_ptr retval =" << std::endl
+    << "  ::Components::EnterpriseComponent::_nil ();"
+    << std::endl
+    << "ACE_NEW_RETURN (retval," << std::endl
+    << "::" << monoimpl.name () << " ()," << std::endl
+    << "::Components::EnterpriseComponent::_nil ());"
+    << std::endl
+    << "return retval;"
+    << "}"
+    << std::endl;
+}
 
 //
 // write_TwowayOperation_begin

@@ -30,12 +30,9 @@ struct CUTS_BE_Impl_Node;
 // Forward decl.
 struct CUTS_BE_IDL_Node;
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_File_Open_T <CUTS_BE_Ciao>
 {
@@ -50,12 +47,9 @@ struct CUTS_BE_File_Open_T <CUTS_BE_Ciao>
   }
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_File_Close_T <CUTS_BE_Ciao>
 {
@@ -72,12 +66,9 @@ struct CUTS_BE_File_Close_T <CUTS_BE_Ciao>
   }
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Prologue_T <CUTS_BE_Ciao>
 {
@@ -138,12 +129,9 @@ struct CUTS_BE_Component_Impl_Begin_T <CUTS_BE_Ciao>
   }
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Component_Impl_End_T <CUTS_BE_Ciao>
 {
@@ -160,12 +148,22 @@ struct CUTS_BE_Component_Impl_End_T <CUTS_BE_Ciao>
   }
 };
 
-//=============================================================================
+template < >
+struct CUTS_BE_Component_Impl_Entrypoint_T <CUTS_BE_Ciao>
+{
+  static bool generate (const PICML::MonolithicImplementation & monoimpl,
+                        const PICML::ComponentImplementationArtifact & artifact)
+  {
+    CIAO_EXEC_HEADER_GENERATOR ()->write_entrypoint (monoimpl, artifact);
+    CIAO_EXEC_SOURCE_GENERATOR ()->write_entrypoint (monoimpl, artifact);
+
+    return true;
+  }
+};
+
 /**
  *
  */
-//=============================================================================
-
 template < >
 struct CUTS_BE_Factory_Impl_Begin_T <CUTS_BE_Ciao>
 {

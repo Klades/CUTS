@@ -17,16 +17,12 @@
 #include "ace/Singleton.h"
 #include "ace/Null_Mutex.h"
 
-//=============================================================================
 /**
  * @class CUTS_CIAO_Exec_Header_Traits
  *
  * CIAO header file generator for the CUTS-PICML backend.
  */
-//=============================================================================
-
-class CUTS_CIAO_Exec_Header_Traits :
-  public CUTS_CIAO_Header_Traits
+class CUTS_CIAO_Exec_Header_Traits : public CUTS_CIAO_Header_Traits
 {
 public:
   /// Type definition of the super class.

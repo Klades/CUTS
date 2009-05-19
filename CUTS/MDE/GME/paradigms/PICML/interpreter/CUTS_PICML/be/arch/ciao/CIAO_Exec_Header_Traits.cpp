@@ -224,33 +224,6 @@ write_impl_end (const PICML::MonolithicImplementation & monoimpl,
 
   this->out_ << "};";
 
-  // Write the entry point function for the component.
-  PICML::ExecutorArtifact ea = monoimpl.dstExecutorArtifact ();
-
-  if (Udm::null != ea)
-  {
-    PICML::ComponentImplementationArtifact cia = ea.dstExecutorArtifact_end ();
-    PICML::ImplementationArtifact ia = cia.ref ();
-
-    // Construct the export macro and export filename.
-    std::string export_basename (ia.name ());
-    std::string export_macro (export_basename);
-
-    std::transform (export_macro.begin (),
-                    export_macro.end (),
-                    export_macro.begin (),
-                    &toupper);
-
-    this->out_
-      << include (export_basename + "_export")
-      << std::endl
-      << single_line_comment (cia.EntryPoint ())
-      << "extern \"C\" " << export_macro << "_Export" << std::endl
-      << "::Components::EnterpriseComponent_ptr " << std::endl
-      << cia.EntryPoint () << " (void);"
-      << std::endl;
-  }
-
   // Clear the list of asynchronous events.
   this->asynch_events_.clear ();
   this->has_activate_ = false;

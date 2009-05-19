@@ -16,19 +16,15 @@
 #include "cuts/config.h"
 #include <string>
 
-//=============================================================================
 /**
  * @struct Sorted_By_Name
  */
-//=============================================================================
-
 template <typename T>
 struct Sorted_By_Name
 {
   bool operator () (const T & lhs, const T & rhs);
 };
 
-//=============================================================================
 /**
  * @struct Sort_By_Position
  *
@@ -36,8 +32,6 @@ struct Sorted_By_Name
  * sorted by this method are in left-to-right ordering. Their y-value
  * is currently ignored when sorting objects.
  */
-//=============================================================================
-
 template <typename T>
 struct Sort_By_Position
 {
@@ -86,15 +80,12 @@ struct Sort_By_Position
   }
 };
 
-//=============================================================================
 /**
  * @struct is_type
  *
  * Functor for checking the type of a UDM object. This is very
  * useful with boost and their template methods.
  */
-//=============================================================================
-
 template <typename T>
 struct is_type
 {

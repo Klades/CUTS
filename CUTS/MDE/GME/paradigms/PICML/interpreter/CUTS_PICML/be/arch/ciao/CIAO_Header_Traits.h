@@ -15,16 +15,12 @@
 
 #include "CIAO_Traits_Base.h"
 
-//=============================================================================
 /**
  * @class CUTS_CIAO_Header_Traits
  *
  * CIAO header file generator for the CUTS-PICML backend.
  */
-//=============================================================================
-
-class CUTS_CIAO_Header_Traits :
-  public CIAO_Traits_Base
+class CUTS_CIAO_Header_Traits : public CIAO_Traits_Base
 {
 public:
   /// Type definition of the super class.
@@ -93,6 +89,10 @@ public:
 
   virtual void write_OnewayOperation_end (
     const PICML::OnewayOperation & oneway);
+
+  virtual void write_entrypoint (
+    const PICML::MonolithicImplementation & monoimpl,
+    const PICML::ComponentImplementationArtifact & artifact);
 
 protected:
   virtual void write_set_session_context (

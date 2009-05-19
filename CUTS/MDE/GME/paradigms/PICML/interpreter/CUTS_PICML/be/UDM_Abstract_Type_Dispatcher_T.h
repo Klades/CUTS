@@ -93,10 +93,9 @@ private:
   VISITOR & visitor_;
 
   /// Type definition for the acceptor map.
-  typedef
-    std::map <Uml::Class,
-              UDM_Abstract_Type_Acceptor_Base_T <VISITOR> *>
-    UDM_Acceptor_Map;
+  typedef std::map <Uml::Class,
+                    UDM_Abstract_Type_Acceptor_Base_T <VISITOR> *>
+                    UDM_Acceptor_Map;
 
   /// Collection of acceptors for this dispatcher.
   UDM_Acceptor_Map acceptors_;

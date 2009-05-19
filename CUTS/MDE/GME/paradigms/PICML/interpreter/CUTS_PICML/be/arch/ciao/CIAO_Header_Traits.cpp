@@ -123,6 +123,34 @@ write_impl_begin (const PICML::MonolithicImplementation & monoimpl,
 }
 
 //
+// write_entrypoint
+//
+void CUTS_CIAO_Header_Traits::
+write_entrypoint (const PICML::MonolithicImplementation & ,
+                  const PICML::ComponentImplementationArtifact & artifact)
+{
+  PICML::ImplementationArtifact ia = artifact.ref ();
+
+  // Construct the export macro and export filename.
+  std::string export_basename (ia.name ());
+  std::string export_macro (export_basename);
+
+  std::transform (export_macro.begin (),
+                  export_macro.end (),
+                  export_macro.begin (),
+                  &toupper);
+
+  this->out_
+    << include (export_basename + "_export")
+    << std::endl
+    << single_line_comment (artifact.EntryPoint ())
+    << "extern \"C\" " << export_macro << "_Export" << std::endl
+    << "::Components::EnterpriseComponent_ptr " << std::endl
+    << artifact.EntryPoint () << " (void);"
+    << std::endl;
+}
+
+//
 // write_method_begin
 //
 void CUTS_CIAO_Header_Traits::

@@ -18,7 +18,6 @@
 #include "ace/Singleton.h"
 #include "ace/Null_Mutex.h"
 
-//=============================================================================
 /**
  * @class CUTS_BE_Options
  *
@@ -26,8 +25,6 @@
  * a singleton, which allows developers to access this information
  * as if it was global.
  */
-//=============================================================================
-
 struct CUTS_BE_Export CUTS_BE_Options
 {
   /// Name of the project.
@@ -55,9 +52,7 @@ struct CUTS_BE_Export CUTS_BE_Options
   Menu_Option option_;
 };
 
-CUTS_BE_SINGLETON_DECLARE (ACE_Singleton, 
-                           CUTS_BE_Options, 
-                           ACE_Null_Mutex);
+CUTS_BE_SINGLETON_DECLARE (ACE_Singleton, CUTS_BE_Options, ACE_Null_Mutex);
 
 #define CUTS_BE_OPTIONS() \
   ACE_Singleton <CUTS_BE_Options, ACE_Null_Mutex>::instance ()
