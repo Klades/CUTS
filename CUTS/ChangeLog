@@ -1,3 +1,10 @@
+Tue May 19 22:57:03 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CUTS/paradigm/icons:
+        * MDE/GME/paradigms/CUTS/paradigm/icons/logformat.bmp:
+
+          . Initial icon for log formats.
+
 Tue May 19 21:34:30 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Generators_T.h:
