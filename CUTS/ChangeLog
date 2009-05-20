@@ -1,3 +1,11 @@
+Wed May 20 13:51:49 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/java/logging/client/log4j/HelloWorld.datagraph:
+        * examples/java/logging/client/log4j/HelloWorld.unite:
+
+          . Added UNITE configurations for analyzing test results for
+            this simple example.
+
 Wed May 20 06:32:58 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/java/utils/logging/client/interceptors/log4j/cuts.log4j.build.xml:
