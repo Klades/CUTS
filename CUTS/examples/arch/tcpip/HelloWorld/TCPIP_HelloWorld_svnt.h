@@ -45,26 +45,26 @@ namespace TCPIP
 
     virtual ~HelloWorld_Servant_Context (void);
 
+  public:
     virtual void push_handle_message (::Message * ev);
 
-    virtual void push_handle_message_ex (::Message * ev);
-
     CUTS_TCPIP_CCM_Remote_Endpoint & endpoint_handle_message (void);
-
-    CUTS_TCPIP_CCM_Subscriber_Table & endpoints_handle_message_ex (void);
 
   private:
     CUTS_TCPIP_CCM_Remote_Endpoint_T <::Message> handle_message_;
 
+  public:
+    virtual void push_handle_message_ex (::Message * ev);
+
+    CUTS_TCPIP_CCM_Subscriber_Table & endpoints_handle_message_ex (void);
+
+  private:
     CUTS_TCPIP_CCM_Subscriber_Table_T <::Message> handle_message_ex_;
   };
 
-  // Forward decl.
-  class HelloWorld_Servant;
-
   typedef CUTS_TCPIP_CCM_Servant_T <::TCPIP::HelloWorld_Servant,
                                     ::TCPIP::HelloWorld_Servant_Context,
-                                    ::CIDL_HelloWorld_Impl::HelloWorld_Exec,
+                                    ::CIDL_HelloWorld_Basic_Impl::HelloWorld_Exec,
                                     ::POA_HelloWorld> HelloWorld_Servant_Base;
 
   /**
@@ -77,7 +77,7 @@ namespace TCPIP
     /// Default constructor.
     HelloWorld_Servant (const char * name,
                         CUTS_TCPIP_Servant_Manager & svnt_mgr,
-                        ::CIDL_HelloWorld_Impl::HelloWorld_Exec_ptr executor);
+                        ::CIDL_HelloWorld_Basic_Impl::HelloWorld_Exec_ptr executor);
 
     /// Destructor.
     virtual ~HelloWorld_Servant (void);

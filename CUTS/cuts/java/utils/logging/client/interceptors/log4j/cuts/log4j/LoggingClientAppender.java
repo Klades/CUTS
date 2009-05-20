@@ -33,8 +33,8 @@ public class LoggingClientAppender extends AppenderSkeleton
 
   public void activateOptions ()
   {
-    this.logger_.configure (this.localPort_);
-    this.logger_.connect (this.testName_);
+    this.logger_.configure ((short)this.localPort_);
+    this.logger_.connectIOR (this.testIOR_);
   }
 
   /**
@@ -43,18 +43,19 @@ public class LoggingClientAppender extends AppenderSkeleton
    *
    * @param[in]       port          Port number
    */
-  public void setPort (short port)
+  public void setPort (int port)
   {
     this.localPort_ = port;
   }
 
   /**
-   * Set the name of the test manager. This will resolve the test
-   * manager using the Naming Service.
+   * Set the IOR for the test logger.
+   *
+   * @param[in]       ior           IOR of test logger.
    */
-  public void setTestName (String name)
+  public void setTestIOR (String ior)
   {
-    this.testName_ = name;
+    this.testIOR_ = ior;
   }
 
   /**
@@ -119,14 +120,13 @@ public class LoggingClientAppender extends AppenderSkeleton
   private CUTS.Logger logger_ = new CUTS.Logger ();
 
   /// Port of the local logging client.
-  private short localPort_;
-
-  /// Name of the test manager.
-  private String testName_;
+  private int localPort_;
 
   /// Initialization state of the appender/logger.
   private boolean isInit_ = false;
 
   /// Table for tranlating Level objects to integer values.
   private static Hashtable<Level, Integer> levelTable_;
+
+  private String testIOR_;
 }

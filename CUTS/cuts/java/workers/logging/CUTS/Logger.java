@@ -61,10 +61,7 @@ public class Logger
   /// The test number for the logger.
   private CUTS.UUID testUUID_;
 
-  /// The location of the test manager.
-  private String testManagerLocation_ = "localhost";
-
-  private String testManagerName_ = "(default)";
+  private String testIOR_;
 
   /// ORB used by the logger to communicate with outside world.
   private org.omg.CORBA.ORB orb_ = null;
@@ -78,7 +75,7 @@ public class Logger
   private NamingContextExt naming_ = null;
 
   /// The default logging client port number.
-  private short loggingClientPort_ = 10000;
+  private int loggingClientPort_ = 10000;
 
   /**
    * Default constructor.
@@ -96,7 +93,6 @@ public class Logger
 
     // Initalize the CORBA ORB.
     this.orb_ = org.omg.CORBA.ORB.init (args.toArray (new String [0]), null);
-    this.configure ();
   }
 
   /**
@@ -113,14 +109,13 @@ public class Logger
    * Configure the logger with the logger client. This primarily sets
    * the port number to connect to the logger client.
    */
-  public void configure (short port)
+  public void configure (int port)
   {
-    // Construct the string location of the logging client.
-    String location =
-      "corbaloc:iiop:localhost:" + port + "/CUTS/LocalTestLoggerClient";
-
     try
     {
+      // Construct the string location of the logging client.
+      String location = "corbaloc:iiop:localhost:" + port + "/CUTS/LocalTestLoggerClient";
+
       // Convert the string into an actual object.
       this.loggerClient_ =
         CUTS.LocalTestLoggerClientHelper.narrow (
@@ -131,40 +126,78 @@ public class Logger
     catch (Exception ex)
     {
       ex.printStackTrace ();
+      System.err.println ("Failed to configure with local logging client");
     }
   }
 
-  /**
-   * Connect the to the test manager at the specified location. The
-   * test logger will cache the host name for later usage, such as
-   * reconnecting to the test manager to get the latest test id.
-   *
-   * @param[in]         testManagerName     Location of the test manager.
-   */
-  public void connect (String testManagerName)
+  ///**
+  // * Connect the to the test manager at the specified location. The
+  // * test logger will cache the host name for later usage, such as
+  // * reconnecting to the test manager to get the latest test id.
+  // *
+  // * @param[in]         testManagerName     Location of the test manager.
+  // */
+  //public void connect (String testManagerName)
+  //{
+  //  // Save the old test number.
+  //  CUTS.UUID oldTestUUID = this.testUUID_;
+
+  //  try
+  //  {
+  //    this.naming_ =
+  //      NamingContextExtHelper.narrow (
+  //      this.orb_.string_to_object (
+  //      System.getProperty ("ORBInitRef.NameService")));
+
+  //    String strName =
+  //      "CUTS/TestManager/" + testManagerName;
+
+  //    // Resolve the location of the test manager using the naming service.
+  //    CUTS.TestManager tm =
+  //      CUTS.TestManagerHelper.narrow (
+  //      this.naming_.resolve (this.naming_.to_name (strName)));
+
+  //    // Get the current id of the test. We need to use this to identify
+  //    // the test which the log message belongs.
+  //    this.testUUID_ = tm.details ().uid;
+  //    this.testManagerName_ = testManagerName;
+  //  }
+  //  catch (Exception ex)
+  //  {
+  //    ex.printStackTrace ();
+  //  }
+
+  //  try
+  //  {
+  //    if (this.testLogger_ == null || oldTestUUID != this.testUUID_)
+  //    {
+  //      // Instruct the logger client to create a new factory.
+  //      this.loggerFactory_ = this.loggerClient_.find (this.testUUID_);
+
+  //      // Create a new thread local test logger.
+  //      this.testLogger_ = this.loggerFactory_.create ();
+  //    }
+  //  }
+  //  catch (Exception ex)
+  //  {
+  //    ex.printStackTrace ();
+  //  }
+  //}
+
+  public void connectIOR (String testIOR)
   {
     // Save the old test number.
     CUTS.UUID oldTestUUID = this.testUUID_;
 
     try
     {
-      this.naming_ =
-        NamingContextExtHelper.narrow (
-        this.orb_.string_to_object (
-        System.getProperty ("ORBInitRef.NameService")));
-
-      String strName =
-        "CUTS/TestManager/" + testManagerName;
-
-      // Resolve the location of the test manager using the naming service.
       CUTS.TestManager tm =
-        CUTS.TestManagerHelper.narrow (
-        this.naming_.resolve (this.naming_.to_name (strName)));
+        CUTS.TestManagerHelper.narrow (this.orb_.string_to_object (testIOR));
 
       // Get the current id of the test. We need to use this to identify
       // the test which the log message belongs.
       this.testUUID_ = tm.details ().uid;
-      this.testManagerName_ = testManagerName;
+      this.testIOR_ = testIOR;
     }
     catch (Exception ex)
     {
@@ -180,6 +213,7 @@ public class Logger
 
         // Create a new thread local test logger.
         this.testLogger_ = this.loggerFactory_.create ();
+        this.testLogger_.start (30);
       }
     }
     catch (Exception ex)
@@ -188,15 +222,15 @@ public class Logger
     }
   }
 
-  /**
-   * Connect to the cached test manager and get the test id. This is useful
-   * if the same test manager starts a new test and the test logger needs to
-   * updates its test id.
-   */
-  public void connect ()
-  {
-    this.connect (this.testManagerName_);
-  }
+  ///**
+  // * Connect to the cached test manager and get the test id. This is useful
+  // * if the same test manager starts a new test and the test logger needs to
+  // * updates its test id.
+  // */
+  //public void connect ()
+  //{
+  //  this.connect (this.testManagerName_);
+  //}
 
   /**
    * Disconnect from the test manager.
@@ -205,6 +239,10 @@ public class Logger
   {
     try
     {
+      // First, stop the test logger.
+      if (this.testLogger_ != null)
+        this.testLogger_.stop ();
+
       if (this.loggerFactory_ != null)
         this.loggerFactory_.destroy (this.testLogger_);
 

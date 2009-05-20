@@ -1,3 +1,42 @@
+Wed May 20 06:05:51 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/java/utils/logging/client/interceptors/log4j/cuts/log4j/LoggingClientAppender.java:
+
+          . Bug fix where the appender was not initializing the
+            test logger properly.
+
+        * cuts/java/workers/logging/CUTS/Logger.java:
+
+          . Switched to using a fully qualified IOR when connecting
+            to the test manager server.
+
+          . Bug fix where the logger was connecting during its
+            construction.
+
+          . Bug fix where the logger was not properly started/stopped
+            during creation/destruction.
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld.cidl:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldC.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldC.cpp:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.cpp:
+        * examples/arch/tcpip/HelloWorld/models/HelloWorld.xme:
+
+          . Updated the example to use more auto-generated code.
+
+        * examples/java/logging/client/log4j/HelloWorld.java:
+        * examples/java/logging/client/log4j/build.xml:
+        * examples/java/logging/client/log4j/cutsnode.config:
+        * examples/java/logging/client/log4j/cutstest.config:
+        * examples/java/logging/client/log4j/log4j.properties:
+        * examples/java/logging/client/log4j/logging.config:
+        * examples/java/logging/client/log4j/run_test.pl:
+
+          . Simple example illustrating the usage of the log4j appender,
+            which connects to the CUTS logging facilities.
+
 Tue May 19 22:57:03 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/CUTS/paradigm/icons:

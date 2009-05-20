@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<project name="cuts.java" basedir="." default="build">
+  <property environment="env" />
+
+  <import file="${env.CUTS_ROOT}/etc/ANT/include/cuts.build" />
+
+  <target name="build">
+    <path id="build.classpath">
+      <pathelement path="${env.CUTS_ROOT}/lib/cuts.log4j.jar" />
+      <pathelement path="${env.CUTS_ROOT}/lib/CUTS.TestLogger.jar" />
+      <pathelement path="${env.CUTS_ROOT}/lib/cuts.java.jar" />
+      <pathelement path="${contrib.dir}/log4j-1.2.15.jar" />
+    </path>
+
+    <javac srcdir="."
+           debug="true"
+           debuglevel="source,lines"
+           classpathref="build.classpath">
+      <include name="HelloWorld.java" />
+    </javac>
+  </target>
+
+  <target name="clean">
+    <delete>
+      <fileset dir="." includes="HelloWorld.class" />
+    </delete>
+  </target>
+</project>

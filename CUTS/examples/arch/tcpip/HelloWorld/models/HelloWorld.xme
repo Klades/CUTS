@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{7AF09123-BD36-444E-8FFA-BFCB1C0B1D06}" cdate="Tue May 19 09:58:28 2009" mdate="Tue May 19 09:58:28 2009" version="" metaguid="{CDCDB657-AAD7-4917-941A-E63B013136B7}" metaversion="" metaname="PICML">
+<project guid="{BFCD8606-278C-4B8B-A5C7-680C05DB8D9C}" cdate="Tue May 19 09:58:28 2009" mdate="Tue May 19 09:58:28 2009" version="" metaguid="{CDCDB657-AAD7-4917-941A-E63B013136B7}" metaversion="" metaname="PICML">
 	<name>HelloWorld</name>
 	<comment></comment>
 	<author></author>
@@ -9,7 +9,7 @@
 		<name>HelloWorld</name>
 		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x1" kind="InterfaceDefinitions" guid="{3B8668FA-A462-4fff-9BB9-A9D567B27590}">
 			<name>InterfaceDefinitions</name>
-			<model id="id-0065-00000001" kind="File" guid="{F1FA19C6-9E70-4ecb-986E-FB9E7B25CAB1}" relid="0x1" childrelidcntr="0x5">
+			<model id="id-0065-00000001" kind="File" guid="{F1FA19C6-9E70-4ecb-986E-FB9E7B25CAB1}" relid="0x1" childrelidcntr="0x7">
 				<name>HelloWorld</name>
 				<attribute kind="PrefixTag" status="meta">
 					<value></value>
@@ -59,7 +59,7 @@
 						</regnode>
 					</reference>
 				</model>
-				<model id="id-0065-00000003" kind="Event" role="Event" guid="{3C90AD3D-0E3C-4b18-A9FF-DC0AC002A4CD}" relid="0x2" childrelidcntr="0x2">
+				<model id="id-0065-00000003" kind="Event" role="Event" guid="{3C90AD3D-0E3C-4b18-A9FF-DC0AC002A4CD}" relid="0x2" childrelidcntr="0x3">
 					<name>Message</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -653,5 +653,11 @@
 				</model>
 			</model>
 		</folder>
+		<regnode name="__OutputDir__" status="undefined">
+			<value></value>
+			<regnode name="CUTS_PICML" isopaque="yes">
+				<value>E:\proj\CUTS\examples\arch\tcpip\HelloWorld</value>
+			</regnode>
+		</regnode>
 	</folder>
 </project>

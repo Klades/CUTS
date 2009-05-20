@@ -31,11 +31,14 @@ private:
   bool is_active_;
 };
 
+typedef CUTS_CCM_Component_T <CIDL_HelloWorld_Basic_Impl::HelloWorld_Exec,
+                              ::CCM_HelloWorld_Context> HelloWorld_Basic_Impl_Base;
+
 class HELLOWORLD_IMPL_Export HelloWorld_Basic_Impl :
-  public CUTS_CCM_Component_T <CIDL_HelloWorld_Impl::HelloWorld_Exec, ::CCM_HelloWorld_Context>
+  public HelloWorld_Basic_Impl_Base
 {
 public:
-  typedef CUTS_CCM_Component_T <CIDL_HelloWorld_Impl::HelloWorld_Exec, ::CCM_HelloWorld_Context> base_type;
+  typedef HelloWorld_Basic_Impl_Base base_type;
 
   HelloWorld_Basic_Impl (void);
 

@@ -10,6 +10,7 @@ use PerlACE::Run_Test;
 
 $REMOTE_ENDPOINT = "iiop://localhost:30000";
 $LOCALHOST_PORT = 20000;
+$timeout = 10;
 
 $CUTS_ROOT = "$ENV{'CUTS_ROOT'}";
 $JAVA_HOME = "$ENV{'JAVA_HOME'}";
@@ -18,7 +19,12 @@ $JAVA_HOME = "$ENV{'JAVA_HOME'}";
 $node = new PerlACE::Process ("$CUTS_ROOT/bin/cutsnode_d", "-c cutsnode.config -DREMOTE_ENDPOINT=$REMOTE_ENDPOINT -DLOCALHOST_PORT=$LOCALHOST_PORT --debug --verbose");
 $node->Spawn ();
 
+sleep (3);
+
 # spawn a test manager
+$test = new PerlACE::Process ("$CUTS_ROOT/bin/cutstest", "-c cutstest.config --time=$timeout --debug --verbose");
+$test->Spawn ();
+
 sleep (3);
 
 # run the Java application
@@ -26,7 +32,12 @@ $classpath = ".;$CUTS_ROOT/lib/cuts.log4j.jar;$CUTS_ROOT/lib/CUTS.TestLogger.jar
 $javapp = new PerlACE::Process ("$JAVA_HOME/bin/java", "-classpath $classpath HelloWorld");
 $javapp->SpawnWaitKill ();
 
+sleep ($timeout);
+
 # kill the CUTS node daemon
 $node->Kill ();
 $node->TimedWait (1);
 
+# kill the test daemon
+$test->Kill ();
+$test->TimedWait (1);

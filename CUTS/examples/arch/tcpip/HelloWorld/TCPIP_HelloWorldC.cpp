@@ -2,38 +2,36 @@
 
 #include "TCPIP_HelloWorldC.h"
 
-ACE_CDR::Boolean operator << (CUTS_TCPIP_OutputCDR & stream, ::TimeValue & rhs)
-{
-  stream << rhs.sec;
-  stream << rhs.usec;
 
+ACE_CDR::Boolean operator << (CUTS_TCPIP_OutputCDR & stream, const TimeValue & val)
+{
+  stream << val.sec;
+  stream << val.usec;
   return stream.good_bit ();
 }
 
-ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & stream, ::TimeValue & rhs)
+ACE_CDR::Boolean operator << (CUTS_TCPIP_OutputCDR & stream, const Message & ev)
 {
-  stream >> rhs.sec;
-  stream >> rhs.usec;
-
+  stream << ev.time ();
+  stream << ev.content ();
   return stream.good_bit ();
 }
 
-ACE_CDR::Boolean operator << (CUTS_TCPIP_OutputCDR & stream, ::Message & rhs)
+ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & stream, TimeValue & val)
 {
-  stream << rhs.time ();
-  stream << rhs.content ();
-
+  stream >> val.sec;
+  stream >> val.usec;
   return stream.good_bit ();
 }
 
-ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & stream, ::Message & rhs)
+ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & stream, Message & ev)
 {
-  stream >> rhs.time ();
+  stream >> ev.time ();
 
-  ACE_CString content;
-  stream >> content;
-  rhs.content (content.c_str ());
-
+  // extracting member content
+  ACE_CString _300000016;
+  stream >> _300000016;
+  ev.content (_300000016.c_str ());
   return stream.good_bit ();
 }
 
