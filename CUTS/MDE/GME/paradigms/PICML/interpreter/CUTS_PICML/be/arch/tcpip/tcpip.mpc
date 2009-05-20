@@ -17,7 +17,11 @@ project (CUTS_BE_TCPIP) : boost_base, picml_udm, cuts_be, cuts_cosmic {
     TCPIP_Ctx.cpp
     TCPIP_Generator.cpp
     TCPIP_Manager_Factory.cpp
-    //Servant_Header_Generator.cpp
+    Servant_Header_Context_Generator.cpp
+    Servant_Header_Generator.cpp
+    Servant_Header_Impl_Generator.cpp
+    Servant_Header_Include_Generator.cpp
+
     //Servant_Source_Generator.cpp
     Stub_Header_Generator.cpp
     Stub_Source_Generator.cpp

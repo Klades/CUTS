@@ -133,7 +133,7 @@ project (HelloWorld_exec) : ciao_executor, cuts_tcpip, base {
 
 project (TCPIP_HelloWorld_svnt) : cuts_tcpip_ccm, base {
   sharedname    = TCPIP_HelloWorld_svnt
-  dynamicflags += HELLOWORLD_SVNT_BUILD_DLL
+  dynamicflags += TCPIP_HELLOWORLD_SVNT_BUILD_DLL
 
   libs  += HelloWorld_exec HelloWorld_stub HelloWorld_skel TCPIP_HelloWorld_stub
   after += HelloWorld_exec HelloWorld_stub HelloWorld_skel TCPIP_HelloWorld_stub

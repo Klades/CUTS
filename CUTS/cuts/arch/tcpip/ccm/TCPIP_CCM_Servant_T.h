@@ -25,6 +25,12 @@
 // Forward decl.
 class CUTS_TCPIP_Servant_Manager;
 
+// Forward decl.
+class CUTS_TCPIP_CCM_Subscriber_Table;
+
+// Forward decl.
+class CUTS_TCPIP_CCM_EventConsumer;
+
 /**
  * @class CUTS_TCPIP_CCM_Events_Impl
  */

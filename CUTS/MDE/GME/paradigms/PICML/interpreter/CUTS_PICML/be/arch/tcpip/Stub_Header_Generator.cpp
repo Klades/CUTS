@@ -90,9 +90,6 @@ Visit_File (const PICML::File & file)
     // Indentation implanter.
     Indentation::Implanter <Indentation::Cxx, char> formatter (this->outfile_);
 
-    // Visit all the packages in this file.
-    std::set <PICML::Package> packages = file.Package_children ();
-
     std::string corba_filename (file.name ());
     corba_filename += "C";
 
@@ -121,6 +118,8 @@ Visit_File (const PICML::File & file)
                    << CUTS_BE_TCPIP_Ctx::include (export_filename)
                    << std::endl;
 
+    // Visit all the packages in this file.
+    std::set <PICML::Package> packages = file.Package_children ();
     this->Visit_PackageFile_i (file);
 
     std::for_each (packages.begin (),
@@ -128,7 +127,6 @@ Visit_File (const PICML::File & file)
                    boost::bind (&PICML::Package::Accept, _1, boost::ref (*this)));
 
     this->outfile_ << "#endif  // !defined " << hash_define << std::endl;
-
   } while (0);
 
   // Close the file.

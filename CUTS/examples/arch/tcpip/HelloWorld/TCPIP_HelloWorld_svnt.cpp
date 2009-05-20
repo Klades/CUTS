@@ -9,13 +9,13 @@
 #include "cuts/arch/tcpip/TCPIP_Remote_Endpoint.h"
 #include "cuts/arch/tcpip/TCPIP_Servant_Manager.h"
 
-namespace TCPIP
+namespace TCPIP_HelloWorld_Basic_Impl
 {
   //
   // HelloWorld_Servant_Context
   //
   HelloWorld_Servant_Context::
-  HelloWorld_Servant_Context (::TCPIP::HelloWorld_Servant & parent)
+  HelloWorld_Servant_Context (HelloWorld_Servant & parent)
   : HelloWorld_Servant_Context_Base (parent)
   {
 
@@ -181,6 +181,6 @@ namespace TCPIP
                              ::Components::EnterpriseComponent_ptr p)
   {
     return ::CUTS_TCPIP::CCM::create_servant <::CIDL_HelloWorld_Basic_Impl::HelloWorld_Exec,
-                                              ::TCPIP::HelloWorld_Servant> (name, svnt_mgr, p);
+                                              ::TCPIP_HelloWorld_Basic_Impl::HelloWorld_Servant> (name, svnt_mgr, p);
   }
 }
