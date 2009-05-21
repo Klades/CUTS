@@ -1,17 +1,7 @@
 // -*- C++ -*-
 
-//=============================================================================
-/**
- * @file        Servant_Header_Generator.h
- *
- * $Id$
- *
- * @author      James H. Hill
- */
-//=============================================================================
-
-#ifndef _CUTS_BE_TCPIP_SERVANT_HEADER_GENERATOR_H_
-#define _CUTS_BE_TCPIP_SERVANT_HEADER_GENERATOR_H_
+#ifndef _CUTS_BE_TCPIP_SERVANT_SOURCE_GENERATOR_H_
+#define _CUTS_BE_TCPIP_SERVANT_SOURCE_GENERATOR_H_
 
 #include "PICML/PICML.h"
 #include <fstream>
@@ -19,14 +9,14 @@
 namespace CUTS_BE_TCPIP
 {
 /**
- * @class Servant_Header_Generator
+ * @class Servant_Source_Generator
  */
-class Servant_Header_Generator : public PICML::Visitor
+class Servant_Source_Generator : public PICML::Visitor
 {
 public:
-  Servant_Header_Generator (const std::string & outdir);
+  Servant_Source_Generator (const std::string & outdir);
 
-  virtual ~Servant_Header_Generator (void);
+  virtual ~Servant_Source_Generator (void);
 
   virtual void Visit_RootFolder (
     const PICML::RootFolder & folder);
@@ -63,11 +53,11 @@ private:
 
   std::ofstream fout_;
 
-  std::string export_macro_;
-
   std::string monoimpl_;
+
+  std::string component_type_;
 };
 
 }
 
-#endif  // !defined _CUTS_BE_TCPIP_SERVANT_HEADER_GENERATOR_H_
+#endif  // !defined _CUTS_BE_TCPIP_SERVANT_SOURCE_GENERATOR_H_

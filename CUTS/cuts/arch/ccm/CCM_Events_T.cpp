@@ -1,7 +1,7 @@
 // $Id$
 
 #if !defined (__CUTS_INLINE__)
-# include "cCCM_Events_T.inl"
+# include "CCM_Events_T.inl"
 #endif
 
 //

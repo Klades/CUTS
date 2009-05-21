@@ -35,6 +35,8 @@ public:
   static std::string fq_type (const PICML::NamedType & type,
                               const std::string & separator = "::",
                               bool leading = true);
+
+  static std::string function_header (const std::string & func);
 };
 
 #endif  // !defined _CUTS_BE_TCPIP_CTX_H_

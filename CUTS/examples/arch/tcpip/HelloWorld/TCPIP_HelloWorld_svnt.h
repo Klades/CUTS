@@ -99,8 +99,8 @@ namespace TCPIP_HelloWorld_Basic_Impl
 
 extern "C" TCPIP_HELLOWORLD_SVNT_Export
 ::PortableServer::Servant
-create_HelloWorld_Basic_Impl (const char * name,
-                              CUTS_TCPIP_Servant_Manager * svnt_mgr,
-                              ::Components::EnterpriseComponent_ptr p);
+create_HelloWorld_Servant (const char * name,
+                           CUTS_TCPIP_Servant_Manager * svnt_mgr,
+                           ::Components::EnterpriseComponent_ptr p);
 
 #endif  // !defined _TCPIP_HELLOWORLD_SVNT_H_

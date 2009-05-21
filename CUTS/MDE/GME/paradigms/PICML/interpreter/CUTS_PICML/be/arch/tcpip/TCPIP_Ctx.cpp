@@ -73,3 +73,13 @@ std::string CUTS_BE_TCPIP_Ctx::fq_type (const PICML::NamedType & type,
     CUTS_BE_TCPIP_Ctx::scope (type, separator, leading) +
     std::string (type.name ());
 }
+
+//
+// function_header
+//
+std::string CUTS_BE_TCPIP_Ctx::function_header (const std::string & func)
+{
+  std::string str ("//\n");
+  str += "// " + func + "\n" + "//\n";
+  return str;
+}
