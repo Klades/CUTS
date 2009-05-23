@@ -1,3 +1,18 @@
+Sat May 23 04:45:22 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * docs/manual/analysis:
+        * docs/manual/analysis/analysis.tex:
+        * docs/manual/analysis/unite.tex:
+        * docs/manual/appendix:
+        * docs/manual/appendix/appendix.tex:
+        * docs/manual/appendix/thirdparty.tex:
+        * docs/manual/install.tex:
+        * docs/manual/manual.pdf:
+        * docs/manual/manual.tex:
+
+	  . Updated the manual to include instructions on building and
+	    installing third-party libraries for CUTS.
+
 Thu May 21 01:03:20 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Generator.h:

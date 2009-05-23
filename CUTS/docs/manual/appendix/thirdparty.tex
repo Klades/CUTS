@@ -1,0 +1,317 @@
+% $Id$
+
+\chapter{Building and Installing Third-Party Libraries}
+\label{chap:thirdparty}
+
+The following appendix contains best practices for building
+and installing third-party libraries used by CUTS projects. It is not
+a requirement to install third-party libraries per the instructions in
+this appendix. If you are experiencing compilation problems with CUTS
+due to third-party libraries, however, the instructions in this appendix
+may be of assistance. To make help explain the installation process
+of the thirdparty libraries, it will be assumed that all third-party
+libraries will be installed at the following location:
+\texttt{/opt/thirdparty}.\footnote{This location is representative 
+of a common location for installing third-party libraries, and may
+be different on your system.}
+
+\section{Boost}
+\label{sec:thirdparty-boost}
+
+The Boost libraries are required when building and installing CUTS. All
+artifacts for Boost, such as prebuilt versions and source files, can be 
+downloaded from the following location: \url{http://www.boost.org}. 
+
+\subsection{Installation}
+
+\subsubsection{Non-Windows}
+ 
+If you are installing Boost on a non-Windows system, \textit{e.g.}, Linux, 
+Soloris, or MacOS X, then you can download the source code directly from its
+main website (\url{http://www.boost.org}), build it, and install it using
+standard procedures.
+
+\subsubsection{Windows}
+
+Installing Boost from sources on Windows is not a trivial process. 
+Moreover, the prebuilt version of Boost available for download from 
+the main website does not contain the correct configuration or directory
+layout. It is therefore recommended that you download and use the prebuilt 
+version of Boost available for download from the CUTS website at the 
+following location:
+\url{http://www.dre.vanderbilt.edu/CUTS/downloads/thirdparty/boost}. Please download
+the correct version of Boost that matches your version of Microsoft Visual
+C++ and extract it to a common location on disk.
+
+\subsection{System Configuration}
+
+To build CUTS correctly, the Boost environment variables must be defined. Please 
+define the following required environment variables:
+\begin{lstlisting}
+(*@\texttt{\%> export BOOST\_ROOT=} location of Boost@*)
+(*@\texttt{\%> export BOOST\_VERSION=} name of subdirectery under \texttt{\$BOOST\_ROOT/include}, \textit{e.g.}, \texttt{boost-1\_34\_1}@*)
+(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$BOOST\_ROOT/lib}\footnote{On
+Windows-based systems, please add library paths to \texttt{PATH}. On Mac OS-based
+systems, please add library paths to \texttt{DYLD\_LIBRARY\_PATH}.}@*)
+(*@\texttt{\%> export PATH=\$PATH:\$BOOST\_ROOT/lib}@*)
+\end{lstlisting}
+In some cases, Boost libraries will have an optional configuration appended to 
+their filename, such as \texttt{-mt-d}. To use a specific configuration of 
+Boost, the \texttt{BOOST\_CFG} environment variable must be defined. The 
+following is an example of defining the Boost configuration environment 
+variable:
+\begin{lstlisting}
+(*@\texttt{\%> export BOOST\_CFG=-mt-d}@*)
+\end{lstlisting}
+The configuration of Boost is now complete. Once all the other
+third-party libraries are installed you will be able to build CUTS
+(see Chapter~\ref{chap:install}).
+
+\section{Xerces-C}
+\label{sec:thirdparty-xercesc}
+
+Xerces-C is required when building and installing CUTS and other third-party
+libraries. All artifacts for Xerces-C, such as prebuilt versions and source files, 
+can be downloaded from the following location: \url{http://xerces.apache.org/xerces-c}. 
+
+\subsection{Installation}
+
+\subsubsection{Non-Windows}
+ 
+If you are installing Xerces-C on a non-Windows system, \textit{e.g.}, Linux, 
+Soloris, or MacOS X, then you can download the source code directly from its
+main website (\url{http://xerces.apache.org/xerces-c}), build it, and install it using 
+standard procedures.
+
+\subsubsection{Windows}
+
+Installing Xerces-C from sources on Windows is not a trivial process. 
+Moreover, the prebuilt version of Xerces-C available for download from 
+the main website does not contain the correct configuration or directory
+layout. It is therefore recommended that you download and use the prebuilt 
+version of Xerces-C available for download from the CUTS website at the 
+following location:
+\url{http://www.dre.vanderbilt.edu/CUTS/downloads/thirdparty/xerces-c}. Please download
+the correct version of Xerces-C that matches your version of Microsoft Visual
+C++ and extract it to a common location on disk.
+
+\subsection{System Configuration}
+
+To build CUTS correctly, the Xerces-C environment variables must be defined. Please 
+define the following required environment variables:
+\begin{lstlisting}
+(*@\texttt{\%> export XERCESCROOT=} location of Xerces-C@*)
+(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$XERCESCROOT/lib}@*)
+\end{lstlisting}
+The configuration of Xerces-C is now complete. Once all the other
+third-party libraries are installed you will be able to build CUTS
+(see Chapter~\ref{chap:install}).
+
+\section{ACE, TAO, CIAO, and DAnCE}
+\label{sec:thirdparty-acetaociao}
+
+ACE and TAO are required when building and installing CUTS. All artifacts
+for ACE and TAO can be downloaded from the following location: 
+\url{http://www.dre.vanderbilt.edu/TAO}. Although CUTS is built on ACE and TAO,
+you can install CIAO and DAnCE as well. The following section therefore
+covers building and installing ACE and TAO, as well as, CIAO and DAnCE.
+
+\subsection{System Configuration}
+
+Unlike Boost, you must configure you system installing ACE and TAO. Once 
+you have downloaded the ACE and TAO tarball from the website above
+\footnote{It is recommended you download either the latest snapshot or beta 
+version of ACE and TAO tarball. This will ensure you have the must up-to-date
+version of ACE and TAO that is compatible with CUTS.}, 
+please define the following environment variables:
+\begin{lstlisting}
+(*@\texttt{\%> export ACE\_ROOT=} location of ACE@*)
+(*@\texttt{\%> export TAO\_ROOT=} location of TAO@*)
+(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$ACE\_ROOT/lib}@*)
+(*@\texttt{\%> export PATH=\$PATH:\$ACE\_ROOT/lib}@*)
+\end{lstlisting}
+After defining the ACE and TAO environment variables, the next step is 
+configuring the middleware for the target platform. This is accomplished by 
+defining the \texttt{\$ACE\_ROOT/ace/config.h} header file, which will include the correct 
+configuration for your platform. The included configuration file has the 
+form \texttt{config-*}, where \texttt{*} is the platform of choice.
+The following is an example \texttt{config.h} file:
+\begin{lstlisting}[language=C++]
+// -*- C++ -*-
+
+#ifndef _ACE_CONFIG_H_
+#define _ACE_CONFIG_H_
+
+#include ``config-linux.h''
+
+#endif // !defined _ACE_CONFIG_H_
+\end{lstlisting}
+
+\subsubsection{Non-Windows}
+Configuring ACE and TAO on non-Windows systems requires one more step. The 
+configuration for the build engine also needs to be defined. Please
+use the following step to define the build engine's configuration:
+\begin{lstlisting}
+(*@\texttt{\%> cd \$ACE\_ROOT/include/makeinclude}@*)
+(*@\texttt{\%> ln -s platform\_*.GNU platform\_macros.GNU}@*)
+\end{lstlisting}
+where \texttt{*} is the architecture for your platform of choice.
+
+\subsubsection{CIAO and DAnCE (optional)}
+If you choose to install CIAO and DAnCE, then please download the 
+complete source from the following location: 
+\url{http://www.dre.vanderbilt.edu/CIAO}. After you have download
+the source files, then define the following environment variables in 
+addition to the ones above:
+\begin{lstlisting}
+(*@\texttt{\%> export CIAO\_ROOT=} location of CIAO@*)
+(*@\texttt{\%> export DANCE\_ROOT=\$CIAO\_ROOT/DAnCE}@*)
+(*@\texttt{\%> export PATH=\$PATH:\$CIAO\_ROOT/bin:\$DANCE\_ROOT/bin}@*)
+\end{lstlisting}
+
+\subsection{Installation}
+
+After you have configured your system for ACE and TAO, you are ready
+to build and install ACE and TAO. Please use the following steps to build 
+and install ACE and TAO:
+\begin{lstlisting}
+(*@\texttt{\%> cd \$TAO\_ROOT}@*)
+(*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool] TAO\_ACE.mwc}@*)
+\end{lstlisting}
+This will generate the workspace for building and installing ACE and
+TAO. The name of the workspace depends on the build tool specified
+when generating the workspace. Finally, using your build tool
+of choice, you can build and install ACE and TAO.
+
+\subsubsection{CIAO and DAnCE (optional)}
+
+If you are installing CIAO and DAnCE, then you can use the following 
+steps instead to build ACE, TAO, CIAO and DAnCE. First, you must build
+the CIDL compiler using the following steps:
+\begin{lstlisting}
+(*@\texttt{\%> cd \$CIAO\_ROOT/CIDLC}@*)
+(*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool]}@*)
+(*@\texttt{ -features boost=1,exceptions=1,cidl=1 CIDLC.mwc}@*)
+\end{lstlisting}
+This will generate the workspace for building and installing CIDL
+compiler. The name of the workspace depends on the build tool specified 
+when generating the workspace for the CIDL compiler. After you have built 
+the CIDL compiler, you can build ACE, TAO, CIAO and DAnCE using the
+following steps:
+\begin{lstlisting}
+(*@\texttt{\%> cd \$CIAO\_ROOT}@*)
+(*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool] CIAO\_TAO\_DAnCE.mwc}@*)
+\end{lstlisting}
+This will generate the workspace for building and installing ACE, TAO,
+CIAO, and DAnCE. The name of the workspace depends on the build tool 
+specified when generating the workspace. Finally, using your build tool
+of choice, you can build and install ACE, TAO, CIAO, and DAnCE.
+
+\section{XML Schema Compiler (XSC)}
+\label{sec:thirdparty-xsc}
+
+XSC is required when building and installing CUTS. All artifacts
+for XSC can be downloaded from the following location: 
+\url{http://www.dre.vanderbilt.edu/XSC}. The remainder of this section
+discusses how to build and install XSC.
+
+\subsection{System Configuration}
+
+You must configure you system installing XSC. Once you have downloaded 
+XSC from the website above please define the following environment variables:
+\begin{lstlisting}
+(*@\texttt{\%> export XSC\_ROOT=} location of XSC@*)
+(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$XSC\_ROOT/lib}@*)
+(*@\texttt{\%> export PATH=\$PATH:\$XSC\_ROOT/bin}@*)
+\end{lstlisting}
+
+\subsection{Installation}
+
+After you have configured your system for XSC, you are ready to build and 
+install it. Please use the following steps to build and install XSC:
+\begin{lstlisting}
+(*@\texttt{\%> cd \$XSC\_ROOT}@*)
+(*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool] -features xsc=1,xerces3=1 XSC.mwc}@*)
+\end{lstlisting}
+This will generate the workspace for building and installing XSC. The name of 
+the workspace depends on the build tool specified when generating the 
+workspace. Finally, using your build tool of choice, you can build and 
+install XSC.
+
+\section{Perl-Compatible Regular Expressions (PCRE)}
+\label{sec:thirdparty-pcre}
+
+PCRE is required when building and installing several projects in CUTS. 
+You can download the source code for PCRE from the following 
+location: \url{http://www.pcre.org}
+
+\subsection{Installation}
+
+\subsubsection{Non-Windows}
+ 
+If you are installing PCRE on a non-Windows system, \textit{e.g.}, Linux, 
+Soloris, or MacOS X, then you can download the source code directly from its
+main website (\url{http://www.pcre.org}), build it, and install it using
+standard procedures.
+
+\subsubsection{Windows}
+
+Installing PCRE from sources on Windows is not a trivial process. 
+It is therefore recommended that you download and use the prebuilt 
+version of PCRE available for download from the CUTS website at the 
+following location:
+\url{http://www.dre.vanderbilt.edu/CUTS/downloads/thirdparty/pcre}. Please download
+the correct version of PCRE that matches your version of Microsoft Visual
+C++ and extract it to a common location on disk.
+
+\subsection{System Configuration}
+
+To build CUTS correctly, the PCRE environment variables must be defined. Please 
+define the following required environment variables:
+\begin{lstlisting}
+(*@\texttt{\%> export PCRE\_ROOT=} location of PCRE@*)
+(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$PCRE\_ROOT/lib}@*)
+\end{lstlisting}
+The configuration of PCRE is now complete. Once all the other
+third-party libraries are installed you will be able to build CUTS
+(see Chapter~\ref{chap:install}).
+
+\section{SQLite}
+\label{sec:thirdparty-sqlite}
+
+SQLite is required when building and installing several 
+projects in CUTS. You can download the source code for SQLite
+from the following location: \url{http://www.sqlite.org}
+
+\subsection{Installation}
+
+\subsubsection{Non-Windows}
+ 
+If you are installing SQLite on a non-Windows system, \textit{e.g.}, Linux, 
+Soloris, or MacOS X, then you can download the source code directly from its
+main website (\url{http://www.sqlite.org}), build it, and install it using  
+standard procedures.
+
+\subsubsection{Windows}
+
+Installing SQLite from sources on Windows is not a trivial process. 
+It is therefore recommended that you download and use the prebuilt 
+version of SQLite available for download from the CUTS website at the 
+following location:
+\url{http://www.dre.vanderbilt.edu/CUTS/downloads/thirdparty/sqlite}. Please download
+the correct version of SQLite that matches your version of Microsoft Visual
+C++ and extract it to a common location on disk.
+
+\subsection{System Configuration}
+
+To build CUTS correctly, the SQLite environment variables must be defined. Please 
+define the following required environment variables:
+\begin{lstlisting}
+(*@\texttt{\%> export SQLITE\_ROOT=} location of SQLite@*)
+(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$SQLITE\_ROOT/lib}@*)
+(*@\texttt{\%> export PATH=\$PATH:\$SQLITE\_ROOT/bin}@*)
+\end{lstlisting}
+The configuration of SQLite is now complete. Once all the other
+third-party libraries are installed you will be able to build CUTS
+(see Chapter~\ref{chap:install}).
+
