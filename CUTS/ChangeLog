@@ -1,3 +1,10 @@
+Tue May 26 04:48:05 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * docs/manual/abstract.tex:
+        * docs/manual/manual.pdf:
+
+	  . Updated the abstract for the user's manual.
+
 Sat May 23 04:45:22 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * docs/manual/analysis:
@@ -10,8 +17,8 @@ Sat May 23 04:45:22 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
         * docs/manual/manual.pdf:
         * docs/manual/manual.tex:
 
-	  . Updated the manual to include instructions on building and
-	    installing third-party libraries for CUTS.
+          . Updated the manual to include instructions on building and
+            installing third-party libraries for CUTS.
 
 Thu May 21 01:03:20 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
