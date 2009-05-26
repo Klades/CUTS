@@ -15,8 +15,10 @@
 
 #include "ace/streams.h"
 
+ACE_BEGIN_VERSIONED_NAMESPACE_DECL
 // Forward decl.
 class ACE_Time_Value;
+ACE_END_VERSIONED_NAMESPACE_DECL
 
 std::ostream & operator << (std::ostream &, const ACE_Time_Value &);
 

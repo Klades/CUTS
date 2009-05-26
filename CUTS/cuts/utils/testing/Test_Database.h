@@ -20,10 +20,8 @@
 #include "ace/UUID.h"
 
 ACE_BEGIN_VERSIONED_NAMESPACE_DECL
-
 // Forward decl.
 class ACE_Time_Value;
-
 ACE_END_VERSIONED_NAMESPACE_DECL
 
 // Forward decl.

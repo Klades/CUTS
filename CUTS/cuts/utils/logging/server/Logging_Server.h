@@ -23,10 +23,12 @@
 #include "ace/Unbounded_Set.h"
 #include <string>
 
+ACE_BEGIN_VERSIONED_NAMESPACE_DECL
 namespace ACE_Utils
 {
   class UUID;
 }
+ACE_END_VERSIONED_NAMESPACE_DECL
 
 /**
  * @class CUTS_Test_Logging_Server

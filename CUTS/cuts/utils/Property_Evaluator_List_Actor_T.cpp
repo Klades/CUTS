@@ -1,5 +1,7 @@
 // $Id$
 
+#include <string>
+
 //
 // expand
 //

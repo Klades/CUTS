@@ -15,8 +15,10 @@
 
 #include "DB_Exception.h"
 
+ACE_BEGIN_VERSIONED_NAMESPACE_DECL
 // Forward decl.
 class ACE_Date_Time;
+ACE_END_VERSIONED_NAMESPACE_DECL
 
 //=============================================================================
 /**

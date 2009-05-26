@@ -1,9 +1,22 @@
+Tue May 26 21:09:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/Property_Evaluator_List_Actor_T.cpp:
+        * cuts/utils/archiving/client/Test_Archive_Client.h:
+        * cuts/utils/db/DB_Record.h:
+        * cuts/utils/logging/server/Logging_Server.h:
+        * cuts/utils/testing/Test_Configuration_File.h:
+        * cuts/utils/testing/Test_Database.h:
+        * cuts/utils/testing/svcs/summary/streams.h:
+
+	  . Fixed compile errors related to supporting versioned namespace
+	    variant of ACE+TAO+CIAO.
+
 Tue May 26 04:48:05 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * docs/manual/abstract.tex:
         * docs/manual/manual.pdf:
 
-	  . Updated the abstract for the user's manual.
+          . Updated the abstract for the user's manual.
 
 Sat May 23 04:45:22 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 

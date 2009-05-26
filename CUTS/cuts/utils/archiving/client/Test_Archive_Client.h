@@ -16,11 +16,13 @@
 #include "../archivingC.h"
 #include "Test_Archive_Client_Options.h"
 
+ACE_BEGIN_VERSIONED_NAMESPACE_DECL
 namespace ACE_Utils
 {
   // Forward decl.
   class UUID;
 }
+ACE_END_VERSIONED_NAMESPACE_DECL
 
 /**
  * @class CUTS_Test_Archive_Client

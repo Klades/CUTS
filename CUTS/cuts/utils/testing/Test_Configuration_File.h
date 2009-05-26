@@ -19,8 +19,10 @@
 #include "XSC/utils/XML_Schema_Resolver.h"
 #include "ace/SStringfwd.h"
 
+ACE_BEGIN_VERSIONED_NAMESPACE_DECL
 // Forward decl.
 class ACE_Process_Options;
+ACE_END_VERSIONED_NAMESPACE_DECL
 
 // Forward decl.
 class CUTS_Property_Map;
