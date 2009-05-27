@@ -70,7 +70,7 @@ third-party libraries are installed you will be able to build CUTS
 \section{Xerces-C}
 \label{sec:thirdparty-xercesc}
 
-Xerces-C is required when building and installing CUTS and other third-party
+Xerces-C 3.x is required when building and installing CUTS and other third-party
 libraries. All artifacts for Xerces-C, such as prebuilt versions and source files, 
 can be downloaded from the following location: \url{http://xerces.apache.org/xerces-c}. 
 
@@ -212,7 +212,7 @@ of choice, you can build and install ACE, TAO, CIAO, and DAnCE.
 
 XSC is required when building and installing CUTS. All artifacts
 for XSC can be downloaded from the following location: 
-\url{http://www.dre.vanderbilt.edu/XSC}. The remainder of this section
+\url{svn://svn.dre.vanderbilt.edu/XSC/trunk}. The remainder of this section
 discusses how to build and install XSC.
 
 \subsection{System Configuration}
@@ -220,6 +220,7 @@ discusses how to build and install XSC.
 You must configure you system installing XSC. Once you have downloaded 
 XSC from the website above please define the following environment variables:
 \begin{lstlisting}
+(*@\texttt{\%> svn co svn://svn.dre.vanderbilt.edu/XSC/trunk XSC}@*)
 (*@\texttt{\%> export XSC\_ROOT=} location of XSC@*)
 (*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$XSC\_ROOT/lib}@*)
 (*@\texttt{\%> export PATH=\$PATH:\$XSC\_ROOT/bin}@*)
