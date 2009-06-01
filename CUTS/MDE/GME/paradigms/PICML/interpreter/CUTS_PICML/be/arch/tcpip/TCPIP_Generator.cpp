@@ -1,6 +1,11 @@
 // $Id$
 
 #include "TCPIP_Generator.h"
+
+#if !defined (__CUTS_INLINE__)
+#include "TCPIP_Generator.inl"
+#endif
+
 #include "Stub_Source_Generator.h"
 #include "Stub_Header_Generator.h"
 #include "Servant_Header_Generator.h"

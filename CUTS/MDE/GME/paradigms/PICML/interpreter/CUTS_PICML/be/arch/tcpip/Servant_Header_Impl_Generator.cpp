@@ -3,7 +3,7 @@
 #include "Servant_Header_Impl_Generator.h"
 #include "TCPIP_Ctx.h"
 
-#include "../ccm/Component_Impl_Generator.h"
+#include "../ccm/Component_Implementation.h"
 #include "../../lang/cpp/Cpp.h"
 #include "../../UDM_Utility_T.h"
 
@@ -178,7 +178,7 @@ Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute & attr)
 
   this->out_ << "virtual ";
 
-  CUTS_BE_CCM::Retn_Type_Generator retn_type_gen (this->out_);
+  CUTS_BE_CCM::Cpp::Retn_Type_Generator retn_type_gen (this->out_);
   retn_type_gen.generate (type);
 
   this->out_ << " " << name << " (void);" << std::endl;
@@ -196,7 +196,7 @@ Visit_Attribute (const PICML::Attribute & attr)
 
   this->out_ << "virtual void " << name << " (";
 
-  CUTS_BE_CCM::In_Type_Generator in_type_gen (this->out_);
+  CUTS_BE_CCM::Cpp::In_Type_Generator in_type_gen (this->out_);
   in_type_gen.generate (type);
 
   this->out_ << " " << name << ");" << std::endl;

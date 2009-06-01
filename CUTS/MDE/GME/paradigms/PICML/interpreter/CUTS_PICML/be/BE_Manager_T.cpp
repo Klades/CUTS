@@ -44,7 +44,7 @@ handle (const PICML::RootFolder & root)
 
   // Finalize the backend generator.
   CUTS_BE_Finalize_T <CONTEXT> fini_gen (this->context_);
-  PICML::RootFolder (root).Accept (fini_gen);
+  fini_gen.generate (root);
 
   return true;
 }

@@ -8,7 +8,6 @@ project (CUTS_BE_TCPIP) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
 
   Source_Files {
     Component_Impl_Generator.cpp
-    // Component_Impl_Source_Generator.cpp
     Input_Stream_Source_Generator.cpp
     Input_Stream_Aggr_Member_Generator.cpp
     Input_Stream_Event_Member_Generator.cpp

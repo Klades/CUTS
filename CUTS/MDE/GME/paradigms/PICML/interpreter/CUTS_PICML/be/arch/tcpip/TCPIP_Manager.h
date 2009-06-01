@@ -13,9 +13,7 @@
 #ifndef _CUTS_BE_TCPIP_MANAGER_H_
 #define _CUTS_BE_TCPIP_MANAGER_H_
 
-#include "TCPIP_Ctx.h"
 #include "TCPIP_Generator.h"
-#include "Component_Impl_Generator.h"
 #include "../../BE_Manager_T.h"
 
 typedef CUTS_BE_Manager_T <CUTS_BE_TCPIP_Ctx>

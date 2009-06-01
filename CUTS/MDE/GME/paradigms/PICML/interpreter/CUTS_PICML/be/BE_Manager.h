@@ -17,7 +17,7 @@
 
 namespace PICML
 {
-  // forward decl.
+  // Forward decl.
   class RootFolder;
 }
 

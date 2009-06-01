@@ -13,23 +13,18 @@
 #ifndef _CUTS_BE_TCPIP_CTX_H_
 #define _CUTS_BE_TCPIP_CTX_H_
 
-#include <string>
-#include <fstream>
-#include "PICML/PICML.h"
+#include "../ccm/CCM.h"
 
 /**
- * @class CUTS_BE_TCPIP_Ctx
+ * @struct CUTS_BE_TCPIP_Ctx
  *
  * Application context for the TCP/IP backend generator.
  */
-class CUTS_BE_TCPIP_Ctx
+struct CUTS_BE_TCPIP_Ctx : public CUTS_BE_CCM::Cpp::Context
 {
-public:
-  static std::ofstream header_;
+  typedef CUTS_BE_CCM::Cpp::Context arch_type;
 
-  static std::ofstream source_;
-
-  static std::string monoimpl_;
+  typedef CUTS_BE_CPP::Context behavior_type;
 };
 
 #endif  // !defined _CUTS_BE_TCPIP_CTX_H_
