@@ -28,6 +28,10 @@ template <typename CONTEXT>
 class CUTS_BE_Impl_Generator_T : public PICML::Visitor
 {
 public:
+  /// Type definition of the architecture for the code generator
+  typedef typename CONTEXT::arch_type arch_type;
+
+  /// Type definition of the behavior.
   typedef typename CONTEXT::behavior_type behavior_type;
 
   /// Default constructor.

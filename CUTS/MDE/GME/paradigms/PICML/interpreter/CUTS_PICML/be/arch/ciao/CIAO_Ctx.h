@@ -15,7 +15,7 @@
 
 #include <set>
 #include <fstream>
-#include "../../lang/cpp/Cpp.h"
+#include "../ccm/CCM.h"
 
 // Forward decl.
 struct CUTS_BE_IDL_Node;
@@ -23,9 +23,14 @@ struct CUTS_BE_IDL_Node;
 /**
  * Context for the CIAO backend generator.
  */
-struct CUTS_BE_Ciao : public CUTS_BE_CPP::Context
+struct CUTS_BE_Ciao : public CUTS_BE_CCM::Cpp::Context
 {
+  /// Type definition of the architecture type.
+  typedef CUTS_BE_CCM::Cpp::Context arch_type;
+
+  /// Type definition of the behavior type.
   typedef CUTS_BE_CPP::Context behavior_type;
+
 
   /// Type definition for a collection of nodes.
   typedef std::set <const CUTS_BE_IDL_Node *> IDL_Node_Set;

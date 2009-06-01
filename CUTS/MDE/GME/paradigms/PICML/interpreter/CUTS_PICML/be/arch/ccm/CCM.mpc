@@ -5,6 +5,10 @@ project (CUTS_BE_CCM) : boost_base, picml_udm, cuts_be_cpp, cuts_cosmic {
   dynamicflags += CUTS_BE_CCM_BUILD_DLL
 
   Source_Files {
-    Component_Impl_Generator.cpp
+    Component_Implementation.cpp
+  }
+
+  Header_Files {
+    CCM.h
   }
 }

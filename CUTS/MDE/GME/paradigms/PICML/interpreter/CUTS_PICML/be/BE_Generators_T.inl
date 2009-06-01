@@ -209,6 +209,36 @@ generate (const PICML::MonolithicImplementation & ,
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_Component_Impl_End_T
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_Component_Impl_End_T <CONTEXT>::
+CUTS_BE_Component_Impl_End_T (CONTEXT & )
+
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_Component_Impl_End_T <CONTEXT>::
+~CUTS_BE_Component_Impl_End_T (void)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+void CUTS_BE_Component_Impl_End_T <CONTEXT>::
+generate (const PICML::MonolithicImplementation & ,
+          const PICML::Component & )
+{
+
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Environment_Begin_T
 
 template <typename CONTEXT>

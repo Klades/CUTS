@@ -1,3 +1,36 @@
+Mon Jun  1 03:04:47 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Generators_T.inl:
+
+          . Bug fix where the CUTS_BE_Component_Impl_End_T implementation was
+            missing.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.cpp:
+
+          . Updated the implementation generator to use an architecture
+            trait to enable backend generators to customize the architecture
+            and behavior separately.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/CCM.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/CCM.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/CCM_export.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Ctx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Generators.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Generators.cpp:
+
+          . Factored out the C++ bindings of CCM so it can be reused
+            across multiple projects.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Impl_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Impl_Generator.cpp:
+
+          Removed these files.
+
 Sun May 31 23:08:49 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/ComponentConfig.h:

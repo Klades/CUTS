@@ -43,11 +43,15 @@ void CUTS_BE_Impl_Generator_T <CONTEXT>::
 Visit_ComponentImplementations (
 const PICML::ComponentImplementations & impls)
 {
-  typedef std::vector <PICML::ComponentImplementationContainer> Container_Set;
-  Container_Set container = impls.ComponentImplementationContainer_children ();
+  std::vector <
+    PICML::ComponentImplementationContainer> containers =
+    impls.ComponentImplementationContainer_children ();
 
-  CUTS_BE::visit <CONTEXT> (container,
-    boost::bind (&Container_Set::value_type::Accept, _1, boost::ref (*this)));
+  std::for_each (containers.begin (),
+                 containers.end (),
+                 boost::bind (&PICML::ComponentImplementationContainer::Accept,
+                              _1,
+                              boost::ref (*this)));
 }
 
 //
@@ -60,17 +64,12 @@ const PICML::ComponentImplementationContainer & container)
 {
   // Get this component implementation. This can either be an
   // assembly, or a monolithic implementation.
-  typedef
-    std::vector <PICML::ComponentImplementation>
-    ComponentImplementation_Set;
-
-  ComponentImplementation_Set impls =
+  std::vector <PICML::ComponentImplementation> impls =
     container.ComponentImplementation_children ();
 
   std::for_each (impls.begin (),
                  impls.end (),
-                 boost::bind (&CUTS_BE_Impl_Generator_T <CONTEXT>::
-                              Visit_ComponentImplementation,
+                 boost::bind (&CUTS_BE_Impl_Generator_T::Visit_ComponentImplementation,
                               this,
                               _1));
 }
@@ -119,11 +118,11 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
   CUTS_BE_PREPROCESSOR (CONTEXT)->preprocess (container);
 
 
-  CUTS_BE_File_Open_T <CONTEXT> file_open_gen (this->context_);
+  CUTS_BE_File_Open_T <arch_type> file_open_gen (this->context_);
   file_open_gen.generate (container, monoimpl);
 
   // Write the prologue for the file.
-  CUTS_BE_Prologue_T <CONTEXT> prologue_gen (this->context_);
+  CUTS_BE_Prologue_T <arch_type> prologue_gen (this->context_);
   prologue_gen.generate (container, monoimpl);
 
   // Get the implementation node and write all the includes.
@@ -148,14 +147,14 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
     PICML::Component component = ref.ref ();
 
     // Write the beginning of the component's implementation.
-    CUTS_BE_Component_Impl_Begin_T <CONTEXT> comp_impl_begin (this->context_);
+    CUTS_BE_Component_Impl_Begin_T <arch_type> comp_impl_begin (this->context_);
     comp_impl_begin.generate (monoimpl, component);
 
     // Visit the component.
     component.Accept (*this);
 
     // Write the end of the component's implementation.
-    CUTS_BE_Component_Impl_End_T <CONTEXT> comp_impl_end (this->context_);
+    CUTS_BE_Component_Impl_End_T <arch_type> comp_impl_end (this->context_);
     comp_impl_end.generate (monoimpl, component);
 
     // Get all the facets in the component so that we can
@@ -196,10 +195,10 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
   }
 
   // Write the epilogue for the file, then close it.
-  CUTS_BE_Epilogue_T <CONTEXT> epilogue_gen (this->context_);
+  CUTS_BE_Epilogue_T <arch_type> epilogue_gen (this->context_);
   epilogue_gen.generate (container, monoimpl);
 
-  CUTS_BE_File_Close_T <CONTEXT> file_close_gen (this->context_);
+  CUTS_BE_File_Close_T <arch_type> file_close_gen (this->context_);
   file_close_gen.generate (container, monoimpl);
 }
 
@@ -214,22 +213,18 @@ Visit_ComponentAssembly (const PICML::ComponentAssembly & assembly)
   PICML::ComponentImplementationContainer container =
     assembly.ComponentImplementationContainer_parent ();
 
-  if (CUTS_BE_ComponentAssembly_File_Open_T <CONTEXT>::
-      generate (container, assembly))
+  if (CUTS_BE_ComponentAssembly_File_Open_T <CONTEXT>::generate (container, assembly))
   {
     // Write the prologue for the file.
-    CUTS_BE_ComponentAssembly_Prologue_T <CONTEXT>::
-      generate (container, assembly);
+    CUTS_BE_ComponentAssembly_Prologue_T <CONTEXT>::generate (container, assembly);
 
     CUTS_BE_Assembly_Generator_T <CONTEXT> generator;
     PICML::ComponentAssembly (assembly).Accept (generator);
 
     // Write the epilogue for the file, then close it.
-    CUTS_BE_ComponentAssembly_Epilogue_T <CONTEXT>::
-      generate (container, assembly);
+    CUTS_BE_ComponentAssembly_Epilogue_T <CONTEXT>::generate (container, assembly);
 
-    CUTS_BE_ComponentAssembly_File_Close_T <CONTEXT>::
-      generate (container, assembly);
+    CUTS_BE_ComponentAssembly_File_Close_T <CONTEXT>::generate (container, assembly);
   }
 }
 
@@ -265,24 +260,21 @@ Visit_Component (const PICML::Component & component)
   Facet_Set facets = component.ProvidedRequestPort_kind_children ();
 
   CUTS_BE::visit <CONTEXT> (facets,
-    boost::bind (&Facet_Set::value_type::Accept,
-    _1, boost::ref (*this)));
+    boost::bind (&Facet_Set::value_type::Accept, _1, boost::ref (*this)));
 
   // Visit all the PeriodicEvent elements of the <component>.
   typedef std::vector <PICML::PeriodicEvent> PeriodicEvent_Set;
   PeriodicEvent_Set periodics = component.PeriodicEvent_kind_children ();
 
   CUTS_BE::visit <CONTEXT> (periodics,
-    boost::bind (&PeriodicEvent_Set::value_type::Accept,
-    _1, boost::ref (*this)));
+    boost::bind (&PeriodicEvent_Set::value_type::Accept, _1, boost::ref (*this)));
 
   // Visit all the Attribute elements of the <component>.
   typedef std::vector <PICML::Attribute> Attribute_Set;
   Attribute_Set attrs = component.Attribute_kind_children ();
 
   CUTS_BE::visit <CONTEXT> (attrs,
-    boost::bind (&Attribute_Set::value_type::Accept,
-    _1, boost::ref (*this)));
+    boost::bind (&Attribute_Set::value_type::Accept, _1, boost::ref (*this)));
 
   // Visit all the ReadonlyAttribute elements of the <component>.
   typedef std::vector <PICML::ReadonlyAttribute> ReadonlyAttribute_Set;
@@ -303,14 +295,14 @@ Visit_Component (const PICML::Component & component)
   if (env != Udm::null)
   {
     // Begin generating environment related metadata.
-    CUTS_BE_Environment_Begin_T <CONTEXT> env_begin_gen (this->context_);
+    CUTS_BE_Environment_Begin_T <arch_type> env_begin_gen (this->context_);
     env_begin_gen.generate (component);
 
-    CUTS_BE_Env_Visitor_T <CONTEXT> env_visitor (this->context_);
+    CUTS_BE_Env_Visitor_T <arch_type> env_visitor (this->context_);
     env.Accept (env_visitor);
 
     // End generating environment related metadata.
-    CUTS_BE_Environment_End_T <CONTEXT> env_end_gen (this->context_);
+    CUTS_BE_Environment_End_T <arch_type> env_end_gen (this->context_);
     env_end_gen.generate (component);
   }
 
@@ -342,7 +334,7 @@ Visit_ImplementationArtifactReference (const PICML::ImplementationArtifactRefere
     PICML::ComponentImplementationArtifact artifact =
       PICML::ComponentImplementationArtifact::Cast (artref);
 
-    CUTS_BE_Component_Impl_Entrypoint_T <CONTEXT> entrypoint_gen (this->context_);
+    CUTS_BE_Component_Impl_Entrypoint_T <arch_type> entrypoint_gen (this->context_);
     entrypoint_gen.generate (this->monoimpl_, artifact);
   }
 }
@@ -368,13 +360,13 @@ Visit_InEventPort (const PICML::InEventPort & sink)
   }
 
   // We are generating a regular event port.
-  CUTS_BE_InEventPort_Begin_T <CONTEXT> port_begin_gen (this->context_);
+  CUTS_BE_InEventPort_Begin_T <arch_type> port_begin_gen (this->context_);
   port_begin_gen.generate (sink, properties);
 
   CUTS_BE_Execution_Visitor_T <behavior_type> exec_visitor (this->context_);
   exec_visitor.generate (sink);
 
-  CUTS_BE_InEventPort_End_T <CONTEXT> port_end_gen (this->context_);
+  CUTS_BE_InEventPort_End_T <arch_type> port_end_gen (this->context_);
   port_end_gen.generate (sink, properties);
 }
 
@@ -386,14 +378,14 @@ void CUTS_BE_Impl_Generator_T <CONTEXT>::
 Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort & facet)
 {
   // Begin the generation of the provided request port.
-  CUTS_BE_ProvidedRequestPort_Begin_T <CONTEXT> port_begin_gen (this->context_);
+  CUTS_BE_ProvidedRequestPort_Begin_T <arch_type> port_begin_gen (this->context_);
   port_begin_gen.generate (facet);
 
   CUTS_BE_Execution_Visitor_T <behavior_type> exec_visitor (this->context_);
   exec_visitor.generate (facet);
 
   // End the generation of the provided request port.
-  CUTS_BE_ProvidedRequestPort_End_T <CONTEXT> port_end_gen (this->context_);
+  CUTS_BE_ProvidedRequestPort_End_T <arch_type> port_end_gen (this->context_);
   port_end_gen.generate (facet);
 }
 
@@ -473,14 +465,14 @@ void CUTS_BE_Impl_Generator_T <CONTEXT>::
 Visit_PeriodicEvent (const PICML::PeriodicEvent & periodic)
 {
   // Begin the generation of the periodic event.
-  CUTS_BE_PeriodicEvent_Begin_T <CONTEXT> periodic_begin_gen (this->context_);
+  CUTS_BE_PeriodicEvent_Begin_T <arch_type> periodic_begin_gen (this->context_);
   periodic_begin_gen.generate (periodic);
 
   CUTS_BE_Execution_Visitor_T <behavior_type> exec_visitor (this->context_);
   exec_visitor.generate (periodic);
 
   // End the generation of the periodic event.
-  CUTS_BE_PeriodicEvent_End_T <CONTEXT> periodic_end_gen (this->context_);
+  CUTS_BE_PeriodicEvent_End_T <arch_type> periodic_end_gen (this->context_);
   periodic_end_gen.generate (periodic);
 }
 
@@ -491,10 +483,10 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 Visit_Attribute (const PICML::Attribute & attr)
 {
-  CUTS_BE_Attribute_Begin_T <CONTEXT> attr_begin_gen (this->context_);
+  CUTS_BE_Attribute_Begin_T <arch_type> attr_begin_gen (this->context_);
   attr_begin_gen.generate (attr);
 
-  CUTS_BE_Attribute_End_T <CONTEXT> attr_end_gen (this->context_);
+  CUTS_BE_Attribute_End_T <arch_type> attr_end_gen (this->context_);
   attr_end_gen.generate (attr);
 }
 
@@ -505,10 +497,10 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute & attr)
 {
-  CUTS_BE_ReadonlyAttribute_Begin_T <CONTEXT> attr_begin_gen (this->context_);
+  CUTS_BE_ReadonlyAttribute_Begin_T <arch_type> attr_begin_gen (this->context_);
   attr_begin_gen.generate (attr);
 
-  CUTS_BE_ReadonlyAttribute_End_T <CONTEXT> attr_end_gen (this->context_);
+  CUTS_BE_ReadonlyAttribute_End_T <arch_type> attr_end_gen (this->context_);
   attr_end_gen.generate (attr);
 }
 
@@ -732,7 +724,7 @@ write_variables_i (const PICML::Component & component)
                               _1));
 
   // End the generation of the variables.
-  CUTS_BE_Variables_End_T <CONTEXT> var_end_gen (this->context_);
+  CUTS_BE_Variables_End_T <behavior_type> var_end_gen (this->context_);
   var_end_gen.generate (component);
 }
 
