@@ -1,65 +1,35 @@
 // -*- C++ -*-
 
-#ifndef _HELLOWORLD_BASIC_IMPL_H_
-#define _HELLOWORLD_BASIC_IMPL_H_
-
 #include "HelloWorldEC.h"
-#include "HelloWorld_impl_export.h"
 #include "cuts/arch/ccm/CCM_Component_T.h"
-#include "ace/Task.h"
+#include "HelloWorld_Basic_Impl_export.h"
 
-class HelloWorld_Basic_Impl;
+typedef CUTS_CCM_Component_T <
+  ::CIDL_HelloWorld_Basic_Impl::HelloWorld_Exec,
+  ::CCM_HelloWorld_Context > 
+  HelloWorld_Basic_Impl_Base;
 
-class HelloWorld_Basic_Impl_Task : public ACE_Task_Base
+class HelloWorld_Basic_Impl : public HelloWorld_Basic_Impl_Base
 {
-public:
-  HelloWorld_Basic_Impl_Task (HelloWorld_Basic_Impl * impl);
-
-  virtual ~HelloWorld_Basic_Impl_Task (void);
-
-  int svc (void);
-
-  int handle_timeout (const ACE_Time_Value &, const void *);
-
-  int activate (void);
-
-  int deactivate (void);
-
-private:
-  HelloWorld_Basic_Impl * impl_;
-
-  bool is_active_;
-};
-
-typedef CUTS_CCM_Component_T <CIDL_HelloWorld_Basic_Impl::HelloWorld_Exec,
-                              ::CCM_HelloWorld_Context> HelloWorld_Basic_Impl_Base;
-
-class HELLOWORLD_IMPL_Export HelloWorld_Basic_Impl :
-  public HelloWorld_Basic_Impl_Base
-{
-public:
-  typedef HelloWorld_Basic_Impl_Base base_type;
-
+  // Consturctor
   HelloWorld_Basic_Impl (void);
 
+  // Destructor
   virtual ~HelloWorld_Basic_Impl (void);
 
-  void send_message (::Message * ev);
-
+  // push_handle_message
   virtual void push_handle_message (::Message * ev);
 
+  // Setter method for message
+  virtual void message (const char * message);
+
+  // Getter method for message
+  virtual char * message (void);
+
+  // Getter method for readonly_message
+  virtual char * readonly_message (void);
+
+  // environment: activate
   virtual void ccm_activate (void);
-
-  virtual void ccm_passivate (void);
-
-private:
-  /// The context for the component.
-  ::CCM_HelloWorld_Context_var ctx_;
-
-  HelloWorld_Basic_Impl_Task task_;
 };
 
-extern "C" HELLOWORLD_IMPL_Export
-::Components::EnterpriseComponent_ptr create_HelloWorld_Basic_Impl (void);
-
-#endif  // !defined _HELLOWORLD_BASIC_IMPL_H_

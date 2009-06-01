@@ -15,7 +15,7 @@
 XML_Mapping_File_Generator::
 XML_Mapping_File_Generator (const std::string & outdir)
 : outdir_ (outdir),
-  dispatcher_ (*this)
+  dispatcher_ (this)
 {
   this->dispatcher_.insert <PICML::String> ();
   this->dispatcher_.insert <PICML::LongInteger> ();

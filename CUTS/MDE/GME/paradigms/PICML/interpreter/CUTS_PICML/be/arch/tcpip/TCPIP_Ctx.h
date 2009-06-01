@@ -14,6 +14,7 @@
 #define _CUTS_BE_TCPIP_CTX_H_
 
 #include <string>
+#include <fstream>
 #include "PICML/PICML.h"
 
 /**
@@ -24,19 +25,11 @@
 class CUTS_BE_TCPIP_Ctx
 {
 public:
-  static std::string include (const std::string & filename);
+  static std::ofstream header_;
 
-  static std::string single_line_comment (const std::string & comment);
+  static std::ofstream source_;
 
-  static std::string scope (const PICML::NamedType & type,
-                            const std::string & separator = "::",
-                            bool leading = true);
-
-  static std::string fq_type (const PICML::NamedType & type,
-                              const std::string & separator = "::",
-                              bool leading = true);
-
-  static std::string function_header (const std::string & func);
+  static std::string monoimpl_;
 };
 
 #endif  // !defined _CUTS_BE_TCPIP_CTX_H_

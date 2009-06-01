@@ -1,0 +1,6 @@
+// $Id$
+
+project : cuts_be_cpp {
+  after += CUTS_BE_CCM
+  libs  += CUTS_BE_CCM
+}

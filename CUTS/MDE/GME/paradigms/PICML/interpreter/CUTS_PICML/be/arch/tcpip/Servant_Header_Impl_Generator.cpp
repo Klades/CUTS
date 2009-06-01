@@ -2,7 +2,14 @@
 
 #include "Servant_Header_Impl_Generator.h"
 #include "TCPIP_Ctx.h"
+
+#include "../ccm/Component_Impl_Generator.h"
+#include "../../lang/cpp/Cpp.h"
+#include "../../UDM_Utility_T.h"
+
 #include "boost/bind.hpp"
+#include "boost/iterator/filter_iterator.hpp"
+
 #include <algorithm>
 
 namespace CUTS_BE_TCPIP
@@ -41,12 +48,12 @@ Visit_Component (const PICML::Component & component)
   context += "_Context";
 
   // Write the first part of the this->servant_'s context.
-  this->out_ << CUTS_BE_TCPIP_Ctx::single_line_comment ("Type definition of the this->servant_'s base class")
+  this->out_ << CUTS_BE_CPP::single_line_comment ("Type definition of the this->servant_'s base class")
              << "typedef CUTS_TCPIP_CCM_Servant_T < " << std::endl
              << this->servant_ << "," << std::endl
              << context << "," << std::endl
              << "CIDL_" << this->monoimpl_ << "::" << name << "_Exec," << std::endl
-             << "::POA_" << CUTS_BE_TCPIP_Ctx::scope (component, "::", false) << name
+             << "::POA_" << CUTS_BE_CPP::scope(component, "::", false) << name
              << " > " << this->servant_ << "_Base;"
              << std::endl
              << "/**" << std::endl
@@ -55,12 +62,12 @@ Visit_Component (const PICML::Component & component)
              << "class " << this->servant_ << " : public " << this->servant_ << "_Base"
              << "{"
              << "public:" << std::endl
-             << CUTS_BE_TCPIP_Ctx::single_line_comment ("default constructor")
+             << CUTS_BE_CPP::single_line_comment ("default constructor")
              << this->servant_ << " (const char * name, " << std::endl
              << "CUTS_TCPIP_Servant_Manager & svnt_mgr, " << std::endl
              << "CIDL_" << this->monoimpl_ << "::" << name << "_Exec_ptr executor);"
              << std::endl
-             << CUTS_BE_TCPIP_Ctx::single_line_comment ("destructor")
+             << CUTS_BE_CPP::single_line_comment ("destructor")
              << "virtual ~" << this->servant_ << " (void);"
              << std::endl;
 
@@ -82,6 +89,28 @@ Visit_Component (const PICML::Component & component)
                               _1,
                               boost::ref (*this)));
 
+  this->out_ << "public:" << std::endl;
+
+  // Visit all the Attribute elements of the <component>.
+  typedef std::vector <PICML::Attribute> Attribute_Set;
+  Attribute_Set attrs = component.Attribute_kind_children ();
+
+  std::for_each (attrs.begin (),
+                 attrs.end (),
+                 boost::bind (&PICML::Attribute::Accept,
+                              _1,
+                              boost::ref (*this)));
+
+  // Visit all the ReadonlyAttribute elements of the <component>.
+  typedef std::vector <PICML::ReadonlyAttribute> ReadonlyAttribute_Set;
+  ReadonlyAttribute_Set ro_attrs = component.ReadonlyAttribute_kind_children ();
+
+  typedef is_type <PICML::ReadonlyAttribute> ReadonlyAttribute_Type;
+
+  std::for_each (boost::make_filter_iterator <ReadonlyAttribute_Type> (ro_attrs.begin (), ro_attrs.end ()),
+                 boost::make_filter_iterator <ReadonlyAttribute_Type> (ro_attrs.end (), ro_attrs.end ()),
+                 boost::bind (&PICML::ReadonlyAttribute::Accept, _1, boost::ref (*this)));
+
   this->out_ << "};"
              << std::endl;
 }
@@ -95,7 +124,7 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
   PICML::Event event = port.ref ();
 
   std::string name     = port.name ();
-  std::string fq_type  = CUTS_BE_TCPIP_Ctx::fq_type (event);
+  std::string fq_type  = CUTS_BE_CPP::fq_type (event);
   std::string consumer = fq_type + "Consumer_ptr";
 
   if (port.single_destination ())
@@ -123,7 +152,7 @@ Visit_InEventPort (const PICML::InEventPort & port)
   PICML::Event event = port.ref ();
 
   std::string name     = port.name ();
-  std::string fq_type  = CUTS_BE_TCPIP_Ctx::fq_type (event);
+  std::string fq_type  = CUTS_BE_CPP::fq_type (event);
   std::string consumer = fq_type + "Consumer_ptr";
 
   this->out_ << "public:" << std::endl
@@ -136,4 +165,45 @@ Visit_InEventPort (const PICML::InEventPort & port)
              << "CUTS_TCPIP_CCM_EventConsumer " << name << "_consumer_;"
              << std::endl;
 }
+
+//
+// Visit_ReadonlyAttribute
+//
+void Servant_Header_Impl_Generator::
+Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute & attr)
+{
+  PICML::AttributeMember member = attr.AttributeMember_child ();
+  PICML::MemberType type = member.ref ();
+  std::string name (attr.name ());
+
+  this->out_ << "virtual ";
+
+  CUTS_BE_CCM::Retn_Type_Generator retn_type_gen (this->out_);
+  retn_type_gen.generate (type);
+
+  this->out_ << " " << name << " (void);" << std::endl;
+}
+
+//
+// Visit_Attribute
+//
+void Servant_Header_Impl_Generator::
+Visit_Attribute (const PICML::Attribute & attr)
+{
+  PICML::AttributeMember member = attr.AttributeMember_child ();
+  PICML::MemberType type = member.ref ();
+  std::string name (attr.name ());
+
+  this->out_ << "virtual void " << name << " (";
+
+  CUTS_BE_CCM::In_Type_Generator in_type_gen (this->out_);
+  in_type_gen.generate (type);
+
+  this->out_ << " " << name << ");" << std::endl;
+
+  // Finally, write the readonly attribute method.
+  PICML::ReadonlyAttribute readonly (attr);
+  readonly.Accept (*this);
+}
+
 }

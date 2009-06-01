@@ -24,19 +24,20 @@
  * The backend traits that are used when generating the implemenation
  * can be found in CUTS_BE_Traits.
  */
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 class CUTS_BE_Impl_Generator_T : public PICML::Visitor
 {
 public:
+  typedef typename CONTEXT::behavior_type behavior_type;
+
   /// Default constructor.
-  CUTS_BE_Impl_Generator_T (void);
+  CUTS_BE_Impl_Generator_T (CONTEXT & context);
 
   /// Destructor.
   virtual ~CUTS_BE_Impl_Generator_T (void);
 
   void generate (const PICML::RootFolder & root);
 
-protected:
   /// Visit a RootFolder element.
   void Visit_RootFolder (
     const PICML::RootFolder & root);
@@ -143,6 +144,9 @@ protected:
     const PICML::ComponentImplementation &);
 
 private:
+  /// Target context for the generator.
+  CONTEXT & context_;
+
   /// Current monolithic implementation.
   PICML::MonolithicImplementation monoimpl_;
 

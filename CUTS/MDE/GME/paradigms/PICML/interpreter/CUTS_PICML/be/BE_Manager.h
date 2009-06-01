@@ -21,14 +21,11 @@ namespace PICML
   class RootFolder;
 }
 
-//=============================================================================
 /**
  * @class CUTS_BE_Manager
  *
  * This is the manager used by each backend.
  */
-//=============================================================================
-
 class CUTS_BE_Export CUTS_BE_Manager
 {
 public:

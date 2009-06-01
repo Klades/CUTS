@@ -14,8 +14,6 @@
 #define _CUTS_BE_EXECUTION_VISITOR_H_
 
 #include "PICML/PICML.h"
-#include "BE_Generators_T.h"
-#include "BE_Condition_Parser_T.h"
 #include <stack>
 
 //=============================================================================
@@ -27,16 +25,19 @@
  */
 //=============================================================================
 
-template <typename BE_STRATEGY>
+template <typename CONTEXT>
 class CUTS_BE_Execution_Visitor_T : public PICML::Visitor
 {
 public:
+  /// Type definition of the context type.
+  typedef CONTEXT context_type;
+
   /**
    * Initializing constructor.
    *
    * @param[in]       generators      Reference to target generators.
    */
-  CUTS_BE_Execution_Visitor_T (void);
+  CUTS_BE_Execution_Visitor_T (CONTEXT & context);
 
   /// Destructor.
   virtual ~CUTS_BE_Execution_Visitor_T (void);
@@ -113,6 +114,8 @@ private:
 
   void goto_to_terminal (void);
 
+  CONTEXT & context_;
+
   /// Flag that determines if effects should be ignored.
   bool ignore_effects_;
 
@@ -134,9 +137,6 @@ private:
   StateBase_Stack statebase_stack_;
 
   std::stack <size_t> branches_;
-
-  /// Parser for interpreting the preconditions.
-  CUTS_BE_Condition_Parser_T <BE_STRATEGY> condition_parser_;
 
   // prevent the following operations
   CUTS_BE_Execution_Visitor_T (CUTS_BE_Execution_Visitor_T &);

@@ -140,6 +140,31 @@ namespace TCPIP_HelloWorld_Basic_Impl
 
     return 0;
   }
+
+
+  void HelloWorld_Servant::message (const char * message)
+  {
+    if (this->impl_)
+      this->impl_->message (message);
+    else
+      throw ::CORBA::INTERNAL ();
+  }
+
+  char * HelloWorld_Servant::message (void)
+  {
+    if (this->impl_)
+      return this->impl_->message ();
+    else
+      throw ::CORBA::INTERNAL ();
+  }
+
+  char * HelloWorld_Servant::readonly_message (void)
+  {
+    if (this->impl_)
+      return this->impl_->readonly_message ();
+    else
+      throw ::CORBA::INTERNAL ();
+  }
 }
 
 ::PortableServer::Servant

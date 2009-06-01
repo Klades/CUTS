@@ -1,71 +1,14 @@
 // $Id$
 
 #include "HelloWorld_Basic_Impl.h"
-#include "ace/streams.h"
-#include "ace/Reactor.h"
-
-HelloWorld_Basic_Impl_Task::
-HelloWorld_Basic_Impl_Task (HelloWorld_Basic_Impl * impl)
-: impl_ (impl)
-{
-  this->reactor (new ACE_Reactor ());
-}
-
-HelloWorld_Basic_Impl_Task::~HelloWorld_Basic_Impl_Task (void)
-{
-  ACE_Reactor * reactor = this->reactor ();
-  this->reactor (0);
-
-  delete reactor;
-}
-
-int HelloWorld_Basic_Impl_Task::activate (void)
-{
-  ACE_Time_Value interval (2);
-
-  this->reactor ()->schedule_timer (this, 0, interval, interval);
-  this->is_active_ = true;
-
-  return ACE_Task_Base::activate ();
-}
-
-int HelloWorld_Basic_Impl_Task::deactivate (void)
-{
-  this->is_active_ = false;
-  this->reactor ()->notify (this);
-  this->wait ();
-
-  return 0;
-}
-
-int HelloWorld_Basic_Impl_Task::svc (void)
-{
-  this->reactor ()->owner (ACE_OS::thr_self ());
-
-  while (this->is_active_)
-    this->reactor ()->handle_events ();
-
-  return 0;
-}
-
-int HelloWorld_Basic_Impl_Task::handle_timeout (const ACE_Time_Value & tv, const void *)
-{
-  ::Message_var ev (new OBV_Message ());
-  ev->content ("This is another message");
-  ev->time ().sec = tv.sec ();
-  ev->time ().usec = tv.usec ();
-
-  this->impl_->send_message (ev);
-  return 0;
-}
 
 //
 // HelloWorld_Basic_Impl
 //
 HelloWorld_Basic_Impl::HelloWorld_Basic_Impl (void)
-: task_ (this)
+: eventCount_ (0),
+  isActive_ (true)
 {
-
 }
 
 //
@@ -73,32 +16,6 @@ HelloWorld_Basic_Impl::HelloWorld_Basic_Impl (void)
 //
 HelloWorld_Basic_Impl::~HelloWorld_Basic_Impl (void)
 {
-
-}
-
-//
-// ccm_activate
-//
-void HelloWorld_Basic_Impl::ccm_activate (void)
-{
-  this->task_.activate ();
-}
-
-//
-// ccm_passivate
-//
-void HelloWorld_Basic_Impl::ccm_passivate (void)
-{
-  this->task_.deactivate ();
-}
-
-//
-// push_handle_message
-//
-void HelloWorld_Basic_Impl::send_message (::Message * ev)
-{
-  this->ctx_->push_handle_message (ev);
-  this->ctx_->push_handle_message_ex (ev);
 }
 
 //
@@ -106,18 +23,41 @@ void HelloWorld_Basic_Impl::send_message (::Message * ev)
 //
 void HelloWorld_Basic_Impl::push_handle_message (::Message * ev)
 {
-  std::cout << "message '" << ev->content () << "' received at "
-            << ev->time ().sec << "." << ev->time ().usec << std::endl;
+  ACE_UNUSED_ARG (ev);
 }
 
-::Components::EnterpriseComponent_ptr create_HelloWorld_Basic_Impl (void)
+//
+// message
+//
+void HelloWorld_Basic_Impl::message (const char * message)
 {
-  ::Components::EnterpriseComponent_ptr retval =
-    ::Components::EnterpriseComponent::_nil ();
-
-  ACE_NEW_RETURN (retval,
-                  HelloWorld_Basic_Impl (),
-                  ::Components::EnterpriseComponent::_nil ());
-
-  return retval;
+  this->message_ = message;
 }
+
+//
+// message
+//
+char * HelloWorld_Basic_Impl::message (void)
+{
+  ::CORBA::String_var s =
+    ::CORBA::string_dup (this->message_.c_str ());
+  return s._retn ();
+}
+
+//
+// readonly_message
+//
+char * HelloWorld_Basic_Impl::readonly_message (void)
+{
+  ::CORBA::String_var s =
+    ::CORBA::string_dup (this->readonly_message_.c_str ());
+  return s._retn ();
+}
+
+//
+// ccm_activate
+//
+void HelloWorld_Basic_Impl::ccm_activate (void)
+{
+}
+

@@ -4,6 +4,7 @@
 #include "Servant_Source_Context_Generator.h"
 #include "Servant_Source_Impl_Generator.h"
 #include "TCPIP_Ctx.h"
+#include "../../lang/cpp/Cpp.h"
 #include "boost/bind.hpp"
 #include "CCF/CodeGenerationKit/IndentationCxx.hpp"
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
@@ -94,15 +95,15 @@ const PICML::ComponentImplementationContainer & container)
     // Indentation implanter.
     Indentation::Implanter <Indentation::Cxx, char> formatter (this->fout_);
 
-    this->fout_ << CUTS_BE_TCPIP_Ctx::single_line_comment ("$Id$")
+    this->fout_ << CUTS_BE_CPP::single_line_comment ("$Id$")
                 << std::endl
-                << CUTS_BE_TCPIP_Ctx::include (basename)
-                << CUTS_BE_TCPIP_Ctx::include ("cuts/arch/ccm/CCM_Events_T")
-                << CUTS_BE_TCPIP_Ctx::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_T")
-                << CUTS_BE_TCPIP_Ctx::include ("cuts/arch/tcpip/TCPIP_Connector")
-                << CUTS_BE_TCPIP_Ctx::include ("cuts/arch/tcpip/TCPIP_SPEC")
-                << CUTS_BE_TCPIP_Ctx::include ("cuts/arch/tcpip/TCPIP_Remote_Endpoint")
-                << CUTS_BE_TCPIP_Ctx::include ("cuts/arch/tcpip/TCPIP_Servant_Manager")
+                << CUTS_BE_CPP::include (basename)
+                << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_Events_T")
+                << CUTS_BE_CPP::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_T")
+                << CUTS_BE_CPP::include ("cuts/arch/tcpip/TCPIP_Connector")
+                << CUTS_BE_CPP::include ("cuts/arch/tcpip/TCPIP_SPEC")
+                << CUTS_BE_CPP::include ("cuts/arch/tcpip/TCPIP_Remote_Endpoint")
+                << CUTS_BE_CPP::include ("cuts/arch/tcpip/TCPIP_Servant_Manager")
                 << std::endl;
 
     std::for_each (monoimpls.begin (),

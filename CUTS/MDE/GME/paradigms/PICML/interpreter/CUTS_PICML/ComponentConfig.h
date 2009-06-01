@@ -11,7 +11,7 @@
 #define COCLASS_PROGID "CUTS.Interpreter.PICML"
 
 // This name will appear in the popup window for interpreter selection.
-#define COMPONENT_NAME "CUTS interpreter"
+#define COMPONENT_NAME "CUTS System Implementation Generator"
 
 // This text will appear in the toolbar icon tooltip and in the menu.
 #define TOOLTIP_TEXT "CUTS interpreter"

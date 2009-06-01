@@ -1,9 +1,195 @@
+Sun May 31 23:08:49 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/ComponentConfig.h:
+
+          . Updated the interpreter's name.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Env_Visitor_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Env_Visitor_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Execution_Visitor_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Execution_Visitor_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Generators_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Generators_T.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Generators_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Manager_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Manager_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Project_Generators_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Project_Generators_T.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Project_Generators_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Visitor_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Visitor_T.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Visitor_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Workspace_Generator_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Workspace_Generator_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Workspace_Generators_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Workspace_Generators_T.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Workspace_Generators_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_export.h:
+
+          . Redesigned the backend generator architecture so that it
+            better supports MIME's design goals.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/BE_EISA.mpc.old:
+
+          . Disabled the EISA interpreter.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/Port_Manager_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/Port_Manager_T.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/Port_Manager_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/TIOA/TIOA.mpc.old:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/UDM_Abstract_Type_Dispatcher_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/UDM_Abstract_Type_Dispatcher_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/XML/XML.mpc.old:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/XML/XML_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/XML/XML_Generators.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/XML/XML_Generators.cpp:
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI.mpc.old:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Generators.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/XML_Mapping_File_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/XSD_File_Generator.cpp:
+
+          . Disabled the CAPI interpreter until it is updated to the
+            support the new backend generator architecture.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/CCM.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/CCM_export.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Impl_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Impl_Generator.cpp:
+
+          . Move the variable type generator to the C++ backend
+            generator project.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/BE_CIAO.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Ctx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Generators.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Proxy_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Proxy_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Component_Impl_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Component_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Input_Stream_Event_Member_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Impl_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Include_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Impl_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Stub_Header_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Stub_Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/TCPIP_Ctx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/TCPIP_Ctx.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/TCPIP_Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/tcpip.mpc.old:
+
+          . Updated the generator to support the new backend generator
+            architecture.
+
+          . Temporarily disabled the generator so it can be updated to
+            use the C++ backend generators for behavior.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/CUTS_BE_CPP.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Component_Impl_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Component_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Cpp.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Cpp.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Cpp_export.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Variable_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Variable_Type.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Variable_Type.cpp:
+
+          . Moved the reusable C++ generators from CIAO to this
+            project.
+
+        * MPC/config/cuts_be_ccm.mpb:
+        * MPC/config/cuts_be_cpp.mpb:
+
+          . Base projects for the backend generator.
+
+        * MPC/config/requires_tcpip.mpb:
+
+          . Base project for prevent inclusion of the TCP/IP project.
+
+        * bin/cuts.config:
+
+          . Moved the disabled backend generators.
+
+        * default.features:
+
+          . Updated the default features to exclude TCP/IP.
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld.idl:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.cpp:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.cpp:
+
+          . Re-generated the example using the CUTS model interpreter.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/EISA/BE_EISA.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/TIOA/TIOA.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/XML/XML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Exec_Header_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Exec_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Exec_Source_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Exec_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Header_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Header_Traits.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_In_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_In_Type.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_In_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Inout_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Inout_Type.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Inout_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Out_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Out_Type.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Out_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Retn_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Retn_Type.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Retn_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Source_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Source_Traits.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Source_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Traits_Base.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Traits_Base.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Var_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Var_Type.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Var_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Port_Manager_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Port_Manager_T.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Port_Manager_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/tcpip.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/natural-lang:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_impl_export.h:
+
+          Removed these files.
+
 Wed May 27 13:53:09 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * docs/manual/appendix/thirdparty.tex:
         * docs/manual/manual.pdf:
 
-	  . Updated the documentation for XSC's build process.
+          . Updated the documentation for XSC's build process.
 
 Tue May 26 21:09:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 

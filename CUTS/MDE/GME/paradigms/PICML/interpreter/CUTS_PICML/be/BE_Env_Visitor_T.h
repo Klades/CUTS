@@ -16,20 +16,17 @@
 #include "PICML/PICML.h"
 #include "BE_Generators_T.h"
 
-//=============================================================================
 /**
  * @class CUTS_BE_Env_Visitor_T
  *
  * Visitor for the environment portions of the model.
  */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 class CUTS_BE_Env_Visitor_T : public PICML::Visitor
 {
 public:
   /// Constructor.
-  CUTS_BE_Env_Visitor_T (void);
+  CUTS_BE_Env_Visitor_T (CONTEXT & context);
 
   /// Destructor.
   virtual ~CUTS_BE_Env_Visitor_T (void);
@@ -43,6 +40,10 @@ protected:
 
   void Visit_MultiInputAction (
     const PICML::MultiInputAction & action);
+
+private:
+  /// Target context for generation.
+  CONTEXT & context_;
 };
 
 #include "BE_Env_Visitor_T.cpp"

@@ -13,7 +13,7 @@
 //
 XSD_File_Generator::XSD_File_Generator (const std::string & outdir)
 : outdir_ (outdir),
-  dispatcher_ (*this)
+  dispatcher_ (this)
 {
   // Initialize the Accept dispatcher for abstract base types.
   this->dispatcher_.insert <PICML::String> ();

@@ -1,32 +1,15 @@
 // $Id$
 
-project (CUTS_BE_CIAO) : boost_base, picml_udm, cuts_be, cuts_cosmic {
+project (CUTS_BE_CIAO) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
   sharedname    += CUTS_BE_CIAO
   dynamicflags  += CUTS_UDM_CIAO_BUILD_DLL
 
   includes += $(CUTS_ROOT)/MDE/GME/paradigms/PICML
 
   Source_Files {
-    CIAO_In_Type.cpp
-    CIAO_Out_Type.cpp
-    CIAO_Inout_Type.cpp
-    CIAO_Retn_Type.cpp
-    CIAO_Var_Type.cpp
-
-    CIAO_Traits.cpp
-    CIAO_Traits_Base.cpp
-    CIAO_Header_Traits.cpp
-    CIAO_Source_Traits.cpp
-    CIAO_Exec_Header_Traits.cpp
-    CIAO_Exec_Source_Traits.cpp
+    CIAO_Generators.cpp
     CIAO_Preprocessor_Handlers.cpp
-    CIAO_Proxy_Header_Traits.cpp
-    CIAO_Proxy_Source_Traits.cpp
     CIAO_Manager_Factory.cpp
-  }
-
-  Template_Files {
-    Port_Manager_T.cpp
   }
 
   Header_Files {

@@ -2,6 +2,9 @@
 
 #include "Servant_Header_Include_Generator.h"
 #include "TCPIP_Ctx.h"
+
+#include "../../lang/cpp/Cpp.h"
+
 #include "boost/bind.hpp"
 #include "Uml.h"
 #include <algorithm>
@@ -118,8 +121,8 @@ Visit_File (const PICML::File & file)
     return;
 
   this->seen_.insert (name);
-  this->out_ << CUTS_BE_TCPIP_Ctx::include (name + "S")
-             << CUTS_BE_TCPIP_Ctx::include ("TCPIP_" + name + "C");
+  this->out_ << CUTS_BE_CPP::include (name + "S")
+             << CUTS_BE_CPP::include ("TCPIP_" + name + "C");
 }
 
 }

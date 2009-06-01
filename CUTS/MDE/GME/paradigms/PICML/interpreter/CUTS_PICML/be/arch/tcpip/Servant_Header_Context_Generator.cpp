@@ -2,6 +2,9 @@
 
 #include "Servant_Header_Context_Generator.h"
 #include "TCPIP_Ctx.h"
+
+#include "../../lang/cpp/Cpp.h"
+
 #include "boost/bind.hpp"
 #include <algorithm>
 
@@ -45,11 +48,11 @@ Visit_Component (const PICML::Component & component)
   context_base += "_Base";
 
   // Write the first part of the servant's context.
-  this->out_ << CUTS_BE_TCPIP_Ctx::single_line_comment ("Forward decl.")
+  this->out_ << CUTS_BE_CPP::single_line_comment ("Forward decl.")
              << "class " << servant << ";"
              << std::endl
              << "typedef CUTS_TCPIP_CCM_Context_T <"
-             << CUTS_BE_TCPIP_Ctx::scope (component)
+             << CUTS_BE_CPP::scope(component)
              << "CCM_" << name << "_Context, "
              << servant << "> " << context_base << ";"
              << std::endl
@@ -60,10 +63,10 @@ Visit_Component (const PICML::Component & component)
              << context_base
              << "{"
              << "public:" << std::endl
-             << CUTS_BE_TCPIP_Ctx::single_line_comment ("default constructor")
+             << CUTS_BE_CPP::single_line_comment ("default constructor")
              << context << " (" << servant << " & parent);"
              << std::endl
-             << CUTS_BE_TCPIP_Ctx::single_line_comment ("destructor")
+             << CUTS_BE_CPP::single_line_comment ("destructor")
              << "virtual ~" << context << " (void);"
              << std::endl;
 
@@ -88,13 +91,13 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
   std::string name = port.name ();
   PICML::Event event = port.ref ();
 
-  std::string fq_type = CUTS_BE_TCPIP_Ctx::fq_type (event);
+  std::string fq_type = CUTS_BE_CPP::fq_type (event);
 
   std::string comment ("push method for output event port: ");
   comment += name;
 
   this->out_ << "public:" << std::endl
-             << CUTS_BE_TCPIP_Ctx::single_line_comment (comment)
+             << CUTS_BE_CPP::single_line_comment (comment)
              << "virtual void push_" << name << " (" << fq_type << " * ev);"
              << std::endl;
 

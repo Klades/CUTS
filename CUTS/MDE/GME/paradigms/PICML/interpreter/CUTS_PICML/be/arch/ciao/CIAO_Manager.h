@@ -13,9 +13,8 @@
 #ifndef _CUTS_BE_CIAO_MANAGER_H_
 #define _CUTS_BE_CIAO_MANAGER_H_
 
-#include "CIAO_Ctx.h"
 #include "CIAO_Preprocessor_Handlers.h"
-#include "CIAO_Traits.h"
+#include "CIAO_Generators.h"
 #include "../../BE_Manager_T.h"
 #include "../../BE_MPC_Workspace.h"
 

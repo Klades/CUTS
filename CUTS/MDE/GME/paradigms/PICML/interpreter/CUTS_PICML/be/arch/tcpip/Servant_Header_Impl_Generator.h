@@ -25,6 +25,10 @@ public:
 
   virtual void Visit_InEventPort (const PICML::InEventPort & port);
 
+  virtual void Visit_Attribute (const PICML::Attribute & attr);
+
+  virtual void Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute & attr);
+
 private:
   std::ostream & out_;
 

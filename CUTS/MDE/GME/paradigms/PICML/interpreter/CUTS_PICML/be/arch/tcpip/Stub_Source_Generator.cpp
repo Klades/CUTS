@@ -4,6 +4,7 @@
 #include "Input_Stream_Source_Generator.h"
 #include "Output_Stream_Source_Generator.h"
 #include "TCPIP_Ctx.h"
+#include "../../lang/cpp/Cpp.h"
 
 #include "boost/bind.hpp"
 
@@ -86,9 +87,9 @@ Visit_File (const PICML::File & file)
     std::set <PICML::Package> packages = file.Package_children ();
 
     // Include the header file.
-    this->outfile_ << CUTS_BE_TCPIP_Ctx::single_line_comment ("$Id$")
+    this->outfile_ << CUTS_BE_CPP::single_line_comment ("$Id$")
                    << std::endl
-                   << CUTS_BE_TCPIP_Ctx::include (basename) << std::endl
+                   << CUTS_BE_CPP::include (basename) << std::endl
                    << std::endl;
 
     this->Visit_PackageFile_i (file);

@@ -15,20 +15,20 @@
 
 #include "BE_Manager.h"
 
-//=============================================================================
 /**
  * @class CUTS_BE_Manager_T
  *
- * Main entry point for the backend generator. Each backend generator 
- * parameterizes this manager to customize how the points-of-visitation 
+ * Main entry point for the backend generator. Each backend generator
+ * parameterizes this manager to customize how the points-of-visitation
  * and points-of-generation function.
  */
-//=============================================================================
-
-template <typename BE_TYPE>
+template <typename CONTEXT>
 class CUTS_BE_Manager_T : public CUTS_BE_Manager
 {
 public:
+  /// Type definition of the manager's context.
+  typedef CONTEXT context_type;
+
   /// Default constructor.
   CUTS_BE_Manager_T (void);
 
@@ -37,6 +37,10 @@ public:
 
   // Execute the manager on the root folder.
   virtual bool handle (const PICML::RootFolder & root);
+
+private:
+  /// The context for the manager.
+  CONTEXT context_;
 };
 
 #include "BE_Manager_T.cpp"

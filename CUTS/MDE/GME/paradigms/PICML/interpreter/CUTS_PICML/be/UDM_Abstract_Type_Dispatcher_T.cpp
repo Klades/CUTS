@@ -5,7 +5,7 @@
 //
 template <typename VISITOR>
 UDM_Abstract_Type_Dispatcher_T <VISITOR>::
-UDM_Abstract_Type_Dispatcher_T (VISITOR & visitor)
+UDM_Abstract_Type_Dispatcher_T (VISITOR * visitor)
 : visitor_ (visitor)
 {
 

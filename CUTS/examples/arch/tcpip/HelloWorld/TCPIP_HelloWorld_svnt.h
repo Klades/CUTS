@@ -94,6 +94,13 @@ namespace TCPIP_HelloWorld_Basic_Impl
 
     private:
     CUTS_TCPIP_CCM_EventConsumer handle_message_consumer_;
+
+    public:
+    virtual void message (const char * message);
+
+    virtual char * message (void);
+
+    virtual char * readonly_message (void);
   };
 }
 

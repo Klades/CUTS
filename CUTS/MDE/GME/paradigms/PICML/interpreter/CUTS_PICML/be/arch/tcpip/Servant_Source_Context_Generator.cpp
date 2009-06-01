@@ -2,6 +2,9 @@
 
 #include "Servant_Source_Context_Generator.h"
 #include "TCPIP_Ctx.h"
+
+#include "../../lang/cpp/Cpp.h"
+
 #include "boost/bind.hpp"
 #include <algorithm>
 
@@ -67,7 +70,7 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
   std::string name = port.name ();
   PICML::Event event = port.ref ();
 
-  std::string fq_type = CUTS_BE_TCPIP_Ctx::fq_type (event);
+  std::string fq_type = CUTS_BE_CPP::fq_type (event);
 
   std::string comment ("push method for output event port: ");
   comment += name;

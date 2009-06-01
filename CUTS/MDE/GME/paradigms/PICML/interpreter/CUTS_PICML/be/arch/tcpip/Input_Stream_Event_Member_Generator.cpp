@@ -2,6 +2,9 @@
 
 #include "Input_Stream_Event_Member_Generator.h"
 #include "TCPIP_Ctx.h"
+
+#include "../../lang/cpp/Cpp.h"
+
 #include <sstream>
 
 namespace CUTS_BE_TCPIP
@@ -12,7 +15,7 @@ namespace CUTS_BE_TCPIP
 Input_Stream_Event_Member_Generator::
 Input_Stream_Event_Member_Generator (std::ostream & out)
 : out_ (out),
-  predefined_types_ (*this)
+  predefined_types_ (this)
 {
   this->predefined_types_.insert <PICML::Boolean> ();
   this->predefined_types_.insert <PICML::Byte> ();
@@ -47,7 +50,7 @@ Visit_Member (const PICML::Member & member)
     comment += name;
 
     this->out_ << std::endl
-               << CUTS_BE_TCPIP_Ctx::single_line_comment (comment);
+               << CUTS_BE_CPP::single_line_comment (comment);
 
     // Write the first part of the extraction code.
     this->predefined_types_.dispatch (mt);

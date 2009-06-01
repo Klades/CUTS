@@ -7,8 +7,8 @@
 //
 // CUTS_BE_Manager_T
 //
-template <typename BE_TYPE>
-CUTS_BE_Manager_T <BE_TYPE>::CUTS_BE_Manager_T (void)
+template <typename CONTEXT>
+CUTS_BE_Manager_T <CONTEXT>::CUTS_BE_Manager_T (void)
 {
 
 }
@@ -16,8 +16,8 @@ CUTS_BE_Manager_T <BE_TYPE>::CUTS_BE_Manager_T (void)
 //
 // ~CUTS_BE_Manager_T
 //
-template <typename BE_TYPE>
-CUTS_BE_Manager_T <BE_TYPE>::~CUTS_BE_Manager_T (void)
+template <typename CONTEXT>
+CUTS_BE_Manager_T <CONTEXT>::~CUTS_BE_Manager_T (void)
 {
 
 }
@@ -25,22 +25,26 @@ CUTS_BE_Manager_T <BE_TYPE>::~CUTS_BE_Manager_T (void)
 //
 // handle
 //
-template <typename BE_TYPE>
-bool CUTS_BE_Manager_T <BE_TYPE>::
+template <typename CONTEXT>
+bool CUTS_BE_Manager_T <CONTEXT>::
 handle (const PICML::RootFolder & root)
 {
   // Initialize the backend generator.
-  CUTS_BE_Initialize_T <BE_TYPE>::generate (root);
+  CUTS_BE_Initialize_T <CONTEXT> init_gen (this->context_);
+  init_gen.generate (root);
+  // CUTS_BE::generate (root, init_gen);
 
   // Generate the executor implementation.
-  CUTS_BE_Impl_Generator_T <BE_TYPE> exec_generator;
-  PICML::RootFolder (root).Accept (exec_generator);
+  CUTS_BE_Impl_Generator_T <CONTEXT> impl_gen (this->context_);
+  impl_gen.generate (root);
 
   // Generate the workspace/project files.
-  CUTS_BE_Workspace_Generator_T <BE_TYPE> workspace;
+  CUTS_BE_Workspace_Generator_T <CONTEXT> workspace (this->context_);
   workspace.generate ();
 
   // Finalize the backend generator.
-  CUTS_BE_Finalize_T <BE_TYPE>::generate (root);
+  CUTS_BE_Finalize_T <CONTEXT> fini_gen (this->context_);
+  PICML::RootFolder (root).Accept (fini_gen);
+
   return true;
 }

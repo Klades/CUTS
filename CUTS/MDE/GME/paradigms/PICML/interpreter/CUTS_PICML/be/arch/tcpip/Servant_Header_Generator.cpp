@@ -5,6 +5,9 @@
 #include "Servant_Header_Context_Generator.h"
 #include "Servant_Header_Impl_Generator.h"
 #include "Servant_Header_Include_Generator.h"
+
+#include "../../lang/cpp/Cpp.h"
+
 #include "boost/bind.hpp"
 #include "CCF/CodeGenerationKit/IndentationCxx.hpp"
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
@@ -122,7 +125,7 @@ const PICML::ComponentImplementationContainer & container)
     exec_stub += "EC";
 
     // Include the header file.
-    this->fout_ << CUTS_BE_TCPIP_Ctx::single_line_comment ("-*- C++ -*-")
+    this->fout_ << CUTS_BE_CPP::single_line_comment ("-*- C++ -*-")
                 << std::endl
                 << "#ifndef " << hash_define << std::endl
                 << "#define " << hash_define << std::endl
@@ -132,16 +135,16 @@ const PICML::ComponentImplementationContainer & container)
     PICML::ComponentImplementationContainer (container).Accept (incl_gen);
 
     this->fout_ << std::endl
-                << CUTS_BE_TCPIP_Ctx::include (exec_stub)
+                << CUTS_BE_CPP::include (exec_stub)
                 << std::endl
-                << CUTS_BE_TCPIP_Ctx::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_Context_T")
-                << CUTS_BE_TCPIP_Ctx::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T")
-                << CUTS_BE_TCPIP_Ctx::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T")
-                << CUTS_BE_TCPIP_Ctx::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table_T")
+                << CUTS_BE_CPP::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_Context_T")
+                << CUTS_BE_CPP::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T")
+                << CUTS_BE_CPP::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T")
+                << CUTS_BE_CPP::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table_T")
                 << std::endl
-                << CUTS_BE_TCPIP_Ctx::include (export_filename)
+                << CUTS_BE_CPP::include (export_filename)
                 << std::endl
-                << CUTS_BE_TCPIP_Ctx::single_line_comment ("Forward decl.")
+                << CUTS_BE_CPP::single_line_comment ("Forward decl.")
                 << "class CUTS_TCPIP_Servant_Manager;"
                 << std::endl;
 

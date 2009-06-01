@@ -27,7 +27,6 @@ struct CUTS_BE_Impl_Node;
 // Forward decl.
 struct CUTS_BE_IDL_Node;
 
-//=============================================================================
 /**
  * @class CUTS_BE_Workspace_Generator_T
  *
@@ -36,9 +35,7 @@ struct CUTS_BE_IDL_Node;
  * files, it pass control the trait. If the project file is successfully
  * generated, then it is included in the workspace.
  */
-//=============================================================================
-
-template <typename BE_TYPE>
+template <typename CONTEXT>
 class CUTS_BE_Workspace_Generator_T
 {
 public:
@@ -47,7 +44,7 @@ public:
    *
    * @param[in]     project     Project generator.
    */
-  CUTS_BE_Workspace_Generator_T (void);
+  CUTS_BE_Workspace_Generator_T (CONTEXT & context);
 
   /// Destructor.
   virtual ~CUTS_BE_Workspace_Generator_T (void);
@@ -59,7 +56,7 @@ public:
    *
    * @param[in]     processor       Data source.
    */
-  bool generate (void);
+  void generate (void);
 
 protected:
   void generate_impl_project (const CUTS_BE_Impl_Node * node);
@@ -67,23 +64,17 @@ protected:
   void generate_stub_project (const CUTS_BE_IDL_Node * node);
 
 private:
-  ///// The workspace generator strategy.
-  //WORKSPACE_STRATEGY workspace_generator_;
-
-  ///// Project generator for this workspace.
-  //PROJ_STRATEGY proj_generator_;
-
   /// Type definition for visited nodes.
   typedef std::set <const CUTS_BE_IDL_Node *> IDL_Node_Set;
+
+  /// Context for the workspace geneerator.
+  CONTEXT & context_;
 
   /// Collection of visited nodes.
   IDL_Node_Set visited_nodes_;
 
   /// Collection of stubs that need to be generated.
   IDL_Node_Set required_stubs_;
-
-  ///// Collection of project files.
-  //CUTS_String_Set project_files_;
 
   // prevent the following operations
   CUTS_BE_Workspace_Generator_T (

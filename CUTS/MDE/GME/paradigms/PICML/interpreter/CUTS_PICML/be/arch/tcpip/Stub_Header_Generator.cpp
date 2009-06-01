@@ -3,6 +3,8 @@
 #include "Stub_Header_Generator.h"
 #include "TCPIP_Ctx.h"
 
+#include "../../lang/cpp/Cpp.h"
+
 #include "boost/bind.hpp"
 
 #include "CCF/CodeGenerationKit/IndentationCxx.hpp"
@@ -107,15 +109,15 @@ Visit_File (const PICML::File & file)
     this->export_macro_ += "_Export";
 
     // Include the header file.
-    this->outfile_ << CUTS_BE_TCPIP_Ctx::single_line_comment ("-*- C++ -*-")
+    this->outfile_ << CUTS_BE_CPP::single_line_comment ("-*- C++ -*-")
                    << std::endl
                    << "#ifndef " << hash_define << std::endl
                    << "#define " << hash_define << std::endl
                    << std::endl
-                   << CUTS_BE_TCPIP_Ctx::include (corba_filename)
-                   << CUTS_BE_TCPIP_Ctx::include ("cuts/arch/tcpip/TCPIP_InputCDR")
-                   << CUTS_BE_TCPIP_Ctx::include ("cuts/arch/tcpip/TCPIP_OutputCDR")
-                   << CUTS_BE_TCPIP_Ctx::include (export_filename)
+                   << CUTS_BE_CPP::include (corba_filename)
+                   << CUTS_BE_CPP::include ("cuts/arch/tcpip/TCPIP_InputCDR")
+                   << CUTS_BE_CPP::include ("cuts/arch/tcpip/TCPIP_OutputCDR")
+                   << CUTS_BE_CPP::include (export_filename)
                    << std::endl;
 
     // Visit all the packages in this file.

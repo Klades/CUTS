@@ -16,25 +16,23 @@
 #define _CUTS_BE_GENERATORS_T_H_
 
 #include "PICML/PICML.h"
-
-///////////////////////////////////////////////////////////////////////////////
-// configuration traits
+#include "BE_Visitor_T.h"
 
 /**
- * @struct CUTS_BE_Write_Variables_Last_T
+ * @class CUTS_BE_Write_Variables_Last_T
  *
  * Determine when to generate the variables. By default variables are
  * generated last in the backend. If you want to generate variables in
  * the middle, then specialize the \a result_type to be true.
  */
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_Write_Variables_Last_T
 {
   static const bool result_type = true;
 };
 
 /**
- * @struct CUTS_BE_Parse_Precondition_T
+ * @class CUTS_BE_Parse_Precondition_T
  *
  * Determine if conditions should be parsed. The condition appears
  * in the outgoing connection of a branch state element, or the looping
@@ -48,56 +46,108 @@ struct CUTS_BE_Write_Variables_Last_T
  *       generator architecture. In the future, the name of this
  *       method will change to something more meaningful.
  */
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_Parse_Precondition_T
 {
   static const bool result_type = true;
 };
 
-///////////////////////////////////////////////////////////////////////////////
-// callback traits
+/**
+ * @class CUTS_BE_Initialize_T
+ *
+ * Initialize the backend.
+ */
+template <typename CONTEXT>
+class CUTS_BE_Initialize_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  /// Type definition of the visitor type.
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  /**
+   * Initializing conclassor.
+   *
+   * @param[in]       context         Context for the generator.
+   */
+  CUTS_BE_Initialize_T (CONTEXT & context);
+
+  /// Destructor.
+  virtual ~CUTS_BE_Initialize_T (void);
+
+  void generate (const PICML::RootFolder & folder);
+};
 
 /**
+ * @class CUTS_BE_Finalize_T
  *
+ * Finalize the backend.
  */
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Initialize_T
+template <typename CONTEXT>
+class CUTS_BE_Finalize_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static void generate (const PICML::RootFolder &)
-  {
+public:
+  /// Type definition of the visitor type.
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
 
-  }
+  /**
+   * Initializing conclassor.
+   *
+   * @param[in]       context         Context for the generator.
+   */
+  CUTS_BE_Finalize_T (CONTEXT & context);
+
+  /// Destructor.
+  virtual ~CUTS_BE_Finalize_T (void);
+
+  void generate (const PICML::RootFolder & folder);
+};
+
+/**
+ * @class CUTS_BE_File_Open_T
+ *
+ * Open the file for the monolithic implemenation.
+ */
+template <typename CONTEXT>
+class CUTS_BE_File_Open_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_File_Open_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_File_Open_T (void);
+
+  void generate (const PICML::ComponentImplementationContainer &,
+                 const PICML::MonolithicImplementation &);
+};
+
+/**
+ * @class CUTS_BE_File_Close_T
+ *
+ * Close the file for the monolithic implementation.
+ */
+template <typename CONTEXT>
+class CUTS_BE_File_Close_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_File_Close_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_File_Close_T (void);
+
+  void generate (const PICML::ComponentImplementationContainer &,
+                 const PICML::MonolithicImplementation &);
 };
 
 /**
  *
  */
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Finalize_T
-{
-  static void generate (const PICML::RootFolder &)
-  {
-
-  }
-};
-
-/**
- *
- */
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_File_Open_T
-{
-  static bool generate (const PICML::ComponentImplementationContainer &,
-                        const PICML::MonolithicImplementation &)
-  {
-    return false;
-  }
-};
-
-/**
- *
- */
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_ComponentAssembly_File_Open_T
 {
   static bool generate (const PICML::ComponentImplementationContainer &,
@@ -110,20 +160,7 @@ struct CUTS_BE_ComponentAssembly_File_Open_T
 /**
  *
  */
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_File_Close_T
-{
-  static bool generate (const PICML::ComponentImplementationContainer &,
-                        const PICML::MonolithicImplementation &)
-  {
-    return false;
-  }
-};
-
-/**
- *
- */
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_ComponentAssembly_File_Close_T
 {
   static bool generate (const PICML::ComponentImplementationContainer &,
@@ -134,32 +171,68 @@ struct CUTS_BE_ComponentAssembly_File_Close_T
 };
 
 /**
+ * @class CUTS_BE_Include_File_T
  *
+ * Generate an include file for the specified string.
  */
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Include_File_T
+template <typename CONTEXT>
+class CUTS_BE_Include_File_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (const std::string & include)
-    { return false; }
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Include_File_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Include_File_T (void);
+
+  void generate (const std::string & include);
+};
+
+/**
+ * @class CUTS_BE_Prologue_T
+ *
+ * Generates the prologue for an implementation's file.
+ */
+template <typename CONTEXT>
+class CUTS_BE_Prologue_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Prologue_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Prologue_T (void);
+
+  void generate (const PICML::ComponentImplementationContainer &,
+                 const PICML::MonolithicImplementation &);
+};
+
+/**
+ * @class CUTS_BE_Prologue_T
+ *
+ * Generates the epilogue for an implementation's file.
+ */
+template <typename CONTEXT>
+class CUTS_BE_Epilogue_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Epilogue_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Epilogue_T (void);
+
+  void generate (const PICML::ComponentImplementationContainer &,
+                 const PICML::MonolithicImplementation &);
 };
 
 /**
  *
  */
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Prologue_T
-{
-  static bool generate (const PICML::ComponentImplementationContainer &,
-                        const PICML::MonolithicImplementation &)
-  {
-    return false;
-  }
-};
-
-/**
- *
- */
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_ComponentAssembly_Prologue_T
 {
   static bool generate (const PICML::ComponentImplementationContainer &,
@@ -169,23 +242,11 @@ struct CUTS_BE_ComponentAssembly_Prologue_T
   }
 };
 
-/**
- *
- */
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Epilogue_T
-{
-  static bool generate (const PICML::ComponentImplementationContainer &,
-                        const PICML::MonolithicImplementation &)
-  {
-    return false;
-  }
-};
 
 /**
  *
  */
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_ComponentAssembly_Epilogue_T
 {
   static bool generate (const PICML::ComponentImplementationContainer &,
@@ -196,45 +257,211 @@ struct CUTS_BE_ComponentAssembly_Epilogue_T
 };
 
 /**
+ * @class CUTS_BE_Component_Impl_Begin_T
  *
+ * Begin generation of the component's implementation.
  */
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Component_Impl_Begin_T
+template <typename CONTEXT>
+class CUTS_BE_Component_Impl_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (const PICML::MonolithicImplementation & monoimpl,
-                        const PICML::Component & component)
-    { return false; }
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Component_Impl_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Component_Impl_Begin_T (void);
+
+  void generate (const PICML::MonolithicImplementation & monoimpl,
+                 const PICML::Component & component);
 };
 
 /**
- * @struct CUTS_BE_Component_Impl_Entrypoint_T
+ * @class CUTS_BE_Component_Impl_End_T
+ *
+ * End generation of the component's implementation.
  */
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Component_Impl_Entrypoint_T
+template <typename CONTEXT>
+class CUTS_BE_Component_Impl_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (const PICML::MonolithicImplementation & monoimpl,
-                        const PICML::ComponentImplementationArtifact & artifact)
-    { return false; }
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Component_Impl_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Component_Impl_End_T (void);
+
+  void generate (const PICML::MonolithicImplementation & monoimpl,
+                 const PICML::Component & component);
+};
+
+/**
+ * @class CUTS_BE_Environment_Begin_T
+ *
+ * Begin generation of an environment action.
+ */
+template <typename CONTEXT>
+class CUTS_BE_Environment_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Environment_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Environment_Begin_T (void);
+
+  void generate (const PICML::Component & component);
+};
+
+/**
+ * @class CUTS_BE_Environment_Method_Begin_T
+ *
+ * Begin the generation of an environment method.
+ */
+template <typename CONTEXT>
+class CUTS_BE_Environment_Method_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Environment_Method_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Environment_Method_Begin_T (void);
+
+  void generate (const PICML::MultiInputAction & action);
+};
+
+/**
+ * @class CUTS_BE_Environment_Method_End_T
+ *
+ * End the generation of an environment method.
+ */
+template <typename CONTEXT>
+class CUTS_BE_Environment_Method_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Environment_Method_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Environment_Method_End_T (void);
+
+  void generate (const PICML::MultiInputAction & action);
+};
+
+/**
+ * @class CUTS_BE_Environment_End_T
+ *
+ * End of the environment for a component implementation.
+ */
+template <typename CONTEXT>
+class CUTS_BE_Environment_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Environment_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Environment_End_T (void);
+
+  void generate (const PICML::Component & component);
+};
+
+/**
+ * @class CUTS_BE_ReadonlyAttribute_Begin_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_ReadonlyAttribute_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_ReadonlyAttribute_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_ReadonlyAttribute_Begin_T (void);
+
+  void generate (const PICML::ReadonlyAttribute & readonly);
+};
+
+/**
+ * @class CUTS_BE_ReadonlyAttribute_End_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_ReadonlyAttribute_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_ReadonlyAttribute_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_ReadonlyAttribute_End_T (void);
+
+  void generate (const PICML::ReadonlyAttribute & readonly);
+};
+
+/**
+ * @class CUTS_BE_Attribute_Begin_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_Attribute_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Attribute_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Attribute_Begin_T (void);
+
+  void generate (const PICML::Attribute & attr);
+};
+
+/**
+ * @class CUTS_BE_Attribute_End_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_Attribute_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Attribute_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Attribute_End_T (void);
+
+  void generate (const PICML::Attribute & attr);
+};
+
+/**
+ * @class CUTS_BE_Component_Impl_Entrypoint_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_Component_Impl_Entrypoint_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Component_Impl_Entrypoint_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Component_Impl_Entrypoint_T (void);
+
+  void generate (const PICML::MonolithicImplementation & monoimpl,
+                 const PICML::ComponentImplementationArtifact & artifact);
 };
 
 /**
  *
  */
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Component_Impl_End_T
-{
-  static bool generate (const PICML::MonolithicImplementation & monoimpl,
-                        const PICML::Component & component)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_Factory_Impl_Begin_T
 {
   static bool generate (const PICML::ComponentFactory & factory,
@@ -243,13 +470,10 @@ struct CUTS_BE_Factory_Impl_Begin_T
     { return false; }
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_Factory_Impl_End_T
 {
   static bool generate (const PICML::ComponentFactory & factory,
@@ -258,13 +482,10 @@ struct CUTS_BE_Factory_Impl_End_T
     { return false; }
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_Object_Impl_Begin_T
 {
   static bool generate (const PICML::Component & component,
@@ -272,13 +493,10 @@ struct CUTS_BE_Object_Impl_Begin_T
     { return false; }
 };
 
-//=============================================================================
 /**
  *
  */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_Object_Impl_End_T
 {
   static bool generate (const PICML::Component & component,
@@ -286,17 +504,210 @@ struct CUTS_BE_Object_Impl_End_T
     { return false; }
 };
 
-//=============================================================================
 /**
- *
+ * @class CUTS_BE_Variables_Begin_T
  */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Environment_Begin_T
+template <typename CONTEXT>
+class CUTS_BE_Variables_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (const PICML::Component & component)
-    { return false; }
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Variables_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Variables_Begin_T (void);
+
+  void generate (const PICML::Component & component);
+};
+
+/**
+ * @class CUTS_BE_Attribute_Variable_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_Attribute_Variable_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Attribute_Variable_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Attribute_Variable_T (void);
+
+  void generate (const PICML::ReadonlyAttribute & attr);
+};
+
+/**
+ * @class CUTS_BE_Variable_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_Variable_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Variable_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Variable_T (void);
+
+  void generate (const PICML::Variable & variable);
+};
+
+/**
+ * @class CUTS_BE_Worker_Variable_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_Worker_Variable_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Worker_Variable_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Worker_Variable_T (void);
+
+  void generate (const PICML::WorkerType & type, const PICML::Worker & worker);
+};
+
+/**
+ * @class CUTS_BE_PeriodicEvent_Variable_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_PeriodicEvent_Variable_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_PeriodicEvent_Variable_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_PeriodicEvent_Variable_T (void);
+
+  void generate (const PICML::PeriodicEvent & periodic);
+};
+
+/**
+ * @class CUTS_BE_Variables_End_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_Variables_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Variables_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Variables_End_T (void);
+
+  void generate (const PICML::Component & component);
+};
+
+/**
+ * @class CUTS_BE_InEventPort_Begin_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_InEventPort_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_InEventPort_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_InEventPort_Begin_T (void);
+
+  void generate (const PICML::InEventPort & sink,
+                 const std::vector <PICML::Property> & properties);
+};
+
+/**
+ * @class CUTS_BE_InEventPort_End_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_InEventPort_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_InEventPort_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_InEventPort_End_T (void);
+
+  void generate (const PICML::InEventPort & sink,
+                 const std::vector <PICML::Property> & properties);
+};
+
+/**
+ * @class CUTS_BE_ProvidedRequestPort_Begin_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_ProvidedRequestPort_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_ProvidedRequestPort_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_ProvidedRequestPort_Begin_T (void);
+
+  void generate (const PICML::ProvidedRequestPort & source);
+};
+
+/**
+ * @class CUTS_BE_ProvidedRequestPort_End_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_ProvidedRequestPort_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_ProvidedRequestPort_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_ProvidedRequestPort_End_T (void);
+
+  void generate (const PICML::ProvidedRequestPort & source);
+};
+
+/**
+ * @class CUTS_BE_PeriodicEvent_Begin_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_PeriodicEvent_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_PeriodicEvent_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_PeriodicEvent_Begin_T (void);
+
+  void generate (const PICML::PeriodicEvent & periodic);
+};
+
+/**
+ * @class CUTS_BE_PeriodicEvent_End_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_PeriodicEvent_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_PeriodicEvent_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_PeriodicEvent_End_T (void);
+
+  void generate (const PICML::PeriodicEvent & periodic);
 };
 
 //=============================================================================
@@ -305,257 +716,7 @@ struct CUTS_BE_Environment_Begin_T
  */
 //=============================================================================
 
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Environment_Method_Begin_T
-{
-  static bool generate (const PICML::MultiInputAction & action)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Environment_Method_End_T
-{
-  static bool generate (const PICML::MultiInputAction & action)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Environment_End_T
-{
-  static bool generate (const PICML::Component & component)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Variables_Begin_T
-{
-  static bool generate (const PICML::Component & component)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Attribute_Variable_T
-{
-  static bool generate (const PICML::ReadonlyAttribute & attr)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Variable_T
-{
-  static bool generate (const PICML::Variable & variable)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Worker_Variable_T
-{
-  static bool generate (const PICML::WorkerType & type,
-                        const PICML::Worker & worker)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_PeriodicEvent_Variable_T
-{
-  static bool generate (const PICML::PeriodicEvent & periodic)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Variables_End_T
-{
-  static bool generate (const PICML::Component & component)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_InEventPort_Begin_T
-{
-  static bool generate (const PICML::InEventPort & sink,
-                        const std::vector <PICML::Property> & properties)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_InEventPort_End_T
-{
-  static bool generate (const PICML::InEventPort & sink,
-                        const std::vector <PICML::Property> & properties)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_ProvidedRequestPort_Begin_T
-{
-  static bool generate (const PICML::ProvidedRequestPort & source)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_ProvidedRequestPort_End_T
-{
-  static bool generate (const PICML::ProvidedRequestPort & source)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_PeriodicEvent_Begin_T
-{
-  static bool generate (const PICML::PeriodicEvent & periodic)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_PeriodicEvent_End_T
-{
-  static bool generate (const PICML::PeriodicEvent & periodic)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_ReadonlyAttribute_Begin_T
-{
-  static bool generate (const PICML::ReadonlyAttribute & readonly)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_ReadonlyAttribute_End_T
-{
-  static bool generate (const PICML::ReadonlyAttribute & readonly)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Attribute_Begin_T
-{
-  static bool generate (const PICML::Attribute & attr)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Attribute_End_T
-{
-  static bool generate (const PICML::Attribute & attr)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_OnewayOperation_Begin_T
 {
   static bool generate (const PICML::OnewayOperation & oneway)
@@ -568,7 +729,7 @@ struct CUTS_BE_OnewayOperation_Begin_T
  */
 //=============================================================================
 
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_OnewayOperation_End_T
 {
   static bool generate (const PICML::OnewayOperation & oneway)
@@ -581,7 +742,7 @@ struct CUTS_BE_OnewayOperation_End_T
  */
 //=============================================================================
 
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_TwowayOperation_Begin_T
 {
   static bool generate (const PICML::TwowayOperation & twoway)
@@ -594,7 +755,7 @@ struct CUTS_BE_TwowayOperation_Begin_T
  */
 //=============================================================================
 
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_TwowayOperation_End_T
 {
   static bool generate (const PICML::TwowayOperation & twoway)
@@ -607,7 +768,7 @@ struct CUTS_BE_TwowayOperation_End_T
  */
 //=============================================================================
 
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_FactoryOperation_Begin_T
 {
   static bool generate (const PICML::FactoryOperation & factory)
@@ -620,449 +781,462 @@ struct CUTS_BE_FactoryOperation_Begin_T
  */
 //=============================================================================
 
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_FactoryOperation_End_T
 {
   static bool generate (const PICML::FactoryOperation & factory)
     { return false; }
 };
 
-//=============================================================================
-/**
- *
- */
-//=============================================================================
+///////////////////////////////////////////////////////////////////////////////
+// CBML
 
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Postcondition_T
+/**
+ * @class CUTS_BE_Postcondition_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_Postcondition_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (const std::string & postcondition)
-    { return false; }
+public:
+  CUTS_BE_Postcondition_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Postcondition_T (void);
+
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  void generate (const std::string & postcondition);
 };
 
-//=============================================================================
 /**
- *
+ * @class CUTS_BE_Precondition_T
  */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Precondition_T
+template <typename CONTEXT>
+class CUTS_BE_Precondition_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (const std::string & precondition)
-    { return false; }
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Precondition_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Precondition_T (void);
+
+  void generate (const std::string & precondition);
 };
 
-//=============================================================================
 /**
- *
+ * @class CUTS_BE_Branches_Begin_T
  */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Branches_Begin_T
+template <typename CONTEXT>
+class CUTS_BE_Branches_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (size_t branches) { return false; }
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Branches_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Branches_Begin_T (void);
+
+  void generate (size_t branches);
 };
 
-//=============================================================================
 /**
- *
+ * @class CUTS_BE_Branch_Begin_T
  */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Branch_Begin_T
+template <typename CONTEXT>
+class CUTS_BE_Branch_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (void)
-    { return false; }
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Branch_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Branch_Begin_T (void);
+
+  void generate (void);
 };
 
-//=============================================================================
 /**
- *
+ * @class CUTS_BE_Branch_End_T
  */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Branch_Condition_Begin_T
+template <typename CONTEXT>
+class CUTS_BE_Branch_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (void)
-    { return false; }
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Branch_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Branch_End_T (void);
+
+  void generate (void);
 };
 
-//=============================================================================
 /**
- *
+ * @class CUTS_BE_Branch_Condition_Begin_T
  */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Branch_Condition_End_T
+template <typename CONTEXT>
+class CUTS_BE_Branch_Condition_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (void)
-    { return false; }
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Branch_Condition_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Branch_Condition_Begin_T (void);
+
+  void generate (void);
 };
 
-//=============================================================================
 /**
- *
+ * @class CUTS_BE_Branch_Condition_End_T
  */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Branch_No_Condition_T
+template <typename CONTEXT>
+class CUTS_BE_Branch_Condition_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (void)
-    { return false; }
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Branch_Condition_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Branch_Condition_End_T (void);
+
+  void generate (void);
 };
 
-//=============================================================================
 /**
- *
+ * @class CUTS_BE_Branch_No_Condition_T
  */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Branch_End_T
+template <typename CONTEXT>
+class CUTS_BE_Branch_No_Condition_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (void)
-    { return false; }
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Branch_No_Condition_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Branch_No_Condition_T (void);
+
+  void generate (void);
 };
 
-//=============================================================================
 /**
- *
+ * @class CUTS_BE_Branches_End_T
  */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Branches_End_T
+template <typename CONTEXT>
+class CUTS_BE_Branches_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (void)
-    { return false; }
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Branches_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Branches_End_T (void);
+
+  void generate (void);
 };
 
-//=============================================================================
 /**
- *
+ * @class CUTS_BE_Do_While_Begin_T
  */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Do_While_Begin_T
+template <typename CONTEXT>
+class CUTS_BE_Do_While_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (void)
-    { return false; }
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Do_While_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Do_While_Begin_T (void);
+
+  void generate (void);
 };
 
-//=============================================================================
 /**
- *
+ * @class CUTS_BE_Do_While_End_T
  */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Do_While_End_T
+template <typename CONTEXT>
+class CUTS_BE_Do_While_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (void)
-    { return false; }
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Do_While_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Do_While_End_T (void);
+
+  void generate (void);
 };
 
-//=============================================================================
 /**
- *
+ * @class CUTS_BE_Do_While_Condition_Begin_T
  */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Do_While_Condition_Begin_T
+template <typename CONTEXT>
+class CUTS_BE_Do_While_Condition_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (void)
-    { return false; }
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Do_While_Condition_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Do_While_Condition_Begin_T (void);
+
+  void generate (void);
 };
 
-//=============================================================================
 /**
- *
+ * @class CUTS_BE_Do_While_Condition_End_T
  */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Do_While_Condition_End_T
+template <typename CONTEXT>
+class CUTS_BE_Do_While_Condition_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (void)
-    { return false; }
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Do_While_Condition_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Do_While_Condition_End_T (void);
+
+  void generate (void);
 };
 
-//=============================================================================
 /**
- *
+ * @class CUTS_BE_While_Condition_Begin_T
  */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_While_Condition_Begin_T
+template <typename CONTEXT>
+class CUTS_BE_While_Condition_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (void)
-    { return false; }
-};
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
 
-//=============================================================================
-/**
- *
- */
-//=============================================================================
+  CUTS_BE_While_Condition_Begin_T (CONTEXT & context);
 
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_While_Condition_End_T
-{
-  static bool generate (void)
-    { return false; }
-};
+  virtual ~CUTS_BE_While_Condition_Begin_T (void);
 
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_While_Begin_T
-{
-  static bool generate (void)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_While_End_T
-{
-  static bool generate (void)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Action_Properties_Begin_T
-{
-  static bool generate (size_t count)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Action_Property_T
-{
-  static bool generate (const PICML::Property & property)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Action_Properties_End_T
-{
-  static bool generate (void)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_WorkerAction_Begin_T
-{
-  static bool generate (const PICML::Worker & worker,
-                        const PICML::Action & action)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_OutputAction_Begin_T
-{
-  static bool generate (const PICML::OutputAction & action)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_OutputAction_Property_T
-{
-  static bool generate (const PICML::OutputAction & action,
-                        const PICML::Property & property)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_OutputAction_End_T
-{
-  static bool generate (const PICML::OutputAction & action)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Action_End_T
-{
-  static bool generate (void)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_State_T
-{
-  static bool generate (const PICML::State & state)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Equal_To_T
-{
-  static bool generate (const char * first, const char * last)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Not_Equal_To_T
-{
-  static bool generate (const char * first, const char * last)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Greater_Than_T
-{
-  static bool generate (const char * first, const char * last)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Greater_Than_Equal_To_T
-{
-  static bool generate (const char * first, const char * last)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Less_Than_T
-{
-  static bool generate (const char * first, const char * last)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Less_Than_Equal_To_T
-{
-  static bool generate (const char * first, const char * last)
-    { return false; }
+  void generate (void);
 };
 
 /**
  *
  */
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_True_T
+template <typename CONTEXT>
+class CUTS_BE_While_Condition_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (const char * first, const char * last)
-    { return false; }
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_While_Condition_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_While_Condition_End_T (void);
+
+  void generate (void);
 };
 
 /**
- *
+ * @class CUTS_BE_While_Begin_T
  */
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_False_T
+template <typename CONTEXT>
+class CUTS_BE_While_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
-  static bool generate (const char * first, const char * last)
-    { return false; }
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_While_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_While_Begin_T (void);
+
+  void generate (void);
 };
+
+/**
+ * @class CUTS_BE_While_End_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_While_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_While_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_While_End_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_Action_Properties_Begin_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_Action_Properties_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Action_Properties_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Action_Properties_Begin_T (void);
+
+  void generate (size_t count);
+};
+
+/**
+ * @class CUTS_BE_Action_Property_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_Action_Property_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Action_Property_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Action_Property_T (void);
+
+  void generate (const PICML::Property & property);
+};
+
+/**
+ * @class CUTS_BE_Action_Properties_End_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_Action_Properties_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Action_Properties_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Action_Properties_End_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_WorkerAction_Begin_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_WorkerAction_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_WorkerAction_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_WorkerAction_Begin_T (void);
+
+  void generate (const PICML::Worker & worker,
+                 const PICML::Action & action);
+};
+
+/**
+ * @class CUTS_BE_OutputAction_Begin_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_OutputAction_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_OutputAction_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_OutputAction_Begin_T (void);
+
+  void generate (const PICML::OutputAction & action);
+};
+
+/**
+ * @class CUTS_BE_OutputAction_Property_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_OutputAction_Property_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_OutputAction_Property_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_OutputAction_Property_T (void);
+
+  void generate (const PICML::OutputAction & action,
+                 const PICML::Property & property);
+};
+
+/**
+ * @class CUTS_BE_OutputAction_End_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_OutputAction_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_OutputAction_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_OutputAction_End_T (void);
+
+  void generate (const PICML::OutputAction & action);
+};
+
+/**
+ * @class CUTS_BE_Action_End_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_Action_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Action_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_Action_End_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_State_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_State_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_State_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_State_T (void);
+
+  void generate (const PICML::State & state);
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// deployment generators
 
 //=============================================================================
 /**
@@ -1070,66 +1244,7 @@ struct CUTS_BE_False_T
  */
 //=============================================================================
 
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Identifier_T
-{
-  static bool generate (const char * begin, const char * end)
-    { return false; }
-};
-
-/**
- *
- */
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Transcribe_Text_T
-{
-  static bool generate (const char * begin, const char * end)
-    { return false; }
-};
-
-/**
- *
- */
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Transcribe_Char_T
-{
-  static bool generate (char ch)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_And_T
-{
-  static bool generate (const char * begin, const char * end)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
-struct CUTS_BE_Or_T
-{
-  static bool generate (const char * begin, const char * end)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_ComponentAssembly_Begin_T
 {
   static bool generate (const PICML::ComponentAssembly & assembly)
@@ -1142,7 +1257,7 @@ struct CUTS_BE_ComponentAssembly_Begin_T
  */
 //=============================================================================
 
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_ComponentAssembly_End_T
 {
   static bool generate (const PICML::ComponentAssembly & assembly)
@@ -1155,7 +1270,7 @@ struct CUTS_BE_ComponentAssembly_End_T
  */
 //=============================================================================
 
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_Component_Instance_T
 {
   static bool generate (const PICML::Component & component)
@@ -1168,7 +1283,7 @@ struct CUTS_BE_Component_Instance_T
  */
 //=============================================================================
 
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_ComponentAssembly_Connections_Begin_T
 {
   static bool generate (const PICML::ComponentAssembly & assembly)
@@ -1181,7 +1296,7 @@ struct CUTS_BE_ComponentAssembly_Connections_Begin_T
  */
 //=============================================================================
 
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_emit_T
 {
   static bool generate (const PICML::emit & emit)
@@ -1194,7 +1309,7 @@ struct CUTS_BE_emit_T
  */
 //=============================================================================
 
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_PublishConnector_T
 {
   static bool generate (const PICML::PublishConnector & connector)
@@ -1207,7 +1322,7 @@ struct CUTS_BE_PublishConnector_T
  */
 //=============================================================================
 
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_ComponentAssembly_Connections_End_T
 {
   static bool generate (const PICML::ComponentAssembly & assembly)
@@ -1220,7 +1335,7 @@ struct CUTS_BE_ComponentAssembly_Connections_End_T
  */
 //=============================================================================
 
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_DeploymentPlan_Begin_T
 {
   static bool generate (const PICML::DeploymentPlan &)
@@ -1233,7 +1348,7 @@ struct CUTS_BE_DeploymentPlan_Begin_T
  */
 //=============================================================================
 
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_DeploymentPlan_End_T
 {
   static bool generate (const PICML::DeploymentPlan &)
@@ -1246,7 +1361,7 @@ struct CUTS_BE_DeploymentPlan_End_T
  */
 //=============================================================================
 
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_Deployment_Node_T
 {
   static bool generate (const PICML::Node & node)
@@ -1259,7 +1374,7 @@ struct CUTS_BE_Deployment_Node_T
  */
 //=============================================================================
 
-template <typename IMPL_STRATEGY>
+template <typename CONTEXT>
 struct CUTS_BE_Deployment_Location_T
 {
   static bool generate (const PICML::Component & component,
@@ -1268,5 +1383,11 @@ struct CUTS_BE_Deployment_Location_T
     return false;
   }
 };
+
+#if defined (__CUTS_INLINE__)
+#include "BE_Generators_T.inl"
+#endif
+
+#include "BE_Generators_T.cpp"
 
 #endif  // !defined _CUTS_BE_GENERATORS_T_H_

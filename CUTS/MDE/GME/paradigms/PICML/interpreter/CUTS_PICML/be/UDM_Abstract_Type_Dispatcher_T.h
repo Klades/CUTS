@@ -27,7 +27,7 @@ public:
    * Invoke the accept method on the object using the supplied
    * visitor.
    */
-  virtual void accept (VISITOR & visitor, const Udm::Object & object) = 0;
+  virtual void accept (VISITOR * visitor, const Udm::Object & object) = 0;
 };
 
 /**
@@ -45,10 +45,10 @@ public:
    * @param[in]         visitor         The target visitor.
    * @param[in]         object          The target object.
    */
-  virtual void accept (VISITOR & visitor, const Udm::Object & object)
+  virtual void accept (VISITOR * visitor, const Udm::Object & object)
   {
     T type = T::Cast (object);
-    type.Accept (visitor);
+    type.Accept (*visitor);
   }
 };
 
@@ -64,7 +64,7 @@ public:
    *
    * @param[in]     parent          Parent of the dispatcher.
    */
-  UDM_Abstract_Type_Dispatcher_T (VISITOR & parent);
+  UDM_Abstract_Type_Dispatcher_T (VISITOR * parent);
 
   /// Destructor.
   ~UDM_Abstract_Type_Dispatcher_T (void);
@@ -90,7 +90,7 @@ public:
 
 private:
   /// Visitor associated with the dispatcher.
-  VISITOR & visitor_;
+  VISITOR * visitor_;
 
   /// Type definition for the acceptor map.
   typedef std::map <Uml::Class,

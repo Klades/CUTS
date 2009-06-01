@@ -15,6 +15,7 @@
 
 #include <set>
 #include <fstream>
+#include "../../lang/cpp/Cpp.h"
 
 // Forward decl.
 struct CUTS_BE_IDL_Node;
@@ -22,19 +23,21 @@ struct CUTS_BE_IDL_Node;
 /**
  * Context for the CIAO backend generator.
  */
-struct CUTS_BE_Ciao
+struct CUTS_BE_Ciao : public CUTS_BE_CPP::Context
 {
-  /// The target workspace file.
-  std::ofstream workspace_file_;
-
-  /// The target project file.
-  std::ofstream project_file_;
+  typedef CUTS_BE_CPP::Context behavior_type;
 
   /// Type definition for a collection of nodes.
   typedef std::set <const CUTS_BE_IDL_Node *> IDL_Node_Set;
 
   /// Collection of visited nodes.
   IDL_Node_Set visited_nodes_;
+
+  /// The target workspace file.
+  std::ofstream workspace_;
+
+  /// The target project file.
+  std::ofstream project_;
 };
 
 #endif  // !defined _CUTS_BE_CIAO_CTX_H_
