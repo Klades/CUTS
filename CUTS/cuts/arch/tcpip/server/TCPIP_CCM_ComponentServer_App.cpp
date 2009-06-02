@@ -6,7 +6,7 @@
 #include "TCPIP_CCM_ComponentServer_App.inl"
 #endif
 
-#include "cuts/arch/tcpip/ccm/TCPIP_CCM_Cookie.h"
+#include "cuts/arch/ccm/CCM_Cookie.h"
 #include "ace/Get_Opt.h"
 
 //
@@ -153,8 +153,8 @@ void CUTS_TCPIP_CCM_ComponentServer_App::register_valuetypes (CORBA::ORB_ptr orb
     new ::Components::ComponentPortDescription_init ());
 
   prev = orb->register_value_factory (
-    CUTS_TCPIP_CCM_Cookie::_tao_obv_static_repository_id (),
-    new CUTS_TCPIP_CCM_Cookie_Factory ());
+    CUTS_CCM_Cookie::_tao_obv_static_repository_id (),
+    new CUTS_CCM_Cookie_Factory ());
 }
 
 //

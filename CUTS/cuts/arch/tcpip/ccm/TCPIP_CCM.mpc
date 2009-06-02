@@ -60,7 +60,6 @@ project (CUTS_TCPIP_CCM) : cuts_ccm, cuts_tcpip_ccm_skel, cuts_lib, cutslib {
   dynamicflags += CUTS_TCPIP_CCM_BUILD_DLL
 
   Source_Files {
-    TCPIP_CCM_Cookie.cpp
     TCPIP_CCM_EventConsumer.cpp
     TCPIP_CCM_Remote_Endpoint.cpp
     TCPIP_CCM_Servant.cpp

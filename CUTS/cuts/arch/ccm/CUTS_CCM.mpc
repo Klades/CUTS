@@ -36,8 +36,8 @@ project (CUTS_CIAO_exec) : requires_ciao, ciao_componentserver_svnt, cuts_compon
   }
 
   Source_Files {
+    CCM_Cookie.cpp
     CCM_EventConsumer.cpp
-    CCM_CoWorkEr_Proxy.cpp
     CCM_Servant.cpp
     CCM_Single_Subscriber.cpp
     CCM_Subscriber_Table.cpp

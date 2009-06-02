@@ -1,3 +1,21 @@
+Tue Jun  2 22:12:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/ccm/CCM_Cookie.h:
+        * cuts/arch/ccm/CCM_Cookie.inl:
+        * cuts/arch/ccm/CCM_Cookie.cpp:
+        * cuts/arch/ccm/CUTS_CCM.mpc:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM.mpc:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.cpp:
+
+          . Moved the cookie implementation from the TCP/IP project to the
+            CUTS CCM project.
+
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Cookie.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Cookie.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Cookie.cpp:
+
+          Removed these files.
+
 Tue Jun  2 21:16:20 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
