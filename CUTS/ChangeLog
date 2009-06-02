@@ -1,3 +1,24 @@
+Tue Jun  2 22:26:14 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/opensplice:
+        * examples/arch/opensplice/SimpleExample:
+        * examples/arch/opensplice/SimpleExample/DummyEvent.idl:
+        * examples/arch/opensplice/SimpleExample/ModelDDSData.idl:
+        * examples/arch/opensplice/SimpleExample/PubAppDDSComponent.idl:
+        * examples/arch/opensplice/SimpleExample/SimpleExample.mpc:
+        * examples/arch/opensplice/SimpleExample/SubAppDDSComponent.idl:
+
+          . Slowly but surely moving the OpenSplice example to the
+            cuts/examples directory. This will better help integrate the
+            OpenSplice with DDS in CUTS.
+
+        * cuts/arch/dsto/DDS/DummyEvent.idl:
+        * cuts/arch/dsto/DDS/ModelDDSData.idl:
+        * cuts/arch/dsto/DDS/PubAppDDSComponent.idl:
+        * cuts/arch/dsto/DDS/SubAppDDSComponent.idl:
+
+          Removed these files.
+
 Tue Jun  2 22:12:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/ccm/CCM_Cookie.h:
