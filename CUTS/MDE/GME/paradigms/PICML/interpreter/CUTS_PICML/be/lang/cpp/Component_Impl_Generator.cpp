@@ -74,4 +74,51 @@ Visit_Variable (const PICML::Variable & variable)
   }
 }
 
+//
+// Initialize_Entity
+//
+Initialize_Entity::Initialize_Entity (std::ostream & out)
+: out_ (out)
+{
+
+}
+
+//
+// ~Initialize_Entity
+//
+Initialize_Entity::~Initialize_Entity (void)
+{
+
+}
+
+//
+// ~Initialize_Entity
+//
+void Initialize_Entity::
+Visit_PeriodicEvent (const PICML::PeriodicEvent & periodic)
+{
+  std::string name (periodic.name ());
+
+  PICML::Component parent (PICML::Component::Cast (periodic.parent ()));
+  std::string parent_name (parent.name ());
+
+  this->out_
+    << "this->periodic_" << name << "_.init (this, &"
+    << parent_name << "::periodic_" << name << ");"
+    << "this->periodic_" << name << "_.configure (CUTS_Periodic_Event::";
+
+  std::string distribution (periodic.Distribution ());
+
+  if (distribution == "Constant")
+    this->out_ << "PE_CONSTANT, ";
+  else if (distribution == "Exponential")
+    this->out_ << "PE_EXPONENTIAL, ";
+  else
+    this->out_ << "PE_UNDEFINED, ";
+
+  this->out_
+    << periodic.Hertz () << ");"
+    << "this->register_object (&this->periodic_" << name << "_);";
+}
+
 }

@@ -46,6 +46,26 @@ private:
   /// Target output stream.
   std::ostream & out_;
 };
+
+class CUTS_BE_CPP_Export Initialize_Entity : public PICML::Visitor
+{
+public:
+  /**
+   * Initializing constructor
+   *
+   * @param[in]       out           Target output stream.
+   */
+  Initialize_Entity (std::ostream & out);
+
+  /// Destructor
+  virtual ~Initialize_Entity (void);
+
+  virtual void Visit_PeriodicEvent (const PICML::PeriodicEvent & periodic);
+
+private:
+  /// Target output stream.
+  std::ostream & out_;
+};
 };
 
 #endif  // !define _CUTS_BE_CPP_COMPONENT_IMPL_GENERATOR_H_

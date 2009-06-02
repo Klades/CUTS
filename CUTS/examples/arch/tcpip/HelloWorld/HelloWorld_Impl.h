@@ -54,17 +54,17 @@ namespace HelloWorld_Basic_Impl
     virtual void ccm_activate (void);
 
     private:
-    // variable: isActive
-    ::CORBA::Long isActive_;
-
     // variable: eventCount
     ::CORBA::Long eventCount_;
 
-    // attribute: message
-    ACE_CString message_;
+    // variable: isActive
+    ::CORBA::Long isActive_;
 
     // attribute: readonly_message
     ACE_CString readonly_message_;
+
+    // attribute: message
+    ACE_CString message_;
 
     // periodic: sendData
     CUTS_Periodic_Event_T < HelloWorld > periodic_sendData_;

@@ -22,23 +22,30 @@ project (CUTS_CIAO_stub) : requires_ciao, ciao_servant, cuts_stub, cutslib {
   }
 }
 
-project (CUTS_CIAO_exec) : requires_ciao, cuts_component_dnc, cuts_skel, cuts_lib, cutslib {
+project (CUTS_CIAO_exec) : requires_ciao, ciao_componentserver_svnt, cuts_component_dnc, \
+                           cuts_skel, cuts_lib, cutslib {
   sharedname = CUTS_CIAO_exec
 
   idlflags  +=  -Wb,export_macro=CUTS_EXEC_Export \
                 -Wb,export_include=CUTS_exec_export.h
 
-  dynamicflags = CUTS_EXEC_BUILD_DLL
+  dynamicflags = CUTS_CCM_BUILD_DLL
 
   IDL_Files {
 
   }
 
   Source_Files {
+    CCM_EventConsumer.cpp
     CCM_CoWorkEr_Proxy.cpp
+    CCM_Servant.cpp
+    CCM_Single_Subscriber.cpp
+    CCM_Subscriber_Table.cpp
   }
 
   Template_Files {
+    CCM_Container_T.cpp
+    CCM_Container_Strategy_T.cpp
     CCM_Component_T.cpp
     CCM_Context_T.cpp
     CCM_CoWorkEr_Proxy_T.cpp
@@ -46,5 +53,6 @@ project (CUTS_CIAO_exec) : requires_ciao, cuts_component_dnc, cuts_skel, cuts_li
     CCM_Event_Producer_T.cpp
     CCM_Events_T.cpp
     CCM_Factory_T.cpp
+    CCM_Servant_T.cpp
   }
 }

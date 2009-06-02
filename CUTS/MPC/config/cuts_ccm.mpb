@@ -1,0 +1,6 @@
+// $Id$
+
+project {
+  libs  += CUTS_CIAO_exec
+  after += CUTS_CIAO_exec
+}

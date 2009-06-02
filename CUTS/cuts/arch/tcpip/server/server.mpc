@@ -6,6 +6,7 @@ project (CUTS_TCPIP_CCM_ComponentServer) : ciao_componentserver_svnt, cuts_tcpip
   Source_Files {
     server.cpp
     TCPIP_CCM_Container.cpp
+    TCPIP_CCM_Container_Strategy.cpp
     TCPIP_CCM_ComponentServer.cpp
     TCPIP_CCM_ComponentServer_App.cpp
   }

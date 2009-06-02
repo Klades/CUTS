@@ -88,6 +88,9 @@ private:
   typedef ACE_Unbounded_Set <CUTS_TCPIP_CCM_Container *> container_set;
 
   container_set containers_;
+
+  // Installation object for the component.
+  ::CIAO::Deployment::ComponentInstallation_var installer_;
 };
 
 #if defined (__CUTS_INLINE__)

@@ -1,3 +1,79 @@
+Tue Jun  2 21:16:20 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Component_Impl_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Component_Impl_Generator.cpp:
+
+          . Bug fix where the code generator failed to configure, register,
+            and activate periodic events.
+
+        * MPC/config/cuts_ccm.mpb:
+        * MPC/config/cuts_tcpip_ccm.mpb:
+
+          . Fixed build errors related to the base project missing
+            some project specifications.
+
+        * cuts/arch/ccm/CCM_CoWorkEr_Proxy.h:
+        * cuts/arch/ccm/CCM_Container_Strategy_T.h:
+        * cuts/arch/ccm/CCM_Container_Strategy_T.inl:
+        * cuts/arch/ccm/CCM_Container_Strategy_T.cpp:
+        * cuts/arch/ccm/CCM_Container_T.h:
+        * cuts/arch/ccm/CCM_Container_T.inl:
+        * cuts/arch/ccm/CCM_Container_T.cpp:
+        * cuts/arch/ccm/CCM_EventConsumer.h:
+        * cuts/arch/ccm/CCM_EventConsumer.inl:
+        * cuts/arch/ccm/CCM_EventConsumer.cpp:
+        * cuts/arch/ccm/CCM_Servant.h:
+        * cuts/arch/ccm/CCM_Servant.inl:
+        * cuts/arch/ccm/CCM_Servant.cpp:
+        * cuts/arch/ccm/CCM_Servant_T.h:
+        * cuts/arch/ccm/CCM_Servant_T.inl:
+        * cuts/arch/ccm/CCM_Servant_T.cpp:
+        * cuts/arch/ccm/CCM_Single_Subscriber.h:
+        * cuts/arch/ccm/CCM_Single_Subscriber.inl:
+        * cuts/arch/ccm/CCM_Single_Subscriber.cpp:
+        * cuts/arch/ccm/CCM_Subscriber_Table.h:
+        * cuts/arch/ccm/CCM_Subscriber_Table.inl:
+        * cuts/arch/ccm/CCM_Subscriber_Table.cpp:
+        * cuts/arch/ccm/CCM_export.h:
+        * cuts/arch/ccm/CUTS_CCM.mpc:
+
+          . Factored out a LOT of the CCM code related to creating
+            a component server.
+
+        * cuts/arch/tcpip/ccm/TCPIP_CCM.mpc:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_EventConsumer.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_EventConsumer.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.cpp:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container.inl:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container.cpp:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container_Strategy.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container_Strategy.inl:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container_Strategy.cpp:
+        * cuts/arch/tcpip/server/server.mpc:
+
+          . First complete implementation of TCP/IP for CCM that is able
+            to deploy application using deployment plans generated from
+            PICML.
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Impl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Impl.cpp:
+        * examples/arch/tcpip/HelloWorld/descriptors/HelloWorld.cdp:
+
+          . Re-generated the example's code using an updated version of the
+            model interpreter.
+
+        * cuts/arch/ccm/CUTS_CIAO.mpc:
+
+          Removed this file.
+
 Tue Jun  2 04:50:19 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/tcpip/HelloWorld/HelloWorld.cidl:

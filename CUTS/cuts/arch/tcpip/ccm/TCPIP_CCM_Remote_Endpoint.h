@@ -13,22 +13,23 @@
 #ifndef _CUTS_TCPIP_CCM_REMOTE_ENDPOINT_H_
 #define _CUTS_TCPIP_CCM_REMOTE_ENDPOINT_H_
 
-#include "ccm/CCM_EventConsumerBaseC.h"
+#include "cuts/arch/ccm/CCM_Single_Subscriber.h"
 #include "TCPIP_CCM_export.h"
 
 /**
  * @class CUTS_TCPIP_CCM_Remote_Endpoint
  */
-class CUTS_TCPIP_CCM_Export CUTS_TCPIP_CCM_Remote_Endpoint
+class CUTS_TCPIP_CCM_Export CUTS_TCPIP_CCM_Remote_Endpoint :
+  public CUTS_CCM_Single_Subscriber
 {
 public:
   CUTS_TCPIP_CCM_Remote_Endpoint (void);
 
   virtual ~CUTS_TCPIP_CCM_Remote_Endpoint (void) = 0;
 
-  virtual void connect (::Components::EventConsumerBase_ptr consumer) = 0;
-
-  virtual ::Components::EventConsumerBase_ptr disconnect (void) = 0;
+private:
+  CUTS_TCPIP_CCM_Remote_Endpoint (const CUTS_TCPIP_CCM_Remote_Endpoint &);
+  const CUTS_TCPIP_CCM_Remote_Endpoint & operator = (const CUTS_TCPIP_CCM_Remote_Endpoint &);
 };
 
 #if defined (__CUTS_INLINE__)

@@ -10,9 +10,12 @@ namespace HelloWorld_Basic_Impl
   // HelloWorld
   //
   HelloWorld::HelloWorld (void)
-  : isActive_ (true),
-    eventCount_ (0)
+  : eventCount_ (0),
+    isActive_ (true)
   {
+    this->periodic_sendData_.init (this, &HelloWorld::periodic_sendData);
+    this->periodic_sendData_.configure (CUTS_Periodic_Event::PE_CONSTANT, 10);
+    this->register_object (&this->periodic_sendData_);
   }
 
   //

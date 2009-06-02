@@ -255,11 +255,12 @@ generate (const PICML::MonolithicImplementation & impl,
                               _1,
                               boost::ref (*this)));
 
+  CUTS_BE_CPP::Initialize_Entity entity (this->ctx_.source_);
   std::for_each (periodics.begin (),
                  periodics.end (),
                  boost::bind (&PICML::PeriodicEvent::Accept,
                               _1,
-                              boost::ref (*this)));
+                              boost::ref (entity)));
 
   // Finish the constructor.
   this->ctx_.source_

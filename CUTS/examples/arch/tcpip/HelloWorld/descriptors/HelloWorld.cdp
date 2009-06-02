@@ -6,8 +6,8 @@
   <implementation xmi:id="_0292CD8C-9ED3-4ECB-9E73-E641A5B0524C">
     <name>HelloWorld.ComponentImplementations.HelloWorld.HelloWorld_Basic_Impl</name>
     <source/>
-    <artifact xmi:idref="_18B9391E-C686-48CF-813E-F73B25F33133"/>
     <artifact xmi:idref="_1D121260-4907-445B-B18E-E7CE24D1143A"/>
+    <artifact xmi:idref="_18B9391E-C686-48CF-813E-F73B25F33133"/>
     <execParameter>
       <name>component factory</name>
       <value>
@@ -16,6 +16,17 @@
         </type>
         <value>
           <string>create_HelloWorld_Basic_Impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ExecutorArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>HelloWorld.ImplementationArtifacts.HelloWorld.HelloWorld_Basic_Impl</string>
         </value>
       </value>
     </execParameter>
@@ -37,18 +48,7 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>TCPIP_HelloWorld_svnt</string>
-        </value>
-      </value>
-    </execParameter>
-    <execParameter>
-      <name>edu.vanderbilt.dre.CIAO.ExecutorArtifact</name>
-      <value>
-        <type>
-          <kind>tk_string</kind>
-        </type>
-        <value>
-          <string>HelloWorld_Basic_Impl</string>
+          <string>HelloWorld.ImplementationArtifacts.HelloWorld.TCPIP_HelloWorld_svnt</string>
         </value>
       </value>
     </execParameter>

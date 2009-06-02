@@ -31,6 +31,19 @@ configure (::CIAO::Deployment::ServerActivator_ptr activator,
 {
   this->activator_ = ::CIAO::Deployment::ServerActivator::_duplicate (activator);
   this->config_ = config;
+
+  for (CORBA::ULong i = 0; i < this->config_->length (); i ++)
+  {
+    // For the most part, we are mainly looking for the component
+    // installation object. This will be used get the location of the
+    // artifacts for each component.
+    if (ACE_OS::strcmp ("edu.vanderbilt.dre.CIAO.ComponentInstallation",
+                        this->config_[i]->name ()) == 0)
+    {
+      this->config_[i]->value () >>= this->installer_;
+    }
+  }
+
   this->poa_ = PortableServer::POA::_duplicate (poa);
 }
 
@@ -91,7 +104,7 @@ create_container (const Components::ConfigValues & config)
   CUTS_TCPIP_CCM_Container * servant = 0;
 
   ACE_NEW_THROW_EX (servant,
-                    CUTS_TCPIP_CCM_Container (*this, config, this->poa_.in ()),
+                    CUTS_TCPIP_CCM_Container (this, config, this->poa_.in (), this->installer_.in ()),
                     ::CORBA::NO_MEMORY ());
 
   // Activate the servant.

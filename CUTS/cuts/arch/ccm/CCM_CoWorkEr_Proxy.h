@@ -13,21 +13,18 @@
 #ifndef _CUTS_CCM_COWORKER_H_
 #define _CUTS_CCM_COWORKER_H_
 
-#include "cuts/CUTS_exec_export.h"
+#include "CCM_export.h"
 #include "cuts/Benchmark_Agent_i.h"
 #include "tao/LocalObject.h"
 //#include "tao/RTCORBA/RTCORBA.h"
 //#include "tao/RTPortableServer/RT_POA.h"
 
-//=============================================================================
 /**
  * @class CUTS_CCM_CoWorkEr
  *
  * Base class that all CoWorkEr executors derive from.
  */
-//=============================================================================
-
-class CUTS_EXEC_Export CUTS_CCM_CoWorkEr_Proxy
+class CUTS_CCM_Export CUTS_CCM_CoWorkEr_Proxy
 {
 protected:
   /// Default constructor.
