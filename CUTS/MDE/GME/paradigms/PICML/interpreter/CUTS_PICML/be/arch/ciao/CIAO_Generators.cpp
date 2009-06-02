@@ -231,7 +231,7 @@ generate_exec_project (const CUTS_BE_Impl_Node & node)
   this->ctx_.project_
     // Generate the source files.
     << "  Source_Files {" << std::endl
-    << "    " << node.basename_ << ".cpp" << std::endl
+    << "    " << node.name_ << "_Impl.cpp" << std::endl
     << "  }" << std::endl
     << std::endl
 

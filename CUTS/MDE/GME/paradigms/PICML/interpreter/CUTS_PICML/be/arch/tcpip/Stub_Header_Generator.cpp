@@ -95,11 +95,11 @@ Visit_File (const PICML::File & file)
     std::string corba_filename (file.name ());
     corba_filename += "C";
 
-    std::string export_filename ("TCPIP_");
-    export_filename += std::string (file.name ()) + "_stub_export";
+    std::string export_filename (file.name ());
+    export_filename += "_stub_export";
 
     // Construct the export macro for this file.
-    this->export_macro_ = "TCPIP_" + std::string (file.name ()) + "_STUB";
+    this->export_macro_ = std::string (file.name ()) + "_STUB";
 
     std::transform (this->export_macro_.begin (),
                     this->export_macro_.end (),

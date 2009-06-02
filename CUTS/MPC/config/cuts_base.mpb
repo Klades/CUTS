@@ -21,10 +21,10 @@ project : acedefaults {
 // feature: noinline
 //=============================================================================
 
-feature(noinline) {
+feature (noinline) {
   macros -= __CUTS_INLINE__
 }
 
-feature(!noinline) {
+feature (!noinline) {
   macros += __CUTS_INLINE__
 }

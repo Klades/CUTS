@@ -1,0 +1,9 @@
+// $Id$
+
+project : cuts_base {
+  includes += $(PROJECT_ROOT)
+  libpaths += $(PROJECT_ROOT)/lib
+
+  dllout = $(PROJECT_ROOT)/lib
+  libout = $(PROJECT_ROOT)/lib
+}

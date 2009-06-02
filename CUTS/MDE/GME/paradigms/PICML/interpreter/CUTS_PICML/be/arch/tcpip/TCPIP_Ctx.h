@@ -25,6 +25,10 @@ struct CUTS_BE_TCPIP_Ctx : public CUTS_BE_CCM::Cpp::Context
   typedef CUTS_BE_CCM::Cpp::Context arch_type;
 
   typedef CUTS_BE_CPP::Context behavior_type;
+
+  std::ofstream project_;
+
+  std::ofstream workspace_;
 };
 
 #endif  // !defined _CUTS_BE_TCPIP_CTX_H_

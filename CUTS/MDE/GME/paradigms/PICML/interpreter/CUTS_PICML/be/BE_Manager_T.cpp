@@ -26,8 +26,7 @@ CUTS_BE_Manager_T <CONTEXT>::~CUTS_BE_Manager_T (void)
 // handle
 //
 template <typename CONTEXT>
-bool CUTS_BE_Manager_T <CONTEXT>::
-handle (const PICML::RootFolder & root)
+bool CUTS_BE_Manager_T <CONTEXT>::handle (const PICML::RootFolder & root)
 {
   // Initialize the backend generator.
   CUTS_BE_Initialize_T <CONTEXT> init_gen (this->context_);
