@@ -1,31 +1,39 @@
 // $Id$
 
 project (ModelDDSData_IDL_gen) : splice_ts_defaults, requires_opensplice {
-  idlflags += -Wb,export_macro=ModelDDSData_Export \
+  idlflags += -D__DDS_IDL__ -o ./ddstypes \
+              -Wb,export_macro=ModelDDSData_Export \
               -Wb,export_include=ModelDDSData_export.h
 
+  splice_ts_flags += -D__DDS_IDL__ -d ./ddstypes
+
   SpliceTypeSupport_Files {
-    ModelDDSData.idl
+    gendir = ./ddstypes
+
+    ModelDDSData.idl 
   }
 
   IDL_Files {
-    ModelDDSData.idl
-    ModelDDSDataDcps.idl
+    gendir = ./ddstypes 
+
+    ModelDDSData.idl 
+  }
+
+  IDL_Files {
+   ./ddstypes/ModelDDSDataDcps.idl
   }
 
   custom_only = 1
 }
 
-project (ModelDDSData) : cutslib, ccm_svnt, splicelib, requires_opensplice {
-  after += DSTO_Utilities ModelDDSData_IDL_gen
-  libs += DSTO_Utilities
-  includes += ..
-  sharedname = ModelDDSData
-  dynamicflags += MODELDDSDATA_BUILD_DLL
-  macros += DDS_API=ModelDDSData_Export
+project (ModelDDSData) : cutslib, splicelib, requires_opensplice {
+  after += ModelDDSData_IDL_gen DSTO_Utilities
+  //libs  += DSTO_Utilities
 
-  IDL_Files {
-  }
+  sharedname    = ModelDDSData
+  dynamicflags += MODELDDSDATA_BUILD_DLL
+
+  macros += DDS_API=ModelDDSData_Export
 
   Source_Files {
     ModelDDSDataConversion.cpp

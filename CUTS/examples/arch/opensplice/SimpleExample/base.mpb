@@ -1,0 +1,9 @@
+// $Id$
+
+project {
+  libpaths += ./lib
+  includes += .
+
+  libout = ./lib
+  dllout = ./lib
+}

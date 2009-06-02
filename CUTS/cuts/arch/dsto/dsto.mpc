@@ -1,3 +1,5 @@
+// $Id$
+
 project (DSTO_Utilities) : cutslib, ciao_container_base {
   sharedname = DSTO_Utilities
   dynamicflags += DSTO_UTILITIES_BUILD_DLL

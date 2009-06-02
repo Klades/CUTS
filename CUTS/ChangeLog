@@ -1,3 +1,20 @@
+Tue Jun  2 23:13:41 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/dsto/dsto.mpc:
+        * cuts/arch/dsto/main.cpp:
+        * examples/arch/opensplice/SimpleExample/ModelDDSData.idl:
+        * examples/arch/opensplice/SimpleExample/PubAppDDSComponent.idl:
+        * examples/arch/opensplice/SimpleExample/SimpleExample.mpc:
+        * examples/arch/opensplice/SimpleExample/SimpleExample.mwc:
+        * examples/arch/opensplice/SimpleExample/SubAppDDSComponent.idl:
+        * examples/arch/opensplice/SimpleExample/base.mpb:
+
+	  . Checkpoint the example.
+
+        * examples/arch/opensplice/SimpleExample/DummyEvent.idl:
+
+          Removed this file.
+
 Tue Jun  2 22:29:04 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/dsto/DDS/dsto_dds.mpc:

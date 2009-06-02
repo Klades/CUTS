@@ -1,5 +1,6 @@
-#include "ace/Get_Opt.h"
+// $Id$
 
+#include "ace/Get_Opt.h"
 #include "tao/ORB_Core.h"
 
 #include "ciao/ComponentServer/CIAO_CS_ClientS.h"
@@ -14,8 +15,11 @@
 #include "PubAppAdapter.h"
 
 const char *cs_path = "ciao_componentserver";
-CORBA::ULong spawn_delay = 5;
+::CORBA::ULong spawn_delay = 5;
 
+//
+// parse_args
+//
 int
 parse_args (int argc, ACE_TCHAR *argv[])
 {
@@ -47,8 +51,10 @@ parse_args (int argc, ACE_TCHAR *argv[])
   return 0;
 }
 
-int
-main (int argc, ACE_TCHAR *argv[])
+//
+// main
+//
+int ACE_TMAIN (int argc, ACE_TCHAR *argv[])
 {
   using namespace CIAO::Deployment;
 
@@ -58,7 +64,7 @@ main (int argc, ACE_TCHAR *argv[])
 
   try
     {
-      CORBA::ORB_var orb = CORBA::ORB_init (argc, argv);
+      ::CORBA::ORB_var orb = CORBA::ORB_init (argc, argv);
       
       if (parse_args (argc, argv) != 0)
         {

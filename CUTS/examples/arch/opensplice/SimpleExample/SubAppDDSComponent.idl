@@ -1,14 +1,16 @@
-#ifndef SUBAPPDDSCOMPONENT_IDL
-#define SUBAPPDDSCOMPONENT_IDL
+// -*- IDL -*-
 
-#include "DummyEvent.idl"
+#ifndef _SUBAPPDDSCOMPONENT_IDL_
+#define _SUBAPPDDSCOMPONENT_IDL_
+
+#include "ModelDDSData.idl"
 
 module Outer
 {
   component SubAppDDSComponent
   {
-    consumes CUTS_DDS::Dummy app_op_recv;
+    consumes ::Outer::TestData_DDS app_op_recv;
   };
 };
 
-#endif // SUBAPPDDSCOMPONENT_IDL
+#endif // _SUBAPPDDSCOMPONENT_IDL_
