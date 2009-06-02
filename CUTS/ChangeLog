@@ -1,3 +1,9 @@
+Tue Jun  2 22:29:04 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/dsto/DDS/dsto_dds.mpc:
+
+          . Commited out the driver program.
+
 Tue Jun  2 22:26:14 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/opensplice:
