@@ -1,0 +1,22 @@
+// -*- MWC -*-
+
+//===================================================================
+// Makefile, Project, and Workspace Creator File
+//
+// Please do not modify the contents of this file under
+// any circumstances. Doing so can result in failure to
+// successfully build parts of (or the entire) workspace.
+//===================================================================
+
+workspace (HelloWorld) {
+  // -- initialize the includes for the project.
+  cmdline += -include $CUTS_ROOT/MPC/config \
+             -feature_file $CUTS_ROOT/default.features \
+             -relative PROJECT_ROOT=
+
+  HelloWorld_Impl.mpc
+  HelloWorld_Base.mpc
+}
+
+// end of auto-generated workspace
+

@@ -1,0 +1,71 @@
+// -*- MPC -*-
+
+project (HelloWorld_IDL_Gen) : ciaoidldefaults {
+  custom_only = 1
+
+  idlflags += -Wb,stub_export_macro=HELLOWORLD_STUB_Export \
+              -Wb,stub_export_include=HelloWorld_stub_export.h \
+              -Wb,skel_export_macro=HELLOWORLD_SKEL_Export \
+              -Wb,skel_export_include=HelloWorld_skel_export.h \
+              -Sa -Sal -St
+
+  IDL_Files {
+    HelloWorld.idl
+  }
+}
+
+project (HelloWorld_stub) : ccm_stub, avoids_ace_for_tao, cuts_codegen_defaults {
+  sharedname   = HelloWorld_stub
+  dynamicflags = HELLOWORLD_STUB_BUILD_DLL
+  after       += HelloWorld_IDL_Gen
+
+  prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl HELLOWORLD_STUB > $(PROJECT_ROOT)/HelloWorld_stub_export.h
+
+
+  IDL_Files {
+
+  }
+
+  Source_Files {
+    HelloWorldC.cpp
+    TCPIP_HelloWorldC.cpp
+  }
+
+  Header_Files {
+    HelloWorldC.h
+    TCPIP_HelloWorldC.h
+  }
+
+  Inline_Files {
+    HelloWorldC.inl
+  }
+}
+
+project (HelloWorld_skel) : ciao_servant, avoids_ace_for_tao, cuts_codegen_defaults {
+  sharedname   = HelloWorld_skel
+  dynamicflags = HELLOWORLD_SKEL_BUILD_DLL
+
+  after       += HelloWorld_stub
+  libs        += HelloWorld_stub
+
+  prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl HELLOWORLD_SKEL > $(PROJECT_ROOT)/HelloWorld_skel_export.h
+
+
+  IDL_Files {
+
+  }
+
+  Source_Files {
+    HelloWorldS.cpp
+  }
+
+  Header_Files {
+    HelloWorldS.h
+  }
+
+  Inline_Files {
+    HelloWorldS.inl
+  }
+}
+
+// end of auto-generated project file
