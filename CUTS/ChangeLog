@@ -1,3 +1,28 @@
+Tue Jun  2 04:48:40 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld.cidl:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.idl:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.mwc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.cpp:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl_export.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Common.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_exec_export.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_skel_export.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_stub_export.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt_export.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldC.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldC.cpp:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_stub_export.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.inl:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.cpp:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt_export.h:
+        * examples/arch/tcpip/HelloWorld/base.mpb:
+
+          Removed these files.
+
 Tue Jun  2 04:45:10 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Generators.cpp:

@@ -1,9 +1,0 @@
-// $Id$
-
-project : cuts_base {
-  libout  = ./lib
-  dllout  = ./lib
-  install = ./bin
-
-  libpaths += ./lib
-}
