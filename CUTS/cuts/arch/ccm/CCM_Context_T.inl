@@ -2,11 +2,22 @@
 // $Id$
 
 //
+// CUTS_CCM_Context_T
+//
+template <typename T, typename SVNT>
+CUTS_INLINE
+CUTS_CCM_Context_T <T, SVNT>::CUTS_CCM_Context_T (SVNT & svnt)
+: svnt_ (svnt)
+{
+
+}
+
+//
 // ~CUTS_CCM_Context_T
 //
-template <typename T>
+template <typename T, typename SVNT>
 CUTS_INLINE
-CUTS_CCM_Context_T <T>::~CUTS_CCM_Context_T (void)
+CUTS_CCM_Context_T <T, SVNT>::~CUTS_CCM_Context_T (void)
 {
 
 }
@@ -14,86 +25,79 @@ CUTS_CCM_Context_T <T>::~CUTS_CCM_Context_T (void)
 //
 // get_caller_principal
 //
-template <typename T>
-CUTS_INLINE
-::Components::Principal_ptr
-CUTS_CCM_Context_T <T>::get_caller_principal (void)
+template <typename T, typename SVNT>
+CUTS_INLINE ::Components::Principal_ptr
+CUTS_CCM_Context_T <T, SVNT>::get_caller_principal (void)
 {
-  return this->ctx_->get_caller_principal ();
+  return ::Components::Principal::_nil ();
 }
 
 //
 // get_CCM_home
 //
-template <typename T>
-CUTS_INLINE
-::Components::CCMHome_ptr
-CUTS_CCM_Context_T <T>::get_CCM_home (void)
+template <typename T, typename SVNT>
+CUTS_INLINE ::Components::CCMHome_ptr
+CUTS_CCM_Context_T <T, SVNT>::get_CCM_home (void)
 {
-  return this->ctx_->get_CCM_home ();
+  return ::Components::CCMHome::_nil ();
 }
 
 //
 // get_rollback_only
 //
-template <typename T>
-CUTS_INLINE
-::CORBA::Boolean
-CUTS_CCM_Context_T <T>::get_rollback_only (void)
+template <typename T, typename SVNT>
+CUTS_INLINE ::CORBA::Boolean
+CUTS_CCM_Context_T <T, SVNT>::get_rollback_only (void)
 {
-  return this->ctx_->get_rollback_only ();
+  return false;
 }
 
 //
 // get_user_transaction
 //
-template <typename T>
-CUTS_INLINE
-::Components::Transaction::UserTransaction_ptr
-CUTS_CCM_Context_T <T>::get_user_transaction (void)
+template <typename T, typename SVNT>
+CUTS_INLINE ::Components::Transaction::UserTransaction_ptr
+CUTS_CCM_Context_T <T, SVNT>::get_user_transaction (void)
 {
-  return this->ctx_->get_user_transaction ();
+  return ::Components::Transaction::UserTransaction::_nil ();
 }
 
 //
 // is_caller_in_role
 //
-template <typename T>
-CUTS_INLINE
-::CORBA::Boolean
-CUTS_CCM_Context_T <T>::is_caller_in_role (const char * role)
+template <typename T, typename SVNT>
+CUTS_INLINE ::CORBA::Boolean
+CUTS_CCM_Context_T <T, SVNT>::is_caller_in_role (const char *)
 {
-  return this->ctx_->is_caller_in_role (role);
+  return false;
 }
 
 //
 // set_rollback_only
 //
-template <typename T>
-CUTS_INLINE
-void CUTS_CCM_Context_T <T>::set_rollback_only (void)
+template <typename T, typename SVNT>
+CUTS_INLINE void
+CUTS_CCM_Context_T <T, SVNT>::set_rollback_only (void)
 {
-  this->ctx_->set_rollback_only ();
-}
 
-//
-// get_CCM_object
-//
-template <typename T>
-CUTS_INLINE
-::CORBA::Object_ptr
-CUTS_CCM_Context_T <T>::get_CCM_object (void)
-{
-  return this->ctx_->get_CCM_object ();
 }
 
 //
 // resolve_service_reference
 //
-template <typename T>
-CUTS_INLINE
-::CORBA::Object_ptr
-CUTS_CCM_Context_T <T>::resolve_service_reference (const char * service_id)
+template <typename T, typename SVNT>
+CUTS_INLINE ::CORBA::Object_ptr
+CUTS_CCM_Context_T <T, SVNT>::resolve_service_reference (const char *)
 {
-  return this->ctx_->resolve_service_reference (service_id);
+  return ::CORBA::Object::_nil ();
+}
+
+//
+// get_CCM_object
+//
+template <typename T, typename SVNT>
+CUTS_INLINE ::CORBA::Object_ptr
+CUTS_CCM_Context_T <T, SVNT>::get_CCM_object (void)
+{
+  return this->svnt_._this ();
 }

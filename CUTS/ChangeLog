@@ -1,3 +1,16 @@
+Wed Jun  3 00:41:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/ccm/CCM_Context_T.h:
+        * cuts/arch/ccm/CCM_Context_T.inl:
+        * cuts/arch/ccm/CCM_Context_T.cpp:
+
+          . Moved the template context from TCP/IP.
+
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Context_T.h:
+
+          . Removed the export include file since it is not necessary
+            for template files.
+
 Wed Jun  3 00:24:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/opensplice/SimpleExample/ModelDDSData_Base.mpc:
@@ -5,7 +18,7 @@ Wed Jun  3 00:24:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
         * examples/arch/opensplice/SimpleExample/SimpleComponent.mpc:
         * examples/arch/opensplice/SimpleExample/SimpleExample.mwc:
 
-	  . Checkpoint the example.
+          . Checkpoint the example.
 
         * examples/arch/opensplice/SimpleExample/PubAppDDSComponent.idl:
         * examples/arch/opensplice/SimpleExample/SimpleExample.mpc:

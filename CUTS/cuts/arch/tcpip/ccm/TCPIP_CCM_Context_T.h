@@ -14,7 +14,6 @@
 #define _CUTS_TCPIP_CCM_CONTEXT_T_H_
 
 #include "ccm/CCM_SessionContextC.h"
-#include "TCPIP_CCM_export.h"
 
 /**
  * @class CUTS_TCPIP_CCM_Events_Impl
