@@ -5,51 +5,12 @@
 #endif
 
 //
-// CUTS_CCM_Servant_T
-//
-template <typename POA_EXEC>
-CUTS_CCM_Servant_T <POA_EXEC>::CUTS_CCM_Servant_T (const char * name)
-: CUTS_CCM_Servant (name)
-{
-}
-
-//
-// remove
-//
-template <typename POA_EXEC>
-CUTS_INLINE void
-CUTS_CCM_Servant_T <POA_EXEC>::remove (void)
-{
-  throw CORBA::NO_IMPLEMENT ();
-}
-
-//
-// activate_component
-//
-template <typename POA_EXEC>
-CUTS_INLINE
-void CUTS_CCM_Servant_T <POA_EXEC>::activate_component (void)
-{
-
-}
-
-//
-// passivate_component
-//
-template <typename POA_EXEC>
-CUTS_INLINE
-void CUTS_CCM_Servant_T <POA_EXEC>::passivate_component (void)
-{
-
-}
-
-//
 // get_consumer
 //
-template <typename POA_EXEC>
+template <typename CONTEXT, typename EXEC, typename POA_EXEC>
 CUTS_INLINE
 Components::EventConsumerBase_ptr
-CUTS_CCM_Servant_T <POA_EXEC>::get_consumer (const char * name)
+CUTS_CCM_Servant_T <CONTEXT, EXEC, POA_EXEC>::get_consumer (const char * name)
 {
   CUTS_CCM_EventConsumer * consumer = 0;
 
@@ -62,9 +23,9 @@ CUTS_CCM_Servant_T <POA_EXEC>::get_consumer (const char * name)
 //
 // connect_consumer
 //
-template <typename POA_EXEC>
+template <typename CONTEXT, typename EXEC, typename POA_EXEC>
 CUTS_INLINE
-void CUTS_CCM_Servant_T <POA_EXEC>::
+void CUTS_CCM_Servant_T <CONTEXT, EXEC, POA_EXEC>::
 connect_consumer (const char * name, Components::EventConsumerBase_ptr consumer)
 {
   // Locate the endpoint for this consumer.
@@ -80,10 +41,10 @@ connect_consumer (const char * name, Components::EventConsumerBase_ptr consumer)
 //
 // disconnect_consumer
 //
-template <typename POA_EXEC>
+template <typename CONTEXT, typename EXEC, typename POA_EXEC>
 CUTS_INLINE
 Components::EventConsumerBase_ptr
-CUTS_CCM_Servant_T <POA_EXEC>::
+CUTS_CCM_Servant_T <CONTEXT, EXEC, POA_EXEC>::
 disconnect_consumer (const char * name)
 {
   // Locate the endpoint for this consumer.
@@ -99,8 +60,8 @@ disconnect_consumer (const char * name)
 //
 // subscribe
 //
-template <typename POA_EXEC>
-::Components::Cookie * CUTS_CCM_Servant_T <POA_EXEC>::
+template <typename CONTEXT, typename EXEC, typename POA_EXEC>
+::Components::Cookie * CUTS_CCM_Servant_T <CONTEXT, EXEC, POA_EXEC>::
 subscribe (const char * publisher_name, ::Components::EventConsumerBase_ptr subscriber)
 {
   CUTS_CCM_Subscriber_Table * table = 0;
@@ -114,8 +75,8 @@ subscribe (const char * publisher_name, ::Components::EventConsumerBase_ptr subs
 //
 // unsubscribe
 //
-template <typename POA_EXEC>
-::Components::EventConsumerBase_ptr CUTS_CCM_Servant_T <POA_EXEC>::
+template <typename CONTEXT, typename EXEC, typename POA_EXEC>
+::Components::EventConsumerBase_ptr CUTS_CCM_Servant_T <CONTEXT, EXEC, POA_EXEC>::
 unsubscribe (const char * publisher_name, ::Components::Cookie * cookie)
 {
   CUTS_CCM_Subscriber_Table * table = 0;

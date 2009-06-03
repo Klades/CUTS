@@ -26,12 +26,18 @@
 /**
  * @class CUTS_TCPIP_CCM_Events_Impl
  */
-template <typename T, typename CTX, typename EXEC, typename POA_EXEC>
+template <typename T, typename CONTEXT, typename EXEC, typename POA_EXEC>
 class CUTS_TCPIP_CCM_Servant_T :
-  public CUTS_CCM_Servant_T <POA_EXEC>,
-  public CUTS_TCPIP_Servant_T <T, CTX, EXEC>
+  public CUTS_CCM_Servant_T <CONTEXT, EXEC, POA_EXEC>,
+  public CUTS_TCPIP_Servant_T <T>
 {
 public:
+  /// Type definition of the context type.
+  typedef CONTEXT context_type;
+
+  /// Type definition of the executor type.
+  typedef EXEC executor_type;
+
   /**
    * Initializing constructor.
    *

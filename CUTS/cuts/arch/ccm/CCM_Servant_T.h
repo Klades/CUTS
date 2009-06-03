@@ -30,12 +30,18 @@ class CUTS_CCM_Subscriber_Table;
 /**
  * @class CUTS_CCM_Servant_T
  */
-template <typename POA_EXEC>
+template <typename CONTEXT, typename EXEC, typename POA_EXEC>
 class CUTS_CCM_Servant_T :
   public POA_EXEC,
   public CUTS_CCM_Servant
 {
 public:
+  /// Type definition of the context type.
+  typedef CONTEXT context_type;
+
+  /// Type definition of the executor type.
+  typedef EXEC executor_type;
+
   /**
    * Initializing constructor.
    *
@@ -43,7 +49,8 @@ public:
    * @param[in]       svnt_mgr        Manager of the servant.
    * @param[in]       executor        Executor component for servant.
    */
-  CUTS_CCM_Servant_T (const char * name);
+  CUTS_CCM_Servant_T (const char * name,
+                      typename EXEC::_ptr_type exec);
 
   /// Destructor.
   virtual ~CUTS_CCM_Servant_T (void);
@@ -135,6 +142,13 @@ protected:
   ACE_Hash_Map_Manager <ACE_CString,
                         CUTS_CCM_Single_Subscriber *,
                         ACE_RW_Thread_Mutex> emits_;
+
+
+  /// The actual context for the servant.
+  ACE_Auto_Ptr <CONTEXT> ctx_;
+
+  /// The implemenation for this servant.
+  typename EXEC::_var_type impl_;
 };
 
 #if defined (__CUTS_INLINE__)

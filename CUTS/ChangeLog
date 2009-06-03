@@ -1,3 +1,17 @@
+Wed Jun  3 04:08:41 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/ccm/CCM_Servant_T.h:
+        * cuts/arch/ccm/CCM_Servant_T.inl:
+        * cuts/arch/ccm/CCM_Servant_T.cpp:
+        * cuts/arch/tcpip/TCPIP_Servant_T.h:
+        * cuts/arch/tcpip/TCPIP_Servant_T.inl:
+        * cuts/arch/tcpip/TCPIP_Servant_T.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.cpp:
+
+          . Moved the CCM-specific template code into the CCM
+            project.
+
 Wed Jun  3 03:12:07 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table_T.cpp:

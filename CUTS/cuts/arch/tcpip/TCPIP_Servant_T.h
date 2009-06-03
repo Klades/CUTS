@@ -22,19 +22,13 @@ class CUTS_TCPIP_Component;
 /**
  * @class CUTS_TCPIP_Servant_T
  */
-template <typename T, typename CTX, typename EXEC>
+template <typename T>
 class CUTS_TCPIP_Servant_T :
   public CUTS_TCPIP_Servant
 {
 public:
   /// Type definition of the servant type.
   typedef T servant_type;
-
-  /// Type definition of the context type.
-  typedef CTX context_type;
-
-  /// Type definition of the executor type.
-  typedef EXEC executor_type;
 
   // Method for handling the event. It will dispatch the events
   // to the correct method.
@@ -46,7 +40,7 @@ protected:
    *
    * @param[in]           servant         Target servant.
    */
-  CUTS_TCPIP_Servant_T (T * servant, typename EXEC::_ptr_type exec);
+  CUTS_TCPIP_Servant_T (T * servant);
 
   /// Destructor.
   virtual ~CUTS_TCPIP_Servant_T (void);
@@ -60,13 +54,6 @@ protected:
 private:
   /// Pointer to the servant.
   T * servant_;
-
-protected:
-  /// The actual context for the servant.
-  ACE_Auto_Ptr <CTX> ctx_;
-
-  /// The implemenation for this servant.
-  typename EXEC::_var_type impl_;
 };
 
 #if defined (__CUTS_INLINE__)
