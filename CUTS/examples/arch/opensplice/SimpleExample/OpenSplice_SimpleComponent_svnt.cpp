@@ -7,9 +7,11 @@
 
 namespace SimpleComponent_Basic_Impl
 {
-  SimpleComponent_Servant_Context::SimpleComponent_Servant_Context (SimpleComponent_Servant & parent)
+  SimpleComponent_Servant_Context::
+  SimpleComponent_Servant_Context (SimpleComponent_Servant & parent)
     : SimpleComponent_Servant_Context_Base (parent),
-      app_op_emit_ (parent.get_participant ())
+      app_op_emit_ (parent.get_participant ()),
+      app_op_send_ (parent.get_participant ())
   {
   }
 
@@ -33,12 +35,19 @@ namespace SimpleComponent_Basic_Impl
     this->app_op_emit_.send_event (ev);
   }
 
-  //CUTS_TCPIP_CCM_Subscriber_Table & SimpleComponent_Servant_Context::endpoints_handle_message_ex (void)
-  //{
-  //  return this->handle_message_ex_;
-  //}
+  CUTS_CCM_Subscriber_Table & SimpleComponent_Servant_Context::writers_app_op_send (void)
+  {
+    return this->app_op_send_;
+  }
 
-  
+  //
+  // push_app_op_send 
+  //
+  void SimpleComponent_Servant_Context::push_app_op_send (::Outer::TestData_DDS * ev)
+  {
+    this->app_op_send_.send_event (ev);
+  }
+
   //
   // SimpleComponent_Servant
   //
@@ -57,7 +66,7 @@ namespace SimpleComponent_Basic_Impl
 
     // Initializing the publishes/emits table.
     this->emits_.bind ("app_op_emit", &this->ctx_->writer_app_op_emit ());
-    //this->publishes_.bind ("handle_message_ex", &this->ctx_->endpoints_handle_message_ex ());
+    this->publishes_.bind ("app_op_send", &this->ctx_->writers_app_op_send ());
   }
 
   //

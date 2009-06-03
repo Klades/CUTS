@@ -7,6 +7,7 @@
 #include "cuts/arch/ccm/CCM_Servant_T.h"
 #include "cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.h"
 #include "cuts/arch/opensplice/ccm/OpenSplice_Subscriber_T.h"
+#include "cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table_T.h"
 
 #include "OpenSplice_ModelDDSDataC.h"
 
@@ -44,14 +45,13 @@ namespace SimpleComponent_Basic_Impl
     CUTS_OpenSplice_CCM_Subscriber_T < ::CUTS_DDS::Outer::TestData_DDS > app_op_emit_;
     
   public:
-    // push method for output event port: handle_message_ex
+    // push method for output event port: app_op_send
     virtual void push_app_op_send (::Outer::TestData_DDS * ev);
     
-    // CUTS_DDS_CCM_Subscriber_Table < ::Outer::TestData_DDS > app_op_send_;
-    //CUTS_TCPIP_CCM_Subscriber_Table & endpoints_handle_message_ex (void);
+    CUTS_CCM_Subscriber_Table & writers_app_op_send (void);
     
   private:
-    //CUTS_TCPIP_CCM_Subscriber_Table_T < ::Message > handle_message_ex_;
+    CUTS_OpenSplice_CCM_Subscriber_Table_T < ::CUTS_DDS::Outer::TestData_DDS > app_op_send_;
   };
 
 

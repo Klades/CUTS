@@ -81,10 +81,16 @@ send_event (typename traits_type::corba_event_type * ev)
   typename traits_type::dds_event_type dds_event;
   *ev >>= dds_event;
 
-  // Send the event to the DDS server.
-  ::DDS::ReturnCode_t status 
-      = this->writer_->write (dds_event, ::DDS::HANDLE_NIL);
+  this->send_event (dds_event);
+}
 
+//                                                                                                                                                                                 // send_event
+// 
+template <typename EVENT>
+void CUTS_OpenSplice_CCM_Subscriber_T <EVENT>::
+send_event (typename traits_type::dds_event_type & ev)
+{
+  ::DDS::ReturnCode_t status = this->writer_->write (ev, ::DDS::HANDLE_NIL);
   ACE_UNUSED_ARG (status);
 }
 

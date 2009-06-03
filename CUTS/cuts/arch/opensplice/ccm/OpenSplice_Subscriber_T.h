@@ -4,7 +4,6 @@
 #define _CUTS_OPENSPLICE_CCM_SUBSCRIBER_T_H_
 
 #include "cuts/arch/opensplice/OpenSplice_Traits_T.h"
-//#include "dds_dcpsC.h"
 #include "OpenSplice_Subscriber.h"
 #include "EventsC.h"
 
@@ -27,6 +26,8 @@ public:
   virtual ::Components::EventConsumerBase_ptr disconnect (void);
 
   void send_event (typename traits_type::corba_event_type * ev);
+
+  void send_event (typename traits_type::dds_event_type & ev);
 
 protected:
   typename traits_type::writer_var_type writer_;

@@ -1,3 +1,21 @@
+Wed Jun  3 18:58:10 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM.mpc:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table_T.cpp:
+
+	  . Added support for handling 'publishes' connections specified
+	    in the deployment plan. We now have fully functiona servants,
+	    that can been integrated in CCM. The next step to create the
+	    component server.
+
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.h:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.cpp:
+
+	  . Checkpointing the example.
+
 Wed Jun  3 17:50:51 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/opensplice/OpenSplice.mpc:
@@ -10,8 +28,8 @@ Wed Jun  3 17:50:51 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
         * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_T.h:
         * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_T.cpp:
 
-	  . Added support to the servant for handling 'emits'
-	    connections in a deployment plan.
+          . Added support to the servant for handling 'emits'
+            connections in a deployment plan.
 
         * examples/arch/opensplice/SimpleExample/ModelDDSData.idl:
         * examples/arch/opensplice/SimpleExample/ModelDDSData_Base.mpc:
@@ -20,7 +38,7 @@ Wed Jun  3 17:50:51 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
         * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.h:
         * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.cpp:
 
-	  . Checkpointing the example.
+          . Checkpointing the example.
 
 Wed Jun  3 15:19:03 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
