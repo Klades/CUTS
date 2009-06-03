@@ -1,3 +1,214 @@
+Wed Jun  3 21:11:41 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CHAOS:
+        * MDE/GME/paradigms/CHAOS/paradigms:
+        * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.xme:
+        * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.xmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Any.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ApplicationTask.gif:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Assembly.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/AttributeMapping.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Average.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/BandedConnection.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/BandedConnectionRef.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/BranchState.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Bridge.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Capability.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ComponentImplementationArtifact.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ComponentPackage.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ComponentProperty.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ComponentServantArtifact.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ComponentSet.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ConnectionBand.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Connector.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/DataType.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Discrete-Benchmark.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/DoWhileState.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Domain.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/EnvironmentConf.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ExternalReferenceEndPoint.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/FOU.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ForState.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ImplementationArtifact.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ImplementationArtifactReference.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ImplementationDependency.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ImplementationReference.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ImplementationRequirement.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/InputAction.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Interconnect.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Jitter.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Latency.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Max.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Min.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/MonolithicImplementation.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/MultiInputAction.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Node.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/NodeGroup.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/OutputAction.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/PackageConfiguration.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/PackageConfigurationReference.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/PackageReference.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Periodic-Bench.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/PolicySet.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/PolicySetRef.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/PriorityModelPolicy.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Property.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/QueryAction.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/QueryInputAction.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/RPG.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/RTModel.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Requirement.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Resource.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ResourceContainer.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/SatisfierProperty.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/SharedResource.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/SharedRiskGroup.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/SimpleThreadPool.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/State.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ThreadPoolLane.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ThreadPoolRef.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ThreadPoolWithLanes.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Throughput.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/TopLevelPackage.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/Trigger-Bench.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/WhileState.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/action.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/aggregate.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/aggregateref.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/alias.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/aliasref.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/attribute.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/boolean.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/boxed.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/boxedref.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/byte.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/comp-proj.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/component.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/componentassembly.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/componentassemblyref.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/componentfactory.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/componentfactoryref.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/componentref.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/composite.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/conjunction_group.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/const.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/consumer.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/discriminator.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/disjunction_group.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ec_consumer.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ec_dependency.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ec_event.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ec_option.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ec_proxy.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ec_proxy_consumer.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ec_proxy_supplier.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ec_resource_factory.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ec_supplier.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ec_supplier_id.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/enum.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/enumref.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/enumvalue.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/environment.gif:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/event.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/event_sink.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/event_source.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/eventref.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/eventtype-port.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/eventtype.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/exception.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/exceptionref.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/factory.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/file.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/fileref.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/genericobject.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/genericvalue.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/genericvalueobject.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/getexception.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/in.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/inevent_lf.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/inevent_rt.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ineventport.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/inherits.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/inout.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/label.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/logical_and_group.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/long.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/lookup.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/lookupkey.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/member.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/multiinvocations.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ns_admin.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ns_config.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ns_constraint.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ns_consumer.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ns_event.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ns_filter-port.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ns_filter.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ns_option.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ns_proxy.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ns_proxy_consumer.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ns_proxy_supplier.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ns_qos-port.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ns_qos.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ns_resource_factory-port.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ns_resource_factory.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/ns_supplier.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/object.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/objectref.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/oneway.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/operationref.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/out.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/outevent_lf.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/outevent_rt.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/outeventport.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/package.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/periodic.gif:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/private.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/project.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/providedrequestport.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/provider.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/readonlyattribute.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/realnumber.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/receptacle_lf.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/receptacle_rt.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/refarrow.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/requiredrequestport.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/return.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/rt_info-port.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/rt_info.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/rtec_proxy_consumer.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/rtec_proxy_supplier.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/rtec_resource_factory-port.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/rtec_resource_factory.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/rtrequirements.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/servicelevels.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/setexception.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/setexceptionref.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/sharedcomponentref.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/short.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/string.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/supports.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/switchedaggregate.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/switchedaggregateref.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/task.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/taskset.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/timer.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/twoway.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/typeencoding.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/typekind.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/value.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/valueref.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/variablecollection.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/variablecollectionref.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/vertex.bmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/worker.gif:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/workerref.gif:
+        * MDE/GME/paradigms/CHAOS/paradigms/icons/workspace.bmp:
+
+          . Initial version of the CHAOS paradigm, which is just an extended
+            version on PICML.
+
 Wed Jun  3 18:58:10 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/opensplice/ccm/OpenSplice_CCM.mpc:
@@ -6,15 +217,15 @@ Wed Jun  3 18:58:10 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
         * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table_T.h:
         * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table_T.cpp:
 
-	  . Added support for handling 'publishes' connections specified
-	    in the deployment plan. We now have fully functiona servants,
-	    that can been integrated in CCM. The next step to create the
-	    component server.
+          . Added support for handling 'publishes' connections specified
+            in the deployment plan. We now have fully functiona servants,
+            that can been integrated in CCM. The next step to create the
+            component server.
 
         * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.h:
         * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.cpp:
 
-	  . Checkpointing the example.
+          . Checkpointing the example.
 
 Wed Jun  3 17:50:51 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
