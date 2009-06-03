@@ -1,3 +1,15 @@
+Wed Jun  3 01:12:41 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Impl.mpc:
+        * examples/arch/opensplice/SimpleExample/SimpleExample.mwc:
+
+	  . Checkpointing the example.
+
+        * examples/arch/opensplice/SimpleExample/SimpleComponent.mpc:
+        * examples/arch/opensplice/SimpleExample/SubAppDDSComponent.idl:
+
+          Removed these files.
+
 Wed Jun  3 00:41:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/ccm/CCM_Context_T.h:

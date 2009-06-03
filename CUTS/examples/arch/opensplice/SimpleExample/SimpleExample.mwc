@@ -17,7 +17,7 @@ workspace (SimpleExample) {
   ModelDDSData_Base.mpc
   SimpleComponent_Base.mpc
 
-  SimpleComponent.mpc
+  SimpleComponent_Impl.mpc
 }
 
 // end of auto-generated workspace
