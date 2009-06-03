@@ -12,17 +12,17 @@ project (ModelDDSData_DDS_IDL_Gen) : splice_ts_defaults, requires_opensplice {
   SpliceTypeSupport_Files {
     gendir = ./ddstypes
 
-    ModelDDSData.idl 
+    ModelDDSData_DDS.idl 
   }
 
   IDL_Files {
     gendir = ./ddstypes 
 
-    ModelDDSData.idl 
+    ModelDDSData_DDS.idl 
   }
 
   IDL_Files {
-   ./ddstypes/ModelDDSDataDcps.idl
+   ./ddstypes/ModelDDSData_DDSDcps.idl
   }
 }
 
@@ -37,29 +37,29 @@ project (ModelDDSData_ddstypes) : splicelib, ccm_svnt, requires_opensplice, cuts
   prebuild += $(ACE_ROOT)/bin/generate_export_file.pl MODELDDSDATA_DDSTYPES > $(PROJECT_ROOT)/ddstypes/ModelDDSData_ddstypes_export.h
 
   Source_Files {
-    ./ddstypes/ModelDDSDataC.cpp
-    ./ddstypes/ModelDDSDataS.cpp
-    ./ddstypes/ModelDDSDataDcpsC.cpp
-    ./ddstypes/ModelDDSDataDcpsS.cpp
-    ./ddstypes/ModelDDSDataDcps_impl.cpp
-    ./ddstypes/ModelDDSDataSplDcps.cpp
+    ./ddstypes/ModelDDSData_DDSC.cpp
+    ./ddstypes/ModelDDSData_DDSS.cpp
+    ./ddstypes/ModelDDSData_DDSDcpsC.cpp
+    ./ddstypes/ModelDDSData_DDSDcpsS.cpp
+    ./ddstypes/ModelDDSData_DDSDcps_impl.cpp
+    ./ddstypes/ModelDDSData_DDSSplDcps.cpp
   }
 
   Header_Files {
-    ./ddstypes/ccpp_ModelDDSData.h
-    ./ddstypes/ModelDDSDataC.h
-    ./ddstypes/ModelDDSDataS.h
-    ./ddstypes/ModelDDSDataDcpsC.h
-    ./ddstypes/ModelDDSDataDcpsS.h
-    ./ddstypes/ModelDDSDataDcps_impl.h
-    ./ddstypes/ModelDDSDataSplDcps.h
+    //./ddstypes/ccpp_ModelDDSData.h
+    //./ddstypes/ModelDDSDataC.h
+    //./ddstypes/ModelDDSDataS.h
+    //./ddstypes/ModelDDSDataDcpsC.h
+    //./ddstypes/ModelDDSDataDcpsS.h
+    //./ddstypes/ModelDDSDataDcps_impl.h
+    //./ddstypes/ModelDDSDataSplDcps.h
   }
 
   Inline_Files {
-    ./ddstypes/ModelDDSDataC.inl
-    ./ddstypes/ModelDDSDataS.inl
-    ./ddstypes/ModelDDSDataDcpsC.inl
-    ./ddstypes/ModelDDSDataDcpsS.inl
+    //./ddstypes/ModelDDSDataC.inl
+    //./ddstypes/ModelDDSDataS.inl
+    //./ddstypes/ModelDDSDataDcpsC.inl
+    //./ddstypes/ModelDDSDataDcpsS.inl
   }
 
   IDL_Files {

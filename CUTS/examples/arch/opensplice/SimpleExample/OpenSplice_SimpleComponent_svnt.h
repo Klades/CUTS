@@ -6,8 +6,10 @@
 #include "cuts/arch/ccm/CCM_Context_T.h"
 #include "cuts/arch/ccm/CCM_Servant_T.h"
 #include "cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.h"
+#include "cuts/arch/opensplice/ccm/OpenSplice_Subscriber_T.h"
 
 #include "OpenSplice_ModelDDSDataC.h"
+
 #include "SimpleComponentEC.h"
 #include "SimpleComponentS.h"
 #include "OpenSplice_SimpleComponent_svnt_export.h"
@@ -25,31 +27,30 @@ namespace SimpleComponent_Basic_Impl
    */
   class SimpleComponent_Servant_Context : public SimpleComponent_Servant_Context_Base
   {
-    public:
+  public:
     // default constructor
     SimpleComponent_Servant_Context (SimpleComponent_Servant & parent);
-
+    
     // destructor
     virtual ~SimpleComponent_Servant_Context (void);
-
-    public:
+    
+  public:
     // push method for output event port: handle_message
     virtual void push_app_op_emit (::Outer::TestData_DDS * ev);
-
-    // CUTS_DDS_CCM_Writer_T < ::Outer::TestData_DDS > app_op_emit_;
-    //CUTS_TCPIP_CCM_Remote_Endpoint & endpoint_handle_message (void);
-
-    private:
-    //CUTS_TCPIP_CCM_Remote_Endpoint_T < ::Message > handle_message_;
-
-    public:
+    
+    CUTS_OpenSplice_CCM_Subscriber & writer_app_op_emit (void);
+    
+  private:
+    CUTS_OpenSplice_CCM_Subscriber_T < ::CUTS_DDS::Outer::TestData_DDS > app_op_emit_;
+    
+  public:
     // push method for output event port: handle_message_ex
     virtual void push_app_op_send (::Outer::TestData_DDS * ev);
-
+    
     // CUTS_DDS_CCM_Subscriber_Table < ::Outer::TestData_DDS > app_op_send_;
     //CUTS_TCPIP_CCM_Subscriber_Table & endpoints_handle_message_ex (void);
-
-    private:
+    
+  private:
     //CUTS_TCPIP_CCM_Subscriber_Table_T < ::Message > handle_message_ex_;
   };
 
@@ -81,15 +82,17 @@ namespace SimpleComponent_Basic_Impl
 
     ::Outer::TestData_DDSConsumer_ptr unsubscribe_app_op_send (::Components::Cookie *);
 
+    ::DDS::DomainParticipant_ptr get_participant (void);
+
   public:
     ::Outer::TestData_DDSConsumer_ptr get_consumer_read_test_data (void);
 
     static void deserialize_read_test_data (SimpleComponent_Servant * servant,
-					    const ::DDS::Outer::TestData_DDS & dds_event);
+					    const ::CUTS_DDS::Outer::TestData_DDS & dds_event);
 
   private:
     CUTS_OpenSplice_CCM_EventConsumer_T < SimpleComponent_Servant,
-					  ::DDS::Outer::TestData_DDS > read_test_data_consumer_;
+					  ::CUTS_DDS::Outer::TestData_DDS > read_test_data_consumer_;
 					 
     ::DDS::DomainParticipant_var participant_;
   };

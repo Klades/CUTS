@@ -8,7 +8,8 @@
 namespace SimpleComponent_Basic_Impl
 {
   SimpleComponent_Servant_Context::SimpleComponent_Servant_Context (SimpleComponent_Servant & parent)
-  : SimpleComponent_Servant_Context_Base (parent)
+    : SimpleComponent_Servant_Context_Base (parent),
+      app_op_emit_ (parent.get_participant ())
   {
   }
 
@@ -16,21 +17,20 @@ namespace SimpleComponent_Basic_Impl
   {
   }
 
-  void SimpleComponent_Servant_Context::push_app_op_emit (::Outer::TestData_DDS * ev)
+  //
+  // writer_app_op_emit
+  //
+  CUTS_OpenSplice_CCM_Subscriber & SimpleComponent_Servant_Context::writer_app_op_emit (void)
   {
-    //this->app_op_emit_.send_event (ev);
-    ACE_UNUSED_ARG (ev);
+    return this->app_op_emit_;
   }
 
-  //CUTS_TCPIP_CCM_Remote_Endpoint & SimpleComponent_Servant_Context::endpoint_handle_message (void)
-  //{
-  //  //return this->handle_message_;
-  //}
-
-  void SimpleComponent_Servant_Context::push_app_op_send (::Outer::TestData_DDS * ev)
+  //
+  // push_app_op_send
+  //
+  void SimpleComponent_Servant_Context::push_app_op_emit (::Outer::TestData_DDS * ev)
   {
-    //this->app_op_send_.send_event (ev);
-    ACE_UNUSED_ARG (ev);
+    this->app_op_emit_.send_event (ev);
   }
 
   //CUTS_TCPIP_CCM_Subscriber_Table & SimpleComponent_Servant_Context::endpoints_handle_message_ex (void)
@@ -47,6 +47,7 @@ namespace SimpleComponent_Basic_Impl
 			   ::DDS::DomainParticipant_ptr participant,
 			   ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor)
     : SimpleComponent_Servant_Base (name, executor),
+      // SimpleComponent_Servant_Base (name, executor, participant),
       read_test_data_consumer_ (this, &SimpleComponent_Servant::deserialize_read_test_data),
       participant_ (::DDS::DomainParticipant::_duplicate (participant))
   {
@@ -55,7 +56,7 @@ namespace SimpleComponent_Basic_Impl
     this->consumers_.bind ("read_test_data", &this->read_test_data_consumer_);
 
     // Initializing the publishes/emits table.
-    //this->emits_.bind ("handle_message", &this->ctx_->endpoint_handle_message ());
+    this->emits_.bind ("app_op_emit", &this->ctx_->writer_app_op_emit ());
     //this->publishes_.bind ("handle_message_ex", &this->ctx_->endpoints_handle_message_ex ());
   }
 
@@ -67,11 +68,19 @@ namespace SimpleComponent_Basic_Impl
   }
 
   //
+  // get_participant
+  //
+  ::DDS::DomainParticipant_ptr SimpleComponent_Servant::get_participant (void)
+  {
+    return ::DDS::DomainParticipant::_duplicate (this->participant_.in ());
+  }
+
+  //
   // deserialize_read_test_data
   //
   void SimpleComponent_Servant:: 
   deserialize_read_test_data (SimpleComponent_Servant * servant,
-			      const ::DDS::Outer::TestData_DDS & dds_event)
+			      const ::CUTS_DDS::Outer::TestData_DDS & dds_event)
   {
     // First, extract the event.
     CUTS_CCM_Event_T < ::OBV_Outer::TestData_DDS > event;

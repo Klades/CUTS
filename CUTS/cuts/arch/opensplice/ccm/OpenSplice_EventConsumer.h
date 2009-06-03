@@ -35,14 +35,12 @@ class CUTS_OPENSPLICE_CCM_Export CUTS_OpenSplice_CCM_EventConsumer :
   /// The topic of the event consumer.
   ACE_CString topic_;
 
+  /// The DDS version of the topic.
   ::DDS::Topic_var dds_topic_;
 
   /// Right now, we assume that each consumer is a subscriber. In the 
   /// future, we may want to enable shared subscriptions between consumers.
   ::DDS::Subscriber_var subscriber_;
-
-  /// Cached reader for the heck of it!!
-  ::DDS::DataReader_var reader_;
 };
 
 #endif  // !defined _CUTS_OPENSPLICE_CCM_EVENTCONSUMER_H_

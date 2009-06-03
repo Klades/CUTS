@@ -4,7 +4,7 @@
 #define _OPENSPLICE_MODELDDSDATAC_H_
 
 #include "cuts/arch/opensplice/OpenSplice_Traits_T.h"
-#include "ddstypes/ModelDDSDataDcpsC.h"
+#include "ddstypes/ModelDDSData_DDSDcps_impl.h"
 #include "ModelDDSDataC.h"
 
 template < >
@@ -25,6 +25,13 @@ public:
   typedef ::CUTS_DDS::Outer::TestData_DDS dds_event_type;
   typedef ::CUTS_DDS::Outer::TestData_DDSSeq dds_event_sequence_type;
   typedef ::CUTS_DDS::Outer::TestData_DDSSeq_var dds_event_sequence_var_type;
+
+  typedef ::CUTS_DDS::Outer::TestData_DDSTypeSupportInterface dds_typesupport_interface_type;
+  typedef dds_typesupport_interface_type::_var_type dds_typesupport_interface_var_type;
+  typedef dds_typesupport_interface_type::_ptr_type dds_typesupport_interface_ptr_type;
+
+  typedef ::CUTS_DDS::Outer::TestData_DDSTypeSupport dds_typesupport_type;
+  typedef ::CUTS_DDS::Outer::TestData_DDSTypeSupport_var dds_typesupport_var_type;
 
   // The CORBA event type traits
   typedef ::Outer::TestData_DDS corba_event_type;

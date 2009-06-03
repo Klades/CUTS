@@ -3,6 +3,7 @@
 #ifndef _CUTS_OPENSPLICE_CCM_EVENTCONSUMER_T_H_
 #define _CUTS_OPENSPLICE_CCM_EVENTCONSUMER_T_H_
 
+#include "cuts/arch/opensplice/OpenSplice_Traits_T.h"
 #include "OpenSplice_EventConsumer.h"
 
 template <typename SERVANT, typename EVENT>
@@ -34,6 +35,8 @@ private:
 
   /// Method for deserializing an event.
   deserialize_method callback_;
+
+  typename CUTS_OpenSplice_Traits_T <EVENT>::reader_var_type reader_;
 };
 
 #include "OpenSplice_EventConsumer_T.cpp"

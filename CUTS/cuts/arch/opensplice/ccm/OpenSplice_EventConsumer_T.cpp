@@ -1,6 +1,5 @@
 // $Id$
 
-#include "cuts/arch/opensplice/OpenSplice_Traits_T.h"
 #include "ccpp_dds_dcps.h"
 
 template <typename SERVANT, typename EVENT>
@@ -33,7 +32,26 @@ configure (::DDS::DomainParticipant_ptr participant,
   new_topic_name += ".";
   new_topic_name += topic;
 
-  // Then, create the topic for the event.
+  // Register the type for with the participant. This should really
+  // be done in the servant's code!!
+  typename CUTS_OpenSplice_Traits_T <EVENT>::dds_typesupport_type * type_temp = 0;
+
+  ACE_NEW_THROW_EX (type_temp,
+		    typename CUTS_OpenSplice_Traits_T <EVENT>::dds_typesupport_type (),
+		    ::CORBA::NO_MEMORY ());
+  
+  typename CUTS_OpenSplice_Traits_T <EVENT>::dds_typesupport_var_type type_var (type_temp);
+  ::CORBA::String_var type_name = type_var->get_type_name ();
+
+  ::DDS::ReturnCode_t status = type_var->register_type (participant,
+							type_name.in ());
+
+  // Next, we can create the topic for the event consumer.
+  this->dds_topic_ = participant->create_topic (new_topic_name.c_str (),
+						type_name.in (),
+						TOPIC_QOS_DEFAULT,
+						::DDS::TopicListener::_nil (),
+						::DDS::ANY_STATUS);
 
   // Now, register for the topic. Subscribing an event consumer to                                                                                                                
   // will enable a component to register for this topic.
@@ -41,9 +59,21 @@ configure (::DDS::DomainParticipant_ptr participant,
                                                       ::DDS::SubscriberListener::_nil (),
                                                       ::DDS::ANY_STATUS);
 
+  // The last part is to create a data reader.
+  ::DDS::DataReader_var reader = 
+      this->subscriber_->create_datareader (this->dds_topic_.in (),
+					    DATAREADER_QOS_DEFAULT,
+					    this,
+					    ::DDS::ANY_STATUS);
+
+  this->reader_ = 
+    CUTS_OpenSplice_Traits_T <EVENT>::reader_type::_narrow (reader.in ());
+
   // Finally, save the name of the topic.
   this->topic_ = new_topic_name;
   return 0;
+
+  ACE_UNUSED_ARG (status);
 }
 
 //
@@ -72,4 +102,6 @@ on_data_available (::DDS::DataReader_ptr p)
 
   if (0 != this->callback_)
     (*this->callback_) (this->servant_, event_seq[0]);
+
+  ACE_UNUSED_ARG (status);
 }

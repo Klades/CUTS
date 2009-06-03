@@ -8,4 +8,11 @@ project (CUTS_OpenSplice) : ccm_svnt, splicelib, cutslib {
   Source_Files {
     OpenSplice_ListenerBase.cpp
   }
+
+  Header_Files {
+    OpenSplice_Traits_T.h
+  }
+
+  Template_Files {
+  }
 }

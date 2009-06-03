@@ -3,14 +3,7 @@
 #ifndef _MODELDDSDATA_IDL_
 #define _MODELDDSDATA_IDL_
 
-#if defined (__DDS_IDL__)
-#define eventtype struct
-#define public
-module CUTS_DDS
-{
-#else
 #include <Components.idl>
-#endif
 
 module Outer
 {
@@ -29,12 +22,6 @@ module Outer
     public unsigned short key;
     public Inner::Data_DDS packet;
   };
-
-#pragma keylist TestData_DDS
 };
-
-#if defined (__DDS_IDL__)
-};
-#endif
 
 #endif // _MODELDDSDATA_IDL_
