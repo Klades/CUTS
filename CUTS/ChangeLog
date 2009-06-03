@@ -1,9 +1,19 @@
+Wed Jun  3 01:15:02 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.h:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent.cidl:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent.mpc:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Base.mpc:
+
+	  . Checkpointing the example.
+
 Wed Jun  3 01:12:41 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/opensplice/SimpleExample/SimpleComponent_Impl.mpc:
         * examples/arch/opensplice/SimpleExample/SimpleExample.mwc:
 
-	  . Checkpointing the example.
+          . Checkpointing the example.
 
         * examples/arch/opensplice/SimpleExample/SimpleComponent.mpc:
         * examples/arch/opensplice/SimpleExample/SubAppDDSComponent.idl:
