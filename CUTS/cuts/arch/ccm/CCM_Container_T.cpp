@@ -252,8 +252,9 @@ install_component (const char * id,
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T - %M - loading the component's implementation\n")));
 
-  CORBA::String_var exec_uuid;
-  (*exec_artifact)->value () >>= exec_uuid;
+  const char * temp_str;
+  (*exec_artifact)->value () >>= temp_str;
+  ::Components::Deployment::UUID_var exec_uuid = temp_str;
 
   ::Components::Deployment::Location_var location =
     this->installer_->get_implementation (exec_uuid.in ());
@@ -268,20 +269,18 @@ install_component (const char * id,
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T - %M - loading the component's servant\n")));
 
-  Components::Deployment::UUID_var svnt_uuid;
-  (*svnt_artifact)->value () >>= svnt_uuid;
-
-  ACE_OS::sleep (15);
+  (*svnt_artifact)->value () >>= temp_str;
+  ::Components::Deployment::UUID_var svnt_uuid = temp_str;
 
   location = this->installer_->get_implementation (svnt_uuid.in ());
 
-  CORBA::String_var temp_str;
   (*svnt_entrypt)->value () >>= temp_str;
+  ::CORBA::String_var svnt_entrypt_str = temp_str;
 
   ::PortableServer::ServantBase_var servant =
     this->strategy_->load_servant (id,
                                    location.in (),
-                                   temp_str.in (),
+                                   svnt_entrypt_str.in (),
                                    executor.in ());
 
   // Activate the servant under the provided POA.

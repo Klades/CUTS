@@ -1,3 +1,10 @@
+Wed Jun  3 03:02:43 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/ccm/CCM_Container_T.cpp:
+
+	  . Fixed compilation errors on non-Windows systems. This may also
+	    fix the run-time error that on Windows.
+
 Wed Jun  3 01:15:02 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.h:
@@ -6,7 +13,7 @@ Wed Jun  3 01:15:02 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
         * examples/arch/opensplice/SimpleExample/SimpleComponent.mpc:
         * examples/arch/opensplice/SimpleExample/SimpleComponent_Base.mpc:
 
-	  . Checkpointing the example.
+          . Checkpointing the example.
 
 Wed Jun  3 01:12:41 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
