@@ -1,0 +1,25 @@
+// -*- IDL -*-
+
+#ifndef _SIMPLECOMPONENT_IDL_
+#define _SIMPLECOMPONENT_IDL_
+
+#include "ModelDDSData.idl"
+
+module Example
+{
+  component SimpleComponent
+  {
+    emits ::Outer::TestData_DDS app_op_emit;
+
+    publishes ::Outer::TestData_DDS app_op_send;
+
+    consumes ::Outer::TestData_DDS read_test_data;
+  };
+
+  home SimpleComponentHome manages SimpleComponent
+  {
+
+  };
+};
+
+#endif // _SIMPLECOMPONENT_IDL_
