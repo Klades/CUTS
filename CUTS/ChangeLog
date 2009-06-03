@@ -1,9 +1,15 @@
+Wed Jun  3 03:12:07 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table_T.cpp:
+
+          . Fixed build error related to moving cookie implementation.
+
 Wed Jun  3 03:02:43 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/ccm/CCM_Container_T.cpp:
 
-	  . Fixed compilation errors on non-Windows systems. This may also
-	    fix the run-time error that on Windows.
+          . Fixed compilation errors on non-Windows systems. This may also
+            fix the run-time error that on Windows.
 
 Wed Jun  3 01:15:02 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 

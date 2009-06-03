@@ -4,7 +4,7 @@
 #include "TCPIP_CCM_Subscriber_Table_T.inl"
 #endif
 
-#include "TCPIP_CCM_Cookie.h"
+#include "cuts/arch/ccm/CCM_Cookie.h"
 
 //
 // subscribe
@@ -43,7 +43,7 @@ subscribe (::Components::EventConsumerBase_ptr consumer)
   OBV_Components::Cookie * cookie = 0;
 
   ACE_NEW_THROW_EX (cookie,
-                    CUTS_TCPIP_CCM_Cookie (uuid),
+                    CUTS_CCM_Cookie (uuid),
                     ::CORBA::NO_MEMORY ());
 
   return cookie;
@@ -57,7 +57,7 @@ template <typename T>
 CUTS_TCPIP_CCM_Subscriber_Table_T <T>::unsubscribe (::Components::Cookie * c)
 {
   // Extract the UUID from the cookie.
-  CUTS_TCPIP_CCM_Cookie * cookie = dynamic_cast <CUTS_TCPIP_CCM_Cookie *> (c);
+  CUTS_CCM_Cookie * cookie = dynamic_cast <CUTS_CCM_Cookie *> (c);
 
   ACE_Utils::UUID uuid;
   cookie->extract (uuid);
