@@ -1,3 +1,20 @@
+Wed Jun  3 21:45:15 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CHAOS/transformation:
+        * MDE/GME/paradigms/CHAOS/transformation/chaos2picml.xsl:
+        * MDE/GME/paradigms/CHAOS/transformation/picml2chaos.xsl:
+
+          . Transformation script for converting PICML models to CHAOS
+            models and visa versa.
+
+        * MDE/GME/paradigms/PICML/examples/SLICE.xme:
+
+          . Just changed the name of the file.
+
+        * MDE/GME/paradigms/PICML/examples/SLICE-cpu-bound.xme:
+
+          Removed this file.
+
 Wed Jun  3 21:11:41 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/CHAOS:
