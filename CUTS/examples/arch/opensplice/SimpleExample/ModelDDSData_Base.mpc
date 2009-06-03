@@ -81,7 +81,7 @@ project (ModelDDSData_IDL_Gen) : ciaoidldefaults {
   }
 }
 
-project (ModelDDSData_stub) : ccm_stub, avoids_ace_for_tao, cuts_codegen_defaults {
+project (ModelDDSData_stub) : cuts_opensplice_ccm_stub, avoids_ace_for_tao, cuts_codegen_defaults {
   sharedname   = ModelDDSData_stub
   dynamicflags = MODELDDSDATA_STUB_BUILD_DLL
   after       += ModelDDSData_IDL_Gen
@@ -95,12 +95,12 @@ project (ModelDDSData_stub) : ccm_stub, avoids_ace_for_tao, cuts_codegen_default
 
   Source_Files {
     ModelDDSDataC.cpp
-    //OpenSplice_HelloWorldC.cpp
+    OpenSplice_ModelDDSDataC.cpp
   }
 
   Header_Files {
     ModelDDSDataC.h
-    //OpenSplice_HelloWorldC.h
+    OpenSplice_ModelDDSDataC.h
   }
 
   Inline_Files {

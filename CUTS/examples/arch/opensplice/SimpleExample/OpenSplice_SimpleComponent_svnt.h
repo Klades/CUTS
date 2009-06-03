@@ -7,7 +7,7 @@
 #include "cuts/arch/ccm/CCM_Servant_T.h"
 #include "cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.h"
 
-#include "ddstypes/ModelDDSDataDcpsC.h"
+#include "OpenSplice_ModelDDSDataC.h"
 #include "SimpleComponentEC.h"
 #include "SimpleComponentS.h"
 #include "OpenSplice_SimpleComponent_svnt_export.h"
@@ -18,7 +18,7 @@ namespace SimpleComponent_Basic_Impl
   class SimpleComponent_Servant;
 
   typedef CUTS_CCM_Context_T < ::Example::CCM_SimpleComponent_Context, 
-			       SimpleComponent_Servant> SimpleComponent_Servant_Context_Base;
+			       SimpleComponent_Servant > SimpleComponent_Servant_Context_Base;
 
   /**
    * @class SimpleComponent_Servant_Context
@@ -67,7 +67,8 @@ namespace SimpleComponent_Basic_Impl
   public:
     // default constructor
     SimpleComponent_Servant (const char * name, 
-			     CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor);
+			     ::DDS::DomainParticipant_ptr participant,
+			     ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor);
 
     // destructor
     virtual ~SimpleComponent_Servant (void);
@@ -88,15 +89,16 @@ namespace SimpleComponent_Basic_Impl
 
   private:
     CUTS_OpenSplice_CCM_EventConsumer_T < SimpleComponent_Servant,
-					  ::DDS::Outer::TestData_DDSDataReader,
-					  ::DDS::Outer::TestData_DDSSeq > read_test_data_consumer_;
+					  ::DDS::Outer::TestData_DDS > read_test_data_consumer_;
 					 
+    ::DDS::DomainParticipant_var participant_;
   };
 }
 
 extern "C" OPENSPLICE_SIMPLECOMPONENT_SVNT_Export
 ::PortableServer::Servant
 create_SimpleComponent_Servant (const char * name,
+				::DDS::DomainParticipant_ptr participant,
 				::Components::EnterpriseComponent_ptr p);
 
 #endif  // !defined _TCPIP_HELLOWORLD_SVNT_H_

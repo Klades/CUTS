@@ -5,7 +5,7 @@
 
 #include "OpenSplice_EventConsumer.h"
 
-template <typename SERVANT, typename T, typename EVENT_SEQ>
+template <typename SERVANT, typename EVENT>
 class CUTS_OpenSplice_CCM_EventConsumer_T :
   public CUTS_OpenSplice_CCM_EventConsumer
 {
@@ -13,20 +13,20 @@ public:
   /// Type definition of the servant type.
   typedef SERVANT servant_type;
 
-  typedef T reader_type;
-
   /// Type definition of the event type.
-  typedef EVENT_SEQ event_seq_type;
+  typedef EVENT event_type;
 
-  typedef typename event_seq_type::value_type event_type;
-
-  typedef void (*deserialize_method) (SERVANT * servant, const event_type & event);
+  typedef void (*deserialize_method) (SERVANT * servant, const EVENT & event);
 
   CUTS_OpenSplice_CCM_EventConsumer_T (SERVANT * servant, deserialize_method callback);
 
   virtual ~CUTS_OpenSplice_CCM_EventConsumer_T (void);
 
   virtual void on_data_available (::DDS::DataReader_ptr reader);
+
+  int configure (::DDS::DomainParticipant_ptr participant,
+                 const char * inst,
+                 const char * topic);
 
 private:
   /// Servant to pass event.

@@ -44,22 +44,19 @@ namespace SimpleComponent_Basic_Impl
   //
   SimpleComponent_Servant::
   SimpleComponent_Servant (const char * name,
+			   ::DDS::DomainParticipant_ptr participant,
 			   ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor)
     : SimpleComponent_Servant_Base (name, executor),
-      read_test_data_consumer_ (this, &SimpleComponent_Servant::deserialize_read_test_data)
+      read_test_data_consumer_ (this, &SimpleComponent_Servant::deserialize_read_test_data),
+      participant_ (::DDS::DomainParticipant::_duplicate (participant))
   {
     // Initializing the consumer table.
-    //this->consumers_.bind ("handle_message", &this->handle_message_consumer_);
+    this->read_test_data_consumer_.configure (participant, name, "read_test_data");
+    this->consumers_.bind ("read_test_data", &this->read_test_data_consumer_);
 
     // Initializing the publishes/emits table.
     //this->emits_.bind ("handle_message", &this->ctx_->endpoint_handle_message ());
     //this->publishes_.bind ("handle_message_ex", &this->ctx_->endpoints_handle_message_ex ());
-
-    // Guard the initialization of the virtual table.
-    //vtable_type::init_guard_type guard (SimpleComponent_Servant::vtable_, 1);
-
-    //if (SimpleComponent_Servant::vtable_.is_init ())
-    //  return;
   }
 
   //
@@ -78,13 +75,11 @@ namespace SimpleComponent_Basic_Impl
   {
     // First, extract the event.
     CUTS_CCM_Event_T < ::OBV_Outer::TestData_DDS > event;
-    // event <<= dds_event;
+    *event.in () <<= dds_event;
 
     // Now, puch the event to the implemetation.
     if (servant->impl_)
       servant->impl_->push_read_test_data (event.in ());
-
-    ACE_UNUSED_ARG (dds_event);
   }
 
   //
@@ -135,6 +130,7 @@ namespace SimpleComponent_Basic_Impl
 
 ::PortableServer::Servant
 create_SimpleComponent_Servant (const char * name,
+				::DDS::DomainParticipant_ptr participant,
 				::Components::EnterpriseComponent_ptr p)
 {
   ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_var executor =
@@ -143,8 +139,11 @@ create_SimpleComponent_Servant (const char * name,
   if (::CORBA::is_nil (executor.in ()))
     return 0;
 
-  ::SimpleComponent_Basic_Impl::SimpleComponent_Servant * servant = 
-      new ::SimpleComponent_Basic_Impl::SimpleComponent_Servant (name, executor.in ());
+  ::SimpleComponent_Basic_Impl::SimpleComponent_Servant * servant;
+
+  ACE_NEW_RETURN (servant,
+		  ::SimpleComponent_Basic_Impl::SimpleComponent_Servant (name, participant, executor.in ()),
+		  0);
 
   return servant;
 }

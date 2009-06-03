@@ -14,4 +14,4 @@ composition session SimpleComponent_Basic_Impl
   };
 };
 
-#endif  // !defined _HELLOWORLD_CIDL_
+#endif  // !defined _SIMPLECOMPONENT_CIDL_

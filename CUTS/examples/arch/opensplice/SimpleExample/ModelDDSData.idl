@@ -1,46 +1,40 @@
 // -*- IDL -*-
 
-#ifndef _MODEL_DDS_DATA_IDL_
-#define _MODEL_DDS_DATA_IDL_
+#ifndef _MODELDDSDATA_IDL_
+#define _MODELDDSDATA_IDL_
 
 #if defined (__DDS_IDL__)
 #define eventtype struct
 #define public
+module CUTS_DDS
+{
 #else
 #include <Components.idl>
-#endif
-
-#if defined (__DDS_IDL__)
-module DDS
-{
 #endif
 
 module Outer
 {
   module Inner
   {
-    eventtype Data_DDS
+    struct Data_DDS
     {
-      public string name;
-      public long id;
-      public boolean urgent;
+      string name;
+      long id;
+      boolean urgent;
     };
   };
   
-//#pragma DCPS_DATA_TYPE "Outer::TestData_DDS"
-//#pragma DCPS_DATA_KEY "Outer::TestData_DDS key"
-
   eventtype TestData_DDS
   {
     public unsigned short key;
     public Inner::Data_DDS packet;
   };
 
-  #pragma keylist TestData_DDS
+#pragma keylist TestData_DDS
 };
 
 #if defined (__DDS_IDL__)
 };
 #endif
 
-#endif // _MODEL_DDS_DATA_IDL_
+#endif // _MODELDDSDATA_IDL_

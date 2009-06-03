@@ -1,3 +1,31 @@
+Wed Jun  3 15:19:03 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_opensplice_ccm_stub.mpb:
+
+	  . Update the base projects.
+
+        * cuts/arch/opensplice/OpenSplice_Traits_T.h:
+	 
+	  . Trait class for events.
+
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.cpp:
+
+	  . Update the consumer to use the CUTS DDS trait class.
+
+        * examples/arch/opensplice/SimpleExample/ModelDDSData.idl:
+        * examples/arch/opensplice/SimpleExample/ModelDDSData_Base.mpc:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_ModelDDSDataC.h:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_ModelDDSDataC.cpp:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.h:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent.cidl:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Impl.mpc:
+
+          . Checkpointing the example.
+
 Wed Jun  3 07:44:45 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MPC/config/cuts_opensplice.mpb:
@@ -6,18 +34,18 @@ Wed Jun  3 07:44:45 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
         * MPC/config/cuts_opensplice_ccm_stub.mpb:
         * MPC/config/cuts_tcpip_ccm_stub.mpb:
 
-	  . Base project for building the integrated version.
+          . Base project for building the integrated version.
 
         * cuts/arch/ccm/CCM_Context_T.h:
         * cuts/arch/ccm/CCM_Servant_T.h:
         * cuts/arch/ccm/CCM_Servant_T.cpp:
 
-	  . Fixed serveral compilation errors.
+          . Fixed serveral compilation errors.
 
         * cuts/arch/dsto/DDS/dsto_dds.mpc.old:
         * cuts/arch/dsto/dsto.mpc.old:
 
-	  . Disabled the DSTO projects while integrating everthing!!
+          . Disabled the DSTO projects while integrating everthing!!
 
         * cuts/arch/opensplice:
         * cuts/arch/opensplice/OpenSplice.mpc:
@@ -37,16 +65,16 @@ Wed Jun  3 07:44:45 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
         * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.h:
         * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.cpp:
 
-	  . Checkpoint the OpenSplice runtime architecture.
+          . Checkpoint the OpenSplice runtime architecture.
 
         * examples/arch/opensplice/SimpleExample/ModelDDSData.idl:
         * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.h:
         * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.cpp:
         * examples/arch/opensplice/SimpleExample/SimpleComponent_Impl.mpc:
 
-	  . Checkpoint the OpenSplice example. Right now, we are able
-	    to build a partial servant that has a *easy* pattern to 
-	    auto-generate.
+          . Checkpoint the OpenSplice example. Right now, we are able
+            to build a partial servant that has a *easy* pattern to
+            auto-generate.
 
         * cuts/arch/dsto/DDS/dsto_dds.mpc:
         * cuts/arch/dsto/dsto.mpc:
