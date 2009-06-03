@@ -1,0 +1,11 @@
+// $Id$
+
+project (CUTS_OpenSplice) : ccm_svnt, splicelib, cutslib {
+  sharedname    = CUTS_OpenSplice
+
+  dynamicflags += CUTS_OPENSPLICE_BUILD_DLL
+ 
+  Source_Files {
+    OpenSplice_ListenerBase.cpp
+  }
+}

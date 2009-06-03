@@ -3,8 +3,8 @@
 project (SimpleComponent_CIDL_Gen) : ciaocidldefaults {
   custom_only = 1
 
-  cidlflags += --svnt-export-macro SIMPLECOMPONENT_SVNT_Export \
-               --svnt-export-include SIMPLECOMPONENT_svnt_export.h
+  cidlflags += --svnt-export-macro OPENSPLICE_SIMPLECOMPONENT_SVNT_Export \
+               --svnt-export-include OPENSPLICE_SIMPLECOMPONENT_svnt_export.h
 
   CIDL_Files {
     SimpleComponent.cidl
@@ -76,6 +76,10 @@ project (OpenSplice_SimpleComponent_svnt) : cuts_opensplice_ccm, cuts_codegen_de
   }
 
   Inline_Files {
+
+  }
+
+  IDL_Files {
 
   }
 }

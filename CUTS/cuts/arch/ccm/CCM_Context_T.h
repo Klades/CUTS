@@ -14,6 +14,7 @@
 #define _CUTS_CCM_CONTEXT_T_H_
 
 #include "ccm/CCM_SessionContextC.h"
+#include "CCM_export.h"
 
 /**
  * @class CUTS_CCM_Context_T
@@ -35,10 +36,10 @@ public:
    * @param[in]       svnt_mgr        Manager of the servant.
    * @param[in]       executor        Executor component for servant.
    */
-  CUTS_TCPIP_CCM_Context_T (SVNT & svnt);
+  CUTS_CCM_Context_T (SVNT & svnt);
 
   /// Destructor.
-  virtual ~CUTS_TCPIP_CCM_Context_T (void);
+  virtual ~CUTS_CCM_Context_T (void);
 
   // prospect template methods
   virtual ::Components::Principal_ptr get_caller_principal (void);

@@ -1,0 +1,73 @@
+// $Id$
+
+project (CUTS_OpenSplice_CCM_stub) : ccm_stub, cutslib {
+  sharedname    = CUTS_OpenSplice_CCM_stub
+  dynamicflags += CUTS_OPENSPLICE_CCM_STUB_BUILD_DLL
+
+  idlflags += -Wb,stub_export_macro=CUTS_OPENSPLICE_CCM_STUB_Export \
+              -Wb,stub_export_include=OpenSplice_CCM_stub_export.h \
+              -Wb,skel_export_macro=CUTS_OPENSPLICE_CCM_SKEL_Export \
+              -Wb,skel_export_include=OpenSplice_CCM_skel_export.h
+
+  IDL_Files {
+    Events.idl
+  }
+
+  Source_Files {
+    EventsC.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (CUTS_OpenSplice_CCM_skel) : ccm_svnt, cuts_opensplice_ccm_stub, cutslib {
+  sharedname    = CUTS_OpenSplice_CCM_skel
+  dynamicflags += CUTS_OPENSPLICE_CCM_SKEL_BUILD_DLL
+
+  Source_Files {
+    EventsS.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (CUTS_OpenSplice_CCM) : cuts_ccm, cuts_opensplice_ccm_skel, cuts_lib, cutslib {
+  sharedname    = CUTS_OpenSplice_CCM
+  dynamicflags += CUTS_OPENSPLICE_CCM_BUILD_DLL
+
+  Source_Files {
+    OpenSplice_EventConsumer.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+}

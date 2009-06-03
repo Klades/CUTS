@@ -1,0 +1,6 @@
+// $Id$
+
+project : splicelib, ccm_stub {
+  libs  += CUTS_OpenSplice_CCM_stub
+  after += CUTS_OpenSplice_CCM_stub
+}

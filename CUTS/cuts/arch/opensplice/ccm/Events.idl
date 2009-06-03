@@ -1,0 +1,17 @@
+#ifndef _CUTS_OPENSPLICE_CCM_EVENTS_IDL_
+#define _CUTS_OPENSPLICE_CCM_EVENTS_IDL_
+
+#include "ccm/CCM_Events.idl"
+
+module Components
+{
+  module OpenSplice
+  {
+    interface EventConsumer : ::Components::EventConsumerBase
+    {
+      readonly attribute string topic;
+    };
+  };
+};
+
+#endif  // !defined _CUTS_OPENSPLICE_CCM_EVENTS_IDL_

@@ -4,6 +4,10 @@
 #include "CCM_Servant_T.inl"
 #endif
 
+#include "CCM_EventConsumer.h"
+#include "CCM_Single_Subscriber.h"
+#include "CCM_Subscriber_Table.h"
+
 //
 // get_consumer
 //

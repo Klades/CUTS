@@ -21,10 +21,13 @@
 #include "ace/SString.h"
 #include "CCM_Servant.h"
 
+// Forward decl.
 class CUTS_CCM_EventConsumer;
 
+// Forward decl.
 class CUTS_CCM_Single_Subscriber;
 
+// Forward decl.
 class CUTS_CCM_Subscriber_Table;
 
 /**

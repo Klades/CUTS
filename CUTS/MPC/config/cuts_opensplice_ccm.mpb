@@ -1,0 +1,6 @@
+// $Id$
+
+project : cuts_opensplice_ccm_skel, cuts_ccm {
+  libs  += CUTS_OpenSplice_CCM
+  after += CUTS_OpenSplice_CCM
+}

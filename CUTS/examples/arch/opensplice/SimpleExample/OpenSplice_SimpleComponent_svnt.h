@@ -3,38 +3,40 @@
 #ifndef _OPENSPLICE_SIMPLECOMPONENT_SVNT_H_
 #define _OPENSPLICE_SIMPLECOMPONENT_SVNT_H_
 
-#include "SimpleComponentS.h"
-//#include "OpenSplice_HelloWorldC.h"
-
-#include "SimpleComponentEC.h"
 #include "cuts/arch/ccm/CCM_Context_T.h"
-//#include "cuts/arch/opensplice/ccm/OpenSplice_CCM_Subscriber_Table_T.h"
+#include "cuts/arch/ccm/CCM_Servant_T.h"
+#include "cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.h"
 
-#include "SimpleComponent_svnt_export.h"
+#include "ddstypes/ModelDDSDataDcpsC.h"
+#include "SimpleComponentEC.h"
+#include "SimpleComponentS.h"
+#include "OpenSplice_SimpleComponent_svnt_export.h"
 
 namespace SimpleComponent_Basic_Impl
 {
   // Forward decl.
-  class HelloWorld_Servant;
+  class SimpleComponent_Servant;
 
-  typedef CUTS_CCM_Context_T <::CCM_HelloWorld_Context, HelloWorld_Servant> HelloWorld_Servant_Context_Base;
+  typedef CUTS_CCM_Context_T < ::Example::CCM_SimpleComponent_Context, 
+			       SimpleComponent_Servant> SimpleComponent_Servant_Context_Base;
 
   /**
-   * @class HelloWorld_Servant_Context
+   * @class SimpleComponent_Servant_Context
    */
-  class HelloWorld_Servant_Context : public HelloWorld_Servant_Context_Base
+  class SimpleComponent_Servant_Context : public SimpleComponent_Servant_Context_Base
   {
     public:
     // default constructor
-    HelloWorld_Servant_Context (HelloWorld_Servant & parent);
+    SimpleComponent_Servant_Context (SimpleComponent_Servant & parent);
 
     // destructor
-    virtual ~HelloWorld_Servant_Context (void);
+    virtual ~SimpleComponent_Servant_Context (void);
 
     public:
     // push method for output event port: handle_message
     virtual void push_app_op_emit (::Outer::TestData_DDS * ev);
 
+    // CUTS_DDS_CCM_Writer_T < ::Outer::TestData_DDS > app_op_emit_;
     //CUTS_TCPIP_CCM_Remote_Endpoint & endpoint_handle_message (void);
 
     private:
@@ -44,6 +46,7 @@ namespace SimpleComponent_Basic_Impl
     // push method for output event port: handle_message_ex
     virtual void push_app_op_send (::Outer::TestData_DDS * ev);
 
+    // CUTS_DDS_CCM_Subscriber_Table < ::Outer::TestData_DDS > app_op_send_;
     //CUTS_TCPIP_CCM_Subscriber_Table & endpoints_handle_message_ex (void);
 
     private:
@@ -52,56 +55,48 @@ namespace SimpleComponent_Basic_Impl
 
 
   // Type definition of the this->servant_'s base class
-  //  typedef CUTS_TCPIP_CCM_Servant_T < 
-  //HelloWorld_Servant,
-  //HelloWorld_Servant_Context,
-  //CIDL_HelloWorld_Basic_Impl::HelloWorld_Exec,
-  //::POA_HelloWorld > HelloWorld_Servant_Base;
+  typedef CUTS_CCM_Servant_T < SimpleComponent_Servant_Context,
+                               CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec,
+			       ::POA_Example::SimpleComponent > SimpleComponent_Servant_Base;
 
   /**
-   * @class HelloWorld_Servant
+   * @class SimpleComponent_Servant
    */
-  /*class HelloWorld_Servant : public HelloWorld_Servant_Base
+  class SimpleComponent_Servant : public SimpleComponent_Servant_Base
   {
-    public:
+  public:
     // default constructor
-    HelloWorld_Servant (const char * name, 
-                        CUTS_TCPIP_Servant_Manager & svnt_mgr, 
-                        CIDL_HelloWorld_Basic_Impl::HelloWorld_Exec_ptr executor);
+    SimpleComponent_Servant (const char * name, 
+			     CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor);
 
     // destructor
-    virtual ~HelloWorld_Servant (void);
+    virtual ~SimpleComponent_Servant (void);
 
-    void connect_handle_message (::MessageConsumer_ptr);
+    void connect_app_op_emit (::Outer::TestData_DDSConsumer_ptr);
 
-    ::MessageConsumer_ptr disconnect_handle_message (void);
+    ::Outer::TestData_DDSConsumer_ptr disconnect_app_op_emit (void);
 
-    ::Components::Cookie * subscribe_handle_message_ex (::MessageConsumer_ptr);
+    ::Components::Cookie * subscribe_app_op_send (::Outer::TestData_DDSConsumer_ptr);
 
-    ::MessageConsumer_ptr unsubscribe_handle_message_ex (::Components::Cookie *);
+    ::Outer::TestData_DDSConsumer_ptr unsubscribe_app_op_send (::Components::Cookie *);
 
-    public:
-    ::MessageConsumer_ptr get_consumer_handle_message (void);
+  public:
+    ::Outer::TestData_DDSConsumer_ptr get_consumer_read_test_data (void);
 
-    static int tcpip_handle_message (HelloWorld_Servant * svnt,
-                                     CUTS_TCPIP_InputCDR & input);
+    static void deserialize_read_test_data (SimpleComponent_Servant * servant,
+					    const ::DDS::Outer::TestData_DDS & dds_event);
 
-    private:
-    CUTS_TCPIP_CCM_EventConsumer handle_message_consumer_;
-
-    public:
-    virtual void message (const char * message);
-
-    virtual char * message (void);
-
-    virtual char * readonly_message (void);
+  private:
+    CUTS_OpenSplice_CCM_EventConsumer_T < SimpleComponent_Servant,
+					  ::DDS::Outer::TestData_DDSDataReader,
+					  ::DDS::Outer::TestData_DDSSeq > read_test_data_consumer_;
+					 
   };
 }
 
-extern "C" TCPIP_HELLOWORLD_SVNT_Export
+extern "C" OPENSPLICE_SIMPLECOMPONENT_SVNT_Export
 ::PortableServer::Servant
-create_HelloWorld_Servant (const char * name,
-                           CUTS_TCPIP_Servant_Manager * svnt_mgr,
-                           ::Components::EnterpriseComponent_ptr p);
-  */
+create_SimpleComponent_Servant (const char * name,
+				::Components::EnterpriseComponent_ptr p);
+
 #endif  // !defined _TCPIP_HELLOWORLD_SVNT_H_

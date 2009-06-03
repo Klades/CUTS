@@ -16,9 +16,10 @@ namespace SimpleComponent_Basic_Impl
   {
   }
 
-  void SimpleComponent_Servant_Context::push_handle_message (::Message * ev)
+  void SimpleComponent_Servant_Context::push_app_op_emit (::Outer::TestData_DDS * ev)
   {
-    //this->handle_message_.send_event (ev);
+    //this->app_op_emit_.send_event (ev);
+    ACE_UNUSED_ARG (ev);
   }
 
   //CUTS_TCPIP_CCM_Remote_Endpoint & SimpleComponent_Servant_Context::endpoint_handle_message (void)
@@ -26,9 +27,10 @@ namespace SimpleComponent_Basic_Impl
   //  //return this->handle_message_;
   //}
 
-  void SimpleComponent_Servant_Context::push_handle_message_ex (::Message * ev)
+  void SimpleComponent_Servant_Context::push_app_op_send (::Outer::TestData_DDS * ev)
   {
-    //this->handle_message_ex_.send_event (ev);
+    //this->app_op_send_.send_event (ev);
+    ACE_UNUSED_ARG (ev);
   }
 
   //CUTS_TCPIP_CCM_Subscriber_Table & SimpleComponent_Servant_Context::endpoints_handle_message_ex (void)
@@ -36,16 +38,15 @@ namespace SimpleComponent_Basic_Impl
   //  return this->handle_message_ex_;
   //}
 
-  /*
+  
   //
   // SimpleComponent_Servant
   //
   SimpleComponent_Servant::
   SimpleComponent_Servant (const char * name,
-                           CUTS_TCPIP_Servant_Manager & svnt_mgr,
 			   ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor)
-  : SimpleComponent_Servant_Base (name, this, svnt_mgr, executor),
-    handle_message_consumer_ (this, 0)
+    : SimpleComponent_Servant_Base (name, executor),
+      read_test_data_consumer_ (this, &SimpleComponent_Servant::deserialize_read_test_data)
   {
     // Initializing the consumer table.
     //this->consumers_.bind ("handle_message", &this->handle_message_consumer_);
@@ -69,37 +70,55 @@ namespace SimpleComponent_Basic_Impl
   }
 
   //
+  // deserialize_read_test_data
+  //
+  void SimpleComponent_Servant:: 
+  deserialize_read_test_data (SimpleComponent_Servant * servant,
+			      const ::DDS::Outer::TestData_DDS & dds_event)
+  {
+    // First, extract the event.
+    CUTS_CCM_Event_T < ::OBV_Outer::TestData_DDS > event;
+    // event <<= dds_event;
+
+    // Now, puch the event to the implemetation.
+    if (servant->impl_)
+      servant->impl_->push_read_test_data (event.in ());
+
+    ACE_UNUSED_ARG (dds_event);
+  }
+
+  //
   // connect_handle_message
   //
   void SimpleComponent_Servant::
-  connect_handle_message (::MessageConsumer_ptr)
+  connect_app_op_emit (::Outer::TestData_DDSConsumer_ptr)
   {
     throw ::CORBA::NO_IMPLEMENT ();
   }
 
   //
-  // disconnect_handle_message
+  // disconnect_app_op_emit
   //
-  ::MessageConsumer_ptr SimpleComponent_Servant::
-  disconnect_handle_message (void)
+  ::Outer::TestData_DDSConsumer_ptr SimpleComponent_Servant::
+  disconnect_app_op_emit (void)
   {
     throw ::CORBA::NO_IMPLEMENT ();
   }
 
   //
-  // subscribe_handle_message_ex
+  // subscribe_app_op_send
   //
   ::Components::Cookie * SimpleComponent_Servant::
-  subscribe_handle_message_ex (::MessageConsumer_ptr)
+  subscribe_app_op_send (::Outer::TestData_DDSConsumer_ptr)
   {
     throw ::CORBA::NO_IMPLEMENT ();
   }
 
   //
-  // unsubscribe_handle_message_ex
+  // unsubscribe_app_op_send
   //
-  ::MessageConsumer_ptr SimpleComponent_Servant::
-  unsubscribe_handle_message_ex (::Components::Cookie *)
+  ::Outer::TestData_DDSConsumer_ptr SimpleComponent_Servant::
+  unsubscribe_app_op_send (::Components::Cookie *)
   {
     throw ::CORBA::NO_IMPLEMENT ();
   }
@@ -107,71 +126,28 @@ namespace SimpleComponent_Basic_Impl
   //
   // get_consumer_handle_message
   //
-  ::MessageConsumer_ptr SimpleComponent_Servant::
-  get_consumer_handle_message (void)
+  ::Outer::TestData_DDSConsumer_ptr SimpleComponent_Servant::
+  get_consumer_read_test_data (void)
   {
     throw ::CORBA::NO_IMPLEMENT ();
-  }
-
-  //
-  // tcpip_handle_message
-  //
-  int SimpleComponent_Servant::
-  tcpip_handle_message (SimpleComponent_Servant * svnt, CUTS_TCPIP_InputCDR & stream)
-  {
-    // Extract the event from the stream.
-    CUTS_CCM_Event_T < ::OBV_Message > event;
-
-    if (!(stream >> *event.in ()))
-    {
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         ACE_TEXT ("%T (%t) - %M - failed to extract %s from stream\n"),
-                         ACE_TEXT ("::Message")),
-                        -1);
-    }
-
-    // Push the message to the implementation.
-    if (svnt->impl_)
-      svnt->impl_->push_handle_message (event.in ());
-
-    return 0;
-  }
-
-
-  void SimpleComponent_Servant::message (const char * message)
-  {
-    if (this->impl_)
-      this->impl_->message (message);
-    else
-      throw ::CORBA::INTERNAL ();
-  }
-
-  char * SimpleComponent_Servant::message (void)
-  {
-    if (this->impl_)
-      return this->impl_->message ();
-    else
-      throw ::CORBA::INTERNAL ();
-  }
-
-  char * SimpleComponent_Servant::readonly_message (void)
-  {
-    if (this->impl_)
-      return this->impl_->readonly_message ();
-    else
-      throw ::CORBA::INTERNAL ();
   }
 }
 
 ::PortableServer::Servant
 create_SimpleComponent_Servant (const char * name,
-                           CUTS_TCPIP_Servant_Manager * svnt_mgr,
-                           ::Components::EnterpriseComponent_ptr p)
+				::Components::EnterpriseComponent_ptr p)
 {
-  return ::CUTS_TCPIP::CCM::create_servant <
-    ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec,
-    ::TCPIP_SimpleComponent_Basic_Impl::SimpleComponent_Servant > (name, svnt_mgr, p);
+  ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_var executor =
+    ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec::_narrow (p);
+
+  if (::CORBA::is_nil (executor.in ()))
+    return 0;
+
+  ::SimpleComponent_Basic_Impl::SimpleComponent_Servant * servant = 
+      new ::SimpleComponent_Basic_Impl::SimpleComponent_Servant (name, executor.in ());
+
+  return servant;
 }
 
-  */
+
 

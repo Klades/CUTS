@@ -1,6 +1,6 @@
 // $Id$
 
-project : ccm_stub, cuts_tcpip {
+project : ccm_stub, cuts_opensplice {
   libs  += CUTS_TCPIP_CCM_stub
   after += CUTS_TCPIP_CCM_stub
 }
