@@ -16,7 +16,7 @@
 #include "cuts/arch/ccm/CCM_Container_Strategy_T.h"
 
 // Forward decl.
-class CUTS_TCPIP_CCM_ComponentServer;
+class CUTS_TCPIP_CCM_Container;
 
 /**
  * @class CUTS_TCPIP_CCM_Container_Strategy
@@ -24,12 +24,12 @@ class CUTS_TCPIP_CCM_ComponentServer;
  * Implementation of the CCM container startegy for TCP/IP.
  */
 class CUTS_TCPIP_CCM_Container_Strategy :
-  public CUTS_CCM_Container_Strategy_T <CUTS_TCPIP_CCM_ComponentServer>
+  public CUTS_CCM_Container_Strategy_T <CUTS_TCPIP_CCM_Container>
 {
 public:
-  typedef CUTS_CCM_Container_Strategy_T <CUTS_TCPIP_CCM_ComponentServer> base_type;
+  typedef CUTS_CCM_Container_Strategy_T <CUTS_TCPIP_CCM_Container> base_type;
 
-  CUTS_TCPIP_CCM_Container_Strategy (CUTS_TCPIP_CCM_ComponentServer * server);
+  CUTS_TCPIP_CCM_Container_Strategy (CUTS_TCPIP_CCM_Container * container);
 
   virtual ~CUTS_TCPIP_CCM_Container_Strategy (void);
 

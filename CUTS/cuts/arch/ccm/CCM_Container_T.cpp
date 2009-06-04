@@ -40,14 +40,14 @@ private:
 //
 // CUTS_CCM_Container_T
 //
-template <typename SERVER, typename STRATEGY>
+template <typename CONTAINER, typename STRATEGY>
 CUTS_INLINE
-CUTS_CCM_Container_T <SERVER, STRATEGY>::
-CUTS_CCM_Container_T (SERVER * server,
+CUTS_CCM_Container_T <CONTAINER, STRATEGY>::
+CUTS_CCM_Container_T (CONTAINER * container,
                       const Components::ConfigValues & config,
                       ::PortableServer::POA_ptr poa,
                       ::Components::Deployment::ComponentInstallation_ptr installer)
-: server_ (server),
+: container_ (container),
   poa_ (::PortableServer::POA::_duplicate (poa)),
   installer_ (::Components::Deployment::ComponentInstallation::_duplicate (installer))
 {
@@ -55,7 +55,7 @@ CUTS_CCM_Container_T (SERVER * server,
   STRATEGY * strategy = 0;
 
   ACE_NEW_THROW_EX (strategy,
-                    STRATEGY (this->server_),
+                    STRATEGY (this->container_),
                     ::CORBA::NO_MEMORY ());
 
   this->strategy_.reset (strategy);
@@ -75,8 +75,8 @@ CUTS_CCM_Container_T (SERVER * server,
 //
 // copy
 //
-template <typename SERVER, typename STRATEGY>
-void CUTS_CCM_Container_T <SERVER, STRATEGY>::
+template <typename CONTAINER, typename STRATEGY>
+void CUTS_CCM_Container_T <CONTAINER, STRATEGY>::
 copy (::Components::ConfigValues & dst,
       const ::Components::ConfigValues & src)
 {
@@ -93,9 +93,9 @@ copy (::Components::ConfigValues & dst,
 //
 // configuration
 //
-template <typename SERVER, typename STRATEGY>
+template <typename CONTAINER, typename STRATEGY>
 Components::ConfigValues *
-CUTS_CCM_Container_T <SERVER, STRATEGY>::configuration (void)
+CUTS_CCM_Container_T <CONTAINER, STRATEGY>::configuration (void)
 {
   ::Components::ConfigValues * temp = 0;
   CORBA::ULong length = this->config_->length ();
@@ -113,9 +113,9 @@ CUTS_CCM_Container_T <SERVER, STRATEGY>::configuration (void)
 //
 // get_component_server
 //
-template <typename SERVER, typename STRATEGY>
+template <typename CONTAINER, typename STRATEGY>
 ::Components::Deployment::ComponentServer_ptr
-CUTS_CCM_Container_T <SERVER, STRATEGY>::get_component_server (void)
+CUTS_CCM_Container_T <CONTAINER, STRATEGY>::get_component_server (void)
 {
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("get_component_server (void)\n")));
@@ -126,8 +126,8 @@ CUTS_CCM_Container_T <SERVER, STRATEGY>::get_component_server (void)
 //
 // install_home
 //
-template <typename SERVER, typename STRATEGY>
-::Components::CCMHome_ptr CUTS_CCM_Container_T <SERVER, STRATEGY>::
+template <typename CONTAINER, typename STRATEGY>
+::Components::CCMHome_ptr CUTS_CCM_Container_T <CONTAINER, STRATEGY>::
 install_home (const char * , const char * , const ::Components::ConfigValues & )
 {
   ACE_DEBUG ((LM_DEBUG,
@@ -140,8 +140,8 @@ install_home (const char * , const char * , const ::Components::ConfigValues & )
 //
 // remove_home
 //
-template <typename SERVER, typename STRATEGY>
-void CUTS_CCM_Container_T <SERVER, STRATEGY>::remove_home (::Components::CCMHome_ptr)
+template <typename CONTAINER, typename STRATEGY>
+void CUTS_CCM_Container_T <CONTAINER, STRATEGY>::remove_home (::Components::CCMHome_ptr)
 {
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("remove_home (::Components::CCMHome_ptr)")));
@@ -152,8 +152,8 @@ void CUTS_CCM_Container_T <SERVER, STRATEGY>::remove_home (::Components::CCMHome
 //
 // get_homes
 //
-template <typename SERVER, typename STRATEGY>
-Components::CCMHomes * CUTS_CCM_Container_T <SERVER, STRATEGY>::get_homes (void)
+template <typename CONTAINER, typename STRATEGY>
+Components::CCMHomes * CUTS_CCM_Container_T <CONTAINER, STRATEGY>::get_homes (void)
 {
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("get_homes (void)\n")));
@@ -164,8 +164,8 @@ Components::CCMHomes * CUTS_CCM_Container_T <SERVER, STRATEGY>::get_homes (void)
 //
 // remove
 //
-template <typename SERVER, typename STRATEGY>
-void CUTS_CCM_Container_T <SERVER, STRATEGY>::remove (void)
+template <typename CONTAINER, typename STRATEGY>
+void CUTS_CCM_Container_T <CONTAINER, STRATEGY>::remove (void)
 {
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - removing all components in the container\n")));
@@ -191,8 +191,8 @@ void CUTS_CCM_Container_T <SERVER, STRATEGY>::remove (void)
 //
 // install_component
 //
-template <typename SERVER, typename STRATEGY>
-::Components::CCMObject_ptr CUTS_CCM_Container_T <SERVER, STRATEGY>::
+template <typename CONTAINER, typename STRATEGY>
+::Components::CCMObject_ptr CUTS_CCM_Container_T <CONTAINER, STRATEGY>::
 install_component (const char * id,
                    const char * entrypt,
                    const ::Components::ConfigValues & config)
@@ -287,6 +287,8 @@ install_component (const char * id,
   PortableServer::ObjectId_var oid = this->poa_->activate_object (servant.in ());
   this->components_.bind (id, servant);
 
+  ACE_OS::sleep (15);
+
   // Get a reference for to the servant.
   ::CORBA::Object_var obj = this->poa_->id_to_reference (oid.in ());
   ::Components::CCMObject_var component = ::Components::CCMObject::_narrow (obj.in ());
@@ -297,8 +299,8 @@ install_component (const char * id,
 //
 // activate_component
 //
-template <typename SERVER, typename STRATEGY>
-void CUTS_CCM_Container_T <SERVER, STRATEGY>::activate_component (::Components::CCMObject_ptr comp)
+template <typename CONTAINER, typename STRATEGY>
+void CUTS_CCM_Container_T <CONTAINER, STRATEGY>::activate_component (::Components::CCMObject_ptr comp)
 {
   // Locate the servant for the object reference.
   PortableServer::ServantBase_var base = this->poa_->reference_to_servant (comp);
@@ -321,8 +323,8 @@ void CUTS_CCM_Container_T <SERVER, STRATEGY>::activate_component (::Components::
 //
 // passivate_component
 //
-template <typename SERVER, typename STRATEGY>
-void CUTS_CCM_Container_T <SERVER, STRATEGY>::passivate_component (::Components::CCMObject_ptr comp)
+template <typename CONTAINER, typename STRATEGY>
+void CUTS_CCM_Container_T <CONTAINER, STRATEGY>::passivate_component (::Components::CCMObject_ptr comp)
 {
   // Locate the servant for the object reference.
   PortableServer::ServantBase_var base = this->poa_->reference_to_servant (comp);
@@ -345,8 +347,8 @@ void CUTS_CCM_Container_T <SERVER, STRATEGY>::passivate_component (::Components:
 //
 // remove_component
 //
-template <typename SERVER, typename STRATEGY>
-void CUTS_CCM_Container_T <SERVER, STRATEGY>::remove_component (::Components::CCMObject_ptr cref)
+template <typename CONTAINER, typename STRATEGY>
+void CUTS_CCM_Container_T <CONTAINER, STRATEGY>::remove_component (::Components::CCMObject_ptr cref)
 {
   // Locate the servant for the object reference.
   PortableServer::ServantBase_var base = this->poa_->reference_to_servant (cref);
@@ -376,9 +378,9 @@ void CUTS_CCM_Container_T <SERVER, STRATEGY>::remove_component (::Components::CC
 //
 // get_components
 //
-template <typename SERVER, typename STRATEGY>
+template <typename CONTAINER, typename STRATEGY>
 ::Components::CCMObjectSeq *
-CUTS_CCM_Container_T <SERVER, STRATEGY>::get_components (void)
+CUTS_CCM_Container_T <CONTAINER, STRATEGY>::get_components (void)
 {
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("get_components (void)\n")));

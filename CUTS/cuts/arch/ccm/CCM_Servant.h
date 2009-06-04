@@ -13,7 +13,7 @@
 #ifndef _CUTS_CCM_SERVANT_H_
 #define _CUTS_CCM_SERVANT_H_
 
-#include "ccm/CCM_ObjectS.h"
+#include "tao/PortableServer/Servant_Base.h"
 #include "ace/SString.h"
 #include "CCM_export.h"
 
@@ -24,7 +24,7 @@
  * methods for interfacing with the CUTS_CCM_Container object.
  */
 class CUTS_CCM_Export CUTS_CCM_Servant :
-  public virtual POA_Components::CCMObject
+  public virtual ::PortableServer::ServantBase
 {
 public:
   /**

@@ -23,13 +23,13 @@
 /**
  * @class CUTS_CCM_Container
  */
-template <typename SERVER, typename STRATEGY>
+template <typename CONTAINER, typename STRATEGY>
 class CUTS_CCM_Container_T :
   public POA_CIAO::Deployment::Container
 {
 public:
   /// Type definition of the container's component server.
-  typedef SERVER server_type;
+  typedef CONTAINER container_type;
 
   /// Type definition of the container's strategy.
   typedef STRATEGY strategy_type;
@@ -37,7 +37,7 @@ public:
   /**
    * Initializing constructor.
    */
-  CUTS_CCM_Container_T (SERVER * parent,
+  CUTS_CCM_Container_T (CONTAINER * parent,
                         const Components::ConfigValues & config,
                         ::PortableServer::POA_ptr poa,
                         ::Components::Deployment::ComponentInstallation_ptr installer);
@@ -75,8 +75,8 @@ public:
 protected:
   void copy (::Components::ConfigValues & dst, const ::Components::ConfigValues & src);
 
-  /// The parent component server for the container.
-  SERVER * server_;
+  /// Pointer to the concrete container object.
+  CONTAINER * container_;
 
   /// The actual strategy for the container.
   ACE_Auto_Ptr <STRATEGY> strategy_;

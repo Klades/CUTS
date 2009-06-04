@@ -21,14 +21,14 @@
 /**
  * @class CUTS_CCM_Container_Strategy_T
  */
-template <typename SERVER>
+template <typename CONTAINER>
 class CUTS_CCM_Container_Strategy_T
 {
 public:
   /// Type definition of the servant type.
-  typedef SERVER server_type;
+  typedef CONTAINER server_type;
 
-  CUTS_CCM_Container_Strategy_T (SERVER * server);
+  CUTS_CCM_Container_Strategy_T (CONTAINER * server);
 
   virtual ~CUTS_CCM_Container_Strategy_T (void);
 
@@ -44,7 +44,7 @@ public:
 
 protected:
   /// Pointer to the component server hosting the container.
-  SERVER * server_;
+  CONTAINER * container_;
 };
 
 #if defined (__CUTS_INLINE__)

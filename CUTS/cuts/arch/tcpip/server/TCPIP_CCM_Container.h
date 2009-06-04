@@ -29,20 +29,29 @@ class CUTS_TCPIP_CCM_ComponentServer;
  * @class CUTS_TCPIP_CCM_Container
  */
 class CUTS_TCPIP_CCM_Container :
-  public CUTS_CCM_Container_T <CUTS_TCPIP_CCM_ComponentServer,
+  public CUTS_CCM_Container_T <CUTS_TCPIP_CCM_Container,
                                CUTS_TCPIP_CCM_Container_Strategy>
 {
 public:
   typedef
-    CUTS_CCM_Container_T <CUTS_TCPIP_CCM_ComponentServer,
+    CUTS_CCM_Container_T <CUTS_TCPIP_CCM_Container,
                           CUTS_TCPIP_CCM_Container_Strategy> base_type;
 
-  CUTS_TCPIP_CCM_Container (CUTS_TCPIP_CCM_ComponentServer * parent,
+  CUTS_TCPIP_CCM_Container (CUTS_TCPIP_CCM_ComponentServer * server,
                             const Components::ConfigValues & config,
                             ::PortableServer::POA_ptr poa,
                             ::Components::Deployment::ComponentInstallation_ptr installer);
 
   virtual ~CUTS_TCPIP_CCM_Container (void);
+
+  /**
+   * Get a pointer to the component's server. This will be the
+   * server that created the container.
+   */
+  CUTS_TCPIP_CCM_ComponentServer * server (void);
+
+private:
+  CUTS_TCPIP_CCM_ComponentServer * server_;
 };
 
 #if defined (__CUTS_INLINE__)

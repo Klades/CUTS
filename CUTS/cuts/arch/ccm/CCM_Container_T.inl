@@ -4,9 +4,9 @@
 //
 // ~CUTS_CCM_Container_T
 //
-template <typename SERVER, typename STRATEGY>
+template <typename CONTAINER, typename STRATEGY>
 CUTS_INLINE
-CUTS_CCM_Container_T <SERVER, STRATEGY>::~CUTS_CCM_Container_T (void)
+CUTS_CCM_Container_T <CONTAINER, STRATEGY>::~CUTS_CCM_Container_T (void)
 {
 
 }

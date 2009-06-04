@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_OpenSplice_CCM_stub) : ccm_stub, cutslib {
+project (CUTS_OpenSplice_CCM_stub) : requires_opensplice, ccm_stub, cutslib {
   sharedname    = CUTS_OpenSplice_CCM_stub
   dynamicflags += CUTS_OPENSPLICE_CCM_STUB_BUILD_DLL
 

@@ -1,6 +1,6 @@
 // $Id$
 
-project : splicelib {
+project : requires_opensplice, splicelib {
   libs  += CUTS_OpenSplice
-  after += CUTS_OpenSplice 
+  after += CUTS_OpenSplice
 }

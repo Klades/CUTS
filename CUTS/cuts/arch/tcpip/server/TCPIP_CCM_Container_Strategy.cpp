@@ -6,7 +6,8 @@
 #include "TCPIP_CCM_Container_Strategy.inl"
 #endif
 
-#include "TCPIP_CCM_ComponentServer.h"
+#include "TCPIP_CCM_Container.h"
+#include "cuts/arch/tcpip/ccm/TCPIP_CCM_Servant.h"
 
 //
 // load_executor
@@ -77,6 +78,28 @@ load_servant (const char * name,
   ptrdiff_t tmp_ptr = reinterpret_cast <ptrdiff_t> (symbol);
   ServantFactoryMethod factory_method = reinterpret_cast <ServantFactoryMethod> (tmp_ptr);
 
-  return factory_method (name, &this->server_->the_ORB ().the_OM (), executor);
+  ACE_OS::sleep (15);
+
+  ::PortableServer::Servant servant =
+    (*factory_method) (name, &this->container_->server ()->the_ORB ().the_OM (), executor);
+
+  //// Register the TCP/IP servent with the object manager.
+  //CUTS_TCPIP_CCM_Servant * tcpip_servant =
+  //  dynamic_cast <CUTS_TCPIP_CCM_Servant *> (servant);
+
+  //if (0 != tcpip_servant)
+  //{
+  //  this->container_->server ()->the_ORB ().the_OM ().activate_object (tcpip_servant);
+  //}
+  //else
+  //{
+  //  ACE_ERROR ((LM_ERROR,
+  //              ACE_TEXT ("%T (%T) - %M - %s is not a TCP/IP servant\n"),
+  //              name));
+
+  //  // should we throw an exception here??
+  //}
+
+  return servant;
 }
 
