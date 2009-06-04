@@ -23,7 +23,7 @@
 /**
  * @class CUTS_CCM_Container
  */
-template <typename CONTAINER, typename STRATEGY>
+template <typename CONTAINER, typename STRATEGY, typename SERVANT_BASE>
 class CUTS_CCM_Container_T :
   public POA_CIAO::Deployment::Container
 {
@@ -33,6 +33,9 @@ public:
 
   /// Type definition of the container's strategy.
   typedef STRATEGY strategy_type;
+
+  /// Type definition of the servant base type.
+  typedef SERVANT_BASE servant_base_type;
 
   /**
    * Initializing constructor.

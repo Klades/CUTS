@@ -78,8 +78,6 @@ load_servant (const char * name,
   ptrdiff_t tmp_ptr = reinterpret_cast <ptrdiff_t> (symbol);
   ServantFactoryMethod factory_method = reinterpret_cast <ServantFactoryMethod> (tmp_ptr);
 
-  ACE_OS::sleep (15);
-
   ::PortableServer::Servant servant =
     (*factory_method) (name, &this->container_->server ()->the_ORB ().the_OM (), executor);
 

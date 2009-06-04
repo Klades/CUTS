@@ -1,3 +1,18 @@
+Thu Jun  4 23:49:54 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/ccm/CCM_Container_T.h:
+        * cuts/arch/ccm/CCM_Container_T.inl:
+        * cuts/arch/ccm/CCM_Container_T.cpp:
+        * cuts/arch/ccm/CCM_Servant.h:
+        * cuts/arch/ccm/CCM_Servant.inl:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container_Strategy.cpp:
+
+          . The container template is now parameterizable by the servant
+            base type. This allows the container to cast the ServantBase
+            to a more domain-specific servant base for configuration
+            purposes.
+
 Thu Jun  4 23:23:19 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/opensplice/OpenSplice.mpc:

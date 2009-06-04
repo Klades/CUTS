@@ -18,11 +18,14 @@
 #include "ace/Hash_Map_Manager.h"
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/SString.h"
+
 #include "cuts/arch/ccm/CCM_Container_T.h"
+#include "cuts/arch/ccm/CCM_Servant.h"
 #include "cuts/arch/tcpip/config.h"
 #include "TCPIP_CCM_Container_Strategy.h"
 #include "TCPIP_CCM_ComponentServer.h"
 
+// Forward decl.
 class CUTS_TCPIP_CCM_ComponentServer;
 
 /**
@@ -30,12 +33,14 @@ class CUTS_TCPIP_CCM_ComponentServer;
  */
 class CUTS_TCPIP_CCM_Container :
   public CUTS_CCM_Container_T <CUTS_TCPIP_CCM_Container,
-                               CUTS_TCPIP_CCM_Container_Strategy>
+                               CUTS_TCPIP_CCM_Container_Strategy,
+                               CUTS_CCM_Servant>
 {
 public:
   typedef
     CUTS_CCM_Container_T <CUTS_TCPIP_CCM_Container,
-                          CUTS_TCPIP_CCM_Container_Strategy> base_type;
+                          CUTS_TCPIP_CCM_Container_Strategy,
+                          CUTS_CCM_Servant> base_type;
 
   CUTS_TCPIP_CCM_Container (CUTS_TCPIP_CCM_ComponentServer * server,
                             const Components::ConfigValues & config,

@@ -36,20 +36,20 @@ public:
   virtual ~CUTS_CCM_Servant (void);
 
   /// Method for activating a component.
-  virtual void activate_component (void) = 0;
+  virtual void activate_component (void);
 
   /// Method for passivating a component.
-  virtual void passivate_component (void) = 0;
+  virtual void passivate_component (void);
 
   /// Method for removing a component.
-  virtual void remove (void) = 0;
+  virtual void remove (void);
 
   /**
    * Get the instance's name.
    *
    * @return        Name of the instance.
    */
-  const ACE_CString & name (void) const;
+  virtual const ACE_CString & name (void) const;
 
 protected:
   /// Name of the CCM servant.
