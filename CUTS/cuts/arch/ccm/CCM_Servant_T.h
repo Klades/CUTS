@@ -13,9 +13,7 @@
 #ifndef _CUTS_CCM_SERVANT_T_H_
 #define _CUTS_CCM_SERVANT_T_H_
 
-#include "ccm/CCM_EventsS.h"
-#include "ccm/CCM_HomeS.h"
-#include "ccm/CCM_EnumerationS.h"
+#include "ccm/CCM_ObjectS.h"
 #include "ace/Hash_Map_Manager.h"
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/SString.h"
