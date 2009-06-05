@@ -7,16 +7,16 @@
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 CUTS_INLINE
 CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
-CUTS_CCM_Servant_T (T * servant, const char * name, typename EXECUTOR::_ptr_type exec)
+CUTS_CCM_Servant_T (const char * name, typename EXECUTOR::_ptr_type exec)
 : SERVANT_BASE (name),
-  impl_ (EXECUTOR::_duplicate (exec)),
-  servant_ (servant)
+  impl_ (EXECUTOR::_duplicate (exec))
 {
   // Create the context for the servant/executor.
   CONTEXT * context = 0;
+  T * self = dynamic_cast <T *> (this);
 
   ACE_NEW_THROW_EX (context,
-                    CONTEXT (*servant),
+                    CONTEXT (*self),
                     ::CORBA::NO_MEMORY ());
 
   // Set the session context of the implementation.

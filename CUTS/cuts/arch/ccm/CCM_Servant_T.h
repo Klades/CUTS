@@ -47,12 +47,10 @@ public:
   /**
    * Initializing constructor.
    *
-   * @param[in]       servant         The parent servant
    * @param[in]       svnt_mgr        Manager of the servant.
    * @param[in]       executor        Executor component for servant.
    */
-  CUTS_CCM_Servant_T (T * servant,
-                      const char * name,
+  CUTS_CCM_Servant_T (const char * name,
                       typename EXECUTOR::_ptr_type exec);
 
   /// Destructor.
@@ -153,9 +151,6 @@ protected:
 
   /// The implemenation for this servant.
   typename EXECUTOR::_var_type impl_;
-
-  /// Pointer the concrete servant type.
-  T * servant_;
 };
 
 #if defined (__CUTS_INLINE__)

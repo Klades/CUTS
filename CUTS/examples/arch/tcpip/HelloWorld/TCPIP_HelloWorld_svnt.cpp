@@ -45,7 +45,7 @@ namespace TCPIP_HelloWorld_Basic_Impl
   HelloWorld_Servant::
   HelloWorld_Servant (const char * name,
                       ::CIDL_HelloWorld_Basic_Impl::HelloWorld_Exec_ptr executor)
-  : HelloWorld_Servant_Base (this, name, executor),
+  : HelloWorld_Servant_Base (name, executor),
     handle_message_consumer_ (this, 0)
   {
     // Initializing the consumer table.
