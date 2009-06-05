@@ -103,7 +103,7 @@ Components::Deployment::Container_ptr
 CUTS_CCM_ComponentServer_T <T, CONTAINER>::
 create_container (const Components::ConfigValues & config)
 {
-  CUTS_TCPIP_CCM_Container * servant = 0;
+  CONTAINER * servant = 0;
   T * self = dynamic_cast <T *> (this);
 
   ACE_NEW_THROW_EX (servant,
@@ -162,7 +162,7 @@ CUTS_CCM_ComponentServer_T <T, CONTAINER>::get_containers (void)
   Components::Deployment::Containers_var containers = temp;
   containers->length (length);
 
-  container_set::CONST_ITERATOR iter (this->containers_);
+  typename container_set::CONST_ITERATOR iter (this->containers_);
   CORBA::ULong i = 0;
 
   CORBA::Object_var obj;

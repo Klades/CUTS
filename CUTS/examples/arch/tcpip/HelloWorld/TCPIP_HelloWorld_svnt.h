@@ -23,7 +23,7 @@ namespace TCPIP_HelloWorld_Basic_Impl
   // Forward decl.
   class HelloWorld_Servant;
 
-  typedef CUTS_TCPIP_CCM_Context_T <::CCM_HelloWorld_Context, HelloWorld_Servant> HelloWorld_Servant_Context_Base;
+  typedef CUTS_TCPIP_CCM_Context_T < ::CCM_HelloWorld_Context, HelloWorld_Servant > HelloWorld_Servant_Context_Base;
 
   /**
    * @class HelloWorld_Servant_Context

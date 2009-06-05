@@ -1,3 +1,12 @@
+Fri Jun  5 07:30:34 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/ccm/CCM_ComponentServer_T.cpp:
+        * cuts/arch/tcpip/TCPIP_Servant_VTable_T.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Impl.mpc:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.h:
+
+	  . Fixed build errors on non-Windows systems.
+
 Fri Jun  5 07:14:28 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Context_Generator.cpp:

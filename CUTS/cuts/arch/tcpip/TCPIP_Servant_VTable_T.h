@@ -32,7 +32,7 @@ class CUTS_TCPIP_Servant_VTable_T
 {
 public:
   // Friend decl.
-  friend class CUTS_TCPIP_Servant_VTable_Init_Guard_T;
+  friend class CUTS_TCPIP_Servant_VTable_Init_Guard_T <T>;
 
   /// Type definition of the initialization guard.
   typedef CUTS_TCPIP_Servant_VTable_Init_Guard_T <T> init_guard_type;

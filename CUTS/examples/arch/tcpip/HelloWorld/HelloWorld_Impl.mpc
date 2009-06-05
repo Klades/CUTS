@@ -25,8 +25,8 @@ project (HelloWorld_EIDL_Gen) : ciaoidldefaults {
   }
 }
 
-project (HelloWorld_Exec) : ciao_executor, cuts_tcpip, cuts_codegen_defaults {
-  sharedname    = HelloWorld_Exec
+project (HelloWorld_exec) : ciao_executor, cuts_tcpip, cuts_codegen_defaults {
+  sharedname    = HelloWorld_exec
   dynamicflags += HELLOWORLD_EXEC_BUILD_DLL
 
   after += HelloWorld_EIDL_Gen \
