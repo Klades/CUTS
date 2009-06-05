@@ -1,3 +1,13 @@
+Fri Jun  5 07:10:46 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Project_Generator.cpp:
+
+          . Bug fix where the excutor project was misspelled.
+
+        * examples/arch/tcpip/HelloWorld/descriptors/run_test.pl:
+
+          . Script for running the example.
+
 Fri Jun  5 06:57:43 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/ccm/CCM_ComponentServer_App_T.h:

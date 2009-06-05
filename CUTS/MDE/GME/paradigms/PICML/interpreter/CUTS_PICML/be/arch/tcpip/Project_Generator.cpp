@@ -130,7 +130,7 @@ void CUTS_BE_Project_Write_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_Impl_Node>::
 generate_exec_project (const CUTS_BE_Impl_Node & node)
 {
   std::string project_name (node.name_);
-  project_name += "_Exec";
+  project_name += "_exec";
 
   std::string macro_basename (node.name_);
 
