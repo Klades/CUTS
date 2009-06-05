@@ -44,9 +44,8 @@ namespace TCPIP_HelloWorld_Basic_Impl
   //
   HelloWorld_Servant::
   HelloWorld_Servant (const char * name,
-                      CUTS_TCPIP_Servant_Manager & svnt_mgr,
                       ::CIDL_HelloWorld_Basic_Impl::HelloWorld_Exec_ptr executor)
-  : HelloWorld_Servant_Base (name, this, svnt_mgr, executor),
+  : HelloWorld_Servant_Base (this, name, executor),
     handle_message_consumer_ (this, 0)
   {
     // Initializing the consumer table.
@@ -57,12 +56,12 @@ namespace TCPIP_HelloWorld_Basic_Impl
     this->publishes_.bind ("handle_message_ex", &this->ctx_->endpoints_handle_message_ex ());
 
     // Guard the initialization of the virtual table.
-    vtable_type::init_guard_type guard (HelloWorld_Servant::vtable_, 1);
+    vtable_type::init_guard_type guard (HelloWorld_Servant::table_, 1);
 
-    if (HelloWorld_Servant::vtable_.is_init ())
+    if (HelloWorld_Servant::table_.is_init ())
       return;
 
-    HelloWorld_Servant::vtable_[0] = &HelloWorld_Servant::tcpip_handle_message;
+    HelloWorld_Servant::table_[0] = &HelloWorld_Servant::tcpip_handle_message;
   }
 
   //
@@ -169,12 +168,11 @@ namespace TCPIP_HelloWorld_Basic_Impl
 
 ::PortableServer::Servant
 create_HelloWorld_Servant (const char * name,
-                           CUTS_TCPIP_Servant_Manager * svnt_mgr,
                            ::Components::EnterpriseComponent_ptr p)
 {
   return ::CUTS_TCPIP::CCM::create_servant <
     ::CIDL_HelloWorld_Basic_Impl::HelloWorld_Exec,
-    ::TCPIP_HelloWorld_Basic_Impl::HelloWorld_Servant > (name, svnt_mgr, p);
+    ::TCPIP_HelloWorld_Basic_Impl::HelloWorld_Servant > (name, p);
 }
 
 

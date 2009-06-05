@@ -17,11 +17,9 @@ namespace CUTS_TCPIP
 {
 namespace CCM
 {
-  template <typename EXEC, typename SVNT>
+  template <typename EXECUTOR, typename SERVANT>
   ::PortableServer::Servant
-  create_servant (const char * name,
-                  CUTS_TCPIP_Servant_Manager * svnt_mgr,
-                  ::Components::EnterpriseComponent_ptr p);
+  create_servant (const char * name, ::Components::EnterpriseComponent_ptr p);
 }
 }
 

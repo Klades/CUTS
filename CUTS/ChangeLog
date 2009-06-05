@@ -1,3 +1,26 @@
+Fri Jun  5 01:08:21 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/ccm/CCM_Container_T.cpp:
+        * cuts/arch/ccm/CCM_Servant_T.h:
+        * cuts/arch/ccm/CCM_Servant_T.inl:
+        * cuts/arch/ccm/CCM_Servant_T.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_T.cpp:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container_Strategy.cpp:
+
+          . Refactored the servant's template class so that it can be
+            used with other architectures more easily.
+
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.cpp:
+
+          . Updated the generated servant's source code.
+
 Thu Jun  4 23:49:54 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/ccm/CCM_Container_T.h:

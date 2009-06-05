@@ -19,7 +19,6 @@
 #include "ace/Hash_Map_Manager.h"
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/SString.h"
-#include "CCM_Servant.h"
 
 // Forward decl.
 class CUTS_CCM_EventConsumer;
@@ -33,17 +32,17 @@ class CUTS_CCM_Subscriber_Table;
 /**
  * @class CUTS_CCM_Servant_T
  */
-template <typename CONTEXT, typename EXEC, typename POA_EXEC>
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 class CUTS_CCM_Servant_T :
   public POA_EXEC,
-  public CUTS_CCM_Servant
+  public SERVANT_BASE
 {
 public:
   /// Type definition of the context type.
   typedef CONTEXT context_type;
 
   /// Type definition of the executor type.
-  typedef EXEC executor_type;
+  typedef EXECUTOR executor_type;
 
   /**
    * Initializing constructor.
@@ -52,18 +51,20 @@ public:
    * @param[in]       svnt_mgr        Manager of the servant.
    * @param[in]       executor        Executor component for servant.
    */
-  CUTS_CCM_Servant_T (const char * name,
-                      typename EXEC::_ptr_type exec);
+  CUTS_CCM_Servant_T (T * servant,
+                      const char * name,
+                      typename EXECUTOR::_ptr_type exec);
 
   /// Destructor.
   virtual ~CUTS_CCM_Servant_T (void);
 
+  /// Activate the component.
   virtual void activate_component (void);
 
+  /// Passivate the component.
   virtual void passivate_component (void);
 
   // event-related methods
-
   virtual ::Components::Cookie *
     subscribe (const char * publisher_name,
                 ::Components::EventConsumerBase_ptr subscriber);
@@ -151,7 +152,10 @@ protected:
   ACE_Auto_Ptr <CONTEXT> ctx_;
 
   /// The implemenation for this servant.
-  typename EXEC::_var_type impl_;
+  typename EXECUTOR::_var_type impl_;
+
+  /// Pointer the concrete servant type.
+  T * servant_;
 };
 
 #if defined (__CUTS_INLINE__)

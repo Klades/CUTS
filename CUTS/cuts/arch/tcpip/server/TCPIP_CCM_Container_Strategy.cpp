@@ -73,30 +73,28 @@ load_servant (const char * name,
 
   // Load the executor from the executor artifact.
   typedef ::PortableServer::Servant (*ServantFactoryMethod)
-    (const char *, CUTS_TCPIP_Servant_Manager *, ::Components::EnterpriseComponent_ptr);
+    (const char *, ::Components::EnterpriseComponent_ptr);
 
   ptrdiff_t tmp_ptr = reinterpret_cast <ptrdiff_t> (symbol);
   ServantFactoryMethod factory_method = reinterpret_cast <ServantFactoryMethod> (tmp_ptr);
+  ::PortableServer::Servant servant = (*factory_method) (name, executor);
 
-  ::PortableServer::Servant servant =
-    (*factory_method) (name, &this->container_->server ()->the_ORB ().the_OM (), executor);
+  // Register the TCP/IP servent with the object manager.
+  CUTS_TCPIP_CCM_Servant * tcpip_servant =
+    dynamic_cast <CUTS_TCPIP_CCM_Servant *> (servant);
 
-  //// Register the TCP/IP servent with the object manager.
-  //CUTS_TCPIP_CCM_Servant * tcpip_servant =
-  //  dynamic_cast <CUTS_TCPIP_CCM_Servant *> (servant);
+  if (0 != tcpip_servant)
+  {
+    this->container_->server ()->the_ORB ().the_OM ().activate_object (tcpip_servant);
+  }
+  else
+  {
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%T) - %M - %s is not a TCP/IP servant\n"),
+                name));
 
-  //if (0 != tcpip_servant)
-  //{
-  //  this->container_->server ()->the_ORB ().the_OM ().activate_object (tcpip_servant);
-  //}
-  //else
-  //{
-  //  ACE_ERROR ((LM_ERROR,
-  //              ACE_TEXT ("%T (%T) - %M - %s is not a TCP/IP servant\n"),
-  //              name));
-
-  //  // should we throw an exception here??
-  //}
+    // should we throw an exception here??
+  }
 
   return servant;
 }

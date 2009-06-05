@@ -13,14 +13,16 @@
 #ifndef _CUTS_TCPIP_CCM_SERVANT_H_
 #define _CUTS_TCPIP_CCM_SERVANT_H_
 
-#include "ccm/CCM_ObjectS.h"
+#include "tao/PortableServer/Servant_Base.h"
+#include "cuts/arch/tcpip/TCPIP_Servant.h"
 #include "TCPIP_CCM_export.h"
 
 /**
- * @class CUTS_TCPIP_CCM_Events_Impl
+ * @class CUTS_TCPIP_CCM_Servant
  */
 class CUTS_TCPIP_CCM_Export CUTS_TCPIP_CCM_Servant :
-  public virtual POA_Components::CCMObject
+  public CUTS_TCPIP_Servant,
+  public virtual ::PortableServer::ServantBase
 {
 public:
   /**
@@ -32,15 +34,16 @@ public:
   virtual ~CUTS_TCPIP_CCM_Servant (void);
 
   /// Method for activating a component.
-  virtual void activate_component (void) = 0;
+  virtual void activate_component (void);
 
   /// Method for passivating a component.
-  virtual void passivate_component (void) = 0;
+  virtual void passivate_component (void);
 
   /// Method for removing a component.
-  virtual void remove (void) = 0;
+  virtual void remove (void);
 
-  const ACE_CString & name (void) const;
+  /// The name assigned to the servant.
+  virtual const ACE_CString & name (void) const;
 
 protected:
   /// Name of the CCM servant.

@@ -20,8 +20,7 @@
 #include "ace/SString.h"
 
 #include "cuts/arch/ccm/CCM_Container_T.h"
-#include "cuts/arch/ccm/CCM_Servant.h"
-#include "cuts/arch/tcpip/config.h"
+#include "cuts/arch/tcpip/ccm/TCPIP_CCM_Servant.h"
 #include "TCPIP_CCM_Container_Strategy.h"
 #include "TCPIP_CCM_ComponentServer.h"
 
@@ -34,13 +33,13 @@ class CUTS_TCPIP_CCM_ComponentServer;
 class CUTS_TCPIP_CCM_Container :
   public CUTS_CCM_Container_T <CUTS_TCPIP_CCM_Container,
                                CUTS_TCPIP_CCM_Container_Strategy,
-                               CUTS_CCM_Servant>
+                               CUTS_TCPIP_CCM_Servant>
 {
 public:
   typedef
     CUTS_CCM_Container_T <CUTS_TCPIP_CCM_Container,
                           CUTS_TCPIP_CCM_Container_Strategy,
-                          CUTS_CCM_Servant> base_type;
+                          CUTS_TCPIP_CCM_Servant> base_type;
 
   CUTS_TCPIP_CCM_Container (CUTS_TCPIP_CCM_ComponentServer * server,
                             const Components::ConfigValues & config,

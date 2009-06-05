@@ -287,9 +287,7 @@ install_component (const char * id,
 
   // Get a reference for to the servant.
   ::CORBA::Object_var obj = this->poa_->id_to_reference (oid.in ());
-  ::Components::CCMObject_var component = ::Components::CCMObject::_narrow (obj.in ());
-
-  return component._retn ();
+  return ::Components::CCMObject::_narrow (obj.in ());
 }
 
 //

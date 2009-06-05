@@ -26,17 +26,23 @@
 /**
  * @class CUTS_TCPIP_CCM_Events_Impl
  */
-template <typename T, typename CONTEXT, typename EXEC, typename POA_EXEC>
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC>
 class CUTS_TCPIP_CCM_Servant_T :
-  public CUTS_CCM_Servant_T <CONTEXT, EXEC, POA_EXEC>,
-  public CUTS_TCPIP_Servant_T <T>
+  public CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, CUTS_TCPIP_CCM_Servant>
 {
 public:
+  /// Type definition of the base type.
+  typedef CUTS_CCM_Servant_T <T,
+                              CONTEXT,
+                              EXECUTOR,
+                              POA_EXEC,
+                              CUTS_TCPIP_CCM_Servant> base_type;
+
   /// Type definition of the context type.
-  typedef CONTEXT context_type;
+  typedef typename base_type::context_type context_type;
 
   /// Type definition of the executor type.
-  typedef EXEC executor_type;
+  typedef typename base_type::executor_type executor_type;
 
   /**
    * Initializing constructor.
@@ -45,24 +51,23 @@ public:
    * @param[in]       svnt_mgr        Manager of the servant.
    * @param[in]       executor        Executor component for servant.
    */
-  CUTS_TCPIP_CCM_Servant_T (const char * name,
-                            T * servant,
-                            CUTS_TCPIP_Servant_Manager & svnt_mgr,
-                            typename EXEC::_ptr_type executor);
+  CUTS_TCPIP_CCM_Servant_T (T * servant,
+                            const char * name,
+                            typename EXECUTOR::_ptr_type executor);
 
   /// Destructor.
   virtual ~CUTS_TCPIP_CCM_Servant_T (void);
 
-  virtual void activate_component (void);
-
-  virtual void passivate_component (void);
-
-  virtual void configuration_complete (void);
-
-  virtual void remove (void);
+  // Method for handling the event. It will dispatch the events
+  // to the correct method.
+  virtual int handle_event (ACE_UINT32 id, CUTS_TCPIP_InputCDR & input);
 
 protected:
-  CUTS_TCPIP_Servant_Manager & svnt_mgr_;
+  /// Type definition of the virtual table.
+  typedef CUTS_TCPIP_Servant_VTable_T <T> vtable_type;
+
+  /// Virtual table for the servant.
+  static vtable_type table_;
 };
 
 #if defined (__CUTS_INLINE__)

@@ -5,70 +5,32 @@
 #endif
 
 //
+// table_
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC>
+CUTS_TCPIP_Servant_VTable_T <T>
+CUTS_TCPIP_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::table_;
+
+//
 // CUTS_TCPIP_CCM_Servant_T
 //
-template <typename T, typename CONTEXT, typename EXEC, typename POA_EXEC>
-CUTS_TCPIP_CCM_Servant_T <T, CONTEXT, EXEC, POA_EXEC>::
-CUTS_TCPIP_CCM_Servant_T (const char * name,
-                          T * servant,
-                          CUTS_TCPIP_Servant_Manager & svnt_mgr,
-                          typename EXEC::_ptr_type executor)
-: CUTS_CCM_Servant_T <CONTEXT, EXEC, POA_EXEC> (name, executor),
-  CUTS_TCPIP_Servant_T <T> (servant),
-  svnt_mgr_ (svnt_mgr)
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC>
+CUTS_TCPIP_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::
+CUTS_TCPIP_CCM_Servant_T (T * servant, const char * name, typename EXECUTOR::_ptr_type executor)
+: base_type (servant, name, executor)
 {
-  // Create the context for the servant/executor.
-  CONTEXT * context = 0;
-  ACE_NEW_THROW_EX (context,
-                    CONTEXT (*servant),
-                    ::CORBA::NO_MEMORY ());
 
-  // Set the session context of the implementation.
-  this->ctx_.reset (context);
-  this->impl_->set_session_context (this->ctx_.get ());
-
-  // Activate the object.
-  this->svnt_mgr_.activate_object (this);
 }
 
 //
-// remove
+// handle_event
 //
-template <typename T, typename CONTEXT, typename EXEC, typename POA_EXEC>
-void CUTS_TCPIP_CCM_Servant_T <T, CONTEXT, EXEC, POA_EXEC>::remove (void)
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC>
+int CUTS_TCPIP_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::
+handle_event (ACE_UINT32 id, CUTS_TCPIP_InputCDR & input)
 {
-  this->svnt_mgr_.deactivate_object (this->the_UUID ());
+  if (id < this->table_.size ())
+    return (this->table_[id]) (this->servant_, input);
 
-  if (this->impl_)
-    this->impl_->ccm_remove ();
-}
-
-//
-// activate_component
-//
-template <typename T, typename CONTEXT, typename EXEC, typename POA_EXEC>
-void CUTS_TCPIP_CCM_Servant_T <T, CONTEXT, EXEC, POA_EXEC>::activate_component (void)
-{
-  if (this->impl_)
-    this->impl_->ccm_activate ();
-}
-
-//
-// passivate_component
-//
-template <typename T, typename CONTEXT, typename EXEC, typename POA_EXEC>
-void CUTS_TCPIP_CCM_Servant_T <T, CONTEXT, EXEC, POA_EXEC>::passivate_component (void)
-{
-  if (this->impl_)
-    this->impl_->ccm_passivate ();
-}
-
-//
-// configuration_complete
-//
-template <typename T, typename CONTEXT, typename EXEC, typename POA_EXEC>
-void CUTS_TCPIP_CCM_Servant_T <T, CONTEXT, EXEC, POA_EXEC>::configuration_complete (void)
-{
-  if (this->impl_)
-    this->impl_->configuration_complete ();
+  return -1;
 }
