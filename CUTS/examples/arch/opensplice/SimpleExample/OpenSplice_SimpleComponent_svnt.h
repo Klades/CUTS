@@ -4,7 +4,7 @@
 #define _OPENSPLICE_SIMPLECOMPONENT_SVNT_H_
 
 #include "cuts/arch/ccm/CCM_Context_T.h"
-#include "cuts/arch/ccm/CCM_Servant_T.h"
+#include "cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.h"
 #include "cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.h"
 #include "cuts/arch/opensplice/ccm/OpenSplice_Subscriber_T.h"
 #include "cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table_T.h"
@@ -56,9 +56,10 @@ namespace SimpleComponent_Basic_Impl
 
 
   // Type definition of the this->servant_'s base class
-  typedef CUTS_CCM_Servant_T < SimpleComponent_Servant_Context,
-                               CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec,
-			       ::POA_Example::SimpleComponent > SimpleComponent_Servant_Base;
+  typedef CUTS_OpenSplice_CCM_Servant_T < SimpleComponent_Servant,
+					  SimpleComponent_Servant_Context,
+					  CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec,
+					  ::POA_Example::SimpleComponent > SimpleComponent_Servant_Base;
 
   /**
    * @class SimpleComponent_Servant
@@ -68,8 +69,8 @@ namespace SimpleComponent_Basic_Impl
   public:
     // default constructor
     SimpleComponent_Servant (const char * name, 
-			     ::DDS::DomainParticipant_ptr participant,
-			     ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor);
+			     ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor,
+			     ::DDS::DomainParticipant_ptr participant);
 
     // destructor
     virtual ~SimpleComponent_Servant (void);
@@ -93,15 +94,13 @@ namespace SimpleComponent_Basic_Impl
   private:
     CUTS_OpenSplice_CCM_EventConsumer_T < SimpleComponent_Servant,
 					  ::CUTS_DDS::Outer::TestData_DDS > read_test_data_consumer_;
-					 
-    ::DDS::DomainParticipant_var participant_;
   };
 }
 
 extern "C" OPENSPLICE_SIMPLECOMPONENT_SVNT_Export
 ::PortableServer::Servant
 create_SimpleComponent_Servant (const char * name,
-				::DDS::DomainParticipant_ptr participant,
-				::Components::EnterpriseComponent_ptr p);
+				::Components::EnterpriseComponent_ptr p,
+				::DDS::DomainParticipant_ptr participant);
 
 #endif  // !defined _TCPIP_HELLOWORLD_SVNT_H_

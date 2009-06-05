@@ -31,7 +31,7 @@ void CUTS_CCM_ComponentServer_T <T, CONTAINER>::shutdown (void)
 // configure
 //
 template <typename T, typename CONTAINER>
-void CUTS_CCM_ComponentServer_T <T, CONTAINER>::
+int CUTS_CCM_ComponentServer_T <T, CONTAINER>::
 configure (::CIAO::Deployment::ServerActivator_ptr activator,
            ::Components::ConfigValues * config,
            ::PortableServer::POA_ptr poa)
@@ -52,6 +52,8 @@ configure (::CIAO::Deployment::ServerActivator_ptr activator,
       this->config_[i]->value () >>= this->installer_;
     }
   }
+
+  return 0;
 }
 
 //

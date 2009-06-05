@@ -45,11 +45,21 @@ public:
   /// Destructor.
   virtual ~CUTS_CCM_ComponentServer_T (void);
 
-  virtual int init (int argc, char * argv []);
+  /**
+   * Initialize the component server.
+   *
+   * @param[in]        argc      Number of command-line arguments
+   * @param[in]        argv      The actual command-line arguments     
+   */
+  int init (int argc, char * argv []);
 
-  virtual void configure (::CIAO::Deployment::ServerActivator_ptr activator,
-                          ::Components::ConfigValues * config,
-                          ::PortableServer::POA_ptr poa);
+  /// Configure the component server.
+  int configure (::CIAO::Deployment::ServerActivator_ptr activator,
+		 ::Components::ConfigValues * config,
+		 ::PortableServer::POA_ptr poa);
+  
+  /// Activate the component server.
+  int activate (void);
 
   /// {
   virtual void shutdown (void);

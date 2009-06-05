@@ -7,7 +7,7 @@
 #ifndef CUTS_OPENSPLICE_CCM_EXPORT_H
 #define CUTS_OPENSPLICE_CCM_EXPORT_H
 
-#include "ace/config-all.h"
+#include "cuts/config.h"
 
 #if defined (ACE_AS_STATIC_LIBS) && !defined (CUTS_OPENSPLICE_CCM_HAS_DLL)
 #  define CUTS_OPENSPLICE_CCM_HAS_DLL 0

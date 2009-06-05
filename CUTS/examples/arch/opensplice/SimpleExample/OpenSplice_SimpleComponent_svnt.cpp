@@ -53,12 +53,10 @@ namespace SimpleComponent_Basic_Impl
   //
   SimpleComponent_Servant::
   SimpleComponent_Servant (const char * name,
-			   ::DDS::DomainParticipant_ptr participant,
-			   ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor)
-    : SimpleComponent_Servant_Base (name, executor),
-      // SimpleComponent_Servant_Base (name, executor, participant),
-      read_test_data_consumer_ (this, &SimpleComponent_Servant::deserialize_read_test_data),
-      participant_ (::DDS::DomainParticipant::_duplicate (participant))
+			   ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor,
+			   ::DDS::DomainParticipant_ptr participant)
+    : SimpleComponent_Servant_Base (name, executor, participant),
+      read_test_data_consumer_ (this, &SimpleComponent_Servant::deserialize_read_test_data)
   {
     // Initializing the consumer table.
     this->read_test_data_consumer_.configure (participant, name, "read_test_data");
@@ -74,14 +72,6 @@ namespace SimpleComponent_Basic_Impl
   //
   SimpleComponent_Servant::~SimpleComponent_Servant (void)
   {
-  }
-
-  //
-  // get_participant
-  //
-  ::DDS::DomainParticipant_ptr SimpleComponent_Servant::get_participant (void)
-  {
-    return ::DDS::DomainParticipant::_duplicate (this->participant_.in ());
   }
 
   //
@@ -148,8 +138,8 @@ namespace SimpleComponent_Basic_Impl
 
 ::PortableServer::Servant
 create_SimpleComponent_Servant (const char * name,
-				::DDS::DomainParticipant_ptr participant,
-				::Components::EnterpriseComponent_ptr p)
+				::Components::EnterpriseComponent_ptr p,
+				::DDS::DomainParticipant_ptr participant)
 {
   ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_var executor =
     ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec::_narrow (p);
@@ -160,7 +150,7 @@ create_SimpleComponent_Servant (const char * name,
   ::SimpleComponent_Basic_Impl::SimpleComponent_Servant * servant;
 
   ACE_NEW_RETURN (servant,
-		  ::SimpleComponent_Basic_Impl::SimpleComponent_Servant (name, participant, executor.in ()),
+		  ::SimpleComponent_Basic_Impl::SimpleComponent_Servant (name, executor.in (), participant),
 		  0);
 
   return servant;

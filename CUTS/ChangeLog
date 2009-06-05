@@ -1,3 +1,40 @@
+Fri Jun  5 18:41:30 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/ccm/CCM_ComponentServer_T.h:
+        * cuts/arch/ccm/CCM_ComponentServer_T.inl:
+        * cuts/arch/ccm/CCM_ComponentServer_T.cpp:
+
+	  . Fixed compilation errors on non-Windows systems.
+
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM.mpc:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.inl:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.inl:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_export.h:
+        * cuts/arch/opensplice/server:
+        * cuts/arch/opensplice/server/OpenSplice_ComponentServer.h:
+        * cuts/arch/opensplice/server/OpenSplice_ComponentServer.inl:
+        * cuts/arch/opensplice/server/OpenSplice_ComponentServer.cpp:
+        * cuts/arch/opensplice/server/OpenSplice_ComponentServer_App.h:
+        * cuts/arch/opensplice/server/OpenSplice_ComponentServer_App.inl:
+        * cuts/arch/opensplice/server/OpenSplice_ComponentServer_App.cpp:
+        * cuts/arch/opensplice/server/OpenSplice_Container.h:
+        * cuts/arch/opensplice/server/OpenSplice_Container.inl:
+        * cuts/arch/opensplice/server/OpenSplice_Container.cpp:
+        * cuts/arch/opensplice/server/OpenSplice_Container_Strategy.h:
+        * cuts/arch/opensplice/server/OpenSplice_Container_Strategy.inl:
+        * cuts/arch/opensplice/server/OpenSplice_Container_Strategy.cpp:
+        * cuts/arch/opensplice/server/server.cpp:
+        * cuts/arch/opensplice/server/server.mpc:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.h:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.cpp:
+
+	  . First complete implementation of OpenSplice integrated with 
+	    CCM and DAnCE. It still remains to be tested.
+
 Fri Jun  5 15:58:37 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/ccm/CCM_Container_T.h:

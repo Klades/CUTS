@@ -1,0 +1,13 @@
+// $Id$
+
+project (CUTS_OpenSplice_CCM_ComponentServer) : cuts_opensplice_ccm, cutsexe {  
+  exename = cuts-opensplice-componentserver
+
+  Source_Files {
+    server.cpp
+    OpenSplice_ComponentServer.cpp
+    OpenSplice_ComponentServer_App.cpp
+    OpenSplice_Container.cpp
+    OpenSplice_Container_Strategy.cpp
+  }
+}

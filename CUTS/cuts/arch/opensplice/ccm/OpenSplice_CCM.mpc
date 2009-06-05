@@ -61,10 +61,12 @@ project (CUTS_OpenSplice_CCM) : cuts_ccm, cuts_opensplice_ccm_skel, cuts_lib, cu
 
   Source_Files {
     OpenSplice_EventConsumer.cpp
+    OpenSplice_CCM_Servant.cpp
     OpenSplice_Subscriber.cpp
   }
 
   Template_Files {
+    OpenSplice_CCM_Servant_T.cpp
     OpenSplice_Subscriber_T.cpp
     OpenSplice_Subscriber_Table_T.cpp
   }
