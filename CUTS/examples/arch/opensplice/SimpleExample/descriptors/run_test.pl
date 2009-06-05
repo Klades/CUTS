@@ -8,10 +8,12 @@ eval '(exit $?0)' && eval 'exec perl -S $0 ${1+"$@"}'
 use lib "$ENV{'ACE_ROOT'}/bin";
 use PerlACE::Run_Test;
 
-$CUTS_ROOT = "$ENV{'CUTS_ROOT'}";
 $CIAO_ROOT = "$ENV{'CIAO_ROOT'}";
 $TAO_ROOT = "$ENV{'TAO_ROOT'}";
 $DAnCE = "$ENV{'DANCE_ROOT'}";
+
+$OSPL_HOME = "$ENV{'OSPL_HOME'};
+$CUTS_ROOT = "$ENV{'CUTS_ROOT'}";
 
 $daemons_running = 0;
 $em_running = 0;
@@ -24,7 +26,7 @@ $daemons = 1;
 
 $status = 0;
 $dat_file = "nodemap.dat";
-$cdp_file = "HelloWorld.cdp";
+$cdp_file = "SimpleExample.cdp";
 
 $nsior = PerlACE::LocalFile ("ns.ior");
 
@@ -40,9 +42,8 @@ sub delete_ior_files {
     for ($i = 0; $i < $daemons; ++$i) {
         unlink $iorfiles[$i];
     }
+
     unlink PerlACE::LocalFile ("EM.ior");
-    unlink PerlACE::LocalFile ("Receiver.ior");
-    unlink PerlACE::LocalFile ("Sender.ior");
     unlink PerlACE::LocalFile ("DAM.ior");
     unlink PerlACE::LocalFile ("ns.ior");
 }
@@ -67,7 +68,6 @@ sub kill_open_processes {
     $NS->Kill ();
     $NS->TimedWait (1);
   }
-
 }
 
 sub run_node_daemons {
@@ -77,7 +77,7 @@ sub run_node_daemons {
       $port = $ports[$i];
       $nodename = $nodenames[$i];
       $iiop = "iiop://localhost:$port";
-      $node_app = "$CUTS_ROOT/bin/cuts-tcpip-componentserver";
+      $node_app = "$CUTS_ROOT/bin/cuts-opensplice-componentserver";
 
       $d_cmd = "$DAnCE/bin/dance_node_manager";
       $d_param = "-ORBEndpoint $iiop -s $node_app -n $nodename=$iorfile -t 30 --instance-nc corbaloc:rir:/NameService";
@@ -148,6 +148,11 @@ if (PerlACE::waitforfile_timed ("EM.ior",
 
 $em_running = 1;
 
+# Invoke OpenSplice - start the server -
+print "Invoke OpenSplice - start the server -\n";
+$OSPL = new PerlACE::Process ("$OSPL_HOME/bin/ospl", "start");
+$OSPL->SpawnWaitKill (3000);
+
 # Invoke executor - start the application -.
 print "Invoking executor - start the application -\n";
 $E = new PerlACE::Process ("$DAnCE/bin/dance_plan_launcher", "-x $cdp_file -k file://EM.ior");
@@ -161,6 +166,11 @@ sleep (10);
 print "Invoking executor - stop the application -\n";
 $E = new PerlACE::Process ("$DAnCE/bin/dance_plan_launcher", "-k file://EM.ior -x $cdp_file -q");
 $E->SpawnWaitKill (3000);
+
+# Invoke OpenSplice - stop the server -
+print "Invoke OpenSplice - stop the server -\n";
+$OSPL = new PerlACE::Process ("$OSPL_HOME/bin/ospl", "stop");
+$OSPL->SpawnWaitKill (3000);
 
 print "Executor returned.\n";
 print "Shutting down rest of the processes.\n";

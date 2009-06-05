@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<Deployment:DeploymentPlan xmlns:Deployment="http://www.omg.org/Deployment" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/Deployment Deployment.xsd">
+
+  <UUID>F00A71AC-55E7-40FA-BBA4-CE6333280D3E</UUID>
+
+  <implementation xmi:id="_0292CD8C-9ED3-4ECB-9E73-E641A5B0524C">
+    <name>SimpleExample.ComponentImplementations.SimpleComponent.SimpleComponent_Basic_Impl</name>
+    <source/>
+    <artifact xmi:idref="_1D121260-4907-445B-B18E-E7CE24D1143A"/>
+    <artifact xmi:idref="_18B9391E-C686-48CF-813E-F73B25F33133"/>
+    <execParameter>
+      <name>component factory</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_HelloWorld_Basic_Impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ExecutorArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>SimpleExample.ImplementationArtifacts.SimpleComponent.SimpleComponent_Basic_Impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantEntrypoint</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_HelloWorld_Servant</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>SimpleExample.ImplementationArtifacts.SimpleComponent.OpenSplice_SimpleComponent_svnt</string>
+        </value>
+      </value>
+    </execParameter>
+  </implementation>
+
+  <instance xmi:id="SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld">
+    <name>SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld</name>
+    <node>MainNode</node>
+    <source/>
+    <implementation xmi:idref="_0292CD8C-9ED3-4ECB-9E73-E641A5B0524C"/>
+  </instance>
+
+  <connection>
+    <name>SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld:app_op_emit-SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld:read_test_data</name>
+    <internalEndpoint>
+      <portName>app_op_emit</portName>
+      <provider>false</provider>
+      <kind>EventEmitter</kind>
+      <instance xmi:idref="SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>read_test_data</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld"/>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld:app_op_send-SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld:read_test_data</name>
+    <internalEndpoint>
+      <portName>app_op_send</portName>
+      <provider>false</provider>
+      <kind>EventPublisher</kind>
+      <instance xmi:idref="SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>read_test_data</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld"/>
+    </internalEndpoint>
+  </connection>
+
+  <artifact xmi:id="_1D121260-4907-445B-B18E-E7CE24D1143A">
+    <name>SimpleExample.ImplementationArtifacts.SimpleComponent.SimpleComponent_Basic_Impl</name>
+    <source/>
+    <node/>
+    <location>SimpleComponent_Basic_Impl</location>
+  </artifact>
+
+  <artifact xmi:id="_18B9391E-C686-48CF-813E-F73B25F33133">
+    <name>SimpleExample.ImplementationArtifacts.SimpleComponent.OpenSplice_SimpleComponent_svnt</name>
+    <source/>
+    <node/>
+    <location>OpenSplice_SimpleComponent_svnt</location>
+  </artifact>
+
+</Deployment:DeploymentPlan>

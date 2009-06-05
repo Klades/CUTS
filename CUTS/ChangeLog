@@ -1,3 +1,17 @@
+Fri Jun  5 19:29:55 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/opensplice/SimpleExample:
+        * examples/arch/opensplice/SimpleExample/descriptors:
+        * examples/arch/opensplice/SimpleExample/descriptors/SimpleExample.cdp:
+        * examples/arch/opensplice/SimpleExample/descriptors/nodemap.dat:
+        * examples/arch/opensplice/SimpleExample/descriptors/run_test.pl:
+
+          . First draft of files for running the example.
+
+        * examples/arch/tcpip/HelloWorld/descriptors/run_test.pl:
+
+          . Updated the script so the example runs for 10 seconds.
+
 Fri Jun  5 19:12:26 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/ccm/CCM_Container_Strategy_T.h:
