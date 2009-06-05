@@ -1,4 +1,4 @@
-// $Id$
+// -*- MPC -*-
 
 project (SimpleComponent_IDL_Gen) : ciaoidldefaults {
   custom_only = 1
@@ -21,18 +21,24 @@ project (SimpleComponent_stub) : ccm_stub, avoids_ace_for_tao, cuts_codegen_defa
 
   prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl SIMPLECOMPONENT_STUB > $(PROJECT_ROOT)/SimpleComponent_stub_export.h
 
+
+  // listing of project dependencies
+  after += \
+    ModelDDSData_stub
+
+  libs  += \
+    ModelDDSData_stub
+
   IDL_Files {
 
   }
 
   Source_Files {
     SimpleComponentC.cpp
-    //OpenSplice_HelloWorldC.cpp
   }
 
   Header_Files {
     SimpleComponentC.h
-    //OpenSplice_HelloWorldC.h
   }
 
   Inline_Files {
@@ -48,6 +54,14 @@ project (SimpleComponent_skel) : ciao_servant, avoids_ace_for_tao, cuts_codegen_
   libs        += SimpleComponent_stub
 
   prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl SIMPLECOMPONENT_SKEL > $(PROJECT_ROOT)/SimpleComponent_skel_export.h
+
+
+  after += \
+    ModelDDSData_skel
+
+  libs  += \
+    ModelDDSData_skel \
+    ModelDDSData_stub
 
   IDL_Files {
 
@@ -65,3 +79,5 @@ project (SimpleComponent_skel) : ciao_servant, avoids_ace_for_tao, cuts_codegen_
     SimpleComponentS.inl
   }
 }
+
+// end of auto-generated project file

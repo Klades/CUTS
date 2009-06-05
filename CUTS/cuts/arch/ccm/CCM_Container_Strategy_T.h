@@ -28,7 +28,7 @@ public:
   /// Type definition of the servant type.
   typedef CONTAINER server_type;
 
-  CUTS_CCM_Container_Strategy_T (CONTAINER * server);
+  CUTS_CCM_Container_Strategy_T (CONTAINER * container);
 
   virtual ~CUTS_CCM_Container_Strategy_T (void);
 

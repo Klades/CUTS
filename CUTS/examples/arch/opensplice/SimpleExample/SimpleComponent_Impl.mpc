@@ -4,7 +4,7 @@ project (SimpleComponent_CIDL_Gen) : ciaocidldefaults {
   custom_only = 1
 
   cidlflags += --svnt-export-macro OPENSPLICE_SIMPLECOMPONENT_SVNT_Export \
-               --svnt-export-include OPENSPLICE_SIMPLECOMPONENT_svnt_export.h 
+               --svnt-export-include OPENSPLICE_SIMPLECOMPONENT_svnt_export.h
 
   CIDL_Files {
     SimpleComponent.cidl
@@ -83,4 +83,33 @@ project (OpenSplice_SimpleComponent_svnt) : cuts_opensplice_ccm, cuts_codegen_de
 
   }
 }
+
+project (SimpleComponent_Basic_Impl) : cuts_coworker_exec {
+  sharedname   = SimpleComponent_Basic_Impl
+  dynamicflags = SIMPLECOMPONENT_BASIC_IMPL_BUILD_DLL
+
+  prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl SIMPLECOMPONENT_BASIC_IMPL > $(PROJECT_ROOT)/SimpleComponent_Basic_Impl_export.h
+
+  after += SimpleComponent_exec
+
+  libs  += SimpleComponent_exec \
+    SimpleComponent_stub
+
+  Source_Files {
+    SimpleComponent_Impl.cpp
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+}
+
 
