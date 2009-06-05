@@ -51,10 +51,10 @@ Visit_Component (const PICML::Component & component)
   this->out_ << CUTS_BE_CPP::single_line_comment ("Forward decl.")
              << "class " << servant << ";"
              << std::endl
-             << "typedef CUTS_TCPIP_CCM_Context_T <"
+             << "typedef CUTS_TCPIP_CCM_Context_T < "
              << CUTS_BE_CPP::scope(component)
              << "CCM_" << name << "_Context, "
-             << servant << "> " << context_base << ";"
+             << servant << " > " << context_base << ";"
              << std::endl
              << "/**" << std::endl
              << " * @class " << context << std::endl
