@@ -6,6 +6,7 @@
 #include "TCPIP_CCM_ComponentServer_App.inl"
 #endif
 
+#include "TCPIP_CCM_ComponentServer.h"
 #include "cuts/arch/ccm/CCM_Cookie.h"
 #include "ace/Get_Opt.h"
 
@@ -29,12 +30,19 @@ int CUTS_TCPIP_CCM_ComponentServer_App::run_main (int argc, char * argv[])
                          ACE_TEXT ("%T (%t) - %M - failed to parse command-line options\n")),
                          -1);
 
-    // Finish the initialization process.
-    this->server_.init (argc, argv);
+    // Finish the initialization process, which mean create the
+    // actual component server's implementation.
+    CUTS_TCPIP_CCM_ComponentServer * server = 0;
+
+    ACE_NEW_THROW_EX (server,
+                      CUTS_TCPIP_CCM_ComponentServer (this),
+                      ::CORBA::NO_MEMORY ());
+
+    this->server_.reset (server);
+    this->server_->init (argc, argv);
 
     // First, let's extract the server activator.
-    ::CORBA::Object_var obj =
-      this->orb_->string_to_object (this->opts_.callback_ior_.c_str ());
+    ::CORBA::Object_var obj = this->orb_->string_to_object (this->opts_.callback_ior_.c_str ());
 
     if (::CORBA::is_nil (obj.in ()))
       ACE_ERROR_RETURN ((LM_ERROR,
@@ -54,11 +62,10 @@ int CUTS_TCPIP_CCM_ComponentServer_App::run_main (int argc, char * argv[])
     // Get the RootPOA.
     obj = this->orb_->resolve_initial_references ("RootPOA");
 
-    if (CORBA::is_nil (obj.in ()))
+    if (::CORBA::is_nil (obj.in ()))
       return -1;
 
     this->root_ = PortableServer::POA::_narrow (obj.in ());
-
     if (::CORBA::is_nil (this->root_.in ()))
       return -1;
 
@@ -67,7 +74,7 @@ int CUTS_TCPIP_CCM_ComponentServer_App::run_main (int argc, char * argv[])
     mgr->activate ();
 
     // Activate the server object with the RootPOA.
-    this->root_->activate_object (&this->server_);
+    this->root_->activate_object (this->server_.get ());
 
     // Activate the ORB's task. This will allow the component server to
     // receive commands from DAnCE.
@@ -83,7 +90,7 @@ int CUTS_TCPIP_CCM_ComponentServer_App::run_main (int argc, char * argv[])
                          -1);
 
     // Activate the TCP/IP server.
-    if (-1 == this->server_.activate ())
+    if (-1 == this->server_->activate ())
        ACE_ERROR_RETURN ((LM_ERROR,
                          ACE_TEXT ("%T (%t) - %M - failed to activate TCP/IP ORB task\n")),
                          -1);
@@ -164,7 +171,7 @@ int CUTS_TCPIP_CCM_ComponentServer_App::
 configure_component_server (::CIAO::Deployment::ServerActivator_ptr activator)
 {
   // Register the component server with the server activator.
-  ::CORBA::Object_var obj = this->root_->servant_to_reference (&this->server_);
+  ::CORBA::Object_var obj = this->root_->servant_to_reference (this->server_.get ());
 
   if (::CORBA::is_nil (obj.in ()))
     ACE_ERROR_RETURN ((LM_ERROR,
@@ -179,9 +186,9 @@ configure_component_server (::CIAO::Deployment::ServerActivator_ptr activator)
                                         this->opts_.uuid_.c_str (),
                                         config.out ());
 
-  this->server_.configure (activator,
-                           config._retn (),
-                           this->root_.in ());
+  this->server_->configure (activator,
+                            config._retn (),
+                            this->root_.in ());
 
   activator->configuration_complete (this->opts_.uuid_.c_str ());
   return 0;
@@ -190,26 +197,31 @@ configure_component_server (::CIAO::Deployment::ServerActivator_ptr activator)
 //
 // shutdown
 //
-void CUTS_TCPIP_CCM_ComponentServer_App::shutdown (void)
+void CUTS_TCPIP_CCM_ComponentServer_App::shutdown (bool notify)
 {
   try
   {
-    // Shutdown the ORB.
-    ACE_DEBUG ((LM_DEBUG,
-                ACE_TEXT ("%T (%t) - %M - shutdown the ORB task\n")));
+    if (notify)
+    {
+      // Shutdown the application server.
+      ACE_DEBUG ((LM_DEBUG,
+                  ACE_TEXT ("%T (%t) - %M - shutdown the component server\n")));
 
-    this->orb_->shutdown ();
+      this->server_->shutdown ();
+    }
+    else
+    {
+      // Shutdown the ORB.
+      ACE_DEBUG ((LM_DEBUG,
+                  ACE_TEXT ("%T (%t) - %M - shutdown the ORB task\n")));
 
-    // Shutdown the application server.
-    ACE_DEBUG ((LM_DEBUG,
-                ACE_TEXT ("%T (%t) - %M - shutdown the component server\n")));
-
-    this->server_.shutdown (false);
+      this->orb_->shutdown ();
+    }
   }
   catch (const CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - %s\n",
+                ACE_TEXT ("%T (%t) - %M - %s\n"),
                 ex._info ().c_str ()));
   }
 }

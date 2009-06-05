@@ -13,7 +13,7 @@
 //
 static void server_sighandler (int sig)
 {
-  CUTS_TCPIP_COMPONENT_SERVER_APP->shutdown ();
+  CUTS_TCPIP_COMPONENT_SERVER_APP->shutdown (true);
   ACE_UNUSED_ARG (sig);
 }
 

@@ -14,6 +14,7 @@
 #define _CUTS_TCPIP_CCM_COMPONENTSERVER_APP_H_
 
 #include "cuts/ORB_Server_Task.h"
+#include "cuts/arch/ccm/CCM_ComponentServer_Callback.h"
 #include "TCPIP_CCM_ComponentServer_Opts.h"
 #include "TCPIP_CCM_ComponentServer.h"
 
@@ -22,7 +23,8 @@
  *
  * Main application for the TCP/IP component server.
  */
-class CUTS_TCPIP_CCM_ComponentServer_App
+class CUTS_TCPIP_CCM_ComponentServer_App :
+  public CUTS_CCM_ComponentServer_Callback
 {
 public:
   /// Default constructor.
@@ -35,7 +37,7 @@ public:
 
   virtual void destroy (void);
 
-  virtual void shutdown (void);
+  virtual void shutdown (bool notify);
 
 private:
   int parse_arg (int argc, char * argv []);
@@ -58,7 +60,7 @@ private:
   CUTS_ORB_Server_Task task_;
 
   /// The compnent server object.
-  CUTS_TCPIP_CCM_ComponentServer server_;
+  ACE_Auto_Ptr <CUTS_TCPIP_CCM_ComponentServer> server_;
 };
 
 #if defined (__CUTS_INLINE__)

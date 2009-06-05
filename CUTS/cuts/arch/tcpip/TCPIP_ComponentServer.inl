@@ -47,15 +47,6 @@ void CUTS_TCPIP_ComponentServer::shutdown (void)
   this->orb_.shutdown ();
 }
 
-//
-// shutdown
-//
-CUTS_INLINE
-void CUTS_TCPIP_ComponentServer::destroy (void)
-{
-
-}
-
 CUTS_INLINE
 CUTS_TCPIP_ORB & CUTS_TCPIP_ComponentServer::the_ORB (void)
 {

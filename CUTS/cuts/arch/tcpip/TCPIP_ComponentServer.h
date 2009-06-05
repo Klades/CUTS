@@ -29,14 +29,7 @@ public:
 
   virtual int activate (void);
 
-  virtual void destroy (void);
-
   virtual void shutdown (void);
-
-  virtual int install_component (const ACE_CString & name,
-                                 CUTS_TCPIP_Servant * servant);
-
-  virtual int uninstall_component (const ACE_CString & name);
 
   CUTS_TCPIP_ORB & the_ORB (void);
 

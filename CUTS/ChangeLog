@@ -1,3 +1,26 @@
+Fri Jun  5 05:44:52 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/ccm/CCM_ComponentServer_Callback.h:
+        * cuts/arch/ccm/CCM_ComponentServer_Callback.inl:
+        * cuts/arch/ccm/CCM_ComponentServer_Callback.cpp:
+        * cuts/arch/ccm/CCM_ComponentServer_T.h:
+        * cuts/arch/ccm/CCM_ComponentServer_T.inl:
+        * cuts/arch/ccm/CCM_ComponentServer_T.cpp:
+        * cuts/arch/ccm/CUTS_CCM.mpc:
+        * cuts/arch/tcpip/TCPIP_ComponentServer.h:
+        * cuts/arch/tcpip/TCPIP_ComponentServer.inl:
+        * cuts/arch/tcpip/TCPIP_ComponentServer.cpp:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.inl:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.cpp:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.inl:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.cpp:
+        * cuts/arch/tcpip/server/server.cpp:
+
+          . Implemented a common template for a component server's servant
+            implementation.
+
 Fri Jun  5 01:08:21 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/ccm/CCM_Container_T.cpp:
