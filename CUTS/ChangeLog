@@ -1,3 +1,17 @@
+Fri Jun  5 06:57:43 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/ccm/CCM_ComponentServer_App_T.h:
+        * cuts/arch/ccm/CCM_ComponentServer_App_T.inl:
+        * cuts/arch/ccm/CCM_ComponentServer_App_T.cpp:
+        * cuts/arch/ccm/CCM_ComponentServer_T.h:
+        * cuts/arch/ccm/CUTS_CCM.mpc:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.cpp:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_Opts.h:
+
+          . Templatized the application server's code. It should now be
+            a LOT easier to create application for component servers.
+
 Fri Jun  5 05:44:52 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/ccm/CCM_ComponentServer_Callback.h:

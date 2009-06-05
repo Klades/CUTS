@@ -49,6 +49,7 @@ project (CUTS_CIAO_exec) : requires_ciao, ciao_componentserver_svnt, cuts_compon
     CCM_Container_Strategy_T.cpp
     CCM_Component_T.cpp
     CCM_ComponentServer_T.cpp
+    CCM_ComponentServer_App_T.cpp
     CCM_Context_T.cpp
     CCM_CoWorkEr_Proxy_T.cpp
     CCM_Event_Handler_T.cpp

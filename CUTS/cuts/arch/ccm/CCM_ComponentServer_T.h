@@ -40,7 +40,7 @@ public:
   /**
    * Initializing constructor.
    */
-  CUTS_CCM_ComponentServer_T (CUTS_CCM_ComponentServer_Callback * callback);
+  CUTS_CCM_ComponentServer_T (CUTS_CCM_ComponentServer_Callback * callback = 0);
 
   /// Destructor.
   virtual ~CUTS_CCM_ComponentServer_T (void);

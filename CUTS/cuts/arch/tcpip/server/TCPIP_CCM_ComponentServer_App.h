@@ -13,9 +13,7 @@
 #ifndef _CUTS_TCPIP_CCM_COMPONENTSERVER_APP_H_
 #define _CUTS_TCPIP_CCM_COMPONENTSERVER_APP_H_
 
-#include "cuts/ORB_Server_Task.h"
-#include "cuts/arch/ccm/CCM_ComponentServer_Callback.h"
-#include "TCPIP_CCM_ComponentServer_Opts.h"
+#include "cuts/arch/ccm/CCM_ComponentServer_App_T.h"
 #include "TCPIP_CCM_ComponentServer.h"
 
 /**
@@ -24,43 +22,34 @@
  * Main application for the TCP/IP component server.
  */
 class CUTS_TCPIP_CCM_ComponentServer_App :
-  public CUTS_CCM_ComponentServer_Callback
+  public CUTS_CCM_ComponentServer_App_T <CUTS_TCPIP_CCM_ComponentServer_App,
+                                         CUTS_TCPIP_CCM_ComponentServer>
 {
 public:
+  /// Type definition of the base type.
+  typedef CUTS_CCM_ComponentServer_App_T <CUTS_TCPIP_CCM_ComponentServer_App,
+                                          CUTS_TCPIP_CCM_ComponentServer> base_type;
+
   /// Default constructor.
   CUTS_TCPIP_CCM_ComponentServer_App (void);
 
   /// Destructor.
   virtual ~CUTS_TCPIP_CCM_ComponentServer_App (void);
 
-  virtual int run_main (int argc, char * argv []);
-
-  virtual void destroy (void);
-
-  virtual void shutdown (bool notify);
+  /**
+   * Main entry point for the application.
+   *
+   * @param[in]       argc        Number of command-line arguments
+   * @param[in]       argv        The actual command-line arguments
+   */
+  int run_main (int argc, char * argv []);
 
 private:
-  int parse_arg (int argc, char * argv []);
+  /// Help method to parse the command-line options.
+  int parse_args (int argc, char * argv []);
 
-  static void register_valuetypes (CORBA::ORB_ptr orb);
-
+  /// Print help for the application.
   void print_help (void);
-
-  int configure_component_server (::CIAO::Deployment::ServerActivator_ptr activator);
-
-  CUTS_TCPIP_CCM_ComponentServer_Opts opts_;
-
-  /// The ORB for the server.
-  CORBA::ORB_var orb_;
-
-  /// The root POA for the server.
-  PortableServer::POA_var root_;
-
-  /// Task object for the component server.
-  CUTS_ORB_Server_Task task_;
-
-  /// The compnent server object.
-  ACE_Auto_Ptr <CUTS_TCPIP_CCM_ComponentServer> server_;
 };
 
 #if defined (__CUTS_INLINE__)
