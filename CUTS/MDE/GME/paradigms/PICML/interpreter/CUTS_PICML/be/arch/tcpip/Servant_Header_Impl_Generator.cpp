@@ -64,7 +64,6 @@ Visit_Component (const PICML::Component & component)
              << "public:" << std::endl
              << CUTS_BE_CPP::single_line_comment ("default constructor")
              << this->servant_ << " (const char * name, " << std::endl
-             << "CUTS_TCPIP_Servant_Manager & svnt_mgr, " << std::endl
              << "CIDL_" << this->monoimpl_ << "::" << name << "_Exec_ptr executor);"
              << std::endl
              << CUTS_BE_CPP::single_line_comment ("destructor")

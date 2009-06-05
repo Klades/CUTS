@@ -193,7 +193,6 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
                               boost::ref (*this)));
 
   this->fout_ << " (const char * name," << std::endl
-              << "CUTS_TCPIP_Servant_Manager * svnt_mgr," << std::endl
               << "::Components::EnterpriseComponent_ptr p);";
 }
 

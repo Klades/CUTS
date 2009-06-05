@@ -68,7 +68,7 @@ public:
 
   virtual void Visit_InEventPort (const PICML::InEventPort & port)
   {
-    this->out_ << this->servant_ << "::vtable_["
+    this->out_ << this->servant_ << "::table_["
                << this->index_ << "] = &" << this->servant_
                << "::tcpip_" << port.name () << ";";
 
@@ -193,9 +193,8 @@ Visit_Component (const PICML::Component & component)
              << this->servant_ << "::" << std::endl
              << this->servant_
              << " (const char * name," << std::endl
-             << "CUTS_TCPIP_Servant_Manager & svnt_mgr," << std::endl
              << "::CIDL_" << this->monoimpl_ << "::" << name << "_Exec_ptr executor)" << std::endl
-             << ": " << this->servant_ << "_Base (name, this, svnt_mgr, executor)";
+             << ": " << this->servant_ << "_Base (name, executor)";
 
   Base_Member_Init_Generator base_member (this->out_);
   std::for_each (inputs.begin (),
@@ -228,10 +227,10 @@ Visit_Component (const PICML::Component & component)
 
   this->out_ << std::endl
              << CUTS_BE_CPP::single_line_comment ("Guard the initialization of the virtual table.")
-             << "vtable_type::init_guard_type guard (" << this->servant_ << "::vtable_, "
+             << "vtable_type::init_guard_type guard (" << this->servant_ << "::table_, "
              << inputs.size () << ");"
              << std::endl
-             << "if (" << this->servant_ << "::vtable_.is_init ())" << std::endl
+             << "if (" << this->servant_ << "::table_.is_init ())" << std::endl
              << "  return;"
              << std::endl;
 
