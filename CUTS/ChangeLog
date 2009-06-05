@@ -1,3 +1,15 @@
+Fri Jun  5 15:58:37 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/ccm/CCM_Container_T.h:
+        * cuts/arch/ccm/CCM_Container_T.inl:
+        * cuts/arch/ccm/CCM_Container_T.cpp:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container.inl:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container_Strategy.cpp:
+
+          . The container template class now stores the component server
+            that created it.
+
 Fri Jun  5 14:48:06 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/ccm/CCM_Servant_T.h:

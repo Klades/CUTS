@@ -7,6 +7,7 @@
 #endif
 
 #include "TCPIP_CCM_Container.h"
+#include "TCPIP_CCM_ComponentServer.h"
 #include "cuts/arch/tcpip/ccm/TCPIP_CCM_Servant.h"
 
 //
