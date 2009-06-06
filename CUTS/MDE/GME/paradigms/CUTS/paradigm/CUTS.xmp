@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE paradigm SYSTEM "edf.dtd">
 
-<paradigm name="CUTS" guid="{1346A3E3-D96A-4297-80F4-AE34D736967A}" cdate="Mon Jun 01 21:29:49 2009" mdate="Mon Jun 01 21:29:49 2009" >
+<paradigm name="CUTS" guid="{76DE8D70-624F-40DE-A249-486B9CD82753}" cdate="Mon Jun 01 21:29:49 2009" mdate="Mon Jun 01 21:29:49 2009" >
 
 	<comment></comment>
 
@@ -63,6 +63,8 @@
 		</connection>
 		<reference name = "GroupItem" metaref = "1160">
 				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "rName" value ="ref"></regnode>
+				<regnode name = "rrName" value ="referedbyGroupItem"></regnode>
 			<pointerspec name = "ref">
 				<pointeritem desc = "Key"></pointeritem>
 				<pointeritem desc = "Variable"></pointeritem>
@@ -80,7 +82,7 @@
 		<model name = "Group" metaref = "1178" >
 				<regnode name = "namePosition" value ="4"></regnode>
 			<role name = "GroupItem" metaref = "1179" kind = "GroupItem"></role>
-			<aspect name = "Aspect" metaref = "1180" >
+			<aspect name = "Aspect" metaref = "1198" >
 				<part metaref = "1181" role = "GroupItem" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
@@ -88,28 +90,33 @@
 				<regnode name = "namePosition" value ="4"></regnode>
 			<role name = "Key" metaref = "1167" kind = "Key"></role>
 			<role name = "Variable" metaref = "1168" kind = "Variable"></role>
-			<aspect name = "Aspect" metaref = "1182" attributes = "Value" >
+			<aspect name = "Aspect" metaref = "1199" attributes = "Value" >
 				<part metaref = "1170" role = "Key" primary = "yes" linked = "yes"></part>
 				<part metaref = "1171" role = "Variable" primary = "yes" linked = "yes"></part>
 			</aspect>
 		</model>
-		<model name = "Services" metaref = "1172" attributes = "Location ClassName Params" >
+		<model name = "Service" metaref = "1194" attributes = "Location ClassName Params" >
 				<regnode name = "namePosition" value ="4"></regnode>
-			<aspect name = "Aspect" metaref = "1183" attributes = "Location ClassName Params" >
+			<aspect name = "Aspect" metaref = "1200" attributes = "Location ClassName Params" >
 			</aspect>
 		</model>
 		<model name = "UnitTest" metaref = "1147" attributes = "Description Evaluation Aggregation" >
 				<regnode name = "namePosition" value ="4"></regnode>
+			<constraint name="ValidUnitTestPartCardinality3" eventmask = "0x0" depth = "1" priority = "1">
+				<![CDATA[let partCount = self.parts( "Group" ) -> size in
+                     (partCount <= 1)]]>
+				<dispname>Multiplicity of parts, which are contained by UnitTest, has to match 0..1.</dispname>
+			</constraint>
+			<role name = "Group" metaref = "1185" kind = "Group"></role>
+			<role name = "Service" metaref = "1196" kind = "Service"></role>
 			<aspect name = "UnitTest" metaref = "1174" attributes = "Description Evaluation Aggregation" >
+				<part metaref = "1191" role = "Group" primary = "yes" linked = "no"></part>
+				<part metaref = "1197" role = "Service" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
 		<folder name = "Datagraphs" metaref = "1175"  rootobjects = "Datagraph" >
 		</folder>
-		<folder name = "Grouping" metaref = "1176"  rootobjects = "Group" >
-		</folder>
-		<folder name = "Services" metaref = "1177"  rootobjects = "Services" >
-		</folder>
-		<folder name = "UnitTests" metaref = "1153"  subfolders = "Grouping Services" rootobjects = "UnitTest" >
+		<folder name = "UnitTests" metaref = "1153"  rootobjects = "UnitTest" >
 		</folder>
 	</folder>
 </paradigm>
