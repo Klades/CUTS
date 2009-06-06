@@ -1,3 +1,9 @@
+Sat Jun  6 15:28:52 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * bin/cuts-generate-ccm-arch-skeleton.py:
+
+          . Added support for command-line options.
+
 Sat Jun  6 14:27:08 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MPC/config/cuts_ccm.mpb:

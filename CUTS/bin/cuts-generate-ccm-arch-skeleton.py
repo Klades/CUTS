@@ -18,27 +18,53 @@ import os
 # main
 #
 def main () :
-  archName = "Test"
-  outputDir = "test"
+  try:
+    opts = parseArgs (sys.argv[1:])
+
+  except getopt.GetoptError, err:
+    # print help information and exit
+    print str (err)
+    sys.exit (2)
 
   # construct the dictionay for the templates.
-  dict = { "archName" : archName,
-           "archNameUpper" : archName.upper (),
-           "archNameLower" : archName.lower () }
+  dict = { "archName" : opts["name"],
+           "archNameUpper" : opts["name"].upper (),
+           "archNameLower" : opts["name"].lower () }
 
   # make all the required output directories
-  if (os.path.exists (outputDir) == False) :
-    os.mkdir (outputDir)
+  output = opts["output"]
+  output += "/" + opts["name"]
 
-  if (os.path.exists (outputDir + "/ccm") == False) :
-    os.mkdir (outputDir + "/ccm")
+  if (os.path.exists (output) == False) :
+    os.mkdir (output)
 
-  if (os.path.exists (outputDir + "/server") == False) :
-    os.mkdir (outputDir + "/server")
+  if (os.path.exists (output + "/ccm") == False) :
+    os.mkdir (output + "/ccm")
+
+  if (os.path.exists (output + "/server") == False) :
+    os.mkdir (output + "/server")
 
   # write the skeleton files
-  writeCCMFiles (outputDir, dict)
-  writeServerFiles (outputDir, dict)
+  writeCCMFiles (output, dict)
+  writeServerFiles (output, dict)
+
+def parseArgs (args) :
+  shortOpt = "n:o:"
+  longOpt = ["name="]
+
+  values = {}
+  opts, args = getopt.gnu_getopt ( sys.argv[1:], shortOpt, longOpt )
+
+  # parse the command-line arguments
+  for o, a in opts:
+    if o in ("-n", "--name"):
+      values["name"] = a
+    elif o in ("-o") :
+      values["output"] = a
+    else:
+      assert False, "unhandled option (%s)" % o
+
+  return values
 
 ###############################################################################
 ## CCM files
@@ -46,27 +72,27 @@ def main () :
 #
 #
 #
-def writeCCMFiles (outputDir, dict) :
-  writeServantBase (outputDir, dict)
-  writeServantBaseT (outputDir, dict)
-  writeCCMMPC (outputDir, dict)
+def writeCCMFiles (output, dict) :
+  writeServantBase (output, dict)
+  writeServantBaseT (output, dict)
+  writeCCMMPC (output, dict)
 
 #
 # writeServantBase
 #
 #   Function that writes the servant base class for the architecture.
 #
-def writeServantBase (outputDir, dict) :
-  writeServantBaseHeader (outputDir, dict)
-  writeServantBaseSource (outputDir, dict)
-  writeServantBaseInline (outputDir, dict)
+def writeServantBase (output, dict) :
+  writeServantBaseHeader (output, dict)
+  writeServantBaseSource (output, dict)
+  writeServantBaseInline (output, dict)
 
 #
 # writeServantBaseHeader
 #
 #   Function that writes the servant base header class
 #
-def writeServantBaseHeader (outputDir, dict) :
+def writeServantBaseHeader (output, dict) :
   servantBaseHeader = """// -*- C++ -*-
 
 #ifndef _CUTS_%(archNameUpper)s_CCM_SERVANT_H_
@@ -102,7 +128,7 @@ protected:
   """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/ccm/" + dict["archName"] + "_CCM_Servant.h"
+  filename = output + "/ccm/" + dict["archName"] + "_CCM_Servant.h"
   outfile = open (filename, "w")
   outfile.write (servantBaseHeader)
   outfile.close ();
@@ -112,7 +138,7 @@ protected:
 #
 #   Function that writes the servant base source file.
 #
-def writeServantBaseSource (outputDir, dict) :
+def writeServantBaseSource (output, dict) :
   servantBaseSource = """// $Id$
 
 #include "%(archName)s_CCM_Servant.h"
@@ -123,7 +149,7 @@ def writeServantBaseSource (outputDir, dict) :
   """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/ccm/" + dict["archName"] + "_CCM_Servant.cpp"
+  filename = output + "/ccm/" + dict["archName"] + "_CCM_Servant.cpp"
   outfile = open (filename, "w")
   outfile.write (servantBaseSource)
   outfile.close ();
@@ -133,7 +159,7 @@ def writeServantBaseSource (outputDir, dict) :
 #
 #   Function that writes the servant base source file.
 #
-def writeServantBaseInline (outputDir, dict) :
+def writeServantBaseInline (output, dict) :
   servantBaseSource = """// -*- C++ -*-
 // $Id$
 
@@ -159,7 +185,7 @@ CUTS_%(archName)s_CCM_Servant::~CUTS_%(archName)s_CCM_Servant (void)
   """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/ccm/" + dict["archName"] + "_CCM_Servant.inl"
+  filename = output + "/ccm/" + dict["archName"] + "_CCM_Servant.inl"
   outfile = open (filename, "w")
   outfile.write (servantBaseSource)
   outfile.close ();
@@ -169,17 +195,17 @@ CUTS_%(archName)s_CCM_Servant::~CUTS_%(archName)s_CCM_Servant (void)
 #
 #   Function that writes the servant base class for the architecture.
 #
-def writeServantBaseT (outputDir, dict) :
-  writeServantBaseHeaderT (outputDir, dict)
-  writeServantBaseSourceT (outputDir, dict)
-  writeServantBaseInlineT (outputDir, dict)
+def writeServantBaseT (output, dict) :
+  writeServantBaseHeaderT (output, dict)
+  writeServantBaseSourceT (output, dict)
+  writeServantBaseInlineT (output, dict)
 
 #
 # writeServantBaseHeaderT
 #
 #   Function that writes the servant base source file.
 #
-def writeServantBaseHeaderT (outputDir, dict) :
+def writeServantBaseHeaderT (output, dict) :
   servantBaseHeaderT = """// -*- C++ -*-
 
 #ifndef _CUTS_%(archNameUpper)s_CCM_SERVANT_T_H_
@@ -228,7 +254,7 @@ protected:
 """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/ccm/" + dict["archName"] + "_CCM_Servant_T.h"
+  filename = output + "/ccm/" + dict["archName"] + "_CCM_Servant_T.h"
   outfile = open (filename, "w")
   outfile.write (servantBaseHeaderT)
   outfile.close ();
@@ -238,7 +264,7 @@ protected:
 #
 #   Function that writes the servant base source file.
 #
-def writeServantBaseInlineT (outputDir, dict) :
+def writeServantBaseInlineT (output, dict) :
   servantBaseInlineT = """// -*- C++ -*-
 // $Id$
 
@@ -269,7 +295,7 @@ CUTS_%(archName)s_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::
 """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/ccm/" + dict["archName"] + "_CCM_Servant_T.inl"
+  filename = output + "/ccm/" + dict["archName"] + "_CCM_Servant_T.inl"
   outfile = open (filename, "w")
   outfile.write (servantBaseInlineT)
   outfile.close ();
@@ -279,7 +305,7 @@ CUTS_%(archName)s_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::
 #
 #   Function that writes the servant base source file.
 #
-def writeServantBaseSourceT (outputDir, dict) :
+def writeServantBaseSourceT (output, dict) :
   servantBaseSourceT = """// $Id$
 
 #if !defined (__CUTS_INLINE__)
@@ -288,7 +314,7 @@ def writeServantBaseSourceT (outputDir, dict) :
 """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/ccm/" + dict["archName"] + "_CCM_Servant_T.cpp"
+  filename = output + "/ccm/" + dict["archName"] + "_CCM_Servant_T.cpp"
   outfile = open (filename, "w")
   outfile.write (servantBaseSourceT)
   outfile.close ();
@@ -298,7 +324,7 @@ def writeServantBaseSourceT (outputDir, dict) :
 #
 #   MPC file for building the CCM library
 #
-def writeCCMMPC (outputDir, dict) :
+def writeCCMMPC (output, dict) :
   sourceFile = """// $Id$
 
 project (CUTS_%(archName)s_CCM) : cuts_ccm, cuts_lib, cutslib {
@@ -318,7 +344,7 @@ project (CUTS_%(archName)s_CCM) : cuts_ccm, cuts_lib, cutslib {
 """ % dict
 
   # write source to file
-  filename = outputDir + "/ccm/" + dict["archName"] + "_CCM.mpc"
+  filename = output + "/ccm/" + dict["archName"] + "_CCM.mpc"
   outfile = open (filename, "w")
   outfile.write (sourceFile)
   outfile.close ();
@@ -331,30 +357,30 @@ project (CUTS_%(archName)s_CCM) : cuts_ccm, cuts_lib, cutslib {
 #
 #   Function for writing all the server files
 #
-def writeServerFiles (outputDir, dict) :
-  writeContainerStrategy (outputDir, dict)
-  writeContainer (outputDir, dict)
-  writeComponentServer (outputDir, dict)
-  writeComponentServerApp (outputDir, dict)
-  writeServerDriver (outputDir, dict)
-  writeServerMPC (outputDir, dict)
+def writeServerFiles (output, dict) :
+  writeContainerStrategy (output, dict)
+  writeContainer (output, dict)
+  writeComponentServer (output, dict)
+  writeComponentServerApp (output, dict)
+  writeServerDriver (output, dict)
+  writeServerMPC (output, dict)
 
 #
 # writeContainerStrategy
 #
 #   Function for writing all the container strategy files
 #
-def writeContainerStrategy (outputDir, dict) :
-  writeContainerStrategyHeader (outputDir, dict)
-  writeContainerStrategySource (outputDir, dict)
-  writeContainerStrategyInline (outputDir, dict)
+def writeContainerStrategy (output, dict) :
+  writeContainerStrategyHeader (output, dict)
+  writeContainerStrategySource (output, dict)
+  writeContainerStrategyInline (output, dict)
 
 #
 # writeContainerStrategyHeader
 #
 #   Function for writing the header file for the container strategy
 #
-def writeContainerStrategyHeader (outputDir, dict) :
+def writeContainerStrategyHeader (output, dict) :
   sourceFile = """// -*- C++ -*-
 
 #ifndef _CUTS_%(archNameUpper)s_CCM_CONTAINER_STRATEGY_H_
@@ -411,7 +437,7 @@ public:
 """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/server/" + dict["archName"] + "_CCM_Container_Strategy.h"
+  filename = output + "/server/" + dict["archName"] + "_CCM_Container_Strategy.h"
   outfile = open (filename, "w")
   outfile.write (sourceFile)
   outfile.close ();
@@ -421,7 +447,7 @@ public:
 #
 #   Function for writing the inline file for the container strategy
 #
-def writeContainerStrategyInline (outputDir, dict) :
+def writeContainerStrategyInline (output, dict) :
   sourceFile = """// -*- C++ -*-
 // $Id$
 
@@ -447,7 +473,7 @@ CUTS_%(archName)s_CCM_Container_Strategy::~CUTS_%(archName)s_CCM_Container_Strat
 """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/server/" + dict["archName"] + "_CCM_Container_Strategy.inl"
+  filename = output + "/server/" + dict["archName"] + "_CCM_Container_Strategy.inl"
   outfile = open (filename, "w")
   outfile.write (sourceFile)
   outfile.close ();
@@ -457,7 +483,7 @@ CUTS_%(archName)s_CCM_Container_Strategy::~CUTS_%(archName)s_CCM_Container_Strat
 #
 #   Function for writing the source file for the container strategy
 #
-def writeContainerStrategySource (outputDir, dict) :
+def writeContainerStrategySource (output, dict) :
   sourceFile = """// -*- C++ -*-
 // $Id$
 
@@ -484,7 +510,7 @@ configure_servant (::PortableServer::Servant servant,
 """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/server/" + dict["archName"] + "_CCM_Container_Strategy.cpp"
+  filename = output + "/server/" + dict["archName"] + "_CCM_Container_Strategy.cpp"
   outfile = open (filename, "w")
   outfile.write (sourceFile)
   outfile.close ();
@@ -494,17 +520,17 @@ configure_servant (::PortableServer::Servant servant,
 #
 #   Function for writing all the container files
 #
-def writeContainer (outputDir, dict) :
-  writeContainerHeader (outputDir, dict)
-  writeContainerSource (outputDir, dict)
-  writeContainerInline (outputDir, dict)
+def writeContainer (output, dict) :
+  writeContainerHeader (output, dict)
+  writeContainerSource (output, dict)
+  writeContainerInline (output, dict)
 
 #
 # writeContainerSource
 #
 #   Function for writing the container source file
 #
-def writeContainerSource (outputDir, dict) :
+def writeContainerSource (output, dict) :
   sourceFile = """// $Id$
 
 #include "%(archName)s_CCM_Container.h"
@@ -515,7 +541,7 @@ def writeContainerSource (outputDir, dict) :
 """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/server/" + dict["archName"] + "_CCM_Container.cpp"
+  filename = output + "/server/" + dict["archName"] + "_CCM_Container.cpp"
   outfile = open (filename, "w")
   outfile.write (sourceFile)
   outfile.close ();
@@ -525,7 +551,7 @@ def writeContainerSource (outputDir, dict) :
 #
 #   Function for writing the container inline file
 #
-def writeContainerInline (outputDir, dict) :
+def writeContainerInline (output, dict) :
   sourceFile = """// -*- C++ -*-
 // $Id$
 
@@ -555,7 +581,7 @@ CUTS_%(archName)s_CCM_Container::~CUTS_%(archName)s_CCM_Container (void)
 """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/server/" + dict["archName"] + "_CCM_Container.inl"
+  filename = output + "/server/" + dict["archName"] + "_CCM_Container.inl"
   outfile = open (filename, "w")
   outfile.write (sourceFile)
   outfile.close ();
@@ -565,7 +591,7 @@ CUTS_%(archName)s_CCM_Container::~CUTS_%(archName)s_CCM_Container (void)
 #
 #   Function for writing the container header file
 #
-def writeContainerHeader (outputDir, dict) :
+def writeContainerHeader (output, dict) :
   sourceFile = """// -*- C++ -*-
 
 #ifndef _CUTS_%(archNameUpper)s_CCM_CONTAINER_H_
@@ -613,7 +639,7 @@ public:
 """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/server/" + dict["archName"] + "_CCM_Container.h"
+  filename = output + "/server/" + dict["archName"] + "_CCM_Container.h"
   outfile = open (filename, "w")
   outfile.write (sourceFile)
   outfile.close ();
@@ -623,17 +649,17 @@ public:
 #
 #   Function for writing all the component server files
 #
-def writeComponentServer (outputDir, dict) :
-  writeComponentServerHeader (outputDir, dict)
-  writeComponentServerSource (outputDir, dict)
-  writeComponentServerInline (outputDir, dict)
+def writeComponentServer (output, dict) :
+  writeComponentServerHeader (output, dict)
+  writeComponentServerSource (output, dict)
+  writeComponentServerInline (output, dict)
 
 #
 # writeComponentServerSource
 #
 #   Function for writing the component server source file
 #
-def writeComponentServerSource (outputDir, dict) :
+def writeComponentServerSource (output, dict) :
   sourceFile = """// $Id$
 
 #include "%(archName)s_CCM_ComponentServer.h"
@@ -656,7 +682,7 @@ CUTS_%(archName)s_CCM_ComponentServer (CUTS_%(archName)s_CCM_ComponentServer_App
 """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/server/" + dict["archName"] + "_CCM_ComponentServer.cpp"
+  filename = output + "/server/" + dict["archName"] + "_CCM_ComponentServer.cpp"
   outfile = open (filename, "w")
   outfile.write (sourceFile)
   outfile.close ();
@@ -666,7 +692,7 @@ CUTS_%(archName)s_CCM_ComponentServer (CUTS_%(archName)s_CCM_ComponentServer_App
 #
 #   Function for writing the compenent server inline file
 #
-def writeComponentServerInline (outputDir, dict) :
+def writeComponentServerInline (output, dict) :
   sourceFile = """// -*- C++ -*-
 // $Id$
 
@@ -681,7 +707,7 @@ CUTS_%(archName)s_CCM_ComponentServer::~CUTS_%(archName)s_CCM_ComponentServer (v
 """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/server/" + dict["archName"] + "_CCM_ComponentServer.inl"
+  filename = output + "/server/" + dict["archName"] + "_CCM_ComponentServer.inl"
   outfile = open (filename, "w")
   outfile.write (sourceFile)
   outfile.close ();
@@ -691,7 +717,7 @@ CUTS_%(archName)s_CCM_ComponentServer::~CUTS_%(archName)s_CCM_ComponentServer (v
 #
 #   Function for writing the compenent server header file
 #
-def writeComponentServerHeader (outputDir, dict) :
+def writeComponentServerHeader (output, dict) :
   sourceFile = """// -*- C++ -*-
 
 #ifndef _CUTS_%(archNameUpper)s_CCM_COMPONENTSERVER_H_
@@ -741,7 +767,7 @@ public:
 """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/server/" + dict["archName"] + "_CCM_ComponentServer.h"
+  filename = output + "/server/" + dict["archName"] + "_CCM_ComponentServer.h"
   outfile = open (filename, "w")
   outfile.write (sourceFile)
   outfile.close ();
@@ -751,17 +777,17 @@ public:
 #
 #   Function for writing all the component server files
 #
-def writeComponentServerApp (outputDir, dict) :
-  writeComponentServerAppHeader (outputDir, dict)
-  writeComponentServerAppSource (outputDir, dict)
-  writeComponentServerAppInline (outputDir, dict)
+def writeComponentServerApp (output, dict) :
+  writeComponentServerAppHeader (output, dict)
+  writeComponentServerAppSource (output, dict)
+  writeComponentServerAppInline (output, dict)
 
 #
 # writeComponentServerAppSource
 #
 #   Function for writing the component server app source file
 #
-def writeComponentServerAppSource (outputDir, dict) :
+def writeComponentServerAppSource (output, dict) :
   sourceFile = """// $Id$
 
 #include "%(archName)s_CCM_ComponentServer_App.h"
@@ -829,7 +855,7 @@ void CUTS_%(archName)s_CCM_ComponentServer_App::print_help (void)
 """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/server/" + dict["archName"] + "_CCM_ComponentServer_App.cpp"
+  filename = output + "/server/" + dict["archName"] + "_CCM_ComponentServer_App.cpp"
   outfile = open (filename, "w")
   outfile.write (sourceFile)
   outfile.close ();
@@ -839,7 +865,7 @@ void CUTS_%(archName)s_CCM_ComponentServer_App::print_help (void)
 #
 #   Function for writing the component server app inline file
 #
-def writeComponentServerAppInline (outputDir, dict) :
+def writeComponentServerAppInline (output, dict) :
   sourceFile = """// -*- C++ -*-
 // $Id$
 
@@ -865,7 +891,7 @@ CUTS_%(archName)s_CCM_ComponentServer_App::
 """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/server/" + dict["archName"] + "_CCM_ComponentServer_App.inl"
+  filename = output + "/server/" + dict["archName"] + "_CCM_ComponentServer_App.inl"
   outfile = open (filename, "w")
   outfile.write (sourceFile)
   outfile.close ();
@@ -875,7 +901,7 @@ CUTS_%(archName)s_CCM_ComponentServer_App::
 #
 #   Function for writing the component server app header file
 #
-def writeComponentServerAppHeader (outputDir, dict) :
+def writeComponentServerAppHeader (output, dict) :
   sourceFile = """// -*- C++ -*-
 
 #ifndef _CUTS_%(archNameUpper)s_CCM_COMPONENTSERVER_APP_H_
@@ -933,7 +959,7 @@ private:
 """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/server/" + dict["archName"] + "_CCM_ComponentServer_App.h"
+  filename = output + "/server/" + dict["archName"] + "_CCM_ComponentServer_App.h"
   outfile = open (filename, "w")
   outfile.write (sourceFile)
   outfile.close ();
@@ -943,7 +969,7 @@ private:
 #
 #   Driver program for the component server application
 #
-def writeServerDriver (outputDir, dict) :
+def writeServerDriver (output, dict) :
   sourceFile = """// $Id$
 
 #include "ace/Singleton.h"
@@ -1021,7 +1047,7 @@ int ACE_TMAIN (int argc, char * argv [])
 """ % dict
 
   # write the servant's header to file
-  filename = outputDir + "/server/server.cpp"
+  filename = output + "/server/server.cpp"
   outfile = open (filename, "w")
   outfile.write (sourceFile)
   outfile.close ();
@@ -1031,7 +1057,7 @@ int ACE_TMAIN (int argc, char * argv [])
 #
 #   MPC file for building the component server application
 #
-def writeServerMPC (outputDir, dict) :
+def writeServerMPC (output, dict) :
   sourceFile = """// $Id$
 
 project (CUTS_%(archName)s_CCM_ComponentServer) : ciao_componentserver_svnt, cuts_ccm, cuts_lib, cutsexe {
@@ -1051,7 +1077,7 @@ project (CUTS_%(archName)s_CCM_ComponentServer) : ciao_componentserver_svnt, cut
 """ % dict
 
   # write source to file
-  filename = outputDir + "/server/server.mpc"
+  filename = output + "/server/server.mpc"
   outfile = open (filename, "w")
   outfile.write (sourceFile)
   outfile.close ();
