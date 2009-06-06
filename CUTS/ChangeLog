@@ -1,3 +1,13 @@
+Sat Jun  6 19:19:35 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS.xme:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS.xml:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS.xmp:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS_uml.xme:
+				  
+          . Updated the CUTS_DSML language as per the new updates 
+            in UNITE.xsd
+
 Sat Jun  6 17:27:33 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/ccm/CCM_Container_Strategy_T.h:
