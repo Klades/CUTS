@@ -1,3 +1,10 @@
+Sat Jun  6 01:51:35 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Impl.cpp:
+
+	  . Actaully, the architecture below works!! The example was
+	    not publishing any data.
+
 Sat Jun  6 01:40:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/opensplice/OpenSplice.mpc:
@@ -27,9 +34,9 @@ Sat Jun  6 01:40:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
         * cuts/arch/opensplice/server/OpenSplice_Container.cpp:
         * cuts/arch/opensplice/server/OpenSplice_Container_Strategy.cpp:
 
-	  . Checkpointing the OpenSplice architecture. Right now, the 
-	    the component is able to connect. It is, however, not able
-	    to properly send events.
+          . Checkpointing the OpenSplice architecture. Right now, the
+            the component is able to connect. It is, however, not able
+            to properly send events.
 
         * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.h:
         * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.cpp:
@@ -38,8 +45,8 @@ Sat Jun  6 01:40:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
         * examples/arch/opensplice/SimpleExample/descriptors/SimpleExample.cdp:
         * examples/arch/opensplice/SimpleExample/descriptors/run_test.pl:
 
-	  . Checkpoint the example with the lastest version of the 
-	    OpenSplice architecture.
+          . Checkpoint the example with the lastest version of the
+            OpenSplice architecture.
 
 Fri Jun  5 19:29:55 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 

@@ -30,10 +30,10 @@ namespace SimpleComponent_Basic_Impl
   //
   void SimpleComponent::push_read_test_data (::Outer::TestData_DDS * ev)
   {
-    ACE_DEBUG ((LM_INFO,
-		"%T (%t) - %M - I have received an event\n"));
-
-    ACE_UNUSED_ARG (ev);
+    ACE_DEBUG ((LM_DEBUG,
+		"%T (%t) - %M - received event %d from %s\n",
+		ev->packet ().id,
+		ev->packet ().name.in ()));
   }
 
   //
@@ -43,6 +43,14 @@ namespace SimpleComponent_Basic_Impl
   {
     ACE_DEBUG ((LM_INFO,
 		"%T (%t) - %M - sending a new event\n"));
+    
+    ::CUTS_CCM_Event_T < ::OBV_Outer::TestData_DDS > event;
+    event->key (7);
+    event->packet ().name = ::CORBA::string_dup ("James H. Hill");
+    event->packet ().id = this->eventCount_ ++;
+    event->packet ().urgent = false;
+
+    this->ctx_->push_app_op_emit (event.in ());
   }
 
   void SimpleComponent::ccm_activate (void)
