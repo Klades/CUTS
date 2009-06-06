@@ -8,6 +8,30 @@
 #include "CCM_Single_Subscriber.h"
 #include "CCM_Subscriber_Table.h"
 
+//
+// CUTS_CCM_Servant_T
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
+CUTS_CCM_Servant_T (const char * name, typename EXECUTOR::_ptr_type exec)
+  : SERVANT_BASE (name),
+    impl_ (EXECUTOR::_duplicate (exec))
+{
+  // Create the context for the servant/executor.
+  CONTEXT * context = 0;
+  T * self = dynamic_cast <T *> (this);
+
+  ACE_NEW_THROW_EX (context,
+                    CONTEXT (*self),
+                    ::CORBA::NO_MEMORY ());
+
+  // Set the session context of the implementation
+  this->ctx_.reset (context);
+
+  if (this->impl_)
+    this->impl_->set_session_context (this->ctx_.get ());
+}
+
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 CUTS_INLINE void
 CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::configuration_complete (void)

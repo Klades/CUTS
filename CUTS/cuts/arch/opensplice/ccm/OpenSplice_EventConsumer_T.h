@@ -25,9 +25,9 @@ public:
 
   virtual void on_data_available (::DDS::DataReader_ptr reader);
 
-  int configure (::DDS::DomainParticipant_ptr participant,
-                 const char * inst,
-                 const char * topic);
+  virtual int configure (::DDS::DomainParticipant_ptr participant,
+			 const char * inst,
+			 const char * topic);
 
 private:
   /// Servant to pass event.

@@ -11,78 +11,25 @@
 #include "cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.h"
 
 //
-// load_executor
+// configure_servant
 //
-::Components::EnterpriseComponent_ptr
+void
 CUTS_OpenSplice_CCM_Container_Strategy::
-load_executor (const char * artifact,
-               const char * entrypt)
+configure_servant (::PortableServer::Servant servant,
+		   const ::Components::ConfigValues & )
 {
-  // Load the executor from its shared library.
-  ACE_DLL module;
+  // Convert the servant into an OpenSplice servant.
+  CUTS_OpenSplice_CCM_Servant * ospl_servant =
+    dynamic_cast <CUTS_OpenSplice_CCM_Servant *> (servant);
 
-  if (0 != module.open (artifact, ACE_DEFAULT_SHLIB_MODE, false))
-  {
-    ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - error loading opening %s; %m\n"),
-                artifact));
+  if (0 == ospl_servant)
+    return;
 
-    throw ::Components::Deployment::InvalidConfiguration ();
-  }
-
-  // Load the symbol from the library.
-  void * symbol = module.symbol (entrypt);
-
-  if (0 == symbol)
-    throw ::Components::Deployment::ImplEntryPointNotFound ();
-
-  // Load the executor from the executor artifact.
-  typedef ::Components::EnterpriseComponent_ptr (*ExecutorFactoryMethod) (void);
-  ptrdiff_t tmp_ptr = reinterpret_cast <ptrdiff_t> (symbol);
-  ExecutorFactoryMethod factory_method = reinterpret_cast <ExecutorFactoryMethod> (tmp_ptr);
-
-  return factory_method ();
-}
-
-//
-// load_servant
-//
-::PortableServer::Servant
-CUTS_OpenSplice_CCM_Container_Strategy::
-load_servant (const char * name,
-              const char * artifact,
-              const char * entrypt,
-              ::Components::EnterpriseComponent_ptr executor)
-{
-  // Load the servant from its shared library.
-  ACE_DLL module;
-
-  if (0 != module.open (artifact, ACE_DEFAULT_SHLIB_MODE, false))
-  {
-    ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - failed to open module %s; %m\n"),
-                artifact));
-
-    throw ::Components::Deployment::InvalidConfiguration ();
-  }
-
-  // Load the symbol from the library.
-  void * symbol = module.symbol (entrypt);
-
-  if (0 == symbol)
-    throw ::Components::Deployment::ImplEntryPointNotFound ();
-
-  // Load the executor from the executor artifact.
-  typedef ::PortableServer::Servant (*ServantFactoryMethod)
-    (const char *, ::Components::EnterpriseComponent_ptr, ::DDS::DomainParticipant_ptr);
-
-  ptrdiff_t tmp_ptr = reinterpret_cast <ptrdiff_t> (symbol);
-  ServantFactoryMethod factory_method = reinterpret_cast <ServantFactoryMethod> (tmp_ptr);
-
-  // This should be placed in a <configure_servant> method.
+  // Get the domain participant factory.
   ::DDS::DomainParticipantFactory_var factory = 
       ::DDS::DomainParticipantFactory::get_instance ();
 
+  // Create a participant on the default domain.
   ACE_DEBUG ((LM_DEBUG,
 	      "%T (%t) - %M - creating a participant in the default domain\n"));
 
@@ -92,7 +39,7 @@ load_servant (const char * name,
 				   0,
 				   ::DDS::ANY_STATUS);
 
-  ::PortableServer::Servant servant = (*factory_method) (name, executor, participant.in ());
-  return servant;
+  // Configure the servant.
+  ospl_servant->configure (participant.in ());
 }
 

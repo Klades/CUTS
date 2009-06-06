@@ -27,6 +27,10 @@ class CUTS_OPENSPLICE_CCM_Export CUTS_OpenSplice_CCM_EventConsumer :
   /// Destructor.
   virtual ~CUTS_OpenSplice_CCM_EventConsumer (void);
 
+  virtual int configure (::DDS::DomainParticipant_ptr participant,
+			 const char * inst,
+			 const char * topic_name) = 0;
+
   virtual int open (::DDS::DomainParticipant_ptr participant,
 		    ::DDS::TypeSupport_ptr type_support,
 		    const char * topic_name);

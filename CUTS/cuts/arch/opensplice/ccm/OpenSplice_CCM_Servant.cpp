@@ -19,7 +19,7 @@ CUTS_OpenSplice_CCM_Servant::participant (void)
 // participant
 //
 void CUTS_OpenSplice_CCM_Servant::
-participant (::DDS::DomainParticipant_ptr participant)
+configure (::DDS::DomainParticipant_ptr participant)
 {
   this->participant_ = ::DDS::DomainParticipant::_duplicate (participant);
 }

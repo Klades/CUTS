@@ -33,15 +33,8 @@ public:
 
   virtual ~CUTS_OpenSplice_CCM_Container_Strategy (void);
 
-  virtual ::Components::EnterpriseComponent_ptr
-    load_executor (const char * artifact,
-                   const char * entrypt);
-
-  virtual ::PortableServer::Servant
-    load_servant (const char * name,
-                  const char * artifact,
-                  const char * entrypt,
-                  ::Components::EnterpriseComponent_ptr executor);
+  virtual void configure_servant (::PortableServer::Servant servant,
+				  const ::Components::ConfigValues & config);
 };
 
 #if defined (__CUTS_INLINE__)

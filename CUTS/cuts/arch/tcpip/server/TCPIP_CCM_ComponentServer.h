@@ -49,6 +49,9 @@ public:
 
   virtual int init (int argc, char * argv []);
 
+  /// Activate the component server.
+  virtual int activate (void);
+
   /// Shutdown the component server.
   virtual void shutdown (void);
 };

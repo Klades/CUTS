@@ -35,8 +35,6 @@ namespace SimpleComponent_Basic_Impl
     // destructor
     virtual ~SimpleComponent_Servant_Context (void);
     
-    virtual void configure (::DDS::DomainParticipant_ptr participant);
-
   public:
     // push method for output event port: handle_message
     virtual void push_app_op_emit (::Outer::TestData_DDS * ev);
@@ -71,8 +69,7 @@ namespace SimpleComponent_Basic_Impl
   public:
     // default constructor
     SimpleComponent_Servant (const char * name, 
-			     ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor,
-			     ::DDS::DomainParticipant_ptr participant);
+			     ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor);
 
     // destructor
     virtual ~SimpleComponent_Servant (void);
@@ -102,7 +99,6 @@ namespace SimpleComponent_Basic_Impl
 extern "C" OPENSPLICE_SIMPLECOMPONENT_SVNT_Export
 ::PortableServer::Servant
 create_SimpleComponent_Servant (const char * name,
-				::Components::EnterpriseComponent_ptr p,
-				::DDS::DomainParticipant_ptr participant);
+				::Components::EnterpriseComponent_ptr p);
 
 #endif  // !defined _TCPIP_HELLOWORLD_SVNT_H_

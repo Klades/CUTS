@@ -249,7 +249,7 @@ install_component (const char * id,
 
   // Load the executor from its shared library.
   ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T - %M - loading the component's implementation\n")));
+              ACE_TEXT ("%T (%t) - %M - loading the component's implementation\n")));
 
   const char * temp_str;
   (*exec_artifact)->value () >>= temp_str;
@@ -266,7 +266,7 @@ install_component (const char * id,
 
   // Load the servant from its shared library.
   ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T - %M - loading the component's servant\n")));
+              ACE_TEXT ("%T (%t) - %M - loading the component's servant\n")));
 
   (*svnt_artifact)->value () >>= temp_str;
   ::Components::Deployment::UUID_var svnt_uuid = temp_str;
@@ -281,6 +281,12 @@ install_component (const char * id,
                                    location.in (),
                                    svnt_entrypt_str.in (),
                                    executor.in ());
+
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - confguring the loaded component\n")));
+
+  // Let the strategy configure the servant.
+  this->strategy_->configure_servant (servant.in (), config);
 
   // Activate the servant under the provided POA.
   PortableServer::ObjectId_var oid = this->poa_->activate_object (servant.in ());

@@ -18,13 +18,6 @@ namespace SimpleComponent_Basic_Impl
   {
   }
 
-  void SimpleComponent_Servant_Context::
-  configure (::DDS::DomainParticipant_ptr participant)
-  {
-    this->app_op_emit_.configure (participant);
-    this->app_op_send_.configure (participant);
-  }
-
   //
   // writer_app_op_emit
   //
@@ -59,17 +52,11 @@ namespace SimpleComponent_Basic_Impl
   //
   SimpleComponent_Servant::
   SimpleComponent_Servant (const char * name,
-			   ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor,
-			   ::DDS::DomainParticipant_ptr participant)
-    : SimpleComponent_Servant_Base (name, executor, participant),
+			   ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor)
+    : SimpleComponent_Servant_Base (name, executor),
       read_test_data_consumer_ (this, &SimpleComponent_Servant::deserialize_read_test_data)
   {
-    ACE_DEBUG ((LM_DEBUG,
-		"%T (%t) - %M - configuring the event consumers\n"));
-    this->ctx_->configure (participant);
-
     // Initializing the consumer table.
-    this->read_test_data_consumer_.configure (participant, name, "read_test_data");
     this->consumers_.bind ("read_test_data", &this->read_test_data_consumer_);
 
     // Initializing the publishes/emits table.
@@ -146,10 +133,9 @@ namespace SimpleComponent_Basic_Impl
   }
 }
 
-::PortableServer::Servant
+extern "C" ::PortableServer::Servant
 create_SimpleComponent_Servant (const char * name,
-				::Components::EnterpriseComponent_ptr p,
-				::DDS::DomainParticipant_ptr participant)
+				::Components::EnterpriseComponent_ptr p)
 {
   ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_var executor =
     ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec::_narrow (p);
@@ -160,7 +146,7 @@ create_SimpleComponent_Servant (const char * name,
   ::SimpleComponent_Basic_Impl::SimpleComponent_Servant * servant;
 
   ACE_NEW_RETURN (servant,
-		  ::SimpleComponent_Basic_Impl::SimpleComponent_Servant (name, executor.in (), participant),
+		  ::SimpleComponent_Basic_Impl::SimpleComponent_Servant (name, executor.in ()),
 		  0);
 
   return servant;

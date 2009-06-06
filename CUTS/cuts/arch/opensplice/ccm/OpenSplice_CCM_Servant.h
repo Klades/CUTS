@@ -25,9 +25,9 @@ public:
    * Get the domain participant for the servant. The caller must take
    * ownership of the returned participant.
    */
-  ::DDS::DomainParticipant_ptr participant (void);
+  virtual ::DDS::DomainParticipant_ptr participant (void);
 
-  void participant (::DDS::DomainParticipant_ptr participant);
+  virtual void configure (::DDS::DomainParticipant_ptr participant);
 
 protected:
   /// Default constructor.
@@ -35,9 +35,6 @@ protected:
 
   /// Domain participant for the servant.
   ::DDS::DomainParticipant_var participant_;
-
-  /// Name of the servant.
-  ACE_CString name_;
 };
 
 #if defined (__CUTS_INLINE__)

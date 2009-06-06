@@ -38,20 +38,21 @@ public:
 			      POA_EXEC,
 			      CUTS_OpenSplice_CCM_Servant> base_type;
   
+  CUTS_OpenSplice_CCM_Servant_T (const char * name,
+				 typename EXECUTOR::_ptr_type executor);
+
   /// Destructor.
   virtual ~CUTS_OpenSplice_CCM_Servant_T (void);
 
+  /// Configure the servant.
+  virtual void configure (::DDS::DomainParticipant_ptr participant);
+
 protected:
-  /**
-   * Initializing constructor.
-   *
-   * @param[in]       name              Name of the servant
-   * @param[in]       executor          Executor for the servant
-   * @param[in]       participant       Domain participant for the servant
-   */
-  CUTS_OpenSplice_CCM_Servant_T (const char * name,
-				 typename EXECUTOR::_ptr_type executor,
-				 ::DDS::DomainParticipant_ptr participant);
+  typedef typename base_type::consumer_map_type consumer_map_type;
+
+  typedef typename base_type::emits_map_type emits_map_type;
+
+  typedef typename base_type::publishes_map_type publishes_map_type;
 };
 
 #if defined (__CUTS_INLINE__)

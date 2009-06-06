@@ -1,9 +1,45 @@
+Sat Jun  6 05:19:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/ccm/CCM_Container_Strategy_T.h:
+        * cuts/arch/ccm/CCM_Container_Strategy_T.inl:
+        * cuts/arch/ccm/CCM_Container_Strategy_T.cpp:
+        * cuts/arch/ccm/CCM_Container_T.cpp:
+        * cuts/arch/ccm/CCM_Servant_T.h:
+        * cuts/arch/ccm/CCM_Servant_T.inl:
+        * cuts/arch/ccm/CCM_Servant_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.inl:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.h:
+        * cuts/arch/opensplice/server/OpenSplice_Container_Strategy.h:
+        * cuts/arch/opensplice/server/OpenSplice_Container_Strategy.cpp:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.cpp:
+
+	  . Moved the code for loading an executor/servant to the template
+	    class container's strategy so it can be used as a defualt 
+	    method.
+
+	  . Added a configure_servant () method, which all different 
+	    architectures to configure their servants based on configuration 
+	    values in the deployment plan.
+
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.h:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.cpp:
+
+	  . The servant's factory method no longer needs the 
+	    a reference to the domain participant. This is set
+	    via the configure () method.
+
 Sat Jun  6 01:51:35 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/opensplice/SimpleExample/SimpleComponent_Impl.cpp:
 
-	  . Actaully, the architecture below works!! The example was
-	    not publishing any data.
+          . Actaully, the architecture below works!! The example was
+            not publishing any data.
 
 Sat Jun  6 01:40:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
