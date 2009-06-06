@@ -31,12 +31,6 @@ class CUTS_TCPIP_ORB;
 class CUTS_TCPIP_Export CUTS_TCPIP_Servant_Manager
 {
 public:
-  /// Type definition of the object map.
-  typedef
-    ACE_Hash_Map_Manager <ACE_Utils::UUID,
-                          CUTS_TCPIP_Servant *,
-                          ACE_RW_Thread_Mutex> map_type;
-
   /// Default constructor.
   CUTS_TCPIP_Servant_Manager (CUTS_TCPIP_ORB * orb);
 
@@ -44,18 +38,18 @@ public:
   ~CUTS_TCPIP_Servant_Manager (void);
 
   /**
-   * @overload
-   *
-   * @param[in]         uuid          UUID of the active object.
+   * Activate a servant object.
    */
   int activate_object (CUTS_TCPIP_Servant * obj);
 
   /**
    * Deactivate an object.
-   *
-   * @param[in]         uuid          UUID of the active object.
    */
   int deactivate_object (const ACE_Utils::UUID & uuid);
+
+  /// Get the UUID of a servant.
+  int get_uuid (CUTS_TCPIP_Servant * obj,
+                ACE_Utils::UUID & uuid) const;
 
   /**
    * Locate an object in the manager.
@@ -71,6 +65,12 @@ public:
 private:
   /// ORB that owns the servant manager.
   CUTS_TCPIP_ORB * orb_;
+
+  /// Type definition of the object map.
+  typedef
+    ACE_Hash_Map_Manager <ACE_Utils::UUID,
+                          CUTS_TCPIP_Servant *,
+                          ACE_RW_Thread_Mutex> map_type;
 
   /// Collection of active objects in this manager.
   map_type active_objects_;

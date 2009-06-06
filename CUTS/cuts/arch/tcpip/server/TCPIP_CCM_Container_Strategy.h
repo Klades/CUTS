@@ -50,6 +50,11 @@ public:
   virtual void
     configure_servant (::PortableServer::Servant servant,
                        const ::Components::ConfigValues & config);
+
+  /// Remove the servant. This will unregister the servant
+  /// with the TCP/IP ORB.
+  virtual void
+    remove_servant (::PortableServer::Servant servant);
 };
 
 #if defined (__CUTS_INLINE__)

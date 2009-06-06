@@ -44,3 +44,23 @@ CUTS_TCPIP_Servant_Manager::deactivate_object (const ACE_Utils::UUID & uuid)
   obj->orb_ = 0;
   return 0;
 }
+
+//
+// get_uuid
+//
+int CUTS_TCPIP_Servant_Manager::
+get_uuid (CUTS_TCPIP_Servant * obj, ACE_Utils::UUID & uuid) const
+{
+  map_type::CONST_ITERATOR iter (this->active_objects_);
+
+  for (; !iter.done (); ++ iter)
+  {
+    if (iter->item () == obj)
+    {
+      uuid = iter->key ();
+      return 0;
+    }
+  }
+
+  return -1;
+}

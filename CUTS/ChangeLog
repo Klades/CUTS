@@ -1,3 +1,19 @@
+Sat Jun  6 17:27:33 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/ccm/CCM_Container_Strategy_T.h:
+        * cuts/arch/ccm/CCM_Container_Strategy_T.inl:
+        * cuts/arch/ccm/CCM_Container_T.cpp:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container_Strategy.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container_Strategy.cpp:
+
+          . Implemented the remove_servant () method, which is used
+            to notify the strategy of a servant's removal.
+
+        * cuts/arch/tcpip/TCPIP_Servant_Manager.h:
+        * cuts/arch/tcpip/TCPIP_Servant_Manager.cpp:
+
+          . Implemented a method for searching for an servant's UUID
+
 Sat Jun  6 16:57:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * bin/cuts-generate-ccm-arch-skeleton.py:

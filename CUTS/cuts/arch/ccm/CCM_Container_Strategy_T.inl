@@ -35,3 +35,13 @@ configure_servant (::PortableServer::Servant ,
 
 }
 
+//
+// remove_servant
+//
+template <typename CONTAINER>
+CUTS_INLINE void
+CUTS_CCM_Container_Strategy_T <CONTAINER>::
+remove_servant (::PortableServer::Servant)
+{
+
+}

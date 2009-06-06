@@ -180,6 +180,9 @@ void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::remove (void)
       continue;
 
     servant->passivate_component ();
+
+    // Notify the strategy of the servant's removal.
+    this->strategy_->remove_servant (servant);
     servant->remove ();
   }
 

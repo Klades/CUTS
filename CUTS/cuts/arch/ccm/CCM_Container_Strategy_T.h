@@ -42,9 +42,22 @@ public:
       const char * entrypt,
       ::Components::EnterpriseComponent_ptr executor);
 
+  /**
+   * Notification to configure the servant.
+   *
+   * @param[in]       servant       Servant to configure.
+   */
   virtual void
     configure_servant (::PortableServer::Servant servant,
            const ::Components::ConfigValues & values);
+
+  /**
+   * Notification to remove the servant.
+   *
+   * @param[in]       servant       Servant to remove
+   */
+  virtual void
+    remove_servant (::PortableServer::Servant servant);
 
 protected:
   /// Pointer to the component server hosting the container.
