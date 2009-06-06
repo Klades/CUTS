@@ -1,3 +1,14 @@
+Sat Jun  6 14:27:08 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_ccm.mpb:
+
+          . Fixed errors in the base project specification.
+
+        * bin/cuts-generate-ccm-arch-skeleton.py:
+
+          . Helper script to generate skeleton files for an architecture
+            that uses CUTS's CCM template pattern lanugage.
+
 Sat Jun  6 05:19:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/ccm/CCM_Container_Strategy_T.h:
@@ -19,20 +30,20 @@ Sat Jun  6 05:19:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
         * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.h:
         * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.cpp:
 
-	  . Moved the code for loading an executor/servant to the template
-	    class container's strategy so it can be used as a defualt 
-	    method.
+          . Moved the code for loading an executor/servant to the template
+            class container's strategy so it can be used as a defualt
+            method.
 
-	  . Added a configure_servant () method, which all different 
-	    architectures to configure their servants based on configuration 
-	    values in the deployment plan.
+          . Added a configure_servant () method, which all different
+            architectures to configure their servants based on configuration
+            values in the deployment plan.
 
         * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.h:
         * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.cpp:
 
-	  . The servant's factory method no longer needs the 
-	    a reference to the domain participant. This is set
-	    via the configure () method.
+          . The servant's factory method no longer needs the
+            a reference to the domain participant. This is set
+            via the configure () method.
 
 Sat Jun  6 01:51:35 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
