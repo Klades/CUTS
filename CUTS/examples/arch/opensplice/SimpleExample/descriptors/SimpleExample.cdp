@@ -15,7 +15,7 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>create_HelloWorld_Basic_Impl</string>
+          <string>create_SimpleComponent_Basic_Impl</string>
         </value>
       </value>
     </execParameter>
@@ -37,7 +37,7 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>create_HelloWorld_Servant</string>
+          <string>create_SimpleComponent_Servant</string>
         </value>
       </value>
     </execParameter>

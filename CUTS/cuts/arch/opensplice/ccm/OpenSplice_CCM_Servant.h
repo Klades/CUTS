@@ -25,13 +25,13 @@ public:
    * Get the domain participant for the servant. The caller must take
    * ownership of the returned participant.
    */
-  ::DDS::DomainParticipant_ptr get_participant (void);
+  ::DDS::DomainParticipant_ptr participant (void);
+
+  void participant (::DDS::DomainParticipant_ptr participant);
 
 protected:
   /// Default constructor.
   CUTS_OpenSplice_CCM_Servant (const char * name);
-
-  void participant (::DDS::DomainParticipant_ptr participant);
 
   /// Domain participant for the servant.
   ::DDS::DomainParticipant_var participant_;

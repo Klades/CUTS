@@ -12,7 +12,7 @@ $CIAO_ROOT = "$ENV{'CIAO_ROOT'}";
 $TAO_ROOT = "$ENV{'TAO_ROOT'}";
 $DAnCE = "$ENV{'DANCE_ROOT'}";
 
-$OSPL_HOME = "$ENV{'OSPL_HOME'};
+$OSPL_HOME = "$ENV{'OSPL_HOME'}";
 $CUTS_ROOT = "$ENV{'CUTS_ROOT'}";
 
 $daemons_running = 0;

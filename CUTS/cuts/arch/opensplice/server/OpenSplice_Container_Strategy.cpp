@@ -81,7 +81,10 @@ load_servant (const char * name,
 
   // This should be placed in a <configure_servant> method.
   ::DDS::DomainParticipantFactory_var factory = 
-      this->container_->get_participant_factory ();
+      ::DDS::DomainParticipantFactory::get_instance ();
+
+  ACE_DEBUG ((LM_DEBUG,
+	      "%T (%t) - %M - creating a participant in the default domain\n"));
 
   ::DDS::DomainParticipant_var participant = 
       factory->create_participant (0,     /* this is where the domain goes */
@@ -90,13 +93,6 @@ load_servant (const char * name,
 				   ::DDS::ANY_STATUS);
 
   ::PortableServer::Servant servant = (*factory_method) (name, executor, participant.in ());
-
-  // Register the TCP/IP servent with the object manager.
-  CUTS_OpenSplice_CCM_Servant * opensplice_servant =
-    dynamic_cast <CUTS_OpenSplice_CCM_Servant *> (servant);
-
   return servant;
-
-  ACE_UNUSED_ARG (opensplice_servant);
 }
 

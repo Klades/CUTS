@@ -62,7 +62,7 @@ namespace SimpleComponent_Basic_Impl
 // create_HelloWorld_Basic_Impl
 //
 extern "C" SIMPLECOMPONENT_BASIC_IMPL_Export
-::Components::EnterpriseComponent_ptr create_HelloWorld_Basic_Impl (void);
+::Components::EnterpriseComponent_ptr create_SimpleComponent_Basic_Impl (void);
 
 #include "ace/post.h"
 

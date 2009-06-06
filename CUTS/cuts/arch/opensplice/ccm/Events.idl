@@ -7,9 +7,24 @@ module Components
 {
   module OpenSplice
   {
+    struct TopicDescription
+    {
+      /// The name of the topic.
+      string name;
+
+      /// The type name of the topic.
+      string type_name;
+    };
+
+    /**
+     * Extension interface for connecting to subscriber using
+     * CCM component connections as virtual subscriptions.
+     */
     interface EventConsumer : ::Components::EventConsumerBase
     {
-      readonly attribute string topic;
+      /// Get the topic description for this event consumer.
+      readonly attribute 
+      ::Components::OpenSplice::TopicDescription topic_description;
     };
   };
 };

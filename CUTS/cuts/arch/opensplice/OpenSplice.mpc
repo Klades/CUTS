@@ -7,6 +7,7 @@ project (CUTS_OpenSplice) : requires_opensplice, ccm_svnt, splicelib, cutslib {
 
   Source_Files {
     OpenSplice_ListenerBase.cpp
+    OpenSplice_Endpoint.cpp
   }
 
   Header_Files {

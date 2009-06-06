@@ -7,20 +7,21 @@
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/UUID.h"
 #include "OpenSplice_Subscriber_T.h"
+#include "OpenSplice_Subscriber_Table.h"
 
 /**
  * @class CUTS_OpenSplice_CCM_Subscriber_Table_T
  */
 template <typename EVENT>
 class CUTS_OpenSplice_CCM_Subscriber_Table_T :
-  public CUTS_CCM_Subscriber_Table
+  public CUTS_OpenSplice_CCM_Subscriber_Table
 {
 public:
   typedef CUTS_OpenSplice_Traits_T <EVENT> traits_type;
 
   typedef CUTS_OpenSplice_CCM_Subscriber_T <EVENT> subscriber_type;
 
-  CUTS_OpenSplice_CCM_Subscriber_Table_T (::DDS::DomainParticipant_ptr participant);
+  CUTS_OpenSplice_CCM_Subscriber_Table_T (void);
 
   virtual ~CUTS_OpenSplice_CCM_Subscriber_Table_T (void);
 
@@ -36,8 +37,6 @@ protected:
                                 ACE_RW_Thread_Mutex> table_type;
 
   table_type table_;
-
-  ::DDS::DomainParticipant_var participant_;
 };
 
 #include "OpenSplice_Subscriber_Table_T.cpp"

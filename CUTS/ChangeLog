@@ -1,3 +1,46 @@
+Sat Jun  6 01:40:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/opensplice/OpenSplice.mpc:
+        * cuts/arch/opensplice/OpenSplice_Endpoint.h:
+        * cuts/arch/opensplice/OpenSplice_Endpoint.inl:
+        * cuts/arch/opensplice/OpenSplice_Endpoint.cpp:
+        * cuts/arch/opensplice/OpenSplice_export.h:
+        * cuts/arch/opensplice/ccm/Events.idl:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM.mpc:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.inl:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.inl:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table_T.cpp:
+        * cuts/arch/opensplice/server/OpenSplice_Container.h:
+        * cuts/arch/opensplice/server/OpenSplice_Container.inl:
+        * cuts/arch/opensplice/server/OpenSplice_Container.cpp:
+        * cuts/arch/opensplice/server/OpenSplice_Container_Strategy.cpp:
+
+	  . Checkpointing the OpenSplice architecture. Right now, the 
+	    the component is able to connect. It is, however, not able
+	    to properly send events.
+
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.h:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Impl.h:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Impl.cpp:
+        * examples/arch/opensplice/SimpleExample/descriptors/SimpleExample.cdp:
+        * examples/arch/opensplice/SimpleExample/descriptors/run_test.pl:
+
+	  . Checkpoint the example with the lastest version of the 
+	    OpenSplice architecture.
+
 Fri Jun  5 19:29:55 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/opensplice/SimpleExample:

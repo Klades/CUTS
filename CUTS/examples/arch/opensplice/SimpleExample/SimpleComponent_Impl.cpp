@@ -30,6 +30,9 @@ namespace SimpleComponent_Basic_Impl
   //
   void SimpleComponent::push_read_test_data (::Outer::TestData_DDS * ev)
   {
+    ACE_DEBUG ((LM_INFO,
+		"%T (%t) - %M - I have received an event\n"));
+
     ACE_UNUSED_ARG (ev);
   }
 
@@ -38,6 +41,8 @@ namespace SimpleComponent_Basic_Impl
   //
   void SimpleComponent::periodic_sendData (void)
   {
+    ACE_DEBUG ((LM_INFO,
+		"%T (%t) - %M - sending a new event\n"));
   }
 
   void SimpleComponent::ccm_activate (void)
@@ -48,10 +53,10 @@ namespace SimpleComponent_Basic_Impl
 }
 
 //
-// create_HelloWorld_Basic_Impl
+// create_SimpleComponent_Basic_Impl
 //
 ::Components::EnterpriseComponent_ptr 
-create_HelloWorld_Basic_Impl (void)
+create_SimpleComponent_Basic_Impl (void)
 {
   ::Components::EnterpriseComponent_ptr retval =
     ::Components::EnterpriseComponent::_nil ();

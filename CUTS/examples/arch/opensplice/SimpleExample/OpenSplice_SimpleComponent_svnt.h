@@ -35,6 +35,8 @@ namespace SimpleComponent_Basic_Impl
     // destructor
     virtual ~SimpleComponent_Servant_Context (void);
     
+    virtual void configure (::DDS::DomainParticipant_ptr participant);
+
   public:
     // push method for output event port: handle_message
     virtual void push_app_op_emit (::Outer::TestData_DDS * ev);

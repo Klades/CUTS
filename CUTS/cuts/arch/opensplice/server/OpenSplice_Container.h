@@ -44,12 +44,6 @@ public:
   
   /// Destructor.
   virtual ~CUTS_OpenSplice_CCM_Container (void);
-
-  ::DDS::DomainParticipantFactory_ptr get_participant_factory (void);
-
-private:
-  /// Factory for creating domain participants.
-  ::DDS::DomainParticipantFactory_var factory_;
 };
 
 #if defined (__CUTS_INLINE__)

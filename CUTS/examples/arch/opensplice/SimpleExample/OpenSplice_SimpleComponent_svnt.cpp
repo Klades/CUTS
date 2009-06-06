@@ -9,14 +9,20 @@ namespace SimpleComponent_Basic_Impl
 {
   SimpleComponent_Servant_Context::
   SimpleComponent_Servant_Context (SimpleComponent_Servant & parent)
-    : SimpleComponent_Servant_Context_Base (parent),
-      app_op_emit_ (parent.get_participant ()),
-      app_op_send_ (parent.get_participant ())
+    : SimpleComponent_Servant_Context_Base (parent)
   {
+
   }
 
   SimpleComponent_Servant_Context::~SimpleComponent_Servant_Context (void)
   {
+  }
+
+  void SimpleComponent_Servant_Context::
+  configure (::DDS::DomainParticipant_ptr participant)
+  {
+    this->app_op_emit_.configure (participant);
+    this->app_op_send_.configure (participant);
   }
 
   //
@@ -58,6 +64,10 @@ namespace SimpleComponent_Basic_Impl
     : SimpleComponent_Servant_Base (name, executor, participant),
       read_test_data_consumer_ (this, &SimpleComponent_Servant::deserialize_read_test_data)
   {
+    ACE_DEBUG ((LM_DEBUG,
+		"%T (%t) - %M - configuring the event consumers\n"));
+    this->ctx_->configure (participant);
+
     // Initializing the consumer table.
     this->read_test_data_consumer_.configure (participant, name, "read_test_data");
     this->consumers_.bind ("read_test_data", &this->read_test_data_consumer_);

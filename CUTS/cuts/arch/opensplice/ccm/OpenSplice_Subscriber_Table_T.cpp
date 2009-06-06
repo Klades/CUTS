@@ -4,8 +4,7 @@
 
 template <typename EVENT>
 CUTS_OpenSplice_CCM_Subscriber_Table_T <EVENT>::
-CUTS_OpenSplice_CCM_Subscriber_Table_T (::DDS::DomainParticipant_ptr participant)
-  : participant_ (participant)
+CUTS_OpenSplice_CCM_Subscriber_Table_T (void)
 {
 
 }
@@ -37,11 +36,12 @@ subscribe (::Components::EventConsumerBase_ptr consumer)
   subscriber_type * subscriber = 0;
 
   ACE_NEW_THROW_EX (subscriber,
-                    subscriber_type (::DDS::DomainParticipant::_duplicate (this->participant_.in ())),
+                    subscriber_type (),
                     ::CORBA::NO_MEMORY ());
 
   ACE_Auto_Ptr < subscriber_type > auto_clean (subscriber);
-
+  subscriber->configure (this->participant_.in ());
+  
   // Cache the subscriber.
   if (0 != this->table_.bind (uuid, subscriber))
     throw ::CORBA::INTERNAL ();
