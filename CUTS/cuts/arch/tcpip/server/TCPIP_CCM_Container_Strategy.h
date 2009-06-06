@@ -29,19 +29,27 @@ class CUTS_TCPIP_CCM_Container_Strategy :
 public:
   typedef CUTS_CCM_Container_Strategy_T <CUTS_TCPIP_CCM_Container> base_type;
 
-  CUTS_TCPIP_CCM_Container_Strategy (CUTS_TCPIP_CCM_Container * container);
+  /**
+   * Initializing constructor
+   *
+   * @param[in]     container       Container hosting the strategy
+   */
+  CUTS_TCPIP_CCM_Container_Strategy (CUTS_TCPIP_CCM_Container & container);
 
+  /// Destructor.
   virtual ~CUTS_TCPIP_CCM_Container_Strategy (void);
 
-  virtual ::Components::EnterpriseComponent_ptr
-    load_executor (const char * artifact,
-                   const char * entrypt);
-
-  virtual ::PortableServer::Servant
-    load_servant (const char * name,
-                  const char * artifact,
-                  const char * entrypt,
-                  ::Components::EnterpriseComponent_ptr executor);
+  /**
+   * Callback for configuring the servant. Implementing this method
+   * is optional. It primarily is used to configure the servant using
+   * domain-specific information specific to the target architecture.
+   *
+   * @param[in]     servant         Servant to configure
+   * @param[in]     config          Configuration for the servant.
+   */
+  virtual void
+    configure_servant (::PortableServer::Servant servant,
+                       const ::Components::ConfigValues & config);
 };
 
 #if defined (__CUTS_INLINE__)

@@ -1,0 +1,16 @@
+// $Id$
+
+project (CUTS_CHAOS_CCM_ComponentServer) : ciao_componentserver_svnt, cuts_ccm, cuts_lib, cutsexe {
+  exename = cuts-chaos-componentserver
+
+  after += CUTS_CHAOS_CCM
+  libs  += CUTS_CHAOS_CCM
+
+  Source_Files {
+    CHAOS_CCM_ComponentServer.cpp
+    CHAOS_CCM_ComponentServer_App.cpp
+    CHAOS_CCM_Container.cpp
+    CHAOS_CCM_Container_Strategy.cpp
+    server.cpp
+  }
+}

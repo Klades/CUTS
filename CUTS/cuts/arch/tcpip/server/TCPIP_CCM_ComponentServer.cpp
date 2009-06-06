@@ -24,7 +24,7 @@ CUTS_TCPIP_CCM_ComponentServer (CUTS_TCPIP_CCM_ComponentServer_App * app)
 int CUTS_TCPIP_CCM_ComponentServer::activate (void)
 {
   base_type::activate ();
-  CUTS_TCPIP_ComponentServer::activate ();
+  return CUTS_TCPIP_ComponentServer::activate ();
 }
 
 //

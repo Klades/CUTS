@@ -409,9 +409,9 @@ public:
   /**
    * Initializing constructor
    *
-   * @param[in]     container       Container hostin the strategy
+   * @param[in]     container       Container hosting the strategy
    */
-  CUTS_%(archName)s_CCM_Container_Strategy (CUTS_%(archName)s_CCM_Container * container);
+  CUTS_%(archName)s_CCM_Container_Strategy (CUTS_%(archName)s_CCM_Container & container);
 
   /// Destructor.
   virtual ~CUTS_%(archName)s_CCM_Container_Strategy (void);
@@ -456,7 +456,7 @@ def writeContainerStrategyInline (output, dict) :
 //
 CUTS_INLINE
 CUTS_%(archName)s_CCM_Container_Strategy::
-CUTS_%(archName)s_CCM_Container_Strategy (CUTS_%(archName)s_CCM_Container * container)
+CUTS_%(archName)s_CCM_Container_Strategy (CUTS_%(archName)s_CCM_Container & container)
 : CUTS_%(archName)s_CCM_Container_Strategy_Base (container)
 {
 

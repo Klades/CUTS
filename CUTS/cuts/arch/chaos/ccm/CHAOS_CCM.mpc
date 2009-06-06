@@ -1,0 +1,16 @@
+// $Id$
+
+project (CUTS_CHAOS_CCM) : cuts_ccm, cuts_lib, cutslib {
+  sharedname    = CUTS_CHAOS_CCM
+  dynamicflags += CUTS_CHAOS_CCM_BUILD_DLL
+
+  prebuild += $(ACE_ROOT)/bin/generate_export_file.pl CUTS_CHAOS_CCM > CHAOS_CCM_export.h
+
+  Source_Files {
+    CHAOS_CCM_Servant.cpp
+  }
+
+  Template_Files {
+    CHAOS_CCM_Servant_T.cpp
+  }
+}

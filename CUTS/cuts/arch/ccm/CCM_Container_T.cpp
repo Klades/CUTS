@@ -52,10 +52,10 @@ CUTS_CCM_Container_T (SERVER * server,
 {
   // Create the strategy for the container.
   STRATEGY * strategy = 0;
-  T * self = dynamic_cast <T *> (this);
+  T * self = reinterpret_cast <T *> (this);
 
   ACE_NEW_THROW_EX (strategy,
-                    STRATEGY (self),
+                    STRATEGY (*self),
                     ::CORBA::NO_MEMORY ());
 
   this->strategy_.reset (strategy);

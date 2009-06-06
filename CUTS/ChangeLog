@@ -1,3 +1,58 @@
+Sat Jun  6 16:57:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * bin/cuts-generate-ccm-arch-skeleton.py:
+
+          . Fixed several bugs in the code generator.
+
+        * cuts/arch/ccm/CCM_Container_Strategy_T.h:
+        * cuts/arch/ccm/CCM_Container_Strategy_T.inl:
+        * cuts/arch/ccm/CCM_Container_T.cpp:
+
+          . Converted the container_ variable to a reference so it
+            does not tempt the strategy to delete the container.
+
+        * cuts/arch/chaos:
+        * cuts/arch/chaos/ccm:
+        * cuts/arch/chaos/ccm/CHAOS_CCM.mpc:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant.h:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant.inl:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant.cpp:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant_T.h:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant_T.inl:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant_T.cpp:
+        * cuts/arch/chaos/server:
+        * cuts/arch/chaos/server/CHAOS_CCM_ComponentServer.h:
+        * cuts/arch/chaos/server/CHAOS_CCM_ComponentServer.inl:
+        * cuts/arch/chaos/server/CHAOS_CCM_ComponentServer.cpp:
+        * cuts/arch/chaos/server/CHAOS_CCM_ComponentServer_App.h:
+        * cuts/arch/chaos/server/CHAOS_CCM_ComponentServer_App.inl:
+        * cuts/arch/chaos/server/CHAOS_CCM_ComponentServer_App.cpp:
+        * cuts/arch/chaos/server/CHAOS_CCM_Container.h:
+        * cuts/arch/chaos/server/CHAOS_CCM_Container.inl:
+        * cuts/arch/chaos/server/CHAOS_CCM_Container.cpp:
+        * cuts/arch/chaos/server/CHAOS_CCM_Container_Strategy.h:
+        * cuts/arch/chaos/server/CHAOS_CCM_Container_Strategy.inl:
+        * cuts/arch/chaos/server/CHAOS_CCM_Container_Strategy.cpp:
+        * cuts/arch/chaos/server/server.cpp:
+        * cuts/arch/chaos/server/server.mpc:
+
+          . Skeleton code for CHAOS integration with CCM/DAnCE.
+
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.cpp:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container_Strategy.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container_Strategy.inl:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container_Strategy.cpp:
+
+          . Moved the code that activates the TCP/IP servant to
+            the configure_servant () method.
+
+          . Removed load_servant () and load_executor ().
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Impl.cpp:
+
+          . Added an output message to show that events are being
+            sent/received via TCP/IP.
+
 Sat Jun  6 15:28:52 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * bin/cuts-generate-ccm-arch-skeleton.py:

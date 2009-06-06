@@ -28,27 +28,27 @@ public:
   /// Type definition of the servant type.
   typedef CONTAINER server_type;
 
-  CUTS_CCM_Container_Strategy_T (CONTAINER * container);
+  CUTS_CCM_Container_Strategy_T (CONTAINER & container);
 
   virtual ~CUTS_CCM_Container_Strategy_T (void);
 
   virtual ::Components::EnterpriseComponent_ptr
     load_executor (const char * location,
-		   const char * entrypt);
-  
+       const char * entrypt);
+
   virtual ::PortableServer::Servant
     load_servant (const char * name,
-		  const char * location,
-		  const char * entrypt,
-		  ::Components::EnterpriseComponent_ptr executor);
+      const char * location,
+      const char * entrypt,
+      ::Components::EnterpriseComponent_ptr executor);
 
-  virtual void 
+  virtual void
     configure_servant (::PortableServer::Servant servant,
-		       const ::Components::ConfigValues & values);
-		       
+           const ::Components::ConfigValues & values);
+
 protected:
   /// Pointer to the component server hosting the container.
-  CONTAINER * container_;
+  CONTAINER & container_;
 };
 
 #if defined (__CUTS_INLINE__)
