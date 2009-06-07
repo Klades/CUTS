@@ -1,6 +1,6 @@
 // $Id$
 
-project : acelib {
+project : requires_tcpip, acelib {
   after += CUTS_TCPIP
   libs  += CUTS_TCPIP
 }
