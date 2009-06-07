@@ -29,7 +29,7 @@ class CUTS_OpenSplice_CCM_Container_Strategy :
 public:
   typedef CUTS_CCM_Container_Strategy_T <CUTS_OpenSplice_CCM_Container> base_type;
 
-  CUTS_OpenSplice_CCM_Container_Strategy (CUTS_OpenSplice_CCM_Container * container);
+  CUTS_OpenSplice_CCM_Container_Strategy (CUTS_OpenSplice_CCM_Container & container);
 
   virtual ~CUTS_OpenSplice_CCM_Container_Strategy (void);
 

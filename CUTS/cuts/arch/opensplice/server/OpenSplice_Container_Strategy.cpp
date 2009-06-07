@@ -11,6 +11,16 @@
 #include "cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.h"
 
 //
+//CUTS_OpenSplice_CCM_Container_Strategy
+//
+CUTS_OpenSplice_CCM_Container_Strategy::
+CUTS_OpenSplice_CCM_Container_Strategy (CUTS_OpenSplice_CCM_Container & container)
+  : base_type (container)
+{
+
+}
+
+//
 // configure_servant
 //
 void

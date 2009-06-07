@@ -1,3 +1,14 @@
+Sun Jun  7 04:04:42 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/chaos/server/CHAOS_CCM_Container.inl:
+        * cuts/arch/chaos/server/CHAOS_CCM_Container.cpp:
+        * cuts/arch/chaos/server/CHAOS_CCM_Container_Strategy.cpp:
+        * cuts/arch/opensplice/server/OpenSplice_Container_Strategy.h:
+        * cuts/arch/opensplice/server/OpenSplice_Container_Strategy.inl:
+        * cuts/arch/opensplice/server/OpenSplice_Container_Strategy.cpp:
+
+	  . Fixed compile bugs on non-Windows systems.
+
 Sun Jun  7 03:33:27 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/ccm/CCM_EventConsumer_T.cpp:
