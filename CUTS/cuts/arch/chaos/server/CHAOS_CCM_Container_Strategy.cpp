@@ -32,15 +32,33 @@ configure_servant (::PortableServer::Servant servant,
   CUTS_CHAOS_CCM_Servant * chaos_servant =
     dynamic_cast <CUTS_CHAOS_CCM_Servant *> (servant);
 
-  if (0 != chaos_servant)
-  {
-    ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - activating the TCP/IP servant\n"));
+  if (0 == chaos_servant)
+    return;
 
-    this->container_.server ()->the_ORB ().the_OM ().activate_object (chaos_servant);
-  }
+  ACE_DEBUG ((LM_DEBUG,
+	      "%T (%t) - %M - activating the TCP/IP servant\n"));
 
-  // INSERT OPENSPLICE HERE
+  this->container_.server ()->the_ORB ().the_OM ().activate_object (chaos_servant);
+
+  // @todo Create a configurator for OpenSplice and pass the
+  //       servant to the configurator for configuration.
+
+  // Get the domain participant factory.
+  ::DDS::DomainParticipantFactory_var factory =
+      ::DDS::DomainParticipantFactory::get_instance ();
+
+  // Create a participant on the default domain.
+  ACE_DEBUG ((LM_DEBUG,
+              "%T (%t) - %M - creating a participant in the default domain\n"));
+
+  ::DDS::DomainParticipant_var participant =
+      factory->create_participant (0,     /* this is where the domain goes */
+                                   PARTICIPANT_QOS_DEFAULT,
+                                   0,
+                                   ::DDS::ANY_STATUS);
+
+  // Configure the servant.
+  chaos_servant->configure (participant.in ());
 }
 
 //
@@ -64,5 +82,4 @@ remove_servant (::PortableServer::Servant servant)
   }
 
   // INSERT OPENSPLICE HERE
-
 }

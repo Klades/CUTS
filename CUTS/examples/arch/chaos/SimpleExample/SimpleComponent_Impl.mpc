@@ -25,7 +25,7 @@ project (SimpleComponent_EIDL_Gen) : ciaoidldefaults {
   }
 }
 
-project (SimpleComponent_exec) : ciao_executor, cuts_tcpip, cuts_codegen_defaults {
+project (SimpleComponent_exec) : ciao_executor, cuts_chaos, cuts_codegen_defaults {
   sharedname    = SimpleComponent_exec
   dynamicflags += SIMPLECOMPONENT_EXEC_BUILD_DLL
 
@@ -54,7 +54,7 @@ project (SimpleComponent_exec) : ciao_executor, cuts_tcpip, cuts_codegen_default
   }
 }
 
-project (OpenSplice_SimpleComponent_svnt) : cuts_tcpip_ccm, cuts_chaos_ccm, cuts_codegen_defaults {
+project (OpenSplice_SimpleComponent_svnt) : cuts_chaos_ccm, cuts_codegen_defaults {
   sharedname   = OpenSplice_SimpleComponent_svnt
   dynamicflags = TCPIP_SIMPLECOMPONENT_SVNT_BUILD_DLL
 

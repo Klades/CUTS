@@ -13,9 +13,9 @@
 #ifndef _CUTS_TCPIP_CCM_EVENTCONSUMER_H_
 #define _CUTS_TCPIP_CCM_EVENTCONSUMER_H_
 
-#include "EventsS.h"
-#include "TCPIP_CCM_export.h"
 #include "cuts/arch/ccm/CCM_EventConsumer.h"
+#include "TCPIP_EventsS.h"
+#include "TCPIP_CCM_export.h"
 
 // Forward decl.
 class CUTS_TCPIP_Servant;

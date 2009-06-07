@@ -12,7 +12,7 @@ project (CUTS_CHAOS_CCM_ComponentServer) : ciao_componentserver_svnt, cuts_chaos
   }
 }
 
-project (CUTS_CHAOS_CCM_ComponentServer_App) : cuts_chaos_componentserver, cutsexe {
+project (CUTS_CHAOS_CCM_ComponentServer_App) : cuts_chaos_componentserver, cuts_chaos, cutsexe {
   exename = cuts-chaos-componentserver
 
   Source_Files {

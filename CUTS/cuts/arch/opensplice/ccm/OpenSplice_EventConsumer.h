@@ -6,7 +6,7 @@
 #include "cuts/arch/ccm/CCM_EventConsumer.h"
 #include "cuts/arch/opensplice/OpenSplice_ListenerBase.h"
 #include "cuts/arch/opensplice/OpenSplice_Endpoint.h"
-#include "EventsS.h"
+#include "OpenSplice_EventsS.h"
 #include "OpenSplice_CCM_export.h"
 
 /**

@@ -29,6 +29,9 @@ public:
   // to the correct method.
   virtual int handle_event (ACE_UINT32 id, CUTS_TCPIP_InputCDR & input);
 
+  /// Configure the servant for DDS.
+  virtual void configure (::DDS::DomainParticipant_ptr participant);
+
 protected:
   typedef typename base_type::consumer_map_type consumer_map_type;
 

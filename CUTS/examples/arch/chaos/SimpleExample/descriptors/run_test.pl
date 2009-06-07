@@ -12,6 +12,7 @@ $CUTS_ROOT = "$ENV{'CUTS_ROOT'}";
 $CIAO_ROOT = "$ENV{'CIAO_ROOT'}";
 $TAO_ROOT = "$ENV{'TAO_ROOT'}";
 $DAnCE = "$ENV{'DANCE_ROOT'}";
+$OSPL_HOME = "$ENV{'OSPL_HOME'}";
 
 $daemons_running = 0;
 $em_running = 0;
@@ -132,6 +133,11 @@ if ($status != 0) {
 
 $daemons_running = 1;
 
+# Invoke OpenSplice - start the server -
+print "Invoke OpenSplice - start the server -\n";
+$OSPL = new PerlACE::Process ("$OSPL_HOME/bin/ospl", "start");
+$OSPL->SpawnWaitKill (3000);
+
 # Invoke execution manager.
 print "Invoking execution manager\n";
 $EM = new PerlACE::Process ("$DAnCE/bin/dance_execution_manager", "-eEM.ior --node-map $dat_file");
@@ -162,6 +168,12 @@ $E = new PerlACE::Process ("$DAnCE/bin/dance_plan_launcher", "-k file://EM.ior -
 $E->SpawnWaitKill (3000);
 
 print "Executor returned.\n";
+
+# Invoke OpenSplice - stop the server - 
+print "Invoke OpenSplice - stop the server -\n";
+$OSPL = new PerlACE::Process ("$OSPL_HOME/bin/ospl", "stop");
+$OSPL->SpawnWaitKill (3000);
+
 print "Shutting down rest of the processes.\n";
 
 delete_ior_files ();

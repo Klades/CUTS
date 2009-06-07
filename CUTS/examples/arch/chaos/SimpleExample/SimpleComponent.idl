@@ -11,14 +11,12 @@ module Example
   {
     emits ::Outer::TestData_DDS app_op_tcpip;
     emits ::Outer::TestData_DDS app_op_corba;
-    //emits ::Outer::TestData_DDS app_op_dds;
+    emits ::Outer::TestData_DDS app_op_dds;
 
     // recieve the event via TCP/IP
     consumes ::Outer::TestData_DDS tcpip_read_test_data;
     consumes ::Outer::TestData_DDS corba_read_test_data;
-
-    // receive the event via DDS
-    // consumes ::Outer::TestData_DDS dds_read_test_data;
+    consumes ::Outer::TestData_DDS dds_read_test_data;
   };
 
   home SimpleComponentHome manages SimpleComponent

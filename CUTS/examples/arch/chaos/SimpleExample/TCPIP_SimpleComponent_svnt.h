@@ -5,6 +5,7 @@
 
 #include "SimpleComponentS.h"
 #include "TCPIP_SimpleComponentC.h"
+#include "OpenSplice_ModelDDSDataC.h"
 
 #include "SimpleComponentEC.h"
 
@@ -61,6 +62,14 @@ namespace TCPIP_SimpleComponent_Basic_Impl
 
   private:
     CUTS_CCM_Single_Subscriber_T < ::Outer::TestData_DDS > app_op_corba_;
+
+  public:
+    virtual void push_app_op_dds (::Outer::TestData_DDS * ev);
+
+    CUTS_CCM_Single_Subscriber & subscriber_app_op_dds (void);
+
+  private:
+    CUTS_OpenSplice_CCM_Subscriber_T < ::CUTS_DDS::Outer::TestData_DDS > app_op_dds_;
   };
 
 
@@ -94,6 +103,10 @@ namespace TCPIP_SimpleComponent_Basic_Impl
 
     ::Outer::TestData_DDSConsumer_ptr disconnect_app_op_corba (void);
 
+    void connect_app_op_dds (::Outer::TestData_DDSConsumer_ptr);
+
+    ::Outer::TestData_DDSConsumer_ptr disconnect_app_op_dds (void);
+
   public:
     ::Outer::TestData_DDSConsumer_ptr get_consumer_tcpip_read_test_data (void);
 
@@ -114,6 +127,17 @@ namespace TCPIP_SimpleComponent_Basic_Impl
       ::Outer::TestData_DDS,
       SimpleComponent_Servant >
       corba_read_test_data_consumer_;
+
+  public:
+    ::Outer::TestData_DDSConsumer_ptr get_consumer_dds_read_test_data (void);
+
+    static void upcall_dds_read_test_data (SimpleComponent_Servant * servant,
+					   const ::CUTS_DDS::Outer::TestData_DDS & dds_event);
+
+  private:
+    CUTS_OpenSplice_CCM_EventConsumer_T < SimpleComponent_Servant,
+                                          ::CUTS_DDS::Outer::TestData_DDS > dds_read_test_data_consumer_;
+
   };
 }
 

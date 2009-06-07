@@ -56,4 +56,7 @@ configure (::DDS::DomainParticipant_ptr participant)
       if (0 != subscriber_table)
 	subscriber_table->configure (participant);
     }
+
+  // Pass control to the base class.
+  CUTS_OpenSplice_CCM_Servant::configure (participant);
 }

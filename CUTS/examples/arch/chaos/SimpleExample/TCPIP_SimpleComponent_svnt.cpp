@@ -64,6 +64,18 @@ namespace TCPIP_SimpleComponent_Basic_Impl
     return this->app_op_corba_;
   }
 
+  void SimpleComponent_Servant_Context::
+  push_app_op_dds (::Outer::TestData_DDS * ev)
+  {
+    this->app_op_dds_.send_event (ev);
+  }
+
+  CUTS_CCM_Single_Subscriber & 
+  SimpleComponent_Servant_Context::subscriber_app_op_dds (void)
+  {
+    return this->app_op_dds_;
+  }
+
   //
   // SimpleComponent_Servant
   //
@@ -72,15 +84,18 @@ namespace TCPIP_SimpleComponent_Basic_Impl
                            ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor)
   : SimpleComponent_Servant_Base (name, executor),
     tcpip_read_test_data_consumer_ (this, 0),
-    corba_read_test_data_consumer_ (this, &SimpleComponent_Servant::upcall_corba_read_test_data)
+    corba_read_test_data_consumer_ (this, &SimpleComponent_Servant::upcall_corba_read_test_data),
+    dds_read_test_data_consumer_ (this, &SimpleComponent_Servant::upcall_dds_read_test_data)
   {
     // Initializing the consumer table.
     this->consumers_.bind ("tcpip_read_test_data", &this->tcpip_read_test_data_consumer_);
     this->consumers_.bind ("corba_read_test_data", &this->corba_read_test_data_consumer_);
+    this->consumers_.bind ("dds_read_test_data", &this->dds_read_test_data_consumer_);
 
     // Initializing the publishes/emits table.
     this->emits_.bind ("app_op_tcpip", &this->ctx_->subscriber_app_op_tcpip ());
     this->emits_.bind ("app_op_corba", &this->ctx_->subscriber_app_op_corba ());
+    this->emits_.bind ("app_op_dds", &this->ctx_->subscriber_app_op_dds ());
 
     // Register the valuetype factories for the CORBA-specific ports
     TAO_OBV_REGISTER_FACTORY (::Outer::TestData_DDS_init,
@@ -139,6 +154,24 @@ namespace TCPIP_SimpleComponent_Basic_Impl
   }
 
   //
+  // connect_app_op_dds
+  //
+  void SimpleComponent_Servant::
+  connect_app_op_dds (::Outer::TestData_DDSConsumer_ptr)
+  {
+    throw ::CORBA::NO_IMPLEMENT ();
+  }
+
+  //
+  // disconnect_app_op_dds
+  //
+  ::Outer::TestData_DDSConsumer_ptr 
+  SimpleComponent_Servant::disconnect_app_op_dds (void)
+  {
+    throw ::CORBA::NO_IMPLEMENT ();
+  }
+
+  //
   // get_consumer_read_test_data
   //
   ::Outer::TestData_DDSConsumer_ptr SimpleComponent_Servant::
@@ -189,6 +222,31 @@ namespace TCPIP_SimpleComponent_Basic_Impl
       svnt->impl_->push_corba_read_test_data (ev);
 
     return 0;
+  }
+
+  //
+  // get_consumer_read_test_data
+  //
+  ::Outer::TestData_DDSConsumer_ptr 
+  SimpleComponent_Servant::get_consumer_dds_read_test_data (void)
+  {
+    throw ::CORBA::NO_IMPLEMENT ();
+  }
+
+  //
+  // upcall_dds_read_test_data
+  //
+  void SimpleComponent_Servant::
+  upcall_dds_read_test_data (SimpleComponent_Servant * servant,
+			     const ::CUTS_DDS::Outer::TestData_DDS & dds_event)
+  {
+    // First, extract the event.
+    CUTS_CCM_Event_T < ::OBV_Outer::TestData_DDS > event;
+    *event.in () <<= dds_event;
+
+    // Now, puch the event to the implemetation.
+    if (servant->impl_)
+      servant->impl_->push_dds_read_test_data (event.in ());
   }
 }
 

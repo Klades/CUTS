@@ -5,7 +5,7 @@
 
 #include "cuts/arch/opensplice/OpenSplice_Traits_T.h"
 #include "OpenSplice_Subscriber.h"
-#include "EventsC.h"
+#include "OpenSplice_EventsC.h"
 
 /**
  * @class CUTS_OpenSplice_CCM_Subscriber_T

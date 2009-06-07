@@ -167,12 +167,13 @@ print "Invoking executor - stop the application -\n";
 $E = new PerlACE::Process ("$DAnCE/bin/dance_plan_launcher", "-k file://EM.ior -x $cdp_file -q");
 $E->SpawnWaitKill (3000);
 
+print "Executor returned.\n";
+
 # Invoke OpenSplice - stop the server -
 print "Invoke OpenSplice - stop the server -\n";
 $OSPL = new PerlACE::Process ("$OSPL_HOME/bin/ospl", "stop");
 $OSPL->SpawnWaitKill (3000);
 
-print "Executor returned.\n";
 print "Shutting down rest of the processes.\n";
 
 delete_ior_files ();

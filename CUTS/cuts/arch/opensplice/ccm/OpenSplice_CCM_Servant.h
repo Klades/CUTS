@@ -5,6 +5,7 @@
 
 #include "ccpp_dds_dcps.h"
 #include "cuts/arch/ccm/CCM_Servant.h"
+#include "cuts/arch/opensplice/OpenSplice_Servant.h"
 #include "OpenSplice_CCM_export.h"
 
 /**
@@ -15,26 +16,16 @@
  * information for each of its topics.
  */
 class CUTS_OPENSPLICE_CCM_Export CUTS_OpenSplice_CCM_Servant :
+  public CUTS_OpenSplice_Servant,
   public CUTS_CCM_Servant
 {
 public:
   /// Destructor.
   virtual ~CUTS_OpenSplice_CCM_Servant (void);
 
-  /**
-   * Get the domain participant for the servant. The caller must take
-   * ownership of the returned participant.
-   */
-  virtual ::DDS::DomainParticipant_ptr participant (void);
-
-  virtual void configure (::DDS::DomainParticipant_ptr participant);
-
 protected:
   /// Default constructor.
   CUTS_OpenSplice_CCM_Servant (const char * name);
-
-  /// Domain participant for the servant.
-  ::DDS::DomainParticipant_var participant_;
 };
 
 #if defined (__CUTS_INLINE__)

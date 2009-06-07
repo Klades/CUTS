@@ -14,13 +14,37 @@ project (ModelDDSData_IDL_Gen) : ciaoidldefaults {
   }
 }
 
-project (ModelDDSData_stub) : ccm_stub, avoids_ace_for_tao, cuts_codegen_defaults {
+project (ModelDDSData_DDS_IDL_Gen) : splice_ts_defaults, requires_opensplice {
+  custom_only = 1
+
+  idlflags += -D__DDS_IDL__ -o ./ddstypes \
+              -Wb,export_macro=MODELDDSDATA_STUB_Export \
+              -Wb,export_include=../ModelDDSData_stub_export.h
+
+  splice_ts_flags += -D__DDS_IDL__ -d ./ddstypes
+
+  SpliceTypeSupport_Files {
+    gendir = ./ddstypes
+
+    ModelDDSData_DDS.idl
+  }
+
+  IDL_Files {
+    gendir = ./ddstypes
+
+    ModelDDSData_DDS.idl
+    ./ddstypes/ModelDDSData_DDSDcps.idl
+  }
+}
+
+project (ModelDDSData_stub) : ccm_stub, splicelib, avoids_ace_for_tao, cuts_codegen_defaults {
   sharedname   = ModelDDSData_stub
   dynamicflags = MODELDDSDATA_STUB_BUILD_DLL
-  after       += ModelDDSData_IDL_Gen
+  after       += ModelDDSData_IDL_Gen ModelDDSData_DDS_IDL_Gen
+
+  macros += DDS_API=MODELDDSDATA_STUB_Export	
 
   prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl MODELDDSDATA_STUB > $(PROJECT_ROOT)/ModelDDSData_stub_export.h
-
 
   IDL_Files {
 
@@ -29,11 +53,19 @@ project (ModelDDSData_stub) : ccm_stub, avoids_ace_for_tao, cuts_codegen_default
   Source_Files {
     ModelDDSDataC.cpp
     TCPIP_ModelDDSDataC.cpp
+    ./ddstypes/ModelDDSData_DDSC.cpp
+    ./ddstypes/ModelDDSData_DDSS.cpp
+    ./ddstypes/ModelDDSData_DDSDcpsC.cpp
+    ./ddstypes/ModelDDSData_DDSDcpsS.cpp
+    ./ddstypes/ModelDDSData_DDSDcps_impl.cpp
+    ./ddstypes/ModelDDSData_DDSSplDcps.cpp
+    OpenSplice_ModelDDSDataC.cpp
   }
 
   Header_Files {
     ModelDDSDataC.h
     TCPIP_ModelDDSDataC.h
+    OpenSplice_ModelDDSDataC.h
   }
 
   Inline_Files {
@@ -49,7 +81,6 @@ project (ModelDDSData_skel) : ciao_servant, avoids_ace_for_tao, cuts_codegen_def
   libs        += ModelDDSData_stub
 
   prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl MODELDDSDATA_SKEL > $(PROJECT_ROOT)/ModelDDSData_skel_export.h
-
 
   IDL_Files {
 

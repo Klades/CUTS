@@ -48,6 +48,17 @@ namespace SimpleComponent_Basic_Impl
   }
 
   //
+  // sink: dds_read_test_data
+  //
+  void SimpleComponent::push_dds_read_test_data (::Outer::TestData_DDS * ev)
+  {
+    ACE_DEBUG ((LM_DEBUG,
+                "%T (%t) - %M - received a DDS event\n"));
+
+    ACE_UNUSED_ARG (ev);
+  }
+
+  //
   // PeriodicEvent: sendData
   //
   void SimpleComponent::periodic_sendData (void)
@@ -60,6 +71,7 @@ namespace SimpleComponent_Basic_Impl
 
     this->ctx_->push_app_op_tcpip (event.in ());
     this->ctx_->push_app_op_corba (event.in ());
+    this->ctx_->push_app_op_dds (event.in ());
   }
 
   //

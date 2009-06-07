@@ -1,3 +1,52 @@
+Sun Jun  7 06:55:38 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_chaos_ccm.mpb:
+        * cuts/arch/chaos/ccm/CHAOS_CCM.mpc:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_EventConsumer.h:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant.h:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant_T.h:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant_T.cpp:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Single_Subscriber.h:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Subscriber_Table.h:
+        * cuts/arch/chaos/server/CHAOS_CCM_Container_Strategy.cpp:
+        * cuts/arch/chaos/server/server.mpc:
+        * cuts/arch/opensplice/OpenSplice.mpc:
+        * cuts/arch/opensplice/OpenSplice_Servant.h:
+        * cuts/arch/opensplice/OpenSplice_Servant.inl:
+        * cuts/arch/opensplice/OpenSplice_Servant.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM.mpc:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Events.idl:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM.mpc:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_EventConsumer.h:
+        * cuts/arch/tcpip/ccm/TCPIP_Events.idl:
+        * examples/arch/chaos/SimpleExample/ModelDDSData_Base.mpc:
+        * examples/arch/chaos/SimpleExample/OpenSplice_ModelDDSDataC.h:
+        * examples/arch/chaos/SimpleExample/OpenSplice_ModelDDSDataC.cpp:
+        * examples/arch/chaos/SimpleExample/SimpleComponent.idl:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Impl.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Impl.mpc:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Impl.cpp:
+        * examples/arch/chaos/SimpleExample/TCPIP_SimpleComponent_svnt.h:
+        * examples/arch/chaos/SimpleExample/TCPIP_SimpleComponent_svnt.cpp:
+        * examples/arch/chaos/SimpleExample/descriptors/run_test.pl:
+        * examples/arch/opensplice/SimpleExample/descriptors/run_test.pl:
+
+	  . First complete working version of CHAOS using the 
+	    running example at the following location:
+	      
+	        $CUTS_ROOT/examples/arch/chaos/SimpleExample
+
+        * cuts/arch/opensplice/ccm/Events.idl:
+        * cuts/arch/tcpip/ccm/Events.idl:
+
+          Removed these files.
+
 Sun Jun  7 06:42:05 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/chaos/SimpleExample/descriptors/SimpleExample.cdp:

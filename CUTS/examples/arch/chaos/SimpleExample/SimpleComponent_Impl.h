@@ -42,6 +42,9 @@ namespace SimpleComponent_Basic_Impl
     // sink: corba_read_test_data
     virtual void push_corba_read_test_data (::Outer::TestData_DDS * ev);
 
+    // sink: dds_read_test_data
+    virtual void push_dds_read_test_data (::Outer::TestData_DDS * ev);
+
     // PeriodicEvent: sendData
     void periodic_sendData (void);
 

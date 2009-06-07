@@ -10,11 +10,11 @@ project (CUTS_TCPIP_CCM_stub) : ccm_stub, cutslib {
               -Wb,skel_export_include=TCPIP_CCM_skel_export.h
 
   IDL_Files {
-    Events.idl
+    TCPIP_Events.idl
   }
 
   Source_Files {
-    EventsC.cpp
+    TCPIP_EventsC.cpp
   }
 
   Template_Files {
@@ -35,7 +35,7 @@ project (CUTS_TCPIP_CCM_skel) : ccm_svnt, cuts_tcpip_ccm_stub, cutslib {
   dynamicflags += CUTS_TCPIP_CCM_SKEL_BUILD_DLL
 
   Source_Files {
-    EventsS.cpp
+    TCPIP_EventsS.cpp
   }
 
   Template_Files {

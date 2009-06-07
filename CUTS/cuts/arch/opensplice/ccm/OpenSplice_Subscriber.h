@@ -6,8 +6,8 @@
 #include "ccpp_dds_dcps.h"
 #include "cuts/arch/ccm/CCM_Single_Subscriber.h"
 #include "cuts/arch/opensplice/OpenSplice_Endpoint.h"
+#include "OpenSplice_EventsC.h"
 #include "OpenSplice_CCM_export.h"
-#include "EventsC.h"
 
 /**
  * @class CUTS_OpenSplice_CCM_Subscriber

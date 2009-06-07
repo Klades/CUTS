@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_CHAOS_CCM) : cuts_ccm, cuts_tcpip, cuts_lib, cutslib {
+project (CUTS_CHAOS_CCM) : cuts_ccm, cuts_tcpip, cuts_opensplice, cuts_lib, cutslib {
   sharedname    = CUTS_CHAOS_CCM
   dynamicflags += CUTS_CHAOS_CCM_BUILD_DLL
 

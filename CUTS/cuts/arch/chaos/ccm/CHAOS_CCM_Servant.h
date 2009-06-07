@@ -5,6 +5,7 @@
 
 #include "cuts/arch/ccm/CCM_Servant.h"
 #include "cuts/arch/tcpip/TCPIP_Servant.h"
+#include "cuts/arch/opensplice/OpenSplice_Servant.h"
 #include "CHAOS_CCM_export.h"
 
 /**
@@ -16,6 +17,7 @@
  */
 class CUTS_CHAOS_CCM_Export CUTS_CHAOS_CCM_Servant :
   public CUTS_TCPIP_Servant,
+  public CUTS_OpenSplice_Servant,
   public CUTS_CCM_Servant
 {
 public:

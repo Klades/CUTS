@@ -1,6 +1,6 @@
 //$Id$
 
-project : cuts_tcpip, ccm_svnt, cuts_ccm {
+project : cuts_tcpip_ccm, cuts_opensplice_ccm, ccm_svnt, cuts_ccm {
   after += CUTS_CHAOS_CCM
   libs  += CUTS_CHAOS_CCM
 }
