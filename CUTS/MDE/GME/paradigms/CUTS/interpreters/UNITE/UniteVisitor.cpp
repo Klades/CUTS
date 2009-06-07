@@ -28,89 +28,163 @@ namespace CUTS
   UniteVisitor::~UniteVisitor ()
   {
   }
-
-  //
-  // Visit_UnitTest
-  //
-  void UniteVisitor::Visit_UnitTest(const UnitTest & unittest)
-  {
-    // Create the output file path
-    std::string filePath = outputPath_;
-    filePath += "\\" + std::string(unittest.name ()) + ".unite";
-
-    // Initialize xerces
-    this->initialize (filePath);
-
-    // Add elements to the DOM tree
-    this->addElement ("name", unittest.name ());
-    this->addElement ("description", unittest.Description ());
-    this->addElement ("evaluation", unittest.Evaluation ());
-    this->addElement ("aggregation", unittest.Aggregation ());
-    
-    // Store the <logformats> element for adding <logformat> elements
-    this->logformats_node_ = this->createElement ("logformats");    
-    this->addElement (this->logformats_node_);
-
-    // Iterate over all logformat components
-	  std::set <LogFormat> logformat_set = unittest.LogFormat_kind_children();
-
-    for (std::set<LogFormat>::iterator iter = logformat_set.begin();
-         iter != logformat_set.end();
-         ++iter)
-    {
-      LogFormat logformat = *iter;
-      logformat.Accept (*this);
-    }
-
-    // Iterate over all causality connections
-    std::set <Causality> causality_set = unittest.Causality_kind_children ();
-
-    for (std::set<Causality>::iterator iter = causality_set.begin();
-         iter != causality_set.end();
-         ++iter)
-    {
-      Causality causality = *iter;
-      causality.Accept (*this);
-    }
-    
-    // Write the xml document to physical file
-    this->writeDocument ();
-  }
-
-  //
-  // Visit_UnitTests
+	
+	//
+  // Visit_RootFolder
   //
   void UniteVisitor::Visit_RootFolder(const RootFolder &rf)
   {
+		// Iterate over all Datagraphs folders
+	  std::set<DataGraphs> datagraphs_set = rf.DataGraphs_kind_children ();
+		
+    for (std::set<DataGraphs>::iterator iter = datagraphs_set.begin ();
+         iter != datagraphs_set.end ();
+         ++iter)
+    {
+      DataGraphs datagraphs = *iter;
+      datagraphs.Accept (*this);
+    }
+		
     // Iterate over all UnitTests folders
 	  std::set<UnitTests> unittests_set = rf.UnitTests_kind_children ();
-
+		
     for (std::set<UnitTests>::iterator iter = unittests_set.begin ();
          iter != unittests_set.end ();
          ++iter)
-    {
-      UnitTests unittests = *iter;
-      unittests.Accept (*this);
-    }
+		{	
+		  UnitTests unittests = *iter;
+			unittests.Accept (*this);
+		}
   }
 
+	//
+  // Visit_Datagraphs
   //
-  // Visit_UnitTests
-  //
-  void UniteVisitor::Visit_UnitTests(const UnitTests &unittests)
-  {
-    // Iterate over all UnitTest components
-    std::set<UnitTest> unittest_set = unittests.UnitTest_kind_children ();
-
-	  for (std::set<UnitTest>::iterator iter = unittest_set.begin ();
-         iter != unittest_set.end ();
+	void UniteVisitor::Visit_DataGraphs(const DataGraphs &datagraphs)
+	{
+		// Iterate over all DataGraph components
+    std::set<DataGraph> datagraph_set = datagraphs.DataGraph_kind_children ();
+		
+	  for (std::set<DataGraph>::iterator iter = datagraph_set.begin ();
+         iter != datagraph_set.end ();
          ++iter)
     {
-      UnitTest unittest = *iter;
-      unittest.Accept (*this);
+      DataGraph datagraph = *iter;
+      datagraph.Accept (*this);
     }
-  }
+	}
+	
+	//
+	// Visit_UnitTests
+	//
+	void UniteVisitor::Visit_UnitTests(const UnitTests &unittests)
+	{
+		// Iterate over all UnitTest components
+		std::set<UnitTest> unittest_set = unittests.UnitTest_kind_children ();
 
+		for (std::set<UnitTest>::iterator iter = unittest_set.begin ();
+				 iter != unittest_set.end ();
+				 ++iter)
+		{
+			UnitTest unittest = *iter;
+			unittest.Accept (*this);
+		}
+	}
+
+	
+	//
+  // Visit_Datagraph
+  //
+	void UniteVisitor::Visit_DataGraph(const DataGraph &datagraph)
+	{
+		// Create the output file path
+		std::string filePath = outputPath_;
+		filePath += "\\" + std::string(datagraph.name ()) + ".datagraph";
+		
+		// Initialize xerces
+		this->initialize (filePath, "cuts:datagraph");
+		
+		// Add elements to the DOM tree
+		this->addElement ("name", datagraph.name ());
+		
+		// Store the <logformats> element for adding <logformat> elements
+		this->logformats_node_ = this->createElement ("logformats");    
+		this->addElement (this->logformats_node_);
+		
+		// Iterate over all logformat components
+		std::set <LogFormat> logformat_set = datagraph.LogFormat_kind_children();
+		
+		for (std::set<LogFormat>::iterator iter = logformat_set.begin();
+				 iter != logformat_set.end();
+				 ++iter)
+		{
+			LogFormat logformat = *iter;
+			logformat.Accept (*this);
+		}
+		
+		// Iterate over all causality connections
+		std::set <Causality> causality_set = datagraph.Causality_kind_children ();
+		
+		for (std::set<Causality>::iterator iter = causality_set.begin();
+				 iter != causality_set.end();
+				 ++iter)
+		{
+			Causality causality = *iter;
+			causality.Accept (*this);
+		}
+		
+		// Write the xml document to physical file
+		this->writeDocument ();
+	}
+	
+	//
+	// Visit_UnitTest
+	//
+	void UniteVisitor::Visit_UnitTest(const UnitTest & unittest)
+	{
+		// Create the output file path
+		std::string filePath = outputPath_;
+		filePath += "\\" + std::string(unittest.name ()) + ".unite";
+		
+		// Initialize xerces
+		this->initialize (filePath, "cuts:test");
+		
+		// Add elements to the DOM tree
+		this->addElement ("name", unittest.name ());
+		this->addElement ("description", unittest.Description ());
+		this->addElement ("evaluation", unittest.Evaluation ());
+		this->addElement ("aggregation", unittest.Aggregation ());
+		
+		// Store the <services> element for adding <service> elements
+		this->services_node_ = this->createElement ("services");    
+		this->addElement (this->services_node_);
+		
+		// Iterate over all group components
+		std::set <Group> group_set = unittest.Group_kind_children();
+		
+		for (std::set<Group>::iterator iter = group_set.begin();
+				 iter != group_set.end();
+				 ++iter)
+		{
+			Group group = *iter;
+			group.Accept (*this);
+		}
+		
+		// Iterate over all service components
+		std::set <Service> service_set = unittest.Service_kind_children();
+		
+		for (std::set<Service>::iterator iter = service_set.begin();
+				 iter != service_set.end();
+				 ++iter)
+		{
+			Service service = *iter;
+			service.Accept (*this);
+		}		
+		
+		// Write the xml document to physical file
+		this->writeDocument ();
+	}
+	
   //
   // Visit_LogFormat
   //
@@ -125,7 +199,7 @@ namespace CUTS
     xercesc::DOMElement * value_element = this->createElement ("value", logformat.Value ());
     this->addSubElement (logformat_element, value_element);
 
-    // Add <realtions> element under <logformat>
+    // Add <relations> element under <logformat>
     xercesc::DOMElement* relations_element = this->createElement ("relations");
 	  this->addSubElement (logformat_element, relations_element);   
   }
@@ -139,16 +213,16 @@ namespace CUTS
     xercesc::DOMElement * target_relation_node = 0;
 
     // Store the source and destination keys for given connection
-    Key key_src = causality_connect.srcCausality_end ();
-    Key key_dest = causality_connect.dstCausality_end ();
+    Variable var_src = causality_connect.srcCausality_end ();
+    Variable var_dest = causality_connect.dstCausality_end ();
     
      // Store the source and destination logformats for given connection
-    LogFormat key_src_parent = key_src.LogFormat_parent();
-    LogFormat key_dest_parent = key_dest.LogFormat_parent();
+    LogFormat var_src_parent = var_src.LogFormat_parent();
+    LogFormat var_dest_parent = var_dest.LogFormat_parent();
 
      // Store the source and destination logformats names for given connection
-    Utils::XStr src_log_id_xstr(std::string(key_src_parent.name()));
-    Utils::XStr dest_log_id_xstr(std::string(key_dest_parent.name()));
+    Utils::XStr src_log_id_xstr(std::string(var_src_parent.name()));
+    Utils::XStr dest_log_id_xstr(std::string(var_dest_parent.name()));
 
     // Get the list of all <logformat> nodes from the DOM tree document
     xercesc::DOMNodeList* target_log_list 
@@ -211,7 +285,7 @@ namespace CUTS
       // Add effectref attribute to <relation>
       this->addElementAttribute (target_relation_node, 
                                  "effectref", 
-                                 key_dest_parent.name ());
+                                 var_dest_parent.name ());
 
       // Add <relation> element under <relations> element
       this->addSubElement (target_relations_node, 
@@ -219,14 +293,14 @@ namespace CUTS
     }
 
     // Find value of cause attribute for <causality> element
-    std::string cause_str = std::string(key_src_parent.name()) 
+    std::string cause_str = std::string(var_src_parent.name()) 
                             + "." 
-                            + std::string(key_src.name());
+                            + std::string(var_src.name());
 
     // Find value of effect attribute for <causality> element
-    std::string effect_str = std::string(key_dest_parent.name())
+    std::string effect_str = std::string(var_dest_parent.name())
                              + "."
-                             + std::string(key_dest.name());
+                             + std::string(var_dest.name());
 
     // Create <causality> element
     xercesc::DOMElement* causality = this->createElement ("causality");
@@ -247,11 +321,84 @@ namespace CUTS
   void UniteVisitor::Visit_Key (const Key &key)
   {
   }
+	
+	//
+  // Visit_GroupItem
+  //
+	void UniteVisitor::Visit_GroupItem(const GroupItem &groupitem)
+	{
+		// Add <groupitem> element under <grouping>
+    Variable groupitem_varref = groupitem.ref ();
+    LogFormat varref_parent = groupitem_varref.LogFormat_parent ();
+
+    std::string groupitem_name =  std::string (varref_parent.name ())
+                                  + "." 
+                                  + std::string (groupitem_varref.name ());
+
+    xercesc::DOMElement * groupitem_element = 
+      this->createElement ("groupitem", groupitem_name);
+		
+		this->addSubElement (this->grouping_node_, groupitem_element);				
+	}
+	
+	//
+  // Visit_Service
+  //
+	void UniteVisitor::Visit_Service(const Service &service)
+	{
+	  // Add <service> element under <services>
+    xercesc::DOMElement * service_element = this->createElement ("service");
+    this->addElementAttribute (service_element, "id", service.name ());
+	
+		xercesc::DOMElement *location_element = 
+      this->createElement ("location", service.Location ());
+		this->addSubElement (service_element, location_element);
+		
+		xercesc::DOMElement *classname_element = 
+      this->createElement ("classname", service.ClassName ());
+		this->addSubElement (service_element, classname_element);
+		
+		xercesc::DOMElement *params_element = 
+      this->createElement ("params", service.Params ());
+
+		this->addSubElement (service_element, params_element);
+   
+		this->addSubElement (this->services_node_, service_element);
+	}
+	
+	//
+  // Visit_Group
+  //
+	void UniteVisitor::Visit_Group(const Group &group)
+	{
+		// Store the <grouping> element for adding <groupitem> elements
+		this->grouping_node_ = this->createElement ("grouping");    
+		this->addElement (this->grouping_node_);	
+		
+		// Iterate over all groupitem components
+		std::set <GroupItem> groupitem_set = group.GroupItem_kind_children();
+		
+		for (std::set<GroupItem>::iterator iter = groupitem_set.begin();
+				 iter != groupitem_set.end();
+				 ++iter)
+		{
+			GroupItem groupitem = *iter;
+			groupitem.Accept (*this);
+		}		
+	}
+	
+	//
+  // Visit_Variable
+  //
+	void UniteVisitor::Visit_Variable(const Variable&)
+	{
+	
+	}
 
   //
   // initialize
   //
-  void UniteVisitor::initialize (std::string filePath)
+  void UniteVisitor::initialize (std::string filePath, std::string doc_name)
   {
     // Initialize xerces
 
@@ -279,7 +426,7 @@ namespace CUTS
                                                         false);
 
     this->doc_ = this->dom_impl_->createDocument (Utils::XStr ("http://www.dre.vanderbilt.edu/CUTS"),
-                                                  Utils::XStr ("cuts:unite"),
+                                                  Utils::XStr (doc_name),
                                                   0);
 
     this->doc_->setXmlVersion (Utils::XStr ("1.0"));

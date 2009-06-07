@@ -59,11 +59,17 @@ namespace CUTS {
     /// Visit RootFolder element.
     virtual void Visit_RootFolder( const RootFolder&);
    
+		/// Visit Datagraphs folder.
+		virtual void Visit_DataGraphs(const DataGraphs&);
+		
     /// Visit UniteTests folder.
     virtual void Visit_UnitTests (const UnitTests&);
 
     /// Visit UniteTest element.
 	  virtual void Visit_UnitTest (const UnitTest&);
+		
+	  /// Visit Datagraph element.
+		virtual void Visit_DataGraph(const DataGraph&);
 
     /// Visit LogFormat element.
     virtual void Visit_LogFormat (const LogFormat&);
@@ -73,11 +79,23 @@ namespace CUTS {
 
     /// Visit Key element.
 	  virtual void Visit_Key (const Key&);  
+		
+		/// Visit GroupItem element.
+		virtual void Visit_GroupItem(const GroupItem&);
+		
+		/// Visit Service element.
+		virtual void Visit_Service(const Service&);
+		
+		/// Visit Group element.
+		virtual void Visit_Group(const Group&);
+		
+		/// Visit Variable element.
+		virtual void Visit_Variable(const Variable&);
 
   private:
 
     /// initializes xerces
-    void initialize (std::string outputPath);
+    void initialize (std::string filePath, std::string doc_name);
 
     /// writes the xerces DOM tree to physical file
     void writeDocument ();
@@ -121,11 +139,18 @@ namespace CUTS {
     /// stores xerces output file handle
     xercesc::XMLFormatTarget* target_;
 
-    /// stores <cuts:unite> DOM element
+    /// stores <cuts:test>/<cuts:datagraph> DOM element
     xercesc::DOMElement* cur_node_;
 
-    /// stores <logformats> DOM element
+    /// stores <services> DOM element
+    xercesc::DOMElement* services_node_;
+		
+		/// stores <grouping> DOM element
+    xercesc::DOMElement* grouping_node_;
+
+		/// stores <logformats> DOM element
     xercesc::DOMElement* logformats_node_;
+
 
     /// stores the output file path
     std::string outputPath_;
