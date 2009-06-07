@@ -13,6 +13,8 @@
 #ifndef _CUTS_CCM_SINGLE_SUBSCRIBER_T_H_
 #define _CUTS_CCM_SINGLE_SUBSCRIBER_T_H_
 
+#include "tao/Valuetype/ValueFactory.h"
+#include "tao/ORB_Core.h"
 #include "CCM_Single_Subscriber.h"
 #include "CCM_Traits_T.h"
 

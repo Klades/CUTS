@@ -82,6 +82,10 @@ namespace TCPIP_SimpleComponent_Basic_Impl
     this->emits_.bind ("app_op_tcpip", &this->ctx_->subscriber_app_op_tcpip ());
     this->emits_.bind ("app_op_corba", &this->ctx_->subscriber_app_op_corba ());
 
+    // Register the valuetype factories for the CORBA-specific ports
+    TAO_OBV_REGISTER_FACTORY (::Outer::TestData_DDS_init,
+                              ::Outer::TestData_DDS);
+
     // Guard the initialization of the TCP/IP virtual table.
     virtual_table_type::init_guard_type guard (SimpleComponent_Servant::table_, 1);
 

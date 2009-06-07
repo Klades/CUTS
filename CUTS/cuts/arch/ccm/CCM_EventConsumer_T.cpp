@@ -15,7 +15,7 @@ push_event (::Components::EventBase *ev)
 
   if (0 != event)
   {
-    this->push_event (ev);
+    this->push_event (event);
     return;
   }
 

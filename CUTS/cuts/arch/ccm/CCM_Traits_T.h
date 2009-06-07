@@ -13,6 +13,9 @@
 #ifndef _CUTS_CCM_TRAITS_T_H_
 #define _CUTS_CCM_TRAITS_T_H_
 
+/**
+ * @class CUTS_CCM_Traits_T
+ */
 template <typename T>
 class CUTS_CCM_Traits_T
 {

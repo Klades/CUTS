@@ -1,3 +1,23 @@
+Sun Jun  7 03:33:27 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/ccm/CCM_EventConsumer_T.cpp:
+
+          . Bug fix where the wrong variable was passed to the
+            push_event (). This caused the application to enter an
+            infinite loop!!
+
+        * cuts/arch/ccm/CCM_EventConsumer_T.h:
+        * cuts/arch/ccm/CCM_Single_Subscriber_T.h:
+        * cuts/arch/ccm/CCM_Traits_T.h:
+
+          . Include the necessary TAO headers to support valuetype
+            registration by the servant.
+
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Impl.cpp:
+        * examples/arch/chaos/SimpleExample/TCPIP_SimpleComponent_svnt.cpp:
+
+          . Checkpointing the example.
+
 Sun Jun  7 01:26:56 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Input_Stream_Aggr_Member_Generator.cpp:

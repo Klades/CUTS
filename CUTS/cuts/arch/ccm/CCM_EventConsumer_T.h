@@ -13,6 +13,8 @@
 #ifndef _CUTS_CCM_EVENTCONSUMER_T_H_
 #define _CUTS_CCM_EVENTCONSUMER_T_H_
 
+#include "tao/Valuetype/ValueFactory.h"
+#include "tao/ORB_Core.h"
 #include "CCM_EventConsumer.h"
 
 /**

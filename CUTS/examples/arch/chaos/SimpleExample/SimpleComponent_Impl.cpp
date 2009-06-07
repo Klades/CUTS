@@ -62,12 +62,11 @@ namespace SimpleComponent_Basic_Impl
     this->ctx_->push_app_op_corba (event.in ());
   }
 
+  //
+  // ccm_activate
+  //
   void SimpleComponent::ccm_activate (void)
   {
-    ACE_DEBUG ((LM_DEBUG,
-                "%T - %M - the component is now active\n"));
-
-    // pass control to the base class
     this->base_type::ccm_activate ();
   }
 }
