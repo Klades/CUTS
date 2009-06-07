@@ -1,3 +1,13 @@
+Sun Jun  7 06:42:05 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/chaos/SimpleExample/descriptors/SimpleExample.cdp:
+        * examples/arch/chaos/SimpleExample/models:
+        * examples/arch/chaos/SimpleExample/models/SimpleExample.xme:
+
+          . Update the model w/ a DDS input/output event port.
+
+          . Created a simple DDS-like connection in the model.
+
 Sun Jun  7 04:54:41 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MPC/config/cuts_tcpip.mpb:
