@@ -1,3 +1,83 @@
+Sun Jun  7 06:58:56 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/dsto:
+        * cuts/arch/dsto/AppData.h:
+        * cuts/arch/dsto/DDS:
+        * cuts/arch/dsto/DDS/AppData.h:
+        * cuts/arch/dsto/DDS/DDS_Utilities_export.h:
+        * cuts/arch/dsto/DDS/DDS_Utility.h:
+        * cuts/arch/dsto/DDS/DDS_Utility.cpp:
+        * cuts/arch/dsto/DDS/DSTO_ListenerBase.h:
+        * cuts/arch/dsto/DDS/DSTO_ListenerBase.cpp:
+        * cuts/arch/dsto/DDS/DummyConsumer.h:
+        * cuts/arch/dsto/DDS/DummyConsumer.cpp:
+        * cuts/arch/dsto/DDS/Listeners.h:
+        * cuts/arch/dsto/DDS/Listeners.cpp:
+        * cuts/arch/dsto/DDS/ModelDDSDataConversion.h:
+        * cuts/arch/dsto/DDS/ModelDDSDataConversion.cpp:
+        * cuts/arch/dsto/DDS/ModelDDSData_export.h:
+        * cuts/arch/dsto/DDS/PubAppDDS.h:
+        * cuts/arch/dsto/DDS/PubAppDDS.cpp:
+        * cuts/arch/dsto/DDS/PubAppDDSAdapter.h:
+        * cuts/arch/dsto/DDS/PubAppDDSAdapter.cpp:
+        * cuts/arch/dsto/DDS/PubAppDDSAdapter_export.h:
+        * cuts/arch/dsto/DDS/PubAppDDSContext.h:
+        * cuts/arch/dsto/DDS/PubAppDDSContext.cpp:
+        * cuts/arch/dsto/DDS/PubAppDDS_export.h:
+        * cuts/arch/dsto/DDS/README:
+        * cuts/arch/dsto/DDS/SubAppDDS.h:
+        * cuts/arch/dsto/DDS/SubAppDDS.cpp:
+        * cuts/arch/dsto/DDS/SubAppDDSAdapter.h:
+        * cuts/arch/dsto/DDS/SubAppDDSAdapter.cpp:
+        * cuts/arch/dsto/DDS/SubAppDDSAdapter_export.h:
+        * cuts/arch/dsto/DDS/SubAppDDS_export.h:
+        * cuts/arch/dsto/DDS/driver.cpp:
+        * cuts/arch/dsto/DDS/dsto_dds.mpc.old:
+        * cuts/arch/dsto/DDS/run_test.pl:
+        * cuts/arch/dsto/DSTO_AdapterBase.h:
+        * cuts/arch/dsto/DSTO_AdapterBase.cpp:
+        * cuts/arch/dsto/DSTO_Adapter_T.h:
+        * cuts/arch/dsto/DSTO_Adapter_T.cpp:
+        * cuts/arch/dsto/DSTO_ContextBase.h:
+        * cuts/arch/dsto/DSTO_ContextBase.cpp:
+        * cuts/arch/dsto/DSTO_EventConsumer.h:
+        * cuts/arch/dsto/DSTO_EventConsumer.cpp:
+        * cuts/arch/dsto/DSTO_ExecBase.h:
+        * cuts/arch/dsto/DSTO_ExecBase.cpp:
+        * cuts/arch/dsto/DSTO_Utilities_export.h:
+        * cuts/arch/dsto/FromCORBA.h:
+        * cuts/arch/dsto/FromCORBA.cpp:
+        * cuts/arch/dsto/FromCORBA_T.h:
+        * cuts/arch/dsto/ModelData.idl:
+        * cuts/arch/dsto/ModelDataConversion.h:
+        * cuts/arch/dsto/ModelDataConversion.cpp:
+        * cuts/arch/dsto/ModelData_export.h:
+        * cuts/arch/dsto/PubApp.h:
+        * cuts/arch/dsto/PubApp.cpp:
+        * cuts/arch/dsto/PubAppAdapter.h:
+        * cuts/arch/dsto/PubAppAdapter.cpp:
+        * cuts/arch/dsto/PubAppAdapter_export.h:
+        * cuts/arch/dsto/PubAppComponent.idl:
+        * cuts/arch/dsto/PubAppContext.h:
+        * cuts/arch/dsto/PubAppContext.cpp:
+        * cuts/arch/dsto/PubApp_export.h:
+        * cuts/arch/dsto/README:
+        * cuts/arch/dsto/SubApp.h:
+        * cuts/arch/dsto/SubApp.cpp:
+        * cuts/arch/dsto/SubAppAdapter.h:
+        * cuts/arch/dsto/SubAppAdapter.cpp:
+        * cuts/arch/dsto/SubAppAdapter_export.h:
+        * cuts/arch/dsto/SubAppComponent.idl:
+        * cuts/arch/dsto/SubApp_export.h:
+        * cuts/arch/dsto/ToCORBA.h:
+        * cuts/arch/dsto/ToCORBA.cpp:
+        * cuts/arch/dsto/ToCORBA_T.h:
+        * cuts/arch/dsto/dsto.mpc.old:
+        * cuts/arch/dsto/main.cpp:
+        * cuts/arch/dsto/run_test.pl:
+
+          Removed these files.
+
 Sun Jun  7 06:55:38 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MPC/config/cuts_chaos_ccm.mpb:
@@ -37,10 +117,10 @@ Sun Jun  7 06:55:38 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
         * examples/arch/chaos/SimpleExample/descriptors/run_test.pl:
         * examples/arch/opensplice/SimpleExample/descriptors/run_test.pl:
 
-	  . First complete working version of CHAOS using the 
-	    running example at the following location:
-	      
-	        $CUTS_ROOT/examples/arch/chaos/SimpleExample
+          . First complete working version of CHAOS using the
+            running example at the following location:
+
+                $CUTS_ROOT/examples/arch/chaos/SimpleExample
 
         * cuts/arch/opensplice/ccm/Events.idl:
         * cuts/arch/tcpip/ccm/Events.idl:
