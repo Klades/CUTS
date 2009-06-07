@@ -1,6 +1,7 @@
 // $Id$
 
 #include "Input_Stream_Aggr_Member_Generator.h"
+#include "Uml.h"
 
 namespace CUTS_BE_TCPIP
 {
@@ -29,7 +30,32 @@ Input_Stream_Aggr_Member_Generator::
 void Input_Stream_Aggr_Member_Generator::
 Visit_Member (const PICML::Member & member)
 {
-  this->out_ << "stream >> val." << member.name () << ";";
+  PICML::MemberType type = member.ref ();
+  std::string name (member.name ());
+
+  if (PICML::String::meta == type.type ())
+  {
+    std::string varname ("val_");
+    varname += member.name ();
+
+    this->out_
+      << "ACE_CString " << varname << ";"
+      << "stream >> " << varname << ";"
+      << "val." << name << " = " << varname << ".c_str ();"
+      << std::endl;
+  }
+  else if (PICML::Boolean::meta == type.type ())
+  {
+    this->out_
+      << "stream >> CUTS_TCPIP_InputCDR::to_boolean (val."
+      << name << ");";
+  }
+  else
+  {
+    this->out_ << "stream >> val." << member.name () << ";";
+  }
+
+
 }
 
 }

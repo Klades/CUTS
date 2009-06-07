@@ -108,7 +108,7 @@ const PICML::ComponentImplementationContainer & container)
     std::string corba_filename (container.name ());
     corba_filename += "C";
 
-    std::string export_filename ("TCPIP_");
+    std::string export_filename (container.name ());
     export_filename += name + "_svnt_export";
 
     // Construct the export macro for this file.

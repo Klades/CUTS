@@ -1,0 +1,121 @@
+// $Id$
+
+project (SimpleComponent_CIDL_Gen) : ciaocidldefaults {
+  custom_only = 1
+
+  cidlflags += --svnt-export-macro OPENSPLICE_SIMPLECOMPONENT_SVNT_Export \
+               --svnt-export-include OpenSplice_SimpleComponent_svnt_export.h
+
+  CIDL_Files {
+    SimpleComponent.cidl
+  }
+}
+
+project (SimpleComponent_EIDL_Gen) : ciaoidldefaults {
+  custom_only = 1
+
+  after    += SimpleComponent_CIDL_Gen
+
+  idlflags += -Wb,export_macro=SIMPLECOMPONENT_EXEC_Export \
+              -Wb,export_include=SimpleComponent_exec_export.h \
+              -Sa -Sal -St
+
+  IDL_Files {
+    SimpleComponentE.idl
+  }
+}
+
+project (SimpleComponent_exec) : ciao_executor, cuts_tcpip, cuts_codegen_defaults {
+  sharedname    = SimpleComponent_exec
+  dynamicflags += SIMPLECOMPONENT_EXEC_BUILD_DLL
+
+  after += SimpleComponent_EIDL_Gen \
+    SimpleComponent_stub \
+    ModelDDSData_stub
+
+  libs  +=  \
+    SimpleComponent_stub \
+    ModelDDSData_stub
+
+  prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl SIMPLECOMPONENT_EXEC > $(PROJECT_ROOT)/SimpleComponent_exec_export.h
+
+  Source_Files {
+    SimpleComponentEC.cpp
+  }
+
+  Inline_Files {
+  }
+
+  Header_Files {
+    SimpleComponentEC.h
+  }
+
+  IDL_Files {
+  }
+}
+
+project (OpenSplice_SimpleComponent_svnt) : cuts_tcpip_ccm, cuts_chaos_ccm, cuts_codegen_defaults {
+  sharedname   = OpenSplice_SimpleComponent_svnt
+  dynamicflags = TCPIP_SIMPLECOMPONENT_SVNT_BUILD_DLL
+
+  prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl TCPIP_SIMPLECOMPONENT_SVNT > $(PROJECT_ROOT)/TCPIP_SimpleComponent_svnt_export.h
+
+  after += SimpleComponent_exec \
+    SimpleComponent_stub \
+    ModelDDSData_stub \
+    SimpleComponent_skel \
+    ModelDDSData_skel
+
+  libs += SimpleComponent_exec \
+    SimpleComponent_stub \
+    ModelDDSData_stub \
+    SimpleComponent_skel \
+    ModelDDSData_skel
+
+  Source_Files {
+    TCPIP_SimpleComponent_svnt.cpp
+  }
+
+  Header_Files {
+    TCPIP_SimpleComponent_svnt.h
+  }
+
+  Inline_Files {
+
+  }
+  IDL_Files {
+
+  }
+}
+
+project (SimpleComponent_Basic_Impl) : cuts_coworker_exec {
+  sharedname   = SimpleComponent_Basic_Impl
+
+  dynamicflags = SIMPLECOMPONENT_BASIC_IMPL_BUILD_DLL
+
+  prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl SIMPLECOMPONENT_BASIC_IMPL > $(PROJECT_ROOT)/SimpleComponent_Basic_Impl_export.h
+  after += SimpleComponent_exec
+
+  libs += SimpleComponent_exec \
+    SimpleComponent_stub \
+    ModelDDSData_stub
+
+  Source_Files {
+    SimpleComponent_Impl.cpp
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+}
+
+// end of auto-generated project file
+

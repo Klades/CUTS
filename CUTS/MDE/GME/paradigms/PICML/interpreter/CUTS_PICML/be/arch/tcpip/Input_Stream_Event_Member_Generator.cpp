@@ -45,18 +45,11 @@ Visit_Member (const PICML::Member & member)
 
   if (Udm::IsDerivedFrom (mt.type (), PICML::PredefinedType::meta))
   {
-    // Write a comment into the code.
-    std::string comment ("extracting member ");
-    comment += name;
-
-    this->out_ << std::endl
-               << CUTS_BE_CPP::single_line_comment (comment);
-
     // Write the first part of the extraction code.
     this->predefined_types_.dispatch (mt);
 
     std::ostringstream ostr;
-    ostr << "_" << member.uniqueId ();
+    ostr << "_val_" << member.uniqueId ();
     std::string varname = ostr.str ();
 
     // Write the remainder of the extraction code.
@@ -67,7 +60,8 @@ Visit_Member (const PICML::Member & member)
     if (PICML::String::meta == mt.type ())
       this->out_ << ".c_str ()";
 
-    this->out_ << ");";
+    this->out_ << ");"
+               << std::endl;
   }
   else
   {

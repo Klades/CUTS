@@ -215,11 +215,11 @@ def writeServantBaseHeaderT (output, dict) :
 #include "%(archName)s_CCM_Servant.h"
 
 /**
- * @class CUTS_(archName)s_CCM_Servant_T
+ * @class CUTS_%(archName)s_CCM_Servant_T
  */
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC>
-class CUTS_(archName)s_CCM_Servant_T :
-  public CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, CUTS_(archName)s_CCM_Servant>
+class CUTS_%(archName)s_CCM_Servant_T :
+  public CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, CUTS_%(archName)s_CCM_Servant>
 {
 public:
   /// Type definition of the base type.
@@ -227,7 +227,7 @@ public:
 			      CONTEXT,
 			      EXECUTOR,
 			      POA_EXEC,
-			      CUTS_(archName)s_CCM_Servant> base_type;
+			      CUTS_%(archName)s_CCM_Servant> base_type;
 
   CUTS_%(archName)s_CCM_Servant_T (
     const char * name,

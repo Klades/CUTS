@@ -1,11 +1,120 @@
+Sun Jun  7 01:26:56 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Input_Stream_Aggr_Member_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Input_Stream_Event_Member_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Stub_Header_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Stub_Source_Generator.cpp:
+        * bin/cuts-generate-ccm-arch-skeleton.py:
+
+          . Fixed bugs in the code generator(s).
+
+        * MPC/config/cuts_tcpip_componentserver.mpb:
+
+          . Base project.
+
+        * cuts/arch/ccm/CCM_EventConsumer.h:
+        * cuts/arch/ccm/CCM_EventConsumer_T.h:
+        * cuts/arch/ccm/CCM_EventConsumer_T.inl:
+        * cuts/arch/ccm/CCM_EventConsumer_T.cpp:
+        * cuts/arch/ccm/CCM_Servant.h:
+        * cuts/arch/ccm/CCM_Single_Subscriber.h:
+        * cuts/arch/ccm/CCM_Single_Subscriber_T.h:
+        * cuts/arch/ccm/CCM_Single_Subscriber_T.inl:
+        * cuts/arch/ccm/CCM_Single_Subscriber_T.cpp:
+        * cuts/arch/ccm/CCM_T.h:
+        * cuts/arch/ccm/CCM_T.cpp:
+        * cuts/arch/ccm/CCM_Traits_T.h:
+        * cuts/arch/ccm/CUTS_CCM.mpc:
+
+          . First version of the CORBA achitecture for CHAOS.
+
+        * cuts/arch/chaos/ccm/CHAOS_CCM.mpc:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant.h:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant.inl:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant_T.h:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant_T.cpp:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Single_Subscriber.h:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Subscriber_Table.h:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_export.h:
+        * cuts/arch/chaos/server/CHAOS_CCM_ComponentServer.h:
+        * cuts/arch/chaos/server/CHAOS_CCM_ComponentServer.inl:
+        * cuts/arch/chaos/server/CHAOS_CCM_ComponentServer.cpp:
+        * cuts/arch/chaos/server/CHAOS_CCM_ComponentServer_App.h:
+        * cuts/arch/chaos/server/CHAOS_CCM_ComponentServer_export.h:
+        * cuts/arch/chaos/server/CHAOS_CCM_Container.h:
+        * cuts/arch/chaos/server/CHAOS_CCM_Container_Strategy.h:
+        * cuts/arch/chaos/server/CHAOS_CCM_Container_Strategy.inl:
+        * cuts/arch/chaos/server/CHAOS_CCM_Container_Strategy.cpp:
+        * cuts/arch/chaos/server/server.mpc:
+        * MPC/config/cuts_chaos_ccm.mpb:
+        * MPC/config/cuts_chaos_componentserver.mpb:
+
+          . Checkpointing the CHAOS architecture. Right now, it
+            can handle TCP/IP and CCM integrated.
+
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T.cpp:
+
+          . Moved several of the functions from inline to non-inline.
+
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_export.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container_Strategy.h:
+        * cuts/arch/tcpip/server/server.mpc:
+
+          . Refactored the TCP/IP component server into two separate
+            projects: a reusable shared library and a executable.
+
+        * examples/arch/chaos:
+        * examples/arch/chaos/SimpleExample:
+        * examples/arch/chaos/SimpleExample/ModelDDSData.idl:
+        * examples/arch/chaos/SimpleExample/ModelDDSData_Base.mpc:
+        * examples/arch/chaos/SimpleExample/ModelDDSData_DDS.idl:
+        * examples/arch/chaos/SimpleExample/ModelDDSData_skel_export.h:
+        * examples/arch/chaos/SimpleExample/ModelDDSData_stub_export.h:
+        * examples/arch/chaos/SimpleExample/OpenSplice_SimpleComponent_svnt_export.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent.cidl:
+        * examples/arch/chaos/SimpleExample/SimpleComponent.idl:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Base.mpc:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl_export.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Impl.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Impl.mpc:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Impl.cpp:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_exec_export.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_skel_export.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_stub_export.h:
+        * examples/arch/chaos/SimpleExample/SimpleExample.mwc:
+        * examples/arch/chaos/SimpleExample/TCPIP_ModelDDSDataC.h:
+        * examples/arch/chaos/SimpleExample/TCPIP_ModelDDSDataC.cpp:
+        * examples/arch/chaos/SimpleExample/TCPIP_SimpleComponentC.h:
+        * examples/arch/chaos/SimpleExample/TCPIP_SimpleComponentC.cpp:
+        * examples/arch/chaos/SimpleExample/TCPIP_SimpleComponent_export.h:
+        * examples/arch/chaos/SimpleExample/TCPIP_SimpleComponent_svnt.h:
+        * examples/arch/chaos/SimpleExample/TCPIP_SimpleComponent_svnt.cpp:
+        * examples/arch/chaos/SimpleExample/TCPIP_SimpleComponent_svnt_export.h:
+        * examples/arch/chaos/SimpleExample/descriptors:
+        * examples/arch/chaos/SimpleExample/descriptors/SimpleExample.cdp:
+        * examples/arch/chaos/SimpleExample/descriptors/nodemap.dat:
+        * examples/arch/chaos/SimpleExample/descriptors/run_test.pl:
+        * examples/arch/chaos/SimpleExample/lib:
+
+          . Checkpointing the CHAOS running example.
+
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_Opts.h:
+
+          Removed this file.
+
 Sat Jun  6 19:19:35 UTC 2009  Pooja Varshneya  <varshneya_p@n1.vanderbilt.edu>
 
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xme:
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xml:
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xmp:
         * MDE/GME/paradigms/CUTS/paradigm/CUTS_uml.xme:
-				  
-          . Updated the CUTS_DSML language as per the new updates 
+
+          . Updated the CUTS_DSML language as per the new updates
             in UNITE.xsd
 
 Sat Jun  6 17:27:33 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>

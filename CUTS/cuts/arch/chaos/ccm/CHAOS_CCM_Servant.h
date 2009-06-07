@@ -4,6 +4,7 @@
 #define _CUTS_CHAOS_CCM_SERVANT_H_
 
 #include "cuts/arch/ccm/CCM_Servant.h"
+#include "cuts/arch/tcpip/TCPIP_Servant.h"
 #include "CHAOS_CCM_export.h"
 
 /**
@@ -14,6 +15,7 @@
  * domain-specific configuration information.
  */
 class CUTS_CHAOS_CCM_Export CUTS_CHAOS_CCM_Servant :
+  public CUTS_TCPIP_Servant,
   public CUTS_CCM_Servant
 {
 public:
@@ -30,4 +32,3 @@ protected:
 #endif
 
 #endif  // !defined _CUTS_CHAOS_CCM_SERVANT_H_
-  

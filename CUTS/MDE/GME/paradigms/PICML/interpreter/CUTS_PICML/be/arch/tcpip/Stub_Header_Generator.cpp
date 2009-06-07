@@ -124,10 +124,6 @@ Visit_File (const PICML::File & file)
     std::set <PICML::Package> packages = file.Package_children ();
     this->Visit_PackageFile_i (file);
 
-    std::for_each (packages.begin (),
-                   packages.end (),
-                   boost::bind (&PICML::Package::Accept, _1, boost::ref (*this)));
-
     this->outfile_ << "#endif  // !defined " << hash_define << std::endl;
   } while (0);
 
@@ -175,6 +171,15 @@ Visit_PackageFile_i  (const Udm::Object & obj)
   std::for_each (colls.begin (),
                  colls.end (),
                  boost::bind (&PICML::Collection::Accept,
+                              _1,
+                              boost::ref (*this)));
+
+  std::set <PICML::Package> packages =
+    Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
+
+  std::for_each (packages.begin (),
+                 packages.end (),
+                 boost::bind (&PICML::Package::Accept,
                               _1,
                               boost::ref (*this)));
 }

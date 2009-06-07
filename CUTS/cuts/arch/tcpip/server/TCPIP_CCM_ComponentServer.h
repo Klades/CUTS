@@ -27,7 +27,7 @@ class CUTS_TCPIP_CCM_ComponentServer_App;
  *
  * Implementation of the CIAO component server for TCP/IP.
  */
-class CUTS_TCPIP_CCM_ComponentServer :
+class CUTS_TCPIP_CCM_COMPONENTSERVER_Export CUTS_TCPIP_CCM_ComponentServer :
   public CUTS_TCPIP_ComponentServer,
   public CUTS_CCM_ComponentServer_T <CUTS_TCPIP_CCM_ComponentServer,
                                      CUTS_TCPIP_CCM_Container>

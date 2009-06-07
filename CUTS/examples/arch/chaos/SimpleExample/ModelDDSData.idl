@@ -1,0 +1,27 @@
+// -*- IDL -*-
+
+#ifndef _MODELDDSDATA_IDL_
+#define _MODELDDSDATA_IDL_
+
+#include <Components.idl>
+
+module Outer
+{
+  module Inner
+  {
+    struct Data_DDS
+    {
+      string name;
+      long id;
+      boolean urgent;
+    };
+  };
+  
+  eventtype TestData_DDS
+  {
+    public unsigned short key;
+    public Inner::Data_DDS packet;
+  };
+};
+
+#endif // _MODELDDSDATA_IDL_

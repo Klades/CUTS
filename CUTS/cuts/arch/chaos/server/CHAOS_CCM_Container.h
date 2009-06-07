@@ -21,16 +21,16 @@ typedef
 /**
  * @class CUTS_CHAOS_CCM_Container
  */
-class CUTS_CHAOS_CCM_Container :
+class CUTS_CHAOS_CCM_COMPONENTSERVER_Export CUTS_CHAOS_CCM_Container :
   public CUTS_CHAOS_CCM_Container_Base
 {
 public:
   /// Initializing constructor.
   CUTS_CHAOS_CCM_Container (
     CUTS_CHAOS_CCM_ComponentServer * server,
-		const Components::ConfigValues & config,
-		::PortableServer::POA_ptr poa,
-		::Components::Deployment::ComponentInstallation_ptr installer);
+    const Components::ConfigValues & config,
+    ::PortableServer::POA_ptr poa,
+    ::Components::Deployment::ComponentInstallation_ptr installer);
 
   /// Destructor.
   virtual ~CUTS_CHAOS_CCM_Container (void);

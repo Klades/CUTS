@@ -33,11 +33,11 @@ public:
   /// Destructor.
   virtual ~CUTS_CCM_EventConsumer (void);
 
-  virtual void push_event (Components::EventBase *);
+  virtual void push_event (::Components::EventBase *);
 
-  virtual void ciao_push_event (Components::EventBase *,
+  virtual void ciao_push_event (::Components::EventBase *,
                                 const char *,
-                                CORBA::TypeCode_ptr);
+                                ::CORBA::TypeCode_ptr);
 };
 
 #if defined (__CUTS_INLINE__)

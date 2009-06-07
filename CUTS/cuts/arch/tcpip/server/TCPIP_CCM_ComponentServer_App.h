@@ -21,7 +21,7 @@
  *
  * Main application for the TCP/IP component server.
  */
-class CUTS_TCPIP_CCM_ComponentServer_App :
+class CUTS_TCPIP_CCM_COMPONENTSERVER_Export CUTS_TCPIP_CCM_ComponentServer_App :
   public CUTS_CCM_ComponentServer_App_T <CUTS_TCPIP_CCM_ComponentServer_App,
                                          CUTS_TCPIP_CCM_ComponentServer>
 {

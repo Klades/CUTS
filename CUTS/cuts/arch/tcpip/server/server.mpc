@@ -1,10 +1,10 @@
 // $Id$
 
-project (CUTS_TCPIP_CCM_ComponentServer) : ciao_componentserver_svnt, cuts_tcpip_ccm, cuts_lib, cutsexe {
-  exename = cuts-tcpip-componentserver
+project (CUTS_TCPIP_CCM_ComponentServer) : ciao_componentserver_svnt, cuts_tcpip_ccm, cuts_lib, cutslib {
+  sharedname    = CUTS_TCPIP_CCM_ComponentServer
+  dynamicflags += CUTS_TCPIP_CCM_COMPONENTSERVER_BUILD_DLL
 
   Source_Files {
-    server.cpp
     TCPIP_CCM_Container.cpp
     TCPIP_CCM_Container_Strategy.cpp
     TCPIP_CCM_ComponentServer.cpp
@@ -16,6 +16,22 @@ project (CUTS_TCPIP_CCM_ComponentServer) : ciao_componentserver_svnt, cuts_tcpip
   }
 
   Header_Files {
-    TCPIP_CCM_ComponentServer_Opts.h
+
+  }
+}
+
+project (CUTS_TCPIP_CCM_ComponentServer_App) : cuts_tcpip_componentserver, cutsexe {
+  exename = cuts-tcpip-componentserver
+
+  Source_Files {
+    server.cpp
+  }
+
+  Inline_Files {
+
+  }
+
+  Header_Files {
+
   }
 }

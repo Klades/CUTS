@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_CHAOS_CCM) : cuts_ccm, cuts_lib, cutslib {
+project (CUTS_CHAOS_CCM) : cuts_ccm, cuts_tcpip, cuts_lib, cutslib {
   sharedname    = CUTS_CHAOS_CCM
   dynamicflags += CUTS_CHAOS_CCM_BUILD_DLL
 
@@ -8,6 +8,12 @@ project (CUTS_CHAOS_CCM) : cuts_ccm, cuts_lib, cutslib {
 
   Source_Files {
     CHAOS_CCM_Servant.cpp
+  }
+
+  Header_Files {
+    CHAOS_CCM_EventConsumer.h
+    CHAOS_CCM_Single_Subscriber.h
+    CHAOS_CCM_Subscriber_Table.h
   }
 
   Template_Files {

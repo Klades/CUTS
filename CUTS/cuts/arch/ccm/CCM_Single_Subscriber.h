@@ -17,18 +17,20 @@
 #include "CCM_export.h"
 
 /**
- * @class CUTS_TCPIP_CCM_Remote_Endpoint
+ * @class CUTS_CCM_Single_Subscriber
  */
 class CUTS_CCM_Export CUTS_CCM_Single_Subscriber
 {
 public:
-  CUTS_CCM_Single_Subscriber (void);
-
   virtual ~CUTS_CCM_Single_Subscriber (void) = 0;
 
   virtual void connect (::Components::EventConsumerBase_ptr consumer) = 0;
 
   virtual ::Components::EventConsumerBase_ptr disconnect (void) = 0;
+
+protected:
+  /// Default constructor.
+  CUTS_CCM_Single_Subscriber (void);
 };
 
 #if defined (__CUTS_INLINE__)

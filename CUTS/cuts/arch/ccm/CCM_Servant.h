@@ -54,6 +54,9 @@ public:
 protected:
   /// Name of the CCM servant.
   ACE_CString name_;
+
+private:
+  CUTS_CCM_Servant (void);
 };
 
 #if defined (__CUTS_INLINE__)

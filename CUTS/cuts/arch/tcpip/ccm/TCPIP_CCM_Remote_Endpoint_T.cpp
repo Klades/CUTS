@@ -30,3 +30,14 @@ connect (::Components::EventConsumerBase_ptr ptr)
   if (0 != retval)
     throw ::Components::InvalidConnection ();
 }
+
+//
+// disconnect
+//
+template <typename T>
+::Components::EventConsumerBase_ptr
+CUTS_TCPIP_CCM_Remote_Endpoint_T <T>::disconnect (void)
+{
+  CUTS_TCPIP_Remote_Endpoint::disconnect ();
+  return this->consumer_._retn ();
+}

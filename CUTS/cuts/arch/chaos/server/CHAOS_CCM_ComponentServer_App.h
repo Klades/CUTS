@@ -18,7 +18,7 @@ typedef
  *
  * Main application for the CHAOS component server.
  */
-class CUTS_CHAOS_CCM_ComponentServer_App :
+class CUTS_CHAOS_CCM_COMPONENTSERVER_Export CUTS_CHAOS_CCM_ComponentServer_App :
   public CUTS_CHAOS_CCM_ComponentServer_App_Base
 {
 public:

@@ -52,10 +52,17 @@ project (CUTS_CIAO_exec) : requires_ciao, ciao_componentserver_svnt, cuts_compon
     CCM_ComponentServer_App_T.cpp
     CCM_Context_T.cpp
     CCM_CoWorkEr_Proxy_T.cpp
+    CCM_EventConsumer_T.cpp
     CCM_Event_Handler_T.cpp
     CCM_Event_Producer_T.cpp
     CCM_Events_T.cpp
     CCM_Factory_T.cpp
     CCM_Servant_T.cpp
+    CCM_Single_Subscriber_T.cpp
+    CCM_T.cpp
+  }
+
+  Header_Files {
+    CCM_Traits_T.h
   }
 }

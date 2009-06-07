@@ -23,7 +23,7 @@ class CUTS_TCPIP_CCM_ComponentServer;
 /**
  * @class CUTS_TCPIP_CCM_Container
  */
-class CUTS_TCPIP_CCM_Container :
+class CUTS_TCPIP_CCM_COMPONENTSERVER_Export CUTS_TCPIP_CCM_Container :
   public CUTS_CCM_Container_T <CUTS_TCPIP_CCM_Container,
                                CUTS_TCPIP_CCM_ComponentServer,
                                CUTS_TCPIP_CCM_Container_Strategy,

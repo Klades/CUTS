@@ -4,6 +4,7 @@
 #define _CUTS_CHAOS_CCM_CONTAINER_STRATEGY_H_
 
 #include "cuts/arch/ccm/CCM_Container_Strategy_T.h"
+#include "CHAOS_CCM_ComponentServer_export.h"
 
 // Forward decl.
 class CUTS_CHAOS_CCM_Container;
@@ -19,7 +20,7 @@ typedef
  *
  * Implementation of the CCM container startegy for CHAOS.
  */
-class CUTS_CHAOS_CCM_Container_Strategy :
+class CUTS_CHAOS_CCM_COMPONENTSERVER_Export CUTS_CHAOS_CCM_Container_Strategy :
   public CUTS_CHAOS_CCM_Container_Strategy_Base
 {
 public:
@@ -28,7 +29,7 @@ public:
    *
    * @param[in]     container       Container hosting the strategy
    */
-  CUTS_CHAOS_CCM_Container_Strategy (CUTS_CHAOS_CCM_Container * container);
+  CUTS_CHAOS_CCM_Container_Strategy (CUTS_CHAOS_CCM_Container & container);
 
   /// Destructor.
   virtual ~CUTS_CHAOS_CCM_Container_Strategy (void);
@@ -44,6 +45,9 @@ public:
   virtual void
     configure_servant (::PortableServer::Servant servant,
                        const ::Components::ConfigValues & config);
+
+  virtual void
+    remove_servant (::PortableServer::Servant servant);
 };
 
 #if defined (__CUTS_INLINE__)
