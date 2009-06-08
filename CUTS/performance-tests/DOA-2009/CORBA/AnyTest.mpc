@@ -1,0 +1,34 @@
+// -*- MPC -*
+
+
+project (AnyTest_Server) : portableserver, dynamicany, taoexe {
+  exename = anytest-server
+  install = .
+
+  IDL_Files {
+    AnyTest.idl
+  }
+
+  Source_Files {
+    AnyTestC.cpp
+    AnyTestS.cpp
+    AnyTest_i.cpp
+    server.cpp
+  }
+}
+
+project (AnyTest_Client) : dynamicany, taoexe {
+  exename = anytest-client
+  install = .
+
+  after += AnyTest_Server
+
+  IDL_Files {
+
+  }
+
+  Source_Files {
+    AnyTestC.cpp
+    client.cpp
+  }
+}

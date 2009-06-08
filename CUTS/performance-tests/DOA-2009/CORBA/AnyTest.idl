@@ -1,0 +1,11 @@
+// -*- IDL -*-
+
+module PerformanceTests
+{
+  interface AnyTest
+  {
+    void send_any (in any any_type);
+
+    void send_any_oneway (in any any_type);
+  };
+};

@@ -1,3 +1,18 @@
+Mon Jun  8 21:47:56 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * performance-tests:
+        * performance-tests/DOA-2009:
+        * performance-tests/DOA-2009/CORBA:
+        * performance-tests/DOA-2009/CORBA/AnyTest.idl:
+        * performance-tests/DOA-2009/CORBA/AnyTest.mpc:
+        * performance-tests/DOA-2009/CORBA/AnyTest_i.h:
+        * performance-tests/DOA-2009/CORBA/AnyTest_i.cpp:
+        * performance-tests/DOA-2009/CORBA/client.cpp:
+        * performance-tests/DOA-2009/CORBA/server.cpp:
+        * performance-tests/DOA-2009/EISA:
+
+          . Performance test for DOA paper.
+
 Mon Jun  8 19:39:43 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * tests/papers:
