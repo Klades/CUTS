@@ -2,6 +2,24 @@
 
 module PerformanceTests
 {
+  struct InnerData
+  {
+    unsigned long time1;
+
+    unsigned long time2;
+  };
+
+  struct ComplexData
+  {
+    unsigned long long_value;
+
+    boolean bool_value;
+
+    InnerData inner_data;
+  };
+
+  typedef sequence <ComplexData> ComplexDataSequence;
+
   interface AnyTest
   {
     void send_any (in any any_type);

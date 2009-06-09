@@ -1,8 +1,8 @@
 // -*- MPC -*
 
 
-project (AnyTest_Server) : portableserver, dynamicany, taoexe {
-  exename = anytest-server
+project (AnyTest_Corba_Server) : portableserver, dynamicany, taoexe {
+  exename = anytest-corba-server
   install = .
 
   IDL_Files {
@@ -17,11 +17,11 @@ project (AnyTest_Server) : portableserver, dynamicany, taoexe {
   }
 }
 
-project (AnyTest_Client) : dynamicany, taoexe {
-  exename = anytest-client
+project (AnyTest_Corba_Client) : dynamicany, taoexe {
+  exename = anytest-corba-client
   install = .
 
-  after += AnyTest_Server
+  after += AnyTest_Corba_Server
 
   IDL_Files {
 

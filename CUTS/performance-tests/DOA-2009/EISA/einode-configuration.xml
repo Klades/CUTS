@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<eisa:einode xmlns:eisa="http://www.ge.com/eisa" xmlns="http://www.ge.com/eisa"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.ge.com/eisa einode.xsd">
+
+  <eisa:uuid>26ACD696-C60B-4B93-9D7E-1494C0E2B144</eisa:uuid>
+  <eisa:name>EINode-1</eisa:name>
+  <eisa:version>1.0</eisa:version>
+  <eisa:company>Vanderbilt University</eisa:company>
+  <eisa:comment>This is an example EINode registration document</eisa:comment>
+
+  <eisa:datachannel>
+    <eisa:location>file://datachannel.ior</eisa:location>
+    <eisa:reconnect>3000</eisa:reconnect>
+  </eisa:datachannel>
+</eisa:einode>

@@ -1,3 +1,17 @@
+Tue Jun  9 01:37:17 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * performance-tests/DOA-2009/CORBA/AnyTest.idl:
+        * performance-tests/DOA-2009/CORBA/AnyTest.mpc:
+        * performance-tests/DOA-2009/CORBA/client.cpp:
+        * performance-tests/DOA-2009/EISA/AnyTest.mpc:
+        * performance-tests/DOA-2009/EISA/EINode_Channel_i.h:
+        * performance-tests/DOA-2009/EISA/EINode_Channel_i.cpp:
+        * performance-tests/DOA-2009/EISA/client.cpp:
+        * performance-tests/DOA-2009/EISA/einode-configuration.xml:
+        * performance-tests/DOA-2009/EISA/server.cpp:
+
+          . Initial performance tests for DOA 2009 paper.
+
 Mon Jun  8 21:47:56 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * performance-tests:

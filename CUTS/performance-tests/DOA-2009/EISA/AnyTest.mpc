@@ -1,0 +1,20 @@
+// $Id$
+
+project (AnyTest_Eisa_Server) : eisa_skel {
+  exename = anytest-eisa-server
+  install = .
+
+  Source_Files {
+    server.cpp
+    EINode_Channel_i.cpp
+  }
+}
+
+project (AnyTest_Eisa_Client) : eisa {
+  exename = anytest-eisa-client
+  install = .
+
+  Source_Files {
+    client.cpp
+  }
+}
