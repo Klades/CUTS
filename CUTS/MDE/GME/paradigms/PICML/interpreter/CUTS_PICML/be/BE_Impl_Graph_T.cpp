@@ -37,10 +37,6 @@ void CUTS_BE_Impl_Graph_T <T>::
 Visit_ComponentImplementationContainer (
 const PICML::ComponentImplementationContainer & container)
 {
-  // Get the <current_impl_> for this container.
-  this->find (container.name (), this->current_impl_);
-  this->current_impl_->container_ = container;
-
   // Get all the monolithic implemenations in this <container>.
   typedef std::vector <PICML::MonolithicImplementation> MonoImpl_Set;
   MonoImpl_Set monoimpls = container.MonolithicImplementation_kind_children ();
@@ -60,6 +56,12 @@ template <typename T>
 void CUTS_BE_Impl_Graph_T <T>::
 Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl)
 {
+  // Get the <current_impl_> for this container.
+  this->find (monoimpl.name (), this->current_impl_);
+
+  this->current_impl_->container_ =
+    PICML::ComponentImplementationContainer::Cast (monoimpl.parent ());
+
   // Visit the component that is being implemented.
   PICML::Implements implements = monoimpl.dstImplements ();
 

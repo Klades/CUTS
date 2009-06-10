@@ -7,10 +7,10 @@
 #include "ace/streams.h"
 #include "ace/OS_NS_unistd.h"
 #include "eisa/EINode_i.h"
-#include <sstream>
 #include "eisa/Software_Probe.h"
 #include "eisa/Software_Probe_Factory_T.h"
 #include "eisa/Software_Probe_Data_Packet.h"
+#include <sstream>
 
 class Simple_Probe : public EISA_Software_Probe
 {

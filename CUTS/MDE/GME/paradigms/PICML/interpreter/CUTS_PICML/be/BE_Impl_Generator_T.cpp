@@ -67,6 +67,10 @@ const PICML::ComponentImplementationContainer & container)
   std::vector <PICML::ComponentImplementation> impls =
     container.ComponentImplementation_children ();
 
+  // Preprocess the container and extract as much information
+  // as we can about the current component's implementation.
+  CUTS_BE_PREPROCESSOR (CONTEXT)->preprocess (container);
+
   std::for_each (impls.begin (),
                  impls.end (),
                  boost::bind (&CUTS_BE_Impl_Generator_T::Visit_ComponentImplementation,
@@ -113,10 +117,12 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
   PICML::ComponentImplementationContainer container =
     monoimpl.ComponentImplementationContainer_parent ();
 
-  // Preprocess the container and extract as much information
-  // as we can about the current component's implementation.
-  CUTS_BE_PREPROCESSOR (CONTEXT)->preprocess (container);
+  // Get the implementation node and write all the includes.
+  const CUTS_BE_Impl_Node * impl = 0;
+  CUTS_BE_PREPROCESSOR (CONTEXT)->impls ().find (monoimpl.name (), impl);
 
+  if (0 == impl)
+    return;
 
   CUTS_BE_File_Open_T <arch_type> file_open_gen (this->context_);
   file_open_gen.generate (container, monoimpl);
@@ -124,10 +130,6 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
   // Write the prologue for the file.
   CUTS_BE_Prologue_T <arch_type> prologue_gen (this->context_);
   prologue_gen.generate (container, monoimpl);
-
-  // Get the implementation node and write all the includes.
-  const CUTS_BE_Impl_Node * impl = 0;
-  CUTS_BE_PREPROCESSOR (CONTEXT)->impls ().find (container.name (), impl);
 
   // Write the include files for this implementation.
   CUTS_BE::visit <CONTEXT> (impl->include_,

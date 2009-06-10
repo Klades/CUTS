@@ -1,8 +1,33 @@
+Wed Jun 10 03:49:38 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Graph_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Workspace_Generator.cpp:
+
+          . Improved the build process for TCP/IP.
+
+          . The *node* in the implementation graph now maps to the
+            actual monolithic implementation in the model.
+
+        * cuts/arch/tcpip/TCPIP_ORB.h:
+
+          . Removed unnecessary code.
+
+        * performance-tests/DOA-2009/CORBA/AnyTest.idl:
+        * performance-tests/DOA-2009/CORBA/AnyTest_i.h:
+        * performance-tests/DOA-2009/EISA/client.cpp:
+
+          . Checkpointing the performance test.
+
 Wed Jun 10 02:37:57 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MPC/config/cuts_chaos.mpb:
 
-	  . Missing base project.
+          . Missing base project.
 
 Tue Jun  9 01:37:17 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 

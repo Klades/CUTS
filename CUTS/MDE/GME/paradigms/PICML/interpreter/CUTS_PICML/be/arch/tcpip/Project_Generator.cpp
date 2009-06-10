@@ -17,7 +17,7 @@ void CUTS_BE_Project_File_Open_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_Impl_Node>::
 generate (const CUTS_BE_Impl_Node & node)
 {
   std::string pathname (CUTS_BE_OPTIONS ()->output_directory_);
-  pathname += "/" + node.name_ + "_Impl.mpc";
+  pathname += "/" + node.name_ + ".mpc";
 
   this->ctx_.project_.open (pathname.c_str ());
 }
@@ -59,7 +59,8 @@ generate (const CUTS_BE_Impl_Node & node)
 void CUTS_BE_Project_Write_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_Impl_Node>::
 generate_cidl_project (const CUTS_BE_Impl_Node & node)
 {
-  std::string project_name (node.name_);
+  std::string container_name (node.container_.name ());
+  std::string project_name (container_name);
   project_name += "_CIDL_Gen";
 
   std::string svnt_name (node.svnt_artifact_.name ());
@@ -78,7 +79,7 @@ generate_cidl_project (const CUTS_BE_Impl_Node & node)
     << "               --svnt-export-include " << svnt_name << "_export.h" << std::endl
     << std::endl
     << "  CIDL_Files {" << std::endl
-    << "    " << node.name_ << ".cidl" << std::endl
+    << "    " << container_name << ".cidl" << std::endl
     << "  }" << std::endl
     << "}" << std::endl
     << std::endl;
@@ -90,17 +91,18 @@ generate_cidl_project (const CUTS_BE_Impl_Node & node)
 void CUTS_BE_Project_Write_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_Impl_Node>::
 generate_eidl_project (const CUTS_BE_Impl_Node & node)
 {
-  std::string project_name (node.name_);
+  std::string container_name (node.container_.name ());
+  std::string project_name (container_name);
   project_name += "_EIDL_Gen";
 
   this->ctx_.project_
     << "project (" << project_name << ") : ciaoidldefaults {" << std::endl
     << "  custom_only = 1" << std::endl
     << std::endl
-    << "  after    += " << node.name_ << "_CIDL_Gen" << std::endl
+    << "  after    += " << container_name << "_CIDL_Gen" << std::endl
     << std::endl;
 
-  std::string exec_name (node.name_);
+  std::string exec_name (container_name);
   std::string exec_export_macro (exec_name);
   exec_export_macro += "_EXEC";
 
@@ -113,11 +115,11 @@ generate_eidl_project (const CUTS_BE_Impl_Node & node)
 
   this->ctx_.project_
     << "  idlflags += -Wb,export_macro=" << exec_export_macro << " \\" << std::endl
-    << "              -Wb,export_include=" << node.name_ << "_exec_export.h \\" << std::endl
+    << "              -Wb,export_include=" << container_name << "_exec_export.h \\" << std::endl
     << "              -Sa -Sal -St" << std::endl
     << std::endl
     << "  IDL_Files {" << std::endl
-    << "    " << node.name_ << "E.idl" << std::endl
+    << "    " << container_name << "E.idl" << std::endl
     << "  }" << std::endl
     << "}" << std::endl
     << std::endl;
@@ -129,10 +131,11 @@ generate_eidl_project (const CUTS_BE_Impl_Node & node)
 void CUTS_BE_Project_Write_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_Impl_Node>::
 generate_exec_project (const CUTS_BE_Impl_Node & node)
 {
-  std::string project_name (node.name_);
+  std::string container_name (node.container_.name ());
+  std::string project_name (container_name);
   project_name += "_exec";
 
-  std::string macro_basename (node.name_);
+  std::string macro_basename (container_name);
 
   std::transform (macro_basename.begin (),
                   macro_basename.end (),
@@ -144,7 +147,7 @@ generate_exec_project (const CUTS_BE_Impl_Node & node)
     << "  sharedname    = " << project_name << std::endl
     << "  dynamicflags += " << macro_basename << "_EXEC_BUILD_DLL" << std::endl
     << std::endl
-    << "  after += " << node.name_ << "_EIDL_Gen";
+    << "  after += " << container_name << "_EIDL_Gen";
 
   std::for_each (node.references_.begin (),
                  node.references_.end (),
@@ -172,17 +175,17 @@ generate_exec_project (const CUTS_BE_Impl_Node & node)
     << std::endl
     << std::endl
     << "  prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl "
-    << macro_basename << "_EXEC > $(PROJECT_ROOT)/" << node.name_ << "_exec_export.h" << std::endl
+    << macro_basename << "_EXEC > $(PROJECT_ROOT)/" << container_name << "_exec_export.h" << std::endl
     << std::endl
     << "  Source_Files {" << std::endl
-    << "    " << node.name_ << "EC.cpp" << std::endl
+    << "    " << container_name << "EC.cpp" << std::endl
     << "  }" << std::endl
     << std::endl
     << "  Inline_Files {" << std::endl
     << "  }" << std::endl
     << std::endl
     << "  Header_Files {" << std::endl
-    << "    " << node.name_ << "EC.h" << std::endl
+    << "    " << container_name << "EC.h" << std::endl
     << "  }" << std::endl
     << std::endl
     << "  IDL_Files {" << std::endl
@@ -198,6 +201,7 @@ void CUTS_BE_Project_Write_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_Impl_Node>::
 generate_impl_project (const CUTS_BE_Impl_Node & node)
 {
   std::string impl_basename = node.exec_artifact_.name ();
+  std::string container_name (node.container_.name ());
 
   // Create the export name for the project.
   std::string impl_export (impl_basename);
@@ -224,7 +228,7 @@ generate_impl_project (const CUTS_BE_Impl_Node & node)
     visited_nodes_.clear ();
 
     this->ctx_.project_
-      << "  after += " << node.name_ << "_exec";
+      << "  after += " << container_name << "_exec";
 
     this->ctx_.project_
       << std::endl
@@ -235,7 +239,7 @@ generate_impl_project (const CUTS_BE_Impl_Node & node)
     visited_nodes_.clear ();
 
     this->ctx_.project_
-      << "  libs += " << node.name_ << "_exec";
+      << "  libs += " << container_name << "_exec";
 
     std::for_each (node.references_.begin (),
                    node.references_.end (),
@@ -255,7 +259,7 @@ generate_impl_project (const CUTS_BE_Impl_Node & node)
   this->ctx_.project_
     // Generate the source files.
     << "  Source_Files {" << std::endl
-    << "    " << node.name_ << "_Impl.cpp" << std::endl
+    << "    " << node.name_ << ".cpp" << std::endl
     << "  }" << std::endl
     << std::endl
     // Generate the header files.
@@ -283,6 +287,7 @@ generate_svnt_project (const CUTS_BE_Impl_Node & node)
 {
   // Construct the names of the servant and skeleton project.
   std::string svnt_project (node.svnt_artifact_.name ());
+  std::string container_name (node.container_.name ());
 
   // Create the export name for the project.
   std::string export_basename (svnt_project);
@@ -306,7 +311,7 @@ generate_svnt_project (const CUTS_BE_Impl_Node & node)
     this->visited_nodes_.clear ();
 
     this->ctx_.project_
-      << "  after += " << node.name_ << "_exec";
+      << "  after += " << container_name << "_exec";
 
     std::for_each (node.references_.begin (),
                    node.references_.end (),
@@ -334,7 +339,7 @@ generate_svnt_project (const CUTS_BE_Impl_Node & node)
     // more. This time we are generating the libs declaration.
 
     this->ctx_.project_
-      << "  libs += " << node.name_ << "_exec";
+      << "  libs += " << container_name << "_exec";
 
     this->visited_nodes_.clear ();
     std::for_each (node.references_.begin (),
@@ -362,12 +367,12 @@ generate_svnt_project (const CUTS_BE_Impl_Node & node)
   this->ctx_.project_
     // Generate the source files
     << "  Source_Files {" << std::endl
-    << "    TCPIP_" << node.name_ << "_svnt.cpp" << std::endl
+    << "    TCPIP_" << container_name << "_svnt.cpp" << std::endl
     << "  }" << std::endl
     << std::endl
     // Generate the header files
     << "  Header_Files {" << std::endl
-    << "    TCPIP_" << node.name_ << "_svnt.h" << std::endl
+    << "    TCPIP_" << container_name << "_svnt.h" << std::endl
     << "  }" << std::endl
     << std::endl
     << "  Inline_Files {" << std::endl

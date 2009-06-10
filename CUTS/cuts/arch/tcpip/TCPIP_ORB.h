@@ -14,7 +14,6 @@
 #define _CUTS_TCPIP_ORB_H_
 
 #include "ace/SOCK_Acceptor.h"
-#include "ace/Thread_Manager.h"
 #include "TCPIP_Acceptor.h"
 #include "TCPIP_Servant_Manager.h"
 
@@ -67,8 +66,6 @@ private:
 
   /// Reactor for the ORB.
   ACE_Auto_Ptr <ACE_Reactor> reactor_;
-
-  ACE_Thread_Manager thr_mgr_;
 };
 
 #if defined (__CUTS_INLINE__)

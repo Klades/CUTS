@@ -20,6 +20,11 @@ public:
 
   virtual void send_any_oneway (const ::CORBA::Any & any);
 
+  virtual void send_simple_data (::CORBA::ULong data)
+  {
+
+  }
+
   size_t any_count (void)
   {
     return this->any_count_;

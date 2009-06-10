@@ -58,7 +58,7 @@ CUTS_BE_Workspace_Project_Include_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_Impl_Node>::
 generate (const CUTS_BE_Impl_Node & node)
 {
   this->ctx_.workspace_
-    << "  " << node.name_ << "_Impl.mpc" << std::endl;
+    << "  " << node.name_ << ".mpc" << std::endl;
 }
 
 //
