@@ -166,8 +166,9 @@ CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
 generate_exec_project (const CUTS_BE_Impl_Node & node)
 {
   std::string exec_basename = node.exec_artifact_.name ();
+  std::string container_name = node.container_.name ();
 
-  std::string skel_project = node.name_ + SKEL_SUFFIX;
+  std::string skel_project = container_name + SKEL_SUFFIX;
   std::replace (skel_project.begin (), skel_project.end (), '/', '_');
   std::replace (skel_project.begin (), skel_project.end (), '\\', '_');
 
@@ -260,7 +261,9 @@ generate_svnt_project (const CUTS_BE_Impl_Node & node)
 {
   // Construct the names of the servant and skeleton project.
   std::string svnt_project = node.svnt_artifact_.name ();
-  std::string skel_project = node.name_ + SKEL_SUFFIX;
+  std::string container_name = node.container_.name ();
+  std::string skel_project = container_name + SKEL_SUFFIX;
+
   std::replace (skel_project.begin (), skel_project.end (), '/', '_');
   std::replace (skel_project.begin (), skel_project.end (), '\\', '_');
 
@@ -332,7 +335,7 @@ generate_svnt_project (const CUTS_BE_Impl_Node & node)
 
     // Generate the source files
     << "  Source_Files {" << std::endl
-    << "    " << node.basename_ << "_svnt.cpp" << std::endl
+    << "    " << container_name << "_svnt.cpp" << std::endl
     << "  }" << std::endl
     << std::endl
 
@@ -352,8 +355,9 @@ CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
 generate_skel_project (const CUTS_BE_Impl_Node & node)
 {
   // Generator the export file for the CIAO servant project.
-  std::string skel_project_name = node.name_ + SKEL_SUFFIX;
-  std::string skel_export_file = node.name_ + SKEL_SUFFIX + "_export.h";
+  std::string container_name (node.container_.name ());
+  std::string skel_project_name = container_name + SKEL_SUFFIX;
+  std::string skel_export_file = container_name + SKEL_SUFFIX + "_export.h";
 
   std::replace (skel_project_name.begin (), skel_project_name.end (), '/', '_');
   std::replace (skel_project_name.begin (), skel_project_name.end (), '\\', '_');
@@ -432,19 +436,19 @@ generate_skel_project (const CUTS_BE_Impl_Node & node)
   this->ctx_.project_
     // Generate the CIDL files
     << "  CIDL_Files {" << std::endl
-    << "    " << node.basename_ << ".cidl" << std::endl
+    << "    " << container_name << ".cidl" << std::endl
     << "  }" << std::endl
     << std::endl
 
     // Generate the IDL files
     << "  IDL_Files {" << std::endl
-    << "    " << node.basename_ << "E.idl" << std::endl
+    << "    " << container_name << "E.idl" << std::endl
     << "  }" << std::endl
     << std::endl
 
     // Generate the source files
     << "  Source_Files {" << std::endl
-    << "    " << node.basename_ << "EC.cpp" << std::endl
+    << "    " << container_name << "EC.cpp" << std::endl
     << "  }" << std::endl
     << std::endl
 
