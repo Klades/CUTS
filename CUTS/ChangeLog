@@ -1,3 +1,9 @@
+Wed Jun 10 02:37:57 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_chaos.mpb:
+
+	  . Missing base project.
+
 Tue Jun  9 01:37:17 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * performance-tests/DOA-2009/CORBA/AnyTest.idl:
