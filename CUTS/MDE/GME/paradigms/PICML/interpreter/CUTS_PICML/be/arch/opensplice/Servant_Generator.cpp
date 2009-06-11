@@ -213,14 +213,13 @@ const PICML::ComponentImplementationContainer & container)
       << CUTS_BE_CPP::include ("cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T")
       << CUTS_BE_CPP::include ("cuts/arch/opensplice/ccm/OpenSplice_Subscriber_T")
       << CUTS_BE_CPP::include ("cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table_T")
-      << std::endl
-      << CUTS_BE_CPP::include (export_filename)
       << std::endl;
 
     this->source_
       << "// $" << "Id" << "$" << std::endl
       << std::endl
       << CUTS_BE_CPP::include (basename)
+      << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_T")
       << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_Events_T")
       << std::endl;
 
@@ -265,9 +264,11 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
     impl.Accept (*this);
 
   this->header_
-    << "}"
-    << "extern \"C\" " << this->export_macro_ << std::endl
-    << "::PortableServer::Servant" << std::endl;
+    << "}";
+
+
+  this->source_
+    << "}";
 
   std::set <PICML::MonolithprimaryArtifact> artifacts =
     monoimpl.dstMonolithprimaryArtifact ();
@@ -277,12 +278,6 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
                  boost::bind (&PICML::MonolithprimaryArtifact::Accept,
                               _1,
                               boost::ref (*this)));
-
-  this->header_ << " (const char * name," << std::endl
-              << "::Components::EnterpriseComponent_ptr p);";
-
-  this->source_
-    << "}";
 }
 
 //
@@ -427,9 +422,40 @@ Visit_ImplementationArtifactReference (const PICML::ImplementationArtifactRefere
 // Visit_ComponentServantArtifact
 //
 void Servant_Generator::
-Visit_ComponentServantArtifact (const PICML::ComponentServantArtifact & artifact)
+Visit_ComponentServantArtifact (const PICML::ComponentServantArtifact & ref)
 {
-  this->header_ << artifact.EntryPoint ();
+  PICML::ImplementationArtifact artifact = ref.ref ();
+  std::string entrypoint = ref.EntryPoint ();
+  std::string export_macro = artifact.name ();
+
+  std::transform (export_macro.begin (),
+                  export_macro.end (),
+                  export_macro.begin (),
+                  &::toupper);
+
+  export_macro += "_Export";
+
+  std::string export_filename (artifact.name ());
+  export_filename += "_export";
+
+  this->header_
+    << CUTS_BE_CPP::include (export_filename)
+    << std::endl
+    << "extern \"C\" " << export_macro << std::endl
+    << "::PortableServer::Servant" << std::endl
+    << entrypoint << " (const char * name," << std::endl
+    << "::Components::EnterpriseComponent_ptr p);";
+
+  this->source_
+    << "extern \"C\" ::PortableServer::Servant" << std::endl
+    << entrypoint << " (const char * name, ::Components::EnterpriseComponent_ptr p)"
+    << "{"
+    << "return ::CUTS::CCM::create_servant <" << std::endl
+    << "  ::CIDL_" << this->monoimpl_ << "::"
+    << this->component_ << "_Exec, " << std::endl
+    << "  ::OpenSplice_" << this->monoimpl_ << "::" << this->servant_
+    << " > (name, p);"
+    << "}";
 }
 
 //

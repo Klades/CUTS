@@ -77,7 +77,7 @@ project (OpenSplice_SimpleComponent_svnt) : cuts_opensplice_ccm, cuts_codegen_de
   }
 
   Header_Files {
-    TCPIP_SimpleComponent_svnt.h
+    OpenSplice_SimpleComponent_svnt.h
   }
 
   Inline_Files {

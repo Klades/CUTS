@@ -76,6 +76,8 @@ private:
   std::string monoimpl_;
 
   std::string servant_;
+
+  std::string component_;
 };
 
 }

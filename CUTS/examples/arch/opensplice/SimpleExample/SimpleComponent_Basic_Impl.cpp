@@ -10,8 +10,8 @@ namespace SimpleComponent_Basic_Impl
   // SimpleComponent
   //
   SimpleComponent::SimpleComponent (void)
-  : isActive_ (true),
-    eventCount_ (0)
+  : eventCount_ (0),
+    isActive_ (true)
   {
     this->periodic_sendData_.init (this, &SimpleComponent::periodic_sendData);
     this->periodic_sendData_.configure (CUTS_Periodic_Event::PE_CONSTANT, 10);
@@ -26,6 +26,14 @@ namespace SimpleComponent_Basic_Impl
   }
 
   //
+  // sink: tcpip_read_test_data
+  //
+  void SimpleComponent::push_tcpip_read_test_data (::Outer::TestData_DDS * ev)
+  {
+    ACE_UNUSED_ARG (ev);
+  }
+
+  //
   // sink: corba_read_test_data
   //
   void SimpleComponent::push_corba_read_test_data (::Outer::TestData_DDS * ev)
@@ -37,14 +45,6 @@ namespace SimpleComponent_Basic_Impl
   // sink: dds_read_test_data
   //
   void SimpleComponent::push_dds_read_test_data (::Outer::TestData_DDS * ev)
-  {
-    ACE_UNUSED_ARG (ev);
-  }
-
-  //
-  // sink: tcpip_read_test_data
-  //
-  void SimpleComponent::push_tcpip_read_test_data (::Outer::TestData_DDS * ev)
   {
     ACE_UNUSED_ARG (ev);
   }

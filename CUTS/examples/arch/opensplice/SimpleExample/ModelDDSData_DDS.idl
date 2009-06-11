@@ -5,29 +5,39 @@
 
 module CUTS_DDS
 {
-module Outer
-{
-  module Inner
+  module Outer
   {
-    struct Data_DDS
+    module Inner
     {
-      string name;
-      long id;
-      boolean urgent;
+      struct Data_DDS
+      {
+        // data member: urgent
+        boolean urgent;
+
+        // data member: id
+        long id;
+
+        // data member: name
+        string name;
+      };
+    };
+
+    struct TestData_DDS
+    {
+      // data member: key
+      short key;
+
+      // data member: packet
+      ::CUTS_DDS::Outer::Inner::Data_DDS packet;
     };
   };
-  
-  struct TestData_DDS
+
+  struct Aggregate
   {
-    unsigned short key;
-    Inner::Data_DDS packet;
+    // data member: Member
+    double Member;
   };
-
-#pragma keylist TestData_DDS
-
 };
 
-};
+#endif  // _MODELDDSDATA_DDS_IDL_
 
-
-#endif // _MODELDDSDATA_DDS_IDL_

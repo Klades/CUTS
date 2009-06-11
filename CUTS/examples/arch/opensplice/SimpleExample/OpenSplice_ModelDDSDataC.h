@@ -7,6 +7,9 @@
 #include "ddstypes/ModelDDSData_DDSDcps_impl.h"
 #include "ModelDDSDataC.h"
 
+MODELDDSDATA_STUB_Export bool operator <<= (Aggregate &, const ::CUTS_DDS::Aggregate & );
+MODELDDSDATA_STUB_Export bool operator >>= (const Aggregate &, ::CUTS_DDS::Aggregate & );
+
 namespace Outer
 {
   MODELDDSDATA_STUB_Export bool operator <<= (TestData_DDS &, const ::CUTS_DDS::Outer::TestData_DDS & );

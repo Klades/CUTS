@@ -372,7 +372,7 @@ generate_svnt_project (const CUTS_BE_Impl_Node & node)
     << std::endl
     // Generate the header files
     << "  Header_Files {" << std::endl
-    << "    TCPIP_" << container_name << "_svnt.h" << std::endl
+    << "    OpenSplice_" << container_name << "_svnt.h" << std::endl
     << "  }" << std::endl
     << std::endl
     << "  Inline_Files {" << std::endl
