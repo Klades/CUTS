@@ -1,3 +1,9 @@
+Thu Jun 11 14:30:42 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/opensplice/SimpleExample/ModelDDSData_Base.mpc:
+
+          . Testing the new project file for OpenSplice.
+
 Wed Jun 10 04:07:09 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Generators.cpp:
