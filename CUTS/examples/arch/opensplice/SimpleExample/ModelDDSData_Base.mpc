@@ -34,7 +34,7 @@ project (ModelDDSData_DDS_IDL_Gen) : splice_ts_defaults, requires_opensplice {
     gendir = ./ddstypes
 
     ModelDDSData_DDS.idl
-    ./ddstypes/ModelDDSDataDDSDcps.idl
+    ./ddstypes/ModelDDSData_DDSDcps.idl
   }
 }
 

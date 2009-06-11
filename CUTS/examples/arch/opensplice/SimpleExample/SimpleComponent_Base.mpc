@@ -1,6 +1,6 @@
-// -*- MPC -*-
+// $Id$
 
-project (SimpleComponent_IDL_Gen) : ciaoidldefaults {
+project (SimpleComponent_IDL_Gen) : cuts_opensplice_ccm_stub, cuts_codegen_defaults {
   custom_only = 1
 
   idlflags += -Wb,stub_export_macro=SIMPLECOMPONENT_STUB_Export \
@@ -14,10 +14,36 @@ project (SimpleComponent_IDL_Gen) : ciaoidldefaults {
   }
 }
 
+project (SimpleComponent_DDS_IDL_Gen) : splice_ts_defaults, requires_opensplice {
+  custom_only = 1
+
+  after += SimpleComponent_IDL_Gen
+
+  idlflags += -Wb,export_macro=SIMPLECOMPONENT_STUB_Export \
+              -Wb,export_include=../SimpleComponent_stub_export.h \
+
+  splice_ts_flags += -d ./ddstypes
+
+  SpliceTypeSupport_Files {
+    gendir = ./ddstypes
+
+    SimpleComponent_DDS.idl
+  }
+
+  IDL_Files {
+    gendir = ./ddstypes
+
+    SimpleComponent_DDS.idl
+    ./ddstypes/SimpleComponent_DDSDcps.idl
+  }
+}
+
 project (SimpleComponent_stub) : ccm_stub, avoids_ace_for_tao, cuts_codegen_defaults {
   sharedname   = SimpleComponent_stub
-  dynamicflags = SIMPLECOMPONENT_STUB_BUILD_DLL
-  after       += SimpleComponent_IDL_Gen
+
+  dynamicflags += SIMPLECOMPONENT_STUB_BUILD_DLL
+  macros       += DDS_API=SIMPLECOMPONENT_STUB_Export
+  after        += SimpleComponent_IDL_Gen 
 
   prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl SIMPLECOMPONENT_STUB > $(PROJECT_ROOT)/SimpleComponent_stub_export.h
 
@@ -35,14 +61,37 @@ project (SimpleComponent_stub) : ccm_stub, avoids_ace_for_tao, cuts_codegen_defa
 
   Source_Files {
     SimpleComponentC.cpp
+
+    OpenSplice_SimpleComponentC.cpp
+    ./ddstypes/SimpleComponent_DDSC.cpp
+    ./ddstypes/SimpleComponent_DDSS.cpp
+    ./ddstypes/SimpleComponent_DDSDcpsC.cpp
+    ./ddstypes/SimpleComponent_DDSDcpsS.cpp
+    ./ddstypes/SimpleComponent_DDSSplDcps.cpp
+    ./ddstypes/SimpleComponent_DDSDcps_impl.cpp
   }
 
   Header_Files {
     SimpleComponentC.h
+
+    OpenSplice_SimpleComponentC.h
+    ./ddstypes/SimpleComponent_DDSC.h
+    ./ddstypes/SimpleComponent_DDSS.h
+    ./ddstypes/SimpleComponent_DDSDcpsC.h
+    ./ddstypes/SimpleComponent_DDSDcpsS.h
+    ./ddstypes/SimpleComponent_DDSSplDcps.h
+    ./ddstypes/SimpleComponent_DDSDcps_impl.h
   }
 
   Inline_Files {
     SimpleComponentC.inl
+
+    ./ddstypes/SimpleComponent_DDSC.inl
+    ./ddstypes/SimpleComponent_DDSS.inl
+    ./ddstypes/SimpleComponent_DDSDcpsC.inl
+    ./ddstypes/SimpleComponent_DDSDcpsS.inl
+    ./ddstypes/SimpleComponent_DDSSplDcps.inl
+    ./ddstypes/SimpleComponent_DDSDcps_impl.inl
   }
 }
 

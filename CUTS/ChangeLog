@@ -1,3 +1,13 @@
+Thu Jun 11 15:16:01 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/opensplice/SimpleExample/ModelDDSData_Base.mpc:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_ModelDDSDataC.h:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_ModelDDSDataC.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Base.mpc:
+        * examples/arch/opensplice/SimpleExample/SimpleExample.mwc:
+
+          . Re-generated files directly from the model.
+
 Thu Jun 11 14:30:42 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/opensplice/SimpleExample/ModelDDSData_Base.mpc:
