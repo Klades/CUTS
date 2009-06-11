@@ -4,11 +4,8 @@
 #define _OPENSPLICE_MODELDDSDATAC_H_
 
 #include "cuts/arch/opensplice/OpenSplice_Traits_T.h"
-#include "ddstypes/ModelDDSData_DDSDcps_impl.h"
+#include "ddstypes/ModelDDSData_DDSC.h"
 #include "ModelDDSDataC.h"
-
-MODELDDSDATA_STUB_Export bool operator <<= (Aggregate &, const ::CUTS_DDS::Aggregate & );
-MODELDDSDATA_STUB_Export bool operator >>= (const Aggregate &, ::CUTS_DDS::Aggregate & );
 
 namespace Outer
 {

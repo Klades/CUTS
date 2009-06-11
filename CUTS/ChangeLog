@@ -1,3 +1,17 @@
+Thu Jun 11 22:02:08 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Stub_Generator.cpp:
+
+          . Fixed bug in the code generator.
+
+        * examples/arch/opensplice/SimpleExample/ModelDDSData.idl:
+        * examples/arch/opensplice/SimpleExample/ModelDDSData_DDS.idl:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_ModelDDSDataC.h:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_ModelDDSDataC.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent.idl:
+
+          . Updated the generated code.
+
 Thu Jun 11 21:40:47 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Project_Generator.cpp:

@@ -3,18 +3,6 @@
 #include "OpenSplice_ModelDDSDataC.h"
 
 
-bool operator <<= (Aggregate & corba, const ::CUTS_DDS::Aggregate & dds)
-{
-  corba.Member = dds.Member;
-  return true;
-}
-
-bool operator >>= (const Aggregate & corba, ::CUTS_DDS::Aggregate & dds)
-{
-  dds.Member = corba.Member;
-  return true;
-}
-
 namespace Outer
 {
   bool operator <<= (TestData_DDS & corba, const ::CUTS_DDS::Outer::TestData_DDS & dds)

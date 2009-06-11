@@ -102,7 +102,7 @@ Visit_File (const PICML::File & file)
                   &::toupper);
 
   std::string dds_filename ("ddstypes/");
-  dds_filename += std::string (file.name ()) + "_DDSDcps_impl";
+  dds_filename += std::string (file.name ()) + "_DDSC";
 
   do
   {

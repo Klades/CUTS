@@ -24,18 +24,12 @@ module CUTS_DDS
 
     struct TestData_DDS
     {
-      // data member: key
-      short key;
-
       // data member: packet
       ::CUTS_DDS::Outer::Inner::Data_DDS packet;
-    };
-  };
 
-  struct Aggregate
-  {
-    // data member: Member
-    double Member;
+      // data member: key
+      short key;
+    };
   };
 };
 
