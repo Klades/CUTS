@@ -2,8 +2,6 @@
 
 #include "OpenSplice_SimpleComponent_svnt.h"
 #include "cuts/arch/ccm/CCM_Events_T.h"
-//#include "cuts/arch/tcpip/ccm/TCPIP_CCM_T.h"
-//#include "cuts/arch/tcpip/TCPIP_Remote_Endpoint.h"
 
 namespace SimpleComponent_Basic_Impl
 {
@@ -40,7 +38,7 @@ namespace SimpleComponent_Basic_Impl
   }
 
   //
-  // push_app_op_send 
+  // push_app_op_send
   //
   void SimpleComponent_Servant_Context::push_app_op_send (::Outer::TestData_DDS * ev)
   {
@@ -52,7 +50,7 @@ namespace SimpleComponent_Basic_Impl
   //
   SimpleComponent_Servant::
   SimpleComponent_Servant (const char * name,
-			   ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor)
+         ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor)
     : SimpleComponent_Servant_Base (name, executor),
       read_test_data_consumer_ (this, &SimpleComponent_Servant::deserialize_read_test_data)
   {
@@ -74,9 +72,9 @@ namespace SimpleComponent_Basic_Impl
   //
   // deserialize_read_test_data
   //
-  void SimpleComponent_Servant:: 
+  void SimpleComponent_Servant::
   deserialize_read_test_data (SimpleComponent_Servant * servant,
-			      const ::CUTS_DDS::Outer::TestData_DDS & dds_event)
+            const ::CUTS_DDS::Outer::TestData_DDS & dds_event)
   {
     // First, extract the event.
     CUTS_CCM_Event_T < ::OBV_Outer::TestData_DDS > event;
@@ -135,7 +133,7 @@ namespace SimpleComponent_Basic_Impl
 
 extern "C" ::PortableServer::Servant
 create_SimpleComponent_Servant (const char * name,
-				::Components::EnterpriseComponent_ptr p)
+        ::Components::EnterpriseComponent_ptr p)
 {
   ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_var executor =
     ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec::_narrow (p);
@@ -146,8 +144,8 @@ create_SimpleComponent_Servant (const char * name,
   ::SimpleComponent_Basic_Impl::SimpleComponent_Servant * servant;
 
   ACE_NEW_RETURN (servant,
-		  ::SimpleComponent_Basic_Impl::SimpleComponent_Servant (name, executor.in ()),
-		  0);
+      ::SimpleComponent_Basic_Impl::SimpleComponent_Servant (name, executor.in ()),
+      0);
 
   return servant;
 }

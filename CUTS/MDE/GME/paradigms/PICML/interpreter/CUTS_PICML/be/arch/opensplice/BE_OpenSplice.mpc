@@ -1,0 +1,32 @@
+// $Id$
+
+project (CUTS_BE_OpenSplice) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
+  sharedname    += CUTS_BE_OpenSplice
+  dynamicflags  += CUTS_BE_OPENSPLICE_BUILD_DLL
+
+  includes += $(CUTS_ROOT)/MDE/GME/paradigms/PICML
+
+  Source_Files {
+    Context_Generator.cpp
+    Event_Traits_Generator.cpp
+    Generators.cpp
+    IDL_Generator.cpp
+    Input_Stream_Generator.cpp
+    Manager_Factory.cpp
+    Output_Stream_Generator.cpp
+    Project_Generator.cpp
+    Servant_Generator.cpp
+    Servant_Header_Include_Generator.cpp
+    Stub_Generator.cpp
+    Workspace_Generator.cpp
+  }
+
+  Header_Files {
+    Context.h
+    Manager.h
+  }
+
+  Inline_Files {
+
+  }
+}

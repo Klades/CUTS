@@ -57,5 +57,5 @@ class MODELDDSDATA_STUB_Export CUTS_OpenSplice_Traits_T < ::CUTS_DDS::Outer::Tes
   typedef ::OBV_Outer::TestData_DDS corba_obv_event_type;
 };
 
-#endif  _OPENSPLICE_MODELDDSDATAC_H_
+#endif  // _OPENSPLICE_MODELDDSDATAC_H_
 

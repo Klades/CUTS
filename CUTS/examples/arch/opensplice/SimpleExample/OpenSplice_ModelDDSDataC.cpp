@@ -7,15 +7,15 @@ namespace Outer
 {
   bool operator <<= (TestData_DDS & corba, const ::CUTS_DDS::Outer::TestData_DDS & dds)
   {
-    corba.packet () <<= dds.packet;
     corba.key (dds.key);
+    corba.packet () <<= dds.packet;
     return true;
   }
 
   bool operator >>= (const TestData_DDS & corba, ::CUTS_DDS::Outer::TestData_DDS & dds)
   {
-    corba.packet () >>= dds.packet;
     dds.key = corba.key ();
+    corba.packet () >>= dds.packet;
     return true;
   }
 
