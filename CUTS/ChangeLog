@@ -1,3 +1,9 @@
+Thu Jun 11 22:10:09 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_DDS.idl:
+
+          . Missing interface definition.
+
 Thu Jun 11 22:02:08 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Stub_Generator.cpp:

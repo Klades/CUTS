@@ -1,0 +1,14 @@
+// -*- IDL -*-
+
+#ifndef _SIMPLECOMPONENT_DDS_IDL_
+#define _SIMPLECOMPONENT_DDS_IDL_
+
+module CUTS_DDS
+{
+  module Example
+  {
+  };
+};
+
+#endif  // _SIMPLECOMPONENT_DDS_IDL_
+
