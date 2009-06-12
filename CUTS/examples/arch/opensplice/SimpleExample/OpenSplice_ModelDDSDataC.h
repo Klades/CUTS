@@ -4,7 +4,7 @@
 #define _OPENSPLICE_MODELDDSDATAC_H_
 
 #include "cuts/arch/opensplice/OpenSplice_Traits_T.h"
-#include "ddstypes/ModelDDSData_DDSC.h"
+#include "ddstypes/ModelDDSData_DDSDcps_impl.h"
 #include "ModelDDSDataC.h"
 
 namespace Outer
