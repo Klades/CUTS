@@ -102,7 +102,7 @@ Visit_File (const PICML::File & file)
                   &::toupper);
 
   std::string dds_filename ("ddstypes/");
-  dds_filename += std::string (file.name ()) + "_DDSC";
+  dds_filename += std::string (file.name ()) + "_DDS";
 
   do
   {
@@ -124,7 +124,7 @@ Visit_File (const PICML::File & file)
       << "#define " << hash_define << std::endl
       << std::endl
       << CUTS_BE_CPP::include ("cuts/arch/opensplice/OpenSplice_Traits_T")
-      << CUTS_BE_CPP::include (dds_filename)
+      << CUTS_BE_CPP::include (dds_filename + "Dcps_impl")
       << CUTS_BE_CPP::include (corba_filename)
       << std::endl;
 

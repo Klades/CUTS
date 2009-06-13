@@ -1,6 +1,6 @@
 // $Id$
 
-project (ModelDDSData_IDL_Gen) : cuts_opensplice_ccm_stub, cuts_codegen_defaults {
+project (ModelDDSData_IDL_Gen) : ciaoidldefaults, cuts_codegen_defaults {
   custom_only = 1
 
   idlflags += -Wb,stub_export_macro=MODELDDSDATA_STUB_Export \
@@ -39,7 +39,7 @@ project (ModelDDSData_DDS_IDL_Gen) : splice_ts_defaults, requires_opensplice {
   }
 }
 
-project (ModelDDSData_stub) : ccm_stub, avoids_ace_for_tao, cuts_codegen_defaults {
+project (ModelDDSData_stub) : cuts_opensplice_ccm_stub, avoids_ace_for_tao, cuts_codegen_defaults {
   sharedname   = ModelDDSData_stub
 
   dynamicflags += MODELDDSDATA_STUB_BUILD_DLL

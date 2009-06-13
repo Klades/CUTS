@@ -11,11 +11,11 @@ module CUTS_DDS
     {
       struct Data_DDS
       {
-        // data member: urgent
-        boolean urgent;
-
         // data member: id
         long id;
+
+        // data member: urgent
+        boolean urgent;
 
         // data member: name
         string name;

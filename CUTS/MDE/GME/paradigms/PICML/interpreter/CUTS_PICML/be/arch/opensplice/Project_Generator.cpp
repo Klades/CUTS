@@ -530,7 +530,7 @@ generate_idlgen_project (const CUTS_BE_IDL_Node & node)
 
   // Generate the project.
   this->ctx_.project_
-    << "project (" << node.name_ << "_IDL_Gen) : cuts_opensplice_ccm_stub, cuts_codegen_defaults {" << std::endl
+    << "project (" << node.name_ << "_IDL_Gen) : ciaoidldefaults, cuts_codegen_defaults {" << std::endl
     << "  custom_only = 1" << std::endl
     << std::endl
     << "  idlflags += -Wb,stub_export_macro=" << macro_basename << "_STUB_Export \\" << std::endl
@@ -613,7 +613,7 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
 
   // Generate the project.
   this->ctx_.project_
-    << "project (" << stub_name << ") : ccm_stub, avoids_ace_for_tao, cuts_codegen_defaults {" << std::endl
+    << "project (" << stub_name << ") : cuts_opensplice_ccm_stub, avoids_ace_for_tao, cuts_codegen_defaults {" << std::endl
     << "  sharedname   = " << stub_name << std::endl
     << std::endl
     << "  dynamicflags += " << stub_export << "_BUILD_DLL" << std::endl
