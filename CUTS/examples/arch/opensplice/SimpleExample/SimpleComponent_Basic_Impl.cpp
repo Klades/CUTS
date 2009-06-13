@@ -10,8 +10,8 @@ namespace SimpleComponent_Basic_Impl
   // SimpleComponent
   //
   SimpleComponent::SimpleComponent (void)
-  : eventCount_ (0),
-    isActive_ (true)
+  : isActive_ (true),
+    eventCount_ (0)
   {
     this->periodic_sendData_.init (this, &SimpleComponent::periodic_sendData);
     this->periodic_sendData_.configure (CUTS_Periodic_Event::PE_CONSTANT, 10);
@@ -23,6 +23,18 @@ namespace SimpleComponent_Basic_Impl
   //
   SimpleComponent::~SimpleComponent (void)
   {
+  }
+
+  //
+  // sink: tcpip_read_test_data
+  //
+  void SimpleComponent::push_tcpip_read_test_data (::Outer::TestData_DDS * ev)
+  {
+    CUTS_CCM_Event_T <OBV_Outer::TestData_DDS> __event_100000010__;
+    this->ctx_->push_app_op_tcpip (__event_100000010__.in ());
+
+    this->cpu1_.load_profile (ev->profile ());
+    ACE_UNUSED_ARG (ev);
   }
 
   //
@@ -38,18 +50,6 @@ namespace SimpleComponent_Basic_Impl
   //
   void SimpleComponent::push_corba_read_test_data (::Outer::TestData_DDS * ev)
   {
-    ACE_UNUSED_ARG (ev);
-  }
-
-  //
-  // sink: tcpip_read_test_data
-  //
-  void SimpleComponent::push_tcpip_read_test_data (::Outer::TestData_DDS * ev)
-  {
-    CUTS_CCM_Event_T <OBV_Outer::TestData_DDS> __event_100000010__;
-    this->ctx_->push_app_op_tcpip (__event_100000010__.in ());
-
-    this->cpu1_.load_profile (ev->profile ());
     ACE_UNUSED_ARG (ev);
   }
 

@@ -14,21 +14,21 @@ module CUTS_DDS
         // data member: id
         long id;
 
-        // data member: urgent
-        boolean urgent;
-
         // data member: name
         string name;
+
+        // data member: urgent
+        boolean urgent;
       };
     };
 
     struct TestData_DDS
     {
-      // data member: packet
-      ::CUTS_DDS::Outer::Inner::Data_DDS packet;
-
       // data member: key
       short key;
+
+      // data member: packet
+      ::CUTS_DDS::Outer::Inner::Data_DDS packet;
     };
   };
 };

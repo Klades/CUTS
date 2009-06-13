@@ -33,6 +33,15 @@ namespace SimpleComponent_Basic_Impl
     virtual ~SimpleComponent_Servant_Context (void);
 
     public:
+    // push method for output event port: app_op_tcpip
+    virtual void push_app_op_tcpip (::Outer::TestData_DDS * ev);
+
+    CUTS_CCM_Subscriber_Table & writers_app_op_tcpip (void);
+
+    private:
+    CUTS_OpenSplice_CCM_Subscriber_Table_T < ::CUTS_DDS::Outer::TestData_DDS > app_op_tcpip_;
+
+    public:
     // push method for output event port: app_op_dds
     virtual void push_app_op_dds (::Outer::TestData_DDS * ev);
 
@@ -49,15 +58,6 @@ namespace SimpleComponent_Basic_Impl
 
     private:
     CUTS_OpenSplice_CCM_Subscriber_T < ::CUTS_DDS::Outer::TestData_DDS > app_op_corba_;
-
-    public:
-    // push method for output event port: app_op_tcpip
-    virtual void push_app_op_tcpip (::Outer::TestData_DDS * ev);
-
-    CUTS_CCM_Subscriber_Table & writers_app_op_tcpip (void);
-
-    private:
-    CUTS_OpenSplice_CCM_Subscriber_Table_T < ::CUTS_DDS::Outer::TestData_DDS > app_op_tcpip_;
   };
 
   typedef CUTS_OpenSplice_CCM_Servant_T < 
@@ -75,6 +75,10 @@ namespace SimpleComponent_Basic_Impl
 
     virtual ~SimpleComponent_Servant (void);
 
+    ::Components::Cookie * subscribe_app_op_tcpip (::Outer::TestData_DDSConsumer_ptr);
+
+    ::Outer::TestData_DDSConsumer_ptr unsubscribe_app_op_tcpip(::Components::Cookie *);
+
     void connect_app_op_dds (::Outer::TestData_DDSConsumer_ptr);
 
     ::Outer::TestData_DDSConsumer_ptr disconnect_app_op_dds (void);
@@ -83,9 +87,16 @@ namespace SimpleComponent_Basic_Impl
 
     ::Outer::TestData_DDSConsumer_ptr disconnect_app_op_corba (void);
 
-    ::Components::Cookie * subscribe_app_op_tcpip (::Outer::TestData_DDSConsumer_ptr);
+    public:
+    ::Outer::TestData_DDSConsumer_ptr get_consumer_tcpip_read_test_data (void);
 
-    ::Outer::TestData_DDSConsumer_ptr unsubscribe_app_op_tcpip(::Components::Cookie *);
+    private:
+    static void deserialize_tcpip_read_test_data (SimpleComponent_Servant *,
+                                                  const ::CUTS_DDS::Outer::TestData_DDS& dds_event);
+
+    CUTS_OpenSplice_CCM_EventConsumer_T < 
+      SimpleComponent_Servant,
+      ::CUTS_DDS::Outer::TestData_DDS > tcpip_read_test_data_consumer_;
 
     public:
     ::Outer::TestData_DDSConsumer_ptr get_consumer_dds_read_test_data (void);
@@ -108,17 +119,6 @@ namespace SimpleComponent_Basic_Impl
     CUTS_OpenSplice_CCM_EventConsumer_T < 
       SimpleComponent_Servant,
       ::CUTS_DDS::Outer::TestData_DDS > corba_read_test_data_consumer_;
-
-    public:
-    ::Outer::TestData_DDSConsumer_ptr get_consumer_tcpip_read_test_data (void);
-
-    private:
-    static void deserialize_tcpip_read_test_data (SimpleComponent_Servant *,
-                                                  const ::CUTS_DDS::Outer::TestData_DDS& dds_event);
-
-    CUTS_OpenSplice_CCM_EventConsumer_T < 
-      SimpleComponent_Servant,
-      ::CUTS_DDS::Outer::TestData_DDS > tcpip_read_test_data_consumer_;
   };
 }
 
