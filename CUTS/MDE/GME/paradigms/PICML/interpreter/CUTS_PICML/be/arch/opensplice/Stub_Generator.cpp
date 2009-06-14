@@ -10,6 +10,62 @@
 
 namespace CUTS_BE_OpenSplice
 {
+class Has_Events : public PICML::Visitor
+{
+public:
+  Has_Events (void)
+  {
+
+  }
+
+  virtual ~Has_Events (void)
+  {
+
+  }
+
+  virtual void Visit_File (const PICML::File & file)
+  {
+    this->has_events_ = false;
+    this->Visit_PackageFile_i (file);
+  }
+
+  virtual void Visit_Package (const PICML::Package & package)
+  {
+    this->Visit_PackageFile_i (package);
+  }
+
+  virtual void Visit_Event (const PICML::Event & event)
+  {
+    this->has_events_ = true;
+  }
+
+  bool has_events (void) const
+  {
+    return this->has_events_;
+  }
+
+private:
+  void Visit_PackageFile_i (const Udm::Object & obj)
+  {
+    std::set <PICML::Package> packages =
+      Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
+
+    std::for_each (packages.begin (),
+                   packages.end (),
+                   boost::bind (&PICML::Package::Accept,
+                                _1,
+                                boost::ref (*this)));
+
+    // Gather all the necessary elements.
+    std::set <PICML::Event> events = Udm::ChildrenAttr <PICML::Event> (obj.__impl (), Udm::NULLCHILDROLE);
+
+    if (!events.empty ())
+      this->has_events_ = true;
+  }
+
+  bool has_events_;
+};
+
 //
 // Stub_Generator
 //
@@ -66,6 +122,9 @@ Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions & folder)
 void Stub_Generator::
 Visit_File (const PICML::File & file)
 {
+  Has_Events has_events;
+  PICML::File (file).Accept (has_events);
+
   // Construct the name of the output file.
   std::string basename ("OpenSplice_");
   basename += std::string (file.name ()) + "C";
@@ -123,9 +182,16 @@ Visit_File (const PICML::File & file)
       << "#ifndef " << hash_define << std::endl
       << "#define " << hash_define << std::endl
       << std::endl
-      << CUTS_BE_CPP::include ("cuts/arch/opensplice/OpenSplice_Traits_T")
-      << CUTS_BE_CPP::include (dds_filename + "Dcps_impl")
-      << CUTS_BE_CPP::include (corba_filename)
+      << CUTS_BE_CPP::include (corba_filename);
+
+    if (has_events.has_events ())
+    {
+      this->header_
+        << CUTS_BE_CPP::include ("cuts/arch/opensplice/OpenSplice_Traits_T")
+        << CUTS_BE_CPP::include (dds_filename + "Dcps_impl");
+    }
+
+    this->header_
       << std::endl;
 
     if (!this->events_.empty ())
