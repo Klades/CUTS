@@ -250,11 +250,11 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
 {
   this->monoimpl_ = monoimpl.name ();
   this->header_
-    << "namespace " << this->monoimpl_
+    << "namespace OpenSplice_" << this->monoimpl_
     << "{";
 
   this->source_
-    << "namespace " << this->monoimpl_
+    << "namespace OpenSplice_" << this->monoimpl_
     << "{";
 
   // Visit the component we are implementing.
@@ -313,6 +313,7 @@ Visit_Component (const PICML::Component & component)
   PICML::Component (component).Accept (ctx_gen);
 
   std::string name = component.name ();
+  this->component_ = component.name ();
   std::string context = ctx_gen.context ();
   std::string fq_type = CUTS_BE_CPP::fq_type (component, "::", false);
 
@@ -328,7 +329,7 @@ Visit_Component (const PICML::Component & component)
     << "  ::CIDL_" << this->monoimpl_ << "::" << name << "_Exec," << std::endl
     << "  ::POA_" << fq_type << " > " << this->servant_ << "_Base;"
     << std::endl
-    << "class " << this->servant_ << " : " << this->servant_ << "_Base"
+    << "class " << this->servant_ << " : public " << this->servant_ << "_Base"
     << "{"
     << "public:" << std::endl
     << CUTS_BE_CPP::single_line_comment ("Initializing constructor")

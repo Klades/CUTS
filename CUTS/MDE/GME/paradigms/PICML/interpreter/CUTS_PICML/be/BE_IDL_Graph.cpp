@@ -100,6 +100,9 @@ visit_file_and_package_contents (const Udm::Object & obj)
     Udm::ChildrenAttr <PICML::Event> (
     obj.__impl (), Udm::NULLCHILDROLE);
 
+  if (!events.empty ())
+    this->current_node_->has_events_ = true;
+
   std::for_each (events.begin (),
                  events.end (),
                  boost::bind (&Event_Set::value_type::Accept,

@@ -49,6 +49,8 @@ struct CUTS_BE_Export CUTS_BE_IDL_Node
 
   /// Reference set for the node.
   CUTS_BE_IDL_Node_Set references_;
+
+  bool has_events_;
 };
 
 #endif  // !defined _CUTS_BE_IDL_NODE_H_

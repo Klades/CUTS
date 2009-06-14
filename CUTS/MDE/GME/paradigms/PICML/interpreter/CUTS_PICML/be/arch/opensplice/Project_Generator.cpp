@@ -367,7 +367,7 @@ generate_svnt_project (const CUTS_BE_Impl_Node & node)
   this->ctx_.project_
     // Generate the source files
     << "  Source_Files {" << std::endl
-    << "    TCPIP_" << container_name << "_svnt.cpp" << std::endl
+    << "    OpenSplice_" << container_name << "_svnt.cpp" << std::endl
     << "  }" << std::endl
     << std::endl
     // Generate the header files
@@ -553,6 +553,9 @@ void
 CUTS_BE_Project_Write_T <CUTS_BE_OpenSplice::Context, CUTS_BE_IDL_Node>::
 generate_ddsidlgen_project (const CUTS_BE_IDL_Node & node)
 {
+  if (!node.has_events_)
+    return;
+
   // Generate the export file for the project.
   std::string macro_basename (node.name_);
 
@@ -617,8 +620,20 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
     << "  sharedname   = " << stub_name << std::endl
     << std::endl
     << "  dynamicflags += " << stub_export << "_BUILD_DLL" << std::endl
-    << "  macros       += DDS_API=" << stub_export << "_Export" << std::endl
-    << "  after        += " << node.name_ << "_DDS_IDL_Gen " << std::endl
+    << "  macros       += DDS_API=" << stub_export << "_Export" << std::endl;
+
+  if (node.has_events_)
+  {
+    this->ctx_.project_
+      << "  after        += " << node.name_ << "_DDS_IDL_Gen " << std::endl;
+  }
+  else
+  {
+    this->ctx_.project_
+      << "  after        += " << node.name_ << "_IDL_Gen " << std::endl;
+  }
+
+  this->ctx_.project_
     << std::endl
     << "  prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl "
     << stub_export << " > $(PROJECT_ROOT)/" << stub_export_file << std::endl
@@ -673,39 +688,60 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
     << std::endl
     // Generate the source files for this project.
     << "  Source_Files {" << std::endl
-    << "    " << node.name_ << "C.cpp" << std::endl
-    << std::endl
-    << "    OpenSplice_" << node.name_ << "C.cpp" << std::endl
-    << "    ./ddstypes/" << node.name_ << "_DDSC.cpp" << std::endl
-    << "    ./ddstypes/" << node.name_ << "_DDSS.cpp" << std::endl
-    << "    ./ddstypes/" << node.name_ << "_DDSDcpsC.cpp" << std::endl
-    << "    ./ddstypes/" << node.name_ << "_DDSDcpsS.cpp" << std::endl
-    << "    ./ddstypes/" << node.name_ << "_DDSSplDcps.cpp" << std::endl
-    << "    ./ddstypes/" << node.name_ << "_DDSDcps_impl.cpp" << std::endl
+    << "    " << node.name_ << "C.cpp" << std::endl;
+
+  if (node.has_events_)
+  {
+    this->ctx_.project_
+      << std::endl
+      << "    OpenSplice_" << node.name_ << "C.cpp" << std::endl
+      << "    ./ddstypes/" << node.name_ << "_DDSC.cpp" << std::endl
+      << "    ./ddstypes/" << node.name_ << "_DDSS.cpp" << std::endl
+      << "    ./ddstypes/" << node.name_ << "_DDSDcpsC.cpp" << std::endl
+      << "    ./ddstypes/" << node.name_ << "_DDSDcpsS.cpp" << std::endl
+      << "    ./ddstypes/" << node.name_ << "_DDSSplDcps.cpp" << std::endl
+      << "    ./ddstypes/" << node.name_ << "_DDSDcps_impl.cpp" << std::endl;
+  }
+
+  this->ctx_.project_
     << "  }" << std::endl
     << std::endl
     // Generate the header files for this project.
     << "  Header_Files {" << std::endl
-    << "    " << node.name_ << "C.h" << std::endl
-    << std::endl
-    << "    OpenSplice_" << node.name_ << "C.h" << std::endl
-    << "    ./ddstypes/" << node.name_ << "_DDSC.h" << std::endl
-    << "    ./ddstypes/" << node.name_ << "_DDSS.h" << std::endl
-    << "    ./ddstypes/" << node.name_ << "_DDSDcpsC.h" << std::endl
-    << "    ./ddstypes/" << node.name_ << "_DDSDcpsS.h" << std::endl
-    << "    ./ddstypes/" << node.name_ << "_DDSSplDcps.h" << std::endl
-    << "    ./ddstypes/" << node.name_ << "_DDSDcps_impl.h" << std::endl
+    << "    " << node.name_ << "C.h" << std::endl;
+
+  if (node.has_events_)
+  {
+    this->ctx_.project_
+      << std::endl
+      << "    OpenSplice_" << node.name_ << "C.h" << std::endl
+      << "    ./ddstypes/" << node.name_ << "_DDSC.h" << std::endl
+      << "    ./ddstypes/" << node.name_ << "_DDSS.h" << std::endl
+      << "    ./ddstypes/" << node.name_ << "_DDSDcpsC.h" << std::endl
+      << "    ./ddstypes/" << node.name_ << "_DDSDcpsS.h" << std::endl
+      << "    ./ddstypes/" << node.name_ << "_DDSSplDcps.h" << std::endl
+      << "    ./ddstypes/" << node.name_ << "_DDSDcps_impl.h" << std::endl;
+  }
+
+  this->ctx_.project_
     << "  }" << std::endl
     << std::endl
     << "  Inline_Files {" << std::endl
-    << "    " << node.name_ << "C.inl" << std::endl
-    << std::endl
-    << "    ./ddstypes/" << node.name_ << "_DDSC.inl" << std::endl
-    << "    ./ddstypes/" << node.name_ << "_DDSS.inl" << std::endl
-    << "    ./ddstypes/" << node.name_ << "_DDSDcpsC.inl" << std::endl
-    << "    ./ddstypes/" << node.name_ << "_DDSDcpsS.inl" << std::endl
-    << "    ./ddstypes/" << node.name_ << "_DDSSplDcps.inl" << std::endl
-    << "    ./ddstypes/" << node.name_ << "_DDSDcps_impl.inl" << std::endl
+    << "    " << node.name_ << "C.inl" << std::endl;
+
+  if (node.has_events_)
+  {
+    this->ctx_.project_
+      << std::endl
+      << "    ./ddstypes/" << node.name_ << "_DDSC.inl" << std::endl
+      << "    ./ddstypes/" << node.name_ << "_DDSS.inl" << std::endl
+      << "    ./ddstypes/" << node.name_ << "_DDSDcpsC.inl" << std::endl
+      << "    ./ddstypes/" << node.name_ << "_DDSDcpsS.inl" << std::endl
+      << "    ./ddstypes/" << node.name_ << "_DDSSplDcps.inl" << std::endl
+      << "    ./ddstypes/" << node.name_ << "_DDSDcps_impl.inl" << std::endl;
+  }
+
+  this->ctx_.project_
     << "  }" << std::endl
     << "}" << std::endl
     << std::endl;

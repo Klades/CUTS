@@ -73,7 +73,7 @@ project (OpenSplice_SimpleComponent_svnt) : cuts_opensplice_ccm, cuts_codegen_de
     ModelDDSData_skel
 
   Source_Files {
-    TCPIP_SimpleComponent_svnt.cpp
+    OpenSplice_SimpleComponent_svnt.cpp
   }
 
   Header_Files {
