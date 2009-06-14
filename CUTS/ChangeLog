@@ -1,3 +1,13 @@
+Sun Jun 14 15:58:39 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/opensplice/SimpleExample/descriptors/SimpleExample.cdp:
+
+          . Re-generated the deployment plan.
+
+        * examples/arch/opensplice/SimpleExample/models/SimpleExample.xme:
+
+          . Updated the PICML model.
+
 Sun Jun 14 15:52:39 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Stub_Generator.cpp:
