@@ -7,6 +7,7 @@
 #include "cuts/arch/tcpip/TCPIP_InputCDR.h"
 #include "cuts/arch/tcpip/TCPIP_OutputCDR.h"
 #include "HelloWorld_stub_export.h"
+#include "TCPIP_HelloWorldC.h"
 
 ACE_CDR::Boolean HELLOWORLD_STUB_Export operator >> (CUTS_TCPIP_InputCDR &, Message &);
 ACE_CDR::Boolean HELLOWORLD_STUB_Export operator << (CUTS_TCPIP_OutputCDR &, const Message &);

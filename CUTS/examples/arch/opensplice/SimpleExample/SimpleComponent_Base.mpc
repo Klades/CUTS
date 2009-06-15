@@ -37,10 +37,12 @@ project (SimpleComponent_stub) : cuts_opensplice_ccm_stub, avoids_ace_for_tao, c
 
   Source_Files {
     SimpleComponentC.cpp
+    OpenSplice_SimpleComponentC.cpp
   }
 
   Header_Files {
     SimpleComponentC.h
+    OpenSplice_SimpleComponentC.h
   }
 
   Inline_Files {

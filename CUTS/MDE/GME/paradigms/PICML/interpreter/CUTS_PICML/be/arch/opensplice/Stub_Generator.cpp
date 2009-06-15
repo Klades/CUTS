@@ -6,27 +6,43 @@
 #include "Event_Traits_Generator.h"
 #include "boost/bind.hpp"
 #include "../../lang/cpp/Cpp.h"
+#include "Uml.h"
 #include <algorithm>
 
 namespace CUTS_BE_OpenSplice
 {
-class Has_Events : public PICML::Visitor
+class Include_Events : public PICML::Visitor
 {
 public:
-  Has_Events (void)
+  Include_Events (std::ostream & source)
+    : source_ (source),
+      has_events_ (false)
   {
 
   }
 
-  virtual ~Has_Events (void)
+  virtual ~Include_Events (void)
   {
 
   }
 
   virtual void Visit_File (const PICML::File & file)
   {
-    this->has_events_ = false;
     this->Visit_PackageFile_i (file);
+
+    if (this->has_events_)
+    {
+      std::string filename ("ddstypes/");
+      filename += std::string (file.name ()) + "_DDSDcps_impl";
+
+      this->source_ << CUTS_BE_CPP::include (filename);
+
+      if (this->includes_.empty ())
+      {
+        this->source_
+          << CUTS_BE_CPP::include ("cuts/arch/opensplice/OpenSplice_Traits_T");
+      }
+    }
   }
 
   virtual void Visit_Package (const PICML::Package & package)
@@ -34,20 +50,67 @@ public:
     this->Visit_PackageFile_i (package);
   }
 
-  virtual void Visit_Event (const PICML::Event & event)
+  virtual void Visit_Component (const PICML::Component & component)
   {
-    this->has_events_ = true;
+    // Visit all the input event ports.
+    std::vector <PICML::InEventPort> inputs = component.InEventPort_kind_children ();
+
+    std::for_each (inputs.begin (),
+                   inputs.end (),
+                   boost::bind (&PICML::InEventPort::Accept,
+                                _1,
+                                boost::ref (*this)));
+
+    // Visit all the ouptut event ports.
+    std::vector <PICML::OutEventPort> outputs = component.OutEventPort_kind_children ();
+
+    std::for_each (outputs.begin (),
+                   outputs.end (),
+                   boost::bind (&PICML::OutEventPort::Accept,
+                                _1,
+                                boost::ref (*this)));
   }
 
-  bool has_events (void) const
+  virtual void Visit_InEventPort (const PICML::InEventPort & port)
   {
-    return this->has_events_;
+    PICML::Event event = port.ref ();
+
+    if (Udm::null != event)
+      event.Accept (*this);
+  }
+
+  virtual void Visit_OutEventPort (const PICML::OutEventPort & port)
+  {
+    PICML::Event event = port.ref ();
+
+    if (Udm::null != event)
+      event.Accept (*this);
+  }
+
+  virtual void Visit_Event (const PICML::Event & event)
+  {
+    PICML::MgaObject parent = PICML::MgaObject::Cast (event.parent ());
+
+    while (PICML::File::meta != parent.type ())
+      parent = PICML::MgaObject::Cast (parent.parent ());
+
+    std::string name = parent.name ();
+
+    if (this->includes_.find (name) != this->includes_.end ())
+      return;
+
+    std::string filename ("OpenSplice_");
+    filename += name + "C";
+
+    this->source_ << CUTS_BE_CPP::include (filename);
+    this->includes_.insert (name);
   }
 
 private:
   void Visit_PackageFile_i (const Udm::Object & obj)
   {
-    std::set <PICML::Package> packages =
+    // Visit all the packages.
+    std::vector <PICML::Package> packages =
       Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
     std::for_each (packages.begin (),
@@ -56,15 +119,31 @@ private:
                                 _1,
                                 boost::ref (*this)));
 
-    // Gather all the necessary elements.
-    std::set <PICML::Event> events = Udm::ChildrenAttr <PICML::Event> (obj.__impl (), Udm::NULLCHILDROLE);
+    // Does this level contain any events.
+    std::vector <PICML::Event> events =
+      Udm::ChildrenAttr <PICML::Event> (obj.__impl (), Udm::NULLCHILDROLE);
 
-    if (!events.empty ())
+    if (!events.empty () && !this->has_events_)
       this->has_events_ = true;
+
+    // Visit all the components.
+    std::vector <PICML::Component> components =
+      Udm::ChildrenAttr <PICML::Component> (obj.__impl (), Udm::NULLCHILDROLE);
+
+    std::for_each (components.begin (),
+                   components.end (),
+                   boost::bind (&PICML::Component::Accept,
+                                _1,
+                                boost::ref (*this)));
   }
+
+  std::ostream & source_;
+
+  std::set <std::string> includes_;
 
   bool has_events_;
 };
+
 
 //
 // Stub_Generator
@@ -122,9 +201,6 @@ Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions & folder)
 void Stub_Generator::
 Visit_File (const PICML::File & file)
 {
-  Has_Events has_events;
-  PICML::File (file).Accept (has_events);
-
   // Construct the name of the output file.
   std::string basename ("OpenSplice_");
   basename += std::string (file.name ()) + "C";
@@ -184,12 +260,8 @@ Visit_File (const PICML::File & file)
       << std::endl
       << CUTS_BE_CPP::include (corba_filename);
 
-    if (has_events.has_events ())
-    {
-      this->header_
-        << CUTS_BE_CPP::include ("cuts/arch/opensplice/OpenSplice_Traits_T")
-        << CUTS_BE_CPP::include (dds_filename + "Dcps_impl");
-    }
+    Include_Events include_events (this->header_);
+    PICML::File (file).Accept (include_events);
 
     this->header_
       << std::endl;

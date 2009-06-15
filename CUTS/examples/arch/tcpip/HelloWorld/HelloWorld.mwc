@@ -14,7 +14,7 @@ workspace (HelloWorld) {
              -feature_file $CUTS_ROOT/default.features \
              -relative PROJECT_ROOT=
 
-  HelloWorld_Impl.mpc
+  HelloWorld_Basic_Impl.mpc
   HelloWorld_Base.mpc
 }
 

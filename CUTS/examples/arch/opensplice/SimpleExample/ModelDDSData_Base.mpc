@@ -55,8 +55,8 @@ project (ModelDDSData_stub) : cuts_opensplice_ccm_stub, avoids_ace_for_tao, cuts
 
   Source_Files {
     ModelDDSDataC.cpp
-
     OpenSplice_ModelDDSDataC.cpp
+
     ./ddstypes/ModelDDSData_DDSC.cpp
     ./ddstypes/ModelDDSData_DDSS.cpp
     ./ddstypes/ModelDDSData_DDSDcpsC.cpp
@@ -67,8 +67,8 @@ project (ModelDDSData_stub) : cuts_opensplice_ccm_stub, avoids_ace_for_tao, cuts
 
   Header_Files {
     ModelDDSDataC.h
-
     OpenSplice_ModelDDSDataC.h
+
     ./ddstypes/ModelDDSData_DDSC.h
     ./ddstypes/ModelDDSData_DDSS.h
     ./ddstypes/ModelDDSData_DDSDcpsC.h

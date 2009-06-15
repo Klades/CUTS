@@ -30,9 +30,6 @@ namespace SimpleComponent_Basic_Impl
   //
   void SimpleComponent::push_processEvent (::Outer::TestData_DDS * ev)
   {
-    ACE_DEBUG ((LM_DEBUG,
-		"%T - %M - processing an new event\n"));
-
     ACE_UNUSED_ARG (ev);
   }
 

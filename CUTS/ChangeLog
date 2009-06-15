@@ -1,3 +1,24 @@
+Mon Jun 15 16:07:07 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Stub_Generator.cpp:
+
+          . Bug fix in the generated code.
+
+        * examples/arch/opensplice/SimpleExample/ModelDDSData_Base.mpc:
+        * examples/arch/opensplice/SimpleExample/ModelDDSData_DDS.idl:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_ModelDDSDataC.h:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_ModelDDSDataC.cpp:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponentC.h:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.h:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Base.mpc:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.mwc:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldC.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldC.cpp:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.h:
+
+          . Re-generated the examples from the model.
+
 Mon Jun 15 15:55:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/CHAOS/interpreters/codegen/cpp/Component_Impl_Generator.cpp:
