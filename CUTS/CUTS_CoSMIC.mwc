@@ -17,7 +17,7 @@ workspace (CUTS_CoSMIC) {
   MDE/utils
 
   gems {
-    cmdline += -base requires_gems     
+    cmdline += -base requires_gems
 
     MDE/GEMS
   }
@@ -27,19 +27,20 @@ workspace (CUTS_CoSMIC) {
 
     MDE/GME/T2M
     MDE/GME/paradigms/CUTS
+    MDE/GME/paradigms/CHAOS
 
     //== CoSMIC projects
     cosmic {
-      cmdline += -base requires_cosmic          
+      cmdline += -base requires_cosmic
 
-		  MDE/GME/paradigms/PICML
-		  MDE/naomi/GME
+      MDE/GME/paradigms/PICML
+      MDE/naomi/GME
 
-		  static {
-		    cmdline += -static
+      static {
+        cmdline += -static
 
-		    $(CIAO_ROOT)/CCF/CCF/CodeGenerationKit 
-		  }
+        $(CIAO_ROOT)/CCF/CCF/CodeGenerationKit
+      }
     }
   }
 }

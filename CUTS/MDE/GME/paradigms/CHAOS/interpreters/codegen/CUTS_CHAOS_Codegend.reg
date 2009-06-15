@@ -1,0 +1,30 @@
+REGEDIT4
+
+[HKEY_CURRENT_USER\Software\Classes]
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID]
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{0C95DA86-F34B-4A5C-82AA-4771ED588997}]
+@="CUTS.Interpreter.CHAOS"
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{0C95DA86-F34B-4A5C-82AA-4771ED588997}\ProgID]
+@="CUTS.Interpreter.CHAOS"
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{0C95DA86-F34B-4A5C-82AA-4771ED588997}\InProcServer32]
+@="CUTS_CHAOS_Codegend.dll"
+
+[HKEY_CURRENT_USER\Software\Classes\CUTS.Interpreter.CHAOS]
+@="CUTS.Interpreter.CHAOS"
+
+[HKEY_CURRENT_USER\Software\Classes\CUTS.Interpreter.CHAOS\CLSID]
+@="{0C95DA86-F34B-4A5C-82AA-4771ED588997}"
+
+[HKEY_CURRENT_USER\Software\GME\Components\CUTS.Interpreter.CHAOS]
+"Tooltip"="CUTS Code Generator for CHAOS"
+"Icon"=",IDI_COMPICON"
+"Paradigm"="CHAOS"
+"Type"=dword:00000001
+"Description"="CUTS Code Generator for CHAOS"
+
+[HKEY_CURRENT_USER\Software\GME\Components\CUTS.Interpreter.CHAOS\Associated]
+"CHAOS"=""

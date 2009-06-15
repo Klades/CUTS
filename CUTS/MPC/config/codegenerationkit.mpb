@@ -1,0 +1,11 @@
+// $Id$
+
+project {
+  after += CodeGenerationKit
+  libs  += CodeGenerationKits
+
+  includes += $(CIAO_ROOT)/CCF \
+              $(ACE_ROOT)/contrib/utility
+
+  libpaths += $(CIAO_ROOT)/CCF/CCF
+}

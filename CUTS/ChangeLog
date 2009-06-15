@@ -1,3 +1,176 @@
+Mon Jun 15 15:06:13 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * CUTS_CoSMIC.mwc:
+        * MDE/GME/paradigms/CHAOS/interpreters:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Depend_Graph_T.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Depend_Graph_T.inl:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Depend_Graph_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Env_Visitor_T.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Env_Visitor_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Execution_Visitor_T.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Execution_Visitor_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Generators_T.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Generators_T.inl:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Generators_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_IDL_Graph.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_IDL_Graph.inl:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_IDL_Graph.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_IDL_Node.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_IDL_Node.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Impl_Generator_T.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Impl_Generator_T.inl:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Impl_Generator_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Impl_Graph_T.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Impl_Graph_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Impl_Node.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Impl_Node.inl:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Impl_Node.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Manager.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Manager.inl:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Manager.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Manager_T.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Manager_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Options.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Options.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Position.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Position.inl:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Position.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Preprocessor_Handlers_T.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Preprocessor_T.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Preprocessor_T.inl:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Preprocessor_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Project_Generators_T.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Project_Generators_T.inl:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Project_Generators_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Visitor_T.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Visitor_T.inl:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Visitor_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Workspace_Generator_T.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Workspace_Generator_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Workspace_Generators_T.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Workspace_Generators_T.inl:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Workspace_Generators_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_algorithm.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_nil.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_nil.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/CUTS_CHAOS_Codegen.reg:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/CUTS_CHAOS_Codegend.reg:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Codegen_export.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/CompIcon.ico:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Component.rc:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/ComponentConfig.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Context.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Context_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Context_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Event_Traits_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Event_Traits_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Generators.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Generators.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/IDL_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/IDL_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Input_Stream_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Input_Stream_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Manager.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Output_Stream_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Output_Stream_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Port_Manager_T.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Port_Manager_T.inl:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Port_Manager_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Project_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Project_Generator.inl:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Project_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/RawComponent.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/RawComponent.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Servant_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Servant_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Servant_Header_Include_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Servant_Header_Include_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/StdAfx.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/StdAfx.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/String_Set.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Stub_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Stub_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/UDM_Abstract_Type_Dispatcher_T.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/UDM_Abstract_Type_Dispatcher_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/UDM_Position_Sort_T.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/UDM_Position_Sort_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/UDM_Utility_T.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/UDM_Utility_T.inl:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/UDM_Utility_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/UdmApp.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/UdmApp.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/UdmConfig.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Workspace_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Workspace_Generator.inl:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Workspace_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/ccm:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/ccm/CCM.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/ccm/Component_Implementation.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/codegen.mpc:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/component.def:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/cpp/Behavior_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/cpp/Behavior_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/cpp/Component_Impl_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/cpp/Component_Impl_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/cpp/Cpp.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/cpp/Cpp.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/cpp/Variable_Type.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/cpp/Variable_Type.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/modelgen.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/modelgen.inl:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/modelgen.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/resource.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Input_Stream_Aggr_Member_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Input_Stream_Aggr_Member_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Input_Stream_Event_Member_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Input_Stream_Event_Member_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Input_Stream_Source_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Input_Stream_Source_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Output_Stream_Aggr_Member_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Output_Stream_Aggr_Member_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Output_Stream_Event_Member_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Output_Stream_Event_Member_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Output_Stream_Source_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Output_Stream_Source_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Stub_Header_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Stub_Header_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Stub_Source_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Stub_Source_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.mpc:
+        * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.xml:
+        * MDE/GME/paradigms/CHAOS/paradigms/CHAOS_uml.xme:
+
+          . First version of the code generator interpreter for
+            the CHAOS DSML.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Project_Generator.cpp:
+
+          . Fixed a bug the code generator.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc:
+
+          . Updated the base projects based on the update below.
+
+        * MPC/config/codegenerationkit.mpb:
+        * MPC/config/cuts_be.mpb:
+        * MPC/config/cuts_chaos_dsml.mpb:
+        * MPC/config/picml_udm.mpb:
+        * MPC/config/udm_component.mpb:
+        * MPC/config/udmdefaults.mpb:
+
+          . New base projects.
+
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/ccm/CCM.mpc:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/ccm/CCM_export.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/cpp/CUTS_BE_CPP.mpc:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/cpp/Cpp_export.h:
+
+          Removed these files.
+
 Mon Jun 15 14:57:33 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.h:

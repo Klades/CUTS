@@ -1,8 +1,6 @@
 // $Id$
 
-project : gme_rawcom, picml_udm, xerces {
-  requires += udm
-
+project : udmdefaults, gme_rawcom, xerces {
   Header_Files {
     UdmConfig.h
   }

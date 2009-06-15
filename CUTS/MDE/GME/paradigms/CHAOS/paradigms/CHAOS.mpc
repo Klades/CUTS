@@ -1,0 +1,21 @@
+// $Id$
+
+project (CUTS_CHAOS_DSML): udm, boost_base, cutslib {
+  sharedname = CUTS_CHAOS_DSML
+  macros    += CHAOS_HAS_DLL CHAOS_EXPORT UDM_DYNAMIC_LINKING
+
+  Source_Files {
+    CHAOS.cpp
+  }
+
+  Header_Files {
+    CHAOS_Export.h
+  }
+
+  UDM_Files {
+    gendir = .
+    commandflags += -l CHAOS_Export -v
+
+    CHAOS.xml
+  }
+}

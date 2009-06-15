@@ -1,0 +1,66 @@
+// $Id$
+
+project (CUTS_CHAOS_Codegen) : boost_base, udm_component, gme_interpreter, cosmic_utils, codegenerationkit, \
+                               cuts_chaos_dsml, cuts_cosmic, cuts_gme {
+
+  sharedname    += CUTS_CHAOS_Codegen
+  dynamicflags  += CUTS_CHAOS_CODEGEN_BUILD_DLL
+
+  includes += $(CUTS_ROOT)/MDE/GME/paradigms/CHAOS
+
+  Source_Files {
+    Context_Generator.cpp
+    Event_Traits_Generator.cpp
+    Generators.cpp
+    IDL_Generator.cpp
+    Input_Stream_Generator.cpp
+    Output_Stream_Generator.cpp
+    Project_Generator.cpp
+    Servant_Generator.cpp
+    Servant_Header_Include_Generator.cpp
+    Stub_Generator.cpp
+    Workspace_Generator.cpp
+
+    BE_IDL_Graph.cpp
+    BE_IDL_Node.cpp
+    BE_Impl_Node.cpp
+    BE_Manager.cpp
+    BE_nil.cpp
+    BE_Options.cpp
+    BE_Position.cpp
+
+    cpp/*.cpp
+    ccm/*.cpp
+    tcpip/*.cpp
+  }
+
+  Template_Files {
+    BE_Env_Visitor_T.cpp
+    BE_Execution_Visitor_T.cpp
+    BE_Depend_Graph_T.cpp
+    BE_Generators_T.cpp
+    BE_Impl_Generator_T.cpp
+    BE_Impl_Graph_T.cpp
+    BE_Manager_T.cpp
+    BE_Project_Generators_T.cpp
+    BE_Visitor_T.cpp
+    BE_Workspace_Generator_T.cpp
+    BE_Workspace_Generators_T.cpp
+    BE_Preprocessor_T.cpp
+
+    Port_Manager_T.cpp
+    UDM_Abstract_Type_Dispatcher_T.cpp
+    UDM_Position_Sort_T.cpp
+    UDM_Utility_T.cpp
+    modelgen.cpp
+  }
+
+  Header_Files {
+    Context.h
+    Manager.h
+  }
+
+  Inline_Files {
+
+  }
+}

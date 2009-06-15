@@ -688,13 +688,13 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
     << std::endl
     // Generate the source files for this project.
     << "  Source_Files {" << std::endl
-    << "    " << node.name_ << "C.cpp" << std::endl;
+    << "    " << node.name_ << "C.cpp" << std::endl
+      << "    OpenSplice_" << node.name_ << "C.cpp" << std::endl;
 
   if (node.has_events_)
   {
     this->ctx_.project_
       << std::endl
-      << "    OpenSplice_" << node.name_ << "C.cpp" << std::endl
       << "    ./ddstypes/" << node.name_ << "_DDSC.cpp" << std::endl
       << "    ./ddstypes/" << node.name_ << "_DDSS.cpp" << std::endl
       << "    ./ddstypes/" << node.name_ << "_DDSDcpsC.cpp" << std::endl
@@ -708,13 +708,13 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
     << std::endl
     // Generate the header files for this project.
     << "  Header_Files {" << std::endl
-    << "    " << node.name_ << "C.h" << std::endl;
+    << "    " << node.name_ << "C.h" << std::endl
+    << "    OpenSplice_" << node.name_ << "C.h" << std::endl;
 
   if (node.has_events_)
   {
     this->ctx_.project_
       << std::endl
-      << "    OpenSplice_" << node.name_ << "C.h" << std::endl
       << "    ./ddstypes/" << node.name_ << "_DDSC.h" << std::endl
       << "    ./ddstypes/" << node.name_ << "_DDSS.h" << std::endl
       << "    ./ddstypes/" << node.name_ << "_DDSDcpsC.h" << std::endl

@@ -1,0 +1,13 @@
+// $Id$
+
+project {
+  requires += udm
+
+  includes += $(UDM_PATH)/include
+  libpaths += $(UDM_PATH)/lib
+
+  libs += UdmDll
+
+  dynamicflags += UDM_DYNAMIC_LINKING
+
+}

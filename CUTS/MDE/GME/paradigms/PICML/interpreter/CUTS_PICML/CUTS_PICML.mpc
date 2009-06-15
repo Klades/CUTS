@@ -2,7 +2,7 @@
 
 project (CUTS_PICML_Base) : xsc_cxx {
   custom_only = 1
-  
+
   specific {
     xscflags += --cxx-header-suffix .h --cxx-source-suffix .cpp \
                 --cxx-inline-suffix .inl --cxx-generate-inline \
@@ -21,7 +21,7 @@ project (CUTS_PICML_Base) : xsc_cxx {
 }
 
 project (CUTS_PICML) : xscrt, picmllib, boost_base, cuts_gme, \
-                       udm_component, gme_interpreter, cuts_cosmic {
+                       picml_udm, gme_interpreter, cuts_cosmic {
 
   sharedname = CUTS_PICML
 
