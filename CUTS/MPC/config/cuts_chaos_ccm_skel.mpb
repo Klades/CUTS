@@ -1,0 +1,5 @@
+// $Id$
+
+project : cuts_opensplice_ccm_skel, cuts_opensplice_ccm_stub {
+
+}

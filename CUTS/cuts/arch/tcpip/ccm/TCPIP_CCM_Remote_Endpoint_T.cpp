@@ -5,6 +5,7 @@
 #endif
 
 #include "TCPIP_CCM_EventConsumer.h"
+#include "cuts/arch/tcpip/TCPIP_Connector_Svc_Handler.h"
 
 //
 // connect

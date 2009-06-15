@@ -9,7 +9,7 @@
 
 #include "ace/pre.h"
 #include "SimpleComponentEC.h"
-#include "cuts/ccm/CCM_Component_T.h"
+#include "cuts/arch/ccm/CCM_Component_T.h"
 
 #include "cuts/Periodic_Event_T.h"
 

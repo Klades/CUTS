@@ -1,3 +1,24 @@
+Mon Jun 15 14:32:35 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_chaos_ccm_skel.mpb:
+        * MPC/config/cuts_chaos_ccm_stub.mpb:
+        * MPC/config/cuts_opensplice.mpb:
+
+	  . New base project for building CHAOS systems.
+
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T.cpp:
+
+	  . Missing an include file.
+
+        * examples/arch/chaos/SimpleExample/CHAOS_SimpleComponent_svnt.cpp:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/chaos/SimpleExample/TCPIP_SimpleComponentC.h:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.h:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+
+	  . Bug fixed in the generated code.
+
 Mon Jun 15 14:17:27 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/chaos/SimpleExample/OpenSplice_ModelDDSDataC.h:

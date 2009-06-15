@@ -2,7 +2,7 @@
 // $Id$
 
 #include "SimpleComponent_Basic_Impl.h"
-#include "cuts/ccm/CCM_Events_T.h"
+#include "cuts/arch/ccm/CCM_Events_T.h"
 
 namespace SimpleComponent_Basic_Impl
 {

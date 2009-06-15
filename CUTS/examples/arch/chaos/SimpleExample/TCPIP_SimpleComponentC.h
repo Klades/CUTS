@@ -6,6 +6,7 @@
 #include "SimpleComponentC.h"
 #include "cuts/arch/tcpip/TCPIP_InputCDR.h"
 #include "cuts/arch/tcpip/TCPIP_OutputCDR.h"
+#include "TCPIP_ModelDDSDataC.h"
 #include "SimpleComponent_stub_export.h"
 
 namespace Example

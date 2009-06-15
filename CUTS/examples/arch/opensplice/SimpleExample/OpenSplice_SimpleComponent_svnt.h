@@ -12,7 +12,7 @@
 #include "cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table_T.h"
 
 #include "SimpleComponentS.h"
-#include "OpenSplice_SimpleComponentC.h"
+#include "OpenSplice_ModelDDSDataC.h"
 
 namespace OpenSplice_SimpleComponent_Basic_Impl
 {

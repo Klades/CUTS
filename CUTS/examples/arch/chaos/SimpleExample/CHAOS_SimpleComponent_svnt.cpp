@@ -180,7 +180,7 @@ namespace CHAOS_SimpleComponent_Basic_Impl
   //
   // upcall_dds_read_test_data
   //
-  int SimpleComponent_Servant::
+  void SimpleComponent_Servant::
   upcall_dds_read_test_data (SimpleComponent_Servant * servant,
                              const ::CUTS_DDS::Outer::TestData_DDS & dds_event)
   {
@@ -191,8 +191,6 @@ namespace CHAOS_SimpleComponent_Basic_Impl
     // Now, puch the event to the implemetation.
     if (servant->impl_)
       servant->impl_->push_dds_read_test_data (event.in ());
-
-    return 0;
   }
 
   //
@@ -245,8 +243,8 @@ namespace CHAOS_SimpleComponent_Basic_Impl
     }
 
     // Push the message to the implementation.
-    if (svnt->impl_)
-      svnt->impl_->push_tcpip_read_test_data (event.in ());
+    if (servant->impl_)
+      servant->impl_->push_tcpip_read_test_data (event.in ());
 
     return 0;
   }
