@@ -1,16 +1,32 @@
-USER VISIBLE CHANGES BETWEEN CUTS-0.0.0.1 AND CUTS-0.0.0.2 
+USER VISIBLE CHANGES BETWEEN CUTS-0.0.0.2 AND CUTS-0.0.0.3
 ==========================================================
 
-. Implemented a test logging infrastructure for effectively and efficiently 
-  collecting textual log messages from distributed machines and storing 
-  them in a database. 
-  
+. Implemented code generators and runtime architecture for
+  TCP/IP and OpenSplice
+
+. Implemented a new modeling language named CHAOS, which is
+  for composing hetergeneous architectures based on CCM.
+
+. Implemented a new modeling language named CUTS, which
+  currently is used to generat the XML files needed by UNITE
+  to process execution traces.
+
+. Updated CUTS to work with the lastest version of CIAO
+  and DAnCE, which is more spec-compliant.
+
+USER VISIBLE CHANGES BETWEEN CUTS-0.0.0.1 AND CUTS-0.0.0.2
+==========================================================
+
+. Implemented a test logging infrastructure for effectively and efficiently
+  collecting textual log messages from distributed machines and storing
+  them in a database.
+
 . Defined a client logger named CUTS.TestLogger for java applications that
   uses the test logging infrastructure.
-  
+
 . Implemented a test manager infrastructure (application) that allows
-  developers to run a single test. This is a wrapper around a deployment 
-  engine. 
+  developers to run a single test. This is a wrapper around a deployment
+  engine.
 
 USER VISIBLE CHANGES IN CUTS AFTER REVISION 1287
 ====================================================
