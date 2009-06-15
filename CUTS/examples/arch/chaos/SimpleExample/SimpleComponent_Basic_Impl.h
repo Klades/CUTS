@@ -48,8 +48,6 @@ namespace SimpleComponent_Basic_Impl
     // PeriodicEvent: sendData
     void periodic_sendData (void);
 
-    virtual void ccm_activate (void);
-
     private:
     // variable: eventCount
     ::CORBA::Long eventCount_;

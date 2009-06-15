@@ -38,6 +38,9 @@ namespace SimpleComponent_Basic_Impl
   //
   void SimpleComponent::push_corba_read_test_data (::Outer::TestData_DDS * ev)
   {
+    CUTS_CCM_Event_T <OBV_Outer::TestData_DDS> __event_100000042__;
+    this->ctx_->push_app_op_dds (__event_100000042__.in ());
+
     ACE_UNUSED_ARG (ev);
   }
 
@@ -46,6 +49,9 @@ namespace SimpleComponent_Basic_Impl
   //
   void SimpleComponent::push_tcpip_read_test_data (::Outer::TestData_DDS * ev)
   {
+    CUTS_CCM_Event_T <OBV_Outer::TestData_DDS> __event_100000007__;
+    this->ctx_->push_app_op_corba (__event_100000007__.in ());
+
     ACE_UNUSED_ARG (ev);
   }
 
@@ -54,12 +60,8 @@ namespace SimpleComponent_Basic_Impl
   //
   void SimpleComponent::periodic_sendData (void)
   {
-  }
-
-  void SimpleComponent::ccm_activate (void)
-  {
-    // pass control to the base class
-    this->base_type::ccm_activate ();
+    CUTS_CCM_Event_T <OBV_Outer::TestData_DDS> __event_100000008__;
+    this->ctx_->push_app_op_tcpip (__event_100000008__.in ());
   }
 }
 

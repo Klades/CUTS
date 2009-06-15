@@ -1,3 +1,12 @@
+Mon Jun 15 14:57:33 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/chaos/SimpleExample/models/SimpleExample.xme:
+
+          . Updated the example so that each input port sends an
+            output event on a different connection type.
+
 Mon Jun 15 14:43:12 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/chaos/SimpleExample/TCPIP_SimpleComponentC.h:
