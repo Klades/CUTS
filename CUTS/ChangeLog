@@ -1,3 +1,31 @@
+Mon Jun 15 21:01:37 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+	* cuts/arch/opensplice/server/OpenSplice_Configurator.h:
+	* cuts/arch/opensplice/server/OpenSplice_Configurator.cpp:
+	* cuts/arch/opensplice/server/OpenSplice_Container_Strategy.h:
+	* cuts/arch/opensplice/server/OpenSplice_Container_Strategy.cpp:
+	* cuts/arch/opensplice/server/server.mpc:
+	
+	  . Implemented a configurator object for OpenSplice.
+	
+	  . It is now possible to set the domain for a participant using
+	    an execParameter with the name DDSDomainQoS.
+	
+	* examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+	
+	  . Added output messages to the example.
+
+
+	Mon Jun 15 21:03:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/opensplice/server/OpenSplice_Configurator.h:
+        * cuts/arch/opensplice/server/OpenSplice_Configurator.cpp:
+        * cuts/arch/opensplice/server/OpenSplice_Container_Strategy.h:
+        * cuts/arch/opensplice/server/OpenSplice_Container_Strategy.cpp:
+        * cuts/arch/opensplice/server/server.mpc:
+
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+
 Mon Jun 15 16:07:07 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Stub_Generator.cpp:

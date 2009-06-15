@@ -14,6 +14,7 @@
 #define _CUTS_OPENSPLICE_CCM_CONTAINER_STRATEGY_H_
 
 #include "cuts/arch/ccm/CCM_Container_Strategy_T.h"
+#include "OpenSplice_Configurator.h"
 
 // Forward decl.
 class CUTS_OpenSplice_CCM_Container;
@@ -35,6 +36,9 @@ public:
 
   virtual void configure_servant (::PortableServer::Servant servant,
 				  const ::Components::ConfigValues & config);
+
+private:
+  CUTS_OpenSplice_Configurator configurator_;
 };
 
 #if defined (__CUTS_INLINE__)

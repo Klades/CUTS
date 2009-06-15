@@ -5,6 +5,7 @@ project (CUTS_OpenSplice_CCM_ComponentServer) : cuts_opensplice_ccm, cutsexe {
 
   Source_Files {
     server.cpp
+    OpenSplice_Configurator.cpp
     OpenSplice_ComponentServer.cpp
     OpenSplice_ComponentServer_App.cpp
     OpenSplice_Container.cpp

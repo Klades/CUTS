@@ -26,7 +26,7 @@ CUTS_OpenSplice_CCM_Container_Strategy (CUTS_OpenSplice_CCM_Container & containe
 void
 CUTS_OpenSplice_CCM_Container_Strategy::
 configure_servant (::PortableServer::Servant servant,
-		   const ::Components::ConfigValues & )
+		   const ::Components::ConfigValues & config)
 {
   // Convert the servant into an OpenSplice servant.
   CUTS_OpenSplice_CCM_Servant * ospl_servant =
@@ -35,21 +35,8 @@ configure_servant (::PortableServer::Servant servant,
   if (0 == ospl_servant)
     return;
 
-  // Get the domain participant factory.
-  ::DDS::DomainParticipantFactory_var factory = 
-      ::DDS::DomainParticipantFactory::get_instance ();
-
-  // Create a participant on the default domain.
-  ACE_DEBUG ((LM_DEBUG,
-	      "%T (%t) - %M - creating a participant in the default domain\n"));
-
-  ::DDS::DomainParticipant_var participant = 
-      factory->create_participant (0,     /* this is where the domain goes */
-				   PARTICIPANT_QOS_DEFAULT,
-				   0,
-				   ::DDS::ANY_STATUS);
-
-  // Configure the servant.
-  ospl_servant->configure (participant.in ());
+  if (0 != this->configurator_.configure (ospl_servant, config))
+    ACE_ERROR ((LM_ERROR,
+		"%T (%t) - %M - failed to configure OpenSplice servant\n"));
 }
 
