@@ -1,3 +1,13 @@
+Mon Jun 15 12:57:57 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/ccm/CCM_Subscriber_Table_T.h:
+        * cuts/arch/ccm/CCM_Subscriber_Table_T.inl:
+        * cuts/arch/ccm/CCM_Subscriber_Table_T.cpp:
+        * cuts/arch/ccm/CUTS_CCM.mpc:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Subscriber_Table.h:
+
+          . Missing implmentation for the CCM subscriber table.
+
 Mon Jun 15 12:50:41 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/chaos/SimpleExample/CHAOS_SimpleComponent_svnt.h:
