@@ -2,41 +2,40 @@
 
 #include "OpenSplice_ModelDDSDataC.h"
 
+
 namespace Outer
 {
+  bool operator <<= (TestData_DDS & corba, const ::CUTS_DDS::Outer::TestData_DDS & dds)
+  {
+    corba.key (dds.key);
+    corba.packet () <<= dds.packet;
+    return true;
+  }
+
+  bool operator >>= (const TestData_DDS & corba, ::CUTS_DDS::Outer::TestData_DDS & dds)
+  {
+    dds.key = corba.key ();
+    corba.packet () >>= dds.packet;
+    return true;
+  }
+
   namespace Inner
   {
-    // struct: Data_DDS
-    bool operator <<= (Data_DDS & corba_type, const ::CUTS_DDS::Outer::Inner::Data_DDS & dds_type)
+    bool operator <<= (Data_DDS & corba, const ::CUTS_DDS::Outer::Inner::Data_DDS & dds)
     {
-      corba_type.name = ::CORBA::string_dup (dds_type.name);
-      corba_type.id = dds_type.id;
-      corba_type.urgent = dds_type.urgent;
+      corba.urgent = dds.urgent;
+      corba.id = dds.id;
+      corba.name = ::CORBA::string_dup (dds.name);
       return true;
     }
 
-    bool operator >>= (const Data_DDS & corba_type, ::CUTS_DDS::Outer::Inner::Data_DDS & dds_type)
+    bool operator >>= (const Data_DDS & corba, ::CUTS_DDS::Outer::Inner::Data_DDS & dds)
     {
-      dds_type.name = ::CORBA::string_dup (corba_type.name);
-      dds_type.id = corba_type.id;
-      dds_type.urgent = corba_type.urgent;
+      dds.urgent = corba.urgent;
+      dds.id = corba.id;
+      dds.name = ::CORBA::string_dup (corba.name);
       return true;
     }
-  }
-
-  // event: TestData_DDS
-
-  bool operator <<= (TestData_DDS & corba_ev, const ::CUTS_DDS::Outer::TestData_DDS & dds_ev)
-  {
-    corba_ev.key (dds_ev.key);
-    corba_ev.packet () <<= dds_ev.packet;
-    return true;
-  }
-  
-  bool operator >>= (const TestData_DDS & corba_ev, ::CUTS_DDS::Outer::TestData_DDS & dds_ev)
-  {
-    dds_ev.key = corba_ev.key ();
-    corba_ev.packet () >>= dds_ev.packet;
-    return true;
   }
 }
+

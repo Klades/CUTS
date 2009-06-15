@@ -14,7 +14,7 @@ workspace (SimpleExample) {
              -feature_file $CUTS_ROOT/default.features \
              -relative PROJECT_ROOT=
 
-  SimpleComponent_Impl.mpc
+  SimpleComponent_Basic_Impl.mpc
   SimpleComponent_Base.mpc
   ModelDDSData_Base.mpc
 }

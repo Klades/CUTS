@@ -1,3 +1,33 @@
+Mon Jun 15 12:50:41 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/chaos/SimpleExample/CHAOS_SimpleComponent_svnt.h:
+        * examples/arch/chaos/SimpleExample/CHAOS_SimpleComponent_svnt.cpp:
+        * examples/arch/chaos/SimpleExample/OpenSplice_SimpleComponentC.h:
+        * examples/arch/chaos/SimpleExample/OpenSplice_SimpleComponentC.cpp:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.mpc:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/chaos/SimpleExample/models/SimpleExample.xme:
+
+          . Re-generated the example from the CHAOS model.
+
+        * examples/arch/chaos/SimpleExample/ModelDDSData_skel_export.h:
+        * examples/arch/chaos/SimpleExample/ModelDDSData_stub_export.h:
+        * examples/arch/chaos/SimpleExample/OpenSplice_SimpleComponent_svnt_export.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl_export.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Impl.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Impl.mpc:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Impl.cpp:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_exec_export.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_skel_export.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_stub_export.h:
+        * examples/arch/chaos/SimpleExample/TCPIP_SimpleComponent_export.h:
+        * examples/arch/chaos/SimpleExample/TCPIP_SimpleComponent_svnt.h:
+        * examples/arch/chaos/SimpleExample/TCPIP_SimpleComponent_svnt.cpp:
+        * examples/arch/chaos/SimpleExample/TCPIP_SimpleComponent_svnt_export.h:
+
+          Removed these files.
+
 Sun Jun 14 15:58:39 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/opensplice/SimpleExample/descriptors/SimpleExample.cdp:

@@ -25,7 +25,7 @@ project (SimpleComponent_EIDL_Gen) : ciaoidldefaults {
   }
 }
 
-project (SimpleComponent_exec) : ciao_executor, cuts_chaos, cuts_codegen_defaults {
+project (SimpleComponent_exec) : ciao_executor, cuts_opensplice, cuts_codegen_defaults {
   sharedname    = SimpleComponent_exec
   dynamicflags += SIMPLECOMPONENT_EXEC_BUILD_DLL
 
@@ -54,11 +54,11 @@ project (SimpleComponent_exec) : ciao_executor, cuts_chaos, cuts_codegen_default
   }
 }
 
-project (OpenSplice_SimpleComponent_svnt) : cuts_chaos_ccm, cuts_codegen_defaults {
+project (OpenSplice_SimpleComponent_svnt) : cuts_opensplice_ccm, cuts_codegen_defaults {
   sharedname   = OpenSplice_SimpleComponent_svnt
-  dynamicflags = TCPIP_SIMPLECOMPONENT_SVNT_BUILD_DLL
+  dynamicflags = OPENSPLICE_SIMPLECOMPONENT_SVNT_BUILD_DLL
 
-  prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl TCPIP_SIMPLECOMPONENT_SVNT > $(PROJECT_ROOT)/TCPIP_SimpleComponent_svnt_export.h
+  prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl OPENSPLICE_SIMPLECOMPONENT_SVNT > $(PROJECT_ROOT)/OpenSplice_SimpleComponent_svnt_export.h
 
   after += SimpleComponent_exec \
     SimpleComponent_stub \
@@ -73,11 +73,11 @@ project (OpenSplice_SimpleComponent_svnt) : cuts_chaos_ccm, cuts_codegen_default
     ModelDDSData_skel
 
   Source_Files {
-    TCPIP_SimpleComponent_svnt.cpp
+    OpenSplice_SimpleComponent_svnt.cpp
   }
 
   Header_Files {
-    TCPIP_SimpleComponent_svnt.h
+    OpenSplice_SimpleComponent_svnt.h
   }
 
   Inline_Files {
@@ -101,7 +101,7 @@ project (SimpleComponent_Basic_Impl) : cuts_coworker_exec {
     ModelDDSData_stub
 
   Source_Files {
-    SimpleComponent_Impl.cpp
+    SimpleComponent_Basic_Impl.cpp
   }
 
   Header_Files {

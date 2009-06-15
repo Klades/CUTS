@@ -3,14 +3,31 @@
 #ifndef _OPENSPLICE_MODELDDSDATAC_H_
 #define _OPENSPLICE_MODELDDSDATAC_H_
 
-#include "cuts/arch/opensplice/OpenSplice_Traits_T.h"
-#include "ddstypes/ModelDDSData_DDSDcps_impl.h"
 #include "ModelDDSDataC.h"
+#include "cuts/opensplice/OpenSplice_Traits_T.h"
+#include "ddstypes/ModelDDSData_DDSDcps_impl.h"
 
+namespace Outer
+{
+  MODELDDSDATA_STUB_Export bool operator <<= (TestData_DDS &, const ::CUTS_DDS::Outer::TestData_DDS & );
+  MODELDDSDATA_STUB_Export bool operator >>= (const TestData_DDS &, ::CUTS_DDS::Outer::TestData_DDS & );
+
+  namespace Inner
+  {
+    MODELDDSDATA_STUB_Export bool operator <<= (Data_DDS &, const ::CUTS_DDS::Outer::Inner::Data_DDS & );
+    MODELDDSDATA_STUB_Export bool operator >>= (const Data_DDS &, ::CUTS_DDS::Outer::Inner::Data_DDS & );
+  }
+}
+
+/**
+ * @class CUTS_OpenSplice_Traits_T < ::Outer::TestData_DDS >
+ *
+ * Trait class for the ::Outer::TestData_DDS event
+ */
 template < >
 class MODELDDSDATA_STUB_Export CUTS_OpenSplice_Traits_T < ::CUTS_DDS::Outer::TestData_DDS >
 {
-public:
+  public:
   // The reader type traits
   typedef ::CUTS_DDS::Outer::TestData_DDSDataReader reader_type;
   typedef reader_type::_ptr_type reader_ptr_type;
@@ -40,11 +57,5 @@ public:
   typedef ::OBV_Outer::TestData_DDS corba_obv_event_type;
 };
 
-namespace Outer
-{
-  // conversion operator(s)
-  MODELDDSDATA_STUB_Export bool operator <<= (TestData_DDS &, const ::CUTS_DDS::Outer::TestData_DDS &);
-  MODELDDSDATA_STUB_Export bool operator >>= (const TestData_DDS &, ::CUTS_DDS::Outer::TestData_DDS &);
-}
+#endif  // _OPENSPLICE_MODELDDSDATAC_H_
 
-#endif  // !defined _OPENSPLICE_MODELDDSDATA_C_H_

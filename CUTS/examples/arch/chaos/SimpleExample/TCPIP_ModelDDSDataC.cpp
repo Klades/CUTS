@@ -7,18 +7,18 @@ namespace Outer
 {
   ACE_CDR::Boolean operator << (CUTS_TCPIP_OutputCDR & stream, const TestData_DDS & ev)
   {
-    stream << ev.key ();
     stream << ev.packet ();
+    stream << ev.key ();
     return stream.good_bit ();
   }
 
   ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & stream, TestData_DDS & ev)
   {
-    ACE_CDR::Short _val_300000031;
-    stream >> _val_300000031;
-    ev.key (_val_300000031);
-
     stream >> ev.packet ();
+    ACE_CDR::Short _val_300000029;
+    stream >> _val_300000029;
+    ev.key (_val_300000029);
+
     return stream.good_bit ();
   }
 

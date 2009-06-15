@@ -1,7 +1,7 @@
 // -*- C++ -*-
 
-#ifndef _SIMPLECOMPONENT_H_
-#define _SIMPLECOMPONENT_H_
+#ifndef _SIMPLECOMPONENT_BASIC_IMPL_H_
+#define _SIMPLECOMPONENT_BASIC_IMPL_H_
 
 #if !defined (ACE_LACKS_PRAGMA_ONCE)
 #pragma once
@@ -9,7 +9,7 @@
 
 #include "ace/pre.h"
 #include "SimpleComponentEC.h"
-#include "cuts/arch/ccm/CCM_Component_T.h"
+#include "cuts/ccm/CCM_Component_T.h"
 
 #include "cuts/Periodic_Event_T.h"
 
@@ -24,7 +24,7 @@ namespace SimpleComponent_Basic_Impl
    * Implementation of the CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec component executor
    */
   class SimpleComponent :
-    public SimpleComponent_Base
+    public SimpleComponent_Base 
   {
     public:
     // Type definition of the base component type
@@ -36,14 +36,14 @@ namespace SimpleComponent_Basic_Impl
     // Destructor
     virtual ~SimpleComponent (void);
 
-    // sink: tcpip_read_test_data
-    virtual void push_tcpip_read_test_data (::Outer::TestData_DDS * ev);
+    // sink: dds_read_test_data
+    virtual void push_dds_read_test_data (::Outer::TestData_DDS * ev);
 
     // sink: corba_read_test_data
     virtual void push_corba_read_test_data (::Outer::TestData_DDS * ev);
 
-    // sink: dds_read_test_data
-    virtual void push_dds_read_test_data (::Outer::TestData_DDS * ev);
+    // sink: tcpip_read_test_data
+    virtual void push_tcpip_read_test_data (::Outer::TestData_DDS * ev);
 
     // PeriodicEvent: sendData
     void periodic_sendData (void);
