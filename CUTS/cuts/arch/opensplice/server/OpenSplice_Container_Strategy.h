@@ -24,7 +24,7 @@ class CUTS_OpenSplice_CCM_Container;
  *
  * Implementation of the CCM container startegy for OpenSplice.
  */
-class CUTS_OpenSplice_CCM_Container_Strategy :
+class CUTS_OPENSPLICE_COMPONENTSERVER_Export CUTS_OpenSplice_CCM_Container_Strategy :
   public CUTS_CCM_Container_Strategy_T <CUTS_OpenSplice_CCM_Container>
 {
 public:

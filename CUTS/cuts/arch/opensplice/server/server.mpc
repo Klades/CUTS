@@ -1,14 +1,23 @@
 // $Id$
 
-project (CUTS_OpenSplice_CCM_ComponentServer) : cuts_opensplice_ccm, cutsexe {  
+project (CUTS_OpenSplice_CCM_ComponentServer) : cuts_opensplice_ccm, cutslib {  
+  sharedname = CUTS_OpenSplice_CCM_ComponentServer
+
+  dynamicflags += CUTS_OPENSPLICE_COMPONENTSERVER_BUILD_DLL
+
+  Source_Files {
+    OpenSplice_Configurator.cpp
+    OpenSplice_ComponentServer.cpp
+    OpenSplice_Container.cpp
+    OpenSplice_Container_Strategy.cpp
+  }
+}
+
+project (CUTS_OpenSplice_CCM_ComponentServer_App) : cuts_opensplice_componentserver, cutsexe {
   exename = cuts-opensplice-componentserver
 
   Source_Files {
-    server.cpp
-    OpenSplice_Configurator.cpp
-    OpenSplice_ComponentServer.cpp
     OpenSplice_ComponentServer_App.cpp
-    OpenSplice_Container.cpp
-    OpenSplice_Container_Strategy.cpp
+    server.cpp
   }
 }

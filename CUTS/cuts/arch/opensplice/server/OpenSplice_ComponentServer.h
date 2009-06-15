@@ -27,7 +27,7 @@ class CUTS_OpenSplice_CCM_ComponentServer_App;
  *
  * Implementation of the CCM component server for OpenSplice.
  */
-class CUTS_OpenSplice_CCM_ComponentServer :
+class CUTS_OPENSPLICE_COMPONENTSERVER_Export CUTS_OpenSplice_CCM_ComponentServer :
   public CUTS_CCM_ComponentServer_T <CUTS_OpenSplice_CCM_ComponentServer,
                                      CUTS_OpenSplice_CCM_Container>
 {

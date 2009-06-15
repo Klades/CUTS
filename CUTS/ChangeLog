@@ -1,22 +1,36 @@
+Mon Jun 15 21:15:41 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_opensplice_componentserver.mpb:
+        * cuts/arch/opensplice/server/OpenSplice_ComponentServer.h:
+        * cuts/arch/opensplice/server/OpenSplice_ComponentServer_export.h:
+        * cuts/arch/opensplice/server/OpenSplice_Configurator.h:
+        * cuts/arch/opensplice/server/OpenSplice_Container.h:
+        * cuts/arch/opensplice/server/OpenSplice_Container_Strategy.h:
+        * cuts/arch/opensplice/server/server.mpc:
+
+	  . Divided the OpenSplice component server into a reusable library 
+	    and an executable. This enables parts of the component server
+	    to be used on other projects.
+
 Mon Jun 15 21:01:37 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
-	* cuts/arch/opensplice/server/OpenSplice_Configurator.h:
-	* cuts/arch/opensplice/server/OpenSplice_Configurator.cpp:
-	* cuts/arch/opensplice/server/OpenSplice_Container_Strategy.h:
-	* cuts/arch/opensplice/server/OpenSplice_Container_Strategy.cpp:
-	* cuts/arch/opensplice/server/server.mpc:
-	
-	  . Implemented a configurator object for OpenSplice.
-	
-	  . It is now possible to set the domain for a participant using
-	    an execParameter with the name DDSDomainQoS.
-	
-	* examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.cpp:
-	
-	  . Added output messages to the example.
+        * cuts/arch/opensplice/server/OpenSplice_Configurator.h:
+        * cuts/arch/opensplice/server/OpenSplice_Configurator.cpp:
+        * cuts/arch/opensplice/server/OpenSplice_Container_Strategy.h:
+        * cuts/arch/opensplice/server/OpenSplice_Container_Strategy.cpp:
+        * cuts/arch/opensplice/server/server.mpc:
+
+          . Implemented a configurator object for OpenSplice.
+
+          . It is now possible to set the domain for a participant using
+            an execParameter with the name DDSDomainQoS.
+
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+
+          . Added output messages to the example.
 
 
-	Mon Jun 15 21:03:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+        Mon Jun 15 21:03:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/opensplice/server/OpenSplice_Configurator.h:
         * cuts/arch/opensplice/server/OpenSplice_Configurator.cpp:

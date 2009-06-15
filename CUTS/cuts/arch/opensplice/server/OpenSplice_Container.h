@@ -23,7 +23,7 @@ class CUTS_OpenSplice_CCM_ComponentServer;
 /**
  * @class CUTS_OpenSplice_CCM_Container
  */
-class CUTS_OpenSplice_CCM_Container :
+class CUTS_OPENSPLICE_COMPONENTSERVER_Export CUTS_OpenSplice_CCM_Container :
   public CUTS_CCM_Container_T <CUTS_OpenSplice_CCM_Container,
 			       CUTS_OpenSplice_CCM_ComponentServer,
                                CUTS_OpenSplice_CCM_Container_Strategy,

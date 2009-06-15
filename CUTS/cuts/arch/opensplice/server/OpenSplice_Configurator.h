@@ -4,6 +4,7 @@
 #define _CUTS_OPENSPLICE_CONFIGURATOR_H_
 
 #include "ccm/CCM_StandardConfiguratorC.h"
+#include "OpenSplice_ComponentServer_export.h"
 
 // Forward decl.
 class CUTS_OpenSplice_CCM_Servant;
@@ -11,7 +12,7 @@ class CUTS_OpenSplice_CCM_Servant;
 /**
  * @class CUTS_OpenSplice_Configurator
  */
-class CUTS_OpenSplice_Configurator
+class CUTS_OPENSPLICE_COMPONENTSERVER_Export CUTS_OpenSplice_Configurator
 {
 public:
   /// Default constructor.

@@ -1,0 +1,6 @@
+// $Id$
+
+project : ciao_componentserver_stub, portableserver, cuts_opensplice_ccm {
+  after += CUTS_OpenSplice_CCM_ComponentServer
+  libs  += CUTS_OpenSplice_CCM_ComponentServer
+}
