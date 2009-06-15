@@ -1,19 +1,126 @@
 // $Id$
 
 #include "Stub_Header_Generator.h"
-#include "TCPIP_Ctx.h"
-
 #include "../../lang/cpp/Cpp.h"
-
 #include "boost/bind.hpp"
-
 #include "CCF/CodeGenerationKit/IndentationCxx.hpp"
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
-
+#include "Uml.h"
 #include <algorithm>
 
 namespace CUTS_BE_TCPIP
 {
+class Include_Stubs : public PICML::Visitor
+{
+public:
+  Include_Stubs (std::ostream & source)
+    : source_ (source)
+  {
+
+  }
+
+  virtual ~Include_Stubs (void)
+  {
+
+  }
+
+  virtual void Visit_File (const PICML::File & file)
+  {
+    this->Visit_PackageFile_i (file);
+  }
+
+  virtual void Visit_Package (const PICML::Package & package)
+  {
+    this->Visit_PackageFile_i (package);
+  }
+
+  virtual void Visit_Component (const PICML::Component & component)
+  {
+    // Visit all the input event ports.
+    std::vector <PICML::InEventPort> inputs = component.InEventPort_kind_children ();
+
+    std::for_each (inputs.begin (),
+                   inputs.end (),
+                   boost::bind (&PICML::InEventPort::Accept,
+                                _1,
+                                boost::ref (*this)));
+
+    // Visit all the ouptut event ports.
+    std::vector <PICML::OutEventPort> outputs = component.OutEventPort_kind_children ();
+
+    std::for_each (outputs.begin (),
+                   outputs.end (),
+                   boost::bind (&PICML::OutEventPort::Accept,
+                                _1,
+                                boost::ref (*this)));
+  }
+
+  virtual void Visit_InEventPort (const PICML::InEventPort & port)
+  {
+    PICML::Event event = port.ref ();
+
+    if (Udm::null != event)
+      event.Accept (*this);
+  }
+
+  virtual void Visit_OutEventPort (const PICML::OutEventPort & port)
+  {
+    PICML::Event event = port.ref ();
+
+    if (Udm::null != event)
+      event.Accept (*this);
+  }
+
+  virtual void Visit_Event (const PICML::Event & event)
+  {
+    PICML::MgaObject parent = PICML::MgaObject::Cast (event.parent ());
+
+    while (PICML::File::meta != parent.type ())
+      parent = PICML::MgaObject::Cast (parent.parent ());
+
+    std::string name = parent.name ();
+
+    if (this->includes_.find (name) != this->includes_.end ())
+      return;
+
+    std::string filename ("TCPIP_");
+    filename += name + "C";
+
+    this->source_ << CUTS_BE_CPP::include (filename);
+    this->includes_.insert (name);
+  }
+
+private:
+  void Visit_PackageFile_i (const Udm::Object & obj)
+  {
+    // Visit all the packages.
+    std::vector <PICML::Package> packages =
+      Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
+
+    std::for_each (packages.begin (),
+                   packages.end (),
+                   boost::bind (&PICML::Package::Accept,
+                                _1,
+                                boost::ref (*this)));
+
+    // Visit all the components.
+    std::vector <PICML::Component> components =
+      Udm::ChildrenAttr <PICML::Component> (obj.__impl (), Udm::NULLCHILDROLE);
+
+    std::for_each (components.begin (),
+                   components.end (),
+                   boost::bind (&PICML::Component::Accept,
+                                _1,
+                                boost::ref (*this)));
+  }
+
+  std::ostream & source_;
+
+  std::set <std::string> includes_;
+
+  bool has_events_;
+};
+
 //
 // Stub_Header_Generator
 //
@@ -117,8 +224,12 @@ Visit_File (const PICML::File & file)
                    << CUTS_BE_CPP::include (corba_filename)
                    << CUTS_BE_CPP::include ("cuts/arch/tcpip/TCPIP_InputCDR")
                    << CUTS_BE_CPP::include ("cuts/arch/tcpip/TCPIP_OutputCDR")
-                   << CUTS_BE_CPP::include (export_filename)
-                   << std::endl;
+                   << CUTS_BE_CPP::include (export_filename);
+
+    Include_Stubs include_stubs (this->outfile_);
+    PICML::File (file).Accept (include_stubs);
+
+    this->outfile_ << std::endl;
 
     // Visit all the packages in this file.
     std::set <PICML::Package> packages = file.Package_children ();

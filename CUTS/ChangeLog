@@ -1,3 +1,13 @@
+Mon Jun 15 15:55:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/cpp/Component_Impl_Generator.cpp:
+
+          . Fixed compilation error.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Stub_Header_Generator.cpp:
+
+          . Fixed bugs in the generated code.
+
 Mon Jun 15 15:06:13 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * CUTS_CoSMIC.mwc:
