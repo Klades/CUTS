@@ -1,8 +1,8 @@
 // $Id$
 
 #include "CHAOS_SimpleComponent_svnt.h"
-#include "cuts/ccm/CCM_T.h"
-#include "cuts/ccm/CCM_Events_T.h"
+#include "cuts/arch/ccm/CCM_T.h"
+#include "cuts/arch/ccm/CCM_Events_T.h"
 
 namespace CHAOS_SimpleComponent_Basic_Impl
 {
@@ -234,7 +234,7 @@ namespace CHAOS_SimpleComponent_Basic_Impl
                                CUTS_TCPIP_InputCDR & stream)
   {
     // Extract the event from the stream.
-    CUTS_CCM_Event_T < ::Outer::TestData_DDS > event;
+    CUTS_CCM_Event_T < ::OBV_Outer::TestData_DDS > event;
 
     if (!(stream >> *event.in ()))
     {

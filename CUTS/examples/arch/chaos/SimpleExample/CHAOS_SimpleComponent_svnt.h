@@ -5,7 +5,7 @@
 
 #include "SimpleComponentEC.h"
 
-#include "cuts/ccm/CCM_Context_T.h"
+#include "cuts/arch/ccm/CCM_Context_T.h"
 #include "cuts/arch/chaos/ccm/CHAOS_CCM_Servant_T.h"
 #include "cuts/arch/chaos/ccm/CHAOS_CCM_Single_Subscriber.h"
 #include "cuts/arch/chaos/ccm/CHAOS_CCM_Subscriber_Table.h"
