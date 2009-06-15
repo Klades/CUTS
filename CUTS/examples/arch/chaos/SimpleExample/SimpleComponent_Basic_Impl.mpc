@@ -73,11 +73,11 @@ project (OpenSplice_SimpleComponent_svnt) : cuts_opensplice_ccm, cuts_codegen_de
     ModelDDSData_skel
 
   Source_Files {
-    OpenSplice_SimpleComponent_svnt.cpp
+    CHAOS_SimpleComponent_svnt.cpp
   }
 
   Header_Files {
-    OpenSplice_SimpleComponent_svnt.h
+    CHAOS_SimpleComponent_svnt.h
   }
 
   Inline_Files {
