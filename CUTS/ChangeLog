@@ -1,3 +1,11 @@
+Mon Jun 15 13:16:15 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/chaos/SimpleExample/ModelDDSData_Base.mpc:
+        * examples/arch/chaos/SimpleExample/OpenSplice_ModelDDSDataC.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Base.mpc:
+
+          . Fixed bugs in the generated code.
+
 Mon Jun 15 12:57:57 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/ccm/CCM_Subscriber_Table_T.h:

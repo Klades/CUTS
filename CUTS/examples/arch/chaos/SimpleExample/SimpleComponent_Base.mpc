@@ -1,6 +1,6 @@
-// -*- MPC -*-
+// $Id$
 
-project (SimpleComponent_IDL_Gen) : ciaoidldefaults {
+project (SimpleComponent_IDL_Gen) : ciaoidldefaults, cuts_codegen_defaults {
   custom_only = 1
 
   idlflags += -Wb,stub_export_macro=SIMPLECOMPONENT_STUB_Export \
@@ -14,10 +14,12 @@ project (SimpleComponent_IDL_Gen) : ciaoidldefaults {
   }
 }
 
-project (SimpleComponent_stub) : ccm_stub, avoids_ace_for_tao, cuts_codegen_defaults {
+project (SimpleComponent_stub) : cuts_chaos_ccm_stub, avoids_ace_for_tao, cuts_codegen_defaults {
   sharedname   = SimpleComponent_stub
-  dynamicflags = SIMPLECOMPONENT_STUB_BUILD_DLL
-  after       += SimpleComponent_IDL_Gen
+
+  dynamicflags += SIMPLECOMPONENT_STUB_BUILD_DLL
+  macros       += DDS_API=SIMPLECOMPONENT_STUB_Export
+  after        += SimpleComponent_IDL_Gen 
 
   prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl SIMPLECOMPONENT_STUB > $(PROJECT_ROOT)/SimpleComponent_stub_export.h
 
@@ -36,11 +38,13 @@ project (SimpleComponent_stub) : ccm_stub, avoids_ace_for_tao, cuts_codegen_defa
   Source_Files {
     SimpleComponentC.cpp
     TCPIP_SimpleComponentC.cpp
+    OpenSplice_SimpleComponentC.cpp
   }
 
   Header_Files {
     SimpleComponentC.h
     TCPIP_SimpleComponentC.h
+    OpenSplice_SimpleComponentC.h
   }
 
   Inline_Files {
@@ -48,7 +52,7 @@ project (SimpleComponent_stub) : ccm_stub, avoids_ace_for_tao, cuts_codegen_defa
   }
 }
 
-project (SimpleComponent_skel) : ciao_servant, avoids_ace_for_tao, cuts_codegen_defaults {
+project (SimpleComponent_skel) : cuts_chaos_ccm_skel, avoids_ace_for_tao, cuts_codegen_defaults {
   sharedname   = SimpleComponent_skel
   dynamicflags = SIMPLECOMPONENT_SKEL_BUILD_DLL
 
