@@ -1,3 +1,9 @@
+Mon Jun 15 14:04:29 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/chaos/SimpleExample/OpenSplice_SimpleComponentC.h:
+
+          . Bug fixes in the generated code.
+
 Mon Jun 15 13:28:44 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/chaos/SimpleExample/CHAOS_SimpleComponent_svnt.h:
