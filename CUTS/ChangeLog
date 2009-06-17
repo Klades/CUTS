@@ -1,24 +1,29 @@
+Wed Jun 17 22:11:29 UTC 2009  Pooja Varshneya  <varshneya_p@local>
+
+        * MDE/GME/paradigms/CUTS/paradigm/icons/Group.bmp:
+        * MDE/GME/paradigms/CUTS/paradigm/icons/GroupItem.bmp:
+        * MDE/GME/paradigms/CUTS/paradigm/icons/Key.bmp:
+        * MDE/GME/paradigms/CUTS/paradigm/icons/Service.bmp:
+        * MDE/GME/paradigms/CUTS/paradigm/icons/Variable.bmp:
+
+          . Added icons for CUTS DSML
+
+        * MDE/GME/paradigms/CUTS/paradigm/icons/logformat.bmp:
+
+          Removed this file.
+
 Wed Jun 17 20:36:56 UTC 2009  Pooja Varshneya  <varshneya_p@local>
 
         * ChangeLog:
 
         * MDE/GME/paradigms/CUTS/interpreters/UNITE/UniteVisitor.cpp:
-        
+
           . Updated UniteVisitor for mapping Log_Elements to GroupItem
 
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xme:
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xml:
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xmp:
         * MDE/GME/paradigms/CUTS/paradigm/CUTS_uml.xme:
-
-        * MDE/GME/paradigms/CUTS/paradigm/icons/Group.bmp:
-        * MDE/GME/paradigms/CUTS/paradigm/icons/GroupItem.bmp:
-        * MDE/GME/paradigms/CUTS/paradigm/icons/Key.bmp:
-        * MDE/GME/paradigms/CUTS/paradigm/icons/LogFormat.bmp:
-        * MDE/GME/paradigms/CUTS/paradigm/icons/Service.bmp:
-        * MDE/GME/paradigms/CUTS/paradigm/icons/Variable.bmp:
-        
-          . Added icons for CUTS DSML
 
 Wed Jun 17 20:34:33 UTC 2009  Pooja Varshneya  <varshneya_p@local>
 
