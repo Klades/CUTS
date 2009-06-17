@@ -37,7 +37,13 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="attribute[@kind='ConnectionType']" />
+  <xsl:template match="attribute[@kind='ConnectionType']">
+    <xsl:element name="regnode">
+      <xsl:attribute name="name">ConnectionType</xsl:attribute>
+      <xsl:attribute name="isopaque">yes</xsl:attribute>
+      <xsl:apply-templates />
+    </xsl:element>
+  </xsl:template>
 
   <!--
         Default transformation for all nodes

@@ -38,6 +38,13 @@
     </xsl:element>
   </xsl:template>
 
+  <xsl:template match="regnode[@name='ConnectionType']">
+    <xsl:element name="attribute">
+      <xsl:attribute name="kind">ConnectionType</xsl:attribute>
+      <xsl:apply-templates />
+    </xsl:element>
+  </xsl:template>
+
   <!--
         Default transformation for all nodes
     -->
