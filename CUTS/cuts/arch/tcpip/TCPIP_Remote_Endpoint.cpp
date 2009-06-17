@@ -17,7 +17,10 @@ connect (const char * addr, const char * uuid, long event)
   ACE_WRITE_GUARD_RETURN (ACE_RW_Thread_Mutex, guard, this->lock_, -1);
 
   if (0 != CUTS_TCPIP_CONNECTOR::instance ()->get_peer (addr, this->handler_))
-    return -1;
+    ACE_ERROR_RETURN ((LM_ERROR,
+		       "%T (%t) - %M - failed to connect to %d\n",
+		       addr),
+		      -1);
 
   this->header_.uuid_.from_string (uuid);
   this->header_.event_id_ = event;

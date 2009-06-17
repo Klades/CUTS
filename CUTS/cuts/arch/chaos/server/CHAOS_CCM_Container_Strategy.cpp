@@ -38,27 +38,20 @@ configure_servant (::PortableServer::Servant servant,
   ACE_DEBUG ((LM_DEBUG,
 	      "%T (%t) - %M - activating the TCP/IP servant\n"));
 
-  this->container_.server ()->the_ORB ().the_OM ().activate_object (chaos_servant);
+  int retval = 
+    this->container_.server ()->the_ORB ().the_OM ().activate_object (chaos_servant);
 
-  // @todo Create a configurator for OpenSplice and pass the
-  //       servant to the configurator for configuration.
+  if (0 != retval)
+    ACE_ERROR ((LM_ERROR,
+		"%T (%t) - %M - failed to activate TCP/IP servant\n"));
 
-  // Get the domain participant factory.
-  ::DDS::DomainParticipantFactory_var factory =
-      ::DDS::DomainParticipantFactory::get_instance ();
+  // Configure the OpenSplice servant.
+  if (0 != this->ospl_configurator_.configure (chaos_servant, config))
+    ACE_ERROR ((LM_ERROR,
+		"%T (%t) - %M - failed to configure the servant\n"));
 
-  // Create a participant on the default domain.
-  ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - creating a participant in the default domain\n"));
-
-  ::DDS::DomainParticipant_var participant =
-      factory->create_participant (0,     /* this is where the domain goes */
-                                   PARTICIPANT_QOS_DEFAULT,
-                                   0,
-                                   ::DDS::ANY_STATUS);
-
-  // Configure the servant.
-  chaos_servant->configure (participant.in ());
+  ACE_DEBUG ((LM_DEBUG, 
+	      "%T - %M - done configuring the servant\n"));
 }
 
 //

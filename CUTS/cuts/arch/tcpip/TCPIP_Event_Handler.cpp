@@ -38,7 +38,9 @@ int CUTS_TCPIP_Event_Handler::handle_input (ACE_HANDLE fd)
   ssize_t retcode = stream.recv_n (header.wr_ptr (), header_size);
 
   if (retcode != header_size)
-    return -1;
+    ACE_ERROR_RETURN ((LM_ERROR,
+		       "%T (%t) - %M - invalid TCP/IP header\n"),
+		      -1);
 
   // Reflect the number of bytes read from the stream.
   header.wr_ptr (header_size);
@@ -54,7 +56,9 @@ int CUTS_TCPIP_Event_Handler::handle_input (ACE_HANDLE fd)
   input >> datasize;
 
   if (!input.good_bit ())
-    return -1;
+    ACE_ERROR_RETURN ((LM_ERROR,
+		       "%T (%t) - %M - failed to read TCP/IP header\n"),
+		      -1);
 
   // Construct a chain of message blocks to read the payload associated
   // with the received event.

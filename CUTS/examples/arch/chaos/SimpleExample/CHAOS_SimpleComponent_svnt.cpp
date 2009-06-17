@@ -103,7 +103,9 @@ namespace CHAOS_SimpleComponent_Basic_Impl
 
     if (SimpleComponent_Servant::table_.is_init ())
       return;
-
+    
+    ACE_DEBUG ((LM_DEBUG,
+		"%T (%t) - %M - configuring the TCP/IP servant table\n"));
     SimpleComponent_Servant::table_[0] = &SimpleComponent_Servant::upcall_tcpip_read_test_data;
   }
 

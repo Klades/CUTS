@@ -4,6 +4,7 @@
 #define _CUTS_CHAOS_CCM_CONTAINER_STRATEGY_H_
 
 #include "cuts/arch/ccm/CCM_Container_Strategy_T.h"
+#include "cuts/arch/opensplice/server/OpenSplice_Configurator.h"
 #include "CHAOS_CCM_ComponentServer_export.h"
 
 // Forward decl.
@@ -48,6 +49,10 @@ public:
 
   virtual void
     remove_servant (::PortableServer::Servant servant);
+
+ private:
+  /// Configurator for OpenSplice, and possibly DDS.
+  CUTS_OpenSplice_Configurator ospl_configurator_;
 };
 
 #if defined (__CUTS_INLINE__)

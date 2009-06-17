@@ -68,9 +68,20 @@ int CUTS_TCPIP_ORB::init (int argc, char * argv [])
   this->reactor_.reset (reactor);
   auto_clean.release ();
 
+  ACE_DEBUG ((LM_DEBUG,
+	      "%T (%t) - %M - accepting incoming connections; %s:%d\n",
+	      this->listen_addr_.get_host_addr (),
+	      this->listen_addr_.get_port_number ()));
+
   // Open the acceptoer. This will determine if the specified
   // endpoint is currently in use.
   int retval = this->acceptor_.open (this->listen_addr_, this->reactor_.get ());
+
+  if (0 != retval)
+    ACE_ERROR ((LM_ERROR,
+		"%T (%t) - %M - failed to open connection; %s:%d\n",
+		this->listen_addr_.get_host_addr (),
+		this->listen_addr_.get_port_number ()));
 
   return retval;
 }

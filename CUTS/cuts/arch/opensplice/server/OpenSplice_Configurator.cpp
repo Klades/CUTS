@@ -23,7 +23,7 @@ CUTS_OpenSplice_Configurator::~CUTS_OpenSplice_Configurator (void)
 // configure
 //
 int CUTS_OpenSplice_Configurator::
-configure (CUTS_OpenSplice_CCM_Servant * servant,
+configure (CUTS_OpenSplice_Servant * servant,
 	   const ::Components::ConfigValues & config)
 {
   // First, set the domain for the servant/participant.
@@ -53,7 +53,15 @@ configure (CUTS_OpenSplice_CCM_Servant * servant,
                                    ::DDS::ANY_STATUS);
 
   // Set the participant for the servant.
-  servant->configure (participant.in ());
+  ACE_DEBUG ((LM_DEBUG,
+	      "%T (%t) - %M - configuring the servant with the participant\n"));
+
+  if (0 != servant)
+    servant->configure (participant.in ());
+  else
+    ACE_ERROR ((LM_ERROR,
+		"%T (%t) - %M - servant is a NULL pointer\n"));
+
   
   // Configure the QoS for the participant.
 

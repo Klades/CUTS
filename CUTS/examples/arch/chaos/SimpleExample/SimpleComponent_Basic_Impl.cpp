@@ -69,6 +69,9 @@ namespace SimpleComponent_Basic_Impl
   //
   void SimpleComponent::periodic_sendData (void)
   {
+    ACE_DEBUG ((LM_DEBUG,
+		"%T (%t) - %M - sending a TCP/IP event\n"));
+
     CUTS_CCM_Event_T <OBV_Outer::TestData_DDS> __event_100000008__;
     this->ctx_->push_app_op_tcpip (__event_100000008__.in ());
   }

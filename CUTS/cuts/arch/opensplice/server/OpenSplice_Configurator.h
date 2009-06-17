@@ -7,7 +7,7 @@
 #include "OpenSplice_ComponentServer_export.h"
 
 // Forward decl.
-class CUTS_OpenSplice_CCM_Servant;
+class CUTS_OpenSplice_Servant;
 
 /**
  * @class CUTS_OpenSplice_Configurator
@@ -21,7 +21,7 @@ public:
   /// Destructor.
   ~CUTS_OpenSplice_Configurator (void);
 
-  int configure (CUTS_OpenSplice_CCM_Servant * servant,
+  int configure (CUTS_OpenSplice_Servant * servant,
 		 const ::Components::ConfigValues & config);	      
 };
 
