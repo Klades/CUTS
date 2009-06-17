@@ -213,16 +213,16 @@ namespace CUTS
     xercesc::DOMElement * target_relation_node = 0;
 
     // Store the source and destination keys for given connection
-    Variable var_src = causality_connect.srcCausality_end ();
-    Variable var_dest = causality_connect.dstCausality_end ();
+    Key key_src = causality_connect.srcCausality_end ();
+    Key key_dest = causality_connect.dstCausality_end ();
     
      // Store the source and destination logformats for given connection
-    LogFormat var_src_parent = var_src.LogFormat_parent();
-    LogFormat var_dest_parent = var_dest.LogFormat_parent();
+    LogFormat key_src_parent = key_src.LogFormat_parent();
+    LogFormat key_dest_parent = key_dest.LogFormat_parent();
 
      // Store the source and destination logformats names for given connection
-    Utils::XStr src_log_id_xstr(std::string(var_src_parent.name()));
-    Utils::XStr dest_log_id_xstr(std::string(var_dest_parent.name()));
+    Utils::XStr src_log_id_xstr(std::string(key_src_parent.name()));
+    Utils::XStr dest_log_id_xstr(std::string(key_dest_parent.name()));
 
     // Get the list of all <logformat> nodes from the DOM tree document
     xercesc::DOMNodeList* target_log_list 
@@ -285,7 +285,7 @@ namespace CUTS
       // Add effectref attribute to <relation>
       this->addElementAttribute (target_relation_node, 
                                  "effectref", 
-                                 var_dest_parent.name ());
+                                 key_dest_parent.name ());
 
       // Add <relation> element under <relations> element
       this->addSubElement (target_relations_node, 
@@ -293,14 +293,14 @@ namespace CUTS
     }
 
     // Find value of cause attribute for <causality> element
-    std::string cause_str = std::string(var_src_parent.name()) 
+    std::string cause_str = std::string(key_src_parent.name()) 
                             + "." 
-                            + std::string(var_src.name());
+                            + std::string(key_src.name());
 
     // Find value of effect attribute for <causality> element
-    std::string effect_str = std::string(var_dest_parent.name())
+    std::string effect_str = std::string(key_dest_parent.name())
                              + "."
-                             + std::string(var_dest.name());
+                             + std::string(key_dest.name());
 
     // Create <causality> element
     xercesc::DOMElement* causality = this->createElement ("causality");
@@ -327,18 +327,38 @@ namespace CUTS
   //
 	void UniteVisitor::Visit_GroupItem(const GroupItem &groupitem)
 	{
-		// Add <groupitem> element under <grouping>
-    Variable groupitem_varref = groupitem.ref ();
-    LogFormat varref_parent = groupitem_varref.LogFormat_parent ();
+	
+    std::string groupitem_name;
+    
+    // Add <groupitem> element under <grouping>
+    Log_Element groupitem_ref = groupitem.ref ();
 
-    std::string groupitem_name =  std::string (varref_parent.name ())
-                                  + "." 
-                                  + std::string (groupitem_varref.name ());
+    // Get the derived object from Log_Element
+    if (Udm::IsDerivedFrom (groupitem_ref.type (), Key::meta) == true)
+    {
+      Key groupitem_key = Key::Cast (groupitem_ref);
+
+      LogFormat key_parent = groupitem_key.LogFormat_parent ();
+
+      groupitem_name =  std::string (key_parent.name ())
+                         + "." 
+                         + std::string (groupitem_key.name ());
+    }
+    else if (Udm::IsDerivedFrom (groupitem_ref.type (), Variable::meta)== true)
+    {
+      Variable groupitem_var = Variable::Cast (groupitem_ref);
+
+      LogFormat var_parent = groupitem_var.LogFormat_parent ();
+
+      groupitem_name =  std::string (var_parent.name ())
+                        + "." 
+                        + std::string (groupitem_var.name ());
+    }
 
     xercesc::DOMElement * groupitem_element = 
       this->createElement ("groupitem", groupitem_name);
 		
-		this->addSubElement (this->grouping_node_, groupitem_element);				
+		this->addSubElement (this->grouping_node_, groupitem_element);			   
 	}
 	
 	//

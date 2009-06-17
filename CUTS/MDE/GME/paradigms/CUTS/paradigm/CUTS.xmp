@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE paradigm SYSTEM "edf.dtd">
 
-<paradigm name="CUTS" guid="{B4209126-6D6F-48B7-B337-6712CF1D5099}" cdate="Sun Jun 07 14:21:33 2009" mdate="Sun Jun 07 14:21:33 2009" >
+<paradigm name="CUTS" guid="{B24AE98A-C547-44BD-9C24-914C7B653317}" cdate="Sun Jun 07 14:21:33 2009" mdate="Sun Jun 07 14:21:33 2009" >
 
 	<comment></comment>
 
@@ -37,10 +37,12 @@
 		</attrdef>
 		<atom name = "Key" metaref = "1158"  attributes = "Type">
 				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "icon" value ="Key.bmp"></regnode>
 				<regnode name = "isTypeShown" value ="true"></regnode>
 		</atom>
 		<atom name = "Variable" metaref = "1159"  attributes = "Type">
 				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "icon" value ="Variable.bmp"></regnode>
 				<regnode name = "isTypeShown" value ="true"></regnode>
 		</atom>
 		<connection name = "Causality" metaref = "1143" >
@@ -53,11 +55,9 @@
 			<connjoint>
 				<pointerspec name = "src">
 					<pointeritem desc = "LogFormat Key"></pointeritem>
-					<pointeritem desc = "LogFormat Variable"></pointeritem>
 				</pointerspec>
 				<pointerspec name = "dst">
 					<pointeritem desc = "LogFormat Key"></pointeritem>
-					<pointeritem desc = "LogFormat Variable"></pointeritem>
 				</pointerspec>
 			</connjoint>
 		</connection>
@@ -65,6 +65,7 @@
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "rName" value ="ref"></regnode>
 				<regnode name = "rrName" value ="referedbyGroupItem"></regnode>
+			<regnode name = "icon" value ="GroupItem.bmp"></regnode>
 			<pointerspec name = "ref">
 				<pointeritem desc = "Key"></pointeritem>
 				<pointeritem desc = "Variable"></pointeritem>
@@ -74,30 +75,33 @@
 				<regnode name = "namePosition" value ="4"></regnode>
 			<role name = "Causality" metaref = "1199" kind = "Causality"></role>
 			<role name = "LogFormat" metaref = "1200" kind = "LogFormat"></role>
-			<aspect name = "DataGraph" metaref = "1201" >
-				<part metaref = "1202" role = "Causality" primary = "yes" linked = "no"></part>
-				<part metaref = "1203" role = "LogFormat" primary = "yes" linked = "no"></part>
+			<aspect name = "DataGraph_Aspect" metaref = "1208" >
+				<part metaref = "1209" role = "Causality" primary = "yes" linked = "no"></part>
+				<part metaref = "1210" role = "LogFormat" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
 		<model name = "Group" metaref = "1178" >
 				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "icon" value ="Group.bmp"></regnode>
 			<role name = "GroupItem" metaref = "1179" kind = "GroupItem"></role>
-			<aspect name = "Aspect" metaref = "1208" >
+			<aspect name = "Aspect" metaref = "1217" >
 				<part metaref = "1181" role = "GroupItem" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
 		<model name = "LogFormat" metaref = "1144" attributes = "Value" >
 				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "icon" value ="LogFormat.bmp"></regnode>
 			<role name = "Key" metaref = "1167" kind = "Key"></role>
 			<role name = "Variable" metaref = "1168" kind = "Variable"></role>
-			<aspect name = "Aspect" metaref = "1209" attributes = "Value" >
+			<aspect name = "Aspect" metaref = "1218" attributes = "Value" >
 				<part metaref = "1170" role = "Key" primary = "yes" linked = "yes"></part>
-				<part metaref = "1171" role = "Variable" primary = "yes" linked = "yes"></part>
+				<part metaref = "1171" role = "Variable" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
 		<model name = "Service" metaref = "1194" attributes = "Location ClassName Params" >
 				<regnode name = "namePosition" value ="4"></regnode>
-			<aspect name = "Aspect" metaref = "1210" attributes = "Location ClassName Params" >
+				<regnode name = "icon" value ="Service.bmp"></regnode>
+			<aspect name = "Aspect" metaref = "1219" attributes = "Location ClassName Params" >
 			</aspect>
 		</model>
 		<model name = "UnitTest" metaref = "1147" attributes = "Description Evaluation Aggregation" >
@@ -109,9 +113,9 @@
 			</constraint>
 			<role name = "Group" metaref = "1185" kind = "Group"></role>
 			<role name = "Service" metaref = "1196" kind = "Service"></role>
-			<aspect name = "UnitTest" metaref = "1174" attributes = "Description Evaluation Aggregation" >
-				<part metaref = "1191" role = "Group" primary = "yes" linked = "no"></part>
-				<part metaref = "1197" role = "Service" primary = "yes" linked = "no"></part>
+			<aspect name = "UnitTest_Aspect" metaref = "1220" attributes = "Description Evaluation Aggregation" >
+				<part metaref = "1221" role = "Group" primary = "yes" linked = "no"></part>
+				<part metaref = "1222" role = "Service" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
 		<folder name = "DataGraphs" metaref = "1207"  rootobjects = "DataGraph" >
