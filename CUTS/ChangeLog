@@ -1,3 +1,13 @@
+Thu Jun 18 12:05:47 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.mpc:
+
+          . Missing project file.
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Impl.mpc:
+
+          Removed this file.
+
 Thu Jun 18 05:34:38 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE.mpc:
@@ -38,26 +48,22 @@ Wed Jun 17 20:36:56 UTC 2009  Pooja Varshneya  <varshneya_p@local>
 Wed Jun 17 20:34:33 UTC 2009  Pooja Varshneya  <varshneya_p@local>
 
         * MDE/GME/paradigms/CUTS/interpreters/UNITE/UniteVisitor.cpp:
-
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xme:
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xml:
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xmp:
         * MDE/GME/paradigms/CUTS/paradigm/CUTS_uml.xme:
-
         * MDE/GME/paradigms/CUTS/paradigm/icons/Group.bmp:
         * MDE/GME/paradigms/CUTS/paradigm/icons/GroupItem.bmp:
         * MDE/GME/paradigms/CUTS/paradigm/icons/Key.bmp:
         * MDE/GME/paradigms/CUTS/paradigm/icons/LogFormat.bmp:
         * MDE/GME/paradigms/CUTS/paradigm/icons/Service.bmp:
         * MDE/GME/paradigms/CUTS/paradigm/icons/Variable.bmp:
-
         * cuts/utils/Node_Daemon/Node_Daemon.idl:
         * cuts/utils/Node_Daemon/Node_Daemon_Client.cpp:
         * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
         * cuts/utils/Node_Daemon/cutsnode.h:
         * cuts/utils/Node_Daemon/cutsnode.inl:
         * cuts/utils/Node_Daemon/cutsnode.cpp:
-
         * etc/schemas/cutsnode.xsd:
 
 Wed Jun 17 01:37:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>

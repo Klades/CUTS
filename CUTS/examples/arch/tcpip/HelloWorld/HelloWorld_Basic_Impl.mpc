@@ -94,7 +94,7 @@ project (HelloWorld_Basic_Impl) : cuts_coworker_exec {
     HelloWorld_stub
 
   Source_Files {
-    HelloWorld_Impl.cpp
+    HelloWorld_Basic_Impl.cpp
   }
 
   Header_Files {
