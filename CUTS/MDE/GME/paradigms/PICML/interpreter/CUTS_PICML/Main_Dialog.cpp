@@ -98,7 +98,7 @@ BOOL Main_Dialog::OnInitDialog (void)
       reader->setIncludeIgnorableWhitespace (false);
 
       // Perform Validation
-      reader->setValidationScheme (AbstractDOMParser::ValSchemes::Val_Auto);
+      reader->setValidationScheme (AbstractDOMParser::Val_Auto);
 
       // Enable the GetParser()'s schema support.
       reader->setDoSchema (true);

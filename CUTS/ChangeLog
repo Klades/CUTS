@@ -1,3 +1,13 @@
+Thu Jun 18 05:34:38 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
+        * MPC/config/cuts_base.mpb:
+        * MPC/config/gme_rawcom.mpb:
+
+          . Fixed compile errors/warnings on vc8.
+
 Wed Jun 17 22:11:29 UTC 2009  Pooja Varshneya  <varshneya_p@local>
 
         * MDE/GME/paradigms/CUTS/paradigm/icons/Group.bmp:

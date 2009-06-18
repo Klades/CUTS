@@ -1,6 +1,6 @@
 // $Id$
 
-project : gme_component {
+project : gme_rawcom {
   Source_Files {
 
   }

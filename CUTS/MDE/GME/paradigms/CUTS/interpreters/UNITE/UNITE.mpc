@@ -1,14 +1,14 @@
 // $Id$
 
-project (CUTS_UNITE) : cuts_gme, cuts_dsml, udm, udm_component, \
-  xerces, game_component, boost_base, register, cutslib  {
+project (CUTS_UNITE) : cuts_dsml, udm_component, \
+  xerces, game_component, boost_base, register, cosmic_utils, cutslib  {
 
   sharedname  = CUTS_UNITE
-  
-  includes += $(CUTS_ROOT)/MDE/GME/paradigms/CUTS $(UDM_PATH)/include 
-  
+
+  includes += $(CUTS_ROOT)/MDE/GME/paradigms/CUTS $(UDM_PATH)/include
+
   libs -= PICML
-  
+
   specific {
     midl_notlb = 1
   }
@@ -26,5 +26,5 @@ project (CUTS_UNITE) : cuts_gme, cuts_dsml, udm, udm_component, \
 
   Source_Files {
     UniteVisitor.cpp
-  } 
+  }
 }

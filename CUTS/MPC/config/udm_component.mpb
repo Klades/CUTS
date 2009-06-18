@@ -1,6 +1,6 @@
 // $Id$
 
-project : udmdefaults, gme_rawcom, xerces {
+project : udmdefaults, xerces {
   Header_Files {
     UdmConfig.h
   }
