@@ -1,3 +1,9 @@
+Thu Jun 18 12:49:58 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.cpp:
+
+          . Added debug statements to the source.
+
 Thu Jun 18 12:25:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.h:
