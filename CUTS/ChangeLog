@@ -1,3 +1,9 @@
+Sun Jun 21 20:46:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/tcpip/config.h:
+
+          . Missing file.
+
 Thu Jun 18 12:49:58 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.cpp:
