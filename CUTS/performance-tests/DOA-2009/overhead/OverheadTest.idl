@@ -1,0 +1,29 @@
+// -*- IDL -*-
+
+module PerformanceTests
+{
+  struct InnerData
+  {
+    unsigned long time1;
+
+    unsigned long time2;
+  };
+
+  struct ComplexData
+  {
+    unsigned long long_value;
+
+    boolean bool_value;
+
+    InnerData inner_data;
+  };
+
+  typedef sequence <ComplexData> ComplexDataSequence;
+
+  interface OverheadTest
+  {
+    void ping ();
+
+    oneway void ping_oneway ();
+  };
+};

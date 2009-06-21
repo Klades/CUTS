@@ -1,0 +1,5 @@
+// $Id$
+
+workspace {
+  cmdline += -include $EISA_ROOT/MPC/config
+}

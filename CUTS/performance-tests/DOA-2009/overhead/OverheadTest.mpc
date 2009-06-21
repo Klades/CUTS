@@ -1,0 +1,53 @@
+// -*- MPC -*
+
+
+project (Overhead_Test_Server) : eisa, portableserver, dynamicany, taoexe {
+  exename = overhead-test-server
+  install = .
+
+  IDL_Files {
+    OverheadTest.idl
+  }
+
+  Source_Files {
+    OverheadTestC.cpp
+    OverheadTestS.cpp
+    OverheadTest_i.cpp
+    server.cpp
+  }
+}
+
+project (Overhead_Test_Client) : dynamicany, taoexe {
+  exename = overhead-test-client
+  install = .
+
+  after += Overhead_Test_Server
+
+  IDL_Files {
+
+  }
+
+  Source_Files {
+    OverheadTestC.cpp
+    client.cpp
+  }
+}
+
+project (DAC_Standalone_Server) : eisa_skel {
+  exename = dac-standalone-server
+
+  install = .
+
+  Source_Files {
+    dac-server.cpp
+    EINode_Channel_i.cpp
+  }
+
+  IDL_Files {
+
+  }
+
+  Header_Files {
+
+  }
+}
