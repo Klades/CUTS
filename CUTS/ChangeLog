@@ -1,3 +1,16 @@
+Thu Jun 25 06:34:32 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * install/CUTS_CoSMIC.wxs:
+        * install/includes:
+
+          . Changed the name of the *thirdparty* directory.
+
+        * install/thirdparty:
+        * install/thirdparty/udm.wxi:
+        * install/thirdparty/xerces.wxi:
+
+          Removed these files.
+
 Thu Jun 25 06:32:47 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MPC/config/noinstall.mpb:

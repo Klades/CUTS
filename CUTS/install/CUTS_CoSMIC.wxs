@@ -58,6 +58,6 @@
 
   <?include CUTS_CoSMIC.wxi ?>
 
-  <?include thirdparty\xerces.wxi ?>
-  <?include thirdparty\udm.wxi ?>
+  <?include includes\xerces.wxi ?>
+  <?include includes\udm.wxi ?>
 </Wix>
