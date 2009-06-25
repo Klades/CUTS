@@ -1,0 +1,32 @@
+// $Id$
+
+workspace (CUTS_CoSMIC) {
+  cmdline += -include $CUTS_ROOT/MPC/config \
+             -include $COSMIC_ROOT/MPC/config \
+             -include $XSC_ROOT/MPC/config
+
+  exclude (!vc71, !vc8, !vc9, !wix) {
+    cmdline += -value_template 'target_directory=bin'
+
+    //== ACE projects
+    $(ACE_ROOT)/ace/ace.mpc
+
+    //== CoSMIC projects
+    $(COSMIC_ROOT)/PIM/PICML/interpreters/PICML
+    $(COSMIC_ROOT)/Utils/GAME
+    $(COSMIC_ROOT)/Utils/Utils.mpc
+
+    //== XSC projects
+    $(XSC_ROOT)/XSC/utils
+
+    $(CUTS_ROOT)/CUTS_CoSMIC.mwc
+  }
+
+  exclude (!wix) {
+    $(CUTS_ROOT)/etc/schemas
+  }
+
+  exclude (!vc71, vc8, vc9) {
+    CUTS_CoSMIC.mpc
+  }
+}

@@ -1,14 +1,14 @@
 // $Id$
 
 project (CUTS_CoSMIC) : gme_upgrade, wix_ui, wix_xml {
-  after += Custom_Actions
+  after += CUTS_PICML CUTS_BE_CIAO CUTS_BE_TCPIP CUTS_BE_OpenSplice CUTS_Isislab_Emulation
 
   specific {
+    wix_flags += -I$(CUTS_ROOT)
     light_flags += -cultures:en-us
   }
 
   Wxs_Files {
-    CUTS_PICML.wxs
     CUTS_CoSMIC.wxs
     Merge_Modules.wxs
   }

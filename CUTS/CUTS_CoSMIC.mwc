@@ -12,32 +12,44 @@
 workspace (CUTS_CoSMIC) {
   cmdline += -include $CUTS_ROOT/MPC/config \
              -include $XSC_ROOT/MPC/config \
-             -feature_file default.features
+             -feature_file $CUTS_ROOT/default.features
 
-  MDE/utils
+  noinstall {
+    cmdline += -base noinstall
+
+    MDE/utils
+  }
 
   gems {
-    cmdline += -base requires_gems
+    cmdline += -base requires_gems -base noinstall
 
     MDE/GEMS
   }
 
-  exclude (!vc6, !vc71, !vc8, !vc9, !nmake) {
+  exclude (!vc6, !vc71, !vc8, !vc9, !nmake, !wix) {
     cmdline += -include $COSMIC_ROOT/MPC/config
 
-    MDE/GME/T2M
-    MDE/GME/paradigms/CUTS
-    MDE/GME/paradigms/CHAOS
+    noinstall {
+      cmdline += -base noinstall
 
-    //== CoSMIC projects
+      MDE/GME/T2M
+      MDE/GME/paradigms/CUTS
+      MDE/GME/paradigms/CHAOS
+    }
+
     cosmic {
       cmdline += -base requires_cosmic
 
       MDE/GME/paradigms/PICML
-      MDE/naomi/GME
+
+      noinstall {
+        cmdline += -base noinstall
+
+        MDE/naomi/GME
+      }
 
       static {
-        cmdline += -static
+        cmdline += -static -base noinstall
 
         $(CIAO_ROOT)/CCF/CCF/CodeGenerationKit
       }

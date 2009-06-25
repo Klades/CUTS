@@ -18,40 +18,15 @@
     <WixVariable Id="WixUIBannerBmp"  Value="images\bannrbmp.bmp" />
     <WixVariable Id="WixUIDialogBmp"  Value="images\dlgbmp.bmp" />
 
-<!--
-    <Property Id="COSMIC_INSTALLED">
-      <RegistrySearch Id="PICML.version" Root="HKCU" Type="raw"
-                      Key="SOFTWARE\GME\Paradigms\PICML" Name="CurrentVersion" />
-    </Property>
-
-    <Condition Message='CUTS modeling tools requires CoSMIC to be installed first'>
-      COSMIC_INSTALLED</Condition>
--->
-
     <!-- installation media -->
     <Media Id="1" Cabinet="CUTS_CoSMIC.cab" EmbedCab="yes" />
 
     <Directory Id='TARGETDIR' Name='SourceDir'>
       <Directory Id="SystemFolder" />
 
-      <Directory Id="ProgramFilesFolder" Name="PFiles">
+      <Directory Id="ProgramFilesFolder" Name="Program Files">
         <Directory Id="ISIS" Name="ISIS">
-          <Directory Id="INSTALLDIR" Name="CUTS">
-            <Component Id="CUTS" Guid="59C094F3-00A7-401d-864F-BB4F73448DAD">
-              <!-- registry information for the application -->
-              <RegistryKey Root="HKLM" Key="SOFTWARE\CUTS"
-                            Action="createAndRemoveOnUninstall">
-                <RegistryValue Type="string" Value="[INSTALLDIR]" Action="write" />
-              </RegistryKey>
-            </Component>
-
-            <Directory Id="bin" Name="bin" />
-            <Directory Id="etc" Name="etc">
-              <Directory Id="models" Name="models" />
-              <Directory Id="schemas" Name="schemas" />
-            </Directory>
-            <Directory Id="examples" Name="examples" />
-          </Directory>
+          <Directory Id="INSTALLDIR" Name="CUTS" />
         </Directory>
       </Directory>
     </Directory>
@@ -64,9 +39,11 @@
              AllowAdvertise="no">
 
       <!-- gather all the CUTS related components -->
-      <ComponentRef Id="CUTS" />
+      <ComponentGroupRef Id="CUTS_CoSMIC" Primary="yes" />
 
-      <FeatureGroupRef Id="CUTS_CoSMIC.features.all"/>
+      <!-- gather all the third-party components -->
+      <ComponentRef Id="xerces" />
+      <ComponentRef Id="UDM" />
 
       <!-- include the VC merge modules -->
       <FeatureRef Id="vc_merge_modules" />
@@ -78,4 +55,9 @@
     <UIRef Id="WixUI_Mondo" />
     <UIRef Id="WixUI_ErrorProgressText" />
   </Product>
+
+  <?include CUTS_CoSMIC.wxi ?>
+
+  <?include thirdparty\xerces.wxi ?>
+  <?include thirdparty\udm.wxi ?>
 </Wix>

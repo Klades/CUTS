@@ -38,4 +38,36 @@ project (CUTS_BE_TCPIP) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
     BE_TCPIP_export.h
     TCPIP_Manager.h
   }
+
+  verbatim (wix, component_bottom) {
+""
+"          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
+"                   Id='generator.TCPIP'"
+"                   File='[INSTALLDIR]bin\\cuts.config'"
+"                   ElementPath='\/\/cuts:modelgen\/backend'"
+"                   Action='createElement'"
+"                   Name='cuts:generator'"
+"                   Sequence='1'"
+"                   Permanent='no' />"
+""
+"          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
+"                   Id='generator.TCPIP.id'"
+"                   File='[INSTALLDIR]bin\\cuts.config'"
+"                   ElementPath='\/\/cuts:modelgen\/backend\/cuts:generator[\\[]not(@id)[\\]]'"
+"                   Action='setValue'"
+"                   Name='id'"
+"                   Value='TCPIP'"
+"                   Permanent='no'"
+"                   Sequence='2' />"
+""
+"          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
+"                   Id='generator.TCPIP.location'"
+"                   File='[INSTALLDIR]bin\\cuts.config'"
+"                   Action='createElement'"
+"                   ElementPath='\/\/cuts:modelgen\/backend\/cuts:generator[\\[]@id=\"TCPIP\"[\\]]'"
+"                   Name='cuts:location'"
+"                   Sequence='3'"
+"                   Permanent='no'"
+"                   Value='[INSTALLDIR]bin\\CUTS_BE_OpenSplice' />"
+  }
 }

@@ -25,11 +25,8 @@ project (CUTS_PICML) : xscrt, picmllib, boost_base, cuts_gme, \
 
   sharedname = CUTS_PICML
 
-  specific {
-    midl_notlb = 1
-  }
-
   specific (vc71, vc8, vc9) {
+    midl_notlb = 1
     compile_flags += /wd4355
   }
 
@@ -47,7 +44,6 @@ project (CUTS_PICML) : xscrt, picmllib, boost_base, cuts_gme, \
     modelgen.cpp
   }
 
-  //== configuration files for the interpreter
   Define_Custom (Config) {
     automatic = 0
     inputext  = .config
@@ -56,5 +52,59 @@ project (CUTS_PICML) : xscrt, picmllib, boost_base, cuts_gme, \
   Config_Files {
     $(CUTS_ROOT)/bin/cuts.config
     $(CUTS_ROOT)/bin/cuts.user.config
+  }
+
+  verbatim (wix, component_bottom) {
+""
+"          <File Id='cuts.config' Name='cuts.config'"
+"                Source='$(env.CUTS_ROOT)\\bin\\cuts.user.config' DiskId='1' />"
+""
+"          <RegistryKey Root='HKLM' Key='SOFTWARE'>"
+"            <RegistryKey Key='GME\\Components'>"
+"              <RegistryKey Key='CUTS.Interpreter.PICML'
+"                           Action='createAndRemoveOnUninstall'>"
+"                <RegistryValue Name='Description' Type='string'"
+"                               Value='CUTS Interpreter' Action='write' />"
+"                <RegistryValue Name='Icon' Type='string'"
+"                               Value=',IDI_COMPICON' Action='write' />"
+"                <RegistryValue Name='Paradigm' Type='string'"
+"                               Value='PICML' Action='write' />"
+"                <RegistryValue Name='Tooltip' Type='string'"
+"                               Value='CUTS interpreter' Action='write' />"
+"                <RegistryValue Name='Type' Type='integer'"
+"                               Value='1' Action='write' />"
+"                <RegistryKey Key='Associated' Action='create'>"
+"                  <RegistryValue Name='PICML' Type='string'"
+"                                 Action='write' Value='' />"
+"                </RegistryKey>"
+"              </RegistryKey>"
+"            </RegistryKey>"
+""
+"            <RegistryKey Key='Classes'>"
+"              <RegistryKey Key='CUTS.Interpreter.PICML'"
+"                           Action='createAndRemoveOnUninstall'>"
+"                <RegistryValue Type='string' Value='CUTS.Interpreter.PICML' />"
+"                <RegistryKey Key='CLSID' Action='create'>"
+"                  <RegistryValue Type='string'"
+"                                 Value='{DD5752C3-12EF-43D0-978C-F5C395D5BF13}' />"
+"                </RegistryKey>"
+"              </RegistryKey>"
+"            </RegistryKey>"
+""
+"            <RegistryKey Key='CLSID'>"
+"              <RegistryKey Key='{DD5752C3-12EF-43D0-978C-F5C395D5BF13}'"
+"                           Action='createAndRemoveOnUninstall'>"
+"                <RegistryValue Type='string'"
+"                               Value='CUTS.Interpreter.PICML' />"
+"                <RegistryKey Key='InProcServer32' Action='create'>"
+"                  <RegistryValue Type='string'"
+"                                 Value='[INSTALLDIR]bin\\CUTS_PICML.dll' />"
+"                </RegistryKey>"
+"                <RegistryKey Key='ProgID' Action='create'>"
+"                  <RegistryValue Type='string' Value='CUTS.Interpreter.PICML' />"
+"                </RegistryKey>"
+"              </RegistryKey>"
+"            </RegistryKey>"
+"          </RegistryKey>"
   }
 }

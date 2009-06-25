@@ -3,4 +3,8 @@
 project : cuts_base {
   libout = $(CUTS_ROOT)/lib
   dllout = $(CUTS_ROOT)/lib
+
+  specific (wix) {
+    target_directory = lib
+  }
 }
