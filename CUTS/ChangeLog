@@ -10,7 +10,7 @@ Thu Jun 25 21:32:43 UTC 2009  Pooja Varshneya  <varshneya_p@vuse.vanderbilt.edu>
 
         * etc/schemas/cutsnode.xsd:
         
-        . Added delay functionality to cutsnode deamon utility
+         . Added delay functionality to cutsnode deamon utility
 										
 Thu Jun 25 06:34:32 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
