@@ -1,3 +1,9 @@
+Thu Jun 25 06:32:47 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/noinstall.mpb:
+
+          . Missing base project.
+
 Thu Jun 25 06:28:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/models/CAPI.xme:
