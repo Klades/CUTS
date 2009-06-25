@@ -79,6 +79,17 @@ namespace CUTS
     protected:
     ::std::auto_ptr< ::XMLSchema::ID< char > > id_;
 
+    // delay
+    // 
+    public:
+    bool delay_p () const;
+    ::XMLSchema::double_ const& delay () const;
+    ::XMLSchema::double_& delay ();
+    void delay (::XMLSchema::double_ const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::double_ > delay_;
+
     public:
     taskDescription (::XMLSchema::string< char > const& executable__,
                      ::XMLSchema::ID< char > const& id__);

@@ -62,6 +62,12 @@ namespace CUTS
         id_->container (this);
       }
 
+      else if (n == "delay")
+      {
+        ::XMLSchema::double_ t (a);
+        delay (t);
+      }
+
       else 
       {
       }

@@ -28,6 +28,7 @@ namespace CUTS
   output_ (s.output_.get () ? new ::XMLSchema::string< char > (*s.output_) : 0),
   error_ (s.error_.get () ? new ::XMLSchema::string< char > (*s.error_) : 0),
   id_ (new ::XMLSchema::ID< char > (*s.id_)),
+  delay_ (s.delay_.get () ? new ::XMLSchema::double_ (*s.delay_) : 0),
   regulator__ ()
   {
     executable_->container (this);
@@ -36,6 +37,7 @@ namespace CUTS
     if (output_.get ()) output_->container (this);
     if (error_.get ()) error_->container (this);
     id_->container (this);
+    if (delay_.get ()) delay_->container (this);
   }
 
   inline
@@ -65,6 +67,9 @@ namespace CUTS
       error_.reset (0);
 
     id (s.id ());
+
+    if (s.delay_.get ()) delay (*(s.delay_));
+    else delay_ = ::std::auto_ptr< ::XMLSchema::double_ > (0);
 
     return *this;
   }
@@ -235,6 +240,45 @@ namespace CUTS
   id (::XMLSchema::ID< char > const& e)
   {
     *id_ = e;
+  }
+
+  // taskDescription
+  // 
+  inline
+  bool taskDescription::
+  delay_p () const
+  {
+    return delay_.get () != 0;
+  }
+
+  inline
+  ::XMLSchema::double_ const& taskDescription::
+  delay () const
+  {
+    return *delay_;
+  }
+
+  inline
+  ::XMLSchema::double_& taskDescription::
+  delay ()
+  {
+    return *delay_;
+  }
+
+  inline
+  void taskDescription::
+  delay (::XMLSchema::double_ const& e)
+  {
+    if (delay_.get ())
+    {
+      *delay_ = e;
+    }
+
+    else
+    {
+      delay_ = ::std::auto_ptr< ::XMLSchema::double_ > (new ::XMLSchema::double_ (e));
+      delay_->container (this);
+    }
   }
 
 
