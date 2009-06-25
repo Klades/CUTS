@@ -6,7 +6,10 @@
 #include "ace/Get_Opt.h"
 #include "ace/OS_NS_unistd.h"
 #include "ace/streams.h"
+#include "ace/Time_Value.h"
 #include "XSC/utils/XML_Error_Handler.h"
+
+#include <iostream>
 
 static const char * __HELP__ =
 "CUTS node manager for remotely invoking task on target \n"
@@ -278,11 +281,19 @@ int CUTS_Node_Daemon_Server::load_initial_config (void)
 
       // Begin each of the task on the node daemon.
       CUTS::taskDescriptor task;
-
+  
       for ( ; iter != iter_end; iter ++)
       {
         // Initialize the task descriptor.
         task.id = ::CORBA::string_dup (iter->id ().c_str ());
+				
+			  // delay is an optional attribute.
+				// So use delay_p () to check if delay is set				
+				if (iter->delay_p ())	
+					task.delay = iter->delay ();	
+				else
+					task.delay = 0;
+														
         task.executable = ::CORBA::string_dup (iter->executable ().c_str ());
 
         task.arguments =

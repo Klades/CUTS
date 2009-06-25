@@ -14,7 +14,9 @@
 #include "Client_Options.h"
 #include "ace/Get_Opt.h"
 #include "ace/Log_Msg.h"
+#include "ace/OS_Memory.h"
 #include "ace/OS_NS_unistd.h"
+#include "ace/Time_Value.h"
 
 //
 // parse_args
@@ -30,6 +32,7 @@ int parse_args (int argc, char * argv[])
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
 
   get_opt.long_option ("task-start-id", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("task-start-delay", ACE_Get_Opt::ARG_OPTIONAL);
   get_opt.long_option ("task-start-executable", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("task-start-arguments", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("task-start-workingdirectory", ACE_Get_Opt::ARG_REQUIRED);
@@ -56,6 +59,10 @@ int parse_args (int argc, char * argv[])
       {
         CLIENT_OPTIONS ()->task_start_.id =
           CORBA::string_dup (get_opt.opt_arg ());
+      }
+			else if (ACE_OS::strcmp (get_opt.long_option (), "task-start-delay") == 0)
+      {
+        CLIENT_OPTIONS ()->task_start_.delay = ACE_OS::atof (get_opt.opt_arg ());
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "task-start-executable") == 0)
       {
@@ -221,7 +228,7 @@ int main (int argc, char * argv [])
                          daemon->_interface_repository_id ()),
                          1);
     }
-
+				
     // Spawn the specified task.
     if (ACE_OS::strlen (CLIENT_OPTIONS ()->task_start_.id.in ()) != 0 &&
         ACE_OS::strlen (CLIENT_OPTIONS ()->task_start_.executable.in ()) != 0)

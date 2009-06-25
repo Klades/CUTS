@@ -22,6 +22,8 @@
 #include "ace/Singleton.h"
 #include "ace/FILE_Connector.h"
 #include "ace/Unbounded_Set.h"
+#include "ace/Barrier.h"
+#include "Delay_Handler.h"
 #include <sstream>
 
 #define PROCESS_LOG() \
@@ -47,10 +49,11 @@ CUTS_Node_Daemon_i::~CUTS_Node_Daemon_i (void)
 {
   // Deactivate the event handler.
   this->event_handler_.deactivate ();
-
+  
   // Deactivate the timer queue for the daemon.
   this->timer_queue_.deactivate ();
   this->timer_queue_.cancel (this->timer_);
+  
 }
 
 //
@@ -63,11 +66,13 @@ task_spawn (const CUTS::taskDescriptor & task)
     return -1;
 
   if (this->process_map_.find (task.id.in ()) == 0)
+  {
     ACE_ERROR_RETURN ((LM_ERROR,
                        "%T (%t) - %M - '%s' task already exists\n",
                        task.id.in ()),
                        1);
-
+  }
+  
   CUTS_Process_Info * info = 0;
   ACE_NEW_THROW_EX (info, CUTS_Process_Info (), CORBA::NO_MEMORY ());
   ACE_Auto_Ptr <CUTS_Process_Info> auto_clean (info);
@@ -80,14 +85,14 @@ task_spawn (const CUTS::taskDescriptor & task)
   CUTS_Text_Processor preprocessor (this->prop_map_);
   ACE_CString exec_value, args_value, result;
 
-  if (!preprocessor.evaluate (task.executable.in (), exec_value))
+  if (preprocessor.evaluate (task.executable.in (), exec_value) != 0)
   {
     ACE_ERROR ((LM_WARNING,
                 "%T (%t) - %M - failed to preproess <executable> value\n",
                 task.executable.in ()));
   }
 
-  if (!preprocessor.evaluate (task.arguments.in (), args_value))
+  if (preprocessor.evaluate (task.arguments.in (), args_value) != 0)
   {
     ACE_ERROR ((LM_WARNING,
                 "%T (%t) - %M - failed to preproess <arguments> value\n",
@@ -96,6 +101,7 @@ task_spawn (const CUTS::taskDescriptor & task)
 
   // Prepare the command line for the task.
   info->id_ = task.id.in ();
+  info->delay_ = task.delay;
   info->options_.command_line ("%s %s",
                                exec_value.c_str (),
                                args_value.c_str ());
@@ -144,7 +150,7 @@ task_spawn (const CUTS::taskDescriptor & task)
   if (ACE_OS::strlen (task.output.in ()) != 0)
   {
     // Preprocess the output filename.
-    if (!preprocessor.evaluate (task.output.in (), result))
+    if (preprocessor.evaluate (task.output.in (), result) != 0)
       ACE_ERROR_RETURN ((LM_ERROR,
                          "%T (%t) - %M - failed to evaluate output filename\n"),
                          -1);
@@ -167,7 +173,7 @@ task_spawn (const CUTS::taskDescriptor & task)
   if (ACE_OS::strlen (task.error.in ()) != 0)
   {
     // Preprocess the error filename.
-    if (!preprocessor.evaluate (task.error.in (), result))
+    if (preprocessor.evaluate (task.error.in (), result) != 0)
       ACE_ERROR_RETURN ((LM_ERROR,
                          "%T (%t) - %M - failed to evaluate error filename\n"),
                          -1);
@@ -191,7 +197,7 @@ task_spawn (const CUTS::taskDescriptor & task)
   info->options_.set_handles (ACE_INVALID_HANDLE,
                               stdout_handle.get_handle (),
                               stderr_handle.get_handle ());
-
+	
   // Spawn the new task and register the <event_handler_> as the
   // notifier for process termination.
   int retval = this->task_spawn_i (*info);
@@ -550,6 +556,16 @@ duplicate_defualt_process_options (ACE_Process_Options & opts)
 int CUTS_Node_Daemon_i::
 task_spawn_i (CUTS_Process_Info & info)
 {
+  if (info.delay_ > 0)
+  {    
+    ACE_DEBUG ((LM_INFO,
+                "%T (%t) - %M - Task %s will be started after %f seconds\n",
+                info.id_.c_str (),
+                info.delay_));
+    
+    this->delay_processor (info.delay_);
+  }
+
   // Spawn the new task and register the <event_handler_> as the
   // notifier for process termination.
   ACE_DEBUG ((LM_DEBUG,
@@ -581,6 +597,27 @@ task_spawn_i (CUTS_Process_Info & info)
                 info.id_.c_str ()));
 
   return retval;
+}
+
+//
+// delay_processor
+//
+void CUTS_Node_Daemon_i::delay_processor (double delay)
+{
+ // ACE_Barrier use to synchronize main thread with the delay thread
+  ACE_Barrier delay_barrier (2);
+  CUTS_Delay_Handler delay_handler (&delay_barrier);
+  
+  int retval = delay_handler.activate ();
+  
+  if (retval != -1)
+  {
+    delay_handler.schedule (delay);
+    
+    delay_barrier.wait ();
+
+    delay_handler.deactivate ();
+  }  
 }
 
 //

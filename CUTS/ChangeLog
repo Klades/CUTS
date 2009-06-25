@@ -1,3 +1,17 @@
+Thu Jun 25 21:32:43 UTC 2009  Pooja Varshneya  <varshneya_p@vuse.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Node_Daemon.idl:
+        * cuts/utils/Node_Daemon/Node_Daemon_Client.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+        * cuts/utils/Node_Daemon/Process_Info.h:
+        * cuts/utils/Node_Daemon/cutsnode_d.mpc:
+
+        * etc/schemas/cutsnode.xsd:
+        
+        . Added delay functionality to cutsnode deamon utility
+										
 Thu Jun 25 06:34:32 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * install/CUTS_CoSMIC.wxs:

@@ -43,6 +43,7 @@ project (cutsnode_d) : boost_base, taoserver, iortable, xscrt, cuts_utils, cutse
     Process_Info.cpp
     Process_Log.cpp
     cutsnode.cpp
+    Delay_Handler.cpp
   }
 
   Header_Files {

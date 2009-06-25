@@ -40,6 +40,9 @@ public:
 
   /// The options for the process.
   ACE_Process_Options options_;
+	
+	/// Delay value for process-startup
+	double delay_;
 
   /**
    * Test the log entry for equality. Two log entries are equal

@@ -21,6 +21,8 @@ module CUTS
   {
     string id;
 
+    double delay;
+
     string executable;
 
     string arguments;
