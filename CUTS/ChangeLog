@@ -1,3 +1,11 @@
+Sun Jun 28 08:09:13 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.mpc:
+
+          . Simplified the project specification for installing
+            GME components using Wix.
+
 Sun Jun 28 00:58:06 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MPC/config/gme_base.mpb:
