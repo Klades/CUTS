@@ -1,3 +1,9 @@
+Sun Jun 28 00:58:06 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/gme_base.mpb:
+
+          . Simplified the *specific* configuration.
+
 Thu Jun 25 21:32:43 UTC 2009  Pooja Varshneya  <varshneya_p@vuse.vanderbilt.edu>
 
         * cuts/utils/Node_Daemon/Node_Daemon.idl:
@@ -7,11 +13,10 @@ Thu Jun 25 21:32:43 UTC 2009  Pooja Varshneya  <varshneya_p@vuse.vanderbilt.edu>
         * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
         * cuts/utils/Node_Daemon/Process_Info.h:
         * cuts/utils/Node_Daemon/cutsnode_d.mpc:
-
         * etc/schemas/cutsnode.xsd:
-        
+
          . Added delay functionality to cutsnode deamon utility
-										
+
 Thu Jun 25 06:34:32 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * install/CUTS_CoSMIC.wxs:
@@ -154,8 +159,8 @@ Wed Jun 17 20:36:56 UTC 2009  Pooja Varshneya  <varshneya_p@local>
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xml:
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xmp:
         * MDE/GME/paradigms/CUTS/paradigm/CUTS_uml.xme:
-	
-          . Updated the model 
+
+          . Updated the model
 
 Wed Jun 17 01:37:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
