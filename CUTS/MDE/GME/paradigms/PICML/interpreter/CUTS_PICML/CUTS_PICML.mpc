@@ -55,7 +55,7 @@ project (CUTS_PICML) : xscrt, picmllib, boost_base, cuts_gme, \
   }
 
   specific (wix) {
-    gme_install     = HKLM
+    gme_install     = 1
     gme_progid      = CUTS.Interpreter.PICML
     gme_uuid        = DD5752C3-12EF-43D0-978C-F5C395D5BF13
     gme_paradigms   = PICML

@@ -18,7 +18,7 @@ project (CUTS_Isislab_Emulation) : \
   }
 
   specific (wix) {
-    gme_install     = HKLM
+    gme_install     = 1
     gme_progid      = CUTS.Interpreter.Isislab.Emulation
     gme_uuid        = CB4182B9-86E9-4580-96DA-2CA0234795BC
     gme_paradigms   = PICML

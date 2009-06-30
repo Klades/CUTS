@@ -1,3 +1,14 @@
+Tue Jun 30 03:23:34 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * CUTS_Runtime_Arch.mwc:
+
+          . Hard-code the location of default.features.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.mpc:
+
+          . Updated the configuration values for the Wix section.
+
 Sun Jun 28 08:09:13 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc:
