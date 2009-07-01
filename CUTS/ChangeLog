@@ -1,3 +1,45 @@
+Wed Jul  1 05:24:43 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/node:
+
+          . Rename of the Node_Daemon directory.
+
+        * cuts/utils/Node_Daemon:
+        * cuts/utils/Node_Daemon/Active_Process.h:
+        * cuts/utils/Node_Daemon/Active_Process.inl:
+        * cuts/utils/Node_Daemon/Active_Process.cpp:
+        * cuts/utils/Node_Daemon/Client_Options.h:
+        * cuts/utils/Node_Daemon/Client_Options.cpp:
+        * cuts/utils/Node_Daemon/Delay_Handler.h:
+        * cuts/utils/Node_Daemon/Delay_Handler.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon.idl:
+        * cuts/utils/Node_Daemon/Node_Daemon_Client.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_Event_Handler.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_Event_Handler.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server_Options.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server_Options.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.inl:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+        * cuts/utils/Node_Daemon/Node_File_Reader.h:
+        * cuts/utils/Node_Daemon/Node_File_Reader.inl:
+        * cuts/utils/Node_Daemon/Node_File_Reader.cpp:
+        * cuts/utils/Node_Daemon/Process_Info.h:
+        * cuts/utils/Node_Daemon/Process_Info.inl:
+        * cuts/utils/Node_Daemon/Process_Info.cpp:
+        * cuts/utils/Node_Daemon/Process_Log.h:
+        * cuts/utils/Node_Daemon/Process_Log.inl:
+        * cuts/utils/Node_Daemon/Process_Log.cpp:
+        * cuts/utils/Node_Daemon/cutsnode.h:
+        * cuts/utils/Node_Daemon/cutsnode.inl:
+        * cuts/utils/Node_Daemon/cutsnode.cpp:
+        * cuts/utils/Node_Daemon/cutsnode_d.cpp:
+        * cuts/utils/Node_Daemon/cutsnode_d.mpc:
+
+          Removed these files.
+
 Wed Jul  1 05:15:56 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/ComponentConfig.h:
