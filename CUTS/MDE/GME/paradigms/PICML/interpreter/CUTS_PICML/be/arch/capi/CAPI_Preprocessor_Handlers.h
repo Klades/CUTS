@@ -24,19 +24,33 @@
  * Updates the 'imports' for the current implementation.
  */
 template < >
-struct CUTS_BE_Preprocessor_Worker_T <CUTS_BE_Capi>
+class CUTS_BE_Preprocessor_Worker_T <CUTS_BE_Capi::Context>
 {
-  static bool handle (CUTS_BE_Impl_Node * node, const PICML::Worker &);
+public:
+  CUTS_BE_Preprocessor_Worker_T (void);
+
+  virtual ~CUTS_BE_Preprocessor_Worker_T (void);
+
+  void generate (CUTS_BE_Impl_Node * node, const PICML::Worker &);
 };
 
 /**
  * @struct CUTS_BE_Preprocessor_WorkerLibrary_T
  */
 template < >
-struct CUTS_BE_Preprocessor_WorkerLibrary_T <CUTS_BE_Capi>
+class CUTS_BE_Preprocessor_WorkerLibrary_T <CUTS_BE_Capi::Context>
 {
-  static bool handle (CUTS_BE_Impl_Node * node,
-                      const PICML::WorkerLibrary & lib);
+public:
+  CUTS_BE_Preprocessor_WorkerLibrary_T (void);
+
+  virtual ~CUTS_BE_Preprocessor_WorkerLibrary_T (void);
+
+  void generate (CUTS_BE_Impl_Node * node,
+                 const PICML::WorkerLibrary & lib);
 };
+
+#if defined (__CUTS_INLINE__)
+#include "CAPI_Preprocessor_Handlers.inl"
+#endif
 
 #endif  // !defined _CUTS_BE_CAPI_PREPROCESSOR_HANDLERS_H_

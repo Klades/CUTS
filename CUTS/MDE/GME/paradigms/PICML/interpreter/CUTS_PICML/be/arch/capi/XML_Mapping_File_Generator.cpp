@@ -6,7 +6,7 @@
 #include "CCF/CodeGenerationKit/IndentationXML.hpp"
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
 #include "boost/bind.hpp"
-#include "Utils.h"
+#include "Utils/Utils.h"
 #include <algorithm>
 
 //
@@ -40,12 +40,12 @@ XML_Mapping_File_Generator::~XML_Mapping_File_Generator (void)
 // Visit_Event
 //
 void XML_Mapping_File_Generator::
-Visit_Event (const PICML::Event & event)
+Visit_Event (const PICML::Event & ev)
 {
-  // Gather required information about the event.
-  std::string xmltag = event.SpecifyIdTag ();
-  std::string fq_name = CUTS_BE_Capi::fq_name (event, '.');
-  std::string classname = fq_name + '.' + CUTS_BE_Capi::classname (xmltag);
+  // Gather required information about the ev.
+  std::string xmltag = ev.SpecifyIdTag ();
+  std::string fq_name = CUTS_BE_Java::fq_type (ev, ".", false);
+  std::string classname = fq_name + '.' + CUTS_BE_Java::classname (xmltag);
 
   // Save the package name for later.
   this->package_ = fq_name;
@@ -53,9 +53,7 @@ Visit_Event (const PICML::Event & event)
   // Construct the path for the filename. We need to make sure
   // this directory exist before trying to open the mapping file.
   std::ostringstream path;
-  path
-    << this->outdir_ << "\\"
-    << CUTS_BE_Capi::fq_name (event, '\\');
+  path << this->outdir_ << CUTS_BE_Java::fq_type (ev, "\\", true);
 
   Utils::CreatePath (path.str (), '\\');
   std::string filename = path.str () + "\\mapping.xml";
@@ -79,7 +77,7 @@ Visit_Event (const PICML::Event & event)
     << "                       \"http://castor.org/mapping.dtd\">" << std::endl
     << "<mapping>" << std::endl
     << std::endl
-    << "<!-- event : " << fq_name << " -->" << std::endl
+    << "<!-- ev : " << fq_name << " -->" << std::endl
     << "<class name=\"" << classname << "\" auto-complete=\"false\">" << std::endl
     << "<map-to xml=\"" << xmltag << "\" />" << std::endl;
 
@@ -87,11 +85,11 @@ Visit_Event (const PICML::Event & event)
     UDM_Position_Sort_T <PICML::Member, PS_Top_To_Bottom>
     _sort_function;
 
-  // Visit all the members in this event.
+  // Visit all the members in this ev.
   typedef std::set <PICML::Member, _sort_function> Member_Set;
 
   Member_Set members =
-    event.Member_kind_children_sorted (_sort_function ());
+    ev.Member_kind_children_sorted (_sort_function ());
 
   std::for_each (members.begin (),
                  members.end (),
@@ -206,9 +204,10 @@ Visit_String (const PICML::String & )
 void XML_Mapping_File_Generator::
 Visit_Enum (const PICML::Enum & e)
 {
-  this->outfile_ << this->package_
-                 << ".types."
-                 << CUTS_BE_Capi::classname (e.name ());
+  this->outfile_
+    << this->package_
+    << ".types."
+    << CUTS_BE_Java::classname (e.name ());
 }
 
 //
@@ -245,8 +244,8 @@ void XML_Mapping_File_Generator::
 Visit_Aggregate (const PICML::Aggregate & aggr)
 {
   std::string name = aggr.name ();
-  std::string fq_name = CUTS_BE_Capi::fq_name (aggr, '.');
-  std::string classname = this->package_ + '.' + CUTS_BE_Capi::classname (name);
+  std::string fq_name = CUTS_BE_Java::fq_type (aggr, ".", false);
+  std::string classname = this->package_ + '.' + CUTS_BE_Java::classname (name);
 
   // Begin the complex type's definition.
   this->outfile_

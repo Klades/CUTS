@@ -26,15 +26,15 @@ CUTS_BE_CAPI_Event_Impl_Generator::~CUTS_BE_CAPI_Event_Impl_Generator (void)
 // Visit_Event
 //
 void CUTS_BE_CAPI_Event_Impl_Generator::
-Visit_Event (const PICML::Event & event)
+Visit_Event (const PICML::Event & ev)
 {
-  std::string fq_name = CUTS_BE_Capi::fq_name (event, '/');
+  std::string fq_name = CUTS_BE_Java::fq_type (ev, "/", false);
 
   if (fq_name == "cuts/jbi/client/JbiAnyEvent")
     return;
 
   // Save the name of the class.
-  this->type_ = CUTS_BE_Capi::classname (event.SpecifyIdTag ());
+  this->type_ = CUTS_BE_Java::classname (ev.SpecifyIdTag ());
   this->impl_ = this->type_ + "Impl";
 
   // Construct the filename for the implementation.
@@ -49,7 +49,7 @@ Visit_Event (const PICML::Event & event)
     this->formatter_.reset (new _formatter_type (this->outfile_));
 
     // Write the preamble for the file.
-    this->outfile_ << "package " << CUTS_BE_Capi::fq_name (event, '.') << ";";
+    this->outfile_ << "package " << CUTS_BE_Java::fq_type (ev, ".", false) << ";";
     this->write_includes ();
 
     // Begin the class definition.
@@ -62,7 +62,7 @@ Visit_Event (const PICML::Event & event)
     this->write_getter_methods ();
 
     // Write the static part of the event.
-    this->write_static (event);
+    this->write_static (ev);
 
     // End the class definition.
     this->outfile_ << "}";
@@ -133,7 +133,7 @@ write_static (const PICML::Event & event)
                  << "static {"
                  << "try {"
                  << "// Get the class for the type." << std::endl
-                 << "Class thisClass = " << CUTS_BE_Capi::classname (event.SpecifyIdTag ())
+                 << "Class thisClass = " << CUTS_BE_Java::classname (event.SpecifyIdTag ())
                  << ".class;" << std::endl
                  << "// Construct the name of the mapping file. This is necessary" << std::endl
                  << "// since Castor likes to construct *bad* tags." << std::endl

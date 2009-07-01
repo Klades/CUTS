@@ -82,7 +82,7 @@ generate_bat_script (const std::set <PICML::Event> & events)
 
     for (; iter != iter_end; ++ iter)
     {
-      fq_name = CUTS_BE_Capi::fq_name (*iter, '.');
+      fq_name = CUTS_BE_Java::fq_type (*iter, ".", false);
 
       bat_file
         << "%CUTS_ROOT%/bin/jbi/RegisterMioType.bat -mio-type "
@@ -123,7 +123,7 @@ generate_sh_script (const std::set <PICML::Event> & events)
 
     for (; iter != iter_end; ++ iter)
     {
-      fq_name = CUTS_BE_Capi::fq_name (*iter, '.');
+      fq_name = CUTS_BE_Java::fq_type (*iter, ".", false);
 
       sh_file
         << "${CUTS_ROOT}/bin/jbi/RegisterMioType.sh -mio-type "

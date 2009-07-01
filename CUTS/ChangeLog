@@ -1,3 +1,70 @@
+Wed Jul  1 05:15:56 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/ComponentConfig.h:
+
+          . Changed the name of the component.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Graph_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Preprocessor_Handlers_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Preprocessor_Handlers_T.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Preprocessor_Handlers_T.cpp:
+
+          . Converted the preprocess handlers over to the new backend
+            architecture for the code generators.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Ctx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Ctx.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Event_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Generators.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Preprocessor.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Preprocessor_Handlers.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Preprocessor_Handlers.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Preprocessor_Handlers.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Project_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Project_Generators.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Project_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Workspace_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Workspace_Generators.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Workspace_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/Register_Type_Script_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/XML_Mapping_File_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/XSD_File_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Ctx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Preprocessor_Handlers.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Preprocessor_Handlers.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Preprocessor_Handlers.cpp:
+
+          . Updated the CAPI code generator to the latest version
+            of CUTS's modeling backend architecture.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/CUTS_BE_Java.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Behavior_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Behavior_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Behavior_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Variable_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Variable_Type.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Variable_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_export.h:
+        * MPC/config/cuts_be_java.mpb:
+
+          . Moved the behavior related code generators from the CAPI
+            to the Java backend.
+
+        * cuts/utils/Node_Daemon/Delay_Handler.cpp:
+
+          . Converted the *arg* parameter to a 0.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI.mpc.old:
+
+          Removed this file.
+
 Tue Jun 30 03:23:34 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * CUTS_Runtime_Arch.mwc:

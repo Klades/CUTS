@@ -2,8 +2,8 @@
 
 #include "XSD_File_Generator.h"
 #include "CAPI_Ctx.h"
+#include "Utils/Utils.h"
 #include "../../UDM_Position_Sort_T.h"
-#include "Utils.h"
 #include "boost/bind.hpp"
 #include "CCF/CodeGenerationKit/IndentationXML.hpp"
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
@@ -38,18 +38,18 @@ XSD_File_Generator::~XSD_File_Generator (void)
 //
 // Visit_Event
 //
-void XSD_File_Generator::Visit_Event (const PICML::Event & event)
+void XSD_File_Generator::Visit_Event (const PICML::Event & ev)
 {
-  // Gather required information about the event.
-  std::string xmltag = event.SpecifyIdTag ();
-  std::string fq_name = CUTS_BE_Capi::fq_name (event, '.');
-  std::string classname = fq_name + '.' + CUTS_BE_Capi::classname (xmltag);
+  // Gather required information about the ev.
+  std::string xmltag = ev.SpecifyIdTag ();
+  std::string fq_name = CUTS_BE_Java::fq_type (ev, ".", false);
+  std::string classname = fq_name + '.' + CUTS_BE_Java::classname (xmltag);
 
   // Construct the path for the filename. We need to make sure
   // this directory exist before trying to open the mapping file.
   std::ostringstream path;
-  path << this->outdir_ << "\\"
-       << CUTS_BE_Capi::fq_name (event, '\\');
+  path
+    << this->outdir_ << CUTS_BE_Java::fq_type (ev, "\\", true);
 
   Utils::CreatePath (path.str (), '\\');
   std::string filename = path.str () + "\\" + fq_name + ".xsd";
@@ -71,25 +71,25 @@ void XSD_File_Generator::Visit_Event (const PICML::Event & event)
               << "<xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema'"
               << " elementFormDefault='unqualified' version='";
 
-  // Set the version number for the schema based on the event's
+  // Set the version number for the schema based on the ev's
   // version number.
-  std::string version = event.VersionTag ();
+  std::string version = ev.VersionTag ();
 
   if (version.empty ())
   {
     version = "1.0";
-    event.VersionTag () = version;
+    ev.VersionTag () = version;
   }
 
   this->fout_ << version << "'>" << std::endl;
 
   // Push the root element onto the stack then finish visiting
-  // the event element.
+  // the ev element.
 
-  std::string name = event.SpecifyIdTag ();
+  std::string name = ev.SpecifyIdTag ();
 
   this->fout_ << "<xsd:element name='" << name << "'>" << std::endl;
-  this->Visit_Event_i (event, true);
+  this->Visit_Event_i (ev, true);
   this->fout_ << "</xsd:element>" << std::endl;
 
   while (!this->complex_types_.empty ())
@@ -124,7 +124,7 @@ void XSD_File_Generator::Visit_Member (const PICML::Member & member)
 
   if (mt != Udm::null)
   {
-    // Create a xsd:complexType element for the event.
+    // Create a xsd:complexType element for the ev.
     this->fout_ << "<xsd:element name='" << member.name () << "' ";
     this->dispatcher_.dispatch (mt);
     this->fout_ << " />" << std::endl;
@@ -233,7 +233,7 @@ void XSD_File_Generator::Visit_Aggregate_i (const PICML::Aggregate & aggr)
   this->fout_ << "<xsd:complexType name='" << aggr.name () << "'>" << std::endl
               << "<xsd:sequence>" << std::endl;
 
-  // Visit all the members in this event. We sort the members from top
+  // Visit all the members in this ev. We sort the members from top
   // to bottom on the page.
   typedef
     UDM_Position_Sort_T <PICML::Member, PS_Top_To_Bottom>
@@ -258,19 +258,19 @@ void XSD_File_Generator::Visit_Aggregate_i (const PICML::Aggregate & aggr)
 // Visit_Event_i
 //
 void XSD_File_Generator::
-Visit_Event_i (const PICML::Event & event, bool anonymous)
+Visit_Event_i (const PICML::Event & ev, bool anonymous)
 {
   this->fout_ << "<xsd:complexType";
 
   if (!anonymous)
-    this->fout_ << " name='" << event.SpecifyIdTag () << "'";
+    this->fout_ << " name='" << ev.SpecifyIdTag () << "'";
 
   this->fout_ << ">" << std::endl;
 
-  // Create the xsd:sequence element for the event's members.
+  // Create the xsd:sequence element for the ev's members.
   this->fout_ << "<xsd:sequence>" << std::endl;
 
-  // Visit all the members in this event. We sort the members from
+  // Visit all the members in this ev. We sort the members from
   // top to bottom on the page, just like a file.
   typedef
     UDM_Position_Sort_T <PICML::Member, PS_Top_To_Bottom>
@@ -279,7 +279,7 @@ Visit_Event_i (const PICML::Event & event, bool anonymous)
   typedef std::set <PICML::Member, _sort_function> Member_Set;
 
   Member_Set members =
-    event.Member_kind_children_sorted (_sort_function ());
+    ev.Member_kind_children_sorted (_sort_function ());
 
   std::for_each (members.begin (),
                  members.end (),

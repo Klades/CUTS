@@ -11,13 +11,14 @@
 #define COCLASS_PROGID "CUTS.Interpreter.PICML"
 
 // This name will appear in the popup window for interpreter selection.
-#define COMPONENT_NAME "CUTS System Implementation Generator"
+#define COMPONENT_NAME "CUTS Code Generator"
 
 // This text will appear in the toolbar icon tooltip and in the menu.
 #define TOOLTIP_TEXT "CUTS interpreter"
 
 // This #define determines the interpreter type:
 #define GME_INTERPRETER
+
 // The name of the paradigm(s). The GME will use this component
 // for this paradigm. Separate the names of paradigms by commas.
 #define PARADIGMS "PICML"

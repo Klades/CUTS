@@ -30,19 +30,17 @@ CUTS_Delay_Handler::~CUTS_Delay_Handler (void)
 long CUTS_Delay_Handler::schedule (double delay)
 {
   // If the object is activated, schedule the delay.
-  
+
   if (this->active_)
   {
-    void *arg;
-
-    ACE_Time_Value timeout;  
+    ACE_Time_Value timeout;
     timeout.set (delay);
-   
+
     ACE_Time_Value cur_time = ACE_OS::gettimeofday ();
-  
-    return this->timer_queue_.schedule (this, arg, cur_time + timeout);
+
+    return this->timer_queue_.schedule (this, 0, cur_time + timeout);
   }
-  
+
   return -1;
 }
 
@@ -63,7 +61,7 @@ handle_timeout (const ACE_Time_Value & tv, const void * act)
 {
   ACE_UNUSED_ARG (tv);
   ACE_UNUSED_ARG (act);
-  
+
   return this->delay_end_barrier_->wait ();
 }
 
@@ -73,7 +71,7 @@ handle_timeout (const ACE_Time_Value & tv, const void * act)
 int CUTS_Delay_Handler::activate (void)
 {
   ACE_Task_Base::activate ();
-  
+
   int retval = timer_queue_.activate ();
   this->active_ = retval != -1;
   return retval;

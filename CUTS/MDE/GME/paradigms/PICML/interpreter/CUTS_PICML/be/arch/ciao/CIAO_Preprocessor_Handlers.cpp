@@ -1,13 +1,18 @@
 // $Id$
 
 #include "CIAO_Preprocessor_Handlers.h"
+
+#if !defined (__CUTS_INLINE__)
+#include "CIAO_Preprocessor_Handlers.inl"
+#endif
+
 #include "../../BE_Impl_Node.h"
 
 //
 // CUTS_BE_Preprocessor_WorkerLibrary_T
 //
-bool CUTS_BE_Preprocessor_WorkerLibrary_T <CUTS_BE_Ciao>::
-handle (CUTS_BE_Impl_Node * node, const PICML::WorkerLibrary & lib)
+void CUTS_BE_Preprocessor_WorkerLibrary_T <CUTS_BE_Ciao>::
+generate (CUTS_BE_Impl_Node * node, const PICML::WorkerLibrary & lib)
 {
   // Save the name of the library.
   node->lib_.insert (lib.name ());
@@ -17,15 +22,13 @@ handle (CUTS_BE_Impl_Node * node, const PICML::WorkerLibrary & lib)
 
   if (!location.empty ())
     node->lib_paths_.insert (lib.Location ());
-
-  return true;
 }
 
 //
 // CUTS_BE_Preprocessor_WorkerFile_T
 //
-bool CUTS_BE_Preprocessor_WorkerFile_T <CUTS_BE_Ciao>::
-handle (CUTS_BE_Impl_Node * node, const PICML::WorkerFile & file)
+void CUTS_BE_Preprocessor_WorkerFile_T <CUTS_BE_Ciao>::
+generate (CUTS_BE_Impl_Node * node, const PICML::WorkerFile & file)
 {
   // Save the name of the file.
   node->include_.insert (file.name ());
@@ -35,6 +38,4 @@ handle (CUTS_BE_Impl_Node * node, const PICML::WorkerFile & file)
 
   if (!location.empty ())
     node->include_paths_.insert (location);
-
-  return true;
 }

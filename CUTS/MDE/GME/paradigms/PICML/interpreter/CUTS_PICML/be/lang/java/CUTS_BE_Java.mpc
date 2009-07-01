@@ -1,0 +1,12 @@
+// $Id$
+
+project (CUTS_BE_Java) : boost_base, picml_udm, cuts_be, cuts_cosmic {
+  sharedname    = CUTS_BE_Java
+  dynamicflags += CUTS_BE_JAVA_BUILD_DLL
+
+  Source_Files {
+    Java.cpp
+    Java_Behavior_Generator.cpp
+    Java_Variable_Type.cpp
+  }
+}

@@ -1,6 +1,11 @@
 // $Id$
 
 #include "CAPI_Project_Generators.h"
+
+#if !defined (__CUTS_INLINE__)
+#include "CAPI_Project_Generators.inl"
+#endif
+
 #include "../../BE_Impl_Node.h"
 #include "../../BE_Options.h"
 #include "../../BE_Env_Variable_Parser_T.h"
@@ -9,9 +14,9 @@
 #include <sstream>
 
 /**
- * @struct ANT_Env_Variable
+ * @class ANT_Env_Variable
  */
-struct ANT_Env_Variable
+class ANT_Env_Variable
 {
 public:
   ANT_Env_Variable (std::string & out)
@@ -33,42 +38,40 @@ private:
 //
 // CUTS_BE_Project_File_Open_T
 //
-bool CUTS_BE_Project_File_Open_T <
-CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate (const CUTS_BE_Impl_Node & node)
+void CUTS_BE_Project_File_Open_T <
+CUTS_BE_Capi::Context, CUTS_BE_Impl_Node>::generate (const CUTS_BE_Impl_Node & node)
 {
   std::ostringstream pathname;
   pathname
     << CUTS_BE_OPTIONS ()->output_directory_
     << "/" << node.name_ << ".build";
 
-  CUTS_BE_CAPI ()->project_file_.open (pathname.str ().c_str ());
+  this->ctx_.project_file_.open (pathname.str ().c_str ());
 
-  if (!CUTS_BE_CAPI ()->project_file_.is_open ())
-    return false;
+  if (!this->ctx_.project_file_.is_open ())
+    return;
 
   // Create a formatter for the XML file.
-  CUTS_BE_CAPI ()->project_formatter_.reset (
-    new CUTS_BE_Capi::_project_formatter_type (
-    CUTS_BE_CAPI ()->project_file_));
-
-  return true;
+  this->ctx_.project_formatter_.reset (
+    new CUTS_BE_Capi::Context::xml_formatter_type (
+    this->ctx_.project_file_));
 }
 
 //
 // CUTS_BE_Project_File_Begin_T
 //
-bool CUTS_BE_Project_File_Begin_T <
-CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate (const CUTS_BE_Impl_Node & node)
+void CUTS_BE_Project_File_Begin_T <CUTS_BE_Capi::Context, CUTS_BE_Impl_Node>::
+generate (const CUTS_BE_Impl_Node & node)
 {
   // Save the current implementation's node. This is bad, but it's
   // the way we are going to do it for now.
-  CUTS_BE_CAPI ()->impl_node_ =
+  this->ctx_.impl_node_ =
     const_cast <CUTS_BE_Impl_Node *> (&node);
 
   // Get the name of the container for later usage.
   std::string name = node.container_.name ();
 
-  CUTS_BE_CAPI ()->project_file_
+  this->ctx_.project_file_
     << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" << std::endl
     << "<project name=\"cuts.capi.client." << name << "\" basedir=\".\" "
     << "default=\"build.all\">" << std::endl
@@ -79,9 +82,9 @@ CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate (const CUTS_BE_Impl_Node & node)
 
   // If we have any events in this implementation, then we need to
   // include the build file for using Castor within CUTS and ANT.
-  if (!CUTS_BE_CAPI ()->impl_node_->maplist_["events"].empty ())
+  if (!this->ctx_.impl_node_->maplist_["events"].empty ())
   {
-    CUTS_BE_CAPI ()->project_file_
+    this->ctx_.project_file_
       << "<import file=\"${env.CUTS_ROOT}/etc/ANT/include/castor.build\" />" << std::endl
       << std::endl;
   }
@@ -95,7 +98,7 @@ CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate (const CUTS_BE_Impl_Node & node)
   MonolithicImplementation_Set monoimpls =
     node.container_.MonolithicImplementation_kind_children ();
 
-  CUTS_BE_CAPI ()->project_file_
+  this->ctx_.project_file_
     << std::endl
     << "<!-- build all the implementations -->" << std::endl
     << "<target name=\"build.all\" depends=\"";
@@ -107,27 +110,25 @@ CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate (const CUTS_BE_Impl_Node & node)
     MonolithicImplementation_Set::iterator
       iter = monoimpls.begin (), iter_end = monoimpls.end ();
 
-    CUTS_BE_CAPI ()->project_file_
+    this->ctx_.project_file_
       << iter->name () << ".jar.build";
 
     for (++ iter; iter != iter_end; ++ iter)
     {
-      CUTS_BE_CAPI ()->project_file_
+      this->ctx_.project_file_
         << " " << iter->name () << ".jar.build";
     }
   }
 
-  CUTS_BE_CAPI ()->project_file_
+  this->ctx_.project_file_
     << "\" />" << std::endl;
-
-  return true;
 }
 
 //
 // CUTS_BE_Project_Write_T
 //
-bool CUTS_BE_Project_Write_T <
-CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate (const CUTS_BE_Impl_Node & node)
+void CUTS_BE_Project_Write_T <CUTS_BE_Capi::Context, CUTS_BE_Impl_Node>::
+generate (const CUTS_BE_Impl_Node & node)
 {
   // Get all the monolithic implementations defined in this container.
   // We need to specify each one in the "build.all" target.
@@ -141,28 +142,23 @@ CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate (const CUTS_BE_Impl_Node & node)
   // Generate build scripts for each of the implemenations.
   std::for_each (monoimpls.begin (),
                  monoimpls.end (),
-                 boost::bind (&CUTS_BE_Project_Write_T <
-                                CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate_i,
+                 boost::bind (&CUTS_BE_Project_Write_T <CUTS_BE_Capi::Context, CUTS_BE_Impl_Node>::generate_i,
+                              this,
                               _1));
-  return true;
 }
 
 //
 // CUTS_BE_Project_Write_T::generate_i
 //
-void CUTS_BE_Project_Write_T <
-CUTS_BE_Capi, CUTS_BE_Impl_Node>::
+void CUTS_BE_Project_Write_T <CUTS_BE_Capi::Context, CUTS_BE_Impl_Node>::
 generate_i (const PICML::MonolithicImplementation & monoimpl)
 {
   std::string name = monoimpl.name ();
 
-  const CUTS_String_Set & eventset =
-    CUTS_BE_CAPI ()->impl_node_->maplist_["events"];
+  const CUTS_String_Set & eventset = this->ctx_.impl_node_->maplist_["events"];
+  const CUTS_String_Set & classpath = this->ctx_.impl_node_->maplist_["classpath"];
 
-  const CUTS_String_Set & classpath =
-    CUTS_BE_CAPI ()->impl_node_->maplist_["classpath"];
-
-  CUTS_BE_CAPI ()->project_file_
+  this->ctx_.project_file_
     << std::endl
     << "<target name=\"" << name << ".build\">" << std::endl
     << "<javac srcdir=\".\" classpathref=\"cuts.build.classpath\" "
@@ -173,7 +169,7 @@ generate_i (const PICML::MonolithicImplementation & monoimpl)
     std::string output;
     CUTS_BE_Env_Variable_Parser_T <ANT_Env_Variable> env_parser (output);
 
-    CUTS_BE_CAPI ()->project_file_
+    this->ctx_.project_file_
       << "<classpath>" << std::endl;
 
     CUTS_String_Set::const_iterator
@@ -184,15 +180,15 @@ generate_i (const PICML::MonolithicImplementation & monoimpl)
       // Convert any environment variables defined in the JAR file.
       boost::spirit::parse (iter->c_str (), env_parser);
 
-      CUTS_BE_CAPI ()->project_file_
+      this->ctx_.project_file_
         << "<pathelement location=\"" << output << "\" />" << std::endl;
     }
 
-    CUTS_BE_CAPI ()->project_file_
+    this->ctx_.project_file_
       << "</classpath>" << std::endl;
   }
 
-  CUTS_BE_CAPI ()->project_file_
+  this->ctx_.project_file_
     << std::endl
     << "<!-- main class file (contains child classes) -->" << std::endl
     << "<include name=\"" << name << ".java\" />" << std::endl
@@ -217,17 +213,17 @@ generate_i (const PICML::MonolithicImplementation & monoimpl)
 }
 
 //
-// CUTS_BE_Project_Write_T::generate_i
+// CUTS_BE_Project_Write_T::generate_target_events_srcgen
 //
-void CUTS_BE_Project_Write_T <
-CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate_target_events_srcgen (void)
+void CUTS_BE_Project_Write_T <CUTS_BE_Capi::Context, CUTS_BE_Impl_Node>::
+generate_target_events_srcgen (void)
 {
-  CUTS_BE_CAPI ()->project_file_
+  this->ctx_.project_file_
     << std::endl
     << "<target name=\"events.srcgen\">";
 
   const CUTS_String_Set & eventset =
-    CUTS_BE_CAPI ()->impl_node_->maplist_["events"];
+    this->ctx_.impl_node_->maplist_["events"];
 
   std::string path;
 
@@ -239,7 +235,7 @@ CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate_target_events_srcgen (void)
     path = *iter;
     std::replace (path.begin (), path.end (), '.', '/');
 
-    CUTS_BE_CAPI ()->project_file_
+    this->ctx_.project_file_
       << std::endl
       << "<!-- eventtype : " << *iter << ".xsd -->" << std::endl
       << "<delete includeemptydirs=\"true\" verbose=\"true\">" << std::endl
@@ -260,35 +256,30 @@ CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate_target_events_srcgen (void)
       << "</java>" << std::endl;
   }
 
-  CUTS_BE_CAPI ()->project_file_
+  this->ctx_.project_file_
     << "</target>" << std::endl;
 }
 
 //
 // CUTS_BE_Project_File_End_T
 //
-bool CUTS_BE_Project_File_End_T <
-CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate (const CUTS_BE_Impl_Node & node)
+void CUTS_BE_Project_File_End_T <CUTS_BE_Capi::Context, CUTS_BE_Impl_Node>::
+generate (const CUTS_BE_Impl_Node & node)
 {
   std::string name = node.container_.name ();
 
-  CUTS_BE_CAPI ()->project_file_
+  this->ctx_.project_file_
     << "</project>" << std::endl
     << std::endl
     << "<!-- end of auto-generated file -->" << std::endl;
-
-  return true;
 }
 
 //
 // CUTS_BE_Project_File_Close_T
 //
-void CUTS_BE_Project_File_Close_T <
-CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate (void)
+void CUTS_BE_Project_File_Close_T <CUTS_BE_Capi::Context, CUTS_BE_Impl_Node>::
+generate (void)
 {
-  if (CUTS_BE_CAPI ()->project_file_.is_open ())
-  {
-    CUTS_BE_CAPI ()->project_formatter_.reset ();
-    CUTS_BE_CAPI ()->project_file_.close ();
-  }
+  this->ctx_.project_formatter_.reset ();
+  this->ctx_.project_file_.close ();
 }

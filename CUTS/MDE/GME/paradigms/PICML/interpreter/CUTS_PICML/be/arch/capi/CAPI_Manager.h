@@ -21,7 +21,7 @@
 #include "CAPI_Generators.h"
 #include "../../BE_Manager_T.h"
 
-typedef CUTS_BE_Manager_T <CUTS_BE_Capi>
+typedef CUTS_BE_Manager_T <CUTS_BE_Capi::Context>
                            CUTS_BE_CAPI_Manager;
 
 #endif  // !defined _CUTS_BE_CAPI_MANAGER_H_

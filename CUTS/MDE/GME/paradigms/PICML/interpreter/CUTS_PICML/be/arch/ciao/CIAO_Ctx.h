@@ -31,7 +31,6 @@ struct CUTS_BE_Ciao : public CUTS_BE_CCM::Cpp::Context
   /// Type definition of the behavior type.
   typedef CUTS_BE_CPP::Context behavior_type;
 
-
   /// Type definition for a collection of nodes.
   typedef std::set <const CUTS_BE_IDL_Node *> IDL_Node_Set;
 

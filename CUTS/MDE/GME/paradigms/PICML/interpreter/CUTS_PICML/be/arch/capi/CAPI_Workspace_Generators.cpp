@@ -1,6 +1,11 @@
 // $Id$
 
 #include "CAPI_Workspace_Generators.h"
+
+#if !defined (__CUTS_INLINE__)
+#include "CAPI_Workspace_Generators.inl"
+#endif
+
 #include "../../BE_Options.h"
 #include "../../BE_Impl_Node.h"
 #include <sstream>
@@ -8,7 +13,7 @@
 //
 // CUTS_BE_Workspace_File_Open_T
 //
-bool CUTS_BE_Workspace_File_Open_T <CUTS_BE_Capi>::
+void CUTS_BE_Workspace_File_Open_T <CUTS_BE_Capi::Context>::
 generate (const std::string & name)
 {
   std::ostringstream filename;
@@ -16,26 +21,22 @@ generate (const std::string & name)
     << CUTS_BE_OPTIONS ()->output_directory_
     << "/" << name << ".build";
 
-  CUTS_BE_CAPI ()->workspace_file_.open (filename.str ().c_str ());
+  this->ctx_.workspace_file_.open (filename.str ().c_str ());
 
-  if (!CUTS_BE_CAPI ()->workspace_file_.is_open ())
-    return false;
+  if (!this->ctx_.workspace_file_.is_open ())
+    return;
 
   // Create a formatter for the XML file.
-  CUTS_BE_CAPI ()->workspace_formatter_.reset (
-    new CUTS_BE_Capi::_project_formatter_type (
-    CUTS_BE_CAPI ()->workspace_file_));
-
-  return true;
+  this->ctx_.workspace_formatter_.reset (
+    new CUTS_BE_Capi::Context::xml_formatter_type (this->ctx_.workspace_file_));
 }
 
 //
 // CUTS_BE_Workspace_Begin_T
 //
-bool CUTS_BE_Workspace_Begin_T <CUTS_BE_Capi>::
-generate (const std::string & name)
+void CUTS_BE_Workspace_Begin_T <CUTS_BE_Capi::Context>::generate (const std::string & name)
 {
-  CUTS_BE_CAPI ()->workspace_file_
+  this->ctx_.workspace_file_
     << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" << std::endl
     << "<project name=\"" << name << ".build\" basedir=\".\" "
     << "default=\"build.all\">" << std::endl
@@ -45,63 +46,57 @@ generate (const std::string & name)
     << "<target name=\"build.impl\"";
 
   // Determine if we need to build events in this project.
-  if (!CUTS_BE_CAPI ()->workspace_events_.empty ())
-    CUTS_BE_CAPI ()->workspace_file_ << " depends=\"build.events\"";
+  if (!this->ctx_.workspace_events_.empty ())
+    this->ctx_.workspace_file_ << " depends=\"build.events\"";
 
-  CUTS_BE_CAPI ()->workspace_file_
+  this->ctx_.workspace_file_
     << ">" << std::endl;
-
-  return true;
 }
 
 //
 // CUTS_BE_Workspace_Project_Include_T
 //
-bool CUTS_BE_Workspace_Project_Include_T <
-CUTS_BE_Capi, CUTS_BE_Impl_Node>::generate (const CUTS_BE_Impl_Node & node)
+void CUTS_BE_Workspace_Project_Include_T <CUTS_BE_Capi::Context, CUTS_BE_Impl_Node>::
+generate (const CUTS_BE_Impl_Node & node)
 {
   std::string name (node.container_.name ());
 
   // Insert the ANT file for building the project.
-  CUTS_BE_CAPI ()->workspace_file_
+  this->ctx_.workspace_file_
     << "<ant antfile=\"" << name << ".build\" dir=\".\" />" << std::endl;
-
-  return true;
 }
 
 //
 // CUTS_BE_Workspace_End_T
 //
-bool CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::
+void CUTS_BE_Workspace_End_T <CUTS_BE_Capi::Context>::
 generate (const std::string & name)
 {
   // Force the generation of the project that will
-  CUTS_BE_CAPI ()->workspace_file_ << "</target>" << std::endl;
+  this->ctx_.workspace_file_ << "</target>" << std::endl;
 
-  if (!CUTS_BE_CAPI ()->workspace_events_.empty ())
+  if (!this->ctx_.workspace_events_.empty ())
   {
-    CUTS_BE_CAPI ()->workspace_file_
+    this->ctx_.workspace_file_
       << std::endl
       << "<target name=\"build.events\">" << std::endl;
 
-    CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::generate_eventtypes_project ();
+    CUTS_BE_Workspace_End_T <CUTS_BE_Capi::Context>::generate_eventtypes_project ();
 
-    CUTS_BE_CAPI ()->workspace_file_
+    this->ctx_.workspace_file_
       << "</target>" << std::endl;
   }
 
-  CUTS_BE_CAPI ()->workspace_file_
+  this->ctx_.workspace_file_
     << "</project>" << std::endl
     << std::endl
     << "<!-- end of auto-generated file -->" << std::endl;
-
-  return true;
 }
 
 //
 // CUTS_BE_Workspace_End_T::generate_eventtypes_project
 //
-void CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::
+void CUTS_BE_Workspace_End_T <CUTS_BE_Capi::Context>::
 generate_eventtypes_project (void)
 {
   // Construct the name of the build file for events.
@@ -154,19 +149,19 @@ generate_eventtypes_project (void)
   outfile.close ();
 
   // Place the jbi.eventtype.build file in the top-level ANT script.
-  CUTS_BE_CAPI ()->workspace_file_
+  this->ctx_.workspace_file_
     << "<ant antfile=\"jbi.eventtypes.build\" dir=\".\" />" << std::endl;
 }
 
 //
 // CUTS_BE_Workspace_End_T::generate_target_eventtypes_srcgen
 //
-void CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::
+void CUTS_BE_Workspace_End_T <CUTS_BE_Capi::Context>::
 generate_target_eventtypes_srcgen (std::ofstream & outfile)
 {
   std::set <PICML::Event>::const_iterator
-    iter = CUTS_BE_CAPI ()->workspace_events_.begin (),
-    iter_end = CUTS_BE_CAPI ()->workspace_events_.end ();
+    iter = this->ctx_.workspace_events_.begin (),
+    iter_end = this->ctx_.workspace_events_.end ();
 
   std::string pathname, scope_name;
 
@@ -176,8 +171,8 @@ generate_target_eventtypes_srcgen (std::ofstream & outfile)
 
   for ( ; iter != iter_end; ++ iter)
   {
-    pathname = CUTS_BE_CAPI ()->fq_name (*iter, '/');
-    scope_name = CUTS_BE_CAPI ()->fq_name (*iter, '.');
+    pathname = CUTS_BE_Java::fq_type (*iter, "/", false);
+    scope_name = CUTS_BE_Java::fq_type (*iter, ".", false);
 
     outfile
       << std::endl
@@ -209,12 +204,12 @@ generate_target_eventtypes_srcgen (std::ofstream & outfile)
 //
 // CUTS_BE_Workspace_End_T::generate_target_eventtypes_build
 //
-void CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::
+void CUTS_BE_Workspace_End_T <CUTS_BE_Capi::Context>::
 generate_target_eventtypes_build (std::ofstream & outfile)
 {
   std::set <PICML::Event>::const_iterator
-    iter = CUTS_BE_CAPI ()->workspace_events_.begin (),
-    iter_end = CUTS_BE_CAPI ()->workspace_events_.end ();
+    iter = this->ctx_.workspace_events_.begin (),
+    iter_end = this->ctx_.workspace_events_.end ();
 
   std::string pathname;
 
@@ -226,7 +221,7 @@ generate_target_eventtypes_build (std::ofstream & outfile)
 
   for ( ; iter != iter_end; ++ iter)
   {
-    pathname = CUTS_BE_CAPI ()->fq_name (*iter, '/');
+    pathname = CUTS_BE_Java::fq_type (*iter, "/", false);
 
     outfile
       << "<include name=\"" << pathname << "/*.java\" />";
@@ -240,12 +235,12 @@ generate_target_eventtypes_build (std::ofstream & outfile)
 //
 // CUTS_BE_Workspace_End_T::generate_target_eventtypes_jar_build
 //
-void CUTS_BE_Workspace_End_T <CUTS_BE_Capi>::
+void CUTS_BE_Workspace_End_T <CUTS_BE_Capi::Context>::
 generate_target_eventtypes_jar_build (std::ofstream & outfile)
 {
   std::set <PICML::Event>::const_iterator
-    iter = CUTS_BE_CAPI ()->workspace_events_.begin (),
-    iter_end = CUTS_BE_CAPI ()->workspace_events_.end ();
+    iter = this->ctx_.workspace_events_.begin (),
+    iter_end = this->ctx_.workspace_events_.end ();
 
   std::string pathname, scope_name;
 
@@ -260,8 +255,8 @@ generate_target_eventtypes_jar_build (std::ofstream & outfile)
 
   for ( ; iter != iter_end; ++ iter)
   {
-    pathname = CUTS_BE_CAPI ()->fq_name (*iter, '/');
-    scope_name = CUTS_BE_CAPI ()->fq_name (*iter, '.');
+    pathname = CUTS_BE_Java::fq_type (*iter, "/", false);
+    scope_name = CUTS_BE_Java::fq_type (*iter, ".", false);
 
     outfile
       << std::endl
@@ -277,11 +272,8 @@ generate_target_eventtypes_jar_build (std::ofstream & outfile)
 //
 // CUTS_BE_Workspace_File_Close_T
 //
-void CUTS_BE_Workspace_File_Close_T <CUTS_BE_Capi>::generate (void)
+void CUTS_BE_Workspace_File_Close_T <CUTS_BE_Capi::Context>::generate (void)
 {
-  if (CUTS_BE_CAPI ()->workspace_file_.is_open ())
-  {
-    CUTS_BE_CAPI ()->workspace_formatter_.reset ();
-    CUTS_BE_CAPI ()->workspace_file_.close ();
-  }
+  this->ctx_.workspace_formatter_.reset ();
+  this->ctx_.workspace_file_.close ();
 }
