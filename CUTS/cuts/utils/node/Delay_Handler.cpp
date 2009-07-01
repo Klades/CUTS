@@ -1,16 +1,26 @@
-// $Id $
+// $Id$
 
 #include "Delay_Handler.h"
+
+#if !defined (__CUTS_INLINE__)
+#include "Delay_Handler.inl"
+#endif
+
+#include "ace/Reactor.h"
+#include "ace/CORBA_macros.h"
 
 //
 // CUTS_Delay_Handler
 //
-CUTS_Delay_Handler::
-CUTS_Delay_Handler (ACE_Barrier * delay_end_barrier)
-: timer_queue_ (),
-  delay_end_barrier_ (delay_end_barrier),
-  active_ (false)
+CUTS_Delay_Handler::CUTS_Delay_Handler (void)
+: is_ready_ (mutex_)
 {
+  ACE_Reactor * reactor = 0;
+  ACE_NEW_THROW_EX (reactor,
+                    ACE_Reactor (),
+                    ACE_bad_alloc ());
+
+  this->reactor (reactor);
 }
 
 //
@@ -18,71 +28,89 @@ CUTS_Delay_Handler (ACE_Barrier * delay_end_barrier)
 //
 CUTS_Delay_Handler::~CUTS_Delay_Handler (void)
 {
-  if (this->active_)
-  {
-    this->timer_queue_.deactivate ();
-  }
+  // Close the handler.
+  this->close ();
+
+  // Delete the reactor.
+  ACE_Reactor * reactor = this->reactor ();
+  this->reactor (0);
+
+  delete reactor;
+}
+
+//
+// close
+//
+void CUTS_Delay_Handler::close (void)
+{
+  // Make sure the reactors event loop is done.
+  if (!this->reactor ()->reactor_event_loop_done ())
+    this->reactor ()->end_reactor_event_loop ();
+
+  // Wait for all threads to exit.
+  this->wait ();
 }
 
 //
 // schedule
 //
-long CUTS_Delay_Handler::schedule (double delay)
+int CUTS_Delay_Handler::schedule (double d)
 {
-  // If the object is activated, schedule the delay.
+  // Schedule the delay with the reactor.
+  ACE_Time_Value delay;
+  delay.set (d);
 
-  if (this->active_)
-  {
-    ACE_Time_Value timeout;
-    timeout.set (delay);
-
-    ACE_Time_Value cur_time = ACE_OS::gettimeofday ();
-
-    return this->timer_queue_.schedule (this, 0, cur_time + timeout);
-  }
-
-  return -1;
+  this->timer_id_ = this->reactor ()->schedule_timer (this, 0, delay);
+  return -1 != this->timer_id_ ? 0 : -1;
 }
 
 //
 // handle_exit
 //
-int CUTS_Delay_Handler::handle_exit (ACE_Process * process)
+int CUTS_Delay_Handler::handle_exit (ACE_Process *)
 {
-  ACE_UNUSED_ARG (process);
-  return this->delay_end_barrier_->wait ();
+  ACE_ERROR ((LM_WARNING,
+              ACE_TEXT ("%T (%t) - %M - process finished before delay\n")));
+
+  // First, cancel the timer.
+  this->reactor ()->cancel_timer (this->timer_id_);
+  this->timer_id_ = -1;
+
+  // Notify all threads waiting for timeout to complete.
+  ACE_GUARD_RETURN (ACE_Thread_Mutex, guard, this->mutex_, -1);
+  this->is_ready_.broadcast ();
+
+  return 0;
 }
 
 //
 // handle_timeout
 //
 int CUTS_Delay_Handler::
-handle_timeout (const ACE_Time_Value & tv, const void * act)
+handle_timeout (const ACE_Time_Value & , const void * )
 {
-  ACE_UNUSED_ARG (tv);
-  ACE_UNUSED_ARG (act);
+  // Reset the timer id.
+  this->timer_id_ = -1;
 
-  return this->delay_end_barrier_->wait ();
+  // Notify all threads waiting for timeout to complete.
+  ACE_GUARD_RETURN (ACE_Thread_Mutex, guard, this->mutex_, -1);
+  this->is_ready_.broadcast ();
+
+  return 0;
 }
 
 //
-// activate
+// svc
 //
-int CUTS_Delay_Handler::activate (void)
+int CUTS_Delay_Handler::svc (void)
 {
-  ACE_Task_Base::activate ();
+  // Set the owner of the reactor.
+  this->reactor ()->owner (ACE_OS::thr_self ());
 
-  int retval = timer_queue_.activate ();
-  this->active_ = retval != -1;
-  return retval;
-}
+  if (-1 == this->reactor ()->run_reactor_event_loop ())
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - failed to run reactor event loop\n")),
+                       -1);
 
-//
-// deactivate
-//
-void CUTS_Delay_Handler::deactivate (void)
-{
-  timer_queue_.deactivate ();
-  this->close ();
-  this->active_ = false;
+  return 0;
 }

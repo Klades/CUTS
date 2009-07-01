@@ -103,9 +103,9 @@ private:
   typedef ACE_Hash_Map_Manager <ACE_CString,
                                 CUTS_Process_Info *,
                                 ACE_RW_Thread_Mutex> Process_Map;
-  
+
   /// This process suspends the node daemon for <delay> seconds
-  void delay_processor (double delay);
+  int delay_processor (double delay);
 
   /// Mapping of task names to their process ids.
   Process_Map process_map_;
@@ -118,7 +118,7 @@ private:
 
   /// Common process options used by the daemon.
   ACE_Process_Options p_options_;
-  
+
   /// The timer queue for the periodic task.
   ACE_Thread_Timer_Queue_Adapter <ACE_Timer_Heap> timer_queue_;
 
@@ -138,14 +138,14 @@ private:
   ACE_CString init_dir_;
 
   /// Property map for the node daemon.
-  CUTS_Property_Map prop_map_;  
-  
+  CUTS_Property_Map prop_map_;
+
   /// Mutex for initializing the condition_variable
  // ACE_Thread_Mutex delay_mutex;
-  
-  /// Condition used to initiate blocking-wait for delay 
+
+  /// Condition used to initiate blocking-wait for delay
   //ACE_Condition<ACE_Thread_Mutex> delay_end_cond;
-  
+
 };
 
 #if defined (__CUTS_INLINE__)

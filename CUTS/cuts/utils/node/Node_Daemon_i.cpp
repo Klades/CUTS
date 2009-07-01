@@ -49,11 +49,11 @@ CUTS_Node_Daemon_i::~CUTS_Node_Daemon_i (void)
 {
   // Deactivate the event handler.
   this->event_handler_.deactivate ();
-  
+
   // Deactivate the timer queue for the daemon.
   this->timer_queue_.deactivate ();
   this->timer_queue_.cancel (this->timer_);
-  
+
 }
 
 //
@@ -72,7 +72,7 @@ task_spawn (const CUTS::taskDescriptor & task)
                        task.id.in ()),
                        1);
   }
-  
+
   CUTS_Process_Info * info = 0;
   ACE_NEW_THROW_EX (info, CUTS_Process_Info (), CORBA::NO_MEMORY ());
   ACE_Auto_Ptr <CUTS_Process_Info> auto_clean (info);
@@ -197,7 +197,7 @@ task_spawn (const CUTS::taskDescriptor & task)
   info->options_.set_handles (ACE_INVALID_HANDLE,
                               stdout_handle.get_handle (),
                               stderr_handle.get_handle ());
-	
+
   // Spawn the new task and register the <event_handler_> as the
   // notifier for process termination.
   int retval = this->task_spawn_i (*info);
@@ -556,14 +556,11 @@ duplicate_defualt_process_options (ACE_Process_Options & opts)
 int CUTS_Node_Daemon_i::
 task_spawn_i (CUTS_Process_Info & info)
 {
-  if (info.delay_ > 0)
-  {    
-    ACE_DEBUG ((LM_INFO,
-                "%T (%t) - %M - Task %s will be started after %f seconds\n",
-                info.id_.c_str (),
-                info.delay_));
-    
-    this->delay_processor (info.delay_);
+  if (info.delay_ > 0.0)
+  {
+    if (-1 == this->delay_processor (info.delay_))
+      ACE_ERROR ((LM_ERROR,
+                  ACE_TEXT ("%T (%t) - %M - failed to delay process\n")));
   }
 
   // Spawn the new task and register the <event_handler_> as the
@@ -602,22 +599,32 @@ task_spawn_i (CUTS_Process_Info & info)
 //
 // delay_processor
 //
-void CUTS_Node_Daemon_i::delay_processor (double delay)
+int CUTS_Node_Daemon_i::delay_processor (double delay)
 {
- // ACE_Barrier use to synchronize main thread with the delay thread
-  ACE_Barrier delay_barrier (2);
-  CUTS_Delay_Handler delay_handler (&delay_barrier);
-  
-  int retval = delay_handler.activate ();
-  
-  if (retval != -1)
-  {
-    delay_handler.schedule (delay);
-    
-    delay_barrier.wait ();
+  CUTS_Delay_Handler delay_handler;
 
-    delay_handler.deactivate ();
-  }  
+  ACE_DEBUG ((LM_INFO,
+              ACE_TEXT ("%T (%t) - %M - delaying process by %f second(s)\n"),
+              delay));
+
+  if (-1 == delay_handler.activate ())
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - failed to activate delay handler\n")),
+                       -1);
+
+  if (-1 == delay_handler.schedule (delay))
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - failed to schedule delay\n")),
+                       -1);
+
+  // Wait for the delay to complete.
+  if (-1 == delay_handler.wait_for_delay_completion ())
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - failed to schedule delay\n")));
+
+  // Close the handler.
+  delay_handler.close ();
+  return 0;
 }
 
 //

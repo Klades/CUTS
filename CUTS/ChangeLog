@@ -1,3 +1,24 @@
+Wed Jul  1 06:42:27 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/node/Delay_Handler.h:
+        * cuts/utils/node/Delay_Handler.inl:
+        * cuts/utils/node/Delay_Handler.cpp:
+        * cuts/utils/node/Node_Daemon_i.h:
+        * cuts/utils/node/Node_Daemon_i.cpp:
+
+          . Simplified the implementation for the delay handler and its
+            integration into the node daemon.
+
+          . Used ACE_Condition and ACE_Thread_Mutex objects instead of
+            an ACE_Barrier.
+
+          . Used the reactor of the ACE_Task_Base instead of an ACE_Time_Queue
+            object.
+
+          . Added return value checks.
+
+          . Removed several unnecessary methods.
+
 Wed Jul  1 05:24:43 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/node:
