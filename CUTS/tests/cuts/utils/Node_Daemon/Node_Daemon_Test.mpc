@@ -1,0 +1,15 @@
+project (CUTS_TestApp1) {
+  exename = CUTS_TestApp1
+
+  Source_Files {
+   TestApp1.cpp
+  }
+}
+
+project (CUTS_TestApp2) {
+  exename = CUTS_TestApp2
+
+  Source_Files {
+    TestApp2.cpp
+  }
+}

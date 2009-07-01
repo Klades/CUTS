@@ -1,3 +1,14 @@
+Wed Jul  1 16:25:35 UTC 2009  Pooja Varshneya  <varshneya_p@local>
+
+        * tests/cuts/utils/Node_Daemon:
+
+        * tests/cuts/utils/Node_Daemon/Node_Daemon_Test.mpc:
+        * tests/cuts/utils/Node_Daemon/TestApp1.cpp:
+        * tests/cuts/utils/Node_Daemon/TestApp2.cpp:
+        * tests/cuts/utils/Node_Daemon/example.config:
+
+				  . Added test application for testing Node_Daemon
+
 Wed Jul  1 06:42:27 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/node/Delay_Handler.h:
