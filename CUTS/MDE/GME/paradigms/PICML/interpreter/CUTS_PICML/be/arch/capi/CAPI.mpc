@@ -31,4 +31,36 @@ project (CUTS_BE_CAPI) : boost_base, picml_udm, cuts_be, cuts_be_java, cuts_cosm
   Inline_Files {
 
   }
+
+  verbatim (wix, component_bottom) {
+""
+"          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
+"                   Id='generator.CAPI'"
+"                   File='[INSTALLDIR]bin\\cuts.config'"
+"                   ElementPath='\/\/cuts:modelgen\/backend'"
+"                   Action='createElement'"
+"                   Name='cuts:generator'"
+"                   Sequence='1'"
+"                   Permanent='no' />"
+""
+"          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
+"                   Id='generator.CAPI.id'"
+"                   File='[INSTALLDIR]bin\\cuts.config'"
+"                   ElementPath='\/\/cuts:modelgen\/backend\/cuts:generator[\\[]not(@id)[\\]]'"
+"                   Action='setValue'"
+"                   Name='id'"
+"                   Value='CAPI'"
+"                   Permanent='no'"
+"                   Sequence='2' />"
+""
+"          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
+"                   Id='generator.CAPI.location'"
+"                   File='[INSTALLDIR]bin\\cuts.config'"
+"                   Action='createElement'"
+"                   ElementPath='\/\/cuts:modelgen\/backend\/cuts:generator[\\[]@id=\"CAPI\"[\\]]'"
+"                   Name='cuts:location'"
+"                   Sequence='3'"
+"                   Permanent='no'"
+"                   Value='[INSTALLDIR]bin\\CUTS_BE_CAPI' />"
+  }
 }

@@ -43,6 +43,7 @@ load (const std::string & id,
 
   // Save the last error message.
   this->error_msg_ = be_dll.error ();
+  this->error_msg_ += " [" + module + "]";
   return false;
 }
 

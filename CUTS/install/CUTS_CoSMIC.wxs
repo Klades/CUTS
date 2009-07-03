@@ -26,7 +26,15 @@
 
       <Directory Id="ProgramFilesFolder" Name="Program Files">
         <Directory Id="ISIS" Name="ISIS">
-          <Directory Id="INSTALLDIR" Name="CUTS" />
+          <Directory Id="INSTALLDIR" Name="CUTS">
+            <Component Id="CUTS_ROOT" Guid="B2E31064-65DF-49C3-B6C6-F93C8846C2DA">
+              <!-- location of the install -->
+              <Environment Id="PATH" Name="PATH" Part="last" System="yes" Value="[INSTALLDIR]bin" Action="set" />
+              <RegistryKey Root="HKLM" Key="SOFTWARE\CUTS" Action="createAndRemoveOnUninstall">
+                <RegistryValue Type="string" Value="[INSTALLDIR]" Action="write" />
+              </RegistryKey>
+            </Component>
+          </Directory>
         </Directory>
       </Directory>
     </Directory>
@@ -37,6 +45,8 @@
              Description="Installs the default CUTS modeling tools for CoSMIC"
              Level="1" ConfigurableDirectory="INSTALLDIR"
              AllowAdvertise="no">
+      <!-- main component -->
+      <ComponentRef Id="CUTS_ROOT" />
 
       <!-- gather all the CUTS related components -->
       <ComponentGroupRef Id="CUTS_CoSMIC" Primary="yes" />

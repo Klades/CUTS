@@ -4,6 +4,6 @@ project : aceexe, cuts_base {
   install = $(CUTS_ROOT)/bin
 
   specific (wix) {
-    target_directory = bin
+    install_location = bin
   }
 }

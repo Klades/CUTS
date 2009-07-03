@@ -22,7 +22,6 @@ project (CUTS_Isislab_Emulation) : \
     gme_progid      = CUTS.Interpreter.Isislab.Emulation
     gme_uuid        = CB4182B9-86E9-4580-96DA-2CA0234795BC
     gme_paradigms   = PICML
-    gme_has_icon    = 1
     gme_description = CUTS ISISLab emulation interepter
     gme_tooltip     = CUTS ISISLab emulation interepter
   }

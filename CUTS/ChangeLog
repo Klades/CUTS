@@ -1,3 +1,27 @@
+Fri Jul  3 03:29:36 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * CUTS_CoSMIC.mwc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Manager_Factory_Repo.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Manager_Factory.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/tcpip.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.mpc:
+        * MDE/GME/paradigms/PICML/models/CAPI.xme:
+        * MDE/GME/paradigms/PICML/models/XMLSchema.xme:
+        * MDE/GME/paradigms/PICML/models/examples/capi/AnyEvent.xme:
+        * MPC/config/cutsexe.mpb:
+        * MPC/config/cutslib.mpb:
+        * install/CUTS_CoSMIC.mwc:
+        * install/CUTS_CoSMIC.wxs:
+
+          . Fixed build and install errors related to update to Visual Studio
+            2005 as the default build engine.
+
+        * install/CUTS_PICML.wxs.old:
+
+          Removed this file.
+
 Wed Jul  1 16:25:35 UTC 2009  Pooja Varshneya  <varshneya_p@local>
 
         * tests/cuts/utils/Node_Daemon:
@@ -7,7 +31,7 @@ Wed Jul  1 16:25:35 UTC 2009  Pooja Varshneya  <varshneya_p@local>
         * tests/cuts/utils/Node_Daemon/TestApp2.cpp:
         * tests/cuts/utils/Node_Daemon/example.config:
 
-				  . Added test application for testing Node_Daemon
+                                  . Added test application for testing Node_Daemon
 
 Wed Jul  1 06:42:27 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 

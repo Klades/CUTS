@@ -12,7 +12,6 @@
 #include "XSCRT/utils/File_Reader_T.h"
 #include "XSC/utils/XML_Schema_Resolver.h"
 #include "XSC/utils/XML_Error_Handler.h"
-
 #include "boost/bind.hpp"
 
 #include "ace/Env_Value_T.h"
@@ -20,8 +19,6 @@
 
 #include <strstream>
 #include <algorithm>
-
-#define CUTS_BE_CUTS_CONFIG     "cuts.config"
 
 BEGIN_MESSAGE_MAP (Main_Dialog, CDialog)
   ON_LBN_SELCHANGE (IDC_BE_LIST, On_BE_List_SelChange)
@@ -65,8 +62,8 @@ BOOL Main_Dialog::OnInitDialog (void)
     {
       // Create the user and default configuration.
       std::ostringstream cuts_config, cuts_schema;
-      cuts_config << CUTS_ROOT << "/bin/" << CUTS_BE_CUTS_CONFIG;
-      cuts_schema << CUTS_ROOT << "/etc/schemas/";
+      cuts_config << CUTS_ROOT << "bin\\cuts.config";
+      cuts_schema << CUTS_ROOT << "etc\\schemas\\";
 
       // Create the file reader for the configuration file.
       XSCRT::utils::File_Reader_T <CUTS::Configuration> reader (&CUTS::reader::modelgen);
@@ -392,6 +389,7 @@ int Main_Dialog::resolve_CUTS_ROOT (std::string & root)
   {
     ACE_Env_Value <const char *> CUTS_ROOT ("CUTS_ROOT", "");
     root = CUTS_ROOT;
+    root += "\\";
   }
 
   return 0;

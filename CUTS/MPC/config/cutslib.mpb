@@ -5,6 +5,6 @@ project : cuts_base {
   dllout = $(CUTS_ROOT)/lib
 
   specific (wix) {
-    target_directory = lib
+    install_location = lib
   }
 }

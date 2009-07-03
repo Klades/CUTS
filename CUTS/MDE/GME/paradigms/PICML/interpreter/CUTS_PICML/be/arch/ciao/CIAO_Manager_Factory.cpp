@@ -48,7 +48,7 @@ const char * CUTS_BE_CIAO_Manager_Factory::name (void) const
 //
 const char * CUTS_BE_CIAO_Manager_Factory::description (void) const
 {
-  return __description__;
+  return "Component Integrated ACE ORB (CIAO)";
 }
 
 CUTS_BE_CREATE_MANAGER_FACTORY_IMPLEMENT (CUTS_BE_CIAO_Manager_Factory);

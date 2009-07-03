@@ -68,6 +68,6 @@ project (CUTS_BE_TCPIP) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
 "                   Name='cuts:location'"
 "                   Sequence='3'"
 "                   Permanent='no'"
-"                   Value='[INSTALLDIR]bin\\CUTS_BE_OpenSplice' />"
+"                   Value='[INSTALLDIR]bin\\CUTS_BE_TCPIP' />"
   }
 }
