@@ -22,12 +22,9 @@
  * Collection of server options that can be set via command-line
  * arguments.
  */
-class CUTS_Node_Daemon_Server_Options
+class CUTS_Node_Daemon_Options
 {
 public:
-  /// The IOR file name for the daemon.
-  ACE_CString ior_file_;
-
   /// The initial directory for starting the node daemon.
   ACE_CString init_dir_;
 

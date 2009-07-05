@@ -12,7 +12,7 @@
 // CUTS_Node_File_Reader
 //
 CUTS_Node_File_Reader::CUTS_Node_File_Reader (void)
-: reader_type (&CUTS::reader::node),
+: reader_type (&CUTS::schemas::reader::node),
   resolver_ (br_)
 {
   // Get the CUTS_ROOT environment variable value.
@@ -32,18 +32,4 @@ CUTS_Node_File_Reader::CUTS_Node_File_Reader (void)
   this->parser_->setDoSchema (true);
   this->parser_->setValidationSchemaFullChecking (true);
   this->parser_->setValidationConstraintFatal (false);
-}
-
-//
-// load
-//
-bool CUTS_Node_File_Reader::load (const ACE_CString & filename)
-{
-  // First, read the configuration file.
-  if (!reader_type::read (filename.c_str ()))
-    return false;
-
-  // Convert the XML document into its object format.
-  *this >>= this->config_;
-  return true;
 }

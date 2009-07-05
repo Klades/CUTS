@@ -39,6 +39,11 @@ public:
   /// Schedules the timer.
   int schedule (double delay);
 
+  /**
+   * @overloaded
+   */
+  int schedule (const ACE_Time_Value & delay);
+
   /// Callback routine for handling timeout.
   virtual int handle_timeout (const ACE_Time_Value & tv, const void * act);
 

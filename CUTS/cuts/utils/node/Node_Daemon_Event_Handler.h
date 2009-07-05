@@ -20,12 +20,9 @@
 // Forward decl.
 class CUTS_Node_Daemon_i;
 
-//=============================================================================
 /**
  * @class Node_Daemon_Event_Handler
  */
-//=============================================================================
-
 class Node_Daemon_Event_Handler : public ACE_Task_Base
 {
 public:

@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_Node_Xml) : xsc_cxx {
+project (CUTS_Node_Daemon_Xml) : xsc_cxx {
   custom_only = 1
 
   Modify_Custom (XSC) {
@@ -20,61 +20,26 @@ project (CUTS_Node_Xml) : xsc_cxx {
   }
 }
 
-project (cutsnode_d) : boost_base, taoserver, iortable, xscrt, cuts_utils, cutsexe {
+project (CUTS_Node_Daemon) : boost_base, xscrt, cuts_utils, cutsexe {
   exename = cutsnode_d
-
-  after += CUTS_Node_Xml
-
-  after -= CUTS
-  libs  -= CUTS
-
-  IDL_Files {
-    Node_Daemon.idl
-  }
+  after  += CUTS_Node_Xml
 
   Source_Files {
-    Active_Process.cpp
-    cutsnode_d.cpp
-    Node_Daemon_Event_Handler.cpp
-    Node_Daemon_i.cpp
-    Node_Daemon_Server.cpp
-    Node_Daemon_Server_Options.cpp
-    Node_File_Reader.cpp
-    Process_Info.cpp
-    Process_Log.cpp
     cutsnode.cpp
+    cutsnode_d.cpp
     Delay_Handler.cpp
+    Node_Daemon.cpp
+    Node_Daemon_Options.cpp
+    Node_File_Reader.cpp
+    Process_Dependency_Graph.cpp
+    Process_Options.cpp
+    Virtual_Env.cpp
   }
 
   Header_Files {
-    Process_Info.h
   }
 
-  specific (vc7, vc71, vc8, vc9) {
+  specific (prop:windows) {
     compile_flags += /wd4355
   }
 }
-
-project (cutsnode): taoclient, anytypecode, cutsexe {
-  exename  = cutsnode
-  after   += cutsnode_d
-
-  //-- remove unncessary settings
-  after -= CUTS
-  libs  -= CUTS
-
-  IDL_Files {
-
-  }
-
-  Source_Files {
-    Client_Options.cpp
-    Node_DaemonC.cpp
-    Node_Daemon_Client.cpp
-  }
-
-  Header_Files {
-
-  }
-}
-

@@ -10,20 +10,21 @@
  */
 //=============================================================================
 
-#include "ace/Singleton.h"
 #include "ace/Null_Mutex.h"
 #include "ace/Process_Mutex.h"
-#include "Node_Daemon_Server.h"
+#include "ace/Signal.h"
+#include "ace/Singleton.h"
+#include "Node_Daemon.h"
 
-#define NODE_DAEMON_SERVER \
-  ACE_Singleton <CUTS_Node_Daemon_Server, ACE_Null_Mutex>::instance ()
+#define CUTS_NODE_DAEMON \
+  ACE_Singleton <CUTS_Node_Daemon, ACE_Null_Mutex>::instance ()
 
 //
 // server_sighandler
 //
 static void server_sighandler (int sig)
 {
-  NODE_DAEMON_SERVER->shutdown ();
+  CUTS_NODE_DAEMON->shutdown ();
   ACE_UNUSED_ARG (sig);
 }
 
@@ -43,37 +44,41 @@ static void register_sighandler (void)
 //
 int main (int argc, char * argv [])
 {
+  int retval;
+
   try
   {
-    // Initialize the logging priorities.
-    u_long default_mask =
-      LM_EMERGENCY | LM_ALERT | LM_CRITICAL | LM_ERROR | LM_WARNING | LM_NOTICE;
-
-    ACE_Log_Msg::instance ()->priority_mask (default_mask, ACE_Log_Msg::PROCESS);
-
     // We only allow one instance of the daemon to run at a time. This
     // way we don't have any confusion as to which one we are talking to.
     ACE_Process_Mutex process_lock ("cutsnode_d");
     ACE_Guard <ACE_Process_Mutex> guard (process_lock, 0);
 
-    if (guard.locked () == 0)
+    if (0 == guard.locked ())
     {
       ACE_ERROR_RETURN ((LM_ERROR,
                         "%T (%t) - %M - cutsnode_d is already active\n"),
                         1);
     }
 
+    // Initialize the logging priorities.
+    u_long default_mask =
+      LM_EMERGENCY | LM_ALERT | LM_CRITICAL | LM_ERROR | LM_WARNING | LM_NOTICE;
+
+    ACE_Log_Msg::instance ()->priority_mask (default_mask, ACE_Log_Msg::PROCESS);
+
     // Register the signal handler.
     register_sighandler ();
 
     // Run the node daemon
-    return NODE_DAEMON_SERVER->run_main (argc, argv);
+    retval = CUTS_NODE_DAEMON->run_main (argc, argv);
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - caught unknown exception\n"));
+                ACE_TEXT ("%T (%t) - %M - caught unknown exception\n")));
+    retval = 1;
   }
 
-  return 1;
+  CUTS_NODE_DAEMON->close ();
+  return retval;
 }

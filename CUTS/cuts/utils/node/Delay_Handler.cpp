@@ -60,6 +60,14 @@ int CUTS_Delay_Handler::schedule (double d)
   ACE_Time_Value delay;
   delay.set (d);
 
+  return this->schedule (delay);
+}
+
+//
+// schedule
+//
+int CUTS_Delay_Handler::schedule (const ACE_Time_Value & delay)
+{
   this->timer_id_ = this->reactor ()->schedule_timer (this, 0, delay);
   return -1 != this->timer_id_ ? 0 : -1;
 }

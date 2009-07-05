@@ -1,3 +1,54 @@
+Sun Jul  5 22:44:49 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/node/Delay_Handler.h:
+        * cuts/utils/node/Delay_Handler.cpp:
+        * cuts/utils/node/Node_Daemon.h:
+        * cuts/utils/node/Node_Daemon.inl:
+        * cuts/utils/node/Node_Daemon.cpp:
+        * cuts/utils/node/Node_Daemon_Event_Handler.h:
+        * cuts/utils/node/Node_Daemon_Options.h:
+        * cuts/utils/node/Node_Daemon_Options.cpp:
+        * cuts/utils/node/Node_File_Reader.h:
+        * cuts/utils/node/Node_File_Reader.inl:
+        * cuts/utils/node/Node_File_Reader.cpp:
+        * cuts/utils/node/Process_Dependency_Graph.h:
+        * cuts/utils/node/Process_Dependency_Graph.inl:
+        * cuts/utils/node/Process_Dependency_Graph.cpp:
+        * cuts/utils/node/Process_Options.h:
+        * cuts/utils/node/Process_Options.inl:
+        * cuts/utils/node/Process_Options.cpp:
+        * cuts/utils/node/Virtual_Env.h:
+        * cuts/utils/node/Virtual_Env.inl:
+        * cuts/utils/node/Virtual_Env.cpp:
+        * cuts/utils/node/cutsnode.h:
+        * cuts/utils/node/cutsnode.inl:
+        * cuts/utils/node/cutsnode.cpp:
+        * cuts/utils/node/cutsnode_d.cpp:
+        * cuts/utils/node/cutsnode_d.mpc:
+        * etc/schemas/cutsnode.xsd:
+
+          . Re-implemented the node manager so that is not dependent
+            on CORBA
+
+          . Added support for virtual environments, which is a container
+            that hosts common processes with the same environment *settings*
+
+          . Added support for specifying process dependencies, which
+            help ensure processes are spawned in the correct order.
+
+        * cuts/utils/node/Node_Daemon_Server.h:
+        * cuts/utils/node/Node_Daemon_Server.cpp:
+        * cuts/utils/node/Node_Daemon_Server_Options.h:
+        * cuts/utils/node/Node_Daemon_Server_Options.cpp:
+        * cuts/utils/node/Process_Info.h:
+        * cuts/utils/node/Process_Info.inl:
+        * cuts/utils/node/Process_Info.cpp:
+        * cuts/utils/node/Process_Log.h:
+        * cuts/utils/node/Process_Log.inl:
+        * cuts/utils/node/Process_Log.cpp:
+
+          Removed these files.
+
 Fri Jul  3 03:29:36 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * CUTS_CoSMIC.mwc:
