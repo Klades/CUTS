@@ -469,7 +469,6 @@ namespace CUTS
       // location
       // 
       public:
-      bool location_p () const;
       ::XMLSchema::anyURI< char > const& location () const;
       ::XMLSchema::anyURI< char >& location ();
       void location (::XMLSchema::anyURI< char > const& );
@@ -480,7 +479,6 @@ namespace CUTS
       // type
       // 
       public:
-      bool type_p () const;
       ::CUTS::schemas::FileType const& type () const;
       ::CUTS::schemas::FileType& type ();
       void type (::CUTS::schemas::FileType const& );
@@ -489,7 +487,8 @@ namespace CUTS
       ::std::auto_ptr< ::CUTS::schemas::FileType > type_;
 
       public:
-      VariableImport ();
+      VariableImport (::XMLSchema::anyURI< char > const& location__,
+                      ::CUTS::schemas::FileType const& type__);
 
       VariableImport (::XSCRT::XML::Element< char > const&);
       VariableImport (VariableImport const& s);

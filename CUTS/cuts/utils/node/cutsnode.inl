@@ -1131,33 +1131,36 @@ namespace CUTS
 
     inline
     VariableImport::
-    VariableImport ()
+    VariableImport (::XMLSchema::anyURI< char > const& location__,
+                    ::CUTS::schemas::FileType const& type__)
     : 
+    location_ (new ::XMLSchema::anyURI< char > (location__)),
+    type_ (new ::CUTS::schemas::FileType (type__)),
     regulator__ ()
     {
+      location_->container (this);
+      type_->container (this);
     }
 
     inline
     VariableImport::
     VariableImport (VariableImport const& s)
     :
-    location_ (s.location_.get () ? new ::XMLSchema::anyURI< char > (*s.location_) : 0),
-    type_ (s.type_.get () ? new ::CUTS::schemas::FileType (*s.type_) : 0),
+    location_ (new ::XMLSchema::anyURI< char > (*s.location_)),
+    type_ (new ::CUTS::schemas::FileType (*s.type_)),
     regulator__ ()
     {
-      if (location_.get ()) location_->container (this);
-      if (type_.get ()) type_->container (this);
+      location_->container (this);
+      type_->container (this);
     }
 
     inline
     VariableImport& VariableImport::
     operator= (VariableImport const& s)
     {
-      if (s.location_.get ()) location (*(s.location_));
-      else location_ = ::std::auto_ptr< ::XMLSchema::anyURI< char > > (0);
+      location (s.location ());
 
-      if (s.type_.get ()) type (*(s.type_));
-      else type_ = ::std::auto_ptr< ::CUTS::schemas::FileType > (0);
+      type (s.type ());
 
       return *this;
     }
@@ -1165,13 +1168,6 @@ namespace CUTS
 
     // VariableImport
     // 
-    inline
-    bool VariableImport::
-    location_p () const
-    {
-      return location_.get () != 0;
-    }
-
     inline
     ::XMLSchema::anyURI< char > const& VariableImport::
     location () const
@@ -1190,27 +1186,11 @@ namespace CUTS
     void VariableImport::
     location (::XMLSchema::anyURI< char > const& e)
     {
-      if (location_.get ())
-      {
-        *location_ = e;
-      }
-
-      else
-      {
-        location_ = ::std::auto_ptr< ::XMLSchema::anyURI< char > > (new ::XMLSchema::anyURI< char > (e));
-        location_->container (this);
-      }
+      *location_ = e;
     }
 
     // VariableImport
     // 
-    inline
-    bool VariableImport::
-    type_p () const
-    {
-      return type_.get () != 0;
-    }
-
     inline
     ::CUTS::schemas::FileType const& VariableImport::
     type () const
@@ -1229,16 +1209,7 @@ namespace CUTS
     void VariableImport::
     type (::CUTS::schemas::FileType const& e)
     {
-      if (type_.get ())
-      {
-        *type_ = e;
-      }
-
-      else
-      {
-        type_ = ::std::auto_ptr< ::CUTS::schemas::FileType > (new ::CUTS::schemas::FileType (e));
-        type_->container (this);
-      }
+      *type_ = e;
     }
 
 

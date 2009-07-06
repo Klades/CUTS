@@ -33,6 +33,9 @@ public:
 
   /// Properties defined at the command line.
   ACE_Vector <ACE_CString> defines_;
+
+  /// The active enviroment for the node daemon.
+  ACE_CString active_env_;
 };
 
 #endif  // !defined _CUTS_NODE_DAEMON_SERVER_OPTIONS_H_

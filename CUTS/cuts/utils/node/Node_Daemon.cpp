@@ -301,6 +301,7 @@ static const char * __HELP__ =
 "Options:\n"
 "  -d, --working-directory=DIR        working directory for the daemon\n"
 "  -c, --config=FILE                  initial configuration file\n"
+"  --active-env=NAME                  set NAME as the active environment\n"
 "\n"
 "  -DNAME=VALUE                       define property NAME=VALUE\n"
 "\n"
@@ -324,6 +325,17 @@ int CUTS_Node_Daemon::run_main (int argc, char * argv [])
     ACE_ERROR_RETURN ((LM_ERROR,
                        ACE_TEXT ("%T (%t) - %M - failed to load configuration\n")),
                        -1);
+
+  // The active environment specified at the command-line overrides
+  // the one specified in the configuration file.
+  if (!this->opts_.active_env_.empty ())
+  {
+    if (0 != this->virtual_envs_.find (this->opts_.active_env_, active))
+      ACE_ERROR ((LM_ERROR,
+                  ACE_TEXT ("%T (%t) - %M - failed to located environment ")
+                  ACE_TEXT ("%s; using default specified in configuration\n"),
+                  this->opts_.active_env_.c_str ()));
+  }
 
   if (0 != active)
   {
@@ -380,6 +392,7 @@ int CUTS_Node_Daemon::parse_args (int argc, char * argv [])
   // Setup the long options for the command-line
   get_opt.long_option ("working-directory", 'd', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("config", 'c', ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("active-env", ACE_Get_Opt::ARG_REQUIRED);
 
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
@@ -416,6 +429,10 @@ int CUTS_Node_Daemon::parse_args (int argc, char * argv [])
       else if (ACE_OS::strcmp (get_opt.long_option (), "config") == 0)
       {
         this->opts_.config_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "active-env") == 0)
+      {
+        this->opts_.active_env_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
       {

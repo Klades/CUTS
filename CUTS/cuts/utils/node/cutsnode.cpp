@@ -342,14 +342,14 @@ namespace CUTS
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
         if (n == "location")
         {
-          ::XMLSchema::anyURI< char > t (a);
-          location (t);
+          location_ = ::std::auto_ptr< ::XMLSchema::anyURI< char > > (new ::XMLSchema::anyURI< char > (a));
+          location_->container (this);
         }
 
         else if (n == "type")
         {
-          ::CUTS::schemas::FileType t (a);
-          type (t);
+          type_ = ::std::auto_ptr< ::CUTS::schemas::FileType > (new ::CUTS::schemas::FileType (a));
+          type_->container (this);
         }
 
         else 
