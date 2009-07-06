@@ -356,7 +356,7 @@ load_backend_generator (const CUTS::Generators::generator_iterator::value_type &
   {
     // Display an error message for the user.
     std::ostringstream ostr;
-    ostr << "Failed to load backend <" << desc.id () << ">.\r\n"
+    ostr << "Failed to load backend <" << desc->id () << ">.\r\n"
          << this->factory_repo_.last_error_message () << "";
 
     ::AfxMessageBox (ostr.str ().c_str (),
