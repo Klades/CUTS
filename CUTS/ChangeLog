@@ -1,3 +1,17 @@
+Mon Jul  6 05:08:01 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * tests/cuts/utils/node:
+
+          . Renamed the Node_Daemon directory.
+
+        * tests/cuts/utils/Node_Daemon:
+        * tests/cuts/utils/Node_Daemon/Node_Daemon_Test.mpc:
+        * tests/cuts/utils/Node_Daemon/TestApp1.cpp:
+        * tests/cuts/utils/Node_Daemon/TestApp2.cpp:
+        * tests/cuts/utils/Node_Daemon/example.config:
+
+          Removed these files.
+
 Mon Jul  6 05:03:48 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/Property_Parser.h:
