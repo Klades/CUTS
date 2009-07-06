@@ -88,7 +88,7 @@ namespace CUTS
 
       if (n == "generator")
       {
-        ::CUTS::Generator_Description t (e);
+        ACE_Refcounted_Auto_Ptr < ::CUTS::Generator_Description, ACE_Null_Mutex >  t (new ::CUTS::Generator_Description (e));
         add_generator (t);
       }
 

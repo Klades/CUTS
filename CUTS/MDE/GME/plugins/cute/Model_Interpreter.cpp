@@ -8,6 +8,7 @@
 #endif
 
 #include "game/ComponentEx.h"
+#include "cuts/utils/Property_Map.h"
 
 //
 // handle_config
@@ -27,6 +28,17 @@ handle_config (const CUTS_Property_Map & config)
       // Load the specified interpreter.
       GME::ComponentEx interpreter (this->interpreter_.c_str ());
 
+      // Set the parameter(s) for the interpreter. This includes setting
+      // all the default parameters for the interpreter.
+      interpreter.parameter ("-non-interactive", "");
+
+      for (CUTS_Property_Map::const_iterator iter (this->params_.map ());
+           !iter.done ();
+           ++ iter)
+      {
+        interpreter.parameter (iter->key ().c_str (), iter->item ().c_str ());
+      }
+
       // Execute the interpreter.
       interpreter.invoke (this->project_,
                           this->target_,
@@ -35,7 +47,8 @@ handle_config (const CUTS_Property_Map & config)
     }
     catch (...)
     {
-
+      UINT type = MB_ICONWARNING | MB_OK;
+      ::AfxMessageBox ("caught unknown exception", type);
     }
 
     // Reset the values of the template.

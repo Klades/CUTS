@@ -6,11 +6,13 @@
 CUTS_INLINE
 CUTS_CUTE_Model_Interpreter::
 CUTS_CUTE_Model_Interpreter (CUTS_CUTE_Model_Interpreter_Action_List & actlist,
+                             CUTS_Property_Map & params,
                              GME::Project & project,
                              GME::FCO & target,
                              GME::Collection_T <GME::FCO> & selected,
                              long flags)
 : actlist_ (actlist),
+  params_ (params),
   project_ (project),
   target_ (target),
   selected_ (selected),

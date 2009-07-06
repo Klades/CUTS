@@ -20,6 +20,9 @@
 #include "ace/Unbounded_Set.h"
 #include "Interpreter_List.h"
 
+// Forward decl.
+class CUTS_Property_Map;
+
 /**
  * @class CUTS_CUTE
  *

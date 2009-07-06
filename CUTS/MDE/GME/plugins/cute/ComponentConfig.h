@@ -22,7 +22,7 @@
 
 
 // This name will appear in the popup window for interpreter selection.
-#define COMPONENT_NAME        "CUTE"
+#define COMPONENT_NAME        "CUTS Template Engine"
 
 
 // This text will appear in the toolbar icon tooltip and in the menu.

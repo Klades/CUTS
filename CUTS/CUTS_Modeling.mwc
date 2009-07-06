@@ -29,6 +29,8 @@ workspace (CUTS_CoSMIC) {
   exclude (!vc6, !vc7, !vc71, !vc8, !wix) {
     cmdline += -include $COSMIC_ROOT/MPC/config
 
+    MDE/GME/plugins
+
     noinstall {
       cmdline += -base noinstall
 
@@ -41,12 +43,6 @@ workspace (CUTS_CoSMIC) {
       cmdline += -base requires_cosmic
 
       MDE/GME/paradigms/PICML
-
-      noinstall {
-        cmdline += -base noinstall
-
-        MDE/naomi/GME
-      }
 
       static {
         cmdline += -static -base noinstall

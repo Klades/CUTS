@@ -8,11 +8,51 @@
 #include "Model_Interpreter_Action_List.h"
 #include "Property_Locator.h"
 #include "Windows_Registry.h"
+
 #include "game/be/ComponentDLL.h"
 #include "cuts/utils/Config_List_Parser_T.h"
+
+#include "ace/Arg_Shifter.h"
+#include "ace/ARGV.h"
+
 #include <sstream>
 
 GME_RAWCOMPONENT_IMPL (CUTE, COMPONENT_NAME);
+
+//
+// operator <<= (CUTS_Property_Map & , const CString & )
+//
+bool operator <<= (CUTS_Property_Map & map, const CString & params)
+{
+  // Convert the string into an argv list.
+  ACE_ARGV_T <char> argv (params.GetString (), true);
+
+  // Initialize the shifter with the argv list.
+  int argc = argv.argc ();
+  ACE_Arg_Shifter_T <char> shifter (argc, argv.argv ());
+
+  // Parse the command-line arguments using the shifter.
+  const char * option, * value;
+
+  while (shifter.is_anything_left ())
+  {
+    // Get the next option in the argument vector.
+    while (shifter.is_anything_left () && !shifter.is_option_next ())
+      shifter.consume_arg ();
+
+    if (shifter.is_anything_left ())
+    {
+      // Get the current option and its value.
+      option = shifter.get_current ();
+      value = shifter.get_the_parameter (option);
+
+      // Insert the values into map.
+      map[option] = 0 != value ? value : "";
+    }
+  }
+
+  return true;
+}
 
 //
 // CUTS_CUTE
@@ -54,7 +94,13 @@ int CUTS_CUTE::invoke_ex (GME::Project & project,
 
     if (IDOK == dialog.DoModal ())
     {
-      // First, locate all attributes with a template parameter. We are
+      // First, let's convert the parameters into a property map. This
+      // way it will be a LOT easier to pass the configuration to the
+      // selected model interpreter.
+      CUTS_Property_Map params;
+      params <<= dialog.parameters ();
+
+      // Next, locate all attributes with a template parameter. We are
       // going to cache the elements for later.
       project.begin_transaction ();
       CUTS_CUTE_Model_Interpreter_Action_List actlist;
@@ -62,10 +108,12 @@ int CUTS_CUTE::invoke_ex (GME::Project & project,
       project.root_folder ().accept (locator);
       project.commit_transaction ();
 
-      // Second, parse the configuration file specified by the end-user
+      // Then, parse the configuration file specified by the end-user
       // in the dialog. After parsing each configuration, we will
       // interpret the model using the configuration.
+
       CUTS_CUTE_Model_Interpreter interpreter (actlist,
+                                               params,
                                                project,
                                                target,
                                                selected,
@@ -80,9 +128,7 @@ int CUTS_CUTE::invoke_ex (GME::Project & project,
       parser.parse (dialog.configuration_filename ().GetString ());
     }
 
-    // Commit the existing transaction.
-    project.commit_transaction ();
-
+    ::AfxMessageBox ("Successfully applied template configurations");
     return 0;
   }
   catch (const GME::Failed_Result & ex)
@@ -96,9 +142,6 @@ int CUTS_CUTE::invoke_ex (GME::Project & project,
   catch (const GME::Exception & )
   {
   }
-
-  // Abort the current transaction.
-  project.abort_transaction ();
 
   return -1;
 }

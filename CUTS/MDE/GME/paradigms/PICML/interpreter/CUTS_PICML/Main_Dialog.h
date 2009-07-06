@@ -17,6 +17,7 @@
 struct CUTS_BE_Options;
 
 #include "be/BE_Manager_Factory_Repo.h"
+#include "modelgen.h"
 
 // Forward decl.
 class CUTS_BE_Manager_Factory;
@@ -77,7 +78,7 @@ protected:
 private:
   DECLARE_MESSAGE_MAP ();
 
-  void load_backend_generator (const CUTS::Generator_Description & desc);
+  void load_backend_generator (const CUTS::Generators::generator_iterator::value_type & desc);
 
   void init_generators (const CUTS::Configuration & config);
 

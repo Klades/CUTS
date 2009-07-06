@@ -1,0 +1,22 @@
+README
+
+I. OVERVIEW
+----------------------------------
+This example illustrates using the CUTS Template Engine (CUTE)
+in a simple PICML model. In this example, CUTE is used to generate
+different deployment and configuration descriptors for DAnCE
+that have different hertz values.
+
+II. FILES
+----------------------------------
+. SimpleExample.xme : exported version of PICML model
+. example.config : configuration used to generate concrete descriptors
+
+III. USAGE
+----------------------------------
+. Import the SimpleExample.xme into GME
+. Run the CUTE add-on (has the <T> image)
+. Select example.config for *Configuration*
+. Select DeploymentPlan from the interpreter dropdown list
+. Enter '-o E:\TEMP' for Parameters
+. Click OK

@@ -1,3 +1,51 @@
+Mon Jul  6 21:34:46 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * CUTS.mwc:
+        * CUTS_Modeling.mwc:
+
+          . Renamed the CUTS modeling workspace.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/modelgen.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/modelgen.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/modelgen.cpp:
+
+          . Updated to the latest version of XSC.
+
+        * MDE/GME/plugins/cute/CUTE_Dialog.h:
+        * MDE/GME/plugins/cute/CUTE_Dialog.inl:
+        * MDE/GME/plugins/cute/CUTE_Dialog.cpp:
+        * MDE/GME/plugins/cute/CUTS_CUTE.rc:
+        * MDE/GME/plugins/cute/ComponentConfig.h:
+        * MDE/GME/plugins/cute/Model_Interpreter.h:
+        * MDE/GME/plugins/cute/Model_Interpreter.inl:
+        * MDE/GME/plugins/cute/Model_Interpreter.cpp:
+        * MDE/GME/plugins/cute/RawComponent.h:
+        * MDE/GME/plugins/cute/RawComponent.cpp:
+        * MDE/GME/plugins/cute/resource.h:
+
+          . First complete version of CUTE with integrated support into
+            GME and the ability to fully automate interpreters using
+            paremeters.
+
+        * examples/MDE:
+        * examples/MDE/GME:
+        * examples/MDE/GME/addons:
+        * examples/MDE/GME/addons/CUTE:
+        * examples/MDE/GME/addons/CUTE/README:
+        * examples/MDE/GME/addons/CUTE/SimpleExample.xme:
+        * examples/MDE/GME/addons/CUTE/example.config:
+
+          . Simple example illustrating how to use CUTE.
+
+        * examples/cuts/utils/node/DAnCE/environment.txt:
+
+          . Rename of an previously existing file.
+
+        * CUTS_CoSMIC.mwc:
+        * examples/cuts/utils/node/DAnCE/environment.tex:
+
+          Removed these files.
+
 Mon Jul  6 06:41:33 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/node/Node_Daemon.cpp:

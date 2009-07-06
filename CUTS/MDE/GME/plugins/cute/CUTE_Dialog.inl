@@ -56,3 +56,12 @@ const CString & CUTS_CUTE_Dialog::configuration_filename (void) const
 {
   return this->config_file_;
 }
+
+//
+// parameters
+//
+CUTS_INLINE
+const CString & CUTS_CUTE_Dialog::parameters (void) const
+{
+  return this->parameters_;
+}

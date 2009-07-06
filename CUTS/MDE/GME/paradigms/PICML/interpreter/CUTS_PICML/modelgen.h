@@ -14,11 +14,17 @@ namespace CUTS
 #include <list>
 #include "XMLSchema/Types.hpp"
 
+#include "ace/Refcounted_Auto_Ptr.h"
+#include "ace/Null_Mutex.h"
+
 namespace CUTS
 {
   class Generator_Description : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
+
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < Generator_Description, ACE_Null_Mutex > _ptr;
 
     // location
     // 
@@ -58,6 +64,9 @@ namespace CUTS
   {
     typedef ::XSCRT::Type Base;
 
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < Configuration, ACE_Null_Mutex > _ptr;
+
     // backend
     // 
     public:
@@ -86,20 +95,23 @@ namespace CUTS
   {
     typedef ::XSCRT::Type Base;
 
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < Generators, ACE_Null_Mutex > _ptr;
+
     // generator
     // 
     public:
-    typedef ::std::list< ::CUTS::Generator_Description >::iterator generator_iterator;
-    typedef ::std::list< ::CUTS::Generator_Description >::const_iterator generator_const_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::Generator_Description, ACE_Null_Mutex > >::iterator generator_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::Generator_Description, ACE_Null_Mutex > >::const_iterator generator_const_iterator;
     generator_iterator begin_generator ();
     generator_iterator end_generator ();
     generator_const_iterator begin_generator () const;
     generator_const_iterator end_generator () const;
-    void add_generator (::CUTS::Generator_Description const& );
+    void add_generator ( ACE_Refcounted_Auto_Ptr < ::CUTS::Generator_Description, ACE_Null_Mutex > const& );
     size_t count_generator (void) const;
 
     protected:
-    ::std::list< ::CUTS::Generator_Description > generator_;
+    ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::Generator_Description, ACE_Null_Mutex > > generator_;
 
     public:
     Generators ();

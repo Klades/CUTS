@@ -43,6 +43,7 @@ void CUTS_CUTE_Dialog::DoDataExchange (CDataExchange * pDX)
 
   DDX_CBString (pDX, IDC_INTERPRETER, this->selected_interpeter_);
   DDX_Text (pDX, IDC_CONFIG, this->config_file_);
+  DDX_Text (pDX, IDC_PARAMETERS, this->parameters_);
 }
 
 //

@@ -4,7 +4,6 @@
 #include "Resource.h"
 #include "Main_Dialog.h"
 #include "Utils/Utils.h"
-#include "modelgen.h"
 
 #include "be/BE_Options.h"
 #include "be/BE_Manager_Factory.h"
@@ -317,26 +316,24 @@ void Main_Dialog::
 init_generators (const CUTS::Configuration & config)
 {
   if (config.backend_p ())
-  {
     std::for_each (config.backend ().begin_generator (),
                    config.backend ().end_generator (),
                    boost::bind (&Main_Dialog::load_backend_generator,
                                 this,
                                 _1));
-  }
 }
 
 //
 // load_backend_generator
 //
 void Main_Dialog::
-load_backend_generator (const CUTS::Generator_Description & desc)
+load_backend_generator (const CUTS::Generators::generator_iterator::value_type & desc)
 {
   // Temporary variable for the generator's factory.
   CUTS_BE_Manager_Factory * factory = 0;
 
   // Load the backend manager factory.
-  if (this->factory_repo_.load (desc.id (), desc.location (), factory))
+  if (this->factory_repo_.load (desc->id (), desc->location (), factory))
   {
     // Insert name of factory into listbox.
     int index = this->be_list_.InsertString (-1, factory->name ());
@@ -349,12 +346,10 @@ load_backend_generator (const CUTS::Generator_Description & desc)
     {
       // Display an error message to the user.
       std::ostringstream ostr;
-      ostr
-        << "Failed to add <" << factory->name ()
-        << "> to backend list";
+      ostr << "Failed to add " << factory->name ()
+           << " to backend list";
 
-      ::AfxMessageBox (ostr.str ().c_str (),
-                        MB_ICONEXCLAMATION | MB_OK);
+      ::AfxMessageBox (ostr.str ().c_str (), MB_ICONEXCLAMATION | MB_OK);
     }
   }
   else

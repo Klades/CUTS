@@ -53,6 +53,8 @@ public:
 
   const CString & configuration_filename (void) const;
 
+  const CString & parameters (void) const;
+
 private:
   void on_click_browse (void);
 
@@ -67,6 +69,8 @@ private:
   CString selected_interpeter_;
 
   CString config_file_;
+
+  CString parameters_;
 };
 
 #if defined (__CUTS_INLINE__)

@@ -29,6 +29,7 @@ public:
    * Initializing constructor.
    */
   CUTS_CUTE_Model_Interpreter (CUTS_CUTE_Model_Interpreter_Action_List & actlist,
+                               CUTS_Property_Map & params,
                                GME::Project & project,
                                GME::FCO & target,
                                GME::Collection_T <GME::FCO> & selected,
@@ -43,6 +44,8 @@ public:
 
 private:
   CUTS_CUTE_Model_Interpreter_Action_List & actlist_;
+
+  CUTS_Property_Map & params_;
 
   /// Target GME project to interpret.
   GME::Project & project_;

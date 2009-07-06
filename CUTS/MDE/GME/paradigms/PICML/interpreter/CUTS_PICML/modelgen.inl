@@ -213,7 +213,7 @@ namespace CUTS
 
   inline
   void Generators::
-  add_generator (::CUTS::Generator_Description const& e)
+  add_generator (ACE_Refcounted_Auto_Ptr < ::CUTS::Generator_Description, ACE_Null_Mutex >  const& e)
   {
     generator_.push_back (e);
   }
