@@ -9,6 +9,7 @@
 #include "cutsnode.h"
 #include "Node_File_Reader.h"
 #include "Process_Options.h"
+#include "Text_Variable_Importer.h"
 #include "Virtual_Env.h"
 
 #include "ace/CORBA_macros.h"
@@ -118,6 +119,50 @@ private:
 };
 
 /**
+ * @struct import_variables
+ *
+ * Functor for importing variables from a file into the
+ * environment table
+ */
+struct import_variables
+{
+  typedef ::CUTS::schemas::VariableList::import_iterator::value_type value_type;
+
+  import_variables (CUTS_Property_Map & env_table)
+    : env_table_ (env_table)
+  {
+
+  }
+
+  void operator () (const value_type & value)
+  {
+    CUTS_Variable_Importer_Strategy * strategy = 0;
+
+    if (value->type () == CUTS::schemas::FileType::text)
+    {
+      static CUTS_Text_Variable_Importer text_import;
+      strategy = &text_import;
+    }
+
+    if (0 != strategy)
+    {
+      int retval =
+        strategy->handle_import (value->location ().c_str (),
+                                 this->env_table_);
+
+      if (0 != retval)
+        ACE_ERROR ((LM_ERROR,
+                    ACE_TEXT ("%T (%t) - %M - failed to import variables from %s\n"),
+                    value->location ().c_str ()));
+    }
+  }
+
+private:
+  /// Target environment variable table.
+  CUTS_Property_Map & env_table_;
+};
+
+/**
  * @struct insert_variable
  *
  * Functor for inserting variables into an environment table
@@ -135,8 +180,7 @@ struct insert_variable
   void operator () (const value_type & var)
   {
     int retval =
-      this->env_table_.set (var->name ().c_str (),
-                            var->value ().c_str ());
+      this->env_table_.set (var->name ().c_str (), var->value ().c_str ());
 
     if (1 == retval)
       ACE_ERROR ((LM_ERROR,
@@ -150,18 +194,35 @@ private:
 };
 
 //
+// operator <<= (CUTS_Property_Map &, const CUTS::schemas::VariableList &)
+//
+bool
+operator <<= (CUTS_Property_Map & env_table, const CUTS::schemas::VariableList & variables)
+{
+  // First, import the specified environment variables
+  std::for_each (variables.begin_import (),
+                 variables.end_import (),
+                 import_variables (env_table));
+
+  // Next, insert the new environment variables.
+  std::for_each (variables.begin_variable (),
+                 variables.end_variable (),
+                 insert_variable (env_table));
+
+  return true;
+}
+
+//
 // operator <<= (CUTS_Virtual_Env &, const CUTS::schemas::EnvConfig &)
 //
 bool
 operator <<= (CUTS_Virtual_Env & env, const CUTS::schemas::EnvConfig & config)
 {
-    ACE_DEBUG ((LM_DEBUG,
-                ACE_TEXT ("%T (%t) - %M - loading environment's configuration\n")));
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - loading environment's configuration\n")));
 
-    if (config.variables_p ())
-    std::for_each (config.variables ().begin_variable (),
-                   config.variables ().end_variable (),
-                   insert_variable (env.env_table ()));
+  if (config.variables_p ())
+    env.env_table () <<= config.variables ();
 
   if (config.startup_p ())
     std::for_each (config.startup ().begin_process (),

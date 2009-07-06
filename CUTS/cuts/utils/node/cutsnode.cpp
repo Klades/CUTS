@@ -308,7 +308,13 @@ namespace CUTS
         ::XSCRT::XML::Element< char > e (p.next_element ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-        if (n == "variable")
+        if (n == "import")
+        {
+          ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::VariableImport, ACE_Null_Mutex >  t (new ::CUTS::schemas::VariableImport (e));
+          add_import (t);
+        }
+
+        else if (n == "variable")
         {
           ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::Variable, ACE_Null_Mutex >  t (new ::CUTS::schemas::Variable (e));
           add_variable (t);
@@ -319,6 +325,70 @@ namespace CUTS
         }
       }
     }
+
+    // VariableImport
+    //
+
+    VariableImport::
+    VariableImport (::XSCRT::XML::Element< char > const& e)
+    :Base (e), regulator__ ()
+    {
+
+      ::XSCRT::Parser< char > p (e);
+
+      while (p.more_attributes ())
+      {
+        ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+        ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+        if (n == "location")
+        {
+          ::XMLSchema::anyURI< char > t (a);
+          location (t);
+        }
+
+        else if (n == "type")
+        {
+          ::CUTS::schemas::FileType t (a);
+          type (t);
+        }
+
+        else 
+        {
+        }
+      }
+    }
+
+    // FileType
+    //
+
+    FileType::
+    FileType (::XSCRT::XML::Element< char > const& e)
+    : ::XSCRT::Type (e)
+    {
+      ::std::basic_string< char > v (e.value ());
+
+      if (v == "text") v_ = text_l;
+      else if (v == "xml") v_ = xml_l;
+      else 
+      {
+      }
+    }
+
+    FileType::
+    FileType (::XSCRT::XML::Attribute< char > const& a)
+    : ::XSCRT::Type (a)
+    {
+      ::std::basic_string< char > v (a.value ());
+
+      if (v == "text") v_ = text_l;
+      else if (v == "xml") v_ = xml_l;
+      else 
+      {
+      }
+    }
+
+    FileType const FileType::text (FileType::text_l);
+    FileType const FileType::xml (FileType::xml_l);
   }
 }
 

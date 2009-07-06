@@ -15,6 +15,8 @@ namespace CUTS
     class EnvConfig;
     class Variable;
     class VariableList;
+    class VariableImport;
+    class FileType;
   }
 }
 
@@ -413,6 +415,21 @@ namespace CUTS
       public:
       typedef ACE_Refcounted_Auto_Ptr < VariableList, ACE_Null_Mutex > _ptr;
 
+      // import
+      // 
+      public:
+      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::VariableImport, ACE_Null_Mutex > >::iterator import_iterator;
+      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::VariableImport, ACE_Null_Mutex > >::const_iterator import_const_iterator;
+      import_iterator begin_import ();
+      import_iterator end_import ();
+      import_const_iterator begin_import () const;
+      import_const_iterator end_import () const;
+      void add_import ( ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::VariableImport, ACE_Null_Mutex > const& );
+      size_t count_import (void) const;
+
+      protected:
+      ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::VariableImport, ACE_Null_Mutex > > import_;
+
       // variable
       // 
       public:
@@ -429,7 +446,7 @@ namespace CUTS
       ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::Variable, ACE_Null_Mutex > > variable_;
 
       public:
-      VariableList (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::Variable, ACE_Null_Mutex > > const& variable__);
+      VariableList ();
 
       VariableList (::XSCRT::XML::Element< char > const&);
       VariableList (VariableList const& s);
@@ -440,6 +457,84 @@ namespace CUTS
       private:
       char regulator__;
     };
+
+
+    class VariableImport : public ::XSCRT::Type
+    {
+      typedef ::XSCRT::Type Base;
+
+      public:
+      typedef ACE_Refcounted_Auto_Ptr < VariableImport, ACE_Null_Mutex > _ptr;
+
+      // location
+      // 
+      public:
+      bool location_p () const;
+      ::XMLSchema::anyURI< char > const& location () const;
+      ::XMLSchema::anyURI< char >& location ();
+      void location (::XMLSchema::anyURI< char > const& );
+
+      protected:
+      ::std::auto_ptr< ::XMLSchema::anyURI< char > > location_;
+
+      // type
+      // 
+      public:
+      bool type_p () const;
+      ::CUTS::schemas::FileType const& type () const;
+      ::CUTS::schemas::FileType& type ();
+      void type (::CUTS::schemas::FileType const& );
+
+      protected:
+      ::std::auto_ptr< ::CUTS::schemas::FileType > type_;
+
+      public:
+      VariableImport ();
+
+      VariableImport (::XSCRT::XML::Element< char > const&);
+      VariableImport (VariableImport const& s);
+
+      VariableImport&
+      operator= (VariableImport const& s);
+
+      private:
+      char regulator__;
+    };
+
+
+    class FileType : public ::XSCRT::Type
+    {
+      public:
+      FileType (::XSCRT::XML::Element< char > const&);
+      FileType (::XSCRT::XML::Attribute< char > const&);
+
+      static FileType const text;
+      static FileType const xml;
+
+      enum Value
+      {
+        text_l, xml_l
+      };
+
+
+      Value
+      integral () const;
+
+      friend bool 
+      operator== (FileType const& a, FileType const& b);
+
+      friend bool 
+      operator!= (FileType const& a, FileType const& b);
+
+      private:
+      FileType (Value v);
+
+      Value v_;
+    };
+
+    bool operator== (FileType const &a, FileType const &b);
+
+    bool operator!= (FileType const &a, FileType const &b);
   }
 }
 

@@ -33,7 +33,9 @@ project (CUTS_Node_Daemon) : boost_base, xscrt, cuts_utils, cutsexe {
     Node_File_Reader.cpp
     Process_Dependency_Graph.cpp
     Process_Options.cpp
+    Text_Variable_Importer.cpp
     Virtual_Env.cpp
+    Variable_Importer_Strategy.cpp
   }
 
   Header_Files {

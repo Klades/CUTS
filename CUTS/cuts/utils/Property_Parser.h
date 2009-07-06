@@ -14,6 +14,7 @@
 #define _CUTS_PROPERTY_PARSER_H_
 
 #include "Property_Map.h"
+#include "Text_Processor.h"
 #include "boost/spirit/core.hpp"
 #include "boost/spirit/utility/lists.hpp"
 #include "ace/Log_Msg.h"
@@ -46,12 +47,25 @@ public:
     template <typename IteratorT>
     void operator () (IteratorT, IteratorT) const
     {
-      ACE_DEBUG ((LM_DEBUG,
-                  "%T (%t) - %M - storing property [%s] => %s\n",
-                  this->name_.c_str (),
-                  this->value_.c_str ()));
+      CUTS_Text_Processor processor (this->prop_map_);
 
-      this->prop_map_[this->name_.c_str ()] = this->value_.c_str ();
+      std::ostringstream ostr;
+      if (!processor.evaluate (this->value_.begin (),
+                               this->value_.end (),
+                               ostr,
+                               true))
+      {
+        ACE_ERROR ((LM_DEBUG,
+                    ACE_TEXT ("%T (%t) - %M - failed to evalute %s\n"),
+                    this->name_.c_str ()));
+      }
+
+      ACE_DEBUG ((LM_DEBUG,
+                  ACE_TEXT ("%T (%t) - %M - storing property [%s] => %s\n"),
+                  this->name_.c_str (),
+                  ostr.str ().c_str ()));
+
+      this->prop_map_[this->name_.c_str ()] = ostr.str ().c_str ();
     }
 
   private:

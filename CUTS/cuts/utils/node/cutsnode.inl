@@ -1008,9 +1008,8 @@ namespace CUTS
 
     inline
     VariableList::
-    VariableList (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::Variable, ACE_Null_Mutex > > const& variable__)
+    VariableList ()
     : 
-    variable_ (variable__),
     regulator__ ()
     {
     }
@@ -1020,6 +1019,7 @@ namespace CUTS
     VariableList (VariableList const& s)
     :
     ::XSCRT::Type (),
+    import_ (s.import_),
     variable_ (s.variable_),
     regulator__ ()
     {
@@ -1029,11 +1029,57 @@ namespace CUTS
     VariableList& VariableList::
     operator= (VariableList const& s)
     {
+      import_ = s.import_;
+
       variable_ = s.variable_;
 
       return *this;
     }
 
+
+    // VariableList
+    // 
+    inline
+    VariableList::import_iterator VariableList::
+    begin_import ()
+    {
+      return import_.begin ();
+    }
+
+    inline
+    VariableList::import_iterator VariableList::
+    end_import ()
+    {
+      return import_.end ();
+    }
+
+    inline
+    VariableList::import_const_iterator VariableList::
+    begin_import () const
+    {
+      return import_.begin ();
+    }
+
+    inline
+    VariableList::import_const_iterator VariableList::
+    end_import () const
+    {
+      return import_.end ();
+    }
+
+    inline
+    void VariableList::
+    add_import (ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::VariableImport, ACE_Null_Mutex >  const& e)
+    {
+      import_.push_back (e);
+    }
+
+    inline
+    size_t VariableList::
+    count_import(void) const
+    {
+      return import_.size ();
+    }
 
     // VariableList
     // 
@@ -1077,6 +1123,154 @@ namespace CUTS
     count_variable(void) const
     {
       return variable_.size ();
+    }
+
+
+    // VariableImport
+    // 
+
+    inline
+    VariableImport::
+    VariableImport ()
+    : 
+    regulator__ ()
+    {
+    }
+
+    inline
+    VariableImport::
+    VariableImport (VariableImport const& s)
+    :
+    location_ (s.location_.get () ? new ::XMLSchema::anyURI< char > (*s.location_) : 0),
+    type_ (s.type_.get () ? new ::CUTS::schemas::FileType (*s.type_) : 0),
+    regulator__ ()
+    {
+      if (location_.get ()) location_->container (this);
+      if (type_.get ()) type_->container (this);
+    }
+
+    inline
+    VariableImport& VariableImport::
+    operator= (VariableImport const& s)
+    {
+      if (s.location_.get ()) location (*(s.location_));
+      else location_ = ::std::auto_ptr< ::XMLSchema::anyURI< char > > (0);
+
+      if (s.type_.get ()) type (*(s.type_));
+      else type_ = ::std::auto_ptr< ::CUTS::schemas::FileType > (0);
+
+      return *this;
+    }
+
+
+    // VariableImport
+    // 
+    inline
+    bool VariableImport::
+    location_p () const
+    {
+      return location_.get () != 0;
+    }
+
+    inline
+    ::XMLSchema::anyURI< char > const& VariableImport::
+    location () const
+    {
+      return *location_;
+    }
+
+    inline
+    ::XMLSchema::anyURI< char >& VariableImport::
+    location ()
+    {
+      return *location_;
+    }
+
+    inline
+    void VariableImport::
+    location (::XMLSchema::anyURI< char > const& e)
+    {
+      if (location_.get ())
+      {
+        *location_ = e;
+      }
+
+      else
+      {
+        location_ = ::std::auto_ptr< ::XMLSchema::anyURI< char > > (new ::XMLSchema::anyURI< char > (e));
+        location_->container (this);
+      }
+    }
+
+    // VariableImport
+    // 
+    inline
+    bool VariableImport::
+    type_p () const
+    {
+      return type_.get () != 0;
+    }
+
+    inline
+    ::CUTS::schemas::FileType const& VariableImport::
+    type () const
+    {
+      return *type_;
+    }
+
+    inline
+    ::CUTS::schemas::FileType& VariableImport::
+    type ()
+    {
+      return *type_;
+    }
+
+    inline
+    void VariableImport::
+    type (::CUTS::schemas::FileType const& e)
+    {
+      if (type_.get ())
+      {
+        *type_ = e;
+      }
+
+      else
+      {
+        type_ = ::std::auto_ptr< ::CUTS::schemas::FileType > (new ::CUTS::schemas::FileType (e));
+        type_->container (this);
+      }
+    }
+
+
+    // FileType
+    // 
+
+    inline
+    FileType::Value FileType::
+    integral () const
+    {
+      return v_;
+    }
+
+    inline
+    bool
+    operator== (::CUTS::schemas::FileType const& a, ::CUTS::schemas::FileType const& b)
+    {
+      return a.v_ == b.v_;
+    }
+
+    inline
+    bool
+    operator!= (::CUTS::schemas::FileType const& a, ::CUTS::schemas::FileType const& b)
+    {
+      return a.v_ != b.v_;
+    }
+
+    inline
+    FileType::
+    FileType (FileType::Value v)
+    : v_ (v)
+    {
     }
   }
 }
