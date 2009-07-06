@@ -1,3 +1,14 @@
+Mon Jul  6 21:47:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/cuts/utils/unite:
+
+          . Moved from an old location.
+
+        * examples/UNITE:
+        * examples/UNITE/example.unite:
+
+          Removed these files.
+
 Mon Jul  6 21:45:29 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
