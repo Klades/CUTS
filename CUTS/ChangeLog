@@ -1,3 +1,15 @@
+Mon Jul  6 05:16:38 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/cuts:
+        * examples/cuts/utils:
+        * examples/cuts/utils/node:
+        * examples/cuts/utils/node/DAnCE:
+        * examples/cuts/utils/node/DAnCE/dance.cutsnode.config:
+        * examples/cuts/utils/node/DAnCE/environment.txt:
+
+          . Example for using the CUTS node daemon to deploy DAnCE
+            artifacts, such as the node and execution manager.
+
 Mon Jul  6 05:08:01 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * tests/cuts/utils/node:
