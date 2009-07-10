@@ -1,3 +1,11 @@
+Fri Jul 10 17:29:20 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * contrib/OpenSplice:
+        * contrib/OpenSplice/CCPP.mpc:
+
+          . Project file for building OpenSplice against lastest version
+            of ACE+TAO.
+
 Mon Jul  6 21:57:52 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/plugins/cute/CUTE.mpc:

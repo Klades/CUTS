@@ -1,0 +1,81 @@
+// $Id$
+
+project (CCPP) : splicelib_with_idl, portableserver {
+  sharedname = dcpsccpp
+  libout     = $(OSPL_HOME)/lib
+
+  includes += $(OSPL_HOME)/custom_lib/ccpp
+  libs     -= dcpsccpp
+
+  idlflags += -o $(OSPL_HOME)/custom_lib/ccpp \
+              -Sp -Sd \
+              -Wb,export_macro=OS_API_EXPORT \
+              -Wb,export_include=include/os_if.h
+
+  splice_ts_flags += -d $(OSPL_HOME)/custom_lib/ccpp
+
+  macros += $(SPLICE_ORB)
+
+  dynamicflags = OSPL_BUILD_DCPSCCPP
+
+  SpliceTypeSupport_Files {
+    gendir = $(OSPL_HOME)/custom_lib/ccpp
+
+    $(OSPL_HOME)/custom_lib/ccpp/dds_dcps.idl >> \
+      dds_dcpsDcps_impl.cpp \
+      dds_dcpsSplDcps.cpp
+
+    $(OSPL_HOME)/custom_lib/ccpp/dds_dcps_builtintopics.idl >> \
+      dds_dcps_builtintopicsDcps.idl \
+      dds_dcps_builtintopicsDcps_impl.cpp \
+      dds_dcps_builtintopicsSplDcps.cpp
+  }
+
+  IDL_Files {
+    gendir = $(OSPL_HOME)/custom_lib/ccpp
+
+    $(OSPL_HOME)/custom_lib/ccpp/dds_dcps.idl
+    $(OSPL_HOME)/custom_lib/ccpp/dds_dcps_builtintopics.idl
+    $(OSPL_HOME)/custom_lib/ccpp/dds_dcpsDcps.idl
+    $(OSPL_HOME)/custom_lib/ccpp/dds_dcps_builtintopicsDcps.idl
+  }
+
+  Source_Files {
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_Condition_impl.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_ContentFilteredTopic_impl.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_DataReader_impl.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_DataWriter_impl.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_DomainParticipant_impl.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_DomainParticipantFactory.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_Entity_impl.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_ErrorInfo.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_GuardCondition.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_ListenerUtils.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_MultiTopic_impl.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_Publisher_impl.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_QosUtils.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_QueryCondition_impl.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_ReadCondition_impl.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_StatusCondition_impl.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_Subscriber_impl.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_Topic_impl.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_TopicDescription_impl.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_TypeSupport_impl.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_Utils.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_WaitSet.cpp
+  }
+
+  Header_Files {
+    $(OSPL_HOME)/include/dcps/C++/CCPP/*.h
+
+    $(OSPL_HOME)/custom_lib/ccpp/dds_dcpsC.h
+    $(OSPL_HOME)/custom_lib/ccpp/dds_dcpsS.h
+    $(OSPL_HOME)/custom_lib/ccpp/dds_dcps_builtintopicsC.h
+    $(OSPL_HOME)/custom_lib/ccpp/dds_dcps_builtintopicsS.h
+    $(OSPL_HOME)/custom_lib/ccpp/dds_dcpsDcps_impl.h
+    $(OSPL_HOME)/custom_lib/ccpp/dds_dcpsSplDcps.h
+    $(OSPL_HOME)/custom_lib/ccpp/dds_dcps_builtintopicsDcps_impl.h
+    $(OSPL_HOME)/custom_lib/ccpp/dds_dcps_builtintopicsSplDcps.h
+  }
+}
+
