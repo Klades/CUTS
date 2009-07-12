@@ -1,0 +1,6 @@
+// $Id$
+
+project : cuts_rtidds, ccm_stub {
+  libs  += CUTS_RTIDDS_CCM_stub
+  after += CUTS_RTIDDS_CCM_stub
+}

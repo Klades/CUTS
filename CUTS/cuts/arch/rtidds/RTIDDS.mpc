@@ -1,0 +1,20 @@
+// $Id$
+
+project (CUTS_RTIDDS) : requires_rtidds, ccm_svnt, nddslib, cutslib {
+  sharedname    = CUTS_RTIDDS
+
+  dynamicflags += CUTS_RTIDDS_BUILD_DLL
+
+  Source_Files {
+    RTIDDS_Servant.cpp
+    RTIDDS_ListenerBase.cpp
+    RTIDDS_Endpoint.cpp
+  }
+
+  Header_Files {
+    RTIDDS_Traits_T.h
+  }
+
+  Template_Files {
+  }
+}

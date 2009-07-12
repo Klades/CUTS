@@ -1,0 +1,6 @@
+// $Id$
+
+project : requires_rtidds, nddslib, cutslib {
+  libs  += CUTS_RTIDDS
+  after += CUTS_RTIDDS
+}

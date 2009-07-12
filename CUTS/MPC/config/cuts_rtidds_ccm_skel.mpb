@@ -1,0 +1,6 @@
+// $Id$
+
+project : ccm_svnt, cuts_rtidds_ccm_stub {
+  libs  += CUTS_RTIDDS_CCM_skel
+  after += CUTS_RTIDDS_CCM_skel
+}

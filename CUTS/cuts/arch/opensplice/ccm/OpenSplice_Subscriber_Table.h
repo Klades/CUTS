@@ -10,7 +10,7 @@
 /**
  * @class CUTS_OpenSplice_CCM_Subscriber_Table
  */
-class CUTS_OpenSplice_CCM_Subscriber_Table :
+class CUTS_OPENSPLICE_CCM_Export CUTS_OpenSplice_CCM_Subscriber_Table :
   public CUTS_CCM_Subscriber_Table
 {
 public:

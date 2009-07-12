@@ -1,0 +1,40 @@
+// -*- IDL -*-
+
+#ifndef _MODELDDSDATA_DDS_IDL_
+#define _MODELDDSDATA_DDS_IDL_
+
+module CUTS_DDS
+{
+  module Outer
+  {
+    module Inner
+    {
+      struct Data_DDS
+      {
+        // data member: name
+        string name;
+
+        // data member: id
+        long id;
+
+        // data member: urgent
+        boolean urgent;
+      };
+    };
+
+    struct TestData_DDS
+    {
+      // data member: key
+      short key;
+
+      // data member: packet
+      ::CUTS_DDS::Outer::Inner::Data_DDS packet;
+    };
+
+    // define the keylist for the struct/event.
+    #pragma keylist TestData_DDS
+  };
+};
+
+#endif  // _MODELDDSDATA_DDS_IDL_
+

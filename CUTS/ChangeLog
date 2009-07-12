@@ -1,3 +1,106 @@
+Sun Jul 12 10:04:25 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table.h:
+        * cuts/arch/opensplice/server/server.mpc:
+
+          . Several bug fixes for Windows that were made aware when
+            developing the RTI-DDS architecture for CUTS.
+
+        * cuts/arch/rtidds:
+        * cuts/arch/rtidds/RTIDDS.mpc:
+        * cuts/arch/rtidds/RTIDDS_Endpoint.h:
+        * cuts/arch/rtidds/RTIDDS_Endpoint.inl:
+        * cuts/arch/rtidds/RTIDDS_ListenerBase.h:
+        * cuts/arch/rtidds/RTIDDS_ListenerBase.cpp:
+        * cuts/arch/rtidds/RTIDDS_Servant.h:
+        * cuts/arch/rtidds/RTIDDS_Servant.inl:
+        * cuts/arch/rtidds/RTIDDS_Servant.cpp:
+        * cuts/arch/rtidds/RTIDDS_Traits_T.h:
+        * cuts/arch/rtidds/RTIDDS_export.h:
+        * cuts/arch/rtidds/ccm:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM.mpc:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant_T.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_export.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_skel_export.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_stub_export.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Events.idl:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_Table.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_Table.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_Table_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_Table_T.cpp:
+        * cuts/arch/rtidds/rtidds_endpoint.cpp:
+        * cuts/arch/rtidds/server:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer.h:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer.inl:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer.cpp:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer_App.h:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer_App.inl:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer_App.cpp:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer_export.h:
+        * cuts/arch/rtidds/server/RTIDDS_Configurator.h:
+        * cuts/arch/rtidds/server/RTIDDS_Configurator.cpp:
+        * cuts/arch/rtidds/server/RTIDDS_Container.h:
+        * cuts/arch/rtidds/server/RTIDDS_Container.inl:
+        * cuts/arch/rtidds/server/RTIDDS_Container.cpp:
+        * cuts/arch/rtidds/server/RTIDDS_Container_Strategy.h:
+        * cuts/arch/rtidds/server/RTIDDS_Container_Strategy.inl:
+        * cuts/arch/rtidds/server/RTIDDS_Container_Strategy.cpp:
+        * cuts/arch/rtidds/server/server.cpp:
+        * cuts/arch/rtidds/server/server.mpc:
+        * default.features:
+        * examples/arch/rtidds:
+        * examples/arch/rtidds/SimpleExample:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData.idl:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_Base.mpc:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_DDS.idl:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_skel_export.h:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_stub_export.h:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_SimpleComponent_svnt_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent.cidl:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent.idl:
+        * examples/arch/rtidds/SimpleExample/SimpleComponentE.idl:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Base.mpc:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.mpc:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Impl.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Impl.cpp:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_exec_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_skel_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_stub_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleExample.mwc:
+        * examples/arch/rtidds/SimpleExample/descriptors:
+        * examples/arch/rtidds/SimpleExample/descriptors/SimpleExample.cdp:
+        * examples/arch/rtidds/SimpleExample/descriptors/nodemap.dat:
+        * examples/arch/rtidds/SimpleExample/descriptors/run_test.pl:
+        * examples/arch/rtidds/SimpleExample/lib:
+        * examples/arch/rtidds/SimpleExample/models:
+        * examples/arch/rtidds/SimpleExample/models/SimpleExample.xme:
+        * examples/arch/rtidds/SimpleExample/rtidds:
+        * examples/arch/rtidds/SimpleExample/rtidds/ModelDDSData_DDS.cxx:
+        * examples/arch/rtidds/SimpleExample/rtidds/ModelDDSData_DDSPlugin.h:
+        * examples/arch/rtidds/SimpleExample/rtidds/ModelDDSData_DDSPlugin.cxx:
+        * examples/arch/rtidds/SimpleExample/rtidds/ModelDDSData_DDSSupport.cxx:
+        * examples/arch/rtidds/SimpleExample/rtidds/ModelDDSData_DDSSupport.h:
+
+          . Checkpoint the RTI-DDS architecture. Right now, it is having
+            problems creating a topic for the consumer.
+
 Fri Jul 10 17:29:20 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * contrib/OpenSplice:
