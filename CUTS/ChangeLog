@@ -1,3 +1,54 @@
+Sun Jul 12 21:20:35 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/BE_RTIDDS.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/BE_RTIDDS_export.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Context.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Context_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Event_Traits_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Event_Traits_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/IDL_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/IDL_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Input_Stream_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Input_Stream_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Manager_Factory.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Manager_Factory.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Output_Stream_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Output_Stream_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Project_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Header_Include_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Header_Include_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Stub_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Stub_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Workspace_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Workspace_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Workspace_Generator.cpp:
+        * bin/cuts.config:
+
+          . Backend code generator for RTI-DDS.
+
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_T.cpp:
+        * cuts/arch/rtidds/RTIDDS_Endpoint.cpp:
+
+          . Bug fix where creating loopback connections in a component
+            caused the either the input or output topic to not register
+            itself because the topic was already registered.
+
+        * examples/arch/rtidds/SimpleExample/lib:
+        * examples/arch/rtidds/SimpleExample/rtidds:
+
+          Removed this file.
+
 Sun Jul 12 10:44:35 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/testing/Testing_Service_Manager.cpp:

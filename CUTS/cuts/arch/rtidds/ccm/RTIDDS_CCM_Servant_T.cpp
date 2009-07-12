@@ -19,18 +19,18 @@ configure (::DDSDomainParticipant * participant)
   CUTS_RTIDDS_CCM_EventConsumer * consumer = 0;
 
   for (; !consumer_iter.done (); ++ consumer_iter)
-    {
-      // Try and cast the object to a RTIDDS event consumer.
-      consumer = dynamic_cast <CUTS_RTIDDS_CCM_EventConsumer *> (consumer_iter->item ());
-
-      if (0 != consumer)
   {
-    // Now, configure the servant for this participant.
-    consumer->configure (participant,
-             "James",
-             consumer_iter->key ().c_str ());
-  }
+    // Try and cast the object to a RTIDDS event consumer.
+    consumer = dynamic_cast <CUTS_RTIDDS_CCM_EventConsumer *> (consumer_iter->item ());
+
+    if (0 != consumer)
+    {
+      // Now, configure the servant for this participant.
+      consumer->configure (participant,
+                           this->name_.c_str (),
+                           consumer_iter->key ().c_str ());
     }
+  }
 
   typename emits_map_type::ITERATOR emits_iter (this->emits_);
   CUTS_RTIDDS_CCM_Subscriber * subscriber = 0;

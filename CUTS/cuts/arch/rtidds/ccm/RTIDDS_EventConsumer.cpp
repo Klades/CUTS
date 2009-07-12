@@ -38,14 +38,14 @@ open (::DDSDomainParticipant * participant,
                          -1);
 
   ACE_DEBUG ((LM_DEBUG,
-        "%T (%t) - %M - creating a datareader for the topic\n"));
+              ACE_TEXT ("%T (%t) - %M - creating a datareader for the topic\n")));
 
   // The last part is to create a data reader.
   this->abstract_reader_ =
       this->subscriber_->create_datareader (this->dds_topic_,
                                             DDS_DATAREADER_QOS_DEFAULT,
                                             this,
-                                            DDS_STATUS_MASK_NONE);
+                                            DDS_STATUS_MASK_ALL);
 
   if (0 == this->abstract_reader_)
     ACE_ERROR_RETURN ((LM_ERROR,

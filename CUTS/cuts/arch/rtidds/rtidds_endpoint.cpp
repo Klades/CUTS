@@ -9,18 +9,6 @@
 #include "ace/Log_Msg.h"
 #include <string>
 
-////
-//// open
-////
-//int CUTS_RTIDDS_Endpoint::
-//open (::DDSDomainParticipant * participant
-//      const char* topic_name)
-//{
-//  // First, register the type with the participant.
-//  const char * type_name = type_support->get_type_name ();
-//  return this->open (participant, type_support, type_name, topic_name);
-//}
-
 //
 // open
 //
@@ -29,41 +17,29 @@ open (::DDSDomainParticipant * participant,
       const char * type_name,
       const char * topic_name)
 {
-  //// We need to normalize the topic name. Right now, we are only
-  //// checking for periods (.) in the topic name.
-  //std::string normalized_topic_name (topic_name);
+  // First, let's search for the topic just in case this endpoint
+  // is part of a loopback connection.
+  DDS_Duration_t duration;
+  duration.sec = 0;
+  duration.nanosec = 0;
 
-  //std::replace (normalized_topic_name.begin (),
-  //              normalized_topic_name.end (),
-  //              '.',
-  //              '_');
-
-  //ACE_DEBUG ((LM_DEBUG,
-  //            ACE_TEXT ("%T (%t) - %M - creating topic %s of type %s\n"),
-  //            topic_name,
-  //            type_name));
-
-  ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - topic name: %s\n",
-              topic_name));
-
-  // Next, we can create the topic for the endpoint.
-  this->dds_topic_ =
-    participant->create_topic (topic_name,
-                               type_name,
-                               DDS_TOPIC_QOS_DEFAULT,
-                               0,
-                               DDS_STATUS_MASK_NONE);
-
-  ACE_DEBUG ((LM_DEBUG,
-              "%T - %M - topic name: %s\n",
-              topic_name));
+  this->dds_topic_ = participant->find_topic (topic_name, duration);
 
   if (0 == this->dds_topic_)
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T (%t) - %M - failed to create topic %s\n",
-                       topic_name),
-                      -1);
+  {
+    this->dds_topic_ =
+      participant->create_topic (topic_name,
+                                 type_name,
+                                 DDS_TOPIC_QOS_DEFAULT,
+                                 0,
+                                 DDS_STATUS_MASK_NONE);
+
+    if (0 == this->dds_topic_)
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "%T (%t) - %M - failed to create topic %s\n",
+                         topic_name),
+                        -1);
+  }
 
   // Save the participant for later.
   this->participant_ = participant;

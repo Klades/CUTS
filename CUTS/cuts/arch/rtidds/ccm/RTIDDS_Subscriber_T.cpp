@@ -12,8 +12,6 @@ CUTS_RTIDDS_CCM_Subscriber_T <EVENT>::~CUTS_RTIDDS_CCM_Subscriber_T (void)
 
 }
 
-#include "ace/OS_NS_unistd.h"
-
 //
 // connect
 //
@@ -48,8 +46,6 @@ connect (::Components::EventConsumerBase_ptr p)
               topic_desc->type_name.in ()));
 
   typedef typename CUTS_RTIDDS_Traits_T <EVENT>::dds_typesupport_type dds_typesupport_type;
-
-  ACE_ASSERT (0 != this->participant_);
 
   ::DDS_ReturnCode_t retcode =
     dds_typesupport_type::register_type (this->participant_,
