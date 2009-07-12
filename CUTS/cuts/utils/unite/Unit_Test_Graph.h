@@ -23,31 +23,48 @@
 class CUTS_Log_Format;
 
 /**
- * @class CUTS_Unit_Test_Graph
+ * @class CUTS_Unit_Test_Graph_Traits
+ *
+ * Traits for the unit test graph.
  */
-class CUTS_UNITE_Export CUTS_Unit_Test_Graph
+class CUTS_Unit_Test_Graph_Traits
 {
 public:
-  /// Type definition of the map type.
-  typedef ACE_Hash_Map_Manager <ACE_CString,
-                                CUTS_Log_Format *,
-                                ACE_Null_Mutex> formats_type;
-
   struct log_format_t
   {
     typedef boost::vertex_property_tag kind;
   };
 
   typedef
-    boost::property <log_format_t, CUTS_Log_Format *,
-    boost::property <boost::vertex_name_t, ACE_CString> > property_type;
+    boost::property <boost::vertex_name_t, ACE_CString,
+    boost::property <log_format_t, CUTS_Log_Format *> >
+    property_type;
+};
 
-  typedef boost::adjacency_list <boost::vecS,
-                                 boost::vecS,
-                                 boost::directedS,
-                                 property_type> graph_type;
+/// Type defintion of the graph type.
+typedef
+  boost::adjacency_list <boost::vecS,
+                         boost::vecS,
+                         boost::directedS,
+                         CUTS_Unit_Test_Graph_Traits::property_type>
+                         CUTS_Unit_Test_Graph_Type;
 
-  typedef boost::graph_traits <graph_type>::vertex_iterator vertex_iterator;
+/**
+ * @class CUTS_Unit_Test_Graph
+ *
+ * Dependency graph between the log formats for a unit test.
+ */
+class CUTS_UNITE_Export CUTS_Unit_Test_Graph
+{
+public:
+  /// Type definition to the vertex descriptor.
+  typedef boost::graph_traits <CUTS_Unit_Test_Graph_Type>::vertex_descriptor vertex_descriptor;
+
+  /// Type definition to the vertex descriptor.
+  typedef boost::graph_traits <CUTS_Unit_Test_Graph_Type>::vertex_iterator vertex_iterator;
+
+  /// Type definition of the edge descriptor.
+  typedef boost::graph_traits <CUTS_Unit_Test_Graph_Type>::edge_descriptor edge_descriptor;
 
   /// Default constructor.
   CUTS_Unit_Test_Graph (void);
@@ -66,8 +83,6 @@ public:
 
   bool create_log_format (const ACE_CString & name, CUTS_Log_Format *& format);
 
-  const CUTS_Log_Format * log_format (vertex_iterator) const;
-
   /**
    * Associate two log formats, i.e., define causality.
    *
@@ -75,8 +90,6 @@ public:
    * @param[in]         dst           Destination log format
    */
   bool connect (const ACE_CString & src, const ACE_CString & dst);
-
-  const graph_type graph (void) const;
 
   /**
    * Get the name of the graph.
@@ -92,16 +105,27 @@ public:
    */
   void name (const ACE_CString & name);
 
+  CUTS_Log_Format * get_log_format (vertex_descriptor vertex) const;
+
+  CUTS_Log_Format * get_log_format (vertex_iterator iter) const;
+
+  void get_process_order (std::vector <vertex_descriptor> & list) const;
+
+  const CUTS_Unit_Test_Graph_Type & graph (void) const;
 
 private:
   /// Name of the unit test graph.
   ACE_CString name_;
 
-  /// The underlying graph representation.
-  graph_type graph_;
+  CUTS_Unit_Test_Graph_Type graph_;
 
-  /// The log formats for the unit test.
-  formats_type formats_;
+  /// Type definition of the vertex cache.
+  typedef ACE_Hash_Map_Manager <ACE_CString,
+                                vertex_descriptor,
+                                ACE_Null_Mutex> VERTEX_MAP;
+
+  /// Local cache of the vertices.
+  VERTEX_MAP vertices_;
 };
 
 #if defined (__CUTS_INLINE__)

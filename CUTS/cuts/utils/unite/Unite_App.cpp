@@ -15,7 +15,6 @@
 #include "ace/Env_Value_T.h"
 #include "ace/High_Res_Timer.h"
 #include "XSC/utils/XML_Error_Handler.h"
-#include "boost/bind.hpp"
 
 static const char * __HELP__ =
 "UNITE - a QoS unit test evaluation engine\n"
@@ -34,6 +33,30 @@ static const char * __HELP__ =
 "\n"
 "Output options:\n"
 "  -h, --help                print this help message\n";
+
+class load_service
+{
+public:
+  typedef CUTS::serviceList::service_iterator::value_type value_type;
+
+  load_service (CUTS_Unite_Presentation_Service_Manager & mgr)
+    : mgr_ (mgr)
+  {
+
+  }
+
+  void operator () (const value_type & value) const
+  {
+    this->mgr_.load_service (value->id ().c_str (),
+                             value->location ().c_str (),
+                             value->classname ().c_str (),
+                             value->params_p () ? value->params ().c_str () : 0);
+  }
+
+private:
+  mutable CUTS_Unite_Presentation_Service_Manager & mgr_;
+};
+
 
 //
 // CUTS_Unite_App
@@ -96,19 +119,19 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
   CUTS_Unite_Datagraph_File datagraph_file;
   datagraph_file->setErrorHandler (&error_handler);
 
-  CUTS::datagraphType dgraph ("", CUTS::logformatList (std::list< ::CUTS::logformatType > ()));
+  CUTS::datagraphType datagraph ("");
 
   if (datagraph_file.read (config.datagraph ().location ().c_str ()))
-    datagraph_file >>= dgraph;
+    datagraph_file >>= datagraph;
 
   // Build the graph for this unit test.
   CUTS_Unit_Test_Graph graph;
   CUTS_Unit_Test_Graph_Builder graph_builder;
 
-  if (!graph_builder.build (dgraph, graph))
+  if (!graph_builder.build (datagraph, graph))
     ACE_ERROR_RETURN ((LM_ERROR,
                        "%T (%t) - %M - failed to build unit test graph %s\n",
-                       dgraph.name ().c_str ()),
+                       datagraph.name ().c_str ()),
                        -1);
 
   // Open the database that contains the test data.
@@ -242,24 +265,11 @@ void CUTS_Unite_App::load_services (const CUTS::serviceList & list)
 {
   std::for_each (list.begin_service (),
                  list.end_service (),
-                 boost::bind (&CUTS_Unite_App::load_service,
-                              this,
-                              _1));
+                 load_service (this->svc_mgr_));
 
   // Disable the service listed on the command-line.
   string_set::CONST_ITERATOR iter (this->disables_);
 
   for (; !iter.done (); ++ iter)
     this->svc_mgr_.suspend ((*iter).c_str ());
-}
-
-//
-// load_services
-//
-void CUTS_Unite_App::load_service (const CUTS::serviceType & svc)
-{
-  this->svc_mgr_.load_service (svc.id ().c_str (),
-                               svc.location ().c_str (),
-                               svc.classname ().c_str (),
-                               svc.params_p () ? svc.params ().c_str () : 0);
 }

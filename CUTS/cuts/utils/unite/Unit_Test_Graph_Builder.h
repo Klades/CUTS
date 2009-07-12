@@ -49,20 +49,6 @@ public:
    */
   bool build (const CUTS::datagraphType & datagraph,
               CUTS_Unit_Test_Graph & graph);
-
-private:
-  /// Process the current log format.
-  void process_log_format (const CUTS::logformatType & format,
-                           CUTS_Unit_Test_Graph & graph);
-
-  /// Process the current relation.
-  void process_relation (const CUTS::relationType & relation,
-                         CUTS_Unit_Test_Graph & graph,
-                         CUTS_Log_Format & format);
-
-  /// Process the current causality.
-  void process_causality (const CUTS::causalityType & causality,
-                          CUTS_Log_Format_Relation & relation);
 };
 
 #if defined (__CUTS_INLINE__)

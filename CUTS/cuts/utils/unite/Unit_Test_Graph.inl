@@ -29,16 +29,6 @@ CUTS_Unit_Test_Graph::~CUTS_Unit_Test_Graph (void)
 }
 
 //
-// graph
-//
-CUTS_INLINE
-const CUTS_Unit_Test_Graph::graph_type
-CUTS_Unit_Test_Graph::graph (void) const
-{
-  return this->graph_;
-}
-
-//
 // name
 //
 CUTS_INLINE
@@ -57,13 +47,32 @@ const ACE_CString & CUTS_Unit_Test_Graph::name (void) const
 }
 
 //
-// log_format
+// create_log_format
 //
 CUTS_INLINE
-const CUTS_Log_Format *
-CUTS_Unit_Test_Graph::log_format (vertex_iterator iter) const
+bool CUTS_Unit_Test_Graph::create_log_format (const ACE_CString & name)
 {
-  return boost::get (CUTS_Unit_Test_Graph::log_format_t (),
+  CUTS_Log_Format * format = 0;
+  return this->create_log_format (name, format);
+}
+
+//
+// get_log_format
+//
+CUTS_INLINE
+CUTS_Log_Format *
+CUTS_Unit_Test_Graph::get_log_format (vertex_descriptor vertex) const
+{
+  return boost::get (CUTS_Unit_Test_Graph_Traits::log_format_t (),
                      this->graph_,
-                     *iter);
+                     vertex);
+}
+
+//
+// graph
+//
+CUTS_INLINE
+const CUTS_Unit_Test_Graph_Type & CUTS_Unit_Test_Graph::graph (void) const
+{
+  return this->graph_;
 }

@@ -130,7 +130,7 @@ namespace CUTS
 
       if (n == "relation")
       {
-        ::CUTS::relationType t (e);
+        ACE_Refcounted_Auto_Ptr < ::CUTS::relationType, ACE_Null_Mutex >  t (new ::CUTS::relationType (e));
         add_relation (t);
       }
 
@@ -189,7 +189,7 @@ namespace CUTS
 
       if (n == "causality")
       {
-        ::CUTS::causalityType t (e);
+        ACE_Refcounted_Auto_Ptr < ::CUTS::causalityType, ACE_Null_Mutex >  t (new ::CUTS::causalityType (e));
         add_causality (t);
       }
 
@@ -231,7 +231,7 @@ namespace CUTS
 
       if (n == "logformat")
       {
-        ::CUTS::logformatType t (e);
+        ACE_Refcounted_Auto_Ptr < ::CUTS::logformatType, ACE_Null_Mutex >  t (new ::CUTS::logformatType (e));
         add_logformat (t);
       }
 
@@ -284,7 +284,7 @@ namespace CUTS
 
       if (n == "groupitem")
       {
-        ::CUTS::groupitemType t (e);
+        ACE_Refcounted_Auto_Ptr < ::CUTS::groupitemType, ACE_Null_Mutex >  t (new ::CUTS::groupitemType (e));
         add_groupitem (t);
       }
 
@@ -317,8 +317,8 @@ namespace CUTS
 
       else if (n == "logformats")
       {
-        logformats_ = ::std::auto_ptr< ::CUTS::logformatList > (new ::CUTS::logformatList (e));
-        logformats_->container (this);
+        ::CUTS::logformatList t (e);
+        logformats (t);
       }
 
       else 
@@ -370,7 +370,7 @@ namespace CUTS
 
       if (n == "filter")
       {
-        ::CUTS::filterType t (e);
+        ACE_Refcounted_Auto_Ptr < ::CUTS::filterType, ACE_Null_Mutex >  t (new ::CUTS::filterType (e));
         add_filter (t);
       }
 
@@ -397,7 +397,7 @@ namespace CUTS
 
       if (n == "variable")
       {
-        ::CUTS::filterVariableType t (e);
+        ACE_Refcounted_Auto_Ptr < ::CUTS::filterVariableType, ACE_Null_Mutex >  t (new ::CUTS::filterVariableType (e));
         add_variable (t);
       }
 
@@ -531,7 +531,7 @@ namespace CUTS
 
       if (n == "service")
       {
-        ::CUTS::serviceType t (e);
+        ACE_Refcounted_Auto_Ptr < ::CUTS::serviceType, ACE_Null_Mutex >  t (new ::CUTS::serviceType (e));
         add_service (t);
       }
 

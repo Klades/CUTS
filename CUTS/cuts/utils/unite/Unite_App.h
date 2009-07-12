@@ -56,8 +56,6 @@ private:
   /// Load services from the configuration.
   void load_services (const CUTS::serviceList & list);
 
-  void load_service (const CUTS::serviceType & service);
-
   /// Print the help screen for the application.
   void print_help (void);
 

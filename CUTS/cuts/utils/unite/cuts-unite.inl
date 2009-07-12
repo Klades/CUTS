@@ -421,7 +421,7 @@ namespace CUTS
 
   inline
   void relationList::
-  add_relation (::CUTS::relationType const& e)
+  add_relation (ACE_Refcounted_Auto_Ptr < ::CUTS::relationType, ACE_Null_Mutex >  const& e)
   {
     relation_.push_back (e);
   }
@@ -590,7 +590,7 @@ namespace CUTS
 
   inline
   void relationType::
-  add_causality (::CUTS::causalityType const& e)
+  add_causality (ACE_Refcounted_Auto_Ptr < ::CUTS::causalityType, ACE_Null_Mutex >  const& e)
   {
     causality_.push_back (e);
   }
@@ -631,9 +631,8 @@ namespace CUTS
 
   inline
   logformatList::
-  logformatList (::std::list< ::CUTS::logformatType > const& logformat__)
+  logformatList ()
   : 
-  logformat_ (logformat__),
   regulator__ ()
   {
   }
@@ -690,7 +689,7 @@ namespace CUTS
 
   inline
   void logformatList::
-  add_logformat (::CUTS::logformatType const& e)
+  add_logformat (ACE_Refcounted_Auto_Ptr < ::CUTS::logformatType, ACE_Null_Mutex >  const& e)
   {
     logformat_.push_back (e);
   }
@@ -765,7 +764,7 @@ namespace CUTS
 
   inline
   groupingType::
-  groupingType (::std::list< ::CUTS::groupitemType > const& groupitem__)
+  groupingType (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::groupitemType, ACE_Null_Mutex > > const& groupitem__)
   : 
   groupitem_ (groupitem__),
   regulator__ ()
@@ -824,7 +823,7 @@ namespace CUTS
 
   inline
   void groupingType::
-  add_groupitem (::CUTS::groupitemType const& e)
+  add_groupitem (ACE_Refcounted_Auto_Ptr < ::CUTS::groupitemType, ACE_Null_Mutex >  const& e)
   {
     groupitem_.push_back (e);
   }
@@ -842,15 +841,12 @@ namespace CUTS
 
   inline
   datagraphType::
-  datagraphType (::XMLSchema::string< char > const& name__,
-                 ::CUTS::logformatList const& logformats__)
+  datagraphType (::XMLSchema::string< char > const& name__)
   : 
   name_ (new ::XMLSchema::string< char > (name__)),
-  logformats_ (new ::CUTS::logformatList (logformats__)),
   regulator__ ()
   {
     name_->container (this);
-    logformats_->container (this);
   }
 
   inline
@@ -859,11 +855,11 @@ namespace CUTS
   :
   ::XSCRT::Type (),
   name_ (new ::XMLSchema::string< char > (*s.name_)),
-  logformats_ (new ::CUTS::logformatList (*s.logformats_)),
+  logformats_ (s.logformats_.get () ? new ::CUTS::logformatList (*s.logformats_) : 0),
   regulator__ ()
   {
     name_->container (this);
-    logformats_->container (this);
+    if (logformats_.get ()) logformats_->container (this);
   }
 
   inline
@@ -872,7 +868,10 @@ namespace CUTS
   {
     name (*s.name_);
 
-    logformats (*s.logformats_);
+    if (s.logformats_.get ())
+      logformats (*(s.logformats_));
+    else
+      logformats_.reset (0);
 
     return *this;
   }
@@ -897,6 +896,13 @@ namespace CUTS
   // datagraphType
   // 
   inline
+  bool datagraphType::
+  logformats_p () const
+  {
+    return logformats_.get () != 0;
+  }
+
+  inline
   ::CUTS::logformatList const& datagraphType::
   logformats () const
   {
@@ -907,7 +913,16 @@ namespace CUTS
   void datagraphType::
   logformats (::CUTS::logformatList const& e)
   {
-    *logformats_ = e;
+    if (logformats_.get ())
+    {
+      *logformats_ = e;
+    }
+
+    else
+    {
+      logformats_ = ::std::auto_ptr< ::CUTS::logformatList > (new ::CUTS::logformatList (e));
+      logformats_->container (this);
+    }
   }
 
 
@@ -1031,7 +1046,7 @@ namespace CUTS
 
   inline
   void filterList::
-  add_filter (::CUTS::filterType const& e)
+  add_filter (ACE_Refcounted_Auto_Ptr < ::CUTS::filterType, ACE_Null_Mutex >  const& e)
   {
     filter_.push_back (e);
   }
@@ -1049,7 +1064,7 @@ namespace CUTS
 
   inline
   filterType::
-  filterType (::std::list< ::CUTS::filterVariableType > const& variable__,
+  filterType (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::filterVariableType, ACE_Null_Mutex > > const& variable__,
               ::XMLSchema::ID< char > const& id__,
               ::XMLSchema::string< char > const& target__)
   : 
@@ -1122,7 +1137,7 @@ namespace CUTS
 
   inline
   void filterType::
-  add_variable (::CUTS::filterVariableType const& e)
+  add_variable (ACE_Refcounted_Auto_Ptr < ::CUTS::filterVariableType, ACE_Null_Mutex >  const& e)
   {
     variable_.push_back (e);
   }
@@ -1445,7 +1460,7 @@ namespace CUTS
 
   inline
   serviceList::
-  serviceList (::std::list< ::CUTS::serviceType > const& service__)
+  serviceList (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::serviceType, ACE_Null_Mutex > > const& service__)
   : 
   service_ (service__),
   regulator__ ()
@@ -1504,7 +1519,7 @@ namespace CUTS
 
   inline
   void serviceList::
-  add_service (::CUTS::serviceType const& e)
+  add_service (ACE_Refcounted_Auto_Ptr < ::CUTS::serviceType, ACE_Null_Mutex >  const& e)
   {
     service_.push_back (e);
   }

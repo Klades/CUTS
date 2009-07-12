@@ -26,11 +26,17 @@ namespace CUTS
 #include <list>
 #include "XMLSchema/Types.hpp"
 
+#include "ace/Refcounted_Auto_Ptr.h"
+#include "ace/Null_Mutex.h"
+
 namespace CUTS
 {
   class testConfig : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
+
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < testConfig, ACE_Null_Mutex > _ptr;
 
     // name
     // 
@@ -119,6 +125,9 @@ namespace CUTS
   {
     typedef ::XSCRT::Type Base;
 
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < logformatType, ACE_Null_Mutex > _ptr;
+
     // value
     // 
     public:
@@ -167,20 +176,23 @@ namespace CUTS
   {
     typedef ::XSCRT::Type Base;
 
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < relationList, ACE_Null_Mutex > _ptr;
+
     // relation
     // 
     public:
-    typedef ::std::list< ::CUTS::relationType >::iterator relation_iterator;
-    typedef ::std::list< ::CUTS::relationType >::const_iterator relation_const_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::relationType, ACE_Null_Mutex > >::iterator relation_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::relationType, ACE_Null_Mutex > >::const_iterator relation_const_iterator;
     relation_iterator begin_relation ();
     relation_iterator end_relation ();
     relation_const_iterator begin_relation () const;
     relation_const_iterator end_relation () const;
-    void add_relation (::CUTS::relationType const& );
+    void add_relation ( ACE_Refcounted_Auto_Ptr < ::CUTS::relationType, ACE_Null_Mutex > const& );
     size_t count_relation (void) const;
 
     protected:
-    ::std::list< ::CUTS::relationType > relation_;
+    ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::relationType, ACE_Null_Mutex > > relation_;
 
     public:
     relationList ();
@@ -199,6 +211,9 @@ namespace CUTS
   class causalityType : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
+
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < causalityType, ACE_Null_Mutex > _ptr;
 
     // cause
     // 
@@ -239,20 +254,23 @@ namespace CUTS
   {
     typedef ::XSCRT::Type Base;
 
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < relationType, ACE_Null_Mutex > _ptr;
+
     // causality
     // 
     public:
-    typedef ::std::list< ::CUTS::causalityType >::iterator causality_iterator;
-    typedef ::std::list< ::CUTS::causalityType >::const_iterator causality_const_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::causalityType, ACE_Null_Mutex > >::iterator causality_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::causalityType, ACE_Null_Mutex > >::const_iterator causality_const_iterator;
     causality_iterator begin_causality ();
     causality_iterator end_causality ();
     causality_const_iterator begin_causality () const;
     causality_const_iterator end_causality () const;
-    void add_causality (::CUTS::causalityType const& );
+    void add_causality ( ACE_Refcounted_Auto_Ptr < ::CUTS::causalityType, ACE_Null_Mutex > const& );
     size_t count_causality (void) const;
 
     protected:
-    ::std::list< ::CUTS::causalityType > causality_;
+    ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::causalityType, ACE_Null_Mutex > > causality_;
 
     // effectref
     // 
@@ -282,23 +300,26 @@ namespace CUTS
   {
     typedef ::XSCRT::Type Base;
 
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < logformatList, ACE_Null_Mutex > _ptr;
+
     // logformat
     // 
     public:
-    typedef ::std::list< ::CUTS::logformatType >::iterator logformat_iterator;
-    typedef ::std::list< ::CUTS::logformatType >::const_iterator logformat_const_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::logformatType, ACE_Null_Mutex > >::iterator logformat_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::logformatType, ACE_Null_Mutex > >::const_iterator logformat_const_iterator;
     logformat_iterator begin_logformat ();
     logformat_iterator end_logformat ();
     logformat_const_iterator begin_logformat () const;
     logformat_const_iterator end_logformat () const;
-    void add_logformat (::CUTS::logformatType const& );
+    void add_logformat ( ACE_Refcounted_Auto_Ptr < ::CUTS::logformatType, ACE_Null_Mutex > const& );
     size_t count_logformat (void) const;
 
     protected:
-    ::std::list< ::CUTS::logformatType > logformat_;
+    ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::logformatType, ACE_Null_Mutex > > logformat_;
 
     public:
-    logformatList (::std::list< ::CUTS::logformatType > const& logformat__);
+    logformatList ();
 
     logformatList (::XSCRT::XML::Element< char > const&);
     logformatList (logformatList const& s);
@@ -314,6 +335,9 @@ namespace CUTS
   class groupitemType : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
+
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < groupitemType, ACE_Null_Mutex > _ptr;
 
     // name
     // 
@@ -343,23 +367,26 @@ namespace CUTS
   {
     typedef ::XSCRT::Type Base;
 
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < groupingType, ACE_Null_Mutex > _ptr;
+
     // groupitem
     // 
     public:
-    typedef ::std::list< ::CUTS::groupitemType >::iterator groupitem_iterator;
-    typedef ::std::list< ::CUTS::groupitemType >::const_iterator groupitem_const_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::groupitemType, ACE_Null_Mutex > >::iterator groupitem_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::groupitemType, ACE_Null_Mutex > >::const_iterator groupitem_const_iterator;
     groupitem_iterator begin_groupitem ();
     groupitem_iterator end_groupitem ();
     groupitem_const_iterator begin_groupitem () const;
     groupitem_const_iterator end_groupitem () const;
-    void add_groupitem (::CUTS::groupitemType const& );
+    void add_groupitem ( ACE_Refcounted_Auto_Ptr < ::CUTS::groupitemType, ACE_Null_Mutex > const& );
     size_t count_groupitem (void) const;
 
     protected:
-    ::std::list< ::CUTS::groupitemType > groupitem_;
+    ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::groupitemType, ACE_Null_Mutex > > groupitem_;
 
     public:
-    groupingType (::std::list< ::CUTS::groupitemType > const& groupitem__);
+    groupingType (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::groupitemType, ACE_Null_Mutex > > const& groupitem__);
 
     groupingType (::XSCRT::XML::Element< char > const&);
     groupingType (groupingType const& s);
@@ -376,6 +403,9 @@ namespace CUTS
   {
     typedef ::XSCRT::Type Base;
 
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < datagraphType, ACE_Null_Mutex > _ptr;
+
     // name
     // 
     public:
@@ -388,6 +418,7 @@ namespace CUTS
     // logformats
     // 
     public:
+    bool logformats_p () const;
     ::CUTS::logformatList const& logformats () const;
     void logformats (::CUTS::logformatList const& );
 
@@ -395,8 +426,7 @@ namespace CUTS
     ::std::auto_ptr< ::CUTS::logformatList > logformats_;
 
     public:
-    datagraphType (::XMLSchema::string< char > const& name__,
-                   ::CUTS::logformatList const& logformats__);
+    datagraphType (::XMLSchema::string< char > const& name__);
 
     datagraphType (::XSCRT::XML::Element< char > const&);
     datagraphType (datagraphType const& s);
@@ -412,6 +442,9 @@ namespace CUTS
   class datagraphLink : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
+
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < datagraphLink, ACE_Null_Mutex > _ptr;
 
     // location
     // 
@@ -441,20 +474,23 @@ namespace CUTS
   {
     typedef ::XSCRT::Type Base;
 
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < filterList, ACE_Null_Mutex > _ptr;
+
     // filter
     // 
     public:
-    typedef ::std::list< ::CUTS::filterType >::iterator filter_iterator;
-    typedef ::std::list< ::CUTS::filterType >::const_iterator filter_const_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::filterType, ACE_Null_Mutex > >::iterator filter_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::filterType, ACE_Null_Mutex > >::const_iterator filter_const_iterator;
     filter_iterator begin_filter ();
     filter_iterator end_filter ();
     filter_const_iterator begin_filter () const;
     filter_const_iterator end_filter () const;
-    void add_filter (::CUTS::filterType const& );
+    void add_filter ( ACE_Refcounted_Auto_Ptr < ::CUTS::filterType, ACE_Null_Mutex > const& );
     size_t count_filter (void) const;
 
     protected:
-    ::std::list< ::CUTS::filterType > filter_;
+    ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::filterType, ACE_Null_Mutex > > filter_;
 
     public:
     filterList ();
@@ -474,20 +510,23 @@ namespace CUTS
   {
     typedef ::XSCRT::Type Base;
 
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < filterType, ACE_Null_Mutex > _ptr;
+
     // variable
     // 
     public:
-    typedef ::std::list< ::CUTS::filterVariableType >::iterator variable_iterator;
-    typedef ::std::list< ::CUTS::filterVariableType >::const_iterator variable_const_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::filterVariableType, ACE_Null_Mutex > >::iterator variable_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::filterVariableType, ACE_Null_Mutex > >::const_iterator variable_const_iterator;
     variable_iterator begin_variable ();
     variable_iterator end_variable ();
     variable_const_iterator begin_variable () const;
     variable_const_iterator end_variable () const;
-    void add_variable (::CUTS::filterVariableType const& );
+    void add_variable ( ACE_Refcounted_Auto_Ptr < ::CUTS::filterVariableType, ACE_Null_Mutex > const& );
     size_t count_variable (void) const;
 
     protected:
-    ::std::list< ::CUTS::filterVariableType > variable_;
+    ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::filterVariableType, ACE_Null_Mutex > > variable_;
 
     // id
     // 
@@ -510,7 +549,7 @@ namespace CUTS
     ::std::auto_ptr< ::XMLSchema::string< char > > target_;
 
     public:
-    filterType (::std::list< ::CUTS::filterVariableType > const& variable__,
+    filterType (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::filterVariableType, ACE_Null_Mutex > > const& variable__,
                 ::XMLSchema::ID< char > const& id__,
                 ::XMLSchema::string< char > const& target__);
 
@@ -528,6 +567,9 @@ namespace CUTS
   class filterVariableType : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
+
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < filterVariableType, ACE_Null_Mutex > _ptr;
 
     // name
     // 
@@ -568,6 +610,9 @@ namespace CUTS
   class serviceType : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
+
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < serviceType, ACE_Null_Mutex > _ptr;
 
     // location
     // 
@@ -627,23 +672,26 @@ namespace CUTS
   {
     typedef ::XSCRT::Type Base;
 
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < serviceList, ACE_Null_Mutex > _ptr;
+
     // service
     // 
     public:
-    typedef ::std::list< ::CUTS::serviceType >::iterator service_iterator;
-    typedef ::std::list< ::CUTS::serviceType >::const_iterator service_const_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::serviceType, ACE_Null_Mutex > >::iterator service_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::serviceType, ACE_Null_Mutex > >::const_iterator service_const_iterator;
     service_iterator begin_service ();
     service_iterator end_service ();
     service_const_iterator begin_service () const;
     service_const_iterator end_service () const;
-    void add_service (::CUTS::serviceType const& );
+    void add_service ( ACE_Refcounted_Auto_Ptr < ::CUTS::serviceType, ACE_Null_Mutex > const& );
     size_t count_service (void) const;
 
     protected:
-    ::std::list< ::CUTS::serviceType > service_;
+    ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::serviceType, ACE_Null_Mutex > > service_;
 
     public:
-    serviceList (::std::list< ::CUTS::serviceType > const& service__);
+    serviceList (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::serviceType, ACE_Null_Mutex > > const& service__);
 
     serviceList (::XSCRT::XML::Element< char > const&);
     serviceList (serviceList const& s);

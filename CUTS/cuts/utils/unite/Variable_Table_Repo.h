@@ -87,9 +87,6 @@ private:
 
   void prune_incomplete_rows (const CUTS_Unit_Test_Graph & graph);
 
-  void process (CUTS_Log_Format_Data_Entry & entry,
-                CUTS_DB_SQLite_Record & record);
-
   /// Location where evaluator performs calculations.
   ACE_CString sandbox_;
 

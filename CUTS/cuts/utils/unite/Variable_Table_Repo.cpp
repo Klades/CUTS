@@ -19,6 +19,74 @@
 #include "boost/graph/topological_sort.hpp"
 #include <sstream>
 
+/**
+ * @class process_log_format
+ *
+ * Functor for processing a log format.
+ */
+class process_log_format
+{
+public:
+  process_log_format (const CUTS_Unit_Test_Graph & graph,
+                      CUTS_Log_Format_Data_Entry & entry,
+                      CUTS_DB_SQLite_Record & record)
+    : graph_ (graph),
+      entry_ (entry),
+      record_ (record)
+  {
+
+  }
+
+  void operator () (CUTS_Unit_Test_Graph::vertex_descriptor vertex) const
+  {
+    // Get the log format from the vertex.
+    CUTS_Log_Format * format = this->graph_.get_log_format (vertex);
+
+    if (format->relations ().empty ())
+    {
+      // Process this log format.
+      this->entry_.prepare (this->graph_.name (), format);
+      this->process_entry ();
+    }
+    else
+    {
+      // Iterate over each of the relations.
+      size_t relation_count = format->relations ().size ();
+
+      for (size_t i = 0; i < relation_count; ++ i)
+      {
+        this->entry_.prepare (this->graph_.name (), format, i);
+        this->process_entry ();
+      }
+    }
+  }
+
+private:
+  void process_entry (void) const
+  {
+    char message[1024];
+
+    for ( ; !this->record_.done (); this->record_.advance ())
+    {
+      // Get the message from the row.
+      this->record_.get_data (4, message, sizeof (message));
+
+      // Execute the entry against this message. It may or may not update
+      // the database. It depends on if the message matches the current
+      // log format.
+      this->entry_.execute (message);
+    }
+
+    this->record_.reset ();
+  }
+
+  const CUTS_Unit_Test_Graph & graph_;
+
+  mutable CUTS_Log_Format_Data_Entry & entry_;
+
+  mutable CUTS_DB_SQLite_Record & record_;
+};
+
 //
 // CUTS_Variable_Table_Repo
 //
@@ -86,15 +154,9 @@ bool CUTS_Variable_Table_Repo::insert (const CUTS_Unit_Test_Graph & graph)
     // Create all the indices for the dataset.
     this->create_vtable_indices (graph);
 
-    // Sort the contents of the graph. This will give us the processing
-    // order for each log format in the unit test.
-    typedef
-      boost::graph_traits <CUTS_Unit_Test_Graph::graph_type>::
-      vertex_descriptor vertex_type;
-
-    typedef std::vector <vertex_type> vertex_list_type;
-    vertex_list_type sorted_list;
-    boost::topological_sort (graph.graph (), std::back_inserter (sorted_list));
+    // Get the order for processing the log formats.
+    std::vector <CUTS_Unit_Test_Graph::vertex_descriptor> sorted_list;
+    graph.get_process_order (sorted_list);
 
     // First, select all the log message from the database.
     CUTS_DB_SQLite_Query * query = this->data_->create_query ();
@@ -103,36 +165,11 @@ bool CUTS_Variable_Table_Repo::insert (const CUTS_Unit_Test_Graph & graph)
 
     // Next, iterate over all the log formats. This will enable
     // us to construct the dataset using the provided data.
-    vertex_list_type::iterator
-      iter = sorted_list.begin (),
-      iter_end = sorted_list.end ();
-
-    const CUTS_Log_Format * format;
     CUTS_Log_Format_Data_Entry entry (*this->vtable_);
 
-    for ( ; iter != iter_end; ++ iter)
-    {
-      // Get the log format from the vertex.
-      format = graph.log_format (*iter);
-
-      if (format->relations ().empty ())
-      {
-        // Process this log format.
-        entry.prepare (graph.name (), format);
-        this->process (entry, *record);
-      }
-      else
-      {
-        // Iterate over each of the relations.
-        size_t relation_count = format->relations ().size ();
-
-        for (size_t i = 0; i < relation_count; ++ i)
-        {
-          entry.prepare (graph.name (), format, i);
-          this->process (entry, *record);
-        }
-      }
-    }
+    std::for_each (sorted_list.begin (),
+                   sorted_list.end (),
+                   process_log_format (graph, entry, *record));
 
     // Finally, prune the incomplete rows from the table.
     this->prune_incomplete_rows (graph);
@@ -172,28 +209,6 @@ int CUTS_Variable_Table_Repo::open_vtable (CUTS_Test_Database & data)
 }
 
 //
-// process
-//
-void CUTS_Variable_Table_Repo::
-process (CUTS_Log_Format_Data_Entry & entry, CUTS_DB_SQLite_Record & record)
-{
-  char message[1024];
-
-  for ( ; !record.done (); record.advance ())
-  {
-    // Get the message from the row.
-    record.get_data (4, message, sizeof (message));
-
-    // Execute the entry against this message. It may or may not update
-    // the database. It depends on if the message matches the current
-    // log format.
-    entry.execute (message);
-  }
-
-  record.reset ();
-}
-
-//
 // create_data_table
 //
 void CUTS_Variable_Table_Repo::
@@ -223,7 +238,7 @@ create_vtable (const CUTS_Unit_Test_Graph & graph)
   {
     // Iterate over the variables in the log format. We need to
     // make sure we include columns for them in the data set.
-    format = graph.log_format (*iter);
+    format = graph.get_log_format (*iter);
     CUTS_Log_Format_Variable_Table::CONST_ITERATOR var_iter (format->variables ());
 
     for ( ; !var_iter.done (); ++ var_iter)
@@ -284,7 +299,7 @@ create_vtable_indices (const CUTS_Unit_Test_Graph & graph)
   for ( ; iter != iter_end; ++ iter)
   {
     // Get the log format from the vertex.
-    format = graph.log_format (*iter);
+    format = graph.get_log_format (*iter);
 
     if (!format->relations ().empty ())
       this->create_vtable_indices (graph, *format);
@@ -372,11 +387,11 @@ prune_incomplete_rows (const CUTS_Unit_Test_Graph & graph)
 
   for ( ; iter != iter_end; ++ iter)
     {
-      // Iterate over the variables in the log format. We need to 
-      // make sure we include columns for them in the data set. 
-      format = graph.log_format (*iter);
+      // Iterate over the variables in the log format. We need to
+      // make sure we include columns for them in the data set.
+      format = graph.get_log_format (*iter);
       CUTS_Log_Format_Variable_Table::CONST_ITERATOR var_iter (format->variables ());
-      
+
       for ( ; !var_iter.done (); ++ var_iter)
         {
           // Make sure we insert a comma between column declarations.

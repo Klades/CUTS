@@ -45,19 +45,7 @@ public:
    * @param[in]       config        Source configuration
    * @param[out]      test          Target unit test object.
    */
-  bool build (const CUTS::testConfig & config,
-              CUTS_Unit_Test & test);
-
-private:
-  void process_relation (const CUTS::relationType & relation,
-                         CUTS_Unit_Test & test,
-                         CUTS_Log_Format & format);
-
-  void process_causality (const CUTS::causalityType & causality,
-                          CUTS_Log_Format_Relation & relation);
-
-  void process_group_item (const CUTS::groupitemType & causality,
-                           CUTS_Unit_Test & test);
+  bool build (const CUTS::testConfig & config, CUTS_Unit_Test & test);
 };
 
 #endif  // !defined _CUTS_UNITE_UNIT_TEST_BUILDER_H_

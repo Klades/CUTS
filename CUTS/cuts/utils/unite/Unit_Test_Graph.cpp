@@ -8,55 +8,33 @@
 
 #include "Log_Format.h"
 #include "ace/SString.h"
+#include "ace/CORBA_macros.h"
 #include "boost/bind.hpp"
+#include "boost/graph/topological_sort.hpp"
 #include <algorithm>
-
 
 //
 // connect
 //
 bool CUTS_Unit_Test_Graph::
-connect (const ACE_CString & src, const ACE_CString & dst)
+connect (const ACE_CString & src_name, const ACE_CString & dst_name)
 {
-  boost::graph_traits <graph_type>::vertex_iterator src_iter, dst_iter, end;
+  vertex_descriptor src = 0, dst = 0;
 
-  // Locate the source vertex.
-  for (boost::tie (src_iter, end) = boost::vertices (this->graph_);
-       src_iter != end;
-       ++ src_iter)
-  {
-    if (boost::get (boost::vertex_name_t (), this->graph_, *src_iter) == src)
-      break;
-  }
+  if (0 != this->vertices_.find (src_name, src))
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - failed to locate source [%s]\n"),
+                       src_name.c_str ()),
+                       false);
 
-  if (src_iter == end)
-    return false;
+  if (0 != this->vertices_.find (dst_name, dst))
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - failed to locate destination [%s]\n"),
+                       dst_name.c_str ()),
+                       false);
 
-  // Locate the destination vertex.
-  for (boost::tie (dst_iter, end) = boost::vertices (this->graph_);
-       dst_iter != end;
-       ++ dst_iter)
-  {
-    if (boost::get (boost::vertex_name_t (), this->graph_, *dst_iter) == dst)
-      break;
-  }
-
-  if (dst_iter == end)
-    return false;
-
-  // Create a new edge between the two formats.
-  boost::add_edge (*src_iter, *dst_iter, this->graph_);
+  boost::add_edge (src, dst, this->graph_);
   return true;
-}
-
-//
-// create_log_format
-//
-bool CUTS_Unit_Test_Graph::
-create_log_format (const ACE_CString & name)
-{
-  CUTS_Log_Format * format = 0;
-  return this->create_log_format (name, format);
 }
 
 //
@@ -65,26 +43,56 @@ create_log_format (const ACE_CString & name)
 bool CUTS_Unit_Test_Graph::
 create_log_format (const ACE_CString & name, CUTS_Log_Format *& format)
 {
-  if (this->formats_.find (name, format) == 0)
+  // First, let's see if we have already created this vertex. If
+  // so, then we need to just return the existing one.
+  vertex_descriptor vertex = 0;
+  if (this->vertices_.find (name, vertex) == 0)
+  {
+    format = boost::get (CUTS_Unit_Test_Graph_Traits::log_format_t (),
+                         this->graph_,
+                         vertex);
+
     return true;
+  }
 
   // Allocate a new log format.
   CUTS_Log_Format * temp = 0;
-  ACE_NEW_RETURN (temp, CUTS_Log_Format (name), false);
+  ACE_NEW_THROW_EX (temp,
+                    CUTS_Log_Format (name),
+                    ACE_bad_alloc ());
+
   ACE_Auto_Ptr <CUTS_Log_Format> auto_clean (temp);
 
-  // Store the log format in the hash map.
-  int retval = this->formats_.bind (name, temp);
+  // Insert the format into the graph.
+  vertex = boost::add_vertex (this->graph_);
+  int retval = this->vertices_.bind (name, vertex);
 
   if (retval != 0)
-    return false;
+  {
+    // We need to remove the vertex from the graph.
+
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - failed to cache log format\n")),
+                       false);
+  }
 
   format = auto_clean.release ();
 
-  // Insert the format into the graph.
-  graph_type::vertex_descriptor vertex = boost::add_vertex (this->graph_);
-  boost::put (boost::vertex_name_t (), this->graph_, vertex, format->name ());
-  boost::put (log_format_t (), this->graph_, vertex, format);
+  // Initialize the vertex's traits.
+  boost::put (boost::vertex_name_t (), this->graph_, vertex, name);
+  boost::put (CUTS_Unit_Test_Graph_Traits::log_format_t (),
+              this->graph_,
+              vertex,
+              format);
+
   return true;
 }
 
+//
+// get_process_order
+//
+void CUTS_Unit_Test_Graph::
+get_process_order (std::vector <vertex_descriptor> & list) const
+{
+  boost::topological_sort (this->graph_, std::back_inserter (list));
+}
