@@ -15,11 +15,17 @@ namespace CUTS
 #include <list>
 #include "XMLSchema/Types.hpp"
 
+#include "ace/Refcounted_Auto_Ptr.h"
+#include "ace/Null_Mutex.h"
+
 namespace CUTS
 {
   class serviceDescription : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
+
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < serviceDescription, ACE_Null_Mutex > _ptr;
 
     // location
     // 
@@ -79,20 +85,23 @@ namespace CUTS
   {
     typedef ::XSCRT::Type Base;
 
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < serviceList, ACE_Null_Mutex > _ptr;
+
     // service
     // 
     public:
-    typedef ::std::list< ::CUTS::serviceDescription >::iterator service_iterator;
-    typedef ::std::list< ::CUTS::serviceDescription >::const_iterator service_const_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::serviceDescription, ACE_Null_Mutex > >::iterator service_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::serviceDescription, ACE_Null_Mutex > >::const_iterator service_const_iterator;
     service_iterator begin_service ();
     service_iterator end_service ();
     service_const_iterator begin_service () const;
     service_const_iterator end_service () const;
-    void add_service (::CUTS::serviceDescription const& );
+    void add_service ( ACE_Refcounted_Auto_Ptr < ::CUTS::serviceDescription, ACE_Null_Mutex > const& );
     size_t count_service (void) const;
 
     protected:
-    ::std::list< ::CUTS::serviceDescription > service_;
+    ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::serviceDescription, ACE_Null_Mutex > > service_;
 
     public:
     serviceList ();
@@ -111,6 +120,9 @@ namespace CUTS
   class testFile : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
+
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < testFile, ACE_Null_Mutex > _ptr;
 
     // startup
     // 
@@ -159,6 +171,9 @@ namespace CUTS
   class processOptions : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
+
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < processOptions, ACE_Null_Mutex > _ptr;
 
     // executable
     // 

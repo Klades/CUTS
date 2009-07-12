@@ -17,6 +17,34 @@
 #include "boost/bind.hpp"
 #include <algorithm>
 
+/**
+ * @class load_service
+ *
+ * Functor for loading a service from an XML document.
+ */
+class load_service_helper
+{
+public:
+  typedef ::CUTS::serviceList::service_iterator::value_type value_type;
+
+  load_service_helper (CUTS_Testing_Service_Manager & mgr)
+    : mgr_ (mgr)
+  {
+
+  }
+
+  void operator () (const value_type & svc)
+  {
+    this->mgr_.load_service (svc->id ().c_str (),
+                             svc->location ().c_str (),
+                             svc->entryPoint ().c_str (),
+                             svc->params_p () ? svc->params ().c_str () : 0);
+  }
+
+private:
+  CUTS_Testing_Service_Manager & mgr_;
+};
+
 //
 // load_services
 //
@@ -27,9 +55,7 @@ load_services (const CUTS::serviceList & list)
 
   std::for_each (list.begin_service (),
                  list.end_service (),
-                 boost::bind (&CUTS_Testing_Service_Manager::load_service,
-                              this,
-                              _1));
+                 load_service_helper (*this));
 
   return 0;
 }
@@ -58,13 +84,13 @@ load_service (const char * name,
               const char * args)
 {
   CUTS_TEST_TRACE ("CUTS_Testing_Service_Manager::load_service (const char *, const char *, const char *, const char *)");
-  
+
   if (!this->is_open_)
     return -1;
 
   ACE_DEBUG ((LM_DEBUG,
               "%T (%t) - %M - loading service %s in %s\n",
-              name, 
+              name,
               location));
 
   // First, load the module into memory.

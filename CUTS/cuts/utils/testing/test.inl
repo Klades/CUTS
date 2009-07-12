@@ -207,7 +207,7 @@ namespace CUTS
 
   inline
   void serviceList::
-  add_service (::CUTS::serviceDescription const& e)
+  add_service (ACE_Refcounted_Auto_Ptr < ::CUTS::serviceDescription, ACE_Null_Mutex >  const& e)
   {
     service_.push_back (e);
   }

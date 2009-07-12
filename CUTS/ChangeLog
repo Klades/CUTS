@@ -1,3 +1,16 @@
+Sun Jul 12 10:44:35 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/testing/Testing_Service_Manager.cpp:
+        * cuts/utils/testing/test.h:
+        * cuts/utils/testing/test.inl:
+        * cuts/utils/testing/test.cpp:
+
+          . Updated XML to the lastest version of XSC.
+
+        * etc/schemas/cuts-unite.xsd:
+
+          . Modified some of the constraints in the schema.
+
 Sun Jul 12 10:22:42 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/unite/Unit_Test_Builder.h:

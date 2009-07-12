@@ -73,7 +73,7 @@ namespace CUTS
 
       if (n == "service")
       {
-        ::CUTS::serviceDescription t (e);
+        ACE_Refcounted_Auto_Ptr < ::CUTS::serviceDescription, ACE_Null_Mutex >  t (new ::CUTS::serviceDescription (e));
         add_service (t);
       }
 
