@@ -16,9 +16,6 @@
 #include "game/GME_fwd.h"
 #include "game/Collection_T.h"
 #include "Model_Interpreter_Action_List.h"
-#include "ace/Hash_Map_Manager.h"
-#include "ace/Null_Mutex.h"
-#include "ace/SString.h"
 
 class CUTS_Property_Map;
 
@@ -62,13 +59,6 @@ private:
   long flags_;
 
   ACE_CString interpreter_;
-
-  /// Collection of configurations.
-  typedef ACE_Hash_Map_Manager <ACE_CString,
-                                CUTS_Property_Map *,
-                                ACE_Null_Mutex> property_manager_map;
-
-  property_manager_map config_mgr_;
 };
 
 #if defined (__CUTS_INLINE__)

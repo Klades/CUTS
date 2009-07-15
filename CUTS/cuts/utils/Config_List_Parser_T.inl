@@ -21,8 +21,7 @@ CUTS_Config_List_Parser_Grammar_T (ACTOR & actor)
 //
 template <typename ACTOR>
 CUTS_INLINE
-CUTS_Config_List_Parser_Grammar_T <ACTOR>::
-~CUTS_Config_List_Parser_Grammar_T (void)
+CUTS_Config_List_Parser_Grammar_T <ACTOR>::~CUTS_Config_List_Parser_Grammar_T (void)
 {
 
 }

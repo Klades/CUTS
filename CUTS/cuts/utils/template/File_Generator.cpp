@@ -12,31 +12,6 @@
 #include <sstream>
 
 //
-// ~CUTS_CUTE_Model_Interpreter
-//
-CUTS_File_Generator::~CUTS_File_Generator (void)
-{
-  for (property_manager_map::ITERATOR iter (this->config_mgr_);
-       !iter.done ();
-       ++ iter)
-  {
-    delete iter->item ();
-  }
-}
-
-//
-// base_config
-//
-void CUTS_File_Generator::
-base_config (CUTS_Property_Map & config, const std::string & basename)
-{
-  CUTS_Property_Map * base_config = 0;
-
-  if (0 == this->config_mgr_.find (basename.c_str (), base_config))
-    config.join (*base_config, true);
-}
-
-//
 // handle_config
 //
 int CUTS_File_Generator::
@@ -51,17 +26,6 @@ handle_config (const CUTS_Property_Map & config)
     ACE_ERROR_RETURN ((LM_ERROR,
                        "%T (%t) - %M - failed to locate configuration name\n"),
                        -1);
-
-  // Store a duplicate of the configuration just in case it
-  // is used a base configuration in other configurations.
-  CUTS_Property_Map * dup_config = 0;
-
-  ACE_NEW_RETURN (dup_config,
-                  CUTS_Property_Map (config),
-                  -1);
-
-  if (0 != dup_config)
-    this->config_mgr_.bind (filename, dup_config);
 
   // Construct the path of the filename.
   std::ostringstream ostr;

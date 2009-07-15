@@ -62,13 +62,6 @@ private:
 
   /// Target output directory for the files.
   const std::string & output_;
-
-  /// Collection of configurations.
-  typedef ACE_Hash_Map_Manager <ACE_CString,
-                                CUTS_Property_Map *,
-                                ACE_Null_Mutex> property_manager_map;
-
-  property_manager_map config_mgr_;
 };
 
 #if defined (__CUTS_INLINE__)

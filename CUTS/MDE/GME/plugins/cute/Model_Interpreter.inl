@@ -22,6 +22,15 @@ CUTS_CUTE_Model_Interpreter (CUTS_CUTE_Model_Interpreter_Action_List & actlist,
 }
 
 //
+// ~CUTS_CUTE_Model_Interpreter
+//
+CUTS_INLINE
+CUTS_CUTE_Model_Interpreter::~CUTS_CUTE_Model_Interpreter (void)
+{
+
+}
+
+//
 // interpreter
 //
 CUTS_INLINE

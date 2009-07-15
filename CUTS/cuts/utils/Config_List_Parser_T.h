@@ -42,6 +42,14 @@ public:
   /// Destructor
   ~CUTS_Config_List_Parser_Grammar_T (void);
 
+private:
+    typedef
+      ACE_Hash_Map_Manager <ACE_CString,
+                            CUTS_Property_Map *,
+                            ACE_Null_Mutex> config_mgr_type;
+
+
+public:
   template <typename ScannerT>
   class definition
   {
@@ -58,14 +66,33 @@ public:
       this->identifer_ =
         lexeme_d[(alpha_p | '_') >> *(alnum_p | '_')];
 
+      this->base_ =
+        str_p ("base") [begin_config (this->prop_map_)] >>
+        confix_p ('(', (this->identifer_)[assign_a (this->name_)] , ')') >>
+        !(":" >> list_p (this->identifer_[base_config (this->config_mgr_, this->prop_map_)], ",", "{")) >>
+        confix_p ('{', (*anychar_p)[parse_config (this->prop_map_)], '}');
+
       this->config_ =
         str_p ("config") [begin_config (this->prop_map_)] >>
         confix_p ('(', (this->identifer_)[assign_a (this->name_)] , ')') >>
-        !(":" >> list_p (this->identifer_[base_config (this->prop_map_, self.actor_)], ",", "{")) >>
+        !(":" >> list_p (this->identifer_[base_config (this->config_mgr_, this->prop_map_)], ",", "{")) >>
         confix_p ('{', (*anychar_p)[parse_config (this->prop_map_)], '}');
 
-      this->config_list_ =
-        *(this->config_[handle_config (this->name_, this->prop_map_, self.actor_)]);
+      this->config_types_ =
+        this->base_ [cache_config (this->name_, this->config_mgr_, this->prop_map_)]|
+        this->config_[handle_config (this->name_, this->prop_map_, self.actor_)];
+
+      this->config_list_ = *(this->config_types_);
+    }
+
+    ~definition (void)
+    {
+      for (config_mgr_type::ITERATOR iter (this->config_mgr_);
+           !iter.done ();
+           ++ iter)
+      {
+        delete iter->item ();
+      }
     }
 
     const boost::spirit::rule <ScannerT> & start (void) const
@@ -105,9 +132,9 @@ public:
      */
     struct base_config
     {
-      base_config (CUTS_Property_Map & prop_map, ACTOR & actor)
-        : prop_map_ (prop_map),
-          actor_ (actor)
+      base_config (config_mgr_type & config_mgr, CUTS_Property_Map & prop_map)
+        : config_mgr_ (config_mgr),
+          prop_map_ (prop_map)
       {
 
       }
@@ -115,14 +142,17 @@ public:
       template <typename IteratorT>
       void operator () (IteratorT begin, IteratorT end) const
       {
-        std::string base_name (begin, end);
-        this->actor_.base_config (this->prop_map_, base_name);
+        std::string basename (begin, end);
+        CUTS_Property_Map * base_config = 0;
+
+        if (0 == this->config_mgr_.find (basename.c_str (), base_config))
+          this->prop_map_.join (*base_config, true);
       }
 
     private:
-      CUTS_Property_Map & prop_map_;
+      config_mgr_type & config_mgr_;
 
-      ACTOR & actor_;
+      CUTS_Property_Map & prop_map_;
     };
 
     /**
@@ -187,17 +217,65 @@ public:
       ACTOR & actor_;
     };
 
+    /**
+     * @struct handle_config
+     *
+     * Functor for handling a parse configuration.
+     */
+    struct cache_config
+    {
+      cache_config (const std::string & name,
+                    config_mgr_type & config_mgr,
+                    CUTS_Property_Map & prop_map)
+        : name_ (name),
+          config_mgr_ (config_mgr),
+          prop_map_ (prop_map)
+      {
+
+      }
+
+      template <typename IteratorT>
+      void operator () (IteratorT, IteratorT) const
+      {
+        // Store a duplicate of the configuration just in case it
+        // is used a base configuration in other configurations.
+        CUTS_Property_Map * dup_config = 0;
+
+        ACE_NEW (dup_config,
+                 CUTS_Property_Map (this->prop_map_));
+
+        if (0 != dup_config)
+          this->config_mgr_.bind (this->name_.c_str (), dup_config);
+      }
+
+    private:
+      const std::string & name_;
+
+      config_mgr_type & config_mgr_;
+
+      CUTS_Property_Map & prop_map_;
+    };
+
+
     /// Property map for the current configuration
     CUTS_Property_Map prop_map_;
+
+    config_mgr_type config_mgr_;
 
     /// Current name of the configuration.
     std::string name_;
 
+    /// rule: base_
+    boost::spirit::rule <ScannerT> base_;
+
     /// rule: config_
     boost::spirit::rule <ScannerT> config_;
 
-    /// rule: config_
+    /// rule: identifer_
     boost::spirit::rule <ScannerT> identifer_;
+
+    /// rule: config_types_
+    boost::spirit::rule <ScannerT> config_types_;
 
     /// rule: config_list_
     boost::spirit::rule <ScannerT> config_list_;
