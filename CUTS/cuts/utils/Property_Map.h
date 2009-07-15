@@ -37,6 +37,13 @@ public:
   /// Default constructor
   CUTS_Property_Map (void);
 
+  /**
+   * Copy consturctor.
+   *
+   * @param[in]     copy        Source property map.
+   */
+  CUTS_Property_Map (const CUTS_Property_Map & copy);
+
   /// Destructor.
   ~CUTS_Property_Map (void);
 

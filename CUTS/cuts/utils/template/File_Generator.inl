@@ -19,12 +19,3 @@ CUTS_File_Generator (const bool & use_env,
 {
 
 }
-
-//
-// CUTS_File_Generator
-//
-CUTS_INLINE
-CUTS_File_Generator::~CUTS_File_Generator (void)
-{
-
-}

@@ -55,13 +55,17 @@ public:
     {
       using namespace boost::spirit;
 
+      this->identifer_ =
+        lexeme_d[(alpha_p | '_') >> *(alnum_p | '_')];
+
       this->config_ =
         str_p ("config") [begin_config (this->prop_map_)] >>
-        confix_p ('(', (*anychar_p)[set_name (this->prop_map_)] , ')') >>
+        confix_p ('(', (this->identifer_)[assign_a (this->name_)] , ')') >>
+        !(":" >> list_p (this->identifer_[base_config (this->prop_map_, self.actor_)], ",", "{")) >>
         confix_p ('{', (*anychar_p)[parse_config (this->prop_map_)], '}');
 
       this->config_list_ =
-        *(this->config_[handle_config (this->prop_map_, self.actor_)]);
+        *(this->config_[handle_config (this->name_, this->prop_map_, self.actor_)]);
     }
 
     const boost::spirit::rule <ScannerT> & start (void) const
@@ -70,6 +74,11 @@ public:
     }
 
   private:
+    /**
+     * @struct begin_config
+     *
+     * Functor for starting a new configuration.
+     */
     struct begin_config
     {
       begin_config (CUTS_Property_Map & prop_map)
@@ -87,6 +96,33 @@ public:
 
     private:
       CUTS_Property_Map & prop_map_;
+    };
+
+    /**
+     * @struct base_config
+     *
+     * Functor for deriving a configuration.
+     */
+    struct base_config
+    {
+      base_config (CUTS_Property_Map & prop_map, ACTOR & actor)
+        : prop_map_ (prop_map),
+          actor_ (actor)
+      {
+
+      }
+
+      template <typename IteratorT>
+      void operator () (IteratorT begin, IteratorT end) const
+      {
+        std::string base_name (begin, end);
+        this->actor_.base_config (this->prop_map_, base_name);
+      }
+
+    private:
+      CUTS_Property_Map & prop_map_;
+
+      ACTOR & actor_;
     };
 
     /**
@@ -120,33 +156,17 @@ public:
     };
 
     /**
-     * @struct set_name
+     * @struct handle_config
      *
-     * Functor for setting the name of the configuration.
+     * Functor for handling a parse configuration.
      */
-    struct set_name
-    {
-      set_name (CUTS_Property_Map & map)
-        : map_ (map)
-      {
-
-      }
-
-      template <typename IteratorT>
-      void operator () (IteratorT begin, IteratorT end) const
-      {
-        std::string name (begin, end);
-        this->map_.set ("config.name", name.c_str());
-      }
-
-    private:
-      CUTS_Property_Map & map_;
-    };
-
     struct handle_config
     {
-      handle_config (CUTS_Property_Map & prop_map, ACTOR & actor)
-        : prop_map_ (prop_map),
+      handle_config (const std::string & name,
+                     CUTS_Property_Map & prop_map,
+                     ACTOR & actor)
+        : name_ (name),
+          prop_map_ (prop_map),
           actor_ (actor)
       {
 
@@ -155,10 +175,13 @@ public:
       template <typename IteratorT>
       void operator () (IteratorT, IteratorT) const
       {
+        this->prop_map_["config.name"] = this->name_.c_str ();
         this->actor_.handle_config (this->prop_map_);
       }
 
     private:
+      const std::string & name_;
+
       CUTS_Property_Map & prop_map_;
 
       ACTOR & actor_;
@@ -167,8 +190,14 @@ public:
     /// Property map for the current configuration
     CUTS_Property_Map prop_map_;
 
+    /// Current name of the configuration.
+    std::string name_;
+
     /// rule: config_
     boost::spirit::rule <ScannerT> config_;
+
+    /// rule: config_
+    boost::spirit::rule <ScannerT> identifer_;
 
     /// rule: config_list_
     boost::spirit::rule <ScannerT> config_list_;

@@ -48,6 +48,8 @@ public:
    */
   int handle_config (const CUTS_Property_Map & config);
 
+  void base_config (CUTS_Property_Map & config, const std::string & basename);
+
 private:
   const bool & use_env_;
 
@@ -60,6 +62,13 @@ private:
 
   /// Target output directory for the files.
   const std::string & output_;
+
+  /// Collection of configurations.
+  typedef ACE_Hash_Map_Manager <ACE_CString,
+                                CUTS_Property_Map *,
+                                ACE_Null_Mutex> property_manager_map;
+
+  property_manager_map config_mgr_;
 };
 
 #if defined (__CUTS_INLINE__)

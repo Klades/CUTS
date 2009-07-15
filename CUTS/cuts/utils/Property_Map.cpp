@@ -7,6 +7,16 @@
 #endif
 
 //
+// CUTS_Property_Map
+//
+CUTS_Property_Map::CUTS_Property_Map (const CUTS_Property_Map & copy)
+: map_ (copy.size ())
+{
+  for (map_type::CONST_ITERATOR iter (copy.map ()); !iter.done (); ++ iter)
+    this->map_.bind (iter->key (), iter->item ());
+}
+
+//
 // join
 //
 size_t CUTS_Property_Map::

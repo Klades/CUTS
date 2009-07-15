@@ -1,3 +1,17 @@
+Wed Jul 15 05:22:02 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/plugins/cute/Model_Interpreter.h:
+        * MDE/GME/plugins/cute/Model_Interpreter.inl:
+        * MDE/GME/plugins/cute/Model_Interpreter.cpp:
+        * cuts/utils/Config_List_Parser_T.h:
+        * cuts/utils/Property_Map.h:
+        * cuts/utils/Property_Map.cpp:
+        * cuts/utils/template/File_Generator.h:
+        * cuts/utils/template/File_Generator.inl:
+        * cuts/utils/template/File_Generator.cpp:
+
+          . Added support for configuration inheritence.
+
 Wed Jul 15 02:20:24 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/rtidds/server/RTIDDS_Configurator.cpp:
