@@ -1,7 +1,7 @@
 // $Id$
 
 #include "RTIDDS_Configurator.h"
-#include "cuts/arch/RTIDDS/ccm/RTIDDS_CCM_Servant.h"
+#include "cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant.h"
 
 //
 // CUTS_RTIDDS_Configurator
