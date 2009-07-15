@@ -1,3 +1,23 @@
+Wed Jul 15 06:36:34 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_Base.mpc:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_DDS.idl:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_ModelDDSDataC.h:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_ModelDDSDataC.cpp:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_SimpleComponentC.h:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_SimpleComponentC.cpp:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_SimpleComponent_svnt.h:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_SimpleComponent_svnt.cpp:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Base.mpc:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.mpc:
+
+          . Re-generated the example from the model.
+
+        * examples/arch/rtidds/SimpleExample/descriptors/run_test.pl:
+
+          . Removed the purify garbage.
+
 Wed Jul 15 06:18:48 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/plugins/cute/Model_Interpreter.h:

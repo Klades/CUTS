@@ -39,8 +39,8 @@ namespace SimpleComponent_Basic_Impl
   void SimpleComponent::periodic_sendData (void)
   {
     ++ this->eventCount_;
-    CUTS_CCM_Event_T <OBV_Outer::TestData_DDS> __event_100000011__;
-    this->ctx_->push_publishEvent (__event_100000011__.in ());
+    CUTS_CCM_Event_T <OBV_Outer::TestData_DDS> __event_100000008__;
+    this->ctx_->push_publishEvent (__event_100000008__.in ());
   }
 
   void SimpleComponent::ccm_activate (void)

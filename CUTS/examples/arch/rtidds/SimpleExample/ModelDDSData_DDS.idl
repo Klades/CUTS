@@ -24,15 +24,12 @@ module CUTS_DDS
 
     struct TestData_DDS
     {
-      // data member: key
-      short key;
-
       // data member: packet
       ::CUTS_DDS::Outer::Inner::Data_DDS packet;
-    };
 
-    // define the keylist for the struct/event.
-    #pragma keylist TestData_DDS
+      // data member: key
+      short key;
+    };
   };
 };
 

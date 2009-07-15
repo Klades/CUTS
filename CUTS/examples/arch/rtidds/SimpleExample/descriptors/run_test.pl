@@ -79,8 +79,8 @@ sub run_node_daemons {
       $iiop = "iiop://localhost:$port";
       $node_app = "$CUTS_ROOT/bin/cuts-rtidds-componentserver";
 
-      $d_cmd = "C:/Program Files/Rational/common/purify";
-      $d_param = "/Run=yes $DAnCE/bin/dance_node_manager -ORBEndpoint $iiop -s $node_app -n $nodename=$iorfile -t 30 --instance-nc corbaloc:rir:/NameService";
+      $d_cmd = "$DAnCE/bin/dance_node_manager";
+      $d_param = "-ORBEndpoint $iiop -s $node_app -n $nodename=$iorfile -t 30 --instance-nc corbaloc:rir:/NameService";
 
       $Daemons[$i] = new PerlACE::Process ($d_cmd, $d_param);
       $result = $Daemons[$i]->Spawn ();

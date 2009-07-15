@@ -3,7 +3,7 @@
 project (SimpleComponent_CIDL_Gen) : ciaocidldefaults {
   custom_only = 1
 
-  cidlflags += --svnt-export-macro OPENSPLICE_SIMPLECOMPONENT_SVNT_Export \
+  cidlflags += --svnt-export-macro RTIDDS_SIMPLECOMPONENT_SVNT_Export \
                --svnt-export-include RTIDDS_SimpleComponent_svnt_export.h
 
   CIDL_Files {
@@ -56,9 +56,9 @@ project (SimpleComponent_exec) : ciao_executor, cuts_rtidds, cuts_codegen_defaul
 
 project (RTIDDS_SimpleComponent_svnt) : cuts_rtidds_ccm, cuts_codegen_defaults {
   sharedname   = RTIDDS_SimpleComponent_svnt
-  dynamicflags = OPENSPLICE_SIMPLECOMPONENT_SVNT_BUILD_DLL
+  dynamicflags = RTIDDS_SIMPLECOMPONENT_SVNT_BUILD_DLL
 
-  prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl OPENSPLICE_SIMPLECOMPONENT_SVNT > $(PROJECT_ROOT)/RTIDDS_SimpleComponent_svnt_export.h
+  prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl RTIDDS_SIMPLECOMPONENT_SVNT > $(PROJECT_ROOT)/RTIDDS_SimpleComponent_svnt_export.h
 
   after += SimpleComponent_exec \
     SimpleComponent_stub \

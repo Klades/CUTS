@@ -32,8 +32,7 @@ project (ModelDDSData_stub) : cuts_rtidds_ccm_stub, avoids_ace_for_tao, cuts_cod
   sharedname   = ModelDDSData_stub
 
   dynamicflags += MODELDDSDATA_STUB_BUILD_DLL NDDS_USER_DLL_EXPORT
-  macros       += DDS_API=MODELDDSDATA_STUB_Export
-  after        += ModelDDSData_DDS_IDL_Gen
+  after        += ModelDDSData_DDS_IDL_Gen 
 
   prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl MODELDDSDATA_STUB > $(PROJECT_ROOT)/ModelDDSData_stub_export.h
 
