@@ -16,15 +16,15 @@
 #include "ace/Singleton.h"
 #include "Node_Daemon.h"
 
-#define CUTS_NODE_DAEMON \
-  ACE_Singleton <CUTS_Node_Daemon, ACE_Null_Mutex>::instance ()
+#define CUTS_NODE_DAEMON_APP \
+  ACE_Singleton <CUTS_Node_Daemon_App, ACE_Null_Mutex>::instance ()
 
 //
 // server_sighandler
 //
 static void server_sighandler (int sig)
 {
-  CUTS_NODE_DAEMON->shutdown ();
+  CUTS_NODE_DAEMON_APP->shutdown ();
   ACE_UNUSED_ARG (sig);
 }
 
@@ -54,11 +54,9 @@ int main (int argc, char * argv [])
     ACE_Guard <ACE_Process_Mutex> guard (process_lock, 0);
 
     if (0 == guard.locked ())
-    {
       ACE_ERROR_RETURN ((LM_ERROR,
                         "%T (%t) - %M - cutsnode_d is already active\n"),
                         1);
-    }
 
     // Initialize the logging priorities.
     u_long default_mask =
@@ -70,7 +68,7 @@ int main (int argc, char * argv [])
     register_sighandler ();
 
     // Run the node daemon
-    retval = CUTS_NODE_DAEMON->run_main (argc, argv);
+    retval = CUTS_NODE_DAEMON_APP->run_main (argc, argv);
   }
   catch (...)
   {
@@ -79,6 +77,6 @@ int main (int argc, char * argv [])
     retval = 1;
   }
 
-  CUTS_NODE_DAEMON->close ();
+  CUTS_NODE_DAEMON_APP->close ();
   return retval;
 }

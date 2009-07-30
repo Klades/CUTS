@@ -50,22 +50,25 @@ public:
       CUTS_Text_Processor processor (this->prop_map_);
 
       std::ostringstream ostr;
-      if (!processor.evaluate (this->value_.begin (),
-                               this->value_.end (),
-                               ostr,
-                               true))
+      if (processor.evaluate (this->value_.begin (),
+                              this->value_.end (),
+                              ostr,
+                              true))
       {
-        ACE_ERROR ((LM_DEBUG,
-                    ACE_TEXT ("%T (%t) - %M - failed to evalute %s\n"),
-                    this->name_.c_str ()));
+        ACE_DEBUG ((LM_DEBUG,
+                    ACE_TEXT ("%T (%t) - %M - storing property [%s] => %s\n"),
+                    this->name_.c_str (),
+                    ostr.str ().c_str ()));
+
+        this->prop_map_[this->name_.c_str ()] = ostr.str ().c_str ();
       }
-
-      ACE_DEBUG ((LM_DEBUG,
-                  ACE_TEXT ("%T (%t) - %M - storing property [%s] => %s\n"),
-                  this->name_.c_str (),
-                  ostr.str ().c_str ()));
-
-      this->prop_map_[this->name_.c_str ()] = ostr.str ().c_str ();
+      else
+      {
+        ACE_ERROR ((LM_ERROR,
+                    ACE_TEXT ("%T (%t) - %M - failed to evaluate %s=%s\n"),
+                    this->name_.c_str (),
+                    this->value_.c_str ()));
+      }
     }
 
   private:

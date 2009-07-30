@@ -20,6 +20,7 @@
 #include "ace/Event_Handler.h"
 #include "cuts/utils/Property_Map.h"
 #include "Delay_Handler.h"
+#include "Node_Daemon_Common_export.h"
 
 // Forward decl.
 class CUTS_Process_Options;
@@ -29,7 +30,8 @@ class CUTS_Process_Options;
  *
  * Container for executing processes within a common environment.
  */
-class CUTS_Virtual_Env : public ACE_Event_Handler
+class CUTS_NODE_DAEMON_COMMON_Export CUTS_Virtual_Env :
+  public ACE_Event_Handler
 {
 public:
   typedef
@@ -49,9 +51,6 @@ public:
    * @return        Name of the environment.
    */
   const ACE_CString & name (void) const;
-
-  /// Open the environment.
-  int open (void);
 
   /// Close the environment.
   int close (void);

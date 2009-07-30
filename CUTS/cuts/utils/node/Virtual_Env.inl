@@ -54,5 +54,12 @@ const ACE_CString & CUTS_Virtual_Env::name (void) const
 CUTS_INLINE
 int CUTS_Virtual_Env::start (void)
 {
+  // Activate the delay handler for the process.
+  if (0 != this->delay_.activate ())
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - failed to activate delay handler\n")),
+                       -1);
+
+  // Spawn the startup processes.
   return this->spawn (this->startup_);
 }

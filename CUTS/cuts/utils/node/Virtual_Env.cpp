@@ -56,14 +56,6 @@ private:
 };
 
 //
-// open
-//
-int CUTS_Virtual_Env::open (void)
-{
-  return this->delay_.activate ();
-}
-
-//
 // close
 //
 int CUTS_Virtual_Env::close (void)
@@ -98,10 +90,6 @@ int CUTS_Virtual_Env::close (void)
 int CUTS_Virtual_Env::
 spawn (const ACE_CString & name, const CUTS_Process_Options & opts)
 {
-  ACE_DEBUG ((LM_INFO,
-              ACE_TEXT ("%T (%t) - %M - spawning process with id %s\n"),
-              name.c_str ()));
-
   // Initialize the ACE process options structure.
   ACE_Process_Options options (this->inherit_);
   CUTS_Text_Processor processor (this->env_);
@@ -150,6 +138,10 @@ spawn (const ACE_CString & name, const CUTS_Process_Options & opts)
   }
 
   // Spawn the new process.
+  ACE_DEBUG ((LM_INFO,
+              ACE_TEXT ("%T (%t) - %M - spawning process with id %s\n"),
+              name.c_str ()));
+
   ACE_Event_Handler * handler = opts.wait_for_completion_ ? 0 : this;
   pid_t pid = this->proc_man_.spawn (options, handler);
 
@@ -163,6 +155,9 @@ spawn (const ACE_CString & name, const CUTS_Process_Options & opts)
   {
     // We should use a *condition* variable here and let the
     // handle_exit () method notify us when the process has exited.
+    ACE_DEBUG ((LM_INFO,
+                ACE_TEXT ("%T (%t) - %M - waiting for process to complete\n")));
+
     this->proc_man_.wait (pid);
   }
   else
@@ -297,10 +292,15 @@ spawn (const PROCESS_OPTIONS_MAP & proc_list)
 //
 int CUTS_Virtual_Env::shutdown (void)
 {
-  // First, terminate all the executing task.
-
   // Finally, execute all the shutdown processes.
-  return this->spawn (this->shutdown_);
+  if (0 != this->spawn (this->shutdown_))
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - failed to execute shutdown processes\n")),
+                       -1);
+
+  // Shutdown the delay handler.
+  this->delay_.close ();
+  return 0;
 }
 
 //

@@ -1,3 +1,58 @@
+Thu Jul 30 02:26:13 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_utils.mpb:
+        * MPC/config/cutsutils.mpb:
+
+          . Update the base project specification.
+
+        * cuts/idl/exceptions.idl:
+
+          . Added an InvalidName exception.
+
+        * cuts/utils/Property_Parser.h:
+
+          . The parser does not continue if replacement of the string
+            do not succeed.
+
+        * cuts/utils/node/Node_Daemon.h:
+        * cuts/utils/node/Node_Daemon.inl:
+        * cuts/utils/node/Node_Daemon.cpp:
+        * cuts/utils/node/Node_Daemon_Options.h:
+        * cuts/utils/node/Node_Daemon_Options.cpp:
+        * cuts/utils/node/Virtual_Env.h:
+        * cuts/utils/node/Virtual_Env.inl:
+        * cuts/utils/node/Virtual_Env.cpp:
+        * cuts/utils/node/Virtual_Env_Manager.h:
+        * cuts/utils/node/Virtual_Env_Manager.inl:
+        * cuts/utils/node/Virtual_Env_Manager.cpp:
+        * cuts/utils/node/cutsnode_d.cpp:
+        * cuts/utils/node/cutsnode_d.mpc:
+        * cuts/utils/node/server:
+        * cuts/utils/node/server/NodeDaemon.idl:
+        * cuts/utils/node/server/NodeDaemon_Server.h:
+        * cuts/utils/node/server/NodeDaemon_Server.inl:
+        * cuts/utils/node/server/NodeDaemon_Server.cpp:
+        * cuts/utils/node/server/NodeDaemon_Server_Impl.h:
+        * cuts/utils/node/server/NodeDaemon_Server_Impl.inl:
+        * cuts/utils/node/server/NodeDaemon_Server_Impl.cpp:
+        * cuts/utils/node/server/NodeDaemon_Server_export.h:
+        * cuts/utils/node/server/NodeDaemon_i.h:
+        * cuts/utils/node/server/NodeDaemon_i.inl:
+        * cuts/utils/node/server/NodeDaemon_i.cpp:
+        * cuts/utils/node/server/NodeDaemon_skel_export.h:
+        * cuts/utils/node/server/NodeDaemon_stub_export.h:
+        * cuts/utils/node/server/server.mpc:
+
+          . Added server support for the node daemon.
+
+        * examples/cuts/utils/node/DAnCE/dance.cutsnode.config:
+
+          . Added the naming service to the example.
+
+        * examples/cuts/utils/node/DAnCE/environment.txt:
+
+          . Bug fix in the specification of an environment variable.
+
 Wed Jul 15 06:36:34 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/rtidds/SimpleExample/ModelDDSData_Base.mpc:

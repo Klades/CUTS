@@ -20,21 +20,37 @@ project (CUTS_Node_Daemon_Xml) : xsc_cxx {
   }
 }
 
-project (CUTS_Node_Daemon) : boost_base, xscrt, cuts_utils, cutsexe {
+project (CUTS_Node_Daemon_Common) : boost_base, xscrt, cuts_utils, cutslib {
+  sharedname  = CUTS_Node_Daemon_Common
+  after      += CUTS_Node_Xml
+
+  dynamicflags += CUTS_NODE_DAEMON_COMMON_BUILD_DLL
+
+  Source_Files {
+    Delay_Handler.cpp
+    Process_Dependency_Graph.cpp
+    Process_Options.cpp
+    Virtual_Env.cpp
+    Virtual_Env_Manager.cpp
+  }
+
+  Header_Files {
+  }
+}
+
+project (CUTS_Node_Daemon) : cuts_nodedaemon_common,  xscrt, cuts_utils, cutsexe {
   exename = cutsnode_d
-  after  += CUTS_Node_Xml
+
+  after += CUTS_NodeDaemon_Server
+  libs  += CUTS_NodeDaemon_Server
 
   Source_Files {
     cutsnode.cpp
     cutsnode_d.cpp
-    Delay_Handler.cpp
     Node_Daemon.cpp
     Node_Daemon_Options.cpp
     Node_File_Reader.cpp
-    Process_Dependency_Graph.cpp
-    Process_Options.cpp
     Text_Variable_Importer.cpp
-    Virtual_Env.cpp
     Variable_Importer_Strategy.cpp
   }
 

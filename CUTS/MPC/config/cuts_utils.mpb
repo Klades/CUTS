@@ -1,9 +1,6 @@
 // $Id$
 
-project {
+project : boost_base, acelib, cutslib {
   after += CUTS_Utils
   libs  += CUTS_Utils
-
-  libs  -= CUTS
-  after -= CUTS
 }

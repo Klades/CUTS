@@ -22,6 +22,8 @@ module CUTS
   exception RegistrationNotFound { };
 
   exception RegistrationFailed { };
+
+  exception InvalidName { };
 };
 
 #endif  // !defined _CUTS_EXCEPTIOSN_IDL_

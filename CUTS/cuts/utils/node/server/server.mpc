@@ -1,0 +1,73 @@
+// $Id$
+
+project (CUTS_NodeDaemon_stub) : cuts_stub, cutslib {
+  sharedname    = CUTS_NodeDaemon_stub
+  dynamicflags += CUTS_NODEDAEMON_STUB_BUILD_DLL
+
+  idlflags += -Wb,skel_export_macro=CUTS_NODEDAEMON_SKEL_Export \
+              -Wb,skel_export_include=NodeDaemon_skel_export.h \
+              -Wb,stub_export_macro=CUTS_NODEDAEMON_STUB_Export \
+              -Wb,stub_export_include=NodeDaemon_stub_export.h \
+              -I $(CUTS_ROOT)
+
+  IDL_Files {
+    NodeDaemon.idl
+  }
+
+  Source_Files {
+    NodeDaemonC.cpp
+  }
+
+  Header_Files {
+    NodeDaemonC.h
+  }
+
+  Inline_Files {
+    NodeDaemonC.inl
+  }
+}
+
+project (CUTS_NodeDaemon_skel) : cuts_nodedaemon_stub, cuts_skel, cutslib {
+  sharedname    = CUTS_NodeDaemon_skel
+  dynamicflags += CUTS_NODEDAEMON_SKEL_BUILD_DLL
+
+  Source_Files {
+    NodeDaemonS.cpp
+  }
+
+  Header_Files {
+    NodeDaemonS.h
+  }
+
+  Inline_Files {
+    NodeDaemonS.inl
+  }
+
+  IDL_Files {
+
+  }
+}
+
+project (CUTS_NodeDaemon_Server) : cuts_nodedaemon_common, cuts_nodedaemon_skel, cuts_lib, cutslib {
+  sharedname    = CUTS_NodeDaemon_Server
+  dynamicflags += CUTS_NODEDAEMON_SERVER_BUILD_DLL
+
+  Source_Files {
+    NodeDaemon_i.cpp
+    NodeDaemon_Server.cpp
+    NodeDaemon_Server_Impl.cpp
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+}
+

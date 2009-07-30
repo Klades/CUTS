@@ -15,6 +15,7 @@
 
 #include "ace/SString.h"
 #include "ace/Vector_T.h"
+#include "ace/ARGV.h"
 
 /**
  * @class CUTS_Node_Daemon_Server_Options
@@ -25,6 +26,9 @@
 class CUTS_Node_Daemon_Options
 {
 public:
+  /// Default constructor.
+  CUTS_Node_Daemon_Options (void);
+
   /// The initial directory for starting the node daemon.
   ACE_CString init_dir_;
 
@@ -36,6 +40,10 @@ public:
 
   /// The active enviroment for the node daemon.
   ACE_CString active_env_;
+
+  ACE_ARGV_T <char> server_opts_;
+
+  bool disable_server_;
 };
 
 #endif  // !defined _CUTS_NODE_DAEMON_SERVER_OPTIONS_H_

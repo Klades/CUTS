@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- * @file        Node_Daemon_Server.h
+ * @file        Node_Daemon_App.h
  *
  * $Id$
  *
@@ -10,36 +10,26 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_NODE_DAEMON_H_
-#define _CUTS_NODE_DAEMON_H_
+#ifndef _CUTS_NODE_DAEMON_APP_H_
+#define _CUTS_NODE_DAEMON_APP_H_
 
 #include "ace/Condition_T.h"
-#include "ace/Hash_Map_Manager.h"
-#include "ace/Null_Mutex.h"
-#include "ace/Thread_Mutex.h"
-#include "cuts/config.h"
+#include "ace/Service_Gestalt.h"
 #include "Node_Daemon_Options.h"
-
-// Forward decl.
-class CUTS_Virtual_Env;
+#include "Virtual_Env_Manager.h"
+#include "server/NodeDaemon_Server.h"
 
 /**
  * @class CUTS_Node_Daemon
  */
-class CUTS_Node_Daemon
+class CUTS_Node_Daemon_App
 {
 public:
-  /// Type definition for collection of virtual environments.
-  typedef
-    ACE_Hash_Map_Manager <ACE_CString,
-                          CUTS_Virtual_Env *,
-                          ACE_RW_Thread_Mutex> VIRTUAL_ENV_TABLE;
-
   /// Default constructor.
-  CUTS_Node_Daemon (void);
+  CUTS_Node_Daemon_App (void);
 
   /// Destructor.
-  ~CUTS_Node_Daemon (void);
+  ~CUTS_Node_Daemon_App (void);
 
   /**
    * Run the server main event loop.
@@ -60,7 +50,7 @@ private:
   int parse_args (int argc, char * argv []);
 
   /// Helper method to load the initial configuration.
-  int load_initial_config (CUTS_Virtual_Env * & active);
+  int load_initial_config (ACE_CString & active);
 
   /// Options for the server.
   CUTS_Node_Daemon_Options opts_;
@@ -72,11 +62,14 @@ private:
   ACE_Condition <ACE_Thread_Mutex> is_shutdown_;
 
   /// Collection of virtual environments for the node.
-  VIRTUAL_ENV_TABLE virtual_envs_;
+  CUTS_Virtual_Env_Manager virtual_envs_;
+
+  /// The server object for the node daemon.
+  CUTS_NodeDaemon_Server server_;
 };
 
 #if defined (__CUTS_INLINE__)
 #include "Node_Daemon.inl"
 #endif
 
-#endif  // !defined _CUTS_NODE_DAEMON_SERVER_H_
+#endif  // !defined _CUTS_NODE_DAEMON_APP_H_

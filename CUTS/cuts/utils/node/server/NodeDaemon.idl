@@ -1,0 +1,54 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ * @file        NodeDaemon.idl
+ *
+ * $Id$
+ *
+ * @author      James H. Hill
+ */
+//=============================================================================
+
+#ifndef _CUTS_NODEDAEMON_IDL_
+#define _CUTS_NODEDAEMON_IDL_
+
+#include "cuts/idl/exceptions.idl"
+
+module CUTS
+{
+  /**
+   * @interface NodeDaemon
+   *
+   * Interface for remotely acting with a node daemon.
+   */
+  interface NodeDaemon
+  {
+    /// Exception throw when there is no active environment to perform
+    /// the specified operation on.
+    exception NoActiveEnvironment { };
+
+    /**
+     * Get the name of the active environment.
+     *
+     * @return        Name of the environment.
+     */
+    readonly attribute string active_environment
+      raises (::CUTS::NodeDaemon::NoActiveEnvironment);
+
+    /**
+     * Set the active environment for the node daemon.
+     *
+     * @param[in]       name          Name of the environment.
+     */
+    void set_active_environment (in string name)
+      raises (::CUTS::InvalidName);
+
+    /// Reset the active environment. This will restart all the process
+    /// for the active environment.
+    void reset ()
+      raises (::CUTS::NodeDaemon::NoActiveEnvironment);
+  };
+};
+
+#endif  // !defined _CUTS_NODEDAEMON_IDL_

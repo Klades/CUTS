@@ -246,9 +246,8 @@ struct insert_environment
 {
   typedef ::CUTS::schemas::NodeConfig::environment_iterator::value_type value_type;
 
-  insert_environment (CUTS_Node_Daemon::VIRTUAL_ENV_TABLE & env,
-                      CUTS_Virtual_Env * & active_env)
-    : env_ (env),
+  insert_environment (CUTS_Virtual_Env_Manager & env_mgr, ACE_CString & active_env)
+    : env_mgr_ (env_mgr),
       active_env_ (active_env)
   {
 
@@ -262,32 +261,18 @@ struct insert_environment
 
     // Allocate a new virtual environment.
     CUTS_Virtual_Env * env = 0;
-    ACE_NEW_THROW_EX (env,
-                      CUTS_Virtual_Env (val->id ().c_str ()),
-                      ACE_bad_alloc ());
+    this->env_mgr_.create (val->id ().c_str (), env);
 
-    ACE_Auto_Ptr <CUTS_Virtual_Env> auto_clean (env);
+    *env <<= *val;
 
-    if (0 == this->env_.bind (val->id ().c_str (), env))
-    {
-      auto_clean.release ();
-      *env <<= *val;
-
-      if (val->active_p () && val->active ())
-        this->active_env_ = env;
-    }
-    else
-    {
-      ACE_ERROR ((LM_ERROR,
-                  ACE_TEXT ("%T (%t) - %M - failed to store environment %s\n"),
-                  val->id ().c_str ()));
-    }
+    if (val->active_p () && val->active ())
+      this->active_env_ = val->id ().c_str ();
   }
 
 private:
-  CUTS_Node_Daemon::VIRTUAL_ENV_TABLE & env_;
+  CUTS_Virtual_Env_Manager & env_mgr_;
 
-  CUTS_Virtual_Env * & active_env_;
+  ACE_CString & active_env_;
 };
 
 //
@@ -303,6 +288,9 @@ static const char * __HELP__ =
 "  -c, --config=FILE                  initial configuration file\n"
 "  --active-env=NAME                  set NAME as the active environment\n"
 "\n"
+"  --disable-server                   disable remoting server\n"
+"  --server-args=ARGS                 arguments for the server\n"
+"\n"
 "  -DNAME=VALUE                       define property NAME=VALUE\n"
 "\n"
 "  -v, --verbose                      print verbose infomration\n"
@@ -310,48 +298,59 @@ static const char * __HELP__ =
 "  -h, --help                         print this help message\n";
 
 //
+// CUTS_Node_Daemon_App
+//
+CUTS_Node_Daemon_App::CUTS_Node_Daemon_App (void)
+: is_shutdown_ (shutdown_),
+  server_ (virtual_envs_)
+{
+
+}
+
+//
 // run_main
 //
-int CUTS_Node_Daemon::run_main (int argc, char * argv [])
+int CUTS_Node_Daemon_App::run_main (int argc, char * argv [])
 {
   // Parse the remaining arguments.
   if (this->parse_args (argc, argv) == -1)
     return 1;
 
   // Load the initial configuration.
-  CUTS_Virtual_Env * active = 0;
+  ACE_CString active_env;
 
-  if (-1 == this->load_initial_config (active))
+  if (-1 == this->load_initial_config (active_env))
     ACE_ERROR_RETURN ((LM_ERROR,
                        ACE_TEXT ("%T (%t) - %M - failed to load configuration\n")),
                        -1);
+
+  if (!this->opts_.disable_server_)
+    this->server_.init (this->opts_.server_opts_.argc (),
+                        this->opts_.server_opts_.argv ());
 
   // The active environment specified at the command-line overrides
   // the one specified in the configuration file.
   if (!this->opts_.active_env_.empty ())
   {
-    if (0 != this->virtual_envs_.find (this->opts_.active_env_, active))
-      ACE_ERROR ((LM_ERROR,
-                  ACE_TEXT ("%T (%t) - %M - failed to located environment ")
-                  ACE_TEXT ("%s; using default specified in configuration\n"),
-                  this->opts_.active_env_.c_str ()));
+    ACE_DEBUG ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - setting %s to active environment\n"),
+                this->opts_.active_env_.c_str ()));
+
+    this->virtual_envs_.set_active_environment (this->opts_.active_env_);
   }
-
-  if (0 != active)
+  else if (!active_env.empty ())
   {
-    ACE_DEBUG ((LM_INFO,
-                ACE_TEXT ("%T (%t) - %M - activating %s environment\n"),
-                active->name ().c_str ()));
+    ACE_DEBUG ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - setting %s to active environment\n"),
+                active_env.c_str ()));
 
-    // Open the environment for business. ;-)
-    active->open ();
-
-    // Start the active environment.
-    active->start ();
+    this->virtual_envs_.set_active_environment (active_env);
   }
   else
+  {
     ACE_ERROR ((LM_WARNING,
                 ACE_TEXT ("%T (%t) - %M - no environment is active\n")));
+  }
 
   // Wait for the process to shutdown.
   ACE_DEBUG ((LM_INFO,
@@ -360,30 +359,25 @@ int CUTS_Node_Daemon::run_main (int argc, char * argv [])
   ACE_GUARD_RETURN (ACE_Thread_Mutex, guard, this->shutdown_, -1);
   this->is_shutdown_.wait ();
 
+  // Shutdown the server.
+  if (!this->opts_.disable_server_)
+    this->server_.fini ();
+
   return 0;
 }
 
 //
 // close
 //
-void CUTS_Node_Daemon::close (void)
+void CUTS_Node_Daemon_App::close (void)
 {
-  for (VIRTUAL_ENV_TABLE::ITERATOR iter (this->virtual_envs_);
-       !iter.done ();
-       ++ iter)
-  {
-    // First, close the environment.
-    iter->item ()->close ();
-
-    // Next, delete the environment.
-    delete iter->item ();
-  }
+  this->virtual_envs_.close ();
 }
 
 //
 // parse_args
 //
-int CUTS_Node_Daemon::parse_args (int argc, char * argv [])
+int CUTS_Node_Daemon_App::parse_args (int argc, char * argv [])
 {
   // Setup the <ACE_Get_Opt> variable.
   const char * opts = "c:vd:D:";
@@ -393,6 +387,9 @@ int CUTS_Node_Daemon::parse_args (int argc, char * argv [])
   get_opt.long_option ("working-directory", 'd', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("config", 'c', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("active-env", ACE_Get_Opt::ARG_REQUIRED);
+
+  get_opt.long_option ("disable-server");
+  get_opt.long_option ("server-args", ACE_Get_Opt::ARG_REQUIRED);
 
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
@@ -437,7 +434,15 @@ int CUTS_Node_Daemon::parse_args (int argc, char * argv [])
       else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
       {
         std::cout << __HELP__ << std::endl;
-        ACE_OS::exit (0);
+        ACE_OS::exit (1);
+      }
+      else if (0 == ACE_OS::strcmp (get_opt.long_option (), "server-args"))
+      {
+        this->opts_.server_opts_.add (get_opt.opt_arg ());
+      }
+      else if (0 == ACE_OS::strcmp (get_opt.long_option (), "disable-server"))
+      {
+        this->opts_.disable_server_ = true;
       }
       break;
 
@@ -451,7 +456,7 @@ int CUTS_Node_Daemon::parse_args (int argc, char * argv [])
 
     case 'h':
       std::cout << __HELP__ << std::endl;
-      ACE_OS::exit (0);
+      ACE_OS::exit (1);
       break;
 
     case 'D':
@@ -491,7 +496,7 @@ int CUTS_Node_Daemon::parse_args (int argc, char * argv [])
 //
 // shutdown
 //
-void CUTS_Node_Daemon::shutdown (void)
+void CUTS_Node_Daemon_App::shutdown (void)
 {
   ACE_GUARD (ACE_Thread_Mutex, guard, this->shutdown_);
   this->is_shutdown_.signal ();
@@ -500,7 +505,7 @@ void CUTS_Node_Daemon::shutdown (void)
 //
 // load_initial_config
 //
-int CUTS_Node_Daemon::load_initial_config (CUTS_Virtual_Env * & active)
+int CUTS_Node_Daemon_App::load_initial_config (ACE_CString & active)
 {
   if (this->opts_.config_.empty ())
     return -1;
