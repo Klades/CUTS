@@ -1,0 +1,6 @@
+// $Id$
+
+project : taolib {
+  libs  += CUTS_NodeDaemon_stub
+  after += CUTS_NodeDaemon_stub
+}

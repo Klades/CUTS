@@ -1,0 +1,6 @@
+// $Id$
+
+project : portableserver, cuts_nodedaemon_stub {
+  libs  += CUTS_NodeDaemon_skel
+  after += CUTS_NodeDaemon_skel
+}

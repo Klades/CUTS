@@ -1,3 +1,22 @@
+Sun Aug  2 18:44:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_nodedaemon_common.mpb:
+        * MPC/config/cuts_nodedaemon_skel.mpb:
+        * MPC/config/cuts_nodedaemon_stub.mpb:
+
+          . Missing base projects.
+
+        * default.features:
+
+          . Disabled 'wix' from the default build.
+
+        * CUTS_Modeling.mwc:
+        * contrib:
+        * MPC/config/codegenerationkit.mpb:
+
+          . Added 'CCF' and 'utility' to the contributions since they
+            are no longer part of ACE+TAO+CIAO standard distro.
+
 Thu Jul 30 02:26:13 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MPC/config/cuts_utils.mpb:
