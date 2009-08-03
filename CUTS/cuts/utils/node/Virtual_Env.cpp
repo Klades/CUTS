@@ -10,6 +10,7 @@
 #include "Process_Options.h"
 #include "cuts/utils/Text_Processor.h"
 #include "boost/graph/topological_sort.hpp"
+#include "ace/Reactor.h"
 
 /**
  * @struct spawn_process
@@ -82,6 +83,24 @@ int CUTS_Virtual_Env::close (void)
   // Finally, close the delay handler.
   this->delay_.close ();
   return 0;
+}
+
+//
+// start
+//
+int CUTS_Virtual_Env::start (void)
+{
+  if (this->delay_.reactor ()->reactor_event_loop_done ())
+    this->delay_.reactor ()->reset_reactor_event_loop ();
+
+  // Activate the delay handler for the process.
+  if (0 != this->delay_.activate ())
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - failed to activate delay handler\n")),
+                       -1);
+
+  // Spawn the startup processes.
+  return this->spawn (this->startup_);
 }
 
 //
@@ -292,6 +311,34 @@ spawn (const PROCESS_OPTIONS_MAP & proc_list)
 //
 int CUTS_Virtual_Env::shutdown (void)
 {
+  // Terminate each of the active processes.
+  pid_t pid;
+
+  for (PROCESS_MANAGER::ITERATOR iter (this->managed_); !iter.done (); ++ iter)
+  {
+    // First, try to signal the process to terminate. Otherwise, we need
+    // to force it to terminate.
+    ACE_DEBUG ((LM_INFO,
+                ACE_TEXT ("%T (%t) - %M - terminating process %s\n"),
+                iter->key ().c_str ()));
+
+    pid = iter->item ();
+    int retval = this->proc_man_.terminate (pid, SIGTERM);
+
+    if (-1 == retval)
+      retval = this->proc_man_.terminate (pid);
+
+    if (-1 == retval)
+      ACE_ERROR_RETURN ((LM_ERROR,
+                        ACE_TEXT ("%T (%t) - %M - failed to terminate process ")
+                        ACE_TEXT ("with name %s\n"),
+                        iter->key ().c_str ()),
+                        -1);
+  }
+
+  // Remove all the process.
+  this->managed_.unbind_all ();
+
   // Finally, execute all the shutdown processes.
   if (0 != this->spawn (this->shutdown_))
     ACE_ERROR_RETURN ((LM_ERROR,
@@ -313,4 +360,25 @@ install (const ACE_CString & name, CUTS_Process_Options * opts, bool startup)
     return this->startup_.bind (name, opts);
   else
     return this->shutdown_.bind (name, opts);
+}
+
+//
+// restart
+//
+int CUTS_Virtual_Env::restart (void)
+{
+  if (0 == this->shutdown ())
+  {
+    if (0 != this->start ())
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         ACE_TEXT ("%T (%t) - %M - failed to start environment\n")),
+                         -1);
+
+    return 0;
+  }
+  else
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - failed to shutdown environment\n")));
+
+  return -1;
 }

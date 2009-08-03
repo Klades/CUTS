@@ -48,7 +48,7 @@ project (CUTS_NodeDaemon_skel) : cuts_nodedaemon_stub, cuts_skel, cutslib {
   }
 }
 
-project (CUTS_NodeDaemon_Server) : cuts_nodedaemon_common, cuts_nodedaemon_skel, cuts_lib, cutslib {
+project (CUTS_NodeDaemon_Server) : cuts_iortable_trait, cuts_nodedaemon_common, cuts_nodedaemon_skel, cuts_lib, cutslib {
   sharedname    = CUTS_NodeDaemon_Server
   dynamicflags += CUTS_NODEDAEMON_SERVER_BUILD_DLL
 
@@ -59,7 +59,7 @@ project (CUTS_NodeDaemon_Server) : cuts_nodedaemon_common, cuts_nodedaemon_skel,
   }
 
   Header_Files {
-
+    NodeDaemon_Server_Options.h
   }
 
   Inline_Files {

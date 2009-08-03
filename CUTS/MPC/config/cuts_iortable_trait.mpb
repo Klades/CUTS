@@ -1,0 +1,6 @@
+// $Id$
+
+project {
+  after += CUTS_IORTable_Trait
+  libs  += CUTS_IORTable_Trait
+}

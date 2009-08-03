@@ -1,0 +1,10 @@
+// $Id$
+
+project (CUTS_Node_Daemon_Client) : cuts_nodedaemon_stub, cutsexe {
+  exename = cutsnode
+
+  Source_Files {
+    client.cpp
+    NodeDaemon_Client_App.cpp
+  }
+}

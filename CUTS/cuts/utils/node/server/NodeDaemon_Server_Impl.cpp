@@ -6,6 +6,8 @@
 #include "NodeDaemon_Server_Impl.inl"
 #endif
 
+#include "ace/Get_Opt.h"
+
 //
 // init
 //
@@ -51,7 +53,7 @@ int CUTS_NodeDaemon_Server_Impl::init (int argc, char * argv [])
     // Activate the server's daemon object.
     ACE_DEBUG ((LM_DEBUG,
                 ACE_TEXT ("%T (%t) - %M - activating NodeDaemon servant\n")));
-    PortableServer::ObjectId_var oid = this->root_poa_->activate_object (&this->daemon_);
+    this->deamon_mgr_.activate (this->root_poa_.in ());
 
     // Activate the task that runs the ORB's event loop.
     if (0 != this->task_.activate ())
@@ -82,8 +84,7 @@ int CUTS_NodeDaemon_Server_Impl::fini (void)
     // Deactivate the servant.
     ACE_DEBUG ((LM_DEBUG,
                 ACE_TEXT ("%T (%t) - %M - deactivating NodeDaemon servant\n")));
-    ::PortableServer::ObjectId_var oid = this->root_poa_->servant_to_id (&this->daemon_);
-    this->root_poa_->deactivate_object (oid.in ());
+    this->deamon_mgr_.deactivate ();
 
     // Shutdown ORB and wait for all threads to exit.
     ACE_DEBUG ((LM_DEBUG,
@@ -116,6 +117,36 @@ int CUTS_NodeDaemon_Server_Impl::fini (void)
 int CUTS_NodeDaemon_Server_Impl::parse_args (int argc, char * argv [])
 {
   this->orb_ = ::CORBA::ORB_init (argc, argv);
+
+  const char * optargs = ACE_TEXT ("o:");
+  ACE_Get_Opt get_opt (argc, argv, optargs, 0);
+
+  get_opt.long_option ("register-with-ns", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("register-with-iortable", ACE_Get_Opt::ARG_REQUIRED);
+
+  char opt;
+
+  while (EOF != (opt = get_opt ()))
+  {
+    switch (opt)
+    {
+    case 0:
+      if (0 == ACE_OS::strcmp ("register-with-ns", get_opt.long_option ()))
+      {
+        this->opts_.ns_name_ = get_opt.opt_arg ();
+      }
+      else if (0 == ACE_OS::strcmp ("register-with-iortable", get_opt.long_option ()))
+      {
+        this->deamon_mgr_.set_trait_value (CUTS_IOR_Table_Trait (), get_opt.opt_arg ());
+      }
+
+      break;
+
+    case 'o':
+      this->deamon_mgr_.set_trait_value (CUTS_IOR_File_Trait (), get_opt.opt_arg ());
+      break;
+    }
+  }
+
   return 0;
 }
-
