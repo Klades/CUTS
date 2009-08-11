@@ -1,3 +1,22 @@
+Tue Aug 11 19:17:05 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/antispam/antispam.old:
+        * cuts/utils/antispam/antispam.mpc:
+
+          . Disabled the projects above.
+
+        * cuts/workers/logging:
+        * cuts/workers/logging/Format_Parser.h:
+        * cuts/workers/logging/Format_Parser.cpp:
+        * cuts/workers/logging/Test_Logger.h:
+        * cuts/workers/logging/Test_Logger.cpp:
+        * cuts/workers/logging/Test_Logger.mpc:
+        * cuts/workers/logging/Test_Logger_export.h:
+        * cuts/workers/logging/Test_Logger_i.h:
+        * cuts/workers/logging/Test_Logger_i.cpp:
+
+          Removed these files.
+
 Tue Aug 11 16:31:24 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MPC/config/cuts_client_logger.mpb:
