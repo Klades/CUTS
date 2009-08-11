@@ -12,11 +12,11 @@ project (CUTS_Logging_Client_stub) : cuts_stub, cuts_logging_stub, cutslib {
   dynamicflags += CUTS_LOGGING_CLIENT_STUB_BUILD_DLL
 
   IDL_Files {
-    client.idl
+    LoggingClient.idl
   }
 
   Source_Files {
-    clientC.cpp
+    LoggingClientC.cpp
   }
 
   Header_Files {
@@ -34,7 +34,7 @@ project (CUTS_Logging_Client_skel) : cuts_logging_client_stub, cuts_logging_skel
   dynamicflags += CUTS_LOGGING_CLIENT_SKEL_BUILD_DLL
 
   Source_Files {
-    clientS.cpp
+    LoggingClientS.cpp
   }
 
   Header_Files {
@@ -50,19 +50,16 @@ project (CUTS_Logging_Client_skel) : cuts_logging_client_stub, cuts_logging_skel
   }
 }
 
-project (cutslog) : naming, iortable, cuts_logging_client_skel, cuts_lib, cutsexe {
-  exename = cutslog
+project (CUTS_Logging_Client) : cuts_iortable_trait, cuts_logging_client_skel, cuts_logging_server_stub, cuts_lib, cutsexe {
+  exename = cuts-logging-client
 
   Source_Files {
-    Local_Logging_Client_App.cpp
-    LocalTestLoggerClient_i.cpp
+    Log_Message_Handler.cpp
+    Logger_i.cpp
+    Logger_Task.cpp
     Logging_Client.cpp
-    Logging_Client_Task.cpp
+    LoggingClient_i.cpp
     cutslog.cpp
-    TestLogger_i.cpp
-    TestLoggerFactory_i.cpp
-    TestLoggerClient_i.cpp
-    Test_Logger_Map.cpp
   }
 
   Header_Files {

@@ -1,0 +1,6 @@
+// $Id$
+
+workspace {
+  cmdline += -include $CUTS_ROOT/MPC/config \
+             -feature_file $CUTS_ROOT/default.features
+}

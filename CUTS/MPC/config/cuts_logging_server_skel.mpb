@@ -1,5 +1,6 @@
 // $Id$
 
 project : cuts_logging_server_stub, cuts_logging_skel {
-
+  libs  += CUTS_Logging_Server_skel
+  after += CUTS_Logging_Server_skel
 }

@@ -1,55 +1,40 @@
 // $Id$
 
 #include "Logging_Client.h"
-#include "Logging_Client_Options.h"
-#include "Logging_Client_Task.h"
-#include "TestLoggerClient_i.h"
-#include "tao/IORTable/IORTable.h"
-#include "ace/ARGV.h"
-#include "ace/Argv_Type_Converter.h"
+#include "Logger_Task.h"
+
+#include "cuts/ORB_Server_Task.h"
+
+#include "ace/CORBA_macros.h"
 #include "ace/Get_Opt.h"
+#include "ace/Reactor.h"
 #include "ace/streams.h"
-#include "ace/INET_Addr.h"
-#include "ace/OS_NS_unistd.h"
+
 #include <sstream>
 
 //
 // __HELP__
 //
 static const char * __HELP__ =
-"Logging client daemon for submitting log messages to a CUTS database\n"
+"CUTS logging client responsible for sending log messages to a CUTS logging server\n"
 "\n"
-"USAGE: cutslog_d [OPTIONS]\n"
+"USAGE: cuts-logging-client [OPTIONS]\n"
 "\n"
-"Options:\n"
-"  --port=VAL            localhost port number\n"
-"  --thread-count=N      size of the server's thread pool for receiving\n"
-"                        log messages from client applications (default N=1)\n"
-"  --timeout=TIME        timeout interval to flush message queue\n"
-"                        in seconds (default=30)\n"
+"  -o, --iorfile=FILE                 write IOR to specified FILE\n"
+"  --register-with-iortable=NAME      register client with IORTable under NAME\n"
 "\n"
-"  -h, --help            print this help message\n"
-"  -v, --verbose         print verbose infomration\n"
-"  --debug               print debugging information\n"
-"  --trace               print tracing information\n"
-"\n"
-"Remarks:\n"
-"If the client's threadpool size is set to 1, then the client will act\n"
-"like a single-threaded logging client\n";
+"Output options:\n"
+"  -v, --verbose                      print verbose infomration\n"
+"  --debug                            print debugging information\n"
+"  --trace                            print tracing information\n"
+"  -h, --help                         print this help message\n";
 
 //
 // CUTS_Logging_Client
 //
 CUTS_Logging_Client::CUTS_Logging_Client (void)
 {
-  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_Logging_Client::CUTS_Logging_Client (void)");
 
-  // Get the hostname of the logging client.
-  char hostname[1024];
-  ACE_OS::hostname (hostname, sizeof (hostname));
-  ACE_INET_Addr inet ((u_short)0, hostname, AF_ANY);
-
-  this->hostname_ = hostname;
 }
 
 //
@@ -57,7 +42,7 @@ CUTS_Logging_Client::CUTS_Logging_Client (void)
 //
 CUTS_Logging_Client::~CUTS_Logging_Client (void)
 {
-  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_Logging_Client::~CUTS_Logging_Client (void)");
+
 }
 
 //
@@ -65,123 +50,78 @@ CUTS_Logging_Client::~CUTS_Logging_Client (void)
 //
 int CUTS_Logging_Client::run_main (int argc, char * argv [])
 {
-  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_Logging_Client::run_main (int, char * [])");
-
   try
   {
-    if (this->parse_args (argc, argv) == -1)
-    {
+    if (0 != this->parse_args (argc, argv))
       ACE_ERROR_RETURN ((LM_ERROR,
-                        "%T (%t) - %M - failed to parse command-line arguments\n"),
-                        -1);
-    }
+                         ACE_TEXT ("%T (%t) - %M - failed to parse command-line arguments\n")),
+                         -1);
 
     // Get a reference to the <RootPOA>
     ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - resolving initial reference to RootPOA\n"));
+                ACE_TEXT ("%T (%t) - %M - resolving RootPOA\n")));
 
-    CORBA::Object_var obj = this->orb_->resolve_initial_references ("RootPOA");
-    PortableServer::POA_var root_poa = PortableServer::POA::_narrow (obj.in ());
+    ::CORBA::Object_var obj = this->orb_->resolve_initial_references ("RootPOA");
+    ::PortableServer::POA_var root_poa = ::PortableServer::POA::_narrow (obj.in ());
 
     // Activate the RootPOA's manager.
-    ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - getting reference to POAManager\n"));
-    PortableServer::POAManager_var mgr = root_poa->the_POAManager ();
+    ::PortableServer::POAManager_var mgr = root_poa->the_POAManager ();
     mgr->activate ();
 
     // Create a new test logger client.
-    CUTS_TestLoggerClient_i * client = 0;
+    ACE_DEBUG ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - creating logging client servant\n")));
+
+    CUTS_LoggingClient_i * client = 0;
 
     ACE_NEW_THROW_EX (client,
-                      CUTS_TestLoggerClient_i (root_poa.in ()),
-                      CORBA::NO_MEMORY ());
+                      CUTS_LoggingClient_i (root_poa.in (), &this->cleaning_task_),
+                      ::CORBA::NO_MEMORY ());
 
     this->client_.reset (client);
+    this->client_.activate (root_poa.in ());
 
-    // Activate the object under the RootPOA for now.
-    PortableServer::ObjectId_var oid =
-      root_poa->activate_object (this->client_.get ());
+    ACE_DEBUG ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - initializing active objects\n")));
 
-    // Register the test manager with the IORTable for the ORB.
-    if (this->register_with_iortable () == -1)
-    {
+    CUTS_ORB_Server_Task task (this->orb_.in ());
+
+    if (0 != this->cleaning_task_.init (this->orb_.in ()))
       ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T (%t) - %M - failed to register with IOR table; "
-                         "aborting...\n"),
+                         ACE_TEXT ("%T (%t) - %M - failed to initialize cleaning task\n")),
                          -1);
-    }
 
-    if (CUTS_LOGGING_OPTIONS->register_with_ns_)
-    {
-      obj = root_poa->id_to_reference (oid.in ());
+    // Activate the cleaning task.
+    ACE_DEBUG ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - activating cleaning task\n")));
 
-      if (this->register_with_name_service (obj.in ()) == -1)
-      {
-        ACE_ERROR ((LM_ERROR,
-                    "%T (%t) - %M - failed to register logging client "
-                    "with naming service\n"));
-      }
-    }
-
-    CUTS_Logging_Client_Task task (this->orb_.in ());
+    if (0 != this->cleaning_task_.activate ())
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         ACE_TEXT ("%T (%t) - %M - failed to activate cleaning task\n")),
+                         -1);
 
     // Activate the server task with N number of threads. We then wait for
     // all the threads to return. This happens when the ORB is shutdown.
     int flags = THR_NEW_LWP | THR_JOINABLE | THR_INHERIT_SCHED;
-    int retval = task.activate (flags, CUTS_LOGGING_OPTIONS->thr_count_);
+    int retval = task.activate (flags, this->opts_.thr_count_);
 
-    if (retval == 0)
+    if (0 == retval)
     {
       ACE_DEBUG ((LM_DEBUG,
-                  "%T (%t) - %M - waiting for client task to return\n"));
+                  ACE_TEXT ("%T (%t) - %M - waiting for ORB to shutdown\n")));
 
-      CUTS_Local_Logging_Client_App * local_client = 0;
-
-      ACE_NEW_THROW_EX (local_client,
-                        CUTS_Local_Logging_Client_App (*this->client_.get ()),
-                        CORBA::NO_MEMORY ());
-
-      this->local_client_.reset (local_client);
-
-      // Activate the local client.
-      if (this->local_client_->run_main (CUTS_LOGGING_OPTIONS->localport_) == 0)
-      {
-        // Wait for all the threads to exit.
-        task.wait ();
-
-        // Shutdown and destroy the local client.
-        this->local_client_->shutdown ();
-        this->local_client_->destroy ();
-      }
-      else
-      {
-        ACE_ERROR ((LM_ERROR,
-                    "%T (%t) - %M - failed to run local server\n"));
-      }
+      task.wait ();
     }
-    else
-    {
-      ACE_ERROR ((LM_ERROR,
-                  "%T (%t) - %M - failed to activate server [retval = %d]\n",
-                  retval));
-    }
-
-    if (CUTS_LOGGING_OPTIONS->register_with_ns_)
-      this->unregister_with_name_service ();
 
     // Destroy the RootPOA.
     ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - destroying the RootPOA\n"));
-    root_poa->destroy (true, true);
+                ACE_TEXT ("%T (%t) - %M - destroying RootPOA\n")));
 
-    // Destroy the ORB.
-    ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - destroying the ORB\n"));
+    root_poa->destroy (1, 1);
 
-    this->orb_->destroy ();
     return 0;
   }
-  catch (const CORBA::Exception & ex)
+  catch (const ::CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - %s\n",
@@ -196,19 +136,52 @@ int CUTS_Logging_Client::run_main (int argc, char * argv [])
 //
 void CUTS_Logging_Client::shutdown (void)
 {
-  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_Logging_Client::shutdown (void)");
-
   try
   {
+    // Deactivate the client.
+    this->client_.deactivate ();
+
+    // End the cleaning task for the client.
+    this->cleaning_task_.reactor ()->end_reactor_event_loop ();
+    this->cleaning_task_.wait ();
+
     // Stop the ORB's main event loop.
     if (!::CORBA::is_nil (this->orb_.in ()))
       this->orb_->shutdown ();
   }
-  catch (const CORBA::Exception & ex)
+  catch (const ::CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - %s\n",
+                ACE_TEXT ("%T (%t) - %M - %s\n"),
                 ex._info ().c_str ()));
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - caught unknown exception in shutdown ()\n")));
+  }
+}
+
+//
+// destroy
+//
+void CUTS_Logging_Client::destroy (void)
+{
+  try
+  {
+    if (!::CORBA::is_nil (this->orb_.in ()))
+      this->orb_->destroy ();
+  }
+  catch (const ::CORBA::Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - %s\n"),
+                ex._info ().c_str ()));
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - caught unknown exception in destroy ()\n")));
   }
 }
 
@@ -217,20 +190,15 @@ void CUTS_Logging_Client::shutdown (void)
 //
 int CUTS_Logging_Client::parse_args (int argc, char * argv [])
 {
-  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_Logging_Client::parse_args (int, char * [])");
-
   // Initialize the ORB.
-  this->orb_ = CORBA::ORB_init (argc, argv, "cuts.logging.client");
+  this->orb_ = ::CORBA::ORB_init (argc, argv, "cuts.logging.client");
 
   // Parse the remaining command-line arguments.
-  const char * opts = ACE_TEXT ("vh");
+  const char * opts = ACE_TEXT ("vho:");
   ACE_Get_Opt get_opt (argc, argv, opts);
 
-  get_opt.long_option ("port", ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("thread-count", ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("timeout", ACE_Get_Opt::ARG_REQUIRED);
-
-  get_opt.long_option ("register-with-ns", ACE_Get_Opt::NO_ARG);
+  get_opt.long_option ("iorfile", 'o', ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("register-with-iortable", ACE_Get_Opt::ARG_REQUIRED);
 
   get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
@@ -244,7 +212,19 @@ int CUTS_Logging_Client::parse_args (int argc, char * argv [])
     switch (ch)
     {
     case 0:
-      if (ACE_OS::strcmp ("verbose", get_opt.long_option ()) == 0)
+      if (ACE_OS::strcmp ("iorfile", get_opt.long_option ()) == 0)
+      {
+        this->client_.set_trait_value (CUTS_IOR_File_Trait (), get_opt.opt_arg ());
+      }
+      else if (ACE_OS::strcmp ("register-with-iortable", get_opt.long_option ()) == 0)
+      {
+        this->client_.set_trait_value (CUTS_IOR_Table_Trait (), get_opt.opt_arg ());
+      }
+      else if (ACE_OS::strcmp ("help", get_opt.long_option ()) == 0)
+      {
+        this->print_help ();
+      }
+      else if (ACE_OS::strcmp ("verbose", get_opt.long_option ()) == 0)
       {
         u_long mask =
           ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
@@ -271,34 +251,10 @@ int CUTS_Logging_Client::parse_args (int argc, char * argv [])
 
         ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
       }
-      else if (ACE_OS::strcmp ("timeout", get_opt.long_option ()) == 0)
-      {
-        std::istringstream istr (get_opt.opt_arg ());
+      break;
 
-        time_t seconds;
-        istr >> seconds;
-
-        CUTS_LOGGING_OPTIONS->timeout_.sec (seconds);
-      }
-      else if (ACE_OS::strcmp ("help", get_opt.long_option ()) == 0)
-      {
-        this->print_help ();
-      }
-      else if (ACE_OS::strcmp ("register-with-ns", get_opt.long_option ()) == 0)
-      {
-        CUTS_LOGGING_OPTIONS->register_with_ns_ = true;
-      }
-      else if (ACE_OS::strcmp ("thread-count", get_opt.long_option ()) == 0)
-      {
-        std::istringstream istr (get_opt.opt_arg ());
-        istr >> CUTS_LOGGING_OPTIONS->thr_count_;
-      }
-      else if (ACE_OS::strcmp ("port", get_opt.long_option ()) == 0)
-      {
-        std::istringstream istr (get_opt.opt_arg ());
-        istr >> CUTS_LOGGING_OPTIONS->localport_;
-      }
-
+    case 'o':
+      this->client_.set_trait_value (CUTS_IOR_File_Trait (), get_opt.opt_arg ());
       break;
 
     case 'v':
@@ -318,54 +274,7 @@ int CUTS_Logging_Client::parse_args (int argc, char * argv [])
     }
   }
 
-  // Validate all the command-line options.
-  if (CUTS_LOGGING_OPTIONS->thr_count_ == 0)
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T (%t) - %M - --thread-count must be greater than 0\n"),
-                       -1);
-
   return 0;
-}
-
-//
-// register_with_iortable
-//
-int CUTS_Logging_Client::register_with_iortable (void)
-{
-  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_Logging_Client::register_with_iortable (void)");
-
-  try
-  {
-    // Locate the IORTable for the application.
-    CORBA::Object_var obj = this->orb_->resolve_initial_references ("IORTable");
-    IORTable::Table_var ior_table = IORTable::Table::_narrow (obj.in ());
-
-    if (::CORBA::is_nil (ior_table.in ()))
-    {
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T (%t) - %M - failed to resolve IOR table\n"),
-                         -1);
-    }
-
-    // Get the IOR string for the test manager.
-    CUTS::TestLoggerClient_var client = this->client_->_this ();
-    CORBA::String_var obj_str  = this->orb_->object_to_string (client.in ());
-
-    // Bind the object to the IOR table.
-    ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - binding logging client to IORTable\n"));
-
-    ior_table->bind ("CUTS/TestLoggerClient", obj_str.in ());
-    return 0;
-  }
-  catch (const CORBA::Exception & ex)
-  {
-    ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - %s\n",
-                ex._info ().c_str ()));
-  }
-
-  return -1;
 }
 
 //
@@ -373,111 +282,6 @@ int CUTS_Logging_Client::register_with_iortable (void)
 //
 void CUTS_Logging_Client::print_help (void)
 {
-  CUTS_TEST_LOGGING_CLIENT_TRACE ("CUTS_Logging_Client::print_help (void)");
-
   std::cout << ::__HELP__ << std::endl;
-  ACE_OS::exit (0);
+  ACE_OS::exit (1);
 }
-
-//
-// register_with_name_service
-//
-int CUTS_Logging_Client::register_with_name_service (CORBA::Object_ptr client)
-{
-  try
-  {
-    // Get the root context of the naming service.
-    CORBA::Object_var obj =
-      this->orb_->resolve_initial_references ("NameService");
-
-    this->root_ctx_ = CosNaming::NamingContextExt::_narrow (obj.in ());
-
-    // Construct all the context we would like to create, then contact
-    // the naming service to ensure they all exist.
-    const char * ctx_names [] = {"CUTS", "TestLoggerClient"};
-
-    CosNaming::Name ns_name (3);
-    CosNaming::NamingContext_var ctx;
-
-    for (int i = 0; i < 2; ++ i)
-    {
-      // Initialize the next id in the name.
-      ns_name.length (i + 1);
-      ns_name[i].id = CORBA::string_dup (ctx_names[i]);
-
-      try
-      {
-        ctx = this->root_ctx_->bind_new_context (ns_name);
-      }
-      catch (const CosNaming::NamingContext::AlreadyBound &)
-      {
-        // do nothing
-      }
-    }
-
-    // Update the length so that the test manager's name is visible
-    // to the naming service.
-    ns_name.length (3);
-    ns_name[2].id = CORBA::string_dup (this->hostname_.c_str ());
-
-    // Bind the actual test manger to the naming service.
-    ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - binding logging to naming service as "
-                "CUTS/TestLoggerClient/%s\n",
-                this->hostname_.c_str ()));
-
-    this->root_ctx_->rebind (ns_name, client);
-    return 0;
-  }
-  catch (const CosNaming::NamingContext::AlreadyBound & ex)
-  {
-    ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - %s already registered with naming service (%s)\n",
-                this->hostname_.c_str (),
-                ex._info ().c_str ()));
-  }
-  catch (const CORBA::Exception & ex)
-  {
-    ACE_ERROR ((LM_ERROR,
-                "%T - %M - %s\n",
-                ex._info ().c_str ()));
-  }
-
-  return -1;
-}
-
-//
-// register_with_name_service
-//
-int CUTS_Logging_Client::unregister_with_name_service (void)
-{
-  if (CORBA::is_nil (this->root_ctx_))
-    return 0;
-
-  try
-  {
-    // Construct the fully qualified name of the test manger for
-    // within the naming service.
-    CosNaming::Name ns_name (3);
-    ns_name.length (3);
-
-    ns_name[0].id = CORBA::string_dup ("CUTS");
-    ns_name[1].id = CORBA::string_dup ("TestLoggerClient");
-    ns_name[2].id = CORBA::string_dup (this->hostname_.c_str ());
-
-    // Unregister the TestManger with the naming service.
-    ACE_DEBUG ((LM_INFO,
-                "%T - %M - unregistering test manager with naming service\n"));
-
-    this->root_ctx_->unbind (ns_name);
-  }
-  catch (const CORBA::Exception & ex)
-  {
-    ACE_ERROR ((LM_ERROR,
-                "%T - %M - %s\n",
-                ex._info ().c_str ()));
-  }
-
-  return -1;
-}
-

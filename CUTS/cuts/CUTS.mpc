@@ -40,6 +40,7 @@ project (CUTS) : boost_base, cuts_skel, cutslib {
     Event_Handler_Message.cpp
     Exponential_Periodic_Event_Strategy.cpp
     Host_Table.cpp
+    IOR_File_Trait.cpp
     Metrics_Visitor.cpp
     Operation_Measurement.cpp
     ORB_Server_Task.cpp
@@ -87,9 +88,32 @@ project (CUTS) : boost_base, cuts_skel, cutslib {
     Pending_Op_T.cpp
     Pending_Op_List_T.cpp
     Periodic_Event_T.cpp
+    Servant_Manager_T.cpp
+    Servant_Traits_T.cpp
     Sync_Event_Handler_T.cpp
     Statistics_T.cpp
     value_of_t.cpp
     Worker_T.cpp
+  }
+}
+
+project (CUTS_IORTable_Trait) : iortable, cutslib {
+  sharedname    = CUTS_IORTable_Trait
+  dynamicflags += CUTS_IORTABLE_TRAIT_BUILD_DLL
+
+  Source_Files {
+    IOR_Table_Trait.cpp
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+
+  Template_Files {
+
   }
 }

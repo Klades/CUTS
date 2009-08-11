@@ -1,0 +1,11 @@
+// $Id$
+
+project (CUTS_Client_Logger) : boost_base, cuts_logging_client_stub, cuts_lib, cutslib {
+  sharedname    = CUTS_Client_Logger
+  dynamicflags += CUTS_CLIENT_LOGGER_BUILD_DLL
+
+  Source_Files {
+    Client_Logger.cpp
+    Format_Parser.cpp
+  }
+}

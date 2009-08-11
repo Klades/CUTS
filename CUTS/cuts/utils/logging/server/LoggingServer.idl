@@ -1,0 +1,56 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ * @file        server.idl
+ *
+ * $Id$
+ *
+ * @author      James H. Hill
+ */
+//=============================================================================
+
+#ifndef _CUTS_TEST_LOGGING_SERVER_IDL_
+#define _CUTS_TEST_LOGGING_SERVER_IDL_
+
+#include "../logging.idl"
+
+module CUTS
+{
+  /**
+   * @interface LoggingServerListener
+   *
+   * Interface for callback objects of the test logger server.
+   */
+  interface LoggingServerListener
+  {
+    void handle_messages (in ::CUTS::LogMessagePacket packet);
+  };
+
+  /**
+   * @interface LoggingServer
+   */
+  interface LoggingServer : LoggingServerListener
+  {
+    /**
+     * Register a listener for a test.
+     *
+     * @param[in]       uuid        UUID of test to register for
+     * @param[in]       listener    Listener to receive messages
+     * @return          Registration UUID
+     */
+    ::CUTS::UUID register_listener (in ::CUTS::UUID test,
+                                    in ::CUTS::LoggingServerListener listener);
+
+    /**
+     * Unregister a listener.
+     *
+     * @param[in]       test        UUID of test to unregister
+     * @param[in]       cookie      Listener to receive messages
+     */
+    void unregister_listener (in ::CUTS::UUID test,
+                              in ::CUTS::UUID cookie);
+  };
+};
+
+#endif  // !defined _CUTS_TEST_LOGGING_SERVER_IDL_

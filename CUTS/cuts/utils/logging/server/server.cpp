@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- * @file        cutslog_d.cpp
+ * @file        cutslog.cpp
  *
  * $Id$
  *
@@ -10,20 +10,20 @@
  */
 //=============================================================================
 
-#include "Logging_Client.h"
+#include "Logging_Server.h"
 #include "ace/Null_Mutex.h"
 #include "ace/Singleton.h"
 #include "ace/Signal.h"
 
-#define CUTS_LOGGING_CLIENT \
-  ACE_Singleton <CUTS_Logging_Client, ACE_Null_Mutex>::instance ()
+#define LOGGING_SERVER \
+  ACE_Singleton <CUTS_Logging_Server, ACE_Null_Mutex>::instance ()
 
 //
 // server_sighandler
 //
 static void server_sighandler (int sig)
 {
-  CUTS_LOGGING_CLIENT->shutdown ();
+  LOGGING_SERVER->shutdown ();
   ACE_UNUSED_ARG (sig);
 }
 
@@ -39,7 +39,7 @@ static void register_sighandler (void)
 }
 
 //
-// main
+// ACE_TMAIN
 //
 int ACE_TMAIN (int argc, char * argv [])
 {
@@ -56,17 +56,16 @@ int ACE_TMAIN (int argc, char * argv [])
     register_sighandler ();
 
     // Run the main part of the application.
-    retval = CUTS_LOGGING_CLIENT->run_main (argc, argv);
+    retval = LOGGING_SERVER->run_main (argc, argv);
   }
   catch (...)
   {
-    ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - caught unknown exception\n")));
+    ACE_ERROR ((LM_ERROR, "%T - [%M] - caught unknown exception\n"));
     retval = 1;
   }
 
-  // Destroy the logging client.
-  CUTS_LOGGING_CLIENT->destroy ();
+  // Destroy the server's resources.
+  LOGGING_SERVER->destroy ();
 
   return retval;
 }

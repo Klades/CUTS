@@ -1,0 +1,6 @@
+// $Id$
+
+project : cuts_base {
+  libs  += CUTS_Client_Logger
+  after += CUTS_Client_Logger
+}

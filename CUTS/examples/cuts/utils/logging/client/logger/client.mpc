@@ -1,0 +1,10 @@
+// $Id$
+
+project (client) : cuts_client_logger, taoexe {
+  exename = client-app
+  install = .
+
+  Source_Files {
+    Client_Logger_App.cpp
+  }
+}

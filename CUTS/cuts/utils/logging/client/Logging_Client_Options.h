@@ -27,27 +27,13 @@ class CUTS_Logging_Client_Options
 {
 public:
   CUTS_Logging_Client_Options (void)
-    : thr_count_ (1),
-      timeout_ (30),
-      localport_ (20000),
-      register_with_ns_ (false)
+    : thr_count_ (1)
   {
 
   }
 
   /// The size of the threadpool.
   size_t thr_count_;
-
-  /// Timeout to flush the server in seconds.
-  ACE_Time_Value timeout_;
-
-  /// Local port for the client.
-  unsigned short localport_;
-
-  bool register_with_ns_;
 };
-
-#define CUTS_LOGGING_OPTIONS \
-  ACE_Singleton <CUTS_Logging_Client_Options, ACE_Null_Mutex>::instance ()
 
 #endif // !defined _CUTS_LOGGING_CLIENT_OPTIONS_H_

@@ -33,16 +33,32 @@ module CUTS
   struct LogMessage
   {
     /// Timestamp of the log message.
-    CUTS::TimeValue timestamp;
+    ::CUTS::TimeValue timestamp;
 
     /// Priority of the log message.
     long severity;
 
     /// The actual content of the log message.
-    MessageText message;
+    ::CUTS::MessageText message;
   };
 
-  typedef sequence <LogMessage> LogMessages;
+  typedef sequence <::CUTS::LogMessage> LogMessages;
+
+  /**
+   * @struct TestLogMessage
+   *
+   * Log message that has a test UUID associated with it.
+   */
+  struct TestLogMessage
+  {
+    /// Test UUID associated with message.
+    ::CUTS::UUID uuid;
+
+    /// The actual log message.
+    ::CUTS::LogMessage logmsg;
+  };
+
+  typedef sequence <::CUTS::TestLogMessage> TestLogMessages;
 
   /**
    * @struct TestLogMessage
@@ -51,61 +67,11 @@ module CUTS
    */
   struct LogMessagePacket
   {
-    /// UUID of the test log message.
-    CUTS::UUID uuid;
-
     /// Host that is sending the log message.
     string hostname;
 
     /// Collection of messages to send to the server.
-    CUTS::LogMessages messages;
-  };
-
-  /**
-   * @interface TestLoggerServer
-   *
-   * Interface to remotely interacting with the test logging server.
-   */
-  interface TestLoggerServer
-  {
-    /**
-     * Send a message packet to the logging server.
-     *
-     * @param[in]     packet      Message packet containing messages.
-     */
-    void send_message_packet (in LogMessagePacket packet);
-  };
-
-  /**
-   * @interface TestLoggerClient
-   *
-   * Query interface for the test logger client. This is the interface
-   * application use to located the correct test logger factory for their
-   * specific test.
-   */
-  interface TestLoggerClient
-  {
-    /**
-     * Register a server test logger server under the specified UUID. This
-     * is a one-time only function.
-     *
-     * @param[in]       uid           UUID of the test
-     * @param[in]       server        Reference to logger server
-     */
-    void register_server (in UUID uid,
-                          in TestLoggerServer server)
-      raises (DuplicationRegistration,
-              RegistrationFailed,
-              InvalidRegistration);
-
-    /**
-     * Unregister the server with the logger client.
-     *
-     * @param[in]       uid           UUID of the test
-     * @param[in]       server        Reference to logger server
-     */
-    void unregister_server (in UUID uid)
-      raises (RegistrationNotFound);
+    ::CUTS::TestLogMessages msgs;
   };
 };
 

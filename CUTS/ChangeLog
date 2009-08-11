@@ -1,3 +1,127 @@
+Tue Aug 11 16:31:24 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_client_logger.mpb:
+        * MPC/config/cuts_logging_server_skel.mpb:
+        * MPC/config/cuts_logging_server.mpb:
+
+          . Missing base projects.
+
+        * cuts/CUTS.mpc:
+        * cuts/IOR_File_Trait.h:
+        * cuts/IOR_File_Trait.cpp:
+        * cuts/IOR_Table_Trait.h:
+        * cuts/IOR_Table_Trait.cpp:
+        * cuts/IOR_Table_Trait_export.h:
+        * cuts/Servant_Manager_T.h:
+        * cuts/Servant_Manager_T.inl:
+        * cuts/Servant_Manager_T.cpp:
+        * cuts/Servant_Traits_T.h:
+        * cuts/Servant_Traits_T.inl:
+        * cuts/Servant_Traits_T.cpp:
+
+          . Template class for managing a servant's lifecycle. It also makes
+            it a LOT easier to ensure mechanisms for ensuring a servant's
+            reference (e.g., IOR file and IOR table) coincide with the servant's
+            current state.
+
+        * cuts/utils/logging/client/Log_Message_Handler.h:
+        * cuts/utils/logging/client/Log_Message_Handler.inl:
+        * cuts/utils/logging/client/Log_Message_Handler.cpp:
+        * cuts/utils/logging/client/Logger_Task.h:
+        * cuts/utils/logging/client/Logger_Task.inl:
+        * cuts/utils/logging/client/Logger_Task.cpp:
+        * cuts/utils/logging/client/Logger_i.h:
+        * cuts/utils/logging/client/Logger_i.inl:
+        * cuts/utils/logging/client/Logger_i.cpp:
+        * cuts/utils/logging/client/LoggingClient.idl:
+        * cuts/utils/logging/client/LoggingClient_i.h:
+        * cuts/utils/logging/client/LoggingClient_i.inl:
+        * cuts/utils/logging/client/LoggingClient_i.cpp:
+        * cuts/utils/logging/client/Logging_Client.h:
+        * cuts/utils/logging/client/Logging_Client.cpp:
+        * cuts/utils/logging/client/Logging_Client_Options.h:
+        * cuts/utils/logging/client/client.mpc:
+        * cuts/utils/logging/client/cutslog.cpp:
+        * cuts/utils/logging/client/logger:
+        * cuts/utils/logging/client/logger/Client_Logger.h:
+        * cuts/utils/logging/client/logger/Client_Logger.cpp:
+        * cuts/utils/logging/client/logger/Client_Logger_export.h:
+        * cuts/utils/logging/client/logger/Format_Parser.h:
+        * cuts/utils/logging/client/logger/Format_Parser.cpp:
+        * cuts/utils/logging/client/logger/logger.mpc:
+        * cuts/utils/logging/logging.idl:
+        * cuts/utils/logging/server/LoggingServer.idl:
+        * cuts/utils/logging/server/LoggingServer.mpc:
+        * cuts/utils/logging/server/LoggingServer_i.h:
+        * cuts/utils/logging/server/LoggingServer_i.inl:
+        * cuts/utils/logging/server/LoggingServer_i.cpp:
+        * cuts/utils/logging/server/Logging_Server.h:
+        * cuts/utils/logging/server/Logging_Server.inl:
+        * cuts/utils/logging/server/Logging_Server.cpp:
+        * cuts/utils/logging/server/Logging_Server_Options.h:
+        * cuts/utils/logging/server/server.cpp:
+
+        * cuts/utils/testing/svcs/logging/logging.old:
+
+          . Disabled the logging service for the test manager.
+
+        * examples/cuts/utils/logging:
+        * examples/cuts/utils/logging/client:
+        * examples/cuts/utils/logging/client/logger:
+        * examples/cuts/utils/logging/client/logger/Client_Logger_App.cpp:
+        * examples/cuts/utils/logging/client/logger/client.mpc:
+        * examples/cuts/utils/logging/client/logger/logger.mwc:
+
+          . Simple example illustrating how to use the client logger.
+
+        * cuts/utils/logging/client/LocalTestLoggerClient_i.h:
+        * cuts/utils/logging/client/LocalTestLoggerClient_i.cpp:
+        * cuts/utils/logging/client/Local_Logging_Client_App.h:
+        * cuts/utils/logging/client/Local_Logging_Client_App.cpp:
+        * cuts/utils/logging/client/Logging_Client_Task.h:
+        * cuts/utils/logging/client/Logging_Client_Task.inl:
+        * cuts/utils/logging/client/Logging_Client_Task.cpp:
+        * cuts/utils/logging/client/TestLoggerClient_i.h:
+        * cuts/utils/logging/client/TestLoggerClient_i.cpp:
+        * cuts/utils/logging/client/TestLoggerFactory_i.h:
+        * cuts/utils/logging/client/TestLoggerFactory_i.inl:
+        * cuts/utils/logging/client/TestLoggerFactory_i.cpp:
+        * cuts/utils/logging/client/TestLogger_i.h:
+        * cuts/utils/logging/client/TestLogger_i.inl:
+        * cuts/utils/logging/client/TestLogger_i.cpp:
+        * cuts/utils/logging/client/Test_Log_Message_Handler.h:
+        * cuts/utils/logging/client/Test_Log_Message_Handler.inl:
+        * cuts/utils/logging/client/Test_Log_Message_Handler.cpp:
+        * cuts/utils/logging/client/Test_Logger_Map.h:
+        * cuts/utils/logging/client/Test_Logger_Map.cpp:
+        * cuts/utils/logging/client/client.idl:
+        * cuts/utils/logging/server/Logging_Server_File.h:
+        * cuts/utils/logging/server/Logging_Server_File.inl:
+        * cuts/utils/logging/server/Logging_Server_File.cpp:
+        * cuts/utils/logging/server/TestLoggerServer_i.h:
+        * cuts/utils/logging/server/TestLoggerServer_i.inl:
+        * cuts/utils/logging/server/TestLoggerServer_i.cpp:
+
+          . First version of re-implementing the logging service
+            framework in CUTS.
+
+        * cuts/utils/logging/server/callbacks:
+        * cuts/utils/logging/server/callbacks/testing:
+        * cuts/utils/logging/server/callbacks/testing/Test_Logging_Callback.h:
+        * cuts/utils/logging/server/callbacks/testing/Test_Logging_Callback.inl:
+        * cuts/utils/logging/server/callbacks/testing/Test_Logging_Callback.cpp:
+        * cuts/utils/logging/server/callbacks/testing/Test_Logging_Callback_export.h:
+        * cuts/utils/logging/server/callbacks/testing/testing.mpc:
+        * cuts/utils/logging/server/cutslog_d.cpp:
+        * cuts/utils/logging/server/logging.h:
+        * cuts/utils/logging/server/logging.inl:
+        * cuts/utils/logging/server/logging.cpp:
+        * cuts/utils/logging/server/server.idl:
+        * cuts/utils/logging/server/server.mpc:
+        * cuts/utils/testing/svcs/logging/logging.mpc:
+
+          Removed these files.
+
 Mon Aug  3 12:54:09 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MPC/config/cuts_iortable_trait.mpb:

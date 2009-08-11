@@ -14,12 +14,13 @@
 #define _CUTS_LOGGING_CLIENT_SERVER_H_
 
 #include "Logging_Client_export.h"
-#include "Local_Logging_Client_App.h"
-#include "TestLoggerClient_i.h"
-#include "orbsvcs/CosNamingC.h"
-
-// Forward decl.
-class CUTS_TestLoggerClient_i;
+#include "Logging_Client_Options.h"
+#include "LoggingClient_i.h"
+#include "Logger_Task.h"
+#include "cuts/Servant_Manager_T.h"
+#include "cuts/Servant_Traits_T.h"
+#include "cuts/IOR_File_Trait.h"
+#include "cuts/IOR_Table_Trait.h"
 
 /**
  * @class CUTS_Logging_Client
@@ -46,33 +47,29 @@ public:
   /// Shutdown the server.
   void shutdown (void);
 
+  void destroy (void);
+
 private:
   /// Parse the command-line arguments.
   int parse_args (int argc, char * argv []);
-
-  /// Register the logger with the IOR table.
-  int register_with_iortable (void);
-
-  int register_with_name_service (CORBA::Object_ptr obj);
-
-  int unregister_with_name_service (void);
 
   /// Print the help message to the screen.
   void print_help (void);
 
   /// The ORB for the server.
-  CORBA::ORB_var orb_;
+  ::CORBA::ORB_var orb_;
+
+  typedef
+    CUTS_Servant_Trait_T <CUTS_IOR_File_Trait,
+    CUTS_Servant_Trait_T <CUTS_IOR_Table_Trait> > traits_type;
 
   /// Implementation of the CUTS::TestLoggerClient.
-  ACE_Auto_Ptr <CUTS_TestLoggerClient_i> client_;
+  CUTS_Servant_Manager_Ex_T <CUTS_LoggingClient_i, traits_type> client_;
 
-  ACE_Auto_Ptr <CUTS_Local_Logging_Client_App> local_client_;
+  /// The clean task for the logger.
+  CUTS_Logger_Task cleaning_task_;
 
-  /// The hostname for this client.
-  ACE_CString hostname_;
-
-  /// The root context of the naming service.
-  CosNaming::NamingContextExt_var root_ctx_;
+  CUTS_Logging_Client_Options opts_;
 };
 
 #endif  // !defined _CUTS_LOGGING_CLIENT_SERVER_H_
