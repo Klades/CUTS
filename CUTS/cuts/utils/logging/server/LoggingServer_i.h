@@ -45,6 +45,11 @@ public:
   virtual void handle_messages (const ::CUTS::LogMessagePacket & packet);
 
 private:
+  /**
+   * @class reg_t
+   *
+   * Registration class for the listener map.
+   */
   class reg_t
   {
   public:
@@ -81,11 +86,16 @@ private:
     ::CUTS::LoggingServerListener_var listener_;
   };
 
+  void handle_log_message (const char * hostname,
+                           const ::CUTS::TestLogMessage & msg);
+
+  /// Type definition of the listerner map.
   typedef
     ACE_Hash_Map_Manager <ACE_Utils::UUID,
                           ACE_Unbounded_Set <reg_t> *,
                           ACE_RW_Thread_Mutex> listener_map;
 
+  /// Registered listeners.
   listener_map listeners_;
 
   /// Listeners that receives messages from all tests.

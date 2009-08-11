@@ -7,7 +7,8 @@
 #endif
 
 #include "cuts/UUID.h"
-#include "ace/streams.h"
+#include "boost/bind.hpp"
+#include <algorithm>
 
 //
 // register_listener
@@ -20,17 +21,24 @@ register_listener (const ::CUTS::UUID & test,
   ACE_Utils::UUID test_uuid;
   test >>= test_uuid;
 
-  // Locate the bucket for the specified test.
-  listener_map::data_type listeners;
+  ACE_Unbounded_Set <reg_t> * listeners;
 
-  if (0 != this->listeners_.find (test_uuid, listeners))
+  if (test_uuid == ACE_Utils::UUID::NIL_UUID)
   {
-    // We need to create a new set for this test.
-    ACE_NEW_THROW_EX (listeners,
-                      ACE_Unbounded_Set <reg_t> (),
-                      ::CORBA::NO_MEMORY ());
+    listeners = &this->global_listeners_;
+  }
+  else
+  {
+    // Locate the bucket for the specified test.
+    if (0 != this->listeners_.find (test_uuid, listeners))
+    {
+      // We need to create a new set for this test.
+      ACE_NEW_THROW_EX (listeners,
+                        ACE_Unbounded_Set <reg_t> (),
+                        ::CORBA::NO_MEMORY ());
 
-    this->listeners_.bind (test_uuid, listeners);
+      this->listeners_.bind (test_uuid, listeners);
+    }
   }
 
   // Create a new registeration structure.
@@ -42,16 +50,12 @@ register_listener (const ::CUTS::UUID & test,
   listeners->insert (reg);
 
   // Return the registration cookie.
-  ::CUTS::UUID * cookie;
+  ::CUTS::UUID_var cookie;
+  ACE_NEW_THROW_EX (cookie, ::CUTS::UUID (), ::CORBA::NO_MEMORY ());
 
-  ACE_NEW_THROW_EX (cookie,
-                    ::CUTS::UUID (),
-                    ::CORBA::NO_MEMORY ());
-
-  ::CUTS::UUID_var auto_clean (cookie);
   *cookie <<= reg.cookie_;
 
-  return auto_clean._retn ();
+  return cookie._retn ();
 }
 
 //
@@ -101,28 +105,44 @@ handle_messages (const ::CUTS::LogMessagePacket & packet)
               packet.msgs.length (),
               packet.hostname.in ()));
 
-  //// First, notify the global listeners for the new messages.
-  //for (ACE_Unbounded_Set <reg_t>::CONST_ITERATOR iter (this->global_listeners_);
-  //     !iter.done ();
-  //     ++ iter)
-  //{
-  //  (*iter).listener_->handle_messages (packet);
-  //}
+  // First, notify the global listeners for the new messages.
+  for (ACE_Unbounded_Set <reg_t>::CONST_ITERATOR iter (this->global_listeners_);
+       !iter.done ();
+       ++ iter)
+  {
+    (*iter).listener_->handle_messages (packet);
+  }
 
-  //// Locate the test-specific listener bucket.
-  //ACE_Utils::UUID uuid;
-  //packet.uuid >>= uuid;
+  // Locate the test-specific listener bucket.
+  std::for_each (packet.msgs.get_buffer (),
+                 packet.msgs.get_buffer () + packet.msgs.length (),
+                 boost::bind (&CUTS_LoggingServer_i::handle_log_message,
+                              this,
+                              packet.hostname.in (),
+                              _1));
+}
 
-  //listener_map::data_type listeners;
+//
+// handle_log_message
+//
+void CUTS_LoggingServer_i::
+handle_log_message (const char * hostname, const ::CUTS::TestLogMessage & msg)
+{
+  // Extract the UUID from its CORBA form.
+  ACE_Utils::UUID uuid;
+  msg.uuid >>= uuid;
 
-  //if (0 == this->listeners_.find (uuid, listeners))
-  //{
-  //  // Now, notify the specific test of the new messages.
-  //  for (ACE_Unbounded_Set <reg_t>::CONST_ITERATOR iter (*listeners);
-  //       !iter.done ();
-  //       ++ iter)
-  //  {
-  //    (*iter).listener_->handle_messages (packet);
-  //  }
-  //}
+  // Locate listeners registered for extracted UUID.
+  listener_map::data_type listeners;
+
+  if (0 == this->listeners_.find (uuid, listeners))
+  {
+    // Now, notify the specific test of the new messages.
+    for (ACE_Unbounded_Set <reg_t>::CONST_ITERATOR iter (*listeners);
+         !iter.done ();
+         ++ iter)
+    {
+      (*iter).listener_->handle_message (hostname, msg);
+    }
+  }
 }

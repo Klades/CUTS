@@ -25,12 +25,15 @@ module CUTS
   interface LoggingServerListener
   {
     void handle_messages (in ::CUTS::LogMessagePacket packet);
+
+    void handle_message (in string hostname,
+                         in ::CUTS::TestLogMessage message);
   };
 
   /**
    * @interface LoggingServer
    */
-  interface LoggingServer : LoggingServerListener
+  interface LoggingServer
   {
     /**
      * Register a listener for a test.
@@ -50,6 +53,8 @@ module CUTS
      */
     void unregister_listener (in ::CUTS::UUID test,
                               in ::CUTS::UUID cookie);
+
+    void handle_messages (in ::CUTS::LogMessagePacket packet);
   };
 };
 
