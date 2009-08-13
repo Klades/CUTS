@@ -6,7 +6,7 @@ project (gmet2m-exec) : game, cutsexe {
   libs  -= CUTS
   after -= CUTS
 
-  specific (vc6, vc7, vc71, vc8, vc9, nmake) {
+  specific (prop:microsoft) {
     subsystem = 1
   }
 

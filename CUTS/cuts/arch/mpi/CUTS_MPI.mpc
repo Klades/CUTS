@@ -8,7 +8,7 @@ project (CUTS_MPI) : mpich, ciao_servant, cutslib {
   libs  += CUTS_stub Benchmark_Data_Collector_stub CUTS_BDC
   after += CUTS_stub Benchmark_Data_Collector_stub CUTS_BDC
 
-  specific (nmake, vc6, vc7, vc71, vc8, vc9) {
+  specific (prop:microsoft) {
     link_options += /DEF:mpi_export.def
   }
 

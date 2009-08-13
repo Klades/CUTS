@@ -1,3 +1,10 @@
+Thu Aug 13 18:39:26 UTC 2009  Johnny Willemsen  <jwillemsen@remedy.nl>
+
+        * cuts/arch/mpi/CUTS_MPI.mpc:
+        * MDE/GME/T2M/executor/executor.mpc:
+        * MDE/naomi/GME/GNC.mpc:
+          Use prop:microsoft
+
 Tue Aug 11 20:26:26 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/logging/server/LoggingServer.idl:
