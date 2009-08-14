@@ -58,6 +58,6 @@ project (CUTS_Node_Daemon) : cuts_nodedaemon_common,  xscrt, cuts_utils, cutsexe
   }
 
   specific (prop:windows) {
-    compile_flags += /wd4355
+    DisableSpecificWarnings += 4355
   }
 }

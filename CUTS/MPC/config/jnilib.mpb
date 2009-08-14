@@ -1,15 +1,15 @@
-// $Id: jni.mpb 1925 2008-06-04 15:14:19Z hillj $
+// $Id$
 
 project {
-  includes += $(JAVA_HOME)/include  
-  
-  specific (vc6, vc7, vc71, vc8, vc9, nmake) {
+  includes += $(JAVA_HOME)/include
+
+  specific (prop:windows) {
     includes += $(JAVA_HOME)/include/win32
     libpaths += $(JAVA_HOME)/lib
   } else {
     includes += $(JAVA_HOME)/include/linux
     libpaths += $(JAVA_HOME)/jre/lib/$(JAVA_ARCH)/client
   }
-  
+
   lit_libs += jvm
 }

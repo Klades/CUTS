@@ -6,6 +6,6 @@ project {
 
   specific (prop:windows) {
     midl_includes += . $(GME_ROOT)/Interfaces $(GME_ROOT)
-    compile_flags += /wd4355
+    DisableSpecificWarnings += 4355
   }
 }

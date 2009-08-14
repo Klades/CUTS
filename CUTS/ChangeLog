@@ -1,3 +1,16 @@
+Fri Aug 14 12:50:26 UTC 2009  Johnny Willemsen  <jwillemsen@remedy.nl>
+
+        * cuts/utils/node/cutsnode_d.mpc
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE.mpc
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.mpc
+        * MPC/config/cuts_base.mpb
+        * MPC/config/cuts_db_odbc.mpb
+        * MPC/config/gme_base.mpb
+        * MPC/config/jnilib.mpb
+        * MPC/config/regsvr32.mpb
+          Simplified these projects
+
 Fri Aug 14 04:18:46 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MPC/config/cuts_testing_svc.mpb:

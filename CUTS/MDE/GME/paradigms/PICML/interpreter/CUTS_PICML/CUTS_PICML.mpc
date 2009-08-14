@@ -25,9 +25,9 @@ project (CUTS_PICML) : xscrt, picmllib, boost_base, cuts_gme, \
 
   sharedname = CUTS_PICML
 
-  specific (vc71, vc8, vc9) {
+  specific (prop:microsoft) {
     midl_notlb = 1
-    compile_flags += /wd4355
+    DisableSpecificWarnings += 4355
   }
 
   // -- dependencies

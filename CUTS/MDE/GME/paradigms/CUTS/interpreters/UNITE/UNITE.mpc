@@ -16,8 +16,8 @@ project (CUTS_UNITE) : cuts_dsml, udm_component, \
   pch_header = StdAfx.h
   pch_source = StdAfx.cpp
 
-  specific (vc71, vc8, vc9) {
-    compile_flags += /wd4355
+  specific (prop:microsoft) {
+    DisableSpecificWarnings += 4355
   }
 
   Header_Files {

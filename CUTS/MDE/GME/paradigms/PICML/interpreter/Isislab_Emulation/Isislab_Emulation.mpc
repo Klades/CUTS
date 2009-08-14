@@ -9,8 +9,8 @@ project (CUTS_Isislab_Emulation) : \
     midl_notlb = 1
   }
 
-  specific (vc71, vc8, vc9) {
-    compile_flags += /wd4355
+  specific (prop:microsoft) {
+    DisableSpecificWarnings += 4355
   }
 
   Source_Files {
