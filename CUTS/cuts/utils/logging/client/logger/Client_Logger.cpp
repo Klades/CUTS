@@ -11,14 +11,14 @@
 //
 // CUTS_Client_Logger
 //
-CUTS_Client_Logger::CUTS_Client_Logger (void)
+CUTS_Client_Logger::CUTS_Client_Logger (const char * name)
 {
   char * args_str = "";
   int argc = 0;
   char ** argv;
 
   ACE_OS::string_to_argv (args_str, argc, argv);
-  this->orb_ = ::CORBA::ORB_init (argc, argv, "cuts.logger");
+  this->orb_ = ::CORBA::ORB_init (argc, argv, name);
 }
 
 //

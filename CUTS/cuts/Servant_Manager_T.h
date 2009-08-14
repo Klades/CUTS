@@ -75,6 +75,9 @@ public:
   /// Deactivate the servant.
   void deactivate (void);
 
+  /// Get a reference to the servant.
+  ::CORBA::Object_ptr get_reference (void);
+
 protected:
   /// Pointer to the servant.
   T * servant_;

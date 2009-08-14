@@ -24,10 +24,17 @@ module CUTS
    */
   interface LoggingServerListener
   {
-    void handle_messages (in ::CUTS::LogMessagePacket packet);
-
-    void handle_message (in string hostname,
-                         in ::CUTS::TestLogMessage message);
+    /**
+     * Handle a collection of messages from a specific host for the
+     * specified test.
+     *
+     * @param[in]     hostname          Host sending messages
+     * @param[in]     test              Test UUID associated with messages
+     * @param[in]     messages          Collection of messages
+     */
+    void handle_messages (in string hostname,
+                          in ::CUTS::UUID test,
+                          in ::CUTS::LogMessages messages);
   };
 
   /**
@@ -54,7 +61,17 @@ module CUTS
     void unregister_listener (in ::CUTS::UUID test,
                               in ::CUTS::UUID cookie);
 
-    void handle_messages (in ::CUTS::LogMessagePacket packet);
+    /**
+     * Handle a collection of messages from a specific host for the
+     * specified test.
+     *
+     * @param[in]     hostname          Host sending messages
+     * @param[in]     test              Test UUID associated with messages
+     * @param[in]     messages          Collection of messages
+     */
+    oneway void send_messages (in string hostname,
+                               in ::CUTS::UUID test,
+                               in ::CUTS::LogMessages messages);
   };
 };
 

@@ -11,6 +11,7 @@
 #include "cuts/UUID.h"
 #include "ace/Get_Opt.h"
 #include "ace/streams.h"
+//#include "ace/OS_NS_unistd.h"
 #include <sstream>
 
 static const char * __HELP__ =
@@ -116,11 +117,11 @@ int CUTS_Logging_Server::parse_args (int argc, char * argv[])
   // Initailize the ORB.
   this->orb_ = ::CORBA::ORB_init (argc, argv, "cuts.logging.server");
 
-  const char * optstr = "hvf:o:";
+  const char * optstr = "hvo:";
   ACE_Get_Opt get_opt (argc, argv, optstr);
 
   get_opt.long_option ("iorfile", 'o', ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("register-with-iortable", 'o', ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("register-with-iortable", ACE_Get_Opt::ARG_REQUIRED);
 
   get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("verbose", 'v', ACE_Get_Opt::NO_ARG);
@@ -130,6 +131,10 @@ int CUTS_Logging_Server::parse_args (int argc, char * argv[])
 
   while ((ch = get_opt ()) != EOF)
   {
+    ACE_DEBUG ((LM_DEBUG,
+                "%c\n",
+                ch));
+
     switch (ch)
     {
     case 0:

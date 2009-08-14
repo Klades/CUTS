@@ -33,7 +33,7 @@ template <typename T, typename LOCK> class CUTS_Log_Const_Iterator_T;
  * to parameterize this class.
  */
 template <typename T, typename LOCK>
-class CUTS_Log_T
+class CUTS_Log_T : protected ACE_Array_Base <T>
 {
 public:
   // Friend decl.
@@ -58,14 +58,7 @@ public:
    * @param[in]         size        Initial size of the log.
    * @param[in]         grow        Allow the log to grow as needed.
    */
-  CUTS_Log_T (size_t chuck_size = 25, bool auto_grow = true);
-
-  /**
-   * Copy constructor.
-   *
-   * @param[in]         log         Source log.
-   */
-  CUTS_Log_T (const CUTS_Log_T & log);
+  CUTS_Log_T (size_t init_size = 25, bool auto_grow = true);
 
   /// Destructor
   ~CUTS_Log_T (void);
@@ -99,11 +92,6 @@ public:
   T * next_free_record (void);
 
   size_t next_free_record (T * & record);
-
-  /**
-   * Assignment operator
-   */
-  const CUTS_Log_T & operator = (const CUTS_Log_T & log);
 
   // @{ @name Batch Mode Operations
 
@@ -148,18 +136,13 @@ public:
   /// Determine if the log is full.
   bool is_full (void) const;
 
+  /// Get a raw pointer to the log's buffer.
+  T * get_buffer (void);
+
+  /// Get a raw pointer to the log's buffer.
+  const T * get_buffer (void) const;
+
 private:
-
-  void copy_i (const CUTS_Log_T & log);
-
-  int size_i (size_t new_size);
-
-  /// Allocation size for a chuck of records.
-  size_t chunk_size_;
-
-  /// The current size of the log; used + free space.
-  size_t curr_size_;
-
   /// Number of used records in the log.
   size_t used_size_;
 
@@ -169,14 +152,8 @@ private:
   /// Lock for the log.
   mutable LOCK lock_;
 
-  /// Type definition for a chuck of records.
-  typedef ACE_Array <T> chunk_type;
-
-  /// Type definition for the underlying record log.
-  typedef ACE_Array <chunk_type *> record_log;
-
-  /// Collection of records.
-  record_log records_;
+  const CUTS_Log_T & operator = (const CUTS_Log_T & log);
+  CUTS_Log_T (const CUTS_Log_T &);
 };
 
 /**
@@ -202,12 +179,6 @@ private:
   CUTS_Log_T <T, LOCK> & log_;
 
   size_t index_;
-
-  size_t offset_;
-
-  size_t location_;
-
-  size_t used_size_;
 
   // prevent the following operations
   CUTS_Log_Iterator_T (CUTS_Log_Iterator_T &);
@@ -266,12 +237,6 @@ private:
   const CUTS_Log_T <T, LOCK> & log_;
 
   size_t index_;
-
-  size_t offset_;
-
-  size_t location_;
-
-  size_t used_size_;
 
   // prevent the following operations
   CUTS_Log_Const_Iterator_T (const CUTS_Log_Const_Iterator_T &);

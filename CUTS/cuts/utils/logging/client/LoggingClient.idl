@@ -32,7 +32,7 @@ module CUTS
      * @param[in]       severity          Severity of the message
      * @param[in]       message           Content of the message
      */
-    void log (in ::CUTS::LogMessage logmsg);
+    oneway void log (in ::CUTS::LogMessage logmsg);
   };
 
   /**

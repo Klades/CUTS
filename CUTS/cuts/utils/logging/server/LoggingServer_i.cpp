@@ -98,51 +98,38 @@ unregister_listener (const ::CUTS::UUID & test, const ::CUTS::UUID & cookie)
 // handle_messages
 //
 void CUTS_LoggingServer_i::
-handle_messages (const ::CUTS::LogMessagePacket & packet)
+send_messages (const char * hostname,
+               const ::CUTS::UUID & test,
+               const ::CUTS::LogMessages & messages)
 {
+  ACE_Utils::UUID test_uuid;
+  test >>= test_uuid;
+
   ACE_DEBUG ((LM_INFO,
-              ACE_TEXT ("%T (%t) - %M - received %d message(s) from %s\n"),
-              packet.msgs.length (),
-              packet.hostname.in ()));
+              ACE_TEXT ("%T (%t) - %M - received %d message(s) for test %s from %s\n"),
+              messages.length (),
+              test_uuid.to_string ()->c_str (),
+              hostname));
 
   // First, notify the global listeners for the new messages.
   for (ACE_Unbounded_Set <reg_t>::CONST_ITERATOR iter (this->global_listeners_);
        !iter.done ();
        ++ iter)
   {
-    (*iter).listener_->handle_messages (packet);
+    (*iter).listener_->handle_messages (hostname, test, messages);
   }
-
-  // Locate the test-specific listener bucket.
-  std::for_each (packet.msgs.get_buffer (),
-                 packet.msgs.get_buffer () + packet.msgs.length (),
-                 boost::bind (&CUTS_LoggingServer_i::handle_log_message,
-                              this,
-                              packet.hostname.in (),
-                              _1));
-}
-
-//
-// handle_log_message
-//
-void CUTS_LoggingServer_i::
-handle_log_message (const char * hostname, const ::CUTS::TestLogMessage & msg)
-{
-  // Extract the UUID from its CORBA form.
-  ACE_Utils::UUID uuid;
-  msg.uuid >>= uuid;
 
   // Locate listeners registered for extracted UUID.
   listener_map::data_type listeners;
 
-  if (0 == this->listeners_.find (uuid, listeners))
+  if (0 == this->listeners_.find (test_uuid, listeners))
   {
     // Now, notify the specific test of the new messages.
     for (ACE_Unbounded_Set <reg_t>::CONST_ITERATOR iter (*listeners);
          !iter.done ();
          ++ iter)
     {
-      (*iter).listener_->handle_message (hostname, msg);
+      (*iter).listener_->handle_messages (hostname, test, messages);
     }
   }
 }

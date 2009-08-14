@@ -62,6 +62,18 @@ void CUTS_Servant_Manager_T <T>::deactivate (void)
   this->poa_ = ::PortableServer::POA::_nil ();
 }
 
+//
+// get_reference
+//
+template <typename T>
+::CORBA::Object_ptr CUTS_Servant_Manager_T <T>::get_reference (void)
+{
+  if (!::CORBA::is_nil (this->poa_.in ()))
+    return this->poa_->servant_to_reference (this->servant_);
+
+  return ::CORBA::Object::_nil ();
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // CUTS_Servant_Manager_Ex_T
 

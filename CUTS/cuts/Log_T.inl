@@ -2,6 +2,29 @@
 // $Id$
 
 //
+// CUTS_Log_T
+//
+template <typename T, typename LOCK>
+CUTS_INLINE
+CUTS_Log_T <T, LOCK>::CUTS_Log_T (size_t init_size, bool auto_grow)
+: ACE_Array_Base <T> (init_size),
+  used_size_ (0),
+  auto_grow_ (auto_grow)
+{
+  CUTS_TRACE ("CUTS_Log_T (typename CUTS_Log_T <T, LOCK>::size_type)");
+}
+
+//
+// ~CUTS_Log_T
+//
+template <typename T, typename LOCK>
+CUTS_INLINE
+CUTS_Log_T <T, LOCK>::~CUTS_Log_T (void)
+{
+  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::~CUTS_Log_T");
+}
+
+//
 // free_size
 //
 template <typename T, typename LOCK>
@@ -12,7 +35,7 @@ size_t CUTS_Log_T <T, LOCK>::free_size (void) const
   ACE_READ_GUARD_RETURN (LOCK,
                          guard,
                          this->lock_,
-                         this->curr_size_ - this->used_size_);
+                         this->record_log_.size () - this->used_size_);
 
   return this->curr_size_ - this->used_size_;
 }
@@ -90,6 +113,8 @@ CUTS_INLINE
 size_t CUTS_Log_T <T, LOCK>::size (void) const
 {
   CUTS_TRACE ("CUTS_Log_T <T, LOCK>::size (void) const");
+  ACE_READ_GUARD_RETURN (LOCK, guard, this->lock_, this->curr_size_);
+
   return this->curr_size_;
 }
 
@@ -103,7 +128,7 @@ int CUTS_Log_T <T, LOCK>::size (size_t new_size)
   CUTS_TRACE ("CUTS_Log_T <T, LOCK>::size (size_t)");
   ACE_WRITE_GUARD_RETURN (LOCK, guard, this->lock_, -1);
 
-  return this->size_i (new_size);
+  return ACE_Array_Base <T>::size (new_size);
 }
 
 //
@@ -114,9 +139,32 @@ CUTS_INLINE
 bool CUTS_Log_T <T, LOCK>::is_full (void) const
 {
   CUTS_TRACE ("CUTS_Log_T <T, LOCK>::is_full (void) const");
-  return this->used_size_ >= this->curr_size_;
+  ACE_READ_GUARD_RETURN (LOCK, guard, this->lock_, false);
+
+  return this->used_size_ >= this->cur_size_;
 }
 
+//
+// get_buffer
+//
+template <typename T, typename LOCK>
+CUTS_INLINE
+T * CUTS_Log_T <T, LOCK>::get_buffer (void)
+{
+  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::get_buffer (void)");
+  return this->array_;
+}
+
+//
+// get_buffer
+//
+template <typename T, typename LOCK>
+CUTS_INLINE
+const T * CUTS_Log_T <T, LOCK>::get_buffer (void) const
+{
+  CUTS_TRACE ("CUTS_Log_T <T, LOCK>::get_buffer (void) const");
+  return this->array_;
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // @class CUTS_Log_Iterator_T
@@ -129,10 +177,7 @@ CUTS_INLINE
 CUTS_Log_Iterator_T <T, LOCK>::
 CUTS_Log_Iterator_T (CUTS_Log_T <T, LOCK> & log)
 : log_ (log),
-  index_ (0),
-  offset_ (0),
-  location_ (0),
-  used_size_ (log.used_size ())
+  index_ (0)
 {
   CUTS_TRACE ("CUTS_Log_Iterator_T <T, LOCK>::CUTS_Log_Iterator_T (CUTS_Log_T <T, LOCK> &)");
 }
@@ -155,7 +200,7 @@ CUTS_INLINE
 int CUTS_Log_Iterator_T <T, LOCK>::done (void) const
 {
   CUTS_TRACE ("CUTS_Log_Iterator_T <T, LOCK>::done (void) const");
-  return this->location_ >= this->used_size_;
+  return this->index_ >= this->log_.used_size_;
 }
 
 //
@@ -166,7 +211,7 @@ CUTS_INLINE
 T * CUTS_Log_Iterator_T <T, LOCK>::operator -> (void)
 {
   CUTS_TRACE ("CUTS_Log_Iterator_T <T, LOCK>::operator -> (void)");
-  return &((*this->log_.records_[this->index_])[this->offset_]);
+  return &this->log_.array_[this->index_];
 }
 
 //
@@ -177,7 +222,7 @@ CUTS_INLINE
 T & CUTS_Log_Iterator_T <T, LOCK>::operator * (void)
 {
   CUTS_TRACE ("CUTS_Log_Iterator_T <T, LOCK>::operator * (void)");
-  return (*this->log_.records_[this->index_])[this->offset_];
+  return this->log_.array_[this->index_];
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -191,10 +236,7 @@ CUTS_INLINE
 CUTS_Log_Const_Iterator_T <T, LOCK>::
 CUTS_Log_Const_Iterator_T (const CUTS_Log_T <T, LOCK> & log)
 : log_ (log),
-  index_ (0),
-  offset_ (0),
-  location_ (0),
-  used_size_ (log.used_size ())
+  index_ (0)
 {
   CUTS_TRACE ("CUTS_Log_Const_Iterator_T <T, LOCK>::CUTS_Log_Const_Iterator_T (const CUTS_Log_T <T, LOCK> &)");
 }
@@ -217,7 +259,7 @@ CUTS_INLINE
 int CUTS_Log_Const_Iterator_T <T, LOCK>::done (void) const
 {
   CUTS_TRACE ("CUTS_Log_Const_Iterator_T <T, LOCK>::done (void) const");
-  return this->location_ >= this->used_size_;
+  return this->index_ >= this->log_.used_size_;
 }
 
 //
@@ -228,7 +270,7 @@ CUTS_INLINE
 const T * CUTS_Log_Const_Iterator_T <T, LOCK>::operator -> (void) const
 {
   CUTS_TRACE ("CUTS_Log_Const_Iterator_T <T, LOCK>::operator -> (void) const");
-  return &((*this->log_.records_[this->index_])[this->offset_]);
+  return &this->log_.array_[this->index_];
 }
 
 //
@@ -239,5 +281,5 @@ CUTS_INLINE
 const T & CUTS_Log_Const_Iterator_T <T, LOCK>::operator * (void) const
 {
   CUTS_TRACE ("CUTS_Log_Const_Iterator_T <T, LOCK>::operator * (void) const");
-  return (*this->log_.records_[this->index_])[this->offset_];
+  return this->log_.array_[this->index_];
 }

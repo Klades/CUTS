@@ -1,8 +1,86 @@
+Fri Aug 14 04:18:46 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_testing_svc.mpb:
+
+          . Removed the exclusion of the CUTS library.
+
+        * cuts/Activation_Record.h:
+        * cuts/Activation_Record.cpp:
+
+          . Removed the assignment operator and copy constructor.
+
+        * cuts/Log_T.h:
+        * cuts/Log_T.inl:
+        * cuts/Log_T.cpp:
+
+          . Re-implemented how log object functions. More specicially,
+            the *chunk* implementation was removed.
+
+        * cuts/Servant_Manager_T.h:
+        * cuts/Servant_Manager_T.cpp:
+
+          . Implemented support for getting a reference for the
+            servant.
+
+        * cuts/utils/logging/client/Log_Message_Handler.h:
+        * cuts/utils/logging/client/Log_Message_Handler.inl:
+        * cuts/utils/logging/client/Logger_Task.h:
+        * cuts/utils/logging/client/Logger_Task.cpp:
+        * cuts/utils/logging/client/Logger_i.h:
+        * cuts/utils/logging/client/Logger_i.inl:
+        * cuts/utils/logging/client/Logger_i.cpp:
+        * cuts/utils/logging/client/LoggingClient.idl:
+        * cuts/utils/logging/client/LoggingClient_i.cpp:
+        * cuts/utils/logging/client/client.mpc:
+        * cuts/utils/logging/client/logger/Client_Logger.h:
+        * cuts/utils/logging/client/logger/Client_Logger.cpp:
+        * cuts/utils/logging/logging.idl:
+        * cuts/utils/logging/server/LoggingServer.idl:
+        * cuts/utils/logging/server/LoggingServer_i.h:
+        * cuts/utils/logging/server/LoggingServer_i.cpp:
+        * cuts/utils/logging/server/Logging_Server.cpp:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.h:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.inl:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.cpp:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.mpc:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener_export.h:
+
+          . Re-implemented logging facilities so that it uses oneway
+            communication instead of traditional two-way blocking
+            comminucation. The next version will levarage reliable
+            oneway communication.
+
+          . Redesigned the interface for both the logging server and
+            logging client.
+
+        * examples/cuts/utils/testing:
+        * examples/cuts/utils/testing/logging:
+        * examples/cuts/utils/testing/logging/5fec8cee-8889-11de-8dcf-000c292de0d0.cdb:
+        * examples/cuts/utils/testing/logging/Client_Logger.mwc:
+        * examples/cuts/utils/testing/logging/Client_Logger.cpp:
+        * examples/cuts/utils/testing/logging/Client_Logger.mpc:
+        * examples/cuts/utils/testing/logging/cutsnode.config:
+        * examples/cuts/utils/testing/logging/logging-example.config:
+
+          . Simple example that illustrates integrating the logging
+            facilities with the test manager. This allows the test
+            manager to insert log messages into the test database for
+            its corresponding test.
+
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service.h:
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service.inl:
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service.cpp:
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service_export.h:
+        * cuts/utils/testing/svcs/logging/logging.old:
+
+          Removed these files.
+
 Thu Aug 13 18:39:26 UTC 2009  Johnny Willemsen  <jwillemsen@remedy.nl>
 
         * cuts/arch/mpi/CUTS_MPI.mpc:
         * MDE/GME/T2M/executor/executor.mpc:
         * MDE/naomi/GME/GNC.mpc:
+
           Use prop:microsoft
 
 Tue Aug 11 20:26:26 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>

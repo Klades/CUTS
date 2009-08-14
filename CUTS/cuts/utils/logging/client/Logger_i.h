@@ -14,8 +14,10 @@
 #define _CUTS_TEST_LOGGER_I_H_
 
 #include "LoggingClientS.h"
+#include "cuts/Log_T.h"
 #include "ace/UUID.h"
-#include "cuts/config.h"
+#include "ace/Null_Mutex.h"
+#include "ace/RW_Thread_Mutex.h"
 
 // Forward decl.
 class CUTS_Log_Message_Handler;
@@ -46,11 +48,17 @@ public:
   const ACE_Utils::UUID & uuid (void) const;
 
 private:
+  void flush (void);
+
   /// Parent of the logger.
   CUTS_Log_Message_Handler * handler_;
 
   /// Id of the logger assigned by the parent.
   ACE_Utils::UUID uuid_;
+
+  CUTS_Log_T <::CUTS::LogMessage, ACE_Null_Mutex> queue_;
+
+  ACE_RW_Thread_Mutex flush_lock_;
 };
 
 #if defined (__CUTS_INLINE__)

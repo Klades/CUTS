@@ -1,0 +1,10 @@
+// $Id$
+
+project (Client_Logger) : cuts_client_logger, cuts_testing_stub, cuts_lib {
+  exename = client-logger
+  install = .
+
+  Source_Files {
+    Client_Logger.cpp
+  }
+}

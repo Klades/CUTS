@@ -55,50 +55,35 @@ CUTS_LoggingClient_i (::PortableServer::POA_ptr parent,
   ::PortableServer::ObjectId_var oid =
     ::PortableServer::string_to_ObjectId (uuid.to_string ()->c_str ());
 
-  ::CORBA::Object_var obj;
+  // Allocate a new servant.
+  CUTS_Logger_i * servant = 0;
 
-  try
-  {
-    // Locate a reference for the object id.
-    obj = this->logger_poa_->id_to_reference (oid.in ());
-  }
-  catch (const ::PortableServer::POA::ObjectNotActive & )
-  {
-    // Allocate a new servant.
-    CUTS_Logger_i * servant = 0;
+  ACE_NEW_THROW_EX (servant,
+                    CUTS_Logger_i (this->handler_, uuid),
+                    ::CORBA::NO_MEMORY ());
 
-    ACE_NEW_THROW_EX (servant,
-                      CUTS_Logger_i (this->handler_, uuid),
-                      ::CORBA::NO_MEMORY ());
+  // Activate the servant. The POA now has ownership.
+  this->logger_poa_->activate_object_with_id (oid.in (), servant);
+  ::PortableServer::ServantBase_var servant_base (servant);
 
-    ACE_Auto_Ptr <CUTS_Logger_i> auto_clean (servant);
-
-    // Activate the servant. The POA now has ownership.
-    this->logger_poa_->activate_object_with_id (oid.in (), servant);
-    auto_clean.release ();
-
-    // Get a reference to the servant.
-    obj = this->logger_poa_->id_to_reference (oid.in ());
-  }
-
-  // Narrow object to a logger and return.
+  // Get a reference to the servant.
+  ::CORBA::Object_var obj = this->logger_poa_->id_to_reference (oid.in ());
   ::CUTS::Logger_var logger = ::CUTS::Logger::_narrow (obj.in ());
+
   return logger._retn ();
 }
 
 //
 // release
 //
-void CUTS_LoggingClient_i::release (::CUTS::Logger_ptr logger)
+void CUTS_LoggingClient_i::release (::CUTS::Logger_ptr ref)
 {
-  try
-  {
-    // Take ownership of the servant to decrement its reference.
-    ::PortableServer::ServantBase_var servant_base = this->logger_poa_->reference_to_servant (logger);
-    CUTS_Logger_i * servant = dynamic_cast <CUTS_Logger_i *> (servant_base.in ());
-  }
-  catch (const ::PortableServer::POA::ServantNotActive & )
-  {
+  ::PortableServer::ServantBase_var servant = this->logger_poa_->reference_to_servant (ref);
 
-  }
+  // Deactivate the servant.
+  ::PortableServer::ObjectId_var oid = this->logger_poa_->reference_to_id (ref);
+  this->logger_poa_->deactivate_object (oid.in ());
+
+  // Delete the servant.
+  delete servant._retn ();
 }

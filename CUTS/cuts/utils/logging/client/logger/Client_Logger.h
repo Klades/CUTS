@@ -25,7 +25,7 @@ class CUTS_CLIENT_LOGGER_Export CUTS_Client_Logger
 {
 public:
   /// Default constructor.
-  CUTS_Client_Logger (void);
+  CUTS_Client_Logger (const char * name = "");
 
   /// Destructor.
   ~CUTS_Client_Logger (void);

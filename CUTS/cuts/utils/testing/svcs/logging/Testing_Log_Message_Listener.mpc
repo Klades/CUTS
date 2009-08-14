@@ -1,0 +1,17 @@
+// $Id$
+
+project (CUTS_Testing_Log_Message_Listener) : boost_base, cuts_lib, cuts_logging_server_skel, \
+                                              cuts_test_database, cuts_tao_testing_svc {
+
+  sharedname    = CUTS_Testing_Log_Message_Listener
+  dynamicflags += CUTS_TESTING_LOG_MESSAGE_LISTENER_BUILD_DLL
+
+  Source_Files {
+    Testing_Log_Message_Listener.cpp
+    Testing_LoggingServerListener_i.cpp
+  }
+
+  Header_Files {
+    Testing_Log_Message_Listener_export.h
+  }
+}

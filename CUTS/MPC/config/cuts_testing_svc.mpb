@@ -3,7 +3,4 @@
 project : cuts_db_sqlite3, cutslib {
   after += CUTS_Testing_Service
   libs  += CUTS_Testing_Service
-
-  after -= CUTS
-  libs  -= CUTS
 }

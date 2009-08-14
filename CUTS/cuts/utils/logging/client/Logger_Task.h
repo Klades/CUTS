@@ -37,33 +37,17 @@ public:
 
   int init (::CORBA::ORB_ptr orb);
 
-  int handle_log_message (const ACE_Utils::UUID & uuid, const ::CUTS::LogMessage & msg);
-
-  int handle_input (ACE_HANDLE);
+  int handle_log_messages (const ACE_Utils::UUID & uuid,
+                           const ::CUTS::LogMessages & msgs);
 
 private:
   virtual int svc (void);
-
-  void insert_message (::CUTS::TestLogMessage & test_logmsg,
-                       const ACE_Utils::UUID & uuid,
-                       const ::CUTS::LogMessage & msg);
-
-  void copy_message (::CUTS::LogMessage & dst, const ::CUTS::LogMessage & src);
-
-  void send_message_packet (const ::CUTS::LogMessagePacket & packet);
 
   ::CORBA::ORB_var orb_;
 
   ::CUTS::LoggingServer_var server_;
 
-  ::CUTS::LogMessagePacket packets_[2];
-
-  ACE_Pair <::CUTS::LogMessagePacket *,
-            ::CUTS::LogMessagePacket *> buffers_;
-
-  size_t index_;
-
-  ACE_Thread_Mutex swap_mutex_;
+  ACE_CString hostname_;
 };
 
 #if defined (__CUTS_INLINE__)

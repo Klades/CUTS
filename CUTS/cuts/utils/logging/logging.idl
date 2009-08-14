@@ -42,37 +42,8 @@ module CUTS
     ::CUTS::MessageText message;
   };
 
+  /// Type definition for a sequence of log messages.
   typedef sequence <::CUTS::LogMessage> LogMessages;
-
-  /**
-   * @struct TestLogMessage
-   *
-   * Log message that has a test UUID associated with it.
-   */
-  struct TestLogMessage
-  {
-    /// Test UUID associated with message.
-    ::CUTS::UUID uuid;
-
-    /// The actual log message.
-    ::CUTS::LogMessage logmsg;
-  };
-
-  typedef sequence <::CUTS::TestLogMessage> TestLogMessages;
-
-  /**
-   * @struct TestLogMessage
-   *
-   * Log message send from a test logging client to a server.
-   */
-  struct LogMessagePacket
-  {
-    /// Host that is sending the log message.
-    string hostname;
-
-    /// Collection of messages to send to the server.
-    ::CUTS::TestLogMessages msgs;
-  };
 };
 
 #endif  // !defined _CUTS_CUTS_LOGGING_IDL_

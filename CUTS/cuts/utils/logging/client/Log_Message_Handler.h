@@ -41,8 +41,8 @@ public:
    * @param[in]       uuid        UUID associated with log message
    * @param[in]       logmsg      Log message to handle.
    */
-  virtual int handle_log_message (const ACE_Utils::UUID & uuid,
-                                  const ::CUTS::LogMessage & logmsg);
+  virtual int handle_log_messages (const ACE_Utils::UUID & uuid,
+                                   const ::CUTS::LogMessages & msgs);
 };
 
 #if defined (__CUTS_INLINE__)

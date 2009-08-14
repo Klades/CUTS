@@ -42,7 +42,9 @@ public:
   virtual void unregister_listener (const ::CUTS::UUID & test,
                                     const ::CUTS::UUID & cookie);
 
-  virtual void handle_messages (const ::CUTS::LogMessagePacket & packet);
+  virtual void send_messages (const char * hostname,
+                              const ::CUTS::UUID & test,
+                              const ::CUTS::LogMessages & messages);
 
 private:
   /**
@@ -85,9 +87,6 @@ private:
 
     ::CUTS::LoggingServerListener_var listener_;
   };
-
-  void handle_log_message (const char * hostname,
-                           const ::CUTS::TestLogMessage & msg);
 
   /// Type definition of the listerner map.
   typedef
