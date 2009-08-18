@@ -2,49 +2,24 @@
 
 #include "ACE_Log_Callback.h"
 
-//
-// CUTS_ACE_Log_Callback
-//
-CUTS_ACE_Log_Callback::CUTS_ACE_Log_Callback (CUTS_Test_Logger &logger)
-: logger_ (logger),
-  old_callback_(0)
-{
-}
+#if !defined (__CUTS_INLINE__)
+#include "ACE_Log_Callback.inl"
+#endif
 
-//
-// ~CUTS_ACE_Log_Callback
-//
-CUTS_ACE_Log_Callback::~CUTS_ACE_Log_Callback (void)
-{
-}
+#include "cuts/utils/logging/client/logger/Client_Logger.h"
 
 //
 // log
 //
 void CUTS_ACE_Log_Callback::log (ACE_Log_Record &log_record)
 {
-	this->logger_.log (log_record.priority (),							  
-                		 log_record.msg_data (),
-										 log_record.length ());
-	
-	// Some callback was set previously, invoke it manually
-	if (this->old_callback_ != 0)
-		this->old_callback_->log (log_record);
-}
+  // Right now this assumes that the msg_data () is NULL terminated. If
+  // this is not the case, then we need to NULL terminate the buffer
+  // before calling the log () method.
+  this->logger_.log (log_record.priority (),
+                     log_record.msg_data ());
 
-//
-// get_old_callback
-//
-ACE_Log_Msg_Callback *
-CUTS_ACE_Log_Callback::old_callback (void)
-{
-	return this->old_callback_;
-}
-
-//
-// set_old_callback
-//
-void CUTS_ACE_Log_Callback::old_callback (ACE_Log_Msg_Callback *old_callback_obj)
-{
-	this->old_callback_ = old_callback_obj;
+  // Some callback was set previously, invoke it manually
+  if (0 != this->old_callback_)
+    this->old_callback_->log (log_record);
 }

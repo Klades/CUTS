@@ -7,7 +7,7 @@
 #ifndef CUTS_ACE_LOG_INTERCEPTOR_EXPORT_H
 #define CUTS_ACE_LOG_INTERCEPTOR_EXPORT_H
 
-#include "ace/config-all.h"
+#include "cuts/config.h"
 
 #if defined (ACE_AS_STATIC_LIBS) && !defined (CUTS_ACE_LOG_INTERCEPTOR_HAS_DLL)
 #  define CUTS_ACE_LOG_INTERCEPTOR_HAS_DLL 0

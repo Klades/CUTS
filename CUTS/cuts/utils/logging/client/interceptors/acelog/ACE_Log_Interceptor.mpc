@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_ACE_Log_Interceptor) : cuts_test_logger, cuts_lib, cutslib  {
+project (CUTS_ACE_Log_Interceptor) : cuts_client_logger, cuts_lib, cutslib  {
   sharedname = CUTS_ACE_Log_Interceptor
 
   dynamicflags += CUTS_ACE_LOG_INTERCEPTOR_BUILD_DLL

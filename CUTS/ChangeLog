@@ -1,3 +1,43 @@
+Tue Aug 18 01:20:51 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/logging/client/LoggingClient_i.cpp:
+
+          . Bug fix where the child POA had the incorrect id
+            assignment policy.
+
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Callback.h:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Callback.inl:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Callback.cpp:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.h:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.cpp:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.mpc:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor_export.h:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Msg_Backend.h:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Msg_Backend.cpp:
+
+          . Updated the interceptor to use the client logger. Still need
+            to add support for setting the UUID of the logger. Right now,
+            the backend interceptor logs all messages under a NIL UUID.
+
+        * cuts/utils/logging/client/logger/Client_Logger.h:
+        * cuts/utils/logging/client/logger/Client_Logger.cpp:
+        * cuts/utils/logging/client/logger/Client_Logger.mpc:
+        * cuts/utils/logging/client/logger/Client_Logger_Impl.h:
+        * cuts/utils/logging/client/logger/Client_Logger_Impl.cpp:
+
+          . Updated the client logger to hide the implementation. This
+            removes the CORBA dependency.
+
+        * examples/cuts/utils/testing/logging/cutsnode.config:
+        * examples/cuts/utils/testing/logging/logging-example.config:
+
+          . Updated the configuration files to print debug and
+            verbose information.
+
+        * cuts/utils/logging/client/logger/logger.mpc:
+
+          Removed this file.
+
 Fri Aug 14 12:50:26 UTC 2009  Johnny Willemsen  <jwillemsen@remedy.nl>
 
         * cuts/utils/node/cutsnode_d.mpc

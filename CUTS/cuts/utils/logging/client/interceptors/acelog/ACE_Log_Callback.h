@@ -17,7 +17,10 @@
 #include "ace/Log_Msg.h"
 #include "ace/Log_Msg_Callback.h"
 #include "ace/Log_Record.h"
-#include "cuts/workers/logging/Test_Logger.h"
+#include "ACE_Log_Interceptor_export.h"
+
+// Forward decl.
+class CUTS_Client_Logger;
 
 /**
  * @class CUTS_ACE_Log_Callback
@@ -28,7 +31,7 @@ class CUTS_ACE_Log_Callback : public ACE_Log_Msg_Callback
 public:
 
   ///Constructor
-  CUTS_ACE_Log_Callback (CUTS_Test_Logger &logger);
+  CUTS_ACE_Log_Callback (CUTS_Client_Logger & logger);
 
   ///Destructor
   virtual ~CUTS_ACE_Log_Callback (void);
@@ -60,12 +63,15 @@ public:
   ACE_Log_Msg_Callback * old_callback (void);
 
 private:
-
   // Pointer to logger service for invoking log
-  CUTS_Test_Logger logger_;
+  CUTS_Client_Logger & logger_;
 
   // Pointer to the callback that is replaced by this new callback
   ACE_Log_Msg_Callback * old_callback_;
 };
+
+#if defined (__CUTS_INLINE__)
+#include "ACE_Log_Callback.inl"
+#endif
 
 #endif /* _CUTS_ACE_LOGGER_CALLBACK_H_ */

@@ -23,7 +23,7 @@ CUTS_LoggingClient_i (::PortableServer::POA_ptr parent,
 
   policies[0] = parent->create_thread_policy (PortableServer::ORB_CTRL_MODEL);
   policies[1] = parent->create_servant_retention_policy (PortableServer::RETAIN);
-  policies[2] = parent->create_id_assignment_policy (PortableServer::USER_ID);
+  policies[2] = parent->create_id_assignment_policy (PortableServer::SYSTEM_ID);
   policies[3] = parent->create_id_uniqueness_policy (PortableServer::UNIQUE_ID);
   policies[4] = parent->create_lifespan_policy (PortableServer::TRANSIENT);
   policies[5] = parent->create_request_processing_policy (PortableServer::USE_ACTIVE_OBJECT_MAP_ONLY);
@@ -51,10 +51,6 @@ CUTS_LoggingClient_i (::PortableServer::POA_ptr parent,
   ACE_Utils::UUID uuid;
   test >>= uuid;
 
-  // Convert the uuid to an object id.
-  ::PortableServer::ObjectId_var oid =
-    ::PortableServer::string_to_ObjectId (uuid.to_string ()->c_str ());
-
   // Allocate a new servant.
   CUTS_Logger_i * servant = 0;
 
@@ -63,7 +59,7 @@ CUTS_LoggingClient_i (::PortableServer::POA_ptr parent,
                     ::CORBA::NO_MEMORY ());
 
   // Activate the servant. The POA now has ownership.
-  this->logger_poa_->activate_object_with_id (oid.in (), servant);
+  ::PortableServer::ObjectId_var oid = this->logger_poa_->activate_object (servant);
   ::PortableServer::ServantBase_var servant_base (servant);
 
   // Get a reference to the servant.

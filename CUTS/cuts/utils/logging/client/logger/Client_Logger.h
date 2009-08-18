@@ -13,10 +13,15 @@
 #ifndef _CUTS_LOGGER_H_
 #define _CUTS_LOGGER_H_
 
-#include "../LoggingClientC.h"
+#include "ace/Auto_Ptr.h"
 #include "ace/UUID.h"
 #include "Client_Logger_export.h"
-#include "Format_Parser.h"
+
+// Forward decl.
+class CUTS_Client_Logger_Impl;
+
+// Forward decl.
+class CUTS_Format_Parser;
 
 /**
  * @class CUTS_Client_Logger
@@ -39,17 +44,9 @@ public:
   int set_uuid (const ACE_Utils::UUID & uuid);
 
 private:
-  int set_uuid_i (const ACE_Utils::UUID & uuid);
+  ACE_Auto_Ptr <CUTS_Client_Logger_Impl> impl_;
 
-  ::CORBA::ORB_var orb_;
-
-  ::CUTS::LoggingClient_var client_;
-
-  ::CUTS::Logger_var logger_;
-
-  ACE_Utils::UUID uuid_;
-
-  CUTS_Format_Parser parser_;
+  ACE_Auto_Ptr <CUTS_Format_Parser> parser_;
 };
 
 #endif  // !defined _CUTS_LOGGER_H_
