@@ -18,20 +18,14 @@
 #include "ace/Log_Record.h"
 #include "ace/SString.h"
 #include "cuts/utils/logging/client/logger/Client_Logger.h"
-
-#if !defined (CUTS_LOCAL_LOGGING_CLIENT_DEFAULT_PORT)
-#  define CUTS_LOCAL_LOGGING_CLIENT_DEFAULT_PORT  30002
-#endif
-
-class CUTS_Client_Logger;
+#include "ACE_Log_Interceptor_export.h"
 
 /**
  * @class CUTS_ACE_Msg_Backend
  */
 class CUTS_ACE_Msg_Backend : public ACE_Log_Msg_Backend
 {
-  public:
-
+public:
   /// Constructor
   CUTS_ACE_Msg_Backend (void);
 
@@ -92,6 +86,9 @@ class CUTS_ACE_Msg_Backend : public ACE_Log_Msg_Backend
    */
   ACE_Log_Msg_Backend * old_msg_backend(void);
 
+  /// Get the logger for the message backend.
+  CUTS_Client_Logger & logger (void);
+
 private:
   /// logger_ is used for to make connection with test_logger
   CUTS_Client_Logger logger_;
@@ -99,6 +96,10 @@ private:
   // old_msg_backend_ saves the value of old_backend
   ACE_Log_Msg_Backend * old_msg_backend_;
 };
+
+#if defined (__CUTS_INLINE__)
+#include "ACE_Msg_Backend.inl"
+#endif
 
 #endif /* _CUTS_ACE_MSG_BACKEND_H_ */
 

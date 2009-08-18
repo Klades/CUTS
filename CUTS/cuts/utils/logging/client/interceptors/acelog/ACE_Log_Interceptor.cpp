@@ -9,7 +9,7 @@
 static const char * __HELP__ =
 "General Options:\n"
 "  --client=LOCATION            location of the logging client\n"
-"  --disable-backend            do not install backend interceptor\n"
+"  --uuid=UUID                  UUID for associating messages\n"
 "\n"
 "Output Options:\n"
 "  -h, --help                   print this help message\n";
@@ -32,7 +32,7 @@ int CUTS_ACE_Log_Interceptor::init (int argc, ACE_TCHAR *argv [])
   u_long flags = alm->flags ();
   flags |= ACE_Log_Msg::CUSTOM;
 
-  if (-1 == alm->open (ACE_TEXT ("CUTS_ACE_Log_Interceptor"),
+  if (0 != alm->open (ACE_TEXT ("CUTS_ACE_Log_Interceptor"),
                        flags,
                        this->client_.c_str ()))
   {
@@ -43,9 +43,14 @@ int CUTS_ACE_Log_Interceptor::init (int argc, ACE_TCHAR *argv [])
                        "%T (%t) - %M -failed to open ACE_Log_Msg_Backend."),
                        -1);
   }
+  else
+  {
+    this->msg_backend_.old_msg_backend (backend);
+  }
 
-  // Save the previous backend
-  this->msg_backend_.old_msg_backend (backend);
+  // Set the UUID of the logger.
+  this->msg_backend_.logger ().set_uuid (this->uuid_);
+
   return 0;
 }
 
@@ -58,6 +63,7 @@ int CUTS_ACE_Log_Interceptor::parse_args (int argc, char * argv [])
   ACE_Get_Opt get_opt (argc, argv, options, 0);
 
   get_opt.long_option ("client", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("uuid", ACE_Get_Opt::ARG_REQUIRED);
 
   while ((option = get_opt ()) != EOF)
   {
@@ -67,6 +73,10 @@ int CUTS_ACE_Log_Interceptor::parse_args (int argc, char * argv [])
         if (0 == ACE_OS::strcmp ("client", get_opt.long_option ()))
         {
           this->client_ = get_opt.opt_arg ();
+        }
+        else if (0 == ACE_OS::strcmp ("uuid", get_opt.long_option ()))
+        {
+          this->uuid_.from_string (get_opt.opt_arg ());
         }
         break;
 

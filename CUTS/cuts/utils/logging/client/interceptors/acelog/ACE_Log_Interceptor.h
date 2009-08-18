@@ -15,6 +15,7 @@
 #define _CUTS_ACE_LOG_INTERCEPTOR_H_
 
 #include "ace/Service_Object.h"
+#include "ace/UUID.h"
 #include "ACE_Msg_Backend.h"
 #include "ACE_Log_Interceptor_export.h"
 
@@ -55,6 +56,8 @@ private:
 
   /// Location of the client.
   ACE_CString client_;
+
+  ACE_Utils::UUID uuid_;
 };
 
 ACE_FACTORY_DEFINE (CUTS_ACE_Log_Interceptor, CUTS_ACE_Log_Interceptor)

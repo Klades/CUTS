@@ -9,20 +9,18 @@
 // CUTS_Client_Logger
 //
 CUTS_Client_Logger::CUTS_Client_Logger (const char * name)
+: impl_ (0),
+  parser_ (0)
 {
   // Allocate a new client logger implementation.
-  CUTS_Client_Logger_Impl * impl = 0;
-  ACE_NEW_THROW_EX (impl,
+  ACE_NEW_THROW_EX (this->impl_,
                     CUTS_Client_Logger_Impl (name),
                     ACE_bad_alloc ());
-  this->impl_.reset (impl);
 
   // Allocate a new format parser for the logger.
-  CUTS_Format_Parser * parser = 0;
-  ACE_NEW_THROW_EX (parser,
+  ACE_NEW_THROW_EX (this->parser_,
                     CUTS_Format_Parser (),
                     ACE_bad_alloc ());
-  this->parser_.reset (parser);
 }
 
 //
@@ -30,7 +28,11 @@ CUTS_Client_Logger::CUTS_Client_Logger (const char * name)
 //
 CUTS_Client_Logger::~CUTS_Client_Logger (void)
 {
+  if (0 != this->impl_)
+    delete this->impl_;
 
+  if (0 != this->parser_)
+    delete this->parser_;
 }
 
 //

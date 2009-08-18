@@ -13,7 +13,6 @@
 #ifndef _CUTS_LOGGER_H_
 #define _CUTS_LOGGER_H_
 
-#include "ace/Auto_Ptr.h"
 #include "ace/UUID.h"
 #include "Client_Logger_export.h"
 
@@ -44,9 +43,9 @@ public:
   int set_uuid (const ACE_Utils::UUID & uuid);
 
 private:
-  ACE_Auto_Ptr <CUTS_Client_Logger_Impl> impl_;
+  CUTS_Client_Logger_Impl * impl_;
 
-  ACE_Auto_Ptr <CUTS_Format_Parser> parser_;
+  CUTS_Format_Parser * parser_;
 };
 
 #endif  // !defined _CUTS_LOGGER_H_
