@@ -56,6 +56,13 @@ public:
    */
   int set_uuid (const ACE_Utils::UUID & uuid);
 
+  /**
+   * Get the UUID for the logger.
+   *
+   * @param[out]      uuid          UUID of the logger.
+   */
+  int get_uuid (ACE_Utils::UUID & uuid);
+
 private:
   /// Helper method to set the UUID of the logger.
   int set_uuid_i (const ACE_Utils::UUID & uuid);

@@ -60,6 +60,14 @@ int CUTS_Client_Logger::set_uuid (const ACE_Utils::UUID & uuid)
 }
 
 //
+// get_uuid
+//
+int CUTS_Client_Logger::get_uuid (ACE_Utils::UUID & uuid)
+{
+  return this->impl_->get_uuid (uuid);
+}
+
+//
 // log
 //
 int CUTS_Client_Logger::log (int severity, const char * format, ...)

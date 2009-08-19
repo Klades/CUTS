@@ -7,6 +7,7 @@
 #endif
 
 #include "Log_Message_Handler.h"
+#include "cuts/UUID.h"
 
 //
 // log
@@ -63,4 +64,20 @@ void CUTS_Logger_i::flush (void)
 
   // Reset the contents of the queue.
   this->queue_.reset_no_lock ();
+}
+
+//
+// uuid
+//
+::CUTS::UUID * CUTS_Logger_i::uuid (void)
+{
+  // Allocate a new UUID to return to the client.
+  ::CUTS::UUID_var uuid;
+
+  ACE_NEW_THROW_EX (uuid,
+                    ::CUTS::UUID (),
+                    ::CORBA::NO_MEMORY ());
+
+  uuid <<= this->uuid_;
+  return uuid._retn ();
 }

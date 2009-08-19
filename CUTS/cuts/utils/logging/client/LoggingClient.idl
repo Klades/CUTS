@@ -33,6 +33,9 @@ module CUTS
      * @param[in]       message           Content of the message
      */
     oneway void log (in ::CUTS::LogMessage logmsg);
+
+    /// Get the UUID associated with the logger.
+    readonly attribute ::CUTS::UUID uuid;
   };
 
   /**

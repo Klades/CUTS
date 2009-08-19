@@ -91,6 +91,28 @@ int CUTS_Client_Logger_Impl::disconnect (void)
 }
 
 //
+// get_uuid
+//
+int CUTS_Client_Logger_Impl::get_uuid (ACE_Utils::UUID & uuid)
+{
+  try
+  {
+    ::CUTS::UUID_var test_uuid = this->logger_->uuid ();
+    *test_uuid >>= uuid;
+
+    return 0;
+  }
+  catch (const ::CORBA::Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - %s\n"),
+                ex._info ().c_str ()));
+  }
+
+  return -1;
+}
+
+//
 // set_uuid
 //
 int CUTS_Client_Logger_Impl::set_uuid (const ACE_Utils::UUID & uuid)

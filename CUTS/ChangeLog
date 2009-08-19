@@ -1,3 +1,17 @@
+Wed Aug 19 00:05:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/logging/client/Logger_i.h:
+        * cuts/utils/logging/client/Logger_i.inl:
+        * cuts/utils/logging/client/Logger_i.cpp:
+        * cuts/utils/logging/client/LoggingClient.idl:
+        * cuts/utils/logging/client/logger/Client_Logger.h:
+        * cuts/utils/logging/client/logger/Client_Logger.cpp:
+        * cuts/utils/logging/client/logger/Client_Logger_Impl.h:
+        * cuts/utils/logging/client/logger/Client_Logger_Impl.cpp:
+
+          . Updated the logger to support include uuid attribute to
+            get the UUID associated with the logger.
+
 Tue Aug 18 20:21:23 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/CUTS/paradigm/icons/Key.bmp:

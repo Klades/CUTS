@@ -42,6 +42,8 @@ public:
 
   int set_uuid (const ACE_Utils::UUID & uuid);
 
+  int get_uuid (ACE_Utils::UUID & uuid);
+
 private:
   CUTS_Client_Logger_Impl * impl_;
 

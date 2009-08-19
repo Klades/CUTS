@@ -44,8 +44,8 @@ public:
 
   virtual void log (const ::CUTS::LogMessage & logmsg);
 
-  /// Get the UUID for the logger.
-  const ACE_Utils::UUID & uuid (void) const;
+  /// Get the UUID assigned to the logger.
+  ::CUTS::UUID * uuid (void);
 
 private:
   void flush (void);
