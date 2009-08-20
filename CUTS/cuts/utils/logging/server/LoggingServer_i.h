@@ -99,6 +99,8 @@ private:
 
   /// Listeners that receives messages from all tests.
   ACE_Unbounded_Set <reg_t> global_listeners_;
+
+  ACE_RW_Thread_Mutex busy_mutex_;
 };
 
 #if defined (__CUTS_INLINE__)

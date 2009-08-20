@@ -1,3 +1,18 @@
+Thu Aug 20 01:05:08 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/logging/server/LoggingServer_i.h:
+        * cuts/utils/logging/server/LoggingServer_i.cpp:
+
+          . Bug fix where the server as not thread-safe when
+            registering/unregistering a listener due to the oneway
+            call. This design choice allowed more than one thread to
+            be active in the server.
+
+        * cuts/utils/testing/Testing_App.cpp:
+
+          . Added an info message that stated when the test was
+            complete.
+
 Wed Aug 19 00:05:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/logging/client/Logger_i.h:

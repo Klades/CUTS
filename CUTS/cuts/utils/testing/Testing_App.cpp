@@ -371,6 +371,10 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
         return -1;
       }
     }
+
+    ACE_DEBUG ((LM_INFO,
+                ACE_TEXT ("%T (%t) - %M - test is complete\n")));
+    return 0;
   }
   catch (const CUTS_DB_Exception & ex)
   {
@@ -379,7 +383,7 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
                 ex.message ().c_str ()));
   }
 
-  return 0;
+  return 1;
 }
 
 //
@@ -493,7 +497,7 @@ teardown_test (ACE_Process_Options & options)
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - waiting %d second(s) for shutdown process...\n",
                 this->opts_.shutdown_timeout_.sec ()));
-    
+
     ACE_exitcode status;
     pid_t retval = proc_man->wait (pid,
                                    this->opts_.shutdown_timeout_,
