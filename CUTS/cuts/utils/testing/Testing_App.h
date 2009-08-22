@@ -18,6 +18,8 @@
 #include "Test_Options.h"
 #include "Test_Database.h"
 #include "cuts/utils/Property_Map.h"
+#include "ace/Thread_Mutex.h"
+#include "ace/Condition_T.h"
 
 namespace CUTS
 {
@@ -53,7 +55,7 @@ public:
 
   /// Shutdown the testing application. This will stop the ORBs main
   /// event loop and allow the run_main () method to return.
-  int shutdown (void);
+  virtual void shutdown (void);
 
   /**
    * Get the options for the testing application.
@@ -105,6 +107,10 @@ private:
 
   /// Collection of properties.
   CUTS_Property_Map props_;
+
+  ACE_Thread_Mutex shutdown_mutex_;
+
+  ACE_Condition <ACE_Thread_Mutex> can_shutdown_;
 };
 
 #if defined (__CUTS_INLINE__)

@@ -17,8 +17,6 @@ CUTS_TESTING_SERVICE_IMPL (CUTS_Testing_Log_Message_Listener, _make_CUTS_Testing
 //
 int CUTS_Testing_Log_Message_Listener::init (int argc, char * argv [])
 {
-  ACE_DEBUG ((LM_DEBUG, "init\n"));
-
   try
   {
     // Initialize the testing service.

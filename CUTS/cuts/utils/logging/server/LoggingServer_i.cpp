@@ -121,7 +121,7 @@ send_messages (const char * hostname,
     ACE_Utils::UUID test_uuid;
     test >>= test_uuid;
 
-    ACE_DEBUG ((LM_DEBUG,
+    ACE_DEBUG ((LM_INFO,
                 ACE_TEXT ("%T (%t) - %M - received %d message(s) for test %s from %s\n"),
                 messages.length (),
                 test_uuid.to_string ()->c_str (),
@@ -138,9 +138,6 @@ send_messages (const char * hostname,
     // Locate listeners registered for extracted UUID.
     listener_map::data_type listeners;
 
-    ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - notifying test-specific listeners\n")));
-
     if (0 == this->listeners_.find (test_uuid, listeners))
     {
       // Now, notify the specific test of the new messages.
@@ -148,8 +145,6 @@ send_messages (const char * hostname,
            !iter.done ();
            ++ iter)
       {
-        ACE_ERROR ((LM_ERROR, "hummm...\n"));
-
         if (!::CORBA::is_nil ((*iter).listener_.in ()))
         {
           (*iter).listener_->handle_messages (hostname, test, messages);
@@ -159,13 +154,8 @@ send_messages (const char * hostname,
           ACE_ERROR ((LM_ERROR,
                       ACE_TEXT ("%T (%t) - %M - listener is NIL\n")));
         }
-
-        ACE_ERROR ((LM_ERROR, "ok...\n"));
       }
     }
-
-    ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - leaving send_messages ()\n")));
   }
   catch (const ::CORBA::Exception & ex)
   {

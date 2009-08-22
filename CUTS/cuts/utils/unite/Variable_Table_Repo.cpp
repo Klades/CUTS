@@ -178,7 +178,7 @@ bool CUTS_Variable_Table_Repo::insert (const CUTS_Unit_Test_Graph & graph)
   catch (const CUTS_DB_Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - %s\n",
+                ACE_TEXT ("%T (%t) - %M - %s (%N:%l)\n"),
                 ex.message ().c_str ()));
   }
 

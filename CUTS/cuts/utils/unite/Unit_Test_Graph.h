@@ -114,6 +114,8 @@ public:
   const CUTS_Unit_Test_Graph_Type & graph (void) const;
 
 private:
+  void normalize_name (void);
+
   /// Name of the unit test graph.
   ACE_CString name_;
 

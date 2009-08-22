@@ -96,3 +96,16 @@ get_process_order (std::vector <vertex_descriptor> & list) const
 {
   boost::topological_sort (this->graph_, std::back_inserter (list));
 }
+
+//
+// normalize_name
+//
+void CUTS_Unit_Test_Graph::normalize_name (void)
+{
+  std::replace (this->name_.begin (),
+                this->name_.end (),
+                '-',
+                '_');
+
+  this->name_ = "_" + this->name_;
+}

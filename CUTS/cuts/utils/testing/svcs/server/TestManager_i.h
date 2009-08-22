@@ -38,7 +38,10 @@ public:
    *
    * @return        Current test details.
    */
-  CUTS::TestDetails * details (void);
+  virtual CUTS::TestDetails * details (void);
+
+  /// Shutdown the current test.
+  virtual void shutdown (void);
 
 private:
   /// Parent testing application for the manager.

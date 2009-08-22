@@ -50,9 +50,12 @@ bool CUTS_Log_Format::compile (const ACE_CString & format)
 
   if (!compiler.compile (format.c_str (), expr, this->vars_))
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T (%t) - %M - log format is invalid [%s]\n",
-                       format.c_str ()),
-                      false);
+                       ACE_TEXT ("%T (%t) - %M - log format is invalid\n")
+                       ACE_TEXT ("  expr: %s\n")
+                       ACE_TEXT ("  eval: %s\n"),
+                       format.c_str (),
+                       expr.str ().c_str ()),
+                       false);
 
   const char * error = 0;
   int error_offset;

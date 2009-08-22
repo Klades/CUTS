@@ -36,18 +36,24 @@ CUTS::TestDetails * CUTS_TestManager_i::details (void)
                 "%T (%t) - %M - failed to get test profile from archive\n"));
 
   // Create a new object to hold the test details.
-  CUTS::TestDetails * details = 0;
+  CUTS::TestDetails_var details;
 
   ACE_NEW_THROW_EX (details,
-                    CUTS::TestDetails (),
-                    CORBA::NO_MEMORY ());
-
-  CUTS::TestDetails_var auto_clean = details;
+                    ::CUTS::TestDetails (),
+                    ::CORBA::NO_MEMORY ());
 
   // Initialize the content of the object.
   details->uid <<= profile.uuid_;
   details->name = CORBA::string_dup (profile.name_.c_str ());
 
   // Return the details to the client.
-  return auto_clean._retn ();
+  return details._retn ();
+}
+
+//
+// shutdown
+//
+void CUTS_TestManager_i::shutdown (void)
+{
+  this->server_.test_app ()->shutdown ();
 }

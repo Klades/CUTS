@@ -24,7 +24,7 @@ struct append
     std::string text (begin, end);
 
     // Escape any special characters before append;
-    static const char * special = ".()+*?\\";
+    static const char * special = ".()+*?\\-";
     std::string::size_type found = text.find_first_of (special);
 
     while (found != std::string::npos)
@@ -192,7 +192,7 @@ struct CUTS_Log_Format_Compiler_Grammar :
         *(boost::spirit::anychar_p - (boost::spirit::ch_p ('{') | '}'));
 
       this->ident_ =
-        *boost::spirit::alpha_p;
+        boost::spirit::lexeme_d[boost::spirit::alpha_p >> *boost::spirit::alnum_p];
 
       this->variable_tag_ =
         boost::spirit::confix_p ('{', this->variable_[capture (self.expr_, this->vartype_, this->varname_)], '}');

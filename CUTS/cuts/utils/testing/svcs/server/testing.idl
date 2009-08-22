@@ -24,7 +24,11 @@ module CUTS
    */
   interface TestManager
   {
+    /// Retrieve information about the current test.
     readonly attribute TestDetails details;
+
+    /// Shutdown the current test.
+    oneway void shutdown ();
   };
 };
 

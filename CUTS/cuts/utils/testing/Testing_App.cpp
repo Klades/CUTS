@@ -31,7 +31,10 @@ static const char * __HELP__ =
 "General options:\n"
 "  -n, --name=NAME           name for test manager (default='(default)')\n"
 "  -c, --config=FILE         configuration file for test\n"
+"\n"
 "  --time=TIME               test duration in seconds (default=60)\n"
+"  --daemonize               make test manager a daemon\n"
+"\n"
 "  --uuid=UUID               user-defined UUID for the test\n"
 "  -f, --file=ARCHIVE        store results in ARCHIVE\n"
 "\n"
@@ -54,9 +57,8 @@ static const char * __HELP__ =
 // CUTS_Testing_App
 //
 CUTS_Testing_App::CUTS_Testing_App (void)
+: can_shutdown_ (shutdown_mutex_)
 {
-  CUTS_TEST_TRACE ("CUTS_Testing_App::CUTS_Testing_App (void)");
-
   ACE_Utils::UUID_GENERATOR::instance ()->init ();
 }
 
@@ -65,9 +67,8 @@ CUTS_Testing_App::CUTS_Testing_App (void)
 //
 CUTS_Testing_App::~CUTS_Testing_App (void)
 {
-  CUTS_TEST_TRACE ("CUTS_Testing_App::~CUTS_Testing_App (void)");
-}
 
+}
 
 //
 // parse_args
@@ -82,7 +83,10 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
 
   get_opt.long_option ("config", 'c', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("name", 'n', ACE_Get_Opt::ARG_REQUIRED);
+
   get_opt.long_option ("time", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("daemonize");
+
   get_opt.long_option ("uuid", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("file", ACE_Get_Opt::ARG_REQUIRED);
 
@@ -128,6 +132,10 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
         mask |= LM_INFO;
 
         ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "daemonize") == 0)
+      {
+        this->opts_.daemonize_ = true;
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
       {
@@ -330,13 +338,31 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
     {
       // Execute a timed version of the test.
       ACE_DEBUG ((LM_DEBUG,
-                  "%T (%t) - %M - running the test\n"));
+                  ACE_TEXT ("%T (%t) - %M - running the test for %d.%d sec(s)\n"),
+                  this->opts_.test_duration_.sec (),
+                  this->opts_.test_duration_.usec ()));
 
       if (this->task_.run_test (this->opts_.test_duration_) != 0)
       {
         ACE_ERROR ((LM_ERROR,
-                    "%T (%t) - %M - failed to run test\n"));
+                    ACE_TEXT ("%T (%t) - %M - failed to run test\n")));
       }
+    }
+    else if (this->opts_.daemonize_)
+    {
+      // Wait indefinitely until the process is notified externally that
+      // it can shutdown. I wonder if there is a way we can combine this
+      // execution path with the one above??
+      ACE_GUARD_RETURN (ACE_Thread_Mutex,
+                        guard,
+                        this->shutdown_mutex_,
+                        -1);
+
+
+      ACE_DEBUG ((LM_INFO,
+                  "%T (%t) - %M - making test manager a daemon\n"));
+
+      this->can_shutdown_.wait ();
     }
 
     if (this->opts_.shutdown_.get ())
@@ -389,15 +415,30 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
 //
 // shutdown
 //
-int CUTS_Testing_App::shutdown (void)
+void CUTS_Testing_App::shutdown (void)
 {
-  CUTS_TEST_TRACE ("CUTS_Testing_App::shutdown (void)");
+  ACE_DEBUG ((LM_INFO,
+              ACE_TEXT ("%T (%t) - %M - test manager received ")
+              ACE_TEXT ("shutdown command\n")));
 
-  // Wake all threads waiting for shutdown event.
-  if (this->opts_.test_duration_ != ACE_Time_Value::zero)
-    this->task_.stop_test ();
-
-  return 0;
+  try
+  {
+    // Wake all threads waiting for shutdown event.
+    if (this->opts_.test_duration_ != ACE_Time_Value::zero)
+    {
+      this->task_.stop_test ();
+    }
+    else if (this->opts_.daemonize_)
+    {
+      ACE_GUARD (ACE_Thread_Mutex, guard, this->shutdown_mutex_);
+      this->can_shutdown_.broadcast ();
+    }
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - caught unknown exception (%N:%l)\n")));
+  }
 }
 
 //
@@ -409,7 +450,7 @@ void CUTS_Testing_App::print_help (void)
     << ::__USAGE__ << std::endl
     << ::__HELP__ << std::endl;
 
-  ACE_OS::exit (0);
+  ACE_OS::exit (1);
 }
 
 //

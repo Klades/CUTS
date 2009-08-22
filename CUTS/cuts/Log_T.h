@@ -13,9 +13,9 @@
 #ifndef _CUTS_LOG_T_H_
 #define _CUTS_LOG_T_H_
 
-#include "CUTS_export.h"
 #include "ace/Guard_T.h"
 #include "ace/Containers_T.h"
+#include "CUTS_export.h"
 
 // Forward decl.
 template <typename T, typename LOCK> class CUTS_Log_Iterator_T;

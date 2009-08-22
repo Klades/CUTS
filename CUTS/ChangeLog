@@ -1,3 +1,71 @@
+Sat Aug 22 01:03:48 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/Log_T.h:
+
+          . Changed the location of the export include.
+
+        * cuts/utils/logging/client/Logger_i.h:
+        * cuts/utils/logging/client/Logger_i.inl:
+        * cuts/utils/logging/client/Logger_i.cpp:
+
+        * cuts/utils/logging/server/LoggingServer.idl:
+
+          . handle_messages () is now a oneway call.
+
+        * cuts/utils/logging/server/Logging_Server.cpp:
+
+          . Added support for setting the number of ORB threads.
+
+          . Added suppo
+
+        * cuts/utils/logging/server/LoggingServer_i.cpp:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.cpp:
+
+          . Removed unnecessary log messages.
+
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.h:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.inl:
+
+          . Missing source files.
+
+        * cuts/utils/testing/Test_Options.h:
+        * cuts/utils/testing/Testing_App.h:
+        * cuts/utils/testing/Testing_App.cpp:
+        * cuts/utils/testing/Testing_App_Base.h:
+        * cuts/utils/testing/svcs/server/TestManager_i.h:
+        * cuts/utils/testing/svcs/server/TestManager_i.cpp:
+        * cuts/utils/testing/svcs/server/testing.idl:
+
+          . Added support for remote shutdown of the test manager.
+
+          . Added support for daemonizing the test manager.
+
+        * cuts/utils/unite/Log_Format.cpp:
+        * cuts/utils/unite/Log_Format_Compiler.cpp:
+        * cuts/utils/unite/Unit_Test_Graph.h:
+        * cuts/utils/unite/Unit_Test_Graph.inl:
+        * cuts/utils/unite/Unit_Test_Graph.cpp:
+        * cuts/utils/unite/Unite_App.h:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/Variable_Table_Repo.cpp:
+
+          . Bug fix where tables names that begin with a number caused the
+            application to fail.
+
+          . Added support for overriding the configuration's datagraph at
+            the command-line.
+
+        * performance-tests/cuts:
+        * performance-tests/cuts/utils:
+        * performance-tests/cuts/utils/unite:
+        * performance-tests/cuts/utils/unite/cutsnode.config:
+        * performance-tests/cuts/utils/unite/scalability.config:
+        * performance-tests/cuts/utils/unite/scalability.mpc:
+        * performance-tests/cuts/utils/unite/scalability.mwc:
+        * performance-tests/cuts/utils/unite/scalability.cpp:
+
+          . Scalability test for UNITE.
+
 Thu Aug 20 01:05:08 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/logging/server/LoggingServer_i.h:

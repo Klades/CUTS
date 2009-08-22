@@ -120,6 +120,8 @@ int CUTS_Logging_Server::parse_args (int argc, char * argv[])
   const char * optstr = "hvo:";
   ACE_Get_Opt get_opt (argc, argv, optstr);
 
+  get_opt.long_option ("thread-count", ACE_Get_Opt::ARG_REQUIRED);
+
   get_opt.long_option ("iorfile", 'o', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("register-with-iortable", ACE_Get_Opt::ARG_REQUIRED);
 
@@ -159,6 +161,11 @@ int CUTS_Logging_Server::parse_args (int argc, char * argv[])
       else if (ACE_OS::strcmp ("help", get_opt.long_option ()) == 0)
       {
         this->print_help ();
+      }
+      else if (ACE_OS::strcmp ("thread-count", get_opt.long_option ()) == 0)
+      {
+        std::istringstream istr (get_opt.opt_arg ());
+        istr >> this->opts_.thread_count_;
       }
       else if (ACE_OS::strcmp ("iorfile", get_opt.long_option ()) == 0)
       {

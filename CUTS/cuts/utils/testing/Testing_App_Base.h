@@ -5,10 +5,10 @@
  * @file        Testing_App_Base.h
  *
  * $Id$
- * 
+ *
  * @author      James H. Hill
  */
-//==============================================================================                                                                                                                      
+//==============================================================================
 
 #ifndef _CUTS_TESTING_APP_BASE_H_
 #define _CUTS_TESTING_APP_BASE_H_
@@ -48,6 +48,9 @@ public:
    */
   virtual const CUTS_Test_Options & options (void) const = 0;
 
+  /// Shutdown the test application.
+  virtual void shutdown (void) = 0;
+
 protected:
   /// Default constructor.
   CUTS_Testing_App_Base (void);
@@ -57,4 +60,4 @@ protected:
 #include "Testing_App_Base.inl"
 #endif
 
-#endif  // !defined _CUTS_TESTING_APP_BASE_H_  
+#endif  // !defined _CUTS_TESTING_APP_BASE_H_

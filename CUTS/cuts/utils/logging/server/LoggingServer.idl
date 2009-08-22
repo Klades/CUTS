@@ -32,9 +32,9 @@ module CUTS
      * @param[in]     test              Test UUID associated with messages
      * @param[in]     messages          Collection of messages
      */
-    void handle_messages (in string hostname,
-                          in ::CUTS::UUID test,
-                          in ::CUTS::LogMessages messages);
+    oneway void handle_messages (in string hostname,
+                                 in ::CUTS::UUID test,
+                                 in ::CUTS::LogMessages messages);
   };
 
   /**

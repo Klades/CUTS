@@ -31,7 +31,8 @@ public:
   CUTS_Test_Options (void)
     : name_ ("(default)"),
       ignore_errors_ (false),
-      shutdown_timeout_ (ACE_Time_Value::max_time)
+      shutdown_timeout_ (ACE_Time_Value::max_time),
+      daemonize_ (false)
   {
 
   }
@@ -70,6 +71,9 @@ public:
 
   /// Name of the test file.
   ACE_CString filename_;
+
+  /// The application is a daemon.
+  bool daemonize_;
 };
 
 #endif  // !defined _CUTS_TEST_OPTIONS_H_

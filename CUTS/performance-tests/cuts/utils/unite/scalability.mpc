@@ -1,0 +1,10 @@
+// $Id$
+
+project (scalability) : cuts_testing_stub, cuts_client_logger, cuts_logging_server_skel, cuts_lib {
+  exename = cuts-unite-scalability
+  install = .
+
+  Source_Files {
+    scalability.cpp
+  }
+}

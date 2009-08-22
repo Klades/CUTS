@@ -68,6 +68,8 @@ private:
   /// Location of the variable tables.
   ACE_CString sandbox_;
 
+  ACE_CString datagraph_;
+
   /// Show the data trend for the result.
   bool show_trend_;
 

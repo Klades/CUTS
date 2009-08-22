@@ -24,6 +24,7 @@ static const char * __HELP__ =
 "General options:\n"
 "  -f, --datafile=FILE       CUTS database that contains the syestem traces\n"
 "  -c, --config=FILE         configuration file for evaluation\n"
+"  --datagraph=FILE          override existing datagraph in configuration\n"
 "  --sandbox=PATH            location for storing scratchpad data\n"
 "\n"
 "  --show-trend              show the data trend for the test\n"
@@ -121,12 +122,23 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
 
   CUTS::datagraphType datagraph ("");
 
-  if (datagraph_file.read (config.datagraph ().location ().c_str ()))
-    datagraph_file >>= datagraph;
+  if (this->datagraph_.empty ())
+  {
+    if (datagraph_file.read (config.datagraph ().location ().c_str ()))
+      datagraph_file >>= datagraph;
+  }
+  else
+  {
+    if (datagraph_file.read (this->datagraph_.c_str ()))
+      datagraph_file >>= datagraph;
+  }
 
   // Build the graph for this unit test.
   CUTS_Unit_Test_Graph graph;
   CUTS_Unit_Test_Graph_Builder graph_builder;
+
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - building datagraph; please wait...\n")));
 
   if (!graph_builder.build (datagraph, graph))
     ACE_ERROR_RETURN ((LM_ERROR,
@@ -151,6 +163,13 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
                        "%T (%t) - %M - failed to open variable table repo\n"),
                        -1);
 
+  ACE_High_Res_Timer timer;
+  timer.start ();
+
+  // Time the evaluation operation.
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - constructing variable table; please wait...\n")));
+
   // Construct the variable table for the log format graph.
   if (!repo.insert (graph))
     ACE_ERROR_RETURN ((LM_ERROR,
@@ -161,8 +180,8 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
   CUTS_Unit_Test_Result result (repo);
 
   // Time the evaluation operation.
-  ACE_High_Res_Timer timer;
-  timer.start ();
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - evaluating datagraph; please wait...\n")));
 
   if (result.evaluate (unit_test, graph.name (), !this->show_trend_) != 0)
     ACE_ERROR_RETURN ((LM_ERROR,
@@ -177,6 +196,9 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
   // Determine the elapsed time of the evaluation.
   ACE_Time_Value elapsed;
   timer.elapsed_time (elapsed);
+
+  std::cout << "Evaluation time: "
+            << elapsed.sec () << "." << elapsed.usec () << std::endl;
 
   // Present the results to the end-user.
   this->svc_mgr_.handle_result (result);
@@ -195,6 +217,7 @@ int CUTS_Unite_App::parse_args (int argc, char * argv [])
 
   get_opt.long_option ("config", 'c', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("datafile", 'f', ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("datagraph", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("sandbox", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("show-trend");
   get_opt.long_option ("disable", ACE_Get_Opt::ARG_REQUIRED);
@@ -214,6 +237,10 @@ int CUTS_Unite_App::parse_args (int argc, char * argv [])
       else if (ACE_OS::strcmp (get_opt.long_option (), "datafile") == 0)
       {
         this->datafile_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "datagraph") == 0)
+      {
+        this->datagraph_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "sandbox") == 0)
       {

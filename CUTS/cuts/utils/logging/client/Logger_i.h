@@ -18,6 +18,7 @@
 #include "ace/UUID.h"
 #include "ace/Null_Mutex.h"
 #include "ace/RW_Thread_Mutex.h"
+#include "ace/Condition_T.h"
 
 // Forward decl.
 class CUTS_Log_Message_Handler;
@@ -48,6 +49,7 @@ public:
   ::CUTS::UUID * uuid (void);
 
 private:
+  /// Flush the message log.
   void flush (void);
 
   /// Parent of the logger.
@@ -58,7 +60,9 @@ private:
 
   CUTS_Log_T <::CUTS::LogMessage, ACE_Null_Mutex> queue_;
 
-  ACE_RW_Thread_Mutex flush_lock_;
+  ACE_Thread_Mutex flush_lock_;
+
+  ACE_Condition <ACE_Thread_Mutex> is_empty_;
 };
 
 #if defined (__CUTS_INLINE__)

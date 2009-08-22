@@ -1,5 +1,6 @@
 // $Id$
 
+
 //
 // CUTS_Unit_Test_Graph
 //
@@ -16,7 +17,7 @@ CUTS_INLINE
 CUTS_Unit_Test_Graph::CUTS_Unit_Test_Graph (const ACE_CString & name)
 : name_ (name)
 {
-
+  this->normalize_name ();
 }
 
 //
@@ -35,6 +36,7 @@ CUTS_INLINE
 void CUTS_Unit_Test_Graph::name (const ACE_CString & name)
 {
   this->name_ = name;
+  this->normalize_name ();
 }
 
 //
