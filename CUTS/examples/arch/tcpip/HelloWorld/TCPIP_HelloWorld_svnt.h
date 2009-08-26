@@ -58,10 +58,10 @@ namespace TCPIP_HelloWorld_Basic_Impl
 
 
   // Type definition of the this->servant_'s base class
-  typedef CUTS_TCPIP_CCM_Servant_T < 
+  typedef CUTS_TCPIP_CCM_Servant_T <
   HelloWorld_Servant,
   HelloWorld_Servant_Context,
-  CIDL_HelloWorld_Basic_Impl::HelloWorld_Exec,
+  CIAO_HelloWorld_Impl::HelloWorld_Exec,
   ::POA_HelloWorld > HelloWorld_Servant_Base;
 
   /**
@@ -71,8 +71,8 @@ namespace TCPIP_HelloWorld_Basic_Impl
   {
     public:
     // default constructor
-    HelloWorld_Servant (const char * name, 
-                        CIDL_HelloWorld_Basic_Impl::HelloWorld_Exec_ptr executor);
+    HelloWorld_Servant (const char * name,
+                        CIAO_HelloWorld_Impl::HelloWorld_Exec_ptr executor);
 
     // destructor
     virtual ~HelloWorld_Servant (void);

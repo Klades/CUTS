@@ -1,96 +1,13 @@
 // $Id$
 
-project (HelloWorld_CIDL_Gen) : ciaocidldefaults {
-  custom_only = 1
-
-  cidlflags += --svnt-export-macro TCPIP_HELLOWORLD_SVNT_Export \
-               --svnt-export-include TCPIP_HelloWorld_svnt_export.h
-
-  CIDL_Files {
-    HelloWorld.cidl
-  }
-}
-
-project (HelloWorld_EIDL_Gen) : ciaoidldefaults {
-  custom_only = 1
-
-  after    += HelloWorld_CIDL_Gen
-
-  idlflags += -Wb,export_macro=HELLOWORLD_EXEC_Export \
-              -Wb,export_include=HelloWorld_exec_export.h \
-              -Sa -Sal -St
-
-  IDL_Files {
-    HelloWorldE.idl
-  }
-}
-
-project (HelloWorld_exec) : ciao_executor, cuts_tcpip, cuts_codegen_defaults {
-  sharedname    = HelloWorld_exec
-  dynamicflags += HELLOWORLD_EXEC_BUILD_DLL
-
-  after += HelloWorld_EIDL_Gen \
-    HelloWorld_stub
-
-  libs  +=  \
-    HelloWorld_stub
-
-  prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl HELLOWORLD_EXEC > $(PROJECT_ROOT)/HelloWorld_exec_export.h
-
-  Source_Files {
-    HelloWorldEC.cpp
-  }
-
-  Inline_Files {
-  }
-
-  Header_Files {
-    HelloWorldEC.h
-  }
-
-  IDL_Files {
-  }
-}
-
-project (TCPIP_HelloWorld_svnt) : cuts_tcpip_ccm, cuts_codegen_defaults {
-  sharedname   = TCPIP_HelloWorld_svnt
-  dynamicflags = TCPIP_HELLOWORLD_SVNT_BUILD_DLL
-
-  prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl TCPIP_HELLOWORLD_SVNT > $(PROJECT_ROOT)/TCPIP_HelloWorld_svnt_export.h
-
-  after += HelloWorld_exec \
-    HelloWorld_stub \
-    HelloWorld_skel
-
-  libs += HelloWorld_exec \
-    HelloWorld_stub \
-    HelloWorld_skel
-
-  Source_Files {
-    TCPIP_HelloWorld_svnt.cpp
-  }
-
-  Header_Files {
-    TCPIP_HelloWorld_svnt.h
-  }
-
-  Inline_Files {
-
-  }
-  IDL_Files {
-
-  }
-}
-
 project (HelloWorld_Basic_Impl) : cuts_coworker_exec {
   sharedname   = HelloWorld_Basic_Impl
-
   dynamicflags = HELLOWORLD_BASIC_IMPL_BUILD_DLL
 
   prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl HELLOWORLD_BASIC_IMPL > $(PROJECT_ROOT)/HelloWorld_Basic_Impl_export.h
-  after += HelloWorld_exec
 
-  libs += HelloWorld_exec \
+  after += HelloWorld_exec
+  libs  += HelloWorld_exec \
     HelloWorld_stub
 
   Source_Files {

@@ -44,7 +44,7 @@ namespace TCPIP_HelloWorld_Basic_Impl
   //
   HelloWorld_Servant::
   HelloWorld_Servant (const char * name,
-                      ::CIDL_HelloWorld_Basic_Impl::HelloWorld_Exec_ptr executor)
+                      ::CIAO_HelloWorld_Impl::HelloWorld_Exec_ptr executor)
   : HelloWorld_Servant_Base (name, executor),
     handle_message_consumer_ (this, 0)
   {
@@ -171,7 +171,7 @@ create_HelloWorld_Servant (const char * name,
                            ::Components::EnterpriseComponent_ptr p)
 {
   return ::CUTS_TCPIP::CCM::create_servant <
-    ::CIDL_HelloWorld_Basic_Impl::HelloWorld_Exec,
+    ::CIAO_HelloWorld_Impl::HelloWorld_Exec,
     ::TCPIP_HelloWorld_Basic_Impl::HelloWorld_Servant > (name, p);
 }
 

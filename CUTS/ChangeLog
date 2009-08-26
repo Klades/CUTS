@@ -1,3 +1,18 @@
+Wed Aug 26 02:01:44 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Base.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.mpc:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.cpp:
+
+          . Updated example to latest version of CoSMIC.
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Impl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Impl.cpp:
+
+          Removed these files.
+
 Sat Aug 22 01:03:48 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/Log_T.h:

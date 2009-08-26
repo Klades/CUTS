@@ -16,15 +16,15 @@
 namespace HelloWorld_Basic_Impl
 {
   // Type definition of the implentation base type
-  typedef CUTS_CCM_Component_T < CIDL_HelloWorld_Basic_Impl::HelloWorld_Exec, ::CCM_HelloWorld_Context > HelloWorld_Base;
+  typedef CUTS_CCM_Component_T < ::CIAO_HelloWorld_Impl::HelloWorld_Exec, ::CCM_HelloWorld_Context > HelloWorld_Base;
 
   /**
    * @class HelloWorld
    *
-   * Implementation of the CIDL_HelloWorld_Basic_Impl::HelloWorld_Exec component executor
+   * Implementation of the CIAO_HelloWorld_Impl::HelloWorld_Exec component executor
    */
   class HelloWorld :
-    public HelloWorld_Base 
+    public HelloWorld_Base
   {
     public:
     // Type definition of the base component type
