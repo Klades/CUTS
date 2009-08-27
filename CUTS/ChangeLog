@@ -1,3 +1,12 @@
+Thu Aug 27 23:05:38 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_algorithm.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_algorithm.cpp:
+
+          . Implemented a function named has_component (), which tests if
+            an File has an component features.
+
 Wed Aug 26 02:01:44 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/tcpip/HelloWorld/HelloWorld_Base.mpc:
