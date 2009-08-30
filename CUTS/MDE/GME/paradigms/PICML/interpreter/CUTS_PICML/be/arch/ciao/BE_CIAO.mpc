@@ -2,7 +2,7 @@
 
 project (CUTS_BE_CIAO) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
   sharedname    += CUTS_BE_CIAO
-  dynamicflags  += CUTS_UDM_CIAO_BUILD_DLL
+  dynamicflags  += CUTS_BE_CIAO_BUILD_DLL
 
   includes += $(CUTS_ROOT)/MDE/GME/paradigms/PICML
 

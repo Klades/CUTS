@@ -14,7 +14,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Project_File_Open_T
 
-void CUTS_BE_Project_File_Open_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
+void CUTS_BE_Project_File_Open_T <CUTS_BE_CIAO::Context, CUTS_BE_Impl_Node>::
 generate (const CUTS_BE_Impl_Node & node)
 {
   std::string pathname (CUTS_BE_OPTIONS ()->output_directory_);
@@ -26,7 +26,7 @@ generate (const CUTS_BE_Impl_Node & node)
 ///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Project_File_Begin_T
 
-void CUTS_BE_Project_File_Begin_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
+void CUTS_BE_Project_File_Begin_T <CUTS_BE_CIAO::Context, CUTS_BE_Impl_Node>::
 generate (const CUTS_BE_Impl_Node &)
 {
   this->ctx_.project_
@@ -36,10 +36,10 @@ generate (const CUTS_BE_Impl_Node &)
 }
 
 //
-// CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>
+// CUTS_BE_Project_Write_T <CUTS_BE_CIAO::Context, CUTS_BE_Impl_Node>
 //
 void
-CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
+CUTS_BE_Project_Write_T <CUTS_BE_CIAO::Context, CUTS_BE_Impl_Node>::
 generate (const CUTS_BE_Impl_Node & node)
 {
   // Let's reset the <visited_nodes_> object, if necessary.
@@ -52,7 +52,7 @@ generate (const CUTS_BE_Impl_Node & node)
 //
 // generate_impl_project
 //
-void CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
+void CUTS_BE_Project_Write_T <CUTS_BE_CIAO::Context, CUTS_BE_Impl_Node>::
 generate_impl_project (const CUTS_BE_Impl_Node & node)
 {
   std::string impl_basename = node.exec_artifact_.name ();
@@ -137,7 +137,7 @@ generate_impl_project (const CUTS_BE_Impl_Node & node)
 // generate_stub_listing
 //
 void
-CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
+CUTS_BE_Project_Write_T <CUTS_BE_CIAO::Context, CUTS_BE_Impl_Node>::
 generate_listing (const CUTS_BE_IDL_Node * node,
                   const char * prefix,
                   const char * postfix)
@@ -165,7 +165,7 @@ generate_listing (const CUTS_BE_IDL_Node * node,
 //
 // genereate_mpc_i
 //
-void CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
+void CUTS_BE_Project_Write_T <CUTS_BE_CIAO::Context, CUTS_BE_Impl_Node>::
 generate_mpc_i (const CUTS_BE_Impl_Node & node)
 {
   this->generate_mpc_values ("includes", node.include_paths_);
@@ -176,7 +176,7 @@ generate_mpc_i (const CUTS_BE_Impl_Node & node)
 //
 // generate_mpc_values
 //
-void CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
+void CUTS_BE_Project_Write_T <CUTS_BE_CIAO::Context, CUTS_BE_Impl_Node>::
 generate_mpc_values (const std::string & heading,
                      const CUTS_String_Set & listing)
 {
@@ -205,7 +205,7 @@ generate_mpc_values (const std::string & heading,
 // CUTS_BE_Project_File_End_T
 //
 void
-CUTS_BE_Project_File_End_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
+CUTS_BE_Project_File_End_T <CUTS_BE_CIAO::Context, CUTS_BE_Impl_Node>::
 generate (const CUTS_BE_Impl_Node & node)
 {
   this->ctx_.project_
@@ -217,7 +217,7 @@ generate (const CUTS_BE_Impl_Node & node)
 // CUTS_BE_Project_File_Close_T
 //
 void
-CUTS_BE_Project_File_Close_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
+CUTS_BE_Project_File_Close_T <CUTS_BE_CIAO::Context, CUTS_BE_Impl_Node>::
 generate (void)
 {
   if (this->ctx_.project_.is_open ())
@@ -230,7 +230,7 @@ generate (void)
 ///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Project_File_Open_T
 
-void CUTS_BE_Project_File_Open_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>::
+void CUTS_BE_Project_File_Open_T <CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node>::
 generate (const CUTS_BE_IDL_Node & node)
 {
   // Construct the name of the project file.
@@ -244,7 +244,7 @@ generate (const CUTS_BE_IDL_Node & node)
 ///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Project_File_Begin_T
 
-void CUTS_BE_Project_File_Begin_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>::
+void CUTS_BE_Project_File_Begin_T <CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node>::
 generate (const CUTS_BE_IDL_Node &)
 {
   this->ctx_.project_
@@ -257,7 +257,7 @@ generate (const CUTS_BE_IDL_Node &)
 // CUTS_BE_Project_Write_T <C>
 //
 void
-CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>::
+CUTS_BE_Project_Write_T <CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node>::
 generate (const CUTS_BE_IDL_Node & node)
 {
   this->generate_idlgen_project (node);
@@ -276,7 +276,7 @@ generate (const CUTS_BE_IDL_Node & node)
 // generate_idlgen_project
 //
 void
-CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>::
+CUTS_BE_Project_Write_T <CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node>::
 generate_idlgen_project (const CUTS_BE_IDL_Node & node)
 {
   // Generate the export file for the project.
@@ -331,7 +331,7 @@ generate_idlgen_project (const CUTS_BE_IDL_Node & node)
 // generate_stub_project
 //
 void
-CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>::
+CUTS_BE_Project_Write_T <CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node>::
 generate_stub_project (const CUTS_BE_IDL_Node & node)
 {
   // Generate the export file for the project.
@@ -430,7 +430,7 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
 // generate_skel_project
 //
 void
-CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>::
+CUTS_BE_Project_Write_T <CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node>::
 generate_skel_project (const CUTS_BE_IDL_Node & node)
 {
   // Generate the export file for the project.
@@ -532,7 +532,7 @@ generate_skel_project (const CUTS_BE_IDL_Node & node)
 //
 // generate_eidl_project
 //
-void CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>::
+void CUTS_BE_Project_Write_T <CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node>::
 generate_eidl_project (const CUTS_BE_IDL_Node & node)
 {
   std::string name (node.file_.name ());
@@ -565,7 +565,7 @@ generate_eidl_project (const CUTS_BE_IDL_Node & node)
 //
 // generate_exec_project
 //
-void CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>::
+void CUTS_BE_Project_Write_T <CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node>::
 generate_exec_project (const CUTS_BE_IDL_Node & node)
 {
   std::string name (node.file_.name ());
@@ -628,7 +628,7 @@ generate_exec_project (const CUTS_BE_IDL_Node & node)
 // generate_svnt_project
 //
 void
-CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>::
+CUTS_BE_Project_Write_T <CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node>::
 generate_svnt_project (const CUTS_BE_IDL_Node & node)
 {
   // Construct the names of the servant and skeleton project.
@@ -717,7 +717,7 @@ generate_svnt_project (const CUTS_BE_IDL_Node & node)
 //
 // generate_listing
 //
-void CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>::
+void CUTS_BE_Project_Write_T <CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node>::
 generate_listing (const CUTS_BE_IDL_Node * node, const char * type)
 {
   IDL_Node_Set::const_iterator iter = visited_nodes_.find (node);
@@ -742,7 +742,7 @@ generate_listing (const CUTS_BE_IDL_Node * node, const char * type)
 //
 // CUTS_BE_Project_File_End_T
 //
-bool CUTS_BE_Project_File_End_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>::
+bool CUTS_BE_Project_File_End_T <CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node>::
 generate (const CUTS_BE_IDL_Node & node)
 {
   this->ctx_.project_
@@ -755,7 +755,7 @@ generate (const CUTS_BE_IDL_Node & node)
 // CUTS_BE_Project_File_Close_T
 //
 void CUTS_BE_Project_File_Close_T <
-CUTS_BE_Ciao, CUTS_BE_IDL_Node>::generate (void)
+CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node>::generate (void)
 {
   if (this->ctx_.project_.is_open ())
     this->ctx_.project_.close ();

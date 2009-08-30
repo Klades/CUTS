@@ -16,14 +16,17 @@
 #include <set>
 #include <fstream>
 #include "../ccm/CCM.h"
+#include "BE_CIAO_export.h"
 
 // Forward decl.
 struct CUTS_BE_IDL_Node;
 
+namespace CUTS_BE_CIAO
+{
 /**
  * Context for the CIAO backend generator.
  */
-struct CUTS_BE_Ciao : public CUTS_BE_CCM::Cpp::Context
+struct CUTS_BE_CIAO_Export Context : public CUTS_BE_CCM::Cpp::Context
 {
   /// Type definition of the architecture type.
   typedef CUTS_BE_CCM::Cpp::Context arch_type;
@@ -43,5 +46,6 @@ struct CUTS_BE_Ciao : public CUTS_BE_CCM::Cpp::Context
   /// The target project file.
   std::ofstream project_;
 };
+}
 
 #endif  // !defined _CUTS_BE_CIAO_CTX_H_

@@ -13,7 +13,7 @@
 // CUTS_BE_Workspace_File_Open_T
 //
 void
-CUTS_BE_Workspace_File_Open_T <CUTS_BE_Ciao>::
+CUTS_BE_Workspace_File_Open_T <CUTS_BE_CIAO::Context>::
 generate (const std::string & name)
 {
   // Construct the full pathname of the workspace.
@@ -27,7 +27,7 @@ generate (const std::string & name)
 //
 // CUTS_BE_Workspace_Begin_T
 //
-void CUTS_BE_Workspace_Begin_T <CUTS_BE_Ciao>::
+void CUTS_BE_Workspace_Begin_T <CUTS_BE_CIAO::Context>::
 generate (const std::string & name)
 {
   this->ctx_.workspace_
@@ -56,7 +56,7 @@ generate (const std::string & name)
 // CUTS_BE_Workspace_Project_Include_T <, CUTS_BE_Impl_Node>
 //
 void
-CUTS_BE_Workspace_Project_Include_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node>::
+CUTS_BE_Workspace_Project_Include_T <CUTS_BE_CIAO::Context, CUTS_BE_Impl_Node>::
 generate (const CUTS_BE_Impl_Node & node)
 {
   this->ctx_.workspace_
@@ -67,7 +67,7 @@ generate (const CUTS_BE_Impl_Node & node)
 // CUTS_BE_Workspace_Project_Include_T <, CUTS_BE_IDL_Node>
 //
 void
-CUTS_BE_Workspace_Project_Include_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node>::
+CUTS_BE_Workspace_Project_Include_T <CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node>::
 generate (const CUTS_BE_IDL_Node & node)
 {
   this->ctx_.workspace_
@@ -77,7 +77,7 @@ generate (const CUTS_BE_IDL_Node & node)
 //
 // CUTS_BE_Workspace_End_T
 //
-void CUTS_BE_Workspace_End_T <CUTS_BE_Ciao>::
+void CUTS_BE_Workspace_End_T <CUTS_BE_CIAO::Context>::
 generate (const std::string & name)
 {
   this->ctx_.workspace_
@@ -90,7 +90,7 @@ generate (const std::string & name)
 //
 // CUTS_BE_Workspace_File_Close_T
 //
-void CUTS_BE_Workspace_File_Close_T <CUTS_BE_Ciao>::generate (void)
+void CUTS_BE_Workspace_File_Close_T <CUTS_BE_CIAO::Context>::generate (void)
 {
   if (this->ctx_.workspace_.is_open ())
     this->ctx_.workspace_.close ();

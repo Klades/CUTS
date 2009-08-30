@@ -26,13 +26,13 @@ struct CUTS_BE_IDL_Node;
  * @class CUTS_BE_Workspace_File_Open_T
  */
 template < >
-class CUTS_BE_Workspace_File_Open_T <CUTS_BE_Ciao> :
-  public CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor>
+class CUTS_BE_CIAO_Export CUTS_BE_Workspace_File_Open_T <CUTS_BE_CIAO::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CIAO::Context, PICML::Visitor>
 {
 public:
-  typedef CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CIAO::Context, PICML::Visitor> visitor_type;
 
-  CUTS_BE_Workspace_File_Open_T (CUTS_BE_Ciao & context);
+  CUTS_BE_Workspace_File_Open_T (CUTS_BE_CIAO::Context & context);
 
   virtual ~CUTS_BE_Workspace_File_Open_T (void);
 
@@ -43,13 +43,13 @@ public:
  * @class CUTS_BE_Workspace_Begin_T
  */
 template < >
-class CUTS_BE_Workspace_Begin_T <CUTS_BE_Ciao>:
-  public CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor>
+class CUTS_BE_CIAO_Export CUTS_BE_Workspace_Begin_T <CUTS_BE_CIAO::Context>:
+  public CUTS_BE_Visitor_T <CUTS_BE_CIAO::Context, PICML::Visitor>
 {
 public:
-  typedef CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CIAO::Context, PICML::Visitor> visitor_type;
 
-  CUTS_BE_Workspace_Begin_T (CUTS_BE_Ciao & context);
+  CUTS_BE_Workspace_Begin_T (CUTS_BE_CIAO::Context & context);
 
   virtual ~CUTS_BE_Workspace_Begin_T (void);
 
@@ -60,13 +60,13 @@ public:
  * @class CUTS_BE_Workspace_Project_Include_T
  */
 template < >
-class CUTS_BE_Workspace_Project_Include_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node> :
-  public CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor>
+class CUTS_BE_CIAO_Export CUTS_BE_Workspace_Project_Include_T <CUTS_BE_CIAO::Context, CUTS_BE_Impl_Node> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CIAO::Context, PICML::Visitor>
 {
 public:
-  typedef CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CIAO::Context, PICML::Visitor> visitor_type;
 
-  CUTS_BE_Workspace_Project_Include_T (CUTS_BE_Ciao & context);
+  CUTS_BE_Workspace_Project_Include_T (CUTS_BE_CIAO::Context & context);
 
   virtual ~CUTS_BE_Workspace_Project_Include_T (void);
 
@@ -77,13 +77,13 @@ public:
  * @class CUTS_BE_Workspace_Project_Include_T
  */
 template < >
-class CUTS_BE_Workspace_Project_Include_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node> :
-  public CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor>
+class CUTS_BE_CIAO_Export CUTS_BE_Workspace_Project_Include_T <CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CIAO::Context, PICML::Visitor>
 {
 public:
-  typedef CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CIAO::Context, PICML::Visitor> visitor_type;
 
-  CUTS_BE_Workspace_Project_Include_T (CUTS_BE_Ciao & context);
+  CUTS_BE_Workspace_Project_Include_T (CUTS_BE_CIAO::Context & context);
 
   virtual ~CUTS_BE_Workspace_Project_Include_T (void);
 
@@ -94,13 +94,13 @@ public:
  * @class CUTS_BE_Workspace_End_T
  */
 template < >
-class CUTS_BE_Workspace_End_T <CUTS_BE_Ciao> :
-  public CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor>
+class CUTS_BE_CIAO_Export CUTS_BE_Workspace_End_T <CUTS_BE_CIAO::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CIAO::Context, PICML::Visitor>
 {
 public:
-  typedef CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CIAO::Context, PICML::Visitor> visitor_type;
 
-  CUTS_BE_Workspace_End_T (CUTS_BE_Ciao & context);
+  CUTS_BE_Workspace_End_T (CUTS_BE_CIAO::Context & context);
 
   virtual ~CUTS_BE_Workspace_End_T (void);
 
@@ -111,13 +111,13 @@ public:
  * @class CUTS_BE_Workspace_File_Close_T
  */
 template < >
-class CUTS_BE_Workspace_File_Close_T <CUTS_BE_Ciao> :
-  public CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor>
+class CUTS_BE_CIAO_Export CUTS_BE_Workspace_File_Close_T <CUTS_BE_CIAO::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CIAO::Context, PICML::Visitor>
 {
 public:
-  typedef CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CIAO::Context, PICML::Visitor> visitor_type;
 
-  CUTS_BE_Workspace_File_Close_T (CUTS_BE_Ciao & context);
+  CUTS_BE_Workspace_File_Close_T (CUTS_BE_CIAO::Context & context);
 
   virtual ~CUTS_BE_Workspace_File_Close_T (void);
 

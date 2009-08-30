@@ -3,15 +3,12 @@
 #ifndef _CUTS_BE_CIAO_FACTORY_MANAGER_H_
 #define _CUTS_BE_CIAO_FACTORY_MANAGER_H_
 
-#include "UDM_CIAO_Export.h"
 #include "../../BE_Manager_Factory.h"
+#include "BE_CIAO_export.h"
 
-//=============================================================================
 /**
  * @class CUTS_BE_CIAO_Manager_Factory
  */
-//=============================================================================
-
 class CUTS_BE_CIAO_Manager_Factory : public CUTS_BE_Manager_Factory
 {
 public:
@@ -28,6 +25,6 @@ public:
   const char * description (void) const;
 };
 
-CUTS_BE_CREATE_MANAGER_FACTORY_DECLARE (CUTS_UDM_CIAO_Export);
+CUTS_BE_CREATE_MANAGER_FACTORY_DECLARE (CUTS_BE_CIAO_Export);
 
 #endif  // !defined _CUTS_BE_CIAO_FACTORY_MANAGER_H_

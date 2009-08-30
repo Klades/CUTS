@@ -17,6 +17,6 @@
 #include "../../BE_Preprocessor_T.h"
 
 #define CUTS_BE_CIAO_PREPROCESSOR \
-  CUTS_BE_PREPROCESSOR (CUTS_BE_Ciao)
+  CUTS_BE_PREPROCESSOR (CUTS_BE_CIAO::Context)
 
 #endif  // !defined _CUTS_BE_CIAO_PREPROCESSOR_H_

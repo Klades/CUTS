@@ -11,7 +11,7 @@
 //
 // CUTS_BE_Preprocessor_WorkerLibrary_T
 //
-void CUTS_BE_Preprocessor_WorkerLibrary_T <CUTS_BE_Ciao>::
+void CUTS_BE_Preprocessor_WorkerLibrary_T <CUTS_BE_CIAO::Context>::
 generate (CUTS_BE_Impl_Node * node, const PICML::WorkerLibrary & lib)
 {
   // Save the name of the library.
@@ -27,7 +27,7 @@ generate (CUTS_BE_Impl_Node * node, const PICML::WorkerLibrary & lib)
 //
 // CUTS_BE_Preprocessor_WorkerFile_T
 //
-void CUTS_BE_Preprocessor_WorkerFile_T <CUTS_BE_Ciao>::
+void CUTS_BE_Preprocessor_WorkerFile_T <CUTS_BE_CIAO::Context>::
 generate (CUTS_BE_Impl_Node * node, const PICML::WorkerFile & file)
 {
   // Save the name of the file.

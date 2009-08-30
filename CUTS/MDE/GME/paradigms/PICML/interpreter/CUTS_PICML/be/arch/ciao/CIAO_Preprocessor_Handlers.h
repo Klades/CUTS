@@ -22,7 +22,7 @@
  * Updates the 'includes' for the current implementation.
  */
 template < >
-class CUTS_BE_Preprocessor_WorkerLibrary_T <CUTS_BE_Ciao>
+class CUTS_BE_Preprocessor_WorkerLibrary_T <CUTS_BE_CIAO::Context>
 {
 public:
   CUTS_BE_Preprocessor_WorkerLibrary_T (void);
@@ -38,7 +38,7 @@ public:
  * Preprocessor handler for the PICML::WorkerFile type.
  */
 template < >
-class CUTS_BE_Preprocessor_WorkerFile_T <CUTS_BE_Ciao>
+class CUTS_BE_Preprocessor_WorkerFile_T <CUTS_BE_CIAO::Context>
 {
 public:
   CUTS_BE_Preprocessor_WorkerFile_T (void);
