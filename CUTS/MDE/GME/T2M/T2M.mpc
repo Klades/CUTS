@@ -1,12 +1,7 @@
 // $Id$
 
-project (gmet2m) : cutsexe, boost_base {
+project (gmet2m) : codegenerationkit, cutsexe, boost_base {
   exename = gmet2m
-
-  includes += $(CIAO_ROOT)/CCF \
-              $(ACE_ROOT)/contrib/utility
-
-  libs -= CUTS
 
   Header_Files {
 

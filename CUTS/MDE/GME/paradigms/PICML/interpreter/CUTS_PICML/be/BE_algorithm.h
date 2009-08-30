@@ -13,9 +13,10 @@
 #ifndef _CUTS_BE_ALGORITHM_H_
 #define _CUTS_BE_ALGORITHM_H_
 
+#include <algorithm>
 #include "PICML/PICML.h"
 #include "BE_nil.h"
-#include <algorithm>
+#include "BE_export.h"
 
 namespace CUTS_BE
 {
@@ -24,7 +25,16 @@ namespace CUTS_BE
    *
    * @param[in]     file        File element to search.
    */
+  CUTS_BE_Export
   bool has_component (const PICML::File & file);
+
+  /**
+   * Determine if a file has any events.
+   *
+   * @param[in]     file        File element to search.
+   */
+  CUTS_BE_Export
+  bool has_events (const PICML::File & file);
 
   /**
    * @struct if_then_else

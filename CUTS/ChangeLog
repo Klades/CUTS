@@ -1,3 +1,108 @@
+Sun Aug 30 21:52:42 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/T2M/T2M.mpc:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.mpc:
+
+          . Fixed compilation errors related to invalid project
+            specifications.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_IDL_Graph.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_IDL_Node.h:
+
+          . The PICML::File is now stored with the IDL node.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_algorithm.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_algorithm.cpp:
+
+          . Implemented has_events () function, which tests if a file has
+            any events.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/BE_CIAO.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Workspace_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Workspace_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Workspace_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Impl_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Impl_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Stub_Header_Generator.cpp:
+
+          . Updated code generators to latest version of CIAO.
+
+        * MPC/config/cuts_logging_skel.mpb:
+
+          . Fixed an error in the project specification.
+
+        * MPC/config/requires_rtidds.mpb:
+
+          . Changed 'rtidds' to 'ndds'.
+
+        * cuts/arch/ccm/CCM_Servant_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Context_T.h:
+
+          . Fixed compilation errors.
+
+        * cuts/utils/node/Node_Daemon_Common_export.h:
+
+          . Missing file.
+
+        * examples/arch/ciao:
+        * examples/arch/ciao/SimpleExample:
+        * examples/arch/ciao/SimpleExample/ModelDDSData.idl:
+        * examples/arch/ciao/SimpleExample/ModelDDSData.mpc:
+        * examples/arch/ciao/SimpleExample/SimpleComponent.idl:
+        * examples/arch/ciao/SimpleExample/SimpleComponent.mpc:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_Basic_Impl.mpc:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/ciao/SimpleExample/SimpleExample.mwc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Base.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.cpp:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.mpc:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldC.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.cpp:
+
+          . Updated example to latest version of CIAO.
+
+        * examples/arch/ciao/SimpleExample/ModelDDSData_Base.mpc:
+        * examples/arch/ciao/SimpleExample/ModelDDSData_DDS.idl:
+        * examples/arch/ciao/SimpleExample/ModelDDSData_skel_export.h:
+        * examples/arch/ciao/SimpleExample/ModelDDSData_stub_export.h:
+        * examples/arch/ciao/SimpleExample/RTIDDS_ModelDDSDataC.h:
+        * examples/arch/ciao/SimpleExample/RTIDDS_ModelDDSDataC.cpp:
+        * examples/arch/ciao/SimpleExample/RTIDDS_SimpleComponentC.h:
+        * examples/arch/ciao/SimpleExample/RTIDDS_SimpleComponentC.cpp:
+        * examples/arch/ciao/SimpleExample/RTIDDS_SimpleComponent_svnt.h:
+        * examples/arch/ciao/SimpleExample/RTIDDS_SimpleComponent_svnt.cpp:
+        * examples/arch/ciao/SimpleExample/RTIDDS_SimpleComponent_svnt_export.h:
+        * examples/arch/ciao/SimpleExample/SimpleComponent.cidl:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_Base.mpc:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_Basic_Impl_export.h:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_exec_export.h:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_skel_export.h:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_stub_export.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Generators.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Generators.cpp:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent.cidl:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.cidl:
+
+          Removed these files.
+
 Thu Aug 27 23:05:38 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE.mpc:

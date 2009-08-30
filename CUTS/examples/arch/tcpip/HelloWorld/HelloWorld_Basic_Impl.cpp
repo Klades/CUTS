@@ -30,9 +30,6 @@ namespace HelloWorld_Basic_Impl
   //
   void HelloWorld::push_handle_message (::Message * ev)
   {
-    ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - received a new message\n"));
-
     CUTS_CCM_Event_T <OBV_Message> __event_100000010__;
     this->ctx_->push_handle_message (__event_100000010__.in ());
 
@@ -86,13 +83,13 @@ namespace HelloWorld_Basic_Impl
 //
 // create_HelloWorld_Basic_Impl
 //
-::Components::EnterpriseComponent_ptr
+::Components::EnterpriseComponent_ptr 
 create_HelloWorld_Basic_Impl (void)
 {
   ::Components::EnterpriseComponent_ptr retval =
     ::Components::EnterpriseComponent::_nil ();
 
-  ACE_NEW_RETURN (retval,
+  ACE_NEW_RETURN (retval, 
                   ::HelloWorld_Basic_Impl::HelloWorld (),
                   ::Components::EnterpriseComponent::_nil ());
 

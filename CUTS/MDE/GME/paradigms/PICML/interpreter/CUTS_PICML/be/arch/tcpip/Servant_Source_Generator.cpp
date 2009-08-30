@@ -5,6 +5,8 @@
 #include "Servant_Source_Impl_Generator.h"
 #include "TCPIP_Ctx.h"
 #include "../../lang/cpp/Cpp.h"
+#include "../../BE_algorithm.h"
+
 #include "boost/bind.hpp"
 #include "CCF/CodeGenerationKit/IndentationCxx.hpp"
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
@@ -37,11 +39,11 @@ Servant_Source_Generator::~Servant_Source_Generator (void)
 void Servant_Source_Generator::
 Visit_RootFolder (const PICML::RootFolder & folder)
 {
-  std::set <PICML::ComponentImplementations> folders = folder.ComponentImplementations_children ();
+  std::set <PICML::InterfaceDefinitions> folders = folder.InterfaceDefinitions_children ();
 
   std::for_each (folders.begin (),
                  folders.end (),
-                 boost::bind (&PICML::ComponentImplementations::Accept,
+                 boost::bind (&PICML::InterfaceDefinitions::Accept,
                               _1,
                               boost::ref (*this)));
 }
@@ -50,32 +52,26 @@ Visit_RootFolder (const PICML::RootFolder & folder)
 // Visit_ComponentImplementations
 //
 void Servant_Source_Generator::
-Visit_ComponentImplementations (const PICML::ComponentImplementations & folder)
+Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions & folder)
 {
-  std::set <PICML::ComponentImplementationContainer> containers =
-    folder.ComponentImplementationContainer_children ();
+  std::set <PICML::File> files = folder.File_children ();
 
-  std::for_each (containers.begin (),
-                 containers.end (),
-                 boost::bind (&PICML::ComponentImplementationContainer::Accept,
+  std::for_each (files.begin (),
+                 files.end (),
+                 boost::bind (&PICML::File::Accept,
                               _1,
                               boost::ref (*this)));
 }
 
 //
-// Visit_ComponentImplementationContainer
+// Visit_File
 //
-void Servant_Source_Generator::
-Visit_ComponentImplementationContainer (
-const PICML::ComponentImplementationContainer & container)
+void Servant_Source_Generator::Visit_File (const PICML::File & file)
 {
-  std::set <PICML::MonolithicImplementation> monoimpls =
-    container.MonolithicImplementation_kind_children ();
-
-  if (monoimpls.empty ())
+  if (!CUTS_BE::has_component (file))
     return;
 
-  std::string name = container.name ();
+  std::string name (file.name ());
 
   // Construct the name of the output file.
   std::string basename ("TCPIP_");
@@ -98,6 +94,8 @@ const PICML::ComponentImplementationContainer & container)
     this->fout_ << CUTS_BE_CPP::single_line_comment ("$Id$")
                 << std::endl
                 << CUTS_BE_CPP::include (basename)
+                << CUTS_BE_CPP::include ("TCPIP_" + name + "C")
+                << std::endl
                 << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_Events_T")
                 << CUTS_BE_CPP::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_T")
                 << CUTS_BE_CPP::include ("cuts/arch/tcpip/TCPIP_Connector")
@@ -106,11 +104,7 @@ const PICML::ComponentImplementationContainer & container)
                 << CUTS_BE_CPP::include ("cuts/arch/tcpip/TCPIP_Servant_Manager")
                 << std::endl;
 
-    std::for_each (monoimpls.begin (),
-                   monoimpls.end (),
-                   boost::bind (&PICML::MonolithicImplementation::Accept,
-                                _1,
-                                boost::ref (*this)));
+    this->Visit_FilePackage_i (file);
   } while (0);
 
   // Close the file.
@@ -118,66 +112,38 @@ const PICML::ComponentImplementationContainer & container)
 }
 
 //
-// Visit_MonolithicImplementation
+// Visit_Package
 //
 void Servant_Source_Generator::
-Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl)
+Visit_Package (const PICML::Package & package)
 {
-  this->monoimpl_ = monoimpl.name ();
+  this->Visit_FilePackage_i (package);
+}
 
-  this->fout_ << "namespace TCPIP_" << this->monoimpl_
-              << "{";
+//
+// Visit_FilePackage_i
+//
+void Servant_Source_Generator::
+Visit_FilePackage_i (const Udm::Object & obj)
+{
+  std::set <PICML::Component> components =
+    Udm::ChildrenAttr <PICML::Component> (obj.__impl (), Udm::NULLCHILDROLE);
 
-  // Visit the component we are implementing.
-  PICML::Implements impl = monoimpl.dstImplements ();
-
-  if (Udm::null != impl)
-    impl.Accept (*this);
-
-  this->fout_ << "}"
-              << "::PortableServer::Servant" << std::endl;
-
-  std::set <PICML::MonolithprimaryArtifact> artifacts =
-    monoimpl.dstMonolithprimaryArtifact ();
-
-  std::for_each (artifacts.begin (),
-                 artifacts.end (),
-                 boost::bind (&PICML::MonolithprimaryArtifact::Accept,
+  std::for_each (components.begin (),
+                 components.end (),
+                 boost::bind (&PICML::Component::Accept,
                               _1,
                               boost::ref (*this)));
 
-  this->fout_ << " (const char * name," << std::endl
-              << "::Components::EnterpriseComponent_ptr p)"
-              << "{"
-              << "return ::CUTS_TCPIP::CCM::create_servant <" << std::endl
-              << "  ::CIDL_" << this->monoimpl_ << "::"
-              << this->component_type_ << "_Exec," << std::endl
-              << "  ::TCPIP_" << this->monoimpl_ << "::" << this->component_type_
-              << "_Servant > (name, p);"
-              << "}"
-              << std::endl;
-}
+  // Visit the remaining packages.
+  std::set <PICML::Package> packages =
+    Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
-//
-// Visit_Implements
-//
-void Servant_Source_Generator::
-Visit_Implements (const PICML::Implements & implements)
-{
-  PICML::ComponentRef ref = implements.dstImplements_end ();
-  ref.Accept (*this);
-}
-
-//
-// Visit_ComponentRef
-//
-void Servant_Source_Generator::
-Visit_ComponentRef (const PICML::ComponentRef & ref)
-{
-  PICML::Component component = ref.ref ();
-
-  if (Udm::null != component)
-    component.Accept (*this);
+  std::for_each (packages.begin (),
+                 packages.end (),
+                 boost::bind (&PICML::Package::Accept,
+                              _1,
+                              boost::ref (*this)));
 }
 
 //
@@ -193,7 +159,7 @@ Visit_Component (const PICML::Component & component)
   Servant_Source_Context_Generator ctx_gen (this->fout_);
   non_const.Accept (ctx_gen);
 
-  Servant_Source_Impl_Generator impl_gen (this->fout_, this->monoimpl_);
+  Servant_Source_Impl_Generator impl_gen (this->fout_);
   non_const.Accept (impl_gen);
 }
 

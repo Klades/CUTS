@@ -154,10 +154,8 @@ private:
 // Servant_Source_Impl_Generator
 //
 Servant_Source_Impl_Generator::
-Servant_Source_Impl_Generator (std::ostream & out,
-                               const std::string & monoimpl)
-: out_ (out),
-  monoimpl_ (monoimpl)
+Servant_Source_Impl_Generator (std::ostream & out)
+: out_ (out)
 {
 
 }
@@ -182,7 +180,7 @@ Visit_Component (const PICML::Component & component)
   std::vector <PICML::InEventPort> inputs =
     component.InEventPort_kind_children_sorted (Sorted_By_Name <PICML::InEventPort> ());
 
-  std::string name = component.name ();
+  std::string name (component.name ());
   this->servant_ = name + "_Servant";
 
   std::string context (this->servant_);
@@ -193,7 +191,7 @@ Visit_Component (const PICML::Component & component)
              << this->servant_ << "::" << std::endl
              << this->servant_
              << " (const char * name," << std::endl
-             << "::CIDL_" << this->monoimpl_ << "::" << name << "_Exec_ptr executor)" << std::endl
+             << "::CIAO_" << name << "_Impl::" << name << "_Exec_ptr executor)" << std::endl
              << ": " << this->servant_ << "_Base (name, executor)";
 
   Base_Member_Init_Generator base_member (this->out_);
@@ -281,6 +279,18 @@ Visit_Component (const PICML::Component & component)
   std::for_each (boost::make_filter_iterator <ReadonlyAttribute_Type> (ro_attrs.begin (), ro_attrs.end ()),
                  boost::make_filter_iterator <ReadonlyAttribute_Type> (ro_attrs.end (), ro_attrs.end ()),
                  boost::bind (&PICML::ReadonlyAttribute::Accept, _1, boost::ref (*this)));
+
+  // Finally, generate the factory function for the component.
+  this->out_ << "::PortableServer::Servant " << std::endl
+             << "create_" << CUTS_BE_CPP::fq_type (component, "_", false)
+             << "_Servant (const char * name," << std::endl
+             << "::Components::EnterpriseComponent_ptr p)"
+             << "{"
+             << "return ::CUTS_TCPIP::CCM::create_servant <" << std::endl
+             << "  ::CIAO_" << name << "_Impl::" << name << "_Exec," << std::endl
+             << "  " << CUTS_BE_CPP::fq_type (component) << "_Servant > (name, p);"
+             << "}"
+             << std::endl;
 }
 
 //

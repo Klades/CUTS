@@ -14,8 +14,7 @@ namespace CUTS_BE_TCPIP
 class Servant_Source_Impl_Generator : public PICML::Visitor
 {
 public:
-  Servant_Source_Impl_Generator (std::ostream & out,
-                                 const std::string & monoimpl);
+  Servant_Source_Impl_Generator (std::ostream & out);
 
   virtual ~Servant_Source_Impl_Generator (void);
 
@@ -31,8 +30,6 @@ public:
 
 private:
   std::ostream & out_;
-
-  std::string monoimpl_;
 
   std::string servant_;
 };

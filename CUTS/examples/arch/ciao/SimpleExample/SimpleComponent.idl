@@ -1,0 +1,26 @@
+
+#ifndef SIMPLECOMPONENT_IDL
+#define SIMPLECOMPONENT_IDL
+
+#include <Components.idl>
+#include "ModelDDSData.idl"
+
+module Example
+{
+  component SimpleComponent
+  {
+    consumes Outer::TestData_DDS processEvent;
+    
+    publishes Outer::TestData_DDS publishEvent;
+    
+    emits Outer::TestData_DDS emitEvent;
+  };
+  
+  home SimpleComponentHome
+    manages SimpleComponent
+  {
+  };
+};
+
+#endif // SIMPLECOMPONENT_IDL
+

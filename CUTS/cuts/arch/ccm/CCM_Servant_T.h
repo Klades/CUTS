@@ -17,6 +17,7 @@
 #include "ace/Hash_Map_Manager.h"
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/SString.h"
+#include "cuts/config.h"
 
 // Forward decl.
 class CUTS_CCM_EventConsumer;
@@ -131,26 +132,26 @@ public:
 protected:
   /// Type definition of the consumer map.
   typedef ACE_Hash_Map_Manager <ACE_CString,
-				CUTS_CCM_EventConsumer *,
-				ACE_RW_Thread_Mutex> consumer_map_type;
+        CUTS_CCM_EventConsumer *,
+        ACE_RW_Thread_Mutex> consumer_map_type;
 
   /// Collection of consumers for the servant.
   consumer_map_type consumers_;
 
   typedef ACE_Hash_Map_Manager <ACE_CString,
-				CUTS_CCM_Subscriber_Table *,
-				ACE_RW_Thread_Mutex> publishes_map_type;
+        CUTS_CCM_Subscriber_Table *,
+        ACE_RW_Thread_Mutex> publishes_map_type;
 
   /// Collection of publish endpoints.
   publishes_map_type publishes_;
 
   typedef ACE_Hash_Map_Manager <ACE_CString,
-				CUTS_CCM_Single_Subscriber *,
-				ACE_RW_Thread_Mutex> emits_map_type;
+        CUTS_CCM_Single_Subscriber *,
+        ACE_RW_Thread_Mutex> emits_map_type;
 
   /// Collection of emits endpoints.
   emits_map_type emits_;
-  
+
 
   /// The actual context for the servant.
   ACE_Auto_Ptr <CONTEXT> ctx_;

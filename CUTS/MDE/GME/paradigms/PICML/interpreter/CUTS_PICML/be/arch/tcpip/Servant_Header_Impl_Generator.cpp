@@ -19,9 +19,9 @@ namespace CUTS_BE_TCPIP
 //
 Servant_Header_Impl_Generator::
 Servant_Header_Impl_Generator (std::ostream & out,
-                               const std::string & monoimpl)
+                               const std::string & export_macro)
 : out_ (out),
-  monoimpl_ (monoimpl)
+  export_macro_ (export_macro)
 {
 
 }
@@ -40,8 +40,7 @@ Servant_Header_Impl_Generator::~Servant_Header_Impl_Generator (void)
 void Servant_Header_Impl_Generator::
 Visit_Component (const PICML::Component & component)
 {
-  std::string name = component.name ();
-
+  std::string name (component.name ());
   this->servant_ = name + "_Servant";
 
   std::string context (this->servant_);
@@ -50,10 +49,10 @@ Visit_Component (const PICML::Component & component)
   // Write the first part of the this->servant_'s context.
   this->out_ << CUTS_BE_CPP::single_line_comment ("Type definition of the this->servant_'s base class")
              << "typedef CUTS_TCPIP_CCM_Servant_T < " << std::endl
-             << this->servant_ << "," << std::endl
-             << context << "," << std::endl
-             << "CIDL_" << this->monoimpl_ << "::" << name << "_Exec," << std::endl
-             << "::POA_" << CUTS_BE_CPP::scope(component, "::", false) << name
+             << "  " << this->servant_ << "," << std::endl
+             << "  " << context << "," << std::endl
+             << "  CIAO_" << name << "_Impl::" << name << "_Exec," << std::endl
+             << "  ::POA_" << CUTS_BE_CPP::scope(component, "::", false) << name
              << " > " << this->servant_ << "_Base;"
              << std::endl
              << "/**" << std::endl
@@ -64,7 +63,7 @@ Visit_Component (const PICML::Component & component)
              << "public:" << std::endl
              << CUTS_BE_CPP::single_line_comment ("default constructor")
              << this->servant_ << " (const char * name, " << std::endl
-             << "CIDL_" << this->monoimpl_ << "::" << name << "_Exec_ptr executor);"
+             << "CIAO_" << name << "_Impl::" << name << "_Exec_ptr executor);"
              << std::endl
              << CUTS_BE_CPP::single_line_comment ("destructor")
              << "virtual ~" << this->servant_ << " (void);"
@@ -111,6 +110,10 @@ Visit_Component (const PICML::Component & component)
                  boost::bind (&PICML::ReadonlyAttribute::Accept, _1, boost::ref (*this)));
 
   this->out_ << "};"
+             << "extern \"C\" " << this->export_macro_ << std::endl
+             << "::PortableServer::Servant " << std::endl
+             << "create_" << CUTS_BE_CPP::fq_type (component, "_", false)
+             << "_Servant (const char *, ::Components::EnterpriseComponent_ptr);"
              << std::endl;
 }
 

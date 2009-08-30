@@ -26,6 +26,7 @@ public:
 
   virtual void Visit_File (const PICML::File & file)
   {
+    this->includes_.insert (std::string (file.name ()));
     this->Visit_PackageFile_i (file);
   }
 

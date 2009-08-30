@@ -2,6 +2,7 @@
 #define _CUTS_BE_IDL_NODE_H_
 
 #include "BE_export.h"
+#include "PICML/PICML.h"
 #include "String_Set.h"
 #include <bitset>
 
@@ -51,6 +52,8 @@ struct CUTS_BE_Export CUTS_BE_IDL_Node
   CUTS_BE_IDL_Node_Set references_;
 
   bool has_events_;
+
+  PICML::File file_;
 };
 
 #endif  // !defined _CUTS_BE_IDL_NODE_H_

@@ -7,6 +7,7 @@
 #include "Servant_Header_Include_Generator.h"
 
 #include "../../lang/cpp/Cpp.h"
+#include "../../BE_algorithm.h"
 
 #include "boost/bind.hpp"
 #include "CCF/CodeGenerationKit/IndentationCxx.hpp"
@@ -40,46 +41,39 @@ Servant_Header_Generator::~Servant_Header_Generator (void)
 void Servant_Header_Generator::
 Visit_RootFolder (const PICML::RootFolder & folder)
 {
-  std::set <PICML::ComponentImplementations> folders = folder.ComponentImplementations_children ();
+  std::set <PICML::InterfaceDefinitions> folders = folder.InterfaceDefinitions_children ();
   std::for_each (folders.begin (),
                  folders.end (),
-                 boost::bind (&PICML::ComponentImplementations::Accept,
+                 boost::bind (&PICML::InterfaceDefinitions::Accept,
                               _1,
                               boost::ref (*this)));
 }
 
 //
-// Visit_ComponentImplementations
+// Visit_InterfaceDefinitions
 //
 void Servant_Header_Generator::
-Visit_ComponentImplementations (const PICML::ComponentImplementations & folder)
+Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions & folder)
 {
-  std::set <PICML::ComponentImplementationContainer> containers =
-    folder.ComponentImplementationContainer_children ();
+  std::set <PICML::File> files = folder.File_children ();
 
-  std::for_each (containers.begin (),
-                 containers.end (),
-                 boost::bind (&PICML::ComponentImplementationContainer::Accept,
+  std::for_each (files.begin (),
+                 files.end (),
+                 boost::bind (&PICML::File::Accept,
                               _1,
                               boost::ref (*this)));
 }
 
 //
-// Visit_ComponentImplementationContainer
+// Visit_File
 //
-void Servant_Header_Generator::
-Visit_ComponentImplementationContainer (
-const PICML::ComponentImplementationContainer & container)
+void Servant_Header_Generator::Visit_File (const PICML::File & file)
 {
-  std::set <PICML::MonolithicImplementation> monoimpls =
-    container.MonolithicImplementation_kind_children ();
-
-  if (monoimpls.empty ())
+  if (!CUTS_BE::has_component (file))
     return;
 
-  std::string name = container.name ();
-
   // Construct the name of the output file.
+  std::string name (file.name ());
   std::string basename ("TCPIP_");
   basename += name + "_svnt";
 
@@ -105,14 +99,12 @@ const PICML::ComponentImplementationContainer & container)
     // Indentation implanter.
     Indentation::Implanter <Indentation::Cxx, char> formatter (this->fout_);
 
-    std::string corba_filename (container.name ());
+    std::string corba_filename (name);
     corba_filename += "C";
 
-    std::string export_filename ("TCPIP_");
-    export_filename += std::string (container.name ()) + "_svnt_export";
-
-    // Construct the export macro for this file.
-    this->export_macro_ = "TCPIP_" + name + "_SVNT";
+    // Construct strings related the export macro.
+    std::string export_filename = name + "_svnt_export";
+    this->export_macro_ = name + "_SVNT";
 
     std::transform (this->export_macro_.begin (),
                     this->export_macro_.end (),
@@ -121,21 +113,14 @@ const PICML::ComponentImplementationContainer & container)
 
     this->export_macro_ += "_Export";
 
-    std::string exec_stub (name);
-    exec_stub += "EC";
-
     // Include the header file.
     this->fout_ << CUTS_BE_CPP::single_line_comment ("-*- C++ -*-")
                 << std::endl
                 << "#ifndef " << hash_define << std::endl
                 << "#define " << hash_define << std::endl
-                << std::endl;
-
-    Servant_Header_Include_Generator incl_gen (this->fout_);
-    PICML::ComponentImplementationContainer (container).Accept (incl_gen);
-
-    this->fout_ << std::endl
-                << CUTS_BE_CPP::include (exec_stub)
+                << std::endl
+                << CUTS_BE_CPP::include (name + "EC")
+                << CUTS_BE_CPP::include (name + "S")
                 << std::endl
                 << CUTS_BE_CPP::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_Context_T")
                 << CUTS_BE_CPP::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T")
@@ -148,11 +133,8 @@ const PICML::ComponentImplementationContainer & container)
                 << "class CUTS_TCPIP_Servant_Manager;"
                 << std::endl;
 
-    std::for_each (monoimpls.begin (),
-                   monoimpls.end (),
-                   boost::bind (&PICML::MonolithicImplementation::Accept,
-                                _1,
-                                boost::ref (*this)));
+    // Visit all the components in this file.
+    this->Visit_FilePackage_i (file);
 
     this->fout_ << std::endl
                 << "#endif  // !defined " << hash_define << std::endl;
@@ -164,58 +146,38 @@ const PICML::ComponentImplementationContainer & container)
 }
 
 //
-// Visit_MonolithicImplementation
+// Visit_FilePackage_i
 //
 void Servant_Header_Generator::
-Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl)
+Visit_Package (const PICML::Package & package)
 {
-  this->monoimpl_ = monoimpl.name ();
-  this->fout_ << "namespace TCPIP_" << this->monoimpl_
-              << "{";
+  this->Visit_FilePackage_i (package);
+}
 
-  // Visit the component we are implementing.
-  PICML::Implements impl = monoimpl.dstImplements ();
+//
+// Visit_FilePackage_i
+//
+void Servant_Header_Generator::
+Visit_FilePackage_i (const Udm::Object & obj)
+{
+  std::set <PICML::Component> components =
+    Udm::ChildrenAttr <PICML::Component> (obj.__impl (), Udm::NULLCHILDROLE);
 
-  if (Udm::null != impl)
-    impl.Accept (*this);
-
-  this->fout_ << "}"
-              << "extern \"C\" " << this->export_macro_ << std::endl
-              << "::PortableServer::Servant" << std::endl;
-
-  std::set <PICML::MonolithprimaryArtifact> artifacts =
-    monoimpl.dstMonolithprimaryArtifact ();
-
-  std::for_each (artifacts.begin (),
-                 artifacts.end (),
-                 boost::bind (&PICML::MonolithprimaryArtifact::Accept,
+  std::for_each (components.begin (),
+                 components.end (),
+                 boost::bind (&PICML::Component::Accept,
                               _1,
                               boost::ref (*this)));
 
-  this->fout_ << " (const char * name," << std::endl
-              << "::Components::EnterpriseComponent_ptr p);";
-}
+  // Visit the remaining packages.
+  std::set <PICML::Package> packages =
+    Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
-//
-// Visit_Implements
-//
-void Servant_Header_Generator::
-Visit_Implements (const PICML::Implements & implements)
-{
-  PICML::ComponentRef ref = implements.dstImplements_end ();
-  ref.Accept (*this);
-}
-
-//
-// Visit_ComponentRef
-//
-void Servant_Header_Generator::
-Visit_ComponentRef (const PICML::ComponentRef & ref)
-{
-  PICML::Component component = ref.ref ();
-
-  if (Udm::null != component)
-    component.Accept (*this);
+  std::for_each (packages.begin (),
+                 packages.end (),
+                 boost::bind (&PICML::Package::Accept,
+                              _1,
+                              boost::ref (*this)));
 }
 
 //
@@ -230,7 +192,7 @@ Visit_Component (const PICML::Component & component)
   Servant_Header_Context_Generator ctx_gen (this->fout_);
   non_const.Accept (ctx_gen);
 
-  Servant_Header_Impl_Generator impl_gen (this->fout_, this->monoimpl_);
+  Servant_Header_Impl_Generator impl_gen (this->fout_, this->export_macro_);
   non_const.Accept (impl_gen);
 }
 

@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_PICML_Base) : xsc_cxx {
+project (CUTS_GME_PICML_Xml) : xsc_cxx {
   custom_only = 1
 
   specific {
@@ -20,18 +20,13 @@ project (CUTS_PICML_Base) : xsc_cxx {
   }
 }
 
-project (CUTS_PICML) : xscrt, picmllib, boost_base, cuts_gme, \
-                       picml_udm, udm_component, gme_interpreter, cuts_cosmic {
+project (CUTS_GME_PICML) : xscrt, picmllib, boost_base, cuts_gme, \
+                           picml_udm, udm_component, gme_interpreter, cuts_cosmic {
 
   sharedname = CUTS_PICML
 
-  specific (prop:microsoft) {
-    midl_notlb = 1
-    DisableSpecificWarnings += 4355
-  }
-
   // -- dependencies
-  after += CUTS_BE CUTS_PICML_Base
+  after += CUTS_BE CUTS_GME_PICML_Xml
   libs  += CUTS_BE
 
   Source_Files {

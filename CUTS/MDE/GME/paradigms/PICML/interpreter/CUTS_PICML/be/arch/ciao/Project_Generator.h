@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- * @file      Component_Impl_Generator.h
+ * @file      Project_Generator.h
  *
  * $Id$
  *
@@ -10,32 +10,31 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_BE_TCPIP_PROEJECT_GENERATOR_H_
-#define _CUTS_BE_TCPIP_PROEJECT_GENERATOR_H_
+#ifndef _CUTS_BE_CIAO_PROJECT_GENERATOR_H_
+#define _CUTS_BE_CIAO_PROJECT_GENERATOR_H_
 
 #include "../../BE_Project_Generators_T.h"
 #include "../../String_Set.h"
-#include "TCPIP_Ctx.h"
+#include "CIAO_Ctx.h"
 
+// Forward decl.
 struct CUTS_BE_Impl_Node;
 
+// Forward decl.
 struct CUTS_BE_IDL_Node;
-
-///////////////////////////////////////////////////////////////////////////////
-// project generators [CUTS_BE_Impl_Node]
 
 /**
  * @class CUTS_BE_Project_File_Open_T
  */
 template < >
-class CUTS_BE_Project_File_Open_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_Impl_Node> :
-  public CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor>
+class CUTS_BE_Project_File_Open_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node> :
+  public CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor>
 {
 public:
   /// Type definition of the visitor type.
-  typedef CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor> visitor_type;
 
-  CUTS_BE_Project_File_Open_T (CUTS_BE_TCPIP_Ctx & context);
+  CUTS_BE_Project_File_Open_T (CUTS_BE_Ciao & context);
 
   virtual ~CUTS_BE_Project_File_Open_T (void);
 
@@ -46,14 +45,14 @@ public:
  * @class CUTS_BE_Project_File_Begin_T
  */
 template < >
-class CUTS_BE_Project_File_Begin_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_Impl_Node> :
-  public CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor>
+class CUTS_BE_Project_File_Begin_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node> :
+  public CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor>
 {
 public:
   /// Type definition of the visitor type.
-  typedef CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor> visitor_type;
 
-  CUTS_BE_Project_File_Begin_T (CUTS_BE_TCPIP_Ctx & context);
+  CUTS_BE_Project_File_Begin_T (CUTS_BE_Ciao & context);
 
   virtual ~CUTS_BE_Project_File_Begin_T (void);
 
@@ -64,14 +63,14 @@ public:
  *
  */
 template < >
-class CUTS_BE_Project_Write_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_Impl_Node> :
-  public CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor>
+class CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node> :
+  public CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor>
 {
 public:
   /// Type definition of the visitor type.
-  typedef CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor> visitor_type;
 
-  CUTS_BE_Project_Write_T (CUTS_BE_TCPIP_Ctx & context);
+  CUTS_BE_Project_Write_T (CUTS_BE_Ciao & context);
 
   virtual ~CUTS_BE_Project_Write_T (void);
 
@@ -98,14 +97,14 @@ private:
  *
  */
 template < >
-class CUTS_BE_Project_File_End_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_Impl_Node> :
-  public CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor>
+class CUTS_BE_Project_File_End_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node> :
+  public CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor>
 {
 public:
   /// Type definition of the visitor type.
-  typedef CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor> visitor_type;
 
-  CUTS_BE_Project_File_End_T (CUTS_BE_TCPIP_Ctx & context);
+  CUTS_BE_Project_File_End_T (CUTS_BE_Ciao & context);
 
   virtual ~CUTS_BE_Project_File_End_T (void);
 
@@ -116,32 +115,35 @@ public:
  *
  */
 template <  >
-class CUTS_BE_Project_File_Close_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_Impl_Node> :
-  public CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor>
+class CUTS_BE_Project_File_Close_T <CUTS_BE_Ciao, CUTS_BE_Impl_Node> :
+  public CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor>
 {
 public:
   /// Type definition of the visitor type.
-  typedef CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor> visitor_type;
 
-  CUTS_BE_Project_File_Close_T (CUTS_BE_TCPIP_Ctx & context);
+  CUTS_BE_Project_File_Close_T (CUTS_BE_Ciao & context);
 
   virtual ~CUTS_BE_Project_File_Close_T (void);
 
   void generate (void);
 };
 
+///////////////////////////////////////////////////////////////////////////////
+// project generators [CUTS_BE_IDL_Node]
+
 /**
  * @class CUTS_BE_Project_File_Open_T
  */
 template < >
-class CUTS_BE_Project_File_Open_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_IDL_Node> :
-  public CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor>
+class CUTS_BE_Project_File_Open_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node> :
+  public CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor>
 {
 public:
   /// Type definition of the visitor type.
-  typedef CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor> visitor_type;
 
-  CUTS_BE_Project_File_Open_T (CUTS_BE_TCPIP_Ctx & context);
+  CUTS_BE_Project_File_Open_T (CUTS_BE_Ciao & context);
 
   virtual ~CUTS_BE_Project_File_Open_T (void);
 
@@ -152,14 +154,14 @@ public:
  * @class CUTS_BE_Project_File_Begin_T
  */
 template < >
-class CUTS_BE_Project_File_Begin_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_IDL_Node> :
-  public CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor>
+class CUTS_BE_Project_File_Begin_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node> :
+  public CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor>
 {
 public:
   /// Type definition of the visitor type.
-  typedef CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor> visitor_type;
 
-  CUTS_BE_Project_File_Begin_T (CUTS_BE_TCPIP_Ctx & context);
+  CUTS_BE_Project_File_Begin_T (CUTS_BE_Ciao & context);
 
   virtual ~CUTS_BE_Project_File_Begin_T (void);
 
@@ -170,14 +172,14 @@ public:
  *
  */
 template < >
-class CUTS_BE_Project_Write_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_IDL_Node> :
-  public CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor>
+class CUTS_BE_Project_Write_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node> :
+  public CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor>
 {
 public:
   /// Type definition of the visitor type.
-  typedef CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor> visitor_type;
 
-  CUTS_BE_Project_Write_T (CUTS_BE_TCPIP_Ctx & context);
+  CUTS_BE_Project_Write_T (CUTS_BE_Ciao & context);
 
   virtual ~CUTS_BE_Project_Write_T (void);
 
@@ -207,14 +209,14 @@ private:
  *
  */
 template <  >
-class CUTS_BE_Project_File_End_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_IDL_Node> :
-  public CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor>
+class CUTS_BE_Project_File_End_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node> :
+  public CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor>
 {
 public:
   /// Type definition of the visitor type.
-  typedef CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor> visitor_type;
 
-  CUTS_BE_Project_File_End_T (CUTS_BE_TCPIP_Ctx & context);
+  CUTS_BE_Project_File_End_T (CUTS_BE_Ciao & context);
 
   virtual ~CUTS_BE_Project_File_End_T (void);
 
@@ -225,14 +227,14 @@ public:
  *
  */
 template <  >
-class CUTS_BE_Project_File_Close_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_IDL_Node> :
-  public CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor>
+class CUTS_BE_Project_File_Close_T <CUTS_BE_Ciao, CUTS_BE_IDL_Node> :
+  public CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor>
 {
 public:
   /// Type definition of the visitor type.
-  typedef CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Visitor_T <CUTS_BE_Ciao, PICML::Visitor> visitor_type;
 
-  CUTS_BE_Project_File_Close_T (CUTS_BE_TCPIP_Ctx & context);
+  CUTS_BE_Project_File_Close_T (CUTS_BE_Ciao & context);
 
   virtual ~CUTS_BE_Project_File_Close_T (void);
 
@@ -243,4 +245,4 @@ public:
 #include "Project_Generator.inl"
 #endif
 
-#endif  // !defined _CUTS_BE_TCPIP_PROEJECT_GENERATOR_H_
+#endif  // !defined _CUTS_BE_CIAO_PROJECT_GENERATOR_H_

@@ -12,7 +12,6 @@ project (HelloWorld_IDL_Gen) : componentidldefaults {
               -Wb,svnt_export_macro=HELLOWORLD_SVNT_Export \
               -Wb,svnt_export_include=HelloWorld_svnt_export.h \
               -Sa -Sal -St
-
   idlflags -= -Gsv
 
   IDL_Files {
@@ -24,6 +23,7 @@ project (HelloWorld_stub) : ccm_stub, avoids_ace_for_tao, cuts_codegen_defaults 
   sharedname   = HelloWorld_stub
   dynamicflags = HELLOWORLD_STUB_BUILD_DLL
   after       += HelloWorld_IDL_Gen
+
 
   IDL_Files {
 
@@ -51,6 +51,7 @@ project (HelloWorld_skel) : ciao_servant, avoids_ace_for_tao, cuts_codegen_defau
   after       += HelloWorld_stub
   libs        += HelloWorld_stub
 
+
   IDL_Files {
 
   }
@@ -71,7 +72,7 @@ project (HelloWorld_skel) : ciao_servant, avoids_ace_for_tao, cuts_codegen_defau
 project (HelloWorld_EIDL_Gen) : ciaoidldefaults {
   custom_only = 1
 
-  after += HelloWorld_IDL_Gen
+  after    += HelloWorld_IDL_Gen
 
   idlflags += -Wb,export_macro=HELLOWORLD_EXEC_Export \
               -Wb,export_include=HelloWorld_exec_export.h \
@@ -86,11 +87,9 @@ project (HelloWorld_exec) : ciao_executor, cuts_tcpip, cuts_codegen_defaults {
   sharedname    = HelloWorld_exec
   dynamicflags += HELLOWORLD_EXEC_BUILD_DLL
 
-  after += HelloWorld_EIDL_Gen \
-    HelloWorld_stub
+  after += HelloWorld_EIDL_Gen HelloWorld_stub
 
-  libs  +=  \
-    HelloWorld_stub
+  libs  += HelloWorld_stub
 
   Source_Files {
     HelloWorldEC.cpp
@@ -107,17 +106,13 @@ project (HelloWorld_exec) : ciao_executor, cuts_tcpip, cuts_codegen_defaults {
   }
 }
 
-project (TCPIP_HelloWorld_svnt) : cuts_tcpip_ccm, cuts_codegen_defaults {
-  sharedname   = TCPIP_HelloWorld_svnt
+project (HelloWorld_svnt) : cuts_tcpip_ccm, cuts_codegen_defaults {
+  sharedname   = HelloWorld_svnt
   dynamicflags = HELLOWORLD_SVNT_BUILD_DLL
 
-  after += HelloWorld_exec \
-    HelloWorld_stub \
-    HelloWorld_skel
+  after += HelloWorld_exec HelloWorld_stub
 
-  libs += HelloWorld_exec \
-    HelloWorld_stub \
-    HelloWorld_skel
+  libs += HelloWorld_exec HelloWorld_stub HelloWorld_skel
 
   Source_Files {
     TCPIP_HelloWorld_svnt.cpp

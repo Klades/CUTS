@@ -1,7 +1,8 @@
 // $Id$
 
-project (CUTS_UNITE) : cuts_dsml, udm_component, \
-  xerces, game_component, boost_base, register, cosmic_utils, cutslib  {
+project (CUTS_GME_UNITE) : cuts_dsml, udm_component, \
+                           xerces, game_component, boost_base, \
+                           register, cosmic_utils, cutslib  {
 
   sharedname  = CUTS_UNITE
 
@@ -9,7 +10,7 @@ project (CUTS_UNITE) : cuts_dsml, udm_component, \
 
   libs -= PICML
 
-  specific {
+  specific (prop:windows) {
     midl_notlb = 1
   }
 

@@ -14,6 +14,7 @@
 #define _CUTS_TCPIP_CCM_CONTEXT_T_H_
 
 #include "ccm/CCM_SessionContextC.h"
+#include "cuts/config.h"
 
 /**
  * @class CUTS_TCPIP_CCM_Events_Impl
@@ -58,6 +59,7 @@ public:
   virtual ::CORBA::Object_ptr get_CCM_object (void);
 
 protected:
+  /// The actual servent for this wrapper.
   SVNT & svnt_;
 };
 

@@ -15,7 +15,7 @@ class Servant_Header_Impl_Generator : public PICML::Visitor
 {
 public:
   Servant_Header_Impl_Generator (std::ostream & out,
-                                 const std::string & monoimpl);
+                                 const std::string & export_macro);
 
   virtual ~Servant_Header_Impl_Generator (void);
 
@@ -32,7 +32,7 @@ public:
 private:
   std::ostream & out_;
 
-  std::string monoimpl_;
+  const std::string & export_macro_;
 
   std::string servant_;
 };

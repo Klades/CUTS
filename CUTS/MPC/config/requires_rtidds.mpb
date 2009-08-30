@@ -1,5 +1,5 @@
 // $Id$
 
 project {
-  requires += rtidds
+  requires += ndds
 }
