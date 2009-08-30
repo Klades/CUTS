@@ -1,3 +1,9 @@
+Sun Aug 30 22:25:57 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_be_ciao.mpb:
+
+          . Base project for including CIAO code generators.
+
 Sun Aug 30 22:23:00 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/BE_CIAO.mpc:

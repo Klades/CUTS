@@ -1,0 +1,6 @@
+// $Id4
+
+project : cuts_be_ccm {
+  libs  += CUTS_BE_CIAO
+  after += CUTS_BE_CIAO
+}
