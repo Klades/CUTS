@@ -1,7 +1,7 @@
 // -*- C++ -*-
 
-#ifndef _TCPIP_HELLOWORLD_SVNT_H_
-#define _TCPIP_HELLOWORLD_SVNT_H_
+#ifndef _HELLOWORLD_SVNT_H_
+#define _HELLOWORLD_SVNT_H_
 
 #include "HelloWorldEC.h"
 #include "HelloWorldS.h"
@@ -103,4 +103,4 @@ extern "C" HELLOWORLD_SVNT_Export
 create_HelloWorld_Servant (const char *, ::Components::EnterpriseComponent_ptr);
 
 
-#endif  // !defined _TCPIP_HELLOWORLD_SVNT_H_
+#endif  // !defined _HELLOWORLD_SVNT_H_

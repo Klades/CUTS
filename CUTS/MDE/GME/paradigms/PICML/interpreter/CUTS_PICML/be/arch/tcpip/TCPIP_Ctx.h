@@ -13,22 +13,18 @@
 #ifndef _CUTS_BE_TCPIP_CTX_H_
 #define _CUTS_BE_TCPIP_CTX_H_
 
-#include "../ccm/CCM.h"
+#include "../ciao/CIAO_Ctx.h"
 
 /**
  * @struct CUTS_BE_TCPIP_Ctx
  *
  * Application context for the TCP/IP backend generator.
  */
-struct CUTS_BE_TCPIP_Ctx : public CUTS_BE_CCM::Cpp::Context
+struct CUTS_BE_TCPIP_Ctx : public CUTS_BE_CIAO::Context
 {
-  typedef CUTS_BE_CCM::Cpp::Context arch_type;
+  typedef CUTS_BE_CIAO::Context arch_type;
 
   typedef CUTS_BE_CPP::Context behavior_type;
-
-  std::ofstream project_;
-
-  std::ofstream workspace_;
 };
 
 #endif  // !defined _CUTS_BE_TCPIP_CTX_H_

@@ -179,11 +179,16 @@ public:
   /// Type definition of the visitor type.
   typedef CUTS_BE_Visitor_T <CUTS_BE_CIAO::Context, PICML::Visitor> visitor_type;
 
-  CUTS_BE_Project_Write_T (CUTS_BE_CIAO::Context & context);
+  CUTS_BE_Project_Write_T (CUTS_BE_CIAO::Context & context,
+                           bool generate_svnt = true,
+                           const std::string svnt_base = "ciao_servant, cuts_ccm");
 
   virtual ~CUTS_BE_Project_Write_T (void);
 
   void generate (const CUTS_BE_IDL_Node & node);
+
+protected:
+  CUTS_String_Set stub_files_;
 
 private:
   void generate_idlgen_project (const CUTS_BE_IDL_Node & node);
@@ -203,6 +208,10 @@ private:
   typedef std::set <const CUTS_BE_IDL_Node *> IDL_Node_Set;
 
   IDL_Node_Set visited_nodes_;
+
+  bool generate_svnt_;
+
+  std::string svnt_base_;
 };
 
 /**

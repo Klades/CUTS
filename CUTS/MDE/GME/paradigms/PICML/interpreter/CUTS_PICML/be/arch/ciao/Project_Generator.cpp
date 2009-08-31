@@ -315,7 +315,7 @@ generate_idlgen_project (const CUTS_BE_IDL_Node & node)
   this->ctx_.project_
     << "              -Sa -Sal" << std::endl;
 
-  if (!has_component)
+  if (!has_component || !this->generate_svnt_)
     this->ctx_.project_ << "  idlflags -= -Gsv" << std::endl;
 
   this->ctx_.project_
@@ -353,7 +353,7 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
     << "project (" << stub_name << ") : ccm_stub, avoids_ace_for_tao, cuts_codegen_defaults {" << std::endl
     << "  sharedname   = " << stub_name << std::endl
     << "  dynamicflags = " << stub_export << "_BUILD_DLL" << std::endl
-    << "  after       += " << node.name_ << "_IDL_Gen" << std::endl
+    << "  after       += " << node.file_.name () << "_IDL_Gen" << std::endl
     << std::endl;
 
   if (!node.references_.empty ())
@@ -405,18 +405,30 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
     << std::endl
     // Generate the source files for this project.
     << "  Source_Files {" << std::endl
-    << "    " << node.name_ << "C.cpp" << std::endl
+    << "    " << node.name_ << "C.cpp" << std::endl;
 
-    // insert additional sources here
+  for (CUTS_String_Set::iterator iter = this->stub_files_.begin (), iter_end = this->stub_files_.end ();
+       iter != iter_end;
+       ++ iter)
+  {
+    this->ctx_.project_ << "    " << *iter << ".cpp" << std::endl;
+  }
 
+  this->ctx_.project_
     << "  }" << std::endl
     << std::endl
     // Generate the header files for this project.
     << "  Header_Files {" << std::endl
-    << "    " << node.name_ << "C.h" << std::endl
+    << "    " << node.name_ << "C.h" << std::endl;
 
-    // insert additional headers here
+  for (CUTS_String_Set::iterator iter = this->stub_files_.begin (), iter_end = this->stub_files_.end ();
+       iter != iter_end;
+       ++ iter)
+  {
+    this->ctx_.project_ << "    " << *iter << ".cpp" << std::endl;
+  }
 
+  this->ctx_.project_
     << "  }" << std::endl
     << std::endl
     << "  Inline_Files {" << std::endl
@@ -643,7 +655,7 @@ generate_svnt_project (const CUTS_BE_IDL_Node & node)
                   &toupper);
 
   this->ctx_.project_
-    << "project (" << svnt_project << ") : ciao_servant, cuts_ccm, cuts_codegen_defaults {" << std::endl
+    << "project (" << svnt_project << ") : " << this->svnt_base_ << ", cuts_codegen_defaults {" << std::endl
     << "  sharedname   = " << svnt_project << std::endl
     << "  dynamicflags = " << export_basename << "_BUILD_DLL" << std::endl
     << std::endl

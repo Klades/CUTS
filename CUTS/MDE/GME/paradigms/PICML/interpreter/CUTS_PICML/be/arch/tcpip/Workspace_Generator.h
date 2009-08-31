@@ -13,7 +13,7 @@
 #ifndef _CUTS_BE_TCPIP_WORKSPACE_GENERATOR_H_
 #define _CUTS_BE_TCPIP_WORKSPACE_GENERATOR_H_
 
-#include "../../BE_Workspace_Generators_T.h"
+#include "../ciao/Workspace_Generator.h"
 #include "TCPIP_Ctx.h"
 
 // Forward decl.
@@ -27,33 +27,29 @@ struct CUTS_BE_IDL_Node;
  */
 template < >
 class CUTS_BE_Workspace_File_Open_T <CUTS_BE_TCPIP_Ctx> :
-  public CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor>
+  public CUTS_BE_Workspace_File_Open_T <CUTS_BE_CIAO::Context>
 {
 public:
-  typedef CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Workspace_File_Open_T <CUTS_BE_CIAO::Context> base_type;
 
   CUTS_BE_Workspace_File_Open_T (CUTS_BE_TCPIP_Ctx & context);
 
   virtual ~CUTS_BE_Workspace_File_Open_T (void);
-
-  void generate (const std::string & name);
 };
 
 /**
  * @class CUTS_BE_Workspace_Begin_T
  */
 template < >
-class CUTS_BE_Workspace_Begin_T <CUTS_BE_TCPIP_Ctx>:
-  public CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor>
+class CUTS_BE_Workspace_Begin_T <CUTS_BE_TCPIP_Ctx> :
+  public CUTS_BE_Workspace_Begin_T <CUTS_BE_CIAO::Context>
 {
 public:
-  typedef CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Workspace_Begin_T <CUTS_BE_CIAO::Context> base_type;
 
   CUTS_BE_Workspace_Begin_T (CUTS_BE_TCPIP_Ctx & context);
 
   virtual ~CUTS_BE_Workspace_Begin_T (void);
-
-  void generate (const std::string & name);
 };
 
 /**
@@ -61,16 +57,14 @@ public:
  */
 template < >
 class CUTS_BE_Workspace_Project_Include_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_Impl_Node> :
-  public CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor>
+  public CUTS_BE_Workspace_Project_Include_T <CUTS_BE_CIAO::Context, CUTS_BE_Impl_Node>
 {
 public:
-  typedef CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Workspace_Project_Include_T <CUTS_BE_CIAO::Context, CUTS_BE_Impl_Node> base_type;
 
   CUTS_BE_Workspace_Project_Include_T (CUTS_BE_TCPIP_Ctx & context);
 
   virtual ~CUTS_BE_Workspace_Project_Include_T (void);
-
-  void generate (const CUTS_BE_Impl_Node & node);
 };
 
 /**
@@ -78,16 +72,14 @@ public:
  */
 template < >
 class CUTS_BE_Workspace_Project_Include_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_IDL_Node> :
-  public CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor>
+  public CUTS_BE_Workspace_Project_Include_T <CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node>
 {
 public:
-  typedef CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Workspace_Project_Include_T <CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node> base_type;
 
   CUTS_BE_Workspace_Project_Include_T (CUTS_BE_TCPIP_Ctx & context);
 
   virtual ~CUTS_BE_Workspace_Project_Include_T (void);
-
-  void generate (const CUTS_BE_IDL_Node & node);
 };
 
 /**
@@ -95,16 +87,14 @@ public:
  */
 template < >
 class CUTS_BE_Workspace_End_T <CUTS_BE_TCPIP_Ctx> :
-  public CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor>
+  public CUTS_BE_Workspace_End_T <CUTS_BE_CIAO::Context>
 {
 public:
-  typedef CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Workspace_End_T <CUTS_BE_CIAO::Context> base_type;
 
   CUTS_BE_Workspace_End_T (CUTS_BE_TCPIP_Ctx & context);
 
   virtual ~CUTS_BE_Workspace_End_T (void);
-
-  void generate (const std::string & name);
 };
 
 /**
@@ -112,16 +102,14 @@ public:
  */
 template < >
 class CUTS_BE_Workspace_File_Close_T <CUTS_BE_TCPIP_Ctx> :
-  public CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor>
+  public CUTS_BE_Workspace_File_Close_T <CUTS_BE_CIAO::Context>
 {
 public:
-  typedef CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Workspace_File_Close_T <CUTS_BE_CIAO::Context> base_type;
 
   CUTS_BE_Workspace_File_Close_T (CUTS_BE_TCPIP_Ctx & context);
 
   virtual ~CUTS_BE_Workspace_File_Close_T (void);
-
-  void generate (void);
 };
 
 #if defined (__CUTS_INLINE__)

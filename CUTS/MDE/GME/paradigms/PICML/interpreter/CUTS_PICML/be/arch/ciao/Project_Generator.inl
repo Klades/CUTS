@@ -135,8 +135,12 @@ CUTS_BE_Project_File_Begin_T <CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node>::
 
 CUTS_INLINE
 CUTS_BE_Project_Write_T <CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node>::
-CUTS_BE_Project_Write_T (CUTS_BE_CIAO::Context & context)
-: visitor_type (context)
+CUTS_BE_Project_Write_T (CUTS_BE_CIAO::Context & context,
+                         bool generate_svnt,
+                         const std::string svnt_base)
+: visitor_type (context),
+  generate_svnt_ (generate_svnt),
+  svnt_base_ (svnt_base)
 {
 
 }

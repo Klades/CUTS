@@ -24,7 +24,7 @@ class CUTS_BE_Finalize_T <CUTS_BE_TCPIP_Ctx> :
   public CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor>
 {
 public:
-  typedef CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor> visitor_type;
+  typedef CUTS_BE_Visitor_T <CUTS_BE_TCPIP_Ctx, PICML::Visitor> base_type;
 
   CUTS_BE_Finalize_T (CUTS_BE_TCPIP_Ctx & context);
 

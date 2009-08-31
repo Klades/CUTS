@@ -60,11 +60,11 @@ namespace HelloWorld_Basic_Impl
     // variable: isActive
     ::CORBA::Long isActive_;
 
-    // attribute: readonly_message
-    ACE_CString readonly_message_;
-
     // attribute: message
     ACE_CString message_;
+
+    // attribute: readonly_message
+    ACE_CString readonly_message_;
 
     // periodic: sendData
     CUTS_Periodic_Event_T < HelloWorld > periodic_sendData_;

@@ -74,8 +74,7 @@ void Servant_Header_Generator::Visit_File (const PICML::File & file)
 
   // Construct the name of the output file.
   std::string name (file.name ());
-  std::string basename ("TCPIP_");
-  basename += name + "_svnt";
+  std::string basename = name + "_svnt";
 
   std::string filename (this->outdir_);
   filename += "/" + basename + ".h";
@@ -86,7 +85,7 @@ void Servant_Header_Generator::Visit_File (const PICML::File & file)
   if (!this->fout_.is_open ())
     return;
 
-  std::string hash_define ("_TCPIP_");
+  std::string hash_define ("_");
   hash_define += name + "_SVNT_H_";
 
   std::transform (hash_define.begin (),

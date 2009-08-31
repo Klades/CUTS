@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_BE_TCPIP) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
+project (CUTS_BE_TCPIP) : boost_base, picml_udm, cuts_be_ciao, cuts_cosmic {
   sharedname    += CUTS_BE_TCPIP
   dynamicflags  += CUTS_BE_TCPIP_BUILD_DLL
 

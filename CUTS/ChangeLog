@@ -1,3 +1,43 @@
+Mon Aug 31 21:14:42 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.cpp:
+
+          . Generalized the CIAO generators to support other architectures
+            that are integrated into CIAO.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Project_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/TCPIP_Ctx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/TCPIP_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/TCPIP_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Workspace_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Workspace_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Workspace_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/tcpip.mpc:
+
+          . Reused to the CIAO project/workspace generators to enforce
+            consistency across different architectures.
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.mwc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.cpp:
+
+          . Regenerated the example from the model.
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Base.mpc:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.cpp:
+
+          Removed these files.
+
 Sun Aug 30 22:25:57 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MPC/config/cuts_be_ciao.mpb:

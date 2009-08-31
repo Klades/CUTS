@@ -1,6 +1,6 @@
 // $Id$
 
-#include "TCPIP_HelloWorld_svnt.h"
+#include "HelloWorld_svnt.h"
 #include "TCPIP_HelloWorldC.h"
 
 #include "cuts/arch/ccm/CCM_Events_T.h"

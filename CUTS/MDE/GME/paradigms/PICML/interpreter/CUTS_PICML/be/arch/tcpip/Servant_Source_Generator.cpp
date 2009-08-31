@@ -72,10 +72,7 @@ void Servant_Source_Generator::Visit_File (const PICML::File & file)
     return;
 
   std::string name (file.name ());
-
-  // Construct the name of the output file.
-  std::string basename ("TCPIP_");
-  basename += name + "_svnt";
+  std::string basename = name + "_svnt";
 
   std::string filename (this->outdir_);
   filename += "/" + basename + ".cpp";
