@@ -1,0 +1,31 @@
+$Id$
+
+This example illustrates how to integrate the CUTS barrier utility
+into the CUTS node daemon. There are two configuration files in the
+directory:
+
+. controller.cutsnode.config - This is the CUTS node daemon configuation
+  for the controller node in your environment.
+
+. client.cutsnode.config - This is the CUTS node daemon configuration
+  for the client host in the environment.
+
+To illustrate this test, first start the CUTS node daemon for the
+controller node using the following command:
+
+  %> $CUTS_ROOT/bin/cutsnode_d -c controller.cutsnode.config -v
+
+You will notice execution stops after executing process with the id
+'barrier.nodemanager'. This barrier application is waiting for 1 node
+to reach a certain point in its execution before it can continue. To
+resume execution of the controller node, execute the following command
+in another terminal:
+
+ %> $CUTS_ROOT/bin/cuts-barrier -ORBInitRef BarrierService=corbaloc:iiop:localhost:50000/CUTS/Barrier
+
+After executing the command above, you will notice that execution on
+the controller node resumes. In a distributed environment where you
+have many CUTS node deamons acting as clients, it is possible to integrate
+commands similar to the last one above into a configuration file for a
+CUTS node daemon. Just be sure to set 'waitforcompletion=true' in for
+the client's barrier process.

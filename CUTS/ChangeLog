@@ -1,3 +1,14 @@
+Fri Sep  4 23:33:12 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/cuts/utils/barrier:
+        * examples/cuts/utils/barrier/README:
+        * examples/cuts/utils/barrier/client.cutsnode.config:
+        * examples/cuts/utils/barrier/controller.cutsnode.config:
+        * examples/cuts/utils/barrier/environment.txt:
+
+          . Example illustrating how to use the CUTS barrier utility
+            for sychronizing process execution across mulitple nodes.
+
 Fri Sep  4 00:17:06 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/examples/SLICE.xme:
