@@ -181,7 +181,8 @@ public:
 
   CUTS_BE_Project_Write_T (CUTS_BE_CIAO::Context & context,
                            bool generate_svnt = true,
-                           const std::string svnt_base = "ciao_servant, cuts_ccm");
+                           const std::string svnt_base = "ciao_servant, cuts_ccm",
+                           const std::string stub_base = "ccm_stub");
 
   virtual ~CUTS_BE_Project_Write_T (void);
 
@@ -189,6 +190,8 @@ public:
 
 protected:
   CUTS_String_Set stub_files_;
+
+  std::string stub_after_;
 
 private:
   void generate_idlgen_project (const CUTS_BE_IDL_Node & node);
@@ -212,6 +215,8 @@ private:
   bool generate_svnt_;
 
   std::string svnt_base_;
+
+  std::string stub_base_;
 };
 
 /**

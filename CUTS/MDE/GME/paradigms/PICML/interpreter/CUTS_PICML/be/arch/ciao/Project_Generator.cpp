@@ -70,9 +70,9 @@ generate_impl_project (const CUTS_BE_Impl_Node & node)
   this->ctx_.project_
     << "project (" << impl_basename
     << ") : cuts_coworker_exec {" << std::endl
-    << "  sharedname   = " << impl_basename << std::endl
+    << "  sharedname    = " << impl_basename << std::endl
     << std::endl
-    << "  dynamicflags = " << impl_export << "_BUILD_DLL" << std::endl
+    << "  dynamicflags += " << impl_export << "_BUILD_DLL" << std::endl
     << std::endl
     << "  prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl "
     << impl_export << " > $(PROJECT_ROOT)/"
@@ -350,10 +350,10 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
 
   // Generate the project.
   this->ctx_.project_
-    << "project (" << stub_name << ") : ccm_stub, avoids_ace_for_tao, cuts_codegen_defaults {" << std::endl
-    << "  sharedname   = " << stub_name << std::endl
-    << "  dynamicflags = " << stub_export << "_BUILD_DLL" << std::endl
-    << "  after       += " << node.file_.name () << "_IDL_Gen" << std::endl
+    << "project (" << stub_name << ") : avoids_ace_for_tao, " << this->stub_base_ << ", cuts_codegen_defaults {" << std::endl
+    << "  sharedname    = " << stub_name << std::endl
+    << "  dynamicflags += " << stub_export << "_BUILD_DLL" << std::endl
+    << "  after        += " << node.file_.name () << "_IDL_Gen " << this->stub_after_ << std::endl
     << std::endl;
 
   if (!node.references_.empty ())
@@ -365,7 +365,7 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
     this->ctx_.project_
       << std::endl
       << "  // listing of project dependencies" << std::endl
-      << "  after +=";
+      << "  after        +=";
 
     std::for_each (node.references_.begin (),
                    node.references_.end (),
@@ -411,7 +411,7 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
        iter != iter_end;
        ++ iter)
   {
-    this->ctx_.project_ << "    " << *iter << ".cpp" << std::endl;
+    this->ctx_.project_ << "    " << *iter << std::endl;
   }
 
   this->ctx_.project_
@@ -419,16 +419,7 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
     << std::endl
     // Generate the header files for this project.
     << "  Header_Files {" << std::endl
-    << "    " << node.name_ << "C.h" << std::endl;
-
-  for (CUTS_String_Set::iterator iter = this->stub_files_.begin (), iter_end = this->stub_files_.end ();
-       iter != iter_end;
-       ++ iter)
-  {
-    this->ctx_.project_ << "    " << *iter << ".cpp" << std::endl;
-  }
-
-  this->ctx_.project_
+    << "    " << node.name_ << "C.h" << std::endl
     << "  }" << std::endl
     << std::endl
     << "  Inline_Files {" << std::endl

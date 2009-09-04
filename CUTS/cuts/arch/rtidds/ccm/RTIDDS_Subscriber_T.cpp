@@ -85,19 +85,37 @@ template <typename EVENT>
 void CUTS_RTIDDS_CCM_Subscriber_T <EVENT>::
 send_event (typename traits_type::corba_event_type * ev)
 {
-  // Convert the CORBA event into a DDS event.
-  typename traits_type::dds_event_type dds_event;
-  *ev >>= dds_event;
+  // Allocate a new event on the heap.
+  typename traits_type::dds_event_type * dds_event =
+    typename traits_type::dds_typesupport_type::create_data ();
 
-  this->send_event (dds_event);
+  if (0 != dds_event)
+  {
+    // Convert the CORBA event into a DDS event.
+    *ev >>= *dds_event;
+
+    // Send the event.
+    this->send_event (*dds_event);
+
+    // Free the event.
+    typename traits_type::dds_typesupport_type::delete_data (dds_event);
+  }
+  else
+    ACE_ERROR ((LM_CRITICAL,
+                ACE_TEXT ("%T (%t) - %M - failed to allocate memory for event\n")));
 }
 
 //                                                                                                                                                                                 // send_event
+// send_event
 //
 template <typename EVENT>
 void CUTS_RTIDDS_CCM_Subscriber_T <EVENT>::
 send_event (typename traits_type::dds_event_type & ev)
 {
   ::DDS_ReturnCode_t status = this->writer_->write (ev, DDS_HANDLE_NIL);
-  ACE_UNUSED_ARG (status);
+
+  if (DDS_RETCODE_OK != status)
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - failed to write data [retcode=%d]\n"),
+                status));
 }

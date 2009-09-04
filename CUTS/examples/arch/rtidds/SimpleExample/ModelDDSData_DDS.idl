@@ -11,9 +11,6 @@ module CUTS_DDS
     {
       struct Data_DDS
       {
-        // data member: name
-        string name;
-
         // data member: id
         long id;
 

@@ -90,8 +90,15 @@ on_data_available (::DDSDataReader_ptr p)
                     DDS_ANY_VIEW_STATE,
                     DDS_ANY_INSTANCE_STATE);
 
-  if (0 != this->callback_)
-    (*this->callback_) (this->servant_, event_seq[0]);
-
-  ACE_UNUSED_ARG (status);
+  if (DDS_RETCODE_OK == status)
+  {
+    if (0 != this->callback_)
+      (*this->callback_) (this->servant_, event_seq[0]);
+  }
+  else
+  {
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - failed to read event [retcode=%d]\n"),
+                status));
+  }
 }

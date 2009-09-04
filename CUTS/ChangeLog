@@ -1,3 +1,66 @@
+Fri Sep  4 00:17:06 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/examples/SLICE.xme:
+
+          . Fixed model errors.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Workspace_Generator.h:
+
+
+          . Fixed errors in the project specification.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/BE_RTIDDS.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Context.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Project_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Workspace_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Workspace_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Workspace_Generator.cpp:
+        * MPC/config/cuts_rtidds_ccm_stub.mpb:
+
+          . Updated RTI DDS to support the lastest version of CIAO.
+
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_T.cpp:
+
+          . Added error handling/messaging.
+
+        * examples/arch/rtidds/SimpleExample/ModelDDSData.idl:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData.mpc:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_DDS.idl:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_skel_export.h:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_stub_export.h:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_ModelDDSDataC.cpp:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent.idl:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent.mpc:
+        * examples/arch/rtidds/SimpleExample/SimpleComponentE.idl:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.mpc:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_exec_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_skel_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_stub_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleExample.mwc:
+        * examples/arch/rtidds/SimpleExample/descriptors/SimpleExample.cdp:
+        * examples/arch/tcpip/HelloWorld/descriptors/HelloWorld.cdp:
+
+          . Updated the examples.
+
+        * install/CUTS_CoSMIC.mwc:
+
+          . Fixed error in workspace.
+
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_Base.mpc:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Base.mpc:
+
+          Removed these files.
+
 Mon Aug 31 21:14:42 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.h:

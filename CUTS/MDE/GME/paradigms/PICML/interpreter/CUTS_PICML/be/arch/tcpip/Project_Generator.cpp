@@ -15,7 +15,7 @@ void CUTS_BE_Project_Write_T <CUTS_BE_TCPIP_Ctx, CUTS_BE_IDL_Node>::
 generate (const CUTS_BE_IDL_Node & node)
 {
   std::string name (node.file_.name ());
-  this->stub_files_.insert ("TCPIP_" + name + "C");
+  this->stub_files_.insert ("TCPIP_" + name + "C.cpp");
 
   base_type::generate (node);
 }

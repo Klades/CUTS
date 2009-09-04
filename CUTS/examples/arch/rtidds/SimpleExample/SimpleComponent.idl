@@ -9,11 +9,11 @@ module Example
 {
   component SimpleComponent
   {
-    publishes Outer::TestData_DDS publishEvent;
+    consumes Outer::TestData_DDS processEvent;
     
     emits Outer::TestData_DDS emitEvent;
     
-    consumes Outer::TestData_DDS processEvent;
+    publishes Outer::TestData_DDS publishEvent;
   };
   
   home SimpleComponentHome

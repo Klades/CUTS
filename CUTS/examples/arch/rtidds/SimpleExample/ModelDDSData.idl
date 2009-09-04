@@ -10,9 +10,8 @@ module Outer
   {
     struct Data_DDS
     {
-      boolean urgent;
       long id;
-      string name;
+      boolean urgent;
     };
   };
   

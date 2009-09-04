@@ -16,12 +16,6 @@
 #include "../ciao/Workspace_Generator.h"
 #include "TCPIP_Ctx.h"
 
-// Forward decl.
-struct CUTS_BE_Impl_Node;
-
-// Forward decl.
-struct CUTS_BE_IDL_Node;
-
 /**
  * @class CUTS_BE_Workspace_File_Open_T
  */

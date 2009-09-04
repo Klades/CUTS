@@ -19,7 +19,7 @@ workspace (CUTS_CoSMIC) {
     //== XSC projects
     $(XSC_ROOT)/XSC/utils
 
-    $(CUTS_ROOT)/CUTS_CoSMIC.mwc
+    $(CUTS_ROOT)/CUTS_Modeling.mwc
   }
 
   exclude (!wix) {

@@ -48,7 +48,7 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>create_SimpleComponent_Servant</string>
+          <string>create_Example_SimpleComponent_Servant</string>
         </value>
       </value>
     </execParameter>
@@ -59,13 +59,13 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>SimpleExample.ImplementationArtifacts.SimpleComponent.RTIDDS_SimpleComponent_svnt</string>
+          <string>SimpleExample.ImplementationArtifacts.SimpleComponent.SimpleComponent_svnt</string>
         </value>
       </value>
     </execParameter>
   </implementation>
 
-  <instance xmi:id="SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.MainComponent">
+  <instance xmi:id="_B93A9A9A-5AE7-4AB8-9FB4-E6414858DFE1">
     <name>SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.MainComponent</name>
     <node>MainNode</node>
     <source/>
@@ -73,34 +73,34 @@
   </instance>
 
   <connection>
-    <name>SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.MainComponent:emitEvent-SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.MainComponent:processEvent</name>
+    <name>SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.MainComponent:emitEvent::SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.MainComponent:processEvent</name>
     <internalEndpoint>
       <portName>emitEvent</portName>
       <provider>false</provider>
       <kind>EventEmitter</kind>
-      <instance xmi:idref="SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.MainComponent"/>
+      <instance xmi:idref="_B93A9A9A-5AE7-4AB8-9FB4-E6414858DFE1"/>
     </internalEndpoint>
     <internalEndpoint>
       <portName>processEvent</portName>
       <provider>true</provider>
       <kind>EventConsumer</kind>
-      <instance xmi:idref="SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.MainComponent"/>
+      <instance xmi:idref="_B93A9A9A-5AE7-4AB8-9FB4-E6414858DFE1"/>
     </internalEndpoint>
   </connection>
 
   <connection>
-    <name>SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.MainComponent:publishEvent-SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.MainComponent:processEvent</name>
+    <name>SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.MainComponent:publishEvent::SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.MainComponent:processEvent</name>
     <internalEndpoint>
       <portName>publishEvent</portName>
       <provider>false</provider>
       <kind>EventPublisher</kind>
-      <instance xmi:idref="SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.MainComponent"/>
+      <instance xmi:idref="_B93A9A9A-5AE7-4AB8-9FB4-E6414858DFE1"/>
     </internalEndpoint>
     <internalEndpoint>
       <portName>processEvent</portName>
       <provider>true</provider>
       <kind>EventConsumer</kind>
-      <instance xmi:idref="SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.MainComponent"/>
+      <instance xmi:idref="_B93A9A9A-5AE7-4AB8-9FB4-E6414858DFE1"/>
     </internalEndpoint>
   </connection>
 
@@ -112,10 +112,15 @@
   </artifact>
 
   <artifact xmi:id="_18B9391E-C686-48CF-813E-F73B25F33133">
-    <name>SimpleExample.ImplementationArtifacts.SimpleComponent.RTIDDS_SimpleComponent_svnt</name>
+    <name>SimpleExample.ImplementationArtifacts.SimpleComponent.SimpleComponent_svnt</name>
     <source/>
     <node/>
-    <location>RTIDDS_SimpleComponent_svnt</location>
+    <location>SimpleComponent_svnt</location>
   </artifact>
+
+  <localityConstraint>
+    <constraint>SameProcess</constraint>
+    <constrainedInstance xmi:idref="_B93A9A9A-5AE7-4AB8-9FB4-E6414858DFE1"/>
+  </localityConstraint>
 
 </Deployment:DeploymentPlan>

@@ -31,32 +31,17 @@ public:
   virtual void Visit_RootFolder (
     const PICML::RootFolder & folder);
 
-  virtual void Visit_ComponentImplementations (
-    const PICML::ComponentImplementations & folder);
+  virtual void Visit_InterfaceDefinitions (
+    const PICML::InterfaceDefinitions &);
 
-  virtual void Visit_ComponentImplementationContainer (
-    const PICML::ComponentImplementationContainer & container);
+  virtual void Visit_File (
+    const PICML::File &);
 
-  virtual void Visit_MonolithicImplementation (
-    const PICML::MonolithicImplementation & monoimpl);
-
-  virtual void Visit_Implements (
-    const PICML::Implements & implements);
-
-  virtual void Visit_ComponentRef (
-    const PICML::ComponentRef & ref);
+  virtual void Visit_Package (
+    const PICML::Package &);
 
   virtual void Visit_Component (
     const PICML::Component & component);
-
-  virtual void Visit_MonolithprimaryArtifact (
-    const PICML::MonolithprimaryArtifact & primary);
-
-  virtual void Visit_ImplementationArtifactReference (
-    const PICML::ImplementationArtifactReference & ref);
-
-  virtual void Visit_ComponentServantArtifact (
-    const PICML::ComponentServantArtifact & artifact);
 
   virtual void Visit_OutEventPort (
     const PICML::OutEventPort & port);
@@ -65,6 +50,8 @@ public:
     const PICML::InEventPort & port);
 
 private:
+  virtual void Visit_FilePackage_i (const Udm::Object & obj);
+
   std::string outdir_;
 
   std::ofstream header_;
@@ -72,8 +59,6 @@ private:
   std::ofstream source_;
 
   std::string export_macro_;
-
-  std::string monoimpl_;
 
   std::string servant_;
 

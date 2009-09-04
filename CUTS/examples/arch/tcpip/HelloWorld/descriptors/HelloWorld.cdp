@@ -48,13 +48,13 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>HelloWorld.ImplementationArtifacts.HelloWorld.TCPIP_HelloWorld_svnt</string>
+          <string>HelloWorld.ImplementationArtifacts.HelloWorld.HelloWorld_svnt</string>
         </value>
       </value>
     </execParameter>
   </implementation>
 
-  <instance xmi:id="HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld">
+  <instance xmi:id="_B93A9A9A-5AE7-4AB8-9FB4-E6414858DFE1">
     <name>HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld</name>
     <node>MainNode</node>
     <source/>
@@ -62,34 +62,34 @@
   </instance>
 
   <connection>
-    <name>HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld:handle_message-HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld:handle_message</name>
+    <name>HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld:handle_message::HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld:handle_message</name>
     <internalEndpoint>
       <portName>handle_message</portName>
       <provider>false</provider>
       <kind>EventEmitter</kind>
-      <instance xmi:idref="HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld"/>
+      <instance xmi:idref="_B93A9A9A-5AE7-4AB8-9FB4-E6414858DFE1"/>
     </internalEndpoint>
     <internalEndpoint>
       <portName>handle_message</portName>
       <provider>true</provider>
       <kind>EventConsumer</kind>
-      <instance xmi:idref="HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld"/>
+      <instance xmi:idref="_B93A9A9A-5AE7-4AB8-9FB4-E6414858DFE1"/>
     </internalEndpoint>
   </connection>
 
   <connection>
-    <name>HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld:handle_message_ex-HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld:handle_message</name>
+    <name>HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld:handle_message_ex::HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld:handle_message</name>
     <internalEndpoint>
       <portName>handle_message_ex</portName>
       <provider>false</provider>
       <kind>EventPublisher</kind>
-      <instance xmi:idref="HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld"/>
+      <instance xmi:idref="_B93A9A9A-5AE7-4AB8-9FB4-E6414858DFE1"/>
     </internalEndpoint>
     <internalEndpoint>
       <portName>handle_message</portName>
       <provider>true</provider>
       <kind>EventConsumer</kind>
-      <instance xmi:idref="HelloWorld.ComponentImplementations.HelloWorldAssembly.HelloWorld.HelloWorld"/>
+      <instance xmi:idref="_B93A9A9A-5AE7-4AB8-9FB4-E6414858DFE1"/>
     </internalEndpoint>
   </connection>
 
@@ -101,10 +101,15 @@
   </artifact>
 
   <artifact xmi:id="_18B9391E-C686-48CF-813E-F73B25F33133">
-    <name>HelloWorld.ImplementationArtifacts.HelloWorld.TCPIP_HelloWorld_svnt</name>
+    <name>HelloWorld.ImplementationArtifacts.HelloWorld.HelloWorld_svnt</name>
     <source/>
     <node/>
-    <location>TCPIP_HelloWorld_svnt</location>
+    <location>HelloWorld_svnt</location>
   </artifact>
+
+  <localityConstraint>
+    <constraint>SameProcess</constraint>
+    <constrainedInstance xmi:idref="_B93A9A9A-5AE7-4AB8-9FB4-E6414858DFE1"/>
+  </localityConstraint>
 
 </Deployment:DeploymentPlan>

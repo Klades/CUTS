@@ -4,6 +4,7 @@
 #include "Servant_Header_Include_Generator.h"
 #include "Context_Generator.h"
 #include "../../lang/cpp/Cpp.h"
+#include "../../BE_algorithm.h"
 #include "boost/bind.hpp"
 #include "CCF/CodeGenerationKit/IndentationCxx.hpp"
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
@@ -112,10 +113,24 @@ Servant_Generator::~Servant_Generator (void)
 void Servant_Generator::
 Visit_RootFolder (const PICML::RootFolder & folder)
 {
-  std::set <PICML::ComponentImplementations> folders = folder.ComponentImplementations_children ();
+  std::set <PICML::InterfaceDefinitions> folders = folder.InterfaceDefinitions_children ();
   std::for_each (folders.begin (),
                  folders.end (),
-                 boost::bind (&PICML::ComponentImplementations::Accept,
+                 boost::bind (&PICML::InterfaceDefinitions::Accept,
+                              _1,
+                              boost::ref (*this)));
+}
+
+//
+// Visit_InterfaceDefinitions
+//
+void Servant_Generator::
+Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions & folder)
+{
+  std::vector <PICML::File> files = folder.File_children ();
+  std::for_each (files.begin (),
+                 files.end (),
+                 boost::bind (&PICML::File::Accept,
                               _1,
                               boost::ref (*this)));
 }
@@ -123,37 +138,14 @@ Visit_RootFolder (const PICML::RootFolder & folder)
 //
 // Visit_ComponentImplementations
 //
-void Servant_Generator::
-Visit_ComponentImplementations (const PICML::ComponentImplementations & folder)
+void Servant_Generator::Visit_File (const PICML::File & file)
 {
-  std::set <PICML::ComponentImplementationContainer> containers =
-    folder.ComponentImplementationContainer_children ();
-
-  std::for_each (containers.begin (),
-                 containers.end (),
-                 boost::bind (&PICML::ComponentImplementationContainer::Accept,
-                              _1,
-                              boost::ref (*this)));
-}
-
-//
-// Visit_ComponentImplementationContainer
-//
-void Servant_Generator::
-Visit_ComponentImplementationContainer (
-const PICML::ComponentImplementationContainer & container)
-{
-  std::set <PICML::MonolithicImplementation> monoimpls =
-    container.MonolithicImplementation_kind_children ();
-
-  if (monoimpls.empty ())
+  if (!CUTS_BE::has_component (file))
     return;
 
-  std::string name = container.name ();
-
   // Construct the name of the output file.
-  std::string basename ("RTIDDS_");
-  basename += name + "_svnt";
+  std::string name = file.name ();
+  std::string basename = name + "_svnt";
 
   std::string source_filename (this->outdir_);
   source_filename += "/" + basename + ".cpp";
@@ -169,19 +161,16 @@ const PICML::ComponentImplementationContainer & container)
   if (!this->header_.is_open () && !this->source_.is_open ())
     return;
 
-  std::string hash_define ("_RTIDDS_");
-  hash_define += name + "_SVNT_H_";
+  std::string hash_define = "_" + name + "_SVNT_H_";
 
   std::transform (hash_define.begin (),
                   hash_define.end (),
                   hash_define.begin (),
                   &::toupper);
 
-  std::string export_filename ("RTIDDS_");
-  export_filename += std::string (container.name ()) + "_svnt_export";
-
   // Construct the export macro for this file.
-  this->export_macro_ = "RTIDDS_" + name + "_SVNT";
+  std::string export_filename = std::string (file.name ()) + "_svnt_export";
+  this->export_macro_ = name + "_SVNT";
 
   std::transform (this->export_macro_.begin (),
                   this->export_macro_.end (),
@@ -196,9 +185,6 @@ const PICML::ComponentImplementationContainer & container)
     Indentation::Implanter <Indentation::Cxx, char> header_formatter (this->header_);
     Indentation::Implanter <Indentation::Cxx, char> soruce_formatter (this->source_);
 
-    std::string exec_stub (name);
-    exec_stub += "EC";
-
     // Include the header file.
     this->header_
       << CUTS_BE_CPP::single_line_comment ("-*- C++ -*-")
@@ -206,13 +192,17 @@ const PICML::ComponentImplementationContainer & container)
       << "#ifndef " << hash_define << std::endl
       << "#define " << hash_define << std::endl
       << std::endl
-      << CUTS_BE_CPP::include (exec_stub)
+      << CUTS_BE_CPP::include (name + "EC")
+      << CUTS_BE_CPP::include (name + "S")
+      << CUTS_BE_CPP::include ("RTIDDS_" + name + "C")
       << std::endl
       << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_Context_T")
       << CUTS_BE_CPP::include ("cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant_T")
       << CUTS_BE_CPP::include ("cuts/arch/rtidds/ccm/RTIDDS_EventConsumer_T")
       << CUTS_BE_CPP::include ("cuts/arch/rtidds/ccm/RTIDDS_Subscriber_T")
       << CUTS_BE_CPP::include ("cuts/arch/rtidds/ccm/RTIDDS_Subscriber_Table_T")
+      << std::endl
+      << CUTS_BE_CPP::include (export_filename)
       << std::endl;
 
     this->source_
@@ -223,83 +213,59 @@ const PICML::ComponentImplementationContainer & container)
       << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_Events_T")
       << std::endl;
 
-
-    Servant_Header_Include_Generator incl_gen (this->header_);
-    PICML::ComponentImplementationContainer (container).Accept (incl_gen);
-
-    std::for_each (monoimpls.begin (),
-                   monoimpls.end (),
-                   boost::bind (&PICML::MonolithicImplementation::Accept,
-                                _1,
-                                boost::ref (*this)));
+    this->Visit_FilePackage_i (file);
 
     this->header_ << std::endl
-                << "#endif  // !defined " << hash_define << std::endl;
+                  << "#endif  // !defined " << hash_define << std::endl;
 
   } while (0);
 
   // Close the file.
   this->header_.close ();
+  this->source_.close ();
 }
 
 //
-// Visit_MonolithicImplementation
+// Visit_Package
 //
 void Servant_Generator::
-Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl)
+Visit_Package (const PICML::Package & package)
 {
-  this->monoimpl_ = monoimpl.name ();
-  this->header_
-    << "namespace RTIDDS_" << this->monoimpl_
-    << "{";
+  std::string name = package.name ();
 
-  this->source_
-    << "namespace RTIDDS_" << this->monoimpl_
-    << "{";
+  this->source_ << "namespace " << name << "{";
+  this->header_ << "namespace " << name << "{";
 
-  // Visit the component we are implementing.
-  PICML::Implements impl = monoimpl.dstImplements ();
+  this->Visit_FilePackage_i (package);
 
-  if (Udm::null != impl)
-    impl.Accept (*this);
+  this->source_ << "}";
+  this->header_ << "}";
+}
 
-  this->header_
-    << "}";
+//
+// Visit_FilePackage_i
+//
+void Servant_Generator::
+Visit_FilePackage_i (const Udm::Object & obj)
+{
+  std::set <PICML::Component> components =
+    Udm::ChildrenAttr <PICML::Component> (obj.__impl (), Udm::NULLCHILDROLE);
 
-
-  this->source_
-    << "}";
-
-  std::set <PICML::MonolithprimaryArtifact> artifacts =
-    monoimpl.dstMonolithprimaryArtifact ();
-
-  std::for_each (artifacts.begin (),
-                 artifacts.end (),
-                 boost::bind (&PICML::MonolithprimaryArtifact::Accept,
+  std::for_each (components.begin (),
+                 components.end (),
+                 boost::bind (&PICML::Component::Accept,
                               _1,
                               boost::ref (*this)));
-}
 
-//
-// Visit_Implements
-//
-void Servant_Generator::
-Visit_Implements (const PICML::Implements & implements)
-{
-  PICML::ComponentRef ref = implements.dstImplements_end ();
-  ref.Accept (*this);
-}
+  // Visit the remaining packages.
+  std::set <PICML::Package> packages =
+    Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
-//
-// Visit_ComponentRef
-//
-void Servant_Generator::
-Visit_ComponentRef (const PICML::ComponentRef & ref)
-{
-  PICML::Component component = ref.ref ();
-
-  if (Udm::null != component)
-    component.Accept (*this);
+  std::for_each (packages.begin (),
+                 packages.end (),
+                 boost::bind (&PICML::Package::Accept,
+                              _1,
+                              boost::ref (*this)));
 }
 
 //
@@ -322,11 +288,13 @@ Visit_Component (const PICML::Component & component)
   std::vector <PICML::OutEventPort> outputs = component.OutEventPort_kind_children ();
   std::vector <PICML::InEventPort> inputs = component.InEventPort_kind_children ();
 
+  std::string ns = "::CIAO_" + CUTS_BE_CPP::fq_type (component, "_", false) + "_Impl";
+
   this->header_
     << "typedef CUTS_RTIDDS_CCM_Servant_T < " << std::endl
     << "  " << this->servant_ << "," << std::endl
     << "  " << context << "," << std::endl
-    << "  ::CIDL_" << this->monoimpl_ << "::" << name << "_Exec," << std::endl
+    << "  " << ns << "::" << name << "_Exec," << std::endl
     << "  ::POA_" << fq_type << " > " << this->servant_ << "_Base;"
     << std::endl
     << "class " << this->servant_ << " : public " << this->servant_ << "_Base"
@@ -334,7 +302,7 @@ Visit_Component (const PICML::Component & component)
     << "public:" << std::endl
     << CUTS_BE_CPP::single_line_comment ("Initializing constructor")
     << this->servant_ << " (const char * name," << std::endl
-    << "::CIDL_" << this->monoimpl_ << "::" << name << "_Exec_ptr executor);"
+    << ns << "::" << name << "_Exec_ptr executor);"
     << std::endl
     << "virtual ~" << this->servant_ << " (void);"
     << std::endl;
@@ -343,7 +311,7 @@ Visit_Component (const PICML::Component & component)
     << CUTS_BE_CPP::function_header (this->servant_)
     << this->servant_ << "::" << std::endl
     << this->servant_ << " (const char * name," << std::endl
-    << "::CIDL_" << this->monoimpl_ << "::" << name << "_Exec_ptr executor)" << std::endl
+    << ns << "::" << name << "_Exec_ptr executor)" << std::endl
     << " : " << this->servant_ << "_Base (name, executor)";
 
   Servant_Base_Member_Init bmi (this->source_, this->servant_);
@@ -394,68 +362,24 @@ Visit_Component (const PICML::Component & component)
                               boost::ref (*this)));
   this->header_
     << "};";
-}
 
-//
-// Visit_MonolithprimaryArtifact
-//
-void Servant_Generator::
-Visit_MonolithprimaryArtifact (const PICML::MonolithprimaryArtifact & primary)
-{
-  PICML::ImplementationArtifactReference ref = primary.dstMonolithprimaryArtifact_end ();
-  ref.Accept (*this);
-}
 
-//
-// Visit_ImplementationArtifactReference
-//
-void Servant_Generator::
-Visit_ImplementationArtifactReference (const PICML::ImplementationArtifactReference & ref)
-{
-  if (PICML::ComponentServantArtifact::meta != ref.type ())
-    return;
-
-  PICML::ComponentServantArtifact artifact = PICML::ComponentServantArtifact::Cast (ref);
-  artifact.Accept (*this);
-}
-
-//
-// Visit_ComponentServantArtifact
-//
-void Servant_Generator::
-Visit_ComponentServantArtifact (const PICML::ComponentServantArtifact & ref)
-{
-  PICML::ImplementationArtifact artifact = ref.ref ();
-  std::string entrypoint = ref.EntryPoint ();
-  std::string export_macro = artifact.name ();
-
-  std::transform (export_macro.begin (),
-                  export_macro.end (),
-                  export_macro.begin (),
-                  &::toupper);
-
-  export_macro += "_Export";
-
-  std::string export_filename (artifact.name ());
-  export_filename += "_export";
+  std::string entrypoint = "create" + CUTS_BE_CPP::fq_type (component, "_") + "_Servant";
 
   this->header_
-    << CUTS_BE_CPP::include (export_filename)
     << std::endl
-    << "extern \"C\" " << export_macro << std::endl
+    << "extern \"C\" " << this->export_macro_ << std::endl
     << "::PortableServer::Servant" << std::endl
-    << entrypoint << " (const char * name," << std::endl
-    << "::Components::EnterpriseComponent_ptr p);";
+    << entrypoint << " (const char * name, ::Components::EnterpriseComponent_ptr p);";
 
   this->source_
     << "extern \"C\" ::PortableServer::Servant" << std::endl
     << entrypoint << " (const char * name, ::Components::EnterpriseComponent_ptr p)"
     << "{"
     << "return ::CUTS::CCM::create_servant <" << std::endl
-    << "  ::CIDL_" << this->monoimpl_ << "::"
+    << "  " << ns << "::"
     << this->component_ << "_Exec, " << std::endl
-    << "  ::RTIDDS_" << this->monoimpl_ << "::" << this->servant_
-    << " > (name, p);"
+    << "  " << CUTS_BE_CPP::fq_type (component) << "_Servant > (name, p);"
     << "}";
 }
 
@@ -505,7 +429,7 @@ Visit_InEventPort (const PICML::InEventPort & port)
 }
 
 //
-// Visit_ComponentServantArtifact
+// Visit_OutEventPort
 //
 void Servant_Generator::
 Visit_OutEventPort (const PICML::OutEventPort & port)
