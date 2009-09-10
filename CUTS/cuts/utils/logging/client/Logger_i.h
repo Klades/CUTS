@@ -58,7 +58,7 @@ private:
   /// Id of the logger assigned by the parent.
   ACE_Utils::UUID uuid_;
 
-  CUTS_Log_T <::CUTS::LogMessage, ACE_Null_Mutex> queue_;
+  CUTS_Log_T < ::CUTS::LogMessage, ACE_Null_Mutex > queue_;
 
   ACE_Thread_Mutex flush_lock_;
 

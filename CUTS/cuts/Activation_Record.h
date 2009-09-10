@@ -61,19 +61,19 @@ public:
   /// Destructor.
   virtual ~CUTS_Activation_Record (void);
 
-  ///**
-  // * Copy constructor.
-  // *
-  // * @param[in]       rec       Source record.
-  // */
-  //CUTS_Activation_Record (const CUTS_Activation_Record & rec);
+  /**
+   * Copy constructor.
+   *
+   * @param[in]       rec       Source record.
+   */
+  CUTS_Activation_Record (const CUTS_Activation_Record & copy);
 
-  ///**
-  // * Assignment operator.
-  // *
-  // * @param[in]       rec       Source record.
-  // */
-  //const CUTS_Activation_Record & operator = (const CUTS_Activation_Record & rec);
+  /**
+   * Assignment operator.
+   *
+   * @param[in]       rec       Source record.
+   */
+  const CUTS_Activation_Record & operator = (const CUTS_Activation_Record & rhs);
 
   /// Open the record.
   void open (void);

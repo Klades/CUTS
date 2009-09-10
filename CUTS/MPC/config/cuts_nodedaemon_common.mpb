@@ -1,6 +1,6 @@
 // $Id$
 
-project {
+project : xscrt {
   libs  += CUTS_Node_Daemon_Common
   after += CUTS_Node_Daemon_Common
 }

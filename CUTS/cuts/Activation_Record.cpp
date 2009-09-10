@@ -6,37 +6,37 @@
 #include "cuts/Activation_Record.inl"
 #endif
 
-////
-//// CUTS_Activation_Record
-////
-//CUTS_Activation_Record::
-//CUTS_Activation_Record (const CUTS_Activation_Record & rec)
-//: active_ (rec.active_),
-//  owner_ (rec.owner_),
-//  stopwatch_ (rec.stopwatch_),
-//  queue_time_ (rec.queue_time_),
-//  endpoints_ (rec.endpoints_),
-//  entries_ (50)
-//{
 //
-//}
+// CUTS_Activation_Record
 //
-////
-//// operator =
-////
-//const CUTS_Activation_Record &
-//CUTS_Activation_Record::operator = (const CUTS_Activation_Record & rec)
-//{
-//  this->active_ = rec.active_;
-//  this->owner_ = rec.owner_;
+CUTS_Activation_Record::
+CUTS_Activation_Record (const CUTS_Activation_Record & rec)
+: active_ (rec.active_),
+  owner_ (rec.owner_),
+  stopwatch_ (rec.stopwatch_),
+  queue_time_ (rec.queue_time_)
+  //  endpoints_ (rec.endpoints_),
+  //  entries_ (50)
+{
+
+}
+
 //
-//  this->stopwatch_ = rec.stopwatch_;
-//  this->queue_time_ = rec.queue_time_;
-//  this->entries_ = rec.entries_;
+// operator =
 //
-//  this->endpoints_ = rec.endpoints_;
-//  return *this;
-//}
+const CUTS_Activation_Record &
+CUTS_Activation_Record::operator = (const CUTS_Activation_Record & rec)
+{
+  //  this->active_ = rec.active_;
+  // this->owner_ = rec.owner_;
+
+  //this->stopwatch_ = rec.stopwatch_;
+  //this->queue_time_ = rec.queue_time_;
+  //this->entries_ = rec.entries_;
+
+  //this->endpoints_ = rec.endpoints_;
+  return *this;
+}
 
 //
 // reset

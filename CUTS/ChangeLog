@@ -1,3 +1,12 @@
+Thu Sep 10 02:56:00 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_nodedaemon_common.mpb:
+        * cuts/Activation_Record.h:
+        * cuts/Activation_Record.cpp:
+        * cuts/utils/logging/client/Logger_i.h:
+
+          . Fixed compilation errors on non-Windows system.
+
 Fri Sep  4 23:33:12 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/cuts/utils/barrier:
