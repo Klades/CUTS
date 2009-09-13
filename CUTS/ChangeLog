@@ -1,3 +1,14 @@
+Sun Sep 13 21:08:40 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/examples/capi:
+
+          . Relocated the examples.
+
+        * MDE/GME/paradigms/PICML/models/examples/capi:
+        * MDE/GME/paradigms/PICML/models/examples/capi/AnyEvent.xme:
+
+          Removed these files.
+
 Sun Sep 13 21:02:03 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/models/workers/logging.xme:
