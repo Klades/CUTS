@@ -53,7 +53,7 @@ module CUTS
      */
     ::CUTS::Logger get_logger (in ::CUTS::UUID test);
 
-    void release (in ::CUTS::Logger logger);
+    void release (in ::CUTS::Logger obj);
   };
 };
 

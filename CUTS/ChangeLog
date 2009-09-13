@@ -1,3 +1,25 @@
+Sun Sep 13 20:38:23 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/java/utils/logging/client/logger:
+        * cuts/java/utils/logging/client/logger/CUTS:
+        * cuts/java/utils/logging/client/logger/CUTS/client:
+        * cuts/java/utils/logging/client/logger/CUTS/client/logging:
+        * cuts/java/utils/logging/client/logger/CUTS/client/logging/Logger.java:
+        * cuts/java/utils/logging/client/logger/logger.build:
+
+          . Updated the Java version of the client logger to the new
+            logging framework.
+
+        * cuts/utils/logging/client/LoggingClient.idl:
+
+          . Changed the name of the parameter since JacORB did not
+            like the fact that is clashed with the paramater type's
+            name.
+
+        * cuts/java/workers:
+
+          Removed this file.
+
 Thu Sep 10 02:56:00 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MPC/config/cuts_nodedaemon_common.mpb:
