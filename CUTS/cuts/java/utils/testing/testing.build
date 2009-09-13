@@ -11,17 +11,17 @@
     -->
 
   <target name="build.all"
-          depends="cuts.clientlogger.jar.build" />
+          depends="cuts.testing.jar.build" />
 
   <target name="clean"
-          depends="cuts.clientlogger.clean" />
+          depends="cuts.testing.clean" />
 
   <target name="realclean"
-          depends="cuts.clientlogger.realclean" />
+          depends="cuts.testing.realclean" />
 
-  <property name="jarfile" value="cuts.clientlogger.jar" />
+  <property name="jarfile" value="cuts.testing.jar" />
 
-  <target name="cuts.clientlogger.idl">
+  <target name="cuts.testing.idl">
     <path id="jacorb.idl.classpath">
       <pathelement path="${contrib.dir}/idl.jar" />
       <pathelement path="${contrib.dir}/logkit-1.2.jar" />
@@ -34,56 +34,40 @@
       <arg line="-d ." />
       <arg line="-noskel" />
       <arg line="-I${cuts.dir}" />
-      <arg line="${cuts.src.dir}/utils/logging/logging.idl" />
-    </java>
-
-    <java classname="org.jacorb.idl.parser"
-          classpathref="jacorb.idl.classpath"
-          failonerror="true">
-
-      <arg line="-d ." />
-      <arg line="-noskel" />
-      <arg line="-I${cuts.dir}" />
-      <arg line="${cuts.src.dir}/utils/logging/client/LoggingClient.idl" />
+      <arg line="${cuts.src.dir}/utils/testing/svcs/server/testing.idl" />
     </java>
   </target>
 
-  <target name="cuts.clientlogger.build" depends="cuts.clientlogger.idl">
-    <path id="cuts.clientlogger.build.classpath">
+  <target name="cuts.testing.build" depends="cuts.testing.idl">
+    <path id="cuts.testing.build.classpath">
       <pathelement path="." />
       <pathelement path="${cuts.lib.dir}/cuts.java.jar" />
       <pathelement path="${contrib.dir}/jacorb.jar" />
     </path>
 
     <javac srcdir="."
-           classpathref="cuts.clientlogger.build.classpath"
+           classpathref="cuts.testing.build.classpath"
            debug="true"
            debuglevel="source,lines">
 
       <include name="CUTS/*.java" />
-      <include name="CUTS/client/logging/*.java" />
     </javac>
   </target>
 
-  <target name="cuts.clientlogger.jar.build" depends="cuts.clientlogger.build">
+  <target name="cuts.testing.jar.build" depends="cuts.testing.build">
     <jar destfile="${cuts.lib.dir}/${jarfile}" basedir=".">
       <include name="CUTS/*.class" />
-      <include name="CUTS/client/logging/*.class" />
     </jar>
   </target>
 
-  <target name="cuts.clientlogger.clean">
+  <target name="cuts.testing.clean">
     <delete>
-      <fileset dir="CUTS/client/logging"
-               includes="*.class, *.java"
-               excludes="Logger.java" />
-
       <fileset dir="CUTS"
                includes="*.class, *.java" />
     </delete>
   </target>
 
-  <target name="cuts.clientlogger.realclean" depends="cuts.clientlogger.clean">
+  <target name="cuts.testing.realclean" depends="cuts.testing.clean">
     <delete>
       <fileset dir="${cuts.lib.dir}" includes="${jarfile}" />
     </delete>

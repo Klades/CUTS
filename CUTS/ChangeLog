@@ -1,3 +1,14 @@
+Sun Sep 13 20:46:44 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/java/utils/logging/client/logger/logger.build:
+
+          . Build was missing several .class files.
+
+        * cuts/java/utils/testing:
+        * cuts/java/utils/testing/testing.build:
+
+          . Java version of client files for connecting to testing server.
+
 Sun Sep 13 20:38:23 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/java/utils/logging/client/logger:
