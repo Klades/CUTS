@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{11A66896-A8BB-4BA8-B415-831941C45C04}" cdate="Sun Sep 13 16:50:57 2009" mdate="Sun Sep 13 16:50:57 2009" version="" metaguid="{CDCDB657-AAD7-4917-941A-E63B013136B7}" metaversion="" metaname="PICML">
-	<name>TestLogger</name>
+<project guid="{4FE08E19-56B0-4DE8-BC12-7AB2BC0690F6}" cdate="Sun Sep 13 16:50:57 2009" mdate="Sun Sep 13 16:50:57 2009" version="" metaguid="{CDCDB657-AAD7-4917-941A-E63B013136B7}" metaversion="" metaname="PICML">
+	<name>testing</name>
 	<comment>Traffic light system for the NAOMI project</comment>
 	<author>James H. Hill</author>
 	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0xe" kind="RootFolder" guid="{F1819BB3-901E-40fb-94F7-A20058D05651}">
-		<name>TestLogger</name>
+		<name>testing</name>
 		<folder id="id-006a-00000002" relid="0x15" childrelidcntr="0x5" kind="PredefinedTypes" guid="{C18A3327-7E87-46f2-A393-915539EA4FFC}">
 			<name>PredefinedTypes</name>
 			<regnode name="__udm_namespace" isopaque="yes">
@@ -36,7 +36,7 @@
 					<value>$(CUTS_ROOT)/lib</value>
 				</attribute>
 				<model id="id-0065-00000002" kind="WorkerFile" role="WorkerFile" guid="{DA6737A3-B444-4670-A19C-45E5D4497869}" relid="0x1" childrelidcntr="0x2">
-					<name>TestManager</name>
+					<name>TestManagerClient</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
 						<regnode name="Behavior" status="undefined">
@@ -49,7 +49,7 @@
 					<attribute kind="Location">
 						<value></value>
 					</attribute>
-					<model id="id-0065-0000002d" kind="WorkerPackage" role="WorkerPackage" guid="{A517B355-E77B-4a55-AB60-05312B3DA088}" relid="0x2" childrelidcntr="0x2">
+					<model id="id-0065-0000002d" kind="WorkerPackage" role="WorkerPackage" guid="{A517B355-E77B-4a55-AB60-05312B3DA088}" relid="0x2" childrelidcntr="0x3">
 						<name>CUTS</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -60,41 +60,26 @@
 								</regnode>
 							</regnode>
 						</regnode>
-						<model id="id-0065-00000003" kind="Worker" role="Worker" guid="{005B4DF0-250F-40b3-9E5D-16A568C268EF}" relid="0x2" childrelidcntr="0x7">
-							<name>TestManager</name>
-							<regnode name="PartRegs" status="undefined">
-								<value></value>
-								<regnode name="Aspect" status="undefined">
+						<model id="id-0065-00000031" kind="WorkerPackage" role="WorkerPackage" guid="{F6083527-97E7-49ef-9975-13527D4E3051}" relid="0x3" childrelidcntr="0x1">
+							<name>client</name>
+							<model id="id-0065-00000003" kind="Worker" role="Worker" guid="{005B4DF0-250F-40b3-9E5D-16A568C268EF}" relid="0x1" childrelidcntr="0x7">
+								<name>TestManagerClient</name>
+								<regnode name="PartRegs" status="undefined">
 									<value></value>
-									<regnode name="Position" isopaque="yes">
-										<value>103,48</value>
+									<regnode name="Aspect" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>103,48</value>
+										</regnode>
+									</regnode>
+									<regnode name="Behavior" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>504,149</value>
+										</regnode>
 									</regnode>
 								</regnode>
-								<regnode name="Behavior" status="undefined">
-									<value></value>
-									<regnode name="Position" isopaque="yes">
-										<value>504,149</value>
-									</regnode>
-								</regnode>
-							</regnode>
-							<attribute kind="Abstract" status="meta">
-								<value>false</value>
-							</attribute>
-							<model id="id-0065-0000002b" kind="Action" role="Action" guid="{502BD5B6-D314-4c96-BEB6-242AE5A6E613}" relid="0x6" childrelidcntr="0x1">
-								<name>uuid</name>
-								<attribute kind="Duration" status="meta">
-									<value>0</value>
-								</attribute>
-								<attribute kind="LogAction" status="meta">
-									<value>false</value>
-								</attribute>
-							</model>
-							<model id="id-0065-00000030" kind="Action" role="Action" guid="{603A44FA-4257-4a45-A5F3-8FC1BB5C21C5}" relid="0x7" childrelidcntr="0x0">
-								<name>studown</name>
-								<attribute kind="Duration" status="meta">
-									<value>0</value>
-								</attribute>
-								<attribute kind="LogAction" status="meta">
+								<attribute kind="Abstract" status="meta">
 									<value>false</value>
 								</attribute>
 							</model>

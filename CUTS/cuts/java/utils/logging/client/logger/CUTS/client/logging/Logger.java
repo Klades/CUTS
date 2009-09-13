@@ -76,17 +76,41 @@ public class Logger
   }
 
   /**
-   * Connect to the local logging client.
+   * Connect to the local logging client. The location provided to
+   * this function is must be valid input for string_to_object ().
+   * Examples of valid locations are: corbaloc, corbaname, and IORs.
+   *
+   * @param[in]       location      Location of the logging client
    */
-  public void connect (String str)
+  public void connect (String location)
   {
     try
     {
       // Get a reference to the logging client.
-      org.omg.CORBA.Object obj = this.orb_.string_to_object (str);
+      org.omg.CORBA.Object obj = this.orb_.string_to_object (location);
       this.loggingClient_ = CUTS.LoggingClientHelper.narrow (obj);
+    }
+    catch (Exception ex)
+    {
+      ex.printStackTrace ();
+    }
+  }
 
-      // Set the UUID for the logger.
+  /**
+   * Connect to the local logging client. This will also assign the
+   * logger to a test associated with \a uuid. The location provided to
+   * this function is must be valid input for string_to_object ().
+   * Examples of valid locations are: corbaloc, corbaname, and IORs.
+   *
+   * @param[in]       location      Location of the logging client
+   * @param[in]       uuid          Test assigned to logger
+   */
+  public void connect (String location, CUTS.UUID uuid)
+  {
+    try
+    {
+      this.connect (location);
+      this.setUUID (uuid);
     }
     catch (Exception ex)
     {

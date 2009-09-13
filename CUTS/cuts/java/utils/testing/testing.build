@@ -51,6 +51,7 @@
            debuglevel="source,lines">
 
       <include name="CUTS/*.java" />
+      <include name="CUTS/client/*.java" />
     </javac>
   </target>
 
@@ -64,6 +65,8 @@
     <delete>
       <fileset dir="CUTS"
                includes="*.class, *.java" />
+      <fileset dir="CUTS/client/"
+               includes="*.class" />
     </delete>
   </target>
 
