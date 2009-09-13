@@ -1,3 +1,15 @@
+Sun Sep 13 21:02:03 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/models/workers/logging.xme:
+        * MDE/GME/paradigms/PICML/models/workers/testing.xme:
+
+          . Models for including respective objects in generated
+            code.
+
+        * MDE/GME/paradigms/PICML/models/workers/TestLogger.xme:
+
+          Removed this file.
+
 Sun Sep 13 20:46:44 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/java/utils/logging/client/logger/logger.build:

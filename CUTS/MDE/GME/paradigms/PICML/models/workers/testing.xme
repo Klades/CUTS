@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{11A66896-A8BB-4BA8-B415-831941C45C04}" cdate="Sun Sep 13 16:50:57 2009" mdate="Sun Sep 13 16:50:57 2009" version="" metaguid="{CDCDB657-AAD7-4917-941A-E63B013136B7}" metaversion="" metaname="PICML">
+	<name>TestLogger</name>
+	<comment>Traffic light system for the NAOMI project</comment>
+	<author>James H. Hill</author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0xe" kind="RootFolder" guid="{F1819BB3-901E-40fb-94F7-A20058D05651}">
+		<name>TestLogger</name>
+		<folder id="id-006a-00000002" relid="0x15" childrelidcntr="0x5" kind="PredefinedTypes" guid="{C18A3327-7E87-46f2-A393-915539EA4FFC}">
+			<name>PredefinedTypes</name>
+			<regnode name="__udm_namespace" isopaque="yes">
+				<value></value>
+			</regnode>
+			<atom id="id-0066-00000001" kind="String" guid="{44BCD813-1F0E-46bc-BDDC-81FEEE90382F}" relid="0x1">
+				<name>String</name>
+				<regnode name="__udm_namespace" isopaque="yes">
+					<value></value>
+				</regnode>
+			</atom>
+			<atom id="id-0066-00000002" kind="ShortInteger" guid="{55E03F63-0C53-48b1-8B82-FB81FA3953D8}" relid="0x3">
+				<name>ShortInteger</name>
+			</atom>
+			<atom id="id-0066-00000003" kind="LongInteger" guid="{97CDE4DD-72D0-4eda-9CA8-B0BFB86936D9}" relid="0x4">
+				<name>LongInteger</name>
+			</atom>
+			<atom id="id-0066-00000004" kind="GenericValue" guid="{691D513E-4406-42f7-BA96-62AB7C887524}" relid="0x5">
+				<name>GenericValue</name>
+			</atom>
+		</folder>
+		<folder id="id-006a-00000003" relid="0x1a" childrelidcntr="0x3" kind="WorkerLibraries" guid="{B75400B9-6467-49d8-9D34-CB68A969AC4A}">
+			<name>Java WorkerLibraries</name>
+			<model id="id-0065-00000001" kind="WorkerLibrary" guid="{06903DAD-78C3-4b48-B4FB-AE68FF2F24EF}" relid="0x1" childrelidcntr="0x1">
+				<name>cuts.testing</name>
+				<attribute kind="Location">
+					<value>$(CUTS_ROOT)/lib</value>
+				</attribute>
+				<model id="id-0065-00000002" kind="WorkerFile" role="WorkerFile" guid="{DA6737A3-B444-4670-A19C-45E5D4497869}" relid="0x1" childrelidcntr="0x2">
+					<name>TestManager</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Behavior" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>90,55</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Location">
+						<value></value>
+					</attribute>
+					<model id="id-0065-0000002d" kind="WorkerPackage" role="WorkerPackage" guid="{A517B355-E77B-4a55-AB60-05312B3DA088}" relid="0x2" childrelidcntr="0x2">
+						<name>CUTS</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>149,240</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<model id="id-0065-00000003" kind="Worker" role="Worker" guid="{005B4DF0-250F-40b3-9E5D-16A568C268EF}" relid="0x2" childrelidcntr="0x7">
+							<name>TestManager</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Aspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>103,48</value>
+									</regnode>
+								</regnode>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>504,149</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Abstract" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-0000002b" kind="Action" role="Action" guid="{502BD5B6-D314-4c96-BEB6-242AE5A6E613}" relid="0x6" childrelidcntr="0x1">
+								<name>uuid</name>
+								<attribute kind="Duration" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="LogAction" status="meta">
+									<value>false</value>
+								</attribute>
+							</model>
+							<model id="id-0065-00000030" kind="Action" role="Action" guid="{603A44FA-4257-4a45-A5F3-8FC1BB5C21C5}" relid="0x7" childrelidcntr="0x0">
+								<name>studown</name>
+								<attribute kind="Duration" status="meta">
+									<value>0</value>
+								</attribute>
+								<attribute kind="LogAction" status="meta">
+									<value>false</value>
+								</attribute>
+							</model>
+						</model>
+					</model>
+				</model>
+			</model>
+		</folder>
+		<regnode name="__OutputDir__" status="undefined">
+			<value></value>
+			<regnode name="CIDL" isopaque="yes">
+				<value>E:\TEMP\EDeTCMS-4</value>
+			</regnode>
+			<regnode name="CUTS" status="undefined">
+				<value></value>
+				<regnode name="ISISLab" isopaque="yes">
+					<value>E:\proj\NAOMI\projects\EDeTCMS-4/models/CUTS</value>
+				</regnode>
+			</regnode>
+			<regnode name="CUTS_PICML" isopaque="yes">
+				<value>E:\TEMP\EDeTCMS-4</value>
+			</regnode>
+			<regnode name="__OutputDir__" status="undefined">
+				<value></value>
+				<regnode name="CUTS_ISISLab" isopaque="yes">
+					<value>E:\proj\NAOMI\projects\EDeTCMS-4/models/CUTS</value>
+				</regnode>
+			</regnode>
+		</regnode>
+	</folder>
+</project>
