@@ -1,3 +1,14 @@
+Mon Sep 14 15:48:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM.mpc:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table.h:
+
+          . Fixed errors that was preventing the OpenSplice architecture
+            from building on Windows.
+
 Sun Sep 13 22:02:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/examples/LoggingClient.xme:

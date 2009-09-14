@@ -3,8 +3,8 @@
 #ifndef _CUTS_OPENSPLICE_CCM_SUBSCRIBER_TABLE_H_
 #define _CUTS_OPENSPLICE_CCM_SUBSCRIBER_TABLE_H_
 
-#include "ccpp_dds_dcps.h"
 #include "cuts/arch/ccm/CCM_Subscriber_Table.h"
+#include "ccpp_dds_dcps.h"
 #include "OpenSplice_CCM_export.h"
 
 /**

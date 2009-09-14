@@ -3,7 +3,6 @@
 #ifndef _CUTS_OPENSPLICE_CCM_SERVANT_H_
 #define _CUTS_OPENSPLICE_CCM_SERVANT_H_
 
-#include "ccpp_dds_dcps.h"
 #include "cuts/arch/ccm/CCM_Servant.h"
 #include "cuts/arch/opensplice/OpenSplice_Servant.h"
 #include "OpenSplice_CCM_export.h"

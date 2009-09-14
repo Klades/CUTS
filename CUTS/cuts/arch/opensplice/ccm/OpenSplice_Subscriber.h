@@ -3,10 +3,9 @@
 #ifndef _CUTS_OPENSPLICE_SUBSCRIBER_H_
 #define _CUTS_OPENSPLICE_SUBSCRIBER_H_
 
-#include "ccpp_dds_dcps.h"
+#include "OpenSplice_EventsC.h"
 #include "cuts/arch/ccm/CCM_Single_Subscriber.h"
 #include "cuts/arch/opensplice/OpenSplice_Endpoint.h"
-#include "OpenSplice_EventsC.h"
 #include "OpenSplice_CCM_export.h"
 
 /**
