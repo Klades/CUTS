@@ -1,10 +1,10 @@
 // $Id$
 
-#include "OpenSplice_SimpleComponent_svnt.h"
+#include "SimpleComponent_svnt.h"
 #include "cuts/arch/ccm/CCM_T.h"
 #include "cuts/arch/ccm/CCM_Events_T.h"
 
-namespace OpenSplice_SimpleComponent_Basic_Impl
+namespace Example
 {
   //
   // SimpleComponent_Servant_Context
@@ -62,7 +62,7 @@ namespace OpenSplice_SimpleComponent_Basic_Impl
   //
   SimpleComponent_Servant::
   SimpleComponent_Servant (const char * name,
-                           ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor)
+                           ::CIAO_Example_SimpleComponent_Impl::SimpleComponent_Exec_ptr executor)
    : SimpleComponent_Servant_Base (name, executor),
      processEvent_consumer_ (this, &SimpleComponent_Servant::deserialize_processEvent)
   {
@@ -139,13 +139,13 @@ namespace OpenSplice_SimpleComponent_Basic_Impl
     if (servant->impl_)
       servant->impl_->push_processEvent (event.in ());
   }
-}
 
-extern "C" ::PortableServer::Servant
-create_SimpleComponent_Servant (const char * name, ::Components::EnterpriseComponent_ptr p)
-{
-  return ::CUTS::CCM::create_servant <
-    ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec, 
-    ::OpenSplice_SimpleComponent_Basic_Impl::SimpleComponent_Servant > (name, p);
+  extern "C" ::PortableServer::Servant
+  create_Example_SimpleComponent_Servant (const char * name, ::Components::EnterpriseComponent_ptr p)
+  {
+    return ::CUTS::CCM::create_servant <
+      ::CIAO_Example_SimpleComponent_Impl::SimpleComponent_Exec, 
+      ::Example::SimpleComponent_Servant > (name, p);
+  }
 }
 

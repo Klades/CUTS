@@ -1,3 +1,22 @@
+Mon Sep 14 18:59:35 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/opensplice/SimpleExample/ModelDDSData.mpc:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_svnt.h:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_svnt.cpp:
+
+          . Added missing files.
+
+        * examples/arch/opensplice/SimpleExample/ModelDDSData_Base.mpc:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.h:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent.cidl:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Base.mpc:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Impl.h:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Impl.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Impl.mpc:
+
+          Removed these files.
+
 Mon Sep 14 18:53:58 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/BE_OpenSplice.mpc:

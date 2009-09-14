@@ -1,9 +1,11 @@
 // -*- C++ -*-
 
-#ifndef _OPENSPLICE_SIMPLECOMPONENT_SVNT_H_
-#define _OPENSPLICE_SIMPLECOMPONENT_SVNT_H_
+#ifndef _SIMPLECOMPONENT_SVNT_H_
+#define _SIMPLECOMPONENT_SVNT_H_
 
 #include "SimpleComponentEC.h"
+#include "SimpleComponentS.h"
+#include "OpenSplice_SimpleComponentC.h"
 
 #include "cuts/arch/ccm/CCM_Context_T.h"
 #include "cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.h"
@@ -11,10 +13,9 @@
 #include "cuts/arch/opensplice/ccm/OpenSplice_Subscriber_T.h"
 #include "cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table_T.h"
 
-#include "SimpleComponentS.h"
-#include "OpenSplice_SimpleComponentC.h"
+#include "SimpleComponent_svnt_export.h"
 
-namespace OpenSplice_SimpleComponent_Basic_Impl
+namespace Example
 {
   // Forward decl.
   class SimpleComponent_Servant;
@@ -54,7 +55,7 @@ namespace OpenSplice_SimpleComponent_Basic_Impl
   typedef CUTS_OpenSplice_CCM_Servant_T < 
     SimpleComponent_Servant,
     SimpleComponent_Servant_Context,
-    ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec,
+    ::CIAO_Example_SimpleComponent_Impl::SimpleComponent_Exec,
     ::POA_Example::SimpleComponent > SimpleComponent_Servant_Base;
 
   class SimpleComponent_Servant : public SimpleComponent_Servant_Base
@@ -62,7 +63,7 @@ namespace OpenSplice_SimpleComponent_Basic_Impl
     public:
     // Initializing constructor
     SimpleComponent_Servant (const char * name,
-                             ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor);
+                             ::CIAO_Example_SimpleComponent_Impl::SimpleComponent_Exec_ptr executor);
 
     virtual ~SimpleComponent_Servant (void);
 
@@ -85,13 +86,12 @@ namespace OpenSplice_SimpleComponent_Basic_Impl
       SimpleComponent_Servant,
       ::CUTS_DDS::Outer::TestData_DDS > processEvent_consumer_;
   };
+
+
+  extern "C" SIMPLECOMPONENT_SVNT_Export
+  ::PortableServer::Servant
+  create_Example_SimpleComponent_Servant (const char * name, ::Components::EnterpriseComponent_ptr p);
 }
 
-#include "OpenSplice_SimpleComponent_svnt_export.h"
 
-extern "C" OPENSPLICE_SIMPLECOMPONENT_SVNT_Export
-::PortableServer::Servant
-create_SimpleComponent_Servant (const char * name,
-                                ::Components::EnterpriseComponent_ptr p);
-
-#endif  // !defined _OPENSPLICE_SIMPLECOMPONENT_SVNT_H_
+#endif  // !defined _SIMPLECOMPONENT_SVNT_H_
