@@ -16,12 +16,12 @@
 namespace SimpleComponent_Basic_Impl
 {
   // Type definition of the implentation base type
-  typedef CUTS_CCM_Component_T < CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec, ::Example::CCM_SimpleComponent_Context > SimpleComponent_Base;
+  typedef CUTS_CCM_Component_T < CIAO_Example_SimpleComponent_Impl::SimpleComponent_Exec, ::Example::CCM_SimpleComponent_Context > SimpleComponent_Base;
 
   /**
    * @class SimpleComponent
    *
-   * Implementation of the CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec component executor
+   * Implementation of the CIAO_Example_SimpleComponent_Impl::SimpleComponent_Exec component executor
    */
   class SimpleComponent :
     public SimpleComponent_Base 
@@ -45,11 +45,11 @@ namespace SimpleComponent_Basic_Impl
     virtual void ccm_activate (void);
 
     private:
-    // variable: eventCount
-    ::CORBA::Long eventCount_;
-
     // variable: isActive
     ::CORBA::Long isActive_;
+
+    // variable: eventCount
+    ::CORBA::Long eventCount_;
 
     // periodic: sendData
     CUTS_Periodic_Event_T < SimpleComponent > periodic_sendData_;

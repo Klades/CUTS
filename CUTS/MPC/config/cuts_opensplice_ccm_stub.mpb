@@ -3,4 +3,8 @@
 project : cuts_opensplice, ccm_stub {
   libs  += CUTS_OpenSplice_CCM_stub
   after += CUTS_OpenSplice_CCM_stub
+
+  specific (prop:microsoft) {
+    link_options += /FORCE:MULTIPLE
+  }
 }

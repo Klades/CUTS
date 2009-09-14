@@ -1,3 +1,31 @@
+Mon Sep 14 18:53:58 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/BE_OpenSplice.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Context.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Project_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Servant_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Workspace_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Workspace_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Workspace_Generator.cpp:
+        * MPC/config/cuts_opensplice_ccm_stub.mpb:
+
+          . Updated the OpenSplice code generator to the latest version
+            of CIAO.
+
+
+        * examples/arch/opensplice/SimpleExample/ModelDDSData_DDS.idl:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_ModelDDSDataC.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent.mpc:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Basic_Impl.mpc:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleExample.mwc:
+
+          . Re-generated code using new interpreter.
+
 Mon Sep 14 15:48:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/arch/opensplice/ccm/OpenSplice_CCM.mpc:

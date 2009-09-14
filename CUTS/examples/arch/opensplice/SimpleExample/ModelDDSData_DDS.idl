@@ -14,11 +14,11 @@ module CUTS_DDS
         // data member: name
         string name;
 
-        // data member: id
-        long id;
-
         // data member: urgent
         boolean urgent;
+
+        // data member: id
+        long id;
       };
     };
 

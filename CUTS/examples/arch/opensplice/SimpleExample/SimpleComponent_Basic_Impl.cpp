@@ -10,8 +10,8 @@ namespace SimpleComponent_Basic_Impl
   // SimpleComponent
   //
   SimpleComponent::SimpleComponent (void)
-  : eventCount_ (0),
-    isActive_ (true)
+  : isActive_ (true),
+    eventCount_ (0)
   {
     this->periodic_sendData_.init (this, &SimpleComponent::periodic_sendData);
     this->periodic_sendData_.configure (CUTS_Periodic_Event::PE_CONSTANT, 10);
@@ -39,8 +39,8 @@ namespace SimpleComponent_Basic_Impl
   void SimpleComponent::periodic_sendData (void)
   {
     ++ this->eventCount_;
-    CUTS_CCM_Event_T <OBV_Outer::TestData_DDS> __event_100000011__;
-    this->ctx_->push_publishEvent (__event_100000011__.in ());
+    CUTS_CCM_Event_T <OBV_Outer::TestData_DDS> __event_100000008__;
+    this->ctx_->push_publishEvent (__event_100000008__.in ());
   }
 
   void SimpleComponent::ccm_activate (void)
