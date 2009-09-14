@@ -1,3 +1,15 @@
+Mon Sep 14 19:40:15 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+
+          . Added output to the example.
+
+        * examples/arch/opensplice/SimpleExample/descriptors/SimpleExample.cdp:
+        * examples/arch/opensplice/SimpleExample/models/SimpleExample.xme:
+
+          . Bug fix where the artifacts and entry points for the implementation
+            and servant were incorrect.
+
 Mon Sep 14 18:59:35 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/opensplice/SimpleExample/ModelDDSData.mpc:
