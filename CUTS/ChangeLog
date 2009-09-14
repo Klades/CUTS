@@ -1,3 +1,10 @@
+Mon Sep 14 19:49:16 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * docs/manual/appendix/thirdparty.tex:
+        * docs/manual/manual.pdf:
+
+	  . Updated the documentation regarding installing PCRE.
+
 Mon Sep 14 19:40:15 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/arch/opensplice/SimpleExample/SimpleComponent_Basic_Impl.cpp:
