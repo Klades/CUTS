@@ -70,7 +70,7 @@ CUTS_BE_Workspace_Project_Include_T <CUTS_CHAOS::Context, CUTS_BE_IDL_Node>::
 generate (const CUTS_BE_IDL_Node & node)
 {
   this->ctx_.workspace_
-    << "  " << node.name_ << "_Base.mpc" << std::endl;
+    << "  " << node.name_ << ".mpc" << std::endl;
 }
 
 //

@@ -13,12 +13,26 @@
 #ifndef _CUTS_BE_ALGORITHM_H_
 #define _CUTS_BE_ALGORITHM_H_
 
-#include "BE_nil.h"
 #include <algorithm>
+#include "../../paradigms/CHAOS.h"
+#include "BE_nil.h"
 
 namespace CUTS_BE
 {
-  //=============================================================================
+  /**
+   * Determine if a file has a component.
+   *
+   * @param[in]     file        File element to search.
+   */
+  bool has_component (const CHAOS::File & file);
+
+  /**
+   * Determine if a file has any events.
+   *
+   * @param[in]     file        File element to search.
+   */
+  bool has_events (const CHAOS::File & file);
+
   /**
    * @struct if_then_else
    *
@@ -26,15 +40,12 @@ namespace CUTS_BE
    * template really has no implementation, and only exist because of the
    * specializations.
    */
-  //=============================================================================
-
   template <bool CONDITION, typename TRUE_STMT, typename FALSE_STMT>
   struct if_then_else
   {
 
   };
 
-  //=============================================================================
   /**
    * @struct if_then_else
    *
@@ -42,8 +53,6 @@ namespace CUTS_BE
    * is a specialization of the generalized template for when the CONDITION
    * parameter is \a true.
    */
-  //=============================================================================
-
   template <typename TRUE_STMT, typename FALSE_STMT>
   struct if_then_else <true, TRUE_STMT, FALSE_STMT>
   {
@@ -51,7 +60,6 @@ namespace CUTS_BE
     typedef TRUE_STMT result_type;
   };
 
-  //=============================================================================
   /**
    * @struct if_then_else
    *
@@ -59,8 +67,6 @@ namespace CUTS_BE
    * is a specialization of the generalized template for when the CONDITION
    * parameter is \a false.
    */
-  //=============================================================================
-
   template <typename TRUE_STMT, typename FALSE_STMT>
   struct if_then_else <false, TRUE_STMT, FALSE_STMT>
   {
@@ -68,15 +74,12 @@ namespace CUTS_BE
     typedef FALSE_STMT result_type;
   };
 
-  //=============================================================================
   /**
    * @struct if_then_else
    *
    * Metaprogrammable template for execute if...then statements. This
    * trait utilizes the if_then_else trait for compile-time evaluation.
    */
-  //=============================================================================
-
   template <bool CONDITION, typename TRUE_STMT>
   struct if_then
   {
@@ -86,7 +89,6 @@ namespace CUTS_BE
                                    CUTS_BE::NIL>::result_type result_type;
   };
 
-  //=============================================================================
   /**
    * @struct visit_type
    *
@@ -96,8 +98,6 @@ namespace CUTS_BE
    * must be specialized by the \a STRATEGY for each \a TYPE it does
    * not want to visit.
    */
-  //=============================================================================
-
   template <typename STRATEGY, typename TYPE>
   struct visit_type
   {
@@ -156,15 +156,12 @@ namespace CUTS_BE
     static const bool result_type = false; \
   }
 
-  //=============================================================================
   /**
    * @struct visit_all_t
    *
    * Implementation of the std::for_each method. This functor conforms it
    * to the function signature expected by the metaprogrammable templates.
    */
-  //=============================================================================
-
   template <typename STRATEGY, typename CONTAINER, typename FUNCTOR>
   struct visit_all_t
   {
@@ -175,12 +172,9 @@ namespace CUTS_BE
     }
   };
 
-  //=============================================================================
   /**
    * @struct visit_single_t
    */
-  //=============================================================================
-
   template <typename STRATEGY, typename TYPE, typename FUNCTOR>
   struct visit_single_t
   {
@@ -191,7 +185,6 @@ namespace CUTS_BE
     }
   };
 
-  //=============================================================================
   /**
    * @struct visit_t
    *
@@ -199,8 +192,6 @@ namespace CUTS_BE
    * default method is to iterate over all the element in the container
    * using the iterate_all_t functor.
    */
-  //=============================================================================
-
   template <typename STRATEGY, typename CONTAINER, typename FUNCTOR>
   struct visit_t
   {
@@ -211,7 +202,6 @@ namespace CUTS_BE
       result_type;
   };
 
-  //=============================================================================
   /**
    * @function iterate
    *
@@ -220,8 +210,6 @@ namespace CUTS_BE
    * also uses the visit_type trait class to determine if the elements
    * in \a container are visitable.
    */
-  //=============================================================================
-
   template <typename STRATEGY, typename TYPE, typename FUNCTOR>
   inline bool visit (TYPE type, FUNCTOR func)
   {

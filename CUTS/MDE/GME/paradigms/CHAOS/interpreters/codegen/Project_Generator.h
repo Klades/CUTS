@@ -10,19 +10,18 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_BE_OPENSPLICE_PROEJECT_GENERATOR_H_
-#define _CUTS_BE_OPENSPLICE_PROEJECT_GENERATOR_H_
+#ifndef _CUTS_BE_CHAOS_PROEJECT_GENERATOR_H_
+#define _CUTS_BE_CHAOS_PROEJECT_GENERATOR_H_
 
 #include "BE_Project_Generators_T.h"
 #include "String_Set.h"
 #include "Context.h"
 
+// Forward decl.
 struct CUTS_BE_Impl_Node;
 
+// Forward decl.
 struct CUTS_BE_IDL_Node;
-
-///////////////////////////////////////////////////////////////////////////////
-// project generators [CUTS_BE_Impl_Node]
 
 /**
  * @class CUTS_BE_Project_File_Open_T
@@ -78,14 +77,6 @@ public:
   void generate (const CUTS_BE_Impl_Node & node);
 
 private:
-  void generate_cidl_project (const CUTS_BE_Impl_Node & node);
-
-  void generate_eidl_project (const CUTS_BE_Impl_Node & node);
-
-  void generate_exec_project (const CUTS_BE_Impl_Node & node);
-
-  void generate_svnt_project (const CUTS_BE_Impl_Node & node);
-
   void generate_impl_project (const CUTS_BE_Impl_Node & node);
 
   void generate_listing (const CUTS_BE_IDL_Node * node,
@@ -137,6 +128,9 @@ public:
 
   void generate (void);
 };
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_IDL_Node
 
 /**
  * @class CUTS_BE_Project_File_Open_T
@@ -191,14 +185,23 @@ public:
 
   void generate (const CUTS_BE_IDL_Node & node);
 
+protected:
+  CUTS_String_Set stub_files_;
+
+  std::string stub_after_;
+
 private:
   void generate_idlgen_project (const CUTS_BE_IDL_Node & node);
-
-  void generate_ddsidlgen_project (const CUTS_BE_IDL_Node & node);
 
   void generate_stub_project (const CUTS_BE_IDL_Node & node);
 
   void generate_skel_project (const CUTS_BE_IDL_Node & node);
+
+  void generate_eidl_project (const CUTS_BE_IDL_Node & node);
+
+  void generate_exec_project (const CUTS_BE_IDL_Node & node);
+
+  void generate_svnt_project (const CUTS_BE_IDL_Node & node);
 
   void generate_listing (const CUTS_BE_IDL_Node * node, const char * type);
 

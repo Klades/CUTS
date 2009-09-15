@@ -197,8 +197,9 @@ generate (const CHAOS::MonolithicImplementation & impl,
   std::string destructor = "~" + implname;
 
   // Construct the name of the executor.
-  std::string exec ("CIDL_");
-  exec += namespace_name + "::" + implname + "_Exec";
+  std::string exec =
+    "CIAO_" + CUTS_BE_CPP::fq_type (component, "_", false) +
+    "_Impl::" + implname + "_Exec";
 
   // Construct the name of the context.
   std::string context (CUTS_BE_CPP::scope (component));

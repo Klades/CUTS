@@ -92,6 +92,9 @@ CUTS_BE_Project_File_Close_T <CUTS_CHAOS::Context, CUTS_BE_Impl_Node>::
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// project generators [CUTS_BE_IDL_Node]
+
+///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Project_File_Open_T
 
 CUTS_INLINE
@@ -180,5 +183,3 @@ CUTS_BE_Project_File_Close_T <CUTS_CHAOS::Context, CUTS_BE_IDL_Node>::
 {
 
 }
-
-

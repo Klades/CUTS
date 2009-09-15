@@ -1,6 +1,7 @@
 // $Id$
 
 #include "StdAfx.h"
+#include "BE_algorithm.h"
 #include "Servant_Generator.h"
 #include "Servant_Header_Include_Generator.h"
 #include "Context_Generator.h"
@@ -9,7 +10,6 @@
 #include "CCF/CodeGenerationKit/IndentationCxx.hpp"
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
 #include "Uml.h"
-#include <algorithm>
 
 namespace CUTS_CHAOS
 {
@@ -239,55 +239,43 @@ Servant_Generator::~Servant_Generator (void)
 void Servant_Generator::
 Visit_RootFolder (const CHAOS::RootFolder & folder)
 {
-  std::set <CHAOS::ComponentImplementations> folders = folder.ComponentImplementations_children ();
+  std::set <CHAOS::InterfaceDefinitions> folders = folder.InterfaceDefinitions_children ();
   std::for_each (folders.begin (),
                  folders.end (),
-                 boost::bind (&CHAOS::ComponentImplementations::Accept,
+                 boost::bind (&CHAOS::InterfaceDefinitions::Accept,
                               _1,
                               boost::ref (*this)));
 }
 
 //
-// Visit_ComponentImplementations
+// Visit_InterfaceDefinitions
 //
 void Servant_Generator::
-Visit_ComponentImplementations (const CHAOS::ComponentImplementations & folder)
+Visit_InterfaceDefinitions (const CHAOS::InterfaceDefinitions & folder)
 {
-  std::set <CHAOS::ComponentImplementationContainer> containers =
-    folder.ComponentImplementationContainer_children ();
+  std::set <CHAOS::File> files = folder.File_children ();
 
-  std::for_each (containers.begin (),
-                 containers.end (),
-                 boost::bind (&CHAOS::ComponentImplementationContainer::Accept,
+  std::for_each (files.begin (),
+                 files.end (),
+                 boost::bind (&CHAOS::File::Accept,
                               _1,
                               boost::ref (*this)));
 }
 
 //
-// Visit_ComponentImplementationContainer
+// Visit_File
 //
-void Servant_Generator::
-Visit_ComponentImplementationContainer (
-const CHAOS::ComponentImplementationContainer & container)
+void Servant_Generator::Visit_File (const CHAOS::File & file)
 {
-  std::set <CHAOS::MonolithicImplementation> monoimpls =
-    container.MonolithicImplementation_kind_children ();
-
-  if (monoimpls.empty ())
+  if (!CUTS_BE::has_component (file))
     return;
 
-  std::string name = container.name ();
-
   // Construct the name of the output file.
-  std::string basename ("CHAOS_");
-  basename += name + "_svnt";
+  std::string name = file.name ();
+  std::string basename = name + "_svnt";
 
-  std::string source_filename (this->outdir_);
-  source_filename += "/" + basename + ".cpp";
-
-  std::string header_filename (this->outdir_);
-  header_filename += "/" + basename + ".h";
-
+  std::string source_filename = this->outdir_ + "/" + basename + ".cpp";
+  std::string header_filename = this->outdir_ + "/" + basename + ".h";
 
   // Open the file for writing.
   this->header_.open (header_filename.c_str ());
@@ -296,13 +284,23 @@ const CHAOS::ComponentImplementationContainer & container)
   if (!this->header_.is_open () && !this->source_.is_open ())
     return;
 
-  std::string hash_define ("_CHAOS_");
-  hash_define += name + "_SVNT_H_";
-
+  // Construct the hash defines for the file.
+  std::string hash_define = "_" + name + "_SVNT_H_";
   std::transform (hash_define.begin (),
                   hash_define.end (),
                   hash_define.begin (),
                   &::toupper);
+
+  std::string export_filename = name + "_svnt_export";
+
+  // Construct the export macro for this file.
+  this->export_macro_ = name + "_SVNT";
+  std::transform (this->export_macro_.begin (),
+                  this->export_macro_.end (),
+                  this->export_macro_.begin (),
+                  &::toupper);
+
+  this->export_macro_ += "_Export";
 
   do
   {
@@ -321,12 +319,17 @@ const CHAOS::ComponentImplementationContainer & container)
       << "#define " << hash_define << std::endl
       << std::endl
       << CUTS_BE_CPP::include (exec_stub)
+      << CUTS_BE_CPP::include (name + "S")
+      << CUTS_BE_CPP::include ("OpenSplice_" + name + "C")
+      << CUTS_BE_CPP::include ("TCPIP_" + name + "C")
       << std::endl
       << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_Context_T")
       << CUTS_BE_CPP::include ("cuts/arch/chaos/ccm/CHAOS_CCM_Servant_T")
       << CUTS_BE_CPP::include ("cuts/arch/chaos/ccm/CHAOS_CCM_Single_Subscriber")
       << CUTS_BE_CPP::include ("cuts/arch/chaos/ccm/CHAOS_CCM_Subscriber_Table")
       << CUTS_BE_CPP::include ("cuts/arch/chaos/ccm/CHAOS_CCM_EventConsumer")
+      << std::endl
+      << CUTS_BE_CPP::include (export_filename)
       << std::endl;
 
     this->source_
@@ -337,15 +340,7 @@ const CHAOS::ComponentImplementationContainer & container)
       << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_Events_T")
       << std::endl;
 
-
-    Servant_Header_Include_Generator incl_gen (this->header_);
-    CHAOS::ComponentImplementationContainer (container).Accept (incl_gen);
-
-    std::for_each (monoimpls.begin (),
-                   monoimpls.end (),
-                   boost::bind (&CHAOS::MonolithicImplementation::Accept,
-                                _1,
-                                boost::ref (*this)));
+    this->Visit_FilePackage_i (file);
 
     this->header_ << std::endl
                 << "#endif  // !defined " << hash_define << std::endl;
@@ -354,66 +349,46 @@ const CHAOS::ComponentImplementationContainer & container)
 
   // Close the file.
   this->header_.close ();
+  this->source_.close ();
 }
 
 //
-// Visit_MonolithicImplementation
+// Visit_Package
 //
-void Servant_Generator::
-Visit_MonolithicImplementation (const CHAOS::MonolithicImplementation & monoimpl)
+void Servant_Generator::Visit_Package (const CHAOS::Package & package)
 {
-  this->monoimpl_ = monoimpl.name ();
-  this->header_
-    << "namespace CHAOS_" << this->monoimpl_
-    << "{";
+  this->source_ << "namespace " << package.name () << "{";
+  this->header_ << "namespace " << package.name () << "{";
 
-  this->source_
-    << "namespace CHAOS_" << this->monoimpl_
-    << "{";
+  this->Visit_FilePackage_i (package);
 
-  // Visit the component we are implementing.
-  CHAOS::Implements impl = monoimpl.dstImplements ();
+  this->source_ << "}";
+  this->header_ << "}";
+}
 
-  if (Udm::null != impl)
-    impl.Accept (*this);
+//
+// Visit_FilePackage_i
+//
+void Servant_Generator::Visit_FilePackage_i (const Udm::Object & obj)
+{
+  std::set <CHAOS::Component> components =
+    Udm::ChildrenAttr <CHAOS::Component> (obj.__impl (), Udm::NULLCHILDROLE);
 
-  this->header_
-    << "}";
-
-
-  this->source_
-    << "}";
-
-  std::set <CHAOS::MonolithprimaryArtifact> artifacts =
-    monoimpl.dstMonolithprimaryArtifact ();
-
-  std::for_each (artifacts.begin (),
-                 artifacts.end (),
-                 boost::bind (&CHAOS::MonolithprimaryArtifact::Accept,
+  std::for_each (components.begin (),
+                 components.end (),
+                 boost::bind (&CHAOS::Component::Accept,
                               _1,
                               boost::ref (*this)));
-}
 
-//
-// Visit_Implements
-//
-void Servant_Generator::
-Visit_Implements (const CHAOS::Implements & implements)
-{
-  CHAOS::ComponentRef ref = implements.dstImplements_end ();
-  ref.Accept (*this);
-}
+  // Visit the remaining packages.
+  std::set <CHAOS::Package> packages =
+    Udm::ChildrenAttr <CHAOS::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
-//
-// Visit_ComponentRef
-//
-void Servant_Generator::
-Visit_ComponentRef (const CHAOS::ComponentRef & ref)
-{
-  CHAOS::Component component = ref.ref ();
-
-  if (Udm::null != component)
-    component.Accept (*this);
+  std::for_each (packages.begin (),
+                 packages.end (),
+                 boost::bind (&CHAOS::Package::Accept,
+                              _1,
+                              boost::ref (*this)));
 }
 
 //
@@ -431,6 +406,10 @@ Visit_Component (const CHAOS::Component & component)
   std::string context = ctx_gen.context ();
   std::string fq_type = CUTS_BE_CPP::fq_type (component, "::", false);
 
+  std::string ns_name =
+    "::CIAO_" + CUTS_BE_CPP::fq_type (component, "_", false) +
+    "_Impl::" + name + "_Exec";
+
   this->servant_ = name + "_Servant";
 
   std::vector <CHAOS::OutEventPort> outputs = component.OutEventPort_kind_children ();
@@ -440,7 +419,7 @@ Visit_Component (const CHAOS::Component & component)
     << "typedef CUTS_CHAOS_CCM_Servant_T < " << std::endl
     << "  " << this->servant_ << "," << std::endl
     << "  " << context << "," << std::endl
-    << "  ::CIDL_" << this->monoimpl_ << "::" << name << "_Exec," << std::endl
+    << "  " << ns_name << "," << std::endl
     << "  ::POA_" << fq_type << " > " << this->servant_ << "_Base;"
     << std::endl
     << "class " << this->servant_ << " : public " << this->servant_ << "_Base"
@@ -448,7 +427,7 @@ Visit_Component (const CHAOS::Component & component)
     << "public:" << std::endl
     << CUTS_BE_CPP::single_line_comment ("Initializing constructor")
     << this->servant_ << " (const char * name," << std::endl
-    << "::CIDL_" << this->monoimpl_ << "::" << name << "_Exec_ptr executor);"
+    << ns_name << "_ptr executor);"
     << std::endl
     << "virtual ~" << this->servant_ << " (void);"
     << std::endl;
@@ -457,7 +436,7 @@ Visit_Component (const CHAOS::Component & component)
     << CUTS_BE_CPP::function_header (this->servant_)
     << this->servant_ << "::" << std::endl
     << this->servant_ << " (const char * name," << std::endl
-    << "::CIDL_" << this->monoimpl_ << "::" << name << "_Exec_ptr executor)" << std::endl
+    << ns_name << "_ptr executor)" << std::endl
     << " : " << this->servant_ << "_Base (name, executor)";
 
   Servant_Base_Member_Init bmi (this->source_, this->servant_);
@@ -548,73 +527,29 @@ Visit_Component (const CHAOS::Component & component)
                               boost::ref (*this)));
   this->header_
     << "};";
-}
 
-//
-// Visit_MonolithprimaryArtifact
-//
-void Servant_Generator::
-Visit_MonolithprimaryArtifact (const CHAOS::MonolithprimaryArtifact & primary)
-{
-  CHAOS::ImplementationArtifactReference ref = primary.dstMonolithprimaryArtifact_end ();
-  ref.Accept (*this);
-}
-
-//
-// Visit_ImplementationArtifactReference
-//
-void Servant_Generator::
-Visit_ImplementationArtifactReference (const CHAOS::ImplementationArtifactReference & ref)
-{
-  if (CHAOS::ComponentServantArtifact::meta != ref.type ())
-    return;
-
-  CHAOS::ComponentServantArtifact artifact = CHAOS::ComponentServantArtifact::Cast (ref);
-  artifact.Accept (*this);
-}
-
-//
-// Visit_ComponentServantArtifact
-//
-void Servant_Generator::
-Visit_ComponentServantArtifact (const CHAOS::ComponentServantArtifact & ref)
-{
-  CHAOS::ImplementationArtifact artifact = ref.ref ();
-  std::string entrypoint = ref.EntryPoint ();
-  std::string export_macro = artifact.name ();
-
-  std::transform (export_macro.begin (),
-                  export_macro.end (),
-                  export_macro.begin (),
-                  &::toupper);
-
-  export_macro += "_Export";
-
-  std::string export_filename (artifact.name ());
-  export_filename += "_export";
+  std::string entrypoint =
+    "create" + CUTS_BE_CPP::fq_type (component, "_") + "_Servant";
 
   this->header_
-    << CUTS_BE_CPP::include (export_filename)
     << std::endl
-    << "extern \"C\" " << export_macro << std::endl
+    << "extern \"C\" " << this->export_macro_ << std::endl
     << "::PortableServer::Servant" << std::endl
-    << entrypoint << " (const char * name," << std::endl
-    << "::Components::EnterpriseComponent_ptr p);";
+    << entrypoint << " (const char * name, ::Components::EnterpriseComponent_ptr p);";
 
   this->source_
+    << CUTS_BE_CPP::function_header (entrypoint)
     << "extern \"C\" ::PortableServer::Servant" << std::endl
     << entrypoint << " (const char * name, ::Components::EnterpriseComponent_ptr p)"
     << "{"
     << "return ::CUTS::CCM::create_servant <" << std::endl
-    << "  ::CIDL_" << this->monoimpl_ << "::"
-    << this->component_ << "_Exec, " << std::endl
-    << "  ::CHAOS_" << this->monoimpl_ << "::" << this->servant_
-    << " > (name, p);"
+    << "  " << ns_name << "," << std::endl
+    << "  " << CUTS_BE_CPP::fq_type (component) << "_Servant > (name, p);"
     << "}";
 }
 
 //
-// Visit_ComponentServantArtifact
+// Visit_InEventPort
 //
 void Servant_Generator::
 Visit_InEventPort (const CHAOS::InEventPort & port)

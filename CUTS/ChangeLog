@@ -1,9 +1,40 @@
+Tue Sep 15 23:14:54 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_IDL_Graph.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_IDL_Node.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_algorithm.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_algorithm.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Project_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Project_Generator.inl:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Project_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Servant_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Servant_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Workspace_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/codegen.mpc:
+        * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.xmp:
+        * examples/arch/chaos/SimpleExample/ModelDDSData.mpc:
+        * examples/arch/chaos/SimpleExample/SimpleComponent.mpc:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.mpc:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_svnt.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_svnt.cpp:
+        * examples/arch/chaos/SimpleExample/SimpleExample.mwc:
+
+          . Updated CHAOS to the latest version of ACE+TAO+CIAO.
+
+        * examples/arch/chaos/SimpleExample/CHAOS_SimpleComponent_svnt.h:
+        * examples/arch/chaos/SimpleExample/CHAOS_SimpleComponent_svnt.cpp:
+
+          Removed these files.
+
 Mon Sep 14 19:49:16 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * docs/manual/appendix/thirdparty.tex:
         * docs/manual/manual.pdf:
 
-	  . Updated the documentation regarding installing PCRE.
+          . Updated the documentation regarding installing PCRE.
 
 Mon Sep 14 19:40:15 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 

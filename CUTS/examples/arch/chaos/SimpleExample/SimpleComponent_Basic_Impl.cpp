@@ -30,9 +30,6 @@ namespace SimpleComponent_Basic_Impl
   //
   void SimpleComponent::push_dds_read_test_data (::Outer::TestData_DDS * ev)
   {
-    ACE_DEBUG ((LM_DEBUG,
-		"%T (%t) - %M - received a OpenSpliceDDS event\n"));
-
     ACE_UNUSED_ARG (ev);
   }
 
@@ -41,11 +38,8 @@ namespace SimpleComponent_Basic_Impl
   //
   void SimpleComponent::push_corba_read_test_data (::Outer::TestData_DDS * ev)
   {
-    ACE_DEBUG ((LM_DEBUG,
-		"%T (%t) - %M - received a CORBA event\n"));
-
-    CUTS_CCM_Event_T <OBV_Outer::TestData_DDS> __event_100000042__;
-    this->ctx_->push_app_op_dds (__event_100000042__.in ());
+    CUTS_CCM_Event_T <OBV_Outer::TestData_DDS> __event_100000009__;
+    this->ctx_->push_app_op_dds (__event_100000009__.in ());
 
     ACE_UNUSED_ARG (ev);
   }
@@ -55,11 +49,8 @@ namespace SimpleComponent_Basic_Impl
   //
   void SimpleComponent::push_tcpip_read_test_data (::Outer::TestData_DDS * ev)
   {
-    ACE_DEBUG ((LM_DEBUG,
-		"%T (%t) - %M - received a TCP/IP event\n"));
-
-    CUTS_CCM_Event_T <OBV_Outer::TestData_DDS> __event_100000007__;
-    this->ctx_->push_app_op_corba (__event_100000007__.in ());
+    CUTS_CCM_Event_T <OBV_Outer::TestData_DDS> __event_100000006__;
+    this->ctx_->push_app_op_corba (__event_100000006__.in ());
 
     ACE_UNUSED_ARG (ev);
   }
@@ -69,11 +60,8 @@ namespace SimpleComponent_Basic_Impl
   //
   void SimpleComponent::periodic_sendData (void)
   {
-    ACE_DEBUG ((LM_DEBUG,
-		"%T (%t) - %M - sending a TCP/IP event\n"));
-
-    CUTS_CCM_Event_T <OBV_Outer::TestData_DDS> __event_100000008__;
-    this->ctx_->push_app_op_tcpip (__event_100000008__.in ());
+    CUTS_CCM_Event_T <OBV_Outer::TestData_DDS> __event_100000007__;
+    this->ctx_->push_app_op_tcpip (__event_100000007__.in ());
   }
 }
 

@@ -15,8 +15,8 @@ workspace (SimpleExample) {
              -relative PROJECT_ROOT=
 
   SimpleComponent_Basic_Impl.mpc
-  SimpleComponent_Base.mpc
-  ModelDDSData_Base.mpc
+  SimpleComponent.mpc
+  ModelDDSData.mpc
 }
 
 // end of auto-generated workspace

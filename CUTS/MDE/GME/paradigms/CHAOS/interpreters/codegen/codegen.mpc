@@ -21,6 +21,7 @@ project (CUTS_CHAOS_Codegen) : boost_base, udm_component, gme_interpreter, cosmi
     Stub_Generator.cpp
     Workspace_Generator.cpp
 
+    BE_algorithm.cpp
     BE_IDL_Graph.cpp
     BE_IDL_Node.cpp
     BE_Impl_Node.cpp

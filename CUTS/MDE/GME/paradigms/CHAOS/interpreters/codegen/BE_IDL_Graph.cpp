@@ -70,6 +70,7 @@ Visit_File (const CHAOS::File & file)
   {
     // Set the visit flag. See above for reason.
     this->current_node_->flags_[CUTS_BE_IDL_Node::IDL_VISITED] = true;
+    this->current_node_->file_ = file;
 
     // Save the active file and visit its contents.
     this->active_file_ = file;

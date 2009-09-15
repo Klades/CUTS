@@ -31,32 +31,17 @@ public:
   virtual void Visit_RootFolder (
     const CHAOS::RootFolder & folder);
 
-  virtual void Visit_ComponentImplementations (
-    const CHAOS::ComponentImplementations & folder);
+  virtual void Visit_InterfaceDefinitions (
+    const CHAOS::InterfaceDefinitions & folder);
 
-  virtual void Visit_ComponentImplementationContainer (
-    const CHAOS::ComponentImplementationContainer & container);
+  virtual void Visit_File (
+    const CHAOS::File & file);
 
-  virtual void Visit_MonolithicImplementation (
-    const CHAOS::MonolithicImplementation & monoimpl);
-
-  virtual void Visit_Implements (
-    const CHAOS::Implements & implements);
-
-  virtual void Visit_ComponentRef (
-    const CHAOS::ComponentRef & ref);
+  virtual void Visit_Package (
+    const CHAOS::Package & package);
 
   virtual void Visit_Component (
     const CHAOS::Component & component);
-
-  virtual void Visit_MonolithprimaryArtifact (
-    const CHAOS::MonolithprimaryArtifact & primary);
-
-  virtual void Visit_ImplementationArtifactReference (
-    const CHAOS::ImplementationArtifactReference & ref);
-
-  virtual void Visit_ComponentServantArtifact (
-    const CHAOS::ComponentServantArtifact & artifact);
 
   virtual void Visit_OutEventPort (
     const CHAOS::OutEventPort & port);
@@ -65,6 +50,8 @@ public:
     const CHAOS::InEventPort & port);
 
 private:
+  void Visit_FilePackage_i (const Udm::Object & obj);
+
   std::string outdir_;
 
   std::ofstream header_;
@@ -72,8 +59,6 @@ private:
   std::ofstream source_;
 
   std::string export_macro_;
-
-  std::string monoimpl_;
 
   std::string servant_;
 

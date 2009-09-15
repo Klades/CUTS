@@ -1,10 +1,10 @@
 // $Id$
 
-#include "CHAOS_SimpleComponent_svnt.h"
+#include "SimpleComponent_svnt.h"
 #include "cuts/arch/ccm/CCM_T.h"
 #include "cuts/arch/ccm/CCM_Events_T.h"
 
-namespace CHAOS_SimpleComponent_Basic_Impl
+namespace Example
 {
   //
   // SimpleComponent_Servant_Context
@@ -80,7 +80,7 @@ namespace CHAOS_SimpleComponent_Basic_Impl
   //
   SimpleComponent_Servant::
   SimpleComponent_Servant (const char * name,
-                           ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec_ptr executor)
+                           ::CIAO_Example_SimpleComponent_Impl::SimpleComponent_Exec_ptr executor)
    : SimpleComponent_Servant_Base (name, executor),
      dds_read_test_data_consumer_ (this, &SimpleComponent_Servant::upcall_dds_read_test_data),
      corba_read_test_data_consumer_ (this, &SimpleComponent_Servant::upcall_corba_read_test_data),
@@ -103,9 +103,7 @@ namespace CHAOS_SimpleComponent_Basic_Impl
 
     if (SimpleComponent_Servant::table_.is_init ())
       return;
-    
-    ACE_DEBUG ((LM_DEBUG,
-		"%T (%t) - %M - configuring the TCP/IP servant table\n"));
+
     SimpleComponent_Servant::table_[0] = &SimpleComponent_Servant::upcall_tcpip_read_test_data;
   }
 
@@ -250,13 +248,16 @@ namespace CHAOS_SimpleComponent_Basic_Impl
 
     return 0;
   }
-}
 
-extern "C" ::PortableServer::Servant
-create_SimpleComponent_Servant (const char * name, ::Components::EnterpriseComponent_ptr p)
-{
-  return ::CUTS::CCM::create_servant <
-    ::CIDL_SimpleComponent_Basic_Impl::SimpleComponent_Exec, 
-    ::CHAOS_SimpleComponent_Basic_Impl::SimpleComponent_Servant > (name, p);
+  //
+  // create_Example_SimpleComponent_Servant
+  //
+  extern "C" ::PortableServer::Servant
+  create_Example_SimpleComponent_Servant (const char * name, ::Components::EnterpriseComponent_ptr p)
+  {
+    return ::CUTS::CCM::create_servant <
+      ::CIAO_Example_SimpleComponent_Impl::SimpleComponent_Exec,
+      ::Example::SimpleComponent_Servant > (name, p);
+  }
 }
 

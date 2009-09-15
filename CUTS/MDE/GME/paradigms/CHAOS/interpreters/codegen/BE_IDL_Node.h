@@ -1,9 +1,10 @@
 #ifndef _CUTS_BE_IDL_NODE_H_
 #define _CUTS_BE_IDL_NODE_H_
 
-#include "cuts/config.h"
-#include "String_Set.h"
 #include <bitset>
+#include "String_Set.h"
+#include "../../paradigms/CHAOS.h"
+#include "cuts/config.h"
 
 // Forward decl.
 struct CUTS_BE_IDL_Node;
@@ -48,6 +49,8 @@ struct CUTS_BE_IDL_Node
   CUTS_BE_IDL_Node_Set references_;
 
   bool has_events_;
+
+  CHAOS::File file_;
 };
 
 #endif  // !defined _CUTS_BE_IDL_NODE_H_
