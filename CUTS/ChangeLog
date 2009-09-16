@@ -1,3 +1,15 @@
+Wed Sep 16 04:15:16 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Unit_Test_Builder.h:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.h:
+        * cuts/utils/unite/Unite_Config_File.h:
+        * cuts/utils/unite/Unite_Datagraph_File.h:
+        * cuts/utils/unite/unite.mpc:
+
+          . Moved files between projects.
+
+          . Removed unnecessary header files.
+
 Wed Sep 16 03:30:44 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/unite/Unit_Test_Builder.h:

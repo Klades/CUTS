@@ -20,7 +20,7 @@
 /**
  * @class CUTS_Unite_Config_File
  */
-class CUTS_Unite_Config_File :
+class CUTS_UNITE_XML_Export CUTS_Unite_Config_File :
   public XSCRT::utils::File_Reader_T <CUTS::testConfig>
 {
 public:

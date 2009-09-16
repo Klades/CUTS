@@ -16,7 +16,6 @@
 #include "cuts-unite.h"
 #include "XSC/utils/XML_Schema_Resolver.h"
 #include "XSCRT/utils/File_Reader_T.h"
-#include "Unite_Xml_export.h"
 
 /**
  * @class CUTS_Unite_Datagraph_File

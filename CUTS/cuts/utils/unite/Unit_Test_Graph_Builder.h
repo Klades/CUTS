@@ -15,7 +15,6 @@
 
 #include "cuts-unite.h"
 #include "cuts/config.h"
-#include "Unite_Xml_export.h"
 
 // Forward decl.
 class CUTS_Unit_Test_Graph;

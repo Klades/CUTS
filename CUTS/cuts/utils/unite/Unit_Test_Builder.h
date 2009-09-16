@@ -14,7 +14,6 @@
 #define _CUTS_UNITE_UNIT_TEST_BUILDER_H_
 
 #include "cuts-unite.h"
-#include "Unite_Xml_export.h"
 
 // Forward decl.
 class CUTS_Unit_Test;
