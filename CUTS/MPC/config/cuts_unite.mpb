@@ -1,6 +1,6 @@
 // $Id$
 
-project : cuts_test_database, pcre {
+project : pcre, cuts_test_database {
   libs  += CUTS_Unite_Common
   after += CUTS_Unite_Common
 }

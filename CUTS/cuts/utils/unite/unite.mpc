@@ -24,25 +24,6 @@ project (CUTS_Unite_Xml_Gen) : xsc_cxx {
   }
 }
 
-project (CUTS_Unite_Xml) : xscrt, cutslib {
-  sharedname    = CUTS_Unite_Xml
-  dynamicflags += CUTS_UNITE_XML_BUILD_DLL
-
-  after += CUTS_Unite_Xml_Gen
-
-  Source_Files {
-    cuts-unite.cpp
-  }
-
-  Header_Files {
-
-  }
-
-  Inline_Files {
-
-  }
-}
-
 project (CUTS_Unite_Common) : pcre, boost_base, cuts_test_database, cutslib {
   sharedname    = CUTS_Unite_Common
   dynamicflags += CUTS_UNITE_BUILD_DLL
@@ -70,7 +51,29 @@ project (CUTS_Unite_Common) : pcre, boost_base, cuts_test_database, cutslib {
   }
 }
 
-project (CUTS_Unite_Exe) : boost_base, cuts_unite_xml, cuts_unite, cutsexe {
+project (CUTS_Unite_Xml) : xscrt, cuts_unite, cutslib {
+  sharedname    = CUTS_Unite_Xml
+  dynamicflags += CUTS_UNITE_XML_BUILD_DLL
+
+  after += CUTS_Unite_Xml_Gen
+
+  Source_Files {
+    cuts-unite.cpp
+    Unit_Test_Builder.cpp
+    Unit_Test_Graph_Builder.cpp
+    Unite_Datagraph_File.cpp
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (CUTS_Unite_Exe) : boost_base, cuts_unite_xml, cutsexe {
   exename = cuts-unite
 
   after += CUTS_Console_Presentation_Service
@@ -78,9 +81,6 @@ project (CUTS_Unite_Exe) : boost_base, cuts_unite_xml, cuts_unite, cutsexe {
 
   Source_Files {
     unite.cpp
-    Unit_Test_Builder.cpp
-    Unit_Test_Graph_Builder.cpp
-    Unite_Datagraph_File.cpp
     Unite_Config_File.cpp
     Unite_App.cpp
   }

@@ -1,6 +1,6 @@
 // $Id$
 
-project : xscrt {
+project : xscrt, cuts_unite {
   after += CUTS_Unite_Xml
   libs  += CUTS_Unite_Xml
 }
