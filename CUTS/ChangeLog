@@ -1,3 +1,13 @@
+Wed Sep 16 00:00:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_unite_xml.mpb:
+        * cuts/utils/unite/Unite_Xml_export.h:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/unite.mpc:
+
+          . Separated the XML files for Unite into their own project
+            so they can be reused in different applications.
+
 Tue Sep 15 23:14:54 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_IDL_Graph.cpp:

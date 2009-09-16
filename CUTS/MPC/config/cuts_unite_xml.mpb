@@ -1,0 +1,6 @@
+// $Id$
+
+project : xscrt {
+  after += CUTS_Unite_Xml
+  libs  += CUTS_Unite_Xml
+}

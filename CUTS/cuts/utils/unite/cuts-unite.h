@@ -1,6 +1,7 @@
 #ifndef CUTS_UNITE_H
 #define CUTS_UNITE_H
 
+#include "Unite_Xml_export.h"
 // Forward declarations.
 //
 namespace CUTS
@@ -31,7 +32,7 @@ namespace CUTS
 
 namespace CUTS
 {
-  class testConfig : public ::XSCRT::Type
+  class CUTS_UNITE_XML_Export testConfig : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
 
@@ -121,7 +122,7 @@ namespace CUTS
   };
 
 
-  class logformatType : public ::XSCRT::Type
+  class CUTS_UNITE_XML_Export logformatType : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
 
@@ -172,7 +173,7 @@ namespace CUTS
   };
 
 
-  class relationList : public ::XSCRT::Type
+  class CUTS_UNITE_XML_Export relationList : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
 
@@ -208,7 +209,7 @@ namespace CUTS
   };
 
 
-  class causalityType : public ::XSCRT::Type
+  class CUTS_UNITE_XML_Export causalityType : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
 
@@ -250,7 +251,7 @@ namespace CUTS
   };
 
 
-  class relationType : public ::XSCRT::Type
+  class CUTS_UNITE_XML_Export relationType : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
 
@@ -296,7 +297,7 @@ namespace CUTS
   };
 
 
-  class logformatList : public ::XSCRT::Type
+  class CUTS_UNITE_XML_Export logformatList : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
 
@@ -332,7 +333,7 @@ namespace CUTS
   };
 
 
-  class groupitemType : public ::XSCRT::Type
+  class CUTS_UNITE_XML_Export groupitemType : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
 
@@ -363,7 +364,7 @@ namespace CUTS
   };
 
 
-  class groupingType : public ::XSCRT::Type
+  class CUTS_UNITE_XML_Export groupingType : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
 
@@ -399,7 +400,7 @@ namespace CUTS
   };
 
 
-  class datagraphType : public ::XSCRT::Type
+  class CUTS_UNITE_XML_Export datagraphType : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
 
@@ -439,7 +440,7 @@ namespace CUTS
   };
 
 
-  class datagraphLink : public ::XSCRT::Type
+  class CUTS_UNITE_XML_Export datagraphLink : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
 
@@ -470,7 +471,7 @@ namespace CUTS
   };
 
 
-  class filterList : public ::XSCRT::Type
+  class CUTS_UNITE_XML_Export filterList : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
 
@@ -506,7 +507,7 @@ namespace CUTS
   };
 
 
-  class filterType : public ::XSCRT::Type
+  class CUTS_UNITE_XML_Export filterType : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
 
@@ -564,7 +565,7 @@ namespace CUTS
   };
 
 
-  class filterVariableType : public ::XSCRT::Type
+  class CUTS_UNITE_XML_Export filterVariableType : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
 
@@ -607,7 +608,7 @@ namespace CUTS
   };
 
 
-  class serviceType : public ::XSCRT::Type
+  class CUTS_UNITE_XML_Export serviceType : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
 
@@ -668,7 +669,7 @@ namespace CUTS
   };
 
 
-  class serviceList : public ::XSCRT::Type
+  class CUTS_UNITE_XML_Export serviceList : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
 
@@ -708,6 +709,7 @@ namespace CUTS
 {
   namespace reader
   {
+    CUTS_UNITE_XML_Export
     ::CUTS::testConfig
     test (xercesc::DOMDocument const*);
   }
@@ -715,6 +717,7 @@ namespace CUTS
 
   namespace reader
   {
+    CUTS_UNITE_XML_Export
     ::CUTS::datagraphType
     datagraph (xercesc::DOMDocument const*);
   }
@@ -722,6 +725,7 @@ namespace CUTS
 
   namespace reader
   {
+    CUTS_UNITE_XML_Export
     ::CUTS::filterList
     filters (xercesc::DOMDocument const*);
   }

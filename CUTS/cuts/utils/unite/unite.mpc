@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_Unite_Xml) : xsc_cxx {
+project (CUTS_Unite_Xml_Gen) : xsc_cxx {
   custom_only = 1
 
   Modify_Custom (XSC) {
@@ -9,14 +9,37 @@ project (CUTS_Unite_Xml) : xsc_cxx {
   }
 
   specific {
-    xscflags += --cxx-header-suffix .h --cxx-source-suffix .cpp \
-                --cxx-inline-suffix .inl --cxx-generate-inline \
+    xscflags += --cxx-header-suffix .h \
+                --cxx-source-suffix .cpp \
+                --cxx-inline-suffix .inl \
+                --cxx-generate-inline \
+                --cxx-export-symbol CUTS_UNITE_XML_Export \
+                --cxx-export-header Unite_Xml_export.h \
                 --cxx-char-type char
   }
 
   Xsc_Files {
     gendir = .
     $(CUTS_ROOT)/etc/schemas/cuts-unite.xsd
+  }
+}
+
+project (CUTS_Unite_Xml) : xscrt, cutslib {
+  sharedname    = CUTS_Unite_Xml
+  dynamicflags += CUTS_UNITE_XML_BUILD_DLL
+
+  after += CUTS_Unite_Xml_Gen
+
+  Source_Files {
+    cuts-unite.cpp
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
   }
 }
 
@@ -47,16 +70,13 @@ project (CUTS_Unite_Common) : pcre, boost_base, cuts_test_database, cutslib {
   }
 }
 
-project (CUTS_UNITE_Exe) : boost_base, xscrt, cuts_unite, cutsexe {
+project (CUTS_Unite_Exe) : boost_base, cuts_unite_xml, cuts_unite, cutsexe {
   exename = cuts-unite
 
-  after += CUTS_Unite_Xml \
-           CUTS_Console_Presentation_Service
-
+  after += CUTS_Console_Presentation_Service
   libs  += CUTS_Console_Presentation_Service
 
   Source_Files {
-    cuts-unite.cpp
     unite.cpp
     Unit_Test_Builder.cpp
     Unit_Test_Graph_Builder.cpp
