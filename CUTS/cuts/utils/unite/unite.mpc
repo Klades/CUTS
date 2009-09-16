@@ -51,7 +51,7 @@ project (CUTS_Unite_Common) : pcre, boost_base, cuts_test_database, cutslib {
   }
 }
 
-project (CUTS_Unite_Xml) : xscrt, cuts_unite, cutslib {
+project (CUTS_Unite_Xml) : boost_base, xscrt, cuts_unite, cutslib {
   sharedname    = CUTS_Unite_Xml
   dynamicflags += CUTS_UNITE_XML_BUILD_DLL
 

@@ -15,6 +15,7 @@
 
 #include "cuts-unite.h"
 #include "cuts/config.h"
+#include "Unite_Xml_export.h"
 
 // Forward decl.
 class CUTS_Unit_Test_Graph;
@@ -31,7 +32,7 @@ class CUTS_Log_Format_Relation;
  * Helper class that converts the datagraph in a XML file into
  * a CUTS_Unit_Test_Graph object.
  */
-class CUTS_Unit_Test_Graph_Builder
+class CUTS_UNITE_XML_Export CUTS_Unit_Test_Graph_Builder
 {
 public:
   /// Default constructor.

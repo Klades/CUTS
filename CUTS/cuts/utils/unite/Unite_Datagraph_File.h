@@ -16,6 +16,7 @@
 #include "cuts-unite.h"
 #include "XSC/utils/XML_Schema_Resolver.h"
 #include "XSCRT/utils/File_Reader_T.h"
+#include "Unite_Xml_export.h"
 
 /**
  * @class CUTS_Unite_Datagraph_File
@@ -23,7 +24,7 @@
  * Helper class for parsing XML documents that contain a unit test
  * data graph, i.e., its log formats and relations.
  */
-class CUTS_Unite_Datagraph_File :
+class CUTS_UNITE_XML_Export CUTS_Unite_Datagraph_File :
   public XSCRT::utils::File_Reader_T <CUTS::datagraphType>
 {
 public:

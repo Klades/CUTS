@@ -1,3 +1,21 @@
+Wed Sep 16 03:30:44 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Unit_Test_Builder.h:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.h:
+        * cuts/utils/unite/Unite_Datagraph_File.h:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * cuts/utils/unite/unite.mpc:
+
+
+          . Refactored the projects to that all the XML-related classes
+            are included in this library.
+
+        * etc/schemas/cuts-unite.xsd:
+
+          . Added support for aspects to the schema definition.
+
 Wed Sep 16 00:24:54 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MPC/config/cuts_unite.mpb:

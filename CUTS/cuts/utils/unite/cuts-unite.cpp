@@ -540,6 +540,196 @@ namespace CUTS
       }
     }
   }
+
+  // conditionType
+  //
+
+  conditionType::
+  conditionType (::XSCRT::XML::Element< char > const& e)
+  :Base (e), regulator__ ()
+  {
+
+    ::XSCRT::Parser< char > p (e);
+
+    while (p.more_elements ())
+    {
+      ::XSCRT::XML::Element< char > e (p.next_element ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
+
+      if (n == "expression")
+      {
+        ACE_Refcounted_Auto_Ptr < ::CUTS::expressionType, ACE_Null_Mutex >  t (new ::CUTS::expressionType (e));
+        add_expression (t);
+      }
+
+      else if (n == "condition")
+      {
+        ACE_Refcounted_Auto_Ptr < ::CUTS::conditionType, ACE_Null_Mutex >  t (new ::CUTS::conditionType (e));
+        add_condition (t);
+      }
+
+      else 
+      {
+      }
+    }
+
+    while (p.more_attributes ())
+    {
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "type")
+      {
+        type_ = ::std::auto_ptr< ::CUTS::joinType > (new ::CUTS::joinType (a));
+        type_->container (this);
+      }
+
+      else if (n == "negate")
+      {
+        ::XMLSchema::boolean t (a);
+        negate (t);
+      }
+
+      else 
+      {
+      }
+    }
+  }
+
+  // joinType
+  //
+
+  joinType::
+  joinType (::XSCRT::XML::Element< char > const& e)
+  : ::XSCRT::Type (e)
+  {
+    ::std::basic_string< char > v (e.value ());
+
+    if (v == "conjunction") v_ = conjunction_l;
+    else if (v == "disjunction") v_ = disjunction_l;
+    else 
+    {
+    }
+  }
+
+  joinType::
+  joinType (::XSCRT::XML::Attribute< char > const& a)
+  : ::XSCRT::Type (a)
+  {
+    ::std::basic_string< char > v (a.value ());
+
+    if (v == "conjunction") v_ = conjunction_l;
+    else if (v == "disjunction") v_ = disjunction_l;
+    else 
+    {
+    }
+  }
+
+  joinType const joinType::conjunction (joinType::conjunction_l);
+  joinType const joinType::disjunction (joinType::disjunction_l);
+
+  // expressionType
+  //
+
+  expressionType::
+  expressionType (::XSCRT::XML::Element< char > const& e)
+  :Base (e), regulator__ ()
+  {
+
+    ::XSCRT::Parser< char > p (e);
+
+    while (p.more_attributes ())
+    {
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "format")
+      {
+        format_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (a));
+        format_->container (this);
+      }
+
+      else if (n == "variable")
+      {
+        variable_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (a));
+        variable_->container (this);
+      }
+
+      else if (n == "value")
+      {
+        value_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (a));
+        value_->container (this);
+      }
+
+      else if (n == "negate")
+      {
+        ::XMLSchema::boolean t (a);
+        negate (t);
+      }
+
+      else 
+      {
+      }
+    }
+  }
+
+  // aspectType
+  //
+
+  aspectType::
+  aspectType (::XSCRT::XML::Element< char > const& e)
+  :Base (e), regulator__ ()
+  {
+
+    ::XSCRT::Parser< char > p (e);
+
+    while (p.more_elements ())
+    {
+      ::XSCRT::XML::Element< char > e (p.next_element ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
+
+      if (n == "id")
+      {
+        id_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (new ::XMLSchema::ID< char > (e));
+        id_->container (this);
+      }
+
+      else if (n == "condition")
+      {
+        ACE_Refcounted_Auto_Ptr < ::CUTS::conditionType, ACE_Null_Mutex >  t (new ::CUTS::conditionType (e));
+        add_condition (t);
+      }
+
+      else 
+      {
+      }
+    }
+  }
+
+  // aspectsType
+  //
+
+  aspectsType::
+  aspectsType (::XSCRT::XML::Element< char > const& e)
+  :Base (e), regulator__ ()
+  {
+
+    ::XSCRT::Parser< char > p (e);
+
+    while (p.more_elements ())
+    {
+      ::XSCRT::XML::Element< char > e (p.next_element ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
+
+      if (n == "aspect")
+      {
+        ACE_Refcounted_Auto_Ptr < ::CUTS::aspectType, ACE_Null_Mutex >  t (new ::CUTS::aspectType (e));
+        add_aspect (t);
+      }
+
+      else 
+      {
+      }
+    }
+  }
 }
 
 namespace CUTS
@@ -591,6 +781,25 @@ namespace CUTS
       if (e.name () == "filters")
       {
         ::CUTS::filterList r (e);
+        return r;
+      }
+
+      else
+      {
+        throw 1;
+      }
+    }
+  }
+
+  namespace reader
+  {
+    ::CUTS::aspectsType
+    aspects (xercesc::DOMDocument const* d)
+    {
+      ::XSCRT::XML::Element< char > e (d->getDocumentElement ());
+      if (e.name () == "aspects")
+      {
+        ::CUTS::aspectsType r (e);
         return r;
       }
 

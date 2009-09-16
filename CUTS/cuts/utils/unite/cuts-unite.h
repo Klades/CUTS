@@ -21,6 +21,11 @@ namespace CUTS
   class filterVariableType;
   class serviceType;
   class serviceList;
+  class conditionType;
+  class joinType;
+  class expressionType;
+  class aspectType;
+  class aspectsType;
 }
 
 #include <memory>
@@ -703,6 +708,260 @@ namespace CUTS
     private:
     char regulator__;
   };
+
+
+  class CUTS_UNITE_XML_Export conditionType : public ::XSCRT::Type
+  {
+    typedef ::XSCRT::Type Base;
+
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < conditionType, ACE_Null_Mutex > _ptr;
+
+    // expression
+    // 
+    public:
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::expressionType, ACE_Null_Mutex > >::iterator expression_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::expressionType, ACE_Null_Mutex > >::const_iterator expression_const_iterator;
+    expression_iterator begin_expression ();
+    expression_iterator end_expression ();
+    expression_const_iterator begin_expression () const;
+    expression_const_iterator end_expression () const;
+    void add_expression ( ACE_Refcounted_Auto_Ptr < ::CUTS::expressionType, ACE_Null_Mutex > const& );
+    size_t count_expression (void) const;
+
+    protected:
+    ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::expressionType, ACE_Null_Mutex > > expression_;
+
+    // condition
+    // 
+    public:
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::conditionType, ACE_Null_Mutex > >::iterator condition_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::conditionType, ACE_Null_Mutex > >::const_iterator condition_const_iterator;
+    condition_iterator begin_condition ();
+    condition_iterator end_condition ();
+    condition_const_iterator begin_condition () const;
+    condition_const_iterator end_condition () const;
+    void add_condition ( ACE_Refcounted_Auto_Ptr < ::CUTS::conditionType, ACE_Null_Mutex > const& );
+    size_t count_condition (void) const;
+
+    protected:
+    ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::conditionType, ACE_Null_Mutex > > condition_;
+
+    // type
+    // 
+    public:
+    ::CUTS::joinType const& type () const;
+    ::CUTS::joinType& type ();
+    void type (::CUTS::joinType const& );
+
+    protected:
+    ::std::auto_ptr< ::CUTS::joinType > type_;
+
+    // negate
+    // 
+    public:
+    bool negate_p () const;
+    ::XMLSchema::boolean const& negate () const;
+    ::XMLSchema::boolean& negate ();
+    void negate (::XMLSchema::boolean const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::boolean > negate_;
+
+    public:
+    conditionType (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::expressionType, ACE_Null_Mutex > > const& expression__,
+                   ::CUTS::joinType const& type__);
+
+    conditionType (::XSCRT::XML::Element< char > const&);
+    conditionType (conditionType const& s);
+
+    conditionType&
+    operator= (conditionType const& s);
+
+    private:
+    char regulator__;
+  };
+
+
+  class CUTS_UNITE_XML_Export joinType : public ::XSCRT::Type
+  {
+    public:
+    joinType (::XSCRT::XML::Element< char > const&);
+    joinType (::XSCRT::XML::Attribute< char > const&);
+
+    static joinType const conjunction;
+    static joinType const disjunction;
+
+    enum Value
+    {
+      conjunction_l, disjunction_l
+    };
+
+
+    Value
+    integral () const;
+
+    friend bool CUTS_UNITE_XML_Export 
+    operator== (joinType const& a, joinType const& b);
+
+    friend bool CUTS_UNITE_XML_Export 
+    operator!= (joinType const& a, joinType const& b);
+
+    private:
+    joinType (Value v);
+
+    Value v_;
+  };
+
+  bool CUTS_UNITE_XML_Export operator== (joinType const &a, joinType const &b);
+
+  bool CUTS_UNITE_XML_Export operator!= (joinType const &a, joinType const &b);
+
+
+  class CUTS_UNITE_XML_Export expressionType : public ::XSCRT::Type
+  {
+    typedef ::XSCRT::Type Base;
+
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < expressionType, ACE_Null_Mutex > _ptr;
+
+    // format
+    // 
+    public:
+    ::XMLSchema::string< char > const& format () const;
+    ::XMLSchema::string< char >& format ();
+    void format (::XMLSchema::string< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::string< char > > format_;
+
+    // variable
+    // 
+    public:
+    ::XMLSchema::string< char > const& variable () const;
+    ::XMLSchema::string< char >& variable ();
+    void variable (::XMLSchema::string< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::string< char > > variable_;
+
+    // value
+    // 
+    public:
+    ::XMLSchema::string< char > const& value () const;
+    ::XMLSchema::string< char >& value ();
+    void value (::XMLSchema::string< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::string< char > > value_;
+
+    // negate
+    // 
+    public:
+    bool negate_p () const;
+    ::XMLSchema::boolean const& negate () const;
+    ::XMLSchema::boolean& negate ();
+    void negate (::XMLSchema::boolean const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::boolean > negate_;
+
+    public:
+    expressionType (::XMLSchema::string< char > const& format__,
+                    ::XMLSchema::string< char > const& variable__,
+                    ::XMLSchema::string< char > const& value__);
+
+    expressionType (::XSCRT::XML::Element< char > const&);
+    expressionType (expressionType const& s);
+
+    expressionType&
+    operator= (expressionType const& s);
+
+    private:
+    char regulator__;
+  };
+
+
+  class CUTS_UNITE_XML_Export aspectType : public ::XSCRT::Type
+  {
+    typedef ::XSCRT::Type Base;
+
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < aspectType, ACE_Null_Mutex > _ptr;
+
+    // id
+    // 
+    public:
+    ::XMLSchema::ID< char > const& id () const;
+    void id (::XMLSchema::ID< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::ID< char > > id_;
+
+    // condition
+    // 
+    public:
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::conditionType, ACE_Null_Mutex > >::iterator condition_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::conditionType, ACE_Null_Mutex > >::const_iterator condition_const_iterator;
+    condition_iterator begin_condition ();
+    condition_iterator end_condition ();
+    condition_const_iterator begin_condition () const;
+    condition_const_iterator end_condition () const;
+    void add_condition ( ACE_Refcounted_Auto_Ptr < ::CUTS::conditionType, ACE_Null_Mutex > const& );
+    size_t count_condition (void) const;
+
+    protected:
+    ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::conditionType, ACE_Null_Mutex > > condition_;
+
+    public:
+    aspectType (::XMLSchema::ID< char > const& id__,
+                ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::conditionType, ACE_Null_Mutex > > const& condition__);
+
+    aspectType (::XSCRT::XML::Element< char > const&);
+    aspectType (aspectType const& s);
+
+    aspectType&
+    operator= (aspectType const& s);
+
+    private:
+    char regulator__;
+  };
+
+
+  class CUTS_UNITE_XML_Export aspectsType : public ::XSCRT::Type
+  {
+    typedef ::XSCRT::Type Base;
+
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < aspectsType, ACE_Null_Mutex > _ptr;
+
+    // aspect
+    // 
+    public:
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::aspectType, ACE_Null_Mutex > >::iterator aspect_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::aspectType, ACE_Null_Mutex > >::const_iterator aspect_const_iterator;
+    aspect_iterator begin_aspect ();
+    aspect_iterator end_aspect ();
+    aspect_const_iterator begin_aspect () const;
+    aspect_const_iterator end_aspect () const;
+    void add_aspect ( ACE_Refcounted_Auto_Ptr < ::CUTS::aspectType, ACE_Null_Mutex > const& );
+    size_t count_aspect (void) const;
+
+    protected:
+    ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::aspectType, ACE_Null_Mutex > > aspect_;
+
+    public:
+    aspectsType (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::aspectType, ACE_Null_Mutex > > const& aspect__);
+
+    aspectsType (::XSCRT::XML::Element< char > const&);
+    aspectsType (aspectsType const& s);
+
+    aspectsType&
+    operator= (aspectsType const& s);
+
+    private:
+    char regulator__;
+  };
 }
 
 namespace CUTS
@@ -728,6 +987,14 @@ namespace CUTS
     CUTS_UNITE_XML_Export
     ::CUTS::filterList
     filters (xercesc::DOMDocument const*);
+  }
+
+
+  namespace reader
+  {
+    CUTS_UNITE_XML_Export
+    ::CUTS::aspectsType
+    aspects (xercesc::DOMDocument const*);
   }
 }
 

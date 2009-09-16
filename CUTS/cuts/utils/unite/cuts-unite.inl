@@ -1530,5 +1530,572 @@ namespace CUTS
   {
     return service_.size ();
   }
+
+
+  // conditionType
+  // 
+
+  inline
+  conditionType::
+  conditionType (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::expressionType, ACE_Null_Mutex > > const& expression__,
+                 ::CUTS::joinType const& type__)
+  : 
+  expression_ (expression__),
+  type_ (new ::CUTS::joinType (type__)),
+  regulator__ ()
+  {
+    type_->container (this);
+  }
+
+  inline
+  conditionType::
+  conditionType (conditionType const& s)
+  :
+  ::XSCRT::Type (),
+  expression_ (s.expression_),
+  condition_ (s.condition_),
+  type_ (new ::CUTS::joinType (*s.type_)),
+  negate_ (s.negate_.get () ? new ::XMLSchema::boolean (*s.negate_) : 0),
+  regulator__ ()
+  {
+    type_->container (this);
+    if (negate_.get ()) negate_->container (this);
+  }
+
+  inline
+  conditionType& conditionType::
+  operator= (conditionType const& s)
+  {
+    expression_ = s.expression_;
+
+    condition_ = s.condition_;
+
+    type (s.type ());
+
+    if (s.negate_.get ()) negate (*(s.negate_));
+    else negate_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
+
+    return *this;
+  }
+
+
+  // conditionType
+  // 
+  inline
+  conditionType::expression_iterator conditionType::
+  begin_expression ()
+  {
+    return expression_.begin ();
+  }
+
+  inline
+  conditionType::expression_iterator conditionType::
+  end_expression ()
+  {
+    return expression_.end ();
+  }
+
+  inline
+  conditionType::expression_const_iterator conditionType::
+  begin_expression () const
+  {
+    return expression_.begin ();
+  }
+
+  inline
+  conditionType::expression_const_iterator conditionType::
+  end_expression () const
+  {
+    return expression_.end ();
+  }
+
+  inline
+  void conditionType::
+  add_expression (ACE_Refcounted_Auto_Ptr < ::CUTS::expressionType, ACE_Null_Mutex >  const& e)
+  {
+    expression_.push_back (e);
+  }
+
+  inline
+  size_t conditionType::
+  count_expression(void) const
+  {
+    return expression_.size ();
+  }
+
+  // conditionType
+  // 
+  inline
+  conditionType::condition_iterator conditionType::
+  begin_condition ()
+  {
+    return condition_.begin ();
+  }
+
+  inline
+  conditionType::condition_iterator conditionType::
+  end_condition ()
+  {
+    return condition_.end ();
+  }
+
+  inline
+  conditionType::condition_const_iterator conditionType::
+  begin_condition () const
+  {
+    return condition_.begin ();
+  }
+
+  inline
+  conditionType::condition_const_iterator conditionType::
+  end_condition () const
+  {
+    return condition_.end ();
+  }
+
+  inline
+  void conditionType::
+  add_condition (ACE_Refcounted_Auto_Ptr < ::CUTS::conditionType, ACE_Null_Mutex >  const& e)
+  {
+    condition_.push_back (e);
+  }
+
+  inline
+  size_t conditionType::
+  count_condition(void) const
+  {
+    return condition_.size ();
+  }
+
+  // conditionType
+  // 
+  inline
+  ::CUTS::joinType const& conditionType::
+  type () const
+  {
+    return *type_;
+  }
+
+  inline
+  ::CUTS::joinType& conditionType::
+  type ()
+  {
+    return *type_;
+  }
+
+  inline
+  void conditionType::
+  type (::CUTS::joinType const& e)
+  {
+    *type_ = e;
+  }
+
+  // conditionType
+  // 
+  inline
+  bool conditionType::
+  negate_p () const
+  {
+    return negate_.get () != 0;
+  }
+
+  inline
+  ::XMLSchema::boolean const& conditionType::
+  negate () const
+  {
+    return *negate_;
+  }
+
+  inline
+  ::XMLSchema::boolean& conditionType::
+  negate ()
+  {
+    return *negate_;
+  }
+
+  inline
+  void conditionType::
+  negate (::XMLSchema::boolean const& e)
+  {
+    if (negate_.get ())
+    {
+      *negate_ = e;
+    }
+
+    else
+    {
+      negate_ = ::std::auto_ptr< ::XMLSchema::boolean > (new ::XMLSchema::boolean (e));
+      negate_->container (this);
+    }
+  }
+
+
+  // joinType
+  // 
+
+  inline
+  joinType::Value joinType::
+  integral () const
+  {
+    return v_;
+  }
+
+  inline
+  bool
+  operator== (::CUTS::joinType const& a, ::CUTS::joinType const& b)
+  {
+    return a.v_ == b.v_;
+  }
+
+  inline
+  bool
+  operator!= (::CUTS::joinType const& a, ::CUTS::joinType const& b)
+  {
+    return a.v_ != b.v_;
+  }
+
+  inline
+  joinType::
+  joinType (joinType::Value v)
+  : v_ (v)
+  {
+  }
+
+  // expressionType
+  // 
+
+  inline
+  expressionType::
+  expressionType (::XMLSchema::string< char > const& format__,
+                  ::XMLSchema::string< char > const& variable__,
+                  ::XMLSchema::string< char > const& value__)
+  : 
+  format_ (new ::XMLSchema::string< char > (format__)),
+  variable_ (new ::XMLSchema::string< char > (variable__)),
+  value_ (new ::XMLSchema::string< char > (value__)),
+  regulator__ ()
+  {
+    format_->container (this);
+    variable_->container (this);
+    value_->container (this);
+  }
+
+  inline
+  expressionType::
+  expressionType (expressionType const& s)
+  :
+  format_ (new ::XMLSchema::string< char > (*s.format_)),
+  variable_ (new ::XMLSchema::string< char > (*s.variable_)),
+  value_ (new ::XMLSchema::string< char > (*s.value_)),
+  negate_ (s.negate_.get () ? new ::XMLSchema::boolean (*s.negate_) : 0),
+  regulator__ ()
+  {
+    format_->container (this);
+    variable_->container (this);
+    value_->container (this);
+    if (negate_.get ()) negate_->container (this);
+  }
+
+  inline
+  expressionType& expressionType::
+  operator= (expressionType const& s)
+  {
+    format (s.format ());
+
+    variable (s.variable ());
+
+    value (s.value ());
+
+    if (s.negate_.get ()) negate (*(s.negate_));
+    else negate_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
+
+    return *this;
+  }
+
+
+  // expressionType
+  // 
+  inline
+  ::XMLSchema::string< char > const& expressionType::
+  format () const
+  {
+    return *format_;
+  }
+
+  inline
+  ::XMLSchema::string< char >& expressionType::
+  format ()
+  {
+    return *format_;
+  }
+
+  inline
+  void expressionType::
+  format (::XMLSchema::string< char > const& e)
+  {
+    *format_ = e;
+  }
+
+  // expressionType
+  // 
+  inline
+  ::XMLSchema::string< char > const& expressionType::
+  variable () const
+  {
+    return *variable_;
+  }
+
+  inline
+  ::XMLSchema::string< char >& expressionType::
+  variable ()
+  {
+    return *variable_;
+  }
+
+  inline
+  void expressionType::
+  variable (::XMLSchema::string< char > const& e)
+  {
+    *variable_ = e;
+  }
+
+  // expressionType
+  // 
+  inline
+  ::XMLSchema::string< char > const& expressionType::
+  value () const
+  {
+    return *value_;
+  }
+
+  inline
+  ::XMLSchema::string< char >& expressionType::
+  value ()
+  {
+    return *value_;
+  }
+
+  inline
+  void expressionType::
+  value (::XMLSchema::string< char > const& e)
+  {
+    *value_ = e;
+  }
+
+  // expressionType
+  // 
+  inline
+  bool expressionType::
+  negate_p () const
+  {
+    return negate_.get () != 0;
+  }
+
+  inline
+  ::XMLSchema::boolean const& expressionType::
+  negate () const
+  {
+    return *negate_;
+  }
+
+  inline
+  ::XMLSchema::boolean& expressionType::
+  negate ()
+  {
+    return *negate_;
+  }
+
+  inline
+  void expressionType::
+  negate (::XMLSchema::boolean const& e)
+  {
+    if (negate_.get ())
+    {
+      *negate_ = e;
+    }
+
+    else
+    {
+      negate_ = ::std::auto_ptr< ::XMLSchema::boolean > (new ::XMLSchema::boolean (e));
+      negate_->container (this);
+    }
+  }
+
+
+  // aspectType
+  // 
+
+  inline
+  aspectType::
+  aspectType (::XMLSchema::ID< char > const& id__,
+              ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::conditionType, ACE_Null_Mutex > > const& condition__)
+  : 
+  id_ (new ::XMLSchema::ID< char > (id__)),
+  condition_ (condition__),
+  regulator__ ()
+  {
+    id_->container (this);
+  }
+
+  inline
+  aspectType::
+  aspectType (aspectType const& s)
+  :
+  ::XSCRT::Type (),
+  id_ (new ::XMLSchema::ID< char > (*s.id_)),
+  condition_ (s.condition_),
+  regulator__ ()
+  {
+    id_->container (this);
+  }
+
+  inline
+  aspectType& aspectType::
+  operator= (aspectType const& s)
+  {
+    id (*s.id_);
+
+    condition_ = s.condition_;
+
+    return *this;
+  }
+
+
+  // aspectType
+  // 
+  inline
+  ::XMLSchema::ID< char > const& aspectType::
+  id () const
+  {
+    return *id_;
+  }
+
+  inline
+  void aspectType::
+  id (::XMLSchema::ID< char > const& e)
+  {
+    *id_ = e;
+  }
+
+  // aspectType
+  // 
+  inline
+  aspectType::condition_iterator aspectType::
+  begin_condition ()
+  {
+    return condition_.begin ();
+  }
+
+  inline
+  aspectType::condition_iterator aspectType::
+  end_condition ()
+  {
+    return condition_.end ();
+  }
+
+  inline
+  aspectType::condition_const_iterator aspectType::
+  begin_condition () const
+  {
+    return condition_.begin ();
+  }
+
+  inline
+  aspectType::condition_const_iterator aspectType::
+  end_condition () const
+  {
+    return condition_.end ();
+  }
+
+  inline
+  void aspectType::
+  add_condition (ACE_Refcounted_Auto_Ptr < ::CUTS::conditionType, ACE_Null_Mutex >  const& e)
+  {
+    condition_.push_back (e);
+  }
+
+  inline
+  size_t aspectType::
+  count_condition(void) const
+  {
+    return condition_.size ();
+  }
+
+
+  // aspectsType
+  // 
+
+  inline
+  aspectsType::
+  aspectsType (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::aspectType, ACE_Null_Mutex > > const& aspect__)
+  : 
+  aspect_ (aspect__),
+  regulator__ ()
+  {
+  }
+
+  inline
+  aspectsType::
+  aspectsType (aspectsType const& s)
+  :
+  ::XSCRT::Type (),
+  aspect_ (s.aspect_),
+  regulator__ ()
+  {
+  }
+
+  inline
+  aspectsType& aspectsType::
+  operator= (aspectsType const& s)
+  {
+    aspect_ = s.aspect_;
+
+    return *this;
+  }
+
+
+  // aspectsType
+  // 
+  inline
+  aspectsType::aspect_iterator aspectsType::
+  begin_aspect ()
+  {
+    return aspect_.begin ();
+  }
+
+  inline
+  aspectsType::aspect_iterator aspectsType::
+  end_aspect ()
+  {
+    return aspect_.end ();
+  }
+
+  inline
+  aspectsType::aspect_const_iterator aspectsType::
+  begin_aspect () const
+  {
+    return aspect_.begin ();
+  }
+
+  inline
+  aspectsType::aspect_const_iterator aspectsType::
+  end_aspect () const
+  {
+    return aspect_.end ();
+  }
+
+  inline
+  void aspectsType::
+  add_aspect (ACE_Refcounted_Auto_Ptr < ::CUTS::aspectType, ACE_Null_Mutex >  const& e)
+  {
+    aspect_.push_back (e);
+  }
+
+  inline
+  size_t aspectsType::
+  count_aspect(void) const
+  {
+    return aspect_.size ();
+  }
 }
 
