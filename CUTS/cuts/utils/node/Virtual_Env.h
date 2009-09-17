@@ -13,6 +13,7 @@
 #ifndef _CUTS_VIRTUAL_ENV_H_
 #define _CUTS_VIRTUAL_ENV_H_
 
+#include "ace/Array.h"
 #include "ace/Hash_Map_Manager.h"
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/Process_Manager.h"
@@ -21,6 +22,7 @@
 #include "cuts/utils/Property_Map.h"
 #include "Delay_Handler.h"
 #include "Node_Daemon_Common_export.h"
+#include "Process_Options_List.h"
 
 // Forward decl.
 class CUTS_Process_Options;
@@ -34,11 +36,6 @@ class CUTS_NODE_DAEMON_COMMON_Export CUTS_Virtual_Env :
   public ACE_Event_Handler
 {
 public:
-  typedef
-    ACE_Hash_Map_Manager <ACE_CString,
-                          CUTS_Process_Options *,
-                          ACE_RW_Thread_Mutex> PROCESS_OPTIONS_MAP;
-
   /// Default constructor.
   CUTS_Virtual_Env (const ACE_CString & name);
 
@@ -56,21 +53,14 @@ public:
   int close (void);
 
   /**
-   * Install a startup/shutdown process into the environment.
-   */
-  int install (const ACE_CString & name,
-               CUTS_Process_Options * opts,
-               bool startup = true);
-
-  /**
    * Spawn a new process into the environment.
    *
    * @param[in]       name        Unique name associated with process
    * @param[in]       opts        Options for the process.
    */
-  int spawn (const ACE_CString & name, const CUTS_Process_Options & opts);
+  int spawn (const CUTS_Process_Options & opts);
 
-  int spawn (const PROCESS_OPTIONS_MAP & proc_list);
+  int spawn (const CUTS_Process_Options_List & proc_list);
 
   /**
    * Terminate an existing process in the environment.
@@ -110,6 +100,26 @@ public:
    */
   const CUTS_Property_Map & env_table (void) const;
 
+  /**
+   * Get the list of startup process options.
+   */
+  CUTS_Process_Options_List & startup_list (void);
+
+  /**
+   * @overloaded
+   */
+  const CUTS_Process_Options_List & startup_list (void) const;
+
+  /**
+   * Get the list of shutdown process options.
+   */
+  CUTS_Process_Options_List & shutdown_list (void);
+
+  /**
+   * @overloaded
+   */
+  const CUTS_Process_Options_List & shutdown_list (void) const;
+
 private:
   /// Name of the environment.
   ACE_CString name_;
@@ -133,10 +143,10 @@ private:
   PROCESS_MANAGER managed_;
 
   /// Processes to execute at startup.
-  PROCESS_OPTIONS_MAP startup_;
+  CUTS_Process_Options_List startup_;
 
   /// Processes to execute at shutdown.
-  PROCESS_OPTIONS_MAP shutdown_;
+  CUTS_Process_Options_List shutdown_;
 
   /// Delay handler for spawning process.
   CUTS_Delay_Handler delay_;

@@ -90,8 +90,9 @@ project (CUTS) : boost_base, cuts_skel, cutslib {
     Periodic_Event_T.cpp
     Servant_Manager_T.cpp
     Servant_Traits_T.cpp
-    Sync_Event_Handler_T.cpp
+    Static_Node_T.cpp
     Statistics_T.cpp
+    Sync_Event_Handler_T.cpp
     value_of_t.cpp
     Worker_T.cpp
   }

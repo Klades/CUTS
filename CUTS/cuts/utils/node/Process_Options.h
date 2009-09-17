@@ -13,29 +13,49 @@
 #ifndef _CUTS_PROCESS_OPTIONS_H_
 #define _CUTS_PROCESS_OPTIONS_H_
 
-#include "cuts/config.h"
 #include "ace/SString.h"
 #include "ace/Time_Value.h"
 #include "ace/Unbounded_Set.h"
+#include "Node_Daemon_Common_export.h"
 
 /**
  * @class CUTS_Process_Options
  *
  * Detailed information about a process.
  */
-class CUTS_Process_Options
+class CUTS_NODE_DAEMON_COMMON_Export CUTS_Process_Options
 {
 public:
   CUTS_Process_Options (void);
 
+  /**
+   * Copy constructor.
+   *
+   * @param[in]       copy        Source object
+   */
+  CUTS_Process_Options (const CUTS_Process_Options & copy);
+
+  /// Default destructor.
+  ~CUTS_Process_Options (void);
+
+  /**
+   * Assignment operator
+   *
+   * @param[in]       opts        Right-hand side of operator
+   */
+  const CUTS_Process_Options & operator = (const CUTS_Process_Options & opts);
+
+  /// Name associated with the options.
+  ACE_CString name_;
+
   /// Full path to the executable.
-  ACE_CString executable_;
+  ACE_CString exec_;
 
   /// Command-line arguments for the process.
-  ACE_CString arguments_;
+  ACE_CString args_;
 
   /// Working directory for the process.
-  ACE_CString working_directory_;
+  ACE_CString cwd_;
 
   /// Delay value for process startup
   ACE_Time_Value delay_;
@@ -48,9 +68,6 @@ public:
 
   /// Wait for the process to complete.
   bool wait_for_completion_;
-
-  /// Set of process that must execute before this process.
-  ACE_Unbounded_Set <ACE_CString> after_;
 };
 
 #if defined (__CUTS_INLINE__)

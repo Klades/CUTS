@@ -19,13 +19,7 @@ namespace CUTS
         ::XSCRT::XML::Element< char > e (p.next_element ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-        if (n == "after")
-        {
-          ::CUTS::schemas::DependsList t (e);
-          after (t);
-        }
-
-        else if (n == "executable")
+        if (n == "executable")
         {
           executable_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
           executable_->container (this);
@@ -160,33 +154,6 @@ namespace CUTS
         {
           id_ = ::std::auto_ptr< ::XMLSchema::IDREF< char > > (new ::XMLSchema::IDREF< char > (a));
           id_->container (this);
-        }
-
-        else 
-        {
-        }
-      }
-    }
-
-    // DependsList
-    //
-
-    DependsList::
-    DependsList (::XSCRT::XML::Element< char > const& e)
-    :Base (e), regulator__ ()
-    {
-
-      ::XSCRT::Parser< char > p (e);
-
-      while (p.more_elements ())
-      {
-        ::XSCRT::XML::Element< char > e (p.next_element ());
-        ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-        if (n == "process")
-        {
-          ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::DependsItem, ACE_Null_Mutex >  t (new ::CUTS::schemas::DependsItem (e));
-          add_process (t);
         }
 
         else 

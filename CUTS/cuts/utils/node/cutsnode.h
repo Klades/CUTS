@@ -11,7 +11,6 @@ namespace CUTS
     class ProcessList;
     class NodeConfig;
     class DependsItem;
-    class DependsList;
     class EnvConfig;
     class Variable;
     class VariableList;
@@ -37,16 +36,6 @@ namespace CUTS
 
       public:
       typedef ACE_Refcounted_Auto_Ptr < ProcessOptions, ACE_Null_Mutex > _ptr;
-
-      // after
-      // 
-      public:
-      bool after_p () const;
-      ::CUTS::schemas::DependsList const& after () const;
-      void after (::CUTS::schemas::DependsList const& );
-
-      protected:
-      ::std::auto_ptr< ::CUTS::schemas::DependsList > after_;
 
       // executable
       // 
@@ -241,42 +230,6 @@ namespace CUTS
 
       DependsItem&
       operator= (DependsItem const& s);
-
-      private:
-      char regulator__;
-    };
-
-
-    class DependsList : public ::XSCRT::Type
-    {
-      typedef ::XSCRT::Type Base;
-
-      public:
-      typedef ACE_Refcounted_Auto_Ptr < DependsList, ACE_Null_Mutex > _ptr;
-
-      // process
-      // 
-      public:
-      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::DependsItem, ACE_Null_Mutex > >::iterator process_iterator;
-      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::DependsItem, ACE_Null_Mutex > >::const_iterator process_const_iterator;
-      process_iterator begin_process ();
-      process_iterator end_process ();
-      process_const_iterator begin_process () const;
-      process_const_iterator end_process () const;
-      void add_process ( ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::DependsItem, ACE_Null_Mutex > const& );
-      size_t count_process (void) const;
-
-      protected:
-      ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::DependsItem, ACE_Null_Mutex > > process_;
-
-      public:
-      DependsList (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::DependsItem, ACE_Null_Mutex > > const& process__);
-
-      DependsList (::XSCRT::XML::Element< char > const&);
-      DependsList (DependsList const& s);
-
-      DependsList&
-      operator= (DependsList const& s);
 
       private:
       char regulator__;

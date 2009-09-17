@@ -24,7 +24,6 @@ namespace CUTS
     ProcessOptions (ProcessOptions const& s)
     :
     ::XSCRT::Type (),
-    after_ (s.after_.get () ? new ::CUTS::schemas::DependsList (*s.after_) : 0),
     executable_ (new ::XMLSchema::string< char > (*s.executable_)),
     arguments_ (s.arguments_.get () ? new ::XMLSchema::string< char > (*s.arguments_) : 0),
     workingdirectory_ (s.workingdirectory_.get () ? new ::XMLSchema::string< char > (*s.workingdirectory_) : 0),
@@ -35,7 +34,6 @@ namespace CUTS
     waitforcompletion_ (s.waitforcompletion_.get () ? new ::XMLSchema::boolean (*s.waitforcompletion_) : 0),
     regulator__ ()
     {
-      if (after_.get ()) after_->container (this);
       executable_->container (this);
       if (arguments_.get ()) arguments_->container (this);
       if (workingdirectory_.get ()) workingdirectory_->container (this);
@@ -50,11 +48,6 @@ namespace CUTS
     ProcessOptions& ProcessOptions::
     operator= (ProcessOptions const& s)
     {
-      if (s.after_.get ())
-        after (*(s.after_));
-      else
-        after_.reset (0);
-
       executable (*s.executable_);
 
       if (s.arguments_.get ())
@@ -88,38 +81,6 @@ namespace CUTS
       return *this;
     }
 
-
-    // ProcessOptions
-    // 
-    inline
-    bool ProcessOptions::
-    after_p () const
-    {
-      return after_.get () != 0;
-    }
-
-    inline
-    ::CUTS::schemas::DependsList const& ProcessOptions::
-    after () const
-    {
-      return *after_;
-    }
-
-    inline
-    void ProcessOptions::
-    after (::CUTS::schemas::DependsList const& e)
-    {
-      if (after_.get ())
-      {
-        *after_ = e;
-      }
-
-      else
-      {
-        after_ = ::std::auto_ptr< ::CUTS::schemas::DependsList > (new ::CUTS::schemas::DependsList (e));
-        after_->container (this);
-      }
-    }
 
     // ProcessOptions
     // 
@@ -573,83 +534,6 @@ namespace CUTS
     id (::XMLSchema::IDREF< char > const& e)
     {
       *id_ = e;
-    }
-
-
-    // DependsList
-    // 
-
-    inline
-    DependsList::
-    DependsList (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::DependsItem, ACE_Null_Mutex > > const& process__)
-    : 
-    process_ (process__),
-    regulator__ ()
-    {
-    }
-
-    inline
-    DependsList::
-    DependsList (DependsList const& s)
-    :
-    ::XSCRT::Type (),
-    process_ (s.process_),
-    regulator__ ()
-    {
-    }
-
-    inline
-    DependsList& DependsList::
-    operator= (DependsList const& s)
-    {
-      process_ = s.process_;
-
-      return *this;
-    }
-
-
-    // DependsList
-    // 
-    inline
-    DependsList::process_iterator DependsList::
-    begin_process ()
-    {
-      return process_.begin ();
-    }
-
-    inline
-    DependsList::process_iterator DependsList::
-    end_process ()
-    {
-      return process_.end ();
-    }
-
-    inline
-    DependsList::process_const_iterator DependsList::
-    begin_process () const
-    {
-      return process_.begin ();
-    }
-
-    inline
-    DependsList::process_const_iterator DependsList::
-    end_process () const
-    {
-      return process_.end ();
-    }
-
-    inline
-    void DependsList::
-    add_process (ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::DependsItem, ACE_Null_Mutex >  const& e)
-    {
-      process_.push_back (e);
-    }
-
-    inline
-    size_t DependsList::
-    count_process(void) const
-    {
-      return process_.size ();
     }
 
 

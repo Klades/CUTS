@@ -23,34 +23,6 @@
 #include <algorithm>
 #include <iostream>
 
-///////////////////////////////////////////////////////////////////////////////
-// stream operators
-
-/**
- * @struct insert_after
- *
- * Functor for inserting string into the dependency list.
- */
-struct insert_after
-{
-  typedef ::CUTS::schemas::DependsList::process_iterator::value_type value_type;
-
-  insert_after (ACE_Unbounded_Set <ACE_CString> & after)
-    : after_ (after)
-  {
-
-  }
-
-  void operator () (const value_type & item)
-  {
-    this->after_.insert (item->id ().id ().c_str ());
-  }
-
-private:
-  /// Target environment variable table.
-  ACE_Unbounded_Set <ACE_CString> & after_;
-};
-
 /**
  * @struct install_process
  *
@@ -69,47 +41,37 @@ struct install_process
 
   void operator () (const value_type & value)
   {
-    // Create a new process options object.
-    CUTS_Process_Options * opts = 0;
-
-    ACE_NEW_THROW_EX (opts,
-                      CUTS_Process_Options (),
-                      ACE_bad_alloc ());
-
-    ACE_Auto_Ptr <CUTS_Process_Options> auto_clean (opts);
+    CUTS_Process_Options opts;
 
     // Initialize the process options.
-    opts->executable_ = value->executable ().c_str ();
+    opts.name_ = value->id ().c_str ();
+    opts.exec_ = value->executable ().c_str ();
 
     if (value->arguments_p ())
-      opts->arguments_  = value->arguments ().c_str ();
+      opts.args_  = value->arguments ().c_str ();
 
     if (value->workingdirectory_p ())
-      opts->working_directory_ = value->workingdirectory ().c_str ();
+      opts.cwd_ = value->workingdirectory ().c_str ();
 
     if (value->delay_p ())
-      opts->delay_.set (value->delay ());
+      opts.delay_.set (value->delay ());
 
     if (value->waitforcompletion_p ())
-      opts->wait_for_completion_ = value->waitforcompletion ();
-
-    if (value->after_p ())
-      std::for_each (value->after ().begin_process (),
-                     value->after ().end_process (),
-                     insert_after (opts->after_));
+      opts.wait_for_completion_ = value->waitforcompletion ();
 
     // Install the process into the environment.
-    int retval =
-      this->env_.install (value->id ().c_str (),
-                          opts,
-                          this->startup_);
+    int retval;
 
-    if (0 == retval)
-      auto_clean.release ();
+    if (this->startup_)
+      retval = this->env_.startup_list ().append (opts);
     else
+      retval = this->env_.shutdown_list ().append (opts);
+
+    if (0 != retval)
       ACE_ERROR ((LM_ERROR,
-                  ACE_TEXT ("%T (%t) - %M - failed to install process %s\n"),
-                  value->id ().c_str ()));
+                  ACE_TEXT ("%T (%t) - %M - failed to add %s to %s process list\n"),
+                  opts.name_.c_str (),
+                  this->startup_ ? ACE_TEXT ("startup") : ACE_TEXT ("shutdown")));
   }
 
 private:

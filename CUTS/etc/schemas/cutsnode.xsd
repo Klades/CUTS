@@ -2,7 +2,6 @@
 <xsd:schema targetNamespace="http://www.dre.vanderbilt.edu/CUTS/schemas" xmlns="http://www.dre.vanderbilt.edu/CUTS/schemas" xmlns:cuts="http://www.dre.vanderbilt.edu/CUTS/schemas" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema XMLSchema.xsd" elementFormDefault="qualified" version="1.0">
   <xsd:complexType name="ProcessOptions">
     <xsd:all>
-      <xsd:element name="after" type="DependsList" maxOccurs="1" minOccurs="0" />
       <xsd:element name="executable" type="xsd:string" minOccurs="1" maxOccurs="1" />
       <xsd:element name="arguments" type="xsd:string" minOccurs="0" maxOccurs="1" />
       <xsd:element name="workingdirectory" type="xsd:string" maxOccurs="1" minOccurs="0" />
@@ -27,11 +26,6 @@
   </xsd:element>
   <xsd:complexType name="DependsItem">
     <xsd:attribute name="id" type="xsd:IDREF" use="required" />
-  </xsd:complexType>
-  <xsd:complexType name="DependsList">
-    <xsd:sequence>
-      <xsd:element name="process" type="DependsItem" minOccurs="1" maxOccurs="unbounded" />
-    </xsd:sequence>
   </xsd:complexType>
   <xsd:complexType name="EnvConfig">
     <xsd:sequence>

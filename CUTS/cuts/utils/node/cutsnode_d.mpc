@@ -30,6 +30,7 @@ project (CUTS_Node_Daemon_Common) : boost_base, xscrt, cuts_utils, cutslib {
     Delay_Handler.cpp
     Process_Dependency_Graph.cpp
     Process_Options.cpp
+    Process_Options_List.cpp
     Virtual_Env.cpp
     Virtual_Env_Manager.cpp
   }
