@@ -24,10 +24,10 @@
  * data graph, i.e., its log formats and relations.
  */
 class CUTS_UNITE_XML_Export CUTS_Unite_Datagraph_File :
-  public XSCRT::utils::File_Reader_T <CUTS::datagraphType>
+  public XSCRT::utils::File_Reader_T < ::CUTS::XML::datagraphType >
 {
 public:
-  typedef XSCRT::utils::File_Reader_T <CUTS::datagraphType> reader_type;
+  typedef XSCRT::utils::File_Reader_T < ::CUTS::XML::datagraphType > reader_type;
 
   /// Default constructor.
   CUTS_Unite_Datagraph_File (void);
@@ -40,7 +40,7 @@ private:
 
   XSC::XML::Basic_Resolver < > br_;
 
-  XSC::XML::XML_Schema_Resolver <XSC::XML::Basic_Resolver < > > resolver_;
+  XSC::XML::XML_Schema_Resolver < ::XSC::XML::Basic_Resolver < > > resolver_;
 };
 
 #endif  // !defined _CUTS_UNITE_DATAGRAPH_FILE_H_

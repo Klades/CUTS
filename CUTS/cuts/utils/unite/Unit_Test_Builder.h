@@ -45,7 +45,7 @@ public:
    * @param[in]       config        Source configuration
    * @param[out]      test          Target unit test object.
    */
-  bool build (const CUTS::testConfig & config, CUTS_Unit_Test & test);
+  bool build (const ::CUTS::XML::testConfig & config, CUTS_Unit_Test & test);
 };
 
 #endif  // !defined _CUTS_UNITE_UNIT_TEST_BUILDER_H_

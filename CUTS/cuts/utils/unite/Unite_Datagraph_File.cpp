@@ -8,7 +8,7 @@
 // CUTS_Unite_Datagraph_File
 //
 CUTS_Unite_Datagraph_File::CUTS_Unite_Datagraph_File (void)
-: reader_type (&CUTS::reader::datagraph),
+: reader_type (&CUTS::XML::reader::datagraph),
   resolver_ (br_)
 {
   this->configure ();

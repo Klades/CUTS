@@ -21,10 +21,10 @@
  * @class CUTS_Unite_Config_File
  */
 class CUTS_UNITE_XML_Export CUTS_Unite_Config_File :
-  public XSCRT::utils::File_Reader_T <CUTS::testConfig>
+  public XSCRT::utils::File_Reader_T < ::CUTS::XML::testConfig >
 {
 public:
-  typedef XSCRT::utils::File_Reader_T <CUTS::testConfig> reader_type;
+  typedef XSCRT::utils::File_Reader_T < ::CUTS::XML::testConfig > reader_type;
 
   /// Default constructor.
   CUTS_Unite_Config_File (void);
@@ -37,7 +37,7 @@ private:
 
   XSC::XML::Basic_Resolver < > br_;
 
-  XSC::XML::XML_Schema_Resolver <XSC::XML::Basic_Resolver < > > resolver_;
+  XSC::XML::XML_Schema_Resolver < ::XSC::XML::Basic_Resolver < > > resolver_;
 };
 
 #endif  // !defined _CUTS_UNITE_CONFIG_FILE_H_

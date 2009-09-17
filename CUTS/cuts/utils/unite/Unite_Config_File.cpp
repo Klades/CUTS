@@ -8,7 +8,7 @@
 // CUTS_Unite_Config_File
 //
 CUTS_Unite_Config_File::CUTS_Unite_Config_File (void)
-: reader_type (&CUTS::reader::test),
+: reader_type (&CUTS::XML::reader::test),
   resolver_ (br_)
 {
   this->configure ();

@@ -19,7 +19,7 @@
 class process_causality
 {
 public:
-  typedef ::CUTS::relationType::causality_iterator::value_type value_type;
+  typedef ::CUTS::XML::relationType::causality_iterator::value_type value_type;
 
   process_causality (CUTS_Log_Format_Relation & relation)
     : relation_ (relation)
@@ -49,7 +49,7 @@ private:
 class process_relation
 {
 public:
-  typedef ::CUTS::relationList::relation_iterator::value_type value_type;
+  typedef ::CUTS::XML::relationList::relation_iterator::value_type value_type;
 
   process_relation (CUTS_Unit_Test_Graph & graph, CUTS_Log_Format & format)
     : graph_ (graph),
@@ -104,7 +104,7 @@ private:
 class process_log_format
 {
 public:
-  typedef ::CUTS::logformatList::logformat_iterator::value_type value_type;
+  typedef ::CUTS::XML::logformatList::logformat_iterator::value_type value_type;
 
   process_log_format (CUTS_Unit_Test_Graph & graph)
     : graph_ (graph)
@@ -135,7 +135,7 @@ private:
 // build
 //
 bool CUTS_Unit_Test_Graph_Builder::
-build (const CUTS::datagraphType & datagraph, CUTS_Unit_Test_Graph & graph)
+build (const ::CUTS::XML::datagraphType & datagraph, CUTS_Unit_Test_Graph & graph)
 {
   // Set the name of the graph.
   graph.name (datagraph.name ().c_str ());

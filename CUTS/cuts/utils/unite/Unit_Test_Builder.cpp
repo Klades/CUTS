@@ -14,7 +14,7 @@
 class process_group_item
 {
 public:
-  typedef ::CUTS::groupingType::groupitem_iterator::value_type value_type;
+  typedef ::CUTS::XML::groupingType::groupitem_iterator::value_type value_type;
 
   process_group_item (CUTS_Unit_Test & test)
     : test_ (test)
@@ -50,8 +50,9 @@ CUTS_Unit_Test_Builder::~CUTS_Unit_Test_Builder (void)
 //
 // build
 //
-bool CUTS_Unit_Test_Builder::build (const CUTS::testConfig & config,
-                                    CUTS_Unit_Test & test)
+bool CUTS_Unit_Test_Builder::
+build (const ::CUTS::XML::testConfig & config,
+       CUTS_Unit_Test & test)
 {
   // Set the basic information.
   test.name (config.name ().c_str ());

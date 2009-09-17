@@ -19,11 +19,14 @@
 
 namespace CUTS
 {
-  // Forward decl.
-  class serviceList;
+  namespace XML
+  {
+    // Forward decl.
+    class serviceList;
 
-  // Forward decl.
-  class serviceType;
+    // Forward decl.
+    class serviceType;
+  }
 }
 
 /**
@@ -54,7 +57,7 @@ private:
   int parse_args (int argc, char * argv []);
 
   /// Load services from the configuration.
-  void load_services (const CUTS::serviceList & list);
+  void load_services (const ::CUTS::XML::serviceList & list);
 
   /// Print the help screen for the application.
   void print_help (void);

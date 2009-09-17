@@ -1,3 +1,32 @@
+Thu Sep 17 22:25:21 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Where_Clause_Builder.h:
+        * cuts/utils/unite/Where_Clause_Builder.inl:
+        * cuts/utils/unite/Where_Clause_Builder.cpp:
+
+          . Helper class for constructing a WHERE class from the
+            condition in an XML document.
+
+        * cuts/utils/unite/Unit_Test_Builder.h:
+        * cuts/utils/unite/Unit_Test_Builder.cpp:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.h:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.cpp:
+        * cuts/utils/unite/Unite_App.h:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/Unite_Config_File.h:
+        * cuts/utils/unite/Unite_Config_File.cpp:
+        * cuts/utils/unite/Unite_Datagraph_File.h:
+        * cuts/utils/unite/Unite_Datagraph_File.cpp:
+        * cuts/utils/unite/Unite_Xml_export.h:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * cuts/utils/unite/unite.mpc:
+        * etc/schemas/cuts-unite.xsd:
+
+          . Prepended XML to the namespace. This will help distinguish
+            the XML related classes from the CUTS standard classes.
+
 Thu Sep 17 03:04:34 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/cuts/utils/barrier/client.cutsnode.config:

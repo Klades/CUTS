@@ -38,7 +38,7 @@ static const char * __HELP__ =
 class load_service
 {
 public:
-  typedef CUTS::serviceList::service_iterator::value_type value_type;
+  typedef ::CUTS::XML::serviceList::service_iterator::value_type value_type;
 
   load_service (CUTS_Unite_Presentation_Service_Manager & mgr)
     : mgr_ (mgr)
@@ -93,7 +93,7 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
 
   // Load the configuration file.
   CUTS_Unite_Config_File config_file;
-  CUTS::testConfig config ("", "", "", CUTS::datagraphLink (""));
+  ::CUTS::XML::testConfig config ("", "", "", ::CUTS::XML::datagraphLink (""));
 
   XSC::XML::XML_Error_Handler error_handler;
   config_file->setErrorHandler (&error_handler);
@@ -120,7 +120,7 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
   CUTS_Unite_Datagraph_File datagraph_file;
   datagraph_file->setErrorHandler (&error_handler);
 
-  CUTS::datagraphType datagraph ("");
+  ::CUTS::XML::datagraphType datagraph ("");
 
   if (this->datagraph_.empty ())
   {
@@ -288,7 +288,8 @@ void CUTS_Unite_App::print_help (void)
 //
 // load_services
 //
-void CUTS_Unite_App::load_services (const CUTS::serviceList & list)
+void CUTS_Unite_App::
+load_services (const ::CUTS::XML::serviceList & list)
 {
   std::for_each (list.begin_service (),
                  list.end_service (),

@@ -47,7 +47,7 @@ public:
    * @param[in]       datagraph       The source datagraph
    * @param[out]      graph           The target unit test graph
    */
-  bool build (const CUTS::datagraphType & datagraph,
+  bool build (const ::CUTS::XML::datagraphType & datagraph,
               CUTS_Unit_Test_Graph & graph);
 };
 
