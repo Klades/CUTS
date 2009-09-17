@@ -1,3 +1,11 @@
+Thu Sep 17 03:04:34 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/cuts/utils/barrier/client.cutsnode.config:
+        * examples/cuts/utils/barrier/controller.cutsnode.config:
+        * examples/cuts/utils/testing/logging/cutsnode.config:
+
+          . Removed the <after> tags from the node configuration.
+
 Thu Sep 17 02:50:54 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/CUTS.mpc:
