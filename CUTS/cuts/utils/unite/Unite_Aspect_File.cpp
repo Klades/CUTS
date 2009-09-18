@@ -1,9 +1,9 @@
 // $Id$
 
-#include "Unite_Aspects_File.h"
+#include "Unite_Aspect_File.h"
 
 #if !defined (__CUTS_INLINE__)
-#include "Unite_Aspects_File.inl"
+#include "Unite_Aspect_File.inl"
 #endif
 
 #include "ace/SString.h"

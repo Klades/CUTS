@@ -1,3 +1,11 @@
+Fri Sep 18 21:41:40 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Unite_Aspect_File.h:
+        * cuts/utils/unite/Unite_Aspect_File.inl:
+        * cuts/utils/unite/Unite_Aspect_File.cpp:
+
+          . Accidently committed code that did not compile.
+
 Fri Sep 18 21:39:09 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/unite/Unite_Aspect_File.h:

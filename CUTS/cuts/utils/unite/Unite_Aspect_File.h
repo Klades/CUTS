@@ -24,10 +24,10 @@
  * for trimming the dataset for a given datagraph.
  */
 class CUTS_UNITE_XML_Export CUTS_Unite_Aspect_File :
-  public XSCRT::utils::File_Reader_T < ::CUTS::XML::aspectsType >
+  public XSCRT::utils::File_Reader_T < ::CUTS::XML::aspectType >
 {
 public:
-  typedef XSCRT::utils::File_Reader_T < ::CUTS::XML::aspectsType > reader_type;
+  typedef XSCRT::utils::File_Reader_T < ::CUTS::XML::aspectType > reader_type;
 
   /// Default constructor.
   CUTS_Unite_Aspect_File (void);
@@ -44,7 +44,7 @@ private:
 };
 
 #if defined (__CUTS_INLINE__)
-#include "Unite_Aspects_File.inl"
+#include "Unite_Aspect_File.inl"
 #endif
 
 #endif  // !defined _CUTS_UNITE_ASPECTS_FILE_H_
