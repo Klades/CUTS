@@ -1,3 +1,21 @@
+Fri Sep 18 21:39:09 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Unite_Aspect_File.h:
+        * cuts/utils/unite/Unite_Aspect_File.inl:
+        * cuts/utils/unite/Unite_Aspect_File.cpp:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * cuts/utils/unite/unite.mpc:
+        * etc/schemas/cuts-unite.xsd:
+
+          . Implemented help class for loading an apsect from the
+            XML document.
+
+          . The head document tag for the aspect XML document is now
+            a single aspect, i.e., <aspect>, instead of a collection
+            of aspects, i.e., <aspects>
+
 Thu Sep 17 22:25:21 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/unite/Where_Clause_Builder.h:

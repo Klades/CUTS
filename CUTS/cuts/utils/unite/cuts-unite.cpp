@@ -688,43 +688,16 @@ namespace CUTS
         ::XSCRT::XML::Element< char > e (p.next_element ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-        if (n == "id")
+        if (n == "name")
         {
-          id_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (new ::XMLSchema::ID< char > (e));
-          id_->container (this);
+          ::XMLSchema::ID< char > t (e);
+          name (t);
         }
 
         else if (n == "condition")
         {
           ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex >  t (new ::CUTS::XML::conditionType (e));
           add_condition (t);
-        }
-
-        else 
-        {
-        }
-      }
-    }
-
-    // aspectsType
-    //
-
-    aspectsType::
-    aspectsType (::XSCRT::XML::Element< char > const& e)
-    :Base (e), regulator__ ()
-    {
-
-      ::XSCRT::Parser< char > p (e);
-
-      while (p.more_elements ())
-      {
-        ::XSCRT::XML::Element< char > e (p.next_element ());
-        ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-        if (n == "aspect")
-        {
-          ACE_Refcounted_Auto_Ptr < ::CUTS::XML::aspectType, ACE_Null_Mutex >  t (new ::CUTS::XML::aspectType (e));
-          add_aspect (t);
         }
 
         else 
@@ -798,13 +771,13 @@ namespace CUTS
 
     namespace reader
     {
-      ::CUTS::XML::aspectsType
-      aspects (xercesc::DOMDocument const* d)
+      ::CUTS::XML::aspectType
+      aspect (xercesc::DOMDocument const* d)
       {
         ::XSCRT::XML::Element< char > e (d->getDocumentElement ());
-        if (e.name () == "aspects")
+        if (e.name () == "aspect")
         {
-          ::CUTS::XML::aspectsType r (e);
+          ::CUTS::XML::aspectType r (e);
           return r;
         }
 

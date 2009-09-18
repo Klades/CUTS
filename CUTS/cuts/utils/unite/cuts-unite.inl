@@ -1929,14 +1929,11 @@ namespace CUTS
 
     inline
     aspectType::
-    aspectType (::XMLSchema::ID< char > const& id__,
-                ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex > > const& condition__)
+    aspectType (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex > > const& condition__)
     : 
-    id_ (new ::XMLSchema::ID< char > (id__)),
     condition_ (condition__),
     regulator__ ()
     {
-      id_->container (this);
     }
 
     inline
@@ -1944,18 +1941,21 @@ namespace CUTS
     aspectType (aspectType const& s)
     :
     ::XSCRT::Type (),
-    id_ (new ::XMLSchema::ID< char > (*s.id_)),
+    name_ (s.name_.get () ? new ::XMLSchema::ID< char > (*s.name_) : 0),
     condition_ (s.condition_),
     regulator__ ()
     {
-      id_->container (this);
+      if (name_.get ()) name_->container (this);
     }
 
     inline
     aspectType& aspectType::
     operator= (aspectType const& s)
     {
-      id (*s.id_);
+      if (s.name_.get ())
+        name (*(s.name_));
+      else
+        name_.reset (0);
 
       condition_ = s.condition_;
 
@@ -1966,17 +1966,33 @@ namespace CUTS
     // aspectType
     // 
     inline
-    ::XMLSchema::ID< char > const& aspectType::
-    id () const
+    bool aspectType::
+    name_p () const
     {
-      return *id_;
+      return name_.get () != 0;
+    }
+
+    inline
+    ::XMLSchema::ID< char > const& aspectType::
+    name () const
+    {
+      return *name_;
     }
 
     inline
     void aspectType::
-    id (::XMLSchema::ID< char > const& e)
+    name (::XMLSchema::ID< char > const& e)
     {
-      *id_ = e;
+      if (name_.get ())
+      {
+        *name_ = e;
+      }
+
+      else
+      {
+        name_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (new ::XMLSchema::ID< char > (e));
+        name_->container (this);
+      }
     }
 
     // aspectType
@@ -2021,83 +2037,6 @@ namespace CUTS
     count_condition(void) const
     {
       return condition_.size ();
-    }
-
-
-    // aspectsType
-    // 
-
-    inline
-    aspectsType::
-    aspectsType (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::aspectType, ACE_Null_Mutex > > const& aspect__)
-    : 
-    aspect_ (aspect__),
-    regulator__ ()
-    {
-    }
-
-    inline
-    aspectsType::
-    aspectsType (aspectsType const& s)
-    :
-    ::XSCRT::Type (),
-    aspect_ (s.aspect_),
-    regulator__ ()
-    {
-    }
-
-    inline
-    aspectsType& aspectsType::
-    operator= (aspectsType const& s)
-    {
-      aspect_ = s.aspect_;
-
-      return *this;
-    }
-
-
-    // aspectsType
-    // 
-    inline
-    aspectsType::aspect_iterator aspectsType::
-    begin_aspect ()
-    {
-      return aspect_.begin ();
-    }
-
-    inline
-    aspectsType::aspect_iterator aspectsType::
-    end_aspect ()
-    {
-      return aspect_.end ();
-    }
-
-    inline
-    aspectsType::aspect_const_iterator aspectsType::
-    begin_aspect () const
-    {
-      return aspect_.begin ();
-    }
-
-    inline
-    aspectsType::aspect_const_iterator aspectsType::
-    end_aspect () const
-    {
-      return aspect_.end ();
-    }
-
-    inline
-    void aspectsType::
-    add_aspect (ACE_Refcounted_Auto_Ptr < ::CUTS::XML::aspectType, ACE_Null_Mutex >  const& e)
-    {
-      aspect_.push_back (e);
-    }
-
-    inline
-    size_t aspectsType::
-    count_aspect(void) const
-    {
-      return aspect_.size ();
     }
   }
 }

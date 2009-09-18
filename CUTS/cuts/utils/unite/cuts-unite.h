@@ -27,7 +27,6 @@ namespace CUTS
     class joinType;
     class expressionType;
     class aspectType;
-    class aspectsType;
   }
 }
 
@@ -894,14 +893,15 @@ namespace CUTS
       public:
       typedef ACE_Refcounted_Auto_Ptr < aspectType, ACE_Null_Mutex > _ptr;
 
-      // id
+      // name
       // 
       public:
-      ::XMLSchema::ID< char > const& id () const;
-      void id (::XMLSchema::ID< char > const& );
+      bool name_p () const;
+      ::XMLSchema::ID< char > const& name () const;
+      void name (::XMLSchema::ID< char > const& );
 
       protected:
-      ::std::auto_ptr< ::XMLSchema::ID< char > > id_;
+      ::std::auto_ptr< ::XMLSchema::ID< char > > name_;
 
       // condition
       // 
@@ -919,50 +919,13 @@ namespace CUTS
       ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex > > condition_;
 
       public:
-      aspectType (::XMLSchema::ID< char > const& id__,
-                  ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex > > const& condition__);
+      aspectType (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex > > const& condition__);
 
       aspectType (::XSCRT::XML::Element< char > const&);
       aspectType (aspectType const& s);
 
       aspectType&
       operator= (aspectType const& s);
-
-      private:
-      char regulator__;
-    };
-
-
-    class CUTS_UNITE_XML_Export aspectsType : public ::XSCRT::Type
-    {
-      typedef ::XSCRT::Type Base;
-
-      public:
-      typedef ACE_Refcounted_Auto_Ptr < aspectsType, ACE_Null_Mutex > _ptr;
-
-      // aspect
-      // 
-      public:
-      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::aspectType, ACE_Null_Mutex > >::iterator aspect_iterator;
-      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::aspectType, ACE_Null_Mutex > >::const_iterator aspect_const_iterator;
-      aspect_iterator begin_aspect ();
-      aspect_iterator end_aspect ();
-      aspect_const_iterator begin_aspect () const;
-      aspect_const_iterator end_aspect () const;
-      void add_aspect ( ACE_Refcounted_Auto_Ptr < ::CUTS::XML::aspectType, ACE_Null_Mutex > const& );
-      size_t count_aspect (void) const;
-
-      protected:
-      ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::aspectType, ACE_Null_Mutex > > aspect_;
-
-      public:
-      aspectsType (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::aspectType, ACE_Null_Mutex > > const& aspect__);
-
-      aspectsType (::XSCRT::XML::Element< char > const&);
-      aspectsType (aspectsType const& s);
-
-      aspectsType&
-      operator= (aspectsType const& s);
 
       private:
       char regulator__;
@@ -1001,8 +964,8 @@ namespace CUTS
     namespace reader
     {
       CUTS_UNITE_XML_Export
-      ::CUTS::XML::aspectsType
-      aspects (xercesc::DOMDocument const*);
+      ::CUTS::XML::aspectType
+      aspect (xercesc::DOMDocument const*);
     }
   }
 }
