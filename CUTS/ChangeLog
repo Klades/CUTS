@@ -1,3 +1,16 @@
+Fri Sep 18 22:01:07 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/Variable_Table_Repo.h:
+        * cuts/utils/unite/Variable_Table_Repo.cpp:
+
+          . The constructor no longer requires an argument. Instead, this
+            is passed in as part of the open () method.
+
+          . It is now possible to use *in-memory* databases when constructing
+            datasets within UNITE. This is done by passing ":memory:" as the
+            location to the open () method.
+
 Fri Sep 18 21:41:40 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/unite/Unite_Aspect_File.h:

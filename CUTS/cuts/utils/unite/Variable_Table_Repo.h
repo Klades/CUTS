@@ -46,24 +46,23 @@ public:
   // Friend decl.
   friend class CUTS_Unit_Test_Result;
 
-  /**
-   * Initializing constructor
-   *
-   * @param[in]       sandbox         Location of the variable table(s)
-   */
-  CUTS_Variable_Table_Repo (const ACE_CString & sandbox);
+  /// Default constructor.
+  CUTS_Variable_Table_Repo (void);
 
   /// Destructor
   ~CUTS_Variable_Table_Repo (void);
 
   /**
-   * Open the repo for the given test database
+   * Open the repo for the given test database. If you want to perform
+   * in-memory processing, i.e., do not create a dataset file for later
+   * usage, then use :memory: for the \a location.
    *
+   * @param[in]       location        Directory for writing datasets
    * @param[in]       data            Test database.
    */
-  bool open (CUTS_Test_Database & data);
+  bool open (const ACE_CString & location, CUTS_Test_Database & data);
 
-  /// Close the active test.
+  /// Close the variable table repo.
   void close (void);
 
   /**
@@ -87,14 +86,14 @@ private:
 
   void prune_incomplete_rows (const CUTS_Unit_Test_Graph & graph);
 
-  /// Location where evaluator performs calculations.
-  ACE_CString sandbox_;
-
   /// Pointer to the test database.
   CUTS_Test_Database * data_;
 
   /// Variable table for the active test.
   CUTS_DB_SQLite_Connection * vtable_;
+
+  CUTS_Variable_Table_Repo (const CUTS_Variable_Table_Repo &);
+  const CUTS_Variable_Table_Repo & operator = (const CUTS_Variable_Table_Repo &);
 };
 
 #if defined (__CUTS_INLINE__)

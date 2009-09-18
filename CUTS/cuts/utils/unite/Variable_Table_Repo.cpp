@@ -90,10 +90,8 @@ private:
 //
 // CUTS_Variable_Table_Repo
 //
-CUTS_Variable_Table_Repo::
-CUTS_Variable_Table_Repo (const ACE_CString & sandbox)
-: sandbox_ (sandbox),
-  data_ (0),
+CUTS_Variable_Table_Repo::CUTS_Variable_Table_Repo (void)
+: data_ (0),
   vtable_ (0)
 {
   ACE_NEW_THROW_EX (this->vtable_,
@@ -106,27 +104,48 @@ CUTS_Variable_Table_Repo (const ACE_CString & sandbox)
 //
 CUTS_Variable_Table_Repo::~CUTS_Variable_Table_Repo (void)
 {
-  if (this->vtable_ != 0)
+  if (0 != this->vtable_)
     delete this->vtable_;
 }
 
 //
 // open
 //
-bool CUTS_Variable_Table_Repo::open (CUTS_Test_Database & data)
+bool CUTS_Variable_Table_Repo::
+open (const ACE_CString & location, CUTS_Test_Database & data)
 {
+  // First, make sure the database was previously closed.
   if (this->data_ != 0)
     this->close ();
 
-  // Open the variable table.
-  if (this->open_vtable (data) != 0)
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T (%t) - %M - failed to open variable table\n"),
-                       false);
+  if (location == ACE_TEXT (":memory:"))
+  {
+    // We are performing all operations in-memory.
+    this->vtable_->connect (ACE_TEXT (":memory:"));
+  }
+  else
+  {
+    // Extract the profile from the database.
+    CUTS_Test_Profile profile;
 
-  // Store the data for later.
-  this->data_ = &data;
-  return true;
+    if (data.get_test_profile (profile) != 0)
+      return false;
+
+    // Construct the location of the variable table.
+    std::ostringstream ostr;
+    ostr << location
+         << "/"
+         << profile.uuid_.to_string ()->c_str ()
+         << ".vtable";
+
+    this->vtable_->connect (ostr.str ().c_str ());
+  }
+
+  // Store the test database for later usage.
+  if (this->vtable_->is_connected ())
+    this->data_ = &data;
+
+  return this->vtable_->is_connected ();
 }
 
 //
@@ -137,7 +156,7 @@ void CUTS_Variable_Table_Repo::close (void)
   if (this->vtable_->is_connected ())
     this->vtable_->disconnect ();
 
-  if (this->data_ != 0)
+  if (0 != this->data_)
     this->data_ = 0;
 }
 
@@ -183,29 +202,6 @@ bool CUTS_Variable_Table_Repo::insert (const CUTS_Unit_Test_Graph & graph)
   }
 
   return false;
-}
-
-//
-// open_vtable
-//
-int CUTS_Variable_Table_Repo::open_vtable (CUTS_Test_Database & data)
-{
-  // Extract the profile from the database.
-  CUTS_Test_Profile profile;
-
-  if (data.get_test_profile (profile) != 0)
-    return -1;
-
-  // Construct the location of the variable table.
-  std::ostringstream ostr;
-  ostr << this->sandbox_.c_str ()
-       << "/"
-       << profile.uuid_.to_string ()->c_str ()
-       << ".vtable";
-
-  // Open a connection to the variable table.
-  this->vtable_->connect (ostr.str ().c_str ());
-  return 0;
 }
 
 //

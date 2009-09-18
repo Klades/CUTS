@@ -156,9 +156,8 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
                        -1);
 
   // Open the repository for the test data.
-  CUTS_Variable_Table_Repo repo (this->sandbox_);
-
-  if (!repo.open (testdata))
+  CUTS_Variable_Table_Repo repo;
+  if (!repo.open (this->sandbox_, testdata))
     ACE_ERROR_RETURN ((LM_ERROR,
                        "%T (%t) - %M - failed to open variable table repo\n"),
                        -1);
