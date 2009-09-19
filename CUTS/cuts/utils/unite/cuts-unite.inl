@@ -1929,9 +1929,8 @@ namespace CUTS
 
     inline
     aspectType::
-    aspectType (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex > > const& condition__)
+    aspectType ()
     : 
-    condition_ (condition__),
     regulator__ ()
     {
     }
@@ -1942,10 +1941,11 @@ namespace CUTS
     :
     ::XSCRT::Type (),
     name_ (s.name_.get () ? new ::XMLSchema::ID< char > (*s.name_) : 0),
-    condition_ (s.condition_),
+    condition_ (s.condition_.get () ? new ::CUTS::XML::conditionType (*s.condition_) : 0),
     regulator__ ()
     {
       if (name_.get ()) name_->container (this);
+      if (condition_.get ()) condition_->container (this);
     }
 
     inline
@@ -1957,7 +1957,10 @@ namespace CUTS
       else
         name_.reset (0);
 
-      condition_ = s.condition_;
+      if (s.condition_.get ())
+        condition (*(s.condition_));
+      else
+        condition_.reset (0);
 
       return *this;
     }
@@ -1998,45 +2001,33 @@ namespace CUTS
     // aspectType
     // 
     inline
-    aspectType::condition_iterator aspectType::
-    begin_condition ()
+    bool aspectType::
+    condition_p () const
     {
-      return condition_.begin ();
+      return condition_.get () != 0;
     }
 
     inline
-    aspectType::condition_iterator aspectType::
-    end_condition ()
+    ::CUTS::XML::conditionType const& aspectType::
+    condition () const
     {
-      return condition_.end ();
-    }
-
-    inline
-    aspectType::condition_const_iterator aspectType::
-    begin_condition () const
-    {
-      return condition_.begin ();
-    }
-
-    inline
-    aspectType::condition_const_iterator aspectType::
-    end_condition () const
-    {
-      return condition_.end ();
+      return *condition_;
     }
 
     inline
     void aspectType::
-    add_condition (ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex >  const& e)
+    condition (::CUTS::XML::conditionType const& e)
     {
-      condition_.push_back (e);
-    }
+      if (condition_.get ())
+      {
+        *condition_ = e;
+      }
 
-    inline
-    size_t aspectType::
-    count_condition(void) const
-    {
-      return condition_.size ();
+      else
+      {
+        condition_ = ::std::auto_ptr< ::CUTS::XML::conditionType > (new ::CUTS::XML::conditionType (e));
+        condition_->container (this);
+      }
     }
   }
 }

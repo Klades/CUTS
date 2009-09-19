@@ -89,6 +89,9 @@ private:
 //
 std::ostream & operator << (std::ostream & ostr, const ::CUTS::XML::conditionType & cond)
 {
+  if (0 == cond.count_expression ())
+    return ostr;
+
   const char * join_str =
     cond.type () == CUTS::XML::joinType::conjunction ? " AND " : " OR ";
 

@@ -906,20 +906,15 @@ namespace CUTS
       // condition
       // 
       public:
-      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex > >::iterator condition_iterator;
-      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex > >::const_iterator condition_const_iterator;
-      condition_iterator begin_condition ();
-      condition_iterator end_condition ();
-      condition_const_iterator begin_condition () const;
-      condition_const_iterator end_condition () const;
-      void add_condition ( ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex > const& );
-      size_t count_condition (void) const;
+      bool condition_p () const;
+      ::CUTS::XML::conditionType const& condition () const;
+      void condition (::CUTS::XML::conditionType const& );
 
       protected:
-      ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex > > condition_;
+      ::std::auto_ptr< ::CUTS::XML::conditionType > condition_;
 
       public:
-      aspectType (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex > > const& condition__);
+      aspectType ();
 
       aspectType (::XSCRT::XML::Element< char > const&);
       aspectType (aspectType const& s);

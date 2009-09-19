@@ -696,8 +696,8 @@ namespace CUTS
 
         else if (n == "condition")
         {
-          ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex >  t (new ::CUTS::XML::conditionType (e));
-          add_condition (t);
+          ::CUTS::XML::conditionType t (e);
+          condition (t);
         }
 
         else 

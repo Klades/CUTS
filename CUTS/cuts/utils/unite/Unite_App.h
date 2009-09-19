@@ -69,12 +69,16 @@ private:
   ACE_CString datafile_;
 
   /// Location of the variable tables.
-  ACE_CString sandbox_;
+  ACE_CString repo_location_;
 
+  /// Location of the datagraph.
   ACE_CString datagraph_;
 
   /// Show the data trend for the result.
   bool show_trend_;
+
+  /// Location of the aspect to load.
+  ACE_CString aspect_file_;
 
   typedef ACE_Unbounded_Set <ACE_CString> string_set;
 

@@ -8,12 +8,17 @@
 #include "Unit_Test_Result.h"
 #include "Unit_Test_Graph.h"
 #include "Unit_Test_Graph_Builder.h"
+#include "Unite_Aspect_File.h"
 #include "Variable_Table_Repo.h"
+#include "Where_Clause_Builder.h"
+
 #include "presentation/console/Console_Presentation_Service.h"
 #include "cuts/utils/testing/Test_Database.h"
+
 #include "ace/Get_Opt.h"
 #include "ace/Env_Value_T.h"
 #include "ace/High_Res_Timer.h"
+
 #include "XSC/utils/XML_Error_Handler.h"
 
 static const char * __HELP__ =
@@ -25,7 +30,9 @@ static const char * __HELP__ =
 "  -f, --datafile=FILE       CUTS database that contains the syestem traces\n"
 "  -c, --config=FILE         configuration file for evaluation\n"
 "  --datagraph=FILE          override existing datagraph in configuration\n"
-"  --sandbox=PATH            location for storing scratchpad data\n"
+"  --aspect=FILE             apply aspect to evaluation\n"
+"\n"
+"  --repo=PATH               directory of dataset repo\n"
 "\n"
 "  --show-trend              show the data trend for the test\n"
 "\n"
@@ -63,7 +70,7 @@ private:
 // CUTS_Unite_App
 //
 CUTS_Unite_App::CUTS_Unite_App (void)
-: sandbox_ ("."),
+: repo_location_ ("."),
   show_trend_ (false)
 {
   this->svc_mgr_.open ("cuts-unite",
@@ -142,9 +149,39 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
 
   if (!graph_builder.build (datagraph, graph))
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T (%t) - %M - failed to build unit test graph %s\n",
+                       ACE_TEXT ("%T (%t) - %M - failed to build unit test graph %s\n"),
                        datagraph.name ().c_str ()),
                        -1);
+
+  // Finally, load the aspect, if applicable, and convert it into a
+  // WHERE clause for the SQL statement.
+  ACE_CString where_clause;
+
+  if (!this->aspect_file_.empty ())
+  {
+    // Open the XML document for reading.
+    CUTS_Unite_Aspect_File aspect_file;
+    aspect_file->setErrorHandler (&error_handler);
+
+    if (!aspect_file.read (this->aspect_file_.c_str ()))
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         ACE_TEXT ("%T (%t) - %M - failed to load aspect file %s\n"),
+                         this->aspect_file_.c_str ()),
+                         -1);
+
+    // Load the information from the file.
+    ::CUTS::XML::aspectType aspect;
+    aspect_file >>= aspect;
+
+    if (aspect.condition_p ())
+    {
+      // Construct the WHERE clause for the aspect.
+      CUTS_Where_Clause_Builder where_clause_builder;
+      where_clause_builder.build (aspect.condition (),
+                                  where_clause,
+                                  false);
+    }
+  }
 
   // Open the database that contains the test data.
   CUTS_Test_Database testdata;
@@ -157,7 +194,7 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
 
   // Open the repository for the test data.
   CUTS_Variable_Table_Repo repo;
-  if (!repo.open (this->sandbox_, testdata))
+  if (!repo.open (this->repo_location_, testdata))
     ACE_ERROR_RETURN ((LM_ERROR,
                        "%T (%t) - %M - failed to open variable table repo\n"),
                        -1);
@@ -182,7 +219,8 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - evaluating datagraph; please wait...\n")));
 
-  if (result.evaluate (unit_test, graph.name (), !this->show_trend_) != 0)
+
+  if (result.evaluate (unit_test, graph.name (), where_clause, !this->show_trend_) != 0)
     ACE_ERROR_RETURN ((LM_ERROR,
                        "%T (%t) - %M - failed to evaluate test %s [vtable=%s]\n",
                        unit_test.name ().c_str (),
@@ -217,7 +255,7 @@ int CUTS_Unite_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("config", 'c', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("datafile", 'f', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("datagraph", ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("sandbox", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("repo", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("show-trend");
   get_opt.long_option ("disable", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("help", 'h');
@@ -241,9 +279,9 @@ int CUTS_Unite_App::parse_args (int argc, char * argv [])
       {
         this->datagraph_ = get_opt.opt_arg ();
       }
-      else if (ACE_OS::strcmp (get_opt.long_option (), "sandbox") == 0)
+      else if (ACE_OS::strcmp (get_opt.long_option (), "repo") == 0)
       {
-        this->sandbox_ = get_opt.opt_arg ();
+        this->repo_location_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
       {
@@ -252,6 +290,10 @@ int CUTS_Unite_App::parse_args (int argc, char * argv [])
       else if (ACE_OS::strcmp (get_opt.long_option (), "show-trend") == 0)
       {
         this->show_trend_ = true;
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "aspect") == 0)
+      {
+        this->aspect_file_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "disable") == 0)
       {

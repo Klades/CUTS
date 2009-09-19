@@ -132,7 +132,10 @@ const CUTS_Group_Name & CUTS_Unit_Test_Result::get_group_name (void)
 // evaluate
 //
 int CUTS_Unit_Test_Result::
-evaluate (const CUTS_Unit_Test & test, const ACE_CString & vtable, bool aggr)
+evaluate (const CUTS_Unit_Test & test,
+          const ACE_CString & vtable,
+          const ACE_CString & aspect,
+          bool aggr)
 {
   try
   {
@@ -140,7 +143,7 @@ evaluate (const CUTS_Unit_Test & test, const ACE_CString & vtable, bool aggr)
       this->query_ = this->repo_->vtable_->create_query ();
 
     // Normalize the evaluation string.
-    std::string eval = test.evaluation ().c_str ();
+    ACE_CString eval = test.evaluation ().c_str ();
     std::replace (eval.begin (), eval.end (), '.', '_');
 
     // Construct the grouping portion of the string.
@@ -148,7 +151,7 @@ evaluate (const CUTS_Unit_Test & test, const ACE_CString & vtable, bool aggr)
 
     if (test.groupings ().size () != 0)
     {
-      std::string name;
+      ACE_CString name;
       CUTS_Unit_Test::grouping_type::const_iterator
         iter = test.groupings ().begin (), end = test.groupings ().end ();
 
@@ -189,6 +192,10 @@ evaluate (const CUTS_Unit_Test & test, const ACE_CString & vtable, bool aggr)
 
     // Set the evaluation column to 'result'.
     sqlstr << " AS result FROM " << vtable.c_str ();
+
+    // Apply the aspect to the evaluation string.
+    if (!aspect.empty ())
+      sqlstr << " WHERE " << aspect;
 
     if (!group_str.str ().empty ())
     {
