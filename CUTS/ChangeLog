@@ -1,3 +1,9 @@
+Sat Sep 19 02:34:20 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/cuts/utils/unite/example.aspect:
+
+          . Example for using aspects in UNITE.
+
 Sat Sep 19 00:23:09 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/unite/Unit_Test_Result.h:

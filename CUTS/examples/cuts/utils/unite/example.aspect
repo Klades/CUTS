@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<cuts:aspect xmlns="http://www.dre.vanderbilt.edu/CUTS"
+             xmlns:cuts="http://www.dre.vanderbilt.edu/CUTS"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.dre.vanderbilt.edu/CUTS cuts-unite.xsd">
+
+  <!-- name assigned to aspect -->
+  <name>Selective View</name>
+
+  <!--
+    Condition for the aspect. This is a list of variables and target values.
+    The type for the condition can be either 'conjunction' or 'disjunction'
+    -->
+  <condition type="conjunction">
+
+    <!-- show data for (LF1.utility < 5 and LF1.instName = SLICE.EffectorMain) -->
+    <expression format="LF1" variable="utility" value="&lt; 5" />
+    <expression format="LF1" variable="instName" value="='SLICE.EffectorMain'" />
+  </condition>
+</cuts:aspect>
