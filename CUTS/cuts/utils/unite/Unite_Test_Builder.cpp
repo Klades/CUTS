@@ -1,8 +1,7 @@
 // $Id$
 
-#include "Unit_Test_Builder.h"
-#include "Unit_Test.h"
-#include "Unite_Datagraph_File.h"
+#include "Unite_Test_Builder.h"
+#include "Unite_Test.h"
 #include <algorithm>
 
 /**
@@ -16,7 +15,7 @@ class process_group_item
 public:
   typedef ::CUTS::XML::groupingType::groupitem_iterator::value_type value_type;
 
-  process_group_item (CUTS_Unit_Test & test)
+  process_group_item (CUTS_Unite_Test & test)
     : test_ (test)
   {
 
@@ -28,21 +27,22 @@ public:
   }
 
 private:
-  CUTS_Unit_Test & test_;
+  /// Target test
+  CUTS_Unite_Test & test_;
 };
 
 //
-// CUTS_Unit_Test_Builder
+// CUTS_Unite_Test_Builder
 //
-CUTS_Unit_Test_Builder::CUTS_Unit_Test_Builder (void)
+CUTS_Unite_Test_Builder::CUTS_Unite_Test_Builder (void)
 {
 
 }
 
 //
-// ~CUTS_Unit_Test_Builder
+// ~CUTS_Unite_Test_Builder
 //
-CUTS_Unit_Test_Builder::~CUTS_Unit_Test_Builder (void)
+CUTS_Unite_Test_Builder::~CUTS_Unite_Test_Builder (void)
 {
 
 }
@@ -50,9 +50,8 @@ CUTS_Unit_Test_Builder::~CUTS_Unit_Test_Builder (void)
 //
 // build
 //
-bool CUTS_Unit_Test_Builder::
-build (const ::CUTS::XML::testConfig & config,
-       CUTS_Unit_Test & test)
+bool CUTS_Unite_Test_Builder::
+build (const ::CUTS::XML::testConfig & config, CUTS_Unite_Test & test)
 {
   // Set the basic information.
   test.name (config.name ().c_str ());

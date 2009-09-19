@@ -7,10 +7,10 @@
 #include "Dataset_Repo.h"
 #include "Unite_Config_File.h"
 #include "Unite_Datagraph_File.h"
-#include "Unit_Test.h"
-#include "Unit_Test_Builder.h"
 #include "Unit_Test_Result.h"
 #include "Unite_Aspect_File.h"
+#include "Unite_Test.h"
+#include "Unite_Test_Builder.h"
 #include "Where_Clause_Builder.h"
 
 #include "presentation/console/Console_Presentation_Service.h"
@@ -114,8 +114,8 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
     this->load_services (config.services ());
 
   // Construct the binary version of the unit test.
-  CUTS_Unit_Test unit_test;
-  CUTS_Unit_Test_Builder builder;
+  CUTS_Unite_Test unit_test;
+  CUTS_Unite_Test_Builder builder;
 
   if (!builder.build (config, unit_test))
     ACE_ERROR_RETURN ((LM_ERROR,

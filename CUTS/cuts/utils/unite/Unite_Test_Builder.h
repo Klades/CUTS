@@ -16,7 +16,7 @@
 #include "cuts-unite.h"
 
 // Forward decl.
-class CUTS_Unit_Test;
+class CUTS_Unite_Test;
 
 // Forward decl.
 class CUTS_Log_Format;
@@ -25,19 +25,19 @@ class CUTS_Log_Format;
 class CUTS_Log_Format_Relation;
 
 /**
- * @class CUTS_Unit_Test_Builder
+ * @class CUTS_Unite_Test_Builder
  *
  * Helper class that converts the datagraph in a XML file into
- * a CUTS_Unit_Test object.
+ * a CUTS_Unite_Test object.
  */
-class CUTS_UNITE_XML_Export CUTS_Unit_Test_Builder
+class CUTS_UNITE_XML_Export CUTS_Unite_Test_Builder
 {
 public:
   /// Default constructor.
-  CUTS_Unit_Test_Builder (void);
+  CUTS_Unite_Test_Builder (void);
 
   /// Destructor.
-  ~CUTS_Unit_Test_Builder (void);
+  ~CUTS_Unite_Test_Builder (void);
 
   /**
    * Build the unit test.
@@ -45,7 +45,7 @@ public:
    * @param[in]       config        Source configuration
    * @param[out]      test          Target unit test object.
    */
-  bool build (const ::CUTS::XML::testConfig & config, CUTS_Unit_Test & test);
+  bool build (const ::CUTS::XML::testConfig & config, CUTS_Unite_Test & test);
 };
 
 #endif  // !defined _CUTS_UNITE_UNIT_TEST_BUILDER_H_

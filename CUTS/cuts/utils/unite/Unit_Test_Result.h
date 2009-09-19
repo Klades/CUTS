@@ -29,7 +29,7 @@ class CUTS_DB_SQLite_Record;
 class CUTS_Dataset_Repo;
 
 // Forward decl.
-class CUTS_Unit_Test;
+class CUTS_Unite_Test;
 
 typedef ACE_Array <ACE_CString> CUTS_Group_Name;
 
@@ -64,7 +64,7 @@ public:
    * @param[in]         aspect      Aspect of data to evaluate
    * @param[in]         aggr        Aggregate the results
    */
-  int evaluate (const CUTS_Unit_Test & test,
+  int evaluate (const CUTS_Unite_Test & test,
                 const ACE_CString & vtable,
                 const ACE_CString & aspect,
                 bool aggr = true);
@@ -96,7 +96,7 @@ public:
    *
    * @return        Unit test for the result.
    */
-  const CUTS_Unit_Test * unit_test (void) const;
+  const CUTS_Unite_Test * unit_test (void) const;
 
   /**
    * Get the name of the variable table used for evaluating the
@@ -132,7 +132,7 @@ private:
   const ACE_CString * vtable_name_;
 
   /// The unit test used in the evaluation.
-  const CUTS_Unit_Test * unit_test_;
+  const CUTS_Unite_Test * unit_test_;
 
   /// Group name associated with the current result.
   CUTS_Group_Name group_name_;

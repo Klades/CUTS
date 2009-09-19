@@ -7,7 +7,7 @@
 #endif
 
 #include "Dataset_Repo.h"
-#include "Unit_Test.h"
+#include "Unite_Test.h"
 #include "cuts/utils/db/SQLite/Query.h"
 #include "cuts/utils/db/SQLite/Record.h"
 #include "cuts/utils/db/SQLite/Connection.h"
@@ -132,7 +132,7 @@ const CUTS_Group_Name & CUTS_Unit_Test_Result::get_group_name (void)
 // evaluate
 //
 int CUTS_Unit_Test_Result::
-evaluate (const CUTS_Unit_Test & test,
+evaluate (const CUTS_Unite_Test & test,
           const ACE_CString & vtable,
           const ACE_CString & aspect,
           bool aggr)
@@ -152,7 +152,7 @@ evaluate (const CUTS_Unit_Test & test,
     if (test.groupings ().size () != 0)
     {
       ACE_CString name;
-      CUTS_Unit_Test::grouping_type::const_iterator
+      CUTS_Unite_Test::grouping_type::const_iterator
         iter = test.groupings ().begin (), end = test.groupings ().end ();
 
       // Normalize the name.

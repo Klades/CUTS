@@ -7,7 +7,7 @@
 #endif
 
 #include "cuts/utils/unite/Unit_Test_Result.h"
-#include "cuts/utils/unite/Unit_Test.h"
+#include "cuts/utils/unite/Unite_Test.h"
 #include "ace/Get_Opt.h"
 #include "ace/Service_Config.h"
 #include "ace/streams.h"
@@ -183,7 +183,7 @@ handle_result (CUTS_Unit_Test_Result & result)
   {
     outfile << "'" << (*iter).c_str ()
             << ".dat' using 1:2 with lines";
-    
+
     if (this->has_group_titles_)
       outfile << " title '"
               << (*iter).c_str () << "'";

@@ -23,24 +23,24 @@ class CUTS_Log_Format;
 /**
  * @class CUTS_Log_Format_Manager
  */
-class CUTS_UNITE_Export CUTS_Unit_Test
+class CUTS_UNITE_Export CUTS_Unite_Test
 {
 public:
   /// Type definition for the grouping.
   typedef ACE_Vector <ACE_SString> grouping_type;
 
   /// Default constructor
-  CUTS_Unit_Test (void);
+  CUTS_Unite_Test (void);
 
   /**
    * Initializing constructor
    *
    * @param[in]       name        Name of the unit test.
    */
-  CUTS_Unit_Test (const ACE_CString & name);
+  CUTS_Unite_Test (const ACE_CString & name);
 
   /// Destructor.
-  ~CUTS_Unit_Test (void);
+  ~CUTS_Unite_Test (void);
 
   /**
    * Set the name of the unit test.
@@ -102,12 +102,12 @@ private:
   grouping_type grouping_;
 
   // prevent the following operations
-  CUTS_Unit_Test (const CUTS_Unit_Test &);
-  const CUTS_Unit_Test & operator = (const CUTS_Unit_Test &);
+  CUTS_Unite_Test (const CUTS_Unite_Test &);
+  const CUTS_Unite_Test & operator = (const CUTS_Unite_Test &);
 };
 
 #if defined (__CUTS_INLINE__)
-#include "Unit_Test.inl"
+#include "Unite_Test.inl"
 #endif
 
 #endif  // !defined _CUTS_UNITE_UNIT_TEST_H_

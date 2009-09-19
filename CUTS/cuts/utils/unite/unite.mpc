@@ -37,8 +37,8 @@ project (CUTS_Unite_Common) : pcre, boost_base, cuts_test_database, cutslib {
     Presentation_Service.cpp
     Presentation_Service_Manager.cpp
     Relation.cpp
-    Unit_Test.cpp
     Unit_Test_Result.cpp
+    Unite_Test.cpp
     Variable.cpp
   }
 
@@ -59,11 +59,11 @@ project (CUTS_Unite_Xml) : boost_base, xscrt, cuts_unite, cutslib {
 
   Source_Files {
     cuts-unite.cpp
-    Unit_Test_Builder.cpp
     Dataflow_Graph_Builder.cpp
     Unite_Aspect_File.cpp
     Unite_Config_File.cpp
     Unite_Datagraph_File.cpp
+    Unite_Test_Builder.cpp
     Where_Clause_Builder.cpp
   }
 
