@@ -13,7 +13,10 @@
 ///=============================================================================
 
 workspace (CUTS) {
-  cmdline += -feature_file $CUTS_ROOT/default.features
+  cmdline += -feature_file $CUTS_ROOT/default.features \
+             -include $CUTS_ROOT/MPC/config \
+             -include $XSC_ROOT/MPC/config \
+             -include $CUTS_ROOT/contrib/CCF/MPC/config
 
   // == build the runtime architecture
   CUTS_Runtime_Arch.mwc

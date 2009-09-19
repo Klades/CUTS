@@ -26,7 +26,7 @@ class CUTS_DB_SQLite_Query;
 class CUTS_DB_SQLite_Record;
 
 // Forward decl.
-class CUTS_Variable_Table_Repo;
+class CUTS_Dataset_Repo;
 
 // Forward decl.
 class CUTS_Unit_Test;
@@ -50,7 +50,7 @@ public:
    * @param[in]         eval        Evaluator of the unit test
    * @param[in]         graph       Name of the graph to evaluate
    */
-  CUTS_Unit_Test_Result (CUTS_Variable_Table_Repo & repo,
+  CUTS_Unit_Test_Result (CUTS_Dataset_Repo & repo,
                          size_t bufsize = CUTS_RESULT_DEFAULT_BUFFER_SIZE);
 
   /// Destructor.
@@ -111,7 +111,7 @@ public:
 
 private:
   /// The target variable repo for the result.
-  CUTS_Variable_Table_Repo * repo_;
+  CUTS_Dataset_Repo * repo_;
 
   /// The query that created the result.
   CUTS_DB_SQLite_Query * query_;

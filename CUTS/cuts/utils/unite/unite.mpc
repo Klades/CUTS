@@ -29,6 +29,7 @@ project (CUTS_Unite_Common) : pcre, boost_base, cuts_test_database, cutslib {
   dynamicflags += CUTS_UNITE_BUILD_DLL
 
   Source_Files {
+    Dataset_Repo.cpp
     Log_Format.cpp
     Log_Format_Compiler.cpp
     Log_Format_Data_Entry.cpp
@@ -38,7 +39,6 @@ project (CUTS_Unite_Common) : pcre, boost_base, cuts_test_database, cutslib {
     Unit_Test.cpp
     Unit_Test_Result.cpp
     Unit_Test_Graph.cpp
-    Variable_Table_Repo.cpp
     Variable.cpp
   }
 

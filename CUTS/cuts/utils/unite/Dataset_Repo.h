@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- * @file        Variable_Table_Repo.h
+ * @file        Dataset_Repo.h
  *
  * $Id$
  *
@@ -10,8 +10,8 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_UNITE_VARIABLE_TABLE_REPO_H_
-#define _CUTS_UNITE_VARIABLE_TABLE_REPO_H_
+#ifndef _CUTS_UNITE_DATASET_REPO_H_
+#define _CUTS_UNITE_DATASET_REPO_H_
 
 #include "Unit_Test_Result.h"
 #include "ace/SString.h"
@@ -38,19 +38,19 @@ class CUTS_Unit_Test_Result;
 class CUTS_Unit_Test_Graph;
 
 /**
- * @class CUTS_Variable_Table_Repo
+ * @class CUTS_Dataset_Repo
  */
-class CUTS_UNITE_Export CUTS_Variable_Table_Repo
+class CUTS_UNITE_Export CUTS_Dataset_Repo
 {
 public:
   // Friend decl.
   friend class CUTS_Unit_Test_Result;
 
   /// Default constructor.
-  CUTS_Variable_Table_Repo (void);
+  CUTS_Dataset_Repo (void);
 
   /// Destructor
-  ~CUTS_Variable_Table_Repo (void);
+  ~CUTS_Dataset_Repo (void);
 
   /**
    * Open the repo for the given test database. If you want to perform
@@ -92,12 +92,12 @@ private:
   /// Variable table for the active test.
   CUTS_DB_SQLite_Connection * vtable_;
 
-  CUTS_Variable_Table_Repo (const CUTS_Variable_Table_Repo &);
-  const CUTS_Variable_Table_Repo & operator = (const CUTS_Variable_Table_Repo &);
+  CUTS_Dataset_Repo (const CUTS_Dataset_Repo &);
+  const CUTS_Dataset_Repo & operator = (const CUTS_Dataset_Repo &);
 };
 
 #if defined (__CUTS_INLINE__)
-#include "Variable_Table_Repo.inl"
+#include "Dataset_Repo.inl"
 #endif
 
 #endif  // !defined _CUTS_UNITE_VARIABLE_TABLE_REPO_H_

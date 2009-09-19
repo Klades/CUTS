@@ -1,9 +1,9 @@
 // $Id$
 
-#include "Variable_Table_Repo.h"
+#include "Dataset_Repo.h"
 
 #if !defined (__CUTS_INLINE__)
-#include "Variable_Table_Repo.inl"
+#include "Dataset_Repo.inl"
 #endif
 
 #include "Unit_Test_Graph.h"
@@ -88,9 +88,9 @@ private:
 };
 
 //
-// CUTS_Variable_Table_Repo
+// CUTS_Dataset_Repo
 //
-CUTS_Variable_Table_Repo::CUTS_Variable_Table_Repo (void)
+CUTS_Dataset_Repo::CUTS_Dataset_Repo (void)
 : data_ (0),
   vtable_ (0)
 {
@@ -100,9 +100,9 @@ CUTS_Variable_Table_Repo::CUTS_Variable_Table_Repo (void)
 }
 
 //
-// ~CUTS_Variable_Table_Repo
+// ~CUTS_Dataset_Repo
 //
-CUTS_Variable_Table_Repo::~CUTS_Variable_Table_Repo (void)
+CUTS_Dataset_Repo::~CUTS_Dataset_Repo (void)
 {
   if (0 != this->vtable_)
     delete this->vtable_;
@@ -111,7 +111,7 @@ CUTS_Variable_Table_Repo::~CUTS_Variable_Table_Repo (void)
 //
 // open
 //
-bool CUTS_Variable_Table_Repo::
+bool CUTS_Dataset_Repo::
 open (const ACE_CString & location, CUTS_Test_Database & data)
 {
   // First, make sure the database was previously closed.
@@ -151,7 +151,7 @@ open (const ACE_CString & location, CUTS_Test_Database & data)
 //
 // close
 //
-void CUTS_Variable_Table_Repo::close (void)
+void CUTS_Dataset_Repo::close (void)
 {
   if (this->vtable_->is_connected ())
     this->vtable_->disconnect ();
@@ -163,7 +163,7 @@ void CUTS_Variable_Table_Repo::close (void)
 //
 // evaluate
 //
-bool CUTS_Variable_Table_Repo::insert (const CUTS_Unit_Test_Graph & graph)
+bool CUTS_Dataset_Repo::insert (const CUTS_Unit_Test_Graph & graph)
 {
   try
   {
@@ -207,7 +207,7 @@ bool CUTS_Variable_Table_Repo::insert (const CUTS_Unit_Test_Graph & graph)
 //
 // create_data_table
 //
-void CUTS_Variable_Table_Repo::
+void CUTS_Dataset_Repo::
 create_vtable (const CUTS_Unit_Test_Graph & graph)
 {
   CUTS_Unit_Test_Graph::vertex_iterator iter, iter_end;
@@ -284,7 +284,7 @@ create_vtable (const CUTS_Unit_Test_Graph & graph)
 //
 // create_indices
 //
-void CUTS_Variable_Table_Repo::
+void CUTS_Dataset_Repo::
 create_vtable_indices (const CUTS_Unit_Test_Graph & graph)
 {
   CUTS_Unit_Test_Graph::vertex_iterator iter, iter_end;
@@ -305,7 +305,7 @@ create_vtable_indices (const CUTS_Unit_Test_Graph & graph)
 //
 // create_indices
 //
-void CUTS_Variable_Table_Repo::
+void CUTS_Dataset_Repo::
 create_vtable_indices (const CUTS_Unit_Test_Graph & test,
                        const CUTS_Log_Format & format)
 {
@@ -363,7 +363,7 @@ create_vtable_indices (const CUTS_Unit_Test_Graph & test,
 //
 // prune_incomplete_rows
 //
-void CUTS_Variable_Table_Repo::
+void CUTS_Dataset_Repo::
 prune_incomplete_rows (const CUTS_Unit_Test_Graph & graph)
 {
   CUTS_Unit_Test_Graph::vertex_iterator iter, iter_end;

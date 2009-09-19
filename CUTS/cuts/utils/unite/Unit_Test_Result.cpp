@@ -6,7 +6,7 @@
 #include "Unit_Test_Result.inl"
 #endif
 
-#include "Variable_Table_Repo.h"
+#include "Dataset_Repo.h"
 #include "Unit_Test.h"
 #include "cuts/utils/db/SQLite/Query.h"
 #include "cuts/utils/db/SQLite/Record.h"
@@ -19,7 +19,7 @@
 // CUTS_Unit_Test_Result
 //
 CUTS_Unit_Test_Result::
-CUTS_Unit_Test_Result (CUTS_Variable_Table_Repo & repo, size_t bufsize)
+CUTS_Unit_Test_Result (CUTS_Dataset_Repo & repo, size_t bufsize)
 : repo_ (&repo),
   query_ (0),
   record_ (0),

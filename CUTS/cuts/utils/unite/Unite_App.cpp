@@ -1,6 +1,8 @@
 // $Id$
 
 #include "Unite_App.h"
+
+#include "Dataset_Repo.h"
 #include "Unite_Config_File.h"
 #include "Unite_Datagraph_File.h"
 #include "Unit_Test.h"
@@ -9,7 +11,6 @@
 #include "Unit_Test_Graph.h"
 #include "Unit_Test_Graph_Builder.h"
 #include "Unite_Aspect_File.h"
-#include "Variable_Table_Repo.h"
 #include "Where_Clause_Builder.h"
 
 #include "presentation/console/Console_Presentation_Service.h"
@@ -73,7 +74,7 @@ CUTS_Unite_App::CUTS_Unite_App (void)
 : repo_location_ ("."),
   show_trend_ (false)
 {
-  this->svc_mgr_.open ("cuts-unite",
+  this->svc_mgr_.open (ACE_TEXT ("cuts-unite"),
                        ACE_DEFAULT_LOGGER_KEY,
                        false,
                        true,
@@ -118,7 +119,7 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
 
   if (!builder.build (config, unit_test))
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T (%t) - %M - failed to build unit test in %s\n",
+                       ACE_TEXT ("%T (%t) - %M - failed to build unit test in %s\n"),
                        this->config_.c_str ()),
                        -1);
 
@@ -188,15 +189,15 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
 
   if (!testdata.open (this->datafile_))
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T (%t) - %M - failed to open %s\n",
+                       ACE_TEXT ("%T (%t) - %M - failed to open %s\n"),
                        this->datafile_.c_str ()),
                        -1);
 
   // Open the repository for the test data.
-  CUTS_Variable_Table_Repo repo;
+  CUTS_Dataset_Repo repo;
   if (!repo.open (this->repo_location_, testdata))
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T (%t) - %M - failed to open variable table repo\n"),
+                       ACE_TEXT ("%T (%t) - %M - failed to open variable table repo\n")),
                        -1);
 
   ACE_High_Res_Timer timer;
@@ -209,7 +210,7 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
   // Construct the variable table for the log format graph.
   if (!repo.insert (graph))
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T (%t) - %M - failed to construct variable table\n"),
+                       ACE_TEXT ("%T (%t) - %M - failed to construct variable table\n")),
                        -1);
 
   // Evaluate the unit test.
@@ -222,7 +223,7 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
 
   if (result.evaluate (unit_test, graph.name (), where_clause, !this->show_trend_) != 0)
     ACE_ERROR_RETURN ((LM_ERROR,
-                       "%T (%t) - %M - failed to evaluate test %s [vtable=%s]\n",
+                       ACE_TEXT ("%T (%t) - %M - failed to evaluate test %s [vtable=%s]\n"),
                        unit_test.name ().c_str (),
                        graph.name ().c_str ()),
                        -1);

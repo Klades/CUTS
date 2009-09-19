@@ -1,3 +1,28 @@
+Sat Sep 19 13:13:39 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * CUTS.mwc:
+
+          . Fixed errors in the workspace specification due to modifications
+            to MPC.
+
+        * cuts/utils/unite/Dataset_Repo.h:
+        * cuts/utils/unite/Dataset_Repo.inl:
+        * cuts/utils/unite/Dataset_Repo.cpp:
+        * cuts/utils/unite/Unit_Test_Result.h:
+        * cuts/utils/unite/Unit_Test_Result.cpp:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/unite.mpc:
+
+          . Changed the CUTS_Variable_Table_Repo class, and its related files
+            to CUTS_Dataset_Repo. This is more inline with the expected naming
+            convention of UNITE's elements.
+
+        * cuts/utils/unite/Variable_Table_Repo.h:
+        * cuts/utils/unite/Variable_Table_Repo.inl:
+        * cuts/utils/unite/Variable_Table_Repo.cpp:
+
+          Removed these files.
+
 Sat Sep 19 02:34:20 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/cuts/utils/unite/example.aspect:
