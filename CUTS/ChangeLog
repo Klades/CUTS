@@ -1,3 +1,32 @@
+Sat Sep 19 13:29:18 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Dataflow_Graph.h:
+        * cuts/utils/unite/Dataflow_Graph.inl:
+        * cuts/utils/unite/Dataflow_Graph.cpp:
+        * cuts/utils/unite/Dataflow_Graph_Builder.h:
+        * cuts/utils/unite/Dataflow_Graph_Builder.inl:
+        * cuts/utils/unite/Dataflow_Graph_Builder.cpp:
+        * cuts/utils/unite/Dataset_Repo.h:
+        * cuts/utils/unite/Dataset_Repo.cpp:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/unite.mpc:
+
+          . Changed the name of the following classes and their related
+            files so the source code more inline with the expected naming
+            convention of UNITE's elements:
+
+            . CUTS_Unit_Test_Graph -> CUTS_Dataflow_Graph
+            . CUTS_Unit_Test_Graph_Builder -> CUTS_Dataflow_Graph_Builder
+
+        * cuts/utils/unite/Unit_Test_Graph.h:
+        * cuts/utils/unite/Unit_Test_Graph.inl:
+        * cuts/utils/unite/Unit_Test_Graph.cpp:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.h:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.inl:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.cpp:
+
+          Removed these files.
+
 Sat Sep 19 13:13:39 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * CUTS.mwc:

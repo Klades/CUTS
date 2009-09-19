@@ -35,7 +35,7 @@ class CUTS_Log_Format_Data_Entry;
 class CUTS_Unit_Test_Result;
 
 // Forward decl.
-class CUTS_Unit_Test_Graph;
+class CUTS_Dataflow_Graph;
 
 /**
  * @class CUTS_Dataset_Repo
@@ -72,19 +72,19 @@ public:
    *
    * @param[in]       graph           Graph of the unit test.
    */
-  bool insert (const CUTS_Unit_Test_Graph & graph);
+  bool insert (const CUTS_Dataflow_Graph & graph);
 
 private:
   int open_vtable (CUTS_Test_Database & test);
 
-  void create_vtable (const CUTS_Unit_Test_Graph & graph);
+  void create_vtable (const CUTS_Dataflow_Graph & graph);
 
-  void create_vtable_indices (const CUTS_Unit_Test_Graph & test);
+  void create_vtable_indices (const CUTS_Dataflow_Graph & test);
 
-  void create_vtable_indices (const CUTS_Unit_Test_Graph & test,
+  void create_vtable_indices (const CUTS_Dataflow_Graph & test,
                               const CUTS_Log_Format & format);
 
-  void prune_incomplete_rows (const CUTS_Unit_Test_Graph & graph);
+  void prune_incomplete_rows (const CUTS_Dataflow_Graph & graph);
 
   /// Pointer to the test database.
   CUTS_Test_Database * data_;

@@ -1,9 +1,9 @@
 // $Id$
 
-#include "Unit_Test_Graph.h"
+#include "Dataflow_Graph.h"
 
 #if !defined (__CUTS_INLINE__)
-#include "Unit_Test_Graph.inl"
+#include "Dataflow_Graph.inl"
 #endif
 
 #include "Log_Format.h"
@@ -16,7 +16,7 @@
 //
 // connect
 //
-bool CUTS_Unit_Test_Graph::
+bool CUTS_Dataflow_Graph::
 connect (const ACE_CString & src_name, const ACE_CString & dst_name)
 {
   vertex_descriptor src = 0, dst = 0;
@@ -40,7 +40,7 @@ connect (const ACE_CString & src_name, const ACE_CString & dst_name)
 //
 // create_log_format
 //
-bool CUTS_Unit_Test_Graph::
+bool CUTS_Dataflow_Graph::
 create_log_format (const ACE_CString & name, CUTS_Log_Format *& format)
 {
   // First, let's see if we have already created this vertex. If
@@ -91,7 +91,7 @@ create_log_format (const ACE_CString & name, CUTS_Log_Format *& format)
 //
 // get_process_order
 //
-void CUTS_Unit_Test_Graph::
+void CUTS_Dataflow_Graph::
 get_process_order (std::vector <vertex_descriptor> & list) const
 {
   boost::topological_sort (this->graph_, std::back_inserter (list));
@@ -100,7 +100,7 @@ get_process_order (std::vector <vertex_descriptor> & list) const
 //
 // normalize_name
 //
-void CUTS_Unit_Test_Graph::normalize_name (void)
+void CUTS_Dataflow_Graph::normalize_name (void)
 {
   std::replace (this->name_.begin (),
                 this->name_.end (),

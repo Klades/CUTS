@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- * @file        Unit_Test_Graph.h
+ * @file        Dataflow_Graph.h
  *
  * $Id$
  *
@@ -50,11 +50,11 @@ typedef
                          CUTS_Unit_Test_Graph_Type;
 
 /**
- * @class CUTS_Unit_Test_Graph
+ * @class CUTS_Dataflow_Graph
  *
  * Dependency graph between the log formats for a unit test.
  */
-class CUTS_UNITE_Export CUTS_Unit_Test_Graph
+class CUTS_UNITE_Export CUTS_Dataflow_Graph
 {
 public:
   /// Type definition to the vertex descriptor.
@@ -67,17 +67,17 @@ public:
   typedef boost::graph_traits <CUTS_Unit_Test_Graph_Type>::edge_descriptor edge_descriptor;
 
   /// Default constructor.
-  CUTS_Unit_Test_Graph (void);
+  CUTS_Dataflow_Graph (void);
 
   /**
    * Initializing constructor
    *
    * @param[in]         name        Name of the graph.
    */
-  CUTS_Unit_Test_Graph (const ACE_CString & name);
+  CUTS_Dataflow_Graph (const ACE_CString & name);
 
   /// Desturctor.
-  ~CUTS_Unit_Test_Graph (void);
+  ~CUTS_Dataflow_Graph (void);
 
   bool create_log_format (const ACE_CString & name);
 
@@ -131,7 +131,7 @@ private:
 };
 
 #if defined (__CUTS_INLINE__)
-#include "Unit_Test_Graph.inl"
+#include "Dataflow_Graph.inl"
 #endif
 
 #endif  // !defined _CUTS_UNITE_UNIT_TEST_GRAPH_H_

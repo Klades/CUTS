@@ -1,13 +1,13 @@
 // $Id$
 
-#include "Unit_Test_Graph_Builder.h"
+#include "Dataflow_Graph_Builder.h"
 
 #if !defined (__CUTS_INLINE__)
-#include "Unit_Test_Graph_Builder.inl"
+#include "Dataflow_Graph_Builder.inl"
 #endif
 
+#include "Dataflow_Graph.h"
 #include "Log_Format.h"
-#include "Unit_Test_Graph.h"
 #include <algorithm>
 
 /**
@@ -51,7 +51,7 @@ class process_relation
 public:
   typedef ::CUTS::XML::relationList::relation_iterator::value_type value_type;
 
-  process_relation (CUTS_Unit_Test_Graph & graph, CUTS_Log_Format & format)
+  process_relation (CUTS_Dataflow_Graph & graph, CUTS_Log_Format & format)
     : graph_ (graph),
       format_ (format)
   {
@@ -91,7 +91,7 @@ public:
   }
 
 private:
-  CUTS_Unit_Test_Graph & graph_;
+  CUTS_Dataflow_Graph & graph_;
 
   CUTS_Log_Format & format_;
 };
@@ -106,7 +106,7 @@ class process_log_format
 public:
   typedef ::CUTS::XML::logformatList::logformat_iterator::value_type value_type;
 
-  process_log_format (CUTS_Unit_Test_Graph & graph)
+  process_log_format (CUTS_Dataflow_Graph & graph)
     : graph_ (graph)
   {
 
@@ -128,14 +128,14 @@ public:
   };
 
 private:
-  mutable CUTS_Unit_Test_Graph & graph_;
+  mutable CUTS_Dataflow_Graph & graph_;
 };
 
 //
 // build
 //
-bool CUTS_Unit_Test_Graph_Builder::
-build (const ::CUTS::XML::datagraphType & datagraph, CUTS_Unit_Test_Graph & graph)
+bool CUTS_Dataflow_Graph_Builder::
+build (const ::CUTS::XML::datagraphType & datagraph, CUTS_Dataflow_Graph & graph)
 {
   // Set the name of the graph.
   graph.name (datagraph.name ().c_str ());

@@ -6,7 +6,7 @@
 #include "Dataset_Repo.inl"
 #endif
 
-#include "Unit_Test_Graph.h"
+#include "Dataflow_Graph.h"
 #include "Log_Format.h"
 #include "Log_Format_Data_Entry.h"
 #include "Relation.h"
@@ -27,7 +27,7 @@
 class process_log_format
 {
 public:
-  process_log_format (const CUTS_Unit_Test_Graph & graph,
+  process_log_format (const CUTS_Dataflow_Graph & graph,
                       CUTS_Log_Format_Data_Entry & entry,
                       CUTS_DB_SQLite_Record & record)
     : graph_ (graph),
@@ -37,7 +37,7 @@ public:
 
   }
 
-  void operator () (CUTS_Unit_Test_Graph::vertex_descriptor vertex) const
+  void operator () (CUTS_Dataflow_Graph::vertex_descriptor vertex) const
   {
     // Get the log format from the vertex.
     CUTS_Log_Format * format = this->graph_.get_log_format (vertex);
@@ -80,7 +80,7 @@ private:
     this->record_.reset ();
   }
 
-  const CUTS_Unit_Test_Graph & graph_;
+  const CUTS_Dataflow_Graph & graph_;
 
   mutable CUTS_Log_Format_Data_Entry & entry_;
 
@@ -163,7 +163,7 @@ void CUTS_Dataset_Repo::close (void)
 //
 // evaluate
 //
-bool CUTS_Dataset_Repo::insert (const CUTS_Unit_Test_Graph & graph)
+bool CUTS_Dataset_Repo::insert (const CUTS_Dataflow_Graph & graph)
 {
   try
   {
@@ -174,7 +174,7 @@ bool CUTS_Dataset_Repo::insert (const CUTS_Unit_Test_Graph & graph)
     this->create_vtable_indices (graph);
 
     // Get the order for processing the log formats.
-    std::vector <CUTS_Unit_Test_Graph::vertex_descriptor> sorted_list;
+    std::vector <CUTS_Dataflow_Graph::vertex_descriptor> sorted_list;
     graph.get_process_order (sorted_list);
 
     // First, select all the log message from the database.
@@ -208,9 +208,9 @@ bool CUTS_Dataset_Repo::insert (const CUTS_Unit_Test_Graph & graph)
 // create_data_table
 //
 void CUTS_Dataset_Repo::
-create_vtable (const CUTS_Unit_Test_Graph & graph)
+create_vtable (const CUTS_Dataflow_Graph & graph)
 {
-  CUTS_Unit_Test_Graph::vertex_iterator iter, iter_end;
+  CUTS_Dataflow_Graph::vertex_iterator iter, iter_end;
   boost::tie (iter, iter_end) = boost::vertices (graph.graph ());
 
   // Create a new query on the variable table database.
@@ -285,9 +285,9 @@ create_vtable (const CUTS_Unit_Test_Graph & graph)
 // create_indices
 //
 void CUTS_Dataset_Repo::
-create_vtable_indices (const CUTS_Unit_Test_Graph & graph)
+create_vtable_indices (const CUTS_Dataflow_Graph & graph)
 {
-  CUTS_Unit_Test_Graph::vertex_iterator iter, iter_end;
+  CUTS_Dataflow_Graph::vertex_iterator iter, iter_end;
   boost::tie (iter, iter_end) = boost::vertices (graph.graph ());
 
   const CUTS_Log_Format * format = 0;
@@ -306,7 +306,7 @@ create_vtable_indices (const CUTS_Unit_Test_Graph & graph)
 // create_indices
 //
 void CUTS_Dataset_Repo::
-create_vtable_indices (const CUTS_Unit_Test_Graph & test,
+create_vtable_indices (const CUTS_Dataflow_Graph & test,
                        const CUTS_Log_Format & format)
 {
   // Allocate a new database query.
@@ -364,9 +364,9 @@ create_vtable_indices (const CUTS_Unit_Test_Graph & test,
 // prune_incomplete_rows
 //
 void CUTS_Dataset_Repo::
-prune_incomplete_rows (const CUTS_Unit_Test_Graph & graph)
+prune_incomplete_rows (const CUTS_Dataflow_Graph & graph)
 {
-  CUTS_Unit_Test_Graph::vertex_iterator iter, iter_end;
+  CUTS_Dataflow_Graph::vertex_iterator iter, iter_end;
   boost::tie (iter, iter_end) = boost::vertices (graph.graph ());
 
   // Create a new query on the variable table database.

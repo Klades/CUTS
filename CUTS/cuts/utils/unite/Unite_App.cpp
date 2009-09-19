@@ -2,14 +2,14 @@
 
 #include "Unite_App.h"
 
+#include "Dataflow_Graph.h"
+#include "Dataflow_Graph_Builder.h"
 #include "Dataset_Repo.h"
 #include "Unite_Config_File.h"
 #include "Unite_Datagraph_File.h"
 #include "Unit_Test.h"
 #include "Unit_Test_Builder.h"
 #include "Unit_Test_Result.h"
-#include "Unit_Test_Graph.h"
-#include "Unit_Test_Graph_Builder.h"
 #include "Unite_Aspect_File.h"
 #include "Where_Clause_Builder.h"
 
@@ -142,8 +142,8 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
   }
 
   // Build the graph for this unit test.
-  CUTS_Unit_Test_Graph graph;
-  CUTS_Unit_Test_Graph_Builder graph_builder;
+  CUTS_Dataflow_Graph graph;
+  CUTS_Dataflow_Graph_Builder graph_builder;
 
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - building datagraph; please wait...\n")));
