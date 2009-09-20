@@ -8,23 +8,7 @@
   <evaluation>LF1.time - LF1.recvTime</evaluation>
   <aggregation>AVG</aggregation>
 
-  <logformats>
-    <logformat id="LF1">
-      <value>{STRING instName} port {STRING portName} is postprocessing event {STRING genName}.{INT evid} at {INT time} (recv time: {INT recvTime})</value>
-      <relations>
-        <relation effectref="LF2">
-          <causality cause="instName" effect="instName" />
-          <causality cause="portName" effect="portName" />
-          <causality cause="genName" effect="genName" />
-          <causality cause="evid" effect="evid" />
-        </relation>
-      </relations>
-    </logformat>
-
-    <logformat id="LF2">
-      <value>{STRING instName} port {STRING portName} is finalizing event {STRING genName}.{INT evid} at {INT time} (recv time: {INT recvTime})</value>
-    </logformat>
-  </logformats>
+  <datagraph location="example.datagraph" />
 
   <grouping>
     <groupitem name="LF1.instName" />

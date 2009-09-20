@@ -55,12 +55,12 @@ public:
   /**
    * Open the repo for the given test database. If you want to perform
    * in-memory processing, i.e., do not create a dataset file for later
-   * usage, then use :memory: for the \a location.
+   * usage, then use ":memory:" for the \a sandbox.
    *
-   * @param[in]       location        Directory for writing datasets
+   * @param[in]       sandbox         Directory for writing datasets
    * @param[in]       data            Test database.
    */
-  bool open (const ACE_CString & location, CUTS_Test_Database & data);
+  bool open (const ACE_CString & sandbox, CUTS_Test_Database & data);
 
   /// Close the variable table repo.
   void close (void);

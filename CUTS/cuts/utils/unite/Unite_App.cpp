@@ -114,10 +114,10 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
     this->load_services (config.services ());
 
   // Construct the binary version of the unit test.
-  CUTS_Unite_Test unit_test;
+  CUTS_Unite_Test unite_test;
   CUTS_Unite_Test_Builder builder;
 
-  if (!builder.build (config, unit_test))
+  if (!builder.build (config, unite_test))
     ACE_ERROR_RETURN ((LM_ERROR,
                        ACE_TEXT ("%T (%t) - %M - failed to build unit test in %s\n"),
                        this->config_.c_str ()),
@@ -221,10 +221,10 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
               ACE_TEXT ("%T (%t) - %M - evaluating datagraph; please wait...\n")));
 
 
-  if (result.evaluate (unit_test, graph.name (), where_clause, !this->show_trend_) != 0)
+  if (result.evaluate (unite_test, graph.name (), where_clause, !this->show_trend_) != 0)
     ACE_ERROR_RETURN ((LM_ERROR,
                        ACE_TEXT ("%T (%t) - %M - failed to evaluate test %s [vtable=%s]\n"),
-                       unit_test.name ().c_str (),
+                       unite_test.name ().c_str (),
                        graph.name ().c_str ()),
                        -1);
 
