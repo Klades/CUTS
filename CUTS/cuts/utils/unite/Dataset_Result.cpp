@@ -1,9 +1,9 @@
 // $Id$
 
-#include "Unit_Test_Result.h"
+#include "Dataset_Result.h"
 
 #if !defined (__CUTS_INLINE__)
-#include "Unit_Test_Result.inl"
+#include "Dataset_Result.inl"
 #endif
 
 #include "Dataset_Repo.h"
@@ -16,10 +16,10 @@
 #include <sstream>
 
 //
-// CUTS_Unit_Test_Result
+// CUTS_Dataset_Result
 //
-CUTS_Unit_Test_Result::
-CUTS_Unit_Test_Result (CUTS_Dataset_Repo & repo, size_t bufsize)
+CUTS_Dataset_Result::
+CUTS_Dataset_Result (CUTS_Dataset_Repo & repo, size_t bufsize)
 : repo_ (&repo),
   query_ (0),
   record_ (0),
@@ -39,9 +39,9 @@ CUTS_Unit_Test_Result (CUTS_Dataset_Repo & repo, size_t bufsize)
 }
 
 //
-// ~CUTS_Unit_Test_Result
+// ~CUTS_Dataset_Result
 //
-CUTS_Unit_Test_Result::~CUTS_Unit_Test_Result (void)
+CUTS_Dataset_Result::~CUTS_Dataset_Result (void)
 {
   if (this->query_ != 0)
     this->query_->destroy ();
@@ -50,7 +50,7 @@ CUTS_Unit_Test_Result::~CUTS_Unit_Test_Result (void)
 //
 // close
 //
-void CUTS_Unit_Test_Result::close (void)
+void CUTS_Dataset_Result::close (void)
 {
   if (this->query_ != 0)
   {
@@ -65,7 +65,7 @@ void CUTS_Unit_Test_Result::close (void)
 //
 // count
 //
-size_t CUTS_Unit_Test_Result::count (void) const
+size_t CUTS_Dataset_Result::count (void) const
 {
   return this->record_ != 0 ? this->record_->count () : 0;
 }
@@ -73,7 +73,7 @@ size_t CUTS_Unit_Test_Result::count (void) const
 //
 // done
 //
-bool CUTS_Unit_Test_Result::done (void) const
+bool CUTS_Dataset_Result::done (void) const
 {
   return this->record_->done ();
 }
@@ -81,7 +81,7 @@ bool CUTS_Unit_Test_Result::done (void) const
 //
 // advance
 //
-void CUTS_Unit_Test_Result::advance (void)
+void CUTS_Dataset_Result::advance (void)
 {
   this->record_->advance ();
 
@@ -95,7 +95,7 @@ void CUTS_Unit_Test_Result::advance (void)
 //
 // get_result
 //
-const char * CUTS_Unit_Test_Result::get_result (void)
+const char * CUTS_Dataset_Result::get_result (void)
 {
   // Optimize for the fast path, which is returning the current result.
   if (!this->result_is_old_)
@@ -114,7 +114,7 @@ const char * CUTS_Unit_Test_Result::get_result (void)
 //
 // get_group_name
 //
-const CUTS_Group_Name & CUTS_Unit_Test_Result::get_group_name (void)
+const CUTS_Group_Name & CUTS_Dataset_Result::get_group_name (void)
 {
   // Optimize for the fast path, which is returning the current group name.
   if (!this->group_is_old_)
@@ -131,7 +131,7 @@ const CUTS_Group_Name & CUTS_Unit_Test_Result::get_group_name (void)
 //
 // evaluate
 //
-int CUTS_Unit_Test_Result::
+int CUTS_Dataset_Result::
 evaluate (const CUTS_Unite_Test & test,
           const ACE_CString & vtable,
           const ACE_CString & aspect,
@@ -235,7 +235,7 @@ evaluate (const CUTS_Unite_Test & test,
 //
 // has_groupings
 //
-bool CUTS_Unit_Test_Result::has_groupings (void) const
+bool CUTS_Dataset_Result::has_groupings (void) const
 {
   return this->unit_test_->groupings ().size () != 0;
 }
@@ -243,7 +243,7 @@ bool CUTS_Unit_Test_Result::has_groupings (void) const
 //
 // rewind
 //
-void CUTS_Unit_Test_Result::rewind (void)
+void CUTS_Dataset_Result::rewind (void)
 {
   this->record_->reset ();
 }

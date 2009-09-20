@@ -5,9 +5,9 @@
 #include "Dataflow_Graph.h"
 #include "Dataflow_Graph_Builder.h"
 #include "Dataset_Repo.h"
+#include "Dataset_Result.h"
 #include "Unite_Config_File.h"
 #include "Unite_Datagraph_File.h"
-#include "Unit_Test_Result.h"
 #include "Unite_Aspect_File.h"
 #include "Unite_Test.h"
 #include "Unite_Test_Builder.h"
@@ -213,13 +213,11 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
                        ACE_TEXT ("%T (%t) - %M - failed to construct variable table\n")),
                        -1);
 
-  // Evaluate the unit test.
-  CUTS_Unit_Test_Result result (repo);
-
-  // Time the evaluation operation.
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - evaluating datagraph; please wait...\n")));
 
+  // Evaluate the dataset.
+  CUTS_Dataset_Result result (repo);
 
   if (result.evaluate (unite_test, graph.name (), where_clause, !this->show_trend_) != 0)
     ACE_ERROR_RETURN ((LM_ERROR,

@@ -31,13 +31,13 @@ project (CUTS_Unite_Common) : pcre, boost_base, cuts_test_database, cutslib {
   Source_Files {
     Dataflow_Graph.cpp
     Dataset_Repo.cpp
+    Dataset_Result.cpp
     Log_Format.cpp
     Log_Format_Compiler.cpp
     Log_Format_Data_Entry.cpp
     Presentation_Service.cpp
     Presentation_Service_Manager.cpp
     Relation.cpp
-    Unit_Test_Result.cpp
     Unite_Test.cpp
     Variable.cpp
   }

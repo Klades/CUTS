@@ -1,3 +1,32 @@
+Sun Sep 20 18:30:40 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Dataset_Repo.h:
+        * cuts/utils/unite/Dataset_Result.h:
+        * cuts/utils/unite/Dataset_Result.inl:
+        * cuts/utils/unite/Dataset_Result.cpp:
+        * cuts/utils/unite/Presentation_Service.h:
+        * cuts/utils/unite/Presentation_Service.inl:
+        * cuts/utils/unite/Presentation_Service_Manager.h:
+        * cuts/utils/unite/Presentation_Service_Manager.cpp:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/presentation/console/Console_Presentation_Service.h:
+        * cuts/utils/unite/presentation/console/Console_Presentation_Service.cpp:
+        * cuts/utils/unite/presentation/gnuplot/Gnuplot_Presentation_Service.h:
+        * cuts/utils/unite/presentation/gnuplot/Gnuplot_Presentation_Service.cpp:
+        * cuts/utils/unite/unite.mpc:
+
+          . Changed the name of the following classes and their related
+            files so the source code more inline with the expected naming
+            convention of UNITE's elements:
+
+            . CUTS_Unit_Test_Result -> CUTS_Dataset_Result
+
+        * cuts/utils/unite/Unit_Test_Result.h:
+        * cuts/utils/unite/Unit_Test_Result.inl:
+        * cuts/utils/unite/Unit_Test_Result.cpp:
+
+          Removed these files.
+
 Sun Sep 20 18:07:57 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/unite/Dataset_Repo.h:

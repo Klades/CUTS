@@ -6,7 +6,7 @@
 #include "Gnuplot_Presentation_Service.inl"
 #endif
 
-#include "cuts/utils/unite/Unit_Test_Result.h"
+#include "cuts/utils/unite/Dataset_Result.h"
 #include "cuts/utils/unite/Unite_Test.h"
 #include "ace/Get_Opt.h"
 #include "ace/Service_Config.h"
@@ -82,7 +82,7 @@ int CUTS_Gnuplot_Presentation_Service::init (int argc, char * argv [])
 // handle_result
 //
 int CUTS_Gnuplot_Presentation_Service::
-handle_result (CUTS_Unit_Test_Result & result)
+handle_result (CUTS_Dataset_Result & result)
 {
   std::ofstream outfile;
   ACE_CString filename;

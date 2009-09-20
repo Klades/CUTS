@@ -36,7 +36,7 @@ public:
 
   virtual int init (int argc, char * argv []);
 
-  virtual int handle_result (CUTS_Unit_Test_Result & result);
+  virtual int handle_result (CUTS_Dataset_Result & result);
 
 private:
   /// Target directory for gnuplot files.

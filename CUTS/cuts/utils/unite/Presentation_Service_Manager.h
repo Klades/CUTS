@@ -17,7 +17,7 @@
 #include "Unite_export.h"
 
 // Forward decl.
-class CUTS_Unit_Test_Result;
+class CUTS_Dataset_Result;
 
 /**
  * @class CUTS_Unite_Presentation_Service_Manager
@@ -37,7 +37,7 @@ public:
                     const char * classname,
                     const char * params);
 
-  int handle_result (CUTS_Unit_Test_Result & result);
+  int handle_result (CUTS_Dataset_Result & result);
 };
 
 #if defined (__CUTS_INLINE__)

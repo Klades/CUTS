@@ -6,8 +6,8 @@
 #include "Presentation_Service_Manager.inl"
 #endif
 
+#include "Dataset_Result.h"
 #include "Presentation_Service.h"
-#include "Unit_Test_Result.h"
 #include "ace/Service_Types.h"
 #include <sstream>
 
@@ -15,7 +15,7 @@
 // handle_result
 //
 int CUTS_Unite_Presentation_Service_Manager::
-handle_result (CUTS_Unit_Test_Result & result)
+handle_result (CUTS_Dataset_Result & result)
 {
   ACE_Service_Repository_Iterator iter (*this->repo_);
 

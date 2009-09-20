@@ -23,7 +23,7 @@ CUTS_Unite_Presentation_Service::~CUTS_Unite_Presentation_Service (void)
 //
 CUTS_INLINE
 int CUTS_Unite_Presentation_Service::
-handle_result (CUTS_Unit_Test_Result & result)
+handle_result (CUTS_Dataset_Result & result)
 {
   return 0;
 }

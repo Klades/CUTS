@@ -13,7 +13,7 @@
 #ifndef _CUTS_UNITE_DATASET_REPO_H_
 #define _CUTS_UNITE_DATASET_REPO_H_
 
-#include "Unit_Test_Result.h"
+#include "Dataset_Result.h"
 #include "ace/SString.h"
 
 // Forward decl.
@@ -32,7 +32,7 @@ class CUTS_Log_Format;
 class CUTS_Log_Format_Data_Entry;
 
 // Forward decl.
-class CUTS_Unit_Test_Result;
+class CUTS_Dataset_Result;
 
 // Forward decl.
 class CUTS_Dataflow_Graph;
@@ -44,7 +44,7 @@ class CUTS_UNITE_Export CUTS_Dataset_Repo
 {
 public:
   // Friend decl.
-  friend class CUTS_Unit_Test_Result;
+  friend class CUTS_Dataset_Result;
 
   /// Default constructor.
   CUTS_Dataset_Repo (void);

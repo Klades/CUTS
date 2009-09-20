@@ -6,7 +6,7 @@
 #include "Console_Presentation_Service.inl"
 #endif
 
-#include "cuts/utils/unite/Unit_Test_Result.h"
+#include "cuts/utils/unite/Dataset_Result.h"
 #include "ace/Service_Config.h"
 #include "ace/streams.h"
 
@@ -45,7 +45,7 @@ private:
 // handle_result
 //
 int CUTS_Console_Presentation_Service::
-handle_result (CUTS_Unit_Test_Result & result)
+handle_result (CUTS_Dataset_Result & result)
 {
   // Print the result(s) to the console.
 

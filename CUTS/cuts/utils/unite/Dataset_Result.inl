@@ -4,7 +4,7 @@
 // unit_test
 //
 CUTS_INLINE
-const CUTS_Unite_Test * CUTS_Unit_Test_Result::unit_test (void) const
+const CUTS_Unite_Test * CUTS_Dataset_Result::unit_test (void) const
 {
   return this->unit_test_;
 }
@@ -13,7 +13,7 @@ const CUTS_Unite_Test * CUTS_Unit_Test_Result::unit_test (void) const
 // vtable_name
 //
 CUTS_INLINE
-const ACE_CString * CUTS_Unit_Test_Result::vtable_name (void) const
+const ACE_CString * CUTS_Dataset_Result::vtable_name (void) const
 {
   return this->vtable_name_;
 }

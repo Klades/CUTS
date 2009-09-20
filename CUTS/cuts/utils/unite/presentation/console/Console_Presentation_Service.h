@@ -33,7 +33,7 @@ public:
   /// Destructor
   virtual ~CUTS_Console_Presentation_Service (void);
 
-  virtual int handle_result (CUTS_Unit_Test_Result & result);
+  virtual int handle_result (CUTS_Dataset_Result & result);
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -10,8 +10,8 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_UNITE_UNIT_TEST_RESULT_H_
-#define _CUTS_UNITE_UNIT_TEST_RESULT_H_
+#ifndef _CUTS_UNITE_DATASET_RESULT_H_
+#define _CUTS_UNITE_DATASET_RESULT_H_
 
 #include "Unite_export.h"
 #include "ace/SString.h"
@@ -34,38 +34,38 @@ class CUTS_Unite_Test;
 typedef ACE_Array <ACE_CString> CUTS_Group_Name;
 
 /**
- * @class CUTS_Unit_Test_Result
+ * @class CUTS_Dataset_Result
  *
  * Collection of the results for a unit test. Right now, the results
  * are returned in string format. It would be ideal, however to return
  * the results in their native format. Unfortunately, the need for this
  * behavior has not proved to be a necessity at the moment.
  */
-class CUTS_UNITE_Export CUTS_Unit_Test_Result
+class CUTS_UNITE_Export CUTS_Dataset_Result
 {
 public:
   /**
    * Initializing constructor
    *
-   * @param[in]         eval        Evaluator of the unit test
-   * @param[in]         graph       Name of the graph to evaluate
+   * @param[in]         eval          Evaluator of the unit test
+   * @param[in]         graph         Name of the graph to evaluate
    */
-  CUTS_Unit_Test_Result (CUTS_Dataset_Repo & repo,
+  CUTS_Dataset_Result (CUTS_Dataset_Repo & repo,
                          size_t bufsize = CUTS_RESULT_DEFAULT_BUFFER_SIZE);
 
   /// Destructor.
-  ~CUTS_Unit_Test_Result (void);
+  ~CUTS_Dataset_Result (void);
 
   /**
-   * Evaluate a unit test.
+   * Evaluate a tests.
    *
-   * @param[in]         test        Unit test to evaluate
-   * @param[in]         vtable      Variable table containing data
-   * @param[in]         aspect      Aspect of data to evaluate
-   * @param[in]         aggr        Aggregate the results
+   * @param[in]         test          Unit test to evaluate
+   * @param[in]         datagraph     Name of the graph to apply result
+   * @param[in]         aspect        Aspect of data to evaluate
+   * @param[in]         aggr          Aggregate the results
    */
   int evaluate (const CUTS_Unite_Test & test,
-                const ACE_CString & vtable,
+                const ACE_CString & datagraph,
                 const ACE_CString & aspect,
                 bool aggr = true);
 
@@ -144,13 +144,13 @@ private:
   bool group_is_old_;
 
   // prevent the following operations
-  CUTS_Unit_Test_Result (const CUTS_Unit_Test_Result &);
-  const CUTS_Unit_Test_Result & operator = (const CUTS_Unit_Test_Result &);
+  CUTS_Dataset_Result (const CUTS_Dataset_Result &);
+  const CUTS_Dataset_Result & operator = (const CUTS_Dataset_Result &);
 };
 
 #if defined (__CUTS_INLINE__)
-#include "Unit_Test_Result.inl"
+#include "Dataset_Result.inl"
 #endif
 
 
-#endif  // !defined _CUTS_UNITE_UNIT_TEST_RESULT_H_
+#endif  // !defined _CUTS_UNITE_DATASET_RESULT_H_
