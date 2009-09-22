@@ -9,9 +9,9 @@ namespace CUTS_BE_RTIDDS
 // Event_Traits_Generator
 //
 Event_Traits_Generator::
-Event_Traits_Generator (std::ostream & out, const std::string & export)
+Event_Traits_Generator (std::ostream & out, const std::string & exp)
 : out_ (out),
-  export_ (export)
+  export_ (exp)
 {
 
 }
@@ -38,21 +38,21 @@ void Event_Traits_Generator::Visit_Event (const PICML::Event & event)
     << " * Trait class for the ::" << fq_type << " event" << std::endl
     << " */" << std::endl
     << "template < >" << std::endl
-    << "class " << this->export_ << " CUTS_RTIDDS_Traits_T < ::CUTS_DDS::" << fq_type << " >"
+    << "class " << this->export_ << " CUTS_RTIDDS_Traits_T < ::CUTS_NDDS::" << fq_type << " >"
     << "{"
     << "public:" << std::endl
     << CUTS_BE_CPP::single_line_comment ("The reader type traits")
-    << "typedef ::CUTS_DDS::" << fq_type << "DataReader reader_type;"
+    << "typedef ::CUTS_NDDS::" << fq_type << "DataReader reader_type;"
     << "typedef reader_type * reader_ptr_type;"
     << std::endl
     << CUTS_BE_CPP::single_line_comment ("The writer type traits")
-    << "typedef ::CUTS_DDS::" << fq_type << "DataWriter writer_type;"
+    << "typedef ::CUTS_NDDS::" << fq_type << "DataWriter writer_type;"
     << "typedef writer_type * writer_ptr_type;"
     << std::endl
     << CUTS_BE_CPP::single_line_comment ("The DDS event type traits")
-    << "typedef ::CUTS_DDS::" << fq_type << " dds_event_type;"
-    << "typedef ::CUTS_DDS::" << fq_type << "Seq dds_event_sequence_type;"
-    << "typedef ::CUTS_DDS::" << fq_type << "TypeSupport dds_typesupport_type;"
+    << "typedef ::CUTS_NDDS::" << fq_type << " dds_event_type;"
+    << "typedef ::CUTS_NDDS::" << fq_type << "Seq dds_event_sequence_type;"
+    << "typedef ::CUTS_NDDS::" << fq_type << "TypeSupport dds_typesupport_type;"
     << std::endl
     << CUTS_BE_CPP::single_line_comment ("The CORBA event type traits")
     << "typedef ::" << fq_type << " corba_event_type;"

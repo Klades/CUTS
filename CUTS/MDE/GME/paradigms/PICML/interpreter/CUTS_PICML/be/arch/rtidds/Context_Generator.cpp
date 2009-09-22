@@ -116,7 +116,7 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
       << "CUTS_RTIDDS_CCM_Subscriber & writer_" << name << " (void);"
       << std::endl
       << "private:" << std::endl
-      << "CUTS_RTIDDS_CCM_Subscriber_T < ::CUTS_DDS"
+      << "CUTS_RTIDDS_CCM_Subscriber_T < ::CUTS_NDDS"
       << fq_type << " > " << name << "_;" << std::endl;
 
     this->source_
@@ -134,7 +134,7 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
       << "CUTS_CCM_Subscriber_Table & writers_" << name << " (void);"
       << std::endl
       << "private:" << std::endl
-      << "CUTS_RTIDDS_CCM_Subscriber_Table_T < ::CUTS_DDS"
+      << "CUTS_RTIDDS_CCM_Subscriber_Table_T < ::CUTS_NDDS"
       << fq_type << " > " << name << "_;" << std::endl;
 
     this->source_

@@ -10,8 +10,8 @@ namespace SimpleComponent_Basic_Impl
   // SimpleComponent
   //
   SimpleComponent::SimpleComponent (void)
-  : eventCount_ (0),
-    isActive_ (true)
+  : isActive_ (true),
+    eventCount_ (0)
   {
     this->periodic_sendData_.init (this, &SimpleComponent::periodic_sendData);
     this->periodic_sendData_.configure (CUTS_Periodic_Event::PE_CONSTANT, 10);

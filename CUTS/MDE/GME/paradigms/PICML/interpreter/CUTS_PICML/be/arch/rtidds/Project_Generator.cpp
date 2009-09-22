@@ -22,13 +22,13 @@ generate (const CUTS_BE_IDL_Node & node)
 
   if (has_events)
   {
-    this->stub_files_.insert ("./rtidds/" + name + "_DDS.cxx");
-    this->stub_files_.insert ("./rtidds/" + name + "_DDSPlugin.cxx");
-    this->stub_files_.insert ("./rtidds/" + name + "_DDSSupport.cxx");
+    this->stub_files_.insert ("./rtidds/" + name + "_NDDS.cxx");
+    this->stub_files_.insert ("./rtidds/" + name + "_NDDSPlugin.cxx");
+    this->stub_files_.insert ("./rtidds/" + name + "_NDDSSupport.cxx");
 
     this->ctx_.project_
       << std::endl
-      << "project (" << name << "_DDS_IDL_Gen) : ndds_ts_defaults, requires_rtidds {" << std::endl
+      << "project (" << name << "_NDDS_IDL_Gen) : ndds_ts_defaults, requires_rtidds {" << std::endl
       << "  custom_only = 1" << std::endl
       << std::endl
       << "  after += " << name << "_IDL_Gen" << std::endl
@@ -37,12 +37,12 @@ generate (const CUTS_BE_IDL_Node & node)
       << std::endl
       << "  NDDSTypeSupport_Files {" << std::endl
       << "    gendir = ./rtidds" << std::endl
-      << "    " << name << "_DDS.idl" << std::endl
+      << "    " << name << "_NDDS.idl" << std::endl
       << "  }" << std::endl
       << "}" << std::endl
       << std::endl;
 
-    this->stub_after_ = name + "_DDS_IDL_Gen";
+    this->stub_after_ = name + "_NDDS_IDL_Gen";
   }
   else
   {

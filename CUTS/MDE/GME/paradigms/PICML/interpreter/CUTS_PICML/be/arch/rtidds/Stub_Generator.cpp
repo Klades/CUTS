@@ -33,7 +33,7 @@ public:
     if (this->has_events_)
     {
       std::string filename ("rtidds/");
-      filename += std::string (file.name ()) + "_DDSSupport";
+      filename += std::string (file.name ()) + "_NDDSSupport";
 
       this->source_ << CUTS_BE_CPP::include (filename);
 
@@ -215,11 +215,11 @@ Visit_File (const PICML::File & file)
   if (!this->header_.is_open () && this->source_.is_open ())
     return;
 
-  // Construct the name of the export macro.
+  // Construct the name of the exp macro.
   std::string corba_filename (file.name ());
   corba_filename += "C";
 
-  // Construct the export macro for this file.
+  // Construct the exp macro for this file.
   this->export_macro_ = std::string (file.name ()) + "_STUB";
 
   std::transform (this->export_macro_.begin (),
@@ -237,7 +237,7 @@ Visit_File (const PICML::File & file)
                   &::toupper);
 
   std::string dds_filename ("rtidds/");
-  dds_filename += std::string (file.name ()) + "_DDS";
+  dds_filename += std::string (file.name ()) + "_NDDS";
 
   do
   {
@@ -362,15 +362,15 @@ Visit_Event (const PICML::Event & event)
 
   this->header_
     << this->export_macro_
-    << " bool operator <<= (" << name << " &, const ::CUTS_DDS" << fq_name << " & );"
+    << " bool operator <<= (" << name << " &, const ::CUTS_NDDS" << fq_name << " & );"
     << this->export_macro_
-    << " bool operator >>= (const " << name << " &, ::CUTS_DDS" << fq_name << " & );"
+    << " bool operator >>= (const " << name << " &, ::CUTS_NDDS" << fq_name << " & );"
     << std::endl;
 
   std::vector <PICML::Member> members = event.Member_children ();
 
   this->source_
-    << "bool operator <<= (" << name << " & corba, const ::CUTS_DDS" << fq_name << " & dds)"
+    << "bool operator <<= (" << name << " & corba, const ::CUTS_NDDS" << fq_name << " & dds)"
     << "{";
 
   Input_Stream_Generator input_stream (this->source_, false);
@@ -382,7 +382,7 @@ Visit_Event (const PICML::Event & event)
   this->source_
     << "return true;"
     << "}"
-    << "bool operator >>= (const " << name << " & corba, ::CUTS_DDS" << fq_name << " & dds)"
+    << "bool operator >>= (const " << name << " & corba, ::CUTS_NDDS" << fq_name << " & dds)"
     << "{";
 
   Output_Stream_Generator output_stream (this->source_, false);
@@ -409,15 +409,15 @@ Visit_Aggregate (const PICML::Aggregate & aggr)
 
   this->header_
     << this->export_macro_
-    << " bool operator <<= (" << name << " &, const ::CUTS_DDS" << fq_name << " & );"
+    << " bool operator <<= (" << name << " &, const ::CUTS_NDDS" << fq_name << " & );"
     << this->export_macro_
-    << " bool operator >>= (const " << name << " &, ::CUTS_DDS" << fq_name << " & );"
+    << " bool operator >>= (const " << name << " &, ::CUTS_NDDS" << fq_name << " & );"
     << std::endl;
 
   std::vector <PICML::Member> members = aggr.Member_children ();
 
   this->source_
-    << "bool operator <<= (" << name << " & corba, const ::CUTS_DDS" << fq_name << " & dds)"
+    << "bool operator <<= (" << name << " & corba, const ::CUTS_NDDS" << fq_name << " & dds)"
     << "{";
 
   Input_Stream_Generator input_stream (this->source_, true);
@@ -428,7 +428,7 @@ Visit_Aggregate (const PICML::Aggregate & aggr)
   this->source_
     << "return true;"
     << "}"
-    << "bool operator >>= (const " << name << " & corba, ::CUTS_DDS" << fq_name << " & dds)"
+    << "bool operator >>= (const " << name << " & corba, ::CUTS_NDDS" << fq_name << " & dds)"
     << "{";
 
   Output_Stream_Generator output_stream (this->source_, true);

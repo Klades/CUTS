@@ -128,7 +128,7 @@ Visit_File (const PICML::File & file)
 
   // Construct the name of the output file.
   std::string basename (file.name ());
-  basename += "_DDS";
+  basename += "_NDDS";
 
   std::string idl_filename = this->outdir_ + "/" + basename + ".idl";
 
@@ -157,7 +157,7 @@ Visit_File (const PICML::File & file)
       << "#ifndef " << hash_define << std::endl
       << "#define " << hash_define << std::endl
       << std::endl
-      << "module CUTS_DDS"
+      << "module CUTS_NDDS"
       << "{";
 
     this->Visit_PackageFile_i (file);
@@ -274,7 +274,7 @@ Visit_Member (const PICML::Member & member)
 
     this->idlfile_
       << CUTS_BE_CPP::single_line_comment ("data member: " + name)
-      << "::CUTS_DDS" << CUTS_BE_CPP::fq_type (nt)
+      << "::CUTS_NDDS" << CUTS_BE_CPP::fq_type (nt)
       << " " << name << ";"
       << std::endl;
   }

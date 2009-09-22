@@ -1,9 +1,9 @@
 // -*- IDL -*-
 
-#ifndef _MODELDDSDATA_DDS_IDL_
-#define _MODELDDSDATA_DDS_IDL_
+#ifndef _MODELDDSDATA_NDDS_IDL_
+#define _MODELDDSDATA_NDDS_IDL_
 
-module CUTS_DDS
+module CUTS_NDDS
 {
   module Outer
   {
@@ -22,7 +22,7 @@ module CUTS_DDS
     struct TestData_DDS
     {
       // data member: packet
-      ::CUTS_DDS::Outer::Inner::Data_DDS packet;
+      ::CUTS_NDDS::Outer::Inner::Data_DDS packet;
 
       // data member: key
       short key;
@@ -30,5 +30,5 @@ module CUTS_DDS
   };
 };
 
-#endif  // _MODELDDSDATA_DDS_IDL_
+#endif  // _MODELDDSDATA_NDDS_IDL_
 

@@ -1,3 +1,26 @@
+Tue Sep 22 04:32:01 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Event_Traits_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Event_Traits_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/IDL_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Stub_Generator.cpp:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData.mpc:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_NDDS.idl:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_ModelDDSDataC.h:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_ModelDDSDataC.cpp:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+
+          . Modified the opening module name for the RTI-DDS entities so
+            they do not conflict with OpenSplice entities.
+
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_DDS.idl:
+
+          Removed this file.
+
 Sun Sep 20 18:30:40 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/unite/Dataset_Repo.h:

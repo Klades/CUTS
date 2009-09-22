@@ -168,7 +168,7 @@ void Servant_Generator::Visit_File (const PICML::File & file)
                   hash_define.begin (),
                   &::toupper);
 
-  // Construct the export macro for this file.
+  // Construct the exp macro for this file.
   std::string export_filename = std::string (file.name ()) + "_svnt_export";
   this->export_macro_ = name + "_SVNT";
 
@@ -399,11 +399,11 @@ Visit_InEventPort (const PICML::InEventPort & port)
     << std::endl
     << "private:" << std::endl
     << "static void deserialize_" << name << " (" << this->servant_ << " *," << std::endl
-    << "const ::CUTS_DDS" << fq_type << "& dds_event);"
+    << "const ::CUTS_NDDS" << fq_type << "& dds_event);"
     << std::endl
     << "CUTS_RTIDDS_CCM_EventConsumer_T < " << std::endl
     << "  " << this->servant_ << "," << std::endl
-    << "  " << "::CUTS_DDS" << fq_type << " > " << name << "_consumer_;"
+    << "  " << "::CUTS_NDDS" << fq_type << " > " << name << "_consumer_;"
     << std::endl;
 
   this->source_
@@ -416,7 +416,7 @@ Visit_InEventPort (const PICML::InEventPort & port)
     << CUTS_BE_CPP::function_header ("deserialize_" + name)
     << "void " << this->servant_ << "::" << std::endl
     << "deserialize_" << name << " (" << this->servant_ << " * servant," << std::endl
-    << "const ::CUTS_DDS" << fq_type << " & dds_event)"
+    << "const ::CUTS_NDDS" << fq_type << " & dds_event)"
     << "{"
     << CUTS_BE_CPP::single_line_comment ("First, extract the event.")
     << "CUTS_CCM_Event_T < ::OBV_" << CUTS_BE_CPP::fq_type (event, "::", false) << " > event;"

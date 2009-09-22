@@ -24,7 +24,7 @@ namespace CUTS_BE_RTIDDS
 class Event_Traits_Generator : public PICML::Visitor
 {
 public:
-  Event_Traits_Generator (std::ostream & out, const std::string & export);
+  Event_Traits_Generator (std::ostream & out, const std::string & exp);
 
   virtual ~Event_Traits_Generator (void);
 
