@@ -28,14 +28,14 @@ static const char * __HELP__ =
 "  -d, --datagraph FILE      datagraph file for this test \n"
 "  -h, --help                print this help message\n";
 
-CUTS_TESTING_SERVICE_IMPL (CUTS_Testing_Validation_Service, 
+CUTS_TESTING_SERVICE_IMPL (CUTS_Testing_Validation_Service,
                            _make_CUTS_Testing_Validation_Service);
 
 //
 // CUTS_Testing_Server
 //
 CUTS_Testing_Validation_Service::CUTS_Testing_Validation_Service (void)
-{ 
+{
 }
 
 //
@@ -50,7 +50,7 @@ CUTS_Testing_Validation_Service::~CUTS_Testing_Validation_Service (void)
 //
 int CUTS_Testing_Validation_Service::init (int argc, char * argv [])
 {
-  
+
   if (this->parse_args (argc, argv) == -1)
   {
     ACE_ERROR_RETURN  ((LM_ERROR,
@@ -66,7 +66,7 @@ int CUTS_Testing_Validation_Service::init (int argc, char * argv [])
 //
 int CUTS_Testing_Validation_Service::handle_shutdown (const ACE_Time_Value & tv)
 {
-  return validate_test ();
+  return this->validate_test ();
 }
 
 //
@@ -74,51 +74,51 @@ int CUTS_Testing_Validation_Service::handle_shutdown (const ACE_Time_Value & tv)
 //
 int CUTS_Testing_Validation_Service::parse_args (int argc, char * argv [])
 {
-	const char * options = ACE_TEXT (":c:d:h:");
-	
-	ACE_Get_Opt get_opt (argc, argv, options);
-	
-	get_opt.long_option ("config", 'c', ACE_Get_Opt::ARG_REQUIRED);
-	get_opt.long_option ("datagraph", 'd', ACE_Get_Opt::ARG_REQUIRED);
-	get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
+  const char * options = ACE_TEXT (":c:d:h:");
 
-	char ch;
-	
+  ACE_Get_Opt get_opt (argc, argv, options);
+
+  get_opt.long_option ("config", 'c', ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("datagraph", 'd', ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
+
+  char ch;
+
   while ((ch = get_opt ()) != EOF)
   {
     switch (ch)
     {
-				case 0:
-					if (ACE_OS::strcmp (get_opt.long_option (), "config") == 0)
-					{
-						this->validation_config_ = get_opt.opt_arg ();
-					}
-					else if (ACE_OS::strcmp (get_opt.long_option (), "datagraph") == 0)
-					{
-						this->datagraph_ = get_opt.opt_arg ();
-					}
-					else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
-					{
-						this->print_help ();
-					}
-					break;
-					
-				case 'c':
-					this->validation_config_ = get_opt.opt_arg ();
-					break;	
-					
-				case 'd':
-					this->datagraph_ = get_opt.opt_arg ();
-					break;
-					
-			  case 'h':
+        case 0:
+          if (ACE_OS::strcmp (get_opt.long_option (), "config") == 0)
+          {
+            this->validation_config_ = get_opt.opt_arg ();
+          }
+          else if (ACE_OS::strcmp (get_opt.long_option (), "datagraph") == 0)
+          {
+            this->datagraph_ = get_opt.opt_arg ();
+          }
+          else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
+          {
+            this->print_help ();
+          }
+          break;
+
+        case 'c':
+          this->validation_config_ = get_opt.opt_arg ();
+          break;
+
+        case 'd':
+          this->datagraph_ = get_opt.opt_arg ();
+          break;
+
+        case 'h':
           this->print_help ();
           break;
 
     }
   }
-	
-  return 0;	
+
+  return 0;
 }
 
 //
@@ -126,7 +126,7 @@ int CUTS_Testing_Validation_Service::parse_args (int argc, char * argv [])
 //
 int CUTS_Testing_Validation_Service::validate_test (void)
 {
-	XSC::XML::XML_Error_Handler error_handler;
+  XSC::XML::XML_Error_Handler error_handler;
 
   // Load the XML document that contains the datagraph.
   CUTS_Unite_Datagraph_File datagraph_file;
@@ -135,16 +135,17 @@ int CUTS_Testing_Validation_Service::validate_test (void)
   ::CUTS::XML::datagraphType datagraph ("");
 
   if (this->datagraph_.empty ())
-  {
     ACE_ERROR_RETURN ((LM_ERROR,
-                       ACE_TEXT ("%T (%t) - %M - datagraph file not found.\n")),
+                       ACE_TEXT ("%T (%t) - %M - datagraph file not found\n")),
                        -1);
-  }
-  else
-  {
-    if (datagraph_file.read (this->datagraph_.c_str ()))
-      datagraph_file >>= datagraph;
-  }
+
+  if (!datagraph_file.read (this->datagraph_.c_str ()))
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - failed to read datagraph file (%s)\n"),
+                       this->datagraph_.c_str ()),
+                       -1);
+
+  datagraph_file >>= datagraph;
 
   // Build the datagraph for this test.
   CUTS_Dataflow_Graph graph;
@@ -160,7 +161,7 @@ int CUTS_Testing_Validation_Service::validate_test (void)
                        -1);
 
   // Open the database that contains the test data.
- 	CUTS_Test_Database & test_db = this->test_app ()->test_db ();
+   CUTS_Test_Database & test_db = this->test_app ()->test_db ();
 
   // Open the repository for the test data.
   CUTS_Dataset_Repo repo;
@@ -174,13 +175,13 @@ int CUTS_Testing_Validation_Service::validate_test (void)
     ACE_ERROR_RETURN ((LM_ERROR,
                        ACE_TEXT ("%T (%t) - %M - failed to construct variable table\n")),
                        -1);
-                              
+
    ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - Validating test; please wait...\n")));
-   
+              ACE_TEXT ("%T (%t) - %M - validating test; please wait...\n")));
+
   // Convert the condition into a WHERE clause for the SQL statement.
   ACE_CString where_clause;
-  
+
   if (!this->validation_config_.empty ())
   {
     // Open the XML document for reading.
@@ -212,20 +213,20 @@ int CUTS_Testing_Validation_Service::validate_test (void)
                        ACE_TEXT ("%T (%t) - %M - validation file not found.\n")),
                        -1);
   }
- 
+
   // Construct the validation sql string.
   std::ostringstream sqlstr;
   sqlstr << "SELECT * FROM " << graph.name () << where_clause;
-  
+
   // Validate the dataset.
   CUTS_Dataset_Result result (repo);
 
   if (result.validate (sqlstr.str ().c_str ()))
     std::cout << "Test Validation successful." << std::endl;
-    
+
   else
     std::cout << "Test Validation failed." << std::endl;
-    
+
   return 0;
 }
 

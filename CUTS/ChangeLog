@@ -1,3 +1,9 @@
+Tue Sep 22 20:53:12 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.cpp:
+
+          . Simplified some of the code.
+
 Tue Sep 22 20:27:53 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/CHAOS/interpreters/codegen/Context_Generator.cpp:
