@@ -317,7 +317,7 @@ generate_idlgen_project (const CUTS_BE_IDL_Node & node)
   this->ctx_.project_
     << "              -Sa -Sal" << std::endl;
 
-  if (!has_component)
+  if (has_component)
     this->ctx_.project_ << "  idlflags -= -Gsv" << std::endl;
 
   this->ctx_.project_
@@ -372,6 +372,29 @@ generate_idlgen_project (const CUTS_BE_IDL_Node & node)
     this->stub_files_.insert ("./ddstypes/" + name + "_DDSDcps_impl.cpp");
 
     this->stub_after_ += name + "_OpenSplice_IDL_Gen ";
+
+    // Generate the RTI-DDS project.
+    this->ctx_.project_
+      << "project (" << name << "_NDDS_IDL_Gen) : ndds_ts_defaults, requires_rtidds {" << std::endl
+      << "  custom_only = 1" << std::endl
+      << std::endl
+      << "  after += " << name << "_IDL_Gen" << std::endl
+      << std::endl
+      << "  ndds_ts_flags += -d ./rtidds -D __NDDS__" << std::endl
+      << std::endl
+      << "  NDDSTypeSupport_Files {" << std::endl
+      << "    gendir = ./rtidds" << std::endl
+      << "    " << name << "_DDS.idl" << std::endl
+      << "  }" << std::endl
+      << "}" << std::endl
+      << std::endl;
+
+    this->stub_files_.insert ("RTIDDS_" + name + "C.cpp");
+    this->stub_files_.insert ("./rtidds/" + name + "_DDS.cxx");
+    this->stub_files_.insert ("./rtidds/" + name + "_DDSPlugin.cxx");
+    this->stub_files_.insert ("./rtidds/" + name + "_DDSSupport.cxx");
+
+    this->stub_after_ += name + "_NDDS_IDL_Gen";
   }
 }
 

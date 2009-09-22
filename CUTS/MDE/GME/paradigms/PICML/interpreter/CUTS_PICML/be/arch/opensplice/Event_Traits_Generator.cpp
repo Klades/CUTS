@@ -9,9 +9,9 @@ namespace CUTS_BE_OpenSplice
 // Event_Traits_Generator
 //
 Event_Traits_Generator::
-Event_Traits_Generator (std::ostream & out, const std::string & export)
+Event_Traits_Generator (std::ostream & out, const std::string & exp)
 : out_ (out),
-  export_ (export)
+  export_ (exp)
 {
 
 }

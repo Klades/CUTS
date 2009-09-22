@@ -7,10 +7,12 @@
 #include "Event_Traits_Generator.h"
 #include "boost/bind.hpp"
 #include "cpp/Cpp.h"
-#include <algorithm>
 #include "Uml.h"
+#include <algorithm>
 
 namespace CUTS_CHAOS
+{
+namespace RTIDDS
 {
 class Include_Events : public CHAOS::Visitor
 {
@@ -33,15 +35,15 @@ public:
 
     if (this->has_events_)
     {
-      std::string filename ("ddstypes/");
-      filename += std::string (file.name ()) + "_DDSDcps_impl";
+      std::string filename ("rtidds/");
+      filename += std::string (file.name ()) + "_DDSSupport";
 
       this->source_ << CUTS_BE_CPP::include (filename);
 
       if (this->includes_.empty ())
       {
         this->source_
-          << CUTS_BE_CPP::include ("cuts/arch/opensplice/OpenSplice_Traits_T");
+          << CUTS_BE_CPP::include ("cuts/arch/rtidds/RTIDDS_Traits_T");
       }
     }
   }
@@ -100,7 +102,7 @@ public:
     if (this->includes_.find (name) != this->includes_.end ())
       return;
 
-    std::string filename ("OpenSplice_");
+    std::string filename ("RTIDDS_");
     filename += name + "C";
 
     this->source_ << CUTS_BE_CPP::include (filename);
@@ -146,19 +148,19 @@ private:
 };
 
 //
-// OpenSplice_Stub_Generator
+// Stub_Generator
 //
-OpenSplice_Stub_Generator::
-OpenSplice_Stub_Generator (const std::string & outdir)
+Stub_Generator::
+Stub_Generator (const std::string & outdir)
 : outdir_ (outdir)
 {
 
 }
 
 //
-// ~OpenSplice_Stub_Generator
+// ~Stub_Generator
 //
-OpenSplice_Stub_Generator::~OpenSplice_Stub_Generator (void)
+Stub_Generator::~Stub_Generator (void)
 {
   if (this->header_.is_open ())
     this->header_.close ();
@@ -170,7 +172,7 @@ OpenSplice_Stub_Generator::~OpenSplice_Stub_Generator (void)
 //
 // Visit_RootFolder
 //
-void OpenSplice_Stub_Generator::
+void Stub_Generator::
 Visit_RootFolder (const CHAOS::RootFolder & folder)
 {
   std::vector <CHAOS::InterfaceDefinitions> folders = folder.InterfaceDefinitions_children ();
@@ -185,7 +187,7 @@ Visit_RootFolder (const CHAOS::RootFolder & folder)
 //
 // Visit_InterfaceDefinitions
 //
-void OpenSplice_Stub_Generator::
+void Stub_Generator::
 Visit_InterfaceDefinitions (const CHAOS::InterfaceDefinitions & folder)
 {
   std::vector <CHAOS::File> files = folder.File_children ();
@@ -198,11 +200,11 @@ Visit_InterfaceDefinitions (const CHAOS::InterfaceDefinitions & folder)
 //
 // Visit_File
 //
-void OpenSplice_Stub_Generator::
+void Stub_Generator::
 Visit_File (const CHAOS::File & file)
 {
   // Construct the name of the output file.
-  std::string basename ("OpenSplice_");
+  std::string basename ("RTIDDS_");
   basename += std::string (file.name ()) + "C";
 
   std::string header_filename = this->outdir_ + "/" + basename + ".h";
@@ -215,11 +217,11 @@ Visit_File (const CHAOS::File & file)
   if (!this->header_.is_open () && this->source_.is_open ())
     return;
 
-  // Construct the name of the export macro.
+  // Construct the name of the exp macro.
   std::string corba_filename (file.name ());
   corba_filename += "C";
 
-  // Construct the export macro for this file.
+  // Construct the exp macro for this file.
   this->export_macro_ = std::string (file.name ()) + "_STUB";
 
   std::transform (this->export_macro_.begin (),
@@ -236,7 +238,7 @@ Visit_File (const CHAOS::File & file)
                   hash_define.begin (),
                   &::toupper);
 
-  std::string dds_filename ("ddstypes/");
+  std::string dds_filename ("rtidds/");
   dds_filename += std::string (file.name ()) + "_DDS";
 
   do
@@ -292,7 +294,7 @@ Visit_File (const CHAOS::File & file)
 //
 // Visit_Package
 //
-void OpenSplice_Stub_Generator::
+void Stub_Generator::
 Visit_Package (const CHAOS::Package & package)
 {
   this->header_
@@ -315,7 +317,7 @@ Visit_Package (const CHAOS::Package & package)
 //
 // Visit_PackageFile_i
 //
-void OpenSplice_Stub_Generator::
+void Stub_Generator::
 Visit_PackageFile_i  (const Udm::Object & obj)
 {
   // Gather all the necessary elements.
@@ -354,7 +356,7 @@ Visit_PackageFile_i  (const Udm::Object & obj)
 //
 // Visit_Event
 //
-void OpenSplice_Stub_Generator::
+void Stub_Generator::
 Visit_Event (const CHAOS::Event & event)
 {
   std::string name (event.name ());
@@ -362,15 +364,15 @@ Visit_Event (const CHAOS::Event & event)
 
   this->header_
     << this->export_macro_
-    << " bool operator <<= (" << name << " &, const ::CUTS_OSPL" << fq_name << " & );"
+    << " bool operator <<= (" << name << " &, const ::CUTS_NDDS" << fq_name << " & );"
     << this->export_macro_
-    << " bool operator >>= (const " << name << " &, ::CUTS_OSPL" << fq_name << " & );"
+    << " bool operator >>= (const " << name << " &, ::CUTS_NDDS" << fq_name << " & );"
     << std::endl;
 
   std::vector <CHAOS::Member> members = event.Member_children ();
 
   this->source_
-    << "bool operator <<= (" << name << " & corba, const ::CUTS_OSPL" << fq_name << " & dds)"
+    << "bool operator <<= (" << name << " & corba, const ::CUTS_NDDS" << fq_name << " & dds)"
     << "{";
 
   Input_Stream_Generator input_stream (this->source_, false);
@@ -382,7 +384,7 @@ Visit_Event (const CHAOS::Event & event)
   this->source_
     << "return true;"
     << "}"
-    << "bool operator >>= (const " << name << " & corba, ::CUTS_OSPL" << fq_name << " & dds)"
+    << "bool operator >>= (const " << name << " & corba, ::CUTS_NDDS" << fq_name << " & dds)"
     << "{";
 
   Output_Stream_Generator output_stream (this->source_, false);
@@ -401,7 +403,7 @@ Visit_Event (const CHAOS::Event & event)
 //
 // Visit_Event
 //
-void OpenSplice_Stub_Generator::
+void Stub_Generator::
 Visit_Aggregate (const CHAOS::Aggregate & aggr)
 {
   std::string name (aggr.name ());
@@ -409,15 +411,15 @@ Visit_Aggregate (const CHAOS::Aggregate & aggr)
 
   this->header_
     << this->export_macro_
-    << " bool operator <<= (" << name << " &, const ::CUTS_OSPL" << fq_name << " & );"
+    << " bool operator <<= (" << name << " &, const ::CUTS_NDDS" << fq_name << " & );"
     << this->export_macro_
-    << " bool operator >>= (const " << name << " &, ::CUTS_OSPL" << fq_name << " & );"
+    << " bool operator >>= (const " << name << " &, ::CUTS_NDDS" << fq_name << " & );"
     << std::endl;
 
   std::vector <CHAOS::Member> members = aggr.Member_children ();
 
   this->source_
-    << "bool operator <<= (" << name << " & corba, const ::CUTS_OSPL" << fq_name << " & dds)"
+    << "bool operator <<= (" << name << " & corba, const ::CUTS_NDDS" << fq_name << " & dds)"
     << "{";
 
   Input_Stream_Generator input_stream (this->source_, true);
@@ -428,7 +430,7 @@ Visit_Aggregate (const CHAOS::Aggregate & aggr)
   this->source_
     << "return true;"
     << "}"
-    << "bool operator >>= (const " << name << " & corba, ::CUTS_OSPL" << fq_name << " & dds)"
+    << "bool operator >>= (const " << name << " & corba, ::CUTS_NDDS" << fq_name << " & dds)"
     << "{";
 
   Output_Stream_Generator output_stream (this->source_, true);
@@ -439,5 +441,6 @@ Visit_Aggregate (const CHAOS::Aggregate & aggr)
   this->source_
     << "return true;"
     << "}";
+}
 }
 }

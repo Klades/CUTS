@@ -17,24 +17,24 @@ module CUTS_DDS
     {
       struct Data_DDS
       {
+        // data member: name
+        string name;
+
         // data member: urgent
         boolean urgent;
 
         // data member: id
         long id;
-
-        // data member: name
-        string name;
       };
     };
 
     struct TestData_DDS
     {
-      // data member: key
-      short key;
-
       // data member: packet
       ::CUTS_DDS::Outer::Inner::Data_DDS packet;
+
+      // data member: key
+      short key;
     };
 
     #if defined (__OSPL__)

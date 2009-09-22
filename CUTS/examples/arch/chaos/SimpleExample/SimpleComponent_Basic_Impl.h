@@ -36,11 +36,14 @@ namespace SimpleComponent_Basic_Impl
     // Destructor
     virtual ~SimpleComponent (void);
 
-    // sink: dds_read_test_data
-    virtual void push_dds_read_test_data (::Outer::TestData_DDS * ev);
+    // sink: ospl_read_test_data
+    virtual void push_ospl_read_test_data (::Outer::TestData_DDS * ev);
 
     // sink: corba_read_test_data
     virtual void push_corba_read_test_data (::Outer::TestData_DDS * ev);
+
+    // sink: ndds_read_test_data
+    virtual void push_ndds_read_test_data (::Outer::TestData_DDS * ev);
 
     // sink: tcpip_read_test_data
     virtual void push_tcpip_read_test_data (::Outer::TestData_DDS * ev);
@@ -49,11 +52,11 @@ namespace SimpleComponent_Basic_Impl
     void periodic_sendData (void);
 
     private:
-    // variable: eventCount
-    ::CORBA::Long eventCount_;
-
     // variable: isActive
     ::CORBA::Long isActive_;
+
+    // variable: eventCount
+    ::CORBA::Long eventCount_;
 
     // periodic: sendData
     CUTS_Periodic_Event_T < SimpleComponent > periodic_sendData_;

@@ -1,6 +1,66 @@
+Tue Sep 22 20:27:53 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Context_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Generators.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Project_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Servant_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/codegen.mpc:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/opensplice:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/opensplice/Event_Traits_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/opensplice/Event_Traits_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/opensplice/Stub_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/opensplice/Stub_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/rtidds:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/rtidds/Event_Traits_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/rtidds/Event_Traits_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/rtidds/Stub_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/rtidds/Stub_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.xme:
+        * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.xml:
+        * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.xmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/CHAOS_uml.xme:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Event_Traits_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Event_Traits_Generator.cpp:
+        * MPC/config/cuts_chaos.mpb:
+        * MPC/config/cuts_chaos_ccm.mpb:
+        * MPC/config/cuts_chaos_ccm_skel.mpb:
+        * MPC/config/cuts_chaos_ccm_stub.mpb:
+        * cuts/arch/chaos/ccm/CHAOS_CCM.mpc:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_EventConsumer.h:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant.h:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Single_Subscriber.h:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Subscriber_Table.h:
+        * examples/arch/chaos/SimpleExample/ModelDDSData.idl:
+        * examples/arch/chaos/SimpleExample/ModelDDSData.mpc:
+        * examples/arch/chaos/SimpleExample/ModelDDSData_DDS.idl:
+        * examples/arch/chaos/SimpleExample/RTIDDS_ModelDDSDataC.h:
+        * examples/arch/chaos/SimpleExample/RTIDDS_ModelDDSDataC.cpp:
+        * examples/arch/chaos/SimpleExample/RTIDDS_SimpleComponentC.h:
+        * examples/arch/chaos/SimpleExample/RTIDDS_SimpleComponentC.cpp:
+        * examples/arch/chaos/SimpleExample/SimpleComponent.idl:
+        * examples/arch/chaos/SimpleExample/SimpleComponent.mpc:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_svnt.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_svnt.cpp:
+        * examples/arch/chaos/SimpleExample/descriptors/SimpleExample.cdp:
+        * examples/arch/chaos/SimpleExample/models/SimpleExample.xme:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Event_Traits_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Event_Traits_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Stub_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Stub_Generator.cpp:
+
+          . Integrated RTI-DDS into CHAOS.
+
+        * examples/arch/chaos/SimpleExample/ModelDDSData_Base.mpc:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Base.mpc:
+
+          Removed these files.
+
 Tue Sep 22 20:23:52 UTC 2009  Pooja Varshneya  <varshneya_p@local>
 
         * cuts/utils/testing/svcs/validation/Testing_Validation_Service.mpc:
+
           . Removed cuts_unite reference and added boost_base.
 
 Tue Sep 22 13:05:25 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
@@ -33,7 +93,6 @@ Tue Sep 22 12:04:39 UTC 2009  Pooja Varshneya  <varshnp@dre.vanderbilt.edu>
 Tue Sep 22 11:52:33 UTC 2009  Pooja Varshneya  <varshnp@dre.vanderbilt.edu>
 
         * cuts/utils/testing/svcs/validation:
-
         * cuts/utils/testing/svcs/validation/Testing_Validation_Service.h:
         * cuts/utils/testing/svcs/validation/Testing_Validation_Service.cpp:
         * cuts/utils/testing/svcs/validation/Testing_Validation_Service.mpc:

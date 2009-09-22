@@ -320,15 +320,20 @@ void Servant_Generator::Visit_File (const CHAOS::File & file)
       << std::endl
       << CUTS_BE_CPP::include (exec_stub)
       << CUTS_BE_CPP::include (name + "S")
+      << std::endl
+      << CUTS_BE_CPP::single_line_comment ("include event conversion files")
       << CUTS_BE_CPP::include ("OpenSplice_" + name + "C")
+      << CUTS_BE_CPP::include ("RTIDDS_" + name + "C")
       << CUTS_BE_CPP::include ("TCPIP_" + name + "C")
       << std::endl
+      << CUTS_BE_CPP::single_line_comment ("include component architecture files")
       << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_Context_T")
       << CUTS_BE_CPP::include ("cuts/arch/chaos/ccm/CHAOS_CCM_Servant_T")
       << CUTS_BE_CPP::include ("cuts/arch/chaos/ccm/CHAOS_CCM_Single_Subscriber")
       << CUTS_BE_CPP::include ("cuts/arch/chaos/ccm/CHAOS_CCM_Subscriber_Table")
       << CUTS_BE_CPP::include ("cuts/arch/chaos/ccm/CHAOS_CCM_EventConsumer")
       << std::endl
+      << CUTS_BE_CPP::single_line_comment ("include export definitions")
       << CUTS_BE_CPP::include (export_filename)
       << std::endl;
 
@@ -596,6 +601,17 @@ Visit_InEventPort (const CHAOS::InEventPort & port)
       << "  " << "::CUTS_OSPL" << fq_type << " > " << name << "_consumer_;"
       << std::endl;
   }
+  else if (conntype == "RTI-DDS")
+  {
+    this->header_
+      << "static void upcall_" << name << " (" << this->servant_ << " *," << std::endl
+      << "const ::CUTS_NDDS" << fq_type << "& dds_event);"
+      << std::endl
+      << "CUTS_RTIDDS_CCM_EventConsumer_T < " << std::endl
+      << "  " << this->servant_ << "," << std::endl
+      << "  " << "::CUTS_NDDS" << fq_type << " > " << name << "_consumer_;"
+      << std::endl;
+  }
 
   this->source_
     << CUTS_BE_CPP::function_header ("get_consumer_" + name)
@@ -651,6 +667,23 @@ Visit_InEventPort (const CHAOS::InEventPort & port)
       << "void " << this->servant_ << "::" << std::endl
       << "upcall_" << name << " (" << this->servant_ << " * servant," << std::endl
       << "const ::CUTS_OSPL" << fq_type << " & dds_event)"
+      << "{"
+      << CUTS_BE_CPP::single_line_comment ("First, extract the event.")
+      << "CUTS_CCM_Event_T < ::OBV_" << CUTS_BE_CPP::fq_type (event, "::", false) << " > event;"
+      << "*event.in () <<= dds_event;"
+      << std::endl
+      << CUTS_BE_CPP::single_line_comment ("Now, puch the event to the implemetation.")
+      << "if (servant->impl_)" << std::endl
+      << "  servant->impl_->push_" << name << " (event.in ());"
+      << "}";
+  }
+  else if (conntype == "RTI-DDS")
+  {
+    this->source_
+      << CUTS_BE_CPP::function_header ("upcall_" + name)
+      << "void " << this->servant_ << "::" << std::endl
+      << "upcall_" << name << " (" << this->servant_ << " * servant," << std::endl
+      << "const ::CUTS_NDDS" << fq_type << " & dds_event)"
       << "{"
       << CUTS_BE_CPP::single_line_comment ("First, extract the event.")
       << "CUTS_CCM_Event_T < ::OBV_" << CUTS_BE_CPP::fq_type (event, "::", false) << " > event;"

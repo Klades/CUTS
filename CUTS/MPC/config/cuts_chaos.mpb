@@ -1,5 +1,5 @@
 // $Id$
 
-project : cuts_tcpip, cuts_opensplice {
+project : cuts_tcpip, cuts_opensplice, cuts_rtidds {
 
 }

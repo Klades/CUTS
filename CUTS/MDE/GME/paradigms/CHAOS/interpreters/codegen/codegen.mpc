@@ -10,7 +10,6 @@ project (CUTS_CHAOS_Codegen) : boost_base, udm_component, gme_interpreter, cosmi
 
   Source_Files {
     Context_Generator.cpp
-    Event_Traits_Generator.cpp
     Generators.cpp
     IDL_Generator.cpp
     Input_Stream_Generator.cpp
@@ -18,7 +17,6 @@ project (CUTS_CHAOS_Codegen) : boost_base, udm_component, gme_interpreter, cosmi
     Project_Generator.cpp
     Servant_Generator.cpp
     Servant_Header_Include_Generator.cpp
-    Stub_Generator.cpp
     Workspace_Generator.cpp
 
     BE_algorithm.cpp
@@ -33,6 +31,8 @@ project (CUTS_CHAOS_Codegen) : boost_base, udm_component, gme_interpreter, cosmi
     cpp/*.cpp
     ccm/*.cpp
     tcpip/*.cpp
+    rtidds/*.cpp
+    opensplice/*.cpp
   }
 
   Template_Files {

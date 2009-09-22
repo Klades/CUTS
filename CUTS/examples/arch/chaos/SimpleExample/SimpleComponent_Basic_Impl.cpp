@@ -10,8 +10,8 @@ namespace SimpleComponent_Basic_Impl
   // SimpleComponent
   //
   SimpleComponent::SimpleComponent (void)
-  : eventCount_ (0),
-    isActive_ (true)
+  : isActive_ (true),
+    eventCount_ (0)
   {
     this->periodic_sendData_.init (this, &SimpleComponent::periodic_sendData);
     this->periodic_sendData_.configure (CUTS_Periodic_Event::PE_CONSTANT, 10);
@@ -26,10 +26,13 @@ namespace SimpleComponent_Basic_Impl
   }
 
   //
-  // sink: dds_read_test_data
+  // sink: ospl_read_test_data
   //
-  void SimpleComponent::push_dds_read_test_data (::Outer::TestData_DDS * ev)
+  void SimpleComponent::push_ospl_read_test_data (::Outer::TestData_DDS * ev)
   {
+    CUTS_CCM_Event_T <OBV_Outer::TestData_DDS> __event_100000044__;
+    this->ctx_->push_app_op_ndds (__event_100000044__.in ());
+
     ACE_UNUSED_ARG (ev);
   }
 
@@ -39,8 +42,16 @@ namespace SimpleComponent_Basic_Impl
   void SimpleComponent::push_corba_read_test_data (::Outer::TestData_DDS * ev)
   {
     CUTS_CCM_Event_T <OBV_Outer::TestData_DDS> __event_100000009__;
-    this->ctx_->push_app_op_dds (__event_100000009__.in ());
+    this->ctx_->push_app_op_ospl (__event_100000009__.in ());
 
+    ACE_UNUSED_ARG (ev);
+  }
+
+  //
+  // sink: ndds_read_test_data
+  //
+  void SimpleComponent::push_ndds_read_test_data (::Outer::TestData_DDS * ev)
+  {
     ACE_UNUSED_ARG (ev);
   }
 

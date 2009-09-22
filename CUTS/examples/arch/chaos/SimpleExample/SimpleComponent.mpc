@@ -13,6 +13,7 @@ project (SimpleComponent_IDL_Gen) : componentidldefaults {
               -Wb,svnt_export_macro=SIMPLECOMPONENT_SVNT_Export \
               -Wb,svnt_export_include=SimpleComponent_svnt_export.h \
               -Sa -Sal
+  idlflags -= -Gsv
 
   IDL_Files {
     SimpleComponent.idl

@@ -1,5 +1,5 @@
 // $Id$
 
-project : cuts_tcpip_ccm_stub, cuts_opensplice_ccm_stub {
+project : cuts_rtidds_ccm_stub, cuts_tcpip_ccm_stub, cuts_opensplice_ccm_stub {
 
 }

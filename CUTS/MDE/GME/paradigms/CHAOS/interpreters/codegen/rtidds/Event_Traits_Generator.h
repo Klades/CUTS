@@ -10,13 +10,15 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_OPENSPLICE_BE_EVENTS_TRAITS_GENERATOR_H_
-#define _CUTS_OPENSPLICE_BE_EVENTS_TRAITS_GENERATOR_H_
+#ifndef _CUTS_CHAOS_RTIDDS_EVENTS_TRAITS_GENERATOR_H_
+#define _CUTS_CHAOS_RTIDDS_EVENTS_TRAITS_GENERATOR_H_
 
-#include "../../paradigms/CHAOS.h"
+#include "../../../paradigms/CHAOS.h"
 #include <ostream>
 
 namespace CUTS_CHAOS
+{
+namespace RTIDDS
 {
 /**
  * @class Event_Traits_Generator
@@ -38,5 +40,6 @@ private:
 };
 
 }
+}
 
-#endif  // !defined _CUTS_OPENSPLICE_BE_EVENTS_TRAITS_GENERATOR_H_
+#endif  // !defined _CUTS_CHAOS_RTIDDS_EVENTS_TRAITS_GENERATOR_H_

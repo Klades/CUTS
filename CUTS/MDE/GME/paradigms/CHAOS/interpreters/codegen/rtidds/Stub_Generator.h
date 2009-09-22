@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- * @file          OpenSplice_Stub_Generator.h
+ * @file          Stub_Generator.h
  *
  * $Id$
  *
@@ -10,23 +10,25 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_OPENSPLICE_STUB_GENERATOR_H_
-#define _CUTS_OPENSPLICE_STUB_GENERATOR_H_
+#ifndef _CUTS_CHAOS_RTIDDS_STUB_GENERATOR_H_
+#define _CUTS_CHAOS_RTIDDS_STUB_GENERATOR_H_
 
-#include "../../paradigms/CHAOS.h"
+#include "../../../paradigms/CHAOS.h"
 #include <fstream>
 
 namespace CUTS_CHAOS
 {
+namespace RTIDDS
+{
 /**
- * @class OpenSplice_Stub_Generator
+ * @class Stub_Generator
  */
-class OpenSplice_Stub_Generator : public CHAOS::Visitor
+class Stub_Generator : public CHAOS::Visitor
 {
 public:
-  OpenSplice_Stub_Generator (const std::string & outdir);
+  Stub_Generator (const std::string & outdir);
 
-  virtual ~OpenSplice_Stub_Generator (void);
+  virtual ~Stub_Generator (void);
 
   virtual void Visit_RootFolder (
     const CHAOS::RootFolder & folder);
@@ -61,5 +63,6 @@ private:
 };
 
 }
+}
 
-#endif  // !defined _CUTS_OPENSPLICE_STUB_GENERATOR_H_
+#endif  // !defined _CUTS_CHAOS_RTIDDS_STUB_GENERATOR_H_

@@ -6,6 +6,8 @@
 
 namespace CUTS_CHAOS
 {
+namespace OpenSplice
+{
 //
 // Event_Traits_Generator
 //
@@ -72,4 +74,5 @@ void Event_Traits_Generator::Visit_Event (const CHAOS::Event & event)
     << "};";
 }
 
+}
 }

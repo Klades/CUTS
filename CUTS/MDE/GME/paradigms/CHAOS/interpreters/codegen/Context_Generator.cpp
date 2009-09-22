@@ -129,7 +129,13 @@ Visit_OutEventPort (const CHAOS::OutEventPort & port)
     else if (conntype == "OpenSpliceDDS")
     {
       this->header_
-        << "CUTS_OpenSplice_CCM_Subscriber_T < ::CUTS_OPSL"
+        << "CUTS_OpenSplice_CCM_Subscriber_T < ::CUTS_OSPL"
+        << fq_type << " > " << name << "_;" << std::endl;
+    }
+    else if (conntype == "RTI-DDS")
+    {
+      this->header_
+        << "CUTS_RTIDDS_CCM_Subscriber_T < ::CUTS_NDDS"
         << fq_type << " > " << name << "_;" << std::endl;
     }
     else if (conntype == "TCPIP")
@@ -162,10 +168,16 @@ Visit_OutEventPort (const CHAOS::OutEventPort & port)
         << "CUTS_CCM_Subscriber_Table_T < " << fq_type << " > "
         << name << "_;" << std::endl;
     }
-    else if (conntype == "OpenSplice")
+    else if (conntype == "OpenSpliceDDS")
     {
       this->header_
-        << "CUTS_OpenSplice_CCM_Subscriber_Table_T < ::CUTS_OPSL"
+        << "CUTS_OpenSplice_CCM_Subscriber_Table_T < ::CUTS_OSPL"
+        << fq_type << " > " << name << "_;" << std::endl;
+    }
+    else if (conntype == "RTI-DDS")
+    {
+      this->header_
+        << "CUTS_RTIDDS_CCM_Subscriber_Table_T < ::CUTS_NDDS"
         << fq_type << " > " << name << "_;" << std::endl;
     }
     else if (conntype == "TCPIP")
