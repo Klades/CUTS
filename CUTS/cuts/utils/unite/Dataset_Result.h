@@ -69,6 +69,16 @@ public:
                 const ACE_CString & aspect,
                 bool aggr = true);
 
+   /**
+   * Validate a test.
+   *
+   * @param[in]         test          Unit test to evaluate
+   * @param[in]         datagraph     Name of the graph to apply result
+   * @param[in]         aspect        Aspect of data to evaluate
+   * @param[in]         aggr          Aggregate the results
+   */
+  bool validate (const ACE_CString & validation_str);
+              
   /// Close the result.
   void close (void);
 

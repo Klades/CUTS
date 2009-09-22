@@ -1,0 +1,14 @@
+
+project (CUTS_Testing_Validation_Service) : cuts_test_database, cuts_testing_svc, cuts_unite_xml, cuts_unite, cutslib{
+
+  sharedname    = CUTS_Testing_Validation_Service
+  dynamicflags += CUTS_TESTING_VALIDATION_SERVICE_BUILD_DLL
+
+  Source_Files {
+    Testing_Validation_Service.cpp
+  }
+
+  Header_Files {
+    Testing_Validation_Service_export.h
+  }
+}

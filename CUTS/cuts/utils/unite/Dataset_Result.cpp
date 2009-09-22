@@ -133,7 +133,7 @@ const CUTS_Group_Name & CUTS_Dataset_Result::get_group_name (void)
 //
 int CUTS_Dataset_Result::
 evaluate (const CUTS_Unite_Test & test,
-          const ACE_CString & vtable,
+          const ACE_CString & datagraph,
           const ACE_CString & aspect,
           bool aggr)
 {
@@ -191,7 +191,7 @@ evaluate (const CUTS_Unite_Test & test,
       sqlstr << ")";
 
     // Set the evaluation column to 'result'.
-    sqlstr << " AS result FROM " << vtable.c_str ();
+    sqlstr << " AS result FROM " << datagraph.c_str ();
 
     // Apply the aspect to the evaluation string.
     if (!aspect.empty ())
@@ -217,7 +217,7 @@ evaluate (const CUTS_Unite_Test & test,
     this->result_index_ = this->record_->columns () - 1;
 
     // Save information about the evaluation.
-    this->vtable_name_ = &vtable;
+    this->vtable_name_ = &datagraph;
     this->unit_test_ = &test;
     this->result_is_old_ = true;
     return 0;
@@ -246,4 +246,26 @@ bool CUTS_Dataset_Result::has_groupings (void) const
 void CUTS_Dataset_Result::rewind (void)
 {
   this->record_->reset ();
+}
+
+bool CUTS_Dataset_Result::validate (const ACE_CString & validation_str)
+{ 
+  try
+  {
+    if (this->query_ == 0)
+      this->query_ = this->repo_->vtable_->create_query ();
+
+    // Execute the SQL statement.
+    CUTS_DB_SQLite_Record * record;
+    record = this->query_->execute (validation_str.c_str ());
+    
+    // Check if the record set is empty or not 
+    return record->done () ? false : true;
+  }
+  catch (const CUTS_DB_Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - %s\n",
+                ex.message ().c_str ()));
+  }
 }

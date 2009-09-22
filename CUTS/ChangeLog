@@ -1,3 +1,19 @@
+Tue Sep 22 11:52:33 UTC 2009  Pooja Varshneya  <varshneya_p@>
+
+        * cuts/utils/testing/svcs/validation:
+
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.h:
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.cpp:
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.mpc:
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service_export.h:
+          
+				  . Added validation service for cuts test validation.  
+
+        * cuts/utils/unite/Dataset_Result.h:
+        * cuts/utils/unite/Dataset_Result.cpp:
+
+				  . Added validate function for running validation query.
+
 Tue Sep 22 04:51:05 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Context_Generator.cpp:
