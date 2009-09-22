@@ -158,7 +158,13 @@ Visit_File (const CHAOS::File & file)
       << "#ifndef " << hash_define << std::endl
       << "#define " << hash_define << std::endl
       << std::endl
-      << "module CUTS_DDS"
+      << "#if defined (__NDDS__)" << std::endl
+      << "#define CUTS_DDS CUTS_NDDS" << std::endl
+      << "#elif defined (__OSPL__)" << std::endl
+      << "#define CUTS_DDS CUTS_OSPL" << std::endl
+      << "#endif" << std::endl
+      << std::endl
+      << "module CUTS_DDS" << std::endl
       << "{";
 
     this->Visit_PackageFile_i (file);
@@ -250,8 +256,10 @@ Visit_Event (const CHAOS::Event & event)
 
   this->idlfile_
     << "};"
+    << "#if defined (__OSPL__)" << std::endl
     << "// define the keylist for the struct/event." << std::endl
-    << "#pragma keylist " << event.name () << std::endl;
+    << "#pragma keylist " << event.name () << std::endl
+    << "#endif" << std::endl;
 }
 
 //

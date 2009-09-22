@@ -3,6 +3,12 @@
 #ifndef _MODELDDSDATA_DDS_IDL_
 #define _MODELDDSDATA_DDS_IDL_
 
+#if defined (__NDDS__)
+#define CUTS_DDS CUTS_NDDS
+#elif defined (__OSPL__)
+#define CUTS_DDS CUTS_OSPL
+#endif
+
 module CUTS_DDS
 {
   module Outer
@@ -31,8 +37,10 @@ module CUTS_DDS
       ::CUTS_DDS::Outer::Inner::Data_DDS packet;
     };
 
+    #if defined (__OSPL__)
     // define the keylist for the struct/event.
     #pragma keylist TestData_DDS
+    #endif
   };
 };
 

@@ -129,7 +129,7 @@ Visit_OutEventPort (const CHAOS::OutEventPort & port)
     else if (conntype == "OpenSpliceDDS")
     {
       this->header_
-        << "CUTS_OpenSplice_CCM_Subscriber_T < ::CUTS_DDS"
+        << "CUTS_OpenSplice_CCM_Subscriber_T < ::CUTS_OPSL"
         << fq_type << " > " << name << "_;" << std::endl;
     }
     else if (conntype == "TCPIP")
@@ -165,7 +165,7 @@ Visit_OutEventPort (const CHAOS::OutEventPort & port)
     else if (conntype == "OpenSplice")
     {
       this->header_
-        << "CUTS_OpenSplice_CCM_Subscriber_Table_T < ::CUTS_DDS"
+        << "CUTS_OpenSplice_CCM_Subscriber_Table_T < ::CUTS_OPSL"
         << fq_type << " > " << name << "_;" << std::endl;
     }
     else if (conntype == "TCPIP")

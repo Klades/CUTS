@@ -24,7 +24,7 @@ namespace CUTS_CHAOS
 class Event_Traits_Generator : public CHAOS::Visitor
 {
 public:
-  Event_Traits_Generator (std::ostream & out, const std::string & export);
+  Event_Traits_Generator (std::ostream & out, const std::string & exp);
 
   virtual ~Event_Traits_Generator (void);
 

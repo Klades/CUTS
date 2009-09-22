@@ -340,11 +340,11 @@ generate_idlgen_project (const CUTS_BE_IDL_Node & node)
       << std::endl
       << "  after += " << name << "_IDL_Gen" << std::endl
       << std::endl
-      << "  idlflags += -o ./ddstypes \\" << std::endl
+      << "  idlflags += -D __OSPL__ -o ./ddstypes \\" << std::endl
       << "              -Wb,export_macro=" << macro_basename << "_STUB_Export \\" << std::endl
       << "              -Wb,export_include=../" << name << "_stub_export.h" << std::endl
       << std::endl
-      << "  splice_ts_flags += -d ./ddstypes \\" << std::endl
+      << "  splice_ts_flags += -D __OSPL__ -d ./ddstypes \\" << std::endl
       << "                     -P " << macro_basename << "_STUB_Export,../" << name << "_stub_export.h" << std::endl
       << std::endl
       << "  SpliceTypeSupport_Files {" << std::endl

@@ -21,11 +21,11 @@ project (ModelDDSData_OpenSplice_IDL_Gen) : splice_ts_defaults, requires_openspl
 
   after += ModelDDSData_IDL_Gen
 
-  idlflags += -o ./ddstypes \
+  idlflags += -D __OSPL__ -o ./ddstypes \
               -Wb,export_macro=MODELDDSDATA_STUB_Export \
               -Wb,export_include=../ModelDDSData_stub_export.h
 
-  splice_ts_flags += -d ./ddstypes \
+  splice_ts_flags += -D __OSPL__ -d ./ddstypes \
                      -P MODELDDSDATA_STUB_Export,../ModelDDSData_stub_export.h
 
   SpliceTypeSupport_Files {
