@@ -1,9 +1,9 @@
 // -*- IDL -*-
 
-#ifndef _MODELDDSDATA_DDS_IDL_
-#define _MODELDDSDATA_DDS_IDL_
+#ifndef _MODELDDSDATA_OPSL_IDL_
+#define _MODELDDSDATA_OPSL_IDL_
 
-module CUTS_DDS
+module CUTS_OSPL
 {
   module Outer
   {
@@ -14,21 +14,21 @@ module CUTS_DDS
         // data member: name
         string name;
 
-        // data member: urgent
-        boolean urgent;
-
         // data member: id
         long id;
+
+        // data member: urgent
+        boolean urgent;
       };
     };
 
     struct TestData_DDS
     {
+      // data member: packet
+      ::CUTS_OSPL::Outer::Inner::Data_DDS packet;
+
       // data member: key
       short key;
-
-      // data member: packet
-      ::CUTS_DDS::Outer::Inner::Data_DDS packet;
     };
 
     // define the keylist for the struct/event.
@@ -36,5 +36,5 @@ module CUTS_DDS
   };
 };
 
-#endif  // _MODELDDSDATA_DDS_IDL_
+#endif  // _MODELDDSDATA_OPSL_IDL_
 

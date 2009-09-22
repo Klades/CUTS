@@ -3,7 +3,6 @@
 
 #include "SimpleComponent_Basic_Impl.h"
 #include "cuts/arch/ccm/CCM_Events_T.h"
-#include "ace/streams.h"
 
 namespace SimpleComponent_Basic_Impl
 {
@@ -11,8 +10,8 @@ namespace SimpleComponent_Basic_Impl
   // SimpleComponent
   //
   SimpleComponent::SimpleComponent (void)
-  : isActive_ (true),
-    eventCount_ (0)
+  : eventCount_ (0),
+    isActive_ (true)
   {
     this->periodic_sendData_.init (this, &SimpleComponent::periodic_sendData);
     this->periodic_sendData_.configure (CUTS_Periodic_Event::PE_CONSTANT, 10);
@@ -31,8 +30,6 @@ namespace SimpleComponent_Basic_Impl
   //
   void SimpleComponent::push_processEvent (::Outer::TestData_DDS * ev)
   {
-    std::cout << "received an input event on port(processEvent)" << std::endl;
-
     ACE_UNUSED_ARG (ev);
   }
 
@@ -56,13 +53,13 @@ namespace SimpleComponent_Basic_Impl
 //
 // create_SimpleComponent_Basic_Impl
 //
-::Components::EnterpriseComponent_ptr
+::Components::EnterpriseComponent_ptr 
 create_SimpleComponent_Basic_Impl (void)
 {
   ::Components::EnterpriseComponent_ptr retval =
     ::Components::EnterpriseComponent::_nil ();
 
-  ACE_NEW_RETURN (retval,
+  ACE_NEW_RETURN (retval, 
                   ::SimpleComponent_Basic_Impl::SimpleComponent (),
                   ::Components::EnterpriseComponent::_nil ());
 

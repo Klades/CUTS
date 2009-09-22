@@ -22,24 +22,6 @@ namespace Example
   }
 
   //
-  // push_emitEvent
-  //
-  void SimpleComponent_Servant_Context::
-  push_emitEvent (::Outer::TestData_DDS * ev)
-  {
-    this->emitEvent_.send_event (ev);
-  }
-
-  //
-  // writer_emitEvent
-  //
-  CUTS_OpenSplice_CCM_Subscriber & SimpleComponent_Servant_Context::
-  writer_emitEvent (void)
-  {
-    return this->emitEvent_;
-  }
-
-  //
   // push_publishEvent
   //
   void SimpleComponent_Servant_Context::
@@ -58,6 +40,24 @@ namespace Example
   }
 
   //
+  // push_emitEvent
+  //
+  void SimpleComponent_Servant_Context::
+  push_emitEvent (::Outer::TestData_DDS * ev)
+  {
+    this->emitEvent_.send_event (ev);
+  }
+
+  //
+  // writer_emitEvent
+  //
+  CUTS_OpenSplice_CCM_Subscriber & SimpleComponent_Servant_Context::
+  writer_emitEvent (void)
+  {
+    return this->emitEvent_;
+  }
+
+  //
   // SimpleComponent_Servant
   //
   SimpleComponent_Servant::
@@ -66,8 +66,8 @@ namespace Example
    : SimpleComponent_Servant_Base (name, executor),
      processEvent_consumer_ (this, &SimpleComponent_Servant::deserialize_processEvent)
   {
-    this->emits_.bind ("emitEvent", &this->ctx_->writer_emitEvent ());
     this->publishes_.bind ("publishEvent", &this->ctx_->writers_publishEvent ());
+    this->emits_.bind ("emitEvent", &this->ctx_->writer_emitEvent ());
 
     this->consumers_.bind ("processEvent", &this->processEvent_consumer_);
   }
@@ -77,24 +77,6 @@ namespace Example
   //
   SimpleComponent_Servant::~SimpleComponent_Servant (void)
   {
-  }
-
-  //
-  // connect_emitEvent
-  //
-  void SimpleComponent_Servant::
-  connect_emitEvent (::Outer::TestData_DDSConsumer_ptr)
-  {
-    throw ::CORBA::NO_IMPLEMENT ();
-  }
-
-  //
-  // disconnect_emitEvent
-  //
-  ::Outer::TestData_DDSConsumer_ptr SimpleComponent_Servant::
-  disconnect_emitEvent (void)
-  {
-    throw ::CORBA::NO_IMPLEMENT ();
   }
 
   //
@@ -116,6 +98,24 @@ namespace Example
   }
 
   //
+  // connect_emitEvent
+  //
+  void SimpleComponent_Servant::
+  connect_emitEvent (::Outer::TestData_DDSConsumer_ptr)
+  {
+    throw ::CORBA::NO_IMPLEMENT ();
+  }
+
+  //
+  // disconnect_emitEvent
+  //
+  ::Outer::TestData_DDSConsumer_ptr SimpleComponent_Servant::
+  disconnect_emitEvent (void)
+  {
+    throw ::CORBA::NO_IMPLEMENT ();
+  }
+
+  //
   // get_consumer_processEvent
   //
   ::Outer::TestData_DDSConsumer_ptr SimpleComponent_Servant::
@@ -129,7 +129,7 @@ namespace Example
   //
   void SimpleComponent_Servant::
   deserialize_processEvent (SimpleComponent_Servant * servant,
-                            const ::CUTS_DDS::Outer::TestData_DDS & dds_event)
+                            const ::CUTS_OSPL::Outer::TestData_DDS & dds_event)
   {
     // First, extract the event.
     CUTS_CCM_Event_T < ::OBV_Outer::TestData_DDS > event;

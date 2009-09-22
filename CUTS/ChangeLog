@@ -1,3 +1,28 @@
+Tue Sep 22 04:51:05 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Event_Traits_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/IDL_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Stub_Generator.cpp:
+        * examples/arch/opensplice/SimpleExample/ModelDDSData.mpc:
+        * examples/arch/opensplice/SimpleExample/ModelDDSData_OPSL.idl:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_ModelDDSDataC.h:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_ModelDDSDataC.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_svnt.h:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_svnt.cpp:
+
+          . Modified the opening module name for the OpenSplice entities so
+            they do not conflict with OpenSplice entities.
+
+
+        * examples/arch/opensplice/SimpleExample/ModelDDSData_DDS.idl:
+
+          Removed this file.
+
 Tue Sep 22 04:32:01 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Context_Generator.cpp:

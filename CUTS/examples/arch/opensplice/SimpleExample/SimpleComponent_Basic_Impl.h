@@ -45,11 +45,11 @@ namespace SimpleComponent_Basic_Impl
     virtual void ccm_activate (void);
 
     private:
-    // variable: isActive
-    ::CORBA::Long isActive_;
-
     // variable: eventCount
     ::CORBA::Long eventCount_;
+
+    // variable: isActive
+    ::CORBA::Long isActive_;
 
     // periodic: sendData
     CUTS_Periodic_Event_T < SimpleComponent > periodic_sendData_;

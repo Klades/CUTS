@@ -33,7 +33,7 @@ public:
     if (this->has_events_)
     {
       std::string filename ("ddstypes/");
-      filename += std::string (file.name ()) + "_DDSDcps_impl";
+      filename += std::string (file.name ()) + "_OSPLDcps_impl";
 
       this->source_ << CUTS_BE_CPP::include (filename);
 
@@ -362,15 +362,15 @@ Visit_Event (const PICML::Event & event)
 
   this->header_
     << this->export_macro_
-    << " bool operator <<= (" << name << " &, const ::CUTS_DDS" << fq_name << " & );"
+    << " bool operator <<= (" << name << " &, const ::CUTS_OSPL" << fq_name << " & );"
     << this->export_macro_
-    << " bool operator >>= (const " << name << " &, ::CUTS_DDS" << fq_name << " & );"
+    << " bool operator >>= (const " << name << " &, ::CUTS_OSPL" << fq_name << " & );"
     << std::endl;
 
   std::vector <PICML::Member> members = event.Member_children ();
 
   this->source_
-    << "bool operator <<= (" << name << " & corba, const ::CUTS_DDS" << fq_name << " & dds)"
+    << "bool operator <<= (" << name << " & corba, const ::CUTS_OSPL" << fq_name << " & dds)"
     << "{";
 
   Input_Stream_Generator input_stream (this->source_, false);
@@ -382,7 +382,7 @@ Visit_Event (const PICML::Event & event)
   this->source_
     << "return true;"
     << "}"
-    << "bool operator >>= (const " << name << " & corba, ::CUTS_DDS" << fq_name << " & dds)"
+    << "bool operator >>= (const " << name << " & corba, ::CUTS_OSPL" << fq_name << " & dds)"
     << "{";
 
   Output_Stream_Generator output_stream (this->source_, false);
@@ -409,15 +409,15 @@ Visit_Aggregate (const PICML::Aggregate & aggr)
 
   this->header_
     << this->export_macro_
-    << " bool operator <<= (" << name << " &, const ::CUTS_DDS" << fq_name << " & );"
+    << " bool operator <<= (" << name << " &, const ::CUTS_OSPL" << fq_name << " & );"
     << this->export_macro_
-    << " bool operator >>= (const " << name << " &, ::CUTS_DDS" << fq_name << " & );"
+    << " bool operator >>= (const " << name << " &, ::CUTS_OSPL" << fq_name << " & );"
     << std::endl;
 
   std::vector <PICML::Member> members = aggr.Member_children ();
 
   this->source_
-    << "bool operator <<= (" << name << " & corba, const ::CUTS_DDS" << fq_name << " & dds)"
+    << "bool operator <<= (" << name << " & corba, const ::CUTS_OSPL" << fq_name << " & dds)"
     << "{";
 
   Input_Stream_Generator input_stream (this->source_, true);
@@ -428,7 +428,7 @@ Visit_Aggregate (const PICML::Aggregate & aggr)
   this->source_
     << "return true;"
     << "}"
-    << "bool operator >>= (const " << name << " & corba, ::CUTS_DDS" << fq_name << " & dds)"
+    << "bool operator >>= (const " << name << " & corba, ::CUTS_OSPL" << fq_name << " & dds)"
     << "{";
 
   Output_Stream_Generator output_stream (this->source_, true);

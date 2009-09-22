@@ -28,16 +28,16 @@ generate (const CUTS_BE_IDL_Node & node)
                     macro_basename.begin (),
                     &::toupper);
 
-    this->stub_files_.insert ("./ddstypes/" + name + "_DDSC.cpp");
-    this->stub_files_.insert ("./ddstypes/" + name + "_DDSS.cpp");
-    this->stub_files_.insert ("./ddstypes/" + name + "_DDSDcpsC.cpp");
-    this->stub_files_.insert ("./ddstypes/" + name + "_DDSDcpsS.cpp");
-    this->stub_files_.insert ("./ddstypes/" + name + "_DDSSplDcps.cpp");
-    this->stub_files_.insert ("./ddstypes/" + name + "_DDSDcps_impl.cpp");
+    this->stub_files_.insert ("./ddstypes/" + name + "_OSPLC.cpp");
+    this->stub_files_.insert ("./ddstypes/" + name + "_OSPLS.cpp");
+    this->stub_files_.insert ("./ddstypes/" + name + "_OSPLDcpsC.cpp");
+    this->stub_files_.insert ("./ddstypes/" + name + "_OSPLDcpsS.cpp");
+    this->stub_files_.insert ("./ddstypes/" + name + "_OSPLSplDcps.cpp");
+    this->stub_files_.insert ("./ddstypes/" + name + "_OSPLDcps_impl.cpp");
 
     this->ctx_.project_
       << std::endl
-      << "project (" << name << "_DDS_IDL_Gen) : splice_ts_defaults, requires_opensplice {" << std::endl
+      << "project (" << name << "_OSPL_IDL_Gen) : splice_ts_defaults, requires_opensplice {" << std::endl
       << "  custom_only = 1" << std::endl
       << std::endl
       << "  after += " << name << "_IDL_Gen" << std::endl
@@ -52,19 +52,19 @@ generate (const CUTS_BE_IDL_Node & node)
       << "  SpliceTypeSupport_Files {" << std::endl
       << "    gendir = ./ddstypes" << std::endl
       << std::endl
-      << "    " << name << "_DDS.idl" << std::endl
+      << "    " << name << "_OSPL.idl" << std::endl
       << "  }" << std::endl
       << std::endl
       << "  IDL_Files {" << std::endl
       << "    gendir = ./ddstypes" << std::endl
       << std::endl
-      << "    " << name << "_DDS.idl" << std::endl
-      << "    ./ddstypes/" << name << "_DDSDcps.idl" << std::endl
+      << "    " << name << "_OSPL.idl" << std::endl
+      << "    ./ddstypes/" << name << "_OSPLDcps.idl" << std::endl
       << "  }" << std::endl
       << "}" << std::endl
       << std::endl;
 
-    this->stub_after_ = name + "_DDS_IDL_Gen";
+    this->stub_after_ = name + "_OSPL_IDL_Gen";
   }
   else
   {

@@ -34,22 +34,22 @@ namespace Example
     virtual ~SimpleComponent_Servant_Context (void);
 
     public:
-    // push method for output event port: emitEvent
-    virtual void push_emitEvent (::Outer::TestData_DDS * ev);
-
-    CUTS_OpenSplice_CCM_Subscriber & writer_emitEvent (void);
-
-    private:
-    CUTS_OpenSplice_CCM_Subscriber_T < ::CUTS_DDS::Outer::TestData_DDS > emitEvent_;
-
-    public:
     // push method for output event port: publishEvent
     virtual void push_publishEvent (::Outer::TestData_DDS * ev);
 
     CUTS_CCM_Subscriber_Table & writers_publishEvent (void);
 
     private:
-    CUTS_OpenSplice_CCM_Subscriber_Table_T < ::CUTS_DDS::Outer::TestData_DDS > publishEvent_;
+    CUTS_OpenSplice_CCM_Subscriber_Table_T < ::CUTS_OSPL::Outer::TestData_DDS > publishEvent_;
+
+    public:
+    // push method for output event port: emitEvent
+    virtual void push_emitEvent (::Outer::TestData_DDS * ev);
+
+    CUTS_OpenSplice_CCM_Subscriber & writer_emitEvent (void);
+
+    private:
+    CUTS_OpenSplice_CCM_Subscriber_T < ::CUTS_OSPL::Outer::TestData_DDS > emitEvent_;
   };
 
   typedef CUTS_OpenSplice_CCM_Servant_T < 
@@ -67,24 +67,24 @@ namespace Example
 
     virtual ~SimpleComponent_Servant (void);
 
-    void connect_emitEvent (::Outer::TestData_DDSConsumer_ptr);
-
-    ::Outer::TestData_DDSConsumer_ptr disconnect_emitEvent (void);
-
     ::Components::Cookie * subscribe_publishEvent (::Outer::TestData_DDSConsumer_ptr);
 
     ::Outer::TestData_DDSConsumer_ptr unsubscribe_publishEvent(::Components::Cookie *);
+
+    void connect_emitEvent (::Outer::TestData_DDSConsumer_ptr);
+
+    ::Outer::TestData_DDSConsumer_ptr disconnect_emitEvent (void);
 
     public:
     ::Outer::TestData_DDSConsumer_ptr get_consumer_processEvent (void);
 
     private:
     static void deserialize_processEvent (SimpleComponent_Servant *,
-                                          const ::CUTS_DDS::Outer::TestData_DDS& dds_event);
+                                          const ::CUTS_OSPL::Outer::TestData_DDS& dds_event);
 
     CUTS_OpenSplice_CCM_EventConsumer_T < 
       SimpleComponent_Servant,
-      ::CUTS_DDS::Outer::TestData_DDS > processEvent_consumer_;
+      ::CUTS_OSPL::Outer::TestData_DDS > processEvent_consumer_;
   };
 
 
