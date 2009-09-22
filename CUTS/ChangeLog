@@ -1,3 +1,8 @@
+Tue Sep 22 20:23:52 UTC 2009  Pooja Varshneya  <varshneya_p@local>
+
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.mpc:
+          . Removed cuts_unite reference and added boost_base.
+
 Tue Sep 22 13:05:25 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/CHAOS/interpreters/codegen/Context_Generator.cpp:
