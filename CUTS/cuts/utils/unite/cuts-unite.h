@@ -27,15 +27,20 @@ namespace CUTS
     class joinType;
     class expressionType;
     class aspectType;
+    class validationType;
   }
 }
 
 #include <memory>
+#include <string>
 #include <list>
 #include "XMLSchema/Types.hpp"
-
+#include "XMLSchema/id_map.hpp"
 #include "ace/Refcounted_Auto_Ptr.h"
 #include "ace/Null_Mutex.h"
+#include "ace/TSS_T.h"
+#include "ace/ace_wchar.h"
+#include "ace/Singleton.h"
 
 namespace CUTS
 {
@@ -199,6 +204,8 @@ namespace CUTS
       relation_const_iterator begin_relation () const;
       relation_const_iterator end_relation () const;
       void add_relation ( ACE_Refcounted_Auto_Ptr < ::CUTS::XML::relationType, ACE_Null_Mutex > const& );
+      XSCRT::Type* get_relation_ptr ( std::basic_string<char> idref );
+      void set_relation_ptr (std::basic_string<char> idref );
       size_t count_relation (void) const;
 
       protected:
@@ -277,6 +284,8 @@ namespace CUTS
       causality_const_iterator begin_causality () const;
       causality_const_iterator end_causality () const;
       void add_causality ( ACE_Refcounted_Auto_Ptr < ::CUTS::XML::causalityType, ACE_Null_Mutex > const& );
+      XSCRT::Type* get_causality_ptr ( std::basic_string<char> idref );
+      void set_causality_ptr (std::basic_string<char> idref );
       size_t count_causality (void) const;
 
       protected:
@@ -323,6 +332,8 @@ namespace CUTS
       logformat_const_iterator begin_logformat () const;
       logformat_const_iterator end_logformat () const;
       void add_logformat ( ACE_Refcounted_Auto_Ptr < ::CUTS::XML::logformatType, ACE_Null_Mutex > const& );
+      XSCRT::Type* get_logformat_ptr ( std::basic_string<char> idref );
+      void set_logformat_ptr (std::basic_string<char> idref );
       size_t count_logformat (void) const;
 
       protected:
@@ -390,6 +401,8 @@ namespace CUTS
       groupitem_const_iterator begin_groupitem () const;
       groupitem_const_iterator end_groupitem () const;
       void add_groupitem ( ACE_Refcounted_Auto_Ptr < ::CUTS::XML::groupitemType, ACE_Null_Mutex > const& );
+      XSCRT::Type* get_groupitem_ptr ( std::basic_string<char> idref );
+      void set_groupitem_ptr (std::basic_string<char> idref );
       size_t count_groupitem (void) const;
 
       protected:
@@ -497,6 +510,8 @@ namespace CUTS
       filter_const_iterator begin_filter () const;
       filter_const_iterator end_filter () const;
       void add_filter ( ACE_Refcounted_Auto_Ptr < ::CUTS::XML::filterType, ACE_Null_Mutex > const& );
+      XSCRT::Type* get_filter_ptr ( std::basic_string<char> idref );
+      void set_filter_ptr (std::basic_string<char> idref );
       size_t count_filter (void) const;
 
       protected:
@@ -533,6 +548,8 @@ namespace CUTS
       variable_const_iterator begin_variable () const;
       variable_const_iterator end_variable () const;
       void add_variable ( ACE_Refcounted_Auto_Ptr < ::CUTS::XML::filterVariableType, ACE_Null_Mutex > const& );
+      XSCRT::Type* get_variable_ptr ( std::basic_string<char> idref );
+      void set_variable_ptr (std::basic_string<char> idref );
       size_t count_variable (void) const;
 
       protected:
@@ -695,6 +712,8 @@ namespace CUTS
       service_const_iterator begin_service () const;
       service_const_iterator end_service () const;
       void add_service ( ACE_Refcounted_Auto_Ptr < ::CUTS::XML::serviceType, ACE_Null_Mutex > const& );
+      XSCRT::Type* get_service_ptr ( std::basic_string<char> idref );
+      void set_service_ptr (std::basic_string<char> idref );
       size_t count_service (void) const;
 
       protected:
@@ -731,6 +750,8 @@ namespace CUTS
       expression_const_iterator begin_expression () const;
       expression_const_iterator end_expression () const;
       void add_expression ( ACE_Refcounted_Auto_Ptr < ::CUTS::XML::expressionType, ACE_Null_Mutex > const& );
+      XSCRT::Type* get_expression_ptr ( std::basic_string<char> idref );
+      void set_expression_ptr (std::basic_string<char> idref );
       size_t count_expression (void) const;
 
       protected:
@@ -746,6 +767,8 @@ namespace CUTS
       condition_const_iterator begin_condition () const;
       condition_const_iterator end_condition () const;
       void add_condition ( ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex > const& );
+      XSCRT::Type* get_condition_ptr ( std::basic_string<char> idref );
+      void set_condition_ptr (std::basic_string<char> idref );
       size_t count_condition (void) const;
 
       protected:
@@ -925,6 +948,47 @@ namespace CUTS
       private:
       char regulator__;
     };
+
+
+    class CUTS_UNITE_XML_Export validationType : public ::XSCRT::Type
+    {
+      typedef ::XSCRT::Type Base;
+
+      public:
+      typedef ACE_Refcounted_Auto_Ptr < validationType, ACE_Null_Mutex > _ptr;
+
+      // name
+      // 
+      public:
+      bool name_p () const;
+      ::XMLSchema::ID< char > const& name () const;
+      void name (::XMLSchema::ID< char > const& );
+
+      protected:
+      ::std::auto_ptr< ::XMLSchema::ID< char > > name_;
+
+      // condition
+      // 
+      public:
+      bool condition_p () const;
+      ::CUTS::XML::conditionType const& condition () const;
+      void condition (::CUTS::XML::conditionType const& );
+
+      protected:
+      ::std::auto_ptr< ::CUTS::XML::conditionType > condition_;
+
+      public:
+      validationType ();
+
+      validationType (::XSCRT::XML::Element< char > const&);
+      validationType (validationType const& s);
+
+      validationType&
+      operator= (validationType const& s);
+
+      private:
+      char regulator__;
+    };
   }
 }
 
@@ -961,6 +1025,14 @@ namespace CUTS
       CUTS_UNITE_XML_Export
       ::CUTS::XML::aspectType
       aspect (xercesc::DOMDocument const*);
+    }
+
+
+    namespace reader
+    {
+      CUTS_UNITE_XML_Export
+      ::CUTS::XML::validationType
+      validation (xercesc::DOMDocument const*);
     }
   }
 }

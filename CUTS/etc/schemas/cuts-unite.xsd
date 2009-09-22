@@ -128,4 +128,12 @@
   </xsd:complexType>
   <xsd:element name="aspect" type="aspectType">
   </xsd:element>
+  <xsd:complexType name="validationType">
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:ID" maxOccurs="1" minOccurs="0" />
+      <xsd:element name="condition" type="conditionType" minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="validation" type="validationType">
+  </xsd:element>
 </xsd:schema>

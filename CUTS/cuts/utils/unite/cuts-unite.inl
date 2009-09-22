@@ -2029,6 +2029,113 @@ namespace CUTS
         condition_->container (this);
       }
     }
+
+
+    // validationType
+    // 
+
+    inline
+    validationType::
+    validationType ()
+    : 
+    regulator__ ()
+    {
+    }
+
+    inline
+    validationType::
+    validationType (validationType const& s)
+    :
+    ::XSCRT::Type (),
+    name_ (s.name_.get () ? new ::XMLSchema::ID< char > (*s.name_) : 0),
+    condition_ (s.condition_.get () ? new ::CUTS::XML::conditionType (*s.condition_) : 0),
+    regulator__ ()
+    {
+      if (name_.get ()) name_->container (this);
+      if (condition_.get ()) condition_->container (this);
+    }
+
+    inline
+    validationType& validationType::
+    operator= (validationType const& s)
+    {
+      if (s.name_.get ())
+        name (*(s.name_));
+      else
+        name_.reset (0);
+
+      if (s.condition_.get ())
+        condition (*(s.condition_));
+      else
+        condition_.reset (0);
+
+      return *this;
+    }
+
+
+    // validationType
+    // 
+    inline
+    bool validationType::
+    name_p () const
+    {
+      return name_.get () != 0;
+    }
+
+    inline
+    ::XMLSchema::ID< char > const& validationType::
+    name () const
+    {
+      return *name_;
+    }
+
+    inline
+    void validationType::
+    name (::XMLSchema::ID< char > const& e)
+    {
+      if (name_.get ())
+      {
+        *name_ = e;
+      }
+
+      else
+      {
+        name_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (new ::XMLSchema::ID< char > (e));
+        name_->container (this);
+      }
+    }
+
+    // validationType
+    // 
+    inline
+    bool validationType::
+    condition_p () const
+    {
+      return condition_.get () != 0;
+    }
+
+    inline
+    ::CUTS::XML::conditionType const& validationType::
+    condition () const
+    {
+      return *condition_;
+    }
+
+    inline
+    void validationType::
+    condition (::CUTS::XML::conditionType const& e)
+    {
+      if (condition_.get ())
+      {
+        *condition_ = e;
+      }
+
+      else
+      {
+        condition_ = ::std::auto_ptr< ::CUTS::XML::conditionType > (new ::CUTS::XML::conditionType (e));
+        condition_->container (this);
+      }
+    }
   }
 }
 

@@ -3,7 +3,7 @@
 #include "Testing_Validation_Service.h"
 
 #include "cuts/utils/unite/Unite_Datagraph_File.h"
-#include "cuts/utils/unite/Unite_Aspect_File.h"
+#include "cuts/utils/unite/Unite_Validation_File.h"
 #include "cuts/utils/unite/Dataflow_Graph.h"
 #include "cuts/utils/unite/Dataflow_Graph_Builder.h"
 #include "cuts/utils/unite/Dataset_Repo.h"
@@ -185,24 +185,24 @@ int CUTS_Testing_Validation_Service::validate_test (void)
   if (!this->validation_config_.empty ())
   {
     // Open the XML document for reading.
-    CUTS_Unite_Aspect_File aspect_file;
-    aspect_file->setErrorHandler (&error_handler);
+    CUTS_Unite_Validation_File validation_file;
+    validation_file->setErrorHandler (&error_handler);
 
-    if (!aspect_file.read (this->validation_config_.c_str ()))
+    if (!validation_file.read (this->validation_config_.c_str ()))
       ACE_ERROR_RETURN ((LM_ERROR,
                          ACE_TEXT ("%T (%t) - %M - failed to load validation file %s\n"),
                          this->validation_config_.c_str ()),
                          -1);
 
     // Load the information from the file.
-    ::CUTS::XML::aspectType aspect;
-    aspect_file >>= aspect;
+    ::CUTS::XML::validationType validation;
+    validation_file >>= validation;
 
-    if (aspect.condition_p ())
+    if (validation.condition_p ())
     {
       // Construct the WHERE clause for the aspect.
       CUTS_Where_Clause_Builder where_clause_builder;
-      where_clause_builder.build (aspect.condition (),
+      where_clause_builder.build (validation.condition (),
                                   where_clause,
                                   false);
     }

@@ -1,3 +1,18 @@
+Tue Sep 22 21:30:55 UTC 2009  Pooja Varshneya  <varshneya_p@local>
+
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.cpp:
+          
+				  . Modified to parse Validation file.
+
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * cuts/utils/unite/unite.mpc:
+
+        * etc/schemas/cuts-unite.xsd:
+
+				  . Added Validation type element in unite.
+
 Tue Sep 22 20:53:12 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/testing/svcs/validation/Testing_Validation_Service.cpp:
