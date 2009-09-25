@@ -1,25 +1,30 @@
+Thu Sep 24 21:14:01 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * bin/cuts.config:
+
+          . Removed XML backend for the document.
+
 Wed Sep 23 03:01:47 UTC 2009  Pooja Varshneya  <varshneya_p@>
 
         * cuts/utils/unite/Unite_Validation_File.h:
         * cuts/utils/unite/Unite_Validation_File.inl:
         * cuts/utils/unite/Unite_Validation_File.cpp:
-   
+
           . Added files for validation config file parsing.
 
 Tue Sep 22 21:30:55 UTC 2009  Pooja Varshneya  <varshneya_p@local>
 
         * cuts/utils/testing/svcs/validation/Testing_Validation_Service.cpp:
 
-                                  . Modified to parse Validation file.
+          . Modified to parse Validation file.
 
         * cuts/utils/unite/cuts-unite.h:
         * cuts/utils/unite/cuts-unite.inl:
         * cuts/utils/unite/cuts-unite.cpp:
         * cuts/utils/unite/unite.mpc:
-
         * etc/schemas/cuts-unite.xsd:
 
-                                  . Added Validation type element in unite.
+          . Added Validation type element in unite.
 
 Tue Sep 22 20:53:12 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
