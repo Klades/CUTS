@@ -1,3 +1,9 @@
+Fri Sep 25 20:40:01 UTC 2009  Pooja Varshneya  <varshneya_p@>
+
+        * examples/cuts/utils/testing/logging/logging-example.config:
+
+				  . Removed extra characters causing file-parsing errors.
+
 Fri Sep 25 14:45:16 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/unite/Dataflow_Graph_Builder.h:
