@@ -18,12 +18,17 @@
 #include "XSCRT/utils/File_Reader_T.h"
 
 /**
+ * @ingroup UNITE_XML
+ *
  * @class CUTS_Unite_Config_File
+ *
+ * Helper class for parsing a UNITE configuration file.
  */
 class CUTS_UNITE_XML_Export CUTS_Unite_Config_File :
   public XSCRT::utils::File_Reader_T < ::CUTS::XML::testConfig >
 {
 public:
+  /// Type definition of the XML reader type.
   typedef XSCRT::utils::File_Reader_T < ::CUTS::XML::testConfig > reader_type;
 
   /// Default constructor.

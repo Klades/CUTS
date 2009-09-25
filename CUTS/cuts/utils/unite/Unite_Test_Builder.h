@@ -25,10 +25,12 @@ class CUTS_Log_Format;
 class CUTS_Log_Format_Relation;
 
 /**
+ * @ingroup UNITE_XML
+ *
  * @class CUTS_Unite_Test_Builder
  *
- * Helper class that converts the datagraph in a XML file into
- * a CUTS_Unite_Test object.
+ * Helper class that converts the datagraph in a XML file into a
+ * CUTS_Unite_Test object.
  */
 class CUTS_UNITE_XML_Export CUTS_Unite_Test_Builder
 {

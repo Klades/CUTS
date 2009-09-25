@@ -17,9 +17,12 @@
 #include "ace/SStringfwd.h"
 
 /**
+ * @ingroup UNITE_XML
+ *
  * @class CUTS_Where_Clause_Builder
  *
- * This help class con
+ * Helper class for constructing the WHERE clause of an SQL statement
+ * from a XML condition.
  */
 class CUTS_UNITE_XML_Export CUTS_Where_Clause_Builder
 {

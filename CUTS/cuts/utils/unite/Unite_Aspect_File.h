@@ -18,15 +18,18 @@
 #include "XSCRT/utils/File_Reader_T.h"
 
 /**
+ * @ingroup UNITE_XML
+ *
  * @class CUTS_Unite_Aspect_File
  *
- * Helper class for parsing XML documents that contain aspects
- * for trimming the dataset for a given datagraph.
+ * Helper class for parsing XML documents that contain aspects. The
+ * aspects are for trimming the dataset for a given datagraph.
  */
 class CUTS_UNITE_XML_Export CUTS_Unite_Aspect_File :
   public XSCRT::utils::File_Reader_T < ::CUTS::XML::aspectType >
 {
 public:
+  /// Type definition of the XML reader type.
   typedef XSCRT::utils::File_Reader_T < ::CUTS::XML::aspectType > reader_type;
 
   /// Default constructor.

@@ -18,6 +18,8 @@
 #include "XSCRT/utils/File_Reader_T.h"
 
 /**
+ * @ingroup UNITE_XML
+ *
  * @class CUTS_Unite_Validation_File
  *
  * Helper class for parsing XML documents that contain validation
@@ -27,6 +29,7 @@ class CUTS_UNITE_XML_Export CUTS_Unite_Validation_File :
   public XSCRT::utils::File_Reader_T < ::CUTS::XML::validationType >
 {
 public:
+  /// Type definition of the XML reader type.
   typedef XSCRT::utils::File_Reader_T < ::CUTS::XML::validationType > reader_type;
 
   /// Default constructor.

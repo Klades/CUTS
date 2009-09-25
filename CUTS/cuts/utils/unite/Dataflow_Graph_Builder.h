@@ -26,6 +26,8 @@ class CUTS_Log_Format;
 class CUTS_Log_Format_Relation;
 
 /**
+ * @ingroup UNITE_XML
+ *
  * @class CUTS_Dataflow_Graph_Builder
  *
  * Helper class that converts the datagraph in a XML file into

@@ -18,6 +18,8 @@
 #include "XSCRT/utils/File_Reader_T.h"
 
 /**
+ * @ingroup UNITE_XML
+ *
  * @class CUTS_Unite_Datagraph_File
  *
  * Helper class for parsing XML documents that contain a unit test
@@ -27,6 +29,7 @@ class CUTS_UNITE_XML_Export CUTS_Unite_Datagraph_File :
   public XSCRT::utils::File_Reader_T < ::CUTS::XML::datagraphType >
 {
 public:
+  /// Type definition of the XML reader type.
   typedef XSCRT::utils::File_Reader_T < ::CUTS::XML::datagraphType > reader_type;
 
   /// Default constructor.

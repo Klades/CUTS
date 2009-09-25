@@ -75,6 +75,10 @@ project (CUTS_Unite_Xml) : boost_base, xscrt, cuts_unite, cutslib {
   Inline_Files {
 
   }
+
+  Documentation_Files {
+    Doxygen
+  }
 }
 
 project (CUTS_Unite_Exe) : boost_base, cuts_unite_xml, cutsexe {
