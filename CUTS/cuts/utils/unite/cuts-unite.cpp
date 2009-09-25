@@ -706,6 +706,12 @@ namespace CUTS
           add_id(temp, dynamic_cast<XSCRT::Type*> (this));
         }
 
+        else if (n == ACE_TEXT("viewpoint"))
+        {
+          ::CUTS::XML::viewpointType t (e);
+          viewpoint (t);
+        }
+
         else if (n == ACE_TEXT("condition"))
         {
           ::CUTS::XML::conditionType t (e);
@@ -746,6 +752,38 @@ namespace CUTS
         {
           ::CUTS::XML::conditionType t (e);
           condition (t);
+        }
+
+        else 
+        {
+        }
+      }
+    }
+
+    // viewpointType
+    //
+
+    viewpointType::
+    viewpointType (::XSCRT::XML::Element< char > const& e)
+    :Base (e), regulator__ ()
+    {
+
+      ::XSCRT::Parser< char > p (e);
+
+      while (p.more_attributes ())
+      {
+        ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+        ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+        if (n == "before")
+        {
+          ::XMLSchema::unsignedInt t (a);
+          before (t);
+        }
+
+        else if (n == "after")
+        {
+          ::XMLSchema::unsignedByte t (a);
+          after (t);
         }
 
         else 

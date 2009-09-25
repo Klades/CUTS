@@ -37,7 +37,7 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>create_SimpleComponent_Servant</string>
+          <string>create_Example_SimpleComponent_Servant</string>
         </value>
       </value>
     </execParameter>
@@ -48,7 +48,7 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>SimpleExample.ImplementationArtifacts.SimpleComponent.OpenSplice_SimpleComponent_svnt</string>
+          <string>SimpleExample.ImplementationArtifacts.SimpleComponent.SimpleComponent_svnt</string>
         </value>
       </value>
     </execParameter>
@@ -133,10 +133,10 @@
   </artifact>
 
   <artifact xmi:id="_F2C95587-D133-4EAE-95F6-42A173F1E5AA">
-    <name>SimpleExample.ImplementationArtifacts.SimpleComponent.OpenSplice_SimpleComponent_svnt</name>
+    <name>SimpleExample.ImplementationArtifacts.SimpleComponent.SimpleComponent_svnt</name>
     <source/>
     <node/>
-    <location>OpenSplice_SimpleComponent_svnt</location>
+    <location>SimpleComponent_svnt</location>
   </artifact>
 
   <localityConstraint>

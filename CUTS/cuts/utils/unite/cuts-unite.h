@@ -28,6 +28,7 @@ namespace CUTS
     class expressionType;
     class aspectType;
     class validationType;
+    class viewpointType;
   }
 }
 
@@ -926,6 +927,16 @@ namespace CUTS
       protected:
       ::std::auto_ptr< ::XMLSchema::ID< char > > name_;
 
+      // viewpoint
+      // 
+      public:
+      bool viewpoint_p () const;
+      ::CUTS::XML::viewpointType const& viewpoint () const;
+      void viewpoint (::CUTS::XML::viewpointType const& );
+
+      protected:
+      ::std::auto_ptr< ::CUTS::XML::viewpointType > viewpoint_;
+
       // condition
       // 
       public:
@@ -985,6 +996,49 @@ namespace CUTS
 
       validationType&
       operator= (validationType const& s);
+
+      private:
+      char regulator__;
+    };
+
+
+    class CUTS_UNITE_XML_Export viewpointType : public ::XSCRT::Type
+    {
+      typedef ::XSCRT::Type Base;
+
+      public:
+      typedef ACE_Refcounted_Auto_Ptr < viewpointType, ACE_Null_Mutex > _ptr;
+
+      // before
+      // 
+      public:
+      bool before_p () const;
+      ::XMLSchema::unsignedInt const& before () const;
+      ::XMLSchema::unsignedInt& before ();
+      void before (::XMLSchema::unsignedInt const& );
+
+      protected:
+      ::std::auto_ptr< ::XMLSchema::unsignedInt > before_;
+
+      // after
+      // 
+      public:
+      bool after_p () const;
+      ::XMLSchema::unsignedByte const& after () const;
+      ::XMLSchema::unsignedByte& after ();
+      void after (::XMLSchema::unsignedByte const& );
+
+      protected:
+      ::std::auto_ptr< ::XMLSchema::unsignedByte > after_;
+
+      public:
+      viewpointType ();
+
+      viewpointType (::XSCRT::XML::Element< char > const&);
+      viewpointType (viewpointType const& s);
+
+      viewpointType&
+      operator= (viewpointType const& s);
 
       private:
       char regulator__;

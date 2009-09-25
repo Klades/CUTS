@@ -19,31 +19,31 @@ namespace CUTS
         ::XSCRT::XML::Element< char > e (p.next_element ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-        if (n == "executable")
+        if (n == ACE_TEXT("executable"))
         {
           executable_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
           executable_->container (this);
         }
 
-        else if (n == "arguments")
+        else if (n == ACE_TEXT("arguments"))
         {
           ::XMLSchema::string< char > t (e);
           arguments (t);
         }
 
-        else if (n == "workingdirectory")
+        else if (n == ACE_TEXT("workingdirectory"))
         {
           ::XMLSchema::string< char > t (e);
           workingdirectory (t);
         }
 
-        else if (n == "output")
+        else if (n == ACE_TEXT("output"))
         {
           ::XMLSchema::string< char > t (e);
           output (t);
         }
 
-        else if (n == "error")
+        else if (n == ACE_TEXT("error"))
         {
           ::XMLSchema::string< char > t (e);
           error (t);
@@ -62,6 +62,9 @@ namespace CUTS
         {
           id_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (new ::XMLSchema::ID< char > (a));
           id_->container (this);
+          std::basic_string<ACE_TCHAR> temp (ACE_TEXT_CHAR_TO_TCHAR ((*id_).c_str()));
+          (*ACE_Singleton<ID_Map::TSS_ID_Map, ACE_Null_Mutex>::instance())->
+          add_id(temp, dynamic_cast<XSCRT::Type*> (this));
         }
 
         else if (n == "delay")
@@ -97,7 +100,7 @@ namespace CUTS
         ::XSCRT::XML::Element< char > e (p.next_element ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-        if (n == "process")
+        if (n == ACE_TEXT("process"))
         {
           ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::ProcessOptions, ACE_Null_Mutex >  t (new ::CUTS::schemas::ProcessOptions (e));
           add_process (t);
@@ -124,7 +127,7 @@ namespace CUTS
         ::XSCRT::XML::Element< char > e (p.next_element ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-        if (n == "environment")
+        if (n == ACE_TEXT("environment"))
         {
           ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::EnvConfig, ACE_Null_Mutex >  t (new ::CUTS::schemas::EnvConfig (e));
           add_environment (t);
@@ -154,6 +157,10 @@ namespace CUTS
         {
           id_ = ::std::auto_ptr< ::XMLSchema::IDREF< char > > (new ::XMLSchema::IDREF< char > (a));
           id_->container (this);
+          std::basic_string<ACE_TCHAR> temp (ACE_TEXT_CHAR_TO_TCHAR ((*id_).id().c_str()));
+
+          (*ACE_Singleton<ID_Map::TSS_ID_Map, ACE_Null_Mutex>::instance())->
+          add_idref(temp, dynamic_cast<XSCRT::Type*> (this));
         }
 
         else 
@@ -177,19 +184,19 @@ namespace CUTS
         ::XSCRT::XML::Element< char > e (p.next_element ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-        if (n == "variables")
+        if (n == ACE_TEXT("variables"))
         {
           ::CUTS::schemas::VariableList t (e);
           variables (t);
         }
 
-        else if (n == "startup")
+        else if (n == ACE_TEXT("startup"))
         {
           ::CUTS::schemas::ProcessList t (e);
           startup (t);
         }
 
-        else if (n == "shutdown")
+        else if (n == ACE_TEXT("shutdown"))
         {
           ::CUTS::schemas::ProcessList t (e);
           shutdown (t);
@@ -208,6 +215,9 @@ namespace CUTS
         {
           id_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (new ::XMLSchema::ID< char > (a));
           id_->container (this);
+          std::basic_string<ACE_TCHAR> temp (ACE_TEXT_CHAR_TO_TCHAR ((*id_).c_str()));
+          (*ACE_Singleton<ID_Map::TSS_ID_Map, ACE_Null_Mutex>::instance())->
+          add_id(temp, dynamic_cast<XSCRT::Type*> (this));
         }
 
         else if (n == "inherit")
@@ -275,13 +285,13 @@ namespace CUTS
         ::XSCRT::XML::Element< char > e (p.next_element ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-        if (n == "import")
+        if (n == ACE_TEXT("import"))
         {
           ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::VariableImport, ACE_Null_Mutex >  t (new ::CUTS::schemas::VariableImport (e));
           add_import (t);
         }
 
-        else if (n == "variable")
+        else if (n == ACE_TEXT("variable"))
         {
           ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::Variable, ACE_Null_Mutex >  t (new ::CUTS::schemas::Variable (e));
           add_variable (t);
@@ -368,10 +378,18 @@ namespace CUTS
       ::CUTS::schemas::NodeConfig
       node (xercesc::DOMDocument const* d)
       {
+        //Initiate our Singleton as an ACE_TSS object (ensures thread
+        //specific storage
+        ID_Map::TSS_ID_Map* TSS_ID_Map (ACE_Singleton<ID_Map::TSS_ID_Map, ACE_Null_Mutex>::instance());
+
+
         ::XSCRT::XML::Element< char > e (d->getDocumentElement ());
-        if (e.name () == "node")
+        if (e.name () == ACE_TEXT("node"))
         {
           ::CUTS::schemas::NodeConfig r (e);
+
+          (*TSS_ID_Map)->resolve_idref();
+
           return r;
         }
 

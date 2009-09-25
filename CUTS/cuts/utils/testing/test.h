@@ -12,11 +12,15 @@ namespace CUTS
 }
 
 #include <memory>
+#include <string>
 #include <list>
 #include "XMLSchema/Types.hpp"
-
+#include "XMLSchema/id_map.hpp"
 #include "ace/Refcounted_Auto_Ptr.h"
 #include "ace/Null_Mutex.h"
+#include "ace/TSS_T.h"
+#include "ace/ace_wchar.h"
+#include "ace/Singleton.h"
 
 namespace CUTS
 {
@@ -98,6 +102,8 @@ namespace CUTS
     service_const_iterator begin_service () const;
     service_const_iterator end_service () const;
     void add_service ( ACE_Refcounted_Auto_Ptr < ::CUTS::serviceDescription, ACE_Null_Mutex > const& );
+    XSCRT::Type* get_service_ptr ( std::basic_string<char> idref );
+    void set_service_ptr (std::basic_string<char> idref );
     size_t count_service (void) const;
 
     protected:

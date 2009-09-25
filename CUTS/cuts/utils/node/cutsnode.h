@@ -20,11 +20,15 @@ namespace CUTS
 }
 
 #include <memory>
+#include <string>
 #include <list>
 #include "XMLSchema/Types.hpp"
-
+#include "XMLSchema/id_map.hpp"
 #include "ace/Refcounted_Auto_Ptr.h"
 #include "ace/Null_Mutex.h"
+#include "ace/TSS_T.h"
+#include "ace/ace_wchar.h"
+#include "ace/Singleton.h"
 
 namespace CUTS
 {
@@ -150,6 +154,8 @@ namespace CUTS
       process_const_iterator begin_process () const;
       process_const_iterator end_process () const;
       void add_process ( ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::ProcessOptions, ACE_Null_Mutex > const& );
+      XSCRT::Type* get_process_ptr ( std::basic_string<char> idref );
+      void set_process_ptr (std::basic_string<char> idref );
       size_t count_process (void) const;
 
       protected:
@@ -186,6 +192,8 @@ namespace CUTS
       environment_const_iterator begin_environment () const;
       environment_const_iterator end_environment () const;
       void add_environment ( ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::EnvConfig, ACE_Null_Mutex > const& );
+      XSCRT::Type* get_environment_ptr ( std::basic_string<char> idref );
+      void set_environment_ptr (std::basic_string<char> idref );
       size_t count_environment (void) const;
 
       protected:
@@ -218,6 +226,9 @@ namespace CUTS
       ::XMLSchema::IDREF< char > const& id () const;
       ::XMLSchema::IDREF< char >& id ();
       void id (::XMLSchema::IDREF< char > const& );
+      ::XSCRT::Type* get_id_ptr ( void );
+
+      void set_id_ptr (std::basic_string<char> idref );
 
       protected:
       ::std::auto_ptr< ::XMLSchema::IDREF< char > > id_;
@@ -378,6 +389,8 @@ namespace CUTS
       import_const_iterator begin_import () const;
       import_const_iterator end_import () const;
       void add_import ( ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::VariableImport, ACE_Null_Mutex > const& );
+      XSCRT::Type* get_import_ptr ( std::basic_string<char> idref );
+      void set_import_ptr (std::basic_string<char> idref );
       size_t count_import (void) const;
 
       protected:
@@ -393,6 +406,8 @@ namespace CUTS
       variable_const_iterator begin_variable () const;
       variable_const_iterator end_variable () const;
       void add_variable ( ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::Variable, ACE_Null_Mutex > const& );
+      XSCRT::Type* get_variable_ptr ( std::basic_string<char> idref );
+      void set_variable_ptr (std::basic_string<char> idref );
       size_t count_variable (void) const;
 
       protected:

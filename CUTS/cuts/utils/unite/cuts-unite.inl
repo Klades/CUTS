@@ -1941,10 +1941,12 @@ namespace CUTS
     :
     ::XSCRT::Type (),
     name_ (s.name_.get () ? new ::XMLSchema::ID< char > (*s.name_) : 0),
+    viewpoint_ (s.viewpoint_.get () ? new ::CUTS::XML::viewpointType (*s.viewpoint_) : 0),
     condition_ (s.condition_.get () ? new ::CUTS::XML::conditionType (*s.condition_) : 0),
     regulator__ ()
     {
       if (name_.get ()) name_->container (this);
+      if (viewpoint_.get ()) viewpoint_->container (this);
       if (condition_.get ()) condition_->container (this);
     }
 
@@ -1956,6 +1958,11 @@ namespace CUTS
         name (*(s.name_));
       else
         name_.reset (0);
+
+      if (s.viewpoint_.get ())
+        viewpoint (*(s.viewpoint_));
+      else
+        viewpoint_.reset (0);
 
       if (s.condition_.get ())
         condition (*(s.condition_));
@@ -1995,6 +2002,38 @@ namespace CUTS
       {
         name_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (new ::XMLSchema::ID< char > (e));
         name_->container (this);
+      }
+    }
+
+    // aspectType
+    // 
+    inline
+    bool aspectType::
+    viewpoint_p () const
+    {
+      return viewpoint_.get () != 0;
+    }
+
+    inline
+    ::CUTS::XML::viewpointType const& aspectType::
+    viewpoint () const
+    {
+      return *viewpoint_;
+    }
+
+    inline
+    void aspectType::
+    viewpoint (::CUTS::XML::viewpointType const& e)
+    {
+      if (viewpoint_.get ())
+      {
+        *viewpoint_ = e;
+      }
+
+      else
+      {
+        viewpoint_ = ::std::auto_ptr< ::CUTS::XML::viewpointType > (new ::CUTS::XML::viewpointType (e));
+        viewpoint_->container (this);
       }
     }
 
@@ -2134,6 +2173,122 @@ namespace CUTS
       {
         condition_ = ::std::auto_ptr< ::CUTS::XML::conditionType > (new ::CUTS::XML::conditionType (e));
         condition_->container (this);
+      }
+    }
+
+
+    // viewpointType
+    // 
+
+    inline
+    viewpointType::
+    viewpointType ()
+    : 
+    regulator__ ()
+    {
+    }
+
+    inline
+    viewpointType::
+    viewpointType (viewpointType const& s)
+    :
+    before_ (s.before_.get () ? new ::XMLSchema::unsignedInt (*s.before_) : 0),
+    after_ (s.after_.get () ? new ::XMLSchema::unsignedByte (*s.after_) : 0),
+    regulator__ ()
+    {
+      if (before_.get ()) before_->container (this);
+      if (after_.get ()) after_->container (this);
+    }
+
+    inline
+    viewpointType& viewpointType::
+    operator= (viewpointType const& s)
+    {
+      if (s.before_.get ()) before (*(s.before_));
+      else before_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (0);
+
+      if (s.after_.get ()) after (*(s.after_));
+      else after_ = ::std::auto_ptr< ::XMLSchema::unsignedByte > (0);
+
+      return *this;
+    }
+
+
+    // viewpointType
+    // 
+    inline
+    bool viewpointType::
+    before_p () const
+    {
+      return before_.get () != 0;
+    }
+
+    inline
+    ::XMLSchema::unsignedInt const& viewpointType::
+    before () const
+    {
+      return *before_;
+    }
+
+    inline
+    ::XMLSchema::unsignedInt& viewpointType::
+    before ()
+    {
+      return *before_;
+    }
+
+    inline
+    void viewpointType::
+    before (::XMLSchema::unsignedInt const& e)
+    {
+      if (before_.get ())
+      {
+        *before_ = e;
+      }
+
+      else
+      {
+        before_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (new ::XMLSchema::unsignedInt (e));
+        before_->container (this);
+      }
+    }
+
+    // viewpointType
+    // 
+    inline
+    bool viewpointType::
+    after_p () const
+    {
+      return after_.get () != 0;
+    }
+
+    inline
+    ::XMLSchema::unsignedByte const& viewpointType::
+    after () const
+    {
+      return *after_;
+    }
+
+    inline
+    ::XMLSchema::unsignedByte& viewpointType::
+    after ()
+    {
+      return *after_;
+    }
+
+    inline
+    void viewpointType::
+    after (::XMLSchema::unsignedByte const& e)
+    {
+      if (after_.get ())
+      {
+        *after_ = e;
+      }
+
+      else
+      {
+        after_ = ::std::auto_ptr< ::XMLSchema::unsignedByte > (new ::XMLSchema::unsignedByte (e));
+        after_->container (this);
       }
     }
   }

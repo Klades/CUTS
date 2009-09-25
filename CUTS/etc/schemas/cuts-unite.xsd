@@ -123,6 +123,7 @@
   <xsd:complexType name="aspectType">
     <xsd:sequence>
       <xsd:element name="name" type="xsd:ID" maxOccurs="1" minOccurs="0" />
+      <xsd:element name="viewpoint" type="viewpointType" minOccurs="0" maxOccurs="1" />
       <xsd:element name="condition" type="conditionType" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
@@ -136,4 +137,10 @@
   </xsd:complexType>
   <xsd:element name="validation" type="validationType">
   </xsd:element>
+  <xsd:complexType name="viewpointType">
+    <xsd:sequence>
+    </xsd:sequence>
+    <xsd:attribute name="before" type="xsd:unsignedInt" use="optional" default="0" />
+    <xsd:attribute name="after" type="xsd:unsignedByte" use="optional" default="0" />
+  </xsd:complexType>
 </xsd:schema>

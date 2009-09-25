@@ -11,11 +11,15 @@ namespace CUTS
 }
 
 #include <memory>
+#include <string>
 #include <list>
 #include "XMLSchema/Types.hpp"
-
+#include "XMLSchema/id_map.hpp"
 #include "ace/Refcounted_Auto_Ptr.h"
 #include "ace/Null_Mutex.h"
+#include "ace/TSS_T.h"
+#include "ace/ace_wchar.h"
+#include "ace/Singleton.h"
 
 namespace CUTS
 {
@@ -108,6 +112,8 @@ namespace CUTS
     generator_const_iterator begin_generator () const;
     generator_const_iterator end_generator () const;
     void add_generator ( ACE_Refcounted_Auto_Ptr < ::CUTS::Generator_Description, ACE_Null_Mutex > const& );
+    XSCRT::Type* get_generator_ptr ( std::basic_string<char> idref );
+    void set_generator_ptr (std::basic_string<char> idref );
     size_t count_generator (void) const;
 
     protected:

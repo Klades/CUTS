@@ -29,8 +29,11 @@ public:
   // to the correct method.
   virtual int handle_event (ACE_UINT32 id, CUTS_TCPIP_InputCDR & input);
 
-  /// Configure the servant for DDS.
+  /// Configure the servant for OpenSplice.
   virtual void configure (::DDS::DomainParticipant_ptr participant);
+
+  /// Configure the servant for RTI-DDS.
+  virtual void configure (::DDSDomainParticipant * particpant);
 
 protected:
   typedef typename base_type::consumer_map_type consumer_map_type;

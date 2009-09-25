@@ -26,6 +26,12 @@ public:
   /// Destructor.
   virtual ~CUTS_CHAOS_CCM_Servant (void);
 
+  /// Configure the servant for OpenSplice.
+  virtual void configure (::DDS::DomainParticipant_ptr participant);
+
+  /// Configure the servant for RTI-DDS.
+  virtual void configure (::DDSDomainParticipant * particpant);
+
 protected:
   /// Default constructor.
   CUTS_CHAOS_CCM_Servant (const char * name);

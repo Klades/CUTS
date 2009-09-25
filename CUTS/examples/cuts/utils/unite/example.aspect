@@ -7,6 +7,9 @@
   <!-- name assigned to aspect -->
   <name>Selective View</name>
 
+  <!-- number of units before/after condition to show data -->
+  <viewpoint before="6" after="7" />
+
   <!--
     Condition for the aspect. This is a list of variables and target values.
     The type for the condition can be either 'conjunction' or 'disjunction'
