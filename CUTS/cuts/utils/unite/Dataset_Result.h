@@ -13,7 +13,7 @@
 #ifndef _CUTS_UNITE_DATASET_RESULT_H_
 #define _CUTS_UNITE_DATASET_RESULT_H_
 
-#include "Unite_export.h"
+#include "Aspect.h"
 #include "ace/SString.h"
 #include "ace/Hash_Map_Manager.h"
 #include "ace/Null_Mutex.h"
@@ -31,9 +31,12 @@ class CUTS_Dataset_Repo;
 // Forward decl.
 class CUTS_Unite_Test;
 
+/// Type definition for the collection of group names.
 typedef ACE_Array <ACE_CString> CUTS_Group_Name;
 
 /**
+ * @ingroup UNITE_Common
+ *
  * @class CUTS_Dataset_Result
  *
  * Collection of the results for a unit test. Right now, the results
@@ -66,10 +69,21 @@ public:
    */
   int evaluate (const CUTS_Unite_Test & test,
                 const ACE_CString & datagraph,
-                const ACE_CString & aspect,
                 bool aggr = true);
 
-   /**
+  /**
+   * Evaluate a tests.
+   *
+   * @param[in]         test          Unit test to evaluate
+   * @param[in]         datagraph     Name of the graph to apply result
+   * @param[in]         aspect        Aspect of data to evaluate
+   * @param[in]         aggr          Aggregate the results
+   */
+  int evaluate (const CUTS_Unite_Test & test,
+                const ACE_CString & datagraph,
+                const CUTS_UNITE_Aspect & aspect);
+
+  /**
    * Validate a test.
    *
    * @param[in]         test          Unit test to evaluate
@@ -78,7 +92,7 @@ public:
    * @param[in]         aggr          Aggregate the results
    */
   bool validate (const ACE_CString & validation_str);
-              
+
   /// Close the result.
   void close (void);
 

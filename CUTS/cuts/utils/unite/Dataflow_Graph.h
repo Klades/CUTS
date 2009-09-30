@@ -23,6 +23,8 @@
 class CUTS_Log_Format;
 
 /**
+ * @ingroup UNITE_Common
+ *
  * @class CUTS_Unit_Test_Graph_Traits
  *
  * Traits for the unit test graph.

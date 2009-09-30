@@ -12,6 +12,7 @@
 #include "cuts/utils/db/SQLite/Record.h"
 #include "cuts/utils/db/SQLite/Connection.h"
 #include "ace/CORBA_macros.h"
+#include "ace/Pair.h"
 #include <string>
 #include <sstream>
 
@@ -134,7 +135,6 @@ const CUTS_Group_Name & CUTS_Dataset_Result::get_group_name (void)
 int CUTS_Dataset_Result::
 evaluate (const CUTS_Unite_Test & test,
           const ACE_CString & datagraph,
-          const ACE_CString & aspect,
           bool aggr)
 {
   try
@@ -193,10 +193,6 @@ evaluate (const CUTS_Unite_Test & test,
     // Set the evaluation column to 'result'.
     sqlstr << " AS result FROM " << datagraph.c_str ();
 
-    // Apply the aspect to the evaluation string.
-    if (!aspect.empty ())
-      sqlstr << " WHERE " << aspect;
-
     if (!group_str.str ().empty ())
     {
       // We need to group the data for aggregation.
@@ -233,6 +229,123 @@ evaluate (const CUTS_Unite_Test & test,
 }
 
 //
+// evaluate
+//
+int CUTS_Dataset_Result::
+evaluate (const CUTS_Unite_Test & test,
+          const ACE_CString & datagraph,
+          const CUTS_UNITE_Aspect & aspect)
+{
+  try
+  {
+    if (this->query_ == 0)
+      this->query_ = this->repo_->vtable_->create_query ();
+
+    // Normalize the evaluation string.
+    ACE_CString eval = test.evaluation ().c_str ();
+    std::replace (eval.begin (), eval.end (), '.', '_');
+
+    // Construct the grouping portion of the string.
+    std::ostringstream group_str;
+
+    if (test.groupings ().size () != 0)
+    {
+      ACE_CString name;
+      CUTS_Unite_Test::grouping_type::const_iterator
+        iter = test.groupings ().begin (), end = test.groupings ().end ();
+
+      // Normalize the name.
+      name = iter->c_str ();
+      std::replace (name.begin (), name.end (), '.', '_');
+
+      // Append the name to the SQL string.
+      group_str << name;
+
+      for (++ iter; iter != end; ++ iter)
+      {
+        // Normalize the name.
+        name = iter->c_str ();
+        std::replace (name.begin (), name.end (), '.', '_');
+
+        // Append the name to the SQL string.
+        group_str << ", " << name;
+      }
+    }
+
+    std::ostringstream aspect_sqlstr;
+
+    // First, SELECT all rows that meet the aspect's criteria.
+    aspect_sqlstr << "SELECT ROWID FROM " << datagraph
+                  << " WHERE " << aspect.aspect_
+                  << " ORDER BY ROWID";
+
+    this->record_ = this->query_->execute (aspect_sqlstr.str ().c_str ());
+
+    // Extract all the rowids from the dataset.
+    long rowid;
+    std::ostringstream between_stmt;
+
+    // The aspect needs to display N units before and M units after
+    // each row that meets the aspect's criteria.
+    if (!this->record_->done ())
+    {
+      // Begin the SQL condition for the viewpoint.
+      this->record_->get_data (0, rowid);
+      between_stmt << ACE_TEXT ("(ROWID BETWEEN ") << rowid - aspect.units_before_
+                   << ACE_TEXT (" AND ") << rowid + aspect.units_after_ << ACE_TEXT (")");
+
+      for (this->record_->advance (); !this->record_->done (); this->record_->advance ())
+        between_stmt << ACE_TEXT (" AND (ROWID BETWEEN ") << rowid - aspect.units_before_
+                     << ACE_TEXT (" AND ") << rowid + aspect.units_after_ << ACE_TEXT (")");
+    }
+
+    // Now, we can select all the data that will meet the specified
+    // aspect's criteria and be within the desired viewpoint.
+    std::ostringstream sqlstr;
+    sqlstr << ACE_TEXT ("SELECT ");
+
+    // Make sure we select the group columns.
+    if (!group_str.str ().empty ())
+        sqlstr << ' ' << group_str.str () << ", ";
+
+    sqlstr << eval;
+
+    // Set the evaluation column to 'result'. Make sure to include
+    // the aspect that will select the correct rows.
+    sqlstr << ACE_TEXT (" AS result FROM ") << datagraph
+           << ACE_TEXT (" WHERE ") << between_stmt.str ();
+
+    // Make sure we order the data by its groups.
+    if (!group_str.str ().empty ())
+      sqlstr << ACE_TEXT (" ORDER BY ") << group_str.str ();
+
+    // Execute the SQL statement.
+    this->record_ = this->query_->execute (sqlstr.str ().c_str ());
+
+    // Prepare the space for storing group information.
+    this->group_name_.size (test.groupings ().size ());
+
+    // The result index is the last index in the record
+    this->result_index_ = this->record_->columns () - 1;
+
+    // Save information about the evaluation.
+    this->vtable_name_ = &datagraph;
+    this->unit_test_ = &test;
+    this->result_is_old_ = true;
+
+    return 0;
+  }
+  catch (const CUTS_DB_Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - %s\n"),
+                ex.message ().c_str ()));
+  }
+
+  return -1;
+}
+
+//
 // has_groupings
 //
 bool CUTS_Dataset_Result::has_groupings (void) const
@@ -249,7 +362,7 @@ void CUTS_Dataset_Result::rewind (void)
 }
 
 bool CUTS_Dataset_Result::validate (const ACE_CString & validation_str)
-{ 
+{
   try
   {
     if (this->query_ == 0)
@@ -258,8 +371,8 @@ bool CUTS_Dataset_Result::validate (const ACE_CString & validation_str)
     // Execute the SQL statement.
     CUTS_DB_SQLite_Record * record;
     record = this->query_->execute (validation_str.c_str ());
-    
-    // Check if the record set is empty or not 
+
+    // Check if the record set is empty or not
     return record->done () ? false : true;
   }
   catch (const CUTS_DB_Exception & ex)

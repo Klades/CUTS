@@ -21,7 +21,9 @@
 class CUTS_Log_Format;
 
 /**
- * @class CUTS_Log_Format_Manager
+ * @ingroup UNITE_Common
+ *
+ * @class CUTS_Unite_Test
  */
 class CUTS_UNITE_Export CUTS_Unite_Test
 {

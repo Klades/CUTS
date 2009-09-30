@@ -219,7 +219,7 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
   // Evaluate the dataset.
   CUTS_Dataset_Result result (repo);
 
-  if (result.evaluate (unite_test, graph.name (), where_clause, !this->show_trend_) != 0)
+  if (result.evaluate (unite_test, graph.name (), !this->show_trend_) != 0)
     ACE_ERROR_RETURN ((LM_ERROR,
                        ACE_TEXT ("%T (%t) - %M - failed to evaluate test %s [vtable=%s]\n"),
                        unite_test.name ().c_str (),

@@ -3,9 +3,16 @@
  *
  * This group contains classes and documentation related to the UNITE
  * utility in CUTS.
- */
+ *
+ * @defgroup UNITE_Common Run-time Infrastructure
+ * @ingroup UNITE
 
-/**
  * @defgroup UNITE_XML Xml Entities in UNITE
  * @ingroup UNITE
+ *
+ * This group contains classes and documentation for the XML entries
+ * used in UNITE. The classes in this group assist in serializing and
+ * deserializing XML documents. There are also classes that assist in
+ * transforming extracted XML objects into objects usable by classes
+ * in UNITE's @ref UNITE_Common "runtime infrastructure".
  */

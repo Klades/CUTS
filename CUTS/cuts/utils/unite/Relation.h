@@ -21,6 +21,8 @@
 class CUTS_Log_Format;
 
 /**
+ * @ingroup UNITE_Common
+ *
  * @class CUTS_Relation_Causality
  */
 class CUTS_UNITE_Export CUTS_Relation_Causality

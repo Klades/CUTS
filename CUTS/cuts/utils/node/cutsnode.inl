@@ -529,6 +529,7 @@ namespace CUTS
       return *id_;
     }
 
+    inline
     ::XSCRT::Type* DependsItem::get_id_ptr ()
     {
         std::basic_string<char> temp (id().id());
@@ -536,6 +537,7 @@ namespace CUTS
     }
 
 
+    inline
     void DependsItem::set_id_ptr (std::basic_string<ACE_TCHAR> idref)
     {
         ID_Map::TSS_ID_Map* TSS_ID_Map (ACE_Singleton<ID_Map::TSS_ID_Map, ACE_Null_Mutex>::instance());

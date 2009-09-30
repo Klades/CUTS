@@ -43,6 +43,7 @@ project (CUTS_Unite_Common) : pcre, boost_base, cuts_test_database, cutslib {
   }
 
   Header_Files {
+    Aspect.h
     Variable_Table.h
   }
 
