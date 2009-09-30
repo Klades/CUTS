@@ -799,11 +799,11 @@ class CUTS_BE_Postcondition_T :
   public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
 {
 public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
   CUTS_BE_Postcondition_T (CONTEXT & context);
 
   virtual ~CUTS_BE_Postcondition_T (void);
-
-  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
 
   void generate (const std::string & postcondition);
 };

@@ -109,11 +109,11 @@ class CUTS_BE_JAVA_Export CUTS_BE_Postcondition_T <CUTS_BE_Java::Context> :
   public CUTS_BE_Visitor_T <CUTS_BE_Java::Context, PICML::Visitor>
 {
 public:
+  typedef public CUTS_BE_Visitor_T <CUTS_BE_Java::Context, PICML::Visitor> visitor_type;
+
   CUTS_BE_Postcondition_T (CUTS_BE_Java::Context & context);
 
   virtual ~CUTS_BE_Postcondition_T (void);
-
-  typedef public CUTS_BE_Visitor_T <CUTS_BE_Java::Context, PICML::Visitor> visitor_type;
 
   void generate (const std::string & postcondition);
 };
@@ -328,7 +328,7 @@ public:
  *
  */
 template < >
-class CUTS_BE_Action_Properties_Begin_T <CUTS_BE_Java::Context> :
+class CUTS_BE_JAVA_Export CUTS_BE_Action_Properties_Begin_T <CUTS_BE_Java::Context> :
   public CUTS_BE_Visitor_T <CUTS_BE_Java::Context, PICML::Visitor>
 {
 public:

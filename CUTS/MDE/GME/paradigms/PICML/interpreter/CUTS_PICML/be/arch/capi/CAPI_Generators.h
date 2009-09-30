@@ -15,9 +15,10 @@
 #ifndef _CUTS_BE_CAPI_GENERATORS_H_
 #define _CUTS_BE_CAPI_GENERATORS_H_
 
-#include "CAPI_Ctx.h"
-#include "../../BE_Generators_T.h"
-#include "../../BE_algorithm.h"
+#include "../../lang/java/Java_Behavior_Generator.h"
+#include "CAPI_Preprocessor_Handlers.h"
+#include "CAPI_Project_Generators.h"
+#include "CAPI_Workspace_Generators.h"
 
 /**
  * @class CUTS_BE_Parse_Precondition_T
@@ -337,9 +338,25 @@ public:
   void generate (const PICML::Attribute & attr);
 };
 
+/**
+ * @class CUTS_BE_Postcondition_T
+ */
+template < >
+class CUTS_BE_Postcondition_T <CUTS_BE_Capi::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_Capi::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_Capi::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Postcondition_T (CUTS_BE_Capi::Context & context);
+
+  virtual ~CUTS_BE_Postcondition_T (void);
+
+  void generate (const std::string & postcondition);
+};
+
 #if defined (__CUTS_INLINE__)
 #include "CAPI_Generators.inl"
 #endif
-
 
 #endif  // !defined _CUTS_BE_CAPI_GENERATORS_H_

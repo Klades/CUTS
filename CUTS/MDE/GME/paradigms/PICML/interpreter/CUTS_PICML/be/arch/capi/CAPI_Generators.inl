@@ -289,3 +289,20 @@ CUTS_BE_Attribute_End_T <CUTS_BE_Capi::Context>::~CUTS_BE_Attribute_End_T (void)
 {
 
 }
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_Postcondition_T
+
+CUTS_INLINE
+CUTS_BE_Postcondition_T <CUTS_BE_Capi::Context>::
+CUTS_BE_Postcondition_T (CUTS_BE_Capi::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_Postcondition_T <CUTS_BE_Capi::Context>::~CUTS_BE_Postcondition_T (void)
+{
+
+}

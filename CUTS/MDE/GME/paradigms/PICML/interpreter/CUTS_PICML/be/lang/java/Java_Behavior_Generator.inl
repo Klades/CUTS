@@ -278,6 +278,24 @@ CUTS_BE_OutputAction_Begin_T <CUTS_BE_Java::Context>::~CUTS_BE_OutputAction_Begi
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_Action_Properties_Begin_T
+
+CUTS_INLINE
+CUTS_BE_Action_Properties_Begin_T <CUTS_BE_Java::Context>::
+CUTS_BE_Action_Properties_Begin_T (CUTS_BE_Java::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_Action_Properties_Begin_T <CUTS_BE_Java::Context>::
+~CUTS_BE_Action_Properties_Begin_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_OutputAction_Property_T
 
 CUTS_INLINE

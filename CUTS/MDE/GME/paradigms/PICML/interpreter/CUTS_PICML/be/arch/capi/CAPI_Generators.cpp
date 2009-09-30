@@ -1038,3 +1038,13 @@ generate_mapping_file (const PICML::Event & ev, const std::string & outdir)
   CUTS_BE_CAPI_Event_Impl_Generator eventimpl (outdir);
   e.Accept (eventimpl);
 }
+
+//
+// CUTS_BE_Postcondition_T
+//
+void CUTS_BE_Postcondition_T <CUTS_BE_Capi::Context>::
+generate (const std::string & postcondition)
+{
+  this->ctx_.source_ << postcondition;
+}
+
