@@ -1,3 +1,11 @@
+Wed Sep 30 04:29:29 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Aspect.h:
+        * cuts/utils/unite/Dataset_Result.cpp:
+        * cuts/utils/unite/Unite_App.cpp:
+
+          . Build build errors.
+
 Wed Sep 30 04:19:20 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Generators_T.h:

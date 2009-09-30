@@ -38,7 +38,7 @@ public:
   int units_after_;
 
   /// The WHERE clause of the aspect.
-  ACE_CString aspect_;
+  ACE_CString condition_;
 };
 
 #endif  // !defined _CUTS_UNITE_ASPECT_H_

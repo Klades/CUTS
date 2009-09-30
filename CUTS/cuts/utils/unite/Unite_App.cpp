@@ -156,7 +156,7 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
 
   // Finally, load the aspect, if applicable, and convert it into a
   // WHERE clause for the SQL statement.
-  ACE_CString where_clause;
+  CUTS_UNITE_Aspect aspect;
 
   if (!this->aspect_file_.empty ())
   {
@@ -171,16 +171,23 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
                          -1);
 
     // Load the information from the file.
-    ::CUTS::XML::aspectType aspect;
-    aspect_file >>= aspect;
+    ::CUTS::XML::aspectType aspect_type;
+    aspect_file >>= aspect_type;
 
-    if (aspect.condition_p ())
+    if (aspect_type.condition_p ())
     {
       // Construct the WHERE clause for the aspect.
       CUTS_Where_Clause_Builder where_clause_builder;
-      where_clause_builder.build (aspect.condition (),
-                                  where_clause,
+
+      where_clause_builder.build (aspect_type.condition (),
+                                  aspect.condition_,
                                   false);
+    }
+
+    if (aspect_type.viewpoint_p ())
+    {
+      aspect.units_before_ = aspect_type.viewpoint ().before ();
+      aspect.units_after_ = aspect_type.viewpoint ().after ();
     }
   }
 
@@ -219,12 +226,24 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
   // Evaluate the dataset.
   CUTS_Dataset_Result result (repo);
 
-  if (result.evaluate (unite_test, graph.name (), !this->show_trend_) != 0)
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       ACE_TEXT ("%T (%t) - %M - failed to evaluate test %s [vtable=%s]\n"),
-                       unite_test.name ().c_str (),
-                       graph.name ().c_str ()),
-                       -1);
+  if (!this->aspect_file_.empty ())
+  {
+    if (0 != result.evaluate (unite_test, graph.name (), !this->show_trend_))
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         ACE_TEXT ("%T (%t) - %M - failed to evaluate test %s [vtable=%s]\n"),
+                         unite_test.name ().c_str (),
+                         graph.name ().c_str ()),
+                         -1);
+  }
+  else
+  {
+    if (0 != result.evaluate (unite_test, graph.name (), aspect))
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         ACE_TEXT ("%T (%t) - %M - failed to evaluate test %s [vtable=%s]\n"),
+                         unite_test.name ().c_str (),
+                         graph.name ().c_str ()),
+                         -1);
+  }
 
   // Stop the timer for the evaluation.
   timer.stop ();

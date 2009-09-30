@@ -276,7 +276,7 @@ evaluate (const CUTS_Unite_Test & test,
 
     // First, SELECT all rows that meet the aspect's criteria.
     aspect_sqlstr << "SELECT ROWID FROM " << datagraph
-                  << " WHERE " << aspect.aspect_
+                  << " WHERE " << aspect.condition_
                   << " ORDER BY ROWID";
 
     this->record_ = this->query_->execute (aspect_sqlstr.str ().c_str ());
