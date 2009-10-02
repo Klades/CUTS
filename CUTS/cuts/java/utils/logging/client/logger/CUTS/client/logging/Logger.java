@@ -10,7 +10,7 @@
  */
 //=============================================================================
 
-package CUTS.client.logger;
+package CUTS.client.logging;
 import org.omg.CosNaming.*;
 import java.util.ArrayList;
 import java.util.Properties;

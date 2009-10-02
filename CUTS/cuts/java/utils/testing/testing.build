@@ -58,7 +58,8 @@
   <target name="cuts.testing.jar.build" depends="cuts.testing.build">
     <jar destfile="${cuts.lib.dir}/${jarfile}" basedir=".">
       <include name="CUTS/*.class" />
-    </jar>
+      <include name="CUTS/client/*.class" />
+		</jar>
   </target>
 
   <target name="cuts.testing.clean">
