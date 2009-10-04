@@ -63,7 +63,7 @@ public class TestManagerClient
    * Get the contained test manager. This object is only valid after
    * the connect () method has been called first.
    */
-  CUTS.TestManager getTestManager ()
+  public CUTS.TestManager getTestManager ()
   {
     return this.testManager_;
   }

@@ -20,12 +20,36 @@ generate (const PICML::Variable & variable)
   if (type != Udm::null)
   {
     std::string name (variable.name ());
+    CUTS_BE_Java::Variable_Type var_type (this->ctx_.source_);
+
+    // Generate the getter method.
+    this->ctx_.source_
+      << "public ";
+
+    var_type.generate (type);
 
     this->ctx_.source_
+      << " " << CUTS_BE_Java::getter_method (name) << " ()"
+      << "{"
+      << "return this." << name << "_;"
+      << "}"
+      << std::endl
+      // Generate the setter method.
+      << "public void "
+      << CUTS_BE_Java::setter_method (name) << " (";
+
+    var_type.generate (type);
+
+    this->ctx_.source_
+      << " " << name << ")"
+      << "{"
+      << "this." << name << "_ = " << name << ";"
+      << "}"
+      << std::endl
+      // Generate the variable declaration.
       << CUTS_BE_Java::single_line_comment ("variable: " + name)
       << "private ";
 
-    CUTS_BE_Java::Variable_Type var_type (this->ctx_.source_);
     var_type.generate (type);
 
     this->ctx_.source_
@@ -64,21 +88,6 @@ generate (const PICML::ReadonlyAttribute & attr)
   {
 
   }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-// CUTS_BE_Periodic_Variable_T
-
-void CUTS_BE_PeriodicEvent_Variable_T <CUTS_BE_Java::Context>::
-generate (const PICML::PeriodicEvent & periodic)
-{
-  std::string name (periodic.name ());
-  PICML::Component parent = PICML::Component::Cast (periodic.parent ());
-
-  this->ctx_.source_
-    << CUTS_BE_Java::single_line_comment ("periodic: " + name)
-    << "CUTS_Periodic_Event_T < " << parent.name ()
-    << " > periodic_" << name << "_;" << std::endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

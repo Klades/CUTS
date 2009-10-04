@@ -172,11 +172,13 @@ generate_i (const PICML::MonolithicImplementation & monoimpl)
     this->ctx_.project_file_
       << "<classpath>" << std::endl;
 
-    CUTS_String_Set::const_iterator
-      iter = classpath.begin (), iter_end = classpath.end ();
-
-    for (; iter != iter_end; ++ iter)
+    for (CUTS_String_Set::const_iterator
+         iter = classpath.begin (), iter_end = classpath.end ();
+         iter != iter_end; ++ iter)
     {
+      if (!output.empty ())
+        output.clear ();
+
       // Convert any environment variables defined in the JAR file.
       boost::spirit::parse (iter->c_str (), env_parser);
 

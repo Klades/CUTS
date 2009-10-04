@@ -1,11 +1,29 @@
+Sun Oct  4 17:19:15 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Preprocessor_Handlers.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Project_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Behavior_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Behavior_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Behavior_Generator.cpp:
+
+          . Fixed errros in the code generator.
+
+        * cuts/java/arch/capi/cuts.java.jbi.build:
+        * cuts/java/utils/logging/client/logger/CUTS/client/logging/Logger.java:
+        * cuts/java/utils/testing/CUTS/client/TestManagerClient.java:
+        * cuts/java/utils/testing/testing.build:
+
+          . Fixed compilation errors.
+
 Fri Oct  2 16:02:30 UTC 2009  Pooja Varshneya  <varshnp@dre.vanderbilt.edu>
 
         * cuts/java/utils/logging/client/logger/CUTS/client/logging/Logger.java:
+
           . Updated package name to match with folder structure
 
-				* cuts/java/utils/testing/testing.build:
+        * cuts/java/utils/testing/testing.build:
 
-				  . Updated build file to include client folder in jar
+          . Updated build file to include client folder in jar
 
 Wed Sep 30 04:29:29 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 

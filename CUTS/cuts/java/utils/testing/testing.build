@@ -59,14 +59,14 @@
     <jar destfile="${cuts.lib.dir}/${jarfile}" basedir=".">
       <include name="CUTS/*.class" />
       <include name="CUTS/client/*.class" />
-		</jar>
+    </jar>
   </target>
 
   <target name="cuts.testing.clean">
     <delete>
       <fileset dir="CUTS"
                includes="*.class, *.java" />
-      <fileset dir="CUTS/client/"
+      <fileset dir="CUTS/client"
                includes="*.class" />
     </delete>
   </target>

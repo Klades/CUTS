@@ -6,7 +6,7 @@
   <import file="${env.CUTS_ROOT}/etc/ANT/include/castor.build" />
 
   <property name="cuts.java.dir" value="${cuts.src.dir}/java" />
-  <property name="cuts.arch.dir" value="${cuts.src.dir}/arch" />
+  <property name="cuts.arch.dir" value="${cuts.java.dir}/arch" />
 
   <property name="cuts.capi.dir" value="${cuts.arch.dir}/capi" />
   <property name="cuts.capi.idl.dir" value="${cuts.capi.dir}/idl/cuts/idl" />

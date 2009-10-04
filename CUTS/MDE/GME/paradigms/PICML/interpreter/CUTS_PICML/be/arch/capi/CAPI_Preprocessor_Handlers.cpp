@@ -8,7 +8,6 @@
 
 #include "../../BE_Impl_Node.h"
 #include "boost/spirit/actor.hpp"
-#include <sstream>
 
 //
 // CUTS_BE_Preprocessor_Worker_T
@@ -26,15 +25,14 @@ generate (CUTS_BE_Impl_Node * node, const PICML::Worker & worker)
 void CUTS_BE_Preprocessor_WorkerLibrary_T <CUTS_BE_Capi::Context>::
 generate (CUTS_BE_Impl_Node * node, const PICML::WorkerLibrary & lib)
 {
-  std::string location = lib.Location ();
-  std::ostringstream jarfile;
+  std::string classpath = lib.Location ();
 
   // Get the full path of the JAR file.
-  if (!location.empty ())
-    jarfile << lib.Location () << "/";
+  if (!classpath.empty ())
+    classpath += "/";
 
-  jarfile << lib.name () << ".jar";
+  classpath += std::string (lib.name ()) + ".jar";
 
   // Insert the JAR file into the CLASSPATH.
-  node->maplist_["classpath"].insert (jarfile.str ());
+  node->maplist_["classpath"].insert (classpath);
 }

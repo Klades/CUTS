@@ -53,23 +53,6 @@ CUTS_BE_Worker_Variable_T <CUTS_BE_Java::Context>::~CUTS_BE_Worker_Variable_T (v
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// CUTS_BE_Periodic_Variable_T
-
-CUTS_INLINE
-CUTS_BE_PeriodicEvent_Variable_T <CUTS_BE_Java::Context>::
-CUTS_BE_PeriodicEvent_Variable_T (CUTS_BE_Java::Context & context)
-: visitor_type (context)
-{
-
-}
-
-CUTS_INLINE
-CUTS_BE_PeriodicEvent_Variable_T <CUTS_BE_Java::Context>::~CUTS_BE_PeriodicEvent_Variable_T (void)
-{
-
-}
-
-///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Precondition_T
 
 CUTS_INLINE

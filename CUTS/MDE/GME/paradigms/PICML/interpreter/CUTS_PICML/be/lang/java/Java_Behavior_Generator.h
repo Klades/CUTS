@@ -68,23 +68,6 @@ public:
 };
 
 /**
- * @class CUTS_BE_PeriodicEvent_Variable_T
- */
-template < >
-class CUTS_BE_JAVA_Export CUTS_BE_PeriodicEvent_Variable_T <CUTS_BE_Java::Context> :
-  public CUTS_BE_Visitor_T <CUTS_BE_Java::Context, PICML::Visitor>
-{
-public:
-  typedef public CUTS_BE_Visitor_T <CUTS_BE_Java::Context, PICML::Visitor> visitor_type;
-
-  CUTS_BE_PeriodicEvent_Variable_T (CUTS_BE_Java::Context & context);
-
-  virtual ~CUTS_BE_PeriodicEvent_Variable_T (void);
-
-  void generate (const PICML::PeriodicEvent & periodic);
-};
-
-/**
  * @class CUTS_BE_Precondition_T
  */
 template < >
