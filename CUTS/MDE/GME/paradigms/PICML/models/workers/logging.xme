@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{84F4C22E-449A-4EF6-B3E0-921634EE5BE1}" cdate="Sun Sep 13 17:18:26 2009" mdate="Sun Sep 13 17:18:26 2009" version="" metaguid="{CDCDB657-AAD7-4917-941A-E63B013136B7}" metaversion="" metaname="PICML">
+<project guid="{4F29BCD4-9A99-4899-BFEE-40435ED0333B}" cdate="Sun Sep 13 17:18:26 2009" mdate="Sun Sep 13 17:18:26 2009" version="" metaguid="{CDCDB657-AAD7-4917-941A-E63B013136B7}" metaversion="" metaname="PICML">
 	<name>TestLogger</name>
 	<comment>Traffic light system for the NAOMI project</comment>
 	<author>James H. Hill</author>
@@ -72,7 +72,7 @@
 								</regnode>
 							</regnode>
 							<model id="id-0065-0000001a" kind="WorkerPackage" role="WorkerPackage" guid="{CE81C9BC-A224-4a91-8780-94EE2F22EC9B}" relid="0x1" childrelidcntr="0x1">
-								<name>logger</name>
+								<name>logging</name>
 								<regnode name="PartRegs" status="undefined">
 									<value></value>
 									<regnode name="Behavior" status="undefined">
@@ -82,7 +82,7 @@
 										</regnode>
 									</regnode>
 								</regnode>
-								<model id="id-0065-00000003" kind="Worker" role="Worker" guid="{005B4DF0-250F-40b3-9E5D-16A568C268EF}" relid="0x1" childrelidcntr="0x6">
+								<model id="id-0065-00000003" kind="Worker" role="Worker" guid="{005B4DF0-250F-40b3-9E5D-16A568C268EF}" relid="0x1" childrelidcntr="0x7">
 									<name>Logger</name>
 									<regnode name="PartRegs" status="undefined">
 										<value></value>

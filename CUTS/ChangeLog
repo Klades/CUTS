@@ -1,3 +1,9 @@
+Sun Oct  4 17:29:05 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/models/workers/logging.xme:
+
+          . Fixed errors in the model specification.
+
 Sun Oct  4 17:19:15 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Preprocessor_Handlers.cpp:
