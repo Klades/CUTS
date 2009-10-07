@@ -1,0 +1,11 @@
+// $Id$
+
+project (CUTS_Trace_Importer) : boost_base, cuts_test_database, cutsexe {
+  exename = cuts-trace-importer
+
+  Source_Files {
+    Trace_Importer.cpp
+    Trace_Importer_App.cpp
+    Trace_Importer_Parser.cpp
+  }
+}
