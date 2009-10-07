@@ -1,3 +1,9 @@
+Wed Oct  7 00:18:52 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * .:
+
+          . Added default.features to this directory's ignore list.
+
 Wed Oct  7 00:14:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/testing/svcs/logging/Testing_LoggingServerListener_i.cpp:
