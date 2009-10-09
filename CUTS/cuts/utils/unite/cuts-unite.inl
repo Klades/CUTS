@@ -2291,6 +2291,327 @@ namespace CUTS
         after_->container (this);
       }
     }
+
+
+    // executionStateType
+    // 
+
+    inline
+    executionStateType::
+    executionStateType (::XMLSchema::string< char > const& context__,
+                        ::XMLSchema::string< char > const& value__,
+                        ::CUTS::XML::validityType const& type__)
+    : 
+    context_ (new ::XMLSchema::string< char > (context__)),
+    value_ (new ::XMLSchema::string< char > (value__)),
+    type_ (new ::CUTS::XML::validityType (type__)),
+    regulator__ ()
+    {
+      context_->container (this);
+      value_->container (this);
+      type_->container (this);
+    }
+
+    inline
+    executionStateType::
+    executionStateType (executionStateType const& s)
+    :
+    ::XSCRT::Type (),
+    context_ (new ::XMLSchema::string< char > (*s.context_)),
+    value_ (new ::XMLSchema::string< char > (*s.value_)),
+    type_ (new ::CUTS::XML::validityType (*s.type_)),
+    priority_ (s.priority_.get () ? new ::XMLSchema::unsignedInt (*s.priority_) : 0),
+    id_ (s.id_.get () ? new ::XMLSchema::ID< char > (*s.id_) : 0),
+    regulator__ ()
+    {
+      context_->container (this);
+      value_->container (this);
+      type_->container (this);
+      if (priority_.get ()) priority_->container (this);
+      if (id_.get ()) id_->container (this);
+    }
+
+    inline
+    executionStateType& executionStateType::
+    operator= (executionStateType const& s)
+    {
+      context (*s.context_);
+
+      value (*s.value_);
+
+      type (s.type ());
+
+      if (s.priority_.get ()) priority (*(s.priority_));
+      else priority_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (0);
+
+      if (s.id_.get ()) id (*(s.id_));
+      else id_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (0);
+
+      return *this;
+    }
+
+
+    // executionStateType
+    // 
+    inline
+    ::XMLSchema::string< char > const& executionStateType::
+    context () const
+    {
+      return *context_;
+    }
+
+    inline
+    void executionStateType::
+    context (::XMLSchema::string< char > const& e)
+    {
+      *context_ = e;
+    }
+
+    // executionStateType
+    // 
+    inline
+    ::XMLSchema::string< char > const& executionStateType::
+    value () const
+    {
+      return *value_;
+    }
+
+    inline
+    void executionStateType::
+    value (::XMLSchema::string< char > const& e)
+    {
+      *value_ = e;
+    }
+
+    // executionStateType
+    // 
+    inline
+    ::CUTS::XML::validityType const& executionStateType::
+    type () const
+    {
+      return *type_;
+    }
+
+    inline
+    ::CUTS::XML::validityType& executionStateType::
+    type ()
+    {
+      return *type_;
+    }
+
+    inline
+    void executionStateType::
+    type (::CUTS::XML::validityType const& e)
+    {
+      *type_ = e;
+    }
+
+    // executionStateType
+    // 
+    inline
+    bool executionStateType::
+    priority_p () const
+    {
+      return priority_.get () != 0;
+    }
+
+    inline
+    ::XMLSchema::unsignedInt const& executionStateType::
+    priority () const
+    {
+      return *priority_;
+    }
+
+    inline
+    ::XMLSchema::unsignedInt& executionStateType::
+    priority ()
+    {
+      return *priority_;
+    }
+
+    inline
+    void executionStateType::
+    priority (::XMLSchema::unsignedInt const& e)
+    {
+      if (priority_.get ())
+      {
+        *priority_ = e;
+      }
+
+      else
+      {
+        priority_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (new ::XMLSchema::unsignedInt (e));
+        priority_->container (this);
+      }
+    }
+
+    // executionStateType
+    // 
+    inline
+    bool executionStateType::
+    id_p () const
+    {
+      return id_.get () != 0;
+    }
+
+    inline
+    ::XMLSchema::ID< char > const& executionStateType::
+    id () const
+    {
+      return *id_;
+    }
+
+    inline
+    ::XMLSchema::ID< char >& executionStateType::
+    id ()
+    {
+      return *id_;
+    }
+
+    inline
+    void executionStateType::
+    id (::XMLSchema::ID< char > const& e)
+    {
+      if (id_.get ())
+      {
+        *id_ = e;
+      }
+
+      else
+      {
+        id_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (new ::XMLSchema::ID< char > (e));
+        id_->container (this);
+      }
+    }
+
+
+    // validityType
+    // 
+
+    inline
+    validityType::Value validityType::
+    integral () const
+    {
+      return v_;
+    }
+
+    inline
+    bool
+    operator== (::CUTS::XML::validityType const& a, ::CUTS::XML::validityType const& b)
+    {
+      return a.v_ == b.v_;
+    }
+
+    inline
+    bool
+    operator!= (::CUTS::XML::validityType const& a, ::CUTS::XML::validityType const& b)
+    {
+      return a.v_ != b.v_;
+    }
+
+    inline
+    validityType::
+    validityType (validityType::Value v)
+    : v_ (v)
+    {
+    }
+
+    // correctnessTestType
+    // 
+
+    inline
+    correctnessTestType::
+    correctnessTestType (::XMLSchema::string< char > const& datagraph__)
+    : 
+    datagraph_ (new ::XMLSchema::string< char > (datagraph__)),
+    regulator__ ()
+    {
+      datagraph_->container (this);
+    }
+
+    inline
+    correctnessTestType::
+    correctnessTestType (correctnessTestType const& s)
+    :
+    ::XSCRT::Type (),
+    datagraph_ (new ::XMLSchema::string< char > (*s.datagraph_)),
+    state_ (s.state_),
+    regulator__ ()
+    {
+      datagraph_->container (this);
+    }
+
+    inline
+    correctnessTestType& correctnessTestType::
+    operator= (correctnessTestType const& s)
+    {
+      datagraph (*s.datagraph_);
+
+      state_ = s.state_;
+
+      return *this;
+    }
+
+
+    // correctnessTestType
+    // 
+    inline
+    ::XMLSchema::string< char > const& correctnessTestType::
+    datagraph () const
+    {
+      return *datagraph_;
+    }
+
+    inline
+    void correctnessTestType::
+    datagraph (::XMLSchema::string< char > const& e)
+    {
+      *datagraph_ = e;
+    }
+
+    // correctnessTestType
+    // 
+    inline
+    correctnessTestType::state_iterator correctnessTestType::
+    begin_state ()
+    {
+      return state_.begin ();
+    }
+
+    inline
+    correctnessTestType::state_iterator correctnessTestType::
+    end_state ()
+    {
+      return state_.end ();
+    }
+
+    inline
+    correctnessTestType::state_const_iterator correctnessTestType::
+    begin_state () const
+    {
+      return state_.begin ();
+    }
+
+    inline
+    correctnessTestType::state_const_iterator correctnessTestType::
+    end_state () const
+    {
+      return state_.end ();
+    }
+
+    inline
+    void correctnessTestType::
+    add_state (ACE_Refcounted_Auto_Ptr < ::CUTS::XML::executionStateType, ACE_Null_Mutex >  const& e)
+    {
+      state_.push_back (e);
+    }
+
+    inline
+    size_t correctnessTestType::
+    count_state(void) const
+    {
+      return state_.size ();
+    }
   }
 }
 

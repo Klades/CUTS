@@ -791,6 +791,134 @@ namespace CUTS
         }
       }
     }
+
+    // executionStateType
+    //
+
+    executionStateType::
+    executionStateType (::XSCRT::XML::Element< char > const& e)
+    :Base (e), regulator__ ()
+    {
+
+      ::XSCRT::Parser< char > p (e);
+
+      while (p.more_elements ())
+      {
+        ::XSCRT::XML::Element< char > e (p.next_element ());
+        ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
+
+        if (n == ACE_TEXT("context"))
+        {
+          context_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
+          context_->container (this);
+        }
+
+        else if (n == ACE_TEXT("value"))
+        {
+          value_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
+          value_->container (this);
+        }
+
+        else 
+        {
+        }
+      }
+
+      while (p.more_attributes ())
+      {
+        ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+        ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+        if (n == "type")
+        {
+          type_ = ::std::auto_ptr< ::CUTS::XML::validityType > (new ::CUTS::XML::validityType (a));
+          type_->container (this);
+        }
+
+        else if (n == "priority")
+        {
+          ::XMLSchema::unsignedInt t (a);
+          priority (t);
+        }
+
+        else if (n == "id")
+        {
+          ::XMLSchema::ID< char > t (a);
+          id (t);
+          std::basic_string<ACE_TCHAR> temp (ACE_TEXT_CHAR_TO_TCHAR ((*id_).c_str()));
+          (*ACE_Singleton<ID_Map::TSS_ID_Map, ACE_Null_Mutex>::instance())->
+          add_id(temp, dynamic_cast<XSCRT::Type*> (this));
+        }
+
+        else 
+        {
+        }
+      }
+    }
+
+    // validityType
+    //
+
+    validityType::
+    validityType (::XSCRT::XML::Element< char > const& e)
+    : ::XSCRT::Type (e)
+    {
+      ::std::basic_string< char > v (e.value ());
+
+      if (v == "valid") v_ = valid_l;
+      else if (v == "invalid") v_ = invalid_l;
+      else 
+      {
+      }
+    }
+
+    validityType::
+    validityType (::XSCRT::XML::Attribute< char > const& a)
+    : ::XSCRT::Type (a)
+    {
+      ::std::basic_string< char > v (a.value ());
+
+      if (v == "valid") v_ = valid_l;
+      else if (v == "invalid") v_ = invalid_l;
+      else 
+      {
+      }
+    }
+
+    validityType const validityType::valid (validityType::valid_l);
+    validityType const validityType::invalid (validityType::invalid_l);
+
+    // correctnessTestType
+    //
+
+    correctnessTestType::
+    correctnessTestType (::XSCRT::XML::Element< char > const& e)
+    :Base (e), regulator__ ()
+    {
+
+      ::XSCRT::Parser< char > p (e);
+
+      while (p.more_elements ())
+      {
+        ::XSCRT::XML::Element< char > e (p.next_element ());
+        ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
+
+        if (n == ACE_TEXT("datagraph"))
+        {
+          datagraph_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
+          datagraph_->container (this);
+        }
+
+        else if (n == ACE_TEXT("state"))
+        {
+          ACE_Refcounted_Auto_Ptr < ::CUTS::XML::executionStateType, ACE_Null_Mutex >  t (new ::CUTS::XML::executionStateType (e));
+          add_state (t);
+        }
+
+        else 
+        {
+        }
+      }
+    }
   }
 }
 
@@ -920,6 +1048,33 @@ namespace CUTS
         if (e.name () == ACE_TEXT("validation"))
         {
           ::CUTS::XML::validationType r (e);
+
+          (*TSS_ID_Map)->resolve_idref();
+
+          return r;
+        }
+
+        else
+        {
+          throw 1;
+        }
+      }
+    }
+
+    namespace reader
+    {
+      ::CUTS::XML::correctnessTestType
+      correctness (xercesc::DOMDocument const* d)
+      {
+        //Initiate our Singleton as an ACE_TSS object (ensures thread
+        //specific storage
+        ID_Map::TSS_ID_Map* TSS_ID_Map (ACE_Singleton<ID_Map::TSS_ID_Map, ACE_Null_Mutex>::instance());
+
+
+        ::XSCRT::XML::Element< char > e (d->getDocumentElement ());
+        if (e.name () == ACE_TEXT("correctness"))
+        {
+          ::CUTS::XML::correctnessTestType r (e);
 
           (*TSS_ID_Map)->resolve_idref();
 

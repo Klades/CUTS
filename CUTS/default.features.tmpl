@@ -34,6 +34,16 @@ unixodbc = 0
 
 iodbc = 0
 
+/// @feature sqlite3
+/// This features controls projects that require SQLite3. Enable this
+/// feature if you want to build projects that are built on top of
+/// SQLite3. For more infomration on SQLite3, please see the following
+/// location:
+///
+///    http://www.sqlite.org
+
+sqlite3 = 0
+
 /// @feature modeling
 /// Enable this feature if you are building any of the modeling
 /// projects in CUTS (i.e., GME interpreters)
@@ -42,7 +52,10 @@ modeling = 0
 
 /// @feature cosmic
 /// Enable this feature if you are building any of the modeling
-/// projects related to CoSMIC
+/// projects related to CoSMIC. For more information on CoSMIC,
+/// please see the following location:
+///
+///    http://www.dre.vanderbilt.edu/cosmic
 
 cosmic = 0
 
@@ -83,7 +96,10 @@ gems = 0
 /// This features controls whether to build the CUTS runtime architecture
 /// for OpenSpliceDDS. By setting this feature to 1, it is assumed
 /// OpenSpliceDDS is installed, and the necessary environment variables
-/// are set correctly.
+/// are set correctly. For more information on OpenSplice, please see
+/// the following location:
+///
+///    http://www.opensplice.org
 
 opensplice = 0
 
@@ -91,18 +107,20 @@ opensplice = 0
 tcpip = 0
 
 /// @feature rtidds
-rtidds = 0
+ndds = 0
 
 /// @feature wix
 wix = 0
+
+xerces3 = 0
+
+xsc = 0
 
 ///============================================================================
 // DO NOT CHANGE ANYTHING BELOW THIS LINE
 ///============================================================================
 
 exceptions = 1
-cidl = 1
 boost = 1
 mfc = 1
 xerces = 1
-xerces3 = 0

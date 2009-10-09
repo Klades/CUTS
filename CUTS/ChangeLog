@@ -1,3 +1,29 @@
+Fri Oct  9 21:56:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_unite.mpb:
+
+          . Added boost_base as a base project.
+
+        * cuts/utils/testing/svcs/validation/TE_Score.mpc:
+        * cuts/utils/testing/svcs/validation/TE_Score.cpp:
+        * cuts/utils/testing/svcs/validation/TE_Score_App.h:
+        * cuts/utils/testing/svcs/validation/TE_Score_App.inl:
+        * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.h:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.inl:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.cpp:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * cuts/utils/unite/unite.mpc:
+        * etc/schemas/cuts-unite.xsd:
+
+          . First implementation of TE Score.
+
+        * default.features.tmpl:
+
+          . Updated the feature template file.
+
 Wed Oct  7 00:18:52 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * .:
