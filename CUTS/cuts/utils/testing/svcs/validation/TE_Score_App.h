@@ -13,16 +13,8 @@
 #ifndef _CUTS_TE_SCORE_APP_H_
 #define _CUTS_TE_SCORE_APP_H_
 
+#include "TE_Score_App_Options.h"
 #include "cuts/config.h"
-#include "ace/SString.h"
-
-namespace CUTS
-{
-  namespace XML
-  {
-    class executionStateType;
-  }
-}
 
 /**
  * @class CUTS_TE_Score_App
@@ -53,11 +45,8 @@ private:
   /// Helper method for printing the help.
   void print_help (void);
 
-  /// Location of the test database.
-  ACE_CString test_db_file_;
-
-  /// Location of the XML configuration file.
-  ACE_CString config_file_;
+  /// Options for the application.
+  CUTS_TE_Score_App_Options opts_;
 };
 
 #if defined (__CUTS_INLINE__)

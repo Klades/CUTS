@@ -20,6 +20,20 @@
 #include "ace/Get_Opt.h"
 #include "ace/streams.h"
 
+const char * __HELP__ =
+"CUTS test execution (TE) score utility\n"
+"\n"
+"USAGE: cuts-tescore [OPTIONS]\n"
+"\n"
+"General options:\n"
+"  -c, --config=FILE        config file with validation information\n"
+"  --test=FILE              test database file\n"
+"\n"
+"  --sandbox=DIR            location to store temporary files\n"
+"\n"
+"Output options:\n"
+"  -h, --help               print this help message\n";
+
 //
 // run_main
 //
@@ -38,10 +52,10 @@ int CUTS_TE_Score_App::run_main (int argc, char * argv [])
     XSC::XML::XML_Error_Handler error_handler;
     cfg_file->setErrorHandler (&error_handler);
 
-    if (!cfg_file.read (this->config_file_.c_str ()))
+    if (!cfg_file.read (this->opts_.config_file_.c_str ()))
       ACE_ERROR_RETURN ((LM_ERROR,
                          ACE_TEXT ("%T (%t) - %M - failed to read %s\n"),
-                         this->config_file_.c_str ()),
+                         this->opts_.config_file_.c_str ()),
                          -1);
 
     ::CUTS::XML::correctnessTestType correctness_test ("");
@@ -75,10 +89,10 @@ int CUTS_TE_Score_App::run_main (int argc, char * argv [])
                 ACE_TEXT ("%T (%t) - %M - opening test datafile\n")));
 
     CUTS_Test_Database test_db;
-    if (!test_db.open (this->test_db_file_))
+    if (!test_db.open (this->opts_.test_db_file_))
       ACE_ERROR_RETURN ((LM_ERROR,
                          ACE_TEXT ("%T (%t) - %M - failed to test database %s\n"),
-                         this->test_db_file_.c_str ()),
+                         this->opts_.test_db_file_.c_str ()),
                          -1);
 
     // Open the dataset repository for writing.
@@ -86,10 +100,11 @@ int CUTS_TE_Score_App::run_main (int argc, char * argv [])
                 ACE_TEXT ("%T (%t) - %M - opening dataset repository\n")));
 
     CUTS_Dataset_Repo repo;
-    if (!repo.open (":memory:", test_db))
+
+    if (!repo.open (this->sandbox_, test_db))
       ACE_ERROR_RETURN ((LM_ERROR,
                          ACE_TEXT ("%T (%t) - %M - failed to open dataset repository\n"),
-                         this->test_db_file_.c_str ()),
+                         this->opts_.test_db_file_.c_str ()),
                          -1);
 
     // Create a new dataset in the repository.
@@ -145,6 +160,7 @@ int CUTS_TE_Score_App::parse_args (int argc, char * argv [])
 
   get_opt.long_option ("config", 'c', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("test", 't', ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("sandbox", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
 
   char opt;
@@ -156,11 +172,15 @@ int CUTS_TE_Score_App::parse_args (int argc, char * argv [])
     case 0:
       if (0 == ACE_OS::strcmp ("test", get_opt.long_option ()))
       {
-        this->test_db_file_ = get_opt.opt_arg ();
+        this->opts_.test_db_file_ = get_opt.opt_arg ();
       }
       else if (0 == ACE_OS::strcmp ("config", get_opt.long_option ()))
       {
-        this->config_file_ = get_opt.opt_arg ();
+        this->opts_.config_file_ = get_opt.opt_arg ();
+      }
+      else if (0 == ACE_OS::strcmp ("sandbox", get_opt.long_option ()))
+      {
+        this->opts_.sandbox_ = get_opt.opt_arg ();
       }
       else if (0 == ACE_OS::strcmp ("help", get_opt.long_option ()))
       {
@@ -170,11 +190,11 @@ int CUTS_TE_Score_App::parse_args (int argc, char * argv [])
       break;
 
     case 't':
-      this->test_db_file_ = get_opt.opt_arg ();
+      this->opts_.test_db_file_ = get_opt.opt_arg ();
       break;
 
     case 'c':
-      this->config_file_ = get_opt.opt_arg ();
+      this->opts_.config_file_ = get_opt.opt_arg ();
       break;
 
     case 'h':
@@ -191,5 +211,6 @@ int CUTS_TE_Score_App::parse_args (int argc, char * argv [])
 //
 void CUTS_TE_Score_App::print_help (void)
 {
-
+  std::cerr << ::__HELP__ << std::endl;
+  ACE_OS::exit (1);
 }

@@ -226,7 +226,7 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
   // Evaluate the dataset.
   CUTS_Dataset_Result result (repo);
 
-  if (!this->aspect_file_.empty ())
+  if (this->aspect_file_.empty ())
   {
     if (0 != result.evaluate (unite_test, graph.name (), !this->show_trend_))
       ACE_ERROR_RETURN ((LM_ERROR,

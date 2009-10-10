@@ -221,7 +221,7 @@ evaluate (const CUTS_Unite_Test & test,
   catch (const CUTS_DB_Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - %s\n",
+                ACE_TEXT ("%T (%t) - %M - %s\n"),
                 ex.message ().c_str ()));
   }
 

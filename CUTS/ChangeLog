@@ -1,3 +1,18 @@
+Fri Oct  9 23:59:25 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/testing/svcs/validation/TE_Score.mpc:
+        * cuts/utils/testing/svcs/validation/TE_Score_App.h:
+        * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:
+        * cuts/utils/testing/svcs/validation/TE_Score_App_Options.h:
+
+          . Improved the options for the application.
+
+        * cuts/utils/unite/Dataset_Result.cpp:
+        * cuts/utils/unite/Unite_App.cpp:
+
+          . Bug fix where the aspects were being applied when it
+            should not be.
+
 Fri Oct  9 21:56:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MPC/config/cuts_unite.mpb:

@@ -10,6 +10,6 @@ project (CUTS_TE_Score) : cuts_test_database, cuts_unite_xml, cutsexe {
   }
 
   Header_Files {
-
+    TE_Score_App_Options.h
   }
 }
