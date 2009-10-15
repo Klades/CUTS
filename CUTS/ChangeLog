@@ -1,3 +1,11 @@
+Thu Oct 15 01:54:35 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Correctness_Test_File.h:
+        * cuts/utils/unite/Correctness_Test_File.inl:
+        * cuts/utils/unite/Correctness_Test_File.cpp:
+
+          . Missing source files.
+
 Fri Oct  9 23:59:25 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/testing/svcs/validation/TE_Score.mpc:
