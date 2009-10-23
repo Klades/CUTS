@@ -3,6 +3,7 @@
 #include "Testing_LoggingServerListener_i.h"
 #include "cuts/Auto_Functor_T.h"
 #include "cuts/utils/db/DB_Query.h"
+#include "cuts/utils/db/SQLite/Types.h"
 #include "cuts/utils/testing/Test_Database.h"
 #include "boost/bind.hpp"
 #include "ace/Trace.h"

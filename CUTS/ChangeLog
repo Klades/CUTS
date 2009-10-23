@@ -1,3 +1,13 @@
+Fri Oct 23 14:02:40 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/svcs/logging/Testing_LoggingServerListener_i.cpp:
+
+	  . Missing an include file.
+
+        * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:
+
+	  . Fixed build error.
+	
 Thu Oct 15 01:56:55 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * contrib:

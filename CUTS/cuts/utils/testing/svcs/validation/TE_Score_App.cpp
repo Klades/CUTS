@@ -101,7 +101,7 @@ int CUTS_TE_Score_App::run_main (int argc, char * argv [])
 
     CUTS_Dataset_Repo repo;
 
-    if (!repo.open (this->sandbox_, test_db))
+    if (!repo.open (this->opts_.sandbox_, test_db))
       ACE_ERROR_RETURN ((LM_ERROR,
                          ACE_TEXT ("%T (%t) - %M - failed to open dataset repository\n"),
                          this->opts_.test_db_file_.c_str ()),
