@@ -7,6 +7,7 @@ project (CUTS_Testing_Log_Message_Listener) : boost_base, cuts_lib, cuts_logging
   dynamicflags += CUTS_TESTING_LOG_MESSAGE_LISTENER_BUILD_DLL
 
   Source_Files {
+    Log_Message_Table.cpp
     Testing_Log_Message_Listener.cpp
     Testing_LoggingServerListener_i.cpp
   }

@@ -1,6 +1,7 @@
 // $Id$
 
 #include "Testing_LoggingServerListener_i.h"
+#include "Log_Message_Table.h"
 #include "cuts/Auto_Functor_T.h"
 #include "cuts/utils/db/DB_Query.h"
 #include "cuts/utils/db/SQLite/Types.h"
@@ -8,60 +9,47 @@
 #include "boost/bind.hpp"
 #include "ace/Trace.h"
 
-static const char * __CREATE_CUTS_LOGGING_TABLE__ =
-"CREATE TABLE IF NOT EXISTS cuts_logging"
-"("
-"lid INTEGER PRIMARY KEY AUTOINCREMENT,"
-"timeofday DATETIME,"
-"severity INTEGER,"
-"hostname VARCHAR,"
-"message TEXT"
-")";
-
-static const char * __CREATE_INDEX_CUTS_LOGGING_MESSAGE__ =
-"CREATE INDEX IF NOT EXISTS cuts_logging_message ON cuts_logging (message)";
-
-#define INIT_STMT_COUNT 2
-
-static const char * __INIT_STMTS__[INIT_STMT_COUNT] =
-{
-  __CREATE_CUTS_LOGGING_TABLE__,
-  __CREATE_INDEX_CUTS_LOGGING_MESSAGE__
-};
-
-static const char * __INSERT_STMT__ =
-  "INSERT INTO cuts_logging (timeofday, severity, hostname, message) "
-  "VALUES (?, ?, ?, ?)";
-
+/**
+ * @struct insert_message
+ *
+ * Functor for inserting a log message into the database.
+ */
 struct insert_message
 {
-  insert_message (CUTS_DB_Query & query)
-    : query_ (query)
+  /**
+   * Initializing constructor.
+   *
+   * @param[in]       insert_stmt     The insert SQL statement.
+   */
+  insert_message (CUTS_Log_Message_Table::INSERT_STMT & insert_stmt)
+    : insert_stmt_ (insert_stmt)
   {
 
   }
 
+  /**
+   * Functor operator
+   */
   void operator () (const CUTS::LogMessage & msg)
   {
     ACE_Time_Value tv (msg.timestamp.sec, msg.timestamp.usec);
     ACE_Date_Time dt (tv);
-    CUTS_DB_SQLite_Date_Time datetime (dt);
-
+    CUTS_DB_SQLite_Date_Time timeofday (dt);
     ACE_INT16 severity = msg.severity;
 
     // Bind the remaining parameters.
-    this->query_.parameters ()[0].bind (datetime);
-    this->query_.parameters ()[1].bind (severity);
-    this->query_.parameters ()[3].bind (msg.message.get_buffer (),
-                                        msg.message.length ());
+    this->insert_stmt_.bind_timeofday (timeofday);
+    this->insert_stmt_.bind_severity (severity);
+    this->insert_stmt_.bind_message (msg.message.get_buffer (),
+                                     msg.message.length ());
 
-    // Insert the data into the database.
-    this->query_.execute_no_record ();
-    this->query_.reset ();
+    // Execute and reset the insert statement.
+    this->insert_stmt_.execute ();
+    this->insert_stmt_.reset ();
   }
 
 private:
-  CUTS_DB_Query & query_;
+  CUTS_Log_Message_Table::INSERT_STMT & insert_stmt_;
 };
 
 //
@@ -100,18 +88,22 @@ handle_messages (const char * hostname,
     CUTS_DB_Query * query = this->database_->create_query ();
     CUTS_Auto_Functor_T <CUTS_DB_Query> auto_clean (query, &CUTS_DB_Query::destroy);
 
+    // Start a new transaction.
     query->execute_no_record ("BEGIN TRANSACTION");
-    query->prepare (__INSERT_STMT__);
 
-    // Bind the hostname since it will never change.
-    query->parameters ()[2].bind (hostname, ACE_OS::strlen (hostname));
+    // Prepare the statement for inserting messages.
+    CUTS_Log_Message_Table msg_table (*this->database_);
 
-    ::CORBA::ULong msg_count = msgs.length ();
+    CUTS_Log_Message_Table::INSERT_STMT insert_stmt (*query);
+    insert_stmt.prepare ();
+    insert_stmt.bind_hostname (hostname);
 
+    // Insert each message into the database.
     std::for_each (msgs.get_buffer (),
-                   msgs.get_buffer () + msg_count,
-                   insert_message (*query));
+                   msgs.get_buffer () + msgs.length (),
+                   insert_message (insert_stmt));
 
+    // End the current transaction.
     query->execute_no_record ("COMMIT");
   }
   catch (const CUTS_DB_Exception & ex)
@@ -132,20 +124,20 @@ handle_messages (const char * hostname,
 //
 int CUTS_Testing_LoggingServerListener_i::init (CUTS_Test_Database * database)
 {
+  if (0 == database)
+    return -1;
+
   try
   {
-    // Try to create the logging table in the database.
-    CUTS_DB_Query * query = database->create_query ();
-    CUTS_Auto_Functor_T <CUTS_DB_Query> auto_clean (query, &CUTS_DB_Query::destroy);
+    // Initialize the database with the log message table.
+    CUTS_Log_Message_Table msg_table (*database);
+    int retval = msg_table.init ();
 
-    ACE_DEBUG ((LM_DEBUG,
-                "%T (%t) - %M - initializing CUTS logging data table(s)\n"));
+    // Save the database if initialized correctly.
+    if (0 == retval)
+      this->database_ = database;
 
-    for (size_t i = 0; i < INIT_STMT_COUNT; ++ i)
-      query->execute_no_record (__INIT_STMTS__[i]);
-
-    this->database_ = database;
-    return 0;
+    return retval;
   }
   catch (const CUTS_DB_Exception & ex)
   {

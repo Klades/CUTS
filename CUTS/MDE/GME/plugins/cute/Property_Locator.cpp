@@ -55,7 +55,7 @@ void CUTS_CUTE_Property_Locator::visit_Folder (GME::Folder & folder)
   typedef GME::Collection_T <GME::Folder> folder_set;
   folder_set folders;
 
-  folder.folders (folders);
+  folder.children (folders);
 
   std::for_each (folders.begin (),
                  folders.end (),
@@ -67,7 +67,7 @@ void CUTS_CUTE_Property_Locator::visit_Folder (GME::Folder & folder)
   typedef GME::Collection_T <GME::FCO> fco_set;
   fco_set fcos;
 
-  folder.fcos (fcos);
+  folder.children (fcos);
 
   std::for_each (fcos.begin (),
                  fcos.end (),
@@ -127,7 +127,7 @@ void CUTS_CUTE_Property_Locator::visit_Model (GME::Model & model)
   typedef GME::Collection_T <GME::FCO> collection_type;
   collection_type fcos;
 
-  model.fcos (fcos);
+  model.children (fcos);
 
   std::for_each (fcos.begin (),
                  fcos.end (),

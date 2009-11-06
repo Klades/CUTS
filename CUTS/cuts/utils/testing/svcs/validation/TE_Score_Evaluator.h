@@ -18,7 +18,10 @@
 #include "ace/Unbounded_Set.h"
 
 // Forward decl.
-class CUTS_Dataset_Result;
+class CUTS_Dataset_Repo;
+
+// Forward decl.
+class CUTS_DB_Query;
 
 /**
  * @class CUTS_TE_Score_Evaluator
@@ -29,7 +32,7 @@ public:
   /**
    * Initializing constructor.
    */
-  CUTS_TE_Score_Evaluator (CUTS_Dataset_Result & result);
+  CUTS_TE_Score_Evaluator (CUTS_Dataset_Repo & repo);
 
   /// Destructor.
   ~CUTS_TE_Score_Evaluator (void);
@@ -62,12 +65,9 @@ private:
   void evaluate_state (const ACE_CString & dataset,
                        const state_value_type & state);
 
-  void evaluate_false_negative (const ACE_CString & dataset,
-                                const state_value_type & state);
-
   void reset (void);
 
-  CUTS_Dataset_Result & result_;
+  CUTS_DB_Query * query_;
 
   size_t points_;
 

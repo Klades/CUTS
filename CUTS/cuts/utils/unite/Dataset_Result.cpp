@@ -175,15 +175,15 @@ evaluate (const CUTS_Unite_Test & test,
 
     // Construct the final SQL string.
     std::ostringstream sqlstr;
-    sqlstr << "SELECT";
+    sqlstr << "SELECT ";
 
     // Make sure we select the group columns.
     if (!group_str.str ().empty ())
-        sqlstr << ' ' << group_str.str () << ", ";
+        sqlstr << group_str.str () << ", ";
 
     // Insert the aggregation construct, if necessary.
     if (aggr)
-      sqlstr << ' ' << test.aggregation ().c_str () << "(";
+      sqlstr << test.aggregation ().c_str () << "(";
 
     sqlstr << eval;
 

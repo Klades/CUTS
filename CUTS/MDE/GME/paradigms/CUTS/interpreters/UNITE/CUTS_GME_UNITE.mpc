@@ -1,12 +1,13 @@
 // $Id$
 
 project (CUTS_GME_UNITE) : cuts_dsml, udm_component, \
-                           xerces, game_component, boost_base, \
-                           register, cosmic_utils, cutslib  {
+                           register, game_component, \
+                           cosmic_xerces_utils, cosmic_utils, cutslib  {
 
-  sharedname  = CUTS_UNITE
+  sharedname  = CUTS_GME_UNITE
 
-  includes += $(CUTS_ROOT)/MDE/GME/paradigms/CUTS $(UDM_PATH)/include
+  includes += $(CUTS_ROOT)/MDE/GME/paradigms/CUTS \
+              $(UDM_PATH)/include
 
   libs -= PICML
 

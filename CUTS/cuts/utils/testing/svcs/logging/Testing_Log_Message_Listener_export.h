@@ -7,7 +7,7 @@
 #ifndef CUTS_TESTING_LOG_MESSAGE_LISTENER_EXPORT_H
 #define CUTS_TESTING_LOG_MESSAGE_LISTENER_EXPORT_H
 
-#include "ace/config-all.h"
+#include "cuts/config.h"
 
 #if defined (ACE_AS_STATIC_LIBS) && !defined (CUTS_TESTING_LOG_MESSAGE_LISTENER_HAS_DLL)
 #  define CUTS_TESTING_LOG_MESSAGE_LISTENER_HAS_DLL 0

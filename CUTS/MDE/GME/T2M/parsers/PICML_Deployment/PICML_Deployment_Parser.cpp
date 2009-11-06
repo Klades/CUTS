@@ -12,12 +12,7 @@
 #include "boost/spirit/iterator/file_iterator.hpp"
 #include "boost/spirit/utility/confix.hpp"
 #include "boost/spirit/utility/lists.hpp"
-#include "game/Attribute.h"
-#include "game/Connection.h"
-#include "game/MetaModel.h"
-#include "game/Model.h"
-#include "game/Project.h"
-#include "game/Set.h"
+#include "game/GME.h"
 #include <map>
 
 GME_T2M_CREATE_PARSER_IMPLEMENT (PICML_Deployment_Parser);

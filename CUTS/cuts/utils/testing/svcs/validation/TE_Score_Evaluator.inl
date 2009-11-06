@@ -2,26 +2,6 @@
 // $Id$
 
 //
-// CUTS_TE_Score_Evaluator
-//
-CUTS_INLINE
-CUTS_TE_Score_Evaluator::
-CUTS_TE_Score_Evaluator (CUTS_Dataset_Result & result)
-: result_ (result)
-{
-
-}
-
-//
-// ~CUTS_TE_Score_Evaluator
-//
-CUTS_INLINE
-CUTS_TE_Score_Evaluator::~CUTS_TE_Score_Evaluator (void)
-{
-
-}
-
-//
 // points
 //
 CUTS_INLINE

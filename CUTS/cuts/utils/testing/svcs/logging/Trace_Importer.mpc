@@ -3,6 +3,9 @@
 project (CUTS_Trace_Importer) : boost_base, cuts_test_database, cutsexe {
   exename = cuts-trace-importer
 
+  after += CUTS_Testing_Log_Message_Listener
+  libs  += CUTS_Testing_Log_Message_Listener
+
   Source_Files {
     Trace_Importer.cpp
     Trace_Importer_App.cpp

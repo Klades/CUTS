@@ -76,6 +76,8 @@ public:
    */
   bool insert (const CUTS_Dataflow_Graph & graph);
 
+  CUTS_DB_SQLite_Query * create_query (void);
+
 private:
   int open_vtable (CUTS_Test_Database & test);
 

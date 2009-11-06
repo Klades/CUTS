@@ -15,6 +15,7 @@
 #include "ace/streams.h"
 #include "game/XML.h"
 #include "game/ComponentEx.h"
+#include "game/GME.h"
 #include <sstream>
 
 static const char * __HELP__ =

@@ -12,11 +12,7 @@
 #include "boost/spirit/iterator/file_iterator.hpp"
 #include "boost/spirit/utility/confix.hpp"
 #include "boost/spirit/utility/lists.hpp"
-#include "game/Attribute.h"
-#include "game/Connection.h"
-#include "game/MetaModel.h"
-#include "game/Model.h"
-#include "game/Project.h"
+#include "game/GME.h"
 #include <map>
 
 GME_T2M_CREATE_PARSER_IMPLEMENT (PICML_Assembly_Parser);
@@ -148,7 +144,7 @@ namespace actors
         GME::Collection_T <GME::Folder> folders;
 
         // Cache all the files in the project.
-        if (root_folder.folders ("InterfaceDefinitions", folders))
+        if (root_folder.children ("InterfaceDefinitions", folders))
           std::for_each (folders.begin (),
                          folders.end (),
                          boost::bind (&find_component_type::save_files,
@@ -220,7 +216,7 @@ namespace actors
     {
       GME::Collection_T <GME::Model> temp;
 
-      if (folder.models ("File", temp))
+      if (folder.children ("File", temp))
         std::for_each (temp.begin (),
                        temp.end (),
                        boost::bind (&find_component_type::insert,
@@ -366,7 +362,7 @@ namespace actors
 
       GME::Collection_T <GME::Reference> ports;
 
-      if (this->instance_.references ("OutEventPort", ports))
+      if (this->instance_.children ("OutEventPort", ports))
       {
         GME::Collection_T <GME::Reference>::const_iterator iter =
           std::find_if (ports.begin (),
@@ -410,7 +406,7 @@ namespace actors
 
       GME::Collection_T <GME::Reference> ports;
 
-      if (this->instance_.references ("InEventPort", ports))
+      if (this->instance_.children ("InEventPort", ports))
       {
         GME::Collection_T <GME::Reference>::const_iterator iter =
           std::find_if (ports.begin (),

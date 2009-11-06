@@ -4,6 +4,7 @@
 #include "RawComponent.h"
 #include "game/be/ComponentDLL.h"
 #include "game/utils/Project_Settings.h"
+#include "game/GME.h"
 #include "UniteVisitor.h"
 #include "Utils/Utils.h"
 #include "paradigm/CUTS.h"

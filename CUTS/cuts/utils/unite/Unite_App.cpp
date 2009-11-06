@@ -179,9 +179,9 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
       // Construct the WHERE clause for the aspect.
       CUTS_Where_Clause_Builder where_clause_builder;
 
-      where_clause_builder.build (aspect_type.condition (),
-                                  aspect.condition_,
-                                  false);
+      //where_clause_builder.build (aspect_type.condition (),
+      //                            aspect.condition_,
+      //                            false);
     }
 
     if (aspect_type.viewpoint_p ())

@@ -1,13 +1,84 @@
+Fri Nov  6 02:32:49 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/T2M/executor/Executor_App.cpp:
+        * MDE/GME/T2M/parsers/PICML_Assembly/PICML_Assembly_Parser.cpp:
+        * MDE/GME/T2M/parsers/PICML_Deployment/PICML_Deployment_Parser.cpp:
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Scatter_Deployment_Parser.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_GME_UNITE.mpc:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_GME_UNITE.reg:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_GME_UNITEd.reg:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/RawComponent.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UdmApp.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UniteVisitor.h:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS_DSML.mpc:
+        * MDE/GME/plugins/cute/Property_Locator.cpp:
+
+          . Fixed build errors related to recent CoSMIC updates to
+            the interfaces in GAME.
+
+        * cuts/utils/testing/svcs/logging/Log_Message_Table.h:
+        * cuts/utils/testing/svcs/logging/Log_Message_Table.inl:
+        * cuts/utils/testing/svcs/logging/Log_Message_Table.cpp:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.mpc:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener_export.h:
+        * cuts/utils/testing/svcs/logging/Testing_LoggingServerListener_i.cpp:
+        * cuts/utils/testing/svcs/logging/Trace_Importer.mpc:
+
+          . Refactored the code for inserting log messages into the database
+            into stand-alone classes. This should help with reusing the code
+            in other projects.
+
+        * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.h:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.inl:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.cpp:
+
+          . Removed the evaluate_false_negative () method.
+
+          . Re-designed the evaluate so that is operates directly on the repo
+            instead of using the CUTS_Dataset_Result object.
+
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * etc/schemas/cuts-unite.xsd:
+
+          . Changed the aspect condition to a string.
+
+          . Added 'minoccurs' and 'maxoccurs' attribute to the validation
+            complex type.
+
+        * cuts/utils/unite/Dataset_Repo.h:
+        * cuts/utils/unite/Dataset_Repo.inl:
+        * cuts/utils/unite/Dataset_Repo.cpp:
+
+          . Added a create_query () method to the class for create a
+            SQL query on the target database.
+
+        * cuts/utils/unite/Dataset_Result.cpp:
+
+          . Fixed error in SQL statement construction.
+
+        * cuts/utils/unite/Unite_App.cpp:
+
+          . Temporarily disabled the aspects.
+
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_UNITE.reg:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_UNITEd.reg:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE.mpc:
+
+          Removed these files.
+
 Fri Oct 23 14:02:40 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/testing/svcs/logging/Testing_LoggingServerListener_i.cpp:
 
-	  . Missing an include file.
+          . Missing an include file.
 
         * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:
 
-	  . Fixed build error.
-	
+          . Fixed build error.
+
 Thu Oct 15 01:56:55 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * contrib:

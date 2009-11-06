@@ -32,7 +32,7 @@ this software.
 #include <xercesc/framework/LocalFileFormatTarget.hpp>
 
 // Utility includes
-#include "Utils/XercesString.h"
+#include "Utils/xercesc/XercesString.h"
 
 #include "UdmStatic.h"
 #include "UmlExt.h"
@@ -114,7 +114,7 @@ void CUdmApp::UdmMain (Udm::DataNetwork* p_backend,        // Backend pointer
       // method for the interpreter. :o)
 
       int disable_optimize = 0;
-  
+
       CUTS::UniteVisitor visitor (CUdmApp::output_path_);
       CUTS::RootFolder root = CUTS::RootFolder::Cast (p_backend->GetRootObject());
       root.Accept (visitor);

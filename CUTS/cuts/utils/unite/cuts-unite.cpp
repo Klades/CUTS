@@ -714,7 +714,7 @@ namespace CUTS
 
         else if (n == ACE_TEXT("condition"))
         {
-          ::CUTS::XML::conditionType t (e);
+          ::XMLSchema::string< char > t (e);
           condition (t);
         }
 
@@ -782,7 +782,7 @@ namespace CUTS
 
         else if (n == "after")
         {
-          ::XMLSchema::unsignedByte t (a);
+          ::XMLSchema::unsignedInt t (a);
           after (t);
         }
 
@@ -828,10 +828,10 @@ namespace CUTS
       {
         ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
-        if (n == "type")
+        if (n == "minoccurs")
         {
-          type_ = ::std::auto_ptr< ::CUTS::XML::validityType > (new ::CUTS::XML::validityType (a));
-          type_->container (this);
+          ::XMLSchema::unsignedInt t (a);
+          minoccurs (t);
         }
 
         else if (n == "priority")
@@ -847,6 +847,12 @@ namespace CUTS
           std::basic_string<ACE_TCHAR> temp (ACE_TEXT_CHAR_TO_TCHAR ((*id_).c_str()));
           (*ACE_Singleton<ID_Map::TSS_ID_Map, ACE_Null_Mutex>::instance())->
           add_id(temp, dynamic_cast<XSCRT::Type*> (this));
+        }
+
+        else if (n == "maxoccurs")
+        {
+          ::XMLSchema::string< char > t (a);
+          maxoccurs (t);
         }
 
         else 

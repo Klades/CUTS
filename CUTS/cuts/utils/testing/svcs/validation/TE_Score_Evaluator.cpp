@@ -6,11 +6,32 @@
 #include "TE_Score_Evaluator.inl"
 #endif
 
-#include "cuts/utils/unite/Dataset_Result.h"
+#include "cuts/utils/unite/Dataset_Repo.h"
+#include "cuts/utils/db/SQLite/Query.h"
 #include "ace/SString.h"
 #include "boost/bind.hpp"
 #include <algorithm>
 #include <sstream>
+
+//
+// CUTS_TE_Score_Evaluator
+//
+CUTS_TE_Score_Evaluator::
+CUTS_TE_Score_Evaluator (CUTS_Dataset_Repo & repo)
+: query_ (repo.create_query ())
+{
+
+}
+
+//
+// ~CUTS_TE_Score_Evaluator
+//
+CUTS_TE_Score_Evaluator::~CUTS_TE_Score_Evaluator (void)
+{
+  if (0 != this->query_)
+    this->query_->destroy ();
+}
+
 
 //
 // reset
@@ -45,12 +66,6 @@ evaluate (const ACE_CString & dataset,
                               dataset,
                               _1));
 
-  // Now, check for false negatives.
-  std::for_each (begin, end,
-                 boost::bind (&CUTS_TE_Score_Evaluator::evaluate_false_negative,
-                              this,
-                              dataset,
-                              _1));
   return true;
 }
 
@@ -76,45 +91,39 @@ evaluate_state (const ACE_CString & dataset, const state_value_type & state)
 {
   // Construct the SQL validation string.
   std::ostringstream ostr;
-  ostr << "SELECT " << state->value ()
-       << " FROM " << dataset
-       << " WHERE " << state->context ();
+  ostr << "SELECT COUNT(*) AS tally, (" << state->value ()
+       << ") AS result FROM " << dataset
+       << " WHERE (" << state->context ()
+       << ") GROUP BY result";
 
-  if (this->result_.validate (ostr.str ().c_str ()))
+  // Execute the SQL query on the database.
+  CUTS_DB_Record * record = this->query_->execute (ostr.str ().c_str ());
+
+  // There will ALWAYS be at least one row in the result sent. The
+  // value of the 'result' will be 0.
+  long tally, result;
+  record->get_data (0, tally);
+  record->get_data (1, result);
+
+  bool add_weight = false;
+
+  if (1 == result)
   {
-    // Insert the name of the state.
-    this->seen_.insert (state->id ().c_str ());
-
-    // Increase the points since the state is valid.
-    size_t weight = this->maxprio_ - state->priority () + 1;
-    this->points_ += weight;
+    add_weight = true;
   }
-}
-
-//
-// evaluate_false_negative
-//
-void CUTS_TE_Score_Evaluator::
-evaluate_false_negative (const ACE_CString & dataset,
-                         const state_value_type & state)
-{
-  // Construct the SQL validation string.
-  std::ostringstream ostr;
-  ostr << "SELECT NOT(" << state->value () << ")"
-       << " FROM " << dataset
-       << " WHERE " << state->context ();
-
-  size_t weight = this->maxprio_ - state->priority () + 1;
-  int seen = this->seen_.find (state->id ().c_str ());
-
-  if (this->result_.validate (ostr.str ().c_str ()))
+  else if (0 == tally)
   {
-    if (0 == seen)
-      // This was not an valid state after all.
-      this->points_ -= weight;
+    // Ok, so there were no false states in the result set. We
+    // can no check for positives in the result set.
+    record->advance ();
+
+    if (!record->done ())
+      add_weight = true;
   }
-  else if (0 != seen)
-  {
-    this->points_ += weight;
-  }
+
+  if (add_weight)
+    this->points_ = this->maxprio_ - state->priority () + 1;
+
+  // Reset query for the next state.
+  this->query_->reset ();
 }

@@ -11,7 +11,7 @@ REGEDIT4
 @="CUTS.Interpreter.UNITE"
 
 [HKEY_CURRENT_USER\Software\Classes\CLSID\{08802A40-1B8F-49ad-80BB-6475C33BAC56}\InProcServer32]
-@="CUTS_UNITEd.dll"
+@="CUTS_GME_UNITEd.dll"
 
 [HKEY_CURRENT_USER\Software\Classes\CUTS.Interpreter.UNITE]
 @="CUTS.Interpreter.UNITE"

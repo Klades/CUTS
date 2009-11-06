@@ -116,8 +116,7 @@ int CUTS_TE_Score_App::run_main (int argc, char * argv [])
                          ACE_TEXT ("%T (%t) - %M - failed to construct variable table\n")),
                          -1);
 
-    CUTS_Dataset_Result result (repo);
-    CUTS_TE_Score_Evaluator evaluator (result);
+    CUTS_TE_Score_Evaluator evaluator (repo);
 
     ACE_DEBUG ((LM_INFO,
                 ACE_TEXT ("%T (%t) - %M - evaluating correctness; please wait...\n")));

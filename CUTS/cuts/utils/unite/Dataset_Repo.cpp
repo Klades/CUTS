@@ -407,3 +407,11 @@ prune_incomplete_rows (const CUTS_Dataflow_Graph & graph)
   // Execute the query to delete the incomplete rows.
   query->execute_no_record (sqlstr.str ().c_str ());
 }
+
+//
+// create_query
+//
+CUTS_DB_SQLite_Query * CUTS_Dataset_Repo::create_query (void)
+{
+  return this->vtable_->create_query ();
+}

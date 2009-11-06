@@ -2,9 +2,7 @@
 
 #include "stdafx.h"
 #include "Scatter_Deployment_Parser.h"
-#include "game/Project.h"
-#include "game/Connection.h"
-#include "game/MetaFCO.h"
+#include "game/GME.h"
 #include "boost/bind.hpp"
 #include "boost/spirit/core.hpp"
 #include "boost/spirit/utility/confix.hpp"
@@ -200,7 +198,7 @@ struct CUTS_Scatter_Domain_Parser :
     {
       // Get all the elements in the domain.
       GME::Collection_T <GME::Model> temp;
-      domain.models ("Node", temp);
+      domain.children ("Node", temp);
 
       // Let's make our life easy right now and delete all nodes in
       // the domain. This way, we are starting from scratch each time.
@@ -461,13 +459,13 @@ clear_deployment (GME::Model & deployment)
 {
   // Delete all the component references.
   GME::Collection_T <GME::Reference> refs;
-  deployment.references ("ComponentRef", refs);
+  deployment.children ("ComponentRef", refs);
 
   std::for_each (refs.begin (),
                  refs.end (),
                  boost::bind (&GME::Reference::destroy, _1));
 
-  deployment.references ("ComponentAssemblyReference", refs);
+  deployment.children ("ComponentAssemblyReference", refs);
 
   std::for_each (refs.begin (),
                  refs.end (),
@@ -475,14 +473,14 @@ clear_deployment (GME::Model & deployment)
 
   // Delete all the collocation groups.
   GME::Collection_T <GME::Set> groups;
-  deployment.sets ("CollocationGroup", groups);
+  deployment.children ("CollocationGroup", groups);
 
   std::for_each (groups.begin (),
                  groups.end (),
                  boost::bind (&GME::Set::destroy, _1));
 
   // Delete all the node references.
-  deployment.references ("NodeReference", refs);
+  deployment.children ("NodeReference", refs);
 
   std::for_each (refs.begin (),
                  refs.end (),

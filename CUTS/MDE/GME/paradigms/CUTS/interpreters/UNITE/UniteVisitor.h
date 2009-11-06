@@ -27,7 +27,7 @@
 #include <xercesc/dom/DOMNodeList.hpp>
 #include <xercesc/util/XMLString.hpp>
 
-#include "Utils/XercesString.h"
+#include "Utils/xercesc/XercesString.h"
 #include "Utils/Utils.h"
 
 #include <string>
@@ -55,42 +55,42 @@ namespace CUTS {
 
     /// Destructor
     ~UniteVisitor ();
-    
+
     /// Visit RootFolder element.
     virtual void Visit_RootFolder( const RootFolder&);
-   
-		/// Visit Datagraphs folder.
-		virtual void Visit_DataGraphs(const DataGraphs&);
-		
+
+    /// Visit Datagraphs folder.
+    virtual void Visit_DataGraphs(const DataGraphs&);
+
     /// Visit UniteTests folder.
     virtual void Visit_UnitTests (const UnitTests&);
 
     /// Visit UniteTest element.
-	  virtual void Visit_UnitTest (const UnitTest&);
-		
-	  /// Visit Datagraph element.
-		virtual void Visit_DataGraph(const DataGraph&);
+    virtual void Visit_UnitTest (const UnitTest&);
+
+    /// Visit Datagraph element.
+    virtual void Visit_DataGraph(const DataGraph&);
 
     /// Visit LogFormat element.
     virtual void Visit_LogFormat (const LogFormat&);
 
     /// Visit Causality connections.
-	  virtual void Visit_Causality (const Causality&);
+    virtual void Visit_Causality (const Causality&);
 
     /// Visit Key element.
-	  virtual void Visit_Key (const Key&);  
-		
-		/// Visit GroupItem element.
-		virtual void Visit_GroupItem(const GroupItem&);
-		
-		/// Visit Service element.
-		virtual void Visit_Service(const Service&);
-		
-		/// Visit Group element.
-		virtual void Visit_Group(const Group&);
-		
-		/// Visit Variable element.
-		virtual void Visit_Variable(const Variable&);
+    virtual void Visit_Key (const Key&);
+
+    /// Visit GroupItem element.
+    virtual void Visit_GroupItem(const GroupItem&);
+
+    /// Visit Service element.
+    virtual void Visit_Service(const Service&);
+
+    /// Visit Group element.
+    virtual void Visit_Group(const Group&);
+
+    /// Visit Variable element.
+    virtual void Visit_Variable(const Variable&);
 
   private:
 
@@ -110,10 +110,10 @@ namespace CUTS {
     /// adds a new element to the xerces source tree
     void addElement (xercesc::DOMElement * element);
 
-    /// creates a new DOM element 
+    /// creates a new DOM element
     xercesc::DOMElement * createElement (std::string element_name);
 
-    /// creates a new DOM element 
+    /// creates a new DOM element
     xercesc::DOMElement * createElement (std::string element_name,
                                          std::string element_val);
 
@@ -144,11 +144,11 @@ namespace CUTS {
 
     /// stores <services> DOM element
     xercesc::DOMElement* services_node_;
-		
-		/// stores <grouping> DOM element
+
+    /// stores <grouping> DOM element
     xercesc::DOMElement* grouping_node_;
 
-		/// stores <logformats> DOM element
+    /// stores <logformats> DOM element
     xercesc::DOMElement* logformats_node_;
 
 

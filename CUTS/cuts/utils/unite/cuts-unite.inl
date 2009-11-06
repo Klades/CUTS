@@ -1942,7 +1942,7 @@ namespace CUTS
     ::XSCRT::Type (),
     name_ (s.name_.get () ? new ::XMLSchema::ID< char > (*s.name_) : 0),
     viewpoint_ (s.viewpoint_.get () ? new ::CUTS::XML::viewpointType (*s.viewpoint_) : 0),
-    condition_ (s.condition_.get () ? new ::CUTS::XML::conditionType (*s.condition_) : 0),
+    condition_ (s.condition_.get () ? new ::XMLSchema::string< char > (*s.condition_) : 0),
     regulator__ ()
     {
       if (name_.get ()) name_->container (this);
@@ -2047,7 +2047,7 @@ namespace CUTS
     }
 
     inline
-    ::CUTS::XML::conditionType const& aspectType::
+    ::XMLSchema::string< char > const& aspectType::
     condition () const
     {
       return *condition_;
@@ -2055,7 +2055,7 @@ namespace CUTS
 
     inline
     void aspectType::
-    condition (::CUTS::XML::conditionType const& e)
+    condition (::XMLSchema::string< char > const& e)
     {
       if (condition_.get ())
       {
@@ -2064,7 +2064,7 @@ namespace CUTS
 
       else
       {
-        condition_ = ::std::auto_ptr< ::CUTS::XML::conditionType > (new ::CUTS::XML::conditionType (e));
+        condition_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
         condition_->container (this);
       }
     }
@@ -2193,7 +2193,7 @@ namespace CUTS
     viewpointType (viewpointType const& s)
     :
     before_ (s.before_.get () ? new ::XMLSchema::unsignedInt (*s.before_) : 0),
-    after_ (s.after_.get () ? new ::XMLSchema::unsignedByte (*s.after_) : 0),
+    after_ (s.after_.get () ? new ::XMLSchema::unsignedInt (*s.after_) : 0),
     regulator__ ()
     {
       if (before_.get ()) before_->container (this);
@@ -2208,7 +2208,7 @@ namespace CUTS
       else before_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (0);
 
       if (s.after_.get ()) after (*(s.after_));
-      else after_ = ::std::auto_ptr< ::XMLSchema::unsignedByte > (0);
+      else after_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (0);
 
       return *this;
     }
@@ -2263,14 +2263,14 @@ namespace CUTS
     }
 
     inline
-    ::XMLSchema::unsignedByte const& viewpointType::
+    ::XMLSchema::unsignedInt const& viewpointType::
     after () const
     {
       return *after_;
     }
 
     inline
-    ::XMLSchema::unsignedByte& viewpointType::
+    ::XMLSchema::unsignedInt& viewpointType::
     after ()
     {
       return *after_;
@@ -2278,7 +2278,7 @@ namespace CUTS
 
     inline
     void viewpointType::
-    after (::XMLSchema::unsignedByte const& e)
+    after (::XMLSchema::unsignedInt const& e)
     {
       if (after_.get ())
       {
@@ -2287,7 +2287,7 @@ namespace CUTS
 
       else
       {
-        after_ = ::std::auto_ptr< ::XMLSchema::unsignedByte > (new ::XMLSchema::unsignedByte (e));
+        after_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (new ::XMLSchema::unsignedInt (e));
         after_->container (this);
       }
     }
@@ -2299,17 +2299,14 @@ namespace CUTS
     inline
     executionStateType::
     executionStateType (::XMLSchema::string< char > const& context__,
-                        ::XMLSchema::string< char > const& value__,
-                        ::CUTS::XML::validityType const& type__)
+                        ::XMLSchema::string< char > const& value__)
     : 
     context_ (new ::XMLSchema::string< char > (context__)),
     value_ (new ::XMLSchema::string< char > (value__)),
-    type_ (new ::CUTS::XML::validityType (type__)),
     regulator__ ()
     {
       context_->container (this);
       value_->container (this);
-      type_->container (this);
     }
 
     inline
@@ -2319,16 +2316,18 @@ namespace CUTS
     ::XSCRT::Type (),
     context_ (new ::XMLSchema::string< char > (*s.context_)),
     value_ (new ::XMLSchema::string< char > (*s.value_)),
-    type_ (new ::CUTS::XML::validityType (*s.type_)),
+    minoccurs_ (s.minoccurs_.get () ? new ::XMLSchema::unsignedInt (*s.minoccurs_) : 0),
     priority_ (s.priority_.get () ? new ::XMLSchema::unsignedInt (*s.priority_) : 0),
     id_ (s.id_.get () ? new ::XMLSchema::ID< char > (*s.id_) : 0),
+    maxoccurs_ (s.maxoccurs_.get () ? new ::XMLSchema::string< char > (*s.maxoccurs_) : 0),
     regulator__ ()
     {
       context_->container (this);
       value_->container (this);
-      type_->container (this);
+      if (minoccurs_.get ()) minoccurs_->container (this);
       if (priority_.get ()) priority_->container (this);
       if (id_.get ()) id_->container (this);
+      if (maxoccurs_.get ()) maxoccurs_->container (this);
     }
 
     inline
@@ -2339,13 +2338,17 @@ namespace CUTS
 
       value (*s.value_);
 
-      type (s.type ());
+      if (s.minoccurs_.get ()) minoccurs (*(s.minoccurs_));
+      else minoccurs_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (0);
 
       if (s.priority_.get ()) priority (*(s.priority_));
       else priority_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (0);
 
       if (s.id_.get ()) id (*(s.id_));
       else id_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (0);
+
+      if (s.maxoccurs_.get ()) maxoccurs (*(s.maxoccurs_));
+      else maxoccurs_ = ::std::auto_ptr< ::XMLSchema::string< char > > (0);
 
       return *this;
     }
@@ -2386,24 +2389,40 @@ namespace CUTS
     // executionStateType
     // 
     inline
-    ::CUTS::XML::validityType const& executionStateType::
-    type () const
+    bool executionStateType::
+    minoccurs_p () const
     {
-      return *type_;
+      return minoccurs_.get () != 0;
     }
 
     inline
-    ::CUTS::XML::validityType& executionStateType::
-    type ()
+    ::XMLSchema::unsignedInt const& executionStateType::
+    minoccurs () const
     {
-      return *type_;
+      return *minoccurs_;
+    }
+
+    inline
+    ::XMLSchema::unsignedInt& executionStateType::
+    minoccurs ()
+    {
+      return *minoccurs_;
     }
 
     inline
     void executionStateType::
-    type (::CUTS::XML::validityType const& e)
+    minoccurs (::XMLSchema::unsignedInt const& e)
     {
-      *type_ = e;
+      if (minoccurs_.get ())
+      {
+        *minoccurs_ = e;
+      }
+
+      else
+      {
+        minoccurs_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (new ::XMLSchema::unsignedInt (e));
+        minoccurs_->container (this);
+      }
     }
 
     // executionStateType
@@ -2481,6 +2500,45 @@ namespace CUTS
       {
         id_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (new ::XMLSchema::ID< char > (e));
         id_->container (this);
+      }
+    }
+
+    // executionStateType
+    // 
+    inline
+    bool executionStateType::
+    maxoccurs_p () const
+    {
+      return maxoccurs_.get () != 0;
+    }
+
+    inline
+    ::XMLSchema::string< char > const& executionStateType::
+    maxoccurs () const
+    {
+      return *maxoccurs_;
+    }
+
+    inline
+    ::XMLSchema::string< char >& executionStateType::
+    maxoccurs ()
+    {
+      return *maxoccurs_;
+    }
+
+    inline
+    void executionStateType::
+    maxoccurs (::XMLSchema::string< char > const& e)
+    {
+      if (maxoccurs_.get ())
+      {
+        *maxoccurs_ = e;
+      }
+
+      else
+      {
+        maxoccurs_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
+        maxoccurs_->container (this);
       }
     }
 

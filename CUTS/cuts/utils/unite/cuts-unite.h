@@ -944,11 +944,11 @@ namespace CUTS
       // 
       public:
       bool condition_p () const;
-      ::CUTS::XML::conditionType const& condition () const;
-      void condition (::CUTS::XML::conditionType const& );
+      ::XMLSchema::string< char > const& condition () const;
+      void condition (::XMLSchema::string< char > const& );
 
       protected:
-      ::std::auto_ptr< ::CUTS::XML::conditionType > condition_;
+      ::std::auto_ptr< ::XMLSchema::string< char > > condition_;
 
       public:
       aspectType ();
@@ -1027,12 +1027,12 @@ namespace CUTS
       // 
       public:
       bool after_p () const;
-      ::XMLSchema::unsignedByte const& after () const;
-      ::XMLSchema::unsignedByte& after ();
-      void after (::XMLSchema::unsignedByte const& );
+      ::XMLSchema::unsignedInt const& after () const;
+      ::XMLSchema::unsignedInt& after ();
+      void after (::XMLSchema::unsignedInt const& );
 
       protected:
-      ::std::auto_ptr< ::XMLSchema::unsignedByte > after_;
+      ::std::auto_ptr< ::XMLSchema::unsignedInt > after_;
 
       public:
       viewpointType ();
@@ -1073,15 +1073,16 @@ namespace CUTS
       protected:
       ::std::auto_ptr< ::XMLSchema::string< char > > value_;
 
-      // type
+      // minoccurs
       // 
       public:
-      ::CUTS::XML::validityType const& type () const;
-      ::CUTS::XML::validityType& type ();
-      void type (::CUTS::XML::validityType const& );
+      bool minoccurs_p () const;
+      ::XMLSchema::unsignedInt const& minoccurs () const;
+      ::XMLSchema::unsignedInt& minoccurs ();
+      void minoccurs (::XMLSchema::unsignedInt const& );
 
       protected:
-      ::std::auto_ptr< ::CUTS::XML::validityType > type_;
+      ::std::auto_ptr< ::XMLSchema::unsignedInt > minoccurs_;
 
       // priority
       // 
@@ -1105,10 +1106,20 @@ namespace CUTS
       protected:
       ::std::auto_ptr< ::XMLSchema::ID< char > > id_;
 
+      // maxoccurs
+      // 
+      public:
+      bool maxoccurs_p () const;
+      ::XMLSchema::string< char > const& maxoccurs () const;
+      ::XMLSchema::string< char >& maxoccurs ();
+      void maxoccurs (::XMLSchema::string< char > const& );
+
+      protected:
+      ::std::auto_ptr< ::XMLSchema::string< char > > maxoccurs_;
+
       public:
       executionStateType (::XMLSchema::string< char > const& context__,
-                          ::XMLSchema::string< char > const& value__,
-                          ::CUTS::XML::validityType const& type__);
+                          ::XMLSchema::string< char > const& value__);
 
       executionStateType (::XSCRT::XML::Element< char > const&);
       executionStateType (executionStateType const& s);
