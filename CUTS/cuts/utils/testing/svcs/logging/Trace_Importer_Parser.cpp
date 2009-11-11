@@ -6,6 +6,7 @@
 #include "Trace_Importer_Parser.inl"
 #endif
 
+#include "Log_Message_Table.h"
 #include "cuts/Auto_Functor_T.h"
 #include "cuts/utils/db/DB_Query.h"
 #include "cuts/utils/db/SQLite/Types.h"
@@ -110,9 +111,17 @@ private:
 bool CUTS_Trace_Importer_Parser::
 import_trace (const ACE_CString & trace_file, const ACE_CString & hostname)
 {
+  // Verify the database is initialized with the log message table.
+  CUTS_Log_Message_Table logmsg_table (this->test_db_);
+
+  if (0 != logmsg_table.init ())
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - failed to initialize database\n")),
+                       false);
+
   using namespace boost::spirit;
 
-  // Reopen the temp file using an iterator this time.
+  // Re-open the temp file using an iterator this time.
   file_iterator < > iter_begin (trace_file.c_str ());
 
   if (!iter_begin)

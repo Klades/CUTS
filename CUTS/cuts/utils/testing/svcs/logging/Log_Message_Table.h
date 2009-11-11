@@ -36,6 +36,7 @@ class CUTS_Log_Message_Table_Insert_Stmt;
 class CUTS_TESTING_LOG_MESSAGE_LISTENER_Export CUTS_Log_Message_Table
 {
 public:
+  /// Type definition of the insert statement for the table.
   typedef CUTS_Log_Message_Table_Insert_Stmt INSERT_STMT;
 
   /**

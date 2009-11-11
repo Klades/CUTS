@@ -7,33 +7,9 @@
 #endif
 
 #include "Trace_Importer_Parser.h"
-#include "cuts/Auto_Functor_T.h"
-#include "cuts/utils/db/DB_Query.h"
-#include "cuts/utils/db/SQLite/Types.h"
 #include "cuts/utils/testing/Test_Database.h"
 #include "ace/Get_Opt.h"
 #include "ace/streams.h"
-
-static const char * __CREATE_CUTS_LOGGING_TABLE__ =
-"CREATE TABLE IF NOT EXISTS cuts_logging"
-"("
-"lid INTEGER PRIMARY KEY AUTOINCREMENT,"
-"timeofday DATETIME,"
-"severity INTEGER,"
-"hostname VARCHAR,"
-"message TEXT"
-")";
-
-static const char * __CREATE_INDEX_CUTS_LOGGING_MESSAGE__ =
-"CREATE INDEX IF NOT EXISTS cuts_logging_message ON cuts_logging (message)";
-
-#define INIT_STMT_COUNT 2
-
-static const char * __INIT_STMTS__[INIT_STMT_COUNT] =
-{
-  __CREATE_CUTS_LOGGING_TABLE__,
-  __CREATE_INDEX_CUTS_LOGGING_MESSAGE__
-};
 
 static const char * __HELP__ =
 "Utility for importing an execution trace into a CUTS test database\n"
@@ -46,7 +22,7 @@ static const char * __HELP__ =
 "  --hostname=NAME            host that generated execution trace (required)\n"
 "\n"
 "Output options:\n"
-"  -h, --help                print this help message\n";
+"  -h, --help                 print this help message\n";
 
 //
 // run_main
@@ -63,13 +39,6 @@ int CUTS_Trace_Importer_App::run_main (int argc, char * argv [])
     // Open the database for writing.
     CUTS_Test_Database test_db;
     test_db.open (this->test_file_);
-
-    // Initialize the contents of the database.
-    CUTS_DB_Query * query = test_db.create_query ();
-    CUTS_Auto_Functor_T <CUTS_DB_Query> auto_clean (query, &CUTS_DB_Query::destroy);
-
-    for (size_t i = 0; i < INIT_STMT_COUNT; ++ i)
-      query->execute_no_record (__INIT_STMTS__[i]);
 
     // Now, parse the trace and insert data into the database.
     CUTS_Trace_Importer_Parser trace_parser (test_db);
