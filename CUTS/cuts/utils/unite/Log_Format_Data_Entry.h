@@ -25,7 +25,7 @@ class CUTS_DB_SQLite_Connection;
 class CUTS_Log_Format;
 
 /**
- * @ingroup UNITE_Common
+ * @ingroup UNITE_Core
  *
  * @class CUTS_Log_Format_Data_Entry
  */

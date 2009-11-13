@@ -23,7 +23,7 @@
 class CUTS_Log_Format;
 
 /**
- * @ingroup UNITE_Common
+ * @ingroup UNITE_Core
  *
  * @class CUTS_Unit_Test_Graph_Traits
  *

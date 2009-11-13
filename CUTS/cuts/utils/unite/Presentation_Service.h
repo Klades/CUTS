@@ -20,7 +20,7 @@
 class CUTS_Dataset_Result;
 
 /**
- * @ingroup UNITE_Common
+ * @ingroup UNITE_Core
  *
  * @class CUTS_Unite_Presentation_Service
  */

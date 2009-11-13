@@ -38,7 +38,7 @@ class CUTS_Dataset_Result;
 class CUTS_Dataflow_Graph;
 
 /**
- * @ingroup UNITE_Common
+ * @ingroup UNITE_Core
  *
  * @class CUTS_Dataset_Repo
  */

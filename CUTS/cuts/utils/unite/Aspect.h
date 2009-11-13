@@ -17,7 +17,7 @@
 #include "ace/SString.h"
 
 /**
- * @ingroup UNITE_Common
+ * @ingroup UNITE_Core
  *
  * @class CUTS_UNITE_Aspect
  *

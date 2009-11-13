@@ -35,7 +35,7 @@ class CUTS_Unite_Test;
 typedef ACE_Array <ACE_CString> CUTS_Group_Name;
 
 /**
- * @ingroup UNITE_Common
+ * @ingroup UNITE_Core
  *
  * @class CUTS_Dataset_Result
  *

@@ -17,7 +17,7 @@
 #include "Variable_Table.h"
 
 /**
- * @ingroup UNITE_Common
+ * @ingroup UNITE_Core
  *
  * @class CUTS_Log_Format_Compiler
  */

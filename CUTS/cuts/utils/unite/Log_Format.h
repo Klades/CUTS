@@ -26,7 +26,7 @@ typedef struct real_pcre pcre;
 struct pcre_extra;
 
 /**
- * @ingroup UNITE_Common
+ * @ingroup UNITE_Core
  *
  * @class CUTS_Log_Format
  */

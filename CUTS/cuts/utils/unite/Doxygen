@@ -1,18 +1,23 @@
 /**
  * @defgroup UNITE UNITE
  *
- * This group contains classes and documentation related to the UNITE
- * utility in CUTS.
+ * This group contains classes and documentation related to the UNITE,
+ * which is a utility in CUTS that perform data mining and QoS analysis
+ * on system execution traces.
  *
- * @defgroup UNITE_Common Run-time Infrastructure
+ * @defgroup UNITE_Core Core Services
  * @ingroup UNITE
-
- * @defgroup UNITE_XML Xml Entities in UNITE
+ *
+ * This group contains classes and documentation for the core services
+ * in UNITE. The classes in this group form the foundation of UNITE
+ * and are used in other UNITE projects, such as the main executable.
+ *
+ * @defgroup UNITE_XML Xml Services
  * @ingroup UNITE
  *
  * This group contains classes and documentation for the XML entries
  * used in UNITE. The classes in this group assist in serializing and
  * deserializing XML documents. There are also classes that assist in
  * transforming extracted XML objects into objects usable by classes
- * in UNITE's @ref UNITE_Common "runtime infrastructure".
+ * in UNITE's @ref UNITE_Core "runtime infrastructure".
  */

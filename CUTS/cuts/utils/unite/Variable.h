@@ -21,7 +21,7 @@
 class CUTS_DB_SQLite_Parameter;
 
 /**
- * @ingroup UNITE_Common
+ * @ingroup UNITE_Core
  *
  * @class CUTS_Log_Format_Variable
  */

@@ -24,7 +24,7 @@ class CUTS_Log_Format;
 typedef ACE_Vector <ACE_CString> CUTS_Unite_Group;
 
 /**
- * @ingroup UNITE_Common
+ * @ingroup UNITE_Core
  *
  * @class CUTS_Unite_Test
  */
