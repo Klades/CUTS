@@ -262,7 +262,7 @@ evaluate (const CUTS_Unite_Test & test,
         }
       }
     }
-    else if (has_grouping && !has_viewpoint)
+    else if (!has_viewpoint)
     {
       // This case is also easy to handle. We just need to use the
       // returned ROWID values. We do not have to worry about the
