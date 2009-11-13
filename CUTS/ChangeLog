@@ -1,3 +1,12 @@
+Fri Nov 13 20:53:14 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Aspect.h:
+        * cuts/utils/unite/Dataset_Result.cpp:
+        * cuts/utils/unite/Unite_App.cpp:
+
+          . Bug fix where now aspects partially work with groups. Aspects
+            can be used with groups if there is no viewpoint.
+
 Fri Nov 13 04:55:15 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/unite/Aspect.h:

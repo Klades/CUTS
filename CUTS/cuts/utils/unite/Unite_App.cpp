@@ -181,12 +181,13 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
       ::CUTS::XML::aspectType aspect_type ("");
       aspect_file >>= aspect_type;
 
+      // Store the infomration from the XML file.
       aspect->condition_ = aspect_type.condition ().c_str ();
 
       if (aspect_type.viewpoint_p ())
       {
-        aspect->units_before_ = aspect_type.viewpoint ().before ();
-        aspect->units_after_  = aspect_type.viewpoint ().after ();
+        aspect->viewpoint_.lower_ = aspect_type.viewpoint ().before ();
+        aspect->viewpoint_.upper_ = aspect_type.viewpoint ().after ();
       }
     }
 

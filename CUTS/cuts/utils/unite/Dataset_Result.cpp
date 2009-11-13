@@ -197,6 +197,10 @@ evaluate (const CUTS_Unite_Test & test,
 
   bool has_grouping = test.groupings ().size () != 0 ? true : false;
 
+  bool has_viewpoint =
+    aspect != 0 &&
+    (aspect->viewpoint_.lower_ != 0 || aspect->viewpoint_.upper_ != 0);
+
   // Construct the grouping portion of the string.
   std::ostringstream group_str;
   group_str << test.groupings ();
@@ -205,22 +209,21 @@ evaluate (const CUTS_Unite_Test & test,
 
   if (aspect != 0)
   {
-    // Since the aspect work on an state (or variable) in the data
+    // Since the aspect works on an state (or variable) in the data
     // table, we first need to select the rows that match the specified
     // condition. Otherwise, we will have a HARD time applying the
     // aspect to the dataset.
     std::ostringstream aspect_sqlstr;
-    aspect_sqlstr << "SELECT ";
+    aspect_sqlstr << "SELECT ROWID";
 
     if (has_grouping)
-      aspect_sqlstr << group_str << ", ";
+      aspect_sqlstr << ", " << group_str.str ();
 
-    aspect_sqlstr << "ROWID FROM " << datagraph
+    aspect_sqlstr << " FROM " << datagraph
                   << " WHERE " << aspect->condition_;
 
-    ACE_DEBUG ((LM_DEBUG,
-                ACE_TEXT ("%T (%t) - %M - SQL aspect query: %s\n"),
-                aspect_sqlstr.str ().c_str ()));
+    if (has_grouping)
+      aspect_sqlstr << " ORDER BY " << group_str.str ();
 
     this->record_ = this->query_->execute (aspect_sqlstr.str ().c_str ());
 
@@ -231,31 +234,19 @@ evaluate (const CUTS_Unite_Test & test,
     ::CUTS::UNITE::partition_type partitions;
     long rowid;
 
-    if (!has_grouping)
+    if (!has_grouping && has_viewpoint)
     {
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         ACE_TEXT ("%T (%t) - %M - groups is not supported in aspects\n")),
-                         -1);
-
-      // Store all ROWID values in the *default* partition.
-      for (; !this->record_->done (); this->record_->advance ())
-      {
-        this->record_->get_data (0, rowid);
-        partitions[""].insert (rowid);
-      }
-    }
-    else
-    {
-      // The aspect needs to display N units before and M units after
-      // each row that meets the aspect's criteria.
-      while (!this->record_->done ())
+      // This is the easiest case to handle since there is not group
+      // information and we just need to ensure we select base our
+      // boundaries on the returned ROWID values.
+      if (!this->record_->done ())
       {
         this->record_->get_data (0, rowid);
 
         where_value << ACE_TEXT ("(ROWID BETWEEN ")
-                    << rowid - aspect->units_before_
+                    << rowid - aspect->viewpoint_.lower_
                     << ACE_TEXT (" AND ")
-                    << rowid + aspect->units_after_
+                    << rowid + aspect->viewpoint_.upper_
                     << ACE_TEXT (")");
 
         for (this->record_->advance (); !this->record_->done (); this->record_->advance ())
@@ -264,11 +255,47 @@ evaluate (const CUTS_Unite_Test & test,
           this->record_->get_data (0, rowid);
 
           where_value << ACE_TEXT (" OR (ROWID BETWEEN ")
-                      << rowid - aspect->units_before_
+                      << rowid - aspect->viewpoint_.lower_
                       << ACE_TEXT (" AND ")
-                      << rowid + aspect->units_after_
+                      << rowid + aspect->viewpoint_.upper_
                       << ACE_TEXT (")");
         }
+      }
+    }
+    else if (has_grouping && !has_viewpoint)
+    {
+      // This case is also easy to handle. We just need to use the
+      // returned ROWID values. We do not have to worry about the
+      // boundaries. This converts to using an IN(...) SQL statement.
+      if (!this->record_->done ())
+      {
+        this->record_->get_data (0, rowid);
+
+        where_value << ACE_TEXT ("ROWID IN(")
+                    << rowid;
+
+        for (this->record_->advance (); !this->record_->done (); this->record_->advance ())
+        {
+          // Insert the next datapoint into the viewpoint.
+          this->record_->get_data (0, rowid);
+          where_value << ACE_TEXT (",") << rowid;
+        }
+
+        where_value << ACE_TEXT (")");
+      }
+    }
+    else
+    {
+      // Right now, we do not support this case.
+      ACE_ERROR_RETURN ((LM_NOTICE,
+                         ACE_TEXT ("%T (%t) - %M - groups are not supported in aspects\n")),
+                         -1);
+
+      // Store all ROWID values in the *default* partition.
+      for (; !this->record_->done (); this->record_->advance ())
+      {
+        this->record_->get_data (0, rowid);
+        partitions[""].insert (rowid);
       }
     }
   }
@@ -298,7 +325,7 @@ evaluate (const CUTS_Unite_Test & test,
   sqlstr << " AS result FROM " << datagraph;
 
   // Insert the aspect in the SQL query.
-  if (0 != aspect)
+  if (!(0 == aspect || where_value.str ().empty ()))
     sqlstr << " WHERE " << where_value.str ();
 
   if (has_grouping)
@@ -312,10 +339,6 @@ evaluate (const CUTS_Unite_Test & test,
   }
 
   // Execute the SQL statement.
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - SQL query: %s\n"),
-              sqlstr.str ().c_str ()));
-
   this->record_ = this->query_->execute (sqlstr.str ().c_str ());
 
   // Prepare the space for storing group information.

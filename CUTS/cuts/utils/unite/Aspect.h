@@ -19,6 +19,39 @@
 /**
  * @ingroup UNITE_Core
  *
+ * @class CUTS_UNITE_Viewpoint
+ *
+ * The viewpoint of a given aspect. The viewpoint captures how many points
+ * before and after (or the lower and upper bounds) each point of interest
+ * that should be visible.
+ */
+class CUTS_UNITE_Export CUTS_UNITE_Viewpoint
+{
+public:
+  CUTS_UNITE_Viewpoint (void)
+    : lower_ (0),
+      upper_ (0)
+  {
+
+  }
+
+  CUTS_UNITE_Viewpoint (ACE_INT32 lower, ACE_INT32 upper)
+    : lower_ (lower),
+      upper_ (upper)
+  {
+
+  }
+
+  /// Lower bound of the viewpoint.
+  ACE_UINT32 lower_;
+
+  /// Upper bound of the viewpoint.
+  ACE_UINT32 upper_;
+};
+
+/**
+ * @ingroup UNITE_Core
+ *
  * @class CUTS_UNITE_Aspect
  *
  * Structure that defines the apsect within UNITE evaluation. An aspect
@@ -31,11 +64,8 @@
 class CUTS_UNITE_Export CUTS_UNITE_Aspect
 {
 public:
-  /// Lower-bound of the viewpoint.
-  int units_before_;
-
-  /// Upper-bound of the viewpoint.
-  int units_after_;
+  /// The viewpoint for the aspect.
+  CUTS_UNITE_Viewpoint viewpoint_;
 
   /// The WHERE clause of the aspect.
   ACE_CString condition_;
