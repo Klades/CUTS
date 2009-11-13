@@ -714,8 +714,8 @@ namespace CUTS
 
         else if (n == ACE_TEXT("condition"))
         {
-          ::XMLSchema::string< char > t (e);
-          condition (t);
+          condition_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
+          condition_->container (this);
         }
 
         else 
@@ -1016,7 +1016,7 @@ namespace CUTS
     namespace reader
     {
       ::CUTS::XML::aspectType
-      aspect (xercesc::DOMDocument const* d)
+      asset (xercesc::DOMDocument const* d)
       {
         //Initiate our Singleton as an ACE_TSS object (ensures thread
         //specific storage
@@ -1024,7 +1024,7 @@ namespace CUTS
 
 
         ::XSCRT::XML::Element< char > e (d->getDocumentElement ());
-        if (e.name () == ACE_TEXT("aspect"))
+        if (e.name () == ACE_TEXT("asset"))
         {
           ::CUTS::XML::aspectType r (e);
 

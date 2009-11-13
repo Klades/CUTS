@@ -80,6 +80,7 @@ private:
   /// Location of the aspect to load.
   ACE_CString aspect_file_;
 
+  /// Type definition for the set of strings
   typedef ACE_Unbounded_Set <ACE_CString> string_set;
 
   /// List of services to disable.

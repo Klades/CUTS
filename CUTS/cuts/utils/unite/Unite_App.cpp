@@ -96,169 +96,170 @@ CUTS_Unite_App::~CUTS_Unite_App (void)
 //
 int CUTS_Unite_App::run_main (int argc, char * argv [])
 {
-  if (this->parse_args (argc, argv) == -1)
-    return -1;
-
-  // Load the configuration file.
-  CUTS_Unite_Config_File config_file;
-  ::CUTS::XML::testConfig config ("", "", "", ::CUTS::XML::datagraphLink (""));
-
-  XSC::XML::XML_Error_Handler error_handler;
-  config_file->setErrorHandler (&error_handler);
-
-  if (config_file.read (this->config_.c_str ()))
-    config_file >>= config;
-
-  // Load the services.
-  if (config.services_p ())
-    this->load_services (config.services ());
-
-  // Construct the binary version of the unit test.
-  CUTS_Unite_Test unite_test;
-  CUTS_Unite_Test_Builder builder;
-
-  if (!builder.build (config, unite_test))
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       ACE_TEXT ("%T (%t) - %M - failed to build unit test in %s\n"),
-                       this->config_.c_str ()),
-                       -1);
-
-  // Load the XML document that contains the log formats.
-  // Process the log formats.
-  CUTS_Unite_Datagraph_File datagraph_file;
-  datagraph_file->setErrorHandler (&error_handler);
-
-  ::CUTS::XML::datagraphType datagraph ("");
-
-  if (this->datagraph_.empty ())
+  try
   {
-    if (datagraph_file.read (config.datagraph ().location ().c_str ()))
-      datagraph_file >>= datagraph;
-  }
-  else
-  {
-    if (datagraph_file.read (this->datagraph_.c_str ()))
-      datagraph_file >>= datagraph;
-  }
+    if (this->parse_args (argc, argv) == -1)
+      return -1;
 
-  // Build the graph for this unit test.
-  CUTS_Dataflow_Graph graph;
-  CUTS_Dataflow_Graph_Builder graph_builder;
+    // Load the configuration file.
+    CUTS_Unite_Config_File config_file;
+    ::CUTS::XML::testConfig config ("", "", "", ::CUTS::XML::datagraphLink (""));
 
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - building datagraph; please wait...\n")));
+    XSC::XML::XML_Error_Handler error_handler;
+    config_file->setErrorHandler (&error_handler);
 
-  if (!graph_builder.build (datagraph, graph))
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       ACE_TEXT ("%T (%t) - %M - failed to build unit test graph %s\n"),
-                       datagraph.name ().c_str ()),
-                       -1);
+    if (config_file.read (this->config_.c_str ()))
+      config_file >>= config;
 
-  // Finally, load the aspect, if applicable, and convert it into a
-  // WHERE clause for the SQL statement.
-  CUTS_UNITE_Aspect aspect;
+    // Load the services.
+    if (config.services_p ())
+      this->load_services (config.services ());
 
-  if (!this->aspect_file_.empty ())
-  {
-    // Open the XML document for reading.
-    CUTS_Unite_Aspect_File aspect_file;
-    aspect_file->setErrorHandler (&error_handler);
+    // Construct the binary version of the unit test.
+    CUTS_Unite_Test unite_test;
+    CUTS_Unite_Test_Builder builder;
 
-    if (!aspect_file.read (this->aspect_file_.c_str ()))
+    if (!builder.build (config, unite_test))
       ACE_ERROR_RETURN ((LM_ERROR,
-                         ACE_TEXT ("%T (%t) - %M - failed to load aspect file %s\n"),
-                         this->aspect_file_.c_str ()),
+                         ACE_TEXT ("%T (%t) - %M - failed to build unit test in %s\n"),
+                         this->config_.c_str ()),
                          -1);
 
-    // Load the information from the file.
-    ::CUTS::XML::aspectType aspect_type;
-    aspect_file >>= aspect_type;
+    // Load the XML document that contains the log formats.
+    // Process the log formats.
+    CUTS_Unite_Datagraph_File datagraph_file;
+    datagraph_file->setErrorHandler (&error_handler);
 
-    if (aspect_type.condition_p ())
+    ::CUTS::XML::datagraphType datagraph ("");
+
+    if (this->datagraph_.empty ())
     {
-      // Construct the WHERE clause for the aspect.
-      CUTS_Where_Clause_Builder where_clause_builder;
-
-      //where_clause_builder.build (aspect_type.condition (),
-      //                            aspect.condition_,
-      //                            false);
+      if (datagraph_file.read (config.datagraph ().location ().c_str ()))
+        datagraph_file >>= datagraph;
+    }
+    else
+    {
+      if (datagraph_file.read (this->datagraph_.c_str ()))
+        datagraph_file >>= datagraph;
     }
 
-    if (aspect_type.viewpoint_p ())
+    // Build the graph for this unit test.
+    CUTS_Dataflow_Graph graph;
+    CUTS_Dataflow_Graph_Builder graph_builder;
+
+    ACE_DEBUG ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - building datagraph; please wait...\n")));
+
+    if (!graph_builder.build (datagraph, graph))
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         ACE_TEXT ("%T (%t) - %M - failed to build unit test graph %s\n"),
+                         datagraph.name ().c_str ()),
+                         -1);
+
+    // Finally, load the aspect, if applicable, and convert it into a
+    // WHERE clause for the SQL statement.
+    ACE_Auto_Ptr <CUTS_UNITE_Aspect> aspect;
+
+    if (!this->aspect_file_.empty ())
     {
-      aspect.units_before_ = aspect_type.viewpoint ().before ();
-      aspect.units_after_ = aspect_type.viewpoint ().after ();
+      CUTS_UNITE_Aspect * temp = 0;
+      ACE_NEW_RETURN (temp, CUTS_UNITE_Aspect (), -1);
+
+      aspect.reset (temp);
+
+      // Open the XML document for reading.
+      CUTS_Unite_Aspect_File aspect_file;
+      aspect_file->setErrorHandler (&error_handler);
+
+      if (!aspect_file.read (this->aspect_file_.c_str ()))
+        ACE_ERROR_RETURN ((LM_ERROR,
+                           ACE_TEXT ("%T (%t) - %M - failed to load aspect file %s\n"),
+                           this->aspect_file_.c_str ()),
+                           -1);
+
+      // Load the information from the file.
+      ::CUTS::XML::aspectType aspect_type ("");
+      aspect_file >>= aspect_type;
+
+      aspect->condition_ = aspect_type.condition ().c_str ();
+
+      if (aspect_type.viewpoint_p ())
+      {
+        aspect->units_before_ = aspect_type.viewpoint ().before ();
+        aspect->units_after_  = aspect_type.viewpoint ().after ();
+      }
     }
-  }
 
-  // Open the database that contains the test data.
-  CUTS_Test_Database testdata;
+    // Open the database that contains the test data.
+    CUTS_Test_Database testdata;
 
-  if (!testdata.open (this->datafile_))
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       ACE_TEXT ("%T (%t) - %M - failed to open %s\n"),
-                       this->datafile_.c_str ()),
-                       -1);
+    if (!testdata.open (this->datafile_))
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         ACE_TEXT ("%T (%t) - %M - failed to open %s\n"),
+                         this->datafile_.c_str ()),
+                         -1);
 
-  // Open the repository for the test data.
-  CUTS_Dataset_Repo repo;
-  if (!repo.open (this->repo_location_, testdata))
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       ACE_TEXT ("%T (%t) - %M - failed to open variable table repo\n")),
-                       -1);
+    // Open the repository for the test data.
+    CUTS_Dataset_Repo repo;
+    if (!repo.open (this->repo_location_, testdata))
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         ACE_TEXT ("%T (%t) - %M - failed to open variable table repo\n")),
+                         -1);
 
-  ACE_High_Res_Timer timer;
-  timer.start ();
+    ACE_High_Res_Timer timer;
+    timer.start ();
 
-  // Time the evaluation operation.
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - constructing variable table; please wait...\n")));
+    // Time the evaluation operation.
+    ACE_DEBUG ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - constructing variable table; please wait...\n")));
 
-  // Construct the variable table for the log format graph.
-  if (!repo.insert (graph))
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       ACE_TEXT ("%T (%t) - %M - failed to construct variable table\n")),
-                       -1);
+    // Construct the variable table for the log format graph.
+    if (!repo.insert (graph))
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         ACE_TEXT ("%T (%t) - %M - failed to construct variable table\n")),
+                         -1);
 
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - evaluating datagraph; please wait...\n")));
+    ACE_DEBUG ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - evaluating datagraph; please wait...\n")));
 
-  // Evaluate the dataset.
-  CUTS_Dataset_Result result (repo);
+    // Evaluate the dataset.
+    CUTS_Dataset_Result result (repo);
 
-  if (this->aspect_file_.empty ())
-  {
-    if (0 != result.evaluate (unite_test, graph.name (), !this->show_trend_))
+    int retval = result.evaluate (unite_test,
+                                  graph.name (),
+                                  aspect.get (),
+                                  !this->show_trend_);
+
+    if (0 != retval)
       ACE_ERROR_RETURN ((LM_ERROR,
                          ACE_TEXT ("%T (%t) - %M - failed to evaluate test %s [vtable=%s]\n"),
                          unite_test.name ().c_str (),
                          graph.name ().c_str ()),
                          -1);
+
+    // Stop the timer for the evaluation.
+    timer.stop ();
+
+    // Determine the elapsed time of the evaluation.
+    ACE_Time_Value elapsed;
+    timer.elapsed_time (elapsed);
+
+    std::cout << "Evaluation time: "
+              << elapsed.sec () << "." << elapsed.usec () << std::endl;
+
+    // Present the results to the end-user.
+    this->svc_mgr_.handle_result (result);
+
+    return 0;
   }
-  else
+  catch (const CUTS_DB_Exception & ex)
   {
-    if (0 != result.evaluate (unite_test, graph.name (), aspect))
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         ACE_TEXT ("%T (%t) - %M - failed to evaluate test %s [vtable=%s]\n"),
-                         unite_test.name ().c_str (),
-                         graph.name ().c_str ()),
-                         -1);
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - %s\n"),
+                ex.message ().c_str ()));
   }
 
-  // Stop the timer for the evaluation.
-  timer.stop ();
-
-  // Determine the elapsed time of the evaluation.
-  ACE_Time_Value elapsed;
-  timer.elapsed_time (elapsed);
-
-  std::cout << "Evaluation time: "
-            << elapsed.sec () << "." << elapsed.usec () << std::endl;
-
-  // Present the results to the end-user.
-  this->svc_mgr_.handle_result (result);
-
-  return 0;
+  return -1;
 }
 
 //
@@ -270,6 +271,7 @@ int CUTS_Unite_App::parse_args (int argc, char * argv [])
 
   ACE_Get_Opt get_opt (argc, argv, optstr);
 
+  get_opt.long_option ("aspect", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("config", 'c', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("datafile", 'f', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("datagraph", ACE_Get_Opt::ARG_REQUIRED);
@@ -288,6 +290,10 @@ int CUTS_Unite_App::parse_args (int argc, char * argv [])
       if (ACE_OS::strcmp (get_opt.long_option (), "config") == 0)
       {
         this->config_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "aspect") == 0)
+      {
+        this->aspect_file_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "datafile") == 0)
       {

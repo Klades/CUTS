@@ -943,7 +943,6 @@ namespace CUTS
       // condition
       // 
       public:
-      bool condition_p () const;
       ::XMLSchema::string< char > const& condition () const;
       void condition (::XMLSchema::string< char > const& );
 
@@ -951,7 +950,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > condition_;
 
       public:
-      aspectType ();
+      aspectType (::XMLSchema::string< char > const& condition__);
 
       aspectType (::XSCRT::XML::Element< char > const&);
       aspectType (aspectType const& s);
@@ -1247,7 +1246,7 @@ namespace CUTS
     {
       CUTS_UNITE_XML_Export
       ::CUTS::XML::aspectType
-      aspect (xercesc::DOMDocument const*);
+      asset (xercesc::DOMDocument const*);
     }
 
 

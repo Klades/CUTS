@@ -1929,10 +1929,12 @@ namespace CUTS
 
     inline
     aspectType::
-    aspectType ()
+    aspectType (::XMLSchema::string< char > const& condition__)
     : 
+    condition_ (new ::XMLSchema::string< char > (condition__)),
     regulator__ ()
     {
+      condition_->container (this);
     }
 
     inline
@@ -1942,12 +1944,12 @@ namespace CUTS
     ::XSCRT::Type (),
     name_ (s.name_.get () ? new ::XMLSchema::ID< char > (*s.name_) : 0),
     viewpoint_ (s.viewpoint_.get () ? new ::CUTS::XML::viewpointType (*s.viewpoint_) : 0),
-    condition_ (s.condition_.get () ? new ::XMLSchema::string< char > (*s.condition_) : 0),
+    condition_ (new ::XMLSchema::string< char > (*s.condition_)),
     regulator__ ()
     {
       if (name_.get ()) name_->container (this);
       if (viewpoint_.get ()) viewpoint_->container (this);
-      if (condition_.get ()) condition_->container (this);
+      condition_->container (this);
     }
 
     inline
@@ -1964,10 +1966,7 @@ namespace CUTS
       else
         viewpoint_.reset (0);
 
-      if (s.condition_.get ())
-        condition (*(s.condition_));
-      else
-        condition_.reset (0);
+      condition (*s.condition_);
 
       return *this;
     }
@@ -2040,13 +2039,6 @@ namespace CUTS
     // aspectType
     // 
     inline
-    bool aspectType::
-    condition_p () const
-    {
-      return condition_.get () != 0;
-    }
-
-    inline
     ::XMLSchema::string< char > const& aspectType::
     condition () const
     {
@@ -2057,16 +2049,7 @@ namespace CUTS
     void aspectType::
     condition (::XMLSchema::string< char > const& e)
     {
-      if (condition_.get ())
-      {
-        *condition_ = e;
-      }
-
-      else
-      {
-        condition_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
-        condition_->container (this);
-      }
+      *condition_ = e;
     }
 
 

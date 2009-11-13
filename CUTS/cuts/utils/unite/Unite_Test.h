@@ -20,6 +20,9 @@
 // Forward decl.
 class CUTS_Log_Format;
 
+/// Type definition for grouping information.
+typedef ACE_Vector <ACE_CString> CUTS_Unite_Group;
+
 /**
  * @ingroup UNITE_Common
  *
@@ -28,9 +31,6 @@ class CUTS_Log_Format;
 class CUTS_UNITE_Export CUTS_Unite_Test
 {
 public:
-  /// Type definition for the grouping.
-  typedef ACE_Vector <ACE_SString> grouping_type;
-
   /// Default constructor
   CUTS_Unite_Test (void);
 
@@ -83,12 +83,12 @@ public:
   /**
    * Get the name of the unit test.
    */
-  const grouping_type & groupings (void) const;
+  const CUTS_Unite_Group & groupings (void) const;
 
   /**
    * @overload
    */
-  grouping_type & groupings (void);
+  CUTS_Unite_Group & groupings (void);
 
 private:
   /// Name of the unit test.
@@ -101,7 +101,7 @@ private:
   ACE_CString aggr_;
 
   /// The grouping for the unit test.
-  grouping_type grouping_;
+  CUTS_Unite_Group grouping_;
 
   // prevent the following operations
   CUTS_Unite_Test (const CUTS_Unite_Test &);

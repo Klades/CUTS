@@ -6,7 +6,7 @@
 //
 CUTS_INLINE
 CUTS_Unite_Aspect_File::CUTS_Unite_Aspect_File (void)
-: reader_type (&CUTS::XML::reader::aspect),
+: reader_type (&CUTS::XML::reader::asset),
   resolver_ (br_)
 {
   this->configure ();

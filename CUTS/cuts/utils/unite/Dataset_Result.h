@@ -69,19 +69,8 @@ public:
    */
   int evaluate (const CUTS_Unite_Test & test,
                 const ACE_CString & datagraph,
+                CUTS_UNITE_Aspect * aspect = 0,
                 bool aggr = true);
-
-  /**
-   * Evaluate a tests.
-   *
-   * @param[in]         test          Unit test to evaluate
-   * @param[in]         datagraph     Name of the graph to apply result
-   * @param[in]         aspect        Aspect of data to evaluate
-   * @param[in]         aggr          Aggregate the results
-   */
-  int evaluate (const CUTS_Unite_Test & test,
-                const ACE_CString & datagraph,
-                const CUTS_UNITE_Aspect & aspect);
 
   /**
    * Validate a test.

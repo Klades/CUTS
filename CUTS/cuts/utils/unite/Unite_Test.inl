@@ -87,7 +87,7 @@ void CUTS_Unite_Test::evaluation (const ACE_CString & eval)
 // groupings
 //
 CUTS_INLINE
-const CUTS_Unite_Test::grouping_type & CUTS_Unite_Test::groupings (void) const
+const CUTS_Unite_Group & CUTS_Unite_Test::groupings (void) const
 {
   return this->grouping_;
 }
@@ -96,7 +96,7 @@ const CUTS_Unite_Test::grouping_type & CUTS_Unite_Test::groupings (void) const
 // groupings
 //
 CUTS_INLINE
-CUTS_Unite_Test::grouping_type & CUTS_Unite_Test::groupings (void)
+CUTS_Unite_Group & CUTS_Unite_Test::groupings (void)
 {
   return this->grouping_;
 }
