@@ -110,11 +110,10 @@ third-party libraries are installed you will be able to build CUTS
 \section{ACE, TAO, CIAO, and DAnCE}
 \label{sec:thirdparty-acetaociao}
 
-ACE and TAO are required when building and installing CUTS. All artifacts
-for ACE and TAO can be downloaded from the following location: 
-\url{http://www.dre.vanderbilt.edu/TAO}. Although CUTS is built on ACE and TAO,
-you can install CIAO and DAnCE as well. The following section therefore
-covers building and installing ACE and TAO, as well as, CIAO and DAnCE.
+ACE, TAO, and CIAO are required when building and installing CUTS. All 
+artifacts for ACE, TAO, and CIAO can be downloaded from the following location: 
+\url{http://www.dre.vanderbilt.edu/CIAO}. The following section therefore
+covers building and installing ACE, TAO, and CIAO, as well as DAnCE.
 
 \subsection{System Configuration}
 
@@ -127,15 +126,19 @@ please define the following environment variables:
 \begin{lstlisting}
 (*@\texttt{\%> export ACE\_ROOT=} location of ACE@*)
 (*@\texttt{\%> export TAO\_ROOT=} location of TAO@*)
+(*@\texttt{\%> export CIAO\_ROOT=} location of CIAO@*)
+(*@\texttt{\%> export DANCE\_ROOT=\$CIAO\_ROOT/DAnCE}@*)
+
 (*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$ACE\_ROOT/lib}@*)
-(*@\texttt{\%> export PATH=\$PATH:\$ACE\_ROOT/lib}@*)
+(*@\texttt{\%> export PATH=\$PATH:\$ACE\_ROOT/bin:\$CIAO\_ROOT/bin:\$DANCE\_ROOT/bin}@*)
 \end{lstlisting}
-After defining the ACE and TAO environment variables, the next step is 
+After defining the ACE, TAO, and CIAO environment variables, the next step is 
 configuring the middleware for the target platform. This is accomplished by 
 defining the \texttt{\$ACE\_ROOT/ace/config.h} header file, which will include the correct 
 configuration for your platform. The included configuration file has the 
 form \texttt{config-*}, where \texttt{*} is the platform of choice.
-The following is an example \texttt{config.h} file:
+The following is an example \texttt{config.h} file for building ACE, TAO, and
+CIAO on Linux platforms:
 \begin{lstlisting}[language=C++]
 // -*- C++ -*-
 
@@ -148,64 +151,28 @@ The following is an example \texttt{config.h} file:
 \end{lstlisting}
 
 \subsubsection{Non-Windows}
-Configuring ACE and TAO on non-Windows systems requires one more step. The 
-configuration for the build engine also needs to be defined. Please
-use the following step to define the build engine's configuration:
+Configuring ACE, TAO, and CIAO on non-Windows systems requires one more 
+step. The configuration for the build engine also needs to be defined. 
+Please use the following step to define the build engine's configuration:
 \begin{lstlisting}
 (*@\texttt{\%> cd \$ACE\_ROOT/include/makeinclude}@*)
 (*@\texttt{\%> ln -s platform\_*.GNU platform\_macros.GNU}@*)
 \end{lstlisting}
 where \texttt{*} is the architecture for your platform of choice.
 
-\subsubsection{CIAO and DAnCE (optional)}
-If you choose to install CIAO and DAnCE, then please download the 
-complete source from the following location: 
-\url{http://www.dre.vanderbilt.edu/CIAO}. After you have download
-the source files, then define the following environment variables in 
-addition to the ones above:
-\begin{lstlisting}
-(*@\texttt{\%> export CIAO\_ROOT=} location of CIAO@*)
-(*@\texttt{\%> export DANCE\_ROOT=\$CIAO\_ROOT/DAnCE}@*)
-(*@\texttt{\%> export PATH=\$PATH:\$CIAO\_ROOT/bin:\$DANCE\_ROOT/bin}@*)
-\end{lstlisting}
-
 \subsection{Installation}
 
-After you have configured your system for ACE and TAO, you are ready
-to build and install ACE and TAO. Please use the following steps to build 
-and install ACE and TAO:
-\begin{lstlisting}
-(*@\texttt{\%> cd \$TAO\_ROOT}@*)
-(*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool] TAO\_ACE.mwc}@*)
-\end{lstlisting}
-This will generate the workspace for building and installing ACE and
-TAO. The name of the workspace depends on the build tool specified
-when generating the workspace. Finally, using your build tool
-of choice, you can build and install ACE and TAO.
-
-\subsubsection{CIAO and DAnCE (optional)}
-
-If you are installing CIAO and DAnCE, then you can use the following 
-steps instead to build ACE, TAO, CIAO and DAnCE. First, you must build
-the CIDL compiler using the following steps:
-\begin{lstlisting}
-(*@\texttt{\%> cd \$CIAO\_ROOT/CIDLC}@*)
-(*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool]}@*)
-(*@\texttt{ -features boost=1,exceptions=1,cidl=1 CIDLC.mwc}@*)
-\end{lstlisting}
-This will generate the workspace for building and installing CIDL
-compiler. The name of the workspace depends on the build tool specified 
-when generating the workspace for the CIDL compiler. After you have built 
-the CIDL compiler, you can build ACE, TAO, CIAO and DAnCE using the
-following steps:
+After you have configured your system for ACE, TAO, CIAO, and DAnCE, you 
+are ready to build and install ACE and TAO. Please use the following steps 
+to build and install ACE, TAO, CIAO, and DAnCE:
 \begin{lstlisting}
 (*@\texttt{\%> cd \$CIAO\_ROOT}@*)
 (*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool] CIAO\_TAO\_DAnCE.mwc}@*)
 \end{lstlisting}
-This will generate the workspace for building and installing ACE, TAO,
-CIAO, and DAnCE. The name of the workspace depends on the build tool 
-specified when generating the workspace. Finally, using your build tool
-of choice, you can build and install ACE, TAO, CIAO, and DAnCE.
+This will generate the workspace for building and installing ACE, TAO, CIAO,
+and DAnCE. The name of the workspace depends on the build tool specified
+when generating the workspace. Finally, using your build tool of choice, 
+you can build and install ACE, TAO, CIAO, and DAnCE.
 
 \section{XML Schema Compiler (XSC)}
 \label{sec:thirdparty-xsc}

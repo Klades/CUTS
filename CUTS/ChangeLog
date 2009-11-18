@@ -1,3 +1,11 @@
+Wed Nov 18 03:20:00 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * docs/manual/appendix/thirdparty.tex:
+        * docs/manual/manual.pdf:
+
+	  . Fixed obsolete text in the section of the user's manual about
+	    building ACE, TAO, CIAO, and DAnCE.
+
 Wed Nov 18 03:08:05 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * docs/manual/install.tex:
@@ -7,9 +15,9 @@ Wed Nov 18 03:08:05 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
         * docs/manual/runtime/logging.tex:
         * docs/manual/runtime/runtime.tex:
         * docs/manual/runtime/testing.tex:
-	  
-	  . Update the user's manual. Some sections have been commited out since
-	    the need to be overhauled.
+
+          . Update the user's manual. Some sections have been commited out since
+            the need to be overhauled.
 
 Fri Nov 13 21:17:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
