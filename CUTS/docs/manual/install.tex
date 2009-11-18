@@ -101,14 +101,20 @@ where TYPE is your compiler type, and FEATURES is a comma-separated list of
 enabled/disabled features
 for your build of the CUTS runtime architecture.\footnote{You can type 
 \texttt{\$ACE\_ROOT/bin/mwc.pl --help} to view the command-line options for 
-MPC.} CUTS has a set of features enabled by default, which are located 
-in
+MPC.} The complete set of features for CUTS is located in the following
+file:
+\begin{lstlisting}
+(*@\texttt{\%> \$CUTS\_ROOT/default.features.tmpl}@*)
+\end{lstlisting}
+It is recommended that you copy the file above to the following location:
 \begin{lstlisting}
 (*@\texttt{\%> \$CUTS\_ROOT/default.features}@*)
 \end{lstlisting}
-You can either enable features 
-within that file, or via the command-line. Once you have generated the 
-workspace, you can build the solution using your specified compiler.
+and enable/disable the appropriate features for your workspace by 
+modifying \texttt{default.features} accordingly. This way you do not
+have to use the \texttt{-features} command-line option unless you want
+to override your default feature selection. Once you have generated 
+the workspace, you can build the solution using your specified compiler.
 
 \section{CUTS Modeling Tools (Windows-only)}
 
