@@ -1,10 +1,17 @@
+Thu Nov 19 12:31:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/java/utils/logging/client/interceptors/log4j/cuts.log4j.build.xml:
+        * cuts/java/utils/logging/client/interceptors/log4j/cuts/log4j/LoggingClientAppender.java:
+
+          . Updates the log4j appender to the latest version of CUTS.
+
 Wed Nov 18 03:20:00 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * docs/manual/appendix/thirdparty.tex:
         * docs/manual/manual.pdf:
 
-	  . Fixed obsolete text in the section of the user's manual about
-	    building ACE, TAO, CIAO, and DAnCE.
+          . Fixed obsolete text in the section of the user's manual about
+            building ACE, TAO, CIAO, and DAnCE.
 
 Wed Nov 18 03:08:05 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 

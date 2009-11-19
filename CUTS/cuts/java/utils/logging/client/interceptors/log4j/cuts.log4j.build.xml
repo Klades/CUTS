@@ -5,8 +5,10 @@
 
   <target name="build">
     <path id="build.classpath">
+      <pathelement path="${env.CUTS_ROOT}/lib/cuts.java.jar" />
+      <pathelement path="${env.CUTS_ROOT}/lib/cuts.testing.jar" />
+      <pathelement path="${env.CUTS_ROOT}/lib/cuts.clientlogger.jar" />
       <pathelement path="${env.CUTS_ROOT}/contrib/java/log4j-1.2.15.jar" />
-      <pathelement path="${env.CUTS_ROOT}/lib/CUTS.TestLogger.jar" />
     </path>
 
     <javac srcdir="."

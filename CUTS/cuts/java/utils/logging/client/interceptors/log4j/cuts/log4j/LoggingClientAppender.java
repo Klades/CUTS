@@ -12,9 +12,12 @@
 
 package cuts.log4j;
 import java.util.Hashtable;
+import java.util.Arrays;
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
+import CUTS.client.logging.Logger;
+import CUTS.client.TestManagerClient;
 
 /**
  * @class LoggingClientAppender
@@ -28,13 +31,20 @@ public class LoggingClientAppender extends AppenderSkeleton
    */
   public LoggingClientAppender ()
   {
+    // Use a NIL UUID as the current value.
+    byte [] data4 = new byte [6];
+    Arrays.fill (data4, (byte) 0);
 
+    this.testUUID_ = new CUTS.UUID (0, (short) 0, (short) 0, data4);
   }
 
+  /**
+   * Activate the logger using the current options. The options are
+   * typically set in the log4j.properties file.
+   */
   public void activateOptions ()
   {
-    this.logger_.configure ((short)this.localPort_);
-    this.logger_.connectIOR (this.testIOR_);
+    this.logger_.connect (this.loggerClient_, this.testUUID_);
   }
 
   /**
@@ -43,9 +53,9 @@ public class LoggingClientAppender extends AppenderSkeleton
    *
    * @param[in]       port          Port number
    */
-  public void setPort (int port)
+  public void setLoggerClient (String loggerClient)
   {
-    this.localPort_ = port;
+    this.loggerClient_ = loggerClient;
   }
 
   /**
@@ -53,9 +63,23 @@ public class LoggingClientAppender extends AppenderSkeleton
    *
    * @param[in]       ior           IOR of test logger.
    */
-  public void setTestIOR (String ior)
+  public void setTestLocation (String testLocation)
   {
-    this.testIOR_ = ior;
+    try
+    {
+      // Resolve the location of the test manager.
+      TestManagerClient testManagerClient = new TestManagerClient ();
+      testManagerClient.connect (testLocation);
+
+      // Get the current test UUID from the manager.
+      CUTS.TestManager testManager = testManagerClient.getTestManager ();
+      CUTS.TestDetails testDetails = testManager.details ();
+      this.testUUID_ = testDetails.uid;
+    }
+    catch (Exception ex)
+    {
+      ex.printStackTrace ();
+    }
   }
 
   /**
@@ -104,29 +128,30 @@ public class LoggingClientAppender extends AppenderSkeleton
   {
     // Initialize the levelTable_ object.
     LoggingClientAppender.levelTable_ = new Hashtable<Level, Integer> ();
-    LoggingClientAppender.levelTable_.put (Level.DEBUG, CUTS.Logger.LM_DEBUG);
-    LoggingClientAppender.levelTable_.put (Level.ERROR, CUTS.Logger.LM_ERROR);
-    LoggingClientAppender.levelTable_.put (Level.FATAL, CUTS.Logger.LM_CRITICAL);
-    LoggingClientAppender.levelTable_.put (Level.INFO, CUTS.Logger.LM_INFO);
-    LoggingClientAppender.levelTable_.put (Level.TRACE, CUTS.Logger.LM_TRACE);
-    LoggingClientAppender.levelTable_.put (Level.WARN, CUTS.Logger.LM_WARNING);
+    LoggingClientAppender.levelTable_.put (Level.DEBUG, Logger.LM_DEBUG);
+    LoggingClientAppender.levelTable_.put (Level.ERROR, Logger.LM_ERROR);
+    LoggingClientAppender.levelTable_.put (Level.FATAL, Logger.LM_CRITICAL);
+    LoggingClientAppender.levelTable_.put (Level.INFO, Logger.LM_INFO);
+    LoggingClientAppender.levelTable_.put (Level.TRACE, Logger.LM_TRACE);
+    LoggingClientAppender.levelTable_.put (Level.WARN, Logger.LM_WARNING);
 
     // The following our not directly mappable.
-    LoggingClientAppender.levelTable_.put (Level.ALL, CUTS.Logger.LM_DEBUG);
-    LoggingClientAppender.levelTable_.put (Level.OFF, CUTS.Logger.LM_SHUTDOWN);
+    LoggingClientAppender.levelTable_.put (Level.ALL, Logger.LM_DEBUG);
+    LoggingClientAppender.levelTable_.put (Level.OFF, Logger.LM_SHUTDOWN);
   }
 
   /// The actual logger for the appender.
-  private CUTS.Logger logger_ = new CUTS.Logger ();
+  private Logger logger_ = new Logger ();
 
   /// Port of the local logging client.
-  private int localPort_;
+  private String loggerClient_ = null;
 
   /// Initialization state of the appender/logger.
   private boolean isInit_ = false;
 
+  /// The current UUID for the test.
+  private CUTS.UUID testUUID_;
+
   /// Table for tranlating Level objects to integer values.
   private static Hashtable<Level, Integer> levelTable_;
-
-  private String testIOR_;
 }
