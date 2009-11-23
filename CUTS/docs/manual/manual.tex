@@ -1,6 +1,6 @@
 % $Id$
 
-\documentclass[titlepage]{book}
+\documentclass[12pt]{book}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{helvet}
@@ -19,11 +19,16 @@
 
 \ifpdf
 \usepackage[pdftex,colorlinks,backref,bookmarks]{hyperref}
+\pdfpagewidth 8.5in
+\pdfpageheight 11in
 \else
 \usepackage[hypertex,colorlinks]{hyperref}
 \fi
 
-\setlength \headsep{.25in}
+\setlength \topmargin{0in}
+\setlength \headsep{0.5in}
+\setlength \textheight{7.7in}
+\setlength \textwidth{6.5in}
 
 \graphicspath{{images/}}
 
@@ -42,13 +47,15 @@
 
 \maketitle
 
-%\input{abstract}
-
+\pagenumbering{roman}
 \tableofcontents
 
+\include{preface}
+
+\pagenumbering{arabic}
 \input{part1}
 
-%\input{runtime/runtime}
+\input{runtime/runtime}
 
 %\input{analysis/analysis}
 

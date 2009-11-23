@@ -1,10 +1,34 @@
+Mon Nov 23 22:43:51 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * docs/manual/images/gettingstarted-client-behavior.pdf:
+        * docs/manual/images/logging-overview.pdf:
+        * docs/manual/images/logging-overview.vsd:
+        * docs/manual/manual.pdf:
+        * docs/manual/manual.tex:
+        * docs/manual/part1.tex:
+        * docs/manual/preface.tex:
+        * docs/manual/runtime/logging.tex:
+
+	  . Improved the layout of the user manual.
+
+	  . Increased the font size to 12pt.
+
+	  . Added a preface section to the manual, which was the
+	    old abstract.
+
+	  . Checkpointing the documentation on the CUTS Logging Facilities.
+
+        * docs/manual/abstract.tex:
+
+          Removed this file.
+
 Mon Nov 23 04:12:00 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * docs/manual/abstract.tex:
         * docs/manual/manual.pdf:
         * docs/manual/manual.tex:
 
-	  . Temporarily removed the abstract from the book.
+          . Temporarily removed the abstract from the book.
 
 Thu Nov 19 12:31:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
