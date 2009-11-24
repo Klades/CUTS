@@ -120,21 +120,21 @@ command:
 \subsection{Configuring the Logging Server}
 
 There are only a handful of command-line options for configuring the
-logging server. The most important of the available command-line options,
+logging server. The most important of the available command-line options
 is \texttt{--register-with-iortable=NAME}, where \texttt{NAME} 
-is an user-defined name, such as \texttt{MyLoggingServer}. When this 
+is an user-defined name, such as \texttt{LoggingServer}. When this 
 option is combined with the \texttt{-ORBEndpoint ENDPOINT} CORBA 
 command-line option, an external reference to the logging server is 
-created. This is what allows the CUTS Logging Client (see 
+exposed. This is what allows the CUTS Logging Client (see 
 Section~\ref{sec:logging-client}) to connect to the logging server.
 
-The following is an example of exposing the logging server on
-port 20000 for logging clients to connect:
+The following is an example of exposing the logging server named
+\texttt{LoggingServer} on port 20000 for logging clients to connect:
 \begin{lstlisting}
 (*@\texttt{\%> \$CUTS\_ROOT/bin/cuts-logging-server -ORBEndpoint}@*) \
    (*@\texttt{iiop://`hostname`:20000 --register-with-iortable=LoggingServer}@*)
 \end{lstlisting}
-As shown in the example above, the logging server is listening on 
+As shown in the example above, the logging server is listening using
 port 20000 on its host~\footnote{`hostname` is used because it is assumed
 that Unix command-line substitution is available on the host in the 
 example. If such a feature is not available, it is possible to hardcode 
@@ -145,8 +145,9 @@ reference:
 \begin{lstlisting}
 (*@\texttt{corbaloc:iiop:`hostname`:20000/LoggingServer}@*)
 \end{lstlisting}
-The next section discusses how to configure the logging client to 
-connect to the correct logging server in the runtime environment.
+The next section therefore discusses how to configure the logging 
+client to connect to the correct logging server in the runtime 
+environment.
 
 \section{The Logging Client}
 \label{sec:logging-client}

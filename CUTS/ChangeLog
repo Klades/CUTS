@@ -1,3 +1,10 @@
+Tue Nov 24 00:56:44 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * docs/manual/manual.pdf:
+        * docs/manual/runtime/logging.tex:
+
+	  . Fixed several typos and grammatical errors.
+
 Mon Nov 23 22:43:51 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * docs/manual/images/gettingstarted-client-behavior.pdf:
@@ -9,14 +16,14 @@ Mon Nov 23 22:43:51 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
         * docs/manual/preface.tex:
         * docs/manual/runtime/logging.tex:
 
-	  . Improved the layout of the user manual.
+          . Improved the layout of the user manual.
 
-	  . Increased the font size to 12pt.
+          . Increased the font size to 12pt.
 
-	  . Added a preface section to the manual, which was the
-	    old abstract.
+          . Added a preface section to the manual, which was the
+            old abstract.
 
-	  . Checkpointing the documentation on the CUTS Logging Facilities.
+          . Checkpointing the documentation on the CUTS Logging Facilities.
 
         * docs/manual/abstract.tex:
 
