@@ -1,9 +1,17 @@
+Tue Nov 24 05:42:59 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * docs/manual/manual.pdf:
+        * docs/manual/manual.tex:
+        * docs/manual/runtime/logging.tex:
+
+	  . Updated information on the logging client in the manual.
+	
 Tue Nov 24 00:56:44 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * docs/manual/manual.pdf:
         * docs/manual/runtime/logging.tex:
 
-	  . Fixed several typos and grammatical errors.
+          . Fixed several typos and grammatical errors.
 
 Mon Nov 23 22:43:51 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 

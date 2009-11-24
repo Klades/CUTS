@@ -118,6 +118,7 @@ command:
 \end{lstlisting}
 
 \subsection{Configuring the Logging Server}
+\label{sec:logging-server-config}
 
 There are only a handful of command-line options for configuring the
 logging server. The most important of the available command-line options
@@ -152,9 +153,61 @@ environment.
 \section{The Logging Client}
 \label{sec:logging-client}
 
+The logging client is responsible for collecting data from individual
+client loggers in the runtime environment (see Section~\ref{sec:client-loggers}).
+As shown in Figure~\ref{fig:logging-overview}, each host in the 
+runtime environment typically runs one instance of a logging client. 
+Similar to the logging server, there can also be cases when more than 
+one instance of a logging client is desired, such as using multiple 
+logging clients to balance the workload due to the amount of data 
+collected by individual client loggers in the runtime environment. This 
+user's manual, however, assumes that only a single instance of a logging 
+client running on each host in the runtime environment.
+
 \subsection{Running the Logging Client}
 
+Similar to the CUTS Logging Server, the CUTS Logging Client is installed
+at the following location:
+\begin{lstlisting}
+(*@\texttt{\%> \$CUTS\_ROOT/bin/cuts-logging-client}@*)
+\end{lstlisting}
+To see a complete list of command-line options, use the following
+command:
+\begin{lstlisting}
+(*@\texttt{\%> \$CUTS\_ROOT/bin/cuts-logging-client --help}@*)
+\end{lstlisting}
+
 \subsection{Configuring the Logging Client}
+
+The CUTS Logging Client is configured similar to how the CUTS Logging
+Server is configured (see Section~\ref{sec:logging-server-config}). For
+example, the \texttt{-ORBEndpoint ENDPOINT} defines the CORBA endpoint
+for the logging client. The logging client's endpoint is used by the 
+client loggers (see Section~\ref{sec:client-loggers}) that need to 
+connect to the CUTS Logging Client executing on its local host.
+
+The addition to configuration parameters similar to the CUTS Logging 
+Server, to the logging client's configuration requires the location 
+of the CUTS Logging Server. In Section~\ref{sec:logging-server-config},
+the logging server was given an endpoint that is used by the logging
+client when connecting to it. To specify the location of the CUTS
+logging server, use the \texttt{-ORBInitRef LoggingServer=LOCATION} 
+CORBA command-line option, where \texttt{LOCATION} is the location
+of the logging server~\footnote{The location of the \texttt{LoggingServer}
+can be a \texttt{corbaloc}, \texttt{corbaname}, or \texttt{IOR}.}.
+
+The following is an example of configuring the logging client to 
+connect to the logging server discussed in 
+Section~\ref{sec:logging-server-config} and listens to data from
+client loggers on port 20000:
+\begin{lstlisting}
+(*@\texttt{\%> \$CUTS\_ROOT/bin/cuts-logging-client -ORBEndpoint}@*) \
+   (*@\texttt{iiop://`hostname`:20000 --register-with-iortable=LoggingClient}@*) \
+   (*@\texttt{-ORBInitRef LoggingServer=corbaloc:iiop:server.foo.bar.com:20000/LoggingServer}@*)
+\end{lstlisting}
+The next section discusses how to use client loggers to submit data
+for collection and analysis to the logging clients executing on each
+host in the runtime environment.
 
 \section{The Client Loggers}
 \label{sec:client-loggers}
