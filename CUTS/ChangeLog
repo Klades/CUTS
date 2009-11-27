@@ -1,11 +1,18 @@
+Fri Nov 27 20:35:34 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * docs/manual/manual.pdf:
+        * docs/manual/manual.tex:
+
+	  . Updated the title page of the manual.
+
 Tue Nov 24 05:42:59 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * docs/manual/manual.pdf:
         * docs/manual/manual.tex:
         * docs/manual/runtime/logging.tex:
 
-	  . Updated information on the logging client in the manual.
-	
+          . Updated information on the logging client in the manual.
+
 Tue Nov 24 00:56:44 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * docs/manual/manual.pdf:
