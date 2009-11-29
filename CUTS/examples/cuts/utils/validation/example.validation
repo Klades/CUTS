@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<cuts:validation xmlns="http://www.dre.vanderbilt.edu/CUTS"
+                 xmlns:cuts="http://www.dre.vanderbilt.edu/CUTS"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://www.dre.vanderbilt.edu/CUTS cuts-unite.xsd">
+
+  <!-- $Id$ -->
+  <!-- name assigned to validation -->
+  <name>Selective View</name>
+
+  <!-- Collection of valid/invalid state statements. The states have
+       different priority levels [1=highest; MAXINT=lowest], which will
+       influence their weight on the final grade.
+    -->
+  <state name="CorrectUtility" priority="1" isvalid="true" minoccurs="1" maxoccurs="1">
+    <condition>LF1_utility &lt; 5 AND LF1_instName = 'SLICE_EffectorMain'</condition>
+  </state>
+
+  <state type="MeetResponseTime" priority="5" isvalid="true" minoccurs="0" maxoccurs="unbounded">
+    <condition>LF1_sendTime - LF2_recvTime &lt; 40</condition>
+  </state>
+</cuts:validation>
