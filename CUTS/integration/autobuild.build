@@ -29,15 +29,8 @@
     -->
 
   <target name="build.noupdate">
-    <property name="workspace" value="${env.CUTS_ROOT}/CUTS.mwc" />
-
-    <antcall target="mpc.workspace.generate">
-      <param name="mpc.workspace" value="${workspace}" />
-      <param name="mpc.args" value="" />
-    </antcall>
-
-    <antcall target="mpc.workspace.rebuild">
-      <param name="mpc.workspace" value="${workspace}" />
+    <antcall target="build.impl">
+      <param name="build.workspace" value="${env.CUTS_ROOT}/CUTS.mwc" />
     </antcall>
   </target>
 
@@ -48,13 +41,8 @@
     -->
 
   <target name="build.modeling" depends="workspace.update">
-    <antcall target="mpc.workspace.generate">
-      <param name="mpc.workspace" value="${env.CUTS_ROOT}/CUTS_Modeling.mwc" />
-      <param name="mpc.args" value="" />
-    </antcall>
-
-    <antcall target="devenv.rebuild">
-      <param name="workspace.filename" value="${env.CUTS_ROOT}/CUTS_CoSMIC${workspace.extension}" />
+    <antcall target="build.impl">
+      <param name="build.workspace" value="${env.CUTS_ROOT}/CUTS_Modeling.mwc" />
     </antcall>
   </target>
 
@@ -65,15 +53,19 @@
     -->
 
   <target name="build.runtime" depends="workspace.update">
-    <property name="workspace" value="${env.CUTS_ROOT}/CUTS_Runtime_Arch.mwc" />
+    <antcall target="build.impl">
+      <param name="build.workspace" value="${env.CUTS_ROOT}/CUTS_Runtime_Arch.mwc" />
+    </antcall>
+  </target>
 
+  <target name="build.impl">
     <antcall target="mpc.workspace.generate">
-      <param name="mpc.workspace" value="${workspace}" />
+      <param name="mpc.workspace" value="${build.workspace}" />
       <param name="mpc.args" value="" />
     </antcall>
 
-    <antcall target="mpc.workspace.build">
-      <param name="mpc.workspace" value="${workspace}" />
+    <antcall target="mpc.workspace.rebuild">
+      <param name="mpc.workspace" value="${build.workspace}" />
     </antcall>
   </target>
 
