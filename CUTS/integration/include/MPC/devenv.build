@@ -5,10 +5,11 @@
 
   <!-- default property values -->
   <property environment="env" />
+  <property name="workspace.extension" value=".sln" />
   <property name="devenv.executable" value="${env.DevEnvDir}/devenv.com" />
   <property name="devenv.configuration" value="Debug" />
   <property name="devenv.options" value="" />
-
+  
   <target name="devenv.build">
     <exec executable="${devenv.executable}" failonerror="true" resultproperty="devenv.result">
       <arg path="${devenv.solution}" />

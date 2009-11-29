@@ -22,9 +22,10 @@
   </target>
 
   <target name="mpc.workspace.build">
-    <exec executable="${workspace.build.command}" failonerror="true" resultproperty="devenv.result">
-      <arg path="${devenv.solution}" />
-      <arg line="/useenv /build ${devenv.configuration}" />
-    </exec>
+    <antcall target="${mpc.type}.build" />
+  </target>
+
+  <target name="mpc.workspace.rebuild">
+    <antcall target="${mpc.type}.rebuild" />
   </target>
 </project>

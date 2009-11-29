@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<project name="make">
+  <!-- $Id$ -->
+  <description>GNU make utility to maintain groups of programs</description>
+
+  <!-- default property values -->
+  <property environment="env" />
+  <property name="make.executable" value="make" />
+  <property name="make.makeflags" value="" />
+  <property property="workspace.filename" file="GNUmakefile"/>
+
+  <!--
+      @target make.build
+      
+      Target for building a GNU make project.
+    -->
+  <target name="make.build">
+    <basename property="mpc.workspace.basename" file="${mpc.workspace}" suffix=".mwc" />
+
+    <exec executable="${make.executable}" failonerror="true" resultproperty="make.result">
+      <arg line="-f ${workspace.filename}" />
+    </exec>
+
+    <fail if="${make.result}" message="Failed to build ${mpc.workspace.basename} workspace"/>
+  </target>
+
+  <!-- 
+       @target make.clean
+       
+       Target for cleaning a GNU make project.
+    -->
+  <target name="make.clean">
+    <exec executable="${make.executable}" failonerror="true" resultproperty="make.result">
+      <arg line="-f ${workspace.filename} clean" />
+    </exec>
+  </target>
+
+  <target name="make.realclean">
+    <exec executable="${make.executable}" failonerror="true" resultproperty="make.result">
+      <arg line="-f ${workspace.filename} realclean" />
+    </exec>
+  </target>
+
+  <target name="make.rebuild">
+    <antcall target="make.realclean" />
+    <antcall target="make.build" />
+  </target>
+</project>

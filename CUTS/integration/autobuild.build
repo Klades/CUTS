@@ -17,7 +17,7 @@
     with the lastest source for the repository, then build it.
     -->
 
-  <target name="build" depends="build.noupdate">
+  <target name="build" depends="workspace.update">
     <antcall target="build.noupdate" />
   </target>
 
@@ -29,13 +29,15 @@
     -->
 
   <target name="build.noupdate">
+    <property name="workspace" value="${env.CUTS_ROOT}/CUTS.mwc" />
+
     <antcall target="mpc.workspace.generate">
-      <param name="mpc.workspace" value="${env.CUTS_ROOT}/CUTS.mwc" />
+      <param name="mpc.workspace" value="${workspace}" />
       <param name="mpc.args" value="" />
     </antcall>
 
-    <antcall target="devenv.rebuild">
-      <param name="devenv.solution" value="${env.CUTS_ROOT}/CUTS.sln" />
+    <antcall target="mpc.workspace.rebuild">
+      <param name="mpc.workspace" value="${workspace}" />
     </antcall>
   </target>
 
@@ -52,7 +54,7 @@
     </antcall>
 
     <antcall target="devenv.rebuild">
-      <param name="devenv.solution" value="${env.CUTS_ROOT}/CUTS_CoSMIC.sln" />
+      <param name="workspace.filename" value="${env.CUTS_ROOT}/CUTS_CoSMIC${workspace.extension}" />
     </antcall>
   </target>
 
@@ -63,13 +65,15 @@
     -->
 
   <target name="build.runtime" depends="workspace.update">
+    <property name="workspace" value="${env.CUTS_ROOT}/CUTS_Runtime_Arch.mwc" />
+
     <antcall target="mpc.workspace.generate">
-      <param name="mpc.workspace" value="${env.CUTS_ROOT}/CUTS_Runtime_Arch.mwc" />
+      <param name="mpc.workspace" value="${workspace}" />
       <param name="mpc.args" value="" />
     </antcall>
 
-    <antcall target="devenv.rebuild">
-      <param name="devenv.solution" value="${env.CUTS_ROOT}/CUTS.sln" />
+    <antcall target="mpc.workspace.build">
+      <param name="mpc.workspace" value="${workspace}" />
     </antcall>
   </target>
 
@@ -87,7 +91,7 @@
 
     <!-- we only distribute the release version -->
     <antcall target="devenv.rebuild">
-      <param name="devenv.solution" value="${env.CUTS_ROOT}/install/CUTS_installers.sln" />
+      <param name="workspace.filename" value="${env.CUTS_ROOT}/install/CUTS_installers${workspace.extension}" />
       <param name="devenv.configuration" value="release" />
     </antcall>
   </target>
@@ -119,7 +123,7 @@
     </antcall>
 
     <antcall target="devenv.rebuild">
-      <param name="devenv.solution" value="${env.CUTS_ROOT}/tests/tests.sln" />
+      <param name="workspace.filename" value="${env.CUTS_ROOT}/tests/tests${workspace.extension}" />
     </antcall>
   </target>
 

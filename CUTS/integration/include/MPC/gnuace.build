@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<project name="make">
+  <!-- $Id$ -->
+  <description>GNU make utility to maintain groups of programs</description>
+
+  <property name="gnuace.executable" value="make" />
+  <property name="gnuace.gnuaceflags" value="" />
+
+  <!--
+      @target gnuace.build
+      
+      Target for building a GNU gnuace project.
+    -->
+  <target name="gnuace.build">
+    <antcall target="gnuace.build.impl">
+      <param name="gnuace.target" value="" />
+    </antcall>
+  </target>
+
+  <!-- 
+       @target gnuace.clean
+       
+       Target for cleaning a GNU gnuace project.
+    -->
+  <target name="gnuace.clean">
+    <antcall target="gnuace.build.impl">
+      <param name="gnuace.target" value="clean" />
+    </antcall>
+  </target>
+
+  <target name="gnuace.realclean">
+    <antcall target="gnuace.build.impl">
+      <param name="gnuace.target" value="realclean" />
+    </antcall>
+  </target>
+
+  <target name="gnuace.build.impl">
+    <basename property="mpc.workspace.basename" file="${mpc.workspace}" suffix=".mwc" />
+    <dirname property="mpc.workspace.dirname" file="${mpc.workspace}" />
+
+    <property name="GNUmakefile" value="${mpc.workspace.dirname}/GNUmakefile" />
+    <echo message="building ${GNUmakefile}..." />
+
+    <exec executable="${gnuace.executable}" dir="${mpc.workspace.dirname}" failonerror="true" resultproperty="gnuace.result">
+      <arg line="-f ${GNUmakefile} ${gnuace.target}" />
+    </exec>
+  </target>
+
+  <target name="gnuace.rebuild">
+    <antcall target="gnuace.realclean" />
+    <antcall target="gnuace.build" />
+  </target>
+</project>
