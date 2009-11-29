@@ -1,3 +1,16 @@
+Sun Nov 29 02:35:24 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * integration/autobuild.build:
+        * integration/include/MPC/devenv.build:
+        * integration/include/MPC/vc8.build:
+        * integration/include/MPC/vc9.build:
+        * integration/include/mpc.build:
+
+          . Updated the build scripts to the latest version of CUTS.
+
+          . Generalized the MPC build scripts for the different MPC
+            project types.
+
 Sun Nov 29 00:10:44 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MPC/config/cuts_te_score_core.mpb:

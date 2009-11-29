@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<project name="Microsoft Visual Studio 2008">
+  <!-- $Id$ -->
+  <description>Project for integrating Microsoft Visual Studio 2008 into a ANT build</description>
+  <import file="devenv.build" />
+</project>

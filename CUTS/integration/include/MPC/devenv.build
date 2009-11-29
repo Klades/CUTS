@@ -1,21 +1,27 @@
 <?xml version="1.0"?>
 <project name="Microsoft Visual Studio">
-  <description>Project for integrating Visual Studio into a ANT build</description>
+  <!-- $Id$ -->
+  <description>Project for integrating Microsoft Visual Studio into a ANT build</description>
 
+  <!-- default property values -->
+  <property environment="env" />
+  <property name="devenv.executable" value="${env.DevEnvDir}/devenv.com" />
   <property name="devenv.configuration" value="Debug" />
+  <property name="devenv.options" value="" />
 
   <target name="devenv.build">
-    <exec executable="devenv.com" failonerror="true" resultproperty="devenv.result">
+    <exec executable="${devenv.executable}" failonerror="true" resultproperty="devenv.result">
       <arg path="${devenv.solution}" />
-      <arg line="/useenv /build ${devenv.configuration}" />
+      <arg line="/useenv /build ${devenv.configuration} ${devenv.options}" />
     </exec>
 
-    <fail if="${devenv.result}"
-          message="Failed to build '${devenv.configuration}' version of ${devenv.solution}"/>
+    <!-- Test the build result. Display a message to the user
+         if the build failed. -->
+    <fail if="${devenv.result}" message="Failed to build '${devenv.configuration}' configuration for ${devenv.solution}"/>
   </target>
 
   <target name="devenv.clean">
-    <exec executable="devenv.com">
+    <exec executable="${devenv.executable}">
       <arg path="${devenv.solution}" />
       <arg line="/useenv /clean ${devenv.configuration}" />
     </exec>

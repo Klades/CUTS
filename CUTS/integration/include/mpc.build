@@ -4,7 +4,7 @@
 
   <!-- import the correct script for the build type -->
   <import file="MPC/${mpc.type}.build" />
-  
+
   <target name="mpc.workspace.generate">
     <exec executable="perl" failonerror="true" resultproperty="mpc.workspace.result">
       <arg value="--" />

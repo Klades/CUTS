@@ -4,13 +4,10 @@
   <property environment="env" />
 
   <!-- import external project files -->
-  <import file="include/devenv.build" />
   <import file="include/mpc.build" />
   <import file="include/svn.build" />
-  <import file="test.build" />
 
   <!-- store the target configuration -->
-  <property name="devenv.configuration" value="debug" />
   <property name="mpc.path" value="${env.ACE_ROOT}/bin/" />
 
   <!--
@@ -20,7 +17,7 @@
     with the lastest source for the repository, then build it.
     -->
 
-  <target name="build" depends="workspace.update">
+  <target name="build" depends="build.noupdate">
     <antcall target="build.noupdate" />
   </target>
 
@@ -34,7 +31,7 @@
   <target name="build.noupdate">
     <antcall target="mpc.workspace.generate">
       <param name="mpc.workspace" value="${env.CUTS_ROOT}/CUTS.mwc" />
-      <param name="mpc.args" value="-features modeling=1,cosmic=0" />
+      <param name="mpc.args" value="" />
     </antcall>
 
     <antcall target="devenv.rebuild">
@@ -50,8 +47,8 @@
 
   <target name="build.modeling" depends="workspace.update">
     <antcall target="mpc.workspace.generate">
-      <param name="mpc.workspace" value="${env.CUTS_ROOT}/CUTS_CoSMIC.mwc" />
-      <param name="mpc.args" value="-features modeling=1,cosmic=0" />
+      <param name="mpc.workspace" value="${env.CUTS_ROOT}/CUTS_Modeling.mwc" />
+      <param name="mpc.args" value="" />
     </antcall>
 
     <antcall target="devenv.rebuild">
@@ -67,8 +64,8 @@
 
   <target name="build.runtime" depends="workspace.update">
     <antcall target="mpc.workspace.generate">
-      <param name="mpc.workspace" value="${env.CUTS_ROOT}/CUTS.mwc" />
-      <param name="mpc.args" value="-features modeling=0,cosmic=0" />
+      <param name="mpc.workspace" value="${env.CUTS_ROOT}/CUTS_Runtime_Arch.mwc" />
+      <param name="mpc.args" value="" />
     </antcall>
 
     <antcall target="devenv.rebuild">
