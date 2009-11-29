@@ -1,0 +1,6 @@
+// $Id$
+
+project {
+  libs  += CUTS_TE_Score_Core
+  after += CUTS_TE_Score_Core
+}

@@ -98,14 +98,6 @@
       <xsd:element name="service" type="serviceType" maxOccurs="unbounded" minOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
-  <xsd:complexType name="conditionType">
-    <xsd:sequence>
-      <xsd:element name="expression" type="expressionType" minOccurs="1" maxOccurs="unbounded" />
-      <xsd:element name="condition" type="conditionType" minOccurs="0" maxOccurs="unbounded" />
-    </xsd:sequence>
-    <xsd:attribute name="type" type="joinType" use="required" />
-    <xsd:attribute name="negate" type="xsd:boolean" default="false" use="optional" />
-  </xsd:complexType>
   <xsd:simpleType name="joinType">
     <xsd:restriction base="xsd:string">
       <xsd:enumeration value="conjunction" />
@@ -129,42 +121,28 @@
   </xsd:complexType>
   <xsd:element name="asset" type="aspectType">
   </xsd:element>
-  <xsd:complexType name="validationType">
-    <xsd:sequence>
-      <xsd:element name="name" type="xsd:ID" maxOccurs="1" minOccurs="0" />
-      <xsd:element name="condition" type="conditionType" minOccurs="0" maxOccurs="1" />
-    </xsd:sequence>
-  </xsd:complexType>
-  <xsd:element name="validation" type="validationType">
-  </xsd:element>
   <xsd:complexType name="viewpointType">
     <xsd:sequence>
     </xsd:sequence>
     <xsd:attribute name="before" type="xsd:unsignedInt" use="optional" default="0" />
     <xsd:attribute name="after" use="optional" default="0" type="xsd:unsignedInt" />
   </xsd:complexType>
-  <xsd:complexType name="executionStateType">
+  <xsd:complexType name="stateType">
     <xsd:sequence>
-      <xsd:element name="context" type="xsd:string" minOccurs="1" maxOccurs="1" />
-      <xsd:element name="value" type="xsd:string" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="condition" type="xsd:string" minOccurs="1" maxOccurs="1" />
     </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:ID" use="required" />
+    <xsd:attribute name="priority" type="xsd:unsignedInt" use="required" />
     <xsd:attribute name="minoccurs" type="xsd:unsignedInt" use="optional" default="1" />
-    <xsd:attribute name="priority" type="xsd:unsignedInt" />
-    <xsd:attribute name="id" type="xsd:ID" />
-    <xsd:attribute name="maxoccurs" type="xsd:string" default="1" />
+    <xsd:attribute name="maxoccurs" type="xsd:string" use="optional" default="1" />
+    <xsd:attribute name="isvalid" type="xsd:boolean" use="optional" default="true" />
   </xsd:complexType>
-  <xsd:simpleType name="validityType">
-    <xsd:restriction base="xsd:string">
-      <xsd:enumeration value="valid" />
-      <xsd:enumeration value="invalid" />
-    </xsd:restriction>
-  </xsd:simpleType>
-  <xsd:complexType name="correctnessTestType">
+  <xsd:complexType name="validationType">
     <xsd:sequence>
       <xsd:element name="datagraph" type="xsd:string" minOccurs="1" maxOccurs="1" />
-      <xsd:element name="state" type="executionStateType" minOccurs="0" maxOccurs="unbounded" />
+      <xsd:element name="state" type="stateType" minOccurs="0" maxOccurs="unbounded" />
     </xsd:sequence>
   </xsd:complexType>
-  <xsd:element name="correctness" type="correctnessTestType">
+  <xsd:element name="validation" type="validationType">
   </xsd:element>
 </xsd:schema>

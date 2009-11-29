@@ -11,7 +11,6 @@
 #include "Unite_Aspect_File.h"
 #include "Unite_Test.h"
 #include "Unite_Test_Builder.h"
-#include "Where_Clause_Builder.h"
 
 #include "presentation/console/Console_Presentation_Service.h"
 #include "cuts/utils/testing/Test_Database.h"

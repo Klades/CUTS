@@ -1,8 +1,45 @@
+Sun Nov 29 00:10:44 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_te_score_core.mpb:
+        * cuts/utils/testing/svcs/validation/TE_Score.mpc:
+        * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:
+        * cuts/utils/testing/svcs/validation/TE_Score_Core_export.h:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.h:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.cpp:
+        * cuts/utils/testing/svcs/validation/TE_Score_State.h:
+        * cuts/utils/testing/svcs/validation/TE_Score_State.inl:
+        * cuts/utils/testing/svcs/validation/TE_Score_State.cpp:
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.cpp:
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.mpc:
+        * cuts/utils/unite/Dataset_Result.h:
+        * cuts/utils/unite/Dataset_Result.cpp:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/Validation_Test_File.h:
+        * cuts/utils/unite/Validation_Test_File.inl:
+        * cuts/utils/unite/Validation_Test_File.cpp:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * cuts/utils/unite/unite.mpc:
+        * etc/schemas/cuts-unite.xsd:
+
+          . Updated TE Score so that states can have a minoccurs and
+            a maxoccurs in its specification.
+
+        * cuts/utils/unite/Correctness_Test_File.h:
+        * cuts/utils/unite/Correctness_Test_File.inl:
+        * cuts/utils/unite/Correctness_Test_File.cpp:
+        * cuts/utils/unite/Where_Clause_Builder.h:
+        * cuts/utils/unite/Where_Clause_Builder.inl:
+        * cuts/utils/unite/Where_Clause_Builder.cpp:
+
+          Removed these files.
+
 Fri Nov 27 20:38:06 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * docs/manual/title.tex:
 
-	  . Missing source file.
+          . Missing source file.
 
 Fri Nov 27 20:35:34 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 

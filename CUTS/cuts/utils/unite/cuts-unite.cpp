@@ -552,60 +552,6 @@ namespace CUTS
       }
     }
 
-    // conditionType
-    //
-
-    conditionType::
-    conditionType (::XSCRT::XML::Element< char > const& e)
-    :Base (e), regulator__ ()
-    {
-
-      ::XSCRT::Parser< char > p (e);
-
-      while (p.more_elements ())
-      {
-        ::XSCRT::XML::Element< char > e (p.next_element ());
-        ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-        if (n == ACE_TEXT("expression"))
-        {
-          ACE_Refcounted_Auto_Ptr < ::CUTS::XML::expressionType, ACE_Null_Mutex >  t (new ::CUTS::XML::expressionType (e));
-          add_expression (t);
-        }
-
-        else if (n == ACE_TEXT("condition"))
-        {
-          ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex >  t (new ::CUTS::XML::conditionType (e));
-          add_condition (t);
-        }
-
-        else 
-        {
-        }
-      }
-
-      while (p.more_attributes ())
-      {
-        ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
-        ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
-        if (n == "type")
-        {
-          type_ = ::std::auto_ptr< ::CUTS::XML::joinType > (new ::CUTS::XML::joinType (a));
-          type_->container (this);
-        }
-
-        else if (n == "negate")
-        {
-          ::XMLSchema::boolean t (a);
-          negate (t);
-        }
-
-        else 
-        {
-        }
-      }
-    }
-
     // joinType
     //
 
@@ -724,42 +670,6 @@ namespace CUTS
       }
     }
 
-    // validationType
-    //
-
-    validationType::
-    validationType (::XSCRT::XML::Element< char > const& e)
-    :Base (e), regulator__ ()
-    {
-
-      ::XSCRT::Parser< char > p (e);
-
-      while (p.more_elements ())
-      {
-        ::XSCRT::XML::Element< char > e (p.next_element ());
-        ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-        if (n == ACE_TEXT("name"))
-        {
-          ::XMLSchema::ID< char > t (e);
-          name (t);
-          std::basic_string<ACE_TCHAR> temp (ACE_TEXT_CHAR_TO_TCHAR ((*name_).c_str()));
-          (*ACE_Singleton<ID_Map::TSS_ID_Map, ACE_Null_Mutex>::instance())->
-          add_id(temp, dynamic_cast<XSCRT::Type*> (this));
-        }
-
-        else if (n == ACE_TEXT("condition"))
-        {
-          ::CUTS::XML::conditionType t (e);
-          condition (t);
-        }
-
-        else 
-        {
-        }
-      }
-    }
-
     // viewpointType
     //
 
@@ -792,11 +702,11 @@ namespace CUTS
       }
     }
 
-    // executionStateType
+    // stateType
     //
 
-    executionStateType::
-    executionStateType (::XSCRT::XML::Element< char > const& e)
+    stateType::
+    stateType (::XSCRT::XML::Element< char > const& e)
     :Base (e), regulator__ ()
     {
 
@@ -807,16 +717,10 @@ namespace CUTS
         ::XSCRT::XML::Element< char > e (p.next_element ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-        if (n == ACE_TEXT("context"))
+        if (n == ACE_TEXT("condition"))
         {
-          context_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
-          context_->container (this);
-        }
-
-        else if (n == ACE_TEXT("value"))
-        {
-          value_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
-          value_->container (this);
+          condition_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
+          condition_->container (this);
         }
 
         else 
@@ -828,25 +732,25 @@ namespace CUTS
       {
         ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
-        if (n == "minoccurs")
+        if (n == "name")
         {
-          ::XMLSchema::unsignedInt t (a);
-          minoccurs (t);
+          name_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (new ::XMLSchema::ID< char > (a));
+          name_->container (this);
+          std::basic_string<ACE_TCHAR> temp (ACE_TEXT_CHAR_TO_TCHAR ((*name_).c_str()));
+          (*ACE_Singleton<ID_Map::TSS_ID_Map, ACE_Null_Mutex>::instance())->
+          add_id(temp, dynamic_cast<XSCRT::Type*> (this));
         }
 
         else if (n == "priority")
         {
-          ::XMLSchema::unsignedInt t (a);
-          priority (t);
+          priority_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (new ::XMLSchema::unsignedInt (a));
+          priority_->container (this);
         }
 
-        else if (n == "id")
+        else if (n == "minoccurs")
         {
-          ::XMLSchema::ID< char > t (a);
-          id (t);
-          std::basic_string<ACE_TCHAR> temp (ACE_TEXT_CHAR_TO_TCHAR ((*id_).c_str()));
-          (*ACE_Singleton<ID_Map::TSS_ID_Map, ACE_Null_Mutex>::instance())->
-          add_id(temp, dynamic_cast<XSCRT::Type*> (this));
+          ::XMLSchema::unsignedInt t (a);
+          minoccurs (t);
         }
 
         else if (n == "maxoccurs")
@@ -855,49 +759,23 @@ namespace CUTS
           maxoccurs (t);
         }
 
+        else if (n == "isvalid")
+        {
+          ::XMLSchema::boolean t (a);
+          isvalid (t);
+        }
+
         else 
         {
         }
       }
     }
 
-    // validityType
+    // validationType
     //
 
-    validityType::
-    validityType (::XSCRT::XML::Element< char > const& e)
-    : ::XSCRT::Type (e)
-    {
-      ::std::basic_string< char > v (e.value ());
-
-      if (v == "valid") v_ = valid_l;
-      else if (v == "invalid") v_ = invalid_l;
-      else 
-      {
-      }
-    }
-
-    validityType::
-    validityType (::XSCRT::XML::Attribute< char > const& a)
-    : ::XSCRT::Type (a)
-    {
-      ::std::basic_string< char > v (a.value ());
-
-      if (v == "valid") v_ = valid_l;
-      else if (v == "invalid") v_ = invalid_l;
-      else 
-      {
-      }
-    }
-
-    validityType const validityType::valid (validityType::valid_l);
-    validityType const validityType::invalid (validityType::invalid_l);
-
-    // correctnessTestType
-    //
-
-    correctnessTestType::
-    correctnessTestType (::XSCRT::XML::Element< char > const& e)
+    validationType::
+    validationType (::XSCRT::XML::Element< char > const& e)
     :Base (e), regulator__ ()
     {
 
@@ -916,7 +794,7 @@ namespace CUTS
 
         else if (n == ACE_TEXT("state"))
         {
-          ACE_Refcounted_Auto_Ptr < ::CUTS::XML::executionStateType, ACE_Null_Mutex >  t (new ::CUTS::XML::executionStateType (e));
+          ACE_Refcounted_Auto_Ptr < ::CUTS::XML::stateType, ACE_Null_Mutex >  t (new ::CUTS::XML::stateType (e));
           add_state (t);
         }
 
@@ -1054,33 +932,6 @@ namespace CUTS
         if (e.name () == ACE_TEXT("validation"))
         {
           ::CUTS::XML::validationType r (e);
-
-          (*TSS_ID_Map)->resolve_idref();
-
-          return r;
-        }
-
-        else
-        {
-          throw 1;
-        }
-      }
-    }
-
-    namespace reader
-    {
-      ::CUTS::XML::correctnessTestType
-      correctness (xercesc::DOMDocument const* d)
-      {
-        //Initiate our Singleton as an ACE_TSS object (ensures thread
-        //specific storage
-        ID_Map::TSS_ID_Map* TSS_ID_Map (ACE_Singleton<ID_Map::TSS_ID_Map, ACE_Null_Mutex>::instance());
-
-
-        ::XSCRT::XML::Element< char > e (d->getDocumentElement ());
-        if (e.name () == ACE_TEXT("correctness"))
-        {
-          ::CUTS::XML::correctnessTestType r (e);
 
           (*TSS_ID_Map)->resolve_idref();
 

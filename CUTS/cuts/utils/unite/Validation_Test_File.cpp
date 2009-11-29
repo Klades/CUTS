@@ -1,9 +1,9 @@
 // $Id$
 
-#include "Correctness_Test_File.h"
+#include "Validation_Test_File.h"
 
 #if !defined (__CUTS_INLINE__)
-#include "Correctness_Test_File.inl"
+#include "Validation_Test_File.inl"
 #endif
 
 #include "ace/SString.h"
@@ -11,7 +11,7 @@
 //
 // configure
 //
-void CUTS_Correctness_Test_File::configure (void)
+void CUTS_Validation_Test_File::configure (void)
 {
   // Get the CUTS_ROOT environment variable.
   ACE_Env_Value <const char *> CUTS_ROOT ("CUTS_ROOT", "");

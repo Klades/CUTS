@@ -23,15 +23,12 @@ namespace CUTS
     class filterVariableType;
     class serviceType;
     class serviceList;
-    class conditionType;
     class joinType;
     class expressionType;
     class aspectType;
-    class validationType;
     class viewpointType;
-    class executionStateType;
-    class validityType;
-    class correctnessTestType;
+    class stateType;
+    class validationType;
   }
 }
 
@@ -737,83 +734,6 @@ namespace CUTS
     };
 
 
-    class CUTS_UNITE_XML_Export conditionType : public ::XSCRT::Type
-    {
-      typedef ::XSCRT::Type Base;
-
-      public:
-      typedef ACE_Refcounted_Auto_Ptr < conditionType, ACE_Null_Mutex > _ptr;
-
-      // expression
-      // 
-      public:
-      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::expressionType, ACE_Null_Mutex > >::iterator expression_iterator;
-      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::expressionType, ACE_Null_Mutex > >::const_iterator expression_const_iterator;
-      expression_iterator begin_expression ();
-      expression_iterator end_expression ();
-      expression_const_iterator begin_expression () const;
-      expression_const_iterator end_expression () const;
-      void add_expression ( ACE_Refcounted_Auto_Ptr < ::CUTS::XML::expressionType, ACE_Null_Mutex > const& );
-      XSCRT::Type* get_expression_ptr ( std::basic_string<char> idref );
-      void set_expression_ptr (std::basic_string<char> idref );
-      size_t count_expression (void) const;
-
-      protected:
-      ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::expressionType, ACE_Null_Mutex > > expression_;
-
-      // condition
-      // 
-      public:
-      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex > >::iterator condition_iterator;
-      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex > >::const_iterator condition_const_iterator;
-      condition_iterator begin_condition ();
-      condition_iterator end_condition ();
-      condition_const_iterator begin_condition () const;
-      condition_const_iterator end_condition () const;
-      void add_condition ( ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex > const& );
-      XSCRT::Type* get_condition_ptr ( std::basic_string<char> idref );
-      void set_condition_ptr (std::basic_string<char> idref );
-      size_t count_condition (void) const;
-
-      protected:
-      ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex > > condition_;
-
-      // type
-      // 
-      public:
-      ::CUTS::XML::joinType const& type () const;
-      ::CUTS::XML::joinType& type ();
-      void type (::CUTS::XML::joinType const& );
-
-      protected:
-      ::std::auto_ptr< ::CUTS::XML::joinType > type_;
-
-      // negate
-      // 
-      public:
-      bool negate_p () const;
-      ::XMLSchema::boolean const& negate () const;
-      ::XMLSchema::boolean& negate ();
-      void negate (::XMLSchema::boolean const& );
-
-      protected:
-      ::std::auto_ptr< ::XMLSchema::boolean > negate_;
-
-      public:
-      conditionType (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::expressionType, ACE_Null_Mutex > > const& expression__,
-                     ::CUTS::XML::joinType const& type__);
-
-      conditionType (::XSCRT::XML::Element< char > const&);
-      conditionType (conditionType const& s);
-
-      conditionType&
-      operator= (conditionType const& s);
-
-      private:
-      char regulator__;
-    };
-
-
     class CUTS_UNITE_XML_Export joinType : public ::XSCRT::Type
     {
       public:
@@ -963,47 +883,6 @@ namespace CUTS
     };
 
 
-    class CUTS_UNITE_XML_Export validationType : public ::XSCRT::Type
-    {
-      typedef ::XSCRT::Type Base;
-
-      public:
-      typedef ACE_Refcounted_Auto_Ptr < validationType, ACE_Null_Mutex > _ptr;
-
-      // name
-      // 
-      public:
-      bool name_p () const;
-      ::XMLSchema::ID< char > const& name () const;
-      void name (::XMLSchema::ID< char > const& );
-
-      protected:
-      ::std::auto_ptr< ::XMLSchema::ID< char > > name_;
-
-      // condition
-      // 
-      public:
-      bool condition_p () const;
-      ::CUTS::XML::conditionType const& condition () const;
-      void condition (::CUTS::XML::conditionType const& );
-
-      protected:
-      ::std::auto_ptr< ::CUTS::XML::conditionType > condition_;
-
-      public:
-      validationType ();
-
-      validationType (::XSCRT::XML::Element< char > const&);
-      validationType (validationType const& s);
-
-      validationType&
-      operator= (validationType const& s);
-
-      private:
-      char regulator__;
-    };
-
-
     class CUTS_UNITE_XML_Export viewpointType : public ::XSCRT::Type
     {
       typedef ::XSCRT::Type Base;
@@ -1047,30 +926,41 @@ namespace CUTS
     };
 
 
-    class CUTS_UNITE_XML_Export executionStateType : public ::XSCRT::Type
+    class CUTS_UNITE_XML_Export stateType : public ::XSCRT::Type
     {
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < executionStateType, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < stateType, ACE_Null_Mutex > _ptr;
 
-      // context
+      // condition
       // 
       public:
-      ::XMLSchema::string< char > const& context () const;
-      void context (::XMLSchema::string< char > const& );
+      ::XMLSchema::string< char > const& condition () const;
+      void condition (::XMLSchema::string< char > const& );
 
       protected:
-      ::std::auto_ptr< ::XMLSchema::string< char > > context_;
+      ::std::auto_ptr< ::XMLSchema::string< char > > condition_;
 
-      // value
+      // name
       // 
       public:
-      ::XMLSchema::string< char > const& value () const;
-      void value (::XMLSchema::string< char > const& );
+      ::XMLSchema::ID< char > const& name () const;
+      ::XMLSchema::ID< char >& name ();
+      void name (::XMLSchema::ID< char > const& );
 
       protected:
-      ::std::auto_ptr< ::XMLSchema::string< char > > value_;
+      ::std::auto_ptr< ::XMLSchema::ID< char > > name_;
+
+      // priority
+      // 
+      public:
+      ::XMLSchema::unsignedInt const& priority () const;
+      ::XMLSchema::unsignedInt& priority ();
+      void priority (::XMLSchema::unsignedInt const& );
+
+      protected:
+      ::std::auto_ptr< ::XMLSchema::unsignedInt > priority_;
 
       // minoccurs
       // 
@@ -1083,28 +973,6 @@ namespace CUTS
       protected:
       ::std::auto_ptr< ::XMLSchema::unsignedInt > minoccurs_;
 
-      // priority
-      // 
-      public:
-      bool priority_p () const;
-      ::XMLSchema::unsignedInt const& priority () const;
-      ::XMLSchema::unsignedInt& priority ();
-      void priority (::XMLSchema::unsignedInt const& );
-
-      protected:
-      ::std::auto_ptr< ::XMLSchema::unsignedInt > priority_;
-
-      // id
-      // 
-      public:
-      bool id_p () const;
-      ::XMLSchema::ID< char > const& id () const;
-      ::XMLSchema::ID< char >& id ();
-      void id (::XMLSchema::ID< char > const& );
-
-      protected:
-      ::std::auto_ptr< ::XMLSchema::ID< char > > id_;
-
       // maxoccurs
       // 
       public:
@@ -1116,62 +984,39 @@ namespace CUTS
       protected:
       ::std::auto_ptr< ::XMLSchema::string< char > > maxoccurs_;
 
+      // isvalid
+      // 
       public:
-      executionStateType (::XMLSchema::string< char > const& context__,
-                          ::XMLSchema::string< char > const& value__);
+      bool isvalid_p () const;
+      ::XMLSchema::boolean const& isvalid () const;
+      ::XMLSchema::boolean& isvalid ();
+      void isvalid (::XMLSchema::boolean const& );
 
-      executionStateType (::XSCRT::XML::Element< char > const&);
-      executionStateType (executionStateType const& s);
+      protected:
+      ::std::auto_ptr< ::XMLSchema::boolean > isvalid_;
 
-      executionStateType&
-      operator= (executionStateType const& s);
+      public:
+      stateType (::XMLSchema::string< char > const& condition__,
+                 ::XMLSchema::ID< char > const& name__,
+                 ::XMLSchema::unsignedInt const& priority__);
+
+      stateType (::XSCRT::XML::Element< char > const&);
+      stateType (stateType const& s);
+
+      stateType&
+      operator= (stateType const& s);
 
       private:
       char regulator__;
     };
 
 
-    class CUTS_UNITE_XML_Export validityType : public ::XSCRT::Type
-    {
-      public:
-      validityType (::XSCRT::XML::Element< char > const&);
-      validityType (::XSCRT::XML::Attribute< char > const&);
-
-      static validityType const valid;
-      static validityType const invalid;
-
-      enum Value
-      {
-        valid_l, invalid_l
-      };
-
-
-      Value
-      integral () const;
-
-      friend bool CUTS_UNITE_XML_Export 
-      operator== (validityType const& a, validityType const& b);
-
-      friend bool CUTS_UNITE_XML_Export 
-      operator!= (validityType const& a, validityType const& b);
-
-      private:
-      validityType (Value v);
-
-      Value v_;
-    };
-
-    bool CUTS_UNITE_XML_Export operator== (validityType const &a, validityType const &b);
-
-    bool CUTS_UNITE_XML_Export operator!= (validityType const &a, validityType const &b);
-
-
-    class CUTS_UNITE_XML_Export correctnessTestType : public ::XSCRT::Type
+    class CUTS_UNITE_XML_Export validationType : public ::XSCRT::Type
     {
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < correctnessTestType, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < validationType, ACE_Null_Mutex > _ptr;
 
       // datagraph
       // 
@@ -1185,28 +1030,28 @@ namespace CUTS
       // state
       // 
       public:
-      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::executionStateType, ACE_Null_Mutex > >::iterator state_iterator;
-      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::executionStateType, ACE_Null_Mutex > >::const_iterator state_const_iterator;
+      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::stateType, ACE_Null_Mutex > >::iterator state_iterator;
+      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::stateType, ACE_Null_Mutex > >::const_iterator state_const_iterator;
       state_iterator begin_state ();
       state_iterator end_state ();
       state_const_iterator begin_state () const;
       state_const_iterator end_state () const;
-      void add_state ( ACE_Refcounted_Auto_Ptr < ::CUTS::XML::executionStateType, ACE_Null_Mutex > const& );
+      void add_state ( ACE_Refcounted_Auto_Ptr < ::CUTS::XML::stateType, ACE_Null_Mutex > const& );
       XSCRT::Type* get_state_ptr ( std::basic_string<char> idref );
       void set_state_ptr (std::basic_string<char> idref );
       size_t count_state (void) const;
 
       protected:
-      ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::executionStateType, ACE_Null_Mutex > > state_;
+      ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::stateType, ACE_Null_Mutex > > state_;
 
       public:
-      correctnessTestType (::XMLSchema::string< char > const& datagraph__);
+      validationType (::XMLSchema::string< char > const& datagraph__);
 
-      correctnessTestType (::XSCRT::XML::Element< char > const&);
-      correctnessTestType (correctnessTestType const& s);
+      validationType (::XSCRT::XML::Element< char > const&);
+      validationType (validationType const& s);
 
-      correctnessTestType&
-      operator= (correctnessTestType const& s);
+      validationType&
+      operator= (validationType const& s);
 
       private:
       char regulator__;
@@ -1255,14 +1100,6 @@ namespace CUTS
       CUTS_UNITE_XML_Export
       ::CUTS::XML::validationType
       validation (xercesc::DOMDocument const*);
-    }
-
-
-    namespace reader
-    {
-      CUTS_UNITE_XML_Export
-      ::CUTS::XML::correctnessTestType
-      correctness (xercesc::DOMDocument const*);
     }
   }
 }

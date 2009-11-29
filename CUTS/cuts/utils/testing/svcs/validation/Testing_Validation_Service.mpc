@@ -1,5 +1,8 @@
+// $Id$
 
-project (CUTS_Testing_Validation_Service) : boost_base, cuts_test_database, cuts_testing_svc, cuts_unite_xml, cutslib{
+project (CUTS_Testing_Validation_Service) : \
+  boost_base, cuts_test_database, cuts_testing_svc, \
+  cuts_te_score_core, cuts_unite_xml, cutslib {
 
   sharedname    = CUTS_Testing_Validation_Service
   dynamicflags += CUTS_TESTING_VALIDATION_SERVICE_BUILD_DLL

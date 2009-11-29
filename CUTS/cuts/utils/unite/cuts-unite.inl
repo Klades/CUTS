@@ -1534,204 +1534,6 @@ namespace CUTS
     }
 
 
-    // conditionType
-    // 
-
-    inline
-    conditionType::
-    conditionType (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::expressionType, ACE_Null_Mutex > > const& expression__,
-                   ::CUTS::XML::joinType const& type__)
-    : 
-    expression_ (expression__),
-    type_ (new ::CUTS::XML::joinType (type__)),
-    regulator__ ()
-    {
-      type_->container (this);
-    }
-
-    inline
-    conditionType::
-    conditionType (conditionType const& s)
-    :
-    ::XSCRT::Type (),
-    expression_ (s.expression_),
-    condition_ (s.condition_),
-    type_ (new ::CUTS::XML::joinType (*s.type_)),
-    negate_ (s.negate_.get () ? new ::XMLSchema::boolean (*s.negate_) : 0),
-    regulator__ ()
-    {
-      type_->container (this);
-      if (negate_.get ()) negate_->container (this);
-    }
-
-    inline
-    conditionType& conditionType::
-    operator= (conditionType const& s)
-    {
-      expression_ = s.expression_;
-
-      condition_ = s.condition_;
-
-      type (s.type ());
-
-      if (s.negate_.get ()) negate (*(s.negate_));
-      else negate_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
-
-      return *this;
-    }
-
-
-    // conditionType
-    // 
-    inline
-    conditionType::expression_iterator conditionType::
-    begin_expression ()
-    {
-      return expression_.begin ();
-    }
-
-    inline
-    conditionType::expression_iterator conditionType::
-    end_expression ()
-    {
-      return expression_.end ();
-    }
-
-    inline
-    conditionType::expression_const_iterator conditionType::
-    begin_expression () const
-    {
-      return expression_.begin ();
-    }
-
-    inline
-    conditionType::expression_const_iterator conditionType::
-    end_expression () const
-    {
-      return expression_.end ();
-    }
-
-    inline
-    void conditionType::
-    add_expression (ACE_Refcounted_Auto_Ptr < ::CUTS::XML::expressionType, ACE_Null_Mutex >  const& e)
-    {
-      expression_.push_back (e);
-    }
-
-    inline
-    size_t conditionType::
-    count_expression(void) const
-    {
-      return expression_.size ();
-    }
-
-    // conditionType
-    // 
-    inline
-    conditionType::condition_iterator conditionType::
-    begin_condition ()
-    {
-      return condition_.begin ();
-    }
-
-    inline
-    conditionType::condition_iterator conditionType::
-    end_condition ()
-    {
-      return condition_.end ();
-    }
-
-    inline
-    conditionType::condition_const_iterator conditionType::
-    begin_condition () const
-    {
-      return condition_.begin ();
-    }
-
-    inline
-    conditionType::condition_const_iterator conditionType::
-    end_condition () const
-    {
-      return condition_.end ();
-    }
-
-    inline
-    void conditionType::
-    add_condition (ACE_Refcounted_Auto_Ptr < ::CUTS::XML::conditionType, ACE_Null_Mutex >  const& e)
-    {
-      condition_.push_back (e);
-    }
-
-    inline
-    size_t conditionType::
-    count_condition(void) const
-    {
-      return condition_.size ();
-    }
-
-    // conditionType
-    // 
-    inline
-    ::CUTS::XML::joinType const& conditionType::
-    type () const
-    {
-      return *type_;
-    }
-
-    inline
-    ::CUTS::XML::joinType& conditionType::
-    type ()
-    {
-      return *type_;
-    }
-
-    inline
-    void conditionType::
-    type (::CUTS::XML::joinType const& e)
-    {
-      *type_ = e;
-    }
-
-    // conditionType
-    // 
-    inline
-    bool conditionType::
-    negate_p () const
-    {
-      return negate_.get () != 0;
-    }
-
-    inline
-    ::XMLSchema::boolean const& conditionType::
-    negate () const
-    {
-      return *negate_;
-    }
-
-    inline
-    ::XMLSchema::boolean& conditionType::
-    negate ()
-    {
-      return *negate_;
-    }
-
-    inline
-    void conditionType::
-    negate (::XMLSchema::boolean const& e)
-    {
-      if (negate_.get ())
-      {
-        *negate_ = e;
-      }
-
-      else
-      {
-        negate_ = ::std::auto_ptr< ::XMLSchema::boolean > (new ::XMLSchema::boolean (e));
-        negate_->container (this);
-      }
-    }
-
-
     // joinType
     // 
 
@@ -2053,113 +1855,6 @@ namespace CUTS
     }
 
 
-    // validationType
-    // 
-
-    inline
-    validationType::
-    validationType ()
-    : 
-    regulator__ ()
-    {
-    }
-
-    inline
-    validationType::
-    validationType (validationType const& s)
-    :
-    ::XSCRT::Type (),
-    name_ (s.name_.get () ? new ::XMLSchema::ID< char > (*s.name_) : 0),
-    condition_ (s.condition_.get () ? new ::CUTS::XML::conditionType (*s.condition_) : 0),
-    regulator__ ()
-    {
-      if (name_.get ()) name_->container (this);
-      if (condition_.get ()) condition_->container (this);
-    }
-
-    inline
-    validationType& validationType::
-    operator= (validationType const& s)
-    {
-      if (s.name_.get ())
-        name (*(s.name_));
-      else
-        name_.reset (0);
-
-      if (s.condition_.get ())
-        condition (*(s.condition_));
-      else
-        condition_.reset (0);
-
-      return *this;
-    }
-
-
-    // validationType
-    // 
-    inline
-    bool validationType::
-    name_p () const
-    {
-      return name_.get () != 0;
-    }
-
-    inline
-    ::XMLSchema::ID< char > const& validationType::
-    name () const
-    {
-      return *name_;
-    }
-
-    inline
-    void validationType::
-    name (::XMLSchema::ID< char > const& e)
-    {
-      if (name_.get ())
-      {
-        *name_ = e;
-      }
-
-      else
-      {
-        name_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (new ::XMLSchema::ID< char > (e));
-        name_->container (this);
-      }
-    }
-
-    // validationType
-    // 
-    inline
-    bool validationType::
-    condition_p () const
-    {
-      return condition_.get () != 0;
-    }
-
-    inline
-    ::CUTS::XML::conditionType const& validationType::
-    condition () const
-    {
-      return *condition_;
-    }
-
-    inline
-    void validationType::
-    condition (::CUTS::XML::conditionType const& e)
-    {
-      if (condition_.get ())
-      {
-        *condition_ = e;
-      }
-
-      else
-      {
-        condition_ = ::std::auto_ptr< ::CUTS::XML::conditionType > (new ::CUTS::XML::conditionType (e));
-        condition_->container (this);
-      }
-    }
-
-
     // viewpointType
     // 
 
@@ -2276,124 +1971,156 @@ namespace CUTS
     }
 
 
-    // executionStateType
+    // stateType
     // 
 
     inline
-    executionStateType::
-    executionStateType (::XMLSchema::string< char > const& context__,
-                        ::XMLSchema::string< char > const& value__)
+    stateType::
+    stateType (::XMLSchema::string< char > const& condition__,
+               ::XMLSchema::ID< char > const& name__,
+               ::XMLSchema::unsignedInt const& priority__)
     : 
-    context_ (new ::XMLSchema::string< char > (context__)),
-    value_ (new ::XMLSchema::string< char > (value__)),
+    condition_ (new ::XMLSchema::string< char > (condition__)),
+    name_ (new ::XMLSchema::ID< char > (name__)),
+    priority_ (new ::XMLSchema::unsignedInt (priority__)),
     regulator__ ()
     {
-      context_->container (this);
-      value_->container (this);
+      condition_->container (this);
+      name_->container (this);
+      priority_->container (this);
     }
 
     inline
-    executionStateType::
-    executionStateType (executionStateType const& s)
+    stateType::
+    stateType (stateType const& s)
     :
     ::XSCRT::Type (),
-    context_ (new ::XMLSchema::string< char > (*s.context_)),
-    value_ (new ::XMLSchema::string< char > (*s.value_)),
+    condition_ (new ::XMLSchema::string< char > (*s.condition_)),
+    name_ (new ::XMLSchema::ID< char > (*s.name_)),
+    priority_ (new ::XMLSchema::unsignedInt (*s.priority_)),
     minoccurs_ (s.minoccurs_.get () ? new ::XMLSchema::unsignedInt (*s.minoccurs_) : 0),
-    priority_ (s.priority_.get () ? new ::XMLSchema::unsignedInt (*s.priority_) : 0),
-    id_ (s.id_.get () ? new ::XMLSchema::ID< char > (*s.id_) : 0),
     maxoccurs_ (s.maxoccurs_.get () ? new ::XMLSchema::string< char > (*s.maxoccurs_) : 0),
+    isvalid_ (s.isvalid_.get () ? new ::XMLSchema::boolean (*s.isvalid_) : 0),
     regulator__ ()
     {
-      context_->container (this);
-      value_->container (this);
+      condition_->container (this);
+      name_->container (this);
+      priority_->container (this);
       if (minoccurs_.get ()) minoccurs_->container (this);
-      if (priority_.get ()) priority_->container (this);
-      if (id_.get ()) id_->container (this);
       if (maxoccurs_.get ()) maxoccurs_->container (this);
+      if (isvalid_.get ()) isvalid_->container (this);
     }
 
     inline
-    executionStateType& executionStateType::
-    operator= (executionStateType const& s)
+    stateType& stateType::
+    operator= (stateType const& s)
     {
-      context (*s.context_);
+      condition (*s.condition_);
 
-      value (*s.value_);
+      name (s.name ());
+
+      priority (s.priority ());
 
       if (s.minoccurs_.get ()) minoccurs (*(s.minoccurs_));
       else minoccurs_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (0);
 
-      if (s.priority_.get ()) priority (*(s.priority_));
-      else priority_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (0);
-
-      if (s.id_.get ()) id (*(s.id_));
-      else id_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (0);
-
       if (s.maxoccurs_.get ()) maxoccurs (*(s.maxoccurs_));
       else maxoccurs_ = ::std::auto_ptr< ::XMLSchema::string< char > > (0);
+
+      if (s.isvalid_.get ()) isvalid (*(s.isvalid_));
+      else isvalid_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
 
       return *this;
     }
 
 
-    // executionStateType
+    // stateType
     // 
     inline
-    ::XMLSchema::string< char > const& executionStateType::
-    context () const
+    ::XMLSchema::string< char > const& stateType::
+    condition () const
     {
-      return *context_;
+      return *condition_;
     }
 
     inline
-    void executionStateType::
-    context (::XMLSchema::string< char > const& e)
+    void stateType::
+    condition (::XMLSchema::string< char > const& e)
     {
-      *context_ = e;
+      *condition_ = e;
     }
 
-    // executionStateType
+    // stateType
     // 
     inline
-    ::XMLSchema::string< char > const& executionStateType::
-    value () const
+    ::XMLSchema::ID< char > const& stateType::
+    name () const
     {
-      return *value_;
+      return *name_;
     }
 
     inline
-    void executionStateType::
-    value (::XMLSchema::string< char > const& e)
+    ::XMLSchema::ID< char >& stateType::
+    name ()
     {
-      *value_ = e;
+      return *name_;
     }
 
-    // executionStateType
+    inline
+    void stateType::
+    name (::XMLSchema::ID< char > const& e)
+    {
+      *name_ = e;
+    }
+
+    // stateType
     // 
     inline
-    bool executionStateType::
+    ::XMLSchema::unsignedInt const& stateType::
+    priority () const
+    {
+      return *priority_;
+    }
+
+    inline
+    ::XMLSchema::unsignedInt& stateType::
+    priority ()
+    {
+      return *priority_;
+    }
+
+    inline
+    void stateType::
+    priority (::XMLSchema::unsignedInt const& e)
+    {
+      *priority_ = e;
+    }
+
+    // stateType
+    // 
+    inline
+    bool stateType::
     minoccurs_p () const
     {
       return minoccurs_.get () != 0;
     }
 
     inline
-    ::XMLSchema::unsignedInt const& executionStateType::
+    ::XMLSchema::unsignedInt const& stateType::
     minoccurs () const
     {
       return *minoccurs_;
     }
 
     inline
-    ::XMLSchema::unsignedInt& executionStateType::
+    ::XMLSchema::unsignedInt& stateType::
     minoccurs ()
     {
       return *minoccurs_;
     }
 
     inline
-    void executionStateType::
+    void stateType::
     minoccurs (::XMLSchema::unsignedInt const& e)
     {
       if (minoccurs_.get ())
@@ -2408,109 +2135,31 @@ namespace CUTS
       }
     }
 
-    // executionStateType
+    // stateType
     // 
     inline
-    bool executionStateType::
-    priority_p () const
-    {
-      return priority_.get () != 0;
-    }
-
-    inline
-    ::XMLSchema::unsignedInt const& executionStateType::
-    priority () const
-    {
-      return *priority_;
-    }
-
-    inline
-    ::XMLSchema::unsignedInt& executionStateType::
-    priority ()
-    {
-      return *priority_;
-    }
-
-    inline
-    void executionStateType::
-    priority (::XMLSchema::unsignedInt const& e)
-    {
-      if (priority_.get ())
-      {
-        *priority_ = e;
-      }
-
-      else
-      {
-        priority_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (new ::XMLSchema::unsignedInt (e));
-        priority_->container (this);
-      }
-    }
-
-    // executionStateType
-    // 
-    inline
-    bool executionStateType::
-    id_p () const
-    {
-      return id_.get () != 0;
-    }
-
-    inline
-    ::XMLSchema::ID< char > const& executionStateType::
-    id () const
-    {
-      return *id_;
-    }
-
-    inline
-    ::XMLSchema::ID< char >& executionStateType::
-    id ()
-    {
-      return *id_;
-    }
-
-    inline
-    void executionStateType::
-    id (::XMLSchema::ID< char > const& e)
-    {
-      if (id_.get ())
-      {
-        *id_ = e;
-      }
-
-      else
-      {
-        id_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (new ::XMLSchema::ID< char > (e));
-        id_->container (this);
-      }
-    }
-
-    // executionStateType
-    // 
-    inline
-    bool executionStateType::
+    bool stateType::
     maxoccurs_p () const
     {
       return maxoccurs_.get () != 0;
     }
 
     inline
-    ::XMLSchema::string< char > const& executionStateType::
+    ::XMLSchema::string< char > const& stateType::
     maxoccurs () const
     {
       return *maxoccurs_;
     }
 
     inline
-    ::XMLSchema::string< char >& executionStateType::
+    ::XMLSchema::string< char >& stateType::
     maxoccurs ()
     {
       return *maxoccurs_;
     }
 
     inline
-    void executionStateType::
+    void stateType::
     maxoccurs (::XMLSchema::string< char > const& e)
     {
       if (maxoccurs_.get ())
@@ -2525,44 +2174,52 @@ namespace CUTS
       }
     }
 
+    // stateType
+    // 
+    inline
+    bool stateType::
+    isvalid_p () const
+    {
+      return isvalid_.get () != 0;
+    }
 
-    // validityType
+    inline
+    ::XMLSchema::boolean const& stateType::
+    isvalid () const
+    {
+      return *isvalid_;
+    }
+
+    inline
+    ::XMLSchema::boolean& stateType::
+    isvalid ()
+    {
+      return *isvalid_;
+    }
+
+    inline
+    void stateType::
+    isvalid (::XMLSchema::boolean const& e)
+    {
+      if (isvalid_.get ())
+      {
+        *isvalid_ = e;
+      }
+
+      else
+      {
+        isvalid_ = ::std::auto_ptr< ::XMLSchema::boolean > (new ::XMLSchema::boolean (e));
+        isvalid_->container (this);
+      }
+    }
+
+
+    // validationType
     // 
 
     inline
-    validityType::Value validityType::
-    integral () const
-    {
-      return v_;
-    }
-
-    inline
-    bool
-    operator== (::CUTS::XML::validityType const& a, ::CUTS::XML::validityType const& b)
-    {
-      return a.v_ == b.v_;
-    }
-
-    inline
-    bool
-    operator!= (::CUTS::XML::validityType const& a, ::CUTS::XML::validityType const& b)
-    {
-      return a.v_ != b.v_;
-    }
-
-    inline
-    validityType::
-    validityType (validityType::Value v)
-    : v_ (v)
-    {
-    }
-
-    // correctnessTestType
-    // 
-
-    inline
-    correctnessTestType::
-    correctnessTestType (::XMLSchema::string< char > const& datagraph__)
+    validationType::
+    validationType (::XMLSchema::string< char > const& datagraph__)
     : 
     datagraph_ (new ::XMLSchema::string< char > (datagraph__)),
     regulator__ ()
@@ -2571,8 +2228,8 @@ namespace CUTS
     }
 
     inline
-    correctnessTestType::
-    correctnessTestType (correctnessTestType const& s)
+    validationType::
+    validationType (validationType const& s)
     :
     ::XSCRT::Type (),
     datagraph_ (new ::XMLSchema::string< char > (*s.datagraph_)),
@@ -2583,8 +2240,8 @@ namespace CUTS
     }
 
     inline
-    correctnessTestType& correctnessTestType::
-    operator= (correctnessTestType const& s)
+    validationType& validationType::
+    operator= (validationType const& s)
     {
       datagraph (*s.datagraph_);
 
@@ -2594,61 +2251,61 @@ namespace CUTS
     }
 
 
-    // correctnessTestType
+    // validationType
     // 
     inline
-    ::XMLSchema::string< char > const& correctnessTestType::
+    ::XMLSchema::string< char > const& validationType::
     datagraph () const
     {
       return *datagraph_;
     }
 
     inline
-    void correctnessTestType::
+    void validationType::
     datagraph (::XMLSchema::string< char > const& e)
     {
       *datagraph_ = e;
     }
 
-    // correctnessTestType
+    // validationType
     // 
     inline
-    correctnessTestType::state_iterator correctnessTestType::
+    validationType::state_iterator validationType::
     begin_state ()
     {
       return state_.begin ();
     }
 
     inline
-    correctnessTestType::state_iterator correctnessTestType::
+    validationType::state_iterator validationType::
     end_state ()
     {
       return state_.end ();
     }
 
     inline
-    correctnessTestType::state_const_iterator correctnessTestType::
+    validationType::state_const_iterator validationType::
     begin_state () const
     {
       return state_.begin ();
     }
 
     inline
-    correctnessTestType::state_const_iterator correctnessTestType::
+    validationType::state_const_iterator validationType::
     end_state () const
     {
       return state_.end ();
     }
 
     inline
-    void correctnessTestType::
-    add_state (ACE_Refcounted_Auto_Ptr < ::CUTS::XML::executionStateType, ACE_Null_Mutex >  const& e)
+    void validationType::
+    add_state (ACE_Refcounted_Auto_Ptr < ::CUTS::XML::stateType, ACE_Null_Mutex >  const& e)
     {
       state_.push_back (e);
     }
 
     inline
-    size_t correctnessTestType::
+    size_t validationType::
     count_state(void) const
     {
       return state_.size ();

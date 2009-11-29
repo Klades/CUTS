@@ -6,6 +6,7 @@
 #include "TE_Score_Evaluator.inl"
 #endif
 
+#include "TE_Score_State.h"
 #include "cuts/utils/unite/Dataset_Repo.h"
 #include "cuts/utils/db/SQLite/Query.h"
 #include "ace/SString.h"
@@ -47,20 +48,20 @@ void CUTS_TE_Score_Evaluator::reset (void)
 // evaluate
 //
 bool CUTS_TE_Score_Evaluator::
-evaluate (const ACE_CString & dataset,
-          ::CUTS::XML::correctnessTestType::state_const_iterator begin,
-          ::CUTS::XML::correctnessTestType::state_const_iterator end)
+evaluate (const ACE_CString & dataset, CUTS_TE_Score_State_List & states)
 {
   this->reset ();
 
   // First, get total number of points and max priority.
-  std::for_each (begin, end,
+  std::for_each (states.begin (),
+                 states.end (),
                  boost::bind (&CUTS_TE_Score_Evaluator::accumulate_maxpoints,
                               this,
                               _1));
 
   // Evaluate each of the states using the current form.
-  std::for_each (begin, end,
+  std::for_each (states.begin (),
+                 states.end (),
                  boost::bind (&CUTS_TE_Score_Evaluator::evaluate_state,
                               this,
                               dataset,
@@ -73,13 +74,15 @@ evaluate (const ACE_CString & dataset,
 // accumulate_maxpoints
 //
 void CUTS_TE_Score_Evaluator::
-accumulate_maxpoints (const state_value_type & state)
+accumulate_maxpoints (const CUTS_TE_Score_State & state)
 {
-  size_t prio = state->priority ();
+  // Test the current priority.
+  size_t prio = state.priority_;
 
   if (prio > this->maxprio_)
     this->maxprio_ = prio;
 
+  // Save this priority as the max one.
   this->maxpoints_ += prio;
 }
 
@@ -87,42 +90,29 @@ accumulate_maxpoints (const state_value_type & state)
 // evaluate_state
 //
 void CUTS_TE_Score_Evaluator::
-evaluate_state (const ACE_CString & dataset, const state_value_type & state)
+evaluate_state (const ACE_CString & dataset, const CUTS_TE_Score_State & state)
 {
   // Construct the SQL validation string.
-  std::ostringstream ostr;
-  ostr << "SELECT COUNT(*) AS tally, (" << state->value ()
-       << ") AS result FROM " << dataset
-       << " WHERE (" << state->context ()
-       << ") GROUP BY result";
+  std::ostringstream sqlstr;
+  sqlstr << "SELECT COUNT(*) AS result FROM " << dataset
+         << " WHERE " << state.condition_;
 
   // Execute the SQL query on the database.
-  CUTS_DB_Record * record = this->query_->execute (ostr.str ().c_str ());
+  CUTS_DB_Record * record = this->query_->execute (sqlstr.str ().c_str ());
 
-  // There will ALWAYS be at least one row in the result sent. The
-  // value of the 'result' will be 0.
-  long tally, result;
-  record->get_data (0, tally);
-  record->get_data (1, result);
+  // Get the 'result' column of the record.
+  long count;
+  record->get_data (0, count);
 
-  bool add_weight = false;
-
-  if (1 == result)
+  if ((count < state.min_occurs_ ||
+      (state.max_occurs_ != -1 && count > state.max_occurs_)) &&
+       state.is_valid_)
   {
-    add_weight = true;
-  }
-  else if (0 == tally)
-  {
-    // Ok, so there were no false states in the result set. We
-    // can no check for positives in the result set.
-    record->advance ();
-
-    if (!record->done ())
-      add_weight = true;
+    return;
   }
 
-  if (add_weight)
-    this->points_ = this->maxprio_ - state->priority () + 1;
+  // Add the points to the current count.
+  this->points_ = this->maxprio_ - state.priority_ + 1;
 
   // Reset query for the next state.
   this->query_->reset ();

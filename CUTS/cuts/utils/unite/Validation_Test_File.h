@@ -10,8 +10,8 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_CORRECTNESS_TEST_FILE_H_
-#define _CUTS_CORRECTNESS_TEST_FILE_H_
+#ifndef _CUTS_UNITE_VALIDATION_TEST_FILE_H_
+#define _CUTS_UNITE_VALIDATION_TEST_FILE_H_
 
 #include "cuts-unite.h"
 #include "XSC/utils/XML_Schema_Resolver.h"
@@ -20,23 +20,23 @@
 /**
  * @ingroup UNITE_XML
  *
- * @class CUTS_Correctness_Test_File
+ * @class CUTS_Validation_Test_File
  *
- * Helper class for parsing XML documents that contains a
- * correctness test.
+ * Helper class for parsing XML documents that contains a validation
+ * test.
  */
-class CUTS_UNITE_XML_Export CUTS_Correctness_Test_File :
-  public XSCRT::utils::File_Reader_T < ::CUTS::XML::correctnessTestType >
+class CUTS_UNITE_XML_Export CUTS_Validation_Test_File :
+  public XSCRT::utils::File_Reader_T < ::CUTS::XML::validationType >
 {
 public:
   /// Type definition of the XML reader type.
-  typedef XSCRT::utils::File_Reader_T < ::CUTS::XML::correctnessTestType > reader_type;
+  typedef XSCRT::utils::File_Reader_T < ::CUTS::XML::validationType > reader_type;
 
   /// Default constructor.
-  CUTS_Correctness_Test_File (void);
+  CUTS_Validation_Test_File (void);
 
   /// Destructor.
-  ~CUTS_Correctness_Test_File (void);
+  ~CUTS_Validation_Test_File (void);
 
 private:
   void configure (void);
@@ -47,7 +47,7 @@ private:
 };
 
 #if defined (__CUTS_INLINE__)
-#include "Correctness_Test_File.inl"
+#include "Validation_Test_File.inl"
 #endif
 
-#endif  // !defined _CUTS_CORRECTNESS_TEST_FILE_H_
+#endif  // !defined _CUTS_UNITE_VALIDATION_TEST_FILE_H_

@@ -370,19 +370,3 @@ void CUTS_Dataset_Result::rewind (void)
 {
   this->record_->reset ();
 }
-
-//
-// validate
-//
-bool CUTS_Dataset_Result::validate (const ACE_CString & validation_str)
-{
-  if (this->query_ == 0)
-    this->query_ = this->repo_->vtable_->create_query ();
-
-  // Execute the SQL statement.
-  CUTS_DB_SQLite_Record * record;
-  record = this->query_->execute (validation_str.c_str ());
-
-  // Check if the record set is empty or not
-  return record->done () ? false : true;
-}

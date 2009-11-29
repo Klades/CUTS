@@ -13,9 +13,9 @@
 #ifndef _CUTS_TE_SCORE_EVALUATOR_H_
 #define _CUTS_TE_SCORE_EVALUATOR_H_
 
-#include "cuts/utils/unite/cuts-unite.h"
-#include "ace/SString.h"
 #include "ace/Unbounded_Set.h"
+#include "ace/Containers_T.h"
+#include "TE_Score_State.h"
 
 // Forward decl.
 class CUTS_Dataset_Repo;
@@ -23,10 +23,15 @@ class CUTS_Dataset_Repo;
 // Forward decl.
 class CUTS_DB_Query;
 
+/// Type definition for a list of states.
+typedef ACE_Array <CUTS_TE_Score_State> CUTS_TE_Score_State_List;
+
 /**
+ * @ingroup CUTS_TE_Score_Core
+ *
  * @class CUTS_TE_Score_Evaluator
  */
-class CUTS_TE_Score_Evaluator
+class CUTS_TE_SCORE_CORE_Export CUTS_TE_Score_Evaluator
 {
 public:
   /**
@@ -45,8 +50,7 @@ public:
    * @param[in]       end         Last state to evaluate
    */
   bool evaluate (const ACE_CString & dataset,
-                 ::CUTS::XML::correctnessTestType::state_const_iterator begin,
-                 ::CUTS::XML::correctnessTestType::state_const_iterator end);
+                 CUTS_TE_Score_State_List & states);
 
   /// Number of points award.
   size_t points (void) const;
@@ -58,12 +62,10 @@ public:
   double final_grade (void) const;
 
 private:
-  typedef ::CUTS::XML::correctnessTestType::state_const_iterator::value_type state_value_type;
-
-  void accumulate_maxpoints (const state_value_type & state);
+  void accumulate_maxpoints (const CUTS_TE_Score_State & state);
 
   void evaluate_state (const ACE_CString & dataset,
-                       const state_value_type & state);
+                       const CUTS_TE_Score_State & state);
 
   void reset (void);
 

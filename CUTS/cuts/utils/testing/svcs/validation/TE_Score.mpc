@@ -1,12 +1,24 @@
 // $Id$
 
-project (CUTS_TE_Score) : cuts_test_database, cuts_unite_xml, cutsexe {
-  exename = cuts-tescore
+project (CUTS_TE_Score_Core) : cuts_unite, cutslib {
+  sharedname    = CUTS_TE_Score_Core
+  dynamicflags += CUTS_TE_SCORE_CORE_BUILD_DLL
+
+  Source_Files {
+    TE_Score_Evaluator.cpp
+    TE_Score_State.cpp
+  }
+
+  Header_Files {
+  }
+}
+
+project (CUTS_TE_Score) : cuts_test_database, cuts_unite_xml, cuts_te_score_core, cutsexe {
+  exename = cuts-te-score
 
   Source_Files {
     TE_Score.cpp
     TE_Score_App.cpp
-    TE_Score_Evaluator.cpp
   }
 
   Header_Files {

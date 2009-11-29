@@ -1,19 +1,16 @@
-// $Id $
+// $Id$
 
 #include "Testing_Validation_Service.h"
-
+#include "TE_Score_Evaluator.h"
 #include "cuts/utils/unite/Unite_Datagraph_File.h"
 #include "cuts/utils/unite/Unite_Validation_File.h"
 #include "cuts/utils/unite/Dataflow_Graph.h"
 #include "cuts/utils/unite/Dataflow_Graph_Builder.h"
 #include "cuts/utils/unite/Dataset_Repo.h"
 #include "cuts/utils/unite/Dataset_Result.h"
-#include "cuts/utils/unite/Where_Clause_Builder.h"
 #include "cuts/utils/unite/cuts-unite.h"
-#include "XSC/utils/XML_Error_Handler.h"
-
 #include "cuts/utils/testing/Testing_App_Base.h"
-
+#include "XSC/utils/XML_Error_Handler.h"
 #include "ace/Get_Opt.h"
 
 //
@@ -118,6 +115,11 @@ int CUTS_Testing_Validation_Service::parse_args (int argc, char * argv [])
     }
   }
 
+  if (this->validation_config_.empty ())
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - missing validation configuration (--config)\n")),
+                       -1);
+
   return 0;
 }
 
@@ -176,56 +178,33 @@ int CUTS_Testing_Validation_Service::validate_test (void)
                        ACE_TEXT ("%T (%t) - %M - failed to construct variable table\n")),
                        -1);
 
-   ACE_DEBUG ((LM_DEBUG,
+  ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - validating test; please wait...\n")));
 
-  // Convert the condition into a WHERE clause for the SQL statement.
-  ACE_CString where_clause;
+  // Open the XML document for reading.
+  CUTS_Unite_Validation_File validation_file;
+  validation_file->setErrorHandler (&error_handler);
 
-  if (!this->validation_config_.empty ())
-  {
-    // Open the XML document for reading.
-    CUTS_Unite_Validation_File validation_file;
-    validation_file->setErrorHandler (&error_handler);
-
-    if (!validation_file.read (this->validation_config_.c_str ()))
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         ACE_TEXT ("%T (%t) - %M - failed to load validation file %s\n"),
-                         this->validation_config_.c_str ()),
-                         -1);
-
-    // Load the information from the file.
-    ::CUTS::XML::validationType validation;
-    validation_file >>= validation;
-
-    if (validation.condition_p ())
-    {
-      // Construct the WHERE clause for the aspect.
-      CUTS_Where_Clause_Builder where_clause_builder;
-      where_clause_builder.build (validation.condition (),
-                                  where_clause,
-                                  false);
-    }
-  }
-  else
-  {
+  if (!validation_file.read (this->validation_config_.c_str ()))
     ACE_ERROR_RETURN ((LM_ERROR,
-                       ACE_TEXT ("%T (%t) - %M - validation file not found.\n")),
+                       ACE_TEXT ("%T (%t) - %M - failed to load validation file %s\n"),
+                       this->validation_config_.c_str ()),
                        -1);
-  }
 
-  // Construct the validation sql string.
-  std::ostringstream sqlstr;
-  sqlstr << "SELECT * FROM " << graph.name () << where_clause;
+  // Load the information from the file.
+  ::CUTS::XML::validationType validation ("");
+  validation_file >>= validation;
 
   // Validate the dataset.
-  CUTS_Dataset_Result result (repo);
+  CUTS_TE_Score_Evaluator evaluator (repo);
+  //bool validation_result = evaluator.evaluate (datagraph.name ().c_str (),
+  //                                          validation_state,
+  //                                          0,
+  //                                          -1);
 
-  if (result.validate (sqlstr.str ().c_str ()))
-    std::cout << "Test Validation successful." << std::endl;
-
-  else
-    std::cout << "Test Validation failed." << std::endl;
+  //std::cout << "Test validation "
+  //          << (validation_result ? "succeeded" : "failed")
+  //          << std::endl;
 
   return 0;
 }

@@ -59,7 +59,6 @@ project (CUTS_Unite_Xml) : boost_base, xscrt, cuts_unite, cutslib {
   after += CUTS_Unite_Xml_Gen
 
   Source_Files {
-    Correctness_Test_File.cpp
     cuts-unite.cpp
     Dataflow_Graph_Builder.cpp
     Unite_Aspect_File.cpp
@@ -67,7 +66,7 @@ project (CUTS_Unite_Xml) : boost_base, xscrt, cuts_unite, cutslib {
     Unite_Datagraph_File.cpp
     Unite_Validation_File.cpp
     Unite_Test_Builder.cpp
-    Where_Clause_Builder.cpp
+    Validation_Test_File.cpp
   }
 
   Header_Files {

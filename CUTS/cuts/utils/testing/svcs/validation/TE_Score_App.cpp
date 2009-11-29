@@ -7,12 +7,13 @@
 #endif
 
 #include "TE_Score_Evaluator.h"
-#include "cuts/utils/unite/Correctness_Test_File.h"
+#include "cuts/utils/unite/cuts-unite.h"
 #include "cuts/utils/unite/Dataflow_Graph.h"
 #include "cuts/utils/unite/Dataflow_Graph_Builder.h"
 #include "cuts/utils/unite/Dataset_Repo.h"
 #include "cuts/utils/unite/Dataset_Result.h"
 #include "cuts/utils/unite/Unite_Datagraph_File.h"
+#include "cuts/utils/unite/Validation_Test_File.h"
 #include "cuts/utils/testing/Test_Database.h"
 
 #include "XSC/utils/XML_Error_Handler.h"
@@ -34,6 +35,57 @@ const char * __HELP__ =
 "Output options:\n"
 "  -h, --help               print this help message\n";
 
+/**
+ * @struct state_copy_t
+ */
+struct state_copy_t
+{
+  /// Type definition of the value type.
+  typedef CUTS::XML::validationType::state_const_iterator::value_type const_value_type;
+
+  state_copy_t (CUTS_TE_Score_State_List & list)
+    : list_ (list),
+      index_ (0)
+  {
+
+  }
+
+  void operator () (const_value_type state)
+  {
+    CUTS_TE_Score_State & curr_state = this->list_[this->index_ ++];
+
+    curr_state.name_ = state->name ().c_str ();
+    curr_state.condition_ = state->condition ().c_str ();
+    curr_state.priority_ = state->priority ();
+
+    if (state->minoccurs_p ())
+      curr_state.min_occurs_ = state->minoccurs ();
+
+    if (state->maxoccurs_p ())
+    {
+      if (state->maxoccurs () == "unbounded")
+      {
+        curr_state.max_occurs_ = -1;
+      }
+      else
+      {
+        std::istringstream istr (state->maxoccurs ());
+        istr >> curr_state.max_occurs_;
+      }
+    }
+
+    if (state->isvalid_p ())
+      curr_state.is_valid_ = state->isvalid ();
+  };
+
+private:
+  /// Target list of states.
+  CUTS_TE_Score_State_List & list_;
+
+  /// Current index value.
+  size_t index_;
+};
+
 //
 // run_main
 //
@@ -47,28 +99,35 @@ int CUTS_TE_Score_App::run_main (int argc, char * argv [])
                          -1);
 
     // Load the configuration file.
-    CUTS_Correctness_Test_File cfg_file;
+    CUTS_Validation_Test_File validation_file;
 
     XSC::XML::XML_Error_Handler error_handler;
-    cfg_file->setErrorHandler (&error_handler);
+    validation_file->setErrorHandler (&error_handler);
 
-    if (!cfg_file.read (this->opts_.config_file_.c_str ()))
+    if (!validation_file.read (this->opts_.config_file_.c_str ()))
       ACE_ERROR_RETURN ((LM_ERROR,
                          ACE_TEXT ("%T (%t) - %M - failed to read %s\n"),
                          this->opts_.config_file_.c_str ()),
                          -1);
 
-    ::CUTS::XML::correctnessTestType correctness_test ("");
-    cfg_file >>= correctness_test;
+    ::CUTS::XML::validationType validation_test ("");
+    validation_file >>= validation_test;
+
+    // Copy the states to the prefered format.
+    CUTS_TE_Score_State_List states (validation_test.count_state ());
+
+    std::for_each (validation_test.begin_state (),
+                   validation_test.end_state (),
+                   state_copy_t (states));
 
     // Load the datagraph from the test.
     CUTS_Unite_Datagraph_File datagraph_file;
     datagraph_file->setErrorHandler (&error_handler);
 
-    if (!datagraph_file.read (correctness_test.datagraph ().c_str ()))
+    if (!datagraph_file.read (validation_test.datagraph ().c_str ()))
       ACE_ERROR_RETURN ((LM_ERROR,
                          ACE_TEXT ("%T (%t) - %M - failed to read %s\n"),
-                         correctness_test.datagraph ().c_str ()),
+                         validation_test.datagraph ().c_str ()),
                          -1);
 
     ::CUTS::XML::datagraphType datagraph ("");
@@ -116,14 +175,12 @@ int CUTS_TE_Score_App::run_main (int argc, char * argv [])
                          ACE_TEXT ("%T (%t) - %M - failed to construct variable table\n")),
                          -1);
 
-    CUTS_TE_Score_Evaluator evaluator (repo);
-
     ACE_DEBUG ((LM_INFO,
                 ACE_TEXT ("%T (%t) - %M - evaluating correctness; please wait...\n")));
 
-    evaluator.evaluate (graph.name (),
-                        correctness_test.begin_state (),
-                        correctness_test.end_state ());
+    // Evaluate the states for the current test.
+    CUTS_TE_Score_Evaluator evaluator (repo);
+    evaluator.evaluate (graph.name (), states);
 
     std::cout
       << std::endl
