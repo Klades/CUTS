@@ -1,0 +1,6 @@
+README
+
+To run the TE Score example in this directory, execute the
+following command:
+
+%> cuts-te-score --config=example.validation --test=example.data

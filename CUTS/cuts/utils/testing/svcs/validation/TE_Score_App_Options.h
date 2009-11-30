@@ -22,7 +22,8 @@ class CUTS_TE_Score_App_Options
 {
 public:
   CUTS_TE_Score_App_Options (void)
-    : sandbox_ (":memory:")
+    : sandbox_ (":memory:"),
+      precision_ (2)
   {
 
   }
@@ -35,6 +36,9 @@ public:
 
   /// Location of the sandbox
   ACE_CString sandbox_;
+
+  /// The precision of the final grade.
+  size_t precision_;
 };
 
 #endif  // !defined _CUTS_TE_SCORE_APP_OPTIONS_H_

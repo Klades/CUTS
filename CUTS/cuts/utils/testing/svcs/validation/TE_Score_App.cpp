@@ -188,7 +188,8 @@ int CUTS_TE_Score_App::run_main (int argc, char * argv [])
       << "=================================================" << std::endl
       << ". Points awarded : " << evaluator.points () << std::endl
       << ". Max points     : " << evaluator.max_points () << std::endl
-      << ". Final grade    : " << evaluator.final_grade () << "%" << std::endl
+      << ". Final grade    : " << std::fixed << std::setprecision (this->opts_.precision_)
+      << (evaluator.final_grade () * 100.0) << "%" << std::endl
       << std::endl;
 
     // Close the test database.

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<cuts:datagraph xmlns="http://www.dre.vanderbilt.edu/CUTS/XML"
+                xmlns:cuts="http://www.dre.vanderbilt.edu/CUTS/XML"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.dre.vanderbilt.edu/CUTS/XML cuts-unite.xsd">
+
+  <name>SimpleGraph</name>
+
+  <logformats>
+    <logformat id="LF1">
+      <value>{STRING instName} port {STRING portName} is postprocessing event {STRING genName}.{INT evid} at {INT time} (recv time: {INT recvTime})</value>
+    </logformat>
+  </logformats>
+</cuts:datagraph>
