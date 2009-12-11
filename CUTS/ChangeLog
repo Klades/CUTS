@@ -1,3 +1,18 @@
+Fri Dec 11 16:47:56 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/node/client/NodeDaemon_Client_App.inl:
+        * cuts/utils/node/client/NodeDaemon_Client_App.cpp:
+
+          . Bug fix where the --get-active-env command-line options was
+            always enabled.
+
+          . Fixed errors in the displayed help.
+
+        * examples/cuts/utils/node/DAnCE/dance.cutsnode.config:
+
+          . Added another environment for showing how to specify
+            multiple environments that can be swapped.
+
 Mon Nov 30 05:35:27 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:

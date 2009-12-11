@@ -16,7 +16,7 @@ const char * __HELP__ =
 "USAGE: cutsnode [OPTIONS]\n"
 "\n"
 "General options:\n"
-"  --reset=VAL              reset current environment\n"
+"  --reset                  reset current environment\n"
 "  --set-active-env=NAME    set active environment to NAME\n"
 "  --get-active-env         get name of the active environment\n"
 "\n"
