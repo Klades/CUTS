@@ -1,3 +1,13 @@
+Fri Dec 11 17:00:57 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/cuts/utils/testing/logging/run.config:
+
+          . Rename of the file below.
+
+        * examples/cuts/utils/testing/logging/cutsnode.config:
+
+          Removed this file.
+
 Fri Dec 11 16:52:26 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/cuts/utils/node/DAnCE/dance.cutsnode.config:
