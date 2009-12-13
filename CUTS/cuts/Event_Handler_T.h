@@ -13,11 +13,11 @@
 #ifndef _CUTS_EVENT_HANDLER_T_H_
 #define _CUTS_EVENT_HANDLER_T_H_
 
-#include "CUTS_CIAOC.h"
-#include "Event_Handler.h"
-#include "Port_Agent.h"
 #include "ace/Auto_Ptr.h"
 #include "ace/SString.h"
+#include "Event_Handler.h"
+#include "Port_Agent.h"
+#include "arch/ccm/CUTS_CIAOC.h"
 
 //=============================================================================
 /**

@@ -1,3 +1,17 @@
+Sun Dec 13 13:19:39 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_lib.mpb:
+
+	  . Added a new base project.
+
+        * cuts/Event_Handler_T.h:
+
+	  . Fixed build error.
+
+        * etc/emulab/generate-dance-nodemap.sh:
+
+          . Updated the to the latest version of DAnCE.
+	
 Fri Dec 11 17:00:57 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/cuts/utils/testing/logging/run.config:

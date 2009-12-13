@@ -15,4 +15,4 @@ PORT_NUMBER=$1
 HOSTNAME_SUFFIX=`cat /var/emulab/boot/nickname | awk -F '.' '{ printf "%s.%s", $2, $3 }'`
 
 # write the corbaloc for each host
-grep 'h' /var/emulab/boot/ltmap | awk -F ' ' '{ printf "%s    corbaloc:iiop:%s.%s.isislab.vanderbilt.edu:"'"${PORT_NUMBER}"'"/NodeManager\n", $2, $2, "'"${HOSTNAME_SUFFIX}"'" }'
+grep 'h' /var/emulab/boot/ltmap | awk -F ' ' '{ printf "%s    corbaloc:iiop:%s.%s.isislab.vanderbilt.edu:"'"${PORT_NUMBER}"'"/%s.%s.NodeManager\n", $2, $2, "'"${HOSTNAME_SUFFIX}"'", $2, "'"${HOSTNAME_SUFFIX}"'" }'
