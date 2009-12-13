@@ -11,6 +11,7 @@
 #include "cuts/utils/Text_Processor.h"
 #include "boost/graph/topological_sort.hpp"
 #include "ace/Reactor.h"
+#include "ace/OS_NS_fcntl.h"
 
 //
 // close
@@ -61,9 +62,28 @@ spawn (const CUTS_Process_Options & opts)
     ACE_ERROR ((LM_ERROR,
                 ACE_TEXT ("%T (%t) - %M - failed to process executable text\n")));
 
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - creating command-line [%s %s]\n"),
+              executable.c_str (),
+              arguments.c_str ()));
+
   options.command_line (ACE_TEXT ("%s %s"),
                         executable.c_str (),
                         arguments.c_str ());
+
+  if (!opts.stdout_.empty ())
+    {
+      ACE_CString output_filename;
+      processor.evaluate (opts.stdout_.c_str (), output_filename, true);
+
+      ACE_DEBUG ((LM_DEBUG,
+                  ACE_TEXT ("%T (%t) - %M - redirecting stdout to %s\n"),
+                  output_filename.c_str ()));
+
+      ACE_HANDLE stdout_handle = ACE_OS::open (output_filename.c_str (), O_CREAT | O_WRONLY);
+      options.set_handles (ACE_INVALID_HANDLE, stdout_handle, stdout_handle);
+      ACE_OS::close (stdout_handle);
+    }
 
   if (!opts.cwd_.empty ())
     options.working_directory (opts.cwd_.c_str ());
@@ -96,6 +116,10 @@ spawn (const CUTS_Process_Options & opts)
   ACE_DEBUG ((LM_INFO,
               ACE_TEXT ("%T (%t) - %M - spawning process with id %s\n"),
               opts.name_.c_str ()));
+
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - command-line is %s\n"),
+              options.command_line_buf ()));
 
   ACE_Event_Handler * handler = opts.wait_for_completion_ ? 0 : this;
   pid_t pid = this->proc_man_.spawn (options, handler);

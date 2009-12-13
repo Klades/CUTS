@@ -1,3 +1,14 @@
+Sun Dec 13 14:05:34 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Text_Processor.cpp:
+
+	  . Bug fix where the process was not reset between usages.
+	
+        * cuts/utils/node/Node_Daemon.cpp:
+        * cuts/utils/node/Virtual_Env.cpp:
+
+	  . Added support for redirecting stdout of a spawned process.
+
 Sun Dec 13 13:19:39 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MPC/config/cuts_lib.mpb:

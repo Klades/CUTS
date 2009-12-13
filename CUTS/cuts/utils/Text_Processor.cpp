@@ -18,6 +18,9 @@ bool CUTS_Text_Processor::evaluate (const char * str,
                                     bool ignore_variables,
                                     bool ignore_commands)
 {
+  if (!this->buffer_.str ().empty ())
+    this->buffer_.str ("");
+
   // First, expand the properties in the string.
   this->property_eval_.config ().use_env_ = true;
 

@@ -59,6 +59,12 @@ struct install_process
     if (value->waitforcompletion_p ())
       opts.wait_for_completion_ = value->waitforcompletion ();
 
+    if (value->output_p ())
+      opts.stdout_ = value->output ().c_str ();
+
+    if (value->error_p ())
+      opts.stderr_ = value->error ().c_str ();
+
     // Install the process into the environment.
     int retval;
 
