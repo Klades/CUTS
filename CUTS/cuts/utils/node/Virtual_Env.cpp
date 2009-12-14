@@ -12,6 +12,7 @@
 #include "boost/graph/topological_sort.hpp"
 #include "ace/Reactor.h"
 #include "ace/OS_NS_fcntl.h"
+#include "ace/FILE_Connector.h"
 
 //
 // close
@@ -48,69 +49,74 @@ spawn (const CUTS_Process_Options & opts)
 {
   // Initialize the ACE process options structure.
   ACE_Process_Options options (this->inherit_);
-  CUTS_Text_Processor processor (this->env_);
 
   // Process the executable's text.
   ACE_CString executable;
-  if (!processor.evaluate (opts.exec_.c_str (), executable, true))
-    ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - failed to process executable text\n")));
+
+  if (0 != this->expand_tag_string ("executable", opts.exec_, executable))
+    return -1;
 
   // Process the command-line argument's text.
   ACE_CString arguments;
-  if (!processor.evaluate (opts.args_.c_str (), arguments, true))
-    ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - failed to process executable text\n")));
 
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - creating command-line [%s %s]\n"),
-              executable.c_str (),
-              arguments.c_str ()));
+  if (0 != this->expand_tag_string ("arguments", opts.args_, arguments))
+    return -1;
 
+  // Set the command-line for the new process.
   options.command_line (ACE_TEXT ("%s %s"),
                         executable.c_str (),
                         arguments.c_str ());
 
-  if (!opts.stdout_.empty ())
-    {
-      ACE_CString output_filename;
-      processor.evaluate (opts.stdout_.c_str (), output_filename, true);
-
-      ACE_DEBUG ((LM_DEBUG,
-                  ACE_TEXT ("%T (%t) - %M - redirecting stdout to %s\n"),
-                  output_filename.c_str ()));
-
-      ACE_HANDLE stdout_handle = ACE_OS::open (output_filename.c_str (), O_CREAT | O_WRONLY);
-      options.set_handles (ACE_INVALID_HANDLE, stdout_handle, stdout_handle);
-      ACE_OS::close (stdout_handle);
-    }
-
-  if (!opts.cwd_.empty ())
-    options.working_directory (opts.cwd_.c_str ());
-
-  for (CUTS_Property_Map::const_iterator iter (this->env_.map ()); !iter.done (); ++ iter)
-    options.setenv (iter->key ().c_str (), iter->item ().c_str ());
+  // Determine if we need to redirect output. Make sure to expand
+  // the strings before trying to open the file for writing.
 
   /// @todo Need to re-add support for piping output to a HANDLE. The
   ///       plan is to support multiple protocols (e.g., file and socket)
 
+  ACE_FILE_Connector file_conn;
+  ACE_FILE_IO stdout_file, stderr_file;
+  ACE_CString stdout_filename, stderr_filename;
+
+  if (!opts.stdout_.empty () &&
+      0 == this->expand_tag_string ("output", opts.stdout_, stdout_filename))
+  {
+    ACE_FILE_Addr filename (stdout_filename.c_str ());
+
+    if (0 != file_conn.connect (stdout_file, filename))
+      ACE_ERROR ((LM_ERROR,
+                  ACE_TEXT ("%T (%t) - %M - failed to redirect ")
+                  ACE_TEXT ("standard output\n")));
+  }
+
+  if (!opts.stderr_.empty () &&
+      0 == this->expand_tag_string ("error", opts.stderr_, stderr_filename))
+  {
+    ACE_FILE_Addr filename (stderr_filename.c_str ());
+
+    if (0 != file_conn.connect (stderr_file, filename))
+      ACE_ERROR ((LM_ERROR,
+                  ACE_TEXT ("%T (%t) - %M - failed to redirect ")
+                  ACE_TEXT ("standard error\n")));
+  }
+
+  // Set the handles for redirecting the output.
+  options.set_handles (ACE_INVALID_HANDLE,
+                       stdout_file.get_handle (),
+                       stderr_file.get_handle ());
+
+  // Set the working directory for the new process.
+  ACE_CString working_dir;
+  if (0 == this->expand_tag_string ("workingdirectory", opts.cwd_, working_dir))
+    options.working_directory (working_dir.c_str ());
+
+  // Set the environment variables for the process.
+  for (CUTS_Property_Map::const_iterator iter (this->env_.map ()); !iter.done (); ++ iter)
+    options.setenv (iter->key ().c_str (), iter->item ().c_str ());
+
   // Determine if we must delay the startup of this process. If
   // so, then let's hold off on spawning the new process based on
   // the "delay" specification.
-  if (opts.delay_ != ACE_Time_Value::zero)
-  {
-    if (0 == this->delay_.schedule (opts.delay_))
-    {
-      if (0 != this->delay_.wait_for_delay_completion ())
-        ACE_ERROR ((LM_ERROR,
-                    ACE_TEXT ("%T (%t) - %M - failed to wait for %s delay\n"),
-                    opts.name_.c_str ()));
-    }
-    else
-      ACE_ERROR ((LM_ERROR,
-                  ACE_TEXT ("%T (%t) - %M - failed to schedule delay for %s\n"),
-                  opts.name_.c_str ()));
-  }
+  this->simulate_delay (opts.delay_);
 
   // Spawn the new process.
   ACE_DEBUG ((LM_INFO,
@@ -152,6 +158,36 @@ spawn (const CUTS_Process_Options & opts)
 }
 
 //
+// simulate_delay
+//
+int CUTS_Virtual_Env::simulate_delay (const ACE_Time_Value & tv)
+{
+  // There is no need to continue if the delay is 0.
+  if (tv == ACE_Time_Value::zero)
+    return 0;
+
+  if (0 == this->delay_.schedule (tv))
+  {
+    // Wait for the scheduled delay to complete.
+    if (0 == this->delay_.wait_for_delay_completion ())
+      return 0;
+
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - failed to wait %d.%d second ")
+                ACE_TEXT ("delay to complete\n"),
+                tv.sec (),
+                tv.usec ()));
+  }
+  else
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - failed to schedule %d.%d second delay\n"),
+                tv.sec (),
+                tv.usec ()));
+
+  return -1;
+}
+
+//
 // terminate
 //
 int CUTS_Virtual_Env::terminate (const ACE_CString & name)
@@ -188,6 +224,26 @@ int CUTS_Virtual_Env::terminate (const ACE_CString & name)
                 ACE_TEXT ("%T (%t) - %M - reference to process %s still remains\n")));
 
   return 0;
+}
+
+//
+// expand_tag_string
+//
+int CUTS_Virtual_Env::
+expand_tag_string (const char * tag,
+                   const ACE_CString & str,
+                   ACE_CString & target)
+{
+  // Execute the text processor.
+  CUTS_Text_Processor processor (this->env_);
+  if (processor.evaluate (str.c_str (), target, true))
+    return 0;
+
+  ACE_ERROR ((LM_ERROR,
+              ACE_TEXT ("%T (%t) - %M - failed to process <%s>\n"),
+              tag));
+
+  return -1;
 }
 
 //

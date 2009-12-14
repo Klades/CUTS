@@ -120,6 +120,14 @@ public:
   const CUTS_Process_Options_List & shutdown_list (void) const;
 
 private:
+  /// Helper function for expanding a text string.
+  int expand_tag_string (const char * tag,
+                         const ACE_CString & str,
+                         ACE_CString & target);
+
+  /// Helper function for simulating a delay.
+  int simulate_delay (const ACE_Time_Value & delay);
+
   /// Name of the environment.
   ACE_CString name_;
 

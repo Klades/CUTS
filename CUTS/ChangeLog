@@ -1,3 +1,15 @@
+Mon Dec 14 22:59:58 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/node/Virtual_Env.h:
+        * cuts/utils/node/Virtual_Env.cpp:
+
+          . Updated the implementation to use ACE_File_Connector instead of
+            ACE_OS::open () when handling files for redirecting output.
+
+        * examples/cuts/utils/node/DAnCE/dance.cutsnode.config:
+
+          . Updated example to redirect output for one of the processes.
+
 Mon Dec 14 20:19:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.h:
