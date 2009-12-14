@@ -16,14 +16,14 @@
 #include "ace/SString.h"
 #include "ace/Time_Value.h"
 #include "ace/Unbounded_Set.h"
-#include "Node_Daemon_Common_export.h"
+#include "Node_Daemon_Core_export.h"
 
 /**
  * @class CUTS_Process_Options
  *
  * Detailed information about a process.
  */
-class CUTS_NODE_DAEMON_COMMON_Export CUTS_Process_Options
+class CUTS_NODE_DAEMON_CORE_Export CUTS_Process_Options
 {
 public:
   CUTS_Process_Options (void);

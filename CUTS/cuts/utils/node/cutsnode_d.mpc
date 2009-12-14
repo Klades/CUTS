@@ -20,11 +20,11 @@ project (CUTS_Node_Daemon_Xml) : xsc_cxx {
   }
 }
 
-project (CUTS_Node_Daemon_Common) : boost_base, xscrt, cuts_utils, cutslib {
-  sharedname  = CUTS_Node_Daemon_Common
+project (CUTS_Node_Daemon_Core) : boost_base, xscrt, cuts_utils, cutslib {
+  sharedname  = CUTS_Node_Daemon_Core
   after      += CUTS_Node_Daemon_Xml
 
-  dynamicflags += CUTS_NODE_DAEMON_COMMON_BUILD_DLL
+  dynamicflags += CUTS_NODE_DAEMON_CORE_BUILD_DLL
 
   Source_Files {
     Delay_Handler.cpp
@@ -39,7 +39,7 @@ project (CUTS_Node_Daemon_Common) : boost_base, xscrt, cuts_utils, cutslib {
   }
 }
 
-project (CUTS_Node_Daemon) : cuts_nodedaemon_common,  xscrt, cuts_utils, cutsexe {
+project (CUTS_Node_Daemon) : cuts_nodedaemon_core,  xscrt, cuts_utils, cutsexe {
   exename = cutsnode_d
 
   after += CUTS_NodeDaemon_Server

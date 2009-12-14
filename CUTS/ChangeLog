@@ -1,28 +1,48 @@
+Mon Dec 14 04:49:50 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_nodedaemon_core.mpb:
+        * cuts/utils/node/Node_Daemon_Core_export.h:
+        * cuts/utils/node/Process_Options.h:
+        * cuts/utils/node/Process_Options_List.h:
+        * cuts/utils/node/Virtual_Env.h:
+        * cuts/utils/node/Virtual_Env_Manager.h:
+        * cuts/utils/node/cutsnode_d.mpc:
+        * cuts/utils/node/server/server.mpc:
+        * MPC/config/cuts_nodedaemon_common.mpb:
+
+          . Renamed the CUTS_Node_Daemon_Common project to the
+            CUTS_Node_Daemon_Core project, and updated all affected
+            projects.
+
+        * cuts/utils/node/Node_Daemon_Common_export.h:
+
+          Removed these files.
+
 Sun Dec 13 14:05:34 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * cuts/utils/Text_Processor.cpp:
 
-	  . Bug fix where the process was not reset between usages.
-	
+          . Bug fix where the process was not reset between usages.
+
         * cuts/utils/node/Node_Daemon.cpp:
         * cuts/utils/node/Virtual_Env.cpp:
 
-	  . Added support for redirecting stdout of a spawned process.
+          . Added support for redirecting stdout of a spawned process.
 
 Sun Dec 13 13:19:39 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
 
         * MPC/config/cuts_lib.mpb:
 
-	  . Added a new base project.
+          . Added a new base project.
 
         * cuts/Event_Handler_T.h:
 
-	  . Fixed build error.
+          . Fixed build error.
 
         * etc/emulab/generate-dance-nodemap.sh:
 
           . Updated the to the latest version of DAnCE.
-	
+
 Fri Dec 11 17:00:57 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * examples/cuts/utils/testing/logging/run.config:

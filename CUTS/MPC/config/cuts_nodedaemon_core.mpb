@@ -1,0 +1,6 @@
+// $Id$
+
+project : xscrt {
+  libs  += CUTS_Node_Daemon_Core
+  after += CUTS_Node_Daemon_Core
+}

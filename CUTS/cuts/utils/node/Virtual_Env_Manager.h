@@ -16,7 +16,7 @@
 #include "ace/SString.h"
 #include "ace/Hash_Map_Manager.h"
 #include "ace/RW_Thread_Mutex.h"
-#include "Node_Daemon_Common_export.h"
+#include "Node_Daemon_Core_export.h"
 
 // Forward decl.
 class CUTS_Virtual_Env;
@@ -28,7 +28,7 @@ class CUTS_Virtual_Env;
  * one environment can be active per manager. Future version may
  * allow multiple environments to be active.
  */
-class CUTS_NODE_DAEMON_COMMON_Export CUTS_Virtual_Env_Manager
+class CUTS_NODE_DAEMON_CORE_Export CUTS_Virtual_Env_Manager
 {
 public:
   /// Default constructor.

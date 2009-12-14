@@ -16,7 +16,7 @@
 #include "ace/Containers_T.h"
 #include "cuts/Static_Node_T.h"
 #include "Process_Options.h"
-#include "Node_Daemon_Common_export.h"
+#include "Node_Daemon_Core_export.h"
 
 /// Type definition of the CUTS_Process_Options_List node.
 typedef CUTS_Static_Node_T <CUTS_Process_Options> CUTS_Process_Options_List_Node;
@@ -30,7 +30,7 @@ typedef ACE_Double_Linked_List_Iterator <CUTS_Process_Options_List_Node> CUTS_Pr
  * Collection of process options. The options are stored in sequential
  * order, which reflects their desired order of execution.
  */
-class CUTS_NODE_DAEMON_COMMON_Export CUTS_Process_Options_List :
+class CUTS_NODE_DAEMON_CORE_Export CUTS_Process_Options_List :
   public ACE_Double_Linked_List <CUTS_Process_Options_List_Node>
 {
 public:
