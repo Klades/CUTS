@@ -12,14 +12,70 @@
 #include "ace/SString.h"
 #include "boost/bind.hpp"
 #include <algorithm>
+#include <numeric>
 #include <sstream>
+
+/**
+ * @struct CUTS_TE_Score_State_Less_Prio
+ *
+ * Functor that determines if a state's priority is less than
+ * another state's priority.
+ */
+struct CUTS_TE_Score_State_Less_Prio
+{
+  bool operator () (const CUTS_TE_Score_State & lhs,
+                    const CUTS_TE_Score_State & rhs) const
+  {
+    return lhs.priority_ < rhs.priority_;
+  }
+};
+
+/**
+ * @struct CUTS_TE_Score_Points_Accumulator
+ *
+ * Functor for accumulating the max points.
+ */
+struct CUTS_TE_Score_Points_Accumulator
+{
+  /**
+   * Initializing constructor.
+   *
+   * @param[in]         maxprio       Max priority of all the states
+   */
+  CUTS_TE_Score_Points_Accumulator (size_t maxprio)
+    : maxprio_ (maxprio)
+  {
+
+  }
+
+  /**
+   * Binary operator accumulating points.
+   *
+   * @param[in]       current         Current accumulation
+   * @param[in]       state           Next state to add to result
+   * @return          Total with new state added.
+   */
+  size_t operator () (size_t current, const CUTS_TE_Score_State & rhs) const
+  {
+    return
+      current +
+      CUTS_TE_Score_Evaluator::calculate_weight (this->maxprio_, rhs);
+  }
+
+private:
+  /// Max priority of all the states.
+  size_t maxprio_;
+};
 
 //
 // CUTS_TE_Score_Evaluator
 //
 CUTS_TE_Score_Evaluator::
 CUTS_TE_Score_Evaluator (CUTS_Dataset_Repo & repo)
-: query_ (repo.create_query ())
+: query_ (repo.create_query ()),
+  points_ (0),
+  max_points_ (0),
+  max_prio_ (0)
 {
 
 }
@@ -33,31 +89,26 @@ CUTS_TE_Score_Evaluator::~CUTS_TE_Score_Evaluator (void)
     this->query_->destroy ();
 }
 
-
-//
-// reset
-//
-void CUTS_TE_Score_Evaluator::reset (void)
-{
-  this->points_ = 0;
-  this->maxprio_ = 0;
-  this->maxpoints_ = 0;
-}
-
 //
 // evaluate
 //
 bool CUTS_TE_Score_Evaluator::
 evaluate (const ACE_CString & dataset, CUTS_TE_Score_State_List & states)
 {
+  // Reset the evaluator.
   this->reset ();
 
-  // First, get total number of points and max priority.
-  std::for_each (states.begin (),
-                 states.end (),
-                 boost::bind (&CUTS_TE_Score_Evaluator::accumulate_maxpoints,
-                              this,
-                              _1));
+  // Locate the max priority in the collection.
+  this->max_prio_ = std::max_element (states.begin (),
+                                      states.end (),
+                                      CUTS_TE_Score_State_Less_Prio ())->priority_;
+
+  // Calculate the maximum number of points possible.
+  this->max_points_ =
+    std::accumulate (states.begin (),
+                     states.end (),
+                     0,
+                     CUTS_TE_Score_Points_Accumulator (this->max_prio_));
 
   // Evaluate each of the states using the current form.
   std::for_each (states.begin (),
@@ -68,22 +119,6 @@ evaluate (const ACE_CString & dataset, CUTS_TE_Score_State_List & states)
                               _1));
 
   return true;
-}
-
-//
-// accumulate_maxpoints
-//
-void CUTS_TE_Score_Evaluator::
-accumulate_maxpoints (const CUTS_TE_Score_State & state)
-{
-  // Test the current priority.
-  size_t prio = state.priority_;
-
-  if (prio > this->maxprio_)
-    this->maxprio_ = prio;
-
-  // Save this priority as the max one.
-  this->maxpoints_ += prio;
 }
 
 //
@@ -112,7 +147,7 @@ evaluate_state (const ACE_CString & dataset, const CUTS_TE_Score_State & state)
   }
 
   // Add the points to the current count.
-  this->points_ = this->maxprio_ - state.priority_ + 1;
+  this->points_ = this->calculate_weight (state);
 
   // Reset query for the next state.
   this->query_->reset ();

@@ -1,3 +1,12 @@
+Mon Dec 14 20:19:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.h:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.inl:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.cpp:
+
+          . Bug fix where TE Score was not calculating the max points
+            correctly for a given set of states.
+
 Mon Dec 14 04:49:50 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * MPC/config/cuts_nodedaemon_core.mpb:

@@ -61,8 +61,10 @@ public:
   /// The final grade of the evaluation.
   double final_grade (void) const;
 
+  static size_t calculate_weight (size_t maxprio, const CUTS_TE_Score_State & state);
+
 private:
-  void accumulate_maxpoints (const CUTS_TE_Score_State & state);
+  size_t calculate_weight (const CUTS_TE_Score_State & state);
 
   void evaluate_state (const ACE_CString & dataset,
                        const CUTS_TE_Score_State & state);
@@ -73,9 +75,9 @@ private:
 
   size_t points_;
 
-  size_t maxpoints_;
+  size_t max_points_;
 
-  size_t maxprio_;
+  size_t max_prio_;
 
   ACE_Unbounded_Set < ACE_SString > seen_;
 };
