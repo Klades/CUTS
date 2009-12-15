@@ -27,7 +27,7 @@ public:
 
   virtual void Visit_LongInteger (const PICML::LongInteger & val);
 
-  virtual void Visit_RealNumber (const PICML::RealNumber & val);
+  virtual void Visit_DoubleNumber (const PICML::DoubleNumber & val);
 
   virtual void Visit_ShortInteger (const PICML::ShortInteger & val);
 

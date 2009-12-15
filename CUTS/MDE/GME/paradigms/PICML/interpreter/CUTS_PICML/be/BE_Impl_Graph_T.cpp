@@ -10,6 +10,9 @@
 // BOOST headers
 #include "boost/bind.hpp"
 
+#define PREPROCESSOR_SINGLETON(T) \
+  ACE_Singleton <CUTS_BE_Preprocessor_T <T>, ACE_Null_Mutex>::instance ()
+
 //
 // CUTS_BE_Impl_Graph
 //
@@ -123,13 +126,13 @@ Visit_Component (const PICML::Component & component)
   while (parent.type () != PICML::File::meta)
     parent = PICML::MgaObject::Cast (parent.parent ());
 
-  // We are going to preprocess this file as well.
-  CUTS_BE_Preprocessor_T <T> * preprocessor =
-    ACE_Singleton <CUTS_BE_Preprocessor_T <T>, ACE_Null_Mutex>::instance ();
-
-  const CUTS_BE_IDL_Node * idl_node = 0;
+  // Save te file for later.
   PICML::File file = PICML::File::Cast (parent);
-  preprocessor->preprocess (file, idl_node);
+  this->current_impl_->impl_interface_ = file;
+
+  // We are going to preprocess this file as well.
+  const CUTS_BE_IDL_Node * idl_node = 0;
+  PREPROCESSOR_SINGLETON (T)->preprocess (file, idl_node);
 
   // Add the preprocessed file to the reference set.
   this->current_impl_->references_.insert (idl_node);

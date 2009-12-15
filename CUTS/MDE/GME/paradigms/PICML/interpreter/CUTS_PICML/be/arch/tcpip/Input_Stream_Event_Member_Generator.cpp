@@ -20,7 +20,7 @@ Input_Stream_Event_Member_Generator (std::ostream & out)
   this->predefined_types_.insert <PICML::Boolean> ();
   this->predefined_types_.insert <PICML::Byte> ();
   this->predefined_types_.insert <PICML::LongInteger> ();
-  this->predefined_types_.insert <PICML::RealNumber> ();
+  this->predefined_types_.insert <PICML::DoubleNumber> ();
   this->predefined_types_.insert <PICML::ShortInteger> ();
   this->predefined_types_.insert <PICML::String> ();
 }
@@ -91,7 +91,7 @@ Visit_LongInteger (const PICML::LongInteger & val)
 }
 
 void Input_Stream_Event_Member_Generator::
-Visit_RealNumber (const PICML::RealNumber & val)
+Visit_DoubleNumber (const PICML::DoubleNumber & val)
 {
   this->out_ << "double";
 }

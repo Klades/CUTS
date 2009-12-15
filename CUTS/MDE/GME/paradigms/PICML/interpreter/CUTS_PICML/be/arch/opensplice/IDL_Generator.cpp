@@ -74,7 +74,7 @@ IDL_Generator::IDL_Generator (const std::string & outdir)
   this->predefined_types_.insert (std::make_pair (PICML::LongInteger::meta, "long"));
   this->predefined_types_.insert (std::make_pair (PICML::ShortInteger::meta, "short"));
   this->predefined_types_.insert (std::make_pair (PICML::String::meta, "string"));
-  this->predefined_types_.insert (std::make_pair (PICML::RealNumber::meta, "double"));
+  this->predefined_types_.insert (std::make_pair (PICML::DoubleNumber::meta, "double"));
 }
 
 //

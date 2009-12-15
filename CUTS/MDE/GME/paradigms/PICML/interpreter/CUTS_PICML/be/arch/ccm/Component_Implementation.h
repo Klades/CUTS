@@ -459,7 +459,7 @@ public:
 
   virtual void Visit_String (const PICML::String & value);
 
-  virtual void Visit_RealNumber (const PICML::RealNumber & value);
+  virtual void Visit_DoubleNumber (const PICML::DoubleNumber & value);
 
   virtual void Visit_GenericValue (const PICML::GenericValue & value);
 
@@ -490,7 +490,7 @@ public:
 
   virtual void Visit_String (const PICML::String & value);
 
-  virtual void Visit_RealNumber (const PICML::RealNumber & value);
+  virtual void Visit_DoubleNumber (const PICML::DoubleNumber & value);
 
   virtual void Visit_GenericValue (const PICML::GenericValue & value);
 
@@ -521,7 +521,7 @@ public:
 
   virtual void Visit_String (const PICML::String & value);
 
-  virtual void Visit_RealNumber (const PICML::RealNumber & value);
+  virtual void Visit_DoubleNumber (const PICML::DoubleNumber & value);
 
   virtual void Visit_GenericValue (const PICML::GenericValue & value);
 
@@ -556,7 +556,7 @@ public:
 
   virtual void Visit_String (const PICML::String & value);
 
-  virtual void Visit_RealNumber (const PICML::RealNumber & value);
+  virtual void Visit_DoubleNumber (const PICML::DoubleNumber & value);
 
   virtual void Visit_GenericValue (const PICML::GenericValue & value);
 

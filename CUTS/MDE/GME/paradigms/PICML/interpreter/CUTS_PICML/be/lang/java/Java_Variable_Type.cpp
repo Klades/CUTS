@@ -22,7 +22,8 @@ Type_System::Type_System (std::ostream & out)
   this->predefined_types_.insert <PICML::GenericObject> ();
   this->predefined_types_.insert <PICML::GenericValue> ();
   this->predefined_types_.insert <PICML::LongInteger> ();
-  this->predefined_types_.insert <PICML::RealNumber> ();
+  this->predefined_types_.insert <PICML::DoubleNumber> ();
+  this->predefined_types_.insert <PICML::FloatNumber> ();
   this->predefined_types_.insert <PICML::ShortInteger> ();
   this->predefined_types_.insert <PICML::String> ();
   this->predefined_types_.insert <PICML::TypeEncoding> ();
@@ -119,12 +120,21 @@ Visit_String (const PICML::String & value)
 }
 
 //
-// Visit_RealNumber
+// Visit_DoubleNumber
 //
 void Variable_Type::
-Visit_RealNumber (const PICML::RealNumber & value)
+Visit_DoubleNumber (const PICML::DoubleNumber & value)
 {
   this->out_ << "double";
+}
+
+//
+// Visit_FloatNumber
+//
+void Variable_Type::
+Visit_FloatNumber (const PICML::FloatNumber & value)
+{
+  this->out_ << "float";
 }
 
 //

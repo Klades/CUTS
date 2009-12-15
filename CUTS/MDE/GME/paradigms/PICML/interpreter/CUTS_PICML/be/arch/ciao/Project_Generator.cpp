@@ -83,7 +83,7 @@ generate_impl_project (const CUTS_BE_Impl_Node & node)
     visited_nodes_.clear ();
 
     this->ctx_.project_
-      << "  after += " << container_name << "_exec";
+      << "  after += " << node.impl_interface_.name () << "_exec";
 
     this->ctx_.project_
       << std::endl
@@ -94,7 +94,7 @@ generate_impl_project (const CUTS_BE_Impl_Node & node)
     visited_nodes_.clear ();
 
     this->ctx_.project_
-      << "  libs += " << container_name << "_exec";
+      << "  libs += " << node.impl_interface_.name () << "_exec";
 
     std::for_each (node.references_.begin (),
                    node.references_.end (),

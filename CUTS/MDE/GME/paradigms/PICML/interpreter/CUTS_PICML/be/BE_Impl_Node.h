@@ -68,6 +68,9 @@ struct CUTS_BE_Export CUTS_BE_Impl_Node :
   typedef std::map <std::string, CUTS_String_Set> Map_List;
 
   Map_List maplist_;
+
+  /// IDL file that contains implementation's interface.
+  PICML::File impl_interface_;
 };
 
 #if defined (__CUTS_INLINE__)

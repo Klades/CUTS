@@ -1,9 +1,38 @@
+Tue Dec 15 20:27:04 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Graph_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Node.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.cpp:
+
+          Bug fix where the servant project was not linking against
+          the correct executor project.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/XML_Mapping_File_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/XSD_File_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/IDL_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/IDL_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Input_Stream_Event_Member_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Input_Stream_Event_Member_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Variable_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Variable_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Variable_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Variable_Type.cpp:
+
+          . Updated generators to support FloatNumber and DoubleNumer,
+            and removed support for RealNumber.
+
+        * MDE/GME/paradigms/PICML/models/workers/CUTS_CPU_Worker.xme:
+
+          . Updated to latest version of PICML.
+
 Tue Dec 15 13:57:44 UTC 2009  Pooja Varshneya  <varshnp@dre.vanderbilt.edu>
 
         * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.cpp:
 
-				  . Fixed the formula for points calculation in evaluate_state()
-	          method.
+          . Fixed the formula for points calculation in evaluate_state()
+            method.
 
 Mon Dec 14 22:59:58 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
