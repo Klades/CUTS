@@ -147,7 +147,7 @@ evaluate_state (const ACE_CString & dataset, const CUTS_TE_Score_State & state)
   }
 
   // Add the points to the current count.
-  this->points_ = this->calculate_weight (state);
+  this->points_ += this->calculate_weight (state);
 
   // Reset query for the next state.
   this->query_->reset ();
