@@ -1,89 +1,96 @@
 <Diagram name="CUTS" version="1.00" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Uml.xsd">
-	<Association _id="id29" name="Causality" assocClass="id6" nonpersistent="false">
-		<AssociationRole _id="id2a" max="-1" min="0" name="srcCausality" target="idb" isPrimary="false" isNavigable="true"/>
-		<AssociationRole _id="id2b" max="-1" min="0" name="dstCausality" target="idb" isPrimary="false" isNavigable="true"/>
-	</Association>
 	<Association nonpersistent="false">
-		<AssociationRole _id="id2c" max="-1" min="0" name="referedbyGroupItem" target="idc" isPrimary="false" isNavigable="true"/>
-		<AssociationRole _id="id2d" max="1" min="0" name="ref" target="id8" isPrimary="false" isNavigable="true"/>
+		<AssociationRole _id="id29" max="-1" min="0" name="referedbyGroupItem" target="id8" isPrimary="false" isNavigable="true"/>
+		<AssociationRole _id="id2a" max="1" min="0" name="ref" target="id7" isPrimary="false" isNavigable="true"/>
 	</Association>
-	<Class _id="id3" name="UnitTest" baseTypes="id4" childRoles="id16" isAbstract="false" stereotype="Model" parentRoles="idf id11">
+	<Association _id="id2b" name="Causality" assocClass="id5" nonpersistent="false">
+		<AssociationRole _id="id2c" max="-1" min="0" name="srcCausality" target="ida" isPrimary="false" isNavigable="true"/>
+		<AssociationRole _id="id2d" max="-1" min="0" name="dstCausality" target="ida" isPrimary="false" isNavigable="true"/>
+	</Association>
+	<Class _id="id3" name="LogFormat" baseTypes="id4" childRoles="id20" isAbstract="false" stereotype="Model" parentRoles="idf id11">
+		<Attribute max="1" min="1" name="Value" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
+		<Constraint name="Unique_Log_Element_Name_Constraint" expression="let f = self.parts(\&quot;Key\&quot;) + self.parts(\&quot;Variable\&quot;) in\nlet all = f in \nall->forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)" description="Key and variable names should be unique"/>
+	</Class>
+	<Class _id="id5" name="Causality" baseTypes="id4" childRoles="id1e" isAbstract="false" stereotype="Connection" association="id2b">
+		<Constraint name="ConnectionConstraint" expression="self.connectionPoint(\&quot;src\&quot;).target().attribute(\&quot;Type\&quot;)=self.connectionPoint(\&quot;dst\&quot;).target().attribute(\&quot;Type\&quot;)" description="Keys with similar types can only be connected."/>
+	</Class>
+	<Class _id="id6" name="Variable" baseTypes="id7" childRoles="id10" isAbstract="false" stereotype="Atom"/>
+	<Class _id="id13" name="UnitTests" childRoles="id22" isAbstract="false" stereotype="Folder" parentRoles="id14">
+		<Attribute max="1" min="0" name="name" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
+	</Class>
+	<Class _id="id16" name="DataGraphs" childRoles="id25" isAbstract="false" stereotype="Folder" parentRoles="id17">
+		<Attribute max="1" min="0" name="name" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
+	</Class>
+	<Class _id="id8" name="GroupItem" baseTypes="id4" childRoles="id18" isAbstract="false" stereotype="Reference" associationRoles="id29"/>
+	<Class _id="id9" name="Group" baseTypes="id4" childRoles="id1a" isAbstract="false" stereotype="Model" parentRoles="id19"/>
+	<Class _id="id7" name="Log_Element" subTypes="id6 ida" baseTypes="id4" isAbstract="true" stereotype="FCO" associationRoles="id2a">
+		<Attribute max="1" min="1" name="Type" type="String" ordered="false" defvalue="String;" registry="false" visibility="public" nonpersistent="false"/>
+	</Class>
+	<Class _id="idb" name="UnitTest" baseTypes="id4" childRoles="id12" isAbstract="false" stereotype="Model" parentRoles="id1b id1d">
 		<Attribute max="1" min="1" name="Description" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
 		<Attribute max="1" min="1" name="Evaluation" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
 		<Attribute max="1" min="1" name="Aggregation" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
+		<Constraint name="Unique_Service_Name_Constraint" expression="let f = self.parts(\&quot;Service\&quot;) in\nlet all = f in \nall->forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)" description="Service name should be unique"/>
+		<Constraint name="Unique_Group_Name_Constraint" expression="let f = self.parts(\&quot;Group\&quot;) in\nlet all = f in \nall->forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)" description="Group name should be unique"/>
 	</Class>
-	<Class _id="id5" name="LogFormat" baseTypes="id4" childRoles="id1e" isAbstract="false" stereotype="Model" parentRoles="id13 id15">
-		<Attribute max="1" min="1" name="Value" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
-	</Class>
-	<Class _id="id6" name="Causality" baseTypes="id4" childRoles="id1c" isAbstract="false" stereotype="Connection" association="id29"/>
-	<Class _id="id7" name="Variable" baseTypes="id8" childRoles="id12" isAbstract="false" stereotype="Atom"/>
-	<Class _id="id17" name="UnitTests" childRoles="id22" isAbstract="false" stereotype="Folder" parentRoles="id18">
-		<Attribute max="1" min="0" name="name" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
-	</Class>
-	<Class _id="id1a" name="DataGraphs" childRoles="id25" isAbstract="false" stereotype="Folder" parentRoles="id1b">
-		<Attribute max="1" min="0" name="name" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
-	</Class>
-	<Class _id="id9" name="Service" baseTypes="id4" childRoles="ide" isAbstract="false" stereotype="Model">
+	<Class _id="idc" name="Service" baseTypes="id4" childRoles="id1c" isAbstract="false" stereotype="Model">
 		<Attribute max="1" min="1" name="Location" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
 		<Attribute max="1" min="1" name="ClassName" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
 		<Attribute max="1" min="1" name="Params" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
 	</Class>
-	<Class _id="ida" name="DataGraph" baseTypes="id4" childRoles="id19" isAbstract="false" stereotype="Model" parentRoles="id1d id1f"/>
-	<Class _id="idb" name="Key" baseTypes="id8" childRoles="id14" isAbstract="false" stereotype="Atom" associationRoles="id2a id2b"/>
-	<Class _id="idc" name="GroupItem" baseTypes="id4" childRoles="id20" isAbstract="false" stereotype="Reference" associationRoles="id2c"/>
-	<Class _id="idd" name="Group" baseTypes="id4" childRoles="id10" isAbstract="false" stereotype="Model" parentRoles="id21"/>
-	<Class _id="id8" name="Log_Element" subTypes="id7 idb" baseTypes="id4" isAbstract="true" stereotype="FCO" associationRoles="id2d">
-		<Attribute max="1" min="1" name="Type" type="String" ordered="false" defvalue="String;" registry="false" visibility="public" nonpersistent="false"/>
+	<Class _id="ida" name="Key" baseTypes="id7" childRoles="ide" isAbstract="false" stereotype="Atom" associationRoles="id2c id2d"/>
+	<Class _id="idd" name="DataGraph" baseTypes="id4" childRoles="id15" isAbstract="false" stereotype="Model" parentRoles="id1f id21">
+		<Constraint name="Unique_Log_Format_Name_Constraint" expression="let f = self.parts(\&quot;LogFormat\&quot;)  in\nlet all = f in \nall->forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)" description="Log Format name should be unique"/>
 	</Class>
 	<Class _id="id23" name="RootFolder" childRoles="id27" isAbstract="false" stereotype="Folder" parentRoles="id24 id26 id28">
 		<Attribute max="1" min="0" name="name" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
 	</Class>
-	<Class _id="id4" name="MgaObject" subTypes="id3 id5 id6 id9 ida idc idd id8" isAbstract="true">
+	<Class _id="id4" name="MgaObject" subTypes="id3 id5 id8 id9 id7 idb idc idd" isAbstract="true">
 		<Attribute max="1" min="0" name="name" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
 		<Attribute max="1" min="0" name="position" type="String" ordered="false" registry="false" visibility="public" nonpersistent="false"/>
 	</Class>
 	<Composition nonpersistent="false">
-		<CompositionChildRole _id="ide" max="-1" min="0" target="id9" isNavigable="true"/>
+		<CompositionChildRole _id="ide" max="-1" min="0" target="ida" isNavigable="true"/>
 		<CompositionParentRole _id="idf" target="id3" isNavigable="true"/>
 	</Composition>
 	<Composition nonpersistent="false">
-		<CompositionChildRole _id="id10" max="1" min="0" target="idd" isNavigable="true"/>
+		<CompositionChildRole _id="id10" max="-1" min="0" target="id6" isNavigable="true"/>
 		<CompositionParentRole _id="id11" target="id3" isNavigable="true"/>
 	</Composition>
 	<Composition nonpersistent="false">
-		<CompositionChildRole _id="id12" max="-1" min="0" target="id7" isNavigable="true"/>
-		<CompositionParentRole _id="id13" target="id5" isNavigable="true"/>
+		<CompositionChildRole _id="id12" max="-1" min="0" target="idb" isNavigable="true"/>
+		<CompositionParentRole _id="id14" target="id13" isNavigable="true"/>
 	</Composition>
 	<Composition nonpersistent="false">
-		<CompositionChildRole _id="id14" max="-1" min="0" target="idb" isNavigable="true"/>
-		<CompositionParentRole _id="id15" target="id5" isNavigable="true"/>
+		<CompositionChildRole _id="id15" max="-1" min="0" target="idd" isNavigable="true"/>
+		<CompositionParentRole _id="id17" target="id16" isNavigable="true"/>
 	</Composition>
 	<Composition nonpersistent="false">
-		<CompositionChildRole _id="id16" max="-1" min="0" target="id3" isNavigable="true"/>
-		<CompositionParentRole _id="id18" target="id17" isNavigable="true"/>
+		<CompositionChildRole _id="id18" max="-1" min="0" target="id8" isNavigable="true"/>
+		<CompositionParentRole _id="id19" target="id9" isNavigable="true"/>
 	</Composition>
 	<Composition nonpersistent="false">
-		<CompositionChildRole _id="id19" max="-1" min="0" target="ida" isNavigable="true"/>
-		<CompositionParentRole _id="id1b" target="id1a" isNavigable="true"/>
+		<CompositionChildRole _id="id1a" max="1" min="0" target="id9" isNavigable="true"/>
+		<CompositionParentRole _id="id1b" target="idb" isNavigable="true"/>
 	</Composition>
 	<Composition nonpersistent="false">
-		<CompositionChildRole _id="id1c" max="-1" min="0" target="id6" isNavigable="true"/>
-		<CompositionParentRole _id="id1d" target="ida" isNavigable="true"/>
+		<CompositionChildRole _id="id1c" max="-1" min="0" target="idc" isNavigable="true"/>
+		<CompositionParentRole _id="id1d" target="idb" isNavigable="true"/>
 	</Composition>
 	<Composition nonpersistent="false">
 		<CompositionChildRole _id="id1e" max="-1" min="0" target="id5" isNavigable="true"/>
-		<CompositionParentRole _id="id1f" target="ida" isNavigable="true"/>
+		<CompositionParentRole _id="id1f" target="idd" isNavigable="true"/>
 	</Composition>
 	<Composition nonpersistent="false">
-		<CompositionChildRole _id="id20" max="-1" min="0" target="idc" isNavigable="true"/>
+		<CompositionChildRole _id="id20" max="-1" min="0" target="id3" isNavigable="true"/>
 		<CompositionParentRole _id="id21" target="idd" isNavigable="true"/>
 	</Composition>
 	<Composition nonpersistent="false">
-		<CompositionChildRole _id="id22" max="-1" min="0" target="id17" isNavigable="true"/>
+		<CompositionChildRole _id="id22" max="-1" min="0" target="id13" isNavigable="true"/>
 		<CompositionParentRole _id="id24" target="id23" isNavigable="true"/>
 	</Composition>
 	<Composition nonpersistent="false">
-		<CompositionChildRole _id="id25" max="-1" min="0" target="id1a" isNavigable="true"/>
+		<CompositionChildRole _id="id25" max="-1" min="0" target="id16" isNavigable="true"/>
 		<CompositionParentRole _id="id26" target="id23" isNavigable="true"/>
 	</Composition>
 	<Composition nonpersistent="false">

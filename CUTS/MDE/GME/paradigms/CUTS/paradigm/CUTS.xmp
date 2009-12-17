@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE paradigm SYSTEM "edf.dtd">
 
-<paradigm name="CUTS" guid="{B24AE98A-C547-44BD-9C24-914C7B653317}" cdate="Sun Jun 07 14:21:33 2009" mdate="Sun Jun 07 14:21:33 2009" >
+<paradigm name="CUTS" guid="{B94E1183-C9B9-46D0-99B4-6AA8D1454043}" cdate="Tue Dec 01 14:26:37 2009" mdate="Tue Dec 01 14:26:37 2009" >
 
 	<comment></comment>
 
@@ -39,10 +39,12 @@
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="Key.bmp"></regnode>
 				<regnode name = "isTypeShown" value ="true"></regnode>
+				<regnode name = "isTypeShown" value ="true"></regnode>
 		</atom>
 		<atom name = "Variable" metaref = "1159"  attributes = "Type">
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="Variable.bmp"></regnode>
+				<regnode name = "isTypeShown" value ="true"></regnode>
 				<regnode name = "isTypeShown" value ="true"></regnode>
 		</atom>
 		<connection name = "Causality" metaref = "1143" >
@@ -52,6 +54,10 @@
 				<regnode name = "dstStyle" value ="apex"></regnode>
 				<regnode name = "srcStyle" value ="butt"></regnode>
 				<regnode name = "lineType" value ="solid"></regnode>
+			<constraint name="ConnectionConstraint" eventmask = "0x80000008" depth = "1" priority = "2">
+				<![CDATA[self.connectionPoint("src").target().attribute("Type")=self.connectionPoint("dst").target().attribute("Type")]]>
+				<dispname>Keys with similar types can only be connected.</dispname>
+			</constraint>
 			<connjoint>
 				<pointerspec name = "src">
 					<pointeritem desc = "LogFormat Key"></pointeritem>
@@ -73,6 +79,12 @@
 		</reference>
 		<model name = "DataGraph" metaref = "1198" >
 				<regnode name = "namePosition" value ="4"></regnode>
+			<constraint name="Unique_Log_Format_Name_Constraint" eventmask = "0x80000010" depth = "1" priority = "2">
+				<![CDATA[let f = self.parts("LogFormat")  in
+let all = f in 
+all->forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)]]>
+				<dispname>Log Format name should be unique</dispname>
+			</constraint>
 			<role name = "Causality" metaref = "1199" kind = "Causality"></role>
 			<role name = "LogFormat" metaref = "1200" kind = "LogFormat"></role>
 			<aspect name = "DataGraph_Aspect" metaref = "1208" >
@@ -84,16 +96,22 @@
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="Group.bmp"></regnode>
 			<role name = "GroupItem" metaref = "1179" kind = "GroupItem"></role>
-			<aspect name = "Aspect" metaref = "1217" >
+			<aspect name = "Aspect" metaref = "1223" >
 				<part metaref = "1181" role = "GroupItem" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
 		<model name = "LogFormat" metaref = "1144" attributes = "Value" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="LogFormat.bmp"></regnode>
+			<constraint name="Unique_Log_Element_Name_Constraint" eventmask = "0x80000010" depth = "1" priority = "2">
+				<![CDATA[let f = self.parts("Key") + self.parts("Variable") in
+let all = f in 
+all->forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)]]>
+				<dispname>Key and variable names should be unique</dispname>
+			</constraint>
 			<role name = "Key" metaref = "1167" kind = "Key"></role>
 			<role name = "Variable" metaref = "1168" kind = "Variable"></role>
-			<aspect name = "Aspect" metaref = "1218" attributes = "Value" >
+			<aspect name = "Aspect" metaref = "1224" attributes = "Value" >
 				<part metaref = "1170" role = "Key" primary = "yes" linked = "yes"></part>
 				<part metaref = "1171" role = "Variable" primary = "yes" linked = "no"></part>
 			</aspect>
@@ -101,11 +119,23 @@
 		<model name = "Service" metaref = "1194" attributes = "Location ClassName Params" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="Service.bmp"></regnode>
-			<aspect name = "Aspect" metaref = "1219" attributes = "Location ClassName Params" >
+			<aspect name = "Aspect" metaref = "1225" attributes = "Location ClassName Params" >
 			</aspect>
 		</model>
 		<model name = "UnitTest" metaref = "1147" attributes = "Description Evaluation Aggregation" >
 				<regnode name = "namePosition" value ="4"></regnode>
+			<constraint name="Unique_Group_Name_Constraint" eventmask = "0x80000010" depth = "1" priority = "2">
+				<![CDATA[let f = self.parts("Group") in
+let all = f in 
+all->forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)]]>
+				<dispname>Group name should be unique</dispname>
+			</constraint>
+			<constraint name="Unique_Service_Name_Constraint" eventmask = "0x80000010" depth = "1" priority = "2">
+				<![CDATA[let f = self.parts("Service") in
+let all = f in 
+all->forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)]]>
+				<dispname>Service name should be unique</dispname>
+			</constraint>
 			<constraint name="ValidUnitTestPartCardinality3" eventmask = "0x0" depth = "1" priority = "1">
 				<![CDATA[let partCount = self.parts( "Group" ) -> size in
                      (partCount <= 1)]]>
