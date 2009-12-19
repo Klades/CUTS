@@ -1,11 +1,17 @@
+Sat Dec 19 00:04:18 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * COPYING:
+
+          . Copying and license agreement for CUTS.
+
 Thu Dec 17 15:29:43 UTC 2009  Pooja Varshneya  <varshnp@dre.vanderbilt.edu>
 
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xme:
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xml:
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xmp:
         * MDE/GME/paradigms/CUTS/paradigm/CUTS_uml.xme:
-      
-				  . Added constraints
+
+          . Added constraints
 
 Tue Dec 15 20:27:04 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
