@@ -1,0 +1,3089 @@
+Thu Dec 31 06:34:20 UTC 2009  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * NEWS:
+        * VERSION:
+
+          Update version information and news for upcoming release.
+
+Wed Dec 30 22:58:12 UTC 2009  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * AUTHORS:
+
+          . File containing author information.
+
+Sat Dec 19 00:04:18 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * COPYING:
+
+          . Copying and license agreement for CUTS.
+
+Thu Dec 17 15:29:43 UTC 2009  Pooja Varshneya  <varshnp@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS.xme:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS.xml:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS.xmp:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS_uml.xme:
+
+          . Added constraints
+
+Tue Dec 15 20:27:04 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Graph_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Node.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.cpp:
+
+          Bug fix where the servant project was not linking against
+          the correct executor project.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/XML_Mapping_File_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/XSD_File_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/IDL_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/IDL_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Input_Stream_Event_Member_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Input_Stream_Event_Member_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Variable_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Variable_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Variable_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Variable_Type.cpp:
+
+          . Updated generators to support FloatNumber and DoubleNumer,
+            and removed support for RealNumber.
+
+        * MDE/GME/paradigms/PICML/models/workers/CUTS_CPU_Worker.xme:
+
+          . Updated to latest version of PICML.
+
+Tue Dec 15 13:57:44 UTC 2009  Pooja Varshneya  <varshnp@dre.vanderbilt.edu>
+
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.cpp:
+
+          . Fixed the formula for points calculation in evaluate_state()
+            method.
+
+Mon Dec 14 22:59:58 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/node/Virtual_Env.h:
+        * cuts/utils/node/Virtual_Env.cpp:
+
+          . Updated the implementation to use ACE_File_Connector instead of
+            ACE_OS::open () when handling files for redirecting output.
+
+        * examples/cuts/utils/node/DAnCE/dance.cutsnode.config:
+
+          . Updated example to redirect output for one of the processes.
+
+Mon Dec 14 20:19:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.h:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.inl:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.cpp:
+
+          . Bug fix where TE Score was not calculating the max points
+            correctly for a given set of states.
+
+Mon Dec 14 04:49:50 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_nodedaemon_core.mpb:
+        * cuts/utils/node/Node_Daemon_Core_export.h:
+        * cuts/utils/node/Process_Options.h:
+        * cuts/utils/node/Process_Options_List.h:
+        * cuts/utils/node/Virtual_Env.h:
+        * cuts/utils/node/Virtual_Env_Manager.h:
+        * cuts/utils/node/cutsnode_d.mpc:
+        * cuts/utils/node/server/server.mpc:
+        * MPC/config/cuts_nodedaemon_common.mpb:
+
+          . Renamed the CUTS_Node_Daemon_Common project to the
+            CUTS_Node_Daemon_Core project, and updated all affected
+            projects.
+
+        * cuts/utils/node/Node_Daemon_Common_export.h:
+
+          Removed these files.
+
+Sun Dec 13 14:05:34 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/Text_Processor.cpp:
+
+          . Bug fix where the process was not reset between usages.
+
+        * cuts/utils/node/Node_Daemon.cpp:
+        * cuts/utils/node/Virtual_Env.cpp:
+
+          . Added support for redirecting stdout of a spawned process.
+
+Sun Dec 13 13:19:39 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_lib.mpb:
+
+          . Added a new base project.
+
+        * cuts/Event_Handler_T.h:
+
+          . Fixed build error.
+
+        * etc/emulab/generate-dance-nodemap.sh:
+
+          . Updated the to the latest version of DAnCE.
+
+Fri Dec 11 17:00:57 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/cuts/utils/testing/logging/run.config:
+
+          . Rename of the file below.
+
+        * examples/cuts/utils/testing/logging/cutsnode.config:
+
+          Removed this file.
+
+Fri Dec 11 16:52:26 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/cuts/utils/node/DAnCE/dance.cutsnode.config:
+
+          . Update the no-namingservice environment.
+
+Fri Dec 11 16:47:56 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/node/client/NodeDaemon_Client_App.inl:
+        * cuts/utils/node/client/NodeDaemon_Client_App.cpp:
+
+          . Bug fix where the --get-active-env command-line options was
+            always enabled.
+
+          . Fixed errors in the displayed help.
+
+        * examples/cuts/utils/node/DAnCE/dance.cutsnode.config:
+
+          . Added another environment for showing how to specify
+            multiple environments that can be swapped.
+
+Mon Nov 30 05:35:27 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:
+
+          . Bug fix where the final grade was displayed decimal and not
+            a percentage.
+
+        * cuts/utils/testing/svcs/validation/TE_Score_App_Options.h:
+
+          . Added a precision option to the application options, but
+            have not tied it into the command-line parameters.
+
+        * examples/cuts/utils/validation/README:
+        * examples/cuts/utils/validation/example.data:
+        * examples/cuts/utils/validation/example.datagraph:
+        * examples/cuts/utils/validation/example.validation:
+
+          . Example illustrating how to use TE Score.
+
+Sun Nov 29 16:26:05 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/cuts/utils/validation:
+        * examples/cuts/utils/validation/example.validation:
+
+          . Example XML document that contains the input for TE Score.
+
+Sun Nov 29 05:58:03 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * integration/autobuild.build:
+        * integration/include/MPC/devenv.build:
+        * integration/include/MPC/vc8.build:
+
+          . Bug fix in the vc8/devenv scripts related to generalizing the
+            solution to work on all project types supported in MPC.
+
+Sun Nov 29 05:09:25 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * integration/autobuild.build:
+        * integration/include/MPC/devenv.build:
+        * integration/include/MPC/gnuace.build:
+        * integration/include/MPC/make.build:
+        * integration/include/mpc.build:
+
+          . Improved the generalization of the ANT scripts to support
+            'gnuace' project types.
+
+Sun Nov 29 02:35:24 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * integration/autobuild.build:
+        * integration/include/MPC/devenv.build:
+        * integration/include/MPC/vc8.build:
+        * integration/include/MPC/vc9.build:
+        * integration/include/mpc.build:
+
+          . Updated the build scripts to the latest version of CUTS.
+
+          . Generalized the MPC build scripts for the different MPC
+            project types.
+
+Sun Nov 29 00:10:44 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_te_score_core.mpb:
+        * cuts/utils/testing/svcs/validation/TE_Score.mpc:
+        * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:
+        * cuts/utils/testing/svcs/validation/TE_Score_Core_export.h:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.h:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.cpp:
+        * cuts/utils/testing/svcs/validation/TE_Score_State.h:
+        * cuts/utils/testing/svcs/validation/TE_Score_State.inl:
+        * cuts/utils/testing/svcs/validation/TE_Score_State.cpp:
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.cpp:
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.mpc:
+        * cuts/utils/unite/Dataset_Result.h:
+        * cuts/utils/unite/Dataset_Result.cpp:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/Validation_Test_File.h:
+        * cuts/utils/unite/Validation_Test_File.inl:
+        * cuts/utils/unite/Validation_Test_File.cpp:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * cuts/utils/unite/unite.mpc:
+        * etc/schemas/cuts-unite.xsd:
+
+          . Updated TE Score so that states can have a minoccurs and
+            a maxoccurs in its specification.
+
+        * cuts/utils/unite/Correctness_Test_File.h:
+        * cuts/utils/unite/Correctness_Test_File.inl:
+        * cuts/utils/unite/Correctness_Test_File.cpp:
+        * cuts/utils/unite/Where_Clause_Builder.h:
+        * cuts/utils/unite/Where_Clause_Builder.inl:
+        * cuts/utils/unite/Where_Clause_Builder.cpp:
+
+          Removed these files.
+
+Fri Nov 27 20:38:06 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * docs/manual/title.tex:
+
+          . Missing source file.
+
+Fri Nov 27 20:35:34 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * docs/manual/manual.pdf:
+        * docs/manual/manual.tex:
+
+          . Updated the title page of the manual.
+
+Tue Nov 24 05:42:59 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * docs/manual/manual.pdf:
+        * docs/manual/manual.tex:
+        * docs/manual/runtime/logging.tex:
+
+          . Updated information on the logging client in the manual.
+
+Tue Nov 24 00:56:44 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * docs/manual/manual.pdf:
+        * docs/manual/runtime/logging.tex:
+
+          . Fixed several typos and grammatical errors.
+
+Mon Nov 23 22:43:51 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * docs/manual/images/gettingstarted-client-behavior.pdf:
+        * docs/manual/images/logging-overview.pdf:
+        * docs/manual/images/logging-overview.vsd:
+        * docs/manual/manual.pdf:
+        * docs/manual/manual.tex:
+        * docs/manual/part1.tex:
+        * docs/manual/preface.tex:
+        * docs/manual/runtime/logging.tex:
+
+          . Improved the layout of the user manual.
+
+          . Increased the font size to 12pt.
+
+          . Added a preface section to the manual, which was the
+            old abstract.
+
+          . Checkpointing the documentation on the CUTS Logging Facilities.
+
+        * docs/manual/abstract.tex:
+
+          Removed this file.
+
+Mon Nov 23 04:12:00 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * docs/manual/abstract.tex:
+        * docs/manual/manual.pdf:
+        * docs/manual/manual.tex:
+
+          . Temporarily removed the abstract from the book.
+
+Thu Nov 19 12:31:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/java/utils/logging/client/interceptors/log4j/cuts.log4j.build.xml:
+        * cuts/java/utils/logging/client/interceptors/log4j/cuts/log4j/LoggingClientAppender.java:
+
+          . Updates the log4j appender to the latest version of CUTS.
+
+Wed Nov 18 03:20:00 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * docs/manual/appendix/thirdparty.tex:
+        * docs/manual/manual.pdf:
+
+          . Fixed obsolete text in the section of the user's manual about
+            building ACE, TAO, CIAO, and DAnCE.
+
+Wed Nov 18 03:08:05 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * docs/manual/install.tex:
+        * docs/manual/manual.pdf:
+        * docs/manual/manual.tex:
+        * docs/manual/runtime:
+        * docs/manual/runtime/logging.tex:
+        * docs/manual/runtime/runtime.tex:
+        * docs/manual/runtime/testing.tex:
+
+          . Update the user's manual. Some sections have been commited out since
+            the need to be overhauled.
+
+Fri Nov 13 21:17:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Dataset_Result.cpp:
+
+          . Bug fix where the algorithm failed to run if there was not
+            a viewpoint and there was not any groupings.
+
+Fri Nov 13 20:53:14 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Aspect.h:
+        * cuts/utils/unite/Dataset_Result.cpp:
+        * cuts/utils/unite/Unite_App.cpp:
+
+          . Bug fix where now aspects partially work with groups. Aspects
+            can be used with groups if there is no viewpoint.
+
+Fri Nov 13 04:55:15 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Aspect.h:
+        * cuts/utils/unite/Dataflow_Graph.h:
+        * cuts/utils/unite/Dataset_Repo.h:
+        * cuts/utils/unite/Dataset_Result.h:
+        * cuts/utils/unite/Doxygen:
+        * cuts/utils/unite/Log_Format.h:
+        * cuts/utils/unite/Log_Format_Compiler.h:
+        * cuts/utils/unite/Log_Format_Data_Entry.h:
+        * cuts/utils/unite/Presentation_Service.h:
+        * cuts/utils/unite/Presentation_Service_Manager.h:
+        * cuts/utils/unite/Relation.h:
+        * cuts/utils/unite/Unite_Test.h:
+        * cuts/utils/unite/Variable.h:
+
+          . Changed the name of the Doxygen model from UNITE_Common
+            to UNITE_Core.
+
+Fri Nov 13 04:34:09 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Dataset_Result.h:
+        * cuts/utils/unite/Dataset_Result.cpp:
+        * cuts/utils/unite/Unite_App.h:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/Unite_Aspect_File.inl:
+        * cuts/utils/unite/Unite_Test.h:
+        * cuts/utils/unite/Unite_Test.inl:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * etc/schemas/cuts-unite.xsd:
+
+          . Bug fix where applying an aspect to a result set returned
+            the incorrect set of data if groups were present. Support
+            for aspects in the context of groups has temporarily been
+            disabled.
+
+Wed Nov 11 03:51:37 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/testing/svcs/logging/Log_Message_Table.h:
+        * cuts/utils/testing/svcs/logging/Trace_Importer_App.cpp:
+        * cuts/utils/testing/svcs/logging/Trace_Importer_Parser.cpp:
+
+          . Refactored the system execution trace importer to use the
+            CUTS_Log_Message_Table class to ensure the database is properly
+            initialized.
+
+Fri Nov  6 02:32:49 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/T2M/executor/Executor_App.cpp:
+        * MDE/GME/T2M/parsers/PICML_Assembly/PICML_Assembly_Parser.cpp:
+        * MDE/GME/T2M/parsers/PICML_Deployment/PICML_Deployment_Parser.cpp:
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Scatter_Deployment_Parser.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_GME_UNITE.mpc:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_GME_UNITE.reg:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_GME_UNITEd.reg:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/RawComponent.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UdmApp.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UniteVisitor.h:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS_DSML.mpc:
+        * MDE/GME/plugins/cute/Property_Locator.cpp:
+
+          . Fixed build errors related to recent CoSMIC updates to
+            the interfaces in GAME.
+
+        * cuts/utils/testing/svcs/logging/Log_Message_Table.h:
+        * cuts/utils/testing/svcs/logging/Log_Message_Table.inl:
+        * cuts/utils/testing/svcs/logging/Log_Message_Table.cpp:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.mpc:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener_export.h:
+        * cuts/utils/testing/svcs/logging/Testing_LoggingServerListener_i.cpp:
+        * cuts/utils/testing/svcs/logging/Trace_Importer.mpc:
+
+          . Refactored the code for inserting log messages into the database
+            into stand-alone classes. This should help with reusing the code
+            in other projects.
+
+        * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.h:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.inl:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.cpp:
+
+          . Removed the evaluate_false_negative () method.
+
+          . Re-designed the evaluate so that is operates directly on the repo
+            instead of using the CUTS_Dataset_Result object.
+
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * etc/schemas/cuts-unite.xsd:
+
+          . Changed the aspect condition to a string.
+
+          . Added 'minoccurs' and 'maxoccurs' attribute to the validation
+            complex type.
+
+        * cuts/utils/unite/Dataset_Repo.h:
+        * cuts/utils/unite/Dataset_Repo.inl:
+        * cuts/utils/unite/Dataset_Repo.cpp:
+
+          . Added a create_query () method to the class for create a
+            SQL query on the target database.
+
+        * cuts/utils/unite/Dataset_Result.cpp:
+
+          . Fixed error in SQL statement construction.
+
+        * cuts/utils/unite/Unite_App.cpp:
+
+          . Temporarily disabled the aspects.
+
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_UNITE.reg:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_UNITEd.reg:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE.mpc:
+
+          Removed these files.
+
+Fri Oct 23 14:02:40 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * cuts/utils/testing/svcs/logging/Testing_LoggingServerListener_i.cpp:
+
+          . Missing an include file.
+
+        * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:
+
+          . Fixed build error.
+
+Thu Oct 15 01:56:55 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * contrib:
+
+          Changed the external settings.
+
+Thu Oct 15 01:54:35 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Correctness_Test_File.h:
+        * cuts/utils/unite/Correctness_Test_File.inl:
+        * cuts/utils/unite/Correctness_Test_File.cpp:
+
+          . Missing source files.
+
+Fri Oct  9 23:59:25 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/testing/svcs/validation/TE_Score.mpc:
+        * cuts/utils/testing/svcs/validation/TE_Score_App.h:
+        * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:
+        * cuts/utils/testing/svcs/validation/TE_Score_App_Options.h:
+
+          . Improved the options for the application.
+
+        * cuts/utils/unite/Dataset_Result.cpp:
+        * cuts/utils/unite/Unite_App.cpp:
+
+          . Bug fix where the aspects were being applied when it
+            should not be.
+
+Fri Oct  9 21:56:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_unite.mpb:
+
+          . Added boost_base as a base project.
+
+        * cuts/utils/testing/svcs/validation/TE_Score.mpc:
+        * cuts/utils/testing/svcs/validation/TE_Score.cpp:
+        * cuts/utils/testing/svcs/validation/TE_Score_App.h:
+        * cuts/utils/testing/svcs/validation/TE_Score_App.inl:
+        * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.h:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.inl:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.cpp:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * cuts/utils/unite/unite.mpc:
+        * etc/schemas/cuts-unite.xsd:
+
+          . First implementation of TE Score.
+
+        * default.features.tmpl:
+
+          . Updated the feature template file.
+
+Wed Oct  7 00:18:52 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * .:
+
+          . Added default.features to this directory's ignore list.
+
+Wed Oct  7 00:14:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/testing/svcs/logging/Testing_LoggingServerListener_i.cpp:
+        * cuts/utils/testing/svcs/logging/Trace_Importer.cpp:
+        * cuts/utils/testing/svcs/logging/Trace_Importer.mpc:
+        * cuts/utils/testing/svcs/logging/Trace_Importer_App.h:
+        * cuts/utils/testing/svcs/logging/Trace_Importer_App.inl:
+        * cuts/utils/testing/svcs/logging/Trace_Importer_App.cpp:
+        * cuts/utils/testing/svcs/logging/Trace_Importer_Parser.h:
+        * cuts/utils/testing/svcs/logging/Trace_Importer_Parser.inl:
+        * cuts/utils/testing/svcs/logging/Trace_Importer_Parser.cpp:
+
+          . First version of a simple utility that imports individual
+            execution traces into a CUTS test database.
+
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.h:
+
+          . Fixed the Id keyword.
+
+        * default.features.tmpl:
+
+          . Template default features file. This should be copied over
+            to default.features so you do not have to specify all the
+            features at the command-line.
+
+        * default.features:
+
+          Removed these files.
+
+Sun Oct  4 17:29:05 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/models/workers/logging.xme:
+
+          . Fixed errors in the model specification.
+
+Sun Oct  4 17:19:15 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Preprocessor_Handlers.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Project_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Behavior_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Behavior_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Behavior_Generator.cpp:
+
+          . Fixed errros in the code generator.
+
+        * cuts/java/arch/capi/cuts.java.jbi.build:
+        * cuts/java/utils/logging/client/logger/CUTS/client/logging/Logger.java:
+        * cuts/java/utils/testing/CUTS/client/TestManagerClient.java:
+        * cuts/java/utils/testing/testing.build:
+
+          . Fixed compilation errors.
+
+Fri Oct  2 16:02:30 UTC 2009  Pooja Varshneya  <varshnp@dre.vanderbilt.edu>
+
+        * cuts/java/utils/logging/client/logger/CUTS/client/logging/Logger.java:
+
+          . Updated package name to match with folder structure
+
+        * cuts/java/utils/testing/testing.build:
+
+          . Updated build file to include client folder in jar
+
+Wed Sep 30 04:29:29 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Aspect.h:
+        * cuts/utils/unite/Dataset_Result.cpp:
+        * cuts/utils/unite/Unite_App.cpp:
+
+          . Build build errors.
+
+Wed Sep 30 04:19:20 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Generators_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Generators.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Manager.h:
+
+          . The CAPI code generator was not generating effects correctly.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Behavior_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Behavior_Generator.inl:
+
+          . The CUTS_BE_Action_Properties_Begin_T was missing its
+            implementation.
+
+Wed Sep 30 02:35:03 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Aspect.h:
+        * cuts/utils/unite/Dataset_Result.h:
+        * cuts/utils/unite/Dataset_Result.cpp:
+        * cuts/utils/unite/unite.mpc:
+
+          . Re-implemented how aspects are defined and used in UNITE.
+
+        * cuts/utils/node/cutsnode.inl:
+
+          . Updated the XSC generated code.
+
+        * cuts/utils/unite/Dataflow_Graph.h:
+        * cuts/utils/unite/Dataset_Repo.h:
+        * cuts/utils/node/cutsnode_d.mpc:
+        * cuts/utils/unite/Doxygen:
+        * cuts/utils/unite/Log_Format.h:
+        * cuts/utils/unite/Log_Format_Compiler.h:
+        * cuts/utils/unite/Log_Format_Data_Entry.h:
+        * cuts/utils/unite/Presentation_Service.h:
+        * cuts/utils/unite/Presentation_Service_Manager.h:
+        * cuts/utils/unite/Relation.h:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/Unite_Test.h:
+        * cuts/utils/unite/Variable.h:
+
+          . Update the Doxygen group information.
+
+Fri Sep 25 20:40:01 UTC 2009  Pooja Varshneya  <varshneya_p@>
+
+        * examples/cuts/utils/testing/logging/logging-example.config:
+
+          . Removed extra characters causing file-parsing errors.
+
+Fri Sep 25 14:45:16 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Dataflow_Graph_Builder.h:
+        * cuts/utils/unite/Doxygen:
+        * cuts/utils/unite/Unite_Aspect_File.h:
+        * cuts/utils/unite/Unite_Config_File.h:
+        * cuts/utils/unite/Unite_Datagraph_File.h:
+        * cuts/utils/unite/Unite_Test_Builder.h:
+        * cuts/utils/unite/Unite_Validation_File.h:
+        * cuts/utils/unite/Where_Clause_Builder.h:
+        * cuts/utils/unite/unite.mpc:
+        * docs/cuts.doxygen:
+
+          . Added group information to UNITE.
+
+Fri Sep 25 12:21:16 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant.h:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant.inl:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant_T.h:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant_T.inl:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant_T.cpp:
+
+          . Bug fix where the templates did not initialize OpenSplice
+            and RTI-DDS properly.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/modelgen.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/modelgen.cpp:
+        * cuts/utils/node/cutsnode.h:
+        * cuts/utils/node/cutsnode.inl:
+        * cuts/utils/node/cutsnode.cpp:
+        * cuts/utils/testing/test.h:
+        * cuts/utils/testing/test.cpp:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+
+          . Updated the XML to the latest version generated from XSC.
+
+        * etc/schemas/cuts-unite.xsd:
+
+          . Added viewpoints to the aspect complex type.
+
+        * cuts/utils/unite/Doxygen:
+
+          . General documentation for UNITE that is included in the
+            documentation generated by Doxygen.
+
+        * docs/bmw.doxygen:
+        * docs/cuts.doxygen:
+
+          . Updated the configurations to the latest version of Doxygen.
+
+        * examples/arch/chaos/SimpleExample/descriptors/SimpleExample.cdp:
+        * examples/cuts/utils/unite/example.aspect:
+
+          . Updated the examples.
+
+Thu Sep 24 21:14:01 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * bin/cuts.config:
+
+          . Removed XML backend for the document.
+
+Wed Sep 23 03:01:47 UTC 2009  Pooja Varshneya  <varshneya_p@>
+
+        * cuts/utils/unite/Unite_Validation_File.h:
+        * cuts/utils/unite/Unite_Validation_File.inl:
+        * cuts/utils/unite/Unite_Validation_File.cpp:
+
+          . Added files for validation config file parsing.
+
+Tue Sep 22 21:30:55 UTC 2009  Pooja Varshneya  <varshneya_p@local>
+
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.cpp:
+
+          . Modified to parse Validation file.
+
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * cuts/utils/unite/unite.mpc:
+        * etc/schemas/cuts-unite.xsd:
+
+          . Added Validation type element in unite.
+
+Tue Sep 22 20:53:12 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.cpp:
+
+          . Simplified some of the code.
+
+Tue Sep 22 20:27:53 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Context_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Generators.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Project_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Servant_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/codegen.mpc:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/opensplice:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/opensplice/Event_Traits_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/opensplice/Event_Traits_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/opensplice/Stub_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/opensplice/Stub_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/rtidds:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/rtidds/Event_Traits_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/rtidds/Event_Traits_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/rtidds/Stub_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/rtidds/Stub_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.xme:
+        * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.xml:
+        * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.xmp:
+        * MDE/GME/paradigms/CHAOS/paradigms/CHAOS_uml.xme:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Event_Traits_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Event_Traits_Generator.cpp:
+        * MPC/config/cuts_chaos.mpb:
+        * MPC/config/cuts_chaos_ccm.mpb:
+        * MPC/config/cuts_chaos_ccm_skel.mpb:
+        * MPC/config/cuts_chaos_ccm_stub.mpb:
+        * cuts/arch/chaos/ccm/CHAOS_CCM.mpc:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_EventConsumer.h:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Servant.h:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Single_Subscriber.h:
+        * cuts/arch/chaos/ccm/CHAOS_CCM_Subscriber_Table.h:
+        * examples/arch/chaos/SimpleExample/ModelDDSData.idl:
+        * examples/arch/chaos/SimpleExample/ModelDDSData.mpc:
+        * examples/arch/chaos/SimpleExample/ModelDDSData_DDS.idl:
+        * examples/arch/chaos/SimpleExample/RTIDDS_ModelDDSDataC.h:
+        * examples/arch/chaos/SimpleExample/RTIDDS_ModelDDSDataC.cpp:
+        * examples/arch/chaos/SimpleExample/RTIDDS_SimpleComponentC.h:
+        * examples/arch/chaos/SimpleExample/RTIDDS_SimpleComponentC.cpp:
+        * examples/arch/chaos/SimpleExample/SimpleComponent.idl:
+        * examples/arch/chaos/SimpleExample/SimpleComponent.mpc:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_svnt.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_svnt.cpp:
+        * examples/arch/chaos/SimpleExample/descriptors/SimpleExample.cdp:
+        * examples/arch/chaos/SimpleExample/models/SimpleExample.xme:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Event_Traits_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Event_Traits_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Stub_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Stub_Generator.cpp:
+
+          . Integrated RTI-DDS into CHAOS.
+
+        * examples/arch/chaos/SimpleExample/ModelDDSData_Base.mpc:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Base.mpc:
+
+          Removed these files.
+
+Tue Sep 22 20:23:52 UTC 2009  Pooja Varshneya  <varshneya_p@local>
+
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.mpc:
+
+          . Removed cuts_unite reference and added boost_base.
+
+Tue Sep 22 13:05:25 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Context_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Event_Traits_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Event_Traits_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/IDL_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Project_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Servant_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Stub_Generator.cpp:
+
+          . Preparing CHAOS for RTI-DDS integration.
+
+        * examples/arch/chaos/SimpleExample/ModelDDSData.mpc:
+        * examples/arch/chaos/SimpleExample/ModelDDSData_DDS.idl:
+        * examples/arch/chaos/SimpleExample/OpenSplice_ModelDDSDataC.h:
+        * examples/arch/chaos/SimpleExample/OpenSplice_ModelDDSDataC.cpp:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_svnt.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_svnt.cpp:
+
+          . Changed outer module name to CUTS_OSPL.
+
+Tue Sep 22 12:04:39 UTC 2009  Pooja Varshneya  <varshnp@dre.vanderbilt.edu>
+
+        * examples/cuts/utils/testing/logging/logging-example.config:
+
+          . Updated the example by adding validation service.
+
+Tue Sep 22 11:52:33 UTC 2009  Pooja Varshneya  <varshnp@dre.vanderbilt.edu>
+
+        * cuts/utils/testing/svcs/validation:
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.h:
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.cpp:
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.mpc:
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service_export.h:
+
+          . Added validation service for cuts test validation.
+
+        * cuts/utils/unite/Dataset_Result.h:
+        * cuts/utils/unite/Dataset_Result.cpp:
+
+          . Added validate function for running validation query.
+
+Tue Sep 22 04:51:05 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Event_Traits_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/IDL_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Stub_Generator.cpp:
+        * examples/arch/opensplice/SimpleExample/ModelDDSData.mpc:
+        * examples/arch/opensplice/SimpleExample/ModelDDSData_OPSL.idl:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_ModelDDSDataC.h:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_ModelDDSDataC.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_svnt.h:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_svnt.cpp:
+
+          . Modified the opening module name for the OpenSplice entities so
+            they do not conflict with OpenSplice entities.
+
+
+        * examples/arch/opensplice/SimpleExample/ModelDDSData_DDS.idl:
+
+          Removed this file.
+
+Tue Sep 22 04:32:01 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Event_Traits_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Event_Traits_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/IDL_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Stub_Generator.cpp:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData.mpc:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_NDDS.idl:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_ModelDDSDataC.h:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_ModelDDSDataC.cpp:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+
+          . Modified the opening module name for the RTI-DDS entities so
+            they do not conflict with OpenSplice entities.
+
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_DDS.idl:
+
+          Removed this file.
+
+Sun Sep 20 18:30:40 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Dataset_Repo.h:
+        * cuts/utils/unite/Dataset_Result.h:
+        * cuts/utils/unite/Dataset_Result.inl:
+        * cuts/utils/unite/Dataset_Result.cpp:
+        * cuts/utils/unite/Presentation_Service.h:
+        * cuts/utils/unite/Presentation_Service.inl:
+        * cuts/utils/unite/Presentation_Service_Manager.h:
+        * cuts/utils/unite/Presentation_Service_Manager.cpp:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/presentation/console/Console_Presentation_Service.h:
+        * cuts/utils/unite/presentation/console/Console_Presentation_Service.cpp:
+        * cuts/utils/unite/presentation/gnuplot/Gnuplot_Presentation_Service.h:
+        * cuts/utils/unite/presentation/gnuplot/Gnuplot_Presentation_Service.cpp:
+        * cuts/utils/unite/unite.mpc:
+
+          . Changed the name of the following classes and their related
+            files so the source code more inline with the expected naming
+            convention of UNITE's elements:
+
+            . CUTS_Unit_Test_Result -> CUTS_Dataset_Result
+
+        * cuts/utils/unite/Unit_Test_Result.h:
+        * cuts/utils/unite/Unit_Test_Result.inl:
+        * cuts/utils/unite/Unit_Test_Result.cpp:
+
+          Removed these files.
+
+Sun Sep 20 18:07:57 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Dataset_Repo.h:
+        * cuts/utils/unite/Unite_App.cpp:
+
+          . Update the documentation and variable names.
+
+        * examples/cuts/utils/unite/example.unite:
+        * examples/cuts/utils/unite/example.datagraph:
+
+          . Example XML documents for UNITE.
+
+Sat Sep 19 13:39:15 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Unit_Test_Result.h:
+        * cuts/utils/unite/Unit_Test_Result.inl:
+        * cuts/utils/unite/Unit_Test_Result.cpp:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/Unite_Test.h:
+        * cuts/utils/unite/Unite_Test.inl:
+        * cuts/utils/unite/Unite_Test.cpp:
+        * cuts/utils/unite/Unite_Test_Builder.h:
+        * cuts/utils/unite/Unite_Test_Builder.cpp:
+        * cuts/utils/unite/unite.mpc:
+
+          . Changed the name of the following classes and their related
+            files so the source code more inline with the expected naming
+            convention of UNITE's elements:
+
+            . CUTS_Unit_Test -> CUTS_Unite_Test
+            . CUTS_Unit_Test_Builder -> CUTS_Unite_Test_Builder
+
+        * cuts/utils/unite/Unit_Test.h:
+        * cuts/utils/unite/Unit_Test.inl:
+        * cuts/utils/unite/Unit_Test.cpp:
+        * cuts/utils/unite/Unit_Test_Builder.h:
+        * cuts/utils/unite/Unit_Test_Builder.cpp:
+
+          Removed these files.
+
+Sat Sep 19 13:29:18 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Dataflow_Graph.h:
+        * cuts/utils/unite/Dataflow_Graph.inl:
+        * cuts/utils/unite/Dataflow_Graph.cpp:
+        * cuts/utils/unite/Dataflow_Graph_Builder.h:
+        * cuts/utils/unite/Dataflow_Graph_Builder.inl:
+        * cuts/utils/unite/Dataflow_Graph_Builder.cpp:
+        * cuts/utils/unite/Dataset_Repo.h:
+        * cuts/utils/unite/Dataset_Repo.cpp:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/unite.mpc:
+
+          . Changed the name of the following classes and their related
+            files so the source code more inline with the expected naming
+            convention of UNITE's elements:
+
+            . CUTS_Unit_Test_Graph -> CUTS_Dataflow_Graph
+            . CUTS_Unit_Test_Graph_Builder -> CUTS_Dataflow_Graph_Builder
+
+        * cuts/utils/unite/Unit_Test_Graph.h:
+        * cuts/utils/unite/Unit_Test_Graph.inl:
+        * cuts/utils/unite/Unit_Test_Graph.cpp:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.h:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.inl:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.cpp:
+
+          Removed these files.
+
+Sat Sep 19 13:13:39 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * CUTS.mwc:
+
+          . Fixed errors in the workspace specification due to modifications
+            to MPC.
+
+        * cuts/utils/unite/Dataset_Repo.h:
+        * cuts/utils/unite/Dataset_Repo.inl:
+        * cuts/utils/unite/Dataset_Repo.cpp:
+        * cuts/utils/unite/Unit_Test_Result.h:
+        * cuts/utils/unite/Unit_Test_Result.cpp:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/unite.mpc:
+
+          . Changed the CUTS_Variable_Table_Repo class, and its related files
+            to CUTS_Dataset_Repo. This is more inline with the expected naming
+            convention of UNITE's elements.
+
+        * cuts/utils/unite/Variable_Table_Repo.h:
+        * cuts/utils/unite/Variable_Table_Repo.inl:
+        * cuts/utils/unite/Variable_Table_Repo.cpp:
+
+          Removed these files.
+
+Sat Sep 19 02:34:20 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/cuts/utils/unite/example.aspect:
+
+          . Example for using aspects in UNITE.
+
+Sat Sep 19 00:23:09 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Unit_Test_Result.h:
+        * cuts/utils/unite/Unit_Test_Result.cpp:
+        * cuts/utils/unite/Unite_App.h:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/Where_Clause_Builder.cpp:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * etc/schemas/cuts-unite.xsd:
+
+          . First implementation of using aspects in UNITE. The aspects are
+            designed to evaluate subsets of the overall dataset.
+
+Fri Sep 18 22:01:07 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/Variable_Table_Repo.h:
+        * cuts/utils/unite/Variable_Table_Repo.cpp:
+
+          . The constructor no longer requires an argument. Instead, this
+            is passed in as part of the open () method.
+
+          . It is now possible to use *in-memory* databases when constructing
+            datasets within UNITE. This is done by passing ":memory:" as the
+            location to the open () method.
+
+Fri Sep 18 21:41:40 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Unite_Aspect_File.h:
+        * cuts/utils/unite/Unite_Aspect_File.inl:
+        * cuts/utils/unite/Unite_Aspect_File.cpp:
+
+          . Accidently committed code that did not compile.
+
+Fri Sep 18 21:39:09 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Unite_Aspect_File.h:
+        * cuts/utils/unite/Unite_Aspect_File.inl:
+        * cuts/utils/unite/Unite_Aspect_File.cpp:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * cuts/utils/unite/unite.mpc:
+        * etc/schemas/cuts-unite.xsd:
+
+          . Implemented help class for loading an apsect from the
+            XML document.
+
+          . The head document tag for the aspect XML document is now
+            a single aspect, i.e., <aspect>, instead of a collection
+            of aspects, i.e., <aspects>
+
+Thu Sep 17 22:25:21 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Where_Clause_Builder.h:
+        * cuts/utils/unite/Where_Clause_Builder.inl:
+        * cuts/utils/unite/Where_Clause_Builder.cpp:
+
+          . Helper class for constructing a WHERE class from the
+            condition in an XML document.
+
+        * cuts/utils/unite/Unit_Test_Builder.h:
+        * cuts/utils/unite/Unit_Test_Builder.cpp:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.h:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.cpp:
+        * cuts/utils/unite/Unite_App.h:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/Unite_Config_File.h:
+        * cuts/utils/unite/Unite_Config_File.cpp:
+        * cuts/utils/unite/Unite_Datagraph_File.h:
+        * cuts/utils/unite/Unite_Datagraph_File.cpp:
+        * cuts/utils/unite/Unite_Xml_export.h:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * cuts/utils/unite/unite.mpc:
+        * etc/schemas/cuts-unite.xsd:
+
+          . Prepended XML to the namespace. This will help distinguish
+            the XML related classes from the CUTS standard classes.
+
+Thu Sep 17 03:04:34 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/cuts/utils/barrier/client.cutsnode.config:
+        * examples/cuts/utils/barrier/controller.cutsnode.config:
+        * examples/cuts/utils/testing/logging/cutsnode.config:
+
+          . Removed the <after> tags from the node configuration.
+
+Thu Sep 17 02:50:54 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/CUTS.mpc:
+        * cuts/Static_Node_T.h:
+        * cuts/Static_Node_T.inl:
+        * cuts/Static_Node_T.cpp:
+
+          . Helper class for integrating objects into ACE lists.
+
+        * cuts/utils/node/Node_Daemon.cpp:
+        * cuts/utils/node/Process_Options.h:
+        * cuts/utils/node/Process_Options.inl:
+        * cuts/utils/node/Process_Options.cpp:
+        * cuts/utils/node/Process_Options_List.h:
+        * cuts/utils/node/Process_Options_List.inl:
+        * cuts/utils/node/Process_Options_List.cpp:
+        * cuts/utils/node/Virtual_Env.h:
+        * cuts/utils/node/Virtual_Env.inl:
+        * cuts/utils/node/Virtual_Env.cpp:
+        * cuts/utils/node/cutsnode.h:
+        * cuts/utils/node/cutsnode.inl:
+        * cuts/utils/node/cutsnode.cpp:
+        * cuts/utils/node/cutsnode_d.mpc:
+        * etc/schemas/cutsnode.xsd:
+        * examples/cuts/utils/node/DAnCE/dance.cutsnode.config:
+
+          . Removed the <after> tags from the node configuration.
+
+Wed Sep 16 04:15:16 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Unit_Test_Builder.h:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.h:
+        * cuts/utils/unite/Unite_Config_File.h:
+        * cuts/utils/unite/Unite_Datagraph_File.h:
+        * cuts/utils/unite/unite.mpc:
+
+          . Moved files between projects.
+
+          . Removed unnecessary header files.
+
+Wed Sep 16 03:30:44 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Unit_Test_Builder.h:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.h:
+        * cuts/utils/unite/Unite_Datagraph_File.h:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * cuts/utils/unite/unite.mpc:
+
+
+          . Refactored the projects to that all the XML-related classes
+            are included in this library.
+
+        * etc/schemas/cuts-unite.xsd:
+
+          . Added support for aspects to the schema definition.
+
+Wed Sep 16 00:24:54 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_unite.mpb:
+        * MPC/config/cuts_unite_xml.mpb:
+        * cuts/utils/unite/unite.mpc:
+
+          . Updated the base projects.
+
+Wed Sep 16 00:00:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_unite_xml.mpb:
+        * cuts/utils/unite/Unite_Xml_export.h:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/unite.mpc:
+
+          . Separated the XML files for Unite into their own project
+            so they can be reused in different applications.
+
+Tue Sep 15 23:14:54 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_IDL_Graph.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_IDL_Node.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_algorithm.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_algorithm.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Project_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Project_Generator.inl:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Project_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Servant_Generator.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Servant_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Workspace_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/codegen.mpc:
+        * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.xmp:
+        * examples/arch/chaos/SimpleExample/ModelDDSData.mpc:
+        * examples/arch/chaos/SimpleExample/SimpleComponent.mpc:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.mpc:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_svnt.h:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_svnt.cpp:
+        * examples/arch/chaos/SimpleExample/SimpleExample.mwc:
+
+          . Updated CHAOS to the latest version of ACE+TAO+CIAO.
+
+        * examples/arch/chaos/SimpleExample/CHAOS_SimpleComponent_svnt.h:
+        * examples/arch/chaos/SimpleExample/CHAOS_SimpleComponent_svnt.cpp:
+
+          Removed these files.
+
+Mon Sep 14 19:49:16 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * docs/manual/appendix/thirdparty.tex:
+        * docs/manual/manual.pdf:
+
+          . Updated the documentation regarding installing PCRE.
+
+Mon Sep 14 19:40:15 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+
+          . Added output to the example.
+
+        * examples/arch/opensplice/SimpleExample/descriptors/SimpleExample.cdp:
+        * examples/arch/opensplice/SimpleExample/models/SimpleExample.xme:
+
+          . Bug fix where the artifacts and entry points for the implementation
+            and servant were incorrect.
+
+Mon Sep 14 18:59:35 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/opensplice/SimpleExample/ModelDDSData.mpc:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_svnt.h:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_svnt.cpp:
+
+          . Added missing files.
+
+        * examples/arch/opensplice/SimpleExample/ModelDDSData_Base.mpc:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.h:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponent_svnt.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent.cidl:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Base.mpc:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Impl.h:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Impl.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Impl.mpc:
+
+          Removed these files.
+
+Mon Sep 14 18:53:58 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/BE_OpenSplice.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Context.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Project_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Servant_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Workspace_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Workspace_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Workspace_Generator.cpp:
+        * MPC/config/cuts_opensplice_ccm_stub.mpb:
+
+          . Updated the OpenSplice code generator to the latest version
+            of CIAO.
+
+
+        * examples/arch/opensplice/SimpleExample/ModelDDSData_DDS.idl:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_ModelDDSDataC.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent.mpc:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Basic_Impl.mpc:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleExample.mwc:
+
+          . Re-generated code using new interpreter.
+
+Mon Sep 14 15:48:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM.mpc:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table.h:
+
+          . Fixed errors that was preventing the OpenSplice architecture
+            from building on Windows.
+
+Sun Sep 13 22:02:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/examples/LoggingClient.xme:
+
+          . Example illustrating how to integrate the logging client into
+            a CUTS behavior/workload model. This example only illustrates
+            the Java version.
+
+        * MDE/GME/paradigms/PICML/models/workers/logging.xme:
+        * MDE/GME/paradigms/PICML/models/workers/testing.xme:
+
+          . Updated the models.
+
+        * cuts/java/utils/logging/client/logger/CUTS/client/logging/Logger.java:
+
+          . Implemented another connect () method where you can specify
+            what test to associate the logger with at connection time.
+
+        * cuts/java/utils/testing/CUTS:
+        * cuts/java/utils/testing/CUTS/client:
+        * cuts/java/utils/testing/CUTS/client/TestManagerClient.java:
+        * cuts/java/utils/testing/testing.build:
+
+          . Helper class to simplify working with the test manager
+            and CORBA.
+
+Sun Sep 13 21:10:27 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/models/examples:
+
+          Removed this file.
+
+Sun Sep 13 21:08:40 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/examples/capi:
+
+          . Relocated the examples.
+
+        * MDE/GME/paradigms/PICML/models/examples/capi:
+        * MDE/GME/paradigms/PICML/models/examples/capi/AnyEvent.xme:
+
+          Removed these files.
+
+Sun Sep 13 21:02:03 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/models/workers/logging.xme:
+        * MDE/GME/paradigms/PICML/models/workers/testing.xme:
+
+          . Models for including respective objects in generated
+            code.
+
+        * MDE/GME/paradigms/PICML/models/workers/TestLogger.xme:
+
+          Removed this file.
+
+Sun Sep 13 20:46:44 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/java/utils/logging/client/logger/logger.build:
+
+          . Build was missing several .class files.
+
+        * cuts/java/utils/testing:
+        * cuts/java/utils/testing/testing.build:
+
+          . Java version of client files for connecting to testing server.
+
+Sun Sep 13 20:38:23 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/java/utils/logging/client/logger:
+        * cuts/java/utils/logging/client/logger/CUTS:
+        * cuts/java/utils/logging/client/logger/CUTS/client:
+        * cuts/java/utils/logging/client/logger/CUTS/client/logging:
+        * cuts/java/utils/logging/client/logger/CUTS/client/logging/Logger.java:
+        * cuts/java/utils/logging/client/logger/logger.build:
+
+          . Updated the Java version of the client logger to the new
+            logging framework.
+
+        * cuts/utils/logging/client/LoggingClient.idl:
+
+          . Changed the name of the parameter since JacORB did not
+            like the fact that is clashed with the paramater type's
+            name.
+
+        * cuts/java/workers:
+
+          Removed this file.
+
+Thu Sep 10 02:56:00 UTC 2009  James H. Hill  <hillj@isis.vanderbilt.edu>
+
+        * MPC/config/cuts_nodedaemon_common.mpb:
+        * cuts/Activation_Record.h:
+        * cuts/Activation_Record.cpp:
+        * cuts/utils/logging/client/Logger_i.h:
+
+          . Fixed compilation errors on non-Windows system.
+
+Fri Sep  4 23:33:12 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/cuts/utils/barrier:
+        * examples/cuts/utils/barrier/README:
+        * examples/cuts/utils/barrier/client.cutsnode.config:
+        * examples/cuts/utils/barrier/controller.cutsnode.config:
+        * examples/cuts/utils/barrier/environment.txt:
+
+          . Example illustrating how to use the CUTS barrier utility
+            for sychronizing process execution across mulitple nodes.
+
+Fri Sep  4 00:17:06 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/examples/SLICE.xme:
+
+          . Fixed model errors.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Workspace_Generator.h:
+
+
+          . Fixed errors in the project specification.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/BE_RTIDDS.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Context.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Project_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Workspace_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Workspace_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Workspace_Generator.cpp:
+        * MPC/config/cuts_rtidds_ccm_stub.mpb:
+
+          . Updated RTI DDS to support the lastest version of CIAO.
+
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_T.cpp:
+
+          . Added error handling/messaging.
+
+        * examples/arch/rtidds/SimpleExample/ModelDDSData.idl:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData.mpc:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_DDS.idl:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_skel_export.h:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_stub_export.h:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_ModelDDSDataC.cpp:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent.idl:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent.mpc:
+        * examples/arch/rtidds/SimpleExample/SimpleComponentE.idl:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.mpc:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_exec_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_skel_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_stub_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleExample.mwc:
+        * examples/arch/rtidds/SimpleExample/descriptors/SimpleExample.cdp:
+        * examples/arch/tcpip/HelloWorld/descriptors/HelloWorld.cdp:
+
+          . Updated the examples.
+
+        * install/CUTS_CoSMIC.mwc:
+
+          . Fixed error in workspace.
+
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_Base.mpc:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Base.mpc:
+
+          Removed these files.
+
+Mon Aug 31 21:14:42 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.cpp:
+
+          . Generalized the CIAO generators to support other architectures
+            that are integrated into CIAO.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Project_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/TCPIP_Ctx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/TCPIP_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/TCPIP_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Workspace_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Workspace_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Workspace_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/tcpip.mpc:
+
+          . Reused to the CIAO project/workspace generators to enforce
+            consistency across different architectures.
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.mwc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.cpp:
+
+          . Regenerated the example from the model.
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Base.mpc:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.cpp:
+
+          Removed these files.
+
+Sun Aug 30 22:25:57 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_be_ciao.mpb:
+
+          . Base project for including CIAO code generators.
+
+Sun Aug 30 22:23:00 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/BE_CIAO.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/BE_CIAO_export.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Ctx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Manager_Factory.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Preprocessor.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Preprocessor_Handlers.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Preprocessor_Handlers.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Preprocessor_Handlers.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Workspace_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Workspace_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Workspace_Generator.cpp:
+
+          . Exported the project and workspace generators.
+
+          . Change the CUTS_BE_Ciao structure to CUTS_BE_CIAO::Context.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/UDM_CIAO_Export.h:
+
+          Removed this file.
+
+Sun Aug 30 21:52:42 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/T2M/T2M.mpc:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.mpc:
+
+          . Fixed compilation errors related to invalid project
+            specifications.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_IDL_Graph.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_IDL_Node.h:
+
+          . The PICML::File is now stored with the IDL node.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_algorithm.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_algorithm.cpp:
+
+          . Implemented has_events () function, which tests if a file has
+            any events.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/BE_CIAO.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Workspace_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Workspace_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/Workspace_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Impl_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Impl_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Stub_Header_Generator.cpp:
+
+          . Updated code generators to latest version of CIAO.
+
+        * MPC/config/cuts_logging_skel.mpb:
+
+          . Fixed an error in the project specification.
+
+        * MPC/config/requires_rtidds.mpb:
+
+          . Changed 'rtidds' to 'ndds'.
+
+        * cuts/arch/ccm/CCM_Servant_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Context_T.h:
+
+          . Fixed compilation errors.
+
+        * cuts/utils/node/Node_Daemon_Common_export.h:
+
+          . Missing file.
+
+        * examples/arch/ciao:
+        * examples/arch/ciao/SimpleExample:
+        * examples/arch/ciao/SimpleExample/ModelDDSData.idl:
+        * examples/arch/ciao/SimpleExample/ModelDDSData.mpc:
+        * examples/arch/ciao/SimpleExample/SimpleComponent.idl:
+        * examples/arch/ciao/SimpleExample/SimpleComponent.mpc:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_Basic_Impl.mpc:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/ciao/SimpleExample/SimpleExample.mwc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Base.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.cpp:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.mpc:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldC.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.cpp:
+
+          . Updated example to latest version of CIAO.
+
+        * examples/arch/ciao/SimpleExample/ModelDDSData_Base.mpc:
+        * examples/arch/ciao/SimpleExample/ModelDDSData_DDS.idl:
+        * examples/arch/ciao/SimpleExample/ModelDDSData_skel_export.h:
+        * examples/arch/ciao/SimpleExample/ModelDDSData_stub_export.h:
+        * examples/arch/ciao/SimpleExample/RTIDDS_ModelDDSDataC.h:
+        * examples/arch/ciao/SimpleExample/RTIDDS_ModelDDSDataC.cpp:
+        * examples/arch/ciao/SimpleExample/RTIDDS_SimpleComponentC.h:
+        * examples/arch/ciao/SimpleExample/RTIDDS_SimpleComponentC.cpp:
+        * examples/arch/ciao/SimpleExample/RTIDDS_SimpleComponent_svnt.h:
+        * examples/arch/ciao/SimpleExample/RTIDDS_SimpleComponent_svnt.cpp:
+        * examples/arch/ciao/SimpleExample/RTIDDS_SimpleComponent_svnt_export.h:
+        * examples/arch/ciao/SimpleExample/SimpleComponent.cidl:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_Base.mpc:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_Basic_Impl_export.h:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_exec_export.h:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_skel_export.h:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_stub_export.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Generators.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Generators.cpp:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent.cidl:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.cidl:
+
+          Removed these files.
+
+Thu Aug 27 23:05:38 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_algorithm.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_algorithm.cpp:
+
+          . Implemented a function named has_component (), which tests if
+            an File has an component features.
+
+Wed Aug 26 02:01:44 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Base.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.mpc:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorld_svnt.cpp:
+
+          . Updated example to latest version of CoSMIC.
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Impl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Impl.cpp:
+
+          Removed these files.
+
+Sat Aug 22 01:03:48 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/Log_T.h:
+
+          . Changed the location of the export include.
+
+        * cuts/utils/logging/client/Logger_i.h:
+        * cuts/utils/logging/client/Logger_i.inl:
+        * cuts/utils/logging/client/Logger_i.cpp:
+
+        * cuts/utils/logging/server/LoggingServer.idl:
+
+          . handle_messages () is now a oneway call.
+
+        * cuts/utils/logging/server/Logging_Server.cpp:
+
+          . Added support for setting the number of ORB threads.
+
+          . Added suppo
+
+        * cuts/utils/logging/server/LoggingServer_i.cpp:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.cpp:
+
+          . Removed unnecessary log messages.
+
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.h:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.inl:
+
+          . Missing source files.
+
+        * cuts/utils/testing/Test_Options.h:
+        * cuts/utils/testing/Testing_App.h:
+        * cuts/utils/testing/Testing_App.cpp:
+        * cuts/utils/testing/Testing_App_Base.h:
+        * cuts/utils/testing/svcs/server/TestManager_i.h:
+        * cuts/utils/testing/svcs/server/TestManager_i.cpp:
+        * cuts/utils/testing/svcs/server/testing.idl:
+
+          . Added support for remote shutdown of the test manager.
+
+          . Added support for daemonizing the test manager.
+
+        * cuts/utils/unite/Log_Format.cpp:
+        * cuts/utils/unite/Log_Format_Compiler.cpp:
+        * cuts/utils/unite/Unit_Test_Graph.h:
+        * cuts/utils/unite/Unit_Test_Graph.inl:
+        * cuts/utils/unite/Unit_Test_Graph.cpp:
+        * cuts/utils/unite/Unite_App.h:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/Variable_Table_Repo.cpp:
+
+          . Bug fix where tables names that begin with a number caused the
+            application to fail.
+
+          . Added support for overriding the configuration's datagraph at
+            the command-line.
+
+        * performance-tests/cuts:
+        * performance-tests/cuts/utils:
+        * performance-tests/cuts/utils/unite:
+        * performance-tests/cuts/utils/unite/cutsnode.config:
+        * performance-tests/cuts/utils/unite/scalability.config:
+        * performance-tests/cuts/utils/unite/scalability.mpc:
+        * performance-tests/cuts/utils/unite/scalability.mwc:
+        * performance-tests/cuts/utils/unite/scalability.cpp:
+
+          . Scalability test for UNITE.
+
+Thu Aug 20 01:05:08 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/logging/server/LoggingServer_i.h:
+        * cuts/utils/logging/server/LoggingServer_i.cpp:
+
+          . Bug fix where the server as not thread-safe when
+            registering/unregistering a listener due to the oneway
+            call. This design choice allowed more than one thread to
+            be active in the server.
+
+        * cuts/utils/testing/Testing_App.cpp:
+
+          . Added an info message that stated when the test was
+            complete.
+
+Wed Aug 19 00:05:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/logging/client/Logger_i.h:
+        * cuts/utils/logging/client/Logger_i.inl:
+        * cuts/utils/logging/client/Logger_i.cpp:
+        * cuts/utils/logging/client/LoggingClient.idl:
+        * cuts/utils/logging/client/logger/Client_Logger.h:
+        * cuts/utils/logging/client/logger/Client_Logger.cpp:
+        * cuts/utils/logging/client/logger/Client_Logger_Impl.h:
+        * cuts/utils/logging/client/logger/Client_Logger_Impl.cpp:
+
+          . Updated the logger to support include uuid attribute to
+            get the UUID associated with the logger.
+
+Tue Aug 18 20:21:23 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CUTS/paradigm/icons/Key.bmp:
+
+          . Reduced the size of this icon.
+
+        * MDE/GME/paradigms/CUTS/paradigm/icons/Variable.bmp:
+
+          . Updated this icon.
+
+Tue Aug 18 17:54:37 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CUTS/paradigm/icons/Key.bmp:
+
+          . Update the key icon.
+
+Tue Aug 18 01:54:55 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.h:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.cpp:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Msg_Backend.h:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Msg_Backend.inl:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Msg_Backend.cpp:
+
+          . Added support for setting the UUID of the logger backend.
+
+        * cuts/utils/logging/client/logger/Client_Logger.h:
+        * cuts/utils/logging/client/logger/Client_Logger.cpp:
+
+          . Fixed compiler warnings related using ACE_Auto_Ptr.
+
+Tue Aug 18 01:20:51 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/logging/client/LoggingClient_i.cpp:
+
+          . Bug fix where the child POA had the incorrect id
+            assignment policy.
+
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Callback.h:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Callback.inl:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Callback.cpp:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.h:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.cpp:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.mpc:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor_export.h:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Msg_Backend.h:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Msg_Backend.cpp:
+
+          . Updated the interceptor to use the client logger. Still need
+            to add support for setting the UUID of the logger. Right now,
+            the backend interceptor logs all messages under a NIL UUID.
+
+        * cuts/utils/logging/client/logger/Client_Logger.h:
+        * cuts/utils/logging/client/logger/Client_Logger.cpp:
+        * cuts/utils/logging/client/logger/Client_Logger.mpc:
+        * cuts/utils/logging/client/logger/Client_Logger_Impl.h:
+        * cuts/utils/logging/client/logger/Client_Logger_Impl.cpp:
+
+          . Updated the client logger to hide the implementation. This
+            removes the CORBA dependency.
+
+        * examples/cuts/utils/testing/logging/cutsnode.config:
+        * examples/cuts/utils/testing/logging/logging-example.config:
+
+          . Updated the configuration files to print debug and
+            verbose information.
+
+        * cuts/utils/logging/client/logger/logger.mpc:
+
+          Removed this file.
+
+Fri Aug 14 12:50:26 UTC 2009  Johnny Willemsen  <jwillemsen@remedy.nl>
+
+        * cuts/utils/node/cutsnode_d.mpc
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE.mpc
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.mpc
+        * MPC/config/cuts_base.mpb
+        * MPC/config/cuts_db_odbc.mpb
+        * MPC/config/gme_base.mpb
+        * MPC/config/jnilib.mpb
+        * MPC/config/regsvr32.mpb
+          Simplified these projects
+
+Fri Aug 14 04:18:46 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_testing_svc.mpb:
+
+          . Removed the exclusion of the CUTS library.
+
+        * cuts/Activation_Record.h:
+        * cuts/Activation_Record.cpp:
+
+          . Removed the assignment operator and copy constructor.
+
+        * cuts/Log_T.h:
+        * cuts/Log_T.inl:
+        * cuts/Log_T.cpp:
+
+          . Re-implemented how log object functions. More specicially,
+            the *chunk* implementation was removed.
+
+        * cuts/Servant_Manager_T.h:
+        * cuts/Servant_Manager_T.cpp:
+
+          . Implemented support for getting a reference for the
+            servant.
+
+        * cuts/utils/logging/client/Log_Message_Handler.h:
+        * cuts/utils/logging/client/Log_Message_Handler.inl:
+        * cuts/utils/logging/client/Logger_Task.h:
+        * cuts/utils/logging/client/Logger_Task.cpp:
+        * cuts/utils/logging/client/Logger_i.h:
+        * cuts/utils/logging/client/Logger_i.inl:
+        * cuts/utils/logging/client/Logger_i.cpp:
+        * cuts/utils/logging/client/LoggingClient.idl:
+        * cuts/utils/logging/client/LoggingClient_i.cpp:
+        * cuts/utils/logging/client/client.mpc:
+        * cuts/utils/logging/client/logger/Client_Logger.h:
+        * cuts/utils/logging/client/logger/Client_Logger.cpp:
+        * cuts/utils/logging/logging.idl:
+        * cuts/utils/logging/server/LoggingServer.idl:
+        * cuts/utils/logging/server/LoggingServer_i.h:
+        * cuts/utils/logging/server/LoggingServer_i.cpp:
+        * cuts/utils/logging/server/Logging_Server.cpp:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.h:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.inl:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.cpp:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.mpc:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener_export.h:
+
+          . Re-implemented logging facilities so that it uses oneway
+            communication instead of traditional two-way blocking
+            comminucation. The next version will levarage reliable
+            oneway communication.
+
+          . Redesigned the interface for both the logging server and
+            logging client.
+
+        * examples/cuts/utils/testing:
+        * examples/cuts/utils/testing/logging:
+        * examples/cuts/utils/testing/logging/5fec8cee-8889-11de-8dcf-000c292de0d0.cdb:
+        * examples/cuts/utils/testing/logging/Client_Logger.mwc:
+        * examples/cuts/utils/testing/logging/Client_Logger.cpp:
+        * examples/cuts/utils/testing/logging/Client_Logger.mpc:
+        * examples/cuts/utils/testing/logging/cutsnode.config:
+        * examples/cuts/utils/testing/logging/logging-example.config:
+
+          . Simple example that illustrates integrating the logging
+            facilities with the test manager. This allows the test
+            manager to insert log messages into the test database for
+            its corresponding test.
+
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service.h:
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service.inl:
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service.cpp:
+        * cuts/utils/testing/svcs/logging/Test_Logging_Service_export.h:
+        * cuts/utils/testing/svcs/logging/logging.old:
+
+          Removed these files.
+
+Thu Aug 13 18:39:26 UTC 2009  Johnny Willemsen  <jwillemsen@remedy.nl>
+
+        * cuts/arch/mpi/CUTS_MPI.mpc:
+        * MDE/GME/T2M/executor/executor.mpc:
+        * MDE/naomi/GME/GNC.mpc:
+
+          Use prop:microsoft
+
+Tue Aug 11 20:26:26 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/logging/server/LoggingServer.idl:
+        * cuts/utils/logging/server/LoggingServer_i.h:
+        * cuts/utils/logging/server/LoggingServer_i.cpp:
+
+          . Added support for dispatching log messages to listeners that
+            are registered with the logging server.
+
+Tue Aug 11 19:17:05 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/antispam/antispam.old:
+        * cuts/utils/antispam/antispam.mpc:
+
+          . Disabled the projects above.
+
+        * cuts/workers/logging:
+        * cuts/workers/logging/Format_Parser.h:
+        * cuts/workers/logging/Format_Parser.cpp:
+        * cuts/workers/logging/Test_Logger.h:
+        * cuts/workers/logging/Test_Logger.cpp:
+        * cuts/workers/logging/Test_Logger.mpc:
+        * cuts/workers/logging/Test_Logger_export.h:
+        * cuts/workers/logging/Test_Logger_i.h:
+        * cuts/workers/logging/Test_Logger_i.cpp:
+
+          Removed these files.
+
+Tue Aug 11 16:31:24 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_client_logger.mpb:
+        * MPC/config/cuts_logging_server_skel.mpb:
+        * MPC/config/cuts_logging_server.mpb:
+
+          . Missing base projects.
+
+        * cuts/CUTS.mpc:
+        * cuts/IOR_File_Trait.h:
+        * cuts/IOR_File_Trait.cpp:
+        * cuts/IOR_Table_Trait.h:
+        * cuts/IOR_Table_Trait.cpp:
+        * cuts/IOR_Table_Trait_export.h:
+        * cuts/Servant_Manager_T.h:
+        * cuts/Servant_Manager_T.inl:
+        * cuts/Servant_Manager_T.cpp:
+        * cuts/Servant_Traits_T.h:
+        * cuts/Servant_Traits_T.inl:
+        * cuts/Servant_Traits_T.cpp:
+
+          . Template class for managing a servant's lifecycle. It also makes
+            it a LOT easier to ensure mechanisms for ensuring a servant's
+            reference (e.g., IOR file and IOR table) coincide with the servant's
+            current state.
+
+        * cuts/utils/logging/client/Log_Message_Handler.h:
+        * cuts/utils/logging/client/Log_Message_Handler.inl:
+        * cuts/utils/logging/client/Log_Message_Handler.cpp:
+        * cuts/utils/logging/client/Logger_Task.h:
+        * cuts/utils/logging/client/Logger_Task.inl:
+        * cuts/utils/logging/client/Logger_Task.cpp:
+        * cuts/utils/logging/client/Logger_i.h:
+        * cuts/utils/logging/client/Logger_i.inl:
+        * cuts/utils/logging/client/Logger_i.cpp:
+        * cuts/utils/logging/client/LoggingClient.idl:
+        * cuts/utils/logging/client/LoggingClient_i.h:
+        * cuts/utils/logging/client/LoggingClient_i.inl:
+        * cuts/utils/logging/client/LoggingClient_i.cpp:
+        * cuts/utils/logging/client/Logging_Client.h:
+        * cuts/utils/logging/client/Logging_Client.cpp:
+        * cuts/utils/logging/client/Logging_Client_Options.h:
+        * cuts/utils/logging/client/client.mpc:
+        * cuts/utils/logging/client/cutslog.cpp:
+        * cuts/utils/logging/client/logger:
+        * cuts/utils/logging/client/logger/Client_Logger.h:
+        * cuts/utils/logging/client/logger/Client_Logger.cpp:
+        * cuts/utils/logging/client/logger/Client_Logger_export.h:
+        * cuts/utils/logging/client/logger/Format_Parser.h:
+        * cuts/utils/logging/client/logger/Format_Parser.cpp:
+        * cuts/utils/logging/client/logger/logger.mpc:
+        * cuts/utils/logging/logging.idl:
+        * cuts/utils/logging/server/LoggingServer.idl:
+        * cuts/utils/logging/server/LoggingServer.mpc:
+        * cuts/utils/logging/server/LoggingServer_i.h:
+        * cuts/utils/logging/server/LoggingServer_i.inl:
+        * cuts/utils/logging/server/LoggingServer_i.cpp:
+        * cuts/utils/logging/server/Logging_Server.h:
+        * cuts/utils/logging/server/Logging_Server.inl:
+        * cuts/utils/logging/server/Logging_Server.cpp:
+        * cuts/utils/logging/server/Logging_Server_Options.h:
+        * cuts/utils/logging/server/server.cpp:
+
+        * cuts/utils/testing/svcs/logging/logging.old:
+
+          . Disabled the logging service for the test manager.
+
+        * examples/cuts/utils/logging:
+        * examples/cuts/utils/logging/client:
+        * examples/cuts/utils/logging/client/logger:
+        * examples/cuts/utils/logging/client/logger/Client_Logger_App.cpp:
+        * examples/cuts/utils/logging/client/logger/client.mpc:
+        * examples/cuts/utils/logging/client/logger/logger.mwc:
+
+          . Simple example illustrating how to use the client logger.
+
+        * cuts/utils/logging/client/LocalTestLoggerClient_i.h:
+        * cuts/utils/logging/client/LocalTestLoggerClient_i.cpp:
+        * cuts/utils/logging/client/Local_Logging_Client_App.h:
+        * cuts/utils/logging/client/Local_Logging_Client_App.cpp:
+        * cuts/utils/logging/client/Logging_Client_Task.h:
+        * cuts/utils/logging/client/Logging_Client_Task.inl:
+        * cuts/utils/logging/client/Logging_Client_Task.cpp:
+        * cuts/utils/logging/client/TestLoggerClient_i.h:
+        * cuts/utils/logging/client/TestLoggerClient_i.cpp:
+        * cuts/utils/logging/client/TestLoggerFactory_i.h:
+        * cuts/utils/logging/client/TestLoggerFactory_i.inl:
+        * cuts/utils/logging/client/TestLoggerFactory_i.cpp:
+        * cuts/utils/logging/client/TestLogger_i.h:
+        * cuts/utils/logging/client/TestLogger_i.inl:
+        * cuts/utils/logging/client/TestLogger_i.cpp:
+        * cuts/utils/logging/client/Test_Log_Message_Handler.h:
+        * cuts/utils/logging/client/Test_Log_Message_Handler.inl:
+        * cuts/utils/logging/client/Test_Log_Message_Handler.cpp:
+        * cuts/utils/logging/client/Test_Logger_Map.h:
+        * cuts/utils/logging/client/Test_Logger_Map.cpp:
+        * cuts/utils/logging/client/client.idl:
+        * cuts/utils/logging/server/Logging_Server_File.h:
+        * cuts/utils/logging/server/Logging_Server_File.inl:
+        * cuts/utils/logging/server/Logging_Server_File.cpp:
+        * cuts/utils/logging/server/TestLoggerServer_i.h:
+        * cuts/utils/logging/server/TestLoggerServer_i.inl:
+        * cuts/utils/logging/server/TestLoggerServer_i.cpp:
+
+          . First version of re-implementing the logging service
+            framework in CUTS.
+
+        * cuts/utils/logging/server/callbacks:
+        * cuts/utils/logging/server/callbacks/testing:
+        * cuts/utils/logging/server/callbacks/testing/Test_Logging_Callback.h:
+        * cuts/utils/logging/server/callbacks/testing/Test_Logging_Callback.inl:
+        * cuts/utils/logging/server/callbacks/testing/Test_Logging_Callback.cpp:
+        * cuts/utils/logging/server/callbacks/testing/Test_Logging_Callback_export.h:
+        * cuts/utils/logging/server/callbacks/testing/testing.mpc:
+        * cuts/utils/logging/server/cutslog_d.cpp:
+        * cuts/utils/logging/server/logging.h:
+        * cuts/utils/logging/server/logging.inl:
+        * cuts/utils/logging/server/logging.cpp:
+        * cuts/utils/logging/server/server.idl:
+        * cuts/utils/logging/server/server.mpc:
+        * cuts/utils/testing/svcs/logging/logging.mpc:
+
+          Removed these files.
+
+Mon Aug  3 12:54:09 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_iortable_trait.mpb:
+
+          . Base project for the IOR table trait.
+
+        * cuts/utils/node/Virtual_Env.inl:
+        * cuts/utils/node/Virtual_Env.cpp:
+
+          . Bug fix where restarting the active environment failed
+            to start the delay handler.
+
+        * cuts/utils/node/client:
+        * cuts/utils/node/client/NodeDaemon_Client_App.h:
+        * cuts/utils/node/client/NodeDaemon_Client_App.inl:
+        * cuts/utils/node/client/NodeDaemon_Client_App.cpp:
+        * cuts/utils/node/client/client.mpc:
+        * cuts/utils/node/client/client.cpp:
+
+          . Remoting client application for the node daemon.
+
+        * cuts/utils/node/server/NodeDaemon_Server_Impl.h:
+        * cuts/utils/node/server/NodeDaemon_Server_Impl.inl:
+        * cuts/utils/node/server/NodeDaemon_Server_Impl.cpp:
+        * cuts/utils/node/server/NodeDaemon_Server_Options.h:
+        * cuts/utils/node/server/NodeDaemon_i.cpp:
+        * cuts/utils/node/server/server.mpc:
+
+          . Re-implemented the server's servant with the CUTS servant
+            manager utility class.
+
+Sun Aug  2 18:44:22 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_nodedaemon_common.mpb:
+        * MPC/config/cuts_nodedaemon_skel.mpb:
+        * MPC/config/cuts_nodedaemon_stub.mpb:
+
+          . Missing base projects.
+
+        * default.features:
+
+          . Disabled 'wix' from the default build.
+
+        * CUTS_Modeling.mwc:
+        * contrib:
+        * MPC/config/codegenerationkit.mpb:
+
+          . Added 'CCF' and 'utility' to the contributions since they
+            are no longer part of ACE+TAO+CIAO standard distro.
+
+Thu Jul 30 02:26:13 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/cuts_utils.mpb:
+        * MPC/config/cutsutils.mpb:
+
+          . Update the base project specification.
+
+        * cuts/idl/exceptions.idl:
+
+          . Added an InvalidName exception.
+
+        * cuts/utils/Property_Parser.h:
+
+          . The parser does not continue if replacement of the string
+            do not succeed.
+
+        * cuts/utils/node/Node_Daemon.h:
+        * cuts/utils/node/Node_Daemon.inl:
+        * cuts/utils/node/Node_Daemon.cpp:
+        * cuts/utils/node/Node_Daemon_Options.h:
+        * cuts/utils/node/Node_Daemon_Options.cpp:
+        * cuts/utils/node/Virtual_Env.h:
+        * cuts/utils/node/Virtual_Env.inl:
+        * cuts/utils/node/Virtual_Env.cpp:
+        * cuts/utils/node/Virtual_Env_Manager.h:
+        * cuts/utils/node/Virtual_Env_Manager.inl:
+        * cuts/utils/node/Virtual_Env_Manager.cpp:
+        * cuts/utils/node/cutsnode_d.cpp:
+        * cuts/utils/node/cutsnode_d.mpc:
+        * cuts/utils/node/server:
+        * cuts/utils/node/server/NodeDaemon.idl:
+        * cuts/utils/node/server/NodeDaemon_Server.h:
+        * cuts/utils/node/server/NodeDaemon_Server.inl:
+        * cuts/utils/node/server/NodeDaemon_Server.cpp:
+        * cuts/utils/node/server/NodeDaemon_Server_Impl.h:
+        * cuts/utils/node/server/NodeDaemon_Server_Impl.inl:
+        * cuts/utils/node/server/NodeDaemon_Server_Impl.cpp:
+        * cuts/utils/node/server/NodeDaemon_Server_export.h:
+        * cuts/utils/node/server/NodeDaemon_i.h:
+        * cuts/utils/node/server/NodeDaemon_i.inl:
+        * cuts/utils/node/server/NodeDaemon_i.cpp:
+        * cuts/utils/node/server/NodeDaemon_skel_export.h:
+        * cuts/utils/node/server/NodeDaemon_stub_export.h:
+        * cuts/utils/node/server/server.mpc:
+
+          . Added server support for the node daemon.
+
+        * examples/cuts/utils/node/DAnCE/dance.cutsnode.config:
+
+          . Added the naming service to the example.
+
+        * examples/cuts/utils/node/DAnCE/environment.txt:
+
+          . Bug fix in the specification of an environment variable.
+
+Wed Jul 15 06:36:34 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_Base.mpc:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_DDS.idl:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_ModelDDSDataC.h:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_ModelDDSDataC.cpp:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_SimpleComponentC.h:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_SimpleComponentC.cpp:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_SimpleComponent_svnt.h:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_SimpleComponent_svnt.cpp:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Base.mpc:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.mpc:
+
+          . Re-generated the example from the model.
+
+        * examples/arch/rtidds/SimpleExample/descriptors/run_test.pl:
+
+          . Removed the purify garbage.
+
+Wed Jul 15 06:18:48 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/plugins/cute/Model_Interpreter.h:
+        * MDE/GME/plugins/cute/Model_Interpreter.inl:
+        * MDE/GME/plugins/cute/Model_Interpreter.cpp:
+        * cuts/utils/Config_List_Parser_T.h:
+        * cuts/utils/Config_List_Parser_T.inl:
+        * cuts/utils/template/File_Generator.h:
+        * cuts/utils/template/File_Generator.inl:
+        * cuts/utils/template/File_Generator.cpp:
+
+          . Configuration inheritence is now built into the parse, and
+            not handled as callback methods that the ACTOR must implement.
+
+Wed Jul 15 05:22:02 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/plugins/cute/Model_Interpreter.h:
+        * MDE/GME/plugins/cute/Model_Interpreter.inl:
+        * MDE/GME/plugins/cute/Model_Interpreter.cpp:
+        * cuts/utils/Config_List_Parser_T.h:
+        * cuts/utils/Property_Map.h:
+        * cuts/utils/Property_Map.cpp:
+        * cuts/utils/template/File_Generator.h:
+        * cuts/utils/template/File_Generator.inl:
+        * cuts/utils/template/File_Generator.cpp:
+
+          . Added support for configuration inheritence.
+
+Wed Jul 15 02:20:24 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/rtidds/server/RTIDDS_Configurator.cpp:
+        * cuts/arch/rtidds/server/RTIDDS_Container.h:
+        * cuts/arch/rtidds/server/RTIDDS_Container_Strategy.cpp:
+
+          . Fixed build errors on systems that have case-sensitive
+            filenames.
+
+Tue Jul 14 12:46:26 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon:
+        * cuts/utils/Node_Daemon/Active_Process.h:
+        * cuts/utils/Node_Daemon/Active_Process.inl:
+        * cuts/utils/Node_Daemon/Active_Process.cpp:
+        * cuts/utils/Node_Daemon/Client_Options.h:
+        * cuts/utils/Node_Daemon/Client_Options.cpp:
+        * cuts/utils/Node_Daemon/Delay_Handler.h:
+        * cuts/utils/Node_Daemon/Delay_Handler.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon.idl:
+        * cuts/utils/Node_Daemon/Node_Daemon_Client.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_Event_Handler.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_Event_Handler.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server_Options.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server_Options.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.inl:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+        * cuts/utils/Node_Daemon/Node_File_Reader.h:
+        * cuts/utils/Node_Daemon/Node_File_Reader.inl:
+        * cuts/utils/Node_Daemon/Node_File_Reader.cpp:
+        * cuts/utils/Node_Daemon/Process_Info.h:
+        * cuts/utils/Node_Daemon/Process_Info.inl:
+        * cuts/utils/Node_Daemon/Process_Info.cpp:
+        * cuts/utils/Node_Daemon/Process_Log.h:
+        * cuts/utils/Node_Daemon/Process_Log.inl:
+        * cuts/utils/Node_Daemon/Process_Log.cpp:
+        * cuts/utils/Node_Daemon/cutsnode.h:
+        * cuts/utils/Node_Daemon/cutsnode.inl:
+        * cuts/utils/Node_Daemon/cutsnode.cpp:
+        * cuts/utils/Node_Daemon/cutsnode_d.cpp:
+        * cuts/utils/Node_Daemon/cutsnode_d.mpc:
+
+          Removed these files.
+
+Tue Jul 14 04:22:38 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * CUTS_Runtime_Arch.mwc:
+
+          . Removed the cuts/BDC directory from the workspace.
+
+Tue Jul 14 01:21:53 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/BDC:
+
+          Removed this file.
+
+Sun Jul 12 21:20:35 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/BE_RTIDDS.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/BE_RTIDDS_export.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Context.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Context_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Event_Traits_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Event_Traits_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/IDL_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/IDL_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Input_Stream_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Input_Stream_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Manager_Factory.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Manager_Factory.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Output_Stream_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Output_Stream_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Project_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Header_Include_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Header_Include_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Stub_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Stub_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Workspace_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Workspace_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Workspace_Generator.cpp:
+        * bin/cuts.config:
+
+          . Backend code generator for RTI-DDS.
+
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_T.cpp:
+        * cuts/arch/rtidds/RTIDDS_Endpoint.cpp:
+
+          . Bug fix where creating loopback connections in a component
+            caused the either the input or output topic to not register
+            itself because the topic was already registered.
+
+        * examples/arch/rtidds/SimpleExample/lib:
+        * examples/arch/rtidds/SimpleExample/rtidds:
+
+          Removed this file.
+
+Sun Jul 12 10:44:35 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/testing/Testing_Service_Manager.cpp:
+        * cuts/utils/testing/test.h:
+        * cuts/utils/testing/test.inl:
+        * cuts/utils/testing/test.cpp:
+
+          . Updated XML to the lastest version of XSC.
+
+        * etc/schemas/cuts-unite.xsd:
+
+          . Modified some of the constraints in the schema.
+
+Sun Jul 12 10:22:42 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/unite/Unit_Test_Builder.h:
+        * cuts/utils/unite/Unit_Test_Builder.cpp:
+        * cuts/utils/unite/Unit_Test_Graph.h:
+        * cuts/utils/unite/Unit_Test_Graph.inl:
+        * cuts/utils/unite/Unit_Test_Graph.cpp:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.h:
+        * cuts/utils/unite/Unit_Test_Graph_Builder.cpp:
+        * cuts/utils/unite/Unite_App.h:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/Variable_Table_Repo.h:
+        * cuts/utils/unite/Variable_Table_Repo.cpp:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+
+          . Updated UNITE to the latest version of XSC.
+
+          . Improved the graph construction algorithm when parsing
+            the XML configuration files.
+
+Sun Jul 12 10:04:25 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table.h:
+        * cuts/arch/opensplice/server/server.mpc:
+
+          . Several bug fixes for Windows that were made aware when
+            developing the RTI-DDS architecture for CUTS.
+
+        * cuts/arch/rtidds:
+        * cuts/arch/rtidds/RTIDDS.mpc:
+        * cuts/arch/rtidds/RTIDDS_Endpoint.h:
+        * cuts/arch/rtidds/RTIDDS_Endpoint.inl:
+        * cuts/arch/rtidds/RTIDDS_ListenerBase.h:
+        * cuts/arch/rtidds/RTIDDS_ListenerBase.cpp:
+        * cuts/arch/rtidds/RTIDDS_Servant.h:
+        * cuts/arch/rtidds/RTIDDS_Servant.inl:
+        * cuts/arch/rtidds/RTIDDS_Servant.cpp:
+        * cuts/arch/rtidds/RTIDDS_Traits_T.h:
+        * cuts/arch/rtidds/RTIDDS_export.h:
+        * cuts/arch/rtidds/ccm:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM.mpc:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant_T.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_export.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_skel_export.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_stub_export.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Events.idl:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_Table.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_Table.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_Table_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_Table_T.cpp:
+        * cuts/arch/rtidds/rtidds_endpoint.cpp:
+        * cuts/arch/rtidds/server:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer.h:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer.inl:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer.cpp:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer_App.h:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer_App.inl:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer_App.cpp:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer_export.h:
+        * cuts/arch/rtidds/server/RTIDDS_Configurator.h:
+        * cuts/arch/rtidds/server/RTIDDS_Configurator.cpp:
+        * cuts/arch/rtidds/server/RTIDDS_Container.h:
+        * cuts/arch/rtidds/server/RTIDDS_Container.inl:
+        * cuts/arch/rtidds/server/RTIDDS_Container.cpp:
+        * cuts/arch/rtidds/server/RTIDDS_Container_Strategy.h:
+        * cuts/arch/rtidds/server/RTIDDS_Container_Strategy.inl:
+        * cuts/arch/rtidds/server/RTIDDS_Container_Strategy.cpp:
+        * cuts/arch/rtidds/server/server.cpp:
+        * cuts/arch/rtidds/server/server.mpc:
+        * default.features:
+        * examples/arch/rtidds:
+        * examples/arch/rtidds/SimpleExample:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData.idl:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_Base.mpc:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_DDS.idl:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_skel_export.h:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_stub_export.h:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_SimpleComponent_svnt_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent.cidl:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent.idl:
+        * examples/arch/rtidds/SimpleExample/SimpleComponentE.idl:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Base.mpc:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.mpc:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Impl.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Impl.cpp:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_exec_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_skel_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_stub_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleExample.mwc:
+        * examples/arch/rtidds/SimpleExample/descriptors:
+        * examples/arch/rtidds/SimpleExample/descriptors/SimpleExample.cdp:
+        * examples/arch/rtidds/SimpleExample/descriptors/nodemap.dat:
+        * examples/arch/rtidds/SimpleExample/descriptors/run_test.pl:
+        * examples/arch/rtidds/SimpleExample/lib:
+        * examples/arch/rtidds/SimpleExample/models:
+        * examples/arch/rtidds/SimpleExample/models/SimpleExample.xme:
+        * examples/arch/rtidds/SimpleExample/rtidds:
+        * examples/arch/rtidds/SimpleExample/rtidds/ModelDDSData_DDS.cxx:
+        * examples/arch/rtidds/SimpleExample/rtidds/ModelDDSData_DDSPlugin.h:
+        * examples/arch/rtidds/SimpleExample/rtidds/ModelDDSData_DDSPlugin.cxx:
+        * examples/arch/rtidds/SimpleExample/rtidds/ModelDDSData_DDSSupport.cxx:
+        * examples/arch/rtidds/SimpleExample/rtidds/ModelDDSData_DDSSupport.h:
+
+          . Checkpoint the RTI-DDS architecture. Right now, it is having
+            problems creating a topic for the consumer.
+
+Fri Jul 10 17:29:20 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * contrib/OpenSplice:
+        * contrib/OpenSplice/CCPP.mpc:
+
+          . Project file for building OpenSplice against lastest version
+            of ACE+TAO.
+
+Mon Jul  6 21:57:52 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/plugins/cute/CUTE.mpc:
+
+          . Added project properties for generating Wix backend.
+
+Mon Jul  6 21:47:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/cuts/utils/unite:
+
+          . Moved from an old location.
+
+        * examples/UNITE:
+        * examples/UNITE/example.unite:
+
+          Removed these files.
+
+Mon Jul  6 21:45:29 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
+
+          . Fixed compilation errors.
+
+Mon Jul  6 21:34:46 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * CUTS.mwc:
+        * CUTS_Modeling.mwc:
+
+          . Renamed the CUTS modeling workspace.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/modelgen.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/modelgen.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/modelgen.cpp:
+
+          . Updated to the latest version of XSC.
+
+        * MDE/GME/plugins/cute/CUTE_Dialog.h:
+        * MDE/GME/plugins/cute/CUTE_Dialog.inl:
+        * MDE/GME/plugins/cute/CUTE_Dialog.cpp:
+        * MDE/GME/plugins/cute/CUTS_CUTE.rc:
+        * MDE/GME/plugins/cute/ComponentConfig.h:
+        * MDE/GME/plugins/cute/Model_Interpreter.h:
+        * MDE/GME/plugins/cute/Model_Interpreter.inl:
+        * MDE/GME/plugins/cute/Model_Interpreter.cpp:
+        * MDE/GME/plugins/cute/RawComponent.h:
+        * MDE/GME/plugins/cute/RawComponent.cpp:
+        * MDE/GME/plugins/cute/resource.h:
+
+          . First complete version of CUTE with integrated support into
+            GME and the ability to fully automate interpreters using
+            paremeters.
+
+        * examples/MDE:
+        * examples/MDE/GME:
+        * examples/MDE/GME/addons:
+        * examples/MDE/GME/addons/CUTE:
+        * examples/MDE/GME/addons/CUTE/README:
+        * examples/MDE/GME/addons/CUTE/SimpleExample.xme:
+        * examples/MDE/GME/addons/CUTE/example.config:
+
+          . Simple example illustrating how to use CUTE.
+
+        * examples/cuts/utils/node/DAnCE/environment.txt:
+
+          . Rename of an previously existing file.
+
+        * CUTS_CoSMIC.mwc:
+        * examples/cuts/utils/node/DAnCE/environment.tex:
+
+          Removed these files.
+
+Mon Jul  6 06:41:33 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/node/Node_Daemon.cpp:
+        * cuts/utils/node/Node_Daemon_Options.h:
+        * cuts/utils/node/cutsnode.h:
+        * cuts/utils/node/cutsnode.inl:
+        * cuts/utils/node/cutsnode.cpp:
+
+          . Added support for setting the active environment from the
+            command-line using the --active-env=NAME argument.
+
+Mon Jul  6 05:16:38 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/cuts:
+        * examples/cuts/utils:
+        * examples/cuts/utils/node:
+        * examples/cuts/utils/node/DAnCE:
+        * examples/cuts/utils/node/DAnCE/dance.cutsnode.config:
+        * examples/cuts/utils/node/DAnCE/environment.txt:
+
+          . Example for using the CUTS node daemon to deploy DAnCE
+            artifacts, such as the node and execution manager.
+
+Mon Jul  6 05:08:01 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * tests/cuts/utils/node:
+
+          . Renamed the Node_Daemon directory.
+
+        * tests/cuts/utils/Node_Daemon:
+        * tests/cuts/utils/Node_Daemon/Node_Daemon_Test.mpc:
+        * tests/cuts/utils/Node_Daemon/TestApp1.cpp:
+        * tests/cuts/utils/Node_Daemon/TestApp2.cpp:
+        * tests/cuts/utils/Node_Daemon/example.config:
+
+          Removed these files.
+
+Mon Jul  6 05:03:48 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/Property_Parser.h:
+
+          . Added support for replacing properties that appear in
+            the value of another property.
+
+        * cuts/utils/node/Node_Daemon.cpp:
+        * cuts/utils/node/Text_Variable_Importer.h:
+        * cuts/utils/node/Text_Variable_Importer.inl:
+        * cuts/utils/node/Text_Variable_Importer.cpp:
+        * cuts/utils/node/Variable_Importer_Strategy.h:
+        * cuts/utils/node/Variable_Importer_Strategy.inl:
+        * cuts/utils/node/Variable_Importer_Strategy.cpp:
+        * cuts/utils/node/cutsnode.h:
+        * cuts/utils/node/cutsnode.inl:
+        * cuts/utils/node/cutsnode.cpp:
+        * cuts/utils/node/cutsnode_d.mpc:
+        * etc/schemas/cutsnode.xsd:
+
+          . Added support for importing variables from external files
+            that have text format.
+
+Sun Jul  5 22:44:49 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/node/Delay_Handler.h:
+        * cuts/utils/node/Delay_Handler.cpp:
+        * cuts/utils/node/Node_Daemon.h:
+        * cuts/utils/node/Node_Daemon.inl:
+        * cuts/utils/node/Node_Daemon.cpp:
+        * cuts/utils/node/Node_Daemon_Event_Handler.h:
+        * cuts/utils/node/Node_Daemon_Options.h:
+        * cuts/utils/node/Node_Daemon_Options.cpp:
+        * cuts/utils/node/Node_File_Reader.h:
+        * cuts/utils/node/Node_File_Reader.inl:
+        * cuts/utils/node/Node_File_Reader.cpp:
+        * cuts/utils/node/Process_Dependency_Graph.h:
+        * cuts/utils/node/Process_Dependency_Graph.inl:
+        * cuts/utils/node/Process_Dependency_Graph.cpp:
+        * cuts/utils/node/Process_Options.h:
+        * cuts/utils/node/Process_Options.inl:
+        * cuts/utils/node/Process_Options.cpp:
+        * cuts/utils/node/Virtual_Env.h:
+        * cuts/utils/node/Virtual_Env.inl:
+        * cuts/utils/node/Virtual_Env.cpp:
+        * cuts/utils/node/cutsnode.h:
+        * cuts/utils/node/cutsnode.inl:
+        * cuts/utils/node/cutsnode.cpp:
+        * cuts/utils/node/cutsnode_d.cpp:
+        * cuts/utils/node/cutsnode_d.mpc:
+        * etc/schemas/cutsnode.xsd:
+
+          . Re-implemented the node manager so that is not dependent
+            on CORBA
+
+          . Added support for virtual environments, which is a container
+            that hosts common processes with the same environment *settings*
+
+          . Added support for specifying process dependencies, which
+            help ensure processes are spawned in the correct order.
+
+        * cuts/utils/node/Node_Daemon_Server.h:
+        * cuts/utils/node/Node_Daemon_Server.cpp:
+        * cuts/utils/node/Node_Daemon_Server_Options.h:
+        * cuts/utils/node/Node_Daemon_Server_Options.cpp:
+        * cuts/utils/node/Process_Info.h:
+        * cuts/utils/node/Process_Info.inl:
+        * cuts/utils/node/Process_Info.cpp:
+        * cuts/utils/node/Process_Log.h:
+        * cuts/utils/node/Process_Log.inl:
+        * cuts/utils/node/Process_Log.cpp:
+
+          Removed these files.
+
+Fri Jul  3 03:29:36 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * CUTS_CoSMIC.mwc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Manager_Factory_Repo.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Manager_Factory.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/tcpip.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.mpc:
+        * MDE/GME/paradigms/PICML/models/CAPI.xme:
+        * MDE/GME/paradigms/PICML/models/XMLSchema.xme:
+        * MDE/GME/paradigms/PICML/models/examples/capi/AnyEvent.xme:
+        * MPC/config/cutsexe.mpb:
+        * MPC/config/cutslib.mpb:
+        * install/CUTS_CoSMIC.mwc:
+        * install/CUTS_CoSMIC.wxs:
+
+          . Fixed build and install errors related to update to Visual Studio
+            2005 as the default build engine.
+
+        * install/CUTS_PICML.wxs.old:
+
+          Removed this file.
+
+Wed Jul  1 16:25:35 UTC 2009  Pooja Varshneya  <varshneya_p@local>
+
+        * tests/cuts/utils/Node_Daemon:
+
+        * tests/cuts/utils/Node_Daemon/Node_Daemon_Test.mpc:
+        * tests/cuts/utils/Node_Daemon/TestApp1.cpp:
+        * tests/cuts/utils/Node_Daemon/TestApp2.cpp:
+        * tests/cuts/utils/Node_Daemon/example.config:
+
+                                  . Added test application for testing Node_Daemon
+
+Wed Jul  1 06:42:27 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/node/Delay_Handler.h:
+        * cuts/utils/node/Delay_Handler.inl:
+        * cuts/utils/node/Delay_Handler.cpp:
+        * cuts/utils/node/Node_Daemon_i.h:
+        * cuts/utils/node/Node_Daemon_i.cpp:
+
+          . Simplified the implementation for the delay handler and its
+            integration into the node daemon.
+
+          . Used ACE_Condition and ACE_Thread_Mutex objects instead of
+            an ACE_Barrier.
+
+          . Used the reactor of the ACE_Task_Base instead of an ACE_Time_Queue
+            object.
+
+          . Added return value checks.
+
+          . Removed several unnecessary methods.
+
+Wed Jul  1 05:24:43 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/utils/node:
+
+          . Rename of the Node_Daemon directory.
+
+        * cuts/utils/Node_Daemon:
+        * cuts/utils/Node_Daemon/Active_Process.h:
+        * cuts/utils/Node_Daemon/Active_Process.inl:
+        * cuts/utils/Node_Daemon/Active_Process.cpp:
+        * cuts/utils/Node_Daemon/Client_Options.h:
+        * cuts/utils/Node_Daemon/Client_Options.cpp:
+        * cuts/utils/Node_Daemon/Delay_Handler.h:
+        * cuts/utils/Node_Daemon/Delay_Handler.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon.idl:
+        * cuts/utils/Node_Daemon/Node_Daemon_Client.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_Event_Handler.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_Event_Handler.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server_Options.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server_Options.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.inl:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+        * cuts/utils/Node_Daemon/Node_File_Reader.h:
+        * cuts/utils/Node_Daemon/Node_File_Reader.inl:
+        * cuts/utils/Node_Daemon/Node_File_Reader.cpp:
+        * cuts/utils/Node_Daemon/Process_Info.h:
+        * cuts/utils/Node_Daemon/Process_Info.inl:
+        * cuts/utils/Node_Daemon/Process_Info.cpp:
+        * cuts/utils/Node_Daemon/Process_Log.h:
+        * cuts/utils/Node_Daemon/Process_Log.inl:
+        * cuts/utils/Node_Daemon/Process_Log.cpp:
+        * cuts/utils/Node_Daemon/cutsnode.h:
+        * cuts/utils/Node_Daemon/cutsnode.inl:
+        * cuts/utils/Node_Daemon/cutsnode.cpp:
+        * cuts/utils/Node_Daemon/cutsnode_d.cpp:
+        * cuts/utils/Node_Daemon/cutsnode_d.mpc:
+
+          Removed these files.
+
+Wed Jul  1 05:15:56 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/ComponentConfig.h:
+
+          . Changed the name of the component.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Graph_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Preprocessor_Handlers_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Preprocessor_Handlers_T.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Preprocessor_Handlers_T.cpp:
+
+          . Converted the preprocess handlers over to the new backend
+            architecture for the code generators.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Ctx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Ctx.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Event_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Generators.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Preprocessor.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Preprocessor_Handlers.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Preprocessor_Handlers.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Preprocessor_Handlers.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Project_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Project_Generators.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Project_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Workspace_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Workspace_Generators.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Workspace_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/Register_Type_Script_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/XML_Mapping_File_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/XSD_File_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Ctx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Preprocessor_Handlers.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Preprocessor_Handlers.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Preprocessor_Handlers.cpp:
+
+          . Updated the CAPI code generator to the latest version
+            of CUTS's modeling backend architecture.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/CUTS_BE_Java.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Behavior_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Behavior_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Behavior_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Variable_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Variable_Type.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Variable_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_export.h:
+        * MPC/config/cuts_be_java.mpb:
+
+          . Moved the behavior related code generators from the CAPI
+            to the Java backend.
+
+        * cuts/utils/Node_Daemon/Delay_Handler.cpp:
+
+          . Converted the *arg* parameter to a 0.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI.mpc.old:
+
+          Removed this file.
+
+Tue Jun 30 03:23:34 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * CUTS_Runtime_Arch.mwc:
+
+          . Hard-code the location of default.features.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.mpc:
+
+          . Updated the configuration values for the Wix section.
+
+Sun Jun 28 08:09:13 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.mpc:
+
+          . Simplified the project specification for installing
+            GME components using Wix.
+
+Sun Jun 28 00:58:06 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/gme_base.mpb:
+
+          . Simplified the *specific* configuration.
+
+Thu Jun 25 21:32:43 UTC 2009  Pooja Varshneya  <varshneya_p@vuse.vanderbilt.edu>
+
+        * cuts/utils/Node_Daemon/Node_Daemon.idl:
+        * cuts/utils/Node_Daemon/Node_Daemon_Client.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_Server.cpp:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.h:
+        * cuts/utils/Node_Daemon/Node_Daemon_i.cpp:
+        * cuts/utils/Node_Daemon/Process_Info.h:
+        * cuts/utils/Node_Daemon/cutsnode_d.mpc:
+        * etc/schemas/cutsnode.xsd:
+
+         . Added delay functionality to cutsnode deamon utility
+
+Thu Jun 25 06:34:32 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * install/CUTS_CoSMIC.wxs:
+        * install/includes:
+
+          . Changed the name of the *thirdparty* directory.
+
+        * install/thirdparty:
+        * install/thirdparty/udm.wxi:
+        * install/thirdparty/xerces.wxi:
+
+          Removed these files.
+
+Thu Jun 25 06:32:47 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MPC/config/noinstall.mpb:
+
+          . Missing base project.
+
+Thu Jun 25 06:28:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/PICML/models/CAPI.xme:
+        * MDE/GME/paradigms/PICML/models/XMLSchema.xme:
+        * MDE/GME/paradigms/PICML/models/examples/capi/AnyEvent.xme:
+
+          . Updated to the latest version of GME.
+
+        * CUTS_CoSMIC.mwc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/BE_CIAO.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/BE_OpenSplice.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/tcpip.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.mpc:
+        * MPC/config/cutsexe.mpb:
+        * MPC/config/cutslib.mpb:
+        * MPC/config/picml_udm.mpb:
+        * install/CUTS_CoSMIC.mpc:
+        * install/CUTS_CoSMIC.mwc:
+        * install/CUTS_CoSMIC.wxs:
+        * install/CUTS_PICML.wxs.old:
+        * install/thirdparty:
+        * install/thirdparty/udm.wxi:
+        * install/thirdparty/xerces.wxi:
+
+          . The .msi for CUTS_CoSMIC is now generated by MPC. This will
+            make it a LOT easier ensuring that the installer has all the
+            necessary files for proper distribution.
+
+        * install/CUTS_CoSMIC_installers.mpc:
+        * install/CUTS_PICML.wxs:
+        * install/install.mwc:
+
+          Removed these files.
+
+Thu Jun 25 00:25:01 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * docs/CUTS.smp:
+
+          . Snapshot of CUTS's SLOC.
+
+Sun Jun 21 21:04:37 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * performance-tests/DOA-2009/doa2009.mwc:
+        * performance-tests/DOA-2009/overhead:
+        * performance-tests/DOA-2009/overhead/EINode_Channel_i.h:
+        * performance-tests/DOA-2009/overhead/EINode_Channel_i.cpp:
+        * performance-tests/DOA-2009/overhead/OverheadTest.idl:
+        * performance-tests/DOA-2009/overhead/OverheadTest.mpc:
+        * performance-tests/DOA-2009/overhead/OverheadTest_i.h:
+        * performance-tests/DOA-2009/overhead/OverheadTest_i.cpp:
+        * performance-tests/DOA-2009/overhead/client.cpp:
+        * performance-tests/DOA-2009/overhead/dac-server.cpp:
+        * performance-tests/DOA-2009/overhead/einode-configuration.xml:
+        * performance-tests/DOA-2009/overhead/server.cpp:
+
+          . Simple overhead tests for OASIS.
+
+Sun Jun 21 20:46:31 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * cuts/arch/tcpip/config.h:
+
+          . Missing file.
+
+Thu Jun 18 12:49:58 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.cpp:
+
+          . Added debug statements to the source.
+
+Thu Jun 18 12:25:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.cpp:
+
+          . Missing project files.
+
+Thu Jun 18 12:05:47 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.mpc:
+
+          . Missing project file.
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Impl.mpc:
+
+          Removed this file.
+
+Thu Jun 18 05:34:38 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
+        * MPC/config/cuts_base.mpb:
+        * MPC/config/gme_rawcom.mpb:
+
+          . Fixed compile errors/warnings on vc8.
+
+Wed Jun 17 22:11:29 UTC 2009  Pooja Varshneya  <varshneya_p@local>
+
+        * MDE/GME/paradigms/CUTS/paradigm/icons/Group.bmp:
+        * MDE/GME/paradigms/CUTS/paradigm/icons/GroupItem.bmp:
+        * MDE/GME/paradigms/CUTS/paradigm/icons/Key.bmp:
+        * MDE/GME/paradigms/CUTS/paradigm/icons/Service.bmp:
+        * MDE/GME/paradigms/CUTS/paradigm/icons/Variable.bmp:
+
+          . Added icons for CUTS DSML
+
+        * MDE/GME/paradigms/CUTS/paradigm/icons/logformat.bmp:
+
+          Removed this file.
+
+Wed Jun 17 20:36:56 UTC 2009  Pooja Varshneya  <varshneya_p@local>
+
+        * ChangeLog:
+
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UniteVisitor.cpp:
+
+          . Updated UniteVisitor for mapping Log_Elements to GroupItem
+
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS.xme:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS.xml:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS.xmp:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS_uml.xme:
+
+          . Updated the model
+
+Wed Jun 17 01:37:11 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * MDE/GME/paradigms/CHAOS/transformation/chaos2picml.xsl:
+        * MDE/GME/paradigms/CHAOS/transformation/picml2chaos.xsl:
+
+          . Added support to preserve the connection type between bi-directional
+            transformations between CHAOS and PICML.
+
+Wed Jun 17 00:48:20 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
+
+        * ChangeLogs/ChangeLog-0_0_0_3:
+
+          . Changelog for CUTS-0.0.0.3
+
+        * MPC/config/cuts_chaos_componentserver.mpb:
+        * cuts/arch/chaos/server/CHAOS_CCM_Container_Strategy.h:
+        * cuts/arch/chaos/server/CHAOS_CCM_Container_Strategy.cpp:
+        * cuts/arch/chaos/server/server.mpc:
+        * cuts/arch/opensplice/server/OpenSplice_Configurator.h:
+        * cuts/arch/opensplice/server/OpenSplice_Configurator.cpp:
+
+          . Added the service configurator to OpenSplice and
+            CHAOS.
+
+        * cuts/arch/tcpip/TCPIP_Event_Handler.cpp:
+        * cuts/arch/tcpip/TCPIP_ORB.cpp:
+        * cuts/arch/tcpip/TCPIP_Remote_Endpoint.cpp:
+        * cuts/arch/tcpip/TCPIP_Remote_Endpoint_T.cpp:
+        * cuts/arch/tcpip/config-default.h:
+
+          . Added error messages.
+
+        * examples/arch/chaos/SimpleExample/CHAOS_SimpleComponent_svnt.cpp:
+        * examples/arch/chaos/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+
+          . Added output messages.
+
