@@ -1,3 +1,22 @@
+USER VISIBLE CHANGES BETWEEN CUTS-0.0.0.3 AND CUTS-0.0.0.4
+==========================================================
+
+. Updated CUTS component-based runtime architecture to
+  support CIAO 0.7.3
+
+. Added aspects to UNITE.
+
+. New utility named Test Execution (TE) Score (cuts-te-score)
+  that can grade (or rate) a test based on desired execution
+  states.
+
+. Re-designed logging infrastructure so that is easier to
+  deploy a logging client and server.
+
+. Re-designed CUTS node daemon so that end-users can construct
+  (virtual) environments that execute a predefined set of
+  processes.
+
 USER VISIBLE CHANGES BETWEEN CUTS-0.0.0.2 AND CUTS-0.0.0.3
 ==========================================================
 
