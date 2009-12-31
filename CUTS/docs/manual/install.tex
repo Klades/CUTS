@@ -38,10 +38,11 @@ installed on the target machine(s):
 \end{figure}
 
 \begin{itemize} 
-  \item \textbf{ACE + TAO} - This set of middleware is used to abstract away the 
-  complexities of implementing applications that operate on many different operating
-  systems (ACE), and perform distributed communication (TAO). You can download ACE + TAO
-  from the following location: \url{http://www.dre.vanderbilt.edu/TAO}.
+  \item \textbf{DOC Group Middleware} - This set of middleware is used to abstract 
+  away complexities associated with implementing applications that operate on many 
+  different operating systems (ACE) and perform distributed communication (TAO). 
+  You can download DOC Group Middleware from the following location: 
+  \url{http://www.dre.vanderbilt.edu}.
 
   \item \textbf{Boost} - This set of libraries is used for implementing the parsers 
   (Boost Spirit) used within different artifacts of CUTS. You can download Boost from
@@ -84,7 +85,8 @@ set the following environment variables:
 (*@\texttt{\%> export PATH=\$PATH:\$CUTS\_ROOT/bin}@*)
 \end{lstlisting}
 Please see Appendix~\ref{chap:thirdparty} for instructions for configuring,
-building, and installing third-party libraries needed by CUTS.
+building, and installing third-party libraries needed by CUTS, such as 
+DOC Group Middleware, Boost, and SQLite.
 
 \subsection{Installation}
 
@@ -111,8 +113,8 @@ It is recommended that you copy the file above to the following location:
 (*@\texttt{\%> \$CUTS\_ROOT/default.features}@*)
 \end{lstlisting}
 and enable/disable the appropriate features for your workspace by 
-modifying \texttt{default.features} accordingly. This way you do not
-have to use the \texttt{-features} command-line option unless you want
+modifying \texttt{default.features}. This way you do not have to use 
+the \texttt{-features} command-line option unless you want
 to override your default feature selection. Once you have generated 
 the workspace, you can build the solution using your specified compiler.
 
