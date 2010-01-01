@@ -1,3 +1,9 @@
+Fri Jan  1 04:57:40 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * ChangeLog
+
+          . Happy New Year's!!
+
 Thu Dec 31 07:19:54 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
         * docs/manual/appendix/thirdparty.tex:
@@ -11,7 +17,7 @@ Thu Dec 31 07:19:54 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
         * docs/manual/quickstart.tex:
         * docs/manual/runtime/runtime.tex:
 
-	  Updated the user's manual.
+    Updated the user's manual.
 
 Thu Dec 31 06:40:34 UTC 2009  James H. Hill  <hillj at cs dot iupui dot edu>
 
