@@ -131,7 +131,9 @@ public class Logger
       this.release ();
 
     // Request a new logger object.
-    this.logger_ = this.loggingClient_.get_logger (uuid);
+    if(this.loggingClient_ != null)
+    	this.logger_ = this.loggingClient_.get_logger (uuid);
+    	
   }
 
   /**

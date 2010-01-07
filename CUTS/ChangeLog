@@ -1,3 +1,9 @@
+Thu Jan  7 03:28:39 UTC 2010  Manjula Peiris <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/java/utils/logging/client/logger/CUTS/client/logging/Logger.java:
+
+	  . Fixed the null pointer exception when cuts is working as a log4j appender
+
 Fri Jan  1 04:57:40 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * ChangeLog
