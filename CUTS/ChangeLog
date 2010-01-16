@@ -1,14 +1,26 @@
+Sat Jan 16 21:58:28 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * docs/CUTS.smp:
+
+          . Snapshot of code metrics.
+
+        * examples/java/logging/client/log4j/log4j.properties:
+
+          . Updated the properties file to reflect modifications to
+            the CUTS log4j appender.
+
 Thu Jan  7 03:28:39 UTC 2010  Manjula Peiris <tmpeiris at cs dot iupui dot edu>
 
         * cuts/java/utils/logging/client/logger/CUTS/client/logging/Logger.java:
 
-	  . Fixed the null pointer exception when cuts is working as a log4j appender
+          . Fixed the null pointer exception when cuts is working as
+            a log4j appender
 
 Fri Jan  1 04:57:40 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * ChangeLog
 
-          . Happy New Year's!!
+          . Happy New Year!!
 
 Thu Dec 31 07:19:54 UTC 2009  James H. Hill  <hillj@dre.vanderbilt.edu>
 
