@@ -1,3 +1,30 @@
+Mon Jan 18 23:48:13 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * docs/manual/extensions.tex:
+
+	  . Added \category to the environment.
+
+        * docs/manual/images/cuts-analysis-blocks.pdf:
+        * docs/manual/other/drawing-palette.pptx:
+	  
+	  . Updated the image for the analysis toolset.
+
+        * docs/manual/install.tex:
+	  
+	  . Updated the build instructions for the analysis toolset.
+	
+        * docs/manual/manual.pdf:
+
+	  . Re-generated the documentation.
+	
+        * docs/manual/manual.tex:
+
+	  . Updated the default settings for listings.
+
+        * docs/manual/runtime/logging.tex:
+
+	  . First complete draft of the logging facilities.
+
 Sat Jan 16 22:35:13 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/java/logging/client/log4j/cutsnode.config:

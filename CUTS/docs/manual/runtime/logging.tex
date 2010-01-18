@@ -1,5 +1,6 @@
 % $Id$
 
+
 \chapter{CUTS Logging Facilities}
 \label{chap:logging}
 
@@ -211,3 +212,99 @@ host in the runtime environment.
 
 \section{The Client Loggers}
 \label{sec:client-loggers}
+
+The client loggers are responsible for collecting log messages from
+an application and submitting them to the logging client on its host
+machine. Since client loggers interact directly with the application,
+they are language dependent. Currently, CUTS supports client loggers
+for C++ and Java applications. In addition, CUTS support the following
+logging frameworks: ACE Logging Facilities and log4j. The remainder
+of the section dicusses how directly integrate client loggers into
+an application and indirectly intergrate them using an pre-existing
+logging framework.
+
+\subsection{Direct Integration}
+\label{sec:client-loggers-direct}
+
+Direct integration is the simplest method for integrating CUTS
+logging facilities into an existing application. It is also the most
+instrusive approach for integrating the logging facilities into an
+existing application. This is because you have to augment existing
+code to include the client logger(s). Only then can the application
+use to client logger to collect messages and submit them to the 
+logging client executing on the localhost.
+
+The following code illustrates integrating the client logger using
+the C++ version:
+\lstinputlisting[language=C++,xleftmargin=8mm,captionpos=b,numbers=left,
+caption={Example illustrating integration of the C++ client logger.}]{listings/client-logger.cpp}
+Likewise, this code illustrates the same concept using the Java
+version of the client logger:
+\lstinputlisting[language=Java,xleftmargin=8mm,captionpos=b,numbers=left,
+caption={Example illustrating integration of the Java client logger.}]{listings/client-logger.java}
+
+In both the C++ and Java example, the \texttt{connect()} method 
+takes as its input parameter the location of the logging client. This
+location can be a CORBA IOR, corbaname, or corbaloc (\textit{i.e.},
+anything that is a valid parameter for the \texttt{string\_to\_object()}
+method implemented on the ORB). After a connection is made to the 
+logging client, the client logger submits messages to the logging
+client using the \texttt{log()} method. When the client logger is 
+done (or the application is ready to exit), it disconnects from the 
+logging client using the \texttt{disconnect()} method. This is a 
+critical step because it ensures the logging client does not get into 
+an inconsistent state when trying to keep track of the number of 
+active client loggers.
+
+\subsection{Indirect Integration}
+\label{sec:client-loggers-indirect}
+
+Indirect integration is a non-intrusive method for integrating the 
+CUTS logging facilities with an existing application. This approach
+only work if the application is already using a logging framework,
+such as ACE Logging Facilities or log4j. Indirect integration works
+by intercepting log messages sent to the original logging framework
+and submitting them to the CUTS logging facilities (\textit{i.e.},
+the logging client). 
+
+Unlike direct integration, system developers do not need to update
+their existing code base to leverage indirect integration. Instead,
+they must update the existing logging frameworks configuration files 
+to ``install'' the necessary inteceptors. The remainder of this section
+therefore presents details on using indirect integration with supported
+logging frameworks in CUTS.
+
+\subsubsection{log4j}
+
+\category{Language.} Java
+
+\category{How to integrate.} Update \texttt{log4j.properties} (or similar file)
+
+\category{Illustrative example.}
+
+\begin{lstlisting}[basicstyle=\footnotesize]
+# define the loggers
+log4j.rootCategory=ALL, Console, LoggingClient
+
+# console appender
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%-4r [%t] %-5p %c %x - %m%n
+
+# CUTS appender
+log4j.appender.LoggingClient=cuts.log4j.LoggingClientAppender
+log4j.appender.LoggingClient.LoggerClient=corbaloc:iiop:localhost:20000/LoggingClient
+\end{lstlisting}
+
+\subsubsection{ACE Logging Facilities}
+
+\category{Language.} C++
+
+\category{How to integrate.} Update \texttt{svc.conf} (or similar file)
+
+\category{Illustrative example.}
+\begin{lstlisting}
+dynamic CUTS_ACE_Log_Interceptor Service_Object * \
+ CUTS_ACE_Log_Interceptor:_make_CUTS_ACE_Log_Interceptor() active \
+ ``--client=corbaloc:iiop:localhost:20000/LoggingClient''
+\end{lstlisting}

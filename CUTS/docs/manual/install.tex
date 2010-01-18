@@ -80,9 +80,9 @@ access at one of the subdirectories in the repository at the following location:
 Before you can build CUTS, you must for configure you environment. Please
 set the following environment variables:
 \begin{lstlisting}
-(*@\texttt{\%> export CUTS\_ROOT=} location of CUTS@*)
-(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$CUTS\_ROOT/lib}@*)
-(*@\texttt{\%> export PATH=\$PATH:\$CUTS\_ROOT/bin}@*)
+%> export CUTS_ROOT=location of CUTS
+%> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUTS_ROOT/lib
+%> export PATH=$PATH:$CUTS_ROOT/bin
 \end{lstlisting}
 Please see Appendix~\ref{chap:thirdparty} for instructions for configuring,
 building, and installing third-party libraries needed by CUTS, such as 
@@ -97,7 +97,7 @@ on different operating systems, and with different compilers. Before you can
 build the runtime architecture, you must first generate the target workspace.
 Use the following command to generate the workspace:
 \begin{lstlisting}
-(*@\texttt{\%> \$(ACE\_ROOT)/bin/mwc.pl -type TYPE [-features FEATURES] CUTS.mwc}@*)
+%> $ACE_ROOT/bin/mwc.pl -type TYPE [-features FEATURES] CUTS.mwc
 \end{lstlisting}
 where TYPE is your compiler type, and FEATURES is a comma-separated list of 
 enabled/disabled features
@@ -106,11 +106,11 @@ for your build of the CUTS runtime architecture.\footnote{You can type
 MPC.} The complete set of features for CUTS is located in the following
 file:
 \begin{lstlisting}
-(*@\texttt{\%> \$CUTS\_ROOT/default.features.tmpl}@*)
+%> $CUTS_ROOT/default.features.tmpl
 \end{lstlisting}
 It is recommended that you copy the file above to the following location:
 \begin{lstlisting}
-(*@\texttt{\%> \$CUTS\_ROOT/default.features}@*)
+%> $CUTS_ROOT/default.features
 \end{lstlisting}
 and enable/disable the appropriate features for your workspace by 
 modifying \texttt{default.features}. This way you do not have to use 
@@ -168,24 +168,31 @@ After you have built and installed CoSMIC from sources, you are ready to build
 the CUTS modeling tools from source. Please use the following commands to 
 build the modeling tools using your flavor of Visual C++:
 \begin{lstlisting}
-(*@\texttt{\%> cd \%CUTS\_ROOT\%}@*)
-(*@\texttt{\%> mwc.pl -type [vc71 | vc8 | vc9] -features modeling=1,cosmic=1,boost=1,xsc=1,xscrt=1 CUTS\_CoSMIC.mwc}@*)
-(*@\texttt{\%> open solution and build}@*)
+%> cd %CUTS_ROOT%
+%> mwc.pl -type [vc type] -features modeling=1,cosmic=1 CUTS_CoSMIC.mwc
+%> open solution and build
 \end{lstlisting}
 The build process will ensure that all the interpreters are installed
 and configured for your environment.
 
 \section{CUTS Analysis Tools (Windows-only)}
 
-The CUTS analysis tools allow developers to view and analyze performance metrics
-of their system, and a CUTS test run. The analysis tools are built using the 
-following key technologies:
+The CUTS analysis tools allow developers to view and analyze system
+performance metrics. The analysis tools are developed using the following
+key technologies:
 \begin{figure}[htbp]
   \centering
   \includegraphics[scale=0.5]{cuts-analysis-blocks.pdf}
   \caption{Building blocks for the CUTS analysis tools}
   \label{fig:cuts-analysis-blocks}
 \end{figure}
+
+As shown in Figure~\ref{fig:cuts-analysis-blocks}, the same technologies 
+used to develop the runtime toolset (see Figure~\ref{fig:cuts-runtime-blocks}) 
+are used to develop the analysis toolset. Because the same technologies 
+are used in the analysis toolset, the core projects in analysis toolset 
+is also built while building the runtime toolset.
+\iffalse
 \begin{itemize}
   \item \textbf{ASP.NET} - ASP.NET is used to create the web application
   for the analysis tools, which is the main access portal for viewing 
@@ -221,11 +228,12 @@ Section~\ref{sec:install-download-runtime}). To build the CUTS analysis tools,
 first install Visual Studio.NET 2003 or better. Afterwards, please use the following 
 commands to build the analysis tools:
 \begin{lstlisting}
-(*@\texttt{\%> cd \%CUTS\_ROOT\%$\backslash$utils$\backslash$BMW}@*)
-(*@\texttt{\%> mwc.pl -type [vc8 | vc9] BMW.mwc}@*)
-(*@\texttt{\%> open solution and build}@*)
+%> cd %CUTS_ROOT%\utils\BMW
+%> mwc.pl -type [vc8 | vc9] BMW.mwc
+%> open solution and build
 \end{lstlisting}
 The build process will ensure that all assemblies and the website build correctly. 
 Once the build process is complete, you will to register the following location
 with Microsoft IIS: \texttt{\%CUTS\_ROOT\%$\backslash$utils$\backslash$BMW$\backslash$website}.
 This will allow you to view the website from your favorite web browser.
+\fi
