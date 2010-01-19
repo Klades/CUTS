@@ -1,3 +1,14 @@
+Tue Jan 19 00:04:52 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * docs/manual/getting-started/quickstart.tex:
+
+	  . Reorganizing the LaTeX files.
+
+        * docs/manual/part1.tex:
+        * docs/manual/quickstart.tex:
+
+          Removed these files.
+
 Tue Jan 19 00:03:23 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * docs/manual/getting-started:
@@ -10,10 +21,10 @@ Tue Jan 19 00:03:23 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
         * docs/manual/manual.tex:
         * docs/manual/modeling:
         * docs/manual/modeling.tex:
-	* docs/manual/runtime.tex:
+        * docs/manual/runtime.tex:
 
-	  . Reorganizing the LaTeX files and manual.
-	
+          . Reorganizing the LaTeX files and manual.
+
         * docs/manual/runtime/runtime.tex:
         * docs/manual/install.tex:
 
