@@ -4,28 +4,28 @@
 \label{chap:install}
 
 CUTS has many small projects that comprise the entire system execution modeling
-(SEM) tool. Its many projects, however, can be divided into three main categories, or
-project groups:
+(SEM) tool. Its many projects, however, can be divided into three main toolsets:
 \begin{itemize}
   \item Runtime architecture
   \item Modeling tools
   \item Analysis tools
 \end{itemize}
 This chapter discusses how to build and install each of the aforementioned
-project groups for CUTS. Depending on your usage of CUTS, you may not need to build 
-and install all projects in a category on the same machine. For example, you may install the 
-runtime architecture of CUTS in your testing environment, and the modeling and analysis
-tools outside of your testing environment to minimize interference with the testing 
-process when viewing collected performance metrics in real-time. We are aware of 
-these needs, and have setup the build process to decouple projects within a group from 
-projects external to its corresponding category. You can, therefore, refer to each of the 
-following sections on building and installation in isolation since project groups do 
+toolsets for CUTS. Depending on your usage of CUTS, you may not need to build 
+and install all projects in a category on the same machine. For example, you 
+may install the runtime toolset of CUTS in your testing environment, and 
+the modeling and analysis toolset outside of your testing environment to 
+minimize interference with the testing process when viewing collected 
+performance metrics in real-time. We are aware of these needs, and have 
+setup the build process to decouple projects within a toolset from projects 
+external to its corresponding toolset. You can, therefore, refer to each of the 
+following sections on building and installation in isolation since toolsets do 
 not explicitly depend on each other.
 
-\section{CUTS Runtime Architecture}
+\section{CUTS Runtime Toolset}
 \label{sec:install-runtime}
 
-The runtime architecture for CUTS allows developers and testers to emulate system 
+The runtime toolset for CUTS allows developers and testers to emulate system 
 experiments on their target architecture. CUTS also provides the mechanisms
 to monitor and collect performance metrics for the executing system. In order to 
 build the CUTS runtime architecture, you will need the following technologies 
@@ -118,7 +118,7 @@ the \texttt{-features} command-line option unless you want
 to override your default feature selection. Once you have generated 
 the workspace, you can build the solution using your specified compiler.
 
-\section{CUTS Modeling Tools (Windows-only)}
+\section{CUTS Modeling Toolset (Windows-only)}
 
 CUTS modeling tools provide system developers and testers with an enviroment
 for rapidly constructing experiments for distributed component-based systems,
@@ -175,7 +175,7 @@ build the modeling tools using your flavor of Visual C++:
 The build process will ensure that all the interpreters are installed
 and configured for your environment.
 
-\section{CUTS Analysis Tools (Windows-only)}
+\section{CUTS Analysis Toolset}
 
 The CUTS analysis tools allow developers to view and analyze system
 performance metrics. The analysis tools are developed using the following
