@@ -1,3 +1,10 @@
+Thu Feb  4 22:30:05 UTC 2010  Manjula Peiris <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/java/utils/logging/client/interceptors/log4j/cuts/log4j/LoggingClientAppender.java:
+        * cuts/java/utils/logging/client/logger/CUTS/client/logging/Logger.java:
+	
+	. Fixed a null pointer exception.Modified the Appender to send the whole layout message.
+
 Tue Jan 19 22:58:01 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * THANKS:

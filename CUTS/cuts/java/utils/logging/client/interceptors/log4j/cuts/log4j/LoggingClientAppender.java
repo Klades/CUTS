@@ -90,7 +90,11 @@ public class LoggingClientAppender extends AppenderSkeleton
   public void append (LoggingEvent event)
   {
     int level = LoggingClientAppender.translateLevel (event.getLevel ());
-    this.logger_.logMessage (level, event.getRenderedMessage ());
+    String msg = null;
+    if(this.layout != null)
+    	msg = this.layout.format(event);
+    this.logger_.logMessage (level, msg);
+    
   }
 
   /**
@@ -98,7 +102,7 @@ public class LoggingClientAppender extends AppenderSkeleton
    */
   public boolean requiresLayout ()
   {
-    return false;
+    return true;
   }
 
   /**

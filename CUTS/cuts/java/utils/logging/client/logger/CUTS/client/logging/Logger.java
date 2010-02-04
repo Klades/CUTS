@@ -186,7 +186,9 @@ public class Logger
       msg.message = message.toCharArray ();
 
       // Send the message to the logger.
-      this.logger_.log (msg);
+      
+	if(this.logger_ != null)
+		this.logger_.log (msg);
     }
     catch (Exception ex)
     {
