@@ -24,7 +24,7 @@ struct append
     std::string text (begin, end);
 
     // Escape any special characters before append;
-    static const char * special = ".()+*?\\-";
+    static const char * special = "{}|[]^.()+*?\\-";
     std::string::size_type found = text.find_first_of (special);
 
     while (found != std::string::npos)
