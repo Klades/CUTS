@@ -49,15 +49,15 @@ public:
    * Initialize the component server.
    *
    * @param[in]        argc      Number of command-line arguments
-   * @param[in]        argv      The actual command-line arguments     
+   * @param[in]        argv      The actual command-line arguments
    */
   int init (int argc, char * argv []);
 
   /// Configure the component server.
   int configure (::CIAO::Deployment::ServerActivator_ptr activator,
-		 ::Components::ConfigValues * config,
-		 ::PortableServer::POA_ptr poa);
-  
+     ::Components::ConfigValues * config,
+     ::PortableServer::POA_ptr poa);
+
   /// Activate the component server.
   int activate (void);
 
@@ -106,7 +106,7 @@ private:
   container_set containers_;
 
   // Installation object for the component.
-  ::CIAO::Deployment::ComponentInstallation_var installer_;
+  ::Components::Deployment::ComponentInstallation_var installer_;
 };
 
 #if defined (__CUTS_INLINE__)

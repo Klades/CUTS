@@ -1,3 +1,16 @@
+Sat Feb  6 22:29:21 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Assembly_Generator_Preprocessor.cpp:
+
+          . Fixed weird build error on obsolete code.
+
+        * cuts/arch/ccm/CCM_ComponentServer_T.h:
+        * cuts/arch/ccm/CCM_Container_T.h:
+        * cuts/arch/ccm/CCM_Container_T.inl:
+
+          . Updated CCM template classes to latest version of DOC
+            middleware.
+
 Sat Feb  6 02:10:22 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/utils/unite/Log_Format_Compiler.cpp:

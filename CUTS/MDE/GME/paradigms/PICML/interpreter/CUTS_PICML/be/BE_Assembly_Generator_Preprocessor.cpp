@@ -31,11 +31,11 @@ CUTS_BE_Assembly_Generator_Preprocessor::
 void CUTS_BE_Assembly_Generator_Preprocessor::
 Visit_RootFolder (const PICML::RootFolder & root)
 {
-  typedef 
-    std::vector <PICML::ComponentImplementations> 
+  typedef
+    std::vector <PICML::ComponentImplementations>
     ComponentImplementations_set;
 
-  ComponentImplementations_set folders = 
+  ComponentImplementations_set folders =
     root.ComponentImplementations_children ();
 
   std::for_each (folders.begin (),
@@ -48,20 +48,22 @@ Visit_RootFolder (const PICML::RootFolder & root)
   // a specialized case of depth-first search.
   std::vector <vertex_type> results;
 
-  boost::topological_sort (this->graph_, 
+  boost::topological_sort (this->graph_,
                            std::back_inserter (results));
 
-  boost::topological_sort (this->graph_, 
-    std::back_inserter (results),
-    boost::visitor (boost::make_dfs_visitor (
-      boost::write_property (boost::vertex_name, 
-      std::back_inserter (this->assembly_list_), 
-      boost::on_finish_vertex ()))));
+  //boost::topological_sort (
+  //  this->graph_,
+  //  std::back_inserter (results),
+  //  boost::visitor (
+  //    boost::make_dfs_visitor (
+  //      boost::write_property (boost::vertex_name,
+  //                             std::back_inserter (this->assembly_list_),
+  //                             boost::on_finish_vertex ()))));
 
-  // Copy the results into the assembly list. Unfortunately, I 
-  // can't get the parameter version above working so the results 
+  // Copy the results into the assembly list. Unfortunately, I
+  // can't get the parameter version above working so the results
   // are entered directly into the list.
-  std::vector <vertex_type>::iterator 
+  std::vector <vertex_type>::iterator
     iter = results.begin (), iter_end = results.end ();
 
   for ( ; iter != iter_end; iter ++)
@@ -77,7 +79,7 @@ Visit_RootFolder (const PICML::RootFolder & root)
 void CUTS_BE_Assembly_Generator_Preprocessor::
 Visit_ComponentImplementations (const PICML::ComponentImplementations & folder)
 {
-  typedef 
+  typedef
     std::vector <PICML::ComponentImplementationContainer>
     Container_set;
 
@@ -100,7 +102,7 @@ Visit_ComponentImplementationContainer (
 {
   typedef std::vector <PICML::ComponentAssembly> ComponentAssembly_set;
 
-  ComponentAssembly_set assemblies = 
+  ComponentAssembly_set assemblies =
     container.ComponentAssembly_kind_children ();
 
   std::for_each (assemblies.begin (),
@@ -120,7 +122,7 @@ Visit_ComponentAssembly (const PICML::ComponentAssembly & assembly)
 
   // Add this assembly to the graph as a vertex.
   vertex_map_type::iterator result = this->vertex_map_.find (assembly);
-  
+
   if (result != this->vertex_map_.end ())
   {
     parent_desc = result->second;
@@ -135,11 +137,11 @@ Visit_ComponentAssembly (const PICML::ComponentAssembly & assembly)
   typedef std::vector <PICML::ComponentAssembly> ComponentAssembly_set;
   ComponentAssembly_set assemblies = assembly.ComponentAssembly_children ();
 
-  ComponentAssembly_set::iterator 
+  ComponentAssembly_set::iterator
     iter = assemblies.begin (), iter_end = assemblies.end ();
 
   vertex_type child_desc;
-  PICML::ComponentAssembly child_assembly;      
+  PICML::ComponentAssembly child_assembly;
 
   for ( ; iter != iter_end; iter ++)
   {

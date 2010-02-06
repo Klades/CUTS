@@ -81,6 +81,16 @@ public:
 
   virtual ::Components::CCMObjectSeq * get_components (void);
 
+  virtual void connect_local_facet (::Components::CCMObject_ptr,
+                                    const char * ,
+                                    ::Components::CCMObject_ptr,
+                                    const char *);
+
+  virtual void disconnect_local_facet (::Components::CCMObject_ptr,
+                                       const char * ,
+                                       ::Components::CCMObject_ptr,
+                                       const char *);
+
 protected:
   void copy (::Components::ConfigValues & dst, const ::Components::ConfigValues & src);
 
