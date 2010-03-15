@@ -8,8 +8,6 @@ project (CUTS_Test_Log_Formats) : acelib, boost_unit_test_framework {
 
   dynamicflags += TEST_LOG_FORMATS_BUILD_DLL
 
-  macros += BOOST_TEST_DYN_LINK
-
   Source_Files {
     Boost_JUnit_Formatter.cpp
   }

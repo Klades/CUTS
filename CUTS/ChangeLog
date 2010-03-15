@@ -1,3 +1,23 @@
+Mon Mar 15 15:48:35 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * tests/cuts/Test_Log_Formats.mpc:
+        * tests/cuts/test.mpc:
+        * tests/cuts/utils/node/TestApp1.cpp:
+        * tests/cuts/utils/node/TestApp2.cpp:
+        * tests/cuts/utils/testing/test.mpc:
+
+          . Fixed build errors.
+
+        * tests/cuts/workers/Test_Logger:
+        * tests/cuts/workers/Test_Logger/TestLoggerTest.bat:
+        * tests/cuts/workers/Test_Logger/TestLoggerTest.build:
+        * tests/cuts/workers/Test_Logger/TestLoggerTest.java:
+        * tests/cuts/workers/Test_Logger/TestLoggerTest.sh:
+        * tests/cuts/workers/Test_Logger/Test_Logger.mpc:
+        * tests/cuts/workers/Test_Logger/Test_Logger.cpp:
+
+          Removed these files.
+
 Mon Mar 15 15:47:41 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/Log_T.inl:

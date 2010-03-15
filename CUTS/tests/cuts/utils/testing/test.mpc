@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_TestManager) : cuts_testing_stub, cuts_test {
+project (CUTS_TestManager) : cuts_testing_stub, cuts_lib, cuts_test {
   exename = CUTS_TestManager
 
   Source_Files {

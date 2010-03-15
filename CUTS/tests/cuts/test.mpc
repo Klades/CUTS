@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_Time_Measurement_Test) : cuts_test {
+project (CUTS_Time_Measurement_Test) : cuts_lib, cuts_test {
   exename = CUTS_Time_Measurement_Test
 
   Source_Files {
@@ -8,7 +8,7 @@ project (CUTS_Time_Measurement_Test) : cuts_test {
   }
 }
 
-project (CUTS_Timestamp_Metric_Test) : cuts_test {
+project (CUTS_Timestamp_Metric_Test) : cuts_lib, cuts_test {
   exename = CUTS_Timestamp_Metric_Test
 
   Source_Files {
@@ -16,7 +16,7 @@ project (CUTS_Timestamp_Metric_Test) : cuts_test {
   }
 }
 
-project (CUTS_Port_Measurement_Test) : cuts_test {
+project (CUTS_Port_Measurement_Test) : cuts_lib, cuts_test {
   exename = CUTS_Port_Measurement_Test
 
   Source_Files {
@@ -32,7 +32,7 @@ project (CUTS_Statistics_T_Test) : cuts_test {
   }
 }
 
-project (CUTS_str_Test) : cuts_test {
+project (CUTS_str_Test) : cuts_lib, cuts_test {
   exename = CUTS_str_Test
 
   Source_Files {
@@ -40,7 +40,7 @@ project (CUTS_str_Test) : cuts_test {
   }
 }
 
-project (CUTS_Host_Table_Test) : cuts_test {
+project (CUTS_Host_Table_Test) : cuts_lib, cuts_test {
   exename = CUTS_Host_Table_Test
 
   Source_Files {
@@ -56,7 +56,7 @@ project (CUTS_Log_T_Test) : cuts_test {
   }
 }
 
-project (Exponential_Periodic_Event_Test) : cuts_test {
+project (Exponential_Periodic_Event_Test) : cuts_lib, cuts_test {
   exename = Exponential_Periodic_Event_Test
 
   Source_Files {

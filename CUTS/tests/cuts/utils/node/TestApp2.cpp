@@ -8,6 +8,6 @@
 int main ()
 {
   std::cout << "Hello from TestApp2\n";
-  sleep (2);
+
   std::cout << "Bye from TestApp2\n";
 }

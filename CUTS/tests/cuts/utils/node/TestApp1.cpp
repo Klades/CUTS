@@ -9,6 +9,6 @@
 int main ()
 {
   std::cout << "Hello from TestApp1\n";
-  sleep (2);
+  //sleep (2);
   std::cout << "Bye from TestApp1\n";
 }
