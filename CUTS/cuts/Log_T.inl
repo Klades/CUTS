@@ -35,9 +35,9 @@ size_t CUTS_Log_T <T, LOCK>::free_size (void) const
   ACE_READ_GUARD_RETURN (LOCK,
                          guard,
                          this->lock_,
-                         this->record_log_.size () - this->used_size_);
+                         this->cur_size_ - this->used_size_);
 
-  return this->curr_size_ - this->used_size_;
+  return this->cur_size_ - this->used_size_;
 }
 
 //
@@ -113,9 +113,9 @@ CUTS_INLINE
 size_t CUTS_Log_T <T, LOCK>::size (void) const
 {
   CUTS_TRACE ("CUTS_Log_T <T, LOCK>::size (void) const");
-  ACE_READ_GUARD_RETURN (LOCK, guard, this->lock_, this->curr_size_);
+  ACE_READ_GUARD_RETURN (LOCK, guard, this->lock_, this->cur_size_);
 
-  return this->curr_size_;
+  return this->cur_size_;
 }
 
 //

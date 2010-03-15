@@ -1,3 +1,9 @@
+Mon Mar 15 15:47:41 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/Log_T.inl:
+
+          . Fixed build errors.
+
 Sat Feb  6 22:29:21 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Assembly_Generator_Preprocessor.cpp:
