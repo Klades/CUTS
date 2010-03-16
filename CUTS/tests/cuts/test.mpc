@@ -63,3 +63,12 @@ project (Exponential_Periodic_Event_Test) : cuts_lib, cuts_test {
     Exponential_Periodic_Event_Test.cpp
   }
 }
+
+project (CUTS_Endpoint_Data) : cuts_lib, cuts_test {
+  exename = CUTS_Endpoint_Data
+
+  Source_Files {
+    Endpoint_Data_Test.cpp
+  }
+}
+
