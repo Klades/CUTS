@@ -1,3 +1,12 @@
+Tue Mar 16 23:33:59 UTC 2010  unknown  <unknown@gateway.2wire.net>
+
+        * cuts/Time_Value_History.h:
+
+        * tests/cuts/Time_Value_History_Test.cpp:
+        * tests/cuts/test.mpc:
+
+	. Add a unit test case for Time_Value_History class.
+
 Mon Mar 15 15:48:35 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * tests/cuts/Test_Log_Formats.mpc:

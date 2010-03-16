@@ -15,6 +15,7 @@
 
 #include "ace/Containers_T.h"
 #include "ace/Time_Value.h"
+#include "CUTS_export.h"
 
 //=============================================================================
 /**

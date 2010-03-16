@@ -64,6 +64,14 @@ project (Exponential_Periodic_Event_Test) : cuts_lib, cuts_test {
   }
 }
 
+project (Time_Value_History_Test) : cuts_lib, cuts_test {
+  exename = Time_Value_History_Test
+
+  Source_Files {
+    Time_Value_History_Test.cpp
+  }
+}
+
 project (CUTS_Endpoint_Data) : cuts_lib, cuts_test {
   exename = CUTS_Endpoint_Data
 
