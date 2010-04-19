@@ -1,3 +1,14 @@
+Mon Apr 19 12:31:52 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * docs/manual/getting-started.tex:
+        * docs/manual/getting-started/quickstart.tex:
+        * docs/manual/images/gettingstarted-client-behavior-new.pdf:
+        * docs/manual/images/gettingstarted-generation.pdf:
+        * docs/manual/manual.pdf:
+
+	  . Added the Quick Start back to the manual and made some improvments
+	    to the tutorial.
+
 Tue Mar 16 23:33:59 UTC 2010  unknown  <unknown@gateway.2wire.net>
 
         * cuts/Time_Value_History.h:
@@ -5,7 +16,7 @@ Tue Mar 16 23:33:59 UTC 2010  unknown  <unknown@gateway.2wire.net>
         * tests/cuts/Time_Value_History_Test.cpp:
         * tests/cuts/test.mpc:
 
-	. Add a unit test case for Time_Value_History class.
+        . Add a unit test case for Time_Value_History class.
 
 Mon Mar 15 15:48:35 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
