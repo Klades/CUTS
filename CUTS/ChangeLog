@@ -1,3 +1,14 @@
+Tue Apr 20 03:08:08 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/MDE/GME/PICML:
+        * examples/MDE/GME/PICML/GettingStarted.xme:
+
+          . Moved the location of this file below.
+
+        * examples/PICML/GettingStarted.xme:
+
+          Removed this file.
+
 Tue Apr 20 02:20:06 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * docs/manual/appendix/thirdparty.tex:
@@ -5,7 +16,7 @@ Tue Apr 20 02:20:06 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
         * docs/manual/images/gettingstarted-generation.pdf:
         * docs/manual/manual.pdf:
 
-	  . Updated the documentation to including building ADBC.
+          . Updated the documentation to including building ADBC.
 
 Tue Apr 20 01:54:14 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
