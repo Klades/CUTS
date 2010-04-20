@@ -118,28 +118,29 @@ the DOC Group Middleware.
 
 \subsection{System Configuration}
 
-Unlike Boost, you must configure you system installing ACE and TAO. Once 
-you have downloaded the ACE and TAO tarball from the website above
-\footnote{It is recommended you download either the latest snapshot or beta 
-version of ACE and TAO tarball. This will ensure you have the must up-to-date
-version of ACE and TAO that is compatible with CUTS.}, 
-please define the following environment variables:
+Unlike Boost, you must manually configure your system before installing
+the DOC middleware. Once you have downloaded the tarball from the website 
+above \footnote{It is recommended you download either the latest snapshot 
+or beta version of DOC middleware tarball.}, please define the following 
+environment variables:
 \begin{lstlisting}
 (*@\texttt{\%> export ACE\_ROOT=} location of ACE@*)
 (*@\texttt{\%> export TAO\_ROOT=} location of TAO@*)
 (*@\texttt{\%> export CIAO\_ROOT=} location of CIAO@*)
+(*@\texttt{\%> export ADBC\_ROOT=} location of ADBC@*)
 (*@\texttt{\%> export DANCE\_ROOT=\$CIAO\_ROOT/DAnCE}@*)
 
-(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$ACE\_ROOT/lib}@*)
+(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$ACE\_ROOT/lib:\$ADBC\_ROOT/lib}@*)
 (*@\texttt{\%> export PATH=\$PATH:\$ACE\_ROOT/bin:\$CIAO\_ROOT/bin:\$DANCE\_ROOT/bin}@*)
 \end{lstlisting}
-After defining the ACE, TAO, and CIAO environment variables, the next step is 
+
+After defining the environment variables above, the next step is 
 configuring the middleware for the target platform. This is accomplished by 
 defining the \texttt{\$ACE\_ROOT/ace/config.h} header file, which will include the correct 
 configuration for your platform. The included configuration file has the 
 form \texttt{config-*}, where \texttt{*} is the platform of choice.
-The following is an example \texttt{config.h} file for building ACE, TAO, and
-CIAO on Linux platforms:
+The following is an example \texttt{config.h} file for building DOC middleware 
+on Linux platforms:
 \begin{lstlisting}[language=C++]
 // -*- C++ -*-
 
@@ -152,7 +153,7 @@ CIAO on Linux platforms:
 \end{lstlisting}
 
 \subsubsection{Non-Windows}
-Configuring ACE, TAO, and CIAO on non-Windows systems requires one more 
+Configuring the DOC middleware on non-Windows systems requires one more 
 step. The configuration for the build engine also needs to be defined. 
 Please use the following step to define the build engine's configuration:
 \begin{lstlisting}
@@ -163,17 +164,17 @@ where \texttt{*} is the architecture for your platform of choice.
 
 \subsection{Installation}
 
-After you have configured your system for ACE, TAO, CIAO, and DAnCE, you 
-are ready to build and install ACE and TAO. Please use the following steps 
-to build and install ACE, TAO, CIAO, and DAnCE:
+After you have configured your system, you are ready to build and 
+install ACE and TAO. Please use the following steps to build and 
+install the DOC middleware:
 \begin{lstlisting}
 (*@\texttt{\%> cd \$CIAO\_ROOT}@*)
 (*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool] CIAO\_TAO\_DAnCE.mwc}@*)
-\end{lstlisting}
-This will generate the workspace for building and installing ACE, TAO, CIAO,
-and DAnCE. The name of the workspace depends on the build tool specified
-when generating the workspace. Finally, using your build tool of choice, 
-you can build and install ACE, TAO, CIAO, and DAnCE.
+(*@\texttt{\%> gmake}@*)
+
+(*@\texttt{\%> cd \$ADBC\_ROOT}@*)
+(*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool] [-features <features>] ADBC.mwc}@*)
+(*@\texttt{\%> gmake}@*)\end{lstlisting}
 
 \section{XML Schema Compiler (XSC)}
 \label{sec:thirdparty-xsc}
