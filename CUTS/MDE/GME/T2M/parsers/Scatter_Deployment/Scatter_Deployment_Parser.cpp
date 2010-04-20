@@ -84,11 +84,11 @@ struct deploy_instance
 
       if (metaname == "Component")
       {
-        ref = GME::Reference::_create ("ComponentRef", this->deployment_);
+        ref = GME::Reference::_create (this->deployment_, "ComponentRef");
       }
       else if (metaname == "ComponentAssembly")
       {
-        ref = GME::Reference::_create ("ComponentAssemblyReference", this->deployment_);
+        ref = GME::Reference::_create (this->deployment_, "ComponentAssemblyReference");
       }
 
       if (ref)
@@ -151,7 +151,7 @@ public:
 
       if (!obj)
       {
-        obj = GME::Model::_create ("Node", this->domain_);
+        obj = GME::Model::_create (this->domain_, "Node");
         obj.name (name);
       }
     }
@@ -197,7 +197,7 @@ struct CUTS_Scatter_Domain_Parser :
     if (domain)
     {
       // Get all the elements in the domain.
-      GME::Collection_T <GME::Model> temp;
+      std::vector <GME::Model> temp;
       domain.children ("Node", temp);
 
       // Let's make our life easy right now and delete all nodes in
@@ -458,7 +458,7 @@ void Scatter_Deployment_Parser::
 clear_deployment (GME::Model & deployment)
 {
   // Delete all the component references.
-  GME::Collection_T <GME::Reference> refs;
+  std::vector <GME::Reference> refs;
   deployment.children ("ComponentRef", refs);
 
   std::for_each (refs.begin (),
@@ -472,7 +472,7 @@ clear_deployment (GME::Model & deployment)
                  boost::bind (&GME::Reference::destroy, _1));
 
   // Delete all the collocation groups.
-  GME::Collection_T <GME::Set> groups;
+  std::vector <GME::Set> groups;
   deployment.children ("CollocationGroup", groups);
 
   std::for_each (groups.begin (),
@@ -503,7 +503,7 @@ insert_nodes_in_deployment (GME::Model & deployment,
   {
     // Create a new node reference.
     GME::Reference noderef =
-      GME::Reference::_create ("NodeReference", deployment);
+      GME::Reference::_create (deployment, "NodeReference");
 
     // Initialize the node reference.
     noderef.name (iter->first);

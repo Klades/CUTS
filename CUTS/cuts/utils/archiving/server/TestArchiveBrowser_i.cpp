@@ -6,18 +6,18 @@
 #include "TestArchiveBrowser_i.inl"
 #endif
 
-#include "cuts/utils/db/DB_Connection.h"
-#include "cuts/utils/db/DB_Parameter_List.h"
-#include "cuts/utils/db/DB_Parameter.h"
-#include "cuts/utils/db/DB_Record.h"
+#include "adbc/Connection.h"
+#include "adbc/Parameter_List.h"
+#include "adbc/Parameter.h"
+#include "adbc/Record.h"
 #include "cuts/UUID.h"
 
 //
 // CUTS_TestArchiveBrowser_i
 //
 CUTS_TestArchiveBrowser_i::
-CUTS_TestArchiveBrowser_i (CUTS_DB_Connection & conn, ACE_UINT32 chunk_size)
-: query_ (conn.create_query (), &CUTS_DB_Query::destroy),
+CUTS_TestArchiveBrowser_i (ADBC::Connection & conn, ACE_UINT32 chunk_size)
+: query_ (conn.create_query (), &ADBC::Query::destroy),
   chunk_size_ (chunk_size),
   index_ (0),
   is_done_ (false)
@@ -27,8 +27,8 @@ CUTS_TestArchiveBrowser_i (CUTS_DB_Connection & conn, ACE_UINT32 chunk_size)
   this->query_->prepare (_SQL_STMT_);
 
   // Initialize the parameters.
-  this->query_->parameters ()[0].bind (this->index_);
-  this->query_->parameters ()[1].bind (this->chunk_size_);
+  this->query_->parameters ()[0].bind (&this->index_);
+  this->query_->parameters ()[1].bind (&this->chunk_size_);
 }
 
 //
@@ -40,10 +40,17 @@ get_next (CUTS::TestProfiles_out profiles)
   try
   {
     // Execute the prepared query.
-    CUTS_DB_Record * record = this->query_->execute ();
-    size_t count = record->count ();
+    ADBC::Record & record = this->query_->execute ();
 
-    if (count > 0)
+    // Count the number of record returned.
+    size_t count = 0;
+    for (; !record.done (); record.advance ())
+      ++ count;
+
+    // Reset the cursor of the record.
+    record.reset ();
+
+    if (count)
     {
       // Allocate a new sequence for the profiles.
       ACE_NEW_THROW_EX (profiles,
@@ -58,10 +65,10 @@ get_next (CUTS::TestProfiles_out profiles)
       int index = 0;
 
       // Copy each of test profile to the sequence.
-      for ( ; !record->done (); record->advance ())
+      for ( ; !record.done (); record.advance ())
       {
-        record->get_data (2, name, sizeof (name));
-        record->get_data (3, uuid_str, sizeof (uuid_str));
+        record.get_data (2, name, sizeof (name));
+        record.get_data (3, uuid_str, sizeof (uuid_str));
 
         // Conver the UUID from string format.
         uuid.from_string (uuid_str);
@@ -78,10 +85,10 @@ get_next (CUTS::TestProfiles_out profiles)
       this->index_ += count;
     }
 
-    this->is_done_ = record->done ();
+    this->is_done_ = record.done ();
     return this->is_done_;
   }
-  catch (const CUTS_DB_Exception & ex)
+  catch (const ADBC::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - %s\n",

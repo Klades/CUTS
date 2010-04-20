@@ -252,7 +252,7 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
 
     return 0;
   }
-  catch (const CUTS_DB_Exception & ex)
+  catch (const ADBC::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 ACE_TEXT ("%T (%t) - %M - %s\n"),

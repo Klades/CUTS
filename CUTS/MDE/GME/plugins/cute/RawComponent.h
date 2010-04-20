@@ -43,7 +43,7 @@ public:
    */
   int invoke_ex (GME::Project & project,
                  GME::FCO & fco,
-                 GME::Collection_T <GME::FCO> & selected,
+                 std::vector <GME::FCO> & selected,
                  long flags);
 
 private:

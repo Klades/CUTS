@@ -18,11 +18,14 @@
 #include "cuts/Component_Type.h"
 #include "cuts/Host_Table_Entry.h"
 
+namespace ADBC
+{
 // Forward decl.
-class CUTS_DB_Connection;
+class Connection;
 
 // Forward decl.
-class CUTS_DB_Query;
+class Query;
+}
 
 //=============================================================================
 /**
@@ -50,7 +53,7 @@ public:
    *
    * @param[in]       conn        The target connection.
    */
-  void attach (CUTS_DB_Connection * conn);
+  void attach (ADBC::Connection * conn);
 
   /// Detach the registry from the current database connection.
   void detach (void);
@@ -152,12 +155,12 @@ public:
   bool get_hostid_by_hostname (const char * hostname, long * hostid);
 
 protected:
-  void insert_component_ports (CUTS_DB_Query & query,
+  void insert_component_ports (ADBC::Query & query,
                                const char * porttype,
                                const CUTS_Port_Description_Map & ports);
 
   /// Pointer the connection for the registry.
-  CUTS_DB_Connection * conn_;
+  ADBC::Connection * conn_;
 };
 
 #if defined (__CUTS_INLINE__)

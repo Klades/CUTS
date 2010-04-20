@@ -66,11 +66,11 @@ int CUTS_TestArchive_i::init (PortableServer::POA_ptr parent)
     ACE_DEBUG ((LM_DEBUG,
                 "%T (%t) - %M - opening connection to database\n"));
 
-    this->conn_.connect (this->opts_.username_.c_str (),
-                         this->opts_.password_.c_str (),
-                         this->opts_.hostname_.c_str ());
+    //this->conn_.connect (this->opts_.username_.c_str (),
+    //                     this->opts_.password_.c_str (),
+    //                     this->opts_.hostname_.c_str ());
   }
-  catch (const CUTS_DB_Exception & ex)
+  catch (const ADBC::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 "%T - %M - failed to open connection to database [%s]\n",

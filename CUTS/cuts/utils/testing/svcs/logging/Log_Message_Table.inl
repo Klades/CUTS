@@ -7,7 +7,8 @@
 CUTS_INLINE
 CUTS_Log_Message_Table::
 CUTS_Log_Message_Table (CUTS_Test_Database & test_db)
-: test_db_ (test_db)
+: test_db_ (test_db),
+  query_ (0)
 {
 
 }
@@ -29,7 +30,7 @@ CUTS_Log_Message_Table::~CUTS_Log_Message_Table (void)
 //
 CUTS_INLINE
 CUTS_Log_Message_Table_Insert_Stmt::
-CUTS_Log_Message_Table_Insert_Stmt (CUTS_DB_Query & query)
+CUTS_Log_Message_Table_Insert_Stmt (ADBC::Query & query)
 : query_ (query)
 {
 
@@ -80,9 +81,9 @@ void CUTS_Log_Message_Table_Insert_Stmt::execute (void)
 //
 CUTS_INLINE
 void CUTS_Log_Message_Table_Insert_Stmt::
-bind_timeofday (CUTS_DB_SQLite_Date_Time & timeofday)
+bind_timeofday (ADBC::SQLite::Date_Time & timeofday)
 {
-  this->query_.parameters ()[0].bind (timeofday);
+  this->query_.parameters ()[0].bind (&timeofday);
 }
 
 //
@@ -92,7 +93,7 @@ CUTS_INLINE
 void CUTS_Log_Message_Table_Insert_Stmt::
 bind_severity (ACE_INT16 & severity)
 {
-  this->query_.parameters ()[1].bind (severity);
+  this->query_.parameters ()[1].bind (&severity);
 }
 
 //

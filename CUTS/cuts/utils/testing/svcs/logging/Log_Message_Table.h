@@ -14,15 +14,16 @@
 #define _CUTS_LOG_MESSAGE_TABLE_H_
 
 #include "Testing_Log_Message_Listener_export.h"
-#include "cuts/utils/db/DB_Parameter.h"
-#include "cuts/utils/db/DB_Parameter_List.h"
-#include "cuts/utils/db/DB_Query.h"
-#include "cuts/utils/db/SQLite/Types.h"
+#include "adbc/Parameter.h"
+#include "adbc/Parameter_List.h"
+#include "adbc/Query.h"
+#include "adbc/SQLite/Types.h"
 #include "ace/OS_NS_string.h"
 
 // Forward decl.
 class CUTS_Test_Database;
 
+// Forward decl.
 class CUTS_Log_Message_Table_Insert_Stmt;
 
 /**
@@ -57,7 +58,7 @@ private:
   CUTS_Test_Database & test_db_;
 
   /// Query for SQL statements.
-  CUTS_DB_Query * query_;
+  ADBC::Query * query_;
 };
 
 /**
@@ -71,7 +72,7 @@ public:
    *
    * @param[in]       query         Target query for statement.
    */
-  CUTS_Log_Message_Table_Insert_Stmt (CUTS_DB_Query & query);
+  CUTS_Log_Message_Table_Insert_Stmt (ADBC::Query & query);
 
   /// Destructor.
   ~CUTS_Log_Message_Table_Insert_Stmt (void);
@@ -85,14 +86,14 @@ public:
   /// Reset the statement.
   void reset (void);
 
-  void bind_timeofday (CUTS_DB_SQLite_Date_Time & timeofday);
+  void bind_timeofday (ADBC::SQLite::Date_Time & timeofday);
   void bind_severity (ACE_INT16 & severity);
   void bind_hostname (const char * hostname);
   void bind_message (const char * msg, size_t length);
 
 private:
   /// Target query for statement.
-  CUTS_DB_Query & query_;
+  ADBC::Query & query_;
 };
 
 #if defined (__CUTS_INLINE__)

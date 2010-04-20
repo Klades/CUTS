@@ -26,7 +26,7 @@ CUTS_Test_Database::~CUTS_Test_Database (void)
 // operator ->
 //
 CUTS_INLINE
-CUTS_DB_Connection * CUTS_Test_Database::operator -> (void)
+ADBC::Connection * CUTS_Test_Database::operator -> (void)
 {
   CUTS_TEST_DATABASE_TRACE ("CUTS_Test_Database::operator -> (void)");
   return this->conn_.get ();
@@ -61,10 +61,10 @@ void CUTS_Test_Database::stop_current_test (void)
 }
 
 //
-// start_new_test
+// create_query
 //
 CUTS_INLINE
-CUTS_DB_SQLite_Query * CUTS_Test_Database::create_query (void)
+ADBC::SQLite::Query * CUTS_Test_Database::create_query (void)
 {
   return this->conn_->create_query ();
 }

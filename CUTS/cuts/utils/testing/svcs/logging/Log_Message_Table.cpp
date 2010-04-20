@@ -36,8 +36,8 @@ static const char * __INIT_STMTS__[INIT_STMT_COUNT] =
 int CUTS_Log_Message_Table::init (void)
 {
   // Try to create the logging table in the database.
-  CUTS_DB_Query * query = this->test_db_.create_query ();
-  CUTS_Auto_Functor_T <CUTS_DB_Query> auto_clean (query, &CUTS_DB_Query::destroy);
+  ADBC::Query * query = this->test_db_.create_query ();
+  CUTS_Auto_Functor_T <ADBC::Query> auto_clean (query, &ADBC::Query::destroy);
 
   for (size_t i = 0; i < INIT_STMT_COUNT; ++ i)
     query->execute_no_record (__INIT_STMTS__[i]);

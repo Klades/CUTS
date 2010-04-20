@@ -28,9 +28,9 @@ CUTS_Basic_Log_Format_Variable_T <T>::~CUTS_Basic_Log_Format_Variable_T (void)
 //
 template <typename T>
 CUTS_INLINE
-void CUTS_Basic_Log_Format_Variable_T <T>::bind (CUTS_DB_SQLite_Parameter & param)
+void CUTS_Basic_Log_Format_Variable_T <T>::bind (ADBC::SQLite::Parameter & param)
 {
-  param.bind (this->value_);
+  param.bind (&this->value_);
 }
 
 

@@ -3,8 +3,7 @@
 #include "Testing_LoggingServerListener_i.h"
 #include "Log_Message_Table.h"
 #include "cuts/Auto_Functor_T.h"
-#include "cuts/utils/db/DB_Query.h"
-#include "cuts/utils/db/SQLite/Types.h"
+#include "adbc/SQLite/Types.h"
 #include "cuts/utils/testing/Test_Database.h"
 #include "boost/bind.hpp"
 #include "ace/Trace.h"
@@ -34,7 +33,7 @@ struct insert_message
   {
     ACE_Time_Value tv (msg.timestamp.sec, msg.timestamp.usec);
     ACE_Date_Time dt (tv);
-    CUTS_DB_SQLite_Date_Time timeofday (dt);
+    ADBC::SQLite::Date_Time timeofday (dt);
     ACE_INT16 severity = msg.severity;
 
     // Bind the remaining parameters.
@@ -85,8 +84,8 @@ handle_messages (const char * hostname,
       return;
 
     // Create a new query object.
-    CUTS_DB_Query * query = this->database_->create_query ();
-    CUTS_Auto_Functor_T <CUTS_DB_Query> auto_clean (query, &CUTS_DB_Query::destroy);
+    ADBC::Query * query = this->database_->create_query ();
+    CUTS_Auto_Functor_T <ADBC::Query> auto_clean (query, &ADBC::Query::destroy);
 
     // Start a new transaction.
     query->execute_no_record ("BEGIN TRANSACTION");
@@ -106,7 +105,7 @@ handle_messages (const char * hostname,
     // End the current transaction.
     query->execute_no_record ("COMMIT");
   }
-  catch (const CUTS_DB_Exception & ex)
+  catch (const ADBC::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 ACE_TEXT ("%T (%t) - %M - %s\n"),
@@ -139,7 +138,7 @@ int CUTS_Testing_LoggingServerListener_i::init (CUTS_Test_Database * database)
 
     return retval;
   }
-  catch (const CUTS_DB_Exception & ex)
+  catch (const ADBC::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 ACE_TEXT ("%T (%t) - %M - %s\n"),

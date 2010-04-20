@@ -402,7 +402,7 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
                 ACE_TEXT ("%T (%t) - %M - test is complete\n")));
     return 0;
   }
-  catch (const CUTS_DB_Exception & ex)
+  catch (const ADBC::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - %s\n",

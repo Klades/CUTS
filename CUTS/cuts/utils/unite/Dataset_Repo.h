@@ -20,12 +20,6 @@
 class CUTS_Test_Database;
 
 // Forward decl.
-class CUTS_DB_SQLite_Connection;
-
-// Forward decl.
-class CUTS_DB_SQLite_Record;
-
-// Forward decl.
 class CUTS_Log_Format;
 
 // Forward decl.
@@ -36,6 +30,18 @@ class CUTS_Dataset_Result;
 
 // Forward decl.
 class CUTS_Dataflow_Graph;
+
+namespace ADBC
+{
+namespace SQLite
+{
+// Forward decl.
+class Connection;
+
+// Forward decl.
+class Record;
+}
+}
 
 /**
  * @ingroup UNITE_Core
@@ -76,7 +82,7 @@ public:
    */
   bool insert (const CUTS_Dataflow_Graph & graph);
 
-  CUTS_DB_SQLite_Query * create_query (void);
+  ADBC::SQLite::Query * create_query (void);
 
 private:
   int open_vtable (CUTS_Test_Database & test);
@@ -94,7 +100,7 @@ private:
   CUTS_Test_Database * data_;
 
   /// Variable table for the active test.
-  CUTS_DB_SQLite_Connection * vtable_;
+  ADBC::SQLite::Connection * vtable_;
 
   CUTS_Dataset_Repo (const CUTS_Dataset_Repo &);
   const CUTS_Dataset_Repo & operator = (const CUTS_Dataset_Repo &);

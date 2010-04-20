@@ -43,7 +43,7 @@ CUTS_Interpreter_Impl::~CUTS_Interpreter_Impl (void)
 int CUTS_Interpreter_Impl::
 invoke_ex (GME::Project & project,
            GME::FCO & fco,
-           GME::Collection_T <GME::FCO> & selected,
+           std::vector <GME::FCO> & selected,
            long flags)
 {
   try
@@ -68,7 +68,7 @@ invoke_ex (GME::Project & project,
       // Convert the object collection to UDM objects.
       set <Udm::Object> objs;
 
-      GME::Collection_T <GME::FCO>::iterator
+      std::vector <GME::FCO>::iterator
         iter = selected.begin (), iter_end = selected.end ();
 
       for ( ; iter != iter_end; ++ iter)

@@ -6,7 +6,7 @@
 #include "Database_Worker.inl"
 #endif
 
-#include "cuts/utils/db/DB_Query.h"
+#include "adbc/Query.h"
 #include "ace/Basic_Types.h"
 #include "ace/CORBA_macros.h"
 #include "ace/OS_Memory.h"
@@ -20,24 +20,15 @@
 // CUTS_DatabaseWorker
 //
 CUTS_Database_Worker::CUTS_Database_Worker (void)
-: hostname_ (CUTS_DEFAULT_HOSTNAME)
 {
   // Allocate a new <MyODBC_Connection> object.
-  ODBC_Connection * conn = 0;
+  ADBC::ODBC::Connection * conn = 0;
 
   ACE_NEW_THROW_EX (conn,
-                    ODBC_Connection (),
+                    ADBC::ODBC::Connection (),
                     ACE_bad_alloc ());
 
   this->conn_.reset (conn);
-}
-
-//
-// ~CUTS_DatabaseWorker
-//
-CUTS_Database_Worker::~CUTS_Database_Worker (void)
-{
-  this->destroy_connection ();
 }
 
 //
@@ -78,15 +69,16 @@ void CUTS_Database_Worker::process (size_t count)
 
       this->stmt_->execute_no_record (sqlstr.str ().c_str ());
     }
-    catch (CUTS_DB_Exception & ex)
+    catch (const ADBC::Exception & ex)
     {
-      ex.print ();
+      ACE_ERROR ((LM_ERROR,
+                  ACE_TEXT ("%T - %M - %s\n"),
+                  ex.message ().c_str ()));
     }
     catch (...)
     {
       ACE_ERROR ((LM_ERROR,
-                  "[%M] -%T - unknown exception in "
-                  "CUTS_Database_Worker::process\n"));
+                  ACE_TEXT ("%T - %M - caught unknown exceptions\n")));
     }
   }
   else
@@ -100,7 +92,7 @@ void CUTS_Database_Worker::process (size_t count)
 //
 // create_connection
 //
-bool CUTS_Database_Worker::create_connection (const std::string & hostname)
+bool CUTS_Database_Worker::create_connection (const std::string & connstr)
 {
   // We need to kill any existing connections before we
   // continue. This also involves killing the associated
@@ -111,28 +103,29 @@ bool CUTS_Database_Worker::create_connection (const std::string & hostname)
   {
     // We are now ready to establish a new connection to the specified
     // hostname.
-    this->conn_->connect (CUTS_USERNAME,
-                          CUTS_PASSWORD,
-                          hostname.c_str (),
-                          CUTS_DEFAULT_PORT);
+    this->conn_->connect (connstr.c_str ());
 
     // We need to allocate an <ODBC_Stmt> for the connection.
     // This will prevent us from having to allocate one each
     // time.
-    this->stmt_.reset (this->conn_->create_query ());
-    this->hostname_ = hostname;
+    ADBC::ODBC::Query * query = 0;
+    ACE_NEW_THROW_EX (query,
+                      ADBC::ODBC::Query (*this->conn_),
+                      ACE_bad_alloc ());
 
+    this->stmt_.reset (query);
     return true;
   }
-  catch (CUTS_DB_Exception & ex)
+  catch (const ADBC::Exception & ex)
   {
-    ex.print ();
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T - %M - %s\n"),
+                ex.message ().c_str ()));
   }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "[%M] -%T - unknown exception in "
-                "CUTS_Database_Worker::create_connection\n"));
+                ACE_TEXT ("%T - %M - caught unknown exceptions\n")));
   }
 
   return false;

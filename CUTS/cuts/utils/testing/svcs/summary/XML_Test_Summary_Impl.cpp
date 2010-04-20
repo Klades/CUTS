@@ -6,7 +6,6 @@
 #include "XML_Test_Summary_Impl.inl"
 #endif
 
-#include "streams.h"
 #include "cuts/utils/testing/Testing_App.h"
 #include "ace/UUID.h"
 #include "ace/SString.h"

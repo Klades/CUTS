@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_DB_Registry) : acelib, odbc, cutslib {
+project (CUTS_DB_Registry) : acelib, adbc_odbc, cutslib {
   sharedname  += CUTS_DB_Registry
   dynamicflags = CUTS_DB_BUILD_DLL
 

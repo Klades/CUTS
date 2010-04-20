@@ -1,7 +1,11 @@
+// -*- C++ -*-
 // $Id$
 
+//
+// ~CUTS_DatabaseWorker
+//
 CUTS_INLINE
-const char * CUTS_Database_Worker::hostname (void) const
+CUTS_Database_Worker::~CUTS_Database_Worker (void)
 {
-  return this->hostname_.c_str ();
+  this->destroy_connection ();
 }

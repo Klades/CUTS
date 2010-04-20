@@ -51,8 +51,7 @@ namespace actors
         obj.destroy ();
 
       // Create a new deployment plan.
-      this->deployment_ = GME::Model::_create ("DeploymentPlan",
-                                               this->folder_);
+      this->deployment_ = GME::Model::_create (this->folder_, "DeploymentPlan");
 
       // Set the name of the deployment plan.
       this->deployment_.name (name);
@@ -96,7 +95,7 @@ namespace actors
           role = "ComponentAssemblyRef";
 
         // Create the reference to the object.
-        this->ref_ = GME::Reference::_create (role, this->deployment_);
+        this->ref_ = GME::Reference::_create (this->deployment_, role);
         this->ref_.name (obj.name ());
 
         // Refer to the located instance.
@@ -142,8 +141,8 @@ namespace actors
       GME::Model node = this->nodemap_[this->hostname_];
 
       // Create a new reference in the deployment.
-      GME::Reference noderef = GME::Reference::_create ("NodeReference",
-                                                        this->deployment_);
+      GME::Reference noderef =
+        GME::Reference::_create (this->deployment_, "NodeReference");
 
       // Initialize the reference.
       noderef.name (this->hostname_);
@@ -225,7 +224,7 @@ namespace actors
       {
         // We need to create a new group for this host.
         GME::Model parent = GME::Model::_narrow (this->ref_.parent ());
-        group = GME::Set::_create ("CollocationGroup", parent);
+        group = GME::Set::_create (parent, "CollocationGroup");
         group.name (groupname);
 
         // Save the new group in the cache.
@@ -235,8 +234,8 @@ namespace actors
         GME::Reference noderef = host_iter->second.first;
 
         GME::Connection mapping =
-          GME::Connection::_create ("InstanceMapping",
-                                    parent,
+          GME::Connection::_create (parent,
+                                    "InstanceMapping",
                                     group,
                                     noderef);
       }
@@ -284,7 +283,7 @@ namespace actors
       }
       else
       {
-        targets = GME::Folder::_create ("Targets", root_folder);
+        targets = GME::Folder::_create (root_folder, "Targets");
         targets.name (target_name);
       }
 
@@ -295,7 +294,7 @@ namespace actors
         obj.destroy ();
 
       // Create a new domain for this deployment.
-      this->domain_ = GME::Model::_create ("Domain", targets);
+      this->domain_ = GME::Model::_create (targets, "Domain");
       this->domain_.name (name);
     }
 
@@ -324,7 +323,7 @@ namespace actors
         return;
 
       // Create a new node.
-      GME::Model node = GME::Model::_create ("Node", this->domain_);
+      GME::Model node = GME::Model::_create (this->domain_, "Node");
       node.name (name);
 
       // Insert in the node map.

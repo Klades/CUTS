@@ -6,8 +6,8 @@
 #include "TestUploader_i.inl"
 #endif
 
-#include "cuts/utils/db/DB_Connection.h"
-#include "cuts/utils/db/DB_Query.h"
+#include "adbc/Connection.h"
+#include "adbc/Query.h"
 #include "cuts/utils/testing/Test_Database.h"
 #include "cuts/Auto_Functor_T.h"
 #include "ace/FILE_Connector.h"
@@ -36,7 +36,7 @@ int CUTS_TestUploader_i::init (void)
 //
 // close
 //
-int CUTS_TestUploader_i::close (CUTS_DB_Connection & conn)
+int CUTS_TestUploader_i::close (ADBC::Connection & conn)
 {
   // Close the temporary file.
   int retval = this->file_.close ();
@@ -80,14 +80,11 @@ int CUTS_TestUploader_i::close (CUTS_DB_Connection & conn)
       if (retval == 0)
       {
         // Write the test information to the database.
-        CUTS_DB_Query * query = conn.create_query ();
-
-        CUTS_Auto_Functor_T <CUTS_DB_Query>
-          auto_clean (query, &CUTS_DB_Query::destroy);
+        ADBC::Query * query = conn.create_query ();
+        CUTS_Auto_Functor_T <ADBC::Query> auto_clean (query, &ADBC::Query::destroy);
 
         char uuid[37];
         char name[256];
-
 
         // Prepare the SQL statement.
         const char * __STMT__ = "call cuts.insert_test (?, ?)";
@@ -122,7 +119,7 @@ int CUTS_TestUploader_i::close (CUTS_DB_Connection & conn)
       retval = -1;
     }
   }
-  catch (const CUTS_DB_Exception & ex)
+  catch (const ADBC::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - %s\n",

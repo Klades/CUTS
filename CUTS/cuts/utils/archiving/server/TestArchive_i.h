@@ -15,7 +15,7 @@
 
 #include "../archivingS.h"
 #include "Test_Archive_Options.h"
-#include "cuts/utils/db/ODBC/ODBC_Connection.h"
+#include "adbc/ODBC/ODBC_Connection.h"
 #include "tao/PortableServer/POAC.h"
 #include "ace/Unbounded_Set.h"
 #include "ace/UUID.h"
@@ -88,7 +88,7 @@ private:
   CUTS_Test_Archive_Options opts_;
 
   /// Connection to the indexing database.
-  ODBC_Connection conn_;
+  ADBC::ODBC::Connection conn_;
 };
 
 #if defined (__CUTS_INLINE__)

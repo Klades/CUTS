@@ -10,7 +10,6 @@ project (CUTS_Testing_Summary) : cuts_testing_svc {
 
   Source_Files {
     Basic_Test_Summary_Impl.cpp
-    streams.cpp
     Test_Summary_Impl.cpp
     Test_Summary_Service.cpp
     XML_Test_Summary_Impl.cpp

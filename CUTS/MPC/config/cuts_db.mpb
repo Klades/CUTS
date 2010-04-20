@@ -1,6 +1,0 @@
-// $Id$
-
-project : acelib {
-  after += CUTS_DB
-  libs  += CUTS_DB
-}

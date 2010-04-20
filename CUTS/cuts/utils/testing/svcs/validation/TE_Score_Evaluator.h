@@ -20,8 +20,11 @@
 // Forward decl.
 class CUTS_Dataset_Repo;
 
+namespace ADBC
+{
 // Forward decl.
-class CUTS_DB_Query;
+class Query;
+}
 
 /// Type definition for a list of states.
 typedef ACE_Array <CUTS_TE_Score_State> CUTS_TE_Score_State_List;
@@ -71,7 +74,7 @@ private:
 
   void reset (void);
 
-  CUTS_DB_Query * query_;
+  ADBC::Query * query_;
 
   size_t points_;
 

@@ -17,7 +17,7 @@
 
 #include "Database_Worker_export.h"
 #include "cuts/Worker.h"
-#include "cuts/utils/db/ODBC/ODBC_Connection.h"
+#include "adbc/ODBC/ODBC_Connection.h"
 #include "ace/Auto_Ptr.h"
 #include <string>
 
@@ -66,14 +66,11 @@ public:
 private:
   void fill_dataset (char * data, int size);
 
-  /// Location of the database.
-  std::string hostname_;
-
   /// Pointer to the database connection.
-  ACE_Auto_Ptr <ODBC_Connection> conn_;
+  ACE_Auto_Ptr <ADBC::ODBC::Connection> conn_;
 
   /// Pointer to the statement for the connection.
-  ACE_Auto_Ptr <CUTS_DB_Query> stmt_;
+  ACE_Auto_Ptr <ADBC::ODBC::Query> stmt_;
 };
 
 #if defined (__CUTS_INLINE__)

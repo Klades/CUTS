@@ -7,12 +7,12 @@
 #endif
 
 #include "cuts/Auto_Functor_T.h"
-#include "cuts/utils/db/DB_Connection.h"
-#include "cuts/utils/db/DB_Exception.h"
-#include "cuts/utils/db/DB_Query.h"
-#include "cuts/utils/db/DB_Record.h"
-#include "cuts/utils/db/DB_Parameter.h"
-#include "cuts/utils/db/DB_Parameter_List.h"
+#include "adbc/Connection.h"
+#include "adbc/Exception.h"
+#include "adbc/Query.h"
+#include "adbc/Record.h"
+#include "adbc/Parameter.h"
+#include "adbc/Parameter_List.h"
 #include "ace/Log_Msg.h"
 #include <sstream>
 
@@ -40,8 +40,8 @@ CUTS_DB_Registry::~CUTS_DB_Registry (void)
 void CUTS_DB_Registry::
 register_host (const CUTS_Host_Table_Entry & host)
 {
-  CUTS_Auto_Functor_T <CUTS_DB_Query>
-    query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
+  CUTS_Auto_Functor_T <ADBC::Query>
+    query (this->conn_->create_query (), &ADBC::Query::destroy);
 
   const char * str_stmt = "CALL cuts.insert_hostname (?)";
 
@@ -59,8 +59,8 @@ register_host (const CUTS_Host_Table_Entry & host)
 bool CUTS_DB_Registry::
 get_hostid_by_ipaddr (const char * ipaddr, long * hostid)
 {
-  CUTS_Auto_Functor_T <CUTS_DB_Query>
-    query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
+  CUTS_Auto_Functor_T <ADBC::Query>
+    query (this->conn_->create_query (), &ADBC::Query::destroy);
 
   try
   {
@@ -74,21 +74,18 @@ get_hostid_by_ipaddr (const char * ipaddr, long * hostid)
 
     // Get the results from executing the query. If the query returns
     // nothing then this will throw an exception.
-    CUTS_DB_Record * record = query->execute ();
+    ADBC::Record & record = query->execute ();
 
-    if (record->count () == 0)
+    if (record.done ())
       return false;
 
     // We need to store the host id if the caller requests.
     if (hostid != 0)
-    {
-      record->advance ();
-      record->get_data (1, *hostid);
-    }
+      record.get_data (1, *hostid);
 
     return true;
   }
-  catch (CUTS_DB_Exception & ex)
+  catch (const ADBC::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 "*** error (get_hostid_by_ipaddr): %s\n",
@@ -108,8 +105,8 @@ get_hostid_by_ipaddr (const char * ipaddr, long * hostid)
 bool CUTS_DB_Registry::
 get_hostid_by_hostname (const char * hostname, long * hostid)
 {
-  CUTS_Auto_Functor_T <CUTS_DB_Query>
-    query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
+  CUTS_Auto_Functor_T <ADBC::Query>
+    query (this->conn_->create_query (), &ADBC::Query::destroy);
 
   try
   {
@@ -123,21 +120,18 @@ get_hostid_by_hostname (const char * hostname, long * hostid)
 
     // Get the results from executing the query. If the query returns
     // nothing then this will throw an exception.
-    CUTS_DB_Record * record = query->execute ();
+    ADBC::Record & record = query->execute ();
 
-    if (record->count () == 0)
+    if (record.done ())
       return false;
 
     // We need to store the host id if the caller requests.
     if (hostid != 0)
-    {
-      record->advance ();
-      record->get_data (1, *hostid);
-    }
+      record.get_data (1, *hostid);
 
     return true;
   }
-  catch (CUTS_DB_Exception & ex)
+  catch (const ADBC::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 "*** error (get_hostid_by_hostname): %s\n",
@@ -157,8 +151,8 @@ get_hostid_by_hostname (const char * hostname, long * hostid)
 bool CUTS_DB_Registry::
 get_instance_id (const char * inst, long * instid)
 {
-  CUTS_Auto_Functor_T <CUTS_DB_Query>
-    query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
+  CUTS_Auto_Functor_T <ADBC::Query>
+    query (this->conn_->create_query (), &ADBC::Query::destroy);
 
   try
   {
@@ -171,18 +165,15 @@ get_instance_id (const char * inst, long * instid)
     query->parameters ()[0].bind (const_cast <char *> (inst), 0);
 
     // Execute the statement and get the returned id.
-    CUTS_DB_Record * record = query->execute ();
-    size_t count = record->count ();
+    ADBC::Record & record = query->execute ();
 
-    if (count > 0 && instid != 0)
-    {
-      record->advance ();
-      record->get_data (1, *instid);
-    }
+    if (record.done () && instid != 0)
+      return false;
 
-    return count > 0;
+    record.get_data (1, *instid);
+    return true;
   }
-  catch (CUTS_DB_Exception & ex)
+  catch (const ADBC::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 "*** error (get_instance_id): %s\n",
@@ -203,8 +194,8 @@ get_instance_id (const char * inst, long * instid)
 bool CUTS_DB_Registry::
 get_component_typeid (const char * type, long & type_id)
 {
-  CUTS_Auto_Functor_T <CUTS_DB_Query>
-    query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
+  CUTS_Auto_Functor_T <ADBC::Query>
+    query (this->conn_->create_query (), &ADBC::Query::destroy);
 
   try
   {
@@ -215,16 +206,15 @@ get_component_typeid (const char * type, long & type_id)
     query->parameters ()[0].bind (const_cast <char *> (type), 0);
 
     // Execute the query.
-    CUTS_DB_Record * record = query->execute ();
+    ADBC::Record & record = query->execute ();
 
-    if (record->count () > 0)
-    {
-      record->advance ();
-      record->get_data (1, type_id);
-      return true;
-    }
+    if (record.done ())
+      return false;
+
+    record.get_data (1, type_id);
+    return true;
   }
-  catch (CUTS_DB_Exception & ex)
+  catch (const ADBC::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 "*** error (get_component_typeid): %s\n",
@@ -245,8 +235,8 @@ get_component_typeid (const char * type, long & type_id)
 bool CUTS_DB_Registry::
 get_port_id (const char * porttype, const char * portname, long & portid)
 {
-  CUTS_Auto_Functor_T <CUTS_DB_Query>
-    query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
+  CUTS_Auto_Functor_T <ADBC::Query>
+    query (this->conn_->create_query (), &ADBC::Query::destroy);
 
   try
   {
@@ -258,16 +248,15 @@ get_port_id (const char * porttype, const char * portname, long & portid)
     query->parameters ()[1].bind (const_cast <char *> (portname), 0);
 
     // Execute the query.
-    CUTS_DB_Record * record = query->execute ();
+    ADBC::Record & record = query->execute ();
 
-    if (record->count () > 0)
-    {
-      record->advance ();
-      record->get_data (1, portid);
-      return true;
-    }
+    if (record.done ())
+      return false;
+
+    record.get_data (1, portid);
+    return true;
   }
-  catch (CUTS_DB_Exception & ex)
+  catch (const ADBC::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 "*** error (get_component_typeid): %s\n",
@@ -293,8 +282,8 @@ register_component_instance (const CUTS_Component_Info & info)
   {
     this->register_component_type (*info.type_);
 
-    CUTS_Auto_Functor_T <CUTS_DB_Query>
-      query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
+    CUTS_Auto_Functor_T <ADBC::Query>
+      query (this->conn_->create_query (), &ADBC::Query::destroy);
 
     // Prepare a SQL query for execution.
     const char * query_stmt =
@@ -315,8 +304,8 @@ register_component_instance (const CUTS_Component_Info & info)
 void CUTS_DB_Registry::
 register_component_type (const CUTS_Component_Type & type)
 {
-  CUTS_Auto_Functor_T <CUTS_DB_Query>
-    query (this->conn_->create_query (), &CUTS_DB_Query::destroy);
+  CUTS_Auto_Functor_T <ADBC::Query>
+    query (this->conn_->create_query (), &ADBC::Query::destroy);
 
   // Prepare a SQL query for execution.
   const char * query_stmt =
@@ -333,7 +322,7 @@ register_component_type (const CUTS_Component_Type & type)
 // insert_component_ports
 //
 void CUTS_DB_Registry::
-insert_component_ports (CUTS_DB_Query & query,
+insert_component_ports (ADBC::Query & query,
                         const char * porttype,
                         const CUTS_Port_Description_Map & ports)
 {

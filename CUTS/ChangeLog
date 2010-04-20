@@ -1,3 +1,164 @@
+Tue Apr 20 01:54:14 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS.mwc:
+        * CUTS_Modeling.mwc:
+
+          . Added prop:microsoft scopes to simplify the exclude
+            workspace specification.
+
+        * MDE/GME/T2M/parsers/PICML_Assembly/PICML_Assembly_Parser.cpp:
+        * MDE/GME/T2M/parsers/PICML_Deployment/PICML_Deployment_Parser.cpp:
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Scatter_Deployment_Parser.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/RawComponent.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/RawComponent.cpp:
+        * MDE/GME/plugins/cute/Model_Interpreter.h:
+        * MDE/GME/plugins/cute/Model_Interpreter.inl:
+        * MDE/GME/plugins/cute/Model_Interpreter.cpp:
+        * MDE/GME/plugins/cute/Property_Locator.cpp:
+        * MDE/GME/plugins/cute/RawComponent.h:
+        * MDE/GME/plugins/cute/RawComponent.cpp:
+
+          . Updated code to the latest version of GAME.
+
+        * MPC/config/cuts_test_database.mpb:
+        * MPC/config/cuts_testing.mpb:
+        * MPC/config/cuts_testing_svc.mpb:
+        * cuts/svcs/dbase/DB_Registry.h:
+        * cuts/svcs/dbase/DB_Registry.inl:
+        * cuts/svcs/dbase/DB_Registry.cpp:
+        * cuts/svcs/dbase/DB_Registry.mpc:
+        * cuts/utils/archiving/client/Test_Archive_Client.cpp:
+        * cuts/utils/archiving/server/TestArchiveBrowser_i.h:
+        * cuts/utils/archiving/server/TestArchiveBrowser_i.cpp:
+        * cuts/utils/archiving/server/TestArchive_i.h:
+        * cuts/utils/archiving/server/TestArchive_i.cpp:
+        * cuts/utils/archiving/server/TestUploader_i.h:
+        * cuts/utils/archiving/server/TestUploader_i.cpp:
+        * cuts/utils/archiving/server/cutsarc_d.mpc:
+        * cuts/utils/testing/Test_Database.h:
+        * cuts/utils/testing/Test_Database.inl:
+        * cuts/utils/testing/Test_Database.cpp:
+        * cuts/utils/testing/Testing_App.cpp:
+        * cuts/utils/testing/svcs/logging/Log_Message_Table.h:
+        * cuts/utils/testing/svcs/logging/Log_Message_Table.inl:
+        * cuts/utils/testing/svcs/logging/Log_Message_Table.cpp:
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.cpp:
+        * cuts/utils/testing/svcs/logging/Testing_LoggingServerListener_i.cpp:
+        * cuts/utils/testing/svcs/logging/Trace_Importer_App.cpp:
+        * cuts/utils/testing/svcs/logging/Trace_Importer_Parser.cpp:
+        * cuts/utils/testing/svcs/summary/Basic_Test_Summary_Impl.cpp:
+        * cuts/utils/testing/svcs/summary/XML_Test_Summary_Impl.cpp:
+        * cuts/utils/testing/svcs/summary/summary.mpc:
+        * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.h:
+        * cuts/utils/testing/svcs/validation/TE_Score_Evaluator.cpp:
+        * cuts/utils/testing/testing.mpc:
+        * cuts/utils/unite/Dataset_Repo.h:
+        * cuts/utils/unite/Dataset_Repo.cpp:
+        * cuts/utils/unite/Dataset_Result.h:
+        * cuts/utils/unite/Dataset_Result.cpp:
+        * cuts/utils/unite/Log_Format_Data_Entry.h:
+        * cuts/utils/unite/Log_Format_Data_Entry.cpp:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/Variable.h:
+        * cuts/utils/unite/Variable.inl:
+        * cuts/utils/unite/Variable_T.inl:
+        * cuts/workers/dbase/Database_Worker.h:
+        * cuts/workers/dbase/Database_Worker.inl:
+        * cuts/workers/dbase/Database_Worker.cpp:
+        * cuts/workers/dbase/Database_Worker.mpc:
+
+          . Updated CUTS to the latest version of ACE+TAO+CIAO.
+
+          . Moved all the database code to a standalone project in the
+            DOC middleware repo called ADBC, and fixed compilation errors
+            related to the move.
+
+        * examples/PICML/GettingStarted.xme:
+
+          . Updated the Getting Started example to latest version
+            of PICML.
+
+        * MPC/config/cuts_db.mpb:
+        * MPC/config/cuts_db_odbc.mpb:
+        * MPC/config/cuts_db_sqlite3.mpb:
+        * cuts/utils/db:
+        * cuts/utils/db/DB.mpc:
+        * cuts/utils/db/DB_Connection.h:
+        * cuts/utils/db/DB_Connection.inl:
+        * cuts/utils/db/DB_Connection.cpp:
+        * cuts/utils/db/DB_Exception.h:
+        * cuts/utils/db/DB_Exception.inl:
+        * cuts/utils/db/DB_Exception.cpp:
+        * cuts/utils/db/DB_Parameter.h:
+        * cuts/utils/db/DB_Parameter.inl:
+        * cuts/utils/db/DB_Parameter.cpp:
+        * cuts/utils/db/DB_Parameter_List.h:
+        * cuts/utils/db/DB_Parameter_List.inl:
+        * cuts/utils/db/DB_Parameter_List.cpp:
+        * cuts/utils/db/DB_Query.h:
+        * cuts/utils/db/DB_Query.inl:
+        * cuts/utils/db/DB_Query.cpp:
+        * cuts/utils/db/DB_Record.h:
+        * cuts/utils/db/DB_Record.inl:
+        * cuts/utils/db/DB_Record.cpp:
+        * cuts/utils/db/DB_Types_Impl.h:
+        * cuts/utils/db/DB_Types_Impl.inl:
+        * cuts/utils/db/DB_Types_Impl.cpp:
+        * cuts/utils/db/DB_Utils_Export.h:
+        * cuts/utils/db/MySQL:
+        * cuts/utils/db/ODBC:
+        * cuts/utils/db/ODBC/CUTS_ODBC.mpc:
+        * cuts/utils/db/ODBC/ODBC.h:
+        * cuts/utils/db/ODBC/ODBC_Base.h:
+        * cuts/utils/db/ODBC/ODBC_Base.inl:
+        * cuts/utils/db/ODBC/ODBC_Base.cpp:
+        * cuts/utils/db/ODBC/ODBC_Connection.h:
+        * cuts/utils/db/ODBC/ODBC_Connection.inl:
+        * cuts/utils/db/ODBC/ODBC_Connection.cpp:
+        * cuts/utils/db/ODBC/ODBC_DBase_Export.h:
+        * cuts/utils/db/ODBC/ODBC_Exception.h:
+        * cuts/utils/db/ODBC/ODBC_Exception.cpp:
+        * cuts/utils/db/ODBC/ODBC_Parameter.h:
+        * cuts/utils/db/ODBC/ODBC_Parameter.cpp:
+        * cuts/utils/db/ODBC/ODBC_Parameter_List.h:
+        * cuts/utils/db/ODBC/ODBC_Parameter_List.inl:
+        * cuts/utils/db/ODBC/ODBC_Parameter_List.cpp:
+        * cuts/utils/db/ODBC/ODBC_Query.h:
+        * cuts/utils/db/ODBC/ODBC_Query.inl:
+        * cuts/utils/db/ODBC/ODBC_Query.cpp:
+        * cuts/utils/db/ODBC/ODBC_Record.h:
+        * cuts/utils/db/ODBC/ODBC_Record.inl:
+        * cuts/utils/db/ODBC/ODBC_Record.cpp:
+        * cuts/utils/db/ODBC/ODBC_Types.h:
+        * cuts/utils/db/ODBC/ODBC_Types.inl:
+        * cuts/utils/db/ODBC/ODBC_Types.cpp:
+        * cuts/utils/db/SQLite:
+        * cuts/utils/db/SQLite/Connection.h:
+        * cuts/utils/db/SQLite/Connection.cpp:
+        * cuts/utils/db/SQLite/DB_SQLite.mpc:
+        * cuts/utils/db/SQLite/DB_SQLite_export.h:
+        * cuts/utils/db/SQLite/Exception.h:
+        * cuts/utils/db/SQLite/Exception.cpp:
+        * cuts/utils/db/SQLite/Parameter.h:
+        * cuts/utils/db/SQLite/Parameter.inl:
+        * cuts/utils/db/SQLite/Parameter.cpp:
+        * cuts/utils/db/SQLite/Parameter_List.h:
+        * cuts/utils/db/SQLite/Parameter_List.inl:
+        * cuts/utils/db/SQLite/Parameter_List.cpp:
+        * cuts/utils/db/SQLite/Query.h:
+        * cuts/utils/db/SQLite/Query.cpp:
+        * cuts/utils/db/SQLite/Record.h:
+        * cuts/utils/db/SQLite/Record.inl:
+        * cuts/utils/db/SQLite/Record.cpp:
+        * cuts/utils/db/SQLite/Types.h:
+        * cuts/utils/db/SQLite/Types.inl:
+        * cuts/utils/db/SQLite/Types.cpp:
+        * cuts/utils/testing/svcs/summary/streams.h:
+        * cuts/utils/testing/svcs/summary/streams.cpp:
+
+          Removed these files.
+
 Mon Apr 19 12:31:52 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * docs/manual/getting-started.tex:
@@ -6,8 +167,8 @@ Mon Apr 19 12:31:52 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
         * docs/manual/images/gettingstarted-generation.pdf:
         * docs/manual/manual.pdf:
 
-	  . Added the Quick Start back to the manual and made some improvments
-	    to the tutorial.
+          . Added the Quick Start back to the manual and made some improvments
+            to the tutorial.
 
 Tue Mar 16 23:33:59 UTC 2010  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
@@ -15,7 +176,7 @@ Tue Mar 16 23:33:59 UTC 2010  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
         * tests/cuts/Time_Value_History_Test.cpp:
         * tests/cuts/test.mpc:
 
-		  . Add a unit test case for Time_Value_History class.
+          . Add a unit test case for Time_Value_History class.
 
 Mon Mar 15 15:48:35 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 

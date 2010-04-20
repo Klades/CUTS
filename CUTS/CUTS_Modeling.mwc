@@ -9,7 +9,7 @@
 ///               of CUTS.
 ///=============================================================================
 
-workspace (CUTS_CoSMIC) {
+workspace (CUTS_Modeling) {
   cmdline += -include $CUTS_ROOT/MPC/config \
              -include $XSC_ROOT/MPC/config \
              -include $CUTS_ROOT/contrib/CCF/MPC/config \
@@ -27,7 +27,7 @@ workspace (CUTS_CoSMIC) {
     MDE/GEMS
   }
 
-  exclude (!vc6, !vc7, !vc71, !vc8, !wix) {
+  exclude (!prop:microsoft) {
     cmdline += -include $COSMIC_ROOT/MPC/config
 
     MDE/GME/plugins

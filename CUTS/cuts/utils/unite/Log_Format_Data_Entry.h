@@ -15,11 +15,17 @@
 
 #include "Variable_Table.h"
 
+namespace ADBC
+{
+namespace SQLite
+{
 // Forward decl.
-class CUTS_DB_SQLite_Query;
+class Connection;
 
 // Forward decl.
-class CUTS_DB_SQLite_Connection;
+class Query;
+}
+}
 
 // Forward decl.
 class CUTS_Log_Format;
@@ -35,7 +41,7 @@ public:
   /**
    * Initializing contructor
    */
-  CUTS_Log_Format_Data_Entry (CUTS_DB_SQLite_Connection & conn);
+  CUTS_Log_Format_Data_Entry (ADBC::SQLite::Connection & conn);
 
   /// Destructor
   ~CUTS_Log_Format_Data_Entry (void);
@@ -57,7 +63,7 @@ public:
 
 private:
   /// Underlying query for inserting data
-  CUTS_DB_SQLite_Query * query_;
+  ADBC::SQLite::Query * query_;
 
   /// Name of the log format.
   const CUTS_Log_Format * format_;

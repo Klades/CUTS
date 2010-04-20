@@ -58,7 +58,7 @@ project (cutstest_Xml) : xsc_cxx {
   }
 }
 
-project (CUTS_Test_Database) : sqlite3, cuts_db_sqlite3, cuts_db, cutslib {
+project (CUTS_Test_Database) : adbc_sqlite, cutslib {
   sharedname = CUTS_Test_Database
 
   dynamicflags += CUTS_TEST_DATABASE_BUILD_DLL

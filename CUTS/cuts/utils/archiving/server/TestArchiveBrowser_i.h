@@ -15,10 +15,13 @@
 
 #include "../archivingS.h"
 #include "cuts/Auto_Functor_T.h"
-#include "cuts/utils/db/DB_Query.h"
+#include "adbc/Query.h"
 
+namespace ADBC
+{
 // Forward decl.
-class CUTS_DB_Connection;
+class Connection;
+}
 
 /**
  * @class CUTS_TestArchiveBrowser_i
@@ -34,7 +37,7 @@ public:
    *
    * @param[in]       conn        Connection to database.
    */
-  CUTS_TestArchiveBrowser_i (CUTS_DB_Connection & conn,
+  CUTS_TestArchiveBrowser_i (ADBC::Connection & conn,
                              ACE_UINT32 chunk_size);
 
   /// Destructor.
@@ -48,7 +51,7 @@ public:
 
 private:
   /// The query from the database.
-  CUTS_Auto_Functor_T <CUTS_DB_Query> query_;
+  CUTS_Auto_Functor_T <ADBC::Query> query_;
 
   /// Number of records to request.
   ACE_UINT32 chunk_size_;

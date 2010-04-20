@@ -1,6 +1,6 @@
 // $Id$
 
-project (cutsarc_d) : iortable, cuts_archiving_skel, cuts_db_odbc, cuts_test_database, cuts_lib, cutsexe {
+project (cutsarc_d) : iortable, cuts_archiving_skel, adbc_odbc, cuts_test_database, cuts_lib, cutsexe {
   exename = cutsarc_d
 
   Source_Files {

@@ -42,7 +42,7 @@ handle_config (const CUTS_Property_Map & config)
       // Execute the interpreter.
       interpreter.invoke (this->project_,
                           this->target_,
-                          this->selected_.items (),
+                          this->selected_,
                           this->flags_);
     }
     catch (...)

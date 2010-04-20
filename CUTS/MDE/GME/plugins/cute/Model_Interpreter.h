@@ -32,7 +32,7 @@ public:
                                CUTS_Property_Map & params,
                                GME::Project & project,
                                GME::FCO & target,
-                               GME::Collection_T <GME::FCO> & selected,
+                               std::vector <GME::FCO> & selected,
                                long flags);
 
   /// Destructor.
@@ -54,7 +54,7 @@ private:
 
   GME::FCO & target_;
 
-  GME::Collection_T <GME::FCO> & selected_;
+  std::vector <GME::FCO> & selected_;
 
   long flags_;
 

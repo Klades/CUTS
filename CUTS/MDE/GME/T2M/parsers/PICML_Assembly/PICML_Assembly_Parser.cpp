@@ -47,8 +47,8 @@ namespace actors
         obj.destroy ();
 
       // Create the assembly.
-      const std::string type ("ComponentAssembly");
-      this->assembly_ = ::GME::Model::_create (type, this->container_);
+      static const std::string type ("ComponentAssembly");
+      this->assembly_ = ::GME::Model::_create (this->container_, type);
 
       // Set the name of the assembly.
       this->assembly_.name (name);
@@ -129,7 +129,7 @@ namespace actors
    */
   struct find_component_type
   {
-    static GME::Collection_T <GME::Model> files_;
+    static std::vector <GME::Model> files_;
 
     find_component_type (GME::Project const & project, GME::Model & type)
       : project_ (project),
@@ -141,7 +141,7 @@ namespace actors
         GME::Folder root_folder = this->project_.root_folder ();
 
         // Get all the interface definition folders.
-        GME::Collection_T <GME::Folder> folders;
+        std::vector <GME::Folder> folders;
 
         // Cache all the files in the project.
         if (root_folder.children ("InterfaceDefinitions", folders))
@@ -169,7 +169,7 @@ namespace actors
         fq_name.erase (0, 1);
 
       // Locate the type in the cached files.
-      GME::Collection_T <GME::Model>::const_iterator iter =
+      std::vector <GME::Model>::const_iterator iter =
         std::find_if (this->files_.begin (),
                       this->files_.end (),
                       has_component_type (fq_name, this->type_));
@@ -212,9 +212,9 @@ namespace actors
     };
 
     static void save_files (const GME::Folder & folder,
-                            GME::Collection_T <GME::Model> & files)
+                            std::vector <GME::Model> & files)
     {
-      GME::Collection_T <GME::Model> temp;
+      std::vector <GME::Model> temp;
 
       if (folder.children ("File", temp))
         std::for_each (temp.begin (),
@@ -224,10 +224,10 @@ namespace actors
                                     _1));
     }
 
-    static void insert (GME::Collection_T <GME::Model> & files,
+    static void insert (std::vector <GME::Model> & files,
                         GME::Model & model)
     {
-      files.items ().push_back (model);
+      files.push_back (model);
     }
 
     GME::Project const & project_;
@@ -235,7 +235,7 @@ namespace actors
     GME::Model & type_;
   };
 
-  GME::Collection_T <GME::Model> find_component_type::files_;
+  std::vector <GME::Model> find_component_type::files_;
 
   /**
    * @struct find_attribute
@@ -289,19 +289,19 @@ namespace actors
     {
       std::string value (begin, end);
 
-      // Create a new property for the attribute.
-      GME::Model property = GME::Model::_create ("Property", this->assembly_);
+      // Create a new prop for the attribute.
+      GME::Model prop = GME::Model::_create (this->assembly_, "Property");
 
-      // Set the value of the property.
-      GME::Attribute attr = property.attribute ("DataValue");
+      // Set the value of the prop.
+      GME::Attribute attr = prop.attribute ("DataValue");
       attr.string_value (value);
 
-      // Finally, connect the property to the attribute.
+      // Finally, connect the prop to the attribute.
       GME::Connection attr_value =
-        GME::Connection::_create ("AttributeValue",
-                                  this->assembly_,
+        GME::Connection::_create (this->assembly_,
+                                  "AttributeValue",
                                   this->attribute_,
-                                  property);
+                                  prop);
     }
 
   private:
@@ -360,11 +360,11 @@ namespace actors
     {
       std::string name (begin, end);
 
-      GME::Collection_T <GME::Reference> ports;
+      std::vector <GME::Reference> ports;
 
       if (this->instance_.children ("OutEventPort", ports))
       {
-        GME::Collection_T <GME::Reference>::const_iterator iter =
+        std::vector <GME::Reference>::const_iterator iter =
           std::find_if (ports.begin (),
                         ports.end (),
                         boost::bind (std::equal_to <std::string> (),
@@ -372,7 +372,7 @@ namespace actors
                                      boost::bind (&GME::Reference::name,
                                                   _1)));
 
-        if (iter != ports.items ().end ())
+        if (iter != ports.end ())
           this->port_ = *iter;
         else
           this->port_.release ();
@@ -404,11 +404,11 @@ namespace actors
     {
       std::string name (begin, end);
 
-      GME::Collection_T <GME::Reference> ports;
+      std::vector <GME::Reference> ports;
 
       if (this->instance_.children ("InEventPort", ports))
       {
-        GME::Collection_T <GME::Reference>::const_iterator iter =
+        std::vector <GME::Reference>::const_iterator iter =
           std::find_if (ports.begin (),
                         ports.end (),
                         boost::bind (std::equal_to <std::string> (),
@@ -416,7 +416,7 @@ namespace actors
                                      boost::bind (&GME::Reference::name,
                                                   _1)));
 
-        if (iter != ports.items ().end ())
+        if (iter != ports.end ())
           this->port_ = *iter;
         else
           this->port_.release ();
@@ -452,8 +452,8 @@ namespace actors
       {
         // We can directly create an 'emit' connection.
         GME::Connection emit =
-          GME::Connection::_create ("emit",
-                                    this->assembly_,
+          GME::Connection::_create (this->assembly_,
+                                    "emit",
                                     this->src_,
                                     this->dst_);
       }
@@ -481,21 +481,21 @@ namespace actors
         if (connector.is_nil ())
         {
           // Create a new publish connector.
-          connector = GME::Atom::_create ("PublishConnector",
-                                          this->assembly_);
+          connector = GME::Atom::_create (this->assembly_,
+                                          "PublishConnector");
 
           // Connect the source port to the publish connector.
           GME::Connection publish =
-            GME::Connection::_create ("publish",
-                                      this->assembly_,
+            GME::Connection::_create (this->assembly_,
+                                      "publish",
                                       this->src_,
                                       connector);
         }
 
         // Now, we can create the deliverTo connection.
         GME::Connection deliver =
-          GME::Connection::_create ("deliverTo",
-                                    this->assembly_,
+          GME::Connection::_create (this->assembly_,
+                                    "deliverTo",
                                     connector,
                                     this->dst_);
       }

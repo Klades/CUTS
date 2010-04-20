@@ -13,12 +13,16 @@
 #ifndef _CUTS_UNITE_VARIABLE_H_
 #define _CUTS_UNITE_VARIABLE_H_
 
-#include "Unite_export.h"
-#include "cuts/utils/db/SQLite/Parameter.h"
 #include "ace/SString.h"
+#include "Unite_export.h"
 
-// Forward decl.
-class CUTS_DB_SQLite_Parameter;
+namespace ADBC
+{
+namespace SQLite
+{
+class Parameter;
+}
+}
 
 /**
  * @ingroup UNITE_Core
@@ -48,7 +52,7 @@ public:
 
   virtual void value (const char * begin, const char * end) = 0;
 
-  virtual void bind (CUTS_DB_SQLite_Parameter & param) = 0;
+  virtual void bind (ADBC::SQLite::Parameter & param) = 0;
 
   size_t index (void) const;
 
@@ -84,7 +88,7 @@ public:
 
   virtual void value (const char * begin, const char * end);
 
-  virtual void bind (CUTS_DB_SQLite_Parameter & param);
+  virtual void bind (ADBC::SQLite::Parameter & param);
 
 private:
   ACE_CString value_;
@@ -107,7 +111,7 @@ public:
 
   virtual void value (const char * begin, const char * end);
 
-  virtual void bind (CUTS_DB_SQLite_Parameter & param);
+  virtual void bind (ADBC::SQLite::Parameter & param);
 
 private:
   T value_;
@@ -119,7 +123,7 @@ private:
  * Trait class for determining a variables type.
  */
 template <typename T>
-struct CUTS_Log_Format_Variable_Type_T 
+struct CUTS_Log_Format_Variable_Type_T
 {
   static const CUTS_Log_Format_Variable::type_t result_type = CUTS_Log_Format_Variable::VT_UNKNOWN;
 };

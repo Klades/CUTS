@@ -8,7 +8,7 @@
 
 #include "TE_Score_State.h"
 #include "cuts/utils/unite/Dataset_Repo.h"
-#include "cuts/utils/db/SQLite/Query.h"
+#include "adbc/SQLite/Query.h"
 #include "ace/SString.h"
 #include "boost/bind.hpp"
 #include <algorithm>
@@ -133,11 +133,11 @@ evaluate_state (const ACE_CString & dataset, const CUTS_TE_Score_State & state)
          << " WHERE " << state.condition_;
 
   // Execute the SQL query on the database.
-  CUTS_DB_Record * record = this->query_->execute (sqlstr.str ().c_str ());
+  ADBC::Record & record = this->query_->execute (sqlstr.str ().c_str ());
 
   // Get the 'result' column of the record.
   long count;
-  record->get_data (0, count);
+  record.get_data (0, count);
 
   if ((count < state.min_occurs_ ||
       (state.max_occurs_ != -1 && count > state.max_occurs_)) &&

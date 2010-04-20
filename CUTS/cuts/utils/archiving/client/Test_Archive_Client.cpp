@@ -261,7 +261,7 @@ get_test_uuid (ACE_Utils::UUID & uuid)
 
     return retval;
   }
-  catch (const CUTS_DB_Exception & ex)
+  catch (const ADBC::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 "%T (%t) - %M - %s\n",

@@ -4,7 +4,7 @@
 // attach
 //
 CUTS_INLINE
-void CUTS_DB_Registry::attach (CUTS_DB_Connection * conn)
+void CUTS_DB_Registry::attach (ADBC::Connection * conn)
 {
   this->conn_ = conn;
 }

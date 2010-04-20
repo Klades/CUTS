@@ -1,6 +1,8 @@
 // -*- C++ -*-
 // $Id$
 
+#include "adbc/SQLite/Parameter.h"
+
 ///////////////////////////////////////////////////////////////////////////////
 // class CUTS_Log_Format_Variable
 
@@ -80,7 +82,7 @@ value (const char * begin, const char * end)
 // bind
 //
 CUTS_INLINE
-void CUTS_String_Log_Format_Variable::bind (CUTS_DB_SQLite_Parameter & param)
+void CUTS_String_Log_Format_Variable::bind (ADBC::SQLite::Parameter & param)
 {
   param.bind (this->value_.c_str (), this->value_.length ());
 }

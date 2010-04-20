@@ -76,7 +76,7 @@ CUTS_CUTE::~CUTS_CUTE (void)
 //
 int CUTS_CUTE::invoke_ex (GME::Project & project,
                           GME::FCO & target,
-                          GME::Collection_T <GME::FCO> & selected,
+                          std::vector <GME::FCO> & selected,
                           long flags)
 {
   try

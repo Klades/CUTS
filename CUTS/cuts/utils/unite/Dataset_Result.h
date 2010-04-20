@@ -19,11 +19,17 @@
 #include "ace/Null_Mutex.h"
 #include "ace/Array.h"
 
+namespace ADBC
+{
+namespace SQLite
+{
 // Forward decl.
-class CUTS_DB_SQLite_Query;
+class Query;
 
 // Forward decl.
-class CUTS_DB_SQLite_Record;
+class Record;
+}
+}
 
 // Forward decl.
 class CUTS_Dataset_Repo;
@@ -54,7 +60,7 @@ public:
    * @param[in]         graph         Name of the graph to evaluate
    */
   CUTS_Dataset_Result (CUTS_Dataset_Repo & repo,
-                         size_t bufsize = CUTS_RESULT_DEFAULT_BUFFER_SIZE);
+                       size_t bufsize = CUTS_RESULT_DEFAULT_BUFFER_SIZE);
 
   /// Destructor.
   ~CUTS_Dataset_Result (void);
@@ -74,9 +80,6 @@ public:
 
   /// Close the result.
   void close (void);
-
-  /// Get the number of rows in the result.
-  size_t count (void) const;
 
   /// Determine if the result is done.
   bool done (void) const;
@@ -117,10 +120,10 @@ private:
   CUTS_Dataset_Repo * repo_;
 
   /// The query that created the result.
-  CUTS_DB_SQLite_Query * query_;
+  ADBC::SQLite::Query * query_;
 
   /// The record holding the results.
-  CUTS_DB_SQLite_Record * record_;
+  ADBC::SQLite::Record * record_;
 
   /// The index of the result.
   size_t result_index_;

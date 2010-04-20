@@ -3,15 +3,14 @@
 #include "Log_Format_Data_Entry.h"
 #include "Log_Format.h"
 #include "Variable.h"
-#include "cuts/utils/db/SQLite/Connection.h"
-#include "cuts/utils/db/SQLite/Query.h"
+#include "adbc/SQLite/Connection.h"
 #include <sstream>
 
 //
 // CUTS_Log_Format_Data_Entry
 //
 CUTS_Log_Format_Data_Entry::
-CUTS_Log_Format_Data_Entry (CUTS_DB_SQLite_Connection & conn)
+CUTS_Log_Format_Data_Entry (ADBC::SQLite::Connection & conn)
 : query_ (conn.create_query ())
 {
   /// @todo Move this to a better location.
@@ -169,7 +168,7 @@ void CUTS_Log_Format_Data_Entry::execute (const ACE_CString & message)
     fq_name += '@' + this->format_->name () + '_' + iter->key ();
 
     // Locate the variable in the parameters.
-    CUTS_DB_SQLite_Parameter & p = this->query_->parameters ()[fq_name];
+    ADBC::SQLite::Parameter & p = this->query_->parameters ()[fq_name];
 
     // Bind the variable to the parameter.
     iter->item ()->bind (p);

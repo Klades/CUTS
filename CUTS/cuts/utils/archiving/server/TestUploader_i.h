@@ -20,7 +20,11 @@
 #include "ace/UUID.h"
 
 // Forward decl.
-class CUTS_DB_Connection;
+namespace ADBC
+{
+// Forward decl.
+class Connection;
+}
 
 /**
  * @class CUTS_TestUploader_i
@@ -49,7 +53,7 @@ public:
    * database using the provied connection. The connection will
    * already be open.
    */
-  int close (CUTS_DB_Connection & conn);
+  int close (ADBC::Connection & conn);
 
   /**
    * Send data to the upload agent.

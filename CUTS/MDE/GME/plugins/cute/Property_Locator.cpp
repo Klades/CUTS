@@ -52,26 +52,26 @@ void CUTS_CUTE_Property_Locator::visit_Folder (GME::Folder & folder)
   }
 
   // Now, visit all the folders in this folder.
-  typedef GME::Collection_T <GME::Folder> folder_set;
+  typedef std::vector <GME::Folder> folder_set;
   folder_set folders;
 
   folder.children (folders);
 
   std::for_each (folders.begin (),
                  folders.end (),
-                 boost::bind (&folder_set::type::accept,
+                 boost::bind (&folder_set::value_type::accept,
                               _1,
                               boost::ref (*this)));
 
   // Then, visit all the FCOs in the folder.
-  typedef GME::Collection_T <GME::FCO> fco_set;
+  typedef std::vector <GME::FCO> fco_set;
   fco_set fcos;
 
   folder.children (fcos);
 
   std::for_each (fcos.begin (),
                  fcos.end (),
-                 boost::bind (&fco_set::type::accept,
+                 boost::bind (&fco_set::value_type::accept,
                               _1,
                               boost::ref (*this)));
 }
@@ -100,7 +100,7 @@ void CUTS_CUTE_Property_Locator::visit_FCO (GME::FCO & fco)
   }
 
   // Visit all the attributes in the FCO.
-  typedef GME::Collection_T <GME::Attribute> attribute_set;
+  typedef std::vector <GME::Attribute> attribute_set;
   attribute_set attributes;
 
   fco.attributes (attributes);
@@ -124,14 +124,14 @@ void CUTS_CUTE_Property_Locator::visit_FCO (GME::FCO & fco)
 //
 void CUTS_CUTE_Property_Locator::visit_Model (GME::Model & model)
 {
-  typedef GME::Collection_T <GME::FCO> collection_type;
+  typedef std::vector <GME::FCO> collection_type;
   collection_type fcos;
 
   model.children (fcos);
 
   std::for_each (fcos.begin (),
                  fcos.end (),
-                 boost::bind (&collection_type::type::accept,
+                 boost::bind (&collection_type::value_type::accept,
                               _1,
                               boost::ref (*this)));
 }

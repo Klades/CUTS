@@ -14,7 +14,7 @@
 #define _CUTS_TEST_DATABASE_H_
 
 #include "Test_Database_export.h"
-#include "cuts/utils/db/SQLite/Connection.h"
+#include "adbc/SQLite/Connection.h"
 #include "ace/Auto_Ptr.h"
 #include "ace/SString.h"
 #include "ace/UUID.h"
@@ -58,7 +58,7 @@ public:
    *
    * @return          Reference to database connection.
    */
-  CUTS_DB_Connection * operator -> (void);
+  ADBC::Connection * operator -> (void);
 
   /**
    * Create the test database. This will initialize the test descriptor
@@ -87,7 +87,7 @@ public:
   void stop_current_test (void);
   void stop_current_test (const ACE_Time_Value & tv);
 
-  CUTS_DB_SQLite_Query * create_query (void);
+  ADBC::SQLite::Query * create_query (void);
 
   /**
    * Get the test profile from the database.
@@ -104,8 +104,7 @@ public:
   int set_test_uuid (const ACE_Utils::UUID & uuid);
 
 private:
-  static int get_test_uuid_i (CUTS_DB_SQLite_Query * query,
-                              ACE_Utils::UUID & uuid);
+  static int get_test_uuid_i (ADBC::SQLite::Query &, ACE_Utils::UUID & );
 
   void init (void);
 
@@ -115,7 +114,7 @@ private:
   ACE_CString outdir_;
 
   /// Connection to the SQLite database.
-  ACE_Auto_Ptr <CUTS_DB_SQLite_Connection> conn_;
+  ACE_Auto_Ptr <ADBC::SQLite::Connection> conn_;
 
   /// Id of the active test in the database.
   ACE_INT32 active_id_;

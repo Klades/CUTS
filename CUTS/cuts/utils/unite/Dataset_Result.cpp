@@ -8,9 +8,7 @@
 
 #include "Dataset_Repo.h"
 #include "Unite_Test.h"
-#include "cuts/utils/db/SQLite/Query.h"
-#include "cuts/utils/db/SQLite/Record.h"
-#include "cuts/utils/db/SQLite/Connection.h"
+#include "adbc/SQLite/Connection.h"
 #include "ace/CORBA_macros.h"
 #include "ace/Pair.h"
 #include <map>
@@ -117,14 +115,6 @@ void CUTS_Dataset_Result::close (void)
 }
 
 //
-// count
-//
-size_t CUTS_Dataset_Result::count (void) const
-{
-  return this->record_ != 0 ? this->record_->count () : 0;
-}
-
-//
 // done
 //
 bool CUTS_Dataset_Result::done (void) const
@@ -225,7 +215,7 @@ evaluate (const CUTS_Unite_Test & test,
     if (has_grouping)
       aspect_sqlstr << " ORDER BY " << group_str.str ();
 
-    this->record_ = this->query_->execute (aspect_sqlstr.str ().c_str ());
+    this->record_ = &this->query_->execute (aspect_sqlstr.str ().c_str ());
 
     // Now that we have selected all ROWIDs that match the condition,
     // the next step is to partition all selected ROWID values by their
@@ -339,7 +329,7 @@ evaluate (const CUTS_Unite_Test & test,
   }
 
   // Execute the SQL statement.
-  this->record_ = this->query_->execute (sqlstr.str ().c_str ());
+  this->record_ = &this->query_->execute (sqlstr.str ().c_str ());
 
   // Prepare the space for storing group information.
   this->group_name_.size (test.groupings ().size ());

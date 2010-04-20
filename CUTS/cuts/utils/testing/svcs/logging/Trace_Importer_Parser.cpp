@@ -8,9 +8,10 @@
 
 #include "Log_Message_Table.h"
 #include "cuts/Auto_Functor_T.h"
-#include "cuts/utils/db/DB_Query.h"
-#include "cuts/utils/db/SQLite/Types.h"
 #include "cuts/utils/testing/Test_Database.h"
+
+#include "adbc/Query.h"
+#include "adbc/SQLite/Types.h"
 
 #include "boost/spirit/core.hpp"
 #include "boost/spirit/iterator/file_iterator.hpp"
@@ -28,7 +29,7 @@ namespace actors
   class insert_message
   {
   public:
-    insert_message (CUTS_DB_Query & query)
+    insert_message (ADBC::Query & query)
       : query_ (query)
     {
 
@@ -49,7 +50,7 @@ namespace actors
     }
 
   private:
-    CUTS_DB_Query & query_;
+    ADBC::Query & query_;
   };
 }
 
@@ -62,7 +63,7 @@ struct CUTS_Trace_Importer_Parser_Grammar :
   /**
    * Initializing constructor
    */
-  CUTS_Trace_Importer_Parser_Grammar (CUTS_DB_Query & query)
+  CUTS_Trace_Importer_Parser_Grammar (ADBC::Query & query)
     : query_ (query)
   {
 
@@ -101,7 +102,7 @@ struct CUTS_Trace_Importer_Parser_Grammar :
   };
 
 private:
-  CUTS_DB_Query & query_;
+  ADBC::Query & query_;
 };
 
 
@@ -133,8 +134,8 @@ import_trace (const ACE_CString & trace_file, const ACE_CString & hostname)
   file_iterator < > iter_end = iter_begin.make_end ();
 
   // Parse the trace and insert messages into database.
-  CUTS_DB_Query * query = this->test_db_.create_query ();
-  CUTS_Auto_Functor_T <CUTS_DB_Query> auto_clean (query, &CUTS_DB_Query::destroy);
+  ADBC::Query * query = this->test_db_.create_query ();
+  CUTS_Auto_Functor_T <ADBC::Query> auto_clean (query, &ADBC::Query::destroy);
 
   // Prepare the query for inserting records.
   query->execute_no_record ("BEGIN TRANSACTION");

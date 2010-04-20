@@ -11,7 +11,7 @@
 #include "Log_Format_Data_Entry.h"
 #include "Relation.h"
 #include "Variable.h"
-#include "cuts/utils/db/SQLite/Connection.h"
+#include "adbc/SQLite/Connection.h"
 #include "cuts/utils/testing/Test_Database.h"
 #include "cuts/Auto_Functor_T.h"
 #include "ace/CORBA_macros.h"
@@ -29,7 +29,7 @@ class process_log_format
 public:
   process_log_format (const CUTS_Dataflow_Graph & graph,
                       CUTS_Log_Format_Data_Entry & entry,
-                      CUTS_DB_SQLite_Record & record)
+                      ADBC::SQLite::Record & record)
     : graph_ (graph),
       entry_ (entry),
       record_ (record)
@@ -84,7 +84,7 @@ private:
 
   mutable CUTS_Log_Format_Data_Entry & entry_;
 
-  mutable CUTS_DB_SQLite_Record & record_;
+  mutable ADBC::SQLite::Record & record_;
 };
 
 //
@@ -95,7 +95,7 @@ CUTS_Dataset_Repo::CUTS_Dataset_Repo (void)
   vtable_ (0)
 {
   ACE_NEW_THROW_EX (this->vtable_,
-                    CUTS_DB_SQLite_Connection (),
+                    ADBC::SQLite::Connection (),
                     ACE_bad_alloc ());
 }
 
@@ -178,9 +178,9 @@ bool CUTS_Dataset_Repo::insert (const CUTS_Dataflow_Graph & graph)
     graph.get_process_order (sorted_list);
 
     // First, select all the log message from the database.
-    CUTS_DB_SQLite_Query * query = this->data_->create_query ();
-    CUTS_Auto_Functor_T <CUTS_DB_SQLite_Query> auto_clean (query, &CUTS_DB_SQLite_Query::destroy);
-    CUTS_DB_SQLite_Record * record = query->execute ("SELECT * FROM cuts_logging ORDER BY lid");
+    ADBC::SQLite::Query * query = this->data_->create_query ();
+    CUTS_Auto_Functor_T <ADBC::SQLite::Query> auto_clean (query, &ADBC::SQLite::Query::destroy);
+    ADBC::SQLite::Record & record = query->execute ("SELECT * FROM cuts_logging ORDER BY lid");
 
     // Next, iterate over all the log formats. This will enable
     // us to construct the dataset using the provided data.
@@ -188,13 +188,13 @@ bool CUTS_Dataset_Repo::insert (const CUTS_Dataflow_Graph & graph)
 
     std::for_each (sorted_list.begin (),
                    sorted_list.end (),
-                   process_log_format (graph, entry, *record));
+                   process_log_format (graph, entry, record));
 
     // Finally, prune the incomplete rows from the table.
     this->prune_incomplete_rows (graph);
     return true;
   }
-  catch (const CUTS_DB_Exception & ex)
+  catch (const ADBC::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 ACE_TEXT ("%T (%t) - %M - %s (%N:%l)\n"),
@@ -214,10 +214,10 @@ create_vtable (const CUTS_Dataflow_Graph & graph)
   boost::tie (iter, iter_end) = boost::vertices (graph.graph ());
 
   // Create a new query on the variable table database.
-  CUTS_DB_SQLite_Query * query = this->vtable_->create_query ();
+  ADBC::SQLite::Query * query = this->vtable_->create_query ();
 
-  CUTS_Auto_Functor_T <CUTS_DB_SQLite_Query>
-    auto_clean (query, &CUTS_DB_SQLite_Query::destroy);
+  CUTS_Auto_Functor_T <ADBC::SQLite::Query>
+    auto_clean (query, &ADBC::SQLite::Query::destroy);
 
   // Delete the variable table for the unit test.
   ACE_CString sqlstmt = "DROP TABLE IF EXISTS " + graph.name ();
@@ -310,10 +310,10 @@ create_vtable_indices (const CUTS_Dataflow_Graph & test,
                        const CUTS_Log_Format & format)
 {
   // Allocate a new database query.
-  CUTS_DB_SQLite_Query * query = this->vtable_->create_query ();
+  ADBC::SQLite::Query * query = this->vtable_->create_query ();
 
-  CUTS_Auto_Functor_T <CUTS_DB_SQLite_Query>
-    auto_clean (query, &CUTS_DB_SQLite_Query::destroy);
+  CUTS_Auto_Functor_T <ADBC::SQLite::Query>
+    auto_clean (query, &ADBC::SQLite::Query::destroy);
 
   // Iterate over all the relations
   CUTS_Log_Format::relations_type::const_iterator
@@ -370,9 +370,9 @@ prune_incomplete_rows (const CUTS_Dataflow_Graph & graph)
   boost::tie (iter, iter_end) = boost::vertices (graph.graph ());
 
   // Create a new query on the variable table database.
-  CUTS_DB_SQLite_Query * query = this->vtable_->create_query ();
-  CUTS_Auto_Functor_T <CUTS_DB_SQLite_Query>
-    auto_clean (query, &CUTS_DB_SQLite_Query::destroy);
+  ADBC::SQLite::Query * query = this->vtable_->create_query ();
+  CUTS_Auto_Functor_T <ADBC::SQLite::Query>
+    auto_clean (query, &ADBC::SQLite::Query::destroy);
 
   // Begin the SQL statement for creating the table.
   bool first_entry = true;
@@ -411,7 +411,7 @@ prune_incomplete_rows (const CUTS_Dataflow_Graph & graph)
 //
 // create_query
 //
-CUTS_DB_SQLite_Query * CUTS_Dataset_Repo::create_query (void)
+ADBC::SQLite::Query * CUTS_Dataset_Repo::create_query (void)
 {
   return this->vtable_->create_query ();
 }

@@ -1,6 +1,6 @@
 // $Id$
 
-project : xscrt {
+project : xscrt, adbc_sqlite {
   after += CUTS_Testing
   libs  += CUTS_Testing
 }

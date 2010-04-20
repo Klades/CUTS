@@ -7,11 +7,10 @@
 #endif
 
 #include "cuts/Auto_Functor_T.h"
-#include "cuts/utils/db/SQLite/Query.h"
-#include "cuts/utils/db/SQLite/Types.h"
 #include "ace/CORBA_macros.h"
+#include "ace/Date_Time.h"
 #include "ace/UUID.h"
-#include "sqlite3.h"
+#include "adbc/SQLite/Types.h"
 #include <sstream>
 
 static const char * __CREATE_CUTS_TEST_TABLE__ =
@@ -45,10 +44,10 @@ void CUTS_Test_Database::init (void)
 {
   CUTS_TEST_DATABASE_TRACE ("CUTS_Test_Database::init (void)");
 
-  CUTS_DB_SQLite_Connection * conn = 0;
+  ADBC::SQLite::Connection * conn = 0;
 
   ACE_NEW_THROW_EX (conn,
-                    CUTS_DB_SQLite_Connection (),
+                    ADBC::SQLite::Connection (),
                     ACE_bad_alloc ());
 
   this->conn_.reset (conn);
@@ -66,11 +65,10 @@ create (const ACE_CString & location, ACE_Utils::UUID & uuid)
   if (retval)
   {
     // Instantiate a new query for the database.
-    CUTS_DB_SQLite_Query * query = this->conn_->create_query ();
+    ADBC::SQLite::Query * query = this->conn_->create_query ();
 
-    CUTS_Auto_Functor_T <
-      CUTS_DB_SQLite_Query>
-      auto_release (query, &CUTS_DB_SQLite_Query::destroy);
+    CUTS_Auto_Functor_T <ADBC::SQLite::Query>
+      auto_release (query, &ADBC::SQLite::Query::destroy);
 
     // Create the default tables in the database.
     for (size_t i = 0; i < CREATE_TABLES_COUNT; ++ i)
@@ -78,7 +76,7 @@ create (const ACE_CString & location, ACE_Utils::UUID & uuid)
 
     ACE_Utils::UUID curr_uuid;
 
-    if (CUTS_Test_Database::get_test_uuid_i (query, curr_uuid) == 0)
+    if (CUTS_Test_Database::get_test_uuid_i (*query, curr_uuid) == 0)
     {
       uuid = curr_uuid;
     }
@@ -127,11 +125,10 @@ void CUTS_Test_Database::start_new_test (const ACE_Time_Value & tv)
   CUTS_TEST_DATABASE_TRACE ("CUTS_Test_Database::start_new_test (void)");
 
   // Instantiate a new query for the database.
-  CUTS_DB_SQLite_Query * query = this->conn_->create_query ();
+  ADBC::SQLite::Query * query = this->conn_->create_query ();
 
-  CUTS_Auto_Functor_T <
-    CUTS_DB_SQLite_Query>
-    auto_release (query, &CUTS_DB_SQLite_Query::destroy);
+  CUTS_Auto_Functor_T <ADBC::SQLite::Query>
+    auto_release (query, &ADBC::SQLite::Query::destroy);
 
   const char * __sql_stmt__ =
     "INSERT INTO cuts_test_interval (start_time) VALUES (?)";
@@ -139,9 +136,9 @@ void CUTS_Test_Database::start_new_test (const ACE_Time_Value & tv)
   query->prepare (__sql_stmt__);
 
   ACE_Date_Time temp (tv);
-  CUTS_DB_SQLite_Date_Time dt (temp);
+  ADBC::SQLite::Date_Time dt (temp);
 
-  query->parameters ()[0].bind (dt);
+  query->parameters ()[0].bind (&dt);
   query->execute_no_record ();
 
   // Save the id of the active test run.
@@ -156,11 +153,10 @@ void CUTS_Test_Database::stop_current_test (const ACE_Time_Value & tv)
   CUTS_TEST_DATABASE_TRACE ("CUTS_Test_Database::stop_current_test (void)");
 
   // Instantiate a new query for the database.
-  CUTS_DB_SQLite_Query * query = this->conn_->create_query ();
+  ADBC::SQLite::Query * query = this->conn_->create_query ();
 
-  CUTS_Auto_Functor_T <
-    CUTS_DB_SQLite_Query>
-    auto_release (query, &CUTS_DB_SQLite_Query::destroy);
+  CUTS_Auto_Functor_T <ADBC::SQLite::Query>
+    auto_release (query, &ADBC::SQLite::Query::destroy);
 
   const char * __sql_stmt__ =
     "UPDATE cuts_test_interval SET stop_time = ? WHERE tsid = ?";
@@ -168,11 +164,11 @@ void CUTS_Test_Database::stop_current_test (const ACE_Time_Value & tv)
   query->prepare (__sql_stmt__);
 
   ACE_Date_Time temp (tv);
-  CUTS_DB_SQLite_Date_Time dt;
+  ADBC::SQLite::Date_Time dt;
   (temp);
 
-  query->parameters ()[0].bind (dt);
-  query->parameters ()[1].bind (this->active_id_);
+  query->parameters ()[0].bind (&dt);
+  query->parameters ()[1].bind (&this->active_id_);
 
   query->execute_no_record ();
 }
@@ -184,14 +180,13 @@ int CUTS_Test_Database::set_test_uuid (const ACE_Utils::UUID & uuid)
 {
   CUTS_TEST_DATABASE_TRACE ("CUTS_Test_Database::set_test_uuid (const ACE_Utils::UUID &)");
 
-  CUTS_DB_SQLite_Query * query = this->conn_->create_query ();
+  ADBC::SQLite::Query * query = this->conn_->create_query ();
 
   if (query == 0)
     return -1;
 
-  CUTS_Auto_Functor_T <
-    CUTS_DB_SQLite_Query>
-    auto_release (query, &CUTS_DB_SQLite_Query::destroy);
+  CUTS_Auto_Functor_T <ADBC::SQLite::Query>
+    auto_release (query, &ADBC::SQLite::Query::destroy);
 
   // Prepare the SQL statement.
   const char * __sql_stmt__ =
@@ -211,32 +206,25 @@ int CUTS_Test_Database::set_test_uuid (const ACE_Utils::UUID & uuid)
 // get_test_uuid_i
 //
 int CUTS_Test_Database::
-get_test_uuid_i (CUTS_DB_SQLite_Query * query, ACE_Utils::UUID & uuid)
+get_test_uuid_i (ADBC::SQLite::Query & query, ACE_Utils::UUID & uuid)
 {
   // Prepare the SQL statement.
   const char * __sql_stmt__ = "SELECT * FROM cuts_test WHERE tid = 1";
-  query->prepare (__sql_stmt__);
+  query.prepare (__sql_stmt__);
 
   // Execute the SQL statement.
-  CUTS_DB_SQLite_Record * record = query->execute ();
-
-  CUTS_Auto_Functor_T <CUTS_DB_SQLite_Record>
-    auto_destroy (record, &CUTS_DB_SQLite_Record::destroy);
+  ADBC::SQLite::Record & record = query.execute ();
 
   // Make sure there is at least one record.
-  if (!record->done ())
-  {
-    char buffer[37];
-    record->get_data (1, buffer, sizeof (buffer));
-
-    // Convert the string into a UUID.
-    uuid.from_string (buffer);
-    return 0;
-  }
-  else
-  {
+  if (record.done ())
     return -1;
-  }
+
+  char buffer[37];
+  record.get_data (1, buffer, sizeof (buffer));
+
+  // Convert the string into a UUID.
+  uuid.from_string (buffer);
+  return 0;
 }
 
 //
@@ -246,38 +234,30 @@ int CUTS_Test_Database::
 get_test_profile (CUTS_Test_Profile & profile)
 {
   // Instantiate a new query for the database.
-  CUTS_DB_SQLite_Query * query = this->conn_->create_query ();
+  ADBC::SQLite::Query * query = this->conn_->create_query ();
 
-  CUTS_Auto_Functor_T <CUTS_DB_SQLite_Query>
-    auto_release (query, &CUTS_DB_SQLite_Query::destroy);
+  CUTS_Auto_Functor_T <ADBC::SQLite::Query>
+    auto_release (query, &ADBC::SQLite::Query::destroy);
 
   // Prepare the SQL statement.
   const char * __sql_stmt__ = "SELECT * FROM cuts_test WHERE tid = 1";
   query->prepare (__sql_stmt__);
 
   // Execute the SQL statement.
-  CUTS_DB_SQLite_Record * record = query->execute ();
-
-  CUTS_Auto_Functor_T <CUTS_DB_SQLite_Record>
-    auto_destroy (record, &CUTS_DB_SQLite_Record::destroy);
+  ADBC::SQLite::Record & record = query->execute ();
 
   // Make sure there is at least one record.
-  if (!record->done ())
-  {
-    char uuid[37];
-    char name[256];
-
-    record->get_data (1, uuid, sizeof (uuid));
-    record->get_data (2, name, sizeof (name));
-
-    // Save the data in the profile.
-    profile.uuid_.from_string (uuid);
-    profile.name_ = name;
-    return 0;
-  }
-  else
-  {
+  if (record.done ())
     return -1;
-  }
 
+  char uuid[37];
+  char name[256];
+
+  record.get_data (1, uuid, sizeof (uuid));
+  record.get_data (2, name, sizeof (name));
+
+  // Save the data in the profile.
+  profile.uuid_.from_string (uuid);
+  profile.name_ = name;
+  return 0;
 }
