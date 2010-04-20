@@ -1,3 +1,17 @@
+Tue Apr 20 03:45:02 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/MDE/GME/PICML/GettingStarted:
+        * examples/MDE/GME/PICML/GettingStarted/GettingStarted.xme:
+        * examples/MDE/GME/PICML/GettingStarted/nodemap.dat:
+        * examples/MDE/GME/PICML/GettingStarted/run_test.pl:
+
+          . Completed the Getting Started tutorial so that is possible
+            to deploy a complete application for testing.
+
+        * examples/MDE/GME/PICML/GettingStarted.xme:
+
+          Removed this file.
+
 Tue Apr 20 03:08:08 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/MDE/GME/PICML:

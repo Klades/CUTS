@@ -1,0 +1,2 @@
+ClientNode       corbaloc:iiop:localhost:10000/ClientNode.NodeManager
+ServerNode       corbaloc:iiop:localhost:10001/ServerNode.NodeManager
