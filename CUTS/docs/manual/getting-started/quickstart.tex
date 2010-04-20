@@ -113,32 +113,39 @@ the appropriate workspace and then compile it.
 One design goal of CUTS is to (re)use the same infrastruture used in the 
 target environment. The \texttt{GettingStarted.xme} example uses the Deployment 
 And Configuration Engine (DAnCE), which is included with CIAO's standard 
-distribution, to deploy the test system. To deploy the CUTS stock quoter 
-example, use the following steps~\footnote{CUTS has a distributed testing
-framework that simplifies many of the complexities associated with running
-distributed system tests. We will cover the CUTS testing framework in later
-chapters}:
+distribution, to deploy the test system. To deploy the example, use the 
+following steps~\footnote{CUTS has a distributed testing framework that 
+simplifies many of the complexities associated with running distributed 
+system tests. We will cover the CUTS testing framework in later chapters}:
 \begin{enumerate}
-  \item Generate the flat deployment plan descriptors from the 
-  \texttt{GettingStarted}  model. You can find instructions on generating 
-  the flat deployment plan in the original stock quoter tutorial included 
-  with CoSMIC.
+  \item In the directory were you generated the source code for 
+  the example, create a directory named \texttt{./descriptors}.
   
-  \item Use DAnCE to deploy the GettingStarted.cdp. The original stock 
-  quoter tutorial in CoSMIC has instructions on how to deploy a solution. 
-  Be sure, however, to update the \texttt{nodemap.dat} file to the appropriate
-  hosts and their location.
+  \item Generate the deployment plan descriptors from the \texttt{GettingStarted}  
+  model into the \texttt{./descriptors} directory. 
+  Figure~\ref{fig:gettingstarted-deployment} shows the 
+  location of the deployment plan interpreter in CoSMIC.
+  
+  \item Copy the files from \texttt{\$CUTS\_ROOT/examples/MDE/GME/PICML/GettingStarted}
+  in the source distribution to the \texttt{./descriptors} directory.
+   
+  \item Execute \texttt{run\_test.pl} to deploy the system using 
+  DAnCE.
 \end{enumerate}
-When the CUTS version of the GettingStarted example is deployed, the test
-manager will periodic collect log messages from each host/\-client, and 
-insert them into a SQLite database for postprocessing.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.6]{gettingstarted-deployment.pdf}
+  \caption{Location of the deployment plan interpreter in CoSMIC.}
+  \label{fig:gettingstarted-deployment}
+\end{figure}
+  
+After the application is deployed, the client will send 10 events/second
+to the server. After 10 seconds, the script will teardown the application.
 
 \section{Analyzing Test Results}
 \label{sec:quickstart-analysis}
 
-Collecting and analyzing tests results in CUTS requires more in-depth
-knowledge of CUTS and its other toolsets. For these reasons, the Quick
-Start Tutorial does not cover this aspect of CUTS.
+This section is coming soon.
 
 %\begin{tabular}{p{0.5in}p{6.0in}}
 %\modeldef{modeling/action.pdf}{Action}{This is the action icon.}
