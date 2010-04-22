@@ -4,66 +4,85 @@
 \label{sec:preface}
 \addcontentsline{toc}{chapter}{Preface}
 
-Enterprise distributed systems (such as air traffic management systems, 
-cloud computing centers, and shipboard computing environments) are steadily 
-increasing in size (e.g., lines of source code and number of hosts in the 
-target environment) and complexity (e.g., application scenarios). To address 
-challenges associated with developing next-generation enterprise distributed 
-systems, the level of abstraction for software development steadily increases
-as well. Distributed system developers therefore focus more on the system's
-``business-logic'' instead of wrestling with low-level implementation details, 
-such as development and configuration, resource management, fault tolerance. 
-Moreover, increase the level of abstraction for software development helps
-promotes reuse of the system's ``business-logic'' across different application 
-domains, which inherently reduces (re)invention of core intellectual property.
+Enterprise distributed systems (such as air traffic management 
+systems, cloud computing centers, and shipboard computing 
+environments) are steadily increasing in size (e.g., lines of 
+source code and number of hosts in the target environment) and 
+complexity (e.g., application scenarios). To address challenges 
+associated with developing next-generation enterprise distributed 
+systems, the level-of-abstraction for software development is 
+steadily increasing. Now-a-days, distributed system developers 
+focus more on the system's ``business-logic'' instead of wrestling
+with low-level implementation details, such as development and 
+configuration, resource management, and fault tolerance. Moreover, 
+increasing the level-of-abstraction for software development 
+promotes reuse of the system's ``business-logic'' across different 
+application domains, which inherently reduces (re)invention of 
+core intellectual property.
 
-Although increasing the level of abstaction for software development is improving 
-the software lifecycle of next-generation enterprise distributed systems, system 
-quality-of-service (QoS) properties (\textit{e.g.}, latency, throughput, and 
-scalability) are not evaluated until late in the software lifecycle, \textit{i.e.}, 
-during system integration time. This is due in part to the \textit{serialized-phasing 
-developmen problem} where the infrastructure- and application-level system entities, 
-are developed during different phases of the software lifecycle. Consequently, 
-distributed system developers do not realize the system under development does 
-not meet its QoS requirements until its too late, \textit{i.e.}, during complete 
-system integration time.
+Although increasing the level-of-abstaction for software development 
+is improving functional properties of next-generation enterprise 
+distributed systems, system quality-of-service (QoS) properties 
+(\textit{e.g.}, latency, throughput, and scalability) are not 
+validated until late in the software lifecycle, \textit{i.e.}, 
+at system integration time. This is due in part to the 
+\textit{serialized-phasing development problem} where the 
+infrastructure- and application-level system entities, are 
+developed during different phases of the software lifecycle. 
+Consequently, distributed system developers do not realize the 
+system under development does not meet its QoS requirements until 
+its too late, \textit{i.e.}, at complete system integration time,
+at the expense of overrun project cost and deadlines.
 
-System execution modeling (SEM) tools is a model-driven engineering technique
-that helps overcome the effects of serialized-phasing development. SEM tools
-provide distributed system developers with the necessary artifacts and tools 
-for modeling system behavior and workload, such as computational attributes, 
-resource requirements, and network communication. The constructed models are
-then used to evaluate QoS properties of the system under development during
-early phases of the software lifecycle. This enables distributed system 
-developers to pinpoint potential performance bottlenecks before they become
-to costly to locate and rectify later in the software lifecycle.
+System execution modeling (SEM) is a model-driven engineering 
+technique that helps overcome the effects of serialized-phasing 
+development. SEM tools provide distributed system developers with 
+the necessary artifacts for modeling system behavior and workload, 
+such as computational attributes, resource requirements, and network 
+communication. The constructed models are then used to validate QoS 
+properties of the system under development during early phases of 
+the software lifecycle. This enables distributed system developers
+to pinpoint potential QoS bottlenecks before they become to costly 
+to locate and resolve in a cost-effective manner late in the 
+software lifecycle.
 
-The Component Workload Emulator (CoWorkEr) Utilization Test Suite (CUTS)  
-is a SEM tool designed for next-generation enterprise distributed 
-systems. Distributed system developers and testers use CUTS to model the expected behavior 
-and workload of the system components under development using high-level
-domain-specific modeling languages. Model interpreters then transform the 
-constructed behavior and workload models into source code for their target 
-architecture, \textit{i.e.}, the components same interfaces and attributes as 
-their real counterpart. Finally, system developers and testers emulate the 
-auto-generated components in their target (or representative) environment
-and collect QoS metrics. This enables distributed system developers and testers
-to conduct system integration test at early stages of software lifecycle,
-instead of waiting until complete system integration time to perform such
-testing.
+The Component Workload Emulator (CoWorkEr) Utilization Test Suite 
+(CUTS) is a SEM tool designed for next-generation enterprise
+distributed systems. Distributed system developers and testers 
+use CUTS to model the expected behavior and workload of system 
+components under development using high-level domain-specific 
+modeling languages. Model interpreters then transform the 
+constructed behavior and workload models into source code 
+for the target architecture, \textit{i.e.}, the auto-generated 
+components same interfaces and attributes as their real counterparts. 
+Finally, system developers and testers emulate the auto-generated 
+components in the target (or representative) environment and 
+collect and analyze QoS metrics. This enables distributed system 
+developers and testers to conduct system integration test at 
+early stages of software lifecycle, instead of waiting until 
+complete system integration time to perform such testing.
 
-\iffalse
-Developers and testers can grapically view the collected metrics while the system 
-is executing to understand its current performance, and gain insight on how to 
-improve it. Developer also have the option of viewing and analyzing collected 
-performance metrics postmortem. Lastly, as the real component's implementation 
-is completed, it can replace its respective emulation component to produce more 
-realistic results and facilitate continuous system integration.
-\fi
 
-This book therefore is the end-user's guide to CUTS. It contains information on 
-building and installing CUTS, using its domain-specific modeling languages to model
-behavior and workload, creating system experiments, and details on CUTS many tools 
-that help simpify evaluting QoS of next-generation distributed systems continuously
-throughout the software lifecycle.
+This book therefore serves as the user's guide to CUTS. It details
+its main functionalities, and includes concrete examples to provide
+better understanding of its concepts. This book is organized 
+organized as follows: 
+\begin{itemize}
+  \item \textbf{Chapter~\ref{chap:install}} details how to build 
+  and install CUTS and its different toolsets. Depending on your 
+  needs, you many or more not install all the toolset. It is not a 
+  requirement to install all the toolsets. 
+  
+  \item \textbf{Chapter~\ref{chap:tutorial}} provides a provides 
+  a Quick Start Tutorial on using CUTS. The tutorial uses a real
+  example that goes over the key task in CUTS, such as modeling
+  behavior and workload, generating source code, running experiments,
+  and analyzing collected QoS metrics.
+  
+\end{itemize}
+
+Hope that you enjoy using CUTS as it helps you understand QoS
+properties during early phases of the software lifecycle.
+
+% James, add your signature here...
 

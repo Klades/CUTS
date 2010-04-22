@@ -100,20 +100,14 @@ Use the following command to generate the workspace:
 %> $ACE_ROOT/bin/mwc.pl -type TYPE [-features FEATURES] CUTS.mwc
 \end{lstlisting}
 where TYPE is your compiler type, and FEATURES is a comma-separated list of 
-enabled/disabled features
+features
 for your build of the CUTS runtime architecture.\footnote{You can type 
 \texttt{\$ACE\_ROOT/bin/mwc.pl --help} to view the command-line options for 
-MPC.} The complete set of features for CUTS is located in the following
-file:
-\begin{lstlisting}
-%> $CUTS_ROOT/default.features.tmpl
-\end{lstlisting}
-It is recommended that you copy the file above to the following location:
-\begin{lstlisting}
-%> $CUTS_ROOT/default.features
-\end{lstlisting}
-and enable/disable the appropriate features for your workspace by 
-modifying \texttt{default.features}. This way you do not have to use 
+MPC.} The complete set of features for CUTS is located in 
+\texttt{\$CUTS\_ROOT/default.features.tmpl}. It is recommended that you copy 
+the template feature file to \texttt{\$CUTS\_ROOT/default.features}
+and set the appropriate features for your workspace by 
+modifying the new file. This way you do not have to use 
 the \texttt{-features} command-line option unless you want
 to override your default feature selection. Once you have generated 
 the workspace, you can build the solution using your specified compiler.

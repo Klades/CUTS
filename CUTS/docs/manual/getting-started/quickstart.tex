@@ -1,6 +1,7 @@
 % $Id$
 
 \chapter{Quick Start Tutorial}
+\label{chap:tutorial}
 
 This chapter provides a quick start tutorial for using CUTS. After 
 reading this chapter, you will have a basic understanding of how to:
@@ -45,6 +46,12 @@ purposes. First, let's add behavior and workload to the client component by
 assuming the client component should periodically send an event to the server.
 Please complete the following steps (elements will be automatically be generated
 as well):
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.3]{gettingstarted-client-behavior-new.pdf}
+  \caption{Client behavior model in PICML for CUTS emulation.}
+  \label{fig:gettingstarted-client-behavior}
+\end{figure}
 \begin{enumerate}
   \item Add a \texttt{PeriodicEvent} model element to the active model and 
   set its name to \texttt{periodicPing} and its \texttt{Hertz} attribute to 
@@ -61,12 +68,6 @@ as well):
 \end{enumerate}
 Figure~\ref{fig:gettingstarted-client-behavior} illustrates the complete behavior 
 model of the client in PICML, which is implemented in the previous steps.
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[scale=0.3]{gettingstarted-client-behavior-new.pdf}
-  \caption{Client behavior model in PICML for CUTS emulation.}
-  \label{fig:gettingstarted-client-behavior}
-\end{figure}
 
 Since you will need to collect performance metrics from the server
 component, its behavior/workload has already been completed. You,
@@ -89,7 +90,7 @@ following steps (also illustrated in Figure~\ref{fig:gettingstarted-generation})
 \end{enumerate}
 \begin{figure}[htbp]
   \centering
-  \includegraphics[scale=0.6]{gettingstarted-generation.pdf}
+  \includegraphics[scale=0.7]{gettingstarted-generation.pdf}
   \caption{Walkthrough of the steps for generating source code from
   CBML/WML models in CUTS.}
   \label{fig:gettingstarted-generation}
@@ -134,7 +135,7 @@ system tests. We will cover the CUTS testing framework in later chapters}:
 \end{enumerate}
 \begin{figure}[htbp]
   \centering
-  \includegraphics[scale=0.6]{gettingstarted-deployment.pdf}
+  \includegraphics[scale=0.7]{gettingstarted-deployment.pdf}
   \caption{Location of the deployment plan interpreter in CoSMIC.}
   \label{fig:gettingstarted-deployment}
 \end{figure}
