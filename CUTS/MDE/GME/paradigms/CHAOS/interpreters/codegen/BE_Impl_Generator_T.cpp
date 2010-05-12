@@ -625,7 +625,7 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 Visit_Supports (const CHAOS::Supports & supports)
 {
-  CHAOS::Object object = supports.ref ();
+  CHAOS::Object object = CHAOS::Object::Cast (supports.ref ());
 
   if (object != Udm::null)
   {

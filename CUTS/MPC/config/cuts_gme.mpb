@@ -1,6 +1,14 @@
 // $Id$
 
-project : game, gme_base {
+project : game  {
   staticflags  += GME_AS_STATIC_LIBS
   dynamicflags += GME_HAS_DLL
+
+  requires += gme
+  includes += . $(GME_ROOT)/SDK/BON $(GME_ROOT)
+
+  specific (prop:windows) {
+    midl_includes += . $(GME_ROOT)/Interfaces $(GME_ROOT)
+    DisableSpecificWarnings += 4355
+  }
 }

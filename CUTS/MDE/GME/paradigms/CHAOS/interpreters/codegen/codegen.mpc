@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_CHAOS_Codegen) : boost_base, udm_component, gme_interpreter, cosmic_utils, codegenerationkit, \
+project (CUTS_CHAOS_Codegen) : boost_base, gme_udm_component, cosmic_utils, codegenerationkit, \
                                cuts_chaos_dsml, cuts_cosmic, cuts_gme {
 
   sharedname    += CUTS_CHAOS_Codegen

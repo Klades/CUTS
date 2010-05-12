@@ -52,4 +52,6 @@ workspace (CUTS_Modeling) {
       }
     }
   }
+
+  cuts/utils/utils.mpc
 }

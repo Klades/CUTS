@@ -348,7 +348,7 @@ Visit_NamedType (const CHAOS::NamedType & type)
 void CUTS_BE_IDL_Graph::
 Visit_Supports (const CHAOS::Supports & supports)
 {
-  CHAOS::Object object = supports.ref ();
+  CHAOS::Object object = CHAOS::Object::Cast (supports.ref ());
 
   if (object != Udm::null)
     object.Accept (*this);

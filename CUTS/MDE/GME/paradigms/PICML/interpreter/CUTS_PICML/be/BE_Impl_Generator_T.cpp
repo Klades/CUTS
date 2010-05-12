@@ -643,7 +643,7 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 Visit_Supports (const PICML::Supports & supports)
 {
-  PICML::Object object = supports.ref ();
+  PICML::Object object = PICML::Object::Cast (supports.ref ());
 
   if (object != Udm::null)
   {

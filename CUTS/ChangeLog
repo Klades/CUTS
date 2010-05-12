@@ -1,10 +1,44 @@
+Wed May 12 21:57:29 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS_Modeling.mwc:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_IDL_Graph.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Impl_Generator_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/ComponentLib_h.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/StdAfx.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/codegen.mpc:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/StdAfx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/ComponentConfig.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/ComponentLib_h.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/StdAfx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_IDL_Graph.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/ComponentConfig.h:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/ComponentLib_h.h:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/StdAfx.h:
+        * MDE/GME/plugins/cute/ComponentLib_h.h:
+        * MPC/config/cuts_gme.mpb:
+        
+          . Updated files so CUTS builds against GME 10.
+          
+        * MPC/config/gme_addon.mpb:
+        * MPC/config/gme_base.mpb:
+        * MPC/config/gme_bon.mpb:
+        * MPC/config/gme_bon2.mpb:
+        * MPC/config/gme_component.mpb:
+        * MPC/config/gme_interpreter.mpb:
+        * MPC/config/gme_rawcom.mpb:
+
+          Removed these files.
+
 Wed May 12 12:03:19 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * docs/manual/appendix/thirdparty.tex:
         * docs/manual/manual.pdf:
         * docs/manual/modeling.tex:
 
-	  . More updates to the manual.
+          . More updates to the manual.
 
 Thu Apr 22 03:27:06 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 

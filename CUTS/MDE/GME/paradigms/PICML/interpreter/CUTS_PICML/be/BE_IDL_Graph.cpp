@@ -347,7 +347,7 @@ Visit_NamedType (const PICML::NamedType & type)
 void CUTS_BE_IDL_Graph::
 Visit_Supports (const PICML::Supports & supports)
 {
-  PICML::Object object = supports.ref ();
+  PICML::Object object = PICML::Object::Cast (supports.ref ());
 
   if (object != Udm::null)
     object.Accept (*this);
