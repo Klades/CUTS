@@ -11,9 +11,12 @@ due to third-party libraries, however, the instructions in this appendix
 may be of assistance. To make help explain the installation process
 of the thirdparty libraries, it will be assumed that all third-party
 libraries will be installed at the following location:
-\texttt{/opt/thirdparty}.\footnote{This location is representative 
+\texttt{/opt/thirdparty}\footnote{This location is representative 
 of a common location for installing third-party libraries, and may
-be different on your system.}
+be different on your system.} \footnote{If you are installing CUTS
+from source on Windows, it is recommended that you place all environment
+variables in a BATCH file (\texttt{.bat}) so you do not pollute the
+system environment.}.
 
 \section{Boost}
 \label{sec:thirdparty-boost}
@@ -118,8 +121,9 @@ source code can be downloaded from the following location:
 
 Unlike Boost, you must manually configure your system before installing
 the DOC middleware. Once you have downloaded the tarball from the website 
-above \footnote{It is recommended you download either the latest snapshot 
-or beta version of DOC middleware tarball.}, please define the following 
+above\footnote{It is recommended you download either the latest version
+or snapshot of trunk from the SVN repo. Otherwise, you will not have access
+to ADBC.}, please define the following 
 environment variables:
 \begin{lstlisting}
 (*@\texttt{\%> export ACE\_ROOT=} location of ACE@*)
