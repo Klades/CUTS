@@ -15,38 +15,34 @@ workspace (CUTS_Modeling) {
              -include $CUTS_ROOT/contrib/CCF/MPC/config \
              -feature_file $CUTS_ROOT/default.features
 
-  noinstall {
-    cmdline += -base noinstall
-
+  exclude (wix) {
     MDE/utils
+    
+    gems {
+      cmdline += -base requires_gems
+  
+      MDE/GEMS
+    }
   }
 
-  gems {
-    cmdline += -base requires_gems -base noinstall
-
-    MDE/GEMS
-  }
-
-  exclude (!prop:microsoft) {
+  exclude (!prop:windows, !wix) {
     cmdline += -include $COSMIC_ROOT/MPC/config
 
     MDE/GME/plugins
+    MDE/GME/paradigms/CUTS
 
-    noinstall {
-      cmdline += -base noinstall
-
+    exclude (wix) {
       MDE/GME/T2M
-      MDE/GME/paradigms/CUTS
-      MDE/GME/paradigms/CHAOS
+      MDE/GME/paradigms/CHAOS    
     }
-
+    
     cosmic {
       cmdline += -base requires_cosmic
 
       MDE/GME/paradigms/PICML
 
-      static {
-        cmdline += -static -base noinstall
+      exclude (wix) {
+        cmdline += -static
 
         $(CUTS_ROOT)/contrib/CCF/CCF/CodeGenerationKit
       }

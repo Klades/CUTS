@@ -18,3 +18,17 @@ project (CUTS_DSML) : udm, boost_base, cosmic_utils, cutslib  {
     CUTS_export.h
   }
 }
+
+project (CUTS_DSML_paradigm) {
+  custom_only = 1
+  
+  specific {
+    no_binary        = 1
+    install_location = paradigm CUTS
+    
+    gme_paradigm   = 1
+    paradigm_name  = CUTS
+    paradigm_guid  = B94E1183-C9B9-46D0-99B4-6AA8D1454043
+    paradigm_file  = CUTS.mta
+  }
+}

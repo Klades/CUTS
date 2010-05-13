@@ -116,48 +116,51 @@ register_valuetypes (CORBA::ORB_ptr orb)
   ::CORBA::ValueFactory_var prev;
 
   prev = orb->register_value_factory (
-    ::Components::PortDescription::_tao_obv_static_repository_id (),
-    new ::Components::PortDescription_init ());
-
-  prev = orb->register_value_factory (
-    ::Components::FacetDescription::_tao_obv_static_repository_id (),
-    new ::Components::FacetDescription_init ());
-
-  prev = orb->register_value_factory (
-    ::Components::FacetDescription::_tao_obv_static_repository_id (),
-    new ::Components::ConnectionDescription_init ());
-
-  prev = orb->register_value_factory (
-    ::Components::ReceptacleDescription::_tao_obv_static_repository_id (),
-    new ::Components::ReceptacleDescription_init ());
-
-  prev = orb->register_value_factory (
-    ::Components::ConsumerDescription::_tao_obv_static_repository_id (),
-    new ::Components::ConsumerDescription_init ());
-
-  prev = orb->register_value_factory (
-    ::Components::EmitterDescription::_tao_obv_static_repository_id (),
-    new ::Components::EmitterDescription_init ());
-
-  prev = orb->register_value_factory (
-    ::Components::SubscriberDescription::_tao_obv_static_repository_id (),
-    new ::Components::SubscriberDescription_init ());
-
-  prev = orb->register_value_factory (
-    ::Components::PublisherDescription::_tao_obv_static_repository_id (),
-    new ::Components::PublisherDescription_init ());
+    CUTS_CCM_Cookie::_tao_obv_static_repository_id (),
+    new CUTS_CCM_Cookie_Factory ());
 
   prev = orb->register_value_factory (
     ::Components::ConfigValue::_tao_obv_static_repository_id (),
     new ::Components::ConfigValue_init ());
 
-  prev = orb->register_value_factory (
-    ::Components::ComponentPortDescription::_tao_obv_static_repository_id (),
-    new ::Components::ComponentPortDescription_init ());
+#if !defined (LW_CCM)
+  //prev = orb->register_value_factory (
+  //  Components::PortDescription::_tao_obv_static_repository_id (),
+  //  new Components::PortDescription_init ());
 
-  prev = orb->register_value_factory (
-    CUTS_CCM_Cookie::_tao_obv_static_repository_id (),
-    new CUTS_CCM_Cookie_Factory ());
+  //prev = orb->register_value_factory (
+  //  ::Components::FacetDescription::_tao_obv_static_repository_id (),
+  //  new ::Components::FacetDescription_init ());
+
+  //prev = orb->register_value_factory (
+  //  ::Components::FacetDescription::_tao_obv_static_repository_id (),
+  //  new ::Components::ConnectionDescription_init ());
+
+  //prev = orb->register_value_factory (
+  //  ::Components::ReceptacleDescription::_tao_obv_static_repository_id (),
+  //  new ::Components::ReceptacleDescription_init ());
+
+  //prev = orb->register_value_factory (
+  //  ::Components::ConsumerDescription::_tao_obv_static_repository_id (),
+  //  new ::Components::ConsumerDescription_init ());
+
+  //prev = orb->register_value_factory (
+  //  ::Components::EmitterDescription::_tao_obv_static_repository_id (),
+  //  new ::Components::EmitterDescription_init ());
+
+  //prev = orb->register_value_factory (
+  //  ::Components::SubscriberDescription::_tao_obv_static_repository_id (),
+  //  new ::Components::SubscriberDescription_init ());
+
+  //prev = orb->register_value_factory (
+  //  ::Components::PublisherDescription::_tao_obv_static_repository_id (),
+  //  new ::Components::PublisherDescription_init ());
+
+  //prev = orb->register_value_factory (
+  //  ::Components::ComponentPortDescription::_tao_obv_static_repository_id (),
+  //  new ::Components::ComponentPortDescription_init ());
+#endif
+
 }
 
 //

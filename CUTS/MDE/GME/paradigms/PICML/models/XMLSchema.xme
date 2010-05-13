@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{F865BAC4-B0B3-4C87-8FDD-93EE1D36AF00}" cdate="Thu Jul 02 22:22:04 2009" mdate="Thu Jul 02 22:22:04 2009" version="" metaguid="{CDCDB657-AAD7-4917-941A-E63B013136B7}" metaversion="" metaname="PICML">
+<project guid="{F865BAC4-B0B3-4C87-8FDD-93EE1D36AF00}" cdate="Thu May 13 01:58:24 2010" mdate="Thu May 13 01:58:24 2010" version="" metaguid="{94FCA7F1-9017-4BFD-B557-F738FC54B103}" metaversion="" metaname="PICML">
 	<name>Root Folder</name>
 	<comment></comment>
 	<author></author>
-	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x5" kind="RootFolder" guid="{448383B1-F088-4564-BDE9-E7D9A6700C47}">
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x5" kind="RootFolder" guid="{448383b1-f088-4564-bde9-e7d9a6700c47}">
 		<name>Root Folder</name>
-		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x1" kind="InterfaceDefinitions" guid="{7583EF2F-863F-4bd9-AA7E-CD0AFB6143B5}">
+		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x1" kind="InterfaceDefinitions" guid="{7583ef2f-863f-4bd9-aa7e-cd0afb6143b5}">
 			<name>InterfaceDefinitions</name>
-			<model id="id-0065-00000001" kind="File" guid="{7AD8A4A6-714A-4068-B1FC-F4C266F21583}" relid="0x1" childrelidcntr="0x2">
+			<model id="id-0065-00000001" kind="File" guid="{7ad8a4a6-714a-4068-b1fc-f4c266f21583}" relid="0x1" childrelidcntr="0x2">
 				<name>XSLSchema</name>
 				<attribute kind="PrefixTag" status="meta">
 					<value></value>
@@ -17,7 +17,7 @@
 				<attribute kind="path" status="meta">
 					<value></value>
 				</attribute>
-				<model id="id-0065-00000002" kind="Package" role="Package" guid="{1309784F-530E-43a9-8503-94F2EEAFB156}" relid="0x2" childrelidcntr="0xb">
+				<model id="id-0065-00000002" kind="Package" role="Package" guid="{1309784f-530e-43a9-8503-94f2eeafb156}" relid="0x2" childrelidcntr="0xb">
 					<name>XSD</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -37,7 +37,7 @@
 					<attribute kind="VersionTag" status="meta">
 						<value></value>
 					</attribute>
-					<reference id="id-0067-00000001" kind="Alias" role="Alias" guid="{FB3F2F35-2F0C-428b-9383-8251A49D43FD}" relid="0x2" referred="id-0066-00000001">
+					<reference id="id-0067-00000001" kind="Alias" role="Alias" guid="{fb3f2f35-2f0c-428b-9383-8251a49d43fd}" relid="0x2" referred="id-0066-00000001">
 						<name>dateTime</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -55,7 +55,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000002" kind="Alias" role="Alias" guid="{9363DC78-D7C3-4792-BD8D-7066DE75C19A}" relid="0x3" referred="id-0066-00000001">
+					<reference id="id-0067-00000002" kind="Alias" role="Alias" guid="{9363dc78-d7c3-4792-bd8d-7066de75c19a}" relid="0x3" referred="id-0066-00000001">
 						<name>anyURI</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -73,7 +73,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000003" kind="Alias" role="Alias" guid="{EFA71862-B04C-4189-A556-69C8A6BCEB17}" relid="0x4" referred="id-0066-00000001">
+					<reference id="id-0067-00000003" kind="Alias" role="Alias" guid="{efa71862-b04c-4189-a556-69c8a6bceb17}" relid="0x4" referred="id-0066-00000001">
 						<name>duration</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -91,7 +91,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000004" kind="Alias" role="Alias" guid="{DB348D93-16EC-4d4f-8527-C20B695AC115}" relid="0x5" referred="id-0066-00000001">
+					<reference id="id-0067-00000004" kind="Alias" role="Alias" guid="{db348d93-16ec-4d4f-8527-c20b695ac115}" relid="0x5" referred="id-0066-00000001">
 						<name>normalizedString</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -109,7 +109,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000005" kind="Alias" role="Alias" guid="{9DF75027-52F2-4b3a-8042-EF7F66504938}" derivedfrom="id-0067-00000004" isinstance="no" isprimary="yes" relid="0x7" referred="id-0066-00000001" isbound="yes">
+					<reference id="id-0067-00000005" kind="Alias" role="Alias" guid="{9df75027-52f2-4b3a-8042-ef7f66504938}" derivedfrom="id-0067-00000004" isinstance="no" isprimary="yes" relid="0x7" referred="id-0066-00000001" isbound="yes">
 						<name>token</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -127,7 +127,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000006" kind="Alias" role="Alias" guid="{08D4DFAE-BDC0-4d85-8863-8588869E9AF1}" derivedfrom="id-0067-00000005" isinstance="no" isprimary="yes" relid="0x8" referred="id-0066-00000001" isbound="yes">
+					<reference id="id-0067-00000006" kind="Alias" role="Alias" guid="{08d4dfae-bdc0-4d85-8863-8588869e9af1}" derivedfrom="id-0067-00000005" isinstance="no" isprimary="yes" relid="0x8" referred="id-0066-00000001" isbound="yes">
 						<name>language</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -145,7 +145,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000007" kind="Alias" role="Alias" guid="{20CFD2EE-D23A-483a-A51F-DDEB58E4E778}" derivedfrom="id-0067-00000005" isinstance="no" isprimary="yes" relid="0x9" referred="id-0066-00000001" isbound="yes">
+					<reference id="id-0067-00000007" kind="Alias" role="Alias" guid="{20cfd2ee-d23a-483a-a51f-ddeb58e4e778}" derivedfrom="id-0067-00000005" isinstance="no" isprimary="yes" relid="0x9" referred="id-0066-00000001" isbound="yes">
 						<name>Name</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -163,7 +163,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000008" kind="Alias" role="Alias" guid="{B64557B4-8FD6-4780-9AC4-9A4BFA0F0E60}" derivedfrom="id-0067-00000005" isinstance="no" isprimary="yes" relid="0xa" referred="id-0066-00000001" isbound="yes">
+					<reference id="id-0067-00000008" kind="Alias" role="Alias" guid="{b64557b4-8fd6-4780-9ac4-9a4bfa0f0e60}" derivedfrom="id-0067-00000005" isinstance="no" isprimary="yes" relid="0xa" referred="id-0066-00000001" isbound="yes">
 						<name>NMTOKEN</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -181,7 +181,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000009" kind="Alias" role="Alias" guid="{8759E4DD-EFB0-4e3c-B48A-E5D1854193F8}" derivedfrom="id-0067-00000007" isinstance="no" isprimary="yes" relid="0xb" referred="id-0066-00000001" isbound="yes">
+					<reference id="id-0067-00000009" kind="Alias" role="Alias" guid="{8759e4dd-efb0-4e3c-b48a-e5d1854193f8}" derivedfrom="id-0067-00000007" isinstance="no" isprimary="yes" relid="0xb" referred="id-0066-00000001" isbound="yes">
 						<name>NCName</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -202,24 +202,24 @@
 				</model>
 			</model>
 		</folder>
-		<folder id="id-006a-00000003" relid="0x2" childrelidcntr="0x6" kind="PredefinedTypes" guid="{3E5FFCC8-CC71-4e86-A22D-6D9E782A5A90}">
+		<folder id="id-006a-00000003" relid="0x2" childrelidcntr="0x6" kind="PredefinedTypes" guid="{3e5ffcc8-cc71-4e86-a22d-6d9e782a5a90}">
 			<name>PredefinedTypes</name>
-			<atom id="id-0066-00000001" kind="String" guid="{E201C9A1-64FF-4108-908C-931898FC0B45}" relid="0x1">
+			<atom id="id-0066-00000001" kind="String" guid="{e201c9a1-64ff-4108-908c-931898fc0b45}" relid="0x1">
 				<name>String</name>
 			</atom>
-			<atom id="id-0066-00000002" kind="Byte" guid="{CD688BCE-2E9F-4c05-9F52-929D575FB67D}" relid="0x2">
+			<atom id="id-0066-00000002" kind="Byte" guid="{cd688bce-2e9f-4c05-9f52-929d575fb67d}" relid="0x2">
 				<name>Byte</name>
 			</atom>
-			<atom id="id-0066-00000003" kind="LongInteger" guid="{9D833373-EC56-4ac9-8194-93D285347075}" relid="0x3">
+			<atom id="id-0066-00000003" kind="LongInteger" guid="{9d833373-ec56-4ac9-8194-93d285347075}" relid="0x3">
 				<name>LongInteger</name>
 			</atom>
-			<atom id="id-0066-00000004" kind="Boolean" guid="{C0E4649C-E579-4db7-9FEA-53AC09720C93}" relid="0x4">
+			<atom id="id-0066-00000004" kind="Boolean" guid="{c0e4649c-e579-4db7-9fea-53ac09720c93}" relid="0x4">
 				<name>Boolean</name>
 			</atom>
-			<atom id="id-0066-00000005" kind="ShortInteger" guid="{B11DB1F3-302C-450d-AB16-2547BA675C8C}" relid="0x5">
+			<atom id="id-0066-00000005" kind="ShortInteger" guid="{b11db1f3-302c-450d-ab16-2547ba675c8c}" relid="0x5">
 				<name>ShortInteger</name>
 			</atom>
-			<atom id="id-0066-00000006" kind="RealNumber" guid="{9891641A-BA8B-4653-A674-B620A6199B22}" relid="0x6">
+			<atom id="id-0066-00000006" kind="FloatNumber" guid="{9891641a-ba8b-4653-a674-b620a6199b22}" relid="0x6">
 				<name>RealNumber</name>
 			</atom>
 		</folder>

@@ -33,7 +33,6 @@ project (CUTS_CUTE) : boost_base, cuts_utils, cuts_gme, game_component, register
     gme_component_type = 12
     gme_progid         = CUTS.Plugin.CUTE
     gme_uuid           = F3748950-3B2A-4511-8349-45EBFAF4BD32
-    gme_paradigms      = *
     gme_has_icon       = 1
     gme_description    = CUTS Template Engine
     gme_tooltip        = CUTS Template Engine

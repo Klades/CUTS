@@ -1,0 +1,15 @@
+// $Id$
+
+project (CUTS_schemas) {
+  specific {
+    install_location  = etc schemas
+    install_resources = 1
+    no_binary         = 1
+  }
+
+  Resource_Files {
+    conditional (wix) {
+      modelgen.xsd
+    }
+  }
+}

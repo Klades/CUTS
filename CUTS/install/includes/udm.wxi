@@ -4,12 +4,12 @@
     <DirectoryRef Id="INSTALLDIR">
       <Directory Id="UDM.output" Name="bin">
         <Component Id="UDM" Guid="C16D9595-4F34-491A-A759-D76638E45940">
-          <File Id="$(env.UDM_VERSION).DLL" Name="$(env.UDM_VERSION).DLL"
-                Source="$(env.UDM_PATH)\bin\$(env.UDM_VERSION).DLL"
+          <File Id="$(env.UDM_VERSION).DLL" Name="UdmDll_3_2.dll"
+                Source="$(env.UDM_PATH)\bin\UdmDll_3_2.dll"
                 DiskId="1" />
 
-          <File Id="XERCES_C_2_5_0.DLL" Name="XERCES-C_2_5_0.DLL"
-                Source="$(env.UDM_PATH)\3rdparty\xerces-c_2_5_0\bin\XERCES-C_2_5_0.DLL"
+          <File Id="xerces_c_2_8.dll" Name="xerces-c_2_8.dll"
+                Source="$(env.UDM_PATH)\3rdparty\xerces-c_2_8_0\bin\xerces-c_2_8.dll"
                 DiskId="1" />
         </Component>
       </Directory>

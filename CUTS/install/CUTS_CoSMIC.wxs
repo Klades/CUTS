@@ -5,12 +5,12 @@
            Id="9A601859-E2D1-4C1F-B897-B13fEA0261B0"
            UpgradeCode="1CEF4517-4472-4A6F-8D4E-4D5B5F3B240A"
            Language="1033" Codepage="1252" Version="0.2.1"
-           Manufacturer="DOC Group, ISIS, Vanderbilt University">
+           Manufacturer="Indiana University Purdue University Indianapolis">
 
     <Package Keywords='Installer'
              Description='CUTS Modeling Tools for CoSMIC'
-             Manufacturer='DOC Group, ISIS, Vanderbilt University'
-             InstallerVersion='200' Languages='1033' Compressed='yes'
+             Manufacturer='Indiana University Purdue University Indianapolis'
+             InstallerVersion='300' Languages='1033' Compressed='yes'
              SummaryCodepage='1252' />
 
     <!-- Wix variables -->
@@ -25,16 +25,14 @@
       <Directory Id="SystemFolder" />
 
       <Directory Id="ProgramFilesFolder" Name="Program Files">
-        <Directory Id="ISIS" Name="ISIS">
-          <Directory Id="INSTALLDIR" Name="CUTS">
-            <Component Id="CUTS_ROOT" Guid="B2E31064-65DF-49C3-B6C6-F93C8846C2DA">
-              <!-- location of the install -->
-              <Environment Id="PATH" Name="PATH" Part="last" System="yes" Value="[INSTALLDIR]bin" Action="set" />
-              <RegistryKey Root="HKLM" Key="SOFTWARE\CUTS" Action="createAndRemoveOnUninstall">
-                <RegistryValue Type="string" Value="[INSTALLDIR]" Action="write" />
-              </RegistryKey>
-            </Component>
-          </Directory>
+        <Directory Id="INSTALLDIR" Name="CUTS">
+          <Component Id="CUTS_ROOT" Guid="B2E31064-65DF-49C3-B6C6-F93C8846C2DA">
+            <!-- location of the install -->
+            <Environment Id="PATH" Name="PATH" Part="last" System="yes" Value="[INSTALLDIR]bin" Action="set" />
+            <RegistryKey Root="HKLM" Key="SOFTWARE\CUTS" Action="createAndRemoveOnUninstall">
+              <RegistryValue Type="string" Value="[INSTALLDIR]" Action="write" />
+            </RegistryKey>
+          </Component>
         </Directory>
       </Directory>
     </Directory>

@@ -1,3 +1,41 @@
+Thu May 13 13:27:38 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MPC/config/cutslib.mpb:
+        
+          . Updated the Wix install location.
+        
+        * CUTS_Modeling.mwc:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS_DSML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/BE_CIAO.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/BE_OpenSplice.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/BE_RTIDDS.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/tcpip.mpc:
+        * etc/schemas/schemas.mpc:
+        * install/CUTS_CoSMIC.mwc:
+        * install/CUTS_CoSMIC.wxs:
+        * MDE/GME/plugins/cute/CUTE.mpc:
+        
+          . Fixed project files so that is possible to generate a 
+            valid wix project (i.e., the .wxi files).
+
+        * MDE/GME/paradigms/PICML/models/CAPI.xme:
+        * MDE/GME/paradigms/PICML/models/XMLSchema.xme:
+        
+          . Updated to the latest version of PICML.
+          
+        * docs/License.rtf:
+        
+          . Update the license for IU.
+
+        * install/Merge_Modules.wxs:
+        
+          . Added support for vc9 merge modules.
+
+        * install/includes/udm.wxi:
+        
+          . Updated to latest version of UDM.
+
 Wed May 12 21:57:29 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * CUTS_Modeling.mwc:
@@ -19,9 +57,9 @@ Wed May 12 21:57:29 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/StdAfx.h:
         * MDE/GME/plugins/cute/ComponentLib_h.h:
         * MPC/config/cuts_gme.mpb:
-        
+
           . Updated files so CUTS builds against GME 10.
-          
+
         * MPC/config/gme_addon.mpb:
         * MPC/config/gme_base.mpb:
         * MPC/config/gme_bon.mpb:

@@ -3,11 +3,13 @@
 workspace (CUTS_CoSMIC) {
   cmdline += -include $CUTS_ROOT/MPC/config \
              -include $COSMIC_ROOT/MPC/config \
-             -include $XSC_ROOT/MPC/config
+             -include $XSC_ROOT/MPC/config \
+             -feature_file $CUTS_ROOT/default.features
 
-  exclude (!vc71, !vc8, !wix) {
-    cmdline += -value_template 'install_location=bin'
-
+  exclude (!prop:windows) {
+    cmdline += -value_template 'install_location=bin' \  
+               -value_template 'gme_register=HKCU'
+    
     //== ACE projects
     $(ACE_ROOT)/ace/ace.mpc
 
@@ -18,15 +20,17 @@ workspace (CUTS_CoSMIC) {
 
     //== XSC projects
     $(XSC_ROOT)/XSC/utils
-
-    $(CUTS_ROOT)/CUTS_Modeling.mwc
   }
 
+  exclude (!prop:windows) {
+    $(CUTS_ROOT)/CUTS_Modeling.mwc
+  }
+  
   exclude (!wix) {
     $(CUTS_ROOT)/etc/schemas
   }
 
-  exclude (!vc71, !vc8) {
+  exclude (!prop:microsoft, wix) {
     CUTS_CoSMIC.mpc
   }
 }
