@@ -1,9 +1,16 @@
+Thu May 13 14:42:29 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/svcs/dbase/DB_Registry.mpc:
+        
+          . Fixed build errors related to obsolete import libraries 
+            remaining after creating ADBC.
+
 Thu May 13 13:27:38 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MPC/config/cutslib.mpb:
-        
+
           . Updated the Wix install location.
-        
+
         * CUTS_Modeling.mwc:
         * MDE/GME/paradigms/CUTS/paradigm/CUTS_DSML.mpc:
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI.mpc:
@@ -15,25 +22,25 @@ Thu May 13 13:27:38 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
         * install/CUTS_CoSMIC.mwc:
         * install/CUTS_CoSMIC.wxs:
         * MDE/GME/plugins/cute/CUTE.mpc:
-        
-          . Fixed project files so that is possible to generate a 
+
+          . Fixed project files so that is possible to generate a
             valid wix project (i.e., the .wxi files).
 
         * MDE/GME/paradigms/PICML/models/CAPI.xme:
         * MDE/GME/paradigms/PICML/models/XMLSchema.xme:
-        
+
           . Updated to the latest version of PICML.
-          
+
         * docs/License.rtf:
-        
+
           . Update the license for IU.
 
         * install/Merge_Modules.wxs:
-        
+
           . Added support for vc9 merge modules.
 
         * install/includes/udm.wxi:
-        
+
           . Updated to latest version of UDM.
 
 Wed May 12 21:57:29 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>

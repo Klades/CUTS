@@ -4,9 +4,6 @@ project (CUTS_DB_Registry) : acelib, adbc_odbc, cutslib {
   sharedname  += CUTS_DB_Registry
   dynamicflags = CUTS_DB_BUILD_DLL
 
-  libs  += CUTS_DB_ODBC CUTS_DB
-  after += CUTS_DB_ODBC CUTS_DB
-
   Source_Files {
     DB_Registry.cpp
   }
