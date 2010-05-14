@@ -1,8 +1,17 @@
+Fri May 14 11:32:56 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * docs/manual/appendix/thirdparty.tex:
+        * docs/manual/manual.pdf:
+        * docs/manual/title.tex:
+
+	  . Updated documentation with instructions on integrating 
+	    RTI-DDS and OpenSplice with CUTS.
+
 Thu May 13 14:42:29 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/svcs/dbase/DB_Registry.mpc:
-        
-          . Fixed build errors related to obsolete import libraries 
+
+          . Fixed build errors related to obsolete import libraries
             remaining after creating ADBC.
 
 Thu May 13 13:27:38 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>

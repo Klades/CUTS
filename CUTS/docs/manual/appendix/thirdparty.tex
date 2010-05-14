@@ -25,27 +25,6 @@ The Boost libraries are required when building and installing CUTS. All
 artifacts for Boost, such as prebuilt versions and source files, can be 
 downloaded from the following location: \url{http://www.boost.org}. 
 
-\subsection{Installation}
-
-\subsubsection{Non-Windows}
- 
-If you are installing Boost on a non-Windows system, \textit{e.g.}, Linux, 
-Soloris, or MacOS X, then you can download the source code directly from its
-main website (\url{http://www.boost.org}), build it, and install it using
-standard procedures.
-
-\subsubsection{Windows}
-
-Installing Boost from sources on Windows is not a trivial process. 
-Moreover, the prebuilt version of Boost available for download from 
-the main website does not contain the correct configuration or directory
-layout. It is therefore recommended that you download and use the prebuilt 
-version of Boost available for download from the CUTS website at the 
-following location:
-\url{http://www.dre.vanderbilt.edu/CUTS/downloads/thirdparty/boost}. Please download
-the correct version of Boost that matches your version of Microsoft Visual
-C++ and extract it to a common location on disk.
-
 \subsection{System Configuration}
 
 To build CUTS correctly, the Boost environment variables must be defined. Please 
@@ -70,12 +49,45 @@ The configuration of Boost is now complete. Once all the other
 third-party libraries are installed you will be able to build CUTS
 (see Chapter~\ref{chap:install}).
 
+\subsection{Installation}
+
+\subsubsection{Non-Windows}
+ 
+If you are installing Boost on a non-Windows system, \textit{e.g.}, Linux, 
+Soloris, or MacOS X, then you can download the source code directly from its
+main website (\url{http://www.boost.org}), build it, and install it using
+standard procedures.
+
+\subsubsection{Windows}
+
+Installing Boost from sources on Windows is not a trivial process. 
+Moreover, the prebuilt version of Boost available for download from 
+the main website does not contain the correct configuration or directory
+layout. It is therefore recommended that you download and use the prebuilt 
+version of Boost available for download from the CUTS website at the 
+following location:
+\url{http://www.dre.vanderbilt.edu/CUTS/downloads/thirdparty/boost}. Please download
+the correct version of Boost that matches your version of Microsoft Visual
+C++ and extract it to a common location on disk.
+
 \section{Xerces-C}
 \label{sec:thirdparty-xercesc}
 
 Xerces-C 3.x is required when building and installing CUTS and other third-party
 libraries. All artifacts for Xerces-C, such as prebuilt versions and source files, 
 can be downloaded from the following location: \url{http://xerces.apache.org/xerces-c}. 
+
+\subsection{System Configuration}
+
+To build CUTS correctly, the Xerces-C environment variables must be defined. Please 
+define the following required environment variables:
+\begin{lstlisting}
+(*@\texttt{\%> export XERCESCROOT=} location of Xerces-C@*)
+(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$XERCESCROOT/lib}@*)
+\end{lstlisting}
+The configuration of Xerces-C is now complete. Once all the other
+third-party libraries are installed you will be able to build CUTS
+(see Chapter~\ref{chap:install}).
 
 \subsection{Installation}
 
@@ -97,18 +109,6 @@ following location:
 \url{http://www.dre.vanderbilt.edu/CUTS/downloads/thirdparty/xerces-c}. Please download
 the correct version of Xerces-C that matches your version of Microsoft Visual
 C++ and extract it to a common location on disk.
-
-\subsection{System Configuration}
-
-To build CUTS correctly, the Xerces-C environment variables must be defined. Please 
-define the following required environment variables:
-\begin{lstlisting}
-(*@\texttt{\%> export XERCESCROOT=} location of Xerces-C@*)
-(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$XERCESCROOT/lib}@*)
-\end{lstlisting}
-The configuration of Xerces-C is now complete. Once all the other
-third-party libraries are installed you will be able to build CUTS
-(see Chapter~\ref{chap:install}).
 
 \section{DOC Group Middleware}
 \label{sec:thirdparty-acetaociao}
@@ -173,11 +173,25 @@ install the DOC middleware:
 (*@\texttt{\%> cd \$CIAO\_ROOT}@*)
 (*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool] CIAO\_TAO\_DAnCE.mwc}@*)
 (*@\texttt{\%> gmake}@*)
+\end{lstlisting}
 
+\subsection{ACE DataBase Connector (ADBC) Framework}
+\label{sec:thirdparty-adbc}
+
+The ACE DataBase Connector (ADBC) Framework is a set of C++ wrappers 
+that provide a common interface for using different database drivers.
+To install ADBC, first copy the file \texttt{default.features.tmpl} to
+\texttt{default.features}. Open the new file and then enable/disable
+the necessary features based on what wrappers you want to 
+build.\footnote{It is assumed that you have installed the development
+version for the database drivers that you plan to build.} Finally,
+generate the workspace and build ADBC using the following commands:
+\begin{lstlisting}
 (*@\texttt{\%> cd \$ADBC\_ROOT}@*)
-(*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool] [-features <features>] ADBC.mwc}@*)
-(*@\texttt{\%> gmake}@*)\end{lstlisting}
-
+(*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool] ADBC.mwc}@*)
+(*@\texttt{\%> gmake}@*)
+\end{lstlisting}
+ 
 \section{XML Schema Compiler (XSC)}
 \label{sec:thirdparty-xsc}
 
@@ -217,6 +231,19 @@ PCRE is required when building and installing several projects in CUTS.
 You can download the source code for PCRE from the following 
 location: \url{http://www.pcre.org}
 
+\subsection{System Configuration}
+
+To build CUTS correctly, the PCRE environment variables must be defined. Please 
+define the following required environment variables:
+\begin{lstlisting}
+(*@\texttt{\%> export PCRE\_ROOT=} location of PCRE@*)
+(*@\texttt{\%> export PCRE\_VERSION=} version of PCRE, blank if not applicable@*)
+(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$PCRE\_ROOT/lib}@*)
+\end{lstlisting}
+The configuration of PCRE is now complete. Once all the other
+third-party libraries are installed you will be able to build CUTS
+(see Chapter~\ref{chap:install}).
+
 \subsection{Installation}
 
 \subsubsection{Non-Windows}
@@ -236,25 +263,25 @@ following location:
 the correct version of PCRE that matches your version of Microsoft Visual
 C++ and extract it to a common location on disk.
 
-\subsection{System Configuration}
-
-To build CUTS correctly, the PCRE environment variables must be defined. Please 
-define the following required environment variables:
-\begin{lstlisting}
-(*@\texttt{\%> export PCRE\_ROOT=} location of PCRE@*)
-(*@\texttt{\%> export PCRE\_VERSION=} version of PCRE, blank if not applicable@*)
-(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$PCRE\_ROOT/lib}@*)
-\end{lstlisting}
-The configuration of PCRE is now complete. Once all the other
-third-party libraries are installed you will be able to build CUTS
-(see Chapter~\ref{chap:install}).
-
 \section{SQLite}
 \label{sec:thirdparty-sqlite}
 
 SQLite is required when building and installing several 
 projects in CUTS. You can download the source code for SQLite
 from the following location: \url{http://www.sqlite.org}
+
+\subsection{System Configuration}
+
+To build CUTS correctly, the SQLite environment variables must be defined. Please 
+define the following required environment variables:
+\begin{lstlisting}
+(*@\texttt{\%> export SQLITE\_ROOT=} location of SQLite@*)
+(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$SQLITE\_ROOT/lib}@*)
+(*@\texttt{\%> export PATH=\$PATH:\$SQLITE\_ROOT/bin}@*)
+\end{lstlisting}
+The configuration of SQLite is now complete. Once all the other
+third-party libraries are installed you will be able to build CUTS
+(see Chapter~\ref{chap:install}).
 
 \subsection{Installation}
 
@@ -275,16 +302,93 @@ following location:
 the correct version of SQLite that matches your version of Microsoft Visual
 C++ and extract it to a common location on disk.
 
+\section{RTI-DDS}
+\label{sec:thirdparty-rtidds}
+
+RTI-DDS is required if you are building CHAOS. You can obtain RTI-DDS
+from the following location: \url{http://www.rti.com}
+
+\subsection{System Configuration}
+In order to use RTI-DDS with CUTS, the environment must be configured 
+a certain way. Otherwise, there is great chance that CUTS emulation 
+code that uses RTI-DDS will not compile correctly. Please define the 
+following environment variables:
+\begin{lstlisting}
+(*@\texttt{\%> export NDDSHOME=} location of RTI-DDS@*)
+(*@\texttt{\%> export NDDSARCHITECTURE=} target arch (see \$NDDSHOME/lib)@*)
+(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$NDDSHOME/lib/\$NDDSARCHITECTURE}@*)
+\end{lstlisting}
+
+\subsection{Installation}
+
+RTI-DDS comes prebuilt. There are no installation procedures 
+once you unzip the obtained tarball.
+
+\section{OpenSplice DDS}
+\label{sec:thirdparty-ospl}
+
+OpenSplice DDS is required if you are building CHAOS. You can obtain 
+OpenSplice DDS from the following location: \url{http://www.opensplice.org}.
+Please make sure to download the binary version.
+
 \subsection{System Configuration}
 
-To build CUTS correctly, the SQLite environment variables must be defined. Please 
-define the following required environment variables:
+In order to use OpenSplice DDS with CUTS, the environment must be configured 
+a certain way. Otherwise, there is great chance that CUTS emulation 
+code that uses OpenSplice DDS will not compile correctly. Please define the 
+following environment variables:
 \begin{lstlisting}
-(*@\texttt{\%> export SQLITE\_ROOT=} location of SQLite@*)
-(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$SQLITE\_ROOT/lib}@*)
-(*@\texttt{\%> export PATH=\$PATH:\$SQLITE\_ROOT/bin}@*)
-\end{lstlisting}
-The configuration of SQLite is now complete. Once all the other
-third-party libraries are installed you will be able to build CUTS
-(see Chapter~\ref{chap:install}).
+(*@\texttt{\%> export OSPL\_HOME=} location of OpenSplice HDE/target@*)
+(*@\texttt{\%> export OSPL\_TARGET=} target arch (see \$OPSL\_HOME)@*)
+(*@\texttt{\%> export OSPL\_TEMP\_PATH=\$OPSL\_HOME/etc/idlpp}@*)
+(*@\texttt{\%> export OSPL\_URI="file://\$OPSL\_HOME/etc/config/ospl.xml"}@*)
 
+(*@\texttt{\%> export CLASSPATH=\$OSPL\_HOME/jar/dcpssaj.jar;\$CLASSPATH}@*)
+
+(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$OSPL\_HOME/lib}@*)
+\end{lstlisting}
+
+\subsection{Installation}
+
+OpenSplice DDS is built on top of The ACE ORB (TAO), which is also the
+case for CUTS. In most cases, however, the version of TAO in either 
+OpenSplice DDS and CUTS is not the same version. Likewise, OpenSplice DDS
+and CUTS may not be built in such a way that they support different 
+versions in the same process space, which is possible given the correct
+configuration. Because of this, it is best to rebuild only the custom
+library of OpenSplice DDS so that both OpenSplice DDS and CUTS can operate 
+in the same address space. 
+
+To rebuild the custom library in OpenSplice DDS, first determine
+the version of TAO installed on your machine. The version number is
+found in the following file: \texttt{\$TAO\_ROOT/VERSION}. Once you
+have identified the version number, create the following directories
+in OpenSplice DDS install directory:
+\begin{lstlisting}
+(*@\texttt{\%> cp \$OSPL\_HOME/etc/idlpp/CCPP/[current version DDS\_ACE\_TAO] \\
+  \$OSPL\_HOME/etc/idlpp/CCPP/DDS\_ACE\_TAO\_x\_y\_z}@*)
+(*@\texttt{\%> cp \$OSPL\_HOME/include/dcps/C++/CCPP/[current version DDS\_ACE\_TAO] \\
+  \$OSPL\_HOME/include/dcps/C++/CCPP/DDS\_ACE\_TAO\_\_x\_y\_z}@*)
+\end{lstlisting}
+where \texttt{x\_y\_z} is the correct version of TAO installed on your 
+machine. Please make sure to use underscores (\texttt{\_}) and not 
+dots (\texttt{.}) in the version number. Finally, define the following 
+environment variable so the OpenSplice DDS architecture knows what 
+version of the ORB to use:
+\begin{lstlisting}
+(*@\texttt{\%> export SPLICE\_ORBE=DDS\_ACE\_TAO\_x\_y\_z}@*)
+\end{lstlisting}
+where \texttt{x\_y\_z} is the correct version of TAO installed on 
+your machine as done above.
+
+The final step in the process is rebuilding the custom library is
+actually building it. This can be accomplished using the provide
+MPC project file in CUTS and executing the following steps: 
+\begin{lstlisting}
+(*@\texttt{\%> cd \$CUTS\_ROOT/contrib/OpenSplice}@*)
+(*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build type]}@*)
+(*@\texttt{\%> \#build the generated solution}@*)
+\end{lstlisting}
+
+The build process will install the custom library in 
+\texttt{\$OSPL\_HOME/lib}.
