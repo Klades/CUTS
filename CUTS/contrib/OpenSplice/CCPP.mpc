@@ -8,7 +8,8 @@ project (CCPP) : splicelib_with_idl, portableserver {
   libs     -= dcpsccpp
 
   idlflags += -o $(OSPL_HOME)/custom_lib/ccpp \
-              -Sp -Sd \
+              -Sp -Sd \ 
+              -I $(OSPL_HOME)/etc/idl \
               -Wb,export_macro=OS_API_EXPORT \
               -Wb,export_include=include/os_if.h
 
@@ -21,30 +22,48 @@ project (CCPP) : splicelib_with_idl, portableserver {
   SpliceTypeSupport_Files {
     gendir = $(OSPL_HOME)/custom_lib/ccpp
 
-    $(OSPL_HOME)/custom_lib/ccpp/dds_dcps.idl >> \
+    $(OSPL_HOME)/etc/idl/dds_dcps.idl >> \
       dds_dcpsDcps_impl.cpp \
       dds_dcpsSplDcps.cpp
 
-    $(OSPL_HOME)/custom_lib/ccpp/dds_dcps_builtintopics.idl >> \
+    $(OSPL_HOME)/etc/idl/dds_builtinTopics.idl >> \
+      dds_builtinTopicsDcps_impl.cpp \
+      dds_builtinTopicsSplDcps.cpp
+
+    $(OSPL_HOME)/etc/idl/dds_dcps_builtintopics.idl >> \
       dds_dcps_builtintopicsDcps.idl \
       dds_dcps_builtintopicsDcps_impl.cpp \
       dds_dcps_builtintopicsSplDcps.cpp
+
+    $(OSPL_HOME)/etc/idl/dds_dcps_interfaces.idl >> \
+      dds_dcps_interfacesDcps.idl \
+      dds_dcps_interfacesDcps_impl.cpp \
+      dds_dcps_interfacesSplDcps.cpp
   }
 
   IDL_Files {
     gendir = $(OSPL_HOME)/custom_lib/ccpp
 
-    $(OSPL_HOME)/custom_lib/ccpp/dds_dcps.idl
-    $(OSPL_HOME)/custom_lib/ccpp/dds_dcps_builtintopics.idl
+    $(OSPL_HOME)/etc/idl/dds_dcps.idl
     $(OSPL_HOME)/custom_lib/ccpp/dds_dcpsDcps.idl
+
+    $(OSPL_HOME)/etc/idl/dds_builtinTopics.idl
+    $(OSPL_HOME)/custom_lib/ccpp/dds_builtinTopicsDcps.idl
+   
+    $(OSPL_HOME)/etc/idl/dds_dcps_builtintopics.idl
     $(OSPL_HOME)/custom_lib/ccpp/dds_dcps_builtintopicsDcps.idl
+
+    $(OSPL_HOME)/etc/idl/dds_dcps_interfaces.idl
+    $(OSPL_HOME)/custom_lib/ccpp/dds_dcps_interfacesDcps.idl
   }
 
   Source_Files {
     $(OSPL_HOME)/custom_lib/ccpp/ccpp_Condition_impl.cpp
     $(OSPL_HOME)/custom_lib/ccpp/ccpp_ContentFilteredTopic_impl.cpp
     $(OSPL_HOME)/custom_lib/ccpp/ccpp_DataReader_impl.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_DataReaderView_impl.cpp
     $(OSPL_HOME)/custom_lib/ccpp/ccpp_DataWriter_impl.cpp
+    $(OSPL_HOME)/custom_lib/ccpp/ccpp_Domain_impl.cpp
     $(OSPL_HOME)/custom_lib/ccpp/ccpp_DomainParticipant_impl.cpp
     $(OSPL_HOME)/custom_lib/ccpp/ccpp_DomainParticipantFactory.cpp
     $(OSPL_HOME)/custom_lib/ccpp/ccpp_Entity_impl.cpp

@@ -3,3 +3,8 @@
 project {
   requires += tcpip
 }
+
+feature (tcpip) {
+  macros += CUTS_HAS_TCPIP
+}
+

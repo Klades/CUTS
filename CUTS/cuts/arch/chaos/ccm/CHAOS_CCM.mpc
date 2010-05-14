@@ -6,6 +6,8 @@ project (CUTS_CHAOS_CCM) : cuts_ccm, cuts_tcpip, cuts_opensplice, cuts_rtidds, c
 
   prebuild += $(ACE_ROOT)/bin/generate_export_file.pl CUTS_CHAOS_CCM > CHAOS_CCM_export.h
 
+  requires -= ndds opensplice tcpip
+
   Source_Files {
     CHAOS_CCM_Servant.cpp
   }

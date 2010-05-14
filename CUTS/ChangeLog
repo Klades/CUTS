@@ -1,11 +1,17 @@
+Fri May 14 12:22:56 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * contrib/OpenSplice/CCPP.mpc:
+        
+          . Updated project configuration for OpenSplice 5.1
+
 Fri May 14 11:32:56 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * docs/manual/appendix/thirdparty.tex:
         * docs/manual/manual.pdf:
         * docs/manual/title.tex:
 
-	  . Updated documentation with instructions on integrating 
-	    RTI-DDS and OpenSplice with CUTS.
+          . Updated documentation with instructions on integrating
+            RTI-DDS and OpenSplice with CUTS.
 
 Thu May 13 14:42:29 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
