@@ -31,9 +31,14 @@ project (CUTS_BE_CAPI) : boost_base, picml_udm, cuts_be, cuts_be_java, cuts_cosm
   Inline_Files {
 
   }
+  
+  specific (wix) {
+    components += CUTS_PICML.config.CAPI
+  }
 
   verbatim (wix, component_bottom) {
-""
+"        <Component Id='CUTS_PICML.config.CAPI' Guid='FBE39A06-7BEA-4374-AE49-DFAB99F9E8C2'>"
+"          <CreateFolder />"
 "          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
 "                   Id='generator.CAPI'"
 "                   File='[INSTALLDIR]bin\\cuts.config'"
@@ -42,7 +47,6 @@ project (CUTS_BE_CAPI) : boost_base, picml_udm, cuts_be, cuts_be_java, cuts_cosm
 "                   Name='cuts:generator'"
 "                   Sequence='10'"
 "                   Permanent='no' />"
-""
 "          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
 "                   Id='generator.CAPI.id'"
 "                   File='[INSTALLDIR]bin\\cuts.config'"
@@ -52,7 +56,6 @@ project (CUTS_BE_CAPI) : boost_base, picml_udm, cuts_be, cuts_be_java, cuts_cosm
 "                   Value='CAPI'"
 "                   Permanent='no'"
 "                   Sequence='11' />"
-""
 "          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
 "                   Id='generator.CAPI.location'"
 "                   File='[INSTALLDIR]bin\\cuts.config'"
@@ -62,5 +65,6 @@ project (CUTS_BE_CAPI) : boost_base, picml_udm, cuts_be, cuts_be_java, cuts_cosm
 "                   Sequence='12'"
 "                   Permanent='no'"
 "                   Value='[INSTALLDIR]bin\\CUTS_BE_CAPI' />"
+"        </Component>"
   }
 }

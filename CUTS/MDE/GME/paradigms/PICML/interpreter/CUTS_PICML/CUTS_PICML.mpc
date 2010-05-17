@@ -58,10 +58,17 @@ project (CUTS_GME_PICML) : xscrt, picmllib, boost_base, cuts_gme, \
     gme_description = CUTS interpreter
     gme_tooltip     = CUTS interpreter
   }
+  
+  specific (wix) {
+    components += cuts.config
+  }
 
   verbatim (wix, component_bottom) {
-""
-"          <File Id='cuts.config' Name='cuts.config'"
-"                Source='$(env.CUTS_ROOT)\\bin\\cuts.user.config' DiskId='1' />"
+"    <Directory Id='cuts.config.directory' Name='bin'>"
+"      <Component Id='cuts.config' Guid='*'>"
+"        <File Id='cuts.config' Name='cuts.config'"
+"              Source='$(env.CUTS_ROOT)\\bin\\cuts.user.config' DiskId='1' />"
+"      </Component>"
+"    </Directory>"
   }
 }

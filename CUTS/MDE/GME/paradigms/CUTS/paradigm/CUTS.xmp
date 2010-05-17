@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE paradigm SYSTEM "edf.dtd">
 
-<paradigm name="CUTS" guid="{B94E1183-C9B9-46D0-99B4-6AA8D1454043}" cdate="Tue Dec 01 14:26:37 2009" mdate="Tue Dec 01 14:26:37 2009" >
+<paradigm name="CUTS" guid="{784DB6D6-9381-4FA8-811E-F6656918BEE3}" cdate="Sat May 15 10:21:40 2010" mdate="Sat May 15 10:21:40 2010" >
 
 	<comment></comment>
 
@@ -79,6 +79,7 @@
 		</reference>
 		<model name = "DataGraph" metaref = "1198" >
 				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "isTypeInfoShown" value ="true"></regnode>
 			<constraint name="Unique_Log_Format_Name_Constraint" eventmask = "0x80000010" depth = "1" priority = "2">
 				<![CDATA[let f = self.parts("LogFormat")  in
 let all = f in 
@@ -95,6 +96,7 @@ all->forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)]]>
 		<model name = "Group" metaref = "1178" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="Group.bmp"></regnode>
+				<regnode name = "isTypeInfoShown" value ="true"></regnode>
 			<role name = "GroupItem" metaref = "1179" kind = "GroupItem"></role>
 			<aspect name = "Aspect" metaref = "1223" >
 				<part metaref = "1181" role = "GroupItem" primary = "yes" linked = "no"></part>
@@ -103,6 +105,7 @@ all->forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)]]>
 		<model name = "LogFormat" metaref = "1144" attributes = "Value" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="LogFormat.bmp"></regnode>
+				<regnode name = "isTypeInfoShown" value ="true"></regnode>
 			<constraint name="Unique_Log_Element_Name_Constraint" eventmask = "0x80000010" depth = "1" priority = "2">
 				<![CDATA[let f = self.parts("Key") + self.parts("Variable") in
 let all = f in 
@@ -119,11 +122,13 @@ all->forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)]]>
 		<model name = "Service" metaref = "1194" attributes = "Location ClassName Params" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="Service.bmp"></regnode>
+				<regnode name = "isTypeInfoShown" value ="true"></regnode>
 			<aspect name = "Aspect" metaref = "1225" attributes = "Location ClassName Params" >
 			</aspect>
 		</model>
 		<model name = "UnitTest" metaref = "1147" attributes = "Description Evaluation Aggregation" >
 				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "isTypeInfoShown" value ="true"></regnode>
 			<constraint name="Unique_Group_Name_Constraint" eventmask = "0x80000010" depth = "1" priority = "2">
 				<![CDATA[let f = self.parts("Group") in
 let all = f in 

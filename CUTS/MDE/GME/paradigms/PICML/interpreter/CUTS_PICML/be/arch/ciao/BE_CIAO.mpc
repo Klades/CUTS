@@ -24,8 +24,13 @@ project (CUTS_BE_CIAO) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
 
   }
 
+  specific (wix) {
+    components += CUTS_PICML.config.CIAO
+  }
+  
   verbatim (wix, component_bottom) {
-""
+"        <Component Id='CUTS_PICML.config.CIAO' Guid='808C7244-BD3D-4FCC-8428-19047F9AB8B0'>"
+"          <CreateFolder />"
 "          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
 "                   Id='generator.CIAO'"
 "                   File='[INSTALLDIR]bin\\cuts.config'"
@@ -34,7 +39,6 @@ project (CUTS_BE_CIAO) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
 "                   Name='cuts:generator'"
 "                   Sequence='10'"
 "                   Permanent='no' />"
-""
 "          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
 "                   Id='generator.CIAO.id'"
 "                   File='[INSTALLDIR]bin\\cuts.config'"
@@ -44,7 +48,6 @@ project (CUTS_BE_CIAO) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
 "                   Value='CIAO'"
 "                   Permanent='no'"
 "                   Sequence='11' />"
-""
 "          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
 "                   Id='generator.CIAO.location'"
 "                   File='[INSTALLDIR]bin\\cuts.config'"
@@ -54,5 +57,6 @@ project (CUTS_BE_CIAO) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
 "                   Sequence='12'"
 "                   Permanent='no'"
 "                   Value='[INSTALLDIR]bin\\CUTS_BE_CIAO' />"
+"        </Component>"
   }
 }

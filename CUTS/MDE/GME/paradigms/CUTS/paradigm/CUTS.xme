@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{0EB17ABA-4C6F-42C5-B00F-85829E42DF1C}" cdate="Tue Dec 01 14:26:37 2009" mdate="Tue Dec 01 14:26:37 2009" version="" metaguid="{D300EA57-7F64-4B0E-AE50-878BE38527DC}" metaversion="" metaname="MetaGME">
+<project guid="{0EB17ABA-4C6F-42C5-B00F-85829E42DF1C}" cdate="Sat May 15 10:21:40 2010" mdate="Sat May 15 10:21:40 2010" version="" metaguid="{9D3F9884-FE60-409C-8FC1-45789193989B}" metaversion="" metaname="MetaGME">
 	<name>CUTS</name>
 	<comment></comment>
 	<author></author>
-	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x2" kind="RootFolder" guid="{7E31E192-6614-4dea-9E7A-C8488BCEAB6F}">
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x2" kind="RootFolder" guid="{7e31e192-6614-4dea-9e7a-c8488bceab6f}">
 		<name>CUTS</name>
 		<regnode name="AspectRegistry" status="undefined">
 			<value></value>
@@ -1750,9 +1750,9 @@
 				</regnode>
 			</regnode>
 		</regnode>
-		<model id="id-0065-00000001" kind="ParadigmSheet" guid="{DC408AF3-FFF6-415a-937E-A7C2BA0EDC33}" relid="0x1" childrelidcntr="0xd4">
+		<model id="id-0065-00000001" kind="ParadigmSheet" guid="{dc408af3-fff6-415a-937e-a7c2ba0edc33}" relid="0x1" childrelidcntr="0xd4">
 			<name>UNITEParadigm</name>
-			<atom id="id-0066-00000001" kind="Model" role="Model" guid="{6202D3F3-4820-49e8-82E8-FC6A92F471B9}" relid="0x10">
+			<atom id="id-0066-00000001" kind="Model" role="Model" guid="{6202d3f3-4820-49e8-82e8-fc6a92f471b9}" relid="0x10">
 				<name>UnitTest</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -1781,6 +1781,9 @@
 						</regnode>
 					</regnode>
 				</regnode>
+				<attribute kind="AutoRouterPref" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="Decorator" status="meta">
 					<value></value>
 				</attribute>
@@ -1788,6 +1791,15 @@
 					<value></value>
 				</attribute>
 				<attribute kind="GeneralPreferences" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GradientFillColor" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GradientFillDirection" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="HelpURL" status="meta">
 					<value></value>
 				</attribute>
 				<attribute kind="Icon" status="meta">
@@ -1802,11 +1814,26 @@
 				<attribute kind="IsAbstract" status="meta">
 					<value>false</value>
 				</attribute>
+				<attribute kind="IsGradientFillEnabled" status="meta">
+					<value>false</value>
+				</attribute>
 				<attribute kind="IsHotspotEnabled" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="IsModelAutoRouted" status="meta">
 					<value>true</value>
 				</attribute>
 				<attribute kind="IsNameEnabled" status="meta">
 					<value>true</value>
+				</attribute>
+				<attribute kind="IsResizable" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsRoundRectangleEnabled" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsShadowCastEnabled" status="meta">
+					<value>false</value>
 				</attribute>
 				<attribute kind="IsTypeInfoShown" status="meta">
 					<value>true</value>
@@ -1823,11 +1850,23 @@
 				<attribute kind="PortIcon" status="meta">
 					<value></value>
 				</attribute>
+				<attribute kind="RoundRectangleRadius" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowColor" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowDirection" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowThickness" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="SubTypeIcon" status="meta">
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000002" kind="Model" role="Model" guid="{06E34AF6-8B2D-49be-AE41-7DCE90FF4CDB}" relid="0x29">
+			<atom id="id-0066-00000002" kind="Model" role="Model" guid="{06e34af6-8b2d-49be-ae41-7dce90ff4cdb}" relid="0x29">
 				<name>LogFormat</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -1856,6 +1895,9 @@
 						</regnode>
 					</regnode>
 				</regnode>
+				<attribute kind="AutoRouterPref" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="Decorator" status="meta">
 					<value></value>
 				</attribute>
@@ -1863,6 +1905,15 @@
 					<value></value>
 				</attribute>
 				<attribute kind="GeneralPreferences" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GradientFillColor" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GradientFillDirection" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="HelpURL" status="meta">
 					<value></value>
 				</attribute>
 				<attribute kind="Icon">
@@ -1877,11 +1928,26 @@
 				<attribute kind="IsAbstract" status="meta">
 					<value>false</value>
 				</attribute>
+				<attribute kind="IsGradientFillEnabled" status="meta">
+					<value>false</value>
+				</attribute>
 				<attribute kind="IsHotspotEnabled" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="IsModelAutoRouted" status="meta">
 					<value>true</value>
 				</attribute>
 				<attribute kind="IsNameEnabled" status="meta">
 					<value>true</value>
+				</attribute>
+				<attribute kind="IsResizable" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsRoundRectangleEnabled" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsShadowCastEnabled" status="meta">
+					<value>false</value>
 				</attribute>
 				<attribute kind="IsTypeInfoShown" status="meta">
 					<value>true</value>
@@ -1898,11 +1964,23 @@
 				<attribute kind="PortIcon" status="meta">
 					<value></value>
 				</attribute>
+				<attribute kind="RoundRectangleRadius" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowColor" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowDirection" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowThickness" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="SubTypeIcon" status="meta">
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000003" kind="FieldAttribute" role="FieldAttribute" guid="{2A8C84AD-F1B8-4adf-A7D8-6D823E70F8D4}" relid="0x58">
+			<atom id="id-0066-00000003" kind="FieldAttribute" role="FieldAttribute" guid="{2a8c84ad-f1b8-4adf-a7d8-6d823e70f8d4}" relid="0x58">
 				<name>Value</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -1938,7 +2016,7 @@
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000004" kind="FieldAttribute" role="FieldAttribute" guid="{513E43D4-42EB-4b1e-8681-8E017CC29A1D}" relid="0x5e">
+			<atom id="id-0066-00000004" kind="FieldAttribute" role="FieldAttribute" guid="{513e43d4-42eb-4b1e-8681-8e017cc29a1d}" relid="0x5e">
 				<name>Description</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -1974,7 +2052,7 @@
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000005" kind="FieldAttribute" role="FieldAttribute" guid="{5FE86F4B-1380-44d6-A946-7421B5D3A5D7}" relid="0x5f">
+			<atom id="id-0066-00000005" kind="FieldAttribute" role="FieldAttribute" guid="{5fe86f4b-1380-44d6-a946-7421b5d3a5d7}" relid="0x5f">
 				<name>Evaluation</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2010,7 +2088,7 @@
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000006" kind="FieldAttribute" role="FieldAttribute" guid="{DD18F0E6-C122-448f-97CA-60059CCB60FB}" relid="0x60">
+			<atom id="id-0066-00000006" kind="FieldAttribute" role="FieldAttribute" guid="{dd18f0e6-c122-448f-97ca-60059ccb60fb}" relid="0x60">
 				<name>Aggregation</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2046,7 +2124,7 @@
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000007" kind="Connection" role="Connection" guid="{AADDB90E-A96E-4c4f-82F4-6186494CCEBE}" relid="0x65">
+			<atom id="id-0066-00000007" kind="Connection" role="Connection" guid="{aaddb90e-a96e-4c4f-82f4-6186494ccebe}" relid="0x65">
 				<name>Causality</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2107,6 +2185,12 @@ dName = dstCausality</value>
 				<attribute kind="IsAbstract" status="meta">
 					<value>false</value>
 				</attribute>
+				<attribute kind="IsAutoRouted" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="LabelFormatStr" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="NamePosition" status="meta">
 					<value>4</value>
 				</attribute>
@@ -2117,7 +2201,7 @@ dName = dstCausality</value>
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000008" kind="Connector" role="Connector" guid="{75CBA2FD-C893-4f8d-B836-3B39D99B42CD}" relid="0x67">
+			<atom id="id-0066-00000008" kind="Connector" role="Connector" guid="{75cba2fd-c893-4f8d-b836-3b39d99b42cd}" relid="0x67">
 				<name>Connector</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2135,7 +2219,7 @@ dName = dstCausality</value>
 					</regnode>
 				</regnode>
 			</atom>
-			<atom id="id-0066-00000009" kind="Atom" role="Atom" guid="{3EE7D494-6E88-4056-B8F0-2313FE59EEEE}" relid="0x72">
+			<atom id="id-0066-00000009" kind="Atom" role="Atom" guid="{3ee7d494-6e88-4056-b8f0-2313fe59eeee}" relid="0x72">
 				<name>Variable</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2164,6 +2248,9 @@ dName = dstCausality</value>
 						</regnode>
 					</regnode>
 				</regnode>
+				<attribute kind="AutoRouterPref" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="Decorator" status="meta">
 					<value></value>
 				</attribute>
@@ -2171,6 +2258,15 @@ dName = dstCausality</value>
 					<value></value>
 				</attribute>
 				<attribute kind="GeneralPreferences" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GradientFillColor" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GradientFillDirection" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="HelpURL" status="meta">
 					<value></value>
 				</attribute>
 				<attribute kind="Icon">
@@ -2185,11 +2281,23 @@ dName = dstCausality</value>
 				<attribute kind="IsAbstract" status="meta">
 					<value>false</value>
 				</attribute>
+				<attribute kind="IsGradientFillEnabled" status="meta">
+					<value>false</value>
+				</attribute>
 				<attribute kind="IsHotspotEnabled">
 					<value>true</value>
 				</attribute>
 				<attribute kind="IsNameEnabled" status="meta">
 					<value>true</value>
+				</attribute>
+				<attribute kind="IsResizable" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsRoundRectangleEnabled" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsShadowCastEnabled" status="meta">
+					<value>false</value>
 				</attribute>
 				<attribute kind="IsTypeShown">
 					<value>true</value>
@@ -2203,11 +2311,23 @@ dName = dstCausality</value>
 				<attribute kind="PortIcon" status="meta">
 					<value></value>
 				</attribute>
+				<attribute kind="RoundRectangleRadius" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowColor" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowDirection" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowThickness" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="SubTypeIcon" status="meta">
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-0000000a" kind="Folder" role="Folder" guid="{DA55CB4A-3F26-49fd-951F-FD0829A98954}" relid="0x74">
+			<atom id="id-0066-0000000a" kind="Folder" role="Folder" guid="{da55cb4a-3f26-49fd-951f-fd0829a98954}" relid="0x74">
 				<name>UnitTests</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2243,7 +2363,7 @@ dName = dstCausality</value>
 					<value>true</value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-0000000b" kind="EnumAttribute" role="EnumAttribute" guid="{B6185572-F589-4ce5-B0FD-822D0F5E75A4}" relid="0x78">
+			<atom id="id-0066-0000000b" kind="EnumAttribute" role="EnumAttribute" guid="{b6185572-f589-4ce5-b0fd-822d0f5e75a4}" relid="0x78">
 				<name>Type</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2284,7 +2404,7 @@ DOUBLE</value>
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-0000000c" kind="Folder" role="Folder" guid="{49E24058-6A48-41c0-AE1C-CCE914712445}" relid="0x7d">
+			<atom id="id-0066-0000000c" kind="Folder" role="Folder" guid="{49e24058-6a48-41c0-ae1c-cce914712445}" relid="0x7d">
 				<name>DataGraphs</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2320,7 +2440,7 @@ DOUBLE</value>
 					<value>true</value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-0000000d" kind="Model" role="Model" guid="{9D0CDF23-D7F3-404c-9840-6980517AD3BF}" relid="0x82">
+			<atom id="id-0066-0000000d" kind="Model" role="Model" guid="{9d0cdf23-d7f3-404c-9840-6980517ad3bf}" relid="0x82">
 				<name>Service</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2349,6 +2469,9 @@ DOUBLE</value>
 						</regnode>
 					</regnode>
 				</regnode>
+				<attribute kind="AutoRouterPref" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="Decorator" status="meta">
 					<value></value>
 				</attribute>
@@ -2356,6 +2479,15 @@ DOUBLE</value>
 					<value></value>
 				</attribute>
 				<attribute kind="GeneralPreferences" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GradientFillColor" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GradientFillDirection" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="HelpURL" status="meta">
 					<value></value>
 				</attribute>
 				<attribute kind="Icon">
@@ -2370,11 +2502,26 @@ DOUBLE</value>
 				<attribute kind="IsAbstract" status="meta">
 					<value>false</value>
 				</attribute>
+				<attribute kind="IsGradientFillEnabled" status="meta">
+					<value>false</value>
+				</attribute>
 				<attribute kind="IsHotspotEnabled" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="IsModelAutoRouted" status="meta">
 					<value>true</value>
 				</attribute>
 				<attribute kind="IsNameEnabled" status="meta">
 					<value>true</value>
+				</attribute>
+				<attribute kind="IsResizable" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsRoundRectangleEnabled" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsShadowCastEnabled" status="meta">
+					<value>false</value>
 				</attribute>
 				<attribute kind="IsTypeInfoShown" status="meta">
 					<value>true</value>
@@ -2391,11 +2538,23 @@ DOUBLE</value>
 				<attribute kind="PortIcon" status="meta">
 					<value></value>
 				</attribute>
+				<attribute kind="RoundRectangleRadius" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowColor" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowDirection" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowThickness" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="SubTypeIcon" status="meta">
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-0000000e" kind="FieldAttribute" role="FieldAttribute" guid="{7E25B51B-5D94-45ef-B9FA-2C1ECE83011B}" relid="0x87">
+			<atom id="id-0066-0000000e" kind="FieldAttribute" role="FieldAttribute" guid="{7e25b51b-5d94-45ef-b9fa-2c1ece83011b}" relid="0x87">
 				<name>Location</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2431,7 +2590,7 @@ DOUBLE</value>
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-0000000f" kind="FieldAttribute" role="FieldAttribute" guid="{5D141FC3-CD90-4d8f-A128-F8570C10FDDA}" relid="0x88">
+			<atom id="id-0066-0000000f" kind="FieldAttribute" role="FieldAttribute" guid="{5d141fc3-cd90-4d8f-a128-f8570c10fdda}" relid="0x88">
 				<name>ClassName</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2467,7 +2626,7 @@ DOUBLE</value>
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000010" kind="FieldAttribute" role="FieldAttribute" guid="{894A4868-AC3E-4234-BE41-3D0B63658A5A}" relid="0x89">
+			<atom id="id-0066-00000010" kind="FieldAttribute" role="FieldAttribute" guid="{894a4868-ac3e-4234-be41-3d0b63658a5a}" relid="0x89">
 				<name>Params</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2503,7 +2662,7 @@ DOUBLE</value>
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000011" kind="Model" role="Model" guid="{63D0EFEF-13D6-4c97-9807-07F7D97EF39C}" relid="0x8d">
+			<atom id="id-0066-00000011" kind="Model" role="Model" guid="{63d0efef-13d6-4c97-9807-07f7d97ef39c}" relid="0x8d">
 				<name>DataGraph</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2532,6 +2691,9 @@ DOUBLE</value>
 						</regnode>
 					</regnode>
 				</regnode>
+				<attribute kind="AutoRouterPref" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="Decorator" status="meta">
 					<value></value>
 				</attribute>
@@ -2539,6 +2701,15 @@ DOUBLE</value>
 					<value></value>
 				</attribute>
 				<attribute kind="GeneralPreferences" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GradientFillColor" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GradientFillDirection" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="HelpURL" status="meta">
 					<value></value>
 				</attribute>
 				<attribute kind="Icon" status="meta">
@@ -2553,11 +2724,26 @@ DOUBLE</value>
 				<attribute kind="IsAbstract" status="meta">
 					<value>false</value>
 				</attribute>
+				<attribute kind="IsGradientFillEnabled" status="meta">
+					<value>false</value>
+				</attribute>
 				<attribute kind="IsHotspotEnabled" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="IsModelAutoRouted" status="meta">
 					<value>true</value>
 				</attribute>
 				<attribute kind="IsNameEnabled" status="meta">
 					<value>true</value>
+				</attribute>
+				<attribute kind="IsResizable" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsRoundRectangleEnabled" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsShadowCastEnabled" status="meta">
+					<value>false</value>
 				</attribute>
 				<attribute kind="IsTypeInfoShown" status="meta">
 					<value>true</value>
@@ -2574,11 +2760,23 @@ DOUBLE</value>
 				<attribute kind="PortIcon" status="meta">
 					<value></value>
 				</attribute>
+				<attribute kind="RoundRectangleRadius" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowColor" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowDirection" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowThickness" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="SubTypeIcon" status="meta">
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000012" kind="Atom" role="Atom" guid="{038CCBCD-17FF-41d5-A40B-27A94B1550E2}" relid="0x96">
+			<atom id="id-0066-00000012" kind="Atom" role="Atom" guid="{038ccbcd-17ff-41d5-a40b-27a94b1550e2}" relid="0x96">
 				<name>Key</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2607,6 +2805,9 @@ DOUBLE</value>
 						</regnode>
 					</regnode>
 				</regnode>
+				<attribute kind="AutoRouterPref" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="Decorator" status="meta">
 					<value></value>
 				</attribute>
@@ -2614,6 +2815,15 @@ DOUBLE</value>
 					<value></value>
 				</attribute>
 				<attribute kind="GeneralPreferences" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GradientFillColor" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GradientFillDirection" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="HelpURL" status="meta">
 					<value></value>
 				</attribute>
 				<attribute kind="Icon">
@@ -2628,11 +2838,23 @@ DOUBLE</value>
 				<attribute kind="IsAbstract" status="meta">
 					<value>false</value>
 				</attribute>
+				<attribute kind="IsGradientFillEnabled" status="meta">
+					<value>false</value>
+				</attribute>
 				<attribute kind="IsHotspotEnabled" status="meta">
 					<value>true</value>
 				</attribute>
 				<attribute kind="IsNameEnabled">
 					<value>true</value>
+				</attribute>
+				<attribute kind="IsResizable" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsRoundRectangleEnabled" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsShadowCastEnabled" status="meta">
+					<value>false</value>
 				</attribute>
 				<attribute kind="IsTypeShown">
 					<value>true</value>
@@ -2646,11 +2868,23 @@ DOUBLE</value>
 				<attribute kind="PortIcon">
 					<value></value>
 				</attribute>
+				<attribute kind="RoundRectangleRadius" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowColor" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowDirection" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowThickness" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="SubTypeIcon" status="meta">
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000013" kind="Inheritance" role="Inheritance" guid="{FB53FFE4-D29F-4838-A559-FA24B807DD97}" relid="0x98">
+			<atom id="id-0066-00000013" kind="Inheritance" role="Inheritance" guid="{fb53ffe4-d29f-4838-a559-fa24b807dd97}" relid="0x98">
 				<name>Key</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2680,7 +2914,7 @@ DOUBLE</value>
 					</regnode>
 				</regnode>
 			</atom>
-			<atom id="id-0066-00000014" kind="Reference" role="Reference" guid="{01D3F32E-C0D6-433f-8A78-4BA9D19D63B1}" relid="0xa4">
+			<atom id="id-0066-00000014" kind="Reference" role="Reference" guid="{01d3f32e-c0d6-433f-8a78-4ba9d19d63b1}" relid="0xa4">
 				<name>GroupItem</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2709,6 +2943,9 @@ DOUBLE</value>
 						</regnode>
 					</regnode>
 				</regnode>
+				<attribute kind="AutoRouterPref" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="Decorator" status="meta">
 					<value></value>
 				</attribute>
@@ -2719,6 +2956,15 @@ DOUBLE</value>
 					<value>
 rName = ref
 rrName = referedbyGroupItem</value>
+				</attribute>
+				<attribute kind="GradientFillColor" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GradientFillDirection" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="HelpURL" status="meta">
+					<value></value>
 				</attribute>
 				<attribute kind="Icon">
 					<value>GroupItem.bmp</value>
@@ -2732,11 +2978,23 @@ rrName = referedbyGroupItem</value>
 				<attribute kind="IsAbstract" status="meta">
 					<value>false</value>
 				</attribute>
+				<attribute kind="IsGradientFillEnabled" status="meta">
+					<value>false</value>
+				</attribute>
 				<attribute kind="IsHotspotEnabled" status="meta">
 					<value>true</value>
 				</attribute>
 				<attribute kind="IsNameEnabled" status="meta">
 					<value>true</value>
+				</attribute>
+				<attribute kind="IsResizable" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsRoundRectangleEnabled" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsShadowCastEnabled" status="meta">
+					<value>false</value>
 				</attribute>
 				<attribute kind="IsTypeShown" status="meta">
 					<value>false</value>
@@ -2750,11 +3008,23 @@ rrName = referedbyGroupItem</value>
 				<attribute kind="PortIcon" status="meta">
 					<value></value>
 				</attribute>
+				<attribute kind="RoundRectangleRadius" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowColor" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowDirection" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowThickness" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="SubTypeIcon" status="meta">
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000015" kind="Model" role="Model" guid="{76B69F37-3CFE-4cd2-8A6A-C37EE3EBC5CF}" relid="0xab">
+			<atom id="id-0066-00000015" kind="Model" role="Model" guid="{76b69f37-3cfe-4cd2-8a6a-c37ee3ebc5cf}" relid="0xab">
 				<name>Group</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2783,6 +3053,9 @@ rrName = referedbyGroupItem</value>
 						</regnode>
 					</regnode>
 				</regnode>
+				<attribute kind="AutoRouterPref" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="Decorator" status="meta">
 					<value></value>
 				</attribute>
@@ -2790,6 +3063,15 @@ rrName = referedbyGroupItem</value>
 					<value></value>
 				</attribute>
 				<attribute kind="GeneralPreferences" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GradientFillColor" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GradientFillDirection" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="HelpURL" status="meta">
 					<value></value>
 				</attribute>
 				<attribute kind="Icon">
@@ -2804,11 +3086,26 @@ rrName = referedbyGroupItem</value>
 				<attribute kind="IsAbstract" status="meta">
 					<value>false</value>
 				</attribute>
+				<attribute kind="IsGradientFillEnabled" status="meta">
+					<value>false</value>
+				</attribute>
 				<attribute kind="IsHotspotEnabled" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="IsModelAutoRouted" status="meta">
 					<value>true</value>
 				</attribute>
 				<attribute kind="IsNameEnabled" status="meta">
 					<value>true</value>
+				</attribute>
+				<attribute kind="IsResizable" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsRoundRectangleEnabled" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsShadowCastEnabled" status="meta">
+					<value>false</value>
 				</attribute>
 				<attribute kind="IsTypeInfoShown" status="meta">
 					<value>true</value>
@@ -2825,11 +3122,23 @@ rrName = referedbyGroupItem</value>
 				<attribute kind="PortIcon" status="meta">
 					<value></value>
 				</attribute>
+				<attribute kind="RoundRectangleRadius" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowColor" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowDirection" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowThickness" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="SubTypeIcon" status="meta">
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000016" kind="FCO" role="FCO" guid="{1031FF2C-80AD-42d1-818E-670F8418C181}" relid="0xb8">
+			<atom id="id-0066-00000016" kind="FCO" role="FCO" guid="{1031ff2c-80ad-42d1-818e-670f8418c181}" relid="0xb8">
 				<name>Log_Element</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2858,6 +3167,9 @@ rrName = referedbyGroupItem</value>
 						</regnode>
 					</regnode>
 				</regnode>
+				<attribute kind="AutoRouterPref" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="Decorator" status="meta">
 					<value></value>
 				</attribute>
@@ -2865,6 +3177,15 @@ rrName = referedbyGroupItem</value>
 					<value></value>
 				</attribute>
 				<attribute kind="GeneralPreferences" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GradientFillColor" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GradientFillDirection" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="HelpURL" status="meta">
 					<value></value>
 				</attribute>
 				<attribute kind="Icon" status="meta">
@@ -2879,11 +3200,23 @@ rrName = referedbyGroupItem</value>
 				<attribute kind="IsAbstract">
 					<value>true</value>
 				</attribute>
+				<attribute kind="IsGradientFillEnabled" status="meta">
+					<value>false</value>
+				</attribute>
 				<attribute kind="IsHotspotEnabled" status="meta">
 					<value>true</value>
 				</attribute>
 				<attribute kind="IsNameEnabled" status="meta">
 					<value>true</value>
+				</attribute>
+				<attribute kind="IsResizable" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsRoundRectangleEnabled" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsShadowCastEnabled" status="meta">
+					<value>false</value>
 				</attribute>
 				<attribute kind="IsTypeShown">
 					<value>true</value>
@@ -2897,11 +3230,23 @@ rrName = referedbyGroupItem</value>
 				<attribute kind="PortIcon" status="meta">
 					<value></value>
 				</attribute>
+				<attribute kind="RoundRectangleRadius" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowColor" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowDirection" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="ShadowThickness" status="meta">
+					<value></value>
+				</attribute>
 				<attribute kind="SubTypeIcon" status="meta">
 					<value></value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000017" kind="Constraint" role="Constraint" guid="{E348EA76-2C3F-42d1-9351-1651BAF52096}" relid="0xc1">
+			<atom id="id-0066-00000017" kind="Constraint" role="Constraint" guid="{e348ea76-2c3f-42d1-9351-1651baf52096}" relid="0xc1">
 				<name>ConnectionConstraint</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2976,7 +3321,7 @@ rrName = referedbyGroupItem</value>
 					<value>false</value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000018" kind="Constraint" role="Constraint" guid="{52048181-6CB0-4bce-95EE-538B0A8188AD}" relid="0xc3">
+			<atom id="id-0066-00000018" kind="Constraint" role="Constraint" guid="{52048181-6cb0-4bce-95ee-538b0a8188ad}" relid="0xc3">
 				<name>Unique_Log_Element_Name_Constraint</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -3053,7 +3398,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 					<value>false</value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-00000019" kind="Constraint" role="Constraint" guid="{065E99F8-AC72-4625-BEBD-8352017B69B5}" relid="0xc8">
+			<atom id="id-0066-00000019" kind="Constraint" role="Constraint" guid="{065e99f8-ac72-4625-bebd-8352017b69b5}" relid="0xc8">
 				<name>Unique_Log_Format_Name_Constraint</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -3130,7 +3475,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 					<value>false</value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-0000001b" kind="Constraint" role="Constraint" guid="{58AAA5E3-86EC-4cd2-BC51-3BC313DCBAA3}" relid="0xcb">
+			<atom id="id-0066-0000001a" kind="Constraint" role="Constraint" guid="{58aaa5e3-86ec-4cd2-bc51-3bc313dcbaa3}" relid="0xcb">
 				<name>Unique_Service_Name_Constraint</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -3207,7 +3552,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 					<value>false</value>
 				</attribute>
 			</atom>
-			<atom id="id-0066-0000001c" kind="Constraint" role="Constraint" guid="{399C6605-71F8-43c2-BD22-38B09EE9A2F9}" relid="0xcd">
+			<atom id="id-0066-0000001b" kind="Constraint" role="Constraint" guid="{399c6605-71f8-43c2-bd22-38b09ee9a2f9}" relid="0xcd">
 				<name>Unique_Group_Name_Constraint</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -3284,7 +3629,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 					<value>false</value>
 				</attribute>
 			</atom>
-			<connection id="id-0068-00000001" kind="HasAttribute" role="HasAttribute" guid="{F3441917-09DC-43fb-93E3-B88CD966A70F}" relid="0x61">
+			<connection id="id-0068-00000001" kind="HasAttribute" role="HasAttribute" guid="{f3441917-09dc-43fb-93e3-b88cd966a70f}" relid="0x61">
 				<name>HasAttribute</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ns</value>
@@ -3292,7 +3637,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-00000001"/>
 				<connpoint role="src" target="id-0066-00000004"/>
 			</connection>
-			<connection id="id-0068-00000002" kind="HasAttribute" role="HasAttribute" guid="{B247A313-B841-4071-8EDE-82BF0F9D15D8}" relid="0x62">
+			<connection id="id-0068-00000002" kind="HasAttribute" role="HasAttribute" guid="{b247a313-b841-4071-8ede-82bf0f9d15d8}" relid="0x62">
 				<name>HasAttribute</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ns</value>
@@ -3300,7 +3645,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-00000001"/>
 				<connpoint role="src" target="id-0066-00000005"/>
 			</connection>
-			<connection id="id-0068-00000003" kind="HasAttribute" role="HasAttribute" guid="{8EABE7E2-59F9-40f1-916C-290788B63FD4}" relid="0x63">
+			<connection id="id-0068-00000003" kind="HasAttribute" role="HasAttribute" guid="{8eabe7e2-59f9-40f1-916c-290788b63fd4}" relid="0x63">
 				<name>HasAttribute</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ns</value>
@@ -3308,7 +3653,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-00000001"/>
 				<connpoint role="src" target="id-0066-00000006"/>
 			</connection>
-			<connection id="id-0068-00000004" kind="HasAttribute" role="HasAttribute" guid="{C2B4AA0A-5143-48f7-9E52-A43E102DF9C1}" relid="0x6e">
+			<connection id="id-0068-00000004" kind="HasAttribute" role="HasAttribute" guid="{c2b4aa0a-5143-48f7-9e52-a43e102df9c1}" relid="0x6e">
 				<name>HasAttribute</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>We</value>
@@ -3316,7 +3661,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-00000002"/>
 				<connpoint role="src" target="id-0066-00000003"/>
 			</connection>
-			<connection id="id-0068-00000005" kind="HasAspect" role="HasAspect" guid="{5A5EF6ED-64C4-4ec6-8EFE-2D3CC23CDFDD}" relid="0x6f">
+			<connection id="id-0068-00000005" kind="HasAspect" role="HasAspect" guid="{5a5ef6ed-64c4-4ec6-8efe-2d3cc23cdfdd}" relid="0x6f">
 				<name>HasAspect</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ne</value>
@@ -3324,7 +3669,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-00000001"/>
 				<connpoint role="src" target="id-0069-00000001"/>
 			</connection>
-			<connection id="id-0068-00000007" kind="AssociationClass" role="AssociationClass" guid="{E7F19EC0-F0BB-42b5-9CE8-940127FEC2C3}" relid="0x7b">
+			<connection id="id-0068-00000006" kind="AssociationClass" role="AssociationClass" guid="{e7f19ec0-f0bb-42b5-9ce8-940127fec2c3}" relid="0x7b">
 				<name>AssociationClass</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ws</value>
@@ -3332,7 +3677,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-00000007"/>
 				<connpoint role="src" target="id-0066-00000008"/>
 			</connection>
-			<connection id="id-0068-00000008" kind="HasAttribute" role="HasAttribute" guid="{9D1B2AA1-24BE-4093-B561-24E08DA7A3DA}" relid="0x8a">
+			<connection id="id-0068-00000007" kind="HasAttribute" role="HasAttribute" guid="{9d1b2aa1-24be-4093-b561-24e08da7a3da}" relid="0x8a">
 				<name>HasAttribute</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ew</value>
@@ -3340,7 +3685,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-0000000d"/>
 				<connpoint role="src" target="id-0066-0000000e"/>
 			</connection>
-			<connection id="id-0068-00000009" kind="HasAttribute" role="HasAttribute" guid="{ACD9F42D-B681-49ec-9AF4-93E0CD67C1E1}" relid="0x8b">
+			<connection id="id-0068-00000008" kind="HasAttribute" role="HasAttribute" guid="{acd9f42d-b681-49ec-9af4-93e0cd67c1e1}" relid="0x8b">
 				<name>HasAttribute</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ew</value>
@@ -3348,7 +3693,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-0000000d"/>
 				<connpoint role="src" target="id-0066-0000000f"/>
 			</connection>
-			<connection id="id-0068-0000000a" kind="HasAttribute" role="HasAttribute" guid="{56FD8E55-2ED0-47b6-8A2B-D8301483C533}" relid="0x8c">
+			<connection id="id-0068-00000009" kind="HasAttribute" role="HasAttribute" guid="{56fd8e55-2ed0-47b6-8a2b-d8301483c533}" relid="0x8c">
 				<name>HasAttribute</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ew</value>
@@ -3356,7 +3701,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-0000000d"/>
 				<connpoint role="src" target="id-0066-00000010"/>
 			</connection>
-			<connection id="id-0068-0000000b" kind="Containment" role="Containment" guid="{1AAF8B56-2954-4f8e-B103-660915DD4C24}" relid="0x8f">
+			<connection id="id-0068-0000000a" kind="Containment" role="Containment" guid="{1aaf8b56-2954-4f8e-b103-660915dd4c24}" relid="0x8f">
 				<name>Containment</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ns</value>
@@ -3373,7 +3718,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="src" target="id-0066-00000007"/>
 				<connpoint role="dst" target="id-0066-00000011"/>
 			</connection>
-			<connection id="id-0068-0000000c" kind="Containment" role="Containment" guid="{303ECEF9-979E-41f5-A3FD-50E0A468F164}" relid="0x90">
+			<connection id="id-0068-0000000b" kind="Containment" role="Containment" guid="{303ecef9-979e-41f5-a3fd-50e0a468f164}" relid="0x90">
 				<name>Containment</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ns</value>
@@ -3390,7 +3735,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="src" target="id-0066-00000002"/>
 				<connpoint role="dst" target="id-0066-00000011"/>
 			</connection>
-			<connection id="id-0068-0000000d" kind="HasAspect" role="HasAspect" guid="{DF9F2F3E-3013-4a5f-8F80-B4C09CD870AB}" relid="0xa3">
+			<connection id="id-0068-0000000c" kind="HasAspect" role="HasAspect" guid="{df9f2f3e-3013-4a5f-8f80-b4c09cd870ab}" relid="0xa3">
 				<name>HasAspect</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>We</value>
@@ -3398,7 +3743,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-00000011"/>
 				<connpoint role="src" target="id-0069-00000002"/>
 			</connection>
-			<connection id="id-0068-0000000e" kind="Containment" role="Containment" guid="{D1EDC935-851D-43a4-BA62-C568DECD8AEA}" relid="0xad">
+			<connection id="id-0068-0000000d" kind="Containment" role="Containment" guid="{d1edc935-851d-43a4-ba62-c568decd8aea}" relid="0xad">
 				<name>Containment</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ns</value>
@@ -3415,7 +3760,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="src" target="id-0066-00000014"/>
 				<connpoint role="dst" target="id-0066-00000015"/>
 			</connection>
-			<connection id="id-0068-0000000f" kind="Containment" role="Containment" guid="{66A4BDD9-EE4B-4ff3-9930-4A1344C0BA0F}" relid="0xb0">
+			<connection id="id-0068-0000000e" kind="Containment" role="Containment" guid="{66a4bdd9-ee4b-4ff3-9930-4a1344c0ba0f}" relid="0xb0">
 				<name>Containment</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ns</value>
@@ -3432,7 +3777,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-00000001"/>
 				<connpoint role="src" target="id-0066-0000000d"/>
 			</connection>
-			<connection id="id-0068-00000010" kind="Containment" role="Containment" guid="{936DE5D5-4C38-4dce-B1AD-258BCAF1A776}" relid="0xb1">
+			<connection id="id-0068-0000000f" kind="Containment" role="Containment" guid="{936de5d5-4c38-4dce-b1ad-258bcaf1a776}" relid="0xb1">
 				<name>Containment</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>N</value>
@@ -3449,7 +3794,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-00000001"/>
 				<connpoint role="src" target="id-0066-00000015"/>
 			</connection>
-			<connection id="id-0068-00000011" kind="FolderContainment" role="FolderContainment" guid="{6A2767AA-5B39-4ec3-834E-6068612D3301}" relid="0xb2">
+			<connection id="id-0068-00000010" kind="FolderContainment" role="FolderContainment" guid="{6a2767aa-5b39-4ec3-834e-6068612d3301}" relid="0xb2">
 				<name>FolderContainment</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ns</value>
@@ -3460,7 +3805,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="src" target="id-0066-00000001"/>
 				<connpoint role="dst" target="id-0066-0000000a"/>
 			</connection>
-			<connection id="id-0068-00000012" kind="FolderContainment" role="FolderContainment" guid="{6C33964C-AF8B-4ece-A75D-3D8492101318}" relid="0xb3">
+			<connection id="id-0068-00000011" kind="FolderContainment" role="FolderContainment" guid="{6c33964c-af8b-4ece-a75d-3d8492101318}" relid="0xb3">
 				<name>FolderContainment</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ns</value>
@@ -3471,7 +3816,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-0000000c"/>
 				<connpoint role="src" target="id-0066-00000011"/>
 			</connection>
-			<connection id="id-0068-00000013" kind="SourceToConnector" role="SourceToConnector" guid="{70A0210A-64AB-4db1-8E06-06E6650F9A40}" relid="0xb4">
+			<connection id="id-0068-00000012" kind="SourceToConnector" role="SourceToConnector" guid="{70a0210a-64ab-4db1-8e06-06e6650f9a40}" relid="0xb4">
 				<name>SourceToConnector</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Wn</value>
@@ -3485,7 +3830,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-00000008"/>
 				<connpoint role="src" target="id-0066-00000012"/>
 			</connection>
-			<connection id="id-0068-00000014" kind="ConnectorToDestination" role="ConnectorToDestination" guid="{96C1D571-7FD6-47ea-BF8A-DD1DA3B8189F}" relid="0xb6">
+			<connection id="id-0068-00000013" kind="ConnectorToDestination" role="ConnectorToDestination" guid="{96c1d571-7fd6-47ea-bf8a-dd1da3b8189f}" relid="0xb6">
 				<name>ConnectorToDestination</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>w</value>
@@ -3499,7 +3844,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="src" target="id-0066-00000008"/>
 				<connpoint role="dst" target="id-0066-00000012"/>
 			</connection>
-			<connection id="id-0068-00000016" kind="HasAttribute" role="HasAttribute" guid="{682D40C6-2114-4bd8-A464-EAB22CE72337}" relid="0xba">
+			<connection id="id-0068-00000014" kind="HasAttribute" role="HasAttribute" guid="{682d40c6-2114-4bd8-a464-eab22ce72337}" relid="0xba">
 				<name>HasAttribute</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ns</value>
@@ -3507,7 +3852,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="src" target="id-0066-0000000b"/>
 				<connpoint role="dst" target="id-0066-00000016"/>
 			</connection>
-			<connection id="id-0068-00000017" kind="BaseInheritance" role="BaseInheritance" guid="{8A89D148-5431-43e7-A359-7DF9A1DB9462}" relid="0xbd">
+			<connection id="id-0068-00000015" kind="BaseInheritance" role="BaseInheritance" guid="{8a89d148-5431-43e7-a359-7df9a1db9462}" relid="0xbd">
 				<name>BaseInheritance</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Sn</value>
@@ -3515,7 +3860,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-00000013"/>
 				<connpoint role="src" target="id-0066-00000016"/>
 			</connection>
-			<connection id="id-0068-00000018" kind="DerivedInheritance" role="DerivedInheritance" guid="{B0A80B61-20E3-4cb7-B737-7DA9F03EC2EF}" relid="0xbe">
+			<connection id="id-0068-00000016" kind="DerivedInheritance" role="DerivedInheritance" guid="{b0a80b61-20e3-4cb7-b737-7da9f03ec2ef}" relid="0xbe">
 				<name>DerivedInheritance</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Se</value>
@@ -3523,7 +3868,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-00000012"/>
 				<connpoint role="src" target="id-0066-00000013"/>
 			</connection>
-			<connection id="id-0068-00000019" kind="DerivedInheritance" role="DerivedInheritance" guid="{CC6FE680-2889-472d-9497-63DFDB6DD41F}" relid="0xbf">
+			<connection id="id-0068-00000017" kind="DerivedInheritance" role="DerivedInheritance" guid="{cc6fe680-2889-472d-9497-63dfdb6dd41f}" relid="0xbf">
 				<name>DerivedInheritance</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Se</value>
@@ -3531,7 +3876,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-00000009"/>
 				<connpoint role="src" target="id-0066-00000013"/>
 			</connection>
-			<connection id="id-0068-0000001a" kind="ReferTo" role="ReferTo" guid="{9E9AB805-C992-493a-B6D1-8CBC41529C66}" relid="0xc0">
+			<connection id="id-0068-00000018" kind="ReferTo" role="ReferTo" guid="{9e9ab805-c992-493a-b6d1-8cbc41529c66}" relid="0xc0">
 				<name>ReferTo</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ew</value>
@@ -3539,7 +3884,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="src" target="id-0066-00000014"/>
 				<connpoint role="dst" target="id-0066-00000016"/>
 			</connection>
-			<connection id="id-0068-0000001b" kind="HasConstraint" role="HasConstraint" guid="{13FAA901-9DAA-4b47-934E-7EC155BA72FC}" relid="0xc2">
+			<connection id="id-0068-00000019" kind="HasConstraint" role="HasConstraint" guid="{13faa901-9daa-4b47-934e-7ec155ba72fc}" relid="0xc2">
 				<name>HasConstraint</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ns</value>
@@ -3547,7 +3892,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-00000007"/>
 				<connpoint role="src" target="id-0066-00000017"/>
 			</connection>
-			<connection id="id-0068-0000001f" kind="HasConstraint" role="HasConstraint" guid="{C441BAE6-F116-4de3-9CB5-7DC55427E9B8}" relid="0xc7">
+			<connection id="id-0068-0000001a" kind="HasConstraint" role="HasConstraint" guid="{c441bae6-f116-4de3-9cb5-7dc55427e9b8}" relid="0xc7">
 				<name>HasConstraint</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>We</value>
@@ -3555,7 +3900,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-00000002"/>
 				<connpoint role="src" target="id-0066-00000018"/>
 			</connection>
-			<connection id="id-0068-00000020" kind="HasConstraint" role="HasConstraint" guid="{31834164-6E0E-4bb9-B3BA-1950ED2F56CD}" relid="0xc9">
+			<connection id="id-0068-0000001b" kind="HasConstraint" role="HasConstraint" guid="{31834164-6e0e-4bb9-b3ba-1950ed2f56cd}" relid="0xc9">
 				<name>HasConstraint</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>We</value>
@@ -3563,23 +3908,23 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-00000011"/>
 				<connpoint role="src" target="id-0066-00000019"/>
 			</connection>
-			<connection id="id-0068-00000021" kind="HasConstraint" role="HasConstraint" guid="{B584A642-2F50-4590-97DC-81E20E0EC668}" relid="0xcc">
+			<connection id="id-0068-0000001c" kind="HasConstraint" role="HasConstraint" guid="{b584a642-2f50-4590-97dc-81e20e0ec668}" relid="0xcc">
 				<name>HasConstraint</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>We</value>
 				</regnode>
 				<connpoint role="dst" target="id-0066-00000001"/>
-				<connpoint role="src" target="id-0066-0000001b"/>
+				<connpoint role="src" target="id-0066-0000001a"/>
 			</connection>
-			<connection id="id-0068-00000023" kind="HasConstraint" role="HasConstraint" guid="{2CF3DA6D-4638-40d5-B49B-FD0D9DADCA9A}" relid="0xcf">
+			<connection id="id-0068-0000001d" kind="HasConstraint" role="HasConstraint" guid="{2cf3da6d-4638-40d5-b49b-fd0d9dadca9a}" relid="0xcf">
 				<name>HasConstraint</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>S</value>
 				</regnode>
 				<connpoint role="dst" target="id-0066-00000001"/>
-				<connpoint role="src" target="id-0066-0000001c"/>
+				<connpoint role="src" target="id-0066-0000001b"/>
 			</connection>
-			<connection id="id-0068-00000027" kind="Containment" role="Containment" guid="{70CF2CFE-D55A-467e-A021-5443A34391AB}" relid="0xd3">
+			<connection id="id-0068-0000001e" kind="Containment" role="Containment" guid="{70cf2cfe-d55a-467e-a021-5443a34391ab}" relid="0xd3">
 				<name>Containment</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ns</value>
@@ -3596,7 +3941,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-00000002"/>
 				<connpoint role="src" target="id-0066-00000009"/>
 			</connection>
-			<connection id="id-0068-00000028" kind="Containment" role="Containment" guid="{F6D32815-FDF3-40e8-AF0A-1419F1706272}" relid="0xd4">
+			<connection id="id-0068-0000001f" kind="Containment" role="Containment" guid="{f6d32815-fdf3-40e8-af0a-1419f1706272}" relid="0xd4">
 				<name>Containment</name>
 				<regnode name="autorouterPref" isopaque="yes">
 					<value>Ee</value>
@@ -3613,7 +3958,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 				<connpoint role="dst" target="id-0066-00000002"/>
 				<connpoint role="src" target="id-0066-00000012"/>
 			</connection>
-			<set id="id-0069-00000001" kind="Aspect" role="Aspect" guid="{CC4FE0DE-1991-49c3-A85B-24BE7619C56A}" relid="0x26" members="id-0066-00000001 id-0066-0000000d id-0066-00000014 id-0066-00000015">
+			<set id="id-0069-00000001" kind="Aspect" role="Aspect" guid="{cc4fe0de-1991-49c3-a85b-24be7619c56a}" relid="0x26" members="id-0066-00000001 id-0066-0000000d id-0066-00000014 id-0066-00000015">
 				<name>UnitTest_Aspect</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -3628,7 +3973,7 @@ all-&gt;forAll (x1,x2 | (x1.name=x2.name) implies x1=x2)</value>
 					<value></value>
 				</attribute>
 			</set>
-			<set id="id-0069-00000002" kind="Aspect" role="Aspect" guid="{9F3E4142-AAE6-4c72-9F3A-C76B75D3EF44}" relid="0xa2" members="id-0066-00000002 id-0066-00000007 id-0066-00000009 id-0066-00000011 id-0066-00000012">
+			<set id="id-0069-00000002" kind="Aspect" role="Aspect" guid="{9f3e4142-aae6-4c72-9f3a-c76b75d3ef44}" relid="0xa2" members="id-0066-00000002 id-0066-00000007 id-0066-00000009 id-0066-00000011 id-0066-00000012">
 				<name>DataGraph_Aspect</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>

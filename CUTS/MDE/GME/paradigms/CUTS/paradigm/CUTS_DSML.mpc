@@ -28,7 +28,21 @@ project (CUTS_DSML_paradigm) {
     
     gme_paradigm   = 1
     paradigm_name  = CUTS
-    paradigm_guid  = B94E1183-C9B9-46D0-99B4-6AA8D1454043
+    paradigm_guid  = 784DB6D6-9381-4FA8-811E-F6656918BEE3
     paradigm_file  = CUTS.mta
+  }
+}
+
+project (CUTS_DSML_paradigm_icons) {
+  specific (wix) {
+    no_binary         = 1
+    install_location  = paradigm CUTS icons
+    install_resources = 1
+  }
+  
+  Resource_Files {
+    conditional (wix) {
+      icons/*.bmp
+    }
   }
 }

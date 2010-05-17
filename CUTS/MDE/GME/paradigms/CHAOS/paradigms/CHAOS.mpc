@@ -19,3 +19,32 @@ project (CUTS_CHAOS_DSML): udm, boost_base, cutslib {
     CHAOS.xml
   }
 }
+
+project (CUTS_CHAOS_paradigm) {
+  custom_only = 1
+  
+  specific {
+    no_binary        = 1
+    install_location = paradigm CHAOS
+    
+    gme_paradigm   = 1
+    paradigm_name  = CHAOS
+    paradigm_guid  = 5C2B37E5-9041-4732-82F0-8B7E0AB8E13A
+    paradigm_file  = CHAOS.mta
+  }
+}
+
+project (CUTS_CHAOS_paradigm_icons) {
+  specific (wix) {
+    no_binary         = 1
+    install_location  = paradigm CHAOS icons
+    install_resources = 1
+  }
+  
+  Resource_Files {
+    conditional (wix) {
+      icons/*.bmp
+      icons/*.gif
+    }
+  }
+}

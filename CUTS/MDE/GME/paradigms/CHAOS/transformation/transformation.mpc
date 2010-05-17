@@ -1,0 +1,16 @@
+// $Id$
+
+project (CUTS_CHAOS_transformation) {
+  specific {
+    install_location  = paradigm CHAOS transformation
+    install_resources = 1
+    no_binary         = 1
+  }
+
+  Resource_Files {
+    conditional (wix) {
+      chaos2picml.xsl
+      picml2chaos.xsl
+    }
+  }
+}

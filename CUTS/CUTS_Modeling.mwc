@@ -29,11 +29,11 @@ workspace (CUTS_Modeling) {
     cmdline += -include $COSMIC_ROOT/MPC/config
 
     MDE/GME/plugins
-    MDE/GME/paradigms/CUTS
+    MDE/GME/paradigms/CHAOS    
 
     exclude (wix) {
+      MDE/GME/paradigms/CUTS
       MDE/GME/T2M
-      MDE/GME/paradigms/CHAOS    
     }
     
     cosmic {

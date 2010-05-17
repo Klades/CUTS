@@ -29,9 +29,14 @@ project (CUTS_BE_OpenSplice) : boost_base, picml_udm, cuts_be_ciao, cuts_cosmic 
   Inline_Files {
 
   }
+  
+  specific (wix) {
+    components += CUTS_PICML.config.OpenSplice
+  }
 
   verbatim (wix, component_bottom) {
-""
+"        <Component Id='CUTS_PICML.config.OpenSplice' Guid='C285C003-4BE1-4B0F-85C6-6D25ECB15DFF'>"
+"          <CreateFolder />"
 "          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
 "                   Id='generator.OpenSplice'"
 "                   File='[INSTALLDIR]bin\\cuts.config'"
@@ -40,7 +45,6 @@ project (CUTS_BE_OpenSplice) : boost_base, picml_udm, cuts_be_ciao, cuts_cosmic 
 "                   Name='cuts:generator'"
 "                   Sequence='10'"
 "                   Permanent='no' />"
-""
 "          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
 "                   Id='generator.OpenSplice.id'"
 "                   File='[INSTALLDIR]bin\\cuts.config'"
@@ -50,7 +54,6 @@ project (CUTS_BE_OpenSplice) : boost_base, picml_udm, cuts_be_ciao, cuts_cosmic 
 "                   Value='OpenSplice'"
 "                   Permanent='no'"
 "                   Sequence='11' />"
-""
 "          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
 "                   Id='generator.OpenSplice.location'"
 "                   File='[INSTALLDIR]bin\\cuts.config'"
@@ -60,5 +63,6 @@ project (CUTS_BE_OpenSplice) : boost_base, picml_udm, cuts_be_ciao, cuts_cosmic 
 "                   Sequence='12'"
 "                   Permanent='no'"
 "                   Value='[INSTALLDIR]bin\\CUTS_BE_OpenSplice' />"
+"        </Component>"
   }
 }

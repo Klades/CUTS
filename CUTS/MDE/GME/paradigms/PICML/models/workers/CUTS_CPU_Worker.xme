@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{87CB76C6-0185-4F10-9979-6CFA1ED6C610}" cdate="Thu Dec 10 10:45:14 2009" mdate="Thu Dec 10 10:45:14 2009" version="" metaguid="{8D1C2783-6B87-4F44-8A6D-E2B4804098EA}" metaversion="" metaname="PICML">
+<project guid="{87CB76C6-0185-4F10-9979-6CFA1ED6C610}" cdate="Sun May 16 18:32:00 2010" mdate="Sun May 16 18:32:00 2010" version="" metaguid="{94FCA7F1-9017-4BFD-B557-F738FC54B103}" metaversion="" metaname="PICML">
 	<name>CUTS_CPU_Worker</name>
 	<comment></comment>
 	<author></author>
-	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x2" kind="RootFolder" guid="{B9064A70-58ED-4370-9704-E17572C69340}">
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x2" kind="RootFolder" guid="{b9064a70-58ed-4370-9704-e17572c69340}">
 		<name>CUTS_CPU_Worker</name>
-		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x1" kind="WorkerLibraries" guid="{56A818BA-EE9E-42e4-88EA-68C27B395057}">
+		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x1" kind="WorkerLibraries" guid="{56a818ba-ee9e-42e4-88ea-68c27b395057}">
 			<name>CUTS_CPU_Worker</name>
-			<model id="id-0065-00000001" kind="WorkerLibrary" guid="{37B8F06B-B033-4380-8848-F7609C84A5E7}" relid="0x1" childrelidcntr="0x1">
+			<model id="id-0065-00000001" kind="WorkerLibrary" guid="{37b8f06b-b033-4380-8848-f7609c84a5e7}" relid="0x1" childrelidcntr="0x1">
 				<name>CUTS_CPU_Worker</name>
 				<attribute kind="Location" status="meta">
 					<value></value>
 				</attribute>
-				<model id="id-0065-00000002" kind="WorkerFile" role="WorkerFile" guid="{C1AC85C8-BB52-4c98-A7D8-DC2729FC75B5}" relid="0x1" childrelidcntr="0x2">
+				<model id="id-0065-00000002" kind="WorkerFile" role="WorkerFile" guid="{c1ac85c8-bb52-4c98-a7d8-dc2729fc75b5}" relid="0x1" childrelidcntr="0x2">
 					<name>CPU_Worker</name>
 					<attribute kind="Location">
 						<value>$(CUTS_ROOT)/cuts/workers/CPU</value>
 					</attribute>
-					<model id="id-0065-00000003" kind="Worker" role="Worker" guid="{72702D87-6863-4bf9-B35C-2EF4FCF05FD5}" relid="0x1" childrelidcntr="0x1">
+					<model id="id-0065-00000003" kind="Worker" role="Worker" guid="{72702d87-6863-4bf9-b35c-2ef4fcf05fd5}" relid="0x1" childrelidcntr="0x1">
 						<name>CUTS_CPU_Worker</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -33,7 +33,7 @@
 						<attribute kind="Abstract" status="meta">
 							<value>false</value>
 						</attribute>
-						<model id="id-0065-00000004" kind="Action" role="Action" guid="{20AF54B2-4430-4ff0-815B-40BCCB7C1305}" relid="0x1" childrelidcntr="0x1">
+						<model id="id-0065-00000004" kind="Action" role="Action" guid="{20af54b2-4430-4ff0-815b-40bccb7c1305}" relid="0x1" childrelidcntr="0x1">
 							<name>run</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -50,7 +50,7 @@
 							<attribute kind="LogAction" status="meta">
 								<value>false</value>
 							</attribute>
-							<model id="id-0065-00000005" kind="Property" role="Property" guid="{290235E0-1845-4ab2-8F37-409F97369385}" relid="0x1" childrelidcntr="0x1">
+							<model id="id-0065-00000005" kind="Property" role="Property" guid="{290235e0-1845-4ab2-8f37-409f97369385}" relid="0x1" childrelidcntr="0x1">
 								<name>msec</name>
 								<regnode name="PartRegs" status="undefined">
 									<value></value>
@@ -64,7 +64,7 @@
 								<attribute kind="DataValue">
 									<value>30</value>
 								</attribute>
-								<reference id="id-0067-00000001" kind="DataType" role="DataType" guid="{14C9F623-5A8D-4f17-B74F-75FFDA32951D}" relid="0x1" referred="id-0066-00000001">
+								<reference id="id-0067-00000001" kind="DataType" role="DataType" guid="{14c9f623-5a8d-4f17-b74f-75ffda32951d}" relid="0x1" referred="id-0066-00000001">
 									<name>LongInteger</name>
 									<regnode name="PartRegs" status="undefined">
 										<value></value>
@@ -79,7 +79,7 @@
 							</model>
 						</model>
 					</model>
-					<model id="id-0065-00000006" kind="Worker" role="Worker" guid="{729A5313-0F26-4934-A46C-2E09DC0FED97}" derivedfrom="id-0065-00000003" isinstance="no" isprimary="yes" relid="0x2" childrelidcntr="0x2">
+					<model id="id-0065-00000006" kind="Worker" role="Worker" guid="{729a5313-0f26-4934-a46c-2e09dc0fed97}" derivedfrom="id-0065-00000003" isinstance="no" isprimary="yes" relid="0x2" childrelidcntr="0x2">
 						<name>CUTS_LD_CPU_Worker</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -93,7 +93,7 @@
 						<attribute kind="Abstract" status="meta">
 							<value>false</value>
 						</attribute>
-						<model id="id-0065-00000007" kind="Action" role="Action" guid="{63B13B77-20EA-4e37-8A2F-258CA77F33F0}" derivedfrom="id-0065-00000004" isinstance="no" isprimary="no" childrelidcntr="0x0">
+						<model id="id-0065-00000007" kind="Action" role="Action" guid="{63b13b77-20ea-4e37-8a2f-258ca77f33f0}" derivedfrom="id-0065-00000004" isinstance="no" isprimary="no" childrelidcntr="0x0">
 							<name>run</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -110,17 +110,17 @@
 							<attribute kind="LogAction" status="meta">
 								<value>false</value>
 							</attribute>
-							<model id="id-0065-00000008" kind="Property" role="Property" guid="{B4DE63DA-340B-45a3-BB6E-40BD8DC1D810}" derivedfrom="id-0065-00000005" isinstance="no" isprimary="no" childrelidcntr="0x0">
+							<model id="id-0065-00000008" kind="Property" role="Property" guid="{b4de63da-340b-45a3-bb6e-40bd8dc1d810}" derivedfrom="id-0065-00000005" isinstance="no" isprimary="no" childrelidcntr="0x0">
 								<name>msec</name>
 								<attribute kind="DataValue" status="inherited">
 									<value>30</value>
 								</attribute>
-								<reference id="id-0067-00000002" kind="DataType" role="DataType" guid="{47897E85-6307-4c06-968E-7B2F9308B7DE}" derivedfrom="id-0067-00000001" isinstance="no" isprimary="no" referred="id-0066-00000001" isbound="yes">
+								<reference id="id-0067-00000002" kind="DataType" role="DataType" guid="{47897e85-6307-4c06-968e-7b2f9308b7de}" derivedfrom="id-0067-00000001" isinstance="no" isprimary="no" referred="id-0066-00000001" isbound="yes">
 									<name>LongInteger</name>
 								</reference>
 							</model>
 						</model>
-						<model id="id-0065-00000009" kind="Action" role="Action" guid="{8CEC2BFA-1792-498f-A905-E92A2779346E}" relid="0x1" childrelidcntr="0x1">
+						<model id="id-0065-00000009" kind="Action" role="Action" guid="{8cec2bfa-1792-498f-a905-e92a2779346e}" relid="0x1" childrelidcntr="0x1">
 							<name>load_profile</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -137,7 +137,7 @@
 							<attribute kind="LogAction" status="meta">
 								<value>false</value>
 							</attribute>
-							<model id="id-0065-0000000a" kind="Property" role="Property" guid="{015CD5E7-E088-4676-80E8-6563D1BA67EA}" relid="0x1" childrelidcntr="0x1">
+							<model id="id-0065-0000000a" kind="Property" role="Property" guid="{015cd5e7-e088-4676-80e8-6563d1ba67ea}" relid="0x1" childrelidcntr="0x1">
 								<name>profile</name>
 								<regnode name="PartRegs" status="undefined">
 									<value></value>
@@ -151,7 +151,7 @@
 								<attribute kind="DataValue" status="meta">
 									<value></value>
 								</attribute>
-								<reference id="id-0067-00000003" kind="DataType" role="DataType" guid="{56564E67-3FE6-4b19-903C-2824D63C6C4C}" relid="0x1" referred="id-0066-00000002">
+								<reference id="id-0067-00000003" kind="DataType" role="DataType" guid="{56564e67-3fe6-4b19-903c-2824d63c6c4c}" relid="0x1" referred="id-0066-00000002">
 									<name>String</name>
 									<regnode name="PartRegs" status="undefined">
 										<value></value>
@@ -165,7 +165,7 @@
 								</reference>
 							</model>
 						</model>
-						<model id="id-0065-0000000b" kind="Action" role="Action" guid="{245ECF6A-12CB-4d2a-945D-E89C8850DE20}" relid="0x2" childrelidcntr="0x1">
+						<model id="id-0065-0000000b" kind="Action" role="Action" guid="{245ecf6a-12cb-4d2a-945d-e89c8850de20}" relid="0x2" childrelidcntr="0x1">
 							<name>profile_run</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -182,7 +182,7 @@
 							<attribute kind="LogAction" status="meta">
 								<value>false</value>
 							</attribute>
-							<model id="id-0065-0000000c" kind="Property" role="Property" guid="{8EC1AC1C-40D7-4e12-9652-5DA5814DD287}" relid="0x1" childrelidcntr="0x1">
+							<model id="id-0065-0000000c" kind="Property" role="Property" guid="{8ec1ac1c-40d7-4e12-9652-5da5814dd287}" relid="0x1" childrelidcntr="0x1">
 								<name>key</name>
 								<regnode name="PartRegs" status="undefined">
 									<value></value>
@@ -196,7 +196,7 @@
 								<attribute kind="DataValue" status="meta">
 									<value></value>
 								</attribute>
-								<reference id="id-0067-00000004" kind="DataType" role="DataType" guid="{33166F36-CBB5-4508-B99C-593A6DDACFBD}" relid="0x1" referred="id-0066-00000002">
+								<reference id="id-0067-00000004" kind="DataType" role="DataType" guid="{33166f36-cbb5-4508-b99c-593a6ddacfbd}" relid="0x1" referred="id-0066-00000002">
 									<name>String</name>
 									<regnode name="PartRegs" status="undefined">
 										<value></value>
@@ -214,12 +214,12 @@
 				</model>
 			</model>
 		</folder>
-		<folder id="id-006a-00000003" relid="0x2" childrelidcntr="0x2" kind="PredefinedTypes" guid="{1D1B8F4F-98E8-4429-BAC1-CDC20E5CC0EF}">
+		<folder id="id-006a-00000003" relid="0x2" childrelidcntr="0x2" kind="PredefinedTypes" guid="{1d1b8f4f-98e8-4429-bac1-cdc20e5cc0ef}">
 			<name>CUTS_CPU_Worker_PredefinedTypes</name>
-			<atom id="id-0066-00000001" kind="LongInteger" guid="{DF36D6AF-2F35-4a7f-BD92-E67AB847FC07}" relid="0x1">
+			<atom id="id-0066-00000001" kind="LongInteger" guid="{df36d6af-2f35-4a7f-bd92-e67ab847fc07}" relid="0x1">
 				<name>LongInteger</name>
 			</atom>
-			<atom id="id-0066-00000002" kind="String" guid="{8BCD35F7-EC0E-4dd5-AA51-AC421433EC89}" relid="0x2">
+			<atom id="id-0066-00000002" kind="String" guid="{8bcd35f7-ec0e-4dd5-aa51-ac421433ec89}" relid="0x2">
 				<name>String</name>
 			</atom>
 		</folder>

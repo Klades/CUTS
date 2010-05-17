@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{3E76ABE5-6E56-46A8-AFDD-8B5AB72F153F}" cdate="Thu May 13 01:58:25 2010" mdate="Thu May 13 01:58:25 2010" version="" metaguid="{94FCA7F1-9017-4BFD-B557-F738FC54B103}" metaversion="" metaname="PICML">
+<project guid="{3E76ABE5-6E56-46A8-AFDD-8B5AB72F153F}" cdate="Fri May 14 22:35:01 2010" mdate="Fri May 14 22:35:01 2010" version="" metaguid="{94FCA7F1-9017-4BFD-B557-F738FC54B103}" metaversion="" metaname="PICML">
 	<name>CAPI</name>
 	<comment></comment>
 	<author></author>

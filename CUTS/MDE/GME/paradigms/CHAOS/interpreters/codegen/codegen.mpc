@@ -64,4 +64,14 @@ project (CUTS_CHAOS_Codegen) : boost_base, gme_udm_component, cosmic_utils, code
   Inline_Files {
 
   }
+
+  specific (wix) {
+    gme_install     = 1
+    gme_progid      = CUTS.Interpreter.CHAOS
+    gme_uuid        = 0C95DA86-F34B-4A5C-82AA-4771ED588997
+    gme_paradigms   = CHAOS
+    gme_has_icon    = 1
+    gme_description = CUTS Code Generator for CHAOS
+    gme_tooltip     = CUTS Code Generator for CHAOS
+  }
 }

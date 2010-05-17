@@ -5,11 +5,11 @@
            Id="9A601859-E2D1-4C1F-B897-B13fEA0261B0"
            UpgradeCode="1CEF4517-4472-4A6F-8D4E-4D5B5F3B240A"
            Language="1033" Codepage="1252" Version="0.2.1"
-           Manufacturer="Indiana University Purdue University Indianapolis">
+           Manufacturer="Indiana University-Purdue University Indianapolis (IUPUI)">
 
     <Package Keywords='Installer'
              Description='CUTS Modeling Tools for CoSMIC'
-             Manufacturer='Indiana University Purdue University Indianapolis'
+             Manufacturer='Indiana University-Purdue University Indianapolis (IUPUI)'
              InstallerVersion='300' Languages='1033' Compressed='yes'
              SummaryCodepage='1252' />
 

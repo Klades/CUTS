@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_CoSMIC) : gme_upgrade, wix_ui, wix_xml {
+project (CUTS_CoSMIC) : wix_ui, wix_xml {
   after += CUTS_PICML CUTS_BE_CIAO CUTS_BE_TCPIP CUTS_BE_OpenSplice CUTS_Isislab_Emulation
 
   specific {
@@ -11,11 +11,5 @@ project (CUTS_CoSMIC) : gme_upgrade, wix_ui, wix_xml {
   Wxs_Files {
     CUTS_CoSMIC.wxs
     Merge_Modules.wxs
-  }
-
-  GME_Upgrade_Files {
-    $(CUTS_ROOT)/MDE/GME/paradigms/PICML/models/CAPI.xme << $(COSMIC_ROOT)/PIM/PICML/paradigms/PICML.xmp
-    $(CUTS_ROOT)/MDE/GME/paradigms/PICML/models/XMLSchema.xme << $(COSMIC_ROOT)/PIM/PICML/paradigms/PICML.xmp
-    $(CUTS_ROOT)/MDE/GME/paradigms/PICML/models/examples/capi/AnyEvent.xme << $(COSMIC_ROOT)/PIM/PICML/paradigms/PICML.xmp
   }
 }

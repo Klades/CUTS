@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{4FE08E19-56B0-4DE8-BC12-7AB2BC0690F6}" cdate="Sun Sep 13 16:50:57 2009" mdate="Sun Sep 13 16:50:57 2009" version="" metaguid="{CDCDB657-AAD7-4917-941A-E63B013136B7}" metaversion="" metaname="PICML">
+<project guid="{4FE08E19-56B0-4DE8-BC12-7AB2BC0690F6}" cdate="Sun May 16 18:31:58 2010" mdate="Sun May 16 18:31:58 2010" version="" metaguid="{94FCA7F1-9017-4BFD-B557-F738FC54B103}" metaversion="" metaname="PICML">
 	<name>testing</name>
 	<comment>Traffic light system for the NAOMI project</comment>
 	<author>James H. Hill</author>
-	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0xe" kind="RootFolder" guid="{F1819BB3-901E-40fb-94F7-A20058D05651}">
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0xe" kind="RootFolder" guid="{f1819bb3-901e-40fb-94f7-a20058d05651}">
 		<name>testing</name>
-		<folder id="id-006a-00000002" relid="0x15" childrelidcntr="0x5" kind="PredefinedTypes" guid="{C18A3327-7E87-46f2-A393-915539EA4FFC}">
+		<folder id="id-006a-00000002" relid="0x15" childrelidcntr="0x5" kind="PredefinedTypes" guid="{c18a3327-7e87-46f2-a393-915539ea4ffc}">
 			<name>PredefinedTypes</name>
 			<regnode name="__udm_namespace" isopaque="yes">
 				<value></value>
 			</regnode>
-			<atom id="id-0066-00000001" kind="String" guid="{44BCD813-1F0E-46bc-BDDC-81FEEE90382F}" relid="0x1">
+			<atom id="id-0066-00000001" kind="String" guid="{44bcd813-1f0e-46bc-bddc-81feee90382f}" relid="0x1">
 				<name>String</name>
 				<regnode name="__udm_namespace" isopaque="yes">
 					<value></value>
 				</regnode>
 			</atom>
-			<atom id="id-0066-00000002" kind="ShortInteger" guid="{55E03F63-0C53-48b1-8B82-FB81FA3953D8}" relid="0x3">
+			<atom id="id-0066-00000002" kind="ShortInteger" guid="{55e03f63-0c53-48b1-8b82-fb81fa3953d8}" relid="0x3">
 				<name>ShortInteger</name>
 			</atom>
-			<atom id="id-0066-00000003" kind="LongInteger" guid="{97CDE4DD-72D0-4eda-9CA8-B0BFB86936D9}" relid="0x4">
+			<atom id="id-0066-00000003" kind="LongInteger" guid="{97cde4dd-72d0-4eda-9ca8-b0bfb86936d9}" relid="0x4">
 				<name>LongInteger</name>
 			</atom>
-			<atom id="id-0066-00000004" kind="GenericValue" guid="{691D513E-4406-42f7-BA96-62AB7C887524}" relid="0x5">
+			<atom id="id-0066-00000004" kind="GenericValue" guid="{691d513e-4406-42f7-ba96-62ab7c887524}" relid="0x5">
 				<name>GenericValue</name>
 			</atom>
 		</folder>
-		<folder id="id-006a-00000003" relid="0x1a" childrelidcntr="0x3" kind="WorkerLibraries" guid="{B75400B9-6467-49d8-9D34-CB68A969AC4A}">
+		<folder id="id-006a-00000003" relid="0x1a" childrelidcntr="0x3" kind="WorkerLibraries" guid="{b75400b9-6467-49d8-9d34-cb68a969ac4a}">
 			<name>Java WorkerLibraries</name>
-			<model id="id-0065-00000001" kind="WorkerLibrary" guid="{06903DAD-78C3-4b48-B4FB-AE68FF2F24EF}" relid="0x1" childrelidcntr="0x1">
+			<model id="id-0065-00000001" kind="WorkerLibrary" guid="{06903dad-78c3-4b48-b4fb-ae68ff2f24ef}" relid="0x1" childrelidcntr="0x1">
 				<name>cuts.testing</name>
 				<attribute kind="Location">
 					<value>$(CUTS_ROOT)/lib</value>
 				</attribute>
-				<model id="id-0065-00000002" kind="WorkerFile" role="WorkerFile" guid="{DA6737A3-B444-4670-A19C-45E5D4497869}" relid="0x1" childrelidcntr="0x2">
+				<model id="id-0065-00000002" kind="WorkerFile" role="WorkerFile" guid="{da6737a3-b444-4670-a19c-45e5d4497869}" relid="0x1" childrelidcntr="0x2">
 					<name>TestManagerClient</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -49,7 +49,7 @@
 					<attribute kind="Location">
 						<value></value>
 					</attribute>
-					<model id="id-0065-0000002d" kind="WorkerPackage" role="WorkerPackage" guid="{A517B355-E77B-4a55-AB60-05312B3DA088}" relid="0x2" childrelidcntr="0x3">
+					<model id="id-0065-00000003" kind="WorkerPackage" role="WorkerPackage" guid="{a517b355-e77b-4a55-ab60-05312b3da088}" relid="0x2" childrelidcntr="0x3">
 						<name>CUTS</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -60,9 +60,9 @@
 								</regnode>
 							</regnode>
 						</regnode>
-						<model id="id-0065-00000031" kind="WorkerPackage" role="WorkerPackage" guid="{F6083527-97E7-49ef-9975-13527D4E3051}" relid="0x3" childrelidcntr="0x1">
+						<model id="id-0065-00000004" kind="WorkerPackage" role="WorkerPackage" guid="{f6083527-97e7-49ef-9975-13527d4e3051}" relid="0x3" childrelidcntr="0x1">
 							<name>client</name>
-							<model id="id-0065-00000003" kind="Worker" role="Worker" guid="{005B4DF0-250F-40b3-9E5D-16A568C268EF}" relid="0x1" childrelidcntr="0x7">
+							<model id="id-0065-00000005" kind="Worker" role="Worker" guid="{005b4df0-250f-40b3-9e5d-16a568c268ef}" relid="0x1" childrelidcntr="0x7">
 								<name>TestManagerClient</name>
 								<regnode name="PartRegs" status="undefined">
 									<value></value>

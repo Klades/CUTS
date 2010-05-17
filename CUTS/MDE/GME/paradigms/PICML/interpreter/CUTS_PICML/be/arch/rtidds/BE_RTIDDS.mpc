@@ -30,8 +30,13 @@ project (CUTS_BE_RTIDDS) : boost_base, picml_udm, cuts_be_ciao, cuts_cosmic {
 
   }
 
+  specific (wix) {
+    components += CUTS_PICML.config.RTIDDS
+  }
+  
   verbatim (wix, component_bottom) {
-""
+"        <Component Id='CUTS_PICML.config.RTIDDS' Guid='FAA6B2AF-C4C6-4990-AF76-CA495F5DE2F1'>"
+"          <CreateFolder />"
 "          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
 "                   Id='generator.RTIDDS'"
 "                   File='[INSTALLDIR]bin\\cuts.config'"
@@ -40,7 +45,6 @@ project (CUTS_BE_RTIDDS) : boost_base, picml_udm, cuts_be_ciao, cuts_cosmic {
 "                   Name='cuts:generator'"
 "                   Sequence='10'"
 "                   Permanent='no' />"
-""
 "          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
 "                   Id='generator.RTIDDS.id'"
 "                   File='[INSTALLDIR]bin\\cuts.config'"
@@ -50,7 +54,6 @@ project (CUTS_BE_RTIDDS) : boost_base, picml_udm, cuts_be_ciao, cuts_cosmic {
 "                   Value='RTIDDS'"
 "                   Permanent='no'"
 "                   Sequence='11' />"
-""
 "          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
 "                   Id='generator.RTIDDS.location'"
 "                   File='[INSTALLDIR]bin\\cuts.config'"
@@ -60,5 +63,6 @@ project (CUTS_BE_RTIDDS) : boost_base, picml_udm, cuts_be_ciao, cuts_cosmic {
 "                   Sequence='12'"
 "                   Permanent='no'"
 "                   Value='[INSTALLDIR]bin\\CUTS_BE_RTIDDS' />"
+"        </Component>"
   }
 }
