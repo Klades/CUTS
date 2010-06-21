@@ -46,6 +46,8 @@ workspace (CUTS_Modeling) {
 
         $(CUTS_ROOT)/contrib/CCF/CCF/CodeGenerationKit
       }
+      
+      $(COSMIC_ROOT)/Utils/GAME
     }
   }
 

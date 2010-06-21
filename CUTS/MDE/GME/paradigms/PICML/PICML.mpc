@@ -1,0 +1,55 @@
+// $Id$
+
+project (CUTS_PICML_models) : gme_upgrade {
+  specific (wix) {
+    no_binary         = 1
+    install_resources = 1
+    install_location  = models
+  } else {
+    custom_only = 1
+  }
+  
+  Resource_Files {  
+    models/*.xme
+  }
+
+  GME_Upgrade_Files {
+    models/*.xme << $(COSMIC_ROOT)/PIM/PICML/paradigms/PICML.xmp
+  }
+}
+
+project (CUTS_PICML_examples) : gme_upgrade {
+  specific (wix) {
+    no_binary         = 1
+    install_resources = 1
+    install_location  = examples
+  } else {
+    custom_only = 1
+  }
+  
+  Resource_Files {
+    examples/*.xme
+  }
+  
+  GME_Upgrade_Files {
+    examples/*.xme << $(COSMIC_ROOT)/PIM/PICML/paradigms/PICML.xmp
+  }
+}
+
+project (CUTS_PICML_models_workers) : gme_upgrade {
+  specific (wix) {
+    no_binary         = 1
+    install_resources = 1
+    install_location  = models workers
+  } else {
+    custom_only = 1
+  }
+  
+  Resource_Files {
+    models/workers/*.xme
+  }
+
+  GME_Upgrade_Files {
+    models/workers/*.xme << $(COSMIC_ROOT)/PIM/PICML/paradigms/PICML.xmp
+  }
+}

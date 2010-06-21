@@ -1,3 +1,13 @@
+Mon Jun 21 14:32:04 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS_Modeling.mwc:
+        
+          . Added GAME to the build
+
+        * MDE/GME/paradigms/PICML/PICML.mpc:
+        
+          . Missing workspace.
+
 Mon May 17 06:46:04 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/examples/LoggingClient.xme:
@@ -7,7 +17,7 @@ Mon May 17 06:46:04 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
         * MDE/GME/paradigms/PICML/models/workers/CUTS_CPU_Worker.xme:
         * MDE/GME/paradigms/PICML/models/workers/logging.xme:
         * MDE/GME/paradigms/PICML/models/workers/testing.xme:
-        
+
           . Updated models to latest version of PICML.
 
         * MDE/GME/paradigms/CUTS/paradigm/CUTS.xme:
@@ -18,7 +28,7 @@ Mon May 17 06:46:04 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
         * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.xml:
         * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.xmp:
         * MDE/GME/paradigms/CHAOS/paradigms/CHAOS_uml.xme:
-        
+
           . Updated modeling paradigms to latest version of GME.
 
         * CUTS_Modeling.mwc:
@@ -35,9 +45,9 @@ Mon May 17 06:46:04 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/tcpip.mpc:
         * install/CUTS_CoSMIC.mpc:
         * install/CUTS_CoSMIC.wxs:
-        
-          . Updated workspace/project files to build using Wix project/include 
-            files auto-generated MPC.           
+
+          . Updated workspace/project files to build using Wix project/include
+            files auto-generated MPC.
 
 Fri May 14 12:22:56 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
