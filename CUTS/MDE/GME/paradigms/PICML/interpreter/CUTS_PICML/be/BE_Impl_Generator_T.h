@@ -50,14 +50,6 @@ public:
   void Visit_ComponentImplementations (
     const PICML::ComponentImplementations & impls);
 
-  /// Visit a DeploymentPlans folder.
-  void Visit_DeploymentPlans (
-    const PICML::DeploymentPlans & plans);
-
-  /// Visit a DeploymentPlan element.
-  void Visit_DeploymentPlan (
-    const PICML::DeploymentPlan & plan);
-
   /// Visit a ComponentImplementationContainer element.
   void Visit_ComponentImplementationContainer (
     const PICML::ComponentImplementationContainer & container);
@@ -65,10 +57,6 @@ public:
   /// Visit a MonolithicImplementation element.
   void Visit_MonolithicImplementation (
     const PICML::MonolithicImplementation & monoimpl);
-
-  /// Visit a MonolithicImplementation element.
-  void Visit_ComponentAssembly (
-    const PICML::ComponentAssembly & assembly);
 
   /// Visit a Component element.
   void Visit_Component (

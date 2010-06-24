@@ -8,8 +8,6 @@
 #include "BE_Preprocessor_T.h"
 #include "BE_Env_Visitor_T.h"
 #include "BE_Execution_Visitor_T.h"
-#include "BE_Assembly_Generator_T.h"
-#include "BE_Deployment_Generator_T.h"
 #include "UDM_Utility_T.h"
 
 #include "boost/bind.hpp"
@@ -202,32 +200,6 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
 
   CUTS_BE_File_Close_T <arch_type> file_close_gen (this->context_);
   file_close_gen.generate (container, monoimpl);
-}
-
-//
-// Visit_MonolithicImplementation
-//
-template <typename CONTEXT>
-void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_ComponentAssembly (const PICML::ComponentAssembly & assembly)
-{
-  // Get the parent of the monolithic implementation.
-  PICML::ComponentImplementationContainer container =
-    assembly.ComponentImplementationContainer_parent ();
-
-  if (CUTS_BE_ComponentAssembly_File_Open_T <CONTEXT>::generate (container, assembly))
-  {
-    // Write the prologue for the file.
-    CUTS_BE_ComponentAssembly_Prologue_T <CONTEXT>::generate (container, assembly);
-
-    CUTS_BE_Assembly_Generator_T <CONTEXT> generator;
-    PICML::ComponentAssembly (assembly).Accept (generator);
-
-    // Write the epilogue for the file, then close it.
-    CUTS_BE_ComponentAssembly_Epilogue_T <CONTEXT>::generate (container, assembly);
-
-    CUTS_BE_ComponentAssembly_File_Close_T <CONTEXT>::generate (container, assembly);
-  }
 }
 
 //
@@ -728,29 +700,4 @@ write_variables_i (const PICML::Component & component)
   // End the generation of the variables.
   CUTS_BE_Variables_End_T <behavior_type> var_end_gen (this->context_);
   var_end_gen.generate (component);
-}
-
-//
-// Visit_DeploymentPlans
-//
-template <typename CONTEXT>
-void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_DeploymentPlans (const PICML::DeploymentPlans & plans)
-{
-  typedef std::vector <PICML::DeploymentPlan> DeploymentPlan_Set;
-  DeploymentPlan_Set dps = plans.DeploymentPlan_children ();
-
-  CUTS_BE::visit <CONTEXT> (dps,
-    boost::bind (&DeploymentPlan_Set::value_type::Accept, _1, boost::ref (*this)));
-}
-
-//
-// Visit_DeploymentPlan
-//
-template <typename CONTEXT>
-void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_DeploymentPlan (const PICML::DeploymentPlan & plan)
-{
-  CUTS_BE_Deployment_Generator_T <CONTEXT> generator;
-  PICML::DeploymentPlan (plan).Accept (generator);
 }

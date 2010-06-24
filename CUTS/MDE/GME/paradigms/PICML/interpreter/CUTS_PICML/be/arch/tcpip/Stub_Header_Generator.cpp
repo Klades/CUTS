@@ -58,18 +58,18 @@ public:
 
   virtual void Visit_InEventPort (const PICML::InEventPort & port)
   {
-    PICML::Event event = port.ref ();
+    PICML::EventType et = port.ref ();
 
-    if (Udm::null != event)
-      event.Accept (*this);
+    if (et != Udm::null && et.type () == PICML::Event::meta)
+      PICML::Event::Cast (et).Accept (*this);
   }
 
   virtual void Visit_OutEventPort (const PICML::OutEventPort & port)
   {
-    PICML::Event event = port.ref ();
+    PICML::EventType et = port.ref ();
 
-    if (Udm::null != event)
-      event.Accept (*this);
+    if (et != Udm::null && et.type () == PICML::Event::meta)
+      PICML::Event::Cast (et).Accept (*this);
   }
 
   virtual void Visit_Event (const PICML::Event & event)

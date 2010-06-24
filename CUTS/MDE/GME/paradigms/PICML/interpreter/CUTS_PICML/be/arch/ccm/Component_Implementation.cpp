@@ -888,15 +888,16 @@ void CUTS_BE_InEventPort_Begin_T <CUTS_BE_CCM::Cpp::Context>::
 generate (const PICML::InEventPort & sink,
           const std::vector <PICML::Property> & properties)
 {
-  PICML::Event event = sink.ref ();
+  PICML::EventType et = sink.ref ();
 
-  if (event == Udm::null)
+  if (et == Udm::null || et.type () != PICML::Event::meta)
     return;
-
+  
+  PICML::Event ev = PICML::Event::Cast (et);
   PICML::Component parent = PICML::Component::Cast (sink.parent ());
   std::string parent_name (parent.name ());
   std::string name (sink.name ());
-  std::string fq_name (CUTS_BE_CPP::fq_type (event));
+  std::string fq_name (CUTS_BE_CPP::fq_type (ev));
 
   this->ctx_.header_
     << CUTS_BE_CPP::single_line_comment ("sink: " + name)

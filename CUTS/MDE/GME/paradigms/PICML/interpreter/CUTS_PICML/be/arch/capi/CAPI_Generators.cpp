@@ -131,8 +131,13 @@ generate (const PICML::MonolithicImplementation & mono, const PICML::Component &
       for ( ; iter != iter_end; ++ iter)
       {
         // Get the typename of the ev.
-        ev = iter->ref ();
+        PICML::EventType et = iter->ref ();
+        if (et.type () != PICML::Event::meta)
+          continue;
+
+        ev = PICML::Event::Cast (et);
         version = ev.VersionTag ();
+
         type_name = CUTS_BE_Java::fq_type (ev, ".", false);
 
         if (type_name != this->ctx_.jbi_anyevent_.first)
@@ -163,8 +168,14 @@ generate (const PICML::MonolithicImplementation & mono, const PICML::Component &
       for ( ; iter != iter_end; ++ iter)
       {
         // Get the typename of the ev.
-        ev = iter->ref ();
+        PICML::EventType et = iter->ref ();
+
+        if (et.type () != PICML::Event::meta)
+          continue;
+
+        PICML::Event ev = PICML::Event::Cast (et);
         version = ev.VersionTag ();
+
         type_name = CUTS_BE_Java::fq_type (ev, ".", false);
 
         if (type_name != this->ctx_.jbi_anyevent_.first)

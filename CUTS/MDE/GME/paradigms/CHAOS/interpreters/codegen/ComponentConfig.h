@@ -1,7 +1,5 @@
 // $Id$
 
-#define RAWCOMPONENT
-
 // COM UUID-s, names and progID
 
 #define TYPELIB_UUID "04DBB307-9F4F-42B6-90A9-D59D5743F80B"

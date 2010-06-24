@@ -245,10 +245,10 @@ Visit_Component (const PICML::Component & component)
 void CUTS_BE_IDL_Graph::
 Visit_OutEventPort (const PICML::OutEventPort & port)
 {
-  PICML::Event event = port.ref ();
+  PICML::EventType et = port.ref ();
 
-  if (event != Udm::null)
-    event.Accept (*this);
+  if (et.type () == PICML::Event::meta)
+    PICML::Event::Cast (et).Accept (*this);
 }
 
 //
@@ -257,10 +257,10 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
 void CUTS_BE_IDL_Graph::
 Visit_InEventPort (const PICML::InEventPort & port)
 {
-  PICML::Event event = port.ref ();
+  PICML::EventType et = port.ref ();
 
-  if (event != Udm::null)
-    event.Accept (*this);
+  if (et.type () == PICML::Event::meta)
+    PICML::Event::Cast (et).Accept (*this);
 }
 
 //

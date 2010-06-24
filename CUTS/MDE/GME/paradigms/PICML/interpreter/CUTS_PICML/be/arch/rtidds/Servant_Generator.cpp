@@ -389,9 +389,14 @@ Visit_Component (const PICML::Component & component)
 void Servant_Generator::
 Visit_InEventPort (const PICML::InEventPort & port)
 {
+  PICML::EventType et = port.ref ();
+
+  if (et == Udm::null || et.type () != PICML::Event::meta)
+    return;
+
+  PICML::Event ev = PICML::Event::Cast (et);
   std::string name = port.name ();
-  PICML::Event event = port.ref ();
-  std::string fq_type = CUTS_BE_CPP::fq_type (event);
+  std::string fq_type = CUTS_BE_CPP::fq_type (ev);
 
   this->header_
     << "public:" << std::endl
@@ -418,13 +423,13 @@ Visit_InEventPort (const PICML::InEventPort & port)
     << "deserialize_" << name << " (" << this->servant_ << " * servant," << std::endl
     << "const ::CUTS_NDDS" << fq_type << " & dds_event)"
     << "{"
-    << CUTS_BE_CPP::single_line_comment ("First, extract the event.")
-    << "CUTS_CCM_Event_T < ::OBV_" << CUTS_BE_CPP::fq_type (event, "::", false) << " > event;"
-    << "*event.in () <<= dds_event;"
+    << CUTS_BE_CPP::single_line_comment ("First, extract the ev.")
+    << "CUTS_CCM_Event_T < ::OBV_" << CUTS_BE_CPP::fq_type (ev, "::", false) << " > ev;"
+    << "*ev.in () <<= dds_event;"
     << std::endl
-    << CUTS_BE_CPP::single_line_comment ("Now, puch the event to the implemetation.")
+    << CUTS_BE_CPP::single_line_comment ("Now, puch the ev to the implemetation.")
     << "if (servant->impl_)" << std::endl
-    << "  servant->impl_->push_" << name << " (event.in ());"
+    << "  servant->impl_->push_" << name << " (ev.in ());"
     << "}";
 }
 
@@ -434,9 +439,15 @@ Visit_InEventPort (const PICML::InEventPort & port)
 void Servant_Generator::
 Visit_OutEventPort (const PICML::OutEventPort & port)
 {
+  PICML::EventType et = port.ref ();
+
+  if (et == Udm::null || et.type () != PICML::Event::meta)
+    return;
+
+  PICML::Event ev = PICML::Event::Cast (et);
+
   std::string name = port.name ();
-  PICML::Event event = port.ref ();
-  std::string fq_type = CUTS_BE_CPP::fq_type (event);
+  std::string fq_type = CUTS_BE_CPP::fq_type (ev);
 
   if (port.single_destination ())
   {

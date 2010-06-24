@@ -205,28 +205,20 @@ Visit_CollocationGroup (const PICML::CollocationGroup & group)
 // Visit_CollocationGroupMember
 //
 void CUTS_BE_Deployment_Generator::
-Visit_CollocationGroupMember (
-  const PICML::CollocationGroupMember & member)
+Visit_CollocationGroupMember (const PICML::CollocationGroupMember & member)
 {
-  if (member.type () == PICML::ComponentRef::meta)
-  {
-    PICML::ComponentRef ref = PICML::ComponentRef::Cast (member);
-    ref.Accept (*this);
-  }
-  else if (member.type () == PICML::SharedComponentReference::meta)
-  {
-    PICML::SharedComponentReference ref =
-      PICML::SharedComponentReference::Cast (member);
+  //if (member.type () == PICML::ComponentRef::meta)
+  //{
+  //  PICML::ComponentRef ref = PICML::ComponentRef::Cast (member);
+  //  ref.Accept (*this);
+  //}
+  //else if (member.type () == PICML::ComponentRef::meta)
+  //{
+  //  PICML::ComponentAssemblyReference ref =
+  //    PICML::ComponentAssemblyReference::Cast (member);
 
-    ref.Accept (*this);
-  }
-  else if (member.type () == PICML::ComponentRef::meta)
-  {
-    PICML::ComponentAssemblyReference ref =
-      PICML::ComponentAssemblyReference::Cast (member);
-
-    ref.Accept (*this);
-  }
+  //  ref.Accept (*this);
+  //}
 }
 
 //

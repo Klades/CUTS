@@ -246,14 +246,14 @@ Visit_Component (const PICML::Component & component)
              << "{"
              << "}";
 
-  // Visit all the output event ports.
+  // Visit all the output ev ports.
   std::for_each (outputs.begin (),
                  outputs.end (),
                  boost::bind (&PICML::OutEventPort::Accept,
                               _1,
                               boost::ref (*this)));
 
-  // Visit all the input event ports.
+  // Visit all the input ev ports.
   std::for_each (inputs.begin (),
                  inputs.end (),
                  boost::bind (&PICML::InEventPort::Accept,
@@ -299,10 +299,14 @@ Visit_Component (const PICML::Component & component)
 void Servant_Source_Impl_Generator::
 Visit_OutEventPort (const PICML::OutEventPort & port)
 {
-  PICML::Event event = port.ref ();
+  PICML::EventType et = port.ref ();
 
+  if (et == Udm::null || et.type () != PICML::Event::meta)
+    return;
+
+  PICML::Event ev = PICML::Event::Cast (et);
   std::string name     = port.name ();
-  std::string fq_type  = CUTS_BE_CPP::fq_type (event);
+  std::string fq_type  = CUTS_BE_CPP::fq_type (ev);
   std::string consumer = fq_type + "Consumer_ptr";
 
   if (port.single_destination ())
@@ -343,11 +347,15 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
 void Servant_Source_Impl_Generator::
 Visit_InEventPort (const PICML::InEventPort & port)
 {
-  PICML::Event event = port.ref ();
+  PICML::EventType et = port.ref ();
 
+  if (et == Udm::null || et.type () != PICML::Event::meta)
+    return;
+
+  PICML::Event ev = PICML::Event::Cast (et);
   std::string name     = port.name ();
-  std::string fq_type  = CUTS_BE_CPP::fq_type (event);
-  std::string obv_type = "::OBV_" + CUTS_BE_CPP::fq_type (event, "::", false);
+  std::string fq_type  = CUTS_BE_CPP::fq_type (ev);
+  std::string obv_type = "::OBV_" + CUTS_BE_CPP::fq_type (ev, "::", false);
   std::string consumer = fq_type + "Consumer_ptr";
 
   this->out_ << CUTS_BE_CPP::function_header ("get_consumer_" + name)
@@ -361,10 +369,10 @@ Visit_InEventPort (const PICML::InEventPort & port)
              << "tcpip_" << name
              << " (" << this->servant_ << " * svnt, CUTS_TCPIP_InputCDR & stream)"
              << "{"
-             << CUTS_BE_CPP::single_line_comment ("Extract the event from the stream.")
-             << "CUTS_CCM_Event_T < " << obv_type << " > event;"
+             << CUTS_BE_CPP::single_line_comment ("Extract the ev from the stream.")
+             << "CUTS_CCM_Event_T < " << obv_type << " > ev;"
              << std::endl
-             << "if (!(stream >> *event.in ()))"
+             << "if (!(stream >> *ev.in ()))"
              << "{"
              << "ACE_ERROR_RETURN ((LM_ERROR," << std::endl
              << "ACE_TEXT (\"%T (%t) - %M - failed to extract %s from stream\\n\")," << std::endl
@@ -373,7 +381,7 @@ Visit_InEventPort (const PICML::InEventPort & port)
              << "}"
              << CUTS_BE_CPP::single_line_comment ("Push the message to the implementation.")
              << "if (svnt->impl_)" << std::endl
-             << "  svnt->impl_->push_" << name << " (event.in ());"
+             << "  svnt->impl_->push_" << name << " (ev.in ());"
              << std::endl
              << "return 0;"
              << "}"

@@ -361,11 +361,11 @@ put_ComponentParameter (BSTR name, VARIANT newVal)
 int RawComponent::preprocess (IMgaProject * proj)
 {
   // Initialize the project's name.
-  GME::Project project (proj);
+  GAME::Project project (proj);
   CUTS_BE_OPTIONS ()->project_name_ = project.name ();
 
   // Initialize the output directory.
-  GME::Folder root = project.root_folder ();
+  GAME::Folder root = project.root_folder ();
   CUTS_BE_OPTIONS ()->output_directory_ = root.registry_value ("__OutputDir__/CUTS_CHAOS");
 
   return 0;
@@ -377,12 +377,11 @@ int RawComponent::preprocess (IMgaProject * proj)
 int RawComponent::postprocess (IMgaProject * proj)
 {
   // Get the root folder for the project.
-  GME::Project project (proj);
-  GME::Folder root = project.root_folder ();
+  GAME::Project project (proj);
+  GAME::Folder root = project.root_folder ();
 
   // Cache the output directory for future use.
-  root.registry_value ("__OutputDir__/CUTS_CHAOS",
-                       CUTS_BE_OPTIONS ()->output_directory_);
+  root.registry_value ("__OutputDir__/CUTS_CHAOS", CUTS_BE_OPTIONS ()->output_directory_);
 
   return 0;
 }

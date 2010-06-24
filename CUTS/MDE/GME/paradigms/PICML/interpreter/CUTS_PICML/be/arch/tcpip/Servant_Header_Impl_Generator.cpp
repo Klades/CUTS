@@ -69,7 +69,7 @@ Visit_Component (const PICML::Component & component)
              << "virtual ~" << this->servant_ << " (void);"
              << std::endl;
 
-  // Visit all the output event ports.
+  // Visit all the output ev ports.
   std::set <PICML::OutEventPort> outputs = component.OutEventPort_kind_children ();
 
   std::for_each (outputs.begin (),
@@ -78,7 +78,7 @@ Visit_Component (const PICML::Component & component)
                               _1,
                               boost::ref (*this)));
 
-  // Visit all the input event ports.
+  // Visit all the input ev ports.
   std::set <PICML::InEventPort> inputs = component.InEventPort_kind_children ();
 
   std::for_each (inputs.begin (),
@@ -123,10 +123,14 @@ Visit_Component (const PICML::Component & component)
 void Servant_Header_Impl_Generator::
 Visit_OutEventPort (const PICML::OutEventPort & port)
 {
-  PICML::Event event = port.ref ();
+  PICML::EventType et = port.ref ();
 
+  if (et == Udm::null || et.type () != PICML::Event::meta)
+    return;
+
+  PICML::Event ev = PICML::Event::Cast (et);
   std::string name     = port.name ();
-  std::string fq_type  = CUTS_BE_CPP::fq_type (event);
+  std::string fq_type  = CUTS_BE_CPP::fq_type (ev);
   std::string consumer = fq_type + "Consumer_ptr";
 
   if (port.single_destination ())
@@ -151,10 +155,14 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
 void Servant_Header_Impl_Generator::
 Visit_InEventPort (const PICML::InEventPort & port)
 {
-  PICML::Event event = port.ref ();
+  PICML::EventType et = port.ref ();
 
+  if (et == Udm::null || et.type () != PICML::Event::meta)
+    return;
+
+  PICML::Event ev = PICML::Event::Cast (et);
   std::string name     = port.name ();
-  std::string fq_type  = CUTS_BE_CPP::fq_type (event);
+  std::string fq_type  = CUTS_BE_CPP::fq_type (ev);
   std::string consumer = fq_type + "Consumer_ptr";
 
   this->out_ << "public:" << std::endl

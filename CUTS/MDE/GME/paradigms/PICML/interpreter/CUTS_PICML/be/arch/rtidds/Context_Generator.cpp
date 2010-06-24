@@ -92,13 +92,18 @@ Visit_Component (const PICML::Component & component)
 void Context_Generator::
 Visit_OutEventPort (const PICML::OutEventPort & port)
 {
+  PICML::EventType et = port.ref ();
+
+  if (et == Udm::null || et.type () != PICML::Event::meta)
+    return;
+
+  PICML::Event ev = PICML::Event::Cast (et);
   std::string name = port.name ();
-  PICML::Event event = port.ref ();
-  std::string fq_type = CUTS_BE_CPP::fq_type (event);
+  std::string fq_type = CUTS_BE_CPP::fq_type (ev);
 
   this->header_
     << "public:" << std::endl
-    << CUTS_BE_CPP::single_line_comment ("push method for output event port: " + name)
+    << CUTS_BE_CPP::single_line_comment ("push method for output ev port: " + name)
     << "virtual void push_" << name << " (" << fq_type << " * ev);"
     << std::endl;
 

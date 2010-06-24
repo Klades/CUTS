@@ -1,3 +1,31 @@
+Thu Jun 24 16:25:01 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/ComponentConfig.h:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/RawComponent.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/RawComponent.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/UdmApp.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Deployment_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Generators_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_IDL_Graph.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/capi/CAPI_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Stub_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Stub_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Stub_Header_Generator.cpp:
+        
+          Updated to latest version of PICML/GAME.
+
 Thu Jun 24 14:20:37 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/quotas/specification:
@@ -10,9 +38,9 @@ Thu Jun 24 14:20:37 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specificationd.reg:
         * MDE/GME/paradigms/PICML/interpreter/quotas/specification/stdafx.h:
         * MDE/GME/paradigms/PICML/interpreter/quotas/specification/stdafx.cpp:
-        
-          First implementation of the QUOTAS specification interpreter. Right 
-          now, the intepreter will transform the model such that all interfaces 
+
+          First implementation of the QUOTAS specification interpreter. Right
+          now, the intepreter will transform the model such that all interfaces
           are wrappped in a component for testing purposes.
 
 Thu Jun 24 14:18:26 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>

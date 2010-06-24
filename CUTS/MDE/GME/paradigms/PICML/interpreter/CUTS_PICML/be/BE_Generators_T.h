@@ -1290,31 +1290,6 @@ struct CUTS_BE_ComponentAssembly_Connections_Begin_T
     { return false; }
 };
 
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename CONTEXT>
-struct CUTS_BE_emit_T
-{
-  static bool generate (const PICML::emit & emit)
-    { return false; }
-};
-
-//=============================================================================
-/**
- *
- */
-//=============================================================================
-
-template <typename CONTEXT>
-struct CUTS_BE_PublishConnector_T
-{
-  static bool generate (const PICML::PublishConnector & connector)
-    { return false; }
-};
 
 //=============================================================================
 /**
