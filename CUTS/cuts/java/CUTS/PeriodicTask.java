@@ -51,6 +51,11 @@ public class PeriodicTask <T>
     if (this.strategy_ != null)
       this.strategy_.setHertz (h);
   }
+  
+  public long getHertz ()
+  {
+    return this.strategy_.getHertz ();
+  }
 
   /**
    * Get the strategy for the periodic task.

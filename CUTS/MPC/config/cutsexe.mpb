@@ -6,4 +6,8 @@ project : aceexe, cuts_base {
   specific (wix) {
     install_location = bin
   }
+  
+  specific (prop:windows) {
+    subsystem = 0
+  }
 }

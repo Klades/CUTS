@@ -52,6 +52,11 @@ public class ExponentialPeriodicTaskStrategy
   {
     this.hertz_ = (double) hertz;
   }
+  
+  public long getHertz ()
+  {
+    return (long)this.hertz_;
+  }
 
   /// The delay for the periodic task.
   private double hertz_;

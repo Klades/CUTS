@@ -1,11 +1,24 @@
+Thu Jun 24 14:14:53 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MPC/config/cutsexe.mpb:
+        
+          Set the default subsystem for Windows project types.
+
+        * cuts/java/CUTS/ConstantPeriodicTaskStrategy.java:
+        * cuts/java/CUTS/ExponentialPeriodicTaskStrategy.java:
+        * cuts/java/CUTS/PeriodicTask.java:
+        * cuts/java/CUTS/PeriodicTaskStrategy.java:
+        
+          Added get* methods to the task.
+
 Mon Jun 21 14:32:04 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * CUTS_Modeling.mwc:
-        
+
           . Added GAME to the build
 
         * MDE/GME/paradigms/PICML/PICML.mpc:
-        
+
           . Missing workspace.
 
 Mon May 17 06:46:04 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>

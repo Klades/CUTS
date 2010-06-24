@@ -49,6 +49,11 @@ public class ConstantPeriodicTaskStrategy
     this.delay_ = 1000 / h;
   }
 
+  public long getHertz ()
+  {
+    return 1000 / this.delay_;
+  }
+
   /// The delay for the periodic task.
   private long delay_;
 }

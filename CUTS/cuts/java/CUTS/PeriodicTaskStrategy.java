@@ -31,4 +31,6 @@ public interface PeriodicTaskStrategy
    * @param[in]         h         New hertz value
    */
   public void setHertz (long h);
+  
+  public long getHertz ();
 }
