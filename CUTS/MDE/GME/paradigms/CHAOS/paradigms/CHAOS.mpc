@@ -47,4 +47,8 @@ project (CUTS_CHAOS_paradigm_icons) {
       icons/*.gif
     }
   }
+  
+  Source_Files {
+  
+  }
 }

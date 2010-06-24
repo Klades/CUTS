@@ -1,3 +1,10 @@
+Thu Jun 24 19:29:30 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.mpc:
+        
+          Added a blank Source_Files scope to prevent unwanted source
+          files from being added to the solution.
+
 Thu Jun 24 19:11:57 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/plugins/cute/CUTE.idl:
@@ -14,7 +21,7 @@ Thu Jun 24 19:11:57 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
         * MDE/GME/plugins/cute/Property_Locator.h:
         * MDE/GME/plugins/cute/Property_Locator.cpp:
         * MDE/GME/plugins/cute/stdafx.h:
-        
+
           Updated to latest version of GAME.
 
         * MDE/GME/plugins/cute/ComponentConfig.h:
