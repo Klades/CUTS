@@ -1,7 +1,7 @@
 // $Id$
 
 project (CUTS_GME_Isislab_Emulation) : \
-  picmllib, boost_base, cuts_be, cuts_gme, gme_udm_component, cuts_cosmic {
+  picmllib, boost_base, cuts_be, cuts_gme, game_utils, gme_udm_component, cuts_cosmic {
 
   sharedname = CUTS_Isislab_Emulation
 

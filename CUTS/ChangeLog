@@ -1,3 +1,10 @@
+Thu Jun 24 16:38:52 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/RawComponent.cpp:
+
+          Updated to latest version of PICML/GAME.
+
 Thu Jun 24 16:25:01 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/CHAOS/interpreters/codegen/ComponentConfig.h:
@@ -23,7 +30,7 @@ Thu Jun 24 16:25:01 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Context_Generator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Impl_Generator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Stub_Header_Generator.cpp:
-        
+
           Updated to latest version of PICML/GAME.
 
 Thu Jun 24 14:20:37 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>

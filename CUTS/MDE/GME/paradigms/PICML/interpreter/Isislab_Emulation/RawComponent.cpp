@@ -95,63 +95,14 @@ STDMETHODIMP RawComponent::InvokeEx (IMgaProject *project,
 
       COMTHROW (ccpProject->CreateTerritory (NULL, &terr));
 
-    // Setting up Udm
-#ifdef _DYNAMIC_META
-
-#ifdef _DYNAMIC_META_DOM
-      // Loading the meta for the project
-      UdmDom::DomDataNetwork  ddnMeta(Uml::diagram);
-      Uml::Diagram theUmlDiagram;
-
-      // Opening the XML meta of the project
-      ddnMeta.OpenExisting (config.metaPath,
-                            "uml.xsd",
-                            Udm::CHANGES_LOST_DEFAULT);
-
-      // Casting the DataNetwork to diagram
-      theUmlDiagram = Uml::Diagram::Cast (ddnMeta.GetRootObject());
-
-      // Creating the UDM diagram
-      Udm::UdmDiagram udmDataDiagram;
-      udmDataDiagram.dgr = &theUmlDiagram;
-      udmDataDiagram.init = dummy;
-
-#elif defined _DYNAMIC_META_STATIC
-      // Loading the meta for the project
-      UdmStatic::StaticDataNetwork  dnsMeta(Uml::diagram);
-      Uml::Diagram theUmlDiagram;
-
-      // Opening the static meta of the project
-      dnsMeta.OpenExisting (config.metaPath,
-                            "",
-                            Udm::CHANGES_LOST_DEFAULT);
-
-      // Casting the DataNetwork to diagram
-      theUmlDiagram = Uml::Diagram::Cast (dnsMeta.GetRootObject ());
-
-      // Creating the UDM diagram
-      Udm::UdmDiagram udmDataDiagram;
-      udmDataDiagram.dgr = &theUmlDiagram;
-      udmDataDiagram.init = dummy;
-#else
-      ASSERT ((0,
-               "Nor _DYNAMIC_META_DOM either _DYNAMIC_META_STATIC ""
-               "defined for dynamic loading"));
-#endif
       // Loading the project
-      UdmGme::GmeDataNetwork dngBackend(udmDataDiagram);
-
-#else
       using namespace META_NAMESPACE;
+      UdmGme::GmeDataNetwork dngBackend (META_NAMESPACE::diagram);
 
-      // Loading the project
-      UdmGme::GmeDataNetwork dngBackend(META_NAMESPACE::diagram);
-
-#endif
       try
       {
         // Opening backend
-        dngBackend.OpenExisting(ccpProject);
+        dngBackend.OpenExisting (ccpProject, Udm::CHANGES_LOST_DEFAULT);
 
         CComPtr <IMgaFCO> ccpFocus(currentobj);
         Udm::Object currentObject;
@@ -175,98 +126,6 @@ STDMETHODIMP RawComponent::InvokeEx (IMgaProject *project,
         }
         MGACOLL_ITERATE_END;
 
-#ifdef _ACCESS_MEMORY
-        // Creating Cache
-#ifdef _DYNAMIC_META
-        UdmStatic::StaticDataNetwork dnsCacheBackend(udmDataDiagram);
-#else
-        UdmStatic::StaticDataNetwork dnsCacheBackend(META_NAMESPACE::diagram);
-#endif
-
-        const Uml::Class & safeType =
-          Uml::SafeTypeContainer::GetSafeType (
-          dngBackend.GetRootObject ().type ());
-
-        dnsCacheBackend.CreateNew("","",safeType, Udm::CHANGES_LOST_DEFAULT);
-
-        Udm::Object nullObject(&Udm::__null);
-        UdmUtil::copy_assoc_map copyAssocMap;
-        copyAssocMap[currentObject]=nullObject; // currentObject may be null object
-
-        for (set <Udm::Object>::iterator p_CurrSelObject = selectedObjects.begin ();
-            p_CurrSelObject != selectedObjects.end ();
-            p_CurrSelObject ++)
-        {
-          pair <Udm::Object const, Udm::Object> item (*p_CurrSelObject, nullObject);
-
-          pair <UdmUtil::copy_assoc_map::iterator,
-                bool> insRes = copyAssocMap.insert(item);
-
-          if (!insRes.second)
-          {
-            ASSERT(NULL);
-          }
-        }
-
-        // Copying from GME to memory
-        UdmUtil::CopyObjectHierarchy(dngBackend.GetRootObject().__impl(),
-                                    dnsCacheBackend.GetRootObject().__impl(),
-                                    &dnsCacheBackend,
-                                    copyAssocMap);
-
-        // Searching for focus object
-        Udm::Object currentObjectCache;
-        UdmUtil::copy_assoc_map::iterator currObject =
-          copyAssocMap.find(currentObject);
-
-        if (currObject != copyAssocMap.end ()) // It is in the map
-        {
-          currentObjectCache=currObject->second;
-        }
-
-        // Searching for selected objects
-        set<Udm::Object> selectedObjectsCache;
-
-        for (p_CurrSelObject=selectedObjects.begin ();
-             p_CurrSelObject!=selectedObjects.end ();
-             p_CurrSelObject ++)
-        {
-          Udm::Object object;
-
-          UdmUtil::copy_assoc_map::iterator currSelObjectIt =
-            copyAssocMap.find (*p_CurrSelObject);
-
-          if (currSelObjectIt != copyAssocMap.end ()) // It is in the map
-          {
-            object=currSelObjectIt->second;
-            selectedObjectsCache.insert(object);
-          }
-        }
-
-        // Closing GME backend
-        dngBackend.CloseNoUpdate();
-
-        // Calling the main entry point
-        // @@ We need to find some way to "strategize" this line of
-        // @@ code so we can create a library that links with the
-        // @@ various types of interpreters
-        CUdmApp::UdmMain (&dnsCacheBackend,
-                          currentObjectCache,
-                          selectedObjectsCache,
-                          param);
-
-
-        //=====================================================================
-        // @@ BEGIN POSTPROCESSING METHODS
-
-        this->postprocess (project);
-
-        // @@ END POSTPROCESSING METHODS
-        //=====================================================================
-
-        // Close cache backend
-        dnsCacheBackend.CloseNoUpdate();
-#else
         // Calling the main entry point
         CUdmApp::UdmMain (&dngBackend,
                           currentObject,
@@ -282,14 +141,10 @@ STDMETHODIMP RawComponent::InvokeEx (IMgaProject *project,
         //=====================================================================
 
         // Closing backend
-        dngBackend.CloseWithUpdate();
-#endif
+        dngBackend.CloseWithUpdate ();
       }
       catch(udm_exception &exc)
       {
-#ifdef _META_ACCESS_MEMORY
-        dnCacheBackend.CloseNoUpdate();
-#endif
         // Close GME Backend (we may close it twice, but GmeDataNetwork handles it)
         dngBackend.CloseNoUpdate ();
 
@@ -364,9 +219,11 @@ STDMETHODIMP RawComponent::put_ComponentParameter (BSTR name,
 //
 // preprocess
 //
-int RawComponent::preprocess (IMgaProject * project)
+int RawComponent::preprocess (IMgaProject * proj)
 {
-  GME::Utils::Project_Settings settings (project);
+  GAME::Project project (proj);
+  GAME::utils::Project_Settings settings (project);
+
   CUdmApp::output_path_ = settings.default_output_directory ("CUTS/ISISLab");
 
   return 0;
@@ -375,10 +232,11 @@ int RawComponent::preprocess (IMgaProject * project)
 //
 // postprocess
 //
-int RawComponent::postprocess (IMgaProject * project)
+int RawComponent::postprocess (IMgaProject * proj)
 {
-  GME::Utils::Project_Settings settings (project);
-  settings.default_output_directory ("CUTS/ISISLab", CUdmApp::output_path_);
+  GAME::Project project (proj);
+  GAME::utils::Project_Settings settings (project);
 
+  settings.default_output_directory ("CUTS/ISISLab", CUdmApp::output_path_);
   return 0;
 }
