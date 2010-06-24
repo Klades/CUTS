@@ -1,0 +1,36 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ * @file      Quotas_Specification.idl
+ *
+ * $Id$
+ *
+ * @author    James H. Hill
+ */
+//=============================================================================
+
+#ifndef _QUOTAS_SPECIFICATION_IDL_
+#define _QUOTAS_SPECIFICATION_IDL_
+
+#include <Gme.idl>
+
+[
+	uuid(2114C3F9-3CB5-4BF8-8EF7-97945A6FFEB4),
+	version(1.0),
+]
+library Quotas_Specification
+{
+	importlib("stdole32.tlb");
+
+	[uuid(FF1EF5B2-5C1C-4607-89D2-53DDA3970A1F)]
+	coclass Quotas_Specification
+	{
+		[default] interface IMgaComponentEx;
+		interface IMgaComponent;
+		interface IMgaVersionInfo;
+	};
+};
+
+#endif
+

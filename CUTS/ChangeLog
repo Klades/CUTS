@@ -1,3 +1,20 @@
+Thu Jun 24 14:20:37 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification.idl:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification_Impl.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification_Impl.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification_Module.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification_export.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specificationd.reg:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/stdafx.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/stdafx.cpp:
+        
+          First implementation of the QUOTAS specification interpreter. Right 
+          now, the intepreter will transform the model such that all interfaces 
+          are wrappped in a component for testing purposes.
+
 Thu Jun 24 14:18:26 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/quotas:
@@ -11,7 +28,7 @@ Thu Jun 24 14:18:26 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/quotas/javap/javap.mpc:
 
           First implementation of the Javap to PICML transformation engine.
-          
+
 Thu Jun 24 14:14:53 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MPC/config/cutsexe.mpb:

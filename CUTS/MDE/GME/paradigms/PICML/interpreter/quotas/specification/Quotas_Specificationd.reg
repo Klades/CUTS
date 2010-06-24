@@ -1,0 +1,29 @@
+REGEDIT4
+
+[HKEY_CURRENT_USER\Software\Classes]
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID]
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{FF1EF5B2-5C1C-4607-89D2-53DDA3970A1F}]
+@="Quotas.Interpreter.Specification"
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{FF1EF5B2-5C1C-4607-89D2-53DDA3970A1F}\ProgID]
+@="Quotas.Interpreter.Specification"
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{FF1EF5B2-5C1C-4607-89D2-53DDA3970A1F}\InProcServer32]
+@="Quotas_Specificationd.dll"
+
+[HKEY_CURRENT_USER\Software\Classes\Quotas.Interpreter.Specification]
+@="Quotas.Interpreter.Specification"
+
+[HKEY_CURRENT_USER\Software\Classes\Quotas.Interpreter.Specification\CLSID]
+@="{FF1EF5B2-5C1C-4607-89D2-53DDA3970A1F}"
+
+[HKEY_CURRENT_USER\Software\GME\Components\Quotas.Interpreter.Specification]
+"Tooltip"="Quotas specification generator"
+"Paradigm"="PICML"
+"Type"=dword:00000001
+"Description"="Quotas specification generator"
+
+[HKEY_CURRENT_USER\Software\GME\Components\Quotas.Interpreter.Specification\Associated]
+"PICML"=""
