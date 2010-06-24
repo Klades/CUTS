@@ -1,14 +1,28 @@
+Thu Jun 24 14:18:26 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/quotas:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Javap_Output_Parser.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Javap_Output_Parser.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Quotas_Javap_Importer.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Quotas_Javap_Importer.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Quotas_Javap_Importer_App.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Quotas_Javap_Importer_App.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/javap.mpc:
+
+          First implementation of the Javap to PICML transformation engine.
+          
 Thu Jun 24 14:14:53 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MPC/config/cutsexe.mpb:
-        
+
           Set the default subsystem for Windows project types.
 
         * cuts/java/CUTS/ConstantPeriodicTaskStrategy.java:
         * cuts/java/CUTS/ExponentialPeriodicTaskStrategy.java:
         * cuts/java/CUTS/PeriodicTask.java:
         * cuts/java/CUTS/PeriodicTaskStrategy.java:
-        
+
           Added get* methods to the task.
 
 Mon Jun 21 14:32:04 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>

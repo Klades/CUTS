@@ -1,0 +1,11 @@
+// $Id$
+
+project (Quotas_Javap_Output_Importer) : game_xme, boost_base, cutsexe {
+  exename = quotas-javap
+  
+  Source_Files {
+    Javap_Output_Parser.cpp  
+    Quotas_Javap_Importer.cpp
+    Quotas_Javap_Importer_App.cpp
+  }
+}
