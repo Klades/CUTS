@@ -48,7 +48,7 @@ class CUTS_CUTE_Replace_Model_Name_Action :
   public CUTS_CUTE_Model_Interpreter_Action
 {
 public:
-  CUTS_CUTE_Replace_Model_Name_Action (const GME::Object & object);
+  CUTS_CUTE_Replace_Model_Name_Action (const GAME::Object & object);
 
   virtual ~CUTS_CUTE_Replace_Model_Name_Action (void);
 
@@ -58,7 +58,7 @@ public:
 
 private:
   /// Target object to replace name.
-  GME::Object object_;
+  GAME::Object object_;
 
   /// The old value of the name.
   ACE_CString old_value_;
@@ -74,7 +74,7 @@ public:
   /**
    * Initializing constructors.
    */
-  CUTS_CUTE_Replace_Model_Attribute_Action (const GME::Attribute & attr);
+  CUTS_CUTE_Replace_Model_Attribute_Action (const GAME::Attribute & attr);
 
   virtual ~CUTS_CUTE_Replace_Model_Attribute_Action (void);
 
@@ -83,7 +83,7 @@ public:
   virtual void reset (void);
 
 private:
-  GME::Attribute attr_;
+  GAME::Attribute attr_;
 
   /// The old value of the attribute.
   ACE_CString old_value_;

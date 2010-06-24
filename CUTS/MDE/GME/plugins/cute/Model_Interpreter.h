@@ -30,9 +30,9 @@ public:
    */
   CUTS_CUTE_Model_Interpreter (CUTS_CUTE_Model_Interpreter_Action_List & actlist,
                                CUTS_Property_Map & params,
-                               GME::Project & project,
-                               GME::FCO & target,
-                               std::vector <GME::FCO> & selected,
+                               GAME::Project & project,
+                               GAME::FCO & target,
+                               std::vector <GAME::FCO> & selected,
                                long flags);
 
   /// Destructor.
@@ -49,12 +49,12 @@ private:
 
   CUTS_Property_Map & params_;
 
-  /// Target GME project to interpret.
-  GME::Project & project_;
+  /// Target GAME project to interpret.
+  GAME::Project & project_;
 
-  GME::FCO & target_;
+  GAME::FCO & target_;
 
-  std::vector <GME::FCO> & selected_;
+  std::vector <GAME::FCO> & selected_;
 
   long flags_;
 

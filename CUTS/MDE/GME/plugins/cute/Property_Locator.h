@@ -22,7 +22,7 @@
 /**
  * @class CUTS_CUTE_Property_Locator
  */
-class CUTS_CUTE_Property_Locator : public GME::Visitor
+class CUTS_CUTE_Property_Locator : public GAME::Visitor
 {
 public:
 
@@ -32,14 +32,14 @@ public:
   /// Destructor.
   virtual ~CUTS_CUTE_Property_Locator (void);
 
-  virtual void visit_Folder (GME::Folder & folder);
+  virtual void visit_Folder (GAME::Folder & folder);
 
-  virtual void visit_Model (GME::Model & model);
+  virtual void visit_Model (GAME::Model & model);
 
-  virtual void visit_FCO (GME::FCO & fco);
+  virtual void visit_FCO (GAME::FCO & fco);
 
 private:
-  void visit_Attribute (GME::Attribute & attr);
+  void visit_Attribute (GAME::Attribute & attr);
 
   /// Map that holds located items.
   CUTS_CUTE_Model_Interpreter_Action_List & actions_;

@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- * @file        RawComponent.h
+ * @file        CUTE_Impl.h
  *
  * $Id$
  *
@@ -10,11 +10,9 @@
  */
 //=============================================================================
 
-#ifndef RAWCOMPONENT_H
-#define RAWCOMPONENT_H
+#ifndef _CUTE_PLUGIN_IMPL_H_
+#define _CUTE_PLUGIN_IMPL_H_
 
-#include "ComponentLib.h"
-#include "game/be/Plugin_T.h"
 #include "game/be/Plugin_Impl.h"
 #include "ace/SString.h"
 #include "ace/Unbounded_Set.h"
@@ -29,7 +27,7 @@ class CUTS_Property_Map;
  * Implementation of the CUTE plugin.
  */
 class CUTS_CUTE :
-  public GME::Plugin_Impl
+  public GAME::Plugin_Impl
 {
 public:
   /// Default constructor.
@@ -41,16 +39,13 @@ public:
   /**
    * Handle the InvokeEx method.
    */
-  int invoke_ex (GME::Project & project,
-                 GME::FCO & fco,
-                 std::vector <GME::FCO> & selected,
+  int invoke_ex (GAME::Project & project,
+                 GAME::FCO & fco,
+                 std::vector <GAME::FCO> & selected,
                  long flags);
 
 private:
-  void get_interpreters (const char * paradigm,
-                         CUTS_CUTE_Interpreter_List & list);
+  void get_interpreters (const char * paradigm, CUTS_CUTE_Interpreter_List & list);
 };
 
-GME_RAWCOMPONENT_DECL (GME::Plugin_T, CUTS_CUTE);
-
-#endif  // !defined RAWCOMPONENT_H
+#endif  // !defined _CUTE_PLUGIN_IMPL_H_

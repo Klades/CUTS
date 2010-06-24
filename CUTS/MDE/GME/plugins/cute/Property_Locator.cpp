@@ -31,7 +31,7 @@ CUTS_CUTE_Property_Locator (CUTS_CUTE_Model_Interpreter_Action_List & actions)
 //
 // visit_Folder
 //
-void CUTS_CUTE_Property_Locator::visit_Folder (GME::Folder & folder)
+void CUTS_CUTE_Property_Locator::visit_Folder (GAME::Folder & folder)
 {
   // Test the name of this folder for template parameters.
   // Reset the list for storing the properties.
@@ -52,7 +52,7 @@ void CUTS_CUTE_Property_Locator::visit_Folder (GME::Folder & folder)
   }
 
   // Now, visit all the folders in this folder.
-  typedef std::vector <GME::Folder> folder_set;
+  typedef std::vector <GAME::Folder> folder_set;
   folder_set folders;
 
   folder.children (folders);
@@ -64,7 +64,7 @@ void CUTS_CUTE_Property_Locator::visit_Folder (GME::Folder & folder)
                               boost::ref (*this)));
 
   // Then, visit all the FCOs in the folder.
-  typedef std::vector <GME::FCO> fco_set;
+  typedef std::vector <GAME::FCO> fco_set;
   fco_set fcos;
 
   folder.children (fcos);
@@ -79,7 +79,7 @@ void CUTS_CUTE_Property_Locator::visit_Folder (GME::Folder & folder)
 //
 // visit_FCO
 //
-void CUTS_CUTE_Property_Locator::visit_FCO (GME::FCO & fco)
+void CUTS_CUTE_Property_Locator::visit_FCO (GAME::FCO & fco)
 {
   // Test the name of this FCO for template parameters.
   // Reset the list for storing the properties.
@@ -100,7 +100,7 @@ void CUTS_CUTE_Property_Locator::visit_FCO (GME::FCO & fco)
   }
 
   // Visit all the attributes in the FCO.
-  typedef std::vector <GME::Attribute> attribute_set;
+  typedef std::vector <GAME::Attribute> attribute_set;
   attribute_set attributes;
 
   fco.attributes (attributes);
@@ -114,7 +114,7 @@ void CUTS_CUTE_Property_Locator::visit_FCO (GME::FCO & fco)
   // If the FCO is a model, we need to visit it as well.
   if (fco.type () == OBJTYPE_MODEL)
   {
-    GME::Model model = GME::Model::_narrow (fco);
+    GAME::Model model = GAME::Model::_narrow (fco);
     model.accept (*this);
   }
 }
@@ -122,9 +122,9 @@ void CUTS_CUTE_Property_Locator::visit_FCO (GME::FCO & fco)
 //
 // visit_Model
 //
-void CUTS_CUTE_Property_Locator::visit_Model (GME::Model & model)
+void CUTS_CUTE_Property_Locator::visit_Model (GAME::Model & model)
 {
-  typedef std::vector <GME::FCO> collection_type;
+  typedef std::vector <GAME::FCO> collection_type;
   collection_type fcos;
 
   model.children (fcos);
@@ -139,7 +139,7 @@ void CUTS_CUTE_Property_Locator::visit_Model (GME::Model & model)
 //
 // visit_Attribute
 //
-void CUTS_CUTE_Property_Locator::visit_Attribute (GME::Attribute & attr)
+void CUTS_CUTE_Property_Locator::visit_Attribute (GAME::Attribute & attr)
 {
   // Determine if attribute string has a template parameter. Right now,
   // we can only handle string value types.

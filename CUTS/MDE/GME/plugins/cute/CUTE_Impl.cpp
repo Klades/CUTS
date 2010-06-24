@@ -1,15 +1,18 @@
 // $Id$
 
 #include "stdafx.h"
-#include "RawComponent.h"
+#include "CUTE_Impl.h"
+
+#include "CUTE.h"
+#include "CUTE_i.c"
+#include "game/be/Plugin_T.h"
+
 #include "CUTE_Dialog.h"
-#include "ComponentConfig.h"
 #include "Model_Interpreter.h"
 #include "Model_Interpreter_Action_List.h"
 #include "Property_Locator.h"
 #include "Windows_Registry.h"
 
-#include "game/be/ComponentDLL.h"
 #include "cuts/utils/Config_List_Parser_T.h"
 
 #include "ace/Arg_Shifter.h"
@@ -17,7 +20,7 @@
 
 #include <sstream>
 
-GME_RAWCOMPONENT_IMPL (CUTE, COMPONENT_NAME);
+DECLARE_GAME_PLUGIN (CUTE_Plugin, CUTS_CUTE);
 
 //
 // operator <<= (CUTS_Property_Map & , const CString & )
@@ -58,7 +61,7 @@ bool operator <<= (CUTS_Property_Map & map, const CString & params)
 // CUTS_CUTE
 //
 CUTS_CUTE::CUTS_CUTE (void)
-: GME::Plugin_Impl ("CUTS Template Engine", COCLASS_PROGID, false)
+: GAME::Plugin_Impl ("CUTS Template Engine", "CUTS.Plugin.CUTE", false)
 {
 
 }
@@ -74,9 +77,9 @@ CUTS_CUTE::~CUTS_CUTE (void)
 //
 // invoke_ex
 //
-int CUTS_CUTE::invoke_ex (GME::Project & project,
-                          GME::FCO & target,
-                          std::vector <GME::FCO> & selected,
+int CUTS_CUTE::invoke_ex (GAME::Project & project,
+                          GAME::FCO & target,
+                          std::vector <GAME::FCO> & selected,
                           long flags)
 {
   try
@@ -131,7 +134,7 @@ int CUTS_CUTE::invoke_ex (GME::Project & project,
     ::AfxMessageBox ("Successfully applied template configurations");
     return 0;
   }
-  catch (const GME::Failed_Result & ex)
+  catch (const GAME::Failed_Result & ex)
   {
     std::ostringstream ostr;
     ostr << "failed result: [0x" << std::hex
@@ -139,7 +142,7 @@ int CUTS_CUTE::invoke_ex (GME::Project & project,
 
     ::AfxMessageBox (ostr.str ().c_str ());
   }
-  catch (const GME::Exception & )
+  catch (const GAME::Exception & )
   {
   }
 
@@ -152,10 +155,10 @@ int CUTS_CUTE::invoke_ex (GME::Project & project,
 void CUTS_CUTE::
 get_interpreters (const char * paradigm_name, CUTS_CUTE_Interpreter_List & list)
 {
-  // Open the GME component section in the registry.
+  // Open the GAME component section in the registry.
   CUTS_Windows_Registry_Key components;
 
-  if (0 != components.open (HKEY_CURRENT_USER, "Software\\GME\\Components"))
+  if (0 != components.open (HKEY_CURRENT_USER, "Software\\GAME\\Components"))
     return;
 
   char description[255];

@@ -1,17 +1,18 @@
 // $Id$
 
-project (CUTS_CUTE) : boost_base, cuts_utils, cuts_gme, game_component, register, cutslib {
+project (CUTS_CUTE) : boost_base, cuts_utils, cuts_gme, game_component, cutslib {
   sharedname = CUTS_CUTE
 
   pch_header = stdafx.h
   pch_source = stdafx.cpp
 
-  specific {
-    midl_notlb = 1
-  }
-
   Source_Files {
+    CUTE.idl
+    
+    CUTE_Impl.cpp
+    CUTE_Module.cpp
     CUTE_Dialog.cpp
+    
     Model_Interpreter.cpp
     Model_Interpreter_Action.cpp
     Model_Interpreter_Action_List.cpp
