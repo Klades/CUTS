@@ -1,7 +1,56 @@
+Tue Jun 29 16:03:43 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS_Modeling.mwc:
+        
+          Fixed bugs in exclude {} specification.
+          
+        * MDE/GME/T2M/executor/Executor_App.h:
+        * MDE/GME/T2M/executor/Executor_App.cpp:
+        * MDE/GME/T2M/parsers/PICML_Assembly/PICML_Assembly_Parser.h:
+        * MDE/GME/T2M/parsers/PICML_Assembly/PICML_Assembly_Parser.cpp:
+        * MDE/GME/T2M/parsers/PICML_Deployment/PICML_Deployment_Parser.h:
+        * MDE/GME/T2M/parsers/PICML_Deployment/PICML_Deployment_Parser.cpp:
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Scatter_Deployment_Parser.h:
+        * MDE/GME/T2M/parsers/Scatter_Deployment/Scatter_Deployment_Parser.cpp:
+        * MDE/GME/T2M/parsers/T2M_Parser.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_GME_UNITE.mpc:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE.idl:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE_Impl.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE_Impl.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE_Module.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UdmApp.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UniteVisitor.cpp:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS_DSML.mpc:
+        
+          Updated to latest version of GAME.
+
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification_Impl.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification_Impl.cpp:
+        
+          Checkpoint for the QUOTAS specification interpreter.
+
+        * MPC/config/cuts_dsml.mpb:
+        
+          Added an includes assigment.
+
+        * MDE/GME/paradigms/PICML/examples/LoggingClient.xme:
+        * MDE/GME/paradigms/PICML/models/CAPI.xme:
+        * MDE/GME/paradigms/PICML/models/XMLSchema.xme:
+        
+          Updated to latest version of PICML.
+
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/Component.def:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/ComponentConfig.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/RawComponent.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/RawComponent.cpp:
+
+          Removed these files.
+
 Thu Jun 24 19:29:30 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.mpc:
-        
+
           Added a blank Source_Files scope to prevent unwanted source
           files from being added to the solution.
 

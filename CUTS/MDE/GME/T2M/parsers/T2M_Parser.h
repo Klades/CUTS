@@ -17,7 +17,7 @@
 #include "cuts/config.h"
 #include <string>
 
-namespace GME
+namespace GAME
 {
   // Forward decl.
   class Object;
@@ -26,7 +26,7 @@ namespace GME
 /**
  * @class GME_T2M_Parser
  *
- * Base class for all Text-2-Model parsers for GME.
+ * Base class for all Text-2-Model parsers for GAME.
  */
 class GME_T2M_PARSER_Export GME_T2M_Parser
 {
@@ -42,7 +42,7 @@ public:
    * @param[in]         project             Target project
    */
   virtual bool parse (const std::string & filename,
-                      GME::Object & parent) = 0;
+                      GAME::Object & parent) = 0;
 
   /// Destroy the parser.
   virtual void destroy (void);

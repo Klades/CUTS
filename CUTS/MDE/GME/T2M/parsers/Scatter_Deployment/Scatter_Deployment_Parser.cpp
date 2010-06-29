@@ -2,7 +2,7 @@
 
 #include "stdafx.h"
 #include "Scatter_Deployment_Parser.h"
-#include "game/GME.h"
+#include "game/GAME.h"
 #include "boost/bind.hpp"
 #include "boost/spirit/core.hpp"
 #include "boost/spirit/utility/confix.hpp"
@@ -28,7 +28,7 @@ namespace actor
  */
 struct find_instance
 {
-  find_instance (const GME::Model & assembly, GME::FCO & instance)
+  find_instance (const GAME::Model & assembly, GAME::FCO & instance)
     : assembly_ (assembly),
       instance_ (instance)
   {
@@ -41,18 +41,18 @@ struct find_instance
     // Get the name of the instance.
     std::string name (first, last);
 
-    GME::Object obj = this->assembly_.find_object_by_path (name);
+    GAME::Object obj = this->assembly_.find_object_by_path (name);
 
     if (obj)
-      this->instance_ = GME::FCO::_narrow (obj);
+      this->instance_ = GAME::FCO::_narrow (obj);
     else
       this->instance_.release ();
   }
 
 private:
-  const GME::Model & assembly_;
+  const GAME::Model & assembly_;
 
-  GME::FCO & instance_;
+  GAME::FCO & instance_;
 };
 
 /**
@@ -64,9 +64,9 @@ private:
  */
 struct deploy_instance
 {
-  deploy_instance (GME::Model & deployment,
-                   const std::map <std::string, GME::Set> & groups,
-                   const GME::FCO & instance)
+  deploy_instance (GAME::Model & deployment,
+                   const std::map <std::string, GAME::Set> & groups,
+                   const GAME::FCO & instance)
     : deployment_ (deployment),
       groups_ (groups),
       instance_ (instance)
@@ -79,16 +79,16 @@ struct deploy_instance
   {
     if (!this->instance_.is_nil ())
     {
-      GME::Reference ref;
+      GAME::Reference ref;
       std::string metaname = this->instance_.meta ().name ();
 
       if (metaname == "Component")
       {
-        ref = GME::Reference::_create (this->deployment_, "ComponentRef");
+        ref = GAME::Reference::_create (this->deployment_, "ComponentRef");
       }
       else if (metaname == "ComponentAssembly")
       {
-        ref = GME::Reference::_create (this->deployment_, "ComponentAssemblyReference");
+        ref = GAME::Reference::_create (this->deployment_, "ComponentAssemblyReference");
       }
 
       if (ref)
@@ -106,7 +106,7 @@ struct deploy_instance
         // Insert the component into the collocation group.
         if (iter != this->groups_.end ())
         {
-          GME::Set group = iter->second;
+          GAME::Set group = iter->second;
           group.insert (ref);
         }
       }
@@ -114,13 +114,13 @@ struct deploy_instance
   }
 
 private:
-  GME::Model & deployment_;
+  GAME::Model & deployment_;
 
-  typedef std::map <std::string, GME::Set> groups_type;
+  typedef std::map <std::string, GAME::Set> groups_type;
 
   const groups_type & groups_;
 
-  const GME::FCO & instance_;
+  const GAME::FCO & instance_;
 };
 
 /**
@@ -129,7 +129,7 @@ private:
 class new_node
 {
 public:
-  new_node (GME::Model & domain, std::map <std::string, GME::Model> & nodes)
+  new_node (GAME::Model & domain, std::map <std::string, GAME::Model> & nodes)
     : domain_ (domain),
       nodes_ (nodes)
   {
@@ -143,7 +143,7 @@ public:
     std::string name (begin, end);
     normalize (name);
 
-    GME::Object obj;
+    GAME::Object obj;
 
     if (this->domain_)
     {
@@ -151,27 +151,27 @@ public:
 
       if (!obj)
       {
-        obj = GME::Model::_create (this->domain_, "Node");
+        obj = GAME::Model::_create (this->domain_, "Node");
         obj.name (name);
       }
     }
     else
     {
-      GME::Project project = this->domain_.project ();
+      GAME::Project project = this->domain_.project ();
       obj = project.object_by_path (name);
     }
 
     if (obj)
     {
-      GME::Model node = GME::Model::_narrow (obj);
+      GAME::Model node = GAME::Model::_narrow (obj);
       this->nodes_.insert (std::make_pair (name, node));
     }
   }
 
 private:
-  GME::Model & domain_;
+  GAME::Model & domain_;
 
-  std::map <std::string, GME::Model> & nodes_;
+  std::map <std::string, GAME::Model> & nodes_;
 };
 
 } // namespace actor
@@ -189,22 +189,22 @@ struct CUTS_Scatter_Domain_Parser :
    * @param[in]       deployment_folder     Target deployment folder.
    * @param[in]       options               Application options.
    */
-  CUTS_Scatter_Domain_Parser (GME::Model & domain,
-                              std::map <std::string, GME::Model> & nodes)
+  CUTS_Scatter_Domain_Parser (GAME::Model & domain,
+                              std::map <std::string, GAME::Model> & nodes)
     : domain_ (domain),
       nodes_ (nodes)
   {
     if (domain)
     {
       // Get all the elements in the domain.
-      std::vector <GME::Model> temp;
+      std::vector <GAME::Model> temp;
       domain.children ("Node", temp);
 
       // Let's make our life easy right now and delete all nodes in
       // the domain. This way, we are starting from scratch each time.
       std::for_each (temp.begin (),
                      temp.end (),
-                     boost::bind (&GME::Object::destroy, _1));
+                     boost::bind (&GAME::Object::destroy, _1));
     }
   }
 
@@ -268,11 +268,11 @@ struct CUTS_Scatter_Domain_Parser :
     const definition & operator = (const definition &);
   };
 
-  /// The target GME project.
-  GME::Model & domain_;
+  /// The target GAME project.
+  GAME::Model & domain_;
 
   /// Collection of nodes in the domain.
-  std::map <std::string, GME::Model> & nodes_;
+  std::map <std::string, GAME::Model> & nodes_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -288,9 +288,9 @@ struct CUTS_Scatter_To_Picml_Parser :
    * @param[in]       deployment_folder     Target deployment folder.
    * @param[in]       options               Application options.
    */
-  CUTS_Scatter_To_Picml_Parser (GME::Model & deployment,
-                                const GME::Model & assembly,
-                                const std::map <std::string, GME::Set> & groups)
+  CUTS_Scatter_To_Picml_Parser (GAME::Model & deployment,
+                                const GAME::Model & assembly,
+                                const std::map <std::string, GAME::Set> & groups)
     : deployment_ (deployment),
       assembly_ (assembly),
       groups_ (groups)
@@ -339,7 +339,7 @@ struct CUTS_Scatter_To_Picml_Parser :
 
   private:
     /// @{
-    GME::FCO instance_;
+    GAME::FCO instance_;
     /// @}
 
     /// @{
@@ -362,11 +362,11 @@ struct CUTS_Scatter_To_Picml_Parser :
   };
 
 private:
-  GME::Model & deployment_;
+  GAME::Model & deployment_;
 
-  const GME::Model & assembly_;
+  const GAME::Model & assembly_;
 
-  const std::map <std::string, GME::Set> & groups_;
+  const std::map <std::string, GAME::Set> & groups_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -392,18 +392,18 @@ Scatter_Deployment_Parser::~Scatter_Deployment_Parser (void)
 // parse
 //
 bool Scatter_Deployment_Parser::
-parse (const std::string & filename, GME::Object & parent)
+parse (const std::string & filename, GAME::Object & parent)
 {
-  return this->parse (filename, parent, GME::Model (), GME::Model ());
+  return this->parse (filename, parent, GAME::Model (), GAME::Model ());
 }
 
 //
 // parse
 //
 bool Scatter_Deployment_Parser::parse (const std::string & filename,
-                                       GME::Object & parent,
-                                       const GME::Model & assembly,
-                                       GME::Model & domain)
+                                       GAME::Object & parent,
+                                       const GAME::Model & assembly,
+                                       GAME::Model & domain)
 {
   typedef char char_t;
   typedef boost::spirit::file_iterator <char_t> iterator_t;
@@ -421,7 +421,7 @@ bool Scatter_Deployment_Parser::parse (const std::string & filename,
 
   // Preprocess the deployment. This will ensure we have the correct
   // node in our domain for the deployment.
-  std::map <std::string, GME::Model> nodes;
+  std::map <std::string, GAME::Model> nodes;
   CUTS_Scatter_Domain_Parser domain_parser (domain, nodes);
 
   result = boost::spirit::parse (first,
@@ -430,13 +430,13 @@ bool Scatter_Deployment_Parser::parse (const std::string & filename,
                                  boost::spirit::space_p);
 
   // Extract the the deployment model.
-  GME::Model deployment = GME::Model::_narrow (parent);
+  GAME::Model deployment = GAME::Model::_narrow (parent);
 
   // Clear the deployment model.
   this->clear_deployment (deployment);
 
   // Install the node in the deployment.
-  std::map <std::string, GME::Set> groups;
+  std::map <std::string, GAME::Set> groups;
   this->insert_nodes_in_deployment (deployment, nodes, groups);
 
   // Process the deployment. This will install the components in
@@ -455,55 +455,55 @@ bool Scatter_Deployment_Parser::parse (const std::string & filename,
 // clear_deployment
 //
 void Scatter_Deployment_Parser::
-clear_deployment (GME::Model & deployment)
+clear_deployment (GAME::Model & deployment)
 {
   // Delete all the component references.
-  std::vector <GME::Reference> refs;
+  std::vector <GAME::Reference> refs;
   deployment.children ("ComponentRef", refs);
 
   std::for_each (refs.begin (),
                  refs.end (),
-                 boost::bind (&GME::Reference::destroy, _1));
+                 boost::bind (&GAME::Reference::destroy, _1));
 
   deployment.children ("ComponentAssemblyReference", refs);
 
   std::for_each (refs.begin (),
                  refs.end (),
-                 boost::bind (&GME::Reference::destroy, _1));
+                 boost::bind (&GAME::Reference::destroy, _1));
 
   // Delete all the collocation groups.
-  std::vector <GME::Set> groups;
+  std::vector <GAME::Set> groups;
   deployment.children ("CollocationGroup", groups);
 
   std::for_each (groups.begin (),
                  groups.end (),
-                 boost::bind (&GME::Set::destroy, _1));
+                 boost::bind (&GAME::Set::destroy, _1));
 
   // Delete all the node references.
   deployment.children ("NodeReference", refs);
 
   std::for_each (refs.begin (),
                  refs.end (),
-                 boost::bind (&GME::Reference::destroy, _1));
+                 boost::bind (&GAME::Reference::destroy, _1));
 }
 
 //
 // insert_nodes_in_deployment
 //
 void Scatter_Deployment_Parser::
-insert_nodes_in_deployment (GME::Model & deployment,
-                            const std::map <std::string, GME::Model> & nodes,
-                            std::map <std::string, GME::Set> & groups)
+insert_nodes_in_deployment (GAME::Model & deployment,
+                            const std::map <std::string, GAME::Model> & nodes,
+                            std::map <std::string, GAME::Set> & groups)
 {
-  typedef std::map <std::string, GME::Model> nodemap_type;
+  typedef std::map <std::string, GAME::Model> nodemap_type;
   nodemap_type::const_iterator iter = nodes.begin ();
   nodemap_type::const_iterator iter_end = nodes.end ();
 
   for ( ; iter != iter_end; ++ iter)
   {
     // Create a new node reference.
-    GME::Reference noderef =
-      GME::Reference::_create (deployment, "NodeReference");
+    GAME::Reference noderef =
+      GAME::Reference::_create (deployment, "NodeReference");
 
     // Initialize the node reference.
     noderef.name (iter->first);
@@ -513,16 +513,16 @@ insert_nodes_in_deployment (GME::Model & deployment,
     // to execute their event handlers.
     noderef.project ().begin_transaction (true);
 
-    GME::ConnectionPoints points;
+    GAME::ConnectionPoints points;
 
     if (noderef.in_connection_points (points))
     {
       // Get the destination point for this connection.
-      GME::Connection conn = points.begin ()->item ().owner ();
-      GME::ConnectionPoint dst = conn[std::string ("src")];
+      GAME::Connection conn = points.begin ()->item ().owner ();
+      GAME::ConnectionPoint dst = conn[std::string ("src")];
 
       // Save the collocation group.
-      GME::Set group = GME::Set::_narrow (dst.target ());
+      GAME::Set group = GAME::Set::_narrow (dst.target ());
       groups.insert (std::make_pair (iter->first, group));
     }
   }

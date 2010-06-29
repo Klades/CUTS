@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{2A2FD20D-1B53-4811-ACD7-7110C31C5E3E}" cdate="Sun May 16 18:32:03 2010" mdate="Sun May 16 18:32:03 2010" version="" metaguid="{94FCA7F1-9017-4BFD-B557-F738FC54B103}" metaversion="" metaname="PICML">
+<project guid="{2A2FD20D-1B53-4811-ACD7-7110C31C5E3E}" cdate="Thu Jun 24 13:51:41 2010" mdate="Thu Jun 24 13:51:41 2010" version="" metaguid="{282EC294-E89F-440D-B326-7E49DCD97D3F}" metaversion="" metaname="PICML">
 	<name>LoggingClient</name>
 	<comment></comment>
 	<author></author>
@@ -11,10 +11,16 @@
 			<name>InterfaceDefinitions</name>
 			<model id="id-0065-00000001" kind="File" guid="{d00aad4e-1791-4305-b980-30f35e704caa}" relid="0x1" childrelidcntr="0x1">
 				<name>SimpleExample</name>
-				<attribute kind="PrefixTag" status="meta">
+				<attribute kind="Path" status="meta">
 					<value></value>
 				</attribute>
-				<attribute kind="path" status="meta">
+				<attribute kind="PostPreprocessorDirectives" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="PrePreprocessorDirectives" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="PrefixTag" status="meta">
 					<value></value>
 				</attribute>
 				<model id="id-0065-00000002" kind="Package" role="Package" guid="{75582628-ee8e-4943-99ed-8e463000a78d}" relid="0x1" childrelidcntr="0x5">
@@ -28,6 +34,12 @@
 							</regnode>
 						</regnode>
 					</regnode>
+					<attribute kind="PostPreprocessorDirectives" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="PrePreprocessorDirectives" status="meta">
+						<value></value>
+					</attribute>
 					<attribute kind="PrefixTag" status="meta">
 						<value></value>
 					</attribute>
@@ -117,6 +129,12 @@ send the message to the logging server.</value>
 								</regnode>
 							</regnode>
 						</regnode>
+						<attribute kind="PostPreprocessorDirectives" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PrePreprocessorDirectives" status="meta">
+							<value></value>
+						</attribute>
 						<attribute kind="SpecifyIdTag" status="meta">
 							<value></value>
 						</attribute>
@@ -425,6 +443,12 @@ this.logger_.connect (this.loggingClient_, testUuid);</value>
 								</regnode>
 							</regnode>
 						</regnode>
+						<attribute kind="PostPreprocessorDirectives" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PrePreprocessorDirectives" status="meta">
+							<value></value>
+						</attribute>
 						<attribute kind="SpecifyIdTag" status="meta">
 							<value></value>
 						</attribute>
@@ -443,6 +467,12 @@ this.logger_.connect (this.loggingClient_, testUuid);</value>
 								</regnode>
 							</regnode>
 						</regnode>
+						<attribute kind="PostPreprocessorDirectives" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="PrePreprocessorDirectives" status="meta">
+							<value></value>
+						</attribute>
 						<attribute kind="PrefixTag" status="meta">
 							<value></value>
 						</attribute>

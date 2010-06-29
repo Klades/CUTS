@@ -15,11 +15,11 @@
 #include "ace/streams.h"
 #include "game/XML.h"
 #include "game/ComponentEx.h"
-#include "game/GME.h"
+#include "game/GAME.h"
 #include <sstream>
 
 static const char * __HELP__ =
-"GME's text-2-model executor application\n"
+"GAME's text-2-model executor application\n"
 "\n"
 "USAGE: gmet2m-exec [OPTIONS]\n"
 "\n"
@@ -29,7 +29,7 @@ static const char * __HELP__ =
 "  --target=PATH                   use element at PATH as parent\n"
 "  --parser=LIBRARY                load text-2-model parser in LIBRARY\n"
 "\n"
-"  --disable-addons                disable GME auto add-ons\n"
+"  --disable-addons                disable GAME auto add-ons\n"
 "\n"
 "Informative Options:\n"
 "  -h, --help                      print this help message\n";
@@ -49,7 +49,7 @@ int CUTS_T2M_Executor_App::run_main (int argc, char * argv [])
     // Open the project for writing.
     if (this->open_gme_project () != 0)
       ACE_ERROR_RETURN ((LM_ERROR,
-                        "%T (%t) - %M - failed to open GME project [file=%s]\n",
+                        "%T (%t) - %M - failed to open GAME project [file=%s]\n",
                         this->opts_.project_.c_str ()),
                         -1);
 
@@ -59,23 +59,23 @@ int CUTS_T2M_Executor_App::run_main (int argc, char * argv [])
     if (!this->opts_.run_.empty ())
       this->run (this->opts_.run_);
 
-    // Close the GME project.
+    // Close the GAME project.
     this->save_gme_project ();
   }
-  catch (const GME::Failed_Result & ex)
+  catch (const GAME::Failed_Result & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - caught GME exception [0x%X]\n",
+                "%T (%t) - %M - caught GAME exception [0x%X]\n",
                 ex.value ()));
 
     this->project_.abort_transaction ();
   }
-  catch (const GME::Exception &)
+  catch (const GAME::Exception &)
   {
     this->project_.abort_transaction ();
   }
 
-  // Close the GME project.
+  // Close the GAME project.
   this->project_.close ();
 
   return 0;
@@ -118,10 +118,10 @@ int CUTS_T2M_Executor_App::run_parser (void)
   this->project_.begin_transaction ();
 
   // Get the root folder of the project.
-  GME::Folder root_folder = this->project_.root_folder ();
+  GAME::Folder root_folder = this->project_.root_folder ();
 
   // Determine what is the parent object for parsing.
-  GME::Object target;
+  GAME::Object target;
 
   if (this->opts_.target_.empty ())
     target = this->project_.root_folder ();
@@ -271,8 +271,8 @@ int CUTS_T2M_Executor_App::open_gme_project (void)
   else
   {
     // Get information about the XML file.
-    GME::XML_Parser parser;
-    GME::XML_Info info;
+    GAME::XML_Parser parser;
+    GAME::XML_Info info;
 
     parser.get_info (this->opts_.project_, info);
 
@@ -340,7 +340,7 @@ int CUTS_T2M_Executor_App::save_gme_project (void)
                 tempfile.c_str ()));
 
     // Export the project to the source XML file.
-    GME::XML_Dumper dumper;
+    GAME::XML_Dumper dumper;
     dumper.write (this->opts_.project_, this->project_);
 
     ACE_OS::unlink (tempfile.c_str ());
@@ -366,7 +366,7 @@ int CUTS_T2M_Executor_App::run (const std::string & progid)
     this->project_.begin_transaction ();
 
     // Load the specified interpreter.
-    GME::ComponentEx interpreter (progid);
+    GAME::ComponentEx interpreter (progid);
 
     // Pass the standard configuration to the interpreter.
     interpreter.parameter ("non-interactive", "");
@@ -374,7 +374,7 @@ int CUTS_T2M_Executor_App::run (const std::string & progid)
 
     // Execute the interpreter on the currently selected object. We
     // also should make it the focus object.
-    GME::Object obj = this->project_.object_by_path (this->opts_.run_focus_);
+    GAME::Object obj = this->project_.object_by_path (this->opts_.run_focus_);
 
     if (obj.is_nil ())
       ACE_ERROR_RETURN ((LM_ERROR,
@@ -382,9 +382,9 @@ int CUTS_T2M_Executor_App::run (const std::string & progid)
                          this->opts_.run_focus_.c_str ()),
                          -1);
 
-    GME::FCO focus = GME::FCO::_narrow (obj);
+    GAME::FCO focus = GAME::FCO::_narrow (obj);
 
-    std::vector <GME::FCO> selected;
+    std::vector <GAME::FCO> selected;
     selected.push_back (focus);
 
     try
@@ -392,19 +392,19 @@ int CUTS_T2M_Executor_App::run (const std::string & progid)
       this->project_.commit_transaction ();
       interpreter.invoke (focus.project (), focus, selected, 0);
     }
-    catch (const GME::Exception &)
+    catch (const GAME::Exception &)
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T - %M - caught GME exception (%N:%l)\n"));
+                  "%T - %M - caught GAME exception (%N:%l)\n"));
 
       this->project_.abort_transaction ();
     }
 
     return 0;
   }
-  catch (GME::Exception &)
+  catch (GAME::Exception &)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - caught GME exception (%N:%l)\n"));
+                "%T - %M - caught GAME exception (%N:%l)\n"));
   }
 }

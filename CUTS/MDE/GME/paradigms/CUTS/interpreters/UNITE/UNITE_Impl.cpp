@@ -1,27 +1,36 @@
 // $Id$
 
 #include "StdAfx.h"
-#include "RawComponent.h"
-#include "game/be/ComponentDLL.h"
+
+#include "UNITE.h"
+#include "UNITE_i.c"
+#include "UNITE_Impl.h"
+
+#include "game/be/Interpreter_T.h"
 #include "game/utils/Project_Settings.h"
-#include "game/GME.h"
+#include "game/GAME.h"
+
+#include "paradigm/CUTS.h"
+
 #include "UniteVisitor.h"
 #include "Utils/Utils.h"
-#include "paradigm/CUTS.h"
+
 #include "UdmGme.h"
 
-#define INTERPRETER_NAME          "CUTS File Generator"
 #define INTERPRETER_PARADIGMS     "CUTS"
-#define INTERPRETER_PROGID        "MGA.Interpreter.CUTS"
+#define INTERPRETER_NAME          "UNITE Configuration Generator"
+#define INTERPRETER_PROGID        "CUTS.Interpreter.UNITE"
+
+DECLARE_GAME_INTERPRETER (CUTS_UNITE_Interpreter, UNITE_Interpreter_Impl);
 
 ///////////////////////////////////////////////////////////////////////////////
-// class CUTS_Interpreter_Impl
+// class UNITE_Interpreter_Impl
 
 //
-// CUTS_Interpreter_Impl
+// UNITE_Interpreter_Impl
 //
-CUTS_Interpreter_Impl::CUTS_Interpreter_Impl (void)
-: GME::Interpreter_Impl_Base (INTERPRETER_NAME,
+UNITE_Interpreter_Impl::UNITE_Interpreter_Impl (void)
+: GAME::Interpreter_Impl_Base (INTERPRETER_NAME,
                               INTERPRETER_PARADIGMS,
                               INTERPRETER_PROGID,
                               false)
@@ -30,9 +39,9 @@ CUTS_Interpreter_Impl::CUTS_Interpreter_Impl (void)
 }
 
 //
-// ~CUTS_Interpreter_Impl
+// ~UNITE_Interpreter_Impl
 //
-CUTS_Interpreter_Impl::~CUTS_Interpreter_Impl (void)
+UNITE_Interpreter_Impl::~UNITE_Interpreter_Impl (void)
 {
 
 }
@@ -40,10 +49,10 @@ CUTS_Interpreter_Impl::~CUTS_Interpreter_Impl (void)
 //
 // invoke
 //
-int CUTS_Interpreter_Impl::
-invoke_ex (GME::Project & project,
-           GME::FCO & fco,
-           std::vector <GME::FCO> & selected,
+int UNITE_Interpreter_Impl::
+invoke_ex (GAME::Project & project,
+           GAME::FCO & fco,
+           std::vector <GAME::FCO> & selected,
            long flags)
 {
   try
@@ -68,7 +77,7 @@ invoke_ex (GME::Project & project,
       // Convert the object collection to UDM objects.
       set <Udm::Object> objs;
 
-      std::vector <GME::FCO>::iterator
+      std::vector <GAME::FCO>::iterator
         iter = selected.begin (), iter_end = selected.end ();
 
       for ( ; iter != iter_end; ++ iter)
@@ -92,7 +101,7 @@ invoke_ex (GME::Project & project,
                        MB_OK | MB_ICONINFORMATION);
 
       // Post process the project.
-      this->postprocess (GME::Project (project));
+      this->postprocess (GAME::Project (project));
 
       // Closing backend
       backend.CloseWithUpdate ();
@@ -118,22 +127,17 @@ invoke_ex (GME::Project & project,
 //
 // preprocess
 //
-void CUTS_Interpreter_Impl::preprocess (GME::Project & project)
+void UNITE_Interpreter_Impl::preprocess (GAME::Project & project)
 {
-  GME::Utils::Project_Settings settings (project);
-  this->output_ = settings.default_output_directory ("CUTS");
+  GAME::utils::Project_Settings settings (project);
+  this->output_ = settings.default_output_directory ("CUTS/UNITE");
 }
 
 //
 // postprocess
 //
-void CUTS_Interpreter_Impl::postprocess (GME::Project & project)
+void UNITE_Interpreter_Impl::postprocess (GAME::Project & project)
 {
-  GME::Utils::Project_Settings settings (project);
-  settings.default_output_directory ("CUTS", this->output_);
+  GAME::utils::Project_Settings settings (project);
+  settings.default_output_directory ("CUTS/UNITE", this->output_);
 }
-
-///////////////////////////////////////////////////////////////////////////////
-//
-
-GME_RAWCOMPONENT_IMPL (CIDL, INTERPRETER_NAME);

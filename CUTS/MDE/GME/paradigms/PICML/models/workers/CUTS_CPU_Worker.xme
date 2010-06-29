@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{87CB76C6-0185-4F10-9979-6CFA1ED6C610}" cdate="Sun May 16 18:32:00 2010" mdate="Sun May 16 18:32:00 2010" version="" metaguid="{94FCA7F1-9017-4BFD-B557-F738FC54B103}" metaversion="" metaname="PICML">
+<project guid="{87CB76C6-0185-4F10-9979-6CFA1ED6C610}" cdate="Thu Jun 24 13:47:39 2010" mdate="Thu Jun 24 13:47:39 2010" version="" metaguid="{282EC294-E89F-440D-B326-7E49DCD97D3F}" metaversion="" metaname="PICML">
 	<name>CUTS_CPU_Worker</name>
 	<comment></comment>
 	<author></author>

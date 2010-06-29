@@ -1,19 +1,10 @@
 // $Id$
 
 project (CUTS_GME_UNITE) : cuts_dsml, udm_component, \
-                           register, game_component, \
+                           game_component, game_utils, \
                            cosmic_xerces_utils, cosmic_utils, cutslib  {
 
-  sharedname  = CUTS_GME_UNITE
-
-  includes += $(CUTS_ROOT)/MDE/GME/paradigms/CUTS \
-              $(UDM_PATH)/include
-
-  libs -= PICML
-
-  specific (prop:windows) {
-    midl_notlb = 1
-  }
+  sharedname = CUTS_GME_UNITE
 
   pch_header = StdAfx.h
   pch_source = StdAfx.cpp
@@ -27,6 +18,10 @@ project (CUTS_GME_UNITE) : cuts_dsml, udm_component, \
   }
 
   Source_Files {
+    UNITE.idl
+
+    UNITE_Impl.cpp
+    UNITE_Module.cpp
     UniteVisitor.cpp
   }
 }

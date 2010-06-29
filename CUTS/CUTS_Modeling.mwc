@@ -25,7 +25,7 @@ workspace (CUTS_Modeling) {
     }
   }
 
-  exclude (!prop:windows, !wix) {
+  exclude (!prop:windows) {
     cmdline += -include $COSMIC_ROOT/MPC/config
 
     MDE/GME/plugins

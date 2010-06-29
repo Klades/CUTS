@@ -1,0 +1,36 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ * @file      UNITE.idl
+ *
+ * $Id$
+ *
+ * @author    Pooja V.
+ */
+//=============================================================================
+
+#ifndef _CUTS_UNITE_IDL_
+#define _CUTS_UNITE_IDL_
+
+#include <Gme.idl>
+
+[
+	uuid(DAB8DE23-5B70-4a15-8B6C-9618BD2EBBCD),
+	version(1.0),
+]
+library CUTS_UNITE_Interpreter_Typelib
+{
+	importlib("stdole32.tlb");
+
+	[uuid(08802A40-1B8F-49ad-80BB-6475C33BAC56)]
+	coclass CUTS_UNITE_Interpreter
+	{
+		[default] interface IMgaComponentEx;
+		interface IMgaComponent;
+		interface IMgaVersionInfo;
+	};
+};
+
+#endif
+

@@ -18,6 +18,7 @@
 #include "game/Folder.h"
 #include "game/Model.h"
 #include <stack>
+#include <set>
 
 namespace GAME
 {
@@ -70,6 +71,8 @@ private:
   GAME::Model active_model_;
 
   std::stack <GAME::Model> stack_;
+
+  std::set <GAME::Model> components_;
 };
 
 #endif  // !defined _QUOTAS_SPECIFICATION_IMPL_H_

@@ -76,7 +76,7 @@ use p_backend->SaveAs() or p_backend->CloseAs().
 
 1. Focus is the currently open model.
 
-2. The possible values for param (from GME DecoratorLib.h
+2. The possible values for param (from GAME DecoratorLib.h
 component_startmode_enum):
 GME_MAIN_START    =   0,
 GME_BROWSER_START    =   1,
@@ -179,7 +179,7 @@ SetParameter (const std::string & name, const std::string & value)
 /* Debug time helper function. If the object has an  */
 /* attribute called "name", this function retreives  */
 /* it to help you to find it in the model during the */
-/* application development.  Usualy every GME Object   */
+/* application development.  Usualy every GAME Object   */
 /* has a "name" attribute. If an object hapens not   */
 /* to have it,function retreives <no name specified>.*/
 /*****************************************************/

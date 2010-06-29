@@ -1,4 +1,5 @@
-$Id$
+// $Id$
+
 #include "StdAfx.h"
 #include "UniteVisitor.h"
 

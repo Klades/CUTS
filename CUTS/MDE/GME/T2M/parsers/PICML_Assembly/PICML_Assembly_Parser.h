@@ -35,7 +35,7 @@ public:
    * @param[in]         filename            Name of the file.
    * @param[in]         project             Target project
    */
-  virtual bool parse (const std::string & filename, GME::Object & parent);
+  virtual bool parse (const std::string & filename, GAME::Object & parent);
 };
 
 

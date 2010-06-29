@@ -32,20 +32,20 @@ public:
   virtual ~Scatter_Deployment_Parser (void);
 
   bool parse (const std::string & filename,
-              GME::Object & parent,
-              const GME::Model & assembly,
-              GME::Model & domain);
+              GAME::Object & parent,
+              const GAME::Model & assembly,
+              GAME::Model & domain);
 
   // Parse the specified filename.
   virtual bool parse (const std::string & filename,
-                      GME::Object & parent);
+                      GAME::Object & parent);
 
 private:
-  void clear_deployment (GME::Model & deployment);
+  void clear_deployment (GAME::Model & deployment);
 
-  void insert_nodes_in_deployment (GME::Model & deployment,
-                                   const std::map <std::string, GME::Model> & nodes,
-                                   std::map <std::string, GME::Set> & groups);
+  void insert_nodes_in_deployment (GAME::Model & deployment,
+                                   const std::map <std::string, GAME::Model> & nodes,
+                                   std::map <std::string, GAME::Set> & groups);
 };
 
 GME_T2M_CREATE_PARSER_DECLARE (SCATTER_DEPLOYMENT_PARSER_Export);

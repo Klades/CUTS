@@ -275,6 +275,10 @@ void Quotas_Specification_Impl::visit_object (const GAME::Model & object)
     this->active_model_.name (name);
   }  
 
+  // Store the component so we can create the driver's 
+  // skeleton (or interface).
+  this->components_.insert (this->active_model_);
+
   // Now, make the object a Facet on this component. The facet
   // will provide the specified interface (i.e., the object passed
   // into this method).

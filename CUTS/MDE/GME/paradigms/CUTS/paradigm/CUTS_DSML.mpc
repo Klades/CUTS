@@ -31,6 +31,10 @@ project (CUTS_DSML_paradigm) {
     paradigm_guid  = 784DB6D6-9381-4FA8-811E-F6656918BEE3
     paradigm_file  = CUTS.mta
   }
+  
+  Source_Files {
+  
+  }
 }
 
 project (CUTS_DSML_paradigm_icons) {
@@ -44,5 +48,9 @@ project (CUTS_DSML_paradigm_icons) {
     conditional (wix) {
       icons/*.bmp
     }
+  }
+  
+  Source_Files {
+  
   }
 }

@@ -12,7 +12,7 @@
 #include "boost/spirit/iterator/file_iterator.hpp"
 #include "boost/spirit/utility/confix.hpp"
 #include "boost/spirit/utility/lists.hpp"
-#include "game/GME.h"
+#include "game/GAME.h"
 #include <map>
 
 GME_T2M_CREATE_PARSER_IMPLEMENT (PICML_Assembly_Parser);
@@ -27,7 +27,7 @@ namespace actors
    */
   struct new_assembly
   {
-    new_assembly (GME::Model & container, GME::Model & assembly)
+    new_assembly (GAME::Model & container, GAME::Model & assembly)
       : container_ (container),
         assembly_ (assembly)
     {
@@ -41,22 +41,22 @@ namespace actors
 
       // First, delete an existing component assemblies in the
       // container. We don't want to have duplicate assemblies.
-      GME::Object obj = this->container_.find_object_by_path (name);
+      GAME::Object obj = this->container_.find_object_by_path (name);
 
       if (obj)
         obj.destroy ();
 
       // Create the assembly.
       static const std::string type ("ComponentAssembly");
-      this->assembly_ = ::GME::Model::_create (this->container_, type);
+      this->assembly_ = ::GAME::Model::_create (this->container_, type);
 
       // Set the name of the assembly.
       this->assembly_.name (name);
     }
 
-    GME::Model & container_;
+    GAME::Model & container_;
 
-    GME::Model & assembly_;
+    GAME::Model & assembly_;
   };
 
   /**
@@ -64,10 +64,10 @@ namespace actors
    */
   struct new_instance
   {
-    new_instance (GME::Model & assembly,
-                  GME::Model & type,
-                  GME::Model & instance,
-                  std::map <std::string, GME::Model> & map)
+    new_instance (GAME::Model & assembly,
+                  GAME::Model & type,
+                  GAME::Model & instance,
+                  std::map <std::string, GAME::Model> & map)
       : assembly_ (assembly),
         type_ (type),
         instance_ (instance),
@@ -82,21 +82,21 @@ namespace actors
       std::string name (begin, end);
 
       // Create a new instance in the assembly.
-      GME::FCO fco = this->type_.create_instance (this->assembly_);
-      this->instance_ = GME::Model::_narrow (fco);
+      GAME::FCO fco = this->type_.create_instance (this->assembly_);
+      this->instance_ = GAME::Model::_narrow (fco);
       this->instance_.name (name);
 
       // Cache the instance for later.
       this->instance_map_[name] = this->instance_;
     }
 
-    GME::Model & assembly_;
+    GAME::Model & assembly_;
 
-    GME::Model & type_;
+    GAME::Model & type_;
 
-    GME::Model & instance_;
+    GAME::Model & instance_;
 
-    std::map <std::string, GME::Model> & instance_map_;
+    std::map <std::string, GAME::Model> & instance_map_;
   };
 
   /**
@@ -104,8 +104,8 @@ namespace actors
    */
   struct find_instance
   {
-    find_instance (std::map <std::string, GME::Model> & instance_map,
-                   GME::Model & instance)
+    find_instance (std::map <std::string, GAME::Model> & instance_map,
+                   GAME::Model & instance)
       : instance_map_ (instance_map),
         instance_ (instance)
     {
@@ -119,9 +119,9 @@ namespace actors
       this->instance_ = this->instance_map_[name];
     }
 
-    std::map <std::string, GME::Model> & instance_map_;
+    std::map <std::string, GAME::Model> & instance_map_;
 
-    GME::Model & instance_;
+    GAME::Model & instance_;
   };
 
   /**
@@ -129,19 +129,19 @@ namespace actors
    */
   struct find_component_type
   {
-    static std::vector <GME::Model> files_;
+    static std::vector <GAME::Model> files_;
 
-    find_component_type (GME::Project const & project, GME::Model & type)
+    find_component_type (GAME::Project const & project, GAME::Model & type)
       : project_ (project),
         type_ (type)
     {
       if (this->files_.empty ())
       {
         // Get the root folder of the project.
-        GME::Folder root_folder = this->project_.root_folder ();
+        GAME::Folder root_folder = this->project_.root_folder ();
 
         // Get all the interface definition folders.
-        std::vector <GME::Folder> folders;
+        std::vector <GAME::Folder> folders;
 
         // Cache all the files in the project.
         if (root_folder.children ("InterfaceDefinitions", folders))
@@ -158,7 +158,7 @@ namespace actors
     {
       std::string fq_name (begin, end);
 
-      // Convert the scope to a GME path.
+      // Convert the scope to a GAME path.
       size_t pos = 0;
 
       while ((pos = fq_name.find_first_of ("::", pos)) != std::string::npos)
@@ -169,7 +169,7 @@ namespace actors
         fq_name.erase (0, 1);
 
       // Locate the type in the cached files.
-      std::vector <GME::Model>::const_iterator iter =
+      std::vector <GAME::Model>::const_iterator iter =
         std::find_if (this->files_.begin (),
                       this->files_.end (),
                       has_component_type (fq_name, this->type_));
@@ -185,20 +185,20 @@ namespace actors
     struct has_component_type
     {
       has_component_type (const std::string & fq_name,
-                          GME::Model & component_type)
+                          GAME::Model & component_type)
         : fq_name_ (fq_name),
           component_type_ (component_type)
       {
 
       }
 
-      bool operator () (GME::Model & file) const
+      bool operator () (GAME::Model & file) const
       {
-        GME::Object obj = file.find_object_by_path (this->fq_name_);
+        GAME::Object obj = file.find_object_by_path (this->fq_name_);
 
         if (obj)
         {
-          this->component_type_ = GME::Model::_narrow (obj);
+          this->component_type_ = GAME::Model::_narrow (obj);
           return true;
         }
         else
@@ -208,13 +208,13 @@ namespace actors
     private:
       const std::string & fq_name_;
 
-      GME::Model & component_type_;
+      GAME::Model & component_type_;
     };
 
-    static void save_files (const GME::Folder & folder,
-                            std::vector <GME::Model> & files)
+    static void save_files (const GAME::Folder & folder,
+                            std::vector <GAME::Model> & files)
     {
-      std::vector <GME::Model> temp;
+      std::vector <GAME::Model> temp;
 
       if (folder.children ("File", temp))
         std::for_each (temp.begin (),
@@ -224,18 +224,18 @@ namespace actors
                                     _1));
     }
 
-    static void insert (std::vector <GME::Model> & files,
-                        GME::Model & model)
+    static void insert (std::vector <GAME::Model> & files,
+                        GAME::Model & model)
     {
       files.push_back (model);
     }
 
-    GME::Project const & project_;
+    GAME::Project const & project_;
 
-    GME::Model & type_;
+    GAME::Model & type_;
   };
 
-  std::vector <GME::Model> find_component_type::files_;
+  std::vector <GAME::Model> find_component_type::files_;
 
   /**
    * @struct find_attribute
@@ -245,7 +245,7 @@ namespace actors
    */
   struct find_attribute
   {
-    find_attribute (const GME::Model & instance, GME::Model & attribute)
+    find_attribute (const GAME::Model & instance, GAME::Model & attribute)
       : instance_ (instance),
         attribute_ (attribute)
     {
@@ -258,18 +258,18 @@ namespace actors
       std::string name (begin, end);
 
       // Find the attribute by its name.
-      GME::Object obj = this->instance_.find_object_by_path (name);
+      GAME::Object obj = this->instance_.find_object_by_path (name);
 
       if (obj)
-        this->attribute_ = GME::Model::_narrow (obj);
+        this->attribute_ = GAME::Model::_narrow (obj);
       else
         this->attribute_.release ();
     }
 
   private:
-    const GME::Model & instance_;
+    const GAME::Model & instance_;
 
-    GME::Model & attribute_;
+    GAME::Model & attribute_;
   };
 
   /**
@@ -277,7 +277,7 @@ namespace actors
    */
   struct new_property
   {
-    new_property (GME::Model & assembly, const GME::Model & attribute)
+    new_property (GAME::Model & assembly, const GAME::Model & attribute)
       : assembly_ (assembly),
         attribute_ (attribute)
     {
@@ -290,24 +290,24 @@ namespace actors
       std::string value (begin, end);
 
       // Create a new prop for the attribute.
-      GME::Model prop = GME::Model::_create (this->assembly_, "Property");
+      GAME::Model prop = GAME::Model::_create (this->assembly_, "Property");
 
       // Set the value of the prop.
-      GME::Attribute attr = prop.attribute ("DataValue");
+      GAME::Attribute attr = prop.attribute ("DataValue");
       attr.string_value (value);
 
       // Finally, connect the prop to the attribute.
-      GME::Connection attr_value =
-        GME::Connection::_create (this->assembly_,
+      GAME::Connection attr_value =
+        GAME::Connection::_create (this->assembly_,
                                   "AttributeValue",
                                   this->attribute_,
                                   prop);
     }
 
   private:
-    GME::Model & assembly_;
+    GAME::Model & assembly_;
 
-    const GME::Model & attribute_;
+    const GAME::Model & attribute_;
   };
 
   /**
@@ -315,7 +315,7 @@ namespace actors
    */
   struct checkpoint
   {
-    checkpoint (GME::Model & assembly)
+    checkpoint (GAME::Model & assembly)
       : assembly_ (assembly)
     {
 
@@ -328,19 +328,19 @@ namespace actors
       std::string exert (begin, end);
 
       // Checkpoint the model.
-      GME::Project project = this->assembly_.project ();
+      GAME::Project project = this->assembly_.project ();
       project.begin_transaction (true);
     }
 
     template <typename IteratorT>
     void operator () (IteratorT begin) const
     {
-      GME::Project project = this->assembly_.project ();
+      GAME::Project project = this->assembly_.project ();
       project.begin_transaction (true);
     }
 
   private:
-    GME::Model & assembly_;
+    GAME::Model & assembly_;
   };
 
   /**
@@ -348,7 +348,7 @@ namespace actors
    */
   struct find_src_port
   {
-    find_src_port (const GME::Model & instance, GME::Reference & port)
+    find_src_port (const GAME::Model & instance, GAME::Reference & port)
       : instance_ (instance),
         port_ (port)
     {
@@ -360,16 +360,16 @@ namespace actors
     {
       std::string name (begin, end);
 
-      std::vector <GME::Reference> ports;
+      std::vector <GAME::Reference> ports;
 
       if (this->instance_.children ("OutEventPort", ports))
       {
-        std::vector <GME::Reference>::const_iterator iter =
+        std::vector <GAME::Reference>::const_iterator iter =
           std::find_if (ports.begin (),
                         ports.end (),
                         boost::bind (std::equal_to <std::string> (),
                                      name,
-                                     boost::bind (&GME::Reference::name,
+                                     boost::bind (&GAME::Reference::name,
                                                   _1)));
 
         if (iter != ports.end ())
@@ -382,9 +382,9 @@ namespace actors
     }
 
   private:
-    const GME::Model & instance_;
+    const GAME::Model & instance_;
 
-    GME::Reference & port_;
+    GAME::Reference & port_;
   };
 
   /**
@@ -392,7 +392,7 @@ namespace actors
    */
   struct find_dst_port
   {
-    find_dst_port (const GME::Model & instance, GME::Reference & port)
+    find_dst_port (const GAME::Model & instance, GAME::Reference & port)
       : instance_ (instance),
         port_ (port)
     {
@@ -404,16 +404,16 @@ namespace actors
     {
       std::string name (begin, end);
 
-      std::vector <GME::Reference> ports;
+      std::vector <GAME::Reference> ports;
 
       if (this->instance_.children ("InEventPort", ports))
       {
-        std::vector <GME::Reference>::const_iterator iter =
+        std::vector <GAME::Reference>::const_iterator iter =
           std::find_if (ports.begin (),
                         ports.end (),
                         boost::bind (std::equal_to <std::string> (),
                                      name,
-                                     boost::bind (&GME::Reference::name,
+                                     boost::bind (&GAME::Reference::name,
                                                   _1)));
 
         if (iter != ports.end ())
@@ -426,17 +426,17 @@ namespace actors
     }
 
   private:
-    const GME::Model & instance_;
+    const GAME::Model & instance_;
 
-    GME::Reference & port_;
+    GAME::Reference & port_;
   };
 
   struct new_connection
   {
-    new_connection (GME::Model & assembly,
+    new_connection (GAME::Model & assembly,
                     const std::string & symbol,
-                    const GME::Reference & src,
-                    const GME::Reference & dst)
+                    const GAME::Reference & src,
+                    const GAME::Reference & dst)
       : assembly_ (assembly),
         symbol_ (symbol),
         src_ (src),
@@ -451,8 +451,8 @@ namespace actors
       if (this->symbol_ == ">")
       {
         // We can directly create an 'emit' connection.
-        GME::Connection emit =
-          GME::Connection::_create (this->assembly_,
+        GAME::Connection emit =
+          GAME::Connection::_create (this->assembly_,
                                     "emit",
                                     this->src_,
                                     this->dst_);
@@ -460,41 +460,41 @@ namespace actors
       else if (this->symbol_ == ">>")
       {
         // Determine of the port already has a connector.
-        GME::Atom connector;
-        GME::ConnectionPoints points;
+        GAME::Atom connector;
+        GAME::ConnectionPoints points;
 
         if (this->src_.in_connection_points (points))
         {
           // There should be only one connection point.
-          GME::ConnectionPoint point = points.begin ()->item ();
+          GAME::ConnectionPoint point = points.begin ()->item ();
 
           // Walk the connection to find the connector.
-          GME::Connection publish = point.owner ();
+          GAME::Connection publish = point.owner ();
 
           const std::string dst_role ("dst");
-          GME::ConnectionPoint dst = publish[dst_role];
+          GAME::ConnectionPoint dst = publish[dst_role];
 
           // Save the connector.
-          connector = GME::Atom::_narrow (dst.target ());
+          connector = GAME::Atom::_narrow (dst.target ());
         }
 
         if (connector.is_nil ())
         {
           // Create a new publish connector.
-          connector = GME::Atom::_create (this->assembly_,
+          connector = GAME::Atom::_create (this->assembly_,
                                           "PublishConnector");
 
           // Connect the source port to the publish connector.
-          GME::Connection publish =
-            GME::Connection::_create (this->assembly_,
+          GAME::Connection publish =
+            GAME::Connection::_create (this->assembly_,
                                       "publish",
                                       this->src_,
                                       connector);
         }
 
         // Now, we can create the deliverTo connection.
-        GME::Connection deliver =
-          GME::Connection::_create (this->assembly_,
+        GAME::Connection deliver =
+          GAME::Connection::_create (this->assembly_,
                                     "deliverTo",
                                     connector,
                                     this->dst_);
@@ -502,13 +502,13 @@ namespace actors
     }
 
   private:
-    GME::Model & assembly_;
+    GAME::Model & assembly_;
 
     const std::string & symbol_;
 
-    const GME::Reference & src_;
+    const GAME::Reference & src_;
 
-    const GME::Reference & dst_;
+    const GAME::Reference & dst_;
   };
 }
 
@@ -519,7 +519,7 @@ class PICML_Assembly_Parser_Grammar :
   public boost::spirit::grammar <PICML_Assembly_Parser_Grammar>
 {
 public:
-  PICML_Assembly_Parser_Grammar (GME::Model & container)
+  PICML_Assembly_Parser_Grammar (GAME::Model & container)
     : container_ (container),
       project_ (container_.project ())
   {
@@ -622,19 +622,19 @@ public:
 
     boost::spirit::rule <ScannerT> publishes_;
 
-    GME::Model gme_assembly_;
+    GAME::Model gme_assembly_;
 
-    GME::Model gme_component_type_;
+    GAME::Model gme_component_type_;
 
-    GME::Model gme_instance_;
+    GAME::Model gme_instance_;
 
-    GME::Model gme_attribute_;
+    GAME::Model gme_attribute_;
 
-    GME::Reference gme_src_port_;
+    GAME::Reference gme_src_port_;
 
-    GME::Reference gme_dst_port_;
+    GAME::Reference gme_dst_port_;
 
-    std::map <std::string, GME::Model> gme_instance_map_;
+    std::map <std::string, GAME::Model> gme_instance_map_;
 
     std::string conn_type_;
 
@@ -644,9 +644,9 @@ public:
   };
 
 private:
-  GME::Model & container_;
+  GAME::Model & container_;
 
-  GME::Project project_;
+  GAME::Project project_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -656,7 +656,7 @@ private:
 // parse
 //
 bool PICML_Assembly_Parser::
-parse (const std::string & filename, GME::Object & parent)
+parse (const std::string & filename, GAME::Object & parent)
 {
   using namespace boost::spirit;
 
@@ -672,7 +672,7 @@ parse (const std::string & filename, GME::Object & parent)
   iterator_t last = first.make_end ();
 
   // The parent should be a container, which is a model in PICML.
-  GME::Model container = GME::Model::_narrow (parent);
+  GAME::Model container = GAME::Model::_narrow (parent);
   PICML_Assembly_Parser_Grammar grammar (container);
 
   parse_info <iterator_t> result =

@@ -4,5 +4,7 @@
   after += CUTS_DSML
   libs  += CUTS_DSML
 
+  includes += $(CUTS_ROOT)/MDE/GME/paradigms/CUTS 
+  
   dynamicflags += CUTS_HAS_DLL 
 }

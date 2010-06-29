@@ -44,8 +44,8 @@ private:
   /// Print the help screen for the application.
   void print_help (void);
 
-  /// The GME project managed by this application.
-  GME::Project project_;
+  /// The GAME project managed by this application.
+  GAME::Project project_;
 
   CUTS_T2M_Executor_App_Options opts_;
 };
