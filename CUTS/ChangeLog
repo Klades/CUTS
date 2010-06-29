@@ -1,9 +1,16 @@
+Tue Jun 29 16:15:33 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/arch/chaos/server/server.mpc:
+        
+          Fixed the requires specification by removing it. This fixed the 
+          remaining build errors.
+
 Tue Jun 29 16:03:43 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * CUTS_Modeling.mwc:
-        
+
           Fixed bugs in exclude {} specification.
-          
+
         * MDE/GME/T2M/executor/Executor_App.h:
         * MDE/GME/T2M/executor/Executor_App.cpp:
         * MDE/GME/T2M/parsers/PICML_Assembly/PICML_Assembly_Parser.h:
@@ -21,23 +28,23 @@ Tue Jun 29 16:03:43 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
         * MDE/GME/paradigms/CUTS/interpreters/UNITE/UdmApp.cpp:
         * MDE/GME/paradigms/CUTS/interpreters/UNITE/UniteVisitor.cpp:
         * MDE/GME/paradigms/CUTS/paradigm/CUTS_DSML.mpc:
-        
+
           Updated to latest version of GAME.
 
         * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification.mpc:
         * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification_Impl.h:
         * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification_Impl.cpp:
-        
+
           Checkpoint for the QUOTAS specification interpreter.
 
         * MPC/config/cuts_dsml.mpb:
-        
+
           Added an includes assigment.
 
         * MDE/GME/paradigms/PICML/examples/LoggingClient.xme:
         * MDE/GME/paradigms/PICML/models/CAPI.xme:
         * MDE/GME/paradigms/PICML/models/XMLSchema.xme:
-        
+
           Updated to latest version of PICML.
 
         * MDE/GME/paradigms/CUTS/interpreters/UNITE/Component.def:
