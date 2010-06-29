@@ -3,10 +3,12 @@
 #include "stdafx.h"
 #include "Quotas_Specification.h"
 #include "Quotas_Specification_Impl.h"
+#include "Quotas_Driver_Component.h"
 
 #include "game/Model.h"
 #include "game/MetaModel.h"
 #include "game/Reference.h"
+#include "game/Attribute.h"
 #include "game/utils/modelgen.h"
 
 #include "boost/bind.hpp"
@@ -127,6 +129,13 @@ invoke_ex (GAME::Project & project,
                               this,
                               _1));
 
+  Quotas_Driver_Component_Generator driver_gen (this->quotas_idl_folder_);
+  std::for_each (this->components_.begin (),
+                 this->components_.end (),
+                 boost::bind (&Quotas_Driver_Component_Generator::generate,
+                              boost::ref (driver_gen),
+                              _1));
+
   return 0;
 }
 
@@ -176,6 +185,15 @@ void Quotas_Specification_Impl::visit_file (const GAME::Model & file)
   {
     this->active_model_.name (quotas_filename);
   }
+
+  // Set the correct path for the Quotas file.
+  std::string path ("Quotas");
+  const std::string current_path (file.attribute ("Path").string_value ());
+  
+  if (!current_path.empty ())
+    path += "/" + current_path;
+
+  this->active_model_.attribute ("Path").string_value (path);
 
   // Next, place all elements under the Quotas namespace. This 
   // is done by creating a package in the current file with the

@@ -22,6 +22,7 @@
 
 namespace GAME
 {
+// Forward decl.
 class Reference;
 }
 
