@@ -366,7 +366,7 @@ int CUTS_T2M_Executor_App::run (const std::string & progid)
     this->project_.begin_transaction ();
 
     // Load the specified interpreter.
-    GAME::ComponentEx interpreter (progid);
+    GAME::ComponentEx interpreter = GAME::ComponentEx::_load (progid);
 
     // Pass the standard configuration to the interpreter.
     interpreter.parameter ("non-interactive", "");

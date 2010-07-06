@@ -5,13 +5,15 @@
 
 #include "CUTE.h"
 #include "CUTE_i.c"
-#include "game/be/Plugin_T.h"
 
 #include "CUTE_Dialog.h"
 #include "Model_Interpreter.h"
 #include "Model_Interpreter_Action_List.h"
 #include "Property_Locator.h"
 #include "Windows_Registry.h"
+
+#include "game/be/Plugin_T.h"
+#include "game/Project.h"
 
 #include "cuts/utils/Config_List_Parser_T.h"
 
@@ -20,7 +22,7 @@
 
 #include <sstream>
 
-DECLARE_GAME_PLUGIN (CUTE_Plugin, CUTS_CUTE);
+GAME_DECLARE_PLUGIN (CUTE_Plugin, CUTS_CUTE);
 
 //
 // operator <<= (CUTS_Property_Map & , const CString & )
@@ -61,7 +63,7 @@ bool operator <<= (CUTS_Property_Map & map, const CString & params)
 // CUTS_CUTE
 //
 CUTS_CUTE::CUTS_CUTE (void)
-: GAME::Plugin_Impl ("CUTS Template Engine", "CUTS.Plugin.CUTE", false)
+: GAME::Plugin_Impl ("CUTS Template Engine", "CUTS.Plugin.CUTE")
 {
 
 }

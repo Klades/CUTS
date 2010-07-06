@@ -21,7 +21,7 @@
 #define INTERPRETER_NAME          "UNITE Configuration Generator"
 #define INTERPRETER_PROGID        "CUTS.Interpreter.UNITE"
 
-DECLARE_GAME_INTERPRETER (CUTS_UNITE_Interpreter, UNITE_Interpreter_Impl);
+GAME_DECLARE_INTERPRETER (CUTS_UNITE_Interpreter, UNITE_Interpreter_Impl);
 
 ///////////////////////////////////////////////////////////////////////////////
 // class UNITE_Interpreter_Impl
@@ -31,9 +31,8 @@ DECLARE_GAME_INTERPRETER (CUTS_UNITE_Interpreter, UNITE_Interpreter_Impl);
 //
 UNITE_Interpreter_Impl::UNITE_Interpreter_Impl (void)
 : GAME::Interpreter_Impl_Base (INTERPRETER_NAME,
-                              INTERPRETER_PARADIGMS,
-                              INTERPRETER_PROGID,
-                              false)
+                               INTERPRETER_PARADIGMS,
+                               INTERPRETER_PROGID)
 {
 
 }

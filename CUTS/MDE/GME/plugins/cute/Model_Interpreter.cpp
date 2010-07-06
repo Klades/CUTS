@@ -26,7 +26,7 @@ handle_config (const CUTS_Property_Map & config)
     try
     {
       // Load the specified interpreter.
-      GAME::ComponentEx interpreter (this->interpreter_.c_str ());
+      GAME::ComponentEx interpreter = GAME::ComponentEx::_load (this->interpreter_.c_str ());
 
       // Set the parameter(s) for the interpreter. This includes setting
       // all the default parameters for the interpreter.

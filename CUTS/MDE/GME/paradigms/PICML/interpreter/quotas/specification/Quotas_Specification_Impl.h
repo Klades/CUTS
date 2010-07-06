@@ -13,10 +13,12 @@
 #ifndef _QUOTAS_SPECIFICATION_IMPL_H_
 #define _QUOTAS_SPECIFICATION_IMPL_H_
 
-#include "game/be/Interpreter_T.h"
-#include "game/be/Interpreter_Impl_Base.h"
 #include "game/Folder.h"
 #include "game/Model.h"
+
+#include "addons/PICMLManager/Configurator.h"
+#include "game/be/Interpreter_Impl_Base.h"
+
 #include <stack>
 #include <set>
 
@@ -32,7 +34,7 @@ class Reference;
  * Implemenation of the Quotas specification interpreter.
  */
 class Quotas_Specification_Impl : 
-  public GAME::Interpreter_Impl_Base
+  public GAME::Interpreter_Impl_Base 
 {
 public:
   /// Default constructor.
@@ -40,6 +42,9 @@ public:
 
   /// Destructor.
   virtual ~Quotas_Specification_Impl (void);
+
+  // Initialize the interpreter.
+  int initialize (GAME::Project & project);
 
   // Handle the InvokeEx callback.
   int invoke_ex (GAME::Project & project,
@@ -74,6 +79,8 @@ private:
   std::stack <GAME::Model> stack_;
 
   std::set <GAME::Model> components_;
+
+  CComPtr <IConfigurator> configurator_;
 };
 
 #endif  // !defined _QUOTAS_SPECIFICATION_IMPL_H_

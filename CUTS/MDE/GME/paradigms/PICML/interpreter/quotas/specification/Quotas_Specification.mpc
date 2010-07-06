@@ -4,6 +4,8 @@ project (Quotas_Specification) : game_interpreter, boost_base, cutslib {
   sharedname    = Quotas_Specification
   dynamicflags += QUOTAS_SPECIFICATION_BUILD_DLL
   
+  includes += $(COSMIC_ROOT)/PIM/PICML
+  
   pch_header = stdafx.h
   pch_source = stdafx.cpp
   

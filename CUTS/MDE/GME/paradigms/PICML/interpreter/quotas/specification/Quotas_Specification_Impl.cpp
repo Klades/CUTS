@@ -5,18 +5,28 @@
 #include "Quotas_Specification_Impl.h"
 #include "Quotas_Driver_Component.h"
 
+#include "game/Attribute.h"
 #include "game/Model.h"
 #include "game/MetaModel.h"
+#include "game/Project.h"
 #include "game/Reference.h"
-#include "game/Attribute.h"
+#include "game/ComponentEx.h"
 #include "game/utils/modelgen.h"
 
 #include "boost/bind.hpp"
 
 #include <functional>
 
+#include "game/be/ComponentEx_T.h"
+#include "game/be/ComponentEx_Impl_T.h"
+#include "game/be/Interpreter_Impl_Base.h"
+
+typedef GAME::ComponentEx_Impl_T <Quotas_Specification_Impl> Quotas_Specification_Interpreter;
+DECLARE_GAME_COMPONENT_EX (Quotas_Specification_Interpreter, Quotas_Specification);
+
 const std::string Quotas_Specification_Impl::
 Quotas_InterfaceDefinitions ("Quotas_InterfaceDefinitions");
+
 
 namespace GAME
 {
@@ -77,6 +87,7 @@ namespace types
 // Quotas_Specification_Impl
 //
 Quotas_Specification_Impl::Quotas_Specification_Impl (void)
+: GAME::Interpreter_Impl_Base ("Quotas Specification", "Quotas.Interpreter.Specification", "PICML")
 {
 
 }
@@ -86,7 +97,42 @@ Quotas_Specification_Impl::Quotas_Specification_Impl (void)
 //
 Quotas_Specification_Impl::~Quotas_Specification_Impl (void)
 {
+  if (this->configurator_)
+    this->configurator_->resetConfiguration ();
+}
 
+//
+// initialize
+//
+int Quotas_Specification_Impl::initialize (GAME::Project & project)
+{
+  // Get the set of add-ons for this project.
+  std::vector <GAME::ComponentEx> addons;
+  project.addon_components (addons);
+
+  // Let's see if we can find the PICMLManager addon. It will have
+  // the progid of MGA.AddOn.PICMLManager.
+  static const std::string name ("MGA.AddOn.PICMLManager");
+
+  std::vector <GAME::ComponentEx>::const_iterator 
+    result = std::find_if (addons.begin (),
+                           addons.end (),
+                           boost::bind (std::equal_to <std::string> (),
+                                        name,
+                                        boost::bind (&GAME::ComponentEx::progid, _1)));
+                                          
+  if (result != addons.end ())
+  {
+    HRESULT hr = (*result)->QueryInterface (&this->configurator_);
+
+    if (hr == S_OK)
+    {
+      this->configurator_->setImplementationFolder (L"Quotas_ComponentImplementations");
+      this->configurator_->setArtifactFolder (L"Quotas_ImplmentationArtifacts");
+    }
+  }
+
+  return 0;
 }
 
 //
@@ -100,42 +146,54 @@ invoke_ex (GAME::Project & project,
 {
   using GAME::Folder;
 
-  Folder root_folder = project.root_folder ();
-
-  std::vector <GAME::Folder> idl_folders;
-  root_folder.children (meta::InterfaceDefinitions, idl_folders); 
-
-  // First, make sure the target directory for the generated driver
-  // components exists in the current model.
-  if (GAME::create_if_not (root_folder,
-                           meta::InterfaceDefinitions, 
-                           idl_folders, 
-                           this->quotas_idl_folder_,
-      GAME::contains (boost::bind (std::equal_to <std::string> (),
-                                   Quotas_InterfaceDefinitions,
-                                   boost::bind (&Folder::name, _1)))))
+  try
   {
-    this->quotas_idl_folder_.name (Quotas_InterfaceDefinitions);
+    // Start a new transaction.
+    project.begin_transaction ();
+
+    // Obtain the root folder for the project.
+    Folder root_folder = project.root_folder ();
+
+    std::vector <GAME::Folder> idl_folders;
+    root_folder.children (meta::InterfaceDefinitions, idl_folders); 
+
+    // First, make sure the target directory for the generated driver
+    // components exists in the current model.
+    if (GAME::create_if_not (root_folder,
+                             meta::InterfaceDefinitions, 
+                             idl_folders, 
+                             this->quotas_idl_folder_,
+        GAME::contains (boost::bind (std::equal_to <std::string> (),
+                                     Quotas_InterfaceDefinitions,
+                                     boost::bind (&Folder::name, _1)))))
+    {
+      this->quotas_idl_folder_.name (Quotas_InterfaceDefinitions);
+    }
+
+    // Now that we have the interface definition folder, let's go through
+    // the remaining interface definitions and generate (1) the wrapper
+    // component for each object or (2) the driver component (i.e., C')
+    // for the current component.
+    std::for_each (idl_folders.begin (),
+                   idl_folders.end (),
+                   boost::bind (&Quotas_Specification_Impl::visit_interface_definitions,
+                                this,
+                                _1));
+
+    Quotas_Driver_Component_Generator driver_gen (this->quotas_idl_folder_);
+    std::for_each (this->components_.begin (),
+                   this->components_.end (),
+                   boost::bind (&Quotas_Driver_Component_Generator::generate,
+                                boost::ref (driver_gen),
+                                _1));
+
+    project.commit_transaction ();
   }
-
-  // Now that we have the interface definition folder, let's go through
-  // the remaining interface definitions and generate (1) the wrapper
-  // component for each object or (2) the driver component (i.e., C')
-  // for the current component.
-
-  std::for_each (idl_folders.begin (),
-                 idl_folders.end (),
-                 boost::bind (&Quotas_Specification_Impl::visit_interface_definitions,
-                              this,
-                              _1));
-
-  Quotas_Driver_Component_Generator driver_gen (this->quotas_idl_folder_);
-  std::for_each (this->components_.begin (),
-                 this->components_.end (),
-                 boost::bind (&Quotas_Driver_Component_Generator::generate,
-                              boost::ref (driver_gen),
-                              _1));
-
+  catch (...)
+  {
+    project.abort_transaction ();
+  }
+    
   return 0;
 }
 
@@ -387,5 +445,3 @@ visit_attribute_member (const GAME::Reference & member)
 
   attr_member.refers_to (member.refers_to ());
 }
-
-DECLARE_GAME_INTERPRETER (Quotas_Specification, Quotas_Specification_Impl);
