@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{C113DED3-D3D1-4664-8558-59C7E4E0AABD}" cdate="Tue Jun 15 12:07:24 2010" mdate="Tue Jun 15 12:07:24 2010" version="" metaguid="{321F55B3-3D12-4C5B-9854-AC17782275AF}" metaversion="0.1" metaname="CBML_WML">
+	<name>PerformanceTest</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x2" kind="RootFolder" guid="{9b1e6b03-3cf4-44f8-a0ab-e9c43a22cc5a}">
+		<name>PerformanceTest</name>
+		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x3" kind="BehaviorModels" guid="{9374528e-fe0d-4313-bf69-fae88c9e9420}">
+			<name>SingleEnitityTests</name>
+			<model id="id-0065-00000004" kind="TopLevelBehavior" guid="{7a4d7ee4-9d52-484c-9e1f-c28febe3a937}" relid="0x2" childrelidcntr="0xd">
+				<name>LatencyTest</name>
+				<model id="id-0065-00000005" kind="InputAction" role="InputAction" guid="{8cd7781e-afec-45b5-8474-a924f01c0fa6}" relid="0x1" childrelidcntr="0x0">
+					<name>InputAction</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Behavior" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>216,195</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</model>
+				<model id="id-0065-00000007" kind="RequestAction" role="RequestAction" guid="{cfffab7d-d7ad-4af5-bc94-7967a3f56577}" relid="0xb" childrelidcntr="0x0">
+					<name>RequestAction</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Behavior" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>343,168</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Duration" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="MethodName" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<atom id="id-0066-00000003" kind="State" role="State" guid="{1e1dd449-c6e2-4bb3-bffe-ed493c5e123c}" relid="0x2">
+					<name>State</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Behavior" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>513,191</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</atom>
+				<atom id="id-0066-00000004" kind="State" role="State" guid="{6022b441-47fe-4fd7-9ad6-83c806985020}" relid="0x3">
+					<name>State</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Behavior" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>275,191</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</atom>
+				<atom id="id-0066-00000005" kind="PeriodicEvent" role="PeriodicEvent" guid="{c0712d88-3cb0-42df-bdf9-d998fcef3dad}" relid="0x9">
+					<name>PeriodicEvent</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Behavior" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>115,177</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Distribution" status="meta">
+						<value>Constant</value>
+					</attribute>
+					<attribute kind="Hertz" status="meta">
+						<value>10</value>
+					</attribute>
+				</atom>
+				<connection id="id-0068-00000005" kind="Finish" role="Finish" guid="{7d051b6f-8550-4d08-9a01-9aa776b7a31f}" relid="0x5">
+					<name>Finish</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Nn</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-00000005"/>
+					<connpoint role="src" target="id-0066-00000003"/>
+				</connection>
+				<connection id="id-0068-00000007" kind="InputEffect" role="InputEffect" guid="{8f7de670-ae6d-4e34-bea5-da663ea4d4b7}" relid="0x7">
+					<name>InputEffect</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<attribute kind="Postcondition" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0065-00000005"/>
+					<connpoint role="dst" target="id-0066-00000004"/>
+				</connection>
+				<connection id="id-0068-00000009" kind="Input" role="Input" guid="{8e23be5c-1dcd-46f8-b666-abe3e7f2676f}" relid="0xa">
+					<name>Input</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-00000005"/>
+					<connpoint role="src" target="id-0066-00000005"/>
+				</connection>
+				<connection id="id-0068-0000000a" kind="Transition" role="Transition" guid="{146121fd-c3a6-4f06-9a1c-e1c5bada8973}" relid="0xc">
+					<name>Transition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-00000007"/>
+					<connpoint role="src" target="id-0066-00000004"/>
+				</connection>
+				<connection id="id-0068-0000000b" kind="Effect" role="Effect" guid="{bf336858-79b2-49e5-96a7-580f731bcb7a}" relid="0xd">
+					<name>Effect</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<attribute kind="Postcondition" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0065-00000007"/>
+					<connpoint role="dst" target="id-0066-00000003"/>
+				</connection>
+			</model>
+			<model id="id-0065-00000008" kind="TopLevelBehavior" guid="{644a63d3-cba0-4148-ab1c-c7e3b2eef077}" relid="0x3" childrelidcntr="0xc">
+				<name>ThroughputBehavior</name>
+				<model id="id-0065-00000009" kind="InputAction" role="InputAction" guid="{341d753c-c15c-49a2-a7d8-9d29dc6b0929}" relid="0x4" childrelidcntr="0x0">
+					<name>InputAction</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Behavior" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>216,195</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</model>
+				<model id="id-0065-0000000a" kind="RequestAction" role="RequestAction" guid="{08e7e377-a1c1-4e9f-acd8-3db376a45a07}" relid="0x5" childrelidcntr="0x0">
+					<name>RequestAction</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Behavior" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>343,168</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Duration" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="MethodName" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<atom id="id-0066-00000006" kind="State" role="State" guid="{44c48977-af50-43c2-8f35-58ad7aa1ac35}" relid="0x1">
+					<name>State</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Behavior" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>513,191</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</atom>
+				<atom id="id-0066-00000008" kind="State" role="State" guid="{5055b9d9-2d3c-4787-a1dd-7989b1888369}" relid="0x3">
+					<name>State</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Behavior" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>275,191</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</atom>
+				<atom id="id-0066-00000009" kind="ApplicationTask" role="ApplicationTask" guid="{71b32d31-0850-4d22-8503-a6d19221a43e}" relid="0xb">
+					<name>ApplicationTask</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Behavior" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>142,180</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</atom>
+				<connection id="id-0068-0000000c" kind="InputEffect" role="InputEffect" guid="{67f80d16-a71a-4f94-b706-6be2c37d55f3}" relid="0x6">
+					<name>InputEffect</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<attribute kind="Postcondition" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0065-00000009"/>
+					<connpoint role="dst" target="id-0066-00000008"/>
+				</connection>
+				<connection id="id-0068-0000000d" kind="Finish" role="Finish" guid="{f9fb47c0-49a1-4706-a1c2-9bd30232965e}" relid="0x7">
+					<name>Finish</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Nn</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-00000009"/>
+					<connpoint role="src" target="id-0066-00000006"/>
+				</connection>
+				<connection id="id-0068-0000000e" kind="Effect" role="Effect" guid="{1d6a602e-d92a-4bd4-b2a8-fbc7a80b6e99}" relid="0x8">
+					<name>Effect</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<attribute kind="Postcondition" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0065-0000000a"/>
+					<connpoint role="dst" target="id-0066-00000006"/>
+				</connection>
+				<connection id="id-0068-0000000f" kind="Transition" role="Transition" guid="{33eb961b-cffa-4096-ba45-664f00e001ee}" relid="0x9">
+					<name>Transition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-0000000a"/>
+					<connpoint role="src" target="id-0066-00000008"/>
+				</connection>
+				<connection id="id-0068-00000011" kind="Input" role="Input" guid="{56c9a3e7-0bc5-4b41-a531-46c266c92629}" relid="0xc">
+					<name>Input</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ew</value>
+					</regnode>
+					<connpoint role="dst" target="id-0065-00000009"/>
+					<connpoint role="src" target="id-0066-00000009"/>
+				</connection>
+			</model>
+		</folder>
+		<folder id="id-006a-00000003" relid="0x2" childrelidcntr="0x0" kind="BehaviorModels" guid="{ba18945d-1dce-4c2a-afec-c5aec4bd8e81}">
+			<name>E2EResponseTimeTest</name>
+		</folder>
+	</folder>
+</project>

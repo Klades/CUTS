@@ -1,3 +1,35 @@
+Tue Jul  6 15:40:31 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/CBML-WML:
+        * MDE/GME/paradigms/CBML-WML/models:
+        * MDE/GME/paradigms/CBML-WML/models/PerformanceTests.xme:
+        * MDE/GME/paradigms/CBML-WML/paradigm:
+        * MDE/GME/paradigms/CBML-WML/paradigm/CBML-WML.xme:
+        * MDE/GME/paradigms/CBML-WML/paradigm/CBML_WML.mta:
+        * MDE/GME/paradigms/CBML-WML/paradigm/CBML_WML.xmp:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/ApplicationTask.gif:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/BranchState.bmp:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/Connector.bmp:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/DoWhileState.bmp:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/ForState.bmp:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/InputAction.bmp:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/MultiInputAction.bmp:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/OutputAction.bmp:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/QueryAction.bmp:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/QueryInputAction.bmp:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/State.bmp:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/WhileState.bmp:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/action.bmp:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/composite.bmp:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/environment.gif:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/member.bmp:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/periodic.gif:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/worker.gif:
+        * MDE/GME/paradigms/CBML-WML/paradigm/icons/workerref.gif:
+        
+          Standalone version of CBML and WML.
+
 Tue Jul  6 15:10:13 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/T2M/executor/Executor_App.cpp:
@@ -7,7 +39,7 @@ Tue Jul  6 15:10:13 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification.mpc:
         * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification_Impl.h:
         * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification_Impl.cpp:
-                  
+
           Updated to the latest version of GAME.
 
 Tue Jun 29 19:51:19 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
