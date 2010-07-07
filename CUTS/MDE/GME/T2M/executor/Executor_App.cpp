@@ -266,7 +266,7 @@ int CUTS_T2M_Executor_App::open_gme_project (void)
                 "%T (%t) - %M - opening %s for processing\n",
                 this->opts_.project_.c_str ()));
 
-    this->project_.open (connstr.str ());
+    this->project_ = GAME::Project::_open (connstr.str ());
   }
   else
   {
@@ -304,7 +304,7 @@ int CUTS_T2M_Executor_App::open_gme_project (void)
                   "%T (%t) - %M - importing '%s' for processing\n",
                   this->opts_.project_.c_str ()));
 
-      this->project_.create (connstr.str (), info.paradigm_);
+      this->project_ = GAME::Project::_create (connstr.str (), info.paradigm_);
       parser.parse (this->opts_.project_, this->project_);
     }
     else

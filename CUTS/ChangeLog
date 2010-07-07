@@ -1,3 +1,9 @@
+Wed Jul  7 02:57:00 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/T2M/executor/Executor_App.cpp:
+        
+          Fixed compiler errors.
+
 Tue Jul  6 15:40:31 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/CBML-WML:
@@ -27,7 +33,7 @@ Tue Jul  6 15:40:31 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
         * MDE/GME/paradigms/CBML-WML/paradigm/icons/periodic.gif:
         * MDE/GME/paradigms/CBML-WML/paradigm/icons/worker.gif:
         * MDE/GME/paradigms/CBML-WML/paradigm/icons/workerref.gif:
-        
+
           Standalone version of CBML and WML.
 
 Tue Jul  6 15:10:13 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
