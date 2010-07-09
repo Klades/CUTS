@@ -155,7 +155,6 @@ namespace actors
       // Checkpoint the model. This will force the PICMLManager to
       // auto-generate the DefaultGroup for the node.
       GAME::Project project = this->deployment_.project ();
-      project.begin_transaction (true);
 
       // Now, let's get the auto-generated collocation group.
       GAME::ConnectionPoints points;
@@ -355,14 +354,12 @@ namespace actors
 
       // Checkpoint the model.
       GAME::Project project = this->obj_.project ();
-      project.begin_transaction (true);
     }
 
     template <typename IteratorT>
     void operator () (IteratorT begin) const
     {
       GAME::Project project = this->obj_.project ();
-      project.begin_transaction (true);
     }
 
   private:

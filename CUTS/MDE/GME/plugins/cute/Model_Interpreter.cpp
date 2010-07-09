@@ -8,7 +8,10 @@
 #endif
 
 #include "game/ComponentEx.h"
+#include "game/Transaction.h"
+
 #include "cuts/utils/Property_Map.h"
+#include "boost/bind.hpp"
 
 //
 // handle_config
@@ -19,9 +22,12 @@ handle_config (const CUTS_Property_Map & config)
   try
   {
     // Substitute the template parameters.
-    this->project_.begin_transaction ();
-    this->actlist_.handle_replace (config);
-    this->project_.commit_transaction ();
+    do
+    {
+      GAME::Transaction t (this->project_);
+      this->actlist_.handle_replace (config);
+      t.commit ();
+    } while (false);
 
     try
     {
@@ -30,16 +36,13 @@ handle_config (const CUTS_Property_Map & config)
 
       // Set the parameter(s) for the interpreter. This includes setting
       // all the default parameters for the interpreter.
-      interpreter.parameter ("-non-interactive", "");
+      interpreter.interactive (false);
 
-      for (CUTS_Property_Map::const_iterator iter (this->params_.map ());
-           !iter.done ();
-           ++ iter)
-      {
+      for (CUTS_Property_Map::map_type::CONST_ITERATOR iter (this->params_.map ()); !iter.done (); ++ iter)
         interpreter.parameter (iter->key ().c_str (), iter->item ().c_str ());
-      }
-
+      
       // Execute the interpreter.
+      interpreter.initialize (this->project_);
       interpreter.invoke (this->project_,
                           this->target_,
                           this->selected_,
@@ -52,9 +55,12 @@ handle_config (const CUTS_Property_Map & config)
     }
 
     // Reset the values of the template.
-    this->project_.begin_transaction ();
-    this->actlist_.handle_reset ();
-    this->project_.commit_transaction ();
+    do
+    {
+      GAME::Transaction t (this->project_);
+      this->actlist_.handle_reset ();
+      t.commit ();
+    } while (false);
   }
   catch (...)
   {

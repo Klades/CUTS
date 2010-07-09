@@ -31,4 +31,6 @@
 #include <atlcom.h>
 #include <atlcoll.h>
 
+#include "game/Mga.h"
+
 #endif

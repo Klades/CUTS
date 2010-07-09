@@ -3,7 +3,6 @@
 #include "stdafx.h"
 #include "Quotas_Specification.h"
 #include "Quotas_Specification_Impl.h"
-#include "Quotas_Driver_Component.h"
 
 #include "game/Attribute.h"
 #include "game/Model.h"
@@ -11,6 +10,8 @@
 #include "game/Project.h"
 #include "game/Reference.h"
 #include "game/ComponentEx.h"
+#include "game/Transaction.h"
+
 #include "game/utils/modelgen.h"
 
 #include "boost/bind.hpp"
@@ -26,7 +27,6 @@ DECLARE_GAME_COMPONENT_EX (Quotas_Specification_Interpreter, Quotas_Specificatio
 
 const std::string Quotas_Specification_Impl::
 Quotas_InterfaceDefinitions ("Quotas_InterfaceDefinitions");
-
 
 namespace GAME
 {
@@ -146,53 +146,39 @@ invoke_ex (GAME::Project & project,
 {
   using GAME::Folder;
 
-  try
+  // Start a new transaction.
+  GAME::Transaction t (project);
+
+  // Obtain the root folder for the project.
+  Folder root_folder = project.root_folder ();
+
+  std::vector <GAME::Folder> idl_folders;
+  root_folder.children (meta::InterfaceDefinitions, idl_folders); 
+
+  // First, make sure the target directory for the generated driver
+  // components exists in the current model.
+  if (GAME::create_if_not (root_folder,
+                           meta::InterfaceDefinitions, 
+                           idl_folders, 
+                           this->quotas_idl_folder_,
+      GAME::contains (boost::bind (std::equal_to <std::string> (),
+                                   Quotas_InterfaceDefinitions,
+                                   boost::bind (&Folder::name, _1)))))
   {
-    // Start a new transaction.
-    project.begin_transaction ();
-
-    // Obtain the root folder for the project.
-    Folder root_folder = project.root_folder ();
-
-    std::vector <GAME::Folder> idl_folders;
-    root_folder.children (meta::InterfaceDefinitions, idl_folders); 
-
-    // First, make sure the target directory for the generated driver
-    // components exists in the current model.
-    if (GAME::create_if_not (root_folder,
-                             meta::InterfaceDefinitions, 
-                             idl_folders, 
-                             this->quotas_idl_folder_,
-        GAME::contains (boost::bind (std::equal_to <std::string> (),
-                                     Quotas_InterfaceDefinitions,
-                                     boost::bind (&Folder::name, _1)))))
-    {
-      this->quotas_idl_folder_.name (Quotas_InterfaceDefinitions);
-    }
-
-    // Now that we have the interface definition folder, let's go through
-    // the remaining interface definitions and generate (1) the wrapper
-    // component for each object or (2) the driver component (i.e., C')
-    // for the current component.
-    std::for_each (idl_folders.begin (),
-                   idl_folders.end (),
-                   boost::bind (&Quotas_Specification_Impl::visit_interface_definitions,
-                                this,
-                                _1));
-
-    Quotas_Driver_Component_Generator driver_gen (this->quotas_idl_folder_);
-    std::for_each (this->components_.begin (),
-                   this->components_.end (),
-                   boost::bind (&Quotas_Driver_Component_Generator::generate,
-                                boost::ref (driver_gen),
-                                _1));
-
-    project.commit_transaction ();
+    this->quotas_idl_folder_.name (Quotas_InterfaceDefinitions);
   }
-  catch (...)
-  {
-    project.abort_transaction ();
-  }
+
+  // Now that we have the interface definition folder, let's go through
+  // the remaining interface definitions and generate the wrapper
+  // component for each object
+  std::for_each (idl_folders.begin (),
+                 idl_folders.end (),
+                 boost::bind (&Quotas_Specification_Impl::visit_interface_definitions,
+                              this,
+                              _1));
+
+  // Commit the transaction.
+  t.commit ();
     
   return 0;
 }
@@ -337,7 +323,7 @@ void Quotas_Specification_Impl::visit_object (const GAME::Model & object)
   // on the object, we are going to map it to an attribute on the 
   // wrapper component.
   const std::string name (object.name ());
-  const std::string component_name = name + "_ComponentWrapper";
+  const std::string component_name = "Quotas_" + name;
   const std::string facet_name = name + "_quotas";
 
   // Here we are creating the component wrapper for the object.
@@ -345,10 +331,10 @@ void Quotas_Specification_Impl::visit_object (const GAME::Model & object)
                            meta::Component, 
                            this->active_model_,
       GAME::contains (boost::bind (std::equal_to <std::string> (),
-                                   name,
+                                   component_name,
                                    boost::bind (&GAME::Model::name, _1)))))
   {
-    this->active_model_.name (name);
+    this->active_model_.name (component_name);
   }  
 
   // Store the component so we can create the driver's 

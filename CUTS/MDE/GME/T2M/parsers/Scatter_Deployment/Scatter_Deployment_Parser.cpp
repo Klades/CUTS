@@ -2,14 +2,13 @@
 
 #include "stdafx.h"
 #include "Scatter_Deployment_Parser.h"
-#include "game/GAME.h"
+
 #include "boost/bind.hpp"
 #include "boost/spirit/core.hpp"
 #include "boost/spirit/utility/confix.hpp"
 #include "boost/spirit/iterator/file_iterator.hpp"
 #include "boost/spirit/error_handling/exceptions.hpp"
 #include "boost/spirit/actor.hpp"
-#include "ace/Log_Msg.h"
 #include <iostream>
 
 namespace actor
@@ -511,8 +510,6 @@ insert_nodes_in_deployment (GAME::Model & deployment,
 
     // Force a new transaction. This should cause the loaded add-on(s)
     // to execute their event handlers.
-    noderef.project ().begin_transaction (true);
-
     GAME::ConnectionPoints points;
 
     if (noderef.in_connection_points (points))

@@ -13,9 +13,12 @@
 #include "ace/OS_NS_unistd.h"
 #include "ace/DLL.h"
 #include "ace/streams.h"
-#include "game/XML.h"
-#include "game/ComponentEx.h"
+
 #include "game/GAME.h"
+#include "game/ComponentEx.h"
+#include "game/Transaction.h"
+#include "game/XML.h"
+
 #include <sstream>
 
 static const char * __HELP__ =
@@ -114,10 +117,8 @@ int CUTS_T2M_Executor_App::run_parser (void)
                       "%T (%t) - %M - failed to create parser\n"),
                       -1);
 
-  // Begin a new transaction.
-  this->project_.begin_transaction ();
-
   // Get the root folder of the project.
+  GAME::Transaction t (this->project_);
   GAME::Folder root_folder = this->project_.root_folder ();
 
   // Determine what is the parent object for parsing.
@@ -133,27 +134,23 @@ int CUTS_T2M_Executor_App::run_parser (void)
     if (parser->parse (this->opts_.filename_.c_str (), target))
     {
       ACE_DEBUG ((LM_DEBUG,
-                  "%T (%t) - %M - successully parsed %s\n",
+                  ACE_TEXT ("%T (%t) - %M - successully parsed %s\n"),
                   this->opts_.filename_.c_str ()));
 
       // Commit the transaction.
-      this->project_.commit_transaction ();
+      t.commit ();
     }
     else
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T (%t) - %M - failed to parse %s\n",
+                  ACE_TEXT ("%T (%t) - %M - failed to parse %s\n"),
                   this->opts_.filename_.c_str ()));
-
-      this->project_.abort_transaction ();
     }
   }
   else
   {
     ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - failed to resolve target element\n"));
-
-    this->project_.abort_transaction ();
+                ACE_TEXT ("%T (%t) - %M - failed to resolve target element\n")));
   }
 
   // Destroy the parser.
@@ -363,22 +360,23 @@ int CUTS_T2M_Executor_App::run (const std::string & progid)
   try
   {
     // Let's see if we need to run an interpreter
-    this->project_.begin_transaction ();
 
     // Load the specified interpreter.
     GAME::ComponentEx interpreter = GAME::ComponentEx::_load (progid);
 
     // Pass the standard configuration to the interpreter.
-    interpreter.parameter ("non-interactive", "");
+    interpreter.interactive (false);
     interpreter.parameter ("output", this->opts_.run_output_);
 
     // Execute the interpreter on the currently selected object. We
     // also should make it the focus object.
+    GAME::Transaction t (this->project_, TRANSACTION_READ_ONLY);
     GAME::Object obj = this->project_.object_by_path (this->opts_.run_focus_);
+    t.commit ();
 
     if (obj.is_nil ())
       ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T (%t) - %M - failed to locate object %s\n",
+                         ACE_TEXT ("%T (%t) - %M - failed to locate object %s\n"),
                          this->opts_.run_focus_.c_str ()),
                          -1);
 
@@ -389,15 +387,12 @@ int CUTS_T2M_Executor_App::run (const std::string & progid)
 
     try
     {
-      this->project_.commit_transaction ();
       interpreter.invoke (focus.project (), focus, selected, 0);
     }
     catch (const GAME::Exception &)
     {
       ACE_ERROR ((LM_ERROR,
-                  "%T - %M - caught GAME exception (%N:%l)\n"));
-
-      this->project_.abort_transaction ();
+                  ACE_TEXT ("%T - %M - caught GAME exception (%N:%l)\n")));
     }
 
     return 0;
@@ -405,6 +400,6 @@ int CUTS_T2M_Executor_App::run (const std::string & progid)
   catch (GAME::Exception &)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T - %M - caught GAME exception (%N:%l)\n"));
+                ACE_TEXT ("%T - %M - caught GAME exception (%N:%l)\n")));
   }
 }

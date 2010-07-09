@@ -12,7 +12,6 @@
 
 #include "Scatter_Deployment_Parser_export.h"
 #include "GME/T2M/parsers/T2M_Parser.h"
-#include "game/GME_fwd.h"
 #include <map>
 
 /**

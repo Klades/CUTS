@@ -10,7 +10,6 @@ project (Quotas_Specification) : game_interpreter, boost_base, cutslib {
   pch_source = stdafx.cpp
   
   Source_Files {
-    Quotas_Driver_Component.cpp
     Quotas_Specification.idl
     Quotas_Specification_Module.cpp
     Quotas_Specification_Impl.cpp

@@ -33,7 +33,9 @@ workspace (CUTS_Modeling) {
 
     exclude (wix) {
       MDE/GME/paradigms/CUTS
-      MDE/GME/T2M
+      
+      // == temp disable
+      //MDE/GME/T2M
     }
     
     cosmic {

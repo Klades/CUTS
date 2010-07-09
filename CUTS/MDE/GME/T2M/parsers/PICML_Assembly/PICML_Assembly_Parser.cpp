@@ -329,14 +329,12 @@ namespace actors
 
       // Checkpoint the model.
       GAME::Project project = this->assembly_.project ();
-      project.begin_transaction (true);
     }
 
     template <typename IteratorT>
     void operator () (IteratorT begin) const
     {
       GAME::Project project = this->assembly_.project ();
-      project.begin_transaction (true);
     }
 
   private:

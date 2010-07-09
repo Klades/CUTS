@@ -14,6 +14,7 @@
 
 #include "game/be/Plugin_T.h"
 #include "game/Project.h"
+#include "game/Transaction.h"
 
 #include "cuts/utils/Config_List_Parser_T.h"
 
@@ -89,9 +90,11 @@ int CUTS_CUTE::invoke_ex (GAME::Project & project,
     // Load the interpreters for this paradigm.
     CUTS_CUTE_Interpreter_List interpreters;
 
-    project.begin_transaction ();
-    this->get_interpreters (project.paradigm_name ().c_str (), interpreters);
-    project.commit_transaction ();
+    do
+    {
+      GAME::Transaction t (project, TRANSACTION_READ_ONLY);
+      this->get_interpreters (project.paradigm_name ().c_str (), interpreters);
+    } while (false);
 
     // Let the user select the configuration and interpreter.
     CUTS_CUTE_Dialog dialog (::AfxGetMainWnd ());
@@ -107,11 +110,13 @@ int CUTS_CUTE::invoke_ex (GAME::Project & project,
 
       // Next, locate all attributes with a template parameter. We are
       // going to cache the elements for later.
-      project.begin_transaction ();
+      GAME::Transaction t (project);
+
       CUTS_CUTE_Model_Interpreter_Action_List actlist;
       CUTS_CUTE_Property_Locator locator (actlist);
       project.root_folder ().accept (locator);
-      project.commit_transaction ();
+
+      t.commit ();
 
       // Then, parse the configuration file specified by the end-user
       // in the dialog. After parsing each configuration, we will
