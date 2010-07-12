@@ -1,7 +1,32 @@
+Mon Jul 12 16:19:53 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/java/cuts:
+
+          Rename of a directory (Part 2).
+          
+        * cuts/java/CUTS-new:
+        * cuts/java/CUTS-new/ConstantPeriodicTaskStrategy.java:
+        * cuts/java/CUTS-new/ExponentialPeriodicTaskStrategy.java:
+        * cuts/java/CUTS-new/PeriodicTask.java:
+        * cuts/java/CUTS-new/PeriodicTaskHandler.java:
+        * cuts/java/CUTS-new/PeriodicTaskHandlerFactory.java:
+        * cuts/java/CUTS-new/PeriodicTaskStrategy.java:
+        * cuts/java/CUTS-new/ProcessHandler.java:
+        * cuts/java/CUTS-new/ProcessStreamReader.java:
+        * cuts/java/CUTS-new/quotas:
+        * cuts/java/CUTS-new/quotas/pojo:
+        * cuts/java/CUTS-new/quotas/pojo/Component.java:
+        * cuts/java/CUTS-new/quotas/pojo/ComponentBase.java:
+        * cuts/java/CUTS-new/quotas/pojo/PojoContainer.java:
+        * cuts/java/CUTS-new/quotas/pojo/schema:
+        * cuts/java/CUTS-new/quotas/pojo/schema/binding.xml:
+
+          Removed these files.
+
 Mon Jul 12 16:04:53 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/java/CUTS-new:
-        
+
           Rename of a directory (Part 1).
 
         * cuts/java/CUTS:
