@@ -1,0 +1,122 @@
+<binding xmlns="http://www.castor.org/SourceGenerator/Binding" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+            xsi:schemaLocation="http://www.castor.org/SourceGenerator/Binding binding.xsd" 
+            defaultBinding="element">
+
+   <elementBinding name="/complexType:Extension">
+      <java-class name="ExtensionComplexType"/>
+   </elementBinding>
+
+  <elementBinding name="/complexType:AliasType/elementType">
+    <java-class name="AliasElementType"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:ValueType/member">
+    <java-class name="ValueTypeMember"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:StructType/member">
+    <java-class name="StructTypeMember"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:ValueMemberType/type">
+    <java-class name="ValueMemberDataType"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:StructMemberType/type">
+    <java-class name="StructMemberDataType"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:SatisfierProperty/value">
+    <java-class name="SatisfierPropertyValue"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:Any/value">
+    <java-class name="AnyValue"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:NamedValue/value">
+    <java-class name="NamedDataValue"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:ComponentPropertyDescription/type">
+    <java-class name="ComponentPropertyDescriptionDataType"/>
+  </elementBinding>
+  
+  <elementBinding name="/complexType:Requirement/property">
+    <java-class name="RequirementProperty"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:Property/value">
+    <java-class name="PropertyValue"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:Resource/property">
+    <java-class name="ResourceProperty"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:ConnectionResourceDeploymentDescription/property">
+    <java-class name="ConnectionResourceDeploymentDescriptionProperty"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:InstanceResourceDeploymentDescription/property">
+    <java-class name="InstanceResourceDeploymentDescriptionProperty"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:Capability/property">
+    <java-class name="CapabilityProperty"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:ResourceDeploymentDescription/property">
+    <java-class name="ResourceDeploymentDescriptionProperty"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:MonolithicDeploymentDescription/deployRequirement">
+    <java-class name="MonolithicDeploymentDescriptionDeployRequirement"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:ImplementationRequirement/property">
+    <java-class name="ImplementationRequirementProperty"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:ArtifactDeploymentDescription/execParameter">
+    <java-class name="ArtifactDeploymentDescriptionExecParameter"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:ArtifactDeploymentDescription/deployRequirement">
+    <java-class name="ArtifactDeploymentDescriptionDeployRequirement"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:ArtifactDeploymentDescription/deployedResource">
+    <java-class name="ArtifactDeploymentDescriptionDeployedResource"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:PlanSubcomponentPortEndpoint/instance">
+    <java-class name="PlanSubcomponentPortEndpointInstance"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:PlanConnectionDescription/deployRequirement">
+    <java-class name="PlanConnectionDescriptionDeployRequirement"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:PlanConnectionDescription/externalEndpoint">
+    <java-class name="PlanConnectionDescriptionExternalEndpoint"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:PlanConnectionDescription/internalEndpoint">
+    <java-class name="PlanConnectionDescriptionInternalEndpoint"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:PlanConnectionDescription/externalReference">
+    <java-class name="PlanConnectionDescriptionExternalReference"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:PlanConnectionDescription/deployedResource">
+    <java-class name="PlanConnectionDescriptionDeployedResource"/>
+  </elementBinding>
+
+  <elementBinding name="/complexType:PlanConnectionDescription/externalReference">
+    <java-class name="PlanConnectionDescriptionExternalReference"/>
+  </elementBinding>
+
+</binding>

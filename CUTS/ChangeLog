@@ -1,7 +1,20 @@
+Mon Jul 12 15:53:21 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/java/CUTS/quotas:
+        * cuts/java/CUTS/quotas/pojo:
+        * cuts/java/CUTS/quotas/pojo/Component.java:
+        * cuts/java/CUTS/quotas/pojo/ComponentBase.java:
+        * cuts/java/CUTS/quotas/pojo/PojoContainer.java:
+        * cuts/java/CUTS/quotas/pojo/schema:
+        * cuts/java/CUTS/quotas/pojo/schema/binding.xml:
+        * cuts/java/cuts.quotas.pojo.build:
+        
+          Checkpoint for the QUOTAS source files.
+
 Fri Jul  9 17:00:08 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * CUTS_Modeling.mwc:
-        
+
           Removed the T2M applications.
 
         * MDE/GME/T2M/executor/Executor_App.cpp:
@@ -16,7 +29,7 @@ Fri Jul  9 17:00:08 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
         * MDE/GME/plugins/cute/Model_Interpreter.cpp:
         * MDE/GME/plugins/cute/stdafx.h:
         * MDE/GME/plugins/cute/stdafx.cpp:
-        
+
           Updated to latest version of GAME.
 
         * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Driver_Component.h:

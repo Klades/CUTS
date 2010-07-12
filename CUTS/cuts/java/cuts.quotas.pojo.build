@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<project name="cuts.quotas.pojo" basedir="." default="build">
+  <property environment="env" />
+
+  <import file="${env.CUTS_ROOT}/etc/ANT/include/cuts.build" />
+  <import file="${env.CUTS_ROOT}/etc/ANT/include/castor.build" />
+
+  <property name="cuts.java.dir" value="${cuts.src.dir}/java" />
+  <property name="cuts.quotas.pojo.dir" value="${cuts.src.dir}/java/CUTS/quotas/pojo" />
+
+  <!--
+    Target(s): top-level targets
+    -->
+
+  <target name="build" depends="cuts.quotas.pojo.build" />
+  <target name="clean" depends="cuts.quotas.pojo.clean" />
+  <target name="realclean" depends="cuts.quotas.pojo.realclean" />
+
+  <!--
+    Target(s): cuts.quotas.pojo.*
+    -->
+
+  <property name="cuts.quotas.pojo.jar" value="cuts.quotas.pojo.jar" />
+
+  <!--<target name="cuts.java.capi.build">
+    <path id="cuts.java.capi.build.classpath">
+      <pathelement path="." />
+      <pathelement path="${env.JBI_ROOT}/lib/capi1.5.jar" />
+      <pathelement path="${contrib.dir}/spring.jar" />
+      <pathelement path="${contrib.dir}/castor-1.2.jar" />
+      <pathelement path="${contrib.dir}/log4j-1.2.15.jar" />
+    </path>
+
+    <javac srcdir="${cuts.quotas.pojo.d}"
+           classpathref="cuts.java.capi.build.classpath"
+           debug="true"
+           debuglevel="source,lines">
+
+    </javac>
+  </target>
+
+  <target name="cuts.java.capi.jar.build" depends="cuts.java.capi.build">
+    <jar destfile="${cuts.lib.dir}/${cuts.java.capi.jar}" basedir="${cuts.capi.dir}">
+      <include name="cuts/jbi/*.class" />
+      <include name="cuts/jbi/client/*.class" />
+      <include name="cuts/jbi/utils/*.class" />
+    </jar>
+  </target>
+
+  <target name="cuts.java.capi.clean">
+    <delete>
+      <fileset dir="${cuts.capi.dir}">
+        <include name="cuts/jbi/*.class" />
+        <include name="cuts/jbi/client/*.class" />
+        <include name="cuts/jbi/utils/*.class" />
+      </fileset>
+    </delete>
+  </target>
+
+  <target name="cuts.java.capi.realclean"
+          depends="cuts.java.capi.clean">
+    <delete>
+      <fileset dir="${cuts.lib.dir}" includes="${cuts.java.capi.jar}" />
+    </delete>
+  </target>-->
+
+  <!--
+    Target(s): cuts.quotas.pojo.build
+    -->
+
+  <target name="cuts.quotas.pojo.build" depends="cuts.quotas.pojo.schema.clean">
+    <path id="cuts.quotas.pojo.deployment.xml.classpath">
+      <pathelement path="." />
+      <pathelement path="${castor.srcgen.classpath}" />
+    </path>
+    
+    <!-- auto-generating the mapping classes -->
+    <java classname="org.exolab.castor.builder.SourceGeneratorMain"
+          classpathref="castor.srcgen.classpath"
+          dir="${cuts.java.dir}"
+          output="output.log"
+          fork="true">
+      <arg line="-i ${env.DANCE_ROOT}/docs/schema/Basic_Deployment_Data.xsd" />
+      <arg line="-nameConflictStrategy informViaLog" />
+      <arg line="-package cuts.quotas.pojo.schema" />
+      <arg line="-generateImportedSchemas" />
+      <arg line="-types j2" />
+      <arg line="-binding-file ${cuts.quotas.pojo.dir}/schema/binding.xml" />
+    </java>
+
+    <!-- compile the auto-generated files -->
+    <javac srcdir="${cuts.quotas.pojo.dir}/schema"
+           classpathref="castor.srcgen.classpath"
+           debug="true"
+           debuglevel="source,lines"
+           source="1.4">
+    </javac>
+    
+    <!-- create the .jar file for the project -->
+    
+  </target>
+
+  <!--
+    Target(s): cuts.quotas.pojo.clean
+    -->
+  
+  <target name="cuts.quotas.pojo.clean" depends="cuts.quotas.pojo.schema.clean">
+    <delete>
+      <fileset dir="${cuts.quotas.pojo}"
+               includes="*.class" />
+
+      </delete>
+  </target>
+
+  <target name="cuts.quotas.pojo.schema.clean">
+    <delete>
+      <fileset dir="${cuts.quotas.pojo.dir}/schema"
+               includes="*.java, *.class" />
+    </delete>
+  </target>
+
+  <!--
+    Target(s): cuts.quotas.pojo.realclean
+    -->
+  
+  <target name="cuts.quotas.pojo.realclean">
+    <!--
+    <delete>
+      <fileset dir="${cuts.lib.dir}"
+               includes="${cuts.java.capi.deployment.jar}" />
+    </delete>-->
+  </target>
+</project>
