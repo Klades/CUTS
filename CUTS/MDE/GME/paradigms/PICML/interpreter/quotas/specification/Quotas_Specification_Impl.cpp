@@ -346,9 +346,7 @@ void Quotas_Specification_Impl::visit_object (const GAME::Model & object)
   // into this method).
   GAME::Reference facet;
 
-  if (GAME::create_if_not (this->active_model_,
-                           meta::ProvidedRequestPort, 
-                           facet,
+  if (GAME::create_if_not (this->active_model_, meta::ProvidedRequestPort, facet,
       GAME::contains (boost::bind (std::equal_to <GAME::FCO> (),
                                    object,
                                    boost::bind (&GAME::Reference::refers_to, _1)))))

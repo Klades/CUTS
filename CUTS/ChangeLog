@@ -1,9 +1,19 @@
+Mon Jul 12 16:21:59 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/StdAfx.cpp:
+        
+          Fixed compiler errors based on refactoring.
+         
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification_Impl.cpp:
+        
+          Reformatted the code.
+
 Mon Jul 12 16:19:53 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/java/cuts:
 
           Rename of a directory (Part 2).
-          
+
         * cuts/java/CUTS-new:
         * cuts/java/CUTS-new/ConstantPeriodicTaskStrategy.java:
         * cuts/java/CUTS-new/ExponentialPeriodicTaskStrategy.java:
