@@ -1,3 +1,28 @@
+Mon Jul 12 16:04:53 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/java/CUTS-new:
+        
+          Rename of a directory (Part 1).
+
+        * cuts/java/CUTS:
+        * cuts/java/CUTS/ConstantPeriodicTaskStrategy.java:
+        * cuts/java/CUTS/ExponentialPeriodicTaskStrategy.java:
+        * cuts/java/CUTS/PeriodicTask.java:
+        * cuts/java/CUTS/PeriodicTaskHandler.java:
+        * cuts/java/CUTS/PeriodicTaskHandlerFactory.java:
+        * cuts/java/CUTS/PeriodicTaskStrategy.java:
+        * cuts/java/CUTS/ProcessHandler.java:
+        * cuts/java/CUTS/ProcessStreamReader.java:
+        * cuts/java/CUTS/quotas:
+        * cuts/java/CUTS/quotas/pojo:
+        * cuts/java/CUTS/quotas/pojo/Component.java:
+        * cuts/java/CUTS/quotas/pojo/ComponentBase.java:
+        * cuts/java/CUTS/quotas/pojo/PojoContainer.java:
+        * cuts/java/CUTS/quotas/pojo/schema:
+        * cuts/java/CUTS/quotas/pojo/schema/binding.xml:
+
+          Removed these files.
+
 Mon Jul 12 15:53:21 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/java/CUTS/quotas:
@@ -8,7 +33,7 @@ Mon Jul 12 15:53:21 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
         * cuts/java/CUTS/quotas/pojo/schema:
         * cuts/java/CUTS/quotas/pojo/schema/binding.xml:
         * cuts/java/cuts.quotas.pojo.build:
-        
+
           Checkpoint for the QUOTAS source files.
 
 Fri Jul  9 17:00:08 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
