@@ -1,6 +1,16 @@
 // -*- Java -*-
 
-package CUTS.quotas.pojo;
+//=============================================================================
+/**
+ *  @file			ComponentBase.java
+ *  
+ *  $Id$
+ *  
+ *  @author			James H. Hill
+ */
+//=============================================================================
+
+package cuts.quotas.pojo;
 
 /**
  * @class ComponentBase
@@ -12,20 +22,20 @@ package CUTS.quotas.pojo;
  * does not override the setSessionContext method since the 
  * concrete class needs to implement it.
  */
-class ComponentBase implements Component
+public class ComponentBase implements Component
 {	
 	/// Activate the component.
-	void activate () {
+	public void activate () {
 		
 	}
 	
 	/// Passivate the component.
-	void passivate () {
+	public void passivate () {
 		
 	}
 	
 	/// Destroy the component.
-	void destroy () {
+	public void destroy () {
 		
 	}
 };

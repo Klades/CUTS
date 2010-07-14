@@ -1,6 +1,16 @@
-package CUTS;
+// -*- Java -*-
 
-import org.apache.log4j.Logger;
+//=============================================================================
+/**
+ * @file			ProcessStreamReader.java
+ * 
+ * $Id$
+ * 
+ * @author 			James H. Hill
+ */
+//=============================================================================
+
+package cuts;
 import java.io.*;
 
 /**

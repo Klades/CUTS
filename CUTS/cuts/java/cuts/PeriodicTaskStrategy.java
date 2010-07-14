@@ -1,3 +1,6 @@
+// -*- Java -*-
+
+//=============================================================================
 /**
  * @file        PeriodicTaskStrategy.java
  *
@@ -5,8 +8,9 @@
  *
  * @author      James H. Hill
  */
+//=============================================================================
 
-package CUTS;
+package cuts;
 
 /**
  * @interface PeriodicTaskStrategy

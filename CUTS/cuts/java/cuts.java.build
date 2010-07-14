@@ -52,7 +52,7 @@
            debug="true"
            debuglevel="source,lines"
            classpath="${contrib.dir}/log4j-1.2.15.jar">
-      <include name="CUTS/*.java" />
+      <include name="cuts/*.java" />
     </javac>
   </target>
 
@@ -60,14 +60,14 @@
     <jar destfile="${cuts.lib.dir}/cuts.java.jar"
          basedir="${cuts.src.dir}/java">
 
-      <include name="CUTS/*.class" />
+      <include name="cuts/*.class" />
     </jar>
   </target>
 
   <target name="cuts.java.clean">
     <delete>
       <fileset dir="${cuts.src.dir}/java/"
-               includes="CUTS/*.class, CUTS/Time_Stamp*" />
+               includes="cuts/*.class, cuts/Time_Stamp*" />
     </delete>
   </target>
 

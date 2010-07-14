@@ -1,29 +1,32 @@
 // -*- Java -*-
 
-package CUTS.quotas.pojo;
+//=============================================================================
+/**
+ *  @file      Component.java
+ *
+ *  $Id$
+ *
+ *  @author      James H. Hill
+ */
+//=============================================================================
+
+package cuts.quotas.pojo;
 
 /**
  * @interface Component
- * 
+ *
  * The interface for all components. This interface defines
  * the required methods that enable components to interface
  * with different containers.
  */
-interface Component
+public interface Component
 {
-	/**
-	 * Set the component's session context.
-	 * 
-	 * @param[in]			c			Source context
-	 */
-	void setSessionContext (Context c);
-	
-	/// Activate the component.
-	void activate ();
-	
-	/// Passivate the component.
-	void passivate ();
-	
-	/// Destroy the component.
-	void destroy ();
+  /// Activate the component.
+  void activate ();
+
+  /// Passivate the component.
+  void passivate ();
+
+  /// Destroy the component.
+  void destroy ();
 };

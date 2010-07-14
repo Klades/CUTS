@@ -1,3 +1,6 @@
+// -*- Java -*-
+
+//=============================================================================
 /**
  * @file        ExponentialPeriodicTaskStrategy.java
  *
@@ -5,8 +8,9 @@
  *
  * @author      James H. Hill
  */
+//=============================================================================
 
-package CUTS;
+package cuts;
 import java.util.Random;
 import java.lang.Math;
 

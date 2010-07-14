@@ -1,3 +1,6 @@
+// -*- Java -*-
+
+//=============================================================================
 /**
  * @file        PeriodicTask.java
  *
@@ -5,8 +8,9 @@
  *
  * @author      James H. Hill
  */
+//=============================================================================
 
-package CUTS;
+package cuts;
 import java.util.Timer;
 import java.util.TimerTask;
 

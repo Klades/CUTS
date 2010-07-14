@@ -1,11 +1,37 @@
+Wed Jul 14 20:24:43 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/java/cuts.java.build:
+        * cuts/java/cuts/ConstantPeriodicTaskStrategy.java:
+        * cuts/java/cuts/ExponentialPeriodicTaskStrategy.java:
+        * cuts/java/cuts/PeriodicTask.java:
+        * cuts/java/cuts/PeriodicTaskHandler.java:
+        * cuts/java/cuts/PeriodicTaskHandlerFactory.java:
+        * cuts/java/cuts/PeriodicTaskStrategy.java:
+        * cuts/java/cuts/ProcessHandler.java:
+        * cuts/java/cuts/ProcessStreamReader.java:
+
+          Changed the package of the files above.
+
+        * cuts/java/cuts.quotas.pojo.build:
+        * cuts/java/cuts/quotas/pojo/Component.java:
+        * cuts/java/cuts/quotas/pojo/ComponentBase.java:
+        * cuts/java/cuts/quotas/pojo/InstallException.java:
+        * cuts/java/cuts/quotas/pojo/PojoComponentServer.java:
+        * cuts/java/cuts/quotas/pojo/PojoContainer.java:
+
+          Checkpoint of QUOTAS Pojo framework. The component server is
+          able to load a Spring XML file in memory, and wait until
+          Ctrl+C is pressed to exit. The next step is to add more logic
+          to the component server for deploying an application.
+
 Mon Jul 12 16:21:59 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/CUTS/interpreters/UNITE/StdAfx.cpp:
-        
+
           Fixed compiler errors based on refactoring.
-         
+
         * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification_Impl.cpp:
-        
+
           Reformatted the code.
 
 Mon Jul 12 16:19:53 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
