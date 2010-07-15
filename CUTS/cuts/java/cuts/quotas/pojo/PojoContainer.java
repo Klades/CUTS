@@ -11,8 +11,9 @@
 //=============================================================================
 
 package cuts.quotas.pojo;
+import java.util.ArrayList;
 import java.util.HashMap;
-import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.ListableBeanFactory;
 
 /**
  * @class PojoContainer
@@ -22,9 +23,11 @@ import org.springframework.beans.factory.BeanFactory;
 public class PojoContainer 
 {
   /**
-   * Default constructor
+   * Initializing constructor. 
+   * 
+   * @param[in]       beanFactory         Factory for the container
    */
-	public PojoContainer (BeanFactory beanFactory) 
+	public PojoContainer (ListableBeanFactory beanFactory) 
 	{
 		this.beanFactory_ = beanFactory;
 	}
@@ -37,15 +40,34 @@ public class PojoContainer
 	 * @paran[in]      className         Implementation type of the component.
 	 * @param[in]      instName          Instance name of the component.
 	 */
-	Component installComponent (String className, String instName) 
+	public Component installComponent (String beanName) 
 	{
-	  Object obj = this.beanFactory_.getBean (className);
+	  // Locate the bean in the factory.
+	  Object obj = this.beanFactory_.getBean (beanName);
 	  
 	  // Save the component.
 	  Component component = (Component)obj;
-	  this.instMap_.put (instName, component);
+	  this.instMap_.put (beanName, component);
 	  
 	  return component;
+	}
+	
+	/**
+	 * Install all the component instances. This will locate all 
+	 * the beans that are a Component, and instantiate them for usage.
+	 * 
+	 * @return         Collection of installed components.
+	 */
+	public Component [] installComponentInstances ()
+	{
+	  String [] beanNames = this.beanFactory_.getBeanNamesForType (Component.class);
+	  ArrayList <Component> componentList = new ArrayList <Component> (beanNames.length);
+	  
+	  for (String beanName : beanNames)
+	    componentList.add (this.installComponent (beanName));
+	  
+	  Component [] components = componentList.toArray (new Component[componentList.size ()]);
+	  return components;
 	}
 	
 	/**
@@ -54,7 +76,7 @@ public class PojoContainer
 	 * 
 	 * @param[in]      instName          Name of the component instance
 	 */
-	Component uninstallComponent (String instName) 
+	public Component uninstallComponent (String instName) 
 	{
 	  // Get the component then remove it.
 	  Component c = this.instMap_.get (instName);
@@ -64,11 +86,36 @@ public class PojoContainer
 	  return c;
 	}
 	
+	/**
+	 * Passivate all the components in the container.
+	 */
+	public void passivateAll ()
+	{
+	  // Invoke the passivate () method on each component.
+	  for (Component c : this.instMap_.values ())
+	    c.passivate ();
+	}
+	
+	/**
+	 * Remove all the components in the container. This method will invoke
+	 * the destory method on each component before removing it from the
+	 * container.
+	 */
+	public void removeAll ()
+	{
+	  // Destroy each of the components.
+    for (Component c : this.instMap_.values ())
+      c.destroy ();	  
+    
+    // Remove all the items from the map.
+    this.instMap_.clear ();
+	}
+	
 	/////////////////////////////////////////////////////////////////////////////
 	// private data
 	
   /// Bean factory for the container.
-  private BeanFactory beanFactory_;
+  private ListableBeanFactory beanFactory_;
   
   /// Collection of instances in this container.
 	private HashMap <String, Component> instMap_;

@@ -1,3 +1,14 @@
+Thu Jul 15 13:52:42 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/java/cuts.quotas.pojo.build:
+        * cuts/java/cuts/quotas/pojo/PojoComponentServer.java:
+        * cuts/java/cuts/quotas/pojo/PojoContainer.java:
+
+          Finished the container's implementation. It will now load all
+          the *beans* that are of type component, and activate them. Upon
+          shutdown, the container will passivate () all components and then
+          remove it from the container.
+
 Wed Jul 14 20:24:43 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/java/cuts.java.build:

@@ -3,7 +3,6 @@
   <property environment="env" />
 
   <import file="${env.CUTS_ROOT}/etc/ANT/include/cuts.build" />
-  <import file="${env.CUTS_ROOT}/etc/ANT/include/castor.build" />
 
   <property name="cuts.java.dir" value="${cuts.src.dir}/java" />
   <property name="cuts.quotas.pojo.dir" value="${cuts.src.dir}/java/CUTS/quotas/pojo" />
@@ -31,20 +30,6 @@
       <pathelement path="." />
       <pathelement path="${contrib.dir}/spring.jar" />
     </path>
-
-    <!-- auto-generating the mapping classes -->
-    <!-- java classname="org.exolab.castor.builder.SourceGeneratorMain"
-          classpathref="castor.srcgen.classpath"
-          dir="${cuts.java.dir}"
-          output="output.log"
-          fork="true">
-      <arg line="-i ${env.DANCE_ROOT}/docs/schema/Basic_Deployment_Data.xsd" />
-      <arg line="-nameConflictStrategy informViaLog" />
-      <arg line="-package cuts.quotas.pojo.schema" />
-      <arg line="-generateImportedSchemas" />
-      <arg line="-types j2" />
-      <arg line="-binding-file ${cuts.quotas.pojo.dir}/schema/binding.xml" />
-    </java -->
 
     <!-- compile the auto-generated files -->
     <javac srcdir="${cuts.quotas.pojo.dir}"
