@@ -1,6 +1,6 @@
 // $Id$
 
-project : requires_tcpip, ciao_componentserver_stub, portableserver {
+project : requires_tcpip, ccm_componentserver_stub, portableserver {
   after += CUTS_TCPIP_CCM_ComponentServer
   libs  += CUTS_TCPIP_CCM_ComponentServer
 }

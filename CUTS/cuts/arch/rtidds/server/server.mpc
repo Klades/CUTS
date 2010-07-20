@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_RTIDDS_CCM_ComponentServer) : ciao_componentserver_svnt, cuts_rtidds_ccm, cutslib {
+project (CUTS_RTIDDS_CCM_ComponentServer) : ccm_componentserver_svnt, cuts_rtidds_ccm, cutslib {
   sharedname = CUTS_RTIDDS_CCM_ComponentServer
 
   dynamicflags += CUTS_RTIDDS_COMPONENTSERVER_BUILD_DLL

@@ -1,6 +1,6 @@
 // $Id$
 
-project : ciao_componentserver_svnt, portableserver, cuts_opensplice_ccm {
+project : ccm_componentserver_svnt, portableserver, cuts_opensplice_ccm {
   after += CUTS_OpenSplice_CCM_ComponentServer
   libs  += CUTS_OpenSplice_CCM_ComponentServer
 }
