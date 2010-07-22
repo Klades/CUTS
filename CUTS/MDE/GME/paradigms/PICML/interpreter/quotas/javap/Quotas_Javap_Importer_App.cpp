@@ -4,8 +4,7 @@
 #include "Javap_Output_Parser.h"
 
 #include "ace/Get_Opt.h"
-
-#include "boost/spirit/include/support_istream_iterator.hpp" 
+#include "boost/spirit/include/support_istream_iterator.hpp"
 #include "boost/bind.hpp"
 
 #include "game/xme/Project.h"
@@ -13,7 +12,12 @@
 #include "game/utils/modelgen.h"
 
 #include <fstream>
+#include <iostream>
 #include <functional>
+
+#include "ace/Get_Opt.h"
+
+#include "PIM/PICML/interpreters/PICML/PICML_GUID.h"
 
 //
 // Quotas_Javap_Importer_App
@@ -31,41 +35,88 @@ Quotas_Javap_Importer_App::~Quotas_Javap_Importer_App (void)
 
 }
 
+struct parse_file_t
+{
+  parse_file_t (Quotas_Javap_Output_Parser & parser,
+                std::map <std::string, GAME::XME::FCO> & symbols,
+                GAME::XME::Folder & idl_folder)
+    : parser_ (parser),
+      symbols_ (symbols),
+      idl_folder_ (idl_folder)
+  {
+
+  }
+
+  void operator () (const std::string & filename) const
+  {
+    std::ifstream infile;
+    infile.open (filename.c_str ());
+
+    if (infile.is_open ())
+    {
+      // Parse the opened file.
+      if (!this->parser_.parse (infile, this->symbols_, this->idl_folder_))
+        ACE_ERROR ((LM_ERROR,
+                    ACE_TEXT ("%T (%t) - %M - failed to parse %s\n"),
+                    filename.c_str ()));
+
+      // Close the input file.
+      infile.close ();
+    }
+    else
+      ACE_ERROR ((LM_ERROR,
+                  ACE_TEXT ("%T (%t) - %M - failed to open %s\n"),
+                  filename.c_str ()));
+  }
+
+private:
+  Quotas_Javap_Output_Parser & parser_;
+
+  std::map <std::string, GAME::XME::FCO> & symbols_;
+
+  GAME::XME::Folder & idl_folder_;
+};
+
 //
 // run_main
 //
 int Quotas_Javap_Importer_App::run_main (int argc, char *argv [])
 {
+  if (-1 == this->parse_args (argc, argv))
+    return 1;
+
   GAME::XME::Project project;
 
   try
   {
-    // Initialize the GME project
-    GAME::XME::Folder idl_folder;
+    // Create a new PICML project.
+    project = GAME::XME::Project::_create (this->opts_.xmefile_,
+                                           "PICML",
+                                           PICML_PARADIGM_GUID);
 
-    project = GAME::XME::Project::_create ("Test.xme", "PICML", "94FCA7F1-9017-4BFD-B557-F738FC54B103");
-
-    // Open the specified file for reading.
-    std::ifstream infile;
-    infile.open (argv[1]);
-
-    if (!infile.is_open ())
-      return false;
-
-    // Start a new transaction.
     project.name ("QuotasProject");
     project.root_folder ().name ("RootFolder");
 
-    this->gme_project_init (project, idl_folder);
+    // Initialize the GME project
+    GAME::XME::Folder idl_folder;
+    std::map <std::string, GAME::XME::FCO> symbols;
+    this->init_interface_definitions (project, idl_folder);
+    this->init_predefined_types (project, symbols);
 
     Quotas_Javap_Output_Parser parser;
-    if (!parser.parse (infile, idl_folder))
-      ACE_ERROR ((LM_ERROR,
-                  ACE_TEXT ("%T (%t) - %M - failed to parse %s\n"),
-                  argv[1]));
 
-    // Close the file before exiting.
-    infile.close ();
+    if (this->opts_.inputs_.empty ())
+    {
+      if (!parser.parse (std::cin, symbols, idl_folder))
+        ACE_ERROR ((LM_ERROR,
+                    ACE_TEXT ("%T (%t) - %M - failed to parse input stream\n")));
+    }
+    else
+    {
+      std::for_each (this->opts_.inputs_.begin (),
+                     this->opts_.inputs_.end (),
+                     parse_file_t (parser, symbols, idl_folder));
+    }
 
     // Save changes to the model.
     project.save ();
@@ -87,9 +138,9 @@ int Quotas_Javap_Importer_App::run_main (int argc, char *argv [])
 // gme_project_init
 //
 void Quotas_Javap_Importer_App::
-gme_project_init (const GAME::XME::Project & project, GAME::XME::Folder & idl_folder)
+init_interface_definitions (const GAME::XME::Project & project, GAME::XME::Folder & idl_folder)
 {
-  // Make sure the target container for the files exists in the 
+  // Make sure the target container for the files exists in the
   // model. Since each class is in its own class file, we are not
   // going to make each directly to a PICML File element. Instead,
   // each File is just a container that holds many .class files.
@@ -105,12 +156,86 @@ gme_project_init (const GAME::XME::Project & project, GAME::XME::Folder & idl_fo
   }
 }
 
+struct map_t
+{
+  const char * java_type_;
+  const char * picml_type_;
+};
 
+//
+// init_predefined_types
+//
+void Quotas_Javap_Importer_App::
+init_predefined_types (const GAME::XME::Project & project,
+                       std::map <std::string, GAME::XME::FCO> & symbols)
+{
+  // Make sure the PredefinedTypes folder exists. Also, make sure each
+  // of the predefined type elements in Java exist.
+  GAME::XME::Folder root_folder = project.root_folder ();
+  static const ::Utils::XStr meta_PredefinedTypes ("PredefinedTypes");
+
+  GAME::XME::Folder predefined_types;
+  if (GAME::create_if_not (root_folder, meta_PredefinedTypes, predefined_types,
+      GAME::contains (boost::bind (std::equal_to < ::Utils::XStr > (),
+                                   meta_PredefinedTypes,
+                                   boost::bind (&GAME::XME::Folder::name, _1)))))
+  {
+    predefined_types.name (meta_PredefinedTypes);
+  }
+
+#define PREDEFINED_TYPE_MAP_SIZE 4
+  static const map_t predefined_map[PREDEFINED_TYPE_MAP_SIZE] =
+  {
+    {"java.lang.String", "String"},
+    {"java.lang.Object", "GenericObject"},
+    {"short", "ShortInteger"},
+    {"long", "LongInteger"},
+  };
+
+  for (size_t i = 0; i < PREDEFINED_TYPE_MAP_SIZE; ++ i)
+  {
+    // Make sure the predefined type exists.
+    GAME::XME::Atom type;
+    if (GAME::create_if_not (predefined_types, predefined_map[i].picml_type_, type,
+        GAME::contains (boost::bind (std::equal_to < ::Utils::XStr > (),
+                                     predefined_map[i].picml_type_,
+                                     boost::bind (&GAME::XME::Atom::kind, _1)))))
+    {
+      type.name (predefined_map[i].picml_type_);
+    }
+
+    // Save the type to the symbol table.
+    symbols[predefined_map[i].java_type_] = type;
+  }
+}
 
 //
 // parse_args
 //
 int Quotas_Javap_Importer_App::parse_args (int argc, char * argv [])
 {
+  // Parse the command-line options.
+  const char * optargs = "o:";
+  ACE_Get_Opt get_opt (argc, argv, optargs);
+
+  char opt;
+
+  while ((opt = get_opt ()) != EOF)
+  {
+    switch (opt)
+    {
+    case 'o':
+      this->opts_.xmefile_ = get_opt.opt_arg ();
+      break;
+    }
+  }
+
+  // The remaining arguments are input files.
+  std::for_each (get_opt.argv () + get_opt.opt_ind (),
+                 get_opt.argv () + get_opt.argc (),
+                 boost::bind (&std::set <std::string>::insert,
+                              boost::ref (this->opts_.inputs_),
+                              _1));
+
   return 0;
 }

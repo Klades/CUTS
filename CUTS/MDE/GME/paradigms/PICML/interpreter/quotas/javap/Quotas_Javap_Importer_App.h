@@ -13,14 +13,36 @@
 #ifndef _QUOTAS_JAVAP_IMPORTER_APP_H_
 #define _QUOTAS_JAVAP_IMPORTER_APP_H_
 
+#include <map>
+#include <string>
+#include <set>
+
 namespace GAME
 {
 namespace XME
 {
+// Forward decl.
 class Project;
+
+// Forward decl.
 class Folder;
+
+// Forward decl.
+class FCO;
+
 }
 }
+
+/**
+ * @class Quotas_Javap_Importer_App_Options
+ */
+class Quotas_Javap_Importer_App_Options
+{
+public:
+  std::string xmefile_;
+
+  std::set <std::string> inputs_;
+};
 
 /**
  * @class Quotas_Javap_Importer_App
@@ -47,8 +69,14 @@ public:
 private:
   int parse_args (int argc, char * argv []);
 
-  void gme_project_init (const GAME::XME::Project & proj,
-                         GAME::XME::Folder & container);
+  void init_interface_definitions (const GAME::XME::Project & , GAME::XME::Folder & );
+
+  void init_predefined_types (const GAME::XME::Project &,
+                              std::map <std::string, GAME::XME::FCO> & symbols);
+
+private:
+  /// Options for the application.
+  Quotas_Javap_Importer_App_Options opts_;
 };
 
 #endif  // !defined _QUOTAS_JAVAP_IMPORTER_APP_H_

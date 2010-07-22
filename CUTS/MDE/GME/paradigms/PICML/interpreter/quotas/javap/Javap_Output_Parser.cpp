@@ -8,7 +8,7 @@
 #include "boost/spirit/include/phoenix_fusion.hpp"
 #include "boost/spirit/include/phoenix_stl.hpp"
 #include "boost/spirit/include/phoenix_object.hpp"
-#include "boost/spirit/include/support_istream_iterator.hpp" 
+#include "boost/spirit/include/support_istream_iterator.hpp"
 #include "boost/fusion/include/adapt_struct.hpp"
 
 #include <string>
@@ -17,6 +17,7 @@
 #include "game/xme/Model.h"
 #include "game/xme/Folder.h"
 #include "game/xme/Attribute.h"
+#include "game/xme/functional.h"
 #include "game/utils/modelgen.h"
 
 #include "boost/bind.hpp"
@@ -25,6 +26,11 @@ namespace fusion = boost::fusion;
 namespace phoenix = boost::phoenix;
 namespace qi = boost::spirit::qi;
 namespace ascii = boost::spirit::ascii;
+
+#define PARAMETER_FIRST_X    100
+#define PARAMETER_SPACING    50
+
+typedef std::map <std::string, GAME::XME::FCO> symbol_table_t;
 
 namespace types
 {
@@ -35,8 +41,8 @@ namespace types
 
 namespace action
 {
-  
-  std::string flatten_scope (types::scope_t::const_iterator begin, 
+
+  std::string flatten_scope (types::scope_t::const_iterator begin,
                              types::scope_t::const_iterator end,
                              const std::string & separator)
   {
@@ -56,8 +62,9 @@ namespace action
   struct create_class
   {
   public:
-    create_class (GAME::XME::Folder & idl_folder)
-      : idl_folder_ (idl_folder)
+    create_class (GAME::XME::Folder & idl_folder, symbol_table_t & symbols)
+      : idl_folder_ (idl_folder),
+        symbols_ (symbols)
     {
 
     }
@@ -70,7 +77,7 @@ namespace action
 
       using GAME::XME::Model;
 
-      // Create in the interface definitions the specified file it 
+      // Create in the interface definitions the specified file it
       // already does not exist.
       Model javafile;
 
@@ -87,7 +94,7 @@ namespace action
 
       if (classname.size () > 1)
       {
-        types::scope_t::const_iterator 
+        types::scope_t::const_iterator
           iter = classname.begin (), iter_end = -- classname.end ();
 
         path = flatten_scope (iter, iter_end, "/");
@@ -125,10 +132,16 @@ namespace action
 
       // Store the new object as the return value (i.e., qi::_val).
       fusion::at_c <0> (ctx.attributes) = object;
+
+      // Save the object to the symbol table.
+      std::string fq_name = flatten_scope (classname.begin (), classname.end (), ".");
+      this->symbols_[fq_name] = object;
     }
 
   private:
     GAME::XME::Folder & idl_folder_;
+
+    symbol_table_t & symbols_;
   };
 
   /**
@@ -143,7 +156,7 @@ namespace action
     void operator () (const std::string & name, ContextT ctx, qi::unused_type) const
     {
       using GAME::XME::Model;
-  
+
       Model object;
       Model & parent = fusion::at_c <1> (ctx.attributes);
       static const ::Utils::XStr meta_TwowayOperation ("TwowayOperation");
@@ -168,14 +181,15 @@ namespace action
   struct create_parameter
   {
   public:
-    create_parameter (size_t & pcount)
-      : pcount_ (pcount)
+    create_parameter (size_t & pcount, const symbol_table_t & symbols)
+      : pcount_ (pcount),
+        symbols_ (symbols)
     {
 
     }
 
     template <typename ContextT>
-    void operator () (const types::scope_t & param, ContextT ctx, qi::unused_type) const
+    void operator () (const std::string & param, ContextT ctx, qi::unused_type) const
     {
       using GAME::XME::Model;
       using GAME::XME::Reference;
@@ -183,7 +197,7 @@ namespace action
       Reference parameter;
       Model & parent = fusion::at_c <1> (ctx.attributes);
       static const ::Utils::XStr meta_InParameter ("InParameter");
-  
+
       std::ostringstream pname;
       pname << "p" << this->pcount_ ++;
 
@@ -196,10 +210,22 @@ namespace action
       {
         parameter.name (name);
       }
+
+      // Resolve the parameter's type in the symbol table.
+      symbol_table_t::const_iterator iter = this->symbols_.find (param);
+
+      // Set the parameter's position.
+      const int x = PARAMETER_FIRST_X + (this->pcount_ * PARAMETER_SPACING);
+      GAME::XME::set_position (parameter, "InterfaceDefinition", x, PARAMETER_SPACING);
+
+      if (iter != this->symbols_.end ())
+        parameter.refers_to (iter->second);
     }
 
   private:
     size_t & pcount_;
+
+    const symbol_table_t & symbols_;
   };
 
   /**
@@ -207,7 +233,7 @@ namespace action
    *
    * Functor for reseting a counter variable.
    */
-  struct reset_counter 
+  struct reset_counter
   {
     reset_counter (size_t & counter)
       : counter_ (counter)
@@ -223,6 +249,49 @@ namespace action
   private:
     size_t & counter_;
   };
+
+
+  /**
+   * @struct create_inherits
+   *
+   * Functor for setting the base class for the Java object.
+   */
+  struct create_inherits
+  {
+    create_inherits (const symbol_table_t & symbols)
+      : symbols_ (symbols)
+    {
+
+    }
+
+    template <typename ContextT>
+    void operator () (const std::string & name, ContextT ctx, qi::unused_type) const
+    {
+      // We do not handle the java.lang.Object since all Java objects
+      // are derived from this type.
+      if (name == "java.lang.Object")
+        return;
+
+      symbol_table_t::const_iterator iter = this->symbols_.find (name);
+      if (iter == this->symbols_.end ())
+        return;
+
+      GAME::XME::Reference inherits;
+      GAME::XME::Model parent = fusion::at_c <0> (ctx.attributes);
+      static const ::Utils::XStr meta_Inherits ("Inherits");
+
+      if (GAME::create_if_not (parent, meta_Inherits, inherits,
+          GAME::contains (boost::bind (std::equal_to < GAME::XME::FCO > (),
+                                       iter->second,
+                                       boost::bind (&GAME::XME::Reference::refers_to, _1)))))
+      {
+        inherits.refers_to (iter->second);
+      }
+    }
+
+  private:
+    const symbol_table_t & symbols_;
+  };
 }
 
 /**
@@ -231,7 +300,7 @@ namespace action
  * Grammer for converting Javap output to a PICML model for Quotas.
  */
 template <typename IteratorT, typename SpaceT>
-class Quotas_Javap_Output_Grammar : 
+class Quotas_Javap_Output_Grammar :
   public qi::grammar <IteratorT, void (), SpaceT>
 {
 public:
@@ -239,8 +308,11 @@ public:
 
   typedef SpaceT space_type;
 
-  Quotas_Javap_Output_Grammar (GAME::XME::Folder & idl_folder, bool debug = false)
+  Quotas_Javap_Output_Grammar (symbol_table_t & symbols,
+                               GAME::XME::Folder & idl_folder,
+                               bool debug = false)
     : Quotas_Javap_Output_Grammar::base_type (this->grammar_),
+      symbols_ (symbols),
       idl_folder_ (idl_folder),
       grammar_ (std::string ("grammar")),
       header_ (std::string ("header")),
@@ -254,19 +326,20 @@ public:
 
     using phoenix::push_back;
 
-    this->grammar_ =
-      this->header_ >> this->class_specification_;
+    this->grammar_ = *this->disassembly_;
 
-    this->header_ = 
+    this->disassembly_ = this->header_ > this->class_specification_;
+
+    this->header_ =
       qi::lit ("Compiled") >> qi::lit ("from") >>
       qi::lit ("\"") >> this->scoped_name_ >> qi::lit ("\"");
 
     this->class_specification_ =
-      this->visibility_ >> qi::lit ("class") > 
-      this->scoped_name_[action::create_class (this->idl_folder_)] >>
-      -(qi::lit ("extends") > this->scoped_name_) >>
-      -(qi::lit ("implements") > this->scoped_name_ >> 
-      *(qi::lit (",") >> this->scoped_name_)) >>
+      this->visibility_ >> qi::lit ("class") >
+      this->scoped_name_[action::create_class (this->idl_folder_, this->symbols_)] >>
+      -(qi::lit ("extends") > this->scoped_flatname_[action::create_inherits (this->symbols_)]) >>
+      -(qi::lit ("implements") > this->scoped_flatname_ >>
+      *(qi::lit (",") >> this->scoped_flatname_)) >>
       qi::lit ("{") >> * this->class_definition_ (qi::labels::_val) >> qi::lit ("}");
 
     this->class_definition_ =
@@ -279,37 +352,42 @@ public:
       this->visibility_ >> this->scoped_name_ >>
       qi::lit ("(") >> - this->ignorable_param_list_ >> qi::lit (")") >> qi::lit (";");
 
-    this->ignorable_method_decl_ = 
-      (qi::lit ("protected") | qi::lit ("private")) >> 
+    this->ignorable_method_decl_ =
+      (qi::lit ("protected") | qi::lit ("private")) >>
       this->scoped_name_ >>
-      this->ident_ >> 
-      qi::lit ("(") >> - this->ignorable_param_list_ >> qi::lit (")") >> 
+      this->ident_ >>
+      qi::lit ("(") >> - this->ignorable_param_list_ >> qi::lit (")") >>
       qi::lit (";");
 
-    this->method_decl_ = 
-      qi::lit ("public") >> 
+    this->method_decl_ =
+      qi::lit ("public") >>
       qi::eps[action::reset_counter (this->pcount_)] >>
-      this->scoped_name_/*[create_return_type ()]*/ >>
-      this->ident_[action::create_method ()] >> 
-      qi::lit ("(") >> - this->param_list_ (qi::labels::_val) >> qi::lit (")") >> 
+      this->scoped_flatname_/*[create_return_type ()]*/ >>
+      this->ident_[action::create_method ()] >>
+      qi::lit ("(") >> - this->param_list_ (qi::labels::_val) >> qi::lit (")") >>
       qi::lit (";");
 
     this->variable_decl_ =
       this->scoped_name_ >> this->ident_ >> qi::lit (";");
 
     this->param_list_ =
-      this->scoped_name_[action::create_parameter (this->pcount_)] >> 
-      * (qi::lit (",") >> this->scoped_name_[action::create_parameter (this->pcount_)]);
+      this->scoped_flatname_[action::create_parameter (this->pcount_, this->symbols_)] >>
+      * (qi::lit (",") >>
+      this->scoped_flatname_[action::create_parameter (this->pcount_, this->symbols_)]);
 
     this->ignorable_param_list_ =
       this->scoped_name_ >> - (qi::lit (",") >> this->scoped_name_);
 
-    this->scoped_name_ = 
-      this->ident_[push_back (qi::labels::_val, qi::labels::_1)]  >> 
+    this->scoped_name_ =
+      this->ident_[push_back (qi::labels::_val, qi::labels::_1)]  >>
       * (qi::lit ('.') >> this->ident_[push_back (qi::labels::_val, qi::labels::_1)]);
 
+    this->scoped_flatname_ =
+      this->ident_[qi::_val += qi::_1] >>
+      *(ascii::char_ ('.')[qi::_val += qi::_1] >> this->ident_[qi::_val += qi::_1]);
+
     // The different visibility attributes allowed in Java.
-    this->visibility_ = 
+    this->visibility_ =
       qi::lit ("public") | qi::lit ("protected") | qi::lit ("private");
 
     // Rule definition for parsing identifiers.
@@ -317,25 +395,29 @@ public:
   }
 
 private:
+  symbol_table_t & symbols_;
+
   GAME::XME::Folder & idl_folder_;
 
   size_t pcount_;
 
   qi::rule <IteratorT, void (), SpaceT> grammar_;
 
+  qi::rule <IteratorT, void (), SpaceT> disassembly_;
+
   qi::rule <IteratorT, void (), SpaceT> header_;
-  
+
   qi::rule <IteratorT, void (), SpaceT> visibility_;
 
-  qi::rule <IteratorT, 
-            GAME::XME::Model (), 
+  qi::rule <IteratorT,
+            GAME::XME::Model (),
             SpaceT> class_specification_;
 
-  qi::rule <IteratorT, 
-            void (GAME::XME::Model), 
+  qi::rule <IteratorT,
+            void (GAME::XME::Model),
             SpaceT> class_definition_;
 
-  qi::rule <IteratorT, 
+  qi::rule <IteratorT,
             GAME::XME::Model (GAME::XME::Model),
             SpaceT> method_decl_;
 
@@ -350,6 +432,8 @@ private:
   qi::rule <IteratorT, void (), SpaceT> ignorable_param_list_;
 
   qi::rule <IteratorT, types::scope_t (), SpaceT> scoped_name_;
+
+  qi::rule <IteratorT, std::string (), SpaceT> scoped_flatname_;
 
   qi::rule <IteratorT, std::string (), SpaceT> ident_;
 };
@@ -377,7 +461,9 @@ Quotas_Javap_Output_Parser::~Quotas_Javap_Output_Parser (void)
 // parse
 //
 bool Quotas_Javap_Output_Parser::
-parse (std::istream & stream, GAME::XME::Folder & idl_folder)
+parse (std::istream & stream,
+       std::map <std::string, GAME::XME::FCO> & symbols,
+       GAME::XME::Folder & idl_folder)
 {
   namespace spirit = boost::spirit;
 
@@ -391,16 +477,17 @@ parse (std::istream & stream, GAME::XME::Folder & idl_folder)
   spirit::istream_iterator end_iter;
 
   // Parse the open file using the iterators above.
-  Quotas_Javap_Output_Grammar <spirit::istream_iterator, 
-                               ascii::space_type> 
-                               grammar (idl_folder);
+  Quotas_Javap_Output_Grammar <
+    spirit::istream_iterator,
+    ascii::space_type>
+    grammar (symbols, idl_folder);
 
-  bool retval = qi::phrase_parse (begin_iter, 
-                                  end_iter, 
-                                  grammar, 
+  bool retval = qi::phrase_parse (begin_iter,
+                                  end_iter,
+                                  grammar,
                                   ascii::space);
 
-  if ((flags & std::ios::skipws) != 0)  
+  if ((flags & std::ios::skipws) != 0)
     stream.setf (std::ios::skipws);
 
   return retval;

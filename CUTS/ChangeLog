@@ -1,3 +1,19 @@
+Thu Jul 22 18:51:43 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Javap_Output_Parser.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Javap_Output_Parser.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Quotas_Javap_Importer_App.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Quotas_Javap_Importer_App.cpp:
+
+          Implemented support for preserving parameter order.
+
+          Implemented support for setting the parameter's type.
+
+          Implemented support for setting the name of the generated .xme file.
+
+          If there are no files provided on the command-line, then input
+          is taken from STDIN.
+
 Thu Jul 22 14:21:27 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Execution_Visitor_T.h:

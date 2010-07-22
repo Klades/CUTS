@@ -14,12 +14,15 @@
 #define _QUOTAS_JAVA_OUTPUT_PARSER_HPP_
 
 #include <istream>
+#include <map>
 
 namespace GAME
 {
 namespace XME
 {
 class Folder;
+class FCO;
+
 }
 }
 
@@ -40,7 +43,9 @@ public:
   /**
    * Parse the specified input stream.
    */
-  bool parse (std::istream & stream, GAME::XME::Folder & idl_folder);
+  bool parse (std::istream & stream,
+              std::map <std::string, GAME::XME::FCO> & symbols,
+              GAME::XME::Folder & idl_folder);
 };
 
 #endif  // !defined _JAVA_OUTPUT_PARSER_HPP_
