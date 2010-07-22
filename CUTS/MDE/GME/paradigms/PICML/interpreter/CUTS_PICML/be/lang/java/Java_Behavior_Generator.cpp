@@ -134,6 +134,27 @@ generate (const PICML::Worker & worker, const PICML::Action & action)
     << action_type.name () << " (";
 }
 
+//
+// CUTS_BE_RequestAction_Begin_T
+//
+void CUTS_BE_RequestAction_Begin_T <CUTS_BE_Java::Context>::
+generate (const PICML::RequestAction & action)
+{
+  this->ctx_.source_
+    << "this." << action.name () << "_."
+    << action.MethodName () << " (";
+}
+
+//
+// CUTS_BE_RequestAction_End_T
+//
+void CUTS_BE_RequestAction_End_T <CUTS_BE_Java::Context>::
+generate (const PICML::RequestAction & action)
+{
+  this->ctx_.source_
+    << ");";
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_OutputAction_Begin_T
 

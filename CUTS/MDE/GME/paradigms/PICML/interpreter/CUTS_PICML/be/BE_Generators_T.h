@@ -792,6 +792,34 @@ struct CUTS_BE_FactoryOperation_End_T
 // CBML
 
 /**
+ * @class CUTS_BE_RequestAction_Begin_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_RequestAction_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_RequestAction_Begin_T (CONTEXT & context);
+  void generate (const PICML::RequestAction & action);
+};
+
+/**
+ * @class CUTS_BE_RequestAction_End_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_RequestAction_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_RequestAction_End_T (CONTEXT & context);
+  void generate (const PICML::RequestAction & action);
+};
+
+/**
  * @class CUTS_BE_Postcondition_T
  */
 template <typename CONTEXT>
@@ -1111,7 +1139,7 @@ public:
 
   virtual ~CUTS_BE_Action_Property_T (void);
 
-  void generate (const PICML::Property & property);
+  void generate (const PICML::Property & prop);
 };
 
 /**
@@ -1181,7 +1209,7 @@ public:
   virtual ~CUTS_BE_OutputAction_Property_T (void);
 
   void generate (const PICML::OutputAction & action,
-                 const PICML::Property & property);
+                 const PICML::Property & prop);
 };
 
 /**

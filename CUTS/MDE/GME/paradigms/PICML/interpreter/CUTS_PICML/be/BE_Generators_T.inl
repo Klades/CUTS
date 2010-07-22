@@ -1403,6 +1403,42 @@ generate (const PICML::OutputAction &)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_RequestAction_Begin_T
+
+template <typename CONTEXT>
+CUTS_BE_RequestAction_Begin_T <CONTEXT>::
+CUTS_BE_RequestAction_Begin_T (CONTEXT &)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+void CUTS_BE_RequestAction_Begin_T <CONTEXT>::
+generate (const PICML::RequestAction &)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_RequestAction_End_T
+
+template <typename CONTEXT>
+CUTS_BE_RequestAction_End_T <CONTEXT>::
+CUTS_BE_RequestAction_End_T (CONTEXT &)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+void CUTS_BE_RequestAction_End_T <CONTEXT>::
+generate (const PICML::RequestAction &)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Action_End_T
 
 template <typename CONTEXT>

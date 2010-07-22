@@ -181,6 +181,15 @@ generate (const PICML::MonolithicImplementation & mono, const PICML::Component &
 
   this->ctx_.source_
     << "}";
+
+  // Write the setter method for each of the receptacles listed
+  // on this component.
+  std::vector <PICML::RequiredRequestPort> receptacles =
+    component.RequiredRequestPort_kind_children ();
+
+  std::for_each (receptacles.begin (),
+                 receptacles.end (),
+                 boost::bind (&self_t::generate_receptacle_setter, this, _1));
 }
 
 //
@@ -214,6 +223,26 @@ generate_worker_import (const PICML::Worker & worker)
 
   // Write the import statement to the file.
   this->ctx_.source_ << "import " << import_path.str ().c_str () << ";";
+}
+
+//
+// generate_receptacle_setter
+//
+void CUTS_BE_Component_Impl_Begin_T <Quotas::Pojo::Codegen::Context>::
+generate_receptacle_setter (const PICML::RequiredRequestPort & p)
+{
+  PICML::Object obj = PICML::Object::Cast (p.ref ());
+  const std::string fq_type (CUTS_BE_Java::fq_type (obj, ".", false));
+  const std::string name (p.name ());
+
+  this->ctx_.source_
+    << std::endl
+    << "private " << fq_type << " " << name << "_;"
+    << std::endl
+    << "public void " << CUTS_BE_Java::setter_method (p.name ())
+    << " (" << fq_type << " val) {"
+    << "this." << p.name () << "_ = val;"
+    << "}";
 }
 
 //

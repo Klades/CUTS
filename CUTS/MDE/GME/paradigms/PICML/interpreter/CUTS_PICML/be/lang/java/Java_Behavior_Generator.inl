@@ -18,6 +18,28 @@ CUTS_BE_Variable_T <CUTS_BE_Java::Context>::~CUTS_BE_Variable_T (void)
 
 }
 
+//
+// CUTS_BE_RequestAction_Begin_T
+//
+CUTS_INLINE
+CUTS_BE_RequestAction_Begin_T <CUTS_BE_Java::Context>::
+CUTS_BE_RequestAction_Begin_T (CUTS_BE_Java::Context & context)
+: visitor_type (context)
+{
+
+}
+
+//
+// CUTS_BE_RequestAction_End_T
+//
+CUTS_INLINE
+CUTS_BE_RequestAction_End_T <CUTS_BE_Java::Context>::
+CUTS_BE_RequestAction_End_T (CUTS_BE_Java::Context & context)
+: visitor_type (context)
+{
+
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Attribute_Variable_T
 

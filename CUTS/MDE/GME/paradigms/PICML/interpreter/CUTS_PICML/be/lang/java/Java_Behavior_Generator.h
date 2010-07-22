@@ -256,6 +256,36 @@ public:
 };
 
 /**
+ * @class CUTS_BE_RequestAction_Begin_T
+ */
+template < >
+class CUTS_BE_JAVA_Export CUTS_BE_RequestAction_Begin_T <CUTS_BE_Java::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_Java::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_Java::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_RequestAction_Begin_T (CUTS_BE_Java::Context & context);
+
+  void generate (const PICML::RequestAction & action);
+};
+
+/**
+ * @class CUTS_BE_RequestAction_End_T
+ */
+template < >
+class CUTS_BE_JAVA_Export CUTS_BE_RequestAction_End_T <CUTS_BE_Java::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_Java::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_Java::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_RequestAction_End_T (CUTS_BE_Java::Context & context);
+
+  void generate (const PICML::RequestAction & action);
+};
+
+/**
  * @class CUTS_BE_OutputAction_Begin_T
  */
 template < >

@@ -581,6 +581,38 @@ Visit_ActionBase (const PICML::ActionBase & action_base)
 }
 
 //
+// Visit_RequestAction
+//
+template <typename CONTEXT>
+void CUTS_BE_Execution_Visitor_T <CONTEXT>::
+Visit_RequestAction (const PICML::RequestAction & action)
+{
+  CUTS_BE_RequestAction_Begin_T <CONTEXT> req_begin (this->context_);
+  req_begin.generate (action);
+
+  // Generate the parameters for the action.
+  typedef std::set <PICML::Property, Sort_By_Position <PICML::Property> > Property_Set;
+  Property_Set properties = action.Property_kind_children_sorted (Sort_By_Position <PICML::Property> ());
+
+  if (!properties.empty ())
+  {
+    CUTS_BE_Action_Properties_Begin_T <CONTEXT> action_props_begin_gen (this->context_);
+    action_props_begin_gen.generate (properties.size ());
+
+    CUTS_BE::visit <CONTEXT> (properties,
+                              boost::bind (&Property_Set::value_type::Accept,
+                                           _1,
+                                           boost::ref (*this)));
+
+    CUTS_BE_Action_Properties_End_T <CONTEXT> action_props_end_gen (this->context_);
+    action_props_end_gen.generate ();
+  }
+
+  CUTS_BE_RequestAction_End_T <CONTEXT> output_action_end (this->context_);
+  output_action_end.generate (action);
+}
+
+//
 // Visit_Property
 //
 template <typename CONTEXT>

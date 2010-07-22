@@ -91,6 +91,8 @@ protected:
   /// Visit an OutputAction element.
   void Visit_OutputAction (const PICML::OutputAction &);
 
+  void Visit_RequestAction (const PICML::RequestAction & );
+
   ///// Visit a CompositeAction element.
   //void Visit_CompositeAction (const PICML::CompositeAction &);
 

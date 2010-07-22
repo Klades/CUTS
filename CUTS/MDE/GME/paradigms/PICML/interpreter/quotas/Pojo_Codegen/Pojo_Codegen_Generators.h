@@ -107,6 +107,7 @@ class CUTS_BE_Component_Impl_Begin_T <Quotas::Pojo::Codegen::Context> :
   public CUTS_BE_Visitor_T <Quotas::Pojo::Codegen::Context, PICML::Visitor>
 {
 public:
+  typedef CUTS_BE_Component_Impl_Begin_T <Quotas::Pojo::Codegen::Context> self_t;
   typedef CUTS_BE_Visitor_T <Quotas::Pojo::Codegen::Context, PICML::Visitor> visitor_type;
 
   CUTS_BE_Component_Impl_Begin_T (Quotas::Pojo::Codegen::Context & context);
@@ -118,6 +119,7 @@ public:
 
 private:
   void generate_worker_import (const PICML::Worker & );
+  void generate_receptacle_setter (const PICML::RequiredRequestPort &);
 };
 
 /**
