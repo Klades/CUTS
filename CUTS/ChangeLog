@@ -1,3 +1,60 @@
+Wed Jul 21 20:10:21 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS_Modeling.mwc:
+
+          Added PICML to the build.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Execution_Visitor_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Graph_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Preprocessor_Handlers_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Preprocessor_Handlers_T.inl:
+
+          Implemented a point-of-interpreter for determining if a
+          component should be (pre)processed.
+
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen.idl:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Ctx.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Ctx.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Generators.inl:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Impl.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Impl.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Module.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Preprocessor.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Preprocessor_Handlers.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Preprocessor_Handlers.inl:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Preprocessor_Handlers.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Project_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Project_Generators.inl:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Project_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Workspace_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Workspace_Generators.inl:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Workspace_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Quotas_Pojo_Codegend.reg:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/stdafx.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/stdafx.cpp:
+
+          First version of the code generator that is able to generate
+          the body of a compnoent.
+
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification_Impl.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specificationd.reg:
+
+          Updated the naming convensions.
+
+        * MPC/config/cuts_be.mpb:
+
+          Added a 'includes' statement.
+
+        * etc/ANT/include/cuts.build:
+
+          Moved the CAPI configuration to its own classpath.
+
 Tue Jul 20 14:11:23 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MPC/config/cuts_chaos_componentserver.mpb:

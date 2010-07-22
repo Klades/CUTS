@@ -567,13 +567,13 @@ Visit_ActionBase (const PICML::ActionBase & action_base)
   // order. We know there will be far more <Action> elements
   // than any type.
   if (type == PICML::Action::meta)
-  {
     PICML::Action::Cast (action_base).Accept (*this);
-  }
   else if (type == PICML::OutputAction::meta)
-  {
     PICML::OutputAction::Cast (action_base).Accept (*this);
-  }
+  else if (type == PICML::RequestAction::meta)
+    PICML::RequestAction::Cast (action_base).Accept (*this);
+  else
+    return;
 
   // Continue down the chain.
   PICML::Effect effect = action_base.dstEffect ();
@@ -585,10 +585,10 @@ Visit_ActionBase (const PICML::ActionBase & action_base)
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_Property (const PICML::Property & property)
+Visit_Property (const PICML::Property & prop)
 {
   CUTS_BE_Action_Property_T <CONTEXT> action_property_gen (this->context_);
-  action_property_gen.generate (property);
+  action_property_gen.generate (prop);
 }
 
 //
@@ -656,35 +656,14 @@ Visit_OutputAction (const PICML::OutputAction & action)
   output_action_end.generate (action);
 }
 
-////
-//// Visit_CompositeAction
-////
-//template <typename CONTEXT>
-//void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-//Visit_CompositeAction (const PICML::CompositeAction & action)
-//{
-//  typedef std::vector <PICML::InputAction> InputAction_Set;
-//  InputAction_Set actions = action.InputAction_children ();
-//
-//  if (!actions.empty ())
-//  {
-//    // Composite actions are only allowed to have a single input
-//    // action. Therefore, we only visit the first action in the set.
-//    CUTS_BE::visit <CONTEXT> (PICML::InputAction::Cast (actions.front ()),
-//      boost::bind (&PICML::InputAction::Accept, _1, boost::ref (*this)));
-//  }
-//}
-
 //
 // Visit_OutputAction_Property
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_OutputAction_Property (const PICML::Property & property)
+Visit_OutputAction_Property (const PICML::Property & prop)
 {
-  PICML::OutputAction parent =
-    PICML::OutputAction::Cast (property.parent ());
-
+  PICML::OutputAction parent = PICML::OutputAction::Cast (prop.parent ());
   CUTS_BE_OutputAction_Property_T <CONTEXT> output_action_property (this->context_);
-  output_action_property.generate (parent, property);
+  output_action_property.generate (parent, prop);
 }

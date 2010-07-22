@@ -114,13 +114,13 @@ int Quotas_Specification_Impl::initialize (GAME::Project & project)
   // the progid of MGA.AddOn.PICMLManager.
   static const std::string name ("MGA.AddOn.PICMLManager");
 
-  std::vector <GAME::ComponentEx>::const_iterator 
+  std::vector <GAME::ComponentEx>::const_iterator
     result = std::find_if (addons.begin (),
                            addons.end (),
                            boost::bind (std::equal_to <std::string> (),
                                         name,
                                         boost::bind (&GAME::ComponentEx::progid, _1)));
-                                          
+
   if (result != addons.end ())
   {
     HRESULT hr = (*result)->QueryInterface (&this->configurator_);
@@ -153,13 +153,13 @@ invoke_ex (GAME::Project & project,
   Folder root_folder = project.root_folder ();
 
   std::vector <GAME::Folder> idl_folders;
-  root_folder.children (meta::InterfaceDefinitions, idl_folders); 
+  root_folder.children (meta::InterfaceDefinitions, idl_folders);
 
   // First, make sure the target directory for the generated driver
   // components exists in the current model.
   if (GAME::create_if_not (root_folder,
-                           meta::InterfaceDefinitions, 
-                           idl_folders, 
+                           meta::InterfaceDefinitions,
+                           idl_folders,
                            this->quotas_idl_folder_,
       GAME::contains (boost::bind (std::equal_to <std::string> (),
                                    Quotas_InterfaceDefinitions,
@@ -179,7 +179,7 @@ invoke_ex (GAME::Project & project,
 
   // Commit the transaction.
   t.commit ();
-    
+
   return 0;
 }
 
@@ -209,8 +209,8 @@ visit_interface_definitions (const GAME::Folder & folder)
 void Quotas_Specification_Impl::visit_file (const GAME::Model & file)
 {
   // First, we need to create a Quotas file for the current file,
-  // which is prefixed with the Quotas_ string. This is where all 
-  // auto-generates specifications will be placed. 
+  // which is prefixed with the Quotas_ string. This is where all
+  // auto-generates specifications will be placed.
   std::string quotas_filename ("Quotas_");
   quotas_filename.append (file.name ());
 
@@ -220,8 +220,8 @@ void Quotas_Specification_Impl::visit_file (const GAME::Model & file)
   this->quotas_idl_folder_.children (meta::File, quotas_files);
 
   if (GAME::create_if_not (this->quotas_idl_folder_,
-                           meta::File, 
-                           quotas_files, 
+                           meta::File,
+                           quotas_files,
                            this->active_model_,
       GAME::contains (boost::bind (std::equal_to <std::string> (),
                                    quotas_filename,
@@ -233,18 +233,18 @@ void Quotas_Specification_Impl::visit_file (const GAME::Model & file)
   // Set the correct path for the Quotas file.
   std::string path ("Quotas");
   const std::string current_path (file.attribute ("Path").string_value ());
-  
+
   if (!current_path.empty ())
     path += "/" + current_path;
 
   this->active_model_.attribute ("Path").string_value (path);
 
-  // Next, place all elements under the Quotas namespace. This 
+  // Next, place all elements under the Quotas namespace. This
   // is done by creating a package in the current file with the
   // name Quotas.
   const std::string Quotas ("Quotas");
   if (GAME::create_if_not (this->active_model_,
-                           meta::Package, 
+                           meta::Package,
                            this->active_model_,
       GAME::contains (boost::bind (std::equal_to <std::string> (),
                                    Quotas,
@@ -267,7 +267,7 @@ void Quotas_Specification_Impl::visit_package (const GAME::Model & package)
 
   // Create a duplicate package in the active model.
   if (GAME::create_if_not (this->active_model_,
-                           meta::Package, 
+                           meta::Package,
                            this->active_model_,
       GAME::contains (boost::bind (std::equal_to <std::string> (),
                                    name,
@@ -320,24 +320,24 @@ void Quotas_Specification_Impl::visit_object (const GAME::Model & object)
   // we should be using the *Supports* object, but it is not clear
   // if DAnCE supports such capabilities. So, we are going to wrap
   // the object using a *provides* specification, and for each attribute
-  // on the object, we are going to map it to an attribute on the 
+  // on the object, we are going to map it to an attribute on the
   // wrapper component.
   const std::string name (object.name ());
-  const std::string component_name = "Quotas_" + name;
+  const std::string component_name = name + "_ComponentFacade";
   const std::string facet_name = name + "_quotas";
 
   // Here we are creating the component wrapper for the object.
   if (GAME::create_if_not (this->active_model_,
-                           meta::Component, 
+                           meta::Component,
                            this->active_model_,
       GAME::contains (boost::bind (std::equal_to <std::string> (),
                                    component_name,
                                    boost::bind (&GAME::Model::name, _1)))))
   {
     this->active_model_.name (component_name);
-  }  
+  }
 
-  // Store the component so we can create the driver's 
+  // Store the component so we can create the driver's
   // skeleton (or interface).
   this->components_.insert (this->active_model_);
 
@@ -352,7 +352,7 @@ void Quotas_Specification_Impl::visit_object (const GAME::Model & object)
                                    boost::bind (&GAME::Reference::refers_to, _1)))))
   {
     facet.refers_to (object);
-  }  
+  }
 
   facet.name (facet_name);
 
@@ -393,14 +393,14 @@ visit_attribute_kind (const GAME::Model & attr)
   const std::string name (attr.name ());
 
   if (GAME::create_if_not (this->active_model_,
-                           attr.meta ().name (), 
+                           attr.meta ().name (),
                            this->active_model_,
       GAME::contains (boost::bind (std::equal_to <std::string> (),
                                    name,
                                    boost::bind (&GAME::Model::name, _1)))))
   {
     this->active_model_.name (name);
-  }  
+  }
 
   // We need to create the attribute member for the attribute.
   std::vector <GAME::Reference> members;

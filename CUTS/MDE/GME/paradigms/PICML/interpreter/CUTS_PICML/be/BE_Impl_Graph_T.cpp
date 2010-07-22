@@ -59,32 +59,41 @@ template <typename T>
 void CUTS_BE_Impl_Graph_T <T>::
 Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl)
 {
-  // Get the <current_impl_> for this container.
-  this->find (monoimpl.name (), this->current_impl_);
+  // Determine if we should preprocess the implementation. If
+  // the element is preprocessed, then we will also include
+  // the implementation in the listing.
+  CUTS_BE_Preprocessor_Preprocess_Impl_T <T> preprocess;
 
-  this->current_impl_->container_ =
-    PICML::ComponentImplementationContainer::Cast (monoimpl.parent ());
-
-  // Visit the component that is being implemented.
-  PICML::Implements implements = monoimpl.dstImplements ();
-
-  if (implements != Udm::null)
+  if (preprocess.generate (monoimpl))
   {
-    PICML::ComponentRef ref = implements.dstImplements_end ();
-    PICML::Component component = ref.ref ();
+    // Locate the implementation in the graph. Also, set the container for
+    // the implementation.
+    this->find (monoimpl.name (), this->current_impl_);
 
-    if (component != Udm::null)
-      component.Accept (*this);
+    this->current_impl_->container_ =
+      PICML::ComponentImplementationContainer::Cast (monoimpl.parent ());
+
+    // Visit the component that is being implemented.
+    PICML::Implements implements = monoimpl.dstImplements ();
+
+    if (implements != Udm::null)
+    {
+      PICML::ComponentRef ref = implements.dstImplements_end ();
+      PICML::Component component = ref.ref ();
+
+      if (component != Udm::null)
+        component.Accept (*this);
+    }
+
+    typedef std::set <PICML::MonolithprimaryArtifact> PrimaryArtifact_Set;
+    PrimaryArtifact_Set primaries = monoimpl.dstMonolithprimaryArtifact ();
+
+    std::for_each (primaries.begin (),
+                   primaries.end (),
+                   boost::bind (&PrimaryArtifact_Set::value_type::Accept,
+                                _1,
+                                boost::ref (*this)));
   }
-
-  typedef std::set <PICML::MonolithprimaryArtifact> PrimaryArtifact_Set;
-  PrimaryArtifact_Set primaries = monoimpl.dstMonolithprimaryArtifact ();
-
-  std::for_each (primaries.begin (),
-                 primaries.end (),
-                 boost::bind (&PrimaryArtifact_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
 }
 
 //

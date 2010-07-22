@@ -1,0 +1,27 @@
+// $Id$
+
+project (Quotas_Pojo_Codegen) : cuts_be_java, picml_udm_utils, game_interpreter, cutslib {
+  sharedname    = Quotas_Pojo_Codegen
+
+  includes += $(COSMIC_ROOT)/PIM/PICML
+
+  pch_header = stdafx.h
+  pch_source = stdafx.cpp
+
+  Source_Files {
+    Pojo_Codegen.idl
+
+    Pojo_Codegen_Ctx.cpp
+    Pojo_Codegen_Generators.cpp
+    Pojo_Codegen_Impl.cpp
+    Pojo_Codegen_Module.cpp
+    Pojo_Codegen_Preprocessor_Handlers.cpp
+    Pojo_Codegen_Project_Generators.cpp
+    Pojo_Codegen_Workspace_Generators.cpp
+  }
+
+  Header_Files {
+    Pojo_Codegen_Manager.h
+    Pojo_Codegen_Preprocessor.h
+  }
+}

@@ -20,6 +20,20 @@
 struct CUTS_BE_Impl_Node;
 
 /**
+ * @class CUTS_BE_Preprocessor_Preprocess_Impl_T
+ *
+ * Preprocessor handler that determines if a monolithic implementation
+ * should be processed. If the implementation is preprocessed, then its
+ * informtio
+ */
+template <typename CONTEXT>
+class CUTS_BE_Preprocessor_Preprocess_Impl_T
+{
+public:
+  bool generate (const PICML::MonolithicImplementation & impl);
+};
+
+/**
  * @class CUTS_BE_Preprocessor_WorkerFile_T
  *
  * Preprocessor handler for the PICML::WorkerFile type.
@@ -28,16 +42,6 @@ template <typename CONTEXT>
 class CUTS_BE_Preprocessor_WorkerFile_T
 {
 public:
-  /**
-   * Initializing constructor.
-   *
-   * @param[in]       context         Context for the generator.
-   */
-  CUTS_BE_Preprocessor_WorkerFile_T (void);
-
-  /// Destructor.
-  virtual ~CUTS_BE_Preprocessor_WorkerFile_T (void);
-
   void generate (CUTS_BE_Impl_Node * node, const PICML::WorkerFile &);
 };
 
@@ -50,16 +54,6 @@ template <typename CONTEXT>
 class CUTS_BE_Preprocessor_Worker_T
 {
 public:
-  /**
-   * Initializing constructor.
-   *
-   * @param[in]       context         Context for the generator.
-   */
-  CUTS_BE_Preprocessor_Worker_T (void);
-
-  /// Destructor.
-  virtual ~CUTS_BE_Preprocessor_Worker_T (void);
-
   void generate (CUTS_BE_Impl_Node *, const PICML::Worker &);
 };
 
@@ -70,16 +64,6 @@ template <typename CONTEXT>
 class CUTS_BE_Preprocessor_WorkerLibrary_T
 {
 public:
-  /**
-   * Initializing constructor.
-   *
-   * @param[in]       context         Context for the generator.
-   */
-  CUTS_BE_Preprocessor_WorkerLibrary_T (void);
-
-  /// Destructor.
-  virtual ~CUTS_BE_Preprocessor_WorkerLibrary_T (void);
-
   void generate (CUTS_BE_Impl_Node *, const PICML::WorkerLibrary &);
 };
 

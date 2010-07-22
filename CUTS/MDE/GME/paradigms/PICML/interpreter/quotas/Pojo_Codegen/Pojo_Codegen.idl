@@ -1,0 +1,36 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ * @file      Pojo_Codegen.idl
+ *
+ * $Id$
+ *
+ * @author    James H. Hill
+ */
+//=============================================================================
+
+#ifndef _QUOTAS_POJO_CODEGEN_IDL_
+#define _QUOTAS_POJO_CODEGEN_IDL_
+
+#include <Gme.idl>
+
+[
+  uuid (D1926F8F-BA92-465C-B14D-3C1FB14FAB1A),
+  version(1.0),
+]
+library Quotas_Pojo_Codegen
+{
+  importlib("stdole32.tlb");
+
+  [uuid (6D0AD75C-0311-4DD4-AC9E-6E894A938687)]
+  coclass Quotas_Pojo_Codegen
+  {
+    [default] interface IMgaComponentEx;
+    interface IMgaComponent;
+    interface IMgaVersionInfo;
+  };
+};
+
+#endif
+

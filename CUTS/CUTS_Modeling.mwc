@@ -17,10 +17,10 @@ workspace (CUTS_Modeling) {
 
   exclude (wix) {
     MDE/utils
-    
+
     gems {
       cmdline += -base requires_gems
-  
+
       MDE/GEMS
     }
   }
@@ -29,15 +29,15 @@ workspace (CUTS_Modeling) {
     cmdline += -include $COSMIC_ROOT/MPC/config
 
     MDE/GME/plugins
-    MDE/GME/paradigms/CHAOS    
+    MDE/GME/paradigms/CHAOS
 
     exclude (wix) {
       MDE/GME/paradigms/CUTS
-      
+
       // == temp disable
       //MDE/GME/T2M
     }
-    
+
     cosmic {
       cmdline += -base requires_cosmic
 
@@ -48,7 +48,9 @@ workspace (CUTS_Modeling) {
 
         $(CUTS_ROOT)/contrib/CCF/CCF/CodeGenerationKit
       }
-      
+
+      // == include the following projects
+      $(COSMIC_ROOT)/PIM/PICML/interpreters/PICML
       $(COSMIC_ROOT)/Utils/GAME
     }
   }

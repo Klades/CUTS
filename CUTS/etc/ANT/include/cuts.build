@@ -14,6 +14,17 @@
   <path id="cuts.build.classpath">
     <pathelement path="." />
     <pathelement path="${cuts.dir}/lib/cuts.java.jar" />
+  </path>
+
+  <path id="cuts.quotas.pojo.classpath">
+    <pathelement path="." />
+    <pathelement path="${cuts.dir}/lib/cuts.java.jar" />
+    <pathelement path="${cuts.dir}/lib/cuts.quotas.pojo.jar" />
+  </path>
+
+  <path id="cuts.capi.build.classpath">
+    <pathelement path="." />
+    <pathelement path="${cuts.dir}/lib/cuts.java.jar" />
     <pathelement path="${cuts.dir}/lib/cuts.java.capi.jar" />
     <pathelement path="${capi.dir}/lib/capi1.5.jar" />
     <pathelement path="${contrib.dir}/castor-1.2.jar" />

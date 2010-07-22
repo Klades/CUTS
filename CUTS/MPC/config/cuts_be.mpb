@@ -3,4 +3,6 @@
 project : udmdefaults, codegenerationkit {
   after += CUTS_BE
   libs  += CUTS_BE
+
+  includes += $(CUTS_ROOT)/MDE/GME/paradigms/PICML/interpreter/CUTS_PICML
 }

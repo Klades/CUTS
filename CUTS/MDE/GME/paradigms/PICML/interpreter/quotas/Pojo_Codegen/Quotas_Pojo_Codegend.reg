@@ -1,0 +1,29 @@
+REGEDIT4
+
+[HKEY_CURRENT_USER\Software\Classes]
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID]
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{6D0AD75C-0311-4DD4-AC9E-6E894A938687}]
+@="Quotas.Interpreter.PojoCodegen"
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{6D0AD75C-0311-4DD4-AC9E-6E894A938687}\ProgID]
+@="Quotas.Interpreter.PojoCodegen"
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{6D0AD75C-0311-4DD4-AC9E-6E894A938687}\InProcServer32]
+@="Quotas_Pojo_Codegend.dll"
+
+[HKEY_CURRENT_USER\Software\Classes\Quotas.Interpreter.PojoCodegen]
+@="Quotas.Interpreter.PojoCodegen"
+
+[HKEY_CURRENT_USER\Software\Classes\Quotas.Interpreter.PojoCodegen\CLSID]
+@="{6D0AD75C-0311-4DD4-AC9E-6E894A938687}"
+
+[HKEY_CURRENT_USER\Software\GME\Components\Quotas.Interpreter.PojoCodegen]
+"Tooltip"="Quotas Pojo Code Generator"
+"Paradigm"="PICML"
+"Type"=dword:00000001
+"Description"="Quotas Pojo Code Generator"
+
+[HKEY_CURRENT_USER\Software\GME\Components\Quotas.Interpreter.PojoCodegen\Associated]
+"PICML"=""
