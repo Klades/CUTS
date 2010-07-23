@@ -51,17 +51,17 @@
     <javac srcdir="${cuts.src.dir}/java"
            debug="true"
            debuglevel="source,lines"
-           classpath="${contrib.dir}/log4j-1.2.15.jar">
-      <include name="cuts/*.java" />
+           classpath="${contrib.dir}/log4j-1.2.15.jar"
+           includes="cuts/**"
+           excludes="cuts/quotas/**">
     </javac>
   </target>
 
   <target name="cuts.java.jar.build" depends="cuts.java.build">
     <jar destfile="${cuts.lib.dir}/cuts.java.jar"
-         basedir="${cuts.src.dir}/java">
-
-      <include name="cuts/*.class" />
-    </jar>
+         basedir="${cuts.src.dir}/java"
+         includes="cuts/**/*.class"
+         excludes="cuts/quotas/**"/>
   </target>
 
   <target name="cuts.java.clean">
