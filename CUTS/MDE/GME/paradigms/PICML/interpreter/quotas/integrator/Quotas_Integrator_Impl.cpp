@@ -17,6 +17,7 @@
 #include "game/Filter.h"
 #include "game/manip/copy.h"
 #include "game/utils/modelgen.h"
+#include "game/utils/Point.h"
 
 #include "game/dialogs/Selection_List_Dialog.h"
 #include "game/dialogs/Object_Path_Dialog_Display_Strategy.h"
@@ -42,6 +43,8 @@ namespace meta
   static const std::string ComponentAssembly ("ComponentAssembly");
   static const std::string ComponentInstance ("ComponentInstance");
   static const std::string ComponentInstanceType ("ComponentInstanceType");
+  static const std::string Property ("Property");
+  static const std::string DataValue ("DataValue");
 }
 
 //
@@ -238,6 +241,13 @@ integrate (const GAME::Model & component,
 
   if (driver.children ("RequestAction", actions))
   {
+    // Get the method's parameters. We need to create properties
+    // in the request action for each parameter.
+    std::vector <GAME::Reference> params;
+    method.children ("InParameter", params);
+
+    // Set the name/method of each generic request action to the
+    // provided receptacle and method.
     std::vector <GAME::Model>::iterator
       iter = actions.begin (), iter_end = actions.end ();
 
@@ -245,6 +255,14 @@ integrate (const GAME::Model & component,
     {
       iter->name (receptacle.name ());
       iter->attribute ("MethodName").string_value (method.name ());
+
+      // Set the parameters for the action.
+      std::for_each (params.begin (),
+                     params.end (),
+                     boost::bind (&Quotas_Integrator_Impl::create_action_parameter,
+                                  this,
+                                  *iter,
+                                  _1));
     }
   }
 
@@ -526,4 +544,60 @@ generate_driver_component (const GAME::Model & component,
     t.commit ();
 
   return retval;
+}
+
+//
+// set_action_parameters
+//
+bool Quotas_Integrator_Impl::
+create_action_parameter (GAME::Model action, const GAME::Reference & param)
+{
+  // First, create a property for the parameter.
+  GAME::Model prop;
+  const std::string param_name (param.name ());
+
+  if (GAME::create_if_not (action, meta::Property, prop,
+      GAME::contains (boost::bind (std::equal_to <std::string> (),
+                                   param_name,
+                                   boost::bind (&GAME::Model::name, _1)))))
+  {
+    prop.name (param_name);
+  }
+
+  // Set position of property to the same as the parameter.
+  GAME::utils::Point pt;
+  GAME::utils::position ("InterfaceDefinition", param, pt);
+  GAME::utils::position ("Behavior", pt, prop);
+
+  // Create a data value for the property. Right now, we make
+  // the assumption we are working with only simple types.
+  GAME::Reference data_value;
+  const GAME::FCO refers_to = param.refers_to ();
+
+  if (GAME::create_if_not (prop, meta::DataValue, data_value,
+      GAME::contains (boost::bind (std::equal_to <GAME::FCO> (),
+                                   refers_to,
+                                   boost::bind (&GAME::Reference::refers_to, _1)))))
+  {
+    data_value.refers_to (refers_to);
+  }
+
+  // Set the name and position of the data value.
+  data_value.name (param_name);
+  GAME::utils::position ("DataValueAspect", pt, data_value);
+
+  // Finally, set value to the correct random generator.
+  GAME::Attribute value = data_value.attribute ("Value");
+  GAME::Meta::FCO metafco = refers_to.meta ();
+
+  if (metafco == "String" || metafco == "WideString")
+    value.string_value ("RandomStringDataGenerator.getSingleton ().getNextString ()");
+  else if (metafco == "LongInteger" || metafco == "UnsignedLongInteger")
+    value.string_value ("RandomLongIntegerDataGenerator.getSingleton ().getNextLongInteger ()");
+  else if (metafco == "ShortInteger" || metafco == "UnsignedShortInteger")
+    value.string_value ("RandomShortIntegerDataGenerator.getSingleton ().getNextShortInteger ()");
+  else if (metafco == "Boolean")
+    value.string_value ("RandomBooleanDataGenerator.getSingleton ().getNextBoolean ()");
+
+  return true;
 }

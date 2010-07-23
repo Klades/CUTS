@@ -1,6 +1,7 @@
 // $Id$
 
-project (Quotas_Integrator) : game_manip, game_interpreter, game_dialogs, boost_base, cutslib {
+project (Quotas_Integrator) : game_manip, game_interpreter, game_utils, \
+                              game_dialogs, boost_base, cutslib {
   sharedname    = Quotas_Integrator
 
   includes += $(COSMIC_ROOT)/PIM/PICML

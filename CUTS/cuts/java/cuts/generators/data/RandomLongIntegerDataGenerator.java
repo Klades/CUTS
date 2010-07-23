@@ -63,7 +63,7 @@ implements DataGenerator
    * 
    * @return      The data generator
    */
-  static RandomLongIntegerDataGenerator getSingleton ()
+  public static RandomLongIntegerDataGenerator getSingleton ()
   {
     return RandomLongIntegerDataGenerator.singleton_;
   }

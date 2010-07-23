@@ -146,9 +146,16 @@ generate (const PICML::MonolithicImplementation & mono, const PICML::Component &
   // Generate the import file for periodic events.
   if (!periodics.empty ())
     this->ctx_.source_
-      << "// imports for using PeriodicEvent element(s)" << std::endl
+      << CUTS_BE_Java::single_line_comment ("imports for using PeriodicEvent element(s)")
       << "import java.util.TimerTask;"
       << "import cuts.PeriodicTask;";
+
+  // Import the data generators.
+  this->ctx_.source_
+    << std::endl
+    << CUTS_BE_Java::single_line_comment ("import default data generators")
+    << "import cuts.generators.data.*;"
+    << std::endl;
 
   // Generate the remaining imports for this implementation.
   const CUTS_String_Set & imports = this->ctx_.impl_node_->maplist_["imports"];

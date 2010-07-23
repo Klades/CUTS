@@ -65,6 +65,7 @@ private:
                  const GAME::Model & behavior,
                  GAME::Model & driver);
 
+  bool create_action_parameter (GAME::Model action, const GAME::Reference & param);
 
   CComPtr <IConfigurator> configurator_;
 };

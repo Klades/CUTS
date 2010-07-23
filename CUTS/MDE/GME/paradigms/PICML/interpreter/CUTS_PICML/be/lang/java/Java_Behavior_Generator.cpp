@@ -109,7 +109,8 @@ generate (const PICML::WorkerType & var, const PICML::Worker & worker)
 void CUTS_BE_Action_Property_T <CUTS_BE_Java::Context>::
 generate (const PICML::Property & prop)
 {
-  this->ctx_.source_ << prop.DataValue ();
+  std::vector <PICML::DataValue> values = prop.DataValue_kind_children ();
+  this->ctx_.source_ << values.front ().Value ();
 
   if (-- this->ctx_.arg_count_ > 0)
     this->ctx_.source_ << ", ";
