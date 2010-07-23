@@ -62,7 +62,7 @@ invoke_ex (GAME::Project & project,
       manager.handle (root_folder);
 
       if (this->is_interactive_)
-        ::AfxMessageBox ("Successfully generated descriptors");
+        ::AfxMessageBox ("Successfully generated source code");
 
       // Closing backend with an update.
       dngBackend.CloseWithUpdate ();

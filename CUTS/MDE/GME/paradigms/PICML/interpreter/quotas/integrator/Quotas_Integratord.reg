@@ -1,0 +1,29 @@
+REGEDIT4
+
+[HKEY_CURRENT_USER\Software\Classes]
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID]
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{06E81B58-9B3E-4814-AA48-411A7038E821}]
+@="Quotas.Interpreter.Integrator"
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{06E81B58-9B3E-4814-AA48-411A7038E821}\ProgID]
+@="Quotas.Interpreter.Integrator"
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{06E81B58-9B3E-4814-AA48-411A7038E821}\InProcServer32]
+@="Quotas_Integratord.dll"
+
+[HKEY_CURRENT_USER\Software\Classes\Quotas.Interpreter.Integrator]
+@="Quotas.Interpreter.Integrator"
+
+[HKEY_CURRENT_USER\Software\Classes\Quotas.Interpreter.Integrator\CLSID]
+@="{06E81B58-9B3E-4814-AA48-411A7038E821}"
+
+[HKEY_CURRENT_USER\Software\GME\Components\Quotas.Interpreter.Integrator]
+"Tooltip"="Quotas intergrator"
+"Paradigm"="PICML"
+"Type"=dword:00000001
+"Description"="Quotas intergrator"
+
+[HKEY_CURRENT_USER\Software\GME\Components\Quotas.Interpreter.Integrator\Associated]
+"PICML"=""

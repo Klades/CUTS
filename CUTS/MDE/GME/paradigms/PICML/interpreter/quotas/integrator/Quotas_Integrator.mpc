@@ -1,0 +1,17 @@
+// $Id$
+
+project (Quotas_Integrator) : game_manip, game_interpreter, game_dialogs, boost_base, cutslib {
+  sharedname    = Quotas_Integrator
+
+  includes += $(COSMIC_ROOT)/PIM/PICML
+
+  pch_header = stdafx.h
+  pch_source = stdafx.cpp
+
+  Source_Files {
+    Quotas_Driver_Component.cpp
+    Quotas_Integrator.idl
+    Quotas_Integrator_Module.cpp
+    Quotas_Integrator_Impl.cpp
+  }
+}
