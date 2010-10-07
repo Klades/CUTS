@@ -1,3 +1,10 @@
+Thu Oct  7 16:59:02 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Integrator_Impl.cpp:
+
+          Fixed build errors related to updating to latest version
+          of CoSMIC.
+
 Thu Oct  7 16:25:12 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment:

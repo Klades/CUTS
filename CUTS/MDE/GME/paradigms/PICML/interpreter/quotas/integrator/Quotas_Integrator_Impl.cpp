@@ -19,7 +19,7 @@
 #include "game/utils/modelgen.h"
 #include "game/utils/Point.h"
 
-#include "game/dialogs/Selection_List_Dialog.h"
+#include "game/dialogs/Selection_List_Dialog_T.h"
 #include "game/dialogs/Object_Path_Dialog_Display_Strategy.h"
 
 #include "boost/bind.hpp"
@@ -158,13 +158,14 @@ invoke_ex (GAME::Project & project,
       // select one of them that will be intergreted with an driver
       // component.
       using GAME::Dialogs::Object_Path_Dialog_Display_Strategy;
-      using GAME::Dialogs::Selection_List_Dialog;
+      using GAME::Dialogs::Selection_List_Dialog_T;
 
       Object_Path_Dialog_Display_Strategy display_strategy ("/");
 
-      Selection_List_Dialog <GAME::FCO>
-        selection_dialog (behavior_models, &display_strategy, ::AfxGetMainWnd ());
+      typedef Selection_List_Dialog_T <GAME::FCO> FCO_Selection_List_Dialog;
+      FCO_Selection_List_Dialog selection_dialog (&display_strategy, ::AfxGetMainWnd ());
 
+      selection_dialog.insert (behavior_models);
       selection_dialog.title ("Behavior Models");
 
       if (selection_dialog.DoModal () == IDOK)
@@ -429,17 +430,19 @@ get_target_component (GAME::Project & project, GAME::Model & component)
 
   default:
     {
-      using GAME::Dialogs::Selection_List_Dialog;
+      using GAME::Dialogs::Selection_List_Dialog_T;
       using GAME::Dialogs::Object_Path_Dialog_Display_Strategy;
 
       // Display a dialog that allows the user to select a
       // component from the list of components available in
       // the model.
       Object_Path_Dialog_Display_Strategy display ("/", true);
-      typedef Selection_List_Dialog <GAME::FCO> Selection_Dialog;
-      Selection_Dialog selector (components, &display, ::AfxGetMainWnd ());
+
+      typedef Selection_List_Dialog_T <GAME::FCO> Selection_Dialog;
+      Selection_Dialog selector (&display, ::AfxGetMainWnd ());
 
       // Set the title of the dialog.
+      selector.insert (components);
       selector.title ("Component Models");
 
       if (selector.DoModal () == IDCANCEL)
@@ -477,11 +480,14 @@ get_receptacle_and_method (const GAME::Model & driver,
 
   default:
     {
-      using GAME::Dialogs::Selection_List_Dialog;
+      using GAME::Dialogs::Selection_List_Dialog_T;
 
       // Display a dialog that allows the user to select a recetacle
       // from the list of components available in the model.
-      Selection_List_Dialog <GAME::Reference> selector (receptacles, 0, ::AfxGetMainWnd ());
+      typedef Selection_List_Dialog_T <GAME::Reference> Selection_Dialog;
+      Selection_Dialog selector (0, ::AfxGetMainWnd ());
+
+      selector.insert (receptacles);
       selector.title ("Target Receptacle");
 
       if (selector.DoModal () == IDCANCEL)
@@ -509,12 +515,13 @@ get_receptacle_and_method (const GAME::Model & driver,
 
   default:
     {
-      using GAME::Dialogs::Selection_List_Dialog;
+      using GAME::Dialogs::Selection_List_Dialog_T;
 
       // Display a dialog that allows the user to select a recetacle
       // from the list of components available in the model.
-      Selection_List_Dialog <GAME::Model> selector (methods, 0, ::AfxGetMainWnd ());
+      Selection_List_Dialog_T <GAME::Model> selector (0, ::AfxGetMainWnd ());
       selector.title ("Target Method");
+      selector.insert (methods);
 
       if (selector.DoModal () == IDCANCEL)
         return false;
