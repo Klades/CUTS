@@ -221,7 +221,7 @@ Visit_ComponentInstance (const PICML::ComponentInstance & inst)
 
     // There should be only one provided port in an component
     // wrapper. Get it and find its class type.
-    PICML::ProvidedRequestPortInstance facet_inst = facets.begin ();
+    PICML::ProvidedRequestPortInstance facet_inst = facets.front ();
     PICML::ProvidedRequestPort facet = facet_inst.ref ();
     PICML::Object obj = PICML::Object::Cast (facet.ref ());
 
@@ -259,14 +259,15 @@ Visit_AttributeInstance (const PICML::AttributeInstance & inst)
   // Right now, we are only supporting simple types. So, just write
   // the property and the property's value.
   PICML::Property prop = av.dstAttributeValue_end ();
-  std::vector <PICML::DataValue> values = prop.DataValue_kind_children ();
 
-  if (values.empty ())
-    return;
+  if (prop.type () == PICML::SimpleProperty::meta)
+  {
+    PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
 
-  Fragment xml_property = this->bean_.create_element (SPRING_NS, String ("property"));
-  xml_property->setAttribute (String ("name"), String (prop.name ()));
-  xml_property.create_simple_content (SPRING_NS, String ("value"), String (values.front ().Value ()));
+    Fragment xml_property = this->bean_.create_element (SPRING_NS, String ("property"));
+    xml_property->setAttribute (String ("name"), String (prop.name ()));
+    xml_property.create_simple_content (SPRING_NS, String ("value"), String (simple.Value ()));
+  }
 }
 
 //
