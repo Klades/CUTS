@@ -11,8 +11,13 @@
 //=============================================================================
 
 package cuts.quotas.pojo;
+import java.util.TimerTask;
+import java.util.Timer;
+
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+
+import org.apache.log4j.Logger;
 
 /**
  * @class PojoComponentServer
@@ -40,12 +45,16 @@ public class PojoComponentServer
   {
     try
     {
+      Logger logger = Logger.getLogger (PojoComponentServer.class.getName ());
+      
       // Parse the command-line arguments.
       if (this.parseArgs (args) != 0)
         return;
       
       // Register the shutdown thread with the runtime.
-      Runtime.getRuntime ().addShutdownHook (new ShutdownThread (this));
+      logger.debug ("registering shutdown hook with VM");
+      Thread shutdownThread = new ShutdownThread (this);
+      Runtime.getRuntime ().addShutdownHook (shutdownThread);
       
       // Create a container for the specified descriptor file.
       ListableBeanFactory beanFactory = new FileSystemXmlApplicationContext (this.descriptorFile_);
@@ -53,21 +62,31 @@ public class PojoComponentServer
       
       // Install the component instances
       Component [] components =  this.pojoContainer_.installComponentInstances ();
-      
+
       // Activate each of the returned components.
       for (Component c : components)
         c.activate ();
       
+      Timer timer = new Timer (false);
+  
+      if (this.testTimeout_ > 0)
+      {
+        long delay = this.testTimeout_ * 1000;
+        timer.schedule (new TestTimer (this), delay);
+      }
+      
       // Wait for the user to exit the application.
       System.out.println ("Press Ctrl+C to exit...");
+      
       synchronized (this) {
         this.wait ();
       }
+
+      // Remove the shutdown hook.
+      Runtime.getRuntime ().removeShutdownHook (shutdownThread);
       
-      // Passivate all the components in the container.
+      // Passivate then remove all components in the container.
       this.pojoContainer_.passivateAll ();
-      
-      // Destroy all the components in the container.
       this.pojoContainer_.removeAll ();
     }
     catch (InterruptedException ex)
@@ -90,6 +109,8 @@ public class PojoComponentServer
 
       if (arg.equals ("-descriptor"))
         this.descriptorFile_ = args[++ i];
+      else if (arg.equals ("-timeout"))
+        this.testTimeout_ = Integer.parseInt (args[++ i]);
     }
     
     // Validate the REQUIRED command-line arguments.
@@ -107,6 +128,8 @@ public class PojoComponentServer
   // private data
     
   private String descriptorFile_;
+  
+  private int testTimeout_ = -1;
   
   private PojoContainer pojoContainer_;
   
@@ -150,5 +173,24 @@ class ShutdownThread extends Thread
     }
   }
   
+  private PojoComponentServer pojoServer_;
+}
+
+class TestTimer extends TimerTask
+{
+  public TestTimer (PojoComponentServer pojoServer)
+  {
+    this.pojoServer_ = pojoServer;
+  }
+  
+  public void run ()
+  {
+    System.err.println ("Testing time is complete; shutting down test...");
+
+    synchronized (this.pojoServer_) {
+      this.pojoServer_.notifyAll ();
+    }   
+  }
+
   private PojoComponentServer pojoServer_;
 }

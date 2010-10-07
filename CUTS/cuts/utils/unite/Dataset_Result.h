@@ -17,7 +17,7 @@
 #include "ace/SString.h"
 #include "ace/Hash_Map_Manager.h"
 #include "ace/Null_Mutex.h"
-#include "ace/Array.h"
+#include "ace/Array_Base.h"
 
 namespace ADBC
 {
@@ -38,7 +38,7 @@ class CUTS_Dataset_Repo;
 class CUTS_Unite_Test;
 
 /// Type definition for the collection of group names.
-typedef ACE_Array <ACE_CString> CUTS_Group_Name;
+typedef ACE_Array_Base <ACE_CString> CUTS_Group_Name;
 
 /**
  * @ingroup UNITE_Core

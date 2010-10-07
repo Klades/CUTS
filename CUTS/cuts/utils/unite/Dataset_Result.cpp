@@ -10,7 +10,6 @@
 #include "Unite_Test.h"
 #include "adbc/SQLite/Connection.h"
 #include "ace/CORBA_macros.h"
-#include "ace/Pair.h"
 #include <map>
 #include <set>
 #include <sstream>

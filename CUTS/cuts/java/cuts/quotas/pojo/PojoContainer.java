@@ -14,6 +14,7 @@ package cuts.quotas.pojo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.springframework.beans.factory.ListableBeanFactory;
+import org.apache.log4j.Logger;
 
 /**
  * @class PojoContainer
@@ -118,5 +119,5 @@ public class PojoContainer
   private ListableBeanFactory beanFactory_;
   
   /// Collection of instances in this container.
-	private HashMap <String, Component> instMap_;
+	private HashMap <String, Component> instMap_ = new HashMap <String, Component> ();
 }

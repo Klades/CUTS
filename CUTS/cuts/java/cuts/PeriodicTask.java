@@ -25,6 +25,11 @@ import java.util.TimerTask;
  */
 public class PeriodicTask <T>
 {
+  public PeriodicTask ()
+  {
+    
+  }
+  
   /**
    * Default constructor
    */

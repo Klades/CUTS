@@ -13,7 +13,6 @@
 #ifndef _CUTS_VIRTUAL_ENV_H_
 #define _CUTS_VIRTUAL_ENV_H_
 
-#include "ace/Array.h"
 #include "ace/Hash_Map_Manager.h"
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/Process_Manager.h"

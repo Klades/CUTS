@@ -1,0 +1,18 @@
+// $Id$
+
+project (Quotas_Spring_Deployment) : picml_udm_utils, game_xml, game_interpreter, cutslib {
+  sharedname    = Quotas_Spring_Deployment
+
+  includes += $(COSMIC_ROOT)/PIM/PICML
+
+  pch_header = stdafx.h
+  pch_source = stdafx.cpp
+
+  Source_Files {
+    Spring_Deployment.idl
+
+    Spring_Deployment_Impl.cpp
+    Spring_Deployment_Module.cpp
+    Spring_Deployment_Visitor.cpp
+  }
+}

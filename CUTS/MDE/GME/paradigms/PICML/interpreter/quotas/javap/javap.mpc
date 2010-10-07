@@ -2,9 +2,12 @@
 
 project (Quotas_Javap_Output_Importer) : game_xme, boost_base, cutsexe {
   exename = quotas-javap
-  
+
+  after    += PICML_GUID
+  includes += $(COSMIC_ROOT)
+
   Source_Files {
-    Javap_Output_Parser.cpp  
+    Javap_Output_Parser.cpp
     Quotas_Javap_Importer.cpp
     Quotas_Javap_Importer_App.cpp
   }

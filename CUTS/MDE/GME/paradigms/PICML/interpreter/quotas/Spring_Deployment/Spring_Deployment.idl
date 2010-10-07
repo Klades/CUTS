@@ -1,0 +1,36 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ * @file      Quotas_Integrator.idl
+ *
+ * $Id$
+ *
+ * @author    James H. Hill
+ */
+//=============================================================================
+
+#ifndef _QUOTAS_INTEGRATOR_IDL_
+#define _QUOTAS_INTEGRATOR_IDL_
+
+#include <Gme.idl>
+
+[
+  uuid (4B413B1A-E5D1-461A-935F-01F2FCC5CE20),
+  version(1.0),
+]
+library Quotas_Spring_Deployment
+{
+  importlib("stdole32.tlb");
+
+  [uuid (CC225B3C-189E-4DD7-BF13-8485ADB20ACB)]
+  coclass Quotas_Spring_Deployment
+  {
+    [default] interface IMgaComponentEx;
+    interface IMgaComponent;
+    interface IMgaVersionInfo;
+  };
+};
+
+#endif
+

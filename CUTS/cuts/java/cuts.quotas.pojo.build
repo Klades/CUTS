@@ -29,6 +29,7 @@
     <path id="local.classpath">
       <pathelement path="." />
       <pathelement path="${contrib.dir}/spring.jar" />
+      <pathelement path="${contrib.dir}/log4j-1.2.15.jar" />
     </path>
 
     <!-- compile the auto-generated files -->

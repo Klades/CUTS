@@ -1,0 +1,29 @@
+REGEDIT4
+
+[HKEY_CURRENT_USER\Software\Classes]
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID]
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{CC225B3C-189E-4DD7-BF13-8485ADB20ACB}]
+@="Quotas.Interpreter.SpringDeployment"
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{CC225B3C-189E-4DD7-BF13-8485ADB20ACB}\ProgID]
+@="Quotas.Interpreter.SpringDeployment"
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{CC225B3C-189E-4DD7-BF13-8485ADB20ACB}\InProcServer32]
+@="Quotas_Spring_Deploymentd.dll"
+
+[HKEY_CURRENT_USER\Software\Classes\Quotas.Interpreter.SpringDeployment]
+@="Quotas.Interpreter.SpringDeployment"
+
+[HKEY_CURRENT_USER\Software\Classes\Quotas.Interpreter.SpringDeployment\CLSID]
+@="{CC225B3C-189E-4DD7-BF13-8485ADB20ACB}"
+
+[HKEY_CURRENT_USER\Software\GME\Components\Quotas.Interpreter.SpringDeployment]
+"Tooltip"="Quotas Spring Deployment"
+"Paradigm"="PICML"
+"Type"=dword:00000001
+"Description"="Quotas Spring Deployment"
+
+[HKEY_CURRENT_USER\Software\GME\Components\Quotas.Interpreter.SpringDeployment\Associated]
+"PICML"=""

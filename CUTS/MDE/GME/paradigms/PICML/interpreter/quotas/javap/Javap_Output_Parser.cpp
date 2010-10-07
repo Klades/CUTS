@@ -18,6 +18,7 @@
 #include "game/xme/Folder.h"
 #include "game/xme/Attribute.h"
 #include "game/xme/functional.h"
+#include "game/xml/String.h"
 #include "game/utils/modelgen.h"
 
 #include "boost/bind.hpp"
@@ -29,6 +30,8 @@ namespace ascii = boost::spirit::ascii;
 
 #define PARAMETER_FIRST_X    100
 #define PARAMETER_SPACING    50
+
+using GAME::Xml::String;
 
 typedef std::map <std::string, GAME::XME::FCO> symbol_table_t;
 
@@ -72,8 +75,8 @@ namespace action
     template <typename ContextT>
     void operator () (const types::scope_t & classname, ContextT ctx, qi::unused_type) const
     {
-      static const ::Utils::XStr meta_File ("File");
-      const ::Utils::XStr filename = classname.back ();
+      static const String meta_File ("File");
+      const String filename = classname.back ();
 
       using GAME::XME::Model;
 
@@ -82,7 +85,7 @@ namespace action
       Model javafile;
 
       if (GAME::create_if_not (this->idl_folder_, meta_File, javafile,
-          GAME::contains (boost::bind (std::equal_to < ::Utils::XStr > (),
+          GAME::contains (boost::bind (std::equal_to < String > (),
                                        filename,
                                        boost::bind (&Model::name, _1)))))
       {
@@ -106,10 +109,10 @@ namespace action
         // target Java file.
         for (iter; iter != iter_end; ++ iter)
         {
-          static const ::Utils::XStr meta_Package ("Package");
+          static const String meta_Package ("Package");
 
           if (GAME::create_if_not (javafile, meta_Package, javafile,
-              GAME::contains (boost::bind (std::equal_to < ::Utils::XStr > (),
+              GAME::contains (boost::bind (std::equal_to < String > (),
                                            *iter,
                                            boost::bind (&Model::name, _1)))))
           {
@@ -123,7 +126,7 @@ namespace action
 
       static const std::string meta_Object ("Object");
       if (GAME::create_if_not (javafile, meta_Object, object,
-          GAME::contains (boost::bind (std::equal_to < ::Utils::XStr > (),
+          GAME::contains (boost::bind (std::equal_to < String > (),
                                        filename,
                                        boost::bind (&Model::name, _1)))))
       {
@@ -159,10 +162,10 @@ namespace action
 
       Model object;
       Model & parent = fusion::at_c <1> (ctx.attributes);
-      static const ::Utils::XStr meta_TwowayOperation ("TwowayOperation");
+      static const String meta_TwowayOperation ("TwowayOperation");
 
       if (GAME::create_if_not (parent, meta_TwowayOperation, object,
-          GAME::contains (boost::bind (std::equal_to < ::Utils::XStr > (),
+          GAME::contains (boost::bind (std::equal_to < String > (),
                                        name,
                                        boost::bind (&Model::name, _1)))))
       {
@@ -196,15 +199,15 @@ namespace action
 
       Reference parameter;
       Model & parent = fusion::at_c <1> (ctx.attributes);
-      static const ::Utils::XStr meta_InParameter ("InParameter");
+      static const String meta_InParameter ("InParameter");
 
       std::ostringstream pname;
       pname << "p" << this->pcount_ ++;
 
-      const ::Utils::XStr name (pname.str ());
+      const String name (pname.str ());
 
       if (GAME::create_if_not (parent, meta_InParameter, parameter,
-          GAME::contains (boost::bind (std::equal_to < ::Utils::XStr > (),
+          GAME::contains (boost::bind (std::equal_to < String > (),
                                        name,
                                        boost::bind (&Reference::name, _1)))))
       {
@@ -278,7 +281,7 @@ namespace action
 
       GAME::XME::Reference inherits;
       GAME::XME::Model parent = fusion::at_c <0> (ctx.attributes);
-      static const ::Utils::XStr meta_Inherits ("Inherits");
+      static const String meta_Inherits ("Inherits");
 
       if (GAME::create_if_not (parent, meta_Inherits, inherits,
           GAME::contains (boost::bind (std::equal_to < GAME::XME::FCO > (),

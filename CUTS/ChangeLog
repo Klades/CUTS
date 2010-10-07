@@ -1,3 +1,47 @@
+Thu Oct  7 16:25:12 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment/Quotas_Spring_Deploymentd.reg:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment/Spring_Deployment.idl:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment/Spring_Deployment.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment/Spring_Deployment_Impl.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment/Spring_Deployment_Impl.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment/Spring_Deployment_Module.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment/Spring_Deployment_Visitor.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment/Spring_Deployment_Visitor.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment/stdafx.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment/stdafx.cpp:
+
+          Initial intepreter that generates Spring deployments
+          for QUOTAS.
+
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Javap_Output_Parser.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Quotas_Javap_Importer_App.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/javap.mpc:
+
+          Fixed build errors related to latest CoSMIC updates.
+
+        * bin/quotas:
+        * bin/quotas/PojoComponentServer.bat:
+        * bin/quotas/PojoComponentServer.sh:
+        * cuts/java/cuts.quotas.pojo.build:
+        * cuts/java/cuts/quotas/pojo/PojoComponentServer.java:
+        * cuts/java/cuts/quotas/pojo/PojoContainer.java:
+
+          First implementation of the QUOTAS container that deploys
+          Pojos using the Spring framework.
+
+        * cuts/java/cuts/PeriodicTask.java:
+
+          Added a default constructor.
+
+        * cuts/utils/node/Virtual_Env.h:
+        * cuts/utils/unite/Dataset_Result.h:
+        * cuts/utils/unite/Dataset_Result.cpp:
+
+          Fixed build errors related to updating to latest version of
+          DOC middleware.
+
 Fri Jul 23 22:50:46 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/java/Java_Behavior_Generator.cpp:
