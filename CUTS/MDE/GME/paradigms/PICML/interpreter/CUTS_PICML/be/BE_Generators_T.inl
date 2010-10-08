@@ -1318,8 +1318,7 @@ CUTS_BE_WorkerAction_Begin_T <CONTEXT>::~CUTS_BE_WorkerAction_Begin_T (void)
 
 template <typename CONTEXT>
 CUTS_INLINE
-void CUTS_BE_WorkerAction_Begin_T <CONTEXT>::
-generate (const PICML::Worker &, const PICML::Action &)
+void CUTS_BE_WorkerAction_Begin_T <CONTEXT>::generate (const PICML::Action &)
 {
 
 }

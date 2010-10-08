@@ -630,24 +630,18 @@ template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
 Visit_Action (const PICML::Action & action)
 {
-  // Get action type and it's worker parent. This will help all
-  // the generators since they will not have to do this themselves.
-  PICML::Action action_type = action;
-
-  while (PICML::Action (action_type.Archetype ()) != Udm::null)
-    action_type = action_type.Archetype ();
-
   // Let's tell the <traits_> to begin generating an action.
-  PICML::Worker worker = action_type.Worker_parent ();
   CUTS_BE_WorkerAction_Begin_T <CONTEXT> worker_action_begin (this->context_);
-  worker_action_begin.generate (worker, action);
+  worker_action_begin.generate (action);
 
   // Generate the parameters for the action.
   typedef std::set <PICML::Property,
-                    Sort_By_Position <PICML::Property> > Property_Set;
+                    Sort_By_Position <PICML::Property> >
+                    Property_Set;
 
   Property_Set properties =
-    action.Property_kind_children_sorted (Sort_By_Position <PICML::Property> ());
+    action.Property_kind_children_sorted (
+    Sort_By_Position <PICML::Property> ());
 
   if (!properties.empty ())
   {

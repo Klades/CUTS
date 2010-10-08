@@ -708,18 +708,21 @@ configure (const PICML::InEventPort & sink, const PICML::Property & prop)
                    << sink.name () << ".predicate";
 
     // Write the code to set the predicate.
-    std::string predicate = prop.DataValue ();
+    PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
 
     this->ctx_.source_
       << "this.setPredicate (" << predicate_name.str () << "\", "
-      << prop.DataValue () << ");";
+      << simple.Value () << ");";
   }
   else
   {
+    PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
+
     // We assume the property is an attribute of the sink.
-    this->ctx_.source_ << "this.setAttribute ("
-                              << "\"" << prop.name () << "\", "
-                              << prop.DataValue () << ");";
+    this->ctx_.source_ 
+      << "this.setAttribute ("
+      << "\"" << prop.name () << "\", "
+      << simple.Value () << ");";
   }
 }
 

@@ -100,11 +100,13 @@ generate (const PICML::WorkerType & var, const PICML::Worker & worker)
 // CUTS_BE_Action_Property_T
 
 void CUTS_BE_Action_Property_T <CUTS_BE_CPP::Context>::
-generate (const PICML::Property & property)
+generate (const PICML::Property & prop)
 {
-  // Write the value of the property.
-  std::string value = property.DataValue ();
-  this->ctx_.source_ << value;
+  // TODO Add support for complex properties.
+
+  // Write the value of the prop.
+  PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
+  this->ctx_.source_ << simple.Value ();
 
   if (this->ctx_.arg_count_ > 1)
   {
@@ -121,7 +123,7 @@ generate (const PICML::Property & property)
 // CUTS_BE_WorkerAction_Begin_T
 
 void CUTS_BE_WorkerAction_Begin_T <CUTS_BE_CPP::Context>::
-generate (const PICML::Worker & worker, const PICML::Action & action)
+generate (const PICML::Action & action)
 {
   this->ctx_.skip_action_ = false;
 
@@ -170,11 +172,15 @@ generate (const PICML::OutputAction & action)
 
 void CUTS_BE_OutputAction_Property_T <CUTS_BE_CPP::Context>::
 generate (const PICML::OutputAction & action,
-          const PICML::Property & property)
+          const PICML::Property & prop)
 {
+  // TODO Add support for complex properties.
+
+  PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
+
   this->ctx_.source_
     << "__event_" << action.uniqueId () << "__->"
-    << property.name () << " (" << property.DataValue () << ");";
+    << prop.name () << " (" << simple.Value () << ");";
 }
 
 ///////////////////////////////////////////////////////////////////////////////

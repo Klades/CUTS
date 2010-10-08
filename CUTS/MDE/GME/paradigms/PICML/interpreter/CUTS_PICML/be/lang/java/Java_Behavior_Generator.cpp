@@ -109,8 +109,10 @@ generate (const PICML::WorkerType & var, const PICML::Worker & worker)
 void CUTS_BE_Action_Property_T <CUTS_BE_Java::Context>::
 generate (const PICML::Property & prop)
 {
-  std::vector <PICML::DataValue> values = prop.DataValue_kind_children ();
-  this->ctx_.source_ << values.front ().Value ();
+  // TODO Add support for complex properties.
+
+  PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
+  this->ctx_.source_ << simple.Value ();
 
   if (-- this->ctx_.arg_count_ > 0)
     this->ctx_.source_ << ", ";
@@ -120,7 +122,7 @@ generate (const PICML::Property & prop)
 // CUTS_BE_WorkerAction_Begin_T
 
 void CUTS_BE_WorkerAction_Begin_T <CUTS_BE_Java::Context>::
-generate (const PICML::Worker & worker, const PICML::Action & action)
+generate (const PICML::Action & action)
 {
   this->ctx_.skip_action_ = false;
 
@@ -200,34 +202,29 @@ generate (const PICML::OutputAction & action,
   if (name == "metadata")
   {
     // We handle the metadata property specially.
-    PICML::DataType datatype = prop.DataType_child ();
-    PICML::MemberType mt = datatype.ref ();
-    Uml::Class meta = mt.type ();
+    PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
 
-    if (meta == PICML::String::meta)
-    {
-      this->ctx_.source_
-        << "ev_" << action.uniqueId () << "_." <<
-        CUTS_BE_Java::setter_method (prop.name ())
-        << " (" << prop.DataValue () << ");";
-    }
-    else if (meta == PICML::Event::meta)
-    {
-
-    }
+    this->ctx_.source_
+      << "ev_" << action.uniqueId () << "_." <<
+      CUTS_BE_Java::setter_method (prop.name ())
+      << " (" << simple.Value () << ");";
   }
   else if (name == "payload")
   {
+    PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
+
     this->ctx_.source_ << "ev_" << action.uniqueId ()
-                              << "_.setPayload (" << prop.DataValue ()
+                              << "_.setPayload (" << simple.Value ()
                               << ");";
   }
   else
   {
+    PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
+
     this->ctx_.source_
       << "ev_" << action.uniqueId () << "_.getMetadata ()." <<
       CUTS_BE_Java::setter_method (prop.name ())
-      << " (" << prop.DataValue () << ");";
+      << " (" << simple.Value () << ");";
   }
 }
 

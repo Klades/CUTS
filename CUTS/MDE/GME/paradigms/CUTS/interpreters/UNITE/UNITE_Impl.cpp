@@ -70,7 +70,7 @@ invoke_ex (GAME::Project & project,
       // Convert the current object to a UDM object.
       Udm::Object current;
 
-      if (fco)
+      if (!fco.is_nil ())
         current = backend.Gme2Udm (fco.impl ());
 
       // Convert the object collection to UDM objects.

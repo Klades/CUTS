@@ -6,7 +6,6 @@
 #include "Utils/Utils.h"
 
 #include "be/CoWorkEr_Cache.h"
-#include "be/BE_CoWorkEr_Generator.h"
 #include "be/BE_CUTS_Project.h"
 #include "be/BE_Manager.h"
 #include "be/BE_Manager_Factory.h"
@@ -57,34 +56,6 @@ void CUdmApp::UdmMain (Udm::DataNetwork* p_backend,
 
   switch (options->option_)
   {
-  case CUTS_BE_Options::OPT_GENERATE_MODELS:
-    {
-      // Generate the CUTS project.
-      root.Accept (*CUTS_BE_PROJECT ());
-
-      // Generate the CoWorkEr models.
-      CUTS_CoWorkEr_Generator coworker_generator;
-      root.Accept (coworker_generator);
-
-      message = "Successfully generated CUTS proxy components";
-    }
-    break;
-
-  //case CUTS_BE_Options::OPT_GENERATE_PROXY_ASSEMBLIES:
-  //  {
-  //    // Generate the CUTS project.
-  //    root.Accept (*CUTS_BE_PROJECT ());
-
-  //    CUTS_BE_Assembly_Generator generator;
-  //    root.Accept (generator);
-
-  //    CUTS_BE_Deployment_Generator deployment;
-  //    root.Accept (deployment);
-
-  //    message = "Successfully generated CUTS proxy assemblies";
-  //  }
-  //  break;
-
   case CUTS_BE_Options::OPT_GENERATE_SOURCE:
     {
       // Initialize the backend options. Eventually, the user will

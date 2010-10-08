@@ -13,7 +13,6 @@ project (CUTS_BE) : picml_udm, boost_base, cuts_cosmic {
     CoWorkEr_Cache.cpp
 
     BE_algorithm.cpp
-    BE_CoWorkEr_Generator.cpp
     BE_CUTS_Project.cpp
     BE_File_Traits.cpp
     BE_IDL_Graph.cpp
@@ -32,6 +31,7 @@ project (CUTS_BE) : picml_udm, boost_base, cuts_cosmic {
     BE_Type_Map.cpp
     BE_Workspace_Strategy.cpp
 
+    // BE_CoWorkEr_Generator.cpp
   }
 
   Header_Files {

@@ -479,21 +479,25 @@ Visit_InputAction (const PICML::InputAction & action)
 }
 
 void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_Property (const PICML::Property & property)
+Visit_Property (const PICML::Property & prop)
 {
-  std::string name (property.name ());
+  std::string name (prop.name ());
 
   if (name == "threadCount")
   {
+    PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
+
     this->ctx_.source_
       << "this->push_" << name << "_.thread_count ("
-      << property.DataValue () << ");";
+      << simple.Value () << ");";
   }
   else if (name == "threadAffinity")
   {
+    PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
+
     this->ctx_.source_
       << "this->push_" << name << "_.affinity_mask ("
-      << property.DataValue () << ");";
+      << simple.Value () << ");";
   }
 }
 
@@ -892,7 +896,7 @@ generate (const PICML::InEventPort & sink,
 
   if (et == Udm::null || et.type () != PICML::Event::meta)
     return;
-  
+
   PICML::Event ev = PICML::Event::Cast (et);
   PICML::Component parent = PICML::Component::Cast (sink.parent ());
   std::string parent_name (parent.name ());

@@ -1173,8 +1173,7 @@ public:
 
   virtual ~CUTS_BE_WorkerAction_Begin_T (void);
 
-  void generate (const PICML::Worker & worker,
-                 const PICML::Action & action);
+  void generate (const PICML::Action & action);
 };
 
 /**

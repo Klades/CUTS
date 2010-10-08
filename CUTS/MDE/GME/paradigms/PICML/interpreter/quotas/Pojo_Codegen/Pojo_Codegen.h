@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0500 */
-/* at Thu Jul 22 09:29:39 2010
+/* at Fri Oct 08 09:40:19 2010
  */
 /* Compiler settings for .\Pojo_Codegen.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)
