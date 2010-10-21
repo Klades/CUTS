@@ -70,8 +70,15 @@ void
 CUTS_BE_Workspace_Project_Include_T <CUTS_BE_CIAO::Context, CUTS_BE_IDL_Node>::
 generate (const CUTS_BE_IDL_Node & node)
 {
+  std::string filename (node.file_.Path ());
+
+  if (!filename.empty ())
+    filename += "/";
+
+  filename += node.file_.name ();
+
   this->ctx_.workspace_
-    << "  " << node.file_.name () << ".mpc" << std::endl;
+    << "  " << filename << ".mpc" << std::endl;
 }
 
 //

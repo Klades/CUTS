@@ -12,14 +12,11 @@ struct CUTS_BE_IDL_Node;
 /// Type definition for a collection of CUTS_BE_IDL_Node objects.
 typedef std::set <const CUTS_BE_IDL_Node *> CUTS_BE_IDL_Node_Set;
 
-//=============================================================================
 /**
  * @class CUTS_BE_IDL_Node
  *
  * Dependency information for an IDL file.
  */
-//=============================================================================
-
 struct CUTS_BE_Export CUTS_BE_IDL_Node
 {
   /**

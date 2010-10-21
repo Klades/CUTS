@@ -18,6 +18,9 @@
 #include "BE_nil.h"
 #include "BE_export.h"
 
+// Forward decl.
+struct CUTS_BE_IDL_Node;
+
 namespace CUTS_BE
 {
   /**
@@ -27,6 +30,22 @@ namespace CUTS_BE
    */
   CUTS_BE_Export
   bool has_component (const PICML::File & file);
+
+  /**
+   * Determine if a file has a component.
+   *
+   * @param[in]     file        File element to search.
+   */
+  CUTS_BE_Export
+  bool has_interface (const PICML::File & file);
+
+  /**
+   * Determine if a file has a component.
+   *
+   * @param[in]     file        File element to search.
+   */
+  CUTS_BE_Export
+  bool has_interface (const CUTS_BE_IDL_Node * node);
 
   /**
    * Determine if a file has any events.

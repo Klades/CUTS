@@ -189,6 +189,14 @@ generate (const PICML::ComponentImplementationContainer & container,
   Locate_Parent_File locator;
   PICML::MonolithicImplementation (impl).Accept (locator);
 
+  // Construct the pathname of the executor include file.
+  std::string pathname = locator.result_.Path ();
+
+  if (!pathname.empty ())
+    pathname += "/";
+
+  pathname += locator.result_.name ();
+
   this->ctx_.header_
     << "// -*- C++ -*-" << std::endl
     << std::endl
@@ -200,7 +208,7 @@ generate (const PICML::ComponentImplementationContainer & container,
     << "#endif /* ACE_LACKS_PRAGMA_ONCE */" << std::endl
     << std::endl
     << CUTS_BE_CPP::include ("ace/pre")
-    << CUTS_BE_CPP::include (std::string (locator.result_.name ()) + "EC")
+    << CUTS_BE_CPP::include (pathname + "EC")
     << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_Component_T")
     << std::endl;
 
@@ -938,20 +946,21 @@ generate (const PICML::ProvidedRequestPort & facet)
     return;
 
   PICML::Component parent (PICML::Component::Cast (facet.parent ()));
-  std::string parent_name (parent.name ());
-  std::string scope (CUTS_BE_CPP::scope (obj));
-  std::string name (facet.name ());
-  std::string func ("get_" + name);
+  const std::string parent_name (parent.name ());
+  const std::string scope (CUTS_BE_CPP::scope (obj));
+  const std::string name (facet.name ());
+  const std::string func ("get_" + name);
+  const std::string obj_name (obj.name ());
 
   this->ctx_.header_
     << CUTS_BE_CPP::single_line_comment ("facet: " + name)
-    << "virtual " << scope << "CCM_" << name << "_ptr" << std::endl
+    << "virtual " << scope << "CCM_" << obj_name << "_ptr" << std::endl
     << "  " << func << " (void);"
     << std::endl;
 
   this->ctx_.source_
     << CUTS_BE_CPP::function_header ("facet: " + name)
-    << scope << "CCM_" << name << "_ptr" << std::endl
+    << scope << "CCM_" << obj_name << "_ptr" << std::endl
     << "  " << parent_name << "::" << func << " (void)"
     << "{";
 }
