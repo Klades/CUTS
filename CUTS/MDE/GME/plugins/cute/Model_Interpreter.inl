@@ -5,11 +5,11 @@
 //
 CUTS_INLINE
 CUTS_CUTE_Model_Interpreter::
-CUTS_CUTE_Model_Interpreter (CUTS_CUTE_Model_Interpreter_Action_List & actlist,
-                             CUTS_Property_Map & params,
-                             GAME::Project & project,
-                             GAME::FCO & target,
-                             std::vector <GAME::FCO> & selected,
+CUTS_CUTE_Model_Interpreter (const CUTS_CUTE_Model_Interpreter_Action_List & actlist,
+                             const CUTS_Property_Map & params,
+                             GAME::Project project,
+                             GAME::FCO target,
+                             const std::vector <GAME::FCO> & selected,
                              long flags)
 : actlist_ (actlist),
   params_ (params),

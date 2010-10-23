@@ -29,7 +29,7 @@ Output_Stream_Event_Member_Generator::
 void Output_Stream_Event_Member_Generator::
 Visit_Member (const PICML::Member & member)
 {
-  this->out_ << "stream << ev." << member.name () << " ();";
+  this->out_ << "alias << ev." << member.name () << " ();";
 }
 
 }

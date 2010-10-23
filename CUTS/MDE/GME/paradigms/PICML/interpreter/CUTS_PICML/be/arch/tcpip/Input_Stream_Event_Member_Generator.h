@@ -21,15 +21,22 @@ public:
 
   virtual void Visit_Member (const PICML::Member & member);
 
-  virtual void Visit_Boolean (const PICML::Boolean & val);
-
   virtual void Visit_Byte (const PICML::Byte & val);
+  virtual void Visit_Boolean (const PICML::Boolean & val);
+  virtual void Visit_Char (const PICML::Char & val);
+
+  virtual void Visit_ShortInteger (const PICML::ShortInteger &);
+  virtual void Visit_UnsignedShortInteger (const PICML::UnsignedShortInteger &);
 
   virtual void Visit_LongInteger (const PICML::LongInteger & val);
+  virtual void Visit_LongLongInteger (const PICML::LongLongInteger & val);
 
+  virtual void Visit_UnsignedLongInteger (const PICML::UnsignedLongInteger & val);
+  virtual void Visit_UnsignedLongLongInteger (const PICML::UnsignedLongLongInteger & val);
+
+  virtual void Visit_FloatNumber (const PICML::FloatNumber &);
   virtual void Visit_DoubleNumber (const PICML::DoubleNumber & val);
-
-  virtual void Visit_ShortInteger (const PICML::ShortInteger & val);
+  virtual void Visit_LongDoubleNumber (const PICML::LongDoubleNumber &);
 
   virtual void Visit_String (const PICML::String & val);
 

@@ -125,7 +125,7 @@ public:
 };
 
 #if defined (__CUTS_INLINE__)
-#include "Workspace_Generator.inl"
+#include "CIAO_Workspace_Generator.inl"
 #endif
 
 #endif  // !defined _CUTS_BE_CIAO_PROJECT_GENERATOR_H_

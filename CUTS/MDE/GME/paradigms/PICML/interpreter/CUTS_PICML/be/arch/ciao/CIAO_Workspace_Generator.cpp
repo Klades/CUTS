@@ -1,9 +1,9 @@
 // $Id$
 
-#include "Workspace_Generator.h"
+#include "CIAO_Workspace_Generator.h"
 
 #if !defined (__CUTS_INLINE__)
-#include "Workspace_Generator.inl"
+#include "CIAO_Workspace_Generator.inl"
 #endif
 
 #include "../../BE_Options.h"

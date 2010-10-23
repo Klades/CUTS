@@ -13,7 +13,7 @@
 #ifndef _CUTS_BE_TCPIP_WORKSPACE_GENERATOR_H_
 #define _CUTS_BE_TCPIP_WORKSPACE_GENERATOR_H_
 
-#include "../ciao/Workspace_Generator.h"
+#include "../ciao/CIAO_Workspace_Generator.h"
 #include "TCPIP_Ctx.h"
 
 /**

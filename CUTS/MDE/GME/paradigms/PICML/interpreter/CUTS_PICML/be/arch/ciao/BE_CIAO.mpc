@@ -9,8 +9,8 @@ project (CUTS_BE_CIAO) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
   Source_Files {
     CIAO_Preprocessor_Handlers.cpp
     CIAO_Manager_Factory.cpp
-    Project_Generator.cpp
-    Workspace_Generator.cpp
+    CIAO_Project_Generator.cpp
+    CIAO_Workspace_Generator.cpp
   }
 
   Header_Files {
@@ -27,7 +27,7 @@ project (CUTS_BE_CIAO) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
   specific (wix) {
     components += CUTS_PICML.config.CIAO
   }
-  
+
   verbatim (wix, component_bottom) {
 "        <Component Id='CUTS_PICML.config.CIAO' Guid='808C7244-BD3D-4FCC-8428-19047F9AB8B0'>"
 "          <CreateFolder />"

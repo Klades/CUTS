@@ -12,6 +12,7 @@
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
 
 #include <algorithm>
+#include <iomanip>
 
 //
 // CUTS_BE_TCPIP_Stub_Source_Generator
@@ -71,6 +72,11 @@ Visit_File (const PICML::File & file)
   basename += std::string (file.name ()) + "C";
 
   std::string filename (this->outdir_);
+  const std::string path = file.Path ();
+
+  if (!path.empty ())
+    filename += "/" + path;
+
   filename += "/" + basename + ".cpp";
 
   // Open the file for writing.
@@ -105,12 +111,7 @@ Visit_File (const PICML::File & file)
 void CUTS_BE_TCPIP_Stub_Source_Generator::
 Visit_Package (const PICML::Package & package)
 {
-  this->outfile_ << "namespace " << package.name ()
-                 << "{";
-
   this->Visit_PackageFile_i (package);
-
-  this->outfile_ << "}";
 }
 
 //
@@ -127,6 +128,12 @@ Visit_PackageFile_i  (const Udm::Object & obj)
   std::set <PICML::Aggregate> aggrs = Udm::ChildrenAttr <PICML::Aggregate> (obj.__impl (), Udm::NULLCHILDROLE);
   std::set <PICML::Collection> colls = Udm::ChildrenAttr <PICML::Collection> (obj.__impl (), Udm::NULLCHILDROLE);
 
+  //this->outfile_
+  //  << left << setw (78) << setfill ('=') << "//" << std::endl
+  //  << CUTS_BE_CPP::single_line_comment ("output stream operator(s)")
+  //  << left << setw (78) << setfill ('=') << "//" << std::endl
+  //  << std::endl;
+
   // Write the output stream generators.
   std::for_each (aggrs.begin (),
                  aggrs.end (),
@@ -139,6 +146,12 @@ Visit_PackageFile_i  (const Udm::Object & obj)
   std::for_each (colls.begin (),
                  colls.end (),
                  boost::bind (&PICML::Collection::Accept, _1, osg));
+
+  //this->outfile_
+  //  << left << setw (78) << setfill ('=') << "//" << std::endl
+  //  << CUTS_BE_CPP::single_line_comment ("input stream operator(s)")
+  //  << left << setw (78) << setfill ('=') << "//" << std::endl
+  //  << std::endl;
 
   // Write the input stream generators.
   std::for_each (aggrs.begin (),

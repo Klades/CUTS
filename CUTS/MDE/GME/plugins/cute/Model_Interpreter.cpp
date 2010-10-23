@@ -21,9 +21,9 @@ handle_config (const CUTS_Property_Map & config)
 {
   try
   {
-    // Substitute the template parameters.
     do
     {
+      // Substitute the template parameters.
       GAME::Transaction t (this->project_);
       this->actlist_.handle_replace (config);
       t.commit ();
@@ -40,7 +40,7 @@ handle_config (const CUTS_Property_Map & config)
 
       for (CUTS_Property_Map::map_type::CONST_ITERATOR iter (this->params_.map ()); !iter.done (); ++ iter)
         interpreter.parameter (iter->key ().c_str (), iter->item ().c_str ());
-      
+
       // Execute the interpreter.
       interpreter.initialize (this->project_);
       interpreter.invoke (this->project_,
@@ -54,9 +54,9 @@ handle_config (const CUTS_Property_Map & config)
       ::AfxMessageBox ("caught unknown exception", type);
     }
 
-    // Reset the values of the template.
     do
     {
+      // Reset the values of the template.
       GAME::Transaction t (this->project_);
       this->actlist_.handle_reset ();
       t.commit ();

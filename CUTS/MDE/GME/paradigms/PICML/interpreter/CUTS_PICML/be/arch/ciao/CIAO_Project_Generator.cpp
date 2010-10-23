@@ -1,9 +1,9 @@
 // $Id$
 
-#include "Project_Generator.h"
+#include "CIAO_Project_Generator.h"
 
 #if !defined (__CUTS_INLINE__)
-#include "Project_Generator.inl"
+#include "CIAO_Project_Generator.inl"
 #endif
 
 #include "../../BE_algorithm.h"

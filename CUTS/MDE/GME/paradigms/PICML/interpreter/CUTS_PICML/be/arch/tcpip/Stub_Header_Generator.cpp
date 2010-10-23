@@ -6,7 +6,9 @@
 #include "CCF/CodeGenerationKit/IndentationCxx.hpp"
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
 #include "Uml.h"
+
 #include <algorithm>
+#include <iomanip>
 
 namespace CUTS_BE_TCPIP
 {
@@ -84,8 +86,14 @@ public:
     if (this->includes_.find (name) != this->includes_.end ())
       return;
 
-    std::string filename ("TCPIP_");
-    filename += name + "C";
+    PICML::File file = PICML::File::Cast (parent);
+
+    std::string filename = file.Path ();
+
+    if (!filename.empty ())
+      filename += "/";
+
+    filename += "TCPIP_" + name + "C";
 
     this->source_ << CUTS_BE_CPP::include (filename);
     this->includes_.insert (name);
@@ -180,6 +188,11 @@ Visit_File (const PICML::File & file)
   basename += std::string (file.name ()) + "C";
 
   std::string filename (this->outdir_);
+  const std::string path = file.Path ();
+
+  if (!path.empty ())
+    filename += "/" + path;
+
   filename += "/" + basename + ".h";
 
   // Open the file for writing.
@@ -225,12 +238,14 @@ Visit_File (const PICML::File & file)
                    << CUTS_BE_CPP::include (corba_filename)
                    << CUTS_BE_CPP::include ("cuts/arch/tcpip/TCPIP_InputCDR")
                    << CUTS_BE_CPP::include ("cuts/arch/tcpip/TCPIP_OutputCDR")
-                   << CUTS_BE_CPP::include (export_filename);
+                   << std::endl;
 
     Include_Stubs include_stubs (this->outfile_);
     PICML::File (file).Accept (include_stubs);
 
-    this->outfile_ << std::endl;
+    this->outfile_ << std::endl
+                   << CUTS_BE_CPP::include (export_filename)
+                   << std::endl;
 
     // Visit all the packages in this file.
     std::set <PICML::Package> packages = file.Package_children ();
@@ -249,12 +264,7 @@ Visit_File (const PICML::File & file)
 void Stub_Header_Generator::
 Visit_Package (const PICML::Package & package)
 {
-  this->outfile_ << "namespace " << package.name ()
-                 << "{";
-
   this->Visit_PackageFile_i (package);
-
-  this->outfile_ << "}";
 }
 
 //
@@ -300,15 +310,22 @@ Visit_PackageFile_i  (const Udm::Object & obj)
 // Visit_Event
 //
 void Stub_Header_Generator::
-Visit_Event (const PICML::Event & event)
+Visit_Event (const PICML::Event & ev)
 {
-  this->outfile_ << "ACE_CDR::Boolean " << this->export_macro_
-                 << " operator >> (CUTS_TCPIP_InputCDR &, "
-                 << event.name () << " &);"
-                 << "ACE_CDR::Boolean " << this->export_macro_
-                 << " operator << (CUTS_TCPIP_OutputCDR &, const "
-                 << event.name () << " &);"
-                 << std::endl;
+  const std::string fq_type = CUTS_BE_CPP::fq_type (ev, "::");
+
+  this->outfile_
+    << left << setw (78) << setfill ('=') << "//" << std::endl
+    << CUTS_BE_CPP::single_line_comment ("stream operators for " + fq_type)
+    << left << setw (78) << setfill ('=') << "//" << std::endl
+    << std::endl
+    << this->export_macro_ << " ACE_CDR::Boolean"
+    << " operator >> (CUTS_TCPIP_InputCDR &, "
+    << fq_type << " &);"
+    << this->export_macro_ << " ACE_CDR::Boolean"
+    << " operator << (CUTS_TCPIP_OutputCDR &, const "
+    << fq_type << " &);"
+    << std::endl;
 }
 
 //
@@ -317,13 +334,20 @@ Visit_Event (const PICML::Event & event)
 void Stub_Header_Generator::
 Visit_Aggregate (const PICML::Aggregate & aggr)
 {
-  this->outfile_ << "ACE_CDR::Boolean " << this->export_macro_
-                 << " operator >> (CUTS_TCPIP_InputCDR &, "
-                 << aggr.name () << " &);"
-                 << "ACE_CDR::Boolean " << this->export_macro_
-                 << " operator << (CUTS_TCPIP_OutputCDR &, const "
-                 << aggr.name () << " &);"
-                 << std::endl;
+  const std::string fq_type = CUTS_BE_CPP::fq_type (aggr, "::");
+
+  this->outfile_
+    << left << setw (78) << setfill ('=') << "//" << std::endl
+    << CUTS_BE_CPP::single_line_comment ("stream operators for " + fq_type)
+    << left << setw (78) << setfill ('=') << "//" << std::endl
+    << std::endl
+    << this->export_macro_ << " ACE_CDR::Boolean"
+    << " operator >> (CUTS_TCPIP_InputCDR &, "
+    << fq_type << " &);"
+    << this->export_macro_ << " ACE_CDR::Boolean"
+    << " operator << (CUTS_TCPIP_OutputCDR &, const "
+    << fq_type << " &);"
+    << std::endl;
 }
 
 //
@@ -332,13 +356,20 @@ Visit_Aggregate (const PICML::Aggregate & aggr)
 void Stub_Header_Generator::
 Visit_Collection (const PICML::Collection & coll)
 {
-  this->outfile_ << "ACE_CDR::Boolean " << this->export_macro_
-                 << " operator >> (CUTS_TCPIP_InputCDR &, "
-                 << coll.name () << " &);"
-                 << "ACE_CDR::Boolean " << this->export_macro_
-                 << " operator << (CUTS_TCPIP_OutputCDR &, const "
-                 << coll.name () << " &);"
-                 << std::endl;
+  const std::string fq_type = CUTS_BE_CPP::fq_type (coll, "::");
+
+  this->outfile_
+    << left << setw (78) << setfill ('=') << "//" << std::endl
+    << CUTS_BE_CPP::single_line_comment ("stream operators for " + fq_type)
+    << left << setw (78) << setfill ('=') << "//" << std::endl
+    << std::endl
+    << this->export_macro_ << " ACE_CDR::Boolean"
+    << " operator >> (CUTS_TCPIP_InputCDR &, "
+    << fq_type << " &);"
+    << this->export_macro_ << " ACE_CDR::Boolean"
+    << " operator << (CUTS_TCPIP_OutputCDR &, const "
+    << fq_type << " &);"
+    << std::endl;
 }
 
 }

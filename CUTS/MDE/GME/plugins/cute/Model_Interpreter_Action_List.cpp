@@ -25,9 +25,9 @@ void CUTS_CUTE_Model_Interpreter_Action_List::reset (void)
 //
 // handle_reset
 //
-void CUTS_CUTE_Model_Interpreter_Action_List::handle_reset (void)
+void CUTS_CUTE_Model_Interpreter_Action_List::handle_reset (void) const
 {
-  for (ITERATOR iter (*this); !iter.done (); ++ iter)
+  for (CONST_ITERATOR iter (*this); !iter.done (); ++ iter)
     (*iter)->reset ();
 }
 
@@ -35,8 +35,8 @@ void CUTS_CUTE_Model_Interpreter_Action_List::handle_reset (void)
 // handle_replace
 //
 void CUTS_CUTE_Model_Interpreter_Action_List::
-handle_replace (const CUTS_Property_Map & config)
+handle_replace (const CUTS_Property_Map & config) const
 {
-  for (ITERATOR iter (*this); !iter.done (); ++ iter)
+  for (CONST_ITERATOR iter (*this); !iter.done (); ++ iter)
     (*iter)->replace (config);
 }

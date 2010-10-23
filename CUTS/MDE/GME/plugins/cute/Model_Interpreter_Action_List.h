@@ -44,10 +44,10 @@ public:
   ~CUTS_CUTE_Model_Interpreter_Action_List (void);
 
   /// Invoke the CUTS_CUTE_Model_Interpreter_Action::replace () method.
-  void handle_replace (const CUTS_Property_Map & map);
+  void handle_replace (const CUTS_Property_Map & map) const;
 
   /// Invoke the CUTS_CUTE_Model_Interpreter_Action::reset () method.
-  void handle_reset (void);
+  void handle_reset (void) const;
 
   /// Reset the configuration list.
   void reset (void);

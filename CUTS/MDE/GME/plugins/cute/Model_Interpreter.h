@@ -13,7 +13,8 @@
 #ifndef _CUTS_CUTE_MODEL_INTERPRETER_H_
 #define _CUTS_CUTE_MODEL_INTERPRETER_H_
 
-#include "game/GME_fwd.h"
+#include "game/Project.h"
+#include "game/FCO.h"
 #include "game/Collection_T.h"
 #include "Model_Interpreter_Action_List.h"
 
@@ -28,11 +29,11 @@ public:
   /**
    * Initializing constructor.
    */
-  CUTS_CUTE_Model_Interpreter (CUTS_CUTE_Model_Interpreter_Action_List & actlist,
-                               CUTS_Property_Map & params,
-                               GAME::Project & project,
-                               GAME::FCO & target,
-                               std::vector <GAME::FCO> & selected,
+  CUTS_CUTE_Model_Interpreter (const CUTS_CUTE_Model_Interpreter_Action_List & actlist,
+                               const CUTS_Property_Map & params,
+                               GAME::Project project,
+                               GAME::FCO target,
+                               const std::vector <GAME::FCO> & selected,
                                long flags);
 
   /// Destructor.
@@ -45,16 +46,16 @@ public:
   void base_config (CUTS_Property_Map & config, const std::string & basename);
 
 private:
-  CUTS_CUTE_Model_Interpreter_Action_List & actlist_;
+  const CUTS_CUTE_Model_Interpreter_Action_List & actlist_;
 
-  CUTS_Property_Map & params_;
+  const CUTS_Property_Map & params_;
 
   /// Target GAME project to interpret.
-  GAME::Project & project_;
+  GAME::Project project_;
 
-  GAME::FCO & target_;
+  GAME::FCO target_;
 
-  std::vector <GAME::FCO> & selected_;
+  const std::vector <GAME::FCO> & selected_;
 
   long flags_;
 
