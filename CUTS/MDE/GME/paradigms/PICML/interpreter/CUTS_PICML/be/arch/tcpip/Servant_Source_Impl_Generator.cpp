@@ -180,7 +180,7 @@ Visit_Component (const PICML::Component & component)
   std::vector <PICML::InEventPort> inputs =
     component.InEventPort_kind_children_sorted (Sorted_By_Name <PICML::InEventPort> ());
 
-  std::string name (component.name ());
+  const std::string name (component.name ());
   this->servant_ = name + "_Servant";
 
   std::string context (this->servant_);
@@ -190,8 +190,7 @@ Visit_Component (const PICML::Component & component)
   this->out_ << CUTS_BE_CPP::function_header (this->servant_)
              << this->servant_ << "::" << std::endl
              << this->servant_
-             << " (const char * name," << std::endl
-             << "::CIAO_" << name << "_Impl::" << name << "_Exec_ptr executor)" << std::endl
+             << " (const char * name, executor_type::_ptr_type executor)" << std::endl
              << ": " << this->servant_ << "_Base (name, executor)";
 
   Base_Member_Init_Generator base_member (this->out_);
@@ -287,8 +286,9 @@ Visit_Component (const PICML::Component & component)
              << "::Components::EnterpriseComponent_ptr p)"
              << "{"
              << "return ::CUTS_TCPIP::CCM::create_servant <" << std::endl
-             << "  ::CIAO_" << name << "_Impl::" << name << "_Exec," << std::endl
-             << "  " << CUTS_BE_CPP::fq_type (component) << "_Servant > (name, p);"
+             << "  ::CIAO_" << CUTS_BE_CPP::fq_type (component, "_", false)
+             << "_Impl::" << name << "_Exec," << std::endl
+             << "  " << name << "_Servant > (name, p);"
              << "}"
              << std::endl;
 }

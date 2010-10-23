@@ -78,6 +78,13 @@ Visit_Component (const PICML::Component & component)
                               _1,
                               boost::ref (*this)));
 
+  std::set <PICML::RequiredRequestPort> receptacles = component.RequiredRequestPort_kind_children ();
+  std::for_each (receptacles.begin (),
+                 receptacles.end (),
+                 boost::bind (&PICML::RequiredRequestPort::Accept,
+                              _1,
+                              boost::ref (*this)));
+
   this->out_ << "};"
              << std::endl;
 }
@@ -124,4 +131,21 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
                << std::endl;
   }
 }
+
+//
+// Visit_RequiredRequestPort
+//
+void Servant_Header_Context_Generator::
+Visit_RequiredRequestPort (const PICML::RequiredRequestPort & port)
+{
+  PICML::Object obj = PICML::Object::Cast (port.ref ());
+  const std::string fq_type = CUTS_BE_CPP::fq_type (obj);
+  const std::string name = port.name ();
+
+  this->out_
+    << "virtual " << fq_type << "_ptr get_connection_" << name << " (void);"
+    << std::endl;
+}
+
+
 }

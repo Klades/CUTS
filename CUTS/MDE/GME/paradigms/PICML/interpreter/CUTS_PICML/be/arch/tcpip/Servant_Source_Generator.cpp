@@ -85,6 +85,7 @@ void Servant_Source_Generator::Visit_File (const PICML::File & file)
 
   do
   {
+
     // Indentation implanter.
     Indentation::Implanter <Indentation::Cxx, char> formatter (this->fout_);
 
@@ -101,6 +102,7 @@ void Servant_Source_Generator::Visit_File (const PICML::File & file)
                 << CUTS_BE_CPP::include ("cuts/arch/tcpip/TCPIP_Servant_Manager")
                 << std::endl;
 
+    // Visit the contents of the file and package.
     this->Visit_FilePackage_i (file);
   } while (0);
 

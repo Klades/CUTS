@@ -22,9 +22,13 @@ public:
 
   virtual void Visit_OutEventPort (const PICML::OutEventPort & port);
 
+  virtual void Visit_RequiredRequestPort (const PICML::RequiredRequestPort & port);
+
 private:
+  /// Target output stream.
   std::ostream & out_;
 
+  /// Name of the context.
   std::string context_;
 };
 }

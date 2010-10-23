@@ -1,3 +1,15 @@
+Sat Oct 23 22:21:08 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Context_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Context_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Impl_Generator.cpp:
+
+          Fixed compilation errors with the StockQuoter example.
+
 Sat Oct 23 14:32:14 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.cpp:

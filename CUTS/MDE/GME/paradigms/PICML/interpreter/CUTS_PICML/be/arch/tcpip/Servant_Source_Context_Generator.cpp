@@ -51,12 +51,19 @@ Visit_Component (const PICML::Component & component)
              << "{"
              << "}";
 
-  // Visit all the input port for this component.
+  // Visit all output events for this component.
   std::set <PICML::OutEventPort> outputs = component.OutEventPort_kind_children ();
-
   std::for_each (outputs.begin (),
                  outputs.end (),
                  boost::bind (&PICML::OutEventPort::Accept,
+                              _1,
+                              boost::ref (*this)));
+
+  // Visit all the facets for this component.
+  std::set <PICML::RequiredRequestPort> receptacles = component.RequiredRequestPort_kind_children ();
+  std::for_each (receptacles.begin (),
+                 receptacles.end (),
+                 boost::bind (&PICML::RequiredRequestPort::Accept,
                               _1,
                               boost::ref (*this)));
 }
@@ -76,10 +83,8 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
   std::string name = port.name ();
   std::string fq_type = CUTS_BE_CPP::fq_type (ev);
 
-  std::string comment ("push method for output ev port: ");
-  comment += name;
-
-  this->out_ << "void " << this->context_ << "::push_"
+  this->out_ << CUTS_BE_CPP::function_header ("push_" + name)
+             << "void " << this->context_ << "::push_"
              << name << " (" << fq_type << " * ev)" << std::endl
              << "{"
              << "this->" << port.name () << "_.send_event (ev);"
@@ -87,7 +92,8 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
 
   if (port.single_destination ())
   {
-    this->out_ << "CUTS_TCPIP_CCM_Remote_Endpoint & "
+    this->out_ << CUTS_BE_CPP::function_header ("endpoint_" + name)
+               << "CUTS_TCPIP_CCM_Remote_Endpoint & "
                << this->context_ << "::endpoint_" << name << " (void)"
                << "{"
                << "return this->" << name << "_;"
@@ -95,11 +101,36 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
   }
   else
   {
-    this->out_ << "CUTS_TCPIP_CCM_Subscriber_Table & "
+    this->out_ << CUTS_BE_CPP::function_header ("endpoints_" + name)
+               << "CUTS_TCPIP_CCM_Subscriber_Table & "
                << this->context_ << "::endpoints_" << name << " (void)"
                << "{"
                << "return this->" << name << "_;"
                << "}";
   }
 }
+
+//
+// Visit_OutEventPort
+//
+void Servant_Source_Context_Generator::
+Visit_RequiredRequestPort (const PICML::RequiredRequestPort & port)
+{
+  PICML::Object obj = PICML::Object::Cast (port.ref ());
+
+  if (obj == Udm::null || obj.type () != PICML::Object::meta)
+    return;
+
+  std::string name = port.name ();
+  std::string fq_type = CUTS_BE_CPP::fq_type (obj);
+  std::string function = "get_connection_" + name;
+
+  this->out_ << CUTS_BE_CPP::function_header (function)
+             << fq_type << "_ptr " << this->context_
+             << "::" << function << " (void)" << std::endl
+             << "{"
+             << "return " << fq_type << "::_nil ();"
+             << "}";
+}
+
 }

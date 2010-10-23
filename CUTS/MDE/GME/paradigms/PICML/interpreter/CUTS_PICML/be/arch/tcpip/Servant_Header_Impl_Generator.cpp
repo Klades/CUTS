@@ -51,8 +51,8 @@ Visit_Component (const PICML::Component & component)
              << "typedef CUTS_TCPIP_CCM_Servant_T < " << std::endl
              << "  " << this->servant_ << "," << std::endl
              << "  " << context << "," << std::endl
-             << "  CIAO_" << name << "_Impl::" << name << "_Exec," << std::endl
-             << "  ::POA_" << CUTS_BE_CPP::scope(component, "::", false) << name
+             << "  CIAO_" << CUTS_BE_CPP::fq_type (component, "_", false) << "_Impl::" << name << "_Exec," << std::endl
+             << "  ::POA_" << CUTS_BE_CPP::scope (component, "::", false) << name
              << " > " << this->servant_ << "_Base;"
              << std::endl
              << "/**" << std::endl
@@ -62,8 +62,7 @@ Visit_Component (const PICML::Component & component)
              << "{"
              << "public:" << std::endl
              << CUTS_BE_CPP::single_line_comment ("default constructor")
-             << this->servant_ << " (const char * name, " << std::endl
-             << "CIAO_" << name << "_Impl::" << name << "_Exec_ptr executor);"
+             << this->servant_ << " (const char * name, executor_type::_ptr_type executor);"
              << std::endl
              << CUTS_BE_CPP::single_line_comment ("destructor")
              << "virtual ~" << this->servant_ << " (void);"
@@ -71,7 +70,6 @@ Visit_Component (const PICML::Component & component)
 
   // Visit all the output ev ports.
   std::set <PICML::OutEventPort> outputs = component.OutEventPort_kind_children ();
-
   std::for_each (outputs.begin (),
                  outputs.end (),
                  boost::bind (&PICML::OutEventPort::Accept,
@@ -80,7 +78,6 @@ Visit_Component (const PICML::Component & component)
 
   // Visit all the input ev ports.
   std::set <PICML::InEventPort> inputs = component.InEventPort_kind_children ();
-
   std::for_each (inputs.begin (),
                  inputs.end (),
                  boost::bind (&PICML::InEventPort::Accept,
@@ -161,8 +158,8 @@ Visit_InEventPort (const PICML::InEventPort & port)
     return;
 
   PICML::Event ev = PICML::Event::Cast (et);
-  std::string name     = port.name ();
-  std::string fq_type  = CUTS_BE_CPP::fq_type (ev);
+  std::string name = port.name ();
+  std::string fq_type = CUTS_BE_CPP::fq_type (ev);
   std::string consumer = fq_type + "Consumer_ptr";
 
   this->out_ << "public:" << std::endl
