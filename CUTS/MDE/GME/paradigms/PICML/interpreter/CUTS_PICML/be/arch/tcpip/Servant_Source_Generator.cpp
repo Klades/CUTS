@@ -75,7 +75,7 @@ void Servant_Source_Generator::Visit_File (const PICML::File & file)
   std::string basename = name + "_svnt";
 
   std::string filename (this->outdir_);
-  filename += "/" + basename + ".cpp";
+  filename += "/" + CUTS_BE::get_pathname (file, "/", "", "_svnt.cpp");
 
   // Open the file for writing.
   this->fout_.open (filename.c_str ());

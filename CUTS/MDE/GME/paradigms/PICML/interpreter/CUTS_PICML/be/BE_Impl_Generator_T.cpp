@@ -83,25 +83,16 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 Visit_ComponentImplementation (const PICML::ComponentImplementation & impl)
 {
-  if (impl.type () == PICML::MonolithicImplementation::meta)
-  {
-    PICML::MonolithicImplementation monoimpl =
-      PICML::MonolithicImplementation::Cast (impl);
+  if (impl.type () != PICML::MonolithicImplementation::meta)
+    return;
 
-    CUTS_BE::visit <CONTEXT> (monoimpl,
-      boost::bind (&PICML::MonolithicImplementation::Accept, _1, boost::ref (*this)));
-  }
-  else if (impl.type () == PICML::ComponentAssembly::meta)
-  {
-    PICML::ComponentAssembly assembly = PICML::ComponentAssembly::Cast (impl);
+  PICML::MonolithicImplementation monoimpl =
+    PICML::MonolithicImplementation::Cast (impl);
 
-    CUTS_BE::visit <CONTEXT> (assembly,
-      boost::bind (&PICML::ComponentAssembly::Accept, _1, boost::ref (*this)));
-  }
-  else
-  {
-    // Um, why do we not know about this type!?!?
-  }
+  CUTS_BE::visit <CONTEXT> (monoimpl,
+    boost::bind (&PICML::MonolithicImplementation::Accept,
+                 _1,
+                 boost::ref (*this)));
 }
 
 //

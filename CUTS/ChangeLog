@@ -1,3 +1,29 @@
+Sat Oct 23 14:32:14 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.cpp:
+
+          Removed dead code.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_algorithm.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_algorithm.cpp:
+
+          Implemented get_pathname (), which returns the pathname of the
+          specified file.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Generators.h:
+
+          Fixed include statements.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Component_Impl_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/TCPIP_Ctx.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/TCPIP_Generator.h:
+
+          Bug fix for vc9 where the architecture and behavior type for the
+          TCP/IP context where specified incorrectly. This resulted in the
+          component implementation not generating.
+
 Sat Oct 23 01:16:35 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/BE_CIAO.mpc:

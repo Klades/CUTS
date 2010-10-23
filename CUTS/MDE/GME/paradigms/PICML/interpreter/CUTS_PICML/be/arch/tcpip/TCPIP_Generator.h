@@ -13,8 +13,8 @@
 #ifndef _CUTS_BE_TCPIP_GENERATOR_H_
 #define _CUTS_BE_TCPIP_GENERATOR_H_
 
-#include "Component_Impl_Generator.h"
 #include "TCPIP_Ctx.h"
+#include "Component_Impl_Generator.h"
 
 /**
  * @class CUTS_BE_Finalize_T

@@ -22,9 +22,11 @@
  */
 struct CUTS_BE_TCPIP_Ctx : public CUTS_BE_CIAO::Context
 {
-  typedef CUTS_BE_CIAO::Context arch_type;
+  /// Type definition for the architecture type.
+  typedef CUTS_BE_CIAO::Context::arch_type arch_type;
 
-  typedef CUTS_BE_CPP::Context behavior_type;
+  /// Type definition for the behavior type.
+  typedef CUTS_BE_CIAO::Context::behavior_type behavior_type;
 };
 
 #endif  // !defined _CUTS_BE_TCPIP_CTX_H_

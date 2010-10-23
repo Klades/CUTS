@@ -56,6 +56,17 @@ namespace CUTS_BE
   bool has_events (const PICML::File & file);
 
   /**
+   * Get the pathname of the specified file. Also, prepend the specified
+   * prefix to the filename, and append the specified suffix to the file
+   * name.
+   */
+  CUTS_BE_Export
+  std::string get_pathname (const PICML::File & file,
+                            const std::string & separator = "/",
+                            const std::string & prefix = "",
+                            const std::string & suffix = "");
+
+  /**
    * @struct if_then_else
    *
    * Metaprogrammable template for execute if...then...else statements. This

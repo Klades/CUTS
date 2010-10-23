@@ -220,4 +220,24 @@ bool has_events (const PICML::File & file)
   return search.result ();
 }
 
+//
+// get_pathname
+//
+std::string get_pathname (const PICML::File & file,
+                          const std::string & separator,
+                          const std::string & prefix,
+                          const std::string & suffix)
+{
+  // Make sure we add the path to the pathname.
+  std::string pathname = file.Path ();
+
+  if (!pathname.empty ())
+    pathname += "/";
+
+  // Construct the remaining part of the pathname.
+  pathname += prefix + std::string (file.name ()) + suffix;
+
+  return pathname;
+}
+
 }
