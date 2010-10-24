@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<cruisecontrol>
+  <!-- pull in the environment configuration -->
+  <property environment="env" toupper="no"/>
+
+  <project name="CUTS-vc9" requireModification="true">
+    <listeners>
+      <currentbuildstatuslistener file="logs/${project.name}/status.txt"/>
+    </listeners>
+
+    <bootstrappers>
+      <svnbootstrapper localWorkingCopy="${env.CUTS_ROOT}/integration" />
+    </bootstrappers>
+
+    <modificationset quietperiod="60">
+      <svn LocalWorkingCopy="${env.CUTS_ROOT}"
+           checkExternals="true"
+           useLocalRevision="false" />
+    </modificationset>
+
+    <schedule interval="300">
+      <ant anthome="apache-ant-1.7.0"
+           buildfile="${env.CUTS_ROOT}/integration/autobuild.build"
+           target="build.noupdate">
+        <property name="mpc.type" value="vc9" />
+      </ant>
+    </schedule>
+  </project>
+</cruisecontrol>

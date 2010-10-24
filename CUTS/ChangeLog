@@ -1,3 +1,11 @@
+Sun Oct 24 22:26:49 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * integration/cruisecontrol:
+        * integration/cruisecontrol/cuts-vc9.config.xml:
+
+          Project configuration script for building the vc9 version of
+          CUTS using cruisecontrol.
+
 Sun Oct 24 21:27:57 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * integration/_ACE_TAO_CIAO.build:
