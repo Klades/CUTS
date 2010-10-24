@@ -1,3 +1,13 @@
+Sun Oct 24 22:53:36 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * integration/cruisecontrol/cuts-vc8.config.xml:
+
+          Configuration scripts for vc8 build.
+
+        * integration/cruisecontrol/cuts-vc9.config.xml:
+
+          Updated configuration to use property tags.
+
 Sun Oct 24 22:26:49 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * integration/cruisecontrol:

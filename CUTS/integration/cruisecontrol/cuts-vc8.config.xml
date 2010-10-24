@@ -2,7 +2,7 @@
 <cruisecontrol>
   <!-- pull in the environment configuration -->
   <property environment="env" toupper="no"/>
-  <property name="build.type" value="vc9" />
+  <property name="build.type" value="vc8" />
 
   <project name="CUTS-${build.type}" requireModification="true">
     <listeners>
