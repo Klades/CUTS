@@ -13,7 +13,7 @@
       <svnbootstrapper localWorkingCopy="${env.CUTS_ROOT}" />
     </bootstrappers>
 
-    <modificationset requiremodification="true" quietperiod="60">
+    <modificationset quietperiod="60">
       <svn LocalWorkingCopy="${env.CUTS_ROOT}"
            checkExternals="true"
            useLocalRevision="true" />
