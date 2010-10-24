@@ -3,4 +3,8 @@
   <!-- $Id$ -->
   <description>Project for integrating Microsoft Visual Studio 2008 into a ANT build</description>
   <import file="devenv.build" />
+
+  <target name="vc9.build" depends="devenv.build" />
+  <target name="vc9.clean" depends="devenv.clean" />
+  <target name="vc9.rebuild" depends="devenv.rebuild" />
 </project>

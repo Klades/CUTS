@@ -82,9 +82,9 @@
     </antcall>
 
     <!-- we only distribute the release version -->
-    <antcall target="devenv.rebuild">
+    <antcall target="mpc.workspace.rebuild">
       <param name="workspace.filename" value="${env.CUTS_ROOT}/install/CUTS_installers${workspace.extension}" />
-      <param name="devenv.configuration" value="release" />
+      <param name="devenv.configuration" value="Release" />
     </antcall>
   </target>
 
@@ -114,7 +114,7 @@
       <param name="mpc.args" value="-features boost=1" />
     </antcall>
 
-    <antcall target="devenv.rebuild">
+    <antcall target="mpc.workspace.rebuild">
       <param name="workspace.filename" value="${env.CUTS_ROOT}/tests/tests${workspace.extension}" />
     </antcall>
   </target>

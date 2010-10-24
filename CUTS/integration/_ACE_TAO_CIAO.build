@@ -3,18 +3,16 @@
   <property environment="env" />
 
   <!-- import external project files -->
-  <import file="include/devenv.build" />
   <import file="include/mpc.build" />
   <import file="include/svn.build" />
 
   <!-- store the target configuration -->
-  <property name="devenv.configuration" value="debug" />
   <property name="mpc.path" value="${env.ACE_ROOT}/bin/" />
 
   <!--
     @target update.tag
     -->
-  
+
   <target name="update.tag">
     <exec executable="perl" failonerror="true" resultproperty="update.tag.result">
       <arg value="--" />
@@ -35,44 +33,27 @@
 
   <!--
     @target build.ciao_tao_dance
-    
+
     Build the current workspace without retrieving any updates from
     the local repository.
     -->
 
   <target name="build.ciao_tao_dance">
+    <property name="this.workspace" value="${env.CIAO_ROOT}/CIAO_TAO_DAnCE.mwc" />
+
     <antcall target="mpc.workspace.generate">
-      <param name="mpc.workspace" value="${env.CIAO_ROOT}/CIAO_TAO_DAnCE.mwc" />
-      <param name="mpc.args" value=" " />
+      <param name="mpc.workspace" value="${this.workspace}" />
+      <param name="mpc.args" value="" />
     </antcall>
-    
-    <antcall target="devenv.rebuild">
-      <param name="devenv.solution" value="${env.CIAO_ROOT}/CIAO_TAO_DAnCE.sln" />
+
+    <antcall target="mpc.workspace.rebuild">
+      <param name="mpc.workspace" value="${this.workspace}" />
       <param name="devenv.configuration" value="Debug" />
     </antcall>
 
-    <antcall target="devenv.rebuild">
-      <param name="devenv.solution" value="${env.CIAO_ROOT}/CIAO_TAO_DAnCE.sln" />
+    <antcall target="mpc.workspace.rebuild">
+      <param name="mpc.workspace" value="${this.workspace}" />
       <param name="devenv.configuration" value="Release" />
-    </antcall>
-  </target>
-
-  <!--
-    @target build.cidlc
-    
-    Build the CIDL compiler for CIAO + DAnCE
-    -->
-
-  <target name="build.cidlc">
-    <property name="cidlc.basedir" value="${env.CIAO_ROOT}/CIDLC" />
-    
-    <antcall target="mpc.workspace.generate">
-      <param name="mpc.workspace" value="${cidlc.basedir}/CIDLC.mwc" />
-      <param name="mpc.args" value="-features boost=1,exceptions=1,cidl=1" />
-    </antcall>
-
-    <antcall target="devenv.rebuild">
-      <param name="devenv.solution" value="${cidlc.basedir}/CIDLC.sln" />
     </antcall>
   </target>
 </project>

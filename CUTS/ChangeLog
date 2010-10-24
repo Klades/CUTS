@@ -1,3 +1,18 @@
+Sun Oct 24 21:27:57 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * integration/_ACE_TAO_CIAO.build:
+
+          Removed obsolete portions of the script.
+
+        * integration/autobuild.build:
+
+          Fixed generalizations in the build script.
+
+        * integration/include/MPC/vc8.build:
+        * integration/include/MPC/vc9.build:
+
+          Fixed errors in the build scripts.
+
 Sat Oct 23 22:21:08 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Context_Generator.h:

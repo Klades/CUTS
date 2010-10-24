@@ -4,15 +4,7 @@
   <description>Project for integrating Microsoft Visual Studio 2005 into a ANT build</description>
   <import file="devenv.build" />
 
-  <target name="vc8.build">
-    <antcall target="devenv.build" />
-  </target>
-
-  <target name="vc8.clean">
-    <antcall target="devenv.clean" />
-  </target>
-
-  <target name="vc8.rebuild">
-    <antcall target="devenv.rebuild" />
-  </target>
+  <target name="vc8.build" depends="devenv.build" />
+  <target name="vc8.clean" depends="devenv.clean" />
+  <target name="vc8.rebuild" depends="devenv.rebuild" />
 </project>
