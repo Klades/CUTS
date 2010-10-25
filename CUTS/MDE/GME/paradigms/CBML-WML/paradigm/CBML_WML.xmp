@@ -1,17 +1,13 @@
 <?xml version="1.0"?>
 <!DOCTYPE paradigm SYSTEM "edf.dtd">
 
-<paradigm name="CBML_WML" version="0.1" guid="{321F55B3-3D12-4C5B-9854-AC17782275AF}" cdate="Mon May 17 16:25:05 2010" mdate="WhoControlsThisObj" >
+<paradigm name="CBML_WML" guid="{095C7C95-E44C-4AF6-A07E-38FA407F801C}" cdate="Sun Oct 24 21:41:52 2010" mdate="Sun Oct 24 21:41:52 2010" >
 
 	<comment></comment>
 
 	<author>SE-DCR Group @ IUPUI</author>
 
-	<folder name = "RootFolder" metaref = "1000"  subfolders = "BehaviorModels PredefinedTypes WorkerLibraries" >
-		<attrdef name="Abstract" metaref = "5275" valuetype = "boolean" defvalue = "false">
-			<dispname>Abstract:</dispname>
-			<regnode name="help" value = "Flag that specifys if the worker is abstract. An abstract worker is one that cannot be used directly in a class as a worker. However, it can be subclassed by other workers."></regnode>
-		</attrdef>
+	<folder name = "RootFolder" metaref = "1000"  subfolders = "BehaviorModels PredefinedTypes" >
 		<attrdef name="Condition" metaref = "5156" valuetype = "string" defvalue = "">
 			<dispname>Condition:</dispname>
 			<regnode name="help" value = "Expression that determines if branch is executed."></regnode>
@@ -19,10 +15,6 @@
 		<attrdef name="Distribution" metaref = "5157" valuetype = "enum" defvalue = "Constant">
 			<enumitem dispname = "Constant" value = "Constant"></enumitem>
 			<enumitem dispname = "Exponential" value = "Exponential"></enumitem>
-		</attrdef>
-		<attrdef name="Duration" metaref = "5158" valuetype = "integer" defvalue = "">
-			<dispname>Duration:</dispname>
-			<regnode name="help" value = "Expected duration of the action. This is primarily used by simulation interpreters."></regnode>
 		</attrdef>
 		<attrdef name="Hertz" metaref = "5159" valuetype = "string" defvalue = "10">
 			<dispname>Hertz</dispname>
@@ -35,14 +27,6 @@
 		<attrdef name="InitialCondition" metaref = "5161" valuetype = "string" defvalue = "">
 			<dispname>Initial Condition:</dispname>
 			<regnode name="help" value = "Initial condition for the for loop, if applicable."></regnode>
-		</attrdef>
-		<attrdef name="InitialValue" metaref = "5162" valuetype = "string" defvalue = "">
-			<dispname>Initial Value</dispname>
-			<regnode name="help" value = "Initial value of the variable"></regnode>
-		</attrdef>
-		<attrdef name="Location" metaref = "5276" valuetype = "string" defvalue = "">
-			<dispname>Location</dispname>
-			<regnode name="help" value = "Specifies the location of the object on disk. It can be a relative or absolute location."></regnode>
 		</attrdef>
 		<attrdef name="LoopingCondition" metaref = "5165" valuetype = "string" defvalue = "">
 			<dispname>Looping Condition:</dispname>
@@ -57,8 +41,6 @@
 			<regnode name="multiLine" value = "10"></regnode>
 			<regnode name="help" value = "Defines the effects of executing the previous action."></regnode>
 		</attrdef>
-		<attrdef name="Value" metaref = "5277" valuetype = "string" defvalue = "">
-		</attrdef>
 		<atom name = "ApplicationTask" metaref = "5167" >
 				<regnode name = "namePosition" value ="4"></regnode>
 			<constraint name="ValidInputdstCardinality8" eventmask = "0x0" depth = "1" priority = "1">
@@ -69,7 +51,7 @@
 				<regnode name = "icon" value ="ApplicationTask.gif"></regnode>
 				<regnode name = "isNameEnabled" value ="false"></regnode>
 		</atom>
-		<atom name = "Boolean" metaref = "1064" >
+		<atom name = "Boolean" metaref = "5429" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="boolean.bmp"></regnode>
 		</atom>
@@ -83,12 +65,13 @@
 				<regnode name = "icon" value ="BranchState.bmp"></regnode>
 				<regnode name = "isNameEnabled" value ="false"></regnode>
 		</atom>
-		<atom name = "Byte" metaref = "1065" >
+		<atom name = "Byte" metaref = "5430" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="byte.bmp"></regnode>
 		</atom>
-		<atom name = "DataValue" metaref = "5278"  attributes = "Value">
+		<atom name = "Char" metaref = "5431" >
 				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "icon" value ="char.bmp"></regnode>
 		</atom>
 		<atom name = "DoWhileState" metaref = "5170"  attributes = "LoopingCondition">
 				<regnode name = "namePosition" value ="4"></regnode>
@@ -105,7 +88,7 @@
 				<regnode name = "icon" value ="DoWhileState.bmp"></regnode>
 				<regnode name = "isNameEnabled" value ="false"></regnode>
 		</atom>
-		<atom name = "DoubleNumber" metaref = "4266" >
+		<atom name = "DoubleNumber" metaref = "5432" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="DoubleNumber.bmp"></regnode>
 		</atom>
@@ -114,7 +97,7 @@
 				<regnode name = "icon" value ="environment.gif"></regnode>
 				<regnode name = "isNameEnabled" value ="false"></regnode>
 		</atom>
-		<atom name = "FloatNumber" metaref = "4267" >
+		<atom name = "FloatNumber" metaref = "5433" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="FloatNumber.bmp"></regnode>
 		</atom>
@@ -133,21 +116,29 @@
 				<regnode name = "icon" value ="ForState.bmp"></regnode>
 				<regnode name = "isNameEnabled" value ="false"></regnode>
 		</atom>
-		<atom name = "GenericObject" metaref = "1072" >
+		<atom name = "GenericObject" metaref = "5434" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="genericobject.bmp"></regnode>
 		</atom>
-		<atom name = "GenericValue" metaref = "1073" >
+		<atom name = "GenericValue" metaref = "5435" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="genericvalue.bmp"></regnode>
 		</atom>
-		<atom name = "GenericValueObject" metaref = "1074" >
+		<atom name = "GenericValueObject" metaref = "5436" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="genericvalueobject.bmp"></regnode>
 		</atom>
-		<atom name = "LongInteger" metaref = "1080" >
+		<atom name = "LongDoubleNumber" metaref = "5437" >
+				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "icon" value ="LongDoubleNumber.bmp"></regnode>
+		</atom>
+		<atom name = "LongInteger" metaref = "5438" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="long.bmp"></regnode>
+		</atom>
+		<atom name = "LongLongInteger" metaref = "5439" >
+				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "icon" value ="LongLongInteger.bmp"></regnode>
 		</atom>
 		<atom name = "PeriodicEvent" metaref = "5173"  attributes = "Hertz Distribution">
 			<dispname>PeriodicTask</dispname>
@@ -159,7 +150,7 @@
 			</constraint>
 				<regnode name = "icon" value ="periodic.gif"></regnode>
 		</atom>
-		<atom name = "ShortInteger" metaref = "1092" >
+		<atom name = "ShortInteger" metaref = "5440" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="short.bmp"></regnode>
 		</atom>
@@ -183,7 +174,7 @@
 				<regnode name = "icon" value ="State.bmp"></regnode>
 				<regnode name = "isNameEnabled" value ="false"></regnode>
 		</atom>
-		<atom name = "String" metaref = "1093" >
+		<atom name = "String" metaref = "5441" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="string.bmp"></regnode>
 		</atom>
@@ -197,13 +188,25 @@
 				<regnode name = "icon" value ="Connector.bmp"></regnode>
 				<regnode name = "isNameEnabled" value ="false"></regnode>
 		</atom>
-		<atom name = "TypeEncoding" metaref = "1098" >
+		<atom name = "TypeEncoding" metaref = "5442" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="typeencoding.bmp"></regnode>
 		</atom>
-		<atom name = "TypeKind" metaref = "1099" >
+		<atom name = "TypeKind" metaref = "5443" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="typekind.bmp"></regnode>
+		</atom>
+		<atom name = "UnsignedLongInteger" metaref = "5444" >
+				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "icon" value ="UnsignedLongInteger.bmp"></regnode>
+		</atom>
+		<atom name = "UnsignedLongLongInteger" metaref = "5445" >
+				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "icon" value ="UnsignedLongLongInteger.bmp"></regnode>
+		</atom>
+		<atom name = "UnsignedShortInteger" metaref = "5446" >
+				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "icon" value ="UnsignedShortInteger.bmp"></regnode>
 		</atom>
 		<atom name = "WhileState" metaref = "5176"  attributes = "LoopingCondition">
 				<regnode name = "namePosition" value ="4"></regnode>
@@ -219,6 +222,14 @@
 			</constraint>
 				<regnode name = "icon" value ="WhileState.bmp"></regnode>
 				<regnode name = "isNameEnabled" value ="false"></regnode>
+		</atom>
+		<atom name = "WideChar" metaref = "5447" >
+				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "icon" value ="WideChar.bmp"></regnode>
+		</atom>
+		<atom name = "WideString" metaref = "5448" >
+				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "icon" value ="WideString.bmp"></regnode>
 		</atom>
 		<connection name = "BranchTransition" metaref = "5177" attributes = "Condition" >
 				<regnode name = "sName" value ="srcBranchTransition"></regnode>
@@ -283,7 +294,7 @@
 				</pointerspec>
 			</connjoint>
 		</connection>
-		<connection name = "Input" metaref = "5181" >
+		<connection name = "Input" metaref = "5451" >
 				<regnode name = "sName" value ="srcInput"></regnode>
 				<regnode name = "dName" value ="dstInput"></regnode>
 				<regnode name = "color" value ="0x0000FF"></regnode>
@@ -342,7 +353,7 @@
 				</pointerspec>
 			</connjoint>
 		</connection>
-		<connection name = "MultiInput" metaref = "5184" >
+		<connection name = "MultiInput" metaref = "5452" >
 				<regnode name = "sName" value ="srcMultiInput"></regnode>
 				<regnode name = "dName" value ="dstMultiInput"></regnode>
 				<regnode name = "color" value ="0xFF8000"></regnode>
@@ -358,7 +369,7 @@
 				</pointerspec>
 			</connjoint>
 		</connection>
-		<connection name = "QueryInput" metaref = "5185" >
+		<connection name = "QueryInput" metaref = "5453" >
 				<regnode name = "sName" value ="srcQueryInput"></regnode>
 				<regnode name = "dName" value ="dstQueryInput"></regnode>
 				<regnode name = "color" value ="0x008000"></regnode>
@@ -428,50 +439,64 @@
 				</pointerspec>
 			</connjoint>
 		</connection>
-		<reference name = "Variable" metaref = "5191" attributes = "InitialValue">
+		<reference name = "SimpleProperty" metaref = "5454">
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "rName" value ="ref"></regnode>
-				<regnode name = "rrName" value ="referedbyVariable"></regnode>
-			<constraint name="NotNull" eventmask = "0x0" depth = "1" priority = "2">
-				<![CDATA[not self.refersTo ().isNull ()]]>
-				<dispname>Undefined variable (null reference)</dispname>
-			</constraint>
-			<regnode name = "icon" value ="member.bmp"></regnode>
-			<regnode name = "decorator" value ="MGA.Decorator.ShowReference"></regnode>
+				<regnode name = "rrName" value ="referedbySimpleProperty"></regnode>
+			<regnode name = "icon" value ="Property.bmp"></regnode>
 			<pointerspec name = "ref">
 				<pointeritem desc = "Boolean"></pointeritem>
 				<pointeritem desc = "Byte"></pointeritem>
+				<pointeritem desc = "Char"></pointeritem>
 				<pointeritem desc = "DoubleNumber"></pointeritem>
 				<pointeritem desc = "FloatNumber"></pointeritem>
 				<pointeritem desc = "GenericObject"></pointeritem>
 				<pointeritem desc = "GenericValue"></pointeritem>
 				<pointeritem desc = "GenericValueObject"></pointeritem>
+				<pointeritem desc = "LongDoubleNumber"></pointeritem>
 				<pointeritem desc = "LongInteger"></pointeritem>
+				<pointeritem desc = "LongLongInteger"></pointeritem>
 				<pointeritem desc = "ShortInteger"></pointeritem>
 				<pointeritem desc = "String"></pointeritem>
 				<pointeritem desc = "TypeEncoding"></pointeritem>
 				<pointeritem desc = "TypeKind"></pointeritem>
+				<pointeritem desc = "UnsignedLongInteger"></pointeritem>
+				<pointeritem desc = "UnsignedLongLongInteger"></pointeritem>
+				<pointeritem desc = "UnsignedShortInteger"></pointeritem>
+				<pointeritem desc = "WideChar"></pointeritem>
+				<pointeritem desc = "WideString"></pointeritem>
 			</pointerspec>
 		</reference>
-		<reference name = "WorkerType" metaref = "5279">
+		<reference name = "Variable" metaref = "5455">
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "rName" value ="ref"></regnode>
-				<regnode name = "rrName" value ="referedbyWorkerType"></regnode>
-			<constraint name="AbstractWorker" eventmask = "0x400" depth = "1" priority = "2">
-				<![CDATA[let worker : Worker = self->refersTo () in
-not worker.Abstract]]>
-				<dispname>Cannot reference an abstract worker</dispname>
-			</constraint>
-			<constraint name="NotNull" eventmask = "0x0" depth = "1" priority = "2">
-				<![CDATA[not self.refersTo ().isNull ()]]>
-				<dispname>Undefined type (null reference)</dispname>
-			</constraint>
-			<regnode name = "icon" value ="workerref.gif"></regnode>
+				<regnode name = "rrName" value ="referedbyVariable"></regnode>
+			<regnode name = "icon" value ="member.bmp"></regnode>
+			<regnode name = "decorator" value ="MGA.Decorator.ShowReference"></regnode>
 			<pointerspec name = "ref">
-				<pointeritem desc = "Worker"></pointeritem>
+				<pointeritem desc = "Boolean"></pointeritem>
+				<pointeritem desc = "Byte"></pointeritem>
+				<pointeritem desc = "Char"></pointeritem>
+				<pointeritem desc = "DoubleNumber"></pointeritem>
+				<pointeritem desc = "FloatNumber"></pointeritem>
+				<pointeritem desc = "GenericObject"></pointeritem>
+				<pointeritem desc = "GenericValue"></pointeritem>
+				<pointeritem desc = "GenericValueObject"></pointeritem>
+				<pointeritem desc = "LongDoubleNumber"></pointeritem>
+				<pointeritem desc = "LongInteger"></pointeritem>
+				<pointeritem desc = "LongLongInteger"></pointeritem>
+				<pointeritem desc = "ShortInteger"></pointeritem>
+				<pointeritem desc = "String"></pointeritem>
+				<pointeritem desc = "TypeEncoding"></pointeritem>
+				<pointeritem desc = "TypeKind"></pointeritem>
+				<pointeritem desc = "UnsignedLongInteger"></pointeritem>
+				<pointeritem desc = "UnsignedLongLongInteger"></pointeritem>
+				<pointeritem desc = "UnsignedShortInteger"></pointeritem>
+				<pointeritem desc = "WideChar"></pointeritem>
+				<pointeritem desc = "WideString"></pointeritem>
 			</pointerspec>
 		</reference>
-		<model name = "Action" metaref = "5193" attributes = "Duration" >
+		<model name = "Action" metaref = "5193" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="action.bmp"></regnode>
 				<regnode name = "isTypeShown" value ="true"></regnode>
@@ -506,79 +531,10 @@ endif]]>
                      (srcCount <= 1)]]>
 				<dispname>Multiplicity of objects, which are associated to ActionBase as &quot;src&quot; over Transition, has to match 0..1.</dispname>
 			</constraint>
-			<role name = "Property" metaref = "5280" kind = "Property"></role>
-			<aspect name = "Behavior" metaref = "2917" attributes = "Duration" >
-				<part metaref = "5281" role = "Property" primary = "yes" linked = "no"></part>
-			</aspect>
-		</model>
-		<model name = "BehaviorModel" metaref = "5282" >
-				<regnode name = "namePosition" value ="4"></regnode>
-				<regnode name = "isTypeInfoShown" value ="true"></regnode>
-			<constraint name="TerminalCount" eventmask = "0x0" depth = "1" priority = "2">
-				<![CDATA[let ctrlblocks = 
-  self.parts (meta::BranchState) + 
-  self.parts (meta::ForState) + self.parts (meta::DoWhileState) +
-  self.parts (meta::WhileState) in
-
-let terminals = self.parts (meta::Terminal) in
-
-ctrlblocks->size = terminals->size]]>
-				<dispname>Number of terminals must equal the number of control blocks (i.e., BranchState, ForState, DoWhileState, and WhileState).</dispname>
-			</constraint>
-			<role name = "Action" metaref = "5283" kind = "Action"></role>
-			<role name = "BranchState" metaref = "5284" kind = "BranchState"></role>
-			<role name = "BranchTransition" metaref = "5285" kind = "BranchTransition"></role>
-			<role name = "DoWhileState" metaref = "5286" kind = "DoWhileState"></role>
-			<role name = "Effect" metaref = "5287" kind = "Effect"></role>
-			<role name = "Finish" metaref = "5288" kind = "Finish"></role>
-			<role name = "ForState" metaref = "5289" kind = "ForState"></role>
-			<role name = "InputAction" metaref = "5290" kind = "InputAction"></role>
-			<role name = "InputEffect" metaref = "5291" kind = "InputEffect"></role>
-			<role name = "LoopTransition" metaref = "5292" kind = "LoopTransition"></role>
-			<role name = "MultiInputAction" metaref = "5293" kind = "MultiInputAction"></role>
-			<role name = "OutputAction" metaref = "5294" kind = "OutputAction"></role>
-			<role name = "QueryAction" metaref = "5295" kind = "QueryAction"></role>
-			<role name = "QueryInputAction" metaref = "5296" kind = "QueryInputAction"></role>
-			<role name = "RequestAction" metaref = "5420" kind = "RequestAction"></role>
-			<role name = "State" metaref = "5297" kind = "State"></role>
-			<role name = "Terminal" metaref = "5298" kind = "Terminal"></role>
-			<role name = "TerminalEffect" metaref = "5299" kind = "TerminalEffect"></role>
-			<role name = "TerminalTransition" metaref = "5300" kind = "TerminalTransition"></role>
-			<role name = "Transition" metaref = "5301" kind = "Transition"></role>
-			<role name = "Variable" metaref = "5302" kind = "Variable"></role>
-			<role name = "WhileState" metaref = "5303" kind = "WhileState"></role>
-			<aspect name = "Behavior" metaref = "5305" >
-				<part metaref = "5306" role = "Action" primary = "yes" linked = "no"></part>
-				<part metaref = "5307" role = "BranchState" primary = "yes" linked = "no"></part>
-				<part metaref = "5308" role = "BranchTransition" primary = "yes" linked = "no"></part>
-				<part metaref = "5309" role = "DoWhileState" primary = "yes" linked = "no"></part>
-				<part metaref = "5310" role = "Effect" primary = "yes" linked = "no"></part>
-				<part metaref = "5311" role = "Finish" primary = "yes" linked = "no"></part>
-				<part metaref = "5312" role = "ForState" primary = "yes" linked = "no"></part>
-				<part metaref = "5313" role = "InputAction" primary = "yes" linked = "no"></part>
-				<part metaref = "5314" role = "InputEffect" primary = "yes" linked = "no"></part>
-				<part metaref = "5315" role = "LoopTransition" primary = "yes" linked = "no"></part>
-				<part metaref = "5316" role = "MultiInputAction" primary = "yes" linked = "no"></part>
-				<part metaref = "5317" role = "OutputAction" primary = "yes" linked = "no"></part>
-				<part metaref = "5318" role = "QueryAction" primary = "yes" linked = "no"></part>
-				<part metaref = "5319" role = "QueryInputAction" primary = "yes" linked = "no"></part>
-				<part metaref = "5421" role = "RequestAction" primary = "yes" linked = "no"></part>
-				<part metaref = "5320" role = "State" primary = "yes" linked = "no"></part>
-				<part metaref = "5321" role = "Terminal" primary = "yes" linked = "no"></part>
-				<part metaref = "5322" role = "TerminalEffect" primary = "yes" linked = "no"></part>
-				<part metaref = "5323" role = "TerminalTransition" primary = "yes" linked = "no"></part>
-				<part metaref = "5324" role = "Transition" primary = "yes" linked = "no"></part>
-				<part metaref = "5325" role = "Variable" primary = "yes" linked = "no"></part>
-				<part metaref = "5326" role = "WhileState" primary = "yes" linked = "no"></part>
-			</aspect>
-		</model>
-		<model name = "DataValueContainer" metaref = "5328" >
-				<regnode name = "namePosition" value ="4"></regnode>
-				<regnode name = "isTypeInfoShown" value ="true"></regnode>
-			<role name = "DataValue" metaref = "5329" kind = "DataValue"></role>
-			<aspect name = "DataValueAspect" metaref = "5330" >
-				<dispname>Data Value View </dispname>
-				<part metaref = "5331" role = "DataValue" primary = "yes" linked = "no"></part>
+			<role name = "SimpleProperty" metaref = "5456" kind = "SimpleProperty"></role>
+			<aspect name = "BehaviorEffects" metaref = "5512" >
+				<dispname>Behavior</dispname>
+				<part metaref = "5513" role = "SimpleProperty" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
 		<model name = "InputAction" metaref = "5265" >
@@ -606,9 +562,10 @@ ctrlblocks->size = terminals->size]]>
                      (srcCount <= 1)]]>
 				<dispname>Multiplicity of objects, which are associated to InputAction as &quot;src&quot; over Input, has to match 0..1.</dispname>
 			</constraint>
-			<role name = "Property" metaref = "5332" kind = "Property"></role>
-			<aspect name = "Behavior" metaref = "2934" >
-				<part metaref = "5333" role = "Property" primary = "yes" linked = "no"></part>
+			<role name = "SimpleProperty" metaref = "5459" kind = "SimpleProperty"></role>
+			<aspect name = "BehaviorEffects" metaref = "5514" >
+				<dispname>Behavior</dispname>
+				<part metaref = "5515" role = "SimpleProperty" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
 		<model name = "MultiInputAction" metaref = "5266" >
@@ -635,12 +592,13 @@ ctrlblocks->size = terminals->size]]>
                      (srcCount <= 1)]]>
 				<dispname>Multiplicity of objects, which are associated to MultiInputAction as &quot;src&quot; over MultiInput, has to match 0..1.</dispname>
 			</constraint>
-			<role name = "Property" metaref = "5334" kind = "Property"></role>
-			<aspect name = "Behavior" metaref = "4212" >
-				<part metaref = "5335" role = "Property" primary = "yes" linked = "no"></part>
+			<role name = "SimpleProperty" metaref = "5462" kind = "SimpleProperty"></role>
+			<aspect name = "BehaviorEffects" metaref = "5516" >
+				<dispname>Behavior</dispname>
+				<part metaref = "5517" role = "SimpleProperty" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
-		<model name = "OutputAction" metaref = "5267" attributes = "Duration" >
+		<model name = "OutputAction" metaref = "5267" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="OutputAction.bmp"></regnode>
 				<regnode name = "isTypeInfoShown" value ="true"></regnode>
@@ -674,23 +632,13 @@ endif]]>
                      (srcCount <= 1)]]>
 				<dispname>Multiplicity of objects, which are associated to ActionBase as &quot;src&quot; over Transition, has to match 0..1.</dispname>
 			</constraint>
-			<role name = "Property" metaref = "5336" kind = "Property"></role>
-			<aspect name = "Behavior" metaref = "2038" attributes = "Duration" >
-				<part metaref = "5337" role = "Property" primary = "yes" linked = "no"></part>
+			<role name = "SimpleProperty" metaref = "5465" kind = "SimpleProperty"></role>
+			<aspect name = "BehaviorEffects" metaref = "5518" >
+				<dispname>Behavior</dispname>
+				<part metaref = "5519" role = "SimpleProperty" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
-		<model name = "Property" metaref = "5338" >
-				<regnode name = "namePosition" value ="4"></regnode>
-				<regnode name = "isTypeInfoShown" value ="true"></regnode>
-			<role name = "DataValue" metaref = "5339" kind = "DataValue"></role>
-			<role name = "DataValueContainer" metaref = "5340" kind = "DataValueContainer"></role>
-			<aspect name = "DataValueAspect" metaref = "5341" >
-				<dispname>Data Value View </dispname>
-				<part metaref = "5342" role = "DataValue" primary = "yes" linked = "no"></part>
-				<part metaref = "5343" role = "DataValueContainer" primary = "yes" linked = "no"></part>
-			</aspect>
-		</model>
-		<model name = "QueryAction" metaref = "5270" attributes = "Duration" >
+		<model name = "QueryAction" metaref = "5270" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "icon" value ="QueryAction.bmp"></regnode>
 				<regnode name = "isTypeInfoShown" value ="true"></regnode>
@@ -724,9 +672,10 @@ endif]]>
                      (srcCount <= 1)]]>
 				<dispname>Multiplicity of objects, which are associated to ActionBase as &quot;src&quot; over Transition, has to match 0..1.</dispname>
 			</constraint>
-			<role name = "Property" metaref = "5344" kind = "Property"></role>
-			<aspect name = "Behavior" metaref = "4187" attributes = "Duration" >
-				<part metaref = "5345" role = "Property" primary = "yes" linked = "no"></part>
+			<role name = "SimpleProperty" metaref = "5468" kind = "SimpleProperty"></role>
+			<aspect name = "BehaviorEffects" metaref = "5520" >
+				<dispname>Behavior</dispname>
+				<part metaref = "5521" role = "SimpleProperty" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
 		<model name = "QueryInputAction" metaref = "5271" >
@@ -738,12 +687,13 @@ endif]]>
                      (srcCount <= 1)]]>
 				<dispname>Multiplicity of objects, which are associated to QueryInputAction as &quot;src&quot; over QueryInput, has to match 0..1.</dispname>
 			</constraint>
-			<role name = "Property" metaref = "5346" kind = "Property"></role>
-			<aspect name = "Behavior" metaref = "4199" >
-				<part metaref = "5347" role = "Property" primary = "yes" linked = "no"></part>
+			<role name = "SimpleProperty" metaref = "5471" kind = "SimpleProperty"></role>
+			<aspect name = "BehaviorEffects" metaref = "5522" >
+				<dispname>Behavior</dispname>
+				<part metaref = "5523" role = "SimpleProperty" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
-		<model name = "RequestAction" metaref = "5422" attributes = "Duration MethodName" >
+		<model name = "RequestAction" metaref = "5422" attributes = "MethodName" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "isTypeInfoShown" value ="true"></regnode>
 			<constraint name="HasEffect" eventmask = "0x0" depth = "1" priority = "2">
@@ -776,12 +726,13 @@ endif]]>
                      (srcCount <= 1)]]>
 				<dispname>Multiplicity of objects, which are associated to ActionBase as &quot;src&quot; over Transition, has to match 0..1.</dispname>
 			</constraint>
-			<role name = "Property" metaref = "5423" kind = "Property"></role>
-			<aspect name = "Behavior" metaref = "5424" attributes = "Duration MethodName" >
-				<part metaref = "5425" role = "Property" primary = "yes" linked = "no"></part>
+			<role name = "SimpleProperty" metaref = "5474" kind = "SimpleProperty"></role>
+			<aspect name = "BehaviorEffects" metaref = "5524" attributes = "MethodName" >
+				<dispname>Behavior</dispname>
+				<part metaref = "5525" role = "SimpleProperty" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
-		<model name = "TopLevelBehavior" metaref = "5364" >
+		<model name = "TopLevelBehavior" metaref = "5477" >
 				<regnode name = "namePosition" value ="4"></regnode>
 				<regnode name = "isTypeInfoShown" value ="true"></regnode>
 			<constraint name="TerminalCount" eventmask = "0x0" depth = "1" priority = "2">
@@ -817,16 +768,16 @@ ctrlblocks->size = terminals->size]]>
 			<role name = "Environment" metaref = "5371" kind = "Environment"></role>
 			<role name = "Finish" metaref = "5372" kind = "Finish"></role>
 			<role name = "ForState" metaref = "5373" kind = "ForState"></role>
-			<role name = "Input" metaref = "5374" kind = "Input"></role>
+			<role name = "Input" metaref = "5478" kind = "Input"></role>
 			<role name = "InputAction" metaref = "5375" kind = "InputAction"></role>
 			<role name = "InputEffect" metaref = "5376" kind = "InputEffect"></role>
 			<role name = "LoopTransition" metaref = "5377" kind = "LoopTransition"></role>
-			<role name = "MultiInput" metaref = "5378" kind = "MultiInput"></role>
+			<role name = "MultiInput" metaref = "5479" kind = "MultiInput"></role>
 			<role name = "MultiInputAction" metaref = "5379" kind = "MultiInputAction"></role>
 			<role name = "OutputAction" metaref = "5380" kind = "OutputAction"></role>
 			<role name = "PeriodicEvent" metaref = "5381" kind = "PeriodicEvent"></role>
 			<role name = "QueryAction" metaref = "5382" kind = "QueryAction"></role>
-			<role name = "QueryInput" metaref = "5383" kind = "QueryInput"></role>
+			<role name = "QueryInput" metaref = "5480" kind = "QueryInput"></role>
 			<role name = "QueryInputAction" metaref = "5384" kind = "QueryInputAction"></role>
 			<role name = "RequestAction" metaref = "5426" kind = "RequestAction"></role>
 			<role name = "State" metaref = "5385" kind = "State"></role>
@@ -834,88 +785,43 @@ ctrlblocks->size = terminals->size]]>
 			<role name = "TerminalEffect" metaref = "5387" kind = "TerminalEffect"></role>
 			<role name = "TerminalTransition" metaref = "5388" kind = "TerminalTransition"></role>
 			<role name = "Transition" metaref = "5389" kind = "Transition"></role>
-			<role name = "Variable" metaref = "5390" kind = "Variable"></role>
+			<role name = "Variable" metaref = "5481" kind = "Variable"></role>
 			<role name = "WhileState" metaref = "5391" kind = "WhileState"></role>
-			<aspect name = "Behavior" metaref = "5392" >
-				<part metaref = "5393" role = "Action" primary = "yes" linked = "no"></part>
-				<part metaref = "5394" role = "ApplicationTask" primary = "yes" linked = "no"></part>
-				<part metaref = "5395" role = "BranchState" primary = "yes" linked = "no"></part>
-				<part metaref = "5396" role = "BranchTransition" primary = "yes" linked = "no"></part>
-				<part metaref = "5397" role = "DoWhileState" primary = "yes" linked = "no"></part>
-				<part metaref = "5398" role = "Effect" primary = "yes" linked = "no"></part>
-				<part metaref = "5399" role = "Environment" primary = "yes" linked = "no"></part>
-				<part metaref = "5400" role = "Finish" primary = "yes" linked = "no"></part>
-				<part metaref = "5401" role = "ForState" primary = "yes" linked = "no"></part>
-				<part metaref = "5402" role = "Input" primary = "yes" linked = "no"></part>
-				<part metaref = "5403" role = "InputAction" primary = "yes" linked = "no"></part>
-				<part metaref = "5404" role = "InputEffect" primary = "yes" linked = "no"></part>
-				<part metaref = "5405" role = "LoopTransition" primary = "yes" linked = "no"></part>
-				<part metaref = "5406" role = "MultiInput" primary = "yes" linked = "no"></part>
-				<part metaref = "5407" role = "MultiInputAction" primary = "yes" linked = "no"></part>
-				<part metaref = "5408" role = "OutputAction" primary = "yes" linked = "no"></part>
-				<part metaref = "5409" role = "PeriodicEvent" primary = "yes" linked = "no"></part>
-				<part metaref = "5410" role = "QueryAction" primary = "yes" linked = "no"></part>
-				<part metaref = "5411" role = "QueryInput" primary = "yes" linked = "no"></part>
-				<part metaref = "5412" role = "QueryInputAction" primary = "yes" linked = "no"></part>
-				<part metaref = "5427" role = "RequestAction" primary = "yes" linked = "no"></part>
-				<part metaref = "5413" role = "State" primary = "yes" linked = "no"></part>
-				<part metaref = "5414" role = "Terminal" primary = "yes" linked = "no"></part>
-				<part metaref = "5415" role = "TerminalEffect" primary = "yes" linked = "no"></part>
-				<part metaref = "5416" role = "TerminalTransition" primary = "yes" linked = "no"></part>
-				<part metaref = "5417" role = "Transition" primary = "yes" linked = "no"></part>
-				<part metaref = "5418" role = "Variable" primary = "yes" linked = "no"></part>
-				<part metaref = "5419" role = "WhileState" primary = "yes" linked = "no"></part>
+			<aspect name = "BehaviorEffects" metaref = "5526" >
+				<dispname>Behavior</dispname>
+				<part metaref = "5527" role = "Action" primary = "yes" linked = "no"></part>
+				<part metaref = "5528" role = "ApplicationTask" primary = "yes" linked = "no"></part>
+				<part metaref = "5529" role = "BranchState" primary = "yes" linked = "no"></part>
+				<part metaref = "5530" role = "BranchTransition" primary = "yes" linked = "no"></part>
+				<part metaref = "5531" role = "DoWhileState" primary = "yes" linked = "no"></part>
+				<part metaref = "5532" role = "Effect" primary = "yes" linked = "no"></part>
+				<part metaref = "5533" role = "Environment" primary = "yes" linked = "no"></part>
+				<part metaref = "5534" role = "Finish" primary = "yes" linked = "no"></part>
+				<part metaref = "5535" role = "ForState" primary = "yes" linked = "no"></part>
+				<part metaref = "5536" role = "Input" primary = "yes" linked = "no"></part>
+				<part metaref = "5537" role = "InputAction" primary = "yes" linked = "no"></part>
+				<part metaref = "5538" role = "InputEffect" primary = "yes" linked = "no"></part>
+				<part metaref = "5539" role = "LoopTransition" primary = "yes" linked = "no"></part>
+				<part metaref = "5540" role = "MultiInput" primary = "yes" linked = "no"></part>
+				<part metaref = "5541" role = "MultiInputAction" primary = "yes" linked = "no"></part>
+				<part metaref = "5542" role = "OutputAction" primary = "yes" linked = "no"></part>
+				<part metaref = "5543" role = "PeriodicEvent" primary = "yes" linked = "no"></part>
+				<part metaref = "5544" role = "QueryAction" primary = "yes" linked = "no"></part>
+				<part metaref = "5545" role = "QueryInput" primary = "yes" linked = "no"></part>
+				<part metaref = "5546" role = "QueryInputAction" primary = "yes" linked = "no"></part>
+				<part metaref = "5547" role = "RequestAction" primary = "yes" linked = "no"></part>
+				<part metaref = "5548" role = "State" primary = "yes" linked = "no"></part>
+				<part metaref = "5549" role = "Terminal" primary = "yes" linked = "no"></part>
+				<part metaref = "5550" role = "TerminalEffect" primary = "yes" linked = "no"></part>
+				<part metaref = "5551" role = "TerminalTransition" primary = "yes" linked = "no"></part>
+				<part metaref = "5552" role = "Transition" primary = "yes" linked = "no"></part>
+				<part metaref = "5553" role = "Variable" primary = "yes" linked = "no"></part>
+				<part metaref = "5554" role = "WhileState" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
-		<model name = "Worker" metaref = "5348" attributes = "Abstract" >
-				<regnode name = "namePosition" value ="4"></regnode>
-				<regnode name = "icon" value ="worker.gif"></regnode>
-				<regnode name = "isTypeInfoShown" value ="true"></regnode>
-			<role name = "Action" metaref = "5273" kind = "Action"></role>
-			<aspect name = "Behavior" metaref = "2958" attributes = "Abstract" >
-				<part metaref = "5274" role = "Action" primary = "yes" linked = "no"></part>
-			</aspect>
-		</model>
-		<model name = "WorkerFile" metaref = "5349" attributes = "Location" >
-				<regnode name = "namePosition" value ="4"></regnode>
-				<regnode name = "icon" value ="file.bmp"></regnode>
-				<regnode name = "isTypeInfoShown" value ="true"></regnode>
-			<role name = "Worker" metaref = "5350" kind = "Worker"></role>
-			<role name = "WorkerPackage" metaref = "5351" kind = "WorkerPackage"></role>
-			<aspect name = "Behavior" metaref = "2990" attributes = "Location" >
-				<part metaref = "5352" role = "Worker" primary = "yes" linked = "no"></part>
-				<part metaref = "5353" role = "WorkerPackage" primary = "yes" linked = "no"></part>
-			</aspect>
-		</model>
-		<model name = "WorkerLibrary" metaref = "5354" attributes = "Location" >
-				<regnode name = "namePosition" value ="4"></regnode>
-				<regnode name = "isTypeInfoShown" value ="true"></regnode>
-			<constraint name="UniqueWorker" eventmask = "0x0" depth = "1" priority = "2">
-				<![CDATA[let workers = self->parts (Worker) in
-    workers->isUnique (iter : Worker | iter->name ())]]>
-				<dispname>Worker library constains duplicate worker names</dispname>
-			</constraint>
-			<role name = "WorkerFile" metaref = "5355" kind = "WorkerFile"></role>
-			<aspect name = "Behavior" metaref = "2966" attributes = "Location" >
-				<part metaref = "5356" role = "WorkerFile" primary = "yes" linked = "no"></part>
-			</aspect>
-		</model>
-		<model name = "WorkerPackage" metaref = "5357" >
-				<regnode name = "namePosition" value ="4"></regnode>
-				<regnode name = "icon" value ="package.bmp"></regnode>
-				<regnode name = "isTypeInfoShown" value ="true"></regnode>
-			<role name = "Worker" metaref = "5358" kind = "Worker"></role>
-			<role name = "WorkerPackage" metaref = "5359" kind = "WorkerPackage"></role>
-			<aspect name = "Behavior" metaref = "2993" >
-				<part metaref = "5360" role = "Worker" primary = "yes" linked = "no"></part>
-				<part metaref = "5361" role = "WorkerPackage" primary = "yes" linked = "no"></part>
-			</aspect>
-		</model>
-		<folder name = "BehaviorModels" metaref = "5363"  subfolders = "BehaviorModels" rootobjects = "BehaviorModel TopLevelBehavior" >
+		<folder name = "BehaviorModels" metaref = "5511"  subfolders = "BehaviorModels" rootobjects = "TopLevelBehavior" >
 		</folder>
-		<folder name = "PredefinedTypes" metaref = "1906"  rootobjects = "Boolean Byte DoubleNumber FloatNumber GenericObject GenericValue GenericValueObject LongInteger ShortInteger String TypeEncoding TypeKind" >
-		</folder>
-		<folder name = "WorkerLibraries" metaref = "5362"  rootobjects = "WorkerLibrary" >
+		<folder name = "PredefinedTypes" metaref = "5450"  rootobjects = "Boolean Byte Char DoubleNumber FloatNumber GenericObject GenericValue GenericValueObject LongDoubleNumber LongInteger LongLongInteger ShortInteger String TypeEncoding TypeKind UnsignedLongInteger UnsignedLongLongInteger UnsignedShortInteger WideChar WideString" >
 		</folder>
 	</folder>
 </paradigm>

@@ -319,6 +319,7 @@ public:
       idl_folder_ (idl_folder),
       grammar_ (std::string ("grammar")),
       header_ (std::string ("header")),
+      visibility_ (std::string ("visibility")),
       class_specification_ (std::string ("class_specification")),
       scoped_name_ (std::string ("scoped_name")),
       ident_ (std::string ("ident"))
@@ -338,7 +339,7 @@ public:
       qi::lit ("\"") >> this->scoped_name_ >> qi::lit ("\"");
 
     this->class_specification_ =
-      this->visibility_ >> qi::lit ("class") >
+      - this->visibility_ >> qi::lit ("class") >
       this->scoped_name_[action::create_class (this->idl_folder_, this->symbols_)] >>
       -(qi::lit ("extends") > this->scoped_flatname_[action::create_inherits (this->symbols_)]) >>
       -(qi::lit ("implements") > this->scoped_flatname_ >>
@@ -395,6 +396,20 @@ public:
 
     // Rule definition for parsing identifiers.
     this->ident_ %= qi::lexeme [(qi::alpha >> *(qi::alnum | '_'))];
+
+    using phoenix::construct;
+    using phoenix::val;
+
+    qi::on_error <qi::fail>
+    (
+      grammar_,
+      std::cout << phoenix::val ("Error! Expecting ")
+                << qi::labels::_4                               // what failed?
+                << phoenix::val(" here: \"")
+                << construct <std::string>(qi::labels::_3, qi::labels::_2)   // iterators to error-pos, end
+                << phoenix::val("\"")
+                << std::endl
+    );
   }
 
 private:

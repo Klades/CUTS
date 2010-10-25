@@ -14,7 +14,7 @@
 #define _CUTS_BE_RTIDDS_PROEJECT_GENERATOR_H_
 
 #include "../../BE_Project_Generators_T.h"
-#include "../ciao/Project_Generator.h"
+#include "../ciao/CIAO_Project_Generator.h"
 #include "Context.h"
 
 /**

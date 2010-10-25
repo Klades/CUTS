@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{3E76ABE5-6E56-46A8-AFDD-8B5AB72F153F}" cdate="Thu Jun 24 13:51:43 2010" mdate="Thu Jun 24 13:51:43 2010" version="" metaguid="{282EC294-E89F-440D-B326-7E49DCD97D3F}" metaversion="" metaname="PICML">
+<project guid="{3E76ABE5-6E56-46A8-AFDD-8B5AB72F153F}" cdate="Mon Oct 25 13:55:06 2010" mdate="Mon Oct 25 13:55:06 2010" version="" metaguid="{63989457-55EA-4F88-81AE-5BAAA78702DF}" metaversion="" metaname="PICML">
 	<name>CAPI</name>
 	<comment></comment>
 	<author></author>
@@ -12,12 +12,6 @@
 			<model id="id-0065-00000001" kind="File" guid="{5333b1f2-dab9-47d0-9335-57b9c2c6405a}" relid="0x1" childrelidcntr="0x1">
 				<name>CUTS</name>
 				<attribute kind="Path" status="meta">
-					<value></value>
-				</attribute>
-				<attribute kind="PostPreprocessorDirectives" status="meta">
-					<value></value>
-				</attribute>
-				<attribute kind="PrePreprocessorDirectives" status="meta">
 					<value></value>
 				</attribute>
 				<attribute kind="PrefixTag" status="meta">
@@ -34,12 +28,6 @@
 							</regnode>
 						</regnode>
 					</regnode>
-					<attribute kind="PostPreprocessorDirectives" status="meta">
-						<value></value>
-					</attribute>
-					<attribute kind="PrePreprocessorDirectives" status="meta">
-						<value></value>
-					</attribute>
 					<attribute kind="PrefixTag" status="meta">
 						<value></value>
 					</attribute>
@@ -60,12 +48,6 @@
 								</regnode>
 							</regnode>
 						</regnode>
-						<attribute kind="PostPreprocessorDirectives" status="meta">
-							<value></value>
-						</attribute>
-						<attribute kind="PrePreprocessorDirectives" status="meta">
-							<value></value>
-						</attribute>
 						<attribute kind="PrefixTag" status="meta">
 							<value></value>
 						</attribute>
@@ -86,12 +68,6 @@
 									</regnode>
 								</regnode>
 							</regnode>
-							<attribute kind="PostPreprocessorDirectives" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="PrePreprocessorDirectives" status="meta">
-								<value></value>
-							</attribute>
 							<attribute kind="PrefixTag" status="meta">
 								<value></value>
 							</attribute>
@@ -112,12 +88,6 @@
 										</regnode>
 									</regnode>
 								</regnode>
-								<attribute kind="PostPreprocessorDirectives" status="meta">
-									<value></value>
-								</attribute>
-								<attribute kind="PrePreprocessorDirectives" status="meta">
-									<value></value>
-								</attribute>
 								<attribute kind="PrefixTag" status="meta">
 									<value></value>
 								</attribute>
@@ -153,12 +123,6 @@
 											</regnode>
 										</regnode>
 									</regnode>
-									<attribute kind="PostPreprocessorDirectives" status="meta">
-										<value></value>
-									</attribute>
-									<attribute kind="PrePreprocessorDirectives" status="meta">
-										<value></value>
-									</attribute>
 									<attribute kind="SpecifyIdTag" status="meta">
 										<value></value>
 									</attribute>

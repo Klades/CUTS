@@ -1,3 +1,39 @@
+Mon Oct 25 20:10:48 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/CBML-WML/paradigm/CBML-WML.xme:
+        * MDE/GME/paradigms/CBML-WML/paradigm/CBML_WML.mta:
+        * MDE/GME/paradigms/CBML-WML/paradigm/CBML_WML.xmp:
+
+          Simplified the abstract model.
+
+        * MDE/GME/paradigms/CBML-WML/models/PerformanceTests.xme:
+
+          Updated to latest version of CBML-WML model.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Workspace_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Workspace_Generator.h:
+
+          Fixed compilation errors related to filename changes.
+
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Javap_Output_Parser.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Quotas_Javap_Importer_App.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Quotas_Javap_Importer_App.cpp:
+
+          Bug fix where the parser failed if the class did not contain
+          a visibility keyword.
+
+        * MDE/GME/paradigms/PICML/models/CAPI.xme:
+        * MDE/GME/paradigms/PICML/models/XMLSchema.xme:
+        * MDE/GME/paradigms/PICML/models/workers/testing.xme:
+
+          Updated to latest version of PICML.
+
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen.h:
+
+          Deleted this file.
+
 Mon Oct 25 18:33:43 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * default.features.tmpl:

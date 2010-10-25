@@ -69,6 +69,8 @@ public:
 private:
   int parse_args (int argc, char * argv []);
 
+  void print_help (void);
+
   void init_interface_definitions (const GAME::XME::Project & , GAME::XME::Folder & );
 
   void init_predefined_types (const GAME::XME::Project &,

@@ -4,6 +4,8 @@
 #include "Javap_Output_Parser.h"
 
 #include "ace/Get_Opt.h"
+#include "ace/OS_NS_string.h"
+
 #include "boost/spirit/include/support_istream_iterator.hpp"
 #include "boost/bind.hpp"
 
@@ -19,6 +21,15 @@
 #include "PIM/PICML/interpreters/PICML/PICML_GUID.h"
 
 using GAME::Xml::String;
+
+static const char * __HELP__ =
+"Import Javap output into PICML for QUOTAS\n"
+"\n"
+"USAGE: quotas-javap [OPTIONS] [FILE]+\n"
+"\n"
+"General options:\n"
+"  -o=XMEFILE\t\tOutput XME file name\n"
+"  -h,--help\t\tPrint this help screen\n";
 
 //
 // Quotas_Javap_Importer_App
@@ -125,7 +136,7 @@ int Quotas_Javap_Importer_App::run_main (int argc, char *argv [])
 
     return 0;
   }
-  catch (const GAME::XME::Exception & )
+  catch (const GAME::XME::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
                 ACE_TEXT ("%T (%t) - %M - caught GME exception\n")));
@@ -146,8 +157,7 @@ init_interface_definitions (const GAME::XME::Project & project, GAME::XME::Folde
   // going to make each directly to a PICML File element. Instead,
   // each File is just a container that holds many .class files.
   GAME::XME::Folder root_folder = project.root_folder ();
-
-  static const String meta_InterfaceDefinitions ("InterfaceDefinitions");
+  const String meta_InterfaceDefinitions ("InterfaceDefinitions");
 
   if (GAME::create_if_not (root_folder, meta_InterfaceDefinitions, idl_folder,
       GAME::contains (boost::bind (std::equal_to < String > (),
@@ -174,7 +184,7 @@ init_predefined_types (const GAME::XME::Project & project,
   // Make sure the PredefinedTypes folder exists. Also, make sure each
   // of the predefined type elements in Java exist.
   GAME::XME::Folder root_folder = project.root_folder ();
-  static const String meta_PredefinedTypes ("PredefinedTypes");
+  const String meta_PredefinedTypes ("PredefinedTypes");
 
   GAME::XME::Folder predefined_types;
   if (GAME::create_if_not (root_folder, meta_PredefinedTypes, predefined_types,
@@ -217,8 +227,10 @@ init_predefined_types (const GAME::XME::Project & project,
 int Quotas_Javap_Importer_App::parse_args (int argc, char * argv [])
 {
   // Parse the command-line options.
-  const char * optargs = "o:";
+  const char * optargs = "o:h";
   ACE_Get_Opt get_opt (argc, argv, optargs);
+
+  get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
 
   char opt;
 
@@ -226,6 +238,16 @@ int Quotas_Javap_Importer_App::parse_args (int argc, char * argv [])
   {
     switch (opt)
     {
+    case 0:
+      if (0 == ACE_OS::strcmp ("help", get_opt.long_option ()))
+        this->print_help ();
+
+      break;
+
+    case 'h':
+      this->print_help ();
+      break;
+
     case 'o':
       this->opts_.xmefile_ = get_opt.opt_arg ();
       break;
@@ -240,4 +262,13 @@ int Quotas_Javap_Importer_App::parse_args (int argc, char * argv [])
                               _1));
 
   return 0;
+}
+
+//
+// print_help
+//
+void Quotas_Javap_Importer_App::print_help (void)
+{
+  std::cerr << __HELP__ << std::endl;
+  ACE_OS::exit (1);
 }

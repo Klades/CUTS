@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{4FE08E19-56B0-4DE8-BC12-7AB2BC0690F6}" cdate="Thu Jun 24 13:47:13 2010" mdate="Thu Jun 24 13:47:13 2010" version="" metaguid="{282EC294-E89F-440D-B326-7E49DCD97D3F}" metaversion="" metaname="PICML">
+<project guid="{4FE08E19-56B0-4DE8-BC12-7AB2BC0690F6}" cdate="Mon Oct 25 13:53:57 2010" mdate="Mon Oct 25 13:53:57 2010" version="" metaguid="{63989457-55EA-4F88-81AE-5BAAA78702DF}" metaversion="" metaname="PICML">
 	<name>testing</name>
 	<comment>Traffic light system for the NAOMI project</comment>
 	<author>James H. Hill</author>
