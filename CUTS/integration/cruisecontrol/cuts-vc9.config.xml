@@ -2,9 +2,13 @@
 <cruisecontrol>
   <!-- pull in the environment configuration -->
   <property environment="env" toupper="no"/>
-  <property name="build.type" value="vc9" />
 
-  <project name="CUTS-${build.type}" requireModification="true">
+  <!--
+    Specification for the vc9 build
+    -->
+  <project name="CUTS-vc9" requireModification="true">
+    <property name="build.type" value="vc9" />
+
     <listeners>
       <currentbuildstatuslistener file="logs/${project.name}/status.txt"/>
     </listeners>
@@ -24,6 +28,37 @@
            buildfile="${env.CUTS_ROOT}/integration/autobuild.build"
            target="build.noupdate"
            time="0200">
+        <property name="mpc.type" value="${build.type}" />
+      </ant>
+    </schedule>
+  </project>
+
+  <!--
+    Specification for the vc9 force only build
+    -->
+  <project name="CUTS-vc9-forcebuild"
+           requireModification="false"
+           forceOnly="true">
+    <property name="build.type" value="vc9" />
+
+    <listeners>
+      <currentbuildstatuslistener file="logs/${project.name}/status.txt"/>
+    </listeners>
+
+    <bootstrappers>
+      <svnbootstrapper localWorkingCopy="${env.CUTS_ROOT}" />
+    </bootstrappers>
+
+    <modificationset quietperiod="60">
+      <svn LocalWorkingCopy="${env.CUTS_ROOT}"
+           checkExternals="true"
+           useLocalRevision="true" />
+    </modificationset>
+
+    <schedule>
+      <ant anthome="apache-ant-1.7.0"
+           buildfile="${env.CUTS_ROOT}/integration/autobuild.build"
+           target="build.noupdate">
         <property name="mpc.type" value="${build.type}" />
       </ant>
     </schedule>
