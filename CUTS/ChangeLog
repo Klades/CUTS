@@ -1,3 +1,15 @@
+Mon Oct 25 18:33:43 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * default.features.tmpl:
+
+          Added gme_upgrade to the default.features template.
+
+        * examples/java/quotas:
+        * examples/java/quotas/SimpleObject:
+        * examples/java/quotas/SimpleObject/SimpleObject.java:
+
+          Simple example for QUOTAS.
+
 Mon Oct 25 01:49:30 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * integration/cruisecontrol/cuts-vc8.config.xml:
