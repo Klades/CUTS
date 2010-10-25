@@ -6,7 +6,9 @@
   <!--
     Specification for the vc9 build
     -->
-  <project name="CUTS-vc9" requireModification="true">
+  <project name="CUTS-vc9"
+           requireModification="true"
+           buildafterfailed="false">
     <property name="build.type" value="vc9" />
 
     <listeners>
