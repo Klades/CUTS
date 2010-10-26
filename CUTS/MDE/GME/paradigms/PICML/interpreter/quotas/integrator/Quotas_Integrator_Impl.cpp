@@ -9,6 +9,7 @@
 #include "game/ComponentEx.h"
 #include "game/Atom.h"
 #include "game/Attribute.h"
+#include "game/Connection.h"
 #include "game/Model.h"
 #include "game/Reference.h"
 #include "game/MetaAspect.h"
@@ -19,8 +20,9 @@
 #include "game/utils/modelgen.h"
 #include "game/utils/Point.h"
 
-#include "game/dialogs/Selection_List_Dialog_T.h"
+#include "game/dialogs/Module.h"
 #include "game/dialogs/Object_Path_Dialog_Display_Strategy.h"
+#include "game/dialogs/Selection_List_Dialog_T.h"
 
 #include "boost/bind.hpp"
 
@@ -32,19 +34,24 @@ GAME_DECLARE_INTERPRETER (Quotas_Integrator_Interpreter, Quotas_Integrator_Impl)
 namespace constants
 {
   static const std::string Quotas_InterfaceDefinitions ("Quotas_InterfaceDefinitions");
-  static const std::string Quotas_ComponentImplementations ("Quotas_ComponentImplementations");
+
+  static const std::string Quotas_ComponentImplementations ("ComponentImplementations");
+  static const std::string Quotas_ImplementationArtifacts ("ImplementationArtifacts");
+
+  static const std::string Quotas_PredefinedTypes ("Quotas_PredefinedTypes");
 }
 
 namespace meta
 {
+  static const std::string PredefinedTypes ("PredefinedTypes");
   static const std::string InterfaceDefinitions ("InterfaceDefinitions");
   static const std::string ComponentImplementations ("ComponentImplementations");
   static const std::string ComponentImplementationContainer ("ComponentImplementationContainer");
   static const std::string ComponentAssembly ("ComponentAssembly");
   static const std::string ComponentInstance ("ComponentInstance");
   static const std::string ComponentInstanceType ("ComponentInstanceType");
-  static const std::string Property ("Property");
-  static const std::string DataValue ("DataValue");
+  static const std::string SimpleProperty ("SimpleProperty");
+//  static const std::string DataValue ("Value");
 }
 
 //
@@ -53,7 +60,6 @@ namespace meta
 Quotas_Integrator_Impl::Quotas_Integrator_Impl (void)
 : GAME::Interpreter_Impl_Base ("Quotas Integrator", "Quotas.Interpreter.Integrator", "PICML")
 {
-
 }
 
 //
@@ -72,6 +78,8 @@ int Quotas_Integrator_Impl::initialize (GAME::Project & project)
 {
   try
   {
+    GAME::Dialogs::initialize_module ();
+
     // Let's see if we can find the PICMLManager addon. It will have
     // the progid of MGA.AddOn.PICMLManager.
     static const std::string name ("MGA.AddOn.PICMLManager");
@@ -79,8 +87,10 @@ int Quotas_Integrator_Impl::initialize (GAME::Project & project)
 
     VERIFY_HRESULT (addon.impl ()->QueryInterface (&this->configurator_));
 
-    this->configurator_->setImplementationFolder (ATL::CComBSTR ("Quotas_ComponentImplementations"));
-    this->configurator_->setArtifactFolder (ATL::CComBSTR ("Quotas_ImplmentationArtifacts"));
+    using ATL::CComBSTR;
+
+    this->configurator_->setImplementationFolder (CComBSTR (constants::Quotas_InterfaceDefinitions.c_str ()));
+    this->configurator_->setArtifactFolder (CComBSTR (constants::Quotas_ImplementationArtifacts.c_str ()));
   }
   catch (const GAME::Exception &)
   {
@@ -161,14 +171,14 @@ invoke_ex (GAME::Project & project,
       using GAME::Dialogs::Selection_List_Dialog_T;
 
       Object_Path_Dialog_Display_Strategy display_strategy ("/");
-
       typedef Selection_List_Dialog_T <GAME::FCO> FCO_Selection_List_Dialog;
       FCO_Selection_List_Dialog selection_dialog (&display_strategy, ::AfxGetMainWnd ());
 
       selection_dialog.insert (behavior_models);
       selection_dialog.title ("Behavior Models");
+      int retval = selection_dialog.DoModal ();
 
-      if (selection_dialog.DoModal () == IDOK)
+      if (retval == IDOK)
       {
         // Select the behavior model from the selected .mga file that will
         // be integrated into the structural model.
@@ -190,9 +200,9 @@ invoke_ex (GAME::Project & project,
           return 0;
       }
     }
-    catch (const GAME::Failed_Result &)
+    catch (const GAME::Failed_Result & ex)
     {
-
+      long v = ex.value ();
     }
     catch (const GAME::Exception & )
     {
@@ -219,7 +229,7 @@ integrate (const GAME::Model & component,
            const GAME::Reference & receptacle,
            const GAME::Model & method,
            const GAME::Model & behavior,
-           GAME::Model & driver)
+           GAME::Model driver)
 {
   // First, let's create the remaining structure of the test.
   GAME::Atom driver_impl, component_impl;
@@ -235,7 +245,31 @@ integrate (const GAME::Model & component,
   GAME::ComponentEx addon = project.addon_component ("MGA.AddOn.CBMLManager");
   addon.enable (false);
 
-  GAME::copy (behavior, driver);
+  GAME::Folder type_system;
+  if (GAME::create_if_not (project.root_folder (), meta::PredefinedTypes, type_system,
+      GAME::contains (boost::bind (std::equal_to <std::string> (),
+                                   constants::Quotas_PredefinedTypes,
+                                   boost::bind (&GAME::Folder::name, _1)))))
+ {
+   type_system.name (constants::Quotas_PredefinedTypes);
+ }
+
+  GAME::copy_config_t config;
+  config.location_info_ = false;
+
+  // First, copy over the type system from the behavior model.
+  std::vector <GAME::Folder> type_systems;
+  GAME::Folder root_folder = behavior.project ().root_folder ();
+  root_folder.children (meta::PredefinedTypes, type_systems);
+
+  std::vector <GAME::Folder>::iterator
+    iter = type_systems.begin (), iter_end = type_systems.end ();
+
+  for (; iter != iter_end; ++ iter)
+    GAME::copy (*iter, type_system, config);
+
+  // Now, copy the behavior to the target model.
+  GAME::copy (behavior, driver, config);
 
   // Locate the RequestAction in the behavior model.
   std::vector <GAME::Model> actions;
@@ -263,7 +297,8 @@ integrate (const GAME::Model & component,
                      boost::bind (&Quotas_Integrator_Impl::create_action_parameter,
                                   this,
                                   *iter,
-                                  _1));
+                                  _1,
+                                  boost::ref (config.mapping_)));
     }
   }
 
@@ -272,15 +307,18 @@ integrate (const GAME::Model & component,
   addon.enable (true);
 
   // Generate the default implementations and the assembly.
-  if (this->get_default_qoutas_impl (driver, driver_impl) &&
-      this->get_default_qoutas_impl (component, component_impl) &&
-      this->create_assembly (driver_impl, driver_inst, component_impl, component_inst))
-  {
-    t.commit ();
-    return 0;
-  }
+  if (!this->get_default_qoutas_impl (driver, driver_impl))
+    return -1;
 
-  return -1;
+  if (!this->get_default_qoutas_impl (component, component_impl))
+    return -1;
+
+  t.commit ();
+
+  if (!this->create_assembly (driver_impl, driver_inst, component_impl, component_inst))
+    return -1;
+
+  return 0;
 }
 
 //
@@ -314,8 +352,9 @@ get_default_qoutas_impl (const GAME::Model & c, GAME::Atom & impl)
   name += c.name () + "Impl";
 
   // Construct the path of the implementation.
-  std::string path ("Quotas_ComponentImplementations");
-  path += "/" + name + "/" + name;
+  std::string path =
+    constants::Quotas_ComponentImplementations + "/" +
+    name + "/" + name;
 
   // Use the constructed name to locate the real object.
   GAME::Object obj = c.project ().root_folder ().find_object_by_path (path);
@@ -336,6 +375,8 @@ create_assembly (const GAME::Atom & driver_impl,
                  const GAME::Atom & comp_impl,
                  GAME::Model & comp_inst)
 {
+  GAME::Transaction t (driver_impl.project ());
+
   // Make sure the target folder exists.
   GAME::Project project = driver_impl.project ();
   GAME::Folder folder;
@@ -396,9 +437,38 @@ create_assembly (const GAME::Atom & driver_impl,
   }
 
   // Make sure the instance type is set.
-  //inst_type = GAME::Reference::_create (driver_inst, meta::ComponentInstanceType);
-  //inst_type.name (driver_impl.name ());
-  //inst_type.refers_to (driver_impl);
+  inst_type = GAME::Reference::_create (driver_inst, meta::ComponentInstanceType);
+  inst_type.name (driver_impl.name ());
+  inst_type.refers_to (driver_impl);
+
+  t.flush ();
+
+  // Finally, make a connection between the two instances.
+  GAME::Reference receptacle;
+  if (!this->get_testdriver_receptacle (driver_inst, receptacle))
+    return false;
+
+  GAME::Reference facet;
+  if (!this->get_testobject_facet (comp_inst, facet))
+    return false;
+
+  GAME::Connection invoke_connection;
+  if (!GAME::find (assembly, "Invoke", invoke_connection,
+       boost::bind (std::logical_and <bool> (),
+                    boost::bind (std::equal_to <GAME::FCO> (),
+                                 receptacle,
+                                 boost::bind (&GAME::Connection::src, _1)),
+                    boost::bind (std::equal_to <GAME::FCO> (),
+                                 facet,
+                                 boost::bind (&GAME::Connection::dst, _1)))))
+  {
+    invoke_connection = GAME::Connection::_create (assembly,
+                                                   "Invoke",
+                                                   receptacle,
+                                                   facet);
+  }
+
+  t.commit ();
 
   return true;
 }
@@ -411,9 +481,9 @@ get_target_component (GAME::Project & project, GAME::Model & component)
 {
   GAME::Transaction t (project, TRANSACTION_READ_ONLY);
 
-  // First, let's filter out all the Component elements that are
-  // contained in this model. We can then determine how to proceed
-  // once we know how many Component elements there are.
+  // First, let's filter out all the Component elements that are contained
+  // in this model. We can then determine how to proceed once we know how
+  // many Component elements there are.
   GAME::Filter filter (project);
   filter.kind ("Component");
 
@@ -433,9 +503,8 @@ get_target_component (GAME::Project & project, GAME::Model & component)
       using GAME::Dialogs::Selection_List_Dialog_T;
       using GAME::Dialogs::Object_Path_Dialog_Display_Strategy;
 
-      // Display a dialog that allows the user to select a
-      // component from the list of components available in
-      // the model.
+      // Display a dialog that allows the user to select a component from
+      // the list of components available in the model.
       Object_Path_Dialog_Display_Strategy display ("/", true);
 
       typedef Selection_List_Dialog_T <GAME::FCO> Selection_Dialog;
@@ -501,7 +570,6 @@ get_receptacle_and_method (const GAME::Model & driver,
   // would like to validate. We do this by getting the receptacle's
   // type and selecting one of its methods.
   GAME::Model object = GAME::Model::_narrow (receptacle.refers_to ());
-
   std::vector <GAME::Model> methods;
 
   switch (object.children ("TwowayOperation", methods))
@@ -557,54 +625,75 @@ generate_driver_component (const GAME::Model & component,
 // set_action_parameters
 //
 bool Quotas_Integrator_Impl::
-create_action_parameter (GAME::Model action, const GAME::Reference & param)
+create_action_parameter (GAME::Model action,
+                         const GAME::Reference & param,
+                         std::map <GAME::FCO, GAME::FCO> & mapping)
 {
   // First, create a property for the parameter.
-  GAME::Model prop;
+  GAME::Reference simple_property;
   const std::string param_name (param.name ());
 
-  if (GAME::create_if_not (action, meta::Property, prop,
+  if (GAME::create_if_not (action, meta::SimpleProperty, simple_property,
       GAME::contains (boost::bind (std::equal_to <std::string> (),
                                    param_name,
                                    boost::bind (&GAME::Model::name, _1)))))
   {
-    prop.name (param_name);
+    simple_property.name (param_name);
   }
 
   // Set position of property to the same as the parameter.
   GAME::utils::Point pt;
   GAME::utils::position ("InterfaceDefinition", param, pt);
-  GAME::utils::position ("Behavior", pt, prop);
+  GAME::utils::position ("Behavior", pt, simple_property);
 
-  // Create a data value for the property. Right now, we make
-  // the assumption we are working with only simple types.
-  GAME::Reference data_value;
-  const GAME::FCO refers_to = param.refers_to ();
+  const GAME::FCO & refers_to = mapping[param.refers_to ()];
+  simple_property.refers_to (refers_to);
 
-  if (GAME::create_if_not (prop, meta::DataValue, data_value,
-      GAME::contains (boost::bind (std::equal_to <GAME::FCO> (),
-                                   refers_to,
-                                   boost::bind (&GAME::Reference::refers_to, _1)))))
+  if (!refers_to.is_nil ())
   {
-    data_value.refers_to (refers_to);
+    // Finally, set value to the correct random generator.
+    GAME::Attribute value = simple_property.attribute ("Value");
+    GAME::Meta::FCO metafco = refers_to.meta ();
+
+    if (metafco == "String" || metafco == "WideString")
+      value.string_value ("RandomStringDataGenerator.getSingleton ().getNextString ()");
+    else if (metafco == "LongInteger" || metafco == "UnsignedLongInteger")
+      value.string_value ("RandomLongIntegerDataGenerator.getSingleton ().getNextLongInteger ()");
+    else if (metafco == "ShortInteger" || metafco == "UnsignedShortInteger")
+      value.string_value ("RandomShortIntegerDataGenerator.getSingleton ().getNextShortInteger ()");
+    else if (metafco == "Boolean")
+      value.string_value ("RandomBooleanDataGenerator.getSingleton ().getNextBoolean ()");
   }
 
-  // Set the name and position of the data value.
-  data_value.name (param_name);
-  GAME::utils::position ("DataValueAspect", pt, data_value);
+  return true;
+}
 
-  // Finally, set value to the correct random generator.
-  GAME::Attribute value = data_value.attribute ("Value");
-  GAME::Meta::FCO metafco = refers_to.meta ();
+//
+// get_testobject_facet
+//
+bool Quotas_Integrator_Impl::
+get_testobject_facet (const GAME::Model & model,
+                      GAME::Reference & facet)
+{
+  std::vector <GAME::Reference> insts;
+  if (0 == model.children ("ProvidedRequestPortInstance", insts))
+    return false;
 
-  if (metafco == "String" || metafco == "WideString")
-    value.string_value ("RandomStringDataGenerator.getSingleton ().getNextString ()");
-  else if (metafco == "LongInteger" || metafco == "UnsignedLongInteger")
-    value.string_value ("RandomLongIntegerDataGenerator.getSingleton ().getNextLongInteger ()");
-  else if (metafco == "ShortInteger" || metafco == "UnsignedShortInteger")
-    value.string_value ("RandomShortIntegerDataGenerator.getSingleton ().getNextShortInteger ()");
-  else if (metafco == "Boolean")
-    value.string_value ("RandomBooleanDataGenerator.getSingleton ().getNextBoolean ()");
+  facet = insts.front ();
+  return true;
+}
 
+//
+// get_testdriver_receptacle
+//
+bool Quotas_Integrator_Impl::
+get_testdriver_receptacle (const GAME::Model & model,
+                           GAME::Reference & receptacle)
+{
+  std::vector <GAME::Reference> insts;
+  if (0 == model.children ("RequiredRequestPortInstance", insts))
+    return false;
+
+  receptacle = insts.front ();
   return true;
 }

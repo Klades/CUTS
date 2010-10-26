@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{58C8B55B-EDE6-4BAE-97D0-1A410B82E90C}" cdate="Sun Oct 24 23:03:15 2010" mdate="Sun Oct 24 23:03:15 2010" version="" metaguid="{095C7C95-E44C-4AF6-A07E-38FA407F801C}" metaversion="" metaname="CBML_WML">
+<project guid="{A0FD0009-7E61-4A27-86F9-8E8AB6D02887}" cdate="Tue Oct 26 08:34:29 2010" mdate="Tue Oct 26 08:34:29 2010" version="" metaguid="{8094E4EF-831D-4CDE-88FE-790A2B971497}" metaversion="" metaname="CBML_WML">
 	<name>PerformanceTests</name>
 	<comment></comment>
 	<author></author>
@@ -9,20 +9,20 @@
 		<name>PerformanceTests</name>
 		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x2" kind="PredefinedTypes" guid="{307443aa-d115-4609-bf43-5ef77bf1a16a}">
 			<name>PredefinedTypes</name>
-			<atom id="id-0066-00000002" kind="Boolean" guid="{2954b255-dabd-4f1b-8a89-7ea0272b0348}" relid="0x1">
+			<atom id="id-0066-00000001" kind="Boolean" guid="{2954b255-dabd-4f1b-8a89-7ea0272b0348}" relid="0x1">
 				<name>Boolean</name>
 			</atom>
-			<atom id="id-0066-00000008" kind="UnsignedLongInteger" guid="{3eee851c-7b5e-4385-93b6-6d2d9f4c7f78}" relid="0x2">
+			<atom id="id-0066-00000002" kind="UnsignedLongInteger" guid="{3eee851c-7b5e-4385-93b6-6d2d9f4c7f78}" relid="0x2">
 				<name>UnsignedLongInteger</name>
 			</atom>
 		</folder>
 		<folder id="id-006a-00000003" relid="0x2" childrelidcntr="0x1" kind="BehaviorModels" guid="{b2c29d9c-4bb4-4bfd-a3b6-342cc8cc0342}">
 			<name>BehaviorModels</name>
-			<folder id="id-006a-00000005" relid="0x1" childrelidcntr="0x2" kind="BehaviorModels" guid="{f230992f-4177-4475-accd-c447913dda98}">
+			<folder id="id-006a-00000004" relid="0x1" childrelidcntr="0x2" kind="BehaviorModels" guid="{f230992f-4177-4475-accd-c447913dda98}">
 				<name>SimpleBehaviorModels</name>
-				<model id="id-0065-00000001" kind="TopLevelBehavior" guid="{ecea41a2-5e9c-48cf-98fa-60f1b642a206}" relid="0x1" childrelidcntr="0x23">
+				<model id="id-0065-00000001" kind="TopLevelBehavior" guid="{ecea41a2-5e9c-48cf-98fa-60f1b642a206}" relid="0x1" childrelidcntr="0x27">
 					<name>TwowayLatencyBehavior</name>
-					<model id="id-0065-00000007" kind="MultiInputAction" role="MultiInputAction" guid="{d0d05a5d-f087-4ccf-ad2a-90bf893b1d28}" relid="0x6" childrelidcntr="0x0">
+					<model id="id-0065-00000002" kind="MultiInputAction" role="MultiInputAction" guid="{d0d05a5d-f087-4ccf-ad2a-90bf893b1d28}" relid="0x6" childrelidcntr="0x0">
 						<name>passivate</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -32,9 +32,15 @@
 									<value>622,286</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>559,216</value>
+								</regnode>
+							</regnode>
 						</regnode>
 					</model>
-					<model id="id-0065-00000008" kind="MultiInputAction" role="MultiInputAction" guid="{515b4042-386f-4c3e-942e-a9b9d403ade1}" relid="0x7" childrelidcntr="0x0">
+					<model id="id-0065-00000003" kind="MultiInputAction" role="MultiInputAction" guid="{515b4042-386f-4c3e-942e-a9b9d403ade1}" relid="0x7" childrelidcntr="0x0">
 						<name>activate</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -44,21 +50,15 @@
 									<value>622,202</value>
 								</regnode>
 							</regnode>
-						</regnode>
-					</model>
-					<model id="id-0065-00000009" kind="OutputAction" role="OutputAction" guid="{9877cbc1-caf8-4b36-96b3-9bd0a344d788}" relid="0xa" childrelidcntr="0x0">
-						<name>Port1</name>
-						<regnode name="PartRegs" status="undefined">
-							<value></value>
-							<regnode name="BehaviorEffects" status="undefined">
+							<regnode name="BehaviorTerminal" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>258,244</value>
+									<value>559,153</value>
 								</regnode>
 							</regnode>
 						</regnode>
 					</model>
-					<model id="id-0065-0000000a" kind="InputAction" role="InputAction" guid="{6bba8959-4fba-494c-a9ab-dc44c21582ca}" relid="0xc" childrelidcntr="0x0">
+					<model id="id-0065-00000005" kind="InputAction" role="InputAction" guid="{6bba8959-4fba-494c-a9ab-dc44c21582ca}" relid="0xc" childrelidcntr="0x0">
 						<name>InputAction</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -68,9 +68,30 @@
 									<value>146,244</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>111,202</value>
+								</regnode>
+							</regnode>
 						</regnode>
 					</model>
-					<atom id="id-0066-0000000b" kind="State" role="State" guid="{bd0172ee-2806-48f6-8319-644b2e06a3d2}" relid="0x2">
+					<model id="id-0065-0000000c" kind="RequestAction" role="RequestAction" guid="{cf5dd8dd-f516-4ba6-8b7c-c33a6eef5e19}" relid="0x24" childrelidcntr="0x0">
+						<name>Port1</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>231,175</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="MethodName">
+							<value>Method1</value>
+						</attribute>
+					</model>
+					<atom id="id-0066-00000003" kind="State" role="State" guid="{bd0172ee-2806-48f6-8319-644b2e06a3d2}" relid="0x2">
 						<name>State</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -80,9 +101,15 @@
 									<value>695,198</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>611,149</value>
+								</regnode>
+							</regnode>
 						</regnode>
 					</atom>
-					<atom id="id-0066-0000000c" kind="State" role="State" guid="{817c6ea1-a9cd-4177-adcc-4cf33cb7939e}" relid="0x3">
+					<atom id="id-0066-00000004" kind="State" role="State" guid="{817c6ea1-a9cd-4177-adcc-4cf33cb7939e}" relid="0x3">
 						<name>State</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -92,21 +119,15 @@
 									<value>450,240</value>
 								</regnode>
 							</regnode>
-						</regnode>
-					</atom>
-					<atom id="id-0066-0000000d" kind="Terminal" role="Terminal" guid="{fc547ff6-95c7-4ab2-98e6-291325b274dd}" relid="0x4">
-						<name>Terminal</name>
-						<regnode name="PartRegs" status="undefined">
-							<value></value>
-							<regnode name="BehaviorEffects" status="undefined">
+							<regnode name="BehaviorTerminal" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>385,245</value>
+									<value>394,198</value>
 								</regnode>
 							</regnode>
 						</regnode>
 					</atom>
-					<atom id="id-0066-0000000f" kind="Environment" role="Environment" guid="{9ac27f22-3c61-443b-9125-52349a93c318}" relid="0x9">
+					<atom id="id-0066-00000006" kind="Environment" role="Environment" guid="{9ac27f22-3c61-443b-9125-52349a93c318}" relid="0x9">
 						<name>Environment</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -116,9 +137,15 @@
 									<value>535,228</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>479,172</value>
+								</regnode>
+							</regnode>
 						</regnode>
 					</atom>
-					<atom id="id-0066-00000010" kind="State" role="State" guid="{8b54c33d-c82a-4fea-8e2e-0f56c52d7b7d}" relid="0xb">
+					<atom id="id-0066-00000007" kind="State" role="State" guid="{8b54c33d-c82a-4fea-8e2e-0f56c52d7b7d}" relid="0xb">
 						<name>State</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -128,21 +155,15 @@
 									<value>695,282</value>
 								</regnode>
 							</regnode>
-						</regnode>
-					</atom>
-					<atom id="id-0066-00000012" kind="State" role="State" guid="{4e52c9f3-9c74-4501-8f07-0f22c98a1ab2}" relid="0xf">
-						<name>State</name>
-						<regnode name="PartRegs" status="undefined">
-							<value></value>
-							<regnode name="BehaviorEffects" status="undefined">
+							<regnode name="BehaviorTerminal" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>317,240</value>
+									<value>611,212</value>
 								</regnode>
 							</regnode>
 						</regnode>
 					</atom>
-					<atom id="id-0066-00000013" kind="PeriodicEvent" role="PeriodicEvent" guid="{3a09c84b-9cec-4bec-9508-d512b5a4f116}" relid="0x1d">
+					<atom id="id-0066-00000009" kind="PeriodicEvent" role="PeriodicEvent" guid="{3a09c84b-9cec-4bec-9508-d512b5a4f116}" relid="0x1d">
 						<name>PeriodicEvent</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -150,6 +171,12 @@
 								<value></value>
 								<regnode name="Position" isopaque="yes">
 									<value>73,226</value>
+								</regnode>
+							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>52,184</value>
 								</regnode>
 							</regnode>
 						</regnode>
@@ -160,7 +187,7 @@
 							<value>10</value>
 						</attribute>
 					</atom>
-					<atom id="id-0066-00000014" kind="State" role="State" guid="{5a907e5d-f9b3-45dc-b889-efae3f0e4e1b}" relid="0x1f">
+					<atom id="id-0066-0000000a" kind="State" role="State" guid="{5a907e5d-f9b3-45dc-b889-efae3f0e4e1b}" relid="0x1f">
 						<name>State</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -170,9 +197,15 @@
 									<value>198,240</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>156,198</value>
+								</regnode>
+							</regnode>
 						</regnode>
 					</atom>
-					<reference id="id-0067-00000007" kind="Variable" role="Variable" guid="{5dc65fdc-19b5-4156-b58b-dc836a1c2848}" relid="0xd" referred="id-0066-00000008">
+					<reference id="id-0067-00000001" kind="Variable" role="Variable" guid="{5dc65fdc-19b5-4156-b58b-dc836a1c2848}" relid="0xd" referred="id-0066-00000002">
 						<name>startTime</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -182,9 +215,18 @@
 									<value>391,76</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>671,62</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="decorator" isopaque="yes">
+							<value></value>
 						</regnode>
 					</reference>
-					<reference id="id-0067-00000008" kind="Variable" role="Variable" guid="{745700c8-3bcf-472d-9d27-b32231a32fd1}" relid="0x22" referred="id-0066-00000008">
+					<reference id="id-0067-00000002" kind="Variable" role="Variable" guid="{745700c8-3bcf-472d-9d27-b32231a32fd1}" relid="0x22" referred="id-0066-00000002">
 						<name>totalTime</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -194,9 +236,18 @@
 									<value>272,76</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>601,62</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="decorator" isopaque="yes">
+							<value></value>
 						</regnode>
 					</reference>
-					<reference id="id-0067-00000009" kind="Variable" role="Variable" guid="{0b7e7128-0ba4-4c4b-a4ab-a7cc2026adfc}" relid="0x23" referred="id-0066-00000008">
+					<reference id="id-0067-00000003" kind="Variable" role="Variable" guid="{0b7e7128-0ba4-4c4b-a4ab-a7cc2026adfc}" relid="0x23" referred="id-0066-00000002">
 						<name>eventCount</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -206,17 +257,26 @@
 									<value>167,76</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>517,62</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="decorator" isopaque="yes">
+							<value></value>
 						</regnode>
 					</reference>
-					<connection id="id-0068-0000000f" kind="Finish" role="Finish" guid="{9a0b5db4-e920-4bcd-b809-063f6fb0e874}" relid="0x10">
+					<connection id="id-0068-00000001" kind="Finish" role="Finish" guid="{9a0b5db4-e920-4bcd-b809-063f6fb0e874}" relid="0x10">
 						<name>Finish</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Nn</value>
 						</regnode>
-						<connpoint role="dst" target="id-0065-00000007"/>
-						<connpoint role="src" target="id-0066-00000010"/>
+						<connpoint role="dst" target="id-0065-00000002"/>
+						<connpoint role="src" target="id-0066-00000007"/>
 					</connection>
-					<connection id="id-0068-00000010" kind="InputEffect" role="InputEffect" guid="{aa719f16-63a7-495d-8fd5-40ae3486e331}" relid="0x11">
+					<connection id="id-0068-00000002" kind="InputEffect" role="InputEffect" guid="{aa719f16-63a7-495d-8fd5-40ae3486e331}" relid="0x11">
 						<name>InputEffect</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Ew</value>
@@ -226,18 +286,18 @@
 this.totalTime = 0;
 </value>
 						</attribute>
-						<connpoint role="src" target="id-0065-00000008"/>
-						<connpoint role="dst" target="id-0066-0000000b"/>
+						<connpoint role="src" target="id-0065-00000003"/>
+						<connpoint role="dst" target="id-0066-00000003"/>
 					</connection>
-					<connection id="id-0068-00000011" kind="Finish" role="Finish" guid="{d9edd041-3edf-45ee-b09f-1d163c1d3ea5}" relid="0x12">
+					<connection id="id-0068-00000003" kind="Finish" role="Finish" guid="{d9edd041-3edf-45ee-b09f-1d163c1d3ea5}" relid="0x12">
 						<name>Finish</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Nn</value>
 						</regnode>
-						<connpoint role="dst" target="id-0065-00000008"/>
-						<connpoint role="src" target="id-0066-0000000b"/>
+						<connpoint role="dst" target="id-0065-00000003"/>
+						<connpoint role="src" target="id-0066-00000003"/>
 					</connection>
-					<connection id="id-0068-00000012" kind="InputEffect" role="InputEffect" guid="{8a8eb62b-40ae-4b6e-9038-f29df4a70109}" relid="0x13">
+					<connection id="id-0068-00000004" kind="InputEffect" role="InputEffect" guid="{8a8eb62b-40ae-4b6e-9038-f29df4a70109}" relid="0x13">
 						<name>InputEffect</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Ew</value>
@@ -246,73 +306,42 @@ this.totalTime = 0;
 							<value>System.err.println (&quot;TPUT = &quot; + (totalTime / eventCount));
 </value>
 						</attribute>
-						<connpoint role="src" target="id-0065-00000007"/>
-						<connpoint role="dst" target="id-0066-00000010"/>
+						<connpoint role="src" target="id-0065-00000002"/>
+						<connpoint role="dst" target="id-0066-00000007"/>
 					</connection>
-					<connection id="id-0068-00000013" kind="TerminalTransition" role="TerminalTransition" guid="{68fe113e-8aae-4207-96f2-b5790fa57039}" relid="0x14">
-						<name>TerminalTransition</name>
-						<regnode name="autorouterPref" isopaque="yes">
-							<value>Ew</value>
-						</regnode>
-						<connpoint role="dst" target="id-0066-0000000d"/>
-						<connpoint role="src" target="id-0066-00000012"/>
-					</connection>
-					<connection id="id-0068-00000014" kind="TerminalEffect" role="TerminalEffect" guid="{11fc1140-d2b8-4a3c-9ddd-e6a8860077f8}" relid="0x15">
-						<name>TerminalEffect</name>
-						<regnode name="autorouterPref" isopaque="yes">
-							<value>Ew</value>
-						</regnode>
-						<attribute kind="Postcondition" status="meta">
-							<value></value>
-						</attribute>
-						<connpoint role="dst" target="id-0066-0000000c"/>
-						<connpoint role="src" target="id-0066-0000000d"/>
-					</connection>
-					<connection id="id-0068-00000016" kind="MultiInput" role="MultiInput" guid="{41ff24fc-e1b9-456a-ad4e-c2f2089a5373}" relid="0x17">
+					<connection id="id-0068-00000007" kind="MultiInput" role="MultiInput" guid="{41ff24fc-e1b9-456a-ad4e-c2f2089a5373}" relid="0x17">
 						<name>MultiInput</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Ew</value>
 						</regnode>
-						<connpoint role="dst" target="id-0065-00000008"/>
-						<connpoint role="src" target="id-0066-0000000f"/>
+						<connpoint role="dst" target="id-0065-00000003"/>
+						<connpoint role="src" target="id-0066-00000006"/>
 					</connection>
-					<connection id="id-0068-00000017" kind="Finish" role="Finish" guid="{39344002-88fa-4c48-a8b1-18745b82090f}" relid="0x18">
+					<connection id="id-0068-00000008" kind="Finish" role="Finish" guid="{39344002-88fa-4c48-a8b1-18745b82090f}" relid="0x18">
 						<name>Finish</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Nn</value>
 						</regnode>
-						<connpoint role="dst" target="id-0065-0000000a"/>
-						<connpoint role="src" target="id-0066-0000000c"/>
+						<connpoint role="dst" target="id-0065-00000005"/>
+						<connpoint role="src" target="id-0066-00000004"/>
 					</connection>
-					<connection id="id-0068-00000019" kind="Effect" role="Effect" guid="{8f3c3653-fe01-4da1-a8c1-0df8695ee9f0}" relid="0x1a">
-						<name>Effect</name>
-						<regnode name="autorouterPref" isopaque="yes">
-							<value>Ew</value>
-						</regnode>
-						<attribute kind="Postcondition">
-							<value>this.totalTime += System.getCurrentMillis () - this.startTime;
-this.eventCount = this.eventCount + 1;</value>
-						</attribute>
-						<connpoint role="src" target="id-0065-00000009"/>
-						<connpoint role="dst" target="id-0066-00000012"/>
-					</connection>
-					<connection id="id-0068-0000001a" kind="MultiInput" role="MultiInput" guid="{1061ed4b-ffe5-48a8-8d87-a4c10d1e2caf}" relid="0x1b">
+					<connection id="id-0068-0000000a" kind="MultiInput" role="MultiInput" guid="{1061ed4b-ffe5-48a8-8d87-a4c10d1e2caf}" relid="0x1b">
 						<name>MultiInput</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Ew</value>
 						</regnode>
-						<connpoint role="dst" target="id-0065-00000007"/>
-						<connpoint role="src" target="id-0066-0000000f"/>
+						<connpoint role="dst" target="id-0065-00000002"/>
+						<connpoint role="src" target="id-0066-00000006"/>
 					</connection>
-					<connection id="id-0068-0000001c" kind="Input" role="Input" guid="{f405f077-bb25-4142-a0d1-9514801f59a7}" relid="0x1e">
+					<connection id="id-0068-0000000b" kind="Input" role="Input" guid="{f405f077-bb25-4142-a0d1-9514801f59a7}" relid="0x1e">
 						<name>Input</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Ew</value>
 						</regnode>
-						<connpoint role="dst" target="id-0065-0000000a"/>
-						<connpoint role="src" target="id-0066-00000013"/>
+						<connpoint role="dst" target="id-0065-00000005"/>
+						<connpoint role="src" target="id-0066-00000009"/>
 					</connection>
-					<connection id="id-0068-0000001d" kind="InputEffect" role="InputEffect" guid="{b84b1a16-99ff-44c0-ac41-ddff5776e921}" relid="0x20">
+					<connection id="id-0068-0000000c" kind="InputEffect" role="InputEffect" guid="{b84b1a16-99ff-44c0-ac41-ddff5776e921}" relid="0x20">
 						<name>InputEffect</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Ew</value>
@@ -324,24 +353,32 @@ this.eventCount = this.eventCount + 1;</value>
 							<value>this.startTime = System.getCurrentMillis ();
 </value>
 						</attribute>
-						<connpoint role="src" target="id-0065-0000000a"/>
-						<connpoint role="dst" target="id-0066-00000014"/>
+						<connpoint role="src" target="id-0065-00000005"/>
+						<connpoint role="dst" target="id-0066-0000000a"/>
 					</connection>
-					<connection id="id-0068-0000001e" kind="Transition" role="Transition" guid="{1ec5b80c-777e-4a5f-8458-d7b254d54aee}" relid="0x21">
+					<connection id="id-0068-0000001d" kind="Transition" role="Transition" guid="{730f1c45-39f0-4b37-99b8-725cd0f02de2}" relid="0x25">
 						<name>Transition</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Ew</value>
 						</regnode>
-						<regnode name="customConnectionData" isopaque="yes">
-							<value>0,0,0,1,1,1,0,251,0,0</value>
+						<connpoint role="dst" target="id-0065-0000000c"/>
+						<connpoint role="src" target="id-0066-0000000a"/>
+					</connection>
+					<connection id="id-0068-0000001f" kind="Effect" role="Effect" guid="{3db81b99-2cd0-4f83-88dc-9e9f021ef2d2}" relid="0x27">
+						<name>Effect</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
 						</regnode>
-						<connpoint role="dst" target="id-0065-00000009"/>
-						<connpoint role="src" target="id-0066-00000014"/>
+						<attribute kind="Postcondition" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0065-0000000c"/>
+						<connpoint role="dst" target="id-0066-00000004"/>
 					</connection>
 				</model>
-				<model id="id-0065-00000002" kind="TopLevelBehavior" guid="{e787895f-d140-4af4-91a9-6da7d53a00a4}" relid="0x2" childrelidcntr="0x1e">
+				<model id="id-0065-00000006" kind="TopLevelBehavior" guid="{e787895f-d140-4af4-91a9-6da7d53a00a4}" relid="0x2" childrelidcntr="0x21">
 					<name>ThroughputBehavior</name>
-					<model id="id-0065-00000003" kind="InputAction" role="InputAction" guid="{0193feb3-392d-4d94-ba6b-6bbd3cadec4e}" relid="0x2" childrelidcntr="0x0">
+					<model id="id-0065-00000007" kind="InputAction" role="InputAction" guid="{0193feb3-392d-4d94-ba6b-6bbd3cadec4e}" relid="0x2" childrelidcntr="0x0">
 						<name>InputAction</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -351,21 +388,15 @@ this.eventCount = this.eventCount + 1;</value>
 									<value>146,244</value>
 								</regnode>
 							</regnode>
-						</regnode>
-					</model>
-					<model id="id-0065-00000004" kind="OutputAction" role="OutputAction" guid="{01ac8b08-27ce-415e-a502-8ba1a6ca6162}" relid="0x7" childrelidcntr="0x0">
-						<name>Port1</name>
-						<regnode name="PartRegs" status="undefined">
-							<value></value>
-							<regnode name="BehaviorEffects" status="undefined">
+							<regnode name="BehaviorTerminal" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>258,244</value>
+									<value>83,286</value>
 								</regnode>
 							</regnode>
 						</regnode>
 					</model>
-					<model id="id-0065-00000005" kind="MultiInputAction" role="MultiInputAction" guid="{cd697b09-6e2a-4a7b-b650-d3799861a821}" relid="0xd" childrelidcntr="0x0">
+					<model id="id-0065-00000009" kind="MultiInputAction" role="MultiInputAction" guid="{cd697b09-6e2a-4a7b-b650-d3799861a821}" relid="0xd" childrelidcntr="0x0">
 						<name>activate</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -375,9 +406,15 @@ this.eventCount = this.eventCount + 1;</value>
 									<value>622,202</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>531,230</value>
+								</regnode>
+							</regnode>
 						</regnode>
 					</model>
-					<model id="id-0065-00000006" kind="MultiInputAction" role="MultiInputAction" guid="{3ccb6c7f-bff9-42ff-8494-eda438822913}" relid="0xe" childrelidcntr="0x0">
+					<model id="id-0065-0000000a" kind="MultiInputAction" role="MultiInputAction" guid="{3ccb6c7f-bff9-42ff-8494-eda438822913}" relid="0xe" childrelidcntr="0x0">
 						<name>passivate</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -387,9 +424,30 @@ this.eventCount = this.eventCount + 1;</value>
 									<value>622,286</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>531,314</value>
+								</regnode>
+							</regnode>
 						</regnode>
 					</model>
-					<atom id="id-0066-00000001" kind="ApplicationTask" role="ApplicationTask" guid="{ac131c47-54db-4018-b13a-07e2f1c3579c}" relid="0x1">
+					<model id="id-0065-0000000b" kind="RequestAction" role="RequestAction" guid="{fadabf93-d69e-4a22-b499-6d8c49d79f67}" relid="0x1f" childrelidcntr="0x0">
+						<name>Port1</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>175,259</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="MethodName">
+							<value>Method1</value>
+						</attribute>
+					</model>
+					<atom id="id-0066-0000000b" kind="ApplicationTask" role="ApplicationTask" guid="{ac131c47-54db-4018-b13a-07e2f1c3579c}" relid="0x1">
 						<name>ApplicationTask</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -399,9 +457,15 @@ this.eventCount = this.eventCount + 1;</value>
 									<value>86,229</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>16,271</value>
+								</regnode>
+							</regnode>
 						</regnode>
 					</atom>
-					<atom id="id-0066-00000003" kind="WhileState" role="WhileState" guid="{28a853e8-e1fa-4a2d-9338-8c9c7859f310}" relid="0x5">
+					<atom id="id-0066-0000000c" kind="WhileState" role="WhileState" guid="{28a853e8-e1fa-4a2d-9338-8c9c7859f310}" relid="0x5">
 						<name>WhileState</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -411,12 +475,18 @@ this.eventCount = this.eventCount + 1;</value>
 									<value>198,240</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>128,282</value>
+								</regnode>
+							</regnode>
 						</regnode>
 						<attribute kind="LoopingCondition">
 							<value>this.isActive</value>
 						</attribute>
 					</atom>
-					<atom id="id-0066-00000004" kind="State" role="State" guid="{1be02142-2f02-4d91-bf9f-941b432a047f}" relid="0x9">
+					<atom id="id-0066-0000000d" kind="State" role="State" guid="{1be02142-2f02-4d91-bf9f-941b432a047f}" relid="0x9">
 						<name>State</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -426,9 +496,15 @@ this.eventCount = this.eventCount + 1;</value>
 									<value>317,240</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>310,282</value>
+								</regnode>
+							</regnode>
 						</regnode>
 					</atom>
-					<atom id="id-0066-00000005" kind="Environment" role="Environment" guid="{8a7d800c-5281-4422-a843-32980cbff899}" relid="0xc">
+					<atom id="id-0066-0000000e" kind="Environment" role="Environment" guid="{8a7d800c-5281-4422-a843-32980cbff899}" relid="0xc">
 						<name>Environment</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -438,9 +514,15 @@ this.eventCount = this.eventCount + 1;</value>
 									<value>535,228</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>458,256</value>
+								</regnode>
+							</regnode>
 						</regnode>
 					</atom>
-					<atom id="id-0066-00000006" kind="State" role="State" guid="{49abefb0-9eba-4bbd-837b-6565c50659bf}" relid="0x11">
+					<atom id="id-0066-0000000f" kind="State" role="State" guid="{49abefb0-9eba-4bbd-837b-6565c50659bf}" relid="0x11">
 						<name>State</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -450,9 +532,15 @@ this.eventCount = this.eventCount + 1;</value>
 									<value>695,198</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>590,226</value>
+								</regnode>
+							</regnode>
 						</regnode>
 					</atom>
-					<atom id="id-0066-00000007" kind="State" role="State" guid="{113db630-87b2-4042-81fb-f712700eb84b}" relid="0x12">
+					<atom id="id-0066-00000010" kind="State" role="State" guid="{113db630-87b2-4042-81fb-f712700eb84b}" relid="0x12">
 						<name>State</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -462,9 +550,15 @@ this.eventCount = this.eventCount + 1;</value>
 									<value>695,282</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>590,310</value>
+								</regnode>
+							</regnode>
 						</regnode>
 					</atom>
-					<atom id="id-0066-00000009" kind="Terminal" role="Terminal" guid="{12d9404f-7bbe-4e49-a4ca-9fafefcef99f}" relid="0x1a">
+					<atom id="id-0066-00000011" kind="Terminal" role="Terminal" guid="{12d9404f-7bbe-4e49-a4ca-9fafefcef99f}" relid="0x1a">
 						<name>Terminal</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -474,9 +568,15 @@ this.eventCount = this.eventCount + 1;</value>
 									<value>385,245</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>350,287</value>
+								</regnode>
+							</regnode>
 						</regnode>
 					</atom>
-					<atom id="id-0066-0000000a" kind="State" role="State" guid="{81ec743e-0aee-4b84-8cc2-f361aa02ec73}" relid="0x1c">
+					<atom id="id-0066-00000012" kind="State" role="State" guid="{81ec743e-0aee-4b84-8cc2-f361aa02ec73}" relid="0x1c">
 						<name>State</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -486,9 +586,15 @@ this.eventCount = this.eventCount + 1;</value>
 									<value>450,240</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>394,282</value>
+								</regnode>
+							</regnode>
 						</regnode>
 					</atom>
-					<reference id="id-0067-00000001" kind="Variable" role="Variable" guid="{1d86921f-848b-4bb5-913b-2d4e2ff586c2}" relid="0x4" referred="id-0066-00000002">
+					<reference id="id-0067-00000004" kind="Variable" role="Variable" guid="{1d86921f-848b-4bb5-913b-2d4e2ff586c2}" relid="0x4" referred="id-0066-00000001">
 						<name>isActive</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -498,9 +604,18 @@ this.eventCount = this.eventCount + 1;</value>
 									<value>167,76</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>251,55</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="decorator" isopaque="yes">
+							<value></value>
 						</regnode>
 					</reference>
-					<reference id="id-0067-00000002" kind="Variable" role="Variable" guid="{ff67f3bd-140d-45dc-bbd7-a7b0238b51c6}" relid="0x17" referred="id-0066-00000008">
+					<reference id="id-0067-00000005" kind="Variable" role="Variable" guid="{ff67f3bd-140d-45dc-bbd7-a7b0238b51c6}" relid="0x17" referred="id-0066-00000002">
 						<name>eventCount</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -510,9 +625,18 @@ this.eventCount = this.eventCount + 1;</value>
 									<value>279,76</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>335,55</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="decorator" isopaque="yes">
+							<value></value>
 						</regnode>
 					</reference>
-					<reference id="id-0067-00000003" kind="Variable" role="Variable" guid="{36487af8-de20-47c8-bb5d-5485c8cd4c50}" relid="0x18" referred="id-0066-00000008">
+					<reference id="id-0067-00000006" kind="Variable" role="Variable" guid="{36487af8-de20-47c8-bb5d-5485c8cd4c50}" relid="0x18" referred="id-0066-00000002">
 						<name>startTime</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -522,17 +646,26 @@ this.eventCount = this.eventCount + 1;</value>
 									<value>391,76</value>
 								</regnode>
 							</regnode>
+							<regnode name="BehaviorTerminal" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>419,55</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="decorator" isopaque="yes">
+							<value></value>
 						</regnode>
 					</reference>
-					<connection id="id-0068-00000001" kind="Input" role="Input" guid="{8721e38b-bcc9-4a79-be3d-807f1a5f4814}" relid="0x3">
+					<connection id="id-0068-0000000e" kind="Input" role="Input" guid="{8721e38b-bcc9-4a79-be3d-807f1a5f4814}" relid="0x3">
 						<name>Input</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Ew</value>
 						</regnode>
-						<connpoint role="dst" target="id-0065-00000003"/>
-						<connpoint role="src" target="id-0066-00000001"/>
+						<connpoint role="dst" target="id-0065-00000007"/>
+						<connpoint role="src" target="id-0066-0000000b"/>
 					</connection>
-					<connection id="id-0068-00000002" kind="InputEffect" role="InputEffect" guid="{82cf6aff-e616-44af-ab47-dc58b7b06844}" relid="0x6">
+					<connection id="id-0068-0000000f" kind="InputEffect" role="InputEffect" guid="{82cf6aff-e616-44af-ab47-dc58b7b06844}" relid="0x6">
 						<name>InputEffect</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Ew</value>
@@ -540,46 +673,26 @@ this.eventCount = this.eventCount + 1;</value>
 						<attribute kind="Postcondition" status="meta">
 							<value></value>
 						</attribute>
-						<connpoint role="src" target="id-0065-00000003"/>
-						<connpoint role="dst" target="id-0066-00000003"/>
+						<connpoint role="src" target="id-0065-00000007"/>
+						<connpoint role="dst" target="id-0066-0000000c"/>
 					</connection>
-					<connection id="id-0068-00000003" kind="LoopTransition" role="LoopTransition" guid="{9b4b6d27-4ca1-4015-b314-ed437d44dacb}" relid="0x8">
-						<name>LoopTransition</name>
-						<regnode name="autorouterPref" isopaque="yes">
-							<value>Ew</value>
-						</regnode>
-						<connpoint role="dst" target="id-0065-00000004"/>
-						<connpoint role="src" target="id-0066-00000003"/>
-					</connection>
-					<connection id="id-0068-00000004" kind="Effect" role="Effect" guid="{5c828d3f-4b30-4cb4-ac6d-00b4b1163849}" relid="0xa">
-						<name>Effect</name>
-						<regnode name="autorouterPref" isopaque="yes">
-							<value>Ew</value>
-						</regnode>
-						<attribute kind="Postcondition">
-							<value>this.eventCount = this.eventCount + 1;
-</value>
-						</attribute>
-						<connpoint role="src" target="id-0065-00000004"/>
-						<connpoint role="dst" target="id-0066-00000004"/>
-					</connection>
-					<connection id="id-0068-00000006" kind="MultiInput" role="MultiInput" guid="{8ba037b8-9b22-4062-b8c0-8eb9f845f641}" relid="0xf">
+					<connection id="id-0068-00000012" kind="MultiInput" role="MultiInput" guid="{8ba037b8-9b22-4062-b8c0-8eb9f845f641}" relid="0xf">
 						<name>MultiInput</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Ew</value>
 						</regnode>
-						<connpoint role="dst" target="id-0065-00000005"/>
-						<connpoint role="src" target="id-0066-00000005"/>
+						<connpoint role="dst" target="id-0065-00000009"/>
+						<connpoint role="src" target="id-0066-0000000e"/>
 					</connection>
-					<connection id="id-0068-00000007" kind="MultiInput" role="MultiInput" guid="{bef6db38-ab16-40b6-a819-279165759d3a}" relid="0x10">
+					<connection id="id-0068-00000013" kind="MultiInput" role="MultiInput" guid="{bef6db38-ab16-40b6-a819-279165759d3a}" relid="0x10">
 						<name>MultiInput</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Ew</value>
 						</regnode>
-						<connpoint role="dst" target="id-0065-00000006"/>
-						<connpoint role="src" target="id-0066-00000005"/>
+						<connpoint role="dst" target="id-0065-0000000a"/>
+						<connpoint role="src" target="id-0066-0000000e"/>
 					</connection>
-					<connection id="id-0068-00000008" kind="InputEffect" role="InputEffect" guid="{3386eed3-9023-407e-9236-e8ca900cbcaf}" relid="0x13">
+					<connection id="id-0068-00000014" kind="InputEffect" role="InputEffect" guid="{3386eed3-9023-407e-9236-e8ca900cbcaf}" relid="0x13">
 						<name>InputEffect</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Ew</value>
@@ -589,10 +702,10 @@ this.eventCount = this.eventCount + 1;</value>
 System.err.println (&quot;TPUT = &quot; + (eventCount / (System.currentTimeMillis () - startTime)));
 </value>
 						</attribute>
-						<connpoint role="src" target="id-0065-00000006"/>
-						<connpoint role="dst" target="id-0066-00000007"/>
+						<connpoint role="src" target="id-0065-0000000a"/>
+						<connpoint role="dst" target="id-0066-00000010"/>
 					</connection>
-					<connection id="id-0068-00000009" kind="InputEffect" role="InputEffect" guid="{d5267889-202a-4010-935e-2cf55184e8df}" relid="0x14">
+					<connection id="id-0068-00000015" kind="InputEffect" role="InputEffect" guid="{d5267889-202a-4010-935e-2cf55184e8df}" relid="0x14">
 						<name>InputEffect</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Ew</value>
@@ -603,34 +716,34 @@ this.eventCount = 0;
 this.startTime = System.currentTimeMillis ();
 </value>
 						</attribute>
-						<connpoint role="src" target="id-0065-00000005"/>
-						<connpoint role="dst" target="id-0066-00000006"/>
+						<connpoint role="src" target="id-0065-00000009"/>
+						<connpoint role="dst" target="id-0066-0000000f"/>
 					</connection>
-					<connection id="id-0068-0000000a" kind="Finish" role="Finish" guid="{a1495bbe-68a1-4298-9499-c4d4aee868ce}" relid="0x15">
+					<connection id="id-0068-00000016" kind="Finish" role="Finish" guid="{a1495bbe-68a1-4298-9499-c4d4aee868ce}" relid="0x15">
 						<name>Finish</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Nn</value>
 						</regnode>
-						<connpoint role="dst" target="id-0065-00000005"/>
-						<connpoint role="src" target="id-0066-00000006"/>
+						<connpoint role="dst" target="id-0065-00000009"/>
+						<connpoint role="src" target="id-0066-0000000f"/>
 					</connection>
-					<connection id="id-0068-0000000b" kind="Finish" role="Finish" guid="{eefc68a6-6329-4bc9-bb89-6cfa88c5fe29}" relid="0x16">
+					<connection id="id-0068-00000017" kind="Finish" role="Finish" guid="{eefc68a6-6329-4bc9-bb89-6cfa88c5fe29}" relid="0x16">
 						<name>Finish</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Nn</value>
 						</regnode>
-						<connpoint role="dst" target="id-0065-00000006"/>
-						<connpoint role="src" target="id-0066-00000007"/>
+						<connpoint role="dst" target="id-0065-0000000a"/>
+						<connpoint role="src" target="id-0066-00000010"/>
 					</connection>
-					<connection id="id-0068-0000000c" kind="TerminalTransition" role="TerminalTransition" guid="{749f8865-0b80-4345-bbc9-57e1dc32c5e0}" relid="0x1b">
+					<connection id="id-0068-00000018" kind="TerminalTransition" role="TerminalTransition" guid="{749f8865-0b80-4345-bbc9-57e1dc32c5e0}" relid="0x1b">
 						<name>TerminalTransition</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Ew</value>
 						</regnode>
-						<connpoint role="src" target="id-0066-00000004"/>
-						<connpoint role="dst" target="id-0066-00000009"/>
+						<connpoint role="src" target="id-0066-0000000d"/>
+						<connpoint role="dst" target="id-0066-00000011"/>
 					</connection>
-					<connection id="id-0068-0000000d" kind="TerminalEffect" role="TerminalEffect" guid="{73888b0f-e012-45ed-9595-d73216a56574}" relid="0x1d">
+					<connection id="id-0068-00000019" kind="TerminalEffect" role="TerminalEffect" guid="{73888b0f-e012-45ed-9595-d73216a56574}" relid="0x1d">
 						<name>TerminalEffect</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Ew</value>
@@ -638,16 +751,35 @@ this.startTime = System.currentTimeMillis ();
 						<attribute kind="Postcondition" status="meta">
 							<value></value>
 						</attribute>
-						<connpoint role="src" target="id-0066-00000009"/>
-						<connpoint role="dst" target="id-0066-0000000a"/>
+						<connpoint role="src" target="id-0066-00000011"/>
+						<connpoint role="dst" target="id-0066-00000012"/>
 					</connection>
-					<connection id="id-0068-0000000e" kind="Finish" role="Finish" guid="{e14b0c3f-112f-4b4b-b18f-cc839d7c4144}" relid="0x1e">
+					<connection id="id-0068-0000001a" kind="Finish" role="Finish" guid="{e14b0c3f-112f-4b4b-b18f-cc839d7c4144}" relid="0x1e">
 						<name>Finish</name>
 						<regnode name="autorouterPref" isopaque="yes">
 							<value>Nn</value>
 						</regnode>
-						<connpoint role="dst" target="id-0065-00000003"/>
-						<connpoint role="src" target="id-0066-0000000a"/>
+						<connpoint role="dst" target="id-0065-00000007"/>
+						<connpoint role="src" target="id-0066-00000012"/>
+					</connection>
+					<connection id="id-0068-0000001b" kind="LoopTransition" role="LoopTransition" guid="{a2b069d8-5734-4969-bb73-2e5bcc4b064a}" relid="0x20">
+						<name>LoopTransition</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-0000000b"/>
+						<connpoint role="src" target="id-0066-0000000c"/>
+					</connection>
+					<connection id="id-0068-0000001c" kind="Effect" role="Effect" guid="{d247ef5a-b05d-46e7-829f-7164fe3e6c0f}" relid="0x21">
+						<name>Effect</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<attribute kind="Postcondition" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0065-0000000b"/>
+						<connpoint role="dst" target="id-0066-0000000d"/>
 					</connection>
 				</model>
 			</folder>

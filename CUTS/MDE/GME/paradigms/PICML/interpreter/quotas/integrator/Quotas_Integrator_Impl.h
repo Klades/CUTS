@@ -15,6 +15,7 @@
 
 #include "game/be/Interpreter_Impl_Base.h"
 #include "addons/PICMLManager/Configurator.h"
+#include <map>
 
 /**
  * @class Quotas_Integrator_Impl
@@ -56,6 +57,14 @@ private:
                                   GAME::Reference & receptacle,
                                   GAME::Model & method);
 
+  bool get_driver_receptacle (const GAME::Model & model,
+                              GAME::Reference & receptacle);
+
+  bool get_testobject_facet (const GAME::Model & model,
+                             GAME::Reference & receptacle);
+
+  bool get_testdriver_receptacle (const GAME::Model & model,
+                                  GAME::Reference & receptacle);
 
   bool get_target_component (GAME::Project & p, GAME::Model & c);
 
@@ -63,9 +72,11 @@ private:
                  const GAME::Reference & receptacle,
                  const GAME::Model & method,
                  const GAME::Model & behavior,
-                 GAME::Model & driver);
+                 GAME::Model driver);
 
-  bool create_action_parameter (GAME::Model action, const GAME::Reference & param);
+  bool create_action_parameter (GAME::Model action,
+                                const GAME::Reference & param,
+                                std::map <GAME::FCO, GAME::FCO> & mapping);
 
   CComPtr <IConfigurator> configurator_;
 };

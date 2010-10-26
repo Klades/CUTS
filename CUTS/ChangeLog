@@ -1,3 +1,21 @@
+Tue Oct 26 22:42:45 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/CBML-WML/models/PerformanceTests.xme:
+
+          Updated to latest version of metamodel.
+
+        * MDE/GME/paradigms/CBML-WML/paradigm/CBML-WML.xme:
+        * MDE/GME/paradigms/CBML-WML/paradigm/CBML_WML.mta:
+        * MDE/GME/paradigms/CBML-WML/paradigm/CBML_WML.xmp:
+
+          Removed the decorator on the variables.
+
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Integrator_Impl.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Integrator_Impl.cpp:
+
+          Added support for creating connection between test object
+          and test driver now that add-on bug has been fixed.
+
 Mon Oct 25 20:10:48 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/CBML-WML/paradigm/CBML-WML.xme:

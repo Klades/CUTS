@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE paradigm SYSTEM "edf.dtd">
 
-<paradigm name="CBML_WML" guid="{095C7C95-E44C-4AF6-A07E-38FA407F801C}" cdate="Sun Oct 24 21:41:52 2010" mdate="Sun Oct 24 21:41:52 2010" >
+<paradigm name="CBML_WML" guid="{8094E4EF-831D-4CDE-88FE-790A2B971497}" cdate="Tue Oct 26 08:42:47 2010" mdate="Tue Oct 26 08:42:47 2010" >
 
 	<comment></comment>
 
@@ -472,7 +472,6 @@
 				<regnode name = "rName" value ="ref"></regnode>
 				<regnode name = "rrName" value ="referedbyVariable"></regnode>
 			<regnode name = "icon" value ="member.bmp"></regnode>
-			<regnode name = "decorator" value ="MGA.Decorator.ShowReference"></regnode>
 			<pointerspec name = "ref">
 				<pointeritem desc = "Boolean"></pointeritem>
 				<pointeritem desc = "Byte"></pointeritem>
@@ -532,9 +531,9 @@ endif]]>
 				<dispname>Multiplicity of objects, which are associated to ActionBase as &quot;src&quot; over Transition, has to match 0..1.</dispname>
 			</constraint>
 			<role name = "SimpleProperty" metaref = "5456" kind = "SimpleProperty"></role>
-			<aspect name = "BehaviorEffects" metaref = "5512" >
+			<aspect name = "BehaviorTerminal" metaref = "5457" >
 				<dispname>Behavior</dispname>
-				<part metaref = "5513" role = "SimpleProperty" primary = "yes" linked = "no"></part>
+				<part metaref = "5458" role = "SimpleProperty" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
 		<model name = "InputAction" metaref = "5265" >
@@ -563,9 +562,9 @@ endif]]>
 				<dispname>Multiplicity of objects, which are associated to InputAction as &quot;src&quot; over Input, has to match 0..1.</dispname>
 			</constraint>
 			<role name = "SimpleProperty" metaref = "5459" kind = "SimpleProperty"></role>
-			<aspect name = "BehaviorEffects" metaref = "5514" >
+			<aspect name = "BehaviorTerminal" metaref = "5460" >
 				<dispname>Behavior</dispname>
-				<part metaref = "5515" role = "SimpleProperty" primary = "yes" linked = "no"></part>
+				<part metaref = "5461" role = "SimpleProperty" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
 		<model name = "MultiInputAction" metaref = "5266" >
@@ -593,9 +592,9 @@ endif]]>
 				<dispname>Multiplicity of objects, which are associated to MultiInputAction as &quot;src&quot; over MultiInput, has to match 0..1.</dispname>
 			</constraint>
 			<role name = "SimpleProperty" metaref = "5462" kind = "SimpleProperty"></role>
-			<aspect name = "BehaviorEffects" metaref = "5516" >
+			<aspect name = "BehaviorTerminal" metaref = "5463" >
 				<dispname>Behavior</dispname>
-				<part metaref = "5517" role = "SimpleProperty" primary = "yes" linked = "no"></part>
+				<part metaref = "5464" role = "SimpleProperty" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
 		<model name = "OutputAction" metaref = "5267" >
@@ -633,9 +632,9 @@ endif]]>
 				<dispname>Multiplicity of objects, which are associated to ActionBase as &quot;src&quot; over Transition, has to match 0..1.</dispname>
 			</constraint>
 			<role name = "SimpleProperty" metaref = "5465" kind = "SimpleProperty"></role>
-			<aspect name = "BehaviorEffects" metaref = "5518" >
+			<aspect name = "BehaviorTerminal" metaref = "5466" >
 				<dispname>Behavior</dispname>
-				<part metaref = "5519" role = "SimpleProperty" primary = "yes" linked = "no"></part>
+				<part metaref = "5467" role = "SimpleProperty" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
 		<model name = "QueryAction" metaref = "5270" >
@@ -673,9 +672,9 @@ endif]]>
 				<dispname>Multiplicity of objects, which are associated to ActionBase as &quot;src&quot; over Transition, has to match 0..1.</dispname>
 			</constraint>
 			<role name = "SimpleProperty" metaref = "5468" kind = "SimpleProperty"></role>
-			<aspect name = "BehaviorEffects" metaref = "5520" >
+			<aspect name = "BehaviorTerminal" metaref = "5469" >
 				<dispname>Behavior</dispname>
-				<part metaref = "5521" role = "SimpleProperty" primary = "yes" linked = "no"></part>
+				<part metaref = "5470" role = "SimpleProperty" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
 		<model name = "QueryInputAction" metaref = "5271" >
@@ -688,9 +687,9 @@ endif]]>
 				<dispname>Multiplicity of objects, which are associated to QueryInputAction as &quot;src&quot; over QueryInput, has to match 0..1.</dispname>
 			</constraint>
 			<role name = "SimpleProperty" metaref = "5471" kind = "SimpleProperty"></role>
-			<aspect name = "BehaviorEffects" metaref = "5522" >
+			<aspect name = "BehaviorTerminal" metaref = "5472" >
 				<dispname>Behavior</dispname>
-				<part metaref = "5523" role = "SimpleProperty" primary = "yes" linked = "no"></part>
+				<part metaref = "5473" role = "SimpleProperty" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
 		<model name = "RequestAction" metaref = "5422" attributes = "MethodName" >
@@ -727,9 +726,9 @@ endif]]>
 				<dispname>Multiplicity of objects, which are associated to ActionBase as &quot;src&quot; over Transition, has to match 0..1.</dispname>
 			</constraint>
 			<role name = "SimpleProperty" metaref = "5474" kind = "SimpleProperty"></role>
-			<aspect name = "BehaviorEffects" metaref = "5524" attributes = "MethodName" >
+			<aspect name = "BehaviorTerminal" metaref = "5475" attributes = "MethodName" >
 				<dispname>Behavior</dispname>
-				<part metaref = "5525" role = "SimpleProperty" primary = "yes" linked = "no"></part>
+				<part metaref = "5476" role = "SimpleProperty" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
 		<model name = "TopLevelBehavior" metaref = "5477" >
@@ -787,36 +786,36 @@ ctrlblocks->size = terminals->size]]>
 			<role name = "Transition" metaref = "5389" kind = "Transition"></role>
 			<role name = "Variable" metaref = "5481" kind = "Variable"></role>
 			<role name = "WhileState" metaref = "5391" kind = "WhileState"></role>
-			<aspect name = "BehaviorEffects" metaref = "5526" >
+			<aspect name = "BehaviorTerminal" metaref = "5482" >
 				<dispname>Behavior</dispname>
-				<part metaref = "5527" role = "Action" primary = "yes" linked = "no"></part>
-				<part metaref = "5528" role = "ApplicationTask" primary = "yes" linked = "no"></part>
-				<part metaref = "5529" role = "BranchState" primary = "yes" linked = "no"></part>
-				<part metaref = "5530" role = "BranchTransition" primary = "yes" linked = "no"></part>
-				<part metaref = "5531" role = "DoWhileState" primary = "yes" linked = "no"></part>
-				<part metaref = "5532" role = "Effect" primary = "yes" linked = "no"></part>
-				<part metaref = "5533" role = "Environment" primary = "yes" linked = "no"></part>
-				<part metaref = "5534" role = "Finish" primary = "yes" linked = "no"></part>
-				<part metaref = "5535" role = "ForState" primary = "yes" linked = "no"></part>
-				<part metaref = "5536" role = "Input" primary = "yes" linked = "no"></part>
-				<part metaref = "5537" role = "InputAction" primary = "yes" linked = "no"></part>
-				<part metaref = "5538" role = "InputEffect" primary = "yes" linked = "no"></part>
-				<part metaref = "5539" role = "LoopTransition" primary = "yes" linked = "no"></part>
-				<part metaref = "5540" role = "MultiInput" primary = "yes" linked = "no"></part>
-				<part metaref = "5541" role = "MultiInputAction" primary = "yes" linked = "no"></part>
-				<part metaref = "5542" role = "OutputAction" primary = "yes" linked = "no"></part>
-				<part metaref = "5543" role = "PeriodicEvent" primary = "yes" linked = "no"></part>
-				<part metaref = "5544" role = "QueryAction" primary = "yes" linked = "no"></part>
-				<part metaref = "5545" role = "QueryInput" primary = "yes" linked = "no"></part>
-				<part metaref = "5546" role = "QueryInputAction" primary = "yes" linked = "no"></part>
-				<part metaref = "5547" role = "RequestAction" primary = "yes" linked = "no"></part>
-				<part metaref = "5548" role = "State" primary = "yes" linked = "no"></part>
-				<part metaref = "5549" role = "Terminal" primary = "yes" linked = "no"></part>
-				<part metaref = "5550" role = "TerminalEffect" primary = "yes" linked = "no"></part>
-				<part metaref = "5551" role = "TerminalTransition" primary = "yes" linked = "no"></part>
-				<part metaref = "5552" role = "Transition" primary = "yes" linked = "no"></part>
-				<part metaref = "5553" role = "Variable" primary = "yes" linked = "no"></part>
-				<part metaref = "5554" role = "WhileState" primary = "yes" linked = "no"></part>
+				<part metaref = "5483" role = "Action" primary = "yes" linked = "no"></part>
+				<part metaref = "5484" role = "ApplicationTask" primary = "yes" linked = "no"></part>
+				<part metaref = "5485" role = "BranchState" primary = "yes" linked = "no"></part>
+				<part metaref = "5486" role = "BranchTransition" primary = "yes" linked = "no"></part>
+				<part metaref = "5487" role = "DoWhileState" primary = "yes" linked = "no"></part>
+				<part metaref = "5488" role = "Effect" primary = "yes" linked = "no"></part>
+				<part metaref = "5489" role = "Environment" primary = "yes" linked = "no"></part>
+				<part metaref = "5490" role = "Finish" primary = "yes" linked = "no"></part>
+				<part metaref = "5491" role = "ForState" primary = "yes" linked = "no"></part>
+				<part metaref = "5492" role = "Input" primary = "yes" linked = "no"></part>
+				<part metaref = "5493" role = "InputAction" primary = "yes" linked = "no"></part>
+				<part metaref = "5494" role = "InputEffect" primary = "yes" linked = "no"></part>
+				<part metaref = "5495" role = "LoopTransition" primary = "yes" linked = "no"></part>
+				<part metaref = "5496" role = "MultiInput" primary = "yes" linked = "no"></part>
+				<part metaref = "5497" role = "MultiInputAction" primary = "yes" linked = "no"></part>
+				<part metaref = "5498" role = "OutputAction" primary = "yes" linked = "no"></part>
+				<part metaref = "5499" role = "PeriodicEvent" primary = "yes" linked = "no"></part>
+				<part metaref = "5500" role = "QueryAction" primary = "yes" linked = "no"></part>
+				<part metaref = "5501" role = "QueryInput" primary = "yes" linked = "no"></part>
+				<part metaref = "5502" role = "QueryInputAction" primary = "yes" linked = "no"></part>
+				<part metaref = "5503" role = "RequestAction" primary = "yes" linked = "no"></part>
+				<part metaref = "5504" role = "State" primary = "yes" linked = "no"></part>
+				<part metaref = "5505" role = "Terminal" primary = "yes" linked = "no"></part>
+				<part metaref = "5506" role = "TerminalEffect" primary = "yes" linked = "no"></part>
+				<part metaref = "5507" role = "TerminalTransition" primary = "yes" linked = "no"></part>
+				<part metaref = "5508" role = "Transition" primary = "yes" linked = "no"></part>
+				<part metaref = "5509" role = "Variable" primary = "yes" linked = "no"></part>
+				<part metaref = "5510" role = "WhileState" primary = "yes" linked = "no"></part>
 			</aspect>
 		</model>
 		<folder name = "BehaviorModels" metaref = "5511"  subfolders = "BehaviorModels" rootobjects = "TopLevelBehavior" >
