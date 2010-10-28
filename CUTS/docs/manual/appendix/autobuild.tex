@@ -1,0 +1,120 @@
+% $Id$
+
+\chapter{Autobuilds of CUTS}
+
+This section contains detailed instructions for hosting an 
+autobuild of CUTS. The autobuild is designed to both build 
+and test core functionality of CUTS so errors can be located 
+in a timely manner. Moreover, hosting an autobuild is designed
+to be an easy process. Please use these instructions as a 
+starting point. If you need to change any part of the process,
+please feel free to do so. We ask, however, that you please
+do not commit your changes back to the repository. 
+
+\section{Hosting a Windows Build}
+
+Windows-based builds of CUTS are conducted using CruiseControl 
+(\url{cruisecontrol.sourceforge.net}), which is a Java-based
+continuous integration environment. The scripts for hosting a
+Windows build are already defined for CUTS. You can find them
+at the following location in the CUTS directory structure:
+\begin{lstlisting}
+%> $CUTS_ROOT/integration
+\end{lstlisting}
+
+Once CruiseControl is installed in your environment, you 
+can include CUTS in the build cycle in two main steps. First,
+you must include the CUTS project in CruiseControl's main 
+configuration file (\textit{i.e.}, \texttt{config.xml}). The 
+following line is an example of including the Visual Studio
+2005 build for CUTS as part of the build cycle.
+\begin{lstlisting}
+<include.projects 
+  file="E:/proj/vc8/CUTS/integration/cruisecontrol/cuts-vc8.config.xml" />
+\end{lstlisting}
+
+\textbf{Configuring the build environment.}
+After including the desired projects in CruiseControl's main 
+configuration file, the next (and final) step is to configure
+the environment. This is done by first defining the directory 
+structure for the build environment. Each build type (\textit{e.g.},
+Visual Studio 2005 and Visual Studio 2008) must have its own
+sandbox in the target build environment. The sandbox is where
+all projects for that build type must should reside when building
+CUTS via CruiseControl. The following listing shows the directory
+structure for hosting both a Visual Studio 2005 and Visual Studio 
+2008 build on the same machine where the sandboxes are located in
+\texttt{E:/proj}.
+\begin{lstlisting}
+/vc80
+  /CUTS
+  /ACE_TAO_CIAO
+  /XSC
+  ...
+/vc90
+  /CUTS
+  /ACE_TAO_CIAO
+  /XSC
+  ...
+\end{lstlisting}
+
+Once you have established the sandbox locations, you must 
+inform the build environment of its location. This can be
+done by setting one or more of the following environment
+variables.
+\begin{table}[hbtp]
+\centering
+\caption{Environment variables that capture the location of a sandbox.}
+\begin{tabular}{ll}
+    \hline  
+    \textbf{Variable Name} & \textbf{Description} \\ 
+    \hline
+    \texttt{VC80SANDBOX} & Defines the sandbox for Visual Studio 2005 builds \\
+    \hline
+    \texttt{VC90SANDBOX} & Defines the sandbox for Visual Studio 2008 builds \\
+    \hline
+  \end{tabular}
+\end{table}
+Using the example directory structure above, the Visual 
+Studio 2005 would be defined as follows:
+\begin{lstlisting}
+set VC80SANDBOX=E:/proj/vc8
+\end{lstlisting}
+Notice, this environment variable must be defined in a persistent 
+location, such as the user/system environment variables.
+
+Lastly, you must define the appropriate configuration environment
+variable. This is necessary because each build environment
+may install the required third-party libraries (see 
+Appendex~\ref{chap:thirdparty}). The configuration environment
+variables points to a batch (\texttt{.bat}) file that defines
+all the environment variables need to build CUTS, such as
+all the environment variables defined in Appendex~\ref{chap:thirdparty}.
+The following table is the list of configuration environment
+variables based on the build type:
+\begin{table}[hbtp]
+\centering
+\caption{Environment variables that define the build configuration.}
+  \begin{tabular}{ll}
+    \hline  
+    \textbf{Variable Name} & \textbf{Description} \\ 
+    \hline
+    \texttt{VC80BUILDCFG} & Defines build configuration for Visual Studio 2005 builds \\
+    \hline
+    \texttt{VC90BUILDCFG} & Defines build configuration for Visual Studio 2008 builds \\
+    \hline
+  \end{tabular}
+\end{table}
+
+For example, if Visual Studio 2005 environment variables are 
+defined in \texttt{E:/proj/vc9/setenv.bat}, then \texttt{VC80BUILDCFG} 
+would be defined as follows:
+\begin{lstlisting}
+set VC80BUILDCFG=E:/proj/vc8/setenv.bat
+\end{lstlisting}
+Notice, this environment variable must be defined in a persistent 
+location, such as the user/system environment variables.
+\vspace{.2in}
+
+\noindent Congratulations, you are now ready to build 
+Windows-based version of CUTS using CruiseControl!
