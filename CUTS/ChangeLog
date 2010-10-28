@@ -1,3 +1,12 @@
+Thu Oct 28 03:14:48 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * integration/cruisecontrol/ant-vc8.bat:
+        * integration/cruisecontrol/ant-vc9.bat:
+
+          Updated wrapper script to invoke a configuration script, if it
+          is defined. This will initialize the build specific configuration
+          for the build environment.
+
 Thu Oct 28 02:32:05 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * integration/cruisecontrol/ant-vc8.bat:
