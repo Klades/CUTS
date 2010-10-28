@@ -1,11 +1,18 @@
+Thu Oct 28 05:09:08 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * docs/manual/appendix/autobuild.tex:
+        * docs/manual/manual.pdf:
+
+	  Fixed typo in document.
+
 Thu Oct 28 05:03:41 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * docs/manual/appendix/appendix.tex:
         * docs/manual/appendix/autobuild.tex:
         * docs/manual/manual.pdf:
 
-	  Added a chapter to the appendix on setting up an autobuild
-	  of CUTS using CruiseControl.
+          Added a chapter to the appendix on setting up an autobuild
+          of CUTS using CruiseControl.
 
 Thu Oct 28 04:12:30 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
