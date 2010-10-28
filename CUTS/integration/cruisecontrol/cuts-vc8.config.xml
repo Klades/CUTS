@@ -10,24 +10,27 @@
            requireModification="true"
            buildafterfailed="false">
     <property name="build.type" value="vc8" />
+    <property name="cuts.dir" value="${env.VC80SANDBOX}/CUTS" />
+    <property name="cuts.integration.dir" value="${cuts.dir}/integration" />
+    <property name="cuts.cc.dir" value="${cuts.integration.dir}/cruisecontrol" />
 
     <listeners>
       <currentbuildstatuslistener file="logs/${project.name}/status.txt"/>
     </listeners>
 
     <bootstrappers>
-      <svnbootstrapper localWorkingCopy="${env.CUTS_ROOT}" />
+      <svnbootstrapper localWorkingCopy="${cuts.dir}" />
     </bootstrappers>
 
     <modificationset quietperiod="60">
-      <svn LocalWorkingCopy="${env.CUTS_ROOT}"
+      <svn LocalWorkingCopy="${cuts.dir}"
            checkExternals="true"
            useLocalRevision="true" />
     </modificationset>
 
     <schedule>
-      <ant anthome="apache-ant-1.7.0"
-           buildfile="${env.CUTS_ROOT}/integration/autobuild.build"
+      <ant antscript="${cuts.cc.dir}/ant-vc8.bat"
+           buildfile="${cuts.integration.dir}/autobuild.build"
            target="build.noupdate"
            time="0200">
         <property name="mpc.type" value="${build.type}" />
@@ -35,31 +38,34 @@
     </schedule>
   </project>
 
-  <!--
+  <!--r
     Specification for the vc8 force only build
     -->
   <project name="CUTS-vc8-forcebuild"
            requireModification="false"
            forceOnly="true">
     <property name="build.type" value="vc8" />
+    <property name="cuts.dir" value="${env.VC80SANDBOX}/CUTS" />
+    <property name="cuts.integration.dir" value="${cuts.dir}/integration" />
+    <property name="cuts.cc.dir" value="${cuts.integration.dir}/cruisecontrol" />
 
     <listeners>
       <currentbuildstatuslistener file="logs/${project.name}/status.txt"/>
     </listeners>
 
     <bootstrappers>
-      <svnbootstrapper localWorkingCopy="${env.CUTS_ROOT}" />
+      <svnbootstrapper localWorkingCopy="${cuts.dir}" />
     </bootstrappers>
 
     <modificationset quietperiod="60">
-      <svn LocalWorkingCopy="${env.CUTS_ROOT}"
+      <svn LocalWorkingCopy="${cuts.dir}"
            checkExternals="true"
            useLocalRevision="true" />
     </modificationset>
 
     <schedule>
-      <ant anthome="apache-ant-1.7.0"
-           buildfile="${env.CUTS_ROOT}/integration/autobuild.build"
+      <ant antscript="${cuts.cc.dir}/ant-vc8.bat"
+           buildfile="${cuts.integration.dir}/autobuild.build"
            target="build.noupdate">
         <property name="mpc.type" value="${build.type}" />
       </ant>
