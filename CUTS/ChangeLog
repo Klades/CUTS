@@ -1,3 +1,11 @@
+Thu Oct 28 02:32:05 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * integration/cruisecontrol/ant-vc8.bat:
+        * integration/cruisecontrol/ant-vc9.bat:
+
+          Wrapper scripts for running ANT under CruiseControl while
+          making sure the Visual Studio environment variables are set.
+
 Tue Oct 26 22:45:24 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/quotas/integrator:
