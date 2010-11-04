@@ -51,9 +51,7 @@ void Input_Stream_Source_Generator::Visit_Event (const PICML::Event & ev)
   this->out_
     << "ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & stream, "
     << CUTS_BE_CPP::fq_type (ev, "::") << " & ev)"
-    << "{"
-    << "ACE_InputCDR & alias = stream;"
-    << std::endl;
+    << "{";
 
   std::set <PICML::Member> members = ev.Member_children ();
   Input_Stream_Event_Member_Generator emg (this->out_);
@@ -62,7 +60,7 @@ void Input_Stream_Source_Generator::Visit_Event (const PICML::Event & ev)
                  members.end (),
                  boost::bind (&PICML::Member::Accept, _1, boost::ref (emg)));
 
-  this->out_ << "return alias.good_bit ();"
+  this->out_ << "return stream.good_bit ();"
              << "}";
 }
 
@@ -75,9 +73,7 @@ Visit_Aggregate (const PICML::Aggregate & aggr)
   this->out_
     << "ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & stream, "
     << CUTS_BE_CPP::fq_type (aggr, "::") << " & val)"
-    << "{"
-    << "ACE_InputCDR & alias = stream;"
-    << std::endl;
+    << "{";
 
   Input_Stream_Aggr_Member_Generator amg (this->out_);
   std::set <PICML::Member> members = aggr.Member_children ();
@@ -86,7 +82,7 @@ Visit_Aggregate (const PICML::Aggregate & aggr)
                  members.end (),
                  boost::bind (&PICML::Member::Accept, _1, boost::ref (amg)));
 
-  this->out_ << "return alias.good_bit ();"
+  this->out_ << "return stream.good_bit ();"
              << "}";
 }
 
@@ -102,11 +98,9 @@ Visit_Collection (const PICML::Collection & coll)
     << "ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & stream, "
     << name << " & coll)"
     << "{"
-    << "ACE_InputCDR & alias = stream;"
-    << std::endl
     << "// set the length of the collection" << std::endl
     << "size_t length;"
-    << "alias >> length;"
+    << "stream >> length;"
     << "coll.length (length);"
     << std::endl;
 
@@ -118,7 +112,7 @@ Visit_Collection (const PICML::Collection & coll)
   {
     // We can read directly from the buffer.
     this->out_
-      << "alias.read_" << this->array_method_[type]
+      << "stream.read_" << this->array_method_[type]
       << "_array (coll.get_buffer (), length);";
   }
   else
@@ -130,12 +124,12 @@ Visit_Collection (const PICML::Collection & coll)
       << name << "::value_type * iter_end = iter + length;"
       << std::endl
       << "while (iter != iter_end)" << std::endl
-      << "  alias >> *iter ++;";
+      << "  stream >> *iter ++;";
   }
 
   this->out_
     << std::endl
-    << "return alias.good_bit ();"
+    << "return stream.good_bit ();"
     << "}";
 }
 

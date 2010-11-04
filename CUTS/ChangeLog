@@ -1,9 +1,31 @@
+Thu Nov  4 03:29:49 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_algorithm.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_algorithm.cpp:
+
+          Implemented requires_executor () that determines if linkage
+          against an executor is necessary.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Project_Generator.cpp:
+
+          Bug fix where the implementation project did not link
+          against the correct libraries.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Input_Stream_Aggr_Member_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Input_Stream_Event_Member_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Input_Stream_Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Output_Stream_Aggr_Member_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Output_Stream_Event_Member_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Output_Stream_Source_Generator.cpp:
+
+          Fixed the stream generators.
+
 Thu Oct 28 05:09:08 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * docs/manual/appendix/autobuild.tex:
         * docs/manual/manual.pdf:
 
-	  Fixed typo in document.
+    Fixed typo in document.
 
 Thu Oct 28 05:03:41 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 

@@ -151,6 +151,9 @@ bool has_interface (const CUTS_BE_IDL_Node * node)
   return has_interface (node->file_);
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// has_events(_i)
+
 /**
  * Implementation of the has_events function.
  */
@@ -218,6 +221,104 @@ bool has_events (const PICML::File & file)
   PICML::File (file).Accept (search);
 
   return search.result ();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// requires_executor
+
+/**
+ * Implementation of the has_events function.
+ */
+class requires_executor_i : public PICML::Visitor
+{
+public:
+  requires_executor_i (void)
+    : result_ (false)
+  {
+
+  }
+
+  bool result (void) const
+  {
+    return this->result_;
+  }
+
+  virtual void Visit_File (const PICML::File & file)
+  {
+    if (!this->result_)
+      this->Visit_FilePackage_i (file);
+  }
+
+  virtual void Visit_Package (const PICML::Package & package)
+  {
+    if (!this->result_)
+      this->Visit_FilePackage_i (package);
+  }
+
+protected:
+  void Visit_FilePackage_i (const Udm::Object & obj)
+  {
+    // Gather all the necessary elements.
+    std::set <PICML::Event> events =
+      Udm::ChildrenAttr <PICML::Event> (obj.__impl (), Udm::NULLCHILDROLE);
+
+    if (!events.empty ())
+    {
+      this->result_ = true;
+      return;
+    }
+
+    std::set <PICML::Component> c =
+      Udm::ChildrenAttr <PICML::Component> (obj.__impl (), Udm::NULLCHILDROLE);
+
+    if (!c.empty ())
+    {
+      this->result_ = true;
+      return;
+    }
+
+    std::set <PICML::Object> o =
+      Udm::ChildrenAttr <PICML::Object> (obj.__impl (), Udm::NULLCHILDROLE);
+
+    if (!o.empty ())
+    {
+      this->result_ = true;
+      return;
+    }
+
+    // Visit the remaining packages.
+    std::set <PICML::Package> packages =
+      Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
+
+    std::for_each (packages.begin (),
+                   packages.end (),
+                   boost::bind (&PICML::Package::Accept,
+                                _1,
+                                boost::ref (*this)));
+  }
+
+private:
+  /// Result of the search.
+  bool result_;
+};
+
+//
+// requires_executor
+//
+bool requires_executor (const PICML::File & file)
+{
+  requires_executor_i search;
+  PICML::File (file).Accept (search);
+
+  return search.result ();
+}
+
+//
+// has_interface
+//
+bool requires_executor (const CUTS_BE_IDL_Node * node)
+{
+  return requires_executor (node->file_);
 }
 
 //

@@ -34,9 +34,7 @@ void Output_Stream_Source_Generator::Visit_Event (const PICML::Event & ev)
 {
   this->out_ << "ACE_CDR::Boolean operator << (CUTS_TCPIP_OutputCDR & stream, const "
              << CUTS_BE_CPP::fq_type (ev, "::") << " & ev)"
-             << "{"
-             << "ACE_OutputCDR & alias = stream;"
-             << std::endl;
+             << "{";
 
   std::set <PICML::Member> members = ev.Member_children ();
   Output_Stream_Event_Member_Generator emg (this->out_);
@@ -45,7 +43,7 @@ void Output_Stream_Source_Generator::Visit_Event (const PICML::Event & ev)
                  members.end (),
                  boost::bind (&PICML::Member::Accept, _1, boost::ref (emg)));
 
-  this->out_ << "return alias.good_bit ();"
+  this->out_ << "return stream.good_bit ();"
              << "}";
 }
 
@@ -57,9 +55,7 @@ Visit_Aggregate (const PICML::Aggregate & aggr)
 {
   this->out_ << "ACE_CDR::Boolean operator << (CUTS_TCPIP_OutputCDR & stream, const "
              << CUTS_BE_CPP::fq_type (aggr) << " & val)"
-             << "{"
-             << "ACE_OutputCDR & alias = stream;"
-             << std::endl;
+             << "{";
 
   Output_Stream_Aggr_Member_Generator amg (this->out_);
   std::set <PICML::Member> members = aggr.Member_children ();
@@ -68,7 +64,7 @@ Visit_Aggregate (const PICML::Aggregate & aggr)
                  members.end (),
                  boost::bind (&PICML::Member::Accept, _1, boost::ref (amg)));
 
-  this->out_ << "return alias.good_bit ();"
+  this->out_ << "return stream.good_bit ();"
              << "}";
 }
 
@@ -82,17 +78,15 @@ Visit_Collection (const PICML::Collection & coll)
 
   this->out_ << "ACE_CDR::Boolean operator << (CUTS_TCPIP_OutputCDR & stream, const " << name << " & coll)"
              << "{"
-             << "ACE_OutputCDR & alias = stream;"
-             << std::endl
              << "size_t length = coll.length ();"
              << name << "::const_value_type * iter = coll.get_buffer ();"
              << name << "::const_value_type * iter_end = iter + length;"
              << std::endl
-             << "alias << length;"
+             << "stream << length;"
              << "while (iter != iter_end)" << std::endl
-             << "  alias << *iter ++;"
+             << "  stream << *iter ++;"
              << std::endl
-             << "return alias.good_bit ();"
+             << "return stream.good_bit ();"
              << "}";
 }
 

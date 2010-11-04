@@ -65,7 +65,7 @@ Visit_Member (const PICML::Member & member)
 
     // Write the remainder of the extraction code.
     this->out_ << " " << varname << ";"
-               << "alias >> " << varname << ";"
+               << "stream >> " << varname << ";"
                << "ev." << name << " (" << varname;
 
     if (PICML::String::meta == mt.type ())
@@ -76,7 +76,7 @@ Visit_Member (const PICML::Member & member)
   }
   else
   {
-    this->out_ << "alias >> ev." << name << " ();";
+    this->out_ << "stream >> ev." << name << " ();";
   }
 }
 

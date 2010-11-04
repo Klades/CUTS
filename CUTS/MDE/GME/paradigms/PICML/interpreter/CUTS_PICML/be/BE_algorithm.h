@@ -56,6 +56,22 @@ namespace CUTS_BE
   bool has_events (const PICML::File & file);
 
   /**
+   * Determine if a file has a component.
+   *
+   * @param[in]     file        File element to search.
+   */
+  CUTS_BE_Export
+  bool requires_executor (const CUTS_BE_IDL_Node * node);
+
+  /**
+   * Determine if a file has any events.
+   *
+   * @param[in]     file        File element to search.
+   */
+  CUTS_BE_Export
+  bool requires_executor (const PICML::File & file);
+
+  /**
    * Get the pathname of the specified file. Also, prepend the specified
    * prefix to the filename, and append the specified suffix to the file
    * name.

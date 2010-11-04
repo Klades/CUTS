@@ -91,21 +91,12 @@ generate_impl_project (const CUTS_BE_Impl_Node & node)
     std::vector <const CUTS_BE_IDL_Node *>::iterator last_iter =
       std::remove_if (nodes.begin (),
                       nodes.end (),
-                      reinterpret_cast <FUNCTOR> (&CUTS_BE::has_interface));
-
-    this->visited_nodes_.clear ();
+                      reinterpret_cast <FUNCTOR> (&CUTS_BE::requires_executor));
 
     this->ctx_.project_
       << "  after += ";
 
-    std::for_each (nodes.begin (),
-                   last_iter,
-                   boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                                this,
-                                _1,
-                                "",
-                                "_stub"));
-
+    this->visited_nodes_.clear ();
     std::for_each (last_iter,
                    nodes.end (),
                    boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
@@ -113,6 +104,15 @@ generate_impl_project (const CUTS_BE_Impl_Node & node)
                                 _1,
                                 "",
                                 "_exec"));
+
+    this->visited_nodes_.clear ();
+    std::for_each (nodes.begin (),
+                   nodes.end (),
+                   boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
+                                this,
+                                _1,
+                                "",
+                                "_stub"));
 
     this->ctx_.project_
       << std::endl
@@ -125,15 +125,6 @@ generate_impl_project (const CUTS_BE_Impl_Node & node)
       << "  libs += ";
 
     this->visited_nodes_.clear ();
-
-    std::for_each (nodes.begin (),
-                   last_iter,
-                   boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                                this,
-                                _1,
-                                "",
-                                "_stub"));
-
     std::for_each (last_iter,
                    nodes.end (),
                    boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
@@ -141,6 +132,15 @@ generate_impl_project (const CUTS_BE_Impl_Node & node)
                                 _1,
                                 "",
                                 "_exec"));
+
+    this->visited_nodes_.clear ();
+    std::for_each (nodes.begin (),
+                   nodes.end (),
+                   boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
+                                this,
+                                _1,
+                                "",
+                                "_stub"));
 
     this->ctx_.project_
       << std::endl

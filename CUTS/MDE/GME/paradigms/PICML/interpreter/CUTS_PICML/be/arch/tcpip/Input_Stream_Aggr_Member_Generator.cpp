@@ -40,19 +40,19 @@ Visit_Member (const PICML::Member & member)
 
     this->out_
       << "ACE_CString " << varname << ";"
-      << "alias >> " << varname << ";"
+      << "stream >> " << varname << ";"
       << "val." << name << " = " << varname << ".c_str ();"
       << std::endl;
   }
   else if (PICML::Boolean::meta == type.type ())
   {
     this->out_
-      << "alias >> CUTS_TCPIP_InputCDR::to_boolean (val."
+      << "stream >> CUTS_TCPIP_InputCDR::to_boolean (val."
       << name << ");";
   }
   else
   {
-    this->out_ << "alias >> val." << member.name () << ";";
+    this->out_ << "stream >> val." << member.name () << ";";
   }
 
 

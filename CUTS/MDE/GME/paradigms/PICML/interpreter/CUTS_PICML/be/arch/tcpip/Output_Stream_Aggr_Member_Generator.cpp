@@ -29,7 +29,7 @@ Output_Stream_Aggr_Member_Generator::
 void Output_Stream_Aggr_Member_Generator::
 Visit_Member (const PICML::Member & member)
 {
-  this->out_ << "alias << val." << member.name () << ";";
+  this->out_ << "stream << val." << member.name () << ";";
 }
 
 }
