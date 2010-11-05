@@ -40,9 +40,8 @@ sub delete_ior_files {
     for ($i = 0; $i < $daemons; ++$i) {
         unlink $iorfiles[$i];
     }
+
     unlink PerlACE::LocalFile ("EM.ior");
-    unlink PerlACE::LocalFile ("Receiver.ior");
-    unlink PerlACE::LocalFile ("Sender.ior");
     unlink PerlACE::LocalFile ("DAM.ior");
     unlink PerlACE::LocalFile ("ns.ior");
 }

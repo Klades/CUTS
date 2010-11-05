@@ -152,6 +152,9 @@ tcpip_input_message (HelloWorld_Servant * svnt, CUTS_TCPIP_InputCDR & stream)
 }
 
 
+//
+// attribute setter: message
+//
 void HelloWorld_Servant::message (const char * message)
 {
   if (this->impl_)
@@ -160,6 +163,9 @@ void HelloWorld_Servant::message (const char * message)
     throw ::CORBA::INTERNAL ();
 }
 
+//
+// attribute getter: message
+//
 char * HelloWorld_Servant::message (void)
 {
   if (this->impl_)
@@ -168,6 +174,9 @@ char * HelloWorld_Servant::message (void)
     throw ::CORBA::INTERNAL ();
 }
 
+//
+// attribute getter: readonly_message
+//
 char * HelloWorld_Servant::readonly_message (void)
 {
   if (this->impl_)
@@ -176,6 +185,34 @@ char * HelloWorld_Servant::readonly_message (void)
     throw ::CORBA::INTERNAL ();
 }
 
+//
+// set_attributes
+//
+void HelloWorld_Servant::
+set_attributes (const ::Components::ConfigValues & config)
+{
+  const ::CORBA::ULong length = config.length ();
+
+  for (::CORBA::ULong i = 0; i < length; ++ i)
+  {
+    // get the next configuraton value
+    const ::Components::ConfigValue * value = config[i];
+
+    if (0 == ACE_OS::strcmp (value->name (), "message"))
+    {
+      const char * tmp_value;
+
+      if (!(value->value () >>= tmp_value))
+        throw ::Components::InvalidConfiguration ();
+
+      this->message (tmp_value);
+    }
+  }
+}
+
+//
+// create_HelloWorld_Servant
+//
 ::PortableServer::Servant 
 create_HelloWorld_Servant (const char * name,
                            ::Components::EnterpriseComponent_ptr p)

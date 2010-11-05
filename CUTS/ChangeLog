@@ -1,3 +1,22 @@
+Fri Nov  5 13:54:26 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/arch/tcpip/HelloWorld/HelloWorldImpl.cpp:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.cpp:
+        * examples/arch/tcpip/HelloWorld/descriptors/HelloWorld.cdd:
+        * examples/arch/tcpip/HelloWorld/descriptors/HelloWorld.cdp:
+        * examples/arch/tcpip/HelloWorld/descriptors/HelloWorld.nodemap:
+        * examples/arch/tcpip/HelloWorld/models/HelloWorld.xme:
+
+          Updated example to set the component's attributes.
+
+          Updated example to generate valid nodemap from the model.
+
+        * examples/arch/tcpip/HelloWorld/descriptors/run_test.pl:
+
+          Removed unneccessary code.
+
+
 Fri Nov  5 03:43:01 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/arch/ccm/CCM_Component_Instance_Handler_T.h:

@@ -95,6 +95,9 @@ class HelloWorld_Servant : public HelloWorld_Servant_Base
   virtual char * message (void);
 
   virtual char * readonly_message (void);
+
+  // Set the component's attributes
+  virtual void set_attributes (const ::Components::ConfigValues & config);
 };
 
 extern "C" HELLOWORLD_SVNT_Export

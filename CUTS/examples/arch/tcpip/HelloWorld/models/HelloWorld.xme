@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{E629EB71-36D7-4BC1-86D6-C264FBABEE22}" cdate="Tue Nov 02 13:08:00 2010" mdate="Tue Nov 02 13:08:00 2010" version="" metaguid="{0036ADCA-2A43-4F2B-9A4A-2AC2DBD958FA}" metaversion="" metaname="PICML">
+<project guid="{C8FC0B1B-8D31-4E21-906E-5654687F8DDD}" cdate="Tue Nov 02 13:08:00 2010" mdate="Tue Nov 02 13:08:00 2010" version="" metaguid="{0036ADCA-2A43-4F2B-9A4A-2AC2DBD958FA}" metaversion="" metaname="PICML">
 	<name>HelloWorld</name>
 	<comment></comment>
 	<author></author>
@@ -187,7 +187,7 @@
 							</regnode>
 						</regnode>
 					</model>
-					<model id="id-0065-0000000e" kind="OutputAction" role="OutputAction" guid="{aa16d10c-000b-4109-8a16-573f6607af87}" relid="0x5" childrelidcntr="0x0">
+					<model id="id-0065-0000000e" kind="OutputAction" role="OutputAction" guid="{aa16d10c-000b-4109-8a16-573f6607af87}" relid="0x5" childrelidcntr="0x1">
 						<name>output_message</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -201,6 +201,21 @@
 						<attribute kind="Duration" status="meta">
 							<value>0</value>
 						</attribute>
+						<reference id="id-0067-00000018" kind="SimpleProperty" role="SimpleProperty" guid="{505a4095-4626-48c7-80d4-e632a7b0912a}" relid="0x1" referred="id-0066-00000011">
+							<name>content</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>97,41</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>ev-&gt;content ()</value>
+							</attribute>
+						</reference>
 					</model>
 					<model id="id-0065-00000012" kind="InputAction" role="InputAction" guid="{f41a4087-30b9-41da-8dca-1cd1daf99538}" relid="0xc" childrelidcntr="0x0">
 						<name>InputAction</name>
@@ -214,7 +229,7 @@
 							</regnode>
 						</regnode>
 					</model>
-					<model id="id-0065-00000013" kind="OutputAction" role="OutputAction" guid="{a1ff052d-c37e-4228-a7dd-ff6d8696ba91}" relid="0x10" childrelidcntr="0x0">
+					<model id="id-0065-00000013" kind="OutputAction" role="OutputAction" guid="{a1ff052d-c37e-4228-a7dd-ff6d8696ba91}" relid="0x10" childrelidcntr="0x1">
 						<name>handle_message_ex</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -228,6 +243,21 @@
 						<attribute kind="Duration" status="meta">
 							<value>0</value>
 						</attribute>
+						<reference id="id-0067-00000019" kind="SimpleProperty" role="SimpleProperty" guid="{d0fbd548-463f-4fc3-83e6-8cd0c56306f7}" relid="0x1" referred="id-0066-00000011">
+							<name>content</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>97,41</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>this-&gt;message_.c_str ()</value>
+							</attribute>
+						</reference>
 					</model>
 					<atom id="id-0066-00000016" kind="State" role="State" guid="{4e35477d-db94-4986-b7dc-ad2a1036f127}" relid="0x4">
 						<name>State</name>
@@ -729,7 +759,7 @@
 			</model>
 			<model id="id-0065-0000000a" kind="ComponentImplementationContainer" guid="{df39fd92-92d9-4f62-9157-edfca6d97ef4}" relid="0x2" childrelidcntr="0x1">
 				<name>HelloWorld_asm</name>
-				<model id="id-0065-0000000b" kind="ComponentAssembly" role="ComponentAssembly" guid="{bd357d83-5340-461b-a2fd-fbed4d17fd61}" relid="0x1" childrelidcntr="0x3">
+				<model id="id-0065-0000000b" kind="ComponentAssembly" role="ComponentAssembly" guid="{bd357d83-5340-461b-a2fd-fbed4d17fd61}" relid="0x1" childrelidcntr="0x7">
 					<name>HelloWorld</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -836,6 +866,21 @@
 							</regnode>
 						</reference>
 					</model>
+					<reference id="id-0067-00000016" kind="SimpleProperty" role="SimpleProperty" guid="{36c94121-a787-4eb8-9e9e-602842d6780f}" relid="0x4" referred="id-0066-00000011">
+						<name>message</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="AssemblyProperties" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>195,258</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>Hello, World!</value>
+						</attribute>
+					</reference>
 					<connection id="id-0068-00000005" kind="SendsTo" role="SendsTo" guid="{baf813df-e37f-446f-91c4-8ec991e21562}" relid="0x2">
 						<name>SendsTo</name>
 						<connpoint role="dst" target="id-0067-0000000e"/>
@@ -845,6 +890,14 @@
 						<name>SendsTo</name>
 						<connpoint role="dst" target="id-0067-0000000e"/>
 						<connpoint role="src" target="id-0067-00000010"/>
+					</connection>
+					<connection id="id-0068-00000013" kind="AttributeValue" role="AttributeValue" guid="{0d2fc2dd-f411-43b9-a760-d98b5c4e2de5}" relid="0x5">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="src" target="id-0067-00000011"/>
+						<connpoint role="dst" target="id-0067-00000016"/>
 					</connection>
 				</model>
 			</model>
@@ -884,7 +937,7 @@
 		</folder>
 		<folder id="id-006a-00000007" relid="0x6" childrelidcntr="0x1" kind="DeploymentPlans" guid="{0d0d3394-ee3a-484f-b8a7-53600dddedba}">
 			<name>DeploymentPlans</name>
-			<model id="id-0065-00000011" kind="DeploymentPlan" guid="{3180f2e2-ee97-4b00-8545-1dc4601b4a35}" relid="0x1" childrelidcntr="0x6">
+			<model id="id-0065-00000011" kind="DeploymentPlan" guid="{3180f2e2-ee97-4b00-8545-1dc4601b4a35}" relid="0x1" childrelidcntr="0x9">
 				<name>HelloWorld</name>
 				<attribute kind="UUID">
 					<value>99A4A0D2-E7C6-11DF-8000-000C2958D27B</value>
@@ -899,7 +952,7 @@
 						<regnode name="DeploymentProperties" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>53,11</value>
+								<value>137,25</value>
 							</regnode>
 						</regnode>
 						<regnode name="NodeMapping" status="undefined">
@@ -929,12 +982,27 @@
 						<regnode name="DeploymentProperties" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>125,258</value>
+								<value>251,202</value>
 							</regnode>
 						</regnode>
 					</regnode>
 					<attribute kind="Value">
 						<value>30000</value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-0000001a" kind="SimpleProperty" role="SimpleProperty" guid="{7c7ed45e-86a9-4499-ba45-6b77f763a915}" relid="0x7" referred="id-0066-00000011">
+					<name>StringIOR</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DeploymentProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>48,90</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Value">
+						<value>corbaloc:iiop:localhost:60001/MainNode.NodeManager</value>
 					</attribute>
 				</reference>
 				<connection id="id-0068-0000000c" kind="InstanceMapping" role="InstanceMapping" guid="{4f74b73a-4529-4fcc-8b00-c5b5d10cdcfd}" relid="0x3">
@@ -950,6 +1018,14 @@
 					<connpoint role="src" target="id-0067-00000015"/>
 					<connpoint role="dst" target="id-0069-00000001"/>
 				</connection>
+				<connection id="id-0068-00000016" kind="PropertyMapping" role="PropertyMapping" guid="{1c764968-cb31-4585-b5f3-439eba7b9775}" relid="0x9">
+					<name>PropertyMapping</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Wn</value>
+					</regnode>
+					<connpoint role="src" target="id-0067-00000013"/>
+					<connpoint role="dst" target="id-0067-0000001a"/>
+				</connection>
 				<set id="id-0069-00000001" kind="CollocationGroup" role="CollocationGroup" guid="{57e49524-4de2-465d-81dc-3ced1a2617f6}" relid="0x2" members="id-0067-00000014">
 					<name>DefaultGroup</name>
 					<regnode name="PartRegs" status="undefined">
@@ -957,7 +1033,7 @@
 						<regnode name="DeploymentProperties" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>62,111</value>
+								<value>139,125</value>
 							</regnode>
 						</regnode>
 						<regnode name="NodeMapping" status="undefined">
