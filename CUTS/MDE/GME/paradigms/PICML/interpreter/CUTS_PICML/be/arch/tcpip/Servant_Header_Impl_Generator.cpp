@@ -4,6 +4,7 @@
 #include "TCPIP_Ctx.h"
 
 #include "../ccm/Component_Implementation.h"
+#include "../ccm/Servant_Implementation.h"
 #include "../../lang/cpp/Cpp.h"
 #include "../../UDM_Utility_T.h"
 
@@ -105,6 +106,14 @@ Visit_Component (const PICML::Component & component)
   std::for_each (boost::make_filter_iterator <ReadonlyAttribute_Type> (ro_attrs.begin (), ro_attrs.end ()),
                  boost::make_filter_iterator <ReadonlyAttribute_Type> (ro_attrs.end (), ro_attrs.end ()),
                  boost::bind (&PICML::ReadonlyAttribute::Accept, _1, boost::ref (*this)));
+
+  // Before we leave, make sure we generate the set_attribute () method
+  // since it is used by the deployment tools to configure a component.
+  CUTS_BE_CCM::Cpp::
+    Servant_Set_Attribute_Decl
+    set_attribute_decl_gen (this->out_);
+
+  PICML::Component (component).Accept (set_attribute_decl_gen);
 
   this->out_ << "};"
              << "extern \"C\" " << this->export_macro_ << std::endl

@@ -4,6 +4,7 @@
 #include "TCPIP_Ctx.h"
 
 #include "../ccm/Component_Implementation.h"
+#include "../ccm/Servant_Implementation.h"
 #include "../../lang/cpp/Cpp.h"
 #include "../../UDM_Utility_T.h"
 
@@ -279,10 +280,18 @@ Visit_Component (const PICML::Component & component)
                  boost::make_filter_iterator <ReadonlyAttribute_Type> (ro_attrs.end (), ro_attrs.end ()),
                  boost::bind (&PICML::ReadonlyAttribute::Accept, _1, boost::ref (*this)));
 
+  // Make sure we generate the set_attributes () method.
+  CUTS_BE_CCM::Cpp::Servant_Set_Attribute_Impl set_attribute_gen (this->out_);
+  PICML::Component (component).Accept (set_attribute_gen);
+
+  const std::string entrypoint =
+    "create_" + CUTS_BE_CPP::fq_type (component, "_", false) +
+    "_Servant";
+
   // Finally, generate the factory function for the component.
-  this->out_ << "::PortableServer::Servant " << std::endl
-             << "create_" << CUTS_BE_CPP::fq_type (component, "_", false)
-             << "_Servant (const char * name," << std::endl
+  this->out_ << CUTS_BE_CPP::function_header (entrypoint)
+             << "::PortableServer::Servant " << std::endl
+             << entrypoint << " (const char * name," << std::endl
              << "::Components::EnterpriseComponent_ptr p)"
              << "{"
              << "return ::CUTS_TCPIP::CCM::create_servant <" << std::endl
@@ -398,6 +407,8 @@ Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute & attr)
   PICML::MemberType type = member.ref ();
   std::string name (attr.name ());
 
+  this->out_ << CUTS_BE_CPP::function_header ("attribute getter: " + name);
+
   CUTS_BE_CCM::Cpp::Retn_Type_Generator retn_type_gen (this->out_);
   retn_type_gen.generate (type);
 
@@ -421,7 +432,10 @@ Visit_Attribute (const PICML::Attribute & attr)
   PICML::MemberType type = member.ref ();
   std::string name (attr.name ());
 
-  this->out_ << "void " << this->servant_ << "::" << name << " (";
+
+  this->out_
+    << CUTS_BE_CPP::function_header ("attribute setter: " + name)
+    << "void " << this->servant_ << "::" << name << " (";
 
   CUTS_BE_CCM::Cpp::In_Type_Generator in_type_gen (this->out_);
   in_type_gen.generate (type);
