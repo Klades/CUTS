@@ -8,7 +8,6 @@ project (CUTS_TCPIP) : acelib, cutslib {
     TCPIP.cpp
     TCPIP_Acceptor.cpp
     TCPIP_Component.cpp
-    TCPIP_ComponentServer.cpp
     TCPIP_Context.cpp
     TCPIP_Connector.cpp
     TCPIP_Connector_Svc_Handler.cpp

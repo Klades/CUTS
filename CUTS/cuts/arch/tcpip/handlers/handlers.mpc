@@ -7,7 +7,6 @@ project (CUTS_TCPIP_Deployment_Handlers) : dance_deployment_scheduler, \
   dynamicflags += CUTS_TCPIP_DEPLOYMENT_HANDLERS_BUILD_DLL
 
   Source_Files {
-    //TCPIP_CCM_ComponentServer.cpp
     TCPIP_CCM_Container.cpp
     TCPIP_CCM_Container_Strategy.cpp
     TCPIP_CCM_Instance_Handler.cpp
