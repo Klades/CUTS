@@ -6,35 +6,21 @@
 #include "CCM_Container_T.inl"
 #endif
 
-#include "ace/OS_NS_unistd.h"
+#include "ace/UUID.h"
+#include <sstream>
 
-/**
- * @struct config_name_equals
- *
- * Functor that determines the equality of a configuration name.
- */
-struct config_name_equals
+//
+// ~CUTS_CCM_Container_T
+//
+template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
+CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::~CUTS_CCM_Container_T (void)
 {
-  /**
-   * Initializing consturctor
-   *
-   * @param[in]         name          Name to search for.
-   */
-  config_name_equals (const char * name)
-    : name_ (name)
-  {
+  if (!::CORBA::is_nil (this->poa_.in ()))
+    this->poa_->destroy (1, 1);
 
-  }
-
-  bool operator () (const ::Components::ConfigValue * cv) const
-  {
-    return 0 == ACE_OS::strcmp (this->name_, cv->name ());
-  }
-
-private:
-  /// Target configuration name.
-  const char * name_;
-};
+  if (!::CORBA::is_nil (this->port_poa_.in ()))
+    this->poa_->destroy (1, 1);
+}
 
 //
 // CUTS_CCM_Container_T
@@ -42,14 +28,12 @@ private:
 template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
 CUTS_INLINE
 CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
-CUTS_CCM_Container_T (SERVER * server,
-                      const Components::ConfigValues & config,
-                      ::PortableServer::POA_ptr poa,
-                      ::Components::Deployment::ComponentInstallation_ptr installer)
-: server_ (server),
-  poa_ (::PortableServer::POA::_duplicate (poa)),
-  installer_ (::Components::Deployment::ComponentInstallation::_duplicate (installer))
+CUTS_CCM_Container_T (SERVER * server, ::PortableServer::POA_ptr poa)
+: server_ (server)
 {
+  this->initialize_the_POA (poa);
+  this->initialize_the_port_POA (poa);
+
   // Create the strategy for the container.
   STRATEGY * strategy = 0;
   T * self = reinterpret_cast <T *> (this);
@@ -59,35 +43,6 @@ CUTS_CCM_Container_T (SERVER * server,
                     ::CORBA::NO_MEMORY ());
 
   this->strategy_.reset (strategy);
-
-  // Save the configuration.
-  ::Components::ConfigValues * temp = 0;
-  CORBA::ULong length = config.length ();
-
-  ACE_NEW_THROW_EX (temp,
-                    ::Components::ConfigValues (length),
-                    ::CORBA::NO_MEMORY ());
-
-  this->config_ = temp;
-  this->copy (this->config_, config);
-}
-
-//
-// copy
-//
-template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
-void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
-copy (::Components::ConfigValues & dst,
-      const ::Components::ConfigValues & src)
-{
-  CORBA::ULong length = src.length ();
-  dst.length (length);
-
-  for (CORBA::ULong i = 0; i < length; ++ i)
-  {
-    dst[i]->name (src[i]->name ());
-    dst[i]->value (src[i]->value ());
-  }
 }
 
 //
@@ -97,17 +52,10 @@ template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
 Components::ConfigValues *
 CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::configuration (void)
 {
-  ::Components::ConfigValues * temp = 0;
-  CORBA::ULong length = this->config_->length ();
+  ACE_ERROR ((LM_ERROR,
+              ACE_TEXT ("%T - %M - configuration ()\n")));
 
-  ACE_NEW_THROW_EX (temp,
-                    ::Components::ConfigValues (length),
-                    ::CORBA::NO_MEMORY ());
-
-  ::Components::ConfigValues_var config = temp;
-  this->copy (*temp, this->config_);
-
-  return config._retn ();
+  throw CORBA::NO_IMPLEMENT ();
 }
 
 //
@@ -117,7 +65,7 @@ template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
 ::Components::Deployment::ComponentServer_ptr
 CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::get_component_server (void)
 {
-  ACE_DEBUG ((LM_DEBUG,
+  ACE_ERROR ((LM_DEBUG,
               ACE_TEXT ("get_component_server (void)\n")));
 
   throw CORBA::NO_IMPLEMENT ();
@@ -128,11 +76,14 @@ CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::get_component_server (
 //
 template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
 ::Components::CCMHome_ptr CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
-install_home (const char * , const char * , const ::Components::ConfigValues & )
+install_home (const char * primary_artifact,
+              const char * entry_point,
+              const char * servant_artifact,
+              const char * servant_entrypoint,
+              const char * name)
 {
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("install_home (const char * , const char * , ")
-              ACE_TEXT ("const ::Components::ConfigValues & )\n")));
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("install_home ()\n")));
 
   throw CORBA::NO_IMPLEMENT ();
 }
@@ -141,9 +92,10 @@ install_home (const char * , const char * , const ::Components::ConfigValues & )
 // remove_home
 //
 template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
-void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::remove_home (::Components::CCMHome_ptr)
+void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
+uninstall_home (::Components::CCMHome_ptr)
 {
-  ACE_DEBUG ((LM_DEBUG,
+  ACE_ERROR ((LM_ERROR,
               ACE_TEXT ("remove_home (::Components::CCMHome_ptr)")));
 
   throw CORBA::NO_IMPLEMENT ();
@@ -155,7 +107,7 @@ void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::remove_home (::Co
 template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
 Components::CCMHomes * CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::get_homes (void)
 {
-  ACE_DEBUG ((LM_DEBUG,
+  ACE_ERROR ((LM_DEBUG,
               ACE_TEXT ("get_homes (void)\n")));
 
   throw CORBA::NO_IMPLEMENT ();
@@ -167,10 +119,10 @@ Components::CCMHomes * CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>:
 template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
 void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::remove (void)
 {
-  ACE_DEBUG ((LM_DEBUG,
+  ACE_ERROR ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - removing all components in the container\n")));
 
-  components_type::ITERATOR iter (this->components_);
+  servant_map::ITERATOR iter (this->components_);
 
   for (; !iter.done (); ++ iter)
   {
@@ -195,105 +147,43 @@ void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::remove (void)
 //
 template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
 ::Components::CCMObject_ptr CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
-install_component (const char * id,
-                   const char * entrypt,
-                   const ::Components::ConfigValues & config)
+install_component (const char * primary_artifact,
+                   const char * entry_point,
+                   const char * servant_artifact,
+                   const char * servant_entrypoint,
+                   const char * name)
 {
   ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - installing <%s> with entrypoint <%s>\n"),
-              id,
-              entrypt));
-
-  ::Components::ConfigValues::const_value_type
-    * iter = config.get_buffer (),
-    * iter_end = iter + config.length ();
-
-  // Locate the configuration value for the executor artifact.
-  ::Components::ConfigValues::const_value_type * exec_artifact =
-    std::find_if (iter,
-                  iter_end,
-                  config_name_equals (ACE_TEXT ("edu.vanderbilt.dre.CIAO.ExecutorArtifact")));
-
-  if (exec_artifact == iter_end)
-  {
-    ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - failed to locate executor artifact\n")));
-
-    throw ::Components::Deployment::InvalidConfiguration ();
-  }
-
-  // Locate the configuration value for the servant artifact.
-  ::Components::ConfigValues::const_value_type * svnt_artifact =
-    std::find_if (iter,
-                  iter_end,
-                  config_name_equals (ACE_TEXT ("edu.vanderbilt.dre.CIAO.ServantArtifact")));
-
-  if (svnt_artifact == iter_end)
-  {
-    ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - failed to locate servant artifact\n")));
-
-    throw ::Components::Deployment::InvalidConfiguration ();
-  }
-
-  // Locate the configuration value for the servant entrypoint.
-  ::Components::ConfigValues::const_value_type * svnt_entrypt =
-    std::find_if (iter,
-                  iter_end,
-                  config_name_equals (ACE_TEXT ("edu.vanderbilt.dre.CIAO.ServantEntrypoint")));
-
-  if (svnt_entrypt == iter_end)
-  {
-    ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - failed to locate servant entry point\n")));
-
-    throw ::Components::Deployment::InvalidConfiguration ();
-  }
+              ACE_TEXT ("%T (%t) - %M - installing %s\n"),
+              name));
 
   // Load the executor from its shared library.
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - loading the component's implementation\n")));
-
-  const char * temp_str;
-  (*exec_artifact)->value () >>= temp_str;
-  ::Components::Deployment::UUID_var exec_uuid = temp_str;
-
-  ::Components::Deployment::Location_var location =
-    this->installer_->get_implementation (exec_uuid.in ());
-
   ::Components::EnterpriseComponent_var executor =
-    this->strategy_->load_executor (location.in (), entrypt);
+    this->strategy_->load_executor (primary_artifact, entry_point);
 
   if (::CORBA::is_nil (executor.in ()))
     throw ::Components::CreateFailure ();
 
   // Load the servant from its shared library.
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - loading the component's servant\n")));
-
-  (*svnt_artifact)->value () >>= temp_str;
-  ::Components::Deployment::UUID_var svnt_uuid = temp_str;
-
-  location = this->installer_->get_implementation (svnt_uuid.in ());
-
-  (*svnt_entrypt)->value () >>= temp_str;
-  ::CORBA::String_var svnt_entrypt_str = temp_str;
-
-  ::PortableServer::ServantBase_var servant =
-    this->strategy_->load_servant (id,
-                                   location.in (),
-                                   svnt_entrypt_str.in (),
+  PortableServer::Servant servant =
+    this->strategy_->load_servant (name,
+                                   servant_artifact,
+                                   servant_entrypoint,
                                    executor.in ());
 
+  if (::CORBA::is_nil (servant))
+    throw ::Components::CreateFailure ();
+
+  ::PortableServer::ServantBase_var safe_servant (servant);
+
   ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - confguring the loaded component\n")));
+              ACE_TEXT ("%T (%t) - %M - activating the component's servant\n")));
 
-  // Let the strategy configure the servant.
-  this->strategy_->configure_servant (servant.in (), config);
+  ::PortableServer::ObjectId_var oid = ::PortableServer::string_to_ObjectId (name);
+  this->poa_->activate_object_with_id (oid.in (), servant);
 
-  // Activate the servant under the provided POA.
-  PortableServer::ObjectId_var oid = this->poa_->activate_object (servant.in ());
-  this->components_.bind (id, servant);
+  if (0 != this->strategy_.get ())
+    this->strategy_->install_servant (servant);
 
   // Get a reference for to the servant.
   ::CORBA::Object_var obj = this->poa_->id_to_reference (oid.in ());
@@ -305,19 +195,22 @@ install_component (const char * id,
 //
 template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
 void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
-activate_component (::Components::CCMObject_ptr comp)
+activate_component (::Components::CCMObject_ptr ref)
 {
-  // Locate the servant for the object reference.
-  ::PortableServer::ServantBase_var base = this->poa_->reference_to_servant (comp);
+  // Locate the id of this reference.
+  ::PortableServer::ObjectId_var oid = this->poa_->reference_to_id (ref);
+  ::CORBA::String_var idstr = ::PortableServer::ObjectId_to_string (oid.in ());
+
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - activating component %s\n"),
+              idstr.in ()));
+
+  // Also, get the servant for this reference.
+  ::PortableServer::ServantBase_var base = this->poa_->id_to_servant (oid.in ());
   SERVANT_BASE * servant = dynamic_cast <SERVANT_BASE *> (base.in ());
 
   if (0 == servant)
-    throw ::CORBA::INTERNAL ();
-
-  // Activate the component.
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - activating %s\n"),
-              servant->name ().c_str ()));
+    throw ::CIAO::InvalidComponent ();
 
   servant->activate_component ();
 }
@@ -326,48 +219,56 @@ activate_component (::Components::CCMObject_ptr comp)
 // passivate_component
 //
 template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
-void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::passivate_component (::Components::CCMObject_ptr comp)
+void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
+passivate_component (::Components::CCMObject_ptr ref)
 {
-  // Locate the servant for the object reference.
-  PortableServer::ServantBase_var base = this->poa_->reference_to_servant (comp);
+  // Locate the id of this reference.
+  ::PortableServer::ObjectId_var oid = this->poa_->reference_to_id (ref);
+  ::CORBA::String_var idstr = ::PortableServer::ObjectId_to_string (oid.in ());
+
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - passivating component %s\n"),
+              idstr.in ()));
+
+  // Also, get the servant for this reference.
+  ::PortableServer::ServantBase_var base = this->poa_->id_to_servant (oid.in ());
   SERVANT_BASE * servant = dynamic_cast <SERVANT_BASE *> (base.in ());
 
   if (0 == servant)
-    throw ::CORBA::INTERNAL ();
-
-  // Passivate the component.
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - passivating %s\n"),
-              servant->name ().c_str ()));
+    throw ::CIAO::InvalidComponent ();
 
   servant->passivate_component ();
 }
 
 //
-// remove_component
+// uninstall_component
 //
 template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
-void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::remove_component (::Components::CCMObject_ptr cref)
+void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
+uninstall_component (::Components::CCMObject_ptr ref)
 {
-  // Locate the servant for the object reference.
-  PortableServer::ServantBase_var base = this->poa_->reference_to_servant (cref);
+  // Locate the id of this reference.
+  ::PortableServer::ObjectId_var oid = this->poa_->reference_to_id (ref);
+  ::CORBA::String_var idstr = ::PortableServer::ObjectId_to_string (oid.in ());
+
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - uninstalling component %s\n"),
+              idstr.in ()));
+
+  // Also, get the servant for this reference.
+  ::PortableServer::ServantBase_var base = this->poa_->id_to_servant (oid.in ());
   SERVANT_BASE * servant = dynamic_cast <SERVANT_BASE *> (base.in ());
 
   if (0 == servant)
-    throw ::CORBA::INTERNAL ();
-
-  // Signal the component that is about to be removed.
-  ACE_DEBUG ((LM_DEBUG,
-            ACE_TEXT ("%T (%t) - %M - removing %s\n"),
-            servant->name ().c_str ()));
+    throw ::CIAO::InvalidComponent ();
 
   servant->remove ();
 
-  // Remove the component from the collection.
-  this->components_.unbind (servant->name ());
+  // Uninstall the domain-specific servant.
+  if (0 != this->strategy_.get ())
+    this->strategy_->remove_servant (servant);
 
-  // Deactivate the component.
-  PortableServer::ObjectId_var oid = this->poa_->servant_to_id (base.in ());
+  // Finally, deactivate the object within the POA.
   this->poa_->deactivate_object (oid.in ());
 }
 
@@ -378,8 +279,236 @@ template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
 ::Components::CCMObjectSeq *
 CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::get_components (void)
 {
-  ACE_DEBUG ((LM_DEBUG,
+  ACE_ERROR ((LM_ERROR,
               ACE_TEXT ("get_components (void)\n")));
 
   throw ::CORBA::NO_IMPLEMENT ();
+}
+
+//
+// set_attributes
+//
+template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
+void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
+set_attributes (::CORBA::Object_ptr ref,
+                const ::Components::ConfigValues & values)
+{
+  // Locate the id of this reference.
+  ::PortableServer::ObjectId_var oid = this->poa_->reference_to_id (ref);
+  ::CORBA::String_var idstr = ::PortableServer::ObjectId_to_string (oid.in ());
+
+  // Also, get the servant for this reference.
+  ::PortableServer::ServantBase_var base = this->poa_->id_to_servant (oid.in ());
+  SERVANT_BASE * servant = dynamic_cast <SERVANT_BASE *> (base.in ());
+
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - setting attributes for %s\n"),
+              idstr.in ()));
+
+  servant->set_attributes (values);
+}
+
+//
+// install_servant
+//
+template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
+::CORBA::Object_ptr
+CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
+install_servant (::PortableServer::Servant svnt,
+                 ::CIAO::Container_Types::OA_Type type,
+                 ::PortableServer::ObjectId_out oid)
+{
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("install_servant ()\n")));
+
+  throw ::CORBA::NO_IMPLEMENT ();
+}
+
+//
+// uninstall_servant
+//
+template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
+void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
+uninstall_servant (::PortableServer::Servant compptr,
+                   ::CIAO::Container_Types::OA_Type type,
+                   ::PortableServer::ObjectId_out oid)
+{
+  throw ::CORBA::NO_IMPLEMENT ();
+}
+
+//
+// ports_servant_activator
+//
+template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
+::CIAO::Servant_Activator_ptr
+CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
+ports_servant_activator (void)
+{
+  ACE_ERROR ((LM_ERROR,
+              ACE_TEXT ("%T - %M - ports_servant_activator (...)\n")));
+
+  throw ::CORBA::NO_IMPLEMENT ();
+}
+
+//
+// generate_reference
+//
+template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
+::CORBA::Object_ptr
+CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
+generate_reference (const char * obj_id,
+                    const char * repo_id,
+                    ::CIAO::Container_Types::OA_Type type)
+{
+  ::PortableServer::ObjectId_var oid = ::PortableServer::string_to_ObjectId (obj_id);
+
+  switch (type)
+  {
+  case ::CIAO::Container_Types::COMPONENT_t:
+    return this->poa_->id_to_reference (oid);
+    break;
+
+  case ::CIAO::Container_Types::FACET_CONSUMER_t:
+    return this->port_poa_->id_to_reference (oid);
+    break;
+
+  default:
+    throw ::CIAO::InvalidComponent ();
+  }
+}
+
+//
+// get_objref
+//
+template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
+::CORBA::Object_ptr
+CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
+get_objref (::PortableServer::Servant p)
+{
+  ACE_ERROR ((LM_ERROR,
+              ACE_TEXT ("%T - %M - generate_reference (...)\n")));
+
+  throw ::CORBA::NO_IMPLEMENT ();
+}
+
+//
+// the_POA
+//
+template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
+::PortableServer::POA_ptr
+CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::the_POA (void)
+{
+  return ::PortableServer::POA::_duplicate (this->poa_.in ());
+}
+
+//
+// the_port_POA
+//
+template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
+::PortableServer::POA_ptr
+CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::the_port_POA (void)
+{
+  return ::PortableServer::POA::_duplicate (this->port_poa_.in ());
+}
+
+//
+// resolve_service_reference
+//
+template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
+::CORBA::Object_ptr
+CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
+resolve_service_reference (const char * service_id)
+{
+  ACE_ERROR ((LM_ERROR,
+              ACE_TEXT ("%T (%t) - %M - resolve_service_reference (...)\n")));
+
+  throw ::CORBA::NO_IMPLEMENT ();
+}
+
+//
+// initialize_to_POA
+//
+template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
+void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
+initialize_the_POA (::PortableServer::POA_ptr poa)
+{
+  using ACE_Utils::UUID_GENERATOR;
+  ACE_Utils::UUID uuid;
+
+  // Generate the unique id for the container POA.
+  UUID_GENERATOR::instance ()->generate_UUID (uuid);
+  std::ostringstream strid;
+  strid << "ContainerPOA-" << *uuid.to_string ();
+
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - initializing the container POA (%s)\n"),
+              strid.str ().c_str ()));
+
+  CORBA::PolicyList policies (6);
+  policies.length (6);
+
+  policies[0] = poa->create_thread_policy (PortableServer::ORB_CTRL_MODEL);
+  policies[1] = poa->create_servant_retention_policy (PortableServer::RETAIN);
+  policies[2] = poa->create_id_assignment_policy (PortableServer::USER_ID);
+  policies[3] = poa->create_id_uniqueness_policy (PortableServer::UNIQUE_ID);
+  policies[4] = poa->create_lifespan_policy (PortableServer::TRANSIENT);
+  policies[5] = poa->create_request_processing_policy (PortableServer::USE_ACTIVE_OBJECT_MAP_ONLY);
+
+  // Use the policies above to create the child POA that will be
+  // used when activating servants.
+  this->poa_ = poa->create_POA (strid.str ().c_str (),
+                                ::PortableServer::POAManager::_nil (),
+                                policies);
+
+  // Activate the POA manager.
+  ::PortableServer::POAManager_var mgr = this->poa_->the_POAManager ();
+  mgr->activate ();
+
+  // Destroy the POA policies
+  for (::CORBA::ULong i = 0; i < policies.length (); ++ i)
+    policies[i]->destroy ();
+}
+
+//
+// initialize_to_port_POA
+//
+template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
+void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
+initialize_the_port_POA (::PortableServer::POA_ptr poa)
+{
+  using ACE_Utils::UUID_GENERATOR;
+  ACE_Utils::UUID uuid;
+
+  // Generate the unique id for the container POA.
+  UUID_GENERATOR::instance ()->generate_UUID (uuid);
+  std::ostringstream strid;
+  strid << "PortPOA-" << *uuid.to_string ();
+
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - initializing the container port POA (%s)\n"),
+              strid.str ().c_str ()));
+
+  CORBA::PolicyList policies (6);
+  policies.length (6);
+
+  policies[0] = poa->create_thread_policy (PortableServer::ORB_CTRL_MODEL);
+  policies[1] = poa->create_servant_retention_policy (PortableServer::RETAIN);
+  policies[2] = poa->create_id_assignment_policy (PortableServer::USER_ID);
+  policies[3] = poa->create_id_uniqueness_policy (PortableServer::UNIQUE_ID);
+  policies[4] = poa->create_lifespan_policy (PortableServer::TRANSIENT);
+  policies[5] = poa->create_request_processing_policy (PortableServer::USE_ACTIVE_OBJECT_MAP_ONLY);
+
+  // Use the policies above to create the child POA that will be
+  // used when activating servants.
+  this->port_poa_ = poa->create_POA (strid.str ().c_str (),
+                                     ::PortableServer::POAManager::_nil (),
+                                     policies);
+
+  // Activate the POA manager.
+  ::PortableServer::POAManager_var mgr = this->port_poa_->the_POAManager ();
+  mgr->activate ();
+
+  // Destroy the POA policies
+  for (::CORBA::ULong i = 0; i < policies.length (); ++ i)
+    policies[i]->destroy ();
 }

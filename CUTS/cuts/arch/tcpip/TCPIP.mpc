@@ -21,6 +21,7 @@ project (CUTS_TCPIP) : acelib, cutslib {
     TCPIP_Servant.cpp
     TCPIP_Servant_Manager.cpp
     TCPIP_SPEC.cpp
+    TCPIP_ORB_Task.cpp
   }
 
   Template_Files {

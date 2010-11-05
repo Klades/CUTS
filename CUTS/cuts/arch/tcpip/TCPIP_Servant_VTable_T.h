@@ -13,7 +13,7 @@
 #ifndef _CUTS_TCPIP_SERVANT_VTABLE_T_H_
 #define _CUTS_TCPIP_SERVANT_VTABLE_T_H_
 
-#include "ace/Array.h"
+#include "ace/Array_Base.h"
 #include "ace/Thread_Mutex.h"
 #include "cuts/config.h"
 
@@ -62,7 +62,7 @@ private:
   ACE_Thread_Mutex lock_;
 
   /// Type definition of the virtual table.
-  typedef ACE_Array <method_type> vtable_type;
+  typedef ACE_Array_Base <method_type> vtable_type;
 
   /// Implementation of the virtual table.
   vtable_type vtable_;

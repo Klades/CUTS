@@ -14,7 +14,7 @@
 #define _CUTS_TCPIP_CCM_CONTAINER_STRATEGY_H_
 
 #include "cuts/arch/ccm/CCM_Container_Strategy_T.h"
-#include "TCPIP_CCM_ComponentServer_export.h"
+#include "TCPIP_Deployment_Handlers_export.h"
 
 // Forward decl.
 class CUTS_TCPIP_CCM_Container;
@@ -24,7 +24,7 @@ class CUTS_TCPIP_CCM_Container;
  *
  * Implementation of the CCM container startegy for TCP/IP.
  */
-class CUTS_TCPIP_CCM_COMPONENTSERVER_Export CUTS_TCPIP_CCM_Container_Strategy :
+class CUTS_TCPIP_DEPLOYMENT_HANDLERS_Export CUTS_TCPIP_CCM_Container_Strategy :
   public CUTS_CCM_Container_Strategy_T <CUTS_TCPIP_CCM_Container>
 {
 public:
@@ -49,8 +49,7 @@ public:
    * @param[in]     config          Configuration for the servant.
    */
   virtual void
-    configure_servant (::PortableServer::Servant servant,
-                       const ::Components::ConfigValues & config);
+    install_servant (::PortableServer::Servant servant);
 
   /// Remove the servant. This will unregister the servant
   /// with the TCP/IP ORB.

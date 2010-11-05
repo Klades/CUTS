@@ -6,7 +6,7 @@
 //
 CUTS_INLINE
 CUTS_TCPIP_ORB::CUTS_TCPIP_ORB (void)
-: listen_addr_ (CUTS_TCPIP_DEFUALT_PORT),
+: listen_addr_ (CUTS_TCPIP_DEFAULT_ENDPOINT),
   obj_mgr_ (this),
   acceptor_ (obj_mgr_)
 {

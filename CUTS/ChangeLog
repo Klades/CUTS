@@ -1,3 +1,83 @@
+Fri Nov  5 03:43:01 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/arch/ccm/CCM_Component_Instance_Handler_T.h:
+        * cuts/arch/ccm/CCM_Component_Instance_Handler_T.inl:
+        * cuts/arch/ccm/CCM_Component_Instance_Handler_T.cpp:
+        * cuts/arch/ccm/CCM_ConfigValue_i.h:
+        * cuts/arch/ccm/CCM_ConfigValue_i.cpp:
+        * cuts/arch/ccm/CCM_Container_Strategy_T.h:
+        * cuts/arch/ccm/CCM_Container_Strategy_T.inl:
+        * cuts/arch/ccm/CCM_Container_Strategy_T.cpp:
+        * cuts/arch/ccm/CCM_Container_T.h:
+        * cuts/arch/ccm/CCM_Container_T.inl:
+        * cuts/arch/ccm/CCM_Container_T.cpp:
+        * cuts/arch/ccm/CCM_Servant.h:
+        * cuts/arch/ccm/CCM_Servant.inl:
+        * cuts/arch/ccm/CCM_Servant.cpp:
+        * cuts/arch/ccm/CCM_Servant_T.h:
+        * cuts/arch/ccm/CCM_Servant_T.inl:
+        * cuts/arch/ccm/CUTS_CCM.mpc:
+        * cuts/arch/tcpip/TCPIP.mpc:
+        * cuts/arch/tcpip/TCPIP_ORB.inl:
+        * cuts/arch/tcpip/TCPIP_ORB.cpp:
+        * cuts/arch/tcpip/TCPIP_ORB_Task.h:
+        * cuts/arch/tcpip/TCPIP_ORB_Task.inl:
+        * cuts/arch/tcpip/TCPIP_ORB_Task.cpp:
+        * cuts/arch/tcpip/TCPIP_Servant_VTable_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Context_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Context_T.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_EventConsumer.cpp:
+        * cuts/arch/tcpip/config-default.h:
+        * cuts/arch/tcpip/handlers:
+        * cuts/arch/tcpip/handlers/TCPIP_CCM_Container.h:
+        * cuts/arch/tcpip/handlers/TCPIP_CCM_Container.inl:
+        * cuts/arch/tcpip/handlers/TCPIP_CCM_Container_Strategy.h:
+        * cuts/arch/tcpip/handlers/TCPIP_CCM_Container_Strategy.cpp:
+        * cuts/arch/tcpip/handlers/TCPIP_CCM_Instance_Handler.h:
+        * cuts/arch/tcpip/handlers/TCPIP_CCM_Instance_Handler.cpp:
+        * cuts/arch/tcpip/handlers/TCPIP_Deployment_Handlers_export.h:
+        * cuts/arch/tcpip/handlers/handlers.mpc:
+
+          Updated to latest version of DAnCE architecture. This required
+          replacing the component server with instance handlers.
+
+        * cuts/arch/ccm/CCM_ComponentServer_App_T.h:
+        * cuts/arch/ccm/CCM_ComponentServer_App_T.inl:
+        * cuts/arch/ccm/CCM_ComponentServer_App_T.cpp:
+        * cuts/arch/ccm/CCM_ComponentServer_Callback.h:
+        * cuts/arch/ccm/CCM_ComponentServer_Callback.inl:
+        * cuts/arch/ccm/CCM_ComponentServer_Callback.cpp:
+        * cuts/arch/ccm/CCM_ComponentServer_T.h:
+        * cuts/arch/ccm/CCM_ComponentServer_T.inl:
+        * cuts/arch/ccm/CCM_ComponentServer_T.cpp:
+        * cuts/arch/tcpip/handlers/TCPIP_CCM_ComponentServer.h:
+        * cuts/arch/tcpip/handlers/TCPIP_CCM_ComponentServer.inl:
+        * cuts/arch/tcpip/handlers/TCPIP_CCM_ComponentServer.cpp:
+        * cuts/arch/tcpip/handlers/TCPIP_CCM_ComponentServer_App.h:
+        * cuts/arch/tcpip/handlers/TCPIP_CCM_ComponentServer_App.inl:
+        * cuts/arch/tcpip/handlers/TCPIP_CCM_ComponentServer_App.cpp:
+        * cuts/arch/tcpip/handlers/TCPIP_CCM_ComponentServer_export.h:
+        * cuts/arch/tcpip/handlers/server.cpp:
+        * cuts/arch/tcpip/handlers/server.mpc:
+        * cuts/arch/tcpip/server:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.inl:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer.cpp:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.inl:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_App.cpp:
+        * cuts/arch/tcpip/server/TCPIP_CCM_ComponentServer_export.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container.inl:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container.cpp:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container_Strategy.h:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container_Strategy.inl:
+        * cuts/arch/tcpip/server/TCPIP_CCM_Container_Strategy.cpp:
+        * cuts/arch/tcpip/server/server.cpp:
+        * cuts/arch/tcpip/server/server.mpc:
+
+          Removed these files.
+
 Fri Nov  5 03:39:34 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/arch/tcpip/HelloWorld/HelloWorld.idl:

@@ -19,8 +19,8 @@ load_executor (const char * location, const char * entrypt)
   if (0 != module.open (location, ACE_DEFAULT_SHLIB_MODE, false))
     {
       ACE_ERROR ((LM_ERROR,
-		  ACE_TEXT ("%T (%t) - %M - error loading opening %s; %m\n"),
-		  location));
+                  ACE_TEXT ("%T (%t) - %M - error loading opening %s; %m\n"),
+                  location));
 
       throw ::Components::Deployment::InstallationFailure ();
     }
@@ -43,41 +43,41 @@ template <typename CONTAINER>
 CUTS_INLINE
 ::PortableServer::Servant
 CUTS_CCM_Container_Strategy_T <CONTAINER>::
-load_servant (const char * name, 
-	      const char * location, 
-	      const char * entrypt, 
-	      ::Components::EnterpriseComponent_ptr executor) 
+load_servant (const char * name,
+        const char * location,
+        const char * entrypt,
+        ::Components::EnterpriseComponent_ptr executor)
 {
   // Load the servant from its shared library.
   ACE_DLL module;
 
   ACE_DEBUG ((LM_DEBUG,
-	      "%T (%t) - %M - opening servant module %s\n",
-	      location));
+              ACE_TEXT ("%T (%t) - %M - opening servant module %s\n"),
+              location));
 
   if (0 != module.open (location, ACE_DEFAULT_SHLIB_MODE, false))
-    {
-      ACE_ERROR ((LM_ERROR,
-		  ACE_TEXT ("%T (%t) - %M - failed to open module %s; %m\n"),
-		  location));
+  {
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - failed to open module %s; %m\n"),
+                location));
 
-      throw ::Components::Deployment::InstallationFailure ();
-    }
+    throw ::Components::Deployment::InstallationFailure ();
+  }
 
   // Load the symbol from the library.
   ACE_DEBUG ((LM_DEBUG,
-	      "%T (%t) - %M - loading symbol %s from servant module\n",
-	      entrypt));
+              ACE_TEXT ("%T (%t) - %M - loading symbol %s from servant module\n"),
+              entrypt));
 
   void * symbol = module.symbol (entrypt);
 
   if (0 == symbol)
-    {
-      ACE_ERROR ((LM_ERROR,
-		  "%T (%t) - %M - failed to locate symbol in module\n"));
+  {
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - failed to locate symbol in module\n")));
 
-      throw ::Components::Deployment::ImplEntryPointNotFound ();
-    }
+    throw ::Components::Deployment::ImplEntryPointNotFound ();
+  }
 
   // Load the executor from the executor artifact.
   typedef ::PortableServer::Servant (*ServantFactoryMethod)

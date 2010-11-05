@@ -14,6 +14,7 @@
 #define _CUTS_CCM_SERVANT_H_
 
 #include "tao/PortableServer/Servant_Base.h"
+#include "ccm/CCM_StandardConfiguratorC.h"
 #include "ace/SString.h"
 #include "CCM_export.h"
 
@@ -50,6 +51,8 @@ public:
    * @return        Name of the instance.
    */
   virtual const ACE_CString & name (void) const;
+
+  virtual void set_attributes (const ::Components::ConfigValues &);
 
 protected:
   /// Name of the CCM servant.

@@ -6,6 +6,7 @@
 #include "TCPIP_CCM_EventConsumer.inl"
 #endif
 
+#include "ccm/CCM_ContextC.h"
 #include "cuts/arch/tcpip/TCPIP_ORB.h"
 #include "cuts/arch/tcpip/TCPIP_Servant.h"
 #include <sstream>
@@ -23,6 +24,15 @@ CUTS_TCPIP_CCM_EventConsumer::remote_endpoint (void)
                     ::CORBA::NO_MEMORY ());
 
   const CUTS_TCPIP_ORB * orb = this->parent_->the_ORB ();
+
+  if (0 == orb)
+  {
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - failed to locate TCP/IP ORB\n")));
+
+    throw ::Components::IllegalState ();
+  }
+
   const CUTS_TCPIP_Acceptor::PEER_ADDR & addr = orb->listen_addr ();
 
   std::ostringstream address;

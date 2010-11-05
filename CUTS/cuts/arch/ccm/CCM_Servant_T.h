@@ -78,6 +78,7 @@ public:
   virtual Components::EventConsumerBase_ptr
     disconnect_consumer (const char *);
 
+#if !defined (CCM_LW)
   virtual Components::ConsumerDescriptions *
     get_all_consumers (void);
 
@@ -95,39 +96,46 @@ public:
 
   virtual Components::PublisherDescriptions *
     get_named_publishers (const Components::NameList &);
+#endif
 
   // facet/receptacle methods
 
   ::CORBA::Object_ptr provide_facet (const char *);
 
+#if !defined (CCM_LW)
   ::Components::FacetDescriptions * get_all_facets (void);
 
   ::Components::FacetDescriptions * get_named_facets (const Components::NameList &);
+#endif
 
   ::Components::Cookie * connect (const char *, ::CORBA::Object_ptr);
 
   ::CORBA::Object_ptr disconnect (const char *, ::Components::Cookie *);
 
+#if !defined (CCM_LW)
   ::Components::ConnectionDescriptions * get_connections (const char *);
 
   ::Components::ReceptacleDescriptions * get_all_receptacles (void);
 
   ::Components::ReceptacleDescriptions * get_named_receptacles (const Components::NameList &);
+#endif
 
-  // component-related methods
+
+#if !defined (CCM_LW)
   ::CORBA::Boolean same_component (::CORBA::Object_ptr);
 
   ::CORBA::IRObject_ptr get_component_def (void);
 
-  ::Components::CCMHome_ptr get_ccm_home (void);
-
   ::Components::PrimaryKeyBase * get_primary_key (void);
+
+  ::Components::ComponentPortDescription * get_all_ports (void);
+#endif
+
+  ::Components::CCMHome_ptr get_ccm_home (void);
 
   virtual void configuration_complete (void);
 
   virtual void remove (void);
-
-  ::Components::ComponentPortDescription * get_all_ports (void);
 
 protected:
   /// Type definition of the consumer map.

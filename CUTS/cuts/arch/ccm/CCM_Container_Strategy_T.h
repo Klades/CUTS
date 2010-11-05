@@ -43,13 +43,19 @@ public:
       ::Components::EnterpriseComponent_ptr executor);
 
   /**
-   * Notification to configure the servant.
+   * Notification to activate the servant.
    *
    * @param[in]       servant       Servant to configure.
    */
   virtual void
+    install_servant (::PortableServer::Servant servant);
+
+  /**
+   * Notification to configurate the servant.
+   */
+  virtual void
     configure_servant (::PortableServer::Servant servant,
-           const ::Components::ConfigValues & values);
+                       const ::Components::ConfigValues & values);
 
   /**
    * Notification to remove the servant.

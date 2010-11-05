@@ -7,15 +7,14 @@
 #endif
 
 #include "TCPIP_CCM_Container.h"
-#include "TCPIP_CCM_ComponentServer.h"
+#include "TCPIP_CCM_Instance_Handler.h"
 #include "cuts/arch/tcpip/ccm/TCPIP_CCM_Servant.h"
 
 //
 // configure_servant
 //
 void CUTS_TCPIP_CCM_Container_Strategy::
-configure_servant (::PortableServer::Servant servant,
-                   const ::Components::ConfigValues & config)
+install_servant (::PortableServer::Servant servant)
 {
   // Register the TCP/IP servent with the object manager.
   CUTS_TCPIP_CCM_Servant * tcpip_servant =
@@ -34,9 +33,9 @@ remove_servant (::PortableServer::Servant servant)
   CUTS_TCPIP_CCM_Servant * tcpip_servant =
     dynamic_cast <CUTS_TCPIP_CCM_Servant *> (servant);
 
-  if (0 != tcpip_servant)
-  {
-    const ACE_Utils::UUID & uuid = tcpip_servant->the_UUID ();
-    this->container_.server ()->the_ORB ().the_OM ().deactivate_object (uuid);
-  }
+  if (0 == tcpip_servant)
+    return;
+
+  const ACE_Utils::UUID & uuid = tcpip_servant->the_UUID ();
+  this->container_.server ()->the_ORB ().the_OM ().deactivate_object (uuid);
 }

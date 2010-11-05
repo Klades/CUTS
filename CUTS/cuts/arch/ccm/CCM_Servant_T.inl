@@ -11,6 +11,8 @@ CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::~CUTS_CCM_Ser
 
 }
 
+#if !defined (CCM_LW)
+
 //
 // get_all_consumers
 //
@@ -82,6 +84,8 @@ get_named_publishers (const Components::NameList &)
   throw CORBA::NO_IMPLEMENT ();
 }
 
+#endif
+
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 CUTS_INLINE
 ::CORBA::Object_ptr
@@ -89,6 +93,8 @@ CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::provide_facet
 {
   throw CORBA::NO_IMPLEMENT ();
 }
+
+#if !defined (CCM_LW)
 
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 CUTS_INLINE
@@ -106,6 +112,8 @@ get_named_facets (const Components::NameList &)
 {
   throw CORBA::NO_IMPLEMENT ();
 }
+
+#endif
 
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 CUTS_INLINE
@@ -125,6 +133,10 @@ disconnect (const char *, ::Components::Cookie *)
   throw CORBA::NO_IMPLEMENT ();
 }
 
+#if !defined (CCM_LW)
+//
+// get_connections
+//
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 CUTS_INLINE
 ::Components::ConnectionDescriptions *
@@ -133,6 +145,9 @@ CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::get_connectio
   throw CORBA::NO_IMPLEMENT ();
 }
 
+//
+// get_all_receptacles
+//
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 CUTS_INLINE
 ::Components::ReceptacleDescriptions *
@@ -141,6 +156,9 @@ CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::get_all_recep
   throw CORBA::NO_IMPLEMENT ();
 }
 
+//
+// get_named_receptacles
+//
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 CUTS_INLINE ::Components::ReceptacleDescriptions *
 CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
@@ -149,20 +167,10 @@ get_named_receptacles (const Components::NameList &)
   throw CORBA::NO_IMPLEMENT ();
 }
 
-template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
-CUTS_INLINE ::CORBA::Boolean
-CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::same_component (::CORBA::Object_ptr)
-{
-  throw CORBA::NO_IMPLEMENT ();
-}
-
-template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
-CUTS_INLINE ::CORBA::IRObject_ptr
-CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::get_component_def (void)
-{
-  throw CORBA::NO_IMPLEMENT ();
-}
-
+#endif
+//
+// get_ccm_home
+//
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 CUTS_INLINE ::Components::CCMHome_ptr
 CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::get_ccm_home (void)
@@ -170,6 +178,31 @@ CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::get_ccm_home 
   throw CORBA::NO_IMPLEMENT ();
 }
 
+
+#if !defined (CCM_LW)
+//
+// same_component
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+CUTS_INLINE ::CORBA::Boolean
+CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::same_component (::CORBA::Object_ptr)
+{
+  throw CORBA::NO_IMPLEMENT ();
+}
+
+//
+// get_component_def
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+CUTS_INLINE ::CORBA::IRObject_ptr
+CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::get_component_def (void)
+{
+  throw CORBA::NO_IMPLEMENT ();
+}
+
+//
+// get_primary_key
+//
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 CUTS_INLINE ::Components::PrimaryKeyBase *
 CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::get_primary_key (void)
@@ -177,9 +210,14 @@ CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::get_primary_k
   throw CORBA::NO_IMPLEMENT ();
 }
 
+//
+// get_all_ports
+//
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 CUTS_INLINE ::Components::ComponentPortDescription *
 CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::get_all_ports (void)
 {
   throw CORBA::NO_IMPLEMENT ();
 }
+
+#endif

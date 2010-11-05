@@ -13,7 +13,7 @@
 #ifndef _CUTS_TCPIP_CCM_CONTEXT_T_H_
 #define _CUTS_TCPIP_CCM_CONTEXT_T_H_
 
-#include "ccm/CCM_SessionContextC.h"
+#include "ccm/Session/CCM_SessionContextC.h"
 #include "cuts/config.h"
 
 /**
@@ -41,10 +41,10 @@ public:
   /// Destructor.
   virtual ~CUTS_TCPIP_CCM_Context_T (void);
 
-  // prospect template methods
-  virtual ::Components::Principal_ptr get_caller_principal (void);
-
   virtual ::Components::CCMHome_ptr get_CCM_home (void);
+
+#if !defined (CCM_LW)
+  virtual ::Components::Principal_ptr get_caller_principal (void);
 
   virtual ::CORBA::Boolean get_rollback_only (void);
 
@@ -53,6 +53,7 @@ public:
   virtual ::CORBA::Boolean is_caller_in_role (const char *);
 
   virtual void set_rollback_only (void);
+#endif
 
   virtual ::CORBA::Object_ptr resolve_service_reference (const char *);
 
