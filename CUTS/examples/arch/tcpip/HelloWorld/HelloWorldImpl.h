@@ -1,7 +1,7 @@
 // -*- C++ -*-
 
-#ifndef _HELLOWORLD_BASIC_IMPL_H_
-#define _HELLOWORLD_BASIC_IMPL_H_
+#ifndef _HELLOWORLDIMPL_H_
+#define _HELLOWORLDIMPL_H_
 
 #if !defined (ACE_LACKS_PRAGMA_ONCE)
 #pragma once
@@ -13,7 +13,7 @@
 
 #include "cuts/Periodic_Event_T.h"
 
-namespace HelloWorld_Basic_Impl
+namespace HelloWorldImpl
 {
   // Type definition of the implentation base type
   typedef CUTS_CCM_Component_T < CIAO_HelloWorld_Impl::HelloWorld_Exec, ::CCM_HelloWorld_Context > HelloWorld_Base;
@@ -36,11 +36,11 @@ namespace HelloWorld_Basic_Impl
     // Destructor
     virtual ~HelloWorld (void);
 
-    // sink: handle_message
-    virtual void push_handle_message (::Message * ev);
+    // sink: input_message
+    virtual void push_input_message (::Message * ev);
 
-    // PeriodicEvent: sendData
-    void periodic_sendData (void);
+    // PeriodicEvent: EventCreator
+    void periodic_EventCreator (void);
 
     // attribute setter: message
     virtual void message (const char * message);
@@ -51,37 +51,29 @@ namespace HelloWorld_Basic_Impl
     // attribute getter: readonly_message
     virtual char * readonly_message (void);
 
-    virtual void ccm_activate (void);
-
     private:
-    // variable: eventCount
-    ::CORBA::Long eventCount_;
-
-    // variable: isActive
-    ::CORBA::Long isActive_;
+    // attribute: readonly_message
+    ACE_CString readonly_message_;
 
     // attribute: message
     ACE_CString message_;
 
-    // attribute: readonly_message
-    ACE_CString readonly_message_;
-
-    // periodic: sendData
-    CUTS_Periodic_Event_T < HelloWorld > periodic_sendData_;
+    // periodic: EventCreator
+    CUTS_Periodic_Event_T < HelloWorld > periodic_EventCreator_;
   };
 }
 
-#include "HelloWorld_Basic_Impl_export.h"
+#include "HelloWorld_impl_export.h"
 
 //
-// create_HelloWorld_Basic_Impl
+// create_HelloWorld_Impl
 //
-extern "C" HELLOWORLD_BASIC_IMPL_Export
-::Components::EnterpriseComponent_ptr create_HelloWorld_Basic_Impl (void);
+extern "C" HELLOWORLD_IMPL_Export
+::Components::EnterpriseComponent_ptr create_HelloWorld_Impl (void);
 
 #include "ace/post.h"
 
-#endif  // !defined _HELLOWORLD_H_
+#endif  // !defined _HELLOWORLDIMPL_H_
 
 // end of auto-generated file
 

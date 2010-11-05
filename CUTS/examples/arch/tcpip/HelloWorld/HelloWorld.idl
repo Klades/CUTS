@@ -20,14 +20,14 @@ eventtype Message
 
 component HelloWorld
 {
-  consumes Message handle_message;
-  
-  emits Message handle_message;
-  
+  consumes Message input_message;
+
+  emits Message output_message;
+
   publishes Message handle_message_ex;
-  
+
   readonly attribute string readonly_message;
-  
+
   attribute string message;
 };
 

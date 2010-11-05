@@ -19,21 +19,33 @@ HelloWorld_Servant_Context::~HelloWorld_Servant_Context (void)
 {
 }
 
-void HelloWorld_Servant_Context::push_handle_message (::Message * ev)
+//
+// push_output_message
+//
+void HelloWorld_Servant_Context::push_output_message (::Message * ev)
 {
-  this->handle_message_.send_event (ev);
+  this->output_message_.send_event (ev);
 }
 
-CUTS_TCPIP_CCM_Remote_Endpoint & HelloWorld_Servant_Context::endpoint_handle_message (void)
+//
+// endpoint_output_message
+//
+CUTS_TCPIP_CCM_Remote_Endpoint & HelloWorld_Servant_Context::endpoint_output_message (void)
 {
-  return this->handle_message_;
+  return this->output_message_;
 }
 
+//
+// push_handle_message_ex
+//
 void HelloWorld_Servant_Context::push_handle_message_ex (::Message * ev)
 {
   this->handle_message_ex_.send_event (ev);
 }
 
+//
+// endpoints_handle_message_ex
+//
 CUTS_TCPIP_CCM_Subscriber_Table & HelloWorld_Servant_Context::endpoints_handle_message_ex (void)
 {
   return this->handle_message_ex_;
@@ -43,16 +55,15 @@ CUTS_TCPIP_CCM_Subscriber_Table & HelloWorld_Servant_Context::endpoints_handle_m
 // HelloWorld_Servant
 //
 HelloWorld_Servant::
-HelloWorld_Servant (const char * name,
-                    ::CIAO_HelloWorld_Impl::HelloWorld_Exec_ptr executor)
+HelloWorld_Servant (const char * name, executor_type::_ptr_type executor)
 : HelloWorld_Servant_Base (name, executor),
-  handle_message_consumer_ (this, 0)
+  input_message_consumer_ (this, 0)
 {
   // Initializing the consumer table.
-  this->consumers_.bind ("handle_message", &this->handle_message_consumer_);
+  this->consumers_.bind ("input_message", &this->input_message_consumer_);
 
   // Initializing the publishes/emits table.
-  this->emits_.bind ("handle_message", &this->ctx_->endpoint_handle_message ());
+  this->emits_.bind ("output_message", &this->ctx_->endpoint_output_message ());
   this->publishes_.bind ("handle_message_ex", &this->ctx_->endpoints_handle_message_ex ());
 
   // Guard the initialization of the virtual table.
@@ -61,7 +72,7 @@ HelloWorld_Servant (const char * name,
   if (HelloWorld_Servant::table_.is_init ())
     return;
 
-  HelloWorld_Servant::table_[0] = &HelloWorld_Servant::tcpip_handle_message;
+  HelloWorld_Servant::table_[0] = &HelloWorld_Servant::tcpip_input_message;
 }
 
 //
@@ -72,19 +83,19 @@ HelloWorld_Servant::~HelloWorld_Servant (void)
 }
 
 //
-// connect_handle_message
+// connect_output_message
 //
 void HelloWorld_Servant::
-connect_handle_message (::MessageConsumer_ptr)
+connect_output_message (::MessageConsumer_ptr)
 {
   throw ::CORBA::NO_IMPLEMENT ();
 }
 
 //
-// disconnect_handle_message
+// disconnect_output_message
 //
 ::MessageConsumer_ptr HelloWorld_Servant::
-disconnect_handle_message (void)
+disconnect_output_message (void)
 {
   throw ::CORBA::NO_IMPLEMENT ();
 }
@@ -108,24 +119,24 @@ unsubscribe_handle_message_ex (::Components::Cookie *)
 }
 
 //
-// get_consumer_handle_message
+// get_consumer_input_message
 //
 ::MessageConsumer_ptr HelloWorld_Servant::
-get_consumer_handle_message (void)
+get_consumer_input_message (void)
 {
   throw ::CORBA::NO_IMPLEMENT ();
 }
 
 //
-// tcpip_handle_message
+// tcpip_input_message
 //
 int HelloWorld_Servant::
-tcpip_handle_message (HelloWorld_Servant * svnt, CUTS_TCPIP_InputCDR & stream)
+tcpip_input_message (HelloWorld_Servant * svnt, CUTS_TCPIP_InputCDR & stream)
 {
-  // Extract the event from the stream.
-  CUTS_CCM_Event_T < ::OBV_Message > event;
+  // Extract the ev from the stream.
+  CUTS_CCM_Event_T < ::OBV_Message > ev;
 
-  if (!(stream >> *event.in ()))
+  if (!(stream >> *ev.in ()))
   {
     ACE_ERROR_RETURN ((LM_ERROR,
                        ACE_TEXT ("%T (%t) - %M - failed to extract %s from stream\n"),
@@ -135,7 +146,7 @@ tcpip_handle_message (HelloWorld_Servant * svnt, CUTS_TCPIP_InputCDR & stream)
 
   // Push the message to the implementation.
   if (svnt->impl_)
-    svnt->impl_->push_handle_message (event.in ());
+    svnt->impl_->push_input_message (ev.in ());
 
   return 0;
 }
@@ -171,7 +182,7 @@ create_HelloWorld_Servant (const char * name,
 {
   return ::CUTS_TCPIP::CCM::create_servant <
     ::CIAO_HelloWorld_Impl::HelloWorld_Exec,
-    ::HelloWorld_Servant > (name, p);
+    HelloWorld_Servant > (name, p);
 }
 
 

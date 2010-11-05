@@ -1,3 +1,30 @@
+Fri Nov  5 03:39:34 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld.idl:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.mwc:
+        * examples/arch/tcpip/HelloWorld/HelloWorldImpl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorldImpl.cpp:
+        * examples/arch/tcpip/HelloWorld/HelloWorldImpl.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.cpp:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldC.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldC.cpp:
+        * examples/arch/tcpip/HelloWorld/descriptors/HelloWorld.cdp:
+        * examples/arch/tcpip/HelloWorld/descriptors/run_test.pl:
+
+          Updated to latest version of the runtime architecture.
+
+        * examples/arch/tcpip/HelloWorld/models/HelloWorld.xme:
+
+          Updated to latest version of metamodel.
+
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_Basic_Impl.cpp:
+
+          Removed these files.
+
 Thu Nov  4 03:29:49 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_algorithm.h:

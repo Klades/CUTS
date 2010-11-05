@@ -34,16 +34,16 @@ class HelloWorld_Servant_Context : public HelloWorld_Servant_Context_Base
   virtual ~HelloWorld_Servant_Context (void);
 
   public:
-  // push method for output event port: handle_message
-  virtual void push_handle_message (::Message * ev);
+  // push method for output ev port: output_message
+  virtual void push_output_message (::Message * ev);
 
-  CUTS_TCPIP_CCM_Remote_Endpoint & endpoint_handle_message (void);
+  CUTS_TCPIP_CCM_Remote_Endpoint & endpoint_output_message (void);
 
   private:
-  CUTS_TCPIP_CCM_Remote_Endpoint_T < ::Message > handle_message_;
+  CUTS_TCPIP_CCM_Remote_Endpoint_T < ::Message > output_message_;
 
   public:
-  // push method for output event port: handle_message_ex
+  // push method for output ev port: handle_message_ex
   virtual void push_handle_message_ex (::Message * ev);
 
   CUTS_TCPIP_CCM_Subscriber_Table & endpoints_handle_message_ex (void);
@@ -67,28 +67,27 @@ class HelloWorld_Servant : public HelloWorld_Servant_Base
 {
   public:
   // default constructor
-  HelloWorld_Servant (const char * name, 
-                      CIAO_HelloWorld_Impl::HelloWorld_Exec_ptr executor);
+  HelloWorld_Servant (const char * name, executor_type::_ptr_type executor);
 
   // destructor
   virtual ~HelloWorld_Servant (void);
 
-  void connect_handle_message (::MessageConsumer_ptr);
+  void connect_output_message (::MessageConsumer_ptr);
 
-  ::MessageConsumer_ptr disconnect_handle_message (void);
+  ::MessageConsumer_ptr disconnect_output_message (void);
 
   ::Components::Cookie * subscribe_handle_message_ex (::MessageConsumer_ptr);
 
   ::MessageConsumer_ptr unsubscribe_handle_message_ex (::Components::Cookie *);
 
   public:
-  ::MessageConsumer_ptr get_consumer_handle_message (void);
+  ::MessageConsumer_ptr get_consumer_input_message (void);
 
-  static int tcpip_handle_message (HelloWorld_Servant * svnt,
-                                   CUTS_TCPIP_InputCDR & input);
+  static int tcpip_input_message (HelloWorld_Servant * svnt,
+                                  CUTS_TCPIP_InputCDR & input);
 
   private:
-  CUTS_TCPIP_CCM_EventConsumer handle_message_consumer_;
+  CUTS_TCPIP_CCM_EventConsumer input_message_consumer_;
 
   public:
   virtual void message (const char * message);
