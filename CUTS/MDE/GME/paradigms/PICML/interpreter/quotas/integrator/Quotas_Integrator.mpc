@@ -10,6 +10,8 @@ project (Quotas_Integrator) : game_manip, game_interpreter, game_utils, \
   pch_source = stdafx.cpp
 
   Source_Files {
+    Quotas_Deployment_Generator.cpp
+    Quotas_Domain_Generator.cpp
     Quotas_Driver_Component.cpp
     Quotas_Integrator.idl
     Quotas_Integrator_Module.cpp

@@ -4,6 +4,8 @@
 #include "Quotas_Integrator.h"
 #include "Quotas_Integrator_Impl.h"
 #include "Quotas_Driver_Component.h"
+#include "Quotas_Domain_Generator.h"
+#include "Quotas_Deployment_Generator.h"
 
 #include "game/be/Interpreter_T.h"
 #include "game/ComponentEx.h"
@@ -196,13 +198,22 @@ invoke_ex (GAME::Project & project,
         if (!this->get_receptacle_and_method (driver, receptacle, method))
           return 0;
 
-        if (!this->integrate (component, receptacle, method, behavior, driver))
+        GAME::Model assembly;
+        if (!this->integrate (component, receptacle, method, behavior, driver, assembly))
+          return 0;
+
+        GAME::Model domain;
+        if (!this->generate_domain (project, domain))
+          return 0;
+
+        GAME::Model deployment;
+        if (!this->generate_deployment (project, domain, assembly, deployment))
           return 0;
       }
     }
-    catch (const GAME::Failed_Result & ex)
+    catch (const GAME::Failed_Result & )
     {
-      long v = ex.value ();
+
     }
     catch (const GAME::Exception & )
     {
@@ -224,12 +235,13 @@ invoke_ex (GAME::Project & project,
 //
 // integrate
 //
-int Quotas_Integrator_Impl::
+bool Quotas_Integrator_Impl::
 integrate (const GAME::Model & component,
            const GAME::Reference & receptacle,
            const GAME::Model & method,
            const GAME::Model & behavior,
-           GAME::Model driver)
+           GAME::Model driver,
+           GAME::Model & assembly)
 {
   // First, let's create the remaining structure of the test.
   GAME::Atom driver_impl, component_impl;
@@ -308,17 +320,95 @@ integrate (const GAME::Model & component,
 
   // Generate the default implementations and the assembly.
   if (!this->get_default_qoutas_impl (driver, driver_impl))
-    return -1;
+    return false;
 
   if (!this->get_default_qoutas_impl (component, component_impl))
-    return -1;
+    return false;
 
   t.commit ();
 
-  if (!this->create_assembly (driver_impl, driver_inst, component_impl, component_inst))
-    return -1;
+  if (!this->create_assembly (driver_impl, component_impl, assembly))
+    return false;
 
-  return 0;
+  return true;
+}
+
+//
+// generate_domain
+//
+bool Quotas_Integrator_Impl::
+generate_domain (GAME::Project proj, GAME::Model & domain)
+{
+  // Start a new tranaction.
+  GAME::Transaction t (proj);
+
+  static const std::string meta_Targets ("Targets");
+  static const std::string constant_Quotas_Targets ("Quotas_Targets");
+
+  // Create the folder for the domain.
+  GAME::Folder targets;
+  if (GAME::create_if_not (proj.root_folder (), meta_Targets, targets,
+      GAME::contains (boost::bind (std::equal_to <std::string> (),
+                                   constant_Quotas_Targets,
+                                   boost::bind (&GAME::Folder::name, _1)))))
+  {
+    targets.name (constant_Quotas_Targets);
+  }
+
+  static const std::string constant_Quotas_Domain ("Quotas_Domain");
+  Quotas_Domain_Generator domain_gen;
+
+  // Now, let's create the domain.
+  if (!domain_gen.generate (targets, constant_Quotas_Domain, 1))
+    return false;
+
+  domain = domain_gen.generated_domain ();
+  t.commit ();
+
+  return true;
+}
+
+//
+// generate_deployment
+//
+bool Quotas_Integrator_Impl::
+generate_deployment (GAME::Project proj,
+                     const GAME::Model & domain,
+                     const GAME::Model & assembly,
+                     GAME::Model & deployment)
+{
+  // Start a new tranaction.
+  GAME::Transaction t (proj);
+
+  static const std::string meta_DeploymentPlans ("DeploymentPlans");
+  static const std::string constant_Quotas_DeploymentPlans ("Quotas_DeploymentPlans");
+
+  // Create the folder for the deployment plans.
+  GAME::Folder plans;
+  if (GAME::create_if_not (proj.root_folder (), meta_DeploymentPlans, plans,
+      GAME::contains (boost::bind (std::equal_to <std::string> (),
+                                   constant_Quotas_DeploymentPlans,
+                                   boost::bind (&GAME::Folder::name, _1)))))
+  {
+    plans.name (constant_Quotas_DeploymentPlans);
+  }
+
+  t.commit ();
+
+  // Create the deployment plan.
+  static const std::string constant_DeploymentPlan ("DeploymentPlan");
+  Quotas_Deployment_Generator deployment_gen;
+
+  if (!deployment_gen.generate (plans,
+                                constant_DeploymentPlan,
+                                domain,
+                                assembly,
+                                deployment))
+  {
+    return false;
+  }
+
+  return true;
 }
 
 //
@@ -371,9 +461,8 @@ get_default_qoutas_impl (const GAME::Model & c, GAME::Atom & impl)
 //
 bool Quotas_Integrator_Impl::
 create_assembly (const GAME::Atom & driver_impl,
-                 GAME::Model & driver_inst,
                  const GAME::Atom & comp_impl,
-                 GAME::Model & comp_inst)
+                 GAME::Model & assembly)
 {
   GAME::Transaction t (driver_impl.project ());
 
@@ -404,7 +493,6 @@ create_assembly (const GAME::Atom & driver_impl,
   }
 
   // Create the assembly for the component.
-  GAME::Model assembly;
   if (GAME::create_if_not (container, meta::ComponentAssembly, assembly,
       GAME::contains (boost::bind (std::equal_to <std::string> (),
                                    assembly_name,
@@ -414,6 +502,7 @@ create_assembly (const GAME::Atom & driver_impl,
   }
 
   // Create the component instance for the target component.
+  GAME::Model comp_inst;
   if (GAME::create_if_not (assembly, meta::ComponentInstance, comp_inst,
       GAME::contains (boost::bind (std::equal_to <std::string> (),
                                    comp_impl.name (),
@@ -428,6 +517,7 @@ create_assembly (const GAME::Atom & driver_impl,
   inst_type.refers_to (comp_impl);
 
   // Create the component instance for the driver component.
+  GAME::Model driver_inst;
   if (GAME::create_if_not (assembly, meta::ComponentInstance, driver_inst,
       GAME::contains (boost::bind (std::equal_to <std::string> (),
                                    driver_impl.name (),

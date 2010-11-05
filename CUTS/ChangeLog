@@ -1,3 +1,16 @@
+Fri Nov  5 15:47:10 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Deployment_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Deployment_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Domain_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Domain_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Integrator.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Integrator_Impl.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Integrator_Impl.cpp:
+
+          Added support for generating a simple deployment plan for
+          the integrated solution.
+
 Fri Nov  5 13:58:25 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/CCM.mpc:

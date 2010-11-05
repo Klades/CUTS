@@ -45,9 +45,8 @@ private:
                                 GAME::Atom & impl);
 
   bool create_assembly (const GAME::Atom & driver_impl,
-                        GAME::Model & driver_inst,
                         const GAME::Atom & comp_impl,
-                        GAME::Model & comp_inst);
+                        GAME::Model & assembly);
 
   bool generate_driver_component (const GAME::Model & component,
                                   GAME::Folder & idl_folder,
@@ -68,11 +67,20 @@ private:
 
   bool get_target_component (GAME::Project & p, GAME::Model & c);
 
-  int integrate (const GAME::Model & component,
-                 const GAME::Reference & receptacle,
-                 const GAME::Model & method,
-                 const GAME::Model & behavior,
-                 GAME::Model driver);
+  bool integrate (const GAME::Model & component,
+                  const GAME::Reference & receptacle,
+                  const GAME::Model & method,
+                  const GAME::Model & behavior,
+                  GAME::Model driver,
+                  GAME::Model & assembly);
+
+  bool generate_domain (GAME::Project proj,
+                        GAME::Model & domain);
+
+  bool generate_deployment (GAME::Project proj,
+                            const GAME::Model & domain,
+                            const GAME::Model & assembly,
+                            GAME::Model & deployment);
 
   bool create_action_parameter (GAME::Model action,
                                 const GAME::Reference & param,
