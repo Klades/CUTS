@@ -9,15 +9,14 @@
 // successfully build parts of (or the entire) workspace.
 //===================================================================
 
-workspace (SimpleExample) {
+workspace (HelloWorld) {
   // -- initialize the includes for the project.
   cmdline += -include $CUTS_ROOT/MPC/config \
              -feature_file $CUTS_ROOT/default.features \
              -relative PROJECT_ROOT=
 
-  SimpleComponent_Basic_Impl.mpc
-  SimpleComponent.mpc
-  ModelDDSData.mpc
+  HelloWorldImpl.mpc
+  HelloWorld.mpc
 }
 
 // end of auto-generated workspace

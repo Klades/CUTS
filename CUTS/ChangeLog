@@ -1,3 +1,41 @@
+Sun Nov  7 22:08:30 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/arch/HelloWorld/arch/ciao:
+        * examples/arch/HelloWorld/arch/ciao/HelloWorld.idl:
+        * examples/arch/HelloWorld/arch/ciao/HelloWorld.mpc:
+        * examples/arch/HelloWorld/arch/ciao/HelloWorld.mwc:
+        * examples/arch/HelloWorld/arch/ciao/HelloWorldE.idl:
+        * examples/arch/HelloWorld/arch/ciao/HelloWorldImpl.h:
+        * examples/arch/HelloWorld/arch/ciao/HelloWorldImpl.cpp:
+        * examples/arch/HelloWorld/arch/ciao/HelloWorldImpl.mpc:
+        * examples/arch/HelloWorld/arch/ciao/descriptors:
+        * examples/arch/HelloWorld/arch/ciao/descriptors/HelloWorld.cdd:
+        * examples/arch/HelloWorld/arch/ciao/descriptors/HelloWorld.cdp:
+        * examples/arch/HelloWorld/arch/ciao/descriptors/HelloWorld.nodemap:
+        * examples/arch/HelloWorld/arch/ciao/descriptors/run_test.pl:
+
+          Relocation and conversion of the CIAO example to the
+          HelloWorld example.
+
+        * examples/arch/ciao:
+        * examples/arch/ciao/SimpleExample:
+        * examples/arch/ciao/SimpleExample/ModelDDSData.idl:
+        * examples/arch/ciao/SimpleExample/ModelDDSData.mpc:
+        * examples/arch/ciao/SimpleExample/SimpleComponent.idl:
+        * examples/arch/ciao/SimpleExample/SimpleComponent.mpc:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_Basic_Impl.mpc:
+        * examples/arch/ciao/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/ciao/SimpleExample/SimpleExample.mwc:
+        * examples/arch/ciao/SimpleExample/descriptors:
+        * examples/arch/ciao/SimpleExample/descriptors/SimpleExample.cdp:
+        * examples/arch/ciao/SimpleExample/descriptors/nodemap.dat:
+        * examples/arch/ciao/SimpleExample/descriptors/run_test.pl:
+        * examples/arch/ciao/SimpleExample/models:
+        * examples/arch/ciao/SimpleExample/models/SimpleExample.xme:
+
+          Removed these files.
+
 Sun Nov  7 21:57:59 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/arch/HelloWorld:
