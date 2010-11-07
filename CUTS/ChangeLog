@@ -1,3 +1,51 @@
+Sun Nov  7 21:57:59 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/arch/HelloWorld:
+        * examples/arch/HelloWorld/arch:
+        * examples/arch/HelloWorld/arch/tcpip:
+        * examples/arch/HelloWorld/arch/tcpip/HelloWorld.idl:
+        * examples/arch/HelloWorld/arch/tcpip/HelloWorld.mpc:
+        * examples/arch/HelloWorld/arch/tcpip/HelloWorld.mwc:
+        * examples/arch/HelloWorld/arch/tcpip/HelloWorldImpl.h:
+        * examples/arch/HelloWorld/arch/tcpip/HelloWorldImpl.cpp:
+        * examples/arch/HelloWorld/arch/tcpip/HelloWorldImpl.mpc:
+        * examples/arch/HelloWorld/arch/tcpip/HelloWorld_svnt.h:
+        * examples/arch/HelloWorld/arch/tcpip/HelloWorld_svnt.cpp:
+        * examples/arch/HelloWorld/arch/tcpip/TCPIP_HelloWorldC.h:
+        * examples/arch/HelloWorld/arch/tcpip/TCPIP_HelloWorldC.cpp:
+        * examples/arch/HelloWorld/arch/tcpip/descriptors:
+        * examples/arch/HelloWorld/arch/tcpip/descriptors/HelloWorld.cdd:
+        * examples/arch/HelloWorld/arch/tcpip/descriptors/HelloWorld.cdp:
+        * examples/arch/HelloWorld/arch/tcpip/descriptors/HelloWorld.nodemap:
+        * examples/arch/HelloWorld/arch/tcpip/descriptors/run_test.pl:
+        * examples/arch/HelloWorld/models:
+        * examples/arch/HelloWorld/models/HelloWorld.xme:
+
+          Relocation of the HelloWorld example to reduce duplication
+          across different architectures.
+
+        * examples/arch/tcpip:
+        * examples/arch/tcpip/HelloWorld:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.idl:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorld.mwc:
+        * examples/arch/tcpip/HelloWorld/HelloWorldImpl.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorldImpl.mpc:
+        * examples/arch/tcpip/HelloWorld/HelloWorldImpl.cpp:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.h:
+        * examples/arch/tcpip/HelloWorld/HelloWorld_svnt.cpp:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldC.h:
+        * examples/arch/tcpip/HelloWorld/TCPIP_HelloWorldC.cpp:
+        * examples/arch/tcpip/HelloWorld/descriptors:
+        * examples/arch/tcpip/HelloWorld/descriptors/HelloWorld.cdd:
+        * examples/arch/tcpip/HelloWorld/descriptors/HelloWorld.cdp:
+        * examples/arch/tcpip/HelloWorld/descriptors/HelloWorld.nodemap:
+        * examples/arch/tcpip/HelloWorld/descriptors/run_test.pl:
+        * examples/arch/tcpip/HelloWorld/models:
+        * examples/arch/tcpip/HelloWorld/models/HelloWorld.xme:
+
+          Removed these files.
+
 Fri Nov  5 15:47:10 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Deployment_Generator.h:

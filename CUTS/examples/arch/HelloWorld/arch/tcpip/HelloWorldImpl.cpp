@@ -28,10 +28,6 @@ namespace HelloWorldImpl
   //
   void HelloWorld::push_input_message (::Message * ev)
   {
-    ACE_DEBUG ((LM_DEBUG,
-                ACE_TEXT ("%s\n"),
-                ev->content ()));
-
     CUTS_CCM_Event_T <OBV_Message> __event_100000014__;
     __event_100000014__->content (ev->content ());
     this->ctx_->push_output_message (__event_100000014__.in ());
@@ -81,13 +77,13 @@ namespace HelloWorldImpl
 //
 // create_HelloWorld_Impl
 //
-::Components::EnterpriseComponent_ptr
+::Components::EnterpriseComponent_ptr 
 create_HelloWorld_Impl (void)
 {
   ::Components::EnterpriseComponent_ptr retval =
     ::Components::EnterpriseComponent::_nil ();
 
-  ACE_NEW_RETURN (retval,
+  ACE_NEW_RETURN (retval, 
                   ::HelloWorldImpl::HelloWorld (),
                   ::Components::EnterpriseComponent::_nil ());
 

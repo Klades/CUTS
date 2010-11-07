@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{C8FC0B1B-8D31-4E21-906E-5654687F8DDD}" cdate="Tue Nov 02 13:08:00 2010" mdate="Tue Nov 02 13:08:00 2010" version="" metaguid="{0036ADCA-2A43-4F2B-9A4A-2AC2DBD958FA}" metaversion="" metaname="PICML">
+<project guid="{FF2FC821-D446-4A12-9989-B633746849A2}" cdate="Tue Nov 02 13:08:00 2010" mdate="Tue Nov 02 13:08:00 2010" version="" metaguid="{0036ADCA-2A43-4F2B-9A4A-2AC2DBD958FA}" metaversion="" metaname="PICML">
 	<name>HelloWorld</name>
 	<comment></comment>
 	<author></author>
-	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x6" kind="RootFolder" guid="{cdc3144f-3aa4-409c-8f17-be81b98b96d0}">
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x7" kind="RootFolder" guid="{cdc3144f-3aa4-409c-8f17-be81b98b96d0}">
 		<name>HelloWorld</name>
 		<folder id="id-006a-00000002" relid="0x0" childrelidcntr="0x1" kind="InterfaceDefinitions" guid="{2456f9cb-c32e-4314-add6-8a742ba35a83}">
 			<name>InterfaceDefinitions</name>
@@ -19,6 +19,15 @@
 				</attribute>
 				<model id="id-0065-00000002" kind="Event" role="Event" guid="{55082c85-e002-487d-9010-7f4b3befd4b3}" relid="0x0" childrelidcntr="0x1">
 					<name>Message</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="InterfaceDefinition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>97,97</value>
+							</regnode>
+						</regnode>
+					</regnode>
 					<attribute kind="PrefixTag" status="meta">
 						<value></value>
 					</attribute>
@@ -58,6 +67,15 @@
 				</model>
 				<model id="id-0065-00000003" kind="Aggregate" role="Aggregate" guid="{ea562ab7-8d55-4498-a4fc-6d05689b0e1c}" relid="0x0" childrelidcntr="0x1">
 					<name>TimeValue</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="InterfaceDefinition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>13,55</value>
+							</regnode>
+						</regnode>
+					</regnode>
 					<attribute kind="SpecifyIdTag" status="meta">
 						<value></value>
 					</attribute>
@@ -89,8 +107,17 @@
 						</regnode>
 					</reference>
 				</model>
-				<model id="id-0065-00000004" kind="Component" role="Component" guid="{51af2c64-f8de-44f0-b82b-292b1601cade}" relid="0x0" childrelidcntr="0x14">
+				<model id="id-0065-00000004" kind="Component" role="Component" guid="{51af2c64-f8de-44f0-b82b-292b1601cade}" relid="0x0" childrelidcntr="0xc8">
 					<name>HelloWorld</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="InterfaceDefinition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>104,232</value>
+							</regnode>
+						</regnode>
+					</regnode>
 					<attribute kind="SpecifyIdTag" status="meta">
 						<value></value>
 					</attribute>
@@ -531,6 +558,15 @@
 				</model>
 				<model id="id-0065-00000007" kind="ComponentFactory" role="ComponentFactory" guid="{53e9518e-b81a-4de4-9cd9-0606fd7183ac}" relid="0x0" childrelidcntr="0x0">
 					<name>HelloWorldHome</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="InterfaceDefinition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>13,13</value>
+							</regnode>
+						</regnode>
+					</regnode>
 					<attribute kind="SpecifyIdTag" status="meta">
 						<value></value>
 					</attribute>
@@ -1044,6 +1080,99 @@
 						</regnode>
 					</regnode>
 				</set>
+			</model>
+		</folder>
+		<folder id="id-006a-00000008" relid="0x7" childrelidcntr="0x1" kind="WorkerLibraries" guid="{01321868-c99f-4ba8-8b93-cd76b13ff96a}">
+			<name>WorkerLibraries</name>
+			<model id="id-0065-00000015" kind="WorkerLibrary" guid="{4474ac1b-66fd-403d-b207-f76be51fd0d2}" relid="0x1" childrelidcntr="0x1">
+				<name>WorkerLibrary</name>
+				<attribute kind="Location" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-00000016" kind="WorkerFile" role="WorkerFile" guid="{c3be1f8d-000d-466e-beaa-66b99d03fc88}" relid="0x1" childrelidcntr="0x2">
+					<name>WorkerFile</name>
+					<attribute kind="Location" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000017" kind="Worker" role="Worker" guid="{2ea05291-3c1b-4d6c-b868-cbd296dc14e6}" relid="0x1" childrelidcntr="0x2">
+						<name>FooWorker</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="WorkerBehavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>161,149</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Abstract" status="meta">
+							<value>false</value>
+						</attribute>
+						<model id="id-0065-0000001b" kind="Operation" role="Operation" guid="{04648810-53cf-42d3-ab03-5731865c563c}" relid="0x1" childrelidcntr="0x0">
+							<name>operation1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="WorkerBehavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>192,122</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</model>
+						<model id="id-0065-0000001c" kind="Operation" role="Operation" guid="{1d3ee529-a316-49b4-b7b6-54ed740b1c4e}" relid="0x2" childrelidcntr="0x0">
+							<name>operation2</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="WorkerBehavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>192,206</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</model>
+					</model>
+					<model id="id-0065-00000018" kind="Worker" role="Worker" guid="{24ffd77a-f4b4-48f3-9c2c-49c8554aa0f0}" relid="0x2" childrelidcntr="0x2">
+						<name>BarWorker</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="WorkerBehavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>294,149</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Abstract" status="meta">
+							<value>false</value>
+						</attribute>
+						<model id="id-0065-00000019" kind="Operation" role="Operation" guid="{7198ceb0-a305-4080-a8b5-0e1daeb2bcf6}" relid="0x1" childrelidcntr="0x0">
+							<name>operation1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="WorkerBehavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>192,122</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</model>
+						<model id="id-0065-0000001a" kind="Operation" role="Operation" guid="{8acf89fa-b51d-4919-8990-505ffe227e69}" relid="0x2" childrelidcntr="0x0">
+							<name>operation2</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="WorkerBehavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>192,199</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</model>
+					</model>
+				</model>
 			</model>
 		</folder>
 		<regnode name="DeploymentPlanGenerator" status="undefined">
