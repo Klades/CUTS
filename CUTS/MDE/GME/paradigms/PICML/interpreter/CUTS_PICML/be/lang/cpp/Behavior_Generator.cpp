@@ -131,14 +131,15 @@ generate (const PICML::Action & action)
   // then we need to invoke the logging method. If not, then we
   // need to invoke the non-logging method.
 
-  PICML::Action action_type = PICML::Action (action).Archetype ();
+  PICML::ActionType action_type = action.ActionType_child ();
+  PICML::Operation op = action_type.ref ();
 
   this->ctx_.source_
     << "this->" << action.name () << "_."
-    << action_type.name () << " (";
+    << op.name () << " (";
 
   typedef std::vector <PICML::Property> Property_Set;
-  Property_Set args = action_type.Property_kind_children ();
+  Property_Set args = action.Property_kind_children ();
 
   this->ctx_.arg_count_ = args.size ();
 }

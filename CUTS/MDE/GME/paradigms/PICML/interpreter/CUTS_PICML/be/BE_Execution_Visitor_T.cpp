@@ -613,11 +613,11 @@ Visit_RequestAction (const PICML::RequestAction & action)
 }
 
 //
-// Visit_Property
+// Visit_SimpleProperty
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_Property (const PICML::Property & prop)
+Visit_SimpleProperty (const PICML::SimpleProperty & prop)
 {
   CUTS_BE_Action_Property_T <CONTEXT> action_property_gen (this->context_);
   action_property_gen.generate (prop);
@@ -634,14 +634,15 @@ Visit_Action (const PICML::Action & action)
   CUTS_BE_WorkerAction_Begin_T <CONTEXT> worker_action_begin (this->context_);
   worker_action_begin.generate (action);
 
-  // Generate the parameters for the action.
-  typedef std::set <PICML::Property,
-                    Sort_By_Position <PICML::Property> >
+  // Generate the parameters for the action. Right now, we only
+  // support SimpleProperty elements.
+  typedef std::set <PICML::SimpleProperty,
+                    Sort_By_Position <PICML::SimpleProperty> >
                     Property_Set;
 
   Property_Set properties =
-    action.Property_kind_children_sorted (
-    Sort_By_Position <PICML::Property> ());
+    action.SimpleProperty_kind_children_sorted (
+    Sort_By_Position <PICML::SimpleProperty> ());
 
   if (!properties.empty ())
   {

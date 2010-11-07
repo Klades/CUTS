@@ -83,7 +83,7 @@ protected:
   void Visit_WhileState (const PICML::WhileState &);
 
   /// Visit a Property element.
-  void Visit_Property (const PICML::Property &);
+  void Visit_SimpleProperty (const PICML::SimpleProperty &);
 
   /// Visit an Action element.
   void Visit_Action (const PICML::Action &);

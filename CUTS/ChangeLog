@@ -1,3 +1,37 @@
+Sun Nov  7 23:00:31 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Execution_Visitor_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Execution_Visitor_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.cpp:
+
+          Bug fix where the behavior generator was not handling action
+          property elements correctly. This was resulting in function
+          parameters not being generated.
+
+        * cuts/workers/CPU/models:
+        * cuts/workers/CPU/models/CUTS_CPU_Worker.xme:
+
+          New location of the CPU workload generator model.
+
+        * examples/cuts/workload:
+        * examples/cuts/workload/cpu:
+        * examples/cuts/workload/cpu/HelloWorld.idl:
+        * examples/cuts/workload/cpu/HelloWorld.mpc:
+        * examples/cuts/workload/cpu/HelloWorldImpl.h:
+        * examples/cuts/workload/cpu/HelloWorldImpl.cpp:
+        * examples/cuts/workload/cpu/HelloWorldImpl.mpc:
+        * examples/cuts/workload/cpu/HelloWorld_CPU.mwc:
+        * examples/cuts/workload/cpu/lib:
+        * examples/cuts/workload/cpu/models:
+        * examples/cuts/workload/cpu/models/HelloWorld_CPU.xme:
+
+          Example illustrating the usage of the CPU workload generator
+          in a model.
+
+        * MDE/GME/paradigms/PICML/models/workers/CUTS_CPU_Worker.xme:
+
+          Removed this file.
+
 Sun Nov  7 22:08:30 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/arch/HelloWorld/arch/ciao:
