@@ -301,10 +301,20 @@ set_attributes (::CORBA::Object_ptr ref,
   ::PortableServer::ServantBase_var base = this->poa_->id_to_servant (oid.in ());
   SERVANT_BASE * servant = dynamic_cast <SERVANT_BASE *> (base.in ());
 
+  if (0 == servant)
+  {
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - failed to get servant for %s\n"),
+                idstr.in ()));
+
+    return;
+  }
+
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - setting attributes for %s\n"),
               idstr.in ()));
 
+  this->strategy_->configure_servant (servant, values);
   servant->set_attributes (values);
 }
 

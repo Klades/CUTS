@@ -24,18 +24,21 @@ class CUTS_OpenSplice_CCM_Container;
  *
  * Implementation of the CCM container startegy for OpenSplice.
  */
-class CUTS_OPENSPLICE_COMPONENTSERVER_Export CUTS_OpenSplice_CCM_Container_Strategy :
+class CUTS_OSPL_DEPLOYMENT_HANDLERS_Export CUTS_OpenSplice_CCM_Container_Strategy :
   public CUTS_CCM_Container_Strategy_T <CUTS_OpenSplice_CCM_Container>
 {
 public:
+  /// Type definition of the base type.
   typedef CUTS_CCM_Container_Strategy_T <CUTS_OpenSplice_CCM_Container> base_type;
 
+  /// Initializing constructor.
   CUTS_OpenSplice_CCM_Container_Strategy (CUTS_OpenSplice_CCM_Container & container);
 
+  /// Destructor.
   virtual ~CUTS_OpenSplice_CCM_Container_Strategy (void);
 
   virtual void configure_servant (::PortableServer::Servant servant,
-				  const ::Components::ConfigValues & config);
+                                  const ::Components::ConfigValues & config);
 
 private:
   CUTS_OpenSplice_Configurator configurator_;

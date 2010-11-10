@@ -7,7 +7,6 @@
 #endif
 
 #include "OpenSplice_Container.h"
-#include "OpenSplice_ComponentServer.h"
 #include "cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.h"
 
 //
@@ -26,17 +25,23 @@ CUTS_OpenSplice_CCM_Container_Strategy (CUTS_OpenSplice_CCM_Container & containe
 void
 CUTS_OpenSplice_CCM_Container_Strategy::
 configure_servant (::PortableServer::Servant servant,
-		   const ::Components::ConfigValues & config)
+                   const ::Components::ConfigValues & config)
 {
+  ACE_DEBUG ((LM_DEBUG, "configure_servant ()\n"));
+
   // Convert the servant into an OpenSplice servant.
   CUTS_OpenSplice_CCM_Servant * ospl_servant =
     dynamic_cast <CUTS_OpenSplice_CCM_Servant *> (servant);
 
   if (0 == ospl_servant)
+  {
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - object is not an OpenSplice servant\n")));
     return;
+  }
 
   if (0 != this->configurator_.configure (ospl_servant, config))
     ACE_ERROR ((LM_ERROR,
-		"%T (%t) - %M - failed to configure OpenSplice servant\n"));
+                ACE_TEXT ("%T (%t) - %M - failed to configure OpenSplice servant\n")));
 }
 

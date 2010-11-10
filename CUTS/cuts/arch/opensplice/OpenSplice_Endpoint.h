@@ -25,13 +25,13 @@ class CUTS_OPENSPLICE_Export CUTS_OpenSplice_Endpoint
    * Open the endpoint by creating the topic.
    */
   virtual int open (::DDS::DomainParticipant_ptr participant,
-		    ::DDS::TypeSupport_ptr type_support,
-		    const char * topic_name);
+                    ::DDS::TypeSupport_ptr type_support,
+                    const char * topic_name);
 
   virtual int open (::DDS::DomainParticipant_ptr participant,
-		    ::DDS::TypeSupport_ptr type_support,
-		    const char * type_name,
-		    const char * topic_name);
+                    ::DDS::TypeSupport_ptr type_support,
+                    const char * type_name,
+                    const char * topic_name);
 
   /// Close the endpoint.
   virtual int close (void);

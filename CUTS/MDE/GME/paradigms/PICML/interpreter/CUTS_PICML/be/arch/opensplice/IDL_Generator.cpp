@@ -128,9 +128,15 @@ Visit_File (const PICML::File & file)
 
   // Construct the name of the output file.
   std::string basename (file.name ());
-  basename += "_OPSL";
+  basename += "_OSPL";
 
-  std::string idl_filename = this->outdir_ + "/" + basename + ".idl";
+  std::string idl_filename = this->outdir_ + "/";
+  const std::string path (file.Path ());
+
+  if (!path.empty ())
+    idl_filename += path + "/";
+
+  idl_filename += basename + ".idl";
 
   // Open the file for writing.
   this->idlfile_.open (idl_filename.c_str ());

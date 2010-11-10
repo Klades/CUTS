@@ -23,16 +23,6 @@ CUTS_CCM_Context_T <T, SVNT>::~CUTS_CCM_Context_T (void)
 }
 
 //
-// get_caller_principal
-//
-template <typename T, typename SVNT>
-CUTS_INLINE ::Components::Principal_ptr
-CUTS_CCM_Context_T <T, SVNT>::get_caller_principal (void)
-{
-  return ::Components::Principal::_nil ();
-}
-
-//
 // get_CCM_home
 //
 template <typename T, typename SVNT>
@@ -40,6 +30,17 @@ CUTS_INLINE ::Components::CCMHome_ptr
 CUTS_CCM_Context_T <T, SVNT>::get_CCM_home (void)
 {
   return ::Components::CCMHome::_nil ();
+}
+
+#if !defined (CCM_LW)
+//
+// get_caller_principal
+//
+template <typename T, typename SVNT>
+CUTS_INLINE ::Components::Principal_ptr
+CUTS_CCM_Context_T <T, SVNT>::get_caller_principal (void)
+{
+  return ::Components::Principal::_nil ();
 }
 
 //
@@ -81,6 +82,8 @@ CUTS_CCM_Context_T <T, SVNT>::set_rollback_only (void)
 {
 
 }
+
+#endif
 
 //
 // resolve_service_reference

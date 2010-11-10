@@ -3,11 +3,20 @@
 #include "Servant_Generator.h"
 #include "Servant_Header_Include_Generator.h"
 #include "Context_Generator.h"
+
+#include "../ccm/Component_Implementation.h"
+#include "../ccm/Servant_Implementation.h"
+
 #include "../../BE_algorithm.h"
 #include "../../lang/cpp/Cpp.h"
+#include "../../UDM_Utility_T.h"
+
 #include "boost/bind.hpp"
+#include "boost/iterator/filter_iterator.hpp"
+
 #include "CCF/CodeGenerationKit/IndentationCxx.hpp"
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
+
 #include "Uml.h"
 #include <algorithm>
 
@@ -299,6 +308,7 @@ Visit_Component (const PICML::Component & component)
     << this->servant_ << " (const char * name," << std::endl
     << ns << "::" << name << "_Exec_ptr executor);"
     << std::endl
+    << CUTS_BE_CPP::single_line_comment ("Destructor")
     << "virtual ~" << this->servant_ << " (void);"
     << std::endl;
 
@@ -344,17 +354,49 @@ Visit_Component (const PICML::Component & component)
     << "{"
     << "}";
 
+  // Visit all the Attribute elements of the <component>.
+  typedef std::vector <PICML::Attribute> Attribute_Set;
+  Attribute_Set attrs = component.Attribute_kind_children ();
+
+  std::for_each (attrs.begin (),
+                 attrs.end (),
+                 boost::bind (&PICML::Attribute::Accept,
+                              _1,
+                              boost::ref (*this)));
+
+  // Visit all the ReadonlyAttribute elements of the <component>.
+  typedef std::vector <PICML::ReadonlyAttribute> ReadonlyAttribute_Set;
+  ReadonlyAttribute_Set ro_attrs = component.ReadonlyAttribute_kind_children ();
+
+  typedef is_type <PICML::ReadonlyAttribute> ReadonlyAttribute_Type;
+
+  std::for_each (boost::make_filter_iterator <ReadonlyAttribute_Type> (ro_attrs.begin (), ro_attrs.end ()),
+                 boost::make_filter_iterator <ReadonlyAttribute_Type> (ro_attrs.end (), ro_attrs.end ()),
+                 boost::bind (&PICML::ReadonlyAttribute::Accept, _1, boost::ref (*this)));
+
+
+  // Make sure we generate the set_attribute () method since it is
+  // used by the deployment tools to configure a component.
+  CUTS_BE_CCM::Cpp::Servant_Set_Attribute_Decl set_attribute_decl_gen (this->header_);
+  CUTS_BE_CCM::Cpp::Servant_Set_Attribute_Impl set_attribute_gen (this->source_);
+
+  PICML::Component (component).Accept (set_attribute_decl_gen);
+  PICML::Component (component).Accept (set_attribute_gen);
+
+  // Write methods for each of the event sources.
   std::for_each (outputs.begin (),
                  outputs.end (),
                  boost::bind (&PICML::OutEventPort::Accept,
                               _1,
                               boost::ref (*this)));
 
+  // Write methods for each of the event sinks.
   std::for_each (inputs.begin (),
                  inputs.end (),
                  boost::bind (&PICML::InEventPort::Accept,
                               _1,
                               boost::ref (*this)));
+
   this->header_
     << "};";
 
@@ -487,6 +529,87 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
       << "throw ::CORBA::NO_IMPLEMENT ();"
       << "}";
   }
+}
+
+//
+// Visit_Attribute
+//
+void Servant_Generator::
+Visit_Attribute (const PICML::Attribute & attr)
+{
+  PICML::AttributeMember member = attr.AttributeMember_child ();
+  PICML::MemberType type = member.ref ();
+  const std::string name (attr.name ());
+
+  // Write the attribute in the header file.
+  this->header_
+    << CUTS_BE_CPP::single_line_comment ("attribute setter: " + name)
+    << "virtual void " << name << " (";
+
+  CUTS_BE_CCM::Cpp::In_Type_Generator in_type_header_gen (this->header_);
+  in_type_header_gen.generate (type);
+
+  this->header_ << " " << name << ");" << std::endl;
+
+  // Write the attribute in the source file.
+  this->source_
+    << CUTS_BE_CPP::function_header ("attribute setter: " + name)
+    << "void " << this->servant_ << "::" << name << " (";
+
+  CUTS_BE_CCM::Cpp::In_Type_Generator in_type_source_gen (this->source_);
+  in_type_source_gen.generate (type);
+
+  this->source_
+    << " " << name << ")"
+    << "{"
+    << "if (this->impl_)" << std::endl
+    << "  this->impl_->" << name << " (" << name << ");"
+    << "else" << std::endl
+    << "  throw ::CORBA::INTERNAL ();"
+    << "}";
+
+  // Write the getter method for this attribute.
+  PICML::ReadonlyAttribute readonly (attr);
+  readonly.Accept (*this);
+}
+
+//
+// Visit_ReadonlyAttribute
+//
+void Servant_Generator::
+Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute & attr)
+{
+  PICML::AttributeMember member = attr.AttributeMember_child ();
+  PICML::MemberType type = member.ref ();
+  const std::string name (attr.name ());
+
+  // Write the getter method's declaration.
+  this->header_
+    << CUTS_BE_CPP::single_line_comment ("attribute getter: " + name)
+    << "virtual ";
+
+  CUTS_BE_CCM::Cpp::Retn_Type_Generator retn_type_header_gen (this->header_);
+  retn_type_header_gen.generate (type);
+
+  this->header_
+    << " " << name << " (void);" << std::endl;
+
+  // Write the getter method's implementation.
+  this->source_
+    << CUTS_BE_CPP::function_header ("attribute getter: " + name);
+
+  CUTS_BE_CCM::Cpp::Retn_Type_Generator retn_type_source_gen (this->source_);
+  retn_type_source_gen.generate (type);
+
+  this->source_
+    << " " << this->servant_ << "::"
+    << name << " (void)"
+    << "{"
+    << "if (this->impl_)" << std::endl
+    << "  return this->impl_->" << name << " ();"
+    << "else" << std::endl
+    << "  throw ::CORBA::INTERNAL ();"
+    << "}";
 }
 
 }

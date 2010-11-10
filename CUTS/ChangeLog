@@ -1,3 +1,83 @@
+Wed Nov 10 15:30:12 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * bin/handlers:
+        * bin/handlers/opensplice.locality.config:
+        * bin/handlers/tcpip.locality.config:
+
+          Locality manager configurations for TCP/IP and OpenSplice.
+
+        * cuts/arch/ccm/CCM_Container_T.h:
+        * cuts/arch/ccm/CCM_Container_T.cpp:
+
+          Updated the set_attributes () method to called configure_servant ()
+          on the container's strategy before calling set_attributes () on
+          the target servant.
+
+        * cuts/arch/ccm/CCM_Context_T.h:
+        * cuts/arch/ccm/CCM_Context_T.inl:
+
+          Added #ifdef sections to disable methods that are not part of the
+          lightweight CCM specification.
+
+        * cuts/arch/opensplice/OpenSplice_Endpoint.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_T.cpp:
+
+          Fixed formatting issues.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/IDL_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Servant_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Stub_Generator.cpp:
+        * cuts/arch/opensplice/handlers:
+        * cuts/arch/opensplice/handlers/OpenSplice_Configurator.h:
+        * cuts/arch/opensplice/handlers/OpenSplice_Configurator.cpp:
+        * cuts/arch/opensplice/handlers/OpenSplice_Container.h:
+        * cuts/arch/opensplice/handlers/OpenSplice_Container.inl:
+        * cuts/arch/opensplice/handlers/OpenSplice_Container_Strategy.h:
+        * cuts/arch/opensplice/handlers/OpenSplice_Container_Strategy.cpp:
+        * cuts/arch/opensplice/handlers/OpenSplice_Deployment_Handlers_export.h:
+        * cuts/arch/opensplice/handlers/OpenSplice_Instance_Handler.h:
+        * cuts/arch/opensplice/handlers/OpenSplice_Instance_Handler.inl:
+        * cuts/arch/opensplice/handlers/OpenSplice_Instance_Handler.cpp:
+        * cuts/arch/opensplice/handlers/handlers.mpc:
+
+          Updated to latest version of DOC middleware and OpenSplice
+          DDS 5.3.
+
+        * cuts/arch/opensplice/handlers/OpenSplice_ComponentServer.h:
+        * cuts/arch/opensplice/handlers/OpenSplice_ComponentServer.inl:
+        * cuts/arch/opensplice/handlers/OpenSplice_ComponentServer.cpp:
+        * cuts/arch/opensplice/handlers/OpenSplice_ComponentServer_App.h:
+        * cuts/arch/opensplice/handlers/OpenSplice_ComponentServer_App.inl:
+        * cuts/arch/opensplice/handlers/OpenSplice_ComponentServer_App.cpp:
+        * cuts/arch/opensplice/handlers/OpenSplice_ComponentServer_export.h:
+        * cuts/arch/opensplice/handlers/server.cpp:
+        * cuts/arch/opensplice/handlers/server.mpc:
+        * cuts/arch/opensplice/server:
+        * cuts/arch/opensplice/server/OpenSplice_ComponentServer.h:
+        * cuts/arch/opensplice/server/OpenSplice_ComponentServer.inl:
+        * cuts/arch/opensplice/server/OpenSplice_ComponentServer.cpp:
+        * cuts/arch/opensplice/server/OpenSplice_ComponentServer_App.h:
+        * cuts/arch/opensplice/server/OpenSplice_ComponentServer_App.inl:
+        * cuts/arch/opensplice/server/OpenSplice_ComponentServer_App.cpp:
+        * cuts/arch/opensplice/server/OpenSplice_ComponentServer_export.h:
+        * cuts/arch/opensplice/server/OpenSplice_Configurator.h:
+        * cuts/arch/opensplice/server/OpenSplice_Configurator.cpp:
+        * cuts/arch/opensplice/server/OpenSplice_Container.h:
+        * cuts/arch/opensplice/server/OpenSplice_Container.inl:
+        * cuts/arch/opensplice/server/OpenSplice_Container.cpp:
+        * cuts/arch/opensplice/server/OpenSplice_Container_Strategy.h:
+        * cuts/arch/opensplice/server/OpenSplice_Container_Strategy.inl:
+        * cuts/arch/opensplice/server/OpenSplice_Container_Strategy.cpp:
+        * cuts/arch/opensplice/server/server.mpc:
+        * cuts/arch/opensplice/server/server.cpp:
+
+          Removed these files.
+
 Sun Nov  7 23:00:31 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Execution_Visitor_T.h:

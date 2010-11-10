@@ -24,10 +24,10 @@ CUTS_OpenSplice_CCM_EventConsumer_T <SERVANT, EVENT>::
 template <typename SERVANT, typename EVENT>
 int CUTS_OpenSplice_CCM_EventConsumer_T <SERVANT, EVENT>::
 configure (::DDS::DomainParticipant_ptr participant,
-	   const char * inst,
-	   const char * topic)
+     const char * inst,
+     const char * topic)
 {
-  // First, let's create the fully qualified name of the topic.                                                                                                           
+  // First, let's create the fully qualified name of the topic.
   ACE_CString new_topic_name (inst);
   new_topic_name += ".";
   new_topic_name += topic;
@@ -37,20 +37,20 @@ configure (::DDS::DomainParticipant_ptr participant,
   typename CUTS_OpenSplice_Traits_T <EVENT>::dds_typesupport_type * type_temp = 0;
 
   ACE_NEW_THROW_EX (type_temp,
-		    typename CUTS_OpenSplice_Traits_T <EVENT>::dds_typesupport_type (),
-		    ::CORBA::NO_MEMORY ());
-  
+        typename CUTS_OpenSplice_Traits_T <EVENT>::dds_typesupport_type (),
+        ::CORBA::NO_MEMORY ());
+
   typename CUTS_OpenSplice_Traits_T <EVENT>::dds_typesupport_var_type type_var (type_temp);
 
-  int retval = 
+  int retval =
     this->open (participant, type_var.in (), new_topic_name.c_str ());
 
   if (0 != retval)
     ACE_ERROR_RETURN ((LM_ERROR,
-		       "%T (%t) - %M - failed to open the consumer\n"),
-		      -1);
+                       ACE_TEXT ("%T (%t) - %M - failed to open the consumer\n")),
+                       -1);
 
-  this->reader_ = 
+  this->reader_ =
     CUTS_OpenSplice_Traits_T <EVENT>::reader_type::_narrow (this->abstract_reader_.in ());
 
   return 0;
@@ -67,16 +67,16 @@ on_data_available (::DDS::DataReader_ptr p)
   ::DDS::SampleInfoSeq sample_info;
 
   // Get the concrete reader from the generic reader.
-  typename CUTS_OpenSplice_Traits_T <EVENT>::reader_var_type reader = 
+  typename CUTS_OpenSplice_Traits_T <EVENT>::reader_var_type reader =
     CUTS_OpenSplice_Traits_T <EVENT>::reader_type::_narrow (p);
 
   ::DDS::ReturnCode_t status =
       reader->take (event_seq,
-		    sample_info,
-		    1,
-		    ::DDS::ANY_SAMPLE_STATE,
-		    ::DDS::ANY_VIEW_STATE,
-		    ::DDS::ANY_INSTANCE_STATE);
+        sample_info,
+        1,
+        ::DDS::ANY_SAMPLE_STATE,
+        ::DDS::ANY_VIEW_STATE,
+        ::DDS::ANY_INSTANCE_STATE);
 
   // We should check the return code here!!
 

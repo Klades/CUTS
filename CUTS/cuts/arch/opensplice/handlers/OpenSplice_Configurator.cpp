@@ -24,7 +24,7 @@ CUTS_OpenSplice_Configurator::~CUTS_OpenSplice_Configurator (void)
 //
 int CUTS_OpenSplice_Configurator::
 configure (CUTS_OpenSplice_Servant * servant,
-	   const ::Components::ConfigValues & config)
+           const ::Components::ConfigValues & config)
 {
   // First, set the domain for the servant/participant.
   // Get the domain participant factory.
@@ -35,16 +35,16 @@ configure (CUTS_OpenSplice_Servant * servant,
   const char * dds_participant = 0;
 
   for (size_t i = 0; i < config.length (); ++ i)
-    {
-      if (0 == ACE_OS::strcmp (config[i]->name (), "DDSDomainQoS"))
-	config[i]->value () >>= dds_domain;
-      else if (0 == ACE_OS::strcmp (config[i]->name (), "DDSParticipantQoS"))
-	config[i]->value () >>= dds_participant;
-    }
+  {
+    if (0 == ACE_OS::strcmp (config[i]->name (), "DDSDomainQoS"))
+      config[i]->value () >>= dds_domain;
+    else if (0 == ACE_OS::strcmp (config[i]->name (), "DDSParticipantQoS"))
+      config[i]->value () >>= dds_participant;
+  }
 
   ACE_DEBUG ((LM_DEBUG,
-	      "%T (%t) - %M - creating a participant in domain %s\n",
-	      dds_domain));
+              ACE_TEXT ("%T (%t) - %M - creating a participant in domain %s\n"),
+              dds_domain));
 
   ::DDS::DomainParticipant_var participant =
       factory->create_participant (dds_domain,
@@ -54,15 +54,15 @@ configure (CUTS_OpenSplice_Servant * servant,
 
   // Set the participant for the servant.
   ACE_DEBUG ((LM_DEBUG,
-	      "%T (%t) - %M - configuring the servant with the participant\n"));
+              ACE_TEXT ("%T (%t) - %M - configuring the servant with the participant\n")));
 
   if (0 != servant)
     servant->configure (participant.in ());
   else
     ACE_ERROR ((LM_ERROR,
-		"%T (%t) - %M - servant is a NULL pointer\n"));
+                ACE_TEXT ("%T (%t) - %M - servant is a NULL pointer\n")));
 
-  
+
   // Configure the QoS for the participant.
 
   return 0;

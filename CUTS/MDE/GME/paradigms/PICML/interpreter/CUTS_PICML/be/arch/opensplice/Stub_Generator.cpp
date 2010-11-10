@@ -28,6 +28,7 @@ public:
 
   virtual void Visit_File (const PICML::File & file)
   {
+    this->this_file_ = file;
     this->Visit_PackageFile_i (file);
 
     if (this->has_events_)
@@ -35,13 +36,11 @@ public:
       std::string filename ("ddstypes/");
       filename += std::string (file.name ()) + "_OSPLDcps_impl";
 
-      this->source_ << CUTS_BE_CPP::include (filename);
+      this->source_
+        << CUTS_BE_CPP::include (filename);
 
       if (this->includes_.empty ())
-      {
-        this->source_
-          << CUTS_BE_CPP::include ("cuts/arch/opensplice/OpenSplice_Traits_T");
-      }
+        this->source_ << CUTS_BE_CPP::include ("cuts/arch/opensplice/OpenSplice_Traits_T");
     }
   }
 
@@ -52,7 +51,7 @@ public:
 
   virtual void Visit_Component (const PICML::Component & component)
   {
-    // Visit all the input event ports.
+    // Visit all the input ev ports.
     std::vector <PICML::InEventPort> inputs = component.InEventPort_kind_children ();
 
     std::for_each (inputs.begin (),
@@ -61,7 +60,7 @@ public:
                                 _1,
                                 boost::ref (*this)));
 
-    // Visit all the ouptut event ports.
+    // Visit all the ouptut ev ports.
     std::vector <PICML::OutEventPort> outputs = component.OutEventPort_kind_children ();
 
     std::for_each (outputs.begin (),
@@ -87,9 +86,9 @@ public:
       PICML::Event::Cast (et).Accept (*this);
   }
 
-  virtual void Visit_Event (const PICML::Event & event)
+  virtual void Visit_Event (const PICML::Event & ev)
   {
-    PICML::MgaObject parent = PICML::MgaObject::Cast (event.parent ());
+    PICML::MgaObject parent = PICML::MgaObject::Cast (ev.parent ());
 
     while (PICML::File::meta != parent.type ())
       parent = PICML::MgaObject::Cast (parent.parent ());
@@ -102,11 +101,24 @@ public:
     std::string filename ("OpenSplice_");
     filename += name + "C";
 
-    this->source_ << CUTS_BE_CPP::include (filename);
-    this->includes_.insert (name);
+    if (this->this_file_ != this->get_parent_file (ev))
+    {
+      this->source_ << CUTS_BE_CPP::include (filename);
+      this->includes_.insert (name);
+    }
   }
 
 private:
+  PICML::File get_parent_file (const Udm::Object & obj)
+  {
+    Udm::Object parent = obj.GetParent ();
+
+    while (parent.type () != PICML::File::meta)
+      parent = parent.GetParent ();
+
+    return PICML::File::Cast (parent);
+  }
+
   void Visit_PackageFile_i (const Udm::Object & obj)
   {
     // Visit all the packages.
@@ -136,6 +148,8 @@ private:
                                 _1,
                                 boost::ref (*this)));
   }
+
+  PICML::File this_file_;
 
   std::ostream & source_;
 
@@ -355,10 +369,10 @@ Visit_PackageFile_i  (const Udm::Object & obj)
 // Visit_Event
 //
 void Stub_Generator::
-Visit_Event (const PICML::Event & event)
+Visit_Event (const PICML::Event & ev)
 {
-  std::string name (event.name ());
-  std::string fq_name (CUTS_BE_CPP::fq_type (event));
+  std::string name (ev.name ());
+  std::string fq_name (CUTS_BE_CPP::fq_type (ev));
 
   this->header_
     << this->export_macro_
@@ -367,7 +381,7 @@ Visit_Event (const PICML::Event & event)
     << " bool operator >>= (const " << name << " &, ::CUTS_OSPL" << fq_name << " & );"
     << std::endl;
 
-  std::vector <PICML::Member> members = event.Member_children ();
+  std::vector <PICML::Member> members = ev.Member_children ();
 
   this->source_
     << "bool operator <<= (" << name << " & corba, const ::CUTS_OSPL" << fq_name << " & dds)"
@@ -395,7 +409,7 @@ Visit_Event (const PICML::Event & event)
     << "return true;"
     << "}";
 
-  this->events_.insert (event);
+  this->events_.insert (ev);
 }
 
 //

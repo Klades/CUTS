@@ -1,0 +1,19 @@
+// $Id$
+
+project (CUTS_OpenSplice_Deployment_Handlers) : dance_deployment_scheduler, \
+                                                ciao_session_container_stub, \
+                                                cuts_opensplice_ccm, cuts_lib, cutslib {
+  sharedname    = CUTS_OpenSplice_Deployment_Handlers
+  dynamicflags += CUTS_OSPL_DEPLOYMENT_HANDLERS_BUILD_DLL
+
+  specific (prop:microsoft) {
+    link_options -= /FORCE:MULTIPLE
+  }
+
+  Source_Files {
+    OpenSplice_Configurator.cpp
+    OpenSplice_Container.cpp
+    OpenSplice_Container_Strategy.cpp
+    OpenSplice_Instance_Handler.cpp
+  }
+}

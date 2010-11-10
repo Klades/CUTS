@@ -13,8 +13,6 @@
 #ifndef _CUTS_CCM_CONTAINER_T_H_
 #define _CUTS_CCM_CONTAINER_T_H_
 
-//#include "ccm/ComponentServer/CCM_ComponentServerS.h"
-//#include "ccm/ComponentServer/CCM_ComponentServer_ClientC.h"
 #include "ciao/Containers/Session/Session_ContainerC.h"
 #include "ace/Hash_Map_Manager.h"
 #include "ace/RW_Thread_Mutex.h"
