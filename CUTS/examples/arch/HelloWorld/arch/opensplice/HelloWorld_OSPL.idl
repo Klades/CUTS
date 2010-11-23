@@ -1,0 +1,31 @@
+// -*- IDL -*-
+
+#ifndef _HELLOWORLD_OSPL_IDL_
+#define _HELLOWORLD_OSPL_IDL_
+
+module CUTS_OSPL
+{
+  struct TimeValue
+  {
+    // data member: sec
+    long sec;
+
+    // data member: usec
+    long usec;
+  };
+
+  struct Message
+  {
+    // data member: content
+    string content;
+
+    // data member: time
+    ::CUTS_OSPL::TimeValue time;
+  };
+
+  // define the keylist for the struct/event.
+  #pragma keylist Message
+};
+
+#endif  // _HELLOWORLD_OSPL_IDL_
+

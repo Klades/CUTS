@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<Deployment:DeploymentPlan xmlns:Deployment="http://www.omg.org/Deployment" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/Deployment Deployment.xsd">
+
+  <label/>
+
+  <UUID>99A4A0D2-E7C6-11DF-8000-000C2958D27B</UUID>
+
+  <implementation xmi:id="_C56D505C-E6A3-11DF-8DD2-000C2958D27B">
+    <name>HelloWorld.ComponentImplementations.HelloWorldImpl.HelloWorldImpl</name>
+    <source/>
+    <artifact xmi:idref="_C56D505C-E6A3-11DF-8DD0-000C2958D27B"/>
+    <artifact xmi:idref="_C56D505C-E6A3-11DF-8DD1-000C2958D27B"/>
+    <execParameter>
+      <name>component factory</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_HelloWorld_Impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ExecutorArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>HelloWorld.ImplementationArtifacts.HelloWorldArtifacts.HelloWorld_impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantEntrypoint</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_HelloWorld_Servant</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>HelloWorld.ImplementationArtifacts.HelloWorldArtifacts.HelloWorld_svnt</string>
+        </value>
+      </value>
+    </execParameter>
+  </implementation>
+
+  <implementation xmi:id="_1C073253-AACD-4130-B0A8-6AED69931E25_">
+    <name>DAnCE_LocalityManager_Impl</name>
+    <source/>
+    <artifact xmi:idref="_2DBE7BA9-5DB7-48e2-A260-D141CB66DEB1"/>
+    <execParameter>
+      <name>edu.vanderbilt.dre.DAnCE.ImplementationType</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>edu.vanderbilt.dre.DAnCE.LocalityManager</string>
+        </value>
+      </value>
+    </execParameter>
+  </implementation>
+
+  <instance xmi:id="_7A73852A-E6A4-11DF-8000-000C2958D27B">
+    <name>HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld.HelloWorld</name>
+    <node>MainNode</node>
+    <source/>
+    <implementation xmi:idref="_C56D505C-E6A3-11DF-8DD2-000C2958D27B"/>
+    <configProperty>
+      <name>message</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>Hello, World!</string>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
+  <instance xmi:id="MainNode.DefaultGroup">
+    <name>MainNode.DefaultGroup</name>
+    <node>MainNode</node>
+    <source/>
+    <implementation xmi:idref="_1C073253-AACD-4130-B0A8-6AED69931E25_"/>
+    <configProperty>
+      <name>edu.vanderbilt.dre.DAnCE.LocalityManager.ProcessName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>DefaultGroup</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>TCPIPEndpoint</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>30000</string>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
+  <connection>
+    <name>HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld.HelloWorld.handle_message_ex::HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld.HelloWorld.input_message</name>
+    <internalEndpoint>
+      <portName>handle_message_ex</portName>
+      <provider>false</provider>
+      <kind>EventPublisher</kind>
+      <instance xmi:idref="_7A73852A-E6A4-11DF-8000-000C2958D27B"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>input_message</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="_7A73852A-E6A4-11DF-8000-000C2958D27B"/>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld.HelloWorld.output_message::HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld.HelloWorld.input_message</name>
+    <internalEndpoint>
+      <portName>output_message</portName>
+      <provider>false</provider>
+      <kind>EventEmitter</kind>
+      <instance xmi:idref="_7A73852A-E6A4-11DF-8000-000C2958D27B"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>input_message</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="_7A73852A-E6A4-11DF-8000-000C2958D27B"/>
+    </internalEndpoint>
+  </connection>
+
+  <artifact xmi:id="_C56D505C-E6A3-11DF-8DD0-000C2958D27B">
+    <name>HelloWorld.ImplementationArtifacts.HelloWorldArtifacts.HelloWorld_svnt</name>
+    <source/>
+    <node/>
+    <location>HelloWorld_svnt</location>
+  </artifact>
+
+  <artifact xmi:id="_C56D505C-E6A3-11DF-8DD1-000C2958D27B">
+    <name>HelloWorld.ImplementationArtifacts.HelloWorldArtifacts.HelloWorld_impl</name>
+    <source/>
+    <node/>
+    <location>HelloWorld_impl</location>
+  </artifact>
+
+  <artifact xmi:id="_2DBE7BA9-5DB7-48e2-A260-D141CB66DEB1">
+    <name>DAnCE_LocalityManager_Artifact</name>
+    <source/>
+    <node/>
+    <location>dance_locality_manager</location>
+  </artifact>
+
+  <localityConstraint>
+    <constraint>SameProcess</constraint>
+    <constrainedInstance xmi:idref="MainNode.DefaultGroup"/>
+    <!--HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld.HelloWorld-->
+    <constrainedInstance xmi:idref="_7A73852A-E6A4-11DF-8000-000C2958D27B"/>
+  </localityConstraint>
+
+</Deployment:DeploymentPlan>
