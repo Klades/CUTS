@@ -1,3 +1,23 @@
+Sun Nov 28 22:41:54 UTC 2010  tmpeiris  <tmpeiris@cs.iupui.edu>
+
+        * cuts/utils/codegen:
+
+        * cuts/utils/codegen/CodeGenerationKit.mpc:
+        * cuts/utils/codegen/CommandLine.hpp:
+        * cuts/utils/codegen/CommandLine.cpp:
+        * cuts/utils/codegen/CommandLineDescriptor.hpp:
+        * cuts/utils/codegen/CommandLineParser.hpp:
+        * cuts/utils/codegen/CommandLineParser.cpp:
+        * cuts/utils/codegen/IndentationBuffer.hpp:
+        * cuts/utils/codegen/IndentationCxx.hpp:
+        * cuts/utils/codegen/IndentationIDL.hpp:
+        * cuts/utils/codegen/IndentationImplanter.hpp:
+        * cuts/utils/codegen/IndentationJava.hpp:
+        * cuts/utils/codegen/IndentationXML.hpp:
+        * cuts/utils/codegen/Regex.hpp:
+
+	Copy the Code generation tool kit to be built with CUTS Runtime.
+
 Sun Nov 28 20:39:38 UTC 2010  Manjula Peiris  <tmpeiris@cs.iupui.edu>
 
         * MPC/config/cuts_opensplice_componentserver.mpb:
@@ -52,8 +72,8 @@ Sun Nov 28 20:39:38 UTC 2010  Manjula Peiris  <tmpeiris@cs.iupui.edu>
 
         * etc/schemas/cuts-unite.xsd:
 
-	Fixed the build break with the lastest ace+tao+ciao trunk.
-	Added the changes made for UNITE related to Adaptor. 	
+        Fixed the build break with the lastest ace+tao+ciao trunk.
+        Added the changes made for UNITE related to Adaptor.
 
 
 Tue Nov 23 15:55:27 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
