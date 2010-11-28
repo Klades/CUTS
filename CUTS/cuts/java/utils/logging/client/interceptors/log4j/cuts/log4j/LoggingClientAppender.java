@@ -89,12 +89,14 @@ public class LoggingClientAppender extends AppenderSkeleton
    */
   public void append (LoggingEvent event)
   {
-    int level = LoggingClientAppender.translateLevel (event.getLevel ());
-    String msg = null;
-    if(this.layout != null)
-    	msg = this.layout.format(event);
-    this.logger_.logMessage (level, msg);
-    
+	    //int level = LoggingClientAppender.translateLevel (event.getLevel ());
+	    int level = 4;
+	    String msg = null;
+	    if(this.layout != null)
+	    	msg = this.layout.format(event);
+	    System.out.println(msg);
+	    this.logger_.logMessage (level, msg);
+ 	
   }
 
   /**
@@ -122,7 +124,26 @@ public class LoggingClientAppender extends AppenderSkeleton
    */
   private static int translateLevel (Level level)
   {
-    return LoggingClientAppender.levelTable_.get (level);
+	if(LoggingClientAppender.levelTable_ == null)
+     System.out.println("Leveltable is null-----------");
+    else
+     System.out.println("Leveltable is Not Null---------"); 
+    
+    if(level == null)
+    	System.out.println("Level is null-------");
+    else
+    	System.out.println("Level is not null-----");
+   
+    System.out.println("Level is------ "+ level);
+    System.out.println("Leveltable------");
+    System.out.println(LoggingClientAppender.levelTable_);
+    
+    int value = LoggingClientAppender.levelTable_.get (level);
+    
+    System.out.println("Value is " + value);
+	//return LoggingClientAppender.levelTable_.get (level);
+    return value;
+	
   }
 
   /**

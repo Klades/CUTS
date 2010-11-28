@@ -9,7 +9,12 @@
 #include "Dataflow_Graph.h"
 #include "Log_Format.h"
 #include <algorithm>
+#include "ace/DLL.h"
+#include "Log_Format_Adapter.h"
+#include "ace/Auto_Ptr.h"
 
+
+typedef CUTS_Log_Format_Adapter* (*Adapter_creator) (void);
 /**
  * @class process_causality
  *
@@ -121,10 +126,17 @@ public:
     // Compile the log format's value.
     lfmt->compile (format->value ().c_str ());
 
+    if(this->graph_.adapter())
+      this->graph_.adapter()->update_log_format(lfmt);
+
     if (format->relations_p ())
       std::for_each (format->relations ().begin_relation (),
                      format->relations ().end_relation (),
                      process_relation (this->graph_, *lfmt));
+
+	  if(this->graph_.adapter())
+      this->graph_.adapter()->update_log_format_relations(lfmt);
+
   };
 
 private:
@@ -139,6 +151,40 @@ build (const ::CUTS::XML::datagraphType & datagraph, CUTS_Dataflow_Graph & graph
 {
   // Set the name of the graph.
   graph.name (datagraph.name ().c_str ());
+
+  if (datagraph.adapter_p ())
+  {
+    ACE_DLL adapter_dll;
+	
+    int retval = adapter_dll.open (datagraph.adapter ().c_str());
+    
+    if (retval != 0)
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       "%p",
+                       "dll.open"),
+                      -1);
+
+    void * symbol = adapter_dll.symbol ( ACE_TEXT("create_Cuts_Log_Format_Adapter"));
+
+	  if (symbol == 0)
+    {
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "%T - %M - failed to extract entry point %s\n",
+                         ACE_TEXT("create_Cuts_Log_Format_Adapter")),
+                         -1);
+    }
+
+	  ptrdiff_t tmp = reinterpret_cast<ptrdiff_t> (symbol);
+    Adapter_creator ac = reinterpret_cast<Adapter_creator> (tmp);
+
+    ACE_Auto_Ptr <CUTS_Log_Format_Adapter> auto_clean (ac());
+	  auto_clean->adapter_init();
+    CUTS_Log_Format_Adapter * adapter = 0;
+	  adapter = auto_clean.release ();
+	  graph.adapter (adapter);
+	  adapter_dll.close_handle_on_destruction_ = false;
+	  
+  }
 
   // Process the log formats.
   std::for_each (datagraph.logformats ().begin_logformat (),

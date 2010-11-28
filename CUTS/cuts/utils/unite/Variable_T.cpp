@@ -20,3 +20,21 @@ value (const char * begin, const char * end)
 
   istr >> this->value_;
 }
+
+template <typename T>
+void CUTS_Basic_Log_Format_Variable_T <T>::
+set_value (char *val)
+{
+	std::string temp(val);
+	std::istringstream istr(temp);
+	istr >> this->value_;
+}
+
+
+template <typename T>
+void CUTS_Basic_Log_Format_Variable_T <T>::
+value(T val)
+{
+	this->value_ = val;
+}	
+

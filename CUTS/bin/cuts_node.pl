@@ -13,6 +13,7 @@ use Cwd;
 
 # get the CIAO_ROOT and WLG_ROOT
 $CIAO_ROOT = $ENV{'CIAO_ROOT'};
+$DANCE_ROOT = $ENV{'DANCE_ROOT'};
 
 # default values
 $hostname = hostname();
@@ -55,11 +56,11 @@ else {
 }
 
 # spawn a new Node_Daemon
-$node_daemon = "$CIAO_ROOT/bin/NodeManager";
+$node_daemon = "$DANCE_ROOT/bin/dance_node_manager";
 @daemons = ();
 for (1..$spawn) {
     $node_args = $default_node_args .
-      "-ORBEndpoint iiop://$hostname:$port -s $CIAO_ROOT/bin/NodeApplication";
+      "-ORBEndpoint iiop://$hostname:$port -s $DANCE_ROOT/bin/dance_locality_manager";
 
     $temp = new PerlACE::Process ($node_daemon, $node_args);
     if ($temp->Spawn () != -1) {

@@ -36,7 +36,7 @@ CUTS_Log_Format_Data_Entry::~CUTS_Log_Format_Data_Entry (void)
 // prepare
 //
 void CUTS_Log_Format_Data_Entry::
-prepare (const ACE_CString & table, const CUTS_Log_Format * format)
+prepare (const ACE_CString & table, CUTS_Log_Format * format)
 {
   std::ostringstream colstr, varstr;
 
@@ -85,7 +85,7 @@ prepare (const ACE_CString & table, const CUTS_Log_Format * format)
 // prepare
 //
 void CUTS_Log_Format_Data_Entry::
-prepare (const ACE_CString & table, const CUTS_Log_Format * format, size_t relation)
+prepare (const ACE_CString & table, CUTS_Log_Format * format, size_t relation)
 {
   // Get the relation we are preparing.
   const CUTS_Log_Format_Relation & rel = format->relations ()[relation];
@@ -149,10 +149,12 @@ prepare (const ACE_CString & table, const CUTS_Log_Format * format, size_t relat
 //
 // execute
 //
-void CUTS_Log_Format_Data_Entry::execute (const ACE_CString & message)
+void CUTS_Log_Format_Data_Entry::execute (const ACE_CString & message, 
+										  CUTS_Log_Format_Adapter *adapter)
 {
   // The fast path is actually not matching the message.
-  if (!this->format_->match (message))
+  
+  if (!this->format_->match(message, adapter))
     return;
 
   ACE_CString fq_name;

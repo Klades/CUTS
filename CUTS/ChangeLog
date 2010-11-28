@@ -1,3 +1,61 @@
+Sun Nov 28 20:39:38 UTC 2010  Manjula Peiris  <tmpeiris@cs.iupui.edu>
+
+        * MPC/config/cuts_opensplice_componentserver.mpb:
+        * MPC/config/cuts_rtidds_componentserver.mpb:
+
+        * bin/cuts_manager.pl:
+        * bin/cuts_node.pl:
+
+        * cuts/arch/ccm/CUTS_CCM.mpc:
+
+        * cuts/arch/chaos/server/server.mpc:
+
+        * cuts/arch/opensplice/handlers/handlers.mpc:
+
+        * cuts/arch/rtidds/server/server.mpc:
+
+        * cuts/arch/tcpip/handlers/handlers.mpc:
+
+        * cuts/java/utils/logging/client/interceptors/log4j/cuts/log4j/LoggingClientAppender.java:
+
+        * cuts/utils/logging/client/logger/Client_Logger.mpc:
+        * cuts/utils/logging/client/logger/Client_Logger_Impl.cpp:
+
+        * cuts/utils/logging/server/LoggingServer_i.h:
+        * cuts/utils/logging/server/LoggingServer_i.cpp:
+
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.cpp:
+        * cuts/utils/testing/svcs/logging/Testing_LoggingServerListener_i.cpp:
+
+        * cuts/utils/unite/Dataflow_Graph.h:
+        * cuts/utils/unite/Dataflow_Graph.inl:
+        * cuts/utils/unite/Dataflow_Graph.cpp:
+        * cuts/utils/unite/Dataflow_Graph_Builder.cpp:
+        * cuts/utils/unite/Dataset_Repo.h:
+        * cuts/utils/unite/Dataset_Repo.cpp:
+        * cuts/utils/unite/Log_Format.h:
+        * cuts/utils/unite/Log_Format.cpp:
+        * cuts/utils/unite/Log_Format_Adapter.h:
+        * cuts/utils/unite/Log_Format_Adapter.cpp:
+        * cuts/utils/unite/Log_Format_Compiler.cpp:
+        * cuts/utils/unite/Log_Format_Data_Entry.h:
+        * cuts/utils/unite/Log_Format_Data_Entry.cpp:
+        * cuts/utils/unite/Variable.h:
+        * cuts/utils/unite/Variable.inl:
+        * cuts/utils/unite/Variable.cpp:
+        * cuts/utils/unite/Variable_T.inl:
+        * cuts/utils/unite/Variable_T.cpp:
+        * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.inl:
+        * cuts/utils/unite/cuts-unite.cpp:
+        * cuts/utils/unite/unite.mpc:
+
+        * etc/schemas/cuts-unite.xsd:
+
+	Fixed the build break with the lastest ace+tao+ciao trunk.
+	Added the changes made for UNITE related to Adaptor. 	
+
+
 Tue Nov 23 15:55:27 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/arch/HelloWorld/arch/opensplice:

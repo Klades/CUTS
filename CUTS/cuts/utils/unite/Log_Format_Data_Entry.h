@@ -14,6 +14,7 @@
 #define _CUTS_UNITE_LOG_FORMAT_DATA_ENTRY_H_
 
 #include "Variable_Table.h"
+#include "Log_Format_Adapter.h"
 
 namespace ADBC
 {
@@ -38,7 +39,9 @@ class CUTS_Log_Format;
 class CUTS_Log_Format_Data_Entry
 {
 public:
-  /**
+
+
+    /**
    * Initializing contructor
    */
   CUTS_Log_Format_Data_Entry (ADBC::SQLite::Connection & conn);
@@ -50,23 +53,25 @@ public:
    *
    */
   void prepare (const ACE_CString & table,
-                const CUTS_Log_Format * format);
+                CUTS_Log_Format * format);
 
   void prepare (const ACE_CString & table,
-                const CUTS_Log_Format * format,
+                CUTS_Log_Format * format,
                 size_t relation);
 
   /**
    *
    */
-  void execute (const ACE_CString & message);
+  void execute (const ACE_CString & message, 
+	            CUTS_Log_Format_Adapter *adapter);
 
 private:
   /// Underlying query for inserting data
   ADBC::SQLite::Query * query_;
 
   /// Name of the log format.
-  const CUTS_Log_Format * format_;
+  CUTS_Log_Format * format_;
+  
 };
 
 #endif // !defined _CUTS_UNITE_LOG_FORMAT_DATA_ENTRY_H_

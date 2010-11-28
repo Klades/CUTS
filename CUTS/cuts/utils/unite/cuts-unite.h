@@ -439,6 +439,16 @@ namespace CUTS
       protected:
       ::std::auto_ptr< ::XMLSchema::string< char > > name_;
 
+      // adapter
+      // 
+      public:
+      bool adapter_p () const;
+      ::XMLSchema::string< char > const& adapter () const;
+      void adapter (::XMLSchema::string< char > const& );
+
+      protected:
+      ::std::auto_ptr< ::XMLSchema::string< char > > adapter_;
+
       // logformats
       // 
       public:

@@ -25,6 +25,8 @@ typedef struct real_pcre pcre;
 // Forward decl.
 struct pcre_extra;
 
+class CUTS_Log_Format_Adapter;
+
 /**
  * @ingroup UNITE_Core
  *
@@ -35,7 +37,9 @@ class CUTS_UNITE_Export CUTS_Log_Format
 public:
   typedef std::vector <CUTS_Log_Format_Relation> relations_type;
 
-  /// Default constructor.
+  //typedef std::auto_ptr <CUTS_Log_Format_Adapter> adapter_ptr;
+
+    /// Default constructor.
   CUTS_Log_Format (const ACE_CString & name);
 
   /// Destructor.
@@ -45,7 +49,8 @@ public:
 
   bool is_valid (void) const;
 
-  bool match (const ACE_CString & message) const;
+  bool match (const ACE_CString & message, 
+	  CUTS_Log_Format_Adapter *adapter) ;
 
   /// Reset the log format.
   void reset (void);
@@ -58,8 +63,21 @@ public:
 
   const CUTS_Log_Format_Variable_Table & variables (void) const;
 
+  CUTS_Log_Format_Variable_Table & variables (void);
+
+  void captures_size(size_t size); 
+
+  size_t captures_size(void); 
+
+  ACE_Auto_Array_Ptr <int> captures(void);
+
+  size_t captures_size_;
+
+  ACE_Auto_Array_Ptr <int> captures_;
+
+  
 private:
-  void reset_i (void);
+  //void reset (void);
 
   /// Name of the log format.
   ACE_CString name_;
@@ -77,10 +95,13 @@ private:
   relations_type relations_;
 
   /// Number of captures in the log format.
-  size_t captures_size_;
+  //size_t captures_size_;
+
+  /// This will be useful for adapter.
+  int id_value_;
 
   /// Indices for storing capture information.
-  ACE_Auto_Array_Ptr <int> captures_;
+  //ACE_Auto_Array_Ptr <int> captures_;
 
   // prevent the following operations
   CUTS_Log_Format (const CUTS_Log_Format &);

@@ -320,6 +320,12 @@ namespace CUTS
           name_->container (this);
         }
 
+        else if (n == ACE_TEXT("adapter"))
+        {
+          ::XMLSchema::string< char > t (e);
+          adapter (t);
+        }
+
         else if (n == ACE_TEXT("logformats"))
         {
           ::CUTS::XML::logformatList t (e);

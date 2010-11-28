@@ -55,6 +55,7 @@
   <xsd:complexType name="datagraphType">
     <xsd:sequence>
       <xsd:element name="name" type="xsd:string" maxOccurs="1" minOccurs="1" />
+	  <xsd:element name="adapter" type="xsd:string" maxOccurs="1" minOccurs="0" />
       <xsd:element name="logformats" type="logformatList" maxOccurs="1" minOccurs="0" />
     </xsd:sequence>
   </xsd:complexType>

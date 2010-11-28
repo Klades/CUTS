@@ -1,10 +1,14 @@
 // $Id$
 
+#include "ace/OS_Memory.h"
+#include "ace/OS_NS_stdio.h"
 #include "Log_Format.h"
 #include "Log_Format_Compiler.h"
 #include "Variable.h"
 #include "ace/CORBA_macros.h"
 #include "pcre.h"
+#include "Log_Format_Adapter.h"
+
 
 //
 // CUTS_Log_Format
@@ -13,7 +17,8 @@ CUTS_Log_Format::CUTS_Log_Format (const ACE_CString & name)
 : name_ (name),
   expr_ (0),
   extra_ (0),
-  captures_size_ (0)
+  captures_size_ (0),
+  id_value_ (1)
 {
 
 }
@@ -88,8 +93,10 @@ bool CUTS_Log_Format::compile (const ACE_CString & format)
 //
 // match
 //
-bool CUTS_Log_Format::match (const ACE_CString & message) const
+bool CUTS_Log_Format::match (const ACE_CString & message, 
+							 CUTS_Log_Format_Adapter* adapter)
 {
+
   int retval = ::pcre_exec (this->expr_,
                             this->extra_,
                             message.c_str (),
@@ -101,27 +108,40 @@ bool CUTS_Log_Format::match (const ACE_CString & message) const
 
   if (retval > 1)
   {
+    
     // Update the variables.
     CUTS_Log_Format_Variable * variable = 0;
+    bool update_further = true;
     const char * msgrep = message.rep ();
+	int id = 1;
 
     for (CUTS_Log_Format_Variable_Table::CONST_ITERATOR iter (this->vars_);
         !iter.done ();
         ++ iter)
     {
-      variable = iter->item ();
-
-      // Calculate the variables offset in the captures.
-      size_t offset = (variable->index () + 1) * 2;
-      int * capture = this->captures_.get () + offset;
-
-      // Set the value of the variable.
-      variable->value (msgrep + *capture, msgrep + *(capture + 1));
+      variable = iter->item (); 
+      if(adapter)
+      {
+        update_further = adapter->update_log_format_variable_values(
+          iter->key(), variable, this);
+      }            
+      
+      //if(adapter->update_log_format_variable_values(iter->key(), variable, this))
+      if(update_further)
+	    {
+        // Calculate the variables offset in the captures.
+        size_t offset = (variable->index () + 1) * 2;
+        int * capture = this->captures_.get () + offset;
+        // Set the value of the variable.
+        variable->value (msgrep + *capture, msgrep + *(capture + 1));
+	    }
     }
   }
 
   return retval > 0;
-}
+ }
+ 
+
 
 //
 // reset
@@ -173,6 +193,13 @@ CUTS_Log_Format::variables (void) const
   return this->vars_;
 }
 
+CUTS_Log_Format_Variable_Table &
+CUTS_Log_Format::variables (void)
+{
+  return this->vars_;
+}
+
+
 //
 // relations
 //
@@ -196,3 +223,19 @@ bool CUTS_Log_Format::is_valid (void) const
 {
   return this->expr_ != 0;
 }
+
+void CUTS_Log_Format::captures_size(size_t size)
+{
+	this->captures_size_ = size;
+}
+
+size_t CUTS_Log_Format::captures_size(void)
+{
+	return this->captures_size_;
+}
+
+ACE_Auto_Array_Ptr <int> CUTS_Log_Format::captures(void)
+{
+  return this->captures_;
+}
+

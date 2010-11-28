@@ -7,6 +7,7 @@
 #include "cuts/utils/testing/Test_Database.h"
 #include "boost/bind.hpp"
 #include "ace/Trace.h"
+#include <iostream>
 
 /**
  * @struct insert_message
@@ -31,20 +32,30 @@ struct insert_message
    */
   void operator () (const CUTS::LogMessage & msg)
   {
-    ACE_Time_Value tv (msg.timestamp.sec, msg.timestamp.usec);
+	//ACE_DEBUG ((LM_DEBUG, "hum...1\n"));
+
+	ACE_Time_Value tv (msg.timestamp.sec, msg.timestamp.usec);
     ACE_Date_Time dt (tv);
     ADBC::SQLite::Date_Time timeofday (dt);
     ACE_INT16 severity = msg.severity;
 
     // Bind the remaining parameters.
     this->insert_stmt_.bind_timeofday (timeofday);
+	//ACE_DEBUG ((LM_DEBUG, "hum...2\n"));
+
     this->insert_stmt_.bind_severity (severity);
+	//ACE_DEBUG ((LM_DEBUG, "hum...3\n"));
     this->insert_stmt_.bind_message (msg.message.get_buffer (),
                                      msg.message.length ());
+	//ACE_DEBUG ((LM_DEBUG, "hum...4\n"));
 
     // Execute and reset the insert statement.
+	//ACE_DEBUG ((LM_DEBUG, "hum...5\n"));
     this->insert_stmt_.execute ();
+	
+
     this->insert_stmt_.reset ();
+	//ACE_DEBUG ((LM_DEBUG, "hum...7\n"));
   }
 
 private:
@@ -93,23 +104,31 @@ handle_messages (const char * hostname,
     // Prepare the statement for inserting messages.
     CUTS_Log_Message_Table msg_table (*this->database_);
 
+	//ACE_DEBUG ((LM_DEBUG, "1\n"));
+
     CUTS_Log_Message_Table::INSERT_STMT insert_stmt (*query);
     insert_stmt.prepare ();
+
+	//ACE_DEBUG ((LM_DEBUG, "2\n"));
     insert_stmt.bind_hostname (hostname);
+	//ACE_DEBUG ((LM_DEBUG, "3\n"));
 
     // Insert each message into the database.
     std::for_each (msgs.get_buffer (),
                    msgs.get_buffer () + msgs.length (),
                    insert_message (insert_stmt));
-
+	
     // End the current transaction.
     query->execute_no_record ("COMMIT");
+	
   }
   catch (const ADBC::Exception & ex)
   {
+    
     ACE_ERROR ((LM_ERROR,
                 ACE_TEXT ("%T (%t) - %M - %s\n"),
                 ex.message ().c_str ()));
+	
   }
   catch (...)
   {
@@ -140,6 +159,7 @@ int CUTS_Testing_LoggingServerListener_i::init (CUTS_Test_Database * database)
   }
   catch (const ADBC::Exception & ex)
   {
+ 
     ACE_ERROR ((LM_ERROR,
                 ACE_TEXT ("%T (%t) - %M - %s\n"),
                 ex.message ().c_str ()));

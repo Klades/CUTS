@@ -46,6 +46,7 @@ public:
                               const ::CUTS::UUID & test,
                               const ::CUTS::LogMessages & messages);
 
+  
 private:
   /**
    * @class reg_t

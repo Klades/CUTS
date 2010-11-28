@@ -18,9 +18,11 @@
 #include "ace/SString.h"
 #include "boost/graph/adjacency_list.hpp"
 #include "Unite_export.h"
+//#include "Log_Format.h"
 
 // Forward decl.
 class CUTS_Log_Format;
+class CUTS_Log_Format_Adapter;
 
 /**
  * @ingroup UNITE_Core
@@ -67,6 +69,8 @@ public:
 
   /// Type definition of the edge descriptor.
   typedef boost::graph_traits <CUTS_Unit_Test_Graph_Type>::edge_descriptor edge_descriptor;
+
+  //typedef std::auto_ptr<CUTS_Log_Format_Adapter> adapter_ptr;
 
   /// Default constructor.
   CUTS_Dataflow_Graph (void);
@@ -115,6 +119,10 @@ public:
 
   const CUTS_Unit_Test_Graph_Type & graph (void) const;
 
+  CUTS_Log_Format_Adapter * adapter(void);
+
+  void adapter(CUTS_Log_Format_Adapter *adapter);
+
 private:
   void normalize_name (void);
 
@@ -130,6 +138,8 @@ private:
 
   /// Local cache of the vertices.
   VERTEX_MAP vertices_;
+
+  CUTS_Log_Format_Adapter * adapter_;
 };
 
 #if defined (__CUTS_INLINE__)

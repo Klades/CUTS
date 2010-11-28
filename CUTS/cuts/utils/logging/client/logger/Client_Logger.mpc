@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_Client_Logger) : boost_base, cuts_logging_client_stub, cuts_lib, cutslib {
+project (CUTS_Client_Logger) : boost_base, cuts_logging_client_stub, cuts_lib, cutslib, cuts_testing_stub {
   sharedname    = CUTS_Client_Logger
   dynamicflags += CUTS_CLIENT_LOGGER_BUILD_DLL
 

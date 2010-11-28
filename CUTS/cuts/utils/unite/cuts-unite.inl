@@ -857,10 +857,12 @@ namespace CUTS
     :
     ::XSCRT::Type (),
     name_ (new ::XMLSchema::string< char > (*s.name_)),
+    adapter_ (s.adapter_.get () ? new ::XMLSchema::string< char > (*s.adapter_) : 0),
     logformats_ (s.logformats_.get () ? new ::CUTS::XML::logformatList (*s.logformats_) : 0),
     regulator__ ()
     {
       name_->container (this);
+      if (adapter_.get ()) adapter_->container (this);
       if (logformats_.get ()) logformats_->container (this);
     }
 
@@ -869,6 +871,11 @@ namespace CUTS
     operator= (datagraphType const& s)
     {
       name (*s.name_);
+
+      if (s.adapter_.get ())
+        adapter (*(s.adapter_));
+      else
+        adapter_.reset (0);
 
       if (s.logformats_.get ())
         logformats (*(s.logformats_));
@@ -893,6 +900,38 @@ namespace CUTS
     name (::XMLSchema::string< char > const& e)
     {
       *name_ = e;
+    }
+
+    // datagraphType
+    // 
+    inline
+    bool datagraphType::
+    adapter_p () const
+    {
+      return adapter_.get () != 0;
+    }
+
+    inline
+    ::XMLSchema::string< char > const& datagraphType::
+    adapter () const
+    {
+      return *adapter_;
+    }
+
+    inline
+    void datagraphType::
+    adapter (::XMLSchema::string< char > const& e)
+    {
+      if (adapter_.get ())
+      {
+        *adapter_ = e;
+      }
+
+      else
+      {
+        adapter_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
+        adapter_->container (this);
+      }
     }
 
     // datagraphType

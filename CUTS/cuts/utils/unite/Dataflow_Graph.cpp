@@ -1,6 +1,7 @@
 // $Id$
 
 #include "Dataflow_Graph.h"
+#include "Log_Format_Adapter.h"
 
 #if !defined (__CUTS_INLINE__)
 #include "Dataflow_Graph.inl"
@@ -108,4 +109,14 @@ void CUTS_Dataflow_Graph::normalize_name (void)
                 '_');
 
   this->name_ = "_" + this->name_;
+}
+
+CUTS_Log_Format_Adapter* CUTS_Dataflow_Graph::adapter(void)
+{
+  return this->adapter_;
+}
+
+void CUTS_Dataflow_Graph::adapter(CUTS_Log_Format_Adapter *adapter)
+{
+  this->adapter_ = adapter;
 }

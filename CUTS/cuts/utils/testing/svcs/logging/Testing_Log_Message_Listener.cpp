@@ -78,8 +78,8 @@ int CUTS_Testing_Log_Message_Listener::init (int argc, char * argv [])
     obj = this->servant_.get_reference ();
     ::CUTS::LoggingServerListener_var listener = ::CUTS::LoggingServerListener::_narrow (obj.in ());
     this->cookie_ = this->logging_server_->register_listener (test_uuid, listener);
-
-    return 0;
+	
+	return 0;
   }
   catch (const ::CORBA::Exception & ex)
   {

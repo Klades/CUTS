@@ -15,6 +15,9 @@
 
 #include "ace/SString.h"
 #include "Unite_export.h"
+#include "adbc/SQLite/Parameter.h"
+#include "ace/Date_Time.h" 
+#include <sstream>
 
 namespace ADBC
 {
@@ -44,8 +47,15 @@ public:
     VT_INTEGER,
 
     /// The varialbe is an float/double
-    VT_DOUBLE
-  };
+    VT_DOUBLE,
+
+	/// The varialbe is a Date_time
+    VT_DATETIME,
+
+  /// The variable is a Regular expression
+    VT_REGEX
+
+};
 
   /// Destructor.
   virtual ~CUTS_Log_Format_Variable (void);
@@ -53,6 +63,8 @@ public:
   virtual void value (const char * begin, const char * end) = 0;
 
   virtual void bind (ADBC::SQLite::Parameter & param) = 0;
+
+  virtual void set_value(char *val) = 0;
 
   size_t index (void) const;
 
@@ -90,9 +102,82 @@ public:
 
   virtual void bind (ADBC::SQLite::Parameter & param);
 
+  virtual void set_value(char *val);
+
+   
 private:
   ACE_CString value_;
 };
+
+/**
+ * @class CUTS_Datetime_Log_Format_Variable
+ */
+class CUTS_UNITE_Export CUTS_Datetime_Log_Format_Variable :
+  public CUTS_Log_Format_Variable
+{
+public:
+  CUTS_Datetime_Log_Format_Variable (size_t index, const std::string format);
+
+  virtual ~CUTS_Datetime_Log_Format_Variable (void);
+
+  virtual void value (const char * begin, const char * end);
+
+  virtual void bind (ADBC::SQLite::Parameter & param);
+
+  virtual void set_value(char *val);
+
+
+  /* Get a Datetime value which will be in the format format_
+     And converts it to a ACE_Date_Time object and set it.
+  */
+  
+  void date_time(char *val);
+
+  void date_time(ACE_Date_Time & dt);
+
+  const std::string format();
+
+  ACE_Date_Time date_time();
+
+   
+private:
+  /* String representing the Datetime format specified by the user */
+  const std::string format_;
+  
+  /* The Corresponding ACE_Date_Time object */
+  ACE_Date_Time date_time_;
+};
+
+
+/**
+ * @class CUTS_Datetime_Log_Format_Variable
+ */
+class CUTS_UNITE_Export CUTS_Regex_Log_Format_Variable :
+  public CUTS_Log_Format_Variable
+{
+public:
+  CUTS_Regex_Log_Format_Variable (size_t index, const std::string format);
+
+  virtual ~CUTS_Regex_Log_Format_Variable (void);
+
+  virtual void value (const char * begin, const char * end);
+
+  virtual void bind (ADBC::SQLite::Parameter & param);
+
+  virtual void set_value(char *val);
+
+  const std::string format();
+
+ 
+private:
+  /* String representing the Regex format specified by the user */
+  const std::string format_;
+  
+  ACE_CString value_;
+
+};
+
+
 
 /**
  * @class CUTS_Basic_Log_Format_Variable_T
@@ -113,6 +198,10 @@ public:
 
   virtual void bind (ADBC::SQLite::Parameter & param);
 
+  virtual void set_value(char *val);
+
+  void value(T val);
+  
 private:
   T value_;
 };

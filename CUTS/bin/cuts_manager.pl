@@ -11,6 +11,7 @@ use PerlACE::Run_Test;
 
 # get the CIAO_ROOT and WLG_ROOT
 $CIAO_ROOT = $ENV{'CIAO_ROOT'};
+$DANCE_ROOT = $ENV{'DANCE_ROOT'};
 
 # parse the command line arguments
 while ($arg = shift)
@@ -20,7 +21,7 @@ while ($arg = shift)
 }
 
 # spawn a new Execution_Manager
-$em = "$CIAO_ROOT/bin/Execution_Manager";
+$em = "$DANCE_ROOT/bin/dance_execution_manager";
 $em_args = "-o EM.ior -i $datfile";
 
 $manager = new PerlACE::Process ($em, $em_args);

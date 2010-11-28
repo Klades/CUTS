@@ -7,6 +7,48 @@
 #include "ace/CORBA_macros.h"
 #include "ace/streams.h"
 
+
+
+
+int letter_count(std::string & format, char ch)
+{
+  int count = 0;
+  int index = -1;
+  while (1) 
+  {
+    index = format.find_first_of(ch, index + 1);
+    if (index == format.npos) 
+	    break;
+    else 
+	    count++;
+  }
+  return count;
+}
+
+std::string get_datetime_pcre_type(std::string & format)
+{
+  // \d{4}:\d{2}:\d{2}\s)?(\d{2}:\d{2}:\d{2}(\.\d{4}|\d{6})?
+
+  int Y_count = letter_count(format, 'Y');
+  int M_count = letter_count(format, 'M');
+  int D_count = letter_count(format, 'D');
+  int h_count = letter_count(format, 'h');
+  int m_count = letter_count(format, 'm');
+  int s_count = letter_count(format, 's');
+  int S_count = letter_count(format, 'S');
+
+  std::ostringstream ostr;
+
+  if(Y_count != 0)
+  {
+    ostr<<"\\d{"<<Y_count<<"}:\\d{"<<M_count<<"}:\\d{"<<D_count<<"}:";
+  }
+  ostr<<"\\d{"<<h_count<<"}:\\d{"<<m_count<<"}:\\d{"<<s_count<<"}\\.\\d{"<<S_count<<"}";
+ 
+  std::string pcre = ostr.str();
+  return pcre;
+}
+
 /**
  * @struct append
  */
@@ -32,7 +74,6 @@ struct append
       text.insert (found, 1, '\\');
       found = text.find_first_of (special, found + 2);
     }
-
     this->ostr_ << text;
   }
 
@@ -45,10 +86,11 @@ private:
  */
 struct capture
 {
-  capture (std::ostringstream & ostr, std::string & type, std::string & name)
+	capture (std::ostringstream & ostr, std::string & type, std::string & name, std::string & dt_format)
     : ostr_ (ostr),
       type_ (type),
-      name_ (name)
+      name_ (name),
+	    dt_format_ (dt_format)
   {
 
   }
@@ -72,9 +114,29 @@ struct capture
       pcre_type = "\\S+";
     else if (this->type_ == "FLOAT")
       pcre_type = "\\d*\\.\\d+";
+	  else if(((this->type_).find("DATETIME") !=
+		  std::string::npos)||
+      ((this->type_).find("REGEX") !=
+		  std::string::npos))
+	  {
+      size_t pos1;
+	    size_t pos2;
+		
+      pos1 = (this->type_).find("(");
+      pos2 = (this->type_).find(")");
 
-    this->ostr_ << "(?<" << this->name_ << ">" << pcre_type << ")";
+	    size_t n = pos2 - pos1 - 1;
+	    std::string format = (this->type_).substr(pos1 + 1, n);
+      if((this->type_).find("DATETIME") !=
+		      std::string::npos)
+	      pcre_type = get_datetime_pcre_type(format);
+      else
+        pcre_type = format;
+    }
+	  this->ostr_ << "(?<" << this->name_ << ">" << pcre_type << ")";
+	
   }
+
 
 private:
   std::ostringstream & ostr_;
@@ -82,6 +144,9 @@ private:
   std::string & type_;
 
   std::string & name_;
+
+  std::string & dt_format_;
+
 };
 
 /**
@@ -89,10 +154,11 @@ private:
  */
 struct insert
 {
-  insert (CUTS_Log_Format_Variable_Table & vars, std::string & type, std::string & name)
+	insert (CUTS_Log_Format_Variable_Table & vars, std::string & type, std::string & name, std::string & dt_format)
     : vars_ (vars),
       type_ (type),
-      name_ (name)
+      name_ (name),
+	  dt_format_(dt_format)
   {
 
   }
@@ -116,23 +182,23 @@ struct insert
                         ACE_bad_alloc ());
     }
     else if (this->type_ == "LONG")
-      {
-        ACE_NEW_THROW_EX (variable,
-                          CUTS_Basic_Log_Format_Variable_T <ACE_INT32> (index),
-                          ACE_bad_alloc ());
-      }
+    {
+      ACE_NEW_THROW_EX (variable,
+                        CUTS_Basic_Log_Format_Variable_T <ACE_INT32> (index),
+                        ACE_bad_alloc ());
+    }
     else if (this->type_ == "LONGLONG")
-      {
-        ACE_NEW_THROW_EX (variable,
-                          CUTS_Basic_Log_Format_Variable_T <ACE_INT64> (index),
-                          ACE_bad_alloc ());
-      }
+    {
+      ACE_NEW_THROW_EX (variable,
+                        CUTS_Basic_Log_Format_Variable_T <ACE_INT64> (index),
+                        ACE_bad_alloc ());
+    }
     else if (this->type_ == "SHORT")
-      {
-        ACE_NEW_THROW_EX (variable,
-                          CUTS_Basic_Log_Format_Variable_T <ACE_INT16> (index),
-                          ACE_bad_alloc ());
-      }
+    {
+      ACE_NEW_THROW_EX (variable,
+                        CUTS_Basic_Log_Format_Variable_T <ACE_INT16> (index),
+                        ACE_bad_alloc ());
+    }
     else if (this->type_ == "FLOAT")
     {
       ACE_NEW_THROW_EX (variable,
@@ -145,6 +211,37 @@ struct insert
                         CUTS_Basic_Log_Format_Variable_T <unsigned int> (index),
                         ACE_bad_alloc ());
     }
+	
+	  else if (((this->type_).find("DATETIME")
+		  != std::string::npos) || 
+      ((this->type_).find("REGEX") !=
+		  std::string::npos))
+	  {
+		
+      size_t pos1;
+		  size_t pos2;
+		
+      pos1 = (this->type_).find("(");
+		  pos2 = (this->type_).find(")");
+
+		  size_t n = pos2 - pos1 - 1;
+		  std::string format = (this->type_).substr(pos1 + 1, n);
+
+      if((this->type_).find("DATETIME") !=
+		      std::string::npos)
+      {
+		    ACE_NEW_THROW_EX(variable, 
+			                CUTS_Datetime_Log_Format_Variable (index, format),
+						          ACE_bad_alloc());
+      }
+      else
+      {
+        ACE_NEW_THROW_EX(variable, 
+			                CUTS_Regex_Log_Format_Variable (index, format),
+						          ACE_bad_alloc());  
+      }
+		
+	  }
 
     this->name_.assign (begin, end);
     this->vars_.bind (this->name_.c_str (), variable);
@@ -156,6 +253,8 @@ private:
   std::string & type_;
 
   std::string & name_;
+
+  std::string & dt_format_;
 };
 
 /**
@@ -191,17 +290,21 @@ struct CUTS_Log_Format_Compiler_Grammar :
       this->text_ =
         *(boost::spirit::anychar_p - (boost::spirit::ch_p ('{') | '}'));
 
+	    this->dt_chars_ = (boost::spirit::ch_p ('(') | boost::spirit::ch_p (')') |
+		    boost::spirit::ch_p (':') | boost::spirit::ch_p ('-') | boost::spirit::ch_p ('%') | 
+		    boost::spirit::ch_p ('.'));
+
       this->ident_ =
-        boost::spirit::lexeme_d[boost::spirit::alpha_p >> *boost::spirit::alnum_p];
+        boost::spirit::lexeme_d[boost::spirit::alpha_p >> *(boost::spirit::alnum_p | this->dt_chars_)];
 
       this->variable_tag_ =
-        boost::spirit::confix_p ('{', this->variable_[capture (self.expr_, this->vartype_, this->varname_)], '}');
+        boost::spirit::confix_p ('{', this->variable_[capture (self.expr_, this->vartype_, this->varname_, this->date_time_format_)], '}');
 
       this->variable_ =
         this->ident_[boost::spirit::assign (this->vartype_)] >>
         *boost::spirit::space_p >>
-        this->ident_[insert (self.vars_, this->vartype_, this->varname_)];
-
+        this->ident_[insert (self.vars_, this->vartype_, this->varname_, this->date_time_format_)];
+      
       this->format_ =
         this->text_ [append (self.expr_)] >>
         *(this->variable_tag_ >> this->text_[append (self.expr_)]);
@@ -223,9 +326,19 @@ struct CUTS_Log_Format_Compiler_Grammar :
 
     boost::spirit::rule <ScannerT> format_;
 
+	  boost::spirit::rule <ScannerT> dt_chars_;
+
+	//boost::spirit::rule <ScannerT> date_time_var_;
+
+	//boost::spirit::rule <ScannerT> dt_format_;
+
+	//boost::spirit::rule <ScannerT> dt_string_;
+
     std::string varname_;
 
     std::string vartype_;
+
+	  std::string date_time_format_;
   };
 
 private:

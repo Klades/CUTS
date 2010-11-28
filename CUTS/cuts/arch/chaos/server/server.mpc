@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_CHAOS_CCM_ComponentServer) : ccm_componentserver_svnt, \
+project (CUTS_CHAOS_CCM_ComponentServer) : ccm_componentserver_stub, \
                                            cuts_opensplice_componentserver, \
                                            cuts_chaos_ccm, cuts_lib, \
                                            cutslib {
