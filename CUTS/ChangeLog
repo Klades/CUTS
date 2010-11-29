@@ -1,3 +1,22 @@
+Mon Nov 29 17:24:11 UTC 2010  Manjula Peiris  <tmpeiris@cs.iupui.edu>
+
+        * cuts/utils/codegen:
+        * cuts/utils/codegen/CodeGenerationKit.mpc:
+        * cuts/utils/codegen/CommandLine.hpp:
+        * cuts/utils/codegen/CommandLine.cpp:
+        * cuts/utils/codegen/CommandLineDescriptor.hpp:
+        * cuts/utils/codegen/CommandLineParser.hpp:
+        * cuts/utils/codegen/CommandLineParser.cpp:
+        * cuts/utils/codegen/IndentationBuffer.hpp:
+        * cuts/utils/codegen/IndentationCxx.hpp:
+        * cuts/utils/codegen/IndentationIDL.hpp:
+        * cuts/utils/codegen/IndentationImplanter.hpp:
+        * cuts/utils/codegen/IndentationJava.hpp:
+        * cuts/utils/codegen/IndentationXML.hpp:
+        * cuts/utils/codegen/Regex.hpp:
+
+          Removed these files.
+
 Sun Nov 28 22:41:54 UTC 2010  Manjula Peiris  <tmpeiris@cs.iupui.edu>
 
         * cuts/utils/codegen:
@@ -15,20 +34,20 @@ Sun Nov 28 22:41:54 UTC 2010  Manjula Peiris  <tmpeiris@cs.iupui.edu>
         * cuts/utils/codegen/IndentationXML.hpp:
         * cuts/utils/codegen/Regex.hpp:
 
-	        Copied the Code generation tool kit to be built with CUTS Runtime.
+          Copied the Code generation tool kit to be built with CUTS Runtime.
 
 Sun Nov 28 20:39:38 UTC 2010  Manjula Peiris  <tmpeiris@cs.iupui.edu>
 
         * MPC/config/cuts_opensplice_componentserver.mpb:
         * MPC/config/cuts_rtidds_componentserver.mpb:
 
-	        Changed to inherit from ccm_componentserver_stub. Becasue ccm_component_svnt 
-	        was not found anymore in CIAO.  
+          Changed to inherit from ccm_componentserver_stub. Becasue ccm_component_svnt
+          was not found anymore in CIAO.
 
         * bin/cuts_manager.pl:
         * bin/cuts_node.pl:
 
-	        Changed to work with latest versions of CIAO and DAnCE.
+          Changed to work with latest versions of CIAO and DAnCE.
 
         * cuts/arch/ccm/CUTS_CCM.mpc:
         * cuts/arch/chaos/server/server.mpc:
@@ -36,7 +55,7 @@ Sun Nov 28 20:39:38 UTC 2010  Manjula Peiris  <tmpeiris@cs.iupui.edu>
         * cuts/arch/rtidds/server/server.mpc:
         * cuts/arch/tcpip/handlers/handlers.mpc:
 
-	        Changed to fix the build errors with latest ACE+CIAO+TAO trunk. 
+          Changed to fix the build errors with latest ACE+CIAO+TAO trunk.
 
         * cuts/java/utils/logging/client/interceptors/log4j/cuts/log4j/LoggingClientAppender.java:
         * cuts/utils/logging/client/logger/Client_Logger.mpc:
@@ -46,8 +65,8 @@ Sun Nov 28 20:39:38 UTC 2010  Manjula Peiris  <tmpeiris@cs.iupui.edu>
         * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.cpp:
         * cuts/utils/testing/svcs/logging/Testing_LoggingServerListener_i.cpp:
 
-	        Changed the client_logger to get the test profile id before sending the collected 
-	        log messages to the server.
+          Changed the client_logger to get the test profile id before sending the collected
+          log messages to the server.
 
         * cuts/utils/unite/Dataflow_Graph.h:
         * cuts/utils/unite/Dataflow_Graph.inl:
@@ -57,9 +76,9 @@ Sun Nov 28 20:39:38 UTC 2010  Manjula Peiris  <tmpeiris@cs.iupui.edu>
         * cuts/utils/unite/Dataset_Repo.cpp:
         * cuts/utils/unite/Log_Format.h:
         * cuts/utils/unite/Log_Format.cpp:
-	      * cuts/utils/unite/Log_Format_Data_Entry.h:
+        * cuts/utils/unite/Log_Format_Data_Entry.h:
         * cuts/utils/unite/Log_Format_Data_Entry.cpp:
-	      * cuts/utils/unite/cuts-unite.h:
+        * cuts/utils/unite/cuts-unite.h:
         * cuts/utils/unite/cuts-unite.inl:
         * cuts/utils/unite/cuts-unite.cpp:
         * cuts/utils/unite/unite.mpc:
@@ -69,7 +88,7 @@ Sun Nov 28 20:39:38 UTC 2010  Manjula Peiris  <tmpeiris@cs.iupui.edu>
         * cuts/utils/unite/Log_Format_Adapter.h:
         * cuts/utils/unite/Log_Format_Adapter.cpp:
 
-	        Added the Log_Format_Adapter interface files.
+          Added the Log_Format_Adapter interface files.
 
         * cuts/utils/unite/Log_Format_Compiler.cpp:
         * cuts/utils/unite/Variable.h:
@@ -77,9 +96,9 @@ Sun Nov 28 20:39:38 UTC 2010  Manjula Peiris  <tmpeiris@cs.iupui.edu>
         * cuts/utils/unite/Variable.cpp:
         * cuts/utils/unite/Variable_T.inl:
         * cuts/utils/unite/Variable_T.cpp:
-        
-	        Changes related to DateTime. This need to be implemented properly after deciding
-	        a set of DateTime formats to be supported.
+
+          Changes related to DateTime. This need to be implemented properly after deciding
+          a set of DateTime formats to be supported.
 
         * etc/schemas/cuts-unite.xsd:
 
