@@ -15,14 +15,14 @@ Sun Nov 28 22:41:54 UTC 2010  Manjula Peiris  <tmpeiris@cs.iupui.edu>
         * cuts/utils/codegen/IndentationXML.hpp:
         * cuts/utils/codegen/Regex.hpp:
 
-	        Copy the Code generation tool kit to be built with CUTS Runtime.
+	        Copied the Code generation tool kit to be built with CUTS Runtime.
 
 Sun Nov 28 20:39:38 UTC 2010  Manjula Peiris  <tmpeiris@cs.iupui.edu>
 
         * MPC/config/cuts_opensplice_componentserver.mpb:
         * MPC/config/cuts_rtidds_componentserver.mpb:
 
-	        Change to inherit from ccm_componentserver_stub. Becasue ccm_component_svnt 
+	        Changed to inherit from ccm_componentserver_stub. Becasue ccm_component_svnt 
 	        was not found anymore in CIAO.  
 
         * bin/cuts_manager.pl:
