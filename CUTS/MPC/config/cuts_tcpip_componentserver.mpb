@@ -1,6 +1,0 @@
-// $Id$
-
-project : requires_tcpip, ccm_componentserver_stub, portableserver {
-  after += CUTS_TCPIP_CCM_ComponentServer
-  libs  += CUTS_TCPIP_CCM_ComponentServer
-}

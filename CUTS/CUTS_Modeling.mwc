@@ -26,7 +26,8 @@ workspace (CUTS_Modeling) {
   }
 
   exclude (!prop:windows) {
-    cmdline += -include $COSMIC_ROOT/MPC/config
+    cmdline += -include $COSMIC_ROOT/MPC/config \
+               -include $GAME_ROOT/MPC/config
 
     MDE/GME/plugins
     MDE/GME/paradigms/CHAOS

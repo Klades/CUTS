@@ -1,3 +1,20 @@
+Wed Dec  1 14:28:41 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS_Modeling.mwc:
+
+          Added GAME's base project location to the configuration.
+
+        * cuts/arch/chaos/server/server.mpc.disable:
+
+          Disabled building parts of CHAOS until the all the individual
+          technologies have been upgrading accordingly.
+
+        * MPC/config/cuts_opensplice_componentserver.mpb:
+        * MPC/config/cuts_tcpip_componentserver.mpb:
+        * cuts/arch/chaos/server/server.mpc:
+
+          Removed these files.
+
 Mon Nov 29 17:24:11 UTC 2010  Manjula Peiris  <tmpeiris@cs.iupui.edu>
 
         * cuts/utils/codegen:
