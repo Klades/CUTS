@@ -50,9 +50,9 @@ public:
   /// Get the component server that create the container.
   SERVER * server (void);
 
-  virtual Components::ConfigValues * configuration (void);
+  virtual void init (const char * name);
 
-  virtual ::Components::Deployment::ComponentServer_ptr get_component_server (void);
+  virtual void fini (void);
 
   virtual ::Components::CCMHome_ptr
     install_home (const char * primary_artifact,
@@ -63,10 +63,6 @@ public:
 
   virtual void uninstall_home (::Components::CCMHome_ptr home);
 
-  virtual Components::CCMHomes * get_homes (void);
-
-  virtual void remove (void);
-
   virtual ::Components::CCMObject_ptr
     install_component (const char * primary_artifact,
                        const char * entry_point,
@@ -74,27 +70,17 @@ public:
                        const char * servant_entrypoint,
                        const char * name);
 
+  virtual void
+    set_attributes (::CORBA::Object_ptr name,
+                    const ::Components::ConfigValues & values);
+
+  virtual void remove (void);
+
   virtual void activate_component (::Components::CCMObject_ptr comp);
 
   virtual void passivate_component (::Components::CCMObject_ptr comp);
 
   virtual void uninstall_component (::Components::CCMObject_ptr cref);
-
-  virtual ::CORBA::Object_ptr
-    install_servant (::PortableServer::Servant svnt,
-                     ::CIAO::Container_Types::OA_Type type,
-                     ::PortableServer::ObjectId_out oid);
-
-  virtual void
-    uninstall_servant (::PortableServer::Servant compptr,
-                       ::CIAO::Container_Types::OA_Type type,
-                       ::PortableServer::ObjectId_out oid);
-
-  virtual void
-    set_attributes (::CORBA::Object_ptr name,
-                    const ::Components::ConfigValues & values);
-
-  virtual ::Components::CCMObjectSeq * get_components (void);
 
   virtual void connect_local_facet (::Components::CCMObject_ptr,
                                     const char * ,
@@ -105,6 +91,16 @@ public:
                                        const char * ,
                                        ::Components::CCMObject_ptr,
                                        const char *);
+
+  virtual ::CORBA::Object_ptr
+    install_servant (::PortableServer::Servant svnt,
+                     ::CIAO::Container_Types::OA_Type type,
+                     ::PortableServer::ObjectId_out oid);
+
+  virtual void
+    uninstall_servant (::PortableServer::Servant compptr,
+                       ::CIAO::Container_Types::OA_Type type,
+                       ::PortableServer::ObjectId_out oid);
 
   virtual ::CIAO::Servant_Activator_ptr
     ports_servant_activator (void);
@@ -150,6 +146,9 @@ protected:
 
   /// Collection of installed components.
   servant_map components_;
+
+  /// Name assigned to the container.
+  ACE_CString name_;
 };
 
 #if defined (__CUTS_INLINE__)

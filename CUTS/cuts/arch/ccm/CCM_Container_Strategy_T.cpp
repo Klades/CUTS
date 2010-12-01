@@ -5,7 +5,6 @@
 #endif
 
 #include "ace/DLL.h"
-#include "ccm/ComponentServer/CCM_ComponentServer_ClientC.h"
 
 template <typename CONTAINER>
 CUTS_INLINE

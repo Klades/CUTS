@@ -1,3 +1,62 @@
+Wed Dec  1 21:34:30 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/arch/ccm/CCM_Container_Strategy_T.cpp:
+        * cuts/arch/ccm/CCM_Container_T.h:
+        * cuts/arch/ccm/CCM_Container_T.inl:
+        * cuts/arch/ccm/CCM_Container_T.cpp:
+
+          Removed methods that were not defined in the Container
+          interface definition. This was preventing the container
+          from building.
+
+        * cuts/arch/rtidds/handlers:
+        * cuts/arch/rtidds/handlers/RTIDDS_Configurator.h:
+        * cuts/arch/rtidds/handlers/RTIDDS_Configurator.cpp:
+        * cuts/arch/rtidds/handlers/RTIDDS_Container.h:
+        * cuts/arch/rtidds/handlers/RTIDDS_Container.inl:
+        * cuts/arch/rtidds/handlers/RTIDDS_Container.cpp:
+        * cuts/arch/rtidds/handlers/RTIDDS_Container_Strategy.h:
+        * cuts/arch/rtidds/handlers/RTIDDS_Container_Strategy.inl:
+        * cuts/arch/rtidds/handlers/RTIDDS_Container_Strategy.cpp:
+        * cuts/arch/rtidds/handlers/RTIDDS_Deployment_Handlers_export.h:
+        * cuts/arch/rtidds/handlers/RTIDDS_Instance_Handler.h:
+        * cuts/arch/rtidds/handlers/RTIDDS_Instance_Handler.inl:
+        * cuts/arch/rtidds/handlers/RTIDDS_Instance_Handler.cpp:
+        * cuts/arch/rtidds/handlers/handlers.mpc:
+
+          Updated the RTIDDS configuration handlers to the latest version
+          of DOC middleware.
+
+        * cuts/arch/ccm/CUTS_CCM.mpc:
+        * cuts/arch/opensplice/handlers/handlers.mpc:
+        * cuts/arch/tcpip/handlers/handlers.mpc:
+
+          Reverted changes (from last commit) to these projects since
+          they were not necessary and increased the footprint of the
+          handlers.
+
+        * MPC/config/cuts_rtidds_componentserver.mpb:
+        * cuts/arch/rtidds/server:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer.h:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer.inl:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer.cpp:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer_App.h:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer_App.inl:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer_App.cpp:
+        * cuts/arch/rtidds/server/RTIDDS_ComponentServer_export.h:
+        * cuts/arch/rtidds/server/RTIDDS_Configurator.h:
+        * cuts/arch/rtidds/server/RTIDDS_Configurator.cpp:
+        * cuts/arch/rtidds/server/RTIDDS_Container.h:
+        * cuts/arch/rtidds/server/RTIDDS_Container.inl:
+        * cuts/arch/rtidds/server/RTIDDS_Container.cpp:
+        * cuts/arch/rtidds/server/RTIDDS_Container_Strategy.h:
+        * cuts/arch/rtidds/server/RTIDDS_Container_Strategy.inl:
+        * cuts/arch/rtidds/server/RTIDDS_Container_Strategy.cpp:
+        * cuts/arch/rtidds/server/server.cpp:
+        * cuts/arch/rtidds/server/server.mpc:
+
+          Removed these files.
+
 Wed Dec  1 14:28:41 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * CUTS_Modeling.mwc:

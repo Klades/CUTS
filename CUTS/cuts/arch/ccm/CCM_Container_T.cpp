@@ -6,8 +6,8 @@
 #include "CCM_Container_T.inl"
 #endif
 
+#include "ccm/CCM_ObjectC.h"
 #include "ace/UUID.h"
-#include <sstream>
 
 //
 // ~CUTS_CCM_Container_T
@@ -46,32 +46,6 @@ CUTS_CCM_Container_T (SERVER * server, ::PortableServer::POA_ptr poa)
 }
 
 //
-// configuration
-//
-template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
-Components::ConfigValues *
-CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::configuration (void)
-{
-  ACE_ERROR ((LM_ERROR,
-              ACE_TEXT ("%T - %M - configuration ()\n")));
-
-  throw CORBA::NO_IMPLEMENT ();
-}
-
-//
-// get_component_server
-//
-template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
-::Components::Deployment::ComponentServer_ptr
-CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::get_component_server (void)
-{
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("get_component_server (void)\n")));
-
-  throw CORBA::NO_IMPLEMENT ();
-}
-
-//
 // install_home
 //
 template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
@@ -97,18 +71,6 @@ uninstall_home (::Components::CCMHome_ptr)
 {
   ACE_ERROR ((LM_ERROR,
               ACE_TEXT ("remove_home (::Components::CCMHome_ptr)")));
-
-  throw CORBA::NO_IMPLEMENT ();
-}
-
-//
-// get_homes
-//
-template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
-Components::CCMHomes * CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::get_homes (void)
-{
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("get_homes (void)\n")));
 
   throw CORBA::NO_IMPLEMENT ();
 }
@@ -273,19 +235,6 @@ uninstall_component (::Components::CCMObject_ptr ref)
 }
 
 //
-// get_components
-//
-template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
-::Components::CCMObjectSeq *
-CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::get_components (void)
-{
-  ACE_ERROR ((LM_ERROR,
-              ACE_TEXT ("get_components (void)\n")));
-
-  throw ::CORBA::NO_IMPLEMENT ();
-}
-
-//
 // set_attributes
 //
 template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
@@ -447,12 +396,12 @@ initialize_the_POA (::PortableServer::POA_ptr poa)
 
   // Generate the unique id for the container POA.
   UUID_GENERATOR::instance ()->generate_UUID (uuid);
-  std::ostringstream strid;
-  strid << "ContainerPOA-" << *uuid.to_string ();
+  std::string strid ("ContainerPOA-");
+  strid += uuid.to_string ()->c_str ();
 
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - initializing the container POA (%s)\n"),
-              strid.str ().c_str ()));
+              strid.c_str ()));
 
   CORBA::PolicyList policies (6);
   policies.length (6);
@@ -466,7 +415,7 @@ initialize_the_POA (::PortableServer::POA_ptr poa)
 
   // Use the policies above to create the child POA that will be
   // used when activating servants.
-  this->poa_ = poa->create_POA (strid.str ().c_str (),
+  this->poa_ = poa->create_POA (strid.c_str (),
                                 ::PortableServer::POAManager::_nil (),
                                 policies);
 
@@ -491,12 +440,12 @@ initialize_the_port_POA (::PortableServer::POA_ptr poa)
 
   // Generate the unique id for the container POA.
   UUID_GENERATOR::instance ()->generate_UUID (uuid);
-  std::ostringstream strid;
-  strid << "PortPOA-" << *uuid.to_string ();
+  std::string strid ("PortPOA");
+  strid += uuid.to_string ()->c_str ();
 
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - initializing the container port POA (%s)\n"),
-              strid.str ().c_str ()));
+              strid.c_str ()));
 
   CORBA::PolicyList policies (6);
   policies.length (6);
@@ -510,7 +459,7 @@ initialize_the_port_POA (::PortableServer::POA_ptr poa)
 
   // Use the policies above to create the child POA that will be
   // used when activating servants.
-  this->port_poa_ = poa->create_POA (strid.str ().c_str (),
+  this->port_poa_ = poa->create_POA (strid.c_str (),
                                      ::PortableServer::POAManager::_nil (),
                                      policies);
 

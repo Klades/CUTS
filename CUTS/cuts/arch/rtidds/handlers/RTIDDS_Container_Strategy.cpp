@@ -7,7 +7,6 @@
 #endif
 
 #include "RTIDDS_Container.h"
-#include "RTIDDS_ComponentServer.h"
 #include "cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant.h"
 
 //
@@ -26,17 +25,23 @@ CUTS_RTIDDS_CCM_Container_Strategy (CUTS_RTIDDS_CCM_Container & container)
 void
 CUTS_RTIDDS_CCM_Container_Strategy::
 configure_servant (::PortableServer::Servant servant,
-       const ::Components::ConfigValues & config)
+                   const ::Components::ConfigValues & config)
 {
+  ACE_DEBUG ((LM_DEBUG, "configure_servant ()\n"));
+
   // Convert the servant into an RTIDDS servant.
-  CUTS_RTIDDS_CCM_Servant * ospl_servant =
+  CUTS_RTIDDS_CCM_Servant * rtidds_servant =
     dynamic_cast <CUTS_RTIDDS_CCM_Servant *> (servant);
 
-  if (0 == ospl_servant)
-    return;
-
-  if (0 != this->configurator_.configure (ospl_servant, config))
+  if (0 == rtidds_servant)
+  {
     ACE_ERROR ((LM_ERROR,
-    "%T (%t) - %M - failed to configure RTIDDS servant\n"));
+                ACE_TEXT ("%T (%t) - %M - object is not an RTIDDS servant\n")));
+    return;
+  }
+
+  if (0 != this->configurator_.configure (rtidds_servant, config))
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - failed to configure RTIDDS servant\n")));
 }
 

@@ -22,7 +22,7 @@ project (CUTS_CIAO_stub) : requires_ciao, ciao_servant, cuts_stub, cutslib {
   }
 }
 
-project (CUTS_CIAO_exec) : requires_ciao, ccm_componentserver_stub, cuts_component_dnc, \
+project (CUTS_CIAO_exec) : requires_ciao, cuts_component_dnc, \
                            cuts_skel, cuts_lib, cutslib {
   sharedname = CUTS_CIAO_exec
 

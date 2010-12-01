@@ -38,3 +38,25 @@ disconnect_local_facet (::Components::CCMObject_ptr,
 {
   throw ::CORBA::NO_IMPLEMENT ();
 }
+
+//
+// init
+//
+template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
+CUTS_INLINE
+void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
+init (const char * name)
+{
+  this->name_ = name;
+}
+
+//
+// fini
+//
+template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
+CUTS_INLINE
+void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::fini (void)
+{
+
+}
+
