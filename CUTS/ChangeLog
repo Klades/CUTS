@@ -1,3 +1,64 @@
+Thu Dec  2 19:24:11 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/arch/opensplice:
+        * examples/arch/opensplice/SimpleExample:
+        * examples/arch/opensplice/SimpleExample/ModelDDSData.idl:
+        * examples/arch/opensplice/SimpleExample/ModelDDSData.mpc:
+        * examples/arch/opensplice/SimpleExample/ModelDDSData_OPSL.idl:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_ModelDDSDataC.h:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_ModelDDSDataC.cpp:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponentC.h:
+        * examples/arch/opensplice/SimpleExample/OpenSplice_SimpleComponentC.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent.idl:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent.mpc:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_Basic_Impl.mpc:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_svnt.h:
+        * examples/arch/opensplice/SimpleExample/SimpleComponent_svnt.cpp:
+        * examples/arch/opensplice/SimpleExample/SimpleExample.mwc:
+        * examples/arch/opensplice/SimpleExample/descriptors:
+        * examples/arch/opensplice/SimpleExample/descriptors/SimpleExample.cdp:
+        * examples/arch/opensplice/SimpleExample/descriptors/nodemap.dat:
+        * examples/arch/opensplice/SimpleExample/descriptors/run_test.pl:
+        * examples/arch/opensplice/SimpleExample/models:
+        * examples/arch/opensplice/SimpleExample/models/SimpleExample.xme:
+        * examples/arch/rtidds:
+        * examples/arch/rtidds/SimpleExample:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData.idl:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData.mpc:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_NDDS.idl:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_skel_export.h:
+        * examples/arch/rtidds/SimpleExample/ModelDDSData_stub_export.h:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_ModelDDSDataC.h:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_ModelDDSDataC.cpp:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_SimpleComponentC.h:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_SimpleComponentC.cpp:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_SimpleComponent_svnt.h:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_SimpleComponent_svnt.cpp:
+        * examples/arch/rtidds/SimpleExample/RTIDDS_SimpleComponent_svnt_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent.idl:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent.mpc:
+        * examples/arch/rtidds/SimpleExample/SimpleComponentE.idl:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.mpc:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl.cpp:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Basic_Impl_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Impl.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_Impl.cpp:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_exec_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_skel_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleComponent_stub_export.h:
+        * examples/arch/rtidds/SimpleExample/SimpleExample.mwc:
+        * examples/arch/rtidds/SimpleExample/descriptors:
+        * examples/arch/rtidds/SimpleExample/descriptors/SimpleExample.cdp:
+        * examples/arch/rtidds/SimpleExample/descriptors/nodemap.dat:
+        * examples/arch/rtidds/SimpleExample/descriptors/run_test.pl:
+        * examples/arch/rtidds/SimpleExample/models:
+        * examples/arch/rtidds/SimpleExample/models/SimpleExample.xme:
+
+          Removed these files.
+
 Thu Dec  2 19:20:39 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Project_Generator.h:
