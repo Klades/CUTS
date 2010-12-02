@@ -1,3 +1,9 @@
+Thu Dec  2 17:14:19 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS_Modeling.mwc:
+
+          Explicitly included the GAME workspace.
+
 Wed Dec  1 21:34:30 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/arch/ccm/CCM_Container_Strategy_T.cpp:
