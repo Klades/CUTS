@@ -1,0 +1,28 @@
+// -*- IDL -*-
+
+#ifndef _HELLOWORLD_NDDS_IDL_
+#define _HELLOWORLD_NDDS_IDL_
+
+module CUTS_NDDS
+{
+  struct TimeValue
+  {
+    // data member: usec
+    long usec;
+
+    // data member: sec
+    long sec;
+  };
+
+  struct Message
+  {
+    // data member: time
+    ::CUTS_NDDS::TimeValue time;
+
+    // data member: content
+    string content;
+  };
+};
+
+#endif  // _HELLOWORLD_NDDS_IDL_
+

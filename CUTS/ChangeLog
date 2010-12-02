@@ -1,3 +1,27 @@
+Thu Dec  2 19:27:43 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/arch/HelloWorld/arch/opensplice:
+
+          Updated the svn:ignore property.
+
+        * examples/arch/HelloWorld/arch/rtidds:
+        * examples/arch/HelloWorld/arch/rtidds/HelloWorld.idl:
+        * examples/arch/HelloWorld/arch/rtidds/HelloWorld.mpc:
+        * examples/arch/HelloWorld/arch/rtidds/HelloWorld.mwc:
+        * examples/arch/HelloWorld/arch/rtidds/HelloWorldImpl.h:
+        * examples/arch/HelloWorld/arch/rtidds/HelloWorldImpl.cpp:
+        * examples/arch/HelloWorld/arch/rtidds/HelloWorldImpl.mpc:
+        * examples/arch/HelloWorld/arch/rtidds/HelloWorld_NDDS.idl:
+        * examples/arch/HelloWorld/arch/rtidds/RTIDDS_HelloWorldC.h:
+        * examples/arch/HelloWorld/arch/rtidds/RTIDDS_HelloWorldC.cpp:
+        * examples/arch/HelloWorld/arch/rtidds/descriptors:
+        * examples/arch/HelloWorld/arch/rtidds/descriptors/HelloWorld.cdd:
+        * examples/arch/HelloWorld/arch/rtidds/descriptors/HelloWorld.cdp:
+        * examples/arch/HelloWorld/arch/rtidds/descriptors/HelloWorld.nodemap:
+        * examples/arch/HelloWorld/arch/rtidds/descriptors/run_test.pl:
+
+          "Hello, World" example for the RTI-DDS backend.
+
 Thu Dec  2 19:24:11 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/arch/opensplice:
