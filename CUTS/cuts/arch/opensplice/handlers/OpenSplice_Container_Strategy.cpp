@@ -27,8 +27,6 @@ CUTS_OpenSplice_CCM_Container_Strategy::
 configure_servant (::PortableServer::Servant servant,
                    const ::Components::ConfigValues & config)
 {
-  ACE_DEBUG ((LM_DEBUG, "configure_servant ()\n"));
-
   // Convert the servant into an OpenSplice servant.
   CUTS_OpenSplice_CCM_Servant * ospl_servant =
     dynamic_cast <CUTS_OpenSplice_CCM_Servant *> (servant);

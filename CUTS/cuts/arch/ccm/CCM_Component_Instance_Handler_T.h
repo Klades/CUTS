@@ -19,8 +19,12 @@
 
 #include "dance/DAnCE_LocalityManagerC.h"
 #include "ciao/Containers/Container_BaseC.h"
+#include "ccm/CCM_CookieC.h"
 #include "tao/PortableServer/PortableServer.h"
 #include "tao/LocalObject.h"
+
+#include <set>
+#include <map>
 
 /**
  * @class CUTS_CCM_Component_Instance_Handler_T
@@ -100,6 +104,12 @@ private:
 
   /// Reference to POA passed to created containers.
   ::PortableServer::POA_var poa_;
+
+  typedef std::set <::Components::Cookie_var> cookies;
+
+  typedef std::map <std::string, cookies > cookie_map;
+
+  cookie_map cookies_;
 };
 
 #include "CCM_Component_Instance_Handler_T.cpp"

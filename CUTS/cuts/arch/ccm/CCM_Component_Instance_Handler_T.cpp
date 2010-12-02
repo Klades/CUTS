@@ -238,7 +238,7 @@ activate_instance (const ::Deployment::DeploymentPlan & ,
 template <typename HANDLER, typename CONTAINER>
 void CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
 passivate_instance (const ::Deployment::DeploymentPlan & ,
-                    ::CORBA::ULong ,
+                    ::CORBA::ULong index,
                     const ::CORBA::Any & any)
 {
   using ::Deployment::StopError;
@@ -257,7 +257,7 @@ passivate_instance (const ::Deployment::DeploymentPlan & ,
 template <typename HANDLER, typename CONTAINER>
 void CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
 remove_instance (const ::Deployment::DeploymentPlan &,
-                 ::CORBA::ULong,
+                 ::CORBA::ULong index,
                  const ::CORBA::Any & any_ref)
 {
   using ::Deployment::StopError;
@@ -412,6 +412,9 @@ connect_instance (const ::Deployment::DeploymentPlan & plan,
         // Subscribe the consumer the correct port.
         ::Components::Cookie_var cookie =
           comp->subscribe (ep.portName.in (), consumer);
+
+        // Save this cookie in the components registry.
+        this->cookies_[idd.name.in ()].insert (cookie);
       }
       break;
 
@@ -446,7 +449,7 @@ void CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
 disconnect_instance (const ::Deployment::DeploymentPlan & p, ::CORBA::ULong index)
 {
   ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("disconnect_instance (%d)\n"),
+              ACE_TEXT ("%T (%t) - %M - disconnect_instance (%d)\n"),
               index));
 }
 
@@ -494,9 +497,35 @@ configure (const ::Deployment::Properties & prop)
 //
 template <typename HANDLER, typename CONTAINER>
 void CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
-instance_configured (const ::Deployment::DeploymentPlan &, ::CORBA::ULong)
+instance_configured (const ::Deployment::DeploymentPlan & plan,
+                     ::CORBA::ULong index)
 {
+  using ::Deployment::InstanceDeploymentDescription;
+  using ::Deployment::MonolithicDeploymentDescription;
+  using ::Deployment::PlanError;
+  using ::Deployment::StartError;
 
+  const InstanceDeploymentDescription & idd = plan.instance[index];
+
+  // Get a reference for this object.
+  ::CORBA::Object_var obj =
+      this->container_->generate_reference (idd.name.in (),
+                                            "",
+                                            ::CIAO::Container_Types::COMPONENT_t);
+
+  ::Components::CCMObject_var comp =
+    ::Components::CCMObject::_narrow (obj.in ());
+
+  if (::CORBA::is_nil (comp.in ()))
+    throw StartError ("provide_endpoint_reference", "reference is not a component");
+
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - notifying %s that configuration ")
+              ACE_TEXT ("is complete\n"),
+              idd.name.in ()));
+
+  // Invoke the configuration complete method on the component.
+  comp->configuration_complete ();
 }
 
 //

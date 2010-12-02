@@ -27,8 +27,6 @@ CUTS_RTIDDS_CCM_Container_Strategy::
 configure_servant (::PortableServer::Servant servant,
                    const ::Components::ConfigValues & config)
 {
-  ACE_DEBUG ((LM_DEBUG, "configure_servant ()\n"));
-
   // Convert the servant into an RTIDDS servant.
   CUTS_RTIDDS_CCM_Servant * rtidds_servant =
     dynamic_cast <CUTS_RTIDDS_CCM_Servant *> (servant);

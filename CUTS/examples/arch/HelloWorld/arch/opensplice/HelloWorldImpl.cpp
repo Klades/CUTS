@@ -28,9 +28,9 @@ namespace HelloWorldImpl
   //
   void HelloWorld::push_input_message (::Message * ev)
   {
-    ACE_DEBUG ((LM_DEBUG,
-                ACE_TEXT ("%s\n"),
-                ev->content ()));
+    //ACE_DEBUG ((LM_DEBUG,
+    //            ACE_TEXT ("%s\n"),
+    //            ev->content ()));
 
     CUTS_CCM_Event_T <OBV_Message> __event_100000008__;
     __event_100000008__->content (ev->content ());
@@ -44,8 +44,6 @@ namespace HelloWorldImpl
   //
   void HelloWorld::periodic_EventCreator (void)
   {
-    ACE_DEBUG ((LM_DEBUG, "GO!\n"));
-
     CUTS_CCM_Event_T <OBV_Message> __event_100000010__;
     __event_100000010__->content (this->message_.c_str ());
     this->ctx_->push_handle_message_ex (__event_100000010__.in ());
