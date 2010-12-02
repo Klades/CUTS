@@ -1,3 +1,21 @@
+Thu Dec  2 19:20:39 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ciao/CIAO_Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Stub_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Stub_Generator.cpp:
+
+          Updated the RTI-DDS backend to the latest version of DOC
+          middleware and latest version of RTI-DDS.
+
+        * examples/arch/HelloWorld/arch/opensplice/OpenSplice_HelloWorldC.h:
+        * examples/arch/HelloWorld/arch/opensplice/OpenSplice_HelloWorldC.cpp:
+
+          Missing files for the OpenSplice example.
+
 Thu Dec  2 17:14:19 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * CUTS_Modeling.mwc:

@@ -191,6 +191,8 @@ public:
 protected:
   CUTS_String_Set stub_files_;
 
+  CUTS_String_Set idl_gen_files_;
+
   std::string stub_after_;
 
 private:

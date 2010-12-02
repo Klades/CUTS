@@ -22,9 +22,12 @@ generate (const CUTS_BE_IDL_Node & node)
 
   if (has_events)
   {
+    const std::string ndds_idl_file = name + "_NDDS.idl";
+
     this->stub_files_.insert ("./rtidds/" + name + "_NDDS.cxx");
     this->stub_files_.insert ("./rtidds/" + name + "_NDDSPlugin.cxx");
     this->stub_files_.insert ("./rtidds/" + name + "_NDDSSupport.cxx");
+    this->idl_gen_files_.insert (ndds_idl_file);
 
     this->ctx_.project_
       << std::endl
@@ -37,7 +40,7 @@ generate (const CUTS_BE_IDL_Node & node)
       << std::endl
       << "  NDDSTypeSupport_Files {" << std::endl
       << "    gendir = ./rtidds" << std::endl
-      << "    " << name << "_NDDS.idl" << std::endl
+      << "    " << ndds_idl_file << std::endl
       << "  }" << std::endl
       << "}" << std::endl
       << std::endl;

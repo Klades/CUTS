@@ -374,7 +374,16 @@ generate_idlgen_project (const CUTS_BE_IDL_Node & node)
   this->ctx_.project_
     << std::endl
     << "  IDL_Files {" << std::endl
-    << "    " << node.name_ << ".idl" << std::endl
+    << "    " << node.name_ << ".idl" << std::endl;
+
+  for (CUTS_String_Set::iterator iter = this->idl_gen_files_.begin (), iter_end = this->idl_gen_files_.end ();
+       iter != iter_end;
+       ++ iter)
+  {
+    this->ctx_.project_ << "    " << *iter << std::endl;
+  }
+
+  this->ctx_.project_
     << "  }" << std::endl
     << "}" << std::endl
     << std::endl;

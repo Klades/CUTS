@@ -11,48 +11,69 @@
 
 namespace CUTS_BE_RTIDDS
 {
+/**
+ * Helper visitor that determine what files need to be included
+ * based on which files contain events.
+ */
 class Include_Events : public PICML::Visitor
 {
 public:
-  Include_Events (std::ostream & source)
-    : source_ (source),
+  //
+  // Include_Events
+  //
+  Include_Events (std::ostream & header)
+    : header_ (header),
       has_events_ (false)
   {
 
   }
 
+  //
+  // ~Include_Events
+  //
   virtual ~Include_Events (void)
   {
 
   }
 
+  //
+  // Visit_File
+  //
   virtual void Visit_File (const PICML::File & file)
   {
+    this->this_file_ = file;
+    this->include_traits_ = true;
+
     this->Visit_PackageFile_i (file);
 
     if (this->has_events_)
     {
+      // Make sure we include the NDDS support file.
       std::string filename ("rtidds/");
       filename += std::string (file.name ()) + "_NDDSSupport";
 
-      this->source_ << CUTS_BE_CPP::include (filename);
+      // Include the header file for this source file.
+      this->header_ << CUTS_BE_CPP::include (filename);
 
-      if (this->includes_.empty ())
-      {
-        this->source_
-          << CUTS_BE_CPP::include ("cuts/arch/rtidds/RTIDDS_Traits_T");
-      }
+      if (this->include_traits_)
+        this->header_ << CUTS_BE_CPP::include ("cuts/arch/rtidds/RTIDDS_Traits_T");
     }
   }
 
+  //
+  // Visit_Package
+  //
   virtual void Visit_Package (const PICML::Package & package)
   {
     this->Visit_PackageFile_i (package);
   }
 
+  //
+  // Visit_Component
+  //
   virtual void Visit_Component (const PICML::Component & component)
   {
-    // Visit all the input event ports.
+    // Visit all the input ev ports.
     std::vector <PICML::InEventPort> inputs = component.InEventPort_kind_children ();
 
     std::for_each (inputs.begin (),
@@ -61,7 +82,7 @@ public:
                                 _1,
                                 boost::ref (*this)));
 
-    // Visit all the ouptut event ports.
+    // Visit all the ouptut ev ports.
     std::vector <PICML::OutEventPort> outputs = component.OutEventPort_kind_children ();
 
     std::for_each (outputs.begin (),
@@ -71,6 +92,9 @@ public:
                                 boost::ref (*this)));
   }
 
+  //
+  // Visit_InEventPort
+  //
   virtual void Visit_InEventPort (const PICML::InEventPort & port)
   {
     PICML::EventType et = port.ref ();
@@ -79,6 +103,9 @@ public:
       PICML::Event::Cast (et).Accept (*this);
   }
 
+  //
+  // Visit_OutEventPort
+  //
   virtual void Visit_OutEventPort (const PICML::OutEventPort & port)
   {
     PICML::EventType et = port.ref ();
@@ -87,26 +114,50 @@ public:
       PICML::Event::Cast (et).Accept (*this);
   }
 
-  virtual void Visit_Event (const PICML::Event & event)
+  //
+  // Visit_Event
+  //
+  virtual void Visit_Event (const PICML::Event & ev)
   {
-    PICML::MgaObject parent = PICML::MgaObject::Cast (event.parent ());
+    PICML::File file = this->get_parent_file (ev);
 
-    while (PICML::File::meta != parent.type ())
-      parent = PICML::MgaObject::Cast (parent.parent ());
+    if (this->includes_.find (file) == this->includes_.end ())
+    {
+      // Make sure we do not visit this file again.
+      this->includes_.insert (file);
 
-    std::string name = parent.name ();
+      // Include the CORBA stub file.
+      const std::string name = file.name ();
+      this->header_ << CUTS_BE_CPP::include (name + "C");
 
-    if (this->includes_.find (name) != this->includes_.end ())
-      return;
+      if (this->this_file_ != file)
+      {
+        const std::string filename = "RTIDDS_" + name + "C";
+        this->header_ << CUTS_BE_CPP::include (filename);
 
-    std::string filename ("RTIDDS_");
-    filename += name + "C";
-
-    this->source_ << CUTS_BE_CPP::include (filename);
-    this->includes_.insert (name);
+        // We do not need to include the trait file now.
+        this->include_traits_ = false;
+      }
+    }
   }
 
 private:
+  //
+  // get_parent_file
+  //
+  PICML::File get_parent_file (const Udm::Object & obj)
+  {
+    Udm::Object parent = obj.GetParent ();
+
+    while (parent.type () != PICML::File::meta)
+      parent = parent.GetParent ();
+
+    return PICML::File::Cast (parent);
+  }
+
+  //
+  // Visit_PackageFile_i
+  //
   void Visit_PackageFile_i (const Udm::Object & obj)
   {
     // Visit all the packages.
@@ -137,11 +188,20 @@ private:
                                 boost::ref (*this)));
   }
 
-  std::ostream & source_;
+  /// Output stream for the header file.
+  std::ostream & header_;
 
-  std::set <std::string> includes_;
+  /// Set of include strings.
+  std::set <PICML::File> includes_;
 
+  /// Flag that determine if a file has events.
   bool has_events_;
+
+  /// Flag indicating the trait file needs to be included.
+  bool include_traits_;
+
+  /// Reference to the current file.
+  PICML::File this_file_;
 };
 
 
@@ -215,10 +275,6 @@ Visit_File (const PICML::File & file)
   if (!this->header_.is_open () && this->source_.is_open ())
     return;
 
-  // Construct the name of the exp macro.
-  std::string corba_filename (file.name ());
-  corba_filename += "C";
-
   // Construct the exp macro for this file.
   this->export_macro_ = std::string (file.name ()) + "_STUB";
 
@@ -236,8 +292,8 @@ Visit_File (const PICML::File & file)
                   hash_define.begin (),
                   &::toupper);
 
-  std::string dds_filename ("rtidds/");
-  dds_filename += std::string (file.name ()) + "_NDDS";
+  const std::string dds_filename =
+    "rtidds/" + std::string (file.name ()) + "_NDDS";
 
   do
   {
@@ -258,7 +314,8 @@ Visit_File (const PICML::File & file)
       << "#ifndef " << hash_define << std::endl
       << "#define " << hash_define << std::endl
       << std::endl
-      << CUTS_BE_CPP::include (corba_filename);
+      << CUTS_BE_CPP::include (dds_filename)
+      << std::endl;
 
     Include_Events include_events (this->header_);
     PICML::File (file).Accept (include_events);
@@ -355,10 +412,10 @@ Visit_PackageFile_i  (const Udm::Object & obj)
 // Visit_Event
 //
 void Stub_Generator::
-Visit_Event (const PICML::Event & event)
+Visit_Event (const PICML::Event & ev)
 {
-  std::string name (event.name ());
-  std::string fq_name (CUTS_BE_CPP::fq_type (event));
+  std::string name (ev.name ());
+  std::string fq_name (CUTS_BE_CPP::fq_type (ev));
 
   this->header_
     << this->export_macro_
@@ -367,7 +424,7 @@ Visit_Event (const PICML::Event & event)
     << " bool operator >>= (const " << name << " &, ::CUTS_NDDS" << fq_name << " & );"
     << std::endl;
 
-  std::vector <PICML::Member> members = event.Member_children ();
+  std::vector <PICML::Member> members = ev.Member_children ();
 
   this->source_
     << "bool operator <<= (" << name << " & corba, const ::CUTS_NDDS" << fq_name << " & dds)"
@@ -395,7 +452,7 @@ Visit_Event (const PICML::Event & event)
     << "return true;"
     << "}";
 
-  this->events_.insert (event);
+  this->events_.insert (ev);
 }
 
 //

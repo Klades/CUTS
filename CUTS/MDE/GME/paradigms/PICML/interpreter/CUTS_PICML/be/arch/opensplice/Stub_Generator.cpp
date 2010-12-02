@@ -88,21 +88,16 @@ public:
 
   virtual void Visit_Event (const PICML::Event & ev)
   {
-    PICML::MgaObject parent = PICML::MgaObject::Cast (ev.parent ());
-
-    while (PICML::File::meta != parent.type ())
-      parent = PICML::MgaObject::Cast (parent.parent ());
-
-    std::string name = parent.name ();
+    PICML::File file = this->get_parent_file (ev);
+    const std::string name = file.name ();
 
     if (this->includes_.find (name) != this->includes_.end ())
       return;
 
-    std::string filename ("OpenSplice_");
-    filename += name + "C";
 
     if (this->this_file_ != this->get_parent_file (ev))
     {
+      const std::string filename = "OpenSplice_" + name + "C";
       this->source_ << CUTS_BE_CPP::include (filename);
       this->includes_.insert (name);
     }
