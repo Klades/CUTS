@@ -75,8 +75,8 @@ template <typename SERVANT, typename EVENT>
 void CUTS_RTIDDS_CCM_EventConsumer_T <SERVANT, EVENT>::
 on_data_available (::DDSDataReader_ptr p)
 {
-  typename CUTS_RTIDDS_Traits_T <EVENT>::dds_event_sequence_type event_seq;
-  ::DDS_SampleInfoSeq sample_info;
+  typename CUTS_RTIDDS_Traits_T <EVENT>::dds_event_sequence_type event_seq (1);
+  ::DDS_SampleInfoSeq sample_info (1);
 
   // Get the concrete reader from the generic reader.
   typedef typename CUTS_RTIDDS_Traits_T <EVENT>::reader_type reader_type;

@@ -25,7 +25,7 @@ public:
 
   void send_event (typename traits_type::corba_event_type * ev);
 
-  void send_event (typename traits_type::dds_event_type & ev);
+  void send_event (typename traits_type::dds_event_type * ev);
 
 protected:
   typename traits_type::writer_type * writer_;

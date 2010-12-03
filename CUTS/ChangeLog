@@ -1,3 +1,17 @@
+Fri Dec  3 02:17:15 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer_T.cpp:
+
+          Bug fix where the take () parameters did not set the max size
+          of there buffers. This error was a result of upgrading to the
+          latest version of RTI-DDS.
+
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_Table_T.cpp:
+
+          The DDS version of send_event () now takes a pointer.
+
 Thu Dec  2 22:19:44 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/arch/ccm/CCM_Component_Instance_Handler_T.h:

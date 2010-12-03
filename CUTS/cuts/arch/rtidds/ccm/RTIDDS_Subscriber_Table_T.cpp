@@ -110,6 +110,6 @@ send_event (typename traits_type::corba_event_type * ev)
   typename table_type::ITERATOR iter (this->table_);
 
   for (; !iter.done (); ++ iter)
-    iter->item ()->send_event (dds_event);
+    iter->item ()->send_event (&dds_event);
 }
 

@@ -24,12 +24,7 @@ connect (::Components::EventConsumerBase_ptr p)
       ::Components::RTIDDS::EventConsumer::_narrow (p);
 
   if (::CORBA::is_nil (consumer.in ()))
-    {
-      ACE_ERROR ((LM_ERROR,
-      "%T (%t) - %M - object is not an RTIDDS consumer\n"));
-
-      throw ::CORBA::INTERNAL ();
-    }
+    throw ::Components::InvalidConnection ();
 
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - requesting topic description")
@@ -95,13 +90,13 @@ send_event (typename traits_type::corba_event_type * ev)
     *ev >>= *dds_event;
 
     // Send the event.
-    this->send_event (*dds_event);
+    this->send_event (dds_event);
 
     // Free the event.
     typename traits_type::dds_typesupport_type::delete_data (dds_event);
   }
   else
-    ACE_ERROR ((LM_CRITICAL,
+    ACE_ERROR ((LM_ERROR,
                 ACE_TEXT ("%T (%t) - %M - failed to allocate memory for event\n")));
 }
 
@@ -110,9 +105,9 @@ send_event (typename traits_type::corba_event_type * ev)
 //
 template <typename EVENT>
 void CUTS_RTIDDS_CCM_Subscriber_T <EVENT>::
-send_event (typename traits_type::dds_event_type & ev)
+send_event (typename traits_type::dds_event_type * ev)
 {
-  ::DDS_ReturnCode_t status = this->writer_->write (ev, DDS_HANDLE_NIL);
+  ::DDS_ReturnCode_t status = this->writer_->write (*ev, DDS_HANDLE_NIL);
 
   if (DDS_RETCODE_OK != status)
     ACE_ERROR ((LM_ERROR,
