@@ -15,8 +15,7 @@
 class CUTS_RTIDDS_CCM_Export CUTS_RTIDDS_CCM_EventConsumer :
   public virtual CUTS_CCM_EventConsumer,
   public virtual ::POA_Components::RTIDDS::EventConsumer,
-  public CUTS_RTIDDS_ListenerBase,
-  public CUTS_RTIDDS_Endpoint
+  public CUTS_RTIDDS_ListenerBase
 {
  public:
   /**
@@ -41,13 +40,19 @@ class CUTS_RTIDDS_CCM_Export CUTS_RTIDDS_CCM_EventConsumer :
   /// Get the topic description for this event consumer.
   virtual ::Components::RTIDDS::TopicDescription * topic_description (void);
 
- protected:
+protected:
+  /// The participant associated with this consumer.
+  ::DDSDomainParticipant * participant_;
+
   /// Right now, we assume that each consumer is a subscriber. In the
   /// future, we may want to enable shared subscriptions between consumers.
   ::DDSSubscriber * subscriber_;
 
   /// The abstract reader for the event consumer.
   ::DDSDataReader * abstract_reader_;
+
+  /// The endpoint for this event consumer.
+  CUTS_RTIDDS_Endpoint endpoint_;
 };
 
 #if defined (__CUTS_INLINE__)

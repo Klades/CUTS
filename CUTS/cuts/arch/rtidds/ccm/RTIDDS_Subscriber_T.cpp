@@ -1,11 +1,17 @@
 // $Id$
 
+//
+// CUTS_RTIDDS_CCM_Subscriber_T
+//
 template <typename EVENT>
 CUTS_RTIDDS_CCM_Subscriber_T <EVENT>::CUTS_RTIDDS_CCM_Subscriber_T (void)
 {
 
 }
 
+//
+// ~CUTS_RTIDDS_CCM_Subscriber_T
+//
 template <typename EVENT>
 CUTS_RTIDDS_CCM_Subscriber_T <EVENT>::~CUTS_RTIDDS_CCM_Subscriber_T (void)
 {

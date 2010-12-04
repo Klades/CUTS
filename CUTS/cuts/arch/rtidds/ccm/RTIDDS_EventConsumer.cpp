@@ -16,7 +16,9 @@ open (::DDSDomainParticipant * participant,
       const char * topic_name)
 {
   // Open the underlying endpoint for the consumer.
-  int retval = CUTS_RTIDDS_Endpoint::open (participant, type_name, topic_name);
+  int retval = this->endpoint_.open (participant,
+                                     type_name,
+                                     topic_name);
 
   if (0 != retval)
     ACE_ERROR_RETURN ((LM_ERROR,
@@ -37,15 +39,18 @@ open (::DDSDomainParticipant * participant,
                          ACE_TEXT ("%T (%t) - %M - failed to create subscriber\n")),
                          -1);
 
+  // Save the participant.
+  this->participant_ = participant;
+
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - creating a datareader for the topic\n")));
 
   // The last part is to create a data reader.
   this->abstract_reader_ =
-      this->subscriber_->create_datareader (this->dds_topic_,
-                                            DDS_DATAREADER_QOS_DEFAULT,
-                                            this,
-                                            DDS_STATUS_MASK_ALL);
+    this->subscriber_->create_datareader (this->endpoint_.topic (),
+                                          DDS_DATAREADER_QOS_DEFAULT,
+                                          this,
+                                          DDS_STATUS_MASK_ALL);
 
   if (0 == this->abstract_reader_)
     ACE_ERROR_RETURN ((LM_ERROR,
@@ -60,22 +65,45 @@ open (::DDSDomainParticipant * participant,
 //
 int CUTS_RTIDDS_CCM_EventConsumer::close (void)
 {
-  if (0 != this->subscriber_)
-  {
-    if (0 != this->abstract_reader_)
-    {
-      // Delete the data reader.
-      this->subscriber_->delete_datareader (this->abstract_reader_);
-      this->abstract_reader_ = 0;
-    }
+  DDS_ReturnCode_t retcode;
 
-    // Then, delete the subscription.
-    this->participant_->delete_subscriber (this->subscriber_);
-    this->subscriber_ = 0;
+  if (0 != this->abstract_reader_)
+  {
+    // Delete the data reader.
+    retcode = this->subscriber_->delete_datareader (this->abstract_reader_);
+
+    if (retcode == DDS_RETCODE_OK)
+      this->abstract_reader_ = 0;
+    else
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         ACE_TEXT ("%T (%t) - %M - failed to delete data")
+                         ACE_TEXT (" reader (retcode=%d)\n")),
+                         -1);
   }
 
-  // Finally, close the endpoint.
-  return CUTS_RTIDDS_Endpoint::close ();
+  if (0 != this->subscriber_)
+  {
+    // Delete the subscriber.
+    retcode = this->participant_->delete_subscriber (this->subscriber_);
+
+    if (retcode == DDS_RETCODE_OK)
+      this->subscriber_ = 0;
+    else
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         ACE_TEXT ("%T (%t) - %M - failed to delete subscriber")
+                         ACE_TEXT (" (retcode=%d)\n")),
+                         -1);
+  }
+
+  if (this->endpoint_.is_open ())
+  {
+    if (0 != this->endpoint_.close ())
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         ACE_TEXT ("%T (%t) - %M - failed to close endpoint\n")),
+                         -1);
+  }
+
+  return 0;
 }
 
 //
@@ -94,8 +122,9 @@ CUTS_RTIDDS_CCM_EventConsumer::topic_description (void)
   ::Components::RTIDDS::TopicDescription_var auto_clean (topic_desc);
 
   // Copy information about the topic.
-  topic_desc->name = ::CORBA::string_dup (this->dds_topic_->get_name ());
-  topic_desc->type_name = ::CORBA::string_dup (this->dds_topic_->get_type_name ());
+  DDSTopic * dds_topic = this->endpoint_.topic ();
+  topic_desc->name = ::CORBA::string_dup (dds_topic->get_name ());
+  topic_desc->type_name = ::CORBA::string_dup (dds_topic->get_type_name ());
 
   // Return the description to the client.
   return auto_clean._retn ();

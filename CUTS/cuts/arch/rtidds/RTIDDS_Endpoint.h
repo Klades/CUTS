@@ -31,6 +31,10 @@ class CUTS_RTIDDS_Export CUTS_RTIDDS_Endpoint
   /// Close the endpoint.
   virtual int close (void);
 
+  /// Test if the endpoint is open. An endpoint is open if it
+  /// container a topic.
+  bool is_open (void) const;
+
  protected:
   /// Reference to the domain participant for the topic.
   ::DDSDomainParticipant * participant_;

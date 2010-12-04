@@ -24,6 +24,8 @@
 
 /**
  * @class CUTS_RTIDDS_CCM_Servant_T
+ *
+ * Template base class for all RTI-DDS servants.
  */
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC>
 class CUTS_RTIDDS_CCM_Servant_T :
@@ -32,26 +34,28 @@ class CUTS_RTIDDS_CCM_Servant_T :
 public:
   /// Type definition of the base type.
   typedef CUTS_CCM_Servant_T <T,
-            CONTEXT,
-            EXECUTOR,
-            POA_EXEC,
-            CUTS_RTIDDS_CCM_Servant> base_type;
+                              CONTEXT,
+                              EXECUTOR,
+                              POA_EXEC,
+                              CUTS_RTIDDS_CCM_Servant>
+                              base_type;
 
+  /**
+   * Initializing constructor.
+   *
+   * @param[in]         name        Name of the servant
+   * @param[in]         poa         POA for the ports
+   * @param[in]         executor    Executor managed by servant
+   */
   CUTS_RTIDDS_CCM_Servant_T (const char * name,
-         typename EXECUTOR::_ptr_type executor);
+                             ::PortableServer::POA_ptr poa,
+                             typename EXECUTOR::_ptr_type executor);
 
   /// Destructor.
   virtual ~CUTS_RTIDDS_CCM_Servant_T (void);
 
   /// Configure the servant.
   virtual void configure (::DDSDomainParticipant * participant);
-
-protected:
-  typedef typename base_type::consumer_map_type consumer_map_type;
-
-  typedef typename base_type::emits_map_type emits_map_type;
-
-  typedef typename base_type::publishes_map_type publishes_map_type;
 };
 
 #if defined (__CUTS_INLINE__)

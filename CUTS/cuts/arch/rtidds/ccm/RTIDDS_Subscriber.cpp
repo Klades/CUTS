@@ -2,14 +2,23 @@
 
 #include "RTIDDS_Subscriber.h"
 
+//
+// CUTS_RTIDDS_CCM_Subscriber
+//
 CUTS_RTIDDS_CCM_Subscriber::CUTS_RTIDDS_CCM_Subscriber (void)
+: participant_ (0),
+  publisher_ (0),
+  abstract_writer_ (0)
 {
 
 }
 
+//
+// ~CUTS_RTIDDS_CCM_Subscriber
+//
 CUTS_RTIDDS_CCM_Subscriber::~CUTS_RTIDDS_CCM_Subscriber (void)
 {
-
+  this->disconnect ();
 }
 
 //
@@ -52,6 +61,40 @@ connect (::Components::EventConsumerBase_ptr p)
 ::Components::EventConsumerBase_ptr
 CUTS_RTIDDS_CCM_Subscriber::disconnect (void)
 {
+  // Delete the data write for this subscriber.
+  DDS_ReturnCode_t retcode;
+
+  if (0 != this->abstract_writer_)
+  {
+    retcode = this->publisher_->delete_datawriter (this->abstract_writer_);
+
+    if (retcode == DDS_RETCODE_OK)
+      this->abstract_writer_ = 0;
+    else
+      ACE_ERROR ((LM_ERROR,
+                  ACE_TEXT ("%T (%t) - %M - failed to delete data writer\n")));
+  }
+
+  if (0 != this->publisher_)
+  {
+    retcode = this->participant_->delete_publisher (this->publisher_);
+
+    if (retcode == DDS_RETCODE_OK)
+      this->publisher_ = 0;
+    else
+
+      ACE_ERROR ((LM_ERROR,
+                  ACE_TEXT ("%T (%t) - %M - failed to delete publisher\n")));
+  }
+
+  if (this->endpoint_.is_open ())
+  {
+    // First, make sure we close the endpoint.
+    if (0 != this->endpoint_.close ())
+      ACE_ERROR ((LM_ERROR,
+                  ACE_TEXT ("%T (%t) - %M - failed to close subscriber endpoint\n")));
+  }
+
   return this->consumer_._retn ();
 }
 

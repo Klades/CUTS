@@ -1,3 +1,28 @@
+Sat Dec  4 05:10:42 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Generator.cpp:
+
+          Update the code generator to support the latest version of
+          the CCM++ architecture.
+
+        * cuts/arch/rtidds/RTIDDS_Endpoint.h:
+        * cuts/arch/rtidds/RTIDDS_Endpoint.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant_T.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_T.cpp:
+
+          Bug fix where the implementation of the disconnect () method was
+          causing the application to crash as teardown. This was due to not
+          deleting the DDS entities in the correct order.
+
+        * examples/arch/HelloWorld/arch/rtidds/descriptors/run_test.pl:
+
+          The test was running fro 10000 seconds instead of 10 seconds.
+
 Sat Dec  4 04:18:38 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Servant_Generator.cpp:
