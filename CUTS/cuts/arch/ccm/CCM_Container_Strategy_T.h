@@ -28,19 +28,41 @@ public:
   /// Type definition of the servant type.
   typedef CONTAINER server_type;
 
+  /**
+   * Initializing constructor
+   *
+   * @param[in]       container       Host container of strategy.
+   */
   CUTS_CCM_Container_Strategy_T (CONTAINER & container);
 
+  /// Destructor.
   virtual ~CUTS_CCM_Container_Strategy_T (void);
 
+  /**
+   * Method for loading an executor.
+   *
+   * @param[in]       location        Location of the executor
+   * @param[in]       entrypt         Entry point for the executor
+   */
   virtual ::Components::EnterpriseComponent_ptr
     load_executor (const char * location,
-       const char * entrypt);
+                   const char * entrypt);
 
+  /**
+   * Method for loading a servant.
+   *
+   * @param[in]       name            Name associated with servant
+   * @param[in]       location        Location of the executor
+   * @param[in]       entrypt         Entry point for the executor
+   * @param[in]       port_POA        POA for activating servant ports
+   * @param[in]       executor        Executor owned by servant
+   */
   virtual ::PortableServer::Servant
     load_servant (const char * name,
-      const char * location,
-      const char * entrypt,
-      ::Components::EnterpriseComponent_ptr executor);
+                  const char * location,
+                  const char * entrypt,
+                  ::PortableServer::POA_ptr port_POA,
+                  ::Components::EnterpriseComponent_ptr executor);
 
   /**
    * Notification to activate the servant.

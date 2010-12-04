@@ -50,6 +50,7 @@ public:
    * @param[in]       executor        Executor component for servant.
    */
   CUTS_CCM_Servant_T (const char * name,
+                      ::PortableServer::POA_ptr poa,
                       typename EXECUTOR::_ptr_type exec);
 
   /// Destructor.
@@ -140,22 +141,25 @@ public:
 protected:
   /// Type definition of the consumer map.
   typedef ACE_Hash_Map_Manager <ACE_CString,
-        CUTS_CCM_EventConsumer *,
-        ACE_RW_Thread_Mutex> consumer_map_type;
+                                CUTS_CCM_EventConsumer *,
+                                ACE_RW_Thread_Mutex>
+                                consumer_map_type;
 
   /// Collection of consumers for the servant.
   consumer_map_type consumers_;
 
   typedef ACE_Hash_Map_Manager <ACE_CString,
-        CUTS_CCM_Subscriber_Table *,
-        ACE_RW_Thread_Mutex> publishes_map_type;
+                                CUTS_CCM_Subscriber_Table *,
+                                ACE_RW_Thread_Mutex>
+                                publishes_map_type;
 
   /// Collection of publish endpoints.
   publishes_map_type publishes_;
 
   typedef ACE_Hash_Map_Manager <ACE_CString,
-        CUTS_CCM_Single_Subscriber *,
-        ACE_RW_Thread_Mutex> emits_map_type;
+                                CUTS_CCM_Single_Subscriber *,
+                                ACE_RW_Thread_Mutex>
+                                emits_map_type;
 
   /// Collection of emits endpoints.
   emits_map_type emits_;
@@ -166,6 +170,16 @@ protected:
 
   /// The implemenation for this servant.
   typename EXECUTOR::_var_type impl_;
+
+private:
+  // Helper method to create the port POA.
+  void initialize_the_port_POA (const char *, ::PortableServer::POA_ptr);
+
+  // Helper method to deactivate all ports.
+  void deactivate_ports (void);
+
+  /// The POA for activating the ports.
+  ::PortableServer::POA_var port_POA_;
 };
 
 #if defined (__CUTS_INLINE__)

@@ -17,17 +17,24 @@ public:
   /// Type definition of the event type.
   typedef EVENT event_type;
 
-  typedef void (*deserialize_method) (SERVANT * servant, const EVENT & event);
+  /// Type definition for deserializing an event.
+  typedef void (*deserialize_method) (SERVANT *, const EVENT &);
 
-  CUTS_OpenSplice_CCM_EventConsumer_T (SERVANT * servant, deserialize_method callback);
+  /**
+   * Initializing constructor.
+   */
+  CUTS_OpenSplice_CCM_EventConsumer_T (SERVANT * servant,
+                                       deserialize_method callback);
 
+  /// Destructor.
   virtual ~CUTS_OpenSplice_CCM_EventConsumer_T (void);
 
+  /// Callback for notification of new data.
   virtual void on_data_available (::DDS::DataReader_ptr reader);
 
   virtual int configure (::DDS::DomainParticipant_ptr participant,
-			 const char * inst,
-			 const char * topic);
+                         const char * inst,
+                         const char * topic);
 
 private:
   /// Servant to pass event.

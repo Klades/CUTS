@@ -1,16 +1,6 @@
 // -*- C++ -*-
 // $Id$
 
-//
-// ~CUTS_CCM_Servant_T
-//
-template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
-CUTS_INLINE
-CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::~CUTS_CCM_Servant_T (void)
-{
-
-}
-
 #if !defined (CCM_LW)
 
 //

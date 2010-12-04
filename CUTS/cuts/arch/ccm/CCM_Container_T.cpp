@@ -32,7 +32,7 @@ CUTS_CCM_Container_T (SERVER * server, ::PortableServer::POA_ptr poa)
 : server_ (server)
 {
   this->initialize_the_POA (poa);
-  this->initialize_the_port_POA (poa);
+  //this->initialize_the_port_POA (poa);
 
   // Create the strategy for the container.
   STRATEGY * strategy = 0;
@@ -56,9 +56,6 @@ install_home (const char * primary_artifact,
               const char * servant_entrypoint,
               const char * name)
 {
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("install_home ()\n")));
-
   throw CORBA::NO_IMPLEMENT ();
 }
 
@@ -69,9 +66,6 @@ template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
 void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
 uninstall_home (::Components::CCMHome_ptr)
 {
-  ACE_ERROR ((LM_ERROR,
-              ACE_TEXT ("remove_home (::Components::CCMHome_ptr)")));
-
   throw CORBA::NO_IMPLEMENT ();
 }
 
@@ -131,6 +125,7 @@ install_component (const char * primary_artifact,
     this->strategy_->load_servant (name,
                                    servant_artifact,
                                    servant_entrypoint,
+                                   this->poa_.in (),
                                    executor.in ());
 
   if (::CORBA::is_nil (servant))
@@ -277,9 +272,6 @@ install_servant (::PortableServer::Servant svnt,
                  ::CIAO::Container_Types::OA_Type type,
                  ::PortableServer::ObjectId_out oid)
 {
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("install_servant ()\n")));
-
   throw ::CORBA::NO_IMPLEMENT ();
 }
 
@@ -303,9 +295,6 @@ template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
 CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
 ports_servant_activator (void)
 {
-  ACE_ERROR ((LM_ERROR,
-              ACE_TEXT ("%T - %M - ports_servant_activator (...)\n")));
-
   throw ::CORBA::NO_IMPLEMENT ();
 }
 
@@ -344,9 +333,6 @@ template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
 CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
 get_objref (::PortableServer::Servant p)
 {
-  ACE_ERROR ((LM_ERROR,
-              ACE_TEXT ("%T - %M - generate_reference (...)\n")));
-
   throw ::CORBA::NO_IMPLEMENT ();
 }
 
@@ -367,7 +353,7 @@ template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
 ::PortableServer::POA_ptr
 CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::the_port_POA (void)
 {
-  return ::PortableServer::POA::_duplicate (this->port_poa_.in ());
+  throw ::CORBA::NO_IMPLEMENT ();
 }
 
 //
@@ -378,9 +364,6 @@ template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
 CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
 resolve_service_reference (const char * service_id)
 {
-  ACE_ERROR ((LM_ERROR,
-              ACE_TEXT ("%T (%t) - %M - resolve_service_reference (...)\n")));
-
   throw ::CORBA::NO_IMPLEMENT ();
 }
 

@@ -36,6 +36,9 @@ class CUTS_OPENSPLICE_Export CUTS_OpenSplice_Endpoint
   /// Close the endpoint.
   virtual int close (void);
 
+  /// Determine if the endpoint is open.
+  bool is_open (void) const;
+
  protected:
   /// Reference to the domain participant for the topic.
   ::DDS::DomainParticipant_var participant_;

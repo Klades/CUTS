@@ -50,7 +50,7 @@ open (::DDS::DomainParticipant_ptr participant,
   // We need to normalize the topic name. Right now, we are only
   // checking for periods (.) in the topic name.
   std::string normalized_topic_name (topic_name);
-  
+
   std::replace (normalized_topic_name.begin (),
                 normalized_topic_name.end (),
                 '.',
@@ -62,12 +62,12 @@ open (::DDS::DomainParticipant_ptr participant,
               type_name));
 
   // Next, we can create the topic for the endpoint.
-  this->dds_topic_ = 
+  this->dds_topic_ =
     participant->create_topic (normalized_topic_name.c_str (),
-			       type_name,
-			       TOPIC_QOS_DEFAULT,
-			       ::DDS::TopicListener::_nil (),
-			       ::DDS::ANY_STATUS);
+             type_name,
+             TOPIC_QOS_DEFAULT,
+             ::DDS::TopicListener::_nil (),
+             ::DDS::ANY_STATUS);
 
   if (::CORBA::is_nil (this->dds_topic_.in ()))
     {
@@ -89,10 +89,10 @@ int CUTS_OpenSplice_Endpoint::close (void)
 {
   if (!::CORBA::is_nil (this->participant_.in ()) &&
       !::CORBA::is_nil (this->dds_topic_.in ()))
-    {
-      this->participant_->delete_topic (this->dds_topic_.in ());
-      this->dds_topic_ = ::DDS::Topic::_nil ();
-    }
+  {
+    this->participant_->delete_topic (this->dds_topic_.in ());
+    this->dds_topic_ = ::DDS::Topic::_nil ();
+  }
 
   return 0;
 }

@@ -28,9 +28,9 @@ namespace HelloWorldImpl
   //
   void HelloWorld::push_input_message (::Message * ev)
   {
-    //ACE_DEBUG ((LM_DEBUG,
-    //            ACE_TEXT ("%s\n"),
-    //            ev->content ()));
+    ACE_DEBUG ((LM_DEBUG,
+                ACE_TEXT ("%s\n"),
+                ev->content ()));
 
     CUTS_CCM_Event_T <OBV_Message> __event_100000008__;
     __event_100000008__->content (ev->content ());

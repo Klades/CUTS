@@ -15,13 +15,10 @@
 class CUTS_OPENSPLICE_CCM_Export CUTS_OpenSplice_CCM_EventConsumer :
   public virtual CUTS_CCM_EventConsumer,
   public virtual ::POA_Components::OpenSplice::EventConsumer,
-  public CUTS_OpenSplice_ListenerBase,
-  public CUTS_OpenSplice_Endpoint
+  public CUTS_OpenSplice_ListenerBase
 {
- public:
-  /**
-   * Initializing contructor.
-   */
+public:
+  /// Default constructor.
   CUTS_OpenSplice_CCM_EventConsumer (void);
 
   /// Destructor.
@@ -41,7 +38,13 @@ class CUTS_OPENSPLICE_CCM_Export CUTS_OpenSplice_CCM_EventConsumer :
   /// Get the topic description for this event consumer.
   virtual ::Components::OpenSplice::TopicDescription * topic_description (void);
 
- protected:
+protected:
+  /// The endpoint for this consumer.
+  CUTS_OpenSplice_Endpoint endpoint_;
+
+  /// The participant assigned to this consumer.
+  ::DDS::DomainParticipant_var participant_;
+
   /// Right now, we assume that each consumer is a subscriber. In the
   /// future, we may want to enable shared subscriptions between consumers.
   ::DDS::Subscriber_var subscriber_;

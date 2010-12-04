@@ -27,4 +27,12 @@ CUTS_INLINE
 {
   return ::DDS::Topic::_duplicate (this->dds_topic_.in ());
 }
- 
+
+//
+// is_open
+//
+CUTS_INLINE
+bool CUTS_OpenSplice_Endpoint::is_open (void) const
+{
+  return !::CORBA::is_nil (this->dds_topic_.in ());
+}

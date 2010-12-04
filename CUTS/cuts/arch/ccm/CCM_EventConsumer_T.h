@@ -49,12 +49,6 @@ public:
 
   virtual void push_event (::Components::EventBase *ev);
 
-  virtual void ciao_push_event (::Components::EventBase * ev,
-                                const char * ,
-                                ::CORBA::TypeCode_ptr);
-
-  virtual ::CORBA::Boolean ciao_is_substitutable (const char *);
-
 private:
   /// Servant that own the event consumer.
   SERVANT * servant_;

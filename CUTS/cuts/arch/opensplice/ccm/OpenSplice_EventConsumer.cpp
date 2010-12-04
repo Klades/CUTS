@@ -16,9 +16,10 @@ open (::DDS::DomainParticipant_ptr participant,
       const char * topic_name)
 {
   // Open the underlying endpoint for the consumer.
-  int retval = CUTS_OpenSplice_Endpoint::open (participant,
-                                               type_support,
-                                               topic_name);
+  this->participant_ = ::DDS::DomainParticipant::_duplicate (participant);
+  int retval = this->endpoint_.open (this->participant_.in (),
+                                     type_support,
+                                     topic_name);
 
   if (0 != retval)
     ACE_ERROR_RETURN ((LM_ERROR,
@@ -36,23 +37,25 @@ open (::DDS::DomainParticipant_ptr participant,
 
   if (::CORBA::is_nil (this->subscriber_.in ()))
       ACE_ERROR_RETURN ((LM_ERROR,
-       "%T (%t) - %M - failed to create subscriber\n"),
-      -1);
+                         ACE_TEXT ("%T (%t) - %M - failed to create subscriber\n")),
+                         -1);
 
   ACE_DEBUG ((LM_DEBUG,
-        "%T (%t) - %M - creating a datareader for the topic\n"));
+              ACE_TEXT ("%T (%t) - %M - creating a datareader for the topic\n")));
 
   // The last part is to create a data reader.
+  ::DDS::Topic_var dds_topic = this->endpoint_.topic ();
+
   this->abstract_reader_ =
-      this->subscriber_->create_datareader (this->dds_topic_.in (),
+      this->subscriber_->create_datareader (dds_topic.in (),
                                             DATAREADER_QOS_DEFAULT,
                                             this,
                                             ::DDS::ANY_STATUS);
 
   if (::CORBA::is_nil (this->abstract_reader_.in ()))
     ACE_ERROR_RETURN ((LM_ERROR,
-           "%T (%t) - %M - failed to create abstract datareader\n"),
-          -1);
+                       ACE_TEXT ("%T (%t) - %M - failed to create abstract datareader\n")),
+                       -1);
 
   return 0;
 }
@@ -62,22 +65,46 @@ open (::DDS::DomainParticipant_ptr participant,
 //
 int CUTS_OpenSplice_CCM_EventConsumer::close (void)
 {
-  if (!::CORBA::is_nil (this->subscriber_.in ()))
-    {
-      if (!::CORBA::is_nil (this->abstract_reader_.in ()))
+  ::DDS::ReturnCode_t retcode;
+
+  if (!::CORBA::is_nil (this->abstract_reader_.in ()))
   {
     // Delete the data reader.
-    this->subscriber_->delete_datareader (this->abstract_reader_.in ());
-    this->abstract_reader_ = ::DDS::DataReader::_nil ();
+    retcode = this->subscriber_->delete_datareader (this->abstract_reader_.in ());
+
+    if (retcode == ::DDS::RETCODE_OK)
+      this->abstract_reader_ = ::DDS::DataReader::_nil ();
+    else
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         ACE_TEXT ("%T (%t) - %M - failed to delete data reader (retcode=%d)\n"),
+                         retcode),
+                         -1);
   }
 
-      // Then, delete the subscription.
-      this->participant_->delete_subscriber (this->subscriber_.in ());
+  if (!::CORBA::is_nil (this->subscriber_.in ()))
+  {
+    // Delete the subscriber.
+    retcode = this->participant_->delete_subscriber (this->subscriber_.in ());
+
+    if (retcode == ::DDS::RETCODE_OK)
       this->subscriber_ = ::DDS::Subscriber::_nil ();
-    }
+    else
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         ACE_TEXT ("%T (%t) - %M - failed to delete subscriber (retcode=%d)\n"),
+                         retcode),
+                         -1);
+  }
 
   // Finally, close the endpoint.
-  return CUTS_OpenSplice_Endpoint::close ();
+  if (this->endpoint_.is_open ())
+  {
+    if (0 != this->endpoint_.close ())
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         ACE_TEXT ("%T (%t) - %M - failed to close consumer endpoint\n")),
+                         -1);
+  }
+
+  return 0;
 }
 
 //
@@ -96,8 +123,9 @@ CUTS_OpenSplice_CCM_EventConsumer::topic_description (void)
   ::Components::OpenSplice::TopicDescription_var auto_clean (topic_desc);
 
   // Copy information about the topic.
-  topic_desc->name = this->dds_topic_->get_name ();
-  topic_desc->type_name = this->dds_topic_->get_type_name ();
+  ::DDS::Topic_var dds_topic = this->endpoint_.topic ();
+  topic_desc->name = ::CORBA::string_dup (dds_topic->get_name ());
+  topic_desc->type_name = ::CORBA::string_dup (dds_topic->get_type_name ());
 
   // Return the description to the client.
   return auto_clean._retn ();

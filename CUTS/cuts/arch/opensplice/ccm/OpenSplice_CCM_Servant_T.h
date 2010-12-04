@@ -33,13 +33,14 @@ class CUTS_OpenSplice_CCM_Servant_T :
 public:
   /// Type definition of the base type.
   typedef CUTS_CCM_Servant_T <T,
-			      CONTEXT,
-			      EXECUTOR,
-			      POA_EXEC,
-			      CUTS_OpenSplice_CCM_Servant> base_type;
-  
+            CONTEXT,
+            EXECUTOR,
+            POA_EXEC,
+            CUTS_OpenSplice_CCM_Servant> base_type;
+
   CUTS_OpenSplice_CCM_Servant_T (const char * name,
-				 typename EXECUTOR::_ptr_type executor);
+                                 ::PortableServer::POA_ptr port_POA,
+                                 typename EXECUTOR::_ptr_type executor);
 
   /// Destructor.
   virtual ~CUTS_OpenSplice_CCM_Servant_T (void);

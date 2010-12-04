@@ -1,3 +1,44 @@
+Sat Dec  4 04:01:04 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/arch/ccm/CCM_Container_Strategy_T.h:
+        * cuts/arch/ccm/CCM_Container_Strategy_T.cpp:
+        * cuts/arch/ccm/CCM_Container_T.cpp:
+        * cuts/arch/ccm/CCM_EventConsumer.h:
+        * cuts/arch/ccm/CCM_EventConsumer.inl:
+        * cuts/arch/ccm/CCM_EventConsumer_T.h:
+        * cuts/arch/ccm/CCM_EventConsumer_T.inl:
+        * cuts/arch/ccm/CCM_EventConsumer_T.cpp:
+        * cuts/arch/ccm/CCM_Servant_T.h:
+        * cuts/arch/ccm/CCM_Servant_T.inl:
+        * cuts/arch/ccm/CCM_Servant_T.cpp:
+        * cuts/arch/ccm/CCM_T.h:
+        * cuts/arch/ccm/CCM_T.cpp:
+
+          Update the CCM++ architecture such that the servant is responsible
+          for creating the port POA, and managing the lifecycle of the event
+          consumer base servants.
+
+        * cuts/arch/opensplice/OpenSplice_Endpoint.h:
+        * cuts/arch/opensplice/OpenSplice_Endpoint.inl:
+        * cuts/arch/opensplice/OpenSplice_Endpoint.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM.mpc:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.inl:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber.cpp:
+
+          Improved the OpenSplice implementation to correctly release its
+          resources at shutdown time.
+
+        * examples/arch/HelloWorld/arch/opensplice/HelloWorldImpl.cpp:
+        * examples/arch/HelloWorld/arch/opensplice/HelloWorld_svnt.h:
+        * examples/arch/HelloWorld/arch/opensplice/HelloWorld_svnt.cpp:
+
+          Update to latest version of CCM++ architecture.
+
 Fri Dec  3 14:46:05 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * COPYING:

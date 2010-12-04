@@ -18,8 +18,8 @@
 // Forward decl.
 class HelloWorld_Servant;
 
-typedef CUTS_CCM_Context_T < 
-::CCM_HelloWorld_Context, 
+typedef CUTS_CCM_Context_T <
+::CCM_HelloWorld_Context,
 HelloWorld_Servant > HelloWorld_Servant_Context_Base;
 
 class HelloWorld_Servant_Context : public HelloWorld_Servant_Context_Base
@@ -50,17 +50,25 @@ class HelloWorld_Servant_Context : public HelloWorld_Servant_Context_Base
   CUTS_OpenSplice_CCM_Subscriber_Table_T < ::CUTS_OSPL::Message > handle_message_ex_;
 };
 
-typedef CUTS_OpenSplice_CCM_Servant_T < 
+/// Type definition for the HelloWorld_Servant base class.
+typedef CUTS_OpenSplice_CCM_Servant_T <
   HelloWorld_Servant,
   HelloWorld_Servant_Context,
   ::CIAO_HelloWorld_Impl::HelloWorld_Exec,
   ::POA_HelloWorld > HelloWorld_Servant_Base;
 
+/**
+ * @class HelloWorld_Servant
+ *
+ * Default servant implementation for HelloWorld
+ * component implementations.
+ */
 class HelloWorld_Servant : public HelloWorld_Servant_Base
 {
   public:
   // Initializing constructor
   HelloWorld_Servant (const char * name,
+                      ::PortableServer::POA_ptr port_POA,
                       ::CIAO_HelloWorld_Impl::HelloWorld_Exec_ptr executor);
 
   // Destructor
@@ -92,7 +100,7 @@ class HelloWorld_Servant : public HelloWorld_Servant_Base
   static void deserialize_input_message (HelloWorld_Servant *,
                                          const ::CUTS_OSPL::Message& dds_event);
 
-  CUTS_OpenSplice_CCM_EventConsumer_T < 
+  CUTS_OpenSplice_CCM_EventConsumer_T <
     HelloWorld_Servant,
     ::CUTS_OSPL::Message > input_message_consumer_;
 };
@@ -100,6 +108,8 @@ class HelloWorld_Servant : public HelloWorld_Servant_Base
 
 extern "C" HELLOWORLD_SVNT_Export
 ::PortableServer::Servant
-create_HelloWorld_Servant (const char * name, ::Components::EnterpriseComponent_ptr p);
+create_HelloWorld_Servant (const char * name,
+                           ::PortableServer::POA_ptr port_POA,
+                           ::Components::EnterpriseComponent_ptr p);
 
 #endif  // !defined _HELLOWORLD_SVNT_H_

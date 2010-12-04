@@ -28,13 +28,3 @@ void CUTS_CCM_EventConsumer::push_event (Components::EventBase *)
 {
   throw CORBA::NO_IMPLEMENT ();
 }
-
-//
-// ciao_push_event
-//
-CUTS_INLINE
-void CUTS_CCM_EventConsumer::
-ciao_push_event (Components::EventBase *, const char *, CORBA::TypeCode_ptr)
-{
-  throw CORBA::NO_IMPLEMENT ();
-}

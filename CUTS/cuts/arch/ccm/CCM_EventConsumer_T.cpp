@@ -9,15 +9,11 @@
 //
 template <typename T, typename SERVANT>
 void CUTS_CCM_EventConsumer_T <T, SERVANT>::
-push_event (::Components::EventBase *ev)
+push_event (::Components::EventBase * base)
 {
-  T * event = T::_downcast (ev);
+  T * ev = T::_downcast (base);
+  if (0 == ev)
+    throw ::Components::BadEventType ();
 
-  if (0 != event)
-  {
-    this->push_event (event);
-    return;
-  }
-
-  throw ::Components::BadEventType ();
+  this->push_event (ev);
 }

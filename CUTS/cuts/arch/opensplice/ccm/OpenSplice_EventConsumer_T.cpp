@@ -4,9 +4,10 @@
 
 template <typename SERVANT, typename EVENT>
 CUTS_OpenSplice_CCM_EventConsumer_T <SERVANT, EVENT>::
-CUTS_OpenSplice_CCM_EventConsumer_T (SERVANT * servant, deserialize_method callback)
-  : servant_ (servant),
-    callback_ (callback)
+CUTS_OpenSplice_CCM_EventConsumer_T (SERVANT * servant,
+                                     deserialize_method callback)
+: servant_ (servant),
+  callback_ (callback)
 {
 
 }
@@ -24,8 +25,8 @@ CUTS_OpenSplice_CCM_EventConsumer_T <SERVANT, EVENT>::
 template <typename SERVANT, typename EVENT>
 int CUTS_OpenSplice_CCM_EventConsumer_T <SERVANT, EVENT>::
 configure (::DDS::DomainParticipant_ptr participant,
-     const char * inst,
-     const char * topic)
+           const char * inst,
+           const char * topic)
 {
   // First, let's create the fully qualified name of the topic.
   ACE_CString new_topic_name (inst);
@@ -72,16 +73,22 @@ on_data_available (::DDS::DataReader_ptr p)
 
   ::DDS::ReturnCode_t status =
       reader->take (event_seq,
-        sample_info,
-        1,
-        ::DDS::ANY_SAMPLE_STATE,
-        ::DDS::ANY_VIEW_STATE,
-        ::DDS::ANY_INSTANCE_STATE);
+                    sample_info,
+                    1,
+                    ::DDS::ANY_SAMPLE_STATE,
+                    ::DDS::ANY_VIEW_STATE,
+                    ::DDS::ANY_INSTANCE_STATE);
 
-  // We should check the return code here!!
+  if (status == ::DDS::RETCODE_OK)
+  {
+    if (0 != this->callback_)
+      (*this->callback_) (this->servant_, event_seq[0]);
+  }
+  else
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - failed to take next event (retcode=%d)\n"),
+                status));
 
-  if (0 != this->callback_)
-    (*this->callback_) (this->servant_, event_seq[0]);
-
-  ACE_UNUSED_ARG (status);
+  // Return our loan back to the system.
+  reader->return_loan (event_seq, sample_info);
 }
