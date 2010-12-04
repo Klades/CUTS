@@ -60,9 +60,9 @@ writers_handle_message_ex (void)
 //
 HelloWorld_Servant::
 HelloWorld_Servant (const char * name,
-                    ::PortableServer::POA_ptr port_POA,
+                    ::PortableServer::POA_ptr poa,
                     ::CIAO_HelloWorld_Impl::HelloWorld_Exec_ptr executor)
- : HelloWorld_Servant_Base (name, port_POA, executor),
+ : HelloWorld_Servant_Base (name, poa, executor),
    input_message_consumer_ (this, &HelloWorld_Servant::deserialize_input_message)
 {
   this->emits_.bind ("output_message", &this->ctx_->writer_output_message ());
@@ -199,11 +199,11 @@ deserialize_input_message (HelloWorld_Servant * servant,
 
 extern "C" ::PortableServer::Servant
 create_HelloWorld_Servant (const char * name,
-                           ::PortableServer::POA_ptr port_POA,
+                           ::PortableServer::POA_ptr poa,
                            ::Components::EnterpriseComponent_ptr p)
 {
   return ::CUTS::CCM::create_servant <
-    ::CIAO_HelloWorld_Impl::HelloWorld_Exec,
-    ::HelloWorld_Servant > (name, port_POA, p);
+    ::CIAO_HelloWorld_Impl::HelloWorld_Exec, 
+    ::HelloWorld_Servant > (name, poa, p);
 }
 

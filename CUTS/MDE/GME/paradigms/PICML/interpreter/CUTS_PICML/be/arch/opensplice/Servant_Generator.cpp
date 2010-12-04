@@ -306,6 +306,7 @@ Visit_Component (const PICML::Component & component)
     << "public:" << std::endl
     << CUTS_BE_CPP::single_line_comment ("Initializing constructor")
     << this->servant_ << " (const char * name," << std::endl
+    << "::PortableServer::POA_ptr poa," << std::endl
     << ns << "::" << name << "_Exec_ptr executor);"
     << std::endl
     << CUTS_BE_CPP::single_line_comment ("Destructor")
@@ -316,8 +317,9 @@ Visit_Component (const PICML::Component & component)
     << CUTS_BE_CPP::function_header (this->servant_)
     << this->servant_ << "::" << std::endl
     << this->servant_ << " (const char * name," << std::endl
+    << "::PortableServer::POA_ptr poa," << std::endl
     << ns << "::" << name << "_Exec_ptr executor)" << std::endl
-    << " : " << this->servant_ << "_Base (name, executor)";
+    << " : " << this->servant_ << "_Base (name, poa, executor)";
 
   Servant_Base_Member_Init bmi (this->source_, this->servant_);
 
@@ -407,16 +409,20 @@ Visit_Component (const PICML::Component & component)
     << std::endl
     << "extern \"C\" " << this->export_macro_ << std::endl
     << "::PortableServer::Servant" << std::endl
-    << entrypoint << " (const char * name, ::Components::EnterpriseComponent_ptr p);";
+    << entrypoint << " (const char * name," << std::endl
+    << "::PortableServer::POA_ptr poa," << std::endl
+    << "::Components::EnterpriseComponent_ptr p);";
 
   this->source_
     << "extern \"C\" ::PortableServer::Servant" << std::endl
-    << entrypoint << " (const char * name, ::Components::EnterpriseComponent_ptr p)"
+    << entrypoint << " (const char * name," << std::endl
+    << "::PortableServer::POA_ptr poa," << std::endl
+    << "::Components::EnterpriseComponent_ptr p)"
     << "{"
     << "return ::CUTS::CCM::create_servant <" << std::endl
     << "  " << ns << "::"
     << this->component_ << "_Exec, " << std::endl
-    << "  " << CUTS_BE_CPP::fq_type (component) << "_Servant > (name, p);"
+    << "  " << CUTS_BE_CPP::fq_type (component) << "_Servant > (name, poa, p);"
     << "}";
 }
 

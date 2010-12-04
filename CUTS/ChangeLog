@@ -1,3 +1,17 @@
+Sat Dec  4 04:18:38 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/opensplice/Servant_Generator.cpp:
+
+          Updated the code generator to support the latest additions to
+          the CCM++ framework.
+
+        * examples/arch/HelloWorld/arch/opensplice/HelloWorldImpl.cpp:
+        * examples/arch/HelloWorld/arch/opensplice/HelloWorld_OSPL.idl:
+        * examples/arch/HelloWorld/arch/opensplice/HelloWorld_svnt.h:
+        * examples/arch/HelloWorld/arch/opensplice/HelloWorld_svnt.cpp:
+
+          Regenerated the example(s).
+
 Sat Dec  4 04:01:04 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/arch/ccm/CCM_Container_Strategy_T.h:

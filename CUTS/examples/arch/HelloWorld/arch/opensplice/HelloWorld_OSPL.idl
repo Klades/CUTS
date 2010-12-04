@@ -7,20 +7,20 @@ module CUTS_OSPL
 {
   struct TimeValue
   {
-    // data member: sec
-    long sec;
-
     // data member: usec
     long usec;
+
+    // data member: sec
+    long sec;
   };
 
   struct Message
   {
-    // data member: content
-    string content;
-
     // data member: time
     ::CUTS_OSPL::TimeValue time;
+
+    // data member: content
+    string content;
   };
 
   // define the keylist for the struct/event.
