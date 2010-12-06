@@ -39,7 +39,7 @@ public:
 
 private:
   typedef ACE_Hash_Map_Manager <ACE_Utils::UUID,
-                                CUTS_TCPIP_CCM_Remote_Endpoint_T <T> *,
+                                CUTS_TCPIP_CCM_Subscriber_T <T> *,
                                 ACE_RW_Thread_Mutex> table_type;
 
   table_type table_;

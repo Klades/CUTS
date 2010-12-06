@@ -37,10 +37,10 @@ class HelloWorld_Servant_Context : public HelloWorld_Servant_Context_Base
   // push method for output ev port: output_message
   virtual void push_output_message (::Message * ev);
 
-  CUTS_TCPIP_CCM_Remote_Endpoint & endpoint_output_message (void);
+  CUTS_TCPIP_CCM_Subscriber & endpoint_output_message (void);
 
   private:
-  CUTS_TCPIP_CCM_Remote_Endpoint_T < ::Message > output_message_;
+  CUTS_TCPIP_CCM_Subscriber_T < ::Message > output_message_;
 
   public:
   // push method for output ev port: handle_message_ex
@@ -67,7 +67,9 @@ class HelloWorld_Servant : public HelloWorld_Servant_Base
 {
   public:
   // default constructor
-  HelloWorld_Servant (const char * name, executor_type::_ptr_type executor);
+  HelloWorld_Servant (const char * name,
+                      ::PortableServer::POA_ptr poa,
+                      executor_type::_ptr_type executor);
 
   // destructor
   virtual ~HelloWorld_Servant (void);
@@ -102,7 +104,9 @@ class HelloWorld_Servant : public HelloWorld_Servant_Base
 
 extern "C" HELLOWORLD_SVNT_Export
 ::PortableServer::Servant 
-create_HelloWorld_Servant (const char *, ::Components::EnterpriseComponent_ptr);
+create_HelloWorld_Servant (const char *,
+                           ::PortableServer::POA_ptr poa,
+                            ::Components::EnterpriseComponent_ptr);
 
 
 #endif  // !defined _HELLOWORLD_SVNT_H_

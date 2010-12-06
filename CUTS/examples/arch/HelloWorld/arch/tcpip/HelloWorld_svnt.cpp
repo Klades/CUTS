@@ -3,8 +3,9 @@
 #include "HelloWorld_svnt.h"
 #include "TCPIP_HelloWorldC.h"
 
+#include "cuts/arch/ccm/CCM_T.h"
 #include "cuts/arch/ccm/CCM_Events_T.h"
-#include "cuts/arch/tcpip/ccm/TCPIP_CCM_T.h"
+
 #include "cuts/arch/tcpip/TCPIP_Connector.h"
 #include "cuts/arch/tcpip/TCPIP_SPEC.h"
 #include "cuts/arch/tcpip/TCPIP_Remote_Endpoint.h"
@@ -30,7 +31,7 @@ void HelloWorld_Servant_Context::push_output_message (::Message * ev)
 //
 // endpoint_output_message
 //
-CUTS_TCPIP_CCM_Remote_Endpoint & HelloWorld_Servant_Context::endpoint_output_message (void)
+CUTS_TCPIP_CCM_Subscriber & HelloWorld_Servant_Context::endpoint_output_message (void)
 {
   return this->output_message_;
 }
@@ -55,8 +56,10 @@ CUTS_TCPIP_CCM_Subscriber_Table & HelloWorld_Servant_Context::endpoints_handle_m
 // HelloWorld_Servant
 //
 HelloWorld_Servant::
-HelloWorld_Servant (const char * name, executor_type::_ptr_type executor)
-: HelloWorld_Servant_Base (name, executor),
+HelloWorld_Servant (const char * name,
+                    ::PortableServer::POA_ptr poa,
+                    executor_type::_ptr_type executor)
+: HelloWorld_Servant_Base (name, poa, executor),
   input_message_consumer_ (this, 0)
 {
   // Initializing the consumer table.
@@ -215,11 +218,12 @@ set_attributes (const ::Components::ConfigValues & config)
 //
 ::PortableServer::Servant 
 create_HelloWorld_Servant (const char * name,
+                           ::PortableServer::POA_ptr poa,
                            ::Components::EnterpriseComponent_ptr p)
 {
-  return ::CUTS_TCPIP::CCM::create_servant <
+  return ::CUTS::CCM::create_servant <
     ::CIAO_HelloWorld_Impl::HelloWorld_Exec,
-    HelloWorld_Servant > (name, p);
+    HelloWorld_Servant > (name, poa, p);
 }
 
 

@@ -93,7 +93,7 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
   if (port.single_destination ())
   {
     this->out_ << CUTS_BE_CPP::function_header ("endpoint_" + name)
-               << "CUTS_TCPIP_CCM_Remote_Endpoint & "
+               << "CUTS_TCPIP_CCM_Subscriber & "
                << this->context_ << "::endpoint_" << name << " (void)"
                << "{"
                << "return this->" << name << "_;"

@@ -190,9 +190,10 @@ Visit_Component (const PICML::Component & component)
   // Write the first part of the this->servant_'s context.
   this->out_ << CUTS_BE_CPP::function_header (this->servant_)
              << this->servant_ << "::" << std::endl
-             << this->servant_
-             << " (const char * name, executor_type::_ptr_type executor)" << std::endl
-             << ": " << this->servant_ << "_Base (name, executor)";
+             << this->servant_ << " (const char * name," << std::endl
+             << "::PortableServer::POA_ptr poa," << std::endl
+             << "executor_type::_ptr_type executor)" << std::endl
+             << ": " << this->servant_ << "_Base (name, poa, executor)";
 
   Base_Member_Init_Generator base_member (this->out_);
   std::for_each (inputs.begin (),
@@ -292,12 +293,13 @@ Visit_Component (const PICML::Component & component)
   this->out_ << CUTS_BE_CPP::function_header (entrypoint)
              << "::PortableServer::Servant " << std::endl
              << entrypoint << " (const char * name," << std::endl
+             << "::PortableServer::POA_ptr poa," << std::endl
              << "::Components::EnterpriseComponent_ptr p)"
              << "{"
-             << "return ::CUTS_TCPIP::CCM::create_servant <" << std::endl
+             << "return ::CUTS::CCM::create_servant <" << std::endl
              << "  ::CIAO_" << CUTS_BE_CPP::fq_type (component, "_", false)
              << "_Impl::" << name << "_Exec," << std::endl
-             << "  " << name << "_Servant > (name, p);"
+             << "  " << name << "_Servant > (name, poa, p);"
              << "}"
              << std::endl;
 }

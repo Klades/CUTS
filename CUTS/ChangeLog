@@ -1,3 +1,29 @@
+Sat Dec  4 21:38:34 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Source_Impl_Generator.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table_T.cpp:
+
+          Bug fix where the TCP/IP implementation would crash during
+          teardown time.
+
+        * examples/arch/HelloWorld/arch/tcpip/HelloWorldImpl.h:
+        * examples/arch/HelloWorld/arch/tcpip/HelloWorldImpl.cpp:
+        * examples/arch/HelloWorld/arch/tcpip/HelloWorld_svnt.h:
+        * examples/arch/HelloWorld/arch/tcpip/HelloWorld_svnt.cpp:
+        * examples/arch/HelloWorld/arch/tcpip/TCPIP_HelloWorldC.cpp:
+
+          Regenerated the example for TCP/IP.
+
 Sat Dec  4 05:10:42 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/rtidds/Servant_Generator.cpp:

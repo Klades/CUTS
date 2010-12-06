@@ -52,6 +52,7 @@ public:
    * @param[in]       executor        Executor component for servant.
    */
   CUTS_TCPIP_CCM_Servant_T (const char * name,
+                            ::PortableServer::POA_ptr poa,
                             typename EXECUTOR::_ptr_type executor);
 
   /// Destructor.

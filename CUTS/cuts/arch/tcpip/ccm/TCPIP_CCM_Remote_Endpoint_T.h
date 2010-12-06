@@ -18,27 +18,34 @@
 #include "TCPIP_CCM_EventConsumer.h"
 
 /**
- * @class CUTS_TCPIP_CCM_Remote_Endpoint_T
+ * @class CUTS_TCPIP_CCM_Subscriber_T
  */
 template <typename T>
-class CUTS_TCPIP_CCM_Remote_Endpoint_T :
-  public CUTS_TCPIP_CCM_Remote_Endpoint,
-  public CUTS_TCPIP_Remote_Endpoint_T <T>
+class CUTS_TCPIP_CCM_Subscriber_T :
+  public CUTS_TCPIP_CCM_Subscriber
 {
 public:
-  typedef typename CUTS_TCPIP_Remote_Endpoint_T <T>::type type;
+  /// Default constructor.
+  CUTS_TCPIP_CCM_Subscriber_T (void);
 
-  CUTS_TCPIP_CCM_Remote_Endpoint_T (void);
+  /// Destructor.
+  virtual ~CUTS_TCPIP_CCM_Subscriber_T (void);
 
-  virtual ~CUTS_TCPIP_CCM_Remote_Endpoint_T (void);
+  /// Connect the specified consumer.
+  virtual void connect (::Components::EventConsumerBase_ptr ptr);
 
-  virtual void connect (::Components::EventConsumerBase_ptr consumer);
-
+  /// Disconnect the current consumer.
   virtual ::Components::EventConsumerBase_ptr disconnect (void);
+
+  /// Send an event to the connected consumer.
+  void send_event (T * ev);
 
 private:
   /// The consumer for the endpoint.
   ::Components::TCPIP::EventConsumerBase_var consumer_;
+
+  /// The endpoint for the subscriber.
+  CUTS_TCPIP_Remote_Endpoint_T <T> endpoint_;
 };
 
 #if defined (__CUTS_INLINE__)

@@ -94,8 +94,9 @@ void Servant_Source_Generator::Visit_File (const PICML::File & file)
                 << CUTS_BE_CPP::include (basename)
                 << CUTS_BE_CPP::include ("TCPIP_" + name + "C")
                 << std::endl
+                << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_T")
                 << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_Events_T")
-                << CUTS_BE_CPP::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_T")
+                << std::endl
                 << CUTS_BE_CPP::include ("cuts/arch/tcpip/TCPIP_Connector")
                 << CUTS_BE_CPP::include ("cuts/arch/tcpip/TCPIP_SPEC")
                 << CUTS_BE_CPP::include ("cuts/arch/tcpip/TCPIP_Remote_Endpoint")

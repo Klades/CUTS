@@ -63,7 +63,9 @@ Visit_Component (const PICML::Component & component)
              << "{"
              << "public:" << std::endl
              << CUTS_BE_CPP::single_line_comment ("default constructor")
-             << this->servant_ << " (const char * name, executor_type::_ptr_type executor);"
+             << this->servant_ << " (const char * name," << std::endl
+             << "::PortableServer::POA_ptr poa," << std::endl
+             <<"executor_type::_ptr_type executor);"
              << std::endl
              << CUTS_BE_CPP::single_line_comment ("destructor")
              << "virtual ~" << this->servant_ << " (void);"
@@ -119,7 +121,9 @@ Visit_Component (const PICML::Component & component)
              << "extern \"C\" " << this->export_macro_ << std::endl
              << "::PortableServer::Servant " << std::endl
              << "create_" << CUTS_BE_CPP::fq_type (component, "_", false)
-             << "_Servant (const char *, ::Components::EnterpriseComponent_ptr);"
+             << "_Servant (const char *," << std::endl
+             << "::PortableServer::POA_ptr poa," << std::endl
+             << " ::Components::EnterpriseComponent_ptr);"
              << std::endl;
 }
 

@@ -52,11 +52,11 @@ namespace HelloWorldImpl
     virtual char * readonly_message (void);
 
     private:
-    // attribute: readonly_message
-    ACE_CString readonly_message_;
-
     // attribute: message
     ACE_CString message_;
+
+    // attribute: readonly_message
+    ACE_CString readonly_message_;
 
     // periodic: EventCreator
     CUTS_Periodic_Event_T < HelloWorld > periodic_EventCreator_;

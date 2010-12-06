@@ -23,13 +23,13 @@ subscribe (::Components::EventConsumerBase_ptr consumer)
               uuid.to_string ()->c_str ()));
 
   // Allocate a new data type and connect the consumer.
-  CUTS_TCPIP_CCM_Remote_Endpoint_T <T> * data = 0;
+  CUTS_TCPIP_CCM_Subscriber_T <T> * data = 0;
 
   ACE_NEW_THROW_EX (data,
-                    CUTS_TCPIP_CCM_Remote_Endpoint_T <T> (),
+                    CUTS_TCPIP_CCM_Subscriber_T <T> (),
                     ::CORBA::NO_MEMORY ());
 
-  ACE_Auto_Ptr < CUTS_TCPIP_CCM_Remote_Endpoint_T <T> > auto_clean (data);
+  ACE_Auto_Ptr < CUTS_TCPIP_CCM_Subscriber_T <T> > auto_clean (data);
 
   // Cache the subscriber.
   if (0 != this->table_.bind (uuid, data))
@@ -67,7 +67,7 @@ CUTS_TCPIP_CCM_Subscriber_Table_T <T>::unsubscribe (::Components::Cookie * c)
               uuid.to_string ()->c_str ()));
 
   // Locate the consumer for this subscription.
-  CUTS_TCPIP_CCM_Remote_Endpoint_T <T> * data = 0;
+  CUTS_TCPIP_CCM_Subscriber_T <T> * data = 0;
   ::Components::EventConsumerBase_var consumer;
 
   if (0 == this->table_.unbind (uuid, data))

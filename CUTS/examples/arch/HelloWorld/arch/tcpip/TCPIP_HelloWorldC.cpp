@@ -26,9 +26,9 @@ ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & stream, ::TimeValue & val)
 
 ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & stream, ::Message & ev)
 {
-  ACE_CString _val_300000004;
-  stream >> _val_300000004;
-  ev.content (_val_300000004.c_str ());
+  ACE_CString _val_300000018;
+  stream >> _val_300000018;
+  ev.content (_val_300000018.c_str ());
 
   stream >> ev.time ();
   return stream.good_bit ();
