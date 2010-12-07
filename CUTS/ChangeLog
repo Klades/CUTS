@@ -1,3 +1,11 @@
+Tue Dec  7 17:53:29 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment/Spring_Deployment_Visitor.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment/Spring_Deployment_Visitor.cpp:
+
+          Added support for generating Spring configurations for deployments
+          that contain component assemblies.
+
 Tue Dec  7 13:57:45 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Integrator_Impl.cpp:

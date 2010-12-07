@@ -45,9 +45,14 @@ public:
 
   virtual void Visit_ComponentInstanceRef (const PICML::ComponentInstanceRef & ref);
 
+  virtual void Visit_ComponentAssemblyReference (const PICML::ComponentAssemblyReference &);
+
   virtual void Visit_ComponentInstance (const PICML::ComponentInstance & inst);
+
   virtual void Visit_AttributeInstance (const PICML::AttributeInstance & inst);
+
   virtual void Visit_RequiredRequestPortInstance (const PICML::RequiredRequestPortInstance & inst);
+
   virtual void Visit_Invoke (const PICML::Invoke & invoke);
 
 private:

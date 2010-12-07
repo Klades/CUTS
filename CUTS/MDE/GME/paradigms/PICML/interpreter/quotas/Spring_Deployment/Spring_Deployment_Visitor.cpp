@@ -21,6 +21,7 @@ public:
   CollocationGroupMember_Dispatcher (void)
   {
     this->insert <PICML::ComponentInstanceRef> ();
+    this->insert <PICML::ComponentAssemblyReference> ();
   }
 };
 
@@ -288,7 +289,8 @@ Visit_RequiredRequestPortInstance (const PICML::RequiredRequestPortInstance & in
 //
 // Visit_Invoke
 //
-void Quotas_Spring_Deployment_Visitor::Visit_Invoke (const PICML::Invoke & invoke)
+void Quotas_Spring_Deployment_Visitor::
+Visit_Invoke (const PICML::Invoke & invoke)
 {
   using GAME::Xml::Fragment;
   using GAME::Xml::String;
@@ -310,4 +312,14 @@ void Quotas_Spring_Deployment_Visitor::Visit_Invoke (const PICML::Invoke & invok
 
   Fragment ref_fragment = xml_property.create_element (SPRING_NS, String ("ref"));
   ref_fragment->setAttribute (String ("bean"), String (uuid));
+}
+
+//
+// Visit_ComponentAssemblyReference
+//
+void Quotas_Spring_Deployment_Visitor::
+Visit_ComponentAssemblyReference (const PICML::ComponentAssemblyReference & asm_ref)
+{
+  PICML::ComponentAssembly assembly = asm_ref.ref ();
+  Udm::visit_all <PICML::ComponentInstance> (assembly, *this);
 }
