@@ -736,24 +736,27 @@ create_action_parameter (GAME::Model action,
   GAME::utils::position ("InterfaceDefinition", param, pt);
   GAME::utils::position ("Behavior", pt, simple_property);
 
-  const GAME::FCO & refers_to = mapping[param.refers_to ()];
+  // Before setting the reference, check to see if there is a
+  // mapping for the referenced type.
+  GAME::FCO refers_to = mapping[param.refers_to ()];
+
+  if (refers_to.is_nil ())
+    refers_to = param.refers_to ();
+
   simple_property.refers_to (refers_to);
 
-  if (!refers_to.is_nil ())
-  {
-    // Finally, set value to the correct random generator.
-    GAME::Attribute value = simple_property.attribute ("Value");
-    GAME::Meta::FCO metafco = refers_to.meta ();
+  // Finally, set value to the correct random generator.
+  GAME::Attribute value = simple_property.attribute ("Value");
+  GAME::Meta::FCO metafco = refers_to.meta ();
 
-    if (metafco == "String" || metafco == "WideString")
-      value.string_value ("RandomStringDataGenerator.getSingleton ().getNextString ()");
-    else if (metafco == "LongInteger" || metafco == "UnsignedLongInteger")
-      value.string_value ("RandomLongIntegerDataGenerator.getSingleton ().getNextLongInteger ()");
-    else if (metafco == "ShortInteger" || metafco == "UnsignedShortInteger")
-      value.string_value ("RandomShortIntegerDataGenerator.getSingleton ().getNextShortInteger ()");
-    else if (metafco == "Boolean")
-      value.string_value ("RandomBooleanDataGenerator.getSingleton ().getNextBoolean ()");
-  }
+  if (metafco == "String" || metafco == "WideString")
+    value.string_value ("RandomStringDataGenerator.getSingleton ().getNextString ()");
+  else if (metafco == "LongInteger" || metafco == "UnsignedLongInteger")
+    value.string_value ("RandomLongIntegerDataGenerator.getSingleton ().getNextLongInteger ()");
+  else if (metafco == "ShortInteger" || metafco == "UnsignedShortInteger")
+    value.string_value ("RandomShortIntegerDataGenerator.getSingleton ().getNextShortInteger ()");
+  else if (metafco == "Boolean")
+    value.string_value ("RandomBooleanDataGenerator.getSingleton ().getNextBoolean ()");
 
   return true;
 }

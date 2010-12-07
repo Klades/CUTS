@@ -1,3 +1,10 @@
+Tue Dec  7 13:57:45 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Integrator_Impl.cpp:
+
+          Bug fix where setting the type of a parameter's action would
+          crash GME if they target type was not in the original mapping.
+
 Sat Dec  4 21:38:34 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/tcpip/Servant_Header_Impl_Generator.cpp:
