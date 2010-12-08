@@ -1,3 +1,13 @@
+Wed Dec  8 06:24:32 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * bin/handlers/rtidds.locality.config:
+
+          Locality manager configuration for RTI-DDS.
+
+        * bin/quotas/PojoComponentServer.bat:
+
+          Updated the startup script to contain the datamodel JAR file.
+
 Wed Dec  8 06:20:09 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/java/cuts.datamodel.build:
