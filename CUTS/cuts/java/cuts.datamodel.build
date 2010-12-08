@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<project name="cuts.java" basedir="." default="cuts.datamodel.jar.build">
+  <property environment="env" />
+
+  <import file="${env.CUTS_ROOT}/etc/ANT/include/cuts.build" />
+
+  <property name="cuts.java.dir" value="${cuts.src.dir}/java" />
+  <property name="jarfile" value="cuts.datamodel.jar" />
+
+  <target name="clean" depends="cuts.datamodel.clean" />
+  <target name="realclean" depends="cuts.datamodel.realclean" />
+
+  <target name="cuts.datamodel.build">
+    <javac srcdir="${cuts.java.dir}"
+           debug="true"
+           debuglevel="source,lines"
+           includes="cuts/datamodel/**">
+    </javac>
+  </target>
+
+  <target name="cuts.datamodel.jar.build" depends="cuts.datamodel.build">
+    <jar destfile="${cuts.lib.dir}/${jarfile}"
+         basedir="${cuts.java.dir}"
+         includes="cuts/datamodel/**/*.class" />
+  </target>
+
+  <target name="cuts.datamodel.clean">
+    <delete>
+      <fileset dir="${cuts.lib.dir}" includes="${jarfile}" />
+    </delete>
+  </target>
+
+  <target name="cuts.datamodel.realclean" depends="cuts.datamodel.clean">
+    <delete>
+      <fileset dir="${cuts.java.dir}"
+               includes="cuts/datamodel/**/*.class" />
+    </delete>
+  </target>
+</project>

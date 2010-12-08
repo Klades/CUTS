@@ -11,6 +11,7 @@
 //=============================================================================
 
 package cuts.quotas.pojo;
+import cuts.datamodel.DataModel;
 
 /**
  * @interface Component
@@ -29,4 +30,6 @@ public interface Component
 
   /// Destroy the component.
   void destroy ();
+  
+  void setDataModel (DataModel dm);
 };

@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- * @file      RandomBooleanDataGenerator.java
+ * @file      RandomShortIntegerDataGenerator.java
  * 
  * $Id$
  * 
@@ -10,26 +10,28 @@
  */
 //=============================================================================
 
-package cuts.generators.data;
+package cuts.datamodel.generators;
+import cuts.datamodel.DataGenerator;
 import java.util.Random;
 
 /**
- * @class RandomBooleanDataGenerator
+ * @class RandomShortIntegerDataGenerator
  * 
  * Data generator that generates random boolean values. This
  * class is simply a wrapper around the java.util.Random and
  * invokes its nextBoolean () method.
  */
-public class RandomBooleanDataGenerator 
+public class RandomShortIntegerDataGenerator 
 implements DataGenerator
 {
   /**
    * Default constructor. This will seed the random generator based
    * on the system time.
    */
-  public RandomBooleanDataGenerator ()
+  public RandomShortIntegerDataGenerator ()
   {
-    this.random_ = new Random (System.nanoTime ());
+    this.seed_ = System.nanoTime ();
+    this.random_ = new Random (this.seed_);
   }
   
   /**
@@ -37,25 +39,26 @@ implements DataGenerator
    * 
    * @param[in]         seed        Value to seed generator.
    */
-  public RandomBooleanDataGenerator (long seed)
+  public RandomShortIntegerDataGenerator (long seed)
   {
-    this.random_ = new Random (seed);
+    this.seed_ = seed;
+    this.random_ = new Random (this.seed_);
   }
   
   /**
    * Get the next boolean value in the random sequence.
    */
-  public Object getNext ()
+  public Object getNextValue ()
   {
-    return this.getNextBoolean ();
+    return this.getNextShortInteger ();
   }
   
   /**
    * Get the next boolean value in the random sequence.
    */
-  public boolean getNextBoolean ()
+  public short getNextShortInteger ()
   {
-    return this.random_.nextBoolean ();
+    return (short) this.random_.nextInt (16);
   }
   
   /**
@@ -63,14 +66,24 @@ implements DataGenerator
    * 
    * @return      The data generator
    */
-  public static RandomBooleanDataGenerator getSingleton ()
+  public static RandomShortIntegerDataGenerator getSingleton ()
   {
-    return RandomBooleanDataGenerator.singleton_;
+    return RandomShortIntegerDataGenerator.singleton_;
   }
   
+  /**
+   * Reset the random number generator.
+   */
+  public void reset ()
+  {
+    this.random_.setSeed (this.seed_);
+  }
+  
+  private long seed_;
+
   /// The contained random generator.
   private Random random_;
   
   /// Declare a singleton version of the data generator.
-  private static RandomBooleanDataGenerator singleton_ = new RandomBooleanDataGenerator ();
+  private static RandomShortIntegerDataGenerator singleton_ = new RandomShortIntegerDataGenerator ();
 }

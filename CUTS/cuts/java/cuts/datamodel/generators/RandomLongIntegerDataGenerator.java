@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- * @file      RandomShortIntegerDataGenerator.java
+ * @file      RandomLongIntegerDataGenerator.java
  * 
  * $Id$
  * 
@@ -10,26 +10,28 @@
  */
 //=============================================================================
 
-package cuts.generators.data;
+package cuts.datamodel.generators;
+import cuts.datamodel.DataGenerator;
 import java.util.Random;
 
 /**
- * @class RandomShortIntegerDataGenerator
+ * @class RandomBooleanDataGenerator
  * 
  * Data generator that generates random boolean values. This
  * class is simply a wrapper around the java.util.Random and
  * invokes its nextBoolean () method.
  */
-public class RandomShortIntegerDataGenerator 
+public class RandomLongIntegerDataGenerator 
 implements DataGenerator
 {
   /**
    * Default constructor. This will seed the random generator based
    * on the system time.
    */
-  public RandomShortIntegerDataGenerator ()
+  public RandomLongIntegerDataGenerator ()
   {
-    this.random_ = new Random (System.nanoTime ());
+    this.seed_ = System.nanoTime ();
+    this.random_ = new Random (this.seed_);
   }
   
   /**
@@ -37,25 +39,31 @@ implements DataGenerator
    * 
    * @param[in]         seed        Value to seed generator.
    */
-  public RandomShortIntegerDataGenerator (long seed)
+  public RandomLongIntegerDataGenerator (long seed)
   {
-    this.random_ = new Random (seed);
+    this.seed_ = seed;
+    this.random_ = new Random (this.seed_);
   }
   
   /**
    * Get the next boolean value in the random sequence.
    */
-  public Object getNext ()
+  public Object getNextValue ()
   {
-    return this.getNextShortInteger ();
+    return this.getNextLongInteger ();
   }
   
   /**
    * Get the next boolean value in the random sequence.
    */
-  public short getNextShortInteger ()
+  public long getNextLongInteger ()
   {
-    return (short) this.random_.nextInt (16);
+    return (long) this.random_.nextInt (32);
+  }
+  
+  public void reset ()
+  {
+    this.random_.setSeed (this.seed_);
   }
   
   /**
@@ -63,14 +71,16 @@ implements DataGenerator
    * 
    * @return      The data generator
    */
-  public static RandomShortIntegerDataGenerator getSingleton ()
+  public static RandomLongIntegerDataGenerator getSingleton ()
   {
-    return RandomShortIntegerDataGenerator.singleton_;
+    return RandomLongIntegerDataGenerator.singleton_;
   }
+  
+  private long seed_;
   
   /// The contained random generator.
   private Random random_;
   
   /// Declare a singleton version of the data generator.
-  private static RandomShortIntegerDataGenerator singleton_ = new RandomShortIntegerDataGenerator ();
+  private static RandomLongIntegerDataGenerator singleton_ = new RandomLongIntegerDataGenerator ();
 }

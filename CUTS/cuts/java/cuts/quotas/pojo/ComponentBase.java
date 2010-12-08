@@ -11,6 +11,7 @@
 //=============================================================================
 
 package cuts.quotas.pojo;
+import cuts.datamodel.DataModel;
 
 /**
  * @class ComponentBase
@@ -25,17 +26,27 @@ package cuts.quotas.pojo;
 public class ComponentBase implements Component
 {	
 	/// Activate the component.
-	public void activate () {
+	public void activate () 
+	{
 		
 	}
 	
 	/// Passivate the component.
-	public void passivate () {
+	public void passivate () 
+	{
 		
 	}
 	
 	/// Destroy the component.
-	public void destroy () {
+	public void destroy () 
+	{
 		
 	}
+	
+	public void setDataModel (DataModel dm)
+	{
+	  this.dm_ = dm;
+	}
+	
+	protected DataModel dm_;
 };

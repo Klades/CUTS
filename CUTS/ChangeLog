@@ -1,3 +1,33 @@
+Wed Dec  8 06:20:09 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/java/cuts.datamodel.build:
+        * cuts/java/cuts.quotas.pojo.build:
+        * cuts/java/cuts/datamodel:
+        * cuts/java/cuts/datamodel/DataGenerator.java:
+        * cuts/java/cuts/datamodel/DataModel.java:
+        * cuts/java/cuts/datamodel/DataModelFile.java:
+        * cuts/java/cuts/datamodel/generators:
+        * cuts/java/cuts/datamodel/generators/RandomBooleanDataGenerator.java:
+        * cuts/java/cuts/datamodel/generators/RandomLongIntegerDataGenerator.java:
+        * cuts/java/cuts/datamodel/generators/RandomShortIntegerDataGenerator.java:
+        * cuts/java/cuts/quotas/pojo/Component.java:
+        * cuts/java/cuts/quotas/pojo/ComponentBase.java:
+        * cuts/java/cuts/quotas/pojo/PojoComponentServer.java:
+
+          Implemented a new data model architecture for QUOTAS. Now, the
+          data generators are inserted into a container (or class) that is
+          used to initialize each of the installed instances.
+
+        * cuts/java/cuts/generators:
+        * cuts/java/cuts/generators/data:
+        * cuts/java/cuts/generators/data/DataGenerator.java:
+        * cuts/java/cuts/generators/data/RandomBooleanDataGenerator.java:
+        * cuts/java/cuts/generators/data/RandomLongIntegerDataGenerator.java:
+        * cuts/java/cuts/generators/data/RandomShortIntegerDataGenerator.java:
+        * cuts/java/cuts/generators/data/RandomStringDataGenerator.java:
+
+          Removed these files.
+
 Tue Dec  7 17:53:29 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment/Spring_Deployment_Visitor.h:

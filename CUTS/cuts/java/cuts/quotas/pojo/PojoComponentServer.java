@@ -11,6 +11,9 @@
 //=============================================================================
 
 package cuts.quotas.pojo;
+import cuts.datamodel.DataModel;
+import cuts.datamodel.DataModelFile;
+
 import java.util.TimerTask;
 import java.util.Timer;
 
@@ -57,13 +60,22 @@ public class PojoComponentServer
       Runtime.getRuntime ().addShutdownHook (shutdownThread);
       
       // Create a container for the specified descriptor file.
-      ListableBeanFactory beanFactory = new FileSystemXmlApplicationContext (this.descriptorFile_);
-      this.pojoContainer_ = new PojoContainer (beanFactory);
+      //ListableBeanFactory beanFactory = new FileSystemXmlApplicationContext (this.descriptorFile_);
+      //this.pojoContainer_ = new PojoContainer (beanFactory);
+
+      // Load the data model for the server.
+      logger.debug ("loading data model [file=" + this.dataModelFile_ + "]");
+      DataModel dm = DataModelFile.readFile (this.dataModelFile_);
+      System.err.println (dm);
       
       // Install the component instances
       Component [] components =  this.pojoContainer_.installComponentInstances ();
-
-      // Activate each of the returned components.
+ 
+      // Set the data model for each installed component.
+      for (Component c : components)
+        c.setDataModel (dm);
+      
+      // Activate all the installed components.
       for (Component c : components)
         c.activate ();
       
@@ -89,9 +101,9 @@ public class PojoComponentServer
       this.pojoContainer_.passivateAll ();
       this.pojoContainer_.removeAll ();
     }
-    catch (InterruptedException ex)
+    catch (Exception e)
     {
-      ex.printStackTrace ();
+      e.printStackTrace ();
     }
   }
   
@@ -111,12 +123,20 @@ public class PojoComponentServer
         this.descriptorFile_ = args[++ i];
       else if (arg.equals ("-timeout"))
         this.testTimeout_ = Integer.parseInt (args[++ i]);
+      else if (arg.equals ("-datamodel"))
+        this.dataModelFile_ = args[++ i];
     }
     
     // Validate the REQUIRED command-line arguments.
     if (this.descriptorFile_.length () == 0)
     {
       System.err.println ("missing descriptor file name");
+      return -1;
+    }
+    
+    if (this.dataModelFile_.length () == 0)
+    {
+      System.err.println ("missing data model file");
       return -1;
     }
     
@@ -127,10 +147,12 @@ public class PojoComponentServer
   /////////////////////////////////////////////////////////////////////////////
   // private data
     
-  private String descriptorFile_;
+  private String descriptorFile_ = "";
   
   private int testTimeout_ = -1;
   
+  private String dataModelFile_ = "";
+
   private PojoContainer pojoContainer_;
   
   /////////////////////////////////////////////////////////////////////////////

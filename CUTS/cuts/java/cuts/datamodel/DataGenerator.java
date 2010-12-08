@@ -10,7 +10,7 @@
  */
 //=============================================================================
 
-package cuts.generators.data;
+package cuts.datamodel;
 
 /**
  * @interface DataGenerator
@@ -20,5 +20,15 @@ package cuts.generators.data;
  */
 public interface DataGenerator
 {
-  public Object getNext ();
+  /**
+   * Get the next value in the data generator.
+   * 
+   * @return        The next value.
+   */
+  public Object getNextValue ();
+  
+  /**
+   * Reset the data generator to its initial state.
+   */
+  public void reset ();
 }

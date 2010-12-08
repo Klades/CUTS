@@ -28,6 +28,7 @@
   <target name="cuts.quotas.pojo.build" depends="cuts.quotas.pojo.schema.realclean">
     <path id="local.classpath">
       <pathelement path="." />
+      <pathelement path="${cuts.lib.dir}/cuts.datamodel.jar" />
       <pathelement path="${contrib.dir}/spring.jar" />
       <pathelement path="${contrib.dir}/log4j-1.2.15.jar" />
     </path>
