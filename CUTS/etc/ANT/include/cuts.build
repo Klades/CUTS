@@ -19,6 +19,7 @@
   <path id="cuts.quotas.pojo.classpath">
     <pathelement path="." />
     <pathelement path="${cuts.dir}/lib/cuts.java.jar" />
+    <pathelement path="${cuts.dir}/lib/cuts.datamodel.jar" />
     <pathelement path="${cuts.dir}/lib/cuts.quotas.pojo.jar" />
   </path>
 
