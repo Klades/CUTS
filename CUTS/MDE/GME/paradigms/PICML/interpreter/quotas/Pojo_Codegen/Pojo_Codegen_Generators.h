@@ -178,23 +178,6 @@ public:
  *
  */
 template < >
-class CUTS_BE_Environment_End_T <Quotas::Pojo::Codegen::Context> :
-  public CUTS_BE_Visitor_T <Quotas::Pojo::Codegen::Context, PICML::Visitor>
-{
-public:
-  typedef CUTS_BE_Visitor_T <Quotas::Pojo::Codegen::Context, PICML::Visitor> visitor_type;
-
-  CUTS_BE_Environment_End_T (Quotas::Pojo::Codegen::Context & context);
-
-  virtual ~CUTS_BE_Environment_End_T (void);
-
-  void generate (const PICML::Component & component);
-};
-
-/**
- *
- */
-template < >
 class CUTS_BE_PeriodicEvent_Begin_T <Quotas::Pojo::Codegen::Context> :
   public CUTS_BE_Visitor_T <Quotas::Pojo::Codegen::Context, PICML::Visitor>
 {

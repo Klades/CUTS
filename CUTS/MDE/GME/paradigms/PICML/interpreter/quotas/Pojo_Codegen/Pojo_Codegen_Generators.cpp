@@ -153,8 +153,8 @@ generate (const PICML::MonolithicImplementation & mono, const PICML::Component &
   // Import the data generators.
   this->ctx_.source_
     << std::endl
-    << CUTS_BE_Java::single_line_comment ("import default data generators")
-    << "import cuts.generators.data.*;"
+    << "import cuts.datamodel.DataGenerator;"
+    << "import cuts.datamodel.DataModel;"
     << std::endl;
 
   // Generate the remaining imports for this implementation.
@@ -292,7 +292,7 @@ generate (const PICML::MultiInputAction & action)
     << "/**" << std::endl
     << " * environmentAction : " << name << std::endl
     << " */" << std::endl
-    << "protected void " << name << " ()"
+    << "public void " << name << " ()"
     << "{"
     << "try"
     << "{";
@@ -313,45 +313,6 @@ generate (const PICML::MultiInputAction & action)
     << "e.printStackTrace ();"
     << "}"
     << "}";
-}
-
-//
-// CUTS_BE_Environment_End_T
-//
-void CUTS_BE_Environment_End_T <Quotas::Pojo::Codegen::Context>::
-generate (const PICML::Component & component)
-{
-  Quotas::Pojo::Codegen::Context::Env_Seen_Map::const_iterator
-    iter = this->ctx_.env_seen_.begin (),
-    iter_end = this->ctx_.env_seen_.end ();
-
-  for (; iter != iter_end; ++ iter)
-  {
-    if (!iter->second)
-    {
-      this->ctx_.source_
-        << std::endl
-        << "/**" << std::endl
-        << " * environmentAction : " << iter->first << std::endl
-        << " */" << std::endl
-        << "protected void " << iter->first << " ()";
-      this->ctx_.generate_throws_signature (iter->first);
-      this->ctx_.source_
-        << "{"
-        << "try"
-        << "{";
-
-      this->ctx_.generate_required_method_impl (iter->first);
-
-      this->ctx_.source_
-        << "}"
-        << "catch (Exception e)"
-        << "{"
-        << "e.printStackTrace ();"
-        << "}"
-        << "}";
-    }
-  }
 }
 
 //

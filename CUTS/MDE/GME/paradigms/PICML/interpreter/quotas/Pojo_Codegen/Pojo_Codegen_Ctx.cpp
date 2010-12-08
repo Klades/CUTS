@@ -17,7 +17,7 @@ Context::Context (void)
 {
   this->env_seen_.insert (std::make_pair ("init", false));
   this->env_seen_.insert (std::make_pair ("activate", false));
-  this->env_seen_.insert (std::make_pair ("deactivate", false));
+  this->env_seen_.insert (std::make_pair ("passivate", false));
   this->env_seen_.insert (std::make_pair ("fini", false));
 }
 
@@ -115,7 +115,7 @@ generate_required_method_impl (const std::string & method)
                    this->periodics_.end (),
                    activate_periodic_t (this->source_));
   }
-  else if (method == "deactivate")
+  else if (method == "passivate")
   {
     std::for_each (this->periodics_.begin (),
                    this->periodics_.end (),

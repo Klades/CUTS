@@ -66,13 +66,14 @@ public:
   virtual void Visit_Byte (const PICML::Byte & byte);
 
   virtual void Visit_LongInteger (const PICML::LongInteger & value);
+  virtual void Visit_UnsignedLongInteger (const PICML::UnsignedLongInteger & value);
 
   virtual void Visit_ShortInteger (const PICML::ShortInteger & value);
+  virtual void Visit_UnsignedShortInteger (const PICML::UnsignedShortInteger & value);
 
   virtual void Visit_String (const PICML::String & value);
 
   virtual void Visit_DoubleNumber (const PICML::DoubleNumber & value);
-
   virtual void Visit_FloatNumber (const PICML::FloatNumber & value);
 
   virtual void Visit_GenericValue (const PICML::GenericValue & value);

@@ -22,9 +22,11 @@ Type_System::Type_System (std::ostream & out)
   this->predefined_types_.insert <PICML::GenericObject> ();
   this->predefined_types_.insert <PICML::GenericValue> ();
   this->predefined_types_.insert <PICML::LongInteger> ();
+  this->predefined_types_.insert <PICML::UnsignedLongInteger> ();
   this->predefined_types_.insert <PICML::DoubleNumber> ();
   this->predefined_types_.insert <PICML::FloatNumber> ();
   this->predefined_types_.insert <PICML::ShortInteger> ();
+  this->predefined_types_.insert <PICML::UnsignedShortInteger> ();
   this->predefined_types_.insert <PICML::String> ();
   this->predefined_types_.insert <PICML::TypeEncoding> ();
   this->predefined_types_.insert <PICML::TypeKind> ();
@@ -102,10 +104,28 @@ Visit_LongInteger (const PICML::LongInteger & value)
 }
 
 //
+// Visit_UnsignedLongInteger
+//
+void Variable_Type::
+Visit_UnsignedLongInteger (const PICML::UnsignedLongInteger & value)
+{
+  this->out_ << "long";
+}
+
+//
 // Visit_ShortInteger
 //
 void Variable_Type::
 Visit_ShortInteger (const PICML::ShortInteger & value)
+{
+  this->out_ << "short";
+}
+
+//
+// Visit_UnsignedShortInteger
+//
+void Variable_Type::
+Visit_UnsignedShortInteger (const PICML::UnsignedShortInteger & value)
 {
   this->out_ << "short";
 }

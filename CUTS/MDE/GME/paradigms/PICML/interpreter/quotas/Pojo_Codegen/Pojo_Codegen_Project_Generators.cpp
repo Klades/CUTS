@@ -54,9 +54,8 @@ Quotas::Pojo::Codegen::Context, CUTS_BE_Impl_Node>::generate (const CUTS_BE_Impl
     return;
 
   // Create a formatter for the XML file.
-  this->ctx_.project_formatter_.reset (
-    new Quotas::Pojo::Codegen::Context::xml_formatter_type (
-    this->ctx_.project_file_));
+  using Quotas::Pojo::Codegen::Context;
+  this->ctx_.project_formatter_.reset (new Context::xml_formatter_type (this->ctx_.project_file_));
 }
 
 //
@@ -67,8 +66,7 @@ generate (const CUTS_BE_Impl_Node & node)
 {
   // Save the current implementation's node. This is bad, but it's
   // the way we are going to do it for now.
-  this->ctx_.impl_node_ =
-    const_cast <CUTS_BE_Impl_Node *> (&node);
+  this->ctx_.impl_node_ = const_cast <CUTS_BE_Impl_Node *> (&node);
 
   // Get the name of the container for later usage.
   std::string name = node.container_.name ();
