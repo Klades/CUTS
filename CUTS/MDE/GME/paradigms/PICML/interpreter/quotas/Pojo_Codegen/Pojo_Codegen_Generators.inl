@@ -138,23 +138,6 @@ CUTS_BE_Environment_Method_End_T <Quotas::Pojo::Codegen::Context>::~CUTS_BE_Envi
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// CUTS_BE_Environment_End_T
-
-CUTS_INLINE
-CUTS_BE_Environment_End_T <Quotas::Pojo::Codegen::Context>::
-CUTS_BE_Environment_End_T (Quotas::Pojo::Codegen::Context & context)
-: visitor_type (context)
-{
-
-}
-
-CUTS_INLINE
-CUTS_BE_Environment_End_T <Quotas::Pojo::Codegen::Context>::~CUTS_BE_Environment_End_T (void)
-{
-
-}
-
-///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_PeriodicEvent_Begin_T
 
 CUTS_INLINE

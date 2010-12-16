@@ -14,6 +14,7 @@
 @set CONTRIB_ROOT=%CUTS_ROOT%\contrib\java
 
 @rem ## set the classpath
+@set CLASSPATH=%CLASSPATH%;%CUTS_ROOT%\lib\cuts.java.jar;
 @set CLASSPATH=%CLASSPATH%;%CUTS_ROOT%\lib\cuts.quotas.pojo.jar;
 @set CLASSPATH=%CLASSPATH%;%CUTS_ROOT%\lib\cuts.datamodel.jar
 @set CLASSPATH=%CLASSPATH%;%CONTRIB_ROOT%\spring.jar

@@ -31,4 +31,9 @@ public interface DataGenerator
    * Reset the data generator to its initial state.
    */
   public void reset ();
+  
+  /**
+   * Test if the data generator has more data. 
+   */
+  public boolean hasMoreData ();
 }

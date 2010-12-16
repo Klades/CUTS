@@ -79,6 +79,11 @@ implements DataGenerator
     this.random_.setSeed (this.seed_);
   }
   
+  public boolean hasMoreData ()
+  {
+    return true;
+  }
+  
   private long seed_;
 
   /// The contained random generator.

@@ -60,13 +60,12 @@ public class PojoComponentServer
       Runtime.getRuntime ().addShutdownHook (shutdownThread);
       
       // Create a container for the specified descriptor file.
-      //ListableBeanFactory beanFactory = new FileSystemXmlApplicationContext (this.descriptorFile_);
-      //this.pojoContainer_ = new PojoContainer (beanFactory);
+      ListableBeanFactory beanFactory = new FileSystemXmlApplicationContext (this.descriptorFile_);
+      this.pojoContainer_ = new PojoContainer (beanFactory);
 
       // Load the data model for the server.
       logger.debug ("loading data model [file=" + this.dataModelFile_ + "]");
       DataModel dm = DataModelFile.readFile (this.dataModelFile_);
-      System.err.println (dm);
       
       // Install the component instances
       Component [] components =  this.pojoContainer_.installComponentInstances ();

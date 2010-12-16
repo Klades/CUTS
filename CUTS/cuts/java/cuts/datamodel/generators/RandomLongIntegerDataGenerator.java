@@ -45,6 +45,11 @@ implements DataGenerator
     this.random_ = new Random (this.seed_);
   }
   
+  public boolean hasMoreData ()
+  {
+    return true;
+  }
+  
   /**
    * Get the next boolean value in the random sequence.
    */

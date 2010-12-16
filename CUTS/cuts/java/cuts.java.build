@@ -61,7 +61,7 @@
     <jar destfile="${cuts.lib.dir}/cuts.java.jar"
          basedir="${cuts.src.dir}/java"
          includes="cuts/**/*.class"
-         excludes="cuts/quotas/**"/>
+         excludes="cuts/quotas/** cuts/datamodel/**"/>
   </target>
 
   <target name="cuts.java.clean">
