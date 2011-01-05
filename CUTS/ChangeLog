@@ -1,7 +1,27 @@
+Wed Jan  5 22:40:54 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * examples/cuts/utils/unite/adapter:
+
+        * examples/cuts/utils/unite/adapter/Ant:
+
+        * examples/cuts/utils/unite/adapter/Ant/8b27cf06-6522-11df-8dcf-000c29c627dd.cdb:
+        * examples/cuts/utils/unite/adapter/Ant/Ant.datagraph:
+        * examples/cuts/utils/unite/adapter/Ant/Ant.unite:
+        * examples/cuts/utils/unite/adapter/Ant/Ant_Adapter.h:
+        * examples/cuts/utils/unite/adapter/Ant/Ant_Adapter.mwc:
+        * examples/cuts/utils/unite/adapter/Ant/Ant_Adapter.uas:
+        * examples/cuts/utils/unite/adapter/Ant/Ant_Adapter.cpp:
+        * examples/cuts/utils/unite/adapter/Ant/Ant_Adapter.mpc:
+        * examples/cuts/utils/unite/adapter/Ant/Ant_Adapter_export.h:
+
+        * examples/cuts/utils/unite/adapter/README.txt:
+        
+          Adding the Ant sample to demonstrate the UNITE Adapter functionality.
+
 Wed Jan  5 20:35:45 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * CUTS_Runtime_Arch.mwc:
-        
+
           Addedd the code generation kit to be built with the CUTS_Runtime.
 
         * cuts/utils/unite/Dataflow_Graph.h:
@@ -23,7 +43,7 @@ Wed Jan  5 20:35:45 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
         * cuts/utils/unite/Variable.inl:
         * cuts/utils/unite/Variable.cpp:
         * cuts/utils/unite/Variable_T.cpp:
-        
+
           Cleaning the code, added comments and use best practises.
 
 Thu Dec 16 21:54:42 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
