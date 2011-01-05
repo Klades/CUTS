@@ -34,6 +34,7 @@ public:
   /// Destructor
   virtual ~CUTS_Unite_Presentation_Service_Manager (void);
 
+  // load the presenatation service
   int load_service (const char * id,
                     const char * location,
                     const char * classname,

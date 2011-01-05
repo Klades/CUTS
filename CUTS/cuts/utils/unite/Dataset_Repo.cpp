@@ -27,7 +27,7 @@
 class process_log_format
 {
 public:
-  process_log_format (/*const*/ CUTS_Dataflow_Graph & graph,
+  process_log_format (CUTS_Dataflow_Graph & graph,
                       CUTS_Log_Format_Data_Entry & entry,
                       ADBC::SQLite::Record & record)
     : graph_ (graph),
@@ -65,9 +65,12 @@ private:
   void process_entry (void) const
   {
     char message[1024];
-	
-    if(graph_.adapter())
-      graph_.adapter()->adapter_reset();
+
+    // Reset the private variables in the adapter
+    if(graph_.adapter ())
+    {
+      graph_.adapter ()->reset ();
+    }
 
     for ( ; !this->record_.done (); this->record_.advance ())
     {
@@ -77,16 +80,16 @@ private:
       // Execute the entry against this message. It may or may not update
       // the database. It depends on if the message matches the current
       // log format.
-      //this->entry_.execute (message/*, &x*/);
-	  this->entry_.execute(message, graph_.adapter());
-	  
+
+      this->entry_.execute(message, graph_.adapter ());
+
     }
 
     this->record_.reset ();
   }
 
   //const CUTS_Dataflow_Graph & graph_;
- CUTS_Dataflow_Graph & graph_;   
+  CUTS_Dataflow_Graph & graph_;
 
   mutable CUTS_Log_Format_Data_Entry & entry_;
 
@@ -169,7 +172,7 @@ void CUTS_Dataset_Repo::close (void)
 //
 // evaluate
 //
-bool CUTS_Dataset_Repo::insert (/*const*/ CUTS_Dataflow_Graph & graph)
+bool CUTS_Dataset_Repo::insert (CUTS_Dataflow_Graph & graph)
 {
   try
   {
@@ -198,8 +201,12 @@ bool CUTS_Dataset_Repo::insert (/*const*/ CUTS_Dataflow_Graph & graph)
 
     // Finally, prune the incomplete rows from the table.
     this->prune_incomplete_rows (graph);
-    if(graph.adapter())
-	    graph.adapter()->adapter_close();
+
+    // If there is an open adapter close it.
+    if(graph.adapter ())
+    {
+      graph.adapter ()->close ();
+    }
 
     return true;
   }
@@ -217,7 +224,7 @@ bool CUTS_Dataset_Repo::insert (/*const*/ CUTS_Dataflow_Graph & graph)
 // create_data_table
 //
 void CUTS_Dataset_Repo::
-create_vtable (/*const*/  CUTS_Dataflow_Graph & graph)
+create_vtable (CUTS_Dataflow_Graph & graph)
 {
   CUTS_Dataflow_Graph::vertex_iterator iter, iter_end;
   boost::tie (iter, iter_end) = boost::vertices (graph.graph ());
@@ -274,10 +281,10 @@ create_vtable (/*const*/  CUTS_Dataflow_Graph & graph)
       case CUTS_Log_Format_Variable::VT_DOUBLE:
         sqlstr << "REAL";
         break;
- 
-	    case CUTS_Log_Format_Variable::VT_DATETIME:
-		    sqlstr << "DATETIME";
-		    break;
+
+      case CUTS_Log_Format_Variable::VT_DATETIME:
+        sqlstr << "DATETIME";
+        break;
 
       case CUTS_Log_Format_Variable::VT_REGEX:
         sqlstr << "TEXT";
@@ -302,7 +309,7 @@ create_vtable (/*const*/  CUTS_Dataflow_Graph & graph)
 // create_indices
 //
 void CUTS_Dataset_Repo::
-create_vtable_indices (/*const*/ CUTS_Dataflow_Graph & graph)
+create_vtable_indices (CUTS_Dataflow_Graph & graph)
 {
   CUTS_Dataflow_Graph::vertex_iterator iter, iter_end;
   boost::tie (iter, iter_end) = boost::vertices (graph.graph ());
@@ -323,7 +330,7 @@ create_vtable_indices (/*const*/ CUTS_Dataflow_Graph & graph)
 // create_indices
 //
 void CUTS_Dataset_Repo::
-create_vtable_indices (/*const*/ CUTS_Dataflow_Graph & test,
+create_vtable_indices (CUTS_Dataflow_Graph & test,
                        const CUTS_Log_Format & format)
 {
   // Allocate a new database query.
@@ -381,7 +388,7 @@ create_vtable_indices (/*const*/ CUTS_Dataflow_Graph & test,
 // prune_incomplete_rows
 //
 void CUTS_Dataset_Repo::
-prune_incomplete_rows (/*const*/ CUTS_Dataflow_Graph & graph)
+prune_incomplete_rows (CUTS_Dataflow_Graph & graph)
 {
   CUTS_Dataflow_Graph::vertex_iterator iter, iter_end;
   boost::tie (iter, iter_end) = boost::vertices (graph.graph ());

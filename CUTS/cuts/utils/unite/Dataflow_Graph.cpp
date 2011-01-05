@@ -110,13 +110,20 @@ void CUTS_Dataflow_Graph::normalize_name (void)
 
   this->name_ = "_" + this->name_;
 }
-
-CUTS_Log_Format_Adapter* CUTS_Dataflow_Graph::adapter(void)
+//
+// Get the adapter
+//
+CUTS_Log_Format_Adapter * CUTS_Dataflow_Graph::adapter (void)
 {
   return this->adapter_;
 }
 
-void CUTS_Dataflow_Graph::adapter(CUTS_Log_Format_Adapter *adapter)
+//
+// Set the adapter
+//
+void CUTS_Dataflow_Graph::adapter (CUTS_Log_Format_Adapter * adapter)
 {
   this->adapter_ = adapter;
 }
+
+

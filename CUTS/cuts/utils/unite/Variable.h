@@ -16,7 +16,7 @@
 #include "ace/SString.h"
 #include "Unite_export.h"
 #include "adbc/SQLite/Parameter.h"
-#include "ace/Date_Time.h" 
+#include "ace/Date_Time.h"
 #include <sstream>
 
 namespace ADBC
@@ -49,7 +49,7 @@ public:
     /// The varialbe is an float/double
     VT_DOUBLE,
 
-	/// The varialbe is a Date_time
+  /// The varialbe is a Date_time
     VT_DATETIME,
 
   /// The variable is a Regular expression
@@ -60,14 +60,23 @@ public:
   /// Destructor.
   virtual ~CUTS_Log_Format_Variable (void);
 
+   /**
+   * Set the variable values using the two end pointers
+   * @param[in]     begin    starting pointer of the string
+   * @param[in]     end      endpoint of the string
+   */
   virtual void value (const char * begin, const char * end) = 0;
 
+  /// Binds the corresponding sqlite prameter
   virtual void bind (ADBC::SQLite::Parameter & param) = 0;
 
-  virtual void set_value(char *val) = 0;
+  /// Set the value straightaway from a string
+  virtual void value (char * val) = 0;
 
+  /// Posiiton of the variables array
   size_t index (void) const;
 
+  /// Type of the variable
   type_t type (void) const;
 
 protected:
@@ -102,9 +111,9 @@ public:
 
   virtual void bind (ADBC::SQLite::Parameter & param);
 
-  virtual void set_value(char *val);
+  virtual void value (char * val);
 
-   
+
 private:
   ACE_CString value_;
 };
@@ -116,6 +125,7 @@ class CUTS_UNITE_Export CUTS_Datetime_Log_Format_Variable :
   public CUTS_Log_Format_Variable
 {
 public:
+  /// Construtor
   CUTS_Datetime_Log_Format_Variable (size_t index, const std::string format);
 
   virtual ~CUTS_Datetime_Log_Format_Variable (void);
@@ -124,26 +134,22 @@ public:
 
   virtual void bind (ADBC::SQLite::Parameter & param);
 
-  virtual void set_value(char *val);
+  virtual void value (char * val);
+
+  /// Set the corresponding ACE Date_Time
+  void date_time (ACE_Date_Time & dt);
+
+  /// Get the user specified Date_Time format
+  const std::string format ();
+
+  // Get the constructed Date_Time object
+  ACE_Date_Time date_time ();
 
 
-  /* Get a Datetime value which will be in the format format_
-     And converts it to a ACE_Date_Time object and set it.
-  */
-  
-  void date_time(char *val);
-
-  void date_time(ACE_Date_Time & dt);
-
-  const std::string format();
-
-  ACE_Date_Time date_time();
-
-   
 private:
   /* String representing the Datetime format specified by the user */
   const std::string format_;
-  
+
   /* The Corresponding ACE_Date_Time object */
   ACE_Date_Time date_time_;
 };
@@ -164,15 +170,15 @@ public:
 
   virtual void bind (ADBC::SQLite::Parameter & param);
 
-  virtual void set_value(char *val);
+  virtual void value (char *val);
 
-  const std::string format();
+  const std::string format ();
 
- 
+
 private:
   /* String representing the Regex format specified by the user */
   const std::string format_;
-  
+
   ACE_CString value_;
 
 };
@@ -198,12 +204,15 @@ public:
 
   virtual void bind (ADBC::SQLite::Parameter & param);
 
-  virtual void set_value(char *val);
+  virtual void value (char * val);
 
-  void value(T val);
-  
+  /// Set the value of the variable straightaway using the type
+  void value (T val);
+
 private:
+  /// Value of the variable in the variable's type
   T value_;
+
 };
 
 /**

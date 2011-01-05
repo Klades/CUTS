@@ -14,7 +14,7 @@
 #include "ace/Auto_Ptr.h"
 
 
-typedef CUTS_Log_Format_Adapter* (*Adapter_creator) (void);
+typedef CUTS_Log_Format_Adapter * (* Adapter_creator) (void);
 /**
  * @class process_causality
  *
@@ -38,7 +38,7 @@ public:
     CUTS_Relation_Causality rc (causality->cause ().c_str (),
                                 causality->effect ().c_str ());
 
-    // Add the causality relation with this relation.
+    // Add the causality with this relation.
     this->relation_.causality ().push_back (rc);
   }
 
@@ -126,16 +126,24 @@ public:
     // Compile the log format's value.
     lfmt->compile (format->value ().c_str ());
 
-    if(this->graph_.adapter())
-      this->graph_.adapter()->update_log_format(lfmt);
+    // If there is an adapter then upodate this log format with its variables
+
+    if(this->graph_.adapter ())
+    {
+      this->graph_.adapter ()->update_log_format (lfmt);
+    }
 
     if (format->relations_p ())
       std::for_each (format->relations ().begin_relation (),
                      format->relations ().end_relation (),
                      process_relation (this->graph_, *lfmt));
 
-	  if(this->graph_.adapter())
-      this->graph_.adapter()->update_log_format_relations(lfmt);
+    // If adapter is set  then update this log format's relations
+
+    if(this->graph_.adapter ())
+    {
+      this->graph_.adapter ()->update_log_format_relations (lfmt);
+    }
 
   };
 
@@ -152,39 +160,62 @@ build (const ::CUTS::XML::datagraphType & datagraph, CUTS_Dataflow_Graph & graph
   // Set the name of the graph.
   graph.name (datagraph.name ().c_str ());
 
+  // If adapter is set then we will first load the adapter dll
+
   if (datagraph.adapter_p ())
   {
+    // Get the location from the datagraph file
+
     ACE_DLL adapter_dll;
-	
-    int retval = adapter_dll.open (datagraph.adapter ().c_str());
-    
-    if (retval != 0)
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       "%p",
-                       "dll.open"),
-                      -1);
+    const char * location = datagraph.adapter ().c_str ();
 
-    void * symbol = adapter_dll.symbol ( ACE_TEXT("create_Cuts_Log_Format_Adapter"));
+    // loadding the dll
+    int retval = adapter_dll.open (location,
+                                   ACE_DEFAULT_SHLIB_MODE,
+                                   false);
 
-	  if (symbol == 0)
+    if (0 != retval)
+    {
+      ACE_ERROR ((LM_ERROR,
+                 ACE_TEXT ("%T (%t) - %M - error loading opening %s; %m\n"),
+                 location));
+    }
+
+
+    // Get symbols
+
+    void * adapter_symbol = adapter_dll.symbol (CUTS_LOG_FORMAT_ADAPTER_SYMBOL_NAME);
+
+
+
+    if (0 == adapter_symbol)
     {
       ACE_ERROR_RETURN ((LM_ERROR,
                          "%T - %M - failed to extract entry point %s\n",
-                         ACE_TEXT("create_Cuts_Log_Format_Adapter")),
+                         ACE_TEXT ("create_Cuts_Log_Format_Adapter")),
                          -1);
     }
 
-	  ptrdiff_t tmp = reinterpret_cast<ptrdiff_t> (symbol);
-    Adapter_creator ac = reinterpret_cast<Adapter_creator> (tmp);
+    // The adapter object is set in the datagraph so it can be passed
+    // further for calling the other methods
 
-    ACE_Auto_Ptr <CUTS_Log_Format_Adapter> auto_clean (ac());
-	  auto_clean->adapter_init();
-    CUTS_Log_Format_Adapter * adapter = 0;
-	  adapter = auto_clean.release ();
-	  graph.adapter (adapter);
-	  adapter_dll.close_handle_on_destruction_ = false;
-	  
-  }
+    // Creates the adapter from the loaded dll
+    ptrdiff_t tmp_ptr = reinterpret_cast <ptrdiff_t> (adapter_symbol);
+    Adapter_creator adapter_creator = reinterpret_cast <Adapter_creator> (tmp_ptr);
+
+    CUTS_Log_Format_Adapter * adapter = adapter_creator ();
+
+    ACE_Auto_Ptr <CUTS_Log_Format_Adapter> auto_clean (adapter);
+
+    // Intializing the adapter
+    auto_clean->init ();
+
+    // Set in the Data_grpah
+    graph.adapter (adapter);
+
+    auto_clean.release ();
+
+}
 
   // Process the log formats.
   std::for_each (datagraph.logformats ().begin_logformat (),

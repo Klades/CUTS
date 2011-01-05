@@ -80,21 +80,28 @@ public:
    *
    * @param[in]       graph           Graph of the unit test.
    */
-  bool insert (/*const*/ CUTS_Dataflow_Graph & graph);
+  bool insert (CUTS_Dataflow_Graph & graph);
 
+  /// Creates a SQLite Query
   ADBC::SQLite::Query * create_query (void);
 
 private:
+
+  /// Open the vtable associates with the CUTS_Test_Database
   int open_vtable (CUTS_Test_Database & test);
 
-  void create_vtable (/*const*/ CUTS_Dataflow_Graph & graph);
+  /// Creates a vtable for a Dataflow graph of log formats
+  void create_vtable (CUTS_Dataflow_Graph & graph);
 
-  void create_vtable_indices (/*const*/ CUTS_Dataflow_Graph & test);
+  /// Create an index for the vtable
+  void create_vtable_indices (CUTS_Dataflow_Graph & test);
 
-  void create_vtable_indices (/*const*/ CUTS_Dataflow_Graph & test,
+  /// Create an index based on a particular log formaty
+  void create_vtable_indices (CUTS_Dataflow_Graph & test,
                               const CUTS_Log_Format & format);
 
-  void prune_incomplete_rows (/*const*/ CUTS_Dataflow_Graph & graph);
+  /// Delete all the rows in whic some of there columns doesn't have a value
+  void prune_incomplete_rows (CUTS_Dataflow_Graph & graph);
 
   /// Pointer to the test database.
   CUTS_Test_Database * data_;
@@ -102,7 +109,10 @@ private:
   /// Variable table for the active test.
   ADBC::SQLite::Connection * vtable_;
 
+  /// Copy constructor
   CUTS_Dataset_Repo (const CUTS_Dataset_Repo &);
+
+  /// Overloaded = operator
   const CUTS_Dataset_Repo & operator = (const CUTS_Dataset_Repo &);
 };
 

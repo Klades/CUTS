@@ -49,21 +49,32 @@ public:
   /// Destructor
   ~CUTS_Log_Format_Data_Entry (void);
 
-  /**
-   *
+ /**
+   * Construct the insert query
+   * @param[in]     table    name of the table the data will be added
+   * @param[in]     format   log format with which the messages are matched
    */
   void prepare (const ACE_CString & table,
                 CUTS_Log_Format * format);
+
+  /**
+   * Construct the update query
+   * @param[in]     table    name of the table the data will be added
+   * @param[in]     format   log format with which the messages are matched
+   * @param[in]     relation index of the relation
+   */
 
   void prepare (const ACE_CString & table,
                 CUTS_Log_Format * format,
                 size_t relation);
 
-  /**
-   *
+   /**
+   * Construct the update query
+   * @param[in]     message   trace which has the values for the query
+   * @param[in]     adapter   adapter to fill other values
    */
-  void execute (const ACE_CString & message, 
-	            CUTS_Log_Format_Adapter *adapter);
+  void execute (const ACE_CString & message,
+                CUTS_Log_Format_Adapter *adapter);
 
 private:
   /// Underlying query for inserting data
@@ -71,7 +82,7 @@ private:
 
   /// Name of the log format.
   CUTS_Log_Format * format_;
-  
+
 };
 
 #endif // !defined _CUTS_UNITE_LOG_FORMAT_DATA_ENTRY_H_

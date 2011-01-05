@@ -37,47 +37,60 @@ class CUTS_UNITE_Export CUTS_Log_Format
 public:
   typedef std::vector <CUTS_Log_Format_Relation> relations_type;
 
-  //typedef std::auto_ptr <CUTS_Log_Format_Adapter> adapter_ptr;
-
-    /// Default constructor.
+  /// Default constructor.
   CUTS_Log_Format (const ACE_CString & name);
 
   /// Destructor.
   ~CUTS_Log_Format (void);
 
+  /// Given a log format string compiles it and populate variables, relations.
   bool compile (const ACE_CString & format);
 
+  /// Checks whether the pcre expression is not null
   bool is_valid (void) const;
 
-  bool match (const ACE_CString & message, 
-	  CUTS_Log_Format_Adapter *adapter) ;
+
+  /**
+   * Check whether the messages matches a specified log format
+   * unit test.
+   * @param[in]     message   the input trace from the test database
+   * @param[in]     adapter   log format adapter if it is set.
+   * @return        true if mathced, otherwise false
+   */
+  bool match (const ACE_CString & message,
+              CUTS_Log_Format_Adapter * adapter) ;
 
   /// Reset the log format.
   void reset (void);
 
+  /// Get the name of the log format
   const ACE_CString & name (void) const;
 
+  /// Get the relation types
   relations_type & relations (void);
 
+  /// Get the relation types only for reading
   const relations_type & relations (void) const;
 
+  /// Get the variables map only for reading
   const CUTS_Log_Format_Variable_Table & variables (void) const;
 
+  /// Get the variable map
   CUTS_Log_Format_Variable_Table & variables (void);
 
-  void captures_size(size_t size); 
+  /// Set the captures_size
+  void captures_size (size_t size);
 
-  size_t captures_size(void); 
+  /// Get the captures_size
+  size_t captures_size (void);
 
-  ACE_Auto_Array_Ptr <int> captures(void);
+ /// Set the captures array
+  ACE_Auto_Array_Ptr <int> & captures (void);
 
-  size_t captures_size_;
 
-  ACE_Auto_Array_Ptr <int> captures_;
 
-  
+
 private:
-  //void reset (void);
 
   /// Name of the log format.
   ACE_CString name_;
@@ -91,17 +104,14 @@ private:
   /// Variables in the log format.
   CUTS_Log_Format_Variable_Table vars_;
 
-  /// Relations for the log format.
+  /// Relation types for the log format.
   relations_type relations_;
 
   /// Number of captures in the log format.
-  //size_t captures_size_;
-
-  /// This will be useful for adapter.
-  int id_value_;
+  size_t captures_size_;
 
   /// Indices for storing capture information.
-  //ACE_Auto_Array_Ptr <int> captures_;
+  ACE_Auto_Array_Ptr <int> captures_;
 
   // prevent the following operations
   CUTS_Log_Format (const CUTS_Log_Format &);

@@ -1,3 +1,31 @@
+Wed Jan  5 20:35:45 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * CUTS_Runtime_Arch.mwc:
+        
+          Addedd the code generation kit to be built with the CUTS_Runtime.
+
+        * cuts/utils/unite/Dataflow_Graph.h:
+        * cuts/utils/unite/Dataflow_Graph.cpp:
+        * cuts/utils/unite/Dataflow_Graph_Builder.cpp:
+        * cuts/utils/unite/Dataset_Repo.h:
+        * cuts/utils/unite/Dataset_Repo.cpp:
+        * cuts/utils/unite/Log_Format.h:
+        * cuts/utils/unite/Log_Format.cpp:
+        * cuts/utils/unite/Log_Format_Adapter.h:
+        * cuts/utils/unite/Log_Format_Adapter.cpp:
+        * cuts/utils/unite/Log_Format_Compiler.h:
+        * cuts/utils/unite/Log_Format_Compiler.cpp:
+        * cuts/utils/unite/Log_Format_Data_Entry.h:
+        * cuts/utils/unite/Log_Format_Data_Entry.cpp:
+        * cuts/utils/unite/Presentation_Service_Manager.h:
+        * cuts/utils/unite/Relation.h:
+        * cuts/utils/unite/Variable.h:
+        * cuts/utils/unite/Variable.inl:
+        * cuts/utils/unite/Variable.cpp:
+        * cuts/utils/unite/Variable_T.cpp:
+        
+          Cleaning the code, added comments and use best practises.
+
 Thu Dec 16 21:54:42 UTC 2010  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen_Generators.inl:

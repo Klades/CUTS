@@ -5,6 +5,7 @@
 #include "Variable.h"
 #include "adbc/SQLite/Connection.h"
 #include <sstream>
+#include <iostream>
 
 //
 // CUTS_Log_Format_Data_Entry
@@ -72,6 +73,7 @@ prepare (const ACE_CString & table, CUTS_Log_Format * format)
   ostr << "INSERT INTO " << table << " ("
        << colstr.str () << ") VALUES ("
        << varstr.str () << ")";
+
 
   // Prepare the SQL statement.
   this->query_->prepare (ostr.str ().c_str (),
@@ -149,11 +151,11 @@ prepare (const ACE_CString & table, CUTS_Log_Format * format, size_t relation)
 //
 // execute
 //
-void CUTS_Log_Format_Data_Entry::execute (const ACE_CString & message, 
-										  CUTS_Log_Format_Adapter *adapter)
+void CUTS_Log_Format_Data_Entry::execute (const ACE_CString & message,
+                      CUTS_Log_Format_Adapter *adapter)
 {
   // The fast path is actually not matching the message.
-  
+
   if (!this->format_->match(message, adapter))
     return;
 

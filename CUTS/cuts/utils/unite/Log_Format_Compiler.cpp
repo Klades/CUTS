@@ -9,33 +9,45 @@
 
 
 
+// Given a letter in the DateTime format string, this
+// function will return the occurrence of that letter
 
-int letter_count(std::string & format, char ch)
+//
+// letter_count
+//
+int letter_count (std::string & format, char ch)
 {
+  // For a given character in the Date_Time format find the
+  // number of occurrences to determine the pcre expression
   int count = 0;
   int index = -1;
-  while (1) 
+  while (1)
   {
-    index = format.find_first_of(ch, index + 1);
-    if (index == format.npos) 
-	    break;
-    else 
-	    count++;
+    index = format.find_first_of (ch, index + 1);
+    if (index == format.npos)
+      break;
+    else
+      count++;
   }
   return count;
 }
 
-std::string get_datetime_pcre_type(std::string & format)
+//
+// get_datetime_pcre_type
+//
+std::string get_datetime_pcre_type (std::string & format)
 {
-  // \d{4}:\d{2}:\d{2}\s)?(\d{2}:\d{2}:\d{2}(\.\d{4}|\d{6})?
+  // Converts the user specifies DateTime format to a pcre type
 
-  int Y_count = letter_count(format, 'Y');
-  int M_count = letter_count(format, 'M');
-  int D_count = letter_count(format, 'D');
-  int h_count = letter_count(format, 'h');
-  int m_count = letter_count(format, 'm');
-  int s_count = letter_count(format, 's');
-  int S_count = letter_count(format, 'S');
+  int Y_count = letter_count (format, 'Y');
+  int M_count = letter_count (format, 'M');
+  int D_count = letter_count (format, 'D');
+  int h_count = letter_count (format, 'h');
+  int m_count = letter_count (format, 'm');
+  int s_count = letter_count (format, 's');
+  int S_count = letter_count (format, 'S');
+
+  // writing the letter counts to the pcre stream
 
   std::ostringstream ostr;
 
@@ -44,8 +56,8 @@ std::string get_datetime_pcre_type(std::string & format)
     ostr<<"\\d{"<<Y_count<<"}:\\d{"<<M_count<<"}:\\d{"<<D_count<<"}:";
   }
   ostr<<"\\d{"<<h_count<<"}:\\d{"<<m_count<<"}:\\d{"<<s_count<<"}\\.\\d{"<<S_count<<"}";
- 
-  std::string pcre = ostr.str();
+
+  std::string pcre = ostr.str ();
   return pcre;
 }
 
@@ -86,11 +98,14 @@ private:
  */
 struct capture
 {
-	capture (std::ostringstream & ostr, std::string & type, std::string & name, std::string & dt_format)
+  capture (std::ostringstream & ostr,
+           std::string & type,
+           std::string & name,
+           std::string & dt_format)
     : ostr_ (ostr),
       type_ (type),
       name_ (name),
-	    dt_format_ (dt_format)
+      dt_format_ (dt_format)
   {
 
   }
@@ -114,27 +129,37 @@ struct capture
       pcre_type = "\\S+";
     else if (this->type_ == "FLOAT")
       pcre_type = "\\d*\\.\\d+";
-	  else if(((this->type_).find("DATETIME") !=
-		  std::string::npos)||
-      ((this->type_).find("REGEX") !=
-		  std::string::npos))
-	  {
-      size_t pos1;
-	    size_t pos2;
-		
-      pos1 = (this->type_).find("(");
-      pos2 = (this->type_).find(")");
 
-	    size_t n = pos2 - pos1 - 1;
-	    std::string format = (this->type_).substr(pos1 + 1, n);
-      if((this->type_).find("DATETIME") !=
-		      std::string::npos)
-	      pcre_type = get_datetime_pcre_type(format);
+    // For DATETIME and REGEX we can't exactly match the type string.
+    // So we do a find
+
+    else if(((this->type_).find ("DATETIME") !=
+      std::string::npos)||
+      ((this->type_).find ("REGEX") !=
+      std::string::npos))
+    {
+      // The user specified format is in between the parenthesis
+
+      size_t pos1;
+      size_t pos2;
+
+      pos1 = (this->type_).find ("(");
+      pos2 = (this->type_).find (")");
+
+      size_t n = pos2 - pos1 - 1;
+      std::string format = (this->type_).substr (pos1 + 1, n);
+      if((this->type_).find ("DATETIME") != std::string::npos)
+      {
+        pcre_type = get_datetime_pcre_type (format);
+      }
       else
+      {
         pcre_type = format;
+      }
     }
-	  this->ostr_ << "(?<" << this->name_ << ">" << pcre_type << ")";
-	
+
+    this->ostr_ << "(?<" << this->name_ << ">" << pcre_type << ")";
+
   }
 
 
@@ -154,11 +179,14 @@ private:
  */
 struct insert
 {
-	insert (CUTS_Log_Format_Variable_Table & vars, std::string & type, std::string & name, std::string & dt_format)
+  insert (CUTS_Log_Format_Variable_Table & vars,
+          std::string & type,
+          std::string & name,
+          std::string & dt_format)
     : vars_ (vars),
       type_ (type),
       name_ (name),
-	  dt_format_(dt_format)
+      dt_format_ (dt_format)
   {
 
   }
@@ -166,6 +194,8 @@ struct insert
   template <typename IteratorT>
   void operator () (IteratorT begin, IteratorT end) const
   {
+    // Create the variable based on the type
+
     CUTS_Log_Format_Variable * variable = 0;
     size_t index = this->vars_.current_size ();
 
@@ -211,49 +241,54 @@ struct insert
                         CUTS_Basic_Log_Format_Variable_T <unsigned int> (index),
                         ACE_bad_alloc ());
     }
-	
-	  else if (((this->type_).find("DATETIME")
-		  != std::string::npos) || 
-      ((this->type_).find("REGEX") !=
-		  std::string::npos))
-	  {
-		
+
+    else if (((this->type_).find ("DATETIME") != std::string::npos) ||
+              ((this->type_).find ("REGEX") != std::string::npos))
+    {
+
+      // Create either a Date_Time or a Regex variable
+
       size_t pos1;
-		  size_t pos2;
-		
-      pos1 = (this->type_).find("(");
-		  pos2 = (this->type_).find(")");
+      size_t pos2;
 
-		  size_t n = pos2 - pos1 - 1;
-		  std::string format = (this->type_).substr(pos1 + 1, n);
+      pos1 = (this->type_).find ("(");
+      pos2 = (this->type_).find (")");
 
-      if((this->type_).find("DATETIME") !=
-		      std::string::npos)
+      size_t n = pos2 - pos1 - 1;
+      std::string format = (this->type_).substr (pos1 + 1, n);
+
+      if((this->type_).find ("DATETIME") !=
+          std::string::npos)
       {
-		    ACE_NEW_THROW_EX(variable, 
-			                CUTS_Datetime_Log_Format_Variable (index, format),
-						          ACE_bad_alloc());
+        ACE_NEW_THROW_EX (variable,
+                      CUTS_Datetime_Log_Format_Variable (index, format),
+                      ACE_bad_alloc ());
       }
       else
       {
-        ACE_NEW_THROW_EX(variable, 
-			                CUTS_Regex_Log_Format_Variable (index, format),
-						          ACE_bad_alloc());  
+        ACE_NEW_THROW_EX (variable,
+                      CUTS_Regex_Log_Format_Variable (index, format),
+                      ACE_bad_alloc ());
       }
-		
-	  }
+
+    }
 
     this->name_.assign (begin, end);
     this->vars_.bind (this->name_.c_str (), variable);
   }
 
 private:
+
+  // The variable table
   CUTS_Log_Format_Variable_Table & vars_;
 
+  // Type string returned from the parser
   std::string & type_;
 
+  // Name of the variable returned from the parser
   std::string & name_;
 
+  // User specified DateTime format in case of DateTime
   std::string & dt_format_;
 };
 
@@ -290,21 +325,22 @@ struct CUTS_Log_Format_Compiler_Grammar :
       this->text_ =
         *(boost::spirit::anychar_p - (boost::spirit::ch_p ('{') | '}'));
 
-	    this->dt_chars_ = (boost::spirit::ch_p ('(') | boost::spirit::ch_p (')') |
-		    boost::spirit::ch_p (':') | boost::spirit::ch_p ('-') | boost::spirit::ch_p ('%') | 
-		    boost::spirit::ch_p ('.'));
+      this->dt_chars_ = (boost::spirit::ch_p ('(') | boost::spirit::ch_p (')') |
+        boost::spirit::ch_p (':') | boost::spirit::ch_p ('-') | boost::spirit::ch_p ('%') |
+        boost::spirit::ch_p ('.'));
 
       this->ident_ =
         boost::spirit::lexeme_d[boost::spirit::alpha_p >> *(boost::spirit::alnum_p | this->dt_chars_)];
 
       this->variable_tag_ =
-        boost::spirit::confix_p ('{', this->variable_[capture (self.expr_, this->vartype_, this->varname_, this->date_time_format_)], '}');
+        boost::spirit::confix_p ('{',
+        this->variable_[capture (self.expr_, this->vartype_, this->varname_, this->date_time_format_)], '}');
 
       this->variable_ =
         this->ident_[boost::spirit::assign (this->vartype_)] >>
         *boost::spirit::space_p >>
         this->ident_[insert (self.vars_, this->vartype_, this->varname_, this->date_time_format_)];
-      
+
       this->format_ =
         this->text_ [append (self.expr_)] >>
         *(this->variable_tag_ >> this->text_[append (self.expr_)]);
@@ -326,19 +362,13 @@ struct CUTS_Log_Format_Compiler_Grammar :
 
     boost::spirit::rule <ScannerT> format_;
 
-	  boost::spirit::rule <ScannerT> dt_chars_;
-
-	//boost::spirit::rule <ScannerT> date_time_var_;
-
-	//boost::spirit::rule <ScannerT> dt_format_;
-
-	//boost::spirit::rule <ScannerT> dt_string_;
+    boost::spirit::rule <ScannerT> dt_chars_;
 
     std::string varname_;
 
     std::string vartype_;
 
-	  std::string date_time_format_;
+    std::string date_time_format_;
   };
 
 private:
@@ -370,6 +400,8 @@ bool CUTS_Log_Format_Compiler::compile (const char * format,
                                         std::ostringstream & expr,
                                         CUTS_Log_Format_Variable_Table & vars)
 {
+  // Parsing the string containg the log formats
+
   CUTS_Log_Format_Compiler_Grammar grammar (expr, vars);
 
   boost::spirit::parse_info < > result =

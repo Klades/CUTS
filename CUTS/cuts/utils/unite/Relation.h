@@ -42,17 +42,27 @@ public:
    */
   CUTS_Relation_Causality (const CUTS_Relation_Causality & copy);
 
+  /// overloaded = operator
   const CUTS_Relation_Causality & operator = (const CUTS_Relation_Causality & copy);
 
+   /**
+   * Set the relation values
+   * @param[in]     cause    cause variable value of the relation
+   * @param[in]     effect   effect variable value for the relation
+   */
   void set (const ACE_CString & cause, const ACE_CString & effect);
 
+  /// Get the cause string
   const ACE_CString & cause (void) const;
 
+  /// Get the effect string
   const ACE_CString & effect (void) const;
 
 private:
+  /// string representing the cause
   ACE_CString cause_;
 
+  /// string representing the effect
   ACE_CString effect_;
 };
 
@@ -68,15 +78,19 @@ public:
   /// Default constructor
   CUTS_Log_Format_Relation (void);
 
+  /// Copy constructor
   CUTS_Log_Format_Relation (const CUTS_Log_Format_Relation & copy);
 
   /// Destructor
   ~CUTS_Log_Format_Relation (void);
 
+  /// Set the effect log format
   void effect (CUTS_Log_Format * format);
 
+  /// Get the effect log format
   CUTS_Log_Format * effect (void);
 
+  /// Get the effect log format for read only
   const CUTS_Log_Format * effect (void) const;
 
   /// Get the causality for the relation
@@ -85,6 +99,7 @@ public:
   /// Get the causality for the relation
   const causality_type & causality (void) const;
 
+  /// overloaded = operator
   const CUTS_Log_Format_Relation & operator = (const CUTS_Log_Format_Relation & copy);
 
 private:
