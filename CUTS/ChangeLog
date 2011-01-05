@@ -1,3 +1,44 @@
+Wed Jan  5 23:52:28 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * examples/cuts/utils/unite/adapter/Activemq:
+
+        * examples/cuts/utils/unite/adapter/Activemq/Activemq.datagraph:
+        * examples/cuts/utils/unite/adapter/Activemq/Activemq.unite:
+        * examples/cuts/utils/unite/adapter/Activemq/Activemq_Adapter.h:
+        * examples/cuts/utils/unite/adapter/Activemq/Activemq_Adapter.mwc:
+        * examples/cuts/utils/unite/adapter/Activemq/Activemq_Adapter.cpp:
+        * examples/cuts/utils/unite/adapter/Activemq/Activemq_Adapter.mpc:
+        * examples/cuts/utils/unite/adapter/Activemq/Activemq_Adapter.uas:
+        * examples/cuts/utils/unite/adapter/Activemq/Activemq_Adapter_export.h:
+        
+          Adding the Activemq sample to demonstrate the UNITE Adapter functionality.
+
+        * examples/cuts/utils/unite/adapter/DAnCE:
+
+        * examples/cuts/utils/unite/adapter/DAnCE/DAnCE.datagraph:
+        * examples/cuts/utils/unite/adapter/DAnCE/DAnCE.unite:
+        * examples/cuts/utils/unite/adapter/DAnCE/DAnCE_Adapter.h:
+        * examples/cuts/utils/unite/adapter/DAnCE/DAnCE_Adapter.cpp:
+        * examples/cuts/utils/unite/adapter/DAnCE/DAnCE_Adapter.mpc:
+        * examples/cuts/utils/unite/adapter/DAnCE/DAnCE_Adapter.mwc:
+        * examples/cuts/utils/unite/adapter/DAnCE/DAnCE_Adapter.uas:
+        * examples/cuts/utils/unite/adapter/DAnCE/DAnCE_Adapter_export.h:
+        
+          Adding the DAnCE sample to demonstrate the UNITE Adapter functionality.
+
+        * examples/cuts/utils/unite/adapter/Tomcat:
+
+        * examples/cuts/utils/unite/adapter/Tomcat/Tomcat.datagraph:
+        * examples/cuts/utils/unite/adapter/Tomcat/Tomcat.unite:
+        * examples/cuts/utils/unite/adapter/Tomcat/Tomcat_Adapter.h:
+        * examples/cuts/utils/unite/adapter/Tomcat/Tomcat_Adapter.mwc:
+        * examples/cuts/utils/unite/adapter/Tomcat/Tomcat_Adapter.uas:
+        * examples/cuts/utils/unite/adapter/Tomcat/Tomcat_Adapter.cpp:
+        * examples/cuts/utils/unite/adapter/Tomcat/Tomcat_Adapter.mpc:
+        * examples/cuts/utils/unite/adapter/Tomcat/Tomcat_Adapter_export.h:
+        
+          Adding the Tomcat sample to demonstrate the UNITE Adapter functionality.
+
 Wed Jan  5 22:40:54 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * examples/cuts/utils/unite/adapter:
@@ -15,7 +56,7 @@ Wed Jan  5 22:40:54 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
         * examples/cuts/utils/unite/adapter/Ant/Ant_Adapter_export.h:
 
         * examples/cuts/utils/unite/adapter/README.txt:
-        
+
           Adding the Ant sample to demonstrate the UNITE Adapter functionality.
 
 Wed Jan  5 20:35:45 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>

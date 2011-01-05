@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<cuts:datagraph xmlns="http://www.dre.vanderbilt.edu/CUTS/XML"
+                xmlns:cuts="http://www.dre.vanderbilt.edu/CUTS/XML"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.dre.vanderbilt.edu/CUTS/XML cuts-unite.xsd">
+
+  <name>DAnCE</name>
+  <adapter>C:/research/unite-projects/script-working/script-backup/output/dance/DAnCE_Adapterd.dll</adapter>
+  <logformats>
+    <logformat id="LF1">
+	  <value>{DATETIME(hh:mm:ss.SSSSSS) t1} ExecutionManager_Impl::preparePlan - Domain Application Manager was successfully created.</value>
+	  <relations>
+	    <relation effectref="LF2" />
+      </relations>
+    </logformat>
+    <logformat id="LF2">
+      <value>{DATETIME(hh:mm:ss.SSSSSS) t2} DomainApplicationManager_Impl::preparePlan - Calling preparePlan on node {STRING node}</value>
+	  <relations>
+        <relation effectref="LF3">
+          <causality cause="node" effect="node" />
+        </relation>
+      </relations> 
+    </logformat>
+	<logformat id="LF3">
+      <value>{DATETIME(hh:mm:ss.SSSSSS) t3} NodeManager_impl::preparePlan - started for node {STRING node} and plan {STRING planid}_{INT subid}</value>
+	  <relations>
+        <relation effectref="LF5">
+          <causality cause="node" effect="node" />
+        </relation>
+      </relations> 
+    </logformat>
+	<logformat id="LF5">
+      <value>{DATETIME(hh:mm:ss.SSSSSS) t5} DAM_NM_ReplyHandlerImpl::preparePlan - Finished preparePlan on node {STRING node}</value>
+	  <relations>
+	    <relation effectref="LF6" /> 
+	    <relation effectref="LF8" >
+			<causality cause="node" effect="node" />
+		</relation>
+	  </relations>
+    </logformat>
+	<logformat id="LF6">
+      <value>{DATETIME(hh:mm:ss.SSSSSS) t6} ExecutionManager_Impl::finish_preparePlan - Domain Application Manager was successfully activated</value>
+	  <relations>
+	    <relation effectref="LF7" />
+      </relations>
+    </logformat>
+	<logformat id="LF7">
+      <value>{DATETIME(hh:mm:ss.SSSSSS) t7} DomainApplicationManager_Impl::startLaunch - Creating DomainApplication for plan {STRING planid}</value>
+	  <relations>
+	    <relation effectref="LF8" >
+			<causality cause="planid" effect="planid" />
+		</relation>	
+      </relations>
+    </logformat>
+	<logformat id="LF8">
+      <value>{DATETIME(hh:mm:ss.SSSSSS) t8} DomainApplication_Impl::startLaunch - Plan {STRING planid} DomainApplication[{STRING appid}] : calling startLaunch on node application manager for node {STRING node}</value>
+	  <relations>
+	    <relation effectref="LF9" />
+		<relation effectref="LF10" >
+			<causality cause="node" effect="node" />
+		</relation>
+      </relations>
+    </logformat>
+	<logformat id="LF9">
+      <value>{DATETIME(hh:mm:ss.SSSSSS) t9} NodeApplicationManager_impl::startLaunch - Initializing NodeApplication</value>
+	  <relations>
+	    <relation effectref="LF10" />
+      </relations>
+    </logformat>
+	<logformat id="LF10">
+      <value>{DATETIME(hh:mm:ss.SSSSSS) t10} DA_NAM_ReplyHandlerImpl::startLaunch - Plan {STRING planid} DomainApplication[{STRING appid}] node {STRING node} startLaunch succeeded, received {INT connections} connections</value>
+	  <relations>
+	    <relation effectref="LF11" />
+		<relation effectref="LF12" >
+			<causality cause="node" effect="node" />
+		</relation>
+      </relations>
+    </logformat>
+	<logformat id="LF11">
+      <value>{DATETIME(hh:mm:ss.SSSSSS) t11} DomainApplicationManager_Impl::finish_startLaunch - DomainApplication was successfully activated</value>
+      <relations>
+	    <relation effectref="LF12" />
+      </relations>
+	</logformat>
+	<logformat id="LF12">
+      <value>{DATETIME(hh:mm:ss.SSSSSS) t12} DomainApplication_Impl::finishLaunch - Plan {STRING planid} DomainApplication[{STRING appid}] node {STRING node} : calling finishLaunch on a node application</value>
+	  <relations>
+	    <relation effectref="LF13" />
+	  </relations>
+    </logformat>
+	<logformat id="LF13">
+      <value>{DATETIME(hh:mm:ss.SSSSSS) t13} DomainApplication_Impl::finishLaunch - finishLaunch has been called on a node application</value>
+	</logformat>
+  </logformats> 	
+</cuts:datagraph>
+
+
+

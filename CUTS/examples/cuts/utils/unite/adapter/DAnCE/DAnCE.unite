@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<cuts:test xmlns="http://www.dre.vanderbilt.edu/CUTS/XML"
+            xmlns:cuts="http://www.dre.vanderbilt.edu/CUTS/XML"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://www.dre.vanderbilt.edu/CUTS/XML cuts-unite.xsd">
+
+  <name>deploymenttime</name>
+  <evaluation>strftime('%s',LF13.t13) - strftime('%s',LF1.t1)</evaluation>
+  <aggregation>AVG</aggregation>
+
+  <datagraph location="C:/research/unite-projects/script-working/script-backup/output/dance/DAnCE.datagraph" />
+  
+
+  <!--grouping can be used to partition the data into sets before
+       evaluating the dataset using the specified equation -->
+
+  <grouping>
+    <groupitem name="LF2_node" />
+  </grouping>
+
+  <services>
+    <service id="gnuplot">
+      <location>CUTS_Gnuplot_Presentation_Service</location>
+      <classname>CUTS_Gnuplot_Presentation_Service</classname>
+      <params>-o gnuplot --disable-group-title</params>
+    </service>
+  </services>
+</cuts:test>

@@ -1,0 +1,88 @@
+Columns: 
+	string LF1.ServerName;
+	string LF2.ServerName;
+	string LF3.ServerName;
+	string LF4.ServerName;
+	string LF5.ServerName;
+	string LF6.ServerName;
+	string LF7.ServerName;
+	string LF8.ServerName;
+	string LF9.ServerName;
+	string LF10.ServerName;
+	string LF11.ServerName;
+	string LF12.ServerName;
+	
+Relations: 
+	LF1.ServerName->LF2.ServerName;
+	LF2.ServerName->LF3.ServerName;
+	LF3.ServerName->LF4.ServerName;
+	LF4.ServerName->LF5.ServerName;
+	LF5.ServerName->LF6.ServerName;
+	LF6.ServerName->LF7.ServerName;
+	LF7.ServerName->LF8.ServerName;
+	LF8.ServerName->LF9.ServerName;
+	LF9.ServerName->LF10.ServerName;
+	LF10.ServerName->LF11.ServerName;
+	LF11.ServerName->LF12.ServerName;
+
+	
+On LF1:
+if(key == "ServerName")
+{
+  var->value("Tomcat");
+}
+On LF2:
+if(key == "ServerName")
+{
+  var->value("Tomcat");
+}
+On LF3:
+if(key == "ServerName")
+{
+  var->value("Tomcat");
+}
+On LF4:
+if(key == "ServerName")
+{
+  var->value("Tomcat");
+}
+On LF5:
+if(key == "ServerName")
+{
+  var->value("Tomcat");
+}
+On LF6:
+if(key == "ServerName")
+{
+  var->value("Tomcat");
+}
+On LF7:
+if(key == "ServerName")
+{
+  var->value("Tomcat");
+}
+On LF8:
+if(key == "ServerName")
+{
+  var->value("Tomcat");
+}
+On LF9:
+if(key == "ServerName")
+{
+  var->value("Tomcat");
+}
+On LF10:
+if(key == "ServerName")
+{
+  var->value("Tomcat");
+}
+On LF11:
+if(key == "ServerName")
+{
+  var->value("Tomcat");
+}
+On LF12:
+if(key == "ServerName")
+{
+  var->value("Tomcat");
+}

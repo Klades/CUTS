@@ -1,0 +1,71 @@
+Variables:
+	int lf13_update_count_;
+
+Columns: 
+	string LF1.planid;
+	string LF2.planid; 
+	string LF5.planid; 
+	string LF6.planid; 
+	string LF9.planid; 
+	string LF11.planid; 
+	string LF13.node;
+
+Relations: 
+	LF1.planid->LF2.planid;
+	LF5.planid->LF6.planid;
+	LF6.planid->LF7.planid;
+	LF8.planid->LF9.planid;
+	LF9.planid->LF10.planid;
+	LF10.planid->LF11.planid;
+	LF11.planid->LF12.planid;
+	LF12.node->LF13.node;
+	
+On LF1:
+if(key == "planid")
+{
+  var->value("BasicSP_Unhomed");
+}
+		
+On LF2:
+if(key == "planid")
+{
+  var->value("BasicSP_Unhomed");
+}
+
+On LF5:
+if(key == "planid")
+{
+  var->value("BasicSP_Unhomed");
+}
+
+On LF6:
+if(key == "planid")
+{
+  var->value("BasicSP_Unhomed");
+}
+
+On LF9:
+if(key == "planid")
+{
+  var->value("BasicSP_Unhomed");
+}
+
+On LF11:
+if(key == "planid")
+{
+  var->value("BasicSP_Unhomed");
+}
+
+On LF13:
+if(key == "node")
+{
+  if (this->lf13_update_count_ == 0)
+    var->value ("EC");
+	else if (this->lf13_update_count_ == 1)
+		var->value ("BMDevice");
+	else if (lf13_update_count_ == 2)
+		var->value ("BMClosedED");
+	else if(lf13_update_count_ == 3)
+		var->value ("BMDisplay");
+	this->lf13_update_count_ = this->lf13_update_count_ + 1;	
+}

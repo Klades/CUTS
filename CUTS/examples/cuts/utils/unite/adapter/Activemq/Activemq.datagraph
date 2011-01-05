@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<cuts:datagraph xmlns="http://www.dre.vanderbilt.edu/CUTS/XML"
+                xmlns:cuts="http://www.dre.vanderbilt.edu/CUTS/XML"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.dre.vanderbilt.edu/CUTS/XML cuts-unite.xsd">
+
+  <name>Activemq</name>
+  <adapter>C:/research/unite-projects/script-working/script-backup/output/Activemq/Activemq_Adapterd.dll</adapter>
+  
+  <logformats>
+    <logformat id="LF1">
+      <value>{STRING checkpoint} started. [{LONG startTime}]</value>
+	    <relations>
+        <relation effectref="LF2">
+          <causality cause="checkpoint" effect="checkpoint" />
+        </relation>
+      </relations> 
+    </logformat>
+    <logformat id="LF2">
+      <value>{STRING checkpoint} done. [{LONG finishTime}]</value>
+    </logformat>
+  </logformats> 	
+</cuts:datagraph>
+
