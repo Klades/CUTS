@@ -124,26 +124,7 @@ public class LoggingClientAppender extends AppenderSkeleton
    */
   private static int translateLevel (Level level)
   {
-	if(LoggingClientAppender.levelTable_ == null)
-     System.out.println("Leveltable is null-----------");
-    else
-     System.out.println("Leveltable is Not Null---------"); 
-    
-    if(level == null)
-    	System.out.println("Level is null-------");
-    else
-    	System.out.println("Level is not null-----");
-   
-    System.out.println("Level is------ "+ level);
-    System.out.println("Leveltable------");
-    System.out.println(LoggingClientAppender.levelTable_);
-    
-    int value = LoggingClientAppender.levelTable_.get (level);
-    
-    System.out.println("Value is " + value);
-	//return LoggingClientAppender.levelTable_.get (level);
-    return value;
-	
+    return LoggingClientAppender.levelTable_.get (level);
   }
 
   /**
