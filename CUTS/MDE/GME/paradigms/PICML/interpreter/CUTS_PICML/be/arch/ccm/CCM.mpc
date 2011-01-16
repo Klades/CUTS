@@ -6,7 +6,10 @@ project (CUTS_BE_CCM) : boost_base, picml_udm, cuts_be_cpp, cuts_cosmic {
 
   Source_Files {
     Component_Implementation.cpp
+    Project_Generator.cpp
     Servant_Implementation.cpp
+    Workspace_Generator.cpp
+    Traits.cpp
   }
 
   Header_Files {

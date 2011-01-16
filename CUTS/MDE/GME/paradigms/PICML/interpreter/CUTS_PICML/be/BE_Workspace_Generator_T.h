@@ -10,22 +10,15 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_BE_WORKSPACE_GENERATOR_H_
-#define _CUTS_BE_WORKSPACE_GENERATOR_H_
+#ifndef _CUTS_BE_WORKSPACE_GENERATOR_T_H_
+#define _CUTS_BE_WORKSPACE_GENERATOR_T_H_
 
-#include <iosfwd>
-#include <vector>
+#include "BE_Impl_Graph.h"
 #include "String_Set.h"
 
 // Forward decl.
 template <typename T>
 class CUTS_BE_Preprocessor_T;
-
-// Forward decl.
-struct CUTS_BE_Impl_Node;
-
-// Forward decl.
-struct CUTS_BE_IDL_Node;
 
 /**
  * @class CUTS_BE_Workspace_Generator_T
@@ -56,7 +49,7 @@ public:
    *
    * @param[in]     processor       Data source.
    */
-  void generate (void);
+  void generate (const CUTS_BE_Impl_Graph & impls);
 
 protected:
   void generate_impl_project (const CUTS_BE_Impl_Node * node);
@@ -77,13 +70,10 @@ private:
   IDL_Node_Set required_stubs_;
 
   // prevent the following operations
-  CUTS_BE_Workspace_Generator_T (
-    const CUTS_BE_Workspace_Generator_T &);
-
-  const CUTS_BE_Workspace_Generator_T &
-    operator = (const CUTS_BE_Workspace_Generator_T &);
+  CUTS_BE_Workspace_Generator_T (const CUTS_BE_Workspace_Generator_T &);
+  const CUTS_BE_Workspace_Generator_T & operator = (const CUTS_BE_Workspace_Generator_T &);
 };
 
 #include "BE_Workspace_Generator_T.cpp"
 
-#endif  // !defined _CUTS_BE_WORKSPACE_GENERATOR_H_
+#endif  // !defined _CUTS_BE_WORKSPACE_GENERATOR_T_H_

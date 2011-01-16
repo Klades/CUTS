@@ -4,6 +4,9 @@
 #include "BE_Preprocessor_T.inl"
 #endif
 
+#include "BE_IDL_Graph_Builder.h"
+#include "BE_Impl_Graph_Builder_T.h"
+
 //
 // preprocess
 //
@@ -11,8 +14,9 @@ template <typename T>
 bool CUTS_BE_Preprocessor_T <T>::
 preprocess (const PICML::ComponentImplementationContainer & container)
 {
-  PICML::ComponentImplementationContainer c (container);
-  c.Accept (this->impl_graph_);
+  // Build the implementation dependency graph.
+  CUTS_BE_Impl_Graph_Builder_T <T> builder (this->impl_graph_, this->idl_graph_);
+  PICML::ComponentImplementationContainer (container).Accept (builder);
 
   return true;
 }
@@ -23,8 +27,8 @@ preprocess (const PICML::ComponentImplementationContainer & container)
 template <typename T>
 bool CUTS_BE_Preprocessor_T <T>::preprocess (const PICML::File & file)
 {
-  PICML::File f (file);
-  f.Accept (this->idl_graph_);
+  CUTS_BE_IDL_Graph_Builder builder (this->idl_graph_);
+  PICML::File (file).Accept (builder);
 
   return true;
 }

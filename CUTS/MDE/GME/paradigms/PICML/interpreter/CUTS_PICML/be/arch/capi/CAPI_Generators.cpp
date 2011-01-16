@@ -6,8 +6,6 @@
 #include "CAPI_Generators.inl"
 #endif
 
-#include "CAPI_Preprocessor.h"
-#include "Set_Classpath_Script_Generator.h"
 #include "Register_Type_Script_Generator.h"
 #include "XML_Mapping_File_Generator.h"
 #include "CAPI_Event_Impl_Generator.h"
@@ -15,6 +13,7 @@
 
 #include "../../lang/java/Java_Variable_Type.h"
 #include "../../BE_Options.h"
+#include "../../BE_Impl_Node.h"
 #include "../../BE_Scope_Manager.h"
 
 #include "boost/bind.hpp"
@@ -27,17 +26,9 @@ void CUTS_BE_File_Open_T <CUTS_BE_Capi::Context>::
 generate (const PICML::ComponentImplementationContainer & container,
           const PICML::MonolithicImplementation & impl)
 {
-  // Locate the preprocessing of the implementation. If this is a
-  // proxy implementation, then we ignore it. It's going to cause
-  // more problems than we would like.
-  CUTS_BE_PREPROCESSOR (CUTS_BE_Capi::Context)->impls ().find (container.name (), this->ctx_.impl_node_);
-
-  if (0 == this->ctx_.impl_node_)
-    return;
-
-  std::string filename =
-    CUTS_BE_OPTIONS ()->output_directory_ + "/"
-    + std::string (impl.name ()) + ".java";
+  const std::string filename =
+    CUTS_BE_OPTIONS ()->output_directory_ + "/" +
+    std::string (impl.name ()) + ".java";
 
   if (!this->ctx_.source_.good ())
     this->ctx_.source_.clear ();
@@ -719,7 +710,7 @@ configure (const PICML::InEventPort & sink, const PICML::Property & prop)
     PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
 
     // We assume the property is an attribute of the sink.
-    this->ctx_.source_ 
+    this->ctx_.source_
       << "this.setAttribute ("
       << "\"" << prop.name () << "\", "
       << simple.Value () << ");";

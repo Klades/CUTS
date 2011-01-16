@@ -1,0 +1,75 @@
+// $Id$
+
+project (CUTS_BE_TCPIP) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
+  sharedname    += CUTS_BE_TCPIP
+  dynamicflags  += CUTS_BE_TCPIP_BUILD_DLL
+
+  includes += $(CUTS_ROOT)/MDE/GME/paradigms/PICML
+
+  Source_Files {
+    Input_Stream_Source_Generator.cpp
+    Input_Stream_Aggr_Member_Generator.cpp
+    Input_Stream_Event_Member_Generator.cpp
+    Output_Stream_Aggr_Member_Generator.cpp
+    Output_Stream_Event_Member_Generator.cpp
+    Output_Stream_Source_Generator.cpp
+    TCPIP_Ctx.cpp
+    TCPIP_Generator.cpp
+    TCPIP_Manager_Factory.cpp
+    Servant_Header_Context_Generator.cpp
+    Servant_Header_Generator.cpp
+    Servant_Header_Impl_Generator.cpp
+    Servant_Header_Include_Generator.cpp
+    Servant_Source_Context_Generator.cpp
+    Servant_Source_Generator.cpp
+    Servant_Source_Impl_Generator.cpp
+    Stub_Header_Generator.cpp
+    Stub_Source_Generator.cpp
+    Traits.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  Header_Files {
+    BE_TCPIP_export.h
+    TCPIP_Manager.h
+  }
+
+  specific (wix) {
+    components += CUTS_PICML.config.TCP_IP
+  }
+
+  verbatim (wix, component_bottom) {
+"      <Component Id='CUTS_PICML.config.TCP_IP' Guid='1E8D00C9-3619-4F29-98AE-4C45227320E0'>"
+"        <CreateFolder />"
+"        <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
+"                 Id='generator.TCPIP'"
+"                 File='[INSTALLDIR]bin\\cuts.config'"
+"                 ElementPath='\/\/cuts:modelgen\/backend'"
+"                 Action='createElement'"
+"                 Name='cuts:generator'"
+"                 Sequence='10'"
+"                 Permanent='no' />"
+"        <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
+"                 Id='generator.TCPIP.id'"
+"                 File='[INSTALLDIR]bin\\cuts.config'"
+"                 ElementPath='\/\/cuts:modelgen\/backend\/cuts:generator[\\[]not(@id)[\\]]'"
+"                 Action='setValue'"
+"                 Name='id'"
+"                 Value='TCPIP'"
+"                 Permanent='no'"
+"                 Sequence='11' />"
+"        <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
+"                 Id='generator.TCPIP.location'"
+"                 File='[INSTALLDIR]bin\\cuts.config'"
+"                 Action='createElement'"
+"                 ElementPath='\/\/cuts:modelgen\/backend\/cuts:generator[\\[]@id=\"TCPIP\"[\\]]'"
+"                 Name='cuts:location'"
+"                 Sequence='12'"
+"                 Permanent='no'"
+"                 Value='[INSTALLDIR]bin\\CUTS_BE_TCPIP' />"
+"      </Component>"
+  }
+}

@@ -29,7 +29,7 @@ class CUTS_BE_Impl_Generator_T : public CHAOS::Visitor
 {
 public:
   /// Type definition of the architecture for the code generator
-  typedef typename CONTEXT::arch_type arch_type;
+  typedef typename CONTEXT::architecture_type architecture_type;
 
   /// Type definition of the behavior.
   typedef typename CONTEXT::behavior_type behavior_type;

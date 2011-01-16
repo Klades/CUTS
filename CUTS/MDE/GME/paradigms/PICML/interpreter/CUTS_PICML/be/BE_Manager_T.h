@@ -29,6 +29,12 @@ public:
   /// Type definition of the manager's context.
   typedef CONTEXT context_type;
 
+  /// Type definition of the architecture type.
+  typedef typename context_type::architecture_type architecture_type;
+
+  /// Type definition of the behavior type.
+  typedef typename context_type::behavior_type behavior_type;
+
   /// Default constructor.
   CUTS_BE_Manager_T (void);
 

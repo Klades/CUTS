@@ -41,7 +41,7 @@ class Context : public CUTS_BE_Java::Context
 {
 public:
   /// Type definition of the architecture type.
-  typedef CUTS_BE_Capi::Context arch_type;
+  typedef CUTS_BE_Capi::Context architecture_type;
 
   /// Type definition of the behavior type.
   typedef CUTS_BE_Java::Context behavior_type;

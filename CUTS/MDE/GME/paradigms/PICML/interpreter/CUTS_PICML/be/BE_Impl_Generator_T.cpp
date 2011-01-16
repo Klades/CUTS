@@ -57,8 +57,7 @@ const PICML::ComponentImplementations & impls)
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_ComponentImplementationContainer (
-const PICML::ComponentImplementationContainer & container)
+Visit_ComponentImplementationContainer (const PICML::ComponentImplementationContainer & container)
 {
   // Get this component implementation. This can either be an
   // assembly, or a monolithic implementation.
@@ -67,7 +66,7 @@ const PICML::ComponentImplementationContainer & container)
 
   // Preprocess the container and extract as much information
   // as we can about the current component's implementation.
-  CUTS_BE_PREPROCESSOR (CONTEXT)->preprocess (container);
+  this->pp_.preprocess (container);
 
   std::for_each (impls.begin (),
                  impls.end (),
@@ -108,16 +107,16 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
 
   // Get the implementation node and write all the includes.
   const CUTS_BE_Impl_Node * impl = 0;
-  CUTS_BE_PREPROCESSOR (CONTEXT)->impls ().find (monoimpl.name (), impl);
+  this->pp_.impls ().find (monoimpl.name (), impl);
 
   if (0 == impl)
     return;
 
-  CUTS_BE_File_Open_T <arch_type> file_open_gen (this->context_);
+  CUTS_BE_File_Open_T <architecture_type> file_open_gen (this->context_);
   file_open_gen.generate (container, monoimpl);
 
   // Write the prologue for the file.
-  CUTS_BE_Prologue_T <arch_type> prologue_gen (this->context_);
+  CUTS_BE_Prologue_T <architecture_type> prologue_gen (this->context_);
   prologue_gen.generate (container, monoimpl);
 
   // Write the include files for this implementation.
@@ -138,14 +137,14 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
     PICML::Component component = ref.ref ();
 
     // Write the beginning of the component's implementation.
-    CUTS_BE_Component_Impl_Begin_T <arch_type> comp_impl_begin (this->context_);
+    CUTS_BE_Component_Impl_Begin_T <architecture_type> comp_impl_begin (this->context_);
     comp_impl_begin.generate (monoimpl, component);
 
     // Visit the component.
     component.Accept (*this);
 
     // Write the end of the component's implementation.
-    CUTS_BE_Component_Impl_End_T <arch_type> comp_impl_end (this->context_);
+    CUTS_BE_Component_Impl_End_T <architecture_type> comp_impl_end (this->context_);
     comp_impl_end.generate (monoimpl, component);
 
     // Get all the facets in the component so that we can
@@ -186,10 +185,10 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
   }
 
   // Write the epilogue for the file, then close it.
-  CUTS_BE_Epilogue_T <arch_type> epilogue_gen (this->context_);
+  CUTS_BE_Epilogue_T <architecture_type> epilogue_gen (this->context_);
   epilogue_gen.generate (container, monoimpl);
 
-  CUTS_BE_File_Close_T <arch_type> file_close_gen (this->context_);
+  CUTS_BE_File_Close_T <architecture_type> file_close_gen (this->context_);
   file_close_gen.generate (container, monoimpl);
 }
 
@@ -260,14 +259,14 @@ Visit_Component (const PICML::Component & component)
   if (env != Udm::null)
   {
     // Begin generating environment related metadata.
-    CUTS_BE_Environment_Begin_T <arch_type> env_begin_gen (this->context_);
+    CUTS_BE_Environment_Begin_T <architecture_type> env_begin_gen (this->context_);
     env_begin_gen.generate (component);
 
-    CUTS_BE_Env_Visitor_T <arch_type> env_visitor (this->context_);
+    CUTS_BE_Env_Visitor_T <architecture_type> env_visitor (this->context_);
     env.Accept (env_visitor);
 
     // End generating environment related metadata.
-    CUTS_BE_Environment_End_T <arch_type> env_end_gen (this->context_);
+    CUTS_BE_Environment_End_T <architecture_type> env_end_gen (this->context_);
     env_end_gen.generate (component);
   }
 
@@ -299,7 +298,7 @@ Visit_ImplementationArtifactReference (const PICML::ImplementationArtifactRefere
     PICML::ComponentImplementationArtifact artifact =
       PICML::ComponentImplementationArtifact::Cast (artref);
 
-    CUTS_BE_Component_Impl_Entrypoint_T <arch_type> entrypoint_gen (this->context_);
+    CUTS_BE_Component_Impl_Entrypoint_T <architecture_type> entrypoint_gen (this->context_);
     entrypoint_gen.generate (this->monoimpl_, artifact);
   }
 }
@@ -325,13 +324,13 @@ Visit_InEventPort (const PICML::InEventPort & sink)
   }
 
   // We are generating a regular event port.
-  CUTS_BE_InEventPort_Begin_T <arch_type> port_begin_gen (this->context_);
+  CUTS_BE_InEventPort_Begin_T <architecture_type> port_begin_gen (this->context_);
   port_begin_gen.generate (sink, properties);
 
   CUTS_BE_Execution_Visitor_T <behavior_type> exec_visitor (this->context_);
   exec_visitor.generate (sink);
 
-  CUTS_BE_InEventPort_End_T <arch_type> port_end_gen (this->context_);
+  CUTS_BE_InEventPort_End_T <architecture_type> port_end_gen (this->context_);
   port_end_gen.generate (sink, properties);
 }
 
@@ -343,14 +342,14 @@ void CUTS_BE_Impl_Generator_T <CONTEXT>::
 Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort & facet)
 {
   // Begin the generation of the provided request port.
-  CUTS_BE_ProvidedRequestPort_Begin_T <arch_type> port_begin_gen (this->context_);
+  CUTS_BE_ProvidedRequestPort_Begin_T <architecture_type> port_begin_gen (this->context_);
   port_begin_gen.generate (facet);
 
   CUTS_BE_Execution_Visitor_T <behavior_type> exec_visitor (this->context_);
   exec_visitor.generate (facet);
 
   // End the generation of the provided request port.
-  CUTS_BE_ProvidedRequestPort_End_T <arch_type> port_end_gen (this->context_);
+  CUTS_BE_ProvidedRequestPort_End_T <architecture_type> port_end_gen (this->context_);
   port_end_gen.generate (facet);
 }
 
@@ -430,14 +429,14 @@ void CUTS_BE_Impl_Generator_T <CONTEXT>::
 Visit_PeriodicEvent (const PICML::PeriodicEvent & periodic)
 {
   // Begin the generation of the periodic event.
-  CUTS_BE_PeriodicEvent_Begin_T <arch_type> periodic_begin_gen (this->context_);
+  CUTS_BE_PeriodicEvent_Begin_T <architecture_type> periodic_begin_gen (this->context_);
   periodic_begin_gen.generate (periodic);
 
   CUTS_BE_Execution_Visitor_T <behavior_type> exec_visitor (this->context_);
   exec_visitor.generate (periodic);
 
   // End the generation of the periodic event.
-  CUTS_BE_PeriodicEvent_End_T <arch_type> periodic_end_gen (this->context_);
+  CUTS_BE_PeriodicEvent_End_T <architecture_type> periodic_end_gen (this->context_);
   periodic_end_gen.generate (periodic);
 }
 
@@ -448,10 +447,10 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 Visit_Attribute (const PICML::Attribute & attr)
 {
-  CUTS_BE_Attribute_Begin_T <arch_type> attr_begin_gen (this->context_);
+  CUTS_BE_Attribute_Begin_T <architecture_type> attr_begin_gen (this->context_);
   attr_begin_gen.generate (attr);
 
-  CUTS_BE_Attribute_End_T <arch_type> attr_end_gen (this->context_);
+  CUTS_BE_Attribute_End_T <architecture_type> attr_end_gen (this->context_);
   attr_end_gen.generate (attr);
 }
 
@@ -462,10 +461,10 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute & attr)
 {
-  CUTS_BE_ReadonlyAttribute_Begin_T <arch_type> attr_begin_gen (this->context_);
+  CUTS_BE_ReadonlyAttribute_Begin_T <architecture_type> attr_begin_gen (this->context_);
   attr_begin_gen.generate (attr);
 
-  CUTS_BE_ReadonlyAttribute_End_T <arch_type> attr_end_gen (this->context_);
+  CUTS_BE_ReadonlyAttribute_End_T <architecture_type> attr_end_gen (this->context_);
   attr_end_gen.generate (attr);
 }
 

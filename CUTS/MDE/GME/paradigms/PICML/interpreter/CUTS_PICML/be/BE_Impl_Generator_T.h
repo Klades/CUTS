@@ -14,6 +14,7 @@
 #define _CUTS_BE_IMPL_GENERATOR_T_H_
 
 #include "PICML/PICML.h"
+#include "BE_Preprocessor_T.h"
 
 /**
  * @class CUTS_BE_Impl_Generator_T
@@ -29,13 +30,14 @@ class CUTS_BE_Impl_Generator_T : public PICML::Visitor
 {
 public:
   /// Type definition of the architecture for the code generator
-  typedef typename CONTEXT::arch_type arch_type;
+  typedef typename CONTEXT::architecture_type architecture_type;
 
   /// Type definition of the behavior.
   typedef typename CONTEXT::behavior_type behavior_type;
 
   /// Default constructor.
-  CUTS_BE_Impl_Generator_T (CONTEXT & context);
+  CUTS_BE_Impl_Generator_T (CONTEXT & context,
+                            CUTS_BE_Preprocessor_T <CONTEXT> & pp);
 
   /// Destructor.
   virtual ~CUTS_BE_Impl_Generator_T (void);
@@ -138,6 +140,8 @@ protected:
 private:
   /// Target context for the generator.
   CONTEXT & context_;
+
+  CUTS_BE_Preprocessor_T <CONTEXT> & pp_;
 
   /// Current monolithic implementation.
   PICML::MonolithicImplementation monoimpl_;

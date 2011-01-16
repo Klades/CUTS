@@ -16,15 +16,12 @@
 #include "cuts/config.h"
 #include <map>
 
-//=============================================================================
 /**
  * @class CUTS_BE_Depend_T
  *
  * Helper class for managing dependency nodes. This is really used
  * to hold CUTS_BE_IDL_Node and CUTS_Impl_Node objects.
  */
-//=============================================================================
-
 template <typename T>
 class CUTS_BE_Depend_Graph_T
 {

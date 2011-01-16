@@ -5,8 +5,10 @@
 //
 template <typename CONTEXT>
 CUTS_INLINE
-CUTS_BE_Impl_Generator_T <CONTEXT>::CUTS_BE_Impl_Generator_T (CONTEXT & context)
-: context_ (context)
+CUTS_BE_Impl_Generator_T <CONTEXT>::
+CUTS_BE_Impl_Generator_T (CONTEXT & context, CUTS_BE_Preprocessor_T <CONTEXT> & pp)
+: context_ (context),
+  pp_ (pp)
 {
 
 }

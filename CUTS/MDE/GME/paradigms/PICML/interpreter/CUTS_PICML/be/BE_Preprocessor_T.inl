@@ -45,7 +45,7 @@ CUTS_BE_IDL_Graph & CUTS_BE_Preprocessor_T <T>::stubs (void)
 //
 template <typename T>
 CUTS_INLINE
-const CUTS_BE_Impl_Graph_T <T> & CUTS_BE_Preprocessor_T <T>::impls (void) const
+const CUTS_BE_Impl_Graph & CUTS_BE_Preprocessor_T <T>::impls (void) const
 {
   return this->impl_graph_;
 }
@@ -55,7 +55,7 @@ const CUTS_BE_Impl_Graph_T <T> & CUTS_BE_Preprocessor_T <T>::impls (void) const
 //
 template <typename T>
 CUTS_INLINE
-CUTS_BE_Impl_Graph_T <T> & CUTS_BE_Preprocessor_T <T>::impls (void)
+CUTS_BE_Impl_Graph & CUTS_BE_Preprocessor_T <T>::impls (void)
 {
   return this->impl_graph_;
 }

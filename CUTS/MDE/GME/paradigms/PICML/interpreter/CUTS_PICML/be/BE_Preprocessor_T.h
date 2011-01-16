@@ -14,7 +14,8 @@
 #define _CUTS_BE_PREPROCESSOR_T_H_
 
 #include "BE_IDL_Graph.h"
-#include "BE_Impl_Graph_T.h"
+#include "BE_Impl_Graph.h"
+
 #include "ace/Singleton.h"
 #include "ace/Null_Mutex.h"
 
@@ -53,7 +54,8 @@ public:
    * @retval        true            Success
    * @retval        false           Failure
    */
-  bool preprocess (const PICML::File & file, const CUTS_BE_IDL_Node * & node);
+  bool preprocess (const PICML::File & file,
+                   const CUTS_BE_IDL_Node * & );
 
   /**
    * Preprocess an implementation.
@@ -62,16 +64,14 @@ public:
    * @retval        true            Success
    * @retval        false           Failure
    */
-  bool preprocess (
-    const PICML::ComponentImplementationContainer & container);
+  bool preprocess (const PICML::ComponentImplementationContainer &);
 
   /**
    * Remove an implementation from the proprocessor.
    *
    * @param[in]     container       The target containe to remove.
    */
-  void remove (
-    const PICML::ComponentImplementationContainer & container);
+  void remove (const PICML::ComponentImplementationContainer &);
 
   /**
    * Get a reference to the preprocessed implementations. Clients
@@ -79,7 +79,7 @@ public:
    *
    * @return  Reference to a implementation graph.
    */
-  const CUTS_BE_Impl_Graph_T <T> & impls (void) const;
+  const CUTS_BE_Impl_Graph & impls (void) const;
 
   /**
    * Get a reference to the preprocessed implementations. Clients
@@ -87,7 +87,7 @@ public:
    *
    * @return  Reference to a implementation graph.
    */
-  CUTS_BE_Impl_Graph_T <T> & impls (void);
+  CUTS_BE_Impl_Graph & impls (void);
 
   /**
    * Get a reference to the preprocessed stub (i.e., interface
@@ -112,17 +112,12 @@ private:
   CUTS_BE_IDL_Graph idl_graph_;
 
   /// The implementation graph.
-  CUTS_BE_Impl_Graph_T <T> impl_graph_;
+  CUTS_BE_Impl_Graph impl_graph_;
 
   // prevent the following operations
   CUTS_BE_Preprocessor_T (const CUTS_BE_Preprocessor_T &);
   const CUTS_BE_Preprocessor_T & operator = (const CUTS_BE_Preprocessor_T &);
 };
-
-/// Definition for the preprocessor singleton.
-#define CUTS_BE_PREPROCESSOR(TYPE) \
-  ACE_Singleton <CUTS_BE_Preprocessor_T <TYPE>, \
-                 ACE_Null_Mutex>::instance ()
 
 #if defined (__CUTS_INLINE__)
 #include "BE_Preprocessor_T.inl"

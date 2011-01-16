@@ -1,0 +1,61 @@
+// $Id$
+
+project (CUTS_BE_CIAO) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
+  sharedname    += CUTS_BE_CIAO
+  dynamicflags  += CUTS_BE_CIAO_BUILD_DLL
+
+  includes += $(CUTS_ROOT)/MDE/GME/paradigms/PICML
+
+  Source_Files {
+    CIAO_Preprocessor_Handlers.cpp
+    CIAO_Manager_Factory.cpp
+    CIAO_Traits.cpp
+  }
+
+  Header_Files {
+    CIAO_Ctx.h
+    CIAO_Generators.h
+    CIAO_Manager.h
+    CIAO_Preprocessor.h
+  }
+
+  Inline_Files {
+
+  }
+
+  specific (wix) {
+    components += CUTS_PICML.config.CIAO
+  }
+
+  verbatim (wix, component_bottom) {
+"        <Component Id='CUTS_PICML.config.CIAO' Guid='808C7244-BD3D-4FCC-8428-19047F9AB8B0'>"
+"          <CreateFolder />"
+"          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
+"                   Id='generator.CIAO'"
+"                   File='[INSTALLDIR]bin\\cuts.config'"
+"                   ElementPath='\/\/cuts:modelgen\/backend'"
+"                   Action='createElement'"
+"                   Name='cuts:generator'"
+"                   Sequence='10'"
+"                   Permanent='no' />"
+"          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
+"                   Id='generator.CIAO.id'"
+"                   File='[INSTALLDIR]bin\\cuts.config'"
+"                   ElementPath='\/\/cuts:modelgen\/backend\/cuts:generator[\\[]not(@id)[\\]]'"
+"                   Action='setValue'"
+"                   Name='id'"
+"                   Value='CIAO'"
+"                   Permanent='no'"
+"                   Sequence='11' />"
+"          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
+"                   Id='generator.CIAO.location'"
+"                   File='[INSTALLDIR]bin\\cuts.config'"
+"                   Action='createElement'"
+"                   ElementPath='\/\/cuts:modelgen\/backend\/cuts:generator[\\[]@id=\"CIAO\"[\\]]'"
+"                   Name='cuts:location'"
+"                   Sequence='12'"
+"                   Permanent='no'"
+"                   Value='[INSTALLDIR]bin\\CUTS_BE_CIAO' />"
+"        </Component>"
+  }
+}

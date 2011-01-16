@@ -29,7 +29,7 @@ struct Context :
   public CUTS_BE_CCM::Cpp::Context
 {
   /// Type definition of the architecture type.
-  typedef CUTS_BE_CCM::Cpp::Context arch_type;
+  typedef CUTS_BE_CCM::Cpp::Context architecture_type;
 
   /// Type definition of the behavior type.
   typedef CUTS_BE_CPP::Context behavior_type;
