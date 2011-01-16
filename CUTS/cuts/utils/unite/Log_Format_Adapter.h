@@ -91,7 +91,7 @@ public:
 #define CUTS_LOG_FORMAT_ADAPTER_SYMBOL_NAME   "create_Cuts_Log_Format_Adapter"
 
 /// Declares the create method for dynamically loading the adapters
-#define CUTS_LOG_FORMAT_ADAPTER_EXPORT_DECL (export_macro) \
+#define CUTS_LOG_FORMAT_ADAPTER_EXPORT_DECL(export_macro) \
   extern "C" export_macro \
   CUTS_Log_Format_Adapter * create_Cuts_Log_Format_Adapter (void)
 
