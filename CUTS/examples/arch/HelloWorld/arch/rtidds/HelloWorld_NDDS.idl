@@ -5,15 +5,6 @@
 
 module CUTS_NDDS
 {
-  struct TimeValue
-  {
-    // data member: usec
-    long usec;
-
-    // data member: sec
-    long sec;
-  };
-
   struct Message
   {
     // data member: time
@@ -21,6 +12,15 @@ module CUTS_NDDS
 
     // data member: content
     string content;
+  };
+
+  struct TimeValue
+  {
+    // data member: usec
+    long usec;
+
+    // data member: sec
+    long sec;
   };
 };
 

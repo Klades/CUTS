@@ -1,3 +1,17 @@
+Sun Jan 16 21:47:50 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/arch/HelloWorld/arch/ciao/HelloWorld.mpc:
+        * examples/arch/HelloWorld/arch/ciao/HelloWorldE.idl:
+        * examples/arch/HelloWorld/arch/ciao/HelloWorldImpl.cpp:
+        * examples/arch/HelloWorld/arch/opensplice/HelloWorld.mpc:
+        * examples/arch/HelloWorld/arch/opensplice/HelloWorld_OSPL.idl:
+        * examples/arch/HelloWorld/arch/rtidds/HelloWorld.mpc:
+        * examples/arch/HelloWorld/arch/rtidds/HelloWorldImpl.h:
+        * examples/arch/HelloWorld/arch/rtidds/HelloWorld_NDDS.idl:
+        * examples/arch/HelloWorld/arch/tcpip/HelloWorld.mpc:
+
+          Re-generated examples using last implementation.
+
 Sun Jan 16 21:30:24 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Impl_Generator_T.h:

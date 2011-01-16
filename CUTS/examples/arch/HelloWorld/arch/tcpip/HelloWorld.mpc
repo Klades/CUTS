@@ -13,6 +13,7 @@ project (HelloWorld_IDL_Gen) : componentidldefaults, cuts_codegen_defaults {
               -Wb,svnt_export_macro=HELLOWORLD_SVNT_Export \
               -Wb,svnt_export_include=HelloWorld_svnt_export.h \
               -Sa -Sal
+
   idlflags -= -Gsv
 
   IDL_Files {
@@ -20,10 +21,10 @@ project (HelloWorld_IDL_Gen) : componentidldefaults, cuts_codegen_defaults {
   }
 }
 
-project (HelloWorld_stub) : avoids_ace_for_tao, ccm_stub, cuts_codegen_defaults {
+project (HelloWorld_stub) : avoids_ace_for_tao, cuts_tcpip_ccm_stub, cuts_codegen_defaults {
   sharedname    = HelloWorld_stub
   dynamicflags += HELLOWORLD_STUB_BUILD_DLL
-  after        += HelloWorld_IDL_Gen 
+  after        += HelloWorld_IDL_Gen
 
 
   IDL_Files {
@@ -32,7 +33,7 @@ project (HelloWorld_stub) : avoids_ace_for_tao, ccm_stub, cuts_codegen_defaults 
 
   Source_Files {
     HelloWorldC.cpp
-    TCPIP_HelloWorldC.cpp
+TCPIP_HelloWorldC.cpp
   }
 
   Header_Files {
