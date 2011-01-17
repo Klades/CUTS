@@ -31,8 +31,8 @@ public:
   virtual ~Quotas_Spring_Deployment_Impl (void);
 
   // Handle the InvokeEx callback.
-  int invoke_ex (GAME::Project & project,
-                 GAME::FCO & fco,
+  int invoke_ex (GAME::Project project,
+                 GAME::FCO_in fco,
                  std::vector <GAME::FCO> & selected,
                  long flags);
 };

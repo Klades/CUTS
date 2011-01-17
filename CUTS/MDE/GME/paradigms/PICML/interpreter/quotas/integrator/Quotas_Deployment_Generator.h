@@ -32,7 +32,7 @@ public:
   /// Destructor.
   ~Quotas_Deployment_Generator (void);
 
-  bool generate (GAME::Folder folder,
+  bool generate (GAME::Folder_in folder,
                  const std::string & name,
                  const GAME::Model & domain,
                  const GAME::Model & assembly,

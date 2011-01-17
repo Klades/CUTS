@@ -33,8 +33,8 @@ Quotas_Spring_Deployment_Impl::~Quotas_Spring_Deployment_Impl (void)
 // invoke_ex
 //
 int Quotas_Spring_Deployment_Impl::
-invoke_ex (GAME::Project & project,
-           GAME::FCO & fco,
+invoke_ex (GAME::Project project,
+           GAME::FCO_in fco,
            std::vector <GAME::FCO> & selected,
            long flags)
 {
