@@ -1,3 +1,10 @@
+Mon Jan 17 03:13:17 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification_Impl.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification_Impl.cpp:
+
+          Updated to latest version of GAME.
+
 Sun Jan 16 21:47:50 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/arch/HelloWorld/arch/ciao/HelloWorld.mpc:

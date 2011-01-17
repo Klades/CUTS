@@ -22,19 +22,13 @@
 #include <stack>
 #include <set>
 
-namespace GAME
-{
-// Forward decl.
-class Reference;
-}
-
 /**
  * @class Quotas_Specification_Impl
  *
  * Implemenation of the Quotas specification interpreter.
  */
-class Quotas_Specification_Impl : 
-  public GAME::Interpreter_Impl_Base 
+class Quotas_Specification_Impl :
+  public GAME::Interpreter_Impl_Base
 {
 public:
   /// Default constructor.
@@ -44,31 +38,31 @@ public:
   virtual ~Quotas_Specification_Impl (void);
 
   // Initialize the interpreter.
-  int initialize (GAME::Project & project);
+  int initialize (GAME::Project project);
 
   // Handle the InvokeEx callback.
-  int invoke_ex (GAME::Project & project,
-                 GAME::FCO & fco,
+  int invoke_ex (GAME::Project project,
+                 GAME::FCO_in fco,
                  std::vector <GAME::FCO> & selected,
                  long flags);
 
 private:
   // Visti an InterfaceDefinitions folder.
-  void visit_interface_definitions (const GAME::Folder & folder);
+  void visit_interface_definitions (const GAME::Folder_in folder);
 
   // Visit a File model.
-  void visit_file (const GAME::Model & file);
-  
+  void visit_file (const GAME::Model_in file);
+
   // Visit a Package model.
-  void visit_package (const GAME::Model & package);
+  void visit_package (const GAME::Model_in package);
 
-  void visit_file_package (const GAME::Model & file);
+  void visit_file_package (const GAME::Model_in file);
 
-  void visit_object (const GAME::Model & object);
+  void visit_object (const GAME::Model_in object);
 
-  void visit_attribute_kind (const GAME::Model & attr);
+  void visit_attribute_kind (const GAME::Model_in attr);
 
-  void visit_attribute_member (const GAME::Reference & member);
+  void visit_attribute_member (const GAME::Reference_in member);
 
   static const std::string Quotas_InterfaceDefinitions;
 
