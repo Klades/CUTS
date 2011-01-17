@@ -32,21 +32,22 @@ handle_config (const CUTS_Property_Map & config)
     try
     {
       // Load the specified interpreter.
-      GAME::ComponentEx interpreter = GAME::ComponentEx::_load (this->interpreter_.c_str ());
+      GAME::ComponentEx interpreter =
+        GAME::ComponentEx::impl_type::_load (this->interpreter_.c_str ());
 
       // Set the parameter(s) for the interpreter. This includes setting
       // all the default parameters for the interpreter.
-      interpreter.interactive (false);
+      interpreter->interactive (false);
 
       for (CUTS_Property_Map::map_type::CONST_ITERATOR iter (this->params_.map ()); !iter.done (); ++ iter)
-        interpreter.parameter (iter->key ().c_str (), iter->item ().c_str ());
+        interpreter->parameter (iter->key ().c_str (), iter->item ().c_str ());
 
       // Execute the interpreter.
-      interpreter.initialize (this->project_);
-      interpreter.invoke (this->project_,
-                          this->target_,
-                          this->selected_,
-                          this->flags_);
+      interpreter->initialize (this->project_);
+      interpreter->invoke (this->project_,
+                           this->target_,
+                           this->selected_,
+                           this->flags_);
     }
     catch (...)
     {
@@ -59,6 +60,7 @@ handle_config (const CUTS_Property_Map & config)
       // Reset the values of the template.
       GAME::Transaction t (this->project_);
       this->actlist_.handle_reset ();
+
       t.commit ();
     } while (false);
   }

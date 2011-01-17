@@ -32,14 +32,14 @@ public:
   /// Destructor.
   virtual ~CUTS_CUTE_Property_Locator (void);
 
-  virtual void visit_Folder (GAME::Folder & folder);
+  virtual void visit_Folder (GAME::Folder_in folder);
 
-  virtual void visit_Model (GAME::Model & model);
-
-  virtual void visit_FCO (GAME::FCO & fco);
+  virtual void visit_Model (GAME::Model_in model);
 
 private:
-  void visit_Attribute (GAME::Attribute & attr);
+  void visit_FCO (GAME::FCO_in fco);
+
+  void visit_Attribute (GAME::Attribute_in attr);
 
   /// Map that holds located items.
   CUTS_CUTE_Model_Interpreter_Action_List & actions_;

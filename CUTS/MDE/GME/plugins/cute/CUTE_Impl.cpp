@@ -80,8 +80,8 @@ CUTS_CUTE::~CUTS_CUTE (void)
 //
 // invoke_ex
 //
-int CUTS_CUTE::invoke_ex (GAME::Project & project,
-                          GAME::FCO & target,
+int CUTS_CUTE::invoke_ex (GAME::Project project,
+                          GAME::FCO_in target,
                           std::vector <GAME::FCO> & selected,
                           long flags)
 {
@@ -114,7 +114,7 @@ int CUTS_CUTE::invoke_ex (GAME::Project & project,
 
       CUTS_CUTE_Model_Interpreter_Action_List actlist;
       CUTS_CUTE_Property_Locator locator (actlist);
-      project.root_folder ().accept (locator);
+      project.root_folder ()->accept (&locator);
 
       t.commit ();
 

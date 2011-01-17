@@ -29,10 +29,10 @@ replace (const CUTS_Property_Map & config)
   evaluator.config ().close_tag_ = "%>";
   evaluator.config ().use_env_ = true;
 
-  if (evaluator.evaluate (this->object_.name ().c_str ()))
+  if (evaluator.evaluate (this->object_->name ().c_str ()))
   {
-    this->old_value_ = this->object_.name ().c_str ();
-    this->object_.name (ostr.str ());
+    this->old_value_ = this->object_->name ().c_str ();
+    this->object_->name (ostr.str ());
   }
   else
     this->old_value_.clear ();
@@ -43,8 +43,8 @@ replace (const CUTS_Property_Map & config)
 //
 void CUTS_CUTE_Replace_Model_Name_Action::reset (void)
 {
-  if (this->object_.name () != this->old_value_.c_str ())
-    this->object_.name (this->old_value_.c_str ());
+  if (this->object_->name () != this->old_value_.c_str ())
+    this->object_->name (this->old_value_.c_str ());
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -65,10 +65,10 @@ replace (const CUTS_Property_Map & config)
   evaluator.config ().close_tag_ = "%>";
   evaluator.config ().use_env_ = true;
 
-  if (evaluator.evaluate (this->attr_.string_value ().c_str ()))
+  if (evaluator.evaluate (this->attr_->string_value ().c_str ()))
   {
-    this->old_value_ = this->attr_.string_value ().c_str ();
-    this->attr_.string_value (ostr.str ());
+    this->old_value_ = this->attr_->string_value ().c_str ();
+    this->attr_->string_value (ostr.str ());
   }
   else
     this->old_value_.clear ();
@@ -79,6 +79,6 @@ replace (const CUTS_Property_Map & config)
 //
 void CUTS_CUTE_Replace_Model_Attribute_Action::reset (void)
 {
-  if (this->attr_.string_value () != this->old_value_.c_str ())
-    this->attr_.string_value (this->old_value_.c_str ());
+  if (this->attr_->string_value () != this->old_value_.c_str ())
+    this->attr_->string_value (this->old_value_.c_str ());
 }
