@@ -18,8 +18,9 @@
 #include "game/xme/Folder.h"
 #include "game/xme/Attribute.h"
 #include "game/xme/functional.h"
+#include "game/xme/modelgen.h"
+
 #include "game/xml/String.h"
-#include "game/utils/modelgen.h"
 
 #include "boost/bind.hpp"
 
@@ -79,13 +80,14 @@ namespace action
       const String filename = classname.back ();
 
       using GAME::XME::Model;
+      using GAME::Xme_t;
 
       // Create in the interface definitions the specified file it
       // already does not exist.
       Model javafile;
 
-      if (GAME::create_if_not (this->idl_folder_, meta_File, javafile,
-          GAME::contains (boost::bind (std::equal_to < String > (),
+      if (GAME::create_if_not <Xme_t> (this->idl_folder_, meta_File, javafile,
+          GAME::contains <Xme_t> (boost::bind (std::equal_to < String > (),
                                        filename,
                                        boost::bind (&Model::name, _1)))))
       {
@@ -111,8 +113,8 @@ namespace action
         {
           static const String meta_Package ("Package");
 
-          if (GAME::create_if_not (javafile, meta_Package, javafile,
-              GAME::contains (boost::bind (std::equal_to < String > (),
+          if (GAME::create_if_not <Xme_t> (javafile, meta_Package, javafile,
+              GAME::contains <Xme_t> (boost::bind (std::equal_to < String > (),
                                            *iter,
                                            boost::bind (&Model::name, _1)))))
           {
@@ -125,8 +127,8 @@ namespace action
       GAME::XME::Model object;
 
       static const std::string meta_Object ("Object");
-      if (GAME::create_if_not (javafile, meta_Object, object,
-          GAME::contains (boost::bind (std::equal_to < String > (),
+      if (GAME::create_if_not <Xme_t> (javafile, meta_Object, object,
+          GAME::contains <Xme_t> (boost::bind (std::equal_to < String > (),
                                        filename,
                                        boost::bind (&Model::name, _1)))))
       {
@@ -159,13 +161,14 @@ namespace action
     void operator () (const std::string & name, ContextT ctx, qi::unused_type) const
     {
       using GAME::XME::Model;
+      using GAME::Xme_t;
 
       Model object;
       Model & parent = fusion::at_c <1> (ctx.attributes);
       static const String meta_TwowayOperation ("TwowayOperation");
 
-      if (GAME::create_if_not (parent, meta_TwowayOperation, object,
-          GAME::contains (boost::bind (std::equal_to < String > (),
+      if (GAME::create_if_not <Xme_t> (parent, meta_TwowayOperation, object,
+          GAME::contains <Xme_t> (boost::bind (std::equal_to < String > (),
                                        name,
                                        boost::bind (&Model::name, _1)))))
       {
@@ -196,6 +199,7 @@ namespace action
     {
       using GAME::XME::Model;
       using GAME::XME::Reference;
+      using GAME::Xme_t;
 
       Reference parameter;
       Model & parent = fusion::at_c <1> (ctx.attributes);
@@ -206,8 +210,8 @@ namespace action
 
       const String name (pname.str ());
 
-      if (GAME::create_if_not (parent, meta_InParameter, parameter,
-          GAME::contains (boost::bind (std::equal_to < String > (),
+      if (GAME::create_if_not <Xme_t> (parent, meta_InParameter, parameter,
+          GAME::contains <Xme_t> (boost::bind (std::equal_to < String > (),
                                        name,
                                        boost::bind (&Reference::name, _1)))))
       {
@@ -279,12 +283,13 @@ namespace action
       if (iter == this->symbols_.end ())
         return;
 
+      using GAME::Xme_t;
       GAME::XME::Reference inherits;
       GAME::XME::Model parent = fusion::at_c <0> (ctx.attributes);
       static const String meta_Inherits ("Inherits");
 
-      if (GAME::create_if_not (parent, meta_Inherits, inherits,
-          GAME::contains (boost::bind (std::equal_to < GAME::XME::FCO > (),
+      if (GAME::create_if_not <Xme_t> (parent, meta_Inherits, inherits,
+          GAME::contains <Xme_t> (boost::bind (std::equal_to < GAME::XME::FCO > (),
                                        iter->second,
                                        boost::bind (&GAME::XME::Reference::refers_to, _1)))))
       {

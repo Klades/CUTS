@@ -11,8 +11,9 @@
 
 #include "game/xme/Project.h"
 #include "game/xme/Model.h"
+#include "game/xme/modelgen.h"
+
 #include "game/xml/String.h"
-#include "game/utils/modelgen.h"
 
 #include <fstream>
 #include <iostream>
@@ -136,7 +137,7 @@ int Quotas_Javap_Importer_App::run_main (int argc, char *argv [])
 
     return 0;
   }
-  catch (const GAME::XME::Exception & ex)
+  catch (const GAME::XME::Exception & )
   {
     ACE_ERROR ((LM_ERROR,
                 ACE_TEXT ("%T (%t) - %M - caught GME exception\n")));
@@ -152,6 +153,8 @@ int Quotas_Javap_Importer_App::run_main (int argc, char *argv [])
 void Quotas_Javap_Importer_App::
 init_interface_definitions (const GAME::XME::Project & project, GAME::XME::Folder & idl_folder)
 {
+  using GAME::Xme_t;
+
   // Make sure the target container for the files exists in the
   // model. Since each class is in its own class file, we are not
   // going to make each directly to a PICML File element. Instead,
@@ -159,8 +162,8 @@ init_interface_definitions (const GAME::XME::Project & project, GAME::XME::Folde
   GAME::XME::Folder root_folder = project.root_folder ();
   const String meta_InterfaceDefinitions ("InterfaceDefinitions");
 
-  if (GAME::create_if_not (root_folder, meta_InterfaceDefinitions, idl_folder,
-      GAME::contains (boost::bind (std::equal_to < String > (),
+  if (GAME::create_if_not <Xme_t> (root_folder, meta_InterfaceDefinitions, idl_folder,
+      GAME::contains <Xme_t> (boost::bind (std::equal_to < String > (),
                                    meta_InterfaceDefinitions,
                                    boost::bind (&GAME::XME::Folder::name, _1)))))
   {
@@ -181,14 +184,16 @@ void Quotas_Javap_Importer_App::
 init_predefined_types (const GAME::XME::Project & project,
                        std::map <std::string, GAME::XME::FCO> & symbols)
 {
+  using GAME::Xme_t;
+
   // Make sure the PredefinedTypes folder exists. Also, make sure each
   // of the predefined type elements in Java exist.
   GAME::XME::Folder root_folder = project.root_folder ();
   const String meta_PredefinedTypes ("PredefinedTypes");
 
   GAME::XME::Folder predefined_types;
-  if (GAME::create_if_not (root_folder, meta_PredefinedTypes, predefined_types,
-      GAME::contains (boost::bind (std::equal_to < String > (),
+  if (GAME::create_if_not <Xme_t> (root_folder, meta_PredefinedTypes, predefined_types,
+      GAME::contains <Xme_t> (boost::bind (std::equal_to < String > (),
                                    meta_PredefinedTypes,
                                    boost::bind (&GAME::XME::Folder::name, _1)))))
   {
@@ -208,8 +213,8 @@ init_predefined_types (const GAME::XME::Project & project,
   {
     // Make sure the predefined type exists.
     GAME::XME::Atom type;
-    if (GAME::create_if_not (predefined_types, predefined_map[i].picml_type_, type,
-        GAME::contains (boost::bind (std::equal_to < String > (),
+    if (GAME::create_if_not <Xme_t> (predefined_types, predefined_map[i].picml_type_, type,
+        GAME::contains <Xme_t> (boost::bind (std::equal_to < String > (),
                                      predefined_map[i].picml_type_,
                                      boost::bind (&GAME::XME::Atom::kind, _1)))))
     {

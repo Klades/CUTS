@@ -1,3 +1,10 @@
+Mon Jan 17 05:43:36 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Javap_Output_Parser.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Quotas_Javap_Importer_App.cpp:
+
+          Updated to latest version of GAME.
+
 Mon Jan 17 04:24:49 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE_Impl.h:
