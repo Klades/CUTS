@@ -28,15 +28,15 @@ public:
 
   virtual ~UNITE_Interpreter_Impl (void);
 
-  int invoke_ex (GAME::Project & project,
-                 GAME::FCO & fco,
+  int invoke_ex (GAME::Project project,
+                 GAME::FCO_in fco,
                  std::vector <GAME::FCO> & selected,
                  long flags);
 
 private:
-  void preprocess (GAME::Project & project);
+  void preprocess (GAME::Project project);
 
-  void postprocess (GAME::Project & project);
+  void postprocess (GAME::Project project);
 
   /// Output directory for the generated files.
   std::string output_;

@@ -1,3 +1,10 @@
+Mon Jan 17 04:24:49 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE_Impl.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE_Impl.cpp:
+
+          Updated to latest version of GAME.
+
 Mon Jan 17 04:19:59 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Context_Generator.cpp:

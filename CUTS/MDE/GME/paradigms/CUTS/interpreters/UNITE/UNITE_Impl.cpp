@@ -49,8 +49,8 @@ UNITE_Interpreter_Impl::~UNITE_Interpreter_Impl (void)
 // invoke
 //
 int UNITE_Interpreter_Impl::
-invoke_ex (GAME::Project & project,
-           GAME::FCO & fco,
+invoke_ex (GAME::Project project,
+           GAME::FCO_in fco,
            std::vector <GAME::FCO> & selected,
            long flags)
 {
@@ -70,8 +70,8 @@ invoke_ex (GAME::Project & project,
       // Convert the current object to a UDM object.
       Udm::Object current;
 
-      if (!fco.is_nil ())
-        current = backend.Gme2Udm (fco.impl ());
+      if (0 != fco)
+        current = backend.Gme2Udm (fco->impl ());
 
       // Convert the object collection to UDM objects.
       set <Udm::Object> objs;
@@ -80,7 +80,7 @@ invoke_ex (GAME::Project & project,
         iter = selected.begin (), iter_end = selected.end ();
 
       for ( ; iter != iter_end; ++ iter)
-        objs.insert (backend.Gme2Udm (iter->impl ()));
+        objs.insert (backend.Gme2Udm ((*iter)->impl ()));
 
       // Now, we are ready to begin interpreting the model.
       const std::string message ("Please specify the output directory");
@@ -126,7 +126,7 @@ invoke_ex (GAME::Project & project,
 //
 // preprocess
 //
-void UNITE_Interpreter_Impl::preprocess (GAME::Project & project)
+void UNITE_Interpreter_Impl::preprocess (GAME::Project project)
 {
   GAME::utils::Project_Settings settings (project);
   this->output_ = settings.default_output_directory ("CUTS/UNITE");
@@ -135,7 +135,7 @@ void UNITE_Interpreter_Impl::preprocess (GAME::Project & project)
 //
 // postprocess
 //
-void UNITE_Interpreter_Impl::postprocess (GAME::Project & project)
+void UNITE_Interpreter_Impl::postprocess (GAME::Project project)
 {
   GAME::utils::Project_Settings settings (project);
   settings.default_output_directory ("CUTS/UNITE", this->output_);
