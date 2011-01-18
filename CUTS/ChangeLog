@@ -1,3 +1,39 @@
+Tue Jan 18 16:08:41 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * examples/cuts/utils/unite/adapter/README.txt:
+        
+          Updated the README.
+
+        * examples/cuts/utils/unite/adapter/Activemq:
+        * examples/cuts/utils/unite/adapter/Activemq/Activemq.datagraph:
+        * examples/cuts/utils/unite/adapter/Activemq/Activemq.unite:
+        * examples/cuts/utils/unite/adapter/Activemq/Activemq_Adapter.h:
+        * examples/cuts/utils/unite/adapter/Activemq/Activemq_Adapter.cpp:
+        * examples/cuts/utils/unite/adapter/Activemq/Activemq_Adapter.mpc:
+        * examples/cuts/utils/unite/adapter/Activemq/Activemq_Adapter.mwc:
+        * examples/cuts/utils/unite/adapter/Activemq/Activemq_Adapter.uas:
+        * examples/cuts/utils/unite/adapter/Activemq/Activemq_Adapter_export.h:
+        
+          Remove ActiveMQ sample temporely. 
+
+        * examples/cuts/utils/unite/adapter/Ant/Ant_Adapter.h:
+        * examples/cuts/utils/unite/adapter/Ant/Ant_Adapter.mwc:
+        * examples/cuts/utils/unite/adapter/Ant/Ant_Adapter.cpp:
+        * examples/cuts/utils/unite/adapter/Ant/Ant_Adapter.mpc:
+        * examples/cuts/utils/unite/adapter/Ant/Ant_Adapter_export.h:
+        * examples/cuts/utils/unite/adapter/DAnCE/DAnCE_Adapter.h:
+        * examples/cuts/utils/unite/adapter/DAnCE/DAnCE_Adapter.mwc:
+        * examples/cuts/utils/unite/adapter/DAnCE/DAnCE_Adapter.cpp:
+        * examples/cuts/utils/unite/adapter/DAnCE/DAnCE_Adapter.mpc:
+        * examples/cuts/utils/unite/adapter/DAnCE/DAnCE_Adapter_export.h:
+        * examples/cuts/utils/unite/adapter/Tomcat/Tomcat_Adapter.h:
+        * examples/cuts/utils/unite/adapter/Tomcat/Tomcat_Adapter.mpc:
+        * examples/cuts/utils/unite/adapter/Tomcat/Tomcat_Adapter.mwc:
+        * examples/cuts/utils/unite/adapter/Tomcat/Tomcat_Adapter.cpp:
+        * examples/cuts/utils/unite/adapter/Tomcat/Tomcat_Adapter_export.h:
+
+          Removed these files. They contained generated code.
+
 Tue Jan 18 15:48:43 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/utils/unite/Aspect.h:
@@ -47,7 +83,7 @@ Tue Jan 18 15:48:43 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
         * cuts/utils/unite/Variable_T.cpp:
         * cuts/utils/unite/Variable_Table.h:
         * cuts/utils/unite/unite.cpp:
-        
+
           Formatted the code and added class headers where missing.
 
 Tue Jan 18 04:58:01 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
