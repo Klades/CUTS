@@ -1,7 +1,16 @@
+Tue Jan 18 16:41:44 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * examples/cuts/utils/unite/adapter/ActiveMQ:
+        * examples/cuts/utils/unite/adapter/ActiveMQ/Activemq.datagraph:
+        * examples/cuts/utils/unite/adapter/ActiveMQ/Activemq.unite:
+        * examples/cuts/utils/unite/adapter/ActiveMQ/Activemq_Adapter.uas:
+        
+          Adding the ActiveMQ sample after changing the directory name.
+
 Tue Jan 18 16:08:41 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * examples/cuts/utils/unite/adapter/README.txt:
-        
+
           Updated the README.
 
         * examples/cuts/utils/unite/adapter/Activemq:
@@ -13,8 +22,8 @@ Tue Jan 18 16:08:41 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
         * examples/cuts/utils/unite/adapter/Activemq/Activemq_Adapter.mwc:
         * examples/cuts/utils/unite/adapter/Activemq/Activemq_Adapter.uas:
         * examples/cuts/utils/unite/adapter/Activemq/Activemq_Adapter_export.h:
-        
-          Remove ActiveMQ sample temporely. 
+
+          Remove ActiveMQ sample temporaly.
 
         * examples/cuts/utils/unite/adapter/Ant/Ant_Adapter.h:
         * examples/cuts/utils/unite/adapter/Ant/Ant_Adapter.mwc:
