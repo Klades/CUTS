@@ -10,7 +10,15 @@
 #include "Variable.h"
 
 
-
+/**
+ * @ingroup UNITE_Core
+ *
+ * @class CUTS_Log_Format
+ *
+ * Represent Log_Format_Adapter in UNITE. Log_Format_Adapter
+ * is used to enhance the UNITE finctionality for
+ * non-standard system execution traces
+ */
 class CUTS_UNITE_Export CUTS_Log_Format_Adapter
 {
 

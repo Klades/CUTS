@@ -8,7 +8,7 @@ CUTS_INLINE
 CUTS_Dataflow_Graph::CUTS_Dataflow_Graph (void)
 : adapter_ (0)
 {
-  	
+
 }
 
 //
@@ -18,7 +18,7 @@ CUTS_INLINE
 CUTS_Dataflow_Graph::CUTS_Dataflow_Graph (const ACE_CString & name)
 : name_ (name), adapter_ (0)
 {
-	
+
   this->normalize_name ();
 }
 

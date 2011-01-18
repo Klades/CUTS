@@ -32,5 +32,3 @@ void CUTS_Basic_Log_Format_Variable_T <T>::bind (ADBC::SQLite::Parameter & param
 {
   param.bind (&this->value_);
 }
-
-

@@ -31,6 +31,8 @@ class CUTS_Log_Format_Adapter;
  * @ingroup UNITE_Core
  *
  * @class CUTS_Log_Format
+ *
+ * Represent Log_Formats in UNITE.
  */
 class CUTS_UNITE_Export CUTS_Log_Format
 {
@@ -86,9 +88,6 @@ public:
 
  /// Set the captures array
   ACE_Auto_Array_Ptr <int> & captures (void);
-
-
-
 
 private:
 

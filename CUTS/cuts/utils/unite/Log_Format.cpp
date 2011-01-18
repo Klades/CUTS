@@ -64,6 +64,8 @@ bool CUTS_Log_Format::compile (const ACE_CString & format)
   const char * error = 0;
   int error_offset;
 
+  std::cerr << expr.str ().c_str () << std::endl;
+
   // Compile the PCRE version of the log format.
   this->expr_ = ::pcre_compile (expr.str ().c_str (),
                                 0,
@@ -257,4 +259,3 @@ ACE_Auto_Array_Ptr <int> & CUTS_Log_Format::captures (void)
 {
   return this->captures_;
 }
-

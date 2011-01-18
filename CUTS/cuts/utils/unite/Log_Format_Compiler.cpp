@@ -160,6 +160,7 @@ struct capture
 
     this->ostr_ << "(?<" << this->name_ << ">" << pcre_type << ")";
 
+
   }
 
 
@@ -409,4 +410,3 @@ bool CUTS_Log_Format_Compiler::compile (const char * format,
 
   return result.full;
 }
-

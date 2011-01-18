@@ -126,4 +126,3 @@ void CUTS_Dataflow_Graph::adapter (CUTS_Log_Format_Adapter * adapter)
   this->adapter_ = adapter;
 }
 
-

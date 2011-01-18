@@ -182,4 +182,3 @@ void CUTS_Log_Format_Data_Entry::execute (const ACE_CString & message,
   this->query_->execute_no_record ();
   this->query_->reset ();
 }
-

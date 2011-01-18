@@ -24,6 +24,8 @@ class CUTS_Log_Format;
  * @ingroup UNITE_Core
  *
  * @class CUTS_Relation_Causality
+ *
+ * Represent a causalities in Relations
  */
 class CUTS_UNITE_Export CUTS_Relation_Causality
 {
@@ -68,6 +70,8 @@ private:
 
 /**
  * @class CUTS_Log_Format_Relation
+ *
+ * Represent a Relation between Log_Formats
  */
 class CUTS_UNITE_Export CUTS_Log_Format_Relation
 {

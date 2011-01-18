@@ -94,6 +94,3 @@ void CUTS_Log_Format_Adapter::add_relation (CUTS_Log_Format * lfmt,
     }
   }
 }
-
-
-

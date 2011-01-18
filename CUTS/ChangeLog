@@ -1,3 +1,55 @@
+Tue Jan 18 15:48:43 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/utils/unite/Aspect.h:
+        * cuts/utils/unite/Dataflow_Graph.inl:
+        * cuts/utils/unite/Dataflow_Graph.cpp:
+        * cuts/utils/unite/Dataflow_Graph_Builder.h:
+        * cuts/utils/unite/Dataflow_Graph_Builder.cpp:
+        * cuts/utils/unite/Dataset_Repo.h:
+        * cuts/utils/unite/Dataset_Repo.inl:
+        * cuts/utils/unite/Dataset_Repo.cpp:
+        * cuts/utils/unite/Dataset_Result.h:
+        * cuts/utils/unite/Dataset_Result.inl:
+        * cuts/utils/unite/Dataset_Result.cpp:
+        * cuts/utils/unite/Log_Format.h:
+        * cuts/utils/unite/Log_Format.cpp:
+        * cuts/utils/unite/Log_Format_Adapter.h:
+        * cuts/utils/unite/Log_Format_Adapter.cpp:
+        * cuts/utils/unite/Log_Format_Compiler.h:
+        * cuts/utils/unite/Log_Format_Compiler.cpp:
+        * cuts/utils/unite/Log_Format_Data_Entry.h:
+        * cuts/utils/unite/Log_Format_Data_Entry.cpp:
+        * cuts/utils/unite/Presentation_Service.h:
+        * cuts/utils/unite/Presentation_Service.inl:
+        * cuts/utils/unite/Presentation_Service.cpp:
+        * cuts/utils/unite/Presentation_Service_Manager.h:
+        * cuts/utils/unite/Presentation_Service_Manager.cpp:
+        * cuts/utils/unite/Relation.h:
+        * cuts/utils/unite/Relation.cpp:
+        * cuts/utils/unite/Unite_App.h:
+        * cuts/utils/unite/Unite_App.cpp:
+        * cuts/utils/unite/Unite_Aspect_File.h:
+        * cuts/utils/unite/Unite_Aspect_File.cpp:
+        * cuts/utils/unite/Unite_Config_File.cpp:
+        * cuts/utils/unite/Unite_Datagraph_File.h:
+        * cuts/utils/unite/Unite_Datagraph_File.cpp:
+        * cuts/utils/unite/Unite_Test.h:
+        * cuts/utils/unite/Unite_Test.inl:
+        * cuts/utils/unite/Unite_Test.cpp:
+        * cuts/utils/unite/Unite_Test_Builder.h:
+        * cuts/utils/unite/Unite_Test_Builder.cpp:
+        * cuts/utils/unite/Unite_Validation_File.h:
+        * cuts/utils/unite/Unite_Validation_File.cpp:
+        * cuts/utils/unite/Validation_Test_File.h:
+        * cuts/utils/unite/Validation_Test_File.cpp:
+        * cuts/utils/unite/Variable.h:
+        * cuts/utils/unite/Variable_T.inl:
+        * cuts/utils/unite/Variable_T.cpp:
+        * cuts/utils/unite/Variable_Table.h:
+        * cuts/utils/unite/unite.cpp:
+        
+          Formatted the code and added class headers where missing.
+
 Tue Jan 18 04:58:01 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Deployment_Generator.h:

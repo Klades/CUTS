@@ -158,5 +158,4 @@ private:
 #include "Dataset_Result.inl"
 #endif
 
-
 #endif  // !defined _CUTS_UNITE_DATASET_RESULT_H_

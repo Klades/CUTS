@@ -44,4 +44,3 @@ value (T val)
 {
   this->value_ = val;
 }
-
