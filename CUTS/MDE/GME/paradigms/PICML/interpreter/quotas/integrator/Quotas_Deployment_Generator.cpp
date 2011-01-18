@@ -34,8 +34,8 @@ Quotas_Deployment_Generator::~Quotas_Deployment_Generator (void)
 bool Quotas_Deployment_Generator::
 generate (GAME::Folder_in folder,
           const std::string & name,
-          const GAME::Model & domain,
-          const GAME::Model & assembly,
+          const GAME::Model_in domain,
+          const GAME::Model_in assembly,
           GAME::Model & deployment)
 {
   using GAME::Mga_t;
@@ -75,10 +75,10 @@ generate (GAME::Folder_in folder,
   t.flush ();
 
   std::vector <GAME::Connection> conns;
-  if (0 == node_ref.in_connections ("InstanceMapping", conns))
+  if (0 == node_ref->in_connections ("InstanceMapping", conns))
     return false;
 
-  GAME::Set collocation = GAME::Set::_narrow (conns[0].src ());
+  GAME::Set collocation = GAME::Set::_narrow (conns.front ()->src ());
 
   GAME::Reference asm_ref;
   static const std::string meta_ComponentAssemblyReference ("ComponentAssemblyReference");
@@ -86,7 +86,7 @@ generate (GAME::Folder_in folder,
       GAME::contains <Mga_t> (boost::bind (std::equal_to <GAME::FCO> (),
                               assembly,
                               boost::bind (&GAME::Reference::impl_type::refers_to,
-                                           boost::bind (&GAME::Reference::get, _1)))))
+                                           boost::bind (&GAME::Reference::get, _1))))))
   {
     asm_ref->refers_to (assembly);
   }

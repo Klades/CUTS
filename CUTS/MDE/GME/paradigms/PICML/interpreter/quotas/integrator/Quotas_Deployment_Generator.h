@@ -34,8 +34,8 @@ public:
 
   bool generate (GAME::Folder_in folder,
                  const std::string & name,
-                 const GAME::Model & domain,
-                 const GAME::Model & assembly,
+                 const GAME::Model_in domain,
+                 const GAME::Model_in assembly,
                  GAME::Model & deployment);
 };
 

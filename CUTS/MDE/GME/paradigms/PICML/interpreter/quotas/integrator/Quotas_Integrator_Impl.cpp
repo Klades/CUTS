@@ -18,8 +18,10 @@
 #include "game/MetaModel.h"
 #include "game/Transaction.h"
 #include "game/Filter.h"
+#include "game/modelgen.h"
+
 #include "game/manip/copy.h"
-#include "game/utils/modelgen.h"
+
 #include "game/utils/Point.h"
 
 #include "game/dialogs/Module.h"
@@ -76,7 +78,7 @@ Quotas_Integrator_Impl::~Quotas_Integrator_Impl (void)
 //
 // initialize
 //
-int Quotas_Integrator_Impl::initialize (GAME::Project & project)
+int Quotas_Integrator_Impl::initialize (GAME::Project project)
 {
   try
   {
@@ -87,7 +89,7 @@ int Quotas_Integrator_Impl::initialize (GAME::Project & project)
     static const std::string name ("MGA.AddOn.PICMLManager");
     GAME::ComponentEx addon = project.addon_component (name);
 
-    VERIFY_HRESULT (addon.impl ()->QueryInterface (&this->configurator_));
+    VERIFY_HRESULT (addon->impl ()->QueryInterface (&this->configurator_));
 
     using ATL::CComBSTR;
 
@@ -106,11 +108,13 @@ int Quotas_Integrator_Impl::initialize (GAME::Project & project)
 // invoke_ex
 //
 int Quotas_Integrator_Impl::
-invoke_ex (GAME::Project & project,
-           GAME::FCO & fco,
+invoke_ex (GAME::Project project,
+           GAME::FCO_in fco,
            std::vector <GAME::FCO> & selected,
            long flags)
 {
+  using GAME::Mga_t;
+
   // First, make sure the target directory for the generated driver
   // components exists in the current model.
   GAME::Folder idl_folder;
@@ -118,12 +122,13 @@ invoke_ex (GAME::Project & project,
   do
   {
     GAME::Transaction t (project);
-    if (GAME::create_if_not (project.root_folder (), meta::InterfaceDefinitions, idl_folder,
-        GAME::contains (boost::bind (std::equal_to <std::string> (),
-                                     constants::Quotas_InterfaceDefinitions,
-                                     boost::bind (&GAME::Folder::name, _1)))))
+    if (GAME::create_if_not <Mga_t> (project.root_folder (), meta::InterfaceDefinitions, idl_folder,
+        GAME::contains <Mga_t> (boost::bind (std::equal_to <std::string> (),
+                                constants::Quotas_InterfaceDefinitions,
+                                boost::bind (&GAME::Folder::impl_type::name,
+                                             boost::bind (&GAME::Folder::get, _1))))))
     {
-      idl_folder.name (constants::Quotas_InterfaceDefinitions);
+      idl_folder->name (constants::Quotas_InterfaceDefinitions);
     }
 
     t.commit ();
@@ -236,18 +241,20 @@ invoke_ex (GAME::Project & project,
 // integrate
 //
 bool Quotas_Integrator_Impl::
-integrate (const GAME::Model & component,
-           const GAME::Reference & receptacle,
-           const GAME::Model & method,
-           const GAME::Model & behavior,
-           GAME::Model driver,
+integrate (const GAME::Model_in component,
+           const GAME::Reference_in receptacle,
+           const GAME::Model_in method,
+           const GAME::Model_in behavior,
+           GAME::Model_in driver,
            GAME::Model & assembly)
 {
+  using GAME::Mga_t;
+
   // First, let's create the remaining structure of the test.
   GAME::Atom driver_impl, component_impl;
   GAME::Model driver_inst, component_inst;
 
-  GAME::Project project = component.project ();
+  GAME::Project project = component->project ();
   GAME::Transaction t (project);
 
   // Copy the behavior into the specified model. We need to disable the
@@ -255,15 +262,16 @@ integrate (const GAME::Model & component,
   // We can enable it once we are done with the copying process (i.e., the
   // current transaction.
   GAME::ComponentEx addon = project.addon_component ("MGA.AddOn.CBMLManager");
-  addon.enable (false);
+  addon->enable (false);
 
   GAME::Folder type_system;
-  if (GAME::create_if_not (project.root_folder (), meta::PredefinedTypes, type_system,
-      GAME::contains (boost::bind (std::equal_to <std::string> (),
-                                   constants::Quotas_PredefinedTypes,
-                                   boost::bind (&GAME::Folder::name, _1)))))
+  if (GAME::create_if_not <Mga_t> (project.root_folder (), meta::PredefinedTypes, type_system,
+      GAME::contains <Mga_t> (boost::bind (std::equal_to <std::string> (),
+                              constants::Quotas_PredefinedTypes,
+                              boost::bind (&GAME::Folder::impl_type::name,
+                                           boost::bind (&GAME::Folder::get, _1))))))
  {
-   type_system.name (constants::Quotas_PredefinedTypes);
+   type_system->name (constants::Quotas_PredefinedTypes);
  }
 
   GAME::copy_config_t config;
@@ -271,8 +279,8 @@ integrate (const GAME::Model & component,
 
   // First, copy over the type system from the behavior model.
   std::vector <GAME::Folder> type_systems;
-  GAME::Folder root_folder = behavior.project ().root_folder ();
-  root_folder.children (meta::PredefinedTypes, type_systems);
+  GAME::Folder root_folder = behavior->project ().root_folder ();
+  root_folder->children (meta::PredefinedTypes, type_systems);
 
   std::vector <GAME::Folder>::iterator
     iter = type_systems.begin (), iter_end = type_systems.end ();
@@ -286,12 +294,12 @@ integrate (const GAME::Model & component,
   // Locate the RequestAction in the behavior model.
   std::vector <GAME::Model> actions;
 
-  if (driver.children ("RequestAction", actions))
+  if (driver->children ("RequestAction", actions))
   {
     // Get the method's parameters. We need to create properties
     // in the request action for each parameter.
     std::vector <GAME::Reference> params;
-    method.children ("InParameter", params);
+    method->children ("InParameter", params);
 
     // Set the name/method of each generic request action to the
     // provided receptacle and method.
@@ -300,8 +308,8 @@ integrate (const GAME::Model & component,
 
     for (; iter != iter_end; ++ iter)
     {
-      iter->name (receptacle.name ());
-      iter->attribute ("MethodName").string_value (method.name ());
+      (*iter)->name (receptacle->name ());
+      (*iter)->attribute ("MethodName")->string_value (method->name ());
 
       // Set the parameters for the action.
       std::for_each (params.begin (),
@@ -316,7 +324,7 @@ integrate (const GAME::Model & component,
 
   // Save the current state and re-enable the addon.
   t.flush ();
-  addon.enable (true);
+  addon->enable (true);
 
   // Generate the default implementations and the assembly.
   if (!this->get_default_qoutas_impl (driver, driver_impl))
@@ -339,6 +347,8 @@ integrate (const GAME::Model & component,
 bool Quotas_Integrator_Impl::
 generate_domain (GAME::Project proj, GAME::Model & domain)
 {
+  using GAME::Mga_t;
+
   // Start a new tranaction.
   GAME::Transaction t (proj);
 
@@ -347,12 +357,13 @@ generate_domain (GAME::Project proj, GAME::Model & domain)
 
   // Create the folder for the domain.
   GAME::Folder targets;
-  if (GAME::create_if_not (proj.root_folder (), meta_Targets, targets,
-      GAME::contains (boost::bind (std::equal_to <std::string> (),
-                                   constant_Quotas_Targets,
-                                   boost::bind (&GAME::Folder::name, _1)))))
+  if (GAME::create_if_not <Mga_t> (proj.root_folder (), meta_Targets, targets,
+      GAME::contains <Mga_t> (boost::bind (std::equal_to <std::string> (),
+                              constant_Quotas_Targets,
+                              boost::bind (&GAME::Folder::impl_type::name,
+                                           boost::bind (&GAME::Folder::get, _1))))))
   {
-    targets.name (constant_Quotas_Targets);
+    targets->name (constant_Quotas_Targets);
   }
 
   static const std::string constant_Quotas_Domain ("Quotas_Domain");
@@ -373,10 +384,12 @@ generate_domain (GAME::Project proj, GAME::Model & domain)
 //
 bool Quotas_Integrator_Impl::
 generate_deployment (GAME::Project proj,
-                     const GAME::Model & domain,
-                     const GAME::Model & assembly,
+                     const GAME::Model_in domain,
+                     const GAME::Model_in assembly,
                      GAME::Model & deployment)
 {
+  using GAME::Mga_t;
+
   // Start a new tranaction.
   GAME::Transaction t (proj);
 
@@ -385,12 +398,13 @@ generate_deployment (GAME::Project proj,
 
   // Create the folder for the deployment plans.
   GAME::Folder plans;
-  if (GAME::create_if_not (proj.root_folder (), meta_DeploymentPlans, plans,
-      GAME::contains (boost::bind (std::equal_to <std::string> (),
+  if (GAME::create_if_not <Mga_t> (proj.root_folder (), meta_DeploymentPlans, plans,
+      GAME::contains <Mga_t> (boost::bind (std::equal_to <std::string> (),
                                    constant_Quotas_DeploymentPlans,
-                                   boost::bind (&GAME::Folder::name, _1)))))
+                                   boost::bind (&GAME::Folder::impl_type::name,
+                                                boost::bind (&GAME::Folder::get, _1))))))
   {
-    plans.name (constant_Quotas_DeploymentPlans);
+    plans->name (constant_Quotas_DeploymentPlans);
   }
 
   t.commit ();
@@ -415,15 +429,15 @@ generate_deployment (GAME::Project proj,
 // get_default_qoutas_impl
 //
 bool Quotas_Integrator_Impl::
-get_default_qoutas_impl (const GAME::Model & c, GAME::Atom & impl)
+get_default_qoutas_impl (const GAME::Model_in c, GAME::Atom & impl)
 {
   std::stack <GAME::Object> s;
-  GAME::Object parent = c.parent ();
+  GAME::Object parent = c->parent ();
 
-  while (parent.meta ().name () != "File")
+  while (parent->meta ()->name () != "File")
   {
     s.push (parent);
-    parent = parent.parent ();
+    parent = parent->parent ();
   }
 
   std::string name;
@@ -435,11 +449,11 @@ get_default_qoutas_impl (const GAME::Model & c, GAME::Atom & impl)
     s.pop ();
 
     // Append the name of the parent.
-    name += parent.name () +  "_";
+    name += parent->name () +  "_";
   }
 
   // Finish of the name of the implementation.
-  name += c.name () + "Impl";
+  name += c->name () + "Impl";
 
   // Construct the path of the implementation.
   std::string path =
@@ -447,7 +461,7 @@ get_default_qoutas_impl (const GAME::Model & c, GAME::Atom & impl)
     name + "/" + name;
 
   // Use the constructed name to locate the real object.
-  GAME::Object obj = c.project ().root_folder ().find_object_by_path (path);
+  GAME::Object obj = c->project ().root_folder ()->find_object_by_path (path);
 
   if (obj.is_nil ())
     return false;
@@ -460,76 +474,87 @@ get_default_qoutas_impl (const GAME::Model & c, GAME::Atom & impl)
 // create_assembly
 //
 bool Quotas_Integrator_Impl::
-create_assembly (const GAME::Atom & driver_impl,
-                 const GAME::Atom & comp_impl,
+create_assembly (const GAME::Atom_in driver_impl,
+                 const GAME::Atom_in comp_impl,
                  GAME::Model & assembly)
 {
-  GAME::Transaction t (driver_impl.project ());
+  using GAME::Mga_t;
+
+  GAME::Project project = driver_impl->project ();
+  GAME::Transaction t (project);
 
   // Make sure the target folder exists.
-  GAME::Project project = driver_impl.project ();
   GAME::Folder folder;
 
-  if (GAME::create_if_not (project.root_folder (), meta::ComponentImplementations, folder,
-      GAME::contains (boost::bind (std::equal_to <std::string> (),
-                                   constants::Quotas_ComponentImplementations,
-                                   boost::bind (&GAME::Folder::name, _1)))))
+  if (GAME::create_if_not <Mga_t> (project.root_folder (), meta::ComponentImplementations, folder,
+      GAME::contains <Mga_t> (boost::bind (std::equal_to <std::string> (),
+                              constants::Quotas_ComponentImplementations,
+                              boost::bind (&GAME::Folder::impl_type::name,
+                                           boost::bind (&GAME::Folder::get, _1))))))
   {
-    folder.name (constants::Quotas_ComponentImplementations);
+    folder->name (constants::Quotas_ComponentImplementations);
   }
 
   // Construct the name fo the target assembly, and container.
-  std::string assembly_name (comp_impl.name ());
+  std::string assembly_name (comp_impl->name ());
   assembly_name += "_Test";
 
   // Make the container for the component assembly.
   GAME::Model container;
-  if (GAME::create_if_not (folder, meta::ComponentImplementationContainer, container,
-      GAME::contains (boost::bind (std::equal_to <std::string> (),
-                                   assembly_name,
-                                   boost::bind (&GAME::Folder::name, _1)))))
+  if (GAME::create_if_not <Mga_t> (folder, meta::ComponentImplementationContainer, container,
+      GAME::contains <Mga_t> (boost::bind (std::equal_to <std::string> (),
+                              assembly_name,
+                              boost::bind (&GAME::Model::impl_type::name,
+                                           boost::bind (&GAME::Model::get, _1))))))
   {
-    container.name (assembly_name);
+    container->name (assembly_name);
   }
 
   // Create the assembly for the component.
-  if (GAME::create_if_not (container, meta::ComponentAssembly, assembly,
-      GAME::contains (boost::bind (std::equal_to <std::string> (),
-                                   assembly_name,
-                                   boost::bind (&GAME::Model::name, _1)))))
+  if (GAME::create_if_not <Mga_t> (container, meta::ComponentAssembly, assembly,
+      GAME::contains <Mga_t> (boost::bind (std::equal_to <std::string> (),
+                              assembly_name,
+                              boost::bind (&GAME::Model::impl_type::name,
+                                           boost::bind (&GAME::Model::get, _1))))))
   {
-    assembly.name (assembly_name);
+    assembly->name (assembly_name);
   }
 
   // Create the component instance for the target component.
   GAME::Model comp_inst;
-  if (GAME::create_if_not (assembly, meta::ComponentInstance, comp_inst,
-      GAME::contains (boost::bind (std::equal_to <std::string> (),
-                                   comp_impl.name (),
-                                   boost::bind (&GAME::Model::name, _1)))))
+  if (GAME::create_if_not <Mga_t> (assembly, meta::ComponentInstance, comp_inst,
+      GAME::contains <Mga_t> (boost::bind (std::equal_to <std::string> (),
+                              comp_impl->name (),
+                              boost::bind (&GAME::Model::impl_type::name,
+                                           boost::bind (&GAME::Model::get, _1))))))
   {
-    comp_inst.name (comp_impl.name ());
+    comp_inst->name (comp_impl->name ());
   }
 
   // Make sure the instance type is set.
-  GAME::Reference inst_type = GAME::Reference::_create (comp_inst, meta::ComponentInstanceType);
-  inst_type.name (comp_impl.name ());
-  inst_type.refers_to (comp_impl);
+  GAME::Reference inst_type =
+    GAME::Reference::impl_type::_create (comp_inst, meta::ComponentInstanceType);
+
+  inst_type->name (comp_impl->name ());
+  inst_type->refers_to (comp_impl);
 
   // Create the component instance for the driver component.
   GAME::Model driver_inst;
-  if (GAME::create_if_not (assembly, meta::ComponentInstance, driver_inst,
-      GAME::contains (boost::bind (std::equal_to <std::string> (),
-                                   driver_impl.name (),
-                                   boost::bind (&GAME::Model::name, _1)))))
+  if (GAME::create_if_not <Mga_t> (assembly, meta::ComponentInstance, driver_inst,
+      GAME::contains <Mga_t> (boost::bind (std::equal_to <std::string> (),
+                              driver_impl->name (),
+                              boost::bind (&GAME::Model::impl_type::name,
+                                           boost::bind (&GAME::Model::get, _1))))))
   {
-    driver_inst.name (driver_impl.name ());
+    driver_inst->name (driver_impl->name ());
   }
 
   // Make sure the instance type is set.
-  inst_type = GAME::Reference::_create (driver_inst, meta::ComponentInstanceType);
-  inst_type.name (driver_impl.name ());
-  inst_type.refers_to (driver_impl);
+  inst_type =
+    GAME::Reference::impl_type::_create (driver_inst, meta::ComponentInstanceType);
+
+  inst_type->name (driver_impl->name ());
+  inst_type->refers_to (driver_impl);
 
   t.flush ();
 
@@ -543,19 +568,22 @@ create_assembly (const GAME::Atom & driver_impl,
     return false;
 
   GAME::Connection invoke_connection;
-  if (!GAME::find (assembly, "Invoke", invoke_connection,
+  if (!GAME::find <Mga_t> (assembly, "Invoke", invoke_connection,
        boost::bind (std::logical_and <bool> (),
                     boost::bind (std::equal_to <GAME::FCO> (),
-                                 receptacle,
-                                 boost::bind (&GAME::Connection::src, _1)),
+                                 receptacle.get (),
+                                 boost::bind (&GAME::Connection::impl_type::src,
+                                              boost::bind (&GAME::Connection::get, _1))),
                     boost::bind (std::equal_to <GAME::FCO> (),
-                                 facet,
-                                 boost::bind (&GAME::Connection::dst, _1)))))
+                                 facet.get (),
+                                 boost::bind (&GAME::Connection::impl_type::dst,
+                                              boost::bind (&GAME::Connection::get, _1))))))
   {
-    invoke_connection = GAME::Connection::_create (assembly,
-                                                   "Invoke",
-                                                   receptacle,
-                                                   facet);
+    invoke_connection =
+      GAME::Connection::impl_type::_create (assembly,
+                                            "Invoke",
+                                            receptacle,
+                                            facet);
   }
 
   t.commit ();
@@ -567,7 +595,7 @@ create_assembly (const GAME::Atom & driver_impl,
 // get_target_component
 //
 bool Quotas_Integrator_Impl::
-get_target_component (GAME::Project & project, GAME::Model & component)
+get_target_component (GAME::Project project, GAME::Model & component)
 {
   GAME::Transaction t (project, TRANSACTION_READ_ONLY);
 
@@ -620,15 +648,15 @@ get_target_component (GAME::Project & project, GAME::Model & component)
 // get_target_receptacle_and_method
 //
 bool Quotas_Integrator_Impl::
-get_receptacle_and_method (const GAME::Model & driver,
+get_receptacle_and_method (const GAME::Model_in driver,
                            GAME::Reference & receptacle,
                            GAME::Model & method)
 {
-  GAME::Transaction t (driver.project (), TRANSACTION_READ_ONLY);
+  GAME::Transaction t (driver->project (), TRANSACTION_READ_ONLY);
 
   std::vector <GAME::Reference> receptacles;
 
-  switch (driver.children ("RequiredRequestPort", receptacles))
+  switch (driver->children ("RequiredRequestPort", receptacles))
   {
   case 0:
     return false;
@@ -659,10 +687,10 @@ get_receptacle_and_method (const GAME::Model & driver,
   // Finally, select the target method from the receptacle that we
   // would like to validate. We do this by getting the receptacle's
   // type and selecting one of its methods.
-  GAME::Model object = GAME::Model::_narrow (receptacle.refers_to ());
+  GAME::Model object = GAME::Model::_narrow (receptacle->refers_to ());
   std::vector <GAME::Model> methods;
 
-  switch (object.children ("TwowayOperation", methods))
+  switch (object->children ("TwowayOperation", methods))
   {
   case 0:
     return false;
@@ -695,11 +723,11 @@ get_receptacle_and_method (const GAME::Model & driver,
 // generate_driver_component
 //
 bool Quotas_Integrator_Impl::
-generate_driver_component (const GAME::Model & component,
-                           GAME::Folder & idl_folder,
+generate_driver_component (const GAME::Model_in component,
+                           GAME::Folder_in idl_folder,
                            GAME::Model & driver)
 {
-  GAME::Transaction t (idl_folder.project ());
+  GAME::Transaction t (idl_folder->project ());
 
   // Generate the driver component for this component.
   Quotas_Driver_Component_Generator driver_gen (idl_folder);
@@ -715,48 +743,51 @@ generate_driver_component (const GAME::Model & component,
 // set_action_parameters
 //
 bool Quotas_Integrator_Impl::
-create_action_parameter (GAME::Model action,
-                         const GAME::Reference & param,
+create_action_parameter (GAME::Model_in action,
+                         const GAME::Reference_in param,
                          std::map <GAME::FCO, GAME::FCO> & mapping)
 {
+  using GAME::Mga_t;
+
   // First, create a property for the parameter.
   GAME::Reference simple_property;
-  const std::string param_name (param.name ());
+  const std::string param_name = param->name ();
 
-  if (GAME::create_if_not (action, meta::SimpleProperty, simple_property,
-      GAME::contains (boost::bind (std::equal_to <std::string> (),
-                                   param_name,
-                                   boost::bind (&GAME::Model::name, _1)))))
+  if (GAME::create_if_not <Mga_t> (action, meta::SimpleProperty, simple_property,
+      GAME::contains <Mga_t> (boost::bind (std::equal_to <std::string> (),
+                              param_name,
+                              boost::bind (&GAME::Reference::impl_type::name,
+                                           boost::bind (&GAME::Reference::get, _1))))))
   {
-    simple_property.name (param_name);
+    simple_property->name (param_name);
   }
 
   // Set position of property to the same as the parameter.
   GAME::utils::Point pt;
-  GAME::utils::position ("InterfaceDefinition", param, pt);
-  GAME::utils::position ("Behavior", pt, simple_property);
+  GAME::utils::get_position ("InterfaceDefinition", param, pt);
+  GAME::utils::set_position ("Behavior", pt, simple_property);
 
   // Before setting the reference, check to see if there is a
   // mapping for the referenced type.
-  GAME::FCO refers_to = mapping[param.refers_to ()];
+  GAME::FCO refers_to = mapping[param->refers_to ()];
 
   if (refers_to.is_nil ())
-    refers_to = param.refers_to ();
+    refers_to = param->refers_to ();
 
-  simple_property.refers_to (refers_to);
+  simple_property->refers_to (refers_to);
 
   // Finally, set value to the correct random generator.
-  GAME::Attribute value = simple_property.attribute ("Value");
-  GAME::Meta::FCO metafco = refers_to.meta ();
+  GAME::Attribute value = simple_property->attribute ("Value");
+  const std::string metaname = refers_to->meta ()->name ();
 
-  if (metafco == "String" || metafco == "WideString")
-    value.string_value ("RandomStringDataGenerator.getSingleton ().getNextString ()");
-  else if (metafco == "LongInteger" || metafco == "UnsignedLongInteger")
-    value.string_value ("RandomLongIntegerDataGenerator.getSingleton ().getNextLongInteger ()");
-  else if (metafco == "ShortInteger" || metafco == "UnsignedShortInteger")
-    value.string_value ("RandomShortIntegerDataGenerator.getSingleton ().getNextShortInteger ()");
-  else if (metafco == "Boolean")
-    value.string_value ("RandomBooleanDataGenerator.getSingleton ().getNextBoolean ()");
+  if (metaname == "String" || metaname == "WideString")
+    value->string_value ("RandomStringDataGenerator.getSingleton ().getNextString ()");
+  else if (metaname == "LongInteger" || metaname == "UnsignedLongInteger")
+    value->string_value ("RandomLongIntegerDataGenerator.getSingleton ().getNextLongInteger ()");
+  else if (metaname == "ShortInteger" || metaname == "UnsignedShortInteger")
+    value->string_value ("RandomShortIntegerDataGenerator.getSingleton ().getNextShortInteger ()");
+  else if (metaname == "Boolean")
+    value->string_value ("RandomBooleanDataGenerator.getSingleton ().getNextBoolean ()");
 
   return true;
 }
@@ -765,11 +796,11 @@ create_action_parameter (GAME::Model action,
 // get_testobject_facet
 //
 bool Quotas_Integrator_Impl::
-get_testobject_facet (const GAME::Model & model,
+get_testobject_facet (const GAME::Model_in model,
                       GAME::Reference & facet)
 {
   std::vector <GAME::Reference> insts;
-  if (0 == model.children ("ProvidedRequestPortInstance", insts))
+  if (0 == model->children ("ProvidedRequestPortInstance", insts))
     return false;
 
   facet = insts.front ();
@@ -780,11 +811,11 @@ get_testobject_facet (const GAME::Model & model,
 // get_testdriver_receptacle
 //
 bool Quotas_Integrator_Impl::
-get_testdriver_receptacle (const GAME::Model & model,
+get_testdriver_receptacle (const GAME::Model_in model,
                            GAME::Reference & receptacle)
 {
   std::vector <GAME::Reference> insts;
-  if (0 == model.children ("RequiredRequestPortInstance", insts))
+  if (0 == model->children ("RequiredRequestPortInstance", insts))
     return false;
 
   receptacle = insts.front ();

@@ -32,12 +32,12 @@ public:
   /// Destructor.
   ~Quotas_Domain_Generator (void);
 
-  bool generate (GAME::Folder folder,
+  bool generate (GAME::Folder_in folder,
                  const std::string & name,
                  size_t hosts);
 
   /// Get the collection od generated hosts.
-  const GAME::Model & generated_domain (void) const;
+  GAME::Model generated_domain (void);
 
 private:
   /// The generated domain.

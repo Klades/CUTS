@@ -4,7 +4,7 @@
 #include "Quotas_Domain_Generator.h"
 
 #include "game/Model.h"
-#include "game/utils/modelgen.h"
+#include "game/modelgen.h"
 
 #include "boost/bind.hpp"
 #include <functional>
@@ -30,17 +30,20 @@ Quotas_Domain_Generator::~Quotas_Domain_Generator (void)
 // generate
 //
 bool Quotas_Domain_Generator::
-generate (GAME::Folder folder, const std::string & name, size_t hosts)
+generate (GAME::Folder_in folder, const std::string & name, size_t hosts)
 {
+  using GAME::Mga_t;
+
   // First create the domain that will contain the hosts.
   static const std::string meta_Domain ("Domain");
 
-  if (GAME::create_if_not (folder, meta_Domain, this->domain_,
-      GAME::contains (boost::bind (std::equal_to <std::string> (),
-                                   name,
-                                   boost::bind (&GAME::Model::name, _1)))))
+  if (GAME::create_if_not <Mga_t> (folder, meta_Domain, this->domain_,
+      GAME::contains <Mga_t> (boost::bind (std::equal_to <std::string> (),
+                              name,
+                              boost::bind (&GAME::Model::impl_type::name,
+                                           boost::bind (&GAME::Model::get, _1))))))
   {
-    this->domain_.name (name);
+    this->domain_->name (name);
   }
 
   // Right now, we are going to create the specified number of
@@ -56,12 +59,13 @@ generate (GAME::Folder folder, const std::string & name, size_t hosts)
 
     // Make sure the host exists in the domain.
     GAME::Model host;
-    if (GAME::create_if_not (this->domain_, meta_Node, host,
-        GAME::contains (boost::bind (std::equal_to <std::string> (),
-                                     hostname,
-                                     boost::bind (&GAME::Model::name, _1)))))
+    if (GAME::create_if_not <Mga_t> (this->domain_, meta_Node, host,
+        GAME::contains <Mga_t> (boost::bind (std::equal_to <std::string> (),
+                                hostname,
+                                boost::bind (&GAME::Model::impl_type::name,
+                                             boost::bind (&GAME::Model::get, _1))))))
     {
-      host.name (name);
+      host->name (name);
     }
   }
 
@@ -71,7 +75,7 @@ generate (GAME::Folder folder, const std::string & name, size_t hosts)
 //
 // generated_domain
 //
-const GAME::Model & Quotas_Domain_Generator::generated_domain (void) const
+GAME::Model Quotas_Domain_Generator::generated_domain (void)
 {
   return this->domain_;
 }

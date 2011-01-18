@@ -32,58 +32,58 @@ public:
   virtual ~Quotas_Integrator_Impl (void);
 
   // Initialize the interpreter.
-  int initialize (GAME::Project & project);
+  int initialize (GAME::Project project);
 
   // Handle the InvokeEx callback.
-  int invoke_ex (GAME::Project & project,
-                 GAME::FCO & fco,
+  int invoke_ex (GAME::Project project,
+                 GAME::FCO_in fco,
                  std::vector <GAME::FCO> & selected,
                  long flags);
 
 private:
-  bool get_default_qoutas_impl (const GAME::Model & c,
+  bool get_default_qoutas_impl (const GAME::Model_in c,
                                 GAME::Atom & impl);
 
-  bool create_assembly (const GAME::Atom & driver_impl,
-                        const GAME::Atom & comp_impl,
+  bool create_assembly (const GAME::Atom_in driver_impl,
+                        const GAME::Atom_in comp_impl,
                         GAME::Model & assembly);
 
-  bool generate_driver_component (const GAME::Model & component,
-                                  GAME::Folder & idl_folder,
+  bool generate_driver_component (const GAME::Model_in component,
+                                  GAME::Folder_in idl_folder,
                                   GAME::Model & driver);
 
-  bool get_receptacle_and_method (const GAME::Model & driver,
+  bool get_receptacle_and_method (const GAME::Model_in driver,
                                   GAME::Reference & receptacle,
                                   GAME::Model & method);
 
-  bool get_driver_receptacle (const GAME::Model & model,
+  bool get_driver_receptacle (const GAME::Model_in model,
                               GAME::Reference & receptacle);
 
-  bool get_testobject_facet (const GAME::Model & model,
+  bool get_testobject_facet (const GAME::Model_in model,
                              GAME::Reference & receptacle);
 
-  bool get_testdriver_receptacle (const GAME::Model & model,
+  bool get_testdriver_receptacle (const GAME::Model_in model,
                                   GAME::Reference & receptacle);
 
-  bool get_target_component (GAME::Project & p, GAME::Model & c);
+  bool get_target_component (GAME::Project p, GAME::Model & c);
 
-  bool integrate (const GAME::Model & component,
-                  const GAME::Reference & receptacle,
-                  const GAME::Model & method,
-                  const GAME::Model & behavior,
-                  GAME::Model driver,
+  bool integrate (const GAME::Model_in component,
+                  const GAME::Reference_in receptacle,
+                  const GAME::Model_in method,
+                  const GAME::Model_in behavior,
+                  GAME::Model_in driver,
                   GAME::Model & assembly);
 
   bool generate_domain (GAME::Project proj,
                         GAME::Model & domain);
 
   bool generate_deployment (GAME::Project proj,
-                            const GAME::Model & domain,
-                            const GAME::Model & assembly,
+                            const GAME::Model_in domain,
+                            const GAME::Model_in assembly,
                             GAME::Model & deployment);
 
-  bool create_action_parameter (GAME::Model action,
-                                const GAME::Reference & param,
+  bool create_action_parameter (GAME::Model_in action,
+                                const GAME::Reference_in param,
                                 std::map <GAME::FCO, GAME::FCO> & mapping);
 
   CComPtr <IConfigurator> configurator_;

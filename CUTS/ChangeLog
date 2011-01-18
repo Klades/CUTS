@@ -1,3 +1,16 @@
+Tue Jan 18 04:58:01 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Deployment_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Deployment_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Domain_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Domain_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Driver_Component.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Driver_Component.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Integrator_Impl.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Integrator_Impl.cpp:
+
+          Updated to the latest version of GAME.
+
 Mon Jan 17 18:37:22 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment/Spring_Deployment_Impl.h:
