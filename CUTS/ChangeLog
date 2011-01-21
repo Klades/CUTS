@@ -1,3 +1,34 @@
+Fri Jan 21 19:46:11 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/arch/PingPong:
+        * examples/arch/PingPong/arch:
+        * examples/arch/PingPong/arch/opensplice:
+        * examples/arch/PingPong/arch/opensplice/PingComponent.idl:
+        * examples/arch/PingPong/arch/opensplice/PingComponent.mpc:
+        * examples/arch/PingPong/arch/opensplice/PingPong.idl:
+        * examples/arch/PingPong/arch/opensplice/PingPong.mpc:
+        * examples/arch/PingPong/arch/opensplice/PingPong.mwc:
+        * examples/arch/PingPong/arch/opensplice/PingPong_OSPL.idl:
+        * examples/arch/PingPong/arch/opensplice/PingPong_PingComponentImpl.h:
+        * examples/arch/PingPong/arch/opensplice/PingPong_PingComponentImpl.cpp:
+        * examples/arch/PingPong/arch/opensplice/PingPong_PingComponentImpl.mpc:
+        * examples/arch/PingPong/arch/opensplice/PingPong_PongComponentImpl.h:
+        * examples/arch/PingPong/arch/opensplice/PingPong_PongComponentImpl.cpp:
+        * examples/arch/PingPong/arch/opensplice/PingPong_PongComponentImpl.mpc:
+        * examples/arch/PingPong/arch/opensplice/PongComponent.idl:
+        * examples/arch/PingPong/arch/opensplice/PongComponent.mpc:
+        * examples/arch/PingPong/arch/opensplice/Stats.h:
+        * examples/arch/PingPong/arch/opensplice/Stats.cpp:
+        * examples/arch/PingPong/arch/opensplice/descriptors:
+        * examples/arch/PingPong/arch/opensplice/descriptors/PingPong.cdd:
+        * examples/arch/PingPong/arch/opensplice/descriptors/PingPong.cdp:
+        * examples/arch/PingPong/arch/opensplice/descriptors/PingPong.nodemap:
+        * examples/arch/PingPong/arch/opensplice/descriptors/run_test.pl:
+        * examples/arch/PingPong/arch/rtidds:
+        * examples/arch/PingPong/models:
+
+          iCCM implementation of the PingPong example.
+
 Fri Jan 21 19:40:19 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/arch/opensplice/OpenSplice_Endpoint.h:
