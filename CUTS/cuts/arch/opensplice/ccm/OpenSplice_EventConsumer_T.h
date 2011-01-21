@@ -13,37 +13,42 @@ class CUTS_OpenSplice_CCM_EventConsumer_T :
 public:
   /// Type definition of the servant type.
   typedef SERVANT servant_type;
-
-  /// Type definition of the event type.
   typedef EVENT event_type;
 
-  /// Type definition for deserializing an event.
-  typedef void (*deserialize_method) (SERVANT *, const EVENT &);
+  typedef CUTS_OpenSplice_Traits_T <EVENT> traits_type;
+  typedef typename traits_type::reader_type reader_type;
+  typedef typename traits_type::reader_var_type reader_var_type;
+
+  typedef void (*DESERIALIZE_METHOD) (SERVANT *, const EVENT &);
 
   /**
    * Initializing constructor.
+   *
+   * @param[in]         servant         The parent servant.
+   * @param[in]         callback        Deserialized method on servant.
    */
   CUTS_OpenSplice_CCM_EventConsumer_T (SERVANT * servant,
-                                       deserialize_method callback);
+                                       DESERIALIZE_METHOD callback);
 
   /// Destructor.
   virtual ~CUTS_OpenSplice_CCM_EventConsumer_T (void);
 
+  virtual int configure (::DDS::Subscriber_ptr subscriber,
+                         const char * inst,
+                         const char * topic_name);
+
   /// Callback for notification of new data.
   virtual void on_data_available (::DDS::DataReader_ptr reader);
-
-  virtual int configure (::DDS::DomainParticipant_ptr participant,
-                         const char * inst,
-                         const char * topic);
 
 private:
   /// Servant to pass event.
   SERVANT * servant_;
 
   /// Method for deserializing an event.
-  deserialize_method callback_;
+  DESERIALIZE_METHOD callback_;
 
-  typename CUTS_OpenSplice_Traits_T <EVENT>::reader_var_type reader_;
+  /// The concrete reader for this consumer.
+  reader_var_type reader_;
 };
 
 #include "OpenSplice_EventConsumer_T.cpp"

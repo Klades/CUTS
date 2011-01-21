@@ -7,38 +7,24 @@
 #endif
 
 //
-// configure_i
+// open_i
 //
-int
-CUTS_OpenSplice_CCM_EventConsumer::
-open (::DDS::DomainParticipant_ptr participant,
-      ::DDS::TypeSupport_ptr type_support,
-      const char * topic_name)
+int CUTS_OpenSplice_CCM_EventConsumer::
+open_i (::DDS::TypeSupport_ptr type_support, const char * topic)
 {
-  // Open the underlying endpoint for the consumer.
-  this->participant_ = ::DDS::DomainParticipant::_duplicate (participant);
-  int retval = this->endpoint_.open (this->participant_.in (),
+  // First, we need to open the endpoint for this consumer.
+  ::DDS::DomainParticipant_var participant = this->subscriber_->get_participant ();
+
+  int retval = this->endpoint_.open (participant.in (),
                                      type_support,
-                                     topic_name);
+                                     topic);
 
   if (0 != retval)
     ACE_ERROR_RETURN ((LM_ERROR,
                        ACE_TEXT ("%T (%t) - %M - failed to activate endpoint for ")
                        ACE_TEXT ("an event consumer [topic = %s]\n"),
-                       topic_name),
+                       topic),
                        -1);
-
-  // Now, subscribe to the topic so components can send
-  // events to this event consumer.
-  this->subscriber_ =
-    participant->create_subscriber (SUBSCRIBER_QOS_DEFAULT,
-                                    ::DDS::SubscriberListener::_nil (),
-                                    ::DDS::ANY_STATUS);
-
-  if (::CORBA::is_nil (this->subscriber_.in ()))
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         ACE_TEXT ("%T (%t) - %M - failed to create subscriber\n")),
-                         -1);
 
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - creating a datareader for the topic\n")));
@@ -82,18 +68,7 @@ int CUTS_OpenSplice_CCM_EventConsumer::close (void)
   }
 
   if (!::CORBA::is_nil (this->subscriber_.in ()))
-  {
-    // Delete the subscriber.
-    retcode = this->participant_->delete_subscriber (this->subscriber_.in ());
-
-    if (retcode == ::DDS::RETCODE_OK)
-      this->subscriber_ = ::DDS::Subscriber::_nil ();
-    else
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         ACE_TEXT ("%T (%t) - %M - failed to delete subscriber (retcode=%d)\n"),
-                         retcode),
-                         -1);
-  }
+    this->subscriber_ = ::DDS::Subscriber::_nil ();
 
   // Finally, close the endpoint.
   if (this->endpoint_.is_open ())

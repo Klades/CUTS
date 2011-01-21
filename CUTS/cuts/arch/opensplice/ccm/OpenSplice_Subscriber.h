@@ -19,21 +19,23 @@ class CUTS_OPENSPLICE_CCM_Export CUTS_OpenSplice_CCM_Subscriber :
 
   virtual ~CUTS_OpenSplice_CCM_Subscriber (void);
 
-  virtual void configure (::DDS::DomainParticipant_ptr participant);
+  virtual void configure (::DDS::Publisher_ptr publisher);
 
   virtual void connect (::Components::EventConsumerBase_ptr consumer);
 
   virtual ::Components::EventConsumerBase_ptr disconnect (void);
 
- protected:
-  ::Components::EventConsumerBase_var consumer_;
+protected:
+  /// The consumer connected to this publisher.
+  ::Components::OpenSplice::EventConsumer_var consumer_;
 
-  ::DDS::DomainParticipant_var participant_;
-
+  /// The publisher assigned to this object.
   ::DDS::Publisher_var publisher_;
 
+  /// The writer assigned to this publisher.
   ::DDS::DataWriter_var abstract_writer_;
 
+  /// The underlying endpoint for the publisher.
   CUTS_OpenSplice_Endpoint endpoint_;
 };
 

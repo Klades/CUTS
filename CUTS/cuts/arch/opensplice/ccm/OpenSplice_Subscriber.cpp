@@ -22,9 +22,9 @@ CUTS_OpenSplice_CCM_Subscriber::~CUTS_OpenSplice_CCM_Subscriber (void)
 // configure
 //
 void CUTS_OpenSplice_CCM_Subscriber::
-configure (::DDS::DomainParticipant_ptr participant)
+configure (::DDS::Publisher_ptr publisher)
 {
-  this->participant_ = ::DDS::DomainParticipant::_duplicate (participant);
+  this->publisher_ = ::DDS::Publisher::_duplicate (publisher);
 }
 
 //
@@ -33,13 +33,6 @@ configure (::DDS::DomainParticipant_ptr participant)
 void CUTS_OpenSplice_CCM_Subscriber::
 connect (::Components::EventConsumerBase_ptr p)
 {
-  // Now, register for the topic. Subscribing an event consumer to
-  // will enable a component to register for this topic.
-  this->publisher_ =
-    this->participant_->create_publisher (PUBLISHER_QOS_DEFAULT,
-                                          ::DDS::PublisherListener::_nil (),
-                                          ::DDS::ANY_STATUS);
-
   // The last part is to create a data reader.
   ::DDS::Topic_var topic = this->endpoint_.topic ();
 
@@ -49,7 +42,7 @@ connect (::Components::EventConsumerBase_ptr p)
                                            0,
                                           ::DDS::ANY_STATUS);
 
-  this->consumer_ = p;
+  this->consumer_ = ::Components::OpenSplice::EventConsumer::_narrow (p);
 }
 
 //
@@ -73,15 +66,7 @@ CUTS_OpenSplice_CCM_Subscriber::disconnect (void)
   }
 
   if (!::CORBA::is_nil (this->publisher_.in ()))
-  {
-    retcode = this->participant_->delete_publisher (this->publisher_.in ());
-
-    if (retcode == ::DDS::RETCODE_OK)
-      this->publisher_ = ::DDS::Publisher::_nil ();
-    else
-      ACE_ERROR ((LM_ERROR,
-                  ACE_TEXT ("%T (%t) - %M - failed to delete publisher\n")));
-  }
+    this->publisher_ = ::DDS::Publisher::_nil ();
 
   if (this->endpoint_.is_open ())
   {

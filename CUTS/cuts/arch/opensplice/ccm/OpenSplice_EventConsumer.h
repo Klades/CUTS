@@ -24,13 +24,9 @@ public:
   /// Destructor.
   virtual ~CUTS_OpenSplice_CCM_EventConsumer (void);
 
-  virtual int configure (::DDS::DomainParticipant_ptr participant,
+  virtual int configure (::DDS::Subscriber_ptr subscriber,
                          const char * inst,
                          const char * topic_name) = 0;
-
-  virtual int open (::DDS::DomainParticipant_ptr participant,
-                    ::DDS::TypeSupport_ptr type_support,
-                    const char * topic_name);
 
   /// Close the event consumer.
   virtual int close (void);
@@ -39,14 +35,18 @@ public:
   virtual ::Components::OpenSplice::TopicDescription * topic_description (void);
 
 protected:
+  /**
+   * Open the event consumer for this type.
+   *
+   * @param[in]       type_support        The type support system
+   * @param[in]       topic_name          Name of the topic
+   */
+  int open_i (::DDS::TypeSupport_ptr type, const char * topic_name);
+
   /// The endpoint for this consumer.
   CUTS_OpenSplice_Endpoint endpoint_;
 
   /// The participant assigned to this consumer.
-  ::DDS::DomainParticipant_var participant_;
-
-  /// Right now, we assume that each consumer is a subscriber. In the
-  /// future, we may want to enable shared subscriptions between consumers.
   ::DDS::Subscriber_var subscriber_;
 
   /// The abstract reader for the event consumer.

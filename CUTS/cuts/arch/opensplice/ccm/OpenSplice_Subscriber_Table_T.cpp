@@ -40,7 +40,7 @@ subscribe (::Components::EventConsumerBase_ptr consumer)
                     ::CORBA::NO_MEMORY ());
 
   ACE_Auto_Ptr < subscriber_type > auto_clean (subscriber);
-  subscriber->configure (this->participant_.in ());
+  subscriber->configure (this->publisher_.in ());
 
   // Cache the subscriber.
   if (0 != this->table_.bind (uuid, subscriber))

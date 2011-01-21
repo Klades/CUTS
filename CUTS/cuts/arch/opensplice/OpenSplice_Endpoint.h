@@ -23,11 +23,23 @@ class CUTS_OPENSPLICE_Export CUTS_OpenSplice_Endpoint
 
   /**
    * Open the endpoint by creating the topic.
+   *
+   * @param[in]       participant       The domain participant
+   * @param[in]       type_support      The type support system
+   * @param[in]       topic_name        Name of the topic
    */
   virtual int open (::DDS::DomainParticipant_ptr participant,
                     ::DDS::TypeSupport_ptr type_support,
                     const char * topic_name);
 
+  /**
+   * Open the endpoint by creating the topic.
+   *
+   * @param[in]       participant       The domain participant
+   * @param[in]       type_support      The type support system
+   * @param[in]       type_name         The name of the type
+   * @param[in]       topic_name        Name of the topic
+   */
   virtual int open (::DDS::DomainParticipant_ptr participant,
                     ::DDS::TypeSupport_ptr type_support,
                     const char * type_name,

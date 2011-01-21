@@ -44,16 +44,17 @@ connect (::Components::EventConsumerBase_ptr p)
       topic_desc = consumer->topic_description ();
 
   // Make sure the type is registered with the participant.
-  typename CUTS_OpenSplice_Traits_T <EVENT>::dds_typesupport_type * type_temp = 0;
+  typename traits_type::dds_typesupport_type * type_temp = 0;
 
   ACE_NEW_THROW_EX (type_temp,
                     typename CUTS_OpenSplice_Traits_T <EVENT>::dds_typesupport_type (),
                     ::CORBA::NO_MEMORY ());
 
-  typename CUTS_OpenSplice_Traits_T <EVENT>::dds_typesupport_var_type type_var (type_temp);
+  typename traits_type::dds_typesupport_var_type type_var (type_temp);
+  ::DDS::DomainParticipant_var participant = this->publisher_->get_participant ();
 
   int retval =
-    this->endpoint_.open (this->participant_.in (),
+    this->endpoint_.open (participant.in (),
                           type_var.in (),
                           topic_desc->type_name.in (),
                           topic_desc->name.in ());
@@ -70,8 +71,7 @@ connect (::Components::EventConsumerBase_ptr p)
   // Pass control the base class.
   CUTS_OpenSplice_CCM_Subscriber::connect (consumer.in ());
 
-  this->writer_ =
-    CUTS_OpenSplice_Traits_T <EVENT>::writer_type::_narrow (this->abstract_writer_.in ());
+  this->writer_ = traits_type::writer_type::_narrow (this->abstract_writer_.in ());
 }
 
 //

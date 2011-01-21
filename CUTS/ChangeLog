@@ -1,3 +1,28 @@
+Fri Jan 21 19:40:19 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/arch/opensplice/OpenSplice_Endpoint.h:
+        * cuts/arch/opensplice/OpenSplice_Endpoint.cpp:
+        * cuts/arch/opensplice/OpenSplice_Servant.h:
+        * cuts/arch/opensplice/OpenSplice_Servant.inl:
+        * cuts/arch/opensplice/OpenSplice_Servant.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.inl:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table_T.cpp:
+
+          This is now one publisher and subscriber per client. This means that
+          the servant is responsible for creating the publisher and subscriber
+          objects. It then configures the event port objects with the object type.
+
 Fri Jan 21 13:46:59 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/arch/opensplice/OpenSplice_Servant.h:

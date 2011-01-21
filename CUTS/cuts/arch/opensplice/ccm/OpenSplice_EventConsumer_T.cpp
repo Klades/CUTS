@@ -4,8 +4,7 @@
 
 template <typename SERVANT, typename EVENT>
 CUTS_OpenSplice_CCM_EventConsumer_T <SERVANT, EVENT>::
-CUTS_OpenSplice_CCM_EventConsumer_T (SERVANT * servant,
-                                     deserialize_method callback)
+CUTS_OpenSplice_CCM_EventConsumer_T (SERVANT * servant, DESERIALIZE_METHOD callback)
 : servant_ (servant),
   callback_ (callback)
 {
@@ -24,10 +23,12 @@ CUTS_OpenSplice_CCM_EventConsumer_T <SERVANT, EVENT>::
 //
 template <typename SERVANT, typename EVENT>
 int CUTS_OpenSplice_CCM_EventConsumer_T <SERVANT, EVENT>::
-configure (::DDS::DomainParticipant_ptr participant,
+configure (::DDS::Subscriber_ptr subscriber,
            const char * inst,
            const char * topic)
 {
+  this->subscriber_ = ::DDS::Subscriber::_duplicate (subscriber);
+
   // First, let's create the fully qualified name of the topic.
   ACE_CString new_topic_name (inst);
   new_topic_name += ".";
@@ -35,24 +36,23 @@ configure (::DDS::DomainParticipant_ptr participant,
 
   // Register the type for with the participant. This should really
   // be done in the servant's code!!
-  typename CUTS_OpenSplice_Traits_T <EVENT>::dds_typesupport_type * type_temp = 0;
+  typename traits_type::dds_typesupport_type * type_temp = 0;
 
   ACE_NEW_THROW_EX (type_temp,
-        typename CUTS_OpenSplice_Traits_T <EVENT>::dds_typesupport_type (),
-        ::CORBA::NO_MEMORY ());
+                    typename traits_type::dds_typesupport_type (),
+                    ::CORBA::NO_MEMORY ());
 
-  typename CUTS_OpenSplice_Traits_T <EVENT>::dds_typesupport_var_type type_var (type_temp);
+  typename traits_type::dds_typesupport_var_type type_var (type_temp);
 
-  int retval =
-    this->open (participant, type_var.in (), new_topic_name.c_str ());
+  // Let's go ahead of open this consumer for events.
+  int retval = this->open_i (type_var.in (), new_topic_name.c_str ());
 
   if (0 != retval)
     ACE_ERROR_RETURN ((LM_ERROR,
                        ACE_TEXT ("%T (%t) - %M - failed to open the consumer\n")),
                        -1);
 
-  this->reader_ =
-    CUTS_OpenSplice_Traits_T <EVENT>::reader_type::_narrow (this->abstract_reader_.in ());
+  this->reader_ = reader_type::_narrow (this->abstract_reader_.in ());
 
   return 0;
 }
@@ -64,12 +64,11 @@ template <typename SERVANT, typename EVENT>
 void CUTS_OpenSplice_CCM_EventConsumer_T <SERVANT, EVENT>::
 on_data_available (::DDS::DataReader_ptr p)
 {
-  typename CUTS_OpenSplice_Traits_T <EVENT>::dds_event_sequence_type event_seq;
+  typename traits_type::dds_event_sequence_type event_seq;
   ::DDS::SampleInfoSeq sample_info;
 
   // Get the concrete reader from the generic reader.
-  typename CUTS_OpenSplice_Traits_T <EVENT>::reader_var_type reader =
-    CUTS_OpenSplice_Traits_T <EVENT>::reader_type::_narrow (p);
+  reader_var_type reader = reader_type::_narrow (p);
 
   ::DDS::ReturnCode_t status =
       reader->take (event_seq,

@@ -33,7 +33,7 @@ public:
 
 protected:
   typedef ACE_Hash_Map_Manager <ACE_Utils::UUID,
-				subscriber_type *,
+                                subscriber_type *,
                                 ACE_RW_Thread_Mutex> table_type;
 
   table_type table_;

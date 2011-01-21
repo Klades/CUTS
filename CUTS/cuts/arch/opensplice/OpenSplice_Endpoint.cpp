@@ -18,7 +18,11 @@ open (::DDS::DomainParticipant_ptr participant,
 {
   // First, register the type with the participant.
   ::CORBA::String_var type_name = type_support->get_type_name ();
-  return this->open (participant, type_support, type_name.in (), topic_name);
+
+  return this->open (participant,
+                     type_support,
+                     type_name.in (),
+                     topic_name);
 }
 
 //
@@ -38,14 +42,12 @@ open (::DDS::DomainParticipant_ptr participant,
       type_support->register_type (participant, type_name);
 
   if (::DDS::RETCODE_OK != status)
-    {
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T ($t) - %M - failed to register type %s with participant; "
-                         " return code = %d\n",
-                         type_name,
-                         status),
-                        -1);
-    }
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       "%T ($t) - %M - failed to register type %s with participant; "
+                       " return code = %d\n",
+                       type_name,
+                       status),
+                      -1);
 
   // We need to normalize the topic name. Right now, we are only
   // checking for periods (.) in the topic name.
@@ -64,18 +66,16 @@ open (::DDS::DomainParticipant_ptr participant,
   // Next, we can create the topic for the endpoint.
   this->dds_topic_ =
     participant->create_topic (normalized_topic_name.c_str (),
-             type_name,
-             TOPIC_QOS_DEFAULT,
-             ::DDS::TopicListener::_nil (),
-             ::DDS::ANY_STATUS);
+                               type_name,
+                               TOPIC_QOS_DEFAULT,
+                               ::DDS::TopicListener::_nil (),
+                               ::DDS::ANY_STATUS);
 
   if (::CORBA::is_nil (this->dds_topic_.in ()))
-    {
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         "%T (%t) - %M - failed to create topic %s\n",
-                         topic_name),
-                        -1);
-    }
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       "%T (%t) - %M - failed to create topic %s\n",
+                       topic_name),
+                      -1);
 
   // Save the participant for later.
   this->participant_ = ::DDS::DomainParticipant::_duplicate (participant);

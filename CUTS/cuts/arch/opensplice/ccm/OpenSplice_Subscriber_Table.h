@@ -14,14 +14,21 @@ class CUTS_OPENSPLICE_CCM_Export CUTS_OpenSplice_CCM_Subscriber_Table :
   public CUTS_CCM_Subscriber_Table
 {
 public:
+  /// Default constructor.
   CUTS_OpenSplice_CCM_Subscriber_Table (void);
 
+  /// Destructor.
   virtual ~CUTS_OpenSplice_CCM_Subscriber_Table (void);
 
-  virtual void configure (::DDS::DomainParticipant_ptr participant);
+  /**
+   * Configure the table with this publisher. This means that all
+   * connections in this table use the specified publisher.
+   */
+  virtual void configure (::DDS::Publisher_ptr publisher);
 
 protected:
-  ::DDS::DomainParticipant_var participant_;
+  /// Publisher assigned to this table.
+  ::DDS::Publisher_var publisher_;
 };
 
 #endif  // !defined _CUTS_OPENSPLICE_CCM_SUBSCRIBER_TABLE_H_
