@@ -1,10 +1,24 @@
+Fri Jan 21 13:46:59 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/arch/opensplice/OpenSplice_Servant.h:
+
+          Fixed formatting issues.
+
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table_T.cpp:
+
+          The send_event () method now expects the event to have a single
+          member named 'content'. This helps reduce the need to translate
+          data when sending via the CORBA bindings of OpenSplice.
+
 Tue Jan 18 16:41:44 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * examples/cuts/utils/unite/adapter/ActiveMQ:
         * examples/cuts/utils/unite/adapter/ActiveMQ/Activemq.datagraph:
         * examples/cuts/utils/unite/adapter/ActiveMQ/Activemq.unite:
         * examples/cuts/utils/unite/adapter/ActiveMQ/Activemq_Adapter.uas:
-        
+
           Adding the ActiveMQ sample after changing the directory name.
 
 Tue Jan 18 16:08:41 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>

@@ -82,7 +82,15 @@ on_data_available (::DDS::DataReader_ptr p)
   if (status == ::DDS::RETCODE_OK)
   {
     if (0 != this->callback_)
-      (*this->callback_) (this->servant_, event_seq[0]);
+    {
+      // Get the length of the sequence.
+      int length = event_seq.length ();
+
+      // Make sure we pass each received event to the component servant,
+      // and then to the component implementation.
+      for (int i = 0; i < length; ++ i)
+        (*this->callback_) (this->servant_, event_seq[i]);
+    }
   }
   else
     ACE_ERROR ((LM_ERROR,

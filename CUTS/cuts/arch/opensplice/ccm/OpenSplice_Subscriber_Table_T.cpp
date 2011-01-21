@@ -20,7 +20,7 @@ CUTS_OpenSplice_CCM_Subscriber_Table_T <EVENT>::
 // subscribe
 //
 template <typename EVENT>
-::Components::Cookie * 
+::Components::Cookie *
 CUTS_OpenSplice_CCM_Subscriber_Table_T <EVENT>::
 subscribe (::Components::EventConsumerBase_ptr consumer)
 {
@@ -41,7 +41,7 @@ subscribe (::Components::EventConsumerBase_ptr consumer)
 
   ACE_Auto_Ptr < subscriber_type > auto_clean (subscriber);
   subscriber->configure (this->participant_.in ());
-  
+
   // Cache the subscriber.
   if (0 != this->table_.bind (uuid, subscriber))
     throw ::CORBA::INTERNAL ();
@@ -64,7 +64,7 @@ subscribe (::Components::EventConsumerBase_ptr consumer)
 // unsubscribe
 //
 template <typename EVENT>
-::Components::EventConsumerBase_ptr 
+::Components::EventConsumerBase_ptr
 CUTS_OpenSplice_CCM_Subscriber_Table_T <EVENT>::
 unsubscribe (::Components::Cookie * c)
 {
@@ -99,17 +99,13 @@ template <typename EVENT>
 void CUTS_OpenSplice_CCM_Subscriber_Table_T <EVENT>::
 send_event (typename traits_type::corba_event_type * ev)
 {
-  // First, convert the CORBA event to a DDS event.
-  typename traits_type::dds_event_type dds_event;
-  *ev >>= dds_event;
-
   typedef typename table_type::lock_type lock_type;
   ACE_READ_GUARD (lock_type, guard, this->table_.mutex ());
 
   // Send the event to all the subscribers.
   typename table_type::ITERATOR iter (this->table_);
-  
+
   for (; !iter.done (); ++ iter)
-    iter->item ()->send_event (dds_event);
+    iter->item ()->send_event (ev->content ());
 }
 

@@ -83,9 +83,9 @@ send_event (typename traits_type::corba_event_type * ev)
 {
   // Convert the CORBA event into a DDS event.
   typename traits_type::dds_event_type dds_event;
-  *ev >>= dds_event;
+  //*ev >>= dds_event;
 
-  this->send_event (dds_event);
+  this->send_event (ev->content ());
 }
 
 //                                                                                                                                                                                 // send_event

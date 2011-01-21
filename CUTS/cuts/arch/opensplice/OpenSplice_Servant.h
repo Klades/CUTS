@@ -21,7 +21,7 @@ class CUTS_OPENSPLICE_Export CUTS_OpenSplice_Servant
    * @return     The current domain participant
    */
   virtual ::DDS::DomainParticipant_ptr participant (void);
-  
+
   /**
    * Configure the servant using the provided domain participant.
    *
@@ -32,7 +32,7 @@ class CUTS_OPENSPLICE_Export CUTS_OpenSplice_Servant
   /// Remove the servant.
   virtual ::DDS::DomainParticipant_ptr remove_participant (void);
 
- protected:
+protected:
   /// Default constructor.
   CUTS_OpenSplice_Servant (void);
 
