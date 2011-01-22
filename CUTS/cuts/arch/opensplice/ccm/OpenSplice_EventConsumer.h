@@ -1,5 +1,15 @@
 // -*- C++ -*-
 
+//=============================================================================
+/**
+ *  @file         OpenSplice_EventConsumer.h
+ *
+ *  $Id$
+ *
+ *  @author       James H. Hill
+ */
+//=============================================================================
+
 #ifndef _CUTS_OPENSPLICE_CCM_EVENTCONSUMER_H_
 #define _CUTS_OPENSPLICE_CCM_EVENTCONSUMER_H_
 

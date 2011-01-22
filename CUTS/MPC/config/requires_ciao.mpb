@@ -1,9 +1,0 @@
-// $Id$
-
-project {
-  requires += ciao
-}
-
-feature (ciao) {
-  macros += CUTS_HAS_CIAO
-}

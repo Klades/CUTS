@@ -1,0 +1,9 @@
+// $Id$
+
+project {
+  requires += ccm
+}
+
+feature (ccm) {
+  macros += CUTS_HAS_CCM
+}

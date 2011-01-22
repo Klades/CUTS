@@ -10,31 +10,36 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_CCM_SINGLE_SUBSCRIBER_H_
-#define _CUTS_CCM_SINGLE_SUBSCRIBER_H_
+#ifndef _CUTS_CCM_PUBLISHER_H_
+#define _CUTS_CCM_PUBLISHER_H_
 
 #include "ccm/CCM_EventConsumerBaseC.h"
 #include "CCM_export.h"
 
 /**
- * @class CUTS_CCM_Single_Subscriber
+ * @class CUTS_CCM_Publisher
+ *
+ * The interface for all CCM publishers.
  */
-class CUTS_CCM_Export CUTS_CCM_Single_Subscriber
+class CUTS_CCM_Export CUTS_CCM_Publisher
 {
 public:
-  virtual ~CUTS_CCM_Single_Subscriber (void) = 0;
+  /// Destructor.
+  virtual ~CUTS_CCM_Publisher (void) = 0;
 
+  /**
+   * Connect a consumer to this publisher.
+   *
+   * @param[in]         consumer        The connecting consumer.
+   */
   virtual void connect (::Components::EventConsumerBase_ptr consumer) = 0;
 
+  /// Disconnect the currently connected consumer.
   virtual ::Components::EventConsumerBase_ptr disconnect (void) = 0;
-
-protected:
-  /// Default constructor.
-  CUTS_CCM_Single_Subscriber (void);
 };
 
 #if defined (__CUTS_INLINE__)
-#include "CCM_Single_Subscriber.inl"
+#include "CCM_Publisher.inl"
 #endif
 
 #endif  // !defined _CUTS_TCPIP_CCM_REMOTE_ENDPOINT_H_

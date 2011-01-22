@@ -23,10 +23,10 @@
 class CUTS_CCM_EventConsumer;
 
 // Forward decl.
-class CUTS_CCM_Single_Subscriber;
+class CUTS_CCM_Publisher;
 
 // Forward decl.
-class CUTS_CCM_Subscriber_Table;
+class CUTS_CCM_Publisher_Table;
 
 /**
  * @class CUTS_CCM_Servant_T
@@ -149,7 +149,7 @@ protected:
   consumer_map_type consumers_;
 
   typedef ACE_Hash_Map_Manager <ACE_CString,
-                                CUTS_CCM_Subscriber_Table *,
+                                CUTS_CCM_Publisher_Table *,
                                 ACE_RW_Thread_Mutex>
                                 publishes_map_type;
 
@@ -157,7 +157,7 @@ protected:
   publishes_map_type publishes_;
 
   typedef ACE_Hash_Map_Manager <ACE_CString,
-                                CUTS_CCM_Single_Subscriber *,
+                                CUTS_CCM_Publisher *,
                                 ACE_RW_Thread_Mutex>
                                 emits_map_type;
 

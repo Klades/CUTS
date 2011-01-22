@@ -5,8 +5,8 @@
 #endif
 
 #include "CCM_EventConsumer.h"
-#include "CCM_Single_Subscriber.h"
-#include "CCM_Subscriber_Table.h"
+#include "CCM_Publisher.h"
+#include "CCM_Publisher_Table.h"
 
 //
 // CUTS_CCM_Servant_T
@@ -137,7 +137,7 @@ void CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
 connect_consumer (const char * name, Components::EventConsumerBase_ptr consumer)
 {
   // Locate the endpoint for this consumer.
-  CUTS_CCM_Single_Subscriber * single = 0;
+  CUTS_CCM_Publisher * single = 0;
 
   if (0 != this->emits_.find (name, single))
     throw ::Components::InvalidName ();
@@ -156,7 +156,7 @@ CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
 disconnect_consumer (const char * name)
 {
   // Locate the endpoint for this consumer.
-  CUTS_CCM_Single_Subscriber * single = 0;
+  CUTS_CCM_Publisher * single = 0;
 
   if (0 != this->emits_.find (name, single))
     throw ::Components::InvalidName ();
@@ -173,7 +173,7 @@ template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, ty
 CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
 subscribe (const char * publisher_name, ::Components::EventConsumerBase_ptr subscriber)
 {
-  CUTS_CCM_Subscriber_Table * table = 0;
+  CUTS_CCM_Publisher_Table * table = 0;
 
   if (0 != this->publishes_.find (publisher_name, table))
     throw ::Components::InvalidName ();
@@ -189,7 +189,7 @@ template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, ty
 CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
 unsubscribe (const char * publisher_name, ::Components::Cookie * cookie)
 {
-  CUTS_CCM_Subscriber_Table * table = 0;
+  CUTS_CCM_Publisher_Table * table = 0;
 
   if (0 != this->publishes_.find (publisher_name, table))
     throw ::Components::InvalidName ();

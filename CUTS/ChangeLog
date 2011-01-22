@@ -1,3 +1,95 @@
+Sat Jan 22 05:47:48 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MPC/config/cuts_ccm.mpb:
+        * MPC/config/cuts_ccm_stub.mpb:
+        * MPC/config/requires_ccm.mpb:
+        * cuts/arch/ccm/CUTS_CCM.idl:
+        * cuts/arch/ccm/CUTS_CCM.mpc:
+
+          Changed the name of the CUTS_CIAO* project and binaries to
+          CUTS_CCM*.
+
+        * cuts/arch/ccm/CCM_Publisher.h:
+        * cuts/arch/ccm/CCM_Publisher.inl:
+        * cuts/arch/ccm/CCM_Publisher.cpp:
+        * cuts/arch/ccm/CCM_Publisher_T.h:
+        * cuts/arch/ccm/CCM_Publisher_T.inl:
+        * cuts/arch/ccm/CCM_Publisher_T.cpp:
+        * cuts/arch/ccm/CCM_Publisher_Table.h:
+        * cuts/arch/ccm/CCM_Publisher_Table.inl:
+        * cuts/arch/ccm/CCM_Publisher_Table.cpp:
+        * cuts/arch/ccm/CCM_Publisher_Table_T.h:
+        * cuts/arch/ccm/CCM_Publisher_Table_T.inl:
+        * cuts/arch/ccm/CCM_Publisher_Table_T.cpp:
+        * cuts/arch/ccm/CCM_Servant_T.h:
+        * cuts/arch/ccm/CCM_Servant_T.cpp:
+        * cuts/arch/ccm/CCM_Traits_T.h:
+
+          Renamed the CUTS_Subscriber* classes to CUTS_Publisher* since the
+          latter name is more consistent with the object's intents.
+
+          Updated the header documentation for each class.
+
+          Moved relevant code to .inl files.
+
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM.mpc:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.inl:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher.inl:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher_T.inl:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher_Table.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher_Table.inl:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher_Table.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher_Table_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher_Table_T.cpp:
+        * cuts/arch/opensplice/OpenSplice_Endpoint.h:
+
+          Renamed the CUTS_OpenSplice_Subscriber* classes to
+          CUTS_OpenSplice_Publisher* since the latter name is more consistent
+          with the object's intents.
+
+          Updated the header documentation for each class.
+
+          Moved relevant code to .inl files.
+
+        * default.features.tmpl:
+
+          Added the feature named 'ccm'.
+
+        * MPC/config/cuts_ciao_stub.mpb:
+        * MPC/config/requires_ciao.mpb:
+        * cuts/arch/ccm/CCM_Single_Subscriber.h:
+        * cuts/arch/ccm/CCM_Single_Subscriber.inl:
+        * cuts/arch/ccm/CCM_Single_Subscriber.cpp:
+        * cuts/arch/ccm/CCM_Single_Subscriber_T.h:
+        * cuts/arch/ccm/CCM_Single_Subscriber_T.inl:
+        * cuts/arch/ccm/CCM_Single_Subscriber_T.cpp:
+        * cuts/arch/ccm/CCM_Subscriber_Table.h:
+        * cuts/arch/ccm/CCM_Subscriber_Table.inl:
+        * cuts/arch/ccm/CCM_Subscriber_Table.cpp:
+        * cuts/arch/ccm/CCM_Subscriber_Table_T.h:
+        * cuts/arch/ccm/CCM_Subscriber_Table_T.inl:
+        * cuts/arch/ccm/CCM_Subscriber_Table_T.cpp:
+        * cuts/arch/ccm/CUTS_CIAO.idl:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Subscriber_Table_T.cpp:
+
+          Removed these files.
+
 Fri Jan 21 19:46:11 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/arch/PingPong:

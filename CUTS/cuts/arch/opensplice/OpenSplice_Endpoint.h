@@ -1,5 +1,15 @@
 // -*- C++ -*-
 
+//=============================================================================
+/**
+ *  @file         OpenSplice_Endpoint.h
+ *
+ *  $Id$
+ *
+ *  @author       James H. Hill
+ */
+//=============================================================================
+
 #ifndef _CUTS_OPENSPLICE_ENDPOINT_H_
 #define _CUTS_OPENSPLICE_ENDPOINT_H_
 

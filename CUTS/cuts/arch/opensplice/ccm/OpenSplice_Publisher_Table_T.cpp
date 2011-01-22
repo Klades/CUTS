@@ -3,15 +3,15 @@
 #include "cuts/arch/ccm/CCM_Cookie.h"
 
 template <typename EVENT>
-CUTS_OpenSplice_CCM_Subscriber_Table_T <EVENT>::
-CUTS_OpenSplice_CCM_Subscriber_Table_T (void)
+CUTS_OpenSplice_CCM_Publisher_Table_T <EVENT>::
+CUTS_OpenSplice_CCM_Publisher_Table_T (void)
 {
 
 }
 
 template <typename EVENT>
-CUTS_OpenSplice_CCM_Subscriber_Table_T <EVENT>::
-~CUTS_OpenSplice_CCM_Subscriber_Table_T (void)
+CUTS_OpenSplice_CCM_Publisher_Table_T <EVENT>::
+~CUTS_OpenSplice_CCM_Publisher_Table_T (void)
 {
 
 }
@@ -21,7 +21,7 @@ CUTS_OpenSplice_CCM_Subscriber_Table_T <EVENT>::
 //
 template <typename EVENT>
 ::Components::Cookie *
-CUTS_OpenSplice_CCM_Subscriber_Table_T <EVENT>::
+CUTS_OpenSplice_CCM_Publisher_Table_T <EVENT>::
 subscribe (::Components::EventConsumerBase_ptr consumer)
 {
   // Generate a new UUID for the subscriber.
@@ -65,7 +65,7 @@ subscribe (::Components::EventConsumerBase_ptr consumer)
 //
 template <typename EVENT>
 ::Components::EventConsumerBase_ptr
-CUTS_OpenSplice_CCM_Subscriber_Table_T <EVENT>::
+CUTS_OpenSplice_CCM_Publisher_Table_T <EVENT>::
 unsubscribe (::Components::Cookie * c)
 {
   // Extract the UUID from the cookie.
@@ -96,7 +96,7 @@ unsubscribe (::Components::Cookie * c)
 // send_event
 //
 template <typename EVENT>
-void CUTS_OpenSplice_CCM_Subscriber_Table_T <EVENT>::
+void CUTS_OpenSplice_CCM_Publisher_Table_T <EVENT>::
 send_event (typename traits_type::corba_event_type * ev)
 {
   typedef typename table_type::lock_type lock_type;

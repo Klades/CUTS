@@ -1,36 +1,15 @@
 // $Id$
 
-#include "OpenSplice_Subscriber.h"
+#include "OpenSplice_Publisher.h"
 
-//
-// CUTS_OpenSplice_CCM_Subscriber
-//
-CUTS_OpenSplice_CCM_Subscriber::CUTS_OpenSplice_CCM_Subscriber (void)
-{
-
-}
-
-//
-// ~CUTS_OpenSplice_CCM_Subscriber
-//
-CUTS_OpenSplice_CCM_Subscriber::~CUTS_OpenSplice_CCM_Subscriber (void)
-{
-  this->disconnect ();
-}
-
-//
-// configure
-//
-void CUTS_OpenSplice_CCM_Subscriber::
-configure (::DDS::Publisher_ptr publisher)
-{
-  this->publisher_ = ::DDS::Publisher::_duplicate (publisher);
-}
+#if !defined (__CUTS_INLINE__)
+#include "OpenSplice_Publisher.inl"
+#endif
 
 //
 // connect
 //
-void CUTS_OpenSplice_CCM_Subscriber::
+void CUTS_OpenSplice_CCM_Publisher::
 connect (::Components::EventConsumerBase_ptr p)
 {
   // The last part is to create a data reader.
@@ -49,7 +28,7 @@ connect (::Components::EventConsumerBase_ptr p)
 // disconnect
 //
 ::Components::EventConsumerBase_ptr
-CUTS_OpenSplice_CCM_Subscriber::disconnect (void)
+CUTS_OpenSplice_CCM_Publisher::disconnect (void)
 {
   // Delete the data write for this subscriber.
   DDS::ReturnCode_t retcode;

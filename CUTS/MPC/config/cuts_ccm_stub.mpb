@@ -1,0 +1,6 @@
+// $Id$
+
+project : requires_ccm, cuts_stub {
+  libs  += CUTS_CCM_stub
+  after += CUTS_CCM_stub
+}

@@ -1,5 +1,15 @@
 // -*- C++ -*-
 
+//=============================================================================
+/**
+ *  @file         OpenSplice_CCM_Servant.h
+ *
+ *  $Id$
+ *
+ *  @author       James H. Hill
+ */
+//=============================================================================
+
 #ifndef _CUTS_OPENSPLICE_CCM_SERVANT_H_
 #define _CUTS_OPENSPLICE_CCM_SERVANT_H_
 

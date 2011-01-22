@@ -1,28 +1,14 @@
 // $Id$
 
-//
-// CUTS_OpenSplice_CCM_Subscriber_T
-//
-template <typename EVENT>
-CUTS_OpenSplice_CCM_Subscriber_T <EVENT>::CUTS_OpenSplice_CCM_Subscriber_T (void)
-{
-
-}
-
-//
-// ~CUTS_OpenSplice_CCM_Subscriber_T
-//
-template <typename EVENT>
-CUTS_OpenSplice_CCM_Subscriber_T <EVENT>::~CUTS_OpenSplice_CCM_Subscriber_T (void)
-{
-
-}
+#if !defined (__CUTS_INLINE__)
+#include "OpenSplice_Publisher_T.inl"
+#endif
 
 //
 // connect
 //
 template <typename EVENT>
-void CUTS_OpenSplice_CCM_Subscriber_T <EVENT>::
+void CUTS_OpenSplice_CCM_Publisher_T <EVENT>::
 connect (::Components::EventConsumerBase_ptr p)
 {
   // Get the DDS topic string from the consumer.
@@ -69,7 +55,7 @@ connect (::Components::EventConsumerBase_ptr p)
   }
 
   // Pass control the base class.
-  CUTS_OpenSplice_CCM_Subscriber::connect (consumer.in ());
+  CUTS_OpenSplice_CCM_Publisher::connect (consumer.in ());
 
   this->writer_ = traits_type::writer_type::_narrow (this->abstract_writer_.in ());
 }
@@ -78,7 +64,7 @@ connect (::Components::EventConsumerBase_ptr p)
 // send_event
 //
 template <typename EVENT>
-void CUTS_OpenSplice_CCM_Subscriber_T <EVENT>::
+void CUTS_OpenSplice_CCM_Publisher_T <EVENT>::
 send_event (typename traits_type::corba_event_type * ev)
 {
   // Convert the CORBA event into a DDS event.
@@ -91,7 +77,7 @@ send_event (typename traits_type::corba_event_type * ev)
 //                                                                                                                                                                                 // send_event
 //
 template <typename EVENT>
-void CUTS_OpenSplice_CCM_Subscriber_T <EVENT>::
+void CUTS_OpenSplice_CCM_Publisher_T <EVENT>::
 send_event (typename traits_type::dds_event_type & ev)
 {
   ::DDS::ReturnCode_t status = this->writer_->write (ev, ::DDS::HANDLE_NIL);

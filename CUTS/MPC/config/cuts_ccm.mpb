@@ -1,6 +1,6 @@
 // $Id$
 
-project : cuts_ciao_stub, ccm_svnt {
-  libs  += CUTS_CIAO_exec
-  after += CUTS_CIAO_exec
+project : cuts_ccm_stub, ccm_svnt {
+  libs  += CUTS_CCM
+  after += CUTS_CCM
 }

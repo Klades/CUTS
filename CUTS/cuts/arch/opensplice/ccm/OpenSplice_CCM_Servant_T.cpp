@@ -5,8 +5,8 @@
 #endif
 
 #include "OpenSplice_EventConsumer.h"
-#include "OpenSplice_Subscriber.h"
-#include "OpenSplice_Subscriber_Table.h"
+#include "OpenSplice_Publisher.h"
+#include "OpenSplice_Publisher_Table.h"
 
 //
 // configure
@@ -51,25 +51,25 @@ configure (::DDS::DomainParticipant_ptr participant)
   }
 
   typename emits_map_type::ITERATOR emits_iter (this->emits_);
-  CUTS_OpenSplice_CCM_Subscriber * subscriber = 0;
+  CUTS_OpenSplice_CCM_Publisher * subscriber = 0;
 
   for (; !emits_iter.done (); ++ emits_iter)
   {
     // Try and cast the object to an OpenSplice subscriber.
-    subscriber = dynamic_cast <CUTS_OpenSplice_CCM_Subscriber *> (emits_iter->item ());
+    subscriber = dynamic_cast <CUTS_OpenSplice_CCM_Publisher *> (emits_iter->item ());
 
     if (0 != subscriber)
       subscriber->configure (this->publisher_.in ());
   }
 
   typename publishes_map_type::ITERATOR publishes_iter (this->publishes_);
-  CUTS_OpenSplice_CCM_Subscriber_Table * subscriber_table = 0;
+  CUTS_OpenSplice_CCM_Publisher_Table * subscriber_table = 0;
 
   for (; !publishes_iter.done (); ++ publishes_iter)
   {
     // Try to cast the object to an OpenSplice subscriber table.
     subscriber_table =
-      dynamic_cast <CUTS_OpenSplice_CCM_Subscriber_Table *> (publishes_iter->item ());
+      dynamic_cast <CUTS_OpenSplice_CCM_Publisher_Table *> (publishes_iter->item ());
 
     if (0 != subscriber_table)
       subscriber_table->configure (this->publisher_.in ());

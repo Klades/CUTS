@@ -1,14 +1,14 @@
 // $Id$
 
 #if !defined (__CUTS_INLINE__)
-#include "CCM_Single_Subscriber_T.inl"
+#include "CCM_Publisher_T.inl"
 #endif
 
 //
 // connect
 //
 template <typename T>
-void CUTS_CCM_Single_Subscriber_T <T>::
+void CUTS_CCM_Publisher_T <T>::
 connect (::Components::EventConsumerBase_ptr consumer)
 {
   if (!::CORBA::is_nil (this->consumer_.in ()))
@@ -24,7 +24,7 @@ connect (::Components::EventConsumerBase_ptr consumer)
 // send_event
 //
 template <typename T>
-void CUTS_CCM_Single_Subscriber_T <T>::send_event (T * ev)
+void CUTS_CCM_Publisher_T <T>::send_event (T * ev)
 {
   if (!::CORBA::is_nil (this->consumer_.in ()))
     this->consumer_->push_event (ev);

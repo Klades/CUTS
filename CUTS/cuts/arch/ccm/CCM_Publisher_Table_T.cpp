@@ -11,7 +11,7 @@
 //
 template <typename T>
 ::Components::Cookie *
-CUTS_CCM_Subscriber_Table_T <T>::
+CUTS_CCM_Publisher_Table_T <T>::
 subscribe (::Components::EventConsumerBase_ptr consumer)
 {
   // Generate a new UUID for the subscriber.
@@ -23,21 +23,21 @@ subscribe (::Components::EventConsumerBase_ptr consumer)
               uuid.to_string ()->c_str ()));
 
   // Allocate a new data type and connect the consumer.
-  CUTS_CCM_Single_Subscriber_T <T> * subscriber = 0;
+  CUTS_CCM_Publisher_T <T> * publisher = 0;
 
-  ACE_NEW_THROW_EX (subscriber,
-                    CUTS_CCM_Single_Subscriber_T <T> (),
+  ACE_NEW_THROW_EX (publisher,
+                    CUTS_CCM_Publisher_T <T> (),
                     ::CORBA::NO_MEMORY ());
 
-  ACE_Auto_Ptr < CUTS_CCM_Single_Subscriber_T <T> > auto_clean (subscriber);
+  ACE_Auto_Ptr < CUTS_CCM_Publisher_T <T> > auto_clean (publisher);
 
   // Cache the subscriber.
-  if (0 != this->table_.bind (uuid, subscriber))
+  if (0 != this->table_.bind (uuid, publisher))
     throw ::CORBA::INTERNAL ();
 
   // Connect to the consumer of the event.
   auto_clean.release ();
-  subscriber->connect (consumer);
+  publisher->connect (consumer);
 
   // Allocate a new cookie for the subscriber.
   OBV_Components::Cookie * cookie = 0;
@@ -54,7 +54,7 @@ subscribe (::Components::EventConsumerBase_ptr consumer)
 //
 template <typename T>
 ::Components::EventConsumerBase_ptr
-CUTS_CCM_Subscriber_Table_T <T>::unsubscribe (::Components::Cookie * c)
+CUTS_CCM_Publisher_Table_T <T>::unsubscribe (::Components::Cookie * c)
 {
   // Extract the UUID from the cookie.
   CUTS_CCM_Cookie * cookie = dynamic_cast <CUTS_CCM_Cookie *> (c);
@@ -67,15 +67,15 @@ CUTS_CCM_Subscriber_Table_T <T>::unsubscribe (::Components::Cookie * c)
               uuid.to_string ()->c_str ()));
 
   // Locate the consumer for this subscription.
-  CUTS_CCM_Single_Subscriber_T <T> * subscriber = 0;
+  CUTS_CCM_Publisher_T <T> * publisher = 0;
   ::Components::EventConsumerBase_var consumer;
 
-  if (0 == this->table_.unbind (uuid, subscriber))
-    consumer = subscriber->disconnect ();
+  if (0 == this->table_.unbind (uuid, publisher))
+    consumer = publisher->disconnect ();
 
   // Delete the return map item.
-  if (0 != subscriber)
-    delete subscriber;
+  if (0 != publisher)
+    delete publisher;
 
   return consumer._retn ();
 }
@@ -84,7 +84,7 @@ CUTS_CCM_Subscriber_Table_T <T>::unsubscribe (::Components::Cookie * c)
 // unsubscribe
 //
 template <typename T>
-void CUTS_CCM_Subscriber_Table_T <T>::send_event (T * ev)
+void CUTS_CCM_Publisher_Table_T <T>::send_event (T * ev)
 {
   typename table_type::ITERATOR iter (this->table_);
 
