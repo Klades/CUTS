@@ -6,6 +6,18 @@
 
 namespace CUTS_BE
 {
+//
+// get_file
+//
+PICML::File get_file (const PICML::NamedType & n)
+{
+  Udm::Object obj = n.GetParent ();
+
+  while (obj.type () != PICML::File::meta)
+    obj = obj.GetParent ();
+
+  return PICML::File::Cast (obj);
+}
 
 /**
  * Implementation of the has_component function.
@@ -152,7 +164,7 @@ bool has_interface (const CUTS_BE_IDL_Node * node)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// has_events(_i)
+// has_events
 
 /**
  * Implementation of the has_events function.
@@ -218,6 +230,84 @@ private:
 bool has_events (const PICML::File & file)
 {
   has_events_i search;
+  PICML::File (file).Accept (search);
+
+  return search.result ();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// has_dds_events
+
+/**
+ * Implementation of the has_events function.
+ */
+class has_dds_events_i : public PICML::Visitor
+{
+public:
+  has_dds_events_i (void)
+    : result_ (false)
+  {
+
+  }
+
+  bool result (void) const
+  {
+    return this->result_;
+  }
+
+  virtual void Visit_File (const PICML::File & file)
+  {
+    if (!this->result_)
+      this->Visit_FilePackage_i (file);
+  }
+
+  virtual void Visit_Package (const PICML::Package & package)
+  {
+    if (!this->result_)
+      this->Visit_FilePackage_i (package);
+  }
+
+  virtual void Visit_Aggregate (const PICML::Aggregate & aggr)
+  {
+    PICML::Key key = aggr.Key_child ();
+    this->result_ |= (key != Udm::null);
+  }
+
+protected:
+  void Visit_FilePackage_i (const Udm::Object & obj)
+  {
+    // Gather all the necessary elements.
+    std::set <PICML::Aggregate> structs =
+      Udm::ChildrenAttr <PICML::Aggregate> (obj.__impl (), Udm::NULLCHILDROLE);
+
+    std::for_each (structs.begin (),
+                   structs.end (),
+                   boost::bind (&PICML::Aggregate::Accept,
+                                _1,
+                                boost::ref (*this)));
+
+    // Visit the remaining packages.
+    std::set <PICML::Package> packages =
+      Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
+
+    std::for_each (packages.begin (),
+                   packages.end (),
+                   boost::bind (&PICML::Package::Accept,
+                                _1,
+                                boost::ref (*this)));
+  }
+
+private:
+  /// Result of the search.
+  bool result_;
+};
+
+//
+// has_dds_events
+//
+bool has_dds_events (const PICML::File & file)
+{
+  has_dds_events_i search;
   PICML::File (file).Accept (search);
 
   return search.result ();

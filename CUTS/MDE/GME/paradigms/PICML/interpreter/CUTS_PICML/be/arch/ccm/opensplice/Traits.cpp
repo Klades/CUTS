@@ -23,16 +23,14 @@ write_stub_source_files (std::ostream & proj, const CUTS_BE_IDL_Node & node)
   // Write the required stub file.
   proj << "    OpenSplice_" + name + "C.cpp" << std::endl;
 
-  if (this->has_events_)
+  if (this->has_dds_events_)
   {
-    // Write the stub files for an event.
+    // Make sure we compile the OpenSplice event sources.
     proj
-      << "    ddstypes/" + name + "_OSPLC.cpp" << std::endl
-      << "    ddstypes/" + name + "_OSPLS.cpp" << std::endl
-      << "    ddstypes/" + name + "_OSPLDcpsC.cpp" << std::endl
-      << "    ddstypes/" + name + "_OSPLDcpsS.cpp" << std::endl
-      << "    ddstypes/" + name + "_OSPLSplDcps.cpp" << std::endl
-      << "    ddstypes/" + name + "_OSPLDcps_impl.cpp" << std::endl;
+      << "    opensplice/" + name + "DcpsC.cpp" << std::endl
+      //<< "    opensplice/" + name + "DcpsS.cpp" << std::endl
+      << "    opensplice/" + name + "SplDcps.cpp" << std::endl
+      << "    opensplice/" + name + "Dcps_impl.cpp" << std::endl;
   }
 }
 
@@ -41,9 +39,9 @@ write_stub_source_files (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 //
 void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 {
-  this->has_events_ = CUTS_BE::has_events (node.file_);
+  this->has_dds_events_ = CUTS_BE::has_dds_events (node.file_);
 
-  if (!this->has_events_)
+  if (!this->has_dds_events_)
     return;
 
   const std::string & name = node.name_;
@@ -59,24 +57,23 @@ void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
     << std::endl
     << "  after += " << name << "_IDL_Gen" << std::endl
     << std::endl
-    << "  idlflags += -o ddstypes \\" << std::endl
+    << "  idlflags += -o opensplice \\" << std::endl
     << "              -Wb,export_macro=" << macro_basename << "_STUB_Export \\" << std::endl
     << "              -Wb,export_include=../" << name << "_stub_export.h" << std::endl
     << std::endl
-    << "  splice_ts_flags += -d ddstypes \\" << std::endl
+    << "  splice_ts_flags += -d opensplice \\" << std::endl
     << "                     -P " << macro_basename << "_STUB_Export,../" << name << "_stub_export.h" << std::endl
     << std::endl
     << "  SpliceTypeSupport_Files {" << std::endl
-    << "    gendir = ddstypes" << std::endl
+    << "    gendir = opensplice" << std::endl
     << std::endl
-    << "    " << name << "_OSPL.idl" << std::endl
+    << "    " << name << ".idl" << std::endl
     << "  }" << std::endl
     << std::endl
     << "  IDL_Files {" << std::endl
-    << "    gendir = ddstypes" << std::endl
+    << "    gendir = opensplice" << std::endl
     << std::endl
-    << "    " << name << "_OSPL.idl" << std::endl
-    << "    ddstypes/" << name << "_OSPLDcps.idl" << std::endl
+    << "    opensplice/" << name << "Dcps.idl" << std::endl
     << "  }" << std::endl
     << "}" << std::endl
     << std::endl;
@@ -88,7 +85,7 @@ void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 void Traits::
 write_stub_after (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 {
-  if (this->has_events_)
+  if (this->has_dds_events_)
     proj << " " << node.name_ + "_OSPL_IDL_Gen";
 }
 

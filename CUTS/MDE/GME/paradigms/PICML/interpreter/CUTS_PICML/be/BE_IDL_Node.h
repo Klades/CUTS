@@ -42,15 +42,26 @@ struct CUTS_BE_Export CUTS_BE_IDL_Node
   /// Name of the node.
   const std::string name_;
 
-  /// Basename of the <name_>.
+  /// Basename of the node.
   const std::string basename_;
 
   /// Reference set for the node.
   CUTS_BE_IDL_Node_Set references_;
 
+  /// The file associated with the node.
+  PICML::File file_;
+
+  /// The node has events.
   bool has_events_;
 
-  PICML::File file_;
+  /// The node has components.
+  bool has_components_;
+
+  /// The node has interfaces.
+  bool has_interfaces_;
+
+  /// The node has dds events.
+  bool has_dds_events_;
 };
 
 #endif  // !defined _CUTS_BE_IDL_NODE_H_

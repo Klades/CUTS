@@ -28,14 +28,11 @@ void CUTS_BE_Finalize_T <CUTS_BE_OpenSplice::Context>::
 generate (const PICML::RootFolder & root)
 {
   PICML::RootFolder non_const (root);
-  std::string outdir = CUTS_BE_OPTIONS ()->output_directory_;
+  const std::string outdir = CUTS_BE_OPTIONS ()->output_directory_;
 
   // Genernate the stub files.
   CUTS_BE_OpenSplice::Stub_Generator stub_generator (outdir);
   non_const.Accept (stub_generator);
-
-  CUTS_BE_OpenSplice::IDL_Generator idlgen (outdir);
-  non_const.Accept (idlgen);
 
   CUTS_BE_OpenSplice::Servant_Generator svnt_gen (outdir);
   non_const.Accept (svnt_gen);

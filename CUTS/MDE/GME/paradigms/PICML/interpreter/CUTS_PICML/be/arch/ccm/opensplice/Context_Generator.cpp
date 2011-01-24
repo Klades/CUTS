@@ -118,15 +118,15 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
   if (port.single_destination ())
   {
     this->header_
-      << "CUTS_OpenSplice_CCM_Subscriber & writer_" << name << " (void);"
+      << "CUTS_OpenSplice_CCM_Publisher & writer_" << name << " (void);"
       << std::endl
       << "private:" << std::endl
-      << "CUTS_OpenSplice_CCM_Subscriber_T < ::CUTS_OSPL"
+      << "CUTS_OpenSplice_CCM_Publisher_T < "
       << fq_type << " > " << name << "_;" << std::endl;
 
     this->source_
       << CUTS_BE_CPP::function_header ("writer_" + name)
-      << "CUTS_OpenSplice_CCM_Subscriber & "
+      << "CUTS_OpenSplice_CCM_Publisher & "
       << this->context_ << "::" << std::endl
       << "writer_" << name << " (void)"
       << "{"
@@ -136,15 +136,15 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
   else
   {
     this->header_
-      << "CUTS_CCM_Subscriber_Table & writers_" << name << " (void);"
+      << "CUTS_CCM_Publisher_Table & writers_" << name << " (void);"
       << std::endl
       << "private:" << std::endl
-      << "CUTS_OpenSplice_CCM_Subscriber_Table_T < ::CUTS_OSPL"
+      << "CUTS_OpenSplice_CCM_Publisher_Table_T < "
       << fq_type << " > " << name << "_;" << std::endl;
 
     this->source_
       << CUTS_BE_CPP::function_header ("writers_" + name)
-      << "CUTS_CCM_Subscriber_Table & "
+      << "CUTS_CCM_Publisher_Table & "
       << this->context_ << "::" << std::endl
       << "writers_" << name << " (void)"
       << "{"

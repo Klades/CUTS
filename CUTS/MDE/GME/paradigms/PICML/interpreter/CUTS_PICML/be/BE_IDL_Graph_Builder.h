@@ -73,10 +73,16 @@ public:
   /// Visit a ReadonlyAttribute in a PICML model.
   void Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute &);
 
+  /// Visit a Member in a PICML model.
+  void Visit_Member (const PICML::Member & m);
+
+  /// Visit a Aggregate in the PICML model
+  void Visit_Aggregate (const PICML::Aggregate & m);
+
+private:
   /// Visit a NameType element in a PICML model.
   void Visit_NamedType (const PICML::NamedType & type);
 
-private:
   /**
    * Get the parent file of a named type.
    *

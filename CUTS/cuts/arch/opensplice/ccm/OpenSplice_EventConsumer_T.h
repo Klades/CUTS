@@ -29,7 +29,7 @@ public:
   typedef typename traits_type::reader_type reader_type;
   typedef typename traits_type::reader_var_type reader_var_type;
 
-  typedef void (*DESERIALIZE_METHOD) (SERVANT *, const EVENT &);
+  typedef void (*DESERIALIZE_METHOD) (SERVANT *, EVENT *);
 
   /**
    * Initializing constructor.

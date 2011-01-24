@@ -55,6 +55,9 @@ namespace CUTS_BE
   CUTS_BE_Export
   bool has_events (const PICML::File & file);
 
+  CUTS_BE_Export
+  bool has_dds_events (const PICML::File & file);
+
   /**
    * Determine if a file has a component.
    *
@@ -81,6 +84,8 @@ namespace CUTS_BE
                             const std::string & separator = "/",
                             const std::string & prefix = "",
                             const std::string & suffix = "");
+
+  CUTS_BE_Export PICML::File get_file (const PICML::NamedType & n);
 
   /**
    * @struct if_then_else

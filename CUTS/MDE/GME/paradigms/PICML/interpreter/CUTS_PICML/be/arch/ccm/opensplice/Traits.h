@@ -48,6 +48,12 @@ public:
 private:
   /// The IDL file has events.
   bool has_events_;
+
+  /// The IDL file has components.
+  bool has_components_;
+
+  /// The IDL file has DDS events.
+  bool has_dds_events_;
 };
 
 }

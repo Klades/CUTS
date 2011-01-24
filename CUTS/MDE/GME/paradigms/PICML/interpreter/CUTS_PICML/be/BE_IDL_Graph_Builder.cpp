@@ -101,57 +101,52 @@ void CUTS_BE_IDL_Graph_Builder::
 visit_file_and_package_contents (const Udm::Object & obj)
 {
   // Visit all the events at this level.
-  typedef std::vector <PICML::Event> Event_Set;
-
-  Event_Set events =
-    Udm::ChildrenAttr <PICML::Event> (
-    obj.__impl (), Udm::NULLCHILDROLE);
-
-  if (!events.empty ())
-    this->current_node_->has_events_ = true;
+  std::vector <PICML::Event> events =
+    Udm::ChildrenAttr <PICML::Event> (obj.__impl (), Udm::NULLCHILDROLE);
 
   std::for_each (events.begin (),
                  events.end (),
-                 boost::bind (&Event_Set::value_type::Accept,
+                 boost::bind (&PICML::Event::Accept,
                               _1,
                               boost::ref (*this)));
 
   // Visit all the objects at this level.
-  typedef std::vector <PICML::Object> Object_Set;
-
-  Object_Set objects =
-    Udm::ChildrenAttr <PICML::Object> (
-    obj.__impl (), Udm::NULLCHILDROLE);
+  std::vector <PICML::Object> objects =
+    Udm::ChildrenAttr <PICML::Object> (obj.__impl (), Udm::NULLCHILDROLE);
 
   std::for_each (objects.begin (),
                  objects.end (),
-                 boost::bind (&Object_Set::value_type::Accept,
+                 boost::bind (&PICML::Object::Accept,
+                              _1,
+                              boost::ref (*this)));
+
+  // Visit all the aggregates (i.e., structure) objects.
+  std::vector <PICML::Aggregate> aggregates =
+    Udm::ChildrenAttr <PICML::Aggregate> (obj.__impl (), Udm::NULLCHILDROLE);
+
+  std::for_each (aggregates.begin (),
+                 aggregates.end (),
+                 boost::bind (&PICML::Aggregate::Accept,
                               _1,
                               boost::ref (*this)));
 
   // Visit all the components at this level.
-  typedef std::vector <PICML::Component> Component_Set;
-
-  Component_Set components =
-    Udm::ChildrenAttr <PICML::Component> (
-    obj.__impl (), Udm::NULLCHILDROLE);
+  std::vector <PICML::Component> components =
+    Udm::ChildrenAttr <PICML::Component> (obj.__impl (), Udm::NULLCHILDROLE);
 
   std::for_each (components.begin (),
                  components.end (),
-                 boost::bind (&Component_Set::value_type::Accept,
+                 boost::bind (&PICML::Component::Accept,
                               _1,
                               boost::ref (*this)));
 
   // Visit all the packages at this level.
-  typedef std::set <PICML::Package> Package_Set;
-
-  Package_Set packages =
-    Udm::ChildrenAttr <PICML::Package> (
-    obj.__impl (), Udm::NULLCHILDROLE);
+  std::set <PICML::Package> packages =
+    Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
   std::for_each (packages.begin (),
                  packages.end (),
-                 boost::bind (&Package_Set::value_type::Accept,
+                 boost::bind (&PICML::Package::Accept,
                               _1,
                               boost::ref (*this)));
 }
@@ -171,6 +166,9 @@ Visit_Package (const PICML::Package & package)
 void CUTS_BE_IDL_Graph_Builder::
 Visit_Component (const PICML::Component & component)
 {
+  // Set the flag for this node.
+  this->current_node_->has_components_ = true;
+
   // Determine if the component has output events.
   typedef std::vector <PICML::OutEventPort> OutEventPort_Set;
   OutEventPort_Set oep_set = component.OutEventPort_kind_children ();
@@ -306,16 +304,47 @@ Visit_Providable (const PICML::Provideable & provides)
 void CUTS_BE_IDL_Graph_Builder::
 Visit_Object (const PICML::Object & object)
 {
-  this->Visit_NamedType (PICML::NamedType::Cast (object));
+  this->current_node_->has_interfaces_ = true;
+  this->Visit_NamedType (object);
 }
 
 //
 // Visit_Event
 //
 void CUTS_BE_IDL_Graph_Builder::
-Visit_Event (const PICML::Event & event)
+Visit_Event (const PICML::Event & evt)
 {
-  this->Visit_NamedType (PICML::NamedType::Cast (event));
+  this->current_node_->has_events_ = true;
+  this->Visit_NamedType (evt);
+
+  std::vector <PICML::Member> members = evt.Member_children ();
+  std::for_each (members.begin (),
+                 members.end (),
+                 boost::bind (&PICML::Member::Accept,
+                              _1,
+                              boost::ref (*this)));
+}
+
+//
+// Visit_Aggregate
+//
+void CUTS_BE_IDL_Graph_Builder::
+Visit_Aggregate (const PICML::Aggregate & a)
+{
+  // Determine if this aggregate has a key. If so, then we can
+  // assume this is a DDS event.
+  PICML::Key key = a.Key_child ();
+
+  if (key != Udm::null)
+    this->current_node_->has_dds_events_ = true;
+
+  // Visit the members in this aggregate.
+  std::vector <PICML::Member> members = a.Member_children ();
+  std::for_each (members.begin (),
+                 members.end (),
+                 boost::bind (&PICML::Member::Accept,
+                              _1,
+                              boost::ref (*this)));
 }
 
 //
@@ -327,7 +356,7 @@ Visit_NamedType (const PICML::NamedType & type)
   // Get the parent of the named type.
   PICML::File parent = this->NamedType_parent (type);
 
-  // Determine the location of this NamedType. If this event is not
+  // Determine the location of this named type. If this event is not
   // in the current file then, when we need to add it to the list of
   // depends.
   CUTS_BE_IDL_Node * node = 0;
@@ -396,4 +425,15 @@ NamedType_parent (const PICML::NamedType & type)
     parent = PICML::MgaObject::Cast (parent.parent ());
 
   return PICML::File::Cast (parent);
+}
+
+//
+// Visit_Member
+//
+void CUTS_BE_IDL_Graph_Builder::Visit_Member (const PICML::Member & m)
+{
+  PICML::MemberType mt = m.ref ();
+
+  if (Udm::IsDerivedFrom (mt.type (), PICML::NamedType::meta))
+    this->Visit_NamedType (PICML::NamedType::Cast (mt));
 }

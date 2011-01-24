@@ -35,12 +35,6 @@ public:
 
     if (this->has_events_)
     {
-      std::string filename ("ddstypes/");
-      filename += std::string (file.name ()) + "_OSPLDcps_impl";
-
-      this->source_
-        << CUTS_BE_CPP::include (filename);
-
       if (this->includes_.empty ())
         this->source_ << CUTS_BE_CPP::include ("cuts/arch/opensplice/OpenSplice_Traits_T");
     }
@@ -247,7 +241,7 @@ Visit_File (const PICML::File & file)
                   hash_define.begin (),
                   &::toupper);
 
-  std::string dds_filename ("ddstypes/");
+  std::string dds_filename ("opensplice/");
   dds_filename += std::string (file.name ()) + "_DDS";
 
   do
@@ -274,23 +268,10 @@ Visit_File (const PICML::File & file)
     Include_Events include_events (this->header_);
     PICML::File (file).Accept (include_events);
 
-    this->header_
-      << std::endl;
-
-    if (!this->events_.empty ())
-      this->events_.clear ();
-
     this->Visit_PackageFile_i (file);
 
-    Event_Traits_Generator traits_generator (this->header_, this->export_macro_);
-
-    std::for_each (this->events_.begin (),
-                   this->events_.end (),
-                   boost::bind (&PICML::Event::Accept,
-                                _1,
-                                boost::ref (traits_generator)));
-
     this->header_
+      << std::endl
       << "#endif  // " << hash_define << std::endl
       << std::endl;
   } while (0);
@@ -306,21 +287,7 @@ Visit_File (const PICML::File & file)
 void Stub_Generator::
 Visit_Package (const PICML::Package & package)
 {
-  this->header_
-    << "namespace " << package.name ()
-    << "{";
-
-  this->source_
-    << "namespace " << package.name ()
-    << "{";
-
   this->Visit_PackageFile_i (package);
-
-  this->header_
-    << "}";
-
-  this->source_
-    << "}";
 }
 
 //
@@ -337,24 +304,7 @@ Visit_PackageFile_i  (const Udm::Object & obj)
                               _1,
                               boost::ref (*this)));
 
-  // Write the output stream generators.
-  std::set <PICML::Aggregate> aggrs = Udm::ChildrenAttr <PICML::Aggregate> (obj.__impl (), Udm::NULLCHILDROLE);
-  std::for_each (aggrs.begin (),
-                 aggrs.end (),
-                 boost::bind (&PICML::Aggregate::Accept,
-                              _1,
-                              boost::ref (*this)));
-
-  std::set <PICML::Collection> colls = Udm::ChildrenAttr <PICML::Collection> (obj.__impl (), Udm::NULLCHILDROLE);
-  std::for_each (colls.begin (),
-                 colls.end (),
-                 boost::bind (&PICML::Collection::Accept,
-                              _1,
-                              boost::ref (*this)));
-
-  std::set <PICML::Package> packages =
-    Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
-
+  std::set <PICML::Package> packages = Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
   std::for_each (packages.begin (),
                  packages.end (),
                  boost::bind (&PICML::Package::Accept,
@@ -368,45 +318,48 @@ Visit_PackageFile_i  (const Udm::Object & obj)
 void Stub_Generator::
 Visit_Event (const PICML::Event & ev)
 {
-  std::string name (ev.name ());
-  std::string fq_name (CUTS_BE_CPP::fq_type (ev));
+  Event_Traits_Generator tg (this->header_, this->export_macro_);
+  PICML::Event (ev).Accept (tg);
 
-  this->header_
-    << this->export_macro_
-    << " bool operator <<= (" << name << " &, const ::CUTS_OSPL" << fq_name << " & );"
-    << this->export_macro_
-    << " bool operator >>= (const " << name << " &, ::CUTS_OSPL" << fq_name << " & );"
-    << std::endl;
+  //std::string name (ev.name ());
+  //std::string fq_name (CUTS_BE_CPP::fq_type (ev));
 
-  std::vector <PICML::Member> members = ev.Member_children ();
+  //this->header_
+  //  << this->export_macro_
+  //  << " bool operator <<= (" << name << " &, const ::CUTS_OSPL" << fq_name << " & );"
+  //  << this->export_macro_
+  //  << " bool operator >>= (const " << name << " &, ::CUTS_OSPL" << fq_name << " & );"
+  //  << std::endl;
 
-  this->source_
-    << "bool operator <<= (" << name << " & corba, const ::CUTS_OSPL" << fq_name << " & dds)"
-    << "{";
+  //std::vector <PICML::Member> members = ev.Member_children ();
 
-  Input_Stream_Generator input_stream (this->source_, false);
+  //this->source_
+  //  << "bool operator <<= (" << name << " & corba, const ::CUTS_OSPL" << fq_name << " & dds)"
+  //  << "{";
 
-  std::for_each (members.begin (),
-                 members.end (),
-                 boost::bind (&PICML::Member::Accept, _1, boost::ref (input_stream)));
+  //Input_Stream_Generator input_stream (this->source_, false);
 
-  this->source_
-    << "return true;"
-    << "}"
-    << "bool operator >>= (const " << name << " & corba, ::CUTS_OSPL" << fq_name << " & dds)"
-    << "{";
+  //std::for_each (members.begin (),
+  //               members.end (),
+  //               boost::bind (&PICML::Member::Accept, _1, boost::ref (input_stream)));
 
-  Output_Stream_Generator output_stream (this->source_, false);
+  //this->source_
+  //  << "return true;"
+  //  << "}"
+  //  << "bool operator >>= (const " << name << " & corba, ::CUTS_OSPL" << fq_name << " & dds)"
+  //  << "{";
 
-  std::for_each (members.begin (),
-                 members.end (),
-                 boost::bind (&PICML::Member::Accept, _1, boost::ref (output_stream)));
+  //Output_Stream_Generator output_stream (this->source_, false);
 
-  this->source_
-    << "return true;"
-    << "}";
+  //std::for_each (members.begin (),
+  //               members.end (),
+  //               boost::bind (&PICML::Member::Accept, _1, boost::ref (output_stream)));
 
-  this->events_.insert (ev);
+  //this->source_
+  //  << "return true;"
+  //  << "}";
+
+  //this->events_.insert (ev);
 }
 
 //

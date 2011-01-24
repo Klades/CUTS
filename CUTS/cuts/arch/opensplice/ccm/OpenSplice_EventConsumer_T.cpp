@@ -1,7 +1,11 @@
 // $Id$
 
 #include "ccpp_dds_dcps.h"
+#include "OpenSplice_Event_T.h"
 
+//
+// CUTS_OpenSplice_CCM_EventConsumer_T
+//
 template <typename SERVANT, typename EVENT>
 CUTS_OpenSplice_CCM_EventConsumer_T <SERVANT, EVENT>::
 CUTS_OpenSplice_CCM_EventConsumer_T (SERVANT * servant, DESERIALIZE_METHOD callback)
@@ -11,6 +15,9 @@ CUTS_OpenSplice_CCM_EventConsumer_T (SERVANT * servant, DESERIALIZE_METHOD callb
 
 }
 
+//
+// ~CUTS_OpenSplice_CCM_EventConsumer_T
+//
 template <typename SERVANT, typename EVENT>
 CUTS_OpenSplice_CCM_EventConsumer_T <SERVANT, EVENT>::
 ~CUTS_OpenSplice_CCM_EventConsumer_T (void)
@@ -88,7 +95,19 @@ on_data_available (::DDS::DataReader_ptr p)
       // Make sure we pass each received event to the component servant,
       // and then to the component implementation.
       for (int i = 0; i < length; ++ i)
-        (*this->callback_) (this->servant_, event_seq[i]);
+      {
+        // Right now, we are going to derive ourselves from the CORBA
+        // object-by-value type since we don't want to implement the remaining
+        // pure virtual methods on the concrete classes. :-)
+        typedef CUTS_OpenSplice_Upcall_Event_T <typename traits_type::corba_obv_event_type,
+                                                typename traits_type::dds_event_type>
+                                                upcall_event_t;
+
+        // Wrap the DDS event in the CORBA event, then make the upcall
+        // to the component implementation.
+        upcall_event_t upcall_event (event_seq[i]);
+        (*this->callback_) (this->servant_, &upcall_event);
+      }
     }
   }
   else
