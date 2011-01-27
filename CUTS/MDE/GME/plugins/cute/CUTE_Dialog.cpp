@@ -9,6 +9,8 @@
 
 BEGIN_MESSAGE_MAP (CUTS_CUTE_Dialog, CDialog)
   ON_BN_CLICKED (IDC_BROWSE, on_click_browse)
+  ON_BN_CLICKED (IDC_GENERATE, on_generate_click)
+  ON_BN_CLICKED (IDC_INTERPRET, on_interpret_click)
 END_MESSAGE_MAP ()
 
 //
@@ -44,6 +46,8 @@ void CUTS_CUTE_Dialog::DoDataExchange (CDataExchange * pDX)
   DDX_CBString (pDX, IDC_INTERPRETER, this->selected_interpeter_);
   DDX_Text (pDX, IDC_CONFIG, this->config_file_);
   DDX_Text (pDX, IDC_PARAMETERS, this->parameters_);
+
+  DDX_Radio (pDX, IDC_GENERATE, this->option_);
 }
 
 //
@@ -63,4 +67,22 @@ void CUTS_CUTE_Dialog::on_click_browse (void)
 
   if (IDOK == dialog.DoModal ())
     this->config_.SetWindowText (dialog.GetPathName ());
+}
+
+//
+// on_generate_click
+//
+void CUTS_CUTE_Dialog::on_generate_click (void)
+{
+  this->GetDlgItem (IDC_INTERPRETER)->EnableWindow (FALSE);
+  this->GetDlgItem (IDC_PARAMETERS)->EnableWindow (FALSE);
+}
+
+//
+// on_generate_click
+//
+void CUTS_CUTE_Dialog::on_interpret_click (void)
+{
+  this->GetDlgItem (IDC_INTERPRETER)->EnableWindow (TRUE);
+  this->GetDlgItem (IDC_PARAMETERS)->EnableWindow (TRUE);
 }

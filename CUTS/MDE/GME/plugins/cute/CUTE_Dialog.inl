@@ -7,7 +7,8 @@
 CUTS_INLINE
 CUTS_CUTE_Dialog::CUTS_CUTE_Dialog (CWnd * parent)
 : CDialog (IDD_CUTE, parent),
-  list_ (0)
+  list_ (0),
+  option_ (0)
 {
 
 }
@@ -64,4 +65,13 @@ CUTS_INLINE
 const CString & CUTS_CUTE_Dialog::parameters (void) const
 {
   return this->parameters_;
+}
+
+//
+// option
+//
+CUTS_INLINE
+int CUTS_CUTE_Dialog::option (void) const
+{
+  return this->option_;
 }

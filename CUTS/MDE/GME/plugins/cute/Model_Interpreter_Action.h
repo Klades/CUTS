@@ -48,7 +48,7 @@ class CUTS_CUTE_Replace_Model_Name_Action :
   public CUTS_CUTE_Model_Interpreter_Action
 {
 public:
-  CUTS_CUTE_Replace_Model_Name_Action (const GAME::Object & object);
+  CUTS_CUTE_Replace_Model_Name_Action (GAME::Object_in obj);
 
   virtual ~CUTS_CUTE_Replace_Model_Name_Action (void);
 
@@ -74,7 +74,7 @@ public:
   /**
    * Initializing constructors.
    */
-  CUTS_CUTE_Replace_Model_Attribute_Action (const GAME::Attribute & attr);
+  CUTS_CUTE_Replace_Model_Attribute_Action (GAME::Attribute_in attr);
 
   virtual ~CUTS_CUTE_Replace_Model_Attribute_Action (void);
 

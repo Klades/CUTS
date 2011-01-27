@@ -16,6 +16,9 @@
 #include "ace/Hash_Multi_Map_Manager_T.h"
 #include "ace/Null_Mutex.h"
 #include "ace/SString.h"
+
+#include "Property_Locator_Handler.h"
+
 #include "cuts/config.h"
 
 // Forward decl.
@@ -28,7 +31,8 @@ class CUTS_Property_Map;
  * @file CUTS_CUTE_Model_Interpreter_Action_List
  */
 class CUTS_CUTE_Model_Interpreter_Action_List :
-  public ACE_Unbounded_Set <CUTS_CUTE_Model_Interpreter_Action *>
+  public ACE_Unbounded_Set <CUTS_CUTE_Model_Interpreter_Action *>,
+  public CUTS_CUTE_Property_Locator_Handler
 {
 public:
   typedef ACE_Unbounded_Set <CUTS_CUTE_Model_Interpreter_Action *> base_type;
@@ -51,6 +55,25 @@ public:
 
   /// Reset the configuration list.
   void reset (void);
+
+  /**
+   * The attribute has one or more parameters defined in its text.
+   *
+   * @param[in]         attr        The target attribute
+   * @param[in]         params      The identified parameters
+   */
+  virtual int handle_attribute (GAME::Attribute_in attr,
+                                const ACE_Unbounded_Set <ACE_CString> & params);
+
+  /**
+   * The name on the specified element has one or more parameters
+   * defined in its text.
+   *
+   * @param[in]         folder      The target folder
+   * @param[in]         params      The identified parameters
+   */
+  virtual int handle_name (GAME::Object_in folder,
+                           const ACE_Unbounded_Set <ACE_CString> & params);
 };
 
 

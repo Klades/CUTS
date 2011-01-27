@@ -8,16 +8,18 @@ project (CUTS_CUTE) : boost_base, cuts_utils, cuts_gme, game_component, cutslib 
 
   Source_Files {
     CUTE.idl
-    
+
     CUTE_Impl.cpp
     CUTE_Module.cpp
     CUTE_Dialog.cpp
-    
+
     Model_Interpreter.cpp
     Model_Interpreter_Action.cpp
     Model_Interpreter_Action_List.cpp
     Property_Locator.cpp
+    Property_Locator_Handler.cpp
     Windows_Registry.cpp
+    Unique_Property_Bag.cpp
   }
 
   Header_Files {

@@ -61,20 +61,24 @@ IDI_COMPICON            ICON                    "CUTE.ico"
 // Dialog
 //
 
-IDD_CUTE DIALOGEX 0, 0, 322, 90
+IDD_CUTE DIALOGEX 0, 0, 312, 115
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "CUTS Template Engine"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,204,66,50,14
-    COMBOBOX        IDC_INTERPRETER,66,30,186,78,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_CONFIG,66,12,186,12,ES_AUTOHSCROLL
-    PUSHBUTTON      "Browse...",IDC_BROWSE,264,12,50,14
-    LTEXT           "&Configuration:",IDC_STATIC,12,15,47,8
-    LTEXT           "&Interpreter:",IDC_STATIC,12,32,40,8
-    EDITTEXT        IDC_PARAMETERS,66,48,186,12,ES_AUTOHSCROLL
-    LTEXT           "&Parameters:",IDC_STATIC,12,50,40,8
-    DEFPUSHBUTTON   "Cancel",IDCANCEL,264,66,50,14
+    DEFPUSHBUTTON   "OK",IDOK,255,94,50,14
+    COMBOBOX        IDC_INTERPRETER,65,59,186,78,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_CONFIG,65,7,186,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse...",IDC_BROWSE,255,7,50,14
+    LTEXT           "&Configuration:",IDC_STATIC,7,10,47,8
+    LTEXT           "&Run interpreter:",IDC_STATIC,7,62,53,8
+    EDITTEXT        IDC_PARAMETERS,65,76,186,12,ES_AUTOHSCROLL
+    LTEXT           "&Parameters:",IDC_STATIC,7,79,40,8
+    DEFPUSHBUTTON   "Cancel",IDCANCEL,201,94,50,14
+    CONTROL         "&Generate parameterizable attribute configuration file",IDC_GENERATE,
+                    "Button",BS_AUTORADIOBUTTON | WS_GROUP,7,27,185,10
+    CONTROL         "&Interpret model using selected parameterizable attribute configuration file",IDC_INTERPRET,
+                    "Button",BS_AUTORADIOBUTTON,7,43,252,10
 END
 
 
@@ -89,9 +93,9 @@ BEGIN
     IDD_CUTE, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 315
+        RIGHTMARGIN, 305
         TOPMARGIN, 7
-        BOTTOMMARGIN, 83
+        BOTTOMMARGIN, 108
     END
 END
 #endif    // APSTUDIO_INVOKED

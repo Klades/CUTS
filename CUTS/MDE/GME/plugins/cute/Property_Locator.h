@@ -19,6 +19,9 @@
 #include "cuts/utils/Property_Evaluator_List_Actor.h"
 #include "Model_Interpreter_Action_List.h"
 
+// Forward decl.
+class CUTS_CUTE_Property_Locator_Handler;
+
 /**
  * @class CUTS_CUTE_Property_Locator
  */
@@ -27,7 +30,7 @@ class CUTS_CUTE_Property_Locator : public GAME::Visitor
 public:
 
   /// Default constructor.
-  CUTS_CUTE_Property_Locator (CUTS_CUTE_Model_Interpreter_Action_List & actions);
+  CUTS_CUTE_Property_Locator (CUTS_CUTE_Property_Locator_Handler & handler);
 
   /// Destructor.
   virtual ~CUTS_CUTE_Property_Locator (void);
@@ -41,8 +44,8 @@ private:
 
   void visit_Attribute (GAME::Attribute_in attr);
 
-  /// Map that holds located items.
-  CUTS_CUTE_Model_Interpreter_Action_List & actions_;
+  /// The handler for receiving notifications.
+  CUTS_CUTE_Property_Locator_Handler & handler_;
 
   CUTS_Property_Map prop_map_;
 

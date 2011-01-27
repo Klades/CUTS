@@ -55,8 +55,12 @@ public:
 
   const CString & parameters (void) const;
 
+  int option (void) const;
+
 private:
   void on_click_browse (void);
+  void on_generate_click (void);
+  void on_interpret_click (void);
 
   DECLARE_MESSAGE_MAP ();
 
@@ -71,6 +75,8 @@ private:
   CString config_file_;
 
   CString parameters_;
+
+  int option_;
 };
 
 #if defined (__CUTS_INLINE__)

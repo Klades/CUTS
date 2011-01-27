@@ -45,7 +45,21 @@ public:
                  long flags);
 
 private:
-  void get_interpreters (const char * paradigm, CUTS_CUTE_Interpreter_List & list);
+  void get_interpreters (GAME::Project proj, CUTS_CUTE_Interpreter_List & list);
+
+  int handle_interpret (GAME::Project project,
+                        GAME::FCO_in fco,
+                        std::vector <GAME::FCO> & selected,
+                        long flags,
+                        const char * config_file,
+                        const char * prog_id,
+                        const char * parameters);
+
+  int handle_generate (GAME::Project project,
+                       GAME::FCO_in fco,
+                       std::vector <GAME::FCO> & selected,
+                       long flags,
+                       const char * config_file);
 };
 
 #endif  // !defined _CUTE_PLUGIN_IMPL_H_

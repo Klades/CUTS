@@ -9,6 +9,8 @@
 
 #include "Model_Interpreter_Action.h"
 #include "Model_Interpreter_Action_List.h"
+#include "Property_Locator_Handler.h"
+
 #include "game/Attribute.h"
 #include "game/MetaAttribute.h"
 #include "game/Folder.h"
@@ -20,8 +22,8 @@
 // CUTS_CUTE_Property_Locator
 //
 CUTS_CUTE_Property_Locator::
-CUTS_CUTE_Property_Locator (CUTS_CUTE_Model_Interpreter_Action_List & actions)
-: actions_ (actions),
+CUTS_CUTE_Property_Locator (CUTS_CUTE_Property_Locator_Handler & handler)
+: handler_ (handler),
   evaluator_ (prop_map_, actor_)
 {
   this->evaluator_.config ().open_tag_ = "<%";
@@ -41,16 +43,7 @@ void CUTS_CUTE_Property_Locator::visit_Folder (GAME::Folder_in folder)
   bool retval = this->evaluator_.evaluate (folder->name ().c_str ());
 
   if (retval && 0 != this->actor_.list ().size ())
-  {
-    // We have found an attribute with one or more template parameters.
-    CUTS_CUTE_Model_Interpreter_Action * action = 0;
-
-    ACE_NEW_THROW_EX (action,
-                      CUTS_CUTE_Replace_Model_Name_Action (folder),
-                      ACE_bad_alloc ());
-
-    this->actions_.insert (action);
-  }
+    this->handler_.handle_name (folder, this->actor_.list ());
 
   // Now, visit all the folders in this folder.
   typedef std::vector <GAME::Folder> folder_set;
@@ -85,18 +78,10 @@ void CUTS_CUTE_Property_Locator::visit_FCO (GAME::FCO_in fco)
   if (0 != this->actor_.list ().size ())
     this->actor_.clear ();
 
-  if (this->evaluator_.evaluate (fco->name ().c_str ()) &&
-      0 != this->actor_.list ().size ())
-  {
-    // We have found an attribute with one or more template parameters.
-    CUTS_CUTE_Model_Interpreter_Action * action = 0;
+  bool result = this->evaluator_.evaluate (fco->name ().c_str ());
 
-    ACE_NEW_THROW_EX (action,
-                      CUTS_CUTE_Replace_Model_Name_Action (fco),
-                      ACE_bad_alloc ());
-
-    this->actions_.insert (action);
-  }
+  if (result && 0 != this->actor_.list ().size ())
+    this->handler_.handle_name (fco, this->actor_.list ());
 
   // Visit all the attributes in the FCO.
   typedef std::vector <GAME::Attribute> attribute_set;
@@ -146,14 +131,5 @@ void CUTS_CUTE_Property_Locator::visit_Attribute (GAME::Attribute_in attr)
   bool retval = this->evaluator_.evaluate (attr->string_value ().c_str ());
 
   if (retval && 0 != this->actor_.list ().size ())
-  {
-    // We have found an attribute with one or more template parameters.
-    CUTS_CUTE_Model_Interpreter_Action * action = 0;
-
-    ACE_NEW_THROW_EX (action,
-                      CUTS_CUTE_Replace_Model_Attribute_Action (attr),
-                      ACE_bad_alloc ());
-
-    this->actions_.insert (action);
-  }
+    this->handler_.handle_attribute (attr, this->actor_.list ());
 }
