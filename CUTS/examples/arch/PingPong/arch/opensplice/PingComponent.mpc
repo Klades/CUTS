@@ -12,7 +12,7 @@ project (PingComponent_IDL_Gen) : componentidldefaults, cuts_codegen_defaults {
               -Wb,exec_export_include=PingComponent_exec_export.h \
               -Wb,svnt_export_macro=PINGCOMPONENT_SVNT_Export \
               -Wb,svnt_export_include=PingComponent_svnt_export.h \
-              -Sa -Sal
+              -Sa -Sal -St
 
   idlflags -= -Gsv
 
@@ -28,10 +28,12 @@ project (PingComponent_stub) : avoids_ace_for_tao, cuts_opensplice_ccm_stub, cut
 
 
   // listing of project dependencies
-  after        += \
+  after += \
+    PingPong_Events_stub \
     PingPong_stub
 
   libs  += \
+    PingPong_Events_stub \
     PingPong_stub
 
   IDL_Files {
@@ -61,9 +63,11 @@ project (PingComponent_skel) : ccm_svnt, avoids_ace_for_tao, cuts_codegen_defaul
 
 
   after += \
-    PingPong_stub
+    PingPong_Events_skel
 
   libs  += \
+    PingPong_Events_skel \
+    PingPong_Events_stub \
     PingPong_stub
 
   IDL_Files {
@@ -103,9 +107,11 @@ project (PingComponent_exec) : ciao_executor, cuts_codegen_defaults {
 
   after += PingComponent_EIDL_Gen \
     PingComponent_stub \
+    PingPong_Events_stub \
     PingPong_stub
 
   libs  += PingComponent_stub \
+    PingPong_Events_stub \
     PingPong_stub
 
   Source_Files {
@@ -127,11 +133,15 @@ project (PingComponent_svnt) : cuts_opensplice_ccm, cuts_codegen_defaults {
   sharedname   = PingComponent_svnt
   dynamicflags = PINGCOMPONENT_SVNT_BUILD_DLL
 
-  after += PingComponent_exec PingComponent_stub PingComponent_skel \
-    PingPong_stub
+  after += PingComponent_exec PingComponent_stub \
+    PingPong_Events_stub \
+    PingPong_stub \
+    PingPong_Events_skel
 
   libs += PingComponent_exec PingComponent_stub PingComponent_skel \
-    PingPong_stub
+    PingPong_Events_stub \
+    PingPong_stub \
+    PingPong_Events_skel
 
   Source_Files {
     PingComponent_svnt.cpp

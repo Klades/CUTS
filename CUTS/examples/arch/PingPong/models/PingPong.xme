@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{2B07C34D-109C-4A7E-A719-7C2A0E15E368}" cdate="Thu Jan 20 00:19:40 2011" mdate="Thu Jan 20 00:19:40 2011" version="" metaguid="{0036ADCA-2A43-4F2B-9A4A-2AC2DBD958FA}" metaversion="" metaname="PICML">
+<project guid="{0349C276-4749-425C-B436-17F19885133A}" cdate="Thu Jan 20 00:19:40 2011" mdate="Thu Jan 20 00:19:40 2011" version="" metaguid="{0036ADCA-2A43-4F2B-9A4A-2AC2DBD958FA}" metaversion="" metaname="PICML">
 	<name>PingPong</name>
 	<comment></comment>
 	<author></author>

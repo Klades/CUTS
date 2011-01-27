@@ -6,37 +6,37 @@ project (PingPong_OSPL_IDL_Gen) : splice_ts_defaults, requires_opensplice {
 
   after += PingPong_IDL_Gen
 
-  idlflags += -o ddstypes \
+  idlflags += -o opensplice \
               -Wb,export_macro=PINGPONG_STUB_Export \
               -Wb,export_include=../PingPong_stub_export.h
 
-  splice_ts_flags += -d ddstypes \
+  splice_ts_flags += -d opensplice \
                      -P PINGPONG_STUB_Export,../PingPong_stub_export.h
 
   SpliceTypeSupport_Files {
-    gendir = ddstypes
+    gendir = opensplice
 
     PingPong.idl
   }
 
   IDL_Files {
-    gendir = ddstypes
-    ddstypes/PingPongDcps.idl
+    gendir = opensplice
+
+    opensplice/PingPongDcps.idl
   }
 }
 
-project (PingPong_IDL_Gen) : componentidldefaults, cuts_codegen_defaults {
+project (PingPong_IDL_Gen) : ciaoidldefaults, cuts_codegen_defaults {
   custom_only = 1
 
   idlflags += -Wb,stub_export_macro=PINGPONG_STUB_Export \
               -Wb,stub_export_include=PingPong_stub_export.h \
               -Wb,skel_export_macro=PINGPONG_SKEL_Export \
               -Wb,skel_export_include=PingPong_skel_export.h \
-              -Sa -Sal
+              -Sa -Sal -St
 
   IDL_Files {
     PingPong.idl
-    PingPong_OSPL.idl
   }
 }
 
@@ -52,13 +52,10 @@ project (PingPong_stub) : avoids_ace_for_tao, cuts_opensplice_ccm_stub, cuts_cod
 
   Source_Files {
     PingPongC.cpp
-    PingPong_OSPLC.cpp
     OpenSplice_PingPongC.cpp
-
-    ddstypes/PingPongDcpsC.cpp
-    ddstypes/PingPongDcpsS.cpp
-    ddstypes/PingPongSplDcps.cpp
-    ddstypes/PingPongDcps_impl.cpp
+    opensplice/PingPongDcpsC.cpp
+    opensplice/PingPongSplDcps.cpp
+    opensplice/PingPongDcps_impl.cpp
   }
 
   Header_Files {
@@ -67,31 +64,6 @@ project (PingPong_stub) : avoids_ace_for_tao, cuts_opensplice_ccm_stub, cuts_cod
 
   Inline_Files {
     PingPongC.inl
-  }
-}
-
-project (PingPong_skel) : ccm_svnt, avoids_ace_for_tao, cuts_codegen_defaults {
-  sharedname   = PingPong_skel
-  dynamicflags = PINGPONG_SKEL_BUILD_DLL
-
-  after       += PingPong_stub
-  libs        += PingPong_stub
-
-
-  IDL_Files {
-
-  }
-
-  Source_Files {
-    PingPongS.cpp
-  }
-
-  Header_Files {
-    PingPongS.h
-  }
-
-  Inline_Files {
-    PingPongS.inl
   }
 }
 

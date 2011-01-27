@@ -1,3 +1,24 @@
+Thu Jan 27 20:00:01 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/arch/PingPong/arch/opensplice:
+        * examples/arch/PingPong/arch/opensplice/PingComponent.idl:
+        * examples/arch/PingPong/arch/opensplice/PingComponent.mpc:
+        * examples/arch/PingPong/arch/opensplice/PingPong.mpc:
+        * examples/arch/PingPong/arch/opensplice/PingPong.mwc:
+        * examples/arch/PingPong/arch/opensplice/PingPong_Events.idl:
+        * examples/arch/PingPong/arch/opensplice/PingPong_Events.mpc:
+        * examples/arch/PingPong/arch/opensplice/PingPong_PingComponentImpl.mpc:
+        * examples/arch/PingPong/arch/opensplice/PingPong_PongComponentImpl.mpc:
+        * examples/arch/PingPong/arch/opensplice/PongComponent.idl:
+        * examples/arch/PingPong/arch/opensplice/PongComponent.mpc:
+
+          Updated the example to support the new OpenSplice integration
+          into CCM.
+
+        * examples/arch/PingPong/models/PingPong.xme:
+
+          Complete model, including an assembly and deployment model.
+
 Tue Jan 25 16:05:30 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/plugins/cute/CUTE.mpc:
