@@ -1,3 +1,35 @@
+Fri Jan 28 15:39:20 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/arch/PingPong/arch/rtidds:
+        * examples/arch/PingPong/arch/rtidds/PingComponent.idl:
+        * examples/arch/PingPong/arch/rtidds/PingComponent.mpc:
+        * examples/arch/PingPong/arch/rtidds/PingPong.idl:
+        * examples/arch/PingPong/arch/rtidds/PingPong.mpc:
+        * examples/arch/PingPong/arch/rtidds/PingPong.mwc:
+        * examples/arch/PingPong/arch/rtidds/PingPong_Events.idl:
+        * examples/arch/PingPong/arch/rtidds/PingPong_Events.mpc:
+        * examples/arch/PingPong/arch/rtidds/PingPong_PingComponentImpl.h:
+        * examples/arch/PingPong/arch/rtidds/PingPong_PingComponentImpl.cpp:
+        * examples/arch/PingPong/arch/rtidds/PingPong_PingComponentImpl.mpc:
+        * examples/arch/PingPong/arch/rtidds/PingPong_PongComponentImpl.h:
+        * examples/arch/PingPong/arch/rtidds/PingPong_PongComponentImpl.cpp:
+        * examples/arch/PingPong/arch/rtidds/PingPong_PongComponentImpl.mpc:
+        * examples/arch/PingPong/arch/rtidds/PongComponent.idl:
+        * examples/arch/PingPong/arch/rtidds/PongComponent.mpc:
+        * examples/arch/PingPong/arch/rtidds/Stats.h:
+        * examples/arch/PingPong/arch/rtidds/Stats.cpp:
+        * examples/arch/PingPong/arch/rtidds/descriptors:
+        * examples/arch/PingPong/arch/rtidds/descriptors/PingPong.cdd:
+        * examples/arch/PingPong/arch/rtidds/descriptors/PingPong.cdp:
+        * examples/arch/PingPong/arch/rtidds/descriptors/PingPong.nodemap:
+        * examples/arch/PingPong/arch/rtidds/descriptors/run_test.pl:
+
+          RTI-DDS version of the PingPong example.
+
+        * examples/arch/PingPong/models/PingPong.xme:
+
+          Fixed the event types in the model.
+
 Fri Jan 28 15:30:11 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/CCM.h:

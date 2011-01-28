@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{0349C276-4749-425C-B436-17F19885133A}" cdate="Thu Jan 20 00:19:40 2011" mdate="Thu Jan 20 00:19:40 2011" version="" metaguid="{0036ADCA-2A43-4F2B-9A4A-2AC2DBD958FA}" metaversion="" metaname="PICML">
+<project guid="{E5BF87AE-F65E-4E18-80D2-6D2C98354834}" cdate="Thu Jan 27 19:57:01 2011" mdate="Thu Jan 27 19:57:01 2011" version="" metaguid="{0036ADCA-2A43-4F2B-9A4A-2AC2DBD958FA}" metaversion="" metaname="PICML">
 	<name>PingPong</name>
 	<comment></comment>
 	<author></author>
@@ -28,7 +28,7 @@
 					<attribute kind="VersionTag" status="meta">
 						<value></value>
 					</attribute>
-					<model id="id-0065-00000003" kind="Aggregate" role="Aggregate" guid="{d99aeba7-18bd-4c16-bdbf-724a4e0a84eb}" relid="0x0" childrelidcntr="0x2">
+					<model id="id-0065-00000003" kind="Aggregate" role="Aggregate" guid="{d99aeba7-18bd-4c16-bdbf-724a4e0a84eb}" relid="0x0" childrelidcntr="0x4">
 						<name>PP_min_msg</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -45,31 +45,22 @@
 						<attribute kind="VersionTag" status="meta">
 							<value></value>
 						</attribute>
-						<atom id="id-0066-00000001" kind="Key" role="Key" guid="{b43dd00a-87d2-488c-b1a2-0a295042ebc9}" relid="0x1">
+						<atom id="id-0066-00000001" kind="Key" role="Key" guid="{4dfee487-eb9f-4202-bb7b-472186d0788f}" relid="0x2">
 							<name>Key</name>
-							<regnode name="PartRegs" status="undefined">
-								<value></value>
-								<regnode name="InterfaceDefinition" status="undefined">
-									<value></value>
-									<regnode name="Position" isopaque="yes">
-										<value>10,10</value>
-									</regnode>
-								</regnode>
-							</regnode>
 						</atom>
-						<reference id="id-0067-00000008" kind="Member" role="Member" guid="{ebc3d418-15be-41fe-a37c-a017c8994d99}" relid="0x0" referred="id-0066-0000000a">
+						<reference id="id-0067-00000012" kind="Member" role="Member" guid="{ebc3d418-15be-41fe-a37c-a017c8994d99}" relid="0x0" referred="id-0066-00000010">
 							<name>block</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
 								<regnode name="InterfaceDefinition" isopaque="yes">
 									<value></value>
 									<regnode name="Position" isopaque="yes">
-										<value>52,66</value>
+										<value>60,60</value>
 									</regnode>
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000009" kind="Member" role="Member" guid="{4ccc4c1f-370d-4769-99f7-9db238ff031c}" relid="0x0" referred="id-0066-0000000a">
+						<reference id="id-0067-00000013" kind="Member" role="Member" guid="{4ccc4c1f-370d-4769-99f7-9db238ff031c}" relid="0x0" referred="id-0066-00000010">
 							<name>count</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -81,13 +72,13 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<connection id="id-0068-00000001" kind="KeyMember" role="KeyMember" guid="{7f9015cd-024f-4915-b710-008512c50a82}" relid="0x1">
+						<connection id="id-0068-00000001" kind="KeyMember" role="KeyMember" guid="{82a4d2ac-8634-4b7c-a33d-e32da6d3a3e3}" relid="0x3">
 							<name></name>
 							<connpoint role="src" target="id-0066-00000001"/>
-							<connpoint role="dst" target="id-0067-00000008"/>
+							<connpoint role="dst" target="id-0067-00000012"/>
 						</connection>
 					</model>
-					<model id="id-0065-00000005" kind="Aggregate" role="Aggregate" guid="{a9861c51-9ade-4ba8-b472-1b540e073a40}" relid="0x0" childrelidcntr="0x1">
+					<model id="id-0065-00000004" kind="Aggregate" role="Aggregate" guid="{a9861c51-9ade-4ba8-b472-1b540e073a40}" relid="0x0" childrelidcntr="0x3">
 						<name>PP_seq_msg</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -104,7 +95,10 @@
 						<attribute kind="VersionTag" status="meta">
 							<value></value>
 						</attribute>
-						<reference id="id-0067-0000000b" kind="Member" role="Member" guid="{f3385237-ec8d-4182-8f98-32eaad413499}" relid="0x0" referred="id-0066-0000000a">
+						<atom id="id-0066-00000002" kind="Key" role="Key" guid="{0601c244-38d7-42eb-a3b0-9e6b24c1ec48}" relid="0x1">
+							<name>Key</name>
+						</atom>
+						<reference id="id-0067-00000014" kind="Member" role="Member" guid="{f3385237-ec8d-4182-8f98-32eaad413499}" relid="0x0" referred="id-0066-00000010">
 							<name>block</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -116,7 +110,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000000c" kind="Member" role="Member" guid="{ac05c1d8-4b08-42cc-ba2b-b90370b0eba3}" relid="0x0" referred="id-0066-0000000a">
+						<reference id="id-0067-00000015" kind="Member" role="Member" guid="{ac05c1d8-4b08-42cc-ba2b-b90370b0eba3}" relid="0x0" referred="id-0066-00000010">
 							<name>count</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -128,7 +122,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000000d" kind="Member" role="Member" guid="{9b0f0d2d-76ae-4eb3-be65-73bc7eba50ba}" relid="0x0" referred="id-0067-0000000a">
+						<reference id="id-0067-0000006e" kind="Member" role="Member" guid="{9b0f0d2d-76ae-4eb3-be65-73bc7eba50ba}" relid="0x0" referred="id-0067-0000002b">
 							<name>payload</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -140,8 +134,13 @@
 								</regnode>
 							</regnode>
 						</reference>
+						<connection id="id-0068-00000002" kind="KeyMember" role="KeyMember" guid="{b6f72db7-aa61-44f0-99d4-b24cc00f11f4}" relid="0x2">
+							<name></name>
+							<connpoint role="src" target="id-0066-00000002"/>
+							<connpoint role="dst" target="id-0067-00000014"/>
+						</connection>
 					</model>
-					<model id="id-0065-00000007" kind="Aggregate" role="Aggregate" guid="{7addaab6-0de8-4bcc-bc65-37c23dd592b5}" relid="0x0" childrelidcntr="0x1">
+					<model id="id-0065-00000005" kind="Aggregate" role="Aggregate" guid="{7addaab6-0de8-4bcc-bc65-37c23dd592b5}" relid="0x0" childrelidcntr="0x3">
 						<name>PP_string_msg</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -158,7 +157,10 @@
 						<attribute kind="VersionTag" status="meta">
 							<value></value>
 						</attribute>
-						<reference id="id-0067-0000000e" kind="Member" role="Member" guid="{9391f4bd-1a0f-4357-8f75-20a4a8cb2633}" relid="0x0" referred="id-0066-0000000a">
+						<atom id="id-0066-00000003" kind="Key" role="Key" guid="{7372d710-1d47-4b5f-a6b1-cc59835f36c2}" relid="0x1">
+							<name>Key</name>
+						</atom>
+						<reference id="id-0067-00000016" kind="Member" role="Member" guid="{9391f4bd-1a0f-4357-8f75-20a4a8cb2633}" relid="0x0" referred="id-0066-00000010">
 							<name>block</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -170,7 +172,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000000f" kind="Member" role="Member" guid="{16069ed5-d37a-44ad-a7ec-f7e7aa732ca6}" relid="0x0" referred="id-0066-0000000a">
+						<reference id="id-0067-00000017" kind="Member" role="Member" guid="{16069ed5-d37a-44ad-a7ec-f7e7aa732ca6}" relid="0x0" referred="id-0066-00000010">
 							<name>count</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -182,7 +184,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000010" kind="Member" role="Member" guid="{ed675340-b400-4b40-9716-2499548daeab}" relid="0x0" referred="id-0066-00000012">
+						<reference id="id-0067-00000018" kind="Member" role="Member" guid="{ed675340-b400-4b40-9716-2499548daeab}" relid="0x0" referred="id-0066-00000018">
 							<name>a_string</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -194,8 +196,13 @@
 								</regnode>
 							</regnode>
 						</reference>
+						<connection id="id-0068-00000003" kind="KeyMember" role="KeyMember" guid="{8a4e6dee-dd14-4715-882e-6e68a6f1b35f}" relid="0x2">
+							<name></name>
+							<connpoint role="src" target="id-0066-00000003"/>
+							<connpoint role="dst" target="id-0067-00000016"/>
+						</connection>
 					</model>
-					<model id="id-0065-00000009" kind="Aggregate" role="Aggregate" guid="{f205f137-fa5d-4c3c-a6f3-5c3503668dcf}" relid="0x0" childrelidcntr="0x1">
+					<model id="id-0065-00000006" kind="Aggregate" role="Aggregate" guid="{f205f137-fa5d-4c3c-a6f3-5c3503668dcf}" relid="0x0" childrelidcntr="0x3">
 						<name>PP_fixed_msg</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -212,7 +219,10 @@
 						<attribute kind="VersionTag" status="meta">
 							<value></value>
 						</attribute>
-						<reference id="id-0067-00000012" kind="Member" role="Member" guid="{1e5469cb-b2c0-4802-9c29-4f2ae28d40e5}" relid="0x0" referred="id-0066-0000000a">
+						<atom id="id-0066-00000004" kind="Key" role="Key" guid="{7ad0563b-873e-46a8-8f87-1cdddb1522e8}" relid="0x1">
+							<name>Key</name>
+						</atom>
+						<reference id="id-0067-00000019" kind="Member" role="Member" guid="{1e5469cb-b2c0-4802-9c29-4f2ae28d40e5}" relid="0x0" referred="id-0066-00000010">
 							<name>block</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -224,7 +234,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000013" kind="Member" role="Member" guid="{d44086c7-621d-4018-8214-add0d22c161d}" relid="0x0" referred="id-0066-0000000a">
+						<reference id="id-0067-0000001a" kind="Member" role="Member" guid="{d44086c7-621d-4018-8214-add0d22c161d}" relid="0x0" referred="id-0066-00000010">
 							<name>count</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -236,7 +246,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000014" kind="Member" role="Member" guid="{6bb431c9-0edd-425b-a9d0-414b7896cdbb}" relid="0x0" referred="id-0066-00000004">
+						<reference id="id-0067-0000001b" kind="Member" role="Member" guid="{6bb431c9-0edd-425b-a9d0-414b7896cdbb}" relid="0x0" referred="id-0066-0000000a">
 							<name>a_char</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -248,7 +258,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000015" kind="Member" role="Member" guid="{36f078c2-417d-456d-a340-c3a3d885d945}" relid="0x0" referred="id-0066-00000003">
+						<reference id="id-0067-0000001c" kind="Member" role="Member" guid="{36f078c2-417d-456d-a340-c3a3d885d945}" relid="0x0" referred="id-0066-00000009">
 							<name>a_octet</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -260,7 +270,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000016" kind="Member" role="Member" guid="{4424b311-982e-41df-8677-202b7b675aa9}" relid="0x0" referred="id-0066-00000006">
+						<reference id="id-0067-0000001d" kind="Member" role="Member" guid="{4424b311-982e-41df-8677-202b7b675aa9}" relid="0x0" referred="id-0066-0000000c">
 							<name>a_short</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -272,7 +282,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000017" kind="Member" role="Member" guid="{044280d2-cf64-4a1c-9c41-9e9674b0b0da}" relid="0x0" referred="id-0066-00000009">
+						<reference id="id-0067-0000001e" kind="Member" role="Member" guid="{044280d2-cf64-4a1c-9c41-9e9674b0b0da}" relid="0x0" referred="id-0066-0000000f">
 							<name>a_ushort</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -284,7 +294,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000018" kind="Member" role="Member" guid="{c5cb4557-63b0-4800-a133-8f4151ba332e}" relid="0x0" referred="id-0066-00000007">
+						<reference id="id-0067-0000001f" kind="Member" role="Member" guid="{c5cb4557-63b0-4800-a133-8f4151ba332e}" relid="0x0" referred="id-0066-0000000d">
 							<name>a_long</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -296,7 +306,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000019" kind="Member" role="Member" guid="{0dab87ab-c8ee-429f-bea6-37f30b626049}" relid="0x0" referred="id-0066-0000000a">
+						<reference id="id-0067-00000020" kind="Member" role="Member" guid="{0dab87ab-c8ee-429f-bea6-37f30b626049}" relid="0x0" referred="id-0066-00000010">
 							<name>a_ulong</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -308,7 +318,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000001a" kind="Member" role="Member" guid="{6a4db66f-f725-4f04-a893-e4216c1d68ce}" relid="0x0" referred="id-0066-00000008">
+						<reference id="id-0067-00000021" kind="Member" role="Member" guid="{6a4db66f-f725-4f04-a893-e4216c1d68ce}" relid="0x0" referred="id-0066-0000000e">
 							<name>a_longlong</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -320,7 +330,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000001b" kind="Member" role="Member" guid="{1a20d959-e995-4644-bdae-3b26bd509bc9}" relid="0x0" referred="id-0066-0000000b">
+						<reference id="id-0067-00000022" kind="Member" role="Member" guid="{1a20d959-e995-4644-bdae-3b26bd509bc9}" relid="0x0" referred="id-0066-00000011">
 							<name>a_ulonglong</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -332,7 +342,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000001c" kind="Member" role="Member" guid="{86c0fef5-5f4b-486a-9fc0-83d9e743869d}" relid="0x0" referred="id-0066-0000000c">
+						<reference id="id-0067-00000023" kind="Member" role="Member" guid="{86c0fef5-5f4b-486a-9fc0-83d9e743869d}" relid="0x0" referred="id-0066-00000012">
 							<name>a_float</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -344,7 +354,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000001d" kind="Member" role="Member" guid="{8e651f04-b4b7-4285-8aa0-4c055e68946f}" relid="0x0" referred="id-0066-0000000d">
+						<reference id="id-0067-00000024" kind="Member" role="Member" guid="{8e651f04-b4b7-4285-8aa0-4c055e68946f}" relid="0x0" referred="id-0066-00000013">
 							<name>a_double</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -356,7 +366,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000001e" kind="Member" role="Member" guid="{6f843768-8e33-47b6-bc8e-60f3558e93b2}" relid="0x0" referred="id-0066-00000002">
+						<reference id="id-0067-00000025" kind="Member" role="Member" guid="{6f843768-8e33-47b6-bc8e-60f3558e93b2}" relid="0x0" referred="id-0066-00000008">
 							<name>a_boolean</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -368,7 +378,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000001f" kind="Member" role="Member" guid="{caf88ea4-d567-451b-9c68-b58ceb79a90c}" relid="0x0" referred="id-0067-00000011">
+						<reference id="id-0067-0000006f" kind="Member" role="Member" guid="{caf88ea4-d567-451b-9c68-b58ceb79a90c}" relid="0x0" referred="id-0067-0000002c">
 							<name>a_bstring</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -380,8 +390,13 @@
 								</regnode>
 							</regnode>
 						</reference>
+						<connection id="id-0068-00000004" kind="KeyMember" role="KeyMember" guid="{29decbf3-ba45-44af-8f41-25c164dbc63e}" relid="0x2">
+							<name></name>
+							<connpoint role="src" target="id-0066-00000004"/>
+							<connpoint role="dst" target="id-0067-00000019"/>
+						</connection>
 					</model>
-					<model id="id-0065-0000000b" kind="Aggregate" role="Aggregate" guid="{89e4e0e7-c2db-4154-9cf7-7b90b96fd70d}" relid="0x0" childrelidcntr="0x1">
+					<model id="id-0065-00000007" kind="Aggregate" role="Aggregate" guid="{89e4e0e7-c2db-4154-9cf7-7b90b96fd70d}" relid="0x0" childrelidcntr="0x3">
 						<name>PP_array_msg</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -398,7 +413,10 @@
 						<attribute kind="VersionTag" status="meta">
 							<value></value>
 						</attribute>
-						<reference id="id-0067-0000002b" kind="Member" role="Member" guid="{b8422902-fec0-4d39-a2f1-2ac3e6b5cdf4}" relid="0x0" referred="id-0066-0000000a">
+						<atom id="id-0066-00000005" kind="Key" role="Key" guid="{0db12142-9753-49a9-a11d-3578a524f7dc}" relid="0x1">
+							<name>Key</name>
+						</atom>
+						<reference id="id-0067-00000026" kind="Member" role="Member" guid="{b8422902-fec0-4d39-a2f1-2ac3e6b5cdf4}" relid="0x0" referred="id-0066-00000010">
 							<name>block</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -410,7 +428,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000002c" kind="Member" role="Member" guid="{d382d649-daec-43cb-a1fc-2517bead43bd}" relid="0x0" referred="id-0066-0000000a">
+						<reference id="id-0067-00000027" kind="Member" role="Member" guid="{d382d649-daec-43cb-a1fc-2517bead43bd}" relid="0x0" referred="id-0066-00000010">
 							<name>count</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -422,7 +440,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000002d" kind="Member" role="Member" guid="{95f276db-d7b8-4eb1-a102-be9064fa350d}" relid="0x0" referred="id-0067-00000020">
+						<reference id="id-0067-00000070" kind="Member" role="Member" guid="{95f276db-d7b8-4eb1-a102-be9064fa350d}" relid="0x0" referred="id-0067-0000002d">
 							<name>str_arr_char</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -434,7 +452,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000002e" kind="Member" role="Member" guid="{da7609a0-9136-4520-92d3-7de35979609e}" relid="0x0" referred="id-0067-00000021">
+						<reference id="id-0067-00000071" kind="Member" role="Member" guid="{da7609a0-9136-4520-92d3-7de35979609e}" relid="0x0" referred="id-0067-0000002e">
 							<name>str_arr_octet</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -446,7 +464,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000002f" kind="Member" role="Member" guid="{6badaae3-76a3-4a6f-8a29-f004932d2d88}" relid="0x0" referred="id-0067-00000022">
+						<reference id="id-0067-00000072" kind="Member" role="Member" guid="{6badaae3-76a3-4a6f-8a29-f004932d2d88}" relid="0x0" referred="id-0067-0000002f">
 							<name>str_arr_short</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -458,7 +476,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000030" kind="Member" role="Member" guid="{9a1cbba6-bfc2-48e7-8d57-a23c778dde88}" relid="0x0" referred="id-0067-00000023">
+						<reference id="id-0067-00000073" kind="Member" role="Member" guid="{9a1cbba6-bfc2-48e7-8d57-a23c778dde88}" relid="0x0" referred="id-0067-00000030">
 							<name>str_arr_ushort</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -470,7 +488,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000031" kind="Member" role="Member" guid="{ea2137d4-d0fc-4788-a7b1-8af8156242b1}" relid="0x0" referred="id-0067-00000024">
+						<reference id="id-0067-00000074" kind="Member" role="Member" guid="{ea2137d4-d0fc-4788-a7b1-8af8156242b1}" relid="0x0" referred="id-0067-00000031">
 							<name>str_arr_long</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -482,7 +500,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000032" kind="Member" role="Member" guid="{5dd3d69e-938b-437a-ac78-78a8fb2c4942}" relid="0x0" referred="id-0067-00000025">
+						<reference id="id-0067-00000075" kind="Member" role="Member" guid="{5dd3d69e-938b-437a-ac78-78a8fb2c4942}" relid="0x0" referred="id-0067-00000032">
 							<name>str_arr_ulong</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -494,7 +512,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000033" kind="Member" role="Member" guid="{76ed0d74-dc9c-4c3a-b621-61f400469f50}" relid="0x0" referred="id-0067-00000026">
+						<reference id="id-0067-00000076" kind="Member" role="Member" guid="{76ed0d74-dc9c-4c3a-b621-61f400469f50}" relid="0x0" referred="id-0067-00000033">
 							<name>str_arr_longlong</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -506,7 +524,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000034" kind="Member" role="Member" guid="{f3b73f29-d779-4f5d-ba47-9c2a267d34f4}" relid="0x0" referred="id-0067-00000027">
+						<reference id="id-0067-00000077" kind="Member" role="Member" guid="{f3b73f29-d779-4f5d-ba47-9c2a267d34f4}" relid="0x0" referred="id-0067-00000034">
 							<name>str_arr_ulonglong</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -518,7 +536,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000035" kind="Member" role="Member" guid="{cd2a1033-2304-459e-97c2-5a5c2a4e7384}" relid="0x0" referred="id-0067-00000028">
+						<reference id="id-0067-00000078" kind="Member" role="Member" guid="{cd2a1033-2304-459e-97c2-5a5c2a4e7384}" relid="0x0" referred="id-0067-00000035">
 							<name>str_arr_float</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -530,7 +548,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000036" kind="Member" role="Member" guid="{d53e27d7-eb99-4352-a512-07dfacbcd4dd}" relid="0x0" referred="id-0067-00000029">
+						<reference id="id-0067-00000079" kind="Member" role="Member" guid="{d53e27d7-eb99-4352-a512-07dfacbcd4dd}" relid="0x0" referred="id-0067-00000036">
 							<name>str_arr_double</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -542,7 +560,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000037" kind="Member" role="Member" guid="{6fadf902-780b-4898-ad2e-1d34f35f05f8}" relid="0x0" referred="id-0067-0000002a">
+						<reference id="id-0067-0000007a" kind="Member" role="Member" guid="{6fadf902-780b-4898-ad2e-1d34f35f05f8}" relid="0x0" referred="id-0067-00000037">
 							<name>str_arr_boolean</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -554,8 +572,13 @@
 								</regnode>
 							</regnode>
 						</reference>
+						<connection id="id-0068-00000005" kind="KeyMember" role="KeyMember" guid="{7ab8ae92-54ef-44fc-aec1-a9ffe9e39a57}" relid="0x2">
+							<name></name>
+							<connpoint role="src" target="id-0066-00000005"/>
+							<connpoint role="dst" target="id-0067-00000026"/>
+						</connection>
 					</model>
-					<model id="id-0065-0000000d" kind="Aggregate" role="Aggregate" guid="{813e2c3a-ff56-48f0-9428-2297b90f6d86}" relid="0x0" childrelidcntr="0x1">
+					<model id="id-0065-00000008" kind="Aggregate" role="Aggregate" guid="{813e2c3a-ff56-48f0-9428-2297b90f6d86}" relid="0x0" childrelidcntr="0x3">
 						<name>PP_bseq_msg</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -572,7 +595,10 @@
 						<attribute kind="VersionTag" status="meta">
 							<value></value>
 						</attribute>
-						<reference id="id-0067-00000043" kind="Member" role="Member" guid="{90bff0f4-f260-412b-9926-a7d45170f5cc}" relid="0x0" referred="id-0066-0000000a">
+						<atom id="id-0066-00000006" kind="Key" role="Key" guid="{4881cc37-7509-4e7e-9c12-2ff6b7053690}" relid="0x1">
+							<name>Key</name>
+						</atom>
+						<reference id="id-0067-00000028" kind="Member" role="Member" guid="{90bff0f4-f260-412b-9926-a7d45170f5cc}" relid="0x0" referred="id-0066-00000010">
 							<name>block</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -584,7 +610,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000044" kind="Member" role="Member" guid="{23e3f191-a67b-4df9-8f14-4e8f57df99f2}" relid="0x0" referred="id-0066-0000000a">
+						<reference id="id-0067-00000029" kind="Member" role="Member" guid="{23e3f191-a67b-4df9-8f14-4e8f57df99f2}" relid="0x0" referred="id-0066-00000010">
 							<name>count</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -596,7 +622,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000045" kind="Member" role="Member" guid="{b0599890-a435-4bea-a22a-ddba18abf1b7}" relid="0x0" referred="id-0067-00000038">
+						<reference id="id-0067-0000007b" kind="Member" role="Member" guid="{b0599890-a435-4bea-a22a-ddba18abf1b7}" relid="0x0" referred="id-0067-00000038">
 							<name>seq_char</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -608,7 +634,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000046" kind="Member" role="Member" guid="{f31fe96c-3805-4ea1-a008-95dbb9eafada}" relid="0x0" referred="id-0067-00000039">
+						<reference id="id-0067-0000007c" kind="Member" role="Member" guid="{f31fe96c-3805-4ea1-a008-95dbb9eafada}" relid="0x0" referred="id-0067-00000039">
 							<name>seq_octets</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -620,7 +646,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000047" kind="Member" role="Member" guid="{7829e3cf-1565-43ef-acce-96e4274d7b5d}" relid="0x0" referred="id-0067-0000003a">
+						<reference id="id-0067-0000007d" kind="Member" role="Member" guid="{7829e3cf-1565-43ef-acce-96e4274d7b5d}" relid="0x0" referred="id-0067-0000003a">
 							<name>seq_short</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -632,7 +658,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000048" kind="Member" role="Member" guid="{bc934429-9972-42e3-8936-794a74827b3c}" relid="0x0" referred="id-0067-0000003b">
+						<reference id="id-0067-0000007e" kind="Member" role="Member" guid="{bc934429-9972-42e3-8936-794a74827b3c}" relid="0x0" referred="id-0067-0000003b">
 							<name>seq_ushort</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -644,7 +670,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000049" kind="Member" role="Member" guid="{f34141e9-9f4b-4540-98fa-01a759dd88c5}" relid="0x0" referred="id-0067-0000003c">
+						<reference id="id-0067-0000007f" kind="Member" role="Member" guid="{f34141e9-9f4b-4540-98fa-01a759dd88c5}" relid="0x0" referred="id-0067-0000003c">
 							<name>seq_long</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -656,7 +682,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000004a" kind="Member" role="Member" guid="{f7fc23be-7365-49c5-81a5-b3d4106b03e0}" relid="0x0" referred="id-0067-0000003d">
+						<reference id="id-0067-00000080" kind="Member" role="Member" guid="{f7fc23be-7365-49c5-81a5-b3d4106b03e0}" relid="0x0" referred="id-0067-0000003d">
 							<name>seq_ulong</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -668,7 +694,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000004b" kind="Member" role="Member" guid="{4eaa937e-6160-407e-a4f3-cd7f38913ea2}" relid="0x0" referred="id-0067-0000003e">
+						<reference id="id-0067-00000081" kind="Member" role="Member" guid="{4eaa937e-6160-407e-a4f3-cd7f38913ea2}" relid="0x0" referred="id-0067-0000003e">
 							<name>seq_longlong</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -680,7 +706,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000004c" kind="Member" role="Member" guid="{e5bacefc-4c65-49f9-86b6-6ef9535c16ae}" relid="0x0" referred="id-0067-0000003f">
+						<reference id="id-0067-00000082" kind="Member" role="Member" guid="{e5bacefc-4c65-49f9-86b6-6ef9535c16ae}" relid="0x0" referred="id-0067-0000003f">
 							<name>seq_ulonglong</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -692,7 +718,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000004d" kind="Member" role="Member" guid="{39bf7c65-41df-4d00-bdb0-0d6183014367}" relid="0x0" referred="id-0067-00000040">
+						<reference id="id-0067-00000083" kind="Member" role="Member" guid="{39bf7c65-41df-4d00-bdb0-0d6183014367}" relid="0x0" referred="id-0067-00000040">
 							<name>seq_float</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -704,7 +730,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000004e" kind="Member" role="Member" guid="{c9a6fe20-0f44-47df-b676-be5cc514b210}" relid="0x0" referred="id-0067-00000041">
+						<reference id="id-0067-00000084" kind="Member" role="Member" guid="{c9a6fe20-0f44-47df-b676-be5cc514b210}" relid="0x0" referred="id-0067-00000041">
 							<name>seq_double</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -716,7 +742,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-0000004f" kind="Member" role="Member" guid="{aa267e20-23d9-4ce4-a627-4ae310c83b97}" relid="0x0" referred="id-0067-00000042">
+						<reference id="id-0067-00000085" kind="Member" role="Member" guid="{aa267e20-23d9-4ce4-a627-4ae310c83b97}" relid="0x0" referred="id-0067-00000042">
 							<name>seq_boolean</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -728,8 +754,13 @@
 								</regnode>
 							</regnode>
 						</reference>
+						<connection id="id-0068-00000006" kind="KeyMember" role="KeyMember" guid="{8a887f4f-0c8b-4bca-8c8b-bcd94b1a7249}" relid="0x2">
+							<name></name>
+							<connpoint role="src" target="id-0066-00000006"/>
+							<connpoint role="dst" target="id-0067-00000028"/>
+						</connection>
 					</model>
-					<model id="id-0065-0000000f" kind="Aggregate" role="Aggregate" guid="{e525afd0-1009-4003-93a7-fc3b91155758}" relid="0x0" childrelidcntr="0x1">
+					<model id="id-0065-00000009" kind="Aggregate" role="Aggregate" guid="{e525afd0-1009-4003-93a7-fc3b91155758}" relid="0x0" childrelidcntr="0x2">
 						<name>PP_quit_msg</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -746,7 +777,10 @@
 						<attribute kind="VersionTag" status="meta">
 							<value></value>
 						</attribute>
-						<reference id="id-0067-00000050" kind="Member" role="Member" guid="{7b9c6dff-ed2c-49c0-8c9e-06f07fe4e1c2}" relid="0x0" referred="id-0066-00000002">
+						<atom id="id-0066-00000007" kind="Key" role="Key" guid="{a798ece8-d9f2-4ba9-8836-e36cf447663f}" relid="0x1">
+							<name>Key</name>
+						</atom>
+						<reference id="id-0067-0000002a" kind="Member" role="Member" guid="{7b9c6dff-ed2c-49c0-8c9e-06f07fe4e1c2}" relid="0x0" referred="id-0066-00000008">
 							<name>quit</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -759,7 +793,7 @@
 							</regnode>
 						</reference>
 					</model>
-					<reference id="id-0067-0000000a" kind="Collection" role="Collection" guid="{b39c5f1f-c4c8-4286-bbcd-642c502e795b}" relid="0x0" referred="id-0066-00000004">
+					<reference id="id-0067-0000002b" kind="Collection" role="Collection" guid="{b39c5f1f-c4c8-4286-bbcd-642c502e795b}" relid="0x0" referred="id-0066-0000000a">
 						<name>seq_char</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -780,7 +814,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000011" kind="Alias" role="Alias" guid="{afb5bcdf-7646-47a2-b69b-eced2ac78f0c}" relid="0x0" referred="id-0066-00000012">
+					<reference id="id-0067-0000002c" kind="Alias" role="Alias" guid="{afb5bcdf-7646-47a2-b69b-eced2ac78f0c}" relid="0x0" referred="id-0066-00000018">
 						<name>string_40</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -798,7 +832,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000020" kind="Collection" role="Collection" guid="{d3dc48c5-0647-423f-95a0-b27af6f0078c}" relid="0x0" referred="id-0066-00000004">
+					<reference id="id-0067-0000002d" kind="Collection" role="Collection" guid="{d3dc48c5-0647-423f-95a0-b27af6f0078c}" relid="0x0" referred="id-0066-0000000a">
 						<name>str_arr_char_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -819,7 +853,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000021" kind="Collection" role="Collection" guid="{1f613de6-5871-4155-871a-9883ce6a3c76}" relid="0x0" referred="id-0066-00000003">
+					<reference id="id-0067-0000002e" kind="Collection" role="Collection" guid="{1f613de6-5871-4155-871a-9883ce6a3c76}" relid="0x0" referred="id-0066-00000009">
 						<name>str_arr_octet_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -840,7 +874,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000022" kind="Collection" role="Collection" guid="{e9393061-a4f3-4f4f-bf58-0b2ab73bff63}" relid="0x0" referred="id-0066-00000006">
+					<reference id="id-0067-0000002f" kind="Collection" role="Collection" guid="{e9393061-a4f3-4f4f-bf58-0b2ab73bff63}" relid="0x0" referred="id-0066-0000000c">
 						<name>str_arr_short_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -861,7 +895,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000023" kind="Collection" role="Collection" guid="{f5ffe5a9-c2f9-48b4-8ae6-dabdc0ed6784}" relid="0x0" referred="id-0066-00000009">
+					<reference id="id-0067-00000030" kind="Collection" role="Collection" guid="{f5ffe5a9-c2f9-48b4-8ae6-dabdc0ed6784}" relid="0x0" referred="id-0066-0000000f">
 						<name>str_arr_ushort_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -882,7 +916,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000024" kind="Collection" role="Collection" guid="{aaa7b652-3b8e-460d-a300-9af6c35ce59c}" relid="0x0" referred="id-0066-00000007">
+					<reference id="id-0067-00000031" kind="Collection" role="Collection" guid="{aaa7b652-3b8e-460d-a300-9af6c35ce59c}" relid="0x0" referred="id-0066-0000000d">
 						<name>str_arr_long_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -903,7 +937,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000025" kind="Collection" role="Collection" guid="{213cabe1-413c-41a8-824e-02fbf7f5f9a9}" relid="0x0" referred="id-0066-0000000a">
+					<reference id="id-0067-00000032" kind="Collection" role="Collection" guid="{213cabe1-413c-41a8-824e-02fbf7f5f9a9}" relid="0x0" referred="id-0066-00000010">
 						<name>str_arr_ulong_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -924,7 +958,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000026" kind="Collection" role="Collection" guid="{85466600-b0c3-4aa0-ab2d-9a92b9a715db}" relid="0x0" referred="id-0066-00000008">
+					<reference id="id-0067-00000033" kind="Collection" role="Collection" guid="{85466600-b0c3-4aa0-ab2d-9a92b9a715db}" relid="0x0" referred="id-0066-0000000e">
 						<name>str_arr_longlong_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -945,7 +979,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000027" kind="Collection" role="Collection" guid="{42deee71-9217-4ff9-8f92-513ad5e49178}" relid="0x0" referred="id-0066-0000000b">
+					<reference id="id-0067-00000034" kind="Collection" role="Collection" guid="{42deee71-9217-4ff9-8f92-513ad5e49178}" relid="0x0" referred="id-0066-00000011">
 						<name>str_arr_ulonglong_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -966,7 +1000,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000028" kind="Collection" role="Collection" guid="{f98fb597-673e-4a77-8fd8-509172fa744e}" relid="0x0" referred="id-0066-0000000c">
+					<reference id="id-0067-00000035" kind="Collection" role="Collection" guid="{f98fb597-673e-4a77-8fd8-509172fa744e}" relid="0x0" referred="id-0066-00000012">
 						<name>str_arr_float_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -987,7 +1021,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000029" kind="Collection" role="Collection" guid="{9f0b04c1-6bb8-458f-902d-46913ecc3e2f}" relid="0x0" referred="id-0066-0000000d">
+					<reference id="id-0067-00000036" kind="Collection" role="Collection" guid="{9f0b04c1-6bb8-458f-902d-46913ecc3e2f}" relid="0x0" referred="id-0066-00000013">
 						<name>str_arr_double_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -1008,7 +1042,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-0000002a" kind="Collection" role="Collection" guid="{248a8e04-e209-4bc8-85dc-00680ca5de97}" relid="0x0" referred="id-0066-00000002">
+					<reference id="id-0067-00000037" kind="Collection" role="Collection" guid="{248a8e04-e209-4bc8-85dc-00680ca5de97}" relid="0x0" referred="id-0066-00000008">
 						<name>str_arr_boolean_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -1029,7 +1063,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000038" kind="Collection" role="Collection" guid="{42760926-0f5f-42e6-a7da-a9632863eded}" relid="0x0" referred="id-0066-00000004">
+					<reference id="id-0067-00000038" kind="Collection" role="Collection" guid="{42760926-0f5f-42e6-a7da-a9632863eded}" relid="0x0" referred="id-0066-0000000a">
 						<name>seq_char_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -1050,7 +1084,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000039" kind="Collection" role="Collection" guid="{06e7ddf8-eca4-4e79-a492-0f4970947aeb}" relid="0x0" referred="id-0066-00000003">
+					<reference id="id-0067-00000039" kind="Collection" role="Collection" guid="{06e7ddf8-eca4-4e79-a492-0f4970947aeb}" relid="0x0" referred="id-0066-00000009">
 						<name>seq_octets_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -1071,7 +1105,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-0000003a" kind="Collection" role="Collection" guid="{db462ecc-0c78-4ed7-8772-c413a82786e1}" relid="0x0" referred="id-0066-00000006">
+					<reference id="id-0067-0000003a" kind="Collection" role="Collection" guid="{db462ecc-0c78-4ed7-8772-c413a82786e1}" relid="0x0" referred="id-0066-0000000c">
 						<name>seq_short_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -1092,7 +1126,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-0000003b" kind="Collection" role="Collection" guid="{f068665e-e742-4b4d-9d47-3c6e59cf9b3a}" relid="0x0" referred="id-0066-00000009">
+					<reference id="id-0067-0000003b" kind="Collection" role="Collection" guid="{f068665e-e742-4b4d-9d47-3c6e59cf9b3a}" relid="0x0" referred="id-0066-0000000f">
 						<name>seq_ushort_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -1113,7 +1147,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-0000003c" kind="Collection" role="Collection" guid="{d013a821-f50f-453c-9839-45dad42261db}" relid="0x0" referred="id-0066-00000007">
+					<reference id="id-0067-0000003c" kind="Collection" role="Collection" guid="{d013a821-f50f-453c-9839-45dad42261db}" relid="0x0" referred="id-0066-0000000d">
 						<name>seq_long_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -1134,7 +1168,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-0000003d" kind="Collection" role="Collection" guid="{abbf776a-fbb4-4052-af3b-5511fb2c7d96}" relid="0x0" referred="id-0066-0000000a">
+					<reference id="id-0067-0000003d" kind="Collection" role="Collection" guid="{abbf776a-fbb4-4052-af3b-5511fb2c7d96}" relid="0x0" referred="id-0066-00000010">
 						<name>seq_ulong_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -1155,7 +1189,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-0000003e" kind="Collection" role="Collection" guid="{ed849b49-7ea5-4cee-b59c-245bced32b20}" relid="0x0" referred="id-0066-00000008">
+					<reference id="id-0067-0000003e" kind="Collection" role="Collection" guid="{ed849b49-7ea5-4cee-b59c-245bced32b20}" relid="0x0" referred="id-0066-0000000e">
 						<name>seq_longlong_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -1176,7 +1210,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-0000003f" kind="Collection" role="Collection" guid="{d00f9660-1066-43a4-a0db-4918a7f5fc21}" relid="0x0" referred="id-0066-0000000b">
+					<reference id="id-0067-0000003f" kind="Collection" role="Collection" guid="{d00f9660-1066-43a4-a0db-4918a7f5fc21}" relid="0x0" referred="id-0066-00000011">
 						<name>seq_ulonglong_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -1197,7 +1231,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000040" kind="Collection" role="Collection" guid="{2716fc68-c9c5-4131-bb14-7313fb714c33}" relid="0x0" referred="id-0066-0000000c">
+					<reference id="id-0067-00000040" kind="Collection" role="Collection" guid="{2716fc68-c9c5-4131-bb14-7313fb714c33}" relid="0x0" referred="id-0066-00000012">
 						<name>seq_float_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -1218,7 +1252,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000041" kind="Collection" role="Collection" guid="{7899e5eb-042d-4c32-8356-131846f6a678}" relid="0x0" referred="id-0066-0000000d">
+					<reference id="id-0067-00000041" kind="Collection" role="Collection" guid="{7899e5eb-042d-4c32-8356-131846f6a678}" relid="0x0" referred="id-0066-00000013">
 						<name>seq_double_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -1239,7 +1273,7 @@
 							<value></value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000042" kind="Collection" role="Collection" guid="{06712504-becf-461c-85ad-00ef6bf7949d}" relid="0x0" referred="id-0066-00000002">
+					<reference id="id-0067-00000042" kind="Collection" role="Collection" guid="{06712504-becf-461c-85ad-00ef6bf7949d}" relid="0x0" referred="id-0066-00000008">
 						<name>seq_boolean_10</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -1262,7 +1296,7 @@
 					</reference>
 				</model>
 			</model>
-			<model id="id-0065-00000011" kind="File" guid="{f4f231e9-0d30-45a3-853e-e81fd0d7e0ff}" relid="0x2" childrelidcntr="0x1">
+			<model id="id-0065-0000000a" kind="File" guid="{f4f231e9-0d30-45a3-853e-e81fd0d7e0ff}" relid="0x2" childrelidcntr="0x1">
 				<name>PingComponent</name>
 				<attribute kind="Path">
 					<value></value>
@@ -1270,7 +1304,7 @@
 				<attribute kind="PrefixTag" status="meta">
 					<value></value>
 				</attribute>
-				<model id="id-0065-00000013" kind="Package" role="Package" guid="{0891c5ca-0a40-4afd-acfa-cc288f10ad25}" relid="0x1" childrelidcntr="0x2">
+				<model id="id-0065-0000000b" kind="Package" role="Package" guid="{0891c5ca-0a40-4afd-acfa-cc288f10ad25}" relid="0x1" childrelidcntr="0x2">
 					<name>PingPong</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -1290,7 +1324,7 @@
 					<attribute kind="VersionTag" status="meta">
 						<value></value>
 					</attribute>
-					<model id="id-0065-0000001c" kind="Component" role="Component" guid="{59b36fe2-0c85-40a9-9529-656547676278}" relid="0x2" childrelidcntr="0xb">
+					<model id="id-0065-0000000c" kind="Component" role="Component" guid="{59b36fe2-0c85-40a9-9529-656547676278}" relid="0x2" childrelidcntr="0xb">
 						<name>PingComponent</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -1313,7 +1347,7 @@
 						<attribute kind="label" status="meta">
 							<value></value>
 						</attribute>
-						<reference id="id-0067-0000005a" kind="OutEventPort" role="OutEventPort" guid="{81c6742a-744d-421d-b00e-adc8256700ce}" relid="0x1" referred="id-0065-0000002a">
+						<reference id="id-0067-00000043" kind="OutEventPort" role="OutEventPort" guid="{81c6742a-744d-421d-b00e-adc8256700ce}" relid="0x1" referred="id-0065-00000013">
 							<name>PP_min_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1352,7 +1386,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-0000005b" kind="InEventPort" role="InEventPort" guid="{eee00234-a8bf-4b59-b38c-0afff545add3}" relid="0x2" referred="id-0065-0000002a">
+						<reference id="id-0067-00000044" kind="InEventPort" role="InEventPort" guid="{eee00234-a8bf-4b59-b38c-0afff545add3}" relid="0x2" referred="id-0065-00000013">
 							<name>PP_min_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1379,7 +1413,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-0000005c" kind="OutEventPort" role="OutEventPort" guid="{0a6a2c0f-44e4-40ef-ac6f-0a49c3f21345}" relid="0x3" referred="id-0065-0000002e">
+						<reference id="id-0067-00000045" kind="OutEventPort" role="OutEventPort" guid="{0a6a2c0f-44e4-40ef-ac6f-0a49c3f21345}" relid="0x3" referred="id-0065-00000017">
 							<name>PP_seq_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1412,7 +1446,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-0000005d" kind="InEventPort" role="InEventPort" guid="{8a850304-db4b-41ef-8754-99694a3442c7}" relid="0x4" referred="id-0065-0000002e">
+						<reference id="id-0067-00000046" kind="InEventPort" role="InEventPort" guid="{8a850304-db4b-41ef-8754-99694a3442c7}" relid="0x4" referred="id-0065-00000017">
 							<name>PP_seq_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1439,7 +1473,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-0000005e" kind="OutEventPort" role="OutEventPort" guid="{05e70d72-7100-4590-9458-4a9127ff1225}" relid="0x5" referred="id-0065-0000002b">
+						<reference id="id-0067-00000047" kind="OutEventPort" role="OutEventPort" guid="{05e70d72-7100-4590-9458-4a9127ff1225}" relid="0x5" referred="id-0065-00000014">
 							<name>PP_string_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1472,7 +1506,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-0000005f" kind="InEventPort" role="InEventPort" guid="{cf0f85ce-577b-48a0-a369-89b8fdd4dc94}" relid="0x6" referred="id-0065-0000002b">
+						<reference id="id-0067-00000048" kind="InEventPort" role="InEventPort" guid="{cf0f85ce-577b-48a0-a369-89b8fdd4dc94}" relid="0x6" referred="id-0065-00000014">
 							<name>PP_string_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1499,7 +1533,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-00000060" kind="OutEventPort" role="OutEventPort" guid="{072cd048-1551-4603-9d23-f805984f8fb6}" relid="0x7" referred="id-0065-0000002d">
+						<reference id="id-0067-00000049" kind="OutEventPort" role="OutEventPort" guid="{072cd048-1551-4603-9d23-f805984f8fb6}" relid="0x7" referred="id-0065-00000016">
 							<name>PP_fixed_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1532,7 +1566,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-00000061" kind="InEventPort" role="InEventPort" guid="{6d5e4a12-7cf8-49e3-80c3-6ed98285b44a}" relid="0x8" referred="id-0065-0000002d">
+						<reference id="id-0067-0000004a" kind="InEventPort" role="InEventPort" guid="{6d5e4a12-7cf8-49e3-80c3-6ed98285b44a}" relid="0x8" referred="id-0065-00000016">
 							<name>PP_fixed_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1559,7 +1593,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-00000062" kind="OutEventPort" role="OutEventPort" guid="{af6ef287-dec5-4835-b1b4-3a544db39361}" relid="0x9" referred="id-0065-0000002c">
+						<reference id="id-0067-0000004b" kind="OutEventPort" role="OutEventPort" guid="{af6ef287-dec5-4835-b1b4-3a544db39361}" relid="0x9" referred="id-0065-00000015">
 							<name>PP_array_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1592,7 +1626,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-00000063" kind="InEventPort" role="InEventPort" guid="{3460ede1-79cd-4b65-be2c-443c8fbe5f20}" relid="0xa" referred="id-0065-0000002c">
+						<reference id="id-0067-0000004c" kind="InEventPort" role="InEventPort" guid="{3460ede1-79cd-4b65-be2c-443c8fbe5f20}" relid="0xa" referred="id-0065-00000015">
 							<name>PP_array_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1619,7 +1653,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-00000064" kind="OutEventPort" role="OutEventPort" guid="{18f40944-e56e-48ec-a5bf-055557225bec}" relid="0xb" referred="id-0065-00000029">
+						<reference id="id-0067-0000004d" kind="OutEventPort" role="OutEventPort" guid="{18f40944-e56e-48ec-a5bf-055557225bec}" relid="0xb" referred="id-0065-00000012">
 							<name>PP_quit_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1655,7 +1689,7 @@
 					</model>
 				</model>
 			</model>
-			<model id="id-0065-00000012" kind="File" guid="{a93c6efe-5eeb-49ab-998a-2e9691203514}" relid="0x3" childrelidcntr="0x1">
+			<model id="id-0065-0000000d" kind="File" guid="{a93c6efe-5eeb-49ab-998a-2e9691203514}" relid="0x3" childrelidcntr="0x1">
 				<name>PongComponent</name>
 				<attribute kind="Path">
 					<value></value>
@@ -1663,7 +1697,7 @@
 				<attribute kind="PrefixTag" status="meta">
 					<value></value>
 				</attribute>
-				<model id="id-0065-00000014" kind="Package" role="Package" guid="{0b54316a-6ca1-4d24-8fda-2479fb453acf}" relid="0x1" childrelidcntr="0x2">
+				<model id="id-0065-0000000e" kind="Package" role="Package" guid="{0b54316a-6ca1-4d24-8fda-2479fb453acf}" relid="0x1" childrelidcntr="0x2">
 					<name>PingPong</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -1683,7 +1717,7 @@
 					<attribute kind="VersionTag" status="meta">
 						<value></value>
 					</attribute>
-					<model id="id-0065-00000019" kind="Component" role="Component" guid="{ca6bcf41-d470-4b07-87d9-94b9b53a0903}" relid="0x2" childrelidcntr="0xb">
+					<model id="id-0065-0000000f" kind="Component" role="Component" guid="{ca6bcf41-d470-4b07-87d9-94b9b53a0903}" relid="0x2" childrelidcntr="0xb">
 						<name>PongComponent</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -1706,7 +1740,7 @@
 						<attribute kind="label" status="meta">
 							<value></value>
 						</attribute>
-						<reference id="id-0067-00000065" kind="OutEventPort" role="OutEventPort" guid="{c7200862-77ae-471b-8d20-35d3ced61fca}" relid="0x1" referred="id-0065-0000002e">
+						<reference id="id-0067-0000004e" kind="OutEventPort" role="OutEventPort" guid="{c7200862-77ae-471b-8d20-35d3ced61fca}" relid="0x1" referred="id-0065-00000017">
 							<name>PP_seq_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1739,7 +1773,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-00000066" kind="OutEventPort" role="OutEventPort" guid="{f5984093-fe9f-4f49-9053-e08a7f926882}" relid="0x2" referred="id-0065-0000002a">
+						<reference id="id-0067-0000004f" kind="OutEventPort" role="OutEventPort" guid="{f5984093-fe9f-4f49-9053-e08a7f926882}" relid="0x2" referred="id-0065-00000013">
 							<name>PP_min_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1778,7 +1812,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-00000067" kind="InEventPort" role="InEventPort" guid="{0df6db58-4aea-4419-86c0-02aaedc35078}" relid="0x3" referred="id-0065-0000002c">
+						<reference id="id-0067-00000050" kind="InEventPort" role="InEventPort" guid="{0df6db58-4aea-4419-86c0-02aaedc35078}" relid="0x3" referred="id-0065-00000015">
 							<name>PP_array_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1805,7 +1839,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-00000068" kind="InEventPort" role="InEventPort" guid="{79121026-815b-48a7-bd9f-1fb40dd3c4dd}" relid="0x4" referred="id-0065-0000002e">
+						<reference id="id-0067-00000051" kind="InEventPort" role="InEventPort" guid="{79121026-815b-48a7-bd9f-1fb40dd3c4dd}" relid="0x4" referred="id-0065-00000017">
 							<name>PP_seq_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1832,7 +1866,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-00000069" kind="OutEventPort" role="OutEventPort" guid="{adce9142-ade8-408b-8c60-ba982eae3fad}" relid="0x5" referred="id-0065-0000002c">
+						<reference id="id-0067-00000052" kind="OutEventPort" role="OutEventPort" guid="{adce9142-ade8-408b-8c60-ba982eae3fad}" relid="0x5" referred="id-0065-00000015">
 							<name>PP_array_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1865,7 +1899,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-0000006a" kind="InEventPort" role="InEventPort" guid="{0a76806e-7c15-4597-81a3-edf4db9842c7}" relid="0x6" referred="id-0065-0000002b">
+						<reference id="id-0067-00000053" kind="InEventPort" role="InEventPort" guid="{0a76806e-7c15-4597-81a3-edf4db9842c7}" relid="0x6" referred="id-0065-00000014">
 							<name>PP_string_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1892,7 +1926,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-0000006b" kind="OutEventPort" role="OutEventPort" guid="{eeaab64c-319f-4adf-8007-c3c69c0189af}" relid="0x7" referred="id-0065-0000002d">
+						<reference id="id-0067-00000054" kind="OutEventPort" role="OutEventPort" guid="{eeaab64c-319f-4adf-8007-c3c69c0189af}" relid="0x7" referred="id-0065-00000016">
 							<name>PP_fixed_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1925,7 +1959,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-0000006c" kind="InEventPort" role="InEventPort" guid="{8dad289b-3349-4491-82c6-0761e1ce2c63}" relid="0x8" referred="id-0065-0000002a">
+						<reference id="id-0067-00000055" kind="InEventPort" role="InEventPort" guid="{8dad289b-3349-4491-82c6-0761e1ce2c63}" relid="0x8" referred="id-0065-00000013">
 							<name>PP_min_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1952,7 +1986,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-0000006d" kind="InEventPort" role="InEventPort" guid="{6aaf5083-6707-4977-b42c-e64e796f7035}" relid="0x9" referred="id-0065-0000002d">
+						<reference id="id-0067-00000056" kind="InEventPort" role="InEventPort" guid="{6aaf5083-6707-4977-b42c-e64e796f7035}" relid="0x9" referred="id-0065-00000016">
 							<name>PP_fixed_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -1979,7 +2013,7 @@
 								<value>false</value>
 							</attribute>
 						</reference>
-						<reference id="id-0067-0000006e" kind="OutEventPort" role="OutEventPort" guid="{f8a90604-6bde-4c81-9e01-fbcc9b8fcd2a}" relid="0xa" referred="id-0065-0000002b">
+						<reference id="id-0067-00000057" kind="OutEventPort" role="OutEventPort" guid="{f8a90604-6bde-4c81-9e01-fbcc9b8fcd2a}" relid="0xa" referred="id-0065-00000014">
 							<name>PP_string_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2015,7 +2049,7 @@
 					</model>
 				</model>
 			</model>
-			<model id="id-0065-0000001f" kind="File" guid="{dc70f0d7-fec7-428d-bd90-03178a6ccadc}" relid="0x4" childrelidcntr="0x1">
+			<model id="id-0065-00000010" kind="File" guid="{dc70f0d7-fec7-428d-bd90-03178a6ccadc}" relid="0x4" childrelidcntr="0x1">
 				<name>PingPong_Events</name>
 				<attribute kind="Path" status="meta">
 					<value></value>
@@ -2023,7 +2057,7 @@
 				<attribute kind="PrefixTag" status="meta">
 					<value></value>
 				</attribute>
-				<model id="id-0065-00000020" kind="Package" role="Package" guid="{2d687c7a-0ef6-4464-8a7b-7b20c442e2b1}" relid="0x1" childrelidcntr="0x2">
+				<model id="id-0065-00000011" kind="Package" role="Package" guid="{2d687c7a-0ef6-4464-8a7b-7b20c442e2b1}" relid="0x1" childrelidcntr="0x2">
 					<name>PingPong</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -2043,7 +2077,7 @@
 					<attribute kind="VersionTag" status="meta">
 						<value></value>
 					</attribute>
-					<model id="id-0065-00000029" kind="Event" role="Event" guid="{eaf3a2bb-ee01-43b4-b543-8500f77929b6}" relid="0x0" childrelidcntr="0x1">
+					<model id="id-0065-00000012" kind="Event" role="Event" guid="{eaf3a2bb-ee01-43b4-b543-8500f77929b6}" relid="0x0" childrelidcntr="0x1">
 						<name>PP_quit_msg_ev</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -2066,7 +2100,7 @@
 						<attribute kind="abstract" status="meta">
 							<value>false</value>
 						</attribute>
-						<reference id="id-0067-000000ba" kind="Member" role="Member" guid="{58c67529-bf42-489f-99c1-92a01c072770}" relid="0x0" referred="id-0065-0000000f">
+						<reference id="id-0067-00000001" kind="Member" role="Member" guid="{58c67529-bf42-489f-99c1-92a01c072770}" relid="0x0" referred="id-0065-00000009">
 							<name>content</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -2079,7 +2113,7 @@
 							</regnode>
 						</reference>
 					</model>
-					<model id="id-0065-0000002a" kind="Event" role="Event" guid="{bb453a1b-6158-4d85-9487-30b671e24dd1}" relid="0x0" childrelidcntr="0x1">
+					<model id="id-0065-00000013" kind="Event" role="Event" guid="{bb453a1b-6158-4d85-9487-30b671e24dd1}" relid="0x0" childrelidcntr="0x1">
 						<name>PP_min_msg_ev</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -2102,7 +2136,7 @@
 						<attribute kind="abstract" status="meta">
 							<value>false</value>
 						</attribute>
-						<reference id="id-0067-000000bb" kind="Member" role="Member" guid="{dc37667b-359d-47c2-8a72-bd9de60dee86}" relid="0x0" referred="id-0065-00000003">
+						<reference id="id-0067-00000002" kind="Member" role="Member" guid="{dc37667b-359d-47c2-8a72-bd9de60dee86}" relid="0x0" referred="id-0065-00000003">
 							<name>content</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -2115,7 +2149,7 @@
 							</regnode>
 						</reference>
 					</model>
-					<model id="id-0065-0000002b" kind="Event" role="Event" guid="{fe040f21-d5d2-43cc-94de-a5518ffcf653}" relid="0x0" childrelidcntr="0x1">
+					<model id="id-0065-00000014" kind="Event" role="Event" guid="{fe040f21-d5d2-43cc-94de-a5518ffcf653}" relid="0x0" childrelidcntr="0x1">
 						<name>PP_string_msg_ev</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -2138,7 +2172,7 @@
 						<attribute kind="abstract" status="meta">
 							<value>false</value>
 						</attribute>
-						<reference id="id-0067-000000bc" kind="Member" role="Member" guid="{b38125e6-a2e7-4de2-b988-9a645a4cde83}" relid="0x0" referred="id-0065-00000007">
+						<reference id="id-0067-00000003" kind="Member" role="Member" guid="{b38125e6-a2e7-4de2-b988-9a645a4cde83}" relid="0x0" referred="id-0065-00000005">
 							<name>content</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -2151,7 +2185,7 @@
 							</regnode>
 						</reference>
 					</model>
-					<model id="id-0065-0000002c" kind="Event" role="Event" guid="{c7dc48c2-2810-4059-abbc-8027b465564d}" relid="0x0" childrelidcntr="0x1">
+					<model id="id-0065-00000015" kind="Event" role="Event" guid="{c7dc48c2-2810-4059-abbc-8027b465564d}" relid="0x0" childrelidcntr="0x1">
 						<name>PP_array_msg_ev</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -2174,7 +2208,7 @@
 						<attribute kind="abstract" status="meta">
 							<value>false</value>
 						</attribute>
-						<reference id="id-0067-000000bd" kind="Member" role="Member" guid="{f3a615be-5a7e-494f-936a-d963d0285204}" relid="0x0" referred="id-0065-0000000b">
+						<reference id="id-0067-00000004" kind="Member" role="Member" guid="{f3a615be-5a7e-494f-936a-d963d0285204}" relid="0x0" referred="id-0065-00000007">
 							<name>content</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -2187,7 +2221,7 @@
 							</regnode>
 						</reference>
 					</model>
-					<model id="id-0065-0000002d" kind="Event" role="Event" guid="{e75cd746-fb09-4d3c-a4c7-d23eba9e80f8}" relid="0x0" childrelidcntr="0x1">
+					<model id="id-0065-00000016" kind="Event" role="Event" guid="{e75cd746-fb09-4d3c-a4c7-d23eba9e80f8}" relid="0x0" childrelidcntr="0x1">
 						<name>PP_fixed_msg_ev</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -2210,7 +2244,7 @@
 						<attribute kind="abstract" status="meta">
 							<value>false</value>
 						</attribute>
-						<reference id="id-0067-000000be" kind="Member" role="Member" guid="{ace91e54-3dd2-4646-a202-b8882207d66a}" relid="0x0" referred="id-0065-00000009">
+						<reference id="id-0067-00000005" kind="Member" role="Member" guid="{ace91e54-3dd2-4646-a202-b8882207d66a}" relid="0x0" referred="id-0065-00000006">
 							<name>content</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -2223,8 +2257,8 @@
 							</regnode>
 						</reference>
 					</model>
-					<model id="id-0065-0000002e" kind="Event" role="Event" guid="{322a4322-ebed-4f3c-9de0-894756c6e731}" relid="0x0" childrelidcntr="0x1">
-						<name>PP_seq_msg_ev_out</name>
+					<model id="id-0065-00000017" kind="Event" role="Event" guid="{322a4322-ebed-4f3c-9de0-894756c6e731}" relid="0x0" childrelidcntr="0x1">
+						<name>PP_seq_msg_ev</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
 							<regnode name="InterfaceDefinition" status="undefined">
@@ -2246,7 +2280,7 @@
 						<attribute kind="abstract" status="meta">
 							<value>false</value>
 						</attribute>
-						<reference id="id-0067-000000bf" kind="Member" role="Member" guid="{c2cb2463-4d9b-4924-ab38-3dfb01966dae}" relid="0x0" referred="id-0065-00000005">
+						<reference id="id-0067-00000006" kind="Member" role="Member" guid="{c2cb2463-4d9b-4924-ab38-3dfb01966dae}" relid="0x0" referred="id-0065-00000004">
 							<name>content</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -2259,7 +2293,7 @@
 							</regnode>
 						</reference>
 					</model>
-					<model id="id-0065-0000002f" kind="Event" role="Event" guid="{c0958c47-cb86-4298-a07e-a569d5715503}" relid="0x2" childrelidcntr="0x1">
+					<model id="id-0065-00000018" kind="Event" role="Event" guid="{c0958c47-cb86-4298-a07e-a569d5715503}" relid="0x2" childrelidcntr="0x1">
 						<name>PP_bseq_msg_ev</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -2282,7 +2316,7 @@
 						<attribute kind="abstract" status="meta">
 							<value>false</value>
 						</attribute>
-						<reference id="id-0067-000000c0" kind="Member" role="Member" guid="{98eeae56-5616-4908-856f-c67183e88e92}" relid="0x0" referred="id-0065-0000000d">
+						<reference id="id-0067-00000007" kind="Member" role="Member" guid="{98eeae56-5616-4908-856f-c67183e88e92}" relid="0x0" referred="id-0065-00000008">
 							<name>content</name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -2300,66 +2334,66 @@
 		</folder>
 		<folder id="id-006a-00000003" relid="0x1" childrelidcntr="0x1" kind="PredefinedTypes" guid="{aad4fb62-de92-451d-adbf-a4149e69af22}">
 			<name>PredefinedTypes</name>
-			<atom id="id-0066-00000002" kind="Boolean" guid="{bbbd7d14-4eee-4d48-a0e3-0efd080a89c3}" relid="0x0">
+			<atom id="id-0066-00000008" kind="Boolean" guid="{bbbd7d14-4eee-4d48-a0e3-0efd080a89c3}" relid="0x0">
 				<name>Boolean</name>
 			</atom>
-			<atom id="id-0066-00000003" kind="Byte" guid="{c115f5ba-98b3-4169-ba70-59c7bd905526}" relid="0x0">
+			<atom id="id-0066-00000009" kind="Byte" guid="{c115f5ba-98b3-4169-ba70-59c7bd905526}" relid="0x0">
 				<name>Byte</name>
 			</atom>
-			<atom id="id-0066-00000004" kind="Char" guid="{5f41c915-eda8-4e75-bea8-34ccba3eb4f9}" relid="0x0">
+			<atom id="id-0066-0000000a" kind="Char" guid="{5f41c915-eda8-4e75-bea8-34ccba3eb4f9}" relid="0x0">
 				<name>Char</name>
 			</atom>
-			<atom id="id-0066-00000005" kind="WideChar" guid="{a90c76b8-6f58-4d04-be0d-bc6df9890f63}" relid="0x0">
+			<atom id="id-0066-0000000b" kind="WideChar" guid="{a90c76b8-6f58-4d04-be0d-bc6df9890f63}" relid="0x0">
 				<name>WideChar</name>
 			</atom>
-			<atom id="id-0066-00000006" kind="ShortInteger" guid="{74967e95-05ab-4476-95a1-573b1135afef}" relid="0x0">
+			<atom id="id-0066-0000000c" kind="ShortInteger" guid="{74967e95-05ab-4476-95a1-573b1135afef}" relid="0x0">
 				<name>ShortInteger</name>
 			</atom>
-			<atom id="id-0066-00000007" kind="LongInteger" guid="{560ba4e3-584d-4bca-b718-f7c4be65dbea}" relid="0x0">
+			<atom id="id-0066-0000000d" kind="LongInteger" guid="{560ba4e3-584d-4bca-b718-f7c4be65dbea}" relid="0x0">
 				<name>LongInteger</name>
 			</atom>
-			<atom id="id-0066-00000008" kind="LongLongInteger" guid="{02cbcb7a-0caf-40ab-b6d9-1e7543d519e5}" relid="0x0">
+			<atom id="id-0066-0000000e" kind="LongLongInteger" guid="{02cbcb7a-0caf-40ab-b6d9-1e7543d519e5}" relid="0x0">
 				<name>LongLongInteger</name>
 			</atom>
-			<atom id="id-0066-00000009" kind="UnsignedShortInteger" guid="{f59500d5-c748-4d26-b588-49157daad052}" relid="0x0">
+			<atom id="id-0066-0000000f" kind="UnsignedShortInteger" guid="{f59500d5-c748-4d26-b588-49157daad052}" relid="0x0">
 				<name>UnsignedShortInteger</name>
 			</atom>
-			<atom id="id-0066-0000000a" kind="UnsignedLongInteger" guid="{b635bf53-cbdd-4d0d-ba87-823dd300c13c}" relid="0x0">
+			<atom id="id-0066-00000010" kind="UnsignedLongInteger" guid="{b635bf53-cbdd-4d0d-ba87-823dd300c13c}" relid="0x0">
 				<name>UnsignedLongInteger</name>
 			</atom>
-			<atom id="id-0066-0000000b" kind="UnsignedLongLongInteger" guid="{3bac3786-e571-4800-8f88-73c9fe8f8330}" relid="0x0">
+			<atom id="id-0066-00000011" kind="UnsignedLongLongInteger" guid="{3bac3786-e571-4800-8f88-73c9fe8f8330}" relid="0x0">
 				<name>UnsignedLongLongInteger</name>
 			</atom>
-			<atom id="id-0066-0000000c" kind="FloatNumber" guid="{b1c01bb3-2a7a-4ced-96ec-de443b4d88ac}" relid="0x0">
+			<atom id="id-0066-00000012" kind="FloatNumber" guid="{b1c01bb3-2a7a-4ced-96ec-de443b4d88ac}" relid="0x0">
 				<name>FloatNumber</name>
 			</atom>
-			<atom id="id-0066-0000000d" kind="DoubleNumber" guid="{62a391c9-ec5f-4f7b-97a9-9cce72e7ec8e}" relid="0x0">
+			<atom id="id-0066-00000013" kind="DoubleNumber" guid="{62a391c9-ec5f-4f7b-97a9-9cce72e7ec8e}" relid="0x0">
 				<name>DoubleNumber</name>
 			</atom>
-			<atom id="id-0066-0000000e" kind="LongDoubleNumber" guid="{583cffad-ac9f-4690-a440-baf5752f9c7c}" relid="0x0">
+			<atom id="id-0066-00000014" kind="LongDoubleNumber" guid="{583cffad-ac9f-4690-a440-baf5752f9c7c}" relid="0x0">
 				<name>LongDoubleNumber</name>
 			</atom>
-			<atom id="id-0066-0000000f" kind="GenericObject" guid="{557dab38-1cae-4bcd-a011-a6dd72aa5c91}" relid="0x0">
+			<atom id="id-0066-00000015" kind="GenericObject" guid="{557dab38-1cae-4bcd-a011-a6dd72aa5c91}" relid="0x0">
 				<name>GenericObject</name>
 			</atom>
-			<atom id="id-0066-00000010" kind="GenericValue" guid="{1cedbc92-7aab-4c68-a461-8f21a6a5a139}" relid="0x0">
+			<atom id="id-0066-00000016" kind="GenericValue" guid="{1cedbc92-7aab-4c68-a461-8f21a6a5a139}" relid="0x0">
 				<name>GenericValue</name>
 			</atom>
-			<atom id="id-0066-00000011" kind="GenericValueObject" guid="{09191b0d-6a33-4937-b1ce-22e2ef154e87}" relid="0x0">
+			<atom id="id-0066-00000017" kind="GenericValueObject" guid="{09191b0d-6a33-4937-b1ce-22e2ef154e87}" relid="0x0">
 				<name>GenericValueObject</name>
 			</atom>
-			<atom id="id-0066-00000012" kind="String" guid="{401fb91a-ef43-48aa-8b33-5c9dd4632a70}" relid="0x0">
+			<atom id="id-0066-00000018" kind="String" guid="{401fb91a-ef43-48aa-8b33-5c9dd4632a70}" relid="0x0">
 				<name>String</name>
 			</atom>
-			<atom id="id-0066-00000013" kind="WideString" guid="{5269a2f2-6e17-4799-9ee5-a8a575fa7d30}" relid="0x0">
+			<atom id="id-0066-00000019" kind="WideString" guid="{5269a2f2-6e17-4799-9ee5-a8a575fa7d30}" relid="0x0">
 				<name>WideString</name>
 			</atom>
 		</folder>
-		<folder id="id-006a-00000006" relid="0x5" childrelidcntr="0x2" kind="ImplementationArtifacts" guid="{e995cc4e-7c2b-4520-8c21-ab4d2cb81bd9}">
+		<folder id="id-006a-00000004" relid="0x5" childrelidcntr="0x2" kind="ImplementationArtifacts" guid="{e995cc4e-7c2b-4520-8c21-ab4d2cb81bd9}">
 			<name>ImplementationArtifacts</name>
-			<model id="id-0065-0000001a" kind="ArtifactContainer" guid="{9c492d80-4da5-4ad3-bb9a-62d5e7e468c0}" relid="0x1" childrelidcntr="0x2">
+			<model id="id-0065-00000019" kind="ArtifactContainer" guid="{9c492d80-4da5-4ad3-bb9a-62d5e7e468c0}" relid="0x1" childrelidcntr="0x2">
 				<name>PingPong_PongComponentArtifacts</name>
-				<atom id="id-0066-00000017" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{d545ed53-8d83-4477-a348-e3197529edcc}" relid="0x1">
+				<atom id="id-0066-0000001a" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{d545ed53-8d83-4477-a348-e3197529edcc}" relid="0x1">
 					<name>PingPong_PongComponent_svnt</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -2392,7 +2426,7 @@
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000018" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{bab3dea8-818a-4b02-942c-7105efb4fd57}" relid="0x2">
+				<atom id="id-0066-0000001b" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{bab3dea8-818a-4b02-942c-7105efb4fd57}" relid="0x2">
 					<name>PingPong_PongComponent_impl</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -2426,9 +2460,9 @@
 					</attribute>
 				</atom>
 			</model>
-			<model id="id-0065-0000001d" kind="ArtifactContainer" guid="{c3852f2e-bb4d-41f4-a497-bb4f4d720055}" relid="0x2" childrelidcntr="0x2">
+			<model id="id-0065-0000001a" kind="ArtifactContainer" guid="{c3852f2e-bb4d-41f4-a497-bb4f4d720055}" relid="0x2" childrelidcntr="0x2">
 				<name>PingPong_PingComponentArtifacts</name>
-				<atom id="id-0066-0000001a" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{568be582-7b71-4535-a5c5-550203358c56}" relid="0x1">
+				<atom id="id-0066-0000001c" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{568be582-7b71-4535-a5c5-550203358c56}" relid="0x1">
 					<name>PingPong_PingComponent_svnt</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -2461,7 +2495,7 @@
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-0000001b" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{d9d67449-351d-4fe4-aed1-54205b457f2d}" relid="0x2">
+				<atom id="id-0066-0000001d" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{d9d67449-351d-4fe4-aed1-54205b457f2d}" relid="0x2">
 					<name>PingPong_PingComponent_impl</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -2496,11 +2530,11 @@
 				</atom>
 			</model>
 		</folder>
-		<folder id="id-006a-00000007" relid="0x6" childrelidcntr="0x3" kind="ComponentImplementations" guid="{4ee3f7bd-2ca3-4ef5-b5d1-c3c663b241df}">
+		<folder id="id-006a-00000005" relid="0x6" childrelidcntr="0x3" kind="ComponentImplementations" guid="{4ee3f7bd-2ca3-4ef5-b5d1-c3c663b241df}">
 			<name>ComponentImplementations</name>
 			<model id="id-0065-0000001b" kind="ComponentImplementationContainer" guid="{52c3305b-19f1-4da9-b706-74373555eeff}" relid="0x1" childrelidcntr="0x7">
 				<name>PingPong_PongComponentImpl</name>
-				<atom id="id-0066-00000019" kind="MonolithicImplementation" role="MonolithicImplementation" guid="{b9315297-ad41-490d-8eb5-545c76ef12f0}" relid="0x1">
+				<atom id="id-0066-0000001e" kind="MonolithicImplementation" role="MonolithicImplementation" guid="{b9315297-ad41-490d-8eb5-545c76ef12f0}" relid="0x1">
 					<name>PingPong_PongComponentImpl</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -2521,7 +2555,7 @@
 						<value></value>
 					</attribute>
 				</atom>
-				<reference id="id-0067-00000054" kind="ComponentRef" role="ComponentRef" guid="{32af4273-6f10-4225-aa77-421570acd180}" relid="0x2" referred="id-0065-00000019">
+				<reference id="id-0067-00000008" kind="ComponentRef" role="ComponentRef" guid="{32af4273-6f10-4225-aa77-421570acd180}" relid="0x2" referred="id-0065-0000000f">
 					<name>PongComponent</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -2533,7 +2567,7 @@
 						</regnode>
 					</regnode>
 				</reference>
-				<reference id="id-0067-00000055" kind="ComponentServantArtifact" role="ComponentServantArtifact" guid="{750e7679-ba0e-46d1-b10c-22740a897331}" relid="0x4" referred="id-0066-00000017">
+				<reference id="id-0067-00000009" kind="ComponentServantArtifact" role="ComponentServantArtifact" guid="{750e7679-ba0e-46d1-b10c-22740a897331}" relid="0x4" referred="id-0066-0000001a">
 					<name>PingPong_PongComponent_svnt</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -2548,7 +2582,7 @@
 						<value>create_PingPong_PongComponent_Servant</value>
 					</attribute>
 				</reference>
-				<reference id="id-0067-00000056" kind="ComponentImplementationArtifact" role="ComponentImplementationArtifact" guid="{6bc898bf-d406-456f-9c0c-16254aab0658}" relid="0x6" referred="id-0066-00000018">
+				<reference id="id-0067-0000000a" kind="ComponentImplementationArtifact" role="ComponentImplementationArtifact" guid="{6bc898bf-d406-456f-9c0c-16254aab0658}" relid="0x6" referred="id-0066-0000001b">
 					<name>PingPong_PongComponent_impl</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -2563,25 +2597,25 @@
 						<value>create_PingPong_PongComponent_Impl</value>
 					</attribute>
 				</reference>
-				<connection id="id-0068-00000005" kind="Implements" role="Implements" guid="{27680ae4-a761-493e-b286-eb38c6162421}" relid="0x3">
+				<connection id="id-0068-00000007" kind="Implements" role="Implements" guid="{27680ae4-a761-493e-b286-eb38c6162421}" relid="0x3">
 					<name>Implements</name>
-					<connpoint role="src" target="id-0066-00000019"/>
-					<connpoint role="dst" target="id-0067-00000054"/>
+					<connpoint role="src" target="id-0066-0000001e"/>
+					<connpoint role="dst" target="id-0067-00000008"/>
 				</connection>
-				<connection id="id-0068-00000006" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{edd7dd81-dfad-4807-a4b3-72c3f2b7894d}" relid="0x5">
+				<connection id="id-0068-00000008" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{edd7dd81-dfad-4807-a4b3-72c3f2b7894d}" relid="0x5">
 					<name>MonolithprimaryArtifact</name>
-					<connpoint role="src" target="id-0066-00000019"/>
-					<connpoint role="dst" target="id-0067-00000055"/>
+					<connpoint role="src" target="id-0066-0000001e"/>
+					<connpoint role="dst" target="id-0067-00000009"/>
 				</connection>
-				<connection id="id-0068-00000007" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{1c1b7810-d9c3-4b48-af3d-89fd25237e08}" relid="0x7">
+				<connection id="id-0068-00000009" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{1c1b7810-d9c3-4b48-af3d-89fd25237e08}" relid="0x7">
 					<name>MonolithprimaryArtifact</name>
-					<connpoint role="src" target="id-0066-00000019"/>
-					<connpoint role="dst" target="id-0067-00000056"/>
+					<connpoint role="src" target="id-0066-0000001e"/>
+					<connpoint role="dst" target="id-0067-0000000a"/>
 				</connection>
 			</model>
-			<model id="id-0065-0000001e" kind="ComponentImplementationContainer" guid="{f7fada5b-b0bd-4aec-8783-bf3762b291aa}" relid="0x2" childrelidcntr="0x7">
+			<model id="id-0065-0000001c" kind="ComponentImplementationContainer" guid="{f7fada5b-b0bd-4aec-8783-bf3762b291aa}" relid="0x2" childrelidcntr="0x7">
 				<name>PingPong_PingComponentImpl</name>
-				<atom id="id-0066-0000001c" kind="MonolithicImplementation" role="MonolithicImplementation" guid="{68f03acb-fba0-494b-b22a-754210cc0cab}" relid="0x1">
+				<atom id="id-0066-0000001f" kind="MonolithicImplementation" role="MonolithicImplementation" guid="{68f03acb-fba0-494b-b22a-754210cc0cab}" relid="0x1">
 					<name>PingPong_PingComponentImpl</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -2602,7 +2636,7 @@
 						<value></value>
 					</attribute>
 				</atom>
-				<reference id="id-0067-00000057" kind="ComponentRef" role="ComponentRef" guid="{e7cec4cf-1dd3-4cb9-9de1-127458f3b5fd}" relid="0x2" referred="id-0065-0000001c">
+				<reference id="id-0067-0000000b" kind="ComponentRef" role="ComponentRef" guid="{e7cec4cf-1dd3-4cb9-9de1-127458f3b5fd}" relid="0x2" referred="id-0065-0000000c">
 					<name>PingComponent</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -2614,7 +2648,7 @@
 						</regnode>
 					</regnode>
 				</reference>
-				<reference id="id-0067-00000058" kind="ComponentServantArtifact" role="ComponentServantArtifact" guid="{d050f383-f933-400e-959f-7a6ac5ab7588}" relid="0x4" referred="id-0066-0000001a">
+				<reference id="id-0067-0000000c" kind="ComponentServantArtifact" role="ComponentServantArtifact" guid="{d050f383-f933-400e-959f-7a6ac5ab7588}" relid="0x4" referred="id-0066-0000001c">
 					<name>PingPong_PingComponent_svnt</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -2629,7 +2663,7 @@
 						<value>create_PingPong_PingComponent_Servant</value>
 					</attribute>
 				</reference>
-				<reference id="id-0067-00000059" kind="ComponentImplementationArtifact" role="ComponentImplementationArtifact" guid="{85d52d7c-b099-4f9e-942d-10212f89b483}" relid="0x6" referred="id-0066-0000001b">
+				<reference id="id-0067-0000000d" kind="ComponentImplementationArtifact" role="ComponentImplementationArtifact" guid="{85d52d7c-b099-4f9e-942d-10212f89b483}" relid="0x6" referred="id-0066-0000001d">
 					<name>PingPong_PingComponent_impl</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -2644,25 +2678,25 @@
 						<value>create_PingPong_PingComponent_Impl</value>
 					</attribute>
 				</reference>
-				<connection id="id-0068-00000008" kind="Implements" role="Implements" guid="{cfbbf1d1-24d9-4825-854e-517b20500cd8}" relid="0x3">
+				<connection id="id-0068-0000000a" kind="Implements" role="Implements" guid="{cfbbf1d1-24d9-4825-854e-517b20500cd8}" relid="0x3">
 					<name>Implements</name>
-					<connpoint role="src" target="id-0066-0000001c"/>
-					<connpoint role="dst" target="id-0067-00000057"/>
+					<connpoint role="src" target="id-0066-0000001f"/>
+					<connpoint role="dst" target="id-0067-0000000b"/>
 				</connection>
-				<connection id="id-0068-00000009" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{fc2d4ca5-4c6d-4429-8e55-3802ed5c461f}" relid="0x5">
+				<connection id="id-0068-0000000b" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{fc2d4ca5-4c6d-4429-8e55-3802ed5c461f}" relid="0x5">
 					<name>MonolithprimaryArtifact</name>
-					<connpoint role="src" target="id-0066-0000001c"/>
-					<connpoint role="dst" target="id-0067-00000058"/>
+					<connpoint role="src" target="id-0066-0000001f"/>
+					<connpoint role="dst" target="id-0067-0000000c"/>
 				</connection>
-				<connection id="id-0068-0000000a" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{3c952bba-bef1-4ac1-8ad8-20a2c22312a5}" relid="0x7">
+				<connection id="id-0068-0000000c" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{3c952bba-bef1-4ac1-8ad8-20a2c22312a5}" relid="0x7">
 					<name>MonolithprimaryArtifact</name>
-					<connpoint role="src" target="id-0066-0000001c"/>
-					<connpoint role="dst" target="id-0067-00000059"/>
+					<connpoint role="src" target="id-0066-0000001f"/>
+					<connpoint role="dst" target="id-0067-0000000d"/>
 				</connection>
 			</model>
-			<model id="id-0065-00000030" kind="ComponentImplementationContainer" guid="{cfee8940-2771-437e-89d6-31bc43955087}" relid="0x3" childrelidcntr="0x1">
+			<model id="id-0065-0000001d" kind="ComponentImplementationContainer" guid="{cfee8940-2771-437e-89d6-31bc43955087}" relid="0x3" childrelidcntr="0x1">
 				<name>PingPong_Impl</name>
-				<model id="id-0065-00000031" kind="ComponentAssembly" role="ComponentAssembly" guid="{58a77021-4a7d-41a9-b983-6b734870ec4d}" relid="0x1" childrelidcntr="0xe">
+				<model id="id-0065-0000001e" kind="ComponentAssembly" role="ComponentAssembly" guid="{58a77021-4a7d-41a9-b983-6b734870ec4d}" relid="0x1" childrelidcntr="0xe">
 					<name>PingPong_Impl</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -2685,7 +2719,7 @@
 					<attribute kind="label" status="meta">
 						<value></value>
 					</attribute>
-					<model id="id-0065-00000034" kind="ComponentInstance" role="ComponentInstance" guid="{0f36a00f-9430-4c12-ac2a-51a4e1bdda1f}" relid="0x3" childrelidcntr="0xc">
+					<model id="id-0065-0000001f" kind="ComponentInstance" role="ComponentInstance" guid="{0f36a00f-9430-4c12-ac2a-51a4e1bdda1f}" relid="0x3" childrelidcntr="0xc">
 						<name>Ping</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -2705,10 +2739,10 @@
 						<attribute kind="UUID">
 							<value>149E58BE-250C-11E0-8000-000C2958D27B</value>
 						</attribute>
-						<reference id="id-0067-000000d9" kind="ComponentInstanceType" role="ComponentInstanceType" guid="{e1c00ece-260f-4d50-9d35-04752511ab95}" relid="0x1" referred="id-0066-0000001c">
+						<reference id="id-0067-0000000e" kind="ComponentInstanceType" role="ComponentInstanceType" guid="{e1c00ece-260f-4d50-9d35-04752511ab95}" relid="0x1" referred="id-0066-0000001f">
 							<name>PingPong_PingComponentImpl</name>
 						</reference>
-						<reference id="id-0067-000000da" kind="InEventPortInstance" role="InEventPortInstance" guid="{078a910c-6d93-4839-883b-2ce19fa818af}" relid="0x2" referred="id-0067-00000063">
+						<reference id="id-0067-00000058" kind="InEventPortInstance" role="InEventPortInstance" guid="{078a910c-6d93-4839-883b-2ce19fa818af}" relid="0x2" referred="id-0067-0000004c">
 							<name>PP_array_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2720,7 +2754,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000db" kind="InEventPortInstance" role="InEventPortInstance" guid="{39234154-76d0-402f-a0ee-18cac2e15174}" relid="0x3" referred="id-0067-00000061">
+						<reference id="id-0067-00000059" kind="InEventPortInstance" role="InEventPortInstance" guid="{39234154-76d0-402f-a0ee-18cac2e15174}" relid="0x3" referred="id-0067-0000004a">
 							<name>PP_fixed_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2732,7 +2766,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000dc" kind="InEventPortInstance" role="InEventPortInstance" guid="{5902e8ce-8fe0-454c-a1d8-902ecc41b180}" relid="0x4" referred="id-0067-0000005f">
+						<reference id="id-0067-0000005a" kind="InEventPortInstance" role="InEventPortInstance" guid="{5902e8ce-8fe0-454c-a1d8-902ecc41b180}" relid="0x4" referred="id-0067-00000048">
 							<name>PP_string_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2744,7 +2778,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000dd" kind="InEventPortInstance" role="InEventPortInstance" guid="{b9c1fa28-ac92-45ca-ab4c-6eeef3aa5ebb}" relid="0x5" referred="id-0067-0000005d">
+						<reference id="id-0067-0000005b" kind="InEventPortInstance" role="InEventPortInstance" guid="{b9c1fa28-ac92-45ca-ab4c-6eeef3aa5ebb}" relid="0x5" referred="id-0067-00000046">
 							<name>PP_seq_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2756,7 +2790,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000de" kind="InEventPortInstance" role="InEventPortInstance" guid="{2d2e2fe6-2919-4f4e-b5a6-a499d711a969}" relid="0x6" referred="id-0067-0000005b">
+						<reference id="id-0067-0000005c" kind="InEventPortInstance" role="InEventPortInstance" guid="{2d2e2fe6-2919-4f4e-b5a6-a499d711a969}" relid="0x6" referred="id-0067-00000044">
 							<name>PP_min_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2768,7 +2802,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000df" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{756e1f21-a33d-4ac9-89e1-a1cb6fa9dbad}" relid="0x7" referred="id-0067-00000064">
+						<reference id="id-0067-0000005d" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{756e1f21-a33d-4ac9-89e1-a1cb6fa9dbad}" relid="0x7" referred="id-0067-0000004d">
 							<name>PP_quit_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2780,7 +2814,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000e0" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{0f729c7a-50db-4ebf-87e3-63b2734c9bae}" relid="0x8" referred="id-0067-00000062">
+						<reference id="id-0067-0000005e" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{0f729c7a-50db-4ebf-87e3-63b2734c9bae}" relid="0x8" referred="id-0067-0000004b">
 							<name>PP_array_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2792,7 +2826,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000e1" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{dd1369c6-11e7-4d50-9a95-88c28f267330}" relid="0x9" referred="id-0067-00000060">
+						<reference id="id-0067-0000005f" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{dd1369c6-11e7-4d50-9a95-88c28f267330}" relid="0x9" referred="id-0067-00000049">
 							<name>PP_fixed_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2804,7 +2838,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000e2" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{37aa9df2-ed3a-4f5d-ba6c-d1cdeb7dd6ba}" relid="0xa" referred="id-0067-0000005e">
+						<reference id="id-0067-00000060" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{37aa9df2-ed3a-4f5d-ba6c-d1cdeb7dd6ba}" relid="0xa" referred="id-0067-00000047">
 							<name>PP_string_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2816,7 +2850,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000e3" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{a7294aa8-bf0e-414a-b20e-5f2783207ef4}" relid="0xb" referred="id-0067-0000005c">
+						<reference id="id-0067-00000061" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{a7294aa8-bf0e-414a-b20e-5f2783207ef4}" relid="0xb" referred="id-0067-00000045">
 							<name>PP_seq_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2828,7 +2862,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000e4" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{8822ae41-4869-43e8-953f-98752e381b1b}" relid="0xc" referred="id-0067-0000005a">
+						<reference id="id-0067-00000062" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{8822ae41-4869-43e8-953f-98752e381b1b}" relid="0xc" referred="id-0067-00000043">
 							<name>PP_min_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2841,7 +2875,7 @@
 							</regnode>
 						</reference>
 					</model>
-					<model id="id-0065-00000035" kind="ComponentInstance" role="ComponentInstance" guid="{2d5fd7df-a86b-45af-a447-bbe12a353aab}" relid="0x4" childrelidcntr="0xb">
+					<model id="id-0065-00000020" kind="ComponentInstance" role="ComponentInstance" guid="{2d5fd7df-a86b-45af-a447-bbe12a353aab}" relid="0x4" childrelidcntr="0xb">
 						<name>Pong</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -2861,10 +2895,10 @@
 						<attribute kind="UUID">
 							<value>22EE9B0E-250C-11E0-8000-000C2958D27B</value>
 						</attribute>
-						<reference id="id-0067-000000e5" kind="ComponentInstanceType" role="ComponentInstanceType" guid="{335c0753-ffa5-461e-a72f-4e6d97232643}" relid="0x1" referred="id-0066-00000019">
+						<reference id="id-0067-0000000f" kind="ComponentInstanceType" role="ComponentInstanceType" guid="{335c0753-ffa5-461e-a72f-4e6d97232643}" relid="0x1" referred="id-0066-0000001e">
 							<name>PingPong_PongComponentImpl</name>
 						</reference>
-						<reference id="id-0067-000000e6" kind="InEventPortInstance" role="InEventPortInstance" guid="{e8b4a646-52e9-4811-af5d-b5473a0a49e8}" relid="0x2" referred="id-0067-00000068">
+						<reference id="id-0067-00000063" kind="InEventPortInstance" role="InEventPortInstance" guid="{e8b4a646-52e9-4811-af5d-b5473a0a49e8}" relid="0x2" referred="id-0067-00000051">
 							<name>PP_seq_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2876,7 +2910,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000e7" kind="InEventPortInstance" role="InEventPortInstance" guid="{dddb943d-aec0-40ab-b537-3220dc08915d}" relid="0x3" referred="id-0067-0000006d">
+						<reference id="id-0067-00000064" kind="InEventPortInstance" role="InEventPortInstance" guid="{dddb943d-aec0-40ab-b537-3220dc08915d}" relid="0x3" referred="id-0067-00000056">
 							<name>PP_fixed_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2888,7 +2922,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000e8" kind="InEventPortInstance" role="InEventPortInstance" guid="{fd1eea91-0d8f-4cfd-be5c-a13f4f406c2f}" relid="0x4" referred="id-0067-00000067">
+						<reference id="id-0067-00000065" kind="InEventPortInstance" role="InEventPortInstance" guid="{fd1eea91-0d8f-4cfd-be5c-a13f4f406c2f}" relid="0x4" referred="id-0067-00000050">
 							<name>PP_array_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2900,7 +2934,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000e9" kind="InEventPortInstance" role="InEventPortInstance" guid="{94c324b9-0c29-4691-bbb5-3d3f8c5ebded}" relid="0x5" referred="id-0067-0000006c">
+						<reference id="id-0067-00000066" kind="InEventPortInstance" role="InEventPortInstance" guid="{94c324b9-0c29-4691-bbb5-3d3f8c5ebded}" relid="0x5" referred="id-0067-00000055">
 							<name>PP_min_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2912,7 +2946,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000ea" kind="InEventPortInstance" role="InEventPortInstance" guid="{b0405932-5381-448c-b321-59dc8904da3b}" relid="0x6" referred="id-0067-0000006a">
+						<reference id="id-0067-00000067" kind="InEventPortInstance" role="InEventPortInstance" guid="{b0405932-5381-448c-b321-59dc8904da3b}" relid="0x6" referred="id-0067-00000053">
 							<name>PP_string_msg_in</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2924,7 +2958,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000eb" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{954b9295-a099-4d5f-a4f1-36bad7b1678c}" relid="0x7" referred="id-0067-00000069">
+						<reference id="id-0067-00000068" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{954b9295-a099-4d5f-a4f1-36bad7b1678c}" relid="0x7" referred="id-0067-00000052">
 							<name>PP_array_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2936,7 +2970,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000ec" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{94544626-26f0-4b7b-b06f-c33f37ea944b}" relid="0x8" referred="id-0067-0000006e">
+						<reference id="id-0067-00000069" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{94544626-26f0-4b7b-b06f-c33f37ea944b}" relid="0x8" referred="id-0067-00000057">
 							<name>PP_string_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2948,7 +2982,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000ed" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{348a9d8e-4920-4464-a3e0-a04a01ed2bdb}" relid="0x9" referred="id-0067-0000006b">
+						<reference id="id-0067-0000006a" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{348a9d8e-4920-4464-a3e0-a04a01ed2bdb}" relid="0x9" referred="id-0067-00000054">
 							<name>PP_fixed_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2960,7 +2994,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000ee" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{21d672b0-7f84-4c52-a151-b0fdceb5bf62}" relid="0xa" referred="id-0067-00000065">
+						<reference id="id-0067-0000006b" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{21d672b0-7f84-4c52-a151-b0fdceb5bf62}" relid="0xa" referred="id-0067-0000004e">
 							<name>PP_seq_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2972,7 +3006,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-000000ef" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{f6e7bc4f-667e-4e1e-b51f-40785f9c3ecb}" relid="0xb" referred="id-0067-00000066">
+						<reference id="id-0067-0000006c" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{f6e7bc4f-667e-4e1e-b51f-40785f9c3ecb}" relid="0xb" referred="id-0067-0000004f">
 							<name>PP_min_msg_out</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -2985,62 +3019,62 @@
 							</regnode>
 						</reference>
 					</model>
-					<connection id="id-0068-0000000b" kind="SendsTo" role="SendsTo" guid="{5427bbfd-cba6-463a-a3c1-ee40a148ac5e}" relid="0x5">
+					<connection id="id-0068-0000000d" kind="SendsTo" role="SendsTo" guid="{5427bbfd-cba6-463a-a3c1-ee40a148ac5e}" relid="0x5">
 						<name>SendsTo</name>
-						<connpoint role="src" target="id-0067-000000e1"/>
-						<connpoint role="dst" target="id-0067-000000e7"/>
+						<connpoint role="src" target="id-0067-0000005f"/>
+						<connpoint role="dst" target="id-0067-00000064"/>
 					</connection>
-					<connection id="id-0068-0000000c" kind="SendsTo" role="SendsTo" guid="{75518546-5606-4043-ba93-467ef82abf9f}" relid="0x6">
+					<connection id="id-0068-0000000e" kind="SendsTo" role="SendsTo" guid="{75518546-5606-4043-ba93-467ef82abf9f}" relid="0x6">
 						<name>SendsTo</name>
-						<connpoint role="src" target="id-0067-000000e0"/>
-						<connpoint role="dst" target="id-0067-000000e8"/>
+						<connpoint role="src" target="id-0067-0000005e"/>
+						<connpoint role="dst" target="id-0067-00000065"/>
 					</connection>
-					<connection id="id-0068-0000000d" kind="SendsTo" role="SendsTo" guid="{f9f022b6-c737-4003-b982-63d0ded88f56}" relid="0x7">
+					<connection id="id-0068-0000000f" kind="SendsTo" role="SendsTo" guid="{f9f022b6-c737-4003-b982-63d0ded88f56}" relid="0x7">
 						<name>SendsTo</name>
-						<connpoint role="src" target="id-0067-000000e4"/>
-						<connpoint role="dst" target="id-0067-000000e9"/>
+						<connpoint role="src" target="id-0067-00000062"/>
+						<connpoint role="dst" target="id-0067-00000066"/>
 					</connection>
-					<connection id="id-0068-0000000e" kind="SendsTo" role="SendsTo" guid="{b305926d-19c4-41bd-bcac-19f2a656a5ca}" relid="0x8">
+					<connection id="id-0068-00000010" kind="SendsTo" role="SendsTo" guid="{b305926d-19c4-41bd-bcac-19f2a656a5ca}" relid="0x8">
 						<name>SendsTo</name>
-						<connpoint role="src" target="id-0067-000000e3"/>
-						<connpoint role="dst" target="id-0067-000000e6"/>
+						<connpoint role="src" target="id-0067-00000061"/>
+						<connpoint role="dst" target="id-0067-00000063"/>
 					</connection>
-					<connection id="id-0068-0000000f" kind="SendsTo" role="SendsTo" guid="{364fdb53-4be4-4058-b70e-16f536194791}" relid="0x9">
+					<connection id="id-0068-00000011" kind="SendsTo" role="SendsTo" guid="{364fdb53-4be4-4058-b70e-16f536194791}" relid="0x9">
 						<name>SendsTo</name>
-						<connpoint role="src" target="id-0067-000000e2"/>
-						<connpoint role="dst" target="id-0067-000000ea"/>
+						<connpoint role="src" target="id-0067-00000060"/>
+						<connpoint role="dst" target="id-0067-00000067"/>
 					</connection>
-					<connection id="id-0068-00000010" kind="SendsTo" role="SendsTo" guid="{b97fd07d-67fe-4a15-9388-8b8e9d130116}" relid="0xa">
+					<connection id="id-0068-00000012" kind="SendsTo" role="SendsTo" guid="{b97fd07d-67fe-4a15-9388-8b8e9d130116}" relid="0xa">
 						<name>SendsTo</name>
-						<connpoint role="dst" target="id-0067-000000db"/>
-						<connpoint role="src" target="id-0067-000000ed"/>
+						<connpoint role="dst" target="id-0067-00000059"/>
+						<connpoint role="src" target="id-0067-0000006a"/>
 					</connection>
-					<connection id="id-0068-00000011" kind="SendsTo" role="SendsTo" guid="{99fc70e0-0d78-498c-bfb3-fe63d67b036a}" relid="0xb">
+					<connection id="id-0068-00000013" kind="SendsTo" role="SendsTo" guid="{99fc70e0-0d78-498c-bfb3-fe63d67b036a}" relid="0xb">
 						<name>SendsTo</name>
-						<connpoint role="dst" target="id-0067-000000da"/>
-						<connpoint role="src" target="id-0067-000000eb"/>
+						<connpoint role="dst" target="id-0067-00000058"/>
+						<connpoint role="src" target="id-0067-00000068"/>
 					</connection>
-					<connection id="id-0068-00000012" kind="SendsTo" role="SendsTo" guid="{b569a9be-c6b4-4cca-812b-5666b4497bc5}" relid="0xc">
+					<connection id="id-0068-00000014" kind="SendsTo" role="SendsTo" guid="{b569a9be-c6b4-4cca-812b-5666b4497bc5}" relid="0xc">
 						<name>SendsTo</name>
-						<connpoint role="dst" target="id-0067-000000de"/>
-						<connpoint role="src" target="id-0067-000000ef"/>
+						<connpoint role="dst" target="id-0067-0000005c"/>
+						<connpoint role="src" target="id-0067-0000006c"/>
 					</connection>
-					<connection id="id-0068-00000013" kind="SendsTo" role="SendsTo" guid="{6a36cbfe-6b00-4235-80db-5d8dd61ef041}" relid="0xd">
+					<connection id="id-0068-00000015" kind="SendsTo" role="SendsTo" guid="{6a36cbfe-6b00-4235-80db-5d8dd61ef041}" relid="0xd">
 						<name>SendsTo</name>
-						<connpoint role="dst" target="id-0067-000000dd"/>
-						<connpoint role="src" target="id-0067-000000ee"/>
+						<connpoint role="dst" target="id-0067-0000005b"/>
+						<connpoint role="src" target="id-0067-0000006b"/>
 					</connection>
-					<connection id="id-0068-00000014" kind="SendsTo" role="SendsTo" guid="{a1bbfaf9-1820-48c3-8afe-df05a7f1e818}" relid="0xe">
+					<connection id="id-0068-00000016" kind="SendsTo" role="SendsTo" guid="{a1bbfaf9-1820-48c3-8afe-df05a7f1e818}" relid="0xe">
 						<name>SendsTo</name>
-						<connpoint role="dst" target="id-0067-000000dc"/>
-						<connpoint role="src" target="id-0067-000000ec"/>
+						<connpoint role="dst" target="id-0067-0000005a"/>
+						<connpoint role="src" target="id-0067-00000069"/>
 					</connection>
 				</model>
 			</model>
 		</folder>
-		<folder id="id-006a-00000008" relid="0x7" childrelidcntr="0x1" kind="DeploymentPlans" guid="{247d23e8-7a5a-44c8-af78-5415b4f36a1c}">
+		<folder id="id-006a-00000006" relid="0x7" childrelidcntr="0x1" kind="DeploymentPlans" guid="{247d23e8-7a5a-44c8-af78-5415b4f36a1c}">
 			<name>DeploymentPlans</name>
-			<model id="id-0065-00000036" kind="DeploymentPlan" guid="{5a51d1c0-6a90-4c1c-9a34-8fc367523108}" relid="0x1" childrelidcntr="0x8">
+			<model id="id-0065-00000021" kind="DeploymentPlan" guid="{5a51d1c0-6a90-4c1c-9a34-8fc367523108}" relid="0x1" childrelidcntr="0x8">
 				<name>PingPong</name>
 				<attribute kind="UUID">
 					<value>17FA2E66-2511-11E0-8000-000C2958D27B</value>
@@ -3048,19 +3082,7 @@
 				<attribute kind="label" status="meta">
 					<value></value>
 				</attribute>
-				<reference id="id-0067-000000f0" kind="NodeReference" role="NodeReference" guid="{b7a8b603-20c0-4a41-a7a2-1fed4b40fb5d}" relid="0x1" referred="id-0065-00000038">
-					<name>PingPong</name>
-					<regnode name="PartRegs" status="undefined">
-						<value></value>
-						<regnode name="NodeMapping" status="undefined">
-							<value></value>
-							<regnode name="Position" isopaque="yes">
-								<value>235,81</value>
-							</regnode>
-						</regnode>
-					</regnode>
-				</reference>
-				<reference id="id-0067-000000f2" kind="ComponentInstanceRef" role="ComponentInstanceRef" guid="{74025ac2-20dd-4fee-a820-0beb247e8177}" relid="0x7" referred="id-0065-00000034">
+				<reference id="id-0067-00000010" kind="ComponentInstanceRef" role="ComponentInstanceRef" guid="{74025ac2-20dd-4fee-a820-0beb247e8177}" relid="0x7" referred="id-0065-0000001f">
 					<name>Ping</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3072,7 +3094,7 @@
 						</regnode>
 					</regnode>
 				</reference>
-				<reference id="id-0067-000000f3" kind="ComponentInstanceRef" role="ComponentInstanceRef" guid="{7102dce1-ade8-4482-b1f2-4f01dbabb003}" relid="0x8" referred="id-0065-00000035">
+				<reference id="id-0067-00000011" kind="ComponentInstanceRef" role="ComponentInstanceRef" guid="{7102dce1-ade8-4482-b1f2-4f01dbabb003}" relid="0x8" referred="id-0065-00000020">
 					<name>Pong</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3084,12 +3106,24 @@
 						</regnode>
 					</regnode>
 				</reference>
-				<connection id="id-0068-00000015" kind="InstanceMapping" role="InstanceMapping" guid="{82d89caa-a3e4-4bb8-a6fc-70a03c89714c}" relid="0x3">
+				<reference id="id-0067-0000006d" kind="NodeReference" role="NodeReference" guid="{b7a8b603-20c0-4a41-a7a2-1fed4b40fb5d}" relid="0x1" referred="id-0065-00000023">
+					<name>PingPong</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>235,81</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<connection id="id-0068-00000017" kind="InstanceMapping" role="InstanceMapping" guid="{82d89caa-a3e4-4bb8-a6fc-70a03c89714c}" relid="0x3">
 					<name></name>
-					<connpoint role="dst" target="id-0067-000000f0"/>
+					<connpoint role="dst" target="id-0067-0000006d"/>
 					<connpoint role="src" target="id-0069-00000001"/>
 				</connection>
-				<set id="id-0069-00000001" kind="CollocationGroup" role="CollocationGroup" guid="{44710c50-e7b8-4562-b8b6-f63b391202f7}" relid="0x2" members="id-0067-000000f2 id-0067-000000f3">
+				<set id="id-0069-00000001" kind="CollocationGroup" role="CollocationGroup" guid="{44710c50-e7b8-4562-b8b6-f63b391202f7}" relid="0x2" members="id-0067-00000010 id-0067-00000011">
 					<name>DefaultGroup</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3103,9 +3137,9 @@
 				</set>
 			</model>
 		</folder>
-		<folder id="id-006a-00000009" relid="0x8" childrelidcntr="0x1" kind="Targets" guid="{2c4f7e5a-7ec8-4330-a490-617a2caa52f8}">
+		<folder id="id-006a-00000007" relid="0x8" childrelidcntr="0x1" kind="Targets" guid="{2c4f7e5a-7ec8-4330-a490-617a2caa52f8}">
 			<name>Targets</name>
-			<model id="id-0065-00000037" kind="Domain" guid="{05ee78a1-4c22-4565-a5c1-9b47c9080e69}" relid="0x1" childrelidcntr="0x1">
+			<model id="id-0065-00000022" kind="Domain" guid="{05ee78a1-4c22-4565-a5c1-9b47c9080e69}" relid="0x1" childrelidcntr="0x1">
 				<name>Domain</name>
 				<attribute kind="UUID">
 					<value>202C2166-2511-11E0-8000-000C2958D27B</value>
@@ -3113,7 +3147,7 @@
 				<attribute kind="label" status="meta">
 					<value></value>
 				</attribute>
-				<model id="id-0065-00000038" kind="Node" role="Node" guid="{7a68a159-22ea-4cab-9e66-70798c0a8a44}" relid="0x1" childrelidcntr="0x0">
+				<model id="id-0065-00000023" kind="Node" role="Node" guid="{7a68a159-22ea-4cab-9e66-70798c0a8a44}" relid="0x1" childrelidcntr="0x0">
 					<name>PingPong</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3151,7 +3185,7 @@
 		<regnode name="__OutputDir__" status="undefined">
 			<value></value>
 			<regnode name="CUTS_PICML" isopaque="yes">
-				<value>E:\proj\vc9\CUTS\examples\arch\PingPong\arch\opensplice</value>
+				<value>E:\proj\vc9\CUTS\examples\arch\PingPong\arch\rtidds</value>
 			</regnode>
 		</regnode>
 	</folder>
