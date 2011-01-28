@@ -42,6 +42,9 @@ struct CUTS_BE_CCM_Export Context : public CUTS_BE_CPP::Context
 
   /// Traits for the backend implementation.
   Traits * const traits_;
+
+  static bool is_dds_event_wrapper (const PICML::Event & ev);
+  static bool is_dds_event_wrapper (const PICML::Event & ev, PICML::Aggregate & dds_event);
 };
 
 }

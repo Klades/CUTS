@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_BE_RTIDDS) : boost_base, picml_udm, cuts_be_ciao, cuts_cosmic {
+project (CUTS_BE_RTIDDS) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
   sharedname    += CUTS_BE_RTIDDS
   dynamicflags  += CUTS_BE_RTIDDS_BUILD_DLL
 
@@ -10,10 +10,7 @@ project (CUTS_BE_RTIDDS) : boost_base, picml_udm, cuts_be_ciao, cuts_cosmic {
     Context_Generator.cpp
     Event_Traits_Generator.cpp
     Generators.cpp
-    IDL_Generator.cpp
-    Input_Stream_Generator.cpp
     Manager_Factory.cpp
-    Output_Stream_Generator.cpp
     Servant_Generator.cpp
     Servant_Header_Include_Generator.cpp
     Stub_Generator.cpp

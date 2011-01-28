@@ -9,7 +9,6 @@ namespace CUTS_BE_RTIDDS
 //
 CUTS_INLINE
 Traits::Traits (void)
-: has_events_ (false)
 {
 
 }

@@ -40,8 +40,6 @@ public:
 
   virtual void Visit_Event (const PICML::Event & event);
 
-  virtual void Visit_Aggregate (const PICML::Aggregate & aggr);
-
 private:
   void Visit_PackageFile_i (const Udm::Object & obj);
 
@@ -56,8 +54,6 @@ private:
 
   /// Export macro for the current file.
   std::string export_macro_;
-
-  std::set <PICML::Event> events_;
 };
 
 }

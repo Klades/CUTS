@@ -8,10 +8,14 @@
 
 /**
  * @class CUTS_RTIDDS_Servant
+ *
+ * The base class for the RTI-DDS servant. Each servant can be either a
+ * publisher, subscriber, or both. This is dependent on if the component
+ * has event ports, and the type of event ports.
  */
 class CUTS_RTIDDS_Export CUTS_RTIDDS_Servant
 {
- public:
+public:
   /// Destructor.
   virtual ~CUTS_RTIDDS_Servant (void) ;
 
@@ -32,12 +36,18 @@ class CUTS_RTIDDS_Export CUTS_RTIDDS_Servant
   /// Remove the servant.
   virtual ::DDSDomainParticipant * remove_participant (void);
 
- protected:
+protected:
   /// Default constructor.
   CUTS_RTIDDS_Servant (void);
 
   /// The domain participant for the servant.
   ::DDSDomainParticipant * participant_;
+
+  /// The publisher for this participant.
+  ::DDSPublisher * publisher_;
+
+  /// The subscriber for this participant.
+  ::DDSSubscriber * subscriber_;
 };
 
 #include "RTIDDS_Servant.h"

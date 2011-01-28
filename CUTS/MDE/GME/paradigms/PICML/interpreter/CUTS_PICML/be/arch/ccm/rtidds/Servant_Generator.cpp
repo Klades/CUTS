@@ -43,7 +43,7 @@ public:
     this->source_
       << "," << std::endl
       << "   " << name << "_consumer_ (this, &"
-      << this->servant_ << "::deserialize_" << name << ")";
+      << this->servant_ << "::_push_" << name << ")";
   }
 
 private:
@@ -207,8 +207,8 @@ void Servant_Generator::Visit_File (const PICML::File & file)
       << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_Context_T")
       << CUTS_BE_CPP::include ("cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant_T")
       << CUTS_BE_CPP::include ("cuts/arch/rtidds/ccm/RTIDDS_EventConsumer_T")
-      << CUTS_BE_CPP::include ("cuts/arch/rtidds/ccm/RTIDDS_Subscriber_T")
-      << CUTS_BE_CPP::include ("cuts/arch/rtidds/ccm/RTIDDS_Subscriber_Table_T")
+      << CUTS_BE_CPP::include ("cuts/arch/rtidds/ccm/RTIDDS_Publisher_T")
+      << CUTS_BE_CPP::include ("cuts/arch/rtidds/ccm/RTIDDS_Publisher_Table_T")
       << std::endl
       << CUTS_BE_CPP::include (export_filename)
       << std::endl;
@@ -445,15 +445,18 @@ Visit_InEventPort (const PICML::InEventPort & port)
 
   this->header_
     << "public:" << std::endl
+    << CUTS_BE_CPP::single_line_comment ("Get the event consumer for " + fq_type + ".")
     << fq_type << "Consumer_ptr get_consumer_" << name << " (void);"
     << std::endl
     << "private:" << std::endl
-    << "static void deserialize_" << name << " (" << this->servant_ << " *," << std::endl
-    << "const ::CUTS_NDDS" << fq_type << "& dds_event);"
+    << CUTS_BE_CPP::single_line_comment ("Upcall method for " + fq_type + ".")
+    << "static void _push_" << name << " (" << this->servant_ << " *," << std::endl
+    << fq_type << " *);"
     << std::endl
+    << CUTS_BE_CPP::single_line_comment ("The event consumer for " + fq_type + ".")
     << "CUTS_RTIDDS_CCM_EventConsumer_T < " << std::endl
     << "  " << this->servant_ << "," << std::endl
-    << "  " << "::CUTS_NDDS" << fq_type << " > " << name << "_consumer_;"
+    << "  " << fq_type << " > " << name << "_consumer_;"
     << std::endl;
 
   this->source_
@@ -463,18 +466,14 @@ Visit_InEventPort (const PICML::InEventPort & port)
     << "{"
     << "throw ::CORBA::NO_IMPLEMENT ();"
     << "}"
-    << CUTS_BE_CPP::function_header ("deserialize_" + name)
+    << CUTS_BE_CPP::function_header ("_push_" + name)
     << "void " << this->servant_ << "::" << std::endl
-    << "deserialize_" << name << " (" << this->servant_ << " * servant," << std::endl
-    << "const ::CUTS_NDDS" << fq_type << " & dds_event)"
+    << "_push_" << name << " (" << this->servant_ << " * servant," << std::endl
+    << fq_type << " * ev)"
     << "{"
-    << CUTS_BE_CPP::single_line_comment ("First, extract the ev.")
-    << "CUTS_CCM_Event_T < ::OBV_" << CUTS_BE_CPP::fq_type (ev, "::", false) << " > ev;"
-    << "*ev.in () <<= dds_event;"
-    << std::endl
-    << CUTS_BE_CPP::single_line_comment ("Now, puch the ev to the implemetation.")
-    << "if (servant->impl_)" << std::endl
-    << "  servant->impl_->push_" << name << " (ev.in ());"
+    << CUTS_BE_CPP::single_line_comment ("Push the event to the implemetation.")
+    << "if (0 != servant->impl_)" << std::endl
+    << "  servant->impl_->push_" << name << " (ev);"
     << "}";
 }
 

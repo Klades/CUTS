@@ -62,15 +62,16 @@ project (CUTS_RTIDDS_CCM) : cuts_ccm, cuts_rtidds_ccm_skel, cuts_lib, cutslib {
   Source_Files {
     RTIDDS_EventConsumer.cpp
     RTIDDS_CCM_Servant.cpp
-    RTIDDS_Subscriber.cpp
-    RTIDDS_Subscriber_Table.cpp
+    RTIDDS_Publisher.cpp
+    RTIDDS_Publisher_Table.cpp
   }
 
   Template_Files {
     RTIDDS_CCM_Servant_T.cpp
+    RTIDDS_Event_T.cpp
     RTIDDS_EventConsumer_T.cpp
-    RTIDDS_Subscriber_T.cpp
-    RTIDDS_Subscriber_Table_T.cpp
+    RTIDDS_Publisher_T.cpp
+    RTIDDS_Publisher_Table_T.cpp
   }
 
   IDL_Files {

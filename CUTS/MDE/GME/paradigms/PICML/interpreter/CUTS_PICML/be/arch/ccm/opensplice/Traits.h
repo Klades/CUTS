@@ -44,16 +44,6 @@ public:
   virtual void write_stub_source_files (std::ostream &, const CUTS_BE_IDL_Node &);
 
   virtual void write_stub_after (std::ostream &, const CUTS_BE_IDL_Node &);
-
-private:
-  /// The IDL file has events.
-  bool has_events_;
-
-  /// The IDL file has components.
-  bool has_components_;
-
-  /// The IDL file has DDS events.
-  bool has_dds_events_;
 };
 
 }

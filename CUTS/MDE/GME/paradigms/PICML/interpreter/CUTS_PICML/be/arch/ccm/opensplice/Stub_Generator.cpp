@@ -268,6 +268,7 @@ Visit_File (const PICML::File & file)
     Include_Events include_events (this->header_);
     PICML::File (file).Accept (include_events);
 
+    // Gather all the events in this file.
     this->Visit_PackageFile_i (file);
 
     this->header_
@@ -320,88 +321,6 @@ Visit_Event (const PICML::Event & ev)
 {
   Event_Traits_Generator tg (this->header_, this->export_macro_);
   PICML::Event (ev).Accept (tg);
-
-  //std::string name (ev.name ());
-  //std::string fq_name (CUTS_BE_CPP::fq_type (ev));
-
-  //this->header_
-  //  << this->export_macro_
-  //  << " bool operator <<= (" << name << " &, const ::CUTS_OSPL" << fq_name << " & );"
-  //  << this->export_macro_
-  //  << " bool operator >>= (const " << name << " &, ::CUTS_OSPL" << fq_name << " & );"
-  //  << std::endl;
-
-  //std::vector <PICML::Member> members = ev.Member_children ();
-
-  //this->source_
-  //  << "bool operator <<= (" << name << " & corba, const ::CUTS_OSPL" << fq_name << " & dds)"
-  //  << "{";
-
-  //Input_Stream_Generator input_stream (this->source_, false);
-
-  //std::for_each (members.begin (),
-  //               members.end (),
-  //               boost::bind (&PICML::Member::Accept, _1, boost::ref (input_stream)));
-
-  //this->source_
-  //  << "return true;"
-  //  << "}"
-  //  << "bool operator >>= (const " << name << " & corba, ::CUTS_OSPL" << fq_name << " & dds)"
-  //  << "{";
-
-  //Output_Stream_Generator output_stream (this->source_, false);
-
-  //std::for_each (members.begin (),
-  //               members.end (),
-  //               boost::bind (&PICML::Member::Accept, _1, boost::ref (output_stream)));
-
-  //this->source_
-  //  << "return true;"
-  //  << "}";
-
-  //this->events_.insert (ev);
 }
 
-//
-// Visit_Event
-//
-void Stub_Generator::
-Visit_Aggregate (const PICML::Aggregate & aggr)
-{
-  std::string name (aggr.name ());
-  std::string fq_name (CUTS_BE_CPP::fq_type (aggr));
-
-  this->header_
-    << this->export_macro_
-    << " bool operator <<= (" << name << " &, const ::CUTS_OSPL" << fq_name << " & );"
-    << this->export_macro_
-    << " bool operator >>= (const " << name << " &, ::CUTS_OSPL" << fq_name << " & );"
-    << std::endl;
-
-  std::vector <PICML::Member> members = aggr.Member_children ();
-
-  this->source_
-    << "bool operator <<= (" << name << " & corba, const ::CUTS_OSPL" << fq_name << " & dds)"
-    << "{";
-
-  Input_Stream_Generator input_stream (this->source_, true);
-  std::for_each (members.begin (),
-                 members.end (),
-                 boost::bind (&PICML::Member::Accept, _1, boost::ref (input_stream)));
-
-  this->source_
-    << "return true;"
-    << "}"
-    << "bool operator >>= (const " << name << " & corba, ::CUTS_OSPL" << fq_name << " & dds)"
-    << "{";
-
-  Output_Stream_Generator output_stream (this->source_, true);
-  std::for_each (members.begin (),
-                 members.end (),
-                 boost::bind (&PICML::Member::Accept, _1, boost::ref (output_stream)));
-
-  this->source_
-    << "return true;"
-    << "}";
-}
 }

@@ -9,7 +9,6 @@ namespace CUTS_BE_OpenSplice
 //
 CUTS_INLINE
 Traits::Traits (void)
-: has_events_ (false)
 {
 
 }

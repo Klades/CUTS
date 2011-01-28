@@ -17,9 +17,7 @@ namespace CUTS_BE_RTIDDS
 //
 void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 {
-  this->has_events_ = CUTS_BE::has_events (node.file_);
-
-  if (!this->has_events_)
+  if (!node.has_dds_events_)
     return;
 
   // Construct the macro name for the build.
@@ -29,9 +27,6 @@ void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
                   macro_basename.end (),
                   macro_basename.begin (),
                   &::toupper);
-
-  // Construct the name of the NDDS IDL file.
-  this->ndds_idl_file_ = name + "_NDDS.idl";
 
   proj
     << "project (" << name << "_NDDS_IDL_Gen) : ndds_ts_defaults, requires_rtidds {" << std::endl
@@ -43,7 +38,8 @@ void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
     << std::endl
     << "  NDDSTypeSupport_Files {" << std::endl
     << "    gendir = rtidds" << std::endl
-    << "    " << this->ndds_idl_file_ << std::endl
+    << std::endl
+    << "    " << name << ".idl" << std::endl
     << "  }" << std::endl
     << "}" << std::endl
     << std::endl;
@@ -60,14 +56,11 @@ write_stub_source_files (std::ostream & proj, const CUTS_BE_IDL_Node & node)
   // Write the required stub file.
   proj << "    RTIDDS_" + name + "C.cpp" << std::endl;
 
-  if (this->has_events_)
-  {
-    // Write the stub files for an event.
+  if (node.has_dds_events_)
     proj
-      << "    rtidds/" + name + "_NDDS.cxx" << std::endl
-      << "    rtidds/" + name + "_NDDSPlugin.cxx" << std::endl
-      << "    rtidds/" + name + "_NDDSSupport.cxx" << std::endl;
-  }
+      << "    rtidds/" + name + ".cxx" << std::endl
+      << "    rtidds/" + name + "Plugin.cxx" << std::endl
+      << "    rtidds/" + name + "Support.cxx" << std::endl;
 }
 
 //
@@ -76,18 +69,8 @@ write_stub_source_files (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 void Traits::
 write_stub_after (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 {
-  if (this->has_events_)
+  if (node.has_dds_events_)
     proj << " " << node.name_ + "_NDDS_IDL_Gen";
-}
-
-//
-// write_idl_gen_files
-//
-void Traits::
-write_idl_gen_files (std::ostream & proj, const CUTS_BE_IDL_Node &)
-{
-  if (this->has_events_)
-    proj << "    " << this->ndds_idl_file_ << std::endl;
 }
 
 }

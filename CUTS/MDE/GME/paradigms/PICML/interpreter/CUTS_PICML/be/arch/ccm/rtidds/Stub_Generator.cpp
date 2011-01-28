@@ -1,12 +1,12 @@
 // $Id$
 
 #include "Stub_Generator.h"
-#include "Input_Stream_Generator.h"
-#include "Output_Stream_Generator.h"
 #include "Event_Traits_Generator.h"
+#include "../../../arch/ccm/CCM.h"
+
 #include "boost/bind.hpp"
-#include "../../../lang/cpp/Cpp.h"
 #include "Uml.h"
+
 #include <algorithm>
 
 namespace CUTS_BE_RTIDDS
@@ -42,22 +42,19 @@ public:
   virtual void Visit_File (const PICML::File & file)
   {
     this->this_file_ = file;
-    this->include_traits_ = true;
-
     this->Visit_PackageFile_i (file);
 
-    if (this->has_events_)
-    {
-      // Make sure we include the NDDS support file.
-      std::string filename ("rtidds/");
-      filename += std::string (file.name ()) + "_NDDSSupport";
+    //if (this->has_events_)
+    //{
+    //  // Make sure we include the NDDS support file.
+    //  std::string filename ("rtidds/");
+    //  filename += std::string (file.name ()) + "Support";
 
-      // Include the header file for this source file.
-      this->header_ << CUTS_BE_CPP::include (filename);
+    //  // Include the header file for this source file.
+    //  this->header_ << CUTS_BE_CPP::include (filename);
+    //}
 
-      if (this->include_traits_)
-        this->header_ << CUTS_BE_CPP::include ("cuts/arch/rtidds/RTIDDS_Traits_T");
-    }
+    this->header_ << CUTS_BE_CPP::include ("cuts/arch/rtidds/RTIDDS_Traits_T");
   }
 
   //
@@ -134,10 +131,12 @@ public:
       {
         const std::string filename = "RTIDDS_" + name + "C";
         this->header_ << CUTS_BE_CPP::include (filename);
-
-        // We do not need to include the trait file now.
-        this->include_traits_ = false;
       }
+
+      // Make sure we set the event flag if there is a DDS event
+      // in this file.
+      if (CUTS_BE_CCM::Cpp::Context::is_dds_event_wrapper (ev))
+        this->has_events_ |= true;
     }
   }
 
@@ -174,9 +173,6 @@ private:
     std::vector <PICML::Event> events =
       Udm::ChildrenAttr <PICML::Event> (obj.__impl (), Udm::NULLCHILDROLE);
 
-    if (!events.empty () && !this->has_events_)
-      this->has_events_ = true;
-
     // Visit all the components.
     std::vector <PICML::Component> components =
       Udm::ChildrenAttr <PICML::Component> (obj.__impl (), Udm::NULLCHILDROLE);
@@ -197,9 +193,6 @@ private:
   /// Flag that determine if a file has events.
   bool has_events_;
 
-  /// Flag indicating the trait file needs to be included.
-  bool include_traits_;
-
   /// Reference to the current file.
   PICML::File this_file_;
 };
@@ -208,8 +201,7 @@ private:
 //
 // Stub_Generator
 //
-Stub_Generator::
-Stub_Generator (const std::string & outdir)
+Stub_Generator::Stub_Generator (const std::string & outdir)
 : outdir_ (outdir)
 {
 
@@ -258,12 +250,11 @@ Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions & folder)
 //
 // Visit_File
 //
-void Stub_Generator::
-Visit_File (const PICML::File & file)
+void Stub_Generator::Visit_File (const PICML::File & file)
 {
   // Construct the name of the output file.
-  std::string basename ("RTIDDS_");
-  basename += std::string (file.name ()) + "C";
+  const std::string name = file.name ();
+  const std::string basename = "RTIDDS_" + name + "C";
 
   std::string header_filename = this->outdir_ + "/" + basename + ".h";
   std::string source_filename = this->outdir_ + "/" + basename + ".cpp";
@@ -292,9 +283,6 @@ Visit_File (const PICML::File & file)
                   hash_define.begin (),
                   &::toupper);
 
-  const std::string dds_filename =
-    "rtidds/" + std::string (file.name ()) + "_NDDS";
-
   do
   {
     /// Indentation implanter.
@@ -313,28 +301,17 @@ Visit_File (const PICML::File & file)
       << std::endl
       << "#ifndef " << hash_define << std::endl
       << "#define " << hash_define << std::endl
-      << std::endl
-      << CUTS_BE_CPP::include (dds_filename)
       << std::endl;
 
     Include_Events include_events (this->header_);
     PICML::File (file).Accept (include_events);
 
     this->header_
+      << CUTS_BE_CPP::include (name + "C")
       << std::endl;
 
-    if (!this->events_.empty ())
-      this->events_.clear ();
-
+    // Locate all the events in the file.
     this->Visit_PackageFile_i (file);
-
-    Event_Traits_Generator traits_generator (this->header_, this->export_macro_);
-
-    std::for_each (this->events_.begin (),
-                   this->events_.end (),
-                   boost::bind (&PICML::Event::Accept,
-                                _1,
-                                boost::ref (traits_generator)));
 
     this->header_
       << "#endif  // " << hash_define << std::endl
@@ -349,31 +326,15 @@ Visit_File (const PICML::File & file)
 //
 // Visit_Package
 //
-void Stub_Generator::
-Visit_Package (const PICML::Package & package)
+void Stub_Generator::Visit_Package (const PICML::Package & package)
 {
-  this->header_
-    << "namespace " << package.name ()
-    << "{";
-
-  this->source_
-    << "namespace " << package.name ()
-    << "{";
-
   this->Visit_PackageFile_i (package);
-
-  this->header_
-    << "}";
-
-  this->source_
-    << "}";
 }
 
 //
 // Visit_PackageFile_i
 //
-void Stub_Generator::
-Visit_PackageFile_i  (const Udm::Object & obj)
+void Stub_Generator::Visit_PackageFile_i  (const Udm::Object & obj)
 {
   // Gather all the necessary elements.
   std::set <PICML::Event> events = Udm::ChildrenAttr <PICML::Event> (obj.__impl (), Udm::NULLCHILDROLE);
@@ -383,21 +344,7 @@ Visit_PackageFile_i  (const Udm::Object & obj)
                               _1,
                               boost::ref (*this)));
 
-  // Write the output stream generators.
-  std::set <PICML::Aggregate> aggrs = Udm::ChildrenAttr <PICML::Aggregate> (obj.__impl (), Udm::NULLCHILDROLE);
-  std::for_each (aggrs.begin (),
-                 aggrs.end (),
-                 boost::bind (&PICML::Aggregate::Accept,
-                              _1,
-                              boost::ref (*this)));
-
-  std::set <PICML::Collection> colls = Udm::ChildrenAttr <PICML::Collection> (obj.__impl (), Udm::NULLCHILDROLE);
-  std::for_each (colls.begin (),
-                 colls.end (),
-                 boost::bind (&PICML::Collection::Accept,
-                              _1,
-                              boost::ref (*this)));
-
+  // Visit the remaining packages.
   std::set <PICML::Package> packages =
     Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
@@ -411,90 +358,10 @@ Visit_PackageFile_i  (const Udm::Object & obj)
 //
 // Visit_Event
 //
-void Stub_Generator::
-Visit_Event (const PICML::Event & ev)
+void Stub_Generator::Visit_Event (const PICML::Event & ev)
 {
-  std::string name (ev.name ());
-  std::string fq_name (CUTS_BE_CPP::fq_type (ev));
-
-  this->header_
-    << this->export_macro_
-    << " bool operator <<= (" << name << " &, const ::CUTS_NDDS" << fq_name << " & );"
-    << this->export_macro_
-    << " bool operator >>= (const " << name << " &, ::CUTS_NDDS" << fq_name << " & );"
-    << std::endl;
-
-  std::vector <PICML::Member> members = ev.Member_children ();
-
-  this->source_
-    << "bool operator <<= (" << name << " & corba, const ::CUTS_NDDS" << fq_name << " & dds)"
-    << "{";
-
-  Input_Stream_Generator input_stream (this->source_, false);
-
-  std::for_each (members.begin (),
-                 members.end (),
-                 boost::bind (&PICML::Member::Accept, _1, boost::ref (input_stream)));
-
-  this->source_
-    << "return true;"
-    << "}"
-    << "bool operator >>= (const " << name << " & corba, ::CUTS_NDDS" << fq_name << " & dds)"
-    << "{";
-
-  Output_Stream_Generator output_stream (this->source_, false);
-
-  std::for_each (members.begin (),
-                 members.end (),
-                 boost::bind (&PICML::Member::Accept, _1, boost::ref (output_stream)));
-
-  this->source_
-    << "return true;"
-    << "}";
-
-  this->events_.insert (ev);
+  Event_Traits_Generator traits_generator (this->header_, this->export_macro_);
+  PICML::Event (ev).Accept (traits_generator);
 }
 
-//
-// Visit_Event
-//
-void Stub_Generator::
-Visit_Aggregate (const PICML::Aggregate & aggr)
-{
-  std::string name (aggr.name ());
-  std::string fq_name (CUTS_BE_CPP::fq_type (aggr));
-
-  this->header_
-    << this->export_macro_
-    << " bool operator <<= (" << name << " &, const ::CUTS_NDDS" << fq_name << " & );"
-    << this->export_macro_
-    << " bool operator >>= (const " << name << " &, ::CUTS_NDDS" << fq_name << " & );"
-    << std::endl;
-
-  std::vector <PICML::Member> members = aggr.Member_children ();
-
-  this->source_
-    << "bool operator <<= (" << name << " & corba, const ::CUTS_NDDS" << fq_name << " & dds)"
-    << "{";
-
-  Input_Stream_Generator input_stream (this->source_, true);
-  std::for_each (members.begin (),
-                 members.end (),
-                 boost::bind (&PICML::Member::Accept, _1, boost::ref (input_stream)));
-
-  this->source_
-    << "return true;"
-    << "}"
-    << "bool operator >>= (const " << name << " & corba, ::CUTS_NDDS" << fq_name << " & dds)"
-    << "{";
-
-  Output_Stream_Generator output_stream (this->source_, true);
-  std::for_each (members.begin (),
-                 members.end (),
-                 boost::bind (&PICML::Member::Accept, _1, boost::ref (output_stream)));
-
-  this->source_
-    << "return true;"
-    << "}";
-}
 }

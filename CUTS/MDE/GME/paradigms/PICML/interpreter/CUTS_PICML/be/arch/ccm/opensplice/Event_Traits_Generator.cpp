@@ -1,7 +1,7 @@
 // $Id$
 
 #include "Event_Traits_Generator.h"
-#include "../../../lang/cpp/Cpp.h"
+#include "../../../arch/ccm/CCM.h"
 #include "../../../BE_algorithm.h"
 
 namespace CUTS_BE_OpenSplice
@@ -26,48 +26,13 @@ Event_Traits_Generator::~Event_Traits_Generator (void)
 }
 
 //
-// is_event_wrapper
-//
-bool Event_Traits_Generator::is_event_wrapper (const PICML::Event & ev)
-{
-  PICML::Aggregate dds_event;
-  return Event_Traits_Generator::is_event_wrapper (ev, dds_event);
-}
-
-//
-// is_event_wrapper
-//
-bool Event_Traits_Generator::
-is_event_wrapper (const PICML::Event & ev, PICML::Aggregate & dds_event)
-{
-  std::vector <PICML::Member> members = ev.Member_children ();
-
-  if (1 != members.size ())
-    return false;
-
-  PICML::Member member = members.front ();
-  const std::string name = member.name ();
-
-  if (name != "content")
-    return false;
-
-  PICML::MemberType mt = member.ref ();
-  bool retval = mt.type () == PICML::Aggregate::meta;
-
-  if (retval)
-    dds_event = PICML::Aggregate::Cast (mt);
-
-  return retval;
-}
-
-//
 // Visit_Event
 //
 void Event_Traits_Generator::Visit_Event (const PICML::Event & ev)
 {
   PICML::Aggregate dds_event;
 
-  if (!this->is_event_wrapper (ev, dds_event))
+  if (CUTS_BE_CCM::Cpp::Context::is_dds_event_wrapper (ev, dds_event))
     return;
 
   // Construct the CORBA and DDS event type.

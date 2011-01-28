@@ -1,3 +1,90 @@
+Fri Jan 28 15:30:11 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/CCM.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/CCM.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/CCM.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Project_Generator.cpp:
+
+          Implemented several helper methods to determine if an event is
+          a DDS event wrapper.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/BE_OpenSplice.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Event_Traits_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Event_Traits_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Stub_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Stub_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Traits.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Traits.cpp:
+
+          Removed obsolete code.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/BE_RTIDDS.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Event_Traits_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Stub_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Stub_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Traits.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Traits.cpp:
+        * cuts/arch/rtidds/RTIDDS_Servant.h:
+        * cuts/arch/rtidds/RTIDDS_Servant.inl:
+        * cuts/arch/rtidds/RTIDDS_Servant.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM.mpc:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Event_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Event_T.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_Event_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher_T.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher_Table.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher_Table.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher_Table.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher_Table_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher_Table_T.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher_Table_T.cpp:
+
+          Simplified the RTI-DDS backend architecture so that (1) DDS
+          publishers and subscribers are used to configure the event
+          sources and sinks, respectively, and (2) there is minimum to
+          no copying taking place when going from DDS to CCM.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/IDL_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/IDL_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Input_Stream_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Input_Stream_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Output_Stream_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Output_Stream_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/IDL_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/IDL_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Input_Stream_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Input_Stream_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Output_Stream_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Output_Stream_Generator.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_Table.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_Table.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_Table_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Subscriber_Table_T.cpp:
+
+          Removed these files.
+
 Thu Jan 27 20:00:01 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/arch/PingPong/arch/opensplice:

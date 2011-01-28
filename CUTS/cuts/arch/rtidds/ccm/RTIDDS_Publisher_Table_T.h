@@ -6,24 +6,24 @@
 #include "ace/Hash_Map_Manager.h"
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/UUID.h"
-#include "RTIDDS_Subscriber_T.h"
-#include "RTIDDS_Subscriber_Table.h"
+#include "RTIDDS_Publisher_T.h"
+#include "RTIDDS_Publisher_Table.h"
 
 /**
- * @class CUTS_RTIDDS_CCM_Subscriber_Table_T
+ * @class CUTS_RTIDDS_CCM_Publisher_Table_T
  */
 template <typename EVENT>
-class CUTS_RTIDDS_CCM_Subscriber_Table_T :
-  public CUTS_RTIDDS_CCM_Subscriber_Table
+class CUTS_RTIDDS_CCM_Publisher_Table_T :
+  public CUTS_RTIDDS_CCM_Publisher_Table
 {
 public:
   typedef CUTS_RTIDDS_Traits_T <EVENT> traits_type;
 
-  typedef CUTS_RTIDDS_CCM_Subscriber_T <EVENT> subscriber_type;
+  typedef CUTS_RTIDDS_CCM_Publisher_T <EVENT> publisher_type;
 
-  CUTS_RTIDDS_CCM_Subscriber_Table_T (void);
+  CUTS_RTIDDS_CCM_Publisher_Table_T (void);
 
-  virtual ~CUTS_RTIDDS_CCM_Subscriber_Table_T (void);
+  virtual ~CUTS_RTIDDS_CCM_Publisher_Table_T (void);
 
   virtual ::Components::Cookie * subscribe (::Components::EventConsumerBase_ptr);
 
@@ -33,12 +33,17 @@ public:
 
 protected:
   typedef ACE_Hash_Map_Manager <ACE_Utils::UUID,
-				subscriber_type *,
-                                ACE_RW_Thread_Mutex> table_type;
+                                publisher_type *,
+                                ACE_RW_Thread_Mutex>
+                                publisher_table;
 
-  table_type table_;
+  publisher_table table_;
 };
 
-#include "RTIDDS_Subscriber_Table_T.cpp"
+#if defined (__CUTS_INLINE__)
+#include "RTIDDS_Publisher_Table_T.inl"
+#endif
+
+#include "RTIDDS_Publisher_Table_T.cpp"
 
 #endif  // !defined _CUTS_RTIDDS_CCM_SUBSCRIBER_TABLE_T_H_

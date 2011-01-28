@@ -79,10 +79,6 @@ public:
 private:
   void generate_impl_project (const CUTS_BE_Impl_Node & node);
 
-  void generate_listing (const CUTS_BE_IDL_Node * node,
-                         const char * prefix,
-                         const char * postfix);
-
   void generate_mpc_i (const CUTS_BE_Impl_Node & node);
 
   void generate_mpc_values (const std::string & heading,
@@ -197,8 +193,6 @@ private:
   void generate_exec_project (const CUTS_BE_IDL_Node & node);
 
   void generate_svnt_project (const CUTS_BE_IDL_Node & node);
-
-  void generate_listing (const CUTS_BE_IDL_Node * node, const char * type);
 
   typedef std::set <const CUTS_BE_IDL_Node *> IDL_Node_Set;
 

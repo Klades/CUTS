@@ -26,13 +26,9 @@ class CUTS_RTIDDS_CCM_Export CUTS_RTIDDS_CCM_EventConsumer :
   /// Destructor.
   virtual ~CUTS_RTIDDS_CCM_EventConsumer (void);
 
-  virtual int configure (::DDSDomainParticipant * participant,
+  virtual int configure (::DDSSubscriber * participant,
                          const char * inst,
                          const char * topic_name) = 0;
-
-  virtual int open (::DDSDomainParticipant * participant,
-                    const char * type_name,
-                    const char * topic_name);
 
   /// Close the event consumer.
   virtual int close (void);
@@ -41,8 +37,8 @@ class CUTS_RTIDDS_CCM_Export CUTS_RTIDDS_CCM_EventConsumer :
   virtual ::Components::RTIDDS::TopicDescription * topic_description (void);
 
 protected:
-  /// The participant associated with this consumer.
-  ::DDSDomainParticipant * participant_;
+  // Helper method to open the endpoint.
+  int open (const char * type_name, const char * topic_name);
 
   /// Right now, we assume that each consumer is a subscriber. In the
   /// future, we may want to enable shared subscriptions between consumers.

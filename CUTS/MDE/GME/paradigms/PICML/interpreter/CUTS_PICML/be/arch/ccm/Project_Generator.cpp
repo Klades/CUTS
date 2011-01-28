@@ -11,26 +11,21 @@
 #include "../../BE_Impl_Node.h"
 #include "boost/bind.hpp"
 
-/**
- * @class generate_stub_listing_t
- *
- * Functor that generates the skeleton inclusion for a project.
- */
-class generate_stub_listing_t
+template <typename COND>
+class generate_listing_t
 {
 public:
   typedef std::set <const CUTS_BE_IDL_Node *> IDL_Node_Set;
 
-  generate_stub_listing_t (std::ostream & proj, IDL_Node_Set & visited)
+  typedef COND condition_type;
+
+  generate_listing_t (std::ostream & proj, IDL_Node_Set & visited)
     : proj_ (proj),
       visited_ (visited)
   {
 
   }
 
-  //
-  // operator ()
-  //
   void operator () (const CUTS_BE_IDL_Node * node)
   {
     IDL_Node_Set::const_iterator iter = this->visited_.find (node);
@@ -41,14 +36,15 @@ public:
     // Save the node as being visited.
     this->visited_.insert (node);
 
-    this->proj_
-        << " \\" << std::endl
-        << "    " << node->name_ << "_stub";
+    if (COND::validate (node))
+      this->proj_
+          << " \\" << std::endl
+          << "    " << node->name_ << COND::get_suffix ();
 
     std::for_each (node->references_.begin (),
                    node->references_.end (),
-                   generate_stub_listing_t (this->proj_, this->visited_));
-  };
+                   generate_listing_t <COND> (this->proj_, this->visited_));
+  }
 
 private:
   /// The output stream of the project.
@@ -56,6 +52,44 @@ private:
 
   /// A collection of IDL nodes.
   IDL_Node_Set & visited_;
+};
+
+/**
+ * @class stub_listing
+ *
+ * Functor that generates the skeleton inclusion for a project.
+ */
+struct stub_t
+{
+  static bool validate (const CUTS_BE_IDL_Node * node)
+  {
+    return true;
+  }
+
+  static const char * get_suffix (void)
+  {
+    return "_stub";
+  }
+};
+
+/**
+ * @class skel_listing
+ *
+ * Functor that generates the skeleton inclusion for a project.
+ */
+struct skel_t
+{
+  static bool validate (const CUTS_BE_IDL_Node * node)
+  {
+    return node->has_components_ ||
+           node->has_events_ ||
+           node->has_interfaces_;
+  }
+
+  static const char * get_suffix (void)
+  {
+    return "_skel";
+  }
 };
 
 /**
@@ -63,96 +97,37 @@ private:
  *
  * Functor that generates the skeleton inclusion for a project.
  */
-class generate_skel_listing_t
+struct exec_t
 {
-public:
-  typedef std::set <const CUTS_BE_IDL_Node *> IDL_Node_Set;
-
-  generate_skel_listing_t (std::ostream & proj, IDL_Node_Set & visited)
-    : proj_ (proj),
-      visited_ (visited)
+  static bool validate (const CUTS_BE_IDL_Node * node)
   {
-
+    return node->has_components_ || node->has_interfaces_;
   }
 
-  //
-  // operator ()
-  //
-  void operator () (const CUTS_BE_IDL_Node * node)
+  static const char * get_suffix (void)
   {
-    IDL_Node_Set::const_iterator iter = this->visited_.find (node);
-
-    if (iter != this->visited_.end ())
-      return;
-
-    // Save the node as being visited.
-    this->visited_.insert (node);
-
-    if (node->has_components_ || node->has_events_ || node->has_interfaces_)
-      this->proj_
-          << " \\" << std::endl
-          << "    " << node->name_ << "_skel";
-
-    std::for_each (node->references_.begin (),
-                   node->references_.end (),
-                   generate_skel_listing_t (this->proj_, this->visited_));
-  };
-
-private:
-  /// The output stream of the project.
-  std::ostream & proj_;
-
-  /// A collection of IDL nodes.
-  IDL_Node_Set & visited_;
+    return "_exec";
+  }
 };
 
 /**
- * @class generate_skel_listing_t
+ * @class generate_eidl_listing_t
  *
  * Functor that generates the skeleton inclusion for a project.
  */
-class generate_exec_listing_t
+struct eidl_t
 {
-public:
-  typedef std::set <const CUTS_BE_IDL_Node *> IDL_Node_Set;
-
-  generate_exec_listing_t (std::ostream & proj, IDL_Node_Set & visited)
-    : proj_ (proj),
-      visited_ (visited)
+  static bool validate (const CUTS_BE_IDL_Node * node)
   {
-
+    return node->has_components_ || node->has_events_ || node->has_interfaces_;
   }
 
-  //
-  // operator ()
-  //
-  void operator () (const CUTS_BE_IDL_Node * node)
+  static const char * get_suffix (void)
   {
-    IDL_Node_Set::const_iterator iter = this->visited_.find (node);
-
-    if (iter != this->visited_.end ())
-      return;
-
-    // Save the node as being visited.
-    this->visited_.insert (node);
-
-    if (node->has_components_ || node->has_events_ || node->has_interfaces_)
-      this->proj_
-          << " \\" << std::endl
-          << "    " << node->name_ << "_exec";
-
-    std::for_each (node->references_.begin (),
-                   node->references_.end (),
-                   generate_skel_listing_t (this->proj_, this->visited_));
-  };
-
-private:
-  /// The output stream of the project.
-  std::ostream & proj_;
-
-  /// A collection of IDL nodes.
-  IDL_Node_Set & visited_;
+    return "_EIDL_Gen";
+  }
 };
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Project_File_Open_T
@@ -240,14 +215,14 @@ generate_impl_project (const CUTS_BE_Impl_Node & node)
       << "  after += ";
 
     this->visited_nodes_.clear ();
-    std::for_each (last_iter,
-                   nodes.end (),
-                   generate_exec_listing_t (this->ctx_.project_, this->visited_nodes_));
+    std::for_each (node.references_.begin (),
+                   node.references_.end (),
+                   generate_listing_t <exec_t> (this->ctx_.project_, this->visited_nodes_));
 
     this->visited_nodes_.clear ();
     std::for_each (nodes.begin (),
                    nodes.end (),
-                   generate_stub_listing_t (this->ctx_.project_, this->visited_nodes_));
+                   generate_listing_t <stub_t> (this->ctx_.project_, this->visited_nodes_));
 
     this->ctx_.project_
       << std::endl
@@ -262,13 +237,12 @@ generate_impl_project (const CUTS_BE_Impl_Node & node)
     this->visited_nodes_.clear ();
     std::for_each (last_iter,
                    nodes.end (),
-                   generate_exec_listing_t (this->ctx_.project_, this->visited_nodes_));
+                   generate_listing_t <exec_t> (this->ctx_.project_, this->visited_nodes_));
 
     this->visited_nodes_.clear ();
     std::for_each (nodes.begin (),
                    nodes.end (),
-                   generate_stub_listing_t (this->ctx_.project_, this->visited_nodes_));
-
+                   generate_listing_t <stub_t> (this->ctx_.project_, this->visited_nodes_));
 
     this->ctx_.project_
       << std::endl
@@ -297,35 +271,6 @@ generate_impl_project (const CUTS_BE_Impl_Node & node)
     << "  }" << std::endl
     << "}" << std::endl
     << std::endl;
-}
-
-//
-// generate_stub_listing
-//
-void
-CUTS_BE_Project_Write_T <CUTS_BE_CCM::Cpp::Context, CUTS_BE_Impl_Node>::
-generate_listing (const CUTS_BE_IDL_Node * node,
-                  const char * prefix,
-                  const char * postfix)
-{
-  IDL_Node_Set::const_iterator iter = this->visited_nodes_.find (node);
-
-  if (iter != visited_nodes_.end ())
-    return;
-
-  this->visited_nodes_.insert (node);
-
-  this->ctx_.project_
-    << " \\" << std::endl
-    << "    " << prefix << node->name_ << postfix;
-
-  std::for_each (node->references_.begin (),
-                 node->references_.end (),
-                 boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                              this,
-                              _1,
-                              prefix,
-                              postfix));
 }
 
 //
@@ -440,15 +385,17 @@ generate (const CUTS_BE_IDL_Node & node)
   this->generate_stub_project (node);
 
   if (node.has_components_ || node.has_events_ || node.has_interfaces_)
-    this->generate_skel_project (node);
-
-  if (node.has_events_ || node.has_interfaces_ || node.has_components_)
   {
+    this->generate_skel_project (node);
     this->generate_eidl_project (node);
-    this->generate_exec_project (node);
 
-    if (node.has_components_)
-      this->generate_svnt_project (node);
+    if (node.has_components_ || node.has_interfaces_)
+    {
+      this->generate_exec_project (node);
+
+      if (node.has_components_)
+        this->generate_svnt_project (node);
+    }
   }
 }
 
@@ -479,18 +426,21 @@ generate_idlgen_project (const CUTS_BE_IDL_Node & node)
     << "  idlflags += -Wb,stub_export_macro=" << macro_basename << "_STUB_Export \\" << std::endl
     << "              -Wb,stub_export_include=" << node.name_ << "_stub_export.h \\" << std::endl
     << "              -Wb,skel_export_macro=" << macro_basename << "_SKEL_Export \\" << std::endl
-    << "              -Wb,skel_export_include=" << node.name_ << "_skel_export.h \\" << std::endl;
+    << "              -Wb,skel_export_include=" << node.name_ << "_skel_export.h \\" << std::endl
+    << "              -Gxhst -Gxhsk \\" << std::endl;
 
   if (node.has_events_ || node.has_components_ || node.has_interfaces_)
   {
     this->ctx_.project_
       << "              -Wb,exec_export_macro=" << macro_basename << "_EXEC_Export \\" << std::endl
-      << "              -Wb,exec_export_include=" << node.name_ << "_exec_export.h \\" << std::endl;
+      << "              -Wb,exec_export_include=" << node.name_ << "_exec_export.h \\" << std::endl
+      << "              -Gxhex \\" << std::endl;
 
     if (node.has_components_)
       this->ctx_.project_
         << "              -Wb,svnt_export_macro=" << macro_basename << "_SVNT_Export \\" << std::endl
-        << "              -Wb,svnt_export_include=" << node.name_ << "_svnt_export.h \\" << std::endl;
+        << "              -Wb,svnt_export_include=" << node.name_ << "_svnt_export.h \\" << std::endl
+        << "              -Gxhsv \\" << std::endl;
   }
 
   this->ctx_.project_
@@ -563,8 +513,7 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
     this->visited_nodes_.clear ();
     std::for_each (node.references_.begin (),
                    node.references_.end (),
-                   generate_stub_listing_t (this->ctx_.project_,
-                                            this->visited_nodes_));
+                   generate_listing_t <stub_t> (this->ctx_.project_, this->visited_nodes_));
 
     // Generate the import libraries for this project. This will be
     // all client project of the references for this node. The will
@@ -578,8 +527,7 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
     this->visited_nodes_.clear ();
     std::for_each (node.references_.begin (),
                    node.references_.end (),
-                   generate_stub_listing_t (this->ctx_.project_,
-                                            this->visited_nodes_));
+                   generate_listing_t <stub_t> (this->ctx_.project_, this->visited_nodes_));
 
     this->ctx_.project_
       << std::endl;
@@ -654,8 +602,7 @@ generate_skel_project (const CUTS_BE_IDL_Node & node)
     this->visited_nodes_.clear ();
     std::for_each (node.references_.begin (),
                    node.references_.end (),
-                   generate_skel_listing_t (this->ctx_.project_,
-                                            this->visited_nodes_));
+                   generate_listing_t <skel_t> (this->ctx_.project_, this->visited_nodes_));
 
     // Generate the import libraries for this project. This will be
     // all client project of the references for this node. The will
@@ -669,14 +616,12 @@ generate_skel_project (const CUTS_BE_IDL_Node & node)
     this->visited_nodes_.clear ();
     std::for_each (node.references_.begin (),
                    node.references_.end (),
-                   generate_skel_listing_t (this->ctx_.project_,
-                                            this->visited_nodes_));
+                   generate_listing_t <skel_t> (this->ctx_.project_, this->visited_nodes_));
 
     this->visited_nodes_.clear ();
     std::for_each (node.references_.begin (),
                    node.references_.end (),
-                   generate_stub_listing_t (this->ctx_.project_,
-                                            this->visited_nodes_));
+                   generate_listing_t <stub_t> (this->ctx_.project_, this->visited_nodes_));
 
     this->ctx_.project_
       << std::endl;
@@ -719,7 +664,14 @@ generate_eidl_project (const CUTS_BE_IDL_Node & node)
     << "project (" << name << "_EIDL_Gen) : ciaoidldefaults, cuts_codegen_defaults {" << std::endl
     << "  custom_only = 1" << std::endl
     << std::endl
-    << "  after    += " << name << "_IDL_Gen" << std::endl
+    << "  after    += " << name << "_IDL_Gen";
+
+  this->visited_nodes_.clear ();
+  std::for_each (node.references_.begin (),
+                 node.references_.end (),
+                 generate_listing_t <eidl_t> (this->ctx_.project_, this->visited_nodes_));
+
+  this->ctx_.project_
     << std::endl;
 
   std::string export_basename (name);
@@ -776,35 +728,29 @@ generate_exec_project (const CUTS_BE_IDL_Node & node)
                     reinterpret_cast <FUNCTOR> (&CUTS_BE::has_interface));
 
   this->visited_nodes_.clear ();
-  std::for_each (nodes.begin (),
-                 last_iter,
-                 generate_stub_listing_t (this->ctx_.project_,
-                                          this->visited_nodes_));
-
-  std::for_each (last_iter,
-                 nodes.end (),
-                 boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                              this,
-                              _1,
-                              "_exec"));
+  std::for_each (node.references_.begin (),
+                 node.references_.end (),
+                 generate_listing_t <stub_t> (this->ctx_.project_, this->visited_nodes_));
 
   this->visited_nodes_.clear ();
+  std::for_each (node.references_.begin (),
+                 node.references_.end (),
+                 generate_listing_t <exec_t> (this->ctx_.project_, this->visited_nodes_));
+
   this->ctx_.project_
     << std::endl
     << std::endl
     << "  libs  += " << name << "_stub";
 
-  std::for_each (nodes.begin (),
-                 last_iter,
-                 generate_stub_listing_t (this->ctx_.project_,
-                                          this->visited_nodes_));
+  this->visited_nodes_.clear ();
+  std::for_each (node.references_.begin (),
+                 node.references_.end (),
+                 generate_listing_t <stub_t> (this->ctx_.project_, this->visited_nodes_));
 
-  std::for_each (last_iter,
-                 nodes.end (),
-                 boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                              this,
-                              _1,
-                              "_exec"));
+  this->visited_nodes_.clear ();
+  std::for_each (node.references_.begin (),
+                 node.references_.end (),
+                 generate_listing_t <exec_t> (this->ctx_.project_, this->visited_nodes_));
 
   this->ctx_.project_
     << std::endl
@@ -851,40 +797,26 @@ generate_svnt_project (const CUTS_BE_IDL_Node & node)
     << "  sharedname   = " << svnt_project << std::endl
     << "  dynamicflags = " << export_basename << "_BUILD_DLL" << std::endl
     << std::endl
-    << "  after += " << name << "_exec " << name << "_stub";
+    << "  after += "
+    << name << "_exec "
+    << name << "_stub "
+    << name << "_skel";
 
   // Filter the nodes correctly.
-  std::vector <const CUTS_BE_IDL_Node *> nodes (node.references_.size ());
-  std::copy (node.references_.begin (),
-             node.references_.end (),
-             nodes.begin ());
-
-  typedef bool (* FUNCTOR)(const CUTS_BE_IDL_Node *);
+  this->visited_nodes_.clear ();
+  std::for_each (node.references_.begin (),
+                 node.references_.end (),
+                 generate_listing_t <stub_t> (this->ctx_.project_, this->visited_nodes_));
 
   this->visited_nodes_.clear ();
-  std::for_each (nodes.begin (),
-                 nodes.end (),
-                 generate_stub_listing_t (this->ctx_.project_,
-                                          this->visited_nodes_));
+  std::for_each (node.references_.begin (),
+                 node.references_.end (),
+                 generate_listing_t <skel_t> (this->ctx_.project_, this->visited_nodes_));
 
   this->visited_nodes_.clear ();
-  std::for_each (nodes.begin (),
-                 nodes.end (),
-                 generate_skel_listing_t (this->ctx_.project_,
-                                          this->visited_nodes_));
-
-  std::vector <const CUTS_BE_IDL_Node *>::iterator last_iter =
-    std::remove_if (nodes.begin (),
-                    nodes.end (),
-                    reinterpret_cast <FUNCTOR> (&CUTS_BE::has_interface));
-
-  this->visited_nodes_.clear ();
-  std::for_each (last_iter,
-                 nodes.end (),
-                 boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                              this,
-                              _1,
-                              "_exec"));
+  std::for_each (node.references_.begin (),
+                 node.references_.end (),
+                 generate_listing_t <exec_t> (this->ctx_.project_, this->visited_nodes_));
 
   this->ctx_.project_
     << std::endl
@@ -900,24 +832,19 @@ generate_svnt_project (const CUTS_BE_IDL_Node & node)
     << name << "_skel";
 
   this->visited_nodes_.clear ();
-  std::for_each (nodes.begin (),
-                 nodes.end (),
-                 generate_stub_listing_t (this->ctx_.project_,
-                                          this->visited_nodes_));
+  std::for_each (node.references_.begin (),
+                 node.references_.end (),
+                 generate_listing_t <stub_t> (this->ctx_.project_, this->visited_nodes_));
 
   this->visited_nodes_.clear ();
-  std::for_each (nodes.begin (),
-                 nodes.end (),
-                 generate_skel_listing_t (this->ctx_.project_,
-                                          this->visited_nodes_));
+  std::for_each (node.references_.begin (),
+                 node.references_.end (),
+                 generate_listing_t <skel_t> (this->ctx_.project_, this->visited_nodes_));
 
   this->visited_nodes_.clear ();
-  std::for_each (last_iter,
-                 nodes.end (),
-                 boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                              this,
-                              _1,
-                              "_exec"));
+  std::for_each (node.references_.begin (),
+                 node.references_.end (),
+                 generate_listing_t <exec_t> (this->ctx_.project_, this->visited_nodes_));
 
   this->ctx_.project_
     << std::endl
@@ -942,32 +869,6 @@ generate_svnt_project (const CUTS_BE_IDL_Node & node)
     << "  }" << std::endl
     << "}" << std::endl
     << std::endl;
-}
-
-
-//
-// generate_listing
-//
-void CUTS_BE_Project_Write_T <CUTS_BE_CCM::Cpp::Context, CUTS_BE_IDL_Node>::
-generate_listing (const CUTS_BE_IDL_Node * node, const char * type)
-{
-  IDL_Node_Set::const_iterator iter = visited_nodes_.find (node);
-
-  if (iter == visited_nodes_.end ())
-  {
-    this->visited_nodes_.insert (node);
-
-    this->ctx_.project_
-      << " \\" << std::endl
-      << "    " << node->name_ << type;
-
-    std::for_each (node->references_.begin (),
-                   node->references_.end (),
-                   boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                                this,
-                                _1,
-                                type));
-  }
 }
 
 //

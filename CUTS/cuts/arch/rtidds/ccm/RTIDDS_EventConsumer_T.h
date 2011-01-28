@@ -13,19 +13,20 @@ class CUTS_RTIDDS_CCM_EventConsumer_T :
 public:
   /// Type definition of the servant type.
   typedef SERVANT servant_type;
-
-  /// Type definition of the event type.
   typedef EVENT event_type;
 
-  typedef void (*deserialize_method) (SERVANT * servant, const EVENT & event);
+  typedef CUTS_RTIDDS_Traits_T <EVENT> traits_type;
+  typedef typename traits_type::reader_type reader_type;
 
-  CUTS_RTIDDS_CCM_EventConsumer_T (SERVANT * servant, deserialize_method callback);
+  typedef void (*UPCALL_METHOD) (SERVANT *, EVENT *);
+
+  CUTS_RTIDDS_CCM_EventConsumer_T (SERVANT * servant, UPCALL_METHOD callback);
 
   virtual ~CUTS_RTIDDS_CCM_EventConsumer_T (void);
 
   virtual void on_data_available (::DDSDataReader * reader);
 
-  virtual int configure (::DDSDomainParticipant * participant,
+  virtual int configure (::DDSSubscriber * subscriber,
                          const char * inst,
                          const char * topic);
 
@@ -34,7 +35,7 @@ private:
   SERVANT * servant_;
 
   /// Method for deserializing an event.
-  deserialize_method callback_;
+  UPCALL_METHOD callback_;
 
   typename CUTS_RTIDDS_Traits_T <EVENT>::reader_type * reader_;
 };

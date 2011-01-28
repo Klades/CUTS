@@ -30,10 +30,6 @@ public:
 
   virtual void Visit_Event (const PICML::Event & ev);
 
-  /// Test if an event is a DDS event wrapper.
-  static bool is_event_wrapper (const PICML::Event & ev);
-  static bool is_event_wrapper (const PICML::Event & , PICML::Aggregate &);
-
 private:
   /// Target output stream for the traits.
   std::ostream & out_;

@@ -2,26 +2,16 @@
 
 #include "cuts/arch/ccm/CCM_Cookie.h"
 
-template <typename EVENT>
-CUTS_RTIDDS_CCM_Subscriber_Table_T <EVENT>::
-CUTS_RTIDDS_CCM_Subscriber_Table_T (void)
-{
-
-}
-
-template <typename EVENT>
-CUTS_RTIDDS_CCM_Subscriber_Table_T <EVENT>::
-~CUTS_RTIDDS_CCM_Subscriber_Table_T (void)
-{
-
-}
+#if !defined (__CUTS_INLINE__)
+#include "RTIDDS_Publisher_Table_T.inl"
+#endif
 
 //
 // subscribe
 //
 template <typename EVENT>
 ::Components::Cookie *
-CUTS_RTIDDS_CCM_Subscriber_Table_T <EVENT>::
+CUTS_RTIDDS_CCM_Publisher_Table_T <EVENT>::
 subscribe (::Components::EventConsumerBase_ptr consumer)
 {
   // Generate a new UUID for the subscriber.
@@ -29,26 +19,26 @@ subscribe (::Components::EventConsumerBase_ptr consumer)
   ACE_Utils::UUID_GENERATOR::instance ()->generate_UUID (uuid);
 
   ACE_DEBUG ((LM_DEBUG,
-              "%T (%t) - %M - consumer cookie value is <%s>\n",
+              ACE_TEXT ("%T (%t) - %M - consumer cookie value is <%s>\n"),
               uuid.to_string ()->c_str ()));
 
   // Allocate a new data type and connect the consumer.
-  subscriber_type * subscriber = 0;
+  publisher_type * publisher = 0;
 
-  ACE_NEW_THROW_EX (subscriber,
-                    subscriber_type (),
+  ACE_NEW_THROW_EX (publisher,
+                    publisher_type (),
                     ::CORBA::NO_MEMORY ());
 
-  ACE_Auto_Ptr < subscriber_type > auto_clean (subscriber);
-  subscriber->configure (this->participant_);
+  ACE_Auto_Ptr < publisher_type > auto_clean (publisher);
+  publisher->configure (this->publisher_);
 
   // Cache the subscriber.
-  if (0 != this->table_.bind (uuid, subscriber))
+  if (0 != this->table_.bind (uuid, publisher))
     throw ::CORBA::INTERNAL ();
 
   // Connect to the consumer of the event.
   auto_clean.release ();
-  subscriber->connect (consumer);
+  publisher->connect (consumer);
 
   // Allocate a new cookie for the subscriber.
   OBV_Components::Cookie * cookie = 0;
@@ -65,8 +55,7 @@ subscribe (::Components::EventConsumerBase_ptr consumer)
 //
 template <typename EVENT>
 ::Components::EventConsumerBase_ptr
-CUTS_RTIDDS_CCM_Subscriber_Table_T <EVENT>::
-unsubscribe (::Components::Cookie * c)
+CUTS_RTIDDS_CCM_Publisher_Table_T <EVENT>::unsubscribe (::Components::Cookie * c)
 {
   // Extract the UUID from the cookie.
   CUTS_CCM_Cookie * cookie = dynamic_cast <CUTS_CCM_Cookie *> (c);
@@ -79,15 +68,15 @@ unsubscribe (::Components::Cookie * c)
               uuid.to_string ()->c_str ()));
 
   // Locate the consumer for this subscription.
-  subscriber_type * subscriber = 0;
+  publisher_type * publisher = 0;
   ::Components::EventConsumerBase_var consumer;
 
-  if (0 == this->table_.unbind (uuid, subscriber))
-    consumer = subscriber->disconnect ();
+  if (0 == this->table_.unbind (uuid, publisher))
+    consumer = publisher->disconnect ();
 
   // Delete the return map item.
-  if (0 != subscriber)
-    delete subscriber;
+  if (0 != publisher)
+    delete publisher;
 
   return consumer._retn ();
 }
@@ -96,20 +85,16 @@ unsubscribe (::Components::Cookie * c)
 // send_event
 //
 template <typename EVENT>
-void CUTS_RTIDDS_CCM_Subscriber_Table_T <EVENT>::
+void CUTS_RTIDDS_CCM_Publisher_Table_T <EVENT>::
 send_event (typename traits_type::corba_event_type * ev)
 {
-  // First, convert the CORBA event to a DDS event.
-  typename traits_type::dds_event_type dds_event;
-  *ev >>= dds_event;
-
-  typedef typename table_type::lock_type lock_type;
+  typedef typename publisher_table::lock_type lock_type;
   ACE_READ_GUARD (lock_type, guard, this->table_.mutex ());
 
   // Send the event to all the subscribers.
-  typename table_type::ITERATOR iter (this->table_);
+  typename publisher_table::ITERATOR iter (this->table_);
 
   for (; !iter.done (); ++ iter)
-    iter->item ()->send_event (&dds_event);
+    iter->item ()->send_event (ev->content ());
 }
 

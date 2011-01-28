@@ -11,10 +11,16 @@
 //
 int
 CUTS_RTIDDS_CCM_EventConsumer::
-open (::DDSDomainParticipant * participant,
-      const char * type_name,
-      const char * topic_name)
+open (const char * type_name, const char * topic_name)
 {
+  if (0 == this->subscriber_)
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - event consumer is not configured\n")),
+                       -1);
+
+  // Get the participant for this event consumer.
+  ::DDSDomainParticipant * participant = this->subscriber_->get_participant ();
+
   // Open the underlying endpoint for the consumer.
   int retval = this->endpoint_.open (participant,
                                      type_name,
@@ -38,9 +44,6 @@ open (::DDSDomainParticipant * participant,
       ACE_ERROR_RETURN ((LM_ERROR,
                          ACE_TEXT ("%T (%t) - %M - failed to create subscriber\n")),
                          -1);
-
-  // Save the participant.
-  this->participant_ = participant;
 
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - creating a datareader for the topic\n")));
@@ -78,20 +81,6 @@ int CUTS_RTIDDS_CCM_EventConsumer::close (void)
       ACE_ERROR_RETURN ((LM_ERROR,
                          ACE_TEXT ("%T (%t) - %M - failed to delete data")
                          ACE_TEXT (" reader (retcode=%d)\n")),
-                         -1);
-  }
-
-  if (0 != this->subscriber_)
-  {
-    // Delete the subscriber.
-    retcode = this->participant_->delete_subscriber (this->subscriber_);
-
-    if (retcode == DDS_RETCODE_OK)
-      this->subscriber_ = 0;
-    else
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         ACE_TEXT ("%T (%t) - %M - failed to delete subscriber")
-                         ACE_TEXT (" (retcode=%d)\n")),
                          -1);
   }
 

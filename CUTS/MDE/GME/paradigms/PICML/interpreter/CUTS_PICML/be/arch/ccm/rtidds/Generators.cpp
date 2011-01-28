@@ -2,7 +2,6 @@
 
 #include "Generators.h"
 #include "Stub_Generator.h"
-#include "IDL_Generator.h"
 #include "Servant_Generator.h"
 #include "../../../BE_Options.h"
 
@@ -33,9 +32,6 @@ generate (const PICML::RootFolder & root)
   // Genernate the stub files.
   CUTS_BE_RTIDDS::Stub_Generator stub_generator (outdir);
   non_const.Accept (stub_generator);
-
-  CUTS_BE_RTIDDS::IDL_Generator idlgen (outdir);
-  non_const.Accept (idlgen);
 
   CUTS_BE_RTIDDS::Servant_Generator svnt_gen (outdir);
   non_const.Accept (svnt_gen);

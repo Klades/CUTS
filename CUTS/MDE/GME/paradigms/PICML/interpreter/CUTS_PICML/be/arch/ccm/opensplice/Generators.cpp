@@ -2,7 +2,6 @@
 
 #include "Generators.h"
 #include "Stub_Generator.h"
-#include "IDL_Generator.h"
 #include "Servant_Generator.h"
 #include "../../../BE_Options.h"
 

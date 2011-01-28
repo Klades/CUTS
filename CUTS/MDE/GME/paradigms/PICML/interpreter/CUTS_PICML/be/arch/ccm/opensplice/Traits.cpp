@@ -23,12 +23,11 @@ write_stub_source_files (std::ostream & proj, const CUTS_BE_IDL_Node & node)
   // Write the required stub file.
   proj << "    OpenSplice_" + name + "C.cpp" << std::endl;
 
-  if (this->has_dds_events_)
+  if (node.has_dds_events_)
   {
     // Make sure we compile the OpenSplice event sources.
     proj
       << "    opensplice/" + name + "DcpsC.cpp" << std::endl
-      //<< "    opensplice/" + name + "DcpsS.cpp" << std::endl
       << "    opensplice/" + name + "SplDcps.cpp" << std::endl
       << "    opensplice/" + name + "Dcps_impl.cpp" << std::endl;
   }
@@ -39,9 +38,7 @@ write_stub_source_files (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 //
 void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 {
-  this->has_dds_events_ = CUTS_BE::has_dds_events (node.file_);
-
-  if (!this->has_dds_events_)
+  if (!node.has_dds_events_)
     return;
 
   const std::string & name = node.name_;
@@ -85,7 +82,7 @@ void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 void Traits::
 write_stub_after (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 {
-  if (this->has_dds_events_)
+  if (node.has_dds_events_)
     proj << " " << node.name_ + "_OSPL_IDL_Gen";
 }
 
