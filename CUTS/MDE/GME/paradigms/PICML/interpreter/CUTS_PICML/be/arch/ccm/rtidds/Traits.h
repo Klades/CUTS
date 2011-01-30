@@ -47,6 +47,24 @@ public:
   virtual void write_stub_source_files (std::ostream &, const CUTS_BE_IDL_Node &);
 
   virtual void write_stub_after (std::ostream &, const CUTS_BE_IDL_Node &);
+
+  virtual const char * custom_stub_prefix (void);
+
+  /// Get the name of the CCM context template object.
+  virtual const char * ccm_servant_template_type (void);
+  virtual const char * ccm_servant_template_type_header (void);
+
+  /// Get the name of the CCM event consumer template object.
+  virtual const char * ccm_eventconsumer_template_type (void);
+  virtual const char * ccm_eventconsumer_template_type_header (void);
+
+  /// Get the name of the CCM publisher template object.
+  virtual const char * ccm_publisher_template_type (void);
+  virtual const char * ccm_publisher_template_type_header (void);
+
+  /// Get the name of the CCM publisher table template object.
+  virtual const char * ccm_publisher_table_template_type (void);
+  virtual const char * ccm_publisher_table_template_type_header (void);
 };
 
 }

@@ -1,13 +1,13 @@
 // $Id$
 
 #include "Servant_Header_Include_Generator.h"
-#include "../../../lang/cpp/Cpp.h"
+#include "../../lang/cpp/Cpp.h"
 
 #include "boost/bind.hpp"
 #include "Uml.h"
 #include <algorithm>
 
-namespace CUTS_BE_RTIDDS
+namespace CUTS_BE_OpenSplice
 {
 //
 // Servant_Header_Include_Generator
@@ -120,7 +120,7 @@ Visit_File (const PICML::File & file)
 
   this->seen_.insert (name);
   this->out_ << CUTS_BE_CPP::include (name + "S")
-             << CUTS_BE_CPP::include ("RTIDDS_" + name + "C")
+             << CUTS_BE_CPP::include ("OpenSplice_" + name + "C")
              << std::endl;
 }
 

@@ -1,38 +1,19 @@
 // $Id$
 
 #include "Context_Generator.h"
-#include "../../../lang/cpp/Cpp.h"
+
+#if !defined (__CUTS_INLINE__)
+#include "Context_Generator.inl"
+#endif
+
+#include "../../lang/cpp/Cpp.h"
 #include "boost/bind.hpp"
 #include <algorithm>
 
-namespace CUTS_BE_OpenSplice
+namespace CUTS_BE_CCM
 {
-//
-// Context_Generator
-//
-Context_Generator::
-Context_Generator (std::ostream & header, std::ostream & source)
-: header_ (header),
-  source_ (source)
+namespace Cpp
 {
-
-}
-
-//
-// ~Context_Generator
-//
-Context_Generator::~Context_Generator (void)
-{
-
-}
-
-//
-// ~Context_Generator
-//
-const std::string & Context_Generator::context (void) const
-{
-  return this->context_;
-}
 
 //
 // Visit_Component
@@ -49,7 +30,9 @@ Visit_Component (const PICML::Component & component)
     << CUTS_BE_CPP::single_line_comment ("Forward decl.")
     << "class " << servant << ";"
     << std::endl
-    << "typedef CUTS_CCM_Context_T < " << std::endl
+    << CUTS_BE_CPP::single_line_comment ("Type definition of the servant type.")
+    << "typedef " << this->traits_->ccm_context_template_type ()
+    << " < " << std::endl
     << scope << "CCM_" << name << "_Context, " << std::endl
     << servant << " > " << this->context_ << "_Base;"
     << std::endl
@@ -101,12 +84,14 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
   std::string name = port.name ();
   std::string fq_type = CUTS_BE_CPP::fq_type (ev);
 
+  // Write the push method's definition.
   this->header_
     << "public:" << std::endl
     << CUTS_BE_CPP::single_line_comment ("push method for output ev port: " + name)
     << "virtual void push_" << name << " (" << fq_type << " * ev);"
     << std::endl;
 
+  // Write the push method's implementation.
   this->source_
     << CUTS_BE_CPP::function_header ("push_" + name)
     << "void " << this->context_ << "::" << std::endl
@@ -117,16 +102,18 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
 
   if (port.single_destination ())
   {
+    // Write the accessor method's definition.
     this->header_
-      << "CUTS_OpenSplice_CCM_Publisher & writer_" << name << " (void);"
+      << "CUTS_CCM_Publisher & writer_" << name << " (void);"
       << std::endl
       << "private:" << std::endl
-      << "CUTS_OpenSplice_CCM_Publisher_T < "
-      << fq_type << " > " << name << "_;" << std::endl;
+      << this->traits_->ccm_publisher_template_type ()
+      << " < " << fq_type << " > " << name << "_;" << std::endl;
 
+    // Write the accessor method's implementation.
     this->source_
       << CUTS_BE_CPP::function_header ("writer_" + name)
-      << "CUTS_OpenSplice_CCM_Publisher & "
+      << "CUTS_CCM_Publisher & "
       << this->context_ << "::" << std::endl
       << "writer_" << name << " (void)"
       << "{"
@@ -135,13 +122,15 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
   }
   else
   {
+    // Write the accessor method's definition.
     this->header_
       << "CUTS_CCM_Publisher_Table & writers_" << name << " (void);"
       << std::endl
       << "private:" << std::endl
-      << "CUTS_OpenSplice_CCM_Publisher_Table_T < "
-      << fq_type << " > " << name << "_;" << std::endl;
+      << this->traits_->ccm_publisher_table_template_type ()
+      << " < " << fq_type << " > " << name << "_;" << std::endl;
 
+    // Write the accessor method's implementation.
     this->source_
       << CUTS_BE_CPP::function_header ("writers_" + name)
       << "CUTS_CCM_Publisher_Table & "
@@ -153,4 +142,5 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
   }
 }
 
+}
 }

@@ -353,14 +353,3 @@ CUTS_BE_ProvidedRequestPort_End_T <CUTS_BE_CCM::Cpp::Context>::
 {
 
 }
-
-namespace CUTS_BE_CCM
-{
-//
-// ~Type_System
-//
-CUTS_INLINE
-Type_System::~Type_System (void)
-{
-}
-}   // namespace CUTS_BE_CCM

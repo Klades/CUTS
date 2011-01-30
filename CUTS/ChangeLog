@@ -1,3 +1,99 @@
+Sun Jan 30 13:14:16 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Component.rc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/UdmApp.cpp:
+
+          The intepreter is now only used to generate source code.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/CCM.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Context_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Context_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/InOut_Type_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/InOut_Type_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/InOut_Type_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/In_Type_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/In_Type_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/In_Type_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Out_Type_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Out_Type_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Out_Type_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Retn_Type_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Retn_Type_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Retn_Type_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Servant_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Servant_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Servant_Header_Include_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Servant_Header_Include_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Servant_Header_Include_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Servant_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Traits.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Type_System.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Type_System.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Type_System.cpp:
+
+          Moved code for generating types, such as in, out, and inout
+          parameters to their own file.
+
+          Moved code for generating a servant into the CUTS_BE_CCM module
+          so it can be re-used across different backends.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/BE_OpenSplice.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Event_Traits_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Stub_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Traits.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/BE_RTIDDS.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Traits.inl:
+
+          Implement traits for generating a custom servant.
+
+        * examples/arch/PingPong/arch/opensplice/PingComponent.idl:
+        * examples/arch/PingPong/arch/opensplice/PingComponent.mpc:
+        * examples/arch/PingPong/arch/opensplice/PingPong.idl:
+        * examples/arch/PingPong/arch/opensplice/PingPong.mpc:
+        * examples/arch/PingPong/arch/opensplice/PingPong_Events.idl:
+        * examples/arch/PingPong/arch/opensplice/PingPong_Events.mpc:
+        * examples/arch/PingPong/arch/opensplice/PongComponent.idl:
+        * examples/arch/PingPong/arch/opensplice/PongComponent.mpc:
+        * examples/arch/PingPong/arch/rtidds/PingComponent.idl:
+        * examples/arch/PingPong/arch/rtidds/PingComponent.mpc:
+        * examples/arch/PingPong/arch/rtidds/PingPong.idl:
+        * examples/arch/PingPong/arch/rtidds/PingPong.mwc:
+        * examples/arch/PingPong/arch/rtidds/PingPong_Events.idl:
+        * examples/arch/PingPong/arch/rtidds/PongComponent.idl:
+        * examples/arch/PingPong/arch/rtidds/PongComponent.mpc:
+
+          Re-generated the code for the examples.
+
+        * examples/arch/PingPong/models/PingPong.xme:
+
+          Updated the model so the PingComponent has configurable attributes.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Context_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Servant_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Servant_Header_Include_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Servant_Header_Include_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Servant_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Servant_Header_Include_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Servant_Header_Include_Generator.cpp:
+        * examples/arch/PingPong/arch/opensplice/PingPong_OSPL.idl:
+
+          Removed these files.
+
 Fri Jan 28 15:39:20 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/arch/PingPong/arch/rtidds:

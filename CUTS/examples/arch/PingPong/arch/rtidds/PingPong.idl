@@ -10,43 +10,29 @@ module PingPong
 {
   typedef string string_40;
   
-  typedef sequence < short > seq_short_10;
-  
-  typedef sequence < long long > str_arr_longlong_10;
-  
-  typedef sequence < unsigned long > str_arr_ulong_10;
+  typedef sequence < char > seq_char_10;
   
   typedef sequence < unsigned long long > seq_ulonglong_10;
   
   typedef sequence < double > str_arr_double_10;
   
-  typedef sequence < long > str_arr_long_10;
-  
   typedef sequence < unsigned short > seq_ushort_10;
-  
-  typedef sequence < char > seq_char;
   
   typedef sequence < double > seq_double_10;
   
-  typedef sequence < float > seq_float_10;
-  
   typedef sequence < float > str_arr_float_10;
-  
-  typedef sequence < unsigned short > str_arr_ushort_10;
-  
-  typedef sequence < boolean > str_arr_boolean_10;
   
   typedef sequence < boolean > seq_boolean_10;
   
-  typedef sequence < long long > seq_longlong_10;
+  typedef sequence < short > seq_short_10;
   
-  typedef sequence < unsigned long long > str_arr_ulonglong_10;
+  typedef sequence < unsigned long > seq_ulong_10;
   
-  typedef sequence < long > seq_long_10;
+  typedef sequence < float > seq_float_10;
   
-  typedef sequence < char > str_arr_char_10;
+  typedef sequence < long > str_arr_long_10;
   
-  typedef sequence < char > seq_char_10;
+  typedef sequence < unsigned long > str_arr_ulong_10;
   
   typedef sequence < short > str_arr_short_10;
   
@@ -54,7 +40,46 @@ module PingPong
   
   typedef sequence < octet > seq_octets_10;
   
-  typedef sequence < unsigned long > seq_ulong_10;
+  typedef sequence < unsigned short > str_arr_ushort_10;
+  
+  typedef sequence < char > seq_char;
+  
+  typedef sequence < char > str_arr_char_10;
+  
+  typedef sequence < boolean > str_arr_boolean_10;
+  
+  typedef sequence < unsigned long long > str_arr_ulonglong_10;
+  
+  typedef sequence < long long > seq_longlong_10;
+  
+  typedef sequence < long long > str_arr_longlong_10;
+  
+  typedef sequence < long > seq_long_10;
+  
+  #pragma DCPS_DATA_TYPE "PP_quit_msg"
+  
+  struct PP_quit_msg
+  {
+    boolean quit;
+    
+  };
+  
+  #pragma keylist PP_quit_msg
+  
+  #pragma DCPS_DATA_TYPE "PP_string_msg"
+  #pragma DCPS_DATA_KEY "PP_string_msg block"
+  
+  struct PP_string_msg
+  {
+    unsigned long block;  // @key
+    
+    unsigned long count;
+    
+    string a_string;
+    
+  };
+  
+  #pragma keylist PP_string_msg block
   
   #pragma DCPS_DATA_TYPE "PP_array_msg"
   #pragma DCPS_DATA_KEY "PP_array_msg block"
@@ -90,79 +115,6 @@ module PingPong
   };
   
   #pragma keylist PP_array_msg block
-  
-  #pragma DCPS_DATA_TYPE "PP_quit_msg"
-  
-  struct PP_quit_msg
-  {
-    boolean quit;
-    
-  };
-  
-  #pragma keylist PP_quit_msg
-  
-  #pragma DCPS_DATA_TYPE "PP_min_msg"
-  #pragma DCPS_DATA_KEY "PP_min_msg block"
-  
-  struct PP_min_msg
-  {
-    unsigned long block;  // @key
-    
-    unsigned long count;
-    
-  };
-  
-  #pragma keylist PP_min_msg block
-  
-  #pragma DCPS_DATA_TYPE "PP_bseq_msg"
-  #pragma DCPS_DATA_KEY "PP_bseq_msg block"
-  
-  struct PP_bseq_msg
-  {
-    unsigned long block;  // @key
-    
-    unsigned long count;
-    
-    ::PingPong::seq_char_10 seq_char;
-    
-    ::PingPong::seq_octets_10 seq_octets;
-    
-    ::PingPong::seq_short_10 seq_short;
-    
-    ::PingPong::seq_ushort_10 seq_ushort;
-    
-    ::PingPong::seq_long_10 seq_long;
-    
-    ::PingPong::seq_ulong_10 seq_ulong;
-    
-    ::PingPong::seq_longlong_10 seq_longlong;
-    
-    ::PingPong::seq_ulonglong_10 seq_ulonglong;
-    
-    ::PingPong::seq_float_10 seq_float;
-    
-    ::PingPong::seq_double_10 seq_double;
-    
-    ::PingPong::seq_boolean_10 seq_boolean;
-    
-  };
-  
-  #pragma keylist PP_bseq_msg block
-  
-  #pragma DCPS_DATA_TYPE "PP_seq_msg"
-  #pragma DCPS_DATA_KEY "PP_seq_msg block"
-  
-  struct PP_seq_msg
-  {
-    unsigned long block;  // @key
-    
-    unsigned long count;
-    
-    ::PingPong::seq_char payload;
-    
-  };
-  
-  #pragma keylist PP_seq_msg block
   
   #pragma DCPS_DATA_TYPE "PP_fixed_msg"
   #pragma DCPS_DATA_KEY "PP_fixed_msg block"
@@ -201,20 +153,68 @@ module PingPong
   
   #pragma keylist PP_fixed_msg block
   
-  #pragma DCPS_DATA_TYPE "PP_string_msg"
-  #pragma DCPS_DATA_KEY "PP_string_msg block"
+  #pragma DCPS_DATA_TYPE "PP_bseq_msg"
+  #pragma DCPS_DATA_KEY "PP_bseq_msg block"
   
-  struct PP_string_msg
+  struct PP_bseq_msg
   {
     unsigned long block;  // @key
     
     unsigned long count;
     
-    string a_string;
+    ::PingPong::seq_char_10 seq_char;
+    
+    ::PingPong::seq_octets_10 seq_octets;
+    
+    ::PingPong::seq_short_10 seq_short;
+    
+    ::PingPong::seq_ushort_10 seq_ushort;
+    
+    ::PingPong::seq_long_10 seq_long;
+    
+    ::PingPong::seq_ulong_10 seq_ulong;
+    
+    ::PingPong::seq_longlong_10 seq_longlong;
+    
+    ::PingPong::seq_ulonglong_10 seq_ulonglong;
+    
+    ::PingPong::seq_float_10 seq_float;
+    
+    ::PingPong::seq_double_10 seq_double;
+    
+    ::PingPong::seq_boolean_10 seq_boolean;
     
   };
   
-  #pragma keylist PP_string_msg block
+  #pragma keylist PP_bseq_msg block
+  
+  #pragma DCPS_DATA_TYPE "PP_min_msg"
+  #pragma DCPS_DATA_KEY "PP_min_msg block"
+  
+  struct PP_min_msg
+  {
+    unsigned long block;  // @key
+    
+    unsigned long count;
+    
+  };
+  
+  #pragma keylist PP_min_msg block
+  
+  #pragma DCPS_DATA_TYPE "PP_seq_msg"
+  #pragma DCPS_DATA_KEY "PP_seq_msg block"
+  
+  struct PP_seq_msg
+  {
+    unsigned long block;  // @key
+    
+    unsigned long count;
+    
+    ::PingPong::seq_char payload;
+    
+  };
+  
+  #pragma keylist PP_seq_msg block
   
   
 };

@@ -17,10 +17,10 @@ workspace (PingPong) {
 
   PingPong_PingComponentImpl.mpc
   PingPong_PongComponentImpl.mpc
-  PingComponent.mpc
-  PingPong.mpc
-  PingPong_Events.mpc
   PongComponent.mpc
+  PingPong_Events.mpc
+  PingPong.mpc
+  PingComponent.mpc
 }
 
 // end of auto-generated workspace

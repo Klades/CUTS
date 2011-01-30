@@ -32,7 +32,7 @@ void Event_Traits_Generator::Visit_Event (const PICML::Event & ev)
 {
   PICML::Aggregate dds_event;
 
-  if (CUTS_BE_CCM::Cpp::Context::is_dds_event_wrapper (ev, dds_event))
+  if (!CUTS_BE_CCM::Cpp::Context::is_dds_event_wrapper (ev, dds_event))
     return;
 
   // Construct the CORBA and DDS event type.

@@ -10,21 +10,28 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_BE_RTIDDS_SERVANT_HEADER_GENERATOR_H_
-#define _CUTS_BE_RTIDDS_SERVANT_HEADER_GENERATOR_H_
+#ifndef _CUTS_BE_SERVANT_HEADER_GENERATOR_H_
+#define _CUTS_BE_SERVANT_HEADER_GENERATOR_H_
 
 #include "PICML/PICML.h"
+#include "Traits.h"
+
 #include <fstream>
 
-namespace CUTS_BE_RTIDDS
+namespace CUTS_BE_CCM
 {
+namespace Cpp
+{
+
 /**
  * @class Servant_Generator
+ *
+ * Custom generic servant generator for the CCM++ implementation.
  */
-class Servant_Generator : public PICML::Visitor
+class CUTS_BE_CCM_Export Servant_Generator : public PICML::Visitor
 {
 public:
-  Servant_Generator (const std::string & outdir);
+  Servant_Generator (const std::string & outdir, Traits * const traits);
 
   virtual ~Servant_Generator (void);
 
@@ -56,9 +63,14 @@ public:
     const PICML::ReadonlyAttribute & attr);
 
 private:
+  // Visit a File and Package element.
   virtual void Visit_FilePackage_i (const Udm::Object & obj);
 
+  /// The target output directory.
   std::string outdir_;
+
+  /// Pointer to the CCM++ traits.
+  Traits * const traits_;
 
   std::ofstream header_;
 
@@ -72,5 +84,10 @@ private:
 };
 
 }
+}
+
+#if defined (__CUTS_INLINE__)
+#include "Servant_Generator.inl"
+#endif
 
 #endif  // !defined _CUTS_BE_RTIDDS_SERVANT_HEADER_GENERATOR_H_

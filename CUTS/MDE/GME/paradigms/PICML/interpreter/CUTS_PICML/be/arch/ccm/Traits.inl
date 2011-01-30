@@ -83,5 +83,104 @@ write_idl_gen_files (std::ostream &, const CUTS_BE_IDL_Node &)
 
 }
 
+//
+// ccm_context_template_type
+//
+CUTS_INLINE
+const char * Traits::custom_stub_prefix (void)
+{
+  return "";
+}
+
+//
+// ccm_context_template_type
+//
+CUTS_INLINE
+const char * Traits::ccm_context_template_type (void)
+{
+  return "CUTS_CCM_Context_T";
+}
+
+//
+// ccm_context_template_type_header
+//
+CUTS_INLINE
+const char * Traits::ccm_context_template_type_header (void)
+{
+  return "cuts/arch/ccm/CCM_Context_T";
+}
+
+//
+// ccm_servant_template_type
+//
+CUTS_INLINE
+const char * Traits::ccm_servant_template_type (void)
+{
+  return "CUTS_CCM_Servant_T";
+}
+
+//
+// ccm_servant_template_type_header
+//
+CUTS_INLINE
+const char * Traits::ccm_servant_template_type_header (void)
+{
+  return "cuts/arch/ccm/CCM_Servant_T.h";
+}
+
+//
+// ccm_eventconsumer_template_type
+//
+CUTS_INLINE
+const char * Traits::ccm_eventconsumer_template_type (void)
+{
+  return "CUTS_CCM_EventConsumer_T";
+}
+
+//
+// ccm_eventconsumer_template_type_header
+//
+CUTS_INLINE
+const char * Traits::ccm_eventconsumer_template_type_header (void)
+{
+  return "cuts/arch/ccm/CUTS_CCM_EventConsumer_T.h";
+}
+
+//
+// ccm_publisher_template_type
+//
+CUTS_INLINE
+const char * Traits::ccm_publisher_template_type (void)
+{
+  return "CUTS_CCM_Publisher_T";
+}
+
+//
+// ccm_publisher_template_type_header
+//
+CUTS_INLINE
+const char * Traits::ccm_publisher_template_type_header (void)
+{
+  return "cuts/arch/ccm/CCM_Publisher_T.h";
+}
+
+//
+// ccm_publisher_table_template_type
+//
+CUTS_INLINE
+const char * Traits::ccm_publisher_table_template_type (void)
+{
+  return "CUTS_CCM_Publisher_Table_T";
+}
+
+//
+// ccm_publisher_table_template_type_header
+//
+CUTS_INLINE
+const char * Traits::ccm_publisher_table_template_type_header (void)
+{
+  return "cuts/arch/ccm/CCM_Publisher_Table_T.h";
+}
+
 }
 }

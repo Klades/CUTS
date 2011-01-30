@@ -8,10 +8,13 @@ project (PongComponent_IDL_Gen) : componentidldefaults, cuts_codegen_defaults {
               -Wb,stub_export_include=PongComponent_stub_export.h \
               -Wb,skel_export_macro=PONGCOMPONENT_SKEL_Export \
               -Wb,skel_export_include=PongComponent_skel_export.h \
+              -Gxhst -Gxhsk \
               -Wb,exec_export_macro=PONGCOMPONENT_EXEC_Export \
               -Wb,exec_export_include=PongComponent_exec_export.h \
+              -Gxhex \
               -Wb,svnt_export_macro=PONGCOMPONENT_SVNT_Export \
               -Wb,svnt_export_include=PongComponent_svnt_export.h \
+              -Gxhsv \
               -Sa -Sal -St
 
   idlflags -= -Gsv
@@ -90,8 +93,8 @@ project (PongComponent_skel) : ccm_svnt, avoids_ace_for_tao, cuts_codegen_defaul
 project (PongComponent_EIDL_Gen) : ciaoidldefaults, cuts_codegen_defaults {
   custom_only = 1
 
-  after    += PongComponent_IDL_Gen
-
+  after    += PongComponent_IDL_Gen \
+    PingPong_Events_EIDL_Gen
   idlflags += -Wb,export_macro=PONGCOMPONENT_EXEC_Export \
               -Wb,export_include=PongComponent_exec_export.h \
               -Sa -Sal -SS
@@ -133,7 +136,7 @@ project (PongComponent_svnt) : cuts_opensplice_ccm, cuts_codegen_defaults {
   sharedname   = PongComponent_svnt
   dynamicflags = PONGCOMPONENT_SVNT_BUILD_DLL
 
-  after += PongComponent_exec PongComponent_stub \
+  after += PongComponent_exec PongComponent_stub PongComponent_skel \
     PingPong_Events_stub \
     PingPong_stub \
     PingPong_Events_skel

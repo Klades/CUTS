@@ -49,55 +49,33 @@ void CUdmApp::UdmMain (Udm::DataNetwork* p_backend,
     return;
 
   // Get the root folder for the project.
-  PICML::RootFolder root =
-    PICML::RootFolder::Cast (p_backend->GetRootObject());
+  PICML::RootFolder root = PICML::RootFolder::Cast (p_backend->GetRootObject());
 
   std::string message;
 
-  switch (options->option_)
+  // Initialize the backend options. Eventually, the user will
+  // be able to set these via a dialog.
+  options->exec_suffix_  = "_exec";
+  CUTS_BE_Manager_Factory * factory = dialog.factory ();
+
+  // Create the manager from the factory.
+  CUTS_Auto_Functor_T <CUTS_BE_Manager>
+    manager (factory->create_manager (), &CUTS_BE_Manager::close);
+
+  if (manager.get ())
   {
-  case CUTS_BE_Options::OPT_GENERATE_SOURCE:
-    {
-      // Initialize the backend options. Eventually, the user will
-      // be able to set these via a dialog.
-      options->exec_suffix_  = "_exec";
-
-      CUTS_BE_Manager_Factory * factory = dialog.factory ();
-
-      if (factory)
-      {
-        // Create the manager from the factory.
-        CUTS_Auto_Functor_T <CUTS_BE_Manager>
-          manager (factory->create_manager (), &CUTS_BE_Manager::close);
-
-        if (manager.get ())
-        {
-          // Store the manager in an auto functor that calls the
-          // 'close' method once we leave this scope.
-
-          // Let the manager handle the root folder.
-          if (manager->handle (root))
-            message = "Successfully generated implementation files";
-          else
-            message = "Failed to generate implementation files.";
-        }
-        else
-        {
-          message = "Failed to create manager";
-        }
-      }
-      else
-      {
-        message = "CUTS_BE_CIAO is not loaded";
-      }
-    }
-    break;
+    // Let the manager handle the root folder.
+    if (manager->handle (root))
+      message = "Successfully generated implementation files";
+    else
+      message = "Failed to generate implementation files.";
+  }
+  else
+  {
+    message = "Failed to create manager";
   }
 
   // Display a status message to the user.
   if (!message.empty ())
-  {
-    ::AfxMessageBox (message.c_str (),
-                     MB_ICONINFORMATION | MB_OK);
-  }
+    ::AfxMessageBox (message.c_str (), MB_ICONINFORMATION | MB_OK);
 }

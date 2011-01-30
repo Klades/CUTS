@@ -2,7 +2,7 @@
 
 #include "Generators.h"
 #include "Stub_Generator.h"
-#include "Servant_Generator.h"
+#include "../Servant_Generator.h"
 #include "../../../BE_Options.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -33,6 +33,6 @@ generate (const PICML::RootFolder & root)
   CUTS_BE_RTIDDS::Stub_Generator stub_generator (outdir);
   non_const.Accept (stub_generator);
 
-  CUTS_BE_RTIDDS::Servant_Generator svnt_gen (outdir);
+  CUTS_BE_CCM::Cpp::Servant_Generator svnt_gen (outdir, this->ctx_.traits_);
   non_const.Accept (svnt_gen);
 }

@@ -7,9 +7,17 @@ project (CUTS_BE_CCM) : boost_base, picml_udm, cuts_be_cpp, cuts_cosmic {
   Source_Files {
     CCM.cpp
     Component_Implementation.cpp
+    Context_Generator.cpp
+    In_Type_Generator.cpp
+    InOut_Type_Generator.cpp
+    Out_Type_Generator.cpp
     Project_Generator.cpp
+    Retn_Type_Generator.cpp
+    Servant_Generator.cpp
+    Servant_Header_Include_Generator.cpp
     Servant_Implementation.cpp
-    Workspace_Generator.cpp
     Traits.cpp
+    Type_System.cpp
+    Workspace_Generator.cpp
   }
 }

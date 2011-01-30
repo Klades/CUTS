@@ -8,10 +8,13 @@ project (PingComponent_IDL_Gen) : componentidldefaults, cuts_codegen_defaults {
               -Wb,stub_export_include=PingComponent_stub_export.h \
               -Wb,skel_export_macro=PINGCOMPONENT_SKEL_Export \
               -Wb,skel_export_include=PingComponent_skel_export.h \
+              -Gxhst -Gxhsk \
               -Wb,exec_export_macro=PINGCOMPONENT_EXEC_Export \
               -Wb,exec_export_include=PingComponent_exec_export.h \
+              -Gxhex \
               -Wb,svnt_export_macro=PINGCOMPONENT_SVNT_Export \
               -Wb,svnt_export_include=PingComponent_svnt_export.h \
+              -Gxhsv \
               -Sa -Sal -St
 
   idlflags -= -Gsv
@@ -90,8 +93,8 @@ project (PingComponent_skel) : ccm_svnt, avoids_ace_for_tao, cuts_codegen_defaul
 project (PingComponent_EIDL_Gen) : ciaoidldefaults, cuts_codegen_defaults {
   custom_only = 1
 
-  after    += PingComponent_IDL_Gen
-
+  after    += PingComponent_IDL_Gen \
+    PingPong_Events_EIDL_Gen
   idlflags += -Wb,export_macro=PINGCOMPONENT_EXEC_Export \
               -Wb,export_include=PingComponent_exec_export.h \
               -Sa -Sal -SS
@@ -133,7 +136,7 @@ project (PingComponent_svnt) : cuts_opensplice_ccm, cuts_codegen_defaults {
   sharedname   = PingComponent_svnt
   dynamicflags = PINGCOMPONENT_SVNT_BUILD_DLL
 
-  after += PingComponent_exec PingComponent_stub \
+  after += PingComponent_exec PingComponent_stub PingComponent_skel \
     PingPong_Events_stub \
     PingPong_stub \
     PingPong_Events_skel

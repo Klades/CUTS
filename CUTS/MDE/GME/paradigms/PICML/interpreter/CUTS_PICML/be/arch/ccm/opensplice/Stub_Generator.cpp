@@ -1,8 +1,6 @@
 // $Id$
 
 #include "Stub_Generator.h"
-#include "Input_Stream_Generator.h"
-#include "Output_Stream_Generator.h"
 #include "Event_Traits_Generator.h"
 #include "../../../lang/cpp/Cpp.h"
 

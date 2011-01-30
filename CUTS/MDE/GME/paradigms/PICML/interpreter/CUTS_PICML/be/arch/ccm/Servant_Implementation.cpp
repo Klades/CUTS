@@ -2,6 +2,8 @@
 
 #include "Servant_Implementation.h"
 #include "Component_Implementation.h"
+#include "In_Type_Generator.h"
+
 #include "../../lang/cpp/Cpp.h"
 
 #include "boost/bind.hpp"

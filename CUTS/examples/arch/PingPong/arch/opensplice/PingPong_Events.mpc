@@ -8,8 +8,10 @@ project (PingPong_Events_IDL_Gen) : componentidldefaults, cuts_codegen_defaults 
               -Wb,stub_export_include=PingPong_Events_stub_export.h \
               -Wb,skel_export_macro=PINGPONG_EVENTS_SKEL_Export \
               -Wb,skel_export_include=PingPong_Events_skel_export.h \
+              -Gxhst -Gxhsk \
               -Wb,exec_export_macro=PINGPONG_EVENTS_EXEC_Export \
               -Wb,exec_export_include=PingPong_Events_exec_export.h \
+              -Gxhex \
               -Sa -Sal -St
 
   IDL_Files {
@@ -82,39 +84,12 @@ project (PingPong_Events_EIDL_Gen) : ciaoidldefaults, cuts_codegen_defaults {
   custom_only = 1
 
   after    += PingPong_Events_IDL_Gen
-
   idlflags += -Wb,export_macro=PINGPONG_EVENTS_EXEC_Export \
               -Wb,export_include=PingPong_Events_exec_export.h \
               -Sa -Sal -SS
 
   IDL_Files {
     PingPong_EventsE.idl
-  }
-}
-
-project (PingPong_Events_exec) : ciao_executor, cuts_codegen_defaults {
-  sharedname    = PingPong_Events_exec
-  dynamicflags += PINGPONG_EVENTS_EXEC_BUILD_DLL
-
-  after += PingPong_Events_EIDL_Gen \
-    PingPong_Events_stub \
-    PingPong_stub
-
-  libs  += PingPong_Events_stub \
-    PingPong_stub
-
-  Source_Files {
-    PingPong_EventsEC.cpp
-  }
-
-  Inline_Files {
-  }
-
-  Header_Files {
-    PingPong_EventsEC.h
-  }
-
-  IDL_Files {
   }
 }
 

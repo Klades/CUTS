@@ -1,27 +1,42 @@
 // $Id$
 
 #include "Servant_Generator.h"
+
+#if !defined (__CUTS_INLINE__)
+#include "Servant_Generator.inl"
+#endif
+
 #include "Servant_Header_Include_Generator.h"
 #include "Context_Generator.h"
 
-#include "../../ccm/Component_Implementation.h"
-#include "../../ccm/Servant_Implementation.h"
+#include "Component_Implementation.h"
+#include "Servant_Implementation.h"
+#include "In_Type_Generator.h"
+#include "Retn_Type_Generator.h"
 
-#include "../../../BE_algorithm.h"
-#include "../../../lang/cpp/Cpp.h"
-#include "../../../UDM_Utility_T.h"
+#include "../../UDM_Utility_T.h"
+#include "../../lang/cpp/Cpp.h"
+#include "../../BE_algorithm.h"
 
 #include "boost/bind.hpp"
 #include "boost/iterator/filter_iterator.hpp"
 
 #include "CCF/CodeGenerationKit/IndentationCxx.hpp"
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
-
 #include "Uml.h"
 #include <algorithm>
 
-namespace CUTS_BE_OpenSplice
+namespace CUTS_BE_CCM
 {
+namespace Cpp
+{
+
+/**
+ * @class Servant_Base_Member_Init
+ *
+ * Helper class that generates the base member initialization section of
+ * a CCM servant class.
+ */
 class Servant_Base_Member_Init : public PICML::Visitor
 {
 public:
@@ -32,10 +47,8 @@ public:
 
   }
 
-  virtual ~Servant_Base_Member_Init (void)
-  {
-
-  }
+  /// Destructor.
+  virtual ~Servant_Base_Member_Init (void) { }
 
   virtual void Visit_InEventPort (const PICML::InEventPort & input)
   {
@@ -48,8 +61,10 @@ public:
   }
 
 private:
+  /// Target output stream.
   std::ostream & source_;
 
+  /// The name of the servant.
   const std::string & servant_;
 };
 
@@ -62,10 +77,8 @@ public:
 
   }
 
-  virtual ~Port_Binder (void)
-  {
-
-  }
+  /// Destructor.
+  virtual ~Port_Binder (void) { }
 
   virtual void Visit_InEventPort (const PICML::InEventPort & port)
   {
@@ -95,26 +108,9 @@ public:
   }
 
 private:
+  /// Target output stream.
   std::ostream & source_;
 };
-
-//
-// Servant_Generator
-//
-Servant_Generator::
-Servant_Generator (const std::string & outdir)
-: outdir_ (outdir)
-{
-
-}
-
-//
-// ~Servant_Generator
-//
-Servant_Generator::~Servant_Generator (void)
-{
-
-}
 
 //
 // Visit_RootFolder
@@ -122,7 +118,7 @@ Servant_Generator::~Servant_Generator (void)
 void Servant_Generator::
 Visit_RootFolder (const PICML::RootFolder & folder)
 {
-  std::vector <PICML::InterfaceDefinitions> folders = folder.InterfaceDefinitions_children ();
+  std::set <PICML::InterfaceDefinitions> folders = folder.InterfaceDefinitions_children ();
   std::for_each (folders.begin (),
                  folders.end (),
                  boost::bind (&PICML::InterfaceDefinitions::Accept,
@@ -145,7 +141,7 @@ Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions & folder)
 }
 
 //
-// Visit_File
+// Visit_ComponentImplementations
 //
 void Servant_Generator::Visit_File (const PICML::File & file)
 {
@@ -156,8 +152,12 @@ void Servant_Generator::Visit_File (const PICML::File & file)
   std::string name = file.name ();
   std::string basename = name + "_svnt";
 
-  std::string source_filename = this->outdir_ + "/" + basename + ".cpp";
-  std::string header_filename = this->outdir_ + "/" + basename + ".h";
+  std::string source_filename (this->outdir_);
+  source_filename += "/" + basename + ".cpp";
+
+  std::string header_filename (this->outdir_);
+  header_filename += "/" + basename + ".h";
+
 
   // Open the file for writing.
   this->header_.open (header_filename.c_str ());
@@ -166,17 +166,17 @@ void Servant_Generator::Visit_File (const PICML::File & file)
   if (!this->header_.is_open () && !this->source_.is_open ())
     return;
 
-  // Construct the hash defines for the file.
   std::string hash_define = "_" + name + "_SVNT_H_";
+
   std::transform (hash_define.begin (),
                   hash_define.end (),
                   hash_define.begin (),
                   &::toupper);
 
-  std::string export_filename = name + "_svnt_export";
-
-  // Construct the export macro for this file.
+  // Construct the exp macro for this file.
+  std::string export_filename = std::string (file.name ()) + "_svnt_export";
   this->export_macro_ = name + "_SVNT";
+
   std::transform (this->export_macro_.begin (),
                   this->export_macro_.end (),
                   this->export_macro_.begin (),
@@ -190,9 +190,6 @@ void Servant_Generator::Visit_File (const PICML::File & file)
     Indentation::Implanter <Indentation::Cxx, char> header_formatter (this->header_);
     Indentation::Implanter <Indentation::Cxx, char> soruce_formatter (this->source_);
 
-    std::string exec_stub (name);
-    exec_stub += "EC";
-
     // Include the header file.
     this->header_
       << CUTS_BE_CPP::single_line_comment ("-*- C++ -*-")
@@ -200,12 +197,15 @@ void Servant_Generator::Visit_File (const PICML::File & file)
       << "#ifndef " << hash_define << std::endl
       << "#define " << hash_define << std::endl
       << std::endl
-      << CUTS_BE_CPP::include (exec_stub)
+      << CUTS_BE_CPP::include (name + "EC")
       << CUTS_BE_CPP::include (name + "S")
-      << CUTS_BE_CPP::include ("OpenSplice_" + name + "C")
+      << CUTS_BE_CPP::include (this->traits_->custom_stub_prefix () + name + "C")
       << std::endl
-      << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_Context_T")
-      << CUTS_BE_CPP::include ("cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T")
+      << CUTS_BE_CPP::include (this->traits_->ccm_context_template_type_header ())
+      << CUTS_BE_CPP::include (this->traits_->ccm_servant_template_type_header ())
+      << CUTS_BE_CPP::include (this->traits_->ccm_eventconsumer_template_type_header ())
+      << CUTS_BE_CPP::include (this->traits_->ccm_publisher_template_type_header ())
+      << CUTS_BE_CPP::include (this->traits_->ccm_publisher_table_template_type_header ())
       << std::endl
       << CUTS_BE_CPP::include (export_filename)
       << std::endl;
@@ -215,14 +215,13 @@ void Servant_Generator::Visit_File (const PICML::File & file)
       << std::endl
       << CUTS_BE_CPP::include (basename)
       << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_T")
-      << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_Events_T")
       << std::endl;
 
     this->Visit_FilePackage_i (file);
 
-    this->header_
-      << std::endl
-      << "#endif  // !defined " << hash_define << std::endl;
+    this->header_ << std::endl
+                  << "#endif  // !defined " << hash_define << std::endl;
+
   } while (0);
 
   // Close the file.
@@ -233,10 +232,13 @@ void Servant_Generator::Visit_File (const PICML::File & file)
 //
 // Visit_Package
 //
-void Servant_Generator::Visit_Package (const PICML::Package & package)
+void Servant_Generator::
+Visit_Package (const PICML::Package & package)
 {
-  this->source_ << "namespace " << package.name () << "{";
-  this->header_ << "namespace " << package.name () << "{";
+  std::string name = package.name ();
+
+  this->source_ << "namespace " << name << "{";
+  this->header_ << "namespace " << name << "{";
 
   this->Visit_FilePackage_i (package);
 
@@ -277,7 +279,7 @@ void Servant_Generator::
 Visit_Component (const PICML::Component & component)
 {
   // First, generate the context for the component.
-  Context_Generator ctx_gen (this->header_, this->source_);
+  Context_Generator ctx_gen (this->header_, this->source_, this->traits_);
   PICML::Component (component).Accept (ctx_gen);
 
   std::string name = component.name ();
@@ -286,13 +288,16 @@ Visit_Component (const PICML::Component & component)
   std::string fq_type = CUTS_BE_CPP::fq_type (component, "::", false);
 
   this->servant_ = name + "_Servant";
-  std::string ns = "::CIAO_" + CUTS_BE_CPP::fq_type (component, "_", false) + "_Impl";
 
   std::vector <PICML::OutEventPort> outputs = component.OutEventPort_kind_children ();
   std::vector <PICML::InEventPort> inputs = component.InEventPort_kind_children ();
 
+  std::string ns = "::CIAO_" + CUTS_BE_CPP::fq_type (component, "_", false) + "_Impl";
+
   this->header_
-    << "typedef CUTS_OpenSplice_CCM_Servant_T < " << std::endl
+    << CUTS_BE_CPP::single_line_comment ("Type definition of the servant type.")
+    << "typedef " << this->traits_->ccm_servant_template_type ()
+    << " < " << std::endl
     << "  " << this->servant_ << "," << std::endl
     << "  " << context << "," << std::endl
     << "  " << ns << "::" << name << "_Exec," << std::endl
@@ -306,7 +311,6 @@ Visit_Component (const PICML::Component & component)
     << "::PortableServer::POA_ptr poa," << std::endl
     << ns << "::" << name << "_Exec_ptr executor);"
     << std::endl
-    << CUTS_BE_CPP::single_line_comment ("Destructor")
     << "virtual ~" << this->servant_ << " (void);"
     << std::endl;
 
@@ -395,16 +399,14 @@ Visit_Component (const PICML::Component & component)
                  boost::bind (&PICML::InEventPort::Accept,
                               _1,
                               boost::ref (*this)));
-
   this->header_
     << "};";
 
-  std::string entrypoint =
-    "create" + CUTS_BE_CPP::fq_type (component, "_") + "_Servant";
+
+  std::string entrypoint = "create" + CUTS_BE_CPP::fq_type (component, "_") + "_Servant";
 
   this->header_
     << std::endl
-    << CUTS_BE_CPP::single_line_comment (entrypoint)
     << "extern \"C\" " << this->export_macro_ << std::endl
     << "::PortableServer::Servant" << std::endl
     << entrypoint << " (const char * name," << std::endl
@@ -412,7 +414,6 @@ Visit_Component (const PICML::Component & component)
     << "::Components::EnterpriseComponent_ptr p);";
 
   this->source_
-    << CUTS_BE_CPP::function_header (entrypoint)
     << "extern \"C\" ::PortableServer::Servant" << std::endl
     << entrypoint << " (const char * name," << std::endl
     << "::PortableServer::POA_ptr poa," << std::endl
@@ -426,7 +427,7 @@ Visit_Component (const PICML::Component & component)
 }
 
 //
-// Visit_InEventPort
+// Visit_ComponentServantArtifact
 //
 void Servant_Generator::
 Visit_InEventPort (const PICML::InEventPort & port)
@@ -442,17 +443,16 @@ Visit_InEventPort (const PICML::InEventPort & port)
 
   this->header_
     << "public:" << std::endl
-    << CUTS_BE_CPP::single_line_comment ("Get the consumer for " + name)
+    << CUTS_BE_CPP::single_line_comment ("Get the event consumer for " + fq_type + ".")
     << fq_type << "Consumer_ptr get_consumer_" << name << " (void);"
     << std::endl
     << "private:" << std::endl
-    << CUTS_BE_CPP::single_line_comment ("Forward event to the implementation")
-    << "static void _push_" << name << " ("
-    << this->servant_ << " * servant," << std::endl
-    << fq_type << "* ev);"
+    << CUTS_BE_CPP::single_line_comment ("Upcall method for " + fq_type + ".")
+    << "static void _push_" << name << " (" << this->servant_ << " *," << std::endl
+    << fq_type << " *);"
     << std::endl
-    << CUTS_BE_CPP::single_line_comment ("Event consumer for " + fq_type)
-    << "CUTS_OpenSplice_CCM_EventConsumer_T < " << std::endl
+    << CUTS_BE_CPP::single_line_comment ("The event consumer for " + fq_type + ".")
+    << this->traits_->ccm_eventconsumer_template_type () << " < " << std::endl
     << "  " << this->servant_ << "," << std::endl
     << "  " << fq_type << " > " << name << "_consumer_;"
     << std::endl;
@@ -470,7 +470,7 @@ Visit_InEventPort (const PICML::InEventPort & port)
     << fq_type << " * ev)"
     << "{"
     << CUTS_BE_CPP::single_line_comment ("Push the event to the implemetation.")
-    << "if (servant->impl_)" << std::endl
+    << "if (0 != servant->impl_)" << std::endl
     << "  servant->impl_->push_" << name << " (ev);"
     << "}";
 }
@@ -486,15 +486,18 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
   if (et == Udm::null || et.type () != PICML::Event::meta)
     return;
 
-  std::string name = port.name ();
   PICML::Event ev = PICML::Event::Cast (et);
+
+  std::string name = port.name ();
   std::string fq_type = CUTS_BE_CPP::fq_type (ev);
 
   if (port.single_destination ())
   {
     this->header_
+      << CUTS_BE_CPP::single_line_comment ("Connect to " + name)
       << "void connect_" << name << " (" << fq_type << "Consumer_ptr);"
       << std::endl
+      << CUTS_BE_CPP::single_line_comment ("Disconnect from " + name)
       << fq_type << "Consumer_ptr disconnect_" << name << " (void);"
       << std::endl;
 
@@ -515,9 +518,11 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
   else
   {
     this->header_
+      << CUTS_BE_CPP::single_line_comment ("Subscribe to " + name)
       << "::Components::Cookie * subscribe_" << name << " (" << fq_type << "Consumer_ptr);"
       << std::endl
-      << fq_type << "Consumer_ptr unsubscribe_" << name << "(::Components::Cookie *);"
+      << CUTS_BE_CPP::single_line_comment ("Subscribe from " + name)
+      << fq_type << "Consumer_ptr unsubscribe_" << name << " (::Components::Cookie *);"
       << std::endl;
 
     this->source_
@@ -617,4 +622,5 @@ Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute & attr)
     << "}";
 }
 
+}
 }

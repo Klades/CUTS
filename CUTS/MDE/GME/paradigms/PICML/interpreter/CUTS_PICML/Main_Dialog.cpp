@@ -21,6 +21,7 @@
 
 BEGIN_MESSAGE_MAP (Main_Dialog, CDialog)
   ON_LBN_SELCHANGE (IDC_BE_LIST, On_BE_List_SelChange)
+  ON_BN_CLICKED (IDC_BROWSE, handle_browse_clicked)
 END_MESSAGE_MAP ()
 
 //
@@ -157,13 +158,6 @@ void Main_Dialog::DoDataExchange (CDataExchange * pDX)
   // Let the base class handle its business first.
   CDialog::DoDataExchange (pDX);
 
-  // Exchange all data in the dialog with the necesary controls.
-  int option = 0;
-  DDX_Radio (pDX, IDC_OPERATION, option);
-
-  CUTS_BE_OPTIONS ()->option_ =
-    static_cast <CUTS_BE_Options::Menu_Option> (option);
-
   // Since we aren't saving the data, we need to initialize
   // <outdir> with the data to store in the control.
   CString outdir;
@@ -180,8 +174,7 @@ void Main_Dialog::DoDataExchange (CDataExchange * pDX)
     // the output directory exists.
     outdir.Trim ();
 
-    if (option == CUTS_BE_Options::OPT_GENERATE_SOURCE &&
-        outdir.GetLength () == 0)
+    if (outdir.GetLength () == 0)
     {
       ::AfxMessageBox ("Please select a valid output directory",
                       MB_ICONEXCLAMATION);
@@ -200,15 +193,13 @@ void Main_Dialog::DoDataExchange (CDataExchange * pDX)
   // to generate source, we need to save the manager factory.
   DDX_Control (pDX, IDC_BE_LIST, this->be_list_);
 
-  if (CUTS_BE_OPTIONS ()->option_ == CUTS_BE_Options::OPT_GENERATE_SOURCE &&
-      pDX->m_bSaveAndValidate)
+  if (pDX->m_bSaveAndValidate)
   {
     int index = this->be_list_.GetCurSel ();
 
     if (index != LB_ERR)
     {
-      this->factory_ =
-        (CUTS_BE_Manager_Factory *) this->be_list_.GetItemData (index);
+      this->factory_ = (CUTS_BE_Manager_Factory *) this->be_list_.GetItemData (index);
     }
     else
     {
@@ -219,57 +210,6 @@ void Main_Dialog::DoDataExchange (CDataExchange * pDX)
       pDX->Fail ();
     }
   }
-}
-
-//
-// OnCommand
-//
-BOOL Main_Dialog::OnCommand (WPARAM wParam, LPARAM lParam)
-{
-  switch (LOWORD (wParam))
-  {
-  case IDC_COWORKER_IMPL:
-    // Enable the following controls
-    this->GetDlgItem (IDC_OUTPUTDIR)->EnableWindow ();
-    this->GetDlgItem (IDC_BROWSE)->EnableWindow ();
-
-    this->GetDlgItem (IDC_BE_LIST)->EnableWindow ();
-    this->GetDlgItem (IDC_BE_DESCRIPTION)->EnableWindow ();
-    break;
-
-  case IDC_OPERATION:
-    // Disable the following controls.
-    this->GetDlgItem (IDC_OUTPUTDIR)->EnableWindow (FALSE);
-    this->GetDlgItem (IDC_BROWSE)->EnableWindow (FALSE);
-
-    this->GetDlgItem (IDC_BE_LIST)->EnableWindow (FALSE);
-    this->GetDlgItem (IDC_BE_DESCRIPTION)->EnableWindow (FALSE);
-    break;
-
-  case IDC_BROWSE:
-    {
-      CString outdir;
-      std::string path;
-
-      // Get the current output directory.
-      this->GetDlgItemText (IDC_OUTPUTDIR, outdir);
-
-      // Let the user select the new output path and store it back
-      // into this dialog if the user clicks <OK>.
-      if (Utils::getPath ("Select the output directory:",
-                          path,
-                          outdir.GetBuffer ()))
-      {
-        this->SetDlgItemText (IDC_OUTPUTDIR, path.c_str ());
-      }
-    }
-    break;
-
-  default:
-    return CDialog::OnCommand (wParam, lParam);
-  }
-
-  return TRUE;
 }
 
 //
@@ -390,3 +330,19 @@ int Main_Dialog::resolve_CUTS_ROOT (std::string & root)
   return 0;
 }
 
+//
+// handle_browse_clicked
+//
+void Main_Dialog::handle_browse_clicked (void)
+{
+  CString outdir;
+  std::string path;
+
+  // Get the current output directory.
+  this->GetDlgItemText (IDC_OUTPUTDIR, outdir);
+
+  // Let the user select the new output path and store it back
+  // into this dialog if the user clicks <OK>.
+  if (Utils::getPath ("Select the output directory:", path, outdir.GetBuffer ()))
+    this->SetDlgItemText (IDC_OUTPUTDIR, path.c_str ());
+}

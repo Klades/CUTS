@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{E5BF87AE-F65E-4E18-80D2-6D2C98354834}" cdate="Thu Jan 27 19:57:01 2011" mdate="Thu Jan 27 19:57:01 2011" version="" metaguid="{0036ADCA-2A43-4F2B-9A4A-2AC2DBD958FA}" metaversion="" metaname="PICML">
+<project guid="{0A33D49D-5371-4A15-BF29-EC740261D27C}" cdate="Thu Jan 27 19:57:01 2011" mdate="Thu Jan 27 19:57:01 2011" version="" metaguid="{0036ADCA-2A43-4F2B-9A4A-2AC2DBD958FA}" metaversion="" metaname="PICML">
 	<name>PingPong</name>
 	<comment></comment>
 	<author></author>
@@ -1324,7 +1324,7 @@
 					<attribute kind="VersionTag" status="meta">
 						<value></value>
 					</attribute>
-					<model id="id-0065-0000000c" kind="Component" role="Component" guid="{59b36fe2-0c85-40a9-9529-656547676278}" relid="0x2" childrelidcntr="0xb">
+					<model id="id-0065-0000000c" kind="Component" role="Component" guid="{59b36fe2-0c85-40a9-9529-656547676278}" relid="0x2" childrelidcntr="0xd">
 						<name>PingComponent</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -1347,6 +1347,78 @@
 						<attribute kind="label" status="meta">
 							<value></value>
 						</attribute>
+						<model id="id-0065-00000024" kind="Attribute" role="Attribute" guid="{9b7f9599-ae84-4fae-b114-db5e1da1dd9c}" relid="0xc" childrelidcntr="0x1">
+							<name>nof_cycles</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>230,405</value>
+									</regnode>
+								</regnode>
+								<regnode name="InterfaceDefinition" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>48,447</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-00000086" kind="AttributeMember" role="AttributeMember" guid="{038f52cf-1348-48d6-a392-2d8fb6dff877}" relid="0x1" referred="id-0066-00000010">
+								<name>UnsignedLongInteger</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="InterfaceDefinition" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>108,150</value>
+										</regnode>
+									</regnode>
+								</regnode>
+							</reference>
+						</model>
+						<model id="id-0065-00000025" kind="Attribute" role="Attribute" guid="{52d64529-b920-4e62-ad5e-134f52ddf04a}" relid="0xd" childrelidcntr="0x1">
+							<name>result_file</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>160,447</value>
+									</regnode>
+								</regnode>
+								<regnode name="InterfaceDefinition" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>160,447</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<reference id="id-0067-00000087" kind="AttributeMember" role="AttributeMember" guid="{f8190b07-d9fc-4b8d-9ecc-207dc486636a}" relid="0x1" referred="id-0066-00000018">
+								<name>String</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="InterfaceDefinition" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>311,185</value>
+										</regnode>
+									</regnode>
+								</regnode>
+							</reference>
+						</model>
 						<reference id="id-0067-00000043" kind="OutEventPort" role="OutEventPort" guid="{81c6742a-744d-421d-b00e-adc8256700ce}" relid="0x1" referred="id-0065-00000013">
 							<name>PP_min_msg_out</name>
 							<regnode name="PartRegs" status="undefined">

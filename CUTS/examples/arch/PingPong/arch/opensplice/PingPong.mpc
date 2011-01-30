@@ -33,6 +33,7 @@ project (PingPong_IDL_Gen) : ciaoidldefaults, cuts_codegen_defaults {
               -Wb,stub_export_include=PingPong_stub_export.h \
               -Wb,skel_export_macro=PINGPONG_SKEL_Export \
               -Wb,skel_export_include=PingPong_skel_export.h \
+              -Gxhst -Gxhsk \
               -Sa -Sal -St
 
   IDL_Files {

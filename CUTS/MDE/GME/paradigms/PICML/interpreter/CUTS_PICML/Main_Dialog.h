@@ -31,14 +31,11 @@ namespace CUTS
   class Generator_Description;
 }
 
-//=============================================================================
 /**
  * @class Main_Dialog
  *
  * Main dialog for the CUTS PICML interpreter.
  */
-//=============================================================================
-
 class Main_Dialog : public CDialog
 {
 public:
@@ -70,10 +67,9 @@ protected:
   /// Handle the data exchange message.
   void DoDataExchange (CDataExchange * pDX);
 
-  /// Handle the WM_COMMAND message.
-  afx_msg BOOL OnCommand (WPARAM wParam, LPARAM lParam);
-
   afx_msg void On_BE_List_SelChange (void);
+
+  afx_msg void handle_browse_clicked (void);
 
 private:
   DECLARE_MESSAGE_MAP ();
