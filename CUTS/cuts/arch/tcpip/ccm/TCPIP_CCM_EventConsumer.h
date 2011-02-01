@@ -28,15 +28,18 @@ class CUTS_TCPIP_CCM_Export CUTS_TCPIP_CCM_EventConsumer :
   public virtual ::POA_Components::TCPIP::EventConsumerBase
 {
 public:
-  CUTS_TCPIP_CCM_EventConsumer (CUTS_TCPIP_Servant * parent, long event);
+  CUTS_TCPIP_CCM_EventConsumer (CUTS_TCPIP_Servant * parent, long evid);
 
+  /// Destructor.
   virtual ~CUTS_TCPIP_CCM_EventConsumer (void);
 
   virtual ::Components::TCPIP::Endpoint * remote_endpoint (void);
 
 private:
+  /// The parent of the consumer.
   CUTS_TCPIP_Servant * parent_;
 
+  /// The event id.
   long event_;
 };
 

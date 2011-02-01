@@ -16,7 +16,7 @@
 #include "TCPIP_Object_T.h"
 
 // Forward decl.
-class CUTS_TCPIP_InputCDR;
+class ACE_InputCDR;
 
 // Forward decl.
 class CUTS_TCPIP_ORB;
@@ -50,7 +50,7 @@ public:
    * @retval            0           Success
    * @retval            -1          Failure
    */
-  virtual int handle_event (ACE_UINT32 id, CUTS_TCPIP_InputCDR & input) = 0;
+  virtual int handle_event (ACE_UINT32 id, ACE_InputCDR & input) = 0;
 
 protected:
   /// Default constructor.

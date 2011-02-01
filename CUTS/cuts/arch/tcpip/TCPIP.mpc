@@ -12,7 +12,6 @@ project (CUTS_TCPIP) : acelib, cutslib {
     TCPIP_Connector.cpp
     TCPIP_Connector_Svc_Handler.cpp
     TCPIP_Event_Handler.cpp
-    TCPIP_InputCDR.cpp
     TCPIP_ORB.cpp
     TCPIP_Object.cpp
     TCPIP_OutputCDR.cpp

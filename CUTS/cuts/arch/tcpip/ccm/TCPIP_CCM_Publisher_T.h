@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- *  @file         TCPIP_CCM_Remote_Endpoint_T.h
+ *  @file         TCPIP_CCM_Publisher_T.h
  *
  *  $Id$
  *
@@ -10,26 +10,28 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_TCPIP_CCM_REMOTE_ENDPOINT_T_H_
-#define _CUTS_TCPIP_CCM_REMOTE_ENDPOINT_T_H_
+#ifndef _CUTS_TCPIP_CCM_PUBLISHER_T_H_
+#define _CUTS_TCPIP_CCM_PUBLISHER_T_H_
 
-#include "cuts/arch/tcpip/TCPIP_Remote_Endpoint_T.h"
-#include "TCPIP_CCM_Remote_Endpoint.h"
+#include "../TCPIP_Remote_Endpoint_T.h"
+#include "TCPIP_CCM_Publisher.h"
 #include "TCPIP_CCM_EventConsumer.h"
 
 /**
- * @class CUTS_TCPIP_CCM_Subscriber_T
+ * @class CUTS_TCPIP_CCM_Publisher_T
+ *
+ * Generic implementation of the publisher that is bound to a concrete
+ * event type.
  */
 template <typename T>
-class CUTS_TCPIP_CCM_Subscriber_T :
-  public CUTS_TCPIP_CCM_Subscriber
+class CUTS_TCPIP_CCM_Publisher_T : public CUTS_TCPIP_CCM_Publisher
 {
 public:
   /// Default constructor.
-  CUTS_TCPIP_CCM_Subscriber_T (void);
+  CUTS_TCPIP_CCM_Publisher_T (void);
 
   /// Destructor.
-  virtual ~CUTS_TCPIP_CCM_Subscriber_T (void);
+  virtual ~CUTS_TCPIP_CCM_Publisher_T (void);
 
   /// Connect the specified consumer.
   virtual void connect (::Components::EventConsumerBase_ptr ptr);
@@ -49,9 +51,9 @@ private:
 };
 
 #if defined (__CUTS_INLINE__)
-#include "TCPIP_CCM_Remote_Endpoint_T.inl"
+#include "TCPIP_CCM_Publisher_T.inl"
 #endif
 
-#include "TCPIP_CCM_Remote_Endpoint_T.cpp"
+#include "TCPIP_CCM_Publisher_T.cpp"
 
-#endif  // !defined _CUTS_TCPIP_CCM_REMOTE_ENDPOINT_T_H_
+#endif  // !defined _CUTS_TCPIP_CCM_PUBLISHER_T_H_

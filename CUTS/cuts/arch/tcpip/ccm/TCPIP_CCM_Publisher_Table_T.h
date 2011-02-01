@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- *  @file         TCPIP_CCM_Subscriber_Table_T.h
+ *  @file         TCPIP_CCM_Publisher_Table_T.h
  *
  *  $Id$
  *
@@ -10,26 +10,26 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_TCPIP_CCM_SUBSCRIBER_TABLE_T_H_
-#define _CUTS_TCPIP_CCM_SUBSCRIBER_TABLE_T_H_
+#ifndef _CUTS_TCPIP_CCM_PUBLISHER_TABLE_T_H_
+#define _CUTS_TCPIP_CCM_PUBLISHER_TABLE_T_H_
 
 #include "ace/Hash_Map_Manager.h"
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/UUID.h"
-#include "TCPIP_CCM_Remote_Endpoint_T.h"
-#include "TCPIP_CCM_Subscriber_Table.h"
+#include "TCPIP_CCM_Publisher_T.h"
+#include "TCPIP_CCM_Publisher_Table.h"
 
 /**
- * @class CUTS_TCPIP_CCM_Subscriber_Table_T
+ * @class CUTS_TCPIP_CCM_Publisher_Table_T
  */
 template <typename T>
-class CUTS_TCPIP_CCM_Subscriber_Table_T :
-  public CUTS_TCPIP_CCM_Subscriber_Table
+class CUTS_TCPIP_CCM_Publisher_Table_T :
+  public CUTS_TCPIP_CCM_Publisher_Table
 {
 public:
-  CUTS_TCPIP_CCM_Subscriber_Table_T (void);
+  CUTS_TCPIP_CCM_Publisher_Table_T (void);
 
-  virtual ~CUTS_TCPIP_CCM_Subscriber_Table_T (void);
+  virtual ~CUTS_TCPIP_CCM_Publisher_Table_T (void);
 
   virtual ::Components::Cookie * subscribe (::Components::EventConsumerBase_ptr consumer);
 
@@ -39,16 +39,16 @@ public:
 
 private:
   typedef ACE_Hash_Map_Manager <ACE_Utils::UUID,
-                                CUTS_TCPIP_CCM_Subscriber_T <T> *,
+                                CUTS_TCPIP_CCM_Publisher_T <T> *,
                                 ACE_RW_Thread_Mutex> table_type;
 
   table_type table_;
 };
 
 #if defined (__CUTS_INLINE__)
-#include "TCPIP_CCM_Subscriber_Table_T.inl"
+#include "TCPIP_CCM_Publisher_Table_T.inl"
 #endif
 
-#include "TCPIP_CCM_Subscriber_Table_T.cpp"
+#include "TCPIP_CCM_Publisher_Table_T.cpp"
 
 #endif  // !defined _CUTS_TCPIP_CCM_SUBSCRIBER_TABLE_T_H_

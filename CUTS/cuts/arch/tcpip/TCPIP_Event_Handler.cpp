@@ -6,7 +6,7 @@
 #include "TCPIP_Event_Handler.inl"
 #endif
 
-#include "TCPIP_InputCDR.h"
+#include "ace/CDR_Stream.h"
 #include "TCPIP_Servant.h"
 #include "TCPIP_Servant_Manager.h"
 #include "TCPIP_SPEC.h"
@@ -39,8 +39,8 @@ int CUTS_TCPIP_Event_Handler::handle_input (ACE_HANDLE fd)
 
   if (retcode != header_size)
     ACE_ERROR_RETURN ((LM_ERROR,
-		       "%T (%t) - %M - invalid TCP/IP header\n"),
-		      -1);
+           "%T (%t) - %M - invalid TCP/IP header\n"),
+          -1);
 
   // Reflect the number of bytes read from the stream.
   header.wr_ptr (header_size);
@@ -49,7 +49,7 @@ int CUTS_TCPIP_Event_Handler::handle_input (ACE_HANDLE fd)
   CUTS_TCPIP_SPEC spec;
   ACE_CDR::ULong datasize;
 
-  CUTS_TCPIP_InputCDR input (header.rd_ptr (), header_size);
+  ACE_InputCDR input (header.rd_ptr (), header_size);
 
   // Read the SPEC and the datasize from the packet.
   input >> spec;
@@ -57,8 +57,8 @@ int CUTS_TCPIP_Event_Handler::handle_input (ACE_HANDLE fd)
 
   if (!input.good_bit ())
     ACE_ERROR_RETURN ((LM_ERROR,
-		       "%T (%t) - %M - failed to read TCP/IP header\n"),
-		      -1);
+           "%T (%t) - %M - failed to read TCP/IP header\n"),
+          -1);
 
   // Construct a chain of message blocks to read the payload associated
   // with the received event.
@@ -116,8 +116,8 @@ int CUTS_TCPIP_Event_Handler::handle_input (ACE_HANDLE fd)
     if (0 == retval)
     {
       // Signal the object to handle the event.
-      CUTS_TCPIP_InputCDR event (head, input.byte_order ());
-      retval = svnt->handle_event (spec.event_id_, event);
+      ACE_InputCDR ev (head, input.byte_order ());
+      retval = svnt->handle_event (spec.event_id_, ev);
 
       if (-1 == retval)
         ACE_ERROR ((LM_ERROR,

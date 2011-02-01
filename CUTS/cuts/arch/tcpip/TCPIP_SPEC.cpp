@@ -58,7 +58,7 @@ ACE_CDR::Boolean operator << (CUTS_TCPIP_OutputCDR & output, const CUTS_TCPIP_SP
 //
 // operator >>
 //
-ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & input, ACE_Utils::UUID & uuid)
+ACE_CDR::Boolean operator >> (ACE_InputCDR & input, ACE_Utils::UUID & uuid)
 {
   CUTS_TCPIP_TRACE ("operator >> (CUTS_TCPIP_InputCDR &, ACE_Utils::UUID &)");
 
@@ -72,8 +72,9 @@ ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & input, ACE_Utils::UUID & uui
   input >> time_low;
   input >> time_mid;
   input >> time_hi_and_version;
-  input >> CUTS_TCPIP_InputCDR::to_octet (clock_seq_hi_and_reserved);
-  input >> CUTS_TCPIP_InputCDR::to_octet (clock_seq_low);
+  input >> ACE_InputCDR::to_octet (clock_seq_hi_and_reserved);
+  input >> ACE_InputCDR::to_octet (clock_seq_low);
+
   input.read_octet_array (uuid.node ().node_ID (),
                           ACE_Utils::UUID_Node::NODE_ID_SIZE);
 
@@ -95,7 +96,7 @@ ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & input, ACE_Utils::UUID & uui
 //
 // operator >>
 //
-ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & input, CUTS_TCPIP_SPEC & spec)
+ACE_CDR::Boolean operator >> (ACE_InputCDR & input, CUTS_TCPIP_SPEC & spec)
 {
   CUTS_TCPIP_TRACE ("operator >> (CUTS_TCPIP_InputCDR &, CUTS_TCPIP_SPEC &)");
 
@@ -110,7 +111,7 @@ ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & input, CUTS_TCPIP_SPEC & spe
 
   // Read the byte order of the message.
   ACE_CDR::Boolean byte_order;
-  if (!(input >> CUTS_TCPIP_InputCDR::to_boolean (byte_order)))
+  if (!(input >> ACE_InputCDR::to_boolean (byte_order)))
     return false;
 
   // Reset the byte order of the stream.

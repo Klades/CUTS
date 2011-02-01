@@ -5,6 +5,9 @@
 
 #include "../Component_Implementation.h"
 #include "../Servant_Implementation.h"
+#include "../In_Type_Generator.h"
+#include "../Retn_Type_Generator.h"
+
 #include "../../../lang/cpp/Cpp.h"
 #include "../../../UDM_Utility_T.h"
 
@@ -378,9 +381,9 @@ Visit_InEventPort (const PICML::InEventPort & port)
              << CUTS_BE_CPP::function_header ("tcpip_" + name)
              << "int " << this->servant_ << "::" << std::endl
              << "tcpip_" << name
-             << " (" << this->servant_ << " * svnt, CUTS_TCPIP_InputCDR & stream)"
+             << " (" << this->servant_ << " * svnt, ACE_InputCDR & stream)"
              << "{"
-             << CUTS_BE_CPP::single_line_comment ("Extract the ev from the stream.")
+             << CUTS_BE_CPP::single_line_comment ("Extract the event from the stream.")
              << "CUTS_CCM_Event_T < " << obv_type << " > ev;"
              << std::endl
              << "if (!(stream >> *ev.in ()))"

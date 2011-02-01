@@ -1,7 +1,7 @@
 // $Id$
 
 #if !defined (__CUTS_INLINE__)
-#include "TCPIP_CCM_Remote_Endpoint_T.inl"
+#include "TCPIP_CCM_Publisher_T.inl"
 #endif
 
 #include "ace/OS_NS_unistd.h"
@@ -10,11 +10,9 @@
 // connect
 //
 template <typename T>
-void CUTS_TCPIP_CCM_Subscriber_T <T>::
+void CUTS_TCPIP_CCM_Publisher_T <T>::
 connect (::Components::EventConsumerBase_ptr ptr)
 {
-  ACE_OS::sleep (10);
-
   // Narrow the object to a TCPIP EventConsumerBase object.
   ::Components::TCPIP::EventConsumerBase_var consumer =
     ::Components::TCPIP::EventConsumerBase::_narrow (ptr);
@@ -42,7 +40,7 @@ connect (::Components::EventConsumerBase_ptr ptr)
 //
 template <typename T>
 ::Components::EventConsumerBase_ptr
-CUTS_TCPIP_CCM_Subscriber_T <T>::disconnect (void)
+CUTS_TCPIP_CCM_Publisher_T <T>::disconnect (void)
 {
   if (this->endpoint_.is_connected ())
     this->endpoint_.disconnect ();

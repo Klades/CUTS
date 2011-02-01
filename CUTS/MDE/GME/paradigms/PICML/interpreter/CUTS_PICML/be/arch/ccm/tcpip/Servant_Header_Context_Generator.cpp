@@ -114,19 +114,19 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
 
   if (port.single_destination ())
   {
-    this->out_ << "CUTS_TCPIP_CCM_Subscriber & endpoint_" << name << " (void);"
+    this->out_ << "CUTS_TCPIP_CCM_Publisher & endpoint_" << name << " (void);"
                << std::endl
                << "private:" << std::endl
-               << "CUTS_TCPIP_CCM_Subscriber_T < "
+               << "CUTS_TCPIP_CCM_Publisher_T < "
                << fq_type << " > " << name << "_;"
                << std::endl;
   }
   else
   {
-    this->out_ << "CUTS_TCPIP_CCM_Subscriber_Table & endpoints_" << name << " (void);"
+    this->out_ << "CUTS_TCPIP_CCM_Publisher_Table & endpoints_" << name << " (void);"
                << std::endl
                << "private:" << std::endl
-               << "CUTS_TCPIP_CCM_Subscriber_Table_T < "
+               << "CUTS_TCPIP_CCM_Publisher_Table_T < "
                << fq_type << " > " << name << "_;"
                << std::endl;
   }

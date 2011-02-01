@@ -18,7 +18,7 @@
 #include "TCPIP_export.h"
 
 // Forward decl.
-class CUTS_TCPIP_InputCDR;
+class ACE_InputCDR;
 
 // Forward decl.
 class CUTS_TCPIP_OutputCDR;
@@ -57,6 +57,6 @@ ACE_CDR::Boolean operator << (CUTS_TCPIP_OutputCDR & output, const CUTS_TCPIP_SP
  * @param[in]       spec          SPEC header
  */
 CUTS_TCPIP_Export
-ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & output, CUTS_TCPIP_SPEC & spec);
+ACE_CDR::Boolean operator >> (ACE_InputCDR &, CUTS_TCPIP_SPEC &);
 
 #endif  // !defined _CUTS_TCPIP_SPEC_H_

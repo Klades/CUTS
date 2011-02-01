@@ -31,12 +31,22 @@ void Input_Stream_Aggr_Member_Generator::
 Visit_Member (const PICML::Member & member)
 {
   PICML::MemberType type = member.ref ();
-  std::string name (member.name ());
+  const std::string name = member.name ();
 
-  if (PICML::String::meta == type.type ())
+  // Make sure we have the concrete type since the alias is just
+  // another name for the concrete type.
+  while (PICML::Alias::meta == type.type ())
   {
-    std::string varname ("val_");
-    varname += member.name ();
+    // Get the alias type, and its type information.
+    PICML::Alias alias = PICML::Alias::Cast (type);
+    type = alias.ref ();
+  }
+
+  const Uml::Class & uml_type = type.type ();
+
+  if (PICML::String::meta == uml_type)
+  {
+    const std::string varname = "_val_" + name + "_";
 
     this->out_
       << "ACE_CString " << varname << ";"
@@ -44,18 +54,19 @@ Visit_Member (const PICML::Member & member)
       << "val." << name << " = " << varname << ".c_str ();"
       << std::endl;
   }
-  else if (PICML::Boolean::meta == type.type ())
+  else if (PICML::Byte::meta == uml_type)
   {
-    this->out_
-      << "stream >> CUTS_TCPIP_InputCDR::to_boolean (val."
-      << name << ");";
+    this->out_ << "stream >> ACE_InputCDR::to_octet (val." << name << ");";
+  }
+  else if (PICML::Boolean::meta == uml_type)
+  {
+    this->out_ << "stream >> ACE_InputCDR::to_boolean (val." << name << ");";
   }
   else
   {
-    this->out_ << "stream >> val." << member.name () << ";";
+    // We can assume the default case with everything else.
+    this->out_ << "stream >> val." << name << ";";
   }
-
-
 }
 
 }

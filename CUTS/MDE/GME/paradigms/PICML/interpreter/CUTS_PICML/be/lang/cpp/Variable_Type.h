@@ -63,25 +63,30 @@ public:
 
   virtual void Visit_Boolean (const PICML::Boolean & value);
 
-  virtual void Visit_Byte (const PICML::Byte & byte);
+  virtual void Visit_Byte (const PICML::Byte & );
+  virtual void Visit_Char (const PICML::Char & );
 
-  virtual void Visit_LongInteger (const PICML::LongInteger & value);
+  virtual void Visit_ShortInteger (const PICML::ShortInteger &);
+  virtual void Visit_UnsignedShortInteger (const PICML::UnsignedShortInteger &);
 
-  virtual void Visit_ShortInteger (const PICML::ShortInteger & value);
+  virtual void Visit_LongInteger (const PICML::LongInteger &);
+  virtual void Visit_UnsignedLongInteger (const PICML::UnsignedLongInteger &);
 
-  virtual void Visit_String (const PICML::String & value);
+  virtual void Visit_LongLongInteger (const PICML::LongLongInteger &);
+  virtual void Visit_UnsignedLongLongInteger (const PICML::UnsignedLongLongInteger &);
 
-  virtual void Visit_FloatNumber (const PICML::FloatNumber & value);
+  virtual void Visit_String (const PICML::String &);
+  virtual void Visit_WideString (const PICML::WideString &);
 
-  virtual void Visit_DoubleNumber (const PICML::DoubleNumber & value);
+  virtual void Visit_FloatNumber (const PICML::FloatNumber &);
+  virtual void Visit_DoubleNumber (const PICML::DoubleNumber &);
+  virtual void Visit_LongDoubleNumber (const PICML::LongDoubleNumber &);
 
-  virtual void Visit_GenericValue (const PICML::GenericValue & value);
+  virtual void Visit_GenericValue (const PICML::GenericValue &);
+  virtual void Visit_GenericObject (const PICML::GenericObject &);
 
-  virtual void Visit_GenericObject (const PICML::GenericObject & value);
-
-  virtual void Visit_TypeKind (const PICML::TypeKind & value);
-
-  virtual void Visit_TypeEncoding (const PICML::TypeEncoding & value);
+  virtual void Visit_TypeKind (const PICML::TypeKind &);
+  virtual void Visit_TypeEncoding (const PICML::TypeEncoding &);
 };
 }
 

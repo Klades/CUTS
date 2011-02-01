@@ -5,6 +5,9 @@
 
 #include "../Component_Implementation.h"
 #include "../Servant_Implementation.h"
+#include "../In_Type_Generator.h"
+#include "../Retn_Type_Generator.h"
+
 #include "../../../lang/cpp/Cpp.h"
 #include "../../../UDM_Utility_T.h"
 
@@ -179,7 +182,7 @@ Visit_InEventPort (const PICML::InEventPort & port)
              << consumer << " get_consumer_" << name << " (void);"
              << std::endl
              << "static int tcpip_" << name << " (" << this->servant_ << " * svnt," << std::endl
-             << "CUTS_TCPIP_InputCDR & input);"
+             << "ACE_InputCDR & input);"
              << std::endl
              << "private:" << std::endl
              << "CUTS_TCPIP_CCM_EventConsumer " << name << "_consumer_;"

@@ -122,9 +122,9 @@ void Servant_Header_Generator::Visit_File (const PICML::File & file)
                 << CUTS_BE_CPP::include (name + "S")
                 << std::endl
                 << CUTS_BE_CPP::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_Context_T")
-                << CUTS_BE_CPP::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T")
+                << CUTS_BE_CPP::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_Publisher_T")
+                << CUTS_BE_CPP::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_Publisher_Table_T")
                 << CUTS_BE_CPP::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T")
-                << CUTS_BE_CPP::include ("cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table_T")
                 << std::endl
                 << CUTS_BE_CPP::include (export_filename)
                 << std::endl

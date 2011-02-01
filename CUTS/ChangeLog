@@ -1,3 +1,98 @@
+Tue Feb  1 16:35:21 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Variable_Type.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Variable_Type.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+
+          Update the variable types to support the unsigned predefined
+          types that were add to PICML.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/Input_Stream_Aggr_Member_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/Input_Stream_Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/Output_Stream_Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/Servant_Header_Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/Servant_Header_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/Servant_Header_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/Servant_Source_Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/Servant_Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/Servant_Source_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/Stub_Header_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/Stub_Source_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/Traits.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/Traits.cpp:
+        * cuts/arch/tcpip/TCPIP.mpc:
+        * cuts/arch/tcpip/TCPIP_Event_Handler.cpp:
+        * cuts/arch/tcpip/TCPIP_SPEC.h:
+        * cuts/arch/tcpip/TCPIP_SPEC.cpp:
+        * cuts/arch/tcpip/TCPIP_Servant.h:
+        * cuts/arch/tcpip/TCPIP_Servant_VTable_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM.mpc:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_EventConsumer.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Publisher.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Publisher.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Publisher.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Publisher_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Publisher_T.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Publisher_T.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Publisher_Table.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Publisher_Table.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Publisher_Table.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Publisher_Table_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Publisher_Table_T.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Publisher_Table_T.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.cpp:
+
+          Updated the names of classes to be consistent with the CCM++
+          architecture and framework.
+
+          Replaced the TCPIP_InputCDR with ACE_InputCDR.
+
+        * examples/arch/PingPong/arch/tcpip:
+        * examples/arch/PingPong/arch/tcpip/PingComponent.idl:
+        * examples/arch/PingPong/arch/tcpip/PingComponent.mpc:
+        * examples/arch/PingPong/arch/tcpip/PingPong.idl:
+        * examples/arch/PingPong/arch/tcpip/PingPong.mpc:
+        * examples/arch/PingPong/arch/tcpip/PingPong.mwc:
+        * examples/arch/PingPong/arch/tcpip/PingPong_Events.idl:
+        * examples/arch/PingPong/arch/tcpip/PingPong_Events.mpc:
+        * examples/arch/PingPong/arch/tcpip/PingPong_PingComponentImpl.h:
+        * examples/arch/PingPong/arch/tcpip/PingPong_PingComponentImpl.cpp:
+        * examples/arch/PingPong/arch/tcpip/PingPong_PingComponentImpl.mpc:
+        * examples/arch/PingPong/arch/tcpip/PingPong_PongComponentImpl.h:
+        * examples/arch/PingPong/arch/tcpip/PingPong_PongComponentImpl.cpp:
+        * examples/arch/PingPong/arch/tcpip/PingPong_PongComponentImpl.mpc:
+        * examples/arch/PingPong/arch/tcpip/PongComponent.idl:
+        * examples/arch/PingPong/arch/tcpip/PongComponent.mpc:
+        * examples/arch/PingPong/arch/tcpip/Stats.h:
+        * examples/arch/PingPong/arch/tcpip/Stats.cpp:
+        * examples/arch/PingPong/arch/tcpip/descriptors:
+        * examples/arch/PingPong/arch/tcpip/descriptors/PingPong.cdd:
+        * examples/arch/PingPong/arch/tcpip/descriptors/PingPong.cdp:
+        * examples/arch/PingPong/arch/tcpip/descriptors/PingPong.nodemap:
+        * examples/arch/PingPong/arch/tcpip/descriptors/run_test.pl:
+
+          PingPong example using TCP/IP.
+
+        * cuts/arch/tcpip/TCPIP_InputCDR.h:
+        * cuts/arch/tcpip/TCPIP_InputCDR.inl:
+        * cuts/arch/tcpip/TCPIP_InputCDR.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table_T.inl:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table_T.cpp:
+
+          Removed these files.
+
 Sun Jan 30 13:14:16 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Component.rc:

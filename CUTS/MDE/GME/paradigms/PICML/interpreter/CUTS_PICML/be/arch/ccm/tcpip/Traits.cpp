@@ -14,5 +14,5 @@
 void CUTS_BE_TCPIP_Traits::
 write_stub_source_files (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 {
-  proj << "TCPIP_" << node.name_ << "C.cpp" << std::endl;
+  proj << "    TCPIP_" << node.name_ << "C.cpp" << std::endl;
 }

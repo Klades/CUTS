@@ -16,7 +16,7 @@ CUTS_TCPIP_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::table_;
 //
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC>
 int CUTS_TCPIP_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::
-handle_event (ACE_UINT32 id, CUTS_TCPIP_InputCDR & input)
+handle_event (ACE_UINT32 id, ACE_InputCDR & input)
 {
   static T * self = dynamic_cast <T *> (this);
 

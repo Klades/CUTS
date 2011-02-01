@@ -49,7 +49,7 @@ Input_Stream_Source_Generator::~Input_Stream_Source_Generator (void)
 void Input_Stream_Source_Generator::Visit_Event (const PICML::Event & ev)
 {
   this->out_
-    << "ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & stream, "
+    << "ACE_CDR::Boolean operator >> (ACE_InputCDR & stream, "
     << CUTS_BE_CPP::fq_type (ev, "::") << " & ev)"
     << "{";
 
@@ -71,7 +71,7 @@ void Input_Stream_Source_Generator::
 Visit_Aggregate (const PICML::Aggregate & aggr)
 {
   this->out_
-    << "ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & stream, "
+    << "ACE_CDR::Boolean operator >> (ACE_InputCDR & stream, "
     << CUTS_BE_CPP::fq_type (aggr, "::") << " & val)"
     << "{";
 
@@ -95,8 +95,7 @@ Visit_Collection (const PICML::Collection & coll)
   const std::string name = CUTS_BE_CPP::fq_type (coll, "::");
 
   this->out_
-    << "ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & stream, "
-    << name << " & coll)"
+    << "ACE_CDR::Boolean operator >> (ACE_InputCDR & stream, " << name << " & coll)"
     << "{"
     << "// set the length of the collection" << std::endl
     << "size_t length;"

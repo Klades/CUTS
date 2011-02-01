@@ -15,6 +15,123 @@
 
 namespace CUTS_BE_TCPIP
 {
+class Include_Stubs : public PICML::Visitor
+{
+public:
+  Include_Stubs (std::ostream & source)
+    : source_ (source)
+  {
+
+  }
+
+  virtual ~Include_Stubs (void)
+  {
+
+  }
+
+  virtual void Visit_File (const PICML::File & file)
+  {
+    this->includes_.insert (std::string (file.name ()));
+    this->Visit_PackageFile_i (file);
+  }
+
+  virtual void Visit_Package (const PICML::Package & package)
+  {
+    this->Visit_PackageFile_i (package);
+  }
+
+  virtual void Visit_Component (const PICML::Component & component)
+  {
+    // Visit all the input event ports.
+    std::vector <PICML::InEventPort> inputs = component.InEventPort_kind_children ();
+
+    std::for_each (inputs.begin (),
+                   inputs.end (),
+                   boost::bind (&PICML::InEventPort::Accept,
+                                _1,
+                                boost::ref (*this)));
+
+    // Visit all the ouptut event ports.
+    std::vector <PICML::OutEventPort> outputs = component.OutEventPort_kind_children ();
+
+    std::for_each (outputs.begin (),
+                   outputs.end (),
+                   boost::bind (&PICML::OutEventPort::Accept,
+                                _1,
+                                boost::ref (*this)));
+  }
+
+  virtual void Visit_InEventPort (const PICML::InEventPort & port)
+  {
+    PICML::EventType et = port.ref ();
+
+    if (et != Udm::null)
+      PICML::Event::Cast (et).Accept (*this);
+  }
+
+  virtual void Visit_OutEventPort (const PICML::OutEventPort & port)
+  {
+    PICML::EventType et = port.ref ();
+
+    if (et != Udm::null)
+      PICML::Event::Cast (et).Accept (*this);
+  }
+
+  //
+  // Visit_Event
+  //
+  virtual void Visit_Event (const PICML::Event & ev)
+  {
+    PICML::MgaObject parent = PICML::MgaObject::Cast (ev.parent ());
+
+    while (PICML::File::meta != parent.type ())
+      parent = PICML::MgaObject::Cast (parent.parent ());
+
+    std::string name = parent.name ();
+    if (this->includes_.find (name) != this->includes_.end ())
+      return;
+
+    PICML::File file = PICML::File::Cast (parent);
+    std::string filename = file.Path ();
+
+    if (!filename.empty ())
+      filename += "/";
+
+    filename += "TCPIP_" + name + "C";
+
+    this->source_ << CUTS_BE_CPP::include (filename);
+    this->includes_.insert (name);
+  }
+
+private:
+  void Visit_PackageFile_i (const Udm::Object & obj)
+  {
+    // Visit all the events.
+    std::vector <PICML::Component> components =
+      Udm::ChildrenAttr <PICML::Component> (obj.__impl (), Udm::NULLCHILDROLE);
+
+    std::for_each (components.begin (),
+                   components.end (),
+                   boost::bind (&PICML::Component::Accept,
+                                _1,
+                                boost::ref (*this)));
+
+    // Visit all the packages.
+    std::vector <PICML::Package> packages =
+      Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
+
+    std::for_each (packages.begin (),
+                   packages.end (),
+                   boost::bind (&PICML::Package::Accept,
+                                _1,
+                                boost::ref (*this)));
+  }
+
+  std::ostream & source_;
+
+  std::set <std::string> includes_;
+};
+
 //
 // Servant_Source_Generator
 //
@@ -102,6 +219,11 @@ void Servant_Source_Generator::Visit_File (const PICML::File & file)
                 << CUTS_BE_CPP::include ("cuts/arch/tcpip/TCPIP_Remote_Endpoint")
                 << CUTS_BE_CPP::include ("cuts/arch/tcpip/TCPIP_Servant_Manager")
                 << std::endl;
+
+    Include_Stubs stubs (this->fout_);
+    PICML::File (file).Accept (stubs);
+
+    this->fout_ << std::endl;
 
     // Visit the contents of the file and package.
     this->Visit_FilePackage_i (file);

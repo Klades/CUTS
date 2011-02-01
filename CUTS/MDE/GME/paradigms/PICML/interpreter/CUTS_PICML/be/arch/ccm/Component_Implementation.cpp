@@ -281,13 +281,6 @@ generate (const PICML::MonolithicImplementation & impl,
     << "namespace " << namespace_name
     << "{";
 
-  //// We need to determine if any of the events sources has a
-  //// CUTS::Payload_Event type. This is necessary because we will
-  //// have to include a special header.
-  ////
-  //// @note Checking for a CUTS::Payload_Event should be done by
-  ////       the preprocessor.
-
   typedef std::vector <PICML::OutEventPort> OutEventPort_Set;
   OutEventPort_Set outevents = component.OutEventPort_kind_children ();
 
@@ -296,21 +289,6 @@ generate (const PICML::MonolithicImplementation & impl,
                  boost::bind (&PICML::OutEventPort::Accept,
                               _1,
                               boost::ref (*this)));
-
-  //for (OutEventPort_Set::iterator iter = outevents.begin ();
-  //     iter != outevents.end ();
-  //     iter ++)
-  //{
-  //  PICML::Event event = iter->ref ();
-  //  std::string eventtype =
-  //    this->scope (event, "::") + (std::string) event.name ();
-
-  //  if (eventtype == "CUTS::Payload_Event")
-  //  {
-  //    this->out_ << include ("cuts/events_i");
-  //    break;
-  //  }
-  //}
 
   std::vector <PICML::ProvidedRequestPort> facets =
     component.ProvidedRequestPort_kind_children ();
