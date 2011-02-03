@@ -12,6 +12,7 @@
 #include "cuts/arch/ccm/CCM_Component_T.h"
 
 #include "Stats.h"
+#include "ace/streams.h"
 
 namespace PingPong_PingComponentImpl
 {
@@ -51,15 +52,18 @@ namespace PingPong_PingComponentImpl
     // sink: PP_string_msg
     virtual void push_PP_string_msg_in (::PingPong::PP_string_msg_ev * ev);
 
-    virtual void number_of_cycles (::CORBA::Long nof_cycles);
-    virtual ::CORBA::Long number_of_cycles (void);
+    virtual void nof_cycles (::CORBA::ULong nof_cycles);
+    virtual ::CORBA::ULong nof_cycles (void);
 
-  virtual void ccm_activate (void);
+    virtual void result_file (const char *);
+    virtual char * result_file (void);
+
+    virtual void ccm_activate (void);
 
   private:
     void start_new_block (bool print_stats = true);
 
-    long nof_cycles_;
+    size_t nof_cycles_;
 
     size_t block_;
 
@@ -72,6 +76,10 @@ namespace PingPong_PingComponentImpl
     PP_Stats read_access_;
 
     ACE_Time_Value roundtrip_start_time_;
+
+    ACE_CString result_file_;
+
+    std::ofstream outfile_;
   };
 }
 

@@ -1,7 +1,6 @@
 // $Id$
 
 #include "TCPIP_SPEC.h"
-#include "TCPIP_InputCDR.h"
 #include "TCPIP_OutputCDR.h"
 
 #define CUTS_TCPIP_SPEC_MAGIC_SIZE  4

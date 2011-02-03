@@ -32,12 +32,12 @@ project (PongComponent_stub) : avoids_ace_for_tao, cuts_rtidds_ccm_stub, cuts_co
 
   // listing of project dependencies
   after += \
-    PingPong_Events_stub \
-    PingPong_stub
+    PingPong_stub \
+    PingPong_Events_stub
 
   libs  += \
-    PingPong_Events_stub \
-    PingPong_stub
+    PingPong_stub \
+    PingPong_Events_stub
 
   IDL_Files {
 
@@ -70,8 +70,8 @@ project (PongComponent_skel) : ccm_svnt, avoids_ace_for_tao, cuts_codegen_defaul
 
   libs  += \
     PingPong_Events_skel \
-    PingPong_Events_stub \
-    PingPong_stub
+    PingPong_stub \
+    PingPong_Events_stub
 
   IDL_Files {
 
@@ -110,12 +110,12 @@ project (PongComponent_exec) : ciao_executor, cuts_codegen_defaults {
 
   after += PongComponent_EIDL_Gen \
     PongComponent_stub \
-    PingPong_Events_stub \
-    PingPong_stub
+    PingPong_stub \
+    PingPong_Events_stub
 
   libs  += PongComponent_stub \
-    PingPong_Events_stub \
-    PingPong_stub
+    PingPong_stub \
+    PingPong_Events_stub
 
   Source_Files {
     PongComponentEC.cpp
@@ -137,13 +137,13 @@ project (PongComponent_svnt) : cuts_rtidds_ccm, cuts_codegen_defaults {
   dynamicflags = PONGCOMPONENT_SVNT_BUILD_DLL
 
   after += PongComponent_exec PongComponent_stub PongComponent_skel \
-    PingPong_Events_stub \
     PingPong_stub \
+    PingPong_Events_stub \
     PingPong_Events_skel
 
   libs += PongComponent_exec PongComponent_stub PongComponent_skel \
-    PingPong_Events_stub \
     PingPong_stub \
+    PingPong_Events_stub \
     PingPong_Events_skel
 
   Source_Files {

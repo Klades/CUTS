@@ -4,8 +4,9 @@
 #include "PingPong_PingComponentImpl.h"
 #include "cuts/arch/ccm/CCM_Events_T.h"
 
-#include "ace/streams.h"
 #include "ace/High_Res_Timer.h"
+#include "ace/OS_NS_unistd.h"
+
 #include <iomanip>
 
 #define SEQ_PAYLOAD_SIZE 1000
@@ -17,7 +18,7 @@ namespace PingPong_PingComponentImpl
   //
   PingComponent::PingComponent (void)
     : nof_cycles_ (100),
-      topic_ ('s'),
+      topic_ ('m'),
       roundtrip_ ("round_trip"),
       write_access_ ("write_access"),
       read_access_ ("read_access")
@@ -165,7 +166,7 @@ namespace PingPong_PingComponentImpl
   //
   // number_of_cycles
   //
-  void PingComponent::number_of_cycles (::CORBA::Long nof_cycles)
+  void PingComponent::nof_cycles (::CORBA::ULong nof_cycles)
   {
     this->nof_cycles_ = nof_cycles;
   }
@@ -173,9 +174,26 @@ namespace PingPong_PingComponentImpl
   //
   // number_of_cycles
   //
-  ::CORBA::Long PingComponent::number_of_cycles (void)
+  ::CORBA::ULong PingComponent::nof_cycles (void)
   {
     return this->nof_cycles_;
+  }
+
+  //
+  // result_file
+  //
+  void PingComponent::result_file (const char * val)
+  {
+    this->result_file_ = val;
+  }
+
+  //
+  // result_file
+  //
+  char * PingComponent::result_file (void)
+  {
+    CORBA::String_var str = CORBA::string_dup (this->result_file_.c_str ());
+    return str._retn ();
   }
 
   //
@@ -186,7 +204,7 @@ namespace PingPong_PingComponentImpl
     if (print_stats)
     {
       // Print the statistics.
-      std::cout
+      this->outfile_
         << std::setw (6) << this->block_ << " "
         << this->roundtrip_ << " "
         << this->write_access_ << " "
@@ -286,9 +304,12 @@ namespace PingPong_PingComponentImpl
   //
   void PingComponent::ccm_activate (void)
   {
+    ACE_OS::sleep (3);
+
+    this->outfile_.open (this->result_file_.c_str ());
     ACE_Time_Value tv = ACE_High_Res_Timer::gettimeofday_hr ();
 
-    std::cout
+    this->outfile_
       << "# PING PONG measurements (in us)" << std::endl
       << "# Executed at: " << tv << std::endl
       << "#           Roundtrip time [us]             Write-access time [us]          Read-access time [us]" << std::endl

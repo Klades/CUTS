@@ -8,6 +8,11 @@
 
 module PingPong
 {
+  eventtype PP_min_msg_ev
+  {
+    public ::PingPong::PP_min_msg content;
+
+  };
   eventtype PP_array_msg_ev
   {
     public ::PingPong::PP_array_msg content;
@@ -23,9 +28,9 @@ module PingPong
     public ::PingPong::PP_string_msg content;
 
   };
-  eventtype PP_min_msg_ev
+  eventtype PP_quit_msg_ev
   {
-    public ::PingPong::PP_min_msg content;
+    public ::PingPong::PP_quit_msg content;
 
   };
   eventtype PP_fixed_msg_ev
@@ -36,11 +41,6 @@ module PingPong
   eventtype PP_bseq_msg_ev
   {
     public ::PingPong::PP_bseq_msg content;
-
-  };
-  eventtype PP_quit_msg_ev
-  {
-    public ::PingPong::PP_quit_msg content;
 
   };
 

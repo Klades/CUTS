@@ -18,7 +18,7 @@ namespace PingPong_PingComponentImpl
   //
   PingComponent::PingComponent (void)
     : nof_cycles_ (100),
-      topic_ ('s'),
+      topic_ ('q'),
       roundtrip_ ("round_trip"),
       write_access_ ("write_access"),
       read_access_ ("read_access")

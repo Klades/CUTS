@@ -9,20 +9,19 @@ project (PingPong_PingComponent_impl) : cuts_coworker_exec {
   prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl PINGPONG_PINGCOMPONENT_IMPL > $(PROJECT_ROOT)/PingPong_PingComponent_impl_export.h
   after +=  \
     PingComponent_exec \
-    PingPong_Events_skel \
     PingComponent_stub \
     PingPong_Events_stub \
     PingPong_stub
 
   libs +=  \
     PingComponent_exec \
-    PingPong_Events_skel \
     PingComponent_stub \
     PingPong_Events_stub \
     PingPong_stub
 
   Source_Files {
     PingPong_PingComponentImpl.cpp
+    Stats.cpp
   }
 
   Header_Files {

@@ -1,3 +1,55 @@
+Thu Feb  3 04:22:23 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/arch/ccm/events_i.h:
+        * cuts/arch/tcpip/TCPIP_SPEC.cpp:
+
+          Fixed compile errors related to missing header files.
+
+        * examples/arch/PingPong/arch/opensplice/PingComponent.idl:
+        * examples/arch/PingPong/arch/opensplice/PingPong.idl:
+        * examples/arch/PingPong/arch/opensplice/PingPong.mwc:
+        * examples/arch/PingPong/arch/opensplice/PingPong_Events.idl:
+        * examples/arch/PingPong/arch/opensplice/PingPong_PingComponentImpl.h:
+        * examples/arch/PingPong/arch/opensplice/PingPong_PingComponentImpl.cpp:
+        * examples/arch/PingPong/arch/opensplice/PingPong_PingComponentImpl.mpc:
+        * examples/arch/PingPong/arch/opensplice/PongComponent.idl:
+        * examples/arch/PingPong/arch/opensplice/descriptors/PingPong.cdp:
+        * examples/arch/PingPong/arch/opensplice/descriptors/results:
+        * examples/arch/PingPong/arch/opensplice/descriptors/results/results-f.txt:
+        * examples/arch/PingPong/arch/opensplice/descriptors/results/results-m.txt:
+        * examples/arch/PingPong/arch/opensplice/descriptors/results/results-q.txt:
+        * examples/arch/PingPong/arch/opensplice/descriptors/results/results-s.txt:
+        * examples/arch/PingPong/arch/opensplice/descriptors/run_test.pl:
+        * examples/arch/PingPong/arch/rtidds/PingComponent.idl:
+        * examples/arch/PingPong/arch/rtidds/PingComponent.mpc:
+        * examples/arch/PingPong/arch/rtidds/PingPong.idl:
+        * examples/arch/PingPong/arch/rtidds/PingPong.mwc:
+        * examples/arch/PingPong/arch/rtidds/PingPong_Events.idl:
+        * examples/arch/PingPong/arch/rtidds/PingPong_PingComponentImpl.h:
+        * examples/arch/PingPong/arch/rtidds/PingPong_PingComponentImpl.cpp:
+        * examples/arch/PingPong/arch/rtidds/PongComponent.idl:
+        * examples/arch/PingPong/arch/rtidds/PongComponent.mpc:
+        * examples/arch/PingPong/arch/rtidds/descriptors/PingPong.cdp:
+        * examples/arch/PingPong/arch/rtidds/descriptors/results:
+        * examples/arch/PingPong/arch/rtidds/descriptors/results/results-a.txt:
+        * examples/arch/PingPong/arch/rtidds/descriptors/results/results-f.txt:
+        * examples/arch/PingPong/arch/rtidds/descriptors/results/results-m.txt:
+        * examples/arch/PingPong/arch/rtidds/descriptors/results/results-s.txt:
+        * examples/arch/PingPong/arch/rtidds/descriptors/run_test.pl:
+        * examples/arch/PingPong/arch/tcpip/PingPong_PingComponentImpl.cpp:
+        * examples/arch/PingPong/arch/tcpip/descriptors/results:
+        * examples/arch/PingPong/arch/tcpip/descriptors/results/results-a.txt:
+        * examples/arch/PingPong/arch/tcpip/descriptors/results/results-m.txt:
+        * examples/arch/PingPong/arch/tcpip/descriptors/results/results-q.txt:
+        * examples/arch/PingPong/arch/tcpip/descriptors/results/results-s.txt:
+        * examples/arch/PingPong/arch/traditional-results:
+        * examples/arch/PingPong/arch/traditional-results/results-f.txt:
+        * examples/arch/PingPong/arch/traditional-results/results-m.txt:
+        * examples/arch/PingPong/arch/traditional-results/results-q.txt:
+        * examples/arch/PingPong/arch/traditional-results/results-s.txt:
+
+          Results for running the PingPong example.
+
 Tue Feb  1 16:35:21 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Variable_Type.h:

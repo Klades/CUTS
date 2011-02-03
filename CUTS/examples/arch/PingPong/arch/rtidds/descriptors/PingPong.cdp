@@ -136,6 +136,17 @@
     <node>PingPong</node>
     <source/>
     <implementation xmi:idref="_60603258-2459-11E0-8003-000C2958D27B"/>
+    <configProperty>
+      <name>result_file</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>result.txt</string>
+        </value>
+      </value>
+    </configProperty>
   </instance>
 
   <instance xmi:id="PingPong.DefaultGroup">

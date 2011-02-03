@@ -124,18 +124,29 @@
     </execParameter>
   </implementation>
 
-  <instance xmi:id="_149E58BE-250C-11E0-8000-000C2958D27B">
-    <name>PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Ping</name>
-    <node>PingPong</node>
-    <source/>
-    <implementation xmi:idref="_60603258-2459-11E0-8003-000C2958D27B"/>
-  </instance>
-
   <instance xmi:id="_22EE9B0E-250C-11E0-8000-000C2958D27B">
     <name>PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Pong</name>
     <node>PingPong</node>
     <source/>
     <implementation xmi:idref="_59E7486C-2459-11E0-8004-000C2958D27B"/>
+  </instance>
+
+  <instance xmi:id="_149E58BE-250C-11E0-8000-000C2958D27B">
+    <name>PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Ping</name>
+    <node>PingPong</node>
+    <source/>
+    <implementation xmi:idref="_60603258-2459-11E0-8003-000C2958D27B"/>
+    <configProperty>
+      <name>result_file</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>result.txt</string>
+        </value>
+      </value>
+    </configProperty>
   </instance>
 
   <instance xmi:id="PingPong.DefaultGroup">

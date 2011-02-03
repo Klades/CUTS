@@ -13,7 +13,7 @@
 #ifndef _CUTS_EVENTS_I_H_
 #define _CUTS_EVENTS_I_H_
 
-#include "CUTS_CIAOC.h"
+#include "CUTS_CCMC.h"
 
 namespace OBV_CUTS
 {

@@ -22,8 +22,6 @@ module PingPong
     
     publishes ::PingPong::PP_quit_msg_ev PP_quit_msg_in;
     
-    publishes ::PingPong::PP_array_msg_ev PP_array_msg_out;
-    
     publishes ::PingPong::PP_fixed_msg_ev PP_fixed_msg_out;
     
     publishes ::PingPong::PP_string_msg_ev PP_string_msg_out;
@@ -32,6 +30,10 @@ module PingPong
     
     publishes ::PingPong::PP_min_msg_ev PP_min_msg_out;
     
+    publishes ::PingPong::PP_array_msg_ev PP_array_msg_out;
+    
+    attribute unsigned long nof_cycles;
+    attribute string result_file;
     
   };
   
