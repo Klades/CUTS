@@ -1,3 +1,23 @@
+Mon Feb 21 03:30:17 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * integration/cruisecontrol:
+        * integration/cruisecontrol/ant-vc8.bat:
+        * integration/cruisecontrol/ant-vc9.bat:
+        * integration/cruisecontrol/cuts-vc8.config.xml:
+        * integration/cruisecontrol/cuts-vc9.config.xml:
+        * integration/include:
+        * integration/include/MPC:
+        * integration/include/MPC/devenv.build:
+        * integration/include/MPC/gnuace.build:
+        * integration/include/MPC/make.build:
+        * integration/include/MPC/nmake.build:
+        * integration/include/MPC/vc8.build:
+        * integration/include/MPC/vc9.build:
+        * integration/include/mpc.build:
+        * integration/include/svn.build:
+
+          Removed these files.
+
 Sun Feb 20 21:33:50 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * contrib:
