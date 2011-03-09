@@ -13,8 +13,8 @@
 #ifndef _CUTS_CUTE_MODEL_INTERPRETER_ACTION_H_
 #define _CUTS_CUTE_MODEL_INTERPRETER_ACTION_H_
 
-#include "game/Attribute.h"
-#include "game/Object.h"
+#include "game/mga/Attribute.h"
+#include "game/mga/Object.h"
 #include "cuts/utils/Property_Map.h"
 #include "cuts/utils/Text_Processor.h"
 
@@ -48,7 +48,7 @@ class CUTS_CUTE_Replace_Model_Name_Action :
   public CUTS_CUTE_Model_Interpreter_Action
 {
 public:
-  CUTS_CUTE_Replace_Model_Name_Action (GAME::Object_in obj);
+  CUTS_CUTE_Replace_Model_Name_Action (GAME::Mga::Object_in obj);
 
   virtual ~CUTS_CUTE_Replace_Model_Name_Action (void);
 
@@ -58,7 +58,7 @@ public:
 
 private:
   /// Target object to replace name.
-  GAME::Object object_;
+  GAME::Mga::Object object_;
 
   /// The old value of the name.
   ACE_CString old_value_;
@@ -74,7 +74,7 @@ public:
   /**
    * Initializing constructors.
    */
-  CUTS_CUTE_Replace_Model_Attribute_Action (GAME::Attribute_in attr);
+  CUTS_CUTE_Replace_Model_Attribute_Action (GAME::Mga::Attribute_in attr);
 
   virtual ~CUTS_CUTE_Replace_Model_Attribute_Action (void);
 
@@ -83,7 +83,7 @@ public:
   virtual void reset (void);
 
 private:
-  GAME::Attribute attr_;
+  GAME::Mga::Attribute attr_;
 
   /// The old value of the attribute.
   ACE_CString old_value_;

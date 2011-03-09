@@ -34,7 +34,7 @@ CUTS_CUTE_Unique_Property_Bag::items (void) const
 //
 CUTS_INLINE
 int CUTS_CUTE_Unique_Property_Bag::
-handle_attribute (GAME::Attribute_in,
+handle_attribute (GAME::Mga::Attribute_in,
                   const ACE_Unbounded_Set <ACE_CString> & params)
 {
   this->insert_parameters (params);
@@ -46,7 +46,7 @@ handle_attribute (GAME::Attribute_in,
 //
 CUTS_INLINE
 int CUTS_CUTE_Unique_Property_Bag::
-handle_name (GAME::Object_in,
+handle_name (GAME::Mga::Object_in,
              const ACE_Unbounded_Set <ACE_CString> & params)
 {
   this->insert_parameters (params);

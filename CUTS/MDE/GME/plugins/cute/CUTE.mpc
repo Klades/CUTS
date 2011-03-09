@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_CUTE) : boost_base, cuts_utils, cuts_gme, game_component, cutslib {
+project (CUTS_CUTE) : boost_base, cuts_utils, cuts_gme, game_mga_component, cutslib {
   sharedname = CUTS_CUTE
 
   pch_header = stdafx.h

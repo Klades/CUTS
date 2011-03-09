@@ -1,14 +1,14 @@
 // $Id$
 
-project (Quotas_Specification) : game_interpreter, boost_base, cutslib {
+project (Quotas_Specification) : game_mga_interpreter, boost_base, cutslib {
   sharedname    = Quotas_Specification
   dynamicflags += QUOTAS_SPECIFICATION_BUILD_DLL
-  
+
   includes += $(COSMIC_ROOT)/PIM/PICML
-  
+
   pch_header = stdafx.h
   pch_source = stdafx.cpp
-  
+
   Source_Files {
     Quotas_Specification.idl
     Quotas_Specification_Module.cpp

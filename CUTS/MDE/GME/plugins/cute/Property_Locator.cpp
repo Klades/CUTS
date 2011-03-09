@@ -11,10 +11,10 @@
 #include "Model_Interpreter_Action_List.h"
 #include "Property_Locator_Handler.h"
 
-#include "game/Attribute.h"
-#include "game/MetaAttribute.h"
-#include "game/Folder.h"
-#include "game/Model.h"
+#include "game/mga/Attribute.h"
+#include "game/mga/MetaAttribute.h"
+#include "game/mga/Folder.h"
+#include "game/mga/Model.h"
 #include "boost/bind.hpp"
 #include "ace/CORBA_macros.h"
 
@@ -33,7 +33,7 @@ CUTS_CUTE_Property_Locator (CUTS_CUTE_Property_Locator_Handler & handler)
 //
 // visit_Folder
 //
-void CUTS_CUTE_Property_Locator::visit_Folder (GAME::Folder_in folder)
+void CUTS_CUTE_Property_Locator::visit_Folder (GAME::Mga::Folder_in folder)
 {
   // Test the name of this folder for template parameters.
   // Reset the list for storing the properties.
@@ -46,19 +46,19 @@ void CUTS_CUTE_Property_Locator::visit_Folder (GAME::Folder_in folder)
     this->handler_.handle_name (folder, this->actor_.list ());
 
   // Now, visit all the folders in this folder.
-  typedef std::vector <GAME::Folder> folder_set;
+  typedef std::vector <GAME::Mga::Folder> folder_set;
   folder_set folders;
 
   folder->children (folders);
 
   std::for_each (folders.begin (),
                  folders.end (),
-                 boost::bind (&GAME::Folder::impl_type::accept,
-                              boost::bind (&GAME::Folder::get, _1),
+                 boost::bind (&GAME::Mga::Folder::impl_type::accept,
+                              boost::bind (&GAME::Mga::Folder::get, _1),
                               this));
 
   // Then, visit all the FCOs in the folder.
-  typedef std::vector <GAME::FCO> fco_set;
+  typedef std::vector <GAME::Mga::FCO> fco_set;
   fco_set fcos;
 
   folder->children (fcos);
@@ -71,7 +71,7 @@ void CUTS_CUTE_Property_Locator::visit_Folder (GAME::Folder_in folder)
 //
 // visit_FCO
 //
-void CUTS_CUTE_Property_Locator::visit_FCO (GAME::FCO_in fco)
+void CUTS_CUTE_Property_Locator::visit_FCO (GAME::Mga::FCO_in fco)
 {
   // Test the name of this FCO for template parameters.
   // Reset the list for storing the properties.
@@ -84,7 +84,7 @@ void CUTS_CUTE_Property_Locator::visit_FCO (GAME::FCO_in fco)
     this->handler_.handle_name (fco, this->actor_.list ());
 
   // Visit all the attributes in the FCO.
-  typedef std::vector <GAME::Attribute> attribute_set;
+  typedef std::vector <GAME::Mga::Attribute> attribute_set;
   attribute_set attributes;
 
   fco->attributes (attributes);
@@ -102,9 +102,9 @@ void CUTS_CUTE_Property_Locator::visit_FCO (GAME::FCO_in fco)
 //
 // visit_Model
 //
-void CUTS_CUTE_Property_Locator::visit_Model (GAME::Model_in model)
+void CUTS_CUTE_Property_Locator::visit_Model (GAME::Mga::Model_in model)
 {
-  std::vector <GAME::FCO> fcos;
+  std::vector <GAME::Mga::FCO> fcos;
   model->children (fcos);
 
   std::for_each (fcos.begin (),
@@ -117,7 +117,7 @@ void CUTS_CUTE_Property_Locator::visit_Model (GAME::Model_in model)
 //
 // visit_Attribute
 //
-void CUTS_CUTE_Property_Locator::visit_Attribute (GAME::Attribute_in attr)
+void CUTS_CUTE_Property_Locator::visit_Attribute (GAME::Mga::Attribute_in attr)
 {
   // Determine if attribute string has a template parameter. Right now,
   // we can only handle string value types.

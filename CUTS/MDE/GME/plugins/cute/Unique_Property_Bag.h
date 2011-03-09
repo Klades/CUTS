@@ -40,7 +40,7 @@ public:
    * @param[in]         attr        The target attribute
    * @param[in]         params      The identified parameters
    */
-  virtual int handle_attribute (GAME::Attribute_in attr,
+  virtual int handle_attribute (GAME::Mga::Attribute_in attr,
                                 const ACE_Unbounded_Set <ACE_CString> & params);
 
   /**
@@ -50,7 +50,7 @@ public:
    * @param[in]         folder      The object with parameters
    * @param[in]         params      The identified parameters
    */
-  virtual int handle_name (GAME::Object_in obj,
+  virtual int handle_name (GAME::Mga::Object_in obj,
                            const ACE_Unbounded_Set <ACE_CString> & params);
 
   const items_type & items (void) const;

@@ -12,7 +12,7 @@ CUTS_Exponential_Periodic_Event_Strategy (double hertz)
 : exp_ (hertz),
   inter_arrivals_ (rng_, exp_)
 {
-  this->rng_.seed (ACE_OS::time ());
+  this->rng_.seed (static_cast <boost::uint32_t> (ACE_OS::time ()));
 }
 
 //

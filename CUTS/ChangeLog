@@ -1,3 +1,51 @@
+Wed Mar  9 22:05:18 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_GME_UNITE.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/Isislab_Emulation/Isislab_Emulation.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Pojo_Codegen/Pojo_Codegen.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment/Spring_Deployment.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/Quotas_Integrator.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification.mpc:
+        * MDE/GME/plugins/cute/CUTE.mpc:
+
+          Fixed project specifications related to recent changes
+          in GAME.
+
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE_Impl.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/RawComponent.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment/Spring_Deployment_Impl.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/Spring_Deployment/Spring_Deployment_Module.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/integrator/stdafx.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification_Impl.h:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification_Impl.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/specification/Quotas_Specification_Module.cpp:
+        * MDE/GME/plugins/cute/CUTE_Impl.h:
+        * MDE/GME/plugins/cute/CUTE_Impl.cpp:
+        * MDE/GME/plugins/cute/CUTE_Module.cpp:
+        * MDE/GME/plugins/cute/Model_Interpreter.h:
+        * MDE/GME/plugins/cute/Model_Interpreter.inl:
+        * MDE/GME/plugins/cute/Model_Interpreter.cpp:
+        * MDE/GME/plugins/cute/Model_Interpreter_Action.h:
+        * MDE/GME/plugins/cute/Model_Interpreter_Action.inl:
+        * MDE/GME/plugins/cute/Model_Interpreter_Action_List.h:
+        * MDE/GME/plugins/cute/Model_Interpreter_Action_List.cpp:
+        * MDE/GME/plugins/cute/Property_Element_Map.h:
+        * MDE/GME/plugins/cute/Property_Locator.h:
+        * MDE/GME/plugins/cute/Property_Locator.cpp:
+        * MDE/GME/plugins/cute/Property_Locator_Handler.h:
+        * MDE/GME/plugins/cute/Property_Locator_Handler.inl:
+        * MDE/GME/plugins/cute/Unique_Property_Bag.h:
+        * MDE/GME/plugins/cute/Unique_Property_Bag.inl:
+        * MDE/GME/plugins/cute/stdafx.h:
+        * cuts/Exponential_Periodic_Event_Strategy.inl:
+
+          Updated to latest version of GAME.
+
+        * cuts/workers/CPU/models/CUTS_CPU_Worker.xme:
+
+          Updated to latest PICML paradigm.
+
 Mon Feb 21 03:30:17 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * integration/cruisecontrol:

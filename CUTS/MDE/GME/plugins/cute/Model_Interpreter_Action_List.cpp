@@ -45,7 +45,7 @@ handle_replace (const CUTS_Property_Map & config) const
 // handle_attribute
 //
 int CUTS_CUTE_Model_Interpreter_Action_List::
-handle_attribute (GAME::Attribute_in attr,
+handle_attribute (GAME::Mga::Attribute_in attr,
                   const ACE_Unbounded_Set <ACE_CString> & params)
 {
   // We have found an attribute with one or more template parameters.
@@ -63,7 +63,7 @@ handle_attribute (GAME::Attribute_in attr,
 // handle_name
 //
 int CUTS_CUTE_Model_Interpreter_Action_List::
-handle_name (GAME::Object_in obj,
+handle_name (GAME::Mga::Object_in obj,
              const ACE_Unbounded_Set <ACE_CString> & params)
 {
   CUTS_CUTE_Model_Interpreter_Action * action = 0;

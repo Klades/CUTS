@@ -24,7 +24,7 @@ CUTS_CUTE_Property_Locator_Handler::~CUTS_CUTE_Property_Locator_Handler (void)
 //
 CUTS_INLINE
 int CUTS_CUTE_Property_Locator_Handler::
-handle_attribute (GAME::Attribute_in, const ACE_Unbounded_Set <ACE_CString> &)
+handle_attribute (GAME::Mga::Attribute_in, const ACE_Unbounded_Set <ACE_CString> &)
 {
   return 0;
 }
@@ -34,7 +34,7 @@ handle_attribute (GAME::Attribute_in, const ACE_Unbounded_Set <ACE_CString> &)
 //
 CUTS_INLINE
 int CUTS_CUTE_Property_Locator_Handler::
-handle_name (GAME::Object_in, const ACE_Unbounded_Set <ACE_CString> &)
+handle_name (GAME::Mga::Object_in, const ACE_Unbounded_Set <ACE_CString> &)
 {
   return 0;
 }

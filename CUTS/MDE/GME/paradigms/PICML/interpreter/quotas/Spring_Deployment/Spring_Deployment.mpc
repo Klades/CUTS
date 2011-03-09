@@ -1,6 +1,6 @@
 // $Id$
 
-project (Quotas_Spring_Deployment) : picml_udm_utils, game_xml, game_interpreter, cutslib {
+project (Quotas_Spring_Deployment) : picml_udm_utils, game_xml, game_mga_interpreter, cutslib {
   sharedname    = Quotas_Spring_Deployment
 
   includes += $(COSMIC_ROOT)/PIM/PICML

@@ -4,24 +4,24 @@
 #include "Quotas_Specification.h"
 #include "Quotas_Specification_Impl.h"
 
-#include "game/Attribute.h"
-#include "game/Model.h"
-#include "game/MetaModel.h"
-#include "game/Project.h"
-#include "game/Reference.h"
-#include "game/ComponentEx.h"
-#include "game/Transaction.h"
-#include "game/modelgen.h"
+#include "game/mga/Attribute.h"
+#include "game/mga/Model.h"
+#include "game/mga/MetaModel.h"
+#include "game/mga/Project.h"
+#include "game/mga/Reference.h"
+#include "game/mga/ComponentEx.h"
+#include "game/mga/Transaction.h"
+#include "game/mga/modelgen.h"
 
 #include "boost/bind.hpp"
 
+#include "game/mga/component/ComponentEx_T.h"
+#include "game/mga/component/ComponentEx_Impl_T.h"
+#include "game/mga/component/Interpreter_Impl_Base.h"
+
 #include <functional>
 
-#include "game/be/ComponentEx_T.h"
-#include "game/be/ComponentEx_Impl_T.h"
-#include "game/be/Interpreter_Impl_Base.h"
-
-typedef GAME::ComponentEx_Impl_T <Quotas_Specification_Impl> Quotas_Specification_Interpreter;
+typedef GAME::Mga::ComponentEx_Impl_T <Quotas_Specification_Impl> Quotas_Specification_Interpreter;
 DECLARE_GAME_COMPONENT_EX (Quotas_Specification_Interpreter, Quotas_Specification);
 
 const std::string Quotas_Specification_Impl::
@@ -79,14 +79,16 @@ namespace meta
 
 namespace types
 {
-  typedef GAME::auto_stack < std::stack <GAME::Model> > auto_stack;
+  typedef GAME::auto_stack < std::stack <GAME::Mga::Model> > auto_stack;
 }
 
 //
 // Quotas_Specification_Impl
 //
 Quotas_Specification_Impl::Quotas_Specification_Impl (void)
-: GAME::Interpreter_Impl_Base ("Quotas Specification", "Quotas.Interpreter.Specification", "PICML")
+: GAME::Mga::Interpreter_Impl_Base ("Quotas Specification",
+                                    "Quotas.Interpreter.Specification",
+                                    "PICML")
 {
 
 }
@@ -103,23 +105,23 @@ Quotas_Specification_Impl::~Quotas_Specification_Impl (void)
 //
 // initialize
 //
-int Quotas_Specification_Impl::initialize (GAME::Project project)
+int Quotas_Specification_Impl::initialize (GAME::Mga::Project project)
 {
   // Get the set of add-ons for this project.
-  std::vector <GAME::ComponentEx> addons;
+  std::vector <GAME::Mga::ComponentEx> addons;
   project.addon_components (addons);
 
   // Let's see if we can find the PICMLManager addon. It will have
   // the progid of MGA.AddOn.PICMLManager.
   static const std::string name ("MGA.AddOn.PICMLManager");
 
-  std::vector <GAME::ComponentEx>::const_iterator
+  std::vector <GAME::Mga::ComponentEx>::const_iterator
     result = std::find_if (addons.begin (),
                            addons.end (),
                            boost::bind (std::equal_to <std::string> (),
                                         name,
-                                        boost::bind (&GAME::ComponentEx::impl_type::progid,
-                                                     boost::bind (&GAME::ComponentEx::get, _1))));
+                                        boost::bind (&GAME::Mga::ComponentEx::impl_type::progid,
+                                        boost::bind (&GAME::Mga::ComponentEx::get, _1))));
 
   if (result != addons.end ())
   {
@@ -139,16 +141,16 @@ int Quotas_Specification_Impl::initialize (GAME::Project project)
 // invoke_ex
 //
 int Quotas_Specification_Impl::
-invoke_ex (GAME::Project project,
-           GAME::FCO_in fco,
-           std::vector <GAME::FCO> & selected,
+invoke_ex (GAME::Mga::Project project,
+           GAME::Mga::FCO_in fco,
+           std::vector <GAME::Mga::FCO> & selected,
            long flags)
 {
-  using GAME::Folder;
+  using GAME::Mga::Folder;
   using GAME::Mga_t;
 
   // Start a new transaction.
-  GAME::Transaction t (project);
+  GAME::Mga::Transaction t (project);
 
   // Obtain the root folder for the project.
   Folder root_folder = project.root_folder ();
@@ -161,8 +163,8 @@ invoke_ex (GAME::Project project,
   if (GAME::create_if_not <Mga_t> (root_folder, meta::InterfaceDefinitions, this->quotas_idl_folder_,
       GAME::contains <Mga_t> (boost::bind (std::equal_to <std::string> (),
                               Quotas_InterfaceDefinitions,
-                              boost::bind (&GAME::Folder::impl_type::name,
-                                           boost::bind (&GAME::Folder::get, _1))))))
+                              boost::bind (&GAME::Mga::Folder::impl_type::name,
+                                           boost::bind (&GAME::Mga::Folder::get, _1))))))
   {
     this->quotas_idl_folder_->name (Quotas_InterfaceDefinitions);
   }
@@ -186,13 +188,13 @@ invoke_ex (GAME::Project project,
 // visit_interface_definitions
 //
 void Quotas_Specification_Impl::
-visit_interface_definitions (const GAME::Folder_in folder)
+visit_interface_definitions (const GAME::Mga::Folder_in folder)
 {
   if (folder->name () == Quotas_InterfaceDefinitions)
     return;
 
   // Select all the children File elements and visit them.
-  std::vector <GAME::Model> files;
+  std::vector <GAME::Mga::Model> files;
   folder->children (meta::File, files);
 
   std::for_each (files.begin (),
@@ -205,7 +207,7 @@ visit_interface_definitions (const GAME::Folder_in folder)
 //
 // visit_file
 //
-void Quotas_Specification_Impl::visit_file (const GAME::Model_in file)
+void Quotas_Specification_Impl::visit_file (const GAME::Mga::Model_in file)
 {
   using GAME::Mga_t;
 
@@ -216,14 +218,14 @@ void Quotas_Specification_Impl::visit_file (const GAME::Model_in file)
 
   // Let's create the Quotas file element if it does not already
   // exist in the model.
-  std::vector <GAME::Model> quotas_files;
+  std::vector <GAME::Mga::Model> quotas_files;
   this->quotas_idl_folder_->children (meta::File, quotas_files);
 
   if (GAME::create_if_not <Mga_t> (this->quotas_idl_folder_, meta::File, this->active_model_,
       GAME::contains <Mga_t> (boost::bind (std::equal_to <std::string> (),
                               quotas_filename,
-                              boost::bind (&GAME::Model::impl_type::name,
-                                           boost::bind (&GAME::Model::get, _1))))))
+                              boost::bind (&GAME::Mga::Model::impl_type::name,
+                                           boost::bind (&GAME::Mga::Model::get, _1))))))
   {
     this->active_model_->name (quotas_filename);
   }
@@ -244,8 +246,8 @@ void Quotas_Specification_Impl::visit_file (const GAME::Model_in file)
   if (GAME::create_if_not <Mga_t> (this->active_model_, meta::Package, this->active_model_,
       GAME::contains <Mga_t> (boost::bind (std::equal_to <std::string> (),
                               Quotas,
-                              boost::bind (&GAME::Model::impl_type::name,
-                                           boost::bind (&GAME::Model::get, _1))))))
+                              boost::bind (&GAME::Mga::Model::impl_type::name,
+                                           boost::bind (&GAME::Mga::Model::get, _1))))))
   {
     this->active_model_->name (Quotas);
   }
@@ -257,7 +259,7 @@ void Quotas_Specification_Impl::visit_file (const GAME::Model_in file)
 //
 // visit_package
 //
-void Quotas_Specification_Impl::visit_package (const GAME::Model_in package)
+void Quotas_Specification_Impl::visit_package (const GAME::Mga::Model_in package)
 {
   using GAME::Mga_t;
 
@@ -268,8 +270,8 @@ void Quotas_Specification_Impl::visit_package (const GAME::Model_in package)
   if (GAME::create_if_not <Mga_t> (this->active_model_, meta::Package, this->active_model_,
       GAME::contains <Mga_t> (boost::bind (std::equal_to <std::string> (),
                               name,
-                              boost::bind (&GAME::Model::impl_type::name,
-                                           boost::bind (&GAME::Model::get, _1))))))
+                              boost::bind (&GAME::Mga::Model::impl_type::name,
+                                           boost::bind (&GAME::Mga::Model::get, _1))))))
   {
     this->active_model_->name (name);
   }
@@ -282,10 +284,10 @@ void Quotas_Specification_Impl::visit_package (const GAME::Model_in package)
 // visit_file_package
 //
 void Quotas_Specification_Impl::
-visit_file_package (const GAME::Model_in model)
+visit_file_package (const GAME::Mga::Model_in model)
 {
   // First, let's visit the interface elements in the model.
-  std::vector <GAME::Model> objects;
+  std::vector <GAME::Mga::Model> objects;
   model->children (meta::Object, objects);
 
   std::for_each (objects.begin (),
@@ -297,7 +299,7 @@ visit_file_package (const GAME::Model_in model)
   // Now, let's visit the component elements in the model.
 
   // Finally, visit all the package elements in this model.
-  std::vector <GAME::Model> packages;
+  std::vector <GAME::Mga::Model> packages;
   model->children (meta::Package, packages);
 
   std::for_each (packages.begin (),
@@ -310,7 +312,7 @@ visit_file_package (const GAME::Model_in model)
 //
 // visit_object
 //
-void Quotas_Specification_Impl::visit_object (const GAME::Model_in object)
+void Quotas_Specification_Impl::visit_object (const GAME::Mga::Model_in object)
 {
   using GAME::Mga_t;
   types::auto_stack as (this->stack_, this->active_model_);
@@ -329,8 +331,8 @@ void Quotas_Specification_Impl::visit_object (const GAME::Model_in object)
   if (GAME::create_if_not <Mga_t> (this->active_model_, meta::Component, this->active_model_,
       GAME::contains <Mga_t> (boost::bind (std::equal_to <std::string> (),
                               component_name,
-                              boost::bind (&GAME::Model::impl_type::name,
-                                           boost::bind (&GAME::Model::get, _1))))))
+                              boost::bind (&GAME::Mga::Model::impl_type::name,
+                                           boost::bind (&GAME::Mga::Model::get, _1))))))
   {
     this->active_model_->name (component_name);
   }
@@ -342,13 +344,13 @@ void Quotas_Specification_Impl::visit_object (const GAME::Model_in object)
   // Now, make the object a Facet on this component. The facet
   // will provide the specified interface (i.e., the object passed
   // into this method).
-  GAME::Reference facet;
+  GAME::Mga::Reference facet;
 
   if (GAME::create_if_not <Mga_t> (this->active_model_, meta::ProvidedRequestPort, facet,
-      GAME::contains <Mga_t> (boost::bind (std::equal_to <GAME::FCO> (),
+      GAME::contains <Mga_t> (boost::bind (std::equal_to <GAME::Mga::FCO> (),
                               object,
-                              boost::bind (&GAME::Reference::impl_type::refers_to,
-                                           boost::bind (&GAME::Reference::get, _1))))))
+                              boost::bind (&GAME::Mga::Reference::impl_type::refers_to,
+                                           boost::bind (&GAME::Mga::Reference::get, _1))))))
   {
     facet->refers_to (object);
   }
@@ -358,7 +360,7 @@ void Quotas_Specification_Impl::visit_object (const GAME::Model_in object)
   // Next, we need to mirror each of the attributes on the object
   // on this component. These should be delegated to the object
   // contained in this component.
-  std::vector <GAME::Model> attrs;
+  std::vector <GAME::Mga::Model> attrs;
   object->children (meta::Attribute, attrs);
 
   // [Attribute]
@@ -383,28 +385,28 @@ void Quotas_Specification_Impl::visit_object (const GAME::Model_in object)
 // visit_attribute_kind
 //
 void Quotas_Specification_Impl::
-visit_attribute_kind (const GAME::Model_in attr)
+visit_attribute_kind (const GAME::Mga::Model_in attr)
 {
   using GAME::Mga_t;
 
   types::auto_stack as (this->stack_, this->active_model_);
 
   // Duplicate the attribute in the wrapper component.
-  GAME::Model attribute;
+  GAME::Mga::Model attribute;
   const std::string name (attr->name ());
   const std::string attr_metaname (attr->meta ()->name ());
 
   if (GAME::create_if_not <Mga_t> (this->active_model_, attr_metaname, this->active_model_,
       GAME::contains <Mga_t> (boost::bind (std::equal_to <std::string> (),
                               name,
-                              boost::bind (&GAME::Model::impl_type::name,
-                                           boost::bind (&GAME::Model::get, _1))))))
+                              boost::bind (&GAME::Mga::Model::impl_type::name,
+                                           boost::bind (&GAME::Mga::Model::get, _1))))))
   {
     this->active_model_->name (name);
   }
 
   // We need to create the attribute member for the attribute.
-  std::vector <GAME::Reference> members;
+  std::vector <GAME::Mga::Reference> members;
   attr->children (meta::AttributeMember, members);
 
   if (!members.empty ())
@@ -415,9 +417,9 @@ visit_attribute_kind (const GAME::Model_in attr)
 // visit_attribute_member
 //
 void Quotas_Specification_Impl::
-visit_attribute_member (const GAME::Reference_in member)
+visit_attribute_member (const GAME::Mga::Reference_in member)
 {
-  using GAME::Reference;
+  using GAME::Mga::Reference;
 
   Reference attr_member;
   std::vector <Reference> members;

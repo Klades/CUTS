@@ -1,6 +1,6 @@
 // $Id$
 
-project (Quotas_Pojo_Codegen) : cuts_be_java, picml_udm_utils, game_interpreter, cutslib {
+project (Quotas_Pojo_Codegen) : cuts_be_java, picml_udm_utils, game_mga_interpreter, cutslib {
   sharedname    = Quotas_Pojo_Codegen
 
   includes += $(COSMIC_ROOT)/PIM/PICML

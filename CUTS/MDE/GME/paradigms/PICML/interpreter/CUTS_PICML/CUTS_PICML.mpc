@@ -21,7 +21,7 @@ project (CUTS_GME_PICML_Xml) : xsc_cxx {
 }
 
 project (CUTS_GME_PICML) : xscrt, picmllib, boost_base, cuts_gme, \
-                           picml_udm, gme_udm_component, cuts_cosmic {
+                           picml_udm, gme_udm_component, game_mga, cuts_cosmic {
 
   sharedname = CUTS_PICML
 
@@ -58,7 +58,7 @@ project (CUTS_GME_PICML) : xscrt, picmllib, boost_base, cuts_gme, \
     gme_description = CUTS interpreter
     gme_tooltip     = CUTS interpreter
   }
-  
+
   specific (wix) {
     components += cuts.config
   }

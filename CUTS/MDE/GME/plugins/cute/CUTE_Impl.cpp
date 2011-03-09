@@ -14,9 +14,9 @@
 #include "Unique_Property_Bag.h"
 #include "Windows_Registry.h"
 
-#include "game/be/Plugin_T.h"
-#include "game/Project.h"
-#include "game/Transaction.h"
+#include "game/mga/component/Plugin_T.h"
+#include "game/mga/Project.h"
+#include "game/mga/Transaction.h"
 
 #include "cuts/utils/Config_List_Parser_T.h"
 
@@ -67,7 +67,7 @@ bool operator <<= (CUTS_Property_Map & map, const CString & params)
 // CUTS_CUTE
 //
 CUTS_CUTE::CUTS_CUTE (void)
-: GAME::Plugin_Impl ("CUTS Template Engine", "CUTS.Plugin.CUTE")
+: GAME::Mga::Plugin_Impl ("CUTS Template Engine", "CUTS.Plugin.CUTE")
 {
 
 }
@@ -83,9 +83,9 @@ CUTS_CUTE::~CUTS_CUTE (void)
 //
 // invoke_ex
 //
-int CUTS_CUTE::invoke_ex (GAME::Project project,
-                          GAME::FCO_in focus,
-                          std::vector <GAME::FCO> & selected,
+int CUTS_CUTE::invoke_ex (GAME::Mga::Project project,
+                          GAME::Mga::FCO_in focus,
+                          std::vector <GAME::Mga::FCO> & selected,
                           long flags)
 {
   try
@@ -132,7 +132,7 @@ int CUTS_CUTE::invoke_ex (GAME::Project project,
 
     return 0;
   }
-  catch (const GAME::Failed_Result & ex)
+  catch (const GAME::Mga::Failed_Result & ex)
   {
     std::ostringstream ostr;
     ostr << "failed result: [0x" << std::hex
@@ -140,7 +140,7 @@ int CUTS_CUTE::invoke_ex (GAME::Project project,
 
     ::AfxMessageBox (ostr.str ().c_str ());
   }
-  catch (const GAME::Exception & )
+  catch (const GAME::Mga::Exception & )
   {
   }
 
@@ -151,9 +151,9 @@ int CUTS_CUTE::invoke_ex (GAME::Project project,
 // get_interpreters
 //
 void CUTS_CUTE::
-get_interpreters (GAME::Project proj, CUTS_CUTE_Interpreter_List & list)
+get_interpreters (GAME::Mga::Project proj, CUTS_CUTE_Interpreter_List & list)
 {
-  GAME::Transaction t (proj, TRANSACTION_READ_ONLY);
+  GAME::Mga::Transaction t (proj, TRANSACTION_READ_ONLY);
 
   // Open the GAME component section in the registry.
   CUTS_Windows_Registry_Key components;
@@ -194,9 +194,9 @@ get_interpreters (GAME::Project proj, CUTS_CUTE_Interpreter_List & list)
 // handle_interpret
 //
 int CUTS_CUTE::
-handle_interpret (GAME::Project project,
-                  GAME::FCO_in focus,
-                  std::vector <GAME::FCO> & selected,
+handle_interpret (GAME::Mga::Project project,
+                  GAME::Mga::FCO_in focus,
+                  std::vector <GAME::Mga::FCO> & selected,
                   long flags,
                   const char * config_file,
                   const char * prog_id,
@@ -214,7 +214,7 @@ handle_interpret (GAME::Project project,
   {
     // Next, locate all attributes with a template parameter. We are
     // going to cache the elements for later.
-    GAME::Transaction t (project, TRANSACTION_READ_ONLY);
+    GAME::Mga::Transaction t (project, TRANSACTION_READ_ONLY);
 
     CUTS_CUTE_Property_Locator locator (actlist);
     project.root_folder ()->accept (&locator);
@@ -244,9 +244,9 @@ handle_interpret (GAME::Project project,
 // handle_generate
 //
 int CUTS_CUTE::
-handle_generate (GAME::Project project,
-                 GAME::FCO_in fco,
-                 std::vector <GAME::FCO> & selected,
+handle_generate (GAME::Mga::Project project,
+                 GAME::Mga::FCO_in fco,
+                 std::vector <GAME::Mga::FCO> & selected,
                  long flags,
                  const char * config_file)
 {
@@ -254,7 +254,7 @@ handle_generate (GAME::Project project,
 
   do
   {
-    GAME::Transaction t (project, TRANSACTION_READ_ONLY);
+    GAME::Mga::Transaction t (project, TRANSACTION_READ_ONLY);
 
     // Locate all unique parameters in the model.
     CUTS_CUTE_Property_Locator locator (bag);

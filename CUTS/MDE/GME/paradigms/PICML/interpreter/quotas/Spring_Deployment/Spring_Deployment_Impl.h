@@ -13,7 +13,7 @@
 #ifndef _QUOTAS_SPRING_DEPLOYMENT_IMPL_H_
 #define _QUOTAS_SPRING_DEPLOYMENT_IMPL_H_
 
-#include "game/be/Interpreter_Impl_Base.h"
+#include "game/mga/component/Interpreter_Impl_Base.h"
 
 /**
  * @class Quotas_Spring_Deployment_Impl

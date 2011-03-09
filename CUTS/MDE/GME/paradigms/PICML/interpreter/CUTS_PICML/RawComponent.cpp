@@ -30,7 +30,7 @@
 // Global config object
 _config config;
 
-#include "game/Project.h"
+#include "game/mga/Project.h"
 #include "be/BE_Options.h"
 
 //
@@ -214,11 +214,11 @@ STDMETHODIMP RawComponent::put_ComponentParameter (BSTR name,
 int RawComponent::preprocess (IMgaProject * proj)
 {
   // Initialize the project's name.
-  GAME::Project project (proj);
+  GAME::Mga::Project project (proj);
   CUTS_BE_OPTIONS ()->project_name_ = project.name ();
 
   // Initialize the output directory.
-  GAME::Folder root = project.root_folder ();
+  GAME::Mga::Folder root = project.root_folder ();
   CUTS_BE_OPTIONS ()->output_directory_ = root->registry_value ("__OutputDir__/CUTS_PICML");
 
   return 0;
@@ -230,8 +230,8 @@ int RawComponent::preprocess (IMgaProject * proj)
 int RawComponent::postprocess (IMgaProject * proj)
 {
   // Get the root folder for the project.
-  GAME::Project project (proj);
-  GAME::Folder root = project.root_folder ();
+  GAME::Mga::Project project (proj);
+  GAME::Mga::Folder root = project.root_folder ();
 
   // Cache the output directory for future use.
   root->registry_value ("__OutputDir__/CUTS_PICML", CUTS_BE_OPTIONS ()->output_directory_);

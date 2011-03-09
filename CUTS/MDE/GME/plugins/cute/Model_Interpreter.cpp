@@ -7,8 +7,8 @@
 #include "Model_Interpreter.inl"
 #endif
 
-#include "game/ComponentEx.h"
-#include "game/Transaction.h"
+#include "game/mga/ComponentEx.h"
+#include "game/mga/Transaction.h"
 
 #include "cuts/utils/Property_Map.h"
 #include "boost/bind.hpp"
@@ -24,7 +24,7 @@ handle_config (const CUTS_Property_Map & config)
     do
     {
       // Substitute the template parameters.
-      GAME::Transaction t (this->project_);
+      GAME::Mga::Transaction t (this->project_);
       this->actlist_.handle_replace (config);
       t.commit ();
     } while (false);
@@ -32,8 +32,8 @@ handle_config (const CUTS_Property_Map & config)
     try
     {
       // Load the specified interpreter.
-      GAME::ComponentEx interpreter =
-        GAME::ComponentEx::impl_type::_load (this->interpreter_.c_str ());
+      GAME::Mga::ComponentEx interpreter =
+        GAME::Mga::ComponentEx::impl_type::_load (this->interpreter_.c_str ());
 
       // Set the parameter(s) for the interpreter. This includes setting
       // all the default parameters for the interpreter.
@@ -58,7 +58,7 @@ handle_config (const CUTS_Property_Map & config)
     do
     {
       // Reset the values of the template.
-      GAME::Transaction t (this->project_);
+      GAME::Mga::Transaction t (this->project_);
       this->actlist_.handle_reset ();
 
       t.commit ();

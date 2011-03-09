@@ -13,7 +13,7 @@
 #ifndef _CUTS_GME_UNITE_IMPL_H_
 #define _CUTS_GME_UNITE_IMPL_H_
 
-#include "game/be/Interpreter_Impl_Base.h"
+#include "game/mga/component/Interpreter_Impl_Base.h"
 
 /**
  * @class UNITE_Interpreter_Impl

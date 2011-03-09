@@ -1,7 +1,7 @@
 // $Id$
 
 #include "stdafx.h"
-#include "game/be/Component_Module.h"
+#include "game/mga/component/Component_Module.h"
 #include "Spring_Deployment_i.c"
 
 DECLARE_COMPONENT_MODULE ("Quotas Spring Deployment",

@@ -13,8 +13,8 @@
 #ifndef _CUTS_CUTE_PROPERTY_LOCATOR_H_
 #define _CUTS_CUTE_PROPERTY_LOCATOR_H_
 
-#include "game/FCO.h"
-#include "game/Visitor.h"
+#include "game/mga/FCO.h"
+#include "game/mga/Visitor.h"
 #include "cuts/utils/Property_Evaluator_T.h"
 #include "cuts/utils/Property_Evaluator_List_Actor.h"
 #include "Model_Interpreter_Action_List.h"
@@ -25,7 +25,7 @@ class CUTS_CUTE_Property_Locator_Handler;
 /**
  * @class CUTS_CUTE_Property_Locator
  */
-class CUTS_CUTE_Property_Locator : public GAME::Visitor
+class CUTS_CUTE_Property_Locator : public GAME::Mga::Visitor
 {
 public:
 
@@ -35,14 +35,14 @@ public:
   /// Destructor.
   virtual ~CUTS_CUTE_Property_Locator (void);
 
-  virtual void visit_Folder (GAME::Folder_in folder);
+  virtual void visit_Folder (GAME::Mga::Folder_in folder);
 
-  virtual void visit_Model (GAME::Model_in model);
+  virtual void visit_Model (GAME::Mga::Model_in model);
 
 private:
-  void visit_FCO (GAME::FCO_in fco);
+  void visit_FCO (GAME::Mga::FCO_in fco);
 
-  void visit_Attribute (GAME::Attribute_in attr);
+  void visit_Attribute (GAME::Mga::Attribute_in attr);
 
   /// The handler for receiving notifications.
   CUTS_CUTE_Property_Locator_Handler & handler_;

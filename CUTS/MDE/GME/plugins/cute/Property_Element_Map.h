@@ -20,7 +20,7 @@
 
 /// Type definition of the map type.
 typedef ACE_Hash_Multi_Map_Manager <ACE_CString,
-                                    GAME::Attribute,
+                                    GAME::Mga::Attribute,
                                     ACE_Hash <ACE_CString>,
                                     ACE_Equal_To <ACE_CString>,
                                     ACE_Null_Mutex>
