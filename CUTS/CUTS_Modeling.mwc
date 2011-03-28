@@ -51,8 +51,8 @@ workspace (CUTS_Modeling) {
       }
 
       // == include the following projects
-      $(COSMIC_ROOT)/PIM/PICML/interpreters/PICML
-      $(GAME_ROOT)/GAME.mwc
+      //$(COSMIC_ROOT)/PIM/PICML/interpreters/PICML
+      //$(GAME_ROOT)/GAME.mwc
     }
   }
 

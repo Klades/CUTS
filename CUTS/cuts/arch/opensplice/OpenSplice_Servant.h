@@ -41,8 +41,22 @@ class CUTS_OPENSPLICE_Export CUTS_OpenSplice_Servant
   /// Test if the servant is a publisher.
   bool is_publisher (void) const;
 
+  /**
+   * Get the publisher assigned to this partcipant.
+   *
+   * @return        A :DDS::Publisher_ptr element.
+   */
+  ::DDS::Publisher_ptr get_publisher (void);
+
   /// Test is the servant is a subscriber.
   bool is_subscriber (void) const;
+
+  /**
+   * Get the subscriber assigned to this partcipant.
+   *
+   * @return        A :DDS::Subscriber_ptr element.
+   */
+  ::DDS::Subscriber_ptr get_subscriber (void);
 
 protected:
   /// Default constructor.

@@ -33,6 +33,20 @@ public:
 
   /// Destructor.
   virtual ~CUTS_OpenSplice_CCM_Instance_Handler (void);
+
+  /**
+   * Configure the deployment properties for this locality manager. The
+   * only deployment property supported at this moment is DDSDomainQoS.
+   * This property points to an XML file that sets the DomainQoS for the
+   * DDS participants managed by this handler.
+   *
+   * @param[in]         props         Configuration properties
+   */
+  virtual void configure (const Deployment::Properties & props);
+
+private:
+  /// Helper method handle the DDSDominQoS property.
+  void configure_DDSDomainQoS (const Deployment::Property & prop);
 };
 
 extern "C"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{0A33D49D-5371-4A15-BF29-EC740261D27C}" cdate="Thu Jan 27 19:57:01 2011" mdate="Thu Jan 27 19:57:01 2011" version="" metaguid="{0036ADCA-2A43-4F2B-9A4A-2AC2DBD958FA}" metaversion="" metaname="PICML">
+<project guid="{96638B5B-A69E-45C5-B884-EBEAE9343B68}" cdate="Thu Jan 27 19:57:01 2011" mdate="Thu Jan 27 19:57:01 2011" version="" metaguid="{0036ADCA-2A43-4F2B-9A4A-2AC2DBD958FA}" metaversion="" metaname="PICML">
 	<name>PingPong</name>
 	<comment></comment>
 	<author></author>
@@ -3144,9 +3144,9 @@
 				</model>
 			</model>
 		</folder>
-		<folder id="id-006a-00000006" relid="0x7" childrelidcntr="0x1" kind="DeploymentPlans" guid="{247d23e8-7a5a-44c8-af78-5415b4f36a1c}">
+		<folder id="id-006a-00000006" relid="0x7" childrelidcntr="0x2" kind="DeploymentPlans" guid="{247d23e8-7a5a-44c8-af78-5415b4f36a1c}">
 			<name>DeploymentPlans</name>
-			<model id="id-0065-00000021" kind="DeploymentPlan" guid="{5a51d1c0-6a90-4c1c-9a34-8fc367523108}" relid="0x1" childrelidcntr="0x8">
+			<model id="id-0065-00000021" kind="DeploymentPlan" guid="{5a51d1c0-6a90-4c1c-9a34-8fc367523108}" relid="0x1" childrelidcntr="0xa">
 				<name>PingPong</name>
 				<attribute kind="UUID">
 					<value>17FA2E66-2511-11E0-8000-000C2958D27B</value>
@@ -3182,6 +3182,12 @@
 					<name>PingPong</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
+						<regnode name="DeploymentProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>123,116</value>
+							</regnode>
+						</regnode>
 						<regnode name="NodeMapping" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
@@ -3199,6 +3205,109 @@
 					<name>DefaultGroup</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
+						<regnode name="DeploymentProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>125,209</value>
+							</regnode>
+						</regnode>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>237,174</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</set>
+			</model>
+			<model id="id-0065-00000026" kind="DeploymentPlan" guid="{89c98e60-dde0-478a-bbfd-7431ea44a082}" relid="0x2" childrelidcntr="0xc">
+				<name>PingPong_DomainQoS</name>
+				<attribute kind="UUID">
+					<value>7CDE23B4-594B-11E0-8DCF-000C2958D27B</value>
+				</attribute>
+				<attribute kind="label" status="meta">
+					<value></value>
+				</attribute>
+				<reference id="id-0067-00000089" kind="ComponentInstanceRef" role="ComponentInstanceRef" guid="{9f2205b8-a05e-4e11-90a2-ba5f9ce9f8f3}" relid="0x7" referred="id-0065-0000001f">
+					<name>Ping</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>369,265</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000008a" kind="ComponentInstanceRef" role="ComponentInstanceRef" guid="{810ff8b3-9bf7-45b0-aedd-b5dfcf7cbcc0}" relid="0x8" referred="id-0065-00000020">
+					<name>Pong</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>145,272</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000008b" kind="NodeReference" role="NodeReference" guid="{439e9eca-25ac-4e42-b5a8-5965c1e231d4}" relid="0x1" referred="id-0065-00000023">
+					<name>PingPong</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DeploymentProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>123,116</value>
+							</regnode>
+						</regnode>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>235,81</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000008c" kind="SimpleProperty" role="SimpleProperty" guid="{c782010d-31ad-4efd-9109-e6bbd2a0e71c}" relid="0x9" referred="id-0066-00000018">
+					<name>DDSDomainQoS</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DeploymentProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>125,328</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Value">
+						<value>domain.dqs</value>
+					</attribute>
+				</reference>
+				<connection id="id-0068-00000019" kind="CollocationGroupProperty" role="CollocationGroupProperty" guid="{943aa582-f75c-4a1e-b0b6-2a8425133d06}" relid="0xa">
+					<name>CollocationGroupProperty</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>N</value>
+					</regnode>
+					<connpoint role="src" target="id-0067-0000008c"/>
+					<connpoint role="dst" target="id-0069-00000002"/>
+				</connection>
+				<connection id="id-0068-0000001a" kind="InstanceMapping" role="InstanceMapping" guid="{509cb180-8c59-4717-bc88-e8103b06a5d7}" relid="0x3">
+					<name></name>
+					<connpoint role="dst" target="id-0067-0000008b"/>
+					<connpoint role="src" target="id-0069-00000002"/>
+				</connection>
+				<set id="id-0069-00000002" kind="CollocationGroup" role="CollocationGroup" guid="{93ceab75-235e-479d-b3fd-d6b0c4109599}" relid="0x2" members="id-0067-00000089 id-0067-0000008a">
+					<name>DefaultGroup</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DeploymentProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>125,209</value>
+							</regnode>
+						</regnode>
 						<regnode name="NodeMapping" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
@@ -3257,7 +3366,7 @@
 		<regnode name="__OutputDir__" status="undefined">
 			<value></value>
 			<regnode name="CUTS_PICML" isopaque="yes">
-				<value>E:\proj\vc9\CUTS\examples\arch\PingPong\arch\rtidds</value>
+				<value>E:\proj\vc9\CUTS\examples\arch\PingPong\arch\tcpip</value>
 			</regnode>
 		</regnode>
 	</folder>

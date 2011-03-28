@@ -3,7 +3,7 @@
 
   <label/>
 
-  <UUID>17FA2E66-2511-11E0-8000-000C2958D27B</UUID>
+  <UUID>7CDE23B4-594B-11E0-8DCF-000C2958D27B</UUID>
 
   <implementation xmi:id="_59E7486C-2459-11E0-8004-000C2958D27B">
     <name>PingPong.ComponentImplementations.PingPong_PongComponentImpl.PingPong_PongComponentImpl</name>
@@ -151,6 +151,17 @@
         </type>
         <value>
           <string>DefaultGroup</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>DDSDomainQoS</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>domain.dqs</string>
         </value>
       </value>
     </configProperty>

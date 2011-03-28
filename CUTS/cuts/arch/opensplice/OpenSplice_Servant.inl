@@ -49,10 +49,28 @@ bool CUTS_OpenSplice_Servant::is_publisher (void) const
 }
 
 //
+// get_publisher
+//
+CUTS_INLINE
+::DDS::Publisher_ptr  CUTS_OpenSplice_Servant::get_publisher (void)
+{
+  return ::DDS::Publisher::_duplicate (this->publisher_.in ());
+}
+
+//
 // is_subscriber
 //
 CUTS_INLINE
 bool CUTS_OpenSplice_Servant::is_subscriber (void) const
 {
   return ::CORBA::is_nil (this->subscriber_.in ());
+}
+
+//
+// get_subscriber
+//
+CUTS_INLINE
+::DDS::Subscriber_ptr  CUTS_OpenSplice_Servant::get_subscriber (void)
+{
+  return ::DDS::Subscriber::_duplicate (this->subscriber_.in ());
 }

@@ -1,6 +1,27 @@
 // $Id$
 
-project (CUTS_OpenSplice_Deployment_Handlers) : dance_deployment_scheduler, \
+project (CUTS_OpenSplice_Deployment_Handlers_Xml) : xsc_cxx {
+  custom_only = 1
+
+  specific {
+    xscflags += --cxx-header-suffix .h --cxx-source-suffix .cpp \
+                --cxx-inline-suffix .inl --cxx-generate-inline \
+                --cxx-char-type char --cxx-generate-extended-rtti
+  }
+
+  Modify_Custom (XSC) {
+    header_outputext = .h
+    inline_outputext = .inl
+  }
+
+  Xsc_Files {
+    gendir = .
+
+    $(CUTS_ROOT)/etc/schemas/iccm/dds.xsd
+  }
+}
+
+project (CUTS_OpenSplice_Deployment_Handlers) : xscrt, dance_deployment_scheduler, \
                                                 ciao_session_container_stub, \
                                                 cuts_opensplice_ccm, cuts_lib, cutslib {
   sharedname    = CUTS_OpenSplice_Deployment_Handlers
@@ -11,6 +32,11 @@ project (CUTS_OpenSplice_Deployment_Handlers) : dance_deployment_scheduler, \
   }
 
   Source_Files {
+    dds.cpp
+
+    OpenSplice_Domain_File.cpp
+    OpenSplice_Participant_File.cpp
+
     OpenSplice_Configurator.cpp
     OpenSplice_Container.cpp
     OpenSplice_Container_Strategy.cpp
