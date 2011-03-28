@@ -155,7 +155,7 @@
       </value>
     </configProperty>
     <configProperty>
-      <name>DDSDomainQoS</name>
+      <name>DomainQoS</name>
       <value>
         <type>
           <kind>tk_string</kind>

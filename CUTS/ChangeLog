@@ -1,3 +1,11 @@
+Mon Mar 28 20:02:17 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/arch/opensplice/handlers/OpenSplice_Instance_Handler.cpp:
+        * examples/arch/PingPong/arch/opensplice/descriptors/PingPong_DomainQoS.cdp:
+        * examples/arch/PingPong/models/PingPong.xme:
+
+          Renamed DDS domain QoS property from 'DDSDomainQoS' to 'DomainQoS'.
+
 Mon Mar 28 17:27:29 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * CUTS_Modeling.mwc:

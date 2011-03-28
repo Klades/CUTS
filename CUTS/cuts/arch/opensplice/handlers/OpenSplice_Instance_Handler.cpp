@@ -23,7 +23,7 @@ configure (const Deployment::Properties & props)
 
   for (size_t i = 0; i < length; ++ i)
   {
-    if (0 == ACE_OS::strcmp (props[i].name, "DDSDomainQoS"))
+    if (0 == ACE_OS::strcmp (props[i].name, "DomainQoS"))
     {
       this->configure_DDSDomainQoS (props[i]);
       return;
