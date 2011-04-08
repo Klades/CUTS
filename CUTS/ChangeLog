@@ -1,3 +1,10 @@
+Fri Apr  8 15:12:10 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/RawComponent.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/codegen.mpc:
+
+          Fixed compilation errors.
+
 Mon Mar 28 20:02:17 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/arch/opensplice/handlers/OpenSplice_Instance_Handler.cpp:

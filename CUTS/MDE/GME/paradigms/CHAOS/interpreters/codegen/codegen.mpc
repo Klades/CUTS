@@ -1,7 +1,7 @@
 // $Id$
 
 project (CUTS_CHAOS_Codegen) : boost_base, gme_udm_component, cosmic_utils, codegenerationkit, \
-                               cuts_chaos_dsml, cuts_cosmic, cuts_gme {
+                               game_mga, cuts_chaos_dsml, cuts_cosmic, cuts_gme {
 
   sharedname    += CUTS_CHAOS_Codegen
   dynamicflags  += CUTS_CHAOS_CODEGEN_BUILD_DLL
