@@ -7,15 +7,15 @@ workspace (CUTS_CoSMIC) {
              -feature_file $CUTS_ROOT/default.features
 
   exclude (!prop:windows) {
-    cmdline += -value_template 'install_location=bin' \  
+    cmdline += -value_template 'install_location=bin' \
                -value_template 'gme_register=HKCU'
-    
+
     //== ACE projects
     $(ACE_ROOT)/ace/ace.mpc
 
     //== CoSMIC projects
-    $(COSMIC_ROOT)/PIM/PICML/interpreters/PICML
-    $(COSMIC_ROOT)/Utils/GAME
+    $(COSMIC_ROOT)/PIM/PICML/interpreters/PICML/PICML.mpc
+    $(COSMIC_ROOT)/Utils/GAME/GAME.mwc
     $(COSMIC_ROOT)/Utils/Utils.mpc
 
     //== XSC projects
@@ -25,7 +25,7 @@ workspace (CUTS_CoSMIC) {
   exclude (!prop:windows) {
     $(CUTS_ROOT)/CUTS_Modeling.mwc
   }
-  
+
   exclude (!wix) {
     $(CUTS_ROOT)/etc/schemas
   }

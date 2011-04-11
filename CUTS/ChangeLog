@@ -1,3 +1,10 @@
+Mon Apr 11 05:21:23 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/UdmApp.cpp:
+        * install/CUTS_CoSMIC.mwc:
+
+          Fixed build errors in the installer workspace.
+
 Fri Apr  8 15:12:10 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/CHAOS/interpreters/codegen/RawComponent.cpp:

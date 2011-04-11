@@ -5,7 +5,6 @@
 #include "Main_Dialog.h"
 #include "Utils/Utils.h"
 
-#include "be/CoWorkEr_Cache.h"
 #include "be/BE_CUTS_Project.h"
 #include "be/BE_Manager.h"
 #include "be/BE_Manager_Factory.h"
