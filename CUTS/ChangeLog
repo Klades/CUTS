@@ -1,3 +1,9 @@
+Mon Apr 18 13:06:59 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS_Modeling.mwc:
+
+          Removed the CoSMIC and GAME workspaces.
+
 Mon Apr 11 05:21:23 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/UdmApp.cpp:

@@ -42,17 +42,13 @@ workspace (CUTS_Modeling) {
     cosmic {
       cmdline += -base requires_cosmic
 
-      MDE/GME/paradigms/PICML
+      MDE/GME/paradigms/PICML/interpreter/CUTS_PICML
 
       exclude (wix) {
         cmdline += -static
 
         $(CUTS_ROOT)/contrib/CCF/CCF/CodeGenerationKit
       }
-
-      // == include the following projects
-      //$(COSMIC_ROOT)/PIM/PICML/interpreters/PICML
-      //$(GAME_ROOT)/GAME.mwc
     }
   }
 
