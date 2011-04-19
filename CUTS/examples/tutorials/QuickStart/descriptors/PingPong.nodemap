@@ -1,0 +1,2 @@
+PingNode      corbaloc:iiop:localhost:30000/PingNode.NodeManager
+PongNode      corbaloc:iiop:localhost:30001/PongNode.NodeManager

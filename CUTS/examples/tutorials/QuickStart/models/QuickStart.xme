@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{CAA32514-A4D4-4004-979C-D1B34933A481}" cdate="Mon Apr 04 17:48:42 2011" mdate="Mon Apr 04 17:48:42 2011" version="" metaguid="{0036ADCA-2A43-4F2B-9A4A-2AC2DBD958FA}" metaversion="" metaname="PICML">
+	<name>QuickStart</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x4" kind="RootFolder" guid="{eca5aad8-6fa6-4d37-ac3f-ee3fc829b3cd}">
+		<name>QuickStart</name>
+		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x1" kind="InterfaceDefinitions" guid="{eaaa96b5-0592-4e96-9274-78ccfc812996}">
+			<name>InterfaceDefinitions</name>
+			<model id="id-0065-00000001" kind="File" guid="{8227087d-6e0b-418d-95e8-a7005c93874c}" relid="0x1" childrelidcntr="0x1">
+				<name>PingPong</name>
+				<attribute kind="Path" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="PrefixTag" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-00000002" kind="Package" role="Package" guid="{f857cac3-5e7a-472b-8835-0f345ca86ddd}" relid="0x1" childrelidcntr="0x4">
+					<name>PingPong</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="InterfaceDefinition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>230,174</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="PrefixTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="SpecifyIdTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VersionTag" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000003" kind="Component" role="Component" guid="{91e415c4-b0fe-46d8-bffa-71685ae9df09}" relid="0x1" childrelidcntr="0x3">
+						<name>PingComponent</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>160,92</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="UUID">
+							<value>9E861C14-5F05-11E0-8DCF-000C2958D27B</value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="label" status="meta">
+							<value></value>
+						</attribute>
+						<atom id="id-0066-00000017" kind="PeriodicEvent" role="PeriodicEvent" guid="{46ecba00-90d2-417b-9521-5e6ac01f7fbf}" relid="0x2">
+							<name>PeriodicEvent</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>122,184</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Distribution" status="meta">
+								<value>Constant</value>
+							</attribute>
+							<attribute kind="Hertz" status="meta">
+								<value>10</value>
+							</attribute>
+						</atom>
+						<reference id="id-0067-00000007" kind="OutEventPort" role="OutEventPort" guid="{3fed9877-c112-44c7-85d4-a9b3aeed5913}" relid="0x1" referred="id-0065-0000000a">
+							<name>sendData</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>560,196</value>
+									</regnode>
+								</regnode>
+								<regnode name="InterfaceDefinition" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>539,196</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="exclusiveProvider" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="exclusiveUser" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="optional" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="out_event_port_type" status="meta">
+								<value>DirectConnect</value>
+							</attribute>
+							<attribute kind="single_destination" status="meta">
+								<value>false</value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-00000009" kind="Variable" role="Variable" guid="{fe56aeca-9601-4f2f-92fb-27fe01365a9d}" relid="0x3" referred="id-0066-00000009">
+							<name>eventCount</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>514,24</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="InitialValue">
+								<value>0</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-00000006" kind="Component" role="Component" guid="{95d42a7e-25d9-4915-9dd5-9e2236727a04}" relid="0x2" childrelidcntr="0x1">
+						<name>PongComponent</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>531,92</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="UUID">
+							<value>A573D1B0-5F05-11E0-8000-000C2958D27B</value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="label" status="meta">
+							<value></value>
+						</attribute>
+						<reference id="id-0067-00000008" kind="InEventPort" role="InEventPort" guid="{3087dd6c-55f4-4c66-b971-27b848e4798d}" relid="0x1" referred="id-0065-0000000a">
+							<name>recvData</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>504,238</value>
+									</regnode>
+								</regnode>
+								<regnode name="InterfaceDefinition" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>42,133</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="SpecifyIdTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="VersionTag" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="exclusiveProvider" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="exclusiveUser" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="optional" status="meta">
+								<value>false</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-0000000a" kind="Event" role="Event" guid="{033b76e6-da52-4f85-a4fd-185c6018e46a}" relid="0x4" childrelidcntr="0x0">
+						<name>NoData</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>405,223</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="PrefixTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="abstract" status="meta">
+							<value>false</value>
+						</attribute>
+					</model>
+				</model>
+			</model>
+		</folder>
+		<folder id="id-006a-00000003" relid="0x2" childrelidcntr="0x10" kind="PredefinedTypes" guid="{788faf82-718e-496b-bedd-75aa2359576b}">
+			<name>PredefinedTypes</name>
+			<atom id="id-0066-00000001" kind="Boolean" guid="{25adc5b9-228c-4cba-8f84-09fefa17cd5b}" relid="0x1">
+				<name>Boolean</name>
+			</atom>
+			<atom id="id-0066-00000002" kind="Byte" guid="{74a992b7-198e-47ae-b2a5-611c9097f1cc}" relid="0x2">
+				<name>Byte</name>
+			</atom>
+			<atom id="id-0066-00000003" kind="Char" guid="{f69ea7c6-67ee-433e-b7ac-da662ed83f5e}" relid="0x3">
+				<name>Char</name>
+			</atom>
+			<atom id="id-0066-00000004" kind="WideChar" guid="{157730f5-d381-43ce-a793-40172197d960}" relid="0x4">
+				<name>WideChar</name>
+			</atom>
+			<atom id="id-0066-00000005" kind="ShortInteger" guid="{ddb0983e-c176-4afd-a3f6-bb9787eede66}" relid="0x5">
+				<name>ShortInteger</name>
+			</atom>
+			<atom id="id-0066-00000006" kind="LongInteger" guid="{f0bcd478-fe79-4430-9f66-10f2c59cd150}" relid="0x6">
+				<name>LongInteger</name>
+			</atom>
+			<atom id="id-0066-00000007" kind="LongLongInteger" guid="{deab27ba-93b7-4b3d-b0ed-1e4ae4d0fd9d}" relid="0x7">
+				<name>LongLongInteger</name>
+			</atom>
+			<atom id="id-0066-00000008" kind="UnsignedShortInteger" guid="{d321779d-6209-4ea0-bc1b-019bab699397}" relid="0x8">
+				<name>UnsignedShortInteger</name>
+			</atom>
+			<atom id="id-0066-00000009" kind="UnsignedLongInteger" guid="{36cbf20a-06c9-4c4f-804b-07500da6c54c}" relid="0x9">
+				<name>UnsignedLongInteger</name>
+			</atom>
+			<atom id="id-0066-0000000a" kind="UnsignedLongLongInteger" guid="{2cc58234-d809-456a-9a3e-a53a74bb5428}" relid="0xa">
+				<name>UnsignedLongLongInteger</name>
+			</atom>
+			<atom id="id-0066-0000000b" kind="FloatNumber" guid="{8e3e8528-b056-46f9-89f3-2b594770ed21}" relid="0xb">
+				<name>FloatNumber</name>
+			</atom>
+			<atom id="id-0066-0000000c" kind="DoubleNumber" guid="{c08d58f2-4e45-4d81-a091-bb60ddb47107}" relid="0xc">
+				<name>DoubleNumber</name>
+			</atom>
+			<atom id="id-0066-0000000d" kind="LongDoubleNumber" guid="{b1dd6a08-c913-4898-9238-696d96f2433f}" relid="0xd">
+				<name>LongDoubleNumber</name>
+			</atom>
+			<atom id="id-0066-0000000e" kind="GenericObject" guid="{21312e21-f610-4591-8850-d46c4873902f}" relid="0xe">
+				<name>GenericObject</name>
+			</atom>
+			<atom id="id-0066-0000000f" kind="GenericValue" guid="{afab6310-2a19-40a9-8064-cbded72f15a7}" relid="0xf">
+				<name>GenericValue</name>
+			</atom>
+			<atom id="id-0066-00000010" kind="GenericValueObject" guid="{3a72af45-f17d-4a31-865a-8c8cf1988fae}" relid="0x10">
+				<name>GenericValueObject</name>
+			</atom>
+		</folder>
+		<folder id="id-006a-00000004" relid="0x3" childrelidcntr="0x2" kind="ImplementationArtifacts" guid="{b88c1c4a-3a69-4493-8507-870857d7a710}">
+			<name>ImplementationArtifacts</name>
+			<model id="id-0065-00000004" kind="ArtifactContainer" guid="{56cfe8df-8e67-4155-b1cc-a53b89a7bcbe}" relid="0x1" childrelidcntr="0x2">
+				<name>PingPong_PingComponentArtifacts</name>
+				<atom id="id-0066-00000011" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{f782bb41-5b51-4919-8e42-7e6eb889af21}" relid="0x1">
+					<name>PingPong_PingComponent_svnt</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>150,150</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>A3EA74C0-5F05-11E0-8001-000C2958D27B</value>
+					</attribute>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="artifactVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="configuration" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="location">
+						<value>PingPong_svnt</value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000012" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{7f2653a1-3d6a-496e-8511-99d18fdfcdc8}" relid="0x2">
+					<name>PingPong_PingComponent_impl</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>450,150</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>A3ECD710-5F05-11E0-8001-000C2958D27B</value>
+					</attribute>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="artifactVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="configuration" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="location">
+						<value>PingPong_PingComponent_impl</value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-00000007" kind="ArtifactContainer" guid="{a736ea56-8e67-4b95-81ca-44f8607f7830}" relid="0x2" childrelidcntr="0x2">
+				<name>PingPong_PongComponentArtifacts</name>
+				<atom id="id-0066-00000014" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{17a4eeec-0b0f-4d57-8142-fcfdfdf793f8}" relid="0x1">
+					<name>PingPong_PongComponent_svnt</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>150,150</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>A9F0EA66-5F05-11E0-8001-000C2958D27B</value>
+					</attribute>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="artifactVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="configuration" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="location">
+						<value>PingPong_svnt</value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000015" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{c87b8eb1-388a-45de-ae5a-0ac0d1317317}" relid="0x2">
+					<name>PingPong_PongComponent_impl</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>450,150</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>A9F0EA66-5F05-11E0-8003-000C2958D27B</value>
+					</attribute>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="artifactVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="configuration" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="location">
+						<value>PingPong_PongComponent_impl</value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+			</model>
+		</folder>
+		<folder id="id-006a-00000005" relid="0x4" childrelidcntr="0x2" kind="ComponentImplementations" guid="{5ece780b-9fc0-4c0c-9b0a-cd524325d35b}">
+			<name>ComponentImplementations</name>
+			<model id="id-0065-00000005" kind="ComponentImplementationContainer" guid="{8ce6862e-7219-4457-8c73-4e0ac6f7c8f3}" relid="0x1" childrelidcntr="0x7">
+				<name>PingPong_PingComponentImpl</name>
+				<atom id="id-0066-00000013" kind="MonolithicImplementation" role="MonolithicImplementation" guid="{60aca428-01b8-4a0f-b757-c17901215b61}" relid="0x1">
+					<name>PingPong_PingComponentImpl</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>250,250</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>A3ECD710-5F05-11E0-8002-000C2958D27B</value>
+					</attribute>
+					<attribute kind="defaultVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<reference id="id-0067-00000001" kind="ComponentRef" role="ComponentRef" guid="{fcc8aea3-2ca5-4551-b935-c3661a8711b9}" relid="0x2" referred="id-0065-00000003">
+					<name>PingComponent</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>187,75</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-00000002" kind="ComponentServantArtifact" role="ComponentServantArtifact" guid="{4c84f070-5b49-4743-aaef-e4c86cf4f5f8}" relid="0x4" referred="id-0066-00000011">
+					<name>PingPong_PingComponent_svnt</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>506,347</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="EntryPoint">
+						<value>create_PingPong_PingComponent_Servant</value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000003" kind="ComponentImplementationArtifact" role="ComponentImplementationArtifact" guid="{ebc35dca-af49-4a26-bf58-57bc486610ad}" relid="0x6" referred="id-0066-00000012">
+					<name>PingPong_PingComponent_impl</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>506,151</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="EntryPoint">
+						<value>create_PingPong_PingComponent_Impl</value>
+					</attribute>
+				</reference>
+				<connection id="id-0068-00000001" kind="Implements" role="Implements" guid="{b05c9789-0e0c-4c23-9f17-4071dd0e09ed}" relid="0x3">
+					<name>Implements</name>
+					<connpoint role="src" target="id-0066-00000013"/>
+					<connpoint role="dst" target="id-0067-00000001"/>
+				</connection>
+				<connection id="id-0068-00000002" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{99498124-e695-4575-8041-cf573bb47e6c}" relid="0x5">
+					<name>MonolithprimaryArtifact</name>
+					<connpoint role="src" target="id-0066-00000013"/>
+					<connpoint role="dst" target="id-0067-00000002"/>
+				</connection>
+				<connection id="id-0068-00000003" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{1920f0d6-dfb6-4862-a624-40d6aca0a0e3}" relid="0x7">
+					<name>MonolithprimaryArtifact</name>
+					<connpoint role="src" target="id-0066-00000013"/>
+					<connpoint role="dst" target="id-0067-00000003"/>
+				</connection>
+			</model>
+			<model id="id-0065-00000008" kind="ComponentImplementationContainer" guid="{104213a6-32cd-4917-95b4-29907f4c4022}" relid="0x2" childrelidcntr="0x7">
+				<name>PingPong_PongComponentImpl</name>
+				<atom id="id-0066-00000016" kind="MonolithicImplementation" role="MonolithicImplementation" guid="{eeb2d493-777d-4c17-8cf8-315ecbc6bf9e}" relid="0x1">
+					<name>PingPong_PongComponentImpl</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>250,250</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>A9F0EA66-5F05-11E0-8004-000C2958D27B</value>
+					</attribute>
+					<attribute kind="defaultVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<reference id="id-0067-00000004" kind="ComponentRef" role="ComponentRef" guid="{8182de09-6105-4d1e-83aa-46bebcddce25}" relid="0x2" referred="id-0065-00000006">
+					<name>PongComponent</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>187,75</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-00000005" kind="ComponentServantArtifact" role="ComponentServantArtifact" guid="{45bd4f6a-75cb-460d-bda2-4c0aba0d5a60}" relid="0x4" referred="id-0066-00000014">
+					<name>PingPong_PongComponent_svnt</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>506,347</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="EntryPoint">
+						<value>create_PingPong_PongComponent_Servant</value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000006" kind="ComponentImplementationArtifact" role="ComponentImplementationArtifact" guid="{99fbb435-2ffd-40fd-9c5b-667c6c73a0a9}" relid="0x6" referred="id-0066-00000015">
+					<name>PingPong_PongComponent_impl</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>506,151</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="EntryPoint">
+						<value>create_PingPong_PongComponent_Impl</value>
+					</attribute>
+				</reference>
+				<connection id="id-0068-00000004" kind="Implements" role="Implements" guid="{05b47201-cdc4-4ba6-8167-c189b3535704}" relid="0x3">
+					<name>Implements</name>
+					<connpoint role="src" target="id-0066-00000016"/>
+					<connpoint role="dst" target="id-0067-00000004"/>
+				</connection>
+				<connection id="id-0068-00000005" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{303c3026-d889-4dde-b8ad-0c0047380dab}" relid="0x5">
+					<name>MonolithprimaryArtifact</name>
+					<connpoint role="src" target="id-0066-00000016"/>
+					<connpoint role="dst" target="id-0067-00000005"/>
+				</connection>
+				<connection id="id-0068-00000006" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{eee6afb6-b53c-409e-9d4c-1c04f7f45dd7}" relid="0x7">
+					<name>MonolithprimaryArtifact</name>
+					<connpoint role="src" target="id-0066-00000016"/>
+					<connpoint role="dst" target="id-0067-00000006"/>
+				</connection>
+			</model>
+		</folder>
+	</folder>
+</project>

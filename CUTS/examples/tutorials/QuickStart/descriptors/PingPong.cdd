@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<Deployment:domain xmlns:Deployment="http://www.omg.org/Deployment" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/Deployment Deployment.xsd">
+
+  <UUID>9364831E-69C0-11E0-8000-000C2958D27B</UUID>
+
+  <label/>
+
+  <node>
+    <name>PingNode</name>
+    <label/>
+    <resource>
+      <name>Node Address</name>
+      <resourceType>edu.vanderbilt.dre.DAnCE.NodeAddress</resourceType>
+      <property>
+        <name>edu.vanderbilt.dre.DAnCE.StringIOR</name>
+        <kind>Attribute</kind>
+        <dynamic>false</dynamic>
+        <value>
+          <type>
+            <kind>tk_string</kind>
+          </type>
+          <value>
+            <string>corbaloc:iiop:localhost:30000/PingNode.NodeManager</string>
+          </value>
+        </value>
+      </property>
+    </resource>
+  </node>
+
+  <node>
+    <name>PongNode</name>
+    <label/>
+    <resource>
+      <name>Node Address</name>
+      <resourceType>edu.vanderbilt.dre.DAnCE.NodeAddress</resourceType>
+      <property>
+        <name>edu.vanderbilt.dre.DAnCE.StringIOR</name>
+        <kind>Attribute</kind>
+        <dynamic>false</dynamic>
+        <value>
+          <type>
+            <kind>tk_string</kind>
+          </type>
+          <value>
+            <string>corbaloc:iiop:localhost:30001/PongNode.NodeManager</string>
+          </value>
+        </value>
+      </property>
+    </resource>
+  </node>
+
+</Deployment:domain>
