@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<xsd:schema targetNamespace="http://www.dre.vanderbilt.edu/CUTS/schemas" xmlns="http://www.dre.vanderbilt.edu/CUTS/schemas" xmlns:cuts="http://www.dre.vanderbilt.edu/CUTS/schemas" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema XMLSchema.xsd" elementFormDefault="qualified" version="1.0">
+<xsd:schema targetNamespace="http://cuts.cs.iupui.edu" xmlns="http://cuts.cs.iupui.edu" xmlns:cuts="http://cuts.cs.iupui.edu" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema XMLSchema.xsd" elementFormDefault="qualified" version="1.0">
   <xsd:complexType name="ProcessOptions">
     <xsd:all>
       <xsd:element name="executable" type="xsd:string" minOccurs="1" maxOccurs="1" />
