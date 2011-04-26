@@ -41,7 +41,7 @@ namespace PingPong_PingComponentImpl
 
     private:
     // variable: eventCount
-    ::CORBA::ULong eventCount_;
+    ::CORBA::Long eventCount_;
 
     // periodic: eventProducer
     CUTS_Periodic_Event_T < PingComponent > periodic_eventProducer_;

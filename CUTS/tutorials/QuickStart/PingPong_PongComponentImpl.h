@@ -11,6 +11,8 @@
 #include "PingPongEC.h"
 #include "cuts/arch/ccm/CCM_Component_T.h"
 
+#include "Client_Logger.h"
+#include "CPU_Worker.h"
 
 namespace PingPong_PongComponentImpl
 {
@@ -39,6 +41,19 @@ namespace PingPong_PongComponentImpl
     virtual void push_recvData (::PingPong::SimpleEvent * ev);
 
     private:
+    // async event handler variable: recvData
+    CUTS_CCM_Event_Handler_T < PongComponent, ::PingPong::SimpleEvent > recvData_event_handler_;
+
+    public:
+    // sink impl: recvData
+    void push_recvData_i (::PingPong::SimpleEvent * ev);
+
+    private:
+    // worker variable: logger
+    CUTS_Client_Logger logger_;
+
+    // worker variable: cpu
+    CUTS_CPU_Worker cpu_;
   };
 }
 

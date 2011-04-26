@@ -11,6 +11,8 @@ namespace PingPong_PongComponentImpl
   //
   PongComponent::PongComponent (void)
   {
+    this->recvData_event_handler_.init (this, &PongComponent::push_recvData_i);
+    this->register_object (&this->recvData_event_handler_);
   }
 
   //
@@ -25,6 +27,17 @@ namespace PingPong_PongComponentImpl
   //
   void PongComponent::push_recvData (::PingPong::SimpleEvent * ev)
   {
+    this->recvData_event_handler_.handle_event (ev);
+  }
+
+  //
+  // sink: recvData
+  //
+  void PongComponent::push_recvData_i (::PingPong::SimpleEvent * ev)
+  {
+    this->logger_.log (LM_DEBUG, "Start processing event %d at %d", ev->eventCount (), ACE_OS::gettimeofday ().msec ());
+    this->cpu_.run (30);
+    this->logger_.log (LM_DEBUG, "Stopped processing event %d at %d", ev->eventCount (), ACE_OS::gettimeofday ().msec ());
     ACE_UNUSED_ARG (ev);
   }
 }

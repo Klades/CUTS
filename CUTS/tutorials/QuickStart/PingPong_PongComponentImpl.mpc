@@ -15,6 +15,17 @@ project (PingPong_PongComponent_impl) : cuts_coworker_exec {
     PingPong_exec \
     PingPong_stub
 
+  includes += \
+    $(CUTS_ROOT)/cuts/utils/logging/client/logger \
+    $(CUTS_ROOT)/cuts/workers/CPU
+
+  libpaths += \
+    $(CUTS_ROOT)/lib
+
+  libs += \
+    CUTS_CPU_Worker \
+    CUTS_Client_Logger
+
   Source_Files {
     PingPong_PongComponentImpl.cpp
   }

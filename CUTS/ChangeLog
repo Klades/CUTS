@@ -1,3 +1,14 @@
+Tue Apr 26 20:59:24 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * tutorials/QuickStart/PingPong_PingComponentImpl.h:
+        * tutorials/QuickStart/PingPong_PingComponentImpl.cpp:
+        * tutorials/QuickStart/PingPong_PongComponentImpl.h:
+        * tutorials/QuickStart/PingPong_PongComponentImpl.mpc:
+        * tutorials/QuickStart/PingPong_PongComponentImpl.cpp:
+        * tutorials/QuickStart/models/QuickStart-Complete.xme:
+
+          Updated the PongComponent to use the async event handler.
+
 Tue Apr 26 20:38:30 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Traits.inl:
