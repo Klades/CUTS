@@ -19,7 +19,7 @@ Traits::~Traits (void)
 CUTS_INLINE
 bool Traits::generate_default_servant (void)
 {
-  return false;
+  return true;
 }
 
 //

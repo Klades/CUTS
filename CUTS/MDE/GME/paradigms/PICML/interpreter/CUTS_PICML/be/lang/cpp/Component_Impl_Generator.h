@@ -62,6 +62,8 @@ public:
 
   virtual void Visit_PeriodicEvent (const PICML::PeriodicEvent & periodic);
 
+  virtual void Visit_InEventPort (const PICML::InEventPort & in);
+
 private:
   /// Target output stream.
   std::ostream & out_;

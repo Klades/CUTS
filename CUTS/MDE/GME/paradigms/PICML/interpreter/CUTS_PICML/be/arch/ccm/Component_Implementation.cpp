@@ -355,17 +355,18 @@ generate (const PICML::MonolithicImplementation & impl,
   this->ctx_.source_
     << "{";
 
-  std::vector <PICML::InEventPort> events = component.InEventPort_kind_children ();
-  std::for_each (events.begin (),
-                 events.end (),
-                 boost::bind (&PICML::InEventPort::Accept,
-                              _1,
-                              boost::ref (*this)));
+  std::vector <PICML::InEventPort> input_events = component.InEventPort_kind_children ();
 
   CUTS_BE_CPP::Initialize_Entity entity (this->ctx_.source_);
   std::for_each (periodics.begin (),
                  periodics.end (),
                  boost::bind (&PICML::PeriodicEvent::Accept,
+                              _1,
+                              boost::ref (entity)));
+
+  std::for_each (input_events.begin (),
+                 input_events.end (),
+                 boost::bind (&PICML::InEventPort::Accept,
                               _1,
                               boost::ref (entity)));
 
@@ -432,7 +433,7 @@ Visit_PeriodicEvent (const PICML::PeriodicEvent & periodic)
   // Configure the periodic event.
   this->ctx_.header_
     << "this->" << name << "_.init (this, &type::" << name << ");"
-    << "this->register_object (&this->" << name << "_);";
+    << "this->register_object   (&this->" << name << "_);";
 }
 
 void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
@@ -445,9 +446,9 @@ Visit_Input (const PICML::Input & input)
 void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
 Visit_InputAction (const PICML::InputAction & action)
 {
-  std::vector <PICML::Property> properties = action.Property_kind_children ();
+  std::vector <PICML::SimpleProperty> properties = action.SimpleProperty_kind_children ();
 
-  std::vector <PICML::Property>::const_iterator iter =
+  std::vector <PICML::SimpleProperty>::const_iterator iter =
     std::find_if (properties.begin (),
                   properties.end (),
                   boost::bind (std::equal_to <std::string> (),
@@ -881,11 +882,22 @@ void CUTS_BE_InEventPort_Begin_T <CUTS_BE_CCM::Cpp::Context>::
 generate (const PICML::InEventPort & sink,
           const std::vector <PICML::Property> & properties)
 {
+  // Make sure this is not a template event port.
   PICML::EventType et = sink.ref ();
-
   if (et == Udm::null || et.type () != PICML::Event::meta)
     return;
 
+  // Determine if this input event is asynchronous.
+  std::vector <PICML::Property>::const_iterator iter =
+    std::find_if (properties.begin (),
+                  properties.end (),
+                  boost::bind (std::equal_to <std::string> (),
+                               "asynchronous",
+                               boost::bind (&PICML::Property::name, _1)));
+
+  bool is_async = iter != properties.end ();
+
+  // Generate the appropriate methods.
   PICML::Event ev = PICML::Event::Cast (et);
   PICML::Component parent = PICML::Component::Cast (sink.parent ());
   std::string parent_name (parent.name ());
@@ -897,10 +909,34 @@ generate (const PICML::InEventPort & sink,
     << "virtual void push_" << name << " (" << fq_name << " * ev);"
     << std::endl;
 
+  if (is_async)
+  {
+    this->ctx_.header_
+      << "private:" << std::endl
+      << CUTS_BE_CPP::single_line_comment ("async event handler variable: " + name)
+      << "CUTS_CCM_Event_Handler_T < "
+      << parent_name << ", " << fq_name << " > " << name << "_event_handler_;"
+      << std::endl
+      << "public:" << std::endl
+      << CUTS_BE_CPP::single_line_comment ("sink impl: " + name)
+      << "void push_" << name << "_i (" << fq_name << " * ev);"
+      << std::endl;
+  }
+
   this->ctx_.source_
     << CUTS_BE_CPP::function_header ("sink: " + name)
     << "void " << parent_name << "::push_" << name << " (" << fq_name << " * ev)"
     << "{";
+
+  if (is_async)
+  {
+    this->ctx_.source_
+      << "this->" << name << "_event_handler_.handle_event (ev);"
+      << "}"
+      << CUTS_BE_CPP::function_header ("sink: " + name)
+      << "void " << parent_name << "::push_" << name << "_i (" << fq_name << " * ev)"
+      << "{";
+  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1055,7 +1091,6 @@ void InEvent_Method_Generator::
 Visit_InEventPort (const PICML::InEventPort & port)
 {
   this->out_ << "push_" << port.name () << " (";
-
 }
 
 }   // namespace Cpp

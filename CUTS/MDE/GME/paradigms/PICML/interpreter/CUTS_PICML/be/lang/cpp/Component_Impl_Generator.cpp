@@ -97,10 +97,9 @@ Initialize_Entity::~Initialize_Entity (void)
 void Initialize_Entity::
 Visit_PeriodicEvent (const PICML::PeriodicEvent & periodic)
 {
-  std::string name (periodic.name ());
-
+  const std::string name (periodic.name ());
   PICML::Component parent (PICML::Component::Cast (periodic.parent ()));
-  std::string parent_name (parent.name ());
+  const std::string parent_name (parent.name ());
 
   this->out_
     << "this->periodic_" << name << "_.init (this, &"
@@ -119,6 +118,43 @@ Visit_PeriodicEvent (const PICML::PeriodicEvent & periodic)
   this->out_
     << periodic.Hertz () << ");"
     << "this->register_object (&this->periodic_" << name << "_);";
+}
+
+//
+// Visit_InEventPort
+//
+void Initialize_Entity::Visit_InEventPort (const PICML::InEventPort & in)
+{
+  // Get the Input connection from this port.
+  PICML::Input input = in.dstInput ();
+
+  if (input == Udm::null)
+    return;
+
+  // Get the properties assigned to this input action.
+  PICML::InputAction action = input.dstInput_end ();
+  std::vector <PICML::Property> properties = action.Property_children ();
+
+  std::vector <PICML::Property>::const_iterator iter =
+    std::find_if (properties.begin (),
+                  properties.end (),
+                  boost::bind (std::equal_to <std::string> (),
+                               "asynchronous",
+                               boost::bind (&PICML::Property::name, _1)));
+
+  if (iter == properties.end ())
+    return;
+
+  // Register the event handler object.
+  const std::string name (in.name ());
+  const std::string varname (name + "_event_handler_");
+  PICML::Component parent (PICML::Component::Cast (in.parent ()));
+  const std::string parent_name (parent.name ());
+
+  this->out_
+    << "this->" << varname << ".init (this, "
+    << "&" << parent_name << "::push_" << name << "_i);"
+    << "this->register_object (&this->" << varname << ");";
 }
 
 }

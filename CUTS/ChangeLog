@@ -1,3 +1,20 @@
+Tue Apr 26 20:38:30 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Traits.inl:
+
+          Bug fix where the project failed to allow tao_idl to generate
+          the servant's source code.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Component_Impl_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Component_Impl_Generator.cpp:
+
+          Added support for async event handlers.
+
+        * MDE/GME/paradigms/PICML/models/workers/logging.xme:
+
+          Updated the library to the last version of PICML.
+
 Tue Apr 19 18:25:35 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * etc/schemas/cutsnode.xsd:
