@@ -629,15 +629,8 @@ generate (const PICML::MultiInputAction & action)
   }
   else if ("passivate" == name || "remove" == name)
   {
-    this->ctx_.header_
-      << "virtual void ccm_" << name << " (void);"
-      << std::endl;
-
     this->ctx_.source_
-      << "void " << name << "::ccm_" << name << " (void)"
-      << "{"
-      << CUTS_BE_CPP::single_line_comment ("pass control to base class first")
-      << "this->base_type::ccm_" << name << " ()";
+      << "}";
   }
 }
 
