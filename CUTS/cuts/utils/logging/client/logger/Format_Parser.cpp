@@ -132,6 +132,8 @@ public:
         boost::spirit::ch_p ('B')[actors::simple_arg <size_t> (self.args_, self.ostr_)] |
         boost::spirit::ch_p ('b')[actors::simple_arg <ssize_t> (self.args_, self.ostr_)] |
         boost::spirit::ch_p ('u')[actors::simple_arg <unsigned int> (self.args_, self.ostr_)] |
+        boost::spirit::ch_p ('q')[actors::simple_arg <long long> (self.args_, self.ostr_)] |
+        boost::spirit::ch_p ('Q')[actors::simple_arg <unsigned long long> (self.args_, self.ostr_)] |
         boost::spirit::ch_p (':')[actors::simple_arg <time_t> (self.args_, self.ostr_)] |
         boost::spirit::ch_p ('%')[actors::append (self.ostr_)];
 

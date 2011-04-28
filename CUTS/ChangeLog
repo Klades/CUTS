@@ -1,3 +1,13 @@
+Thu Apr 28 23:29:37 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/utils/logging/client/logger/Format_Parser.cpp:
+
+          Added support for 64-bit numerics.
+
+        * cuts/utils/logging/server/LoggingServer_i.cpp:
+
+          Fixed invalid debug message.
+
 Thu Apr 28 23:22:29 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * tutorials/QuickStart/PingPong_PingComponentImpl.h:
