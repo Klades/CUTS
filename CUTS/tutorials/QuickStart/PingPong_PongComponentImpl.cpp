@@ -35,9 +35,9 @@ namespace PingPong_PongComponentImpl
   //
   void PongComponent::push_recvData_i (::PingPong::SimpleEvent * ev)
   {
-    this->logger_.log (LM_DEBUG, "Start processing event %d at %d", ev->eventCount (), ACE_OS::gettimeofday ().msec ());
+    this->logger_.log (LM_DEBUG, "Start processing event %d at %Q", ev->eventCount (), ACE_OS::gettimeofday ().get_msec ());
     this->cpu_.run (30);
-    this->logger_.log (LM_DEBUG, "Stopped processing event %d at %d", ev->eventCount (), ACE_OS::gettimeofday ().msec ());
+    this->logger_.log (LM_DEBUG, "Stopped processing event %d at %Q", ev->eventCount (), ACE_OS::gettimeofday ().get_msec ());
     ACE_UNUSED_ARG (ev);
   }
 
@@ -46,17 +46,8 @@ namespace PingPong_PongComponentImpl
   //
   void PongComponent::ccm_activate (void)
   {
-    try
-    {
-      this->logger_.connect ("corbaloc:iiop:localhost:50000/LoggingClient");
-      this->base_type::ccm_activate ();
-    }
-    catch (const CORBA::Exception & ex)
-    {
-      ACE_ERROR ((LM_ERROR,
-                  ACE_TEXT ("%s\n"),
-                  ex._info ().c_str ()));
-    }
+    this->logger_.connect ("corbaloc:iiop:localhost:50000/LoggingClient");
+    this->base_type::ccm_activate ();
   }
 
   //
@@ -65,7 +56,7 @@ namespace PingPong_PongComponentImpl
   void PongComponent::ccm_passivate (void)
   {
     this->base_type::ccm_passivate ();
-    //this->logger_.disconnect ();
+    this->logger_.disconnect ();
   }
 }
 

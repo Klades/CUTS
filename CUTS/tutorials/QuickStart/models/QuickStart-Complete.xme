@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{C200BF5A-9BF2-4670-B307-FEA9980C9C32}" cdate="Mon Apr 04 17:48:42 2011" mdate="Mon Apr 04 17:48:42 2011" version="" metaguid="{0036ADCA-2A43-4F2B-9A4A-2AC2DBD958FA}" metaversion="" metaname="PICML">
+<project guid="{73DA4FE8-3511-4005-8146-9F175C9B24EA}" cdate="Mon Apr 04 17:48:42 2011" mdate="Mon Apr 04 17:48:42 2011" version="" metaguid="{0036ADCA-2A43-4F2B-9A4A-2AC2DBD958FA}" metaversion="" metaname="PICML">
 	<name>QuickStart</name>
 	<comment></comment>
 	<author></author>
@@ -212,8 +212,8 @@
 						</reference>
 						<connection id="id-0068-00000007" kind="InputEffect" role="InputEffect" guid="{2f0af668-42a1-4889-b6fe-ace602b65193}" relid="0x6">
 							<name></name>
-							<attribute kind="Postcondition" status="meta">
-								<value></value>
+							<attribute kind="Postcondition">
+								<value>this-&gt;eventCount_ ++;</value>
 							</attribute>
 							<connpoint role="src" target="id-0065-0000000b"/>
 							<connpoint role="dst" target="id-0066-00000018"/>
@@ -333,7 +333,7 @@
 									</regnode>
 								</regnode>
 								<attribute kind="Value">
-									<value>ev-&gt;eventCount (), ACE_OS::gettimeofday ().msec ()</value>
+									<value>ev-&gt;eventCount (), ACE_OS::gettimeofday ().get_msec ()</value>
 								</attribute>
 							</reference>
 							<reference id="id-0067-0000001f" kind="SimpleProperty" role="SimpleProperty" guid="{7ceb3d83-9169-4ec0-b168-e6efc24916ed}" relid="0x3" referred="id-0066-0000001c">
@@ -348,7 +348,7 @@
 									</regnode>
 								</regnode>
 								<attribute kind="Value">
-									<value>&quot;Start processing event %d at %d&quot;</value>
+									<value>&quot;Start processing event %d at %Q&quot;</value>
 								</attribute>
 							</reference>
 							<reference id="id-0067-00000020" kind="SimpleProperty" role="SimpleProperty" guid="{aa4f2d22-81aa-41c2-87f6-2a3bdf1fd9cd}" relid="0x4" referred="id-0066-00000027">
@@ -450,7 +450,7 @@
 									</regnode>
 								</regnode>
 								<attribute kind="Value">
-									<value>&quot;Stopped processing event %d at %d&quot;</value>
+									<value>&quot;Stopped processing event %d at %Q&quot;</value>
 								</attribute>
 							</reference>
 							<reference id="id-0067-00000029" kind="SimpleProperty" role="SimpleProperty" guid="{4da6370e-17df-4903-b1ba-c52cd818cf6e}" relid="0x4" referred="id-0066-0000001c">
@@ -465,7 +465,7 @@
 									</regnode>
 								</regnode>
 								<attribute kind="Value">
-									<value>ev-&gt;eventCount (), ACE_OS::gettimeofday ().msec ()</value>
+									<value>ev-&gt;eventCount (), ACE_OS::gettimeofday ().get_msec ()</value>
 								</attribute>
 							</reference>
 						</model>

@@ -29,6 +29,7 @@ namespace PingPong_PingComponentImpl
   //
   void PingComponent::periodic_eventProducer (void)
   {
+    this->eventCount_ ++;
     CUTS_CCM_Event_T <OBV_PingPong::SimpleEvent> __event_100000012__;
     __event_100000012__->eventCount (this->eventCount_);
     this->ctx_->push_sendData (__event_100000012__.in ());
