@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{C714320A-39BC-4517-8D39-D6A926082C7E}" cdate="Mon Apr 04 17:48:42 2011" mdate="Mon Apr 04 17:48:42 2011" version="" metaguid="{0036ADCA-2A43-4F2B-9A4A-2AC2DBD958FA}" metaversion="" metaname="PICML">
+<project guid="{C200BF5A-9BF2-4670-B307-FEA9980C9C32}" cdate="Mon Apr 04 17:48:42 2011" mdate="Mon Apr 04 17:48:42 2011" version="" metaguid="{0036ADCA-2A43-4F2B-9A4A-2AC2DBD958FA}" metaversion="" metaname="PICML">
 	<name>QuickStart</name>
 	<comment></comment>
 	<author></author>
@@ -248,7 +248,7 @@
 							<connpoint role="src" target="id-0066-00000017"/>
 						</connection>
 					</model>
-					<model id="id-0065-00000006" kind="Component" role="Component" guid="{95d42a7e-25d9-4915-9dd5-9e2236727a04}" relid="0x2" childrelidcntr="0x1a">
+					<model id="id-0065-00000006" kind="Component" role="Component" guid="{95d42a7e-25d9-4915-9dd5-9e2236727a04}" relid="0x2" childrelidcntr="0x30">
 						<name>PongComponent</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -469,6 +469,93 @@
 								</attribute>
 							</reference>
 						</model>
+						<model id="id-0065-0000002a" kind="MultiInputAction" role="MultiInputAction" guid="{19f48014-87a7-4055-a901-0ce817431041}" relid="0x1f" childrelidcntr="0x0">
+							<name>activate</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>209,272</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>NEWSnews</value>
+							</regnode>
+						</model>
+						<model id="id-0065-0000002b" kind="MultiInputAction" role="MultiInputAction" guid="{d61700f8-752a-4802-a32c-753bac796f61}" relid="0x23" childrelidcntr="0x0">
+							<name>passivate</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>209,335</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>NEWSnews</value>
+							</regnode>
+						</model>
+						<model id="id-0065-0000002c" kind="Action" role="Action" guid="{42b0994e-be8b-4420-99bb-349cf90969ab}" relid="0x27" childrelidcntr="0x2">
+							<name>logger</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>309,272</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>NEWSnews</value>
+							</regnode>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<reference id="id-0067-0000002c" kind="ActionType" role="ActionType" guid="{6de36b13-48a2-4aa5-b5f8-96d12fe5a580}" relid="0x1" referred="id-0065-0000001a">
+								<name>connect</name>
+							</reference>
+							<reference id="id-0067-0000002d" kind="SimpleProperty" role="SimpleProperty" guid="{b4b51726-3e58-4951-b15d-8c43c13e98e8}" relid="0x2" referred="id-0066-0000001c">
+								<name>client</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="Behavior" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>265,153</value>
+										</regnode>
+									</regnode>
+								</regnode>
+								<attribute kind="Value">
+									<value>&quot;corbaloc:iiop:localhost:50000/LoggingClient&quot;</value>
+								</attribute>
+							</reference>
+						</model>
+						<model id="id-0065-0000002d" kind="Action" role="Action" guid="{52396bfa-1f88-4a06-a2b4-2de98ccf81de}" relid="0x2c" childrelidcntr="0x1">
+							<name>logger</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>309,335</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>NEWSnews</value>
+							</regnode>
+							<attribute kind="Duration" status="meta">
+								<value>0</value>
+							</attribute>
+							<reference id="id-0067-0000002e" kind="ActionType" role="ActionType" guid="{d0538963-c41e-4a8a-9eff-14f93b68e740}" relid="0x1" referred="id-0065-00000019">
+								<name>disconnect</name>
+							</reference>
+						</model>
 						<atom id="id-0066-0000001a" kind="State" role="State" guid="{9bf15c14-8873-42eb-82fd-b6e788170ac5}" relid="0x3">
 							<name></name>
 							<regnode name="PartRegs" status="undefined">
@@ -522,6 +609,78 @@
 									<value></value>
 									<regnode name="Position" isopaque="yes">
 										<value>559,181</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>NEWSnews</value>
+							</regnode>
+						</atom>
+						<atom id="id-0066-00000042" kind="Environment" role="Environment" guid="{730a69fb-38ff-4190-b564-9f575c222a7a}" relid="0x1b">
+							<name>Environment</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>129,284</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</atom>
+						<atom id="id-0066-00000044" kind="State" role="State" guid="{aa3f0ee7-9ac4-47af-9330-b5dc6fd255b7}" relid="0x20">
+							<name></name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>259,272</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>NEWSnews</value>
+							</regnode>
+						</atom>
+						<atom id="id-0066-00000045" kind="State" role="State" guid="{7eab8e0f-c695-48f0-984d-cd89e5024846}" relid="0x24">
+							<name></name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>259,335</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>NEWSnews</value>
+							</regnode>
+						</atom>
+						<atom id="id-0066-00000046" kind="State" role="State" guid="{507a5855-b294-4c3c-9bb7-279bc9e83214}" relid="0x29">
+							<name></name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>359,272</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>NEWSnews</value>
+							</regnode>
+						</atom>
+						<atom id="id-0066-00000047" kind="State" role="State" guid="{5cf6f888-42d1-4ef2-89ab-6986f7f2fbf8}" relid="0x2e">
+							<name></name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>359,335</value>
 									</regnode>
 								</regnode>
 							</regnode>
@@ -648,6 +807,80 @@
 							</regnode>
 							<connpoint role="dst" target="id-0065-0000000d"/>
 							<connpoint role="src" target="id-0066-00000041"/>
+						</connection>
+						<connection id="id-0068-00000021" kind="InputEffect" role="InputEffect" guid="{f23569b5-a49f-4f90-835f-5b2a4eca98f2}" relid="0x21">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-0000002a"/>
+							<connpoint role="dst" target="id-0066-00000044"/>
+						</connection>
+						<connection id="id-0068-00000022" kind="MultiInput" role="MultiInput" guid="{bd55c076-0191-4e65-8186-cd5a37738f82}" relid="0x22">
+							<name>MultiInput</name>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>Ew</value>
+							</regnode>
+							<connpoint role="dst" target="id-0065-0000002a"/>
+							<connpoint role="src" target="id-0066-00000042"/>
+						</connection>
+						<connection id="id-0068-00000023" kind="InputEffect" role="InputEffect" guid="{0084e8a0-fd02-4d0e-aff7-33aeedf7535d}" relid="0x25">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-0000002b"/>
+							<connpoint role="dst" target="id-0066-00000045"/>
+						</connection>
+						<connection id="id-0068-00000024" kind="MultiInput" role="MultiInput" guid="{95794d64-64fd-495e-98ba-d0c390e8aa32}" relid="0x26">
+							<name>MultiInput</name>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>Ew</value>
+							</regnode>
+							<connpoint role="dst" target="id-0065-0000002b"/>
+							<connpoint role="src" target="id-0066-00000042"/>
+						</connection>
+						<connection id="id-0068-00000025" kind="Transition" role="Transition" guid="{c1f0538e-c7a2-40bb-9380-6709700e604e}" relid="0x28">
+							<name></name>
+							<connpoint role="dst" target="id-0065-0000002c"/>
+							<connpoint role="src" target="id-0066-00000044"/>
+						</connection>
+						<connection id="id-0068-00000026" kind="Effect" role="Effect" guid="{74a74395-be6b-4ed3-b870-56b46c8ae52d}" relid="0x2a">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-0000002c"/>
+							<connpoint role="dst" target="id-0066-00000046"/>
+						</connection>
+						<connection id="id-0068-00000027" kind="Finish" role="Finish" guid="{b8a56a08-b455-44d0-8a17-589b43573bca}" relid="0x2b">
+							<name>Finish</name>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>Nn</value>
+							</regnode>
+							<connpoint role="dst" target="id-0065-0000002a"/>
+							<connpoint role="src" target="id-0066-00000046"/>
+						</connection>
+						<connection id="id-0068-00000028" kind="Transition" role="Transition" guid="{e7a790a4-d6ce-489c-99ef-8ca15d843150}" relid="0x2d">
+							<name></name>
+							<connpoint role="dst" target="id-0065-0000002d"/>
+							<connpoint role="src" target="id-0066-00000045"/>
+						</connection>
+						<connection id="id-0068-00000029" kind="Effect" role="Effect" guid="{d847e9e1-0108-4abe-ad61-afe7793bd3d1}" relid="0x2f">
+							<name></name>
+							<attribute kind="Postcondition" status="meta">
+								<value></value>
+							</attribute>
+							<connpoint role="src" target="id-0065-0000002d"/>
+							<connpoint role="dst" target="id-0066-00000047"/>
+						</connection>
+						<connection id="id-0068-0000002a" kind="Finish" role="Finish" guid="{402ab7ba-73c4-46e1-8490-eb34b56c1c8f}" relid="0x30">
+							<name>Finish</name>
+							<regnode name="autorouterPref" isopaque="yes">
+								<value>Nn</value>
+							</regnode>
+							<connpoint role="dst" target="id-0065-0000002b"/>
+							<connpoint role="src" target="id-0066-00000047"/>
 						</connection>
 					</model>
 					<model id="id-0065-0000000a" kind="Event" role="Event" guid="{033b76e6-da52-4f85-a4fd-185c6018e46a}" relid="0x4" childrelidcntr="0x1">

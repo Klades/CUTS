@@ -1,3 +1,17 @@
+Thu Apr 28 22:36:22 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * tutorials/QuickStart/PingPong_PingComponentImpl.h:
+        * tutorials/QuickStart/PingPong_PingComponentImpl.cpp:
+        * tutorials/QuickStart/PingPong_PongComponentImpl.h:
+        * tutorials/QuickStart/PingPong_PongComponentImpl.cpp:
+        * tutorials/QuickStart/descriptors/PingPong.nodemap:
+        * tutorials/QuickStart/descriptors/deployment.config:
+        * tutorials/QuickStart/descriptors/test.config:
+        * tutorials/QuickStart/models/QuickStart-Complete.xme:
+
+          Updated the tutorial to generate log messages, which are
+          stored in the test database.
+
 Thu Apr 28 16:59:12 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Env_Visitor_T.h:

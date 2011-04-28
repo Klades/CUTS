@@ -48,12 +48,16 @@ namespace PingPong_PongComponentImpl
     // sink impl: recvData
     void push_recvData_i (::PingPong::SimpleEvent * ev);
 
-    private:
-    // worker variable: logger
-    CUTS_Client_Logger logger_;
+    virtual void ccm_activate (void);
 
+    virtual void ccm_passivate (void);
+
+    private:
     // worker variable: cpu
     CUTS_CPU_Worker cpu_;
+
+    // worker variable: logger
+    CUTS_Client_Logger logger_;
   };
 }
 
