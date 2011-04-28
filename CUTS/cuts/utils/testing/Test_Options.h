@@ -29,9 +29,10 @@ class CUTS_TEST_Export CUTS_Test_Options
 public:
   /// Default constructor.
   CUTS_Test_Options (void)
-    : name_ ("(default)"),
+    : name_ ("Default"),
       ignore_errors_ (false),
       shutdown_timeout_ (ACE_Time_Value::max_time),
+      auto_uuid_ (false),
       daemonize_ (false)
   {
 
@@ -61,12 +62,16 @@ public:
   /// UUID for the testing application.
   ACE_Utils::UUID uuid_;
 
+  /// Auto-generate a test UUID.
+  bool auto_uuid_;
+
   /// Start time of the test
   ACE_Time_Value start_;
 
   /// Stop time of the test.
   ACE_Time_Value stop_;
 
+  /// Ignore any startup errors.
   bool ignore_errors_;
 
   /// Name of the test file.

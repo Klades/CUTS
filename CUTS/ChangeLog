@@ -1,3 +1,28 @@
+Thu Apr 28 22:42:39 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/utils/logging/client/logger/Client_Logger_Impl.cpp:
+
+          Removed hardcoded test manager.
+
+        * cuts/utils/node/Virtual_Env.cpp:
+
+          Bug fix where there was no space between the executable and
+          the command-line arguments.
+
+        * cuts/utils/testing/Test_Options.h:
+        * cuts/utils/testing/Testing_App.cpp:
+
+          By default, the test uuid is NIL. You need to use the --auto-uuid
+          to generate a unique id for the test.
+
+        * cuts/utils/testing/svcs/logging/Testing_LoggingServerListener_i.cpp:
+
+          Removed debug messages.
+
+        * cuts/workers/CPU/models/CUTS_CPU_Worker.xme:
+
+          Updated version of the CUTS CPU worker library.
+
 Thu Apr 28 22:36:22 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * tutorials/QuickStart/PingPong_PingComponentImpl.h:

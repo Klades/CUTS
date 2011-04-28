@@ -29,29 +29,30 @@ static const char * __USAGE__ =
 
 static const char * __HELP__ =
 "General options:\n"
-"  -n, --name=NAME           name for test manager (default='(default)')\n"
-"  -c, --config=FILE         configuration file for test\n"
+"  -n, --name=NAME           Name for test manager (default='Default')\n"
+"  -c, --config=FILE         Configuration file for test\n"
 "\n"
-"  --time=TIME               test duration in seconds (default=60)\n"
-"  --daemonize               make test manager a daemon\n"
+"  --time=TIME               Test duration in seconds (default=60)\n"
+"  --daemonize               Make test manager a daemon\n"
 "\n"
-"  --uuid=UUID               user-defined UUID for the test\n"
-"  -f, --file=ARCHIVE        store results in ARCHIVE\n"
+"  --uuid=UUID               User-defined UUID for the test\n"
+"  --auto-uuid               Auto-generate a UUID\n"
+"  -f, --file=ARCHIVE        Store results in ARCHIVE\n"
 "\n"
-"  -DNAME=VALUE              set property NAME=VALUE\n"
+"  -DNAME=VALUE              Set property NAME=VALUE\n"
 "\n"
 "Execution options:\n"
-"  -C, --directory=DIR       change to directory DIR\n"
-"  --startup=CMD             use CMD to startup test\n"
-"  --shutdown=CMD            use CMD to shutdown test\n"
-"  --shutdown-timeout=N      timeout shutdown after N seconds\n"
-"  --ignore-errors           ignore errors at startup/shutdown\n"
+"  -C, --directory=DIR       Change to directory DIR\n"
+"  --startup=CMD             Use CMD to startup test\n"
+"  --shutdown=CMD            Use CMD to shutdown test\n"
+"  --shutdown-timeout=N      Timeout shutdown after N seconds\n"
+"  --ignore-errors           Ignore errors at startup/shutdown\n"
 "\n"
 "Output options:\n"
-"  -v, --verbose             print verbose information\n"
-"  --debug                   print debug information\n"
-"  --trace                   print trace information (requires compile support)\n"
-"  -h, --help                print this help message\n";
+"  -v, --verbose             Print verbose information\n"
+"  --debug                   Print debug information\n"
+"  --trace                   Print trace information (requires compile support)\n"
+"  -h, --help                Print this help message\n";
 
 //
 // CUTS_Testing_App
@@ -88,6 +89,7 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("daemonize");
 
   get_opt.long_option ("uuid", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("auto-uuid", ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("file", ACE_Get_Opt::ARG_REQUIRED);
 
   get_opt.long_option ("directory", 'C', ACE_Get_Opt::ARG_REQUIRED);
@@ -261,7 +263,7 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
   }
 
   // Generate a new UUID for the deployment, if necessary.
-  if (this->opts_.uuid_ == ACE_Utils::UUID::NIL_UUID)
+  if (this->opts_.auto_uuid_)
     ACE_Utils::UUID_GENERATOR::instance ()->generate_UUID (this->opts_.uuid_);
 
   // Make sure we have the filename set.

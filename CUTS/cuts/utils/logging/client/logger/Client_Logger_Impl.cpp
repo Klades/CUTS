@@ -20,17 +20,6 @@ CUTS_Client_Logger_Impl (const char * name)
 
   ACE_OS::string_to_argv (args_str, argc, argv);
   this->orb_ = ::CORBA::ORB_init (argc, argv, name);
-  
-  // Connect to the test manager and get the uuid assciataed with the test
-  ::CORBA::Object_var obj = this->orb_->string_to_object ("corbaloc:iiop:localhost:50000/CUTS/TestManager");
-  
-  ::CUTS::TestManager_var test_manager = ::CUTS::TestManager::_narrow (obj.in ());
-
-  // Associate message from this logger with the current test.
-  CUTS::TestDetails_var details = test_manager->details ();
-
-  details->uid >>= this->uuid_;
-  
 }
 
 //
@@ -160,7 +149,7 @@ int CUTS_Client_Logger_Impl::set_uuid_i (const ACE_Utils::UUID & uuid)
   test_uuid <<= uuid;
 
   // Get the logger for the specified UUID.
-  
+
   this->logger_ = this->client_->get_logger (test_uuid);
   return 0;
 }

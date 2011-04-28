@@ -63,9 +63,9 @@ spawn (const CUTS_Process_Options & opts)
     return -1;
 
   // Set the command-line for the new process.
-  options.command_line (ACE_TEXT ("%s %s"),
-                        executable.c_str (),
-                        arguments.c_str ());
+  std::ostringstream ostr;
+  ostr << executable.c_str () << " " << arguments.c_str ();
+  options.command_line (ostr.str ().c_str ());
 
   // Determine if we need to redirect output. Make sure to expand
   // the strings before trying to open the file for writing.
