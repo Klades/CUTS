@@ -1,3 +1,13 @@
+Thu Apr 28 16:59:12 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Env_Visitor_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Env_Visitor_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+
+          Bug fix where environment workloads were not being generated.
+
 Wed Apr 27 11:15:42 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:

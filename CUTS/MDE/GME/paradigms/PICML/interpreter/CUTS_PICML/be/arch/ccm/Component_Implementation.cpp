@@ -577,6 +577,7 @@ generate (const PICML::MultiInputAction & action)
       << std::endl;
 
     this->ctx_.source_
+      << CUTS_BE_CPP::function_header ("ccm_activate")
       << "void " << parent_name << "::ccm_activate (void)"
       << "{";
   }
@@ -587,20 +588,23 @@ generate (const PICML::MultiInputAction & action)
       << std::endl;
 
     this->ctx_.source_
+      << CUTS_BE_CPP::function_header ("configuration_complete")
       << "void " << parent_name << "::configuration_complete (void)"
       << "{";
   }
   else if ("passivate" == name || "remove" == name)
   {
+    const std::string function_name ("ccm_" + name);
+
     this->ctx_.header_
-      << "virtual void ccm_" << name << " (void);"
+      << "virtual void " << function_name << " (void);"
       << std::endl;
 
     this->ctx_.source_
-      << "void " << parent_name << "::ccm_" << name << " (void)"
+      << CUTS_BE_CPP::function_header (function_name)
+      << "void " << parent_name << "::" << function_name << " (void)"
       << "{"
-      << CUTS_BE_CPP::single_line_comment ("pass control to base class first")
-      << "this->base_type::ccm_" << name << " ()";
+      << "this->base_type::" << function_name << " ();";
   }
 }
 
@@ -616,14 +620,12 @@ generate (const PICML::MultiInputAction & action)
   if ("activate" == name)
   {
     this->ctx_.source_
-      << CUTS_BE_CPP::single_line_comment ("pass control to the base class")
       << "this->base_type::ccm_activate ();"
       << "}";
   }
   else if ("configuration_complete" == name)
   {
     this->ctx_.source_
-      << CUTS_BE_CPP::single_line_comment ("pass control to the base class")
       << "this->base_type::configuration_complete ();"
       << "}";
   }

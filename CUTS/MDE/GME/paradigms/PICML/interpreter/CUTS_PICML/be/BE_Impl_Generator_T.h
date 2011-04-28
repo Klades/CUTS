@@ -36,8 +36,7 @@ public:
   typedef typename CONTEXT::behavior_type behavior_type;
 
   /// Default constructor.
-  CUTS_BE_Impl_Generator_T (CONTEXT & context,
-                            CUTS_BE_Preprocessor_T <CONTEXT> & pp);
+  CUTS_BE_Impl_Generator_T (CONTEXT & context, CUTS_BE_Preprocessor_T <CONTEXT> & pp);
 
   /// Destructor.
   virtual ~CUTS_BE_Impl_Generator_T (void);

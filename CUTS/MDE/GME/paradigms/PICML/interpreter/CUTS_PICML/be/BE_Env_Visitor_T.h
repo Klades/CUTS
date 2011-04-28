@@ -25,6 +25,12 @@ template <typename CONTEXT>
 class CUTS_BE_Env_Visitor_T : public PICML::Visitor
 {
 public:
+  /// Type definition of the architecture for the code generator
+  typedef typename CONTEXT::architecture_type architecture_type;
+
+  /// Type definition of the behavior.
+  typedef typename CONTEXT::behavior_type behavior_type;
+
   /// Constructor.
   CUTS_BE_Env_Visitor_T (CONTEXT & context);
 

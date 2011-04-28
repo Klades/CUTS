@@ -262,7 +262,7 @@ Visit_Component (const PICML::Component & component)
     CUTS_BE_Environment_Begin_T <architecture_type> env_begin_gen (this->context_);
     env_begin_gen.generate (component);
 
-    CUTS_BE_Env_Visitor_T <architecture_type> env_visitor (this->context_);
+    CUTS_BE_Env_Visitor_T <CONTEXT> env_visitor (this->context_);
     env.Accept (env_visitor);
 
     // End generating environment related metadata.
@@ -341,16 +341,16 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort & facet)
 {
-  // Begin the generation of the provided request port.
-  CUTS_BE_ProvidedRequestPort_Begin_T <architecture_type> port_begin_gen (this->context_);
-  port_begin_gen.generate (facet);
+  //// Begin the generation of the provided request port.
+  //CUTS_BE_ProvidedRequestPort_Begin_T <architecture_type> port_begin_gen (this->context_);
+  //port_begin_gen.generate (facet);
 
-  CUTS_BE_Execution_Visitor_T <behavior_type> exec_visitor (this->context_);
-  exec_visitor.generate (facet);
+  //CUTS_BE_Execution_Visitor_T <behavior_type> exec_visitor (this->context_);
+  //exec_visitor.generate (facet);
 
-  // End the generation of the provided request port.
-  CUTS_BE_ProvidedRequestPort_End_T <architecture_type> port_end_gen (this->context_);
-  port_end_gen.generate (facet);
+  //// End the generation of the provided request port.
+  //CUTS_BE_ProvidedRequestPort_End_T <architecture_type> port_end_gen (this->context_);
+  //port_end_gen.generate (facet);
 }
 
 //
