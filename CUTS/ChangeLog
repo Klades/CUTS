@@ -1,3 +1,10 @@
+Fri Apr 29 00:13:26 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * etc/schemas/cuts-unite.xsd:
+
+          Updated the target namespace to reflect the new location
+          of CUTS.
+
 Thu Apr 28 23:29:37 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/utils/logging/client/logger/Format_Parser.cpp:
