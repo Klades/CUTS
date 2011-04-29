@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<cuts:test xmlns="http://cuts.cs.iupui.edu"
+            xmlns:cuts="http://cuts.cs.iupui.edu"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://cuts.cs.iupui.edu cuts-unite.xsd">
+
+  <name>Service Time</name>
+  <evaluation>LF2.stopTime - LF1.startTime</evaluation>
+  <aggregation>AVG</aggregation>
+
+  <datagraph location="QuickStart.datagraph" />
+</cuts:test>
