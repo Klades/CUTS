@@ -61,10 +61,12 @@ bool CUTS_Log_Format::compile (const ACE_CString & format)
                        expr.str ().c_str ()),
                        false);
 
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - compiled format: %s\n"),
+              expr.str ().c_str ()));
+
   const char * error = 0;
   int error_offset;
-
-  std::cerr << expr.str ().c_str () << std::endl;
 
   // Compile the PCRE version of the log format.
   this->expr_ = ::pcre_compile (expr.str ().c_str (),

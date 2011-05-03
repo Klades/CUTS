@@ -7,11 +7,6 @@
 #include "ace/CORBA_macros.h"
 #include "ace/streams.h"
 
-
-
-// Given a letter in the DateTime format string, this
-// function will return the occurrence of that letter
-
 //
 // letter_count
 //
@@ -21,14 +16,17 @@ int letter_count (std::string & format, char ch)
   // number of occurrences to determine the pcre expression
   int count = 0;
   int index = -1;
-  while (1)
+
+  for ( ; ;)
   {
     index = format.find_first_of (ch, index + 1);
+
     if (index == format.npos)
       break;
     else
       count++;
   }
+
   return count;
 }
 
@@ -38,7 +36,6 @@ int letter_count (std::string & format, char ch)
 std::string get_datetime_pcre_type (std::string & format)
 {
   // Converts the user specifies DateTime format to a pcre type
-
   int Y_count = letter_count (format, 'Y');
   int M_count = letter_count (format, 'M');
   int D_count = letter_count (format, 'D');
@@ -52,10 +49,9 @@ std::string get_datetime_pcre_type (std::string & format)
   std::ostringstream ostr;
 
   if(Y_count != 0)
-  {
-    ostr<<"\\d{"<<Y_count<<"}:\\d{"<<M_count<<"}:\\d{"<<D_count<<"}:";
-  }
-  ostr<<"\\d{"<<h_count<<"}:\\d{"<<m_count<<"}:\\d{"<<s_count<<"}\\.\\d{"<<S_count<<"}";
+    ostr << "\\d{" << Y_count << "}:\\d{" << M_count << "}:\\d{" << D_count << "}:";
+
+  ostr << "\\d{" << h_count << "}:\\d{" << m_count << "}:\\d{" << s_count << "}\\.\\d{" <<S_count << "}";
 
   std::string pcre = ostr.str ();
   return pcre;
@@ -86,6 +82,7 @@ struct append
       text.insert (found, 1, '\\');
       found = text.find_first_of (special, found + 2);
     }
+
     this->ostr_ << text;
   }
 
@@ -119,25 +116,30 @@ struct capture
         this->type_ == "LONG" ||
         this->type_ == "LONGLONG" ||
         this->type_ == "SHORT")
+    {
       pcre_type = "-?\\d+";
+    }
     else if (this->type_ == "UINT" ||
              this->type_ == "ULONG" ||
              this->type_ == "ULONGLONG" ||
              this->type_ == "USHORT")
-      pcre_type = "\\d+";
-    else if (this->type_ == "STRING")
-      pcre_type = "\\S+";
-    else if (this->type_ == "FLOAT")
-      pcre_type = "\\d*\\.\\d+";
-
-    // For DATETIME and REGEX we can't exactly match the type string.
-    // So we do a find
-
-    else if(((this->type_).find ("DATETIME") !=
-      std::string::npos)||
-      ((this->type_).find ("REGEX") !=
-      std::string::npos))
     {
+      pcre_type = "\\d+";
+    }
+    else if (this->type_ == "STRING")
+    {
+      pcre_type = "\\S+";
+    }
+    else if (this->type_ == "FLOAT")
+    {
+      pcre_type = "\\d*\\.\\d+";
+    }
+    else if (((this->type_).find ("DATETIME") != std::string::npos) ||
+             ((this->type_).find ("REGEX") != std::string::npos))
+    {
+      // For DATETIME and REGEX we can't exactly match the type string.
+      // So we do a find
+
       // The user specified format is in between the parenthesis
 
       size_t pos1;
@@ -159,8 +161,6 @@ struct capture
     }
 
     this->ostr_ << "(?<" << this->name_ << ">" << pcre_type << ")";
-
-
   }
 
 

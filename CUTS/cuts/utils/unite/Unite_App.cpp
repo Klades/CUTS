@@ -32,7 +32,7 @@ static const char * __HELP__ =
 "  --datagraph=FILE          override existing datagraph in configuration\n"
 "  --aspect=FILE             apply aspect to evaluation\n"
 "\n"
-"  --repo=PATH               directory of dataset repo\n"
+"  --repo=PATH               directory of dataset repo (default=:memory:)\n"
 "\n"
 "  --show-trend              show the data trend for the test\n"
 "\n"
@@ -70,7 +70,7 @@ private:
 // CUTS_Unite_App
 //
 CUTS_Unite_App::CUTS_Unite_App (void)
-: repo_location_ ("."),
+: repo_location_ (":memory:"),
   show_trend_ (false)
 {
   this->svc_mgr_.open (ACE_TEXT ("cuts-unite"),
@@ -255,7 +255,7 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
   catch (const ADBC::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - %s\n"),
+                ACE_TEXT ("%T (%t) - %M - %s (%N:%l)\n"),
                 ex.message ().c_str ()));
   }
 
