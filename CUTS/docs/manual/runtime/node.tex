@@ -1,0 +1,330 @@
+% $Id$
+
+\chapter{CUTS Node Management Facilities}
+\label{chap:node}
+
+This chapter discusses the CUTS node manager facilities. These
+facilities are designed to simplify management of many processes
+that must execute on many different nodes in a large-scale distributed
+testing environment. Furthermore, these facilities simplify management
+of many different execution environments, which is hard to do using 
+traditional shell scripting facilities, such as Bash, C-Shell, and
+Batch files on Windows.
+
+\section{Overview}
+\label{sec:node-overview}
+
+Distributed testing and execution environments, such as network 
+testbeds, consist of many nodes. These nodes are responsible for 
+executing many different processes that must support the overall
+goals of the execution environment. For example, nodes in the 
+execution environment may host process that manage software components,  
+processes that synchronize clocks, and process that collect
+software/hardware instrumentation data.
+
+When dealing with many process that must execute on a given node,
+the traditional approach is to create a script that launches all
+processes for that given node. For example, in *Unix environments,
+Bash scripts can be used to launch a set of processes. The advantage
+of using such scripts is that is provides a \textit{repeatable}
+technique for ensuring that all process for a given node are launched,
+and done so in the correct order. Moreover, the script is persistent
+and can be easily updated to either add or remove processes as needed.
+
+Although such scripts suffice when working in a distributed 
+testing environment, its approach as more complexity to the 
+distributed testing process. First, the scripts are only repeatable
+after \textit{manually} invoking the script. This means that 
+distributed testers much manually connect to each host in the 
+environment and (re)start the script. Even if its possible to 
+remotely connect to the host via automation to (re)start the 
+script, it is still \textit{hard} to know what processes are
+associated with a given script.
+
+Secondly, such scripts do no easily support injection/removal
+of processes on-the-fly. It is assumed the script is used to 
+configure the host. At that point, all processes injected/removed
+from the host are assumed to be part of all the processes on 
+that machine. Lastly, it is \textit{hard} to switch between
+different execution environment where as execution environment
+is set of environment variables and a set of processes.
+
+To address the limitations of traditional approaches to executing
+and managing a distributed testing environment, CUTS provides
+node management facilities. The facilities provide methods for 
+managing many different execution environments, which can easily 
+be swapped between. The facilities also provide tools for remotely
+controlling nodes in the execution environment. 
+
+The remainder of the chapter therefore presents the basics for
+using the CUTS node management facilities in a production-like 
+environment.In particular, the following information is covered 
+in this chapter:
+\begin{itemize}
+  \item \textbf{CUTS Node Daemon} - The CUTS Node Daemon for 
+  managing many different execution environments for a node. 
+  Details of the CUTS Node Daemon are presented in Section~\ref{sec:node-daemon}.
+
+  \item \textbf{CUTS Node Daemon Client} - The CUTS Node Daemon Client 
+  is responsible remotely controlling the CUTS Node Daemon. Details of 
+  the CUTS Node Daemon Client are provided in 
+  Section~\ref{sec:node-daemon-client}.
+\end{itemize}
+
+\section{The Node Daemon}
+\label{sec:node-daemon}
+
+The CUTS Node Daemon is responsible for managing different execution
+environments for a node. There is typically one CUTS Node Daemon executing
+of a single node. There can be cases where you more than one CUTS
+Node Daemon executes on the same machine, but this defeats the purpose
+of the daemon. Regardless of the situation, what is discussed in the
+remainder of this chapter can be used to execute one or more 
+CUTS Node Daemon processes of a single host.
+
+\subsection{Configuring the Node Daemon}
+\label{sec:node-daemon-config}
+
+The CUTS Node Daemon is designed to manage different execution 
+environments. Before it can doe this, however, it must be properly
+configured. The configuration for the CUTS Node Daemon is similar
+to a shell script, except that it is specified in XML format. 
+Listing~\ref{listing:cutsnode.config} illustrates an example
+configuration for the CUTS Node Daemon.
+\lstinputlisting[label=listing:cutsnode.config,
+  caption=An example configuration file for the CUTS Node Daemon.,
+  captionpos=b,numbers=left]{runtime/cutsnode.config}
+
+Without going into the full details of the configuration in
+Listing~\ref{listing:cutsnode.config}, the CUTS Node Configuration
+contains three critical sections:
+\begin{itemize}
+  \item \textbf{Environment} -- The environment section, denoted 
+  by the \texttt{<environment>} tag, defines an execution environment. 
+  There can be more than one execution environment in a configuration
+  As shown in Listing~\ref{listing:cutsnode.config}, there is only
+  one execution environment named \texttt{default}. The remaining 
+  details of the execution environment is discussed in 
+  Section~\ref{sec:node-daemon-schema}.
+  
+  \item \textbf{Variables} -- The variables section, denoted
+  by the \texttt{<variable>} tag, defines environment variables for the 
+  parent execution environment. All processes in the execution environment 
+  can use these environment variables via the \$\{\} tag (see 
+  line~\ref{line:useenv}). As shown
+  in Listing~\ref{listing:cutsnode.config}, the \texttt{default}
+  execution environment contains one environment variable named
+  \texttt{NameServiceIOR}. This environment variable is not 
+  explicitly used in the configuration. Instead, the processes
+  in this configuration expect for the variable to be defined
+  as part of the default environment variables. The 
+  remaining defaults of the variables section is discussed
+  in Section~\ref{sec:node-daemon-schema}.
+
+  \item \textbf{Startup/Shutdown Processes} -- The startup/shutdown section, 
+  denoted by \texttt{<startup>} and \texttt{<shutdown>}, 
+  respectively, defines the processes to execute when an execution
+  environment starts up or shuts down. As shown in
+  Listing~\ref{listing:cutsnode.config}, the configuration defines
+  only a set of startup processes. The remaining details of the 
+  processes section is discussed in Section~\ref{sec:node-daemon-schema}.
+\end{itemize}
+
+\subsection{Running the Node Daemon}
+\label{sec:node-daemon-config}
+
+Assuming the CUTS runtime architecture has been built and installed 
+correctly, the CUTS Node Daemon is installed at the following 
+location:
+\begin{lstlisting}
+%> $CUTS_ROOT/bin/cutsnode_d
+\end{lstlisting}
+To see a complete list of command-line options, use the following 
+command:
+\begin{lstlisting}
+%> $CUTS_ROOT/bin/cutsnode_d --help
+\end{lstlisting}
+Assuming the configuration discussed above is defined in a file 
+named \textit{cutsnode.config}, you run the CUTS Node Daemon with
+the configuration via the following command: 
+\begin{lstlisting}
+%> $CUTS_ROOT/bin/cutsnode_d -c cutsnode.config 
+  -ORBEndpoint iiop://node.hydra.iupui.edu:20000
+\end{lstlisting}
+
+\subsection{Configuring the Node Daemon Server}
+\label{sec:node-daemon-server}
+
+When you run the CUTS Node Daemon, the server is configured with 
+its default values. In many cases, you may want to change
+the server's configuration. For example, you may want to bind the
+server to localhost instead of its hostname, or you may want to change
+the port on which it is listening.
+
+You can configure the server using the \texttt{--server-args}
+command-line option. This should be a quoted command-line option because
+there can many different arguments passed to the server. The following
+table lists the different command-line options:
+\begin{table}[h]
+  \begin{tabular}{lcl}
+  \hline
+  \textbf{Name} & \textbf{Required} & \textbf{Description} \\
+  \hline
+  -\--register-with-iortable & No & Name used to expose server via the IORTable \\
+  -\--register-with-ns & No & Name used to register server with naming service \\
+  \end{tabular}
+\end{table}
+
+In addition to these options, you can passed any option supported
+by the ORB, such as \texttt{-ORBEndpoint}. The following command-line
+illustrates how to change to listening address of the CUTS Node Daemon
+to \texttt{node.hydra.iupui.edu:20000} and expose it via the IORTable
+as \texttt{CUTS/NodeDaemon}.
+\begin{lstlisting}
+%> $CUTS_ROOT/bin/cutsnode 
+  --server-args="-ORBEndpoint iiop://node.hydra.iupui.edu:20000
+  --register-with-iortable=CUTS/NodeDaemon"
+\end{lstlisting}
+
+\subsection{Node Daemon Schema Definition}
+\label{sec:node-daemon-schema}
+
+The section discusses the details of the CUTS Node Daemon 
+configuration based on its underlying XML Schema Definition.
+
+\xmltag{<cuts:node>}
+
+This is the main tag for the configuration document. Its XML namespace
+must have the \url{http://cuts.cs.iupui.edu} definition. If it does
+not have this definition, then the configuration will not load.
+
+\xmltag{<environment>}
+
+This tag defines the different execution environments. As previously
+stated, there can be more than one execution environment in a 
+configuration file. The following is a list of attributes supported
+by this tag.
+\begin{table}[h]
+  \begin{tabular}{lcccl}
+  \hline
+  \textbf{Name} & \textbf{Type} & \textbf{Default Value} & \textbf{Required} & \textbf{Description} \\
+  \hline
+  id & String  & & Yes & Unique id for the execution environment \\
+  inherit & Boolean & false & No & Inherit the system's environment variables \\
+  active & Boolean & false & No & This is the active execution environment \\
+  \end{tabular}
+\end{table}
+
+\noindent The following is a list of child tags:
+\texttt{<variables>}, \texttt{<startup>}, \texttt{<shutdown>}.
+
+\xmltag{<variables>}
+
+This is the container tag for the environment variables in execution 
+environment. This tag does not contain any attributes. The following 
+is a list of child tags: \texttt{<variable>}.
+
+\xmltag{<variable>}
+
+This tag is used to defined environment variables for an execution
+environment. The following is a list of attributes supported
+by this tag.
+\begin{table}[h]
+  \begin{tabular}{lcccl}
+  \hline
+  \textbf{Name} & \textbf{Type} & \textbf{Default Value} & \textbf{Required} & \textbf{Description} \\
+  \hline
+  name & String  & & Yes & Name of the environment variable \\
+  value & String & & Yes & Value of the environment variable \\
+  \end{tabular}
+\end{table}
+
+\noindent This tag does not contain any child tags.
+
+\xmltag{<startup>}
+
+This tag is a container for a list of processes that are to 
+executed with an environment starts up. The order in which 
+the processes are listed is their startup order. The following 
+is a list of child tags: \texttt{<process>}.
+
+\xmltag{<shutdown>}
+
+This tag is a container for a list of processes that are to 
+executed with an environment is shutdown. The order in which 
+the processes are listed is their shutdown order. The following 
+is a list of child tags: \texttt{<process>}.
+
+\xmltag{<process>}
+
+This tag defines an executable process for the execution
+environment. The following is a list of attributes supported
+by this tag.
+\begin{table}[h]
+  \begin{tabular}{lcccl}
+  \hline
+  \textbf{Name} & \textbf{Type} & \textbf{Default Value} & \textbf{Required} & \textbf{Description} \\
+  \hline
+  id & String  & & Yes & Unique id for the process \\
+  delay & Float & 0.0 & No & Seconds to wait before executing process \\
+  waitforcompletion & Boolean & false & No & Wait for process to complete before progressing \\
+  \end{tabular}
+\end{table}
+
+\noindent The following is a list of child tags:
+\texttt{<executable>}, \texttt{<arguments>}, \texttt{<workingdirectory>}.
+
+\xmltag{<executable>}
+
+This tag defines the complete/relative path of the executable process.
+Environment variables can be used within this tag. This tag does not
+contain any child tags.
+
+\xmltag{<arguments>}
+
+This tag defines the command-line for the executable process.
+Environment variables can be used within this tag. This tag does not
+contain any child tags.
+
+\xmltag{<workingdirectory>}
+
+This tag defines the working directory for the executable process 
+(\textit{i.e.}, the directory where executable process will be spawned).
+Environment variables can be used within this tag. This tag does not
+contain any child tags.
+
+\section{The Node Daemon Client}
+\label{sec:node-daemon-client}
+
+The purpose of the CUTS Node Daemon Client is to remotely control
+different CUTS Node Daemon application. This prevents users from
+having to manually login to different nodes when there is need to 
+alter the execution environment.
+
+\subsection{Running the Node Daemon Client}
+\label{sec:node-daemon-config}
+
+Assuming the CUTS runtime architecture has been built and installed 
+correctly, the CUTS Node Daemon Client is installed at the following 
+location:
+\begin{lstlisting}
+%> \$CUTS\_ROOT/bin/cutsnode
+\end{lstlisting}
+To see a complete list of command-line options, use the following 
+command:
+\begin{lstlisting}
+%> \$CUTS\_ROOT/bin/cutsnode --help
+\end{lstlisting}
+Assuming the CUTS Node Daemon is running at the address 
+\texttt{iiop://node.hydra.iupui.edu:20000} and registered with 
+the IORTable as \texttt{CUTS/NodeDaemon} as discussed above,
+then you can connect and control it via the CUTS Node
+Daemon Client using the following command: 
+\begin{lstlisting}
+%> $CUTS_ROOT/bin/cutsnode --reset -ORBInitRef 
+  NodeDaemon=corbaloc:iiop:node.hydra.iupui.edu:20000/CUTS/NodeDaemon
+\end{lstlisting}
+In this example, the \texttt{-ORBInitRef} is a \texttt{corbaloc:}. This,
+however, need not always be the case. It can be any StringIOR support by
+\textit{The ACE ORB (TAO)}, such as a IOR file or naming service location.
+
