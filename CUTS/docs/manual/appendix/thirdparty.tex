@@ -18,6 +18,29 @@ from source on Windows, it is recommended that you place all environment
 variables in a BATCH file (\texttt{.bat}) so you do not pollute the
 system environment.}.
 
+\section{The Makefile, Project, Workspace Creator (MPC)}
+\label{sec:thirdparty-mpc}
+
+The \textit{Makefile, Project, Workspace Creator (MPC)} is a 
+command-line utility for generating workspaces. It is required
+to build different third-party libraries. and CUTS. The artifacts
+for MPC can be downloaded from the following location: 
+\url{https://svn.dre.vanderbilt.edu/DOC/MPC/trunk}. 
+
+\subsection{System Configuration}
+
+MPC does not need to be built since its a PERL application. Instead,
+we must properly set environment variables to use MPC correctly. Please
+therefore define the following environment variables:
+\begin{lstlisting}
+export MPC_ROOT=location of MPC
+export PATH=$PATH:MPC_ROOT
+\end{lstlisting}
+
+\subsection{Installation}
+
+There are no separate installation procedures for MPC.
+
 \section{Boost}
 \label{sec:thirdparty-boost}
 
