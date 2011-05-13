@@ -110,6 +110,116 @@ following location:
 the correct version of Xerces-C that matches your version of Microsoft Visual
 C++ and extract it to a common location on disk.
 
+\section{SQLite}
+\label{sec:thirdparty-sqlite}
+
+SQLite is required when building and installing several 
+projects in CUTS. You can download the source code for SQLite
+from the following location: \url{http://www.sqlite.org}
+
+\subsection{System Configuration}
+
+To build CUTS correctly, the SQLite environment variables must be defined. Please 
+define the following required environment variables:
+\begin{lstlisting}
+(*@\texttt{\%> export SQLITE\_ROOT=} location of SQLite@*)
+(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$SQLITE\_ROOT/lib}@*)
+(*@\texttt{\%> export PATH=\$PATH:\$SQLITE\_ROOT/bin}@*)
+\end{lstlisting}
+The configuration of SQLite is now complete. Once all the other
+third-party libraries are installed you will be able to build CUTS
+(see Chapter~\ref{chap:install}).
+
+\subsection{Installation}
+
+\subsubsection{Non-Windows}
+ 
+If you are installing SQLite on a non-Windows system, \textit{e.g.}, Linux, 
+Soloris, or MacOS X, then you can download the source code directly from its
+main website (\url{http://www.sqlite.org}), build it, and install it using  
+standard procedures.
+
+\subsubsection{Windows}
+
+Installing SQLite from sources on Windows is not a trivial process. 
+It is therefore recommended that you download and use the prebuilt 
+version of SQLite available for download from the CUTS website at the 
+following location:
+\url{http://www.dre.vanderbilt.edu/CUTS/downloads/thirdparty/sqlite}. Please download
+the correct version of SQLite that matches your version of Microsoft Visual
+C++ and extract it to a common location on disk.
+
+\section{XML Schema Compiler (XSC)}
+\label{sec:thirdparty-xsc}
+
+XSC is required when building and installing CUTS. All artifacts
+for XSC can be downloaded from the following location: 
+\url{svn://svn.dre.vanderbilt.edu/XSC/trunk}. The remainder of this section
+discusses how to build and install XSC.
+
+\subsection{System Configuration}
+
+You must configure you system installing XSC. Once you have downloaded 
+XSC from the website above please define the following environment variables:
+\begin{lstlisting}
+(*@\texttt{\%> svn co svn://svn.dre.vanderbilt.edu/XSC/trunk XSC}@*)
+(*@\texttt{\%> export XSC\_ROOT=} location of XSC@*)
+(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$XSC\_ROOT/lib}@*)
+(*@\texttt{\%> export PATH=\$PATH:\$XSC\_ROOT/bin}@*)
+\end{lstlisting}
+
+\subsection{Installation}
+
+After you have configured your system for XSC, you are ready to build and 
+install it. Please use the following steps to build and install XSC:
+\begin{lstlisting}
+(*@\texttt{\%> cd \$XSC\_ROOT}@*)
+(*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool] -features xsc=1,xerces3=1 XSC.mwc}@*)
+\end{lstlisting}
+This will generate the workspace for building and installing XSC. The name of 
+the workspace depends on the build tool specified when generating the 
+workspace. Finally, using your build tool of choice, you can build and 
+install XSC.
+
+\section{Perl-Compatible Regular Expressions (PCRE)}
+\label{sec:thirdparty-pcre}
+
+PCRE is required when building and installing several projects in CUTS. 
+You can download the source code for PCRE from the following 
+location: \url{http://www.pcre.org}
+
+\subsection{System Configuration}
+
+To build CUTS correctly, the PCRE environment variables must be defined. Please 
+define the following required environment variables:
+\begin{lstlisting}
+(*@\texttt{\%> export PCRE\_ROOT=} location of PCRE@*)
+(*@\texttt{\%> export PCRE\_VERSION=} version of PCRE, blank if not applicable@*)
+(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$PCRE\_ROOT/lib}@*)
+\end{lstlisting}
+The configuration of PCRE is now complete. Once all the other
+third-party libraries are installed you will be able to build CUTS
+(see Chapter~\ref{chap:install}).
+
+\subsection{Installation}
+
+\subsubsection{Non-Windows}
+ 
+If you are installing PCRE on a non-Windows system, \textit{e.g.}, Linux, 
+Soloris, or MacOS X, then you can download the source code directly from its
+main website (\url{http://www.pcre.org}), build it, and install it using
+standard procedures.
+
+\subsubsection{Windows}
+
+Installing PCRE from sources on Windows is not a trivial process. 
+It is therefore recommended that you download and use the prebuilt 
+version of PCRE available for download from the CUTS website at the 
+following location:
+\url{http://www.dre.vanderbilt.edu/CUTS/downloads/thirdparty/pcre}. Please download
+the correct version of PCRE that matches your version of Microsoft Visual
+C++ and extract it to a common location on disk.
+
 \section{DOC Group Middleware}
 \label{sec:thirdparty-acetaociao}
 
@@ -192,116 +302,6 @@ generate the workspace and build ADBC using the following commands:
 (*@\texttt{\%> gmake}@*)
 \end{lstlisting}
  
-\section{XML Schema Compiler (XSC)}
-\label{sec:thirdparty-xsc}
-
-XSC is required when building and installing CUTS. All artifacts
-for XSC can be downloaded from the following location: 
-\url{svn://svn.dre.vanderbilt.edu/XSC/trunk}. The remainder of this section
-discusses how to build and install XSC.
-
-\subsection{System Configuration}
-
-You must configure you system installing XSC. Once you have downloaded 
-XSC from the website above please define the following environment variables:
-\begin{lstlisting}
-(*@\texttt{\%> svn co svn://svn.dre.vanderbilt.edu/XSC/trunk XSC}@*)
-(*@\texttt{\%> export XSC\_ROOT=} location of XSC@*)
-(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$XSC\_ROOT/lib}@*)
-(*@\texttt{\%> export PATH=\$PATH:\$XSC\_ROOT/bin}@*)
-\end{lstlisting}
-
-\subsection{Installation}
-
-After you have configured your system for XSC, you are ready to build and 
-install it. Please use the following steps to build and install XSC:
-\begin{lstlisting}
-(*@\texttt{\%> cd \$XSC\_ROOT}@*)
-(*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool] -features xsc=1,xerces3=1 XSC.mwc}@*)
-\end{lstlisting}
-This will generate the workspace for building and installing XSC. The name of 
-the workspace depends on the build tool specified when generating the 
-workspace. Finally, using your build tool of choice, you can build and 
-install XSC.
-
-\section{Perl-Compatible Regular Expressions (PCRE)}
-\label{sec:thirdparty-pcre}
-
-PCRE is required when building and installing several projects in CUTS. 
-You can download the source code for PCRE from the following 
-location: \url{http://www.pcre.org}
-
-\subsection{System Configuration}
-
-To build CUTS correctly, the PCRE environment variables must be defined. Please 
-define the following required environment variables:
-\begin{lstlisting}
-(*@\texttt{\%> export PCRE\_ROOT=} location of PCRE@*)
-(*@\texttt{\%> export PCRE\_VERSION=} version of PCRE, blank if not applicable@*)
-(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$PCRE\_ROOT/lib}@*)
-\end{lstlisting}
-The configuration of PCRE is now complete. Once all the other
-third-party libraries are installed you will be able to build CUTS
-(see Chapter~\ref{chap:install}).
-
-\subsection{Installation}
-
-\subsubsection{Non-Windows}
- 
-If you are installing PCRE on a non-Windows system, \textit{e.g.}, Linux, 
-Soloris, or MacOS X, then you can download the source code directly from its
-main website (\url{http://www.pcre.org}), build it, and install it using
-standard procedures.
-
-\subsubsection{Windows}
-
-Installing PCRE from sources on Windows is not a trivial process. 
-It is therefore recommended that you download and use the prebuilt 
-version of PCRE available for download from the CUTS website at the 
-following location:
-\url{http://www.dre.vanderbilt.edu/CUTS/downloads/thirdparty/pcre}. Please download
-the correct version of PCRE that matches your version of Microsoft Visual
-C++ and extract it to a common location on disk.
-
-\section{SQLite}
-\label{sec:thirdparty-sqlite}
-
-SQLite is required when building and installing several 
-projects in CUTS. You can download the source code for SQLite
-from the following location: \url{http://www.sqlite.org}
-
-\subsection{System Configuration}
-
-To build CUTS correctly, the SQLite environment variables must be defined. Please 
-define the following required environment variables:
-\begin{lstlisting}
-(*@\texttt{\%> export SQLITE\_ROOT=} location of SQLite@*)
-(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$SQLITE\_ROOT/lib}@*)
-(*@\texttt{\%> export PATH=\$PATH:\$SQLITE\_ROOT/bin}@*)
-\end{lstlisting}
-The configuration of SQLite is now complete. Once all the other
-third-party libraries are installed you will be able to build CUTS
-(see Chapter~\ref{chap:install}).
-
-\subsection{Installation}
-
-\subsubsection{Non-Windows}
- 
-If you are installing SQLite on a non-Windows system, \textit{e.g.}, Linux, 
-Soloris, or MacOS X, then you can download the source code directly from its
-main website (\url{http://www.sqlite.org}), build it, and install it using  
-standard procedures.
-
-\subsubsection{Windows}
-
-Installing SQLite from sources on Windows is not a trivial process. 
-It is therefore recommended that you download and use the prebuilt 
-version of SQLite available for download from the CUTS website at the 
-following location:
-\url{http://www.dre.vanderbilt.edu/CUTS/downloads/thirdparty/sqlite}. Please download
-the correct version of SQLite that matches your version of Microsoft Visual
-C++ and extract it to a common location on disk.
-
 \section{RTI-DDS}
 \label{sec:thirdparty-rtidds}
 
