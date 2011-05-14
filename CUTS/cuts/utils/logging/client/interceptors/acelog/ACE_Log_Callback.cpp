@@ -17,8 +17,6 @@ void CUTS_ACE_Log_Callback::log (ACE_Log_Record &log_record)
   // this is not the case, then we need to NULL terminate the buffer
   // before calling the log () method.
   this->logger_.log (log_record.priority (),
-                     /*log_record.pid ()*/
-                     ACE_OS::thr_self (),
                      log_record.msg_data ());
 
  // Some callback was set previously, invoke it manually

@@ -1,3 +1,13 @@
+Sat May 14 15:15:10 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Callback.cpp:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Msg_Backend.cpp:
+        * cuts/utils/logging/client/logger/Client_Logger.h:
+        * cuts/utils/logging/client/logger/Client_Logger.cpp:
+
+          Updated the design so that the log () method automatically
+          learns to thread id and is not specified by the user.
+
 Sat May 14 14:36:20 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_IDL_Graph_Builder.cpp:

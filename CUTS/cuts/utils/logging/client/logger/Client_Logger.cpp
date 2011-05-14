@@ -72,7 +72,7 @@ int CUTS_Client_Logger::get_uuid (ACE_Utils::UUID & uuid)
 //
 // log
 //
-int CUTS_Client_Logger::log (int severity, int thread_id, const char * format, ...)
+int CUTS_Client_Logger::log (int severity, const char * format, ...)
 {
   // Initialize the variable arguments list.
   va_list args;
@@ -86,7 +86,7 @@ int CUTS_Client_Logger::log (int severity, int thread_id, const char * format, .
   va_end (args);
 
   return this->impl_->log (severity,
-                           thread_id,
+                           ACE_OS::thr_self (),
                            ostr.str ().c_str (),
                            ostr.str ().length ());
 }
