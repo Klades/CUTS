@@ -175,13 +175,35 @@ void CUTS_BE_OutputAction_Property_T <CUTS_BE_CPP::Context>::
 generate (const PICML::OutputAction & action,
           const PICML::Property & prop)
 {
-  // TODO Add support for complex properties.
+  std::ostringstream varname;
+  varname << "__event_" << action.uniqueId () << "__";
 
-  PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
+  if (prop.type () == PICML::SimpleProperty::meta)
+  {
+    // Write the contents for a simple property.
+    PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
 
-  this->ctx_.source_
-    << "__event_" << action.uniqueId () << "__->"
-    << prop.name () << " (" << simple.Value () << ");";
+    this->ctx_.source_
+      << varname.str () << "->" << prop.name ()
+      << " (" << simple.Value () << ");";
+  }
+  else
+  {
+    PICML::ComplexProperty complex = PICML::ComplexProperty::Cast (prop);
+    std::vector <PICML::DataValue> values = complex.DataValue_kind_children ();
+
+    std::vector <PICML::DataValue>::const_iterator
+      iter = values.begin (), iter_end = values.end ();
+
+    const std::string propname = prop.name ();
+
+    for ( ; iter != iter_end; ++ iter)
+    {
+      this->ctx_.source_
+        << varname.str () << "->" << propname
+        << " ()." << iter->name () << " = " << iter->Value () << ";";
+    }
+  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

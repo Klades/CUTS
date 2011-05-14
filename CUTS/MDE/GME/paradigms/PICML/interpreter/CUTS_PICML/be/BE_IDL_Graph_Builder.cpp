@@ -314,7 +314,9 @@ Visit_Object (const PICML::Object & object)
 void CUTS_BE_IDL_Graph_Builder::
 Visit_Event (const PICML::Event & evt)
 {
-  this->current_node_->has_events_ = true;
+  if (this->NamedType_parent (evt) == this->active_file_)
+    this->current_node_->has_events_ = true;
+
   this->Visit_NamedType (evt);
 
   std::vector <PICML::Member> members = evt.Member_children ();
@@ -331,13 +333,6 @@ Visit_Event (const PICML::Event & evt)
 void CUTS_BE_IDL_Graph_Builder::
 Visit_Aggregate (const PICML::Aggregate & a)
 {
-  // Determine if this aggregate has a key. If so, then we can
-  // assume this is a DDS event.
-  PICML::Key key = a.Key_child ();
-
-  if (key != Udm::null)
-    this->current_node_->has_dds_events_ = true;
-
   // Visit the members in this aggregate.
   std::vector <PICML::Member> members = a.Member_children ();
   std::for_each (members.begin (),
@@ -345,6 +340,11 @@ Visit_Aggregate (const PICML::Aggregate & a)
                  boost::bind (&PICML::Member::Accept,
                               _1,
                               boost::ref (*this)));
+
+  PICML::Key key = a.Key_child ();
+
+  if (this->NamedType_parent (a) == this->active_file_ && key != Udm::null)
+    this->current_node_->has_dds_events_ = true;
 }
 
 //

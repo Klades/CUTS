@@ -1,3 +1,24 @@
+Sat May 14 14:36:20 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_IDL_Graph_Builder.cpp:
+
+          Bug fix where the has_events_ and has_dds_events_ was
+          being set under false conditions.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/BE_OpenSplice.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Preprocessor_Handlers.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Preprocessor_Handlers.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Preprocessor_Handlers.cpp:
+
+          Bug fix where the OpenSplice backend was missing its
+          preprocessor handlers.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.cpp:
+
+          Added support for generating 1-level complex properties
+          in the output event.
+
 Sat May 14 04:02:24 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/java/utils/logging/client/interceptors/log4j/cuts/log4j/LoggingClientAppender.java:
