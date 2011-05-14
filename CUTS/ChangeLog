@@ -3,7 +3,7 @@ Sat May 14 04:02:24 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
         * cuts/java/utils/logging/client/interceptors/log4j/cuts/log4j/LoggingClientAppender.java:
         * cuts/java/utils/logging/client/logger/CUTS/client/logging/Logger.java:
 
-          Fixing build errors
+          Fixed build errors
 
         * cuts/utils/logging/client/Logger_Task.cpp:
         * cuts/utils/logging/client/Logger_i.cpp:
@@ -25,7 +25,7 @@ Sat May 14 04:02:24 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
         * cuts/utils/testing/svcs/logging/Testing_LoggingServerListener_i.cpp:
         * cuts/utils/testing/svcs/logging/Trace_Importer_Parser.cpp:
 
-          Adding thread_id to the log message table.
+          Added thread_id to the log message table.
 
         * cuts/utils/unite/Dataflow_Graph_Builder.cpp:
         * cuts/utils/unite/Dataset_Repo.cpp:
@@ -43,7 +43,7 @@ Sat May 14 04:02:24 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * examples/java/logging/client/log4j/log4j.properties:
 
-          Adding pattern layout entry to the example.
+          Added pattern layout entry to the example.
 
 Fri May 13 19:04:07 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
