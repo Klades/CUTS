@@ -10,7 +10,7 @@
 #include "boost/bind.hpp"
 #include <algorithm>
 #include "ace/OS_NS_unistd.h"
-
+#include <iostream>
 
 //
 // register_listener
@@ -154,7 +154,7 @@ send_messages (const char * hostname,
       {
         if (!::CORBA::is_nil ((*iter).listener_.in ()))
         {
-          (*iter).listener_->handle_messages (hostname, test, messages);
+         (*iter).listener_->handle_messages (hostname, test, messages);
         }
         else
         {

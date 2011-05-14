@@ -29,6 +29,7 @@ void CUTS_Logger_i::log (const ::CUTS::LogMessage & logmsg)
 
   // Copy the contents of the message.
   message->severity       = logmsg.severity;
+  message->thread_id       = logmsg.thread_id;
   message->timestamp.sec  = logmsg.timestamp.sec;
   message->timestamp.usec = logmsg.timestamp.usec;
 

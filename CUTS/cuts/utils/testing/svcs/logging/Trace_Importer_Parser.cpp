@@ -18,8 +18,8 @@
 #include "ace/streams.h"
 
 static const char * __INSERT_STMT__ =
-  "INSERT INTO cuts_logging (timeofday, severity, hostname, message) "
-  "VALUES (DATETIME('NOW'), 1, ?, ?)";
+  "INSERT INTO cuts_logging (timeofday, severity, hostname, thread_id, message) "
+  "VALUES (DATETIME('NOW'), 1, ?, ?, ?)";
 
 namespace actors
 {

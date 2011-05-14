@@ -1,9 +1,56 @@
+Sat May 14 04:02:24 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/java/utils/logging/client/interceptors/log4j/cuts/log4j/LoggingClientAppender.java:
+        * cuts/java/utils/logging/client/logger/CUTS/client/logging/Logger.java:
+
+          Fixing build errors
+
+        * cuts/utils/logging/client/Logger_Task.cpp:
+        * cuts/utils/logging/client/Logger_i.cpp:
+        * cuts/utils/logging/client/LoggingClient.idl:
+        * cuts/utils/logging/client/LoggingClient_i.cpp:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Callback.cpp:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.cpp:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Msg_Backend.cpp:
+        * cuts/utils/logging/client/logger/Client_Logger.h:
+        * cuts/utils/logging/client/logger/Client_Logger.cpp:
+        * cuts/utils/logging/client/logger/Client_Logger_Impl.h:
+        * cuts/utils/logging/client/logger/Client_Logger_Impl.cpp:
+        * cuts/utils/logging/logging.idl:
+        * cuts/utils/logging/server/LoggingServer_i.cpp:
+        * cuts/utils/logging/server/Logging_Server.cpp:
+        * cuts/utils/testing/svcs/logging/Log_Message_Table.h:
+        * cuts/utils/testing/svcs/logging/Log_Message_Table.inl:
+        * cuts/utils/testing/svcs/logging/Log_Message_Table.cpp:
+        * cuts/utils/testing/svcs/logging/Testing_LoggingServerListener_i.cpp:
+        * cuts/utils/testing/svcs/logging/Trace_Importer_Parser.cpp:
+
+          Adding thread_id to the log message table.
+
+        * cuts/utils/unite/Dataflow_Graph_Builder.cpp:
+        * cuts/utils/unite/Dataset_Repo.cpp:
+        * cuts/utils/unite/Log_Format.cpp:
+        * cuts/utils/unite/Log_Format_Adapter.h:
+        * cuts/utils/unite/Log_Format_Adapter.cpp:
+        * cuts/utils/unite/Variable.h:
+        * cuts/utils/unite/Variable.inl:
+        * cuts/utils/unite/Variable.cpp:
+        * cuts/utils/unite/Variable_T.cpp:
+        * cuts/utils/unite/Variable_Table.h:
+        * cuts/utils/unite/unite.mpc:
+
+          Chnages required to for some modification in SETAF.
+
+        * examples/java/logging/client/log4j/log4j.properties:
+
+          Adding pattern layout entry to the example.
+
 Fri May 13 19:04:07 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * docs/manual/appendix/thirdparty.tex:
         * docs/manual/manual.pdf:
 
-	  Added MPC to the appendix.
+          Added MPC to the appendix.
 
 Fri May 13 18:53:58 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 

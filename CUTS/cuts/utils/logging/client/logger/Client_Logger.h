@@ -34,7 +34,7 @@ public:
   /// Destructor.
   ~CUTS_Client_Logger (void);
 
-  int log (int severity, const char * format, ...);
+  int log (int severity, int thread_id, const char * format, ...);
 
   int connect (const char * client);
 

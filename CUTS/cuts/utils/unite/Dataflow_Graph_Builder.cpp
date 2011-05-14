@@ -142,7 +142,7 @@ public:
 
     if(this->graph_.adapter ())
     {
-      this->graph_.adapter ()->update_log_format_relations (lfmt);
+      this->graph_.adapter ()->update_relations (lfmt);
     }
 
   };

@@ -61,10 +61,6 @@ bool CUTS_Log_Format::compile (const ACE_CString & format)
                        expr.str ().c_str ()),
                        false);
 
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - compiled format: %s\n"),
-              expr.str ().c_str ()));
-
   const char * error = 0;
   int error_offset;
 
@@ -97,7 +93,7 @@ bool CUTS_Log_Format::compile (const ACE_CString & format)
 // match
 //
 bool CUTS_Log_Format::match (const ACE_CString & message,
-               CUTS_Log_Format_Adapter * adapter)
+                             CUTS_Log_Format_Adapter * adapter)
 {
 
   int retval = ::pcre_exec (this->expr_,
@@ -120,39 +116,32 @@ bool CUTS_Log_Format::match (const ACE_CString & message,
     // Depending on that flag the variable will be populated.
 
     CUTS_Log_Format_Variable * variable = 0;
-    bool update_further = true;
+    bool adapter_required = false;
     const char * msgrep = message.c_str ();
+    int * capture = 0;
 
     for (CUTS_Log_Format_Variable_Table::CONST_ITERATOR iter (this->vars_);
         !iter.done ();
         ++ iter)
     {
-      // Update the variables first using the adapter
       variable = iter->item ();
-      if(adapter)
-      {
-        update_further = adapter->update_log_format_variable_values (iter->key (),
-                                                                     variable,
-                                                                     this);
-      }
+      size_t offset = (variable->index () + 1) * 2;
+      capture = this->captures_.get () + offset;
 
-      // Depending on the adapter results update the variable from the message
-      if(update_further)
-      {
-        // Calculate the variables offset in the captures.
-        size_t offset = (variable->index () + 1) * 2;
+      // Set the value of the variable.
 
-        int * capture = this->captures_.get () + offset;
-        // Set the value of the variable.
+      if (*capture < 0)
+        adapter_required = true;
+      else
         variable->value (msgrep + *capture, msgrep + *(capture + 1));
-
-      }
     }
+
+    if (adapter && adapter_required)
+      adapter->update_values (this->vars_, this);
   }
 
   return retval > 0;
-
- }
+}
 
 
 

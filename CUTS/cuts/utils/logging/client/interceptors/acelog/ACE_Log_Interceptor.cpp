@@ -49,7 +49,7 @@ int CUTS_ACE_Log_Interceptor::init (int argc, ACE_TCHAR *argv [])
   }
 
   // Set the UUID of the logger.
-  this->msg_backend_.logger ().set_uuid (this->uuid_);
+  //this->msg_backend_.logger ().set_uuid (this->uuid_);
 
   return 0;
 }
@@ -121,4 +121,3 @@ int CUTS_ACE_Log_Interceptor::info (ACE_TCHAR **str, size_t len) const
 {
   return 0;
 }
-

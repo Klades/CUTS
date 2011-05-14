@@ -64,7 +64,7 @@ void CUTS_Log_Format_Adapter::add_variable (CUTS_Log_Format * lfmt,
 
     size_t captures_size = (lfmt->variables ().current_size ()  + 1) * 3;
     lfmt->captures_size (captures_size);
-    ACE_NEW_THROW_EX(captures,  int[captures_size],  ACE_bad_alloc ());
+    ACE_NEW_THROW_EX (captures,  int[captures_size],  ACE_bad_alloc ());
     lfmt->captures ().reset (captures);
 }
 

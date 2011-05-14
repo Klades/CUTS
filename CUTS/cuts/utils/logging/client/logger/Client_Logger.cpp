@@ -4,6 +4,7 @@
 #include "Client_Logger_Impl.h"
 #include "Format_Parser.h"
 #include <sstream>
+#include <iostream>
 
 //
 // CUTS_Client_Logger
@@ -12,6 +13,7 @@ CUTS_Client_Logger::CUTS_Client_Logger (const char * name)
 : impl_ (0),
   parser_ (0)
 {
+
   // Allocate a new client logger implementation.
   ACE_NEW_THROW_EX (this->impl_,
                     CUTS_Client_Logger_Impl (name),
@@ -70,7 +72,7 @@ int CUTS_Client_Logger::get_uuid (ACE_Utils::UUID & uuid)
 //
 // log
 //
-int CUTS_Client_Logger::log (int severity, const char * format, ...)
+int CUTS_Client_Logger::log (int severity, int thread_id, const char * format, ...)
 {
   // Initialize the variable arguments list.
   va_list args;
@@ -84,6 +86,7 @@ int CUTS_Client_Logger::log (int severity, const char * format, ...)
   va_end (args);
 
   return this->impl_->log (severity,
+                           thread_id,
                            ostr.str ().c_str (),
                            ostr.str ().length ());
 }

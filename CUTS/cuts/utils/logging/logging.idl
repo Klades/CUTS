@@ -38,6 +38,9 @@ module CUTS
     /// Priority of the log message.
     long severity;
 
+    /// Id of the thread which generated the message
+    long thread_id;
+
     /// The actual content of the log message.
     ::CUTS::MessageText message;
   };

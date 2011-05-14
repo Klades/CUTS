@@ -36,14 +36,17 @@ struct insert_message
     ACE_Date_Time dt (tv);
     ADBC::SQLite::Date_Time timeofday (dt);
     ACE_INT16 severity = msg.severity;
+    ACE_INT32 thread_id = msg.thread_id;
 
     // Bind the remaining parameters.
     this->insert_stmt_.bind_timeofday (timeofday);
     this->insert_stmt_.bind_severity (severity);
+    this->insert_stmt_.bind_thread_id (thread_id);
     this->insert_stmt_.bind_message (msg.message.get_buffer (),
                                      msg.message.length ());
 
     // Execute and reset the insert statement.
+
     this->insert_stmt_.execute ();
     this->insert_stmt_.reset ();
   }
@@ -81,6 +84,8 @@ handle_messages (const char * hostname,
   {
     ACE_WRITE_GUARD (ACE_RW_Thread_Mutex, guard, this->mutex_);
 
+
+
     if (0 == this->database_)
       return;
 
@@ -93,9 +98,10 @@ handle_messages (const char * hostname,
 
     // Prepare the statement for inserting messages.
     CUTS_Log_Message_Table msg_table (*this->database_);
-    CUTS_Log_Message_Table::INSERT_STMT insert_stmt (*query);
 
+    CUTS_Log_Message_Table::INSERT_STMT insert_stmt (*query);
     insert_stmt.prepare ();
+
     insert_stmt.bind_hostname (hostname);
 
     // Insert each message into the database.
@@ -105,6 +111,7 @@ handle_messages (const char * hostname,
 
     // End the current transaction.
     query->execute_no_record ("COMMIT");
+
   }
   catch (const ADBC::Exception & ex)
   {

@@ -52,8 +52,8 @@ CUTS_INLINE
 void CUTS_Log_Message_Table_Insert_Stmt::prepare (void)
 {
   static const char * __INSERT_STMT__ =
-    ACE_TEXT ("INSERT INTO cuts_logging (timeofday, severity, hostname, message) ")
-    ACE_TEXT ("VALUES (?, ?, ?, ?)");
+    ACE_TEXT ("INSERT INTO cuts_logging (timeofday, severity, hostname, thread_id, message) ")
+    ACE_TEXT ("VALUES (?, ?, ?, ?, ?)");
 
   this->query_.prepare (__INSERT_STMT__);
 }
@@ -105,6 +105,15 @@ bind_hostname (const char * hostname)
 {
   this->query_.parameters ()[2].bind (hostname, ACE_OS::strlen (hostname));
 }
+//
+// bind_thread_id
+//
+CUTS_INLINE
+void CUTS_Log_Message_Table_Insert_Stmt::
+bind_thread_id (ACE_INT32 & thread_id)
+{
+  this->query_.parameters ()[3].bind (&thread_id);
+}
 
 //
 // bind_message
@@ -113,5 +122,5 @@ CUTS_INLINE
 void CUTS_Log_Message_Table_Insert_Stmt::
 bind_message (const char * message, size_t length)
 {
-  this->query_.parameters ()[3].bind (message, length);
+  this->query_.parameters ()[4].bind (message, length);
 }

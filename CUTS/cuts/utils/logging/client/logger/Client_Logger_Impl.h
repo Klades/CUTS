@@ -24,6 +24,7 @@
 class CUTS_Client_Logger_Impl
 {
 public:
+
   /// Default constructor.
   CUTS_Client_Logger_Impl (const char * name = "");
 
@@ -47,7 +48,7 @@ public:
    * @param[in]     message         Message to log
    * @param[in]     msglen          Length of the \a message
    */
-  int log (int severity, const char * message, size_t msglen);
+  int log (int severity, int thread_id, const char * message, size_t msglen);
 
   /**
    * Set the UUID for the logger.

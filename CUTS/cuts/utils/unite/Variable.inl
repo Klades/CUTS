@@ -94,6 +94,12 @@ value (char * val)
   this->value_.set (val);
 }
 
+CUTS_INLINE
+char * CUTS_String_Log_Format_Variable::
+value ()
+{
+  return (char *) this->value_.c_str ();
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // class CUTS_Regex_Log_Format_Variable
@@ -156,4 +162,11 @@ CUTS_INLINE
 const std::string CUTS_Regex_Log_Format_Variable::format ()
 {
   return this->format_;
+}
+
+CUTS_INLINE
+char * CUTS_Regex_Log_Format_Variable::
+value ()
+{
+  return (char *) this->value_.c_str ();
 }

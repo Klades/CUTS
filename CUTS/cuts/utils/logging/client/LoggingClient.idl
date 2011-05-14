@@ -30,6 +30,7 @@ module CUTS
      *
      * @param[in]       timestamp         Timestamp of the message
      * @param[in]       severity          Severity of the message
+     * @param[in]       thread_id          Threadid of the message
      * @param[in]       message           Content of the message
      */
     oneway void log (in ::CUTS::LogMessage logmsg);

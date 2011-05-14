@@ -99,3 +99,11 @@ const std::string CUTS_Datetime_Log_Format_Variable::format ()
 {
   return this->format_;
 }
+
+CUTS_INLINE
+char * CUTS_Datetime_Log_Format_Variable::
+value ()
+{
+  char * val = 0;
+  return val;
+}

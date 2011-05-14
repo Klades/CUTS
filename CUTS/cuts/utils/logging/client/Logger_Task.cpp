@@ -10,6 +10,7 @@
 #include "cuts/UUID.h"
 #include "ace/OS_NS_unistd.h"
 #include "ace/Reactor.h"
+#include <iostream>
 
 #define ACE_LOG_MESSAGE_BUFFER_SIZE 50
 

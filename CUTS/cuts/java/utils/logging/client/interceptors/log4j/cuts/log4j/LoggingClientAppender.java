@@ -35,7 +35,7 @@ public class LoggingClientAppender extends AppenderSkeleton
     byte [] data4 = new byte [6];
     Arrays.fill (data4, (byte) 0);
 
-    this.testUUID_ = new CUTS.UUID (0, (short) 0, (short) 0, data4);
+    this.testUUID_ = new cuts.UUID (0, (short) 0, (short) 0, data4);
   }
 
   /**
@@ -89,13 +89,13 @@ public class LoggingClientAppender extends AppenderSkeleton
    */
   public void append (LoggingEvent event)
   {
-	    //int level = LoggingClientAppender.translateLevel (event.getLevel ());
-	    int level = 4;
+	    int level = LoggingClientAppender.translateLevel (event.getLevel ());
+	  	int thread_id = LoggingClientAppender.translateThreadName (event.getThreadName ());
 	    String msg = null;
 	    if(this.layout != null)
 	    	msg = this.layout.format(event);
-	    System.out.println(msg);
-	    this.logger_.logMessage (level, msg);
+	    //System.out.println(msg);
+	    this.logger_.logMessage (level, thread_id, msg);
  	
   }
 
@@ -127,6 +127,18 @@ public class LoggingClientAppender extends AppenderSkeleton
     return LoggingClientAppender.levelTable_.get (level);
   }
 
+  private static int translateThreadName (String name)
+  {
+	  Integer id = (Integer)LoggingClientAppender.threadTable_.get(name);
+	  if (id == null) 
+	  {
+		  id = new Integer (LoggingClientAppender.threadTable_.size() + 1);
+		  LoggingClientAppender.threadTable_.put(name, id);
+	  }
+	  
+	  return id.intValue();
+	  
+  }
   /**
    * Initialize routine for all the static section.
    */
@@ -144,6 +156,8 @@ public class LoggingClientAppender extends AppenderSkeleton
     // The following our not directly mappable.
     LoggingClientAppender.levelTable_.put (Level.ALL, Logger.LM_DEBUG);
     LoggingClientAppender.levelTable_.put (Level.OFF, Logger.LM_SHUTDOWN);
+    
+    LoggingClientAppender.threadTable_ = new Hashtable<String, Integer> ();
   }
 
   /// The actual logger for the appender.
@@ -156,8 +170,10 @@ public class LoggingClientAppender extends AppenderSkeleton
   private boolean isInit_ = false;
 
   /// The current UUID for the test.
-  private CUTS.UUID testUUID_;
+  private cuts.UUID testUUID_;
 
   /// Table for tranlating Level objects to integer values.
   private static Hashtable<Level, Integer> levelTable_;
+  
+  private static Hashtable<String, Integer> threadTable_;
 }

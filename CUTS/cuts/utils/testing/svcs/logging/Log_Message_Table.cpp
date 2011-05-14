@@ -16,6 +16,7 @@ static const char * __CREATE_CUTS_LOGGING_TABLE__ =
 "timeofday DATETIME,"
 "severity INTEGER,"
 "hostname VARCHAR,"
+"thread_id INTEGER,"
 "message TEXT"
 ")";
 

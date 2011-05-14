@@ -73,6 +73,8 @@ public:
   /// Set the value straightaway from a string
   virtual void value (char * val) = 0;
 
+  virtual char * value () = 0;
+
   /// Posiiton of the variables array
   size_t index (void) const;
 
@@ -113,6 +115,8 @@ public:
 
   virtual void value (char * val);
 
+  virtual char * value ();
+
 
 private:
   ACE_CString value_;
@@ -135,6 +139,8 @@ public:
   virtual void bind (ADBC::SQLite::Parameter & param);
 
   virtual void value (char * val);
+
+  virtual char * value ();
 
   /// Set the corresponding ACE Date_Time
   void date_time (ACE_Date_Time & dt);
@@ -172,6 +178,8 @@ public:
 
   virtual void value (char *val);
 
+  virtual char * value ();
+
   const std::string format ();
 
 
@@ -205,6 +213,8 @@ public:
   virtual void bind (ADBC::SQLite::Parameter & param);
 
   virtual void value (char * val);
+
+  virtual char * value ();
 
   /// Set the value of the variable straightaway using the type
   void value (T val);

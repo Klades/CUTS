@@ -105,7 +105,7 @@ public class Logger
    * @param[in]       location      Location of the logging client
    * @param[in]       uuid          Test assigned to logger
    */
-  public void connect (String location, CUTS.UUID uuid)
+  public void connect (String location, cuts.UUID uuid)
   {
     try
     {
@@ -124,7 +124,7 @@ public class Logger
    *
    * @param[in]         uuid            UUID for the client logger.
    */
-  public void setUUID (CUTS.UUID uuid)
+  public void setUUID (cuts.UUID uuid)
   {
     // Release the existing logger object, if applicable.
     if (this.logger_ != null)
@@ -141,7 +141,7 @@ public class Logger
    *
    * @return            UUID associated with logger.
    */
-  public CUTS.UUID getUUID ()
+  public cuts.UUID getUUID ()
   {
     return this.logger_.uuid ();
   }
@@ -175,7 +175,7 @@ public class Logger
    * @param[in]           priority          Level of the message
    * @param[in]           message           Message to log
    */
-  public void logMessage (int priority, String message)
+  public void logMessage (int priority, int thread_id, String message)
   {
     try
     {
@@ -183,11 +183,14 @@ public class Logger
       CUTS.LogMessage msg = new CUTS.LogMessage ();
       msg.timestamp = this.getTimeOfDay ();
       msg.severity = priority;
+      msg.thread_id = thread_id;
       msg.message = message.toCharArray ();
-
-      // Send the message to the logger.
       
-	if(this.logger_ != null)
+      //System.out.println (message);
+      //System.out.println (thread_id);
+      
+      // Send the message to the logger.
+     if(this.logger_ != null)
 		this.logger_.log (msg);
     }
     catch (Exception ex)
@@ -210,7 +213,7 @@ public class Logger
    *
    * @return      Current time as a time value
    */
-  private CUTS.TimeValue getTimeOfDay ()
+  private cuts.TimeValue getTimeOfDay ()
   {
     long msec = System.currentTimeMillis ();
 
@@ -220,7 +223,7 @@ public class Logger
     // Convert remainder to microseconds;
     long usec = (msec - (secs * 1000)) * 1000;
 
-    return new CUTS.TimeValue ((int)secs, (int)usec);
+    return new cuts.TimeValue ((int)secs, (int)usec);
   }
 
   /// ORB used by the logger to communicate with outside world.

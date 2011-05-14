@@ -8,6 +8,8 @@
 #include "cuts/utils/testing/svcs/server/testingC.h"
 #include <iostream>
 
+
+
 //
 // CUTS_Client_Logger_Impl
 //
@@ -158,7 +160,7 @@ int CUTS_Client_Logger_Impl::set_uuid_i (const ACE_Utils::UUID & uuid)
 // log
 //
 int CUTS_Client_Logger_Impl::
-log (int severity, const char * message, size_t msglen)
+log (int severity, int thread_id, const char * message, size_t msglen)
 {
   try
   {
@@ -172,6 +174,7 @@ log (int severity, const char * message, size_t msglen)
     // Copy the contents to a ::CUTS::LogMessage object.
     CUTS::LogMessage logmsg;
     logmsg.severity = severity;
+    logmsg.thread_id = thread_id;
     logmsg.timestamp.sec = tv.sec ();
     logmsg.timestamp.usec = tv.usec ();
 

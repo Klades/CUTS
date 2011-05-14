@@ -21,9 +21,32 @@
 // Forward decl.
 class CUTS_Log_Format_Variable;
 
-/// Type definition for the log format's variable table.
-typedef ACE_Hash_Map_Manager <ACE_CString,
+
+class CUTS_Log_Format_Variable_Table :
+  public ACE_Hash_Map_Manager <ACE_CString,
                               CUTS_Log_Format_Variable *,
-                              ACE_Null_Mutex> CUTS_Log_Format_Variable_Table;
+                              ACE_Null_Mutex>
+{
+
+public:
+  CUTS_Log_Format_Variable_Table (){}
+
+  ~CUTS_Log_Format_Variable_Table (){}
+
+  CUTS_Log_Format_Variable * CUTS_Log_Format_Variable_Table::operator [] (const char * name)
+  {
+    ACE_CString key (name);
+    for (CUTS_Log_Format_Variable_Table::CONST_ITERATOR iter (*this);
+        !iter.done ();
+        ++ iter)
+    {
+      if ((ACE_CString )iter->key () == key)
+        return iter->item ();
+    }
+
+    return 0;
+  }
+
+};
 
 #endif  // !defined _CUTS_UNITE_VARIABLE_TABLE_H_

@@ -89,6 +89,7 @@ public:
   void bind_timeofday (ADBC::SQLite::Date_Time & timeofday);
   void bind_severity (ACE_INT16 & severity);
   void bind_hostname (const char * hostname);
+  void bind_thread_id (ACE_INT32 & thread_id);
   void bind_message (const char * msg, size_t length);
 
 private:

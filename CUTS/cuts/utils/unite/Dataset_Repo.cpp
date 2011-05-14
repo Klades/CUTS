@@ -75,7 +75,7 @@ private:
     for ( ; !this->record_.done (); this->record_.advance ())
     {
       // Get the message from the row.
-      this->record_.get_data (4, message, sizeof (message));
+      this->record_.get_data (5, message, sizeof (message));
 
       // Execute the entry against this message. It may or may not update
       // the database. It depends on if the message matches the current

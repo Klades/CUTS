@@ -15,6 +15,8 @@
 ssize_t CUTS_ACE_Msg_Backend::log (ACE_Log_Record &log_record)
 {
   this->logger_.log (log_record.priority (),
+                     /*log_record.pid (),*/
+                     ACE_OS::thr_self (),
                      log_record.msg_data (),
                      log_record.length ());
 

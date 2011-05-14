@@ -8,6 +8,7 @@
 #include "Unite_export.h"
 #include "Log_Format.h"
 #include "Variable.h"
+#include "Variable_Table.h"
 
 
 /**
@@ -59,12 +60,11 @@ public:
   virtual void update_log_format (CUTS_Log_Format * lfmt) = 0;
 
   // Add new log format relations
-  virtual void update_log_format_relations (CUTS_Log_Format * lfmt) = 0;
+  virtual void update_relations (CUTS_Log_Format * lfmt) = 0;
 
   // Populate values for the variables
-  virtual bool update_log_format_variable_values (ACE_CString &key,
-                                                 CUTS_Log_Format_Variable * var,
-                                                 CUTS_Log_Format * lfmt) = 0;
+  virtual void update_values (CUTS_Log_Format_Variable_Table & vars,
+                              CUTS_Log_Format * lfmt) = 0;
 
   // reset private variables of the adapter
   virtual void reset () = 0;

@@ -44,3 +44,11 @@ value (T val)
 {
   this->value_ = val;
 }
+
+template <typename T>
+char * CUTS_Basic_Log_Format_Variable_T <T>::
+value ()
+{
+  char * val = 0;
+  return val;
+}

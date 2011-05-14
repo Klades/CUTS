@@ -40,13 +40,13 @@ project (CUTS_Unite_Common) : pcre, boost_base, cuts_test_database, cutslib {
     Relation.cpp
     Unite_Test.cpp
     Variable.cpp
-	Log_Format_Adapter.cpp
+    Log_Format_Adapter.cpp
   }
 
   Header_Files {
     Aspect.h
+    Log_Format_Adapter.h
     Variable_Table.h
-	Log_Format_Adapter.h
   }
 
   Template_Files {
