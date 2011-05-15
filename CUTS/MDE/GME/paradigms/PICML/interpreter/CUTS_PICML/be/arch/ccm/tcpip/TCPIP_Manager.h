@@ -13,7 +13,9 @@
 #ifndef _CUTS_BE_TCPIP_MANAGER_H_
 #define _CUTS_BE_TCPIP_MANAGER_H_
 
+#include "Preprocessor_Handlers.h"
 #include "TCPIP_Generator.h"
+
 #include "../../../BE_Manager_T.h"
 #include "../../../BE_MPC_Workspace.h"
 

@@ -13,6 +13,7 @@
 #ifndef _CUTS_BE_RTIDDS_MANAGER_H_
 #define _CUTS_BE_RTIDDS_MANAGER_H_
 
+#include "Preprocessor_Handlers.h"
 #include "Generators.h"
 #include "../../../BE_Manager_T.h"
 #include "../../../BE_MPC_Workspace.h"

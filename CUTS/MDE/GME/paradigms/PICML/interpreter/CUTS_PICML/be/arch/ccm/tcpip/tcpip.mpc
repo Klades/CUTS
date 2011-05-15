@@ -13,6 +13,7 @@ project (CUTS_BE_TCPIP) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
     Output_Stream_Aggr_Member_Generator.cpp
     Output_Stream_Event_Member_Generator.cpp
     Output_Stream_Source_Generator.cpp
+    Preprocessor_Handlers.cpp
     TCPIP_Ctx.cpp
     TCPIP_Generator.cpp
     TCPIP_Manager_Factory.cpp

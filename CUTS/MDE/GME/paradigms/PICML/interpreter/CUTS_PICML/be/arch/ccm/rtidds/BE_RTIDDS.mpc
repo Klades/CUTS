@@ -10,6 +10,7 @@ project (CUTS_BE_RTIDDS) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
     Event_Traits_Generator.cpp
     Generators.cpp
     Manager_Factory.cpp
+    Preprocessor_Handlers.cpp
     Stub_Generator.cpp
     Traits.cpp
   }
