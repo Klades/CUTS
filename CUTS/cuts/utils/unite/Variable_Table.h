@@ -33,7 +33,7 @@ public:
 
   ~CUTS_Log_Format_Variable_Table (){}
 
-  CUTS_Log_Format_Variable * CUTS_Log_Format_Variable_Table::operator [] (const char * name)
+  CUTS_Log_Format_Variable * operator [] (const char * name)
   {
     ACE_CString key (name);
     for (CUTS_Log_Format_Variable_Table::CONST_ITERATOR iter (*this);
@@ -46,7 +46,6 @@ public:
 
     return 0;
   }
-
 };
 
 #endif  // !defined _CUTS_UNITE_VARIABLE_TABLE_H_

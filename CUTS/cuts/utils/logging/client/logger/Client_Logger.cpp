@@ -86,7 +86,7 @@ int CUTS_Client_Logger::log (int severity, const char * format, ...)
   va_end (args);
 
   return this->impl_->log (severity,
-                           ACE_OS::thr_self (),
+                           (long)ACE_OS::thr_self (),
                            ostr.str ().c_str (),
                            ostr.str ().length ());
 }

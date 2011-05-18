@@ -1,3 +1,10 @@
+Wed May 18 23:15:42 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/utils/logging/client/logger/Client_Logger.cpp:
+        * cuts/utils/unite/Variable_Table.h:
+
+          Fixed build errors in Linux due to the latest commits.
+
 Wed May 18 03:08:48 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/utils/unite/setaf:
