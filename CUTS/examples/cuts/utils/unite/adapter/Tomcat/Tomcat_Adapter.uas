@@ -1,4 +1,4 @@
-Columns: 
+DataPoints: 
 	string LF1.ServerName;
 	string LF2.ServerName;
 	string LF3.ServerName;
@@ -27,62 +27,26 @@ Relations:
 
 	
 On LF1:
-if(key == "ServerName")
-{
-  var->value("Tomcat");
-}
+  vars ["ServerName"]->value ("Tomcat");
 On LF2:
-if(key == "ServerName")
-{
-  var->value("Tomcat");
-}
+  vars ["ServerName"]->value ("Tomcat");
 On LF3:
-if(key == "ServerName")
-{
-  var->value("Tomcat");
-}
+  vars ["ServerName"]->value ("Tomcat");
 On LF4:
-if(key == "ServerName")
-{
-  var->value("Tomcat");
-}
+  vars ["ServerName"]->value ("Tomcat");
 On LF5:
-if(key == "ServerName")
-{
-  var->value("Tomcat");
-}
+  vars ["ServerName"]->value ("Tomcat");
 On LF6:
-if(key == "ServerName")
-{
-  var->value("Tomcat");
-}
+  vars ["ServerName"]->value ("Tomcat");
 On LF7:
-if(key == "ServerName")
-{
-  var->value("Tomcat");
-}
+  vars ["ServerName"]->value ("Tomcat");
 On LF8:
-if(key == "ServerName")
-{
-  var->value("Tomcat");
-}
+  vars ["ServerName"]->value ("Tomcat");
 On LF9:
-if(key == "ServerName")
-{
-  var->value("Tomcat");
-}
+  vars ["ServerName"]->value ("Tomcat");
 On LF10:
-if(key == "ServerName")
-{
-  var->value("Tomcat");
-}
+  vars ["ServerName"]->value ("Tomcat");
 On LF11:
-if(key == "ServerName")
-{
-  var->value("Tomcat");
-}
+  vars ["ServerName"]->value ("Tomcat");
 On LF12:
-if(key == "ServerName")
-{
-  var->value("Tomcat");
-}
+  vars ["ServerName"]->value ("Tomcat");

@@ -1,83 +1,81 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<cuts:datagraph xmlns="http://www.dre.vanderbilt.edu/CUTS/XML"
-                xmlns:cuts="http://www.dre.vanderbilt.edu/CUTS/XML"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://www.dre.vanderbilt.edu/CUTS/XML cuts-unite.xsd">
+<cuts:datagraph xmlns="http://cuts.cs.iupui.edu"
+            xmlns:cuts="http://cuts.cs.iupui.edu"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://cuts.cs.iupui.edu cuts-unite.xsd">
 
   <name>Tomcat</name>
   <adapter>C:/research/unite-projects/script-working/script-backup/output/tomcat/Tomcat_Adapterd.dll</adapter>
 
   <logformats>
     <logformat id="LF1">
-      <value>Initialization processed in {LONG processedTime} ms [{LONG t1}]</value>
+      <value>Initialization processed in {LONG processedTime} ms {LONG t1}</value>
 	  <relations>
 	    <relation effectref="LF2" />
       </relations>
     </logformat>
 	<logformat id="LF2">
-      <value>Starting service Catalina [{LONG t2}]</value>
+      <value>Starting service Catalina {LONG t2}</value>
 	  <relations>
 	    <relation effectref="LF3" />
-      </relations>
+    </relations>
     </logformat>
 	<logformat id="LF3">
-      <value>Starting Servlet Engine: Apache Tomcat/6.0.26 [{LONG t3}]</value>
+      <value>Starting Servlet Engine: Apache Tomcat/6.0.26 {LONG t3}</value>
 	  <relations>
 	    <relation effectref="LF4" />
       </relations>
     </logformat>
 	<logformat id="LF4">
-      <value>Deploying configuration descriptor host-manager.xml [{LONG t4}]</value>
+      <value>Deploying configuration descriptor host-manager.xml {LONG t4}</value>
 	  <relations>
 	    <relation effectref="LF5" />
       </relations>
     </logformat>
 	<logformat id="LF5">
-      <value>Deploying configuration descriptor manager.xml [{LONG t5}]</value>
+      <value>Deploying configuration descriptor manager.xml {LONG t5}</value>
 	  <relations>
 	    <relation effectref="LF6" />
       </relations>
     </logformat>
 	<logformat id="LF6">
-      <value>Deploying web application directory docs [{LONG t6}]</value>
+      <value>Deploying web application directory docs {LONG t6}</value>
 	  <relations>
 	    <relation effectref="LF7" />
       </relations>
     </logformat>
 	<logformat id="LF7">
-      <value>Deploying web application directory examples [{LONG t7}]</value>
+      <value>Deploying web application directory examples {LONG t7}</value>
 	  <relations>
 	    <relation effectref="LF8" />
       </relations>
     </logformat>
 	<logformat id="LF8">
-      <value>SessionListener: contextInitialized() [{LONG t8}]</value>
+      <value>SessionListener: contextInitialized() {LONG t8}</value>
 	  <relations>
 	    <relation effectref="LF9" />
       </relations>
     </logformat>
 	<logformat id="LF9">
-      <value>Deploying web application directory ROOT [{LONG t9}]</value>
+      <value>Deploying web application directory ROOT {LONG t9}</value>
 	  <relations>
 	    <relation effectref="LF10" />
       </relations>
     </logformat>
 	<logformat id="LF10">
-      <value>Starting Coyote HTTP/1.1 on http-8080 [{LONG t10}]</value>
+      <value>Starting Coyote HTTP/1.1 on http-8080 {LONG t10}</value>
 	  <relations>
 	    <relation effectref="LF11" />
       </relations>
     </logformat>
 	<logformat id="LF11">
-      <value>Starting Coyote AJP/1.3 on ajp-8009 [{LONG t11}]</value>
+      <value>Starting Coyote AJP/1.3 on ajp-8009 {LONG t11}</value>
 	  <relations>
 	    <relation effectref="LF12" />
       </relations>
     </logformat>
 	<logformat id="LF12">
-      <value>Server startup in {LONG totaltime} ms [{LONG t12}]</value>
+      <value>Server startup in {LONG totaltime} ms {LONG t12}</value>
     </logformat>
   </logformats> 	
 </cuts:datagraph>
-
-

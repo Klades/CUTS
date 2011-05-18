@@ -1,7 +1,13 @@
 Variables:
 	int id_;
 
-Columns: 
+Init: 
+  id_ = 0;
+  
+Reset:
+  id_ = 0;
+  
+DataPoints: 
 	int LF1.uid;
 	int LF2.uid; 
 	
@@ -9,18 +15,11 @@ Relations:
 	LF1.uid->LF2.uid;
 	
 On LF1:
-if(key == "uid")
-{
   this->id_ = this->id_ + 1;
-  int32_var * ivar = dynamic_cast <int32_var *> (var);
+  int32_var * ivar = dynamic_cast <int32_var *> (vars ["uid"]);
   ivar->value (this->id_);
-}
 		
 On LF2:
-if(key == "uid")
-{
   this->id_ = this->id_ + 1;
-  int32_var * ivar = dynamic_cast <int32_var *> (var);
+  int32_var * ivar = dynamic_cast <int32_var *> (vars ["uid"]);
   ivar->value (this->id_);
-}
-

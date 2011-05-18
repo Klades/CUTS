@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<cuts:test xmlns="http://www.dre.vanderbilt.edu/CUTS/XML"
-            xmlns:cuts="http://www.dre.vanderbilt.edu/CUTS/XML"
+<cuts:test xmlns="http://cuts.cs.iupui.edu"
+            xmlns:cuts="http://cuts.cs.iupui.edu"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://www.dre.vanderbilt.edu/CUTS/XML cuts-unite.xsd">
+            xsi:schemaLocation="http://cuts.cs.iupui.edu cuts-unite.xsd">
 
   <name>executiontime</name>
+  <!--evaluation>LF2.finishTime - LF1.startTime</evaluation-->
   <evaluation>LF2.finishTime - LF1.startTime</evaluation>
   <aggregation>AVG</aggregation>
 

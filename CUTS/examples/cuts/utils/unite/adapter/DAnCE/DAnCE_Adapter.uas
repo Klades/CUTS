@@ -1,14 +1,25 @@
 Variables:
-	int lf13_update_count_;
+	int lf12_count_;
+  int lf13_count_;
+  string plan_id_;
 
-Columns: 
+Init:
+  lf12_count_ = 0;
+  lf13_count_ = 0;
+  
+Reset:
+  lf12_count_ = 0;
+  lf13_count_ = 0;
+
+DataPoints: 
 	string LF1.planid;
 	string LF2.planid; 
 	string LF5.planid; 
 	string LF6.planid; 
 	string LF9.planid; 
 	string LF11.planid; 
-	string LF13.node;
+	string LF12.nodeid;
+  string LF13.nodeid;
 
 Relations: 
 	LF1.planid->LF2.planid;
@@ -18,54 +29,33 @@ Relations:
 	LF9.planid->LF10.planid;
 	LF10.planid->LF11.planid;
 	LF11.planid->LF12.planid;
-	LF12.node->LF13.node;
+	LF12.nodeid->LF13.nodeid;
 	
 On LF1:
-if(key == "planid")
-{
-  var->value("BasicSP_Unhomed");
-}
+  vars ["planid"]->value (this->plan_id_);
 		
 On LF2:
-if(key == "planid")
-{
-  var->value("BasicSP_Unhomed");
-}
+  vars ["planid"]->value (this->plan_id_);
 
 On LF5:
-if(key == "planid")
-{
-  var->value("BasicSP_Unhomed");
-}
+  vars ["planid"]->value (this->plan_id_);
 
 On LF6:
-if(key == "planid")
-{
-  var->value("BasicSP_Unhomed");
-}
+  vars ["planid"]->value (this->plan_id_);
 
 On LF9:
-if(key == "planid")
-{
-  var->value("BasicSP_Unhomed");
-}
+  vars ["planid"]->value (this->plan_id_);
 
 On LF11:
-if(key == "planid")
-{
-  var->value("BasicSP_Unhomed");
-}
+  vars ["planid"]->value (this->plan_id_);
+  
+On LF12:
+  char buffer [10];
+  vars ["nodeid"]->value (itoa (this->lf12_count_, buffer, 10));
+  this->lf12_count_ = this->lf12_count_ + 1;
+  this->plan_id_ = vars ["planid"]->value ();
 
 On LF13:
-if(key == "node")
-{
-  if (this->lf13_update_count_ == 0)
-    var->value ("EC");
-	else if (this->lf13_update_count_ == 1)
-		var->value ("BMDevice");
-	else if (lf13_update_count_ == 2)
-		var->value ("BMClosedED");
-	else if(lf13_update_count_ == 3)
-		var->value ("BMDisplay");
-	this->lf13_update_count_ = this->lf13_update_count_ + 1;	
-}
+  char buffer [10];
+  vars ["nodeid"]->value (itoa (this->lf13_count_, buffer, 10));
+  this->lf13_count_ = this->lf13_count_ + 1;

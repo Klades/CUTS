@@ -1,0 +1,26 @@
+project (CUTS_Setaf) : boost_base, cutsexe{
+  exename = cuts-setaf
+  after += CUTS_Unite_Exe
+  includes += $(CUTS_ROOT)
+  includes += $(ACE_ROOT)
+  includes += $(CCF_ROOT)
+  includes += $(CUTS_ROOT)/contrib/Utility
+  libpaths += $(CUTS_ROOT)/lib
+
+  Source_Files {
+    Setaf_Lang_Compiler.cpp
+    Setaf_Format.cpp
+    Cpp.cpp
+    Setaf_Code_Generator.cpp
+    Setaf_app.cpp
+    Setaf.cpp
+  }
+
+  Inline_Files {
+
+  }
+
+  Header_Files {
+    Setaf_Utils.h
+  }
+}
