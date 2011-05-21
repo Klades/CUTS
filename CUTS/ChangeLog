@@ -1,3 +1,38 @@
+Sat May 21 22:03:17 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/utils/unite/dmac:
+        * cuts/utils/unite/dmac/Dmac.mpc:
+        * cuts/utils/unite/dmac/Dmac.cpp:
+        * cuts/utils/unite/dmac/Dmac_App.h:
+        * cuts/utils/unite/dmac/Dmac_App.cpp:
+        * cuts/utils/unite/dmac/Dmac_Dataflow_File_Generator.h:
+        * cuts/utils/unite/dmac/Dmac_Dataflow_File_Generator.cpp:
+        * cuts/utils/unite/dmac/Dmac_Execution.h:
+        * cuts/utils/unite/dmac/Dmac_Execution.cpp:
+        * cuts/utils/unite/dmac/Dmac_Log_Format.h:
+        * cuts/utils/unite/dmac/Dmac_Log_Format.cpp:
+        * cuts/utils/unite/dmac/Dmac_Log_Format_Graph.h:
+        * cuts/utils/unite/dmac/Dmac_Log_Format_Graph.cpp:
+        * cuts/utils/unite/dmac/Dmac_Relation.h:
+        * cuts/utils/unite/dmac/Dmac_Relation.cpp:
+        * cuts/utils/unite/dmac/Dmac_Sequence.h:
+        * cuts/utils/unite/dmac/Dmac_Sequence.inl:
+        * cuts/utils/unite/dmac/Dmac_Sequence.cpp:
+        * cuts/utils/unite/dmac/Dmac_Utils.h:
+        * cuts/utils/unite/dmac/Dmac_Utils.cpp:
+        * cuts/utils/unite/dmac/vertical:
+
+          Added Dmac main application code.
+
+        * cuts/utils/unite/dmac/vertical/Dmac_Vertical.cpp:
+        * cuts/utils/unite/dmac/vertical/Dmac_Vertical.mpc:
+        * cuts/utils/unite/dmac/vertical/Dmac_Vertical_App.h:
+        * cuts/utils/unite/dmac/vertical/Dmac_Vertical_App.cpp:
+        * cuts/utils/unite/dmac/vertical/Dmac_Vertical_Format.h:
+        * cuts/utils/unite/dmac/vertical/Dmac_Vertical_Format.cpp:
+
+          Added Dmac vertical data format converter code.
+
 Wed May 18 23:15:42 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/utils/logging/client/logger/Client_Logger.cpp:
