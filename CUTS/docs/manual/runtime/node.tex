@@ -18,35 +18,35 @@ Distributed testing and execution environments, such as network
 testbeds, consist of many nodes. These nodes are responsible for 
 executing many different processes that must support the overall
 goals of the execution environment. For example, nodes in the 
-execution environment may host process that manage software components,  
-processes that synchronize clocks, and process that collect
+execution environment may host processes that manage software components,  
+processes that synchronize clocks, and processes that collect
 software/hardware instrumentation data.
 
-When dealing with many process that must execute on a given node,
+When dealing with many processes that must execute on a given node,
 the traditional approach is to create a script that launches all
 processes for that given node. For example, in *Unix environments,
 Bash scripts can be used to launch a set of processes. The advantage
-of using such scripts is that is provides a \textit{repeatable}
+of using such scripts is that it provides a \textit{repeatable}
 technique for ensuring that all process for a given node are launched,
 and done so in the correct order. Moreover, the script is persistent
 and can be easily updated to either add or remove processes as needed.
 
-Although such scripts suffice when working in a distributed 
-testing environment, its approach as more complexity to the 
+Although such scripts are sufficient when working in a distributed 
+testing environment, its approach adds more complexity to the 
 distributed testing process. First, the scripts are only repeatable
 after \textit{manually} invoking the script. This means that 
 distributed testers much manually connect to each host in the 
-environment and (re)start the script. Even if its possible to 
+environment and (re)start the script. Even if it is possible to 
 remotely connect to the host via automation to (re)start the 
 script, it is still \textit{hard} to know what processes are
 associated with a given script.
 
 Secondly, such scripts do no easily support injection/removal
-of processes on-the-fly. It is assumed the script is used to 
+of processes on-the-fly. It is assumed in the script used to 
 configure the host. At that point, all processes injected/removed
 from the host are assumed to be part of all the processes on 
 that machine. Lastly, it is \textit{hard} to switch between
-different execution environment where as execution environment
+different execution environment where an execution environment
 is set of environment variables and a set of processes.
 
 To address the limitations of traditional approaches to executing
@@ -76,7 +76,7 @@ in this chapter:
 
 The CUTS Node Daemon is responsible for managing different execution
 environments for a node. There is typically one CUTS Node Daemon executing
-of a single node. There can be cases where you more than one CUTS
+on a single node. There can be cases where more than one CUTS
 Node Daemon executes on the same machine, but this defeats the purpose
 of the daemon. Regardless of the situation, what is discussed in the
 remainder of this chapter can be used to execute one or more 
