@@ -1,3 +1,9 @@
+Wed May 25 01:04:14 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * docs/manual/analysis/unite.tex:
+
+					Fixed a formatting issue.
+
 Wed May 25 00:49:40 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * docs/manual/analysis.tex:
@@ -9,7 +15,7 @@ Wed May 25 00:49:40 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
         * docs/manual/analysis/unite.tex:
         * docs/manual/manual.pdf:
 
-					Updated the manual with the UNITE description.
+          Updated the manual with the UNITE description.
 
 Sat May 21 22:03:17 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
