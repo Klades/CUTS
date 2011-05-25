@@ -1,3 +1,16 @@
+Wed May 25 00:49:40 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * docs/manual/analysis.tex:
+        * docs/manual/analysis/analysis.tex:
+        * docs/manual/analysis/dmac.tex:
+        * docs/manual/analysis/example.datagraph:
+        * docs/manual/analysis/example.unite:
+        * docs/manual/analysis/setaf.tex:
+        * docs/manual/analysis/unite.tex:
+        * docs/manual/manual.pdf:
+
+					Updated the manual with the UNITE description.
+
 Sat May 21 22:03:17 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/utils/unite/dmac:
