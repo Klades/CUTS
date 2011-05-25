@@ -1,0 +1,390 @@
+\chapter{UNITE}
+\label{chap:unite}
+
+This chapter discusses the main tool called \textit{Understanding 
+Non-functional Intentions via Testing and Experimentation (UNITE)} in the CUTS 
+analysis tool set. 
+
+\section{Overview}
+\label{sec:unite-overview}
+
+UNITE is a method and a tool for analyzing system execution 
+traces and validating QoS properties. Its primary purpose
+is to support validation for distributed software systems,
+but it can be used to analyze QoS properties of any software
+system which generates a system execution trace. 
+UNITE analyzes distributed system QoS properties such as 
+end-to-end response time, service time and throughput using system 
+execution traces. System execution trace is a collection of log messages.
+These log messages are related to an execution of the system during a user 
+decided time period. 
+
+The system execution traces are collected 
+using CUTS logging facilities as described in Chapter~\ref{chap:logging}.
+CUTS uses SQLite (\url{http://www.sqlite.org}) 
+to store the system execution trace. SQLite is a very lightweight 
+database management system, which have a very flat file system. For example 
+the generated system execution trace is contained in a single file and when 
+the distributed system testers want to analyze the QoS properties they 
+just need to show the location of this file to UNITE with a configuration 
+file. 
+
+This chapter first covers main concepts in UNITE in Section ~\ref{sec:unite-concepts}. 
+Then it describes main configuration files of UNITE in  Section ~\ref{sec:unite-config}. 
+Finally it shows how to use UNITE as a command line tool to analyze 
+a given system execution trace in Section ~\ref{sec:unite-invoke}.
+
+\subsection{Concepts in UNITE}
+\label{sec:unite-concepts}
+
+Table ~\ref{table:execution-trace} shows a sample system execution trace 
+as stored in a database for offline QoS analysis. The most important 
+data for UNITE is stored in the \textit{Message} column of the table. 
+All the concepts describes below uses the log messages in the \textit{Message} 
+column of the following table.
+
+\begin{table}[h, captionpos=b]
+  \caption{An example system execution trace }
+  \label{table:execution-trace}
+  \begin{tabular}{lcccl}
+  \hline
+  \textbf{ID} & \textbf{Time of Day} & \textbf{Hostname} & \textbf{Severity} & \textbf{Message} \\
+  \hline
+  10 & 2011-02-25 05:15:55 & sender.cs.iupui.edu & INFO & Config: sent event 5 at 120394455 \\
+  11 & 2011-02-25 05:15:55 & sender.cs.iupui.edu & INFO & Planner: sent event 6 at 120394465 \\
+  12 & 2011-02-25 05:15:55 & receiver.cs.iupui.edu & INFO & Planner: received event 5 at 120394476 \\
+  13 & 2011-02-25 05:15:55 & sender.cs.iupui.edu & INFO & Config: sent event 7 at 120394480 \\
+  14 & 2011-02-25 05:15:55 & receiver.cs.iupui.edu & INFO & Effector: received event 6 at 120394488 \\
+  15 & 2011-02-25 05:15:55 & receiver.cs.iupui.edu & INFO & Planner: received event 7 at 120394502 \\
+  \end{tabular}
+\end{table}
+
+
+Before start using UNITE following concepts need to be understood.
+
+\begin{itemize}
+  \item \textbf{Log Formats} - Each log message in the system execution 
+  trace is constructed from a well defined format- called a \textit{log format}.
+  \textit{Log Formats} are high-level constructs that capture both constant 
+  and variable portions of individual, but similar log messages in a system 
+  execution trace. For example Listing~\ref{listing:log-format}  shows 
+  two different log formats which capture the log messages in 
+  the above system execution trace.
+  
+  \begin{lstlisting}[label=listing:log-format, caption=Log formats for QoS analysis.,
+   captionpos=b]
+   LF1: {STRING cmp_id}:sent event {INT event_id} at {INT sent}
+   LF2: {STRING cmp_id}:received event {INT event_id} at {INT recv}
+  \end{lstlisting}
+  
+  The variable portions of the log format is specified inside place holders ({}).
+  The information captured in the variable portions of a log format represent 
+  metrics that  are very useful in QoS analysis. In the above example the 
+  distribution of the values for the variable \textit{event\_id}, with the time 
+  variables \textit{sent, recv } can be used to determine the latencies of 
+  different events. The variable portion of a log format consists of a variable 
+  type and a variable name. Table~\ref{table:data-types} shows the data types 
+  supported by UNITE.
+  
+ \begin{table}[h, captionpos=b]
+  \centering
+  \caption{UNITE data types}
+  \label{table:data-types}
+  \begin{tabular}{lccl}
+  \hline
+  \textbf{Type} & \textbf{Description} \\
+  \hline
+  INT & Integer data type \\
+  LONG & Long data type \\
+  STRING & String data type (There cannot be spaces) \\
+  FLOAT & Floating-point data type \\
+  \hline
+  \end{tabular}
+\end{table}
+  
+  \item \textbf{Log Format Relations} - The other main concept in UNITE 
+  is Log Format Relations. Log Format Relations define a cause-effect 
+  relationship among two log formats. For example in the above example
+  \texttt{LF1} represents a sent event in the distributed system. And \texttt{LF2} 
+  represents a receive event in the system. The sent event always 
+  happens before the receive event. There for the log message corresponds 
+  to a particular sent event occurs before the corresponding receive event.
+  We say \texttt{LF1} is the cause log format and \texttt{LF2} is the effect log format. In 
+  order to relate the two log messages distributed system testators can use 
+  the \textit{event\_id} variable as follows.
+  
+  \texttt{LF1.event\_id = LF2.event\_id}
+  
+  \item \textbf{QoS analysis expressions} - After specifying Log formats and 
+  Log format relations distributed system testers have to specify a QoS analysis 
+  equation to get the results. For example in the above example in order to 
+  get the average response time following equation can be used.
+  
+  \texttt{AVG(LF2.recv - LF1.sent)}
+  
+\end{itemize}
+
+The next section ~\ref{sec:unite-config} shows how to specify above 
+mentioned details using the configuration files in UNITE.
+
+\section{Configuring UNITE}
+\label{sec:unite-config}
+
+UNITE uses two xml configuration files called, \textit{datagraph file} and 
+\textit{unite file} for the configurations. The \textit{datagraph file} is used to 
+specify the details of log formats and relations. The \textit{unite file} 
+contains a reference to the \textit{datagraph file} and is used for the 
+QoS analysis.
+
+Listing~\ref{listing:example.datagraph} shows a sample \textit{datagraph file}. 
+
+\lstinputlisting[label=listing:example.datagraph,
+  caption=An example configuration file for UNITE datagraph.,
+  captionpos=b,numbers=left]{analysis/example.datagraph}
+
+\subsection{Datagraph Schema Definition}
+\label{sec:datagraph}
+
+This section discusses the details of the UNITE datagraph configuration 
+based on its underlying XML Schema Definition.
+
+\xmltag{<cuts:datagraph>}
+This is the main tag for the datagraph configuration document. Its 
+XML namespace must have the \url{http://cuts.cs.iupui.edu} definition. If it does
+not have this definition, then UNITE will not execute further.
+
+\xmltag{<name>}
+
+This tag contains the name of the datagraph. This tag does not have 
+any child tags.
+
+\xmltag{<adapter>}
+
+This tag contains the location of an external adapter module required for 
+for UNITE to correctly analyze the QoS properties. This tag is not 
+mandatory. It only needs when the system execution trace does not 
+contain required properties for the QoS analysis. See section () SETAF 
+for more details.
+
+\xmltag{<logformats>}
+
+This tag is a container for set of log formats that will be used in QoS 
+analysis process. It may contain any number of logformat elements. 
+Log formats can be specified in any order .In general, cause log format 
+is specified first. Then its effect log format is specified. 
+The following is a list of child tags: \texttt{<logformat>}.
+
+\xmltag{<logformat>}
+
+This tag contains all the details about a particular log format. It has the following 
+attributes.
+\begin{table}[h]
+  \begin{tabular}{lcccl}
+  \hline
+  \textbf{Name} & \textbf{Type} & \textbf{Default Value} & \textbf{Required} & \textbf{Description} \\
+  \hline
+  id & String  & & Yes & Name of the log format \\
+  \end{tabular}
+\end{table}
+
+\noindent The following is a list of child tags:
+\texttt{<value>}, \texttt{<relations>}.
+
+\xmltag{<value>}
+This tag contains the actual value of the log format. Value of a log 
+format represent set of log messages in the system execution trace 
+which have constant and variable parts as described in section (ref) 
+This tag does not have any child tags.
+
+\xmltag{<relations>}
+
+This tag contains set of relations, in which the parent log format is 
+involved in as the cause log format.
+The following is a list of child tags: \texttt{<relation>}.
+
+\xmltag{<relation>}
+
+This tag contains all the details about a particular relation. Such 
+as the effect log format and cause-effect variables. There can be 
+more than one cause-effect variable pairs. It has the following 
+attributes.
+\begin{table}[h]
+  \begin{tabular}{lcccl}
+  \hline
+  \textbf{Name} & \textbf{Type} & \textbf{Default Value} & \textbf{Required} & \textbf{Description} \\
+  \hline
+  effectref & String  & & Yes & The id of the effect log format in this relation \\
+  \end{tabular}
+\end{table}
+
+\noindent The following is a list of child tags:
+\texttt{<causality>}.
+
+\xmltag{<causality>}
+
+This tag represent the relationship between a variable in the 
+cause log format and a variable in the effect log format. It has 
+the following attributes.
+\begin{table}[h]
+  \begin{tabular}{lcccl}
+  \hline
+  \textbf{Name} & \textbf{Type} & \textbf{Default Value} & \textbf{Required} & \textbf{Description} \\
+  \hline
+  cause & String  & & Yes & The name of the cause variable \\
+  effect  & String  & & Yes &  The name of the effect variable \\   
+  \end{tabular}
+\end{table}
+
+Therefore the elements mentioned above represent the datagraph 
+for a partiucar system execution trace. Depending on the QoS 
+properties being analyzed a particular system execution trace 
+may have more than one datagraphs. These different datagraphs 
+may have different log formats and cause-effect relations.
+
+In general the location of the \textit{datagraph file} is specified in the 
+\textit{unite file}. Listing~\ref{listing:example.unite} shows a sample 
+\textit{unite file}. 
+
+\lstinputlisting[label=listing:example.unite,
+  caption=An example configuration file for UNITE.,
+  captionpos=b,numbers=left]{analysis/example.unite}
+
+\subsection{Unite Schema Definition}
+\label{sec:unite-scema}
+
+This section discusses the details of the UNITE configuration 
+based on its underlying XML Schema Definition.
+
+\xmltag{<cuts:test>}
+This is the main tag for the unite configuration document. Its 
+XML namespace must have the \url{http://cuts.cs.iupui.edu} definition. If it does
+not have this definition, then UNITE will not execute further.
+
+\xmltag{<name>}
+
+This tag contains the name of the unite file. This tag does not have 
+any child tags.
+
+\xmltag{<datagraph>}
+
+This tag specify the location of the associated datagraph for the 
+QoS analysis. This tag has the following attributes.
+
+\begin{table}[h]
+  \begin{tabular}{lcccl}
+  \hline
+  \textbf{Name} & \textbf{Type} & \textbf{Default Value} & \textbf{Required} & \textbf{Description} \\
+  \hline
+  location & String  & & Yes & The location of the datagraph configuration file. \\
+  \end{tabular}
+\end{table}
+
+This tag does not have any child tags.
+
+\xmltag{<evaluation>}
+
+This tag contains the equation for QoS evaluation. The text inside 
+this tag should be written in a certain way. The variables of this 
+equation should be specified with the log format it belongs to. The 
+dot operator after the log format specified the actual variable. This tag 
+does not have any child tags.
+
+\xmltag{<aggregation>}
+
+This tag specifies a function used to convert a dataset to a single 
+value. Some examples of aggregation functions are AVERAGE, 
+MIN, MAX and SUM. This tag does not have any child tags.
+
+\xmltag{<grouping>}
+
+For a given aggregation function this tag tell how to classify 
+datasets that are independent of each other. This is the 
+container tag for such grouping items
+The following is a list of child tags: \texttt{<groupitem>}. 
+
+\xmltag{<groupitem>}
+
+This tag represent an actual grouping item. The \textit{name} 
+attribute specify the grouping item. This attribute consists of 
+a particular log format id and a variable name. Their should be a 
+\_ between the log format and the variable. This tag has the 
+following attributes. 
+\begin{table}
+ \begin{tabular}{lcccl}
+  \hline
+  \textbf{Name} & \textbf{Type} & \textbf{Default Value} & \textbf{Required} & \textbf{Description} \\
+  \hline
+  name & String  & & Yes & The name of the grouping item. \\
+  \end{tabular}
+\end{table}
+
+\xmltag{<services>}
+
+UNITE has a facility to show the results of QoS analysis using different 
+presentation methods such as graphs. There are many different presentation 
+softwares available such as Microsoft Excel, Gnuplot. This tag contains the 
+set of such services the testers want present the analyzed results. This tag has 
+the following child tags:\texttt{<service>}
+
+\xmltag{<service>}
+
+This tag represent a presentation service. In general these presentation services 
+are developed externally to UNITE and plugged in via a common interface.
+Therefore child tags of this tag gives the details required to load these services 
+during the runtime. This tag has the following attributes.
+
+\begin{table}
+ \begin{tabular}{lcccl}
+  \hline
+  \textbf{Name} & \textbf{Type} & \textbf{Default Value} & \textbf{Required} & \textbf{Description} \\
+  \hline
+  name & String  & & Yes & The name of the grouping item. \\
+  \end{tabular}
+\end{table}
+
+\noindent The following is a list of child tags:
+\texttt{<location>}, \texttt{<classname>}, \texttt{<params>}.
+
+\xmltag{<location>}
+
+This tag specify the location of a presentation service module. UNITE 
+will search for this location when it wants to load the presentation 
+service. This tag does not have any child tags.
+
+\xmltag{<classname>}
+
+This tag specify the name of the class of the presentation 
+service. This tag does not have any child tags.
+
+\xmltag{<params>}
+
+This tag specify the additional parameters required to invoke 
+the presentation service. This tag does not have any child tags.
+
+\section{Invoking UNITE}
+\label{sec:unite-invoke}
+
+Assuming the CUTS runtime architecture has been built and installed 
+correctly, the CUTS UNITE tool is installed at the following 
+location:
+\begin{lstlisting}
+%> $CUTS\_ROOT/bin/cuts-unite
+\end{lstlisting}
+To see a complete list of command-line options, use the following 
+command:
+\begin{lstlisting}
+%> $CUTS\_ROOT/bin/cuts-unite --help
+\end{lstlisting}
+
+A typical invocation of UNITE tool requires the data file which 
+contains the system execution trace and the UNITE configuration 
+file discussed above as arguments. The datagraph file location 
+is specified inside the UNITE configuration file so it doesn't 
+need to be specified as an argument. 
+Assuming the configuration discussed above is defined in a file 
+named \textit{example.unite},  and the system execution trace is resides 
+in a file called \textit{example.cdb} you can run the CUTS UNITE tool with
+the configuration via the following command: 
+\begin{lstlisting}
+%> $CUTS_ROOT/bin/cuts-unite -f example.cdb -c example.unite
+\end{lstlisting}

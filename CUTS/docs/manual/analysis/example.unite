@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<cuts:test xmlns="http://cuts.cs.iupui.edu"
+            xmlns:cuts="http://cuts.cs.iupui.edu"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://cuts.cs.iupui.edu cuts-unite.xsd">
+
+  <name>example</name>
+  <datagraph location="example.datagraph" />
+  <evaluation>LF2.recv - LF1.sent</evaluation>
+  <aggregation>AVG</aggregation>
+  <grouping>
+	 <groupitem name="LF1_task" />
+  </grouping>
+  <services>
+  <service id="gnuplot">
+   <location>CUTS_Gnuplot_Presentation_Service</location>
+   <classname>CUTS_Gnuplot_Presentation_Service</classname>
+   <params>-o gnuplot --disable-group-title</params>
+  </service>
+ </services>
+</cuts:test>

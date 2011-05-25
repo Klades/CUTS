@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<cuts:datagraph xmlns="http://cuts.cs.iupui.edu"
+           		xmlns:cuts="http://cuts.cs.iupui.edu"
+           		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           		xsi:schemaLocation="http://cuts.cs.iupui.edu cutsnode.xsd">
+ <logformats>
+  <logformat id="LF1">
+   <value>{STRING cmp_id}:sent event {INT event_id} at {INT sent}</value>
+    <relations>
+     <relation effectref="LF2">
+      <causality cause="cmp_id" effect="cmp_id"/>
+       <causality cause="event_id" effect="event_id"/>
+        </relation>
+     </relations>
+   </logformat>
+   <logformat id="LF2">
+    <value>{STRING cmp_id}:received event {INT event_id} at {INT recv}</value>
+   </logformat>
+  </logformats>
+</cuts:datagraph>
