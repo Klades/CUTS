@@ -1,3 +1,18 @@
+Mon May 30 18:45:02 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/arch/ccm/CCM_Component_Instance_Handler_T.h:
+        * cuts/arch/ccm/CCM_Component_Instance_Handler_T.cpp:
+        * cuts/arch/ccm/CCM_Container_Strategy_T.cpp:
+        * cuts/arch/ccm/CCM_Container_T.h:
+        * cuts/arch/ccm/CCM_Container_T.inl:
+        * cuts/arch/tcpip/handlers/TCPIP_CCM_Instance_Handler.cpp:
+
+	  Fixed compilation errors on MacOS X.
+	
+        * docs/manual/manual.tex:
+	
+          Fixed the page numbering of the manual.
+	
 Sun May 29 20:29:54 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * docs/manual/analysis/dmac.pdf:

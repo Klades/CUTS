@@ -14,9 +14,12 @@
 #define _CUTS_CCM_CONTAINER_T_H_
 
 #include "ciao/Containers/Session/Session_ContainerC.h"
+#include "tao/PortableServer/Servant_Base.h"
+
 #include "ace/Hash_Map_Manager.h"
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/SString.h"
+
 #include "CCM_Container_Strategy_T.h"
 
 /**
@@ -82,15 +85,18 @@ public:
 
   virtual void uninstall_component (::Components::CCMObject_ptr cref);
 
-  virtual void connect_local_facet (::Components::CCMObject_ptr,
-                                    const char * ,
-                                    ::Components::CCMObject_ptr,
-                                    const char *);
+  virtual Components::Cookie *
+    connect_local_facet (::Components::CCMObject_ptr,
+                         const char * ,
+                         ::Components::CCMObject_ptr,
+                         const char *);
 
-  virtual void disconnect_local_facet (::Components::CCMObject_ptr,
-                                       const char * ,
-                                       ::Components::CCMObject_ptr,
-                                       const char *);
+  virtual void
+    disconnect_local_facet (::Components::Cookie *,
+                            ::Components::CCMObject_ptr,
+                            const char * ,
+                            ::Components::CCMObject_ptr,
+                            const char *);
 
   virtual ::CORBA::Object_ptr
     install_servant (::PortableServer::Servant svnt,

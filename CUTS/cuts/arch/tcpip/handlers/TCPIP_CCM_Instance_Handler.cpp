@@ -3,11 +3,6 @@
 #include "TCPIP_CCM_Instance_Handler.h"
 #include "ace/ARGV.h"
 
-#define CMDLINE_LONG_OPTION(name) "--" ## name
-
-#define CUTS_TCPIP_ENDPOINT               "TCPIPEndpoint"
-#define CUTS_TCPIP_ENDPOINT_LONG_OPTION   CMDLINE_LONG_OPTION(CUTS_TCPIP_ENDPOINT)
-
 //
 // CUTS_TCPIP_CCM_Instance_Handler
 //
@@ -34,7 +29,7 @@ configure (const ::Deployment::Properties & config)
   // First, pass control to the base class.
   base_type::configure (config);
 
-  ACE_ARGV_T <TCHAR> argv_vec;
+  ACE_ARGV_T <ACE_TCHAR> argv_vec;
 
   // Extract the properties specifically for TCP/IP.
   ::CORBA::ULong length = config.length ();
@@ -43,12 +38,12 @@ configure (const ::Deployment::Properties & config)
   {
     const ::Deployment::Property & p = config[i];
 
-    if (0 == ACE_OS::strcmp (p.name.in (), CUTS_TCPIP_ENDPOINT))
+    if (0 == ACE_OS::strcmp (p.name.in (), "TCPIPEndpoint"))
     {
       const char * value_str = 0;
       p.value >>= value_str;
 
-      argv_vec.add (CUTS_TCPIP_ENDPOINT_LONG_OPTION);
+      argv_vec.add ("--TCPIPEndpoint");
       argv_vec.add (value_str);
     }
   }

@@ -5,6 +5,7 @@
 #endif
 
 #include "ace/DLL.h"
+#include "ciao/Containers/Container_BaseC.h"
 
 template <typename CONTAINER>
 CUTS_INLINE

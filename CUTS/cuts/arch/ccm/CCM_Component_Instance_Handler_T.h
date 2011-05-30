@@ -105,9 +105,9 @@ private:
   /// Reference to POA passed to created containers.
   ::PortableServer::POA_var poa_;
 
-  typedef std::set <::Components::Cookie_var> cookies;
+  typedef std::set < ::Components::Cookie_var > cookies;
 
-  typedef std::map <std::string, cookies > cookie_map;
+  typedef std::map < std::string, cookies > cookie_map;
 
   cookie_map cookies_;
 };
