@@ -1,11 +1,7 @@
-project (CUTS_Dmac) : boost_base, cuts_test_database, cutsexe {
+// $Id$
+
+project (CUTS_Dmac) : boost_base, codegenerationkit, cuts_test_database, cutsexe {
   exename = cuts-dmac
-  after += CUTS_Unite_Exe
-  includes += $(CUTS_ROOT)
-  includes += $(ADBC_ROOT)
-  includes += $(CUTS_ROOT)/contrib/Utility
-  includes += $(CCF_ROOT)
-  libpaths += $(CUTS_ROOT)/lib
 
   Source_Files {
     Dmac_App.cpp

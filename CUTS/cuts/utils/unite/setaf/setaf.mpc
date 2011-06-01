@@ -1,11 +1,8 @@
-project (CUTS_Setaf) : boost_base, cutsexe{
+// $Id$
+
+
+project (CUTS_Setaf) : boost_base, codegenerationkit, cutsexe {
   exename = cuts-setaf
-  after += CUTS_Unite_Exe
-  includes += $(CUTS_ROOT)
-  includes += $(ACE_ROOT)
-  includes += $(CCF_ROOT)
-  includes += $(CUTS_ROOT)/contrib/Utility
-  libpaths += $(CUTS_ROOT)/lib
 
   Source_Files {
     Setaf_Lang_Compiler.cpp

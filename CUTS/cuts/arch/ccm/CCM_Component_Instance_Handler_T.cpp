@@ -3,7 +3,7 @@
 #include "CCM_ConfigValue_i.h"
 #include "CCM_Cookie.h"
 
-#include "DAnCE/DAnCE_Utility.h"
+#include "dance/DAnCE_Utility.h"
 
 #include "ciao/Base/CIAO_PropertiesC.h"
 #include "ccm/CCM_ObjectC.h"

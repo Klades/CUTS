@@ -1,3 +1,14 @@
+Wed Jun  1 03:41:49 UTC 2011  James H. Hill  <hillj@cs.iupui.edu>
+
+        * MPC/config/codegenerationkit.mpb:
+        * cuts/arch/ccm/CCM_Component_Instance_Handler_T.cpp:
+        * cuts/utils/unite/dmac/Dmac.mpc:
+        * cuts/utils/unite/setaf/Setaf.cpp:
+        * cuts/utils/unite/setaf/Setaf_app.cpp:
+        * cuts/utils/unite/setaf/setaf.mpc:
+
+	  Fixed compilation errors on Linux.
+
 Tue May 31 04:17:53 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * docs/manual/analysis/dmac.tex:
@@ -5,7 +16,7 @@ Tue May 31 04:17:53 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
         * docs/manual/analysis/unite.tex:
         * docs/manual/manual.pdf:
 
-	  Updated the chapter titles.
+          Updated the chapter titles.
 
 Mon May 30 18:45:02 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 

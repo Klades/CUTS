@@ -2,7 +2,12 @@
 
 project {
   after += CodeGenerationKit
-  libs  += CodeGenerationKits
+
+  specific (prop:microsoft) {
+    libs += CodeGenerationKits
+  } else {
+    libs += CodeGenerationKit
+  }
 
   includes += $(CUTS_ROOT)/contrib/CCF \
               $(CUTS_ROOT)/contrib/utility
