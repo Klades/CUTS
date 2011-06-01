@@ -1,3 +1,11 @@
+Wed Jun  1 19:39:29 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * docs/manual/appendix/thirdparty.tex:
+        * docs/manual/manual.pdf:
+
+	  Updated manual with instructions for building OpenSplice
+	  against TAO 1.7.8 or later.
+
 Wed Jun  1 03:41:49 UTC 2011  James H. Hill  <hillj@cs.iupui.edu>
 
         * MPC/config/codegenerationkit.mpb:
