@@ -431,25 +431,25 @@ with the following content:
 
 namespace DDS
 {
-#if TAO_MAJOR_VERSION >= 1 && TAO_MINOR_VERSION >= 7 && TAO_BETA_VERSION >= 8
- LOCAL_REFCOUNTED_OBJECT ::CORBA::LocalObject
+#if TAO_MAJOR_VERSION <= 1 && TAO_MINOR_VERSION <= 7 && TAO_BETA_VERSION < 8
+  #define LOCAL_REFCOUNTED_OBJECT TAO_Local_RefCounted_Object
 #else
- LOCAL_REFCOUNTED_OBJECT TAO_Local_RefCounted_Object
+  #define LOCAL_REFCOUNTED_OBJECT ::CORBA::LocalObject
 #endif
- #define LOCAL_REFCOUNTED_VALUEBASE ::CORBA::DefaultValueRefCountBase
+  #define LOCAL_REFCOUNTED_VALUEBASE ::CORBA::DefaultValueRefCountBase
 
-#if TAO_MAJOR_VERSION >= 1 && TAO_MINOR_VERSION >= 7 && TAO_BETA_VERSION >= 8
- #define THROW_ORB_EXCEPTIONS
- #define THROW_ORB_AND_USER_EXCEPTIONS(...)
+#if TAO_MAJOR_VERSION <= 1 && TAO_MINOR_VERSION <= 7 && TAO_BETA_VERSION < 8
+  #define THROW_ORB_EXCEPTIONS  ACE_THROW_SPEC ((CORBA::SystemException))
+  #define THROW_ORB_AND_USER_EXCEPTIONS(...) \
+    ACE_THROW_SPEC ((CORBA::SystemException, __VA_ARGS__))
 #else
- #define THROW_ORB_EXCEPTIONS  ACE_THROW_SPEC ((CORBA::SystemException))
- #define THROW_ORB_AND_USER_EXCEPTIONS(...) \
-   ACE_THROW_SPEC ((CORBA::SystemException, __VA_ARGS__))
+  #define THROW_ORB_EXCEPTIONS
+  #define THROW_ORB_AND_USER_EXCEPTIONS(...)
 #endif
 
- // These definitions seem to be OK.
- #define THROW_VALUETYPE_ORB_EXCEPTIONS
- #define THROW_VALUETYPE_ORB_AND_USER_EXCEPTIONS(...)
+  // These definitions seem to be OK.
+  #define THROW_VALUETYPE_ORB_EXCEPTIONS
+  #define THROW_VALUETYPE_ORB_AND_USER_EXCEPTIONS(...)
 }
 \end{lstlisting}
 You should now be able to build the custom library against 
