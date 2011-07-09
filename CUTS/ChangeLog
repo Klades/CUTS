@@ -1,3 +1,19 @@
+Sat Jul  9 05:31:02 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * etc/schemas/iccm/dds.xsd:
+
+          Updated the cardinality of the default partition data
+          writer and data reader.
+
+        * cuts/arch/opensplice/handlers/OpenSplice_Configurator.h:
+        * cuts/arch/opensplice/handlers/OpenSplice_Configurator.cpp:
+        * cuts/arch/opensplice/handlers/dds.h:
+        * cuts/arch/opensplice/handlers/dds.inl:
+        * cuts/arch/opensplice/handlers/dds.cpp:
+
+          Updated the OpenSplice configurator to support setting QoS
+          properties on the domain and participant.
+
 Wed Jun  1 21:31:11 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * ChangeLogs/ChangeLog-0_0_0_5:

@@ -1409,14 +1409,14 @@ namespace iccm
 
         else if (n == ACE_TEXT("datawriter"))
         {
-          ACE_Refcounted_Auto_Ptr < ::iccm::dds::DataWriterQos, ACE_Null_Mutex >  t (new ::iccm::dds::DataWriterQos (e));
-          add_datawriter (t);
+          ::iccm::dds::DataWriterQos t (e);
+          datawriter (t);
         }
 
         else if (n == ACE_TEXT("datareader"))
         {
-          ACE_Refcounted_Auto_Ptr < ::iccm::dds::DataReaderQos, ACE_Null_Mutex >  t (new ::iccm::dds::DataReaderQos (e));
-          add_datareader (t);
+          ::iccm::dds::DataReaderQos t (e);
+          datareader (t);
         }
 
         else if (n == ACE_TEXT("publisher"))

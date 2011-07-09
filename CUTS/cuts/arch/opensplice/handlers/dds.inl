@@ -2905,8 +2905,8 @@ namespace iccm
     entity_factory_ (s.entity_factory_.get () ? new ::iccm::dds::EntityFactoryQosPolicy (*s.entity_factory_) : 0),
     watchdog_scheduling_ (s.watchdog_scheduling_.get () ? new ::iccm::dds::SchedulingQosPolicy (*s.watchdog_scheduling_) : 0),
     listener_scheduling_ (s.listener_scheduling_.get () ? new ::iccm::dds::SchedulingQosPolicy (*s.listener_scheduling_) : 0),
-    datawriter_ (s.datawriter_),
-    datareader_ (s.datareader_),
+    datawriter_ (s.datawriter_.get () ? new ::iccm::dds::DataWriterQos (*s.datawriter_) : 0),
+    datareader_ (s.datareader_.get () ? new ::iccm::dds::DataReaderQos (*s.datareader_) : 0),
     publisher_ (s.publisher_),
     subscriber_ (s.subscriber_),
     regulator__ ()
@@ -2914,6 +2914,8 @@ namespace iccm
       if (entity_factory_.get ()) entity_factory_->container (this);
       if (watchdog_scheduling_.get ()) watchdog_scheduling_->container (this);
       if (listener_scheduling_.get ()) listener_scheduling_->container (this);
+      if (datawriter_.get ()) datawriter_->container (this);
+      if (datareader_.get ()) datareader_->container (this);
     }
 
     inline
@@ -2935,9 +2937,15 @@ namespace iccm
       else
         listener_scheduling_.reset (0);
 
-      datawriter_ = s.datawriter_;
+      if (s.datawriter_.get ())
+        datawriter (*(s.datawriter_));
+      else
+        datawriter_.reset (0);
 
-      datareader_ = s.datareader_;
+      if (s.datareader_.get ())
+        datareader (*(s.datareader_));
+      else
+        datareader_.reset (0);
 
       publisher_ = s.publisher_;
 
@@ -3046,89 +3054,65 @@ namespace iccm
     // DomainParticipantQos
     //
     inline
-    DomainParticipantQos::datawriter_iterator DomainParticipantQos::
-    begin_datawriter ()
+    bool DomainParticipantQos::
+    datawriter_p () const
     {
-      return datawriter_.begin ();
+      return datawriter_.get () != 0;
     }
 
     inline
-    DomainParticipantQos::datawriter_iterator DomainParticipantQos::
-    end_datawriter ()
+    ::iccm::dds::DataWriterQos const& DomainParticipantQos::
+    datawriter () const
     {
-      return datawriter_.end ();
-    }
-
-    inline
-    DomainParticipantQos::datawriter_const_iterator DomainParticipantQos::
-    begin_datawriter () const
-    {
-      return datawriter_.begin ();
-    }
-
-    inline
-    DomainParticipantQos::datawriter_const_iterator DomainParticipantQos::
-    end_datawriter () const
-    {
-      return datawriter_.end ();
+      return *datawriter_;
     }
 
     inline
     void DomainParticipantQos::
-    add_datawriter (ACE_Refcounted_Auto_Ptr < ::iccm::dds::DataWriterQos, ACE_Null_Mutex >  const& e)
+    datawriter (::iccm::dds::DataWriterQos const& e)
     {
-      datawriter_.push_back (e);
-    }
+      if (datawriter_.get ())
+      {
+        *datawriter_ = e;
+      }
 
-    inline
-    size_t DomainParticipantQos::
-    count_datawriter(void) const
-    {
-      return datawriter_.size ();
+      else
+      {
+        datawriter_ = ::std::auto_ptr< ::iccm::dds::DataWriterQos > (new ::iccm::dds::DataWriterQos (e));
+        datawriter_->container (this);
+      }
     }
 
     // DomainParticipantQos
     //
     inline
-    DomainParticipantQos::datareader_iterator DomainParticipantQos::
-    begin_datareader ()
+    bool DomainParticipantQos::
+    datareader_p () const
     {
-      return datareader_.begin ();
+      return datareader_.get () != 0;
     }
 
     inline
-    DomainParticipantQos::datareader_iterator DomainParticipantQos::
-    end_datareader ()
+    ::iccm::dds::DataReaderQos const& DomainParticipantQos::
+    datareader () const
     {
-      return datareader_.end ();
-    }
-
-    inline
-    DomainParticipantQos::datareader_const_iterator DomainParticipantQos::
-    begin_datareader () const
-    {
-      return datareader_.begin ();
-    }
-
-    inline
-    DomainParticipantQos::datareader_const_iterator DomainParticipantQos::
-    end_datareader () const
-    {
-      return datareader_.end ();
+      return *datareader_;
     }
 
     inline
     void DomainParticipantQos::
-    add_datareader (ACE_Refcounted_Auto_Ptr < ::iccm::dds::DataReaderQos, ACE_Null_Mutex >  const& e)
+    datareader (::iccm::dds::DataReaderQos const& e)
     {
-      datareader_.push_back (e);
-    }
+      if (datareader_.get ())
+      {
+        *datareader_ = e;
+      }
 
-    inline
-    size_t DomainParticipantQos::
-    count_datareader(void) const
-    {
-      return datareader_.size ();
+      else
+      {
+        datareader_ = ::std::auto_ptr< ::iccm::dds::DataReaderQos > (new ::iccm::dds::DataReaderQos (e));
+        datareader_->container (this);
+      }
     }
 
     // DomainParticipantQos

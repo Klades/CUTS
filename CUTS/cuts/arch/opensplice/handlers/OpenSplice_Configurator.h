@@ -41,7 +41,7 @@ public:
 
 private:
   /// Configure the servant's QoS.
-  int configure (const char * file, CUTS_OpenSplice_Servant * servant);
+  int configure (const char * filename, CUTS_OpenSplice_Servant * servant);
 };
 
 #endif  // !defined _CUTS_OPENSPLICE_CONFIGURATOR_

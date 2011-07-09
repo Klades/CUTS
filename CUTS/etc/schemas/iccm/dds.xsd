@@ -308,8 +308,8 @@
       <xsd:element name="listener_scheduling" type="SchedulingQosPolicy" minOccurs="0" maxOccurs="1" />
 
       <!-- Data readers and writers under the default partition -->
-      <xsd:element name="datawriter" type="DataWriterQos" minOccurs="0" maxOccurs="unbounded" />
-      <xsd:element name="datareader" type="DataReaderQos" minOccurs="0" maxOccurs="unbounded" />
+      <xsd:element name="datawriter" type="DataWriterQos" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="datareader" type="DataReaderQos" minOccurs="0" maxOccurs="1" />
 
       <!-- The following is for partitioning the readers and writers -->
       <xsd:element name="publisher" type="PublisherQos" minOccurs="0" maxOccurs="unbounded" />

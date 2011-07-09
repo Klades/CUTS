@@ -1744,36 +1744,22 @@ namespace iccm
       // datawriter
       //
       public:
-      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::iccm::dds::DataWriterQos, ACE_Null_Mutex > >::iterator datawriter_iterator;
-      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::iccm::dds::DataWriterQos, ACE_Null_Mutex > >::const_iterator datawriter_const_iterator;
-      datawriter_iterator begin_datawriter ();
-      datawriter_iterator end_datawriter ();
-      datawriter_const_iterator begin_datawriter () const;
-      datawriter_const_iterator end_datawriter () const;
-      void add_datawriter ( ACE_Refcounted_Auto_Ptr < ::iccm::dds::DataWriterQos, ACE_Null_Mutex > const& );
-      XSCRT::Type* get_datawriter_ptr ( std::basic_string<char> idref );
-      void set_datawriter_ptr (std::basic_string<char> idref );
-      size_t count_datawriter (void) const;
+      bool datawriter_p () const;
+      ::iccm::dds::DataWriterQos const& datawriter () const;
+      void datawriter (::iccm::dds::DataWriterQos const& );
 
       protected:
-      ::std::list< ACE_Refcounted_Auto_Ptr < ::iccm::dds::DataWriterQos, ACE_Null_Mutex > > datawriter_;
+      ::std::auto_ptr< ::iccm::dds::DataWriterQos > datawriter_;
 
       // datareader
       //
       public:
-      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::iccm::dds::DataReaderQos, ACE_Null_Mutex > >::iterator datareader_iterator;
-      typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::iccm::dds::DataReaderQos, ACE_Null_Mutex > >::const_iterator datareader_const_iterator;
-      datareader_iterator begin_datareader ();
-      datareader_iterator end_datareader ();
-      datareader_const_iterator begin_datareader () const;
-      datareader_const_iterator end_datareader () const;
-      void add_datareader ( ACE_Refcounted_Auto_Ptr < ::iccm::dds::DataReaderQos, ACE_Null_Mutex > const& );
-      XSCRT::Type* get_datareader_ptr ( std::basic_string<char> idref );
-      void set_datareader_ptr (std::basic_string<char> idref );
-      size_t count_datareader (void) const;
+      bool datareader_p () const;
+      ::iccm::dds::DataReaderQos const& datareader () const;
+      void datareader (::iccm::dds::DataReaderQos const& );
 
       protected:
-      ::std::list< ACE_Refcounted_Auto_Ptr < ::iccm::dds::DataReaderQos, ACE_Null_Mutex > > datareader_;
+      ::std::auto_ptr< ::iccm::dds::DataReaderQos > datareader_;
 
       // publisher
       //
