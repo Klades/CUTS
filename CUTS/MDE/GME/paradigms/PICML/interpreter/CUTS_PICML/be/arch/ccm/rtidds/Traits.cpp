@@ -34,7 +34,8 @@ void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
     << std::endl
     << "  after += " << name << "_IDL_Gen" << std::endl
     << std::endl
-    << "  ndds_ts_flags += -d rtidds" << std::endl
+    << "  ndds_ts_flags -= $(PLATFORM_NDDS_FLAGS)" << std::endl
+    << "  ndds_ts_flags += -d rtidds -corba " << name << "C.h -orb ACE_TAO1.6 -I $(TAO_ROOT) -I $(CIAO_ROOT) -I $(CIAO_ROOT)/ccm" << std::endl
     << std::endl
     << "  NDDSTypeSupport_Files {" << std::endl
     << "    gendir = rtidds" << std::endl

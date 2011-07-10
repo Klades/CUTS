@@ -1,3 +1,12 @@
+Sun Jul 10 08:13:53 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Manager_Factory.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Traits.cpp:
+
+          Update the RTI-DDS implementation to use the CORBA
+          compatibility kit. This fixed several issues with
+          building against the latest architecture for iCCM.
+
 Sat Jul  9 05:31:02 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * etc/schemas/iccm/dds.xsd:

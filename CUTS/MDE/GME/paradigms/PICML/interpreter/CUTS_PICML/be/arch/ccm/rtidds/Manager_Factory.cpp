@@ -32,7 +32,7 @@ CUTS_BE_Manager * CUTS_BE_RTIDDS_Manager_Factory::create_manager (void)
 //
 const char * CUTS_BE_RTIDDS_Manager_Factory::name (void) const
 {
-  return "RTI-DDS (C++ bindings)";
+  return "RTI-DDS (CORBA Compatibility Kit)";
 }
 
 //
@@ -40,7 +40,9 @@ const char * CUTS_BE_RTIDDS_Manager_Factory::name (void) const
 //
 const char * CUTS_BE_RTIDDS_Manager_Factory::description (void) const
 {
-  return "RTI-DDS (C++ bindings)";
+  return
+    "This implementation of iCCM uses CORBA\r\n"
+    "data types.";
 }
 
 CUTS_BE_CREATE_MANAGER_FACTORY_IMPLEMENT (CUTS_BE_RTIDDS_Manager_Factory);
