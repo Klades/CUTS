@@ -22,6 +22,9 @@ public:
 
   int configure (CUTS_RTIDDS_Servant * servant,
                  const ::Components::ConfigValues & config);
+
+private:
+  int configure (const char * filename, CUTS_RTIDDS_Servant * servant);
 };
 
 #endif  // !defined _CUTS_RTIDDS_CONFIGURATOR_

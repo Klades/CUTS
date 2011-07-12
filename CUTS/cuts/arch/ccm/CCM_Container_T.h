@@ -85,15 +85,14 @@ public:
 
   virtual void uninstall_component (::Components::CCMObject_ptr cref);
 
-  virtual Components::Cookie *
+  virtual void
     connect_local_facet (::Components::CCMObject_ptr,
                          const char * ,
                          ::Components::CCMObject_ptr,
                          const char *);
 
   virtual void
-    disconnect_local_facet (::Components::Cookie *,
-                            ::Components::CCMObject_ptr,
+    disconnect_local_facet (::Components::CCMObject_ptr,
                             const char * ,
                             ::Components::CCMObject_ptr,
                             const char *);

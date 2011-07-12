@@ -175,7 +175,11 @@ configure (CUTS_OpenSplice_Servant * servant,
               ACE_TEXT ("%T (%t) - %M - configuring the servant ")
               ACE_TEXT ("with the participant\n")));
 
-  servant->configure (participant.in ());
+  if (0 != servant)
+    servant->configure (participant.in ());
+  else
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - servant is a NULL pointer\n")));
 
   if (0 != config)
   {
@@ -186,15 +190,12 @@ configure (CUTS_OpenSplice_Servant * servant,
                   ACE_TEXT ("the participant [config=%s]\n"),
                   config));
   }
-  else
-    ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - servant is a NULL pointer\n")));
 
   return 0;
 }
 
 //
-// configure_participant
+// configure
 //
 int CUTS_OpenSplice_Configurator::
 configure (const char * filename, CUTS_OpenSplice_Servant * servant)

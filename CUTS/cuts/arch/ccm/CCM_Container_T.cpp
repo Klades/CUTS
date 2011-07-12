@@ -1,7 +1,5 @@
 // $Id$
 
-#include "CCM_Container_T.h"
-
 #if !defined (__CUTS_INLINE__)
 #include "CCM_Container_T.inl"
 #endif

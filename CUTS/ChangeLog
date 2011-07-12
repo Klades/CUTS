@@ -1,3 +1,34 @@
+Tue Jul 12 03:45:36 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/arch/opensplice/handlers/OpenSplice_Configurator.cpp:
+
+          Added an error message if the servant is NIL.
+
+        * cuts/arch/ccm/CCM_Container_T.h:
+        * cuts/arch/ccm/CCM_Container_T.inl:
+        * cuts/arch/ccm/CCM_Container_T.cpp:
+
+          Updated to latest version CIAO.
+
+        * cuts/arch/rtidds/handlers/RTIDDS_Configurator.h:
+        * cuts/arch/rtidds/handlers/RTIDDS_Configurator.cpp:
+        * cuts/arch/rtidds/handlers/RTIDDS_Domain_File.h:
+        * cuts/arch/rtidds/handlers/RTIDDS_Domain_File.cpp:
+        * cuts/arch/rtidds/handlers/RTIDDS_Instance_Handler.h:
+        * cuts/arch/rtidds/handlers/RTIDDS_Instance_Handler.cpp:
+        * cuts/arch/rtidds/handlers/RTIDDS_Participant_File.h:
+        * cuts/arch/rtidds/handlers/RTIDDS_Participant_File.cpp:
+        * cuts/arch/rtidds/handlers/dds.h:
+        * cuts/arch/rtidds/handlers/dds.inl:
+        * cuts/arch/rtidds/handlers/dds.cpp:
+        * cuts/arch/rtidds/handlers/handlers.mpc:
+
+          Initialize implementation of the XML configuration handlers
+          for RTI-DDS. We can only configure the domain, and the DDS
+          entity QoS. Since OpenSplice and RTI-DDS have completely
+          different configuration parameters, we need to figure out
+          how to deal with this design challenge.
+
 Tue Jul 12 01:24:34 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Traits.cpp:

@@ -16,7 +16,7 @@ SERVER * CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::server (void)
 //
 template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
 CUTS_INLINE
-::Components::Cookie * CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
+void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
 connect_local_facet (::Components::CCMObject_ptr,
                      const char * ,
                      ::Components::CCMObject_ptr,
@@ -31,8 +31,7 @@ connect_local_facet (::Components::CCMObject_ptr,
 template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
 CUTS_INLINE
 void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
-disconnect_local_facet (::Components::Cookie *,
-                        ::Components::CCMObject_ptr,
+disconnect_local_facet (::Components::CCMObject_ptr,
                         const char * ,
                         ::Components::CCMObject_ptr,
                         const char *)
