@@ -1,3 +1,11 @@
+Tue Jul 12 01:24:34 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Traits.cpp:
+        * MPC/config/cuts_rtidds_corba_compatibility.mpb:
+
+          Refactored some of the auto-generated project settings into
+          a reusable base project.
+
 Sun Jul 10 08:13:53 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Manager_Factory.cpp:

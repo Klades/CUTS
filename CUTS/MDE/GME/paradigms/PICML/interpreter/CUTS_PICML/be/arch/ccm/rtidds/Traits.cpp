@@ -29,13 +29,12 @@ void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
                   &::toupper);
 
   proj
-    << "project (" << name << "_NDDS_IDL_Gen) : ndds_ts_defaults, requires_rtidds {" << std::endl
+    << "project (" << name << "_NDDS_IDL_Gen) : cuts_rtidds_corba_compatibility, requires_rtidds {" << std::endl
     << "  custom_only = 1" << std::endl
     << std::endl
     << "  after += " << name << "_IDL_Gen" << std::endl
     << std::endl
-    << "  ndds_ts_flags -= $(PLATFORM_NDDS_FLAGS)" << std::endl
-    << "  ndds_ts_flags += -d rtidds -corba " << name << "C.h -orb ACE_TAO1.6 -I $(TAO_ROOT) -I $(CIAO_ROOT) -I $(CIAO_ROOT)/ccm" << std::endl
+    << "  ndds_ts_flags += -d rtidds -corba " << name << "C.h -orb ACE_TAO1.6" << std::endl
     << std::endl
     << "  NDDSTypeSupport_Files {" << std::endl
     << "    gendir = rtidds" << std::endl
