@@ -1,0 +1,56 @@
+#ifndef _COMPONENTTYPES_IDL_
+#define _COMPONENTTYPES_IDL_
+
+#include <Components.idl>
+#include "./EventTypes.idl"
+
+#pragma ciao lem "ComponentTypesE.idl"
+
+module SLICE
+{
+  component PlannerTwo
+  {
+    consumes ::SLICE::SimpleEvent recvEvent;
+    
+    publishes ::SLICE::SimpleEvent pushEvent;
+    
+    
+  };
+  
+  component PlannerOne
+  {
+    consumes ::SLICE::SimpleEvent recvEvent;
+    
+    publishes ::SLICE::SimpleEvent pushEvent;
+    
+    
+  };
+  
+  component Sensor
+  {
+    publishes ::SLICE::SimpleEvent sensorData;
+    
+    
+  };
+  
+  component ConfigOp
+  {
+    consumes ::SLICE::SimpleEvent recvEvent;
+    
+    publishes ::SLICE::SimpleEvent sendEvent;
+    
+    
+  };
+  
+  component Effector
+  {
+    consumes ::SLICE::SimpleEvent effectorSettings;
+    
+    
+  };
+  
+  
+};
+
+#endif    // !defined _COMPONENTTYPES_IDL_
+

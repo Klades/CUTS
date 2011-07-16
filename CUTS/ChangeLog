@@ -1,3 +1,41 @@
+Sat Jul 16 08:57:08 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * tutorials/QuickStart2:
+        * tutorials/QuickStart2/ComponentTypes.idl:
+        * tutorials/QuickStart2/ComponentTypes.mpc:
+        * tutorials/QuickStart2/DataTypes.idl:
+        * tutorials/QuickStart2/DataTypes.mpc:
+        * tutorials/QuickStart2/EventTypes.idl:
+        * tutorials/QuickStart2/EventTypes.mpc:
+        * tutorials/QuickStart2/QuickStart2.mwc:
+        * tutorials/QuickStart2/SLICE_ConfigOpImpl.h:
+        * tutorials/QuickStart2/SLICE_ConfigOpImpl.cpp:
+        * tutorials/QuickStart2/SLICE_ConfigOpImpl.mpc:
+        * tutorials/QuickStart2/SLICE_EffectorImpl.h:
+        * tutorials/QuickStart2/SLICE_EffectorImpl.cpp:
+        * tutorials/QuickStart2/SLICE_EffectorImpl.mpc:
+        * tutorials/QuickStart2/SLICE_PlannerOneImpl.h:
+        * tutorials/QuickStart2/SLICE_PlannerOneImpl.mpc:
+        * tutorials/QuickStart2/SLICE_PlannerOneImpl.cpp:
+        * tutorials/QuickStart2/SLICE_PlannerTwoImpl.h:
+        * tutorials/QuickStart2/SLICE_PlannerTwoImpl.cpp:
+        * tutorials/QuickStart2/SLICE_PlannerTwoImpl.mpc:
+        * tutorials/QuickStart2/SLICE_SensorImpl.h:
+        * tutorials/QuickStart2/SLICE_SensorImpl.cpp:
+        * tutorials/QuickStart2/SLICE_SensorImpl.mpc:
+        * tutorials/QuickStart2/descriptors:
+        * tutorials/QuickStart2/descriptors/DeploymentPlan.cdd:
+        * tutorials/QuickStart2/descriptors/DeploymentPlan.cdp:
+        * tutorials/QuickStart2/descriptors/DeploymentPlan.nodemap:
+        * tutorials/QuickStart2/descriptors/deployment.config:
+        * tutorials/QuickStart2/descriptors/run_test.pl:
+        * tutorials/QuickStart2/descriptors/test.config:
+        * tutorials/QuickStart2/models:
+        * tutorials/QuickStart2/models/QuickStart2-Complete.xme:
+        * tutorials/QuickStart2/models/QuickStart2.xme:
+
+          Checkpoint of QuickStart tutorial #2 artifacts.
+
 Sat Jul 16 07:29:22 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * etc/schemas/cuts-unite.xsd:

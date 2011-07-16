@@ -1,0 +1,3 @@
+Node1      corbaloc:iiop:localhost:30000/MainNode.NodeManager
+Node2      corbaloc:iiop:localhost:30000/MainNode.NodeManager
+Node3      corbaloc:iiop:localhost:30000/MainNode.NodeManager

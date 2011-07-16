@@ -1,0 +1,20 @@
+#ifndef _EVENTTYPES_IDL_
+#define _EVENTTYPES_IDL_
+
+#include <Components.idl>
+#include "./DataTypes.idl"
+
+#pragma ciao lem "EventTypesE.idl"
+
+module SLICE
+{
+  eventtype SimpleEvent
+  {
+    public ::SLICE::SimpleContent content;
+    
+  };
+  
+};
+
+#endif    // !defined _EVENTTYPES_IDL_
+

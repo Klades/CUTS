@@ -1,0 +1,26 @@
+#ifndef _DATATYPES_IDL_
+#define _DATATYPES_IDL_
+
+
+#pragma ndds typesupport "DataTypesSupport.h"
+#pragma opendds typesupport "DataTypesTypeSupportC.h"
+#pragma splice typesupport "DataTypesDscpC.h"
+
+module SLICE
+{
+  #pragma DCPS_DATA_TYPE "SimpleContent"
+  #pragma DCPS_DATA_KEY "SimpleContent eventCount"
+  
+  struct SimpleContent
+  {
+    unsigned long eventCount;  // @key
+    
+  };
+  
+  #pragma keylist SimpleContent eventCount
+  
+  
+};
+
+#endif    // !defined _DATATYPES_IDL_
+
