@@ -1,3 +1,24 @@
+Sat Jul 16 13:39:01 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+
+          Fixed problems with trailing whitespaces in generated
+          source files.
+
+        * tutorials/QuickStart2/SLICE_ConfigOpImpl.h:
+        * tutorials/QuickStart2/SLICE_ConfigOpImpl.cpp:
+        * tutorials/QuickStart2/SLICE_ConfigOpImpl.mpc:
+        * tutorials/QuickStart2/SLICE_EffectorImpl.cpp:
+        * tutorials/QuickStart2/SLICE_PlannerOneImpl.cpp:
+        * tutorials/QuickStart2/SLICE_PlannerTwoImpl.h:
+        * tutorials/QuickStart2/SLICE_PlannerTwoImpl.mpc:
+        * tutorials/QuickStart2/SLICE_PlannerTwoImpl.cpp:
+        * tutorials/QuickStart2/SLICE_SensorImpl.cpp:
+        * tutorials/QuickStart2/models/QuickStart2-Complete.xme:
+        * tutorials/QuickStart2/models/QuickStart2.xme:
+
+          Completed the QuickStart2 final and starter model.
+
 Sat Jul 16 09:34:37 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:

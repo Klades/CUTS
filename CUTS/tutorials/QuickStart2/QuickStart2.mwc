@@ -21,8 +21,8 @@ workspace (QuickStart2) {
   SLICE_PlannerTwoImpl.mpc
   SLICE_SensorImpl.mpc
   ComponentTypes.mpc
-  EventTypes.mpc
   DataTypes.mpc
+  EventTypes.mpc
 }
 
 // end of auto-generated workspace

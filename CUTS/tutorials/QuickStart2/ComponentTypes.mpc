@@ -30,12 +30,12 @@ project (ComponentTypes_stub) : avoids_ace_for_tao, ccm_stub, cuts_codegen_defau
 
   // listing of project dependencies
   after += \
-    EventTypes_stub \
-    DataTypes_stub
+    DataTypes_stub \
+    EventTypes_stub
 
   libs  += \
-    EventTypes_stub \
-    DataTypes_stub
+    DataTypes_stub \
+    EventTypes_stub
 
   IDL_Files {
 
@@ -67,8 +67,8 @@ project (ComponentTypes_skel) : ccm_svnt, avoids_ace_for_tao, cuts_codegen_defau
 
   libs  += \
     EventTypes_skel \
-    EventTypes_stub \
-    DataTypes_stub
+    DataTypes_stub \
+    EventTypes_stub
 
   IDL_Files {
 
@@ -107,12 +107,12 @@ project (ComponentTypes_exec) : ciao_executor, cuts_codegen_defaults {
 
   after += ComponentTypes_EIDL_Gen \
     ComponentTypes_stub \
-    EventTypes_stub \
-    DataTypes_stub
+    DataTypes_stub \
+    EventTypes_stub
 
   libs  += ComponentTypes_stub \
-    EventTypes_stub \
-    DataTypes_stub
+    DataTypes_stub \
+    EventTypes_stub
 
   Source_Files {
     ComponentTypesEC.cpp
@@ -134,13 +134,13 @@ project (ComponentTypes_svnt) : ciao_servant, cuts_ccm, cuts_codegen_defaults {
   dynamicflags = COMPONENTTYPES_SVNT_BUILD_DLL
 
   after += ComponentTypes_exec ComponentTypes_stub ComponentTypes_skel \
-    EventTypes_stub \
     DataTypes_stub \
+    EventTypes_stub \
     EventTypes_skel
 
   libs += ComponentTypes_exec ComponentTypes_stub ComponentTypes_skel \
-    EventTypes_stub \
     DataTypes_stub \
+    EventTypes_stub \
     EventTypes_skel
 
   Source_Files {

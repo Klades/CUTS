@@ -527,7 +527,7 @@ generate (const PICML::MonolithicImplementation & monoimpl,
     << "::Components::EnterpriseComponent_ptr retval =" << std::endl
     << "  ::Components::EnterpriseComponent::_nil ();"
     << std::endl
-    << "ACE_NEW_RETURN (retval, " << std::endl
+    << "ACE_NEW_RETURN (retval," << std::endl
     << "::" << monoimpl.name () << "::";
 
   PICML::Implements implements = monoimpl.dstImplements ();

@@ -10,14 +10,14 @@ project (SLICE_Sensor_impl) : cuts_coworker_exec {
   after +=  \
     ComponentTypes_exec \
     ComponentTypes_stub \
-    EventTypes_stub \
-    DataTypes_stub
+    DataTypes_stub \
+    EventTypes_stub
 
   libs +=  \
     ComponentTypes_exec \
     ComponentTypes_stub \
-    EventTypes_stub \
-    DataTypes_stub
+    DataTypes_stub \
+    EventTypes_stub
 
   includes += \
     $(CUTS_ROOT)/cuts/utils/logging/client/logger
