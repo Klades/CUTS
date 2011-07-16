@@ -1,3 +1,10 @@
+Sat Jul 16 07:29:22 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * etc/schemas/cuts-unite.xsd:
+        * etc/schemas/cutsnode.xsd:
+
+          Fixed error in the namespace definitions.
+
 Tue Jul 12 03:45:36 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/arch/opensplice/handlers/OpenSplice_Configurator.cpp:
