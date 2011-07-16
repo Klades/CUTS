@@ -323,7 +323,8 @@ generate (const PICML::MonolithicImplementation & impl,
     << " * Implementation of the " << exec << " component executor" << std::endl
     << " */" << std::endl
     << "class " << implname << " :" << std::endl
-    << "  public " << implname << "_Base {"
+    << "  public " << implname << "_Base"
+    << "{"
     << "public:" << std::endl
     << CUTS_BE_CPP::single_line_comment ("Type definition of the base component type")
     << "typedef " << implname << "_Base base_type;"
@@ -520,7 +521,7 @@ generate (const PICML::MonolithicImplementation & monoimpl,
 
   this->ctx_.source_
     << CUTS_BE_CPP::function_header (entrypoint)
-    << "::Components::EnterpriseComponent_ptr " << std::endl
+    << "::Components::EnterpriseComponent_ptr" << std::endl
     << entrypoint << " (void)"
     << "{"
     << "::Components::EnterpriseComponent_ptr retval =" << std::endl

@@ -1,3 +1,10 @@
+Sat Jul 16 09:34:37 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+
+          Fixed problems with trailing whitespaces in generated
+          source files.
+
 Sat Jul 16 08:57:08 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * tutorials/QuickStart2:
