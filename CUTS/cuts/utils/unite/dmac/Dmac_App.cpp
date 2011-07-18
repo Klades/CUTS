@@ -1,7 +1,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdio.h>
-#include "Dmac_app.h"
+#include "Dmac_App.h"
 #include "ace/Get_Opt.h"
 #include "ace/CORBA_macros.h"
 #include "ace/Log_Msg.h"

@@ -1,4 +1,4 @@
-#include "Dmac_app.h"
+#include "Dmac_App.h"
 #include "ace/Singleton.h"
 #include "ace/Null_Mutex.h"
 
