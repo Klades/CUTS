@@ -1,3 +1,19 @@
+Mon Jul 18 04:35:10 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/utils/unite/dmac/Dmac-core.mpc:
+        * cuts/utils/unite/dmac/Dmac.cpp:
+        * cuts/utils/unite/dmac/Dmac_App.h:
+        * cuts/utils/unite/dmac/Dmac_App.cpp:
+        * cuts/utils/unite/dmac/Dmac_Core.cpp:
+        * cuts/utils/unite/dmac/Dmac_Core_App.h:
+        * cuts/utils/unite/dmac/Dmac_Core_App.cpp:
+
+          Created one App for DMAC.
+
+        * cuts/utils/unite/dmac/Dmac.mpc:
+
+          Removed this file and Added Dmac-core.mpc.
+
 Sat Jul 16 13:39:01 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:

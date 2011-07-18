@@ -1,35 +1,33 @@
-#include "ace/Get_Opt.h"
-#include <iostream>
 #include <fstream>
-#include "cuts/utils/testing/Test_Database.h"
-#include "ace/Log_Msg.h"
-#include "adbc/SQLite/Connection.h"
-#include "cuts/Auto_Functor_T.h"
-#include "Dmac_App.h"
-#include "Dmac_Log_Format_Graph.h"
-#include "ace/OS_Memory.h"
+#include <sstream>
+#include <stdio.h>
+#include "Dmac_app.h"
+#include "ace/Get_Opt.h"
 #include "ace/CORBA_macros.h"
-#include "Dmac_Dataflow_File_Generator.h"
-
+#include "ace/Log_Msg.h"
+#include "ace/Process_Manager.h"
+#include "ace/Process.h"
 
 static const char * __HELP__ =
-"cuts-dmac - Autogenerate the dataflow model\n"
+"cuts-dmac - Generate the dataflow model for a given system execution trace\n"
 "\n"
 "USAGE: cuts-dmac [OPTIONS]\n"
 "\n"
 "General options:\n"
-"  -i, pattern-file          Pattern file genrated from the mining tool\n"
-"  -f, --file=FILE           Data file containing the message\n"
-"  -n, --name=NAME           Name of the datagraph"
-"  -h, --help                print this help message\n";
-
+"  -f, --file=FILE        Database file containing the system execution trace\n"
+"  -s, --min-sup=MIN-SUP  Minimum support\n"
+"  -n, --name=PATH        Name of the dataflow model\n"
+"  -l, --spade-loc=LOCATION location of spade\n"
+"  -d                     Delete inter\n"
+"  -h, --help             print this help message\n";
 
 //
 // CUTS_Dmac_App
 //
 CUTS_Dmac_App::CUTS_Dmac_App (void)
 {
-
+  this->delete_intermediate_ = false;
+  this->spade_location_ = "";
 }
 
 //
@@ -46,36 +44,115 @@ CUTS_Dmac_App::~CUTS_Dmac_App (void)
 int CUTS_Dmac_App::run_main (int argc, char * argv [])
 {
   if (this->parse_args (argc, argv) == -1)
-      return -1;
-
-  // open the database using the test_data
-
-  if (!this->open_database ())
     return -1;
 
-  // Log format mining
+  // Convert to vertical format
+  std::cout << "Converting to...." << std::endl;
+  if (this->convert_to_vertical () == -1)
+    return -1;
 
-  this->populate_candidates();
+  // Sequence minging
+  std::cout << "Frequent-Sequence mining...." << std::endl;
+  if (this->mine_sequences () == -1)
+    return -1;
 
-  this->categorize_patterns ();
+  // Generation of dataflow
+  std::cout << "Generating Dataflow...." << std::endl << std::endl;
+  if (this->generate_dataflow () == -1)
+    return -1;
 
-  this->combine_patterns ();
+  // Delete intermediate files created in the previous steps
+  if (this->delete_intermediate_)
+  {
+    if (remove ("frequent-sequences") != 0)
+      return -1;
 
-  this->print_final_patterns ();
+    if (remove ("Vertical.data") != 0)
+      return -1;
+  }
 
-  // Relation mining
+  std::cout << std::endl;
+  std::cout << "Done." << std::endl;
 
-  this->find_relations ();
+  return 0;
+}
 
-  // Generate the datagraph file.
-  this->generate_datagraph_file ();
+//
+// convert_to_vertical
+//
+int CUTS_Dmac_App::convert_to_vertical ()
+{
+  std::stringstream data_file;
+  data_file << this->data_file_.c_str ();
 
-  // Find the coverage from each log format and print
-  this->print_coverage ();
+  // set the output file
+  std::string vertical_str (
+    "cuts-dmac-vertical --file=" + data_file.str ());
 
-  return 1;
+  int flags = O_WRONLY | O_CREAT;
+  ACE_HANDLE pipe = ACE_OS::open ("Vertical.data", flags);
+
+  // Run the vertical converter
+  if (pipe != ACE_INVALID_HANDLE)
+    return this->execute_process (vertical_str.c_str (), ".", pipe);
+  else
+    return -1;
 
 }
+
+//
+// mine_sequences
+//
+int CUTS_Dmac_App::mine_sequences ()
+{
+  std::stringstream min_sup;
+  std::string sequence_str;
+  min_sup << this->min_sup_.c_str ();
+
+  // set the spade location
+  if (this->spade_location_ == "")
+    sequence_str = "sequence-test -i Vertical.data -s " + min_sup.str () + " -p";
+  else
+  {
+    std::string s (this->spade_location_.c_str ());
+    sequence_str = s +  "/sequence-test -i Vertical.data -s " + min_sup.str () + " -p";
+  }
+
+  int flags = O_WRONLY | O_CREAT;
+  ACE_HANDLE pipe = ACE_OS::open ("frequent-sequences", flags);
+
+  // Run the sequence minign app
+  if (pipe != ACE_INVALID_HANDLE)
+    return this->execute_process (sequence_str.c_str (), ".", pipe);
+  else
+    return -1;
+
+}
+
+
+//
+// generate_dataflow
+//
+int CUTS_Dmac_App::generate_dataflow ()
+{
+  // final log format mingng
+
+  std::stringstream data_file;
+  data_file << this->data_file_.c_str ();
+
+  std::stringstream name;
+  name << this->name_.c_str ();
+
+  std::string dmac_core_str (
+    "cuts-dmac-core -i frequent-sequences -f " + data_file.str ()
+    + " -n" + name.str ());
+
+  ACE_HANDLE handle = ACE_INVALID_HANDLE;
+
+  return execute_process (dmac_core_str.c_str (), ".", handle);
+
+}
+
 
 //
 // print_help
@@ -93,15 +170,15 @@ void CUTS_Dmac_App::print_help (void)
 
 int CUTS_Dmac_App::parse_args (int argc, char * argv [])
 {
-  const char * optstr = "i:f:n:dh";
+  const char * optstr = "dhf:s:n:l:";
 
   ACE_Get_Opt get_opt (argc, argv, optstr);
-
-  get_opt.long_option ("pattern-file", 'i', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("file", 'f', ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("min-sup", 's', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("name", 'n', ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("spade-loc", 'l', ACE_Get_Opt::ARG_OPTIONAL);
+  get_opt.long_option ("delete", 'd');
   get_opt.long_option ("help", 'h');
-
 
   char ch;
 
@@ -114,17 +191,21 @@ int CUTS_Dmac_App::parse_args (int argc, char * argv [])
       {
         this->data_file_ = get_opt.opt_arg ();
       }
-      else if (ACE_OS::strcmp (get_opt.long_option (), "pattern-file") == 0)
+      else if (ACE_OS::strcmp (get_opt.long_option (), "min-sup") == 0)
       {
-        this->pattern_file_ = get_opt.opt_arg ();
-      }
-      else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
-      {
-        this->print_help ();
+        this->min_sup_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "name") == 0)
       {
         this->name_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "spade-loc") == 0)
+      {
+        this->spade_location_ = get_opt.opt_arg ();
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
+      {
+        this->print_help ();
       }
       break;
 
@@ -132,482 +213,62 @@ int CUTS_Dmac_App::parse_args (int argc, char * argv [])
       this->data_file_ = get_opt.opt_arg ();
       break;
 
-    case 'i':
-      this->pattern_file_ = get_opt.opt_arg ();
+    case 's':
+      this->min_sup_ = get_opt.opt_arg ();
       break;
 
-   case 'n':
+    case 'n':
       this->name_ = get_opt.opt_arg ();
+      break;
+
+    case 'l':
+      this->spade_location_ = get_opt.opt_arg ();
+      break;
+
+    case 'd':
+      this->delete_intermediate_ = true;
       break;
 
     case 'h':
       this->print_help ();
-      break;
-
     }
   }
   return 0;
 }
 
 //
-// open_database
+// execute_process
 //
-bool CUTS_Dmac_App::open_database (void)
+int CUTS_Dmac_App::execute_process (const char * args,
+                                    const char * working_dir,
+                                    ACE_HANDLE & pipe)
 {
-  // Open the connection with the database
+  ACE_Process_Options options;
 
-  if (!this->testdata_.open (this->data_file_))
-  {
+  // set the options
+  options.command_line ("%s", args);
+  options.working_directory (working_dir);
+  options.set_handles (ACE_INVALID_HANDLE, pipe, ACE_INVALID_HANDLE);
+
+  ACE_Process_Manager * proc_man = ACE_Process_Manager::instance ();
+
+  // spwan the process
+  pid_t pid = proc_man->spawn (options);
+
+  if (pid == ACE_INVALID_PID)
     ACE_ERROR_RETURN ((LM_ERROR,
-                       ACE_TEXT ("%T (%t) - %M - failed to open %s\n"),
-                       data_file_.c_str()),
-                       false);
-    return false;
-  }
+                         "%T (%t) - %M - failed to execute process"),
+                         -1);
+
   else
-  {
-    // Find the total number of log messages
+    ACE_OS::close (pipe);
 
-    ADBC::SQLite::Query * query = this->testdata_.create_query ();
+  // wait for the process to return
+  if (proc_man->wait () == -1)
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       "%T (%t) - %M - Failed to wait for the project"),
+                         -1);
 
-    CUTS_Auto_Functor_T <ADBC::SQLite::Query> auto_clean (
-      query, &ADBC::SQLite::Query::destroy);
+  return 0;
 
-    ADBC::SQLite::Record * record = &query->execute (
-          "SELECT COUNT(*) AS result FROM cuts_logging");
-
-    long count;
-    record->get_data (0, count);
-
-    this->total_records_ = count;
-
-    record->reset ();
-
-    return true;
-
-  }
-}
-
-//
-// populate_candidates
-//
-void CUTS_Dmac_App::populate_candidates (void)
-{
-  // Load the dataset
-
-  ADBC::SQLite::Query * query = this->testdata_.create_query ();
-
-  CUTS_Auto_Functor_T <ADBC::SQLite::Query> auto_clean (
-    query, &ADBC::SQLite::Query::destroy);
-
-  ADBC::SQLite::Record * record = &query->execute (
-    "SELECT * FROM cuts_logging ORDER BY lid");
-
-  // open the sequence file generated by SPADE
-
-  ifstream pattern_file (this->pattern_file_.c_str ());
-
-  if (pattern_file.is_open())
-  {
-    int j = 0;
-    while (pattern_file.good ())
-    {
-      // Tokenize each pattern and populate the
-      // sequence vector for each sequence
-
-      j++;
-      std::vector <std::string> pattern_items;
-      std::string pattern_str;
-
-      getline (pattern_file, pattern_str);
-
-      CUTS_DMAC_UTILS::tokenize (pattern_str, pattern_items);
-
-      CUTS_Dmac_Sequence * pattern = new CUTS_Dmac_Sequence ();
-
-      pattern->populate_items (pattern_items);
-
-      int i = 0;
-      char message[1024];
-      bool qualified = true;
-
-      // For each sequence in the sequence file check
-      // whether it is contained in the same position
-      // for each log message in the system execution trace
-
-      for ( ; !record->done (); record->advance ())
-      {
-         // Get the message from the row.
-        CUTS_DMAC_UTILS::string_vector word_list;
-        record->get_data (5, message, sizeof (message));
-        std::string row (message);
-
-        CUTS_DMAC_UTILS::tokenize (row, word_list);
-        i++;
-
-        if (!pattern->valid_pattern (word_list, i))
-        {
-          qualified = false;
-          break;
-        }
-      }
-      // If the sequence is qualified then store it in
-      // the possible sequence vector
-
-      if (qualified && (pattern->position_already_updated ()))
-        this->possible_patterns_.push_back (pattern);
-
-     record->reset ();
-
-    }
-    pattern_file.close ();
-  }
-}
-
-//
-// categorize_patterns
-//
-void CUTS_Dmac_App::categorize_patterns (void)
-{
-  unsigned int i;
-  unsigned int j;
-  sequence_vector::size_type size = this->possible_patterns_.size ();
-
-  // categorize tha sequences based on the log message sets
-  // they contain
-
-  for (i=0; i < size; i++)
-  {
-    std::set<int> same_row_patterns;
-    for (j = i + 1; j < size; j++)
-    {
-      if (this->possible_patterns_ [i]->
-        match_row_set ( *(this->possible_patterns_ [j])))
-      {
-        // Sequence is qualified
-        same_row_patterns.insert (i);
-        same_row_patterns.insert (j);
-        this->possible_patterns_ [j]->selected (true);
-        this->possible_patterns_ [i]->selected (true);
-      }
-    }
-    if (same_row_patterns.size () > 0)
-      this->required_paterns_.push_back (same_row_patterns);
-
-    else
-    {
-      if (!(this->possible_patterns_ [i]->selected ()))
-      {
-        same_row_patterns.insert (i);
-        this->possible_patterns_ [i]->selected (true);
-        this->required_paterns_.push_back (same_row_patterns);
-      }
-    }
-  }
-}
-
-//
-// print_candidates
-//
-void CUTS_Dmac_App::print_candidates (void)
-{
-  // Print all the possible patterns
-
-  seq_iter it;
-
-  std::cout << "Possible patterns" << std::endl;
-
-  for (it = this->possible_patterns_.begin ();
-       it != this->possible_patterns_.end ();
-       it++)
-  {
-
-    (*it)->print_pattern ();
-    std::cout << std::endl;
-    std::cout << std::endl;
-  }
-}
-
-
-//
-// combine_patterns
-//
-void CUTS_Dmac_App::combine_patterns (void)
-{
-  // Combine the set of qualified sequences and
-  // create the final log format
-  for (unsigned int i = 0;
-       i < this->required_paterns_.size ();
-       i++)
-    this->create_final_pattern (this->required_paterns_ [i]);
-
-}
-
-//
-// create_final_pattern
-//
-void CUTS_Dmac_App::create_final_pattern (std::set <int> & values)
-{
-  // Process of creating the final log format
-
-  std::set<int>::iterator it;
-
-  int final_size = 0;
-
-  // Determine the final size of the log format
-
-  for (it = values.begin (); it != values.end (); it++)
-  {
-    CUTS_Dmac_Sequence * pattern = this->possible_patterns_ [*it];
-
-    if (pattern->max_row_words () > final_size)
-      final_size = pattern->max_row_words ();
-
-  }
-
-  // Create a dummy log format all with {}
-
-  std::string place_holder("{}");
-  CUTS_DMAC_UTILS::string_vector final (final_size, place_holder);
-
-  for (it = values.begin (); it != values.end (); it++)
-  {
-    // Now fill the static parts with the qualified sequence
-    // words
-
-    CUTS_DMAC_UTILS::sequence_details_iter it1;
-    CUTS_Dmac_Sequence * pattern = this->possible_patterns_ [*it];
-
-    for (it1 = pattern->key_position_table ().begin ();
-         it1 != pattern->key_position_table ().end ();
-         it1++)
-      final.at((*it1).second) = (*it1).first;
-  }
-  // Finally insert to the final log format list
-
-  this->insert_to_final_list (final);
-
-}
-
-//
-// insert_to_final_list
-//
-void CUTS_Dmac_App::insert_to_final_list (CUTS_DMAC_UTILS::string_vector & final)
-{
-
-  std::vector <CUTS_Dmac_Log_Format *>::size_type size =
-                   this->final_patterns_.size ();
-
-  bool duplicate = false;
-
-  unsigned int i = 0;
-
-  // Before inserting we are checking whether the log format
-  // is already in the list
-
-  for (i = 0; i < size; i++)
-  {
-    if (this->duplicate_pattern (final,
-                                 this->final_patterns_ [i]->log_format_items ()))
-    {
-      duplicate = true;
-      break;
-    }
-  }
-  // if not in the list, we put the log format to the list
-
-  if (!duplicate)
-  {
-    CUTS_Dmac_Log_Format * lf = new CUTS_Dmac_Log_Format (size+1, final);
-    this->final_patterns_.push_back (lf);
-  }
-  else
-  {
-    // If it is duplicate then we add the log format with the
-    // larger number of words
-
-    int count1 = this->count_empty_string (final);
-    int count2 = this->count_empty_string (this->final_patterns_ [i]->log_format_items ());
-
-    if (count2 > count1)
-    {
-      CUTS_Dmac_Log_Format * lf = new CUTS_Dmac_Log_Format (i+1, final);
-      this->final_patterns_.at (i) = lf;
-    }
-  }
-}
-
-//
-// count_empty_string
-//
-int CUTS_Dmac_App::count_empty_string (CUTS_DMAC_UTILS::string_vector & sequence)
-{
-  // count all the {} in the log format
-
-  std::string empty_str ("{}");
-  int count = 0;
-
-  CUTS_DMAC_UTILS::s_iter it;
-
-  for (it = sequence.begin (); it != sequence.end (); it++)
-  {
-    if ((*it).compare (empty_str) == 0)
-      count++;
-  }
-
-  return count;
-}
-
-//
-// print_set
-//
-void CUTS_Dmac_App::print_set (std::set <int> & values)
-{
-  std::set <int>::iterator it;
-
-  for (it = values.begin (); it != values.end (); it++)
-    std::cout << *it <<" ";
-}
-
-//
-// print_final_patterns
-//
-void CUTS_Dmac_App::print_final_patterns ()
-{
-  for (unsigned int i=0; i < this->final_patterns_.size (); i++)
-  {
-    std::stringstream lfstring;
-    lfstring << " LF" << this->final_patterns_[i]->id ();
-    std::cout << lfstring.str () <<" = ";
-
-    for (unsigned int j=0;
-         j < this->final_patterns_[i]->log_format_items ().size ();
-         j++)
-      std::cout << this->final_patterns_[i]->log_format_items ().at (j) <<" ";
-
-    std::cout << std::endl;
-  }
-}
-
-//
-// duplicate_pattern
-//
-bool CUTS_Dmac_App::duplicate_pattern (CUTS_DMAC_UTILS::string_vector & v1,
-                                       CUTS_DMAC_UTILS::string_vector & v2)
-{
-  // Check whether v1 and v2 are duplicate.
-  // Two situations to look at. Identical log formats and log formats
-  // with corresponding items are {}
-
-  std::string empty_str ("{}");
-
-  if (v1.size () > v2.size ())
-    return false;
-
-  for (unsigned int i = 0; i < v1.size (); i++)
-  {
-    if ((v1[i].compare (v2[i]) != 0) &&
-        (v1[i].compare (empty_str) != 0) &&
-        (v2[i].compare (empty_str) != 0))
-      return false;
-  }
-  return true;
-}
-
-//
-// find_relations
-//
-int CUTS_Dmac_App::find_relations (void)
-{
-  // Get all the dustinct host_name and thread_id
-  // pairs
-  ADBC::SQLite::Query * query = this->testdata_.create_query ();
-
-  CUTS_Auto_Functor_T <ADBC::SQLite::Query> auto_clean (
-    query, &ADBC::SQLite::Query::destroy);
-
-  ADBC::SQLite::Record * record = &query->execute (
-    "SELECT DISTINCT hostname, thread_id FROM cuts_logging ORDER BY hostname");
-
-  int i = 0;
-  ACE_CString host_name;
-  long thread_id = 0;
-
-  for ( ; !record->done (); record->advance ())
-  {
-    // Create an execution contex for each different
-    // thread_id and host_name pair
-
-    record->get_data (0, host_name);
-    record->get_data (1, thread_id);
-
-    CUTS_Dmac_Execution * execution = 0;
-
-    ACE_NEW_THROW_EX (execution,
-                      CUTS_Dmac_Execution (host_name,
-                                           thread_id,
-                                           this->testdata_,
-                                           this->final_patterns_),
-                      ACE_bad_alloc ());
-
-    // Extract relations for each different execution
-
-    std::cout << "Relations for Thread-" << thread_id << std::endl;
-
-    execution->Extract_Relations ();
-
-    this->executions_list_.push_back (execution);
-
-    std::cout << "----------------------------" << std::endl;
-    std::cout << std::endl;
-  }
-  record->reset ();
-
-  return 1;
-}
-
-//
-// generate_datagraph_file
-//
-void CUTS_Dmac_App::generate_datagraph_file ()
-{
-  // Generate the datagraph file using all identified
-  // log formats.
-  // Each execution is a different datagraph in the
-  // datagraph file.
-
-  CUTS_Dmac_Dataflow_File_Generator generator (this->final_patterns_,
-                                               this->name_.c_str ());
-
-  generator.open_file ();
-
-  generator.init_xml ();
-
-  std::vector <CUTS_Dmac_Execution *>::iterator it;
-
-  for (it = this->executions_list_.begin ();
-       it != this->executions_list_.end (); it++)
-    generator.generate_xml (*it);
-
-  generator.close_file ();
-
-}
-
-//
-// print_coverage
-//
-void CUTS_Dmac_App::print_coverage ()
-{
-  std::cout << "Total Records = " << this->total_records_ << std::endl;
-
-  for (unsigned int i=0; i < this->final_patterns_.size (); i++)
-  {
-    long count = this->final_patterns_ [i]->coverage ();
-    float percentage = ((float)count/(float)this->total_records_)*100;
-    std::stringstream lfstring;
-    lfstring << " LF" << this->final_patterns_[i]->id () << " - ";
-    lfstring << "Count = " << count << " Percent = " << percentage << "%";
-    std::cout << lfstring.str ();
-    std::cout << std::endl;
-  }
 }
