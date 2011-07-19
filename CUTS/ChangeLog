@@ -1,3 +1,13 @@
+Tue Jul 19 09:18:29 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * tutorials/QuickStart/descriptors/deployment.config:
+
+          Fixed error in configuration namespace.
+
+        * tutorials/QuickStart/descriptors/run_test.pl:
+
+          Script for validating the system deploys.
+
 Mon Jul 18 05:16:27 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/utils/unite/dmac/Dmac.cpp:
