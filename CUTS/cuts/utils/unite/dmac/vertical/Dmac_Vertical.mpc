@@ -1,4 +1,4 @@
-project (Dmac_Vertical) : cuts_test_database, cutsexe {
+project (CUTS_Dmac_Vertical) : cuts_test_database, cutsexe {
   exename = cuts-dmac-vertical
   after += CUTS_Dmac
   includes += $(CUTS_ROOT)
