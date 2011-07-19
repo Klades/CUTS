@@ -40,7 +40,9 @@ static const char * __HELP__ =
 "  --disable=NAME            disable service with id NAME\n"
 "\n"
 "Output options:\n"
-"  -h, --help                print this help message\n";
+"  -h, --help                print this help message\n"
+"  -v, --verbose             print more information\n"
+"  -d, --debug               print debugging information\n";
 
 class load_service
 {
@@ -267,7 +269,7 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
 //
 int CUTS_Unite_App::parse_args (int argc, char * argv [])
 {
-  const char * optstr = "hc:f:";
+  const char * optstr = "hc:f:vd";
 
   ACE_Get_Opt get_opt (argc, argv, optstr);
 
@@ -279,6 +281,8 @@ int CUTS_Unite_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("show-trend");
   get_opt.long_option ("disable", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("help", 'h');
+  get_opt.long_option ("verbose", 'v');
+  get_opt.long_option ("debug", 'd');
 
   char ch;
 
@@ -323,6 +327,25 @@ int CUTS_Unite_App::parse_args (int argc, char * argv [])
       {
         this->disables_.insert (get_opt.opt_arg ());
       }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "verbose") == 0)
+      {
+        u_long mask =
+          ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
+
+        mask |= LM_INFO;
+
+        ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
+      }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "debug") == 0)
+      {
+        u_long mask =
+          ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
+
+        mask |= LM_DEBUG;
+
+        ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
+      }
+
       break;
 
     case 'c':
@@ -335,6 +358,29 @@ int CUTS_Unite_App::parse_args (int argc, char * argv [])
 
     case 'h':
       this->print_help ();
+      break;
+
+    case 'v':
+      {
+        u_long mask =
+          ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
+
+        mask |= LM_INFO;
+
+        ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
+      }
+      break;
+
+    case 'd':
+      {
+        u_long mask =
+          ACE_Log_Msg::instance ()->priority_mask (ACE_Log_Msg::PROCESS);
+
+        mask |= LM_DEBUG;
+
+        ACE_Log_Msg::instance ()->priority_mask (mask, ACE_Log_Msg::PROCESS);
+      }
+      break;
     }
   }
 

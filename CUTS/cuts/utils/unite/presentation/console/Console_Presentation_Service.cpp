@@ -72,8 +72,12 @@ handle_result (CUTS_Dataset_Result & result)
   }
   else
   {
-    std::cout << "Test Result: "
-              << result.get_result () << std::endl;
+    // Print the results without any group information.
+    std::cout << "Test Result(s):" << std::endl
+              << "=====================================" << std::endl;
+
+    for (size_t index = 0 ; !result.done (); result.advance ())
+      std::cout << ". " << (index ++) << " " << result.get_result () << std::endl;
   }
 
   return 0;

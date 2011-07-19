@@ -327,6 +327,10 @@ evaluate (const CUTS_Unite_Test & test,
     sqlstr << " ORDER BY " << group_str.str ();
   }
 
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - executing %s\n"),
+              sqlstr.str ().c_str ()));
+
   // Execute the SQL statement.
   this->record_ = &this->query_->execute (sqlstr.str ().c_str ());
 

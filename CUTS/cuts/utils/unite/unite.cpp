@@ -12,6 +12,11 @@
 //
 int main (int argc, char * argv [])
 {
+  u_long default_mask =
+    LM_EMERGENCY | LM_ALERT | LM_CRITICAL | LM_ERROR | LM_WARNING | LM_NOTICE;
+
+  ACE_Log_Msg::instance ()->priority_mask (default_mask, ACE_Log_Msg::PROCESS);
+
   try
   {
     return CUTS_UNITE_APP->run_main (argc, argv);

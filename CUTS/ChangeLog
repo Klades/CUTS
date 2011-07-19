@@ -1,3 +1,28 @@
+Tue Jul 19 12:18:41 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/utils/unite/Dataset_Result.cpp:
+
+          Added debugging output.
+
+        * cuts/utils/unite/unite.cpp:
+        * cuts/utils/unite/Unite_App.cpp:
+
+          Added --verbose and --debug options.
+
+        * cuts/utils/unite/presentation/console/Console_Presentation_Service.cpp:
+
+          Bug fix where console service did not show the data trend if
+          the flag was specified on the command-line.
+
+        * tutorials/QuickStart/analysis/QuickStart.datagraph:
+        * tutorials/QuickStart/analysis/QuickStart.unite:
+
+          Bug fix where XML documents contained invalid namespaces.
+
+        * tutorials/QuickStart/analysis/run_test.pl:
+
+          Script for running UNITE on the tutorial dataset.
+
 Tue Jul 19 09:18:29 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * tutorials/QuickStart/descriptors/deployment.config:
